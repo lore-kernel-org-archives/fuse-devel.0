@@ -1,604 +1,220 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4994236605A
-	for <fuse-devel@lists.linux.dev>; Mon, 13 Apr 2026 23:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC95224AFA
+	for <fuse-devel@lists.linux.dev>; Tue, 14 Apr 2026 00:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776122666; cv=pass; b=DOjEwksTQh2AjzshfCYl5MqQPpsKNBd6RkIECAYivReO6WRzZTpW09CJc5H17b+ITYFgJ35HPt9BrbAbU3t54+XLfSo6L6ZYmYOUnaQhbJe3ItvNTwricZRIHGvvGBNL/ZujRCXHyPKVA5iQv7lmm9EWb5HrylD1+0/xPcspBbQ=
+	t=1776128176; cv=pass; b=IE+5NGVCuAshZ8nuj7/pNuMzvUVOfAXiHUyRb690M9oT09Sagi9jLLmpeQWG3RXnhVMU3HhXlOcvJehdnA+8aSz5y7z8dDO/WB2P3m1ipAnk3kMXJ4KtOT7/h4rbyrxfObuf/dnKs5vxXuofonTpqklzahZJes17SuyOBXTBb2M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776122666; c=relaxed/simple;
-	bh=FVH/YpO4WAbxP79NxnxdTYSlv7qQAC/A3cb3gMfb3Ho=;
+	s=arc-20240116; t=1776128176; c=relaxed/simple;
+	bh=Vp4pnW+APqoJ6vsm4GKCCFVCW8H7QvOZo2BoRfNkO9U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=imFiS/Le27PjPMNypUfBgJZKtJyzejVO6Mr3AJdWO2aB1Ug+oybNhfqUbJDpa67AqyYCTI4YLYDkUeJyPuTWQQjd3TlWk8gBzckAOaWutmir1II9m0QlkGRBTq9vz92ac+pRiXh8VZmqWQciN0DPiSEzLWaXLp/SK+9qcGzy67E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fNO69yhm; arc=pass smtp.client-ip=209.85.128.54
+	 To:Cc:Content-Type; b=G12vue6snKF9v9ZN8bvcQhT3/2YDfjb5hTnuC35G/2BB9zBs20kdBUFDfl0ke9W5DGf0NY0tedOiOwi6XD2k6Krii7jNQvGexk2paWvBqJ+3ZACg67wuvDqZxCQph4OAnX3Y47M2yndKuTHkFF9wuzaXgykydHZBnq5yPWRlMEo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I07xn8dQ; arc=pass smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fNO69yhm"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488a29e6110so54085695e9.3
-        for <fuse-devel@lists.linux.dev>; Mon, 13 Apr 2026 16:24:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776122662; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I07xn8dQ"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d7645adbdso1018318f8f.1
+        for <fuse-devel@lists.linux.dev>; Mon, 13 Apr 2026 17:56:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776128173; cv=none;
         d=google.com; s=arc-20240605;
-        b=N757BQob3mxCx+moup/6zf2npOc7JeBEGWLzJhzLipTMVgYannbl/573zOdAZmJK2m
-         E8g3tUF+PUPfHt6BehP2Qvjhw0dVkNdfA1/smUweEkKREEkBju/aZIdBf/RSmt69Bay2
-         WRGeGCmiPbEoOViiKcfVanlLTJ1okOniWGzbtP0pfJWHwzVvWvwksNKuIwWWwnHKVbQp
-         6A5hQVMxXrgWvbSzJDUCRXB1xY0Fr6X8Cnj2Zg5Gp9aqefbcKNDZ+zvE0AiFTKkBbaby
-         a1lx8/J8jjxjNzE7PW1+ywHycFxhG9Md8qtZ/jTOgu/KFaybv1n9L6/T6XEvRU5bIywb
-         Vh5A==
+        b=DD3euYqYPuyei0ixnEjESq3ZzPXuSX/CpdBed6rtB8q7ssAxUjdaloTyoUpom5XajX
+         by6aZ0rw+A4Ki6b0OoEUeMYkdONR2i1fNc9X2dVBAJ6E05IaYTwr0IbsjXXx157jWHZ8
+         ioAuKNHX0Xdw1F74QCAGfjcQl2B25KWnFQ7fXU5LlvPwPDHMF+nrdzoTPh6f2yBREt6B
+         0fQoDyL8GV7wJ8CcwL0dPB7w1Ywue0M/JMC04YSOAjBHGHxftLN7vZEF3U33ui62vqz+
+         8ZJRJrUykSxNZ6it4NP7p19u61pKFUzuuzLrsbvJiUIWsdK5u2f4Z+I+FYsnE6OnVxTA
+         5Fow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=3GVt5hKc952rgYTqxHgjnBwdZ484HaiCYH8pIIn/FsE=;
-        fh=nhyBEbg0OM1N30pKIJB9aYq14kym8WQ9gxXRwkTDfEg=;
-        b=VGlZ6WtWQkJV3jXSEH49qZFqNA6zysdiR6JTXRCGQ1bRA/CtN63QdSc3yDI009uSAX
-         HWoNJb3/rTDL9ci1sdNw/yMTM2cjeZ9b5P8OQL3QGFa86Sz3kuSWIxngWNsU5P7YebvB
-         J4lidiHuOatbmnKC1/9fhcHVcxBwh06UZrEBlByFIJ55+P29lZKDQuvSMSiNXvbR1BTv
-         h8Q76EqTGZQQbi2gBy5i53L1zWaWoLzds+5KyGJPPa7Z5+g2twkgx1pCc7BSZc4dGcPn
-         rjS8ExBJqscfvbBZxPYF9Jgpl+BBUgHXyGDnnnGABMUvsf5Q6UaUs752zA4PXKsFvttZ
-         VgNA==;
+        bh=ALvfb/xM9NzyOiSdrffQV62MeEy+q68iWYXwc1mIBkE=;
+        fh=kFhFT1aBPuFmFvLlIYD102WpOpHKIJOnd2SzQyjpE+M=;
+        b=cYLliVAlH+xkAs8tOtUM2QxOOkrJQs1NJ4PYlvhfzH99BR97t4OqZ2J/4h90aKhxrM
+         cjynhYtPYyR/ZTnO82hMhnOw0/XwLo5guE75vBg/omQHVoFCnd1yV3afeXfNt8CoEZ+x
+         MHmKdAnrpgcJcK9+z7uj63EadYEi6Wvin0Ruyw9Eu27jfw1Nc+TmMnww/X/fV1wFF7CU
+         orhBXa3TuZiVncVqMk6WTLR2PukhdfSoK9Q7DIbzxlZkbZfbpudFMXtwFSsXwMHdQ60o
+         W7xqMaObRMDCqzDfJ9T+jHn35d1fnHFOjDDngEcOyBBi+KbO1BqtOSKl+WaBklsD8pnz
+         mtjA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776122662; x=1776727462; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776128173; x=1776732973; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3GVt5hKc952rgYTqxHgjnBwdZ484HaiCYH8pIIn/FsE=;
-        b=fNO69yhm1khiTPcBiWArRRr/YwKSPIV7H/HvKGRfACqzSX0hujPyiOBkLLCEjmhBSZ
-         6bfmK13mzZgU/8S+yheupQEW2AO6jbLuuLLvVTdmx46/kyH2ZSamWELEe9Xu+NhWwVDr
-         fg/dvhxYtrj1B0fPH3iEW3Ph4/ShhX/Ce4Lsammxq4BGF/41dm/ItPLJTMeKktuqV2W1
-         lfqhvtZTP3s5j93I0sSPB+WifSq5heMxfPMGLWpy0e3KJs8EkGLMILmixVHVcY9QLmnO
-         TOwxkgG2cBtOFntimaECAIYXimrlEsSbadGZWfA9S7HVoA0pgh+IMHOW8UnFcl40SVBp
-         m/nQ==
+        bh=ALvfb/xM9NzyOiSdrffQV62MeEy+q68iWYXwc1mIBkE=;
+        b=I07xn8dQQAREk8jEoXaFgPLsl5A5oHaNyELiBqdhrkcwodb3P6xAkzoRbCueYio7y4
+         CVDnC4F3yUxofevPZu8Mx7oKFMz83K+P6tKA5Ocn2l+TSE+Zy2FKJ54hixzyc/PRcLJ/
+         9Vnz9cLxbjHHWPRcW7YEz3zIjbMQwABgxJr/9YRju8CPqYHG9LyQ1UA1hTaoJRRmani5
+         te+K0fjViH6PH2cAzYL4cIgxp7Z7yByDTXNcX5M93fcejSZ/D+PLHL5E9Ok4QPRag2LA
+         97H+R2ruATiDX699o6/r2XdTNhmebBYc+tazG69MBFXRGPeO8kyBO1LshFnLNupbEy8Y
+         ZySQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776122662; x=1776727462;
+        d=1e100.net; s=20251104; t=1776128173; x=1776732973;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3GVt5hKc952rgYTqxHgjnBwdZ484HaiCYH8pIIn/FsE=;
-        b=SKAbjzh7EKaPczmEPeXrHujNC1curJo8oHYnkY5OB3LCds4VwvnEykP92ZfNTzX33j
-         kbdc9VjSKXWed6xwkU6BPbwRVzG8sGotJrTKm88nqWH8XT0nS49p+soOvMFPpVaaWpPJ
-         pD8efG8l/ykoJrpLtyZXOteGxh+pd9Y6muTx+YarLLmmmhPrcmK3KkDslX2HLCnrCZ+r
-         TgKMEnXV9fBxH7pkyF4z2cCvJr6zJRe9bTf4y/CCkMjYhAlLHUjOwlu0Zm4gWEvhhrDc
-         JxUkVgAsnF6HjuqwhQRkok7pkXExBFwLCEABq83GJaeVoGtVk2EWvfYQ1balreE6JasO
-         tyZw==
-X-Forwarded-Encrypted: i=1; AFNElJ/ks04ejHDRV7vw7eC8i2o72CntaXUwmBHg3sD72r19f1XHwYey8lTBy58uvx99+r7u4nCmtJB+jR72@lists.linux.dev
-X-Gm-Message-State: AOJu0YxYz8HVrF3kdrZTIwqZK9+5YVbDCvrKLYfbPuVdeUntUdWydb5k
-	z8Ni/So0pXAJ3fkxihMwPfogpPBKh5oo/05pphKkO6Ikwp3g1g5dS3rAy289739w5kqmANTX3kR
-	IFiukmj1kL6wRCj7Ta3fMwC0PiF/3JMM=
-X-Gm-Gg: AeBDies5GXamdUsZJR629ECsWVHdkRwNbWTdfiLVXR0Xn1+XpomYbo9tltGHqjbcXGd
-	y5n0dw4sLPwnrxxxMKljNdVA+rOww7pc4vARz5adIoIYBKBlp/i1UKLAvKGKodyejkUgp4tHacO
-	fqr6jj/eGPYEXZIE6DoefYjVem6AC9FCU1iQUJObhl294i0wvxy+7Vk0VOzDfoj+pwpQ5acOp0n
-	EnzyBwOdabzsAPriOe4TYAfN1e8cK4TchLzK/bnQwLLHGLXwBDQ9waai4u4B5Wpi1FwteSRIxTM
-	F8gcaQ==
-X-Received: by 2002:a05:600c:a11c:b0:487:2671:fb8f with SMTP id
- 5b1f17b1804b1-488d67fa40fmr146742575e9.8.1776122661299; Mon, 13 Apr 2026
- 16:24:21 -0700 (PDT)
+        bh=ALvfb/xM9NzyOiSdrffQV62MeEy+q68iWYXwc1mIBkE=;
+        b=T7YwZ34tAQLH1+FvwDIlZ47JW9LWTOn3Fp0jtyG6xp2IDaKUwN6VCB2/fs/SGb6eLD
+         aPUOf/7fi057+2WxrUvr32SdmHudnEf9LdftPg/5EireZNtLr37qTSqI9BsvysU0HbOd
+         RvdFll9GptmHm2z/AnLS0mbVJb7cc/a/tuR+7yzfrWMOrq0uvuor+BtBNx7wDZb7921F
+         gqhI7yBUFouVcLYyZJ2eN6MJxxl7JcoLrAYbXJxtAjZGyVyYF2fcjeEAYT61RJK20pS3
+         7v0HlBZW6d9WDNPfId/QnzHWdMEiUIQ88+S7ocE8946xuI26eMA1jX6TjbwzIHfCYLrA
+         zkag==
+X-Gm-Message-State: AOJu0YxS52L7EGBXAUpgmnokcq3I/NiVO3tu7cEfZ4brMFju/NwwMtPL
+	iPTo5O24WTCtLUZFQLwSw5MN6pDtRvHx+DeWNPAVWg3lMfwbNk+1i7gfG7eUy54bSwoAiIMiHZv
+	8xtE1kPq6BDv/LXpNx6Z3dbPpRxhLJzM=
+X-Gm-Gg: AeBDiet+YV0hWZfw44UNYfqdkBcFfDbDxCjD9J4wW+dtlUhGZ0If/jwsCNt7KBR8q42
+	jWHb7VSfs0vT4KwVrO6/aKs49MeDyTYaMr0S9DOyA1GF/zXi5mbLr6KQnNOKHi0wGAU4FEl3RFR
+	fWdXBp7HpfXnGhobNmXDx4M7AJ/45rSiqM3w/eIIHKEaZRcew5FeCOl/Xd+S0azT3t4Kknh56Bm
+	11xAVfiQImB5XGufihazBj8DXvYxOLJVqTd8C0frX4sIOFHp2HkTYpT3IWbxFdQgGqeJXX6FCm9
+	SC+RXA==
+X-Received: by 2002:a05:6000:24c2:b0:43b:8f30:39bb with SMTP id
+ ffacd0b85a97d-43d642ab9a7mr21513670f8f.24.1776128173330; Mon, 13 Apr 2026
+ 17:56:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251021-io-uring-fixes-cancel-mem-leak-v1-0-26b78b2c973c@ddn.com>
- <4b5a8040-b62c-4d75-a474-70d0b4759461@bsbernd.com> <CAJnrk1ZohxcDERszbii8ZM0g1ZzTwk6+wEqRWpCoSwBXzgavkg@mail.gmail.com>
- <3eabbc7b-010f-4d4c-9145-30d69fe1aa79@bsbernd.com> <CAJnrk1aoxGMGNZi+OwdoET6ahhGHp_7dw__=dmOWW+PMxnsj2w@mail.gmail.com>
- <adlyjDaxLZyHcSun@fedora> <CAJnrk1Yb2ABBKFK=KMaU+W10FNazt+h93P445i1USXcN2W45Xw@mail.gmail.com>
- <f27651af-e5c0-4c3e-8baa-fa2d7232cb4d@bsbernd.com> <CAJnrk1YPrPXN74fgesg1dbqJJsmjPOJ_My_mYMUevJfSrmrECg@mail.gmail.com>
- <33b4048c-e940-4cf4-80b4-88bc1adbd4a9@bsbernd.com>
-In-Reply-To: <33b4048c-e940-4cf4-80b4-88bc1adbd4a9@bsbernd.com>
+References: <18936160-308a-4817-a295-54eef43707a3@niova.io>
+In-Reply-To: <18936160-308a-4817-a295-54eef43707a3@niova.io>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 13 Apr 2026 16:24:09 -0700
-X-Gm-Features: AQROBzCUobeaGuIhC9Hsao_JGOw1NfihVS-jrAXsH1qSHDmBfNKYFi6oDAhFo5c
-Message-ID: <CAJnrk1ZxijgYVTwzgX3LHoePtyOmOz-1y7swbgquT3_rxrLpvw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] fuse: Fix possible memleak at startup with immediate teardown
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Horst Birthelmer <horst@birthelmer.de>, Bernd Schubert <bschubert@ddn.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	Jian Huang Li <ali@ddn.com>, stable@vger.kernel.org, 
-	Horst Birthelmer <hbirthelmer@ddn.com>, fuse-devel@lists.linux.dev
+Date: Mon, 13 Apr 2026 17:56:01 -0700
+X-Gm-Features: AQROBzBnMmFdOWWID1hWI3m5zWA1RGTzSCqJVLAJUC4BPrTd247iOe6Ovc9QqEI
+Message-ID: <CAJnrk1ZknZJQDdJwE5WBK-yZzocMCN_eiCUzxqfHss5ZKBZQ4Q@mail.gmail.com>
+Subject: Re: fuse/io-uring: Proposal to support pBuf in additon to kBuf
+To: Bernd Schubert <bernd@niova.io>
+Cc: fuse-devel@lists.linux.dev, io-uring <io-uring@vger.kernel.org>, 
+	Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>, Ming Lei <ming.lei@redhat.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 13, 2026 at 9:41=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
+On Mon, Apr 13, 2026 at 2:33=E2=80=AFPM Bernd Schubert <bernd@niova.io> wro=
+te:
 >
-> On 4/13/26 17:56, Joanne Koong wrote:
-> > On Sat, Apr 11, 2026 at 12:22=E2=80=AFPM Bernd Schubert <bernd@bsbernd.=
-com> wrote:
-> >>
-> >>
-> >>
-> >> On 4/11/26 20:11, Joanne Koong wrote:
-> >>> On Fri, Apr 10, 2026 at 3:08=E2=80=AFPM Horst Birthelmer <horst@birth=
-elmer.de> wrote:
-> >>>>
-> >>>> On Fri, Apr 10, 2026 at 02:24:08PM -0700, Joanne Koong wrote:
-> >>>>> On Fri, Apr 10, 2026 at 4:26=E2=80=AFAM Bernd Schubert <bernd@bsber=
-nd.com> wrote:
-> >>>>>>
-> >>>>> Hi Bernd,
-> >>>>>
-> >>>>>> Hi Joanne,
-> >>>>>>
-> >>>>>> On 4/10/26 01:09, Joanne Koong wrote:
-> >>>>>>> On Thu, Apr 9, 2026 at 4:02=E2=80=AFAM Bernd Schubert <bernd@bsbe=
-rnd.com> wrote:
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> On 10/21/25 23:33, Bernd Schubert wrote:
-> >>>>>>>>> Do not merge yet, the current series has not been tested yet.
-> >>>>>>>>
-> >>>>>>>> I'm glad that that I was hesitating to apply it, the DDN branch =
-had it
-> >>>>>>>> for ages and this patch actually introduced a possible fc->num_w=
-aiting
-> >>>>>>>> issue, because fc->uring->queue_refs might go down to 0 though
-> >>>>>>>> fuse_uring_cancel() and then fuse_uring_abort() would never stop=
- and
-> >>>>>>>> flush the queues without another addition.
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> Hi Bernd and Jian,
-> >>>>>>>
-> >>>>>>> For some reason the "[PATCH 2/2] fs/fuse: fix potential memory le=
-ak
-> >>>>>>> from fuse_uring_cancel" email was never delivered to my inbox, so=
- I am
-> >>>>>>> just going to write my reply to that patch here instead, hope tha=
-t's
-> >>>>>>> ok.
-> >>>>>>>
-> >>>>>>> Just to summarize, the race is that during unmount, fuse_abort() =
-->
-> >>>>>>> fuse_uring_abort() -> ... -> fuse_uring_teardown_entries() -> ...=
- ->
-> >>>>>>> fuse_uring_entry_teardown() gets run but there may still be sqes =
-that
-> >>>>>>> are being registered, which results in new ents that are created =
-(and
-> >>>>>>> leaked) after the teardown logic has finished and the queues are
-> >>>>>>> stopped/dead. The async teardown work (fuse_uring_async_stop_queu=
-es())
-> >>>>>>> never gets scheduled because at the time of teardown, queue->refs=
- is 0
-> >>>>>>> as those sqes have not fully created the ents and grabbed refs ye=
-t.
-> >>>>>>> fuse_uring_destruct() runs during unmount, but this doesn't clean=
- up
-> >>>>>>> the created ents because those registered ents got put on the
-> >>>>>>> ent_in_userspace list which fuse_uring_destruct() doesn't go thro=
-ugh
-> >>>>>>> to free, resulting in those ents being leaked.
-> >>>>>>>
-> >>>>>>> The root cause of the race is that ents are being registered even=
- when
-> >>>>>>> the queue is already stopped/dead. I think if we at registration =
-time
-> >>>>>>> check the queue state before calling fuse_uring_prepare_cancel(),=
- we
-> >>>>>>> eliminate the race altogether. If we see that the abort path has
-> >>>>>>> already triggered (eg queue->stopped =3D=3D true), we manually fr=
-ee the
-> >>>>>>> ent and return an error instead of adding it to a list, eg
-> >>>>>>>
-> >>>>>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> >>>>>>> index d88a0c05434a..351c19150aae 100644
-> >>>>>>> --- a/fs/fuse/dev_uring.c
-> >>>>>>> +++ b/fs/fuse/dev_uring.c
-> >>>>>>> @@ -969,7 +969,7 @@ static bool is_ring_ready(struct fuse_ring *r=
-ing,
-> >>>>>>> int current_qid)
-> >>>>>>>  /*
-> >>>>>>>   * fuse_uring_req_fetch command handling
-> >>>>>>>   */
-> >>>>>>> -static void fuse_uring_do_register(struct fuse_ring_ent *ent,
-> >>>>>>> +static int fuse_uring_do_register(struct fuse_ring_ent *ent,
-> >>>>>>>                                    struct io_uring_cmd *cmd,
-> >>>>>>>                                    unsigned int issue_flags)
-> >>>>>>>  {
-> >>>>>>> @@ -978,6 +978,16 @@ static void fuse_uring_do_register(struct
-> >>>>>>> fuse_ring_ent *ent,
-> >>>>>>>         struct fuse_conn *fc =3D ring->fc;
-> >>>>>>>         struct fuse_iqueue *fiq =3D &fc->iq;
-> >>>>>>>
-> >>>>>>> +       spin_lock(&queue->lock);
-> >>>>>>> +       /* abort teardown path is running or has run */
-> >>>>>>> +       if (queue->stopped) {
-> >>>>>>> +               spin_unlock(&queue->lock);
-> >>>>>>> +               atomic_dec(&ring->queue_refs);
-> >>>>>>> +               kfree(ent);
-> >>>>>>> +               return -ECONNABORTED;
-> >>>>>>> +       }
-> >>>>>>> +       spin_unlock(&queue->lock);
-> >>>>>>> +
-> >>>>>>>         fuse_uring_prepare_cancel(cmd, issue_flags, ent);
-> >>>>>>>
-> >>>>>>>         spin_lock(&queue->lock);
-> >>>>>>> @@ -994,6 +1004,7 @@ static void fuse_uring_do_register(struct
-> >>>>>>> fuse_ring_ent *ent,
-> >>>>>>>                         wake_up_all(&fc->blocked_waitq);
-> >>>>>>>                 }
-> >>>>>>>         }
-> >>>>>>> +       return 0;
-> >>>>>>>  }
-> >>>>>>>
-> >>>>>>>  /*
-> >>>>>>> @@ -1109,9 +1120,7 @@ static int fuse_uring_register(struct io_ur=
-ing_cmd *cmd,
-> >>>>>>>         if (IS_ERR(ent))
-> >>>>>>>                 return PTR_ERR(ent);
-> >>>>>>>
-> >>>>>>> -       fuse_uring_do_register(ent, cmd, issue_flags);
-> >>>>>>> -
-> >>>>>>> -       return 0;
-> >>>>>>> +       return fuse_uring_do_register(ent, cmd, issue_flags);
-> >>>>>>>  }
-> >>>>>>>
-> >>>>>>> There's the scenario where the abort path's "queue->stopped =3D t=
-rue"
-> >>>>>>> gets set right between when we drop the queue lock and before we =
-call
-> >>>>>>> fuse_uring_prepare_cancel(), but the fuse_uring_create_ring_ent()
-> >>>>>>> logic that was called before fuse_uring_do_register() has already
-> >>>>>>> grabbed the ref on ring->queue_refs, which means in the abort pat=
-h,
-> >>>>>>> the async teardown (fuse_uring_async_stop_queues()) work is guara=
-nteed
-> >>>>>>> to run and clean up / free the entry.
-> >>>>>>
-> >>>>>>
-> >>>>>> I don't think your changes are needed, it should be handled by
-> >>>>>> IO_URING_F_CANCEL -> fuse_uring_cancel(). That is exactly where th=
-e
-> >>>>>> initial leak was - these commands came after abort and
-> >>>>>> fuse_uring_cancel() in linux upstream then puts the entries onto t=
-he
-> >>>>>> &queue->ent_in_userspace list.
-> >>>>>
-> >>>>> I think there are still races if we handle it in fuse_uring_cancel(=
-)
-> >>>>> that still leak the ent, eg even with the fuse_uring_abort()
-> >>>>> queue_refs gating taken out in the original (jian's) patch:
-> >>>>> * thread A: fuse_uring_register() ->fuse_uring_create_ring_ent() ->
-> >>>>> kzalloc, sets up the entry but hasn't called
-> >>>>> atomic_inc(&ring->queue_refs) yet
-> >>>>>   concurrently on another thread, thread B: fuse_uring_cancel()
-> >>>>> ->fuse_uring_entry_teardown() ->
-> >>>>> atomic_dec_return(&queue->ring->queue_refs) -> brings queue_refs do=
-wn
-> >>>>> to 0
-> >>>>>   At this instant, queue_Refs =3D=3D 0. fuse_uring_stop_queues() ->
-> >>>>> teardown entries (nothing left) -> checks "if
-> >>>>> atomic_read(&ring->queue_refs) > 0", sees this is false, and skips
-> >>>>> scheduling any async teardown work
-> >>>>>   thread A calls atomic_inc(&ring->queue_refs) for the new ent,
-> >>>>> queue_refs is now 1, the ent is now placed on the ent_avail_queue, =
-but
-> >>>>> it's never torn down.
-> >>>>>   the ent is leaked and there's also a hang now when we hit
-> >>>>> fuse_uring_wait_stopped_queues() -> fuse_uring_wait_stopped_queues(=
-)
-> >>>>> where it sleeps and is never woken since it's waiting for queue ref=
-s
-> >>>>> to drop to 0
-> >>>>>
-> >>>>> imo, the change proposed in my last message is more robust and hand=
-les
-> >>>>> this case since it guarantees the async teardown worker will be
-> >>>>> running (since it does the queue state check after the ent has grab=
-bed
-> >>>>> the queue ref).
-> >>>>
-> >>>> Ok so you rely on the fact that fuse_abort_conn() will call
-> >>>> fuse_uring_abort() and that sets queue->stopped.
-> >>>> This could work, but I would still remove the check for
-> >>>> queue_refs > 0 in fuse_uring_abort(), since it just complicates thin=
-gs
-> >>>> for no real reason.
-> >>>>
-> >>>>>
-> >>>>> btw, there's also another (separate) race, which neither of our
-> >>>>> approaches solve lol. This is the situation where fuse_uring_cancel=
-()
-> >>>>> runs right after we call fuse_uring_prepare_cancel() in
-> >>>>> fuse_uring_do_register() but before we have set the ent state to
-> >>>>> FRRS_AVAILABLE. The ent gets leaked and continues to be used even
-> >>>>> though it's canceled, which may lead to use-after-frees. This proba=
-bly
-> >>>>> requires a separate fix, I haven't had time to look much at it yet.
-> >>>>> Maybe Horst or Jian has looked at this?
-> >>>>>
-> >>>> Interesting scenario ... haven't seen that one so far.
-> >>>
-> >>> Looking at the io-uring code for how cancels are handled
-> >>> (io_uring_try_cancel_uring_cmd()), I was wrong in my prevoius message
-> >>> about these two races. io-uring already serializes this for us, the
-> >>> io-uring code unconditionally grabs the uring lock before invoking
-> >>> file->f_op->uring_cmd() in the cancel path, which means there's no
-> >>> interweaving between the fuse registration logic and the cancel logic=
-.
-> >>>
-> >>> But I still think the more robust/resilient fix for the memleak is to
-> >>> do the preemptive checking at registration time. I think this fixes
-> >>> races in the force unmount case between registration and abort that i=
-s
-> >>> unresolved with the original patch. With the original patch w/
-> >>> fuse_uring_abort()'s queue_refs check removed, I think we can still
-> >>> hit this:
-> >>
-> >> I need to go through the other messages, but I still do not see any
-> >> registration time leak. At least not with the additional patch we have
-> >> here to tear down entries through IO_URING_F_CANCEL
-> >
-> > The issue is the hang, not the leak.
-> >
-> >>
-> >>
-> >> Sorry, besides also looking into ublk now (for main work), also in
-> >> progress to fix an issue with reduced queues and also still on the
-> >> libfuse part of sync-init....
-> >>
-> >>>
-> >>> registration vs abort:
-> >>>   - thread a: io_uring_enter -> register sqe ->
-> >>> fuse_uring_create_ring_ent -> allocate ent but doesn't grab queue_ref
-> >>> yet
-> >>>   - thread b: fuse_conn_destroy() -> fuse_abort_conn() ->
-> >>> fuse_uring_abort() -> fuse_uring_stop_queues() ->
-> >>> fuse_uring_teardown_entries(), skips scheduling async teardown work
-> >>> since queue_refs =3D=3D 0, returns
-> >>>   - thread a: grabs the queue_ref, queue_ref is now 1, rest of
-> >>> fuse_uring_do_register() logic executes, ent is now marked cancelable=
-,
-> >>> ent state is now available, ent is placed on available queue
-> >>>   - thread b: fuse_abort_conn() returns, fuse_wait_aborted() now runs
-> >>> and does a "wait_event(ring->stop_waitq,
-> >>> atomic_read(&ring->queue_refs) =3D=3D 0);" which hangs since the wait=
-er
-> >>> never gets woken
-> >>>
-> >>> whereas if we check preemptively at registration time, we explicjtly
-> >>> free the ent and release the queue_ref. I think the preemptive check
-> >>> needs to check ring->fc->connected though instead of queue->stopped,
-> >>> because there's the race where abort and stop_queues() may have been
-> >>> triggered before the register sqe path does queue creation. I'm hopin=
-g
-> >>> there's a better solution than having to grab the fc lock and checkin=
-g
-> >>> fc->connected though, will try to look more at this next week.
-> >>>
-> >>> I think we can hit this hang on a ring creation vs abort race as well=
-:
-> >>> * thread a: fuse_uring_cmd() gets called, passes fc->aborted check (n=
-ot set yet)
-> >>> * thread b: abort is called, calls fuse_uring_abort(),
-> >>> fuse_uring_abort() is a no-op since ring =3D=3D NULL right now
-> >>> * thread a: creates ring, creates queue, creates entry
-> >>> - if thread a takes the queue_ref count before the rest of the abort
-> >>> logic, we end up with the same hang as the situation above.
-> >>
-> >> IO-uring sends IO_URING_F_CANCEL for every registred command. We never
-> >> had a leak you describe. Upstream has a leak because it does not free
-> >> 'queue->ent_in_userspace' in fuse_uring_destruct. I'm fine with the
-> >> addition in fuse_uring_cancel() (although the just freeing the entries
-> >> in the list is much simpler and race free).
-> >>
-> >> Please let's not make it anymore complex.
-> >
-> > The issue is the hang, not the ent leak. What I'm trying to say is
-> > that the original patch submitted fixes one issue (kfreeing the ents)
-> > but doesn't fix the registration vs abort race, whereas the preemptive
-> > registration check fixes the leaked ents and the race.
-> >
-> > With the original patch, the umount thread still gets stuck
-> > permanently in TASK_UNINTERRUPTIBLE during the race. Even if the admin
-> > kills the daemon, the umount thread still holds the mount ref, which
-> > means delayed_release -> fuse_uring_destruct() will never get called
-> > and the entire ring gets leaked. If the original patch adds a
-> > wake_up_all() when queue_refs hits 0 in teardown, then killing the
-> > daemon does resolve it (as it'll wake up the umount thread), but the
-> > force-unmount still blocks in TASK_UNINTERRUPTIBLE state until the
-> > admin kills the server. The preemptive registration check is the more
-> > robust fix imo.
+> Hi Joanne, et al,
 >
-> Hmm, I think you are right for normal umount, for daemon kill
-> IO_URING_F_CANCEL handles it with the patch in this discussion - io-uring
-> will send IO_URING_F_CANCEL in a loop until io_uring_cmd_done() done is
-> called.
-> For plain umount I think it better to check for connection abort after
-> ring->queue_refs was increased, i.e. up to the last moment when
-> fuse_abort_conn() / fuse_wait_aborted() would wait. With the patch you
-
-I had mentioned this in my previous email, "the preemptive check needs
-to check ring->fc->connected though instead of queue->stopped, because
-there's the race where abort and stop_queues() may have been triggered
-before the register sqe path does queue creation."
-
-> suggested, I think the connection could be aborted after the check and
-> the ring entry might not be in any list yet, when fuse_uring_stop_queues(=
-)
-> gets called and queue stop would be a no-op.
-
-If the connection is aborted after the check and the ring ent isn't on
-any list yet, I think that's fine. The async teardown worker is
-already guaranteed to be scheduled (since the ring->fc->connected
-check is done after the ent grabs the queue ref).
-
-The actual problem is that if the register sqe is the first sqe for
-that queue and will trigger queue creation, then if the abort logic
-runs first before the queue creation, it will skip all the logic in
-fuse_uring_abort_end_requests() since "queue =3D
-READ_ONCE(ring->queues[qid]);" is a null queue, and consequently
-queue->stopped will never have been set to true.
-
+> this is a bit of duplication of the discussion we had before, but I was
+> badly distracted with other work and also switching employer - didn't
+> manage to reply [1].
 >
-> How about this
 >
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 46812149bb2e..575b1042719c 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -1445,6 +1445,7 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd=
-,
->                            struct fuse_ring_queue *queue)
->  {
->         struct fuse_ring *ring =3D queue->ring;
-> +       struct fuse_conn *fc =3D ring->fc;
->         struct fuse_ring_ent *ent;
->         size_t payload_size;
->         struct iovec iov[FUSE_URING_IOV_SEGS];
-> @@ -1487,6 +1488,19 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cm=
-d,
->         ent->payload =3D iov[1].iov_base;
+> I'm still not too happy about kBuf and its restriction of locked-only
+> memory. Right now I'm reviewing your patches from the view of what needs
+> to be done for ublk (for my current employer) and also for fuse to
+> support different buffer sizes. Let's say fuse only support kBuf and its
+> restriction of pinned memory, I think we would be forced to add support
+> for different buffer sizes to the current ring-entry-provides-the-buffer
+> and the new kBuf interface - from my point of view code dup.
+> If we would allow pBuf for fuse, we could put the current
+> 'ring-entry-provides-the-buffer' interface into maintenance mode and
+> support new features with the new interface only. I know you disagree on
+> using pBuf [1] with the argument that userspace could free the buffer.
+> Well, if it does, it does something totally wrong and the same could
+> happen today over /dev/fuse and also the existing fuse-over-io-uring.
+> Just the window is smaller, as the pages are extracted from the buffer
+> during the copy.
 >
->         atomic_inc(&ring->queue_refs);
-> +
-> +       spin_lock(&fc->lock);
-> +       atomic_inc(&ring->queue_refs);
-> +
-> +       /* check if the disconnected while creating the entry */
-> +       if (!fc->connected) {
-> +               atomic_dec(&ring->queue_refs);
-> +               err =3D -ENOTCONN;
-> +               wake_up_all(&ring->stop_waitq);
-> +       }
-> +       spin_unlock(&fc->lock);
-> +       if (err)
-> +               goto error;
->         return ent;
+> I was looking into what would be needed to support pBuf and I think
+> io-uring could extract pages from pBuf when the buffer is obtained - it
+> would limit the window when userspace can do something wrong in a
+> similar way current fuse and ublk works.
 >
+> Suggested changes:
+>
+> io_uring:
+>
+>   - io_pin_pages() gets a 'bool longterm' parameter.
+> The new pBuf path would pass false, every other exsting caller true.
+>
+>   - io_ring_buf_pin_user() / io_ring_buf_unpin_user()
+>   - io_ring_buf_get_pages()/io_ring_buf_put_pages() -> fills the
+> provided bvec
+>   - New struct io_ring_buf (in cmd.h)
+>
+> struct io_ring_buf {
+>        size_t                  len;
+>        unsigned int            buf_id;
+>        unsigned int            nr_bvecs;
+>
+>        /* private */
+>        u64                     addr;
+>        u8                      is_pinned;
+> };
+>
+>
+> Fuse changes:
+>
+>   - fuse_ring_ent (bufring union side): payload_kvec and ringbuf_buf_id
+>     replaced by io_ring_buf + pre-allocated bvec array.
+>   - Buffer selection under queue->lock removed.  The lock only protects
+>     request dequeue and entry state transitions.  Page access happens
+>     after the lock is dropped, in the context where the copy runs.
+>   - setup_fuse_copy_state bufring branch: is_kaddr/kaddr replaced by
+>     iov_iter_bvec() and would continue to use iov_iter_get_pages2()
+>
+> What do you think?
+>
+> And my current primary goal is to let ublk to support multiple buffer
+> sizes - ublk would also need to get support for kBuf/pBuf and I'm
+> current assuming that fuse and ublk rings should just get multiple
+> kBufs/pBufs and a config options that mapps bufs to io-size. I'm still
+> looking into details for that.
 
-I don't think it matters if this is within
-fuse_uring_create_ring_ent() instead of fuse_uring_do_register(). I
-put the logic inside of fuse_uring_do_register() because that seemed
-logically cleaner to me (eg create_ent() is only responsible for ent
-allocation/initialization logic, any race checks to halt rest of sqe
-registration flow are outside that), though if you have a preference
-to have it inside fuse_uring_create_ring_ent() that's fine by me. This
-is waht I have locally:
+Hi Bernd,
 
-Subject: [PATCH] fuse/uring: fix abort races with ring creation and ent
- registration
+Thanks for your email. There were some changes made from v1 -> v2, so
+please see the v2 "fuse: add io-uring buffer rings and zero-copy"
+patchset [1], as I think this will hopefully address your concerns
+about mlock. In short, what changed from v1 -> v2 is that I dropped
+the approach where kernel-managed buffers is an io-uring native
+infrastructure. I realized when trying to implement integration
+between the io-uring networking layer and kmbuf rings that kmbufs
+didn't tie in as nicely as I'd thought with io-uring native requests,
+and fuse has too many constraints for the kmbuf ring (locking
+semantics, request lifecycle, etc.) that it made the io-uring side
+less clean; this made me realize this logic would be better off not
+part of io-uring infrastructure and instead self-contained in fuse, as
+Pavel had suggested.
 
-This fixes the following races:
-registration vs. abort:
-  - thread a: io_uring_enter -> register sqe ->
-fuse_uring_create_ring_ent -> allocate ent but doesn't grab queue_ref
-yet
-  - thread b: fuse_conn_destroy() -> fuse_abort_conn() ->
-fuse_uring_abort() -> fuse_uring_stop_queues() ->
-fuse_uring_teardown_entries(), skips scheduling async teardown work
-since queue_refs =3D=3D 0, returns
-  - thread a: grabs the queue_ref, queue_ref is now 1, rest of
-fuse_uring_do_register() logic executes, ent is now marked cancelable,
-ent state is now available, ent is placed on available queue
-  - thread b: fuse_abort_conn() returns, fuse_wait_aborted() now runs
-and does a "wait_event(ring->stop_waitq,
-atomic_read(&ring->queue_refs) =3D=3D 0);" which hangs since the waiter
-never gets woken
+In v2, the fuse headers and payload buffers are passed as user
+allocations during registration time through the sqe iovs and
+server-side has control over whether to pin the headers or payload
+buffers or both (or pin neither), eg bufrings can be used without
+pinning (no mlock requirement) and pinning is an opt-in optimization.
+Zero-copy requires pinning both headers and payload buffers, as zero
+copy requires CAP_SYS_ADMIN privileges anyways. In this design, the
+buffers are only recyclable by the kernel (unlike pbufs). Unlike pbufs
+where the api contract is that any buffers not explicitly put into the
+ring by userspace are under the full control of userspace and not
+touched by the kernel, this design continues the existing-fuse-uring
+contract that any buffers passed in through sqe iovs during
+registration will be copied to/from the kernel as long as the fuse
+connection is alive. In the future, if the buffers need to be
+kernel-allocated for dma contiguity or other reasons, that could be
+added separately if/when it becomes necessary.
 
-ring creation vs abort:
-- thread a: fuse_uring_cmd() gets called, passes fc->aborted check (not
-  set yet)
-- thread b: abort is called, calls fuse_uring_abort(),
-fuse_uring_abort() is a no-op since ring =3D=3D NULL right now
-- thread a: creates ring, creates queue, creates entry
-- if thread a takes the queue_ref count before the rest of the abort
-logic, we end up with the same hang as the situation above.
-
-This additionally addresses the ent memleak in the registration vs
-cancel race in [1].
-
-[1] https://lore.kernel.org/linux-fsdevel/20251021-io-uring-fixes-cancel-me=
-m-leak-v1-0-26b78b2c973c@ddn.com/
----
- fs/fuse/dev_uring.c | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
-
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index f6b12aebb8bb..4bbc71755cb8 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -243,6 +243,10 @@ static struct fuse_ring *fuse_uring_create(struct
-fuse_conn *fc)
-        max_payload_size =3D max(max_payload_size, fc->max_pages * PAGE_SIZ=
-E);
-
-        spin_lock(&fc->lock);
-+       if (!fc->connected) {
-+               spin_unlock(&fc->lock);
-+               goto out_err;
-+       }
-        if (fc->ring) {
-                /* race, another thread created the ring in the meantime */
-                spin_unlock(&fc->lock);
-@@ -974,7 +978,7 @@ static bool is_ring_ready(struct fuse_ring *ring,
-int current_qid)
- /*
-  * fuse_uring_req_fetch command handling
-  */
--static void fuse_uring_do_register(struct fuse_ring_ent *ent,
-+static int fuse_uring_do_register(struct fuse_ring_ent *ent,
-                                   struct io_uring_cmd *cmd,
-                                   unsigned int issue_flags)
- {
-@@ -983,6 +987,16 @@ static void fuse_uring_do_register(struct
-fuse_ring_ent *ent,
-        struct fuse_conn *fc =3D ring->fc;
-        struct fuse_iqueue *fiq =3D &fc->iq;
-
-+       spin_lock(&fc->lock);
-+       /* abort teardown path is running or has run */
-+       if (!fc->connected) {
-+               spin_unlock(&fc->lock);
-+               atomic_dec(&ring->queue_refs);
-+               kfree(ent);
-+               return -ECONNABORTED;
-+       }
-+       spin_unlock(&fc->lock);
-+
-        fuse_uring_prepare_cancel(cmd, issue_flags, ent);
-
-        spin_lock(&queue->lock);
-@@ -999,6 +1013,7 @@ static void fuse_uring_do_register(struct
-fuse_ring_ent *ent,
-                        wake_up_all(&fc->blocked_waitq);
-                }
-        }
-+       return 0;
- }
-
- /*
-@@ -1114,9 +1129,7 @@ static int fuse_uring_register(struct io_uring_cmd *c=
-md,
-        if (IS_ERR(ent))
-                return PTR_ERR(ent);
-
--       fuse_uring_do_register(ent, cmd, issue_flags);
--
--       return 0;
-+       return fuse_uring_do_register(ent, cmd, issue_flags);
- }
-
- /*
---
-2.52.0
-
-though I'll probably end up splitting this into two separate patches
-when submitting. I don't think the wake_up_all(&ring->stop_waitq);
-call is needed in the preemptive checking, as the async teardown work
-will already take care of that.
+Does this address your concerns?
 
 Thanks,
 Joanne
 
->  error:
->
+[1] https://lore.kernel.org/linux-fsdevel/20260402162840.2989717-1-joannelk=
+oong@gmail.com/T/#mb8f96895aa2773424005ee06bb62ae980e95e604
+
 >
 >
 > Thanks,
 > Bernd
+>
+>
+> [1]
+> https://lore.kernel.org/r/CAJnrk1armV9VzBqrrdfr15K5ySBx2YJRk_P0okGnkzyMx_=
+eDOw@mail.gmail.com
+>
 >
