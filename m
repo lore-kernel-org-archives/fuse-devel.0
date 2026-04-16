@@ -1,108 +1,178 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.fmap.me (fmap.me [51.75.121.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC447378D78
-	for <fuse-devel@lists.linux.dev>; Thu, 16 Apr 2026 12:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776341571; cv=pass; b=WRPisBzkVUGMUgJzFbIB2nDJtLAeQxhrRoZVCILLx2WbR2LAQxh9w3akcPOJgZ+geSuUuq4JN+fBbGce7eWvI2UZ7tJ2i1SAc6dNUainn3176PNYfBBQGfCtEDJctUcpQyTruyRGZqbnyPCsH6a51+hD5tM/yfZTZ7V6sTDT6yY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776341571; c=relaxed/simple;
-	bh=xs4hGlZiJqAV9QCGrkSslLomiSfE5gcr4xqzLhglwS4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sPQKX0fvy3wVoYqzMtXP5STvviC2fqTGziEuabrimoMZ0M4iovD/+AxEP9R7v2jp7fkMHm7Ll36QTw4tC8MHksaZBno1AgBjnZB865xujL/Qd3LNB43SwJ3lQPYsvoS3b8ll5kM3lAoEumUP2fiRopdl2e2AILOYDvpwR9kohhk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=RBHYGNBQ; arc=pass smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D326C364032
+	for <fuse-devel@lists.linux.dev>; Thu, 16 Apr 2026 12:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.75.121.85
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776343306; cv=none; b=G+RqT236ajvo/1stJqFSvLSKknikoj2HQ0xrlAujz7l+jdfuOzhpVgKOEVro7x9oS7QLzkwFD8KKWCeIMoHXif/McKbcK069NhppGf5vny+XHrML/qk1vjZDLnQ9WeuaLWbSZSmUADsaGg10wNsyEUUvhszpDgbaLcI19OqpPJE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776343306; c=relaxed/simple;
+	bh=xgE/u8OXIYWm88UVDmVHjXacEE13SQd6bJfoP5mUiD0=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=VjOIRNv8QxqzM2niy5J5RhKewhR33TNrFB+d3Ft4TBIXusOXeZ3/N1huQ2E1Vb+XPjRE22gMWxb15HWXbCgDAD8SvQI+QXLFYafF4wW3pn1evMy2EyH9mfDQygUh91H+5L6iA+F/GzHgbk6Cm1KTy2QK9b3uIaI0Nty6tP3mW1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fmap.me; spf=pass smtp.mailfrom=fmap.me; dkim=pass (1024-bit key) header.d=fmap.me header.i=@fmap.me header.b=J1J5BJtX; arc=none smtp.client-ip=51.75.121.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fmap.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fmap.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="RBHYGNBQ"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8a1e1817db6so67900106d6.2
-        for <fuse-devel@lists.linux.dev>; Thu, 16 Apr 2026 05:12:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776341569; cv=none;
-        d=google.com; s=arc-20240605;
-        b=fwo2JtPpX3BtLaefdBvv3IQDVlIozjjiEN8jhQvW3CExuo7Tcvc+H+7hoTi0Tk/n6M
-         1K4ysAIA6qrHzcCQnBdv2S3fPsvdUnHXXCyp0e9F36H3ijUKPtjE6Gzkh0PAGB3L0WL3
-         Em4yOHPPdJbL21TPoyGAGb67SNlxOLkpZ02HQqK6fYxJWQEPsm6WDITgpAeD5pVR1KGe
-         oODLdjsWvYs+6pF22K++frzPI9Zksh/Iw6KCs1xoO4QsLVX60ElkEaQQbWVM811PBgy0
-         bOsuof1a3/r5+rjj1/HPCeElY3WMaCWmajNn+AauWEpsEIQ0KLn2FauH1t7WPfewdqHs
-         8i0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=xs4hGlZiJqAV9QCGrkSslLomiSfE5gcr4xqzLhglwS4=;
-        fh=K8VSAZnP84uggqcEhJVZejAZlrVFevhE7gB4GfCakUo=;
-        b=CpiKvD9kVAhYP+FAK975MY/OYWwCdatjW95dFYtaAxCWg2lgozlRzgWEC4k1bne7Rn
-         bVfdLrjvz2Wa+Y1MBCLdI9vDOLQCPONO807k/m0Zn/ViIl+JE7dkLh1b304QNYFgTroj
-         Zpmg+Di20H/DxiPNKe7aA48sKrdILAXYonM2NuHUET0DIAwCvsuHltpqo+iYVIoj03XU
-         3miR4bdzOcvNrQhcT7rajarVomPQ+sP2mzxojAFf4kvkaPmVT7jw0RVqMtiKGVc4mSTH
-         lBZwLMNpq7YDManbiNRoZ645Ue2449R7LQd20a6eDevzmpQEdNl71NlK4dESuC5QlNx/
-         Eaiw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776341569; x=1776946369; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xs4hGlZiJqAV9QCGrkSslLomiSfE5gcr4xqzLhglwS4=;
-        b=RBHYGNBQ3b8zUUS0kgHrvok9buoJnujqpxapVQjFoEMMXu/NrE1cXl0uSmcEIzc5EE
-         Wqb7ZHAwBN1jS4RWlz05yuNX5+EEfAkSr33ujCcDAIDCwE8JmQtcj3xOWQ9JcOj76AbL
-         lJui8+jl5KKO6So6a/KY8OTK5BnoO2ZGzb82g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776341569; x=1776946369;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xs4hGlZiJqAV9QCGrkSslLomiSfE5gcr4xqzLhglwS4=;
-        b=U22eTfCVxSIsqgpv+9CDntO/EsoGUvXN1CzncGIvl8zuvIAeqdWVrcNz1v2IQuOyb7
-         3uzvtGJKbsVq0s2VQ7GUSB7AgMDduyKP/ZMMI2yj1En5Hucr9bMc96MtxBD3B04EzLrI
-         /t0MiUXLfIxknG0Vziv/RYFKoje42cBCIoZhIG4qxbUH2D4QRcmSpW5xDnP8GBgZJB+o
-         jEr8pcKLaS8Pyg7/xfmR3O+dKONVo8gf+cM/Ail9F0QVmJFeH864Jeh3ZnIdGaaoSgMC
-         7Z90QqiF52QIUFYX9pdqMmxnD1kX+Ktt1izQbXhIjgHaS/jIoZ+VjOasNG6CUIqAotg1
-         Xctg==
-X-Forwarded-Encrypted: i=1; AFNElJ8zC4SfG0qB6+6Usrthr10eFadlYU5WIHVb84im4eArOqd0baTs/R7ibaN+MMnCNUOVMlWyp2onc8qN@lists.linux.dev
-X-Gm-Message-State: AOJu0YwW6PclD9ugxwPuGoSJafNIF+i/M0Gk43Hs+PXRtMV92k+OWKyk
-	JfjWFA+3nZW7qiULuLSdFoOqoISVNaWzomwwMrmJ/IcwiMrnO1ASnDzqkBr0RS3DXf1VcQp6lwk
-	YnW8Vall/d9NnISppy1pmhjPOh+DFkCQ8OgoQo62Saw==
-X-Gm-Gg: AeBDiet531hR4AHc612QLvOAPCJYYNKNZJruFRzEx7oxms0HQt6RcwRPgrwZbSfB33x
-	0GGUkO7xc2koQ2S91tv9Ie/lWMphNjc8y6dDK/PfKfqp9epAvtftwEJOeaZeHSyAeUMNCwmvQJ9
-	bMno3gDxSXxfSyBKW5Ra97YZApwxz7e9mTqHvJ3Mism39gHzONLa4JrZaIrKRGAjecHhJt+k+sH
-	cvEm4/IkLloYTwDJPkMOqjkGK/NTKpGzrcv1sBoh8rJtrjBqQxXUbmqAt9PvGPCpdqhTAtU0jNh
-	1N+tF5KVVX5H5j/zGSBnImnIY+LQMl7hVxB1
-X-Received: by 2002:ad4:5e85:0:b0:8ac:bb62:fe5b with SMTP id
- 6a1803df08f44-8acbb630feemr194285446d6.12.1776341569011; Thu, 16 Apr 2026
- 05:12:49 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=fmap.me header.i=@fmap.me header.b="J1J5BJtX"
+Content-Type: multipart/mixed; boundary="------------PBWAN3Bbi1100Ta0o8JUsV1J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fmap.me; s=mail;
+	t=1776343302;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LpJDpjvd754lZqTJVTbKzY3+WbuscGrA+ZFXy3r6Kto=;
+	b=J1J5BJtXHWa1d4QPJyoCDsnBwpevNEU3KBLF2+Dqp0dZBWtzoXUUA+CERjGgfkGjV5zx+Q
+	G0CvVdo+Ow0eUyTRjmTB1q3VBQBTSWmaQEVPTO4Bo7TZFrGaKByzrSWkWXaSuUDPAQHK2w
+	tkNBLeV1iWbfcLfHijgiNpMUToVLZGA=
+Message-ID: <59ab54f6-680e-456e-91f4-0a26889844ef@fmap.me>
+Date: Thu, 16 Apr 2026 19:41:37 +0700
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me> <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 16 Apr 2026 14:12:37 +0200
-X-Gm-Features: AQROBzBX4a19crGk_XkETxKLhmewGXqK0FtKuy_vUEQL4x7MLk1p9L_bODNm4ek
-Message-ID: <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
 Subject: Re: [fuse-devel] Debugging a stale kernel cache during file growth
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Nikolay Amiantov <ab@fmap.me>, fuse-devel@lists.sourceforge.net, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	fuse-devel@lists.linux.dev, linux-mm <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Miklos Szeredi <miklos@szeredi.hu>, Matthew Wilcox <willy@infradead.org>
+Cc: fuse-devel@lists.sourceforge.net,
+ linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev,
+ linux-mm <linux-mm@kvack.org>
+References: <898a4e10-6193-4671-b3b1-7c7bc562a671@fmap.me>
+ <CAOQ4uxjoS-PvnZ2poh0bx0C6ocTYwuEpfV0q5md15SjS620OMg@mail.gmail.com>
+ <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
+Content-Language: en-US
+From: Nikolay Amiantov <ab@fmap.me>
+In-Reply-To: <CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com>
 
-On Thu, 16 Apr 2026 at 09:24, Amir Goldstein <amir73il@gmail.com> wrote:
+This is a multi-part message in MIME format.
+--------------PBWAN3Bbi1100Ta0o8JUsV1J
+Content-Type: multipart/alternative;
+ boundary="------------52NtMlTbHFL7c0NjiV8XF8Yj"
 
-> > I've recently encountered a weird issue with JuiceFS [1], a network FS
-> > which uses FUSE. tl;dr: when a file was being slowly appended, a reader
-> > of the same file on another host would periodically read a block of zero
-> > bytes instead of the actual data.
+--------------52NtMlTbHFL7c0NjiV8XF8Yj
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thanks for the report.
+On 4/16/26 19:12, Miklos Szeredi wrote:
+> I wonder if we could clear PG_uptodate on the page which had its zero
+> bytes exposed by the i_size increase?
 
-I wonder if we could clear PG_uptodate on the page which had its zero
+I've actually tried that first. The idea was to get or create a new page 
+on the EOF boundary, lock it and poison it with an uptodate reset if we 
+need to. But this resulted in an instantaneous EIO in my test. If I 
+undestand correctly, this is because of another race condition:
+
+* A fresh page gets created and read by FUSE; uptodate is true;
+* The page is unlocked on return from `fuse_read_folio`;
+* Simultaneously, we run `getattr`. The page gets locked, uptodate is 
+reset, the page is unlocked;
+* Now back from `fuse_read_folio`, `filemap_read_folio` gets this page, 
+waits on `folio_wait_locked_killable` (waiting for the getattr to reset 
+uptodate), and then checks `folio_test_uptodate`;
+* The page is !uptodate, so an EIO is returned.
+
+So it effectively results in inability to have a successful `read` when 
+a `getattr` for a growing file happens simultaneously.
+
+Finally, if I understand correctly, this also leaves a (much smaller) 
+theoretical race condition in `filemap_read` between checking uptodate 
+and getting the current inode size.
+
+Attached is the patch with this attempt; please check that it does what 
+you meant in case I misunderstood.
+
+Cheers,
+Nikolay.
+
+--------------52NtMlTbHFL7c0NjiV8XF8Yj
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 4/16/26 19:12, Miklos Szeredi wrote:<span
+      style="white-space: pre-wrap">
+</span></div>
+    <blockquote type="cite"
+cite="mid:CAJfpegvxF7F+XKFKokSH4eOgCA0V2RNm6B54MS9nr9wG=U66OA@mail.gmail.com">
+      <pre wrap="" class="moz-quote-pre">I wonder if we could clear PG_uptodate on the page which had its zero
 bytes exposed by the i_size increase?
+</pre>
+    </blockquote>
+    <p>I've actually tried that first. The idea was to get or create a
+      new page on the EOF boundary, lock it and poison it with an
+      uptodate reset if we need to. But this resulted in an
+      instantaneous EIO in my test. If I undestand correctly, this is
+      because of another race condition:</p>
+    <p>* A fresh page gets created and read by FUSE; uptodate is true;<br>
+      * The page is unlocked on return from `fuse_read_folio`;<br>
+      * Simultaneously, we run `getattr`. The page gets locked, uptodate
+      is reset, the page is unlocked;<br>
+      * Now back from `fuse_read_folio`, `filemap_read_folio` gets this
+      page, waits on `folio_wait_locked_killable` (waiting for the
+      getattr to reset uptodate), and then checks `folio_test_uptodate`;<br>
+      * The page is !uptodate, so an EIO is returned.</p>
+    <p>So it effectively results in inability to have a successful
+      `read` when a `getattr` for a growing file happens simultaneously.</p>
+    <p>Finally, if I understand correctly, this also leaves a (much
+      smaller) theoretical race condition in `filemap_read` between
+      checking uptodate and getting the current inode size.</p>
+    <p>Attached is the patch with this attempt; please check that it
+      does what you meant in case I misunderstood.</p>
+    <p>Cheers,<br>
+      Nikolay.</p>
+  </body>
+</html>
 
-Willy?
+--------------52NtMlTbHFL7c0NjiV8XF8Yj--
+--------------PBWAN3Bbi1100Ta0o8JUsV1J
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-fuse-fix-stale-page-cache-data-race-on-file-growth.patch"
+Content-Disposition: attachment;
+ filename*0="0001-fuse-fix-stale-page-cache-data-race-on-file-growth.patc";
+ filename*1="h"
+Content-Transfer-Encoding: base64
 
-Thanks,
-Miklos
+RnJvbSA1MTIxOTRiOTgyZmQwZWRiYzFkY2FhNTBmYWZhZDc1YjFiZTI2ZDQyIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBOaWtvbGF5IEFtaWFudG92IDxhYkBmbWFwLm1lPgpE
+YXRlOiBXZWQsIDE1IEFwciAyMDI2IDA3OjI4OjE5ICswMDAwClN1YmplY3Q6IFtQQVRDSF0g
+ZnVzZTogZml4IHN0YWxlIHBhZ2UgY2FjaGUgZGF0YSByYWNlIG9uIGZpbGUgZ3Jvd3RoCgot
+LS0KIGZzL2Z1c2UvaW5vZGUuYyB8IDM2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKystLQogMSBmaWxlIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pCgpkaWZmIC0tZ2l0IGEvZnMvZnVzZS9pbm9kZS5jIGIvZnMvZnVzZS9pbm9kZS5jCmlu
+ZGV4IDczNWFiZjQyNmEwNi4uMjA3NDE4NjlhYzJmIDEwMDY0NAotLS0gYS9mcy9mdXNlL2lu
+b2RlLmMKKysrIGIvZnMvZnVzZS9pbm9kZS5jCkBAIC0zMzQsMTAgKzMzNCw0MiBAQCB2b2lk
+IGZ1c2VfY2hhbmdlX2F0dHJpYnV0ZXMoc3RydWN0IGlub2RlICppbm9kZSwgc3RydWN0IGZ1
+c2VfYXR0ciAqYXR0ciwKIAkgKiBleHRlbmQgbG9jYWwgaV9zaXplIHdpdGhvdXQga2VlcGlu
+ZyB1c2Vyc3BhY2Ugc2VydmVyIGluIHN5bmMuIFNvLAogCSAqIGF0dHItPnNpemUgY29taW5n
+IGZyb20gc2VydmVyIGNhbiBiZSBzdGFsZS4gV2UgY2Fubm90IHRydXN0IGl0LgogCSAqLwot
+CWlmICghKGNhY2hlX21hc2sgJiBTVEFUWF9TSVpFKSkKLQkJaV9zaXplX3dyaXRlKGlub2Rl
+LCBhdHRyLT5zaXplKTsKKwlpZiAoIShjYWNoZV9tYXNrICYgU1RBVFhfU0laRSkpIHsKKwkJ
+aWYgKFNfSVNSRUcoaW5vZGUtPmlfbW9kZSkgJiYgYXR0ci0+c2l6ZSA+IG9sZHNpemUpIHsK
+KwkJCXN0cnVjdCBmb2xpbyAqZm9saW87CisJCQlwZ29mZl90IGluZGV4ID0gb2xkc2l6ZSA+
+PiBQQUdFX1NISUZUOworCisJCQlzcGluX3VubG9jaygmZmktPmxvY2spOworCQkJZm9saW8g
+PSBfX2ZpbGVtYXBfZ2V0X2ZvbGlvKGlub2RlLT5pX21hcHBpbmcsIGluZGV4LAorCQkJCQkJ
+ICAgIEZHUF9MT0NLIHwgRkdQX0NSRUFULAorCQkJCQkJICAgIG1hcHBpbmdfZ2ZwX21hc2so
+aW5vZGUtPmlfbWFwcGluZykpOworCQkJaWYgKCFJU19FUlIoZm9saW8pKSB7CisJCQkJc3Bp
+bl9sb2NrKCZmaS0+bG9jayk7CisJCQkJaWYgKCF0ZXN0X2JpdChGVVNFX0lfU0laRV9VTlNU
+QUJMRSwgJmZpLT5zdGF0ZSkpIHsKKwkJCQkJZm9saW9fY2xlYXJfdXB0b2RhdGUoZm9saW8p
+OworCQkJCQlpX3NpemVfd3JpdGUoaW5vZGUsIGF0dHItPnNpemUpOworCQkJCX0KKwkJCQlz
+cGluX3VubG9jaygmZmktPmxvY2spOworCisJCQkJZm9saW9fdW5sb2NrKGZvbGlvKTsKKwkJ
+CQlmb2xpb19wdXQoZm9saW8pOworCQkJCWdvdG8gc2l6ZV91cGRhdGVkOworCQkJfQorCQkJ
+c3Bpbl9sb2NrKCZmaS0+bG9jayk7CisJCQkvKgorCQkJICogRm9saW8gYWxsb2MgZmFpbGVk
+IChFTk9NRU0pLiBSZWNoZWNrIGluIGNhc2UgYQorCQkJICogd3JpdGUvdHJ1bmNhdGUgc3Rh
+cnRlZCB3aGlsZSB3ZSBkcm9wcGVkIHRoZSBsb2NrLgorCQkJICovCisJCQlpZiAoIXRlc3Rf
+Yml0KEZVU0VfSV9TSVpFX1VOU1RBQkxFLCAmZmktPnN0YXRlKSkKKwkJCQlpX3NpemVfd3Jp
+dGUoaW5vZGUsIGF0dHItPnNpemUpOworCQl9IGVsc2UgeworCQkJaV9zaXplX3dyaXRlKGlu
+b2RlLCBhdHRyLT5zaXplKTsKKwkJfQorCX0KIAlzcGluX3VubG9jaygmZmktPmxvY2spOwog
+CitzaXplX3VwZGF0ZWQ6CisKIAlpZiAoIWNhY2hlX21hc2sgJiYgU19JU1JFRyhpbm9kZS0+
+aV9tb2RlKSkgewogCQlib29sIGludmFsID0gZmFsc2U7CiAKLS0gCjIuNDcuMAoK
+
+--------------PBWAN3Bbi1100Ta0o8JUsV1J--
