@@ -1,76 +1,76 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8977539934B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A4A39A81A
 	for <fuse-devel@lists.linux.dev>; Thu, 16 Apr 2026 09:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776331047; cv=none; b=AZBKfb1kh8+AJlHXl1taVsvOThT2NJu7YYKgv7m1sffP4xQ+dDbzP5jVR2XMbOkmuZwHbf/Js+Et0bzBmst+rGIsM7CeKstPQw3nqjto2F+0ClKaet2/flbzg1E6wEo+SfEiu4BObkPL+QQyVlnakJ1752tgyfOP80YPzKTY5jc=
+	t=1776331048; cv=none; b=U5RugEys5Er9RAWsvcrcaYTpKP/mlJeV2Z9kiMOCE5sXjEHGl9BWK2yN3DlO68nHW1bmrlbyX27F2M9iWjfQfrdKf6mdAwgYYvbNw/j2StO/0C1wkunaxlmjKIrClZsWTXp63tarybazAXTtk+d3Sh4Nnu4KTZkhrnFp8HhNXH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776331047; c=relaxed/simple;
-	bh=6YINIZYZ766Tkz25/abZGfGK2YbVNTaar/g0XnMoulw=;
+	s=arc-20240116; t=1776331048; c=relaxed/simple;
+	bh=UPIODV8sOmt9L86MxggJbP3/KBEuPeZfe7vgbJ+0MHo=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=pE/GaJpoRx6wKOjjbTcRzM1oDwNakuNx46Bp3o3Z/TfFycb9RXIwYERaJTSxIJf8yugXmttAkg7wEzVnis4fmsPZ9sS63OPNBLoHAz1Ju2U0fQcT5KGSkDoeWKeDXhlB8VX0QAKKvFjyog6CTk8vWO2kL6wA6S4/zeXvR4XNSss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LlXfLCnh; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:content-type; b=G3iWBZ9K6DsmqW6Pxs6zi3S2SzIZEEoe6/L/eIGr+Tk1GxfuxtBixMavl5JfoBOvUJVb/n801UuCSk4v63T9U24f6kEsQUS/4JKJYy+DcwPVcZR9aDHJHMk3m17uOysHkbOvdvowcddb1grInODjswmD87pPyYob4ABx+firUyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cAnVDi/I; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LlXfLCnh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cAnVDi/I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776331041;
+	s=mimecast20190719; t=1776331042;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=UqNwrKbv1CBFR0H8qiJy6ZZmfZue/paSTki31+psO5M=;
-	b=LlXfLCnho7XsZssIlMcY1rMpk3yR+ybl00Fe/VpsmSHpnABa91N1UrfLZt0B5ZIBQuI2b8
-	L33cdtqksiOPL9EINedCCY2ZhuUShpIdGGuVwzOGQQK8fOmdHdDeTg2H1uNDTr5rFxkqFl
-	dh6EA/FHSE9nQ8nymLkBS6j/jFvzI1Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=LxcoodLdByYTvjPNsxvAVgxY2vgrgXidGPrUEg26FpU=;
+	b=cAnVDi/Ic+7KlwfMdFryzobIN7QyIMEOqRE8IadF+G2HHhaD7ou/nr6VfBIQtUNmA00hkG
+	r3tM4S2870aFC/9MxGqvSeuTu8mEHr/6+7lENu5Gl8dnLfvVcH6VZ+DObREa91rvKvca9s
+	F3p4xD9Qtvv3HXCFK0cSd3NnXBfCBMk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-138-LXdkWPxyOWWsypvB_nlhfw-1; Thu, 16 Apr 2026 05:17:15 -0400
-X-MC-Unique: LXdkWPxyOWWsypvB_nlhfw-1
-X-Mimecast-MFC-AGG-ID: LXdkWPxyOWWsypvB_nlhfw_1776331034
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4839fc4cef6so3915805e9.0
-        for <fuse-devel@lists.linux.dev>; Thu, 16 Apr 2026 02:17:15 -0700 (PDT)
+ us-mta-321-DxucOdAtPuWue3jMZEnF3g-1; Thu, 16 Apr 2026 05:17:20 -0400
+X-MC-Unique: DxucOdAtPuWue3jMZEnF3g-1
+X-Mimecast-MFC-AGG-ID: DxucOdAtPuWue3jMZEnF3g_1776331040
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-488d64eba6eso44430465e9.2
+        for <fuse-devel@lists.linux.dev>; Thu, 16 Apr 2026 02:17:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776331034; x=1776935834;
+        d=1e100.net; s=20251104; t=1776331039; x=1776935839;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=UqNwrKbv1CBFR0H8qiJy6ZZmfZue/paSTki31+psO5M=;
-        b=Ngd24imZYjBDquooeTt1xnDIfaN3wqEJWQUjqgPqeBG+u4nDNdgrL51+iU0nM+hN+b
-         CsK+5XpZASk3B0XWNhZ4VPDQwW8PPfNpUFR+wT/X4UYD/GXAtnYmvjuQA6nmmppYTFHX
-         dXxYnzuCKsO0x9ENtfRqN/3IDsp+mENG35JH5y78px5RHlKLagEnsF8Q3n1wA3xPK1xZ
-         UFB0jEnPgYtSLiENAOwJ8M2hj02bwsVNAXOoj+9E7w76YfcAbR+t35XpzGSUU52l6guH
-         sNcfqOM+S89tIMsXgLCvS/nNu/qB9eX8UbPyYqK8JOTZ75px5vgNLWNNHC7IrcZqsgLu
-         N8tA==
-X-Gm-Message-State: AOJu0Yz8Duxau+oZwJMThvWtGB8COnS8UlhKhjaxAlxCrFRMBizHYUPE
-	iPOLQSklarVR3H7pyo5CNJDw93gzzZBtORq41Cf53LBh9I3BNq8FLRIePouygsRQTdzf7BapByx
-	kaKSEUYgeSXZokEx4+cfFRWI6Rert3v5BiSrVCeMY1VPO8MI5wpAh0WuQroVevgPl3B9XmTVnkJ
-	1+uQ9LOQBeu7yjMC6T/YN+O+cGXbNmnmo7wYguC9DPukw+T0A=
-X-Gm-Gg: AeBDietxI9od1XnADHA3wApDoddT2PeKHxery0GzUI4PDRJXEgCgHTtgHgtDY1sOyzX
-	IaG7cX/S6GCsgEXtArXWUXioJ3HTswpg6ysr9COBZJmCBU0dQ8fVM+QvWq9XyE0aDFcwbEVoElW
-	P6pmosSwo1Lm5ly/zfXRwAlmxfPACuXpXkCFESwGVMcd6QEunnvySFMifslwELZVC4DgLd1hP8k
-	mQaLi07+xYqe4+wNzK4sZmJRGZTVttkSQpDsEtWI3zH4yEw3qcmlgw1sGqmGhHkoTGUd9qSeUXW
-	ErVIJ9W70H/4z3gjClVvgcH75PNS1Y2BVg0cTCgY5LSN6ioeRvU65WngeY7sYnmGaQxzodr7qso
-	1OZ9grY3FNTix+I6/4JorU3nP3l0lD+6dJxooDM4m4QFsLSHQ7NtvFoF9BPASLNjkEl2JJdKWwj
-	nxIHlmmg==
-X-Received: by 2002:a05:600c:a303:b0:486:f893:56c6 with SMTP id 5b1f17b1804b1-488f480976emr24864475e9.10.1776331033767;
-        Thu, 16 Apr 2026 02:17:13 -0700 (PDT)
-X-Received: by 2002:a05:600c:a303:b0:486:f893:56c6 with SMTP id 5b1f17b1804b1-488f480976emr24864205e9.10.1776331033231;
-        Thu, 16 Apr 2026 02:17:13 -0700 (PDT)
+        bh=LxcoodLdByYTvjPNsxvAVgxY2vgrgXidGPrUEg26FpU=;
+        b=afrXog/A9TMof5somriHoUrs+YFedg+Kz3tJ8JtX+Fahgh2eNBYgnaaPfebexIlkSv
+         E5B51tqImziLKWbDxR8OFIMPRhxWhPfMN/xLzM07Y1vLHgiUIWrAkrqhFsvoaAZoHMpo
+         TGeK3WQiCikid1UUKBaQKng1hSfAnLUoKsQzLUYlxmYt224PxXH+LXQHOlfbZDgvdqyX
+         29+TOybO4NoPjnw0PnflYhusGMTdgNBQL1PT6r/R3ZKATHLZ40ftMUZ7ydiF7kJPmHjC
+         VFvc8Lo9qx0c3ertKSnNPXEgMyER2W86qQ8k5jVdPZVBWrwkTGSchA4wD+7zkfeDDdhd
+         Xrhg==
+X-Gm-Message-State: AOJu0YyHoG9p9+ReBZsN4yb6TE3Kd/weGBvRFIjr2NiyuZPUgHUYz25+
+	ASTcvTH4H0ln875DdGOsC5cEM8WEV7TXpZ3NqI3jiW3HRTRbf1q9xrixV9o4mhWFiO24HCOBKDz
+	n86y07zWlnVhJbA9HDo5/klRtOtoVAPIaz4NOE/lcoPnASnPUk9pxT94leKiS7TGZFZNSDbt/W4
+	mFyez+Ta9OGG7UM4Pacylvdj9b2RcFu6ZsMV5ttLdBGaidTRo=
+X-Gm-Gg: AeBDiesoG2/tlnlnf21ohAVth1IwSA9Lx5YZ3bL9XLVoOsaP1X0Vz+nnjB+sDAN0gKi
+	srHc95i69NkFMn0ajH0L9IcVsDz75qnwnWI/CZsEyHx0XanfWbsJRHMlRKgzBWfr+MKPZvSGaVk
+	yILkoGGv73sD+VOF05Bhamn2QilBISlRutnK3AJwzYqj9ir4Lk+BQpTM87YIxkdVjqM+6HnqwM2
+	BWnMN20EMWayBFwgbaItrJdI+QnteDNVndAgBme0AFFYc2U35z+YBMUK0uOrEP7pNAPbJZzu+iK
+	+eOBFEAATVIKsWzb0y7y9OElzPjA40TQThJgcfUTxTo99wBxwUJNaMoJtJse/NVd1eI7G5zN+Hd
+	rXL/WrC6qNMGDvEcBKohAczwQlHq21WtsU6Iei3Iu6nSRaWIFsJYkfJy0KUoReW3VMgXhSRt1Yh
+	GmJ2b/6w==
+X-Received: by 2002:a05:600c:a408:b0:488:8b99:54a1 with SMTP id 5b1f17b1804b1-488d68865f6mr269315725e9.28.1776331039086;
+        Thu, 16 Apr 2026 02:17:19 -0700 (PDT)
+X-Received: by 2002:a05:600c:a408:b0:488:8b99:54a1 with SMTP id 5b1f17b1804b1-488d68865f6mr269315365e9.28.1776331038488;
+        Thu, 16 Apr 2026 02:17:18 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (85-66-37-19.pool.digikabel.hu. [85.66.37.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f57d80d3sm38597975e9.0.2026.04.16.02.17.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 02:17:12 -0700 (PDT)
+        Thu, 16 Apr 2026 02:17:17 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 08/32] fuse: move io_uring related members to fuse_chan
-Date: Thu, 16 Apr 2026 11:16:32 +0200
-Message-ID: <20260416091658.462783-9-mszeredi@redhat.com>
+Subject: [PATCH 12/32] fuse: move request timeout to fuse_chan
+Date: Thu, 16 Apr 2026 11:16:36 +0200
+Message-ID: <20260416091658.462783-13-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260416091658.462783-1-mszeredi@redhat.com>
 References: <20260416091658.462783-1-mszeredi@redhat.com>
@@ -81,244 +81,340 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: wRCXm6Dsxt4yshfVFzDxW6J7oTJzlZ4eEff7QDMlAbE_1776331034
+X-Mimecast-MFC-PROC-ID: 2kqoFaWhl3HkHjphpGJZi2gSshGfOHdRO9Y0B8Wdl7U_1776331040
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
 Move:
 
- - io_uring
- - ring
+ - timeout
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/dev.c         |  2 +-
- fs/fuse/dev_uring.c   | 26 +++++++++++++-------------
- fs/fuse/dev_uring_i.h |  6 +++---
- fs/fuse/fuse_dev_i.h  |  8 ++++++++
- fs/fuse/fuse_i.h      |  8 --------
- fs/fuse/inode.c       |  2 +-
- 6 files changed, 26 insertions(+), 26 deletions(-)
+ fs/fuse/dev.c         |  5 ++--
+ fs/fuse/dev.h         |  2 +-
+ fs/fuse/dev_uring.c   | 16 ++++++------
+ fs/fuse/dev_uring_i.h |  4 +--
+ fs/fuse/fuse_dev_i.h  | 11 ++++++++-
+ fs/fuse/fuse_i.h      |  9 -------
+ fs/fuse/inode.c       |  7 +++---
+ fs/fuse/req_timeout.c | 57 +++++++++++++++++++++----------------------
+ 8 files changed, 55 insertions(+), 56 deletions(-)
 
 diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 9885347df331..4d21e22301ed 100644
+index 9af71016591d..fa2d027dfa36 100644
 --- a/fs/fuse/dev.c
 +++ b/fs/fuse/dev.c
-@@ -79,7 +79,7 @@ void fuse_set_initialized(struct fuse_conn *fc)
- static bool fuse_block_alloc(struct fuse_conn *fc, bool for_background)
- {
- 	return !fc->chan->initialized || (for_background && fc->chan->blocked) ||
--	       (fc->io_uring && fc->chan->connected && !fuse_uring_ready(fc));
-+	       (fc->chan->io_uring && fc->chan->connected && !fuse_uring_ready(fc));
- }
+@@ -363,6 +363,7 @@ struct fuse_chan *fuse_chan_new(void)
+ 	fch->initialized = 0;
+ 	fch->blocked = 0;
+ 	fch->connected = 1;
++	fch->timeout.req_timeout = 0;
  
- static void fuse_drop_waiting(struct fuse_conn *fc)
+ 	return fch;
+ }
+@@ -2528,8 +2529,8 @@ void fuse_abort_conn(struct fuse_conn *fc)
+ 		LIST_HEAD(to_end);
+ 		unsigned int i;
+ 
+-		if (fc->timeout.req_timeout)
+-			cancel_delayed_work(&fc->timeout.work);
++		if (fc->chan->timeout.req_timeout)
++			cancel_delayed_work(&fc->chan->timeout.work);
+ 
+ 		/* Background queuing checks fc->chan->connected under bg_lock */
+ 		spin_lock(&fc->chan->bg_lock);
+diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
+index 2630dab3ef56..df8a199b42d2 100644
+--- a/fs/fuse/dev.h
++++ b/fs/fuse/dev.h
+@@ -21,6 +21,6 @@ DEFINE_FREE(fuse_chan_free, struct fuse_chan *, if (_T) fuse_chan_free(_T))
+ void fuse_dev_install(struct fuse_dev *fud, struct fuse_conn *fc);
+ void fuse_dev_put(struct fuse_dev *fud);
+ 
+-void fuse_init_server_timeout(struct fuse_conn *fc, unsigned int timeout);
++void fuse_init_server_timeout(struct fuse_chan *fch, unsigned int timeout);
+ 
+ #endif /* _FS_FUSE_DEV_H */
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index e350b1dc1722..1a7a364c8131 100644
+index 794fb7c9ede3..97059069316e 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -159,7 +159,7 @@ static bool ent_list_request_expired(struct fuse_conn *fc, struct list_head *lis
- 
- bool fuse_uring_request_expired(struct fuse_conn *fc)
- {
--	struct fuse_ring *ring = fc->ring;
-+	struct fuse_ring *ring = fc->chan->ring;
- 	struct fuse_ring_queue *queue;
- 	int qid;
- 
-@@ -187,7 +187,7 @@ bool fuse_uring_request_expired(struct fuse_conn *fc)
- 
- void fuse_uring_destruct(struct fuse_conn *fc)
- {
--	struct fuse_ring *ring = fc->ring;
-+	struct fuse_ring *ring = fc->chan->ring;
- 	int qid;
- 
- 	if (!ring)
-@@ -218,7 +218,7 @@ void fuse_uring_destruct(struct fuse_conn *fc)
- 
- 	kfree(ring->queues);
- 	kfree(ring);
--	fc->ring = NULL;
-+	fc->chan->ring = NULL;
+@@ -142,7 +142,7 @@ void fuse_uring_abort_end_requests(struct fuse_ring *ring)
+ 	}
  }
  
- /*
-@@ -231,7 +231,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_conn *fc)
- 	struct fuse_ring *res = NULL;
- 	size_t max_payload_size;
- 
--	ring = kzalloc_obj(*fc->ring, GFP_KERNEL_ACCOUNT);
-+	ring = kzalloc_obj(*fc->chan->ring, GFP_KERNEL_ACCOUNT);
- 	if (!ring)
- 		return NULL;
- 
-@@ -244,10 +244,10 @@ static struct fuse_ring *fuse_uring_create(struct fuse_conn *fc)
- 	max_payload_size = max(max_payload_size, fc->max_pages * PAGE_SIZE);
- 
- 	spin_lock(&fc->lock);
--	if (fc->ring) {
-+	if (fc->chan->ring) {
- 		/* race, another thread created the ring in the meantime */
- 		spin_unlock(&fc->lock);
--		res = fc->ring;
-+		res = fc->chan->ring;
- 		goto out_err;
- 	}
- 
-@@ -256,7 +256,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_conn *fc)
- 	ring->nr_queues = nr_queues;
- 	ring->fc = fc;
- 	ring->max_payload_sz = max_payload_size;
--	smp_store_release(&fc->ring, ring);
-+	smp_store_release(&fc->chan->ring, ring);
- 
- 	spin_unlock(&fc->lock);
- 	return ring;
-@@ -879,7 +879,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
- 								       struct fuse_uring_cmd_req);
- 	struct fuse_ring_ent *ent;
- 	int err;
--	struct fuse_ring *ring = fc->ring;
-+	struct fuse_ring *ring = fc->chan->ring;
- 	struct fuse_ring_queue *queue;
- 	uint64_t commit_id = READ_ONCE(cmd_req->commit_id);
- 	unsigned int qid = READ_ONCE(cmd_req->qid);
-@@ -1082,7 +1082,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+-static bool ent_list_request_expired(struct fuse_conn *fc, struct list_head *list)
++static bool ent_list_request_expired(struct fuse_chan *fch, struct list_head *list)
  {
- 	const struct fuse_uring_cmd_req *cmd_req = io_uring_sqe128_cmd(cmd->sqe,
- 								       struct fuse_uring_cmd_req);
--	struct fuse_ring *ring = smp_load_acquire(&fc->ring);
-+	struct fuse_ring *ring = smp_load_acquire(&fc->chan->ring);
- 	struct fuse_ring_queue *queue;
  	struct fuse_ring_ent *ent;
- 	int err;
-@@ -1149,7 +1149,7 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
- 	fc = fud->fc;
+ 	struct fuse_req *req;
+@@ -154,12 +154,12 @@ static bool ent_list_request_expired(struct fuse_conn *fc, struct list_head *lis
+ 	req = ent->fuse_req;
  
- 	/* Once a connection has io-uring enabled on it, it can't be disabled */
--	if (!enable_uring && !fc->io_uring) {
-+	if (!enable_uring && !fc->chan->io_uring) {
- 		pr_info_ratelimited("fuse-io-uring is disabled\n");
- 		return -EOPNOTSUPP;
- 	}
-@@ -1172,7 +1172,7 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
- 		if (err) {
- 			pr_info_once("FUSE_IO_URING_CMD_REGISTER failed err=%d\n",
- 				     err);
--			fc->io_uring = 0;
-+			fc->chan->io_uring = 0;
- 			wake_up_all(&fc->chan->blocked_waitq);
- 			return err;
+ 	return time_is_before_jiffies(req->create_time +
+-				      fc->timeout.req_timeout);
++				      fch->timeout.req_timeout);
+ }
+ 
+-bool fuse_uring_request_expired(struct fuse_conn *fc)
++bool fuse_uring_request_expired(struct fuse_chan *fch)
+ {
+-	struct fuse_ring *ring = fc->chan->ring;
++	struct fuse_ring *ring = fch->ring;
+ 	struct fuse_ring_queue *queue;
+ 	int qid;
+ 
+@@ -172,10 +172,10 @@ bool fuse_uring_request_expired(struct fuse_conn *fc)
+ 			continue;
+ 
+ 		spin_lock(&queue->lock);
+-		if (fuse_request_expired(fc, &queue->fuse_req_queue) ||
+-		    fuse_request_expired(fc, &queue->fuse_req_bg_queue) ||
+-		    ent_list_request_expired(fc, &queue->ent_w_req_queue) ||
+-		    ent_list_request_expired(fc, &queue->ent_in_userspace)) {
++		if (fuse_request_expired(fch, &queue->fuse_req_queue) ||
++		    fuse_request_expired(fch, &queue->fuse_req_bg_queue) ||
++		    ent_list_request_expired(fch, &queue->ent_w_req_queue) ||
++		    ent_list_request_expired(fch, &queue->ent_in_userspace)) {
+ 			spin_unlock(&queue->lock);
+ 			return true;
  		}
-@@ -1262,7 +1262,7 @@ static void fuse_uring_dispatch_ent(struct fuse_ring_ent *ent)
- void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
- {
- 	struct fuse_conn *fc = req->fm->fc;
--	struct fuse_ring *ring = fc->ring;
-+	struct fuse_ring *ring = fc->chan->ring;
- 	struct fuse_ring_queue *queue;
- 	struct fuse_ring_ent *ent = NULL;
- 	int err;
-@@ -1305,7 +1305,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
- bool fuse_uring_queue_bq_req(struct fuse_req *req)
- {
- 	struct fuse_conn *fc = req->fm->fc;
--	struct fuse_ring *ring = fc->ring;
-+	struct fuse_ring *ring = fc->chan->ring;
- 	struct fuse_ring_queue *queue;
- 	struct fuse_ring_ent *ent = NULL;
- 
 diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-index 9edb8295fdb2..5b981708d04a 100644
+index 5b981708d04a..8aa33f989e4c 100644
 --- a/fs/fuse/dev_uring_i.h
 +++ b/fs/fuse/dev_uring_i.h
-@@ -148,7 +148,7 @@ bool fuse_uring_request_expired(struct fuse_conn *fc);
+@@ -144,7 +144,7 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
+ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req);
+ bool fuse_uring_queue_bq_req(struct fuse_req *req);
+ bool fuse_uring_remove_pending_req(struct fuse_req *req);
+-bool fuse_uring_request_expired(struct fuse_conn *fc);
++bool fuse_uring_request_expired(struct fuse_chan *fch);
  
  static inline void fuse_uring_abort(struct fuse_conn *fc)
  {
--	struct fuse_ring *ring = fc->ring;
-+	struct fuse_ring *ring = fc->chan->ring;
- 
- 	if (ring == NULL)
- 		return;
-@@ -161,7 +161,7 @@ static inline void fuse_uring_abort(struct fuse_conn *fc)
- 
- static inline void fuse_uring_wait_stopped_queues(struct fuse_conn *fc)
- {
--	struct fuse_ring *ring = fc->ring;
-+	struct fuse_ring *ring = fc->chan->ring;
- 
- 	if (ring)
- 		wait_event(ring->stop_waitq,
-@@ -170,7 +170,7 @@ static inline void fuse_uring_wait_stopped_queues(struct fuse_conn *fc)
- 
- static inline bool fuse_uring_ready(struct fuse_conn *fc)
- {
--	return fc->ring && fc->ring->ready;
-+	return fc->chan->ring && fc->chan->ring->ready;
+@@ -202,7 +202,7 @@ static inline bool fuse_uring_remove_pending_req(struct fuse_req *req)
+ 	return false;
  }
  
- #else /* CONFIG_FUSE_IO_URING */
+-static inline bool fuse_uring_request_expired(struct fuse_conn *fc)
++static inline bool fuse_uring_request_expired(struct fuse_chan *fch)
+ {
+ 	return false;
+ }
 diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index 8afe18ddc891..ff1c62297e01 100644
+index 0bace11373b9..2e0193acc9c2 100644
 --- a/fs/fuse/fuse_dev_i.h
 +++ b/fs/fuse/fuse_dev_i.h
-@@ -128,6 +128,14 @@ struct fuse_chan {
- 
- 	/** The number of requests waiting for completion */
- 	atomic_t num_waiting;
+@@ -150,6 +150,15 @@ struct fuse_chan {
+ 	/**  uring connection information*/
+ 	struct fuse_ring *ring;
+ #endif
 +
-+	/* Use io_uring for communication */
-+	unsigned int io_uring;
++	/** Only used if the connection opts into request timeouts */
++	struct {
++		/* Worker for checking if any requests have timed out */
++		struct delayed_work work;
 +
-+#ifdef CONFIG_FUSE_IO_URING
-+	/**  uring connection information*/
-+	struct fuse_ring *ring;
-+#endif
++		/* Request timeout (in jiffies). 0 = no timeout */
++		unsigned int req_timeout;
++	} timeout;
  };
  
  #define FUSE_PQ_HASH_BITS 8
+@@ -261,7 +270,7 @@ void fuse_dev_queue_forget(struct fuse_iqueue *fiq,
+ void fuse_dev_queue_interrupt(struct fuse_iqueue *fiq, struct fuse_req *req);
+ bool fuse_remove_pending_req(struct fuse_req *req, spinlock_t *lock);
+ 
+-bool fuse_request_expired(struct fuse_conn *fc, struct list_head *list);
++bool fuse_request_expired(struct fuse_chan *fch, struct list_head *list);
+ 
+ /**
+  * Assign a unique id to a fuse request
 diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index a56e49c7a324..701bb18dcb00 100644
+index 6343218563b1..7bc6c2054d1a 100644
 --- a/fs/fuse/fuse_i.h
 +++ b/fs/fuse/fuse_i.h
-@@ -764,9 +764,6 @@ struct fuse_conn {
- 	/* Is synchronous FUSE_INIT allowed? */
- 	unsigned int sync_init:1;
- 
--	/* Use io_uring for communication */
--	unsigned int io_uring;
--
- 	/** Maximum stack depth for passthrough backing files */
- 	int max_stack_depth;
- 
-@@ -819,11 +816,6 @@ struct fuse_conn {
+@@ -816,15 +816,6 @@ struct fuse_conn {
+ 	/** IDR for backing files ids */
  	struct idr backing_files_map;
  #endif
- 
--#ifdef CONFIG_FUSE_IO_URING
--	/**  uring connection information*/
--	struct fuse_ring *ring;
--#endif
 -
- 	/** Only used if the connection opts into request timeouts */
- 	struct {
- 		/* Worker for checking if any requests have timed out */
+-	/** Only used if the connection opts into request timeouts */
+-	struct {
+-		/* Worker for checking if any requests have timed out */
+-		struct delayed_work work;
+-
+-		/* Request timeout (in jiffies). 0 = no timeout */
+-		unsigned int req_timeout;
+-	} timeout;
+ };
+ 
+ /*
 diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 85ac0e2244bc..c7f7e0ff12f7 100644
+index d31d7b80c184..03da955d419d 100644
 --- a/fs/fuse/inode.c
 +++ b/fs/fuse/inode.c
-@@ -1412,7 +1412,7 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
- 					ok = false;
- 			}
- 			if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
--				fc->io_uring = 1;
-+				fc->chan->io_uring = 1;
+@@ -987,7 +987,6 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+ 	fc->max_pages = FUSE_DEFAULT_MAX_PAGES_PER_REQ;
+ 	fc->max_pages_limit = fuse_max_pages_limit;
+ 	fc->name_max = FUSE_NAME_LOW_MAX;
+-	fc->timeout.req_timeout = 0;
  
- 			if (flags & FUSE_REQUEST_TIMEOUT)
- 				timeout = arg->request_timeout;
+ 	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+ 		fuse_backing_files_init(fc);
+@@ -1020,8 +1019,8 @@ void fuse_conn_put(struct fuse_conn *fc)
+ 
+ 	if (IS_ENABLED(CONFIG_FUSE_DAX))
+ 		fuse_dax_conn_free(fc);
+-	if (fc->timeout.req_timeout)
+-		cancel_delayed_work_sync(&fc->timeout.work);
++	if (fc->chan->timeout.req_timeout)
++		cancel_delayed_work_sync(&fc->chan->timeout.work);
+ 	cancel_work_sync(&fc->epoch_work);
+ 	fuse_chan_release(fc->chan);
+ 	put_pid_ns(fc->pid_ns);
+@@ -1423,7 +1422,7 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+ 			fc->no_flock = 1;
+ 		}
+ 
+-		fuse_init_server_timeout(fc, timeout);
++		fuse_init_server_timeout(fc->chan, timeout);
+ 
+ 		fm->sb->s_bdi->ra_pages =
+ 				min(fm->sb->s_bdi->ra_pages, ra_pages);
+diff --git a/fs/fuse/req_timeout.c b/fs/fuse/req_timeout.c
+index 401d3545b0a8..ef464bebc0b6 100644
+--- a/fs/fuse/req_timeout.c
++++ b/fs/fuse/req_timeout.c
+@@ -29,22 +29,22 @@ unsigned int fuse_default_req_timeout;
+  */
+ unsigned int fuse_max_req_timeout;
+ 
+-bool fuse_request_expired(struct fuse_conn *fc, struct list_head *list)
++bool fuse_request_expired(struct fuse_chan *fch, struct list_head *list)
+ {
+ 	struct fuse_req *req;
+ 
+ 	req = list_first_entry_or_null(list, struct fuse_req, list);
+ 	if (!req)
+ 		return false;
+-	return time_is_before_jiffies(req->create_time + fc->timeout.req_timeout);
++	return time_is_before_jiffies(req->create_time + fch->timeout.req_timeout);
+ }
+ 
+-static bool fuse_fpq_processing_expired(struct fuse_conn *fc, struct list_head *processing)
++static bool fuse_fpq_processing_expired(struct fuse_chan *fch, struct list_head *processing)
+ {
+ 	int i;
+ 
+ 	for (i = 0; i < FUSE_PQ_HASH_SIZE; i++)
+-		if (fuse_request_expired(fc, &processing[i]))
++		if (fuse_request_expired(fch, &processing[i]))
+ 			return true;
+ 
+ 	return false;
+@@ -67,68 +67,67 @@ static bool fuse_fpq_processing_expired(struct fuse_conn *fc, struct list_head *
+ static void fuse_check_timeout(struct work_struct *work)
+ {
+ 	struct delayed_work *dwork = to_delayed_work(work);
+-	struct fuse_conn *fc = container_of(dwork, struct fuse_conn,
+-					    timeout.work);
+-	struct fuse_iqueue *fiq = &fc->chan->iq;
++	struct fuse_chan *fch = container_of(dwork, struct fuse_chan, timeout.work);
++	struct fuse_iqueue *fiq = &fch->iq;
+ 	struct fuse_dev *fud;
+ 	struct fuse_pqueue *fpq;
+ 	bool expired = false;
+ 
+-	if (!atomic_read(&fc->chan->num_waiting))
++	if (!atomic_read(&fch->num_waiting))
+ 		goto out;
+ 
+ 	spin_lock(&fiq->lock);
+-	expired = fuse_request_expired(fc, &fiq->pending);
++	expired = fuse_request_expired(fch, &fiq->pending);
+ 	spin_unlock(&fiq->lock);
+ 	if (expired)
+ 		goto abort_conn;
+ 
+-	spin_lock(&fc->chan->bg_lock);
+-	expired = fuse_request_expired(fc, &fc->chan->bg_queue);
+-	spin_unlock(&fc->chan->bg_lock);
++	spin_lock(&fch->bg_lock);
++	expired = fuse_request_expired(fch, &fch->bg_queue);
++	spin_unlock(&fch->bg_lock);
+ 	if (expired)
+ 		goto abort_conn;
+ 
+-	spin_lock(&fc->chan->lock);
+-	if (!fc->chan->connected) {
+-		spin_unlock(&fc->chan->lock);
++	spin_lock(&fch->lock);
++	if (!fch->connected) {
++		spin_unlock(&fch->lock);
+ 		return;
+ 	}
+-	list_for_each_entry(fud, &fc->chan->devices, entry) {
++	list_for_each_entry(fud, &fch->devices, entry) {
+ 		fpq = &fud->pq;
+ 		spin_lock(&fpq->lock);
+-		if (fuse_request_expired(fc, &fpq->io) ||
+-		    fuse_fpq_processing_expired(fc, fpq->processing)) {
++		if (fuse_request_expired(fch, &fpq->io) ||
++		    fuse_fpq_processing_expired(fch, fpq->processing)) {
+ 			spin_unlock(&fpq->lock);
+-			spin_unlock(&fc->chan->lock);
++			spin_unlock(&fch->lock);
+ 			goto abort_conn;
+ 		}
+ 
+ 		spin_unlock(&fpq->lock);
+ 	}
+-	spin_unlock(&fc->chan->lock);
++	spin_unlock(&fch->lock);
+ 
+-	if (fuse_uring_request_expired(fc))
++	if (fuse_uring_request_expired(fch))
+ 		goto abort_conn;
+ 
+ out:
+-	queue_delayed_work(system_percpu_wq, &fc->timeout.work,
++	queue_delayed_work(system_percpu_wq, &fch->timeout.work,
+ 			   fuse_timeout_timer_freq);
+ 	return;
+ 
+ abort_conn:
+-	fuse_abort_conn(fc);
++	fuse_abort_conn(fch->conn);
+ }
+ 
+-static void set_request_timeout(struct fuse_conn *fc, unsigned int timeout)
++static void set_request_timeout(struct fuse_chan *fch, unsigned int timeout)
+ {
+-	fc->timeout.req_timeout = secs_to_jiffies(timeout);
+-	INIT_DELAYED_WORK(&fc->timeout.work, fuse_check_timeout);
+-	queue_delayed_work(system_percpu_wq, &fc->timeout.work,
++	fch->timeout.req_timeout = secs_to_jiffies(timeout);
++	INIT_DELAYED_WORK(&fch->timeout.work, fuse_check_timeout);
++	queue_delayed_work(system_percpu_wq, &fch->timeout.work,
+ 			   fuse_timeout_timer_freq);
+ }
+ 
+-void fuse_init_server_timeout(struct fuse_conn *fc, unsigned int timeout)
++void fuse_init_server_timeout(struct fuse_chan *fch, unsigned int timeout)
+ {
+ 	if (!timeout && !fuse_max_req_timeout && !fuse_default_req_timeout)
+ 		return;
+@@ -145,6 +144,6 @@ void fuse_init_server_timeout(struct fuse_conn *fc, unsigned int timeout)
+ 
+ 	timeout = max(FUSE_TIMEOUT_TIMER_FREQ, timeout);
+ 
+-	set_request_timeout(fc, timeout);
++	set_request_timeout(fch, timeout);
+ }
+ 
 -- 
 2.53.0
 
