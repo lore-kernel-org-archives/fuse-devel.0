@@ -1,250 +1,204 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4DA3B635F
-	for <fuse-devel@lists.linux.dev>; Fri, 17 Apr 2026 14:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776436551; cv=none; b=GH3s8kspZJQVugQ7spnYEKErPw5XBFdzjfnWbYdKcXhl3dC+h/8mfBR1MJR/colU0K4jvrwTtagayiTh5Q4zwBaNINLfF2zZ3444lPjijsPf3mJKhoAg/qoR5I3+6Er5IU0v5KkR63718aO/OOeqOySK7hOU07GY+DaMCHC2fQ8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776436551; c=relaxed/simple;
-	bh=zLSRvxuJezn5knvIQBgSjbQdMRyyImGUoozeC/CsSOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q/VMfz1dtq7RY+LNe6M6yx+SCLY9tj/Mir/ffxETYbkcLCwF+B+XZOUnH0jgSqDYABzdIlIqEtyu0Uz9QOgSvT9IL1S9hTYZjveIurPTJB5QSXEUK/o+rrd79nXVXHcNSF9Mu1ecMk5ava6L+AKLl184Tb4DPe826pamcwJpWag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSkHEiSj; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFBA2857EE
+	for <fuse-devel@lists.linux.dev>; Fri, 17 Apr 2026 21:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776459757; cv=pass; b=LWa4vqxkWWFfBbnwr5qQxkToLLaDCHtdvZsb1lWHqGZa/2NWUQM/zOdxeamRz5pAmnaSiszeQnHcPBHc8yhQLEzqHMli7VYHlsyeiRIuWQcEiEGRndOdUzfFzXWUP23BWYGZgoO0/Y3mX9LW52Wq4YBnPS/rrCX3IPO2e4Fzen4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776459757; c=relaxed/simple;
+	bh=ldLskh1xFyY9LjS3JUCJCZqJWyAYipdzRp7+NJODLRI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=umwjWONUJoWYKcpeD4yXt7aB8oMw6fKLEoWMM45dhfwEVcDmeMk0+AGFY2ZO2guS/SF8NGERSe1jEvBXOXjy2KXRqeMe3waJxaRjWSriLjhi50yS1+OFPCwySjdEKc50GzJEzecOWXaT9vAC35l//RXJUZqAZJKqZUwJm3xcWyg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=joMjrAK0; arc=pass smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSkHEiSj"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48897fd88ebso8193515e9.2
-        for <fuse-devel@lists.linux.dev>; Fri, 17 Apr 2026 07:35:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="joMjrAK0"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d7a5e77b1so775706f8f.1
+        for <fuse-devel@lists.linux.dev>; Fri, 17 Apr 2026 14:02:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776459754; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Y2HDF6AdreTvTA41e2OTFMpmjZg+uL67G0KMhRsrRnmMmSPTvenGigMKtkHtwp6spV
+         UuKGGb+vKZqfnOpBP0vKe+9MrGCPYKaujoEnB/nwoaeKYDOBOD06IKaTa+jkYgWJ3Rym
+         hVsLKo64WV6i26hsA0cmPVEKvgawPcg5LH9oAVJnHrkxofoMNO/s6r5vseTbeTaBmKAt
+         FWUfLjMLO9/pZsy1hClQACmWQvmyuQf+P+Ch/+bwgyLNgcXQVjza/Cfv93kwQ6nwTTyF
+         YFke57TovNEtKeU4wokyFT4M6lF+npcdCMWCVZbWBiBHoRyiw3oJDzmQn344e8Eb6dOY
+         Z72A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=STzWu05WxWgbbMhX2ONEineRl8NEoNmuhfJo1fCqMWY=;
+        fh=CVr347ZNl1fSzSnnXZOSelUJZXpHfF64Xp3Se7C6lmc=;
+        b=dIdP/rqxWWkgFUOEiWh0B20mR4XDWefPGgtFNXQ9DLZvporYtkd7t6AwzSa7av8lqI
+         TIS9yKb4OwTrPGpRkPG4Imis8/I6V0vce1b1aSjiU8eIa4DYRyyb2Jcrg7agLdP7dLzF
+         15zuxNZHBuuy8XBBeIXB6VU8ATrdOZnopYF9pD5Ig1uFGW2CBrUWQe2HwmAspBCbXA1E
+         1Wz7caNre5mIK2qwdGSs5E6s6e2eAcC0frxMNkb5o6TMSTbEqw8FQ5iX2hYTg7S1klzT
+         gh8AxosIIbk7l+PWCOdTdkX1OAMvCX5xqLyQyAlYa04lFI1bwr5JvUvRsGZTVOhUyKBU
+         S2Sg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776436548; x=1777041348; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jA3YbhSUsNdLppcNpGxb5cEbWpDvT0O/nJo4+itqimo=;
-        b=fSkHEiSjY2sD5sAmizOU6ELLRVMKjkAe9JkfA2dz/bX/uLYR+yBuwWDrAf7OeKmN+9
-         V0PTzEm/wfIUKeK+8EVvEQ5jov7Xz8pZ+Wfl6GYc1r/2tcsRD4wubCwxl45tPZay/R3C
-         dr1x+rf0CQeOrpwq22A9JQlpIaz5G425ToHGTeFJ0O0t7TclZTszfabQvt0seS2pef5H
-         sc7KGLBMDNH8WyLPXItVb8ESyB6JBDUMKJ/t5G0PB4PZYj6mWoGPiEwwJSkpW6PLbL2y
-         AUwF2dkRxcS+0hweqm3UGJ8W0BTFQztepQdxVDK4YbcseCLTBuNXqlzBGrrDRKxLpqBI
-         NVxg==
+        d=gmail.com; s=20251104; t=1776459754; x=1777064554; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=STzWu05WxWgbbMhX2ONEineRl8NEoNmuhfJo1fCqMWY=;
+        b=joMjrAK0yEJAgnq05BBL4x2hmOKyfag7mclbIoh/e61kFQFLkz/cYXVR+UQJ/cbSP9
+         DXPjgZbe4pD8ng4ECMWi5yyKQ6piGXR2gniQiUHTYXLJ/lSJ73hpNaWnOKLLFoogKIVx
+         gy2K51oyxV0q97zHFDW6iDwfxjC5ziqHMzQ6ktZeatlTu7tu02NQK/nhgG7oeCVlOCP5
+         16ZIz1z60So17nkkhFxqR2DphgOxukpGPOm1ajpwd1DTWci+CNmmm8bbm5hxCWGqfhF7
+         pEU1gjoxHCeyPQtDmUDGwNEdE/4LjfYH7ukkU5lzdJr2345Gmg92v9gzlnTxUxsPUT6K
+         p0WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776436548; x=1777041348;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jA3YbhSUsNdLppcNpGxb5cEbWpDvT0O/nJo4+itqimo=;
-        b=Ha9tvLxz/feVHB1NfDNX2gUBvcZDhJh+Fkft/aAvFFvJTl+KolqDOOk8+vKUDc0MAM
-         WlLoO+PbLgqn5BeHzMkVtm/gJeKYmdhf63tIgYnZtcSWaCAZC+Yljj8Wg3xRT0Tbn4v7
-         inRQ05hsIE+bmD90B/bDYiYbH64tffdHNwUCVs4tXRME6VewBgMKOcrPEmfGaFIWRyzA
-         5ItPStxigqli8n/y1f8QSzGlgoCddQsVd7MFgyeGZZP0354ImzdNUOSKJMTbRqY2g3ji
-         qvJQ1nB6CtNq7A9+2nmxvhI0aNkZdnnwOgdXzjCHHETnhAHifZ/JhjUdojGCtwFGtb4q
-         GUpQ==
-X-Forwarded-Encrypted: i=1; AFNElJ81dTRRUHXXizQ+dJd97QeOzQoBHG8rm+QgzSSi7KvPpP9gY2MpG7rVTKLQPrJuC/iwDorF3S/hNCUr@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxGjaOX0844SiidesU/bN23gf+O7hPlxwf01OyJ8sxnq85S72y
-	H3t7utOtJFqSkDplnimaJiQO5fiWlH/pzP6dN63IcH96EfQZwVf+ykGQ
-X-Gm-Gg: AeBDieuYZpUbpBfHm2WTUoJCN2tIiDGTYQ1Mh5v2+CG1RaTpknqAg6T/b3PPlRIDeDW
-	gqZWfN+IuxCsqkJ9y9CVa+Z0Hut3S2i9zDdjY+qoeTbPCMky8FIp3S+rV8segsl5bkAc6qi4Tgp
-	Fl1O3MTQ1xBs54N87F4sqKt/tAQqjcJY+wbhsCwv9I0glJp0XsoM+C4Kxl5N4W/E/7t68b5+ii9
-	UGIXEKZO+C/+a1JmSn8ofUx51IIL/BSDvRFVQ+MWkCxy8FACPLAg3SEk4WDkrlfRzAQUYfyrE5Q
-	/tRDFN+LTlvky1Dp5nTpct/J1z3HI2n1wDoLvKzbyc40gub5XDTj3bxA6aeU/cnLgMqInB1iP7B
-	WBRBqEXzoPzINM0ACNkLdDFdYKwR35E0zDEY6q0Oe0YrIwhHfTLlxM9BoFPtTUUCDaFdUZ1ym9o
-	DdlE1NctvPRJQKiH9hxaSPDrJtkWAo2P1eEG5qlrldYZTk5b9ed5QYWbKGzYjogWFEbuoZPpRgn
-	raStQZxQQ5EoWUoZ5LqjGys440Seg==
-X-Received: by 2002:a05:600c:8183:b0:486:fd5c:2b35 with SMTP id 5b1f17b1804b1-488fb750809mr45782885e9.13.1776436547740;
-        Fri, 17 Apr 2026 07:35:47 -0700 (PDT)
-Received: from fedora (185-147-214-8.mad.as62651.net. [185.147.214.8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc16f93dsm69109315e9.3.2026.04.17.07.35.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 07:35:47 -0700 (PDT)
-Date: Fri, 17 Apr 2026 22:35:38 +0800
-From: Ming Lei <tom.leiming@gmail.com>
-To: Bernd Schubert <bernd@niova.io>
-Cc: Ming Lei <ming.lei@redhat.com>, fuse-devel@lists.linux.dev,
-	Joanne Koong <joannelkoong@gmail.com>,
-	io-uring <io-uring@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Subject: Re: fuse/io-uring: Proposal to support pBuf in additon to kBuf
-Message-ID: <aeJFOmvCF3ArL9iq@fedora>
-References: <18936160-308a-4817-a295-54eef43707a3@niova.io>
- <CAFj5m9LeM4S82QEsRQ0uQiXj1eWCFAW3v2fLTxUj1YM7UO-V9g@mail.gmail.com>
- <fcad39e2-37b5-46a9-a280-2315e0397985@niova.io>
- <aeEE4FVGdi5RqKs_@fedora>
- <55db9a65-4408-42d2-8958-3bf3aa79d554@niova.io>
+        d=1e100.net; s=20251104; t=1776459754; x=1777064554;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=STzWu05WxWgbbMhX2ONEineRl8NEoNmuhfJo1fCqMWY=;
+        b=jlsaWnf4eRLvld0v7JdFN2uNqQyl/pB+hyyhth5P0oQreFTd/OtJqZc23m4qdgOVAA
+         KZmTorSDsnM+lY4xx6NrAnoixh07jyvFYt9RONHX9vHCMZCla3XG/C6wzHturqD4IBnV
+         AuwhU/UT7fw3PRj3YBBfQ+MyGpl/+3oVux5J4twAjsIMGtsqzAvUyWdGkHljjK2zVmdi
+         D8fL7iL+CX+gs79B5N3U5XGoTPGF/rjRjpoGmkiZpfkqrT8AidRqjAHrl6SQ+e1jVxSl
+         4VxrZG2dV+KrpAFBVvqnh6t56CI3K4OKlPUJZAuje4kcBP6ep7ru+1vgeAuS9m1TN/5a
+         m5yw==
+X-Forwarded-Encrypted: i=1; AFNElJ8K+lE8APbtq5kQei51/yYgvDQewG+MXeKqe1YaxOfz7/qyC1D9uKDToccJtwb+EEH/gYDF/6Ep6MM/@lists.linux.dev
+X-Gm-Message-State: AOJu0YzcMV86j7wi+G/FFcRZUk+6363KheGZQsufm2IKEO0PGjTuBv/1
+	qIo1HSaBJeLjQVpuWpvkq7yo9Ox+L9UskPB91hvgXIRwc93fTKZoIbMHCRB/Xkl85WbYP8fCUk6
+	qThsNMVv/tvOgNGarZmedgjqJE5AumnI=
+X-Gm-Gg: AeBDietMArGH/fHnxYdem/lXx87Rn6QubAp+Z/+ouEQbA5U3trnRuzk4BHq0JeNyVmd
+	a1FRGbeUfF0FLwHiTdPrbgcQKWycIckfnIPOhHomjhlnN2wUuADAYnxJgp/IQZolvQGF1aR+R4f
+	0r8QTQ5ri6VUL9WoARBwPHGFbzvSjrj68V5cKlO4a7Nw5lTI1e81oqlQ8KPimCahmK9YMNS7ILB
+	laJPm4auKqhp79Tf+UtUA/PGf5vfFZVU6HV93dQ0z/hxzYUJJO5d5wZTb5dcYmhwtH1VXupcjEn
+	RS0yK33kzwZNbbHN
+X-Received: by 2002:a5d:6f13:0:b0:43e:a703:3675 with SMTP id
+ ffacd0b85a97d-43fe40329ecmr6082677f8f.5.1776459753917; Fri, 17 Apr 2026
+ 14:02:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <55db9a65-4408-42d2-8958-3bf3aa79d554@niova.io>
+References: <18936160-308a-4817-a295-54eef43707a3@niova.io>
+ <CAFj5m9LeM4S82QEsRQ0uQiXj1eWCFAW3v2fLTxUj1YM7UO-V9g@mail.gmail.com> <fcad39e2-37b5-46a9-a280-2315e0397985@niova.io>
+In-Reply-To: <fcad39e2-37b5-46a9-a280-2315e0397985@niova.io>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 17 Apr 2026 14:02:22 -0700
+X-Gm-Features: AQROBzDJomy37fRGlsjcaUyKE3fC4JNz7SjvTUIC4c85XEUUQ5LxX27GEuS9umY
+Message-ID: <CAJnrk1Yw3=z7W_my4pLG6avBeDZkUp3j1LZk-RVpGv2vAsw-ZA@mail.gmail.com>
+Subject: Re: fuse/io-uring: Proposal to support pBuf in additon to kBuf
+To: Bernd Schubert <bernd@niova.io>
+Cc: Ming Lei <ming.lei@redhat.com>, fuse-devel@lists.linux.dev, 
+	io-uring <io-uring@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	"Lei, Ming" <tom.leiming@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2026 at 09:13:41PM +0200, Bernd Schubert wrote:
-> 
-> 
-> On 4/16/26 17:48, Ming Lei wrote:
-> > On Thu, Apr 16, 2026 at 04:46:01PM +0200, Bernd Schubert wrote:
-> >> Hi Ming,
+On Thu, Apr 16, 2026 at 7:46=E2=80=AFAM Bernd Schubert <bernd@niova.io> wro=
+te:
+>
+> Hi Ming,
+>
+> On 4/16/26 15:49, Ming Lei wrote:
+> > Hi Bernd,
+> >
+> > On Tue, Apr 14, 2026 at 5:33=E2=80=AFAM Bernd Schubert <bernd@niova.io>=
+ wrote:
 > >>
-> >> On 4/16/26 15:49, Ming Lei wrote:
-> >>> Hi Bernd,
-> >>>
-> >>> On Tue, Apr 14, 2026 at 5:33 AM Bernd Schubert <bernd@niova.io> wrote:
-> >>>>
-> >>>> Hi Joanne, et al,
-> >>>>
-> >>>> this is a bit of duplication of the discussion we had before, but I was
-> >>>> badly distracted with other work and also switching employer - didn't
-> >>>> manage to reply [1].
-> >>>>
-> >>>>
-> >>>> I'm still not too happy about kBuf and its restriction of locked-only
-> >>>> memory. Right now I'm reviewing your patches from the view of what needs
-> >>>> to be done for ublk (for my current employer) and also for fuse to
-> >>>> support different buffer sizes. Let's say fuse only support kBuf and its
-> >>>> restriction of pinned memory, I think we would be forced to add support
-> >>>> for different buffer sizes to the current ring-entry-provides-the-buffer
-> >>>> and the new kBuf interface - from my point of view code dup.
-> >>>> If we would allow pBuf for fuse, we could put the current
-> >>>> 'ring-entry-provides-the-buffer' interface into maintenance mode and
-> >>>> support new features with the new interface only. I know you disagree on
-> >>>> using pBuf [1] with the argument that userspace could free the buffer.
-> >>>> Well, if it does, it does something totally wrong and the same could
-> >>>> happen today over /dev/fuse and also the existing fuse-over-io-uring.
-> >>>> Just the window is smaller, as the pages are extracted from the buffer
-> >>>> during the copy.
-> >>>>
-> >>>> I was looking into what would be needed to support pBuf and I think
-> >>>> io-uring could extract pages from pBuf when the buffer is obtained - it
-> >>>> would limit the window when userspace can do something wrong in a
-> >>>> similar way current fuse and ublk works.
-> >>>>
-> >>>> Suggested changes:
-> >>>>
-> >>>> io_uring:
-> >>>>
-> >>>>   - io_pin_pages() gets a 'bool longterm' parameter.
-> >>>> The new pBuf path would pass false, every other exsting caller true.
-> >>>>
-> >>>>   - io_ring_buf_pin_user() / io_ring_buf_unpin_user()
-> >>>>   - io_ring_buf_get_pages()/io_ring_buf_put_pages() -> fills the
-> >>>> provided bvec
-> >>>>   - New struct io_ring_buf (in cmd.h)
-> >>>>
-> >>>> struct io_ring_buf {
-> >>>>        size_t                  len;
-> >>>>        unsigned int            buf_id;
-> >>>>        unsigned int            nr_bvecs;
-> >>>>
-> >>>>        /* private */
-> >>>>        u64                     addr;
-> >>>>        u8                      is_pinned;
-> >>>> };
-> >>>>
-> >>>>
-> >>>> Fuse changes:
-> >>>>
-> >>>>   - fuse_ring_ent (bufring union side): payload_kvec and ringbuf_buf_id
-> >>>>     replaced by io_ring_buf + pre-allocated bvec array.
-> >>>>   - Buffer selection under queue->lock removed.  The lock only protects
-> >>>>     request dequeue and entry state transitions.  Page access happens
-> >>>>     after the lock is dropped, in the context where the copy runs.
-> >>>>   - setup_fuse_copy_state bufring branch: is_kaddr/kaddr replaced by
-> >>>>     iov_iter_bvec() and would continue to use iov_iter_get_pages2()
-> >>>>
-> >>>> What do you think?
-> >>>>
-> >>>> And my current primary goal is to let ublk to support multiple buffer
-> >>>> sizes - ublk would also need to get support for kBuf/pBuf and I'm
-> >>>
-> >>> Ublk server is just one liburing application, and it supports all generic
-> >>> io_uring buffer types, so kbuf/pbuf should be fine for your ublk server
-> >>> in theory.
-> >>>
-> >>> It really depends on how your ublk server is implemented.
-> >>>
-> >>> Maybe you can share your motivation first before discussing kbuf/pbuf support.
-> >>> If it is for DMA,  there are other candidates too, such as hugepage,
-> >>> recent added
-> >>> UBLK_U_CMD_REG_BUF, ...
-> >> Joanne had actually removed kBuf and switched to pBuf alone and that
-> >> simiplifies things a bit.
-> >>
-> >> Motivation is to reduce memory usage. Let's say you need 4 IOs of 1MB to
-> >> saturate streaming bandwidth, but still want to get smaller IOs through,
-> >> for these smaller IOs you don't want to assign the 1MB buffer for each
-> >> queue entry / tag.
-> > 
-> > Thanks for sharing the motivation.
-> > 
-> > Maybe you can pass UBLK_F_USER_COPY, and each IO buffer can be allocated
-> > dynamically completely from userspace, then pre-allocation can be avoided.
-> 
-> I had looked into, but that is still another syscall / roundtrip, will
-> have the same performance issue as UBLK_F_NEED_GET_DATA and probably
-> worse because compared to ring IO that is a syscall per IO.
+> >> And my current primary goal is to let ublk to support multiple buffer
+> >> sizes - ublk would also need to get support for kBuf/pBuf and I'm
+> >
+> > Ublk server is just one liburing application, and it supports all gener=
+ic
+> > io_uring buffer types, so kbuf/pbuf should be fine for your ublk server
+> > in theory.
+> >
+> > It really depends on how your ublk server is implemented.
+> >
+> > Maybe you can share your motivation first before discussing kbuf/pbuf s=
+upport.
+> > If it is for DMA,  there are other candidates too, such as hugepage,
+> > recent added
+> > UBLK_U_CMD_REG_BUF, ...
+> Joanne had actually removed kBuf and switched to pBuf alone and that
+> simiplifies things a bit.
 
-Yeah, it seems true in your use case in which compression is followed,
-so pread/pwrite for read/write io buffer can't be linked to io_uring SQE pipeline.
+Hi Bernd,
 
-However, I am not sure how you use pbuf for this use case, one big thing is
-that the buffer has to be provided to ublk FETCH_AND_COMMAND command
-beforehand for handling the coming ublk IO request, which size can't be
-known at that time. I will study the pBuf patchset later, but it depends
-how ublk driver uses it too, IMO.
+>
+> Motivation is to reduce memory usage. Let's say you need 4 IOs of 1MB to
+> saturate streaming bandwidth, but still want to get smaller IOs through,
+> for these smaller IOs you don't want to assign the 1MB buffer for each
+> queue entry / tag.
 
-Meantime another (more flexible)way is to use bpf struct_ops for allocating &
-freeing IO buffer, following the basic idea:
+Have you considered having separate rings take separate payload sizes
+instead of having each ring support multiple different payload sizes?
+I think this gives a few non-trivial benefits over per-ring
+multi-buffer-size support:
 
-- define struct_ops(alloc_io_buf, free_io_buf) for allocating & freeing io buffer
-which is used for copying data between request pages and this buffer
+* less head-of-line blocking - with a single ring, the large io
+requests can block smaller metadata requests until the io completes,
+since fuse processes cqes sequentially from a single ring. Separate
+rings would allow smaller requests to proceed independently of io
+* makes kernel-side request dispatching more efficient + simpler  - if
+for example there's 10 different rings and each of them supports 4
+categories of buffer sizes, imo it gets non-trivially complicated to
+find an available ring that supports the payload size that needs to be
+sent, if there's lots of parallel requests going on. In the worst
+case, we would have to check each of the 10 rings' various categories
+of buffer sizes to see if there's a slot that's big enough.
+* simpler kernel-side buffer management - keeping track of the payload
+buffers in the ring becomes a lot simpler, since there's just one
+buffer size the ring supports
+* more dynamic / deterministic scalability - I think you mentioned on
+another thread you were interested in dynamically adding ents to
+rings. Having separate rings for separate payload sizes would make
+independently scaling queues based on workload characteristics a lot
+easier. for example if there were 10 rings that each support 4
+different buffer sizes, one question I would have is which ring would
+the extra entry be added to? It kind of seems like at request dispatch
+time, it would have to do that non-trivial ent searching logic across
+all rings mentioned earlier to find that extra ent?
 
-- ->alloc_io_buf() can be called from ublk_map_io() and ->free_io_buf()
-can be called from ublk_unmap_io()
-
-- the allocated buffer can be accessed directly from both userspace ublk server
-and bpf prog, bpf arena is one perfect match for this use case, page
-pinning is avoided meantime.
-
-- the two callbacks are not called for the following features:
-UBLK_F_SUPPORT_ZERO_COPY,UBLK_F_USER_COPY, UBLK_F_AUTO_BUF_REG or
-UBLK_IO_F_SHMEM_ZC is set for this IO
-
-- motivation is for avoiding big pre-allocate, so ublk server can
-use dynamic per-queue heap for allocating io buffer in space-effective way.
-
-- with this feature, userspace needn't to pre-allocate io buffer with max
-  buffer size, and typical implementation is to provide one bpf area heap
-  for bpf prog to alloc & free buffer. And it still can fallback to usercopy
-  code path in case of allocation failure from bpf prog.
-
-You may compare the two approaches for your use case.
-
-> 
-> > 
-> >> Zero copy is currently still out of question for us, although I will
-> >> look into your recent work for integration of eBPF and if erasure
-> >> coding, compression and checksums could be done with that (I guess
-> >> checksums is the easy part).
-> > 
-> > Got it, compression could be the hardest one, however, the recent added bpf
-> > iterator based buffer interface may simplify everything. I'd suggest you to look
-> > at it, and provide some feedback if possible.
-> > 
-> > Also if your client application uses direct IO, recent added UBLK_F_SHMEM_ZC
-> > could simplify implementation a lot, meantime with zero copy & user-mapped
-> > address.
-> 
-> Oh I see, that was just merged. Nice, thank you! I don't our users will
-> be DIO only, but nice to have that ZC option!
-
-It can be thought as speedup or optimization for DIO use case.
+These are just my 2 cents, but it kind of seems t o me that having
+separate rings take separate payload sizes could be more scalable for
+your use case?
 
 Thanks,
-Ming
+Joanne
+
+> Zero copy is currently still out of question for us, although I will
+> look into your recent work for integration of eBPF and if erasure
+> coding, compression and checksums could be done with that (I guess
+> checksums is the easy part).
+>
+> Ublk already has UBLK_F_NEED_GET_DATA, but that has two issues
+> - needs another round trip (testing on my laptop shows a perf loss of 10
+> to 15% per queue)
+> - It does not release the application buffer on read. I have an idea how
+> to fix that, but here at Niova we would like to go the dynamic memory
+> appraoch with pBufs to avoid additional round trip overhead.
+>
+> Idea with pBufs: Several pBufs registered per queue at registration
+> time. Every pBuf represents a different IO size. Optionally as with
+> Joannes patches [1] the buffers can get pinned to avoid mapping to pages
+> for every access.
+> I'm currently working on a patch series with some luck will sent an RFC
+> tomorrow. The harder part compared to fuse is that ublk_drv does not
+> have its own queues/lists so far. This is my first work on block layer -
+> I'm not sure if internal struct request queuing is allowed at all.
+> Testing will show in a bit :)
+>
+>
+> Thanks,
+> Bernd
+>
+>
+> [1]
+> https://lore.kernel.org/linux-fsdevel/20260402162840.2989717-1-joannelkoo=
+ng@gmail.com/T/#mb8f96895aa2773424005ee06bb62ae980e95e604
+>
+>
