@@ -1,204 +1,261 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFBA2857EE
-	for <fuse-devel@lists.linux.dev>; Fri, 17 Apr 2026 21:02:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3A2346FAD
+	for <fuse-devel@lists.linux.dev>; Fri, 17 Apr 2026 21:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776459757; cv=pass; b=LWa4vqxkWWFfBbnwr5qQxkToLLaDCHtdvZsb1lWHqGZa/2NWUQM/zOdxeamRz5pAmnaSiszeQnHcPBHc8yhQLEzqHMli7VYHlsyeiRIuWQcEiEGRndOdUzfFzXWUP23BWYGZgoO0/Y3mX9LW52Wq4YBnPS/rrCX3IPO2e4Fzen4=
+	t=1776462778; cv=pass; b=eCPgL2jQbggtswA3WflQFFDuNRve96TMr20RmEDpPQBnJW4PmpRUO6MJpeGDZjpTdnd0k3+FECgXGg0iCQj9ia0M5wUADbqP2lTnm3VgmQ3ox/57rE8F1NUCaiZjVewLxGXU3xEadDyWzef2IwVPpTFDbvIsxfD9pSsa6hABdbI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776459757; c=relaxed/simple;
-	bh=ldLskh1xFyY9LjS3JUCJCZqJWyAYipdzRp7+NJODLRI=;
+	s=arc-20240116; t=1776462778; c=relaxed/simple;
+	bh=gDhAomle2l+OSFQeZ748+yzZnfkAx6M3az/HVqXqp4U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=umwjWONUJoWYKcpeD4yXt7aB8oMw6fKLEoWMM45dhfwEVcDmeMk0+AGFY2ZO2guS/SF8NGERSe1jEvBXOXjy2KXRqeMe3waJxaRjWSriLjhi50yS1+OFPCwySjdEKc50GzJEzecOWXaT9vAC35l//RXJUZqAZJKqZUwJm3xcWyg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=joMjrAK0; arc=pass smtp.client-ip=209.85.221.50
+	 To:Cc:Content-Type; b=t/ij6K0Uvm88gVSrml0G3emyAuXB6WNme4mRnm8W0/YTLs5SjwxUVwvgYAZGWmC04Hvd3mxBiafKHO9NqThec46fQdwKw/nZ6V90MJDFPTjgB3+1Xe6WvEPxi57vFkMOsSno3qPp0nWShlLfXA3KXs0VzdRsXYngPEfU41V1Dy8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bm9SSSZA; arc=pass smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="joMjrAK0"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d7a5e77b1so775706f8f.1
-        for <fuse-devel@lists.linux.dev>; Fri, 17 Apr 2026 14:02:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776459754; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bm9SSSZA"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43d70b3e159so550554f8f.0
+        for <fuse-devel@lists.linux.dev>; Fri, 17 Apr 2026 14:52:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776462776; cv=none;
         d=google.com; s=arc-20240605;
-        b=Y2HDF6AdreTvTA41e2OTFMpmjZg+uL67G0KMhRsrRnmMmSPTvenGigMKtkHtwp6spV
-         UuKGGb+vKZqfnOpBP0vKe+9MrGCPYKaujoEnB/nwoaeKYDOBOD06IKaTa+jkYgWJ3Rym
-         hVsLKo64WV6i26hsA0cmPVEKvgawPcg5LH9oAVJnHrkxofoMNO/s6r5vseTbeTaBmKAt
-         FWUfLjMLO9/pZsy1hClQACmWQvmyuQf+P+Ch/+bwgyLNgcXQVjza/Cfv93kwQ6nwTTyF
-         YFke57TovNEtKeU4wokyFT4M6lF+npcdCMWCVZbWBiBHoRyiw3oJDzmQn344e8Eb6dOY
-         Z72A==
+        b=VdiasjT8QbCQk5EX2kEh3PQqY8owZIeRfrobF6Kf63TSKiT1xVWg6uDjT1+rJ/VRE8
+         Kzjrxaf/Vcn1S6d2X2Tb1AXFOzv3ymsChhhebeTw0qtGEBhRL3WhLCNiWAtcfjZZF5rs
+         kkxGq4zv7JF3oxtLRjgZZ/Xwku0cnSsRcL2kmwA76nHMA8vohivPvJH2Y3wsLCL6g993
+         3lc8qEM27jEPG+otC0ftsK5tlnt+GXUSInfnU01yOAEAAo2U4UVnb3UA5SrS1teDhoma
+         UIMB/iWrmRlmLvx1wKWB5RkMEgyZDbqxXTN+uHGIeMMYlNUSo3K5zlLhdxVJzgDpDRD7
+         1TMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=STzWu05WxWgbbMhX2ONEineRl8NEoNmuhfJo1fCqMWY=;
-        fh=CVr347ZNl1fSzSnnXZOSelUJZXpHfF64Xp3Se7C6lmc=;
-        b=dIdP/rqxWWkgFUOEiWh0B20mR4XDWefPGgtFNXQ9DLZvporYtkd7t6AwzSa7av8lqI
-         TIS9yKb4OwTrPGpRkPG4Imis8/I6V0vce1b1aSjiU8eIa4DYRyyb2Jcrg7agLdP7dLzF
-         15zuxNZHBuuy8XBBeIXB6VU8ATrdOZnopYF9pD5Ig1uFGW2CBrUWQe2HwmAspBCbXA1E
-         1Wz7caNre5mIK2qwdGSs5E6s6e2eAcC0frxMNkb5o6TMSTbEqw8FQ5iX2hYTg7S1klzT
-         gh8AxosIIbk7l+PWCOdTdkX1OAMvCX5xqLyQyAlYa04lFI1bwr5JvUvRsGZTVOhUyKBU
-         S2Sg==;
+        bh=sLU/BKCA6tDfkOm9P3zBUOXG/ey2CPFE0fCKgZ58HUc=;
+        fh=oSLQBSy3sy+srs416Fb9Ll8GcR+naHymI7Ry1FvZYFA=;
+        b=etRanBO17Bd0cmZ/mu/HTnb9Da4fG5H2sdjoVy87EHDxjXZ2NRXV7xBZLi2AN3JnJ/
+         Rnqp97d1yFINCddnw/ohDGm8WeuLC8jMjOwUtz6DPuRhg37yUBA+N/F6zWxxcAlmbcKn
+         sSMRkONHplntgM97nWbEWYUNANldEI2OxKh4JE0ZuQiJqoD4u8TAHmFoNRP8+PGHpZIM
+         tlrY1kf4vCewhaM/1GB/QckgiCMax/eNfV8xSYmc6em1119pLceiae6uKWjGfELX3RYy
+         VdHPuKX/zy1CV4QqWf6/QNBwAzITIom05k5KXnelwMvK/1cGUi34kMVX2eiZ3US+/OaB
+         hPsA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776459754; x=1777064554; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776462776; x=1777067576; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=STzWu05WxWgbbMhX2ONEineRl8NEoNmuhfJo1fCqMWY=;
-        b=joMjrAK0yEJAgnq05BBL4x2hmOKyfag7mclbIoh/e61kFQFLkz/cYXVR+UQJ/cbSP9
-         DXPjgZbe4pD8ng4ECMWi5yyKQ6piGXR2gniQiUHTYXLJ/lSJ73hpNaWnOKLLFoogKIVx
-         gy2K51oyxV0q97zHFDW6iDwfxjC5ziqHMzQ6ktZeatlTu7tu02NQK/nhgG7oeCVlOCP5
-         16ZIz1z60So17nkkhFxqR2DphgOxukpGPOm1ajpwd1DTWci+CNmmm8bbm5hxCWGqfhF7
-         pEU1gjoxHCeyPQtDmUDGwNEdE/4LjfYH7ukkU5lzdJr2345Gmg92v9gzlnTxUxsPUT6K
-         p0WA==
+        bh=sLU/BKCA6tDfkOm9P3zBUOXG/ey2CPFE0fCKgZ58HUc=;
+        b=Bm9SSSZAsKnePcVylsts+dzzANpQl6wlJjzReyI8Ep4S5Tav6uhyPxQBxj3tMSB1B9
+         JjQ7PzGzjjCYne9tefT03NCkJkzhsanuTASwujv39zEakV/QPOSNBTFek5LbbMlRG4o/
+         pOOjxNtvFzdsKg9ULTDuBDlSujqq1kbE9XppgwqCZqz3X+nYeeL3iGKgANQW61DIoaEK
+         ySxPUPovV0gpUyQpSeGfDHlY8I60YK39zJJCgVHCkGGMyD+D5YFnLa67aSNQh6q00cqV
+         +a9AfYY/Tg9DJ21Tv0fkbiATtsUeWWaN2NWqssUeylElEOaeeoUlztQGj9nYz0GJmomj
+         moMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776459754; x=1777064554;
+        d=1e100.net; s=20251104; t=1776462776; x=1777067576;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=STzWu05WxWgbbMhX2ONEineRl8NEoNmuhfJo1fCqMWY=;
-        b=jlsaWnf4eRLvld0v7JdFN2uNqQyl/pB+hyyhth5P0oQreFTd/OtJqZc23m4qdgOVAA
-         KZmTorSDsnM+lY4xx6NrAnoixh07jyvFYt9RONHX9vHCMZCla3XG/C6wzHturqD4IBnV
-         AuwhU/UT7fw3PRj3YBBfQ+MyGpl/+3oVux5J4twAjsIMGtsqzAvUyWdGkHljjK2zVmdi
-         D8fL7iL+CX+gs79B5N3U5XGoTPGF/rjRjpoGmkiZpfkqrT8AidRqjAHrl6SQ+e1jVxSl
-         4VxrZG2dV+KrpAFBVvqnh6t56CI3K4OKlPUJZAuje4kcBP6ep7ru+1vgeAuS9m1TN/5a
-         m5yw==
-X-Forwarded-Encrypted: i=1; AFNElJ8K+lE8APbtq5kQei51/yYgvDQewG+MXeKqe1YaxOfz7/qyC1D9uKDToccJtwb+EEH/gYDF/6Ep6MM/@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcMV86j7wi+G/FFcRZUk+6363KheGZQsufm2IKEO0PGjTuBv/1
-	qIo1HSaBJeLjQVpuWpvkq7yo9Ox+L9UskPB91hvgXIRwc93fTKZoIbMHCRB/Xkl85WbYP8fCUk6
-	qThsNMVv/tvOgNGarZmedgjqJE5AumnI=
-X-Gm-Gg: AeBDietMArGH/fHnxYdem/lXx87Rn6QubAp+Z/+ouEQbA5U3trnRuzk4BHq0JeNyVmd
-	a1FRGbeUfF0FLwHiTdPrbgcQKWycIckfnIPOhHomjhlnN2wUuADAYnxJgp/IQZolvQGF1aR+R4f
-	0r8QTQ5ri6VUL9WoARBwPHGFbzvSjrj68V5cKlO4a7Nw5lTI1e81oqlQ8KPimCahmK9YMNS7ILB
-	laJPm4auKqhp79Tf+UtUA/PGf5vfFZVU6HV93dQ0z/hxzYUJJO5d5wZTb5dcYmhwtH1VXupcjEn
-	RS0yK33kzwZNbbHN
-X-Received: by 2002:a5d:6f13:0:b0:43e:a703:3675 with SMTP id
- ffacd0b85a97d-43fe40329ecmr6082677f8f.5.1776459753917; Fri, 17 Apr 2026
- 14:02:33 -0700 (PDT)
+        bh=sLU/BKCA6tDfkOm9P3zBUOXG/ey2CPFE0fCKgZ58HUc=;
+        b=TvOtIOfl0EqsCg9c2Cgah1kKa6SnBtMpeesvZt8kFcYd3HTPXf8w7Ym2c1wZTFstwP
+         IxnqLu/ekvf6o6imtob5R1oR3VIcgk+KwLgJF/uO6bg4crXkPYMrEXfnYo/flzaMHf9O
+         SXVcaUoJc8VMKSDOGUmhu/sUqeHNe5hS/8PVRevhC0pHY3E9YW9W1Zd4sXSQf+hXYAnW
+         iEivtmRTyi2eZJ8EK3PZ75CS9P9UqliObNC6DfpdT22IiZeomCjAGLFvr/ZyA/DOCKRN
+         7VEvoA9ryFPsaNkSlSNb/Cwxm/g3EcwqY0M7hSDJ3YludRQkE8L+qpcbPLXWaLW8VTiz
+         WDvA==
+X-Gm-Message-State: AOJu0YyA+MiLmMgOh+9Xo16frvp7Wn4iecNGi4z1u/fRyhheAiUvOT4q
+	ku8l7FScr+J8NxCuuCsqiwXy1kH+zv5cPuExK1cEuqyMUWcYY18prAZoKSgBnvoSV9RmjLvYzCB
+	JhjKEgqBIwz1TWKGfwGXGA797BOZKUQE=
+X-Gm-Gg: AeBDiesuWcFZIUKyMtKJM8aoyuF06c5QVVbmm9F1HQq+ihmLxWWqgZoUoQ1ZoBj6GQU
+	8ReTynONb+pimbAl92OsG88wElHRKGOgd+ijH6FDGP02a4GGhrCmgJsPSUfFgZJb2enqbeAKd3H
+	L+njatidn3tknSHS9vltPc9Dh9cSJ3KvPMlaQMzRm0XlIJ6It7VNSOHztALN4/gLULLesn1sXAc
+	F2pZFzpIMq11Ww/xuwgfeb7AnXIKPBJD5FSUq39Ns+1YeXuFFK/MA1N9oRAuzny5fykZwERfOfP
+	s8sTHs5DHYQ1fxby
+X-Received: by 2002:a5d:5f47:0:b0:43f:e262:f4b2 with SMTP id
+ ffacd0b85a97d-43fe3db3773mr7161929f8f.3.1776462775377; Fri, 17 Apr 2026
+ 14:52:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <18936160-308a-4817-a295-54eef43707a3@niova.io>
- <CAFj5m9LeM4S82QEsRQ0uQiXj1eWCFAW3v2fLTxUj1YM7UO-V9g@mail.gmail.com> <fcad39e2-37b5-46a9-a280-2315e0397985@niova.io>
-In-Reply-To: <fcad39e2-37b5-46a9-a280-2315e0397985@niova.io>
+References: <20260416091658.462783-1-mszeredi@redhat.com> <20260416091658.462783-21-mszeredi@redhat.com>
+In-Reply-To: <20260416091658.462783-21-mszeredi@redhat.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 17 Apr 2026 14:02:22 -0700
-X-Gm-Features: AQROBzDJomy37fRGlsjcaUyKE3fC4JNz7SjvTUIC4c85XEUUQ5LxX27GEuS9umY
-Message-ID: <CAJnrk1Yw3=z7W_my4pLG6avBeDZkUp3j1LZk-RVpGv2vAsw-ZA@mail.gmail.com>
-Subject: Re: fuse/io-uring: Proposal to support pBuf in additon to kBuf
-To: Bernd Schubert <bernd@niova.io>
-Cc: Ming Lei <ming.lei@redhat.com>, fuse-devel@lists.linux.dev, 
-	io-uring <io-uring@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	"Lei, Ming" <tom.leiming@gmail.com>
+Date: Fri, 17 Apr 2026 14:52:44 -0700
+X-Gm-Features: AQROBzAaj2_K_sXDaygl_Ux8yPW6mhh9rfQ61UrzPVuRbd4fTGrotUVf0hs8LI8
+Message-ID: <CAJnrk1Z7cgKGM6s5CaOg9t+qQ206otDop6YdzGmV1dFw9M3KSA@mail.gmail.com>
+Subject: Re: [PATCH 20/32] fuse: split off fuse_args and related definitions
+ into a separate header
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2026 at 7:46=E2=80=AFAM Bernd Schubert <bernd@niova.io> wro=
-te:
+On Thu, Apr 16, 2026 at 2:19=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
+> wrote:
 >
-> Hi Ming,
+> This is going to be used by both layers (transport and filesystem)
 >
-> On 4/16/26 15:49, Ming Lei wrote:
-> > Hi Bernd,
-> >
-> > On Tue, Apr 14, 2026 at 5:33=E2=80=AFAM Bernd Schubert <bernd@niova.io>=
- wrote:
-> >>
-> >> And my current primary goal is to let ublk to support multiple buffer
-> >> sizes - ublk would also need to get support for kBuf/pBuf and I'm
-> >
-> > Ublk server is just one liburing application, and it supports all gener=
-ic
-> > io_uring buffer types, so kbuf/pbuf should be fine for your ublk server
-> > in theory.
-> >
-> > It really depends on how your ublk server is implemented.
-> >
-> > Maybe you can share your motivation first before discussing kbuf/pbuf s=
-upport.
-> > If it is for DMA,  there are other candidates too, such as hugepage,
-> > recent added
-> > UBLK_U_CMD_REG_BUF, ...
-> Joanne had actually removed kBuf and switched to pBuf alone and that
-> simiplifies things a bit.
-
-Hi Bernd,
-
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/fuse/args.h   | 65 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  fs/fuse/fuse_i.h | 53 +--------------------------------------
+>  2 files changed, 66 insertions(+), 52 deletions(-)
+>  create mode 100644 fs/fuse/args.h
 >
-> Motivation is to reduce memory usage. Let's say you need 4 IOs of 1MB to
-> saturate streaming bandwidth, but still want to get smaller IOs through,
-> for these smaller IOs you don't want to assign the 1MB buffer for each
-> queue entry / tag.
+> diff --git a/fs/fuse/args.h b/fs/fuse/args.h
+> new file mode 100644
+> index 000000000000..ecfe51a192af
+> --- /dev/null
+> +++ b/fs/fuse/args.h
+> @@ -0,0 +1,65 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef _FS_FUSE_ARGS_H
+> +#define _FS_FUSE_ARGS_H
+> +
+> +#include <linux/types.h>
+> +
+> +struct fuse_mount;
+> +
+> +/** One input argument of a request */
+> +struct fuse_in_arg {
+> +       unsigned size;
+> +       const void *value;
+> +};
+> +
+> +/** One output argument of a request */
+> +struct fuse_arg {
+> +       unsigned size;
+> +       void *value;
+> +};
+> +
+> +struct fuse_args {
+> +       u64 nodeid;
+> +       u32 opcode;
+> +       u32 uid;
+> +       u32 gid;
+> +       u32 pid;
+> +       u8 in_numargs;
+> +       u8 out_numargs;
+> +       u8 ext_idx;
+> +       bool force:1;
+> +       bool noreply:1;
+> +       bool nocreds:1;
+> +       bool in_pages:1;
+> +       bool out_pages:1;
+> +       bool user_pages:1;
+> +       bool out_argvar:1;
+> +       bool page_zeroing:1;
+> +       bool page_replace:1;
+> +       bool may_block:1;
+> +       bool is_ext:1;
+> +       bool is_pinned:1;
+> +       bool invalidate_vmap:1;
+> +       bool abort_on_kill:1;
+> +       struct fuse_in_arg in_args[4];
+> +       struct fuse_arg out_args[2];
+> +       void (*end)(struct fuse_args *args, int error);
 
-Have you considered having separate rings take separate payload sizes
-instead of having each ring support multiple different payload sizes?
-I think this gives a few non-trivial benefits over per-ring
-multi-buffer-size support:
-
-* less head-of-line blocking - with a single ring, the large io
-requests can block smaller metadata requests until the io completes,
-since fuse processes cqes sequentially from a single ring. Separate
-rings would allow smaller requests to proceed independently of io
-* makes kernel-side request dispatching more efficient + simpler  - if
-for example there's 10 different rings and each of them supports 4
-categories of buffer sizes, imo it gets non-trivially complicated to
-find an available ring that supports the payload size that needs to be
-sent, if there's lots of parallel requests going on. In the worst
-case, we would have to check each of the 10 rings' various categories
-of buffer sizes to see if there's a slot that's big enough.
-* simpler kernel-side buffer management - keeping track of the payload
-buffers in the ring becomes a lot simpler, since there's just one
-buffer size the ring supports
-* more dynamic / deterministic scalability - I think you mentioned on
-another thread you were interested in dynamically adding ents to
-rings. Having separate rings for separate payload sizes would make
-independently scaling queues based on workload characteristics a lot
-easier. for example if there were 10 rings that each support 4
-different buffer sizes, one question I would have is which ring would
-the extra entry be added to? It kind of seems like at request dispatch
-time, it would have to do that non-trivial ent searching logic across
-all rings mentioned earlier to find that extra ent?
-
-These are just my 2 cents, but it kind of seems t o me that having
-separate rings take separate payload sizes could be more scalable for
-your use case?
+I think you accidentally dropped the first arg (struct fuse_mount *fm)
+when moving this over?
 
 Thanks,
 Joanne
 
-> Zero copy is currently still out of question for us, although I will
-> look into your recent work for integration of eBPF and if erasure
-> coding, compression and checksums could be done with that (I guess
-> checksums is the easy part).
+> +       /* Used for kvec iter backed by vmalloc address */
+> +       void *vmap_base;
+> +};
+> +
+> +/** FUSE folio descriptor */
+> +struct fuse_folio_desc {
+> +       unsigned int length;
+> +       unsigned int offset;
+> +};
+> +
+> +struct fuse_args_pages {
+> +       struct fuse_args args;
+> +       struct folio **folios;
+> +       struct fuse_folio_desc *descs;
+> +       unsigned int num_folios;
+> +};
+> +
+> +#endif /* _FS_FUSE_ARGS_H */
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index b8655c3b48e2..22a6d58678ad 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -13,6 +13,7 @@
+>  # define pr_fmt(fmt) "fuse: " fmt
+>  #endif
 >
-> Ublk already has UBLK_F_NEED_GET_DATA, but that has two issues
-> - needs another round trip (testing on my laptop shows a perf loss of 10
-> to 15% per queue)
-> - It does not release the application buffer on read. I have an idea how
-> to fix that, but here at Niova we would like to go the dynamic memory
-> appraoch with pBufs to avoid additional round trip overhead.
+> +#include "args.h"
+>  #include <linux/fuse.h>
+>  #include <linux/fs.h>
+>  #include <linux/mount.h>
+> @@ -288,58 +289,6 @@ struct fuse_file {
+>         bool flock:1;
+>  };
 >
-> Idea with pBufs: Several pBufs registered per queue at registration
-> time. Every pBuf represents a different IO size. Optionally as with
-> Joannes patches [1] the buffers can get pinned to avoid mapping to pages
-> for every access.
-> I'm currently working on a patch series with some luck will sent an RFC
-> tomorrow. The harder part compared to fuse is that ublk_drv does not
-> have its own queues/lists so far. This is my first work on block layer -
-> I'm not sure if internal struct request queuing is allowed at all.
-> Testing will show in a bit :)
->
->
-> Thanks,
-> Bernd
->
->
-> [1]
-> https://lore.kernel.org/linux-fsdevel/20260402162840.2989717-1-joannelkoo=
-ng@gmail.com/T/#mb8f96895aa2773424005ee06bb62ae980e95e604
+> -/** One input argument of a request */
+> -struct fuse_in_arg {
+> -       unsigned size;
+> -       const void *value;
+> -};
+> -
+> -/** One output argument of a request */
+> -struct fuse_arg {
+> -       unsigned size;
+> -       void *value;
+> -};
+> -
+> -/** FUSE folio descriptor */
+> -struct fuse_folio_desc {
+> -       unsigned int length;
+> -       unsigned int offset;
+> -};
+> -
+> -struct fuse_args {
+> -       uint64_t nodeid;
+> -       uint32_t opcode;
+> -       uint8_t in_numargs;
+> -       uint8_t out_numargs;
+> -       uint8_t ext_idx;
+> -       bool force:1;
+> -       bool noreply:1;
+> -       bool nocreds:1;
+> -       bool in_pages:1;
+> -       bool out_pages:1;
+> -       bool user_pages:1;
+> -       bool out_argvar:1;
+> -       bool page_zeroing:1;
+> -       bool page_replace:1;
+> -       bool may_block:1;
+> -       bool is_ext:1;
+> -       bool is_pinned:1;
+> -       bool invalidate_vmap:1;
+> -       bool abort_on_kill:1;
+> -       struct fuse_in_arg in_args[4];
+> -       struct fuse_arg out_args[2];
+> -       void (*end)(struct fuse_mount *fm, struct fuse_args *args, int er=
+ror);
+> -       /* Used for kvec iter backed by vmalloc address */
+> -       void *vmap_base;
+> -};
+> -
+> -struct fuse_args_pages {
+> -       struct fuse_args args;
+> -       struct folio **folios;
+> -       struct fuse_folio_desc *descs;
+> -       unsigned int num_folios;
+> -};
+> -
+>  struct fuse_release_args {
+>         struct fuse_args args;
+>         struct fuse_release_in inarg;
+> --
+> 2.53.0
 >
 >
