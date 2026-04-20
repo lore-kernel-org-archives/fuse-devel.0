@@ -1,108 +1,141 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DDE392801
-	for <fuse-devel@lists.linux.dev>; Mon, 20 Apr 2026 10:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776680075; cv=pass; b=BPmP1lI0ZFUxZagIYNnSch0gGS5zW13/8UUQ/lzdfrk8FFA4YaNaKSSa9bPqBvlqRS/nF5sOU5LzcN44I1VozuHAb9yXRZD7Dz3jWEZ+JTZC1M14nfF4872AukdAv3Vmd/N87Grr6RdmY++90Yy0ImccXECILzSTPUnbFWJRljQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776680075; c=relaxed/simple;
-	bh=8lgmDExFcXpY7s3eAFFcs7uqszUfPLz6vN1ZC8pE900=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=muCXa7XhcOQrNWc0WzPuizA5E0rkaj+5rNKWkrb7xt/BmNHesdanu7tWeTyTaODEMu8OhpmJpEdP0MUTn+QzncKDm49AHHZMOGEsAkubY+/J6lCBjoCHecQHkmYp8GzM1QOcjUFxMoPERr9Pt/P09ZEmyCb+nsk6TqE0lKfLBo4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=cuqLM6PZ; arc=pass smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7056E3876A9
+	for <fuse-devel@lists.linux.dev>; Mon, 20 Apr 2026 22:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776723510; cv=none; b=nlWk9ubrCKG4XPboLb5/+/6JKna1f2NvHcqPA9WlmAuKGlWYkYjst2wBeZ2FUzezq9PAlA5fk9GTgJWAa1uNXY58wpw8ZmFLpe7Mtsw/40tr5R8Yw9ASKOMKUetne1B5Cs7H/ukIPkbcXbzXTpQnCqkmUALeRKdwYdQ72QOUz5U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776723510; c=relaxed/simple;
+	bh=nuGuL09hfuDUC+xhxghFjNiNBe8M8uU2YlBQlKHJT1Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aFBFDhMr2l0vWNxS/q/utGkXXx6Oukb3q7Exrbso/O3sA664GLDYiye6jOvECBRBjlmmO+1VWe8YWwwtOG6aB+Tk9W6u8p29MXM98b+dZOSiIcxDGYLlTRA+jelRStIZXvOm+boMHuUYxHgsyz8v/ggAX4l8ysuInu3e8+ye+Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OpAjBRku; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="cuqLM6PZ"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-50d8da3e656so33763551cf.1
-        for <fuse-devel@lists.linux.dev>; Mon, 20 Apr 2026 03:14:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776680072; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZrcVpOyZNc60yJqhn4vo99wWtFoLGAVxvReTK1c/qbmAlvZLFTgO7bSClkhOKQIkWR
-         m/wMj6RmyNi/HY5hXmj7ccm1FYZfYY4blncuv7K9vZRYyk7Vpd83WjMFGyxB7rGaLl26
-         Xf3fz+2ME/le7+Y4Drzmumf8keShx/aoRlCYm3sP1mLk02PmBuo/FpfktlTvtP9kafpC
-         FmcqjteqRNIWM551jLPfluyUpStvcipntNt5hD44TWk/SpxHGuBsY/vjREbBMPiTAkzk
-         1R9THY5FNkjCEE38MaB4F/3yGBNT5qtMJ63CuYl5ltzaqRibFJpKx/pIXoqwE50Zt1dI
-         Cv4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4yQrDGDk/wcFrASZmcYEDDh4Yv75Vu53tanwvJ4+ZkY=;
-        fh=q0xQQCcE9ENEcUkySmSX4Fi1DXS4Pd/MiQzbrN2/5KA=;
-        b=emcNjmKfaCSbGpg4z2HgROlBHY0IQ3L+3/jmdSx7Hfi+aKTU8WBZCpecal96nT51Re
-         MoHOXXrqYyS5E8v9punXpEKB9oW3USH3VTsrsWfsWQSoQbRsx9pwYMpoLPSDFMjdHIpg
-         2zu0+owshAzUgX1xkG6wPBXvzpI6EiD3BIojmxjE9sfq2hQVFvUthYMavyly3EbL2flV
-         MD0Iui6dVcFvNr9tN4ev894jBCFbsnfe0DIAaul10YW19/f4RcrVi9c5KTvEc7Y7/GDW
-         X6ylen785BZNXqfNDLrAN5ohmYjI56UxsXFjdbPCPDpoFFAp7LgnBkSMhSNssKmAEX/l
-         qmRA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OpAjBRku"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82f8bf96b46so1709155b3a.2
+        for <fuse-devel@lists.linux.dev>; Mon, 20 Apr 2026 15:18:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776680072; x=1777284872; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4yQrDGDk/wcFrASZmcYEDDh4Yv75Vu53tanwvJ4+ZkY=;
-        b=cuqLM6PZOMlEP/M+ef3YlACjqS9jyNWLm9F+ee61Lpre/blVuNvJ16s3KIffyEYbXh
-         3wnBmacynWhFxCH83uyFqjkkA1EInofS2/oSjaTM1gQ3an4UN8Wpt0gBUeGGt8JC0l6T
-         2HqUvXQNGEOYVjqipA/++w6gT5RhJlrZDnvOY=
+        d=gmail.com; s=20251104; t=1776723509; x=1777328309; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZvTkkVXP3GVmT6WAT69UVKj5b+JVaORcRNcE+y/YULY=;
+        b=OpAjBRkubWbKJ1eEb8cs1p1xDJO9k8ZBZ/Y/KudY4hg0WPAs1/rgM16zrkqc6uTQTB
+         ZVVKwj9buswzXax4rjRBvVlkLacCVrVNmIsm2kcG+pvsgwPd5ZDVtZXelwZ2XRrbS2hR
+         YfpYHFFws+jXQbPgPYjS3m3fG5L0SYNBu9lSu4hiB+fUQ9XKJ2tvosHvLhaq9e+yAjSy
+         8BW/6Za6LodShP8HamVT953a2sfaYMrNAKv261lNNklJmP2pfN7nHW34e1Ui5ejNQFA5
+         mn8XPvJaBSw+OcT5SUA9f3X6rl/xRyOgLW5+LUlD6D7DC2nL2Y4Aq7tzajcwvdhlr1Pl
+         tP7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776680072; x=1777284872;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4yQrDGDk/wcFrASZmcYEDDh4Yv75Vu53tanwvJ4+ZkY=;
-        b=WUNkhdJ39JcpHh2m9+7jlQ6gB8bjQvG8/5XgLHrFAygHu1YhpvWPMTdexaqoTsJx2i
-         XmeJOd4/j5vaSaCq99zllm2vNYvWetKecqHnp0tnAWkMCVRhukhzQEoxQmib9FjuVZJW
-         4Yi2R5RU+ymzkrpoZNmTJIjLwGQHZyCA92KWDGMX15EY2CRz3RTXdsyGA78i+c1xfZgn
-         nUdlzqTddayKjFMmtwRqijt/lkEm8PQxFkVud+Xg9heycYS6eYsDwnEnBEsoNUYw9iGM
-         JkxBYoXISt9VX0p8+sqcqIzlwi3BCcwvF7Tzz3OX86jHBozhuuUSPMqyaFIGrJuc29G5
-         ntFw==
-X-Forwarded-Encrypted: i=1; AFNElJ9PKhcWgCuV2Hg7P47J3e4CRDu5JIwvSJIRp2WnPACJJw8JMzLJ6d105pfCEwBEDehnypvhk3xNoXZf@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQMuc9gfZxYkaU6gVMBkcOpH6hzSijvHZCQftdiQiTm55Rdtlu
-	uw020xWBB/aFqcB265BpHVUoSx/V8BrdYxhA4wtF91fsAQ3+txMttwPEkIUL2smHnxrKK7pmn9B
-	rLfctocg0MC2mYxVet2436uEUn8wqve3tR4bPqipVAw==
-X-Gm-Gg: AeBDieveEY/y+l5FoaCdma895zTCShasUrRVOwg7VG7vZ6mARiZCEv1lHn/jsyipY3N
-	ZrI8cw0pkAvgF7dAf/oaYlokdpC3ggesGdIdJVYrSjGClWT2bTtIlyyOuKYqA72Lbwkel4mv41v
-	S+I+nHa6D4AZMVi3mKcLcCxE8kmgvrUKeTvk5oHNKxtltGr4bvpfLeZAFftS0nvbv04uqASIszs
-	vbggDrigpzDMPeGlwEcVtVBPZRrVFIaOqD6k/tGbiJaopNAIhKlPSDJ8BTykbRlWG+Vclv+iIr/
-	tM/O1Pm+JWfJHCZvHszyzOXLL4KZSEZ6DT3K8Eulx1tOtyDsVYA=
-X-Received: by 2002:a05:622a:1110:b0:50d:a8f5:d51f with SMTP id
- d75a77b69052e-50e36c5861dmr193555201cf.45.1776680072432; Mon, 20 Apr 2026
- 03:14:32 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776723509; x=1777328309;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZvTkkVXP3GVmT6WAT69UVKj5b+JVaORcRNcE+y/YULY=;
+        b=Or7aDWXl/oJomDekjQNETp821IMGwtLUNMMxPbK4XgkJu8gCyKgH7N5l62MXH79BNh
+         pqhb3QIjc8hjUaPh653A1/YZ2lKg6P0jId1SI9Gvk3qQU5nLmo99ThiPLrIZ95laIp7R
+         myz3wmahV7aWP0zaQi1YsYyDPM/2itpvANRUISey7Q/pJ77CjxdCBmMJxesgX6YUsvo6
+         NZYfJ1OX0oZTyg1HpGvnDUwi1DA7aWBrQLf9WFkJ887JRXo4qta2QxPF56FcuZ/kg+b0
+         62l5WlZPFug313diWtgDnkjUvLDojbzgKQSfK5AYXzdq9mgdLDlzeuU5q8ZOhNA8NAeu
+         JqSw==
+X-Forwarded-Encrypted: i=1; AFNElJ+9ohc1G+MGdcO//nYNslabJ3oL6fHJlnKj7x0dj4RQcVcYK2vNvqfUBpr7myc8v4LB15f8/cAuqdBY@lists.linux.dev
+X-Gm-Message-State: AOJu0YztOWowY5fdufX7N0PyQeA7gzJG6FVUja5WqXAO1JAhrHEC0K+x
+	tr6y/mvJS+/ZzKUCm14l8q/0c90P+0zcmKqD8Mw4wpq3fGVHCV1kZBzUjRqtzQ==
+X-Gm-Gg: AeBDietdyGjO9KppNUuLrA3oWz4FAW+25q8rtpPjwQoydS7syGhb5ng9Acp3HJcKSkH
+	sJSfgnvgPDU5hDQ5a2DqcFBgHmX/RXA4sZ5Q7Y11Sd/rGTrBronbIwqom2iANEUZh/Y8QrCYMca
+	BkQY5Iz/27AqbOnGaVpb9miMWvVUPFHSobQawYS0m7fUvAMRkmvIzpCdMLdWsAiMvPSmIQe4K1s
+	XJekG3PsRpn4VTUOWXxrHMMkmZ4iA5txhknV7BANKE7DeVroxLJGtf/3ScQ3PkAQT0wY2PyvK37
+	rX8sjDM+W3LZQj2I8mtjaWR3CBa2Unjp+GU4+sXfCIcwUBTl3NlVkZJeIVca9wIv63y1VtzRsjM
+	l+AgP4g52pOFSh5ecUDlCvZor8daJhkTVQj2ZtjhAW8Fi5muw8fjOdraJX4Le9Xj3Xh0ziBK6+K
+	0nutp18A1KnWvE4G236DP2yuGAFa0d
+X-Received: by 2002:a05:6a20:938e:b0:3a1:2dbd:c33 with SMTP id adf61e73a8af0-3a12dbd622dmr7477077637.21.1776723508783;
+        Mon, 20 Apr 2026 15:18:28 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:41::])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c797704c332sm8798880a12.30.2026.04.20.15.18.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 15:18:28 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: miklos@szeredi.hu
+Cc: amir73il@gmail.com,
+	fuse-devel@lists.linux.dev,
+	luis@igalia.com
+Subject: [PATCH v1 00/17] fuse: extend passthrough to inode operations
+Date: Mon, 20 Apr 2026 15:16:20 -0700
+Message-ID: <20260420221637.2631478-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260416091658.462783-1-mszeredi@redhat.com> <20260416091658.462783-21-mszeredi@redhat.com>
- <CAJnrk1Z7cgKGM6s5CaOg9t+qQ206otDop6YdzGmV1dFw9M3KSA@mail.gmail.com>
-In-Reply-To: <CAJnrk1Z7cgKGM6s5CaOg9t+qQ206otDop6YdzGmV1dFw9M3KSA@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 20 Apr 2026 12:14:21 +0200
-X-Gm-Features: AQROBzDLy1_pOJ6hHmsMyUpa8Kx0Z3MNs-rLkzH3sHWUW9SpUyLFstJGJgCljbk
-Message-ID: <CAJfpegtMBZeM_f=KhNym5fW6HCXvU5ydMtmeZS4q8h5Fneu9jw@mail.gmail.com>
-Subject: Re: [PATCH 20/32] fuse: split off fuse_args and related definitions
- into a separate header
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, 17 Apr 2026 at 23:53, Joanne Koong <joannelkoong@gmail.com> wrote:
->
-> On Thu, Apr 16, 2026 at 2:19=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.c=
-om> wrote:
+This series extends fuse passthrough to support inode operations (getattr,
+setattr), directory readdir, and kernel-initiated open on backing files.
 
-> > +       void (*end)(struct fuse_args *args, int error);
->
-> I think you accidentally dropped the first arg (struct fuse_mount *fm)
-> when moving this over?
+The existing FUSE_PASSTHROUGH mode attaches a backing file to a fuse inode
+only when a passthrough file is open. This series introduces
+FUSE_PASSTHROUGH_INO, a stricter mode requiring one-to-one inode number
+mapping, which allows attaching a backing file for the lifetime of the fuse
+inode.
 
-Fixed, thanks.
+Future work includes passthrough for additional operations (rename, unlink,
+readdirplus) and full subtree passthrough, which will be part of a separate
+series.
 
-Miklos
+Patches 1-7 are from Amir from his git tree in [1]. There were a few
+modifications made (removed separate FUSE_PASSTHROUGH_OP_STATX op,
+modified fuse_kstat_to_attr() - the full diff of changes is in [2]); if there
+are any mistakes, those are mine and not Amir's.
+
+For testing/debugging, this was done using the passthrough_hp server with the
+changes from [3]. readdirplus passthrough is not yet implemented, so after an
+ls, subsequent operations on listed files will go through the server until
+their dentries expire and a fresh lookup sets up passthrough. During
+testing/debugging, I avoided ls and accessed files directly.
+
+[1] https://github.com/amir73il/linux/commits/fuse-backing-inode-wip/
+[2] https://gist.github.com/joannekoong/1e55f90c355a928eb5fa0ac9972c1d0e
+[3] https://github.com/joannekoong/libfuse/commits/extended_passthrough
+
+Amir Goldstein (7):
+  fuse: introduce FUSE_PASSTHROUGH_INO mode
+  fuse: prepare for passthrough of inode operations
+  fuse: prepare for readdir passthrough on directories
+  fuse: implement passthrough for readdir
+  fuse: prepare for long lived reference on backing file
+  fuse: implement passthrough for getattr/statx
+  fuse: prepare to setup backing inode passthrough on lookup
+
+Joanne Koong (10):
+  fuse: add passthrough ops gating
+  fuse: prepare to cache statx attributes from entry replies
+  fuse: add struct fuse_entry2_out and helpers for extended entry
+    replies
+  fuse: add passthrough lookup
+  fuse: add passthrough support for entry creation
+  fuse: add passthrough support for atomic file creation
+  fuse: use passthrough getattr in setattr suid/sgid handling
+  fuse: add passthrough setattr
+  fuse: add passthrough open
+  docs: fuse: document extended passthrough (FUSE_PASSTHROUGH_INO)
+
+ .../filesystems/fuse/fuse-passthrough.rst     | 131 ++++++++
+ fs/fuse/backing.c                             |  58 +++-
+ fs/fuse/cuse.c                                |   2 +-
+ fs/fuse/dir.c                                 | 293 +++++++++++++++---
+ fs/fuse/file.c                                |  61 +++-
+ fs/fuse/fuse_i.h                              | 112 ++++++-
+ fs/fuse/inode.c                               |  27 +-
+ fs/fuse/iomode.c                              | 114 +++++--
+ fs/fuse/passthrough.c                         | 170 +++++++++-
+ fs/fuse/readdir.c                             |   5 +-
+ include/uapi/linux/fuse.h                     |  33 +-
+ 11 files changed, 871 insertions(+), 135 deletions(-)
+
+-- 
+2.52.0
+
