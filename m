@@ -1,152 +1,204 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA993BAD99
-	for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 13:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B29E22A817
+	for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 14:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776779715; cv=pass; b=Q3G86RmGqBjZaOv8B6+Eu/i+maQicuaspuy6zr3qGPDybk+Gs2Y2kEvvzoCCJcAktplGiOsTfUT0GIHnVrYUotVY6NfWJ/zqKRiybyGqY9gS4QcscM1MoA9iJPls3fAaiK9MSe8ApiseRui4by2egZl5prjJl9eABcVOiqqyHfU=
+	t=1776780535; cv=pass; b=IX1eCkSqdZk6J2JL1sA7/QrcVWr0h7drbqfB2drROcHJmripe02mmTk2n/kBoi+EywU647dIkg63MCu/O5iCsRlk10/biC5kXiZ1GxI1kApWUlbeVVxDj24uur7I+jjl9PQeeNJQ3z2AGTpA3uy3i9l9Pn0V2w60Ke1tWxJnrNQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776779715; c=relaxed/simple;
-	bh=Sp6KUpDRlW467bhvMeECjaPzGeVv96xe03upKN/hSlU=;
+	s=arc-20240116; t=1776780535; c=relaxed/simple;
+	bh=FHitRpV8OUYJ6OXvFBf8Tq++MtGmBC8tUzFf8z+yJos=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HDZyDSGYBAcFhtgs3S1PuCdV377wYzNdzBhQc2nXTHLXeH/3c93Wln4SnLVPhMtfDKnh9w48bRD1A2qwYK3nK4qQHxn5Laq5hm8XsCA7K2d4IjX6YS/zonHM7wj3OfYorxea6UU5Ce14vG+3q6xOUc33RgUgYb9DeaHTlWLaK40=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrWzkcce; arc=pass smtp.client-ip=209.85.218.43
+	 To:Cc:Content-Type; b=kV7GZ2KF8Fh+Ua4PwPL61aFz8VuGBTqSWGwcBfUkZIxq0dRqbLsCLddRBmVQrZpZv+fmNBV617wBywKqQwFpVcoiBaStkl1On9FBz0SFVbXRtH+qZTk3J5yNyBodtHWzBUl+uxpLRH82PoROoiqCdQLZZllEZHsvi7zKBjfLIhc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bV1N3y+I; arc=pass smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrWzkcce"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ba8472c1613so330832966b.0
-        for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 06:55:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776779712; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bV1N3y+I"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ba3b9601b97so615112966b.2
+        for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 07:08:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776780529; cv=none;
         d=google.com; s=arc-20240605;
-        b=dVZNWgZxe0MhN4OxtWiJijsMVtBgj/V4GNCYNZHUKD8uhsknbuxZocT+p6XCin8c2v
-         EOuJ78l3u0mdq/mXCKbuxm0PMQr1Mg4/kdPidH5jDnHED/KkNY6jiB+LIPSGCJH4bFdJ
-         LqpwcNr2v/tCpVhZ0X35QkZq8EgYNdoHZg0WqVh5nrqf8Kav1fMMiB7fxBKFm3u1epgt
-         D24QPDoHDHK0jtO0eAqucEcWyX1gxpn9PyAXwLbisw2XTkeSZXh78DHJSKigFLcM0DhZ
-         4RfETcjoRDMkQgml3oTNnpElMsEXzOzo8BkISqxhFBqBZFP+jedk/eDWC5n+o2mNMlP0
-         dr5w==
+        b=RoeCoUtNf7Jwq4TZ//znaNUIFEBXoqoo773n5CwxiBRfXFye4vQNNcYRo3ZoaqYFZR
+         FtPEdydaWyXK9Xn6Y1JprXYRScwz7dbu8fH+W0+peO/gsmRFfrxIYgIokklGGI+uwcGp
+         WjOghZf4KrQbUbTqFjBSdYxCF5AXu/4k+p47SDn76lAQ4+wR8+wz1heMcRw9FJiqznYh
+         9KVvEQXdO0ydYIIZySsN07H+oyk9mhc4/tgEn/psI2CW8zCBMbTnEDFf6FzGMtQcUYzr
+         pQ07fPw6Hw1Q2Wm11AS+9yDx8ej/yk9+pGhGvipyo2vG7Cdvm2X6UvQljamLxrUlzln2
+         uekg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Sp6KUpDRlW467bhvMeECjaPzGeVv96xe03upKN/hSlU=;
-        fh=IaDudz5E3MocioHXapaTEURr7OQmxQoRbhS5i+Ds57Q=;
-        b=FD57xxYgzHichIw+3UtHAGlfh0sYO1rx6+sIuJd7BzRXVsoVHVVjffjFeFqx5f3d4a
-         gCH9Gh1ARE6Wp5Ite2bcKSeIYLM6xXZb5QJs/IJLpem+EZXf3iak7Ot3djjNYk8oD7mm
-         2754oBrlul/0n7l4tv5NVg6q9TyffOkjuF+TedpGAE7AXAysPyJh5gLTPy+FaVWPZGti
-         HSqDG7SfSwXcNS9cw7F6tnfgx5yX/098kGOtle8JiBWyZoDsF8tUkpsIrKn80vC6sGDC
-         0LWVdrZWRwmTN3+OsI2M5RJlsJ8wFloO4hl+W9GyQYs+WYHletUXFSvZ5F1PuRSVonyV
-         TYjw==;
+        bh=GSft2TzzVzmZDs4g0bgHf3PO/8m0iUACQT57OQJ25Qg=;
+        fh=RAYtckPzLHIZbvzGydZ44ZgPl4OS6ydA6+g4OCiMBko=;
+        b=FBTPhP9u/6OftP8o+PCcxeo5lI6OYCMDNHqpxr23vobTS2vQMybvF3PHwF0CIpZXtC
+         41Hcolwlf94YN+zEIImrr3Ol0XDarCAiRsK4dojWa8trdXs13oIsl6AcHkqy1rqvgTBO
+         VEttYJw1eqUMcq6JQ7dOnznf0rf+x6pXCD7ZZJn7Ms3PWQsm0JFxSHiJ0ixcO3jKne9i
+         vi+Lz3ICh1d/wOw72WTnLWR0aSQwu6vXVpH1yL68PdOpsvQbaWXSdzJ2gFewKcj4CAxX
+         dkXGNByZEWLdF/SLtrqCg7PUlYXR3JJ+UlnjAMhopY3Hn/+1kDejsBp326sRj1Wsfe9U
+         dAYQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776779712; x=1777384512; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776780529; x=1777385329; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sp6KUpDRlW467bhvMeECjaPzGeVv96xe03upKN/hSlU=;
-        b=WrWzkcceXdvCGASG49m/kYAGj/hagOkL9S9MXMgoT6YpzYKMQTDSjIulIWc7nrdCo0
-         AE1Ue+f0aMqykQECO2/LRq/mdSBdmGR07nu2o/fHEMYRl7vJxn+dTA1JizPIKqaaVk0g
-         g/VrKfR72g1R6bxJDEEDo+YCuzVaJlNVvQ9cbkl+GkeLoKCJYSu3J0TXYs5Z9GaIjeii
-         E1pNaUmkGB8pIZEYMIE/bXj530kZzOD5OdXSBeuohRVmJ8Z6euQ4lt8860amGeJuCo1k
-         fDz1lh9vl/JZibT6wTrVhsVvPN80A7vLcyWUkiGJY27MRwTGvk83LniEtN4H13rpHTi4
-         k/Lw==
+        bh=GSft2TzzVzmZDs4g0bgHf3PO/8m0iUACQT57OQJ25Qg=;
+        b=bV1N3y+Il9CLx42bGQLze88eLkKYIrhOqW9U6XgXl/FO7Ydjw2JkoXs29DrmsZ/mGE
+         02kQ7TLrDxVKJUCYN3jRPWQtooFI/LCNZInij66uKV3jq+h71kv16MhWgzsMuqNwTK81
+         aKDn0NhrTJm+IpTOeLceyKHXPBsrY4N6EEMMm8NxjQHNULyCxd4EcP6iSHPrZ4QrMHwL
+         5zhBSufQRT8awbdX9Sh/l6mzTKBQ1x1ZhivpVk6kzOS9DL4+ivDCrHJKI7Jm56nYbgaD
+         YatR7LwDJWcXf8vkbAcFW0S0tEGLomyElKHusZ8IQXmQnAULDROHZHENPNh/WmosZI6M
+         craA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776779712; x=1777384512;
+        d=1e100.net; s=20251104; t=1776780529; x=1777385329;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Sp6KUpDRlW467bhvMeECjaPzGeVv96xe03upKN/hSlU=;
-        b=LO9prRDxzDMWentj6O3AtyT2HOgu7ywUnNVbUF8Btj7ArplwM4DPJoO3ryNAOx/zgq
-         r8m7v18QRfkF7lIjy7vYz7zZW6Ay+BEENje3X2c8SVGwynXVIssc3l+jEjraFo6v8k4D
-         gvE4KWUm+UyrN5R/NlF0U/MWaYBfXevbxzci9/8yvhnUbobvcnpDhjRMD5w+zbNsyVjc
-         SLaSrSf52hHE9m6VkN5+fQ4Ncg9fipwKPjW+CTl3jS/uSuRihH34IkMvNLK1BLpwSobC
-         taWEZR1m+khfQ6yTA0uS9LhsS9/v8x8ddecpZq+olEjljoU+XvIaaKP8d+H+2Bf7BCJJ
-         /c7w==
-X-Forwarded-Encrypted: i=1; AFNElJ/5Hq+VPbqgwk2t+Yj2G8uO71UgI8zGK+4yFnIpfoO6eIIWZzLDkoTZn03zD8bZZiU6uqynTlRzTTWf@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvmPMDqWEeB6KDHzXMW/eXvH0y0A7Grd0dXA/qUWcn98KVrCtR
-	6c58lS/1uO9ssD7a39h1FXoEL6GnnVZE2vWI3PlxapLDjy8hQq66DvGfhsB2HWAm1NOyXyggAZB
-	Sdn7Wi+a1rrnP75LTQOnklEAxvCgUQgw=
-X-Gm-Gg: AeBDievtbF/+syaaP4laaQdwwsJ5n67hsSE1eEnRX7ca/DpT+Nxs4qN8eKtHfxEpAm/
-	nRtQ8n9MDXflBO8W3BbtNe4CBQs6wBrb6wEQ4i520jcPoU4e6zbv95KMsdhlC/uIJjQAXH3pem2
-	CR5XB4gzK4tGXBtBUCaYVdXY8sPZfGYj6kQBw2iXSxrdf79FOZWlN0wsJ9KOEjcFl3MZiVtnD03
-	2YGOvWgc9aienTZhyMejsgIw208ir2pggNQjvZuqHXFjI+kWRfKcfsyTBDAe7Taz9Bmv4Ud6MNv
-	IatsmmTuLVenwtIqZlav020tiFwyV2ubPMOy/LqizYVDkr5Ls/c4
-X-Received: by 2002:a17:906:fe45:b0:ba5:7cce:979f with SMTP id
- a640c23a62f3a-ba57cce99dbmr620745166b.40.1776779712124; Tue, 21 Apr 2026
- 06:55:12 -0700 (PDT)
+        bh=GSft2TzzVzmZDs4g0bgHf3PO/8m0iUACQT57OQJ25Qg=;
+        b=Eh+9UtjXCcgYaOQFi1zCMNeb5kqkGDsl/DTzL9IdiPSJooSNp3YGkEgDGuQGiiEsqY
+         k8qb0KpJUvgad7X0OEb/g/JE3F34qF8LKmcsTnCZt66H/izzfvhkCAB1+UASd1iho2w7
+         OGzYlIQ8i9P/iF1uw3zkmztP0UarZxqKwxWpVd4ZXIVftPBJFSWVV3DVO9SD5jp+k4jQ
+         QOUd2x7XZ4ZXjQTcuQjer/Fh8F3w64E31lKx/sGo/plPVJygi7LaGL5ytzJGviImEjIq
+         md0GA094z/vHc02OKjb94wV6XxMQubVGvrXOZzyxhjB5Ai33Sx+twcPBdCARcu9uANHl
+         tI6w==
+X-Forwarded-Encrypted: i=1; AFNElJ8jJzgv2juMr34rfZZyY5USMTHQCxsOQSWPcpR79XZRBGvCuvf6zq3bsMa7zbIFuqe1qt1BAHV/BAMs@lists.linux.dev
+X-Gm-Message-State: AOJu0YyP0BCybWmmCiUJRaSjRoC4W4ZL/4gMPp3nJoNK3lm+cOi3+VF7
+	YmkypSUl17gDeKSNpXBiaWXR4j3VxCoVjZZ+wBI3FweQgO2OIlVwCu8hLWYBC4oY3jWvF3UgArl
+	n9iXM0rkdJPqjFv2Li8ySIzpf8rGnvag=
+X-Gm-Gg: AeBDiesR7H02c7ELwGn6DRom/mCJfROLYT8I1FO1bjpeR9/ZyXNMH1JzfAWzRNW6jR4
+	7HXmsHwYZ6XhLFV2nkawqKUe6j87ORxlZ8bM8w3n9DdJfLHX4Bg9BVwLH1QQlK4eUdNoxyDvAdM
+	BolSqDmo6fBw7/hr2eaS9iL64HF6PGu+fed1hwujzixRBeO+UzLqMKPDNbYP2GJFon/YfGLIsEj
+	9etFzf7S635bnIwN4MefsTU+41ylgI23GiiH44McmBn4E7rquZH+YnTOB2jrQ/FyPPMWRN6I6BZ
+	RTKNLscf8v+ns5ufXfWAR4OGYxPCzNJxF39y4rUMVo6yFfC+Qck2
+X-Received: by 2002:a17:906:7946:b0:ba2:7010:c535 with SMTP id
+ a640c23a62f3a-ba41c0bb9c2mr827037366b.47.1776780528668; Tue, 21 Apr 2026
+ 07:08:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260420221637.2631478-1-joannelkoong@gmail.com> <CAOQ4uxhbR8AoBCUMYQntAHzo_1wjh=Qcpb1z0CE4ynfDE-ZAFQ@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhbR8AoBCUMYQntAHzo_1wjh=Qcpb1z0CE4ynfDE-ZAFQ@mail.gmail.com>
+References: <20260420221637.2631478-1-joannelkoong@gmail.com> <20260420221637.2631478-13-joannelkoong@gmail.com>
+In-Reply-To: <20260420221637.2631478-13-joannelkoong@gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 21 Apr 2026 15:55:00 +0200
-X-Gm-Features: AQROBzCXC5Xt7f4OzjAPzwuaJDry_vF2B7goie58X49DXJED1eltQpCr8bPON1c
-Message-ID: <CAOQ4uxhVnzoka4QppUvmFmq3wtXSU_ahgpkNR==Gbnpm5hpUyw@mail.gmail.com>
-Subject: Re: [PATCH v1 00/17] fuse: extend passthrough to inode operations
+Date: Tue, 21 Apr 2026 16:08:37 +0200
+X-Gm-Features: AQROBzCOvtkEQXk1bM0uaTErUXc_zktBjMO-2b6ZtCPyfYaIA-q5sxhlTMCkFzg
+Message-ID: <CAOQ4uxjaY4-POtWCmgCiMF1rupuKxV5JU4PKAipXFw7-CN=Pgg@mail.gmail.com>
+Subject: Re: [PATCH v1 12/17] fuse: add passthrough support for entry creation
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, luis@igalia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 21, 2026 at 11:37=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
-> wrote:
+On Tue, Apr 21, 2026 at 12:18=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
+om> wrote:
 >
-> On Tue, Apr 21, 2026 at 12:18=E2=80=AFAM Joanne Koong <joannelkoong@gmail=
-.com> wrote:
-> >
-> > This series extends fuse passthrough to support inode operations (getat=
-tr,
-> > setattr), directory readdir, and kernel-initiated open on backing files=
-.
-> >
-> > The existing FUSE_PASSTHROUGH mode attaches a backing file to a fuse in=
-ode
-> > only when a passthrough file is open. This series introduces
-> > FUSE_PASSTHROUGH_INO, a stricter mode requiring one-to-one inode number
-> > mapping, which allows attaching a backing file for the lifetime of the =
-fuse
-> > inode.
-> >
-> > Future work includes passthrough for additional operations (rename, unl=
-ink,
-> > readdirplus) and full subtree passthrough, which will be part of a sepa=
-rate
-> > series.
+> Use the new extended fuse_entry2_out reply for entry creation operations
+> (mknod, mkdir, symlink, link) when FUSE_PASSTHROUGH_INO is enabled.
+>
+> If the server returns a backing id, the newly created inode will be
+> automatically associated with the backing file for passthrough
+> operations. If no backing id is returned (no passthrough), the statx
+> attributes are cached.
+>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> ---
+>  fs/fuse/dir.c | 33 +++++++++++++++++++++++++++++----
+>  1 file changed, 29 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 9e9b77942dcd..e5a7640fcd30 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -1088,10 +1088,14 @@ static struct dentry *create_new_entry(struct mnt=
+_idmap *idmap, struct fuse_moun
+>                                        struct fuse_args *args, struct ino=
+de *dir,
+>                                        struct dentry *entry, umode_t mode=
+)
+>  {
+> +       bool use_entry2 =3D fuse_use_entry2(fm->fc);
+>         struct fuse_entry_out outarg;
+> +       struct fuse_entry2_out outarg2;
+>         struct inode *inode;
+>         struct dentry *d;
+>         struct fuse_forget_link *forget;
+> +       struct fuse_statx *sx =3D NULL;
+> +       int backing_id;
+>         int epoch, err;
+>
+>         if (fuse_is_bad(dir))
+> @@ -1103,11 +1107,18 @@ static struct dentry *create_new_entry(struct mnt=
+_idmap *idmap, struct fuse_moun
+>         if (!forget)
+>                 return ERR_PTR(-ENOMEM);
+>
+> -       memset(&outarg, 0, sizeof(outarg));
+>         args->nodeid =3D get_node_id(dir);
+>         args->out_numargs =3D 1;
+> -       args->out_args[0].size =3D sizeof(outarg);
+> -       args->out_args[0].value =3D &outarg;
+> +
+> +       if (use_entry2) {
+> +               memset(&outarg2, 0, sizeof(outarg2));
+> +               args->out_args[0].size =3D sizeof(outarg2);
+> +               args->out_args[0].value =3D &outarg2;
+> +       } else {
+> +               memset(&outarg, 0, sizeof(outarg));
+> +               args->out_args[0].size =3D sizeof(outarg);
+> +               args->out_args[0].value =3D &outarg;
+> +       }
+>
+>         if (args->opcode !=3D FUSE_LINK) {
+>                 err =3D get_create_ext(idmap, args, dir, entry, mode);
+> @@ -1120,21 +1131,35 @@ static struct dentry *create_new_entry(struct mnt=
+_idmap *idmap, struct fuse_moun
+>         if (err)
+>                 goto out_put_forget_req;
+>
+> +       backing_id =3D fuse_process_entry2(fm->fc, &outarg2, &outarg, &sx=
+);
+> +
+>         err =3D -EIO;
+>         if (invalid_nodeid(outarg.nodeid) || fuse_invalid_attr(&outarg.at=
+tr))
+>                 goto out_put_forget_req;
+> +       if (backing_id < 0) {
+> +               fuse_queue_forget(fm->fc, forget, outarg.nodeid, 1);
+> +               return ERR_PTR(backing_id);
+> +       }
+>
+>         if ((outarg.attr.mode ^ mode) & S_IFMT)
+>                 goto out_put_forget_req;
+>
+>         inode =3D fuse_iget(dir->i_sb, outarg.nodeid, outarg.generation,
+> -                         &outarg.attr, NULL, ATTR_TIMEOUT(&outarg), 0, 0=
+);
+> +                         &outarg.attr, sx, ATTR_TIMEOUT(&outarg), 0, 0);
+>         if (!inode) {
+>                 fuse_queue_forget(fm->fc, forget, outarg.nodeid, 1);
+>                 return ERR_PTR(-ENOMEM);
+>         }
+>         kfree(forget);
+>
+> +       if (backing_id) {
+> +               err =3D fuse_inode_set_passthrough(inode, backing_id);
+> +               if (err) {
+> +                       iput(inode);
+> +                       return ERR_PTR(err);
+> +               }
+> +       }
+> +
 
-Joanne,
 
-Thanks a lot for picking up my abandoned wip!
+I think we need to verify that the backing file is of the same type as
+requested entry.
 
-Could you add a few words about the intended use case in Meta?
-
-Is the target fuse filesystem expected to be used by arbitrary users/apps
-or by a controlled set of users/apps where a posix_fadvise() may make
-sense to configure readdir vs. readdirplus?
-
-What is the minimal set of passthrough ops that would make this useful
-to your internal customers? Is readdirplus in this set?
-
-Do you have profiling numbers to indicate which ops generate the most
-overhead for would-be passthrough ops routed to the server for the
-target workloads?
-And how do these numbers improve when using io_uring channel?
-
-Regarding "full subtree passthrough", what does that mean?
-That lookup op itself is passthrough?
-
-In that case, would there be no way to escape (opt-out of) passthrough
-inside the subtree?
-
-The semantics sound challenging especially when considering
-moves of directories in and out of subtrees.
-
-Anyway, no wrong answers here, just trying to understand the
-first mile store you are aiming at and the expected improvement.
+This was also true for lookup which instantiates the inode according to the
+mode in fuse_attr.
 
 Thanks,
 Amir.
