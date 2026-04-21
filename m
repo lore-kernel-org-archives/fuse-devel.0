@@ -1,74 +1,65 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0FE3876A9
-	for <fuse-devel@lists.linux.dev>; Mon, 20 Apr 2026 22:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C19264A86
+	for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 03:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776723544; cv=none; b=ZTm0Rs6Zlmj29YK3PwruQ0Y3JhW2ZSZEccLPBn3koh0x49yMLA/lzvn5n8L+/64unBso/F/wPUBnr9uFTUPOzYIrVfrRKa9SaECYQFjxHNxAqnoO0C8ZBTxK6tyAN7OiLEue2sr4XNUJD1kvt8S3LkRaTiGKuYl6V6JPs4KB5Ck=
+	t=1776742729; cv=none; b=RtYEGAQR/Fii2gQhgK69nlp4Fc6pzLFG+CitCMlITAN8bSaSdMUpxmYNj0/bUFNkBYGjg/BtZZ+n3JMJ4Z9RrbXExuafca4pWzMPREb6VNwkkoCtT05fG8p5OQnsiP9l+PXyzXFhqg4hOy3MonuSjby3DyonccDk71ygK48r1fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776723544; c=relaxed/simple;
-	bh=JntQkDtFUhM4E31bauoWflFZw8JP6zjIQV8Md3g/5z4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=h5BQfGxbp0PpSoiXLTXrK4RGZQZ41JDTn/S9UtuNFSUpZ819C1uskSu1IqyGw4bv/Hi8hZ3/WiRp0DrJer9VloWrxn0rB6biYiK336XQq1IGq46N4lDDRN05JSHKIoFCpdOteLmGGuzPL7EiMrLkKeYgoCp5dFoSeridRJp0/qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ldIpqmae; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ldIpqmae"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-82f431c0ab6so1633800b3a.0
-        for <fuse-devel@lists.linux.dev>; Mon, 20 Apr 2026 15:19:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776723542; x=1777328342; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NvcTvzbIShEwZpdR5zjsN7Iv5lkHpebIWTi37Bufnmo=;
-        b=ldIpqmaeiAGbl5iNK+cDODiuxGBI0IIslhbLQDnK5whJ6pth7MjxMugbJVCOZcWL6d
-         8Hk5J7f611ncl0hTvKNCMxykzHso0BFCNjSHh83RSecgeEgUTRx1z2MHhb4nkDE3Z1CS
-         8ilVk5cJgyJF50NHMZTG27vICjc67hK/E8InNkCZQ6oNLli/l+CWvIoHe5LuzArFdmn+
-         NLNrYWXHiH8qJ3mtZB/kpDvSx9f+K6Ohrs8kjM2a0zpn/c3L6u9a1FD3ty3UjS99cAOW
-         oKfTqzQtt8+PR2UUe13EURLt8hE1zM1SN61U2CpNmyASoDoxXL0dVs1cFB73WbnfTyoQ
-         qPjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776723542; x=1777328342;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NvcTvzbIShEwZpdR5zjsN7Iv5lkHpebIWTi37Bufnmo=;
-        b=HXOIbkHl+a9vNxUf92kh9o1iMDEoGaEw2EzI1VHitSELQ8vqatBvYfhSFNdcp6JmkS
-         RhAjpeEdTFXxTZ8cQx4FEGidwZHbYed6Yjd1iryipZ/AT4+f46NsA2sOGHjKOBfVEaXw
-         7j+Z5wR3sEx3jk+oGWF0xa51VwouQibEmZ3K/0lIKxQpa+Ux9PO+anSKumhjoG2K67AW
-         83NG5glGOSMW1f4lTSu0P+xQ1CsKln6bzJRakGeHKNLgTDJiGB4IMjkpOxZzTRU4vWLQ
-         QNAbS+QI7nIseyd64PEYXrWBAZBtmGUjF9e9NCxX1DPx5Y6eAn+3eI4PiYhAuWUtBj6/
-         c1Rw==
-X-Forwarded-Encrypted: i=1; AFNElJ+dmyXNJNpBGAjYG2cKXKlxa6SovDG5Pne5za5bvbsaBD/RUdWy/sNcv1eX/60gcVieXNa80xjE7Jc9@lists.linux.dev
-X-Gm-Message-State: AOJu0YxONSudemSS7gc+pPkk09fCMs0cN4Wy9FCLS9+TRg9xrd7VDl0o
-	Suf4D00oqS6BwbcWAOD9s7Xq/di75jjF254hwu1OFq+MWgd0wjRfYFkILchL9w==
-X-Gm-Gg: AeBDievSSFenkTAE4vniROqYVAxxkXQbSI8p9iaTY94B6+UPla3ktGAU7S8o1yFEAMH
-	fjvacadjmWfzDulGUrvNfGO0iLUzorUP/q28NDXWqcMS402QSTqg5zWENWEieooTvtzz09bRXHJ
-	nEl4AsSo/gfkw1IAdqFNz6wu1DnKcBdSn7kDWxNR3sUYkLdVgTHa7tiaExafALJAW5cS7Y5Yrsu
-	Am6A31hXQgBEOYtpcSzYDS7V9IttoUHmpteW3sVaSF7cL+7DTGGOK6bTbt/tDlqTjmUjAeQuS5K
-	/c3ivRbHUro8xAqD+jKOlBaa4KaQgn4eJl4p+Zj3ckWqRN0gyYeSsIqFTjww91vdadZBreMlrOI
-	1FJn1L6rLLmGoLIusEbVvALdk9IO/E8S5I+Jy5IKQRgb7EEiZ5osGGNBlHp4Gvy6n1ZUw4rwrcG
-	6kFgm2Kq9q8aKaFTWIXi0LGTZAgfCD
-X-Received: by 2002:a05:6a00:2ea5:b0:82f:37e3:ae82 with SMTP id d2e1a72fcca58-82f8c984060mr16832466b3a.44.1776723542470;
-        Mon, 20 Apr 2026 15:19:02 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:59::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e9f7735sm11920323b3a.21.2026.04.20.15.19.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Apr 2026 15:19:01 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu
-Cc: amir73il@gmail.com,
+	s=arc-20240116; t=1776742729; c=relaxed/simple;
+	bh=D9zMQ/773OJR/dc88qDEBvUgr5UgNov9DUSR3EZHqQ0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=l72BVPhOcSjA3cW4uX+NU2ySqCumZN+3dYGP7rI/lmeEyLWYnZ4PlQrmRqybbBeN+MB8V5wC4kONxDELtyjFwZJKuaotnkWsZw4SOft2S28keiUk2Rcqw8MsSKWypayhaDKdAKtfd3XrobpVy/01+mnW4LYVrdl+AjM10OWVuAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 92ad6baa3d3311f1aa26b74ffac11d73-20260421
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
+	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
+	DMARC_NOPASS, CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS
+	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:dba5c631-efed-4345-b160-88cbcaeef477,IP:15,
+	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:35
+X-CID-INFO: VERSION:1.3.12,REQID:dba5c631-efed-4345-b160-88cbcaeef477,IP:15,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:35
+X-CID-META: VersionHash:e7bac3a,CLOUDID:87479b67e444e61b2a547804cc45fe23,BulkI
+	D:260421113836UDFK82QM,BulkQuantity:0,Recheck:0,SF:17|19|66|78|81|82|102|1
+	27|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,Q
+	S:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,
+	ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 92ad6baa3d3311f1aa26b74ffac11d73-20260421
+X-User: liwang@kylinos.cn
+Received: from computer.. [(116.128.244.171)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1594863276; Tue, 21 Apr 2026 11:38:33 +0800
+From: Li Wang <liwang@kylinos.cn>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
 	fuse-devel@lists.linux.dev,
-	luis@igalia.com
-Subject: [PATCH v1 17/17] docs: fuse: document extended passthrough (FUSE_PASSTHROUGH_INO)
-Date: Mon, 20 Apr 2026 15:16:37 -0700
-Message-ID: <20260420221637.2631478-18-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260420221637.2631478-1-joannelkoong@gmail.com>
-References: <20260420221637.2631478-1-joannelkoong@gmail.com>
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Li Wang <liwang@kylinos.cn>
+Subject: [PATCH v2] fuse: drop redundant check in fuse_sync_bucket_alloc()
+Date: Tue, 21 Apr 2026 11:38:16 +0800
+Message-Id: <20260421033816.6546-1-liwang@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260420030900.4944-1-liwang@kylinos.cn>
+References: <20260420030900.4944-1-liwang@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,162 +68,37 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add section about extended passthrough (FUSE_PASSTHROUGH_INO) mode.
+kzalloc_obj with __GFP_NOFAIL is documented to never return failure,
+and checking for NULL is redundant (__GFP_NOFAIL in gfp_types.h).
 
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+Signed-off-by: Li Wang <liwang@kylinos.cn>
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- .../filesystems/fuse/fuse-passthrough.rst     | 131 ++++++++++++++++++
- 1 file changed, 131 insertions(+)
+Changes since v1:
+- Per review, removed the last two sentences of the commit message.
 
-diff --git a/Documentation/filesystems/fuse/fuse-passthrough.rst b/Documentation/filesystems/fuse/fuse-passthrough.rst
-index 2b0e7c2da54a..c7ccea597324 100644
---- a/Documentation/filesystems/fuse/fuse-passthrough.rst
-+++ b/Documentation/filesystems/fuse/fuse-passthrough.rst
-@@ -25,6 +25,12 @@ operations.
- Currently, passthrough is supported for operations like ``read(2)``/``write(2)``
- (via ``read_iter``/``write_iter``), ``splice(2)``, and ``mmap(2)``.
+ fs/fuse/inode.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 33009227e91d..e5069d2f8e90 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -676,11 +676,9 @@ static struct fuse_sync_bucket *fuse_sync_bucket_alloc(void)
+ 	struct fuse_sync_bucket *bucket;
  
-+With the extended ``FUSE_PASSTHROUGH_INO`` mode, passthrough is also supported
-+for inode operations (getattr, setattr), directory operations (readdir), and
-+kernel-initiated open (bypassing ``FUSE_OPEN``). In this mode, a backing file
-+can be attached to a fuse inode for its entire lifetime, not just while a file
-+is open.
-+
- Enabling Passthrough
- ====================
- 
-@@ -46,6 +52,131 @@ To use FUSE passthrough:
-      the ``backing_id`` to release the kernel's reference to the backing file
-      when it's no longer needed for passthrough setups.
- 
-+Extended Passthrough (FUSE_PASSTHROUGH_INO)
-+============================================
-+
-+``FUSE_PASSTHROUGH_INO`` is a stricter variant of ``FUSE_PASSTHROUGH`` in
-+which the backing file inode number must match the fuse inode number, enforcing
-+a one-to-one mapping. The kernel offers this flag during ``FUSE_INIT`` if
-+``CONFIG_FUSE_PASSTHROUGH`` is enabled and the architecture has 64-bit
-+``ino_t``. The server accepts by returning it back in the init reply.
-+
-+Enabling Extended Passthrough
-+-----------------------------
-+
-+To use extended passthrough:
-+
-+  1. Follow steps 1-2 from `Enabling Passthrough`_ above. The server must
-+     also negotiate the ``FUSE_PASSTHROUGH_INO`` capability during
-+     ``FUSE_INIT``.
-+  2. When registering a backing file via ``FUSE_DEV_IOC_BACKING_OPEN``, set
-+     the ``ops_mask`` field in ``struct fuse_backing_map`` to declare which
-+     operations should be passed through. At minimum,
-+     ``FUSE_PASSTHROUGH_OP_GETATTR`` must be set for any inode-level
-+     passthrough.
-+  3. When handling a ``LOOKUP``, ``CREATE``, ``MKNOD``, ``MKDIR``,
-+     ``SYMLINK``, or ``LINK`` request, the server responds with a
-+     ``fuse_entry2_out`` (instead of ``fuse_entry_out``). To enable
-+     passthrough on the inode, set ``backing_id`` to the id returned by
-+     ``FUSE_DEV_IOC_BACKING_OPEN``. Set ``backing_id`` to 0 for inodes
-+     that should not use passthrough. The ``nodeid`` in the response must
-+     be the backing file's inode number (``i_ino``). If they don't match,
-+     the kernel rejects the passthrough setup with ``-EIO``.
-+  4. For passthrough open (``FUSE_PASSTHROUGH_OP_OPEN`` in ``ops_mask``),
-+     no further action is needed. The kernel will open the backing file
-+     directly without sending ``FUSE_OPEN`` / ``FUSE_OPENDIR`` to the
-+     server. ``FUSE_RELEASE`` / ``FUSE_RELEASEDIR`` is also skipped.
-+  5. For server-initiated passthrough open (without
-+     ``FUSE_PASSTHROUGH_OP_OPEN``), the server handles ``FUSE_OPEN`` /
-+     ``FUSE_OPENDIR`` as before and returns ``FOPEN_PASSTHROUGH`` with the
-+     ``backing_id`` in the open response. A ``backing_id`` is required even
-+     if the inode already has passthrough set up from lookup. The server
-+     must use the same ``backing_id``. If the inode has passthrough,
-+     the server must set ``FOPEN_PASSTHROUGH`` or ``FOPEN_DIRECT_IO``
-+     on open as cached I/O mode is not allowed on passthrough inodes.
-+  6. The server should call ``FUSE_DEV_IOC_BACKING_CLOSE`` to release the
-+     backing file when it is no longer needed.
-+
-+Passthrough Operations Mask
-+---------------------------
-+
-+When registering a backing file via ``FUSE_DEV_IOC_BACKING_OPEN``, the server
-+sets ``ops_mask`` in ``struct fuse_backing_map`` to declare which operations
-+should be passed through::
-+
-+    FUSE_PASSTHROUGH_OP_READ
-+    FUSE_PASSTHROUGH_OP_WRITE
-+    FUSE_PASSTHROUGH_OP_READDIR
-+    FUSE_PASSTHROUGH_OP_GETATTR
-+    FUSE_PASSTHROUGH_OP_SETATTR
-+    FUSE_PASSTHROUGH_OP_OPEN
-+
-+Operations fall into three categories:
-+
-+**File operations** (read, write, readdir): Activated per-open when the
-+server returns ``FOPEN_PASSTHROUGH`` in its open response. The backing file
-+reference exists only while the file is open.
-+
-+**Inode operations** (getattr, setattr): Activated on lookup when the server
-+returns a ``backing_id`` in the ``fuse_entry2_out`` response. The backing
-+file reference persists for the lifetime of the fuse inode. Getattr is the
-+minimum required inode operation.
-+
-+**Open passthrough**: The kernel opens the backing file directly without
-+sending ``FUSE_OPEN`` / ``FUSE_OPENDIR`` to the server. ``FUSE_RELEASE`` /
-+``FUSE_RELEASEDIR`` is also skipped. For regular files this implies passthrough
-+read/write; for directories it implies passthrough readdir.
-+
-+Extended Entry Reply
-+--------------------
-+
-+When ``FUSE_PASSTHROUGH_INO`` is negotiated, the kernel uses
-+``fuse_entry2_out`` instead of ``fuse_entry_out`` for entry responses.
-+This struct carries a ``backing_id`` and ``fuse_statx`` attributes instead
-+of ``fuse_attr``.
-+
-+When ``backing_id > 0``, the kernel associates the inode with the backing file
-+for passthrough inode operations. Statx attributes are not cached because
-+passthrough getattr fetches them directly from the backing inode.
-+
-+When ``backing_id == 0`` (no passthrough), the statx attributes from the reply
-+are cached normally.
-+
-+A negative ``backing_id`` is treated as an error. The kernel sends
-+``FUSE_FORGET`` for the returned nodeid and fails the operation.
-+
-+IO Mode State Machine
-+---------------------
-+
-+The ``iocachectr`` field in ``struct fuse_inode`` prevents conflicting access
-+modes on the same inode (page-cache I/O and passthrough I/O cannot coexist)::
-+
-+    iocachectr > 0    Cached mode. N files using page cache.
-+    iocachectr == 0   Idle. No files open, no passthrough.
-+    iocachectr < 0    Uncached/passthrough mode. |N| references held.
-+
-+Each open file in passthrough mode holds one reference (``iocachectr--``).
-+The inode-level passthrough setup holds one additional long-lived reference
-+if the backing has inode ops (getattr/setattr). This long-lived reference is
-+released on inode eviction.
-+
-+Cached mode and passthrough mode are mutually exclusive. Attempting either
-+while the other is active returns ``-ETXTBSY``.
-+
-+For directories, the same mechanism arbitrates between cached readdir
-+(``FOPEN_CACHE_DIR``) and passthrough readdir. A directory opened without
-+``FOPEN_CACHE_DIR`` and without ``FOPEN_PASSTHROUGH`` is treated as direct I/O
-+and does not affect io mode.
-+
-+Things to note
-+--------------
-+
-+- ``FUSE_PASSTHROUGH_INO`` requires 64-bit ``ino_t``.
-+- Readdirplus does not set up inode passthrough. Inodes created via readdirplus
-+  use normal FUSE operations until a fresh lookup occurs.
-+- An inode's backing association is set once and cannot be changed.
-+- Passthrough and cached I/O cannot coexist on the same inode.
-+
- Privilege Requirements
- ======================
+ 	bucket = kzalloc_obj(*bucket, GFP_KERNEL | __GFP_NOFAIL);
+-	if (bucket) {
+-		init_waitqueue_head(&bucket->waitq);
+-		/* Initial active count */
+-		atomic_set(&bucket->count, 1);
+-	}
++	init_waitqueue_head(&bucket->waitq);
++	/* Initial active count */
++	atomic_set(&bucket->count, 1);
+ 	return bucket;
+ }
  
 -- 
-2.52.0
+2.34.1
 
