@@ -1,80 +1,80 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31D12A1AA
-	for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 00:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A851BBBE5
+	for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 01:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776819034; cv=pass; b=Ma09GfQaStYTcO5Zxhojpdr9u6hxy42KaZVHCaKNPWTEzx57NYpK6iGtx6nrMp10JMwybmZ1gDMzwxTXRRBfqIv1htfR9CKJEC+W9nkzcGD0N34IsTlNB3Z6TEFrYAtZhIf9m7BawyFPEpvvXSqdJos8mYa2okSpaBlncQABDCs=
+	t=1776819911; cv=pass; b=daODCl24r6uTNljN5TFygvrlTLZA/hzeLIvLJ8pTi5xyvcC8KBeVJX8YKThwEn9fdoakaCa3x8OsVLnPxoMEdhDAMXZako++MLIZDJfxrn4I7ygJArJ30WTz3AWDRfWZnh9vONcys4vunVFPsDCg66xYBQ+TCHBgj/ibLDKSnhI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776819034; c=relaxed/simple;
-	bh=E4BY4wjwmoS/TAN3eVkeexcpNDIx8Y1Wc38vGDyFBDA=;
+	s=arc-20240116; t=1776819911; c=relaxed/simple;
+	bh=ln9xO+nLQiIaYZdXN6mQZSTGC6iEtYHxNrpr4orv1DU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M9WRSlwvsAcvYfbqg/aVJdC+Hq8+ocDOoU/RDWgvCEMsJeHH2J+1/rVJ1C0jAHgnr7qYzkSC/hi2gRuew0iS5kMtdZrooIiaZaDJKJ0mxrJHu+Pe9f/c7YMYPWDJcqxp4sPeb4657WiokKGkkgu9tZZInQnjmQb1hhhkNuRZkFU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fJUiJdMz; arc=pass smtp.client-ip=209.85.221.50
+	 To:Cc:Content-Type; b=NRIhe4s7qba8gCmDAHc58bCOAj6TND5h9apjoMOZq7HaciwoAZII/FJ3LLyGo8GcWzusH3FS7RpErMY+ScHpv/ao/saisOtth/EAq3ZcmvppZvpoxImOBOTzZNAPxLTmXrG0x97rKa7OkrHwPGkHsAM/311XHXGvmXbqVveK5Bc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cfbNnYht; arc=pass smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fJUiJdMz"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43fe8bda8e9so2515691f8f.1
-        for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 17:50:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776819031; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cfbNnYht"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so16844845e9.1
+        for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 18:05:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776819908; cv=none;
         d=google.com; s=arc-20240605;
-        b=SegcC/sXmx1OgjifQsC708vm2iAtC+0ptkfed+iUMTRGsW2BmJ5WCKLfoH7BigSS8/
-         6thLSoHq5Q+IypynXUX8PJTpS26pGbWLB9/fGINRgBmuehARf7t32SEjpRGio6MCve+5
-         dFIcPUn2iGKwb5uZ/BgYrvY/IaR0S8D2dygUR5HyCwV/m7jxxhj1gK6+yNVZqc5XTKyi
-         zX3sqyMXua+g2Rw0ndCmGrwYBoYQXf3qWyjZ+ysRlguNdNQVwHNAVzYdeD6pUK4o1MfZ
-         p0QyoVanKq2Ahg8XLKhSmMSbuXQY2UdHHQMcbtFOojpI1XoFVGVqKjk1dgv00tsg7i2t
-         16mA==
+        b=ZNPPL3RLvqgVo8uctTPSWE495eRIYz0WVHEAll69Q5zcqYxpYZCM0gE3IFIw7G17AO
+         rNP4O98DC5VZlx90NvtJXNhsR0elw7dw+L9eTxnkAgKnUbB5i+Aq2eNFODwv/DV9Eh+t
+         Okacz25CppdoGNAQudKh7pXyN4UTvNePHg2TPEKzazrDYnCOEflgMXYeM0YpWF9nEotz
+         AuNFI8qJI78C5C06pzdU1CWCjDVh2n2N/S774nSoqnvOD6XuFhKH6jFihszZC/I7FGy2
+         p2Z8cgXJXg1fRx+889gF4eOMQxW8FEX5vqBEX1KIIJ67cN8cNb9GrjYmdgqtjVdTF6HR
+         Vh3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Esz28jYiAu2THnqAAFw/iFehujE2L85tyzFG+R4zo2M=;
-        fh=z8UcMoUBJBtMUkydwvZGWpUdYiBeM8RlRkpRehhI6vE=;
-        b=OxJoGtoqlcv8EXIu3u0xMWt5MTTBmDa+NyWOYrBYDXonakQDpi3utj7McqUBNxriPB
-         2J4BqLDa8dWAgN2HGIYt9TGc9N8mFqMq6TOaCoPVJaYXMMTRtl/ihSoreS0h3KCr9R6V
-         wlrt+NGg/HicEEkkTej0o54JfVFtKHMdHT2f0fqHnih7cuCXBxq4VKHfYbdszfEj89sI
-         rvXyvRBi99a77+yi20J5NnGGf/JWb9VVBg8+olsWiJrj7rvQKrP1ufibkiKB0yrOiPR4
-         5zJ9ni8y0PgZIEgAVW35x1WgPpmAkPkl1TtPD+plmwQxXRQpoKwoDNrfeocY9m2Szvep
-         TBgQ==;
+        bh=YRyvZvatbaV3MURXyNeYc/3KMPQmTDjSspLMhMSE710=;
+        fh=lQNwRDocXaIqk9qxrr0NuluVZdPp9vztHJYOIaE9M14=;
+        b=ilVD6DRFi6At36OsxWQGYVVwLGYYpbJvF9RoBQWk/9xtb/revmmyXEgMHGTySBsF3/
+         tRRHwOxfxQOpAc1b+PpLEpEur/hWz000WYDHDmFKYlb2YfHHyysOkjFPGyb4bLcHFUWx
+         qOnoxbVpj5BiVSL1G0AKEwadTaxUnyDQBQgKClkDRZ5tkNiR7VBCH+LSfMCxW9nLm2Ut
+         86HzL41Xd25sH4mpB1SCSUbaS16up0NNPuhiWcWPTRSDQwugZIrLGjk1dpOWQJwsKOwM
+         SUcQXadW4OlrwG2TVBr26nwapCbTfPG/0lNu+O8iAPc2b0R4R0/rDTTCPnoTzuIkL+jE
+         1P+g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776819031; x=1777423831; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776819908; x=1777424708; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Esz28jYiAu2THnqAAFw/iFehujE2L85tyzFG+R4zo2M=;
-        b=fJUiJdMzPaB3yawaDDPyJMowHgcF1Yf6k6KOpmj7uSszGKJsCTxFcehxvFroptwezy
-         Z0wadfQesngvOSELh8VkTq1YwGsaR32g2i12qD6ck0z+tq2yhjXJUp86eE1Q0z0L0gmH
-         C827397lDU11cFCie9DkG4kAUT1XNc2UFtjQuP/gSGEO6G1tCpq1yUW5DNUH3RPRtwrx
-         zXTBBSMtSHY607+lJh0ohWAH3/oQ01fa3UQQ5OkJEyMpnPv4wP1IPK+HANM8R+3/qOgE
-         Eb9yu2HgpsxWyHX8f96DbuLYmf9Y2ZHVuBJZ5Dn4k9KA9axwdPVJ+J1Ns7CWInKDzvwV
-         Exnw==
+        bh=YRyvZvatbaV3MURXyNeYc/3KMPQmTDjSspLMhMSE710=;
+        b=cfbNnYhtvnGFYcMLq01AKJ3emlufYtdAZbA9eQNzp8IWGLzTYj1gipDlUdu8Yhls68
+         4iqDMpMtOS9iCUqRGM4ZTbJzvii5IGBtchu4HYBgCo5RPfU7dT6FCdZyaFZSym/b9ak0
+         xpaqeUPGBs1xUQ+DxLFZzmRbVmQ4zfA0o+B7Lt2Peoq4dYH+fY382A2SU+RF1xyHGVym
+         k/BgaoqnJE7UfnDm2x9W98uNhhVNAF3E00a1H4yqt6AYYTNtNLjJ1ZiKZsiIUvuIc+h0
+         vydz7OAZgWYWroFg9w4ClwZW9GdNRd2HZVoiCYqp8IMmll4p816EEXhgCX56HH2HFA7z
+         IhCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776819031; x=1777423831;
+        d=1e100.net; s=20251104; t=1776819908; x=1777424708;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Esz28jYiAu2THnqAAFw/iFehujE2L85tyzFG+R4zo2M=;
-        b=nkNkKd3zDntTrKHs/J4FHQD6fNkTQBxszQAuvMPjPkmlifsSGCR6EPMyKoEtOC8gAV
-         h/YBTuC17xb/2k8nDVfDIxs6FL1D1ElaOsSiy/QlJXiAYlP1ueJpiNyFpyN/3yXEmULQ
-         r740MSEKPeqYrR009izm0rO9Q9qBVfJIcT1J+29k+/+miNmhwwcy1PpEOLV+WrT97Kyf
-         QKXUwwYmCZFee/Il9HoAlp6KG8zksDP8ouWnTEkRE1rRPsvQ9VMkUPfQiABsbT3KZjXK
-         4cyzeMD3XbqAUECELy6LYmuRKgvPCy9lbx4dyxioK/ZDGQyro4dOcP3ozeM2bL57/23e
-         RB+w==
-X-Forwarded-Encrypted: i=1; AFNElJ/nYWkeq9a2VH0APN03p2M/oXSWonQlJNkzifemmVgHVxZAwA8LfrYrgNFdcRYckMRCJds8//XX1Rhb@lists.linux.dev
-X-Gm-Message-State: AOJu0YzGm9tN6QspXnCakISL9vP5Auu7FLD3XU7Sng+OcdrH0vT1qKj8
-	FJiae8+JMuyCqy1dPMLmFqV7ejpVqc4zYUS78IRBtH+uhwTbPyW0BUayAY823DzE4Vo0c/EFsZl
-	Ri+LSln65ubvIXKXh8k6c80yWRdBsX8g=
-X-Gm-Gg: AeBDieu//57fbGSjmjmQii9UxNd1ZQ9or8PzUm08DV1wMW5+j7ikpXeJcehEoO3rFRp
-	1znKvOFIcJesO3E1ZE5iGQBGZpEzqYQU4Nk1dAebna60OGmazjhjfyKCCoSeu9+xMX53xd5cfm3
-	jeirAgUrvgKWS8CQFq2ttPFQLWvxrkW12u7WOHsw3YTCt6xrGyS+teRMGWwSuxzmXweFLYxI4q8
-	OffqQK2uvIwMVJAg07os1B74VkwbbyTA5L2OTAM5rjc58IQ7D1+2cXuZUYfJkZDiWAGaZ0o+ThP
-	hIED/HnXyoAX4BJc
-X-Received: by 2002:a05:6000:1a8d:b0:43b:8806:be32 with SMTP id
- ffacd0b85a97d-43fe3db3b49mr30284089f8f.7.1776819031073; Tue, 21 Apr 2026
- 17:50:31 -0700 (PDT)
+        bh=YRyvZvatbaV3MURXyNeYc/3KMPQmTDjSspLMhMSE710=;
+        b=WG3gLWCA3suGvA41OTlVw6iml3Z38o1AOmAwc6YTk7M3bP9b2QEWpcv3fpScSwa0C5
+         +WrMDO6e4J64kOZR+2+hIwYDe6B7QhgYnvVz6ghYGg89UnTaAbzgNY2UGi3+l3xc0lt8
+         1tNOTYODMKwuFWg3B8XzLr7jV4SRAo+MRGa1rbZcED2IBAOtFqPMWIWSmCxxhRRuOKjK
+         aGEkv3DHnVneKAJJYVHuOxEPulgGbxfY0eOVCPC5u6gKEp1G8EL8V7wKBzRi3vqC8NAU
+         KXIZI1n4z1e1Kir5vhmD/NnLTfP2P8CQ/JZ6VvxljFF3ZbnU1MhSg7LwStrJNhj2gGEl
+         kxZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8nUHLtvl7FZwc3DUZ8y1Ux7mN6+UcYMxvp7t57+4fSeD/qcFaGpAG6qju/uMgUg0RwNHmrYaMdPUx2@lists.linux.dev
+X-Gm-Message-State: AOJu0YznhmiujQR6IwO0IrflnCJJzaJbluxz7ogLQOvtEoqM7q/4AmZY
+	+ibswYUjSyjQlY4zsUlYMgnB38AuElQJ9Hlyi+K58pmO455LT/EdcsCoztX69X+WOiAN88nTPNn
+	cg6aYgwcvvYZGexL1YJUxCL0aVxPfnmE3C3Oa
+X-Gm-Gg: AeBDietLJk2KYjqOP0/XAkWlLSG2mw7pDDs8CMrU/Qcw2COUC0GMiI2qgskt/0dmiVN
+	1Z+htu+HpLbtlNN7bFK3FljkaFTntnNCNKiXeCzou+6A1e8G5619bcIkIyCGMyv2/V+XunptmvS
+	Jwe6wvkLeVIm3NtFcTLQ1P6pmHc6e6QBBVcmVqwmt7a0jEb1E0KGkpaz1TUAB/S1tty5ov39Xd0
+	whNCA1gcdrtD0g+u8OyojzxhOqjWtJCEZzSkDqkp8hpNk1tHapRs7oxqxHZTQgDOqrRoaK6OJhP
+	t8v2uNtm7PFbUkYB
+X-Received: by 2002:a05:600c:a6aa:b0:488:a9c3:44a3 with SMTP id
+ 5b1f17b1804b1-488fb881cacmr183991145e9.2.1776819908064; Tue, 21 Apr 2026
+ 18:05:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -82,188 +82,129 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260420221637.2631478-1-joannelkoong@gmail.com>
- <20260420221637.2631478-11-joannelkoong@gmail.com> <CAOQ4uxiAW99ZftcLkOLjmNc24n8DGHnk+rpgAe1PX4aRoCXGsA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxiAW99ZftcLkOLjmNc24n8DGHnk+rpgAe1PX4aRoCXGsA@mail.gmail.com>
+ <20260420221637.2631478-18-joannelkoong@gmail.com> <CAOQ4uxiKj=+Gcxe87Jpqk_CXm_qrTMpk-OSS4LX1x7ineT3MTw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxiKj=+Gcxe87Jpqk_CXm_qrTMpk-OSS4LX1x7ineT3MTw@mail.gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 21 Apr 2026 17:50:19 -0700
-X-Gm-Features: AQROBzBS2aT4AsP1r3rmZrxH3xwTWMk2K3IHFQFZcmmFhY3DpZfkJWd_Gf3UKQA
-Message-ID: <CAJnrk1YGOfKx-RVy==stpiKQELMZNaZqK9PnGSDtjVSFvtox4g@mail.gmail.com>
-Subject: Re: [PATCH v1 10/17] fuse: add struct fuse_entry2_out and helpers for
- extended entry replies
+Date: Tue, 21 Apr 2026 18:04:56 -0700
+X-Gm-Features: AQROBzD2rgNsSoKu-fdl85q6ICUE0HWqCdiJ6kN2au_N11d_nWKdwORP7Gw-vU4
+Message-ID: <CAJnrk1aU0_VoqaDgZ9gz=2mxKasfL0HyJXt2aUm9A3CVimAV4A@mail.gmail.com>
+Subject: Re: [PATCH v1 17/17] docs: fuse: document extended passthrough (FUSE_PASSTHROUGH_INO)
 To: Amir Goldstein <amir73il@gmail.com>
 Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, luis@igalia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 21, 2026 at 5:25=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
+On Tue, Apr 21, 2026 at 4:09=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
  wrote:
 >
-> On Tue, Apr 21, 2026 at 12:18=E2=80=AFAM Joanne Koong <joannelkoong@gmail=
+> On Tue, Apr 21, 2026 at 12:19=E2=80=AFAM Joanne Koong <joannelkoong@gmail=
 .com> wrote:
 > >
-> > Add struct fuse_entry2_out, which is a new extended entry reply struct
-> > that carries a backing_id and statx attributes. This will be necessary
-> > for setting fuse passthrough on inodes.
-> >
-> > Add helpers that subsequent commits will use to process fuse_entry2_out
-> > for passthrough support for lookup, revalidate, and create.
-> > fuse_statx_to_attr() is also moved to earlier in the file to avoid
-> > forward declaring.
+> > Add section about extended passthrough (FUSE_PASSTHROUGH_INO) mode.
 > >
 > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > > ---
-> >  fs/fuse/dir.c             | 119 ++++++++++++++++++++++++++++++--------
-> >  fs/fuse/fuse_i.h          |   5 ++
-> >  include/uapi/linux/fuse.h |  14 +++++
-> >  3 files changed, 113 insertions(+), 25 deletions(-)
+> >  .../filesystems/fuse/fuse-passthrough.rst     | 131 ++++++++++++++++++
+> >  1 file changed, 131 insertions(+)
 > >
-> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> > index 94ab05cb89ce..0eacfef52164 100644
-> > --- a/fs/fuse/dir.c
-> > +++ b/fs/fuse/dir.c
-> > @@ -354,9 +354,9 @@ static void fuse_invalidate_entry(struct dentry *en=
-try)
-> >         fuse_invalidate_entry_cache(entry);
-> >  }
+> > diff --git a/Documentation/filesystems/fuse/fuse-passthrough.rst b/Docu=
+mentation/filesystems/fuse/fuse-passthrough.rst
+> > index 2b0e7c2da54a..c7ccea597324 100644
+> > --- a/Documentation/filesystems/fuse/fuse-passthrough.rst
+> > +++ b/Documentation/filesystems/fuse/fuse-passthrough.rst
+> > @@ -25,6 +25,12 @@ operations.
+> >  Currently, passthrough is supported for operations like ``read(2)``/``=
+write(2)``
+> >  (via ``read_iter``/``write_iter``), ``splice(2)``, and ``mmap(2)``.
 > >
-> > -static void fuse_lookup_init(struct fuse_args *args, u64 nodeid,
-> > -                            const struct qstr *name,
-> > -                            struct fuse_entry_out *outarg)
-> > +static void fuse_lookup_init_simple(struct fuse_args *args, u64 nodeid=
-,
-> > +                                   const struct qstr *name,
-> > +                                   struct fuse_entry_out *outarg)
->
-> Nit: patch 11 would be nicer if you add the arg now and pass NULL from ca=
-llers
-> skipping this temporary fuse_lookup_init_simple() step.
-
-That is a much better way of doing it, will do this in v2.
-
->
-> >  {
-> >         memset(outarg, 0, sizeof(struct fuse_entry_out));
-> >         args->opcode =3D FUSE_LOOKUP;
-> > @@ -372,6 +372,95 @@ static void fuse_lookup_init(struct fuse_args *arg=
-s, u64 nodeid,
-> >         args->out_args[0].value =3D outarg;
-> >  }
+> > +With the extended ``FUSE_PASSTHROUGH_INO`` mode, passthrough is also s=
+upported
+> > +for inode operations (getattr, setattr), directory operations (readdir=
+), and
+> > +kernel-initiated open (bypassing ``FUSE_OPEN``). In this mode, a backi=
+ng file
+> > +can be attached to a fuse inode for its entire lifetime, not just whil=
+e a file
+> > +is open.
+> > +
+> >  Enabling Passthrough
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > >
-> > +static __maybe_unused void fuse_lookup_init(struct fuse_conn *fc,
-> > +                                           struct fuse_args *args,
-> > +                                           u64 nodeid, const struct qs=
-tr *name,
-> > +                                           struct fuse_entry_out *outa=
-rg,
-> > +                                           struct fuse_entry2_out *out=
-arg2)
-> > +{
-> > +       bool use_entry2 =3D fuse_use_entry2(fc);
+> > @@ -46,6 +52,131 @@ To use FUSE passthrough:
+> >       the ``backing_id`` to release the kernel's reference to the backi=
+ng file
+> >       when it's no longer needed for passthrough setups.
+> >
+> > +Extended Passthrough (FUSE_PASSTHROUGH_INO)
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > > +
-> > +       if (use_entry2)
-> > +               memset(outarg2, 0, sizeof(struct fuse_entry2_out));
-> > +       else
-> > +               memset(outarg, 0, sizeof(struct fuse_entry_out));
+> > +``FUSE_PASSTHROUGH_INO`` is a stricter variant of ``FUSE_PASSTHROUGH``=
+ in
+> > +which the backing file inode number must match the fuse inode number, =
+enforcing
+> > +a one-to-one mapping. The kernel offers this flag during ``FUSE_INIT``=
+ if
+> > +``CONFIG_FUSE_PASSTHROUGH`` is enabled and the architecture has 64-bit
+> > +``ino_t``. The server accepts by returning it back in the init reply.
 > > +
-> > +       args->opcode =3D FUSE_LOOKUP;
-> > +       args->nodeid =3D nodeid;
-> > +       args->in_numargs =3D 3;
-> > +       fuse_set_zero_arg0(args);
-> > +       args->in_args[1].size =3D name->len;
-> > +       args->in_args[1].value =3D name->name;
-> > +       args->in_args[2].size =3D 1;
-> > +       args->in_args[2].value =3D "";
+> > +Enabling Extended Passthrough
+> > +-----------------------------
+> > +
+> > +To use extended passthrough:
+> > +
+> > +  1. Follow steps 1-2 from `Enabling Passthrough`_ above. The server m=
+ust
+> > +     also negotiate the ``FUSE_PASSTHROUGH_INO`` capability during
+> > +     ``FUSE_INIT``.
+> > +  2. When registering a backing file via ``FUSE_DEV_IOC_BACKING_OPEN``=
+, set
+> > +     the ``ops_mask`` field in ``struct fuse_backing_map`` to declare =
+which
+> > +     operations should be passed through. At minimum,
+> > +     ``FUSE_PASSTHROUGH_OP_GETATTR`` must be set for any inode-level
+> > +     passthrough.
+> > +  3. When handling a ``LOOKUP``, ``CREATE``, ``MKNOD``, ``MKDIR``,
+> > +     ``SYMLINK``, or ``LINK`` request, the server responds with a
+> > +     ``fuse_entry2_out`` (instead of ``fuse_entry_out``). To enable
+> > +     passthrough on the inode, set ``backing_id`` to the id returned b=
+y
+> > +     ``FUSE_DEV_IOC_BACKING_OPEN``. Set ``backing_id`` to 0 for inodes
+> > +     that should not use passthrough. The ``nodeid`` in the response m=
+ust
+> > +     be the backing file's inode number (``i_ino``). If they don't mat=
+ch,
+> > +     the kernel rejects the passthrough setup with ``-EIO``.
+> > +  4. For passthrough open (``FUSE_PASSTHROUGH_OP_OPEN`` in ``ops_mask`=
+`),
+> > +     no further action is needed. The kernel will open the backing fil=
+e
+> > +     directly without sending ``FUSE_OPEN`` / ``FUSE_OPENDIR`` to the
+> > +     server. ``FUSE_RELEASE`` / ``FUSE_RELEASEDIR`` is also skipped.
+> > +  5. For server-initiated passthrough open (without
+> > +     ``FUSE_PASSTHROUGH_OP_OPEN``), the server handles ``FUSE_OPEN`` /
+> > +     ``FUSE_OPENDIR`` as before and returns ``FOPEN_PASSTHROUGH`` with=
+ the
+> > +     ``backing_id`` in the open response. A ``backing_id`` is required=
+ even
+> > +     if the inode already has passthrough set up from lookup. The serv=
+er
+> > +     must use the same ``backing_id``. If the inode has passthrough,
+> > +     the server must set ``FOPEN_PASSTHROUGH`` or ``FOPEN_DIRECT_IO``
 >
-> I know you just carried this, but do you know what this is?
-> some sort of backward compat inarg?
-
-I believe this is for the null terminator (to properly null-terminate
-the name string that gets sent to the server)
-
+> IIUC (and please do double check this), the server MUST always set
+> ``FOPEN_PASSTHROUGH`` if inode is in passthrough mode and it MAY set
+> ``FOPEN_DIRECT_IO`` *additionally* to opt-out of passthrough when inode
+> is already in passthrough mode.
 >
-> > +       args->out_numargs =3D 1;
-> > +
-> > +       if (use_entry2) {
-> > +               args->out_args[0].size =3D sizeof(struct fuse_entry2_ou=
-t);
-> > +               args->out_args[0].value =3D outarg2;
-> > +       } else {
-> > +               args->out_args[0].size =3D sizeof(struct fuse_entry_out=
-);
-> > +               args->out_args[0].value =3D outarg;
-> > +       }
-> > +}
-> > +
-> > +static void fuse_statx_to_attr(struct fuse_statx *sx, struct fuse_attr=
- *attr)
-> > +{
-> > +       memset(attr, 0, sizeof(*attr));
-> > +       attr->ino =3D sx->ino;
-> > +       attr->size =3D sx->size;
-> > +       attr->blocks =3D sx->blocks;
-> > +       attr->atime =3D sx->atime.tv_sec;
-> > +       attr->mtime =3D sx->mtime.tv_sec;
-> > +       attr->ctime =3D sx->ctime.tv_sec;
-> > +       attr->atimensec =3D sx->atime.tv_nsec;
-> > +       attr->mtimensec =3D sx->mtime.tv_nsec;
-> > +       attr->ctimensec =3D sx->ctime.tv_nsec;
-> > +       attr->mode =3D sx->mode;
-> > +       attr->nlink =3D sx->nlink;
-> > +       attr->uid =3D sx->uid;
-> > +       attr->gid =3D sx->gid;
-> > +       attr->rdev =3D new_encode_dev(MKDEV(sx->rdev_major, sx->rdev_mi=
-nor));
-> > +       attr->blksize =3D sx->blksize;
-> > +}
-> > +
-> > +static void fuse_entry2_to_entry(struct fuse_entry2_out *outarg2,
-> > +                                struct fuse_entry_out *outarg)
-> > +{
-> > +       memset(outarg, 0, sizeof(struct fuse_entry_out));
-> > +       outarg->nodeid =3D outarg2->nodeid;
-> > +       outarg->generation =3D outarg2->generation;
-> > +       outarg->entry_valid =3D outarg2->entry_valid;
-> > +       outarg->attr_valid =3D outarg2->attr_valid;
-> > +       outarg->entry_valid_nsec =3D outarg2->entry_valid_nsec;
-> > +       outarg->attr_valid_nsec =3D outarg2->attr_valid_nsec;
-> > +       fuse_statx_to_attr(&outarg2->statx, &outarg->attr);
-> > +}
-> > +
-> > +static __maybe_unused int fuse_process_entry2(struct fuse_conn *fc,
-> > +                                             struct fuse_entry2_out *o=
-utarg2,
-> > +                                             struct fuse_entry_out *ou=
-targ,
-> > +                                             struct fuse_statx **sxp)
-> > +{
-> > +       if (!fuse_use_entry2(fc))
-> > +               return 0;
-> > +
-> > +       fuse_entry2_to_entry(outarg2, outarg);
-> > +
-> > +       /* error */
-> > +       if (outarg2->backing_id < 0)
-> > +               return outarg2->backing_id;
-> > +
-> > +       /*
-> > +        * If passthrough is enabled (backing_id > 0), statx attributes=
- are not
-> > +        * cached because passthrough getattr fetches them directly fro=
-m the
-> > +        * backing inode
-> > +        */
-> > +       if (!outarg2->backing_id)
-> > +               *sxp =3D &outarg2->statx;
-> > +       return outarg2->backing_id;
-> > +}
-> > +
->
-> Need to check that outargs2->flags and ->reserved are 0.
 
-Good idea, I'll add checking for this in v2.
+Yes, you're correct. I'll change this to "must set
+``FOPEN_PASSTHROUGH`` (and optionally ``FOPEN_DIRECT_IO``) on open as
+cached..."
+
+I'll add a separate section about the hybrid FOPEN_PASSTHROUGH |
+FOPEN_DIRECT_IO mode to make it more clear that direct io supersedes
+passthrough for read/write but not mmap.
 
 Thanks,
 Joanne
->
-> Thanks,
-> Amir.
