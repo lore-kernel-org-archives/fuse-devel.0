@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3249132C924;
-	Wed, 22 Apr 2026 23:30:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51BE301472;
+	Wed, 22 Apr 2026 23:32:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776900646; cv=none; b=T8TvcwsWy20Ut3NydeVhADIptPL2CMA2Dch6oP8TglZPbUGv2ufl/E/vOILz5iDhhxKGyukmBCrrfpaTML5tAVilZXymwY9DuNbBbMGF7GqTu/sxywPJgNyUJJvh7eW1tgDxtVKRPfHjgi8wzqVWexzx7pwZPs9asfAaqzB9+a4=
+	t=1776900741; cv=none; b=SR9qniIOJ+gYOS8HEMUZgULI0nmibROn012re1NWe6K7kF/ftJ7IVRv5BqCS2MmXs7jKmnnkw8KxOK1Ktq35NSGesn68baLbIVVEuSM+JUPuaLduUoWtSNkOnKXmTmHOOy4Pw/wnkm5a2cKTIIcHcAJLT8CoshcBvajnLXUXHdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776900646; c=relaxed/simple;
-	bh=9L1HZddCQvHV5SFhUNt3RFhZ1S7dl1qZFSJrU3Edfvg=;
+	s=arc-20240116; t=1776900741; c=relaxed/simple;
+	bh=WwnC7XitwZWKv4lRazmoyJetBh+19Er4i2EDf+JnNfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YXBOumcxJfr8KG1R6ESntX/846VdxvWRwVrelgX6BX1rNi3C5s2KAGM/o3k2/hijYLmDd0rcIKfp0zocgqoRuZgxCWgj7dXh6ObPF12ztmBa4FoCoc2Sxw8FjnSo8MKsXIb8XYxHrWTwgTzzqQH8xOewW4J4jXmkg6uiK1ZMoe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWMx9UDI; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qvp9C76acXsbpnJs2fDYu9HWhiM3B1iHGuR5EG24E9vtRMunSsUtPPw+BwoU6BjIYGnydoJ+GCEXZbUwimLXaodRXFRjJfvvZSFxgjJMAoQq/IHrj0O6xbw0W3P0mG5SVeqV4XnZglR2RBunyW1Mwml1Ye1KGw1Wg8xevFbTkHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ORliHy3i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWMx9UDI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03476C2BCB6;
-	Wed, 22 Apr 2026 23:30:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ORliHy3i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8EEEC19425;
+	Wed, 22 Apr 2026 23:32:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776900646;
-	bh=9L1HZddCQvHV5SFhUNt3RFhZ1S7dl1qZFSJrU3Edfvg=;
+	s=k20201202; t=1776900740;
+	bh=WwnC7XitwZWKv4lRazmoyJetBh+19Er4i2EDf+JnNfc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TWMx9UDI//YRmBNyNzbg+CW/rv9jJgSkkrDZIcjoSklP2R/NSyYiJ4800MaPKFPR6
-	 euVQzuPrhNfDaAo279Wfgoq8+X9v+AWmU6aE3dR8ou2j7hu8hAxNa9mj6Sy6oM1fqA
-	 a5L8pw8wExA1me+TTmOaWfuf0N9HgjICir4nScd7NAM28rb4DgTlR2NSoG4OfwGbpy
-	 GPm1BWY1eDgyPvCZCUbjChYLz2cYP7Io3ZxLwQwRF3lOgsn2sbwip3wAqEm8AvrfxX
-	 jmXf/e6xA0+0zA9leA2owpjJePDmwZOzpy8OL4VlwB7dsie4tj3Drk56aDb9tOuJBo
-	 BAIQaYVus5C1g==
-Date: Wed, 22 Apr 2026 16:30:45 -0700
+	b=ORliHy3ioGXo3PgiRUVurWuBUrYoLjtAXXlw0Sv1r+oscSzizAVkPV1n6ZYgST/TY
+	 y2zOviz0ZrFTNaDsghG+PrD5VDyLLZdTr0rPWOvYhqlT0f0/Xl6CRRfFXXXzK5uncf
+	 NawY2uVRsLFDAReHYBlXOz30RZkIXRddjHonI+gVgqFWcXisLfG5psERT+5U3fVEaN
+	 EtFjwNqTenhc06Ud77aSkXfk85cMREp2YOgArBx6b3UomGrkY1/+IZ3N/cKM+6j21e
+	 wN0+//WShnS48GNC9ZRp9AkquLJ9NEFuhG7NffMkWAdrChBiVrzraOO+RKRIXscOJA
+	 eD2NM1tkV+5Ug==
+Date: Wed, 22 Apr 2026 16:32:20 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
 	linux-ext4 <linux-ext4@vger.kernel.org>,
@@ -36,8 +36,8 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
 	Theodore Ts'o <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>,
 	Amir Goldstein <amir73il@gmail.com>,
 	Christian Brauner <brauner@kernel.org>, demiobenour@gmail.com
-Subject: [RFC PATCH 2/4] exfat: enable fuse systemd service mode
-Message-ID: <20260422233045.GH7739@frogsfrogsfrogs>
+Subject: [RFC PATCH 3/4] fuseiso: enable systemd service mode
+Message-ID: <20260422233220.GI7739@frogsfrogsfrogs>
 References: <20260422231518.GA7717@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
@@ -51,62 +51,46 @@ In-Reply-To: <20260422231518.GA7717@frogsfrogsfrogs>
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-Enable use of exfat as a contained systemd service.
+Enable use of fuseiso as a contained fuse service.  This is a patch
+against the Debian package, which was ported to fuse3.
 
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- libexfat/exfat.h       |    3 +
- configure.ac           |  150 ++++++++++++++++++++++++++++++++++++++++++++++++
- fuse/Makefile.am       |   16 +++++
- fuse/exfat.socket.in   |   15 +++++
- fuse/exfat@.service.in |  102 +++++++++++++++++++++++++++++++++
- fuse/main.c            |  131 ++++++++++++++++++++++++++++++++++++++++--
- libexfat/io.c          |   21 ++++++-
- libexfat/mount.c       |   19 +++++-
- 8 files changed, 447 insertions(+), 10 deletions(-)
- create mode 100644 fuse/exfat.socket.in
- create mode 100644 fuse/exfat@.service.in
+ src/isofs.h             |    2 -
+ configure.in            |  148 +++++++++++++++++++++++++++++++++++++++++++++++
+ src/Makefile.am         |   16 +++++
+ src/fuseiso.c           |  134 +++++++++++++++++++++++++++++++++++++------
+ src/fuseiso.socket.in   |   16 +++++
+ src/fuseiso@.service.in |  102 ++++++++++++++++++++++++++++++++
+ 6 files changed, 398 insertions(+), 20 deletions(-)
+ create mode 100644 src/fuseiso.socket.in
+ create mode 100644 src/fuseiso@.service.in
 
-diff --git a/libexfat/exfat.h b/libexfat/exfat.h
-index 9b9a682844c093..3023ecd53acd5b 100644
---- a/libexfat/exfat.h
-+++ b/libexfat/exfat.h
-@@ -147,6 +147,7 @@ void exfat_warn(const char* format, ...) PRINTF;
- void exfat_debug(const char* format, ...) PRINTF;
+diff --git a/src/isofs.h b/src/isofs.h
+index 3755e886c9ccc2..b765baf209d77e 100644
+--- a/src/isofs.h
++++ b/src/isofs.h
+@@ -25,7 +25,7 @@
+ #include <linux/iso_fs.h>
+ #include <linux/rock.h>
  
- struct exfat_dev* exfat_open(const char* spec, enum exfat_mode mode);
-+struct exfat_dev* exfat_fdopen(int fd, const char* spec, enum exfat_mode mode);
- int exfat_close(struct exfat_dev* dev);
- int exfat_fsync(struct exfat_dev* dev);
- enum exfat_mode exfat_get_mode(const struct exfat_dev* dev);
-@@ -225,6 +226,8 @@ int exfat_set_label(struct exfat* ef, const char* label);
+-#define FUSE_USE_VERSION 314
++#define FUSE_USE_VERSION 319
+ #include <fuse.h>
  
- int exfat_soil_super_block(const struct exfat* ef);
- int exfat_mount(struct exfat* ef, const char* spec, const char* options);
-+int exfat_mount_from(struct exfat* ef, int fd, const char* spec,
-+		     const char* options);
- void exfat_unmount(struct exfat* ef);
+ typedef struct _isofs_context {
+diff --git a/configure.in b/configure.in
+index 9692dc114bfd73..30e2726cea8f2f 100644
+--- a/configure.in
++++ b/configure.in
+@@ -7,7 +7,153 @@ AC_LANG_C
+ AC_PROG_CC
+ AM_PROG_LIBTOOL
  
- time_t exfat_exfat2unix(le16_t date, le16_t time, uint8_t centisec,
-diff --git a/configure.ac b/configure.ac
-index ee62b88931b738..63e7327f7ee651 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -32,7 +32,7 @@ AM_PROG_AR
- AC_SYS_LARGEFILE
- AC_CANONICAL_HOST
- PKG_CHECK_MODULES([FUSE3], [fuse3],
--  [AC_DEFINE([FUSE_USE_VERSION], [30], [Required FUSE API version.])],
-+  [have_fuse3_pkg=yes ; AC_DEFINE([FUSE_USE_VERSION], [319], [Required FUSE API version.])],
-   [PKG_CHECK_MODULES([FUSE2], [fuse >= 2.6],
-     [AC_DEFINE([FUSE_USE_VERSION], [26], [Required FUSE API version.])])])
- AC_MSG_CHECKING([whether host-specific configuration is needed for $host_os])
-@@ -55,6 +55,154 @@ case "$host_os" in
-     AC_MSG_RESULT([no])
- 	;;
- esac
-+
-+
+-PKG_CHECK_MODULES([FUSE],[fuse3 >= 3.14.0],[],[AC_MSG_ERROR([libfuse3 is required])])
++PKG_CHECK_MODULES([FUSE],[fuse3 >= 3.19.0],[have_fuse3_pkg=yes],[AC_MSG_ERROR([libfuse3 is required])])
+ PKG_CHECK_MODULES([GLIB],[glib-2.0],[],[AC_MSG_ERROR([glib-2.0 is required])])
+ 
 +dnl
 +dnl Check if the FUSE library tells us where to put fs service sockets
 +dnl
@@ -163,7 +147,7 @@ index ee62b88931b738..63e7327f7ee651 100644
 +
 +	AC_MSG_CHECKING([for fuse_service_accept in libfuse])
 +	old_cflags="$CFLAGS"
-+	CFLAGS="$CFLAGS $FUSE3_CFLAGS"
++	CFLAGS="$CFLAGS $FUSE_CFLAGS"
 +	AC_LINK_IFELSE(
 +	[	AC_LANG_PROGRAM([[
 +	#define _GNU_SOURCE
@@ -236,93 +220,290 @@ index ee62b88931b738..63e7327f7ee651 100644
 +AC_SUBST(have_systemd)
 +AC_SUBST(systemd_system_unit_dir)
 +
-+AC_MSG_CHECKING([for exfat-fuse service support and systemd])
++AC_MSG_CHECKING([for fuseiso service support and systemd])
 +AS_IF([test "${FUSE4FS_CMT}${have_fuse_service}${have_systemd}" = "yesyes"],
 +      [
 +           AC_MSG_RESULT(yes)
-+           AC_DEFINE(HAVE_EXFAT_FUSE_SERVICE, 1,
-+                     [Define to 1 if exfat should be built with fuse service support])
-+           have_exfat_service=yes
-+           AM_CONDITIONAL(HAVE_EXFAT_FUSE_SERVICE, [true])
++           AC_DEFINE(HAVE_FUSEISO_FUSE_SERVICE, 1,
++                     [Define to 1 if fuseiso should be built with fuse service support])
++           have_fuseiso_fuse_service=yes
++           AM_CONDITIONAL(HAVE_FUSEISO_FUSE_SERVICE, [true])
 +      ],
 +      [
 +           AC_MSG_RESULT(no)
-+           AM_CONDITIONAL(HAVE_EXFAT_FUSE_SERVICE, [false])
-+           have_exfat_service=no
++           AM_CONDITIONAL(HAVE_FUSEISO_FUSE_SERVICE, [false])
++           have_fuseiso_fuse_service=no
 +      ]
 +)
-+AC_SUBST(have_exfat_service)
++AC_SUBST(have_fuseiso_service)
 +
- AC_CONFIG_HEADERS([libexfat/config.h])
- AC_CONFIG_FILES([
- 	libexfat/Makefile
-diff --git a/fuse/Makefile.am b/fuse/Makefile.am
-index 09c8cac9f5d0ec..660b23ce1965fc 100644
---- a/fuse/Makefile.am
-+++ b/fuse/Makefile.am
-@@ -27,6 +27,22 @@ mount_exfat_fuse_CPPFLAGS = -imacros $(top_srcdir)/libexfat/config.h
- mount_exfat_fuse_CFLAGS = $(FUSE2_CFLAGS) $(FUSE3_CFLAGS) $(UBLIO_CFLAGS)
- mount_exfat_fuse_LDADD = $(top_srcdir)/libexfat/libexfat.a $(FUSE2_LIBS) $(FUSE3_LIBS) $(UBLIO_LIBS)
+ AC_OUTPUT(Makefile src/Makefile zAppRun/Makefile)
+diff --git a/src/Makefile.am b/src/Makefile.am
+index cb05da8cd1653c..97cded13a71c96 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -8,4 +8,20 @@ INCLUDES= $(all_includes)
+ fuseiso_LDFLAGS = $(all_libraries) $(FUSE_LIBS) $(GLIB_LIBS) -lz
+ noinst_HEADERS = isofs.h
  
-+if HAVE_EXFAT_FUSE_SERVICE
-+bin_SCRIPTS = exfat.socket exfat@.service
++if HAVE_FUSEISO_FUSE_SERVICE
++bin_SCRIPTS = fuseiso.socket fuseiso@.service
 +endif
 +
-+exfat.socket: exfat.socket.in
++fuseiso.socket: fuseiso.socket.in
 +	sed \
 +		-e "s|@FUSE3_SERVICE_SOCKET_DIR@|$(fuse_service_socket_dir)|g" \
 +		-e "s|@FUSE3_SERVICE_SOCKET_PERMS@|$(fuse_service_socket_perms)|g" \
 +		< $< > $@
 +
-+exfat@.service: exfat@.service.in
-+	sed -e "s|@SBINDIR@|$(sbindir)|g" \
++fuseiso@.service: fuseiso@.service.in
++	sed -e "s|@BINDIR@|$(bindir)|g" \
 +		   < $< > $@
 +
 +EXTRA_PROGRAMS=$(SERVICE_FILES)
 +
- install-exec-hook:
- 	ln -sf $(sbin_PROGRAMS) $(DESTDIR)$(sbindir)/mount.exfat
+ AM_CFLAGS = -D_FILE_OFFSET_BITS=64 $(FUSE_CFLAGS) $(GLIB_CFLAGS) -Wall
+diff --git a/src/fuseiso.c b/src/fuseiso.c
+index 47b94c72161c5f..46b2a61429074b 100644
+--- a/src/fuseiso.c
++++ b/src/fuseiso.c
+@@ -38,12 +38,16 @@
  
-diff --git a/fuse/exfat.socket.in b/fuse/exfat.socket.in
+ #include <linux/iso_fs.h>
+ 
+-#define FUSE_USE_VERSION 314
++#define FUSE_USE_VERSION 319
+ #include <fuse.h>
+ 
+ #include <zlib.h>
+ #include <locale.h>
+ #include <langinfo.h>
++#ifdef HAVE_FUSEISO_FUSE_SERVICE
++# include <sys/mount.h>
++# include <fuse_service.h>
++#endif
+ 
+ #include "isofs.h"
+ 
+@@ -61,6 +65,78 @@ int maintain_mount_point;
+ int maintain_mtab;
+ char* iocharset;
+ 
++#ifdef HAVE_FUSEISO_FUSE_SERVICE
++static struct fuse_service *service;
++
++static inline bool isofs_is_service(void)
++{
++    return fuse_service_accepted(service);
++}
++
++static int isofs_service_connect(struct fuse_args *args)
++{
++    int ret;
++
++    ret = fuse_service_accept(&service);
++    if (ret)
++        return ret;
++
++    if (fuse_service_accepted(service))
++        return fuse_service_append_args(service, args);
++
++    return 0;
++}
++
++static int isofs_service_get_config(const char *device, int *fdp)
++{
++    int fd;
++    int ret;
++
++    ret = fuse_service_request_file(service, device, O_RDONLY, 0, 0);
++    if (ret)
++        return ret;
++
++    ret = fuse_service_receive_file(service, device, &fd);
++    if (ret)
++        return ret;
++
++    if (fd < 0) {
++        fprintf(stderr, "%s opening device: %s.\n", device,
++                strerror(-fd));
++        return -1;
++    }
++    *fdp = fd;
++
++    return fuse_service_finish_file_requests(service);
++}
++
++static int isofs_service_main(int fuseopts_cnt, char **fuseopts,
++                              const struct fuse_operations *ops)
++{
++    struct fuse_args args = FUSE_ARGS_INIT(fuseopts_cnt, fuseopts);
++
++    fuse_service_expect_mount_format(service, S_IFDIR);
++    return fuse_service_main(service, &args, ops, NULL);
++}
++
++static int isofs_service_finish(int exitcode)
++{
++    if (!isofs_is_service())
++        return exitcode;
++
++    fuse_service_send_goodbye(service, exitcode);
++    fuse_service_destroy(&service);
++
++    return fuse_service_exit(exitcode);
++}
++#else
++# define isofs_is_service(...)		(false)
++# define isofs_service_connect(...)	(0)
++# define isofs_service_get_config(...)	(EOPNOTSUPP)
++# define isofs_service_main(...)	(1)
++# define isofs_service_finish(ret)	(ret)
++#endif /* HAVE_FUSEISO_FUSE_SERVICE */
++
+ char* normalize_name(const char* fname) {
+     char* abs_fname = (char *) malloc(PATH_MAX);
+     realpath(fname, abs_fname);
+@@ -305,6 +381,8 @@ void usage(const char* prog) {
+ 
+ int main(int argc, char *argv[])
+ {
++    struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
++
+     setlocale(LC_ALL, ""); // set current locale for proper iocharset
+     
+     // defaults
+@@ -315,10 +393,15 @@ int main(int argc, char *argv[])
+     char **fuseopts = reallocarray(NULL, 1, sizeof(*fuseopts));
+     fuseopts[0] = argv[0];
+     size_t fuseopts_cnt = 1;
++    int rc;
++
++    rc = isofs_service_connect(&args);
++    if (rc)
++        exit(EXIT_FAILURE);
+     
+     int c;
+     char *s;
+-    while((c = getopt(argc, argv, "+npc:ho:sfdV")) > 0) {
++    while((c = getopt(args.argc, args.argv, "+npc:ho:sfdV")) > 0) {
+         switch((char)c) {
+             case 'n':
+                 maintain_mtab = 0;
+@@ -361,26 +444,35 @@ int main(int argc, char *argv[])
+         };
+     };
+     
+-    if((argc - optind) < 2) {
++    if((args.argc - optind) < 2) {
+         usage(argv[0]);
+         exit(EXIT_FAILURE);
+     };
+     
+-    imagefile = normalize_name(argv[optind++]);
++    imagefile = normalize_name(args.argv[optind++]);
++
++    if (isofs_is_service()) {
++        maintain_mtab = 0;
++        maintain_mount_point = 0;
++
++        rc = isofs_service_get_config(imagefile, &image_fd);
++        if (rc || image_fd < 0)
++            exit(EXIT_FAILURE);
++    } else {
++        image_fd = open(imagefile, O_RDONLY);
++        if(image_fd == -1) {
++            fprintf(stderr, "Supplied image file name: \"%s\"\n", imagefile);
++            perror("Can`t open image file");
++            exit(EXIT_FAILURE);
++        };
++    }
+     
+-    image_fd = open(imagefile, O_RDONLY);
+-    if(image_fd == -1) {
+-        fprintf(stderr, "Supplied image file name: \"%s\"\n", imagefile);
+-        perror("Can`t open image file");
+-        exit(EXIT_FAILURE);
+-    };
++    mount_point = normalize_name(args.argv[optind]);
+     
+-    mount_point = normalize_name(argv[optind]);
++    fuseopts = reallocarray(fuseopts, fuseopts_cnt + args.argc - optind, sizeof(*fuseopts));
+     
+-    fuseopts = reallocarray(fuseopts, fuseopts_cnt + argc - optind, sizeof(*fuseopts));
+-    
+-    while(optind < argc) {
+-        fuseopts[fuseopts_cnt++] = argv[optind++];
++    while(optind < args.argc) {
++        fuseopts[fuseopts_cnt++] = args.argv[optind++];
+     };
+     
+     if(!iocharset) {
+@@ -395,7 +487,6 @@ int main(int argc, char *argv[])
+         };
+     };
+     
+-    int rc;
+     if(maintain_mount_point) {
+         rc = check_mount_point();
+         if(rc != 0) {
+@@ -412,6 +503,13 @@ int main(int argc, char *argv[])
+     
+     // will exit in case of failure
+     rc = isofs_real_preinit(imagefile, image_fd);
+-    
+-    return fuse_main(fuseopts_cnt, fuseopts, &isofs_oper, NULL);
++    if (rc)
++        exit(EXIT_FAILURE);
++
++    if (isofs_is_service())
++        rc = isofs_service_main(fuseopts_cnt, fuseopts, &isofs_oper);
++    else
++        rc = fuse_main(fuseopts_cnt, fuseopts, &isofs_oper, NULL);
++
++    return isofs_service_finish(rc);
+ };
+diff --git a/src/fuseiso.socket.in b/src/fuseiso.socket.in
 new file mode 100644
-index 00000000000000..8a957ad700fc16
+index 00000000000000..a2ea11e408fa81
 --- /dev/null
-+++ b/fuse/exfat.socket.in
-@@ -0,0 +1,15 @@
++++ b/src/fuseiso.socket.in
+@@ -0,0 +1,16 @@
 +# SPDX-License-Identifier: GPL-2.0-or-later
 +#
 +# Copyright (C) 2026 Oracle.  All Rights Reserved.
 +# Author: Darrick J. Wong <djwong@kernel.org>
 +[Unit]
-+Description=Socket for exfat Service
++Description=Socket for fuseiso Service
 +
 +[Socket]
-+ListenSequentialPacket=@FUSE3_SERVICE_SOCKET_DIR@/exfat
++ListenSequentialPacket=@FUSE3_SERVICE_SOCKET_DIR@/isofs
++ListenSequentialPacket=@FUSE3_SERVICE_SOCKET_DIR@/iso9660
 +Accept=yes
 +SocketMode=@FUSE3_SERVICE_SOCKET_PERMS@
 +RemoveOnStop=yes
 +
 +[Install]
 +WantedBy=sockets.target
-diff --git a/fuse/exfat@.service.in b/fuse/exfat@.service.in
+diff --git a/src/fuseiso@.service.in b/src/fuseiso@.service.in
 new file mode 100644
-index 00000000000000..9b7855fe524de6
+index 00000000000000..7f2d8977ccf6a9
 --- /dev/null
-+++ b/fuse/exfat@.service.in
++++ b/src/fuseiso@.service.in
 @@ -0,0 +1,102 @@
 +# SPDX-License-Identifier: GPL-2.0-or-later
 +#
 +# Copyright (C) 2026 Oracle.  All Rights Reserved.
 +# Author: Darrick J. Wong <djwong@kernel.org>
 +[Unit]
-+Description=exfat Service
++Description=fuseiso Service
 +
 +# Don't leave failed units behind, systemd does not clean them up!
 +CollectMode=inactive-or-failed
 +
 +[Service]
 +Type=exec
-+ExecStart=/@SBINDIR@/mount.exfat-fuse
++ExecStart=/@BINDIR@/fuseiso
 +
 +# Try to capture core dumps
 +LimitCORE=infinity
@@ -412,294 +593,3 @@ index 00000000000000..9b7855fe524de6
 +# service, because we don't want filesystem drivers to go down.
 +OOMPolicy=continue
 +OOMScoreAdjust=-1000
-diff --git a/fuse/main.c b/fuse/main.c
-index cf1033a543f038..d7aa8d21db62e3 100644
---- a/fuse/main.c
-+++ b/fuse/main.c
-@@ -34,6 +34,10 @@
- #include <sys/types.h>
- #include <pwd.h>
- #include <unistd.h>
-+#ifdef HAVE_EXFAT_FUSE_SERVICE
-+# include <sys/mount.h>
-+# include <fuse_service.h>
-+#endif
- 
- #ifndef DEBUG
- 	#define exfat_debug(format, ...) do {} while (0)
-@@ -45,6 +49,102 @@
- 
- struct exfat ef;
- 
-+#ifdef HAVE_EXFAT_FUSE_SERVICE
-+static struct fuse_service *service;
-+static int bdev_fd = -1;
-+
-+static inline bool fuse_exfat_is_service(void)
-+{
-+	return fuse_service_accepted(service);
-+}
-+
-+static int fuse_exfat_service_connect(struct fuse_args *args)
-+{
-+	int ret;
-+
-+	ret = fuse_service_accept(&service);
-+	if (ret)
-+		return ret;
-+
-+	if (fuse_service_accepted(service))
-+		return fuse_service_append_args(service, args);
-+
-+	return 0;
-+}
-+
-+static int fuse_exfat_service_get_config(const char *device, bool ro)
-+{
-+	int open_flags = 0; /* fuseblk server means we can't open exclusive */
-+	int fd;
-+	int ret;
-+
-+	if (ro)
-+		open_flags |= O_RDONLY;
-+	else
-+		open_flags |= O_SYNC | O_RDWR;
-+
-+	ret = fuse_service_request_file(service, device, open_flags, 0, 0);
-+	if (ret)
-+		return ret;
-+
-+	ret = fuse_service_receive_file(service, device, &fd);
-+	if (ret)
-+		return ret;
-+
-+	if (fd < 0) {
-+		fprintf(stderr, "%s opening device: %s.\n", device,
-+			   strerror(-fd));
-+		return -1;
-+	}
-+	bdev_fd = fd;
-+
-+	return fuse_service_finish_file_requests(service);
-+}
-+
-+static int fuse_exfat_service_mount(struct exfat *ef, const char *spec,
-+				    const char *exfat_options)
-+{
-+	const int is_ro = exfat_match_option(exfat_options, "ro");
-+	int rc;
-+
-+	rc = fuse_exfat_service_get_config(spec, is_ro);
-+	if (rc)
-+		return EXIT_FAILURE;
-+
-+	return exfat_mount_from(ef, bdev_fd, spec, exfat_options);
-+}
-+
-+static int fuse_exfat_service_main(char **argv,
-+				   const struct fuse_operations *ops)
-+{
-+	struct fuse_args args = FUSE_ARGS_INIT(0, argv);
-+	char **p = argv;
-+
-+	while (*(p++) != NULL)
-+		args.argc++;
-+
-+	fuse_service_expect_mount_format(service, S_IFDIR);
-+	return fuse_service_main(service, &args, ops, NULL);
-+}
-+
-+static int fuse_exfat_service_finish(int exitcode)
-+{
-+	if (!fuse_exfat_is_service())
-+		return exitcode;
-+
-+	fuse_service_send_goodbye(service, exitcode);
-+	fuse_service_destroy(&service);
-+
-+	return fuse_service_exit(exitcode);
-+}
-+#else
-+# define fuse_exfat_is_service(...)		(false)
-+# define fuse_exfat_service_connect(...)	(0)
-+# define fuse_exfat_service_mount(...)		(1)
-+# define fuse_exfat_service_main(...)		(1)
-+# define fuse_exfat_service_finish(ret)		(ret)
-+#endif /* HAVE_EXFAT_FUSE_SERVICE */
-+
- static struct exfat_node* get_node(const struct fuse_file_info* fi)
- {
- 	return (struct exfat_node*) (size_t) fi->fh;
-@@ -529,6 +629,12 @@ static char* add_user_option(char* options)
- 
- 	if (getuid() == 0)
- 		return options;
-+	if (fuse_exfat_is_service()) {
-+		options = add_option(options, "uid", "0");
-+		if (!options)
-+			return NULL;
-+		return add_option(options, "gid", "0");
-+	}
- 
- 	pw = getpwuid(getuid());
- 	if (pw == NULL || pw->pw_name == NULL)
-@@ -601,12 +707,17 @@ static char* add_passthrough_fuse_options(char* fuse_options,
- static int fuse_exfat_main(char* mount_options, char* mount_point)
- {
- 	char* argv[] = {"exfat", "-s", "-o", mount_options, mount_point, NULL};
-+
-+	if (fuse_exfat_is_service())
-+		return fuse_exfat_service_main(argv, &fuse_exfat_ops);
-+
- 	return fuse_main(sizeof(argv) / sizeof(argv[0]) - 1, argv,
- 			&fuse_exfat_ops, NULL);
- }
- 
- int main(int argc, char* argv[])
- {
-+	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
- 	const char* spec = NULL;
- 	char* mount_point = NULL;
- 	char* fuse_options;
-@@ -633,7 +744,11 @@ int main(int argc, char* argv[])
- 		return 1;
- 	}
- 
--	while ((opt = getopt(argc, argv, "dno:Vv")) != -1)
-+	rc = fuse_exfat_service_connect(&args);
-+	if (rc)
-+		exit(EXIT_FAILURE);
-+
-+	while ((opt = getopt(args.argc, args.argv, "dno:Vv")) != -1)
- 	{
- 		switch (opt)
- 		{
-@@ -675,16 +790,20 @@ int main(int argc, char* argv[])
- 			break;
- 		}
- 	}
--	if (argc - optind != 2)
-+	if (args.argc - optind != 2)
- 	{
- 		free(exfat_options);
- 		free(fuse_options);
- 		usage(argv[0]);
- 	}
--	spec = argv[optind];
--	mount_point = argv[optind + 1];
-+	spec = args.argv[optind];
-+	mount_point = args.argv[optind + 1];
- 
--	if (exfat_mount(&ef, spec, exfat_options) != 0)
-+	if (fuse_exfat_is_service())
-+		rc = fuse_exfat_service_mount(&ef, spec, exfat_options);
-+	else
-+		rc = exfat_mount(&ef, spec, exfat_options);
-+	if (rc != 0)
- 	{
- 		free(exfat_options);
- 		free(fuse_options);
-@@ -704,5 +823,5 @@ int main(int argc, char* argv[])
- 	rc = fuse_exfat_main(fuse_options, mount_point);
- 
- 	free(fuse_options);
--	return rc;
-+	return fuse_exfat_service_finish(rc);
- }
-diff --git a/libexfat/io.c b/libexfat/io.c
-index 7af5316da70b4b..2a4c823979a9a8 100644
---- a/libexfat/io.c
-+++ b/libexfat/io.c
-@@ -86,7 +86,8 @@ static int open_rw(const char* spec)
- 	return fd;
- }
- 
--struct exfat_dev* exfat_open(const char* spec, enum exfat_mode mode)
-+static struct exfat_dev* __exfat_open(int fd, const char* spec,
-+				      enum exfat_mode mode)
- {
- 	struct exfat_dev* dev;
- 	struct stat stbuf;
-@@ -119,6 +120,10 @@ struct exfat_dev* exfat_open(const char* spec, enum exfat_mode mode)
- 		return NULL;
- 	}
- 
-+	dev->fd = fd;
-+	if (dev->fd >= 0)
-+		goto opened;
-+
- 	switch (mode)
- 	{
- 	case EXFAT_MODE_RO:
-@@ -162,6 +167,7 @@ struct exfat_dev* exfat_open(const char* spec, enum exfat_mode mode)
- 		return NULL;
- 	}
- 
-+opened:
- 	if (fstat(dev->fd, &stbuf) != 0)
- 	{
- 		close(dev->fd);
-@@ -284,6 +290,19 @@ struct exfat_dev* exfat_open(const char* spec, enum exfat_mode mode)
- 	return dev;
- }
- 
-+struct exfat_dev* exfat_open(const char* spec, enum exfat_mode mode)
-+{
-+	return __exfat_open(-1, spec, mode);
-+}
-+
-+struct exfat_dev* exfat_fdopen(int fd, const char* spec, enum exfat_mode mode)
-+{
-+	if (fd < 0)
-+		return NULL;
-+
-+	return __exfat_open(fd, spec, mode);
-+}
-+
- int exfat_close(struct exfat_dev* dev)
- {
- 	int rc = 0;
-diff --git a/libexfat/mount.c b/libexfat/mount.c
-index 86fb84db2445f5..dd6cf707d2ebbc 100644
---- a/libexfat/mount.c
-+++ b/libexfat/mount.c
-@@ -180,7 +180,8 @@ static void exfat_free(struct exfat* ef)
- 	ef->sb = NULL;
- }
- 
--int exfat_mount(struct exfat* ef, const char* spec, const char* options)
-+static int __exfat_mount(struct exfat* ef, int fd, const char* spec,
-+			 const char* options)
- {
- 	int rc;
- 	enum exfat_mode mode;
-@@ -196,7 +197,10 @@ int exfat_mount(struct exfat* ef, const char* spec, const char* options)
- 		mode = EXFAT_MODE_ANY;
- 	else
- 		mode = EXFAT_MODE_RW;
--	ef->dev = exfat_open(spec, mode);
-+	if (fd >= 0)
-+		ef->dev = exfat_fdopen(fd, spec, mode);
-+	else
-+		ef->dev = exfat_open(spec, mode);
- 	if (ef->dev == NULL)
- 		return -ENODEV;
- 	if (exfat_get_mode(ef->dev) == EXFAT_MODE_RO)
-@@ -340,6 +344,17 @@ int exfat_mount(struct exfat* ef, const char* spec, const char* options)
- 	return -EIO;
- }
- 
-+int exfat_mount_from(struct exfat* ef, int fd, const char* spec,
-+		     const char* options)
-+{
-+	return __exfat_mount(ef, fd, spec, options);
-+}
-+
-+int exfat_mount(struct exfat* ef, const char* spec, const char* options)
-+{
-+	return __exfat_mount(ef, -1, spec, options);
-+}
-+
- static void finalize_super_block(struct exfat* ef)
- {
- 	if (ef->ro)
