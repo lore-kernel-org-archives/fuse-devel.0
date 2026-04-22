@@ -1,80 +1,80 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70658243387
-	for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 01:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EA5946A
+	for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 01:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776820167; cv=pass; b=RiWJU2mnNKCRCzi6DiONpt+ckloZLYK0qID7otnVIq/oSUaRV77KoWUPNGugl8L5mHfIKW52x/pPQm686zkEhV3U6qN6fGj7Jd1Bop0JJ8k1mfFLDDTgEHAg1ex3xkr5SmNZdfQTlhK1Pkh+eehoocIDBGfMh1fzn3nkU+6gKGc=
+	t=1776820375; cv=pass; b=gA2f1DgZ3kfc4lK8ljCow8OKOkV8l3/wKFBsP93QyiCQ5E/cC0DTdmXxj7lI3VE+WTHSTcpa6AdBM02DQJkhT8SdKmZYRzEnJd9FT7diXvZoZnERjtdG25IS9jIAt2/xtT0zHWpwmOfJHlcOpv7UXAYYxxUe/4V8tiYq6bxWUgg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776820167; c=relaxed/simple;
-	bh=Fnii3NYAJaLvvIdaKcoO7JTQ9O/FYtaHIOYaDTNjPIM=;
+	s=arc-20240116; t=1776820375; c=relaxed/simple;
+	bh=5Kpzf1z/QXKri3451zC4pCm8GpjWWMaSJQPAtRRk+wk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FrZC24XVpRRInW22t+0qgMpzWYmWrnTkA4OIYqS4YVdxMVMe3LEvPGOTpI9NwMozPARQswkD9mJQSVnx8V3P2CMGHDL3FxHhXs6g1foRF72C6zgNo/MouHNRU64G+XSicjFdq6IU4pRe+tyOoUtjYrNFoer9i2k8ZFSTObMg5z0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KywrQYLQ; arc=pass smtp.client-ip=209.85.128.48
+	 To:Cc:Content-Type; b=quZMfF7BM2O79CeJl/Xt6/4PCkcJCTFm2u/hAlDUXp+ESD4HevUB9+l938kUGMDrwZTeILx/9uRR3x5kCaB3tkZ5lA2TnoAsjkOzq6GqkztVVnUR0Od1xMQOxjUSwRN/pZGJXaBu1ZMM92CKEizYkDvb0n+oecWNQpMN1W3/lqs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WzC/GNzn; arc=pass smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KywrQYLQ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488d2079582so56632035e9.2
-        for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 18:09:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776820165; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WzC/GNzn"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488d2079582so56652135e9.2
+        for <fuse-devel@lists.linux.dev>; Tue, 21 Apr 2026 18:12:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776820373; cv=none;
         d=google.com; s=arc-20240605;
-        b=S3GHEn+tiqNqBuwXvbQ6/q+G3kUsGMM4obNMLg22H3HJrnKnXZfrLFW4VcPxKrlEHs
-         R0MlVOqBM/Wud/ygRDElLdSckA6w7Yuwagt6SrlUhzmv2eOuGLefY0/V/oxXT0ii5GAL
-         9sb9qyOWkWH/Ri4YTH4c8olW5n5uf3DhsvfIvWxan2oRbfmFWlg6K6/fpjhqicQXi8FH
-         gYVLJ3EhHizO5L6NKZDG2dXavV3mfjSYpFIuFl6mr1w1anYnlkLpUx2dnKLW4Pq6bluD
-         6SCztAK1T3ZkttWvyEFydvsxPMlbR1IispFpIgAuiJWMUBVEzbPgDTWU3Pp4VOPymSld
-         dwJA==
+        b=MVe0TpLm0/JLRWCrNAmxkVdewtpSIRjfxk7GCYqwFVErqpWzuOw0+flTk7YU7aSNtM
+         eJfQ7L/shqblqc0JiPSpz8nqNAE8Gydp2mHB93gMiBVFhHfSzsmQv85pTvyXi0BQPe9S
+         9Or4dmpw5Mkt9AmqqME1OIyO3V9mW82ZVa0a+3MDvJWFdH064LV8KrCLebpkCiulWDEr
+         /txHSDRa8LJkGCck1eAbmTZXIF8Vcc1P57kRweBo/VLEiXexVK1y2UP+PQY/ItPeCHLz
+         hAwXW8N8+w0KWC4eDlqI/IYa+cf8jR1XlekIze0vt5U0yzpPxNrrIJznNtAxGgYQtDgO
+         QpLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=iSKimt7kboTqf9PUjcctwLDm2DzQ8kFx1ojT5/KY/iE=;
-        fh=B6y+LnjGXk5+MkGJhXt/eVtjYD4PIzt8fjFpiiE46Ts=;
-        b=NleS7A5gED6kQGE8xG8DFqDpj0/sDbsSBEaVkHuhEl7j2jgqFPlA5YOVsB91CmSCzg
-         vndQzsuD1ZqiMDZBrCiucD9zavJnPjjq+m8YWoImCSMIwHanKjHSRWRdzxUCrOl96iOC
-         Gs1Qq0ASjrihc/79K4g4400IX2DnpzeCe/k47+8JdMZrFgS3yZ4MMW0sgM8vkl9WParh
-         mjpEA0i77oc7Ui9iWBCojWU/w8LyyfXGEPK3sUDnEDzwq3KmAc5HS5XoS6ufuLuAH/x/
-         uXdfGI4ScNYz+LCPj0/W3qHA2J8Q7eUlTQcc02L3yBanb5P9a9GEbaXbLdCYM1SC7Seu
-         T3GA==;
+        bh=PmzP215krYFl2YDqXJAWJZnkyXPolY3vOORJ80u6E9w=;
+        fh=RbjPxWWzErxKjh2E1KsXZgovrNokUrTX/HRYB8fzPG4=;
+        b=UgTUnK9/LV/SIfbbpPwqdtj6wIN2y0Cs1hzmDTPP0xrfeVpWj1FilOt6aMtpjDIsEJ
+         GT+ECmaBtW6Ns4e+miMPXtOVbj+8pNPHL2Cl5Sw2e2y84/KcgDCHTxIFH5j9LVCU+JJO
+         dXUxKoFSsR7FPoETFPK0uCLBbeR5eymMP2X79lmSvh69xjR3xXf20y8DkwmuCYkZqkeH
+         l3tKHtMtuhOs/F8lGcpTiM8HbVWF/IWcQLXXVVNXjIQS5+bFZY4/xrDnQHvroqH54rDz
+         KJm0w8aSvdSam++edvCPOswsA6IA/j2pOgt8N7NdpvBSMai4TXSLKT5KqXwg8aDg5KQu
+         i5IA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776820165; x=1777424965; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776820373; x=1777425173; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iSKimt7kboTqf9PUjcctwLDm2DzQ8kFx1ojT5/KY/iE=;
-        b=KywrQYLQk+TJ03AkZauZRXbnein08gccaDkRqAOoZh0oH3+rhg84/AhilDhrYdTf5x
-         XKOrWvycl95slPey7Tj8OAfVavC6NI9Dy0L1KESlcO81mbrhSLzB+R1vuEFdeU1qmxpu
-         JxWM71bneK648Ce0/t/E+yr+pPeIqdoOy6cn/4JZQfDVRH9k/kWFon8C//BaXgrBdAKL
-         s6P6oyDTchzopvA/nIu7xW55gbEki9Q9swaM5Ba3N4UVs7L+QdAKCarPct45NsjTIYxI
-         wzOdxM8c60W5Eww0J6H/UxNWMFvytr6EID0TAlej+A+zvp0nxkyzelQ/DJmFue2eiGmO
-         QGGw==
+        bh=PmzP215krYFl2YDqXJAWJZnkyXPolY3vOORJ80u6E9w=;
+        b=WzC/GNzneuS6j0EyeJ4dUovp8czTxywFsfBZ5BxHS5BDC6aApGsqQJio3YqTI/Hg/X
+         cSXMPYnkegiCtJOPWUjxTirBoG5e953FImshPzSbfpls2qkO2K4nxcMFnbFgbLqszyM6
+         YzrT4bFtHbjEScWjoWlrZ3Sl4KcxQEk7LOXFkpXFOwwZ1/FaaCxy9DuJ9xYFIac45mj2
+         8DnhLlPwun4aKOs7DqQc+JGDQFmJAMkAJEG+MpFO0dGwy1NvzgaPRDErv3C3DLC1nPZG
+         4gavyBWa8dmrlDdQMpUBsGa5+HYUzQZ9IX/fFGuPIgjS1MHQOgLZHl1lsbRN4rGLyx0f
+         AREw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776820165; x=1777424965;
+        d=1e100.net; s=20251104; t=1776820373; x=1777425173;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=iSKimt7kboTqf9PUjcctwLDm2DzQ8kFx1ojT5/KY/iE=;
-        b=mlT8dySBMXjjaz+Q+5xn2BWrQvRL3EqX3Gh5buc8RaBUzt+yjfxD5bQXQQd3auDfMx
-         kMaEljZyJvZqUsuLV89F/SXEHHurKRLH5FU2IyBBomAZAgvbZlrsUZaJwcyHxholTGoC
-         UVlG0XmMEHK9vJVIS0eoAlDlbBzCqimSG6vlASM3k2Y1f7kIL/A8ZJHOFlPa+TtGjo3/
-         HoeRolsGVGYLCZ++XFJxL6AuU5LpDq7NEoZr83B3cZPoqMoIMqZyy2SAYfoKZ5EUyCn+
-         3Vvz4Vqna6Pft3GFPGd5wmE5dYesT1kxhJj4BXo6p9aMdZ5o/4dNbRsBAHm/w9CuL/LF
-         BYmQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9DFou0lIt/gD8hagUcfphycYHj3IpYP7qUuyA1yF5GgnPfpITG9RG22xs4tGPKCf91AWN7k8TIfzQv@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBx/0j8Bzuf+xmc8ZNi1YDuL6rC6KJzv1vcJoLvXztfgkTPPUS
-	pPZA7vZDs3xe1bNGiQsKLkv8jG9Ua/gTGatLHCgDnAwd2LcNzGgKZgDx1ri3WEvCsFXZ/OgoZeu
-	uX4b3QGuRPqsfAWW3WNlneyVsUFmBKqg=
-X-Gm-Gg: AeBDieuiDCqP8trI4xtkowHD89Sa4wRcwIdD2FxjY6L4xTvM/fqaDGn8d+Pb7Dez0JU
-	CkCSx1cfG+eDZ5kzTIfG3TGS+7GZset45nqsjT8nvdbxqY0AU8tUsf3pGoOnoyZiAvVhK0q6mSW
-	r7wcMLDVfuakUml0WHrGCmX1x/gMghkqMvhDjFsafU538npPs6A6MvGtqqeRdwiXbC5V5WXkavI
-	PseZOL6iEpp4tsoUodHEJbqNuwHOXX8G81erPz+wCPcX9ADKWZmRRf2QQz2xuAuUTkWKCVY3MfA
-	MH0SEkrOu3dPqKqX8BHh9ja2T5w=
-X-Received: by 2002:a05:600c:64c7:b0:488:a2ac:a334 with SMTP id
- 5b1f17b1804b1-488fb73aa3bmr307877995e9.3.1776820164772; Tue, 21 Apr 2026
- 18:09:24 -0700 (PDT)
+        bh=PmzP215krYFl2YDqXJAWJZnkyXPolY3vOORJ80u6E9w=;
+        b=m48dWL3U9ArP7ODB8alPlLWGLDmOi3ZNKkR5qaJklaeaDiBqZNzjV6X97gSucz0Yxg
+         uXT+FSY1/WkfNgJ0j1qdrnA9TVe+mj1b3K+fvRDon7NWRx/aizm74pjmaTDVn3Z0YRms
+         YvHLGTnLAm2tVhevzFji2ctUfSXpPJMhA7IaaVocqhB1VBegjtkIj91qPaAoPu1BDnmn
+         QmlsCp7xj71mETJbwom1qEyXfNPWmTi2S5ORJU+WVJsoe3Sc79MwqBkeZKwoLRNkIvW/
+         5XeYbhDsV7Kq79h7ZayXUE9Ebig7M5HQRdVOYZdpv3Up0mHd+rm1hn+g1p2SIUlYcSdb
+         NUlg==
+X-Forwarded-Encrypted: i=1; AFNElJ9uSunKMr8H1zbsgFXs/aInEnXr2GQJkD47KV6UymaYuXk+zWGt6bpWo0OOVa+6iw43kYvWiUEYdql2@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7dit+6wmNXx85eQ4jhsuXlrWvXcIhgyukXtQTWeT7CQ2Bppjt
+	ybLScJJ5Ybm1u4NRWy/4B9UGnP9YXrEL11sOWFRS908nCe21t4sP6E2b8w82PepjeK4/rQ4ewLK
+	xwIUO1NbJH8siD2e+HsRaOjJib3giYx4=
+X-Gm-Gg: AeBDieum5fK5PDVR17gUrEHc6fyFHrmsQnnMbaD/DF28tzz/HCLeGkTiikjWYPmyPth
+	zG35PXELoj2oxPczouRcEkgYhrJx3g0goVzW8QAIdLbAkzAoBns2N3DaH9tSOFrDUQa/whPEePc
+	f9cyb3xVjEnJkvhqRBSAOLzpPMWjJoUz2eOlAX6OrksmEMCM+CPogCLJWVKlKrfh37IdqSHxe40
+	10UHGk8HySBXQJbwg/IIdm4YZQX24IrsFR6u8MhxwjatOLQhqcfmjL7CX7PXTp6LxjBkNWtLyVA
+	OnTow+9EJSEcEqSZ
+X-Received: by 2002:a05:600c:444a:b0:487:1520:d107 with SMTP id
+ 5b1f17b1804b1-488fb793580mr266418165e9.31.1776820372782; Tue, 21 Apr 2026
+ 18:12:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -82,67 +82,95 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260420221637.2631478-1-joannelkoong@gmail.com>
- <20260420221637.2631478-16-joannelkoong@gmail.com> <CAOQ4uxi3VML0ZcbnCWuzsi2U-N88xU3dJ6S7030oA_7G+A0GGg@mail.gmail.com>
- <CAOQ4uxjRsO3N_eboyY0R4jMva1jNKsKBVvbO=19Sy5r84D7RLg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjRsO3N_eboyY0R4jMva1jNKsKBVvbO=19Sy5r84D7RLg@mail.gmail.com>
+ <20260420221637.2631478-3-joannelkoong@gmail.com> <20260421211603.GB7739@frogsfrogsfrogs>
+In-Reply-To: <20260421211603.GB7739@frogsfrogsfrogs>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 21 Apr 2026 18:09:13 -0700
-X-Gm-Features: AQROBzA1XtBGN-dOZBCJTRTTBcZLTzYJU8-JKJmG3wVNI6IK2k7JDejxbHT0Z28
-Message-ID: <CAJnrk1a3sWgcrGCpuc6bREh-NxTzdGokZ9yvS+gq36oD7NDkiw@mail.gmail.com>
-Subject: Re: [PATCH v1 15/17] fuse: add passthrough setattr
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, luis@igalia.com
+Date: Tue, 21 Apr 2026 18:12:41 -0700
+X-Gm-Features: AQROBzChD_oUA9UChNtiMxlpnXw517RP1df7kRY5N3ggXNjUQRFL2s-zPsGUBGw
+Message-ID: <CAJnrk1ZACyeKQ6yww1xex5dedt=dyPY9X7j6kitGWnkbdqEVqg@mail.gmail.com>
+Subject: Re: [PATCH v1 02/17] fuse: prepare for passthrough of inode operations
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, amir73il@gmail.com, fuse-devel@lists.linux.dev, 
+	luis@igalia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 21, 2026 at 7:32=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
+On Tue, Apr 21, 2026 at 2:16=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
  wrote:
 >
-> > > +int fuse_passthrough_setattr(struct inode *inode, struct iattr *attr=
-)
-> > > +{
-> > > +       struct fuse_conn *fc =3D get_fuse_conn(inode);
-> > > +       struct fuse_inode *fi =3D get_fuse_inode(inode);
-> > > +       struct fuse_backing *fb =3D fuse_inode_passthrough(fi);
-> > > +       const struct cred *old_cred;
-> > > +       struct dentry *backing_entry =3D fb->file->f_path.dentry;
-> > > +       struct mnt_idmap *backing_idmap =3D mnt_idmap(fb->file->f_pat=
-h.mnt);
-> > > +       int err;
-> > > +
-> > > +       old_cred =3D override_creds(fb->cred);
-> > > +       inode_lock(d_inode(backing_entry));
-> > > +       err =3D notify_change(backing_idmap, backing_entry, attr, NUL=
-L);
-> > > +       inode_unlock(d_inode(backing_entry));
-> > > +       revert_creds(old_cred);
+> On Mon, Apr 20, 2026 at 03:16:22PM -0700, Joanne Koong wrote:
+> > From: Amir Goldstein <amir73il@gmail.com>
 > >
-> > Looking at ovl_setattr() (overlayfs should be the reference to all
-> > passthrough ops)
-> > it looks like mnt_want_write() is missing and possibly many other tweak=
-s
-
-Awesome, I will take a look at the overlayfs code and see how it's done the=
-re.
-
+> > So far, fuse passthrough was implemented for read/write/splice/mmap
+> > operations for regular files opened with FOPEN_PASSTHROUGH.
 > >
-> > It is generally advisable to keep heavy logic as this in
-> > fs/backing_file.c helpers,
-> > which overlayfs and fuse can share, but I did not look to see how much =
-of
-> > ovl_setattr() is relevant for fuse passthrough.
+> > A backing file is attached to a fuse inode, but only for as long as
+> > there are FOPEN_PASSTHROUGH files opened on this inode.
 > >
+> > We would like to attach a backing file to fuse inode also without an
+> > open file to allow passthrough of some inode operations.
+> >
+> > Add field ops_mask to the input argument of FUSE_DEV_IOC_BACKING_OPEN
+> > ioctl to declare the operations that would passthrough to the backing
+> > file once it has been attached to the fuse inode on lookup.
+> >
+> > Setting the FUSE_READ/FUSE_WRITE operations in the ops_mask is not
+> > required because those operations are implied by FOPEN_PASSTHROUGH.
+> >
+> > When setting operations other than FUSE_READ/FUSE_WRITE in ops_mask,
+> > non-regular backing files are allowed, so we need to verify when
+> > attaching a backing file to a fuse inode, that their file types match.
+> >
+> > For simplification of inode attribute caching, for now, require a
+> > filesystem with FUSE_PASSTHROUGH_INO (one-to-one mapping from fuse inod=
+e
+> > to backing inode) for setting up passthrough of any inode operations.
+> > We may consider relaxing this requirement for some inode operations
+> > in the future.
+> >
+> > Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> > ---
+> >  fs/fuse/backing.c         | 13 ++++++++++---
+> >  fs/fuse/fuse_i.h          | 40 +++++++++++++++++++++++++++++++++++++++
+> >  fs/fuse/iomode.c          |  5 +++++
+> >  include/uapi/linux/fuse.h |  9 ++++++++-
+> >  4 files changed, 63 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> > index 4be9ccc5b3ff..0f1e1c1ec367 100644
+> > --- a/include/uapi/linux/fuse.h
+> > +++ b/include/uapi/linux/fuse.h
+> > @@ -243,6 +243,7 @@
+> >   *
+> >   *  7.46
+> >   *  - add FUSE_PASSTHROUGH_INO
+> > + *  - add ops_mask field to struct fuse_backing_map
+> >   */
+> >
+> >  #ifndef _LINUX_FUSE_H
+> > @@ -1133,9 +1134,15 @@ struct fuse_notify_prune_out {
+> >  struct fuse_backing_map {
+> >       int32_t         fd;
+> >       uint32_t        flags;
+> > -     uint64_t        padding;
+> > +     uint64_t        ops_mask;
+> >  };
+> >
+> > +#define FUSE_PASSTHROUGH_OP(op)      (1ULL << ((op) - 1))
+> > +
+> > +/* op bits for fuse_backing_map ops_mask */
+> > +#define FUSE_PASSTHROUGH_OP_READ     FUSE_PASSTHROUGH_OP(FUSE_READ)
+> > +#define FUSE_PASSTHROUGH_OP_WRITE    FUSE_PASSTHROUGH_OP(FUSE_WRITE)
 >
-> Also setattr is not a file op, so if we move to common code it
-> should probably be fs/backing_inode.c or something (*).
+> FUSE_READ=3D=3D15 and FUSE_WRITE=3D=3D16; this is a bit wasteful of ops_m=
+ask
+> bits, of which there are only 64.
 >
-> Thanks,
-> Amir.
->
-> (*) there are a few common helpers in fs/stack.c, but there are out dated
-> and only used by ecryptfs, so better start a new lib.
+> --D
 
-Great, I will take a look at fs/backing_file.c and fs/stack.c as well.
+That's a good point but I think we're unlikely to need more than 64
+passthrough ops, so I think this should be okay.
 
 Thanks,
 Joanne
