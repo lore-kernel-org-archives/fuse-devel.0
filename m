@@ -1,189 +1,202 @@
 Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEF337F75B
-	for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 17:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9212B3F0AA2
+	for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 19:18:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776880442; cv=pass; b=m3n6y2roDXW1OpkUvklZSLO/Ynj47ADSp10T2N87ljhLSvLWFlpH2689MCweYZSmrJ8PkpTHmGqUaykX/QiwW9k9C71NDHVCR436eVjqTsOq7IFWdbtFjYHvHqaLyiQJvGF0qJJHNo0nk+TpdrM8FPik65yIsHygA8O9pjxNpzI=
+	t=1776885506; cv=pass; b=Vj2HBWjCcW20NlY4nxsJRZs/TWMy/FeVGZ+f/t4jdO0ERBkGkHd9TjRBk5z6UEOzarH0arcd4G5MRJCAbCChaj+pA9M8MwC8JDeB6xW4Gns1HWrpMmdTA2y8ZX3Iy370K1ZrlSjFQRsLXjb3MgUNrJVnAmE7r/ZdNZnj5/1hD/c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776880442; c=relaxed/simple;
-	bh=xy1B9rmgyFzMWJqr+hi7jhwQB2TmZLPGlpFyD0Hwn7A=;
+	s=arc-20240116; t=1776885506; c=relaxed/simple;
+	bh=eLTy6oaaj50lZLpuUrUrH8HqYBykJM1lQsw4SpqXqOY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nbqFcWiYS5WWn51O/2optRtAm67GeT3j8aH8EeL1eufg2XvHWIYwj9xnJZt8n2/YWGu9vRHu9DFr5bKwIoGQ52/hKOZqFxmPip0ZXX3zC/vXdl3WtgH8m6gjsbN6guLycBQpuqNVXLrpzZ84CZfXSEB+1RKWWMWvxLkBefLwvL4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LfAmBBpT; arc=pass smtp.client-ip=209.85.221.47
+	 To:Cc:Content-Type; b=N3T48bzIIKaqDwgfXCoN2ieyDHvUK9hVGIwD3MTjIKtTB3yVYEqon/BhgQQC0btKLCCJ5XiNUC84FNibB3y4UxXmYMh7tQXHuSC5k0P+Wy8uOGN7X2XCGjljLottpwkiyHO5aA1w6xgvHwRvAEXT/3ZLdJQOA6URNEpHnmFsaVg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XhQGjj0B; arc=pass smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LfAmBBpT"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43fe3e22e33so3835031f8f.0
-        for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 10:54:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776880440; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XhQGjj0B"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cf8d550bdso5145376f8f.0
+        for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 12:18:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776885497; cv=none;
         d=google.com; s=arc-20240605;
-        b=N8lcmX4XB4XZQZqKJANu9tG6ZrgW40fABfGrwQtZ/avO7Tkcm96MarmyxVt9BO4MhJ
-         demlo/Dmkh2UVhOXfDRTb83fjAS/BCVuuwbcrUnhE49/aheNj2NPanEAW0pvhSOSoKHu
-         ndSxKzP9EfV9WL6eY4wV6ZSTzl27xnCoznOZiaFm6PLuW2JRJua+nSYmjMdHVhSwVtQ4
-         csqySnBgWKfYo3eeXIxZFNRaaxY55ZX9YfoSW268B0Un6s4+yTRFFC8w1hL1ry9EYusB
-         hseyryBN70lvt2vqnGXK2jykhv1TrCXLZpFvjwKYANVG2Q5s4GHkDRaUaIswy0UYYNwx
-         vIsg==
+        b=QRYIw65vo0tvarZEe0O85nONFjH18SvLc82xEf9kA/Cnynv+NMfZFCehPp5lR9VU4T
+         pPwVvQVvVfAgKm4n9BVz4QKL7HOTgPRIyxofPaGzPV5Ddbv9x4qZX5dBskobhibSzH7M
+         T4RW2e635BUSAxYZ4HW7i5IpTCNQzQAn/GK9L7x5J5b6LrxUDUtytsiXa2JWFS+WiO10
+         9S1SkAJopTuCaOlAgwyZ5PxquMbsGW1rrKgxt0uZCSyB+Di9uN515nrhIzRC1WrmabL0
+         bE7Qu879g+zS84ApmySUlDffuPvqT6nY91m7/lumj7DbyPfzpRs2SA6ERcG9vwFoInz/
+         qEWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=y30SCp7FuLogLWh8oYupZiUPSYbwcxMLbbmd2lv3jDU=;
-        fh=oSLQBSy3sy+srs416Fb9Ll8GcR+naHymI7Ry1FvZYFA=;
-        b=cani5qknrH3Gu6lZ+TMOStM+bjxmAwQqBRqraPpldBnHk9jJX4uuUSZ8nAunUGirHQ
-         Bvy5dTraHHgBpb3F5ngaJx/aZ5OQ7E1L5Ev3w2iymH0gm8CLCcS36mJWFcUSxFTos/ZP
-         tUgVVPdYjO/5cwz/PvCpVFZeoiHkE96Pg7NCChJwiVriq5Ca8+t9uRjWwKz+n5I/fyOt
-         BjHSTOdfqwq1In8ddpati7NhGCcZYisZNPh4n0VZXd3nMHYJZxIXd/ZOhTheeFs0MaHp
-         WZ6/2+gQvyhBgqh8SpReKTG5mPQDgGyd8uOqpMzKcd8So0Lj5cdHOepMTPV9yyqVDl8t
-         g2OQ==;
+        bh=KL1J7XDwa+fXiRxbzmsV9G9cuoOI0uGFuRHKY3kS6Ys=;
+        fh=fPSvN86XGCQTRZf82cRKmd1fKxjkAdLTJaGUCSJpNGA=;
+        b=FbAaDQValS8lpFaCHu5P1OcHHkR2ItIvxu2NOGWpsACFXrO8q3MqW8hIvB9a6Ff4B2
+         FVKfkhMMG5O7XBoLZ6rVdeVShNn/lY7KiXgWuC/dk8By1CzXxKDXhMZ0C8rV/ONy4dQp
+         2AnHjraMb+HhlzS6WnMfLhNroR3XdzUZ+7o+OUJJydkFEh4Y26J3xzJDX/2O8tHrgek3
+         wUKiguvsVJGcNyKcteuz9iDHSiBLB5NDLJFN9F4tR8na3i3q6Tes7sz+ACcwhUDisTG1
+         JS8reOUZcracOm+/bUD/qveWQI26T3bKit8A0LvlOg+AFcwQEDj9xFU74zUP2tlXICoH
+         b/ww==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776880440; x=1777485240; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776885497; x=1777490297; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=y30SCp7FuLogLWh8oYupZiUPSYbwcxMLbbmd2lv3jDU=;
-        b=LfAmBBpTZfUyWXZ0rGTrViYw1fHEmkTJgtanlTpLWETa9nS6ohTyffIEXU+qpfkmTR
-         yGznEBGh+ZC1sepcIEcE7BpFcwsos4NHreYymUkYmwRESlSCUwoWekZdz73j7uEipJe2
-         5XWJRcnLLxnGSuY4/6MH1JWZrAO77GgY7GnVEAOyUJnDk88GK/3wjDl4suaXx2GA+R5q
-         HQ3DD17bp0ZUx9axVMGEbcENDPm1TO/2mOa90l80beXlMiSDK9cx6HYhoHOx7M0sBT1o
-         4LeRbRdMHm7huyha5uRrLmpPpMA6PbZgDyT0/PuYwm7OZup1+NuissRAuWBmvcOQimV2
-         +kKw==
+        bh=KL1J7XDwa+fXiRxbzmsV9G9cuoOI0uGFuRHKY3kS6Ys=;
+        b=XhQGjj0BueBC1oSLVwoztWfIpFwrZysFagMPq23RjD1ghTrviHyMw9pflPsYXYdc7d
+         Fsi378+St8t313r+mUxCDD7SXrMnN2/PxCBFqPnlWl73YaCOH5ZiaVudj6KMIcrj64Yd
+         DKf4u7O48RLH9CI4p/cYtiWHVjwt65MBUqz8qq/77py+OCUUun+whrywHboYgFfyYXlc
+         NwZDNshENtlIxfBjhGSBC7FWAiHdRgk7lCXqgpHyIRP0g4JvJ83BA7uBAc8dq2arzLdu
+         tVJoC1xkqaOtXBwBKocM+LnHg6VXwxtk3+QP0AVHAzL75jKAP20mD7tdxJe57EBfqMfN
+         zLeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776880440; x=1777485240;
+        d=1e100.net; s=20251104; t=1776885497; x=1777490297;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=y30SCp7FuLogLWh8oYupZiUPSYbwcxMLbbmd2lv3jDU=;
-        b=e7xERYnL0NQ1AT3CThYcyDBaxPEnyQS/ggxyOSdzMA9A+BOhjX3v7WPK0jJe6GxgiX
-         ODsi+PPZDnYx3LwdjE9WHI+cYUJkhp5dPX0f8us9xOWW/JTD1YunxtL99oPHlmaGWwCR
-         g0qvjkYsEwMCpj40ehOx5hJDYobInSun8vGZJO2wcWYZGZjeoiFtdE7BDxCh31IJG0L2
-         MWc8ilW2kcoiphsGZuOdO14520O9UYP3+6vkPksjmmzhzvwTzOdaKDAb3l/HNcBgd5Um
-         0iVLoLXDUR6fJwjkQaWm65W7U2wOQKak40jcfFcvZfIzH/TGw0e2JPcEOH9U5DZVEeiK
-         QnZQ==
-X-Gm-Message-State: AOJu0YwU5R2Bw7QvfoLRPxMBOSG52b4CZgcoXWEY8B9GRWBqxINR6ZOO
-	srO4D8HjXYynwlIIiq3uGRWfBTYC5nH+nBSO5pDZ/RvQMsn8ga+wAkQKn7i1+czDdZxqhOvsUee
-	dXqp2OcxHAauAvy/Ays0HRn71fjt6uRY=
-X-Gm-Gg: AeBDievJ5iHYUo4m1WQ1yg3GHQZvs9F0QLq/Mp/Eh4EQhfrDEc6rFqbe/GKjbPL/WOx
-	Wpw+OEQvZljw2FR+UJKGiGNyXr4Zekj9K06Al8xdn6XRmKDbI6KOaJtauQnXIEP9W/QUX/RKICk
-	OdG0DkE3HanTpHDA1qDhnZcdOroux7GfwqJkj1QQoftvzpT97VdnTA0tEsk1Ia5DMRcUtWLlHW/
-	8yPB2GYb4Bjc68XUb5WY/39S8ARWaZ/YmiKvOi6vu2kDpgulszMPELqBoJvLCOMSMA+yC0ryiCK
-	us7msOtsHV8iHhOY
-X-Received: by 2002:a05:6000:2890:b0:43d:75ec:26f7 with SMTP id
- ffacd0b85a97d-43fe3e08f96mr37017012f8f.29.1776880439620; Wed, 22 Apr 2026
- 10:53:59 -0700 (PDT)
+        bh=KL1J7XDwa+fXiRxbzmsV9G9cuoOI0uGFuRHKY3kS6Ys=;
+        b=Dq8BHGhNAIdKlJMXIUR552FTS+abBqUwiOYc9C3aGGysf9+dLBIwGUifBSLDUn4Y3+
+         Zc0yyMvdv0GD3P4sKauXx+ISg6CTURa5NjoQuC5R2BB0d+0XAHYKha+HFvxvbJlbaQM+
+         p4SgunuhpI5PLJp6Zw6OSV+i1GqbYuvesoHTp8QXZYREWex+9gBkuly2AaU9NPZ60++P
+         s3KqiAZZcGnqlOatvDlU83t1hgDpLR327jPfECVA59tqc3T1Icp5PSzz+4DpfL7CNRpR
+         02yCBMBZn9hIUXZLc2j/jNn/T6Eto7tw3pA8+bBCFgjfXCIdcLxKoUKVK1IzQbjZT1qh
+         DNtQ==
+X-Forwarded-Encrypted: i=1; AFNElJ80QZidoylcZTk9SxTpEld/QYnLkPr4S+Fxb8Zcf2klyUXPu0JtToDj5xJ6czjpthLqtwctNueMPxbg@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqNlTkACTvtDfhao6DFiEh7Hi5XA47LhGSMvmKRpfxu11wvzyg
+	medaidYQZUoSf5JmfwqjFH4i2WRS0RaPY2/8WdwWWOqDoAy5H5TcUnTUTx+CnNyJxCKwiMzTUZx
+	NQTuKJf7dmPzGBsnNDbE+gyeSj2jtdI4=
+X-Gm-Gg: AeBDieuI4UqQ1R2ojQthc9INCXCepzdT1k2VWhz7UQFNR5bz5M6pizf+zVDWelIdf9K
+	ULu/k+FiaGTiyVxd/nSzmfT0DSGuD77agvZsPDtMDp9wz70t4peiGezEm+l25BKBPQQTVpQmUmi
+	BzYt6djNOEjaL/XvQdwQA1Q7zOl1jNlFm2dHKEb4nBgp8muFyDnvU3Pj7JktbQ8OaPW83aAY7fm
+	r4CT84XgS493ZKLNaWHYbeP4t1sF8XzmjeCDz27477OQZ5zE0k7m3S4SjnDS+HYYtx7SSCb0Irn
+	MwawaDnnioVBicRK3bb9oDhElVlplR7xUw==
+X-Received: by 2002:a05:6000:2c0c:b0:43f:e22e:e8da with SMTP id
+ ffacd0b85a97d-43fe3dc5b0bmr36635519f8f.5.1776885496593; Wed, 22 Apr 2026
+ 12:18:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260416091658.462783-1-mszeredi@redhat.com> <20260416091658.462783-7-mszeredi@redhat.com>
-In-Reply-To: <20260416091658.462783-7-mszeredi@redhat.com>
+References: <20260422103603.4554-1-liwang@kylinos.cn>
+In-Reply-To: <20260422103603.4554-1-liwang@kylinos.cn>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 22 Apr 2026 10:53:47 -0700
-X-Gm-Features: AQROBzBjMac6YzBfh2mO4YHPH0rWTjIMw3YS_LPPCnXqypGc-Uq1LPnDyaTChgQ
-Message-ID: <CAJnrk1a+wEqZxgLDYJObfGiAiW=SgVvV4LgR6_PnwwW12t=1LQ@mail.gmail.com>
-Subject: Re: [PATCH 06/32] fuse: move background queuing related members to fuse_chan
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Date: Wed, 22 Apr 2026 12:18:03 -0700
+X-Gm-Features: AQROBzCaS-8QbjrPyc2l81Nj3dNveAR9eyl0wnJlAUBz2SfvlWkj0od-yQhU1ss
+Message-ID: <CAJnrk1bfCM3kF83mA5z4iPcw+w1_MHbrF4X2K7kLNRagtPD=XQ@mail.gmail.com>
+Subject: Re: [PATCH] fuse: fix kernel NULL pointer dereference in fuse_uring_add_to_pq()
+To: Li Wang <liwang@kylinos.cn>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2026 at 2:18=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
-> wrote:
+On Wed, Apr 22, 2026 at 3:38=E2=80=AFAM Li Wang <liwang@kylinos.cn> wrote:
 >
-> Move:
+> A kernel NULL pointer dereference was triggered when testing the
+> 'fuse over io_uring' feature with passthrough_ll. The call trace
+> is as follows:
+>   BUG: kernel NULL pointer dereference, address: 0000000000000878
+>   RIP: 0010:fuse_uring_add_req_to_ring_ent+0x89/0xd0 [fuse]
+>   Call Trace:
+>   <TASK>
+>   fuse_uring_queue_fuse_req+0x82/0x100 [fuse]
+>   fuse_chan_send+0xe6/0x180 [fuse]
+>   fuse_lookup_name+0x131/0x2b0 [fuse]
+>   fuse_lookup+0x78/0x1a0 [fuse]
+>   fuse_atomic_open+0xfc/0x140 [fuse]
+>   atomic_open+0x4b/0xf0
+>   path_openat+0x746/0x1080
+>   do_file_open+0xc9/0x180
 >
->  - max_background
->  - num_background
->  - active_background
->  - bg_queue
->  - bg_lock
+> fuse_uring_create_queue() must initialize struct fuse_pqueue before assig=
+ning
+> the per-hash processing table:
 >
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> - Call fuse_pqueue_init() before setting fpq.processing. fuse_pqueue_init=
+()
+>   clears fpq.processing; assigning the kcalloc'd bucket array must happen
+>   afterwards.
+>
+> - After allocating the processing bucket array with kzalloc_objs(), initi=
+alize
+>   each list head with INIT_LIST_HEAD(), matching fuse_pqueue_alloc() in d=
+ev.c.
+>   Zeroed list_head values are not valid empty lists; list_move_tail() wou=
+ld
+>   dereference NULL prev/next.
+>
+> Signed-off-by: Li Wang <liwang@kylinos.cn>
 > ---
->  fs/fuse/control.c     | 11 ++++++-----
->  fs/fuse/dev.c         | 45 +++++++++++++++++++++++--------------------
->  fs/fuse/dev.h         |  3 +++
->  fs/fuse/dev_uring.c   | 24 +++++++++++------------
->  fs/fuse/file.c        |  5 +++--
->  fs/fuse/fuse_dev_i.h  | 16 +++++++++++++++
->  fs/fuse/fuse_i.h      | 16 ---------------
->  fs/fuse/inode.c       | 16 +++++----------
->  fs/fuse/req_timeout.c |  6 +++---
->  fs/fuse/virtio_fs.c   |  2 +-
->  10 files changed, 73 insertions(+), 71 deletions(-)
+>  fs/fuse/dev_uring.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-> index 459f37ece46a..efc321b2bf5d 100644
-> --- a/fs/fuse/fuse_dev_i.h
-> +++ b/fs/fuse/fuse_dev_i.h
-> @@ -93,6 +93,22 @@ struct fuse_chan {
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index d6d75e024b35..b765c1ff5e2d 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -282,6 +282,8 @@ static struct fuse_ring_queue *fuse_uring_create_queu=
+e(struct fuse_ring *ring,
+>                 kfree(queue);
+>                 return NULL;
+>         }
+> +       for (int i =3D 0; i < FUSE_PQ_HASH_SIZE; i++)
+> +               INIT_LIST_HEAD(&pq[i]);
 >
->         /** List of device instances belonging to this connection */
->         struct list_head devices;
-> +
-> +       /** Maximum number of outstanding background requests */
-> +       unsigned max_background;
-> +
-> +       /** Number of requests currently in the background */
-> +       unsigned num_background;
-> +
-> +       /** Number of background requests currently queued for userspace =
-*/
-> +       unsigned active_background;
-> +
-> +       /** The list of background requests set aside for later queuing *=
-/
-> +       struct list_head bg_queue;
-> +
-> +       /** Protects: max_background, congestion_threshold, num_backgroun=
-d,
+>         queue->qid =3D qid;
+>         queue->ring =3D ring;
+> @@ -295,8 +297,8 @@ static struct fuse_ring_queue *fuse_uring_create_queu=
+e(struct fuse_ring *ring,
+>         INIT_LIST_HEAD(&queue->fuse_req_bg_queue);
+>         INIT_LIST_HEAD(&queue->ent_released);
+>
+> -       queue->fpq.processing =3D pq;
+>         fuse_pqueue_init(&queue->fpq);
+> +       queue->fpq.processing =3D pq;
+>
+>         spin_lock(&fch->lock);
+>         if (ring->queues[qid]) {
+> --
+> 2.34.1
+>
 
-nit: should this comment be updated to remove "congestion_threshold"
-from the list? congestion threshold is accessed locklessly.
+Thanks for testing/reporting this! This lgtm but afaict, the patches
+in that patchset aren't finalized yet so imo it'd be cleaner if this
+gets folded into the original patch [1] instead of being its own
+separate commit.
+
+I think using fuse_pqueue_alloc() ends up being a tad bit cleaner, eg
+
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 5abf447e9710..e467b23e6895 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -277,7 +277,7 @@ static struct fuse_ring_queue
+*fuse_uring_create_queue(struct fuse_ring *ring,
+        queue =3D kzalloc_obj(*queue, GFP_KERNEL_ACCOUNT);
+        if (!queue)
+                return NULL;
+-       pq =3D kzalloc_objs(struct list_head, FUSE_PQ_HASH_SIZE);
++       pq =3D fuse_pqueue_alloc();
+        if (!pq) {
+                kfree(queue);
+                return NULL;
+@@ -295,8 +295,8 @@ static struct fuse_ring_queue
+*fuse_uring_create_queue(struct fuse_ring *ring,
+        INIT_LIST_HEAD(&queue->fuse_req_bg_queue);
+        INIT_LIST_HEAD(&queue->ent_released);
+
+-       queue->fpq.processing =3D pq;
+        fuse_pqueue_init(&queue->fpq);
++       queue->fpq.processing =3D pq;
+
+after exporting fuse_pqueue_alloc() into fuse_dev_i.h
 
 Thanks,
 Joanne
 
-> +        * active_background, bg_queue, blocked */
-> +       spinlock_t bg_lock;
->  };
->
->  #define FUSE_PQ_HASH_BITS 8
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 6185b97df106..ccf0db3a4eeb 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -566,25 +566,9 @@ struct fuse_conn {
->         /** rbtree of fuse_files waiting for poll events indexed by ph */
->         struct rb_root polled_files;
->
-> -       /** Maximum number of outstanding background requests */
-> -       unsigned max_background;
-> -
->         /** Number of background requests at which congestion starts */
->         unsigned congestion_threshold;
->
-> -       /** Number of requests currently in the background */
-> -       unsigned num_background;
-> -
-> -       /** Number of background requests currently queued for userspace =
-*/
-> -       unsigned active_background;
-> -
-> -       /** The list of background requests set aside for later queuing *=
-/
-> -       struct list_head bg_queue;
-> -
-> -       /** Protects: max_background, congestion_threshold, num_backgroun=
-d,
-> -        * active_background, bg_queue, blocked */
-> -       spinlock_t bg_lock;
-> -
->         /** Flag indicating that INIT reply has been received. Allocating
->          * any fuse request will be suspended until the flag is set */
->         int initialized;
+[1] https://lore.kernel.org/fuse-devel/20260416091658.462783-32-mszeredi@re=
+dhat.com/
