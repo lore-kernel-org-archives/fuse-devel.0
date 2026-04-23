@@ -1,80 +1,80 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1123F19ABC6
-	for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 01:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3A83B8D6C
+	for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 01:47:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776906194; cv=pass; b=rJgSlsRr02l3IbDQxSlmJxUwIolN1/A0XzDG8uz9JY7EAkf14psAL0OTUn9IaR9sFaRcvGO6FMTG3TqmK0QxL4DusQapgdSceNO6sA+AaQNPoJ2KVt6Ohad+DYA9TTU5eHRAdMDx6BkA4UeyfjVXTU0xgdmrMscVXKV0fX8ctfA=
+	t=1776908884; cv=pass; b=k0jX3qruzHhUHHSDZZdj8zHM2hMQ2ZV3OYZvW6HFwjsdg+ldy5ouFUSkmcROphfFz42FdFb/5IX47mLAfBSq4YjBRQWwiC60ADSU64FiNuFcdqyB6mGlCKC0L65y7pQIYXt8LNcCUVKGNWCf4DOSCT9iZTiyoik4pELaXaSQLwY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776906194; c=relaxed/simple;
-	bh=LOumpT1NKznsi9Rh5J39M/aR7cvaSP2FtlJc04jYYO4=;
+	s=arc-20240116; t=1776908884; c=relaxed/simple;
+	bh=2IcsEgmwv1tHo9NlWhYIhJT+gMNWASELy9M4/IYp7BY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bA8t26VmlmBzbCm+2pCdBgi2U9Yq3qV6FwRNMGSfz47nriMjpda7J42LK+8jv4rtL/9ZyJhOA474HTdhFlnikRbpC/zlCJeDMdMFIDqJDAn5cXx1a7eaGbYK5oPuGgiqFX6zKB27Wq8Url6WJ6SCTxmaJxSoZuFJa331Pf4a1y0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o1sx4RJs; arc=pass smtp.client-ip=209.85.221.51
+	 To:Cc:Content-Type; b=J2Vh0I+DprvqHfhsK6oujyo/OZ0KpdYZcyJnofycInR6ZLhyYqNqMWceEzA3kKm0LGMAyGBhzapAVCKPhQek0BolyPlP6sC5VQ20VyQsL3+zZVYeTj5nYpxNUThlVlKs8I0D6R9WLZUmjj8PFciIhsDBXQ14wXgcTtqDrr5iDOA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mE9vi1qS; arc=pass smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o1sx4RJs"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43d70c30767so4124069f8f.0
-        for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 18:03:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776906191; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mE9vi1qS"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43d77f6092eso4187292f8f.2
+        for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 18:47:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776908872; cv=none;
         d=google.com; s=arc-20240605;
-        b=IS46Zmqmp8DN0IaK77wlUG2RSdsp6CU51k+XuV4EeZmsXAyUR52h5wZSD2+f7sqljd
-         5oRXw9HDVnpAU16YJEMcpZtSsNg6wh5Of7ktczfHV5YfggSLRPyXLTPRqYMERoebAQPt
-         WVhBBpzPdF+nrv4NFWjldyFiGUvubP01OwWNcX4+/oj/4dFkNCoJhJ/0+O9sRHUEkARU
-         0+JfmNZAiC26HuSaXR0mMncGl6vaQtyacZ8ce7iAMwDbycO2k4Rk7NnO61mpqX43DgTY
-         jcvw8amLqNtxGsKaY7Q1xhkuYjWrdBvFkVHPwq2sdQ1INKnegCFX+68l6k2+YSZs/UmO
-         6tOw==
+        b=A4VtaQ4hbi0TeNi/8AD/kf4NG55MSvOTCJ5HWpXNtnsD+noHDIkLQheBDurqaarQBA
+         jw0XCuTyv04erysp5mNPsGX6hFrregI85DP6mpLaNXM6B4veJwnDw0cBL6B9sDYANBA3
+         RvoAX/QJUsFWCKOp3f1OXtRordTNArER9uzBZtqJPkqmiMyd6cX704ivvHvJ/tGdD900
+         OSvImkBsejqEPg8tR8kF82gUd+IkCDZn4VguP1N+JNLoKBMIv93RkTG8FlxwVFNo6C7o
+         sz8hIwH5MiRVg70tZQI9+GxVpQd3LoMyvpDJTeawBajLtj/9REHf9/2PlUlmkSD6lA2k
+         kh8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=LOumpT1NKznsi9Rh5J39M/aR7cvaSP2FtlJc04jYYO4=;
-        fh=LEeRtI3yEteJyeIstAYt/hwNIEkECM5caXX449sThKw=;
-        b=DxhgESErwxf7XKh5xYfJmTTLSywymihYCEKltUWO/04+6P95G2Uqax1PIAoZm0IAsF
-         jIRuOuA7MxEwrK2C1lw7hlIZ1u4a5GybGVMRCwoaZljvRjltpRtpXDawLZAS6rZP76YP
-         fMBSgidr8ujGOdbhF6arwwJ2n0AgiE/i+BkWhg/WjyvcgCshSqpSj0RBthO8VWDRXYuo
-         9mXM9iLE78szEjF2vD+ClXALJFMSgbVJ5Z9DL6BF+tXJlo3GnVhQB5mPvAYN5BmC4B1O
-         4yJi+Ha0+Tb/ph4RVqU/PEdBSJWoS8ndvcIE6kEQu7mW7WBQcLd3QJL66GTPTl1wfnNv
-         p5bw==;
+        bh=b7w7kab49LzxI3lojQRNK57QNTxhWyp4IN9z1O9f+vQ=;
+        fh=4CbqyR+mNYd7sFIXbx+XYnuQwEuPLqKbonEGDWRN4oo=;
+        b=fT8XgkCIsKX6Ua0T21zZvwUnmHLO7WrVGGexf+UNM5TcnWcCHTuT1YiWrv2+pVFoCs
+         Zk24aJAasJIdv5cP+lO5810SaQyxujnHm8hcbO0vRnLaiJQHsJ4nvwBd7A2zFuPnkX5J
+         Bw2EQCnxK0PRpqv+fOY1Omd54hWJDkKMZrWS+/h9C/QyNhJfzYeP57VqrzILGKbAXno7
+         8GDT0oxd2rf+mHL5IzUA7o1yhtWQAXYLw6G6gce468GiOFofZ7jccvAZNYfQLsA1cLy/
+         KQ9JOVZPxQAW6KzmukL1f8y+a6Y0Wj3YeOuCdJ6rEQCA2cPWfkr7yGM3e7P3QQK3wHjE
+         QWvA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776906191; x=1777510991; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776908872; x=1777513672; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LOumpT1NKznsi9Rh5J39M/aR7cvaSP2FtlJc04jYYO4=;
-        b=o1sx4RJsykLvRPWHIQMoPrZ0ypXiK/a+4mlMvAHxE9ES09YRyygtdXi8hhfVvc4PAf
-         yuiXt1hXQ4DIGtt3jsrfAmnOwk8ylC3Yp1p2gIKRm8yXJMrXgY0BrHtIjimS4CWu2WCY
-         0nzRVeik6kCzKrTFDgUNXkTiN6iiwJlqA4XRF0dqRnIa1+Gaudkx0JgpSequ5ZVhdDiy
-         FLFxsw9KpjmIt6qRvrig0g/C0kPpshxx3+84N8FIHk/i0S9tFAKvHxNN1jM/dVXL+VkT
-         O7AwY8UimQp83nNq+kZlY9ZiB/HKLiKDwEieItMyy1PzQ7ah37SZJtvkPH3CS6ONloxY
-         MabQ==
+        bh=b7w7kab49LzxI3lojQRNK57QNTxhWyp4IN9z1O9f+vQ=;
+        b=mE9vi1qS7v4HG/45Plq3mpDw46H8UORFBDLuOBvG35Xa2hz7h8sE+Qs5+2qwa1GWGf
+         4YS/n2LClze5KFwrWrewZyClbM1zqIcaPsnVnVwxC/XI05X2JjOae7Qta6ot5Nd6Azns
+         oOHvEna8RWPj6NTM2Z1a/q5RuPpIAGCcD74zWADyjohzeqoybavsEoWygJLbwUsjfwWU
+         9MFOlwx/IlD2JizQdUH8JXUEJgvYlPE9kQut/N8LLtFBqGqqEpMGTBZn1+qzCl8+ggbX
+         udMcOkEB/OzQS4O0i0NVolVSnrI1hMTamFdnAsYU9EHRi2ZnRnydBuwr4Cd8Njt7B7En
+         jK8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776906191; x=1777510991;
+        d=1e100.net; s=20251104; t=1776908872; x=1777513672;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=LOumpT1NKznsi9Rh5J39M/aR7cvaSP2FtlJc04jYYO4=;
-        b=j1miZ/rhzvJmBJ5nQz80DAiY0ebjjPAEYqTjw/96aIDmSilQvS2GcuylDJA4vXlzZK
-         pmdyTx/cpq/D/0lYAO8aKIGwy9vAhIXbFcXIuHNVY5XEbn3LhLA7Nog9hDhHrt4Ph0W0
-         DqLSZfVzQl25F9eGH4sqRppZMfOtCn4pe57STdxGGgOm28XozLRQydRJPjzH4f/P5Kop
-         A+dOXvJcIuYzdBhHIyVqtkfINkUuUO/dy5/ZIA0OTiDBG5lyhvHzWEMeUWL92U33wnQz
-         ZPfhSlnIO0lXg5Gns68mu449zOlkyNT1pcurm1EGgJSx/7MIkFOVOVCbYbciWraKQ5Wh
-         AheA==
-X-Forwarded-Encrypted: i=1; AFNElJ+5c5iDQ+3hC6OeSSvf4CY5dpfXU6gr4qgHLSnyn9+divkGBzCsmlS7n52j5MWUgRXhaUhxa886rRqN@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwOxKHUE+njqYqsYghA/9Aw8AYRRNSWwAxxbBl6lvjMdQAMT7e
-	quf14XV7UmgIUyjKSbH/bf8EeYYz4uw1hmTB50VtgoWl8bRSPmsEAR+a84kuHtBJsnoJiGOkeEc
-	vRmjuXCrsQWE9iqf4cTOiUKyiYPGvi4Y=
-X-Gm-Gg: AeBDievWmmGaszqkaorp6jTqWzCEy8C+00rh6LS0N/C3TWy1ezioUxZYtMTjdZkqYkH
-	JFJ2zNJSmeHzJDWaQdZgt8gXCDfWU/bcCsl54lzhK+olniBzAxJJFRUNlSvSQyR/mUpIvQBjWxh
-	YjaPsFT0GFXZUbEl7sgRJUyJSCweu1YqtYeEC0scxDT5choo7WPNMSGY7Fe5ThviEZqXNTwIkwQ
-	vb6chF1hS/f7VLw/zIT/+7rLLLck9HGMc1bAzx5VKx/ngcbnec57hXPerkSOOZQ7MkSNjZ8pnhS
-	mCd+fPfpygKtBKol
-X-Received: by 2002:a5d:5d83:0:b0:43c:fc5c:aa08 with SMTP id
- ffacd0b85a97d-43fe4034413mr38321613f8f.8.1776906191288; Wed, 22 Apr 2026
- 18:03:11 -0700 (PDT)
+        bh=b7w7kab49LzxI3lojQRNK57QNTxhWyp4IN9z1O9f+vQ=;
+        b=SAJ48K16xvkJUiNIzR7np3gQaUeYDMr44NY6rVbIleJHH/jSyirP0J+B7QR9ALdpDH
+         uO41vB5rtzrStsKN9ypoNbrC0J8HWNAyWGCPQMnNSONQjvyeowFp0WrPRxrIo7jgEHJx
+         sD0fCvBKqdwTJ4NRW4R/bBVqJeSgEaheRwRQVBAYOO/9d4VYSPbbhuh6UAcexvvm0cc3
+         ACXKfAGfYjC3RwmBqnbfy66VZ1FRX9XznRkW1VKLPfxEQ4byfIkuBiO8fXoQITLEuVnd
+         7pvWKBr7NU2QPC93a2pcTQlkSQQkJFtT7A2I6vx34xnDvwPjyOaXdHO/j7hA5yLY7xhn
+         ZHAw==
+X-Forwarded-Encrypted: i=1; AFNElJ9IhPQ+ErmLl9UnZMPjL6JGszHJjWVHEzagwHOwccediCAcCeDMhUneC5gpFm17YTXoWQ+E8Q5SIB+j@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+WEnULGTmRxUeEawwteC+dQsiKvti5PUxMrl/8r4MXn/J43Hy
+	1t2u2H4YqqGoZJivtcFtlKsFttN3Q1ee0CJW8bt7a3UdDd6/K35U70sB7vBK2ZjZoV/4xngnLVF
+	/kvvC4SgYk56HX45mUwhfsJRywTYnWg0=
+X-Gm-Gg: AeBDievZ7Kv8+PlqrubMgKTXCfrZMbdu22vH1GE133vdRdRxx3HVSDAkDDtRkVCIfUQ
+	g775/W17B+gdk2hmcbtBygQC4gojPHLDB3BL+7P2iciiK8CLKsEYmToBTAtRWqyHu4OnipCsvF0
+	UfF94Seayj6nhH98bOr4qkHgDLHmfQymRTV53VxzhPYreqRKjO8mJiOIvqdOW6IY1EuhBf9/h7I
+	5+/vDEqDcfAE3oHWSIe0zL9mciGMFnmwWcfciE88mexaO+E5r4uv4Ns6wSRtbMkEGhdacAaokt0
+	06dixtRIVfamjPcf
+X-Received: by 2002:a5d:64e4:0:b0:43d:7828:1f81 with SMTP id
+ ffacd0b85a97d-43fe3e1170fmr39204258f8f.41.1776908871830; Wed, 22 Apr 2026
+ 18:47:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -82,200 +82,203 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260420221637.2631478-1-joannelkoong@gmail.com>
- <CAOQ4uxhbR8AoBCUMYQntAHzo_1wjh=Qcpb1z0CE4ynfDE-ZAFQ@mail.gmail.com>
- <CAOQ4uxhVnzoka4QppUvmFmq3wtXSU_ahgpkNR==Gbnpm5hpUyw@mail.gmail.com>
- <CAJnrk1YJ9YDTrERtNiXZ=vAHr7kKRzS7iUphQemVVXf63yt7qQ@mail.gmail.com> <CAOQ4uxjBZL6CY0mJEiHrw8aR28MHg5pU+Pfr9fUqGdKPDOdwcw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjBZL6CY0mJEiHrw8aR28MHg5pU+Pfr9fUqGdKPDOdwcw@mail.gmail.com>
+ <20260420221637.2631478-9-joannelkoong@gmail.com> <CAOQ4uxh0E6BtxRVsJdvebybnvU5+n-bur-+SPySNAbKzdY59vw@mail.gmail.com>
+ <CAJnrk1YWpAZR5bck27s2P-Zm1s9O0VMMHNztEOMYutVgQ=CwGQ@mail.gmail.com> <CAOQ4uxhVPCp2r9MehO1o6L1J0J3WwGt_iK23-0hWpw+8osmKhw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhVPCp2r9MehO1o6L1J0J3WwGt_iK23-0hWpw+8osmKhw@mail.gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 22 Apr 2026 18:02:59 -0700
-X-Gm-Features: AQROBzAEawgDHKruNDJgjhFioab986TIhqRVKjhze4GFA7ZPlvJ-XNrAGB7TlUs
-Message-ID: <CAJnrk1b6dc7j8WPDawkR5LZ=8i92h-adniw8XK3Lrb9+7vjqGA@mail.gmail.com>
-Subject: Re: [PATCH v1 00/17] fuse: extend passthrough to inode operations
+Date: Wed, 22 Apr 2026 18:47:40 -0700
+X-Gm-Features: AQROBzD6FjHHhcj-2EjoP9BFRmwWrtHS21FpkqLu7FJhsIgreIgslVzip2ceU3I
+Message-ID: <CAJnrk1bx7qnPMNGGYP1UFgaf2xb0n0z8TaWqRMEJ3z2_rCgpqQ@mail.gmail.com>
+Subject: Re: [PATCH v1 08/17] fuse: add passthrough ops gating
 To: Amir Goldstein <amir73il@gmail.com>
 Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, luis@igalia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 21, 2026 at 11:02=E2=80=AFPM Amir Goldstein <amir73il@gmail.com=
+On Wed, Apr 22, 2026 at 12:27=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
 > wrote:
 >
-> On Tue, Apr 21, 2026 at 11:05=E2=80=AFPM Joanne Koong <joannelkoong@gmail=
-.com> wrote:
+> On Wed, Apr 22, 2026 at 4:57=E2=80=AFAM Joanne Koong <joannelkoong@gmail.=
+com> wrote:
 > >
-> > The main intended use case at Meta is to use passthrough to reduce
-> > startup latency for short=E2=80=91lived services and batch jobs that ne=
-ed to
-> > fetch large packaged artifacts over the network. The idea is to add a
-> > fuse-based lazy materialization layer that supports on-demand fetching
-> > for cold data but that once the required content has been fetched
-> > locally, can switch to passthrough for near-native performance with
-> > minimal userspace overhead.
-> >
->
-> Yes, I figured.
-> I wonder if Meta plans to completely phase out the fanotify
-> pre-content events based solution.
-> I myself am putting money on both horses so not advocating
-> for one or the other, just curious.
->
-
-Yes the plan/hope is to have this fuse server be the replacement for
-the current fanotify implementation.
-
+> > On Tue, Apr 21, 2026 at 3:48=E2=80=AFAM Amir Goldstein <amir73il@gmail.=
+com> wrote:
 > > >
-> > > Is the target fuse filesystem expected to be used by arbitrary users/=
-apps
-> > > or by a controlled set of users/apps where a posix_fadvise() may make
-> > > sense to configure readdir vs. readdirplus?
+> > > On Tue, Apr 21, 2026 at 12:18=E2=80=AFAM Joanne Koong <joannelkoong@g=
+mail.com> wrote:
+> > > >
+> > > > Route existing callers through a passthrough ops mask check to veri=
+fy
+> > > > whether passthrough can be called for the operation or not. The che=
+ck is
+> > > > only done when FUSE_PASSTHROUGH_INO mode is enabled, which preserve=
+s
+> > > > backwards compatibility with prior passthrough behavior.
+> > > >
+> > > > It is safe to get the backing file by accessing ff->passthrough dir=
+ectly
+> > > > in passthrough.c because passthrough.c is only compiled with
+> > > > CONFIG_FUSE_PASSTHROUGH=3Dy and the caller has already done the ops=
+ check.
+> > > >
+> > > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > > > ---
+> > > >  fs/fuse/file.c        | 14 ++++++++------
+> > > >  fs/fuse/fuse_i.h      | 14 +++++++++++++-
+> > > >  fs/fuse/passthrough.c | 12 ++++++------
+> > > >  fs/fuse/readdir.c     |  2 +-
+> > > >  4 files changed, 28 insertions(+), 14 deletions(-)
+> > > >
+> > > > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > > > index a15fb508fd28..45d9184d0f7a 100644
+> > > > --- a/fs/fuse/fuse_i.h
+> > > > +++ b/fs/fuse/fuse_i.h
+> > > Please document the relationship between  FOPEN_PASSTHROUGH
+> > > and FUSE_PASSTHROUGH_RW_OPS.
 > >
-> > I think it'll mostly be used by different containerized/batch
-> > workloads and services, so for Meta's use case, I don't think it can
-> > assume users/apps can be modified to use posix_fadvise().
+> > I will add a part about this to the documentation patch. In this
+> > current series, FOPEN_PASSTHROUGH under FUSE_PASSTHROUGH_INO does not
+> > imply FUSE_PASSTHROUGH_RW_OPS. FOPEN_PASSTHROUGH can be set with just
+> > FUSE_PASSTHROUGH_OP_READ or FUSE_PASSTHROUGH_OP_WRITE and does not
+> > require both (eg server wants to intercept writes for logging or
+> > encryption but reads can be passed through). For mmap, it would only
+> > be passed through if both passthrough read and passthrough write are
+> > set. In the non-FUSE_PASSTHROUGH_INO model, FOPEN_PASSTHROUGH implies
+> > both passthrough read and passthrough write.
 > >
-> > >
-> > > What is the minimal set of passthrough ops that would make this usefu=
-l
-> > > to your internal customers? Is readdirplus in this set?
-> >
-> > The minimal set of useful passthrough ops would be open + read
-> > passthrough, getattr/statx passthrough, and readdirplus. The internal
->
-> Do you not see any getxattr in this readonly workload?
-> Are posix acl checks not in play?
-> passthrough of getxattr/listxattr is quite low hanging IIRC.
-> I actually had it in the wip branch at some point.
-> Unfortunately, I don't remember what was the reason I removed it.
-
-The team I talked with did not mention anything about extended
-attributes but I'll double check with them. Thanks for the suggestion.
-
->
-> FWIW, for my internal customers passthrough of
-> readdir,getattr,getxattr and access() is used to speed up
-> file browsing workloads (especially for huge directories).
->
-> readdirplus is of course desired for this workload.
->
-> Passthrough of open, I am not sure why this is so important?
-> As fast as passthrough read/write is I expect it would amortize the
-> cost of OPEN calls to the server, unless the workload is open
-> of many small files??
-
-This wasn't requested by our users but it was something I added
-because I thought it'd be useful and it had seemed straightforward. I
-don't think I have the requisite vfs knowledge for this yet though, so
-I'm going to drop it from this series and bring it back once I study
-up on the vfs side of things, if it does prove to be useful.
-
->
-> > use case is read-only. readdirplus would be useful because the
-> > workloads often do directory walking followed by metadata lookups for
-> > the entries
-> >
-> > >
-> > > Do you have profiling numbers to indicate which ops generate the most
-> > > overhead for would-be passthrough ops routed to the server for the
-> > > target workloads?
-> > > And how do these numbers improve when using io_uring channel?
-> >
-> > I do not, but if you recommend getting them, I can run some benchmarks.
+> > Do you think this makes sense or am I overcomplicating things?
 > >
 >
-> Up to you.
-> My intuition says that passthrough ops are a big win anyway,
-> but I never checked to what extent uring ops are to closing this gap.
+> I think it makes sense.
+> My internal customers have this use case (passthrough only read).
+>
+> I have a library (libfuse_passthough) that implements fuse passthrough
+> template fs in userspace and this library currently uses kernel passthrou=
+gh
+> only if both passthrough_read and passthrough_write have been requested:
+>
+> https://github.com/amir73il/libfuse/blob/fuse_passthrough/passthrough/fus=
+e_passthrough.cpp#L997
+>
+> Note that the library provides this granularity at open time, not lookup
+> but we can also think about extending the FOPEN_PASSTHROUGH
+> api later to allow this.
 >
 > > >
-> > > Regarding "full subtree passthrough", what does that mean?
-> > > That lookup op itself is passthrough?
+> > > Does a server need to opt-in both for the read/write operations passt=
+hrough
+> > > and the specific file (I guess so)?
 > >
-> > Yes I was thinking this would be something where once a directory is
-> > marked as full passthrough, the fuse server never sees any requests
-> > for paths within that subtree and everything is fully passed through
-> > to the backing directory.
+> > Yes, in this current series, to use passthrough read/write, the server
+> > is expected to set read/write ops in ops_mask when registering the
+> > backing file (inode level) and set FOPEN_PASSTHROUGH when opening the
+> > specific file (file level).
 > >
+> > I left a comment [1] on your other comment about dropping the
+> > expectation that the server needs to set FOPEN_PASSTHROUGH in the
+> > FUSE_PASSTHROUGH_INO case if it provided a backing id in the lookup
+> > and set passthrough read / write in the ops mask - I'm not sure if
+> > that was what you were hinting at or not.
 >
-> Do your internal customers have this use case?
-> A subtree which is known to be fully materialized?
-> I wouldn't advise trying to implement such a complex feature
-> without at least one real customer to justify a real world use case
-> where this feature would actually be helpful.
+> I actually did not mean that, but now that I think about it,
+> FOPEN_PASSTHROUGH + backing_id could mean as today
+> "request passthrough for lifetime of file"
+> FOPEN_PASSTHROUGH + 0 could mean
+> "request passthrough to existing backing inode"
 >
-> Is the cost of reducing a single server call per cold cache directory
-> really worth the extra complexity?
+> IIRC, the value of 0 as backing_id was intentionally reserved
+> for this purpose.
 >
-
-There is no concrete internal use case for this. I was more just
-thinking this would be useful to have for situations where a
-subdirectory has already been entirely downloaded over the network and
-can be passed through from the start, but I agree it's not worth the
-complexity. I will drop this.
-
-> I could understand "passthrough all immediate non-dir children"
-> may be useful and not add so much complexity but again
-> better base this on some real world use case.
->
+> > [1] https://lore.kernel.org/fuse-devel/CAJnrk1b=3D5vRgm1otKAiaeFJr9_J-a=
+LnoVTp4MHAz2mBKtcE2dw@mail.gmail.com/
+> >
 > > >
-> > > In that case, would there be no way to escape (opt-out of) passthroug=
-h
-> > > inside the subtree?
-> >
-> > Yes I was thinking this would only be used when all files in a
-> > directory map 1:1 to a backing filesystem.
-> >
->
-> I remember at the time that Android FUSE passthrough/BPF patches
-> were discussed, that the 1:1 config was mentioned as a good way
-> to test passthrough ops, but this could be a simple per fc config
-> which does not raise all the hard questions about subtrees and
-> renames.
->
+> > > The concept behind the inode iomodes is that it is not allowed to mix=
+ cached
+> > > with passthrough ops on the same inode, because there be dragons.
 > > >
-> > > The semantics sound challenging especially when considering
-> > > moves of directories in and out of subtrees.
-> >
-> > I was thinking cross-boundary moves would just return -EXDEV, but
-> > there are probably other semantics I am glossing over here.
-> >
->
-> What is the "boundary"? Who checks this? kernel or server?
-> Those are questions best avoided unless we have a good enough
-> justifications to answer them.
->
+> > > If the server wants to opt-out of passthrough for a specific opened f=
+ile,
+> > > which already has a backing inode, it must explicitly request the com=
+bination
+> > > FOPEN_DIRECT_IO | FOPEN_PASSTHROUGH
+> > > and then direct io will be performed, despite the inode having a back=
+ing inode.
 > > >
-> > > Anyway, no wrong answers here, just trying to understand the
-> > > first mile store you are aiming at and the expected improvement.
+> > > What you have done here is a private case of passthrough opt-out
+> > > not per file, but per operation.
+> > >
+> > > The bottom line is if the fuse inode has a backing inode, then you mu=
+st not
+> > > fallback to the fuse_cache_ operations in case the op is not in the m=
+ask,
+> > > but you may fallback to the fuse_direct_ operations.
 > >
-> > The first goal I have in mind is eliminating the getattr and open
-> > round trips. I was envisioning the passthrough work to be a
-> > multi-series effort where
-> > everything would get merged together at once only when all the pieces
-> > were ready.
+> > Thanks for pointing this out. I will add this enforcement at the
+> > kernel level for calling back to direct operations.
+> >
+> > This is what I have in my head for how it'll work:
+> > - server opts into passthrough for both reads and writes
+> > * server sets FOPEN_DIRECT_IO: reads/writes will be forwarded to the
+> > server, but mmap will be passed through to the backing file
+> > * server does not set FOPEN_DIRECT_IO: reads/writes/mmap are passed
+> > through to backing file
+> > This is the same behavior as the non-FUSE_PASSTHROUGH_INO case
 >
-> Everything being the read-only ops? or everything everything?
-> The main reason I introduced the ops mask was so that we
-> can chew this huge effort in small bites over many kernel releases
-> and slowly gain confidence and field experience with the practical
-> aspects of fuse passthrough - and this includes the api questions
-> and which opt-out combinations are important and which are not.
+> yes.
 >
-> I suggest that we try to focus on shipping a useful feature to
-> users that are going to use it - that is - your internal customers,
-> my internal customers and whoever else chimes in to test and
-> provide feedback.
+> >
+> > - server opts into passthrough for reads but not writes (or vice versa)
+> > * mmap is never passed through, mmap will always go to the server
+> > * no data caching will be done whatsoever
+>
+> mmap cannot go to the server without page cache
+> and this is what we were trying to avoid.
+>
+> > * server does not set FOPEN_DIRECT_IO: reads are passed through,
+> > writes are forwarded to the server
+> > * server sets FOPEN_DIRECT_IO: no-op (same behavior as if server did
+> > not set FOPEN_DIRECT_IO)
+> >
+> > Do you think this makes sense?
+> >
+>
+> Unfortunately not.
+> Splitting reads from write logic does not work for mmap at all.
+> User always read/write to the same memory, either mapped
+> to backing inode or to fuse page cache.
+> The logic of iomode.c is that if a backing inode exists mmap
+> always maps the backing file.
+>
+> Server could request to get normal READ or normal WRITE or
+> both by not setting FUSE_PASSTHROUGH_OP_READ/WRITE in
+> ops mask, but it cannot opt-out of passthrough mmap.
 
-That makes sense. My original thinking was to land
-FUSE_PASSTHROUGH_INO at once with all the features so that when the
-init flag is set, servers didn't have to probe which ops are supported
-vs not. I think what you're saying makes a lot of sense and is the
-better way to go.
+Agh that's right, mmap directly operates on the page cache. The
+corrected model for passthrough read + non-passthrough write is then:
+* reads and mmaps are always passed through, writes are always
+forwarded directly to the server
 
 Thanks,
 Joanne
-
 >
-> All the rest of the plans of subtree passthrough and directory
-> modify ops should not block the first useful feature release.
+> > >
+> > > I hope this does not complicate things for you too much,
+> > > but I also don't know (yet) what you intend this gating for.
+> >
+> > Thank you for your feedback, it was all very helpful!
+> >
+> > The intention of this patch was to support cases where the server sets
+> > only read passthrough or write passthrough but not both. In this
+> > scenario we cannot rely on "ff->passthrough !=3D NULL" to know whether
+> > to pass through the read or the write, so we need to check the
+> > ops_mask. My intended use case doesn't really need this, but imo I
+> > think it's overall a useful feature that other servers will want, but
+> > if you disagree with this, please let me know.
+>
+> I think it is a useful and common use case and the implementation
+> should be quite trivial following the lead of the FOPEN_DIRECT_IO
+> per-file opt-out.
 >
 > Thanks,
 > Amir.
