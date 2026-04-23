@@ -1,352 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A1F1FBEBC;
-	Wed, 22 Apr 2026 23:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776900776; cv=none; b=JYSdFjNJyBbdhLzNtHRLYNJKt9hhukY3sJ1+EBA8sVRC48cPLBEvSriDbXpIga73isrzPo+eiYOCeRkHuZFyRsy5GQWPyt2YMk6z+fHcnF8fWIZV7G4U9oAnZp/HU9gn9OVc0iknQCl4pnHw0baqfuOHjlR/hq2V6xReHHVSxE8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776900776; c=relaxed/simple;
-	bh=Mr4XuetFvL1CpNi8BM91LvuBxo/gWXceGxVA4B3PsI0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qq64Dny7x2DKxAv8beJZnwgJW+pnt0fIOVeECegeHWrmDxu/TkMlj2Wu/ltABc+73UkR3wM3krjPysvfv5vw66g4xeDnQ831ig9kJ0/EKC0qZ2zOXjOELezAQ1nh/wHjQsijUnnKLA0CWTE8qPLoL5kxnpU4iaMPaEjC88sqMWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fRCNlYox; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F93864
+	for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 00:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776902626; cv=pass; b=gIr31bBk4MQ4ncYrxRFYQM7CzbsgF/DEbIelR2CTyN8YIzBF3FtRdMqdvQvki+d3psSweSlsZArtZ7uyl1IYznV1P6rTUC6qrk3G5a+mQVQ9ARe3Ij42ZBjcWlt3nqXx8JqUbU+uQEzYrqDWDGvcCkOWm3sE3skAhA7uB2z9ObA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776902626; c=relaxed/simple;
+	bh=ZkIvi88WlnzzHouK46BhdZQo02oKHrLZ7ihR5vMiRSY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Wwo0ICTYKAd67i4DaAl+VRU1bXZBUk9it5QXPtqDMaM8P1lholon425Wy5FQ8bUBT64MwQLgb2QfmXothtl75UE9UuxVwQcP/X6tCMUEC00Yimqj+dUnIhNuiDuPs1sCVE1UgKYRyxLQwOVihwxjbOT7FaTCXwliyXFLmGLU11c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlQtG9FS; arc=pass smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fRCNlYox"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2121DC19425;
-	Wed, 22 Apr 2026 23:32:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776900776;
-	bh=Mr4XuetFvL1CpNi8BM91LvuBxo/gWXceGxVA4B3PsI0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fRCNlYoxYkytcGj6vzmuGHyTox/PpJqr3oNevZqEhAbyygAt4nQvNIcSqlch1LOUe
-	 CVTRZAIi+NpERhk3QPk+sT9UBdIgyCAy7ZUN2J3vrvjeQE49OZXMZo5K1E2jOshngB
-	 o0dU0jl/8b3u5mR8SzRHwNLiyjI6aXAn0awEzOEh8+VBousAdhVOgZf+R9jgKe5dt/
-	 hipVStbUwx9ZTiBJIPNmWSNWiO2Fgy1kdKVz2u8CJvSmFcBJ76XjeE0mW7P0+1QGI8
-	 1uD50xTDjBpiybP0/pvjmt8yMWmA9uvplnt3t1YyLU67A7sebVRnZrDsT0t6QXPtwa
-	 KRAs2TaaacYHw==
-Date: Wed, 22 Apr 2026 16:32:55 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	linux-ext4 <linux-ext4@vger.kernel.org>,
-	fuse-devel <fuse-devel@lists.linux.dev>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Theodore Ts'o <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Christian Brauner <brauner@kernel.org>, demiobenour@gmail.com
-Subject: [RFC PATCH 4/4] httpdirfs: enable fuse systemd service mode
-Message-ID: <20260422233255.GJ7739@frogsfrogsfrogs>
-References: <20260422231518.GA7717@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SlQtG9FS"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43d572f7437so4011566f8f.1
+        for <fuse-devel@lists.linux.dev>; Wed, 22 Apr 2026 17:03:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776902624; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZonkcARxJWitzYILXQrWabeotT1jzOPMk4A9BnY7XaBEN+FETUCLfbuInLMaAIGD71
+         jnlEef+CJvI+lVL9gMkz5p8Mlu84cKoFbC8IZoV+e+9DFlf4Ryd9vyQWEkzgQzCFfzlm
+         PvKijggrTapoy7oxYfHYOLY2CG5mjVtU+Qq/WplKvn0lv73YzSYxYpPS49dZeOWvrdDF
+         l7qI0TvDlpV3wgY6oHPXlrRAazkh1KGV8ZjjmRnEmoETHYc/y/MfQn7PVJqsWaeLG88G
+         i70Nd6+hEIq1wkoYqE96ZSwK8tIS5SpuPAMiGirucM9mrGJ3+RtkRBSpdaQXQlmVyWoZ
+         Amcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=scEyHM4/LQTHF7Pnoidv9KoG3GAuu4zhkrBKDvfNtbs=;
+        fh=tazLfGMkmK1G0gY76pU6iGu+pxq1egRfEtpDrvLNhkc=;
+        b=MzK7Iqzwi3pRn73xb0X1O7MryjqeXUHpPiRPJ0Kvp/8jRglzxRHmysm8s49SLWvEnk
+         KTIzbU2cg8etfFQGJuYl5wMnraQor9g5m7sEraLaFpvdK85lahoT/5IDL38tziApZQPt
+         q1PTZvn84dPHIylfiizT4QMbIHwJRyXkJ5+38xRcaulvD+VD4rxo9/niRe0WrpLh25ey
+         pZGUKswXFQULh4pZRMRMOiuvcHYCaO+tJFY5K329G0U2Ld/bVYIi5C+mrMv5ZqHWst3b
+         RG37pi75XBELlHwcptnsyA5aSNqF/l4o9uPyahsl/G70Vhscmio7QnAzebU3X73wLsag
+         Iqhg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776902624; x=1777507424; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=scEyHM4/LQTHF7Pnoidv9KoG3GAuu4zhkrBKDvfNtbs=;
+        b=SlQtG9FSvGgTGWb92Qs0TrjpzUj/U4FAZEU1zGZLjD/HolNojbXRDmoFUVEdjRGV0U
+         2I0855YJK1uMutcIZBrUDm1AkGlNOkoCgb6yEW3mTjN7+BZoaO/nWEmm99H+lh5iyi75
+         elomFhT3pGqRnNgJnPWPyxVB4eT7tz6BaEFeUg5nZb1BcE9Gbfb+TigS/VhJglrb5RZU
+         TlVudYTETMG17N9u0WvrMaqn/lKIGmZnwG+KJEECZ5jAtu7Bm+Q7FM1CA7gJn3o0wn7i
+         ThoIExcgA+BSn1kO9UILtDfN1Rpqt6tdZkMdGC9kaV16E8gpLCIn3T1m4wgFK2awwyZy
+         6aTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776902624; x=1777507424;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=scEyHM4/LQTHF7Pnoidv9KoG3GAuu4zhkrBKDvfNtbs=;
+        b=CT5gwTUGc3IhZHu6kTQj+yNkRgJ7Qvrv2DmbCQM26Hd0Q/6KRQtC/uU4OliJljxbcZ
+         BRqHuNIkwWvI7n1lbJXfEllDc0mL1wtu6wF2eR0leMU2Iezx1D11071JbPuAj8aQpkaV
+         IgYP4CyzYdi8E3KSmVIIZMoof6vg9r5huxvGxCvu/+eIBTqI7U2aVxfvqKgdaOwLDImE
+         SFCzEHIzxbji0yj7aS2z7zf78bdtG+pwUt5ue3DhysKfvxJn0f3NNKgq8ikMj6OZ4a4r
+         VhfCB8Zo24m7YM9ZydMGQOL54fuzn038LlhU2KWWlWjSxglvc81lS1zc1HUZeomgunKV
+         luvg==
+X-Forwarded-Encrypted: i=1; AFNElJ8XCx+QSVhUe9Fp9vchYpk/poRsJMdidI7gplzKBk3lroY0OJKO4a0i0KY2W8OfSwu1GCGQfboG6hHd@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLPQ5LO6MwvTnva99mHId60Q6v64a0xNKmHHF1ckZagzWv+qJS
+	wY9uJ3g55DZo/GCdht538Tv0Jf9yhrY48mGqa41BSdlgyBIOXB/o/K1Ho1AwfquDyvtBPDCKKy1
+	eGwGCKnH2Zx+f8GMmLXIQvVQWeztfbho=
+X-Gm-Gg: AeBDiesLmxoIa4GOEbK5eutiHSXjwlCKUGrpJgB+ChovZHY1zaNanrJvadCQsyagXz9
+	irIKmnlBVmGkfgU/9QAxDPRSjDNCaWr2UKWnN0fCRqCSUbX44+mb6WyNd9TPSK36EAu0RRewgo4
+	XDB3heU2HbmLtH3Geq3wadORMYc4m8WULHEIji4JTbbjRlzxQViw80Ss8rpc/VlVcjbG8Q0OwnV
+	NzjfZuN5XB7LOxBRZVuV/bpRCBrLAYjDwmiZtW6T+OHnppfwcIC+r2ZyF70fzfJCgbsA9TE0Vj+
+	yQRCnjA6Ugn1+4M4
+X-Received: by 2002:a5d:64c4:0:b0:43d:7633:2665 with SMTP id
+ ffacd0b85a97d-43fe3e1f739mr37156242f8f.44.1776902623587; Wed, 22 Apr 2026
+ 17:03:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260422231518.GA7717@frogsfrogsfrogs>
+References: <20260420221637.2631478-1-joannelkoong@gmail.com>
+ <20260420221637.2631478-15-joannelkoong@gmail.com> <CAOQ4uxg7jaA0FdLW6uzZBRX=m1Xw4v-k7zeQx7kYcpFwFDpf7A@mail.gmail.com>
+ <CAJnrk1b79N3r8-ZkuA5tZKN+Prz96KKdHtS=bNzO8No7thbqJg@mail.gmail.com> <CAOQ4uxipQJt5zskb_THxueGi_MXpFdywFiGpd_nmWeY_sMHwzQ@mail.gmail.com>
+In-Reply-To: <CAOQ4uxipQJt5zskb_THxueGi_MXpFdywFiGpd_nmWeY_sMHwzQ@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 22 Apr 2026 17:03:32 -0700
+X-Gm-Features: AQROBzDKVIs7rQaA_dF4NlmYSbQ2C3iW9jKBgRoN7DknxnvHCaeSUYcmPw5fa0I
+Message-ID: <CAJnrk1at1M_YbO3POTZTFLSR+rGEdyhiWQmEu0+rgtYAFEWdEg@mail.gmail.com>
+Subject: Re: [PATCH v1 14/17] fuse: use passthrough getattr in setattr
+ suid/sgid handling
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, luis@igalia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Darrick J. Wong <djwong@kernel.org>
+On Tue, Apr 21, 2026 at 10:23=E2=80=AFPM Amir Goldstein <amir73il@gmail.com=
+> wrote:
+>
+> On Wed, Apr 22, 2026 at 5:48=E2=80=AFAM Joanne Koong <joannelkoong@gmail.=
+com> wrote:
+> >
+> > On Tue, Apr 21, 2026 at 7:25=E2=80=AFAM Amir Goldstein <amir73il@gmail.=
+com> wrote:
+> > >
+> > > On Tue, Apr 21, 2026 at 12:18=E2=80=AFAM Joanne Koong <joannelkoong@g=
+mail.com> wrote:
+> > > >
+> > > > When refreshing i_mode for suid/sgid kill during setattr, use
+> > > > passthrough getattr if the inode has that enabled.
+> > > >
+> > > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > > > ---
+> > > >  fs/fuse/dir.c | 6 +++++-
+> > > >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> > > > index 637761de2c5b..ff9a92d8a496 100644
+> > > > --- a/fs/fuse/dir.c
+> > > > +++ b/fs/fuse/dir.c
+> > >
+> > >                 /*
+> > >                  * The only sane way to reliably kill suid/sgid is to=
+ do it in
+> > >                  * the userspace filesystem
+> > >                  *
+> > >                  * This should be done on write(), truncate() and cho=
+wn().
+> > >                  */
+> > >                 if (!fc->handle_killpriv && !fc->handle_killpriv_v2) =
+{
+> > >
+> > > We should probably enforce a dependency between those two and
+> > > passthrough of SETATTR and maybe GETATTR - not sure what
+> > > the rules should be though.
+> >
+> > Not sure if this is what you had in mind, but skip the manual
+> > stripping entirely if setattr is passed through since the backing
+> > filesystem will handle it? eg
+> >
+> >   if (!fc->handle_killpriv && !fc->handle_killpriv_v2 &&
+> >       !fuse_inode_passthrough_op(inode, FUSE_SETATTR)) {
+> >
+>
+> I was hoping that this will not be needed because
+> PASSTHROUGH_INO feature will require HANDLE_KILLPRIV_V2
+> and then either server handles killpriv or killpriv happens natively
+> on passthrough write/trunc ops, but never need this explicit non
+> atomic code to run.
 
-Enable use of httpdirfs as a contained systemd service.
+That's a good idea and I think that makes things simplest. It seems
+like supporting stripping logic on the server side would not be too
+hard. I'll drop this patch and make it explicit that
+handle_killpriv_v2 support would need to be enabled to use
+PASSTHROUGH_INO.
 
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
----
- src/fuse_local.h          |    2 +
- meson.build               |   26 ++++++++++++
- src/fuse_local.c          |   62 ++++++++++++++++++++++++++++
- src/httpdirfs.socket.in   |   16 +++++++
- src/httpdirfs@.service.in |   99 +++++++++++++++++++++++++++++++++++++++++++++
- src/main.c                |    7 +++
- 6 files changed, 210 insertions(+), 2 deletions(-)
- create mode 100644 src/httpdirfs.socket.in
- create mode 100644 src/httpdirfs@.service.in
+Thanks,
+Joanne
 
-diff --git a/src/fuse_local.h b/src/fuse_local.h
-index 9f459c1e1a8151..69157cd3fa7883 100644
---- a/src/fuse_local.h
-+++ b/src/fuse_local.h
-@@ -9,4 +9,6 @@
- /* Initialise fuse */
- int fuse_local_init(int argc, char **argv);
- 
-+int fuse_local_main(int argc, char *argv[], int (*main)(int argc, char **argv));
-+
- #endif
-diff --git a/meson.build b/meson.build
-index 431a1547b20bfc..5d7c4721bb756c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -41,6 +41,32 @@ expat_dep = dependency('expat')
- openssl_dep = dependency('openssl')
- execinfo_dep = cc.find_library('execinfo', required: false)
- 
-+# Check for systemd support
-+systemd_dep = dependency('systemd', required: false)
-+if systemd_dep.found()
-+   systemd_system_unit_dir = systemd_dep.get_variable(pkgconfig: 'systemd_system_unit_dir', default_value: '')
-+   libfuse_service_socket_dir = fuse_dep.get_variable(pkgconfig: 'service_socket_dir', default_value: '')
-+   libfuse_service_socket_perms = fuse_dep.get_variable(pkgconfig: 'service_socket_perms', default_value: '')
-+endif
-+
-+private_cfg = configuration_data()
-+if systemd_system_unit_dir == '' or libfuse_service_socket_dir == ''
-+  warning('systemd service support will not be built')
-+else
-+   private_cfg.set('SYSTEMD_SYSTEM_UNIT_DIR', systemd_system_unit_dir)
-+   private_cfg.set('LIBFUSE_SERVICE_SOCKET_DIR', libfuse_service_socket_dir)
-+   private_cfg.set('LIBFUSE_SERVICE_SOCKET_PERMS', libfuse_service_socket_perms)
-+   private_cfg.set('BINDIR', get_option('bindir'))
-+   c_args += [ '-DHAVE_HTTPDIR_FUSE_SERVICE' ]
-+
-+   configure_file(input: 'src/httpdirfs@.service.in',
-+                  output: 'httpdirfs@.service',
-+                  configuration: private_cfg)
-+   configure_file(input: 'src/httpdirfs.socket.in',
-+                  output: 'httpdirfs.socket',
-+                  configuration: private_cfg)
-+endif
-+
- httpdirfs = executable('httpdirfs',
-     srcs,
-     dependencies : [gumbo_dep, libcurl_dep, fuse_dep, uuid_dep, expat_dep, openssl_dep, execinfo_dep],
-diff --git a/src/fuse_local.c b/src/fuse_local.c
-index ae9778f84e6ef3..c373bd67214335 100644
---- a/src/fuse_local.c
-+++ b/src/fuse_local.c
-@@ -6,13 +6,58 @@
- /*
-  * must be included before including <fuse.h>
-  */
--#define FUSE_USE_VERSION 30
-+#define FUSE_USE_VERSION 319
- #include <fuse.h>
- 
- #include <errno.h>
- #include <string.h>
- #include <unistd.h>
- 
-+#ifdef HAVE_HTTPDIR_FUSE_SERVICE
-+# include <sys/mount.h>
-+# include <fuse_service.h>
-+
-+static struct fuse_service *service;
-+
-+static inline bool fs_is_service(void)
-+{
-+	return fuse_service_accepted(service);
-+}
-+
-+static int fs_service_connect(struct fuse_args *args)
-+{
-+	int ret;
-+
-+	ret = fuse_service_accept(&service);
-+	if (ret)
-+		return ret;
-+
-+	if (fuse_service_accepted(service))
-+		return fuse_service_append_args(service, args);
-+
-+	return 0;
-+}
-+
-+static int fs_service_run(int argc, char **argv,
-+			  const struct fuse_operations *fs_oper)
-+{
-+	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
-+	int exitcode;
-+
-+	fuse_service_expect_mount_format(service, S_IFDIR);
-+	exitcode = fuse_service_main(service, &args, fs_oper, NULL);
-+
-+	fuse_service_send_goodbye(service, exitcode);
-+	fuse_service_destroy(&service);
-+
-+	return fuse_service_exit(exitcode);
-+}
-+#else
-+# define fs_is_service(...)		(false)
-+# define fs_service_connect(...)	(0)
-+# define fs_service_run(...)		(1)
-+#endif /* HAVE_HTTPDIR_FUSE_SERVICE */
-+
- static void *fs_init(struct fuse_conn_info *conn, struct fuse_config *cfg)
- {
-     (void) conn;
-@@ -183,5 +228,20 @@ static struct fuse_operations fs_oper = {
- 
- int fuse_local_init(int argc, char **argv)
- {
-+    if (fs_is_service())
-+        return fs_service_run(argc, argv, &fs_oper);
-+
-     return fuse_main(argc, argv, &fs_oper, NULL);
- }
-+
-+int fuse_local_main(int argc, char *argv[], int (*main)(int argc, char **argv))
-+{
-+	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
-+	int ret;
-+
-+	ret = fs_service_connect(&args);
-+	if (ret)
-+		return ret;
-+
-+	return main(args.argc, args.argv);
-+}
-diff --git a/src/httpdirfs.socket.in b/src/httpdirfs.socket.in
-new file mode 100644
-index 00000000000000..ae587646ad707e
---- /dev/null
-+++ b/src/httpdirfs.socket.in
-@@ -0,0 +1,16 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Copyright (C) 2026 Oracle.  All Rights Reserved.
-+# Author: Darrick J. Wong <djwong@kernel.org>
-+[Unit]
-+Description=Socket for httpdirfs Service
-+
-+[Socket]
-+ListenSequentialPacket=@LIBFUSE_SERVICE_SOCKET_DIR@/http
-+ListenSequentialPacket=@LIBFUSE_SERVICE_SOCKET_DIR@/https
-+Accept=yes
-+SocketMode=@LIBFUSE_SERVICE_SOCKET_PERMS@
-+RemoveOnStop=yes
-+
-+[Install]
-+WantedBy=sockets.target
-diff --git a/src/httpdirfs@.service.in b/src/httpdirfs@.service.in
-new file mode 100644
-index 00000000000000..d808feca3238d7
---- /dev/null
-+++ b/src/httpdirfs@.service.in
-@@ -0,0 +1,99 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+#
-+# Copyright (C) 2026 Oracle.  All Rights Reserved.
-+# Author: Darrick J. Wong <djwong@kernel.org>
-+[Unit]
-+Description=httpdirfs Service
-+
-+# Don't leave failed units behind, systemd does not clean them up!
-+CollectMode=inactive-or-failed
-+
-+[Service]
-+Type=exec
-+ExecStart=/@BINDIR@/httpdirfs
-+
-+# Try to capture core dumps
-+LimitCORE=infinity
-+
-+SyslogIdentifier=%N
-+
-+# No realtime CPU scheduling
-+RestrictRealtime=true
-+
-+# Don't let us see anything in the regular system, and don't run as root
-+DynamicUser=true
-+ProtectSystem=strict
-+ProtectHome=true
-+PrivateTmp=true
-+PrivateDevices=true
-+PrivateUsers=true
-+
-+# Some network access
-+ProtectHostname=true
-+
-+# Don't let the program mess with the kernel configuration at all
-+ProtectKernelLogs=true
-+ProtectKernelModules=true
-+ProtectKernelTunables=true
-+ProtectControlGroups=true
-+ProtectProc=invisible
-+RestrictNamespaces=true
-+RestrictFileSystems=
-+
-+# Hide everything in /proc, even /proc/mounts
-+ProcSubset=pid
-+
-+# Only allow the default personality Linux
-+LockPersonality=true
-+
-+# No writable memory pages
-+MemoryDenyWriteExecute=true
-+
-+# Don't let our mounts leak out to the host
-+PrivateMounts=true
-+
-+# Restrict system calls to the native arch and only enough to get things going
-+SystemCallArchitectures=native
-+SystemCallFilter=@system-service
-+#SystemCallFilter=~@privileged	# not sure why this breaks http??
-+SystemCallFilter=~@resources
-+
-+SystemCallFilter=~@clock
-+SystemCallFilter=~@cpu-emulation
-+SystemCallFilter=~@debug
-+SystemCallFilter=~@module
-+SystemCallFilter=~@reboot
-+SystemCallFilter=~@swap
-+
-+SystemCallFilter=~@mount
-+
-+# libfuse io_uring wants to pin cores and memory
-+SystemCallFilter=mbind
-+SystemCallFilter=sched_setaffinity
-+
-+# Leave a breadcrumb if we get whacked by the system call filter
-+SystemCallErrorNumber=EL3RST
-+
-+# Log to the kernel dmesg, just like an in-kernel ext4 driver
-+StandardOutput=append:/dev/ttyprintk
-+StandardError=append:/dev/ttyprintk
-+
-+# Run with no capabilities at all
-+CapabilityBoundingSet=
-+AmbientCapabilities=
-+NoNewPrivileges=true
-+
-+# fuse4fs doesn't create files
-+UMask=7777
-+
-+# No access to hardware /dev files at all
-+ProtectClock=true
-+DevicePolicy=closed
-+
-+# Don't mess with set[ug]id anything.
-+RestrictSUIDSGID=true
-+
-+# Don't let OOM kills of processes in this containment group kill the whole
-+# service, because we don't want filesystem drivers to go down.
-+OOMPolicy=continue
-+OOMScoreAdjust=-1000
-diff --git a/src/main.c b/src/main.c
-index c93162a9bf4129..4c23d4e5d4419f 100644
---- a/src/main.c
-+++ b/src/main.c
-@@ -16,7 +16,7 @@ void parse_config_file(char ***argv, int *argc);
- 
- static char *config_path = NULL;
- 
--int main(int argc, char **argv)
-+static int __main(int argc, char **argv)
- {
-     /*
-      * Automatically print help if not enough arguments are supplied
-@@ -114,6 +114,11 @@ activate Sonic mode.\n");
-     return 0;
- }
- 
-+int main(int argc, char *argv[])
-+{
-+	return fuse_local_main(argc, argv, __main);
-+}
-+
- static char *get_XDG_CONFIG_HOME(void)
- {
-     const char *default_config_subdir = "/.config";
+>
+> > >
+> > >
+> > > > @@ -2524,7 +2524,11 @@ static int fuse_setattr(struct mnt_idmap *id=
+map, struct dentry *entry,
+> > > >                          * ia_mode calculation may have used stale =
+i_mode.
+> > > >                          * Refresh and recalculate.
+> > > >                          */
+> > > > -                       ret =3D fuse_do_getattr(idmap, inode, NULL,=
+ file);
+> > > > +                       if (fuse_inode_passthrough_op(inode, FUSE_G=
+ETATTR))
+> > > > +                               ret =3D fuse_passthrough_getattr(in=
+ode, NULL,
+> > > > +                                                              STAT=
+X_MODE, 0);
+> > > > +                       else
+> > > > +                               ret =3D fuse_do_getattr(idmap, inod=
+e, NULL, file);
+> > >
+> > > It does not feel right to passthrough GETATTR if not passthrough SETA=
+TTR
+> > > in this case - I could be wrong.
+> >
+> > My mental model was that if a server wishes to pass through getattr
+> > but not setattr or vice versa, they are responsible for keeping the
+> > state in sync with the backing file. I'm happy to add the check in
+> > though if you think it's better to add this.
+>
+> Though question - I am hoping that we can avert it by never reaching
+> this code with PASSTHROUGH_INO enabled.
+>
+> Thanks,
+> Amir.
