@@ -1,69 +1,69 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175AE17A586
-	for <fuse-devel@lists.linux.dev>; Fri, 24 Apr 2026 01:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0473717A586
+	for <fuse-devel@lists.linux.dev>; Fri, 24 Apr 2026 01:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776993477; cv=none; b=uisORxVfc/7Knv3v1dSUjLuTNvTZlaxrn13llB9WDf/AhDQFyHnRYoq2gAc9kytoH/FBmoiNcVa4CHvwIaeF51h0g/4Xr3nNUy4384o/I4jLywrJy/mx9j8THFHB+WbW2U+FE8fiBqKNjmk81g/rd8bEIghTk1HaxebRp2PVZag=
+	t=1776993479; cv=none; b=up7vDq+fI3EoKfL6nYVwAwciDQOGPv3kZ0d674cIZutpcj4t1BwY69LEgNvQ+BV9k1UafKgcKqE0RCTCTmKXCTvQCg7ZXYfG1hadQeDFV9EzLlsNeNdG/bsPkYPHOdoGzkR1Jpb/FaPC21OCnzpEIrPOL7kBDiW/CXvP4TDKTSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776993477; c=relaxed/simple;
-	bh=l20gn9MXbxCBvheBdfpoozV/H91tpET70jp0G+Fxvc4=;
+	s=arc-20240116; t=1776993479; c=relaxed/simple;
+	bh=RPlBXOtmqbH76uzkKPmYZkw5Afc1Br6GXlboqcJQu5A=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H3eweWbJ+NuPvJEsn1klpjwjmkw4vU7fx2705+AXmFSYDUU7mbrYVRcZIdz/EmHOI8RkuSigoLMImNEWASqFHZF9RKjFvHWZ3JPib9J7S68kNyVZpae5ctws8Qhgl3ERljyAHhLn3sunw3r2Gp3mM8I9wwT1QRl8nVH/yR+jUiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T2FGg6FC; arc=none smtp.client-ip=209.85.210.178
+	 MIME-Version; b=TeMi1sE2PY6eQbAezvzVaryTVRnfBd2137IGpznRUlp8vl0zyAuNT8CwkVLMcI2zxrculuJS9IYDM/uCJTI4QzqZ+uUGFz4uY1E0VTt1KhAQT7VXc3kUKGSleXOF+K8x+wSJIZhUN8WBEjHa3ctg6C3F1LEEJ8HYCzfljpIHPbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OgyQQriY; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T2FGg6FC"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-8296dabef74so6140381b3a.1
-        for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:17:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OgyQQriY"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82f2766905fso3396932b3a.3
+        for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776993475; x=1777598275; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776993477; x=1777598277; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dHHS05dTNRZwRS3t5/laGuDdxQZCfzV+iApvzThoj5I=;
-        b=T2FGg6FCWO1IBQhiwdVM2xGI644phuHLKJsjNyCyvImUXf1e2x0BPPUsey7S41qxAi
-         h/mWKvBN99JazsoKZFYej12B3MnrGb3Ts6zqTdJ5OGWnKOoxmgzkNQQUhzSD1+uuEGJk
-         n9VnvhDM/4RY+w+5ep3xwawPnkJvQjmuQWDLzLaRQsmJ6CVpJcQLGWFI6KxI330joqg/
-         qGpSrLEe4eX8RnY5OrS62Ef44Zzx1tauih9dmOyEEP7NMW6JUnGY+l1jA+WBw26ZPl4u
-         lYxG7YKpOwHOfT6iefZtvIYEn2w5l3SsY+csXx7ysIOG4J7sUUorwTD9+kDQJN2scL6J
-         Arhg==
+        bh=ceSwYZRijAtCgNl9vnkmEkQHP439T7PUtNmM5D6TUw8=;
+        b=OgyQQriYpWfQ1/eiCgjnOudPGWvFsYVWNFg3TW1A2vrINEiiEUcXKZuTcxnoNnYXPo
+         UKkK8JsZA9x7YUM2IwoFHkZm7BIs4WaqF5HztycPTv0AOwROo8CuS9To9OBnBfqzweB7
+         1jkc3s6JsZkRsjnwkIjnrcEmYbnAacHyTG+yc4I5ztCojj1hfL77U86cmZKnHSb+Jfxi
+         WW5HE1DPIXz/13Pzotks+CCOuc53ZI8/DCC8JvY3XogRr3Z2V9xRe5qLe6FqbOYCmplW
+         rNBuD2cynhAN+ZMg7GZPYVbsvgPFor7idJOBGRitXHLyob3nS3fKEnsE6A3SIp58xn3U
+         gETQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776993475; x=1777598275;
+        d=1e100.net; s=20251104; t=1776993477; x=1777598277;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dHHS05dTNRZwRS3t5/laGuDdxQZCfzV+iApvzThoj5I=;
-        b=bAufJ/pQj++ZFi3WyGO3W46aKfCD4Ov9Ipl2SMBpOCiot0fNdTn8MUh04wydL7YY5K
-         gL2fR9ZjlbjM2YkewrLNjcT/JylEutvuZXgZGv0sY2RCwa282/E14jbtysLqjpoWYst3
-         O+RyngIZZnc5oJV/GfREjenftkMiddXM62UHnYzZ/Je9CJYMghyHdjSG9uYF3Z0b68sz
-         TzwYm1af1GI9Oik0b6+YQ4OucG0FFVmyuWvYhduTG8gvfkyFUQFfLQfOxlY1uFEhXQel
-         SzU6uHHQymvrw/Mp5B6p9PQMOo2//7X0289ffr3vX0amzaMvkahMvQuEii1tuO7u4q+/
-         oKXQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/9aGYF3updr8WooBueolsN6W5zIWGFKXhkO5Vuk5Wlp6EwBZmb3mRtX6nPfd6racmnXQ/eoigTsxn6@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzuv2SK49MbDw72rmRq6FgoLnaSZed4+unTvG96sCzNbU5fbXCm
-	Iempl/urTdZAQAVkoTEC3wqLZKNpun483hXg2m+bIFlUKRc8NLDN6WMuiDJ94A==
-X-Gm-Gg: AeBDiet0X9HhBudoEJKxY8BlEOcazCCDDFqQPl3V81Tfc3Emi5rs85GHe4/5lRsQnQx
-	4de7haNLq2zjBwXEeFKSG/TDsH92OATS/KKV0b20vYdWIWRKdgvvZx5hjMCVS3dxJhp7EdPrhUh
-	pKwehbM+WGNrJrNYG/QendbeE/cASwxkAWxe9BPatGGhq0vDoQjJ0bWpUkOjxtPxy09TKQ06o1V
-	s/NqbM9eNuy1FwpxEM2uQ6hKAftWJ9DR3ei2m4GPpx45Z8mLztwCqh8tf05RJlbddFLSNDJYdUs
-	QJC2S9vGwshJzg0zUmF1sgcqybC7VgcRKCZWdY0Ot7ZSaSEi0qYqzbmGH7Dv5fNIEi/enUwC/Pr
-	Yywc8Y4Fm0qBkF8CMAJ301sltZBbi/fyndr2AoxvPWR497II/AnlQdw7/H/QpKfNwh6r7DXUCP/
-	4prBz1IvORzxIlsw7kdV5HdCquq/yQWCw4vqA=
-X-Received: by 2002:a05:6a00:90a7:b0:82c:24d5:21cb with SMTP id d2e1a72fcca58-82f8c82ef00mr30947602b3a.8.1776993475458;
-        Thu, 23 Apr 2026 18:17:55 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec24850sm22422043b3a.60.2026.04.23.18.17.54
+        bh=ceSwYZRijAtCgNl9vnkmEkQHP439T7PUtNmM5D6TUw8=;
+        b=nlitjbpgp8pDJQHzVC8vTBmIU2vJVZD6hspPUC4f17PoUO+/pKGfA1oG4MjUUaNCua
+         Gm7ZhThfdVQHBt0VtpYtdZoLxy6s3JilZ+xsSe3ThwmTpvBqlX0MxDVbdvaOLRgv+HcC
+         KnTiw1L47tA1Ne6pQA6D6+M6smTcHxfkcuwsxi/sMC06i+0KYS2QPTQWI4sWSUQw4ysS
+         RbnLm0shYkYQmcFM+gdF1BoBll+kb0doA2JFHtPW1hTUfaL2NVn7dSYeG9pqdnTV2BBY
+         OLyoXeqrdFWz7bAWyZjyRdEeRBQBKH0Dn6cSjX3JScaGF7QtFEM20/RoeC1SkieNKdRa
+         WkHQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/SOE2YQ1kz/tzm1aGyj5RLwMqb6HniWZn2E7/5xQBhQOc38hRLoBd9FHtDV2YmIeHr/Q56kKVurEj5@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPfvjKL9VKDTKevJx8/1Lvq6bVdh5ar0q3I7VBCaMZBiomz7jW
+	L8MWtxo0heZDXId/BSGMkgM0B/ROLXA7OyMFIorpfHysO2lqRaIA34i5uV4I0g==
+X-Gm-Gg: AeBDiesleYm0d4SRmJOmPxQE3B6iJDWCBIDgI0Q2wT6/8oXiAA9v4S8w/elix+EUnZk
+	4KI5+EqkZRd8N7lDTGpI+LSE91IyP1SmV9ckRcw74S5hHjnjT0Tvxe99TxGP+Sdb15y111agO0o
+	63A/gN5ZY1IBTnO1Sjq2f7uWu++MwUQ43I+SDWOlBhSCjaGqJImWtrn9KB1kWT3Z90L5ZiOYwLE
+	v1LA+47zD7tRHYbqFa+CsAAD6aVYTcPu0MHkTefSKFoDEajwk0NQ9edova2ThnpZnnKG43jhJva
+	/GBt0EowmT4xb3e/gmGcpodLhNf4fBN0/NezaGsp7Xc10OLkiSguWbbGRpaTKAyeHDrM5SooumK
+	ZTnHswFw/ELcX4Nv7iy4kIn8903910xUrKQU819badds0bCGd7SaIm9T44ZsOzR/8Osx0bUrtj8
+	5SUtG86qqpME0hXLTyu2PacnuWPbHDvuUWolrn9eE=
+X-Received: by 2002:a05:6a00:1f09:b0:82f:5576:2860 with SMTP id d2e1a72fcca58-82f8c7ded1dmr30278119b3a.9.1776993477352;
+        Thu, 23 Apr 2026 18:17:57 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:56::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0092bsm23396818b3a.50.2026.04.23.18.17.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 18:17:55 -0700 (PDT)
+        Thu, 23 Apr 2026 18:17:56 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: miklos@szeredi.hu,
 	fuse-devel@lists.linux.dev
-Subject: [PATCH v1 01/13] fuse: fix missing forget requests in error paths
-Date: Thu, 23 Apr 2026 18:16:34 -0700
-Message-ID: <20260424011646.457682-2-joannelkoong@gmail.com>
+Subject: [PATCH v1 02/13] fuse: clean up fuse_lookup_name()
+Date: Thu, 23 Apr 2026 18:16:35 -0700
+Message-ID: <20260424011646.457682-3-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260424011646.457682-1-joannelkoong@gmail.com>
 References: <20260424011646.457682-1-joannelkoong@gmail.com>
@@ -75,133 +75,63 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the server returned a valid nodeid but invalid attributes, the kernel
-needs to send a forget request to tell the server to release its
-reference, else this leads to server-side leaks. These paths only
-trigger with a misbehaving server returning invalid attributes, so the
-real-world impact is minimal, but forgets should be sent.
+Remove goto with direct returns. Assign fm->fc to a local variable and
+use that. No functional changes.
 
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dir.c | 52 ++++++++++++++++++++++++++++++---------------------
- 1 file changed, 31 insertions(+), 21 deletions(-)
+ fs/fuse/dir.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index be41c14ef329..6ab05d7d297d 100644
+index 6ab05d7d297d..31dc87cfa1af 100644
 --- a/fs/fuse/dir.c
 +++ b/fs/fuse/dir.c
-@@ -583,7 +583,7 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
+@@ -558,22 +558,20 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
+ 	struct fuse_mount *fm = get_fuse_mount_super(sb);
+ 	FUSE_ARGS(args);
+ 	struct fuse_forget_link *forget;
++	struct fuse_conn *fc = fm->fc;
+ 	u64 attr_version, evict_ctr;
+ 	int err;
  
- 	err = -EIO;
- 	if (fuse_invalid_attr(&outarg->attr))
--		goto out_put_forget;
-+		goto out_queue_forget;
- 	if (outarg->nodeid == FUSE_ROOT_ID && outarg->generation != 0) {
- 		pr_warn_once("root generation should be zero\n");
- 		outarg->generation = 0;
-@@ -593,16 +593,18 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
- 			   &outarg->attr, ATTR_TIMEOUT(outarg),
- 			   attr_version, evict_ctr);
- 	err = -ENOMEM;
--	if (!*inode) {
--		fuse_chan_queue_forget(fm->fc->chan, forget, outarg->nodeid, 1);
+ 	*inode = NULL;
+-	err = -ENAMETOOLONG;
+-	if (name->len > fm->fc->name_max)
 -		goto out;
--	}
-+	if (!*inode)
-+		goto out_queue_forget;
+-
++	if (name->len > fc->name_max)
++		return -ENAMETOOLONG;
+ 
+ 	forget = fuse_alloc_forget();
+-	err = -ENOMEM;
+ 	if (!forget)
+-		goto out;
++		return -ENOMEM;
+ 
+-	attr_version = fuse_get_attr_version(fm->fc);
+-	evict_ctr = fuse_get_evict_ctr(fm->fc);
++	attr_version = fuse_get_attr_version(fc);
++	evict_ctr = fuse_get_evict_ctr(fc);
+ 
+ 	fuse_lookup_init(&args, nodeid, name, outarg);
+ 	err = fuse_simple_request(fm, &args);
+@@ -597,13 +595,12 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
+ 		goto out_queue_forget;
  	err = 0;
  
-  out_put_forget:
+- out_put_forget:
++out_put_forget:
  	kfree(forget);
-  out:
+- out:
  	return err;
-+
-+out_queue_forget:
-+	fuse_chan_queue_forget(fm->fc->chan, forget, outarg->nodeid, 1);
-+	return err;
- }
  
- static struct dentry *fuse_lookup(struct inode *dir, struct dentry *entry,
-@@ -882,22 +884,21 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
- 		goto out_free_ff;
- 
- 	err = -EIO;
--	if (!S_ISREG(outentry.attr.mode) || invalid_nodeid(outentry.nodeid) ||
--	    fuse_invalid_attr(&outentry.attr))
-+	if (invalid_nodeid(outentry.nodeid))
- 		goto out_free_ff;
- 
- 	ff->fh = outopenp->fh;
- 	ff->nodeid = outentry.nodeid;
- 	ff->open_flags = outopenp->open_flags;
-+
-+	if (!S_ISREG(outentry.attr.mode) || fuse_invalid_attr(&outentry.attr))
-+		goto out_forget;
-+
- 	inode = fuse_iget(dir->i_sb, outentry.nodeid, outentry.generation,
- 			  &outentry.attr, ATTR_TIMEOUT(&outentry), 0, 0);
--	if (!inode) {
--		flags &= ~(O_CREAT | O_EXCL | O_TRUNC);
--		fuse_sync_release(NULL, ff, flags);
--		fuse_chan_queue_forget(fm->fc->chan, forget, outentry.nodeid, 1);
--		err = -ENOMEM;
--		goto out_err;
--	}
-+	err = -ENOMEM;
-+	if (!inode)
-+		goto out_forget;
- 	kfree(forget);
- 	d_instantiate(entry, inode);
- 	entry->d_time = epoch;
-@@ -925,6 +926,11 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
- 	kfree(forget);
- out_err:
+ out_queue_forget:
+-	fuse_chan_queue_forget(fm->fc->chan, forget, outarg->nodeid, 1);
++	fuse_chan_queue_forget(fc->chan, forget, outarg->nodeid, 1);
  	return err;
-+out_forget:
-+	flags &= ~(O_CREAT | O_EXCL | O_TRUNC);
-+	fuse_sync_release(NULL, ff, flags);
-+	fuse_chan_queue_forget(fm->fc->chan, forget, outentry.nodeid, 1);
-+	return err;
  }
  
- static int fuse_mknod(struct mnt_idmap *, struct inode *, struct dentry *,
-@@ -1010,18 +1016,18 @@ static struct dentry *create_new_entry(struct mnt_idmap *idmap, struct fuse_moun
- 		goto out_put_forget_req;
- 
- 	err = -EIO;
--	if (invalid_nodeid(outarg.nodeid) || fuse_invalid_attr(&outarg.attr))
-+	if (invalid_nodeid(outarg.nodeid))
- 		goto out_put_forget_req;
- 
--	if ((outarg.attr.mode ^ mode) & S_IFMT)
--		goto out_put_forget_req;
-+	if (fuse_invalid_attr(&outarg.attr) || (outarg.attr.mode ^ mode) & S_IFMT)
-+		goto out_forget;
- 
- 	inode = fuse_iget(dir->i_sb, outarg.nodeid, outarg.generation,
- 			  &outarg.attr, ATTR_TIMEOUT(&outarg), 0, 0);
--	if (!inode) {
--		fuse_chan_queue_forget(fm->fc->chan, forget, outarg.nodeid, 1);
--		return ERR_PTR(-ENOMEM);
--	}
-+	err = -ENOMEM;
-+	if (!inode)
-+		goto out_forget;
-+
- 	kfree(forget);
- 
- 	d_drop(entry);
-@@ -1044,6 +1050,10 @@ static struct dentry *create_new_entry(struct mnt_idmap *idmap, struct fuse_moun
- 		fuse_invalidate_entry(entry);
- 	kfree(forget);
- 	return ERR_PTR(err);
-+
-+out_forget:
-+	fuse_chan_queue_forget(fm->fc->chan, forget, outarg.nodeid, 1);
-+	return ERR_PTR(err);
- }
- 
- static int create_new_nondir(struct mnt_idmap *idmap, struct fuse_mount *fm,
 -- 
 2.52.0
 
