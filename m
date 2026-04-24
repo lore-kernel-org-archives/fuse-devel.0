@@ -1,69 +1,69 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9E819D89E
-	for <fuse-devel@lists.linux.dev>; Fri, 24 Apr 2026 01:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDCA17557E
+	for <fuse-devel@lists.linux.dev>; Fri, 24 Apr 2026 01:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776993492; cv=none; b=JKxS83G8uYU+agGm7OfsHeqKgSLYAsbAPG1nolWcxFZ7PCnIxlWcZp+XaeRHfT9hBzKRm3HZ1zviFT7LOx6RTcFW4wzjDBCv3g77tYZjFaKgvjtCVTFXRQRjVH9NLSH0PCb/yxJCJAlANwsANovgBr5y29tvwYvXKH2nuN61Gp8=
+	t=1776993494; cv=none; b=Y3QfqnLVV39UovvFxIlk2GR0S8omsk24laz7QwKJwUt3vpBZQbo5vsd/Vtu/iEoHMHl83vdHz9RTOy5EnJd3fTceOIp5qUQ1WahrSiYvRy8oY0JHPHWpjAR3iqh32ONI8mm5X6mN7fyQh+9ovktd4+gOJCU6038yI0oQzxrRkOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776993492; c=relaxed/simple;
-	bh=MpBmq9wY+zd4d87Rj7kx/YMH/jig3t+8Nx0hIKRZo7Q=;
+	s=arc-20240116; t=1776993494; c=relaxed/simple;
+	bh=DMSV0aMzmKnSENYifAHNLei4EM+WKG2Otv5Z+JSOFqY=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cZfOrvR5iLbCe+C4dor+s5xdVREOvvqcQW9tShNtw04pqTDi7n5tGdUYS+BCLTgmsDA+4SMxc36TbKalOFUaX76b/NuGPYIEPIgDCMsGvm+uvDPvdsfXyVTZmOHcCdVYe+eLYuuKL/Q9CctopoU/V7UVkH4Xg/QV20Is9fD7cXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FPEmWGDR; arc=none smtp.client-ip=209.85.210.180
+	 MIME-Version; b=pH43fv1FjcTePf2u9TkmikBsvDfjZTxMZksh7ZfAl9GGrnAZmrNdFIuztMksDMTW5XKAxPLiU40/F0etpTL1p8+XLaLqHnor/brsydDD18cO935k7+JrPZKINZGOTpyqLtWjCMAF3whbBHrwYZmL5+5yoeKXYEHP6m+7uy4ODwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m3/es8R/; arc=none smtp.client-ip=209.85.210.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPEmWGDR"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-82418b0178cso4572835b3a.1
-        for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:18:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m3/es8R/"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-82f8b60e54dso4872610b3a.2
+        for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776993490; x=1777598290; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1776993492; x=1777598292; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r5AlEyapwBbTU3syMeW9Lhzu+hugK13zdmSQ7raAxh4=;
-        b=FPEmWGDRTXAUdnWW/gbb6tBCXN2e2NrHVphcI4ieH28ZcRaINcJlMxtv/Xu7nR8+iE
-         ExBtootznMzJSxKZN4I4YbfBt/DeYlREx2OV5gz7Tq9FfnZnFVUEeR308QexZ6KFiB5A
-         EXheuBNAL56QNkuejnO7fX0PQS2DLQ7IvaxxVGXUhwS/jJpqihd+XPDwqr14SMrqC71i
-         toz/4BydM7MNUhNVDyv7JwvVw+KI2rVBNC8t3G0ckRozU/jUbAF1PERgZnOs/P2HkV/5
-         +2K49sTg+TT1H7Y+q3oouzpFlTfwLzktYXDdQ8yWGMB3EwR0nlAlEj0x/+q1U2ywYfPZ
-         GNEg==
+        bh=mLUZ7OYP2Ngn/mL0mrrDcxMsN47456z/zNCM+qJLVX8=;
+        b=m3/es8R/mji20+y+Nwej9krgUm0n8NmvVqPdh/Ld3eGmh/kfP0YpRN7dX+lBU8QSmI
+         fH/4ulTpxjCWH7flZK4HL4CHkaYAwBH9d4ZyNpqHu8zYzHHaT+ktt/ULak2l6DHo2tOF
+         B32bUEfftOwNaO9Yxd8EtaSQ3ggDzjKJs25nl/va5j7OAvdZRv+mxLNNeTqKRBfGOFtL
+         e/LqIwUinX8YTLMZpGP7Sot4KeEojwaWcr5FNzMrmj/q0DuKdB2b1uk/HsYNaEyOa7GO
+         Ar887ZtNaaD4J84LPToFIdtj4IPoItUhSNMJt/S16zSQWvehgHmjCBtp7KfQ7HmX3d3h
+         k9dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776993490; x=1777598290;
+        d=1e100.net; s=20251104; t=1776993492; x=1777598292;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=r5AlEyapwBbTU3syMeW9Lhzu+hugK13zdmSQ7raAxh4=;
-        b=BPDME8t3HUh7bnOJj8GN2COvQfn61fN27fg787mKK6JWIA1PG7MgkcuO1IQiQQh1p2
-         mk9c3AZWzCN8xmgJQ5XJtn3YWBCNE/SY3ZV4OcdXGT/hGO2rDA/c094RferrZB61Zjqu
-         qEIzApdQBV53LRoD8mKhkAcIzrXwTxjfdPkeZD86pRIna3qC2jtzSCxRzyxr4cIm8Ocp
-         fF83FFPSTxuSuW0mo/pcK/KCmlW9TaOGJz3axh4u43z6IVMPYPq1NxvTKeLAvUsMG46r
-         E9WX0sruQTTKN5S6aFbvEcQzULGEOUcUIjDPmtfcC5IUWeQdXn26yQo33WgMvdb4sT9d
-         gQTQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+m3W10OF8mSMQo9dcf6umpIhuR11M57Kd4/cafGg440ZcRGmOmIsx5ry/pOkQMO78BEZJ00FbPBOlq@lists.linux.dev
-X-Gm-Message-State: AOJu0YztXAwlnlb/xrk8WmSJtOy9qjmal6JGjCuQr+79n4ysUmJQIgrD
-	9zbC6yX4AxdPwVI06MsyxAKB1CMw/ulES5DDgroPM43Pdv+Y5yX9hP4uNgCEyQ==
-X-Gm-Gg: AeBDieu3SzThrjE35BfVCSCh0R1741NkEJEYQvbIe2MrU/9foSS46wdZtfoCPmuQOg1
-	Z2RaVGPFKZ0jRn6thU+xbK+ekkNupSdY9+MXYWwlfX5YlpE10j8TMFoAc5efofSjrKO4Gh0YAJP
-	c6fUrnH5dRkFgkoPZJA8yWWQQpsPIH23CNduLc/Y/Y3l84TEDxHu4nATj6FrEJ6XPz0cwBcKnl+
-	rqQPo4G1S6ZYPOubiVxyFMK1xllcyttGZcRSkIqS7aX5A00mLXiIx9NqUYC6HQn/KTvyA5clrS3
-	QBRUePZKWKbXHgogewcQtLlaoB8yGOUSPscI9CgQgFJJGc9ZURzTzwjbKellLqa8bH04oatfTGB
-	bsNSNG6Tii5vhyPZokm1bOwKAEKPATJvls3U/mqIsiUIaLf/TGkRiYyEtlP1IYShisYuWoLCuhK
-	OHp6Sr0pMrUzqVou49NhWY83a8lCHY
-X-Received: by 2002:a05:6a00:a90d:b0:823:9e5:855e with SMTP id d2e1a72fcca58-82f8c2c6390mr29746323b3a.0.1776993490297;
-        Thu, 23 Apr 2026 18:18:10 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:51::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebb38f2sm20659829b3a.30.2026.04.23.18.18.09
+        bh=mLUZ7OYP2Ngn/mL0mrrDcxMsN47456z/zNCM+qJLVX8=;
+        b=elBtPQx9oQdK9yXFr1ViiWAQGyZcBzMhyf7W20ILn9ix48Q8eHfzFKz5xh21fidgkY
+         M3RGKlkhlOIyKP7ZPQM4EfMAmYXIUbEQnnnbZrKDJv4pAXWX9OD0cjjGD725+8Dd9Ort
+         TwAPH7zijtJsL6TvqVP/x95j/DD8IxzkNEdJWf9IFWPoZkE/ZMXPMO/YeTH5M+hSPebY
+         b0sDC0m8hzeA9OGwuP2oM9S9IMS7Iu7ms/0mOxveOwEqBtZAq9SprurNGZHxNl8VloZN
+         9lMxR2J7XRwII2T2cS30gdsALh0uFg9XVh3u5jmz5W98HVyVZ35+9QsNr8M3vZ+mJyC/
+         e19g==
+X-Forwarded-Encrypted: i=1; AFNElJ+lkMFgvmtu/hC9xwTj0Wr28T+Gd1TGrQRi1gjCFZ5ETR5TQpce3ytsMgqGrMi/Ej+IliMRHsfUhvc0@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpWndKJNz7bCZ+62MSomgY+GsKbh8wYAHCq4Kho5sjYk5YvPr6
+	DdV1DIRN8NHNc2Lqti+4ilptyggQYBFrZ18gD+c8s04yPsflJ74QGkvVEIv+QQ==
+X-Gm-Gg: AeBDiesJi03qbDxNrPOpNRnUwWczF6WfRxlpIc7XyEzx7mlRzxBkUQr+mPbvOtHFBPo
+	ZC4tDYPRvqFsCsaE4O73qL8ngW9gQyndtL66t3VD7QEQXG4ze2wqAAyDZMzZmK4SvO+hI58LRgT
+	MpZiJoOg7SA4nsSan/OTcBS0TA5MxtRGZirLCZMCUH/49KkgGeUQcwhEcMWa7hzcefsehGy6aKu
+	DXmitmwvxHe/7OeFlrClqOgONOXDzCNoqHrHfRGmwGToKEGVJrnfe+6Cn/Ce7rTUqO0B5/CyCer
+	FX36Ep8tA/OEaYi4zjPyNX+4gwMlBvfUqvfzpctkSoOMsRFKYgm5Fx2NvJL3816YrNKjzB60rEZ
+	jS+tMn6eP1HJyZHsuqbEJboCxNTTf2t1DPyieABZWgsTcmRWfYpV46AZuPPKdPhr2YKTEk3bo83
+	v8Cok9eK+VHOachjtEZvT4HwYUxGo=
+X-Received: by 2002:a05:6a00:420d:b0:81e:e09d:2687 with SMTP id d2e1a72fcca58-82f8c82d83fmr29256490b3a.1.1776993492332;
+        Thu, 23 Apr 2026 18:18:12 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:6::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e984f20sm23485959b3a.8.2026.04.23.18.18.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 18:18:09 -0700 (PDT)
+        Thu, 23 Apr 2026 18:18:11 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: miklos@szeredi.hu,
 	fuse-devel@lists.linux.dev
-Subject: [PATCH v1 09/13] fuse: clean up fuse_do_getattr()
-Date: Thu, 23 Apr 2026 18:16:42 -0700
-Message-ID: <20260424011646.457682-10-joannelkoong@gmail.com>
+Subject: [PATCH v1 10/13] fuse: clean up fuse_update_get_attr()
+Date: Thu, 23 Apr 2026 18:16:43 -0700
+Message-ID: <20260424011646.457682-11-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260424011646.457682-1-joannelkoong@gmail.com>
 References: <20260424011646.457682-1-joannelkoong@gmail.com>
@@ -75,51 +75,51 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Restructure logic to reduce if-else nesting. No functional changes.
+Consolidate logic for determining sync and return early from the sync
+path to reduce if-else nesting. No functional changes.
 
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dir.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ fs/fuse/dir.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
 diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index e4d80069c3d8..cb34138d083b 100644
+index cb34138d083b..4f58adb0fdae 100644
 --- a/fs/fuse/dir.c
 +++ b/fs/fuse/dir.c
-@@ -1495,20 +1495,20 @@ static int fuse_do_getattr(struct mnt_idmap *idmap, struct inode *inode,
- 	args.out_args[0].size = sizeof(outarg);
- 	args.out_args[0].value = &outarg;
- 	err = fuse_simple_request(fm, &args);
--	if (!err) {
--		if (fuse_invalid_attr(&outarg.attr) ||
--		    inode_wrong_type(inode, outarg.attr.mode)) {
--			fuse_make_bad(inode);
--			err = -EIO;
--		} else {
--			fuse_change_attributes(inode, &outarg.attr, NULL,
--					       ATTR_TIMEOUT(&outarg),
--					       attr_version);
--			if (stat)
--				fuse_fillattr(idmap, inode, &outarg.attr, stat);
--		}
-+	if (err)
-+		return err;
-+
-+	if (fuse_invalid_attr(&outarg.attr) ||
-+	    inode_wrong_type(inode, outarg.attr.mode)) {
-+		fuse_make_bad(inode);
-+		return -EIO;
- 	}
--	return err;
-+	fuse_change_attributes(inode, &outarg.attr, NULL, ATTR_TIMEOUT(&outarg),
-+			       attr_version);
-+	if (stat)
-+		fuse_fillattr(idmap, inode, &outarg.attr, stat);
-+
-+	return 0;
- }
+@@ -1529,13 +1529,10 @@ static int fuse_update_get_attr(struct mnt_idmap *idmap, struct inode *inode,
+ 	if (fc->no_statx)
+ 		request_mask &= STATX_BASIC_STATS;
  
- static int fuse_update_get_attr(struct mnt_idmap *idmap, struct inode *inode,
+-	if (!request_mask)
++	if (!request_mask || flags & AT_STATX_DONT_SYNC)
+ 		sync = false;
+-	else if (flags & AT_STATX_FORCE_SYNC)
+-		sync = true;
+-	else if (flags & AT_STATX_DONT_SYNC)
+-		sync = false;
+-	else if (request_mask & inval_mask & ~cache_mask)
++	else if ((flags & AT_STATX_FORCE_SYNC) ||
++		 (request_mask & inval_mask & ~cache_mask))
+ 		sync = true;
+ 	else
+ 		sync = time_before64(fi->i_time, get_jiffies_64());
+@@ -1550,10 +1547,12 @@ static int fuse_update_get_attr(struct mnt_idmap *idmap, struct inode *inode,
+ 				err = 0;
+ 				goto retry;
+ 			}
+-		} else {
+-			err = fuse_do_getattr(idmap, inode, stat, file);
++			return err;
+ 		}
+-	} else if (stat) {
++		return fuse_do_getattr(idmap, inode, stat, file);
++	}
++
++	if (stat) {
+ 		generic_fillattr(idmap, request_mask, inode, stat);
+ 		stat->mode = fi->orig_i_mode;
+ 		stat->ino = fi->orig_ino;
 -- 
 2.52.0
 
