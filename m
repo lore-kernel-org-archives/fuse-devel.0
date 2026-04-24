@@ -1,71 +1,69 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC7019D89E
-	for <fuse-devel@lists.linux.dev>; Fri, 24 Apr 2026 01:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB881A6824
+	for <fuse-devel@lists.linux.dev>; Fri, 24 Apr 2026 07:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776993503; cv=none; b=SClbsdr+qe2aooiDm8fLU6jk5r5rZx06Y4U1uROg9XgTAgtMTkx50WcfIX1fh0oJad6Ukyf4lYM9zIjuwjGc/5qIqE1mDi4GhAztkh0ij7hHmeB6kN33VaQ5ozY+LnUUoH/4EYeAxs7raobEzc9kqq3ukA3tvH4IztcZfzUDbK0=
+	t=1777017084; cv=none; b=hxosVguyroi4qaeBKdu7yoQo4liNC1uDn3m9nedFyyHDQWsnPtGMiRksuy+M9SYcTsOJGEmmZRL/xGYasqxaTDELG4983CJYWuF/H/Bmmn3ee8zpdq6O5vSYtyu0gJa+dtCXjzVL+VDNZqrtHOzKNdfzRAobZ64EnG/oDYRn3js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776993503; c=relaxed/simple;
-	bh=wsYMaxsq6/7GQqjFiIOjruT5YK4ojw1LkeoIErzFA4Q=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EeTwd9hRphcD65QFiDq3cFLFeWyJIZduXrIBxQQDWB3yuji8HBXi8DQjulzqpR1TRLIlNribhgz7nBInPA3HaFwQd8407yLkLiOj7W3+pUvtCKfCSim374lnUbOn6eQ9epiP50H6xYQl44ROsy1FQZXHkqyF7XaiA/+aj/Ouwz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YWWW72zX; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1777017084; c=relaxed/simple;
+	bh=Aequle+K87LGAu2G8+oSYuEOV4qqi1oUcMRMjLloAYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q0l+w2p4OZBkyQCm8ffSp/uMMDUeqCySrxedzvQFF72uV4s/kBhNrh1fOs1zXJSPvrpyvKwX67MycIdXLbmmo6D6BjNxpKnB4uEHH4z6B0vjtKF8LxK2RDFgpBOgW8wIu4w/KjwbGqRJ8haQXj3yoQsVwPukGdrNJipguLKWAeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q6NTDVYe; arc=none smtp.client-ip=209.85.208.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YWWW72zX"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82fb2d0c5d1so3172541b3a.0
-        for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:18:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q6NTDVYe"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-676d8582a13so5994467a12.0
+        for <fuse-devel@lists.linux.dev>; Fri, 24 Apr 2026 00:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776993501; x=1777598301; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dobBwOMCwui9jbeJImKsDOhw9t/X141OQSOGOtfpk6k=;
-        b=YWWW72zX7i5Dq5ZdApkRsKPtcwg0hJTo3IfIZSjTlZ0X1zcVjno4VNfbWRPxAgpM5Y
-         9dgCtgZuSHez3MD3JT97orWZZPQY637sXx9dqvQhYKl/OLzF+Vef5nm8eIFTH9Ow1PwQ
-         cbyhw8Ior6j3efVPZlDX7Nm1ILhwnZIpCSu73uFfm4k69oMbL0sE4TfsZAqXXNGlfDzp
-         e3E+Z4E2+nCR/DCnGoRkMOR8D8QKjmWVRBTdAfZ5YO/anFCSaZXoSzz2wIOM0mdDl25+
-         rSWvBRyYJ2r0vV47xU5LeZrqt+NO5ZkRvTJVXpDN6qU+fnzWXbJHNVvGrgng+mZ4i3fS
-         zpZg==
+        d=gmail.com; s=20251104; t=1777017082; x=1777621882; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=twEiYOl7aJEMeKvbP9GxdxByZHNRVmRPNGJTbqs2auY=;
+        b=q6NTDVYei+NQhBTs//+matt0k1T1t96cqqsnciPHeF6DjDpJdILFWDkPNIkWH9qlfl
+         bz9cbu4gW/0lV9wIexUrZWg1+DaaQuqGzamP/Kh7kUBCNPHUVxtJwe8fB22UFlqzEuLh
+         o2UhwA1LvQVoR536k4WRM56L/ZXzW27aTdaoTOCnwYAodO4djkTdYHGpxWteKXDBWdvz
+         sxmqZs1W0IhZJSbQZGT1F7GGOuWxCKbjTeDrMTCFmqU0E3RzU8FgyVmL77F7tpojE/gj
+         lekN3kNT0GBL5DSPRpd/YPqdwfe20ZIgLk13JMYqY1N7qOjQCbHzHcYU0nMlLzPXyyMA
+         0sLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776993501; x=1777598301;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dobBwOMCwui9jbeJImKsDOhw9t/X141OQSOGOtfpk6k=;
-        b=MJiQ/RUK+W0XlE5JcxWS6QcxCgGFeRWPc5+BQ+F1OSNXFCZMsTAmxctVHiYPS18+/t
-         mk2x3wpTiq3zW/qbgUcC0sI60FvP/0ipuYbUmHINoubzqOcSzZEqjFpfVEzrcoqN6VLP
-         YeDGwaJ3HwaYBGzrGw+9N8riPgCBKvKjbqzOfSFZeMqo+1l1/+mpx28LhB190lO2eQBA
-         SZzBT84lNHiE0GGxn4M9Kq0RkD2uWuOKnswbPy3HKA0J/whrf9HbmmI7kdg/ZWdFAjzg
-         QXy+ppL9Hdvv1bo3HnxCW4zpBF0Vp02Yx5ltuiqHpA9JgkyFRc51x40Bg5I919bhS8Vc
-         NC+A==
-X-Forwarded-Encrypted: i=1; AFNElJ++0CC1NC7R5Yy3ZJObW3/gF989+EYVJUHTzKYJRNeM3TbeFj9qSlI3floOIvDc39F8ae/QVlZBivNm@lists.linux.dev
-X-Gm-Message-State: AOJu0YxYP02PC/oMVw45DcfD7fFkTlJu8sC0CYYm50SqHDG9QllxFTpz
-	FVi/iSe/DXDBHhI5CCs125s1r3DxMRPf4WPGsa0vYqScjRE6sD4rEuvpO30fQA==
-X-Gm-Gg: AeBDievveYF6FmNRjvpEebduzIFFhiW/HwmDw+N3RYj922Dzy7RuWF6As7hO2bUspLS
-	n2gmL8Gbo5xhDeIkuv3rL656LRnqXJHZa5ugV2sBj4kW837mLatkStyludq+tke1svwv/mJeYbk
-	23/PrA2TdAkcxahZbi14fxLjYlDtHwPiwkWJaHjOqWO+A9ez+OJdNJWc0Kqod7guNq+JOgtI5gm
-	DicC8K3tUo0QO/RzVqge3EW0JtrLaVZwGZ1FhSPRSIvtK7Y2AclBhMKfTn1IvI3kd5tsU58WHII
-	eyeJVa0FemBsukWzdGurotBebOU3u6ESEw7O20XaBkeSDHOOh8OygRTOyyvdIogrdBjdvi05yxG
-	MHvIeV7F5LZX3Edewme4FcxnARbss2B1LsZiPc0O3mtKX3ZTIdcYdPDL6g7d130Xc8HrCr3+utR
-	9sIkXodUjGSPLXI/J9jryG7Wp6ri5O
-X-Received: by 2002:a05:6a00:4b56:b0:82f:47ec:944f with SMTP id d2e1a72fcca58-82f8b50fceamr24034749b3a.16.1776993501162;
-        Thu, 23 Apr 2026 18:18:21 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:47::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebe74d8sm22045972b3a.46.2026.04.23.18.18.20
+        d=1e100.net; s=20251104; t=1777017082; x=1777621882;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=twEiYOl7aJEMeKvbP9GxdxByZHNRVmRPNGJTbqs2auY=;
+        b=WLKeFH/UZk2cX3xn1qDyokfSoggSAh58BdyPwZpmJmfwiWwT8+Z31t1SwG1iXym87z
+         opMymp60KqLdqpJsrOd7Z5cUI2yRBJaY20uZdNj9MMRzWINeUsMHjB/V2Uv84YXfQTlD
+         9ZfBsCa27tDcVKjvKOUJrb8vBjZ2XzFoxaVT1Yrv9exFsm9eElytbDLwkSM7gBkaGijr
+         wRkk9ooK6gW278VfKLoOpd046f4HewfruPCjKmbcAVmeyWC18KkAOGpKSCakVIPoSpSz
+         g/N++iu2OMOdQtLkblBdarG82LC1eKVGmRGxJI56ELWXj1trsFwywMDNYi54jbvZLHvo
+         k3Cg==
+X-Forwarded-Encrypted: i=1; AFNElJ9kIPUc8LXouKhVi7vbj08iCIITVf2gysQBLjThOhmZgIPrNrtDHaG+VdyakdeAN+HkxENxJKJvB1nv@lists.linux.dev
+X-Gm-Message-State: AOJu0YyivikMsltSqPsznaYhJZ+c1DQ25cZAn+HToeL/VE41hS4DCQRD
+	FiASJ/oe9aVmMc4oX3ORAkfDMENCD1ut/c5O+Rc5tz1+ghfTaMgwkAEPGzawJlp2
+X-Gm-Gg: AeBDietHx+86DloIafttFDTAMQCqosLvQQOU8ViSOuwzttlZrcOvI+I6voF5OExNuSa
+	U6BA4y1xvpnBw81bI/KXbz2kgad0xytaS8Pwi4tgR5zsCf2fcdW8EWe6/xsLpL1RYDIPldgoLlL
+	hTBNc8Asg6iDSCGAOvDvUR98C0vbTFLXeeADLqUmuDGTGfc+7t560Z7EKlv0Pnjc/EfTH2pGgOg
+	phpbgPgOLgRmHd1nonv1pOw3JeTLihbBT88ThiGMzs09PlfzVnuoDvetaayjsngWEQ9BtPcP+gU
+	GJu92VmfwsJQIYRnyLcphYwJFCRRswMSW6HAIzgGLWCZOVvNYXp7GqZ3NTuUeFlySq3Imq4qsiL
+	U05whuS0D7xkCwIWzTfx2umrNbCcBTG3hZCu0nM53U1b/OkXpMbqGk4GaVdnxa0Cp4qR7XQX19y
+	r+oWvmECHp9zdV9yE7arsTo3h+xmYDIoxNlP+Z3xAzco78DMLyrJ+FAGdqY1x+8g8IHHTQm7sf0
+	/m2oEKGC4bELus+OQZLD0IwBT5+0AFlaNHJtUQ=
+X-Received: by 2002:a05:6402:2792:b0:670:8b7b:51b1 with SMTP id 4fb4d7f45d1cf-672bfd86d94mr13309216a12.3.1777017081753;
+        Fri, 24 Apr 2026 00:51:21 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-4aab-734a-1928-df3f.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:4aab:734a:1928:df3f])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-672c4d6f63fsm4624633a12.31.2026.04.24.00.51.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 18:18:20 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu,
-	fuse-devel@lists.linux.dev
-Subject: [PATCH v1 13/13] fuse: clean up setattr()
-Date: Thu, 23 Apr 2026 18:16:46 -0700
-Message-ID: <20260424011646.457682-14-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260424011646.457682-1-joannelkoong@gmail.com>
+        Fri, 24 Apr 2026 00:51:21 -0700 (PDT)
+Date: Fri, 24 Apr 2026 09:51:20 +0200
+From: Amir Goldstein <amir73il@gmail.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v1 00/13] fuse: dir.c cleanups
+Message-ID: <aesg-JcefprjeQfd@amir-ThinkPad-T480>
 References: <20260424011646.457682-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
@@ -73,38 +71,57 @@ List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260424011646.457682-1-joannelkoong@gmail.com>
 
-Use cached fc in fuse_do_setattr() and fuse_setattr(). No functional
-changes.
+On Thu, Apr 23, 2026 at 06:16:33PM -0700, Joanne Koong wrote:
+> Amir expressed his unhappiness [1] with some of the code structure in dir.c,
+> particularly fuse_dentry_revalidate().
+> 
+> This patchset is a series of cleanups in dir.c. There are no functional
+> changes intended (except for the first patch).
 
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fuse/dir.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I think this is not a good idea.
+These sort of cleanup (e.g. removing unneeded gotos) are a kin to
+whitespace cleanups - we should not do them unless going to change
+the function for another reason.
 
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index bdeea7065c5c..e97b216f685c 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -2220,7 +2220,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
- 			inarg.valid |= FATTR_KILL_SUIDGID;
- 	}
- 
--	attr_version = fuse_get_attr_version(fm->fc);
-+	attr_version = fuse_get_attr_version(fc);
- 	fuse_setattr_fill(fc, &args, inode, &inarg, &outarg);
- 	err = fuse_simple_request(fm, &args);
- 	if (err) {
-@@ -2307,7 +2307,7 @@ static int fuse_setattr(struct mnt_idmap *idmap, struct dentry *entry,
- 	if (fuse_is_bad(inode))
- 		return -EIO;
- 
--	if (!fuse_allow_current_process(get_fuse_conn(inode)))
-+	if (!fuse_allow_current_process(fc))
- 		return -EACCES;
- 
- 	if (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID)) {
--- 
-2.52.0
+The churn this creates and backporting conflicts are not worth the
+win of the cleanup itself.
 
+Therefore, please drop all but the fuse_dentry_revalidate() patch
+which should be part of your passthrough series.
+
+I will review only this one patch.
+
+Thanks,
+Amir.
+
+> 
+> Thanks,
+> Joanne
+> 
+> [1] https://lore.kernel.org/fuse-devel/CAOQ4uxgCezMh3jdp519Lp9OZeqAyZHmc4Mp3FthJpfXhVoHEfw@mail.gmail.com/
+> 
+> Joanne Koong (13):
+>   fuse: fix missing forget requests in error paths
+>   fuse: clean up fuse_lookup_name()
+>   fuse: clean up fuse_lookup()
+>   fuse: clean up fuse_dentry_revalidate()
+>   fuse: clean up fuse_create_open()
+>   fuse: clean up fuse_rename2()
+>   fuse: clean up fuse_time_to_jiffies()
+>   fuse: clean up fuse_link()
+>   fuse: clean up fuse_do_getattr()
+>   fuse: clean up fuse_update_get_attr()
+>   fuse: clean up fuse_get_link()
+>   fuse: clean up fuse_dir_open()
+>   fuse: clean up setattr()
+> 
+>  fs/fuse/dir.c | 324 ++++++++++++++++++++++++--------------------------
+>  1 file changed, 154 insertions(+), 170 deletions(-)
+> 
+> -- 
+> 2.52.0
+> 
