@@ -1,184 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B969225788;
-	Thu, 23 Apr 2026 14:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038B2495E5
+	for <fuse-devel@lists.linux.dev>; Fri, 24 Apr 2026 01:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776955827; cv=none; b=BnVMGjvNl3HCTfVkeKTp3/yHYXAHiPRw97FIY4SLVhVHXjzN5mY2udd7+N1zWTBU8OwkyLS5SrSw2/mzpYz6VyjdzyKKLFLbiqkaGZj+kaE59HN+jFT/npkRqJUXPx1j/AGa20PAk7bF0iHqEaSNc4QNOdNxeram7l5P/lktYQY=
+	t=1776993475; cv=none; b=KHGnBDH3pV0OEqYlbrmURNoS1OprLH/XLVRZSp3Zl64miyWeet9pzwReHSr+mkb/0fsotMs4GCifJ6Ma2G5ZOgZsIp9lITSkWjQIggtulCEDcbTss+mzJpHRpqw4y3Gx/GhYdq9RA5k0vSxjGH6ZtgKtdeuQipREVEfE5uP6hqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776955827; c=relaxed/simple;
-	bh=jswnJoKDx4tKl10WGUL7n0/MeD2pRoH+k6W0/ZeuDy8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uvLdL3K+vKNzrWt8P9cAOXcUYBwfsJtw87QSO78PhqvbVVQJ3dbNFLNXHhGVyhdk9XtXe9DlhrO/z1wxHciSQS1g/JCmrE4g+acDoTh5j29wOIFIrxnT0uZ3GGcPzpPCFbto38JkLQsQrsbKKSl0jDHZ2PobaA5xZl3Aj6JJHaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WjfX0RgA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776993475; c=relaxed/simple;
+	bh=UzMZ/UBYF1beKARZ37cx8VomwGAIOpbqsW4fmQTtayg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=etFSnlJ38Pay5TZq9U+0I/LbdeJ1rbWtqJQV2u6M2rffm3k0goJPXgftJslj/BsfpYAwl3DZ0dqHTpyyXueqMflIZ6+OW4sGSukImGNDY5yEzfyftt5oJCoATUBz1nJpEHTrX9a6RTKKstb0LJTN7JhKBiHddQl/CbK7R5kb0gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R+3Ig0l2; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WjfX0RgA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3424C2BCAF;
-	Thu, 23 Apr 2026 14:50:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776955826;
-	bh=jswnJoKDx4tKl10WGUL7n0/MeD2pRoH+k6W0/ZeuDy8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WjfX0RgAVAkp+sbfTbdOVkzIbkAUH6vHobudqqXIOdlH0RBSqHKeaXSlk/QbqljyH
-	 1YaNI9zE+iaNbwqR1AZUtX5ay/2Yp/7Ge5qfBsO47A34l3K3T+CI55qLAWqcZQWPB3
-	 tXD80zFwIU/Y4zssNgYbKGUI8gKg4nm5xULF2yAs91xJLaEA9Z3xAH+m5zfRlSeFgu
-	 3lwvHlHhGBs/bBkANZj5E9RK0N3zG3bdeyYJhvyFn/UFM/vTflZTe/5HPaR7v7PtkR
-	 9EaOgOlmzvCfG3f9WdmgtaGPLBcrqFae3u5tym3MJHg0L+H3KyCMMOe8S4mhbFHYD1
-	 /Fa6u7perzgtA==
-Date: Thu, 23 Apr 2026 07:50:26 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	linux-ext4 <linux-ext4@vger.kernel.org>,
-	fuse-devel <fuse-devel@lists.linux.dev>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Theodore Ts'o <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>,
-	Christian Brauner <brauner@kernel.org>, demiobenour@gmail.com,
-	Naoki MATSUMOTO <m.naoki9911@gmail.com>
-Subject: Re: [PATCHBOMB v5] fuse/libfuse/e2fsprogs/etc: containerize ext4 for
- safer operation
-Message-ID: <20260423145026.GC3778109@frogsfrogsfrogs>
-References: <20260422231518.GA7717@frogsfrogsfrogs>
- <CAOQ4uxhEmbFWuM80F+Tq7TbDWjrL-znkwu=O=P7Ng2P5dksXsg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R+3Ig0l2"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3590042fa8eso5837064a91.1
+        for <fuse-devel@lists.linux.dev>; Thu, 23 Apr 2026 18:17:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776993473; x=1777598273; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TE1ajSH115QEzh92HXIXzCAZubXgI+zk64N3debhxGE=;
+        b=R+3Ig0l2YPwskOdDMas2h1d3Jq17/Aw2q62fha5sErvmpZZf1fwb1s3IIn6jKOzh1w
+         5u1Gtzo1gkEP/ffv76uaH+eipcOiqC6XAaClfd5GeetQbCq05MCy8F6lLxcwZIbcyGgV
+         3z6MOfoTNQ7X6Kzqj3Dv5QPVB0Pdnn49EaVCO1bAa7aggISjJ+LXfqo+TaPlcz9B2Zyf
+         PQHOg2J+bDezu6uRBchkRSmRec53337Ds2dZWBrDB4sEL5rppQc+4vO7lH/AITq7YOhP
+         Ba+kBzIQZ4us6zbHspDSzdJXojOoczeEUyDTsRwCu/Tx8/cHnKk7JlmSe01Zrd0h2IGW
+         CWRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776993473; x=1777598273;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TE1ajSH115QEzh92HXIXzCAZubXgI+zk64N3debhxGE=;
+        b=KMyKStyTpJc1pnJJzUI31DeK3tfLqaH0fmivp53ZSmfmMMsDXl/2YzHE/yz90jxeZL
+         P9blMdXO7/ECZ07CjeygnZP1IGoLLMHI03+Q6Me1YBt1UUPXsLjSPuvAZ6/AHjJ3dfQA
+         InLLSidDGWZZQSp7Xngx/hl+jr/qq2d1cSOU2ieRyjvusd88xXtjcGuM40/7TZHJuFEv
+         YPsRCorKFwLGnt0DB4SvKG+nd3SIiQ7QAthmLVLP3OSirkDkmET+C70S0NIJgZlZj6hT
+         jpLDm5ewZyYT+ozJDzXhJPbF0WrTqZLAsLwZY0JHxE/nfehHuvGY4ihnHWokPftnEgsp
+         iWlA==
+X-Forwarded-Encrypted: i=1; AFNElJ+VG1+a9uCRDf0uBG1V1k7JVGuR1+x139FuiyCx6WycTDOoyYiPou9wZi1I8g1EwIipXQX67KPBoKSk@lists.linux.dev
+X-Gm-Message-State: AOJu0YzS9jaGR3OgLYZ5rhVjQSOiu9UwvgPQ666bXeVoWRP3VWnJfr77
+	zim3yVnLqNMKHhTdyCaD5oN+9HEef/RvvTwcLg3aj9Y4dM63oj8vWKnZEn2wDQ==
+X-Gm-Gg: AeBDies4FOfYW15mWvSn9lQ8goX/ZHDHcBXn/GNIPWsC9BS0AkJ16VdF5BZSRNOtpgE
+	jrYAwxS5egsufw8RNiir+c4rGV2QWQiqrE0vt9tPtm5AiYVoH79nIRcUuZES3oG1rmng9UHLOHS
+	vu8gTOxr60ot9hIKEGcDcFaZvcu7I41Urrkz7Jme9A7t1YbmQxPIGppxetQnwYDbSmS4bbvn80g
+	TTE642y9qF++d0wR6UkfjTjd4Rb6g3IRrMXPh+/YIsMSktFDH9H8yrJHPYEBmcBAQIofKvk+Ccb
+	IFtWU2YZEuI3cjCMOMUIuYNFp74no/DEieKFqTOGcWs0+GKmmEvnQVgDpJhxM1q6p+t5wCAeDVL
+	sPyQABhBWQzaUZpzU4UdW2PxPRHB6hNJsW78TBXG489hvy9j3M0xIkuLjHnN5yWtcItta63TSdS
+	uok8helVbO4IHsH4MAqfIyKTQOgafk
+X-Received: by 2002:a17:90b:5185:b0:35c:29ba:bf92 with SMTP id 98e67ed59e1d1-361403d5988mr32173590a91.5.1776993473261;
+        Thu, 23 Apr 2026 18:17:53 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:57::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-362bbf963c9sm13627694a91.16.2026.04.23.18.17.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 18:17:52 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: miklos@szeredi.hu,
+	fuse-devel@lists.linux.dev
+Subject: [PATCH v1 00/13] fuse: dir.c cleanups
+Date: Thu, 23 Apr 2026 18:16:33 -0700
+Message-ID: <20260424011646.457682-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxhEmbFWuM80F+Tq7TbDWjrL-znkwu=O=P7Ng2P5dksXsg@mail.gmail.com>
 
-On Thu, Apr 23, 2026 at 10:44:31AM +0200, Amir Goldstein wrote:
-> On Thu, Apr 23, 2026 at 1:15 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > Hi everyone,
-> >
-> > This *would have been* the eight public draft of the gigantic patchset
-> > to connect the Linux fuse driver to fs-iomap for regular file IO
-> > operations to and from files whose contents persist to locally attached
-> > storage devices.
-> >
-> > However, the previous submission was too large, and I didn't even send
-> > half the patches!  I have therefore split the work into two sections.
-> > This first section covers setting up fuse servers to run as contained
-> > systemd services; I previously sent only the libfuse changes, without
-> > any of the surrounding pieces.  Now I'm ready to send them all.
-> >
-> > To summarize this patchbomb: fuse servers can now run as non-root users,
-> > with no privilege, no access to the network or hardware, etc.  The only
-> > connection to the outside is an ephemeral AF_UNIX socket.  The process
-> > on the other end is a helper program that acquires resources and calls
-> > fsmount().
-> >
-> > Why would you want to do that?  Most filesystem drivers are seriously
-> > vulnerable to metadata parsing attacks, as syzbot has shown repeatedly
-> > over almost a decade of its existence.  Faulty code can lead to total
-> > kernel compromise, and I think there's a very strong incentive to move
-> > all that parsing out to userspace where we can containerize the fuse
-> > server process.  Runtime filesystem metadata parsing is no longer a
-> > privileged (== risky) operation.
-> >
-> > The consequences of a crashed driver is a dead mount, instead of a
-> > crashed or corrupt OS kernel.
-> >
-> > Note that contained fuse filesystem servers are no faster than regular
-> > fuse.  The redesign of the fuse IO path via iomap will be the subject of
-> > the second patchbomb.  The containerization code only requires changes
-> > to libfuse and is ready to go today.
-> >
-> > Since the seventh submission, I have made the following changes:
-> >
-> > 1) Added a couple of simple fuse service drivers to the example code
-> >
-> > 2) Adapted fuservicemount to be runnable as a setuid program so that
-> > unprivileged users can start up a containerized filesystem driver
-> >
-> > 3) Fixed some endianness handling errors in the socket protocol between
-> > the new mount helper and the fuse server
-> >
-> > 4) Added a high level fuse_main function so that fuse servers that use
-> > the high level api can containerize without a total rewrite
-> >
-> > 5) Adapted mount.fuse to call the new mount helper code so that mount -t
-> > fuse.XXX can try to start up a contained server
-> >
-> > 6) Cleaned up a lot of cppcheck complaints and refactored a bunch of
-> > repetitious code
-> >
-> > 7) Started using codex to try to find bugs and security problems with
-> > the new mount helper
-> >
-> > There are a few unanswered questions:
-> >
-> > a. How to integrate with the SYNC_INIT patches that Bernd is working on
-> > merging into libfuse
-> >
-> > b. If /any/ of the new fsopen/fsconfig/fsmount/move_mount calls fail,
-> > do we fall back to the old mount syscall?  Even after printing errors?
-> >
-> > c. Are there any Linux systems where some inetd implementation can
-> > actually handle AF_UNIX sockets?  Does it make sense to try to do the
-> > service isolation without the convenience of systemd directives?
-> 
-> A large part of the world is running container workloads on kubernetes
-> and my understanding is that k8s does not mix well with systemd.
-> 
-> We have successfully used the fusetmount3-proxy [1] approach by Naoki
-> MATSUMOTO as a way for unprivileged containers to delegate fuse mount
-> by a (non-systemd) service, running in another container.
-> 
-> [1] https://github.com/pfnet-research/meta-fuse-csi-plugin#fusermount3-proxy-modified-fusermount3-approach
-> 
-> The README says that sshfs, s3fs and other high profile fuse fs have been
-> tested with this approach and they do not require any rebuild.
-> 
-> So it bears the question...
-> 
-> >
-> > d. meson/autoconf/cmake are a pain to deal with, hopefully the changes I
-> > made are correct
-> >
-> > I have also converted a handful more fuse servers (fat, exfat, iso,
-> > http) to the new service architecture so that I can run a (virtual)
-> > Debian system with EFI completely off of containerized fuse servers.
-> > These will be sent at the end.
-> >
-> 
-> ... what is the added value of rebuilding those packages with systemd
-> service support?
-> 
-> I am not implying that there is no added value, I just am not well versed
-> in the world of container and system services.
+Amir expressed his unhappiness [1] with some of the code structure in dir.c,
+particularly fuse_dentry_revalidate().
 
-From the discussion of fusermount3-proxy:
-https://github.com/pfnet-research/meta-fuse-csi-plugin/raw/main/assets/inside-fusermount3-proxy.png
-or
-https://tech.preferred.jp/wp-content/uploads/2023/11/figures-6.png
+This patchset is a series of cleanups in dir.c. There are no functional
+changes intended (except for the first patch).
 
-Their approach spins up a second "CSI driver pod" (aka another contained
-environment) to run fusermount3 with CAP_SYS_ADMIN.  This means that the
-"user pod" has to be able to access all resources necessary to mount the
-filesystem, e.g. virtual disk images, actual block devices, networking,
-etc.  Once the fuse server is running, it's obviously still running in
-the same environment as the user pod.
+Thanks,
+Joanne
 
-With my approach, resource acquisition can be done up front, and the
-fuse server can run in a very sealed environment.  No block devices, no
-networking, no /home, and the minimal root filesystem.  It's systemd, so
-you can be more permissive with the environment if you'd like.
+[1] https://lore.kernel.org/fuse-devel/CAOQ4uxgCezMh3jdp519Lp9OZeqAyZHmc4Mp3FthJpfXhVoHEfw@mail.gmail.com/
 
-The downside is that requires code changes in the fuse server because
-open() won't work if you've trimmed the directory tree.  Hmm, there's
-not much provision for sockets, maybe I need to extend the protocol.
+Joanne Koong (13):
+  fuse: fix missing forget requests in error paths
+  fuse: clean up fuse_lookup_name()
+  fuse: clean up fuse_lookup()
+  fuse: clean up fuse_dentry_revalidate()
+  fuse: clean up fuse_create_open()
+  fuse: clean up fuse_rename2()
+  fuse: clean up fuse_time_to_jiffies()
+  fuse: clean up fuse_link()
+  fuse: clean up fuse_do_getattr()
+  fuse: clean up fuse_update_get_attr()
+  fuse: clean up fuse_get_link()
+  fuse: clean up fuse_dir_open()
+  fuse: clean up setattr()
 
-A big roadblock: none of that code can be merged into libfuse because
-it's all Apache 2.0 licensed, whereas libfuse is GPL2/LGPL2.  LLMwash
-notwithstanding.
+ fs/fuse/dir.c | 324 ++++++++++++++++++++++++--------------------------
+ 1 file changed, 154 insertions(+), 170 deletions(-)
 
---D
+-- 
+2.52.0
+
