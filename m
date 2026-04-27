@@ -1,189 +1,148 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6624C39903A;
-	Mon, 27 Apr 2026 09:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E41A3B0ACA
+	for <fuse-devel@lists.linux.dev>; Mon, 27 Apr 2026 09:56:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777281843; cv=none; b=nKhUw4oAtDhto8UBevwgoVi/WEtfI8A/V/MVML3s6QBSdXL6AsVoS1uD3MoCikce8LlMugGpaAfCkRUbpK26NUwtdqQ8lB+S1svDvDxVwtxoNtXJw2QqDkzeUiantEx7nXfaYrlOLr3mOBszJx6QpkKw+qoWi57Q23zAKbd+S/o=
+	t=1777283779; cv=none; b=a8D56t5SCnUZnunl5Tjfnuvc56bFlFfICeePyNb9kFaJIKdJ7iFFGpvIYi/UaRlH3JnyaZSuzvzu/WWKMF1zYZ+f72PX7W+YxaC0A6fX82/suJsxp+IqI13cj1qPw2vwtF/AiMeUgL5lo4id15JBjFCellFJ8deWrvpiVcshXLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777281843; c=relaxed/simple;
-	bh=Xg5a9pWC87KrYBNN6ecFsOVZqHConA7Z7GBm/wg2OUI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=YJlyEsdODDZMmxPKlcx9Dbw8/cozwAbRKesyhW/LGv9/8410uKHSEVNBrlPBhkRjew4J5NWh3D/5aRuYDvl6DTZrst9OfvfEzEaZCnemDGkGDvDosR7mRVCEypCNVjed6b4fx8gRF+91z8RJbSOPsPGJh0NY3IE1mr60QPfV0OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=LdXEgKc0; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="LdXEgKc0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=FTS67ywjDq8WYWftNREE0XsuUEhxu/5CI/eyMX3sjIQ=; b=LdXEgKc04hljQnUc4tqNwvtdiw
-	3ssxrYiPBRB9vABkm3ruFGNfyIJj2anT4ancqY2T9kosm9A7buDOl5ytq44y4ghH7jxbftcG/I6sP
-	tMIZPKEGM5nSmBzM0IMxc1glHy4lBX/jipAS8btkcxEzzChZ2lUZrpKqlT13OfIhJ0E+wcfpr+CZ3
-	tlNyWeVlj1xDtx4HMzqf6/uFBXxTLDg8aBQtCufsW9mTUyRmFtrOV34DHm/55xypl5S4pCNyVmmBj
-	SBfv/FBjf8n5TVHHxq0g1W/COv0cpBfrmp1lzNN6F9o0J+aW8ztR8yY7NjfjILXYwkwB38bIKaIyR
-	7EpAuGzA==;
-Received: from bl16-24-16.dsl.telepac.pt ([188.81.24.16] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wHIC3-002r7d-Lx; Mon, 27 Apr 2026 11:23:54 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  fuse-devel@lists.linux.dev,
-  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,  Matt
- Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
-Subject: Re: [PATCH] fuse: fix race between inode/dentry invalidation and
- readdir
-In-Reply-To: <CAJnrk1bv4NK7MF4msYMAmbS=+vL=k8NLoLiNyM4QB+amccpOww@mail.gmail.com>
-	(Joanne Koong's message of "Fri, 24 Apr 2026 12:35:11 -0700")
-References: <20260424134935.16161-1-luis@igalia.com>
-	<CAJnrk1bv4NK7MF4msYMAmbS=+vL=k8NLoLiNyM4QB+amccpOww@mail.gmail.com>
-Date: Mon, 27 Apr 2026 10:23:50 +0100
-Message-ID: <87mryokb89.fsf@igalia.com>
+	s=arc-20240116; t=1777283779; c=relaxed/simple;
+	bh=f6suBYbBCeHoikHlAcfzsdD0ZbplLPgF1eRZyJEd3Cs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r6UKwRxsN2jj2zpHAySm4bn/VBirrzDywg9yTEFEbk/sv/8hE+B+IcoIkWQLCAF7z9YmWHM5bkGMSSubxEmjqX5joSsGnLyG3JugtieScSwwSPTfl0UyYxXvBaz2AOtCEef3s7b205JhQuynABptcjbfWxPL7/H/LR28EEDdWPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 5096f9de421f11f1aa26b74ffac11d73-20260427
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:648bb190-e3fb-4e9d-a5fb-5d2e0fc392c7,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:2fc42c9fce4bd1b9e104f74585c4c8fe,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	50,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5096f9de421f11f1aa26b74ffac11d73-20260427
+X-User: liwang@kylinos.cn
+Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 624601296; Mon, 27 Apr 2026 17:56:08 +0800
+Message-ID: <25e00efd-c0ef-446e-a246-6eebd7a68c9d@kylinos.cn>
+Date: Mon, 27 Apr 2026 17:56:06 +0800
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] fuse: optional FORGET delivery over io_uring
+Content-Language: en-GB
+To: Bernd Schubert <bernd@bsbernd.com>, Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260403035752.20206-1-liwang@kylinos.cn>
+ <20260423110954.2676-1-liwang@kylinos.cn>
+ <CAJnrk1Zb=+syR_aOLVs4aXMTOUO7BRBi=MU-20xQOcDpf2iQ5g@mail.gmail.com>
+ <1a25fd7d-f122-42b0-91e2-487235263af5@bsbernd.com>
+From: Li Wang <liwang@kylinos.cn>
+In-Reply-To: <1a25fd7d-f122-42b0-91e2-487235263af5@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Joanne!
+Hi Bernd and Joanne,
 
-On Fri, Apr 24 2026, Joanne Koong wrote:
-
-> On Fri, Apr 24, 2026 at 6:53=E2=80=AFAM Luis Henriques <luis@igalia.com> =
-wrote:
+On 26/04/2026 23:48, Bernd Schubert wrote:
+> 
+> 
+> On 4/24/26 22:38, Joanne Koong wrote:
+>> On Thu, Apr 23, 2026 at 4:11 AM Li Wang <liwang@kylinos.cn> wrote:
+>>>
+>>> Deliver FUSE_FORGET through fuse_uring_queue_fuse_req() when the io_uring
+>>> is ready and userspace has opted in by setting
+>>> FUSE_IO_URING_REGISTER_FORGET_COMMIT in fuse_uring_cmd_req.flags on
+>>> FUSE_IO_URING_CMD_REGISTER. Until any REGISTER
+>>> carries that bit, FORGET continues to use the legacy
+>>> fuse_dev_queue_forget() path even while io_uring is active, so unmodified
+>>> userspace (e.g. libfuse that does not issue a completion SQE for FORGET)
+>>> does not wedge ring entries.
+>>>
+>>> Benefits:
+>>> - FORGET can share the same commit/fetch loop as other opcodes.
+>>> - Reduces split transport for high-volume forgets when the ring is primary.
+>>> - Reuses existing per-queue io-uring machinery and noreply/force
+>>>   request setup.
+>>>
+>>> Signed-off-by: Li Wang <liwang@kylinos.cn>
 >>
->> When there's a readdir in progress, doing a FUSE_NOTIFY_INVAL_{INODE,ENT=
-RY}
->> on an inode or dentry may result in stale directory info being cached.  =
-This
->> is because the invalidation does not reset the readdir cache.
+>> Hi Li,
 >>
->> This patch fixes this issue by adding a call to fuse_rdc_reset() (modifi=
-ed
->> to include the required locking) to these two operations, allowing the
->> readdir cache to be invalidated while it's being filled-in.
->
-> Hi Luis,
->
-> Just curious, are you hitting this issue in practice or is this mostly
-> theoretical?
->
-> afaict for fuse_notify_inval_entry(), it calls into
-> fuse_reverse_inval_entry() -> fuse_dir_changed(parent), which calls
-> inode_maybe_inc_iversion(). afaict, this actually increments i_version
-> (since I_VERSION_QUERIED flag was set when the cache's iversion was
-> initialized with inode_query_iversion() in fuse_readdir_cached()),
-> which means the next readdir call will detect this version change and
-> call fuse_rdc_reset() (in fuse_readdir_cached()). I'm not sure I see
-> how this leads to stale directory info lingering in the cache after a
-> concurrent fuse_notify_inval_entry()?
->
-> For teh fuse_notify_inval_inode() case, which I'm assuming is the case
-> you're running into where the directory is the inode being
-> invalidated, I see the call to fuse_reverse_inval_inode() which calls
-> invalidate_inode_pages2_range() if the offset was non-negative, which
-> will invalidate the readdir cache's pages, which means on the next
-> readdir call, will already call fuse_rdc_reset() when it detects the
-> missing page in the cache (in fuse_readdir_cached()). So I'm not
-> really seeing how this can happen either for the
-> fuse_notify_inval_inode() case? Unless you are passing a negative
-> offset, but as I understand it, passing a negative offset is used only
-> if the server wants attributes invalidated [1], not any data.
->
-> afaics, the onlyy stale directory info returned would be for the case
-> for a concurrent readdir that has already passed the pos =3D=3D 0
-> iversion/mtime check when the invalidation arrives, but that seems
-> like a server synchronization issue, eg if the server wants uptodate
-> data when doing a concurrent readdir and invalidation, they have to
-> order that themselves. ANy fresh lookup after that though, I think
-> wouldalways return fresh/non-stale data for the reasons mentioned
-> above.
->
-> Does this align with what you're seeing in the code or am I missing
-> something here?
-
-First of all, thanks a lot for looking into this and for doing such a
-great description of the issue.
-
-So, I did had a report regarding a possible race between a readdir and
-invalidation when using keep_cache and cache_readdir.  But, unfortunately,
-I don't have a lot of information regarding the actual issue, and it isn't
-something reproducible.
-
-Then, looking at the code (and, for full-disclosure, I've also looked at a
-claude analysis that was handed over to me) I could see a race that I'm
-trying to fix with this patch.  But I believe it's the race that you claim
-above that it's a server synchronisation problem.  For example, with a
-NOTIFY_INVAL_INODE operation, when fuse_reverse_inval_inode() is called
-while fuse_add_dirent_to_cache() is being executed in parallel, the
-iversion/mtime update could be missed.
-
-It is possible to hit this small race by instrumenting the code, and I
-could occasionally (and momentarily) see stale data while running readdir
-in such instrumented testing environment.  Do you think that's something
-inherent to the usage of the INVAL_INODE op, and this race will need to be
-handled by user-space?
-
-In fact, the report I got seemed to indicate that the issue was not going
-away with a fresh lookup (though an 'echo 1 > /proc/sys/vm/drop_cache'
-would fix it).  But maybe that's another indication that this is a problem
-in the user-space server.
-
-Cheers,
---=20
-Lu=C3=ADs
-
->
+>> Thanks for sending this. To be completely honest, I'm not convinced
+>> delivering forget over io-uring is worth the added complexity/cost. In
+>> the /dev/fuse path we rely on forget batching/amoritizing and explicit
+>> scheduling/fairness logic so forget processing makes progress and
+>> doesn't get drowned out by regular requests; I think we'd likely need
+>> something comparable for the io-uring path as well. Additionally,
+>> routing it through io-uring makes forget behave more like a "real"
+>> request on the ring (it needs per-request state to live until
+>> userspace completes and the entry can be recyycled) which introduces
+>> extra allocation/lifetime management on this path and it requires a
+>> uapi change and corresponding libfuse changes.
 >>
->> Assisted-by: Claude:claude-opus-4-5
->> Signed-off-by: Luis Henriques <luis@igalia.com>
->> ---
->>  fs/fuse/dir.c     |  5 +++--
->>  fs/fuse/fuse_i.h  | 13 +++++++++++++
->>  fs/fuse/inode.c   |  1 +
->>  fs/fuse/readdir.c |  6 +++---
->>  4 files changed, 20 insertions(+), 5 deletions(-)
+>> Forgets would consume ring entries but they're tiny one-way
+>> notifications and imo I don't think they benefit much from io-uring's
+>> main advantages (eg data-path/zero-copy). I worry theyy could contend
+>> with read-write heavy traffic where ring capacity is more valuable.
+> 
+> I think when FORGET starts to disturb writes or reads, there also must
+> be some metadata load that causes many of these requests. Going via
+> /dev/fuse also includes another two syscalls and cpu task switch to the
+> libfuse thread handling them - that is not for free either.
+> 
+> However, this currently might disturb reads/writes, if the queue depth
+> is limited and memory optimized to carry reads/writes. The missing
+> feature here is to have a multiple request sizes on the same queue.
+> 
+> Btw, syscall overhead is basically the reason why I wouldn't like to
+> have multiple rings per request size, but one ring with entries of
+> different sizes. Will try to respond to the other mail later today.
+> 
 >>
->> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
->> index 7ac6b232ef12..6e5851de3613 100644
->> --- a/fs/fuse/dir.c
->> +++ b/fs/fuse/dir.c
->> @@ -1615,6 +1615,7 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc,=
- u64 parent_nodeid,
->>         if (!(flags & FUSE_EXPIRE_ONLY))
->>                 d_invalidate(entry);
->>         fuse_invalidate_entry_cache(entry);
->> +       fuse_rdc_reset(entry->d_inode);
->
-> Hmm... I think this resets the child's readdir cache but it's the
-> parent's readdir cache that would have to be invalidated, so would
-> this have to be fuse_rdc_reset(parent)?
->
-> Thanks,
-> Joanne
->
-> [1] https://libfuse.github.io/doxygen/fuse__lowlevel_8h.html#a9cb974af974=
-5294ff446d11cba2422f1
->
->>
->>         if (child_nodeid !=3D 0) {
->>                 inode_lock(d_inode(entry));
->> @@ -1637,7 +1638,7 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc,=
- u64 parent_nodeid,
->>                 dont_mount(entry);
->>                 clear_nlink(d_inode(entry));
->>                 err =3D 0;
->> - badentry:
->> +badentry:
->>                 inode_unlock(d_inode(entry));
->>                 if (!err)
->>                         d_delete(entry);
+>> Given that, my preference would be to keep forget/interrupts on the
+>> legacy /dev/fuse path even when io-uring is enabled. Sorry for not
+>> bringing this up earlier in v2. Bernd, I’d also be curious to hear
+>> your perspective on this.
+> 
+> It is certainly not something that I would count as priority. Though I
+> don't think it would hurt either. In the end we might be able to run
+> entirely without /dev/fuse IO and threads and would save a bit resources.
+> 
+> @Li do you see performance improvements with FORGETs through the ring or
+> could you post your underlying motivation?
+> 
+To be honest, my initial motivation for this wasn't necessarily performance, 
+but rather architectural simplicity. Maintaining two separate paths and 
+thread pools for forget/interrupt and I/O requests adds a bit of complexity 
+to the code and introduces relatively higher overhead, as well as some 
+resource redundancy.
+
+Furthermore, in the current implementation, forget and I/O requests are 
+dispatched through different paths and handled by different sets of threads. 
+This means we cannot guarantee their original priority order upon reception, 
+and it potentially introduces extra context-switching overhead, which 
+impacts the processing efficiency of both.
+
+Theoretically, optimization measures such as batching forget requests can 
+also be implemented via the io_uring path. This would allow us to amortize 
+the state maintenance and completion overhead of forget requests, while also 
+addressing the issue of uniform request sizes within the same ring. I'll 
+get around to running some performance benchmarks.
+
+Thanks,
+Li
