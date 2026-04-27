@@ -1,150 +1,189 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1067324A07C
-	for <fuse-devel@lists.linux.dev>; Sun, 26 Apr 2026 21:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6624C39903A;
+	Mon, 27 Apr 2026 09:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777238895; cv=none; b=LsgLv7t/6il9qO1gw6mFw43ZRxzr1kJ2ORmjQ+e/wBxdPrGA98bEC1JIwRzRNO3yCh3pnb+nBNAFlUN7Yk6VVnNSr3H/G6M8IlEQsjz+d8+jdA25WZMdBiZeSWxCIiQhc2SMlE9VKk9QCx7JhOg61HT0m1AoyZkE/12ReVukp74=
+	t=1777281843; cv=none; b=nKhUw4oAtDhto8UBevwgoVi/WEtfI8A/V/MVML3s6QBSdXL6AsVoS1uD3MoCikce8LlMugGpaAfCkRUbpK26NUwtdqQ8lB+S1svDvDxVwtxoNtXJw2QqDkzeUiantEx7nXfaYrlOLr3mOBszJx6QpkKw+qoWi57Q23zAKbd+S/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777238895; c=relaxed/simple;
-	bh=/avPC3bEQsKT6TxAZf9ekEriJSICHatwfDGpxOPwXj8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rK0uvxUB7kfIWnUMN8VwyiUNoERgU5Ps/cNX5HyR9sg7c9OyiRXLiUkQR4yyMSNq8rdcWOUjD5eyDq6TZj02pBKbkuRUzoS1Ewo+O8qHWKc33uJQ7ehjfPUnU2feRc6eTzrjgQEuX8ZqMyjsso+C9rgEZQS/uTlBLGh+6UrBCGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=gnom8Hh0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OiVmc0x/; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1777281843; c=relaxed/simple;
+	bh=Xg5a9pWC87KrYBNN6ecFsOVZqHConA7Z7GBm/wg2OUI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YJlyEsdODDZMmxPKlcx9Dbw8/cozwAbRKesyhW/LGv9/8410uKHSEVNBrlPBhkRjew4J5NWh3D/5aRuYDvl6DTZrst9OfvfEzEaZCnemDGkGDvDosR7mRVCEypCNVjed6b4fx8gRF+91z8RJbSOPsPGJh0NY3IE1mr60QPfV0OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=LdXEgKc0; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="gnom8Hh0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OiVmc0x/"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 620A11400027;
-	Sun, 26 Apr 2026 17:28:13 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Sun, 26 Apr 2026 17:28:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1777238893;
-	 x=1777325293; bh=ch2r00MgjYtuT/zhU+l8R/mOvWT2LsdN077XGhCbbJ4=; b=
-	gnom8Hh0wsQToUk0qHC83bSpOUJ+WYPi21bjLd7tU5FBk06cXlypJTzh2CJvJx4C
-	Yw4uWawkM9bsP+zHjT8FCxVstTFNw0AWnrXGid8o9Y8ChnFYEN0LvZJdo+46x6CN
-	ng5mxS4wWRsL94kHHDcDCPt2I9BJz/IaYfsSuSiY1a2gJeB5mSeQCkh/3jXBPp+0
-	OeLpafjFD/tl+b0iTyCBQcqsDfyskYWEZpIsJTeoIWVdU8LviPNZJIKLJ41Neszz
-	xchIpJd+UMG9/tV8PBwmAdYdcdnIvNUOzBfSguQwExjDtoOPKyJXxmzBUF+vJEZA
-	oapDM9y+NollSNhJft+yuQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777238893; x=
-	1777325293; bh=ch2r00MgjYtuT/zhU+l8R/mOvWT2LsdN077XGhCbbJ4=; b=O
-	iVmc0x/SLKBNf8/jEokBdBePk2gWuy/8V66yQkinpWyk9lgimeD6sXYg8HbqdNxh
-	aTNZ9IZKXYiBG7fcFRmtbD93d+AKN8umKO7IsGsAL/VbekbwvlDITYMqK0445Qrw
-	wmTa7s7RC3dc4Thy6sUHRzJ0AQv+c8/V4IRdpEd2ZGvMlkTUZfdPIycrpkPBtVXZ
-	TP+bK0ecGzk2GrPrE+x05UMhGhYl6SDsNj1mBwFq+C9YCMyfT3B8pr6MQbmYDLdr
-	+IHJ0uUDRQ2kCKO2VYvVeDVxtBnDDBfvZaGf1jSwKbUFz0jYJfqv94Erx1yue5lh
-	+Ntpo7IbSTR5x96Txbz1g==
-X-ME-Sender: <xms:bYPuaU2gMxzQlWztJ3IxYvEX8FgVabbkUvXGaPOS9741F7TJqT8yIQ>
-    <xme:bYPuaYbe6dTPzi06QNzIyWqXx_PK9Sn8tXh4bqRiM6HNS-vqO1BtbSa7OVl34qraN
-    iUw9bzLpZa5dN3Kl6LZYAEN8hSUaOSubSGtKSz3zAXwZvuhJzwL>
-X-ME-Received: <xmr:bYPuaULyfYOZT_uwHx7UZrgAYK9osCgMvjR0JBSjHIRzT6RWwP7hTNOQCSPDldj0kH1-IikffWs6fxTDjnQPyyBepJ-3qERbysiutbakUhlSG3ZpNA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejieekjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefkffggfgfuvfevfhfhjggtgfesthejredttddvjeenucfhrhhomhepuegvrhhnugcu
-    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
-    htvghrnhepjefgieelkeehteffudeitdelleeilefffeduheejfefghffhvedvtdfhhfeh
-    iefgnecuffhomhgrihhnpehsohgtkhgvthdrihhnnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtghomhdp
-    nhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepughjfi
-    honhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehnvggrlhesghhomhhprgdruggv
-    vhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhr
-    tghpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehfuhhsvg
-    dquggvvhgvlheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:bYPuafGQT0TuDtwUAFpAR4VAje-kZ3TlTZqNzS37f0dzxGhXaQCDsA>
-    <xmx:bYPuaTuzTTx-jJCrBBMzlViH5kBcNAVx_wDq9yG9nt61ULaCn74t2A>
-    <xmx:bYPuaWtWTt_eioNVQrLvmxz9qE9wUo33WIPlMuNR58MwUGCEvfSszw>
-    <xmx:bYPuaZDJ5tXEu1VNwD-ctfLabY86xrvU-WwLisoBzL_H4L7-J4mgKg>
-    <xmx:bYPuabFz2MWQSs0e_iCV-H2YvD25w8rhAFleH_vCwQe49d3kg8OJmuQN>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 26 Apr 2026 17:28:12 -0400 (EDT)
-Message-ID: <18844024-34a4-4e72-831f-04effc8e1418@bsbernd.com>
-Date: Sun, 26 Apr 2026 23:28:11 +0200
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="LdXEgKc0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=FTS67ywjDq8WYWftNREE0XsuUEhxu/5CI/eyMX3sjIQ=; b=LdXEgKc04hljQnUc4tqNwvtdiw
+	3ssxrYiPBRB9vABkm3ruFGNfyIJj2anT4ancqY2T9kosm9A7buDOl5ytq44y4ghH7jxbftcG/I6sP
+	tMIZPKEGM5nSmBzM0IMxc1glHy4lBX/jipAS8btkcxEzzChZ2lUZrpKqlT13OfIhJ0E+wcfpr+CZ3
+	tlNyWeVlj1xDtx4HMzqf6/uFBXxTLDg8aBQtCufsW9mTUyRmFtrOV34DHm/55xypl5S4pCNyVmmBj
+	SBfv/FBjf8n5TVHHxq0g1W/COv0cpBfrmp1lzNN6F9o0J+aW8ztR8yY7NjfjILXYwkwB38bIKaIyR
+	7EpAuGzA==;
+Received: from bl16-24-16.dsl.telepac.pt ([188.81.24.16] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wHIC3-002r7d-Lx; Mon, 27 Apr 2026 11:23:54 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,  fuse-devel@lists.linux.dev,
+  linux-fsdevel@vger.kernel.org,  linux-kernel@vger.kernel.org,  Matt
+ Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
+Subject: Re: [PATCH] fuse: fix race between inode/dentry invalidation and
+ readdir
+In-Reply-To: <CAJnrk1bv4NK7MF4msYMAmbS=+vL=k8NLoLiNyM4QB+amccpOww@mail.gmail.com>
+	(Joanne Koong's message of "Fri, 24 Apr 2026 12:35:11 -0700")
+References: <20260424134935.16161-1-luis@igalia.com>
+	<CAJnrk1bv4NK7MF4msYMAmbS=+vL=k8NLoLiNyM4QB+amccpOww@mail.gmail.com>
+Date: Mon, 27 Apr 2026 10:23:50 +0100
+Message-ID: <87mryokb89.fsf@igalia.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/13] example/service_ll: create a sample systemd service
- fuse server
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: neal@gompa.dev, linux-fsdevel@vger.kernel.org, joannelkoong@gmail.com,
- miklos@szeredi.hu, fuse-devel@lists.linux.dev
-References: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
- <177689988738.3820166.3563042250723069297.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr
-In-Reply-To: <177689988738.3820166.3563042250723069297.stgit@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Hi Joanne!
 
+On Fri, Apr 24 2026, Joanne Koong wrote:
 
-On 4/23/26 01:22, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Create a simple fuse server that can be run as a systemd service.
-> I plan to create some more single-file fuse server examples, so most of
-> the boilerplate code goes in a separate file.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  example/single_file.h        |  153 +++++++++
->  lib/util.h                   |   35 ++
->  example/meson.build          |   14 +
->  example/service_ll.c         |  312 ++++++++++++++++++
->  example/service_ll.socket.in |   15 +
->  example/service_ll@.service  |  102 ++++++
->  example/single_file.c        |  733 ++++++++++++++++++++++++++++++++++++++++++
->  meson.build                  |    1 
->  8 files changed, 1365 insertions(+)
->  create mode 100644 example/single_file.h
->  create mode 100644 example/service_ll.c
->  create mode 100644 example/service_ll.socket.in
->  create mode 100644 example/service_ll@.service
->  create mode 100644 example/single_file.c
-> 
-> 
-> diff --git a/example/single_file.h b/example/single_file.h
-> new file mode 100644
-> index 00000000000000..d8a91adbf875ef
-> --- /dev/null
-> +++ b/example/single_file.h
-> @@ -0,0 +1,153 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2026 Oracle.
-> + *
-> + * This program can be distributed under the terms of the GNU GPLv2.
-> + * See the file GPL2.txt.
-> + */
-> +#ifndef FUSE_SINGLE_FILE_H_
-> +#define FUSE_SINGLE_FILE_H_
+> On Fri, Apr 24, 2026 at 6:53=E2=80=AFAM Luis Henriques <luis@igalia.com> =
+wrote:
+>>
+>> When there's a readdir in progress, doing a FUSE_NOTIFY_INVAL_{INODE,ENT=
+RY}
+>> on an inode or dentry may result in stale directory info being cached.  =
+This
+>> is because the invalidation does not reset the readdir cache.
+>>
+>> This patch fixes this issue by adding a call to fuse_rdc_reset() (modifi=
+ed
+>> to include the required locking) to these two operations, allowing the
+>> readdir cache to be invalidated while it's being filled-in.
+>
+> Hi Luis,
+>
+> Just curious, are you hitting this issue in practice or is this mostly
+> theoretical?
+>
+> afaict for fuse_notify_inval_entry(), it calls into
+> fuse_reverse_inval_entry() -> fuse_dir_changed(parent), which calls
+> inode_maybe_inc_iversion(). afaict, this actually increments i_version
+> (since I_VERSION_QUERIED flag was set when the cache's iversion was
+> initialized with inode_query_iversion() in fuse_readdir_cached()),
+> which means the next readdir call will detect this version change and
+> call fuse_rdc_reset() (in fuse_readdir_cached()). I'm not sure I see
+> how this leads to stale directory info lingering in the cache after a
+> concurrent fuse_notify_inval_entry()?
+>
+> For teh fuse_notify_inval_inode() case, which I'm assuming is the case
+> you're running into where the directory is the inode being
+> invalidated, I see the call to fuse_reverse_inval_inode() which calls
+> invalidate_inode_pages2_range() if the offset was non-negative, which
+> will invalidate the readdir cache's pages, which means on the next
+> readdir call, will already call fuse_rdc_reset() when it detects the
+> missing page in the cache (in fuse_readdir_cached()). So I'm not
+> really seeing how this can happen either for the
+> fuse_notify_inval_inode() case? Unless you are passing a negative
+> offset, but as I understand it, passing a negative offset is used only
+> if the server wants attributes invalidated [1], not any data.
+>
+> afaics, the onlyy stale directory info returned would be for the case
+> for a concurrent readdir that has already passed the pos =3D=3D 0
+> iversion/mtime check when the invalidation arrives, but that seems
+> like a server synchronization issue, eg if the server wants uptodate
+> data when doing a concurrent readdir and invalidation, they have to
+> order that themselves. ANy fresh lookup after that though, I think
+> wouldalways return fresh/non-stale data for the reasons mentioned
+> above.
+>
+> Does this align with what you're seeing in the code or am I missing
+> something here?
 
-From the name it is kind of impossible to figure out what it is for -
-requires to go through the code. Could you add something like
+First of all, thanks a lot for looking into this and for doing such a
+great description of the issue.
 
-This is not a standalone file system, but a helper for other file
-systems to expose a single file backed by a physical file or block device.
+So, I did had a report regarding a possible race between a readdir and
+invalidation when using keep_cache and cache_readdir.  But, unfortunately,
+I don't have a lot of information regarding the actual issue, and it isn't
+something reproducible.
 
-For both the .h and .c file? Please feel free to make it more verbose.
+Then, looking at the code (and, for full-disclosure, I've also looked at a
+claude analysis that was handed over to me) I could see a race that I'm
+trying to fix with this patch.  But I believe it's the race that you claim
+above that it's a server synchronisation problem.  For example, with a
+NOTIFY_INVAL_INODE operation, when fuse_reverse_inval_inode() is called
+while fuse_add_dirent_to_cache() is being executed in parallel, the
+iversion/mtime update could be missed.
 
+It is possible to hit this small race by instrumenting the code, and I
+could occasionally (and momentarily) see stale data while running readdir
+in such instrumented testing environment.  Do you think that's something
+inherent to the usage of the INVAL_INODE op, and this race will need to be
+handled by user-space?
 
-Thanks,
-Bernd
+In fact, the report I got seemed to indicate that the issue was not going
+away with a fresh lookup (though an 'echo 1 > /proc/sys/vm/drop_cache'
+would fix it).  But maybe that's another indication that this is a problem
+in the user-space server.
+
+Cheers,
+--=20
+Lu=C3=ADs
+
+>
+>>
+>> Assisted-by: Claude:claude-opus-4-5
+>> Signed-off-by: Luis Henriques <luis@igalia.com>
+>> ---
+>>  fs/fuse/dir.c     |  5 +++--
+>>  fs/fuse/fuse_i.h  | 13 +++++++++++++
+>>  fs/fuse/inode.c   |  1 +
+>>  fs/fuse/readdir.c |  6 +++---
+>>  4 files changed, 20 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+>> index 7ac6b232ef12..6e5851de3613 100644
+>> --- a/fs/fuse/dir.c
+>> +++ b/fs/fuse/dir.c
+>> @@ -1615,6 +1615,7 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc,=
+ u64 parent_nodeid,
+>>         if (!(flags & FUSE_EXPIRE_ONLY))
+>>                 d_invalidate(entry);
+>>         fuse_invalidate_entry_cache(entry);
+>> +       fuse_rdc_reset(entry->d_inode);
+>
+> Hmm... I think this resets the child's readdir cache but it's the
+> parent's readdir cache that would have to be invalidated, so would
+> this have to be fuse_rdc_reset(parent)?
+>
+> Thanks,
+> Joanne
+>
+> [1] https://libfuse.github.io/doxygen/fuse__lowlevel_8h.html#a9cb974af974=
+5294ff446d11cba2422f1
+>
+>>
+>>         if (child_nodeid !=3D 0) {
+>>                 inode_lock(d_inode(entry));
+>> @@ -1637,7 +1638,7 @@ int fuse_reverse_inval_entry(struct fuse_conn *fc,=
+ u64 parent_nodeid,
+>>                 dont_mount(entry);
+>>                 clear_nlink(d_inode(entry));
+>>                 err =3D 0;
+>> - badentry:
+>> +badentry:
+>>                 inode_unlock(d_inode(entry));
+>>                 if (!err)
+>>                         d_delete(entry);
