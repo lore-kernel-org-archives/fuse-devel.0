@@ -1,174 +1,300 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA1B37B030
-	for <fuse-devel@lists.linux.dev>; Wed, 29 Apr 2026 12:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777466311; cv=pass; b=qgWsCYdICBEM1z0Su17OjQo7KNZsm+evhKfCS23amzPtrdqDlfUtdHq/tdBrooYfWccTd/L8Ft/msi17TXRVWKFcoYcvIm+luIOk2/K4x6DJ72AdNRXmMs9D8mYMwtTWCPh+8BXUXG3jufhYKiwMRojqBJ8IsA0wULw2dSVAhKI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777466311; c=relaxed/simple;
-	bh=VjhBgsq15Uhr29mI8KAskfSdJKxjDkwt7+LMJEXOUrA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=syN7jSuG5mLIXh3XVU67/TJpujph6PMrQ5Fx0DrKFVn6Xr9YNTlLpmb4DSm+C4R2xOeGrcYW6ySTV6Z2NjlYiTRFLpQyLCivYR9jHaH6XMvMOkSkNiifUmC1BhI0Cl642EgIDZ0qNaD7uhqSQhO3z9j1VGSS+X2GmIKXtNph1vY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fq8uTHeM; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B952D8370;
+	Wed, 29 Apr 2026 14:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777471881; cv=none; b=TwKiK72u8+UJy3iIonyuMxfdWfmZ0O4ci/aToXLVfSGv+5Hr8PrhQwVNsikpsfr23dHN5Jvg5u2kwdm8DcYo2vUP2fjg8PeK1J/CGSwbE46HI5C3wfmao1KL4WXxjQlgE5+RR0VQP/mpY0RN2Gu3HV6S+4cA8NS1ISCLD3Y9OHA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777471881; c=relaxed/simple;
+	bh=1CmkhIiS7kL6nQ3kOxg8HXKWwOrySXOJzZZWLN+AYvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RxTNVpeBiM/qOykMHPWvgSpwegbptuQ3Dz0f230FGsqtb4kTwfyH+Hx++TCb6c+iWj1C8gU2qfzEjN/nqGXeqBQKU2bzqLcpgZNJWqDxJ60KFfDz5i9VUtvgvcZa+id7rZ/vpdbRxdzjIu8RI4Y8hdRs4OpK9RpRBQgt7DrAg+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p4ziPV/5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fq8uTHeM"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-446fea16729so1419383f8f.3
-        for <fuse-devel@lists.linux.dev>; Wed, 29 Apr 2026 05:38:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777466309; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eZeahFkuh4VY+WJ3Kx9G+GUSSLLnZrVPnKkx9LGB1GALOvBBXjCA1cQ/cWkH9l9ANe
-         jiEiv6mlmJabFNEkqFUB/UIXBbNtJwmddb0ISX3JqxWPSyjD0LA6GW89YO//kf7T1XLd
-         qzFGmwgPRgBZ5gAg1jeGXnFhr1oATKbdD378j2EHd8vemPVcDXYKBCcEfH0nhsEfAXu0
-         D+OGCWr3G/mNEX0kj7IGakIZMicfR/W2Kq4XQ2ceQtrpbz3z0+rh7ro0pxL2tZlc8jxf
-         PXkJX0Fla2XBfexhL7LLghlUWZHswPgjM+l8V1rpkJwI/W1lczsj31b/HRA1UcjRA/zj
-         QnKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VjhBgsq15Uhr29mI8KAskfSdJKxjDkwt7+LMJEXOUrA=;
-        fh=qF4gtXUXO+KPNq2BW1M2Pec9HGJxPkNDiTCSpf52U+c=;
-        b=MlgiBkxlVrYwx28aoDpA+3bmb0uiikov7D4YvceCiksspHILaVoYhJKGHW2HPaEujI
-         rO9BtlYubbakmvBCRNjE4/bqtcXqSbOL0YNKEiiGV/nhvGq5OwNh+S+nvdPaN1AEZpZx
-         btsFLJGQYqJxNVYLO/zU3GjLhCK9jiPIbU5N48IneoSYgkROs6ifCcEDpYK03c8ww5qh
-         mAP11hXaOJkxAR3XIlX9ruwla0pnxVEC7qZNfa2Oyj2/tN2n056tqeZM38KVhGEuNWoO
-         Fy5mNs8hbdqHmXlsIgQTBBN8muqk2+O9QRd3MQQ/KviNE8J374i7xK0GdNfOe0SbZ9Q/
-         r5cw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777466309; x=1778071109; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VjhBgsq15Uhr29mI8KAskfSdJKxjDkwt7+LMJEXOUrA=;
-        b=fq8uTHeMXni1hIlk2QeXsLdQLQ82AiubBfR2NJ8Di2f0wj5GqkryJ2QmvyMDlapGtV
-         gQR+yMbMVSdVWt4qcvyfiecTZYwPStxsKPdYwH8WOgcgAsCD4YxobQGUksu8+P77F6er
-         sKUGQGgYvzyUBOSMGoy3H8a3CJBR9eA6RA++zBEXgJ3rZk2C1oHxvr/Qfl1Yp9OXpXlH
-         6kNAXy9J1FU80/Q3AImGxjxbnYb+tLukZ23GHDsIdNmCiRLjw8Qip37SdHxTkjKcuID0
-         rF8TdbswYx3a6uGogMPe/Xs+pf7X9CjQzyA3zJ7Fq5l+EG1rdLUB3qn3D4iDWpX6ZV70
-         CCKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777466309; x=1778071109;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VjhBgsq15Uhr29mI8KAskfSdJKxjDkwt7+LMJEXOUrA=;
-        b=ItcYAiQBBQ8HHUVchnBx8PZc828Fif1C2SdNoxiL7frKGBha6xCwNtiaUUOMenkCXe
-         w86xbPN4WeGmEw65qfVAP3q4G10Vxy54J0rCxcX1tJ6F9HUmHMwqe9RofX+/7Gt+Gik0
-         M49VQP+8SBahVLbeKWnXqkBi3IntD8PBdKuaJ1VyCpQxeyqGdvsQ9/zKzscMvM0BDdIj
-         MWJdF1n03NUpTp1sNCKJqojGcNb+vr/XFAAka8ktpXN4zT/sH/RIO8nkMPFcJu/txtaM
-         rULfmJK1NARuYCKugcjuhD54wgGEC8b3d4z+qSmmurSp6nJlbQiF23Uf2xr5OwWlsIdE
-         ovUw==
-X-Forwarded-Encrypted: i=1; AFNElJ+EmrIhlX4b1eDfhqrpR0pNFskYmQe7LeCWaW/TF27wyGa4Qyqh8DyGpPbqYUdSnMDGoD/KCkZrdnI6@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0Q77yA1wGMimT6/y+k6ezhtAh+19Y1U0P/VsclSFhVWXdtnui
-	XA8uPRC0+EToeXGU6AnQrgJ0vvonHYlT4FKTJh5rdIADK8lQbnp2vHjuVNjMMhleczyc/XPCuLN
-	BSrfxRCnztepcs2pc4Oznn9lOgXiKm1c=
-X-Gm-Gg: AeBDievRMFmbh9feKknlsEVWscCN0tQALcWolo5lXWH2/PG5F2JBgahgTlygMd9welW
-	CBLHYa6CopHktw7+ATyXxNG1W2pliZ4Qy6nwVRHgpz+6fXk9UfWriutn7FahuJpsXcDSeuuE7E1
-	/WGA+e10Nx4poF75O10Hai12aDnGoRQn+hoGYZ4xC7Rmj+FzH4htYMm4ON+Tam/7e+DllecnxJB
-	UlZWLXZgvC39hVrL6TX30nCSOm3nu008ZV6G9DIZlHy9Re+9mYrN9Ccd8MoxFDvRKpZpzotonze
-	gtlmyDu51JV2C8R1PfJ00yBKTKb2CXZhCw==
-X-Received: by 2002:a05:6000:186c:b0:43e:a70d:7632 with SMTP id
- ffacd0b85a97d-4464a168496mr13327467f8f.25.1777466308707; Wed, 29 Apr 2026
- 05:38:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p4ziPV/5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5201EC19425;
+	Wed, 29 Apr 2026 14:11:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777471881;
+	bh=1CmkhIiS7kL6nQ3kOxg8HXKWwOrySXOJzZZWLN+AYvI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p4ziPV/5hqwzP48/EXr/uu+qc0gSsubRd4qPwbj0ygD9wYZaWlfyvOv6LpcYWAXSI
+	 uQjg47q4NevZuWsV/4YsP4S/CN0YmlsBVSuR5NIiUZtKqXc4wMe7VofIgxepp8bJJI
+	 JcCkRLMqUT5YB1Lu+0VrQNTJQ/acbFk+B3jpOZzSdXyMGt43VQNBsf/U3DQ0KnU3bl
+	 jZwmwkF/nlbVY4LXCQr5ow8Ne2zeX7vPD4nuhlEjOB/o9FEyfWjHJVzKvymAuqBPB9
+	 YDi4usCawhTIDL0AEE/USERewjz9LE7cL2syzg/r5ixMfWXq1vicM2tk6XaZcxuicW
+	 1wJqcqu+VbMww==
+Date: Wed, 29 Apr 2026 07:11:20 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	linux-ext4 <linux-ext4@vger.kernel.org>,
+	fuse-devel <fuse-devel@lists.linux.dev>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Theodore Ts'o <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: [PATCHBLIZZARD v8] fuse/libfuse/e2fsprogs: faster file IO for
+ containerized ext4 servers
+Message-ID: <20260429141120.GD3778109@frogsfrogsfrogs>
+References: <20260223224617.GA2390314@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260403035752.20206-1-liwang@kylinos.cn> <20260423110954.2676-1-liwang@kylinos.cn>
- <CAJnrk1Zb=+syR_aOLVs4aXMTOUO7BRBi=MU-20xQOcDpf2iQ5g@mail.gmail.com>
- <1a25fd7d-f122-42b0-91e2-487235263af5@bsbernd.com> <25e00efd-c0ef-446e-a246-6eebd7a68c9d@kylinos.cn>
- <CAJnrk1ZyucU4LMn6UFDAJpmpUJzhzroLTvJnA-hL5SHR5zedMw@mail.gmail.com> <25cfcc60-03c9-4343-9b15-4424e1e419a0@kylinos.cn>
-In-Reply-To: <25cfcc60-03c9-4343-9b15-4424e1e419a0@kylinos.cn>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 29 Apr 2026 13:38:12 +0100
-X-Gm-Features: AVHnY4KeLOxwnWaoFI862YcC3UAKaiAHvQ4MOLKXReS3lWeSvCaXbBe9Yf1yAb0
-Message-ID: <CAJnrk1YBoQoS-RXvGDt86okLidYaKqsnm8G-jZEGEzNdrBu9+A@mail.gmail.com>
-Subject: Re: [PATCH v3] fuse: optional FORGET delivery over io_uring
-To: Li Wang <liwang@kylinos.cn>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260223224617.GA2390314@frogsfrogsfrogs>
 
-On Tue, Apr 28, 2026 at 10:06=E2=80=AFAM Li Wang <liwang@kylinos.cn> wrote:
->
-> Hi Joanne,
->
-> On 27/04/2026 19:31, Joanne Koong wrote:
-> > On Mon, Apr 27, 2026 at 10:56=E2=80=AFAM Li Wang <liwang@kylinos.cn> wr=
-ote:
-> >>
-> >> Hi Bernd and Joanne,
-> >>
-> >> On 26/04/2026 23:48, Bernd Schubert wrote:
-> >>>
-> >> Furthermore, in the current implementation, forget and I/O requests ar=
-e
-> >> dispatched through different paths and handled by different sets of th=
-reads.
-> >> This means we cannot guarantee their original priority order upon rece=
-ption,
-> >
-> > I don't think ordering matters. forgets are inherently asynchronous
-> > and there's no correctness dependency on a forget arriving before or
-> > after a read/write request. In the /dev/fuse path ordering isn't
-> > preserved either (eg the order they're queued by the kernel is not the
-> > order they're delivered to userspace).
-> >
->
-> Yeah, I agree, and I apologize for the confusion. By 'original',
-> I meant the logic used before the io_uring path was introduced =E2=80=94 =
-where the
-> system prioritized reading FORGET requests into the userspace buffer
-> while still maintaining fairness. I wasn't referring to the order in whic=
-h
-> the system receives those requests.
+Hi everyone,
 
-Gotcha, thanks for clarifying.
+This is the eighth public draft of a prototype to connect the Linux
+fuse driver to fs-iomap for regular file IO operations to and from files
+whose contents persist to locally attached storage devices.  With this
+release, I show that it's possible to build a fuse server for a real
+filesystem (ext4) that runs entirely in userspace yet maintains most of
+its performance.
 
->
-> That said, I=E2=80=99m curious: since FORGET is asynchronous and doesn't =
-require
-> a reply, it doesn't seem particularly urgent. Why prioritize it? To preve=
-nt
-> a large memory footprint for metadata-heavy workloads? Could we be more
+This effort is now separate from the one to run fuse servers in a
+constrained environment via systemd.  Putting fuse servers in a
+container gets you all the blast radii reduction advantages and provides
+a pathway to removing less popular filesystem drivers to reduce
+maintenance work in the kernel; now we want trade relaxation of that
+isolation for better performance.
 
-As I understand it, yes, forgets are the only way the server has of
-knowing it is safe to release resources / clean up state. Luis is
-working on lookup handles [1] which will help mitigate how much state
-the server needs to keep track of, but without that the server needs
-to keep locally stashed info for that inode alive so if future
-requests for that nodeid come in, it can serve them.
+The fuse command plumbing is very simple -- the ->iomap_begin,
+->iomap_end, and iomap ->ioend calls within iomap are turned into
+upcalls to the fuse server via a trio of new fuse commands.  Pagecache
+writeback is now a directio write.  The fuse server can upsert mappings
+into the kernel for cached access (== zero upcalls for rereads and pure
+overwrites!) and the iomap cache revalidation code works.
 
-[1] https://lore.kernel.org/linux-fsdevel/20260225112439.27276-1-luis@igali=
-a.com/
+At this stage I still get about 95% of the kernel ext4 driver's
+streaming directio performance on streaming IO, and 110% of its
+streaming buffered IO performance.  Random buffered IO is about 85% as
+fast as the kernel.  Random direct IO is about 80% as fast as the
+kernel; see the cover letter for the fuse2fs iomap changes for more
+details.  Unwritten extent conversions on random direct writes are
+especially painful for fuse+iomap (~90% more overhead) due to upcall
+overhead.  And that's with (now dynamic) debugging turned on!
 
-> aggressive with delays and only send them in batches once a certain
-> threshold is met? Also, if a FORGET request is lost for whatever reason,
+This series has been rebased to 7.1-rc1 since the seventh RFC, but it
+has not otherwise changed much.  Most changes happened in userspace:
 
-I think we could but the current approach seems like a reasonable
-balance already. i'm not sure I see the benefit, as it seems like the
-right threshold would be different for different workloads. imo this
-would add complexity for unclear benefit, but I think it'd be ideal to
-keep things as simple as possible.
+1. I've written some example fuse-iomap servers, so I now have a vehicle
+   for testing that out of place writes works (they do) and that inline
+   data works.
 
-> what are the consequences? Is it just a matter of causing a memory leak?
+2. Ted has started merging the very large quantity of fuse2fs
+   improvements into e2fsprogs.
 
-If a forget request is lost, the server has to keep maintaining local
-state for that inode. on server teardown everything gets cleaned up
-normally but while the server is alive it's effectively a memory leak.
+3. I reordered the systemd service container patchset towards master
+   because the maintainer indicated that he wanted to merge it.
 
-Thanks,
-Joanne
+There are some questions remaining:
 
->
-> Thanks,
-> Li
->
+a. I would like to continue the discussion about how the design review
+   of this code should be structured, and how might I go about creating
+   new userspace filesystem servers -- lightweight new ones based off
+   the existing userspace tools?  Or by merging lklfuse?
+
+b. fuse2fs doesn't support the ext4 journal.  Urk.
+
+c. I've dropped the fstests and BPF parts of the patchbomb because v7
+   was just way too long.  I'm also not including some extra
+   enhancements to fuse4fs, also for brevity.
+
+I would like to get the main parts of this submission reviewed for 7.2
+now that this has been collecting comments and tweaks in non-rfc status
+for 5.5 months.
+
+Kernel:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-service-container
+
+libfuse:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/log/?h=fuse-iomap-cache
+
+e2fsprogs:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/e2fsprogs.git/log/?h=fuse4fs-memory-reclaim
+
+fstests:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fuse2fs
+
+--Darrick
+
+Unreviewed patches:
+
+[PATCHSET v8 1/8] fuse: general bug fixes
+  [PATCH 3/4] fuse: update file mode when updating acls
+  [PATCH 4/4] fuse: propagate default and file acls on creation
+[PATCHSET v8 2/8] iomap: cleanups ahead of adding fuse support
+  [PATCH 2/2] iomap: allow NULL swap info bdev when activating swapfile
+[PATCHSET v8 3/8] fuse: cleanups ahead of adding fuse support
+  [PATCH 1/2] fuse: move the passthrough-specific code back to
+[PATCHSET v8 4/8] fuse: allow servers to use iomap for better file IO
+  [PATCH 01/33] fuse: implement the basic iomap mechanisms
+  [PATCH 02/33] fuse_trace: implement the basic iomap mechanisms
+  [PATCH 03/33] fuse: make debugging configurable at runtime
+  [PATCH 04/33] fuse: adapt FUSE_DEV_IOC_BACKING_{OPEN,CLOSE} to add
+  [PATCH 05/33] fuse_trace: adapt FUSE_DEV_IOC_BACKING_{OPEN,CLOSE} to
+  [PATCH 06/33] fuse: enable SYNCFS and ensure we flush everything
+  [PATCH 07/33] fuse: clean up per-file type inode initialization
+  [PATCH 08/33] fuse: create a per-inode flag for setting exclusive
+  [PATCH 10/33] fuse_trace: create a per-inode flag for toggling iomap
+  [PATCH 11/33] fuse: isolate the other regular file IO paths from
+  [PATCH 12/33] fuse: implement basic iomap reporting such as FIEMAP
+  [PATCH 13/33] fuse_trace: implement basic iomap reporting such as
+  [PATCH 14/33] fuse: implement direct IO with iomap
+  [PATCH 15/33] fuse_trace: implement direct IO with iomap
+  [PATCH 16/33] fuse: implement buffered IO with iomap
+  [PATCH 17/33] fuse_trace: implement buffered IO with iomap
+  [PATCH 18/33] fuse: use an unrestricted backing device with iomap
+  [PATCH 20/33] fuse: advertise support for iomap
+  [PATCH 21/33] fuse: query filesystem geometry when using iomap
+  [PATCH 22/33] fuse_trace: query filesystem geometry when using iomap
+  [PATCH 23/33] fuse: implement fadvise for iomap files
+  [PATCH 24/33] fuse: invalidate ranges of block devices being used for
+  [PATCH 25/33] fuse_trace: invalidate ranges of block devices being
+  [PATCH 26/33] fuse: implement inline data file IO via iomap
+  [PATCH 27/33] fuse_trace: implement inline data file IO via iomap
+  [PATCH 28/33] fuse: allow more statx fields
+  [PATCH 29/33] fuse: support atomic writes with iomap
+  [PATCH 30/33] fuse_trace: support atomic writes with iomap
+  [PATCH 31/33] fuse: disable direct fs reclaim for any fuse server
+  [PATCH 32/33] fuse: enable swapfile activation on iomap
+  [PATCH 33/33] fuse: implement freeze and shutdowns for iomap
+[PATCHSET v8 5/8] fuse: allow servers to specify root node id
+  [PATCH 1/3] fuse: make the root nodeid dynamic
+  [PATCH 2/3] fuse_trace: make the root nodeid dynamic
+  [PATCH 3/3] fuse: allow setting of root nodeid
+[PATCHSET v8 6/8] fuse: handle timestamps and ACLs correctly when
+  [PATCH 1/9] fuse: enable caching of timestamps
+  [PATCH 2/9] fuse: force a ctime update after a fileattr_set call when
+  [PATCH 3/9] fuse: allow local filesystems to set some VFS iflags
+  [PATCH 4/9] fuse_trace: allow local filesystems to set some VFS
+  [PATCH 5/9] fuse: cache atime when in iomap mode
+  [PATCH 6/9] fuse: let the kernel handle KILL_SUID/KILL_SGID for iomap
+  [PATCH 7/9] fuse_trace: let the kernel handle KILL_SUID/KILL_SGID for
+  [PATCH 8/9] fuse: update ctime when updating acls on an iomap inode
+  [PATCH 9/9] fuse: always cache ACLs when using iomap
+[PATCHSET v8 7/8] fuse: cache iomap mappings for even better file IO
+  [PATCH 01/12] fuse: cache iomaps
+  [PATCH 02/12] fuse_trace: cache iomaps
+  [PATCH 03/12] fuse: use the iomap cache for iomap_begin
+  [PATCH 04/12] fuse_trace: use the iomap cache for iomap_begin
+  [PATCH 05/12] fuse: invalidate iomap cache after file updates
+  [PATCH 06/12] fuse_trace: invalidate iomap cache after file updates
+  [PATCH 07/12] fuse: enable iomap cache management
+  [PATCH 08/12] fuse_trace: enable iomap cache management
+  [PATCH 09/12] fuse: overlay iomap inode info in struct fuse_inode
+  [PATCH 10/12] fuse: constrain iomap mapping cache size
+  [PATCH 11/12] fuse_trace: constrain iomap mapping cache size
+  [PATCH 12/12] fuse: enable iomap
+[PATCHSET v8 8/8] fuse: run fuse servers as a contained service
+  [PATCH 1/2] fuse: allow privileged mount helpers to pre-approve iomap
+  [PATCH 2/2] fuse: set iomap backing device block size
+[PATCHSET v8 1/6] libfuse: allow servers to use iomap for better file
+  [PATCH 01/25] libfuse: bump kernel and library ABI versions
+  [PATCH 02/25] libfuse: wait in do_destroy until all open files are
+  [PATCH 03/25] libfuse: add kernel gates for FUSE_IOMAP
+  [PATCH 04/25] libfuse: add fuse commands for iomap_begin and end
+  [PATCH 05/25] libfuse: add upper level iomap commands
+  [PATCH 06/25] libfuse: add a lowlevel notification to add a new
+  [PATCH 07/25] libfuse: add upper-level iomap add device function
+  [PATCH 08/25] libfuse: add iomap ioend low level handler
+  [PATCH 09/25] libfuse: add upper level iomap ioend commands
+  [PATCH 10/25] libfuse: add a reply function to send FUSE_ATTR_* to
+  [PATCH 11/25] libfuse: connect high level fuse library to
+  [PATCH 12/25] libfuse: support enabling exclusive mode for files
+  [PATCH 13/25] libfuse: support direct I/O through iomap
+  [PATCH 14/25] libfuse: don't allow hardlinking of iomap files in the
+  [PATCH 15/25] libfuse: allow discovery of the kernel's iomap
+  [PATCH 16/25] libfuse: add lower level iomap_config implementation
+  [PATCH 17/25] libfuse: add upper level iomap_config implementation
+  [PATCH 18/25] libfuse: add low level code to invalidate iomap block
+  [PATCH 19/25] libfuse: add upper-level API to invalidate parts of an
+  [PATCH 20/25] libfuse: add atomic write support
+  [PATCH 21/25] libfuse: allow disabling of fs memory reclaim and write
+  [PATCH 22/25] libfuse: create a helper to transform an open regular
+  [PATCH 23/25] libfuse: add swapfile support for iomap files
+  [PATCH 24/25] libfuse: add lower-level filesystem freeze, thaw,
+  [PATCH 25/25] libfuse: add upper-level filesystem freeze, thaw,
+[PATCHSET v8 2/6] libfuse: allow servers to specify root node id
+  [PATCH 1/1] libfuse: allow root_nodeid mount option
+[PATCHSET v8 3/6] libfuse: implement syncfs
+  [PATCH 1/2] libfuse: add strictatime/lazytime mount options
+  [PATCH 2/2] libfuse: set sync, immutable,
+[PATCHSET v8 4/6] libfuse: add some service helper commands for iomap
+  [PATCH 1/3] mount_service: delegate iomap privilege from
+  [PATCH 2/3] libfuse: enable setting iomap block device block size
+  [PATCH 3/3] mount_service: create loop devices for regular files
+[PATCHSET v8 5/6] fuse: add sample iomap fuse servers
+  [PATCH 1/7] example/iomap_ll: create a simple iomap server
+  [PATCH 2/7] example/iomap_ll: track block state
+  [PATCH 3/7] example/iomap_ll: implement atomic writes
+  [PATCH 4/7] example/iomap_inline_ll: create a simple server to test
+  [PATCH 5/7] example/iomap_ow_ll: create a simple iomap out of place
+  [PATCH 6/7] example/iomap_ow_ll: implement atomic writes
+  [PATCH 7/7] example/iomap_service_ll: create a sample systemd service
+[PATCHSET v8 6/6] libfuse: cache iomap mappings for even better file
+  [PATCH 1/9] libfuse: enable iomap cache management for lowlevel fuse
+  [PATCH 2/9] libfuse: add upper-level iomap cache management
+  [PATCH 3/9] libfuse: allow constraining of iomap mapping cache size
+  [PATCH 4/9] libfuse: add upper-level iomap mapping cache constraint
+  [PATCH 5/9] libfuse: enable iomap
+  [PATCH 6/9] example/iomap_ll: cache mappings for later
+  [PATCH 7/9] example/iomap_inline_ll: cache iomappings in the kernel
+  [PATCH 8/9] example/iomap_ow_ll: cache iomappings in the kernel
+  [PATCH 9/9] example/iomap_service_ll: cache iomappings in the kernel
+[PATCHSET v8 1/6] libext2fs: refactoring for fuse2fs iomap support
+  [PATCH 1/5] libext2fs: invalidate cached blocks when freeing them
+  [PATCH 2/5] libext2fs: only flush affected blocks in unix_write_byte
+  [PATCH 3/5] libext2fs: allow unix_write_byte when the write would be
+  [PATCH 4/5] libext2fs: allow clients to ask to write full superblocks
+  [PATCH 5/5] libext2fs: allow callers to disallow I/O to file data
+[PATCHSET v8 2/6] fuse2fs: use fuse iomap data paths for better file
+  [PATCH 01/19] fuse2fs: implement bare minimum iomap for file mapping
+  [PATCH 02/19] fuse2fs: add iomap= mount option
+  [PATCH 03/19] fuse2fs: implement iomap configuration
+  [PATCH 04/19] fuse2fs: register block devices for use with iomap
+  [PATCH 05/19] fuse2fs: implement directio file reads
+  [PATCH 06/19] fuse2fs: add extent dump function for debugging
+  [PATCH 07/19] fuse2fs: implement direct write support
+  [PATCH 08/19] fuse2fs: turn on iomap for pagecache IO
+  [PATCH 09/19] fuse2fs: don't zero bytes in punch hole
+  [PATCH 10/19] fuse2fs: don't do file data block IO when iomap is
+  [PATCH 11/19] fuse2fs: try to create loop device when ext4 device is
+  [PATCH 12/19] fuse2fs: enable file IO to inline data files
+  [PATCH 13/19] fuse2fs: set iomap-related inode flags
+  [PATCH 14/19] fuse2fs: configure block device block size
+  [PATCH 15/19] fuse4fs: separate invalidation
+  [PATCH 16/19] fuse2fs: implement statx
+  [PATCH 17/19] fuse2fs: enable atomic writes
+  [PATCH 18/19] fuse4fs: disable fs reclaim and write throttling
+  [PATCH 19/19] fuse2fs: implement freeze and shutdown requests
+[PATCHSET v8 3/6] fuse4fs: adapt iomap for fuse services
+  [PATCH 1/3] fuse4fs: configure iomap when running as a service
+  [PATCH 2/3] fuse4fs: set iomap backing device blocksize
+  [PATCH 3/3] fuse4fs: ask for loop devices when opening via
+[PATCHSET v8 4/6] fuse4fs: specify the root node id
+  [PATCH 1/1] fuse4fs: don't use inode number translation when possible
+[PATCHSET v8 5/6] fuse2fs: handle timestamps and ACLs correctly when
+  [PATCH 01/10] fuse2fs: add strictatime/lazytime mount options
+  [PATCH 02/10] fuse2fs: skip permission checking on utimens when iomap
+  [PATCH 03/10] fuse2fs: let the kernel tell us about acl/mode updates
+  [PATCH 04/10] fuse2fs: better debugging for file mode updates
+  [PATCH 05/10] fuse2fs: debug timestamp updates
+  [PATCH 06/10] fuse2fs: use coarse timestamps for iomap mode
+  [PATCH 07/10] fuse2fs: add tracing for retrieving timestamps
+  [PATCH 08/10] fuse2fs: enable syncfs
+  [PATCH 09/10] fuse2fs: set sync, immutable,
+  [PATCH 10/10] fuse4fs: increase attribute timeout in iomap mode
+[PATCHSET v8 6/6] fuse2fs: cache iomap mappings for even better file
+  [PATCH 1/4] fuse2fs: enable caching of iomaps
+  [PATCH 2/4] fuse2fs: constrain iomap mapping cache size
+  [PATCH 3/4] fuse4fs: upsert first file mapping to kernel on open
+  [PATCH 4/4] fuse2fs: enable iomap
