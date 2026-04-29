@@ -1,514 +1,235 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EE631D371;
-	Tue, 28 Apr 2026 18:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC8639B497
+	for <fuse-devel@lists.linux.dev>; Wed, 29 Apr 2026 10:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777399804; cv=none; b=EnjmueEZTconsZQM0gvHi5WgL7XYC3MrXufJ8AKMjpc27xSA2vEWyv6yS0YvYCW8jEXUhtyfrtpkvod2AOtbSecmgW8PyzqqlZuR1nfiKIpBnuzhaGQ4dW6Rr4Vddre35oCFgR+sqW/FbQWsGPYm7CdhG7ad/ty4w+gRpKvTrqw=
+	t=1777457358; cv=none; b=BF+61ZfOBfCBE/osAXH0jL0MVKyJpcdc6wQLfC3pL805zr+ByHWndpYIvs/aq+WwjI22ki2Rziy2UDBehwmfM5KgbAgr046Zd+/ksEbltSGAH/AV34QD9dtrvHrmMT3v5WFSxRB6iwe0+GfX3XW32zTapa3i7yHgZKErc0lPeUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777399804; c=relaxed/simple;
-	bh=5G360eqT2AvX5L9ZgN67LYYWhge6zlJ8D3De1cmLZiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ix8nDgELhP1oa+Q9LS7p5yirxx3kX3tOPrzoUS8ltIeFhFG5eBixG/8lllJa6dzkUxVPuIGXFt/BAo0pHadlNdjShcfwwdfdaUidN54YxZpT5LsHyVpPw5ZMlZ0OwbIsPczv+yXSXd0kF7crq5mU3v/fa/kaN/cMxowhZXjkEOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ubvvpAVP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777457358; c=relaxed/simple;
+	bh=Wr0Icnd+V80tVJWCWV2TvuszEf+GVgfpQ5K6c7Sys7E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jD/nLKwb6xu3h1qY5DRFdKQTSlqf/IFw4q1vlWTXH/HgBwkwZkQp6zUygDXSvWVnsfJgYE+8W+4/CNYZJlIL/qX5M4xfS+N9MpcEOKSs38EHXRXqHPKOE6aCFqSDzNiXAl84kqtHdfpgXJyHQjvmfTs1LxziNBnFEOl4x4oFAZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=DFc2X5kN; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eJLTeSR5; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ubvvpAVP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0873C2BCAF;
-	Tue, 28 Apr 2026 18:10:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777399803;
-	bh=5G360eqT2AvX5L9ZgN67LYYWhge6zlJ8D3De1cmLZiE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ubvvpAVPpKi8viBkp4VhWwNJii7Bet0yjTNydNp/9sYCki89Y7MeCgEKUqEXnV6OP
-	 GtGZ7sm0QWExBKRfo9TCFzaj/1tsxafkg0CkS9vrum7ztwglVmuxo5zVAM21RvwyrY
-	 rCsCAxCVAROAKPvDREcbr2Tl8T4gx3gv2mJfcNEc/RO2Hkev+Vo/tjis3OOj6Btz2b
-	 ZuCGzqY/i/fDeQ0CUPnawNaw0tDiy07v+v9fJD/eEP6i0NlYi1NGc4n8XMjadnHjwk
-	 ZcF/5YChoo886d1/YxVCa4UtT2ytEWSWXpuQepV8omRjNSzs7GNvf85HyQvQFU0nFk
-	 9gS4hOmQNQiiQ==
-Date: Tue, 28 Apr 2026 11:10:03 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: neal@gompa.dev, linux-fsdevel@vger.kernel.org, joannelkoong@gmail.com,
-	miklos@szeredi.hu, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 09/13] mount.fuse3: integrate systemd service startup
-Message-ID: <20260428181003.GP7739@frogsfrogsfrogs>
-References: <177689988489.3820166.4979104167640003535.stgit@frogsfrogsfrogs>
- <177689988702.3820166.5587510270979728964.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="DFc2X5kN";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eJLTeSR5"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 6529BEC0187;
+	Wed, 29 Apr 2026 06:09:15 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Wed, 29 Apr 2026 06:09:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1777457355;
+	 x=1777543755; bh=jChTQ1WFfHi+FUb6QlfSmPhLflXWkXU6xxr/jnnNJjk=; b=
+	DFc2X5kNuzluWtpgz2TyV9ydLdIS9EJozwxxQdCysxjEQuoE5f5OxVjVw24/4r5U
+	DNAnNz8K+sZm/hH+y4vjnsSD+QT4XHTx5+4YY0qnuAPSFurdGEyb44PFFDLQqdZI
+	z5kIVEo1EKQMUPkjeuk/lJ2tZlaCpxUw3k3A1KY0Sd9WHpxuIgIf2J2A5hLQiBnC
+	cihkhbsn2MAV7AWvFkWbZ8Ez59gniiAFAO7L4jBNQbHSAYdOwaaw73Mqce7Z/KEN
+	4xkpNKVp25+SCoV2DcLEIXAWwW0ah/viw/KYuMIDwpK/sbR/AVHny+fksQIqTPzs
+	g+j2BJGIDnH/F4Xb/GYOFw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777457355; x=
+	1777543755; bh=jChTQ1WFfHi+FUb6QlfSmPhLflXWkXU6xxr/jnnNJjk=; b=e
+	JLTeSR5VBEnsz4QXNUqMljDrb8G9HMxEM7Aluhc8sYVLcJeUSSgMT4EGmf2dTGs5
+	qL2AdsLcZENGresiVaYxdJv9QRtFC3P5xpbMtXMBgG/VNDgZpKzxkQVjZwh4YNSk
+	7qkYljfmy4onWKdvjzmolkt0iWYRHIrm9zkJ7x4QMUD7go/4JMKMqckMBfj/WWO/
+	BIRi/EQ68WcsTOKT8/u1U4FYkwGCXHcxCzEz+/xpMJHe2TlYMuTJMe/gl3dglR/5
+	gRPaAKTN0ySXqMs5ixkHYpGWrM5+bqZLtKbqMG2WNwd2pGx0sW3T46lXikudwj/C
+	Rv1P4e536ameBtitlcUCA==
+X-ME-Sender: <xms:ytjxaQElCR260lWCYS47xyUh3MBIbcDSQYSjY00p3RBDpQ6Yi-ufow>
+    <xme:ytjxaTXF-AMIho-2m48VaLBVSWSdApBN4oVXl47HQsyh59EQn3tC-VFReOC56BaPZ
+    MtTrTT5J589v6-LGTcAiG-yZth_NnMaK_Z1Dq2WhjQ4ciPGk3nj>
+X-ME-Received: <xmr:ytjxaQwkNB2B_htoLPLJlLzIza5RTnoJH5PvGMThWNW4Op1sNMb1-_6jWpRM-8zHOSofMzE-jNG6qOyVBVWuoyO-WM8DJQuQXpvfkYTmZCZakM4Zig>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekgeduiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefkffggfgfuvfevfhfhjggtgfesthekredttddvjeenucfhrhhomhepuegvrhhnugcu
+    ufgthhhusggvrhhtuceosggvrhhnugessghssggvrhhnugdrtghomheqnecuggftrfgrth
+    htvghrnheptdeuvdeuudeltddukefhueeludduieejvdevveevteduvdefuedvkeffjeel
+    ueeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghrnhgusegsshgsvghrnhgurdgtohhm
+    pdhnsggprhgtphhtthhopeekpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjoh
+    grnhhnvghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehmihhnghdrlhgv
+    ihesrhgvughhrghtrdgtohhmpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlihhsth
+    hsrdhlihhnuhigrdguvghvpdhrtghpthhtohepihhoqdhurhhinhhgsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheprgigsghovgeskhgvrhhnvghlrdgukhdprhgtph
+    htthhopegrshhmlhdrshhilhgvnhgtvgesghhmrghilhdrtghomhdprhgtphhtthhopehm
+    ihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepthhomhdrlhgvihhmihhngh
+    esghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:ytjxaQQfXsuTm3bI7ERGbR-UVoypP_9Kor59YDmWyhasP12BRYSYnQ>
+    <xmx:ytjxaUgdZLmoB8JS1RytEtJYxB_EkHIQuotbXTsa6gfbSkbufEsMmA>
+    <xmx:ytjxafkHA4Mrk7KckYjyN1-Wt9bqaGH3es2szVaA1qbRtf4VnrU0tA>
+    <xmx:ytjxafvvHVA_pmKCHvsF4jMg2RUmeM8z1vp7okRXM-SvETuo5IMSug>
+    <xmx:y9jxaZK4Ux1eqknzbt9EAXD2W8l0Ya0YzU0PNAHPqjbFOclnBxzFQMIW>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Apr 2026 06:09:13 -0400 (EDT)
+Message-ID: <b2037b8f-466c-47d4-b74b-fe5b8f38fbc4@bsbernd.com>
+Date: Wed, 29 Apr 2026 12:09:12 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177689988702.3820166.5587510270979728964.stgit@frogsfrogsfrogs>
+User-Agent: Mozilla Thunderbird
+Subject: Re: fuse/io-uring: Proposal to support pBuf in additon to kBuf
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Ming Lei <ming.lei@redhat.com>, fuse-devel@lists.linux.dev,
+ io-uring <io-uring@vger.kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Pavel Begunkov <asml.silence@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ "Lei, Ming" <tom.leiming@gmail.com>
+References: <18936160-308a-4817-a295-54eef43707a3@niova.io>
+ <CAFj5m9LeM4S82QEsRQ0uQiXj1eWCFAW3v2fLTxUj1YM7UO-V9g@mail.gmail.com>
+ <fcad39e2-37b5-46a9-a280-2315e0397985@niova.io>
+ <CAJnrk1Yw3=z7W_my4pLG6avBeDZkUp3j1LZk-RVpGv2vAsw-ZA@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr
+In-Reply-To: <CAJnrk1Yw3=z7W_my4pLG6avBeDZkUp3j1LZk-RVpGv2vAsw-ZA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 22, 2026 at 04:21:42PM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Teach mount.fuse3 how to start fuse via systemd service, if present.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  util/mount_service.h  |    9 +++
->  doc/fuservicemount3.8 |   10 +++
->  meson.build           |    3 +
->  util/fuservicemount.c |   47 ++++++++++++++
->  util/meson.build      |   14 +++-
->  util/mount.fuse.c     |  169 +++++++++++++++++++++++++++++++++++++++++++------
->  util/mount_service.c  |   43 ++++++++++++
->  7 files changed, 268 insertions(+), 27 deletions(-)
-> 
-> 
-> diff --git a/util/mount_service.h b/util/mount_service.h
-> index a0b952a15dacf3..ec8008a7f53942 100644
-> --- a/util/mount_service.h
-> +++ b/util/mount_service.h
-> @@ -37,4 +37,13 @@ int mount_service_main(int argc, char *argv[]);
->   */
->  const char *mount_service_subtype(const char *fstype);
->  
-> +/**
-> + * Discover if there is a fuse service socket for the given fuse filesystem type.
-> + * The type must not contain a path separator.
-> + *
-> + * @param fstype the type of a fuse filesystem type (e.g. fuse.Y, fuseblk.Y, or Y)
-> + * @return true if available, false if not
-> + */
-> +bool mount_service_present(const char *fstype);
-> +
->  #endif /* MOUNT_SERVICE_H_ */
-> diff --git a/doc/fuservicemount3.8 b/doc/fuservicemount3.8
-> index e45d6a89c8b81a..aa2167cb4872c6 100644
-> --- a/doc/fuservicemount3.8
-> +++ b/doc/fuservicemount3.8
-> @@ -7,12 +7,20 @@ .SH SYNOPSIS
->  .B mountpoint
->  .BI -t " fstype"
->  [
-> -.I options
-> +.BI -o " options"
->  ]
-> +
-> +.B fuservicemount3
-> +.BI -t " fstype"
-> +.B --check
-> +
->  .SH DESCRIPTION
->  Mount a filesystem using a FUSE server that runs as a socket service.
->  These servers can be contained using the platform's service management
->  framework.
-> +
-> +The second form checks if there is a FUSE service available for the given
-> +filesystem type.
->  .SH "AUTHORS"
->  .LP
->  The author of the fuse socket service code is Darrick J. Wong <djwong@kernel.org>.
-> diff --git a/meson.build b/meson.build
-> index c8326b79fcee8f..827ec45ad3ad75 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -83,7 +83,8 @@ private_cfg.set('FUSE_SERVICE_SOCKET_PERMS', service_socket_perms)
->  # Test for presence of some functions
->  test_funcs = [ 'fork', 'fstatat', 'openat', 'readlinkat', 'pipe2',
->                 'splice', 'vmsplice', 'posix_fallocate', 'fdatasync',
-> -               'utimensat', 'copy_file_range', 'fallocate', 'fspacectl' ]
-> +               'utimensat', 'copy_file_range', 'fallocate', 'fspacectl',
-> +               'faccessat' ]
->  foreach func : test_funcs
->      private_cfg.set('HAVE_' + func.to_upper(),
->          cc.has_function(func, prefix: include_default, args: args_default))
-> diff --git a/util/fuservicemount.c b/util/fuservicemount.c
-> index 9c694a4290f94e..4d4cad6cb9253c 100644
-> --- a/util/fuservicemount.c
-> +++ b/util/fuservicemount.c
-> @@ -9,10 +9,57 @@
->   * This program wraps the mounting of FUSE filesystems that run in systemd
->   */
->  #define _GNU_SOURCE
-> +#include <stdbool.h>
-> +#include <stdio.h>
-> +#include <string.h>
-> +#include <stdlib.h>
->  #include "fuse_config.h"
->  #include "mount_service.h"
->  
-> +static int check_service(const char *fstype)
-> +{
-> +	if (!fstype) {
-> +		fprintf(stderr,
-> +			"fuservicemount: expected fs type for --check\n");
-> +		return EXIT_FAILURE;
-> +	}
-> +
-> +	return mount_service_present(fstype) ? EXIT_SUCCESS : EXIT_FAILURE;
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
-> +	char *fstype = NULL;
-> +	bool check = false;
-> +	int i;
-> +
-> +	/*
-> +	 * If the user passes us exactly the args -t FSTYPE --check then
-> +	 * we'll just check if there's a service for the FSTYPE fuse server.
-> +	 * This doesn't tell us if the listening socket is actually connected
-> +	 * to anything.
-> +	 */
-> +	for (i = 1; i < argc; i++) {
-> +		if (!strcmp(argv[i], "--check")) {
-> +			if (check) {
-> +				check = false;
-> +				break;
-> +			}
-> +			check = true;
-> +		} else if (!strcmp(argv[i], "-t") && i + 1 < argc) {
-> +			if (fstype) {
-> +				check = false;
-> +				break;
-> +			}
-> +			fstype = argv[i + 1];
-> +			i++;
-> +		} else {
-> +			check = false;
-> +			break;
-> +		}
-> +	}
-> +	if (check)
-> +		return check_service(fstype);
-> +
->  	return mount_service_main(argc, argv);
->  }
-> diff --git a/util/meson.build b/util/meson.build
-> index aa646ef3c77d16..85b54d5d322dcb 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -6,21 +6,27 @@ executable('fusermount3', ['fusermount.c', '../lib/mount_util.c', '../lib/util.c
->             install_dir: get_option('bindir'),
->             c_args: '-DFUSE_CONF="@0@"'.format(fuseconf_path))
->  
-> +mount_service_sources = []
-> +mount_service_cflags = []
->  if private_cfg.get('HAVE_SERVICEMOUNT', false)
-> -  executable('fuservicemount3', ['mount_service.c', 'fuservicemount.c', '../lib/mount_util.c', 'fuser_conf.c'],
-> +  mount_service_sources += ['mount_service.c', '../lib/mount_util.c', 'fuser_conf.c']
-> +  mount_service_cflags += ['-DFUSE_CONF="@0@"'.format(fuseconf_path)]
-> +  fuservicemount_path = join_paths(get_option('prefix'), get_option('sbindir'))
-> +  mount_service_cflags += ['-DFUSERVICEMOUNT_DIR="@0@"'.format(fuservicemount_path)]
-> +  executable('fuservicemount3', ['fuservicemount.c'] + mount_service_sources,
->               include_directories: include_dirs,
->               link_with: [ libfuse ],
->               install: true,
->               install_dir: get_option('sbindir'),
-> -             c_args: ['-DFUSE_USE_VERSION=319', '-DFUSE_CONF="@0@"'.format(fuseconf_path)])
-> +             c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
->  endif
->  
-> -executable('mount.fuse3', ['mount.fuse.c'],
-> +executable('mount.fuse3', ['mount.fuse.c'] + mount_service_sources,
->             include_directories: include_dirs,
->             link_with: [ libfuse ],
->             install: true,
->             install_dir: get_option('sbindir'),
-> -           c_args: '-DFUSE_USE_VERSION=317')
-> +           c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
->  
->  
->  udevrulesdir = get_option('udevrulesdir')
-> diff --git a/util/mount.fuse.c b/util/mount.fuse.c
-> index ec56198ccc1cf0..b982c057cff870 100644
-> --- a/util/mount.fuse.c
-> +++ b/util/mount.fuse.c
-> @@ -6,6 +6,9 @@
->    See the file GPL2.txt.
->  */
->  
-> +/* For environ */
-> +#define _GNU_SOURCE
-> +
->  #include "fuse_config.h"
->  
->  #include <stdio.h>
-> @@ -17,6 +20,9 @@
->  #include <fcntl.h>
->  #include <pwd.h>
->  #include <sys/wait.h>
-> +#ifdef HAVE_SERVICEMOUNT
-> +#include <spawn.h>
-> +#endif
->  
->  #ifdef linux
->  #include <sys/prctl.h>
-> @@ -49,6 +55,9 @@
->  #endif
->  
->  #include "fuse.h"
-> +#ifdef HAVE_SERVICEMOUNT
-> +# include "mount_service.h"
-> +#endif
->  
->  static char *progname;
->  
-> @@ -233,6 +242,105 @@ static void drop_and_lock_capabilities(void)
->  }
->  #endif
->  
-> +#ifdef HAVE_SERVICEMOUNT
-> +#define FUSERVICEMOUNT_PROG	"fuservicemount3"
-> +
-> +static int mount_service_child(char **argv)
-> +{
-> +	const char *full_path = FUSERVICEMOUNT_DIR "/" FUSERVICEMOUNT_PROG;
-> +	pid_t child_pid;
-> +	int child_status;
-> +	int ret;
-> +
-> +	/*
-> +	 * First try the install path, then a system install, just like we do
-> +	 * for fusermount.  See man 7 environ for the global environ pointer.
-> +	 */
-> +	ret = posix_spawn(&child_pid, full_path, NULL, NULL,
-> +			  (char *const *)argv, environ);
-> +	if (ret)
-> +		ret = posix_spawnp(&child_pid, FUSERVICEMOUNT_PROG, NULL, NULL,
-> +				   (char * const *)argv, environ);
-> +	if (ret) {
-> +		fprintf(stderr, "%s: could not start %s helper: %s\n",
-> +			argv[0], FUSERVICEMOUNT_PROG, strerror(ret));
-> +		return MOUNT_SERVICE_FALLBACK_NEEDED;
-> +	}
-> +
-> +	ret = waitpid(child_pid, &child_status, 0);
+Hi Joanne,
 
-Heh.  I don't pass WNOHANG here, which means that waitpid could return
-EINTR due to a signal being sent to the mount.fuse process.  It looks
-like glibc wraps that particular case, but the manpage says that a
-waitpid implementation can return EINTR so I'll change this to:
+sorry my terribly late reply, takes about 30 min to reply for these
+complex discussions and finding that time is currently a bit hard.
 
-	do {
-		ret = waitpid(...);
-	} while (ret < 0 && errno == EINTR);
-
---D
-
-> +	if (ret < 0) {
-> +		fprintf(stderr, "%s: could not wait for %s helper: %s\n",
-> +			argv[0], FUSERVICEMOUNT_PROG, strerror(errno));
-> +		return MOUNT_SERVICE_FALLBACK_NEEDED;
-> +	}
-> +
-> +	if (WIFEXITED(child_status))
-> +		return WEXITSTATUS(child_status);
-> +
-> +	/* terminated due to signal or coredump */
-> +	return EXIT_FAILURE;
-> +}
-> +
-> +static int try_service_main(char *argv0, char *fstype, char *source,
-> +			    const char *mountpoint, char *options)
-> +{
-> +	char **argv;
-> +	char dash_o[] = "-o";
-> +	char dash_t[] = "-t";
-> +	char *mntpt;
-> +	int argc = 5; /* argv[0], -t type, mountpoint, and trailing NULL */
-> +	int i = 0;
-> +	int ret;
-> +
-> +	if (!mount_service_present(fstype))
-> +		return MOUNT_SERVICE_FALLBACK_NEEDED;
-> +
-> +	/* This can be an empty string if "mount.fuse3 null# /tmp/a" */
-> +	if (source && source[0] == 0)
-> +		source = NULL;
-> +
-> +	mntpt = strdup(mountpoint);
-> +	if (!mntpt) {
-> +		perror("mountpoint allocation");
-> +		return -1;
-> +	}
-> +
-> +	if (source)
-> +		argc++;
-> +	if (options)
-> +		argc += 2;
-> +
-> +	argv = calloc(argc, sizeof(char *));
-> +	if (!argv) {
-> +		perror("argv allocation");
-> +		free(mntpt);
-> +		return -1;
-> +	}
-> +
-> +	argv[i++] = argv0;
-> +	if (source)
-> +		argv[i++] = source;
-> +	argv[i++] = mntpt;
-> +	argv[i++] = dash_t;
-> +	argv[i++] = fstype;
-> +	if (options) {
-> +		argv[i++] = dash_o;
-> +		argv[i++] = options;
-> +	}
-> +	argv[i] = 0;
-> +
-> +	if (getuid() != 0) {
-> +		ret = mount_service_child(argv);
-> +	} else {
-> +		/* We're root, just do the mount directly. */
-> +		ret = mount_service_main(argc - 1, argv);
-> +	}
-> +	free(argv);
-> +	free(mntpt);
-> +	return ret;
-> +}
-> +#endif
-> +
->  int main(int argc, char *argv[])
->  {
->  	char *type = NULL;
-> @@ -280,9 +388,7 @@ int main(int argc, char *argv[])
->  	mountpoint = argv[2];
->  
->  	for (i = 3; i < argc; i++) {
-> -		if (strcmp(argv[i], "-v") == 0) {
-> -			continue;
-> -		} else if (strcmp(argv[i], "-t") == 0) {
-> +		if (strcmp(argv[i], "-t") == 0) {
->  			i++;
->  
->  			if (i == argc) {
-> @@ -303,6 +409,30 @@ int main(int argc, char *argv[])
->  					progname);
->  				exit(1);
->  			}
-> +		}
-> +	}
-> +
-> +	if (!type) {
-> +		if (source) {
-> +			dup_source = xstrdup(source);
-> +			type = dup_source;
-> +			source = strchr(type, '#');
-> +			if (source)
-> +				*source++ = '\0';
-> +			if (!type[0]) {
-> +				fprintf(stderr, "%s: empty filesystem type\n",
-> +					progname);
-> +				exit(1);
-> +			}
-> +		} else {
-> +			fprintf(stderr, "%s: empty source\n", progname);
-> +			exit(1);
-> +		}
-> +	}
-> +
-> +	for (i = 3; i < argc; i++) {
-> +		if (strcmp(argv[i], "-v") == 0) {
-> +			continue;
->  		} else	if (strcmp(argv[i], "-o") == 0) {
->  			char *opts;
->  			const char *opt;
-> @@ -366,24 +496,6 @@ int main(int argc, char *argv[])
->  	if (suid)
->  		options = add_option("suid", options);
->  
-> -	if (!type) {
-> -		if (source) {
-> -			dup_source = xstrdup(source);
-> -			type = dup_source;
-> -			source = strchr(type, '#');
-> -			if (source)
-> -				*source++ = '\0';
-> -			if (!type[0]) {
-> -				fprintf(stderr, "%s: empty filesystem type\n",
-> -					progname);
-> -				exit(1);
-> -			}
-> -		} else {
-> -			fprintf(stderr, "%s: empty source\n", progname);
-> -			exit(1);
-> -		}
-> -	}
-> -
->  	if (setuid_name && setuid_name[0]) {
->  #ifdef linux
->  		if (drop_privileges) {
-> @@ -429,6 +541,21 @@ int main(int argc, char *argv[])
->  		drop_and_lock_capabilities();
->  	}
->  #endif
-> +
-> +#ifdef HAVE_SERVICEMOUNT
-> +	/*
-> +	 * Now that we know the desired filesystem type, see if we can find
-> +	 * a socket service implementing that, if we haven't selected any weird
-> +	 * options that would prevent that.
-> +	 */
-> +	if (!pass_fuse_fd && !(setuid_name && setuid_name[0])) {
-> +		int ret = try_service_main(argv[0], type, source, mountpoint,
-> +					   options);
-> +		if (ret != MOUNT_SERVICE_FALLBACK_NEEDED)
-> +			return ret;
-> +	}
-> +#endif
-> +
->  	add_arg(&command, type);
->  	if (source)
->  		add_arg(&command, source);
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index 95de56f2b625fe..bc5940bc900dad 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -2066,3 +2066,46 @@ int mount_service_main(int argc, char *argv[])
->  	mount_service_destroy(&mo);
->  	return ret;
->  }
-> +
-> +bool mount_service_present(const char *fstype)
-> +{
-> +	struct sockaddr_un name;
-> +	struct stat stbuf;
-> +	char path[PATH_MAX];
-> +	const char *subtype;
-> +	ssize_t written;
-> +	int ret;
-> +
-> +	subtype = mount_service_subtype(fstype);
-> +	if (!subtype)
-> +		return false;
-> +
-> +	/*
-> +	 * The full path to the socket must fit within the AF_UNIX socket path
-> +	 * buffer, which is much shorter than PATH_MAX.
-> +	 */
-> +	written = snprintf(path, sizeof(path), FUSE_SERVICE_SOCKET_DIR "/%s",
-> +			   subtype);
-> +	if (written >= sizeof(name.sun_path) || written >= sizeof(path))
-> +		return false;
-> +
-> +	ret = stat(path, &stbuf);
-> +	if (ret)
-> +		return false;
-> +
-> +	if (!S_ISSOCK(stbuf.st_mode))
-> +		return false;
-> +
-> +#ifdef HAVE_FACCESSAT
-> +	/*
-> +	 * Can we write to the service socket with the real uid?  This accounts
-> +	 * for setuid and ACLs on the socket.  Note that we connect() to the
-> +	 * socket having dropped setuid privileges.
-> +	 */
-> +	ret = faccessat(AT_FDCWD, path, W_OK, 0);
-> +#else
-> +	/* Can we write to the service socket with the real uid? */
-> +	ret = access(path, W_OK);
-> +#endif
-> +	return ret == 0;
-> +}
+On 4/17/26 23:02, Joanne Koong wrote:
+> On Thu, Apr 16, 2026 at 7:46 AM Bernd Schubert <bernd@niova.io> wrote:
+>>
+>> Hi Ming,
+>>
+>> On 4/16/26 15:49, Ming Lei wrote:
+>>> Hi Bernd,
+>>>
+>>> On Tue, Apr 14, 2026 at 5:33 AM Bernd Schubert <bernd@niova.io> wrote:
+>>>>
+>>>> And my current primary goal is to let ublk to support multiple buffer
+>>>> sizes - ublk would also need to get support for kBuf/pBuf and I'm
+>>>
+>>> Ublk server is just one liburing application, and it supports all generic
+>>> io_uring buffer types, so kbuf/pbuf should be fine for your ublk server
+>>> in theory.
+>>>
+>>> It really depends on how your ublk server is implemented.
+>>>
+>>> Maybe you can share your motivation first before discussing kbuf/pbuf support.
+>>> If it is for DMA,  there are other candidates too, such as hugepage,
+>>> recent added
+>>> UBLK_U_CMD_REG_BUF, ...
+>> Joanne had actually removed kBuf and switched to pBuf alone and that
+>> simiplifies things a bit.
 > 
+> Hi Bernd,
 > 
+>>
+>> Motivation is to reduce memory usage. Let's say you need 4 IOs of 1MB to
+>> saturate streaming bandwidth, but still want to get smaller IOs through,
+>> for these smaller IOs you don't want to assign the 1MB buffer for each
+>> queue entry / tag.
+> 
+> Have you considered having separate rings take separate payload sizes
+> instead of having each ring support multiple different payload sizes?
+> I think this gives a few non-trivial benefits over per-ring
+> multi-buffer-size support:
+> 
+> * less head-of-line blocking - with a single ring, the large io
+> requests can block smaller metadata requests until the io completes,
+> since fuse processes cqes sequentially from a single ring. Separate
+
+I think blocking is a pure libfuse implementation issue. All
+example/passthrough* file sytems take the buffers and write it out in
+blocking mode. However, they could use non-blocking IO like io-uring
+themselves and act on completion. Processing what fuse-client/kernel
+provides would then be rather fast. Same applies to network IO, which is
+implementation wise probably already async, except that we do not have
+an example yet. I'm currently creating a small benchtool for my main
+work to test different io-uring options (mostly network related) - I can
+use that as template later on a libfuse example.
+
+I.e. my argument here is that we should not make the kernel more
+complex, just because libfuse is not ready yet.
+
+As soon as the sync FUSE_INIT series is merged into libfuse (and
+obviosuly also need to take care of Darrick series) I will start to work
+on a reactor/coroutine libfuse interface - the daemon is then the ring
+owner - daemon can set up the ring as it wants, use or for backend IO, etc.
+
+> rings would allow smaller requests to proceed independently of io
+> * makes kernel-side request dispatching more efficient + simpler  - if
+> for example there's 10 different rings and each of them supports 4
+> categories of buffer sizes, imo it gets non-trivially complicated to
+> find an available ring that supports the payload size that needs to be
+> sent, if there's lots of parallel requests going on. In the worst
+> case, we would have to check each of the 10 rings' various categories
+> of buffer sizes to see if there's a slot that's big enough.
+
+I don't get that - let's say we have several pBuf rings - it could
+always check the next (rouned up) size? One could have an option to
+search for available slots in larger pBufs, but I'm not sure if that
+would be wanted. Let's say we would have two pBuf rings, 4K and 1M. The
+4k pBufs then could be use 1MB memory - place for 128 small requests -
+why should small requests then switch to the next larger buffer pool, if
+their own pool is exhausted? In my opinion large pools should be
+reserved for large requests.
+
+> * simpler kernel-side buffer management - keeping track of the payload
+> buffers in the ring becomes a lot simpler, since there's just one
+> buffer size the ring supports
+
+Personally I don't think it makes a difference. Instead of having
+multiple pBuf rings you now have to deal with multiple IO size io-uring
+rings. Maybe I mis-understand your itend, though.
+
+> * more dynamic / deterministic scalability - I think you mentioned on
+> another thread you were interested in dynamically adding ents to
+> rings. Having separate rings for separate payload sizes would make
+> independently scaling queues based on workload characteristics a lot
+> easier. for example if there were 10 rings that each support 4
+> different buffer sizes, one question I would have is which ring would
+> the extra entry be added to? It kind of seems like at request dispatch
+> time, it would have to do that non-trivial ent searching logic across
+> all rings mentioned earlier to find that extra ent?
+
+And entry would always go into its own fuse-io-uring queue. Without pBuf
+I would have added these entries to a size sorted ent_avail_queue[]
+array, with pBuf the entry doesn't have a payload itself anymore, but
+only the pBuf rings have.
+
+Here I had suggested to convert the arg size to an order and then to do
+an O(1) lookup for the right buf ring
+
+https://lore.kernel.org/r/ff596299-38c1-4c5a-8f1d-14931dd84ef0@bsbernd.com
+
+    struct fuse_bufring {
+...
+        /* lookup: order (req size) pool */
+        struct fuse_bufring_pool *order_map[FUSE_URING_NR_ORDERS];
+}
+
+struct fuse_bufring_pool *pool = order_map[get_order(fuse_len_args())];
+
+Without pBuf it would be the same, except that ring entries would have
+their payload size and would be sorted by payload order size into their
+ent_avail_queue[].
+
+> 
+> These are just my 2 cents, but it kind of seems t o me that having
+> separate rings take separate payload sizes could be more scalable for
+> your use case?
+
+I don't think so - more rings just create more syscall overhead from my
+point of view. And more rings are harder to handle with coroutines.
+
+Thanks,
+Bernd
