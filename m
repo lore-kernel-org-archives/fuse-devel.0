@@ -1,161 +1,99 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3EC3FF8AA
-	for <fuse-devel@lists.linux.dev>; Thu, 30 Apr 2026 11:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777549676; cv=none; b=kDC6aHqc6ZB5SZ4Xuk+htMtxOf1hBBZUU7KvexBIG78gntL71iHgF22mL0OjXqS595g37KbBg8VYBfn34cgkmVnQkRlwnnYpxSY4fZkeVXj2awqUFhhzzP3oGcGRYgp4BL3E48L7+h4Fuh/Xe9SwaMM35YS6BI9X4lm2Kv5HMG0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777549676; c=relaxed/simple;
-	bh=FGvWyZgINiwj8fQyAtR/uqGPDJVcdLFKxghkgpd9v7g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jPmEMvPGyos7TKdm6uG6pZuV3MwzmfnEsXD8FgmQYWwakQ/WvxLezps1uA4EL9Vhf6Fn3BJsbCr+IbJ3xDX2ILHEEcmGz9Lqw2Hg/5QUnDl26aBx3HnM6nWJiw+CBTzlm/5mJguTOLvSXUCPX0b+CmK3/DNyLLxEk4KJjj14UVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JYvDmSzb; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD4E369236
+	for <fuse-devel@lists.linux.dev>; Thu, 30 Apr 2026 12:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777552305; cv=pass; b=s34Hkk6MZkpjaNkyknxh6E5FHfZX1j6J7ZRkIstV6xwV7hq4pqVlnSP5TOMF5FBOBJoEyt26DfYgaON6K3qGI/PCC9xSuaM/sZ1U5SPiQhKBsMzcoZ29PnjdxL5+3OGmBtE2CNNJjW7c8C142iGKxgAYetRcQT5mVuQgCYG43jI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777552305; c=relaxed/simple;
+	bh=WN0x95NExmE7JDNT+N8NAeO85nt9ziso3jZuDlmlRSo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nPKmZH+W3qixdpD9gSN5wQFGf/a6o3SrFxH0pO5GRYFnpED72cVDreKiK36kczAVYfBmMnbrqLsyap00GSFqcTaU8ElAEXE94flUSJTNBmiuSv/gw6QBB/YaA30S0ESMl3LMKoYMRiTg6b62FWDaFkF05k1z5Jj7bTQiqIMLzH4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=I8Ah4oAo; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JYvDmSzb"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8a48deebe95so7230466d6.0
-        for <fuse-devel@lists.linux.dev>; Thu, 30 Apr 2026 04:47:53 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="I8Ah4oAo"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-50d75bfb259so5189281cf.1
+        for <fuse-devel@lists.linux.dev>; Thu, 30 Apr 2026 05:31:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777552302; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RIj0A76hv9Di3sp6nm0pRzddI7CuE9xGB8uhyUZYWxkHxAlhN+PC5pUPLniNsAVSEQ
+         M22N5U0wQ7QUcFg0lFevDO+L0H6r/4XWd39kywu0YC3FRJ2RksD6ZBt6VabmhDXtcQER
+         +RTjxChkpUlsi114o+XqPJNrhrisgqVrixWzWhYwg5HXj8gxtTtjjRaKwZMO3Ai4QGY4
+         3a938IJHLJslQcyJUwQHBfw0h2VbjbtUcUUZBXAKy6z2xQB/bF36rNBvrN68SRC4soNL
+         YhXarFJkR6ryYkSlosUfsII3HNRWGUIovJz4xHXeRACPCawLbf2i11N0ws6zMyw5ljoa
+         0H+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=WN0x95NExmE7JDNT+N8NAeO85nt9ziso3jZuDlmlRSo=;
+        fh=stTYHwfkqL7OQmZ8JEeEupXdsfMi0BmvfZACPnh1mvw=;
+        b=fA1f4XORABeWAJf7/JCZd6nW1RkVVKc/Ei8tDzbUEBmYKYbBPrzMLl0FYcV9OgRkIW
+         nMio2ykyyCTykadO42W9ush2c5L8pMF//SayozVnGAwkebSHauO/kXekpi0hUG+Nc94t
+         7lYJiRgqgVUm2NDtkVX1oPbObbbWTDjYDPJ66UiL79YaNbrN6L7UGKgc+YkbKP5N43rT
+         PVo9Y7j2iHVqvnh7RAyEhd5qBR/q1aUny+snB1ZwQFHiL7scjqyLjs7yBjhnH/3ETkXc
+         D4gfbmQbKA/w+oAyvEXxYe8cmjbZn2gqX8ZvRTvXu/7gOvk76lPiXPfua7N06Cf/Hsnd
+         k1iA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777549672; x=1778154472; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UKMl2l5C3LLLhXhMcjKoP/X+1+ZWimM9bltpivl8qhE=;
-        b=JYvDmSzb1l6cEIO8RZw/0LHxqNtBBIc+rr9Nf8l2dpBZly0VTooyRs3YaENW0dBetI
-         lMj8yyiWii9NqlDfLn93dzy64TKJexsGxgjxvA8z0DBn5pfF+r592AZM8jIVFG2KsDFR
-         zqTCx1YpQqyjG9aD0Q1z9XrXbbYBxJ5+jH6cXWltnRr2MaUviK3JrJ4U9aAOTjkFP+ll
-         e09fjeVtWwp9ee5DyoWNtuBLeEmVIUpoumXGlWl+Oh9Du2yLX34cIdm4297r+FN1HUtQ
-         Zw1Um9dvNKUnJlgVQzT39Eo/u7ArSZ6p3m1RNVU5vdL4RZ40NPBg97+NI5KQaEnV9ImL
-         G7GA==
+        d=szeredi.hu; s=google; t=1777552302; x=1778157102; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WN0x95NExmE7JDNT+N8NAeO85nt9ziso3jZuDlmlRSo=;
+        b=I8Ah4oAo4W4Z1omVE+3C+6OSM1ovQBIAK7c/UDotzq2hkuWK9BKjfMtdoWCRQRptB2
+         ovGoCFOsWYETyoEEeBw5AyZUCQPbX16NzoWWNeg02kY+xV/x5Uw4KtV8T509anuiqfmS
+         nQfrU4B/Qi5LTbbbLAiK1zrN6aMoTi2HpQOLE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777549672; x=1778154472;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777552302; x=1778157102;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UKMl2l5C3LLLhXhMcjKoP/X+1+ZWimM9bltpivl8qhE=;
-        b=QWfpp0P2LsjbvbTz4kdcf+ft9T1EXJbVB9e/VI2WG3zf+a+Wu0MNqYuVPQA7J1DUB9
-         UCbTlolBZFaol5vhxthpvbbKh3r89KZU+YOCqhCpAtajaFou3ZiTYBSBaZnzICuPb5Wx
-         kawJFAlBCcg+FT9AVi+IGGrjCGh9cUDZjg9t8aVz6/TnDuqRVmod/get8aWfvYYFxoe/
-         yeUQxa6GaRYoUjgviRhpqDS0nsleQcR3UFh57437/CrInc0IcUTgDc/TE/Se5DLgo9wp
-         foi2bco0ReRcLUW2n3eh0gRmPe6RVJ7MweMjfIt5f4pdQR3Av/n123H4CDO/TtXUh+ie
-         q4yQ==
-X-Gm-Message-State: AOJu0YyUz/nHxvYMdOuFux8n4hG81lkLVk16eqj2mzK7jYbuSoAeDJXG
-	ufvJ/ZtNTNRJWxXbQ2x88XqxzGyvVG3AH734oJ/mpobiDa2y1QgKDCnT6kCU4Q==
-X-Gm-Gg: AeBDietvyJ0k9xP7IEIgVPsvuff82xeIoakufxYLnmIROb8YGq32xm+YdOTXANyS3H2
-	vQS/EI6djCmSH61XV039svjKUkQlYm1NWEJsgl0EI5xUyLwzV4y1wJ7NdwA2qNl2j/iAROjHXdN
-	2115/siAxmlyGNeUQ6aFJl8ykgq4/hMTjG5+eS2EMG4iLO8rgL1vXzvuzNNqth6xyHiz3NN1zrG
-	rUnqQUO9uB/LmtPwS78hoXzA492ffrZBdGIfNZDft3LAcNcZ/oU3EMqxLZn7JV2LbQfIm4AYy0Q
-	DE+ric/BDFH6ijeYDtVub4AluAQNGw93NzSJ3PCQVr7yysm1Kl+Lc5rI5CaQkJjHhBVc9UVe5FA
-	FW2VunaGKq1rbOi/q5WBzOStum7GPHpmSD5r5Y31qfcQP1Y1REwNpR92KfJhTGZ84ql6ICK4nzB
-	8XnvVTjyoI/VC1Kj6X2Hr9bpR8B9YG6w==
-X-Received: by 2002:a05:6214:600e:b0:8ac:a48a:a586 with SMTP id 6a1803df08f44-8b3fe765fe8mr33597186d6.14.1777549672274;
-        Thu, 30 Apr 2026 04:47:52 -0700 (PDT)
-Received: from localhost ([2a03:2880:f800:3::])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3ff4698ecsm15396686d6.38.2026.04.30.04.47.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 04:47:51 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev
-Subject: [PATCH RESEND v1] fuse: remove redundant buffer size checks for interrupt and forget requests
-Date: Thu, 30 Apr 2026 04:47:46 -0700
-Message-ID: <20260430114746.2196348-1-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        bh=WN0x95NExmE7JDNT+N8NAeO85nt9ziso3jZuDlmlRSo=;
+        b=TMqS8ds9XIjLuiHJ/Fp9H4FDGfRvDCm54swWF3MH4Ou6q3VUW9Xx0a7mGxnSI2KpdQ
+         Kg6qAapez3ZbSZTEp5oJrA2MATyrb1v4gfBJS/fesDzAUQcfJ10Wu5IKKIuXBpY6UgA/
+         NDh4gp94mpnvTb9VEmNUWvbsUKqJ2ojT2LE+Ydf5r4ZrOQa7As8S8VnjO8CEkXCVmDRC
+         H29dra64SydRBR/c1T5YX2s9i2YRJFsewsQh3ATyD55RLdz+fYu6eEHRCT1zjP7zW8be
+         UxjmOusNzkKb03FeM/ipJCzih47vbOhf3GZ9xat/W50Z06hQVdswz4UDpfoMnyWWTckg
+         YcRw==
+X-Gm-Message-State: AOJu0YyxvdTnSiVc0JKguym3eEeK6bsVjG2XhZdemoJW1mKtokVFTx7E
+	lBNZZw25hV6v0zTGrnuolBtYZJlqSwS/aWv9+Ql3wMRtyCaYl81Why7bJ9l/+RxZexdgyy6gNsH
+	osl/o7+CGdUI5t2E8oPnyS1w8AGzY4qqfkMTGdO4Zsw==
+X-Gm-Gg: AeBDieszdwOME5Ov0aUcx3le97Xl4vJsI+ku2AkYpfd1qfg9YJWwHhmLl/cCX87mUAc
+	jpRqI1F0OUL0551XS+MdKYJFdu2A7tGz8iPyNTJHlJBaX8FkjhrZCba94ej1NQDvsAZdiUWMaOb
+	DVjLZV+w++zaEj9iO89wKtwqPKgMugQN4ggRlXH+d0nitQqJaj4pFhfp2cp1GKEJF6bNiBlf6ck
+	b8ti6CHYycATLW5ByTqrRXHDGAugHFTvPJ6bGFHU5wiNNDPcBBwzE1KJDPgeotjTQHclS8eV/8k
+	Gy2BsNIckuSii5mGYiZX+igQDgz0nVtBw35PBk0ZUuCzGGXMNFA=
+X-Received: by 2002:ac8:5c88:0:b0:50e:5ffd:dec2 with SMTP id
+ d75a77b69052e-5102ab1bf61mr37571081cf.1.1777552302038; Thu, 30 Apr 2026
+ 05:31:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260430114746.2196348-1-joannelkoong@gmail.com>
+In-Reply-To: <20260430114746.2196348-1-joannelkoong@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 30 Apr 2026 14:31:31 +0200
+X-Gm-Features: AVHnY4IEOtJVnefBL2LNZtmOmHydyzo3igca2FQXo0EoWU9XeukbNp42hdGSd2s
+Message-ID: <CAJfpegu0Lovpv2FR9cJG6QjV3eD_yDm8ZedQqymM3zACwG5mPQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v1] fuse: remove redundant buffer size checks for
+ interrupt and forget requests
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-In fuse_dev_do_read(), there is already logic that ensures the buffer is
-a minimum of at least FUSE_MIN_READ_BUFFER (8k) bytes.
+On Thu, 30 Apr 2026 at 13:47, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-This makes the buffer size checks for interrupt and forget requests
-redundant as sizeof(struct fuse_in_header) + sizeof(struct
-fuse_interrupt_in) and sizeof(struct fuse_in_header) + sizeof(struct
-fuse_forget_in) are both less than FUSE_MIN_READ_BUFFER.
+> We can get rid of these checks.
+>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 
-We can get rid of these checks.
+Applied, thanks.
 
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fuse/dev.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
-
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 6fe0d8c263df..be4e66ed633c 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -1377,7 +1377,7 @@ static int request_pending(struct fuse_iqueue *fiq)
-  */
- static int fuse_read_interrupt(struct fuse_iqueue *fiq,
- 			       struct fuse_copy_state *cs,
--			       size_t nbytes, struct fuse_req *req)
-+			       struct fuse_req *req)
- __releases(fiq->lock)
- {
- 	struct fuse_in_header ih;
-@@ -1394,8 +1394,6 @@ __releases(fiq->lock)
- 	arg.unique = req->in.h.unique;
- 
- 	spin_unlock(&fiq->lock);
--	if (nbytes < reqsize)
--		return -EINVAL;
- 
- 	err = fuse_copy_one(cs, &ih, sizeof(ih));
- 	if (!err)
-@@ -1428,8 +1426,7 @@ static struct fuse_forget_link *fuse_dequeue_forget(struct fuse_iqueue *fiq,
- }
- 
- static int fuse_read_single_forget(struct fuse_iqueue *fiq,
--				   struct fuse_copy_state *cs,
--				   size_t nbytes)
-+				   struct fuse_copy_state *cs)
- __releases(fiq->lock)
- {
- 	int err;
-@@ -1446,8 +1443,6 @@ __releases(fiq->lock)
- 
- 	spin_unlock(&fiq->lock);
- 	kfree(forget);
--	if (nbytes < ih.len)
--		return -EINVAL;
- 
- 	err = fuse_copy_one(cs, &ih, sizeof(ih));
- 	if (!err)
-@@ -1475,11 +1470,6 @@ __releases(fiq->lock)
- 		.len = sizeof(ih) + sizeof(arg),
- 	};
- 
--	if (nbytes < ih.len) {
--		spin_unlock(&fiq->lock);
--		return -EINVAL;
--	}
--
- 	max_forgets = (nbytes - ih.len) / sizeof(struct fuse_forget_one);
- 	head = fuse_dequeue_forget(fiq, max_forgets, &count);
- 	spin_unlock(&fiq->lock);
-@@ -1515,7 +1505,7 @@ static int fuse_read_forget(struct fuse_chan *fch, struct fuse_iqueue *fiq,
- __releases(fiq->lock)
- {
- 	if (fch->minor < 16 || fiq->forget_list_head.next->next == NULL)
--		return fuse_read_single_forget(fiq, cs, nbytes);
-+		return fuse_read_single_forget(fiq, cs);
- 	else
- 		return fuse_read_batch_forget(fiq, cs, nbytes);
- }
-@@ -1582,7 +1572,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fud, struct file *file,
- 	if (!list_empty(&fiq->interrupts)) {
- 		req = list_entry(fiq->interrupts.next, struct fuse_req,
- 				 intr_entry);
--		return fuse_read_interrupt(fiq, cs, nbytes, req);
-+		return fuse_read_interrupt(fiq, cs, req);
- 	}
- 
- 	if (forget_pending(fiq)) {
--- 
-2.52.0
-
+Miklos
