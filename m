@@ -1,163 +1,322 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B68D244694;
-	Thu, 30 Apr 2026 22:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777589352; cv=none; b=KA0wk2pR51ukaa8TL68jLr3YXuyaY7GToRL0Nf3o7ffjM5rIp9/lRdayZlnYLuyBxKiXKoxv9084MtWDQNrbMjdXk6VPzLXfmDCwq4v5zNlKg6jfpt9yB3WSoHlEyTEKgQZznvrVI9AUX8ocer++UhYfHLW3j2b6UIsFIneueNw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777589352; c=relaxed/simple;
-	bh=gCatdnP88Ve9njnjtfj6SDwlQPjNZnCbiusngZUoy2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XquQn84vNcbmPpjDXzso+ndqG5fxoBJZD2OIL0E1l1j6xsm4S6e1PQsRUzdmiOjqvG2yppGcOimFg/XF1/VaArKbk+3JtAiZPEFYpcgC7tW2BbCEENy8VfK8odMjnrw15p31B4h19dzpwAUyAUmpxDk5616lkJ6CPQfT/3oIwqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oxmV7ICp; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA5A1EEA54
+	for <fuse-devel@lists.linux.dev>; Fri,  1 May 2026 09:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777629216; cv=pass; b=t4+ZPvFQW1Hw7r+/dSaDcQCwf/qxC/KYeh9WgmQYxXb55Pl5bP/ZiuTEXcVN0Fwn1pUtYSsA2J1Wbtg13dT13HtfEGaAaF8FOyNL+F07w8pQ5yb+EGwS3oILlybKc44JOeYf3HBQhYtlZwXs9XO1/x3CGwOZD3+iDZtnASqNG7k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777629216; c=relaxed/simple;
+	bh=pnCF7RKW/ZBea3QVIcE/BoVQI4fFbh72snkbEaZJQKE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I91F+UC9WPJznebyA9+JcZFBbX/csDRkmqtlcQk4JWdAGSSgHAS00agGni2xO8cTvelD2E/LumxiLWttEXkKyawDIxZKkd8oPgMGSPNfp17yAkXiVuCmMvoQPIwzap+5E67NmLF7nleUbEGzSNBrgSkdJjSLbilKm3+fqXqg/Xo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sfl6Ilwm; arc=pass smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oxmV7ICp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C91B5C2BCB3;
-	Thu, 30 Apr 2026 22:49:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777589351;
-	bh=gCatdnP88Ve9njnjtfj6SDwlQPjNZnCbiusngZUoy2U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oxmV7ICpUrX2wL8OE9fAJ7eNsE0gQiMChVo85DbHyU1ifMBJdW8C9xSfROqOW3FIJ
-	 XEedjDaCg4nAlk4aUwQLDXAslJ5m3YqSZ0NAhROBdsL27aPPVKSH5Z16VOPWVsiQ9c
-	 wioU33X1lk9PoKkqU5MhEtjoXK4L+AZJv6NVZN2h4xJ/Xtvjllbr9r/kMHrsNJJ2xS
-	 w56FTF2nMUGdC4+aleX0Iw0WD6JvUQRcJ1/QTNVwuxR35lg6/uL4u4Sh9QqYx+wFpn
-	 1s9Gdcu9Tm9F5TW5P8f1wG7F17U++CKLAJcBBItewezUgabBn7xP4muTLc0AFhEaWY
-	 IzuukwxqwZYcw==
-Date: Thu, 30 Apr 2026 15:49:11 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	miklos@szeredi.hu, neal@gompa.dev
-Subject: Re: [GIT PULL v5.1] libfuse: run fuse servers as a contained service
-Message-ID: <20260430224911.GN7765@frogsfrogsfrogs>
-References: <177758364789.1315233.15610945404741826500.stg-ugh@frogsfrogsfrogs>
- <9c920b17-81a8-4c1e-921e-4c08cc290cb5@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sfl6Ilwm"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso15898875e9.2
+        for <fuse-devel@lists.linux.dev>; Fri, 01 May 2026 02:53:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777629212; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GeHwvqLvJcI6p1nT+NQOajBvTVQebSbumbi6GZDr3I8vMilHENawfoYGf6TnN79h40
+         Q3mOBh2jTo8hhJ5fCEw8IQEDxhpPjMo1fCc+6QBXOP3n6OnxVnJImu9edJ406VaSjtcu
+         IZ6CyTpbvTeRUqe4v4pr7aJlgRr2B1lfNxNjTXyI1HWiosKlWDXRBf0bYT8YW/aUgwrR
+         1iFRwhlPrjRfQlYDMBgro9sMeX5bAaJuLcEFSPztcxnZP+3a3exNfHPDSbbjr1KJHMvw
+         VvrqzeJPggWnxSp3N070yrn4TcsEaSxTtjeNzeuhwgm0ThafPo9Br3CmSfnWp+UPy8T/
+         hQ0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xL9mVkPxyTMqA24T0d3gnXjBA/spoHwfySHOCNQ006Y=;
+        fh=I98+uZw/rTH0azZslGup4ezHrYnGO+Z37lt8W+1PCso=;
+        b=Lys8hfBen/PdJeAb1EteePbHG7fo3JG0SCKs41eOBOBjcAL0V0Ot2EhnraRQXtx8Oh
+         1VOQxEGoyj9BT7VaOfy3IrSoZXCH8i0QzmQv7DnX12UEj1Z4lTRdU7LICjklsrY4UeAV
+         jLhSuyhFgs0TzOgmqyPAfZ73oyc+ITuiLsS6pCrqMHbh9H73NoZXCz7zqUkTYFXjwxu3
+         qKn7KebkdJH/1SuDv6Ffv6GXJXL9G/3yF/sAQUr2mei7U3XerNbG0H/CVJFPrU9HltdV
+         XK2OzY81gUagmoicGmrg87HKFGn5D/+e4sBqG29Vggcbwh2r5yy3UE8cIPLYPMD32ZYt
+         nKwA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777629212; x=1778234012; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xL9mVkPxyTMqA24T0d3gnXjBA/spoHwfySHOCNQ006Y=;
+        b=Sfl6IlwmyRhtayh1hAstkowmjDTqvLLyNQxbymzT3fk5XdGu4czxy+iv7PXXFDer6b
+         fjbCQ09+jkxghkqalW7hBTggbSF4Oz2Pp31t5G6XqPZGmpgtxKtCuweBwuD24UT573T5
+         lYp1tvJa2eP1qG4/h2KlgXAiTU8ubkvKcT861cSpFDETrWVfzuECS4Y7uO7uUxZH87Ul
+         r4p4yi+hJtTwjXqMUF8XwY8VLkWnN5GgjgxcPEF1QWrDDSvES4tay1VepGLMw+C5hwdY
+         1UUd+ozoVwRHExwLHzU6Az4EcRYD6YJV8/xgjJPjt0cwX0bcFdJO9a9t9wiFckNIs2k7
+         yDoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777629212; x=1778234012;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=xL9mVkPxyTMqA24T0d3gnXjBA/spoHwfySHOCNQ006Y=;
+        b=jxcOZmXPWoUa/sKulocgRqvEgjU8GaflkFPjlYVDDgxDrmlNDlAwTrxX2uOClYRM2D
+         TvVCVU08rkZJcRr42NystR+I4v0vGFuAS91oDCn2afzl/IGNTQolPbJ77I+FHvAitC4D
+         DGz8OXYof2Qi0n7QU9RAXmKjUtAy7pZjv0gGxsabqanWOFdksau71z/jQvT/bfawQq6w
+         MWoiyS24gFuiCDZJg4ICsY1Jvl76yxQlp+ZgAOK/afyjQxB4fK6YZBSEuMIIGjsAlIZ/
+         6vO7UD/FKcdWrryF1MMDJwMEQQ4eE0Q+GCcYX5HPYXX/fhxVRM4l6Ja3H6Pa7XE02vVp
+         NDtg==
+X-Forwarded-Encrypted: i=1; AFNElJ+EjfocsIh5RwKIDQ6mbJAuKWV83kI74VFOiV/v23hE/sDrPkvd2JysdMVQkSPrhdokkxQ40RC5ahmJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwbjLqY8EewJwHUrJK/KdVcTRyBMQX6lZBeSsImwlHoHRJV1/M
+	GyMlKcCTHuKR/1IcqtV6tCrWTT7D1NdKy3gRhX6Dr+dRSJQ+o/vzORvjvBJWtRI7ctn/Jxrczhn
+	kvZqpAN/Y/5NSCU/W9UE0nJo92BZRllc=
+X-Gm-Gg: AeBDieuVBhMrYpPmsE7TGk6OAobCt1CNf7oHyHXKX85ATeJDSpPThILk8a/CuJ9k19T
+	yo8wjp+uXWnKQoyduSmhJcVt4p1C1BVPkZZsWZhmjHdiiy2oVoQgzVGjKs2cKRNDo0WRhCL+xp3
+	JVSml0w2YmPy+WZntN+hjOq0xRWGVc+BBrpTdX9FdBmxmWsyNY7sdMnfp4Ogz/DljQBi8tlEFgr
+	3k4SUIh6ZQFEVPOeTabNTxPGAt/00/evDLY7wlTAEjHNLDmnPnKUUEcX8BZUJay3DYqyfMx8FbO
+	KzNmECdyEDaztIJWZ8Q=
+X-Received: by 2002:a05:600c:c086:b0:489:1fa5:997f with SMTP id
+ 5b1f17b1804b1-48a8eb6bf02mr25197125e9.9.1777629211898; Fri, 01 May 2026
+ 02:53:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9c920b17-81a8-4c1e-921e-4c08cc290cb5@bsbernd.com>
+References: <177747203969.4101397.1905820467457875817.stgit@frogsfrogsfrogs>
+ <177747204051.4101397.16466232272715875212.stgit@frogsfrogsfrogs>
+ <CAJnrk1bYYBf2qYBvhv=MFKvG-2VekKwHCuRS6tjva=tExw6Gdw@mail.gmail.com> <20260430205731.GV7739@frogsfrogsfrogs>
+In-Reply-To: <20260430205731.GV7739@frogsfrogsfrogs>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 1 May 2026 10:53:20 +0100
+X-Gm-Features: AVHnY4IcyjwgT_beDnjwb1HgtmHdIEhuwAm6TNcJqefjCh9ew0C4iwMvZS1ltcM
+Message-ID: <CAJnrk1YCXxXvd7vgTm5vhbHOJCiW=FGWkMNQLzGPh5PHdZpvpw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] fuse: update file mode when updating acls
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, neal@gompa.dev, linux-fsdevel@vger.kernel.org, 
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 30, 2026 at 11:34:06PM +0200, Bernd Schubert wrote:
-> Hi Darrick,
-> 
-> On 4/30/26 23:18, Darrick J. Wong wrote:
-> > Hi Bernd,
-> > 
-> > Please pull this branch with changes for libfuse.
-> > 
-> > As usual, I did a test-merge with the main upstream branch as of a few
-> > minutes ago, and didn't see any conflicts.  Please let me know if you
-> > encounter any problems.
-> 
-> pushed to my github branch. BSD build fails with
-> 
-> 2026-04-30T21:25:16.3874802Z FAILED: [code=1] lib/libfuse3.so.3.19.0 
-> 2026-04-30T21:25:16.3906762Z cc  -o lib/libfuse3.so.3.19.0 lib/libfuse3.so.3.19.0.p/fuse.c.o lib/libfuse3.so.3.19.0.p/fuse_loop.c.o lib/libfuse3.so.3.19.0.p/fuse_loop_mt.c.o lib/libfuse3.so.3.19.0.p/fuse_lowlevel.c.o lib/libfuse3.so.3.19.0.p/fuse_opt.c.o lib/libfuse3.so.3.19.0.p/fuse_signals.c.o lib/libfuse3.so.3.19.0.p/buffer.c.o lib/libfuse3.so.3.19.0.p/cuse_lowlevel.c.o lib/libfuse3.so.3.19.0.p/helper.c.o lib/libfuse3.so.3.19.0.p/modules_subdir.c.o lib/libfuse3.so.3.19.0.p/mount_util.c.o lib/libfuse3.so.3.19.0.p/fuse_log.c.o lib/libfuse3.so.3.19.0.p/compat.c.o lib/libfuse3.so.3.19.0.p/util.c.o lib/libfuse3.so.3.19.0.p/mount_bsd.c.o lib/libfuse3.so.3.19.0.p/fuse_service_stub.c.o lib/libfuse3.so.3.19.0.p/modules_iconv.c.o -Wl,--as-needed -Wl,--no-undefined -shared -fPIC -Wl,-soname,libfuse3.so.4 -Wl,--version-script,/home/runner/work/libfuse/libfuse/lib/fuse_versionscript -pthread -Wl,--start-group -ldl -lrt -Wl,--end-group
-> 2026-04-30T21:25:16.3939590Z ld: error: version script assignment of 'FUSE_3.19' to symbol 'fuse_service_can_allow_other' failed: symbol not defined
+On Thu, Apr 30, 2026 at 9:57=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
+ wrote:
+>
+> On Thu, Apr 30, 2026 at 02:48:29PM +0100, Joanne Koong wrote:
+> > On Wed, Apr 29, 2026 at 3:22=E2=80=AFPM Darrick J. Wong <djwong@kernel.=
+org> wrote:
+> > >
+> > > From: Darrick J. Wong <djwong@kernel.org>
+> > >
+> > > If someone sets ACLs on a file that can be expressed fully as Unix DA=
+C
+> > > mode bits, most local filesystems will then update the mode bits and
+> > > drop the ACL xattr to reduce inefficiency in the file access paths.
+> > > Let's do that too.  Note that means that we can setacl and end up wit=
+h
+> > > no ACL xattrs, so we also need to tolerate ENODATA returns from
+> > > fuse_removexattr.
+> > >
+> > > Note that here we define a "local" fuse filesystem as one that uses
+> > > fuseblk mode; we'll shortly add fuse servers that use iomap for the f=
+ile
+> > > IO path to that list.
+> > >
+> > > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> > > ---
+> > >  fs/fuse/fuse_i.h |    2 +-
+> > >  fs/fuse/acl.c    |   56 ++++++++++++++++++++++++++++++++++++++++++++=
++++-------
+> > >  2 files changed, 50 insertions(+), 8 deletions(-)
+> > >
+> > >
+> > > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > > index 4c135a7edf54ac..0bcfb42592895c 100644
+> > > --- a/fs/fuse/fuse_i.h
+> > > +++ b/fs/fuse/fuse_i.h
+> > > @@ -1050,7 +1050,7 @@ static inline struct fuse_mount *get_fuse_mount=
+(struct inode *inode)
+> > >         return get_fuse_mount_super(inode->i_sb);
+> > >  }
+> > >
+> > > -static inline struct fuse_conn *get_fuse_conn(struct inode *inode)
+> > > +static inline struct fuse_conn *get_fuse_conn(const struct inode *in=
+ode)
+> > >  {
+> > >         return get_fuse_mount_super(inode->i_sb)->fc;
+> > >  }
+> > > diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
+> > > index cbde6ac1add35a..bee8a9a734f50a 100644
+> > > --- a/fs/fuse/acl.c
+> > > +++ b/fs/fuse/acl.c
+> > > @@ -11,6 +11,18 @@
+> > >  #include <linux/posix_acl.h>
+> > >  #include <linux/posix_acl_xattr.h>
+> > >
+> > > +/*
+> > > + * If this fuse server behaves like a local filesystem, we can imple=
+ment the
+> > > + * kernel's optimizations for ACLs for local filesystems instead of =
+passing
+> > > + * the ACL requests straight through to another server.
+> >
+> > nit: "to the server" instead of "to another server"? another server
+> > sounds like there's 2 servers
+> >
+> > > + */
+> > > +static inline bool fuse_inode_has_local_acls(const struct inode *ino=
+de)
+> > > +{
+> > > +       const struct fuse_conn *fc =3D get_fuse_conn(inode);
+> > > +
+> > > +       return fc->posix_acl && fuse_inode_is_exclusive(inode);
+> > > +}
+> > > +
+> > >  static struct posix_acl *__fuse_get_acl(struct fuse_conn *fc,
+> > >                                         struct inode *inode, int type=
+, bool rcu)
+> > >  {
+> > > @@ -98,6 +110,8 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct d=
+entry *dentry,
+> > >         struct inode *inode =3D d_inode(dentry);
+> > >         struct fuse_conn *fc =3D get_fuse_conn(inode);
+> > >         const char *name;
+> > > +       umode_t mode =3D inode->i_mode;
+> > > +       const bool local_acls =3D fuse_inode_has_local_acls(inode);
+> > >         int ret;
+> > >
+> > >         if (fuse_is_bad(inode))
+> > > @@ -113,14 +127,25 @@ int fuse_set_acl(struct mnt_idmap *idmap, struc=
+t dentry *dentry,
+> > >         else
+> > >                 return -EINVAL;
+> > >
+> > > +       /*
+> > > +        * If the ACL can be represented entirely with changes to the=
+ mode
+> > > +        * bits, then most filesystems will update the mode bits and =
+delete
+> > > +        * the ACL xattr.
+> > > +        */
+> > > +       if (acl && type =3D=3D ACL_TYPE_ACCESS && local_acls) {
+> > > +               ret =3D posix_acl_update_mode(idmap, inode, &mode, &a=
+cl);
+> > > +               if (ret)
+> > > +                       return ret;
+> > > +       }
+> > > +
+> > >         if (acl) {
+> > >                 unsigned int extra_flags =3D 0;
+> > >                 /*
+> > > -                * Fuse userspace is responsible for updating access
+> > > -                * permissions in the inode, if needed. fuse_setxattr
+> > > -                * invalidates the inode attributes, which will force
+> > > -                * them to be refreshed the next time they are used,
+> > > -                * and it also updates i_ctime.
+> > > +                * For non-local filesystems, fuse userspace is respo=
+nsible for
+> > > +                * updating access permissions in the inode, if neede=
+d.
+> > > +                * fuse_setxattr invalidates the inode attributes, wh=
+ich will
+> > > +                * force them to be refreshed the next time they are =
+used, and
+> > > +                * it also updates i_ctime.
+> > >                  */
+> > >                 size_t size;
+> > >                 void *value;
+> > > @@ -137,9 +162,10 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct=
+ dentry *dentry,
+> > >                 /*
+> > >                  * Fuse daemons without FUSE_POSIX_ACL never changed =
+the passed
+> > >                  * through POSIX ACLs. Such daemons don't expect setg=
+id bits to
+> > > -                * be stripped.
+> > > +                * be stripped, unless they've explicitly told the ke=
+rnel to
+> > > +                * take care of that.
+> >
+> > nit: imo this would be clearer as its own sentence, eg "For local
+> > filesystems, the kernel already handled sgid stripping in
+> > posix_acl_update_mode() above".
+> >
+> > >                  */
+> > > -               if (fc->posix_acl &&
+> > > +               if (fc->posix_acl && !local_acls &&
+> > >                     !in_group_or_capable(idmap, inode,
+> > >                                          i_gid_into_vfsgid(idmap, ino=
+de)))
+> > >                         extra_flags |=3D FUSE_SETXATTR_ACL_KILL_SGID;
+> > > @@ -148,6 +174,22 @@ int fuse_set_acl(struct mnt_idmap *idmap, struct=
+ dentry *dentry,
+> > >                 kfree(value);
+> > >         } else {
+> > >                 ret =3D fuse_removexattr(inode, name);
+> > > +               /* If the acl didn't exist to start with that's fine.=
+ */
+> > > +               if (ret =3D=3D -ENODATA)
+> > > +                       ret =3D 0;
+> > > +       }
+> > > +
+> > > +       /* If we scheduled a mode update above, push that to userspac=
+e now. */
+> > > +       if (!ret) {
+> > > +               struct iattr attr =3D { };
+> > > +
+> > > +               if (mode !=3D inode->i_mode) {
+> > > +                       attr.ia_valid |=3D ATTR_MODE;
+> > > +                       attr.ia_mode =3D mode;
+> > > +               }
+> > > +
+> > > +               if (attr.ia_valid)
+> > > +                       ret =3D fuse_do_setattr(idmap, dentry, &attr,=
+ NULL);
+> >
+> > maybe something like this is clearer?
+> >
+> >     if (!ret && mode !=3D inode->i_mode) {
+> >          struct iattr attr =3D {
+> >                 .ia_valid |=3D ATTR_MODE,
+> >                 .ia_mode =3D mode,
+> >           };
+> >          ret =3D fuse_do_setattr(idmap, dentry, &attr, NULL);
+> >     }
+>
+> I know, you said that last time ;)
+> https://lore.kernel.org/linux-fsdevel/CAJnrk1YL3KnON-WtNjNi+2GZ+6rYvnVUnY=
+wCk5efv0o41XkxcA@mail.gmail.com/
+>
+> and my reply is the same:
+> https://lore.kernel.org/linux-fsdevel/20260325222308.GH6202@frogsfrogsfro=
+gs/#t
 
-Aha, that function got left out of the stub. :(
+Fair enough, I'd forgotten the conversation from v7.
 
-Annoyingly, on Linux the build succeeds despite the missing symbol
-when I tweak meson so that it doesn't build the service stuff.  I would
-have thought that --no-undefined would have done that, but alas.
+Also btw, I think there's the edge case where if the fuse_removexattr
+succeeds but the fuse_do_setattr() fails, then the acl would have been
+removed but the mode bits weren't updated. Maybe reordering it for
+that case so that the mode update happens first before the xattr
+removal would be safer (eg if the xattr removal fails, the old acl is
+still there to enforce permissions)?
 
-Sorry about that too.  The following patch fixes it.
+Thanks,
+Joanne
 
-diff --git i/lib/fuse_service_stub.c w/lib/fuse_service_stub.c
-index d34df3891a6e31..231b98423df628 100644
---- i/lib/fuse_service_stub.c
-+++ w/lib/fuse_service_stub.c
-@@ -49,12 +49,17 @@ int fuse_service_send_goodbye(struct fuse_service *sf, int error)
- int fuse_service_accept(struct fuse_service **sfp)
- {
- 	*sfp = NULL;
- 	return 0;
- }
- 
-+bool fuse_service_can_allow_other(struct fuse_service *sf)
-+{
-+	return false;
-+}
-+
- int fuse_service_append_args(struct fuse_service *sf,
- 			     struct fuse_args *existing_args)
- {
- 	return -EOPNOTSUPP;
- }
- 
-
-> 2026-04-30T21:25:16.3951874Z cc: error: linker command failed with exit code 1 (use -v to see invocation)
-> 2026-04-30T21:25:16.4291582Z [44/82] cc -Itest/test_teardown_watchdog.p -Itest -I../test -Iinclude -I../include -Ilib -I../lib -I. -I.. -fdiagnostics-color=always -
-> 
-> 
-> checkpatch, CodeChecker-cppcheck, CodeChecker-gcc also all fail. This CodeQL
-
-Not sure why checkpatch fails, this is what I got (Debian 13):
-
-$ git diff origin/master.. | ./checkpatch.pl --max-line-length=100 --no-tree --ignore MAINTAINERS,SPDX_LICENSE_TAG,COMMIT_MESSAGE,FILE_PATH_CHANGES,EMAIL_SUBJECT,AVOID_EXTERNS,GIT_COMMIT_ID,ENOSYS_SYSCALL,ENOSYS,FROM_SIGN_OFF_MISMATCH,QUOTED_COMMIT_ID,,PREFER_ATTRIBUTE_ALWAYS_UNUSED,PREFER_DEFINED_ATTRIBUTE_MACRO,STRCPY,STRNCPY -
-No typos will be found - file '/storage/home/djwong/cdev/work/libfuse/spelling.txt': No such file or directory
-No structs that should be const will be found - file '/storage/home/djwong/cdev/work/libfuse/const_structs.checkpatch': No such file or directory
-total: 0 errors, 0 warnings, 3908 lines checked
-
-Your patch has no obvious style problems and is ready for submission.
-
-NOTE: Ignored message types: AVOID_EXTERNS COMMIT_MESSAGE EMAIL_SUBJECT ENOSYS ENOSYS_SYSCALL FILE_PATH_CHANGES FROM_SIGN_OFF_MISMATCH GIT_COMMIT_ID MAINTAINERS PREFER_ATTRIBUTE_ALWAYS_UNUSED PREFER_DEFINED_ATTRIBUTE_MACRO QUOTED_COMMIT_ID SPDX_LICENSE_TAG STRCPY STRNCPY
-
-cppcheck had a few things to say, but none of it was about the changed
-lines.
-
-> report is funny
-> 
-> > int mount_service_main(int argc, char *argv[])
-> > Warning
-> > Poorly documented large function
-> > Poorly documented function: fewer than 2% comments for a function of 113 lines.
-> > CodeQL
-
-Hrmm.  I guess I'll have to figure out how to get those things running.
-That said, the stuff in mount_service.c is internal to libfuse (i.e.
-it's not public library API) so I didn't comment them as intensely.
-Would you like more?
-
-> I think I'm going to merge my sync fuse init series tomorrow.
-
-Yay!
-
-> Are you ok if skip posting another version of the series?
-
-               ^ is there an "I" here?  e.g. "...if I skip posting..."?
-
-/My/ normal practice (from xfs) was to repost the series as it was
-merged, followed by an announcement.  That way the mailing list is a
-complete record of what was merged.  However, very very few people
-actually do that, even in the kernel.
-
-I'm ok with you not posting another version of the series.
-
-> Or do you prefer to review the recent changes and last piece I'm going
-> to do tomorrow?
-
-Nah, just merge it.  I'll look over the changes once it's in the branch
-and if there's anything weird, you or I or anyone else can send patches.
-As long as you're not planning to tag it as a release, nothing's set in
-stone.
-
-> Basically my goal is to rebase your series against it immediately and
-> to merge your series during the next few days.
-
-<nod> Let me know what you want changed, I'll be around since I am not
-travelling anywhere for a couple of weeks. :)
-
-I can reflow changes into the patchset, or if you'd prefer, I can add
-them as new patches that would go on the end of the series.
-
---D
+>
+> ...which is to say, does anyone think that's worth the churn?
+>
+> >
+> > Overall, this lgtm though.
+> >
+> > Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+>
+> Thanks!
+>
+> --D
+>
+> > Thanks,
+> > Joanne
+> >
+> > >         }
+> > >
+> > >         if (fc->posix_acl) {
+> > >
+> >
