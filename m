@@ -1,192 +1,197 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BCC3CF683
-	for <fuse-devel@lists.linux.dev>; Tue,  5 May 2026 20:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463554921BA;
+	Tue,  5 May 2026 22:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778011350; cv=none; b=u4Bel/9iACc/jo/U80mzz5ENZ4F+5Z22fymndXjjGkwADzdhMPO/6xqUDMtLf/GN7Lj98xWpXK4FrD48P+/m545+q9MLY3+NAGCRGENWO6nd87IwjWHhQ/iVppUKf6yVwMKEOLP8ZPGkTyA6D29gX06xs2GKIiuSyfhpb/TpQuI=
+	t=1778018897; cv=none; b=k4WumB0X5GA28QLkSY4E4sKV+YpkrWFF6qbbdBg80mmT0M1VNZAABpgyoTwoPwLntIf8fQIOVI65DCCL9GUg06UQUOsV+68WAocjdGhfXzNOAtXW2nTsoe+EFOEY1+GaCCGYB3/OpP0bBte7n/kDWnfmgcH8461KWA38Eslcuqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778011350; c=relaxed/simple;
-	bh=o/cAr7n0MC+NVVVX6dfW2cTfDGKeaxI/JreYgNvb15E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ba8zoPBDjmQ20B/Ih1H7pq8YQElbHs/Rw+9X6mrNkZ+5foTx8ou4TrM7qYJuni3m6lPPOwKlrSxnNXz/gvPLKO570+MHL2sG4gEaupGLN3DeOuYFlC2DYvwuVqua9BEdv4uAyL8uxfjTrGkl+3sk/EPhby/FQVFEu7yCOke933o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=ZMVSAzCi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GM41qvNz; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1778018897; c=relaxed/simple;
+	bh=G6ackGx0k2Tc1/1RLJh2MtbsUqfWKgNc3pKER+WmBJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rWELyC63cOF2sb49wuwcP0xSiWruP92oVdFtgEGxMt08oGXTQduIme01Ft6d+q4ntXs2U3SkXk5ZL4nBo85I9CBdNw97p1oOdLDdNt+Ou6mqXV5Y/f4DVSinhQtmbhAashhOgtN3XRzEz9kBcL1/WPdxTA2XtsmWmCgvqPaibK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EP2griEy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="ZMVSAzCi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GM41qvNz"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2F809EC00D4;
-	Tue,  5 May 2026 16:02:27 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 05 May 2026 16:02:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778011347;
-	 x=1778097747; bh=LoirpClyky8S8tuRpSnlDGXDkBfXFThbkKlmwY4Ps4E=; b=
-	ZMVSAzCi5NQ98kVTeok5hA9yR4prbAN57Vj/Ux3lVGtAlx+r2YnX07am5khhpWox
-	xRt2UO1k7zm2V7Oil84EYf/3LNAGGnZ2wJfYtV94t4/a8OhuM93OUDe3zznlTQGe
-	ul+96Kd1dPOoTzD48BORyV4MIKsspT8/D+YPAdYg/r/9PFtBTms2T0xcRRxEbhBp
-	qdMHAt2MZHNdrZyxRItkCfJzcee1WryTul54sa8/LXAe5gO6u06AfkVtuOOGC3uT
-	YC8xAr+d20Ba2TpPAAmcaStQ1eDQO7xwKwjbEmF+/xQHHV+iCpdC7Q5Bpkr/HKyP
-	vCZiHlXN4IzTJ8qDPMfY9A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778011347; x=
-	1778097747; bh=LoirpClyky8S8tuRpSnlDGXDkBfXFThbkKlmwY4Ps4E=; b=G
-	M41qvNztcCa9BMRR6/H1+ModPhXk8PMnDoF/MHwrlrHjDy/gBsJz0ATABMDwNrvg
-	w+TUKJsKNr8ni5CL7u61wmXtkOV6BIe7RDZD0X7YKtNAbRpJ7pNisjQhiaYyyln/
-	SoqZWjSTrmlm92/HBMxbIvdAnaExhQHcOOOrHo3vaWranpMmA1GYfDbWacRDfcWm
-	az1cWdHeFKSoozaGK9+PsVcl8gIVLZn4m13sGS3cmo7Ku4GEnYmvK2QrWa0PnubU
-	OCcfpb4lqBWO4hbfWozveTseZf2UyOH6Z04xR4g2kq4KX6lvwSzSi2Hcd1OoM/Or
-	Sst8izaBUC2qhndRedFeA==
-X-ME-Sender: <xms:0kz6aRe-QvDOl8teLAq-MU4rU0CEOH6byXzm_2sYWbemAkXym3D8Uw>
-    <xme:0kz6aYgJVVaVA8oj-Lkx2zblEvip8gYhzCBMtH2vW0Zjtdyf08-9XAyxO6XWKz05M
-    rl60tG2zLioDdtNCRGeGo_4ymr0rawwHT5Rjs3ZHV30Lybsd-vs>
-X-ME-Received: <xmr:0kz6aRwOm0hUOHnvx_odPi_rzLtH0DYze_yx8U92qTfh_nPO0uUIxEcmXmlMNeE6NkSKL9IJfSpTHI2uB_S1zToUBHQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutddviedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlih
-    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
-    guihdrhhhu
-X-ME-Proxy: <xmx:0kz6acNIshGEPmdaWYmfRx8y3KnCOxtV39rhqfcBOpEZH2bSq8Wjmg>
-    <xmx:0kz6aaWjFPL0rSccgXNmkdE4pHVmu3gbCQC6OjXM7gQdYPjgcnBUjw>
-    <xmx:0kz6aY3vuY5gpnFbVBGhFof8TxczspTHvVoYUC_sA1lsgQQAmpXryA>
-    <xmx:0kz6aQqJo9mJ9hbsEJlYGpFg_vhbYn1TpyJLINqkM9DO-PF5d6zVMA>
-    <xmx:00z6acGbCA6QjENs9Kw3Vj1PRJT94hnmQsJSAZ-UxX03dnGPoEyH9UNE>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 May 2026 16:02:22 -0400 (EDT)
-Message-ID: <0de919e0-7d90-4fad-bf93-656bfd28ad7d@bsbernd.com>
-Date: Tue, 5 May 2026 22:02:18 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EP2griEy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E32F0C2BCB4;
+	Tue,  5 May 2026 22:08:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778018897;
+	bh=G6ackGx0k2Tc1/1RLJh2MtbsUqfWKgNc3pKER+WmBJc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EP2griEyfRbrcYEKD4CJkN46fX/ZkHkS7h6o3hIZfUjQ6m4JKFXxbMTHve7YSUreT
+	 k/oBRtvzdAMKUI/75ebpHwLCO9KLXhbCABwH02iG723+SPBoZBnCWDfUSN8J86YVSp
+	 V+Uh02vN98CUEdMEBPMlcM00MjF772MuZbjvZba5dFOKiLSG2tizVDuwImfJ4hIBad
+	 ai7S+PrW0pKO44xYep89RA0hfuN4ia+YWwGkpgOdhuJXvbQOJJZWS8gGVj1Lpq7IAf
+	 wZzgCxjFUmDaIsazcmqFWdxUQvVtHLI3IdyFbEczIJNsB4N3Vjrjd/ZeXOq7QPckXy
+	 rbDdSI6NiqvMg==
+Date: Tue, 5 May 2026 15:08:16 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
+Subject: Re: [PATCH v1.1 1/2] libfuse: don't use SYNC_INIT unless asked for
+Message-ID: <20260505220816.GS7765@frogsfrogsfrogs>
+References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
+ <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+ <20260505164428.GC7739@frogsfrogsfrogs>
+ <0de919e0-7d90-4fad-bf93-656bfd28ad7d@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1.1 1/2] libfuse: don't use SYNC_INIT unless asked for
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
- <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
- <20260505164428.GC7739@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260505164428.GC7739@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0de919e0-7d90-4fad-bf93-656bfd28ad7d@bsbernd.com>
 
-
-
-On 5/5/26 18:44, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
+On Tue, May 05, 2026 at 10:02:18PM +0200, Bernd Schubert wrote:
 > 
-> fuse2fs calls fuse_main, then starts threads from ->init.  It doesn't
-> call fuse_daemonize_early_start because I haven't ported it to use any
-> of the new APIs.  I don't have io_uring enabled for fuse on my dev box.
 > 
-> fuse_main calls fuse_session_mount calls fuse_session_mount_new_api
-> calls session_start_sync_init.  At the start of the function,
-> se->want_sync_init, se->uring.enable, and daemonize.active are all
-> false.  The first branch is not taken, so we call FUSE_DEV_IOC_SYNC_INIT
-> and enable sync_init even though the user didn't ask for that and didn't
-> prepare for it either.
+> On 5/5/26 18:44, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> > 
+> > fuse2fs calls fuse_main, then starts threads from ->init.  It doesn't
+> > call fuse_daemonize_early_start because I haven't ported it to use any
+> > of the new APIs.  I don't have io_uring enabled for fuse on my dev box.
+> > 
+> > fuse_main calls fuse_session_mount calls fuse_session_mount_new_api
+> > calls session_start_sync_init.  At the start of the function,
+> > se->want_sync_init, se->uring.enable, and daemonize.active are all
+> > false.  The first branch is not taken, so we call FUSE_DEV_IOC_SYNC_INIT
+> > and enable sync_init even though the user didn't ask for that and didn't
+> > prepare for it either.
+> > 
+> > FUSE_DEV_IOC_SYNC_INIT succeeds, so we send the synchronous FUSE_INIT
+> > from mount, which calls fuse2fs' init() method.  That starts the
+> > background threads and returns.  Upon return to the kernel, the mount()
+> > now succeeds, and the next thing that fuse_main does is call
+> > fuse_daemonize().  Since we didn't call fuse_daemonize_early_start, the
+> > daemonize forks the process and the threads die with the parent.
+> > 
+> > If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
+> > maintain compatibility with older fuse servers that only support
+> > asynchronous FUSE_INIT.
+> > 
+> > Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
+> > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> > ---
+> > v1.1: improve commit message, refine logging logic
+> > ---
+> >  lib/fuse_lowlevel.c |   18 +++++++++++++++---
+> >  1 file changed, 15 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
+> > index 0e16845d2f14ff..83158d02bb8827 100644
+> > --- a/lib/fuse_lowlevel.c
+> > +++ b/lib/fuse_lowlevel.c
+> > @@ -4475,9 +4475,21 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
+> >  {
+> >  	int err, res;
+> >  
+> > -	if (!se->want_sync_init &&
+> > -		(se->uring.enable && !fuse_daemonize_is_used())) {
+> > -		if (se->debug)
+> > +	if (!se->want_sync_init) {
+> > +		/*
+> > +		 * SYNC_INIT is required for io_uring to initialize without
+> > +		 * deadlocking the kernel if the fuse server crashes.
+> > +		 *
+> > +		 * !fuse_daemonize_is_used implies the fuse server doesn't know
+> > +		 * about any of the SYNC_INIT APIs, so we don't enable sync
+> > +		 * init or generate log messages.
+> > +		 */
+> > +		if (se->uring.enable)
+> > +			fuse_log(FUSE_LOG_DEBUG,
+> > +					"fuse: io_uring broken with async init\n");
 > 
-> FUSE_DEV_IOC_SYNC_INIT succeeds, so we send the synchronous FUSE_INIT
-> from mount, which calls fuse2fs' init() method.  That starts the
-> background threads and returns.  Upon return to the kernel, the mount()
-> now succeeds, and the next thing that fuse_main does is call
-> fuse_daemonize().  Since we didn't call fuse_daemonize_early_start, the
-> daemonize forks the process and the threads die with the parent.
+> So want_sync_init is not enabled and it still logs this? Note that
+> default libfuse does not have a way to set log levels.
+
+I'm not 
+
+> > +		else if (!fuse_daemonize_is_used())
+> > +			; /* empty */
 > 
-> If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
-> maintain compatibility with older fuse servers that only support
-> asynchronous FUSE_INIT.
+> Unless I misread it, it would still go into the return 0?
+
+Correct.
+
+> > +		else if (se->debug)
+> >  			fuse_log(FUSE_LOG_DEBUG,
+> >  					"fuse: sync init not enabled\n");
 > 
-> Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
-> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-> ---
-> v1.1: improve commit message, refine logging logic
-> ---
->  lib/fuse_lowlevel.c |   18 +++++++++++++++---
->  1 file changed, 15 insertions(+), 3 deletions(-)
+> And now every time a log message here.
+
+Only if you enable debug mode.
+
+> >  		return 0;
 > 
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index 0e16845d2f14ff..83158d02bb8827 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -4475,9 +4475,21 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
->  {
->  	int err, res;
->  
-> -	if (!se->want_sync_init &&
-> -		(se->uring.enable && !fuse_daemonize_is_used())) {
-> -		if (se->debug)
-> +	if (!se->want_sync_init) {
-> +		/*
-> +		 * SYNC_INIT is required for io_uring to initialize without
-> +		 * deadlocking the kernel if the fuse server crashes.
-> +		 *
-> +		 * !fuse_daemonize_is_used implies the fuse server doesn't know
-> +		 * about any of the SYNC_INIT APIs, so we don't enable sync
-> +		 * init or generate log messages.
-> +		 */
-> +		if (se->uring.enable)
-> +			fuse_log(FUSE_LOG_DEBUG,
-> +					"fuse: io_uring broken with async init\n");
+> Why can't we change it to
+> 
+> if (!fuse_daemonize_is_used() && !want_sync_init)
+>        return 0;
 
-So want_sync_init is not enabled and it still logs this? Note that
-default libfuse does not have a way to set log levels.
+That works for me.
 
-> +		else if (!fuse_daemonize_is_used())
-> +			; /* empty */
+> If someone uses then new mount API, that someone has also tested sync
+> init.
 
-Unless I misread it, it would still go into the return 0?
+I'm confused by this statement.
 
-> +		else if (se->debug)
->  			fuse_log(FUSE_LOG_DEBUG,
->  					"fuse: sync init not enabled\n");
+In this early bailout case (fuse server did not call
+fuse_daemonize_early_start or fuse_session_want_sync_init) we return 0
+without actually setting SYNC_INIT, correct?
 
-And now every time a log message here.
+Next, fuse_session_mount_new_api calls fuse_kern_fsmount_mo and libfuse
+proceeds to mount with the new mount API.  The kernel uses the old async
+init code, because nobody told it to do a synchronous init.
 
->  		return 0;
+That sequence works fine, and I can prove it by strace'ing fuse2fs
+startup.  The new mount API is used, but FUSE_INIT isn't seen by fuse2fs
+until after the fuse_daemonize() call and the event loop gets set up.
 
-Why can't we change it to
+In other words, fuse2fs uses the new mount API and does not use sync
+init.  I think the correct statement is the inverse:
 
-if (!fuse_daemonize_is_used() && !want_sync_init)
-       return 0;
+    If someone uses sync_init, that someone has also tested the new
+    mount API.
 
+My understanding of where we are right now is:
 
-If someone uses then new mount API, that someone has also tested sync
-init. At best we could change want_sync_init to an integer so that a
-daemon could disable sync init.
-For testing I'm probably also going to add an env variable that allows
-to disable sync init.
+1. If a fuse server starts up the new daemonize code or sets
+   want_sync_init, it will get SYNC_INIT.
 
-Btw, during the meetings I had asked AI to write tests for sync init,
-looks like "ro" doesn't work yet. AI had created patch to fix that, but
-I don't apply either the test nor the fix yet, need to carefully read
-through it, but need to do something else before going to bed.
+   (I'm not sure what it means if they set want_sync_init and try to
+   use the old daemonize code)
 
+2. If it does neither of those things, it will not get SYNC_INIT.
 
-Thanks,
-Bernd
+In both cases we try the new fsmount().  If the fsmount API fails, then
+we fall back to the classic mount().
 
+Is that correct?
+
+> At best we could change want_sync_init to an integer so that a
+> daemon could disable sync init.
+> For testing I'm probably also going to add an env variable that allows
+> to disable sync init.
+
+<shrug> That sounds ok to me.
+
+> Btw, during the meetings I had asked AI to write tests for sync init,
+> looks like "ro" doesn't work yet. AI had created patch to fix that, but
+> I don't apply either the test nor the fix yet, need to carefully read
+> through it, but need to do something else before going to bed.
+
+Oh, yeah, mount_flags[] needs to have:
+
+{"rw",           MS_RDONLY,        0,  1,    MOUNT_ATTR_RDONLY},
+{"ro",           MS_RDONLY,        1,  1,    MOUNT_ATTR_RDONLY},
+
+Sorry I missed that in the review.  I also missed that mount_service.c
+should be ported to use mount_flags[].
+
+--D
