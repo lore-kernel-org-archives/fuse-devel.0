@@ -1,165 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBF930AD1A;
-	Wed,  6 May 2026 16:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 085392E9757
+	for <fuse-devel@lists.linux.dev>; Wed,  6 May 2026 21:27:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778085576; cv=none; b=iiiW5yYZShuNViNxs+VrhJwSs38lJw+7pK1UZIdF9Har+uf+rQliq5By8ztTuBum9P2Q8XKkXIlUQPc6lJz+7lthDSSkFMZOuqEh0CRcbttnzid+p+TyB0ofMQiQ+y0wUlTJUCqtrkMsK/n/Ra7UlxyoNI90lsFnZwoPZcexDDI=
+	t=1778102847; cv=none; b=fCYsWB/+Znc9e3bM34+bRgt6pec6j5bil9OtrV0PncD2SsrOD2WNUIBiuHv7G/2Wf2jOLxFixdiPD1PDmFJAHzxroRgvcqSj1nSmphGORCqlbk6q2cJzhPS7hFecLrHpMsQLVnCNDI+VBvxJ4abqpw3Sb1LdJDj0MoLyDeXOvO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778085576; c=relaxed/simple;
-	bh=JZScTMhYDrtXo3qo/qIcHOinHboPNrrOUK36uTb5gdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q4u1T1l07tIhMCtQd/y/QuBzNwMRLnKc2GxkIr2daddCJj5expPB3iOrQwLKEWdXD4yosHZoCTRdOpic6exn9CyakXNLU9PdisPxe/l1ghgdkiT4Z8Kg/Lo4EiSiZMQv+ZLJU0e14HXq/o7rqrDw6xbN79kln5ZdkNbNP5O9Agw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aizxmlLm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778102847; c=relaxed/simple;
+	bh=x2qyDhGSExwelEJx56uGmAqs++59MajuevYUTDzB/1E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q2Rjvuy6d+kTGFOEJd6rO6UujOUdp6u56Kck9w6C9TfCPhuWbSATQ5RUpc+agzwRCEAFlRNxuGYhXAFnwBcr5U5yXSZqd56XJ0vnV6qvT0fzmkx0wC5yuykLrAy8mg//l75LW4JNFixLGu7C3dIRkGT/shkNGSxfqvjpvhewDF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=DU/Sm14i; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=f6MG6/8e; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aizxmlLm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EAE39C2BCB0;
-	Wed,  6 May 2026 16:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778085576;
-	bh=JZScTMhYDrtXo3qo/qIcHOinHboPNrrOUK36uTb5gdM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aizxmlLm1VxihnL3ohHcBMe7o+Mc5fiGzW5O40RyC6yg2B/xUe496lVOAt0rmgaUC
-	 uVdNv4l9PhluM5GmzG0mP+Fgq4+395iH2RUwMhnT56aHpm0UuxnllhoZONB3dL18N6
-	 ZdHjgsZqq20YDnaDd9SE2CkWZzWTt53OKsuC4Sy/CTQCaUugdiAwI79FKrL41VrWW5
-	 Q3bjdVUW5EzPBXRebWTQRvshjgIB7ux7DKKqcDdfCSVCn0qn4mJIO6JxyumKJCC6IJ
-	 26m27G1IQ/Wlju807uXsJzJm8/3o0kFgkxAYE0KYYll2ippBaUmfPTAdvDDWDQ9+m3
-	 TEuB6NnBaG6Ug==
-Date: Wed, 6 May 2026 09:39:35 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Theodore Tso <tytso@mit.edu>
-Cc: Ext4 Developers List <linux-ext4@vger.kernel.org>,
-	fuse-devel <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH 0/7] fix up issues from djwong/fuse4fs-fork
-Message-ID: <20260506163935.GB2241589@frogsfrogsfrogs>
-References: <20260504233301.2345652-1-tytso@mit.edu>
- <20260505000831.GA1101423@frogsfrogsfrogs>
- <20260505072144.GC16497@macsyma-wired.lan>
- <20260505155821.GI1101423@frogsfrogsfrogs>
- <20260505220441.GB49070@macsyma.local>
- <20260505225635.GT7765@frogsfrogsfrogs>
- <20260506092858.GC49070@macsyma.local>
- <20260506143413.GA2241589@frogsfrogsfrogs>
- <20260506150833.GD49070@macsyma.local>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="DU/Sm14i";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="f6MG6/8e"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 4DAE4EC02B3;
+	Wed,  6 May 2026 17:27:25 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Wed, 06 May 2026 17:27:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778102845;
+	 x=1778189245; bh=KAWBf/bloIFloicPBY0UwxsP1knrR1VI6gPl3F/3rT4=; b=
+	DU/Sm14iNeI3lu8s9jZ5invA3oaDFn5BTnQ5pyVuxDWF3Jud2X13lQ3k2svOVWbL
+	11xG2QA2CjUbODXFPD937aqIkaJo2DzbRXGo2vZhqjkQFx7zBr1vgG6w21qdAsd8
+	UmCmFL3Q4MnftNQDsOA8onHu+3ZWpk+VhzIBjWZn8IW3KTKtdzNBKhSDFtsXYQ4v
+	HcIc9dU3WJB0zA25LRxrYC1zkOVg/ierAC70vtsK5HHU6y1eEFQCwJizEANNRKqb
+	JdGF7w4Cv0aXsIiEMN9tK3lmUUKEdVN+cOFKoBjbJkHwk/8GuFhZH/HvnlYMNyXu
+	x+2LEh6JQX80J9JuSSordA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778102845; x=
+	1778189245; bh=KAWBf/bloIFloicPBY0UwxsP1knrR1VI6gPl3F/3rT4=; b=f
+	6MG6/8eK1Q7zh3OEiGYEHu3XR89+yyA8olrhc2mrIsWah0uFL4HwuvS5xKVWb5Zs
+	6tOVuF10TyPgmYtOyfwGFps+KXcoOyJPuDiITCRaUe4uhAXcrt2yFU13WZOBe2t8
+	lyVF4//0zx61kW6rx9YTA0EqjLW83iDAAbOCnRb+ALYD6BHUC17BSkyJyKRj+6mr
+	sswMX5zrkqZ13JfVnJvyMLLiYJGtrFmKBl6WWGxtln60wdx3hZ2D9ohg6U4oHfbJ
+	A3fm3tEkzrINgok6fhQ8T0gRAy2fxD8Umz2tKcKH/0dsK3j4PXmrmOaw9POAACB3
+	eVnHR/lSd2av5YetGuy/A==
+X-ME-Sender: <xms:PLL7aTyMo4WvbuEBtifnxHqsSCTI3i6R-HlmwQnvgARwVTqfM7yKCQ>
+    <xme:PLL7aUkN3gk_Oe9f-6gonSZ5BRyK7b7sFGdwyDz-js-Ly_IaVoOkHX0_AnZ0Dp7gF
+    gf8_URDR_cSuwoqikrZL9lTke0Y26o11OGST4Ugm1EqbuuntH9L>
+X-ME-Received: <xmr:PLL7aUkNPadlg9Uye4E4lQ0Y-zDFA3M-giSjgFetrerru40R6iUSpjSjXhngG8BTAVFyC7oJ129rUpu8lAmGBsTzl9qkHUC0EB4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdehieejucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
+    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlih
+    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
+    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
+    guihdrhhhu
+X-ME-Proxy: <xmx:PLL7aexcaivyN6gSxleJu8EzDbo2Vxr_WHgN3mkcU83fQBglE2eMbA>
+    <xmx:PLL7aRoPXmvKAk-snGKX2CHBpCCUGbRSJSid6zhlk0v9B5cm2-eYvg>
+    <xmx:PLL7aV7OY6-TtS27x2AsG5Feca2EjGzAEUQcUhcW_CZaxxuZTTaH1Q>
+    <xmx:PLL7aQcu0wbA268zZNSTo9DY8yKDLqXNxTvjunRw5zmdROTcGzr_og>
+    <xmx:PbL7aTKiiHl5S0DKiL7u5DXzc_GrNeXIaJwGP-6XmH7kbyX1D1xfdlOF>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 6 May 2026 17:27:21 -0400 (EDT)
+Message-ID: <605ed94c-82f8-430f-b753-99b06eec27fa@bsbernd.com>
+Date: Wed, 6 May 2026 23:27:17 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260506150833.GD49070@macsyma.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHSET 2/2] libfuse: new mount service container fixes
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
+References: <20260505052133.GR7765@frogsfrogsfrogs>
+ <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 06, 2026 at 05:08:33PM +0200, Theodore Tso wrote:
-> On Wed, May 06, 2026 at 07:34:13AM -0700, Darrick J. Wong wrote:
-> > [cc fuse-devel]
-> > 
-> > TLDR for the fuse developers: Ted and I discovered a collision between
-> > the upstream libfuse feature bits and the MacFUSE feature bits, which
-> > causes macfuse to do the wrong thing if you try to enable symlink
-> > pagecache.
-> 
-> This is the patch for fuse2fs and fuse4fs in e2fsprogs which works
-> around the problem (tested on MacOS using macfuse 5.2.0_1 from
-> MacPorts).  More details about why it was needed is in the commit
-> description.
-> 
-> 					- Ted
-> 
-> From 67f1ec55a1309abead16cad883e38b798a567191 Mon Sep 17 00:00:00 2001
-> From: Theodore Ts'o <tytso@mit.edu>
-> Date: Wed, 6 May 2026 10:51:56 -0400
-> Subject: [PATCH] fuse2fs, fuse4fs: Fix MacFuse compatibility issue
-> 
-> Unfortunately, MacFuse is overloading the top bits of the flags field
-> in struct fuse_init_{out} for MacFuse-specific capability extensions.
-> This results in an attempt to use FUSE_CAP_CACHE_SYMLINKS when linking
-> with the libfuse in MacPorts will end up enabling
-> FUSE_DARWIN_CAP_ACCESS_EXT with MacFuse.  Hilarity then ensues with
-> all non-privileged access failing with permission denied.
-> 
-> The change which is needed in MacFuse is described in a TODO(bf)
-> statement:
-> 
-> https://github.com/macfuse/library/blob/ddb630db8327a50b6670ef5e4f5e6da82a549e99/lib/fuse_lowlevel.c#L3415
-> 
-> I plan to submit a bug report to MacFuse, but in the mean time, work around
-> the problem by disabling the overloaded capability flags on MacOS.
-> 
-> Link: https://lore.kernel.org/r/20260505225635.GT7765@frogsfrogsfrogs
-> Link: https://lore.kernel.org/r/20260506092858.GC49070@macsyma.local
-> Signed-off-by: Theodore Ts'o <tytso@mit.edu>
 
-Looks fine for now...
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
---D
+On 5/5/26 07:23, Darrick J. Wong wrote:
+> Hi all,
+> 
+> This is a collection of bug fixes and cppcheck cleanups for the new fuse
+> service container code.
+> 
+> With a bit of luck, this should all go splendidly.
+> Comments and questions are, as always, welcome.
 
+Hi Darrick,
+
+do you have by any chance a branch I could pull from? With PATCHSET 1 in
+the same thread I don't know how to handle it with "b4 shazam".
+Alternatively, I'm also open to learn new b4 or git am commands.
+
+I will try to review it at airport or during the flight, but would
+reallu help me, if I could just get the patches into a branch for
+offline processing.
+
+Thanks,
+Bernd
+
+> 
+> --D
 > ---
->  fuse4fs/fuse4fs.c | 18 ++++++++++++++++++
->  misc/fuse2fs.c    | 18 ++++++++++++++++++
->  2 files changed, 36 insertions(+)
+> Commits in this patchset:
+>  * util/mount.fuse.c: loop in waitpid
+>  * fuse_service: handle weird behavior during SCM_RIGHTS fd transfers
+>  * examples: improve documentation of the new systemd service fuse servers
+>  * example/single_file: sync backing fd when statx wants us to fsync
+>  * example/single_file: fix ctime handling
+>  * libfuse: fix cppcheck complaints about constifying pointers
+>  * libfuse: fix cppcheck complaints about constifying pointers in user-visible ABI
+>  * util: fix cppcheck complaints about constifying pointers
+>  * fuser_conf: fix cppcheck complaints
+>  * example: fix cppcheck complaints about constifying pointers
+> ---
+>  example/single_file.h   |    6 +++-
+>  include/fuse_service.h  |   18 ++++++-----
+>  example/service_hl.c    |   20 +++++++++++-
+>  example/service_ll.c    |   20 +++++++++++-
+>  example/single_file.c   |   31 ++++++++++++++++---
+>  lib/fuse_service.c      |   76 ++++++++++++++++++++++++++++++++---------------
+>  lib/fuse_service_stub.c |   17 ++++++-----
+>  util/fuser_conf.c       |    9 +++---
+>  util/fuservicemount.c   |    2 +
+>  util/mount.fuse.c       |    4 ++
+>  util/mount_service.c    |   68 ++++++++++++++++++++++--------------------
+>  11 files changed, 183 insertions(+), 88 deletions(-)
 > 
-> diff --git a/fuse4fs/fuse4fs.c b/fuse4fs/fuse4fs.c
-> index 92847326..2739da92 100644
-> --- a/fuse4fs/fuse4fs.c
-> +++ b/fuse4fs/fuse4fs.c
-> @@ -120,6 +120,24 @@
->  #endif
->  #endif /* !defined(ENODATA) */
->  
-> +#ifdef __APPLE__
-> +/*
-> + * Sigh.... MacFuse is overloading the top bits of the flags field in
-> + * struct fuse_init_{out} for MacFuse-specific capability extensions.
-> + * Avoid using these fuse3 capability flags until this gets fixed in
-> + * MacFUSE
-> + */
-> +#undef FUSE_CAP_CACHE_SYMLINKS
-> +#undef FUSE_CAP_NO_OPENDIR_SUPPORT
-> +#undef FUSE_CAP_EXPLICIT_INVAL_DATA
-> +#undef FUSE_CAP_EXPIRE_ONLY
-> +#undef FUSE_CAP_SETXATTR_EXT
-> +#undef FUSE_CAP_DIRECT_IO_ALLOW_MMAP
-> +#undef FUSE_CAP_PASSTHROUGH
-> +#undef FUSE_CAP_NO_EXPORT_SUPPORT
-> +#undef FUSE_CAP_OVER_IO_URING
-> +#endif
-> +
->  #define FUSE4FS_ATTR_TIMEOUT	(0.0)
->  
->  static inline uint64_t round_up(uint64_t b, unsigned int align)
-> diff --git a/misc/fuse2fs.c b/misc/fuse2fs.c
-> index c46cfc23..0f2a3c35 100644
-> --- a/misc/fuse2fs.c
-> +++ b/misc/fuse2fs.c
-> @@ -116,6 +116,24 @@
->  #endif
->  #endif /* !defined(ENODATA) */
->  
-> +#ifdef __APPLE__
-> +/*
-> + * Sigh.... MacFuse is overloading the top bits of the flags field in
-> + * struct fuse_init_{out} for MacFuse-specific capability extensions.
-> + * Avoid using these fuse3 capability flags until this gets fixed in
-> + * MacFUSE
-> + */
-> +#undef FUSE_CAP_CACHE_SYMLINKS
-> +#undef FUSE_CAP_NO_OPENDIR_SUPPORT
-> +#undef FUSE_CAP_EXPLICIT_INVAL_DATA
-> +#undef FUSE_CAP_EXPIRE_ONLY
-> +#undef FUSE_CAP_SETXATTR_EXT
-> +#undef FUSE_CAP_DIRECT_IO_ALLOW_MMAP
-> +#undef FUSE_CAP_PASSTHROUGH
-> +#undef FUSE_CAP_NO_EXPORT_SUPPORT
-> +#undef FUSE_CAP_OVER_IO_URING
-> +#endif
-> +
->  static inline uint64_t round_up(uint64_t b, unsigned int align)
->  {
->  	unsigned int m;
-> -- 
-> 2.50.1 (Apple Git-155)
-> 
+
