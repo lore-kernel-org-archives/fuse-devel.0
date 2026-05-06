@@ -1,40 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F37723D7DC;
-	Tue,  5 May 2026 23:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5B246AF0F;
+	Wed,  6 May 2026 14:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778022660; cv=none; b=WqJuIW1u0rV7iBCZT1dmCBM2glB6iAbIJ3oztn6cw8RWiUeEBdv2kaXwxGTUVdNigEVHREsgj9QLjYfVS/Gff+Jp2r3/ANkrf/RQd7BU9Hehuw3bMc55KYugBjM/gPiaUCDGG7csNngM3Dtu8OnGvrBnPS4MF2DKLjeqe/c0Q7Y=
+	t=1778078054; cv=none; b=omgbHkuJX4ELJpGIX1cJWwi1cdG2ReoeAsP7BygXdPlKejbNUaXIGdMxf7vHE6Xu3QZBpBkdkrRIaRmRT3/WbnnaVNvxay98wD/Tgf8VtmJlu4QDfwF98te9hN6Ywmq2B3wnm/6V53RW0x+tepgzPv0kQTUo23yOygBT5DXjXrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778022660; c=relaxed/simple;
-	bh=3nJ6b3GJthKAPv4UaoBv4d1JuGiX2HnRguU1727nH1Q=;
+	s=arc-20240116; t=1778078054; c=relaxed/simple;
+	bh=KzJaDkP8gIuv1rzeEWn0SEz9DAZ9C1moARBZfpFXUa8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I4CRxsDTHQMeEabSj3IqMhuKLvPYw+m6WMErMafv3QWZc+js1PJY47BQita9MVA41YvObB29xQiLveisKIcDy2suZ38F+3KtOz8XG/fRBVlArU/Hqq+XO4cF4guhlun3T9G56vBMDWTpdm2UbJy2GWWHPVQhddrDPDq3dQ5Yn0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ut1Ev9k5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EyEIfFU8JANLTWqbcYFTXqnkUgIxutKvA8fTrCkU/AkjBNhXQDQWJ7rY9LtGkzwAQWlXrP3cNrpDcgoW6H3aA4FSiqjukUW51wCMfO259n0pqjUzmOBIyf+s/ClHlR7Tj3avN2m/x/9bhQpkkAM9k7H9B8OlV8eneIO+AgE+WdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P6pw9lni; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ut1Ev9k5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD3F1C2BCB4;
-	Tue,  5 May 2026 23:10:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P6pw9lni"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E29AC2BCB0;
+	Wed,  6 May 2026 14:34:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778022659;
-	bh=3nJ6b3GJthKAPv4UaoBv4d1JuGiX2HnRguU1727nH1Q=;
+	s=k20201202; t=1778078054;
+	bh=KzJaDkP8gIuv1rzeEWn0SEz9DAZ9C1moARBZfpFXUa8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ut1Ev9k5I+KABt2yht9/B6sqE8km9Ua1QI2r8OHtHVtinqsWZ+ZC8kgXO4EoidZeQ
-	 0SOVca5I0pxN5sMCisj3+vh8zkysyv7hAyFZFG6JKp5GddemTqnUy/Cw0Vt30Mxnh8
-	 29wWELN/srGwUdnQkqgvNGC2dwNAeb06U1mDHHgPxFe9/RlOtOBEQ960QZ5bgxwkK2
-	 11EsVyQi/SNwBX0jz3R3nFzFb9DO2dWGm4P5NSEMTHQgfI12pv7ok9qwWYxK/qatoj
-	 tszqk6HNiXUPRad/GIcXZyw3MyyLvdajFFvhwbzawm8t1+170x+zXD/FHWYl0cKW57
-	 NiKCcSE1Z1THw==
-Date: Tue, 5 May 2026 16:10:59 -0700
+	b=P6pw9lnioz9idCO98K7lGG0cK1vT+vsrskUP3LjZsqwttEZJFOE9dg+o2alsjTyEk
+	 XkdCHipYtuRAufdTP5Pt+Hoc97t95/FbadfC3RY6W513+O38Kgu03pQgGbRQ78PcYe
+	 /AQS0kdChoxWzF2cRBIlsHj7Y8NuVncmLyA0BPn3PnxNQm4lu4Ta8B09acnJjx0Wz7
+	 kbJu2GNYE4hEH3mVVz62BTL2d3Xnj56qCJmSS0fnjhJMvk1rm423OFC4SYkbQZU32c
+	 a5MmE5i2Wc47WkcIejIWrewmt5LTQ7KQPzGvqdjn1UFni/XV8i43lREWoseGUW9qex
+	 yeGo40+jetBQw==
+Date: Wed, 6 May 2026 07:34:13 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-Subject: [PATCH v1.2 1/2] libfuse: don't use SYNC_INIT unless asked for
-Message-ID: <20260505231059.GE7739@frogsfrogsfrogs>
-References: <177795853450.1133476.8692790530314969678.stgit@frogsfrogsfrogs>
- <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+To: Theodore Tso <tytso@mit.edu>
+Cc: Ext4 Developers List <linux-ext4@vger.kernel.org>,
+	fuse-devel <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH 0/7] fix up issues from djwong/fuse4fs-fork
+Message-ID: <20260506143413.GA2241589@frogsfrogsfrogs>
+References: <20260504233301.2345652-1-tytso@mit.edu>
+ <20260505000831.GA1101423@frogsfrogsfrogs>
+ <20260505072144.GC16497@macsyma-wired.lan>
+ <20260505155821.GI1101423@frogsfrogsfrogs>
+ <20260505220441.GB49070@macsyma.local>
+ <20260505225635.GT7765@frogsfrogsfrogs>
+ <20260506092858.GC49070@macsyma.local>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -43,56 +48,102 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177795853473.1133476.16730865173873586203.stgit@frogsfrogsfrogs>
+In-Reply-To: <20260506092858.GC49070@macsyma.local>
 
-From: Darrick J. Wong <djwong@kernel.org>
+[cc fuse-devel]
 
-fuse2fs calls fuse_main, then starts threads from ->init.  It doesn't
-call fuse_daemonize_early_start because I haven't ported it to use any
-of the new APIs.  I don't have io_uring enabled for fuse on my dev box.
+TLDR for the fuse developers: Ted and I discovered a collision between
+the upstream libfuse feature bits and the MacFUSE feature bits, which
+causes macfuse to do the wrong thing if you try to enable symlink
+pagecache.
 
-fuse_main calls fuse_session_mount calls fuse_session_mount_new_api
-calls session_start_sync_init.  At the start of the function,
-se->want_sync_init, se->uring.enable, and daemonize.active are all
-false.  The first branch is not taken, so we call FUSE_DEV_IOC_SYNC_INIT
-and enable sync_init even though the user didn't ask for that and didn't
-prepare for it either.
+https://lore.kernel.org/linux-ext4/20260505225635.GT7765@frogsfrogsfrogs/
 
-FUSE_DEV_IOC_SYNC_INIT succeeds, so we send the synchronous FUSE_INIT
-from mount, which calls fuse2fs' init() method.  That starts the
-background threads and returns.  Upon return to the kernel, the mount()
-now succeeds, and the next thing that fuse_main does is call
-fuse_daemonize().  Since we didn't call fuse_daemonize_early_start, the
-daemonize forks the process and the threads die with the parent.
+On Wed, May 06, 2026 at 11:28:58AM +0200, Theodore Tso wrote:
+> On Tue, May 05, 2026 at 03:56:35PM -0700, Darrick J. Wong wrote:
+> > FUSE kABI 7.20 added FUSE_AUTO_INVAL_DATA, which is bit 12.  It looks to
+> > me as though they decided to add their own MacOS-specific feature flags
+> > at the end of the u32 want field.  Then Linux FUSE added 11 more feature
+> > flags, at which point they unthinkingly ported over FUSE_CACHE_SYMLINKS,
+> > which collides with FUSE_DARWIN_ACCESS_EXT.  Apparently nobody on the
+> > macfuse end noticed, so on your machine you're getting whatever
+> > "ACCESS_EXT" does.
+> 
+> Yeah....
+> 
+> What MacFuse needs to do is to steal some extra fields from struct
+> fuse_init_in and fuse_init_out for the darwin-specific capabilities.
+> It turns out it already has conn->{want,capable}_darwin, but there's
+> no way to pass it in and out of op_init....
+> 
+> #ifdef __APPLE__
+> 	/*
+> 	 * TODO(bf)
+> 	 *
+> 	 * Resolve conflict with vanilla API. We need a separate field flags for
+> 	 * Darwin-only flags. As long as we don't support anything beyond ABI
+> 	 * version 7.19 on the kernel-side this should not be an issue, though.
+> 	 * We need to clean this up when moving to 7.20 or later.
+> 	 */
+> 	if (se->conn.want_darwin & FUSE_DARWIN_CAP_ACCESS_EXT)
+> 		outargflags |= FUSE_DARWIN_ACCESS_EXT;
+> 
+> So I *guess* what MacFuse needs to do is to do something like:
+> 
+> struct fuse_init_in {
+> 	uint32_t	major;
+> 	uint32_t	minor;
+> 	uint32_t	max_readahead;
+> 	uint32_t	flags;
+> 	uint32_t	flags2;
+> 	uint32_t	unused[9];
+> 	uint32_t	darwin_flags;
+> 	uint32_t	darwin_flags2;
+> };
+> 
+> am I right in understanding that fuse_*_{in,out} is private between
+> the OS's libfuse and OS's fuse driver or kernel extension, so
+> it's not disastrous for fuse_kernel.h for Mac and Linux to drift?
 
-If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
-maintain compatibility with older fuse servers that only support
-asynchronous FUSE_INIT.
+Yeah, the easiest method would be to carve out the darwin_flags field.
 
-Fixes: 3e1101057aea57 ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
---
-v1.2: simplify the logic even more
-v1.1: improve commit message, refine logging logic
----
- lib/fuse_lowlevel.c |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+If they still want to use flags/flags2, then they could probably still
+fix it by redefining whichever feature was added later (probably
+FUSE_CACHE_SYMLINKS) because right now they're broken, so it's not an
+ABI break to redefine the symbol.
 
-diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-index 0e16845d2f14ff..6e078e820eddec 100644
---- a/lib/fuse_lowlevel.c
-+++ b/lib/fuse_lowlevel.c
-@@ -4475,8 +4475,11 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
- {
- 	int err, res;
- 
--	if (!se->want_sync_init &&
--		(se->uring.enable && !fuse_daemonize_is_used())) {
-+	/*
-+	 * Older fuse servers do not set want_sync_init or start the new
-+	 * daemonize code, so they get async init.
-+	 */
-+	if (!fuse_daemonize_is_used() || !se->want_sync_init) {
- 		if (se->debug)
- 			fuse_log(FUSE_LOG_DEBUG,
- 					"fuse: sync init not enabled\n");
+Either way someone will have to talk to the MacFUSE people about this.
+
+> > Does this work?
+> >
+> > /* MacFUSE overlays feature bits with LinuxFUSE, this is fcked up */
+> > #if defined(FUSE_CAP_CACHE_SYMLINKS) && !defined(FUSE_CACHE_SYMLINKS)
+> > 	fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
+> > #endif
+> 
+> What I'm thinking about doing is adding at the beginning of
+> fuse[24]fs.c:
+> 
+> #ifdef __APPLE__
+> /*
+>  * Sigh.... MacFuse is overloading the top bits of the flags field of
+>  * struct fuse_init_{out} so we have to avoid using these capability
+>  * flags until this gets fixed in MacFUSE
+>  */
+> #undef FUSE_CACHE_SYMLINKS
+> #undef FUSE_NO_OPENDIR_SUPPORT
+> #undef FUSE_EXPLICIT_INVAL_DATA
+> #undef FUSE_MAP_ALIGNMENT
+> #undef FUSE_SUBMOUNTS
+> #undef FUSE_HANDLE_KILLPRIV_V2
+> #undef FUSE_SETXATTR_EXT
+> #undef FUSE_INIT_EXT
+> #endif
+
+That works for now.  If macfuse fixes themselves, then I guess we could
+turn that into a configure check.
+
+--D
+
+> 
+> 						- Ted
