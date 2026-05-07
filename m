@@ -1,130 +1,96 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+Received: from smtp01-ext2.udag.de (smtp01-ext2.udag.de [62.146.106.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AD2530DD1C
-	for <fuse-devel@lists.linux.dev>; Wed,  6 May 2026 21:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8C037EFF9
+	for <fuse-devel@lists.linux.dev>; Thu,  7 May 2026 08:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778103378; cv=none; b=KB0j3wkhxtE7X6xTOp8wbyhZNvsrtrfBy59PUC8pNjtQmIFQfbGq1ZefL0EbN7+Xjuqx2Apik6m3G0M0ibRliMOiRPq6PYJdtsNp63hOXzo+gw6U4vAM8G/c3eOnPlaAgX1sXE4CKGbbYjy7awoD9NhKHxqJGTTUgyvmvCqO+8s=
+	t=1778143021; cv=none; b=tOYKbp0kEhE/O9/ONpTJ6E27JwBjKDDKSWi3p9H5+fbBbSF11A3zxi16wM79h93gAooniFiaqhfs35UJlWZSMrfo3fKT6D5X8GUl4c6/zezW3czov3pqspjmmbz12xzFSZDpvGJRx8l6Cm1a0xGxPzP2p8vsxurAsrlW4g0pykI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778103378; c=relaxed/simple;
-	bh=g2gTSm0Xn06tTbWQMYs9+0zqL22HjasOMjUgnvdT3OE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=H4EU6sQFe5DPzLHkrJxYZCaeB4iYMVKm/5ndRaVg587m8fEXx6KGJfg8x7lbPqcLUzjTjMAbwLZMs1ScRd6HYGzjZYBMx4/rd8PpGYBgNzoyt2xLsjihKg9iqYfyAATREYL1hKl3uviVhujHgriMG6wDfqmFpA+/kz6aRtnDuvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=lgRmXONr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FPcwi7+H; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="lgRmXONr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FPcwi7+H"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 73CF7140009C;
-	Wed,  6 May 2026 17:36:16 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 06 May 2026 17:36:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778103376;
-	 x=1778189776; bh=2i+OyQS09XZNh69e+3fgbxGfkkFN3izUXIbJEUWyssw=; b=
-	lgRmXONrmb2h20/WtuocCHbZU9KH1T+AOaNuDjDPXjuv/EFpacXcehB8LuTubRTi
-	T2vfBcpHJc0EzoG8fUpQqbrq000HH9xuglzTWZqs929lUouRMQoQaDob2AuiasIZ
-	Vku6h8BrjJCTZb3J2SmjO0yQKxSaVWlgDa+HKxU3gpKU43bv/FZ/9qkSc7J69wF3
-	39w9sRfoaqvUEW3DwI67oi7QlaTMLukPmCON2Ji1XQTdIMOTHZpExG8h9bS1JKZS
-	sd1hmNxYsAAGtVC6xqmn/9NPMj95tsKWaiK98qASb3zcUnucPQmazAR8xXL457hz
-	vvbI1x+Eu9eo35Cb/yxyoQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778103376; x=
-	1778189776; bh=2i+OyQS09XZNh69e+3fgbxGfkkFN3izUXIbJEUWyssw=; b=F
-	Pcwi7+HEwfEiBfprBBCHe7Td5cKw1Mj/7xBUQ32S9vedehq/MfIVueoUIqNa4efF
-	ZlaTVrvUunJZSoAdqY9vv7ZV8Ok6nqC97gGVnl5NPfDpcHLmzlFkluUbkDDsYCvZ
-	FGhyqE4C+GWYkg+QsGP2H0moDZu7CojBG6BoMwnq5to31LBBA+evjcLKaSgeT9iq
-	EKea6lGtd1GUdjNBJ2e055GN5JN9RcdDNcndkZojna/wMYXKsBjnlpi65SnszZB8
-	4lx0H012xMXJU0t9ywRvUXkyYzeAk0L1pSz+RY/2z/t1WWqoIdbGolgH8bm7frDD
-	ofOss39uh9M50EtmXFHcA==
-X-ME-Sender: <xms:ULT7aUOZPNprmM2JqygFX0iKvwH-wpT9pfvADPRL0pk7dYI4-mpNCQ>
-    <xme:ULT7aUTjMKWfyHhCuP9wRtxm1BJSaDdfWv-Fuux96G68nLgfUW0KErMDWTDVcrTXr
-    KZJ-8D2bxojeuv4rUSEB-NKCnt5DWQWoIcVp5U6TK8fZdgCYb7uDw>
-X-ME-Received: <xmr:ULT7aSirJSMpDQ1DU1j_2sXBaXA_XKv4a6ObQCgPKRM4PmNpWEtSapW7uwvmlmJuqRMBirNpEYJyQQgfvBNlRu7VhtFYml-ccJA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdehieekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffhvfevfhgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeelleegudduueffuddvteegffehudeuieffledtudehkeehffegteegfeeh
-    vedtteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlih
-    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqfhhsuggvvhgvlhes
-    vhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghrvg
-    guihdrhhhu
-X-ME-Proxy: <xmx:ULT7ad_u39ZxMXZk0ZPWPlxzVDiS1ktjpDnvHdBMQlLKyalC_pmpzg>
-    <xmx:ULT7aZGFkVPo-b7nhX4I_hWEpaWCHl3mz_tZQuU0j2Co6UiyaEnCOg>
-    <xmx:ULT7aQkpcDFUkUwNmD2Wu9g8NOitKGFlk1KxI1fxn-JC6CRL0L4sLA>
-    <xmx:ULT7adZqL18ndDeTHt-JwvI7b0NlnLeTrUTrnWa8V8n9MoGU-mOarw>
-    <xmx:ULT7acdJO0Qdlp8kGwSdHgmaix4ks-yoM288iCQz_4TXm9Q5xxlsp8hg>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 May 2026 17:36:12 -0400 (EDT)
-Message-ID: <39b1d822-e198-4f9b-8469-9424f165979e@bsbernd.com>
-Date: Wed, 6 May 2026 23:36:10 +0200
+	s=arc-20240116; t=1778143021; c=relaxed/simple;
+	bh=ZvNaRGxYzM8R4XTfEtjMDhYIB2GeaeNTjG3TbY9DuYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=unxx2sg/xiRnjp4p+xfXtD7qNhwtAVAOzLbeL5s2mEgaBDoiagWODHD/QHimnFcWlDuTPLm1TvIGeCVgkrax/Q/Y3m7UbDGXV0/Yo03oHnMM5zityLLzuAhiVmAivjqgc8uOD9hx++8PdYRpCCLSy9pQy/pjr6IcCIMCAy/GdNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (unknown [213.147.98.98])
+	by smtp01-ext2.udag.de (Postfix) with ESMTPA id 44C3FE0944;
+	Thu,  7 May 2026 10:31:06 +0200 (CEST)
+Authentication-Results: smtp01-ext2.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Thu, 7 May 2026 10:31:04 +0200
+From: Horst Birthelmer <horst@birthelmer.de>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fuse: add fusex filesystem
+Message-ID: <afxK2HSiwY32KaWw@fedora>
+References: <20260429102058.1362965-1-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHSET 2/2] libfuse: new mount service container fixes
-From: Bernd Schubert <bernd@bsbernd.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: joannelkoong@gmail.com, neal@gompa.dev, fuse-devel@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, miklos@szeredi.hu
-References: <20260505052133.GR7765@frogsfrogsfrogs>
- <177795853647.1133612.5178638086120838710.stgit@frogsfrogsfrogs>
- <605ed94c-82f8-430f-b753-99b06eec27fa@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <605ed94c-82f8-430f-b753-99b06eec27fa@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260429102058.1362965-1-mszeredi@redhat.com>
 
+On Wed, Apr 29, 2026 at 12:20:57PM +0200, Miklos Szeredi wrote:
+> This stands for "fuse extended/experimental".
+> 
+> The purpose is to provide a clean base for big features like the FUSE_IOMAP
+> api.
+> 
+> It's also a good way to try new stuff like file handles and compound
+> requests without the risk of breaking something in the large and complex
+> fuse codebase.
+> 
+> Whether these features will be migrated back into the main fuse codebase,
+> or fusex is going to end up as a major version update is still up in the
+> air.
+> 
+> Major differences from regular fuse:
+> 
+>  - local filesystem mode only
+>  - only synchronous FUSE_INIT is supported
+>  - only no-open mode
+>  - new requests:
+>    + FUSE_LOOKUP_ROOT - return nodeid of root
+>    + FUSE_LOOKUPX - FUSE_LOOKUP without the getattr
+>    + FUSE_MKOBJX - merged FUSE_MKNOD, MKDIR, SYMLINK and TMPFILE
+>    + FUSE_SETSTATX - extended version of FUSE_SETATTR
+> 
+> Missing features:
+> 
+>  - file handles / export ops
+>  - compound requests
+>  - xattr caching
+>  - fileattr
+>  - fiemap
+>  - ioctl
+>  - copy_file_range
+>  - lazy dir open
+> 
+> Test server can be found at:
+> 
+>   https://github.com/szmi/fuse-utils
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+> 
+...
 
+Hi Miklos,
 
-On 5/6/26 23:27, Bernd Schubert wrote:
-> 
-> 
-> On 5/5/26 07:23, Darrick J. Wong wrote:
->> Hi all,
->>
->> This is a collection of bug fixes and cppcheck cleanups for the new fuse
->> service container code.
->>
->> With a bit of luck, this should all go splendidly.
->> Comments and questions are, as always, welcome.
-> 
-> Hi Darrick,
-> 
-> do you have by any chance a branch I could pull from? With PATCHSET 1 in
-> the same thread I don't know how to handle it with "b4 shazam".
-> Alternatively, I'm also open to learn new b4 or git am commands.
-> 
-> I will try to review it at airport or during the flight, but would
-> reallu help me, if I could just get the patches into a branch for
-> offline processing.
-> 
+I really like the new shiny fusex. It just has one heavy drawback for me. 
+It is not set to support remote file systems.
 
-Sorry, never mind, just found the pull request mail. Thanks a lot for
-that! Pull and pushed to my github repo. Let's see how tests go :)
+I have a coupe of questions that I would like to ask here on the list.
+What was the reasoning behind this? Complexity, lack of interest from the community/users of fuse?
 
+Where do you see the biggest challenge for this. To me, it doesn't look impossible to add that,
+but I'm sure I'm missing a lot in this context.
 
 Thanks,
-Bernd
-
-
-
+Horst
