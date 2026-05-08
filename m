@@ -1,31 +1,43 @@
-Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02BF40DFDE
-	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 17:36:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59329250BF2;
+	Fri,  8 May 2026 17:45:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778261813; cv=none; b=oyWHJDrlFb6nHCYpci6IJrTZRe1BeujKkd2NzqOJu4NrOgPbvIxyS+WLSLwuwESTpS7DZ3nT57lvbxRJH5LkrANkyLVlD48Ujb5OVkwOD3k3DbaDkrmZGRqcdQEAjfIOClWcZfJuBbj95KT08tVWyN1RgyuDoz4kJnXvP7cdV+A=
+	t=1778262313; cv=none; b=GE0Uqa8hoC6t6K9O7uYEL+pUH6NX1RfGPeJk3d5E/1b2C41gXQNLAD0x+7KdbJztVqkzIINQQSKD1BbYS2hZTAPr0CGR7a+/zxYsM1fQ/XLY7Azg0uKbiieaOTRvFpnkgj9+oPhiWvVDVQKyerzvzVz/AZTdKuo25enSLLNZegI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778261813; c=relaxed/simple;
-	bh=3zWJyKs3KACWzczwpPCufRtipMTJCgItkIObQl3U6yA=;
+	s=arc-20240116; t=1778262313; c=relaxed/simple;
+	bh=xz27O53rxIcMwi2WRA9mJiwEwuoeF1D8A5uESEn/3JQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b+nfaOlv9dXyAu4nWZZyu9gRLumRFAtC8na+kqshiKwIHfCsAhKufKfYqWnAAQ/5KeEaSJCV0eUdUI6UiucjaDdctQftPatac5BUYRpgPYWiXrIYHdZEn8CJSzS2Ot7iB7BC4RAdRfzYuKxx1Tgeirc7j/2fj7AB6EOh2RtWZoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (204-141-067-156.ip-addr.inexio.net [156.67.141.204])
-	by smtp03-ext2.udag.de (Postfix) with ESMTPA id D969EE03DF;
-	Fri,  8 May 2026 19:29:44 +0200 (CEST)
-Authentication-Results: smtp03-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Fri, 8 May 2026 19:29:44 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH] fuse: add fusex filesystem
-Message-ID: <af4clh11ik-DYbiF@fedora.fritz.box>
-References: <20260429102058.1362965-1-mszeredi@redhat.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZVHFKuzKiE5Z3EhgJE4+lkOTZmX4kkP7LM1enLuX6RUUCQUtWOmq2iTVr+GqeCvDGx2utua+e6UOH2APL3sv5rJ5DyQQhnkN2wcZalG1cY5g75xrzucLf43HqHFX6JgNoNtGLBhQiKMNTlhIG2MZfiSKC54ruMgwbqyPSe1Lfew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EfhEG22r; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EfhEG22r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 008C0C2BCB0;
+	Fri,  8 May 2026 17:45:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778262313;
+	bh=xz27O53rxIcMwi2WRA9mJiwEwuoeF1D8A5uESEn/3JQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EfhEG22rMx4YL638YJ+pAsd0++PrXDaiQVhyNt62IPuRHQu2W3LyPhjFtTlzMqYtn
+	 AywcVgWc+Snjo2i7wFkmeNTNz3MJ6L+irV/BOMNn4KC5g3ffHjwjRMZhRfgbidx//z
+	 bJjUA3ysPy/w2y8b1wMvZvMUuNFdcg99nnXNbcujQLr9yMjgYCKXNWMzX3meuV4FCt
+	 ou1TNNaH3pV8jL0lSdDJSD07XB96ITVdFKgzCI4kDgDHI59zZPhm9C6ps9ZY+wsyLr
+	 K77MiCOT9E9clFqvb9YjbfozXMj1BbU4KW4PlKbqVuCNys5JFZ7aKPtkV/mP5ESeOT
+	 6C7zH1MvtGb5g==
+Date: Fri, 8 May 2026 10:45:12 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
+	neal@gompa.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/1] mount_util: fix mount_flags entries for MS_RDONLY
+Message-ID: <20260508174512.GD2241589@frogsfrogsfrogs>
+References: <177819197881.3490692.13850589276777261250.stgit@frogsfrogsfrogs>
+ <177819197899.3490692.5280827494230619038.stgit@frogsfrogsfrogs>
+ <6276b3d6-cc8c-4e37-b670-ff2a25c69686@bsbernd.com>
+ <20260508154400.GC2241589@frogsfrogsfrogs>
+ <4a4dda92-4c60-471f-8afc-6afa68d06f2c@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -34,211 +46,87 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260429102058.1362965-1-mszeredi@redhat.com>
+In-Reply-To: <4a4dda92-4c60-471f-8afc-6afa68d06f2c@bsbernd.com>
 
-On Wed, Apr 29, 2026 at 12:20:57PM +0200, Miklos Szeredi wrote:
-> This stands for "fuse extended/experimental".
+On Fri, May 08, 2026 at 06:44:25PM +0200, Bernd Schubert wrote:
 > 
-> The purpose is to provide a clean base for big features like the FUSE_IOMAP
-> api.
 > 
-> It's also a good way to try new stuff like file handles and compound
-> requests without the risk of breaking something in the large and complex
-> fuse codebase.
+> On 5/8/26 17:44, Darrick J. Wong wrote:
+> > On Fri, May 08, 2026 at 12:43:14PM +0200, Bernd Schubert wrote:
+> >>
+> >>
+> >> On 5/8/26 00:13, Darrick J. Wong wrote:
+> >>> From: Darrick J. Wong <djwong@kernel.org>
+> >>>
+> >>> MS_RDONLY maps to MOUNT_ATTR_RDONLY in the new fsmount API, but the
+> >>> table omitted that.  Fix that.
+> >>>
+> >>> Fixes: 0d7e72541564a5 ("Unify mount flag structures and remove redundant is_mount_attr field")
+> >>> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> >>> ---
+> >>>  lib/mount_util.c |    4 ++--
+> >>>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>>
+> >>>
+> >>> diff --git a/lib/mount_util.c b/lib/mount_util.c
+> >>> index 1a0aec9bfe1a70..7ab1dba91e28e3 100644
+> >>> --- a/lib/mount_util.c
+> >>> +++ b/lib/mount_util.c
+> >>> @@ -110,8 +110,8 @@
+> >>>  
+> >>>  const struct mount_flags mount_flags[] = {
+> >>>  /* opt            flag             on  safe  mount_attr */
+> >>> -{"rw",           MS_RDONLY,        0,  1,    0},                      /* fsconfig */
+> >>> -{"ro",           MS_RDONLY,        1,  1,    0},                      /* fsconfig */
+> >>> +{"rw",           MS_RDONLY,        0,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+> >>> +{"ro",           MS_RDONLY,        1,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+> >>>  {"suid",         MS_NOSUID,        0,  0,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+> >>>  {"nosuid",       MS_NOSUID,        1,  1,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+> >>>  {"dev",          MS_NODEV,         0,  1,    MOUNT_ATTR_NODEV},      /* fsmount  */
+> >>>
+> >>
+> >> Hi Darrick,
+> >>
+> >> I had already pulled this the night before and it fails the new tests as
+> >> well. I think issue is that ro needs to be done via fsmount(...,
+> >> MOUNT_ATTR_RDONLY) *and* fsconfig(SET_FLAG, "ro"). I'm going to add a
+> >> new column into const struct mount_flags mount_flags[].
+> > 
+> > Ewww, you're right.  util-linux also special-cases this, and in a weird
+> > way:
+> > 
+> >        Since version 2.41, libmount has the ability to use optional
+> >        arguments vfs and fs (e.g. ro=fs) to specify where the read-only
+> >        setting should be applied. For example, using the command:
+> > 
+> >           mount -o ro=vfs /dev/sdc1 /A
+> > 
+> >        will mount the filesystem as read-write on the superblock level,
+> >        but the /A node will be set as read-only. In previous versions,
+> >        this required an additional "-o bind,remount,ro" operation to
+> >        achieve the same result.
+> > 
+> > "ro=vfs" means apply it to the mount but don't tell the filesystem;
+> > "ro=fs" means apply tell it to the filesystem, but not the mount;
+> > and plain "ro" means apply it to both?  Apparently??
+> > 
 > 
-> Whether these features will be migrated back into the main fuse codebase,
-> or fusex is going to end up as a major version update is still up in the
-> air.
-> 
-> Major differences from regular fuse:
-> 
->  - local filesystem mode only
->  - only synchronous FUSE_INIT is supported
->  - only no-open mode
->  - new requests:
->    + FUSE_LOOKUP_ROOT - return nodeid of root
->    + FUSE_LOOKUPX - FUSE_LOOKUP without the getattr
->    + FUSE_MKOBJX - merged FUSE_MKNOD, MKDIR, SYMLINK and TMPFILE
->    + FUSE_SETSTATX - extended version of FUSE_SETATTR
-> 
-> Missing features:
-> 
->  - file handles / export ops
->  - compound requests
->  - xattr caching
->  - fileattr
->  - fiemap
->  - ioctl
->  - copy_file_range
->  - lazy dir open
-> 
-> Test server can be found at:
-> 
->   https://github.com/szmi/fuse-utils
-> 
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
-> 
-> Patch is against
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#for-next
-> 
->  fs/fuse/Makefile          |    2 +-
->  fs/fuse/args.h            |    1 +
->  fs/fuse/dev.c             |   13 +-
->  fs/fuse/dir.c             |    4 +-
->  fs/fuse/fuse_i.h          |    8 +
->  fs/fuse/fusex.c           | 1751 +++++++++++++++++++++++++++++++++++++
->  fs/fuse/fusex.h           |    4 +
->  fs/fuse/inode.c           |   16 +-
->  include/uapi/linux/fuse.h |   36 +
->  9 files changed, 1826 insertions(+), 9 deletions(-)
->  create mode 100644 fs/fuse/fusex.c
->  create mode 100644 fs/fuse/fusex.h
-> 
-> diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
-> index 245e67852b03..d9963e411b62 100644
-> --- a/fs/fuse/Makefile
-> +++ b/fs/fuse/Makefile
-> @@ -12,7 +12,7 @@ obj-$(CONFIG_VIRTIO_FS) += virtiofs.o
->  
->  fuse-y := trace.o	# put trace.o first so we see ftrace errors sooner
->  fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o req_timeout.o req.o
-> -fuse-y += poll.o notify.o
-> +fuse-y += poll.o notify.o fusex.o
->  fuse-y += iomode.o
->  fuse-$(CONFIG_FUSE_DAX) += dax.o
->  fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o backing.o
-> diff --git a/fs/fuse/args.h b/fs/fuse/args.h
-> index ecfe51a192af..1c1e0a25ea07 100644
-> --- a/fs/fuse/args.h
-> +++ b/fs/fuse/args.h
-> @@ -35,6 +35,7 @@ struct fuse_args {
->  	bool out_pages:1;
->  	bool user_pages:1;
->  	bool out_argvar:1;
-> +	bool out_var_alloc:1;
->  	bool page_zeroing:1;
->  	bool page_replace:1;
->  	bool may_block:1;
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 6fe0d8c263df..134572b1a9af 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -1847,15 +1847,24 @@ int fuse_copy_out_args(struct fuse_copy_state *cs, struct fuse_args *args,
->  
->  	reqsize += fuse_len_args(args->out_numargs, args->out_args);
->  
-> -	if (reqsize < nbytes || (reqsize > nbytes && !args->out_argvar))
-> +	if (reqsize < nbytes)
->  		return -EINVAL;
-> -	else if (reqsize > nbytes) {
-> +
-> +	if (args->out_argvar) {
->  		struct fuse_arg *lastarg = &args->out_args[args->out_numargs-1];
->  		unsigned diffsize = reqsize - nbytes;
->  
->  		if (diffsize > lastarg->size)
->  			return -EINVAL;
->  		lastarg->size -= diffsize;
-> +
-> +		if (args->out_var_alloc) {
-> +			lastarg->value = kvmalloc(lastarg->size, GFP_KERNEL);
-> +			if (!lastarg->value)
-> +				return -ENOMEM;
-> +		}
-> +	} else if (reqsize > nbytes) {
-> +		return -EINVAL;
->  	}
->  	return fuse_copy_args(cs, args->out_numargs, args->out_pages,
->  			      args->out_args, args->page_zeroing);
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index be41c14ef329..cbe0d4b65d49 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -542,7 +542,7 @@ int fuse_valid_type(int m)
->  		S_ISBLK(m) || S_ISFIFO(m) || S_ISSOCK(m);
->  }
->  
-> -static bool fuse_valid_size(u64 size)
-> +bool fuse_valid_size(u64 size)
->  {
->  	return size <= LLONG_MAX;
->  }
-> @@ -2485,7 +2485,7 @@ static int fuse_symlink_read_folio(struct file *null, struct folio *folio)
->  	return err;
->  }
->  
-> -static const struct address_space_operations fuse_symlink_aops = {
-> +const struct address_space_operations fuse_symlink_aops = {
->  	.read_folio	= fuse_symlink_read_folio,
->  };
->  
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 3a7ac74a23ed..fe66281b7554 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -69,6 +69,9 @@ extern struct mutex fuse_mutex;
->  extern unsigned int max_user_bgreq;
->  extern unsigned int max_user_congthresh;
->  
-> +extern struct kmem_cache *fuse_inode_cachep;
-> +extern const struct address_space_operations fuse_symlink_aops;
-> +
->  struct fuse_forget_link;
->  
->  /**
-> @@ -911,6 +914,8 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
->  int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name,
->  		     struct fuse_entry_out *outarg, struct inode **inode);
->  
-> +void fuse_umount_begin(struct super_block *sb);
-> +
->  /*
->   * Initialize READ or READDIR request
->   */
-> @@ -1102,6 +1107,7 @@ void fuse_ctl_remove_conn(struct fuse_conn *fc);
->   * Is file type valid?
->   */
->  int fuse_valid_type(int m);
-> +bool fuse_valid_size(u64 size);
->  
->  bool fuse_invalid_attr(struct fuse_attr *attr);
->  
-> @@ -1204,6 +1210,8 @@ struct posix_acl *fuse_get_acl(struct mnt_idmap *idmap,
->  int fuse_set_acl(struct mnt_idmap *, struct dentry *dentry,
->  		 struct posix_acl *acl, int type);
->  
-> +void fuse_convert_statfs(struct kstatfs *stbuf, struct fuse_kstatfs *attr);
-> +
->  /* readdir.c */
->  int fuse_readdir(struct file *file, struct dir_context *ctx);
->  
-> diff --git a/fs/fuse/fusex.c b/fs/fuse/fusex.c
-> new file mode 100644
-> index 000000000000..98e239e7e00e
-> --- /dev/null
-> +++ b/fs/fuse/fusex.c
-> @@ -0,0 +1,1751 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include "fusex.h"
-> +#include "dev.h"
-> +#include "fuse_i.h"
-> +
-> +#include <linux/fs_context.h>
-> +#include <linux/miscdevice.h>
-> +#include <linux/xxhash.h>
-> +#include <linux/pagemap.h>
-> +#include <linux/exportfs.h>
-> +#include <linux/iversion.h>
-> +#include <linux/posix_acl_xattr.h>
-> +#include <linux/statfs.h>
-> +#include <linux/falloc.h>
-> +#include <linux/fs_parser.h>
-> +
+> I just sent out a new patch series that fixes plain "ro". Thanks for
+> looking it up in util-linux, I see "ro=vfs/fs" as new feature and
 
-I think you're missing 
-#include <uapi/linux/magic.h>
-here for FUSE_SUPER_MAGIC
+Yeah, I know.  TBH I wonder how much of the fsdevel community knows that
+this was done -- I certainly would have remained ignorant if you hadn't
+noticed this. :(
 
+> already spent the entire (public holi)day on this series (there was
+> another critical sync-init issue, when sync-init was actually not used).
+> I.e. I'm going to ignore the "weird ways" for now.
+
+<nod> I'm a little preoccupied with cleaning up the fuse-iomap patchsets
+right now, but I'll have time to look at your fixpatches after lunch.
+
+--D
+
+> 
+> Thanks,
+> Bernd
