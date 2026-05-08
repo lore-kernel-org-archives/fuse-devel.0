@@ -1,81 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF8334F275;
-	Thu,  7 May 2026 22:15:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9BA35E94F
+	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 09:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778192138; cv=none; b=kR2QjE1fVgUBSzAvZJN9jsZekOI0UR0MPJgNdnDycKv6RBbUEHx0Hn1kMbivbpxUWzXBAxhrI0UgiGYvPX621IU2+wXJB2W/hWVl9nYMAK2BReWnrEOHx+7yVpo8gw1suI7nM8fLsriSRlfXbBIATzVPWXey4bkMewMr9zxhBvg=
+	t=1778231199; cv=none; b=oj6vzygWg7GNERUwlK9w0UdectJ8RSzi4FNdlPMprawthaT4/nIfjSZKZrClt2pRZHxwpana1qYJaBVR5LUWLi8/b1RtPNb0Fz10gvBsI/EEJaIyk6MQwVq0IylVrj6ZYZnXxBrXR2e/C4mhZbviPdyCQHI6+OR0GsI8ZeyfEkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778192138; c=relaxed/simple;
-	bh=prfIspbcNGkk8uRbdEyV4zYoStxvNR4/N23FNTVFrEA=;
-	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=pmU0y9eyT0xcMLlP/GrJuM+IiU3/vkARB1BodCJExOIbV97lupbLnffCC4gWXRlnO0yLRTym/GIrgMry5UQeLMenQnq9WhY9paKoEa+EwZRX6hok3hC3Hugq2b/WdluZcys0VUyeGdQNTi0umzGk7UyBEdn1vvqql8R17vixLOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkR5X/H/; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkR5X/H/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2792C2BCB2;
-	Thu,  7 May 2026 22:15:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778192138;
-	bh=prfIspbcNGkk8uRbdEyV4zYoStxvNR4/N23FNTVFrEA=;
-	h=Date:Subject:From:To:Cc:From;
-	b=bkR5X/H/CG0IGJkfbMjzAOSX5KkWTmVkd4B17gK/Lp102EHhmBftVZF5SI+qHcvhT
-	 A05xjx49yjQ8vhCJf3SLNGSbt5ZkXvonGM/R0eD8TRPjTNujuxZVw9i+xfry7pIgHV
-	 PLnyWtHUlidvdsyxKWULKMdBhYGwYh2Q05pNC3CF6CHndR1rCxE0sLMNhQj65GF2jS
-	 hPFWzqUF0jKIqbpBUjXYRUXySTRAiB5Ld2h2IGFc8TIebIoEQBoICVePzHdAvZ65y6
-	 fMOVXFZg7dlDqXKnFVczT+ICq5CipepKH25/JU3AFKC9ygO1wlBc5flIsl3RP3uvEG
-	 UiH4iRQV7ctfw==
-Date: Thu, 07 May 2026 15:15:37 -0700
-Subject: [GIT PULL 2/2] libfuse: new mount service container fixes
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com, djwong@kernel.org
-Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com, linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev
-Message-ID: <177819210392.3493306.2682111795524189776.stg-ugh@frogsfrogsfrogs>
+	s=arc-20240116; t=1778231199; c=relaxed/simple;
+	bh=KrRS/ePXYWkgYzdAI8tz+yrjyGF1OE0KtTEjLQtKrGs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vFHWziCWhV1QkQO85mvieRJIsAJhMd3I18hH/NsTGrhHN77suTVkcK3EOHMl/i3OMHaMBvGpLlBOr1TJrUuywCT02vwwSQ/qrkaG6dKLFYa5IpAzA+A+k/uU/GVjPC2uQEA2foozIY86d/Zn9fTSv0yDQDBTHAQjs7kB6X0Jhrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 542AD68BEB; Fri,  8 May 2026 11:06:35 +0200 (CEST)
+Date: Fri, 8 May 2026 11:06:34 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, brauner@kernel.org, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, hch@lst.de
+Subject: Re: [PATCH 2/2] iomap: allow NULL swap info bdev when activating
+ swapfile
+Message-ID: <20260508090634.GA20688@lst.de>
+References: <177747204299.4101605.7457046403791125680.stgit@frogsfrogsfrogs> <177747204350.4101605.17012857152206455463.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177747204350.4101605.17012857152206455463.stgit@frogsfrogsfrogs>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi Bernd,
+> +	/* Swapfiles must be backed by a block device */
+> +	if (!iomap->bdev)
+> +		return iomap_swapfile_fail(isi, "is not on a block device");
+> +
+> +	if (iter->pos == 0 && !isi->sis->bdev)
+> +		isi->sis->bdev = iomap->bdev;
 
-Please pull this branch with changes for libfuse.
+My gut feeling is still that I'd rather have this in the caller than
+hidden in iomap.
 
-As usual, I did a test-merge with the main upstream branch as of a few
-minutes ago, and didn't see any conflicts.  Please let me know if you
-encounter any problems.
+> +	/*
+> +	 * If this swapfile doesn't have a block device, reject this useless
+> +	 * swapfile to prevent confusion later on.
+> +	 */
+> +	if (sis->bdev == NULL) {
 
---D
+normal kernel style would be "if (!sis->bdev)"
 
-The following changes since commit 1760a7221342ada367b5102641e3ecc9f03f7805:
+> +		pr_warn(
+> + "swapon: No block device for swap file but usage pages?!\n");
 
-mount_util: fix mount_flags entries for MS_RDONLY (2026-05-07 15:12:21 -0700)
-
-are available in the Git repository at:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container-fixes_2026-05-07
-
-for you to fetch changes up to 40dc96cf32cfd72bee7b2e23d2ccadd98795c9f0:
-
-mount_service: use the mount_flags table instead of declaring our own (2026-05-07 15:12:21 -0700)
-
-----------------------------------------------------------------
-libfuse: new mount service container fixes [02/11]
-
-This is a collection of bug fixes and cppcheck cleanups for the new fuse
-service container code.
-
-With a bit of luck, this should all go splendidly.
-
-Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-
-----------------------------------------------------------------
-Darrick J. Wong (1):
-mount_service: use the mount_flags table instead of declaring our own
-
-util/mount_service.c | 51 +++++++++++++--------------------------------------
-1 file changed, 13 insertions(+), 38 deletions(-)
+Also non-XFS code tends to just put this onto the pr_warn line even
+if it is less readable (and XFS code tends to not do an empty space).
 
