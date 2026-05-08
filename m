@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE4E40B6C0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A8140626E
 	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 16:39:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778258353; cv=none; b=Z+23O/LdvRrMU9hlPKxhP80awNcbVoEivBepo82yjTqyKik7If6BEzfWp5bCVjfBEEi4pOvqMlMONzt8BPeXIFS4vFzMTWqSlvRq8h/oNFVH7RcKlBKJephp9EI9GObVUv7Pecz1z4x8TXRhWFpx4sZ8kXdi4Yz1X9C3mW8qy5o=
+	t=1778258353; cv=none; b=b0r9p+tpcPhADzH1yvSyoVQMXmiNwZXAYXXzSVkq8NpuXvlXu6TdR+2KlBEKejChmEZZbXqEvLdk19odMHkHGWOTte5SvF+l7OUd4G4vCs4qw1kzhXD99Pc/TbcM7jYz94bJhYp6mRkBpuY0vFwrxKVXAwvPjyFKnYAKDOfbjv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778258353; c=relaxed/simple;
-	bh=2IWrwV29sG+RAflVR/phzfSN46RdefPRfwcLdx6Iouk=;
+	bh=T44q8fAgMDVu/h6i8qsg0354DuXFMos7GeWjhTQ8AwM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hHwwmqpcSpzsUSTB3FKpHQtQ7l4v79jeNbO5D6aEdQSg/FWqboS+U6YB6J+Te5nh8semfA3pMGIJLM4MrnSWHUZPeZyL0vtVyc2EzmTpRHxAXZtHbxWE97UYFHdrHZMTi9InCdvWPHGz6Ur+dn/PXi/RwpHg0rkZEFvJUkjbqIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=moLSj+No; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=rXCPQZdlAJk3hsd2It/pwOEKjpjWvirfvAHItD50jIRoIEFWIKZ/OZg+ZyRPz54SwngrkMfXQ2bDZNPrGMVNtWn4KOOfXB7GHkhl1LcwP6ZB6r9Xmqx350voYs/+Pjh8RfZjMALhSAa+Oggdt8CBpU58l5t3M4MgD8tkJy2H/ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TnDBOON7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="moLSj+No"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A658C2BCFB;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TnDBOON7"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 36DFEC2BCF6;
 	Fri,  8 May 2026 16:39:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1778258353;
-	bh=2IWrwV29sG+RAflVR/phzfSN46RdefPRfwcLdx6Iouk=;
+	bh=T44q8fAgMDVu/h6i8qsg0354DuXFMos7GeWjhTQ8AwM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=moLSj+NoDE9F2I3OtjoGsbgp3ilmdgayeLut7vUKq1OlrdgBvt1jlVDJfcO0Dpkgf
-	 INM6p+iPiGSFX6BpkpOY5eF9HT/N2Dmgdb0mG5316LjFIcVImGzD08uu8Ncg9Igz+A
-	 +M+RAv01v+9gUT6mQbexF85V4Tqc/yUf3lBI/4F1gECeYriiVHMclMc7sgm8Ih0aQ0
-	 HJgb/8Ksse068z2to28j3ZbtvWXM8HWZPy39sgW+dTZ1N7TYpiD05ryWFH/glxOG1D
-	 yuNASQ4razZ31aOr1GpuAfb1JS4MVLbLQ3XklyOS7wbbRgKazhWKyzCE2WnfPhtEbX
-	 W3vIBpl/K8t+g==
+	b=TnDBOON7exgSU87K3rsFLdLwGFhCLx5/tSWUq780QK2y98Eto4Iz1Gv4kLwnL+QQQ
+	 Ghkv4Dafy9rJuZzgNaZJcnIz2k/K5Pb/trUX293YfRg010WlK+I5u2tDl3AWiEuvbW
+	 YmpVV0cnYwaJYcJ+qfc0p6lJ8zKAFCHqGoBQJSOhp+yiOw9sGr8AE83VlwOBRoYn/Y
+	 4wJwldEs5rJzCaKvOa7HxQxjXjZPPluhIpmWzUjwm6vhf86HID6EyPYHsNkxht4srE
+	 jyDQ1D2r5tZQkhlmqG+04LIzNSacbEsdDFVdQ+zFqf8mPy+lve5ExKPv3QgERUHDHn
+	 bEIBoy2b7Bzsg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22B05CD342F;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 309F0CD37A7;
 	Fri,  8 May 2026 16:39:13 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 08 May 2026 18:39:08 +0200
-Subject: [PATCH 05/10] libfuse: don't use SYNC_INIT unless asked for
+Date: Fri, 08 May 2026 18:39:09 +0200
+Subject: [PATCH 06/10] example: silence add_languages warning by setting
+ 'native: false'
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -40,20 +41,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260508-new-mount-fixes-and-tests-v1-5-c67a0893ddbc@bsbernd.com>
+Message-Id: <20260508-new-mount-fixes-and-tests-v1-6-c67a0893ddbc@bsbernd.com>
 References: <20260508-new-mount-fixes-and-tests-v1-0-c67a0893ddbc@bsbernd.com>
 In-Reply-To: <20260508-new-mount-fixes-and-tests-v1-0-c67a0893ddbc@bsbernd.com>
 To: fuse-devel@lists.linux.dev
 Cc: "Darrick J. Wong" <djwong@kernel.org>, 
  Bernd Schubert <bernd@bsbernd.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2126; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=835; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=toUVvJzkYr/8qFA1a0x89f91HXWkg5D4vmy4M5PaS6I=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGDL/Ca5NLdQVL1RsU9r0PyTOalL1xjlWrZt5e/Ymnef6f
- FTsa0ZPRykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAEzEYwkjwzOZPZyzDhrc+bco
- t/UIt7GBwhc3zQMHDoaI6rTPUzt3cx7D/9gqyWRL766Ua9denXe9eK1b2+Vh/CrTUws9XKaUXf1
- 2hB0A
+ bh=2T00swt99g8sLBC7Xl3XVQfaKOApIVe39HlqufcWIVE=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGDL/Ca4V4k0LUPy4Va197XHh6RJzIxRb+1L2/vOf1Wi67
+ ubFHzcedJSyMIhxMMiKKbJ0SeyxnfKPT1bt6/rrMHNYmUCGMHBxCsBEShYy/DMQ0qo+1KDV7Z12
+ x7jh6tzb+9cfYj9WcPEHoySzwLzpIesY/oeo9l2PDfthEnHM95ftDo0FK48IlBz7mP+G6U96QfX
+ vR3wA
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -61,58 +62,29 @@ X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
 X-Original-From: Bernd Schubert <bernd@bsbernd.com>
 Reply-To: bernd@bsbernd.com
 
-From: "Darrick J. Wong" <djwong@kernel.org>
+From: Bernd Schubert <bernd@bsbernd.com>
 
-fuse2fs calls fuse_main, then starts threads from ->init.  It doesn't
-call fuse_daemonize_early_start because I haven't ported it to use any
-of the new APIs.  I don't have io_uring enabled for fuse on my dev box.
+The C++ examples (passthrough_hp, memfs_ll) link against libfuse,
+i.e. there is no cross compilation from example/ point of view.
 
-fuse_main calls fuse_session_mount calls fuse_session_mount_new_api
-calls session_start_sync_init.  At the start of the function,
-se->want_sync_init, se->uring.enable, and daemonize.active are all
-false.  The first branch is not taken, so we call FUSE_DEV_IOC_SYNC_INIT
-and enable sync_init even though the user didn't ask for that and didn't
-prepare for it either.
-
-FUSE_DEV_IOC_SYNC_INIT succeeds, so we send the synchronous FUSE_INIT
-from mount, which calls fuse2fs' init() method.  That starts the
-background threads and returns.  Upon return to the kernel, the mount()
-now succeeds, and the next thing that fuse_main does is call
-fuse_daemonize().  Since we didn't call fuse_daemonize_early_start, the
-daemonize forks the process and the threads die with the parent.
-
-If we didn't ask for SYNC_INIT, don't enable it.  This is needed to
-maintain compatibility with older fuse servers that only support
-asynchronous FUSE_INIT.
-
---
-
-Fixes: 3e1101057aea ("fuse mount: Support synchronous FUSE_INIT (privileged daemon)")
-Signed-off-by: Darrick J. Wong <djwong@kernel.org>
-v1.2: simplify the logic even more
-v1.1: improve commit message, refine logging logic
+Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 ---
- lib/fuse_lowlevel.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ example/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-index 0e16845d..6e078e82 100644
---- a/lib/fuse_lowlevel.c
-+++ b/lib/fuse_lowlevel.c
-@@ -4475,8 +4475,11 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
- {
- 	int err, res;
+diff --git a/example/meson.build b/example/meson.build
+index 76cf2d96..31e69187 100644
+--- a/example/meson.build
++++ b/example/meson.build
+@@ -32,7 +32,7 @@ foreach ex : threaded_examples
+                install: false)
+ endforeach
  
--	if (!se->want_sync_init &&
--		(se->uring.enable && !fuse_daemonize_is_used())) {
-+	/*
-+	 * Older fuse servers do not set want_sync_init or start the new
-+	 * daemonize code, so they get async init.
-+	 */
-+	if (!fuse_daemonize_is_used() || !se->want_sync_init) {
- 		if (se->debug)
- 			fuse_log(FUSE_LOG_DEBUG,
- 					"fuse: sync init not enabled\n");
+-if platform != 'dragonfly' and add_languages('cpp', required : false)
++if platform != 'dragonfly' and add_languages('cpp', native : false, required : false)
+     executable('passthrough_hp', 'passthrough_hp.cc',
+                dependencies: [ thread_dep, libfuse_dep ],
+                install: false)
 
 -- 
 2.53.0
