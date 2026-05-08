@@ -1,141 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DB540DFC2
-	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 16:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DFF40758A
+	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 16:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778258353; cv=none; b=hSggbP4e8bXRsQZzLiKz+7Eem/jrfq1Zj1RN9UMYzZNyCGDQUfFeO0Yulq2rn/BF6CJXVY305V/Y0DduL073DjG7Mmq+GULEADdKq7osYeEH0LjiUBgu5p0tqGFrWOsMTcQYC/YDa5yzN/C2G1VE70oZwP1c9A5+HdT7KVTMkTk=
+	t=1778258670; cv=none; b=iC8mBgYYvcO8aU/HKlv4MGEFsYJvX8zyMWEL8NDFn3A5brv8A146MtLQoMwkU8DfOwzu5aGM1FxIhrmF2GECvDSqEew494X46agXU0Li9dm4pOSc7cSGxGMiCr/i9xf+iFQZf/fLrF3udoT4l2cbXH3zJ+aPI1YZgSYI8MNAcc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778258353; c=relaxed/simple;
-	bh=Hvw4Q+kI7jtczMYxAc3bLONjEtu4qMUbu5khNKjzaWA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J9UCwYjlTknLFg+24H/zgLdl8uOQmKPOUhy52Vh+a8tFpnpQuKpbjPWm+EyLGxR4SZ88o9KHiE7zdU+kbdOwUVJaTec7doY1JHRpPeQ0u9vrB5Vxyxkmt/U7KxMTdBJjrfDAmaqRRmdzjA/WVAL5uOmzfsklp5YHE/eUpJ7pkbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XYKvdMgB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778258670; c=relaxed/simple;
+	bh=aeM86RbDl9RtK20Hj6hueVqg2Eug05MOdiZz7H2B3CM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n3ElON1CN5Hc9bZa9JYY3rYcNNYRGhl9A1Vwkb5KFj/ysCVijvxucqPak647crtjXj+1VDbRRLCmPUoRReL+9LN3yF3mHeawpNKr7iYs9kfBss/ReC4FbZ6vs4mk0/vIP1zFTXbbOsVyxNh/vmPOgUmb2+X/YzVaJD5GvndfhFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=IrozEHfW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=GQPCtun2; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XYKvdMgB"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7A47FC2BCF7;
-	Fri,  8 May 2026 16:39:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778258353;
-	bh=Hvw4Q+kI7jtczMYxAc3bLONjEtu4qMUbu5khNKjzaWA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=XYKvdMgBNOq/YdnblTDxBhCP4YX4up9bUwGTwgNQ3j5xg+lWDo2Y3kMKw6rbANqFF
-	 eZd/3wT6rvaNv93UO0faErXKQ4wWjNunSGRZyU9YMslOvpWy8Z0yeqCXbLgLeIe/bZ
-	 RB/EWq3/FYYSLIbcpeSsBp2HkgIAgB4KoeXfhrK+sN6AL7VjsgnNMqTdaS4KzaQNPd
-	 HCqxev3KmqP8sBaPmKFFDJHauZwVzYGXpjoZvLo+xBYuUyhWZSe514IRDMgxOAo8TE
-	 5Eak+aXv9b+QddH+UtOeMptTtEbiG/3qlwH/mLv2TuwOsgcpmkP0PGxMQc9fccHyjW
-	 xiuXiL+NA0iqQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73D47CD37AF;
-	Fri,  8 May 2026 16:39:13 +0000 (UTC)
-From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 08 May 2026 18:39:13 +0200
-Subject: [PATCH 10/10] highlevel: Switch fuse_main_real_versioned() to
- fuse_daemonize_early()
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="IrozEHfW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="GQPCtun2"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id F3F3C1400124;
+	Fri,  8 May 2026 12:44:27 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 08 May 2026 12:44:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778258667;
+	 x=1778345067; bh=wbQyJrHL+eBAOXZGwnIrgzXT5kRpiT5/b03F0U6lfZg=; b=
+	IrozEHfWyvK6yxSS6Q/Bl5CeFS9gK3wJaTBtWpeM6AUzSZpeiROExsR0Ii6D4sf4
+	lJSLw3Fc0KewjAGMEkOQX2dI7mXl5TTWzOJSwkYBioV4pb19TFNFhyQxB4DAIRpp
+	i4vMgY7izeWC70yNtd9Mjf1AxRAH/lCV3mQ15imtBVideRBn1xoBz8MA2pWUW22x
+	ZhcV+mVXX+3PcrclqSwGJHVDpe8A9FalFeGx72QRexwMVwpcGktNkXo0UkqiU/ha
+	6z2CBEQIEQ5GJigHz9GyZ11UgEhqpiR3sP4xv9k4P1dBWaP3qcT/t7cdl7d30PQp
+	yFcaOCPExOSEUnfWU91Iaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778258667; x=
+	1778345067; bh=wbQyJrHL+eBAOXZGwnIrgzXT5kRpiT5/b03F0U6lfZg=; b=G
+	QPCtun2c7a9RhHZYe2ehAr2X/jzIEjbre5tG8+dWN/BKGpdPZZ8GPnUoCtxw0htN
+	hqUh5idA+sgTUP3bQLGkKZUzCa3YBu+YTl8zqqpTesRPPoVC/sWh7QtjZ18l+PxY
+	jugMhky0J8md+k+QDR5jgHKWwB3Pa+mfjfFoYs5hLww+TachMJrNauH3Afo3ZMvC
+	WUSdPOakNujH/EwumvYTIWgsTVIc3LwDa1VVfSj6A1dw+CrvWJNNRd4ODRBhbBKl
+	DqvPudIT5wZ46io/kkBzwMP22VvAYCiOS32by5oXR/2Xm7vRg8IcB3/u15GjRc/B
+	W/HUeZP6YlV3xdhwNPgrQ==
+X-ME-Sender: <xms:6xL-abSN2XpI-E30D2MrKBLOqaHSH2Wmpqa_m2tbdbk71CzPOfaBwA>
+    <xme:6xL-aWF9zmEKSceHGE5H9AAOCKaoFq_AS60B5BTisNkwQqPJmp0V_2M_qCadlNZQ_
+    -30nqWB-25NvgHKg4TbJv3BTaM396_HIROzpoaLVFJ_tjDGCgc>
+X-ME-Received: <xmr:6xL-aYFXckO92MUevqvSVLO0TOCWO38Dmnl-Zv3BFVMHphLdgCvU56FDX2_fXYlPSKuWEpZjqSwllnYGDp8joBeMjQyZGvES3fSiIj1Rm1Lb2cXpPQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddtkeeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepmhhikhhlohhssehsiigvrhgvughirdhhuhdprhgtphhtthhopehjohgrnhhn
+    vghlkhhoohhnghesghhmrghilhdrtghomhdprhgtphhtthhopehfuhhsvgdquggvvhgvlh
+    eslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehnvggrlhesghhomhhprgdr
+    uggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhg
+X-ME-Proxy: <xmx:6xL-acRGaYogH_lf0b0HDpVDVMpMf44xAo3cfmKSpVuq5kyZBPsXdg>
+    <xmx:6xL-aRKwH8d99Tzd-2jk82uul7y0MGu1YkSehRBw4dCdf9aLaYgBhA>
+    <xmx:6xL-afYnFCxtA_o5ZRZi0Qwfg827kZzTDY3hIvTuYYLpnc2FFiK-wg>
+    <xmx:6xL-ab_jh_bRaOK6FELosE_1nRpm17nrd6Ae7v4ceGyiI8iYe02pZg>
+    <xmx:6xL-aehZGFmEY4JvIBObUnQ0MkUw1dujkDSoKyHWVCuM4CJl24ts_Gxg>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 8 May 2026 12:44:26 -0400 (EDT)
+Message-ID: <4a4dda92-4c60-471f-8afc-6afa68d06f2c@bsbernd.com>
+Date: Fri, 8 May 2026 18:44:25 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260508-new-mount-fixes-and-tests-v1-10-c67a0893ddbc@bsbernd.com>
-References: <20260508-new-mount-fixes-and-tests-v1-0-c67a0893ddbc@bsbernd.com>
-In-Reply-To: <20260508-new-mount-fixes-and-tests-v1-0-c67a0893ddbc@bsbernd.com>
-To: fuse-devel@lists.linux.dev
-Cc: "Darrick J. Wong" <djwong@kernel.org>, 
- Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2145; i=bernd@bsbernd.com;
- h=from:subject:message-id;
- bh=CwL4o77lSnyZfSeFpGCE3rBWhucH/pM1dNHMqvfex3g=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGDL/Ca6/ctAj08ajPL1mZlFw6pb7s+we1jKWhhYquz/1n
- JnRdf1qRykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAEzkgAjDX6Fm+S0i3UYbr08I
- 9b++s2Sbz/uSe9Mm7HEvXNDrmffxzBVGhi3V8+bo+nvsO3TUs+L0wQP1//Z6vKtYdtaUrYRl0aO
- InYwA
-X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
- fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
-X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
- auth_id=772
-X-Original-From: Bernd Schubert <bernd@bsbernd.com>
-Reply-To: bernd@bsbernd.com
-
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] mount_util: fix mount_flags entries for MS_RDONLY
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
+ neal@gompa.dev, linux-fsdevel@vger.kernel.org
+References: <177819197881.3490692.13850589276777261250.stgit@frogsfrogsfrogs>
+ <177819197899.3490692.5280827494230619038.stgit@frogsfrogsfrogs>
+ <6276b3d6-cc8c-4e37-b670-ff2a25c69686@bsbernd.com>
+ <20260508154400.GC2241589@frogsfrogsfrogs>
 From: Bernd Schubert <bernd@bsbernd.com>
-
-For high level we can switch directly in that function to the new daemonize
-API. Additionally we need to check if the daemon has already acticated
-daemonization to avoid warning messages.
-
-Suggested-by: Miklos Szeredi <miklos@szeredi.hu>
-Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
----
- lib/helper.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
-
-diff --git a/lib/helper.c b/lib/helper.c
-index 4d7c2b7f..15de3fbf 100644
---- a/lib/helper.c
-+++ b/lib/helper.c
-@@ -260,6 +260,7 @@ int fuse_main_real_versioned(int argc, char *argv[],
- 	struct fuse_cmdline_opts opts;
- 	int res;
- 	struct fuse_loop_config *loop_config = NULL;
-+	bool self_daemonize = false;
- 
- 	if (fuse_parse_cmdline(&args, &opts) != 0)
- 		return 1;
-@@ -289,6 +290,21 @@ int fuse_main_real_versioned(int argc, char *argv[],
- 		goto out1;
- 	}
- 
-+	/* The application might have already started daemonization itself */
-+	if (!fuse_daemonize_early_is_active()) {
-+		int daemonize_early_flags = 0;
-+
-+		if (opts.foreground)
-+			daemonize_early_flags |= FUSE_DAEMONIZE_NO_BACKGROUND;
-+
-+		self_daemonize = true;
-+		res = fuse_daemonize_early_start(daemonize_early_flags);
-+		if (res != 0) {
-+			fuse_log(FUSE_LOG_ERR, "fuse: daemonize_early_start failed\n");
-+			goto out1;
-+		}
-+	}
-+
- 	struct fuse *_fuse_new_31(struct fuse_args *args,
- 			       const struct fuse_operations *op, size_t op_size,
- 			       struct libfuse_version *version,
-@@ -305,22 +321,14 @@ int fuse_main_real_versioned(int argc, char *argv[],
- 		goto out2;
- 	}
- 
--	/*
--	 * fuse_daemonize() already checks and fails then, but we need to
--	 * handle it gracefully here, as this is done libfuse internal
--	 * and caller didn't ask to daemonize with old API.
--	 */
--	if (!fuse_daemonize_early_is_active()) {
--		if (fuse_daemonize(opts.foreground) != 0) {
--			res = 5;
--			goto out3;
--		}
--	}
- 	if (fuse_set_signal_handlers(se) != 0) {
- 		res = 6;
- 		goto out3;
- 	}
- 
-+	if (self_daemonize)
-+		fuse_daemonize_early_success();
-+
- 	if (opts.singlethread)
- 		res = fuse_loop(fuse);
- 	else {
-
--- 
-2.53.0
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260508154400.GC2241589@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
+
+On 5/8/26 17:44, Darrick J. Wong wrote:
+> On Fri, May 08, 2026 at 12:43:14PM +0200, Bernd Schubert wrote:
+>>
+>>
+>> On 5/8/26 00:13, Darrick J. Wong wrote:
+>>> From: Darrick J. Wong <djwong@kernel.org>
+>>>
+>>> MS_RDONLY maps to MOUNT_ATTR_RDONLY in the new fsmount API, but the
+>>> table omitted that.  Fix that.
+>>>
+>>> Fixes: 0d7e72541564a5 ("Unify mount flag structures and remove redundant is_mount_attr field")
+>>> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+>>> ---
+>>>  lib/mount_util.c |    4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>>
+>>> diff --git a/lib/mount_util.c b/lib/mount_util.c
+>>> index 1a0aec9bfe1a70..7ab1dba91e28e3 100644
+>>> --- a/lib/mount_util.c
+>>> +++ b/lib/mount_util.c
+>>> @@ -110,8 +110,8 @@
+>>>  
+>>>  const struct mount_flags mount_flags[] = {
+>>>  /* opt            flag             on  safe  mount_attr */
+>>> -{"rw",           MS_RDONLY,        0,  1,    0},                      /* fsconfig */
+>>> -{"ro",           MS_RDONLY,        1,  1,    0},                      /* fsconfig */
+>>> +{"rw",           MS_RDONLY,        0,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+>>> +{"ro",           MS_RDONLY,        1,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+>>>  {"suid",         MS_NOSUID,        0,  0,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+>>>  {"nosuid",       MS_NOSUID,        1,  1,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+>>>  {"dev",          MS_NODEV,         0,  1,    MOUNT_ATTR_NODEV},      /* fsmount  */
+>>>
+>>
+>> Hi Darrick,
+>>
+>> I had already pulled this the night before and it fails the new tests as
+>> well. I think issue is that ro needs to be done via fsmount(...,
+>> MOUNT_ATTR_RDONLY) *and* fsconfig(SET_FLAG, "ro"). I'm going to add a
+>> new column into const struct mount_flags mount_flags[].
+> 
+> Ewww, you're right.  util-linux also special-cases this, and in a weird
+> way:
+> 
+>        Since version 2.41, libmount has the ability to use optional
+>        arguments vfs and fs (e.g. ro=fs) to specify where the read-only
+>        setting should be applied. For example, using the command:
+> 
+>           mount -o ro=vfs /dev/sdc1 /A
+> 
+>        will mount the filesystem as read-write on the superblock level,
+>        but the /A node will be set as read-only. In previous versions,
+>        this required an additional "-o bind,remount,ro" operation to
+>        achieve the same result.
+> 
+> "ro=vfs" means apply it to the mount but don't tell the filesystem;
+> "ro=fs" means apply tell it to the filesystem, but not the mount;
+> and plain "ro" means apply it to both?  Apparently??
+> 
+
+I just sent out a new patch series that fixes plain "ro". Thanks for
+looking it up in util-linux, I see "ro=vfs/fs" as new feature and
+already spent the entire (public holi)day on this series (there was
+another critical sync-init issue, when sync-init was actually not used).
+I.e. I'm going to ignore the "weird ways" for now.
+
+
+Thanks,
+Bernd
