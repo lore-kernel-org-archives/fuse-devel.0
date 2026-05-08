@@ -1,104 +1,244 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7B137702C
-	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 17:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02BF40DFDE
+	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 17:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778260353; cv=none; b=VZv8g+wEXhNWd4osw6zxrcw3Km1HOe68Ng5o4jZx+S352logmVSdoj03J8UyoX+TNHcI683AmleO7iWWJ6Di7s4oAGMu0/Y4YuqkoeNMnGbNy/gOPalmeSo+gys+xQv223foI/SVnOJwlhJJ6GqVVxL9HAij/IiPsKMAsvyQbYw=
+	t=1778261813; cv=none; b=oyWHJDrlFb6nHCYpci6IJrTZRe1BeujKkd2NzqOJu4NrOgPbvIxyS+WLSLwuwESTpS7DZ3nT57lvbxRJH5LkrANkyLVlD48Ujb5OVkwOD3k3DbaDkrmZGRqcdQEAjfIOClWcZfJuBbj95KT08tVWyN1RgyuDoz4kJnXvP7cdV+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778260353; c=relaxed/simple;
-	bh=frmOMZsL4Cy7rOtlD0ZsUyg+T4nxFKf8ZNdcUWYZZOM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=iKk7MGibOOa5OAnWFKVgbxw258TCup146iALLi1uQNuFHR7KnL9glHNuT//fC1fh4Fb5AZeO5gzZzk2DVNY3zsVkCCveZ0ffozbSpKIha2NHgV5Qn29icylwfDxDEAd8tP8YRCQL8ibp6TG+2rPaXUi8/vdDsXOBTc0BKe2cHnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=aBJ5f3Z1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=naZtQj/K; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="aBJ5f3Z1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="naZtQj/K"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 38E4E14000A7;
-	Fri,  8 May 2026 13:12:31 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 08 May 2026 13:12:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778260351;
-	 x=1778346751; bh=frmOMZsL4Cy7rOtlD0ZsUyg+T4nxFKf8ZNdcUWYZZOM=; b=
-	aBJ5f3Z1Xp+oWuiOJ2EHLU2WU0zPgbJMMG4VwwMrULBmgNU7Cr4fYpIcS03/+F/g
-	jQ3CHCed2bfRZ+YtGgGP/Mq7Pbq15VuO3AK39EgcHH5ZKjDen90bg9AJd5UKRLKZ
-	oeWaPrU0KCVU9L065XaHk4mrtakBB0ujfWpLoXVuXezICR8sUvA0Xv3aLJyrajog
-	j37Pa05tThMcUfZYBJSgXvYNAfjR3Z/diOL+eTAEtb6eM9lrfp9Yu5qCfHpTFjIW
-	TT2d4HYJGBu+YXVLI+27lGG7F5s1X+wzSG+7/ol/P4lDnmaINK24N0GTOrc/L6Y1
-	7QdbPyupHPL4USbm7Xzljw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778260351; x=
-	1778346751; bh=frmOMZsL4Cy7rOtlD0ZsUyg+T4nxFKf8ZNdcUWYZZOM=; b=n
-	aZtQj/KXXp0u3ZZEGgK0ByFFbD1j2Rz2IHr2nw08y5uv1ec+c04UQR6xw0whRWkU
-	t+pPf4S4H0mU8MZvXmeeL0XSgeIAr0k7ewsIqQ2nDlQpExFVY1/uBVmwCnnhosD6
-	Z1oy69W64O6Skc+9wmhE9UayMzY4oYwfgvgCpbXUgEpabUSsM61UmJYL4AlJGBp2
-	re9y6fwCCKRoPPZCG6vj44xxZwrpyFtwyuqWWeelpxmYCCY6PDGxML8/KyLkdT0p
-	foGpWu9pHOKdKl736+hyFG0A6JRsqBsIkPCTFW62EvWaDVIeYViZ9ZJJhpIaI2l2
-	SipBxFYnhaoeialThXx6A==
-X-ME-Sender: <xms:fxn-acrlwOcFMbHDWOjvS1XFqvn1KyUkiYPXKRRqP0fima5YhC4R7w>
-    <xme:fxn-ab_CuuEg8vC5WAx2FWoM0uDduxkmJ3nQ-anlwLQx14P7Jb5iO1ESaLOugdzhY
-    AjW3Z9tN4bNPCLkHaTmxYhbEaSQjfSzXQDK8YDhnTJ8MHaOpaiU>
-X-ME-Received: <xmr:fxn-aYdUBngXC8ekSRTJm26K29GORrnicYjsIg4j5pNXNeWcBOdLE-P52WVfLyjdO2U80Ei1Qgkwzjll0_XfPjPXaRv0Ii99_vf6y6XDtfWgkq4C8w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddtledvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffhvfevfhgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpefgtdduheetudejleeuieehffdugeejvefhkeevgffgkeeitefgffeiffei
-    jeeujeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
-    mhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
-    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghr
-    vgguihdrhhhupdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghv
-    pdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheplhhinhhugi
-    dqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:fxn-aVJmR1hSq0hAvPTiKoU50PR-5AgllKdrVCgSXEqKiCrFMCPJ9Q>
-    <xmx:fxn-aYiz9DmJyWJXkRcC6BJznhLuTJv44dETTpIpCO-H3CmEDvLQiQ>
-    <xmx:fxn-aTSlqvYOE-DGDtM-NwUkHmGbIszgTSVQNo2enEZ0JfWePositg>
-    <xmx:fxn-aSXrSKbXdWmwgynqiR79qcByoReO1ZVnK3vGr7M1EWiIgvJ9QQ>
-    <xmx:fxn-aR61itUtSSnZ-j42Rl9K7g1_B5T26Y_JmqcZ_JafIDi13hzxL-2q>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 May 2026 13:12:30 -0400 (EDT)
-Message-ID: <8c59846a-0e7e-4366-a8ec-206f5684284a@bsbernd.com>
-Date: Fri, 8 May 2026 19:12:29 +0200
+	s=arc-20240116; t=1778261813; c=relaxed/simple;
+	bh=3zWJyKs3KACWzczwpPCufRtipMTJCgItkIObQl3U6yA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b+nfaOlv9dXyAu4nWZZyu9gRLumRFAtC8na+kqshiKwIHfCsAhKufKfYqWnAAQ/5KeEaSJCV0eUdUI6UiucjaDdctQftPatac5BUYRpgPYWiXrIYHdZEn8CJSzS2Ot7iB7BC4RAdRfzYuKxx1Tgeirc7j/2fj7AB6EOh2RtWZoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (204-141-067-156.ip-addr.inexio.net [156.67.141.204])
+	by smtp03-ext2.udag.de (Postfix) with ESMTPA id D969EE03DF;
+	Fri,  8 May 2026 19:29:44 +0200 (CEST)
+Authentication-Results: smtp03-ext2.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Fri, 8 May 2026 19:29:44 +0200
+From: Horst Birthelmer <horst@birthelmer.de>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH] fuse: add fusex filesystem
+Message-ID: <af4clh11ik-DYbiF@fedora.fritz.box>
+References: <20260429102058.1362965-1-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHSET 2/2] libfuse: new mount service container fixes
-From: Bernd Schubert <bernd@bsbernd.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
- neal@gompa.dev, linux-fsdevel@vger.kernel.org
-References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
- <11a04b4e-db8c-423e-a351-e7fd2a8bcc7a@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <11a04b4e-db8c-423e-a351-e7fd2a8bcc7a@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260429102058.1362965-1-mszeredi@redhat.com>
 
-Hi Darrick,
+On Wed, Apr 29, 2026 at 12:20:57PM +0200, Miklos Szeredi wrote:
+> This stands for "fuse extended/experimental".
+> 
+> The purpose is to provide a clean base for big features like the FUSE_IOMAP
+> api.
+> 
+> It's also a good way to try new stuff like file handles and compound
+> requests without the risk of breaking something in the large and complex
+> fuse codebase.
+> 
+> Whether these features will be migrated back into the main fuse codebase,
+> or fusex is going to end up as a major version update is still up in the
+> air.
+> 
+> Major differences from regular fuse:
+> 
+>  - local filesystem mode only
+>  - only synchronous FUSE_INIT is supported
+>  - only no-open mode
+>  - new requests:
+>    + FUSE_LOOKUP_ROOT - return nodeid of root
+>    + FUSE_LOOKUPX - FUSE_LOOKUP without the getattr
+>    + FUSE_MKOBJX - merged FUSE_MKNOD, MKDIR, SYMLINK and TMPFILE
+>    + FUSE_SETSTATX - extended version of FUSE_SETATTR
+> 
+> Missing features:
+> 
+>  - file handles / export ops
+>  - compound requests
+>  - xattr caching
+>  - fileattr
+>  - fiemap
+>  - ioctl
+>  - copy_file_range
+>  - lazy dir open
+> 
+> Test server can be found at:
+> 
+>   https://github.com/szmi/fuse-utils
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+> 
+> Patch is against
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#for-next
+> 
+>  fs/fuse/Makefile          |    2 +-
+>  fs/fuse/args.h            |    1 +
+>  fs/fuse/dev.c             |   13 +-
+>  fs/fuse/dir.c             |    4 +-
+>  fs/fuse/fuse_i.h          |    8 +
+>  fs/fuse/fusex.c           | 1751 +++++++++++++++++++++++++++++++++++++
+>  fs/fuse/fusex.h           |    4 +
+>  fs/fuse/inode.c           |   16 +-
+>  include/uapi/linux/fuse.h |   36 +
+>  9 files changed, 1826 insertions(+), 9 deletions(-)
+>  create mode 100644 fs/fuse/fusex.c
+>  create mode 100644 fs/fuse/fusex.h
+> 
+> diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
+> index 245e67852b03..d9963e411b62 100644
+> --- a/fs/fuse/Makefile
+> +++ b/fs/fuse/Makefile
+> @@ -12,7 +12,7 @@ obj-$(CONFIG_VIRTIO_FS) += virtiofs.o
+>  
+>  fuse-y := trace.o	# put trace.o first so we see ftrace errors sooner
+>  fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o req_timeout.o req.o
+> -fuse-y += poll.o notify.o
+> +fuse-y += poll.o notify.o fusex.o
+>  fuse-y += iomode.o
+>  fuse-$(CONFIG_FUSE_DAX) += dax.o
+>  fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o backing.o
+> diff --git a/fs/fuse/args.h b/fs/fuse/args.h
+> index ecfe51a192af..1c1e0a25ea07 100644
+> --- a/fs/fuse/args.h
+> +++ b/fs/fuse/args.h
+> @@ -35,6 +35,7 @@ struct fuse_args {
+>  	bool out_pages:1;
+>  	bool user_pages:1;
+>  	bool out_argvar:1;
+> +	bool out_var_alloc:1;
+>  	bool page_zeroing:1;
+>  	bool page_replace:1;
+>  	bool may_block:1;
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 6fe0d8c263df..134572b1a9af 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -1847,15 +1847,24 @@ int fuse_copy_out_args(struct fuse_copy_state *cs, struct fuse_args *args,
+>  
+>  	reqsize += fuse_len_args(args->out_numargs, args->out_args);
+>  
+> -	if (reqsize < nbytes || (reqsize > nbytes && !args->out_argvar))
+> +	if (reqsize < nbytes)
+>  		return -EINVAL;
+> -	else if (reqsize > nbytes) {
+> +
+> +	if (args->out_argvar) {
+>  		struct fuse_arg *lastarg = &args->out_args[args->out_numargs-1];
+>  		unsigned diffsize = reqsize - nbytes;
+>  
+>  		if (diffsize > lastarg->size)
+>  			return -EINVAL;
+>  		lastarg->size -= diffsize;
+> +
+> +		if (args->out_var_alloc) {
+> +			lastarg->value = kvmalloc(lastarg->size, GFP_KERNEL);
+> +			if (!lastarg->value)
+> +				return -ENOMEM;
+> +		}
+> +	} else if (reqsize > nbytes) {
+> +		return -EINVAL;
+>  	}
+>  	return fuse_copy_args(cs, args->out_numargs, args->out_pages,
+>  			      args->out_args, args->page_zeroing);
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index be41c14ef329..cbe0d4b65d49 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -542,7 +542,7 @@ int fuse_valid_type(int m)
+>  		S_ISBLK(m) || S_ISFIFO(m) || S_ISSOCK(m);
+>  }
+>  
+> -static bool fuse_valid_size(u64 size)
+> +bool fuse_valid_size(u64 size)
+>  {
+>  	return size <= LLONG_MAX;
+>  }
+> @@ -2485,7 +2485,7 @@ static int fuse_symlink_read_folio(struct file *null, struct folio *folio)
+>  	return err;
+>  }
+>  
+> -static const struct address_space_operations fuse_symlink_aops = {
+> +const struct address_space_operations fuse_symlink_aops = {
+>  	.read_folio	= fuse_symlink_read_folio,
+>  };
+>  
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 3a7ac74a23ed..fe66281b7554 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -69,6 +69,9 @@ extern struct mutex fuse_mutex;
+>  extern unsigned int max_user_bgreq;
+>  extern unsigned int max_user_congthresh;
+>  
+> +extern struct kmem_cache *fuse_inode_cachep;
+> +extern const struct address_space_operations fuse_symlink_aops;
+> +
+>  struct fuse_forget_link;
+>  
+>  /**
+> @@ -911,6 +914,8 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+>  int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name,
+>  		     struct fuse_entry_out *outarg, struct inode **inode);
+>  
+> +void fuse_umount_begin(struct super_block *sb);
+> +
+>  /*
+>   * Initialize READ or READDIR request
+>   */
+> @@ -1102,6 +1107,7 @@ void fuse_ctl_remove_conn(struct fuse_conn *fc);
+>   * Is file type valid?
+>   */
+>  int fuse_valid_type(int m);
+> +bool fuse_valid_size(u64 size);
+>  
+>  bool fuse_invalid_attr(struct fuse_attr *attr);
+>  
+> @@ -1204,6 +1210,8 @@ struct posix_acl *fuse_get_acl(struct mnt_idmap *idmap,
+>  int fuse_set_acl(struct mnt_idmap *, struct dentry *dentry,
+>  		 struct posix_acl *acl, int type);
+>  
+> +void fuse_convert_statfs(struct kstatfs *stbuf, struct fuse_kstatfs *attr);
+> +
+>  /* readdir.c */
+>  int fuse_readdir(struct file *file, struct dir_context *ctx);
+>  
+> diff --git a/fs/fuse/fusex.c b/fs/fuse/fusex.c
+> new file mode 100644
+> index 000000000000..98e239e7e00e
+> --- /dev/null
+> +++ b/fs/fuse/fusex.c
+> @@ -0,0 +1,1751 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include "fusex.h"
+> +#include "dev.h"
+> +#include "fuse_i.h"
+> +
+> +#include <linux/fs_context.h>
+> +#include <linux/miscdevice.h>
+> +#include <linux/xxhash.h>
+> +#include <linux/pagemap.h>
+> +#include <linux/exportfs.h>
+> +#include <linux/iversion.h>
+> +#include <linux/posix_acl_xattr.h>
+> +#include <linux/statfs.h>
+> +#include <linux/falloc.h>
+> +#include <linux/fs_parser.h>
+> +
 
-could you please also look into the CodeQL reports?
+I think you're missing 
+#include <uapi/linux/magic.h>
+here for FUSE_SUPER_MAGIC
 
-https://github.com/libfuse/libfuse/pull/1444#discussion_r3144133589
-
-
-Thanks,
-Bernd
