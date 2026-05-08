@@ -1,153 +1,107 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA2EA34F25C
-	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 13:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778245293; cv=pass; b=Atf8sOG99Tn5ifdnWMQxOiSqYfHwOIU8n8T+SSdQ3LbiqBOvoNXKRAmBXj2qBFEcZEX565Gr2W0eJ+jccb+fjPn59b5eazkg3N9Njs9M2TLo8aqu2J3MbPBEfrQe/CMv4lt7kyuDWh7ZqbB5G3qHcIqQGmqkJHtCUIiAlFL2Uak=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778245293; c=relaxed/simple;
-	bh=UEqXicTfnM6HdHxwrNeRDh2kHHPbf0wyeUC9LcwMo5c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o89CiD6HWSmrbFvG+NdC7dTppmgIpJ6RlidSqir6GF0FKRfKmVrpYEWw0hVpXwgINY4AtRd0D8b34bCb/zBwsvHEKhcLkaIN9XGta16ywy4aomSRmFFReUyj727xhn6KF81/mp/auHgkhkhQyRx9hX704sTMZwmQFDDfF4Za1GE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HbXSO3uy; arc=pass smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CBB3F7A91;
+	Fri,  8 May 2026 15:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778255041; cv=none; b=gRwCrolJ2umfKRxnQ4qxGJPHCGUe2dcpCcT2PBmQ2uZ38CTuo1xZ+VfYmTVkkaqsX9ZgY9lCcI+kCAYH3GWpxTrUHD0PydW//aNaojGHhZBHQYsHGSQyoprdqY1PJpiLZ+1Zvk7R9WH17BqZ61wHYK/0Me1epj1DAnWAx17Fuj4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778255041; c=relaxed/simple;
+	bh=9AOlNXIYny778TcNMekmwJuTk/aseUjn7VrZd/MFhmg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kqX3Jfa1FXWV0bysfi0tuMjN1eBXHGq1YwzY1wbqj/gohnwxrJJA9jtMwbe9N/AnXhmHrwbTeOmt1sp7397UXsOCm5o6kw7o9RhP1PIrLnGKDWN7KFJNugf7wSVJMdw7TUp6Otgxjl16XuDbdZhw5eMXEVpGH3gezDrU6kvpd4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AC49CZb8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HbXSO3uy"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-67c2b4809baso3640138a12.3
-        for <fuse-devel@lists.linux.dev>; Fri, 08 May 2026 06:01:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778245290; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XDUIgH+zzRM4Nd7sexhksbHetENPPmAtCbBvOzk6urcllXdGWgeAtybcJQKZhDbQTX
-         tHQKrqrWs9oF4aPoQgP9ns5iRSYziB54IaL48JxYs1fzQexb5XzQYGV4DSiC4MbXBdBt
-         jaNtKHd2iC+uhsaNaPVuT92TG6dNkq2+jbkLutBVgN/vQNxtR3PcIQM/J+UEQywVeRTw
-         n76vJmNe2UWTTxN7ETzmIqnaGhH/TRq1qizMPr7/pDeMGO3XgFI23p4c6/px3R4Z+sS3
-         L4IpgT7Hq7L5Fckpt8tIIS6YIIa6Wi2nC9PFAGHbcX0hHVjcpJww5HQ/IaTVBC+S8mZv
-         0hCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eheK66B8cRyIDoMQkUeVVcUOm8ou8dWbCp5qpckbR9A=;
-        fh=AYQJtCg19bBaiJgrxF96p5+N3nPEnhDWAy5p0ZGqEI4=;
-        b=FJHkygaA7mCcvnB4MHdDuJ9qtvHcl8gesQZFuPnxlZZfFRYuHnvspnQOhAHRAUcsRj
-         U0aSjfA9zgUrmeMrGErUUOPZq4+qvjNXQwl9uBbE/Mkw5z7PdIwfSK4RvAWjj+sF0tLM
-         cJanxRMgc/SV/kWgf/98gR7uDBIf30gXarPW2LpRPr7mA3mlvtR0XJQOYpHf4kq+Q5wC
-         SGGZEy9ZVe/Vgl7MMeAnQWvDYwP9kBw0WexsTa7qZJ2HTW51NqAjGrNnPPMCGgmUdcPU
-         QhkJsL/ZzZkPC0Crnrm87EYC7Jaw56YYe3YAjCHFJT23vefKkkhXXd8s0FXr4fqKEzUu
-         Knug==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778245290; x=1778850090; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eheK66B8cRyIDoMQkUeVVcUOm8ou8dWbCp5qpckbR9A=;
-        b=HbXSO3uyV5HghefWzLaayTargFvgk9S7pJxJuhnbMgNvklL7L5IWCc0YrC6F4ZXFKm
-         JHpVdWG+og5Vf0TuMS2M3xTFYlbMgrcZg42FTcQs1lkKKqjXM+39nUCtPM2l8LRliGEv
-         s9SlpLveN1Io+0SWdf0gSMzHmjfihcxIJoB1edFgrRgKJiTQ70eRnHQXDsRm5xWlYlys
-         2h4xOy4sIZpuKIk4OJcJamLHKwC8CJNJuCV0HbMl+eAZGBSDsH330dMjrqIvb6LuE5zu
-         X33pkxXuiG7UJMi6rVRxXNOWs8Hx7J1ATgUQ3J6e0z/U07zIrOqI18Xd1s7+/ao+g1Lt
-         NglA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778245290; x=1778850090;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eheK66B8cRyIDoMQkUeVVcUOm8ou8dWbCp5qpckbR9A=;
-        b=BCsfrwviFrTLCsdR6tBUEwdZFTL9Qx3qZd8R7gMNbELPrfgV20XHCndjp6iNFp2elu
-         PD1vfMqkc+i3srWrZBrAgzBn3XYmkJKNlpa03er1t0IRNg7U4TcIKNbUp7KxryAqGW1q
-         LXIJ6l45YvHAWAegSGcYa5Mtx3StcEaTAD6QWlNIsbTrkKCC6IFKnDOEGFE14sNVWm1H
-         wQhV+AfIHVdYVI397QBrDcbxx2TJ96rqXT8rSE48JbvGGR0YoPkN7t94UHUzc/PVFIAw
-         Oabh4by8tyQOxFPQp9m63sFzKQQhK4BnvO5w8PLxGxvzwI9VSUrilisD3aS4mD+GU4F9
-         O32g==
-X-Gm-Message-State: AOJu0YwRF7ArHLKBTxV+4YZi8d+2NLhri9kvJWlT45yjDGIwvzDXbere
-	euqERmgNCUqHqTwypyMp5ItHk3uESVFw2pSgdBt6vBg5GcxoiXMIM/3cq6A/SWcY0YAoTHsdwNE
-	GeCPhh5iyuFyQEtpJB/SdYZJxd7lZ1bI=
-X-Gm-Gg: Acq92OF0uFeS6+7J91uWif+exKLiNE+lTVv7I6QksHBumh0gf7x+slE6p3po6rPeBv2
-	Gd+eFI9EDjMYoZlIMIZmRDzaGCu7mrh17uGLni949ezMw7GJ6b0nlYFfA/T1z/6JwIeeHtHJlhV
-	T2OLNYxjyv3+uxo1XIYr2JxgLoHND2X/Lw0Q54cKbLL7nv4ymwAImSlyKcHP4cCrzXk3mrLgZAv
-	72cNxTn5qvkHWsswlZe58zRVESalfeoMN9jq3Tc7vjKpuW8ilhrcCRpQ+/9xOVNHPE0/0I+5iJA
-	pAxx2donthwWbK/SwV7kJ3vMQyckeW6fxj+TM/VEuw==
-X-Received: by 2002:a05:6402:4348:b0:676:9caa:f070 with SMTP id
- 4fb4d7f45d1cf-67d642b23f0mr6835419a12.14.1778245289801; Fri, 08 May 2026
- 06:01:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AC49CZb8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF3CBC2BCC7;
+	Fri,  8 May 2026 15:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778255041;
+	bh=9AOlNXIYny778TcNMekmwJuTk/aseUjn7VrZd/MFhmg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AC49CZb8VHwLlTgHauu8hm6U1GIo/Y+NbepnD+qMx8oCRIOR0mXKOiSbj08/TDoDk
+	 iHXWHNhmw3MEYUxXWa+24Mo4rHNGKkPSX3gzqvfMlm8d0fBo23Ksdt24fDkL/1HexM
+	 QJhgeqfSHJRKMXX4UoksKfg5/BbzXNwvdDvDbRI4k68oQDlgk8rO9vOvK3UQZM986X
+	 Aw5KEqXODRGW1SA8MIva2eBN0lGQgmvyRpQWe4VmPR/7YqerecNW6sBUnHP95wztWs
+	 CaP6qZi0Tvi5VZ7HWgAdhhi6v18QZnbddbw/1ei7s3+pPOmtT98uiljfkw9EuIDy7Y
+	 sG3YkxiS5oN2g==
+Date: Fri, 8 May 2026 08:44:00 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
+	neal@gompa.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/1] mount_util: fix mount_flags entries for MS_RDONLY
+Message-ID: <20260508154400.GC2241589@frogsfrogsfrogs>
+References: <177819197881.3490692.13850589276777261250.stgit@frogsfrogsfrogs>
+ <177819197899.3490692.5280827494230619038.stgit@frogsfrogsfrogs>
+ <6276b3d6-cc8c-4e37-b670-ff2a25c69686@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260429102058.1362965-1-mszeredi@redhat.com> <afxK2HSiwY32KaWw@fedora>
-In-Reply-To: <afxK2HSiwY32KaWw@fedora>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 8 May 2026 15:01:16 +0200
-X-Gm-Features: AVHnY4IXxta-2ngFEGkxy0LC7oZseIvF0NghuKtJ8IJRDq2LCu03iYMcxCxKPsg
-Message-ID: <CAOQ4uxg-tgCmJkjFAQ86_xB7dDQKGy=geKAcxT2vB8cUSEKdPQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: add fusex filesystem
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	Horst Birthelmer <horst@birthelmer.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6276b3d6-cc8c-4e37-b670-ff2a25c69686@bsbernd.com>
 
-On Thu, May 7, 2026 at 10:49=E2=80=AFAM Horst Birthelmer <horst@birthelmer.=
-de> wrote:
->
-> On Wed, Apr 29, 2026 at 12:20:57PM +0200, Miklos Szeredi wrote:
-> > This stands for "fuse extended/experimental".
-> >
-> > The purpose is to provide a clean base for big features like the FUSE_I=
-OMAP
-> > api.
-> >
-> > It's also a good way to try new stuff like file handles and compound
-> > requests without the risk of breaking something in the large and comple=
-x
-> > fuse codebase.
-> >
-> > Whether these features will be migrated back into the main fuse codebas=
-e,
-> > or fusex is going to end up as a major version update is still up in th=
-e
-> > air.
-> >
-> > Major differences from regular fuse:
-> >
-> >  - local filesystem mode only
+On Fri, May 08, 2026 at 12:43:14PM +0200, Bernd Schubert wrote:
+> 
+> 
+> On 5/8/26 00:13, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> > 
+> > MS_RDONLY maps to MOUNT_ATTR_RDONLY in the new fsmount API, but the
+> > table omitted that.  Fix that.
+> > 
+> > Fixes: 0d7e72541564a5 ("Unify mount flag structures and remove redundant is_mount_attr field")
+> > Signed-off-by: Darrick J. Wong <djwong@kernel.org>
+> > ---
+> >  lib/mount_util.c |    4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > 
+> > diff --git a/lib/mount_util.c b/lib/mount_util.c
+> > index 1a0aec9bfe1a70..7ab1dba91e28e3 100644
+> > --- a/lib/mount_util.c
+> > +++ b/lib/mount_util.c
+> > @@ -110,8 +110,8 @@
+> >  
+> >  const struct mount_flags mount_flags[] = {
+> >  /* opt            flag             on  safe  mount_attr */
+> > -{"rw",           MS_RDONLY,        0,  1,    0},                      /* fsconfig */
+> > -{"ro",           MS_RDONLY,        1,  1,    0},                      /* fsconfig */
+> > +{"rw",           MS_RDONLY,        0,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+> > +{"ro",           MS_RDONLY,        1,  1,    MOUNT_ATTR_RDONLY},     /* fsconfig */
+> >  {"suid",         MS_NOSUID,        0,  0,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+> >  {"nosuid",       MS_NOSUID,        1,  1,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+> >  {"dev",          MS_NODEV,         0,  1,    MOUNT_ATTR_NODEV},      /* fsmount  */
+> > 
+> 
+> Hi Darrick,
+> 
+> I had already pulled this the night before and it fails the new tests as
+> well. I think issue is that ro needs to be done via fsmount(...,
+> MOUNT_ATTR_RDONLY) *and* fsconfig(SET_FLAG, "ro"). I'm going to add a
+> new column into const struct mount_flags mount_flags[].
 
-What about things like?
-FUSE_HANDLE_KILLPRIV | FUSE_HANDLE_KILLPRIV_V2
-FUSE_ATOMIC_O_TRUNC
+Ewww, you're right.  util-linux also special-cases this, and in a weird
+way:
 
-Does local-only mean that all those (and default_permissions)
-are handled by the kernel?
+       Since version 2.41, libmount has the ability to use optional
+       arguments vfs and fs (e.g. ro=fs) to specify where the read-only
+       setting should be applied. For example, using the command:
 
-> >  - only synchronous FUSE_INIT is supported
-> >  - only no-open mode
-> >  - new requests:
-> >    + FUSE_LOOKUP_ROOT - return nodeid of root
-> >    + FUSE_LOOKUPX - FUSE_LOOKUP without the getattr
-> >    + FUSE_MKOBJX - merged FUSE_MKNOD, MKDIR, SYMLINK and TMPFILE
-> >    + FUSE_SETSTATX - extended version of FUSE_SETATTR
-> >
-> > Missing features:
-> >
-> >  - file handles / export ops
+          mount -o ro=vfs /dev/sdc1 /A
 
-Need to sort out this API that grew odd organically over the years:
+       will mount the filesystem as read-write on the superblock level,
+       but the /A node will be set as read-only. In previous versions,
+       this required an additional "-o bind,remount,ro" operation to
+       achieve the same result.
 
-FUSE_EXPORT_SUPPORT | FUSE_NO_EXPORT_SUPPORT
+"ro=vfs" means apply it to the mount but don't tell the filesystem;
+"ro=fs" means apply tell it to the filesystem, but not the mount;
+and plain "ro" means apply it to both?  Apparently??
 
-The problem is that libfuse declares FUSE_EXPORT_SUPPORT
-on behalf of high level filesystems which do not really provide thse
-persistent NFS file handle guarantees.
-
-I see no reason for fusex to not support lookup by ".", which is
-anyway needed for "reconnect", so a fresh FUSEX_NFS_EXPORT opt-in
-for "re-export to NFS" may make more sense.
-
-Thanks,
-Amir.
+--D
