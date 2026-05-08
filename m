@@ -1,111 +1,180 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F633F23D1
-	for <fuse-devel@lists.linux.dev>; Fri,  8 May 2026 17:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255802857EE;
+	Fri,  8 May 2026 17:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778262621; cv=none; b=ul1XoFztsmDwSdxHmr5hcS8UmXyUFKJ1exbZADD9ZyC77FJIOc7yy8S80hTbhCfwUrureTCq4ouH/eKBq38Nfl6c1u/cW6WNq65rFjCuo9qzPBE1JcDIFars7khFHW6qWXA3AjlfP5J2IYVPmmwqtSU5XsIpa1/BRvuKQx7LvZY=
+	t=1778263186; cv=none; b=XcB3YDyv3fjQZE9fE3zYRa47fXArBVyxUMpcHhGJRsvD4BVmSXUu9uXKq0xi1ugIrLMkI0ya675yPH1Q8g2goE3DeYc96m/XqfiNU84elKggNSM9JVYOTE28E+wAkVIgRaREN6fIdqq1HSQ/k2fTaCa3p24u4hBC2VPzvamDv20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778262621; c=relaxed/simple;
-	bh=QlNREhgjSj6RkXr9LSsqPXzzAgrQh/euMjY5EgO+PXA=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Pyig5cffXN+B8ov+6vzAyVNru6VAAL4ko6xXGTXoXGR6wuCT7r6X7w0JabB8xaVnd2srEcxYiBVidg4y1sO0XPy2abjbh6mrhYYJHShvQliuaipEtCEneSRF5VCl6uPLlxJKX04Jik00hqcXR5iV3+g8to2sli6B+7lW8p6rbYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=MCa0gHc2; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WkelCjVZ; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1778263186; c=relaxed/simple;
+	bh=gatNClLZL9QgFANDBhG0hyiMVGWwiq4u3yUV2zU/oKo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L3AvtmZrfwzRiiuBymeH1E5WUqy5XekjQabtEpR/FxtSzPUjJVXnUa15zZ5EliDysCZjyqTrCs+uVGlzu0GKMQBWEBfhZrYZuZRjTRrfss7KLII2ehTt11pZecjzVbeUIiIzsbQmdNKRmEDsHc3nKoeUR6YZw369ut8NQ3S6h+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DsAntoyE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="MCa0gHc2";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WkelCjVZ"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 46FC01400157;
-	Fri,  8 May 2026 13:50:19 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 08 May 2026 13:50:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778262619;
-	 x=1778349019; bh=YtGGVd0F6RwRKCRnKXnUPtxjAHt8xRwvk2NFNRkgUc8=; b=
-	MCa0gHc23XoejOg3G5iavczGABv0++ZfJBMp9VULkoR+g+TXemG5Cbujy0GQnPMw
-	BFqyinVs4t3U2zT4dPcFuY74pM1g2cFBEqY6KmyYub3LZNoVcxBqME57jcnBKKUV
-	4Z8tO9AowDVKCtR+Y84u60bI3i3FImba+peq1wKQ83DzOaXUzgMGE79wU+HA/mts
-	WtDGiWiFdaLCK5zpA9ADNDF8oCe78bS8UdQy93T2sgDZerJ15rtU/Z5MSSUjX7Nl
-	U4g1FgwIzXt1Yx8/sCFOZrD3F1oIl9acqya2iAN1yu/xhAma3nVjXkHMNLt69qKi
-	otUh93QDXaRBvHqTZnmeig==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778262619; x=
-	1778349019; bh=YtGGVd0F6RwRKCRnKXnUPtxjAHt8xRwvk2NFNRkgUc8=; b=W
-	kelCjVZ+ZZ6i09I6BLqP1pS7tvBPgEBYwuQqbJqQQK6LTTA5REsN8gEzgI3e3olK
-	3zI5pv05Fbfk5q8KS9sE7oUu5XaPmxDzL7qmQwpTkWTMzYjQOUN06nKwm30AHGbr
-	+ZhwSTHcbzwszAg5WFgccVSwzpU+YLNqj2KksTFYqMkOy5f/+OHhZmJnlKVIGtBC
-	T91G6FRLHXzog2F9rK3p24Nhi40J7jsE8Yl6hVeREmDrN2jHY0bJbtkXSGn0HEp1
-	10ihPjO0/HsvMFMxLbVcLCetz4p7uIROFupcZH80pykkbYUn/+F9MAWl8eaT3rKI
-	cITUMA04P/4i5M0z+Rjuw==
-X-ME-Sender: <xms:WyL-aYlVO0Gnzs3iIxKjZvY9l-l5jKqZgsF1mwdsad0fs9HA-NNZFA>
-    <xme:WyL-aRLxVaEk54su4noOlyekC1o0OKznYtbQ_q0KoFFdcxh3VJF1SLWNc4PFuHqWK
-    wYFghfUZHvGpjT0qR58ulD0hElJrm5-CKkmnI5VAeGzVoTOBfNA>
-X-ME-Received: <xmr:WyL-ad6fOyfQwKE3ZMD2r0QoZzNdDsLHJSXFMgnZ7-CKCxxaVi9hS0BUPVQme2y5FZJD5ST8wVndJxkmSjLpCcBMBP63a4R5dDw7an7SEXwPHNb7aA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduuddtleelucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffhvfevfhgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpefgtdduheetudejleeuieehffdugeejvefhkeevgffgkeeitefgffeiffei
-    jeeujeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
-    mhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
-    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghr
-    vgguihdrhhhupdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghv
-    pdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheplhhinhhugi
-    dqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:WyL-aV2k3LkkvlwEPLDXc-Dmu0MPDgNKUNBQej3pUB6izOCd3VxSBA>
-    <xmx:WyL-aTcAYpgvHWSSDPb29-H43gl-h1W80Sm8YMRrqM74YsdojV8TLA>
-    <xmx:WyL-abeFbdEyXvnC3eqgUHCG3FrotVPWMcDvmwEzWKz06KrXgiJAKg>
-    <xmx:WyL-aew0vHO0lC9RXqLPynMvf74TIC-7DYzkiVvzXQLCJ9JJOEmpNA>
-    <xmx:WyL-aS2KTsdLGLasPMNUW0CWRV5FagEBvpE0auDQGxk5yRbFyqZ8Zx3q>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 8 May 2026 13:50:18 -0400 (EDT)
-Message-ID: <7742cf2b-169c-40c3-a4d2-c8286f3cfd74@bsbernd.com>
-Date: Fri, 8 May 2026 19:50:16 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DsAntoyE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8D8CC2BCB0;
+	Fri,  8 May 2026 17:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778263185;
+	bh=gatNClLZL9QgFANDBhG0hyiMVGWwiq4u3yUV2zU/oKo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DsAntoyE4NIrSkNaCi0kDY6cv7l05GedlxDY2BE13kk+3u9CgWI5Sq+2v50UeSteP
+	 5pC1rCQC5sWtIcwyoLvKgaYNR2Gtl6folOitQ1GzQ8t2e7VOxnG8WzcqlBQGua1X9V
+	 5YTtQU02NRAvD279kuY+TJo0NkPr9lSeqT6w7GeeoHBpfkgOV0fajZvNYXO6V8O2gJ
+	 3ADs3Sv1YStKJV0xn3U6K2r7GqjTSxLrrjSDOszSvmETGvndl/srrPyC2rYYYotdyM
+	 d/xzKJDzyjQ4ZHdI7yE4ohDhb6AXjWaaosnM9lCicoEAYtvLgpiuzsxDBOTGL2v3x7
+	 tBalW0MGGNx/w==
+Date: Fri, 8 May 2026 10:59:45 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
+	neal@gompa.dev, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 1/1] mount_service: use the mount_flags table instead of
+ declaring our own
+Message-ID: <20260508175945.GE2241589@frogsfrogsfrogs>
+References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
+ <177819198067.3490792.2943381236495611249.stgit@frogsfrogsfrogs>
+ <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHSET 2/2] libfuse: new mount service container fixes
-From: Bernd Schubert <bernd@bsbernd.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
- neal@gompa.dev, linux-fsdevel@vger.kernel.org
-References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
- <11a04b4e-db8c-423e-a351-e7fd2a8bcc7a@bsbernd.com>
- <8c59846a-0e7e-4366-a8ec-206f5684284a@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <8c59846a-0e7e-4366-a8ec-206f5684284a@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
 
-
-
-On 5/8/26 19:12, Bernd Schubert wrote:
+On Fri, May 08, 2026 at 06:51:45PM +0200, Bernd Schubert wrote:
+> 
+> 
+> On 5/8/26 00:14, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
+> > 
+> > Use the canonical mount flags table in mount_util.c instead of
+> > opencoding our own version in mount_service.c.
+> > 
+> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> > ---
+> >  util/mount_service.c |   51 +++++++++++++-------------------------------------
+> >  1 file changed, 13 insertions(+), 38 deletions(-)
+> > 
+> > 
+> > diff --git a/util/mount_service.c b/util/mount_service.c
+> > index 8c9747b3928a51..79e5b060ba3356 100644
+> > --- a/util/mount_service.c
+> > +++ b/util/mount_service.c
+> > @@ -1457,73 +1457,48 @@ struct ms_to_mount_map {
+> >  	unsigned int mount_attr_flag;
+> >  };
+> >  
+> > -static const struct ms_to_mount_map attrs[] = {
+> > -	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
+> > -	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
+> > -	{ MS_NODEV,		MOUNT_ATTR_NODEV },
+> > -	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
+> > -	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
+> > -	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
+> > -	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
+> > -	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
+> > -#ifdef MOUNT_ATTR_NOSYMFOLLOW
+> > -	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
+> > -#endif
+> > -	{ 0, 0 },
+> > -};
+> > -
+> >  static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
+> >  				 unsigned int *attr_flags,
+> >  				 unsigned long *leftover_ms_flags)
+> >  {
+> > -	const struct ms_to_mount_map *i;
+> > +	const struct mount_flags *i;
+> >  	unsigned int ms_flags = ntohl(oc->ms_flags);
+> >  	unsigned int mount_attr_flags = 0;
+> >  
+> > -	for (i = attrs; i->ms_flag != 0; i++) {
+> > -		if (ms_flags & i->ms_flag)
+> > -			mount_attr_flags |= i->mount_attr_flag;
+> > -		ms_flags &= ~i->ms_flag;
+> > +	for (i = mount_flags; i->opt != NULL; i++) {
+> > +		if (!i->on || !(ms_flags & i->flag))
+> > +			continue;
+> > +
+> > +		mount_attr_flags |= i->mount_attr;
+> > +		ms_flags &= ~i->flag;
+> >  	}
+> >  
+> >  	*leftover_ms_flags = ms_flags;
+> >  	*attr_flags = mount_attr_flags;
+> >  }
+> >  
+> > -struct ms_to_str_map {
+> > -	unsigned long ms_flag;
+> > -	const char *string;
+> > -};
+> > -
+> > -static const struct ms_to_str_map strflags[] = {
+> > -	{ MS_SYNCHRONOUS,	"sync" },
+> > -	{ MS_DIRSYNC,		"dirsync" },
+> > -	{ MS_LAZYTIME,		"lazytime" },
+> > -	{ 0, 0 },
+> > -};
+> > -
+> >  static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
+> >  {
+> > -	const struct ms_to_str_map *i;
+> > +	const struct mount_flags *i;
+> >  	int ret;
+> >  
+> > -	for (i = strflags; i->ms_flag != 0; i++) {
+> > -		if (!(ms_flags & i->ms_flag))
+> > +	for (i = mount_flags; i->opt != NULL; i++) {
+> > +		if (!i->on || !(ms_flags & i->flag))
+> >  			continue;
+> >  
+> > -		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
+> > +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->opt,
+> >  			       NULL, 0);
+> >  		if (ret) {
+> >  			int error = errno;
+> >  
+> >  			fprintf(stderr, "%s: set %s option: %s\n",
+> > -				mo->msgtag, i->string, strerror(error));
+> > +				mo->msgtag, i->opt, strerror(error));
+> >  			emit_fsconfig_messages(mo);
+> >  
+> >  			errno = error;
+> >  			return -1;
+> >  		}
+> > -		ms_flags &= ~i->ms_flag;
+> > +		ms_flags &= ~i->flag;
+> >  	}
+> >  
+> >  	/*
+> > 
+> > 
+> 
+> 
 > Hi Darrick,
 > 
-> could you please also look into the CodeQL reports?
+> wouldn't it make sense to use the functions from mount_fsmount.c? I can
+> also clean this up later if you want.
+
+Oh, hah!  Yes, I'll revise this patch to use them.
+
+> I guess this doesn't handle the case for "ro" going into fsmount() and
+> fsconfig() yet - update now or later?
+
+That'll become another fix patch for mount_service.c.
+
+--D
+
 > 
-> https://github.com/libfuse/libfuse/pull/1444#discussion_r3144133589
-
-The GUI allows me to click away issues. However, would be good if I
-wouldn't need to do all the decisions on my own :)
-
-
-Thanks,
-Bernd
+> Thanks,
+> Bernd
+> 
+> 
+> 
+> 
