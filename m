@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE351A6819
-	for <fuse-devel@lists.linux.dev>; Sat,  9 May 2026 00:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3326512CD8B
+	for <fuse-devel@lists.linux.dev>; Sat,  9 May 2026 00:27:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778286202; cv=none; b=QANrrLG4AyZ/rrGbzkKJGZn13aF+MRI+SOioVBLQzAVJBJgyyUg6BQ0CHGxBDh1MkSnDNp1HTwd+ujkQ8PA69hE8AVP1R/r9g55TaxC/ajEGXf8wMQtFXZZqCqfuFSwEYq2QfmI0QmC6+LADvkWY6eHxP/JNIFrml8oY5EUEtzM=
+	t=1778286463; cv=none; b=fGBDsJFrvsALtMFgbqIFQhFLDT5wzq9CWU5Mpu/IF08OBrhVuMkqgfLN4ksWSc0AkXouV5PpLnG03/iewFIigVTzzl3C1WJvpnMsseK1Wp9d+2i+ow0Uy60cqf20ezoJdiTISgZUsP5t6HB/hb3J2UQcktfBAifaRfcs27czNxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778286202; c=relaxed/simple;
-	bh=rYqVWCcK97SHCkVIu+eoUil/f0gCqT2cUH4t2OSPtLI=;
+	s=arc-20240116; t=1778286463; c=relaxed/simple;
+	bh=eBBtv5Lrq3peQdSkkx9kX582FHX0RjbVA4lz768z67Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tPbtNInbgPK5x7GVq5IEGRB3nRTm6NUit2hl7c2ngpVyuukn/qfBTg7bXgZ1IsiZqQs0eCWDMGRBPt7DBPHiiU7YvLW/7fBxtqXre0FRTbh2cfYww9nkgspoKCDin2E2oS6wZWru9zmU2udkCYUwUVuPnyOm6rgnDbatOQizC80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uFG12Xvm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=WlVcOCi3D/K/sO9Jq6hiMHcrcoZIRSHE1KxB+/T7UVFUXVcfIYJvzwra42GA84VPFupOGFRYo7Aw3G/tL1A5HhzXHu3Ln+WWsqFIzl3Z2NBsME4NXzpEqnCexBsz1olbuNvC4Dqpfns9HWnpkggmd9yol3NL7KiSKrn/flCwhs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4lo1oZk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uFG12Xvm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B24C2BCB0;
-	Sat,  9 May 2026 00:23:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4lo1oZk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA546C2BCB0;
+	Sat,  9 May 2026 00:27:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778286202;
-	bh=rYqVWCcK97SHCkVIu+eoUil/f0gCqT2cUH4t2OSPtLI=;
+	s=k20201202; t=1778286462;
+	bh=eBBtv5Lrq3peQdSkkx9kX582FHX0RjbVA4lz768z67Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uFG12XvmSyGqy0rRiEkqsa8V8xcloDvY5URJxiJALxq1RICvzLq73aBqs2I7tjoVG
-	 OiZUyyOfytliQcVmvaeWcMJblqJ9pLY88W5kKzR6xxkKk6Jau3iMzh7Depy3QGRmVe
-	 XVcMSPLdBWC5cHjx0+Dpypn24LWOd6otwuOntw+WylNFrvefDyh00+P7zVpdSFjQ1B
-	 VosrH+cA3R7XlOYSHk4g5g2eyofGClqbGZ0NcW2P6ZAgiXSwXbqpE7lbtajFCQuhWo
-	 VTJnS57ET3BDiBwDi54YIjuHonQCMSrYwsf19ejqCPV2Gvt7A5Q9zGpIEnb5mSiVRJ
-	 nnxINNtF2NuYQ==
-Date: Fri, 8 May 2026 17:23:21 -0700
+	b=g4lo1oZkdT54g+VUuU/RaBUMV5Gs3BYXbSOUayaUPq+bqWJT/0VCV5Cx4nt2WlzZv
+	 T8mnSO6YFAkBBTmcFaqvM1GgpwSVhhS8ESy1v+oJKBrUYyMVkB2VLIXevOX8cVqgyI
+	 X+pKAAtyfCG5OJ/png/V65LF/DhDWMfOHiyUM+tUP3dsyAbRhoc2CXnFqTyIECUHEu
+	 m+Jg8pWuZb97Ke7SUIXN22MniWpPeBSB7KgQmn1EMj89JoPpV+yoV33Z+cc5d0ykBd
+	 SJrLFgaBSvKkLOXmf/Qua/KswebDH+BDE7iiOPUGU7b5hDhdj4RwTMArsbyTiUgs1o
+	 4/AgToLke0LYw==
+Date: Fri, 8 May 2026 17:27:42 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com
 Cc: fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 06/10] example: silence add_languages warning by setting
- 'native: false'
-Message-ID: <20260509002321.GK2241589@frogsfrogsfrogs>
+Subject: Re: [PATCH 07/10] mount: clarify kernel_opts vs mnt_opts vs flags in
+ fuse_kern_fsmount
+Message-ID: <20260509002742.GL2241589@frogsfrogsfrogs>
 References: <20260508-new-mount-fixes-and-tests-v1-0-c67a0893ddbc@bsbernd.com>
- <20260508-new-mount-fixes-and-tests-v1-6-c67a0893ddbc@bsbernd.com>
+ <20260508-new-mount-fixes-and-tests-v1-7-c67a0893ddbc@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -43,44 +43,57 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260508-new-mount-fixes-and-tests-v1-6-c67a0893ddbc@bsbernd.com>
+In-Reply-To: <20260508-new-mount-fixes-and-tests-v1-7-c67a0893ddbc@bsbernd.com>
 
-On Fri, May 08, 2026 at 06:39:09PM +0200, Bernd Schubert via B4 Relay wrote:
+On Fri, May 08, 2026 at 06:39:10PM +0200, Bernd Schubert via B4 Relay wrote:
 > From: Bernd Schubert <bernd@bsbernd.com>
 > 
-> The C++ examples (passthrough_hp, memfs_ll) link against libfuse,
-> i.e. there is no cross compilation from example/ point of view.
+> Just code/API updates, as these mount options can be rather confusing.
+> 
+> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+> ---
+>  lib/mount_i_linux.h | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
+> index ab83e30b..112c365e 100644
+> --- a/lib/mount_i_linux.h
+> +++ b/lib/mount_i_linux.h
+> @@ -36,13 +36,20 @@ int fuse_kern_mount_get_base_mnt_opts(const struct mount_opts *mo, char **mnt_op
+>  /**
+>   * Mount using the new Linux mount API (fsopen/fsconfig/fsmount/move_mount)
+>   * @mnt: mountpoint
+> - * @flags: mount flags (MS_NOSUID, MS_NODEV, etc.)
+> + * @flags: MS_* bits (ro/rw, nosuid, nodev, sync, dirsync, ...) -
+> + *         translated by set_ms_flags() into fsconfig(SET_FLAG) and/or
+> + *         fsmount(MOUNT_ATTR_*); never carried via the strings below.
 
-But doesn't that mean that if libfuse is cross-compiled, then the
-examples need to be as well so that they can link against the built
-libfuse?
+I wonder if this parameter ought to be renamed ms_flags?
 
-Weirdly it seems ok even with this applied so <shrug> I'll trust you
-know meson better than I do :)
+>   * @blkdev: 1 for fuseblk, 0 for fuse
+>   * @fsname: filesystem name (or NULL)
+>   * @subtype: filesystem subtype (or NULL)
+>   * @source_dev: device name for building source string
+> - * @kernel_opts: kernel mount options string
+> - * @mnt_opts: additional mount options to pass to the kernel
+> + * @kernel_opts: FUSE-kernel options parsed from -o args
+> + *               (e.g. "allow_other,max_read=65536,default_permissions")
+> + * @mnt_opts:    extras the caller layers on
+> + *               (e.g. "fd=7,rootmode=40000,user_id=1000,group_id=1000")
 
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Oh, the "caller" here is libfuse.  Could that be clarified a bit?
+
+      @mnt_opts:    internal mount options added by libfuse
+                    (e.g. "fd=7,rootmode=40000,user_id=1000,group_id=1000")
 
 --D
 
-
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-> ---
->  example/meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/example/meson.build b/example/meson.build
-> index 76cf2d96..31e69187 100644
-> --- a/example/meson.build
-> +++ b/example/meson.build
-> @@ -32,7 +32,7 @@ foreach ex : threaded_examples
->                 install: false)
->  endforeach
->  
-> -if platform != 'dragonfly' and add_languages('cpp', required : false)
-> +if platform != 'dragonfly' and add_languages('cpp', native : false, required : false)
->      executable('passthrough_hp', 'passthrough_hp.cc',
->                 dependencies: [ thread_dep, libfuse_dep ],
->                 install: false)
+> + *
+> + * @kernel_opts and @mnt_opts are both applied via fsconfig() in order;
+> + * overlap is tolerated.
+>   *
+>   * Returns: 0 on success, -1 on failure with errno set
+>   */
 > 
 > -- 
 > 2.53.0
