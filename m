@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308AE64
-	for <fuse-devel@lists.linux.dev>; Sat,  9 May 2026 00:04:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75F52AEE4
+	for <fuse-devel@lists.linux.dev>; Sat,  9 May 2026 00:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778285043; cv=none; b=evIua9vmlR9DexU6M9sjSYZoZcf7UKUecLth/2lAMWHPQ3o9Og9MbiEhGhAAqZ+8T5VtM+MPS0y9EQ8Mj0apSFthy2Xul6NaaPtAsjPrUeSyCa43EN8/CLeBI3Q2DpBbZI7e9UQ6/0ZCdcR9d+fJdfTUWRhDPKi1YrlQcG+mTlM=
+	t=1778285862; cv=none; b=IlkAcS0ephuNLEJWaLbu+1wbMXJeP0K4MG/3QiuowRKVLy+QsnbXAgk1rvoX/XaL1MhppdPUaxb2Vx/HItLYRvXRGQjdglyvK9dfO3jEM535pjqhjdz2aJYOl6X+ddvByVaL5ECi0IhNfY2wHjA5NXbzJdeMOc4x2Wv01MRbS/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778285043; c=relaxed/simple;
-	bh=8KFhxqAqlfZmqNeJi3HSnGwBp+r8eInXzSD6b5YXD5k=;
+	s=arc-20240116; t=1778285862; c=relaxed/simple;
+	bh=JmAlLGP8uhr103fvgh8fSX4AeWIAjrF/3JAiH1AEjK4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TbrPvdL6F7wwe6OGRH5dVNFi2rZKfab4AGC+Ca2IlDyM3DcBLw/slvuYVDunjj1g0abQNFOQLmVKBP0jWKLOd+1IidkZtm4jmsEtYR/ra5rJ+z0m4yGpB9z7KyuVB1tGUHCOoMyXM5cG86MPuRAyg+IFgEFVQe5ZXjZQS/kBs2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oNsb1iGr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=c1LfvFiS6sTQC3HXvpgO+8J/muIVO1WD18pvG4Z5b7XWoKbpOQJN+9BLn9RpuY9QgYxdP8keVnN0UzoHCzNpqEK66cZAvrZxgbodwYF4oXaywS4syA/xwniX3MRtmiCXH/H9QPMHqUZiWRCJboKGKndXKh5xlKYVCEizwm/F708=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YlszGYTN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oNsb1iGr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0E3BC2BCB0;
-	Sat,  9 May 2026 00:04:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YlszGYTN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 812B6C2BCB0;
+	Sat,  9 May 2026 00:17:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778285042;
-	bh=8KFhxqAqlfZmqNeJi3HSnGwBp+r8eInXzSD6b5YXD5k=;
+	s=k20201202; t=1778285861;
+	bh=JmAlLGP8uhr103fvgh8fSX4AeWIAjrF/3JAiH1AEjK4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oNsb1iGrcLPl8GHwOisp7+D4GxGbKSeBl/9IUyWukoScMgQ5m5BVzvUSqWLiDxFee
-	 QDA3VxPJF8qz+KJTjJOxTXGe2AQLrLMwCgf0qXNtUxP6wvGG/OKYiq3RTIBRp0YFOT
-	 zV9pmR5hgGUYM39MASChMd4WOOTGpAfZv0+6fE8wMPsfXcff3RTFANyDp5KHdKC+6E
-	 Mg+/2XvqA7O4o3/VmvaXyNVqiW5/cE3PKTtDAsSe30AhD+vakHSS1VXJG4Xn8P3z11
-	 KZeFlabCB5zcvurgsO8m4ho9SnG+Ssxf9dWC8QIrhWQfTXQma8nNJDYtazh9R3Ph0w
-	 GLBI4WCFfQBcg==
-Date: Fri, 8 May 2026 17:04:02 -0700
+	b=YlszGYTN4mb8LqdzET+/VJCWuBMaacqmEqsvrAzzTdfjliNtts9jEH+29Ob5WLXRF
+	 53Seyggkq96xUdv5WePoPBQU7dji/lFw7nMjEBKoEN+od/hxcjjUNxD0pNMeuPpTeW
+	 5WEy5kQM4q+0l596kR13OWaDZmVERAst/2Os5SYU6X4E9hZUoUe0DkeIM39g/xsXxb
+	 T2X2xyil5AIp/P7OV8SORlQFdt+9T1sTCyMKvajwN0KItqtS2zrKGiR+6kfcfpfq7T
+	 B8vM3K9L2GfkGZE6XpLHmnq+BZ8rtEGSpDtdJBzLEXk+S8hx6Vzm+VbEb5uknpdCKa
+	 8tbCI77Gf7tXw==
+Date: Fri, 8 May 2026 17:17:40 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com
 Cc: fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 03/10] test: assert ro/rw, nosuid/suid, nodev/dev
- round-trip via fsmount
-Message-ID: <20260509000402.GI2241589@frogsfrogsfrogs>
+Subject: Re: [PATCH 04/10] New mount API: read-only option is for fsmount()
+ and fsconfig()
+Message-ID: <20260509001740.GJ2241589@frogsfrogsfrogs>
 References: <20260508-new-mount-fixes-and-tests-v1-0-c67a0893ddbc@bsbernd.com>
- <20260508-new-mount-fixes-and-tests-v1-3-c67a0893ddbc@bsbernd.com>
+ <20260508-new-mount-fixes-and-tests-v1-4-c67a0893ddbc@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -43,108 +43,187 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260508-new-mount-fixes-and-tests-v1-3-c67a0893ddbc@bsbernd.com>
+In-Reply-To: <20260508-new-mount-fixes-and-tests-v1-4-c67a0893ddbc@bsbernd.com>
 
-On Fri, May 08, 2026 at 06:39:06PM +0200, Bernd Schubert via B4 Relay wrote:
-> From: Bernd Schubert <bernd@bsbernd.com>
+On Fri, May 08, 2026 at 06:39:07PM +0200, Bernd Schubert via B4 Relay wrote:
+> From: "Darrick J. Wong" <djwong@kernel.org>
 > 
-> Assisted by ClaudeOpus 4.7
+> The "ro" mount option needs to be handled by
+> 
+> fsmount(..., MOUNT_ATTR_RDONLY), for the superblock
+> and fsconfig(SET_FLAG, "ro") for the vfsmount.
+
+Yikes.  Now there's a subtlety!
+
+> Update by Bernd: Instead of moving it to MOUNT_ATTR_RDONLY,
+> handle it by both.
+> 
+> Fixes: 0d7e72541564 ("Unify mount flag structures and remove redundant is_mount_attr field")
+> Signed-off-by: Darrick J. Wong <djwong@kernel.org>
 > Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 > ---
->  test/test_mount_state.py | 70 ++++++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 62 insertions(+), 8 deletions(-)
+>  lib/mount_fsmount.c | 21 ++++++++++++++++-----
+>  lib/mount_util.c    | 44 +++++++++++++++++++++++++-------------------
+>  lib/mount_util.h    |  3 ++-
+>  3 files changed, 43 insertions(+), 25 deletions(-)
 > 
-> diff --git a/test/test_mount_state.py b/test/test_mount_state.py
-> index eacb7326..a7949ec3 100644
-> --- a/test/test_mount_state.py
-> +++ b/test/test_mount_state.py
-> @@ -105,12 +105,66 @@ def test_mountinfo_subtype_fsname(tmpdir, output_checker, name):
->          'unexpected source: %r' % info['source']
+> diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
+> index 5e13b34c..edb9e043 100644
+> --- a/lib/mount_fsmount.c
+> +++ b/lib/mount_fsmount.c
+> @@ -39,6 +39,7 @@
+>   * Convert MS_* mount flags to MOUNT_ATTR_* mount attributes.
+>   * These flags are passed to fsmount(), not fsconfig().
+>   * Mount attributes control mount-point level behavior.
+> + * To called after set_ms_flags() which consumes the fsconfig flags.
+>   *
+>   * @attrs MOUNT_ATTR flags, built from MS_ flags
+>   * @return remaining flags
+> @@ -108,8 +109,12 @@ static void log_fsconfig_kmsg(int fd)
 >  
+>  /*
+>   * Apply VFS superblock (fsconfig) flags to the filesystem context.
+> - * Only handles flags that are filesystem parameters (ro, sync, dirsync).
+> - * Mount attributes (nosuid, nodev, etc.) are handled separately via fsmount().
+> + * Handles the fsconfig leg of every entry whose is_fsconfig is set
+> + * (ro, rw, sync, async, dirsync). Mount attributes (nosuid, nodev, etc.)
+> + * are handled separately via fsmount().
+> + *
+> + * Entries that have *both* legs (ro/rw) leave the MS_ bit in *ms_flags
+> + * so that ms_flags_to_mount_attrs() can also pick them up.
+>   *
+>   * @ms_flags flags to set, outvalue are the remaining flags
+>   * @return 0 on success, negative error code on failure
+> @@ -120,8 +125,7 @@ static int set_ms_flags(int fsfd, unsigned long *ms_flags)
+>  	int i;
 >  
-> -@pytest.mark.parametrize('name', ('hello', 'hello_ll'))
-> -def test_mountinfo_unprivileged_attrs(tmpdir, output_checker, name):
-> -    if os.getuid() == 0:
-> -        pytest.skip('only meaningful for unprivileged mounts via fusermount3')
-> -    with hello_mount(tmpdir, output_checker, name) as mnt:
-> -        info = parse_mountinfo(mnt)
-> +# (label, options, must-be-in mount_options, must-NOT-be-in mount_options)
-> +#
-> +# Library defaults are MS_NOSUID|MS_NODEV (lib/mount.c:771,
-> +# util/fusermount.c:988), so a no-options mount is expected to land
-> +# with both attrs set. The negation forms (suid/dev) clear the default
-> +# flags via lib/mount.c:set_mount_flag(), which on the new mount API
-> +# path means MOUNT_ATTR_NOSUID/MOUNT_ATTR_NODEV are not set in the
-> +# fsmount() call. Asserting their absence catches a routing bug where
-> +# the negation wasn't honored.
-> +ATTR_CASES = [
-> +    ('default',  (),          ('rw', 'nosuid', 'nodev'), ('ro',)),
-> +    ('ro',       ('ro',),     ('ro',),                   ('rw',)),
-> +    ('nosuid',   ('nosuid',), ('nosuid',),               ()),
-> +    ('nodev',    ('nodev',),  ('nodev',),                ()),
-> +]
+>  	for (i = 0; mount_flags[i].opt != NULL && flags != 0; i++) {
+> -		/* Only process fsconfig flags (mount_attr == 0) with on==1 */
+> -		if (mount_flags[i].mount_attr || !mount_flags[i].on)
+> +		if (!mount_flags[i].is_fsconfig || !mount_flags[i].on)
+>  			continue;
+>  
+>  		if (!(flags & mount_flags[i].flag))
+> @@ -137,7 +141,14 @@ static int set_ms_flags(int fsfd, unsigned long *ms_flags)
+>  
+>  			return -save_errno;
+>  		}
+> -		flags &= ~mount_flags[i].flag;
 > +
-> +# suid/dev are root-only: the kernel rejects MS_NOSUID/MS_NODEV being
-> +# cleared for unprivileged mounts, and fusermount3 hard-codes them on
-> +# anyway (util/fusermount.c:988).
-> +ATTR_CASES_ROOT = [
-> +    ('suid',     ('suid',),   (),                        ('nosuid',)),
-> +    ('dev',      ('dev',),    (),                        ('nodev',)),
-> +]
-> +
-> +
-> +def _check_attrs(info, must_have, must_not_have):
->      assert info is not None
-> -    assert 'nosuid' in info['mount_options']
-> -    assert 'nodev'  in info['mount_options']
-> +    for opt in must_have:
-> +        assert opt in info['mount_options'], \
-> +            '%r missing from mount_options=%r' % (opt, info['mount_options'])
-> +    for opt in must_not_have:
-> +        assert opt not in info['mount_options'], \
-> +            'unexpected %r in mount_options=%r' % (opt, info['mount_options'])
-> +
-> +
-> +@pytest.mark.parametrize('name', ('hello', 'hello_ll'))
-> +@pytest.mark.parametrize('label,opts,must_have,must_not_have', ATTR_CASES,
-> +                         ids=[c[0] for c in ATTR_CASES])
-> +def test_mountinfo_attrs(tmpdir, output_checker, name,
-> +                         label, opts, must_have, must_not_have):
-> +    with hello_mount(tmpdir, output_checker, name, opts) as mnt:
-> +        info = parse_mountinfo(mnt)
-> +    _check_attrs(info, must_have, must_not_have)
-> +    # ro/rw also surface in super_options; if we asked for ro the
-> +    # superblock must agree. Catches a path that sets MOUNT_ATTR_RDONLY
-> +    # but forgets the FSCONFIG-side MS_RDONLY (or vice versa).
+> +		/*
+> +		 * Only consume the bit if no fsmount mount-attr leg is
+> +		 * also pending for this option. Otherwise leave it for
+> +		 * ms_flags_to_mount_attrs() to apply via fsmount().
+> +		 */
+> +		if (!mount_flags[i].mount_attr)
+> +			flags &= ~mount_flags[i].flag;
+>  	}
+>  
+>  	*ms_flags = flags;
+> diff --git a/lib/mount_util.c b/lib/mount_util.c
+> index 1a0aec9b..f1e58d98 100644
+> --- a/lib/mount_util.c
+> +++ b/lib/mount_util.c
+> @@ -108,26 +108,32 @@
+>  #define MOUNT_ATTR_NOSYMFOLLOW	0
+>  #endif
+>  
+> +/*
+> + * is_fsconfig and mount_attr are independent: ro/rw need both legs
+> + * (SB_RDONLY on the superblock via fsconfig SET_FLAG, plus
+> + * MOUNT_ATTR_RDONLY on the vfsmount via fsmount). Everything else is
+> + * exclusively one or the other.
+> + */
+>  const struct mount_flags mount_flags[] = {
+> -/* opt            flag             on  safe  mount_attr */
+> -{"rw",           MS_RDONLY,        0,  1,    0},                      /* fsconfig */
+> -{"ro",           MS_RDONLY,        1,  1,    0},                      /* fsconfig */
+> -{"suid",         MS_NOSUID,        0,  0,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+> -{"nosuid",       MS_NOSUID,        1,  1,    MOUNT_ATTR_NOSUID},     /* fsmount  */
+> -{"dev",          MS_NODEV,         0,  1,    MOUNT_ATTR_NODEV},      /* fsmount  */
+> -{"nodev",        MS_NODEV,         1,  1,    MOUNT_ATTR_NODEV},      /* fsmount  */
+> -{"exec",         MS_NOEXEC,        0,  1,    MOUNT_ATTR_NOEXEC},     /* fsmount  */
+> -{"noexec",       MS_NOEXEC,        1,  1,    MOUNT_ATTR_NOEXEC},     /* fsmount  */
+> -{"async",        MS_SYNCHRONOUS,   0,  1,    0},                      /* fsconfig */
+> -{"sync",         MS_SYNCHRONOUS,   1,  1,    0},                      /* fsconfig */
+> -{"noatime",      MS_NOATIME,       1,  1,    MOUNT_ATTR_NOATIME},    /* fsmount  */
+> -{"nodiratime",   MS_NODIRATIME,    1,  1,    MOUNT_ATTR_NODIRATIME}, /* fsmount  */
+> -{"norelatime",   MS_RELATIME,      0,  1,    MOUNT_ATTR_RELATIME},   /* fsmount  */
+> -{"nostrictatime", MS_STRICTATIME,  0,  1,    MOUNT_ATTR_STRICTATIME},/* fsmount  */
+> -{"symfollow",    MS_NOSYMFOLLOW,   0,  1,    MOUNT_ATTR_NOSYMFOLLOW},/* fsmount  */
+> -{"nosymfollow",  MS_NOSYMFOLLOW,   1,  1,    MOUNT_ATTR_NOSYMFOLLOW},/* fsmount  */
+> -{"dirsync",      MS_DIRSYNC,       1,  1,    0},                      /* fsconfig */
+> -{NULL,           0,                0,  0,    0}
+> +/* opt            flag             on  safe  fsconfig  mount_attr */
+> +{"rw",           MS_RDONLY,        0,  1,    1,        MOUNT_ATTR_RDONLY},
 
-Ehhh we're probably going to have to fix this again to handle the new
-"ro=vfs"/"ro=fs" behaviors that util-linux 2.41 added.
+I almost wonder if this should get reflowed as:
 
-/me is sad that this wasn't all that well publicized on fsdevel:
-https://lore.kernel.org/linux-fsdevel/?q=%22ro%3Dvfs%22
+const struct mount_flags mount_flags[] = {
+	{
+		.opt		= "rw",
+		.flag		= MS_RDONLY,
+		.on		= 0,
+		.safe		= 1,
+		.fsconfig	= 1,
+		.mount_attr	= MOUNT_ATTR_RDONLY,
+	},
+	...
+};
 
-The rest of the new tests look ok to me.
+But that can be left for a future patch.  This patch, as presented,
+looks correct to me.
+
 Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+
+Also: Apparently util-linux trims "ro=vfs" and "ro=fs" down to just "ro"
+when it invokes a mount helper:
+
+# strace -s99 -f -e execve mount -o ro=vfs -t fuse.doesnotexist whatever /mnt
+execve("/usr/bin/mount", ["mount", "-o", "ro=vfs", "-t", "fuse.doesnotexist", "whatever", "/mnt"], 0x7ffdfd517200 /* 28 vars */) = 0
+strace: Process 20601 attached
+[pid 20601] execve("/sbin/mount.fuse", ["/sbin/mount.fuse", "whatever", "/mnt", "-o", "ro", "-t", "fuse.doesnotexist"], 0x7ffdb1764278 /* 24 vars */) = 0
+[pid 20601] execve("/bin/sh", ["/bin/sh", "-c", "'doesnotexist' 'whatever' '/mnt' '-o' 'ro,dev,suid'"], 0x55becc2a22e0 /* 25 vars */) = 0
+
+So I guess we're off the hook for handling that weirdness.
 
 --D
 
-> +    if 'ro' in must_have:
-> +        assert 'ro' in info['super_options'], \
-> +            'ro on mount but rw on superblock: super_options=%r' % \
-> +                info['super_options']
-> +
-> +
-> +@pytest.mark.parametrize('name', ('hello', 'hello_ll'))
-> +@pytest.mark.parametrize('label,opts,must_have,must_not_have',
-> +                         ATTR_CASES_ROOT,
-> +                         ids=[c[0] for c in ATTR_CASES_ROOT])
-> +def test_mountinfo_attrs_root(tmpdir, output_checker, name,
-> +                              label, opts, must_have, must_not_have):
-> +    if os.getuid() != 0:
-> +        pytest.skip('clearing nosuid/nodev requires root')
-> +    with hello_mount(tmpdir, output_checker, name, opts) as mnt:
-> +        info = parse_mountinfo(mnt)
-> +    _check_attrs(info, must_have, must_not_have)
+
+> +{"ro",           MS_RDONLY,        1,  1,    1,        MOUNT_ATTR_RDONLY},
+> +{"suid",         MS_NOSUID,        0,  0,    0,        MOUNT_ATTR_NOSUID},
+> +{"nosuid",       MS_NOSUID,        1,  1,    0,        MOUNT_ATTR_NOSUID},
+> +{"dev",          MS_NODEV,         0,  1,    0,        MOUNT_ATTR_NODEV},
+> +{"nodev",        MS_NODEV,         1,  1,    0,        MOUNT_ATTR_NODEV},
+> +{"exec",         MS_NOEXEC,        0,  1,    0,        MOUNT_ATTR_NOEXEC},
+> +{"noexec",       MS_NOEXEC,        1,  1,    0,        MOUNT_ATTR_NOEXEC},
+> +{"async",        MS_SYNCHRONOUS,   0,  1,    1,        0},
+> +{"sync",         MS_SYNCHRONOUS,   1,  1,    1,        0},
+> +{"noatime",      MS_NOATIME,       1,  1,    0,        MOUNT_ATTR_NOATIME},
+> +{"nodiratime",   MS_NODIRATIME,    1,  1,    0,        MOUNT_ATTR_NODIRATIME},
+> +{"norelatime",   MS_RELATIME,      0,  1,    0,        MOUNT_ATTR_RELATIME},
+> +{"nostrictatime", MS_STRICTATIME,  0,  1,    0,        MOUNT_ATTR_STRICTATIME},
+> +{"symfollow",    MS_NOSYMFOLLOW,   0,  1,    0,        MOUNT_ATTR_NOSYMFOLLOW},
+> +{"nosymfollow",  MS_NOSYMFOLLOW,   1,  1,    0,        MOUNT_ATTR_NOSYMFOLLOW},
+> +{"dirsync",      MS_DIRSYNC,       1,  1,    1,        0},
+> +{NULL,           0,                0,  0,    0,        0}
+>  };
+>  
+>  #ifdef IGNORE_MTAB
+> diff --git a/lib/mount_util.h b/lib/mount_util.h
+> index 7ddd6b01..bf088996 100644
+> --- a/lib/mount_util.h
+> +++ b/lib/mount_util.h
+> @@ -18,7 +18,8 @@ struct mount_flags {
+>  	unsigned long flag;
+>  	int on;
+>  	int safe; /* used by fusermount */
+> -	unsigned long mount_attr; /* MOUNT_ATTR_* value for fsmount (0 = fsconfig flag) */
+> +	int is_fsconfig; /* apply via fsconfig SET_FLAG (superblock-level) */
+> +	unsigned long mount_attr; /* MOUNT_ATTR_* for fsmount (0 = none) */
+>  };
+>  extern const struct mount_flags mount_flags[];
+>  
 > 
 > -- 
 > 2.53.0
