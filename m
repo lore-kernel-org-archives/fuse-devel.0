@@ -1,75 +1,76 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB5837267A
-	for <fuse-devel@lists.linux.dev>; Sun, 10 May 2026 17:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0C818859B
+	for <fuse-devel@lists.linux.dev>; Sun, 10 May 2026 17:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778432688; cv=none; b=XMOVvQspyu7hql5ueqVdSUdxXiPQetrZfZwKeBkEz00BkQy++JQHGih8Ep4BAUN4+BasE79OXAwNM6vGJnYJBztyKv1UgKSxT8g4AAtxIYfi2hopD6n3y854lUR6cUtkWBBiBUTLmYjr4P0SxHPc7gUb1+ZBKotOcrHwp7wp1OU=
+	t=1778433556; cv=none; b=Vo7Xv0ZhruYyoluQfXl0nG5lO+E1sDCSdicv8vxOsPrENVAz0mSdRgo+MRQiplxEUCve60Stn902aenLQr4jR+zBP4eqJo8g0+faO9U9LSFON0FbAo44ZZB21GS3LPL5l+00pJCnuDQOV2vrQzIeywx7gr6jzNKbphn+OyBdWGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778432688; c=relaxed/simple;
-	bh=/aPJ5ynEf8+OqWZlHast71U343a21BTjs17dOROe98E=;
+	s=arc-20240116; t=1778433556; c=relaxed/simple;
+	bh=3a7eJILA8qjfNJO8XR/slqdCyXls7jF2OH7HF7BEtxM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LwchqZvrV+THlPMplFOX4brzmjfZKT6x4Tu47eY7YHd0VbKkY3DIeWx8Cig7BTzyt5bUW9Id+zb1MFhrWCJhXgYrKkIKNAiUVEW2HzkTQ582MAFE6LJ30TCxJnwtWRso2UyO18Z9L+BvYmW27JS71nfPE7Hg94mYm3AIAEF1hVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=EghZMgst; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UWJuExFS; arc=none smtp.client-ip=103.168.172.148
+	 In-Reply-To:Content-Type; b=kp92uRB0mc5Uz7nXpY9xRKYIXq3PanGJsEnPZ9/I/Sgr6rhSg1Cqae7bUAT3WfSmdP6Sq0rOpa7t94v3bSFZ5H0Y1UDouRL+q2V9+SvdReLA2Cb0OCjRCEKsk0pG0oyfUL+fZmPBzShPSRKzyBeicdxMq/sjLbbigjOkR646MjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=URt3QNLi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B+RxRhpO; arc=none smtp.client-ip=103.168.172.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="EghZMgst";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UWJuExFS"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 74BEEEC0014;
-	Sun, 10 May 2026 13:04:46 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="URt3QNLi";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B+RxRhpO"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C320D14000F1;
+	Sun, 10 May 2026 13:19:14 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Sun, 10 May 2026 13:04:46 -0400
+  by phl-compute-04.internal (MEProxy); Sun, 10 May 2026 13:19:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778432686;
-	 x=1778519086; bh=D/+KFrQhvE0Ajx+wwYoKi7kaWIIj7dJODothitlLFL8=; b=
-	EghZMgstGYrvXDZ2O0IRCqtP/c6Dz1K5yVEZreH1eH04vB36eR/wDDjwJudv2O7P
-	xrJh8FJW/qtIMUhSeKni41LG7v3meIOO7zbK8WWsGoSv2XOb62kN8wKt9OvMOfuS
-	Ap/y4TBfnizcDhO/Y2Tj9SsaghL+kbUkYNrIAjNWt9QThrPmOGExiQWDV6aBBJgn
-	0E/baiz7q12zvGdrSRuqSSNQ0zHX0YkGuLq+6eIwqrwYn09i5RODNOC9RZdN3Y/K
-	5xeBv83QDLTqG6yZ4RoVHdmumUpiqqceM6tLund1bJyrXzIeOgvqOBXHohAtoAny
-	idemgLI5QafKv3+uJH/8iQ==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778433554;
+	 x=1778519954; bh=k2bcTzPLkXOzn4Ws2zXx/KK9MbrMPsjstBYcAS2u0lA=; b=
+	URt3QNLi3pbGOu+VGlhjcmSPNyFQcSk2NnpM8y73jKSBdB2tgWv5Tt6flZbRodtD
+	kfzz3+RskGH5wJqyzdm0hu8YJ9Uha6jr7b4b7e7GtmDLkrfdM3jNRgvP8XXHCxqP
+	a6hHYw9QrczLbJq2YeoEs7BdJvof47D3Ckjgt+bm8fF14A4KkaCMJNHz+Z6dAETT
+	QnqhLT4ttQvzYcg2PU3KuC9xyRKuAIk83KAA99l5UlnYR5UnCKwk2uO0ieCCAqYa
+	tVRRYELHaTeeP+DfioaXgIzBZNlN7bS3BX7sQ0kY1UHX9UFCCaXVHDqmbR2mGX7+
+	Ms6SffSlF5EGcsH8YDL+Dw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778432686; x=
-	1778519086; bh=D/+KFrQhvE0Ajx+wwYoKi7kaWIIj7dJODothitlLFL8=; b=U
-	WJuExFSAqzMjIOv6omxhEw1PgsGEKJKDP2eMDCs0F9R3+k2bzke5vaB6yZ5WQx9a
-	+kp7K+N/RVzNb1JpXJygTNZdpGFK/AmBvJbujX5NkjbVy8sQllxqCcpuuhe7ZP8b
-	XDi17p0lYByOsx+3C7fEz0nx76ke0zr+Qp/6oEY235pS+4kHxitPDqA2mBybGXRK
-	5MBjMxicHOH1Q05lHlrcUSKfQme4paatZUxw9ElqMpakzlp833Z5RpDhRUANiImJ
-	yZxxb8LwWxFejWEEO/azXmACqy+Brnnb/Ojb1eL/i52uLaW2gET8YuFctyyuhX/G
-	CpdnwVeiiPnvdm97iQCLg==
-X-ME-Sender: <xms:rroAaqajKnJAF8_1xXRtaVg9BckvhnmM3iMu41qRpAQ7-d97kfphfA>
-    <xme:rroAajZxypSkVZUnCungKWKQJXveRNdBoq1EqW3jFC6cfFwp56e1bY2N7T9pbNMlR
-    6eMJncd9ButHo9rkKFONBrxSuOPEtT330LdE0NFOgRqdFXIutcl>
-X-ME-Received: <xmr:rroAaimu-aFxIS9FPrGFLgArSYH1RTOpjvJTSYSBGvRq2scksqMTrwQXL4KGSaEPu-SeH7ze0BLHAMyIuiI3Ud4xhdEDaZQUssC79nPaDhy-v6iqAg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudeiieehucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778433554; x=
+	1778519954; bh=k2bcTzPLkXOzn4Ws2zXx/KK9MbrMPsjstBYcAS2u0lA=; b=B
+	+RxRhpOT40U3HTyMaNaJB1/qZci99Dp6pZLpoMyYkoxE6lxUoFeOpX5SnvyB/bFz
+	l/I+ZGLLk043fkTO6BV5luNv3/j32X1mOWQF1Br8EDNOACw8e5HlbW22hdEUY2Qh
+	w+xv0/s0wX2JwN3bB2+qDpzxxHieFcibKBkUgStd6MRFFAgxGCyqr1dqFTbG/tyo
+	SFheNK8SFE386rF6XPwKZsyEvtkMXv2fuRGy5dVhJU6cPEzx/+FyZUc1DlRqld+l
+	VtgDz1ptrNZhxlxW4QoEomobTyLS7OR9ir9+5wSbdqrbnBs3FU/Cv55BOH+MNGDl
+	+TPWRMZiSlhZBFcQBSvDw==
+X-ME-Sender: <xms:Er4AajdePYKPoZMYbcibs48c7DPVV7yH_GXh1OxzEYJzl-S3xk38Ng>
+    <xme:Er4Aagp_TNVMCxX1bc6KtJ7bp9IcZcHM3GbQ46RtfFkEJMqjs4CdfWYbEZQOzhYuG
+    7ej01HuPlV3RH4_60CznPMyq_7K_CaYkNnlQ4nDey8Op8G6oUdE>
+X-ME-Received: <xmr:Er4Aap4ba4m2HoQlES_LLOg0BxopFjH4K6l3au_0VLzr2pIOt_PsOnB3BtvI14Sb-uVzhJuP7osvyZWC7vvjcl6Bj4JZWGMZrFRWlXNahpOU4i6u3Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudeiieekucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
     ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
     htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
     udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopedvpdhmohguvgep
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeefpdhmohguvgep
     shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:rroAanxGbo0BiKMLh02Kov1otDBA3x-2CY-HTY9cDGdeampuyJSkNQ>
-    <xmx:rroAaoPoXbctS0STVzefGcMIXrEEGqIAOFpIRtDnH5Bq8YUh_qXBWA>
-    <xmx:rroAajSdPQJmKqIvEePecBY5cV7m1dYXbRsGuvaKLTh6wV-eenUYCQ>
-    <xmx:rroAauZZ_S533msQMCSvH-ukbN7KF_qyFp2a8UnAEmhBa9ca-FMB4Q>
-    <xmx:rroAagOym1CzBci34Z9hfPhTDJMMQRAKJwUuD6OoI9CFwcEf1CcxquTv>
+    hpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghp
+    thhtohepmhhikhhlohhssehsiigvrhgvughirdhhuh
+X-ME-Proxy: <xmx:Er4Aauo53R8iElA_-WbQzTjvCxrfOCtu8IzkDZVJXl7DjkCzCP8B_g>
+    <xmx:Er4AajhgUw1ejAbggiiJdqjbMMcjVvB9kdW6XgZuyZoak_CzKhoPSg>
+    <xmx:Er4AagLJI-Nw2vZA3gtW8lBRm2oM6CiWcbDSqKMrgCoukR3fm7pRYQ>
+    <xmx:Er4AarBrf1TStsafoi2WdJqtXuRarVlS34g8pnUGqnkiP1Elbz_PNw>
+    <xmx:Er4AavgsygNANbXAulICl5c1UFv4dGk5R5SVhnDa6p4Pu1cEgHzLnIg8>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 10 May 2026 13:04:45 -0400 (EDT)
-Message-ID: <e4bfd319-d12f-4581-b8fb-da47459bb529@bsbernd.com>
-Date: Sun, 10 May 2026 19:04:45 +0200
+ 10 May 2026 13:19:13 -0400 (EDT)
+Message-ID: <8c219849-1f76-404e-ad03-c2d43fe7d544@bsbernd.com>
+Date: Sun, 10 May 2026 19:19:13 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,76 +78,65 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/10] fuse mount: Do not set sync_init when sync_init was
- not used
+Subject: Re: [PATCH 10/10] highlevel: Switch fuse_main_real_versioned() to
+ fuse_daemonize_early()
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: fuse-devel@lists.linux.dev
+Cc: fuse-devel@lists.linux.dev, Miklos Szeredi <miklos@szeredi.hu>
 References: <20260508-new-mount-fixes-and-tests-v1-0-c67a0893ddbc@bsbernd.com>
- <20260508-new-mount-fixes-and-tests-v1-9-c67a0893ddbc@bsbernd.com>
- <20260509003534.GN2241589@frogsfrogsfrogs>
+ <20260508-new-mount-fixes-and-tests-v1-10-c67a0893ddbc@bsbernd.com>
+ <20260509003849.GO2241589@frogsfrogsfrogs>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260509003534.GN2241589@frogsfrogsfrogs>
+In-Reply-To: <20260509003849.GO2241589@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/9/26 02:35, Darrick J. Wong wrote:
-> On Fri, May 08, 2026 at 06:39:12PM +0200, Bernd Schubert via B4 Relay wrote:
+On 5/9/26 02:38, Darrick J. Wong wrote:
+> On Fri, May 08, 2026 at 06:39:13PM +0200, Bernd Schubert via B4 Relay wrote:
 >> From: Bernd Schubert <bernd@bsbernd.com>
 >>
->> synchronous init is just a hint and we cannot fail on it, but for
->> daemonization we need to do know when it was actually used.
->> Bug was that se->sync_init() was set unconditionally on mount success.
+>> For high level we can switch directly in that function to the new daemonize
+>> API. Additionally we need to check if the daemon has already acticated
+>> daemonization to avoid warning messages.
 >>
+>> Suggested-by: Miklos Szeredi <miklos@szeredi.hu>
 >> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 >> ---
->>  lib/fuse_lowlevel.c | 22 +++++++++++++++-------
->>  1 file changed, 15 insertions(+), 7 deletions(-)
+>>  lib/helper.c | 30 +++++++++++++++++++-----------
+>>  1 file changed, 19 insertions(+), 11 deletions(-)
 >>
->> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
->> index 6e078e82..60b936c3 100644
->> --- a/lib/fuse_lowlevel.c
->> +++ b/lib/fuse_lowlevel.c
->> @@ -4471,10 +4471,13 @@ static void *session_sync_init_worker(void *data)
->>  }
+>> diff --git a/lib/helper.c b/lib/helper.c
+>> index 4d7c2b7f..15de3fbf 100644
+>> --- a/lib/helper.c
+>> +++ b/lib/helper.c
+>> @@ -260,6 +260,7 @@ int fuse_main_real_versioned(int argc, char *argv[],
+>>  	struct fuse_cmdline_opts opts;
+>>  	int res;
+>>  	struct fuse_loop_config *loop_config = NULL;
+>> +	bool self_daemonize = false;
 >>  
->>  /* Enable synchronous FUSE_INIT and start worker thread */
->> -static int session_start_sync_init(struct fuse_session *se, int fd)
->> +static int session_start_sync_init(struct fuse_session *se, int fd,
->> +				   bool *is_sync_init)
->>  {
->>  	int err, res;
->>  
->> +	*is_sync_init = false;
->> +
->>  	/*
->>  	 * Older fuse servers do not set want_sync_init or start the new
->>  	 * daemonize code, so they get async init.
->> @@ -4536,6 +4539,8 @@ static int session_start_sync_init(struct fuse_session *se, int fd)
->>  		return -EIO;
+>>  	if (fuse_parse_cmdline(&args, &opts) != 0)
+>>  		return 1;
+>> @@ -289,6 +290,21 @@ int fuse_main_real_versioned(int argc, char *argv[],
+>>  		goto out1;
 >>  	}
 >>  
->> +	*is_sync_init = true;
+>> +	/* The application might have already started daemonization itself */
+>> +	if (!fuse_daemonize_early_is_active()) {
+>> +		int daemonize_early_flags = 0;
+>> +
+>> +		if (opts.foreground)
+>> +			daemonize_early_flags |= FUSE_DAEMONIZE_NO_BACKGROUND;
+>> +
+>> +		self_daemonize = true;
 > 
-> Hrm.  So we only end up with return value == 0 and *is_sync_init==true
-> if SYNC_INIT was enabled via ioctl and all the pthread stuff is ready to
-> go.  The other two outcomes are:
-> 
-> 1. return == 0 && *is_sync_init==false if the kernel didn't let us use
->    synchronous init
-> 
-> 2. return != 0 if something broke and we just want to abort
-> 
-> If that's all correct then I've understood this patch well enough to say
+> Technically speaking you don't have to set self_daemonize until after
+> the _early_start succeeds, right?
 
-Exactly! I'm going to amend the commit message.
-
-> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-> 
-> --D
-> 
+Yeah, I moved it below the "if (res != 0) {" condition now, probably
+cleaner.
 
 
 Thanks,
