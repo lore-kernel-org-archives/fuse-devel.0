@@ -1,181 +1,159 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9558230C354
-	for <fuse-devel@lists.linux.dev>; Sat,  9 May 2026 14:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778337995; cv=pass; b=TGIQNmLtScB+/IaGFf3o4+6Di7zrATcFXSQrKLvnw8E8q2NcePqJpcqsckInksWQ5Xh/3E3sJrusV8/9EqVpvhv5s4JjWNVaRyyAnpWTcjeEfY0jeW7FDb+h7ClkzolRwrAjhT4QN/0dm/GjdPLDBRcd6vgVi4i8Na2f84++R5M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778337995; c=relaxed/simple;
-	bh=sawKN+qRD/vAY7MWOXqkqKaG0HyQdKakE6fstvcoU3E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XA0XjqsdDPQmwG3rv/fwXOwHqBjYrcPA2DsH3KSMMh9wquThZ29McOJvGY1sGm5LZBl+iSPDuwKA0a6fb/MXt3Id8Z2UKln50pt69v3Gj7HbCEplgXJ/sZPlaIHyvXoR5eicJko23eg0IOuNi5AkgGX6W9Pgd/pxaY1VQFvZwK0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GutMRMrk; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CAE1E2834
+	for <fuse-devel@lists.linux.dev>; Sun, 10 May 2026 16:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778432042; cv=none; b=linuckIvKbDVajAE7LdLAK93Iz8UHlwyGrdyTu/5bdqp67bJVtRSO0ymGTt5S9i1vfBTO94zacoCwnS2+fWQzE1FieybrGiJb3pOXk2X/5PHN9s1pd+/V5wBXnqdoWqe2M+5w6tjurp1KRHUdYHw0hOg8aq9XBVymyA2VnzNA34=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778432042; c=relaxed/simple;
+	bh=RDn6GcdbDOOtWBBfxXSGAnTSbA9JyX2UuQS7eVs9cCA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pa0en3ls/DUbJyR7x1uw8F0g3JF3yWFmJF1U+3Wum5eI+6XkPDjPuC3CayWjufaId+2jweqVm0fbHnFl34sgmO0PcEZX9lOwiVMetCynDcCTStMmCE86hc6QvsOz9WLvvMw7JWjyGI/fuYK9BKB5ntzINhcXLQe9bbR4JMATFJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=B1YgqrQF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=S7XW2JqH; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GutMRMrk"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-67f7caa33easo480575a12.1
-        for <fuse-devel@lists.linux.dev>; Sat, 09 May 2026 07:46:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778337992; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BOmkZvJ/TfVBERPy4uyX6W4jLiZkS3JaJaCdUZeIUG/TQ5FnCEhqM1RzctjgDKgZww
-         DYo43KnH/Ogv1jd5g8D4RekEfcpmhL++ku8CJ1h3IJ1SBY686dORo0aNIG2LGO2NA24x
-         CCoSgQPs13DmrQpskwY0WQPq/GOlx8mNhsgTCrno6xAWY4ITdE/hmbvXuNaRCb5fFfkA
-         GU6NXX8I0H519aZUTCJI1WGG1QYX1N3SIZCB3gY40v4CirNtUae/vrz+s0LmNQK+kGxi
-         6QX8yustrMYmo9M870xfSZBTOOH1XrNM38G5KmdOCXeFXCRmnC3vPQU338ROyTKGbMQH
-         wyxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hxvAH6B3ovI1KriPqXOwwGFTFPthi96p6jV9SADdE0c=;
-        fh=Yds00APiICbi0gH31pAMW/Va2707yISFPp3uV7877zE=;
-        b=hlRlyQdpik9+H4s8A3QQ9pb4gLoNIgXQbzWAuQk8Q8W00lsvL+4zkIB3x+iF0UG9VF
-         I2U6a+pEVl+s6liyJO5JXGQW/pyuaQYqLc29jqlB+YvZ4tzFOahivGd28n0sDAk14frH
-         Y8lxhrFDgnLzf9iXb5phWTuDUHBvq8szQWGKXY8zntdKPRnOe6xOzoKoQkaZ18//J/gt
-         /GbFCDqP1JxkCF//Wk1CagBtRhZ5zJMXJHHBXLtuiPVe8QBC2RnuWbvheKOsElstU+QZ
-         l/54y9P0hu/8ln/NNCSXaF/ktydL/zUnYNmmaXgeM9xt/+4YwD5EKu4tUeESi4tIviRn
-         xBIA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778337992; x=1778942792; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hxvAH6B3ovI1KriPqXOwwGFTFPthi96p6jV9SADdE0c=;
-        b=GutMRMrkvtW4vWAwD4Y9OnaYhSxoyPnA2x/YCDaW/LVeGt/fvTCgn5+nMwsib+b7oW
-         GaYgmQyUkYNrH0s8q37vguaOf2/3CYfyvC/C5/VkbFdbYlIA/yavqRmBsslHmOZpqPRD
-         YDOpdbF9P+lKUNOM/RCc+FsHgQ3uw6TAQFgQc0geU3jKoL8ARb1OhuUj0CkMMH5Ii7ql
-         qP2g5tA9KBAdSyKKhARFUP9jNjmrneqhSW6YGU9XnjFXDKlYOnKd92/WDQSA1DxSzUAJ
-         EuI6hcV/tJGI8aAQIJOpkLophnOTeOx55+6ebmzw/zUbpJ+d86rEzpPhivzho8UgcZ22
-         9tGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778337992; x=1778942792;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hxvAH6B3ovI1KriPqXOwwGFTFPthi96p6jV9SADdE0c=;
-        b=N9QJrvF6sYuIYMEEUwi+RmeUw+qZhh6aPU7Pkgr1aoCsst+ghOgkROHor08S26w6Rf
-         8IRx4BMs+SKMgji/2Y2pjNSAJr1t05jjUF0W7Ym0WmlGFlcp1WJbpKQ+HmWXiN1+KM+h
-         yStccQykXlrHW98H1++M8rtcVxlFkMeYrxIiL+Hyo7ASwGD8fqVZh3ROH9w1qaBpRwMM
-         Sy5wwyYx7hWV85Z+w7GOs/iVx8sZ/0dJmpXvhcTlOzxgQZTcO3Qbj1vdCClGsZ1mmoEG
-         Ds7GOUl3WIeLVkXZsUP+U1/BwNiK8MoLtO2xlle9l1iBBADMjAvyf6nYyo4g3sSrq16+
-         j0cw==
-X-Forwarded-Encrypted: i=1; AFNElJ9x4RB1eilMlu1Xxkxc6nNC+E2WHAY1U00ZvVporFxbVNy/e3cThqh+irwWWqTa7JQ/SPuDxaguXVLJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyd8I5m1O95Y9ccQKOXZAsY56WqsTVj16sJizkV1fWVS1ZKmhLn
-	6WBLNvPNYykwbYv18UCo148syeTydn9Ny1UXyIvBdI9q8Vrxo4N+Pv3NRr3WORwrCeKU2EMzPCI
-	aGANab0Mw6o0OfT6q55GS80cmvSsgbsM=
-X-Gm-Gg: Acq92OHvDoC09JBCJUhbL0qlRJRk6Ej4TsgfuGWxxEVNObTND5amAt5BgMBkSmi1WJf
-	YOZQZPv/0imq0QrokUVn0YP8qrGqMJIgzUvRpe+UHC+m/g2SGKiIx2B7YTWTf26/SlHr6tma4YZ
-	Yx6dUESnT+CIH3Thd11YN4PsNoHYAYVI10NHCrACoLa+LIyRUT27zVdOxSNjeH6OQpb8Li6xGlM
-	HLAR9XRv3mvOF8fMkEgz3SeoU0VMB7n38NufwLixRWE7l7n8yp3JypbECUDSu9c9GOya8ACLllk
-	/l5aqyBMffb8r4tRDGYnAM2Z6R4DHw/CdCdTzcfF
-X-Received: by 2002:aa7:da02:0:b0:66e:e024:1a08 with SMTP id
- 4fb4d7f45d1cf-67d646b082bmr6638931a12.24.1778337991544; Sat, 09 May 2026
- 07:46:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="B1YgqrQF";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="S7XW2JqH"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C7D541400144;
+	Sun, 10 May 2026 12:53:59 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Sun, 10 May 2026 12:53:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1778432039;
+	 x=1778518439; bh=D1a+Hc1tBIHbu1ermN79IeVo+H2daxfa+ATCWsWEui0=; b=
+	B1YgqrQFoAJwTVpc8O1Cl3kFPtvojn42MRdnmVRb0B6/+iSN3rAQdbP3b1t1l3YC
+	6ZmJ9X2poLO8jLYxVoqufmqMsXpmn1wfn+P8oyfkffiQfeOrsf6+S3COUN9kkLy0
+	ar2dbTDU549uaHaJWzo2b7ZS1/1XX0RkrGjS1/aMpr4J/4zNSjvBZ0Zieb34he+3
+	PFM4LjBCjXh1HFw8rrc2PVK5nAcLrlwchZK6ipHHhCkF8y1GaVrZNABT29otxc6t
+	6BSej98GWo4QBYPGDRMrI+VneHiU4fUKG9LhSVKLytiB4XDjxMmNe5K3L+ee8zo7
+	O5fs3vZ67O5jtc9TYCyV2A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778432039; x=
+	1778518439; bh=D1a+Hc1tBIHbu1ermN79IeVo+H2daxfa+ATCWsWEui0=; b=S
+	7XW2JqHXfZ+R8WqXI30hDGl6jmDCOturmYbiAlub23HH0yMfC3yajV24SCmDHria
+	/bA2A1KTsj/Vc9AI0Yx28nq6jk1L7+bVRaf5YMOZS/RyyiVWY+QrQlENJaBQbFhg
+	CNtLWXyGzd8AbQKwbYADLotU3DLasQI3XGYf7zbZopAfiOg3ty5NYDwFGHjJ1EnE
+	ataqWNmHYPcy+LvFO5SQKleMfbmdLO30hkYLuaykZo8jZ4gjTgfCedFkC2kjgiLK
+	lrih/e3j7F+LOGV/HhWX8hwXVJF7bi4wsw8mamHcFQNpby4fem95jz7TJb+RNkyG
+	fGRAmSNxzUanFBQmkdMEw==
+X-ME-Sender: <xms:J7gAavoXZR1JlnNL1NL02vKrmVMI5PxZIeuRkdnJYVh3TZeTEOtVpg>
+    <xme:J7gAavpwoRYVaf--IkNe9Ka49FOrXonedsqWM6uRRfmV7KJveaVKW-eHH_DL_d5A3
+    iBXiECHdjttedIntOJPNbJDuhcb5MFYOpUgZmF-chc53q15lcstiA>
+X-ME-Received: <xmr:J7gAap2s_tTJdSUld8eHrTXqg1uCFgjt32rmKgFHD9TlMuSy0P5qVOM0_Hug1KKHD6HKZ_Skv-gw2NSrb-aUZOv3m9G3-CXR3sU0VbH9vNq4bjCRuA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudeiieefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopedvpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghv
+X-ME-Proxy: <xmx:J7gAauDVGu5TLfI-iZHiA9yY1hE6FZpX6PJWgz87WG3wCrh8ttpfVQ>
+    <xmx:J7gAahfO2tELy0eO1R--UL6yNqaZDRO3DVyXHxrF2w6mm_q1pXfMdA>
+    <xmx:J7gAajhVHnzIFV_lX1TFAPMbfoM28GRzLYr2l6AHJm2bcypNb_tmTg>
+    <xmx:J7gAappLrxSE7RMeD9VEX8MrHh-ubyffPPetdDkFIREFWW7sqsH5cQ>
+    <xmx:J7gAareNzMFBjFSlwi84crx8qOmSF0GGMdZgYFUjI6OiLr7B-El1hfax>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 10 May 2026 12:53:59 -0400 (EDT)
+Message-ID: <72662f25-3691-4c9c-b817-0d4049202055@bsbernd.com>
+Date: Sun, 10 May 2026 18:53:57 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260509102337.272593-1-liwang@kylinos.cn>
-In-Reply-To: <20260509102337.272593-1-liwang@kylinos.cn>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 9 May 2026 16:46:19 +0200
-X-Gm-Features: AVHnY4JRiI1W0a00aZBMx9Zu9ZwGd-b_kHgAXX5Dt--Xvfq-HwbodxzXIgAENc8
-Message-ID: <CAOQ4uxjRtUkWB6oCttv-VnznCB3T+HNXgoYgEcU3RwU6BokaYQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: propagate async RELEASE queue errno in fuse_file_put()
-To: Li Wang <liwang@kylinos.cn>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>, 
-	Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 08/10] fuse_daemonize_early_start: Disallow daemonization
+ when already active.
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: fuse-devel@lists.linux.dev
+References: <20260508-new-mount-fixes-and-tests-v1-0-c67a0893ddbc@bsbernd.com>
+ <20260508-new-mount-fixes-and-tests-v1-8-c67a0893ddbc@bsbernd.com>
+ <20260509003008.GM2241589@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260509003008.GM2241589@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, May 9, 2026 at 12:24=E2=80=AFPM Li Wang <liwang@kylinos.cn> wrote:
->
-> fuse_file_put() queues asynchronous FUSE_RELEASE via fuse_simple_backgrou=
-nd().
-> When queueing fails, the failure branch always passed -ENOTCONN into
-> fuse_release_end(). fuse_simple_background() can however fail for multipl=
-e reasons
-> with different return values, such as -ENOMEM or -EINTR. Pass the actual =
-negative
-> errno into fuse_release_end(). Currently, the callback does not interpret=
- it,
-> but passing the real value avoids misleading future development or debug =
-printf
-> that assumes -ENOTCONN meant disconnect.
->
 
-Hi Li,
 
-If fuse_release_end() does not do anything with the error, just drop this
-argument.
+On 5/9/26 02:30, Darrick J. Wong wrote:
+> On Fri, May 08, 2026 at 06:39:11PM +0200, Bernd Schubert via B4 Relay wrote:
+>> From: Bernd Schubert <bernd@bsbernd.com>
+>>
+>> A coding error could run fuse_daemonize_early_start() two times
+>> and so far the code was not handling/failing that.
+>>
+>> Also do not set "active" when it actually does not do daemonization.
+>>
+>> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+>> ---
+>>  lib/fuse_daemonize.c | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/lib/fuse_daemonize.c b/lib/fuse_daemonize.c
+>> index c9a91748..8afe4b0d 100644
+>> --- a/lib/fuse_daemonize.c
+>> +++ b/lib/fuse_daemonize.c
+>> @@ -211,18 +211,22 @@ int fuse_daemonize_early_start(unsigned int flags)
+>>  	struct fuse_daemonize *dm = &daemonize;
+>>  	int err = 0;
+>>  
+>> +	if (dm->active)
+>> +		return -EALREADY;
+>> +
+>>  	dm->flags = flags;
+>>  	dm->signal_pipe_wr = -1;
+>>  	dm->death_pipe_rd = -1;
+>>  	dm->stop_pipe_rd = -1;
+>>  	dm->stop_pipe_wr = -1;
+>> -	dm->active = true;
+>>  
+>>  	if (!(flags & FUSE_DAEMONIZE_NO_CHDIR))
+>>  		(void)chdir("/");
+>>  
+>> -	if (!(flags & FUSE_DAEMONIZE_NO_BACKGROUND))
+>> +	if (!(flags & FUSE_DAEMONIZE_NO_BACKGROUND)) {
+>> +		dm->active = true;
+> 
+> I suppose there's no harm in letting multiple
+> fuse_daemonize_early_start(FUSE_DAEMONIZE_NO_BACKGROUND) calls occur,
+> but wouldn't it be simpler to say that fuse_daemonize_early_start should
+> only be called once by fuse servers that want sync_init and don't use
+> fuse_main(); or at most once by fuse servers that want sync_init and do
+> use fuse_main()?
 
-I see no point in this patch as is, serving some unknown future development=
-.
-If future development needs the error, future developers can pass the error=
-.
+fuse_daemonize_early_ is needed for sync_init, right, but for sure not
+exclusively. It is equally needed for daemons that want to start threads
+before doing anything related to fuse. These daemons probably already
+have their own daemonization code, but any new daemon can re-use the new
+fuse_daemonize_early_ code, instead of creating yet another instance of
+the same work.
+
+> 
+> vs. having a weird library call where with *some* parameters you can
+> call it more than once.
+
+"dm->active = true" means "deamonization is currently in progress - it
+is cleared by fuse_daemonize_early_signal() (_early_fail() /
+_early_success). I.e. it shall not be set when there is no ongoing
+daemonization. I updated the comments in struct fuse_daemonize.
+
 
 Thanks,
-Amir.
-
-> Add an explicit (void)error in fuse_release_end() so builds that enable
-> -Wunused-parameter (for example make W=3D3) stay clean.
->
-> Signed-off-by: Li Wang <liwang@kylinos.cn>
-> ---
->  fs/fuse/file.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
->
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 3bdab8d03373..8b7badb7721a 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -96,6 +96,8 @@ static void fuse_release_end(struct fuse_args *args, in=
-t error)
->  {
->         struct fuse_release_args *ra =3D container_of(args, typeof(*ra), =
-args);
->
-> +       (void)error;
-> +
->         iput(ra->inode);
->         kfree(ra);
->  }
-> @@ -117,6 +119,8 @@ static void fuse_file_put(struct fuse_file *ff, bool =
-sync)
->                         fuse_simple_request(ff->fm, args);
->                         fuse_release_end(args, 0);
->                 } else {
-> +                       int err;
-> +
->                         /*
->                          * DAX inodes may need to issue a number of synch=
-ronous
->                          * request for clearing the mappings.
-> @@ -124,9 +128,10 @@ static void fuse_file_put(struct fuse_file *ff, bool=
- sync)
->                         if (ra && ra->inode && FUSE_IS_DAX(ra->inode))
->                                 args->may_block =3D true;
->                         args->end =3D fuse_release_end;
-> -                       if (fuse_simple_background(ff->fm, args,
-> -                                                  GFP_KERNEL | __GFP_NOF=
-AIL))
-> -                               fuse_release_end(args, -ENOTCONN);
-> +                       err =3D fuse_simple_background(ff->fm, args,
-> +                                                    GFP_KERNEL | __GFP_N=
-OFAIL);
-> +                       if (err)
-> +                               fuse_release_end(args, err);
->                 }
->                 kfree(ff);
->         }
-> --
-> 2.34.1
->
->
+Bernd
