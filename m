@@ -1,161 +1,143 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718083A3E8B
-	for <fuse-devel@lists.linux.dev>; Mon, 11 May 2026 13:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778505237; cv=none; b=XCLIdjFkzeNWkSCbPbgpqax0bLHFn1HwHnZ5XhhoV+nNgoo0+K/qZ0g/Vm58OlF0lPrDI2mpoyRgPmxhBMm8jNvBN9o6tAMm7wqd4HGlC7/UIzqw7NqKu8i8Y78kEUj9rIlwSah1EY1qCpW3CsKii+3pCxgCdqLS1OmNWxIfJCM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778505237; c=relaxed/simple;
-	bh=YWy1NtUWDLxg3IuqJvPRaK1Vykyq9sRXPdzGhuDokVs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TkCyMa/zltSYCCek7H5LCWzvmzUQ6zLcoya0w60bR86p724FIPmmzg89+4jlxo6i1RXRFzTHK57MSSbaZ5/wMCSW9UQckt+dUf7+53RDGWNURqMXpxZ2h/TNcAqEwXRAkmQootTFI6luKpb5r0Qg6VZbS5IulR7ghj0tET/GjCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=f7jyVnwY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=g2XCDCg+; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D1D402B92
+	for <fuse-devel@lists.linux.dev>; Mon, 11 May 2026 15:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778512377; cv=pass; b=JpUDSTnIKzGOvtmGqmFbqMTjsyR/iL7XfLBFPfqMthBqd58YvNSAd/5gccq/UkzHs5y1odIE7OrKXVwQ2wB7Mm2G90gMS5y4wYmeTfTIRLDZg9OsGPLE4qZ1OlMe8vm/+PFCQltWpztuh3T5BmYD/dmCrD5MgNu7n7/RG+lDD2Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778512377; c=relaxed/simple;
+	bh=aathsBnbkgVaFXNMwT/mok0vKqK3XEdX4/Ft8nMtbCI=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=ILg7GvpwbXLkWy6FtJ0F00fXgqpLjxX8HbSZkCdzc7dnrFkT8wzo2beEKy38ZW6N0avnE/eSZaO8Xqq4ABlLBqB1sUOA9NNdZZK4b0LHfVulhimAMs73bzio1ff/MZxKS2qnkD3QfRav2X0YEf/PTtCnML9kTw7JsTl6twbGcvk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=W7FhfAYD; arc=pass smtp.client-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="f7jyVnwY";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="g2XCDCg+"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 8A5F0EC03BF;
-	Mon, 11 May 2026 09:13:54 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Mon, 11 May 2026 09:13:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1778505234;
-	 x=1778591634; bh=tHkzDtIWJKBT+NS1yijCeOXz/foETklUXKLlzLGZ2ic=; b=
-	f7jyVnwYPx1juCIm9r8Ssj2r1rZ0/zFefqXf5jKTpASJep+HrJ//3Ll5zE56VBtZ
-	pN1rWsovSpNH4vXN0bnSb54OQBOJyhjVqLYW97dWSJ3hGF694LRoxgTljAjZhhAK
-	9pqLoFZ7By1bcBl+vqE4wvqjdzkUZiwrSSsxoQH7+OJTk9p+djkBdBbz67QyLo6z
-	qZdbWxWOHwo6CVLv2kJlIwbU/LDIQgH2KN4rIp23oNcuF0HLddJWJyIWlZC9QXOe
-	ztJ4wggOZR2iix5MXvHgVdOjh62HdqY2zrhkbUCBTukU0+73LWZKv1N1DuQMPZe3
-	iZT8psQ0A3qDsVlWdH5R2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778505234; x=
-	1778591634; bh=tHkzDtIWJKBT+NS1yijCeOXz/foETklUXKLlzLGZ2ic=; b=g
-	2XCDCg+LyZj8N2Vy/Nblh+swxQ0yrOHCVRnE3Rs6dSZ4LhGl9O6EVvuQ+ySrA/D2
-	+MdByxju5iDlFmPxNCdZOipVDrNr8dheskxuNsdwDA4sYP3Q/uXOokJM4KVErFyl
-	e565PTkSPAU8hnrgDJLgRqqAgrTfB9riFo7ZDUYxDI8+Y0xdN5yZ5PqxDJKiWi0C
-	009vZgoTQmsew7Vsl788+9O62m5Pt39p5AlIDu8uctEdvSliqXUudXrJhvkr4m/w
-	WSdZWgYjBPytTVWR9sTLRyHI4ZdaXZuja7RS0xFopWanA2fst5LCdMNruBNBnsdy
-	ZwGqnhGoKeBHrNYWREXJA==
-X-ME-Sender: <xms:EtYBaq1aCVlGxeyXEQXGgBgqlDmZ40K4racR4kYdy5VjpQSiyjKBfQ>
-    <xme:EtYBaj_wGwkd5Om3XMmt8v7Egsm9XVSdcMFr2qkbinoShdV_Snua-kGfq-hUfEhuQ
-    oXsF2w7G6rYKyizMfNNlOWHE_1MkoCCCyVWCkW_IVYTEe-aAfN0xQ>
-X-ME-Received: <xmr:EtYBarN35Lk-LJrKJCE2QmS_reuYfktNeMb6e_LTWmzPgDmVMQooESynAlHQlUl-Bvw_r_jWRS4rHzTFMC8ErGZKAv4Y5G2oIIpvA0Hdf0401l2iLw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduudeltddvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeejueefhfeikeejheelgfdvjedvieejheduieefueekleeufedulefgueeh
-    feejudenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhkvghrnhgvlhdrohhrghenuc
-    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvghrnhgu
-    segsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeehpdhmohguvgepshhmthhpoh
-    huthdprhgtphhtthhopehmshiivghrvgguihesrhgvughhrghtrdgtohhmpdhrtghpthht
-    ohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoh
-    eprghmihhrjeefihhlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhorghnnhgvlhhk
-    ohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepughjfihonhhgsehkvghrnhgvlh
-    drohhrgh
-X-ME-Proxy: <xmx:EtYBanfzdoIDlUsjFHbWonxdNzRUdkQhxPco17AF8GhLe8X4OhYBrw>
-    <xmx:EtYBaqVQLERvr3NylMIAo00jp3tprjibu5yI2ReSE__u2EjJ-3fqgg>
-    <xmx:EtYBavjtaklVMrQFTqMk0RgjkAPkwO0jVM9Xa-byjmZpUWLtrg8YMQ>
-    <xmx:EtYBap9qLRtDfXgsCkA-qwDhky3pivfC0SIDXShPpOMrHrc8OLNpFg>
-    <xmx:EtYBarDwEx7V17T4D1adtHpr7-P5M9THZs00FdT140WXwM9z3bz4CG-O>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 May 2026 09:13:53 -0400 (EDT)
-Message-ID: <6e0d96e9-803a-4c86-bc64-2487d862629a@bsbernd.com>
-Date: Mon, 11 May 2026 15:13:52 +0200
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="W7FhfAYD"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1332772f6b3so745247c88.1
+        for <fuse-devel@lists.linux.dev>; Mon, 11 May 2026 08:12:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778512375; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QMJ15sU+6OcQuxSsPUwB+WBChcEbgzQYfV5lD//wq4GT/GqeQ0vjQP+B1x5FmKdSjK
+         NGaG0z6vcaGIJCllX8Nyg6+NfCkWRmj6KUUsHtnhjJiO1w+t62yJlFRd7QcEbzQZdoeq
+         79XYOdRv//4/PQ8o6edD2Lu8cf8TLxUQHcmlRFRzp3FkXR9CVnV7r16AgdNxbTMAJ1wE
+         PFn/BpFw7Nws9KIBk5kuXurMe/B4X6+Uht4ZxG+mFGOGQnp/GVOG+lrhrFmeyyojlgmg
+         NK/44Q3jRG4IqyID7cqJcT3ombMXKqvVrhk6kxVFGQJltpQv3Z/Qt1zABsw1kPKDZcc5
+         qLYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=DVj8x9VSZBK8vc/OEq+ZAApJltFoV5zCcZWj9ipEgF8=;
+        fh=iRnN5jp8ufaruPxmsHW+K3ox1pPm2f+/q5h7eKCxDDE=;
+        b=HMUsC3AvoBJAxoxJW/zPB8VCWKXDCvejQadRBP9WttXanTnULSpiCNIpg0F4kyHXF3
+         0nPyyahfJcIY6o6ISKERAssLTDTlTuBmOqz/J2UMHEuDqLAY7VOJhDgK329c39wZAk5B
+         OcI8HJiHua4Rv0/tw11/bfeXofT6q7PrJKWdnEE52BLfJoJna5bIaczwlUoSNz915D9t
+         XzfWN4dXYhbik5RXgLZcbqYccMt3D2dEz/uzewzebSpbAdoLQgfd/YER2EEiCCnLm38b
+         QrqNRc31uPzrHNhsdqGYq5gPCgUcAEGTrseeNUQ3KsxPr0czBuVFSvhe71LjBoP0bVGJ
+         T7Hw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1778512375; x=1779117175; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DVj8x9VSZBK8vc/OEq+ZAApJltFoV5zCcZWj9ipEgF8=;
+        b=W7FhfAYDY+nspeHnnW4yJx4tJRliidiXvQlqi5H4HgY4A9a95KXRupP7wQQ7/2JU/A
+         AaTI0nX5fDVKYLTh/ZqoVN2lx4ib8AyXMZDQ96pnnxXn5X66uWl8ku3y1wGl6F/LzWIo
+         q7pQqGN5bynR/TgQqLK6X14FfkrkTDroNWLJk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778512375; x=1779117175;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DVj8x9VSZBK8vc/OEq+ZAApJltFoV5zCcZWj9ipEgF8=;
+        b=QbT0GvHzWALm3K/kaLcV9BhB1Th2Svs4hzyeMxak7eTuALIDP4L/1Ssonius2fLMmF
+         8+qYT9nOUEr2AGPS0W3liRNgDMH1hSUyj/TttcgNesw89wGv1sQQYwQZAnSwtjgQ03HO
+         nePXXkRhnVxKG9qMvkgxptxRkU5onfkJwyVL0+4JRvpbpe2TKMyq1vNnZQeCt7dXhOBT
+         S2LtAe8I0NCIfWYuB3Lt5PtLGjKJTMZN5z+a+JSAyy2+Ow9tOe3v5ueDrBcvPsXihTTz
+         zg+7Gv34upC4c+SH6sqSZL3DwJuMcK8ImcCKtQrXs6iz9oCO6dOBUACMtF7Mdthp0wg6
+         JceA==
+X-Gm-Message-State: AOJu0Yz84fezJ9FYnprRfUKNkM91zsTjcZQWQZ2sKkT9so6tCqY9FG+9
+	pRinYCSyGLciu9Rq/l/P6c1GeyOHuwfd9i0hb6w8TH7yitMRjYXI7pTNRHaVcg1YPtZIyqMWQrD
+	0ygKycZpY64WNJlNPJD69wqxXIuiiXWqZ8B1zjoot9sieuAys+ltu7NY=
+X-Gm-Gg: Acq92OHxES1d2rOv00lKDKYjLp1xrda3gdTG+e9yvYlVoWBiCIq0L0pW4kWo7WMyNYv
+	1stw6psrEuKZrhYQEzK80VqNwWtqRNSKOxz4326bzUq/xrRtC2L3aXpLVeALcEej4Fqqqm5pND0
+	PV2fHvOniMfol/ychZ0SmcF+NK5ClMA1Vs3jyhcmPBi6CFHUYic3sXHluFx4dDGL9DHNqNOYKms
+	iiP/XxL+blX+jv8dDslZi+COvZWSRGpIbvWk52YLmRgzSJ858Ot7sa1dOHAmGSmp+diOMn8ELvc
+	KZYS78vyTg9iteOAfJ7LLuhnojrRMEEMWfJKq4w=
+X-Received: by 2002:a05:7022:21d:b0:12a:8ea4:252 with SMTP id
+ a92af1059eb24-1317d893837mr11382095c88.4.1778512374558; Mon, 11 May 2026
+ 08:12:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: expand MAINTAINERS with subsystem info, update
- mailing list
-To: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev
-Cc: Amir Goldstein <amir73il@gmail.com>, Joanne Koong
- <joannelkoong@gmail.com>, "Darrick J. Wong" <djwong@kernel.org>
-References: <20260511123837.64930-1-mszeredi@redhat.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260511123837.64930-1-mszeredi@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 11 May 2026 17:12:42 +0200
+X-Gm-Features: AVHnY4LKCTGBPV2-IauLL9M0mSqYuUvrkz-If8dEIBj4Tl7aLqbo-Tkqp3iU-Q8
+Message-ID: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+Subject: [post LSFMM summary] where is fuse going?
+To: fuse-devel <fuse-devel@lists.linux.dev>
+Cc: linux-fsdevel@vger.kernel.org, John Groves <John@groves.net>, 
+	Joanne Koong <joannelkoong@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	Horst Birthelmer <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Please let know what I missed.
 
+CO-MAINTAINER:  Position still open, though we formalized some
+subsystem maintainership roles, sent MAINTAINERS patch.
 
-On 5/11/26 14:38, Miklos Szeredi wrote:
-> - Bernd and Joanne are maintainers for fuse-uring
+FAMFS: Let's try to find some common ground between the fuse-iomap api
+and the famfs api.  I.e. add striping as a generic mapping method,
+even though normal filesystems don't (currently) use it.  Using BPF is
+a bad idea.
 
-I hope that Joanne agrees!
+FUSE-IOMAP: Need to reduce the scope of the patchset further, as no
+one can sanely review it.  Idea: first just implement static maps
+(i.e. read-or-re-write-only).  This should be much simpler, yet could
+demonstrate a read-only mount of ext4, right?
 
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+COMPOUND REQS: let's add this to fusex.  uAPI is simple, kAPI needs refinin=
+g.
 
-> - Amir is maintainer for passthrough
-> - mailing list is now officially <fuse-devel@lists.linux.dev>
-> - change status of fuse-core to be "Supported"
-> 
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
-> [this time to mailing list as well]
-> 
->  MAINTAINERS | 26 +++++++++++++++++++++++---
->  1 file changed, 23 insertions(+), 3 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2fb1c75afd16..6e3da76e4cb1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10574,10 +10574,10 @@ L:	netdev@vger.kernel.org
->  S:	Maintained
->  F:	drivers/net/ethernet/fungible/
->  
-> -FUSE: FILESYSTEM IN USERSPACE
-> +FUSE FILESYSTEM [CORE]
->  M:	Miklos Szeredi <miklos@szeredi.hu>
-> -L:	linux-fsdevel@vger.kernel.org
-> -S:	Maintained
-> +L:	fuse-devel@lists.linux.dev
-> +S:	Supported
->  W:	https://github.com/libfuse/
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
->  F:	Documentation/filesystems/fuse/*
-> @@ -10585,6 +10585,26 @@ F:	fs/fuse/
->  F:	include/uapi/linux/fuse.h
->  F:	tools/testing/selftests/filesystems/fuse/
->  
-> +FUSE FILESYSTEM [IO-URING]
-> +M:	Bernd Schubert <bernd@bsbernd.com>
-> +M:	Joanne Koong <joannelkoong@gmail.com>
-> +L:	fuse-devel@lists.linux.dev
-> +S:	Maintained
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
-> +F:	Documentation/filesystems/fuse/fuse-io-uring.rst
-> +F:	fs/fuse/dev_uring.c
-> +F:	fs/fuse/dev_uring_i.h
-> +
-> +FUSE FILESYSTEM [PASSTHROUGH]
-> +M:	Amir Goldstein <amir73il@gmail.com>
-> +L:	fuse-devel@lists.linux.dev
-> +S:	Maintained
-> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
-> +F:	Documentation/filesystems/fuse/fuse-passthrough.rst
-> +F:	fs/fuse/backing.c
-> +F:	fs/fuse/iomode.c
-> +F:	fs/fuse/passthrough.c
-> +
->  FUTEX SUBSYSTEM
->  M:	Thomas Gleixner <tglx@kernel.org>
->  M:	Ingo Molnar <mingo@redhat.com>
+FILE HANDLES: same: let's add to fusex.
 
+URING BUFFER MANAGEMENT: there's a disagreement between Joanne and
+Bernd about this.  I think we first need a very high level description
+of each solution and why it's preferred over the other.
+
+LARGE FOLIOS: depends on !strictlimit.  I don't have a good enough
+understanding of writeback throttling to decide whether removing the
+strictlimit requirement for unprivileged fuse is okay or not.  Need
+more analysis.
+
+FUSEX: there was approval for the idea of using this as a uAPI major
+version update.  In other words fusex will gain feature parity with
+legacy fuse, but with a more consistent interface.
+
+MAILING LIST: we have a shiny new one, there was agreement that it's
+sufficient for normal fuse discussion and patch posting, and usually
+there's no need to cross post linux-fsdevel.
+
+Amir asked about how long it took for overlayfs to go upstream.  Well,
+I looked up both fuse and overlayfs:
+
+fuse first release: Nov 2001
+fuse merge: Sep 2005
+
+ovl first patchset: Aug 2010
+ovl merge: Oct 2014
+
+Both 4 years =C2=B12 months.
+
+So don't despair! There's light at the end of the tunnel (and
+hopefully not the oncoming train ;)
+
+Thanks,
+Miklos
