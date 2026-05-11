@@ -1,165 +1,126 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCC03A6EF7
-	for <fuse-devel@lists.linux.dev>; Mon, 11 May 2026 20:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778531878; cv=pass; b=gNYdfVesvtLPYqh65d3LcPeVM2ocaIvvK381xFDo2kME8749DkzwzBPgmV/4AffDhQUy1PSDKNeHVfLmLt8sjGyI3m3baBLGBzUjBy4EwFpmKVaMTKI1aOK7oQLnzuZvEq2zbg4k52Ee/xRsYJ0DrFJAQwLxswFM5wqauIBUrrc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778531878; c=relaxed/simple;
-	bh=zsZZjtc4hz8nOa5USZRyCkSCNh2FgQJnOd92qOHizOE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hXexvpbMjGun5mRz1m7O3VnT4wC6g/LuxrEdZJW417/ZwQhBrlKOCxFkIxRbV27I9yzabQbaXUd7pOHvPWrhEZ5+KT3F44Wyvf/BB+YnhtKMWZ16AYgYEQuB0vSDTlXIdcnrHIFTMmGWNovk3HO6gho5PEq7/z+Va8GT4bv9Vw4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b5qS88RU; arc=pass smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0214B3B5851
+	for <fuse-devel@lists.linux.dev>; Mon, 11 May 2026 20:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778532759; cv=none; b=qUp+X8VN0vnBCP3+w6em3BD1A45JVynFwjRj9bsk025N/MBAQVJStwAjrkKmwHMfqGcsYoiPaT2l7XPKvaBOvRTkLHvu78nFZLXGjw8NHLJY7yjk09RDyrAUF8WN64Kwkfg6uA0i6uT8DTid2Komyi99eBNuO9YHE9AM009Blb8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778532759; c=relaxed/simple;
+	bh=uz1BipeOxO/kV5AdCXAtVjrhZPFvsFevY1buu71ZRP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A8zUriM27C8tVqiWEOB0Cg1vpcOgGF7qeksZJ9MKdm1kjbGX47j8re1aYt3tMpHh/jWzGJjlsPQGnOOc5nGjMm0Ceef84zc/P8dLR0KwDpZoDfBViIj/uRp2jDg/Ot+kirQq8+WB0PxH6qCh5HG62L+zNMWvm540dMj2kOt6Dh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TRHslTWZ; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b5qS88RU"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-67929ff6dbfso7288557a12.2
-        for <fuse-devel@lists.linux.dev>; Mon, 11 May 2026 13:37:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778531873; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QBoYA66fAZqXvdG5jwvqkgtVzTozChQbTH6Baw5tFnnZN8xpVIut4D84nIqRk/bi92
-         PKpOWLRKzHTxol0oe0F03v/6f7hG2U9an71Njc65E3Yb3UW2eeFJk3z53jCYq6rERWnY
-         2GZTkzW55heWZ/qdLbIxnfu/Huz51YVzZBFKIS2vnRyhCyKneie1unk3yrarb+OkpLBn
-         EJrDZTKh9VlwQQhW2DLwvNRRPWNvhbRIH/DgY0St5m8ZsGa6UcXPa7zK3wO56mY+0KMU
-         l9Aa2NIG0MsvN9y0LA5+iFgofoFOoKG85nAkabJpPI6snxvdrL+KAu/LP4Qfdz/bFm1h
-         jqUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1ymGR6BFMyc1wUyeKUdZg9Z9HwluROuscsoD+J1kunQ=;
-        fh=hqW6wdt4aUL5Bu1Zas4HdeZGTQ8IPrh33mCxhon+sVg=;
-        b=cdiomypTPscPKj75MYCwTOW254Ky418+SAslycUkgkezNJ4LKH5B6fAhQy5iZP5TTC
-         E+r3OZULHrLzyHzUfH6BwTm5qwZb910uk/TJXG5V4X9MexDGaDLSHU+82SqmpszId55m
-         iLk8S3XdeX9iHWwFFV3TAYDGMkr8CNszAxih7+iqamFSRPsK5vpbAPxHJeTBkYy7tLBp
-         WtFkivhqF7GT5hmCtAcgfxozukfaXqHJ/tJSCJbPqc2ev2bR0ENAPixZ12LttwQN4QNI
-         nYnAYdzoPusHEjVc77I40O8UcDNfj5IsZMSpOIxaHTARVSY7dg7UzD/MRCNHKfCZpCKH
-         9Ynw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TRHslTWZ"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-67c3cb1433cso8415793a12.0
+        for <fuse-devel@lists.linux.dev>; Mon, 11 May 2026 13:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778531873; x=1779136673; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1ymGR6BFMyc1wUyeKUdZg9Z9HwluROuscsoD+J1kunQ=;
-        b=b5qS88RU1QTcwY1cRez/l+aOw2R1kzeehvvDRMrkGycCWb3afJq3+gnv69LMf+wWWQ
-         hMdRJS1Zsq9piPLC+5P/RGnDBD1VdDOdqjvpRYDgCyyG/1a2htKYh0OhK1OXCBAGO6Ay
-         Ao99endBueXW+I4S/+jl3KrShLlykfljACwPG4+qgHzgg7bH7MQ3WJ9rEqTOmc59rLQV
-         d8BW8S068t6HhQi5K88XiUU7AKi38XuaqAs41KHYAk8KEujTUkrxSW/6grWxgA1l+3pu
-         ZqwechVaU3XZRH4JzwIfsYjRKCtvOzzVcdkD0ps/S4CvqK2T1XzQ5QXZ7njlsoKMQU/w
-         bSPg==
+        d=gmail.com; s=20251104; t=1778532755; x=1779137555; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3YsA/sWweaP0g59517piytr1tPPtOa5YFwooaicDPx0=;
+        b=TRHslTWZ8DQ397C5ua7op/bsaiApiJpRp9FZXnA+pjqsRNtXwA8NzTMlVU6yJHUWy0
+         4Raj56rNIWJrHbZLaZRCVke8Fhr8NClIsJPHIE+wZP0kFxKMHFD+wuchp5AYou4i5SnN
+         dVbxgB5DI3XZvhtYHMFiMRz01RD4Uhcagxx18nOfROGWekyB2zVHrwgmBg4bI3n2AkTj
+         ngtlOqbdtFEOuKKTjX7wYOoS7iR2hG0cYeANZtv5UWqgtjeF7nUaVdtedygdRUP9RkRH
+         5bJCec2Ze6nCVgLjRO1nukecgokpfUXV8JS63zvA0DOYtSm7v4VCWpjbqFBsBdXWTlnD
+         BFRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778531873; x=1779136673;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1ymGR6BFMyc1wUyeKUdZg9Z9HwluROuscsoD+J1kunQ=;
-        b=GB92kL/tfGv/0HUsy3RjYKYNqy7gqt4Q6MnY0lpgx62QsXWA6iCruOHSwx0NA/fOrZ
-         4zW4wqPin5oS8AhKVOgdIoJX5Bv/rLJjh8apTEjTYT1P38pP2up4siapnQKFN6Skx3SI
-         fqQFXU3hSTmkNe6Ww7kBaL3O1vJSS6jXgGoZnwDorKCq7PIhSQWRkph2lKLauoflNyCY
-         94t+BlRhZgptrCDy/nh1gVTyUF6IMotdwUqu8rRsxwLj1cQx609stYly8szvEhr9oZO3
-         DJo7yx1f4I9iGhM3OhQPOl8f0SmQZ2icALeEbFApdwrRY8bt8vF7XeM1WgGEStfG8mTL
-         XFng==
-X-Forwarded-Encrypted: i=1; AFNElJ+u9QkKDKtz0BDEE7qSLI2Uw2fNdSQs2yBITe17jxW/8d6A0YmSNx0CfjqTJ6DTqLmmwCcYcWJJBT7M@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIgG3SZ3ZJhR3lWNvktfidDsrBU5LXbWJYtwGfm++ADYiKvn5b
-	JyVWOcIxY/TLCZfc6abzcWQVDFxyReF7HZz3CF06YYJu7aCMGAaKW5UcDn8YMJA2EA4tQh1g+Si
-	jeqBGtqKaSMKLbOyoSz4dN9x07uq3Eg67LcVFMKs=
-X-Gm-Gg: Acq92OGemZOWJhVQRGp2uwdselqirLrnfI2QKADXHx6PYFDmE/ooH+QWc1yYFb1T9Jj
-	UJMPJCffzvg64XeGWpBSRTExFSMfHs+VuQfm+3fQmCWpV7D5rizDDE0JNPQsBGDCa+eZtXoiP1g
-	GyzubXd6d0WZzvLxGXX4/Y0YLIe3Yq56orv/XQXLvFdpIjR2sjmJcjP0lpxGTlUhgYH1ueJzJBw
-	Q4Q0OegsHTtIENU2jKBxRsN/cO8ytro0VcfB2SOeRYP/ztFqfTMXxGQz9aNwdvMFPrGq7QkiwGR
-	Rlbh53AeHSPkyaRBxZsZkVmb72F9oCx+YCcKuRm4
-X-Received: by 2002:a05:6402:782:b0:672:64b:c97b with SMTP id
- 4fb4d7f45d1cf-67d648b4214mr9821907a12.26.1778531872789; Mon, 11 May 2026
- 13:37:52 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778532755; x=1779137555;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3YsA/sWweaP0g59517piytr1tPPtOa5YFwooaicDPx0=;
+        b=jjTakDeSGAA2pZQPsjsdFV0LHTodFAI80/qLJmXEzrvURArvV2waN1ll1lTuq/GWNU
+         ryqJBpeJrdO4lzeaqNyTyG62cKDGMjd7Km2qOtDpMgIWADre5ssIhbcHF+2f+m7Ew/oi
+         oGxqGDe6nCxEsFnQyejZpa8bWe7tHkFZJoVgQKHTc06MmJGi7BrDrOul+NJR/qzE4zJH
+         d6i52+sDq73SYdrtL5JWcOJKIcwBPe9HlsrV+SVZJ4O3IajBA8V5M4N8Gn79XgLsVwU9
+         xyBrtGBLwHxwHmRYwEpHhh7ICoJg/muJVRHPKEQPFjxbuFmsflE3R0hJ0CxWgZBOa/xU
+         PmLQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+tm436eQWBw8bBZQuEjaEYf10P0wi13VAETH/RstkkndvS7RmI0FJDsZWnHrK/1wc8dlrW66PZJesK@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0HOf9S9It/a/GW8+mQ8nxVg+oqahS8hftxs93DztM2UZ+VytI
+	dkdNQ8F0FHari/ZMaD8vdWdDr4UTbnezaISkwOLPqAe5JlyCmLrGN3vQiEl5MomT
+X-Gm-Gg: Acq92OFdubcNGSxxFrapAgqeRZGVpddKGCOXLufVVwXYc4sljvbXqhBP4KgtEyvJcCa
+	O/f6GHuVf9QiZKxAdqFpaLUt0xQo73B4Yf7QFr7IXTHFyV/N6XkuMHFRgSO+VUw78sIdzvI/Vt6
+	NcP72h5p9eFMPDt73rZV+7LTs/PU6UpoFZNiAMOLPoqF8ivi4uLCv2vfh1RgFo+R2z3fDkvsOTe
+	4SqAnkyb/QrzhIuv0cwsLU8OTNQSCD1Sv8A794TAxvxbxtWPdnChZS/BPL+LqqLk6uBtaGMnLq4
+	A6KQV+UCNDZgZAei27J3c6aIk/PSlDyt2M5dGi07T/6CCnlXx6slu3jCe1h/Wn7SkYqgr4Ct6Qz
+	ixziti/QrMhkmuw1Aukg/f5OrrMx8AR+iRNDoVnG5aDxs826eGJtNU4v9eQkxVelM/rfn5pu8Cz
+	4F+K76xebHmVrhKLL54bD6zcQV5o0ZniorjYVrKCungZ1BeyxHq2mdmI6bTkoquIzScB7v02BaI
+	Fx9mDd9VUDOF/OGtNOhyALUXiU=
+X-Received: by 2002:a17:907:c002:b0:bd0:39ba:8f60 with SMTP id a640c23a62f3a-bd039c9d5b5mr358958766b.39.1778532755368;
+        Mon, 11 May 2026 13:52:35 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-8e87-6a4e-f2be-0c04.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:8e87:6a4e:f2be:c04])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcac3989fbesm546407866b.33.2026.05.11.13.52.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2026 13:52:34 -0700 (PDT)
+Date: Mon, 11 May 2026 22:52:34 +0200
+From: Amir Goldstein <amir73il@gmail.com>
+To: zhaoguohan@kylinos.cn
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev
+Subject: Re: [PATCH] fuse: use current creds for backing files
+Message-ID: <agJBkmecYOl1MEgS@amir-ThinkPad-T480>
+References: <20260510145437.321141-1-zhaoguohan@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260511123837.64930-1-mszeredi@redhat.com> <CAJnrk1bmhY5+9H=WETv+gWDvpTEy2wccu1uZMVjb2rY50bFwPA@mail.gmail.com>
-In-Reply-To: <CAJnrk1bmhY5+9H=WETv+gWDvpTEy2wccu1uZMVjb2rY50bFwPA@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 11 May 2026 22:37:40 +0200
-X-Gm-Features: AVHnY4IHZ7sEBtaDpOdvYcfkZPRykKT-otaLCtV78ytV-DmZsauKIgWE5iQtF40
-Message-ID: <CAOQ4uxjoc20BNScA1aa4k-kaWYFx=8DR9je7yjd_oo94aPskwA@mail.gmail.com>
-Subject: Re: [PATCH] fuse: expand MAINTAINERS with subsystem info, update
- mailing list
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	"Darrick J. Wong" <djwong@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260510145437.321141-1-zhaoguohan@kylinos.cn>
 
-On Mon, May 11, 2026 at 8:15=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> On Mon, May 11, 2026 at 5:38=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.c=
-om> wrote:
-> >
-> > - Bernd and Joanne are maintainers for fuse-uring
-> > - Amir is maintainer for passthrough
-> > - mailing list is now officially <fuse-devel@lists.linux.dev>
-> > - change status of fuse-core to be "Supported"
-> >
-> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> > ---
-> > [this time to mailing list as well]
-> >
-> >  MAINTAINERS | 26 +++++++++++++++++++++++---
-> >  1 file changed, 23 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 2fb1c75afd16..6e3da76e4cb1 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -10574,10 +10574,10 @@ L:    netdev@vger.kernel.org
-> >  S:     Maintained
-> >  F:     drivers/net/ethernet/fungible/
-> >
-> > -FUSE: FILESYSTEM IN USERSPACE
-> > +FUSE FILESYSTEM [CORE]
-> >  M:     Miklos Szeredi <miklos@szeredi.hu>
-> > -L:     linux-fsdevel@vger.kernel.org
-> > -S:     Maintained
-> > +L:     fuse-devel@lists.linux.dev
-> > +S:     Supported
-> >  W:     https://github.com/libfuse/
-> >  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse=
-.git
-> >  F:     Documentation/filesystems/fuse/*
-> > @@ -10585,6 +10585,26 @@ F:     fs/fuse/
-> >  F:     include/uapi/linux/fuse.h
-> >  F:     tools/testing/selftests/filesystems/fuse/
-> >
-> > +FUSE FILESYSTEM [IO-URING]
-> > +M:     Bernd Schubert <bernd@bsbernd.com>
-> > +M:     Joanne Koong <joannelkoong@gmail.com>
-> > +L:     fuse-devel@lists.linux.dev
-> > +S:     Maintained
-> > +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse=
-.git
-> > +F:     Documentation/filesystems/fuse/fuse-io-uring.rst
-> > +F:     fs/fuse/dev_uring.c
-> > +F:     fs/fuse/dev_uring_i.h
-> > +
-> > +FUSE FILESYSTEM [PASSTHROUGH]
-> > +M:     Amir Goldstein <amir73il@gmail.com>
-> > +L:     fuse-devel@lists.linux.dev
-> > +S:     Maintained
-> > +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse=
-.git
-> > +F:     Documentation/filesystems/fuse/fuse-passthrough.rst
-> > +F:     fs/fuse/backing.c
-> > +F:     fs/fuse/iomode.c
-> > +F:     fs/fuse/passthrough.c
-> > +
+On Sun, May 10, 2026 at 10:54:37PM +0800, zhaoguohan@kylinos.cn wrote:
+> From: GuoHan Zhao <zhaoguohan@kylinos.cn>
+> 
+> FUSE backing files only need a stable snapshot of the current credentials
+> for later backing-file I/O. prepare_creds() allocates a mutable copy and
+> can fail, but this code never modifies or commits the result.
+> 
+> Use get_current_cred() instead and store it as a const pointer. This
+> matches the rest of the backing-file helpers and avoids an unnecessary
+> allocation and failure path.
+> 
+> Signed-off-by: GuoHan Zhao <zhaoguohan@kylinos.cn>
 
 Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-Thanks,
-Amir.
+> ---
+>  fs/fuse/backing.c | 2 +-
+>  fs/fuse/fuse_i.h  | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+> index d95dfa48483f..8efb43b17c4d 100644
+> --- a/fs/fuse/backing.c
+> +++ b/fs/fuse/backing.c
+> @@ -118,7 +118,7 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+>  		goto out_fput;
+>  
+>  	fb->file = file;
+> -	fb->cred = prepare_creds();
+> +	fb->cred = get_current_cred();
+>  	refcount_set(&fb->count, 1);
+>  
+>  	res = fuse_backing_id_alloc(fc, fb);
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 17423d4e3cfa..36041e405bf8 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -106,7 +106,7 @@ struct fuse_submount_lookup {
+>  /** Container for data related to mapping to backing file */
+>  struct fuse_backing {
+>  	struct file *file;
+> -	struct cred *cred;
+> +	const struct cred *cred;
+>  
+>  	/** refcount */
+>  	refcount_t count;
+> -- 
+> 2.43.0
