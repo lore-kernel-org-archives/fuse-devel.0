@@ -1,216 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D73442B75D;
-	Mon, 11 May 2026 16:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499AB43CEF9;
+	Mon, 11 May 2026 16:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778516676; cv=none; b=D+G1eJh5orHM2fXe7tyAmBSWDhapp0DgNdsWP8YZgrtbrXMLKGOTKplo1eSQ7I9krG+gpjNo3feGNOKviuve0zILiWNENNVm0zTYM9hk9e6c8CR+8rHG/rYVIACe7egZrqWusqXNG7xhPCye5gdjeFpmXF8zAQGhNXbeOAaoJ24=
+	t=1778517842; cv=none; b=gLtCXgQPX1o2mfEpJZYT9ORDJi/3sRhnacb2hL49Zy7dlZAjxGn3rfwqpoKW4KlCQl1GhDF19t3R0e7C5ga+YNsp8mTQQhCPIthkVQaiga6ueUSHn0bUfT505og8wdjY6z0XEwDlkKEIeKAHBQc+RZCdFaE0zdTRaQTE98vhImU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778516676; c=relaxed/simple;
-	bh=UKNn7tsUPRgXmD+x1uG9z2qtp+bfT80iqcbLwE6zXYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XXAfr2Hw6/QwZ7VwfySWxf8tqatNIkS/7IgZr1I7TOatVhd1liRESZvzU8lcCaTMq54cAB9XFyQ7rKlAuM2ewTidJm+UF2SbGVOwmeXW9di6J/tn0750ybwK4R8aoIiw+vZ9KoU3NvdX8dIKvt2UxTfzA87ddeN+WjOL+CJEDi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PMnmOiV7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778517842; c=relaxed/simple;
+	bh=f66GCG7rWnniXQayboqX6Xu3Qs1oGzmGh3oPzwMIfLY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Zhapd5bmRoGid4J9e+cj7r2YJKoBvw450DhFCFnnBJ5LQmtKgj1SntWLSRyaQOqo9f0+vvJxkwQufkVWyLVIaj7L6Yj3gBXZ3IYe5iKSV2M9bizhio24lSu2z01Zwjq/lwN9257NbDy7xw79vw3vK6E10R1CVShL8264q1aEeOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=eLG4jAgC; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PMnmOiV7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2D4DC2BCB0;
-	Mon, 11 May 2026 16:24:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778516675;
-	bh=UKNn7tsUPRgXmD+x1uG9z2qtp+bfT80iqcbLwE6zXYE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PMnmOiV7lFTlwmGLDEciZ0u2ikSYfA+R07Z5q8TToxCkZLGUnYNaXW0O0iddAWYmV
-	 uf0GmmzXEEGMY6Vcf+a6Lv5733LKLbW/zlqlAiPDOcrz0MZjTFFcDSzLCB5qJRf/Gk
-	 E5c1fXqLGdMC3v80Omhg0m0TbGdiasiDnNpWJugiWnWqs062wgil7dyrvpkBdMHedr
-	 arDuoIDQJl/AIxMNAUWef69Emj3SSHEHubu2AnaT4eUH2DdIUCF9j8RD9MmqRQswN9
-	 SEGQge7hjbjj0SaaYw/mBJ3BVECQU+Em/HeoAo8AA0hFWgBn0MKS9e+1zPFCQJVeNy
-	 +deusBhcj4nOA==
-Date: Mon, 11 May 2026 09:24:34 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, fuse-devel@lists.linux.dev,
-	neal@gompa.dev, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 1/1] mount_service: use the mount_flags table instead of
- declaring our own
-Message-ID: <20260511162434.GH7739@frogsfrogsfrogs>
-References: <177819198049.3490792.9243635053987314774.stgit@frogsfrogsfrogs>
- <177819198067.3490792.2943381236495611249.stgit@frogsfrogsfrogs>
- <45b102f5-423f-40de-887a-a54772a8504b@bsbernd.com>
- <20260508175945.GE2241589@frogsfrogsfrogs>
- <20260509004851.GF7739@frogsfrogsfrogs>
- <37d55a0c-7358-455d-9552-c621160bb269@bsbernd.com>
- <20260511152210.GG7739@frogsfrogsfrogs>
- <1f30f0f7-5900-4cc6-951e-8762ce312ba1@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="eLG4jAgC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=XW25oBEXGmhaN5pcDWMqYvaQ/CK+wUNCTWmWle6uc9M=; b=eLG4jAgCzPPB0FFN7u9fTDhVUc
+	sf1CVwpRR6zEMA39lsBfxKHh9q6DGtkcAv2FgXcCz9/g9CJUGzcxuUTSPOUyw9YM6pjqWFjXY2Fdq
+	+cKWyGIrIn4AAn7L4hOjvECtjCv8pnEwdi538c/I8hAlPark5vKnrZJ5txhFfw5b5WxhneJtB6OuL
+	jTpJp+9ox2IRKambfzI1uBQmbsL4Rb4gxZOlXdwB29mk6qluv+xrXrdxx+CGQpT2irBIk9W6sViDZ
+	zjWOC+yf7tlBtmTxGI9Pd1DZ5WyIElWYPPS+Qnu59jaDsgbHtjWp4G47iHYwfKEscQ3bogp6V/wkx
+	FWOX0tdQ==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wMTjP-0094QE-P1; Mon, 11 May 2026 18:43:47 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel <fuse-devel@lists.linux.dev>,  linux-fsdevel@vger.kernel.org,
+  John Groves <John@groves.net>,  Joanne Koong <joannelkoong@gmail.com>,
+  "Darrick J . Wong" <djwong@kernel.org>,  Amir Goldstein
+ <amir73il@gmail.com>,  Bernd Schubert <bernd@bsbernd.com>,  Horst
+ Birthelmer <horst@birthelmer.de>
+Subject: Re: [post LSFMM summary] where is fuse going?
+In-Reply-To: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+	(Miklos Szeredi's message of "Mon, 11 May 2026 17:12:42 +0200")
+References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+Date: Mon, 11 May 2026 17:43:46 +0100
+Message-ID: <87pl313ni5.fsf@igalia.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1f30f0f7-5900-4cc6-951e-8762ce312ba1@bsbernd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 11, 2026 at 05:58:36PM +0200, Bernd Schubert wrote:
-> 
-> 
-> On 5/11/26 17:22, Darrick J. Wong wrote:
-> > On Sat, May 09, 2026 at 09:42:12AM +0200, Bernd Schubert wrote:
-> >>
-> >>
-> >> On 5/9/26 02:48, Darrick J. Wong wrote:
-> >>> On Fri, May 08, 2026 at 10:59:45AM -0700, Darrick J. Wong wrote:
-> >>>> On Fri, May 08, 2026 at 06:51:45PM +0200, Bernd Schubert wrote:
-> >>>>>
-> >>>>>
-> >>>>> On 5/8/26 00:14, Darrick J. Wong wrote:
-> >>>>>> From: Darrick J. Wong <djwong@kernel.org>
-> >>>>>>
-> >>>>>> Use the canonical mount flags table in mount_util.c instead of
-> >>>>>> opencoding our own version in mount_service.c.
-> >>>>>>
-> >>>>>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> >>>>>> ---
-> >>>>>>  util/mount_service.c |   51 +++++++++++++-------------------------------------
-> >>>>>>  1 file changed, 13 insertions(+), 38 deletions(-)
-> >>>>>>
-> >>>>>>
-> >>>>>> diff --git a/util/mount_service.c b/util/mount_service.c
-> >>>>>> index 8c9747b3928a51..79e5b060ba3356 100644
-> >>>>>> --- a/util/mount_service.c
-> >>>>>> +++ b/util/mount_service.c
-> >>>>>> @@ -1457,73 +1457,48 @@ struct ms_to_mount_map {
-> >>>>>>  	unsigned int mount_attr_flag;
-> >>>>>>  };
-> >>>>>>  
-> >>>>>> -static const struct ms_to_mount_map attrs[] = {
-> >>>>>> -	{ MS_RDONLY,		MOUNT_ATTR_RDONLY },
-> >>>>>> -	{ MS_NOSUID,		MOUNT_ATTR_NOSUID },
-> >>>>>> -	{ MS_NODEV,		MOUNT_ATTR_NODEV },
-> >>>>>> -	{ MS_NOEXEC,		MOUNT_ATTR_NOEXEC },
-> >>>>>> -	{ MS_RELATIME,		MOUNT_ATTR_RELATIME },
-> >>>>>> -	{ MS_NOATIME,		MOUNT_ATTR_NOATIME },
-> >>>>>> -	{ MS_STRICTATIME,	MOUNT_ATTR_STRICTATIME },
-> >>>>>> -	{ MS_NODIRATIME,	MOUNT_ATTR_NODIRATIME },
-> >>>>>> -#ifdef MOUNT_ATTR_NOSYMFOLLOW
-> >>>>>> -	{ MS_NOSYMFOLLOW,	MOUNT_ATTR_NOSYMFOLLOW },
-> >>>>>> -#endif
-> >>>>>> -	{ 0, 0 },
-> >>>>>> -};
-> >>>>>> -
-> >>>>>>  static void get_mount_attr_flags(const struct fuse_service_mount_command *oc,
-> >>>>>>  				 unsigned int *attr_flags,
-> >>>>>>  				 unsigned long *leftover_ms_flags)
-> >>>>>>  {
-> >>>>>> -	const struct ms_to_mount_map *i;
-> >>>>>> +	const struct mount_flags *i;
-> >>>>>>  	unsigned int ms_flags = ntohl(oc->ms_flags);
-> >>>>>>  	unsigned int mount_attr_flags = 0;
-> >>>>>>  
-> >>>>>> -	for (i = attrs; i->ms_flag != 0; i++) {
-> >>>>>> -		if (ms_flags & i->ms_flag)
-> >>>>>> -			mount_attr_flags |= i->mount_attr_flag;
-> >>>>>> -		ms_flags &= ~i->ms_flag;
-> >>>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
-> >>>>>> +		if (!i->on || !(ms_flags & i->flag))
-> >>>>>> +			continue;
-> >>>>>> +
-> >>>>>> +		mount_attr_flags |= i->mount_attr;
-> >>>>>> +		ms_flags &= ~i->flag;
-> >>>>>>  	}
-> >>>>>>  
-> >>>>>>  	*leftover_ms_flags = ms_flags;
-> >>>>>>  	*attr_flags = mount_attr_flags;
-> >>>>>>  }
-> >>>>>>  
-> >>>>>> -struct ms_to_str_map {
-> >>>>>> -	unsigned long ms_flag;
-> >>>>>> -	const char *string;
-> >>>>>> -};
-> >>>>>> -
-> >>>>>> -static const struct ms_to_str_map strflags[] = {
-> >>>>>> -	{ MS_SYNCHRONOUS,	"sync" },
-> >>>>>> -	{ MS_DIRSYNC,		"dirsync" },
-> >>>>>> -	{ MS_LAZYTIME,		"lazytime" },
-> >>>>>> -	{ 0, 0 },
-> >>>>>> -};
-> >>>>>> -
-> >>>>>>  static int set_ms_flags(struct mount_service *mo, unsigned long ms_flags)
-> >>>>>>  {
-> >>>>>> -	const struct ms_to_str_map *i;
-> >>>>>> +	const struct mount_flags *i;
-> >>>>>>  	int ret;
-> >>>>>>  
-> >>>>>> -	for (i = strflags; i->ms_flag != 0; i++) {
-> >>>>>> -		if (!(ms_flags & i->ms_flag))
-> >>>>>> +	for (i = mount_flags; i->opt != NULL; i++) {
-> >>>>>> +		if (!i->on || !(ms_flags & i->flag))
-> >>>>>>  			continue;
-> >>>>>>  
-> >>>>>> -		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->string,
-> >>>>>> +		ret = fsconfig(mo->fsopenfd, FSCONFIG_SET_FLAG, i->opt,
-> >>>>>>  			       NULL, 0);
-> >>>>>>  		if (ret) {
-> >>>>>>  			int error = errno;
-> >>>>>>  
-> >>>>>>  			fprintf(stderr, "%s: set %s option: %s\n",
-> >>>>>> -				mo->msgtag, i->string, strerror(error));
-> >>>>>> +				mo->msgtag, i->opt, strerror(error));
-> >>>>>>  			emit_fsconfig_messages(mo);
-> >>>>>>  
-> >>>>>>  			errno = error;
-> >>>>>>  			return -1;
-> >>>>>>  		}
-> >>>>>> -		ms_flags &= ~i->ms_flag;
-> >>>>>> +		ms_flags &= ~i->flag;
-> >>>>>>  	}
-> >>>>>>  
-> >>>>>>  	/*
-> >>>>>>
-> >>>>>>
-> >>>>>
-> >>>>>
-> >>>>> Hi Darrick,
-> >>>>>
-> >>>>> wouldn't it make sense to use the functions from mount_fsmount.c? I can
-> >>>>> also clean this up later if you want.
-> >>>>
-> >>>> Oh, hah!  Yes, I'll revise this patch to use them.
-> >>>
-> >>> Update: I tried this, but ran into a problem: the two helpers are in
-> >>> lib/mount_fsmount.c, which means the object code ends up in libfuse.so.
-> >>> Unfortunately, that means that util/mount_service.c can't use them
-> >>> unless they're exported from the .so.
-> >>>
-> >>> I don't mind doing that, but I feel that I should check with you if it's
-> >>> ok to add that to the public libfuse API before doing that?
-> >>>
-> >>> Though I think a better solution is to move ms_flags_to_mount_attrs and
-> >>> set_ms_flags to mount_util.c because that's compiled into the util/
-> >>> programs.
-> >>>
-> >>> How about I do that second thing on Monday?
-> >>
-> >>
-> >> I would prefer the 3rd option, like for fusermount3
-> >>
-> >> executable('fusermount3', ['fusermount.c', '../lib/mount_util.c',
-> >> '../lib/mount_fsmount.c', '../lib/util.c'],
-> >>
-> >>
-> >> I.e. add lib/mount_fsmount.c to mount_service_sources.
-> > 
-> > That works, will put together a patch to do that. :)
-> 
-> Hi Darrick,
-> 
-> I didn't manage yesterday anymore to work on that, the container branch
-> is in a total merge conflict with libfuse master. If you want you could
-> continue on the iomap and I would solve the merge conflicts. Though,
-> probably not today or tomorrow.
+Hi Miklos,
 
-I don't mind trying to resolving the conflict, and will work on that
-this afternoon.  I'll report back whatever the outcome of that is.
+On Mon, May 11 2026, Miklos Szeredi wrote:
 
---D
+> Please let know what I missed.
+
+Thanks for the summary.  It looks pretty comprehensive to me, the only
+things I don't see listed are the FUSE discord and the monthly/biweekly
+call.  But that's probably out of the scope of this email.
+
+Also...
+
+[snip]
+
+> COMPOUND REQS: let's add this to fusex.  uAPI is simple, kAPI needs refin=
+ing.
+>
+> FILE HANDLES: same: let's add to fusex.
+
+I'd like to clarify this: do you see fusex as some sort of staging area
+for features development that would (or could) eventually be merged back
+into the "traditional" FUSE?
+
+I'm asking because I got under the impression that file handles in
+particular was something that would be desired to have in "traditional"
+FUSE (and that's where I would rather have them TBH).  This would, for
+example, help unbreak nfs exports.
+
+Cheers,
+--=20
+Lu=C3=ADs
+
+
+> URING BUFFER MANAGEMENT: there's a disagreement between Joanne and
+> Bernd about this.  I think we first need a very high level description
+> of each solution and why it's preferred over the other.
+>
+> LARGE FOLIOS: depends on !strictlimit.  I don't have a good enough
+> understanding of writeback throttling to decide whether removing the
+> strictlimit requirement for unprivileged fuse is okay or not.  Need
+> more analysis.
+>
+> FUSEX: there was approval for the idea of using this as a uAPI major
+> version update.  In other words fusex will gain feature parity with
+> legacy fuse, but with a more consistent interface.
+>
+> MAILING LIST: we have a shiny new one, there was agreement that it's
+> sufficient for normal fuse discussion and patch posting, and usually
+> there's no need to cross post linux-fsdevel.
+>
+> Amir asked about how long it took for overlayfs to go upstream.  Well,
+> I looked up both fuse and overlayfs:
+>
+> fuse first release: Nov 2001
+> fuse merge: Sep 2005
+>
+> ovl first patchset: Aug 2010
+> ovl merge: Oct 2014
+>
+> Both 4 years =C2=B12 months.
+>
+> So don't despair! There's light at the end of the tunnel (and
+> hopefully not the oncoming train ;)
+>
+> Thanks,
+> Miklos
+
