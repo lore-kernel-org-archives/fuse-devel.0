@@ -1,166 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA3A3C1998;
-	Tue, 12 May 2026 20:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817E9357D01;
+	Tue, 12 May 2026 20:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778617416; cv=none; b=ZdWMka+4f+9RkpoTu9B4u0ulXAN9FZP3QvQrYOPUYGJCejEhBV0Wm25DkHq0/o4FkFg33MnvmAEwHErihPzPaM8V7Zdofz1rYNYfzVcH65d+OSkZZ4SjGgqhxZ7UYsYozTTCasJFLF8c+XWs4B/Lq/cr8zdERC4svrKYV+W207Q=
+	t=1778618003; cv=none; b=nFA8Z3keR1pZ3r1NHNZYrHAFBpckC+LlZ4d/48tVuTIhOwUBCTejVWCuqkH8LwXlg2BCzbcHhxBiQv17He4xL3t0rxifiqJ3XnEyfFCX7I8VmyNB05b9zgANL6Rz7GJ0i2ZmoPtPUWg4mvxxDzwQ2zBtpqevWI3sVckmD6XjchQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778617416; c=relaxed/simple;
-	bh=99bL7XlRbXgicpyoQ368EedVEUI6/Us2ig7Gwjaafdg=;
+	s=arc-20240116; t=1778618003; c=relaxed/simple;
+	bh=Km6Rh4v5G8T8dQPpj9+aS8fpGyk8ffjwfzNRUPfwcwo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K0D+k/rpxFb/Z3b/OpZrbFDx7dOzjWl74litGKUDocR2cC1vzTdWdwBjZZEJ+CZHUKtEURccK/Kmr2fL4FvOyro9N04F/ss6q9K9plCAeXP9pJ9TBd9g3EFwBLKxkwm9Tjql+V+3U4oY882LWvcglPVvaNNJ64xuObXGoGNg5EI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m4FcQCJi; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=T93nr+xna7GMn011dSIpw+wuKDBmW85XBoF+GfvRoOT6b3UO+0WK++N6x7LUcAxYexRMj6ja8y0iuCflBuGojIAicEwcCoGx/vUg/vaCBDMugXAyv8zEvM/BnHBEyo4tPxA7wnFjZ7Es0jqWg7MyDpQXSPt7JorcJ9gkUdbnLY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qjaTnOsW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m4FcQCJi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9357C2BCF5;
-	Tue, 12 May 2026 20:23:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qjaTnOsW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E437C2BCB0;
+	Tue, 12 May 2026 20:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778617416;
-	bh=99bL7XlRbXgicpyoQ368EedVEUI6/Us2ig7Gwjaafdg=;
+	s=k20201202; t=1778618003;
+	bh=Km6Rh4v5G8T8dQPpj9+aS8fpGyk8ffjwfzNRUPfwcwo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m4FcQCJiiTc09ZN0kW4hvxtklXS1v29k1aq/dm/ZozDRx1ABf/uAllGUL23zYeacV
-	 ev5SeXGVo2YfgTCD0EHDwBigQVDHVSERhRP8Z/I1VLQ1BpopXx1XfY+f0zF1FFvLa6
-	 XULbr2D2lktQMTVQdsqenWLtabGL18gYO7jnu9iuAqN/YIWgxVqU5VmTl77Y/GAljw
-	 Pat5uVN0t3akmf3sTBncgwLcS8o93vuV5J1Dh8KVlS6GEwTMblbbN3ihJck3ChD4xd
-	 oNIIGO4ngUnoRuC7sHLyp+SaHTOWa2qt/v29LoNoXVkIRsGAl/EvSacNNMEJzs5lz/
-	 RxHQvjRhU/3pw==
-Date: Tue, 12 May 2026 13:23:36 -0700
+	b=qjaTnOsWBxjdxTVVzjYkBp4Q0SOIKVMLuS5chsaWGNxJ1U0oChwpIOd9CJv1dPVwC
+	 nfH7xFIruSRUTpRzqjDfrR2u44RUBFNgmFOIUPhI5qBZ9I21Eh4POfgkL1Zfziu7LM
+	 sK9RmhmPo+tc1PSZb010pnpu05w8Dj5TGfC0NcR8gH3v8rmi23jvs3IvU8pT797CWP
+	 hqf7W3CN5/kUDEFAI3YyRJR3cT45pUOjFqQm9wB5OOaxHbdTr4J5gUaKVpGNtl/Sz2
+	 fUmMZLdnOaxrXKNeeUJy1ImTZ3dvQrgSAlGarCasopsK/55QcLz3HF33vFSB4eldgy
+	 bwa1iF0NdyhZQ==
+Date: Tue, 12 May 2026 13:33:22 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel <fuse-devel@lists.linux.dev>, linux-fsdevel@vger.kernel.org,
-	John Groves <John@groves.net>,
+Cc: Amir Goldstein <amir73il@gmail.com>,
+	fuse-devel <fuse-devel@lists.linux.dev>,
+	linux-fsdevel@vger.kernel.org, John Groves <John@groves.net>,
 	Joanne Koong <joannelkoong@gmail.com>,
-	Amir Goldstein <amir73il@gmail.com>,
 	Bernd Schubert <bernd@bsbernd.com>,
 	Horst Birthelmer <horst@birthelmer.de>,
 	Luis Henriques <luis@igalia.com>
 Subject: Re: [post LSFMM summary] where is fuse going?
-Message-ID: <20260512202336.GC9544@frogsfrogsfrogs>
+Message-ID: <20260512203322.GD9544@frogsfrogsfrogs>
 References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+ <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
+ <CAJfpegt=eWS_6ZfRsL_P79COKJKoLGNOsJ9g6TkrAhvhSbb7nw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
+In-Reply-To: <CAJfpegt=eWS_6ZfRsL_P79COKJKoLGNOsJ9g6TkrAhvhSbb7nw@mail.gmail.com>
 
-On Mon, May 11, 2026 at 05:12:42PM +0200, Miklos Szeredi wrote:
-> Please let know what I missed.
+On Tue, May 12, 2026 at 11:52:53AM +0200, Miklos Szeredi wrote:
+> On Mon, 11 May 2026 at 19:18, Amir Goldstein <amir73il@gmail.com> wrote:
 > 
-> CO-MAINTAINER:  Position still open, though we formalized some
-> subsystem maintainership roles, sent MAINTAINERS patch.
+> > IMO, FAMFS sits somewhere between PASSTHROUGH and IOMAP.
+> > The simple nature of the maps, the fact that famfs maps are const and
+> > queried at file open time makes me think that famfs is much closer to
+> > PASSTHROUGH than it is to IOMAP (in its full capacity).
+> >
+> > I think Joanne has mentioned that her customers have a use case for
+> > multi backing ids per passthrough file and I assume this would be a pretty
+> > simple map, so that sounds pretty darn close to famfs already.
 > 
-> FAMFS: Let's try to find some common ground between the fuse-iomap api
-> and the famfs api.  I.e. add striping as a generic mapping method,
-> even though normal filesystems don't (currently) use it.  Using BPF is
-> a bad idea.
+> TBH, I thought that fuse-iomap is just going to be a generalization of
+> the passthrough interface.  At this point it seems like it's trying to
+> do quite a bit more.
 
-Hrmm well that /will/ delay famfs even more.  I *do* have a patchset
-that adds striping abilities, but it's tacked on the end of the existing
-fuse-iomap patches.
+To me it's always been more about exposing to fuse servers the same
+local filesystem file IO paths that in-kernel filesystems can use.
 
-> FUSE-IOMAP: Need to reduce the scope of the patchset further, as no
-> one can sanely review it.  Idea: first just implement static maps
-> (i.e. read-or-re-write-only).  This should be much simpler, yet could
-> demonstrate a read-only mount of ext4, right?
-
-I don't think doing static maps would help much with reviewability.
-
-Most of the complexity with non-static maps (e.g. delayed allocation,
-unwritten extent conversion, out of places writes) are already handled
-in fs/iomap/ or by the fuse server itself.  The only part that needs
-help from fuse is the FUSE_IOMAP_IOEND command so that iomap can tell
-the fuse server whether or not the operation succeeded so the server can
-decide what to do with the state that it speculatively created.
-
-[If I misread the sentence and you're interested in starting with
-readonly files first, then let me say that the bulk of the new code in
-the direct/pagecache IO patches that isn't the IO path itself are the
-file attribute updates that happen before or after a write.  So I
-could yank the _read_iter code out of the direct/pagecache IO patches.
-It's not an exciting patch since you end up with a pile of thin wrappers
-around iomap_dio_rw, generic_file_read_iter, iomap_bio_readahead, and
-iomap_bio_read_folio.
-
-In other words, we'd go from two large patches to two large patches and
-two small patches.]
-
-What I could do is break up the branches into even smaller pieces, and
-then we could try to merge the smaller pieces.  Keep in mind that all
-the iomap functionality is gated off until the last patch of the iomap
-cache patchset even if CONFIG_FUSE_IOMAP=y.  That enables us to merge
-the iomap code without enlarging the userspace ABI until we're ready to
-merge that final patch.
-
-Then we can try to review 4-5 patches at a time, and merge as many
-pieces that pass muster.  The other question is -- who is willing to
-review with me (besides Codex)?
-
-Until that time, to create a program that would be broken by an ABI
-change, you'd have to build your own kernel with a patch applied and
-enable an option in Kconfig, and convince people to run that kernel.  In
-other words, you'd have to be a fuse developer. ;)
-
-> COMPOUND REQS: let's add this to fusex.  uAPI is simple, kAPI needs refining.
+> > If we are being honest, then we need to develop features that users need
+> > and if users need features, there are usually employers willing to pay for the
+> > feature development and maintenance, if we let employers know that this is
+> > what it takes to get their users what they need.
 > 
-> FILE HANDLES: same: let's add to fusex.
+> I fell that this is a "politically charged" topic.
 > 
-> URING BUFFER MANAGEMENT: there's a disagreement between Joanne and
-> Bernd about this.  I think we first need a very high level description
-> of each solution and why it's preferred over the other.
+> Let's just say that maintainability is very important in big features
+> like this.  Even deep pocketed employers can go broke or change their
+> priorities, so we need code that can be understood by at least one
+> additional person with a different background.  I think that would be
+> a good enough guarantee that the code is not going to be a nightmare
+> to maintain.
 
-(I'm so unfamiliar with this topic I didn't even realize there were
-competing solutions.  But I'd need some Dumm Manager Cave Drawings to
-understand it.)
-
-> LARGE FOLIOS: depends on !strictlimit.  I don't have a good enough
-> understanding of writeback throttling to decide whether removing the
-> strictlimit requirement for unprivileged fuse is okay or not.  Need
-> more analysis.
-> 
-> FUSEX: there was approval for the idea of using this as a uAPI major
-> version update.  In other words fusex will gain feature parity with
-> legacy fuse, but with a more consistent interface.
-
-Hrm.  At first I formed the impression that fusex was supposed to be a
-(subset?) of regular fuse to explore making something a little more
-targeted towards to local filesystems.  But the discussions since then
-indeed make it sound like this is more about declaring that more
-features will always be on, and some old APIs are now gone.
-
-As for fuse-iomap I'm not sure how to proceed -- in the long run I think
-it would be cleaner if each file IO path (virtiofs dax, passthrough,
-writeback_cache, iomap, and whatever we call the original one) had its
-own file_operations.  But that would require us to refactor the common
-code chunks from each file operation function into a bunch of smaller
-functions, which I think would sharply increase the review backlog.
+I can't credibly say much of anything to this right now. :(
 
 --D
-
-> MAILING LIST: we have a shiny new one, there was agreement that it's
-> sufficient for normal fuse discussion and patch posting, and usually
-> there's no need to cross post linux-fsdevel.
-> 
-> Amir asked about how long it took for overlayfs to go upstream.  Well,
-> I looked up both fuse and overlayfs:
-> 
-> fuse first release: Nov 2001
-> fuse merge: Sep 2005
-> 
-> ovl first patchset: Aug 2010
-> ovl merge: Oct 2014
-> 
-> Both 4 years ±2 months.
-> 
-> So don't despair! There's light at the end of the tunnel (and
-> hopefully not the oncoming train ;)
-> 
-> Thanks,
-> Miklos
-> 
