@@ -1,170 +1,255 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50ECE384CDF
-	for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 19:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BD639526B
+	for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 19:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778613766; cv=pass; b=GmGv4idstLbKsChoeRm7EhepkG5Mg8wCwUrD3uTrMUDnmGS3WDnNlcCUbGO6mBI1zMS8dkHfS+1fTWcuYwkwWjUd+HgnqfZP4qAGrdpjmk6Cx+YAyjME4Wd/KgRLUJEv8Y5l+IL9TuEIhmHhrB4KL3Aw/f+eJVfxQvwoSxsjJVY=
+	t=1778615906; cv=pass; b=LD69CaRsOEHhxuyXbwJ1Xl4otG3S/8Wzh11U2fsjFmrVbOf5fevkykpaS6Y35nicB4kPjZT6iJIJlIuThnYii8mzBilHPIq/wIA8ZsEtCDqcNi6KBvOilbt0RfbVO16LZNgT7P84HeqyL0lXcf9tfYOe+O0RFUtHiMrVfq3QDEo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778613766; c=relaxed/simple;
-	bh=VtrKsBqRgrQg5Z05GDQZPthjO+/OzETxg7+nkm/RnNA=;
+	s=arc-20240116; t=1778615906; c=relaxed/simple;
+	bh=eZsRUpE9uaSHV1uum4040r8ySWYWpKIbXVa7LjQd64U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BBQlKxwgw3HGhGIx75H9J66zfx4+jjqqG9nxjIY9DomlC1FvBpT3Pe+xzMYa3KlMRyKPQTD5UCrpp2IGKMXLls9Q4lLjmhxFSTaxhzZgAdwwkAp2kjsiRxiNFGd7OW8i06m5zvseROtlawYCrHFZbJf4s4ETpiHOyGDY74QZrEw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3109U3L; arc=pass smtp.client-ip=209.85.221.50
+	 To:Cc:Content-Type; b=ID70F7AYhXKKy764pfwrQ554vLE1c6NR/+EzgR+uKcoFy13WsN82po++Jqk1OmDcmFi6jB7TcAYTbiyotQLKbx1B2brKGQWYdKO11GFrX4eWqZM6hbvQ8Zi4iM+B03mKroxiPSTVkxWe8kIq9l+MYs/WlRYM3//UdYOkpEG7+x8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=etOOVbu1; arc=pass smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3109U3L"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-444826c16ffso5129947f8f.1
-        for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 12:22:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778613763; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="etOOVbu1"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48984d29fe3so63115985e9.0
+        for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 12:58:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778615903; cv=none;
         d=google.com; s=arc-20240605;
-        b=i1ER0ymWUqaUoqMX0pUGSiIZCA2udwRO8PtMSAQUCHtpz8NLpd8nCmF8hP/5v7XlGx
-         7qm3gtf82HFq2/HKtv7ug3c4Qk+kRSlk14fR2Tkxj+MJwY0jrt/TFt5jpNLJK3vVq3L6
-         7MEJ97Kjn9/xoG7g1USyOpOz5y3BKsNWIbgsao2A1oVSk8WrOiDtBCiYYG4uTBh49yI4
-         RXxqOGlntWJ9GB39CTsSQRrXmssBsC6sGfOpcPTz6zrk56CE8HaZz7tLsQaAmlWWKem1
-         t+482FhV1Bi0BuZUWYkGNXjdADviH9XCydRnTveZtGcIQmXc1XZfxZ5imJAEqXqBkruU
-         IGyw==
+        b=l3tO8o8Gm6Qp/NkALiZ24HrogyIPx+kNMwJhlml9SJtYaQIBcj4PI/dY5O/icUTV7H
+         8oXluK/74giI8HcJ8hYPYcp3Du8ZhRuz963rIsT5GcH0mIBJKVJ9VEEudZhP12Y2SHEG
+         Sqz+3KKQuJJR07vaSM1oUxKmZbEunrHjM7hmO9fC3ltWHad3ipxT9+CMBBTTp6G4x5ez
+         g+0SH8imafLxtbSxffRaoIocMmluzj64FAFCeP/J/V/NJ6sx88vh8DGuTu6xr2JXphNA
+         GBxDeJUkMtG2yhu6UjalPA7LFog7SiurdtZ9Ppy/YfovZRW72y0RMzJoDf8N+26GzFJN
+         4Clw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=KrksB7YyuGcL8UdLAV/lyg74rIhz+tVDke7Rs32Izbw=;
-        fh=5aOtHcXLz7jK+gCUV3UpgqlWcE5OOR2oiEt2onENZCQ=;
-        b=TQbNYR9H/77cpsUM3Q79qUYdBEY+9fYQI44M39KtT0d1etPxsURw1fPc9grptCNlaq
-         m4diGQiF9GdywgDf5590BUVFPgZG/56WUGC+V3ibewMPFERdsV9P0NXv7CHmuL5Kc8ld
-         aOUy9lfMrv1JFPNbElR82oqxMgjmkX9Yc5+iMgLY6+xaXRmYEq3/9uJBrcnYM11CrqGV
-         /0Ajiyv/n2FwIfI/BF9VHdUfNt7sLkZ20913K5p7q+numLyGaARMukZN/7MADGnLxwAN
-         FoYXOXs2y2pfGSr7Brma1Sbz4XdR4o68ph0dWb+9ID7R10T/A+sP+brb7XqJvIULgT+6
-         E1Ew==;
+        bh=4dM7/PWHGvTbERh3DskzLzhIjjwPZXY9C2s5LLQFNG4=;
+        fh=bBzEraOiW0jzT2TRgJnAfZY2SDwmgOSzsBO4KzoYY+M=;
+        b=lSj0xFdPhKPtWnzx5AIuwaF1AajMw02yuu115KFjvhL4q82IIPHu9se59BJfzIRR6j
+         NeTqQCOjDMCzMHgtvTY7HchDlu2p7uun7E1g44RqaO9DIpiWzCMjzRfaTjH+bvNMshvN
+         fUNV5XyYm9WqiTsOxyve+SZKxYdLeIv3+3Nt7J+nM5QQ1b3ukqKFHa2txTHYMse0Dkok
+         CO4ynLc/ljvo/pEjJWjQjGfdYHcm1YfAxWAbZxM/7zSSsUwGI2fblmDDVDtklFb1ad42
+         Mst/gyoN4NWPGkNY4Ww98u1qalUVKqvzsgPKpBXtI+suhN25oVHYRa31vUBW13LtubeT
+         JQFQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778613763; x=1779218563; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778615903; x=1779220703; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KrksB7YyuGcL8UdLAV/lyg74rIhz+tVDke7Rs32Izbw=;
-        b=h3109U3Lo+uPQfeNlQKuMiw5bTIZl03dyrX/wB+3NNIYCYpTEmeiL8364+7pEkEw+6
-         4bg0jHtR3bqlgfGi4Mqol+3jkpUg9BONv7b/Tu2GDrr7ULfmdsbRmoMWL5lhrdcGmfbI
-         Vt4ZDnTwntGp7EOJ/ihIyOy/y5lQm1p6R0hUOaXvzlcd8ak/2A8VEkxp5AoOyM+DEfv5
-         1wTF/CfFUnFHZFjJYw4l8XeCUrJYFmr+mOCOPfn4QSxunsMnIgEHkplDlpUK+MElf/Mg
-         VLDUH8FfAx8uciVtcleWY8LNtGvZus2tR+RirVg7ugh7BtrreXA0F3yFhC34vxxQHm9t
-         oBhw==
+        bh=4dM7/PWHGvTbERh3DskzLzhIjjwPZXY9C2s5LLQFNG4=;
+        b=etOOVbu1iyZbRn+WbvF45dNdZXrRbgFgn191Sk1nx5bTYypjoGad6OkwG/acfdnP/w
+         kW4sCy+N6tw/DNOKld4bwCanfFaLwl5BjIqTUVm3w6EdaJ5cmofz8QWtKdNiRoVZaGOA
+         g90X1uEtmWvdr/G6fbXQU/7gwvkcWty5hyhJeDi5Q2Allo2FddHEugypZb8ydRCJ4CMt
+         e72o1hA0iAkYJlQer0f8XkXF3Pot7GIfWg3tD8UfJByCwtNwMkBQx4OYzq/CxJ9YqJ+Z
+         lZsnihEJ9Uj50TCRHfA15Dn6597KVdUl4dA9YIZtXOf3nz1V4ey4NamgN6iglMoQqMFC
+         drXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778613763; x=1779218563;
+        d=1e100.net; s=20251104; t=1778615903; x=1779220703;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=KrksB7YyuGcL8UdLAV/lyg74rIhz+tVDke7Rs32Izbw=;
-        b=ZmEjZYwVxeCf6ENlw9wWZRWpL39quaXYnTdCxKjowkEyCedlyvOVMuaVlWiDpcFAP8
-         T1QPv7Yx41qIJ0ajfpEa/rHmk+KmwfmBs6EnG+oxd36dt7r6a1c6cCnnzU+CWect4/lm
-         3fYc4IWyYeg9ePE2NJiTgwx+RHeUgqgZ6uCT+qILbV+r/uRMZbakyLeZpEmJ0hM7NHV6
-         gfzx1ZiiEBPMqXK69wOsB76uzCmxZ2YdAiiZ3MOQ/yIXZz3jxDq+DfDgOikqYc4YWTaK
-         mBDzGZvgX/FgnXZuwAQGWCx4Cw/TGzzTeR/0YXwZbxnZmG34POd6VuN1+yjSQgVKkX8r
-         G6oA==
-X-Forwarded-Encrypted: i=1; AFNElJ+Qx+sshO4RoAM+88jDJ/Jaa0gda/P9Dy3tQesq0Q99BpC/5trlkJfrfN1HU+hCyTDPNNDQGrIPFp1M@lists.linux.dev
-X-Gm-Message-State: AOJu0YwtaPUrhwf/al10acNC1rbrQ9xkuP2kwJk+VMZFFINs5ZPws6sD
-	redoDfm7/SlP64MTztlvio7xCc6aLCjgKsLnKXLf5IhjKyNMBF6Tho69Ll7NUbTESxqF1NR7JyJ
-	DnyXItkXYMz0VZ8mRdZmdD2Ba/e0uUrY=
-X-Gm-Gg: Acq92OHR/mdzL0xKfAkxZYDxuM2QhHaYy3ElxzU606H8elvek55+ak12X2Wc6bQe4pJ
-	cEs4QqKohwW+8iq+9a5lIhSLz4doRoJzFRznupqqs5KKQ2Aj9Hfiuie0vu+4KZW4G0MZMy/oc6e
-	5Xh5vH0baG6v57C1gI+EOxidu+ncc9p4/aKrhovtOIjnFOSSDO9irgxbDPH3KMNYLeZ5mBlgVmu
-	cv6TamsSUpKmeUIgjc7QP6TJhBgnq+XnbA6Fpau/xTldnApn6mrePIEgZqC74zm4AGSTyKjbUcA
-	4Kwfxw==
-X-Received: by 2002:a05:6000:2289:b0:43f:e99a:ff91 with SMTP id
- ffacd0b85a97d-45c5859f1famr171276f8f.4.1778613762530; Tue, 12 May 2026
- 12:22:42 -0700 (PDT)
+        bh=4dM7/PWHGvTbERh3DskzLzhIjjwPZXY9C2s5LLQFNG4=;
+        b=jOYFVdcg9zml3fdlFWHWPixcB6yIQw3d2Evk+nWaB8HMCmjdwzqGQ+H8l0GlhK4460
+         wQQX/bbCfkmOVsuwRgob0LqU/eFadeAz5zkErpwQQTPgBr6uFZ+c/Y2BLvtTGItaUACI
+         y+Xy2GX1yh/uOFYrJSX/AlGtfllUi2Y8gYQhKQml4vA5jgT85347rmkgq9RLvnHEa2q+
+         J+2s5/074rZutUnoILn1r/DaXolD/ZTbUC2ZW9NZBapAkPkn/SzBDErjz1TtHeXSOGms
+         313j7c0Cyn6xhFF5v9lSEHpvHaenIPUZM5WfrA/JMj+NsKMw+POjNcLBGamp7kuoiu81
+         K2WA==
+X-Forwarded-Encrypted: i=1; AFNElJ9cs3z0AoTRw5qLn94/yx2Z49hHBKX21mMITr0uenCSHkYYSBj5Fu/3QvtI25bzgF7TYl5Z7QwuKSDm@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/PgBNegxSIdi6dx2n1I9UFDb6iL3j+GKOEPCw0xlyQfJX8jJN
+	YhHOznnwUtFSSgbvdS3ymEBswMvITzSyITIsVBrY7axwTlFfO7gzTK5e/y/Fs0GcVf+xQnbUuin
+	/h1YyA/XeWqQrr3Tu1UH6oYrVzS5e+HQ=
+X-Gm-Gg: Acq92OHV5caM44Lv12/TIBtKWWf6/p79a/GVlwmOcSPY4nxXneXQiwusxBuRVYpUBzx
+	xcyWUmqCZtmCf+I0+tSvV00fzUpWSwZuu4KNpQbSn8VOgZpkeyYVItGdDmGoMzwbFReGzkJGPk7
+	km298UvFwRwSYeSb+2xspHzt4hlyG2RMBWqJ3LeH/etE6eSHmTN1UiVJfrdOQ/C6ga78vRChRd7
+	a0yFGAYw5BVrNI2EBUBCH1sKOR0sF7ts3X5+s64qsVoYdT9iOVYXdH8+R/DI5Hm10U40Ap1GE9F
+	g+cu/A==
+X-Received: by 2002:a05:600c:6303:b0:48a:592c:e632 with SMTP id
+ 5b1f17b1804b1-48fc9a2b921mr4023765e9.16.1778615903001; Tue, 12 May 2026
+ 12:58:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260429102058.1362965-1-mszeredi@redhat.com> <CAJnrk1Z_JWtuA3UjucF9=YH63AH_-J_0hzr9jbY99Hx3O8YrAw@mail.gmail.com>
- <CAJfpegspraqMp1Z3mi_csiw6haawZPa4zWheSUN7MhBy47aYKQ@mail.gmail.com> <CAOQ4uxgV4_Pet0w3f+Sq4kLkvgKM6FyJwZ4AQsnvctC3w=dP6g@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgV4_Pet0w3f+Sq4kLkvgKM6FyJwZ4AQsnvctC3w=dP6g@mail.gmail.com>
+References: <20260331223927.763741-1-quark@lihdd.net>
+In-Reply-To: <20260331223927.763741-1-quark@lihdd.net>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 12 May 2026 12:22:30 -0700
-X-Gm-Features: AVHnY4I0Y3BrmLWelt6oDqQj0GcnCVMfHGqh6xLzugs-tH2pa1VNyILa-YgX3n0
-Message-ID: <CAJnrk1ZvB-R3Szn-VxOZvPRgX_dXwMLouBphnT9_URCE8SxTvQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: add fusex filesystem
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
+Date: Tue, 12 May 2026 12:58:10 -0700
+X-Gm-Features: AVHnY4Lf4J2P_HObmqP54f52npnAl1v41NlBsMeQRJU1pBGsrfA8cJB17r6iYX8
+Message-ID: <CAJnrk1YOzwNRS+qA74rLMFmx=JgE3VVueu9o7-pghsa4bPzYBw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: invalidate readdir cache on epoch bump
+To: Jun Wu <quark@lihdd.net>
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, Jun Wu <quark@meta.com>, 
+	fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2026 at 6:22=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
+On Tue, Mar 31, 2026 at 3:40=E2=80=AFPM Jun Wu <quark@lihdd.net> wrote:
 >
-> On Tue, May 12, 2026 at 11:31=E2=80=AFAM Miklos Szeredi <miklos@szeredi.h=
-u> wrote:
-> >
-> > > * in passthrough: backing_fd passed at lookup/creation time only (not
-> > > at open time), expanded struct fuse_backing_map
-> >
-> > Yes, this needs discussion.  Amir may have additional info on this.
-> >
+> From: Jun Wu <quark@meta.com>
 >
-> Having the two different lifecycles (open-to-close, lookup-to-forget)
-> is by design.
+> FUSE_NOTIFY_INC_EPOCH invalidates dentries, but does not invalidate cache=
+d
+> readdir results. A process with cwd inside a FUSE mount can therefore
+> observe stale readdir(".") output after an epoch bump.
 >
-> This allows the server to potentially move files from passthrough mode
-> to caching mode and vice versa, as long as all fds are closed.
-
-I'm unsure how useful mode switching is between caching and
-passthrough because the server has no control over when the client
-application closes all its fds (eg it can only react but not trigger
-it). For my internal use case of switching on passthrough, I was
-envisioning the server handling everything through direct io until
-passthrough is possible (eg the remote file has been fully downloaded
-over the network) so that passthrough can be switched on even with the
-application having open fds.
-
+> Fix this by recording epoch in the readdir cache and checking it on reuse=
+.
 >
-> Adding inode passthrough ops does not play well with this mode
-> this is why it requires the lookup-to-forget lifecycle, but I see no reas=
-on
-> kill the open-to-close lifecycle as it seems useful for servers that
-> mostly care about I/O passthrough.
->
-> w.r.t expanded struct fuse_backing_map, at the moment it does not
-> sound right to me to map a backing id X with more than a single backing
-> file or device.
+> Add FUSE_EPOCH_READDIR init flag so userspace can detect this change.
 
-My thinking with the struct fuse_backing_map expansion was that future
-ioctls for managing backing files (eg attaching a backing file to a
-live inode or swapping one backing file for another) might benefit
-from a shared struct instead of needing to add new structs for each
-type.
+imo this is more of a fix than a new feature, so I don't think the
+changes for adding the FUSE_EPOCH_READDIR init flag is necessary. I
+think the Fixes: 2396356a945b ("fuse: add more control over cache
+invalidation behaviour") tag fits here.
 
->
-> I think that the maps of fuse_file to multiple fuse_backing is better
-> handled by another layer of mapping (sort of a backing_mapper)
-> which is what famfs and iomap need, but it is just my initial thoughts.
-
-I like this idea a lot, it makes sense to me.
-
->
->  Joanne, if you are a concrete use case for that, let's try to see
-> how a design to this use case may look like.
-
-The internal team I'm working with is planning to start working on
-their server in H2. They will run some benchmarks to see if current
-passthrough and/or io-uring+zero-copy might get them the performance
-gains they need, or whether they will still need the set of advanced
-passthrough features they requested. I'll keep you posted once there's
-performance data and if there is still a need for the more advanced
-passthrough features (file mapping to multiple backing files, backing
-files dynamically changing, enabling passthrough on a live inode),
-I'll draft up a design doc to get your thoughts on. In the meantime,
-I'm planning to send out v2 of the inode metadata passthrough patchset
-sometime this week or next with your feedback from v1.
+Other than that, this change makes sense to me.
 
 Thanks,
 Joanne
 
 >
-> Thanks,
-> Amir.
+> Minimal reproducer:
+>
+> - mount a tiny FUSE fs with an empty root directory
+> - on opendir, enable fi->cache_readdir and fi->keep_cache
+> - chdir into the mount and call readdir(".") to populate readdir cache
+> - make the FUSE server report one file in the root directory
+> - send only FUSE_NOTIFY_INC_EPOCH
+> - call readdir(".") again; before this change it stays stale, after this
+>   change it sees the new file
+>
+> Signed-off-by: Jun Wu <quark@meta.com>
+> ---
+>  fs/fuse/dev.c             | 6 +++---
+>  fs/fuse/fuse_i.h          | 3 +++
+>  fs/fuse/inode.c           | 2 +-
+>  fs/fuse/readdir.c         | 5 ++++-
+>  include/uapi/linux/fuse.h | 3 +++
+>  5 files changed, 14 insertions(+), 5 deletions(-)
+>
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 0b0241f47170..595f90f44772 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -2039,9 +2039,9 @@ static int fuse_notify_resend(struct fuse_conn *fc)
+>  }
+>
+>  /*
+> - * Increments the fuse connection epoch.  This will result of dentries f=
+rom
+> - * previous epochs to be invalidated.  Additionally, if inval_wq is set,=
+ a work
+> - * queue is scheduled to trigger the invalidation.
+> + * Increments the fuse connection epoch.  This will cause dentries and
+> + * readdir caches from previous epochs to be invalidated.  Additionally,
+> + * if inval_wq is set, a work queue is scheduled to trigger the invalida=
+tion.
+>   */
+>  static int fuse_notify_inc_epoch(struct fuse_conn *fc)
+>  {
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 7f16049387d1..9b479f597938 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -191,6 +191,9 @@ struct fuse_inode {
+>                         /* iversion of directory when cache was started *=
+/
+>                         u64 iversion;
+>
+> +                       /* epoch of fc when cache was started */
+> +                       int epoch;
+> +
+>                         /* protects above fields */
+>                         spinlock_t lock;
+>                 } rdc;
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index c795abe47a4f..5685e696ee2f 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1506,7 +1506,7 @@ static struct fuse_init_args *fuse_new_init(struct =
+fuse_mount *fm)
+>                 FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
+>                 FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
+>                 FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDM=
+AP |
+> -               FUSE_REQUEST_TIMEOUT;
+> +               FUSE_REQUEST_TIMEOUT | FUSE_EPOCH_READDIR;
+>  #ifdef CONFIG_FUSE_DAX
+>         if (fm->fc->dax)
+>                 flags |=3D FUSE_MAP_ALIGNMENT;
+> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+> index c2aae2eef086..240b0e993780 100644
+> --- a/fs/fuse/readdir.c
+> +++ b/fs/fuse/readdir.c
+> @@ -438,6 +438,7 @@ static void fuse_rdc_reset(struct inode *inode)
+>         fi->rdc.version++;
+>         fi->rdc.size =3D 0;
+>         fi->rdc.pos =3D 0;
+> +       fi->rdc.epoch =3D 0;
+>  }
+>
+>  #define UNCACHED 1
+> @@ -479,6 +480,7 @@ static int fuse_readdir_cached(struct file *file, str=
+uct dir_context *ctx)
+>                 if (!ctx->pos && !fi->rdc.size) {
+>                         fi->rdc.mtime =3D inode_get_mtime(inode);
+>                         fi->rdc.iversion =3D inode_query_iversion(inode);
+> +                       fi->rdc.epoch =3D atomic_read(&fc->epoch);
+>                 }
+>                 spin_unlock(&fi->rdc.lock);
+>                 return UNCACHED;
+> @@ -492,7 +494,8 @@ static int fuse_readdir_cached(struct file *file, str=
+uct dir_context *ctx)
+>                 struct timespec64 mtime =3D inode_get_mtime(inode);
+>
+>                 if (inode_peek_iversion(inode) !=3D fi->rdc.iversion ||
+> -                   !timespec64_equal(&fi->rdc.mtime, &mtime)) {
+> +                   !timespec64_equal(&fi->rdc.mtime, &mtime) ||
+> +                   fi->rdc.epoch !=3D atomic_read(&fc->epoch)) {
+>                         fuse_rdc_reset(inode);
+>                         goto retry_locked;
+>                 }
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index c13e1f9a2f12..b0bd96ac1e84 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -240,6 +240,7 @@
+>   *  - add FUSE_COPY_FILE_RANGE_64
+>   *  - add struct fuse_copy_file_range_out
+>   *  - add FUSE_NOTIFY_PRUNE
+> + *  - add FUSE_EPOCH_READDIR
+>   */
+>
+>  #ifndef _LINUX_FUSE_H
+> @@ -448,6 +449,7 @@ struct fuse_file_lock {
+>   * FUSE_OVER_IO_URING: Indicate that client supports io-uring
+>   * FUSE_REQUEST_TIMEOUT: kernel supports timing out requests.
+>   *                      init_out.request_timeout contains the timeout (i=
+n secs)
+> + * FUSE_EPOCH_READDIR: epoch bump also invalidates readdir caches
+>   */
+>  #define FUSE_ASYNC_READ                (1 << 0)
+>  #define FUSE_POSIX_LOCKS       (1 << 1)
+> @@ -495,6 +497,7 @@ struct fuse_file_lock {
+>  #define FUSE_ALLOW_IDMAP       (1ULL << 40)
+>  #define FUSE_OVER_IO_URING     (1ULL << 41)
+>  #define FUSE_REQUEST_TIMEOUT   (1ULL << 42)
+> +#define FUSE_EPOCH_READDIR     (1ULL << 43)
+>
+>  /**
+>   * CUSE INIT request/reply flags
+> --
+> 2.53.0
+>
+>
