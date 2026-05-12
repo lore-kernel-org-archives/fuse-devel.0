@@ -1,124 +1,154 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EA7386575
-	for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 21:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC383A0B39
+	for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 22:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778622059; cv=pass; b=OnKZFqIxBRnB7zszGRdbEd5QgVmxDgZIk+hqOOAcbMI3oM56WMhLEjrE+AnUWbWRnUBnS+cGsBpk/PCzrLkRIwOlylNJqnOLjT/eG4ejPVKVd7nMK+vwnRV13tR15ZEv8wMk03nYaePcU0HKuqEbSk5Eim1W/HRpZwkKmL+7OaQ=
+	t=1778624447; cv=pass; b=mR+2EfbFjk/qorxd/OI+sayxwPqUx+h+hFqDLrKMdHfpjzwfAEOafcBXPZLlZtWNCBJOYtvOHHLT4mlAN/43jlYQDyojIdCOw/S4SFuK9pXosvOzv8QdW+V00G8UCawqQEVd5nUUoHFFvX3Go59GBp8QZ/o0rftBc3sR9H2k4Zw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778622059; c=relaxed/simple;
-	bh=jO46bD/DahYyJouYnkfmKNbZfEuWSP4xESEaREtQLrU=;
+	s=arc-20240116; t=1778624447; c=relaxed/simple;
+	bh=qAOaMhX4hFGUXuJDfpTr6sF+f3dlVHW1uLkRCwtcU7k=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TqH+4A0hD+7DiSpKVdG3Tc50KPN4TFH+DMHDPItgEqakDOg0qfxuBdGzWF7Le54XxX5xdPKpmKOJMeHEcicXRXdbCWi2q+mT16ROUcXujXnf/E9tw4Fm6ociL4wAl9qJRzJRpYw9cYt7p5bFZydN38Vm5pP4fnj/LkMI+dsm3lI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iovqcp5N; arc=pass smtp.client-ip=209.85.208.43
+	 To:Cc:Content-Type; b=jHSqiaRBh0O7wB7AVYv+yrT7nZYWDOr6OwP8kWUyBbNudOJG4n3WFKgF2c/ql2Jic9u1mKNKD5EGOzoO5Hk7WwCoHQR3ZeR7jOBGauzhBRjjh87BthY5Wb4Wk5PhBlCB3WMiRHghnUq6GTVjLhN1WCYWwPIudatJ/fJwuiqybCk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RW+qTXff; arc=pass smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iovqcp5N"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-670ab084a39so10244615a12.3
-        for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 14:40:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778622056; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RW+qTXff"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-67c1e0229acso9358516a12.1
+        for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 15:20:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778624445; cv=none;
         d=google.com; s=arc-20240605;
-        b=kxOAoP1vkpMcPOZ4AW/SCFCOw9AmtviLNiM96G0dDTOnPkerJVjqSNSxuyrTcqZsua
-         4n0eWt/SJaXUcvrFd3LHuLj0AgFWbvPcHBxvJBlLdjsF7FWuBMZZnojQASFzzr+TfJjH
-         TZGT6r4+92m4J5rTL22QL0ONb3Ro3co07j0k0Mk0Gj7X1HLFEbA/cfAUfuBRgr8MDrWz
-         7nzYVxHk3vP3TPEIzHgXcT3cD3gc6Yv1JpKpsG6iHgQwzUBccce/XQr0u7t1C3S2lPKW
-         mhqkXL3Do+Ke71semsUR/rjazKC4OCEnALvF4/+s3FwJoUUGwERImQIwKIQDkGzAXDPB
-         teew==
+        b=kg+UuAf96IGXlS02aohmQuy/kaJ2ManzvzbHbZmdAZlJk/3Ag5kxavza22tkprhHaq
+         SnzV9ZxfryiKd0ivletkgmJfnUoOW975eQ6qZv21Ch+mMUMd785rQdtGSfttZG6C3FsQ
+         4h+mv6O+QANTQTCt6jpU9beKZjYkyRJ26u3MJ2CvP+R4TPEbaltYffT+aTe/I9Wqf+J9
+         R6svNF+HzDbQ+C6W67bIccE+vragVnnxMdbOvnJIDs+IL2NltejUGeh2b6M645gcjW9E
+         5n1N374Z37dWbuoHPSEyhcc0cFwb79JIZGt9iPdf8qlW22PhV4gRXlqdeazFvO5nUXuG
+         m2ig==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=HntkDOW/alaXL+qx4nXenVMcscOf6fVg+5VtXbCPfAw=;
-        fh=PnM1PFrYZP05BdynEE18QK+ejlBpXZt0lQirxugP4BU=;
-        b=jFkFzDAC0qQAPdplhV6R54w1bC3uFa1yFPfmPqXoXn0BzFJKXUh6IttzYbYNSITHER
-         3hBNHCtgVO7rZM8qfDJSV4h8T8W9vHBKSPPnIs/oO7xt/xRjrOg4ugwERmKsz+xsiwWH
-         MJrV4TvZCyx4B6Uykd3xNLUZAS0aMjGvBASYEEq++zTMsvmqGv+7Mwn2XzARytWKlJA9
-         M6ex6FbIeSjAiBBStrl77kIo+D1TGsW3ANmd+e6H3GDQpgeEK0Tx2HNxAHyFvisDmej8
-         TxTm1ZRGeaSPqFzn31PxMdltuqdMi+oaoAWUJ39jB7h9J+hAI829ugXGecebeIHTaetX
-         eYMA==;
+        bh=dWs55en/zxUC3Jl0cU0W4m41MbY2arDOleFNWdTIEvc=;
+        fh=Cf3EKFWCuOlkB0+bF00t+dyEjZ5G8ZIhb0NIgATppk4=;
+        b=AVr/oBGl5BKf0KPOKF3l15ASPLdL0LDXE3x2Zxm3DBmnjSo4rWq9nNaRJTYzGCYHEA
+         RunAts/rJvimS4Wdwjo8Mi48iGPKp+uLEbp0yTKfUZWuYXguHj8o/8iI7oofHLKFXOGI
+         pF9ziJqBAOKuJiCDGyRBEgOsZbF8oAmmgc0y/RKG29D+CA4wL+jZ/CTIu6tR6Bpgr2s/
+         FDuDj46kdWp2ECkDihWZoCZR2L+SeQ0XFCChRU6oKxMagZdejWNoRdNwZYO4aHit9+ZZ
+         gvUNDZ8eMaFFexNK31lYvaKm08Xe1jy9Mtvo1YGHAJrDgrhPCDXJL8YcQ/daEuawvlua
+         75nw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778622056; x=1779226856; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778624445; x=1779229245; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HntkDOW/alaXL+qx4nXenVMcscOf6fVg+5VtXbCPfAw=;
-        b=Iovqcp5NOpU8K769o0+kqnLafzjcYTp/ecJqO6RCUOTebocF+HdVlNvruexpvk7iGy
-         xdIDpvb1uLNJ/qhixNhIUNT9KyLQJoMSfeiSmzX6WojEwZVpIsxF02YtZoJ6hoYgJ/+D
-         Wq//J3GzxLvkkvMIC5P2yBt3UtebC4fDyrkBc0ARpVy8qr5FhqKJ8RBu/BZwalCXxAI7
-         IsmTLQ769N1reQ7w/V9Lr23Xos0NQQ20Bqd9d8pW1nQ65SKox4o9uqbZ0uHF2mpax4ox
-         3aytXZW6tBUX8zeLKIxMbCN2fRCCGxM5cg+u9j3gnacfrWkuGDSWWsOIEzyQ/ydCbMB8
-         uZxQ==
+        bh=dWs55en/zxUC3Jl0cU0W4m41MbY2arDOleFNWdTIEvc=;
+        b=RW+qTXffNRSiaPeUPdKaLBKEsS2WtmiBA3tm+X8jVKC83Xi11Yrgq1wb6wTuwfMZaJ
+         OLqt5fkUi+Yu4mZBB3qwqkZCcMM9N3Hmp4lmQup8Z+mmglTbusATjBNPR1oCCD3+QxeU
+         DPcVZUc7QfLRaW/a1uZaXLGhYmjJg5JiVLylsbqdVDstPY0/bSceo6hbr4B5PLF2j1po
+         mg9AFro9YpwDBEn7s9mho91YZGvDYAB6qFB/cr7FP08EYird1vwaZcLqudFoAN9zAOBs
+         aU3NxSLt0wNs+f8UzLX0RqMVg8xid+tfW4qEV/UKX1I1wJqrP/GdDe95aeKn2UwFJJum
+         kzvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778622056; x=1779226856;
+        d=1e100.net; s=20251104; t=1778624445; x=1779229245;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HntkDOW/alaXL+qx4nXenVMcscOf6fVg+5VtXbCPfAw=;
-        b=mFdNZfYQyQulj0b/Fkplxrud6ysM3/Olt+ToSNIWMMSVIF+9aUjk9ijrAilpwJ0ph1
-         PI6cUxjw9uLsOsz1ccmU289fHLch7eSO7yy9Esz0UJuWvikoaXDxbSNOF33xikDj7O3F
-         MY/MVg+2MaaZvb6pD7JTCRuDQNa3U5x2KbbRJo1Pyw7HfQ6J4EVM3m2HYo6SNDVP8J5J
-         vBtM8EuTAoUgSaIjcQ/QU3+m4zIRya5Duja/LxYnCOxosjcdAYciT3pd9ofueuvEK9HT
-         aHWVfedz7kBd4fBKGwoHQSw0jxGzUZi3LZl8ZPm/5WQK9IqVqbTBFZwY2J9UPgSmFJ6r
-         GLVQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8SzI3zqWedZQ0d+78vH18NZSRaL76E9lEKlqdHFZaB7JNsVoByr/eKhoiYYSeK8dspuNYIJDnHOEkz@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHntfWNV/B0cd7h0bsB8frrmP2I5E3GGvt2tK7pIFxXBQG2IzS
-	VputdvATR1mLg4hoAk335OLYG+lamvZ3Nj9TYZfZgS1AwSAlCG/NN30tWrSyIfhU8yfZxwI92g3
-	PkpfG7ElJpwo/8Fjonk5OzVAMYFfDfPM=
-X-Gm-Gg: Acq92OHeRriASm55vgxCJs0TpDcqqEcSCW/7y8L6SVOabdesBKlOBcVMWe5S4TY9eEM
-	riMPPhiXhEy5T+YhkaI28bFdzvI8hMkbW8rNj77oOI7yZpAHxlB7Yjnu3DOyMR/S0J2Ena5iJXd
-	8bv62fUZn1kuuOS03eIjq2dm9E6OEX/XY3LKn8kXYpOnfRBELxCPvtI1WMFh0DQDvQnyNQEQVuj
-	/RuKeVWiDMf5gqBZcoBvDEaqRnLFylzSnZkxXfYchf9B7ZtiPgh6vHLdqB/EfPj6cpTsw3aI6h5
-	Ch/tE3Nu0+Sm4Kme0wCnbRxLNLknBs8ABvS3Scrq
-X-Received: by 2002:aa7:dd0f:0:b0:67c:7697:1ee8 with SMTP id
- 4fb4d7f45d1cf-682557ef49amr239151a12.5.1778622056246; Tue, 12 May 2026
- 14:40:56 -0700 (PDT)
+        bh=dWs55en/zxUC3Jl0cU0W4m41MbY2arDOleFNWdTIEvc=;
+        b=QpYN9F6O2ab+42kP5ZTvWHuFdDlZU+EN2MUgeuSK6tSh2oHAnjkreM4ETySLYmsilL
+         ltI71Ynajoe1iKsfBpsOMMuqq9Enjuaan+LWWv3QTIjFY0ZRG7hGPzAVcB2Gjr0K/y6V
+         oYy63YeYQYVzmFk/Pt1KFTnLn8PYpNyaD9RUNCPlGRDW31QJaff7hZmcrwyrDwhob7P2
+         oJekfWPb50aXIkd5drxC4m4FtebsRo7L+0YmCiVEfRq/abpFG8Bd366ecjVw94ugWU+z
+         PNhOT3lnOfzHD6MF8CWP4iLw463vX88CCACgp4z4cZgaQHfXDFhoeJi3upaHDOXpbOKk
+         ceAg==
+X-Forwarded-Encrypted: i=1; AFNElJ8BGd0cUf8uZVc9JrLTgm8ToIWUjN1vve5brBWQ+nvbHzMHe/RZcATHC0SQ5vNPEpSn6cFGxd6ZQqCD@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcF/NPmTybQj8D7tSWSKnYz6eio4LhOwd/Tlvem+sca7VQeITQ
+	uBLZVDlBMQ64xHO9bfxXiWkEgopIDMIvmSXbdNBlINgloRNSn7RN56S1hu3YA16m3qrsvQasmEj
+	d/lYIssXwpoIpTgM9vwkWoG7GyUAYEoI=
+X-Gm-Gg: Acq92OF3WnOETUsVzsXzyn2E1f+sXTCaWFOgWZa/7CjFgYsQVUwZgLoh8UPNve3ZRqb
+	1XfV21po3eTaqoKMQtGSHBlxIIw15eCLFmok9k0QNV4aLY+CCXo5ee6fT7jYZ2REXYoQigpEAZe
+	GUf1AmmkBeaqI6sMOscd5AlMJZzvjQwpKXfBXW8ZYtpzsgIGQt8PCCXPxZqmY/7OMP1QiyfOTeq
+	5xfPV1DugLBcy7GJkuTbTBHp34K0o9pwClVdFp8RO7UivaW+/4mOs9nGE7Qk8I4dGPj5iV2G3iP
+	jjQW+ZkiMHlb3tE6jepR0f1tRIpHqwOyxTRcw4igf22BJqWlq4g=
+X-Received: by 2002:a05:6402:8cb:b0:66d:d2f9:520c with SMTP id
+ 4fb4d7f45d1cf-68256d5afa3mr265913a12.19.1778624444602; Tue, 12 May 2026
+ 15:20:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
- <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
- <943cb464-78f3-44a7-92a7-57a1fe4fbc10@linux.alibaba.com> <CAOQ4uxh4yKEBdgbkfZTVyYM1P8ahALFVJzQCj7ASkrH746_4xw@mail.gmail.com>
- <CAJfpeguR=x+Kf7jd4zyeSoUtbjaPRLhXCRh9wa3c14x+M77kXA@mail.gmail.com>
-In-Reply-To: <CAJfpeguR=x+Kf7jd4zyeSoUtbjaPRLhXCRh9wa3c14x+M77kXA@mail.gmail.com>
+References: <20260512200448.3818665-1-joannelkoong@gmail.com>
+In-Reply-To: <20260512200448.3818665-1-joannelkoong@gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 12 May 2026 23:40:45 +0200
-X-Gm-Features: AVHnY4IbE3Bg883Q__tabvfXXxiDKtTVz49xRXuoaDl21VgCxTESGb3OYv1l38Q
-Message-ID: <CAOQ4uxiTowEnpQR3-oBXM3Q5uxBf5PXeNu+Qda8CVeD0fTHfXg@mail.gmail.com>
-Subject: Re: [post LSFMM summary] where is fuse going?
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Gao Xiang <hsiangkao@linux.alibaba.com>, fuse-devel <fuse-devel@lists.linux.dev>, 
-	linux-fsdevel@vger.kernel.org, John Groves <John@groves.net>, 
-	Joanne Koong <joannelkoong@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Bernd Schubert <bernd@bsbernd.com>, Horst Birthelmer <horst@birthelmer.de>, 
-	Luis Henriques <luis@igalia.com>
+Date: Wed, 13 May 2026 00:20:33 +0200
+X-Gm-Features: AVHnY4L6IF1zgyncSGc2FdF5VTc6jMql8HGOFQnJgnPOs0Jo3RzOddRTuqZ8XY4
+Message-ID: <CAOQ4uxhAbS+pQiOygY9m+UzqnuuWL9+Y0hj40Nck7_8NX0Xh_Q@mail.gmail.com>
+Subject: Re: [PATCH v1] fuse: use copy_splice_read() for FOPEN_DIRECT_IO
+ splice read
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 12, 2026 at 12:01=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
+On Tue, May 12, 2026 at 10:05=E2=80=AFPM Joanne Koong <joannelkoong@gmail.c=
+om> wrote:
 >
-> On Tue, 12 May 2026 at 09:53, Amir Goldstein <amir73il@gmail.com> wrote:
+> When FOPEN_DIRECT_IO is set, fuse_splice_read() calls
+> filemap_splice_read(), which populates the pipe with pages from the fuse
+> inode's page cache.
 >
-> > The problem is only with  fuse_passthrough_mmap().
-> > Depending on the workload (?) mmap may not be important and
-> > we could fail if trying to map cross-backing-id regions.
->
-> mmap(2) is the main entry point into famfs,  so it's very important.
->
-> That doesn't work with "traditional" passthrough and needs to do the
-> DAX mapping that famfs currently does.
->
+> This contradicts FOPEN_DIRECT_IO, which is set by the server to indicate
+> that the page cache should be bypassed entirely.
 
-Yes, famfs surely needs mmap to multiple daxdev and this is done.
+Generally speaking, this statement is not 100% accurate if you consider
+mmap(), so "page cache should be bypassed entirely" is a bit strong,
+but I agree that this is a good goal to aspire to.
 
-I was referring to Gao's question about dealing with non-dax multi
-backing id (const mapped) files.
+> Subsequent splice reads
+> can then read stale data from the cache instead of fetching fresh data
+> from the server.
+>
+> Use copy_splice_read() instead, which will invoke ->read_iter() on each
+> splice read, sending a FUSE_READ to the server every time without
+> populating the page cache.
+>
+> We do not need to add checking for O_DIRECT since this is already
+> handled at the vfs layer in do_splice_read().
+>
+> Fixes: 2cb1e08985e3 ("splice: Use filemap_splice_read() instead of generi=
+c_file_splice_read()")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 
-Thanks,
-Amir.
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+
+> ---
+>  fs/fuse/file.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 3bdab8d03373..3ebe18ed0264 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -1859,7 +1859,9 @@ static ssize_t fuse_splice_read(struct file *in, lo=
+ff_t *ppos,
+>         struct fuse_file *ff =3D in->private_data;
+>
+>         /* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> -       if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_=
+IO))
+> +       if (ff->open_flags & FOPEN_DIRECT_IO)
+> +               return copy_splice_read(in, ppos, pipe, len, flags);
+> +       else if (fuse_file_passthrough(ff))
+>                 return fuse_passthrough_splice_read(in, ppos, pipe, len, =
+flags);
+>         else
+>                 return filemap_splice_read(in, ppos, pipe, len, flags);
+> --
+> 2.52.0
+>
+>
