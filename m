@@ -1,75 +1,75 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1374B367299
-	for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 09:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F1749250D
+	for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 09:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778578740; cv=pass; b=IEUhQDa5ROIcdFDA7dkQAWj8L/KJ0u3vitxJLnod5aLhv6oENN0i1GWEZ5DLRWOW+L3vsnW68CFxRUwArnDjVIOpICdhli9eYhzwy0BB3IKxEyoVCwRvim2jwjzSGnGZOsTz5UXJ1qAlBu8t9mtYDb7zTEMl04XP6m+VzQqPS1k=
+	t=1778579586; cv=pass; b=FxgPrKgw4iSmn/Lu/25XAvY/MNIVaIH+O+27lhoRAwiC9w9c9vpYrGRa5xAtkPUxsjZvde13yAEYZu3u79UdVHPxub5cXEuvXR6FLBM+8T7vU/0+WTLhjPnY9RQiZzp6ejutbX01CsU7a8BaPMfCLjc3o6l+yH6OR9O069FKF6E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778578740; c=relaxed/simple;
-	bh=nBMJidNHt66HghgmXUZTCEaSRlUL9/FTHnwxbGP1apM=;
+	s=arc-20240116; t=1778579586; c=relaxed/simple;
+	bh=BopkGP6sR0jaJSDk33EwB++6pzeuw4tOdMU/tnlaGSM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ldQePZrHEHN+wTXq2oelo8engh9N/VSd7ctig4CJZ8ZCxTaH5sKdhFDkq9GPKeozTKu1CimNKsRFDMdenQYJgbN89WqU4ACSA9H52IXxkO+oN3rAnQLe6fkiSfFezpgG/LylnVTu32La3lZr84z6CJbEA44cY2/5hCjV1MPk9gQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=q6cLf5sV; arc=pass smtp.client-ip=209.85.160.173
+	 To:Cc:Content-Type; b=kiIlJPrMZpstRBy8ZsgX1X8hlAdW32HJL4wyYqFwPCdwc64PEs7krJtazpCM2AmLFYLwVxDEjXZpHMEivnqg6qFN+j1EoTdiVG/vFP9gFDdW6ogSxaz6ehfP3b17OHXvCG4QYNVzEV209zQnW9kJP59mvaxgWIn06cot9aQZqMg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=HhocF0TA; arc=pass smtp.client-ip=209.85.219.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="q6cLf5sV"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-50e5dbd8e0eso54687221cf.1
-        for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 02:38:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778578735; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="HhocF0TA"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-899d6b7b073so51306756d6.2
+        for <fuse-devel@lists.linux.dev>; Tue, 12 May 2026 02:53:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778579584; cv=none;
         d=google.com; s=arc-20240605;
-        b=CNP7hn321pCw6B2MDqusloUVx7O+Hz54uQrBFB1QU5KB9z9h5wsSCwePH9bjEZtn7x
-         YijhlcHeHd4tiAl/EdiBMZdJCs5sp2POTx8qhhyna0w9p9Cu0IEjs55N63gQr7rRbQx0
-         DnkLKojTWBRwMwr6caQJuBCEw/gOn8+Zj66dGYCM3oqKau6O2ipPqBWiYp+Eaf64sKF7
-         VZdP4FGqYMh+6QjtjMFuSMOrzPFxhiR8SX69eRtajQ8Kte+vVDen8fhc3K6MLk5/jpZj
-         kQrTKjtxm3NkEbUZNl4NW2oreTLOlacgC4FR93xwNQbTzYM2rGVycUJ42LBhs795XA1Z
-         Kbcw==
+        b=CYMcmFBgvOi14MoviM/i1+fOBGkw6ySrJza7CfFrbgzgcdzC0i5pU2ubT+sIwwEo/J
+         wO7BBRy9S9VHn4dk1qhLjPhsoO3ii0T/jUTIVpG0clgV4pQ12Xw3IHeo/0wO1OLY+HB6
+         eTsJG4vk+VSjSD9Sjp3rtZjvUH3jQ8ujcjvEvPaZSnDhFbcHF/B8fvR6tV6UHRPTBYyX
+         aoaUs9E2zTL6S3Z+HcWqQxj3CV4DYaktiJv1/YJC9opNoMrA0Lzsfl6wrgPsok+v9zqg
+         W+Z+H9TS6CYoibqUQWJrxYPp15X5IwXdgseYLPoJaJnyN9r3/TD1jhz4Tg2bK4768Hwt
+         2l8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=tudgoBstBgoWV3PkywqJXS+rkKtuXHKcvUGzzQXZQEY=;
-        fh=zmxepGyqrtCVfSLTW+tL1FGeDlAraN6cVGr3Fyc8mwk=;
-        b=bxWYOv32LRKRdpaDL8UTbVAaSAs2T/7nBfdrTy/QA3Dwv1hl4Ooj1Vs4Ud2DsQcq0P
-         MYPX+FRhUDZlo1CMfUmQsstgqaEgvt1VFBGhaEqBft/6z4XMknOyL9OdGgNZkXV/ndD7
-         xdMKz5adu+nZb6wRfgyt57p8ESLYwKmZ/Yey3IXdTF0ZGmsr5h+qw2rpDWyHcPHnfk3E
-         Lu9d7rxn4S4RIp/kabeWB2eqsT8l+rSDTihQxahO6AiruU28tiPZPH1oD9v5dE5T5tq7
-         V3b7tI6b1xZ/o10IGJdOaeOKMuYbec50/BJea21e6t+ldEB1rl0tnjmZFYaczkEUjlbA
-         m6SQ==;
+        bh=gyI430ATZEUVsPLqfTNBmTzX/MQNs93/RaGxRDZTt6c=;
+        fh=vr2Bwfl1ucAaJx8s8K/F+4x5ajqOC3MKJ7UXa4A+wsw=;
+        b=lN+b3dVnFCA/KG+bxUEAAvleTNjvQ+PjGuJMGHKJqCaTQn+tsV22uQ4hkWV8U4OpwP
+         3mPreUZevx3WEzxyLszQ4LqJ7YvG3qb3I18gpvRUjMzmKatLxR5XH4Wm/kpvnV3QGUVv
+         KAiMJ7rY0TEXM/qeuMFsAV9+qKRsA8zT8wu9XlMV+JUQ9hi+XqO9bRF6xDotG1+dC4gY
+         Ipa/0Jj14Id+1SAwgryxRpZnffp4gnygNZ2Ls3iTyx6Q6pQJXI9hNsiczQLV2MKRlTvk
+         pfWlvsKoylJgs+PvqYwWTtOGSWH5PM6Hbtk/hPI5OrWQm589zb3x9OH7FV/ohNf9KgEq
+         3N1Q==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1778578735; x=1779183535; darn=lists.linux.dev;
+        d=szeredi.hu; s=google; t=1778579584; x=1779184384; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tudgoBstBgoWV3PkywqJXS+rkKtuXHKcvUGzzQXZQEY=;
-        b=q6cLf5sVqM4js1doCRgQ5TNhwfrMGJ2M/heW7zcrn/+xOIOIfeeQ+ovfPkO5nyaMmk
-         oPh9c1ayKS0DeMUVOKCobrG7lF1S2lRH0Xx3fjGK+o41FI45BHn7KpyaJJXMmTv5HQeD
-         zXvinZeIzdUZ4pxZ0bt+4Nhtx220v+P6J17HM=
+        bh=gyI430ATZEUVsPLqfTNBmTzX/MQNs93/RaGxRDZTt6c=;
+        b=HhocF0TAc3+bgeDjFdGHwQm+xuQCI6WmH7V8N1QGVEC68scUQ34itqpBhWi/SorYHG
+         li4cPdm+6EtKbiYaYyIcVT4k6UBu1p0FpnzfNRXWOwqKzg+3xPgs14+xafgkp/IWgwDm
+         tSoXMNmPU/cfNcC4YpJVPATuwEBQtctUyWcKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778578735; x=1779183535;
+        d=1e100.net; s=20251104; t=1778579584; x=1779184384;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tudgoBstBgoWV3PkywqJXS+rkKtuXHKcvUGzzQXZQEY=;
-        b=rQAUWNPEPypY4Rfi+XQuO/jVaTlZcUjlp1wqgCCV+0+28dlllaZZHj1nsT4tQF7qh2
-         UNgVEAF/kv/BtAQqGI7kivkl99lql1JgnKfYnqJe3SyqqJSJnGNTA8BTY6jPxnViHOJ2
-         9aUeUk0c8u1Yog+pUaz4n8pOLj5rk8B5UPwgSoVxTioohvAoJVi0Qm4SsbywTzESzaQN
-         i5O5h0yTewX00i1nD1lYyQjYH3QofoH2GXlKp43KSt9Ur6emjczyRevRE+XJCLsnb/f1
-         Gij0dq4zyHTxvUTu2FaNJUDwQYFTgyTkhJeLtLECBIoW1n9fA/yPuOYuCvOlQAvvCA+O
-         AWng==
-X-Gm-Message-State: AOJu0Yw2jWrfkmL28LaQJo3cKy2nDdxRzaw52V2I1MEv1Y7sxdO4ytr5
-	G0q4b9INY2voorUsoDQ7xyq6rg9qdUvnypDFs9/WfSIyHDW0tXp2O4+pFRrdYz4q/c4Y7VvqoZ7
-	TjxO9R9b9fDTCszluhgRRe3ARNPe9cQYV/dxhNsxZuQ==
-X-Gm-Gg: Acq92OGZZ/4EBoLkriW6mAHv4LQg483CfhI/l+1+MtchXyogiHzj1n8g9C/zX8thFxy
-	h/ClXXK18wUwOzP7ATGDBMm+BmX8HOUaelR/YjawPznAdiJXlMF/7rLDnXEmzryzeFxwCQuN7yh
-	7qdy0DbEaML6Z6YfN2kckzu3uww8PTTAmdhaKrz4C+jQ1RARtfWQN01m5LMpbEdIxxdgxnfNVbi
-	YzVp6iUhcHgbvY59GnBEsyXSayNLijs91pGkjT8We6KEPKMjJ6IMCLhEBSGDp2HP1ikLgvEap9E
-	Jx82th3rD9y26SRaIPaXwBpb2GPkpV7hNa418l+p3Q9TFV+EaQ==
-X-Received: by 2002:a05:622a:6105:b0:50f:bd6d:aa2a with SMTP id
- d75a77b69052e-514d1c74edcmr29713291cf.17.1778578734644; Tue, 12 May 2026
- 02:38:54 -0700 (PDT)
+        bh=gyI430ATZEUVsPLqfTNBmTzX/MQNs93/RaGxRDZTt6c=;
+        b=spUm1zmGEpO7FXpjiHZpUgNRSDMV7O9VvZVS8rrS0I1rIvmKywKInT39mSxD09d3d3
+         fEl4joH60K6HkHQliemwiReIC6/aGrOzdZ9fBf5tecI1WkkWAXG4PFH5lfKOmVVomKuT
+         aFKTCcupDiMFSbsrw/qAM9FPZaoI12Ke8TCreaC5e/tx7l4XpT9ixKWw3KEixhGge/ec
+         TSXXOXJR9Y0fp/KQLVGpvOsT/dooSGwOBNNLQl+mLoGGANTcRXzYROXkMMj1YSpXdk9a
+         Jm0XxHfWJ7aSSeal/RmwRz+dFABTcwIoTVnXOnQ35R+J3UOWn8WxNrfWUBlzQJXgg+RT
+         DB4Q==
+X-Gm-Message-State: AOJu0YwPV7dU2EFc2XOs3TeapaFi8CrrmbCqHQA9t2k3b0E2GHpoCx5U
+	jKoEYWlbrLzXevZj3qO5K0XA+z98Z+nf945nuVErQzFIVclIYf0EI8OxVtDgyC1D7/5gbXg4B6B
+	JwgjvpBL5IFl3oUN3uLes+0VX4OabHjCA4oxCi15qKg==
+X-Gm-Gg: Acq92OGJbHchoMq9USL36O4vCcp2n5A7iYUUbVlbVcmtphfqn1tjMRkzvFBkbRwSoKD
+	tkrJ9+Fh9OIg5ULx1qpyAu6t6YQAgmbhG1+x8ieStM23nx25hLSFEvgHeoAipBDRSw6tmVVhDxT
+	el61j4HbcaaBaf7pZANqVuFaMgVV55OWPJae0Xlyb2m8uQg2CRBJLPYjpOrdpPhVzA0lf5BonxS
+	Aj7j2vgCcdARSfrKsUq6OmYRiqPQWuS8Y8FIb6hVILYctev7SM09RXcz1HAxfE6MfeIKGTYZXtW
+	OCpWU4YWrcao33UvFoyEJnB/RGAmQWYb9p4qPKQ=
+X-Received: by 2002:a05:622a:a0c:b0:509:39b5:a97f with SMTP id
+ d75a77b69052e-514d20ea85dmr29104771cf.29.1778579584613; Tue, 12 May 2026
+ 02:53:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,34 +77,48 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
- <87pl313ni5.fsf@igalia.com>
-In-Reply-To: <87pl313ni5.fsf@igalia.com>
+ <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
+In-Reply-To: <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 12 May 2026 11:38:43 +0200
-X-Gm-Features: AVHnY4LFFEbjeS8dhCWHmDPz0qaSyC1eBRE5sqfnh02Z5C9rnqZ87Ze4nPOvHUQ
-Message-ID: <CAJfpeguGGNY-o=p-gpKx0w1KNwKfNKxKMXn2JrjsO1mJfFCJRQ@mail.gmail.com>
+Date: Tue, 12 May 2026 11:52:53 +0200
+X-Gm-Features: AVHnY4ImmLfRayTFq-7XJcPELnNu6qXF4ycVL2F7gsipXLlyh56_8XOIK6AZ1_k
+Message-ID: <CAJfpegt=eWS_6ZfRsL_P79COKJKoLGNOsJ9g6TkrAhvhSbb7nw@mail.gmail.com>
 Subject: Re: [post LSFMM summary] where is fuse going?
-To: Luis Henriques <luis@igalia.com>
+To: Amir Goldstein <amir73il@gmail.com>
 Cc: fuse-devel <fuse-devel@lists.linux.dev>, linux-fsdevel@vger.kernel.org, 
 	John Groves <John@groves.net>, Joanne Koong <joannelkoong@gmail.com>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Bernd Schubert <bernd@bsbernd.com>, Horst Birthelmer <horst@birthelmer.de>
+	"Darrick J . Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>, 
+	Horst Birthelmer <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 11 May 2026 at 18:43, Luis Henriques <luis@igalia.com> wrote:
+On Mon, 11 May 2026 at 19:18, Amir Goldstein <amir73il@gmail.com> wrote:
 
-> I'd like to clarify this: do you see fusex as some sort of staging area
-> for features development that would (or could) eventually be merged back
-> into the "traditional" FUSE?
+> IMO, FAMFS sits somewhere between PASSTHROUGH and IOMAP.
+> The simple nature of the maps, the fact that famfs maps are const and
+> queried at file open time makes me think that famfs is much closer to
+> PASSTHROUGH than it is to IOMAP (in its full capacity).
+>
+> I think Joanne has mentioned that her customers have a use case for
+> multi backing ids per passthrough file and I assume this would be a pretty
+> simple map, so that sounds pretty darn close to famfs already.
 
-Could do that, yes.
+TBH, I thought that fuse-iomap is just going to be a generalization of
+the passthrough interface.  At this point it seems like it's trying to
+do quite a bit more.
 
-> I'm asking because I got under the impression that file handles in
-> particular was something that would be desired to have in "traditional"
-> FUSE (and that's where I would rather have them TBH).  This would, for
-> example, help unbreak nfs exports.
+> If we are being honest, then we need to develop features that users need
+> and if users need features, there are usually employers willing to pay for the
+> feature development and maintenance, if we let employers know that this is
+> what it takes to get their users what they need.
 
-I'm fine with that.  Especially since code can easily be shared between the two.
+I fell that this is a "politically charged" topic.
+
+Let's just say that maintainability is very important in big features
+like this.  Even deep pocketed employers can go broke or change their
+priorities, so we need code that can be understood by at least one
+additional person with a different background.  I think that would be
+a good enough guarantee that the code is not going to be a nightmare
+to maintain.
 
 Thanks,
 Miklos
