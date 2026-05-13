@@ -1,268 +1,366 @@
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C483B47E0
-	for <fuse-devel@lists.linux.dev>; Wed, 13 May 2026 19:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82CA83A782F;
+	Wed, 13 May 2026 20:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778701477; cv=none; b=ECTcUGHk/LAh7/0m9zWPDoEQ5HA+aB+4+UnFF40mzTWLAtrTVezbOJKvfdb1lzlUGLXs+ZlBFzfYlcNr3lU3u6g3z39qioh5a8XnUJS6Sv0JoVNy/p4mqKhpb/FQ2pbYvM4vV9Pjx9Hn89OTz/ZqqHlyv0FvXZMe5SCUIxm2JKU=
+	t=1778702603; cv=none; b=rvq8OLO8RyzfQQYr/cpEAuFFlUphbu9BVdWXPS3/AsDGDJmOu/9pECiyt+lNKB0xuMcPrJBTwp/bBj1T+1qUAXif8ri+X24Yr3m2NqRx8Aq6mCWnwsDr8E5/36IIcY+wdsIxd//76gyikJBoeoSoxYiFSY31qdyrQGW3t7mGZxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778701477; c=relaxed/simple;
-	bh=gsUPAsL6EI1oq+DCQsyJe6Euf3MaqjfCVIOlfQ2koUw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cCFHTCpkDi0dQn9rdBQw+yS57/p3rPg8l0sijY81G1yMpOru19tiTYewhHK2smlLgpr+mYsdu/2JYfagJGIsc9jrWlUdVBaFqRuYj5WjspDMZ1gOa8gGrLn/VqKY+PJEMyR29yDGLVPTR8kEP6Y4XSZPwP3c0IrlKhbgXHwjIyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=WrDHuutK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KdQ+2uGr; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1778702603; c=relaxed/simple;
+	bh=oHFpqXxFjRgaX2WjZSUjZFrZB+VcyYrq17R7zHFSsHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdDoHo8rKx2KAcR4lhmjRzKo5LJfBjhkW5fDScnMb4jvWEFMCTL6syBVOreMh0qphPk1AaAUjQNaW38f4RsFkZnkCMP6DVFZHib72FtJUv2qwNo7ZPal3dnj0zfULYDM+lFyL31TGUbPriewIF7rasRqv2C8BScD4WDi0a+Bl4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edSoo6q3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="WrDHuutK";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KdQ+2uGr"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 44AF5EC019C;
-	Wed, 13 May 2026 15:44:34 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Wed, 13 May 2026 15:44:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778701474;
-	 x=1778787874; bh=gQkCUjExmwMAUBPbW7JpuFJZDjYI1ekOw5jNW1Dt74c=; b=
-	WrDHuutKWCRSXHFDT7xvsIQTO0M7pYmGK+A6pG8VK5GsExJHj9m51lcZQIHTC8QX
-	ozotXj3zu559bDaaPLyONEsnP0yhoyu6oYCspuiI04TbN5OeeZG4aOA6ePD6SQwE
-	YBrXB/ITwHWfQtl3OarMSp7bhEAuwqTXptUqmRnxNQhIGpSj14ZsSi85vLw0IAfh
-	iCSnlzFzH8LoxKgNPwrYZL29hpntJsbo8LhRM7NfUpKHtetqNh0mph1boC/hWbPG
-	BoQQUXcNRDuPcc2IdCLP5XMwpvV20eDuItd2FWIbwSAcoqdKIMxR0Y0HtaaO79Jv
-	JpFHT1DpgnghL6rAEsHkfg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778701474; x=
-	1778787874; bh=gQkCUjExmwMAUBPbW7JpuFJZDjYI1ekOw5jNW1Dt74c=; b=K
-	dQ+2uGrBoGqMCaked3cXTfX5XAC+IDSIMyk6VkS1LBwhXXMPVQOMqoEmvO8coYMA
-	USp5o0JwIcvALefs+hSzgKR/kms6MXy7fcO/2GSpBz78anUDnHCSSoDsVjc3mf0j
-	nF29iUTv4h/PCPNlb4QiO3T34dUFsOACltNvDwzzENkmLHR00jzXh71I1tIr/Nuh
-	M0mL+p3tFp6p4BSE189byrxMT4t4y2U0BTICDZoTULsLnUyl8vxyb8IJQAlvzxhI
-	YkVbrzNS5VVtlfcEeChtqNTGWC+KrBAWSM7TVh17/eTu6YzIcUTQIpjK9KQznubb
-	zkKHv51OCYP/1VwVL+3Og==
-X-ME-Sender: <xms:odQEak18dJ9LJB0QzbKqD5s4keyusi1wWofqhzkMpkD8AsGbGjQXBQ>
-    <xme:odQEaoaKL815wA9_57PiUXVH-GH8SSKdg_myYHitbi7dUb5uZBwRBXcqLtZ2t2W-V
-    EzD9aPgXZ4l-Raxlj2wwewAw8SBZcvovh84EXfncxH_t9aee1TBkQ>
-X-ME-Received: <xmr:odQEakIusGFpH7q5_k-lMcUHmq5ngLEZ7tolUaFs49zHxQfegYYfI8u1yAKsAXFQBVyvb0lJbCwXnvmA81IUP2Zi3cTraR6bUFFFOu6jlEjIpGT0tQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehhedvucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeeugfevvdeggeeutdelgffgiefgffejheffkedtieduffehledvfeevgeej
-    hedtjeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
-    mhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
-    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmihhklhhoshesshiivghr
-    vgguihdrhhhupdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtoh
-    hmpdhrtghpthhtohepnhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtoheplhhinhhu
-    gidqfhhsuggvvhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehfuh
-    hsvgdquggvvhgvlheslhhishhtshdrlhhinhhugidruggvvh
-X-ME-Proxy: <xmx:odQEavEcm1FTSrQ011EWaQVhg_10-Vl3hVOu49xO76SeoQUFG7Mg_w>
-    <xmx:odQEajtPQNWXaEupVcModqwe65Xe9LQoOrxCqbNM61EJfe9v2ySNWg>
-    <xmx:odQEamvCwsb2qjNACREHrV16bqf6k68vmrhb7uZiiK9HPGJwZIrzSA>
-    <xmx:odQEapDFgIs2h3vALIXmpluSCzAmcKH_XvcfsK1RBwNIjk7vmhPrQw>
-    <xmx:otQEal_v-UnlGx_Md0DiWAvcao2B3kWT4z3XXyii7k8XhAZVuO-PPM_x>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 May 2026 15:44:32 -0400 (EDT)
-Message-ID: <5bd3e5b2-af2a-4184-95c1-54ec645a679e@bsbernd.com>
-Date: Wed, 13 May 2026 21:44:30 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edSoo6q3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E63C19425;
+	Wed, 13 May 2026 20:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778702603;
+	bh=oHFpqXxFjRgaX2WjZSUjZFrZB+VcyYrq17R7zHFSsHQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=edSoo6q3lYOIz7jtD4HPovsRbcc59CJnZr+/MmLtn8Qgb3gRTR+rru1zA85eZMuhg
+	 kaZJTK5Br7Meiz/UPbjN7iKY1L24/vOWHWeG5tVrRAg81xij9Q8Y/cBKmE+l5usVaY
+	 9wd6zhNmiJ6AY09if6p3t88wviVzwr5b6hdGPvrxm2eQQbKhPaasQrvGR/NAr3TM50
+	 pmctI0Y+cGdt1B9bS2erTuoe6NZX6pWEMXeiZDmes9ZRg1hryPAe2mYfYeykeHb6U3
+	 G9Bk2C+yaxg8kJyWrXAHyeolhLgJQ9uFE36+70ggb3RsO1fxHO75NnfsTSkqHjgDeS
+	 HJBNLE6t9bstg==
+Date: Wed, 13 May 2026 13:03:22 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: miklos@szeredi.hu
+Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 26/33] fuse: implement inline data file IO via iomap
+Message-ID: <20260513200322.GP9544@frogsfrogsfrogs>
+References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
+ <177747205707.4101881.7117774253873164905.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/33] fuse: make debugging configurable at runtime
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205214.4101881.6181001367021214200.stgit@frogsfrogsfrogs>
- <20260513174102.GG9544@frogsfrogsfrogs>
- <e7ef9cbb-2692-409a-b24d-998b18e74324@bsbernd.com>
- <20260513183536.GL9544@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260513183536.GL9544@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177747205707.4101881.7117774253873164905.stgit@frogsfrogsfrogs>
 
-
-
-On 5/13/26 20:35, Darrick J. Wong wrote:
-> On Wed, May 13, 2026 at 07:46:05PM +0200, Bernd Schubert wrote:
->>
->>
->> On 5/13/26 19:41, Darrick J. Wong wrote:
->>> On Wed, Apr 29, 2026 at 07:24:28AM -0700, Darrick J. Wong wrote:
->>>> From: Darrick J. Wong <djwong@kernel.org>
->>>>
->>>> Use static keys so that we can configure debugging assertions and dmesg
->>>> warnings at runtime.  By default this is turned off so the cost is
->>>> merely scanning a nop sled.  However, fuse server developers can turn
->>>> it on for their debugging systems.
->>>>
->>>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
->>>> ---
->>>>  fs/fuse/fuse_iomap_i.h |   17 ++++++++++++++---
->>>>  fs/fuse/Kconfig        |   15 +++++++++++++++
->>>>  fs/fuse/fuse_iomap.c   |   43 +++++++++++++++++++++++++++++++++++++++++++
->>>>  3 files changed, 72 insertions(+), 3 deletions(-)
->>>>
->>>>
->>>> diff --git a/fs/fuse/fuse_iomap_i.h b/fs/fuse/fuse_iomap_i.h
->>>> index b9ab8ce140e8e1..c37a7c5cfc862f 100644
->>>> --- a/fs/fuse/fuse_iomap_i.h
->>>> +++ b/fs/fuse/fuse_iomap_i.h
->>>> @@ -8,17 +8,28 @@
->>>>  
->>>>  #if IS_ENABLED(CONFIG_FUSE_IOMAP)
->>>>  #if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG)
->>>> -# define ASSERT(condition) do {						\
->>>> +
->>>> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG_BY_DEFAULT)
->>>> +DECLARE_STATIC_KEY_TRUE(fuse_iomap_debug);
->>>> +#else
->>>> +DECLARE_STATIC_KEY_FALSE(fuse_iomap_debug);
->>>> +#endif /* FUSE_IOMAP_DEBUG_BY_DEFAULT */
->>>> +
->>>> +# define ASSERT(condition) \
->>>> +while (static_branch_unlikely(&fuse_iomap_debug)) {			\
->>>>  	int __cond = !!(condition);					\
->>>>  	if (unlikely(!__cond))						\
->>>>  		trace_fuse_iomap_assert(__func__, __LINE__, #condition); \
->>>>  	WARN(!__cond, "Assertion failed: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
->>>> -} while (0)
->>>> +	break;								\
->>>> +}
->>>>  # define BAD_DATA(condition) ({						\
->>>>  	int __cond = !!(condition);					\
->>>>  	if (unlikely(__cond))						\
->>>>  		trace_fuse_iomap_bad_data(__func__, __LINE__, #condition); \
->>>> -	WARN(__cond, "Bad mapping: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
->>>> +	if (static_branch_unlikely(&fuse_iomap_debug))			\
->>>> +		WARN(__cond, "Bad mapping: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
->>>> +	unlikely(__cond);								\
->>>>  })
->>>>  #else
->>>>  # define ASSERT(condition)
->>>> diff --git a/fs/fuse/Kconfig b/fs/fuse/Kconfig
->>>> index 934d48076a010c..1b8990f1c2a8f9 100644
->>>> --- a/fs/fuse/Kconfig
->>>> +++ b/fs/fuse/Kconfig
->>>> @@ -101,6 +101,21 @@ config FUSE_IOMAP_DEBUG
->>>>  	  Enable debugging assertions for the fuse iomap code paths and logging
->>>>  	  of bad iomap file mapping data being sent to the kernel.
->>>>  
->>>> +	  Say N here if you don't want any debugging code code compiled in at
->>>> +	  all.
->>>> +
->>>> +config FUSE_IOMAP_DEBUG_BY_DEFAULT
->>>> +	bool "Debug FUSE file IO over iomap at boot time"
->>>> +	default n
->>>> +	depends on FUSE_IOMAP_DEBUG
->>>> +	help
->>>> +	  At boot time, enable debugging assertions for the fuse iomap code
->>>> +	  paths and warnings about bad iomap file mapping data.  This enables
->>>> +	  fuse server authors to control debugging at runtime even on a
->>>> +	  distribution kernel while avoiding most of the overhead on production
->>>> +	  systems.  The setting can be changed at runtime via the debug_iomap
->>>> +	  module parameter.
->>>> +
->>>>  config FUSE_IO_URING
->>>>  	bool "FUSE communication over io-uring"
->>>>  	default y
->>>> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
->>>> index c22c7961cc0bdc..f7a7eba8317c18 100644
->>>> --- a/fs/fuse/fuse_iomap.c
->>>> +++ b/fs/fuse/fuse_iomap.c
->>>> @@ -18,6 +18,49 @@ static bool __read_mostly enable_iomap =
->>>>  module_param(enable_iomap, bool, 0644);
->>>>  MODULE_PARM_DESC(enable_iomap, "Enable file I/O through iomap");
->>>>  
->>>> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG)
->>>> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG_BY_DEFAULT)
->>>> +DEFINE_STATIC_KEY_TRUE(fuse_iomap_debug);
->>>> +#else
->>>> +DEFINE_STATIC_KEY_FALSE(fuse_iomap_debug);
->>>> +#endif /* FUSE_IOMAP_DEBUG_BY_DEFAULT */
->>>> +
->>>> +static int iomap_debug_set(const char *val, const struct kernel_param *kp)
->>>> +{
->>>> +	bool now;
->>>> +	int ret;
->>>> +
->>>> +	if (!val)
->>>> +		return -EINVAL;
->>>> +
->>>> +	ret = kstrtobool(val, &now);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	if (now)
->>>> +		static_branch_enable(&fuse_iomap_debug);
->>>> +	else
->>>> +		static_branch_disable(&fuse_iomap_debug);
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int iomap_debug_get(char *buffer, const struct kernel_param *kp)
->>>> +{
->>>> +	return sprintf(buffer, "%c\n",
->>>> +		       static_branch_unlikely(&fuse_iomap_debug) ? 'Y' : 'N');
->>>> +}
->>>> +
->>>> +static const struct kernel_param_ops iomap_debug_ops = {
->>>> +	.set = iomap_debug_set,
->>>> +	.get = iomap_debug_get,
->>>
->>> Codex points out that if we set KERNEL_PARAM_OPS_FL_NOARG in
->>> kernel_param_ops::flags and teach iomap_debug_set to handle !val as now
->>> == true, then we can support enabling debugging with
->>> "modprobe fuse debug_iomap".  That seems reasonable to me, so I'll make
->>> this minor change.
->>>
->>> --D
->>>
->>>> +};
->>>> +
->>>> +module_param_cb(debug_iomap, &iomap_debug_ops, NULL, 0644);
->>>> +__MODULE_PARM_TYPE(debug_iomap, "bool");
->>>> +MODULE_PARM_DESC(debug_iomap, "Enable debugging of fuse iomap");
->>>> +#endif /* IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG) */
->>>> +
->>>>  bool fuse_iomap_enabled(void)
->>>>  {
->>>>  	/* Don't let anyone touch iomap until the end of the patchset. */
->>>>
->>>>
->>
->>
->> Hi Darrick,
->>
->> would it help to just use debugfs? I will try to find time to send that
->> out tomorrow.
->>
->> https://github.com/bsbernd/linux/commit/5f25afb42ae7bb7ead646cfa3a3683817975ccb9
->>
->> (on this branch https://github.com/bsbernd/linux/commits/fuse-debugfs/)
+On Wed, Apr 29, 2026 at 07:30:28AM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
 > 
-> I'm skeptical, because debugfs is disabled in lockdown mode.  Presumably
-> some $enterprise customers might want to turn on the extra logging and
-> assertions even in production?  Some product groups I work with require
-> secureboot even in their dev environments.
-Pity, all we need is a debug-fs that can print some fuse specific
-topics, nothing insecure there.
+> Implement inline data file IO by issuing FUSE_READ/FUSE_WRITE commands
+> in response to an inline data mapping.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  fs/fuse/fuse_iomap.c |  213 ++++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 205 insertions(+), 8 deletions(-)
+> 
+> 
+> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+> index 807d84a2139362..b9531ad5ab5180 100644
+> --- a/fs/fuse/fuse_iomap.c
+> +++ b/fs/fuse/fuse_iomap.c
+> @@ -398,6 +398,156 @@ fuse_iomap_find_dev(struct fuse_conn *fc, const struct fuse_iomap_io *map)
+>  	return ret;
+>  }
+>  
+> +static inline int fuse_iomap_inline_alloc(struct iomap *iomap)
+> +{
+> +	ASSERT(iomap->inline_data == NULL);
+> +	ASSERT(iomap->length > 0);
+> +
+> +	iomap->inline_data = kvzalloc(iomap->length, GFP_KERNEL);
+> +	return iomap->inline_data ? 0 : -ENOMEM;
+> +}
+> +
+> +static inline void fuse_iomap_inline_free(struct iomap *iomap)
+> +{
+> +	kvfree(iomap->inline_data);
+> +	iomap->inline_data = NULL;
+> +}
+> +
+> +/*
+> + * Use the FUSE_READ command to read inline file data from the fuse server.
+> + * Note that there's no file handle attached, so the fuse server must be able
+> + * to reconnect to the inode via the nodeid.
+> + */
+> +static int fuse_iomap_inline_read(struct inode *inode, loff_t pos,
+> +				  loff_t count, struct iomap *iomap)
+> +{
+> +	struct fuse_read_in in = {
+> +		.offset = pos,
+> +		.size = count,
+> +	};
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	struct fuse_mount *fm = get_fuse_mount(inode);
+> +	FUSE_ARGS(args);
+> +	ssize_t ret;
+> +
+> +	if (BAD_DATA(!iomap_inline_data_valid(iomap))) {
+> +		fuse_iomap_inline_free(iomap);
+> +		return -EFSCORRUPTED;
+> +	}
+> +
+> +	args.opcode = FUSE_READ;
+> +	args.nodeid = fi->nodeid;
+> +	args.in_numargs = 1;
+> +	args.in_args[0].size = sizeof(in);
+> +	args.in_args[0].value = &in;
+> +	args.out_argvar = true;
+> +	args.out_numargs = 1;
+> +	args.out_args[0].size = count;
 
-Cheers,
-Bernd
+Codex reminds me that it's possible for count > iomap->length, which
+means that we can arbitrarily overwrite kernel memory here.
+
+> +	args.out_args[0].value = iomap_inline_data(iomap, pos);
+> +
+> +	ret = fuse_simple_request(fm, &args);
+> +	if (ret == -ENOSYS)
+> +		ret = 0;
+> +	if (ret < 0) {
+> +		fuse_iomap_inline_free(iomap);
+> +		return ret;
+> +	}
+> +	/* no readahead means something bad happened */
+> +	if (ret == 0) {
+> +		fuse_iomap_inline_free(iomap);
+> +		return -EIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Use the FUSE_WRITE command to write inline file data from the fuse server.
+> + * Note that there's no file handle attached, so the fuse server must be able
+> + * to reconnect to the inode via the nodeid.
+> + */
+> +static int fuse_iomap_inline_write(struct inode *inode, loff_t pos,
+> +				   loff_t count, struct iomap *iomap)
+> +{
+> +	struct fuse_write_in in = {
+> +		.offset = pos,
+> +		.size = count,
+> +	};
+> +	struct fuse_write_out out = { };
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	struct fuse_mount *fm = get_fuse_mount(inode);
+> +	FUSE_ARGS(args);
+> +	ssize_t ret;
+> +
+> +	if (BAD_DATA(!iomap_inline_data_valid(iomap)))
+> +		return -EFSCORRUPTED;
+> +
+> +	args.opcode = FUSE_WRITE;
+> +	args.nodeid = fi->nodeid;
+> +	args.in_numargs = 2;
+> +	args.in_args[0].size = sizeof(in);
+> +	args.in_args[0].value = &in;
+> +	args.in_args[1].size = count;
+
+Here too.
+
+> +	args.in_args[1].value = iomap_inline_data(iomap, pos);
+> +	args.out_numargs = 1;
+> +	args.out_args[0].size = sizeof(out);
+> +	args.out_args[0].value = &out;
+> +
+> +	ret = fuse_simple_request(fm, &args);
+> +	if (ret == -ENOSYS)
+> +		ret = 0;
+> +	if (ret < 0) {
+> +		fuse_iomap_inline_free(iomap);
+> +		return ret;
+> +	}
+> +	/* short write means something bad happened */
+> +	if (out.size < count) {
+> +		fuse_iomap_inline_free(iomap);
+> +		return -EIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/* Set up inline data buffers for iomap_begin */
+> +static int fuse_iomap_set_inline(struct inode *inode, unsigned opflags,
+> +				 loff_t pos, loff_t count,
+> +				 struct iomap *iomap, struct iomap *srcmap)
+> +{
+> +	int err;
+> +
+> +	if (opflags & IOMAP_REPORT)
+> +		return 0;
+> +
+> +	if (fuse_is_iomap_file_write(opflags)) {
+> +		if (iomap->type == IOMAP_INLINE) {
+> +			err = fuse_iomap_inline_alloc(iomap);
+> +			if (err)
+> +				return err;
+> +		}
+> +
+> +		if (srcmap->type == IOMAP_INLINE) {
+> +			err = fuse_iomap_inline_alloc(srcmap);
+> +			if (!err)
+> +				err = fuse_iomap_inline_read(inode, pos, count,
+> +							     srcmap);
+> +			if (err) {
+> +				fuse_iomap_inline_free(iomap);
+> +				return err;
+> +			}
+> +		}
+
+Just from code inspection this fails to handle a pure overwrite of
+inline data correctly if the inline file data wasn't already in cache
+and the write was to a subset of the file data.
+
+> +	} else if (iomap->type == IOMAP_INLINE) {
+> +		/* inline data read */
+> +		err = fuse_iomap_inline_alloc(iomap);
+> +		if (!err)
+> +			err = fuse_iomap_inline_read(inode, pos, count, iomap);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
+>  			    unsigned opflags, struct iomap *iomap,
+>  			    struct iomap *srcmap)
+> @@ -467,12 +617,20 @@ static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
+>  		fuse_iomap_from_server(iomap, read_dev, &outarg.read);
+>  	}
+>  
+> +	if (iomap->type == IOMAP_INLINE || srcmap->type == IOMAP_INLINE) {
+> +		err = fuse_iomap_set_inline(inode, opflags, pos, count, iomap,
+> +					    srcmap);
+> +		if (err)
+> +			goto out_write_dev;
+> +	}
+> +
+>  	/*
+>  	 * XXX: if we ever want to support closing devices, we need a way to
+>  	 * track the fuse_backing refcount all the way through bio endios.
+>  	 * For now we put the refcount here because you can't remove an iomap
+>  	 * device until unmount time.
+>  	 */
+> +out_write_dev:
+>  	fuse_backing_put(write_dev);
+>  out_read_dev:
+>  	fuse_backing_put(read_dev);
+> @@ -511,8 +669,32 @@ static int fuse_iomap_end(struct inode *inode, loff_t pos, loff_t count,
+>  {
+>  	struct fuse_inode *fi = get_fuse_inode(inode);
+>  	struct fuse_mount *fm = get_fuse_mount(inode);
+> +	struct iomap_iter *iter = container_of(iomap, struct iomap_iter, iomap);
+> +	struct iomap *srcmap = &iter->srcmap;
+>  	int err;
+>  
+> +	if (srcmap->inline_data)
+> +		fuse_iomap_inline_free(srcmap);
+> +
+> +	if (iomap->inline_data) {
+> +		if (fuse_is_iomap_file_write(opflags) && written > 0) {
+> +			err = fuse_iomap_inline_write(inode, pos, written,
+> +						      iomap);
+> +			fuse_iomap_inline_free(iomap);
+> +			if (err)
+> +				return err;
+> +
+> +			spin_lock(&fi->lock);
+> +			fi->i_disk_size = max(fi->i_disk_size, pos + written);
+> +			spin_unlock(&fi->lock);
+> +		} else {
+> +			fuse_iomap_inline_free(iomap);
+> +		}
+> +
+> +		/* fuse server should already be aware of what happened */
+> +		return 0;
+> +	}
+> +
+>  	if (fuse_should_send_iomap_end(fm, iomap, opflags, count, written)) {
+>  		struct fuse_iomap_end_in inarg = {
+>  			.opflags = fuse_iomap_op_to_server(opflags),
+> @@ -1462,7 +1644,6 @@ static ssize_t fuse_iomap_writeback_range(struct iomap_writepage_ctx *wpc,
+>  					  unsigned int len, u64 end_pos)
+>  {
+>  	struct inode *inode = wpc->inode;
+> -	struct iomap write_iomap, dontcare;
+>  	ssize_t ret;
+>  
+>  	if (fuse_is_bad(inode)) {
+> @@ -1475,23 +1656,39 @@ static ssize_t fuse_iomap_writeback_range(struct iomap_writepage_ctx *wpc,
+>  	trace_fuse_iomap_writeback_range(inode, offset, len, end_pos);
+>  
+>  	if (!fuse_iomap_revalidate_writeback(wpc, offset)) {
+> +		struct iomap_iter fake_iter = { };
+> +		struct iomap *write_iomap = &fake_iter.iomap;
+> +
+>  		ret = fuse_iomap_begin(inode, offset, len,
+> -				       FUSE_IOMAP_OP_WRITEBACK,
+> -				       &write_iomap, &dontcare);
+> +				       FUSE_IOMAP_OP_WRITEBACK, write_iomap,
+> +				       &fake_iter.srcmap);
+>  		if (ret)
+>  			goto discard_folio;
+>  
+> +		if (BAD_DATA(write_iomap->type == IOMAP_INLINE)) {
+> +			/*
+> +			 * iomap assumes that inline data writes are completed
+> +			 * by the time ->iomap_end completes, so it should
+> +			 * never mark a pagecache folio dirty.
+> +			 */
+> +			fuse_iomap_end(inode, offset, len, 0,
+> +				       FUSE_IOMAP_OP_WRITEBACK,
+> +				       write_iomap);
+> +			ret = -EIO;
+> +			goto discard_folio;
+> +		}
+> +
+>  		/*
+>  		 * Landed in a hole or beyond EOF?  Send that to iomap, it'll
+>  		 * skip writing back the file range.
+>  		 */
+> -		if (write_iomap.offset > offset) {
+> -			write_iomap.length = write_iomap.offset - offset;
+> -			write_iomap.offset = offset;
+> -			write_iomap.type = IOMAP_HOLE;
+> +		if (write_iomap->offset > offset) {
+> +			write_iomap->length = write_iomap->offset - offset;
+> +			write_iomap->offset = offset;
+> +			write_iomap->type = IOMAP_HOLE;
+>  		}
+>  
+> -		memcpy(&wpc->iomap, &write_iomap, sizeof(struct iomap));
+> +		memcpy(&wpc->iomap, write_iomap, sizeof(struct iomap));
+
+If the srcmap was inline, then we just leaked the buffer here by
+forgetting to call fuse_iomap_end.  But I think a better option now
+would be to use the conventional iomap_iter loop that everything else
+does:
+
+	struct iomap_iter iter = {
+		.inode		= inode,
+		.pos		= offset,
+		.len		= len,
+		.flags		= FUSE_IOMAP_OP_WRITEBACK,
+	};
+
+	while ((ret = iomap_iter(&iter, ops)) > 0) {
+		memcpy(&wpc->iomap, &iter.iomap, sizeof(struct iomap));
+		iomap_iter_advance(&iter, iomap_length(&iter));
+		iter.status = -ECANCELED;
+	}
+	if (ret < 0 && ret != -ECANCELED)
+		goto discard_folio;
+
+--D
+
+>  	}
+>  
+>  	ret = iomap_add_to_ioend(wpc, folio, offset, end_pos, len);
+> 
+> 
