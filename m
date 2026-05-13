@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F6B3A75A6;
-	Wed, 13 May 2026 18:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB7E3655EC;
+	Wed, 13 May 2026 19:18:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778697893; cv=none; b=snccebDhNjDtFNmK8UoBVU5zlFvxje8rqRPUCv9Mq8yey1Av+T/fwhKHKD07DDeMMZFVs5X+JC5gUrC1xPeQpRF1NipYVHX8iB1dUNecBQSFC6JdvR7DtMga3AyNOiuY/rcEk3ZJPtmXNw7Qix3fWq3IE3EiL0M57HQnXA1dPbM=
+	t=1778699902; cv=none; b=HodR1YnEe0mdLqm4Ew1gWp+YZovc/5DJ8ms9hRiRvKhnOq3vrrnuDbogzeSWAKEzgR59kFJpclP+mtbqnkyGxkAdnjCzQ6Nd8bNOFeLUx/L82d1a9rOC4X0QUcvghunjP+tXjp7aMYu2FZ6kk0vRf02NHxLUsAhNBAHqcjcOV9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778697893; c=relaxed/simple;
-	bh=9bT+CL8VfcePPJo4nqEnBidiejv6JdV9zkMzJfMbyzM=;
+	s=arc-20240116; t=1778699902; c=relaxed/simple;
+	bh=r7v7fKOxikTVv+0Q8jx/8GyXQkptevGHBf8NLBZZsms=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QRsztYdcWpKF2MrGxEKfK9RkdwtYPvuY/Ajm80wL9knwl61kLWHVmRnKAORcilXEtzmJ8osgSpfxtbxD5R+EJ7Xt/Z/mDEBoxLYuiPC0dZMlBYgtwFNCdRuJidkTJ2PQi5Wq55Z4GrKbWJ9s/WZJGcS4QuF+GjOShAxn6pXqNY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PM62QSMb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ueWegzov1zWbq28fhXEvwYjbuzQu7hoIqwQH6JTzMsKMyq4RzezHhVVnuKwHGHG2YTeKXSrJxPoDNRVpRKJIYhGOviV8E8W+aGKMMhwPzUIUk+WR6+nEzsDqURf+zEuAJ6Yk1Xj8IMLwXEubKJgrUjwFGRARk6E/w8sqSHSZzu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EN/je3wx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PM62QSMb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89985C19425;
-	Wed, 13 May 2026 18:44:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EN/je3wx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEC58C19425;
+	Wed, 13 May 2026 19:18:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778697892;
-	bh=9bT+CL8VfcePPJo4nqEnBidiejv6JdV9zkMzJfMbyzM=;
+	s=k20201202; t=1778699902;
+	bh=r7v7fKOxikTVv+0Q8jx/8GyXQkptevGHBf8NLBZZsms=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PM62QSMbcvRuL6V03bNdGR6/dh5zi8pVosahWgNzf6IjbZguYTXZjX05/jhH9VAWp
-	 RJvBroDUXGoQzU5No0TI+htlyqY7dCftdPYw+Ggr3dX2WyclUoiBR3YD/e241pvBsg
-	 NcvCwjeGaDUyisLYwMHEOHVsXNBWTjo0xVVZaIh2ytqKUJ9uK6ZDAVgkwQwotgt3qB
-	 y5d/40irep11pGxtXMVGogIsM9843W9rgplAvyZPfmRvRaUTcb+nxB6sSJtYtcPmSt
-	 2uhDZ54GyXVXdty1UiuBT2gElCm76evUzlBVZ2aTRUS3KO3FsQwiC3aAqwTMlEUCvn
-	 LluL2DoLDwqnQ==
-Date: Wed, 13 May 2026 11:44:51 -0700
+	b=EN/je3wxJXGRgWinz1QaBOEvR15tmYRV6hCFEGYp+TBY1tQYOPyCDKGFkSnNZLw5L
+	 PTjID33u/DDyJFtjxkHmoHtDUFhKGH0aZpkNuzYzenrq48WIfdY96zJWvmmSklFALg
+	 3BjFNATXArpt2T7OKeTThcKI9R166k7XHSqGIzLs/eUN7QM+8NWhUuxs5xsAq/aU45
+	 MCp0+YX3NLpOeqeOJoj4LzXdfhWnvUVi7feU/gmC80y7uFJYFor/U/7mvY6FDaQoJM
+	 UxHkRCSHBI4OoNO4bsUe2t3G1KCMadjR+yxAkUzEIZRR19SNHQ2IYfYK4f+NTE3LXK
+	 WCq5vGq21tGdg==
+Date: Wed, 13 May 2026 12:18:21 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 14/33] fuse: implement direct IO with iomap
-Message-ID: <20260513184451.GM9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 16/33] fuse: implement buffered IO with iomap
+Message-ID: <20260513191821.GN9544@frogsfrogsfrogs>
 References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205450.4101881.8473164564364220576.stgit@frogsfrogsfrogs>
+ <177747205494.4101881.4417232720664103981.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -43,528 +43,769 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747205450.4101881.8473164564364220576.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747205494.4101881.4417232720664103981.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:27:20AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:27:51AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Start implementing the fuse-iomap file I/O paths by adding direct I/O
-> support and all the signalling flags that come with it.  Buffered I/O
-> is much more complicated, so we leave that to a subsequent patch.
+> Implement pagecache IO with iomap, complete with hooks into truncate and
+> fallocate so that the fuse server needn't implement disk block zeroing
+> of post-EOF and unaligned punch/zero regions.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/fuse_i.h          |   20 +++
->  fs/fuse/fuse_iomap.h      |   18 ++
->  include/uapi/linux/fuse.h |   27 ++++
->  fs/fuse/dir.c             |   13 ++
->  fs/fuse/file.c            |   29 +++-
->  fs/fuse/fuse_iomap.c      |  335 +++++++++++++++++++++++++++++++++++++++++++++
->  fs/fuse/inode.c           |    3 
->  fs/fuse/iomode.c          |    2 
->  8 files changed, 441 insertions(+), 6 deletions(-)
+>  fs/fuse/fuse_i.h          |    7 
+>  fs/fuse/fuse_iomap.h      |   11 +
+>  include/uapi/linux/fuse.h |    5 
+>  fs/fuse/dir.c             |   23 +
+>  fs/fuse/file.c            |   61 +++-
+>  fs/fuse/fuse_iomap.c      |  699 ++++++++++++++++++++++++++++++++++++++++++++-
+>  6 files changed, 775 insertions(+), 31 deletions(-)
 > 
 > 
 > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index a4d64fd2837778..ea95615fbff598 100644
+> index ea95615fbff598..23212ca1b6871e 100644
 > --- a/fs/fuse/fuse_i.h
 > +++ b/fs/fuse/fuse_i.h
-> @@ -188,6 +188,11 @@ struct fuse_inode {
->  
->  			/* waitq for direct-io completion */
->  			wait_queue_head_t direct_io_waitq;
+> @@ -192,6 +192,11 @@ struct fuse_inode {
+>  #ifdef CONFIG_FUSE_IOMAP
+>  			/* file size as reported by fuse server */
+>  			loff_t i_disk_size;
 > +
-> +#ifdef CONFIG_FUSE_IOMAP
-> +			/* file size as reported by fuse server */
-> +			loff_t i_disk_size;
-> +#endif
+> +			/* pending io completions */
+> +			spinlock_t ioend_lock;
+> +			struct work_struct ioend_work;
+> +			struct list_head ioend_list;
+>  #endif
 >  		};
 >  
->  		/* readdir cache (directory only) */
-> @@ -658,6 +663,16 @@ struct fuse_sync_bucket {
->  	struct rcu_head rcu;
->  };
+> @@ -1738,4 +1743,6 @@ extern void fuse_sysctl_unregister(void);
+>  #define fuse_sysctl_unregister()	do { } while (0)
+>  #endif /* CONFIG_SYSCTL */
 >  
-> +#ifdef CONFIG_FUSE_IOMAP
-> +struct fuse_iomap_conn {
-> +	/* fuse server doesn't implement iomap_end */
-> +	unsigned int no_end:1;
+> +sector_t fuse_bmap(struct address_space *mapping, sector_t block);
 > +
-> +	/* fuse server doesn't implement iomap_ioend */
-> +	unsigned int no_ioend:1;
-> +};
-> +#endif
-> +
->  /**
->   * A Fuse connection.
->   *
-> @@ -1006,6 +1021,11 @@ struct fuse_conn {
->  	struct idr backing_files_map;
->  #endif
->  
-> +#ifdef CONFIG_FUSE_IOMAP
-> +	/** iomap information */
-> +	struct fuse_iomap_conn iomap_conn;
-> +#endif
-> +
->  #ifdef CONFIG_FUSE_IO_URING
->  	/**  uring connection information*/
->  	struct fuse_ring *ring;
+>  #endif /* _FS_FUSE_I_H */
 > diff --git a/fs/fuse/fuse_iomap.h b/fs/fuse/fuse_iomap.h
-> index 8ba30a496545f5..476e1b869d1906 100644
+> index 0076e1cb12e8b0..be37ddac2f1e25 100644
 > --- a/fs/fuse/fuse_iomap.h
 > +++ b/fs/fuse/fuse_iomap.h
-> @@ -38,6 +38,17 @@ int fuse_iomap_fiemap(struct inode *inode, struct fiemap_extent_info *fieinfo,
->  		      u64 start, u64 length);
->  loff_t fuse_iomap_lseek(struct file *file, loff_t offset, int whence);
->  sector_t fuse_iomap_bmap(struct address_space *mapping, sector_t block);
+> @@ -54,6 +54,13 @@ int fuse_iomap_setsize_finish(struct inode *inode, loff_t newsize);
+>  
+>  ssize_t fuse_iomap_read_iter(struct kiocb *iocb, struct iov_iter *to);
+>  ssize_t fuse_iomap_write_iter(struct kiocb *iocb, struct iov_iter *from);
 > +
-> +void fuse_iomap_open(struct inode *inode, struct file *file);
-> +int fuse_iomap_finish_open(const struct fuse_file *ff,
-> +			   const struct inode *inode);
-> +void fuse_iomap_open_truncate(struct inode *inode);
-> +
-> +void fuse_iomap_set_disk_size(struct fuse_inode *fi, loff_t newsize);
-> +int fuse_iomap_setsize_finish(struct inode *inode, loff_t newsize);
-> +
-> +ssize_t fuse_iomap_read_iter(struct kiocb *iocb, struct iov_iter *to);
-> +ssize_t fuse_iomap_write_iter(struct kiocb *iocb, struct iov_iter *from);
+> +int fuse_iomap_mmap(struct file *file, struct vm_area_struct *vma);
+> +int fuse_iomap_setsize_start(struct inode *inode, loff_t newsize);
+> +int fuse_iomap_fallocate(struct file *file, int mode, loff_t offset,
+> +			 loff_t length, loff_t new_size);
+> +int fuse_iomap_flush_unmap_range(struct inode *inode, loff_t pos,
+> +				 loff_t endpos);
 >  #else
 >  # define fuse_iomap_enabled(...)		(false)
 >  # define fuse_has_iomap(...)			(false)
-> @@ -49,6 +60,13 @@ sector_t fuse_iomap_bmap(struct address_space *mapping, sector_t block);
->  # define fuse_iomap_fiemap			NULL
->  # define fuse_iomap_lseek(...)			(-ENOSYS)
->  # define fuse_iomap_bmap(...)			(-ENOSYS)
-> +# define fuse_iomap_open(...)			((void)0)
-> +# define fuse_iomap_finish_open(...)		(-ENOSYS)
-> +# define fuse_iomap_open_truncate(...)		((void)0)
-> +# define fuse_iomap_set_disk_size(...)		((void)0)
-> +# define fuse_iomap_setsize_finish(...)		(-ENOSYS)
-> +# define fuse_iomap_read_iter(...)		(-ENOSYS)
-> +# define fuse_iomap_write_iter(...)		(-ENOSYS)
+> @@ -73,6 +80,10 @@ ssize_t fuse_iomap_write_iter(struct kiocb *iocb, struct iov_iter *from);
+>  # define fuse_iomap_setsize_finish(...)		(-ENOSYS)
+>  # define fuse_iomap_read_iter(...)		(-ENOSYS)
+>  # define fuse_iomap_write_iter(...)		(-ENOSYS)
+> +# define fuse_iomap_mmap(...)			(-ENOSYS)
+> +# define fuse_iomap_setsize_start(...)		(-ENOSYS)
+> +# define fuse_iomap_fallocate(...)		(-ENOSYS)
+> +# define fuse_iomap_flush_unmap_range(...)	(-ENOSYS)
 >  #endif /* CONFIG_FUSE_IOMAP */
 >  
 >  #endif /* _FS_FUSE_IOMAP_H */
 > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 88f76f4be749a7..543965b2f8fb37 100644
+> index 543965b2f8fb37..71b216262c84cb 100644
 > --- a/include/uapi/linux/fuse.h
 > +++ b/include/uapi/linux/fuse.h
-> @@ -677,6 +677,7 @@ enum fuse_opcode {
->  	FUSE_STATX		= 52,
->  	FUSE_COPY_FILE_RANGE_64	= 53,
+> @@ -1373,6 +1373,9 @@ struct fuse_uring_cmd_req {
+>  #define FUSE_IOMAP_OP_ATOMIC		(1U << 9)
+>  #define FUSE_IOMAP_OP_DONTCACHE		(1U << 10)
 >  
-> +	FUSE_IOMAP_IOEND	= 4093,
->  	FUSE_IOMAP_BEGIN	= 4094,
->  	FUSE_IOMAP_END		= 4095,
+> +/* pagecache writeback operation */
+> +#define FUSE_IOMAP_OP_WRITEBACK		(1U << 31)
+> +
+>  #define FUSE_IOMAP_NULL_ADDR		(-1ULL)	/* addr is not valid */
 >  
-> @@ -1411,4 +1412,30 @@ struct fuse_iomap_end_in {
->  	struct fuse_iomap_io	map;
->  };
+>  struct fuse_iomap_io {
+> @@ -1422,6 +1425,8 @@ struct fuse_iomap_end_in {
+>  #define FUSE_IOMAP_IOEND_DIRECT		(1U << 3)
+>  /* is append ioend */
+>  #define FUSE_IOMAP_IOEND_APPEND		(1U << 4)
+> +/* is pagecache writeback */
+> +#define FUSE_IOMAP_IOEND_WRITEBACK	(1U << 5)
 >  
-> +/* out of place write extent */
-> +#define FUSE_IOMAP_IOEND_SHARED		(1U << 0)
-> +/* unwritten extent */
-> +#define FUSE_IOMAP_IOEND_UNWRITTEN	(1U << 1)
-> +/* don't merge into previous ioend */
-> +#define FUSE_IOMAP_IOEND_BOUNDARY	(1U << 2)
-> +/* is direct I/O */
-> +#define FUSE_IOMAP_IOEND_DIRECT		(1U << 3)
-> +/* is append ioend */
-> +#define FUSE_IOMAP_IOEND_APPEND		(1U << 4)
-> +
-> +struct fuse_iomap_ioend_in {
-> +	uint32_t flags;		/* FUSE_IOMAP_IOEND_* */
-> +	int32_t error;		/* negative errno or 0 */
-> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
-> +	uint64_t pos;		/* file position, in bytes */
-> +	uint64_t new_addr;	/* disk offset of new mapping, in bytes */
-> +	uint64_t written;	/* bytes processed */
-> +	uint32_t dev;		/* device cookie */
-> +	uint32_t pad;		/* zero */
-> +};
-> +
-> +struct fuse_iomap_ioend_out {
-> +	uint64_t newsize;	/* new ondisk size */
-> +};
-> +
->  #endif /* _LINUX_FUSE_H */
+>  struct fuse_iomap_ioend_in {
+>  	uint32_t flags;		/* FUSE_IOMAP_IOEND_* */
 > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 2ed19e21d90702..944ed53852444c 100644
+> index 944ed53852444c..5b10ddf9b8077a 100644
 > --- a/fs/fuse/dir.c
 > +++ b/fs/fuse/dir.c
-> @@ -911,6 +911,10 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
->  		goto out_acl_release;
->  
->  	fuse_dir_changed(dir);
-> +
-> +	if (fuse_inode_has_iomap(inode))
-> +		fuse_iomap_open(inode, file);
-> +
->  	err = generic_file_open(inode, file);
->  	if (!err) {
->  		file->private_data = ff;
-> @@ -1952,6 +1956,9 @@ static int fuse_dir_open(struct inode *inode, struct file *file)
->  	if (fuse_is_bad(inode))
->  		return -EIO;
->  
-> +	if (fuse_inode_has_iomap(inode))
-> +		fuse_iomap_open(inode, file);
-> +
->  	err = generic_file_open(inode, file);
->  	if (err)
->  		return err;
-> @@ -2312,6 +2319,12 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
->  		goto error;
+> @@ -2229,7 +2229,10 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		is_truncate = true;
 >  	}
 >  
+> -	if (FUSE_IS_DAX(inode) && is_truncate) {
 > +	if (is_iomap && is_truncate) {
-> +		err = fuse_iomap_setsize_finish(inode, outarg.attr.size);
-> +		if (err)
-> +			goto error;
-> +	}
+> +		filemap_invalidate_lock(mapping);
+> +		fault_blocked = true;
+> +	} else if (FUSE_IS_DAX(inode) && is_truncate) {
+>  		filemap_invalidate_lock(mapping);
+>  		fault_blocked = true;
+>  		err = fuse_dax_break_layouts(inode, 0, -1);
+> @@ -2244,6 +2247,18 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		WARN_ON(!(attr->ia_valid & ATTR_SIZE));
+>  		WARN_ON(attr->ia_size != 0);
+>  		if (fc->atomic_o_trunc) {
+> +			if (is_iomap) {
+> +				/*
+> +				 * fuse_open already set the size to zero and
+> +				 * truncated the pagecache, and we've since
+> +				 * cycled the inode locks.  Another thread
+> +				 * could have performed an appending write, so
+> +				 * we don't want to touch the file further.
+> +				 */
+> +				filemap_invalidate_unlock(mapping);
+> +				return 0;
+> +			}
 > +
->  	spin_lock(&fi->lock);
->  	/* the kernel maintains i_mtime locally */
->  	if (trust_local_cmtime) {
+>  			/*
+>  			 * No need to send request to userspace, since actual
+>  			 * truncation has already been done by OPEN.  But still
+> @@ -2277,6 +2292,12 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		set_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
+>  		if (trust_local_cmtime && attr->ia_size != inode->i_size)
+>  			attr->ia_valid |= ATTR_MTIME | ATTR_CTIME;
+> +
+> +		if (is_iomap) {
+> +			err = fuse_iomap_setsize_start(inode, attr->ia_size);
+> +			if (err)
+> +				goto error;
+> +		}
+>  	}
+>  
+>  	memset(&inarg, 0, sizeof(inarg));
 > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 67cb0844181851..ad28bcd36d15e6 100644
+> index ad28bcd36d15e6..6471952489aa2e 100644
 > --- a/fs/fuse/file.c
 > +++ b/fs/fuse/file.c
-> @@ -222,7 +222,10 @@ int fuse_finish_open(struct inode *inode, struct file *file)
->  	struct fuse_conn *fc = get_fuse_conn(inode);
->  	int err;
+> @@ -408,7 +408,7 @@ static int fuse_release(struct inode *inode, struct file *file)
+>  	 * Dirty pages might remain despite write_inode_now() call from
+>  	 * fuse_flush() due to writes racing with the close.
+>  	 */
+> -	if (fc->writeback_cache)
+> +	if (fc->writeback_cache || fuse_inode_has_iomap(inode))
+>  		write_inode_now(inode, 1);
 >  
-> -	err = fuse_file_io_open(file, inode);
-> +	if (fuse_inode_has_iomap(inode))
-> +		err = fuse_iomap_finish_open(ff, inode);
-> +	else
-> +		err = fuse_file_io_open(file, inode);
->  	if (err)
->  		return err;
->  
-> @@ -265,6 +268,9 @@ static int fuse_open(struct inode *inode, struct file *file)
->  	if (fuse_is_bad(inode))
->  		return -EIO;
->  
-> +	if (is_iomap)
-> +		fuse_iomap_open(inode, file);
-> +
->  	err = generic_file_open(inode, file);
->  	if (err)
->  		return err;
-> @@ -295,9 +301,11 @@ static int fuse_open(struct inode *inode, struct file *file)
->  	if ((is_wb_truncate || dax_truncate) && !is_iomap)
->  		fuse_release_nowrite(inode);
->  	if (!err) {
-> -		if (is_truncate)
-> +		if (is_truncate) {
->  			truncate_pagecache(inode, 0);
-> -		else if (!(ff->open_flags & FOPEN_KEEP_CACHE))
-> +			if (is_iomap)
-> +				fuse_iomap_open_truncate(inode);
-> +		} else if (!(ff->open_flags & FOPEN_KEEP_CACHE))
->  			invalidate_inode_pages2(inode->i_mapping);
->  	}
->  	if (dax_truncate)
-> @@ -1827,6 +1835,9 @@ static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  	if (fuse_is_bad(inode))
->  		return -EIO;
+>  	fuse_release_common(file, false);
+> @@ -2400,6 +2400,9 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
+>  	struct inode *inode = file_inode(file);
+>  	int rc;
 >  
 > +	if (fuse_inode_has_iomap(inode))
-> +		return fuse_iomap_read_iter(iocb, to);
+> +		return fuse_iomap_mmap(file, vma);
 > +
+>  	/* DAX mmap is superior to direct_io mmap */
 >  	if (FUSE_IS_DAX(inode))
->  		return fuse_dax_read_iter(iocb, to);
+>  		return fuse_dax_mmap(file, vma);
+> @@ -2598,7 +2601,7 @@ static int fuse_file_flock(struct file *file, int cmd, struct file_lock *fl)
+>  	return err;
+>  }
 >  
-> @@ -1848,6 +1859,9 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
->  	if (fuse_is_bad(inode))
->  		return -EIO;
+> -static sector_t fuse_bmap(struct address_space *mapping, sector_t block)
+> +sector_t fuse_bmap(struct address_space *mapping, sector_t block)
+>  {
+>  	struct inode *inode = mapping->host;
+>  	struct fuse_mount *fm = get_fuse_mount(inode);
+> @@ -2952,8 +2955,12 @@ fuse_direct_IO(struct kiocb *iocb, struct iov_iter *iter)
+>  
+>  static int fuse_writeback_range(struct inode *inode, loff_t start, loff_t end)
+>  {
+> -	int err = filemap_write_and_wait_range(inode->i_mapping, start, LLONG_MAX);
+> +	int err;
 >  
 > +	if (fuse_inode_has_iomap(inode))
-> +		return fuse_iomap_write_iter(iocb, from);
+> +		return fuse_iomap_flush_unmap_range(inode, start, end);
 > +
->  	if (FUSE_IS_DAX(inode))
->  		return fuse_dax_write_iter(iocb, from);
+> +	err = filemap_write_and_wait_range(inode->i_mapping, start, LLONG_MAX);
+>  	if (!err)
+>  		fuse_sync_writes(inode);
 >  
-> @@ -2960,7 +2974,9 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
->  		.length = length,
->  		.mode = mode
->  	};
-> +	loff_t newsize = 0;
->  	int err;
-> +	const bool is_iomap = fuse_inode_has_iomap(inode);
->  	bool block_faults = FUSE_IS_DAX(inode) &&
->  		(!(mode & FALLOC_FL_KEEP_SIZE) ||
->  		 (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));
-> @@ -2993,6 +3009,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
->  		err = inode_newsize_ok(inode, offset + length);
+> @@ -2989,7 +2996,10 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+>  		return -EOPNOTSUPP;
+>  
+>  	inode_lock(inode);
+> -	if (block_faults) {
+> +	if (is_iomap) {
+> +		filemap_invalidate_lock(inode->i_mapping);
+> +		block_faults = true;
+> +	} else if (block_faults) {
+>  		filemap_invalidate_lock(inode->i_mapping);
+>  		err = fuse_dax_break_layouts(inode, 0, -1);
 >  		if (err)
+> @@ -3004,6 +3014,17 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
 >  			goto out;
-> +		newsize = offset + length;
 >  	}
 >  
->  	err = file_modified(file);
-> @@ -3017,6 +3034,12 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
->  
->  	/* we could have extended the file */
->  	if (!(mode & FALLOC_FL_KEEP_SIZE)) {
-> +		if (is_iomap && newsize > 0) {
-> +			err = fuse_iomap_setsize_finish(inode, newsize);
-> +			if (err)
-> +				goto out;
-> +		}
+> +	/*
+> +	 * If we are using iomap for file IO, fallocate must wait for all AIO
+> +	 * to complete before we continue as AIO can change the file size on
+> +	 * completion without holding any locks we currently hold. We must do
+> +	 * this first because AIO can update the in-memory inode size, and the
+> +	 * operations that follow require the in-memory size to be fully
+> +	 * up-to-date.
+> +	 */
+> +	if (is_iomap)
+> +		inode_dio_wait(inode);
 > +
->  		if (fuse_write_update_attr(inode, offset + length, length))
->  			file_update_time(file);
+>  	if (!(mode & FALLOC_FL_KEEP_SIZE) &&
+>  	    offset + length > i_size_read(inode)) {
+>  		err = inode_newsize_ok(inode, offset + length);
+> @@ -3032,21 +3053,23 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+>  	if (err)
+>  		goto out;
+>  
+> -	/* we could have extended the file */
+> -	if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+> -		if (is_iomap && newsize > 0) {
+> -			err = fuse_iomap_setsize_finish(inode, newsize);
+> -			if (err)
+> -				goto out;
+> +	if (is_iomap) {
+> +		err = fuse_iomap_fallocate(file, mode, offset, length,
+> +					   newsize);
+> +		if (err)
+> +			goto out;
+> +	} else {
+> +		/* we could have extended the file */
+> +		if (!(mode & FALLOC_FL_KEEP_SIZE)) {
+> +			if (fuse_write_update_attr(inode, newsize, length))
+> +				file_update_time(file);
+>  		}
+>  
+> -		if (fuse_write_update_attr(inode, offset + length, length))
+> -			file_update_time(file);
+> +		if (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE))
+> +			truncate_pagecache_range(inode, offset,
+> +						 offset + length - 1);
 >  	}
+>  
+> -	if (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE))
+> -		truncate_pagecache_range(inode, offset, offset + length - 1);
+> -
+>  	fuse_invalidate_attr_mask(inode, FUSE_STATX_MODSIZE);
+>  
+>  out:
+> @@ -3090,6 +3113,7 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+>  	ssize_t err;
+>  	/* mark unstable when write-back is not used, and file_out gets
+>  	 * extended */
+> +	const bool is_iomap = fuse_inode_has_iomap(inode_out);
+>  	bool is_unstable = (!fc->writeback_cache) &&
+>  			   ((pos_out + len) > inode_out->i_size);
+>  
+> @@ -3133,6 +3157,10 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+>  	if (err)
+>  		goto out;
+>  
+> +	/* See inode_dio_wait comment in fuse_file_fallocate */
+> +	if (is_iomap)
+> +		inode_dio_wait(inode_out);
+> +
+>  	if (is_unstable)
+>  		set_bit(FUSE_I_SIZE_UNSTABLE, &fi_out->state);
+>  
+> @@ -3173,7 +3201,8 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+>  		goto out;
+>  	}
+>  
+> -	truncate_inode_pages_range(inode_out->i_mapping,
+> +	if (!is_iomap)
+> +		truncate_inode_pages_range(inode_out->i_mapping,
+>  				   ALIGN_DOWN(pos_out, PAGE_SIZE),
+>  				   ALIGN(pos_out + bytes_copied, PAGE_SIZE) - 1);
+>  
 > diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index be922888ae9e8a..833ac0ce682838 100644
+> index acc7ae0f56a2bf..7a7dfc4f665d8e 100644
 > --- a/fs/fuse/fuse_iomap.c
 > +++ b/fs/fuse/fuse_iomap.c
-> @@ -476,10 +476,15 @@ static int fuse_iomap_begin(struct inode *inode, loff_t pos, loff_t count,
+> @@ -5,6 +5,8 @@
+>   */
+>  #include <linux/iomap.h>
+>  #include <linux/fiemap.h>
+> +#include <linux/pagemap.h>
+> +#include <linux/falloc.h>
+>  #include "fuse_i.h"
+>  #include "fuse_trace.h"
+>  #include "fuse_iomap.h"
+> @@ -204,7 +206,7 @@ static inline uint16_t fuse_iomap_flags_from_server(uint16_t fuse_f_flags)
+>  		ret |= FUSE_IOMAP_OP_##word
+>  static inline uint32_t fuse_iomap_op_to_server(unsigned iomap_op_flags)
+>  {
+> -	uint32_t ret = 0;
+> +	uint32_t ret = iomap_op_flags & FUSE_IOMAP_OP_WRITEBACK;
+>  
+>  	XMAP(WRITE);
+>  	XMAP(ZERO);
+> @@ -370,7 +372,8 @@ fuse_iomap_begin_validate(const struct inode *inode,
+>  
+>  static inline bool fuse_is_iomap_file_write(unsigned int opflags)
+>  {
+> -	return opflags & (IOMAP_WRITE | IOMAP_ZERO | IOMAP_UNSHARE);
+> +	return opflags & (IOMAP_WRITE | IOMAP_ZERO | IOMAP_UNSHARE |
+> +			  FUSE_IOMAP_OP_WRITEBACK);
 >  }
 >  
->  /* Decide if we send FUSE_IOMAP_END to the fuse server */
-> -static bool fuse_should_send_iomap_end(const struct iomap *iomap,
-> +static bool fuse_should_send_iomap_end(const struct fuse_mount *fm,
-> +				       const struct iomap *iomap,
->  				       unsigned int opflags, loff_t count,
->  				       ssize_t written)
->  {
-> +	/* Not implemented on fuse server */
-> +	if (fm->fc->iomap_conn.no_end)
-> +		return false;
-> +
->  	/* fuse server demanded an iomap_end call. */
->  	if (iomap->flags & FUSE_IOMAP_F_WANT_IOMAP_END)
->  		return true;
-> @@ -504,7 +509,7 @@ static int fuse_iomap_end(struct inode *inode, loff_t pos, loff_t count,
->  	struct fuse_mount *fm = get_fuse_mount(inode);
->  	int err;
+>  static inline struct fuse_backing *
+> @@ -744,12 +747,7 @@ void fuse_iomap_unmount(struct fuse_mount *fm)
+>  	fuse_send_destroy(fm);
+>  }
 >  
-> -	if (fuse_should_send_iomap_end(iomap, opflags, count, written)) {
-> +	if (fuse_should_send_iomap_end(fm, iomap, opflags, count, written)) {
->  		struct fuse_iomap_end_in inarg = {
->  			.opflags = fuse_iomap_op_to_server(opflags),
->  			.attr_ino = fi->orig_ino,
-> @@ -529,6 +534,7 @@ static int fuse_iomap_end(struct inode *inode, loff_t pos, loff_t count,
->  			 * libfuse returns ENOSYS for servers that don't
->  			 * implement iomap_end
->  			 */
-> +			fm->fc->iomap_conn.no_end = 1;
->  			err = 0;
->  		}
->  		if (err) {
-> @@ -545,6 +551,119 @@ static const struct iomap_ops fuse_iomap_ops = {
->  	.iomap_end		= fuse_iomap_end,
+> -static inline void fuse_inode_set_iomap(struct inode *inode)
+> -{
+> -	struct fuse_inode *fi = get_fuse_inode(inode);
+> -
+> -	set_bit(FUSE_I_IOMAP, &fi->state);
+> -}
+> +static inline void fuse_inode_set_iomap(struct inode *inode);
+>  
+>  static inline void fuse_inode_clear_iomap(struct inode *inode)
+>  {
+> @@ -976,17 +974,107 @@ static const struct iomap_dio_ops fuse_iomap_dio_write_ops = {
+>  	.end_io		= fuse_iomap_dio_write_end_io,
 >  };
 >  
-> +static inline bool
-> +fuse_should_send_iomap_ioend(const struct fuse_mount *fm,
-> +			     const struct fuse_iomap_ioend_in *inarg)
-> +{
-> +	/* Not implemented on fuse server */
-> +	if (fm->fc->iomap_conn.no_ioend)
-> +		return false;
+> +static const struct iomap_write_ops fuse_iomap_write_ops = {
+> +};
 > +
-> +	/* Always send an ioend for errors. */
-> +	if (inarg->error)
-> +		return true;
-> +
-> +	/* Send an ioend if we performed an IO involving metadata changes. */
-> +	return inarg->written > 0 &&
-> +	       (inarg->flags & (FUSE_IOMAP_IOEND_SHARED |
-> +				FUSE_IOMAP_IOEND_UNWRITTEN |
-> +				FUSE_IOMAP_IOEND_APPEND));
-> +}
-> +
-> +int
-> +fuse_iomap_setsize_finish(
+> +static int
+> +fuse_iomap_zero_range(
 > +	struct inode		*inode,
-> +	loff_t			newsize)
+> +	loff_t			pos,
+> +	loff_t			len,
+> +	bool			*did_zero)
 > +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +
-> +	ASSERT(fuse_inode_has_iomap(inode));
-> +
-> +	spin_lock(&fi->lock);
-> +	fi->i_disk_size = newsize;
-> +	spin_unlock(&fi->lock);
-> +	return 0;
+> +	return iomap_zero_range(inode, pos, len, did_zero, &fuse_iomap_ops,
+> +				&fuse_iomap_write_ops, NULL);
 > +}
 > +
-> +static int fuse_iomap_ioend(struct inode *inode, loff_t pos, size_t written,
-> +			    int error, unsigned ioendflags,
-> +			    struct block_device *bdev, sector_t new_addr)
+> +/* Take care of zeroing post-EOF blocks when they might exist. */
+> +static ssize_t
+> +fuse_iomap_write_zero_eof(
+> +	struct kiocb		*iocb,
+> +	struct iov_iter		*from,
+> +	bool			*drained_dio)
 > +{
+> +	struct inode *inode = file_inode(iocb->ki_filp);
 > +	struct fuse_inode *fi = get_fuse_inode(inode);
-> +	struct fuse_mount *fm = get_fuse_mount(inode);
-> +	struct fuse_iomap_ioend_in inarg = {
-> +		.flags = ioendflags,
-> +		.error = error,
-> +		.attr_ino = fi->orig_ino,
-> +		.pos = pos,
-> +		.written = written,
-> +		.dev = fuse_iomap_find_backing_id(fm->fc, bdev),
-> +		.new_addr = new_addr,
-> +	};
-> +	struct fuse_iomap_ioend_out outarg = { };
+> +	struct address_space *mapping = iocb->ki_filp->f_mapping;
+> +	loff_t			isize;
+> +	int			error;
 > +
+> +	/*
+> +	 * We need to serialise against EOF updates that occur in IO
+> +	 * completions here. We want to make sure that nobody is changing the
+> +	 * size while we do this check until we have placed an IO barrier (i.e.
+> +	 * hold i_rwsem exclusively) that prevents new IO from being
+> +	 * dispatched.  The spinlock effectively forms a memory barrier once we
+> +	 * have i_rwsem exclusively so we are guaranteed to see the latest EOF
+> +	 * value and hence be able to correctly determine if we need to run
+> +	 * zeroing.
+> +	 */
 > +	spin_lock(&fi->lock);
-> +	if (pos + written > fi->i_disk_size)
-> +		inarg.flags |= FUSE_IOMAP_IOEND_APPEND;
-> +
-> +	outarg.newsize = max_t(loff_t, fi->i_disk_size, pos + written),
+> +	isize = i_size_read(inode);
+> +	if (iocb->ki_pos <= isize) {
+> +		spin_unlock(&fi->lock);
+> +		return 0;
+> +	}
 > +	spin_unlock(&fi->lock);
 > +
-> +	if (fuse_should_send_iomap_ioend(fm, &inarg)) {
-> +		FUSE_ARGS(args);
-> +		int iomap_error;
+> +	if (iocb->ki_flags & IOCB_NOWAIT)
+> +		return -EAGAIN;
 > +
-> +		args.opcode = FUSE_IOMAP_IOEND;
-> +		args.nodeid = get_node_id(inode);
-> +		args.in_numargs = 1;
-> +		args.in_args[0].size = sizeof(inarg);
-> +		args.in_args[0].value = &inarg;
-> +		args.out_numargs = 1;
-> +		args.out_args[0].size = sizeof(outarg);
-> +		args.out_args[0].value = &outarg;
-> +		iomap_error = fuse_simple_request(fm, &args);
-> +		switch (iomap_error) {
-> +		case -ENOSYS:
-> +			/*
-> +			 * fuse servers can return ENOSYS if ioend processing
-> +			 * is never needed for this filesystem.  Don't pass
-> +			 * that up to iomap.
-> +			 */
-> +			fm->fc->iomap_conn.no_ioend = 1;
-> +			break;
-> +		case 0:
-> +			break;
-> +		default:
-> +			/*
-> +			 * If the write IO failed, return the failure code to
-> +			 * the caller no matter what happens with the ioend.
-> +			 * If the write IO succeeded but the ioend did not,
-> +			 * pass the new error up to the caller.
-> +			 */
-> +			if (!error)
-> +				error = iomap_error;
-> +			break;
-> +		}
+> +	if (!(*drained_dio)) {
+> +		/*
+> +		 * We now have an IO submission barrier in place, but AIO can
+> +		 * do EOF updates during IO completion and hence we now need to
+> +		 * wait for all of them to drain.  Non-AIO DIO will have
+> +		 * drained before we are given the exclusive i_rwsem, and so
+> +		 * for most cases this wait is a no-op.
+> +		 */
+> +		inode_dio_wait(inode);
+> +		*drained_dio = true;
+> +		return 1;
 > +	}
 > +
-> +	/*
-> +	 * Pass whatever error iomap gave us (or any new errors since then)
-> +	 * back to iomap.
-> +	 */
-> +	if (error)
-> +		return error;
+> +	filemap_invalidate_lock(mapping);
+> +	error = fuse_iomap_zero_range(inode, isize, iocb->ki_pos - isize, NULL);
+> +	filemap_invalidate_unlock(mapping);
 > +
-> +	/*
-> +	 * If there weren't any ioend errors, update the incore isize, which
-> +	 * confusingly takes the new i_size as "pos".
-> +	 */
-> +	spin_lock(&fi->lock);
-> +	fi->i_disk_size = outarg.newsize;
-
-Codex points out that multiple directio bios can race to ioend
-completion, and that they can complete out of order.  Hence this should
-be
-	fi->i_disk_size = max_t(loff_t, fi->i_disk_size, outarg.newsize);
-
-to account for a high-offset direct write completing before a low-offset
-direct write.
-
-> +	spin_unlock(&fi->lock);
-> +	fuse_write_update_attr(inode, pos + written, written);
-> +	return 0;
+> +	return error;
 > +}
 > +
->  static int fuse_iomap_may_admin(struct fuse_conn *fc, unsigned int flags)
+>  static ssize_t
+>  fuse_iomap_write_checks(
+>  	struct kiocb		*iocb,
+>  	struct iov_iter		*from)
 >  {
->  	if (!fc->iomap)
-> @@ -739,3 +858,215 @@ loff_t fuse_iomap_lseek(struct file *file, loff_t offset, int whence)
->  		return offset;
->  	return vfs_setpos(file, offset, inode->i_sb->s_maxbytes);
->  }
+> +	struct inode		*inode = iocb->ki_filp->f_mapping->host;
+>  	ssize_t			error;
+> +	bool			drained_dio = false;
+>  
+> +restart:
+>  	error = generic_write_checks(iocb, from);
+>  	if (error <= 0)
+>  		return error;
+>  
+> +	/*
+> +	 * If the offset is beyond the size of the file, we need to zero all
+> +	 * blocks that fall between the existing EOF and the start of this
+> +	 * write.
+> +	 *
+> +	 * We can do an unlocked check for i_size here safely as I/O completion
+> +	 * can only extend EOF.  Truncate is locked out at this point, so the
+> +	 * EOF cannot move backwards, only forwards. Hence we only need to take
+> +	 * the slow path when we are at or beyond the current EOF.
+> +	 */
+> +	if (fuse_inode_has_iomap(inode) &&
+> +	    iocb->ki_pos > i_size_read(inode)) {
+> +		error = fuse_iomap_write_zero_eof(iocb, from, &drained_dio);
+> +		if (error == 1)
+> +			goto restart;
+> +		if (error)
+> +			return error;
+> +	}
 > +
-> +void fuse_iomap_open(struct inode *inode, struct file *file)
+>  	return kiocb_modified(iocb);
+>  }
+>  
+> @@ -1060,6 +1148,366 @@ void fuse_iomap_open_truncate(struct inode *inode)
+>  	spin_unlock(&fi->lock);
+>  }
+>  
+> +struct fuse_writepage_ctx {
+> +	struct iomap_writepage_ctx ctx;
+> +};
+> +
+> +static void fuse_iomap_end_ioend(struct iomap_ioend *ioend)
 > +{
+> +	struct inode *inode = ioend->io_inode;
+> +	unsigned int ioendflags = FUSE_IOMAP_IOEND_WRITEBACK;
+> +	unsigned int nofs_flag;
+> +	int error = blk_status_to_errno(ioend->io_bio.bi_status);
+> +
 > +	ASSERT(fuse_inode_has_iomap(inode));
 > +
-> +	file->f_mode |= FMODE_NOWAIT | FMODE_CAN_ODIRECT;
+> +	/* We still have to clean up the ioend even if the inode is dead */
+> +	if (!error && fuse_is_bad(inode))
+> +		error = -EIO;
+> +
+> +	if (ioend->io_flags & IOMAP_IOEND_SHARED)
+> +		ioendflags |= FUSE_IOMAP_IOEND_SHARED;
+> +	if (ioend->io_flags & IOMAP_IOEND_UNWRITTEN)
+> +		ioendflags |= FUSE_IOMAP_IOEND_UNWRITTEN;
+> +
+> +	/*
+> +	 * We can allocate memory here while doing writeback on behalf of
+> +	 * memory reclaim.  To avoid memory allocation deadlocks set the
+> +	 * task-wide nofs context for the following operations.
+> +	 */
+> +	nofs_flag = memalloc_nofs_save();
+> +	fuse_iomap_ioend(inode, ioend->io_offset, ioend->io_size, error,
+> +			 ioendflags, ioend->io_bio.bi_bdev, ioend->io_sector);
 
-HAH while grepping for other FMODE_ flag usage whilst implementing the
-backing dev file access mode checks, I saw this and thought that looked
-totally wrong.  FUSE is not a good nowait candidate because we can block
-on userspace(!)
+Codex noticed that if the bio succeeds but the ioend mapping update
+fails, we drop the new error code and complete the rest of the ioends as
+if nothing went wrong.  Obviously we don't want to drop writeback
+errors, so we need to do the usual
 
-Maybe later after we implement iomap caching?  Or probably just never.
+	err2 = fuse_iomap_ioend(...);
+	if (err2 && !error)
+		error = err2;
+
+trick.
+
+> +	iomap_finish_ioends(ioend, error);
+> +	memalloc_nofs_restore(nofs_flag);
+> +}
+> +
+> +/*
+> + * Finish all pending IO completions that require transactional modifications.
+> + *
+> + * We try to merge physical and logically contiguous ioends before completion to
+> + * minimise the number of transactions we need to perform during IO completion.
+> + * Both unwritten extent conversion and COW remapping need to iterate and modify
+> + * one physical extent at a time, so we gain nothing by merging physically
+> + * discontiguous extents here.
+> + *
+> + * The ioend chain length that we can be processing here is largely unbound in
+> + * length and we may have to perform significant amounts of work on each ioend
+> + * to complete it. Hence we have to be careful about holding the CPU for too
+> + * long in this loop.
+> + */
+> +static void fuse_iomap_end_io(struct work_struct *work)
+> +{
+> +	struct fuse_inode *fi =
+> +		container_of(work, struct fuse_inode, ioend_work);
+> +	struct iomap_ioend *ioend;
+> +	struct list_head tmp;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&fi->ioend_lock, flags);
+> +	list_replace_init(&fi->ioend_list, &tmp);
+> +	spin_unlock_irqrestore(&fi->ioend_lock, flags);
+
+Minor optimization: if other writeback ioends come in while the ioend
+worker is running, we could jump back to the top here to process the
+new ioends instead of waiting for fuse_iomap_end_io to get called again.
 
 --D
 
+> +	iomap_sort_ioends(&tmp);
+> +	while ((ioend = list_first_entry_or_null(&tmp, struct iomap_ioend,
+> +			io_list))) {
+> +		list_del_init(&ioend->io_list);
+> +		iomap_ioend_try_merge(ioend, &tmp);
+> +		fuse_iomap_end_ioend(ioend);
+> +		cond_resched();
+> +	}
 > +}
 > +
-> +int fuse_iomap_finish_open(const struct fuse_file *ff,
-> +			   const struct inode *inode)
+> +static void fuse_iomap_end_bio(struct bio *bio)
 > +{
+> +	struct iomap_ioend *ioend = iomap_ioend_from_bio(bio);
+> +	struct inode *inode = ioend->io_inode;
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	unsigned long flags;
+> +
 > +	ASSERT(fuse_inode_has_iomap(inode));
 > +
-> +	/* no weird modes, iomap only handles seekable regular files */
-> +	if (ff->open_flags & (FOPEN_PASSTHROUGH |
-> +			      FOPEN_STREAM |
-> +			      FOPEN_NONSEEKABLE))
-> +		return -EINVAL;
-> +
-> +	return 0;
+> +	spin_lock_irqsave(&fi->ioend_lock, flags);
+> +	if (list_empty(&fi->ioend_list))
+> +		WARN_ON_ONCE(!queue_work(system_unbound_wq, &fi->ioend_work));
+> +	list_add_tail(&ioend->io_list, &fi->ioend_list);
+> +	spin_unlock_irqrestore(&fi->ioend_lock, flags);
 > +}
 > +
-> +enum fuse_ilock_type {
-> +	SHARED,
-> +	EXCL,
-> +};
-> +
-> +static int fuse_iomap_ilock_iocb(const struct kiocb *iocb,
-> +				 enum fuse_ilock_type type)
+> +/*
+> + * Fast revalidation of the cached writeback mapping. Return true if the current
+> + * mapping is valid, false otherwise.
+> + */
+> +static bool fuse_iomap_revalidate_writeback(struct iomap_writepage_ctx *wpc,
+> +					    loff_t offset)
 > +{
-> +	struct inode *inode = file_inode(iocb->ki_filp);
+> +	if (offset < wpc->iomap.offset ||
+> +	    offset >= wpc->iomap.offset + wpc->iomap.length)
+> +		return false;
 > +
-> +	if (iocb->ki_flags & IOCB_NOWAIT) {
-> +		switch (type) {
-> +		case SHARED:
-> +			return inode_trylock_shared(inode) ? 0 : -EAGAIN;
-> +		case EXCL:
-> +			return inode_trylock(inode) ? 0 : -EAGAIN;
-> +		default:
-> +			ASSERT(0);
-> +			return -EIO;
+> +	/* XXX actually use revalidation cookie */
+> +	return true;
+> +}
+> +
+> +/*
+> + * If the folio has delalloc blocks on it, the caller is asking us to punch them
+> + * out. If we don't, we can leave a stale delalloc mapping covered by a clean
+> + * page that needs to be dirtied again before the delalloc mapping can be
+> + * converted. This stale delalloc mapping can trip up a later direct I/O read
+> + * operation on the same region.
+> + *
+> + * We prevent this by truncating away the delalloc regions on the folio. Because
+> + * they are delalloc, we can do this without needing a transaction. Indeed - if
+> + * we get ENOSPC errors, we have to be able to do this truncation without a
+> + * transaction as there is no space left for block reservation (typically why
+> + * we see a ENOSPC in writeback).
+> + */
+> +static void fuse_iomap_discard_folio(struct folio *folio, loff_t pos, int error)
+> +{
+> +	struct inode *inode = folio->mapping->host;
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	loff_t end = folio_pos(folio) + folio_size(folio);
+> +
+> +	if (fuse_is_bad(inode))
+> +		return;
+> +
+> +	ASSERT(fuse_inode_has_iomap(inode));
+> +
+> +	printk_ratelimited(KERN_ERR
+> +		"page discard on page %px, inode 0x%llx, pos %llu.",
+> +			folio, fi->orig_ino, pos);
+> +
+> +	/* Userspace may need to remove delayed allocations */
+> +	fuse_iomap_ioend(inode, pos, end - pos, error, 0, NULL,
+> +			 FUSE_IOMAP_NULL_ADDR);
+> +}
+> +
+> +static ssize_t fuse_iomap_writeback_range(struct iomap_writepage_ctx *wpc,
+> +					  struct folio *folio, u64 offset,
+> +					  unsigned int len, u64 end_pos)
+> +{
+> +	struct inode *inode = wpc->inode;
+> +	struct iomap write_iomap, dontcare;
+> +	ssize_t ret;
+> +
+> +	if (fuse_is_bad(inode)) {
+> +		ret = -EIO;
+> +		goto discard_folio;
+> +	}
+> +
+> +	ASSERT(fuse_inode_has_iomap(inode));
+> +
+> +	if (!fuse_iomap_revalidate_writeback(wpc, offset)) {
+> +		ret = fuse_iomap_begin(inode, offset, len,
+> +				       FUSE_IOMAP_OP_WRITEBACK,
+> +				       &write_iomap, &dontcare);
+> +		if (ret)
+> +			goto discard_folio;
+> +
+> +		/*
+> +		 * Landed in a hole or beyond EOF?  Send that to iomap, it'll
+> +		 * skip writing back the file range.
+> +		 */
+> +		if (write_iomap.offset > offset) {
+> +			write_iomap.length = write_iomap.offset - offset;
+> +			write_iomap.offset = offset;
+> +			write_iomap.type = IOMAP_HOLE;
 > +		}
 > +
-> +		/* shut up gcc */
-> +		return 0;
+> +		memcpy(&wpc->iomap, &write_iomap, sizeof(struct iomap));
 > +	}
 > +
-> +	switch (type) {
-> +	case SHARED:
-> +		inode_lock_shared(inode);
-> +		break;
-> +	case EXCL:
-> +		inode_lock(inode);
-> +		break;
-> +	default:
-> +		ASSERT(0);
-> +		return -EIO;
-> +	}
+> +	ret = iomap_add_to_ioend(wpc, folio, offset, end_pos, len);
+> +	if (ret < 0)
+> +		goto discard_folio;
 > +
+> +	return ret;
+> +discard_folio:
+> +	fuse_iomap_discard_folio(folio, offset, ret);
+> +	return ret;
+> +}
+> +
+> +static int fuse_iomap_writeback_submit(struct iomap_writepage_ctx *wpc,
+> +				       int error)
+> +{
+> +	struct iomap_ioend *ioend = wpc->wb_ctx;
+> +
+> +	ASSERT(fuse_inode_has_iomap(ioend->io_inode));
+> +
+> +	/* always call our ioend function, even if we cancel the bio */
+> +	ioend->io_bio.bi_end_io = fuse_iomap_end_bio;
+> +	return iomap_ioend_writeback_submit(wpc, error);
+> +}
+> +
+> +static const struct iomap_writeback_ops fuse_iomap_writeback_ops = {
+> +	.writeback_range	= fuse_iomap_writeback_range,
+> +	.writeback_submit	= fuse_iomap_writeback_submit,
+> +};
+> +
+> +static int fuse_iomap_writepages(struct address_space *mapping,
+> +				 struct writeback_control *wbc)
+> +{
+> +	struct fuse_writepage_ctx wpc = {
+> +		.ctx = {
+> +			.inode = mapping->host,
+> +			.wbc = wbc,
+> +			.ops = &fuse_iomap_writeback_ops,
+> +		},
+> +	};
+> +
+> +	ASSERT(fuse_inode_has_iomap(mapping->host));
+> +
+> +	return iomap_writepages(&wpc.ctx);
+> +}
+> +
+> +static int fuse_iomap_read_folio(struct file *file, struct folio *folio)
+> +{
+> +	ASSERT(fuse_inode_has_iomap(file_inode(file)));
+> +
+> +	iomap_bio_read_folio(folio, &fuse_iomap_ops);
 > +	return 0;
 > +}
 > +
-> +static ssize_t fuse_iomap_direct_read(struct kiocb *iocb, struct iov_iter *to)
+> +static void fuse_iomap_readahead(struct readahead_control *rac)
+> +{
+> +	ASSERT(fuse_inode_has_iomap(file_inode(rac->file)));
+> +
+> +	iomap_bio_readahead(rac, &fuse_iomap_ops);
+> +}
+> +
+> +static const struct address_space_operations fuse_iomap_aops = {
+> +	.read_folio		= fuse_iomap_read_folio,
+> +	.readahead		= fuse_iomap_readahead,
+> +	.writepages		= fuse_iomap_writepages,
+> +	.dirty_folio		= iomap_dirty_folio,
+> +	.release_folio		= iomap_release_folio,
+> +	.invalidate_folio	= iomap_invalidate_folio,
+> +	.migrate_folio		= filemap_migrate_folio,
+> +	.is_partially_uptodate  = iomap_is_partially_uptodate,
+> +	.error_remove_folio	= generic_error_remove_folio,
+> +
+> +	/* These aren't pagecache operations per se */
+> +	.bmap			= fuse_bmap,
+> +};
+> +
+> +static inline void fuse_inode_set_iomap(struct inode *inode)
+> +{
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +
+> +	inode->i_data.a_ops = &fuse_iomap_aops;
+> +
+> +	INIT_WORK(&fi->ioend_work, fuse_iomap_end_io);
+> +	INIT_LIST_HEAD(&fi->ioend_list);
+> +	spin_lock_init(&fi->ioend_lock);
+> +	set_bit(FUSE_I_IOMAP, &fi->state);
+> +}
+> +
+> +/*
+> + * Locking for serialisation of IO during page faults. This results in a lock
+> + * ordering of:
+> + *
+> + * mmap_lock (MM)
+> + *   sb_start_pagefault(vfs, freeze)
+> + *     invalidate_lock (vfs - truncate serialisation)
+> + *       page_lock (MM)
+> + *         i_lock (FUSE - extent map serialisation)
+> + */
+> +static vm_fault_t fuse_iomap_page_mkwrite(struct vm_fault *vmf)
+> +{
+> +	struct inode *inode = file_inode(vmf->vma->vm_file);
+> +	struct address_space *mapping = vmf->vma->vm_file->f_mapping;
+> +	vm_fault_t ret;
+> +
+> +	ASSERT(fuse_inode_has_iomap(inode));
+> +
+> +	sb_start_pagefault(inode->i_sb);
+> +	file_update_time(vmf->vma->vm_file);
+> +
+> +	filemap_invalidate_lock_shared(mapping);
+> +	ret = iomap_page_mkwrite(vmf, &fuse_iomap_ops, NULL);
+> +	filemap_invalidate_unlock_shared(mapping);
+> +
+> +	sb_end_pagefault(inode->i_sb);
+> +	return ret;
+> +}
+> +
+> +static const struct vm_operations_struct fuse_iomap_vm_ops = {
+> +	.fault		= filemap_fault,
+> +	.map_pages	= filemap_map_pages,
+> +	.page_mkwrite	= fuse_iomap_page_mkwrite,
+> +};
+> +
+> +int fuse_iomap_mmap(struct file *file, struct vm_area_struct *vma)
+> +{
+> +	ASSERT(fuse_inode_has_iomap(file_inode(file)));
+> +
+> +	file_accessed(file);
+> +	vma->vm_ops = &fuse_iomap_vm_ops;
+> +	return 0;
+> +}
+> +
+> +static ssize_t fuse_iomap_buffered_read(struct kiocb *iocb, struct iov_iter *to)
 > +{
 > +	struct inode *inode = file_inode(iocb->ki_filp);
 > +	ssize_t ret;
+> +
+> +	ASSERT(fuse_inode_has_iomap(inode));
 > +
 > +	if (!iov_iter_count(to))
 > +		return 0; /* skip atime */
@@ -572,7 +813,7 @@ Maybe later after we implement iomap caching?  Or probably just never.
 > +	ret = fuse_iomap_ilock_iocb(iocb, SHARED);
 > +	if (ret)
 > +		return ret;
-> +	ret = iomap_dio_rw(iocb, to, &fuse_iomap_ops, NULL, 0, NULL, 0);
+> +	ret = generic_file_read_iter(iocb, to);
 > +	if (ret > 0)
 > +		file_accessed(iocb->ki_filp);
 > +	inode_unlock_shared(inode);
@@ -580,170 +821,296 @@ Maybe later after we implement iomap caching?  Or probably just never.
 > +	return ret;
 > +}
 > +
-> +static int fuse_iomap_dio_write_end_io(struct kiocb *iocb, ssize_t written,
-> +				       int error, unsigned dioflags)
+> +static ssize_t fuse_iomap_buffered_write(struct kiocb *iocb,
+> +					 struct iov_iter *from)
 > +{
 > +	struct inode *inode = file_inode(iocb->ki_filp);
-> +	unsigned int ioendflags = FUSE_IOMAP_IOEND_DIRECT;
-> +
-> +	if (fuse_is_bad(inode))
-> +		return -EIO;
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	loff_t pos = iocb->ki_pos;
+> +	ssize_t ret;
 > +
 > +	ASSERT(fuse_inode_has_iomap(inode));
 > +
-> +	if (dioflags & IOMAP_DIO_COW)
-> +		ioendflags |= FUSE_IOMAP_IOEND_SHARED;
-> +	if (dioflags & IOMAP_DIO_UNWRITTEN)
-> +		ioendflags |= FUSE_IOMAP_IOEND_UNWRITTEN;
-> +
-> +	return fuse_iomap_ioend(inode, iocb->ki_pos, written, error,
-> +				ioendflags, NULL, FUSE_IOMAP_NULL_ADDR);
-> +}
-> +
-> +static const struct iomap_dio_ops fuse_iomap_dio_write_ops = {
-> +	.end_io		= fuse_iomap_dio_write_end_io,
-> +};
-> +
-> +static ssize_t
-> +fuse_iomap_write_checks(
-> +	struct kiocb		*iocb,
-> +	struct iov_iter		*from)
-> +{
-> +	ssize_t			error;
-> +
-> +	error = generic_write_checks(iocb, from);
-> +	if (error <= 0)
-> +		return error;
-> +
-> +	return kiocb_modified(iocb);
-> +}
-> +
-> +static ssize_t fuse_iomap_direct_write(struct kiocb *iocb,
-> +				       struct iov_iter *from)
-> +{
-> +	struct inode *inode = file_inode(iocb->ki_filp);
-> +	loff_t blockmask = i_blocksize(inode) - 1;
-> +	size_t count = iov_iter_count(from);
-> +	unsigned int flags = IOMAP_DIO_COMP_WORK;
-> +	ssize_t ret;
-> +
-> +	if (!count)
+> +	if (!iov_iter_count(from))
 > +		return 0;
-> +
-> +	/*
-> +	 * Unaligned direct writes require zeroing of unwritten head and tail
-> +	 * blocks.  Extending writes require zeroing of post-EOF tail blocks.
-> +	 * The zeroing writes must complete before we return the direct write
-> +	 * to userspace.  Don't even bother trying the fast path.
-> +	 */
-> +	if ((iocb->ki_pos | count) & blockmask)
-> +		flags |= IOMAP_DIO_FORCE_WAIT;
 > +
 > +	ret = fuse_iomap_ilock_iocb(iocb, EXCL);
 > +	if (ret)
-> +		goto out_dsync;
+> +		return ret;
 > +
 > +	ret = fuse_iomap_write_checks(iocb, from);
 > +	if (ret)
 > +		goto out_unlock;
 > +
-> +	/*
-> +	 * If we are doing exclusive unaligned I/O, this must be the only I/O
-> +	 * in-flight.  Otherwise we risk data corruption due to unwritten
-> +	 * extent conversions from the AIO end_io handler.  Wait for all other
-> +	 * I/O to drain first.
-> +	 */
-> +	if (flags & IOMAP_DIO_FORCE_WAIT)
-> +		inode_dio_wait(inode);
+> +	if (inode->i_size < pos + iov_iter_count(from))
+> +		set_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
 > +
-> +	ret = iomap_dio_rw(iocb, from, &fuse_iomap_ops,
-> +			   &fuse_iomap_dio_write_ops, flags, NULL, 0);
+> +	ret = iomap_file_buffered_write(iocb, from, &fuse_iomap_ops,
+> +					&fuse_iomap_write_ops, NULL);
+> +
+> +	if (ret > 0)
+> +		fuse_write_update_attr(inode, pos + ret, ret);
+> +	clear_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
+> +
 > +out_unlock:
 > +	inode_unlock(inode);
-> +out_dsync:
+> +
+> +	if (ret > 0) {
+> +		/* Handle various SYNC-type writes */
+> +		ret = generic_write_sync(iocb, ret);
+> +	}
 > +	return ret;
 > +}
 > +
-> +void fuse_iomap_set_disk_size(struct fuse_inode *fi, loff_t newsize)
-> +{
-> +	lockdep_assert_held(&fi->lock);
+>  static inline bool fuse_iomap_force_directio(const struct kiocb *iocb)
+>  {
+>  	struct fuse_file *ff = iocb->ki_filp->private_data;
+> @@ -1073,9 +1521,33 @@ ssize_t fuse_iomap_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  
+>  	ASSERT(fuse_inode_has_iomap(file_inode(iocb->ki_filp)));
+>  
+> -	if ((iocb->ki_flags & IOCB_DIRECT) || force_directio)
+> -		return fuse_iomap_direct_read(iocb, to);
+> -	return -EIO;
+> +	if ((iocb->ki_flags & IOCB_DIRECT) || force_directio) {
+> +		ssize_t ret = fuse_iomap_direct_read(iocb, to);
 > +
-> +	if (fuse_inode_has_iomap(&fi->inode))
-> +		fi->i_disk_size = newsize;
+> +		switch (ret) {
+> +		case -ENOTBLK:
+> +		case -ENOSYS:
+> +			/*
+> +			 * We fall back to a buffered read if:
+> +			 *
+> +			 *  - ENOTBLK means iomap told us to do it
+> +			 *  - ENOSYS means the fuse server wants it
+> +			 *
+> +			 * Don't fall back if we were forced to do it.
+> +			 */
+> +			if (force_directio)
+> +				return -EIO;
+> +			break;
+> +		default:
+> +			/* errors, no progress, or partial progress */
+> +			return ret;
+> +		}
+> +
+> +		/* do not let generic_file_read_iter fall into ->direct_IO */
+> +		iocb->ki_flags &= ~IOCB_DIRECT;
+> +	}
+> +
+> +	return fuse_iomap_buffered_read(iocb, to);
+>  }
+>  
+>  ssize_t fuse_iomap_write_iter(struct kiocb *iocb, struct iov_iter *from)
+> @@ -1084,7 +1556,206 @@ ssize_t fuse_iomap_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  
+>  	ASSERT(fuse_inode_has_iomap(file_inode(iocb->ki_filp)));
+>  
+> -	if ((iocb->ki_flags & IOCB_DIRECT) || force_directio)
+> -		return fuse_iomap_direct_write(iocb, from);
+> -	return -EIO;
+> +	if ((iocb->ki_flags & IOCB_DIRECT) || force_directio) {
+> +		ssize_t ret = fuse_iomap_direct_write(iocb, from);
+> +
+> +		switch (ret) {
+> +		case -ENOTBLK:
+> +		case -ENOSYS:
+> +			/*
+> +			 * We fall back to a buffered write if:
+> +			 *
+> +			 *  - ENOTBLK means iomap told us to do it
+> +			 *  - ENOSYS means the fuse server wants it
+> +			 *
+> +			 * Either way, try the write again as a synchronous
+> +			 * buffered write unless we were forced to do directio.
+> +			 */
+> +			if (force_directio)
+> +				return -EIO;
+> +			iocb->ki_flags |= IOCB_SYNC;
+> +			break;
+> +		default:
+> +			/* errors, no progress, or partial progress */
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return fuse_iomap_buffered_write(iocb, from);
 > +}
 > +
-> +void fuse_iomap_open_truncate(struct inode *inode)
+> +static int
+> +fuse_iomap_truncate_page(
+> +	struct inode *inode,
+> +	loff_t			pos,
+> +	bool			*did_zero)
 > +{
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	return iomap_truncate_page(inode, pos, did_zero, &fuse_iomap_ops,
+> +				   &fuse_iomap_write_ops, NULL);
+> +}
+> +/*
+> + * Truncate pagecache for a file before sending the truncate request to
+> + * userspace.  Must have write permission and not be a directory.
+> + *
+> + * Caution: The caller of this function is responsible for calling
+> + * setattr_prepare() or otherwise verifying the change is fine.
+> + */
+> +int
+> +fuse_iomap_setsize_start(
+> +	struct inode		*inode,
+> +	loff_t			newsize)
+> +{
+> +	loff_t			oldsize = i_size_read(inode);
+> +	int			error;
+> +	bool			did_zeroing = false;
+> +
+> +	rwsem_assert_held_write(&inode->i_rwsem);
+> +	rwsem_assert_held_write(&inode->i_mapping->invalidate_lock);
+> +	ASSERT(S_ISREG(inode->i_mode));
+> +
+> +	/*
+> +	 * Wait for all direct I/O to complete.
+> +	 */
+> +	inode_dio_wait(inode);
+> +
+> +	/*
+> +	 * File data changes must be complete and flushed to disk before we
+> +	 * call userspace to modify the inode.
+> +	 *
+> +	 * Start with zeroing any data beyond EOF that we may expose on file
+> +	 * extension, or zeroing out the rest of the block on a downward
+> +	 * truncate.
+> +	 */
+> +	if (newsize > oldsize)
+> +		error = fuse_iomap_zero_range(inode, oldsize, newsize - oldsize,
+> +					      &did_zeroing);
+> +	else
+> +		error = fuse_iomap_truncate_page(inode, newsize, &did_zeroing);
+> +	if (error)
+> +		return error;
+> +
+> +	/*
+> +	 * We've already locked out new page faults, so now we can safely
+> +	 * remove pages from the page cache knowing they won't get refaulted
+> +	 * until we drop the mapping invalidation lock after the extent
+> +	 * manipulations are complete. The truncate_setsize() call also cleans
+> +	 * folios spanning EOF on extending truncates and hence ensures
+> +	 * sub-page block size filesystems are correctly handled, too.
+> +	 *
+> +	 * And we update in-core i_size and truncate page cache beyond newsize
+> +	 * before writing back the whole file, so we're guaranteed not to write
+> +	 * stale data past the new EOF on truncate down.
+> +	 */
+> +	truncate_setsize(inode, newsize);
+> +
+> +	/*
+> +	 * Flush the entire pagecache to ensure the fuse server logs the inode
+> +	 * size change and all dirty data that might be associated with it.
+> +	 * We don't know the ondisk inode size, so we only have this clumsy
+> +	 * hammer.
+> +	 */
+> +	return filemap_write_and_wait(inode->i_mapping);
+> +}
+> +
+> +/*
+> + * Prepare for a file data block remapping operation by flushing and unmapping
+> + * all pagecache for the entire range.
+> + */
+> +int fuse_iomap_flush_unmap_range(struct inode *inode, loff_t pos,
+> +				 loff_t endpos)
+> +{
+> +	loff_t			start, end;
+> +	unsigned int		rounding;
+> +	int			error;
+> +
+> +	/*
+> +	 * Make sure we extend the flush out to extent alignment boundaries so
+> +	 * any extent range overlapping the start/end of the modification we
+> +	 * are about to do is clean and idle.
+> +	 */
+> +	rounding = max_t(unsigned int, i_blocksize(inode), PAGE_SIZE);
+> +	start = round_down(pos, rounding);
+> +	end = round_up(endpos + 1, rounding) - 1;
+> +
+> +	error = filemap_write_and_wait_range(inode->i_mapping, start, end);
+> +	if (error)
+> +		return error;
+> +	truncate_pagecache_range(inode, start, end);
+> +	return 0;
+> +}
+> +
+> +static int fuse_iomap_punch_range(struct inode *inode, loff_t offset,
+> +				  loff_t length)
+> +{
+> +	loff_t isize = i_size_read(inode);
+> +	int error;
+> +
+> +	/*
+> +	 * Now that we've unmap all full blocks we'll have to zero out any
+> +	 * partial block at the beginning and/or end.  iomap_zero_range is
+> +	 * smart enough to skip holes and unwritten extents, including those we
+> +	 * just created, but we must take care not to zero beyond EOF, which
+> +	 * would enlarge i_size.
+> +	 */
+> +	if (offset >= isize)
+> +		return 0;
+> +	if (offset + length > isize)
+> +		length = isize - offset;
+> +	error = fuse_iomap_zero_range(inode, offset, length, NULL);
+> +	if (error)
+> +		return error;
+> +
+> +	/*
+> +	 * If we zeroed right up to EOF and EOF straddles a page boundary we
+> +	 * must make sure that the post-EOF area is also zeroed because the
+> +	 * page could be mmap'd and iomap_zero_range doesn't do that for us.
+> +	 * Writeback of the eof page will do this, albeit clumsily.
+> +	 */
+> +	if (offset + length >= isize && offset_in_page(offset + length) > 0) {
+> +		error = filemap_write_and_wait_range(inode->i_mapping,
+> +					round_down(offset + length, PAGE_SIZE),
+> +					LLONG_MAX);
+> +	}
+> +
+> +	return error;
+> +}
+> +
+> +int
+> +fuse_iomap_fallocate(
+> +	struct file		*file,
+> +	int			mode,
+> +	loff_t			offset,
+> +	loff_t			length,
+> +	loff_t			new_size)
+> +{
+> +	struct inode *inode = file_inode(file);
+> +	int error;
 > +
 > +	ASSERT(fuse_inode_has_iomap(inode));
 > +
-> +	spin_lock(&fi->lock);
-> +	fi->i_disk_size = 0;
-> +	spin_unlock(&fi->lock);
-> +}
+> +	/*
+> +	 * If we unmapped blocks from the file range, then we zero the
+> +	 * pagecache for those regions and push them to disk rather than make
+> +	 * the fuse server manually zero the disk blocks.
+> +	 */
+> +	if (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)) {
+> +		error = fuse_iomap_punch_range(inode, offset, length);
+> +		if (error)
+> +			return error;
+> +	}
 > +
-> +static inline bool fuse_iomap_force_directio(const struct kiocb *iocb)
-> +{
-> +	struct fuse_file *ff = iocb->ki_filp->private_data;
+> +	/*
+> +	 * If this is an extending write, we need to zero the bytes beyond the
+> +	 * new EOF and bounce the new size out to userspace.
+> +	 */
+> +	if (new_size) {
+> +		error = fuse_iomap_setsize_start(inode, new_size);
+> +		if (error)
+> +			return error;
 > +
-> +	return ff->open_flags & FOPEN_DIRECT_IO;
-> +}
+> +		fuse_write_update_attr(inode, new_size, length);
+> +	}
 > +
-> +ssize_t fuse_iomap_read_iter(struct kiocb *iocb, struct iov_iter *to)
-> +{
-> +	const bool force_directio = fuse_iomap_force_directio(iocb);
-> +
-> +	ASSERT(fuse_inode_has_iomap(file_inode(iocb->ki_filp)));
-> +
-> +	if ((iocb->ki_flags & IOCB_DIRECT) || force_directio)
-> +		return fuse_iomap_direct_read(iocb, to);
-> +	return -EIO;
-> +}
-> +
-> +ssize_t fuse_iomap_write_iter(struct kiocb *iocb, struct iov_iter *from)
-> +{
-> +	const bool force_directio = fuse_iomap_force_directio(iocb);
-> +
-> +	ASSERT(fuse_inode_has_iomap(file_inode(iocb->ki_filp)));
-> +
-> +	if ((iocb->ki_flags & IOCB_DIRECT) || force_directio)
-> +		return fuse_iomap_direct_write(iocb, from);
-> +	return -EIO;
-> +}
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index 3cb2ef161ef7c5..23ca401a3e08e6 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -303,6 +303,8 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
->  	else
->  		fi->cached_i_blkbits = inode->i_sb->s_blocksize_bits;
->  
-> +	fuse_iomap_set_disk_size(fi, attr->size);
-> +
->  	/*
->  	 * Don't set the sticky bit in i_mode, unless we want the VFS
->  	 * to check permissions.  This prevents failures due to the
-> @@ -352,6 +354,7 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
->  	 * inode.
->  	 */
->  	cache_mask = fuse_get_cache_mask(inode);
-> +	fuse_iomap_set_disk_size(fi, attr->size);
->  	if (cache_mask & STATX_SIZE)
->  		attr->size = i_size_read(inode);
->  
-> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-> index 9be9ae3520003e..ed666b39cf8af4 100644
-> --- a/fs/fuse/iomode.c
-> +++ b/fs/fuse/iomode.c
-> @@ -204,7 +204,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
->  	 * io modes are not relevant with DAX and with server that does not
->  	 * implement open.
->  	 */
-> -	if (fuse_inode_has_iomap(inode) || FUSE_IS_DAX(inode) || !ff->args)
-> +	if (FUSE_IS_DAX(inode) || !ff->args)
->  		return 0;
->  
->  	/*
+> +	file_update_time(file);
+> +	return 0;
+>  }
 > 
 > 
