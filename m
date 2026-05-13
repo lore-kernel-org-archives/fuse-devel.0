@@ -1,85 +1,121 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088DF38E8B8
-	for <fuse-devel@lists.linux.dev>; Wed, 13 May 2026 06:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078AC4963AA
+	for <fuse-devel@lists.linux.dev>; Wed, 13 May 2026 15:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778655493; cv=none; b=rGxmt9EVXBOeb8IYpNJwS4vwP2qDxx0asvdosldcXFooYx7PN1WGKBcszpl+5Q0RRtqh/t3bwvIVQlOwpOSfiU44f6cBhRnUlEV4pMtuVqI/gr0P0WDVmT8yiWMbkv0WaonyKC2GslCM5iqvobVtheYTUt6L/qkWcZH1KhokCxk=
+	t=1778687170; cv=none; b=dXn/UAUgAo+Y1RO951x3+/CPpTK8g3eHkbxZPMGkE4oH5lv9iTbXM/wM77UIu8p2gDuVfuP2/TftRplWfh+uj0pNvRE0SifmEc7v6tH0vrazvclYeUgi8k9IAej2wIrLQd8sTFmr+agA5tx7Y0+xjlrOX7UbKXMWv4xz4e7U9Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778655493; c=relaxed/simple;
-	bh=AknfT6DOvNis5ZvNGkVKzRf4gJ8SGhx5DmaESprlZB8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Up/Uv0NI6KQaORf8q4sZn23U0LpQFS1AJoIgqXBqy0kTxYgQ7ehXA10H4OvkO1dMzSjVUt8+LJooY7nJzIvMM0XBKvO6vKYrJ8U33Zla5mWB1BneIpCkawqEAZ+zUVPKxzNKHFOm7nKlaG/aviYYwGnUQkJ1OoxCI02vZbkabC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ICoA2Vz7; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1778687170; c=relaxed/simple;
+	bh=5K0pBXZloxqpAHGAcwAYFGBuMyPkLRtQuQNGc7Q0nyQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Iqdk774pEB/TUrf/iEhljt5bPOPziNfVkbZzHSqli5HWtrfl2b3UyMAeD232TmnY8r5I3v3omsuxpnzCnGArVN24FuALncC2x3+eLGrwHFGDFQcAhGwK2UjtRI1+oNhrDzSDWrev9xAGXFU06pm1804tig8Ig/OSoLGKrRk1gWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rath.org; spf=pass smtp.mailfrom=rath.org; dkim=pass (2048-bit key) header.d=rath.org header.i=@rath.org header.b=csHPZPyU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=X2exqUf+; arc=none smtp.client-ip=103.168.172.153
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rath.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rath.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ICoA2Vz7"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1778655481; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=hnMM+47wijWEsiSC/Rp2YSplBxkVNxtL2pqSMMI2mHU=;
-	b=ICoA2Vz79f2ZDMi4mjgP/yMHgI3eygXFtScqPFVHiLLlTOu3JA3sfs2zFNXxof43vJ8BRUEC2Q97Yw9xNQfedaSioYYw4despkX9dGMwqN3gs6Yf1Ld1W5/vfC473yS1JvrLIbXs8lLaauefh110iuWNUma3pVEfrLta1Ir1g8s=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=hsiangkao@linux.alibaba.com;NM=1;PH=DS;RN=10;SR=0;TI=SMTPD_---0X2svuPR_1778655479;
-Received: from 30.120.66.214(mailfrom:hsiangkao@linux.alibaba.com fp:SMTPD_---0X2svuPR_1778655479 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 13 May 2026 14:57:59 +0800
-Message-ID: <fe714fbc-c9a5-4c26-8b7d-6976adb56b63@linux.alibaba.com>
-Date: Wed, 13 May 2026 14:57:58 +0800
+	dkim=pass (2048-bit key) header.d=rath.org header.i=@rath.org header.b="csHPZPyU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="X2exqUf+"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 21F9F1400168;
+	Wed, 13 May 2026 11:46:07 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 13 May 2026 11:46:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rath.org; h=cc
+	:content-type:content-type:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:subject:subject:to:to; s=fm1;
+	 t=1778687167; x=1778773567; bh=qWDRwk1s2Pd26Ncw5axLaJ3442XNNNIJ
+	2He04PcJqGY=; b=csHPZPyUZi7RvbuHiM22aVGlFoZCwB+FH9ZrkDWsg55HVrMY
+	XsEzuq/WCCOtxrRq7mZ7ijSVjklnkyqRrmyH792lpMGvLIfUupK9nLEdSILr6RdP
+	lLn55qQmvxFJDNKybxVOpgff8QnXa9baLH7AhkR1ovWHcAGpuV7EOkpvPn4Yof68
+	qygTHyiYEIs8xk+i2x6XXi2afoxxhviXxt+IQmhUQDP3xKxJ6RAbnSwEbYkyb07w
+	2LcEdeF5YrspK4mWBIFV2XPCe93fRcZtX2H29S6HbJujyUWcy0kGkJb92xbt/Ud2
+	p8Id3sWUzs9Rd5ahmaFHDSTengnZSvES85MUfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778687167; x=
+	1778773567; bh=qWDRwk1s2Pd26Ncw5axLaJ3442XNNNIJ2He04PcJqGY=; b=X
+	2exqUf+Wwqoh3T9SPZEAdl0f8AmWlpQvdD8nR4YhZiEMTqXysAbtC/Y38aEM3Sg0
+	/h/X+5IoxMIN+vKgofuRKNWUYMRmh1+h6JoAM2yV9Lp8LIouCpKQI05Obl5wUAqx
+	wYw7DbqUZroZ/2KMLEDZ283tGk4SD66TVu16JnygDZ2Rdwbv4MgHphTwoXkWshQG
+	bkKcY+1xwO/9Ng/3K4Uf28zkbNwn5TDgIUQeDfF05YPW9ZrmzcvDAoS+3/k89nqx
+	EZHYzT+tVb9/mgUvR0Bw05SaFWGJKpxTHEQVQCiq6cLpKzFmKSVxBk11ixecWTcG
+	EAA6H7vk149g7NvAxgjrQ==
+X-ME-Sender: <xms:vpwEaqg1UK1B7MZU3edXQtYHhaOLtootbUiUUhkSpiJwVRtlRf9ekA>
+    <xme:vpwEao8RFirSTlcFk_l4Doqmfvq8aaaQgcuez9VuMXRrhQF6S6MYVKz-3qsk77tq_
+    dJCiwLfjjeSLiDTrs0BCdVWFLp0qFvcwg-amNbJe9MDhxRXaw3-6A>
+X-ME-Received: <xmr:vpwEappxxtqvTSNVdK8MmzdO_NqZyIpgIfM6RDwsuKwD6wRam3a5mX0dvTVDAbiIescf12n9-IRUUu3jh8Pr2tCC3CAfgGm7QAZHxfWDGK48iqpFmQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdduvdehtdeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkfgggtgesthdtredttdertd
+    enucfhrhhomheppfhikhholhgruhhsucftrghthhcuoefpihhkohhlrghushesrhgrthhh
+    rdhorhhgqeenucggtffrrghtthgvrhhnpeevuddukedvueevjeetfeevueejkefgffeife
+    ekvdejieevffevkeefudfhveegvdenucffohhmrghinhepphihthhhohhnrdhorhhgpdhg
+    ihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
+    hlfhhrohhmpefpihhkohhlrghushesrhgrthhhrdhorhhgpdhnsggprhgtphhtthhopedv
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehfuhhsvgdquggvvhgvlheslhhish
+    htshdrshhouhhrtggvfhhorhhgvgdrnhgvthdprhgtphhtthhopehfuhhsvgdquggvvhgv
+    lheslhhishhtshdrlhhinhhugidruggvvh
+X-ME-Proxy: <xmx:vpwEav-lHlRv6Ppb_MrB7LyOj4TI3bciIqXoMNqCGN8BSwFKQ7NJZA>
+    <xmx:v5wEalV62F7jIzfcH2RG1kEhpJ-NV8yVv6EqjnKDjXRMgDWNgfbqoQ>
+    <xmx:v5wEatBrQg71GS6ZIHGXO5gNv5GRJzpKeTmkGFTENueXfIenkvlQVQ>
+    <xmx:v5wEauzPYrcJaY0qjqk7ZOMLNjHy__lVbdrZkOkWciB73dxrohUYwQ>
+    <xmx:v5wEasr0fif868GjfMBJrMGPALsEZJb5FYnq1RV_MDL3Ynph2HC836vv>
+Feedback-ID: i53a843ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 13 May 2026 11:46:06 -0400 (EDT)
+From: Nikolaus Rath <Nikolaus@rath.org>
+To: fuse-devel@lists.linux.dev, fuse-devel@lists.sourceforge.net
+Subject: [ANNOUNCE] pyfuse 3.5.0 has been released
+Date: Wed, 13 May 2026 16:46:04 +0100
+Message-ID: <87bjejtirn.fsf@rath.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [post LSFMM summary] where is fuse going?
-To: Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel <fuse-devel@lists.linux.dev>, linux-fsdevel@vger.kernel.org,
- John Groves <John@groves.net>, Joanne Koong <joannelkoong@gmail.com>,
- "Darrick J . Wong" <djwong@kernel.org>, Bernd Schubert <bernd@bsbernd.com>,
- Horst Birthelmer <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
-References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
- <CAOQ4uxhnOEkX4qnn0wHMCqWhEeAGTR9rxcw5u_oqGUovuszo0w@mail.gmail.com>
- <943cb464-78f3-44a7-92a7-57a1fe4fbc10@linux.alibaba.com>
- <CAOQ4uxh4yKEBdgbkfZTVyYM1P8ahALFVJzQCj7ASkrH746_4xw@mail.gmail.com>
- <CAJfpeguR=x+Kf7jd4zyeSoUtbjaPRLhXCRh9wa3c14x+M77kXA@mail.gmail.com>
- <CAOQ4uxiTowEnpQR3-oBXM3Q5uxBf5PXeNu+Qda8CVeD0fTHfXg@mail.gmail.com>
-From: Gao Xiang <hsiangkao@linux.alibaba.com>
-In-Reply-To: <CAOQ4uxiTowEnpQR3-oBXM3Q5uxBf5PXeNu+Qda8CVeD0fTHfXg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+Dear all,
 
+I'm happy to announce a new release of pyfuse3, version 3.5.0.
 
-On 2026/5/13 05:40, Amir Goldstein wrote:
-> On Tue, May 12, 2026 at 12:01 PM Miklos Szeredi <miklos@szeredi.hu> wrote:
->>
->> On Tue, 12 May 2026 at 09:53, Amir Goldstein <amir73il@gmail.com> wrote:
->>
->>> The problem is only with  fuse_passthrough_mmap().
->>> Depending on the workload (?) mmap may not be important and
->>> we could fail if trying to map cross-backing-id regions.
->>
->> mmap(2) is the main entry point into famfs,  so it's very important.
->>
->> That doesn't work with "traditional" passthrough and needs to do the
->> DAX mapping that famfs currently does.
->>
-> 
-> Yes, famfs surely needs mmap to multiple daxdev and this is done.
-> 
-> I was referring to Gao's question about dealing with non-dax multi
-> backing id (const mapped) files.
+pyfuse3 is a set of Python 3 bindings for libfuse 3. It provides an
+asynchronous API compatible with Trio and asyncio, and enables you to easily
+write a full-featured Linux filesystem in Python.
 
-Yes, it can work on DAX and my question was all about
-mmap backed by multiple pagecache-backed files.
+From the changelog:
 
-Thanks,
-Gao Xiang
+* Filesystems may now define a `~Operations.poll` method to support the ``epoll`` and `select`
+  system calls.
 
-> 
-> Thanks,
-> Amir.
+* The `FileHandleT` and `InodeT` types are no longer declared as *NewTypes* but are now simply
+  aliases for *int*. This should make it easier to write type annotations.
 
+* Future releases of pyfuse will be signed with signify rather than GPG. The public key to verify
+  the signature of a the next version will always be included in the previous versions, so this
+  version already ships the public key that will be used to sign the next versions,
+  `signify/pyfuse-3.5.pub` for any bugfix releases and `signify/pyfuse-next.pub` for the
+  next minor (or major) release.
+
+The following people have contributed code to this release:
+
+Christopher Obbard <christopher.obbard@linaro.org>
+Nikolaus Rath <Nikolaus@rath.org>
+TW <tw@waldmann-edv.de>
+Yaroslav Halchenko <debian@onerussian.com>
+
+As usual, the newest release can be downloaded from PyPi at
+https://pypi.python.org/pypi/pyfuse3/.
+
+Please report any bugs on the issue tracker at
+https://github.com/libfuse/pyfuse3/issues. For discussion and questions, please
+use the general FUSE mailing list (i.e., this list) or the GitHub discussion
+forum at https://github.com/libfuse/pyfuse3/discussions.
+
+Best,
+-Nikolaus
