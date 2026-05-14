@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9603DFC80;
-	Thu, 14 May 2026 14:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF92391833;
+	Thu, 14 May 2026 18:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778769775; cv=none; b=YPMH7SgkfSsrLsMayLd8duEOfE/Kx3QcXJA8ExgvIZ3hMd0nfffnDoGm7DBqf6cX/PfDva0xZnfj3WgTq+2GUMj2HzFFq1ZD7lIuYP4RVOKtqO7B/3OS1EnwgLjtK8wJj0uxe6QkocWX5s0FXeg4wTIaL5l76fDwTVzTwispvw4=
+	t=1778783907; cv=none; b=Mcwfal3i26y/kyokBpha6DQMNbdHYAORpKNtrjvdk1EJe0vR2mXFTFX9bDMjXCt/QxHHem/BIy2yDrmiHcX2+GnGkUhCMalN1n5nQpEt9CgJWwqU6dt1wiwOECCTeg7y+P789sCLs1yQpyI/wpXuNHBIWtr22p3y2D2RGrR+K4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778769775; c=relaxed/simple;
-	bh=jN5uwe77yrodnI16Pup2BeCmkisZSjrnDMv4Bjh39Pw=;
+	s=arc-20240116; t=1778783907; c=relaxed/simple;
+	bh=vdjRvHz5CMRGzUlXv8+wxEk5YB3OjC1z/DJ9UkeUIoM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JqvspizN/GEp/vMW3ttPB+7dn/AlXQnOjqPE0EuR4v4NZdgHG75a4fw65Rj1E/bPuqbpzOLAKNARLApjPipZ36S68Z05DbsFH7InHmwPl3QM5caTCADxeJwwUz6Au9yUDV6YvtxVKCa16KyvQUy+mi7bLq8HfIsK6zphRQ666w4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bv5W254N; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hv+pU9xIJ7NZtbS77SG22PgO6ESLH0q6kMKSMvhYG4wey1VTEaXfRVIKG1cejwaaotC+Ws7uztDtuTjY0UaQ2oUd6/P+pyBVImVIBUKUvXzDuu8t0YH77rEcvoNC9Py/JSwHuriWOE6prc0fOOgIXrencOx5gmhxzxOhDwz0gyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNDYNsGf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bv5W254N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C669C2BCB3;
-	Thu, 14 May 2026 14:42:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNDYNsGf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4927FC2BCB3;
+	Thu, 14 May 2026 18:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778769775;
-	bh=jN5uwe77yrodnI16Pup2BeCmkisZSjrnDMv4Bjh39Pw=;
+	s=k20201202; t=1778783907;
+	bh=vdjRvHz5CMRGzUlXv8+wxEk5YB3OjC1z/DJ9UkeUIoM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bv5W254NHJT7tCZPMGd8YBcXv2RHPoF5M4c+7Y5jfvguZ3DYFFO7V/4M0cTDu3Lqp
-	 XdIjp2hhtmzJYenXF0CUrmWBSzTDtPso9iERc7C5MzW7saqzLzVO7rMOeiIWbnC2He
-	 vPH04j9fPjrleUXcV3feHF42F83aD9CFNOXuO8Z01R8kzuGYA1CKeMbzh2V7vvrgxN
-	 Vb5jugvSSR6mVS6ez/LtxtC0OCH9RZyWkgZVMK3Mf7+lmysOSlwTGrnlmqXpGATuhb
-	 ZuEq78/zeBHCR0MEOMWgAZ2Ux1DeRQJcaXkk0x99SoK56xg9yK+s70gnsF1wklEIKZ
-	 gNrlihE4uSC9w==
-Date: Thu, 14 May 2026 07:42:54 -0700
+	b=lNDYNsGf8Okeqq4qsgm6xSqw0ro6flzBkhOVj8iCU0YP2AS3bWdJozLd96WPgehny
+	 21fyx0TTnWxqT5ifwZ9X1b1ZAbIESBMsYRvZ0s5xpAPH0NJisFNLMO/oIYh8UVXLvR
+	 S+10i9bSMvoX1ZUbAL85nEXr0sNrYvO13yUnbrK7wIdoItN8B9ggRnhNdYdz94YvAw
+	 w6xVRVDoLJBfDYnTMjuj7DzzdD6YJ2bmMOBtjrfdSpIVcyPbDsVYNwTDHwrG7qPTxQ
+	 m0QMdbQKmbv2dBmuhJw5tja42ggmuXHlVrzVWGp1bFdok4h4t+6xyWfHnYV0Xr74Ny
+	 x+osMTTVuJggw==
+Date: Thu, 14 May 2026 11:38:26 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 32/33] fuse: enable swapfile activation on iomap
-Message-ID: <20260514144254.GW9544@frogsfrogsfrogs>
-References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205834.4101881.6028637441703823637.stgit@frogsfrogsfrogs>
+Subject: Re: [PATCH 1/2] fuse: move the passthrough-specific code back to
+ passthrough.c
+Message-ID: <20260514183826.GB9544@frogsfrogsfrogs>
+References: <177747204594.4101743.18108570914300152558.stgit@frogsfrogsfrogs>
+ <177747204624.4101743.10110436900437243535.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -43,165 +44,448 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747205834.4101881.6028637441703823637.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747204624.4101743.10110436900437243535.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:32:02AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:23:26AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> It turns out that fuse supports swapfile activation, so let's enable
-> that.
+> In preparation for iomap, move the passthrough-specific validation code
+> back to passthrough.c and create a new Kconfig item for conditional
+> compilation of backing.c.  In the next patch, iomap will share the
+> backing structures.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/fuse_trace.h      |    1 +
->  include/uapi/linux/fuse.h |    5 ++++
->  fs/fuse/fuse_iomap.c      |   54 ++++++++++++++++++++++++++++++++++++++++++++-
->  3 files changed, 59 insertions(+), 1 deletion(-)
+>  fs/fuse/fuse_i.h          |   25 ++++++++++-
+>  include/uapi/linux/fuse.h |    8 +++-
+>  fs/fuse/Kconfig           |    4 ++
+>  fs/fuse/Makefile          |    3 +
+>  fs/fuse/backing.c         |   98 ++++++++++++++++++++++++++++++++++-----------
+>  fs/fuse/dev.c             |    4 +-
+>  fs/fuse/inode.c           |    4 +-
+>  fs/fuse/passthrough.c     |   38 +++++++++++++++++
+>  8 files changed, 149 insertions(+), 35 deletions(-)
 > 
 > 
-> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
-> index de7d483d4b0f34..63cc1496ee5ca1 100644
-> --- a/fs/fuse/fuse_trace.h
-> +++ b/fs/fuse/fuse_trace.h
-> @@ -300,6 +300,7 @@ struct iomap;
->  	{ FUSE_IOMAP_OP_DAX,			"fsdax" }, \
->  	{ FUSE_IOMAP_OP_ATOMIC,			"atomic" }, \
->  	{ FUSE_IOMAP_OP_DONTCACHE,		"dontcache" }, \
-> +	{ FUSE_IOMAP_OP_SWAPFILE,		"swapfile" }, \
->  	{ FUSE_IOMAP_OP_WRITEBACK,		"writeback" }
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 0b9c617ee3e5be..0666e03723071b 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -103,10 +103,23 @@ struct fuse_submount_lookup {
+>  	struct fuse_forget_link *forget;
+>  };
 >  
->  #define FUSE_IOMAP_TYPE_STRINGS \
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 9e59fba64f48d9..5f3724f36f764a 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -1406,6 +1406,9 @@ struct fuse_uring_cmd_req {
->  #define FUSE_IOMAP_OP_ATOMIC		(1U << 9)
->  #define FUSE_IOMAP_OP_DONTCACHE		(1U << 10)
->  
-> +/* swapfile config operation */
-> +#define FUSE_IOMAP_OP_SWAPFILE		(1U << 30)
+> +struct fuse_conn;
 > +
->  /* pagecache writeback operation */
->  #define FUSE_IOMAP_OP_WRITEBACK		(1U << 31)
->  
-> @@ -1460,6 +1463,8 @@ struct fuse_iomap_end_in {
->  #define FUSE_IOMAP_IOEND_APPEND		(1U << 4)
->  /* is pagecache writeback */
->  #define FUSE_IOMAP_IOEND_WRITEBACK	(1U << 5)
-> +/* swapfile deactivation */
-> +#define FUSE_IOMAP_IOEND_SWAPOFF	(1U << 6)
->  
->  struct fuse_iomap_ioend_in {
->  	uint32_t flags;		/* FUSE_IOMAP_IOEND_* */
-> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> index 1e01e0011a412d..cf52e2747e7f7f 100644
-> --- a/fs/fuse/fuse_iomap.c
-> +++ b/fs/fuse/fuse_iomap.c
-> @@ -8,6 +8,7 @@
->  #include <linux/pagemap.h>
->  #include <linux/falloc.h>
->  #include <linux/fadvise.h>
-> +#include <linux/swap.h>
->  #include "fuse_i.h"
->  #include "fuse_trace.h"
->  #include "fuse_iomap.h"
-> @@ -202,13 +203,16 @@ static inline uint16_t fuse_iomap_flags_from_server(uint16_t fuse_f_flags)
->  #undef XMAP2
->  #undef XMAP
->  
-> +#define FUSE_IOMAP_PRIVATE_OPS	(FUSE_IOMAP_OP_WRITEBACK | \
-> +				 FUSE_IOMAP_OP_SWAPFILE)
-> +
->  /* Convert IOMAP_* operation flags to FUSE_IOMAP_OP_* */
->  #define XMAP(word) \
->  	if (iomap_op_flags & IOMAP_##word) \
->  		ret |= FUSE_IOMAP_OP_##word
->  static inline uint32_t fuse_iomap_op_to_server(unsigned iomap_op_flags)
->  {
-> -	uint32_t ret = iomap_op_flags & FUSE_IOMAP_OP_WRITEBACK;
-> +	uint32_t ret = iomap_op_flags & FUSE_IOMAP_PRIVATE_OPS;
->  
->  	XMAP(WRITE);
->  	XMAP(ZERO);
-> @@ -757,6 +761,13 @@ fuse_should_send_iomap_ioend(const struct fuse_mount *fm,
->  	if (inarg->error)
->  		return true;
->  
-> +	/*
-> +	 * Always send an ioend for swapoff to let the fuse server know the
-> +	 * long term layout "lease" is over.
-> +	 */
-> +	if (inarg->flags & FUSE_IOMAP_IOEND_SWAPOFF)
-> +		return true;
-> +
->  	/* Send an ioend if we performed an IO involving metadata changes. */
->  	return inarg->written > 0 &&
->  	       (inarg->flags & (FUSE_IOMAP_IOEND_SHARED |
-> @@ -1801,6 +1812,43 @@ static void fuse_iomap_readahead(struct readahead_control *rac)
->  	iomap_bio_readahead(rac, &fuse_iomap_ops);
->  }
->  
-> +#ifdef CONFIG_SWAP
-> +static int fuse_iomap_swapfile_begin(struct inode *inode, loff_t pos,
-> +				     loff_t count, unsigned opflags,
-> +				     struct iomap *iomap, struct iomap *srcmap)
-> +{
-> +	return fuse_iomap_begin(inode, pos, count,
-> +				FUSE_IOMAP_OP_SWAPFILE | opflags, iomap,
-> +				srcmap);
-> +}
-> +
-> +static const struct iomap_ops fuse_iomap_swapfile_ops = {
-> +	.iomap_begin		= fuse_iomap_swapfile_begin,
+> +/** Operations for subsystems that want to use a backing file */
+> +struct fuse_backing_ops {
+> +	int (*may_admin)(struct fuse_conn *fc, uint32_t flags);
+> +	int (*may_open)(struct fuse_conn *fc, struct file *file);
+> +	int (*may_close)(struct fuse_conn *fc, struct file *file);
+> +	unsigned int type;
+> +	int id_start;
+> +	int id_end;
 > +};
 > +
-> +static int fuse_iomap_swap_activate(struct swap_info_struct *sis,
-> +				    struct file *swap_file, sector_t *span)
-> +{
-> +	int ret;
+>  /** Container for data related to mapping to backing file */
+>  struct fuse_backing {
+>  	struct file *file;
+>  	struct cred *cred;
+> +	const struct fuse_backing_ops *ops;
+>  
+>  	/** refcount */
+>  	refcount_t count;
+> @@ -980,7 +993,7 @@ struct fuse_conn {
+>  	/* New writepages go into this bucket */
+>  	struct fuse_sync_bucket __rcu *curr_bucket;
+>  
+> -#ifdef CONFIG_FUSE_PASSTHROUGH
+> +#ifdef CONFIG_FUSE_BACKING
+>  	/** IDR for backing files ids */
+>  	struct idr backing_files_map;
+>  #endif
+> @@ -1591,10 +1604,12 @@ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+>  		       unsigned int open_flags, fl_owner_t id, bool isdir);
+>  
+>  /* backing.c */
+> -#ifdef CONFIG_FUSE_PASSTHROUGH
+> +#ifdef CONFIG_FUSE_BACKING
+>  struct fuse_backing *fuse_backing_get(struct fuse_backing *fb);
+>  void fuse_backing_put(struct fuse_backing *fb);
+> -struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id);
+> +struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc,
+> +					 const struct fuse_backing_ops *ops,
+> +					 int backing_id);
+>  #else
+>  
+>  static inline struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
+> @@ -1649,6 +1664,10 @@ static inline struct file *fuse_file_passthrough(struct fuse_file *ff)
+>  #endif
+>  }
+>  
+> +#ifdef CONFIG_FUSE_PASSTHROUGH
+> +extern const struct fuse_backing_ops fuse_passthrough_backing_ops;
+> +#endif
 > +
-> +	/* obtain the block device from the header iomapping */
-> +	sis->bdev = NULL;
+>  ssize_t fuse_passthrough_read_iter(struct kiocb *iocb, struct iov_iter *iter);
+>  ssize_t fuse_passthrough_write_iter(struct kiocb *iocb, struct iov_iter *iter);
+>  ssize_t fuse_passthrough_splice_read(struct file *in, loff_t *ppos,
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index c13e1f9a2f12bd..18713cfaf09171 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -1126,9 +1126,15 @@ struct fuse_notify_prune_out {
+>  	uint64_t	spare;
+>  };
+>  
+> +#define FUSE_BACKING_TYPE_MASK		(0xFF)
+> +#define FUSE_BACKING_TYPE_PASSTHROUGH	(0)
+> +#define FUSE_BACKING_MAX_TYPE		(FUSE_BACKING_TYPE_PASSTHROUGH)
+> +
+> +#define FUSE_BACKING_FLAGS_ALL		(FUSE_BACKING_TYPE_MASK)
+> +
+>  struct fuse_backing_map {
+>  	int32_t		fd;
+> -	uint32_t	flags;
+> +	uint32_t	flags; /* FUSE_BACKING_* */
+>  	uint64_t	padding;
+>  };
+>  
+> diff --git a/fs/fuse/Kconfig b/fs/fuse/Kconfig
+> index 3a4ae632c94aa8..290d1c09e0b924 100644
+> --- a/fs/fuse/Kconfig
+> +++ b/fs/fuse/Kconfig
+> @@ -59,12 +59,16 @@ config FUSE_PASSTHROUGH
+>  	default y
+>  	depends on FUSE_FS
+>  	select FS_STACK
+> +	select FUSE_BACKING
+>  	help
+>  	  This allows bypassing FUSE server by mapping specific FUSE operations
+>  	  to be performed directly on a backing file.
+>  
+>  	  If you want to allow passthrough operations, answer Y.
+>  
+> +config FUSE_BACKING
+> +	bool
+> +
+>  config FUSE_IO_URING
+>  	bool "FUSE communication over io-uring"
+>  	default y
+> diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
+> index 22ad9538dfc4b8..46041228e5be2c 100644
+> --- a/fs/fuse/Makefile
+> +++ b/fs/fuse/Makefile
+> @@ -14,7 +14,8 @@ fuse-y := trace.o	# put trace.o first so we see ftrace errors sooner
+>  fuse-y += dev.o dir.o file.o inode.o control.o xattr.o acl.o readdir.o ioctl.o
+>  fuse-y += iomode.o
+>  fuse-$(CONFIG_FUSE_DAX) += dax.o
+> -fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o backing.o
+> +fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o
+> +fuse-$(CONFIG_FUSE_BACKING) += backing.o
+>  fuse-$(CONFIG_SYSCTL) += sysctl.o
+>  fuse-$(CONFIG_FUSE_IO_URING) += dev_uring.o
+>  
+> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+> index d95dfa48483f0a..adb4d2ebb21379 100644
+> --- a/fs/fuse/backing.c
+> +++ b/fs/fuse/backing.c
+> @@ -6,6 +6,7 @@
+>   */
+>  
+>  #include "fuse_i.h"
+> +#include "fuse_trace.h"
+>  
+>  #include <linux/file.h>
+>  
+> @@ -44,7 +45,8 @@ static int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backing *fb)
+>  	idr_preload(GFP_KERNEL);
+>  	spin_lock(&fc->lock);
+>  	/* FIXME: xarray might be space inefficient */
+> -	id = idr_alloc_cyclic(&fc->backing_files_map, fb, 1, 0, GFP_ATOMIC);
+> +	id = idr_alloc_cyclic(&fc->backing_files_map, fb, fb->ops->id_start,
+> +			      fb->ops->id_end, GFP_ATOMIC);
+>  	spin_unlock(&fc->lock);
+>  	idr_preload_end();
+>  
+> @@ -69,32 +71,53 @@ static int fuse_backing_id_free(int id, void *p, void *data)
+>  	struct fuse_backing *fb = p;
+>  
+>  	WARN_ON_ONCE(refcount_read(&fb->count) != 1);
+> +
+>  	fuse_backing_free(fb);
+>  	return 0;
+>  }
+>  
+>  void fuse_backing_files_free(struct fuse_conn *fc)
+>  {
+> -	idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
+> +	idr_for_each(&fc->backing_files_map, fuse_backing_id_free, fc);
+>  	idr_destroy(&fc->backing_files_map);
+>  }
+>  
+> +static inline const struct fuse_backing_ops *
+> +fuse_backing_ops_from_map(const struct fuse_backing_map *map)
+> +{
+> +	switch (map->flags & FUSE_BACKING_TYPE_MASK) {
+> +#ifdef CONFIG_FUSE_PASSTHROUGH
+> +	case FUSE_BACKING_TYPE_PASSTHROUGH:
+> +		return &fuse_passthrough_backing_ops;
+> +#endif
+> +	default:
+> +		break;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+>  int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+>  {
+>  	struct file *file;
+> -	struct super_block *backing_sb;
+>  	struct fuse_backing *fb = NULL;
+> +	const struct fuse_backing_ops *ops = fuse_backing_ops_from_map(map);
+> +	uint32_t op_flags = map->flags & ~FUSE_BACKING_TYPE_MASK;
+>  	int res;
+>  
+>  	pr_debug("%s: fd=%d flags=0x%x\n", __func__, map->fd, map->flags);
+>  
+> -	/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
+> -	res = -EPERM;
+> -	if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+> +	res = -EOPNOTSUPP;
+> +	if (!ops)
+> +		goto out;
+> +	WARN_ON(ops->type != (map->flags & FUSE_BACKING_TYPE_MASK));
+> +
+> +	res = ops->may_admin ? ops->may_admin(fc, op_flags) : 0;
+> +	if (res)
+>  		goto out;
+>  
+>  	res = -EINVAL;
+> -	if (map->flags || map->padding)
+> +	if (map->padding)
+>  		goto out;
+>  
+>  	file = fget_raw(map->fd);
+> @@ -102,14 +125,8 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+>  	if (!file)
+>  		goto out;
+>  
+> -	/* read/write/splice/mmap passthrough only relevant for regular files */
+> -	res = d_is_dir(file->f_path.dentry) ? -EISDIR : -EINVAL;
+> -	if (!d_is_reg(file->f_path.dentry))
+> -		goto out_fput;
+> -
+> -	backing_sb = file_inode(file)->i_sb;
+> -	res = -ELOOP;
+> -	if (backing_sb->s_stack_depth >= fc->max_stack_depth)
+> +	res = ops->may_open ? ops->may_open(fc, file) : 0;
+> +	if (res)
+>  		goto out_fput;
+>  
+>  	fb = kmalloc_obj(struct fuse_backing);
+> @@ -119,14 +136,15 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+>  
+>  	fb->file = file;
+>  	fb->cred = prepare_creds();
+> +	fb->ops = ops;
+>  	refcount_set(&fb->count, 1);
+>  
+>  	res = fuse_backing_id_alloc(fc, fb);
+>  	if (res < 0) {
+>  		fuse_backing_free(fb);
+>  		fb = NULL;
+> +		goto out;
+>  	}
+> -
+>  out:
+>  	pr_debug("%s: fb=0x%p, ret=%i\n", __func__, fb, res);
+>  
+> @@ -137,41 +155,71 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+>  	goto out;
+>  }
+>  
+> +static struct fuse_backing *__fuse_backing_lookup(struct fuse_conn *fc,
+> +						  int backing_id)
+> +{
+> +	struct fuse_backing *fb;
+> +
+> +	rcu_read_lock();
+> +	fb = idr_find(&fc->backing_files_map, backing_id);
+> +	fb = fuse_backing_get(fb);
+> +	rcu_read_unlock();
+> +
+> +	return fb;
+> +}
+> +
+>  int fuse_backing_close(struct fuse_conn *fc, int backing_id)
+>  {
+> -	struct fuse_backing *fb = NULL;
+> +	struct fuse_backing *fb = NULL, *test_fb;
+> +	const struct fuse_backing_ops *ops;
+>  	int err;
+>  
+>  	pr_debug("%s: backing_id=%d\n", __func__, backing_id);
+>  
+> -	/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
+> -	err = -EPERM;
+> -	if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+> -		goto out;
+> -
+>  	err = -EINVAL;
+>  	if (backing_id <= 0)
+>  		goto out;
+>  
+>  	err = -ENOENT;
+> -	fb = fuse_backing_id_remove(fc, backing_id);
+> +	fb = __fuse_backing_lookup(fc, backing_id);
+>  	if (!fb)
+>  		goto out;
+> +	ops = fb->ops;
+>  
+> -	fuse_backing_put(fb);
+> +	err = ops->may_admin ? ops->may_admin(fc, 0) : 0;
+> +	if (err)
+> +		goto out_fb;
+> +
+> +	err = ops->may_close ? ops->may_close(fc, fb->file) : 0;
+> +	if (err)
+> +		goto out_fb;
+> +
+> +	err = -ENOENT;
+> +	test_fb = fuse_backing_id_remove(fc, backing_id);
+> +	if (!test_fb)
+> +		goto out_fb;
+> +
+> +	WARN_ON(fb != test_fb);
 
-Following up from a separate discussion on fsdevel about zoned storage
-vs. swapfile activation, fuse_iomap_begin should not allow mappings to
-zoned storage for swapon.  And maybe I should refactor the fuse
-iomap_begin interface to provide the io context (pagecache io, directio,
-fiemap, swapfile activation, pagecache writeback, etc) as a distinct
-field rather than overlaying on the upper bits of the opflags.
+I think I should pass @fb into fuse_backing_id_remove so that it
+performs a second lookup under fc->lock and only calls idr_remove if the
+result of the second lookup matches the passed-in @fb.
 
 --D
 
-> +	ret = iomap_swapfile_activate(sis, swap_file, span,
-> +				      &fuse_iomap_swapfile_ops);
-> +	if (ret < 0)
-> +		fuse_iomap_ioend(file_inode(swap_file), 0, 0, ret,
-> +				 FUSE_IOMAP_IOEND_SWAPOFF, NULL,
-> +				 FUSE_IOMAP_NULL_ADDR);
-> +	return ret;
-> +}
-> +
-> +static void fuse_iomap_swap_deactivate(struct file *file)
-> +{
-> +	fuse_iomap_ioend(file_inode(file), 0, 0, 0, FUSE_IOMAP_IOEND_SWAPOFF,
-> +			 NULL, FUSE_IOMAP_NULL_ADDR);
-> +}
-> +#endif
-> +
->  static const struct address_space_operations fuse_iomap_aops = {
->  	.read_folio		= fuse_iomap_read_folio,
->  	.readahead		= fuse_iomap_readahead,
-> @@ -1811,6 +1859,10 @@ static const struct address_space_operations fuse_iomap_aops = {
->  	.migrate_folio		= filemap_migrate_folio,
->  	.is_partially_uptodate  = iomap_is_partially_uptodate,
->  	.error_remove_folio	= generic_error_remove_folio,
-> +#ifdef CONFIG_SWAP
-> +	.swap_activate		= fuse_iomap_swap_activate,
-> +	.swap_deactivate	= fuse_iomap_swap_deactivate,
-> +#endif
+>  	err = 0;
+> +	fuse_backing_put(test_fb);
+> +out_fb:
+> +	fuse_backing_put(fb);
+>  out:
+>  	pr_debug("%s: fb=0x%p, err=%i\n", __func__, fb, err);
 >  
->  	/* These aren't pagecache operations per se */
->  	.bmap			= fuse_bmap,
+>  	return err;
+>  }
+>  
+> -struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id)
+> +struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc,
+> +					 const struct fuse_backing_ops *ops,
+> +					 int backing_id)
+>  {
+>  	struct fuse_backing *fb;
+>  
+>  	rcu_read_lock();
+>  	fb = idr_find(&fc->backing_files_map, backing_id);
+> +	if (fb && fb->ops != ops)
+> +		fb = NULL;
+>  	fb = fuse_backing_get(fb);
+>  	rcu_read_unlock();
+>  
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 2ff09d9f101d00..2708e17bc46949 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -2644,7 +2644,7 @@ static long fuse_dev_ioctl_backing_open(struct file *file,
+>  	if (IS_ERR(fud))
+>  		return PTR_ERR(fud);
+>  
+> -	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> +	if (!IS_ENABLED(CONFIG_FUSE_BACKING))
+>  		return -EOPNOTSUPP;
+>  
+>  	if (copy_from_user(&map, argp, sizeof(map)))
+> @@ -2661,7 +2661,7 @@ static long fuse_dev_ioctl_backing_close(struct file *file, __u32 __user *argp)
+>  	if (IS_ERR(fud))
+>  		return PTR_ERR(fud);
+>  
+> -	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> +	if (!IS_ENABLED(CONFIG_FUSE_BACKING))
+>  		return -EOPNOTSUPP;
+>  
+>  	if (get_user(backing_id, argp))
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index b43e4bf4a1c117..c04d9ae42bb008 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1034,7 +1034,7 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+>  	fc->name_max = FUSE_NAME_LOW_MAX;
+>  	fc->timeout.req_timeout = 0;
+>  
+> -	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> +	if (IS_ENABLED(CONFIG_FUSE_BACKING))
+>  		fuse_backing_files_init(fc);
+>  
+>  	INIT_LIST_HEAD(&fc->mounts);
+> @@ -1074,7 +1074,7 @@ void fuse_conn_put(struct fuse_conn *fc)
+>  		WARN_ON(atomic_read(&bucket->count) != 1);
+>  		kfree(bucket);
+>  	}
+> -	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> +	if (IS_ENABLED(CONFIG_FUSE_BACKING))
+>  		fuse_backing_files_free(fc);
+>  	call_rcu(&fc->rcu, delayed_release);
+>  }
+> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+> index f2d08ac2459b7e..a3ea9b9eb903d5 100644
+> --- a/fs/fuse/passthrough.c
+> +++ b/fs/fuse/passthrough.c
+> @@ -162,7 +162,7 @@ struct fuse_backing *fuse_passthrough_open(struct file *file, int backing_id)
+>  		goto out;
+>  
+>  	err = -ENOENT;
+> -	fb = fuse_backing_lookup(fc, backing_id);
+> +	fb = fuse_backing_lookup(fc, &fuse_passthrough_backing_ops, backing_id);
+>  	if (!fb)
+>  		goto out;
+>  
+> @@ -195,3 +195,39 @@ void fuse_passthrough_release(struct fuse_file *ff, struct fuse_backing *fb)
+>  	put_cred(ff->cred);
+>  	ff->cred = NULL;
+>  }
+> +
+> +static int fuse_passthrough_may_admin(struct fuse_conn *fc, unsigned int flags)
+> +{
+> +	/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
+> +	if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+> +		return -EPERM;
+> +
+> +	if (flags)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +static int fuse_passthrough_may_open(struct fuse_conn *fc, struct file *file)
+> +{
+> +	struct super_block *backing_sb;
+> +	int res;
+> +
+> +	/* read/write/splice/mmap passthrough only relevant for regular files */
+> +	res = d_is_dir(file->f_path.dentry) ? -EISDIR : -EINVAL;
+> +	if (!d_is_reg(file->f_path.dentry))
+> +		return res;
+> +
+> +	backing_sb = file_inode(file)->i_sb;
+> +	if (backing_sb->s_stack_depth >= fc->max_stack_depth)
+> +		return -ELOOP;
+> +
+> +	return 0;
+> +}
+> +
+> +const struct fuse_backing_ops fuse_passthrough_backing_ops = {
+> +	.type = FUSE_BACKING_TYPE_PASSTHROUGH,
+> +	.id_start = 1,
+> +	.may_admin = fuse_passthrough_may_admin,
+> +	.may_open = fuse_passthrough_may_open,
+> +};
 > 
 > 
