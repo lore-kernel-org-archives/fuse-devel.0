@@ -1,156 +1,177 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D1A3D171E
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 23:19:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778887144; cv=pass; b=Shrv7eWIyRLzmAoe88nU0vyZuN7Uu7HkrvQbyYT1MwjvnLWkG1UgL41LnJUqvn8fRzVSs3Z4hXXQQuwvg2gZnl5hn7DmItZen3IIJ6nbB7YACSM/EqVjCOuCCknKGJXARdVOV+ZW5THQDwt63wtvGGy6dZyT7yttwYPkjjnBIIY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778887144; c=relaxed/simple;
-	bh=4t1qdHjERyEpuXixa9HfcANiAsFz4suKXqCqnhTdTaI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rstou+r5vO74iwNO6ECAGdwlVYPrjRQxlk6GgxVVyoLAM6fzYwkiYaMbvw6s8nte2R+TdPRXXFQMk47OaaMKWpvFIYd8saIV30nXhEjxNZQxpJXzS58QZhM9VQMT00X2FnWM4KkGrAJMJ5ZYkKqwqIqCxEZeasPHI/wQmZn09jg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m7mOt8qC; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671F0405C21
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 23:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778889152; cv=none; b=hYb+4bHP+7AYAYmI66U83Rrh9aDPstGSWEXzWw4en4gTsz7t5sYxHqJlJrgx9iTHkkhjts15zbjNqyGczLxnmTHQ5nuYMJDpPrl15RGeBYRMoGbgl7AXXLZdR/QXQeztRTSLCdU/3sKtGaXJdWZY/5RkNhibnv+Ix3a3SdYq36w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778889152; c=relaxed/simple;
+	bh=5IqH3rtxy34dNHAACvs5lP8NKiJT6VKmEanaZWVybaA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=RHJEffb0UaPyrPOGoBdnhPme+9chOZpCNKn0Pd63IATAL/j391rkekakDJrBtz7GxCJ8zZJJ1YFijujGf33/UCORgdJVq5vC/l4YDhQ8VVgLYdFg2S07ZInXsiNC5GQCLnLptKnB3e5lKZL7aUOQLTI0GQsvFgOjBTA2m/1G8RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lihdd.net; spf=pass smtp.mailfrom=lihdd.net; dkim=pass (2048-bit key) header.d=lihdd.net header.i=@lihdd.net header.b=afUeTrgp; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lihdd.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lihdd.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m7mOt8qC"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-67da63ae541so979261a12.0
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 16:19:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778887141; cv=none;
-        d=google.com; s=arc-20240605;
-        b=I3VPGYeX0qUg/9QPDBUBjdRyClr1LPWEDRi4qifo/r5ZwpGd53CLBMTJmXKl29eO8R
-         0Zphj3u1QWabWpKk6ZyeJDhxKwB602erVeIMS+G2M6fM3YE2j8vH2Na+qXxo6wSrQA2g
-         IFRfaR0g0V3qWgBdI3dQPGWCNCXLgY1Ghn5cKB7RarykK/QjZ3SEd/dXOfhdVsINmLXT
-         pTTBWILx2cSS/9Tu809mJ39EyX2jsXKjrAmcYso39aNySLWIncl7toaafe8m2vmjQ5wo
-         D0QrzEChVa6gDrmy3dJINnYHMIGV1b44KSU7CCzsWYZSUb+jDh6ReoYJlFMXghmLWGxB
-         WYUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Aw2/ho0S7JWvyYsJMkYHUqFQO42K5fGKmFJEouhlnJE=;
-        fh=Jf4BQd+IzOLEo6s9Owa1RmdxhvAAwoze47DhzjuiFB0=;
-        b=GKKsUzhor3VS0SwyxNoFXARceEjGjtf1J1dJmpuobR16YG+ZJXHLqFRlfv5Qqh5zZu
-         eyvD8UHyKIsMYn/qhY6IABZ6s+g6x+1fVkEM4gZAG5/mk/PM0YuhFE0IRrW7TkQhqlgl
-         blRfQZboEJhZYBMBvX7poiEyFCTEB2cig2STphBWAz8FEwYEHsyWVURCVjXT2taDKRo+
-         R7XcigHeurZ7kdxN7aUSZfdhcBMt0e700F/QUEsvRVmOXHPTR+f4vSSMjntw4ZuB/9XF
-         WQf5DNhL7L0M8J5vov07uXRGqvviVQUTOpeJDNwT7tLudNdFDgTqo7ZvSodlM8rMnjXt
-         mZnA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=lihdd.net header.i=@lihdd.net header.b="afUeTrgp"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-90fe17c157aso65413785a.0
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 16:52:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778887141; x=1779491941; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=lihdd.net; s=google; t=1778889150; x=1779493950; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Aw2/ho0S7JWvyYsJMkYHUqFQO42K5fGKmFJEouhlnJE=;
-        b=m7mOt8qC7oe4+hEf7YJdZ5XHIfIhIYPbHky0Q7nWj3DPoVStVEhiNAAssJnD5OHUpe
-         96iBFjLQANsBQj1cEEJlrTFMsKRMFV8ShK+ae4ftTU1p867lc9y2xUkIXF+l2Vl5Ihaq
-         secZAT14qah9lAKKsSJURdreAphEtby3hZm7AXpBf2PObuh4yjTr8W5C8HdeYXohjDcC
-         XvFJMPUwcJJ3Y8kQtlGN9Jt9FW+UpDBeYqYE2EbGlqOTGEAjXs8cGg7LpWAKHCIrKNwd
-         gipFNRxxlgBx8LiNbZRjjUR+2TGRhaGp3OhOvQHXf7kxI7RsL1H8kpoIgQpi84R1MGEy
-         DRuQ==
+        bh=GQzTKnRgvG1KzI5oOnwgsBb/NWXP2/hzb5cjXiyHb24=;
+        b=afUeTrgpgKjqhzs32MchKw0880+8F9TqlAqTfChbvgrs1wqMA9r3Ko3XHn5iCaNGw9
+         ULDbSV2uKwTNn35vp1nL3xdJRaOX+P3waIvbuBmxg+MvIZPkPEyj/X3YbrM3RUgEBpt4
+         8SPzqt6gGWmZcQ7pRUR5kJrMuTp1sMriPDA09yLVDcINChzxP/+JB8LrbNek6ubR6i/G
+         KmXxD+8qrQQB33cfqPKgrgSmQEYqmp0/tfH6EFImAYENfQl33yYe9RKIWj2Prh6mYHTd
+         MBQPYDswAARzecN2aivk+tZpgeot1i28qfQBknNM6NTFTWj3uvW5GCbKCWyf3hXegZZu
+         BpNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778887141; x=1779491941;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1778889150; x=1779493950;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Aw2/ho0S7JWvyYsJMkYHUqFQO42K5fGKmFJEouhlnJE=;
-        b=gveJvOw4I7h2ix8xTiUOPfeIQ+5bIi4lrWudqN+nQJzVq8LAvOMLGQCfxqruZfNVA7
-         M9zFxEtb+XMYtQbKZta1XqlpZQfR+lW/sdFHYYlHT2LlRWz11skmEFQuJw6oomykKWz9
-         YhAF+NxnC4Jjw8QOFs+Z4U9pgOOo9fIF7w3QHic//PPTn3aSZkheu0OvDGli6D2GqtS3
-         SD1Rr+xj2q/szcx0Q0G+/aPCYjtKZg+thmsvGLjG+kjhs1ADX7NgolfSBPSTMb/EbQdz
-         5/bJ/YFcibLm8cnM8ehMxvjiuSZs8nAaHTNC4bKh1s1/UDwv+KJKhswT7Ft9SXS2i3MQ
-         rmqg==
-X-Forwarded-Encrypted: i=1; AFNElJ+wFDtuWdPGuLc/nh4aukNQd6YW9rxNjFvXf5zcWTw8AwEmltw8vULvy9GmoZRZHwyC8/KYsFbcjK9q@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxrwb5YO2QDYqRunJlPBcEALtCIV+gl5IzbUMSxVvnKwXgTnH6V
-	p0X9YiexWsstHVnLRz226/2ZFjFjtUEagg6pYuqYMcBkxDVa0mo05hhQHmG7eH7gw10YIrYSJO4
-	2g3pMt/GxeFa4+1kqGA9KlXmrQEoPtcM=
-X-Gm-Gg: Acq92OHiTFe6Purc40iicKhm7Nr6zmiH1NzJqT5H0wgMDy9QUi3pRymd2LT2QabDG/l
-	j9kcgR1OtXVlM+rHyPafF86X8mmtT2T2bpWxn2+8yCCJU+mc35PVnEkiVTPq62zOWMHRs2aaKfo
-	QHtmsjc0u1XV+dCPagaXPzmiadINWSJuDvH9amLdnFRFuOdXplowYop76P+N1/MhKo29OaRc7J6
-	3urvhJkYTPHh+WqP20F5y53PBJSkD9Y9bGdhCJylsqM8cfwZuVyAgHTgV36N2CYdHoUZV3s5rxj
-	oH+reA+Nu3iuYsly3ONqsnzhh5C/J9iQ9Jrj5k3IEQ==
-X-Received: by 2002:a05:6402:c42:b0:683:bdd8:819b with SMTP id
- 4fb4d7f45d1cf-683bdd884d3mr3074834a12.25.1778887141009; Fri, 15 May 2026
- 16:19:01 -0700 (PDT)
+        bh=GQzTKnRgvG1KzI5oOnwgsBb/NWXP2/hzb5cjXiyHb24=;
+        b=i/VWAyqc2+A6cwVCKegt5gPpVzwG/f/Jpa+Gaa86plKb5IvARwlkHqGjF77U2RWUmf
+         nhpriUZaLIwGCHuaVGA0B4i6K/Kd5Mp0ZGkqSXA1VZYc2qK3kzAJch81M0a1EHg+VVuU
+         0g7vA6GBXoReIu/taFqOsBg4cSAWfHAahyNdY1HmV5RSTSek9aoRGybmubwQ63NlZShB
+         Y1IBX87N0ghZisViI28TRhVWDvY3fVHX8dP7wgah6M9DjVewe2NmUjc6wtqmqyUGzNBB
+         ayFMpMt1BGftj21NgVjFaY4Jc2t6nnFh2rH8EoKnhpkdWHc3VshhF4lHZ9BlKLVN/fkf
+         r4DQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8YvAWEhFl585+tf22BTLHGPR0DZf9XEte229ynZPs7ApP08RocKTwsFYaSzFIMTMNIyZmoj71h7JHr@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjE66nn0qBxcBFlGbQcvlIuVrAE6JfMUSNYu7hcp9hCCwNpnVp
+	ogD/mZmAQYOEKEaV/TYkdvO/qpNkoCac2DD8ySx8bPmjwOnO9+cg0RimBD2hBPjwyrCuwMu3/Ni
+	Q5i9X
+X-Gm-Gg: Acq92OHqiLQOCNG/ed4RXFeJQ5tohzt1QgKJXpDmOoXiyiS8341ArQIjC/72DSoO5g7
+	MLMJa6lwP87WCsr6ZZR61nlwUCMWfrHZ1PBmNzt1etOjD23JEO/jDYbvljO9ZdOqBbVA/aaX8PQ
+	1rApEsdX+6W2696nvZy8kQV4ktW3KpvyequW56qA/QaYhBTqDqekukZbPN83JgiugXTLCDa+G2E
+	UjWcooO1d9baH8VZ+maLd4KX57XOckyo+11jypgQlIU+y27ar97gh+iDNllVZxxoqC/6ablhrs+
+	pFWdXbcyHLF2wvrOg6IMdxtgEoI1qLJVJdMMU5fYwYkzvh6aFIfNGJ9TLonEvFJfSAOa5DIIYx9
+	w5+YzDQGqeSKxz7REvpaPe85U/gK65AMBEkCFSZnmrGIteD1SYG9y/k2b0SFOYJ4DB1gR8Ag6iM
+	/8SfrTLnPCI4j9yaQQqespePQCZxOZGU/SInSnjQ==
+X-Received: by 2002:a05:693c:2c8d:b0:2d9:6373:ad0a with SMTP id 5a478bee46e88-3039818738dmr790404eec.11.1778800158757;
+        Thu, 14 May 2026 16:09:18 -0700 (PDT)
+Received: from quark-fedora-PF5F60VQ.thefacebook.com ([2620:10d:c090:500::1:695d])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcc464sm5159778eec.14.2026.05.14.16.09.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 16:09:17 -0700 (PDT)
+From: Jun Wu <quark@lihdd.net>
+To: miklos@szeredi.hu
+Cc: luis@igalia.com,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	Jun Wu <quark@meta.com>
+Subject: [PATCH v2] fuse: invalidate readdir cache on epoch bump
+Date: Thu, 14 May 2026 16:09:15 -0700
+Message-ID: <20260514230915.1208130-1-quark@lihdd.net>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260331223927.763741-1-quark@lihdd.net>
+References: <20260331223927.763741-1-quark@lihdd.net>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260429102058.1362965-1-mszeredi@redhat.com> <CAJnrk1Z_JWtuA3UjucF9=YH63AH_-J_0hzr9jbY99Hx3O8YrAw@mail.gmail.com>
- <CAJfpegspraqMp1Z3mi_csiw6haawZPa4zWheSUN7MhBy47aYKQ@mail.gmail.com>
- <CAOQ4uxgV4_Pet0w3f+Sq4kLkvgKM6FyJwZ4AQsnvctC3w=dP6g@mail.gmail.com>
- <CAJnrk1ZvB-R3Szn-VxOZvPRgX_dXwMLouBphnT9_URCE8SxTvQ@mail.gmail.com>
- <CAOQ4uxidwSn69A08Urue7S7n8wrGQcyGuvRL387pD+rpSFP-Ew@mail.gmail.com>
- <CAJnrk1ZJ1pVWn21HZATRes55RJD0F0+6SHbq-8FojPutQTiW6Q@mail.gmail.com>
- <CAOQ4uxgDGuFq=Szw8G1BMuhuBhZ029kf+FrVq6y2Oq+gaQ78sA@mail.gmail.com> <CAJnrk1YpbLMCM0oUWBBp1t-zfwneWhyv35ckc5JeNxs=SXFePw@mail.gmail.com>
-In-Reply-To: <CAJnrk1YpbLMCM0oUWBBp1t-zfwneWhyv35ckc5JeNxs=SXFePw@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 16 May 2026 01:18:49 +0200
-X-Gm-Features: AVHnY4Iwa9Vr2d50AdztrDd0BqlZqVpCvmUXUuWFjW2z-409XGfRXr0s0o2IF3k
-Message-ID: <CAOQ4uxjFY_Kv4ufxsQx+3NBVMkFbCce_N9LZi0Zzjy9z_nF2kQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: add fusex filesystem
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 16, 2026 at 12:32=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
->
-> wOn Fri, May 15, 2026 at 1:17=E2=80=AFPM Amir Goldstein <amir73il@gmail.c=
-om> wrote:
-> >
-> > On Fri, May 15, 2026 at 1:24=E2=80=AFAM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> > >
-> > ...
-> > > > Cool. Let's get this rolling.
-> > > > I need to get my test setup back in shape.
-> > >
-> > > What is the test setup you are using? fstests with passthrough_hp or
-> >
-> > Yes. *was* using while I developed the passthrough patches.
-> > Didn't run it for a while.
-> >
-> > > are there other tests in addition to that? If there's other tests
-> > > you'd like me to run besides fstests, please let me know and I'd be
-> > > happy to do that.
-> >
-> > Nothing beyond the libfuse test_passthrough_hp sanity test and
-> > fstests with passthough_hp.
-> >
-> > >
-> > > When I ran fstests yesterday with passthrough_hp, I saw generic 683,
-> > > 684, and 685 (dropping suid/sgid on fallocate, fpunch, and fzero)
-> > > start passing, but beyond that I didn't see any improvements (or
-> > > regressions).
-> >
-> > That's the last report I have on record:
-> > https://lore.kernel.org/linux-fsdevel/CAOQ4uxh=3DcLySge6htd+DnJrqAKF=3D=
-C_oJYfVrbpvQGik0wR-+iw@mail.gmail.com/
->
-> Thanks for the link. I had compared my test results against runs on
-> passthrough_hp --nopassthrough.
->
-> Comparing them now to baseline passthrough_hp (no inode passthrough
-> commits) on the tests you listed:
->    - on baseline passthrough_hp, I'm seeing generic/193 and
-> generic/355 now pass compared to when you ran them in 2023.
-> generic/080, generic/120, and generic/215 still fail
->    - with the inode passthrough commits, I see generic/080 and
-> generic/215 now pass. generic/120 is still failing, which I think is
-> because the backing mount doesn't have noatime but the fuse mount
-> does, so getattr passthrough to the backing file will fetch the
-> updated access time.
->
+From: Jun Wu <quark@meta.com>
 
-Nice! This is what I would have expected.
+FUSE_NOTIFY_INC_EPOCH invalidates dentries, but does not invalidate cached
+readdir results. A process with cwd inside a FUSE mount can therefore
+observe stale readdir(".") output after an epoch bump.
 
-Thanks,
-Amir.
+Fix this by recording epoch in the readdir cache and checking it on reuse.
+
+Minimal reproducer:
+
+- mount a tiny FUSE fs with an empty root directory
+- on opendir, enable fi->cache_readdir and fi->keep_cache
+- chdir into the mount and call readdir(".") to populate readdir cache
+- make the FUSE server report one file in the root directory
+- send only FUSE_NOTIFY_INC_EPOCH
+- call readdir(".") again; before this change it stays stale, after this
+  change it sees the new file
+
+Fixes: 2396356a945b ("fuse: add more control over cache invalidation behaviour")
+Signed-off-by: Jun Wu <quark@meta.com>
+---
+Changes in v2:
+- Addresses Joanne Koong's suggestions:
+  - Drop the FUSE_EPOCH_READDIR init flag.
+  - Add Fixes tag.
+- Rebase onto current mainline.
+---
+ fs/fuse/dev.c     | 6 +++---
+ fs/fuse/fuse_i.h  | 3 +++
+ fs/fuse/readdir.c | 5 ++++-
+ 3 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 5dda7080f4a9..35e04b064f37 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -2038,9 +2038,9 @@ static int fuse_notify_resend(struct fuse_conn *fc)
+ }
+ 
+ /*
+- * Increments the fuse connection epoch.  This will result of dentries from
+- * previous epochs to be invalidated.  Additionally, if inval_wq is set, a work
+- * queue is scheduled to trigger the invalidation.
++ * Increments the fuse connection epoch.  This will cause dentries and
++ * readdir caches from previous epochs to be invalidated.  Additionally,
++ * if inval_wq is set, a work queue is scheduled to trigger the invalidation.
+  */
+ static int fuse_notify_inc_epoch(struct fuse_conn *fc)
+ {
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 17423d4e3cfa..aa8d6dfbbcc7 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -191,6 +191,9 @@ struct fuse_inode {
+ 			/* iversion of directory when cache was started */
+ 			u64 iversion;
+ 
++			/* epoch of fc when cache was started */
++			int epoch;
++
+ 			/* protects above fields */
+ 			spinlock_t lock;
+ 		} rdc;
+diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+index db5ae8ec1030..b18d971e2bb4 100644
+--- a/fs/fuse/readdir.c
++++ b/fs/fuse/readdir.c
+@@ -442,6 +442,7 @@ static void fuse_rdc_reset(struct inode *inode)
+ 	fi->rdc.version++;
+ 	fi->rdc.size = 0;
+ 	fi->rdc.pos = 0;
++	fi->rdc.epoch = 0;
+ }
+ 
+ #define UNCACHED 1
+@@ -483,6 +484,7 @@ static int fuse_readdir_cached(struct file *file, struct dir_context *ctx)
+ 		if (!ctx->pos && !fi->rdc.size) {
+ 			fi->rdc.mtime = inode_get_mtime(inode);
+ 			fi->rdc.iversion = inode_query_iversion(inode);
++			fi->rdc.epoch = atomic_read(&fc->epoch);
+ 		}
+ 		spin_unlock(&fi->rdc.lock);
+ 		return UNCACHED;
+@@ -496,7 +498,8 @@ static int fuse_readdir_cached(struct file *file, struct dir_context *ctx)
+ 		struct timespec64 mtime = inode_get_mtime(inode);
+ 
+ 		if (inode_peek_iversion(inode) != fi->rdc.iversion ||
+-		    !timespec64_equal(&fi->rdc.mtime, &mtime)) {
++		    !timespec64_equal(&fi->rdc.mtime, &mtime) ||
++		    fi->rdc.epoch != atomic_read(&fc->epoch)) {
+ 			fuse_rdc_reset(inode);
+ 			goto retry_locked;
+ 		}
+-- 
+2.54.0
+
