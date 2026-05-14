@@ -1,44 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE70B3E5560;
-	Thu, 14 May 2026 14:35:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9603DFC80;
+	Thu, 14 May 2026 14:42:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778769354; cv=none; b=Cz7IVQCjcI3xunLfWHWn5eWka9GvRjdIFwbw/dmtC8QdlmaWvVIBKw02UTQePdilEwIPP/gYqo7KrKXhz10ZDVuu5V6Aau2yxc+86gmiD08ZPC7zj2KMhxv1hdVEurkr4tCzCMWl2lc3xhIMKu39Han0qWAuydRR/vji5BdGZyI=
+	t=1778769775; cv=none; b=YPMH7SgkfSsrLsMayLd8duEOfE/Kx3QcXJA8ExgvIZ3hMd0nfffnDoGm7DBqf6cX/PfDva0xZnfj3WgTq+2GUMj2HzFFq1ZD7lIuYP4RVOKtqO7B/3OS1EnwgLjtK8wJj0uxe6QkocWX5s0FXeg4wTIaL5l76fDwTVzTwispvw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778769354; c=relaxed/simple;
-	bh=f+Jh1i68Nc4cr5Rl0wGjQE6BTToQTG/wdig2KKO73X0=;
+	s=arc-20240116; t=1778769775; c=relaxed/simple;
+	bh=jN5uwe77yrodnI16Pup2BeCmkisZSjrnDMv4Bjh39Pw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iR3uAKtQ3un7PblN0yazNB2BYmWdraawKFGQ26ZsvXzjFH+D99XKAnV7V4p29nPg2e9HX/gpEmju88YGcJ3DlRwQBAOVXRkcqeOhhRzcCekw+ygLRb+vYeUHt6OUcXNJ5b/AUQ3vW1S5Lev4zHUAZwaXHSPKiswnfIM1uyMR6AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YD46aWMm; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JqvspizN/GEp/vMW3ttPB+7dn/AlXQnOjqPE0EuR4v4NZdgHG75a4fw65Rj1E/bPuqbpzOLAKNARLApjPipZ36S68Z05DbsFH7InHmwPl3QM5caTCADxeJwwUz6Au9yUDV6YvtxVKCa16KyvQUy+mi7bLq8HfIsK6zphRQ666w4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bv5W254N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YD46aWMm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6619EC2BCB3;
-	Thu, 14 May 2026 14:35:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bv5W254N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C669C2BCB3;
+	Thu, 14 May 2026 14:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778769354;
-	bh=f+Jh1i68Nc4cr5Rl0wGjQE6BTToQTG/wdig2KKO73X0=;
+	s=k20201202; t=1778769775;
+	bh=jN5uwe77yrodnI16Pup2BeCmkisZSjrnDMv4Bjh39Pw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YD46aWMm+3fcfjV5G2fn0YlfUp7Zb1eFPjs2/Zu9zqF3DuV4Ia7KMLoB9DKEiLUVM
-	 FemkoS6jQG3epY9YjRvn358Z+tO1sh4JAu9YQKHkj+aVJXyvIP9U9Z6sH6+I/rviKD
-	 A9SFn2Q45eHO9/l3ikeyf4l1LQBLxObl5ckuJP02BiMQSMw5A6Up2l9NqkTzSxE/T9
-	 oBIf/RGYxCiVUKAYd+fCKGvne2QrAvrn+8GqBIEuOwHcmCZD3j0oRS5ZYaepdtS0IK
-	 /5V5HhTuzFanovKrBlSRJrtAt0u5+1GRwOgI0RUFfaDzO9eAMEaJjNI4GDy8lwGKCo
-	 YsBp0NJ24PClg==
-Date: Thu, 14 May 2026 07:35:53 -0700
+	b=bv5W254NHJT7tCZPMGd8YBcXv2RHPoF5M4c+7Y5jfvguZ3DYFFO7V/4M0cTDu3Lqp
+	 XdIjp2hhtmzJYenXF0CUrmWBSzTDtPso9iERc7C5MzW7saqzLzVO7rMOeiIWbnC2He
+	 vPH04j9fPjrleUXcV3feHF42F83aD9CFNOXuO8Z01R8kzuGYA1CKeMbzh2V7vvrgxN
+	 Vb5jugvSSR6mVS6ez/LtxtC0OCH9RZyWkgZVMK3Mf7+lmysOSlwTGrnlmqXpGATuhb
+	 ZuEq78/zeBHCR0MEOMWgAZ2Ux1DeRQJcaXkk0x99SoK56xg9yK+s70gnsF1wklEIKZ
+	 gNrlihE4uSC9w==
+Date: Thu, 14 May 2026 07:42:54 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev,
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 03/33] fuse: make debugging configurable at runtime
-Message-ID: <20260514143553.GA9531@frogsfrogsfrogs>
+To: miklos@szeredi.hu
+Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 32/33] fuse: enable swapfile activation on iomap
+Message-ID: <20260514144254.GW9544@frogsfrogsfrogs>
 References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
- <177747205214.4101881.6181001367021214200.stgit@frogsfrogsfrogs>
- <20260513174102.GG9544@frogsfrogsfrogs>
- <e7ef9cbb-2692-409a-b24d-998b18e74324@bsbernd.com>
- <20260513183536.GL9544@frogsfrogsfrogs>
- <5bd3e5b2-af2a-4184-95c1-54ec645a679e@bsbernd.com>
+ <177747205834.4101881.6028637441703823637.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -47,188 +43,165 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5bd3e5b2-af2a-4184-95c1-54ec645a679e@bsbernd.com>
+In-Reply-To: <177747205834.4101881.6028637441703823637.stgit@frogsfrogsfrogs>
 
-On Wed, May 13, 2026 at 09:44:30PM +0200, Bernd Schubert wrote:
+On Wed, Apr 29, 2026 at 07:32:02AM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> It turns out that fuse supports swapfile activation, so let's enable
+> that.
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  fs/fuse/fuse_trace.h      |    1 +
+>  include/uapi/linux/fuse.h |    5 ++++
+>  fs/fuse/fuse_iomap.c      |   54 ++++++++++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 59 insertions(+), 1 deletion(-)
 > 
 > 
-> On 5/13/26 20:35, Darrick J. Wong wrote:
-> > On Wed, May 13, 2026 at 07:46:05PM +0200, Bernd Schubert wrote:
-> >>
-> >>
-> >> On 5/13/26 19:41, Darrick J. Wong wrote:
-> >>> On Wed, Apr 29, 2026 at 07:24:28AM -0700, Darrick J. Wong wrote:
-> >>>> From: Darrick J. Wong <djwong@kernel.org>
-> >>>>
-> >>>> Use static keys so that we can configure debugging assertions and dmesg
-> >>>> warnings at runtime.  By default this is turned off so the cost is
-> >>>> merely scanning a nop sled.  However, fuse server developers can turn
-> >>>> it on for their debugging systems.
-> >>>>
-> >>>> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> >>>> ---
-> >>>>  fs/fuse/fuse_iomap_i.h |   17 ++++++++++++++---
-> >>>>  fs/fuse/Kconfig        |   15 +++++++++++++++
-> >>>>  fs/fuse/fuse_iomap.c   |   43 +++++++++++++++++++++++++++++++++++++++++++
-> >>>>  3 files changed, 72 insertions(+), 3 deletions(-)
-> >>>>
-> >>>>
-> >>>> diff --git a/fs/fuse/fuse_iomap_i.h b/fs/fuse/fuse_iomap_i.h
-> >>>> index b9ab8ce140e8e1..c37a7c5cfc862f 100644
-> >>>> --- a/fs/fuse/fuse_iomap_i.h
-> >>>> +++ b/fs/fuse/fuse_iomap_i.h
-> >>>> @@ -8,17 +8,28 @@
-> >>>>  
-> >>>>  #if IS_ENABLED(CONFIG_FUSE_IOMAP)
-> >>>>  #if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG)
-> >>>> -# define ASSERT(condition) do {						\
-> >>>> +
-> >>>> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG_BY_DEFAULT)
-> >>>> +DECLARE_STATIC_KEY_TRUE(fuse_iomap_debug);
-> >>>> +#else
-> >>>> +DECLARE_STATIC_KEY_FALSE(fuse_iomap_debug);
-> >>>> +#endif /* FUSE_IOMAP_DEBUG_BY_DEFAULT */
-> >>>> +
-> >>>> +# define ASSERT(condition) \
-> >>>> +while (static_branch_unlikely(&fuse_iomap_debug)) {			\
-> >>>>  	int __cond = !!(condition);					\
-> >>>>  	if (unlikely(!__cond))						\
-> >>>>  		trace_fuse_iomap_assert(__func__, __LINE__, #condition); \
-> >>>>  	WARN(!__cond, "Assertion failed: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
-> >>>> -} while (0)
-> >>>> +	break;								\
-> >>>> +}
-> >>>>  # define BAD_DATA(condition) ({						\
-> >>>>  	int __cond = !!(condition);					\
-> >>>>  	if (unlikely(__cond))						\
-> >>>>  		trace_fuse_iomap_bad_data(__func__, __LINE__, #condition); \
-> >>>> -	WARN(__cond, "Bad mapping: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
-> >>>> +	if (static_branch_unlikely(&fuse_iomap_debug))			\
-> >>>> +		WARN(__cond, "Bad mapping: %s, func: %s, line: %d", #condition, __func__, __LINE__); \
-> >>>> +	unlikely(__cond);								\
-> >>>>  })
-> >>>>  #else
-> >>>>  # define ASSERT(condition)
-> >>>> diff --git a/fs/fuse/Kconfig b/fs/fuse/Kconfig
-> >>>> index 934d48076a010c..1b8990f1c2a8f9 100644
-> >>>> --- a/fs/fuse/Kconfig
-> >>>> +++ b/fs/fuse/Kconfig
-> >>>> @@ -101,6 +101,21 @@ config FUSE_IOMAP_DEBUG
-> >>>>  	  Enable debugging assertions for the fuse iomap code paths and logging
-> >>>>  	  of bad iomap file mapping data being sent to the kernel.
-> >>>>  
-> >>>> +	  Say N here if you don't want any debugging code code compiled in at
-> >>>> +	  all.
-> >>>> +
-> >>>> +config FUSE_IOMAP_DEBUG_BY_DEFAULT
-> >>>> +	bool "Debug FUSE file IO over iomap at boot time"
-> >>>> +	default n
-> >>>> +	depends on FUSE_IOMAP_DEBUG
-> >>>> +	help
-> >>>> +	  At boot time, enable debugging assertions for the fuse iomap code
-> >>>> +	  paths and warnings about bad iomap file mapping data.  This enables
-> >>>> +	  fuse server authors to control debugging at runtime even on a
-> >>>> +	  distribution kernel while avoiding most of the overhead on production
-> >>>> +	  systems.  The setting can be changed at runtime via the debug_iomap
-> >>>> +	  module parameter.
-> >>>> +
-> >>>>  config FUSE_IO_URING
-> >>>>  	bool "FUSE communication over io-uring"
-> >>>>  	default y
-> >>>> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
-> >>>> index c22c7961cc0bdc..f7a7eba8317c18 100644
-> >>>> --- a/fs/fuse/fuse_iomap.c
-> >>>> +++ b/fs/fuse/fuse_iomap.c
-> >>>> @@ -18,6 +18,49 @@ static bool __read_mostly enable_iomap =
-> >>>>  module_param(enable_iomap, bool, 0644);
-> >>>>  MODULE_PARM_DESC(enable_iomap, "Enable file I/O through iomap");
-> >>>>  
-> >>>> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG)
-> >>>> +#if IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG_BY_DEFAULT)
-> >>>> +DEFINE_STATIC_KEY_TRUE(fuse_iomap_debug);
-> >>>> +#else
-> >>>> +DEFINE_STATIC_KEY_FALSE(fuse_iomap_debug);
-> >>>> +#endif /* FUSE_IOMAP_DEBUG_BY_DEFAULT */
-> >>>> +
-> >>>> +static int iomap_debug_set(const char *val, const struct kernel_param *kp)
-> >>>> +{
-> >>>> +	bool now;
-> >>>> +	int ret;
-> >>>> +
-> >>>> +	if (!val)
-> >>>> +		return -EINVAL;
-> >>>> +
-> >>>> +	ret = kstrtobool(val, &now);
-> >>>> +	if (ret)
-> >>>> +		return ret;
-> >>>> +
-> >>>> +	if (now)
-> >>>> +		static_branch_enable(&fuse_iomap_debug);
-> >>>> +	else
-> >>>> +		static_branch_disable(&fuse_iomap_debug);
-> >>>> +
-> >>>> +	return 0;
-> >>>> +}
-> >>>> +
-> >>>> +static int iomap_debug_get(char *buffer, const struct kernel_param *kp)
-> >>>> +{
-> >>>> +	return sprintf(buffer, "%c\n",
-> >>>> +		       static_branch_unlikely(&fuse_iomap_debug) ? 'Y' : 'N');
-> >>>> +}
-> >>>> +
-> >>>> +static const struct kernel_param_ops iomap_debug_ops = {
-> >>>> +	.set = iomap_debug_set,
-> >>>> +	.get = iomap_debug_get,
-> >>>
-> >>> Codex points out that if we set KERNEL_PARAM_OPS_FL_NOARG in
-> >>> kernel_param_ops::flags and teach iomap_debug_set to handle !val as now
-> >>> == true, then we can support enabling debugging with
-> >>> "modprobe fuse debug_iomap".  That seems reasonable to me, so I'll make
-> >>> this minor change.
-> >>>
-> >>> --D
-> >>>
-> >>>> +};
-> >>>> +
-> >>>> +module_param_cb(debug_iomap, &iomap_debug_ops, NULL, 0644);
-> >>>> +__MODULE_PARM_TYPE(debug_iomap, "bool");
-> >>>> +MODULE_PARM_DESC(debug_iomap, "Enable debugging of fuse iomap");
-> >>>> +#endif /* IS_ENABLED(CONFIG_FUSE_IOMAP_DEBUG) */
-> >>>> +
-> >>>>  bool fuse_iomap_enabled(void)
-> >>>>  {
-> >>>>  	/* Don't let anyone touch iomap until the end of the patchset. */
-> >>>>
-> >>>>
-> >>
-> >>
-> >> Hi Darrick,
-> >>
-> >> would it help to just use debugfs? I will try to find time to send that
-> >> out tomorrow.
-> >>
-> >> https://github.com/bsbernd/linux/commit/5f25afb42ae7bb7ead646cfa3a3683817975ccb9
-> >>
-> >> (on this branch https://github.com/bsbernd/linux/commits/fuse-debugfs/)
-> > 
-> > I'm skeptical, because debugfs is disabled in lockdown mode.  Presumably
-> > some $enterprise customers might want to turn on the extra logging and
-> > assertions even in production?  Some product groups I work with require
-> > secureboot even in their dev environments.
-> Pity, all we need is a debug-fs that can print some fuse specific
-> topics, nothing insecure there.
+> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
+> index de7d483d4b0f34..63cc1496ee5ca1 100644
+> --- a/fs/fuse/fuse_trace.h
+> +++ b/fs/fuse/fuse_trace.h
+> @@ -300,6 +300,7 @@ struct iomap;
+>  	{ FUSE_IOMAP_OP_DAX,			"fsdax" }, \
+>  	{ FUSE_IOMAP_OP_ATOMIC,			"atomic" }, \
+>  	{ FUSE_IOMAP_OP_DONTCACHE,		"dontcache" }, \
+> +	{ FUSE_IOMAP_OP_SWAPFILE,		"swapfile" }, \
+>  	{ FUSE_IOMAP_OP_WRITEBACK,		"writeback" }
+>  
+>  #define FUSE_IOMAP_TYPE_STRINGS \
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index 9e59fba64f48d9..5f3724f36f764a 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -1406,6 +1406,9 @@ struct fuse_uring_cmd_req {
+>  #define FUSE_IOMAP_OP_ATOMIC		(1U << 9)
+>  #define FUSE_IOMAP_OP_DONTCACHE		(1U << 10)
+>  
+> +/* swapfile config operation */
+> +#define FUSE_IOMAP_OP_SWAPFILE		(1U << 30)
+> +
+>  /* pagecache writeback operation */
+>  #define FUSE_IOMAP_OP_WRITEBACK		(1U << 31)
+>  
+> @@ -1460,6 +1463,8 @@ struct fuse_iomap_end_in {
+>  #define FUSE_IOMAP_IOEND_APPEND		(1U << 4)
+>  /* is pagecache writeback */
+>  #define FUSE_IOMAP_IOEND_WRITEBACK	(1U << 5)
+> +/* swapfile deactivation */
+> +#define FUSE_IOMAP_IOEND_SWAPOFF	(1U << 6)
+>  
+>  struct fuse_iomap_ioend_in {
+>  	uint32_t flags;		/* FUSE_IOMAP_IOEND_* */
+> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+> index 1e01e0011a412d..cf52e2747e7f7f 100644
+> --- a/fs/fuse/fuse_iomap.c
+> +++ b/fs/fuse/fuse_iomap.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/pagemap.h>
+>  #include <linux/falloc.h>
+>  #include <linux/fadvise.h>
+> +#include <linux/swap.h>
+>  #include "fuse_i.h"
+>  #include "fuse_trace.h"
+>  #include "fuse_iomap.h"
+> @@ -202,13 +203,16 @@ static inline uint16_t fuse_iomap_flags_from_server(uint16_t fuse_f_flags)
+>  #undef XMAP2
+>  #undef XMAP
+>  
+> +#define FUSE_IOMAP_PRIVATE_OPS	(FUSE_IOMAP_OP_WRITEBACK | \
+> +				 FUSE_IOMAP_OP_SWAPFILE)
+> +
+>  /* Convert IOMAP_* operation flags to FUSE_IOMAP_OP_* */
+>  #define XMAP(word) \
+>  	if (iomap_op_flags & IOMAP_##word) \
+>  		ret |= FUSE_IOMAP_OP_##word
+>  static inline uint32_t fuse_iomap_op_to_server(unsigned iomap_op_flags)
+>  {
+> -	uint32_t ret = iomap_op_flags & FUSE_IOMAP_OP_WRITEBACK;
+> +	uint32_t ret = iomap_op_flags & FUSE_IOMAP_PRIVATE_OPS;
+>  
+>  	XMAP(WRITE);
+>  	XMAP(ZERO);
+> @@ -757,6 +761,13 @@ fuse_should_send_iomap_ioend(const struct fuse_mount *fm,
+>  	if (inarg->error)
+>  		return true;
+>  
+> +	/*
+> +	 * Always send an ioend for swapoff to let the fuse server know the
+> +	 * long term layout "lease" is over.
+> +	 */
+> +	if (inarg->flags & FUSE_IOMAP_IOEND_SWAPOFF)
+> +		return true;
+> +
+>  	/* Send an ioend if we performed an IO involving metadata changes. */
+>  	return inarg->written > 0 &&
+>  	       (inarg->flags & (FUSE_IOMAP_IOEND_SHARED |
+> @@ -1801,6 +1812,43 @@ static void fuse_iomap_readahead(struct readahead_control *rac)
+>  	iomap_bio_readahead(rac, &fuse_iomap_ops);
+>  }
+>  
+> +#ifdef CONFIG_SWAP
+> +static int fuse_iomap_swapfile_begin(struct inode *inode, loff_t pos,
+> +				     loff_t count, unsigned opflags,
+> +				     struct iomap *iomap, struct iomap *srcmap)
+> +{
+> +	return fuse_iomap_begin(inode, pos, count,
+> +				FUSE_IOMAP_OP_SWAPFILE | opflags, iomap,
+> +				srcmap);
+> +}
+> +
+> +static const struct iomap_ops fuse_iomap_swapfile_ops = {
+> +	.iomap_begin		= fuse_iomap_swapfile_begin,
+> +};
+> +
+> +static int fuse_iomap_swap_activate(struct swap_info_struct *sis,
+> +				    struct file *swap_file, sector_t *span)
+> +{
+> +	int ret;
+> +
+> +	/* obtain the block device from the header iomapping */
+> +	sis->bdev = NULL;
 
-Welll... debugfs is the place where anything goes, and other drivers use
-it to expose deep knobs within the system or even the hardware.  You can
-get yourself into a lot of trouble by writing into it, which is why
-access is very tightly restricted.
-
-The really pathetic thing with lockdown/secureboot is that distros ship
-an even more aggressive version than what Linus has accepted upstream.
-They're all deathly afraid that Microsoft will use any excuse to cancel
-their code signing accounts and leave them unable to deploy anywhere.
-Most hardware come with only Microsoft's keys baked in, which gives them
-that ability.  It's absurd that any one entity should have that kind of
-power over the software ecosystem. :(
+Following up from a separate discussion on fsdevel about zoned storage
+vs. swapfile activation, fuse_iomap_begin should not allow mappings to
+zoned storage for swapon.  And maybe I should refactor the fuse
+iomap_begin interface to provide the io context (pagecache io, directio,
+fiemap, swapfile activation, pagecache writeback, etc) as a distinct
+field rather than overlaying on the upper bits of the opflags.
 
 --D
+
+> +	ret = iomap_swapfile_activate(sis, swap_file, span,
+> +				      &fuse_iomap_swapfile_ops);
+> +	if (ret < 0)
+> +		fuse_iomap_ioend(file_inode(swap_file), 0, 0, ret,
+> +				 FUSE_IOMAP_IOEND_SWAPOFF, NULL,
+> +				 FUSE_IOMAP_NULL_ADDR);
+> +	return ret;
+> +}
+> +
+> +static void fuse_iomap_swap_deactivate(struct file *file)
+> +{
+> +	fuse_iomap_ioend(file_inode(file), 0, 0, 0, FUSE_IOMAP_IOEND_SWAPOFF,
+> +			 NULL, FUSE_IOMAP_NULL_ADDR);
+> +}
+> +#endif
+> +
+>  static const struct address_space_operations fuse_iomap_aops = {
+>  	.read_folio		= fuse_iomap_read_folio,
+>  	.readahead		= fuse_iomap_readahead,
+> @@ -1811,6 +1859,10 @@ static const struct address_space_operations fuse_iomap_aops = {
+>  	.migrate_folio		= filemap_migrate_folio,
+>  	.is_partially_uptodate  = iomap_is_partially_uptodate,
+>  	.error_remove_folio	= generic_error_remove_folio,
+> +#ifdef CONFIG_SWAP
+> +	.swap_activate		= fuse_iomap_swap_activate,
+> +	.swap_deactivate	= fuse_iomap_swap_deactivate,
+> +#endif
+>  
+>  	/* These aren't pagecache operations per se */
+>  	.bmap			= fuse_bmap,
+> 
+> 
