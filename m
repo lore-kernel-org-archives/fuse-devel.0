@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D053CBE79;
-	Thu, 14 May 2026 21:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABEC342524;
+	Thu, 14 May 2026 22:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778795071; cv=none; b=FR6pc6NaShGdPIsk1edDeE5QgHuNfgmwww4ZF0Jxf+UwXhtenG5YovmTSZXy4XCE9ZeQ3XWUOBT/UGCuiv+nfaGo4K4wE/6jNd0aBG3Jb2kK/OM42IxdD1ho0WTqxENwEOKHiLJZzXYylqWV6Y5C198nCEHxjOQz/CHbneYgoPg=
+	t=1778796563; cv=none; b=FvnWU6+3KO9RRp0jgTWq5AD1/sTTUWKtVxDUTg9/IkWYAVlMfNH0N0+zFNkPcriDkNIQSRMjTBs6KJ4bGeVIkThF4CFowgtArYpHo+AKlZis4zdPsFJz70byoxvw7kiN0IiGTHNRLfBv1hryETdqfuWuVaRaDs1v6/X6E1foYoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778795071; c=relaxed/simple;
-	bh=Bw4Uldxs72IIEkU2xSYd+EFDgTYgX/yZRTMhnpX7auk=;
+	s=arc-20240116; t=1778796563; c=relaxed/simple;
+	bh=lKOgS3Id/uZjZP4D1y33DvQH9TPRPRihqWc5fBgixW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eRSykSqZjor2S7ytrgOtrshK5zcIRe5uL+stK0WlP8q017e4jJo/Ejki39SQLOflIFQmePN7ofJ8pVHr+tj1XmYGWzZ9ZumSAFqmRuySqn+LUmX0ZPAsJZdRTTQ2Q2CmiF97nave9CJ97GQgmu0b7mM2hrl2/ShPAVo4t7cmuK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gOJSy87X; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajpGKkidkaKCYaToWQ8l4vn8Ptxty7BPao9eyHluF4Z6Q9/a80nws/2UyNHrz91hmaaoTzFjwE47oh18xFdOGQ/MnidRMwk6Q83s9pPdFV16KwH2+0w+lgZavpYpoUmfME5E0w1os7HBEE+KMmZjvZclp5D7M2RAH4kScX41riI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P2OxZ69/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gOJSy87X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2E83C2BCB3;
-	Thu, 14 May 2026 21:44:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P2OxZ69/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87836C2BCB3;
+	Thu, 14 May 2026 22:09:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778795071;
-	bh=Bw4Uldxs72IIEkU2xSYd+EFDgTYgX/yZRTMhnpX7auk=;
+	s=k20201202; t=1778796562;
+	bh=lKOgS3Id/uZjZP4D1y33DvQH9TPRPRihqWc5fBgixW8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gOJSy87XOtcsEhFlMHA1yCmmC9c4zFgAjJdkaW+Tw/IaPEr/vYazFnQ8byQqa5VU0
-	 q9FknfRfFAkgFFYGRFlLpqQtzwrW9hPb88Cm6N1Zv4Og+8ANkYC19oJCVBs8f64Adl
-	 rO4VR6K4RY4J4/UabAaArOf42FfU3gKFaqLrzM/hAHyHB0T0uN4J7rU7V7mUYClvmV
-	 3LKssQKXhRvoq2p8teyek6ymANxQ3tow+kau6sbXl+bltsTI7tee4Qj9vzutTBNuCi
-	 6MxKacnT12SAUQHXoyUbQ3sunykKlzGExrNN+1yoghIYcZhbVwmcrE8qn3MavGVrgN
-	 //2SEjRzLWlSw==
-Date: Thu, 14 May 2026 14:44:30 -0700
+	b=P2OxZ69/bhI4WhYNFSGaREb/ZzxWBEUT3pWeWx/DH7jrCHSUT66fy7m3Q1EIVjwnP
+	 FjQe32BXZlBOxoo0i+gGXqt7T4CBHDGEqR3BoRFCWCx1Y3Ckcn9GINsPFLk3+oNTB0
+	 uBaSR9syrhusymAA2sASFebQDWkimleXi8k8t3PaBqfyxfoT1MI18z2cTytItvvyrS
+	 1joU8+wwc5ESu8CFmb92PMBrkLPBgs5C1kxCyCwTKf+Z77SjpUjyq6w4i42Yl/laCP
+	 A9p3SnmPevrHY1neeYKnAAIh835NQApWbXRzm8b6QhkQlNUif8HI2+hy2BknXW1hM0
+	 4TVpQ0jP1iLEw==
+Date: Thu, 14 May 2026 15:09:21 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: miklos@szeredi.hu
 Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
 	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 2/9] fuse: force a ctime update after a fileattr_set call
- when in iomap mode
-Message-ID: <20260514214430.GH9544@frogsfrogsfrogs>
+Subject: Re: [PATCH 1/9] fuse: enable caching of timestamps
+Message-ID: <20260514220921.GI9544@frogsfrogsfrogs>
 References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
- <177747206531.4103309.3952036264187137944.stgit@frogsfrogsfrogs>
+ <177747206510.4103309.7610933581068572895.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -44,59 +43,178 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747206531.4103309.3952036264187137944.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747206510.4103309.7610933581068572895.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:33:36AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:33:20AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> In iomap mode, the kernel is in charge of driving ctime updates to
-> the fuse server and ignores updates coming from the fuse server.
-> Therefore, when someone calls fileattr_set to change file attributes, we
-> must force a ctime update.
-> 
-> Found by generic/277.
+> Cache the timestamps in the kernel so that the kernel sends FUSE_SETATTR
+> calls to the fuse server after writes, because the iomap infrastructure
+> won't do that for us.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  fs/fuse/ioctl.c |   11 +++++++++++
->  1 file changed, 11 insertions(+)
+>  fs/fuse/dir.c        |    5 ++++-
+>  fs/fuse/file.c       |   18 ++++++++++++------
+>  fs/fuse/fuse_iomap.c |    6 ++++++
+>  fs/fuse/inode.c      |   13 +++++++------
+>  4 files changed, 29 insertions(+), 13 deletions(-)
 > 
 > 
-> diff --git a/fs/fuse/ioctl.c b/fs/fuse/ioctl.c
-> index fdc175e93f7474..07529db21fb781 100644
-> --- a/fs/fuse/ioctl.c
-> +++ b/fs/fuse/ioctl.c
-> @@ -546,8 +546,13 @@ int fuse_fileattr_set(struct mnt_idmap *idmap,
->  	struct fuse_file *ff;
->  	unsigned int flags = fa->flags;
->  	struct fsxattr xfa;
-> +	struct file_kattr old_ma = { };
-> +	bool is_wb = (fuse_get_cache_mask(inode) & STATX_CTIME);
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 3a76eea04c6425..11898102adefe2 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -2265,7 +2265,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	struct fuse_attr_out outarg;
+>  	const bool is_iomap = fuse_inode_has_iomap(inode);
+>  	bool is_truncate = false;
+> -	bool is_wb = fc->writeback_cache && S_ISREG(inode->i_mode);
+> +	bool is_wb = (is_iomap || fc->writeback_cache) &&
+> +		     S_ISREG(inode->i_mode);
+>  	loff_t oldsize;
+>  	int err;
+>  	bool trust_local_cmtime = is_wb;
+> @@ -2405,6 +2406,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  	spin_lock(&fi->lock);
+>  	/* the kernel maintains i_mtime locally */
+>  	if (trust_local_cmtime) {
+> +		if ((attr->ia_valid & ATTR_ATIME) && is_iomap)
+> +			inode_set_atime_to_ts(inode, attr->ia_atime);
+>  		if (attr->ia_valid & ATTR_MTIME)
+>  			inode_set_mtime_to_ts(inode, attr->ia_mtime);
+>  		if (attr->ia_valid & ATTR_CTIME)
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index fa67b20f5ad3ae..eecd0610fbd3e5 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -262,7 +262,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  	int err;
+>  	const bool is_iomap = fuse_inode_has_iomap(inode);
+>  	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
+> -	bool is_wb_truncate = is_truncate && fc->writeback_cache;
+> +	bool is_wb_truncate = is_truncate && (is_iomap || fc->writeback_cache);
+>  	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
+>  
+>  	if (fuse_is_bad(inode))
+> @@ -477,12 +477,14 @@ static int fuse_flush(struct file *file, fl_owner_t id)
+>  	struct fuse_file *ff = file->private_data;
+>  	struct fuse_flush_in inarg;
+>  	FUSE_ARGS(args);
+> +	const bool is_iomap = fuse_inode_has_iomap(inode);
 >  	int err;
 >  
-> +	if (is_wb)
-> +		vfs_fileattr_get(dentry, &old_ma);
-> +
->  	ff = fuse_priv_ioctl_prepare(inode);
->  	if (IS_ERR(ff))
->  		return PTR_ERR(ff);
-> @@ -571,6 +576,12 @@ int fuse_fileattr_set(struct mnt_idmap *idmap,
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
 >  
->  cleanup:
->  	fuse_priv_ioctl_cleanup(inode, ff);
+> -	if (ff->open_flags & FOPEN_NOFLUSH && !fm->fc->writeback_cache)
+> +	if ((ff->open_flags & FOPEN_NOFLUSH) &&
+> +	    !fm->fc->writeback_cache && !is_iomap)
+>  		return 0;
+>  
+>  	err = write_inode_now(inode, 1);
+> @@ -518,7 +520,7 @@ static int fuse_flush(struct file *file, fl_owner_t id)
+>  	 * In memory i_blocks is not maintained by fuse, if writeback cache is
+>  	 * enabled, i_blocks from cached attr may not be accurate.
+>  	 */
+> -	if (!err && fm->fc->writeback_cache)
+> +	if (!err && (is_iomap || fm->fc->writeback_cache))
+>  		fuse_invalidate_attr_mask(inode, STATX_BLOCKS);
+>  	return err;
+>  }
+> @@ -820,8 +822,10 @@ static void fuse_short_read(struct inode *inode, u64 attr_ver, size_t num_read,
+>  	 * If writeback_cache is enabled, a short read means there's a hole in
+>  	 * the file.  Some data after the hole is in page cache, but has not
+>  	 * reached the client fs yet.  So the hole is not present there.
+> +	 * If iomap is enabled, a short read means we hit EOF so there's
+> +	 * nothing to adjust.
+>  	 */
+> -	if (!fc->writeback_cache) {
+> +	if (!fc->writeback_cache && !fuse_inode_has_iomap(inode)) {
+>  		loff_t pos = folio_pos(ap->folios[0]) + num_read;
+>  		fuse_read_update_size(inode, pos, attr_ver);
+>  	}
+> @@ -870,6 +874,8 @@ static int fuse_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
+>  			    unsigned int flags, struct iomap *iomap,
+>  			    struct iomap *srcmap)
+>  {
+> +	WARN_ON(fuse_inode_has_iomap(inode));
+> +
+>  	iomap->type = IOMAP_MAPPED;
+>  	iomap->length = length;
+>  	iomap->offset = offset;
+> @@ -2021,7 +2027,7 @@ static void fuse_writepage_end(struct fuse_mount *fm, struct fuse_args *args,
+>  	 * Do this only if writeback_cache is not enabled.  If writeback_cache
+>  	 * is enabled, we trust local ctime/mtime.
+>  	 */
+> -	if (!fc->writeback_cache)
+> +	if (!fc->writeback_cache && !fuse_inode_has_iomap(inode))
+>  		fuse_invalidate_attr_mask(inode, FUSE_STATX_MODIFY);
+>  	spin_lock(&fi->lock);
+>  	fi->writectr--;
+> @@ -3114,7 +3120,7 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+>  	/* mark unstable when write-back is not used, and file_out gets
+>  	 * extended */
+>  	const bool is_iomap = fuse_inode_has_iomap(inode_out);
+> -	bool is_unstable = (!fc->writeback_cache) &&
+> +	bool is_unstable = (!fc->writeback_cache && !is_iomap) &&
+>  			   ((pos_out + len) > inode_out->i_size);
+>  
+>  	if (fc->no_copy_file_range)
+> diff --git a/fs/fuse/fuse_iomap.c b/fs/fuse/fuse_iomap.c
+> index cf52e2747e7f7f..a39370b97ca508 100644
+> --- a/fs/fuse/fuse_iomap.c
+> +++ b/fs/fuse/fuse_iomap.c
+> @@ -1873,6 +1873,12 @@ static inline void fuse_inode_set_iomap(struct inode *inode)
+>  	struct fuse_inode *fi = get_fuse_inode(inode);
+>  	unsigned int min_order = 0;
+>  
 > +	/*
-> +	 * If we cache ctime updates and the fileattr changed, then force a
-> +	 * ctime update.
+> +	 * Manage timestamps ourselves, don't make the fuse server do it.  This
+> +	 * is critical for mtime updates to work correctly with page_mkwrite.
 > +	 */
-> +	if (is_wb && memcmp(&old_ma, fa, sizeof(old_ma)))
+> +	inode->i_flags &= ~S_NOCMTIME;
+> +	inode->i_flags &= ~S_NOATIME;
 
-The ctime update should only happen if there's no error.  Oops.
+Looking at an unrelated regression in atime handling, I think this line
+should go in the patch that enables the kernel to manage atime.
 
 --D
 
-> +		fuse_update_ctime(inode);
+>  	inode->i_data.a_ops = &fuse_iomap_aops;
 >  
->  	return err;
+>  	INIT_WORK(&fi->ioend_work, fuse_iomap_end_io);
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index d48a76e6d17995..2513ea108ff9a8 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -331,10 +331,11 @@ u32 fuse_get_cache_mask(struct inode *inode)
+>  {
+>  	struct fuse_conn *fc = get_fuse_conn(inode);
+>  
+> -	if (!fc->writeback_cache || !S_ISREG(inode->i_mode))
+> -		return 0;
+> +	if (S_ISREG(inode->i_mode) &&
+> +	    (fuse_inode_has_iomap(inode) || fc->writeback_cache))
+> +		return STATX_MTIME | STATX_CTIME | STATX_SIZE;
+>  
+> -	return STATX_MTIME | STATX_CTIME | STATX_SIZE;
+> +	return 0;
 >  }
+>  
+>  static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr,
+> @@ -349,9 +350,9 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
+>  
+>  	spin_lock(&fi->lock);
+>  	/*
+> -	 * In case of writeback_cache enabled, writes update mtime, ctime and
+> -	 * may update i_size.  In these cases trust the cached value in the
+> -	 * inode.
+> +	 * In case of writeback_cache or iomap enabled, writes update mtime,
+> +	 * ctime and may update i_size.  In these cases trust the cached value
+> +	 * in the inode.
+>  	 */
+>  	cache_mask = fuse_get_cache_mask(inode);
+>  	fuse_iomap_set_disk_size(fi, attr->size);
 > 
 > 
