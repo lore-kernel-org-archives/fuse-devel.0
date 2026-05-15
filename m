@@ -1,318 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA7F35E1DD;
-	Fri, 15 May 2026 19:58:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778875116; cv=none; b=AcqjqE+sWvGYg15Zc8qGlgL21SnWcKsIlpK88zmFRRlVGfQYSttXowmied138ywhSSQSMcFzTF9v6k6Q4iEASNgSeeBXisYSutb+nA+l7Bhly+8lUV5moq/vupm07hn4E7tccJdl5aO3Ymp+feVCwWSgQ1EUpGhoJzNGjP3UonM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778875116; c=relaxed/simple;
-	bh=gKdJYrUwgdph0X2fbZh9YjDGCjtjogu6yZDUqVx0jYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K6Dk5U/ahPmPzN+fRWkTQoQczTMn/uCjrSIoqXLn6QspzXBpbgOyBMzhe1geWv+U6kK0UWjWjJbA5Rye9xBqfXrmqLtIBJwH5AiJC7yipFrBGcF2EZZwCxGA9ufEyzeSuVwsY4VZivh5huAZXhzajPUIWlkLJSszn1orZvIJTwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrqXj5wW; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB132487BE
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 20:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778876275; cv=pass; b=LFBFfLrlDDGCLgnUUrfxZq7lxbGd47g1496O/n59Oj0yf4JZGYWNLemot6fiQUb7vTdaIAkcnEA10lZopnW8rCvLrYXXI4c0KqOBOKIyZ1Qr3Gkl0GzOwD2yrrqTmqcmuxr8Hj2xYW3LqVnLHPL6VVefFZ3PPDNkSUtJM1vIwAU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778876275; c=relaxed/simple;
+	bh=2DXyIq90HL8JoEt+riYlVe6ELtsC4TBaPi6OOxXk5MY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XzQztrZ47xEyB8j4iPsy4gke+dZOJhJrOUkVIv+9ixllzAel1N/4mHVM8VXI9UkZM9RDdDHwxRZ3aYJqRYLWWc2JdmEtN37gY79U2eAldv0XW3gOayC6tEBDo3vWcS3pUMWG/zrJwqT4MyLd8y1fFvbsaIfh7VIC70YCfLGBqzY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROTCSHBJ; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrqXj5wW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C172BC2BCB0;
-	Fri, 15 May 2026 19:58:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778875115;
-	bh=gKdJYrUwgdph0X2fbZh9YjDGCjtjogu6yZDUqVx0jYU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YrqXj5wWtVeX/YwnEvmXrZLVrQq6O/Vfu/GyhPoW2NZHrJj3BKAONe+Fh+FUJomgt
-	 hrdpyGyXCk61WoQaadYxKLuNIhHTjETKJP4KVWRWo2NihQao0vUwteGnuydxnkhJAM
-	 5ZG6A0sQMn2v4m+CznxFI3L18Xo//G8YxmDJFTzO03kNbaUulHi7pi4lJw5BJ88rE7
-	 jR0K6Ggu0cL+onDMg2a3cFIlCbVlcu40IehX9McYaHWsxtZ2TseGrGFlYwLw39LOuf
-	 IGO/858vkS1MlxGEyo7UVuU09Oluz3UK+gpvOY5KDiHNxwXOT4PSKYRvFjTGgc7gpy
-	 pCubxy4q6hnKg==
-Date: Fri, 15 May 2026 12:58:35 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Subject: Re: [PATCH 1/9] libfuse: enable iomap cache management for lowlevel
- fuse
-Message-ID: <20260515195835.GZ9544@frogsfrogsfrogs>
-References: <177747213211.4106384.5167047581302637277.stgit@frogsfrogsfrogs>
- <177747213264.4106384.4204511496835236374.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROTCSHBJ"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-67c1e0229acso435940a12.1
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 13:17:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778876272; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ebAiZOpxOvd47Rb8gFLllhtf51ULAgqmRiOL3AY7h2Uv/KTWl4WJMUjv2/EeIIfEwP
+         VfHnKeXpsCNhCoFRlsGW+5m1CCptyEgz9RIhNSRqlD755khF6uV3OSbq8RxGlEqI/HMA
+         EmnNF6VKx80A9xMuN0QsXmc+PZcklQJ0BtMXwoTOSsx5plKnuyEuaSNOC9G5VbuWyRmZ
+         GWAagLeGi9mFynTIqgKRKfMaU48Wwh2rdV1uTa8w23q4g9PIG6lQ90F2neRwGzEyp/HX
+         OF/kwIQXiuKmUAjt87Tye+AXVnOcSVxS2ElGq3CK1vZhxaYYfSNt187WLl0LHB2Um/4I
+         dU5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2DXyIq90HL8JoEt+riYlVe6ELtsC4TBaPi6OOxXk5MY=;
+        fh=cJldv8FiUDn4TD5uiddr1Z4ZkMZf7HtbcVvfB+l0l7s=;
+        b=X8jHdvS/PU6PttizZEzX3dOEAUSEXZrKsYJKQAkflrGTPQ0dXgKRNNqRPCKoUZfUgk
+         4SbLkA3cL3USbJY83lAbPvwi1BAhA+Zt6cgYqSm00Hmw9KlRda4I3QShUu8T4B0ep2Z9
+         XttFQ0D/Si6Kta19wUpJCdbP90r2boE7uFoQKFWBHIf5BE7aEjH6FDxL46aHuh57erK5
+         kiXPs9dLAC7NoIq5VfB75+8GeyJ7Ypa+fy6EP/yzZdpWUzBiM6MxJVEJPZO1P7Zr18JB
+         JDpfFWmRS1kZiSIZQmxc+WBKt6RiKlIQrgWGOgl0zQvqJkmtjiL5V2rocTRAYwrD/xef
+         Ivow==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778876272; x=1779481072; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2DXyIq90HL8JoEt+riYlVe6ELtsC4TBaPi6OOxXk5MY=;
+        b=ROTCSHBJNHE5XjN5+8JWzbomb8vu1KBCprM2rmruGLr6TePwm1CdPlr5YuXOmFR+pR
+         BWS1f517TOVd0hadIfdh3frkMGQ8s6Gu8EgTSLI6Y1K/HccnG9Cj73ZXr6ht3j2+ucFe
+         D/zzqAdKSJAd3sLZNQtlz0f+vU39loGa8AsYWLeD0jkW/6Q3QrkHe21m8VWZKBH74YD5
+         LMZ53hSCMBa6v7qLq41hFxXm9HE+0LyG7LSbYtR7zJ6W/Ca9sAX9l1rAC0W6vNQ90eia
+         kDW+e6X3TlAwR947jf86byJRou+zsnD7MxxqaV9rMDCXcMTJOsxpM+fjIcmqP19hFQf/
+         iznQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778876272; x=1779481072;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2DXyIq90HL8JoEt+riYlVe6ELtsC4TBaPi6OOxXk5MY=;
+        b=NwjbEUj7fzVRYOIM7VssObO8oO+AXobDxg4a1VpptuSkZzo2afMl2vNJEs0PBPcJlq
+         ZfIgcT7Ur21BzvjCfsp4FVkiTtJ3fgCoVwMTtZcKn2pre9M0FAD82rDmMij+X7RCBo1S
+         kTMLqlpAPwb+Qz+7gYNFTvqkKjeaiGp9fZUQ7hC78Wk4qpHgCEsfPhuxH4MDCWCMAuOt
+         EFqRuUxyyrST54axWxopyB3yHv6bk8QyB22Xsl5xl3MS5k4WwF22Q7LtcyCt7PDnx8Wa
+         +aGhu1oD4NMaLeWRrYgHJ7vUDqGIKeWpyUZqobUbOeq/x1L6eewNJYL4sOhHiYaDIu4r
+         OE1Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9oCUJsHQiqPndWnvZTZzd8c+93HUry7qjmspEiwyuIb9gosv/Bv8hJFQaK0Dmnzp+5nMFQCy5vP8qZ@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQo1j9qVa55HrmgN2b/wkAi4AhWASiFdZBSk1R3H5xs/GyqcZD
+	D6tINh3fsj9DqXeJqr4SpG3B8do3+AORszF4Fw2DVkl0Y70K0S4IaxCUIDnykebG2kkPDyJ8nsS
+	fy9Ylx+ugl16oPp4r5ucc/+gBb3HQCNU=
+X-Gm-Gg: Acq92OHtsGqqLrQ64avVBB8xOTvCTKhJAGJd5LbutLpI2WBu/Nme/bZU5DZlzriPGu4
+	W1pQjgo5lfg6yeMf9JvJHDdScx84xpANSXU+BQ0VFcMg0w2I+n3UNmQ5UsSYdlM16nnQtM/sIol
+	bGBVZvzgZNmqtEwCaAdv5QFlezWf4g6ChRlRrWng9BmAuRd9xufXL6A/k+lEgttDWlXgN+ipQ1H
+	+2K9B14XTV80Pqd5W3FxOAkQoLHRn3avF+WxJoBaedK3csqUDhvhdSENYhbUSavNxKIe6UFcHd2
+	q5FHJBbP6N+Bkvt6CjyXriaFGqpP95zNDEJkX5XulQ==
+X-Received: by 2002:a05:6402:a553:20b0:671:ab62:765b with SMTP id
+ 4fb4d7f45d1cf-683bd78c127mr2156886a12.20.1778876272200; Fri, 15 May 2026
+ 13:17:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177747213264.4106384.4204511496835236374.stgit@frogsfrogsfrogs>
+References: <20260429102058.1362965-1-mszeredi@redhat.com> <CAJnrk1Z_JWtuA3UjucF9=YH63AH_-J_0hzr9jbY99Hx3O8YrAw@mail.gmail.com>
+ <CAJfpegspraqMp1Z3mi_csiw6haawZPa4zWheSUN7MhBy47aYKQ@mail.gmail.com>
+ <CAOQ4uxgV4_Pet0w3f+Sq4kLkvgKM6FyJwZ4AQsnvctC3w=dP6g@mail.gmail.com>
+ <CAJnrk1ZvB-R3Szn-VxOZvPRgX_dXwMLouBphnT9_URCE8SxTvQ@mail.gmail.com>
+ <CAOQ4uxidwSn69A08Urue7S7n8wrGQcyGuvRL387pD+rpSFP-Ew@mail.gmail.com> <CAJnrk1ZJ1pVWn21HZATRes55RJD0F0+6SHbq-8FojPutQTiW6Q@mail.gmail.com>
+In-Reply-To: <CAJnrk1ZJ1pVWn21HZATRes55RJD0F0+6SHbq-8FojPutQTiW6Q@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 15 May 2026 22:17:40 +0200
+X-Gm-Features: AVHnY4I2LLv-HfpohghtdvVbqkqJkNUSgOrPr2eYGxJXSVJpcLIcLIkS7YOTO2s
+Message-ID: <CAOQ4uxgDGuFq=Szw8G1BMuhuBhZ029kf+FrVq6y2Oq+gaQ78sA@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add fusex filesystem
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 29, 2026 at 07:49:14AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Add the library methods so that fuse servers can manage an in-kernel
-> iomap cache.  This enables better performance on small IOs and is
-> required if the filesystem needs synchronization between pagecache
-> writes and writeback.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  include/fuse_common.h   |   12 +++++++
->  include/fuse_kernel.h   |   27 ++++++++++++++++
->  include/fuse_lowlevel.h |   52 ++++++++++++++++++++++++++++++++
->  lib/fuse_lowlevel.c     |   77 +++++++++++++++++++++++++++++++++++++++++++++++
->  lib/fuse_versionscript  |    2 +
->  5 files changed, 170 insertions(+)
-> 
-> 
-> diff --git a/include/fuse_common.h b/include/fuse_common.h
-> index 7b209b217b310e..76c65f7e79179e 100644
-> --- a/include/fuse_common.h
-> +++ b/include/fuse_common.h
-> @@ -1163,6 +1163,10 @@ int fuse_convert_to_conn_want_ext(struct fuse_conn_info *conn);
->  
->  /* fuse-specific mapping type indicating that writes use the read mapping */
->  #define FUSE_IOMAP_TYPE_PURE_OVERWRITE	(255)
-> +/* fuse-specific mapping type saying the server has populated the cache */
-> +#define FUSE_IOMAP_TYPE_RETRY_CACHE	(254)
-> +/* do not upsert this mapping */
-> +#define FUSE_IOMAP_TYPE_NOCACHE		(253)
->  
->  #define FUSE_IOMAP_DEV_NULL		(0U)	/* null device cookie */
->  
-> @@ -1292,6 +1296,14 @@ struct fuse_iomap_config {
->  	int64_t s_maxbytes;	/* max file size */
->  };
->  
-> +/* invalidate to end of file */
-> +#define FUSE_IOMAP_INVAL_TO_EOF		(~0ULL)
-> +
-> +struct fuse_file_range {
-> +	uint64_t offset;	/* file offset to invalidate, bytes */
-> +	uint64_t length;	/* length to invalidate, bytes */
-> +};
-> +
->  /* ----------------------------------------------------------- *
->   * Compatibility stuff					       *
->   * ----------------------------------------------------------- */
-> diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
-> index 3ed174567dc172..115c8a228e765a 100644
-> --- a/include/fuse_kernel.h
-> +++ b/include/fuse_kernel.h
-> @@ -251,6 +251,8 @@
->   *  - add FUSE_ATTR_ATOMIC for single-fsblock atomic write support
->   *  - add FUSE_ATTR_{SYNC,IMMUTABLE,APPEND} for VFS enforcement of file
->   *    attributes
-> + *  - add FUSE_NOTIFY_IOMAP_{UPSERT,INVAL}_MAPPINGS so fuse servers can cache
-> + *    file range mappings in the kernel for iomap
->   */
->  
->  #ifndef _LINUX_FUSE_H
-> @@ -718,6 +720,8 @@ enum fuse_notify_code {
->  	FUSE_NOTIFY_INC_EPOCH = 8,
->  	FUSE_NOTIFY_PRUNE = 9,
->  	FUSE_NOTIFY_IOMAP_DEV_INVAL = 99,
-> +	FUSE_NOTIFY_IOMAP_UPSERT_MAPPINGS = 100,
-> +	FUSE_NOTIFY_IOMAP_INVAL_MAPPINGS = 101,
->  };
->  
->  /* The read buffer is required to be at least 8k, but may be much larger */
-> @@ -1468,4 +1472,27 @@ struct fuse_iomap_dev_inval_out {
->  	struct fuse_range range;
->  };
->  
-> +struct fuse_iomap_inval_mappings_out {
-> +	uint64_t nodeid;	/* Inode ID */
-> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
-> +
-> +	/*
-> +	 * Range of read and mappings to invalidate.  Zero length means ignore
-> +	 * the range; and FUSE_IOMAP_INVAL_TO_EOF can be used for length.
-> +	 */
-> +	struct fuse_range read;
-> +	struct fuse_range write;
-> +};
-> +
-> +struct fuse_iomap_upsert_mappings_out {
-> +	uint64_t nodeid;	/* Inode ID */
-> +	uint64_t attr_ino;	/* matches fuse_attr:ino */
-> +
-> +	/* read file data from here */
-> +	struct fuse_iomap_io	read;
-> +
-> +	/* write file data to here, if applicable */
-> +	struct fuse_iomap_io	write;
-> +};
-> +
->  #endif /* _LINUX_FUSE_H */
-> diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
-> index 67c9bd4b2c6cee..3e9ceae9aa4aa4 100644
-> --- a/include/fuse_lowlevel.h
-> +++ b/include/fuse_lowlevel.h
-> @@ -2261,6 +2261,58 @@ int fuse_lowlevel_iomap_device_remove(struct fuse_session *se, int device_id);
->  int fuse_lowlevel_iomap_device_invalidate(struct fuse_session *se, int dev,
->  					  off_t offset, off_t length);
->  
-> +/*
-> + * Upsert some file mapping information into the kernel.  This is necessary
-> + * for filesystems that require coordination of mapping state changes between
-> + * buffered writes and writeback, and desirable for better performance
-> + * elsewhere.
-> + *
-> + * Added in FUSE protocol version 7.99. If the kernel does not support
-> + * this (or a newer) version, the function will return -ENOSYS and do
-> + * nothing.
-> + *
-> + * @param se the session object
-> + * @param nodeid the inode number
-> + * @param attr_ino inode number as told by fuse_attr::ino
-> + * @param read mapping information for file reads
-> + * @param write mapping information for file writes
-> + * @return zero for success, -errno for failure
-> + */
-> +int fuse_lowlevel_iomap_upsert_mappings(struct fuse_session *se,
-> +					fuse_ino_t nodeid, uint64_t attr_ino,
-> +					const struct fuse_file_iomap *read,
-> +					const struct fuse_file_iomap *write);
-> +
-> +/*
-> + * Update a mapping that will be sent to the kernel as part of an iomap_begin
-> + * reply to signal that the mapping has been upserted into the cache.
-> + */
-> +static inline void fuse_file_iomap_retry_cache(struct fuse_file_iomap *map)
-> +{
-> +	map->type = FUSE_IOMAP_TYPE_RETRY_CACHE;
-> +	map->dev = FUSE_IOMAP_DEV_NULL;
-> +	map->addr = FUSE_IOMAP_NULL_ADDR;
-> +}
-> +
-> +/**
-> + * Invalidate some file mapping information in the kernel.
-> + *
-> + * Added in FUSE protocol version 7.99. If the kernel does not support
-> + * this (or a newer) version, the function will return -ENOSYS and do
-> + * nothing.
-> + *
-> + * @param se the session object
-> + * @param nodeid the inode number
-> + * @param attr_ino inode number as told by fuse_attr::ino
-> + * @param read file read mapping range to invalidate
-> + * @param write file write mapping range to invalidate
-> + * @return zero for success, -errno for failure
-> + */
-> +int fuse_lowlevel_iomap_inval_mappings(struct fuse_session *se,
-> +				       fuse_ino_t nodeid, uint64_t attr_ino,
-> +				       const struct fuse_file_range *read,
-> +				       const struct fuse_file_range *write);
-> +
->  /* ----------------------------------------------------------- *
->   * Utility functions					       *
->   * ----------------------------------------------------------- */
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index d3e2d4c698a62b..6e8d2a7d74201b 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -3777,6 +3777,83 @@ int fuse_lowlevel_iomap_device_invalidate(struct fuse_session *se, int dev,
->  	return send_notify_iov(se, FUSE_NOTIFY_IOMAP_DEV_INVAL, iov, 2);
->  }
->  
-> +int fuse_lowlevel_iomap_upsert_mappings(struct fuse_session *se,
-> +					fuse_ino_t nodeid, uint64_t attr_ino,
-> +					const struct fuse_file_iomap *read,
-> +					const struct fuse_file_iomap *write)
-> +{
-> +	struct fuse_iomap_upsert_mappings_out outarg = {
-> +		.nodeid		= nodeid,
-> +		.attr_ino	= attr_ino,
-> +		.read		= {
-> +			.type	= FUSE_IOMAP_TYPE_NOCACHE,
-> +		},
-> +		.write		= {
-> +			.type	= FUSE_IOMAP_TYPE_NOCACHE,
-> +		}
-> +	};
-> +	struct iovec iov[2];
-> +
-> +	if (!se)
-> +		return -EINVAL;
-> +
-> +	if (se->conn.proto_minor < 99)
+On Fri, May 15, 2026 at 1:24=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
+>
+...
+> > Cool. Let's get this rolling.
+> > I need to get my test setup back in shape.
+>
+> What is the test setup you are using? fstests with passthrough_hp or
 
-Codex complains that we need to check proto_major here (and in the other
-notify function) ... but I think we should check for FUSE_CAP_IOMAP.
+Yes. *was* using while I developed the passthrough patches.
+Didn't run it for a while.
 
---D
+> are there other tests in addition to that? If there's other tests
+> you'd like me to run besides fstests, please let me know and I'd be
+> happy to do that.
 
-> +		return -ENOSYS;
-> +
-> +	if (!read && !write)
-> +		return 0;
-> +
-> +	if (read)
-> +		fuse_iomap_to_kernel(&outarg.read, read);
-> +
-> +	if (write)
-> +		fuse_iomap_to_kernel(&outarg.write, write);
-> +
-> +	iov[1].iov_base = &outarg;
-> +	iov[1].iov_len = sizeof(outarg);
-> +
-> +	return send_notify_iov(se, FUSE_NOTIFY_IOMAP_UPSERT_MAPPINGS, iov, 2);
-> +}
-> +
-> +static inline void
-> +fuse_iomap_range_to_kernel(struct fuse_range *range,
-> +			   const struct fuse_file_range *firange)
-> +{
-> +	range->offset = firange->offset;
-> +	range->length = firange->length;
-> +}
-> +
-> +int fuse_lowlevel_iomap_inval_mappings(struct fuse_session *se,
-> +				       fuse_ino_t nodeid, uint64_t attr_ino,
-> +				       const struct fuse_file_range *read,
-> +				       const struct fuse_file_range *write)
-> +{
-> +	struct fuse_iomap_inval_mappings_out outarg = {
-> +		.nodeid		= nodeid,
-> +		.attr_ino	= attr_ino,
-> +	};
-> +	struct iovec iov[2];
-> +
-> +	if (!se)
-> +		return -EINVAL;
-> +
-> +	if (se->conn.proto_minor < 99)
-> +		return -ENOSYS;
-> +
-> +	if (!read && !write)
-> +		return 0;
-> +
-> +	if (read)
-> +		fuse_iomap_range_to_kernel(&outarg.read, read);
-> +	if (write)
-> +		fuse_iomap_range_to_kernel(&outarg.write, write);
-> +
-> +	iov[1].iov_base = &outarg;
-> +	iov[1].iov_len = sizeof(outarg);
-> +
-> +	return send_notify_iov(se, FUSE_NOTIFY_IOMAP_INVAL_MAPPINGS, iov, 2);
-> +}
-> +
->  struct fuse_retrieve_req {
->  	struct fuse_notify_req nreq;
->  	void *cookie;
-> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-> index 9c9013c964488c..41e0193708e57d 100644
-> --- a/lib/fuse_versionscript
-> +++ b/lib/fuse_versionscript
-> @@ -272,6 +272,8 @@ FUSE_3.99 {
->  		fuse_lowlevel_add_iomap;
->  		fuse_service_configure_iomap;
->  		fuse_lowlevel_iomap_set_blocksize;
-> +		fuse_lowlevel_iomap_upsert_mappings;
-> +		fuse_lowlevel_iomap_inval_mappings;
->  } FUSE_3.19;
->  
->  # Local Variables:
-> 
-> 
+Nothing beyond the libfuse test_passthrough_hp sanity test and
+fstests with passthough_hp.
+
+>
+> When I ran fstests yesterday with passthrough_hp, I saw generic 683,
+> 684, and 685 (dropping suid/sgid on fallocate, fpunch, and fzero)
+> start passing, but beyond that I didn't see any improvements (or
+> regressions).
+
+That's the last report I have on record:
+https://lore.kernel.org/linux-fsdevel/CAOQ4uxh=3DcLySge6htd+DnJrqAKF=3DC_oJ=
+YfVrbpvQGik0wR-+iw@mail.gmail.com/
+
+It speaks of some tests that are
+"failing because of missing mtime/atime/ctime updates" and of
+"failure to strip suid/sgid bits in some cases"
+
+I had imagined that the passthrough of GETATTR would fix some of those
+failing tests and to some extent, this is in line with your report.
+
+Attribute cache and passthrough is an unfinished business.
+If we could force passthrough of GETATTR when inode is
+in passthrough iomode, I wouldn't mind.
+
+Thanks,
+Amir.
