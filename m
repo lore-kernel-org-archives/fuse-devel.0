@@ -1,191 +1,138 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311EC3EDACD
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 21:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778881417; cv=pass; b=KFTrzpbS4SuShDEzHZJSzSsPQflwjVK8ryj2PGrgdVpUtmNXTqeuMiwVHN3/+s0YzqU0SLKsDNlGRS4QscYpjgpBl0vdYC6zz5XQ2nMoGB6AcQ01hRGkE91skoVlS1zkVHKClZaIrrJsdlw2N7NgmTOHtwgZ09W9ORSRme89Deg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778881417; c=relaxed/simple;
-	bh=Q0CM9CcP2qsJx8ZTNz96giUIPG82DA4jHkT34z88mlQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fBpJ3ons54OdJYFL87Jqg3wG8eiSGltAQv64AAtbHuYKOWBRz1P8fOlk5t8nJdJPeu3q1umAsdO0Js7SzBcQ9aU5GdE+mjXw1k9XjlXSvIxTN5s5JMjOXeeGPqtA/7yR4iYcE8iDlVUmks87oPfx0aUiX45XaK0ZZmIyb3Ip5yI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UBSuTYs1; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45EB5390C9E;
+	Fri, 15 May 2026 21:49:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778881782; cv=none; b=kIn0e7hXnoaTQ81vtcW33ShEfWZT8t9tGU8JyoiI2MddCbdm0Xvsox9u48yuQRRrJSN98bxblaS/v/c/SBJuLt44gNY/MRSm2E5X4xhzH9Vkou3Aa/FTa4FlJDLwCEAtL04g9vpYx+Jw36w4cqXp5aiOSQnJ2njWJy09L++ufwM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778881782; c=relaxed/simple;
+	bh=eZtnPAyW3wvMBTGehn2ipTsmWPu1akcmgaOfWu07T8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GzFF1eqshIEtzcqU+TD/O5KX+ewnx4xDCZKSfA6HquGXsX6xi9aixCT8Hp4rALpdTLQFL6kEImQ9RxzatwWBN8OckgAhT4eVe5OgAAoI8w2O76K1HDRUVoGdbXeL3sgvYASeG9z506at6+eI8pc1aWV5uc/7k/ldk9FqZqL4/wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ogqKoG12; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UBSuTYs1"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-672645dbfeaso496694a12.0
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 14:43:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778881415; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kYqtJhTcvtXHhAGdaUZhMP/LiQZdZVtvnrjHu3bpdO+icgdteBWAXC4pT++lqpkT8w
-         Yfgvo0QpFMPNE4EugrA/pYCjJfPEyunKouWetWxuUIFQ9SSbeFRR4aE+SQTeF/LdIl2F
-         e8AJh8EzwWMyXV1M2CMzKnd/2BfXy42taOuuudI1/Q0aNtmj7Lm6cb4CZRV+u7Sc2G2g
-         iHOOtBxP03FBEo8hSy9FV7prwJANTK8/uiGAySyZbVvfeN4ToIZrQxa96pg4zELxe7cs
-         /9A3rOpnSTZlcUEUAZi8F+QFq4MfK+cUIr4bDtVji2S+wUsd7bCp0pPfKWHjsUANrqD2
-         pUXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4K0dPW2QPPaLp7VmZFFIc9zXTxDqaqGxzNB77scsbfI=;
-        fh=i95lqT/F9WJQKLg9qbsArs3MqiwMQpw1/TIn0b94mME=;
-        b=CPG2Vjot+ZiwIZ3FDEYQo3TYjqnHbkCK6gsv2wJjBtpFoicAOt2sAVjQKtaCb62nl8
-         9zbo1w3+TXdh1H0gnVmdEqNI7vtIt+kYHEBZgF2AjK05O2guu2F9Cq5h6FY0YCfJiZYY
-         aoA8XAKtG8UK+Xho5V26vzIE6pZaWmk4nqSPfbaiqDNWoiMTs51EZZLTh3KMwIPle7Ds
-         yVrGAEg+HNEr/unClN5Z3DELxmqKp/ykFauTb8Im9w8hL+OTW4wKf+6XXeNGOq3Z6PnO
-         HhS28PvzY47iGk5kunoVxZjKv/SdXXQ+6MLBoKDu2fWJbAHc7jvgWHJnk92ua0p6Y3pF
-         7Alg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778881415; x=1779486215; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4K0dPW2QPPaLp7VmZFFIc9zXTxDqaqGxzNB77scsbfI=;
-        b=UBSuTYs1cFTym1FjnAdJQ0vifeXu5nndFs5RU0YHPGMg6jdCG7tb3SfGy1jYfyoyYY
-         msDCo+KwAYnMVv8jJlzI0Ga6XLznad7t9tPcLdAq2hxeo5wkywyd0WDc/gf8llmZ8iZf
-         Dc7sAzO53wjeAqDOkNnOpPVN93EbqdbqqjqhU9l2i/FdYL5lMc9j/VVrPuwhLjL7anbV
-         VIE94sjKKj/jQVDWsJCRhxhKalu4UmkDEUyFWJfEo+T3jGrSHer0RACixDjDv6+s5BuD
-         DmI7uy/eBaxbXMIARPtGwE9XFI9Mv1QCSrHgIiTXBcsJhm9BakgnGqqIMjWWRVtZOfFU
-         Hkrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778881415; x=1779486215;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4K0dPW2QPPaLp7VmZFFIc9zXTxDqaqGxzNB77scsbfI=;
-        b=J9oDBo8pSImADU87/K+snwGosjot5ck/4jUrujYwlMdgKnSQpMQOvoOz6RTp0CyyBC
-         WgCwoiRZnoX1kqNvr6wWn6+ivRr6Y4MpkvlwtN7mkSUqCabZK4ySFB7J+9JehL/ihuSP
-         mBZ/lZEDnhdgylrmlgdFBL69H82RtOQ8vFM33AhT2BEBgXUGPbh3i+CLvPNyXOJQDexg
-         t3DNgVUAJYuQiMQlVJwi3ux3upDdRBpq5Fx9fcDDOM67Jx6QyyXnqI3BaJEVi5VjrwF9
-         rsUxybqTaXtwNCAe5dxuzCboCm0Kk1/guja6/7kmvp+L2+Y3oSIckZDfw1CQBGjXul3k
-         yMwg==
-X-Forwarded-Encrypted: i=1; AFNElJ9edrADACfx0QfWjcPnARqynBF3lyh1j33jmtsxUZhZVWnQzugrAWDnRlq1U3xQlXvhU5A9H9T+BMKH@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyzOLip3nt3LFgbKgWvQGCF7RIy3XUPDOxEnwz8QbPtaLiSUJG
-	ecCav7hRMOSR1ezb1CMh5//2sLZb+Jl2Jtq0KT1UeYPetI3SWX7oOp8RrEKbDTf/ZHKWHwOutwv
-	8Yj519LptTXwrPBG+O+tsdtP0CQ25us8=
-X-Gm-Gg: Acq92OHrZLzSwvO1gf2f3Lt6iGJF1dJshZM7ccXZpsEW5qsg/D1vHFQ6H9vkNWfSf1/
-	QS+Ze55QNwdNTYc7y3kwDZjnJ+yW9A4l8oMQIWeHH6E7ShjTbeDGK7PvftyFyGJeHueUpXeJkQ3
-	RwANwGKIeWbHt6LslovGiUcaZ7pdwIhN6IAAcZTT1pO8MUG2JI2DivvH9wPWMfre8nygXiW8HXO
-	hPevHzRk5d+HqLzkUetrReZ34Kt8zCpK7FccqxcMCLf8iwwIxrtoN7MRd3Z/EK/Dj9bart00jUK
-	22gYxrjVFQobVv6YoFoXohECS1q9BJSnUGXOt3exn6DZs0iS4jXm
-X-Received: by 2002:a05:6402:3510:b0:67f:7e9b:afe8 with SMTP id
- 4fb4d7f45d1cf-683bc5bdb08mr2947889a12.6.1778881414446; Fri, 15 May 2026
- 14:43:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ogqKoG12"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5F32C2BCB0;
+	Fri, 15 May 2026 21:49:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778881781;
+	bh=eZtnPAyW3wvMBTGehn2ipTsmWPu1akcmgaOfWu07T8o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ogqKoG12+DU5czBbA5XPetQeISucAbVmVk7MtKLEFGy+ODzPQZcIn383uej1enefk
+	 DSnTkoUJ6Y1KbbGbSiiWhfDJkNSiKYdH86xoqqfmkES25x9q1TsWefhfxu3PNRY91a
+	 0K5hmCFxub/09irTGulE5NYA4i+R1gSw2NP2P3w9DqhtPetCdG6tSL2XMcxLtIZjB/
+	 uJ/Sh54WcOaLxt1dPvgmP5XrFvnZ3tPvUFHxiEpY4NdbvA1HHNCRssMnb2/TZGpg3u
+	 SERNQ7eC/AUIRko12we5xKK4Lef1t8bF0KUPX36cqA6mFnjV3P6So1XMZ59nMPzCFb
+	 El0iiQcTYhxFQ==
+Date: Fri, 15 May 2026 14:49:41 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev,
+	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com,
+	fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 3/9] fuse: allow local filesystems to set some VFS iflags
+Message-ID: <20260515214941.GF9568@frogsfrogsfrogs>
+References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
+ <177747206552.4103309.6736684975553576273.stgit@frogsfrogsfrogs>
+ <20260514221439.GJ9544@frogsfrogsfrogs>
+ <CAOQ4uxj-JandJhCQ8VzsqqvkqCCenMFkAQxNwm9e2RRiqQqACg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
- <177747206617.4103309.9491664333731079107.stgit@frogsfrogsfrogs> <20260514221847.GL9544@frogsfrogsfrogs>
-In-Reply-To: <20260514221847.GL9544@frogsfrogsfrogs>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 15 May 2026 23:43:23 +0200
-X-Gm-Features: AVHnY4Lo33sQrExWGKxaR_cAZTJSjaGP-L92Ukdt5ubczf1SkIvoAriEDI8DfUw
-Message-ID: <CAOQ4uxgU7Gsqd3H7v=izpm8Wbjrc7Qzv_BHzB8WQNpg=X4oMvQ@mail.gmail.com>
-Subject: Re: [PATCH 6/9] fuse: let the kernel handle KILL_SUID/KILL_SGID for
- iomap filesystems
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev, 
-	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOQ4uxj-JandJhCQ8VzsqqvkqCCenMFkAQxNwm9e2RRiqQqACg@mail.gmail.com>
 
-On Fri, May 15, 2026 at 12:18=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
-> wrote:
->
-> On Wed, Apr 29, 2026 at 07:34:38AM -0700, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
+On Fri, May 15, 2026 at 11:14:38PM +0200, Amir Goldstein wrote:
+> On Fri, May 15, 2026 at 12:14 AM Darrick J. Wong <djwong@kernel.org> wrote:
 > >
-> > Let the kernel handle killing the suid/sgid bits because the
-> > write/falloc/truncate/chown code already does this, and we don't have t=
-o
-> > worry about external modifications that are only visible to the fuse
-> > server (i.e. we're not a cluster fs).
-> >
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  fs/fuse/dir.c |   11 ++++++++---
-> >  1 file changed, 8 insertions(+), 3 deletions(-)
-> >
-> >
-> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> > index 61015e83888ee4..e664a60200ee26 100644
-> > --- a/fs/fuse/dir.c
-> > +++ b/fs/fuse/dir.c
-> > @@ -2477,6 +2477,7 @@ static int fuse_setattr(struct mnt_idmap *idmap, =
-struct dentry *entry,
-> >       struct inode *inode =3D d_inode(entry);
-> >       struct fuse_conn *fc =3D get_fuse_conn(inode);
-> >       struct file *file =3D (attr->ia_valid & ATTR_FILE) ? attr->ia_fil=
-e : NULL;
-> > +     const bool is_iomap =3D fuse_inode_has_iomap(inode);
-> >       int ret;
-> >
-> >       if (fuse_is_bad(inode))
-> > @@ -2485,15 +2486,19 @@ static int fuse_setattr(struct mnt_idmap *idmap=
-, struct dentry *entry,
-> >       if (!fuse_allow_current_process(get_fuse_conn(inode)))
-> >               return -EACCES;
-> >
-> > -     if (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID)) {
-> > +     if (!is_iomap &&
-> > +         (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))) {
-> >               attr->ia_valid &=3D ~(ATTR_KILL_SUID | ATTR_KILL_SGID |
-> >                                   ATTR_MODE);
-> >
-> >               /*
-> >                * The only sane way to reliably kill suid/sgid is to do =
-it in
-> > -              * the userspace filesystem
-> > +              * the userspace filesystem if this isn't an iomap file. =
- For
-> > +              * iomap filesystems we let the kernel kill the setuid/se=
-tgid
-> > +              * bits.
-> >                *
-> > -              * This should be done on write(), truncate() and chown()=
-.
-> > +              * This should be done on write(), truncate(), chown(), a=
-nd
-> > +              * fallocate().
->
-> FWIW Codex noticed that in iomap mode we still send FATTR_KILL_SUIDGID
-> even though we claim the kernel is supposedly handling the mode
-> stripping for us.  Granted I've been starting to suspect that some of
-> these file attribute related things ought to be gated on exclusive mode
-> and not iomap mode.  Will have to do a comprehensive review when I get
-> through the current round of bot complaints.
+> > On Wed, Apr 29, 2026 at 07:33:51AM -0700, Darrick J. Wong wrote:
+> > > From: Darrick J. Wong <djwong@kernel.org>
+> > >
+> > > There are three inode flags (immutable, append, sync) that are enforced
+> > > by the VFS.  Whenever we go around setting iflags, let's update the VFS
+> > > state so that they actually work.  Make it so that the fuse server can
+> > > set these three inode flags at load time and have the kernel advertise
+> > > and enforce them.
+> > >
+> > > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> > > ---
+> > >  fs/fuse/fuse_i.h          |    1 +
+> > >  include/uapi/linux/fuse.h |    8 +++++++
+> > >  fs/fuse/dir.c             |    1 +
+> > >  fs/fuse/inode.c           |    1 +
+> > >  fs/fuse/ioctl.c           |   50 +++++++++++++++++++++++++++++++++++++++++++++
+> > >  5 files changed, 61 insertions(+)
+> > >
+> > >
+> > > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > > index 95b37f4660cc1d..3b38b98dc0096c 100644
+> > > --- a/fs/fuse/fuse_i.h
+> > > +++ b/fs/fuse/fuse_i.h
+> > > @@ -1651,6 +1651,7 @@ long fuse_file_compat_ioctl(struct file *file, unsigned int cmd,
+> > >  int fuse_fileattr_get(struct dentry *dentry, struct file_kattr *fa);
+> > >  int fuse_fileattr_set(struct mnt_idmap *idmap,
+> > >                     struct dentry *dentry, struct file_kattr *fa);
+> > > +void fuse_fileattr_init(struct inode *inode, const struct fuse_attr *attr);
+> > >
+> > >  /* iomode.c */
+> > >  int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff);
+> > > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> > > index b6fa828776b82f..bf8514a5ee27af 100644
+> > > --- a/include/uapi/linux/fuse.h
+> > > +++ b/include/uapi/linux/fuse.h
+> > > @@ -249,6 +249,8 @@
+> > >   *  - add FUSE_IOMAP_CONFIG so the fuse server can configure more fs geometry
+> > >   *  - add FUSE_NOTIFY_IOMAP_DEV_INVAL to invalidate iomap bdev ranges
+> > >   *  - add FUSE_ATTR_ATOMIC for single-fsblock atomic write support
+> > > + *  - add FUSE_ATTR_{SYNC,IMMUTABLE,APPEND} for VFS enforcement of file
+> > > + *    attributes
+> > >   */
+> > >
+> > >  #ifndef _LINUX_FUSE_H
+> > > @@ -606,12 +608,18 @@ struct fuse_file_lock {
+> > >   * kernel can use cached attributes more aggressively (e.g. ACL inheritance)
+> > >   * FUSE_ATTR_IOMAP: Use iomap for this inode
+> > >   * FUSE_ATTR_ATOMIC: Enable untorn writes
+> > > + * FUSE_ATTR_SYNC: File writes are synchronous
+> > > + * FUSE_ATTR_IMMUTABLE: File is immutable
+> > > + * FUSE_ATTR_APPEND: File is append-only
+> > >   */
+> > >  #define FUSE_ATTR_SUBMOUNT      (1 << 0)
+> > >  #define FUSE_ATTR_DAX                (1 << 1)
+> > >  #define FUSE_ATTR_EXCLUSIVE  (1 << 2)
+> > >  #define FUSE_ATTR_IOMAP              (1 << 3)
+> > >  #define FUSE_ATTR_ATOMIC     (1 << 4)
+> > > +#define FUSE_ATTR_SYNC               (1 << 5)
+> > > +#define FUSE_ATTR_IMMUTABLE  (1 << 6)
+> > > +#define FUSE_ATTR_APPEND     (1 << 7)
+> > >
+> 
+> This feels like an abuse of the FUSE_ATTR_ flags.
 
-As I told Joanne in PASSTHROUGH_INO review
-https://lore.kernel.org/fuse-devel/CAOQ4uxipQJt5zskb_THxueGi_MXpFdywFiGpd_n=
-mWeY_sMHwzQ@mail.gmail.com/
+Oh, it totally is!  I'm not sure what the FUSE_ATTR_ flags are meant
+for: are they only for enabling the sorts of features that *must* be
+turned on at INEW time?
 
-Why do we need to deal with these special cases at all?
+> Seeing that Miklos wanted to convert LOOKUP
+> response to a compound response of LOOKUP+STATX
+> it would have been nicer to get those flags from fuse_statx
 
-I understand that you want iomap to be per inode and that
-both you and Miklos are in favor of allowing mixing iomap and passthrough
-and other inode iomodes on the same filesystem, that's fine.
+Yeah, if I could go back in time I'd redesign fuse to have its own file
+attributes structure instead of stat and statx.
 
-But we also made a note that the iomap patch set is very big and we would
-all benefit if we could start with a slightly leaner patch set.
+> only there is no STATX_ATTR_SYNC <WHY?>
+> I shiver to suggest adding it to statx.
 
-Mixing on the same filesystem, iomap inodes where kernel handles
-killpriv and regular inodes where server handles killpriv seems like
-too much freedom to me.
+I don't know either.  File attributes on linux are a mess, look at
+statx + getflags + file_getattr.
 
-The moment that filesystem opts-in for IOMAP, can we say that
-the rest of the inodes are at least "local-only" (no remote changes
-of those other inodes)? so server should not be able to have both
-iomap and handle_killpriv enabled.
+> Oh well, I don't know. It's up to Miklos to make this call.
 
-If IOMAP is going to be merged via the FUSEX protocol, this is one
-of the FUSEX requirements anyway.
-
-Thanks,
-Amir.
+--D
