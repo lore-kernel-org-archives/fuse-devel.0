@@ -1,248 +1,177 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6200B3E0C40
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 20:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427DD366820
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 20:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778877230; cv=pass; b=h3hBalgYLFMNie5Bm6JUIVOkkrWw1twFcS9w1oUnu/z6aOMThSgnBtAnoj0quDF1OekkNVthw974WksoTCKAO6Pb27DHeiJ5S2Btf8vDp2IfrLamhevaTTshYsrIfMvNP+Khhb15gXWTczACz4BYFMPrtQnLEh/0fr5YUGCn4ec=
+	t=1778878203; cv=pass; b=Qgoxb8tdSgNsvzrVx7I7DME+wnsi8KD8LNecyBCzVE2eDbL3QMaZ+zm+qAhjY3sVSdIe9QiMjX2FNMKVXgaJgTzXeValqxTGSmMrBguvsnAxD/BK3EWEWfQbirnd5qpOmRPIeyBJWoBuMcnd74ca+6sdgMm/Y6uxBbn/CIBJkck=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778877230; c=relaxed/simple;
-	bh=sJ08cfxGxtMWEPXCgzYLZJMNbjtpjryi3KoiukkfceI=;
+	s=arc-20240116; t=1778878203; c=relaxed/simple;
+	bh=twKFMm3fnXpbB27v6g9MCxMEqzROBKrV8kJXpuF6zrg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u62biQWNCiAmpJWyly8FDY6tvYqurZKx7qzEqv8PkG9h58TuzgBo57lwjSAGQbthj83KKd98Ujs4l4jpO24qzajorPr5zoEI/ZW9NaR6gRu9q92hx5W28RAGx0Ztf0g5y731kKf0q6KGmYN9Sn1+bSZkHeGrW1Dd1ssV5WZn/3g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Im1EpaZH; arc=pass smtp.client-ip=209.85.208.47
+	 To:Cc:Content-Type; b=XkHSYAcWFnzAcugv3xvS16bzYeZT5VzGA3ZvuAu2RZAmggc4lI/srYWpFA+bkPFnLs0/e9PenkMprifELecoGRpBtHcQZSpdUNpAYEDuF8QeEmXXnCY0noRhVgDMjLUw3vjQ/sC1Xj4pHlVHt/191HLB9nJZiGUMsasI5mdNBjY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kjH8EZPj; arc=pass smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Im1EpaZH"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-67929ff6dbfso468149a12.2
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 13:33:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778877227; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kjH8EZPj"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45d96d21e82so93835f8f.0
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 13:50:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778878201; cv=none;
         d=google.com; s=arc-20240605;
-        b=BvgxNC78Knk2MPQwr0tJlwM88n3qMFLgvbPEao5K1bMvCsHX7nSeWIK1jWHGTsZATi
-         NyTwGwdfco05sEtWK8xQ4Is03A+sy86NJ5eRAOSv0Iq3Uia3u4yxKUopxGzHYEeiKxTQ
-         WuYMiNnnDGLfBimi/L5Uqgx4KB7bIBkBtlSjgYWFiBOOoUlj+fqWjJECOZfXA2cDw1hP
-         m6SIGWDUIO/mDgU4yLnRLre1lBUcO9iDc82PMuuxQ5AM0X3m7iftHdVf3ovQMLbSz4LY
-         +4LiJyMWWFfN8wQGi+5R4uXtXeyko90tdIufUP/+dT0ukn7n3rO3E0uCqBM4slnjLH8J
-         z3cg==
+        b=Ib9FWUkka8UYZrvl8U+tWYgvjA5AB34mrT6mCNTRHNsS7H40W8eYXRDC4QE4COPOlc
+         RAb6lk5odpcClZD/efSHHjtil9NNy2sY8PdxaE1K+5/WcvSDee5G5rTlTBOr+7SIp335
+         VuPBl7xFrUyPw+Dfome7idl5wQp0PAKi7s2knoICedSrFDMFfFb0TZF2gd9K6tUd0U9d
+         2YmU4/O8PyGvAre9bKpivNsTFv4PTYvcickvW6zws8lgEord43uZOoBEB/t4TUBLqpn4
+         H03NbROcEvsTcrmfmE8eGSP+Klckj89LD60HcCPWiPgNeb9SihuFJsk2gepNgh7peoFz
+         +tTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=9YwlJJcvYwY8fns8m48KGL1VHm6uk+SQqlLXYhIKgz8=;
-        fh=t2tHLq5FfNrk5xiI6ccEeK7jhqyys61qhOAXjUrWMis=;
-        b=KIVJJrxdF14Ja7rMveZOo9ERZr4k7IJpgNAfNun8ejLphWZEWJK1ZQRYDUaTgM1+az
-         YObyLCol78jt0C1b0cD6pcgfqLfSCW6ej7FPThIZyrEZie5onh5zRWpRQfSk5aVw3SDO
-         Rz695WYMsCaywZ7Ghbi0XnLQZHcKz/UbLZGhmKfdBE+Kq6gZ9raVNOOsTbxox1MnTU9L
-         BLe0h+9kueoDhtl58hIRf891B68WOAiAus5iupCw7NMW3LEu/7GBoBDqN02ikP868H/u
-         u5J8T7m88hsJaBCXoGlBkg3JdRg4h7kDorxiqCfVcqaKKQi64GybN0yrJhYat5kpCPd8
-         T92Q==;
+        bh=2ij3w2CjfgNV2o6HdX3r2I2TaWMvjfbeVIPwDmb0njk=;
+        fh=w0pLANuAkXnYx2sYj1+t3pJIAPSN840MnIQbPEQJdpw=;
+        b=T09N2ps0wyX80M7x88stYeVVThtZ2I4FVy0ktLZu5x0lH3sGXF2QzeeYnPEY8EnHhE
+         WF3zlquDuvbQm0VOVZER5JclcYKoCMuQmto2LRUTK8RcYo6HzAtRp0X9xUb+D2tmL8ch
+         IzPOU6eDtE1B0knd/+GyiUbjSuemjF7gpo+36Fj17ykg8c3o+1+/Qq1tuKwYvm8ZFp85
+         19VBYWghA+4pRUH6BPFxY01md2hh3kGEx9M1So04wqK8FNVaIBzi+dKLbdFmKOBUjSNW
+         RENxuJrXQpoQfRysFkBVokb5tfZ/cAhIG7RqpSj/MsNVi25KbW/s9KTZfx4IaFfflPOl
+         5fAQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778877227; x=1779482027; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778878201; x=1779483001; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9YwlJJcvYwY8fns8m48KGL1VHm6uk+SQqlLXYhIKgz8=;
-        b=Im1EpaZHRAMpcyHR5bQFiz4qOSrTUXMLIUJINZdX/pvBFVfi+k71LYLMY0AjInXND+
-         tloqdb5CPY/LesoL7qu8Xz+Ob+/fKVx+e4t3j729qVBne5YK5wQuHf/QIwEL3ikzra8+
-         Gekk8eVPH0I+ZdHLHtMSfTQKjH7mPEaHM4aNctQuAni2vDioTxdkULOhhYnnpKo17PiU
-         IbhkGPxKh5jsJGwDq1TYSYNcnD6zWD4XBbhZ9jFur3YKtKs9Do4CeWI6K5xbgU4VwpRX
-         QVoqGsseVcNxFYSqK3HDNzZe5yvSPTO9ChOigE/sIihd3jxdoqqu/DbwEYklzcyqyAI7
-         RqEQ==
+        bh=2ij3w2CjfgNV2o6HdX3r2I2TaWMvjfbeVIPwDmb0njk=;
+        b=kjH8EZPjLjUmMwaNpBWDK++A4quu2/Hr++0AY/1raihRJoJPOC6pGFPU4GS63dly97
+         RALlTO0dk+Zb77ZhwjcNUaYZFhfKTEsv4TCI4m1LIj27+lRn1JVIqlvAdNIAmeHKps2U
+         k0lEcLUGn8JqL9qZnRPZnem8pOxMocWfKYXdZ4wHcYVG3gIjPXhLtmWxQtIbMiJ/JNfa
+         y2NLGEJIOYQoru7IjrzVa43HTA/JluoG+93qYUSxL8aIxZVRSQCrmS8l/BMYU+DD3o7p
+         SYYQKv2HHTBrnMOpDo7OlJ9I303gSWhOQ9ufeaTDjthKc1qcNV2OrNv5KGvrCDPNuP+d
+         GUEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778877227; x=1779482027;
+        d=1e100.net; s=20251104; t=1778878201; x=1779483001;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9YwlJJcvYwY8fns8m48KGL1VHm6uk+SQqlLXYhIKgz8=;
-        b=LBtrqTXoxF6pfKHBjy5Abd+K1Q8haBec8LBhvgdBKVVKyczIevauDuimQ19FTwI67e
-         kyaqJOHECKbnBTcj4TBg2ZVn4nJxjsSbjgEwzVctXlljwuQJfWICaLgkbpK+wGBtpojo
-         dhFit7FkqlLO0yRQ1BRA65qO4tbMVbgP1TT/9OTMJFruhb4xWcxCETzgRqmyRq5hFJHJ
-         6B3QVagz6DFPOtTFKybGUFzod/QnWgnyp1j40HTiX8PUfO08UY8X/V+2bO4oRnI2RtyF
-         3denrFLhHutPNutzQTkPFpBnx+UU0tPRLx9ee5EZI07vjFCzk0wevOYKqPlKeN28FT36
-         VJSg==
-X-Forwarded-Encrypted: i=1; AFNElJ+2TB4wrHzYLc05fX4wVtvk6/8ieY5Xo1/Sn/CjT04mGnd4YZV+rxTk2TssI383VTGM2JtdJXY+zpX1@lists.linux.dev
-X-Gm-Message-State: AOJu0YyB47JsiEQZSbLLX67e6FnN/XbzJLdMaH+9rcnLShHsA2NxfoDw
-	HfLLgEdGUHWxpjvVViDiWRdqI7PIL0N26jdngJNeO0+cmc5p5JXasHqHAWrAF7rsERcBmAmkIjW
-	ny9vXI3R+dviZlLtkJ5iWyk3Nv10VrTY=
-X-Gm-Gg: Acq92OGPaKYIL9hkQ8rKsOoMBK2nlnj643tke0ZaRi5lzlU03au5rFiPY4AZhhRG3he
-	qn10cyOExd33QyG9dTubRimXQisZ23bmBQKqpxE1EQXzrIJGfRIgbQKBkM9UwkXEhr8uz8mAntN
-	fROPzkzUFN3zmWsQacNuPUjoJ7oJILYHhIu69NxKRIgAFZryW1X4fOAv0Ffq4T53oqUE3K09lE3
-	wqEnN9E6q/c3NBGR1KPMkoZ3MksjhmvAwTAp96E+j+t8vd6iG/qVHVofi7RIYynm4gvTCalse09
-	KQt+iUp/rO9sPnoioLAH5aRYyNjXCYvG17n1D4mKoQ==
-X-Received: by 2002:a05:6402:1f45:b0:67b:7d77:14da with SMTP id
- 4fb4d7f45d1cf-683bc8a94b8mr2651562a12.8.1778877226469; Fri, 15 May 2026
- 13:33:46 -0700 (PDT)
+        bh=2ij3w2CjfgNV2o6HdX3r2I2TaWMvjfbeVIPwDmb0njk=;
+        b=CRz4F5anKSaLGVvW9Bz/ShiUBGf0mNcgX4ghOgXT96iV3XruwKjWUhRsMolQmas3jU
+         XoS0Pi6qTOMKgBae+v0I+vzMlalrEMbht+NyurThFAS5rsns6FCTskSxpsn9L3ydYQyR
+         Yssrgzradpa7PdPt73FdmN0IPz8SeBe6Y7/CJ/E9pMq2P3ICwfeyZVwXOpT1nJiiHmYY
+         xQdbLxvZET5XPDt69aTu+4Tw0DV/kXeP2ChCDFk++7sCskIy+A74/Y2+AFlIR4neBiei
+         +rXA7ynloC+QuZUxnIblFwvJbcDIBx1hSjD54S7351fB9UAt/L15OK7Nv6jN6saaLqIq
+         mFmw==
+X-Forwarded-Encrypted: i=1; AFNElJ/z8fZ7aKELdVrH5dhSGHiqFl+NBPrav47nDu7DV+n0aRbexkO0edhgtWAIUgbW/hoUjRAUjxvRCkeD@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYV08myvbq6NCqDr4w9M258erYhrBHbtURV73wxG6GxW7hdMLC
+	Tj9rrFR5AN4w4D4/r4xUJ1MYGwmcTPs5jVo5GKqJjnSJXLf1NJYsyHg2iCErBKlUNSOuzMEYBoP
+	spFU63WgIj08VNoUKAkaLZ70Tj2UBZtA=
+X-Gm-Gg: Acq92OF/lKPYVp1PrBlvdJnMKLJsHxFZRuFtQpX2/ZyUCly7hcH+CgpnLoTX7CMt4pu
+	cuAmdmSld0D+b6lf8usc4Y43fhTypXXDk6TpgxpCPgMV33unNzli5iIBWCmBhUqzt3kubXhQEk/
+	mt///2hwc+F9nTjkRj64qDu0K0kvtWnpHXB4u+cCGvKw5TCAoWC3M0zsgbJi86cbw/PgUSgEsuo
+	8aTOHQvLCHZva8kW68O27rMJehQt5KADVsEpus49nLyYV0ATl2HzFFKvURbZqCNNKmA0/kgqIgi
+	UXSU1Q==
+X-Received: by 2002:a05:6000:230b:b0:452:8772:b36a with SMTP id
+ ffacd0b85a97d-45e5c58fd1cmr7309071f8f.2.1778878200619; Fri, 15 May 2026
+ 13:50:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
- <177747206510.4103309.7610933581068572895.stgit@frogsfrogsfrogs> <20260514220921.GI9544@frogsfrogsfrogs>
-In-Reply-To: <20260514220921.GI9544@frogsfrogsfrogs>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 15 May 2026 22:33:34 +0200
-X-Gm-Features: AVHnY4I8kyXSTZqiDtcBeg8yln7B_x_AdIYn1XaB6rWDgusxSClx6hrtRtpnpKI
-Message-ID: <CAOQ4uxja1znK3pz3YAX2uFM-GFVS1zENHJzHBLAVrVqcz6bVhw@mail.gmail.com>
-Subject: Re: [PATCH 1/9] fuse: enable caching of timestamps
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev, 
-	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, fuse-devel@lists.linux.dev
+References: <20260515045541.1171335-1-joannelkoong@gmail.com>
+ <20260515045541.1171335-2-joannelkoong@gmail.com> <f5ce0e4e-bd77-49f7-82eb-7429242e3c12@bsbernd.com>
+In-Reply-To: <f5ce0e4e-bd77-49f7-82eb-7429242e3c12@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 15 May 2026 13:49:49 -0700
+X-Gm-Features: AVHnY4KIx6110b-6gW_wIcikfkqAYxppkvuMyi_MB3_gOmxEta5DWqCohkZvjUk
+Message-ID: <CAJnrk1bWUR7cz_rTK5XNvBO=T8XgX9L5z2JQ3kuXO5iMHXDqTw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] fuse: fix race between ring creation and
+ connection abortion
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, ali@ddn.com, 
+	horst@birthelmer.de, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Sorry I was absent from iomap review for a while.
-Using these Codex replies as opportunity to get back to it..
-
-On Fri, May 15, 2026 at 12:09=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
-> wrote:
+On Fri, May 15, 2026 at 4:57=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
 >
-> On Wed, Apr 29, 2026 at 07:33:20AM -0700, Darrick J. Wong wrote:
-> > From: Darrick J. Wong <djwong@kernel.org>
+>
+>
+> On 5/15/26 06:55, Joanne Koong wrote:
+> > This fixes this race:
+> > - thread a: fuse_uring_cmd() gets called, passes fch->connected check
+> >   (connection abortion not yet triggered)
+> > - thread b: abort is called, calls fuse_uring_abort(),
+> > fuse_uring_abort() is a no-op since ring =3D=3D NULL right now
+> > - thread a: creates ring, creates queue, creates entry
 > >
-> > Cache the timestamps in the kernel so that the kernel sends FUSE_SETATT=
-R
-> > calls to the fuse server after writes, because the iomap infrastructure
-> > won't do that for us.
+> > which results in
+> > - leaked ring, queue, ent
+> > - if thread a increments queue_refs before thread b calls
+> >   fuse_chan_wait_aborted(), then fuse_chan_wait_aborted() calls
+> >   "wait_event(ring->stop_waitq, atomic_read(&ring->queue_refs) =3D=3D 0=
+);"
+> >   which will hang the abort/unmount thread indefinitely in unkillable
+> >   state, as nothing will decrement queue_refs or wake stop_waitq.
 > >
-> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > ---
-> >  fs/fuse/dir.c        |    5 ++++-
-> >  fs/fuse/file.c       |   18 ++++++++++++------
-> >  fs/fuse/fuse_iomap.c |    6 ++++++
-> >  fs/fuse/inode.c      |   13 +++++++------
-> >  4 files changed, 29 insertions(+), 13 deletions(-)
-> >
-> >
-> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> > index 3a76eea04c6425..11898102adefe2 100644
-> > --- a/fs/fuse/dir.c
-> > +++ b/fs/fuse/dir.c
-> > @@ -2265,7 +2265,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, stru=
-ct dentry *dentry,
-> >       struct fuse_attr_out outarg;
-> >       const bool is_iomap =3D fuse_inode_has_iomap(inode);
-> >       bool is_truncate =3D false;
-> > -     bool is_wb =3D fc->writeback_cache && S_ISREG(inode->i_mode);
-> > +     bool is_wb =3D (is_iomap || fc->writeback_cache) &&
-> > +                  S_ISREG(inode->i_mode);
-> >       loff_t oldsize;
-> >       int err;
-> >       bool trust_local_cmtime =3D is_wb;
-> > @@ -2405,6 +2406,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, stru=
-ct dentry *dentry,
-> >       spin_lock(&fi->lock);
-> >       /* the kernel maintains i_mtime locally */
-> >       if (trust_local_cmtime) {
-> > +             if ((attr->ia_valid & ATTR_ATIME) && is_iomap)
-> > +                     inode_set_atime_to_ts(inode, attr->ia_atime);
-> >               if (attr->ia_valid & ATTR_MTIME)
-> >                       inode_set_mtime_to_ts(inode, attr->ia_mtime);
-> >               if (attr->ia_valid & ATTR_CTIME)
-> > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> > index fa67b20f5ad3ae..eecd0610fbd3e5 100644
-> > --- a/fs/fuse/file.c
-> > +++ b/fs/fuse/file.c
-> > @@ -262,7 +262,7 @@ static int fuse_open(struct inode *inode, struct fi=
-le *file)
-> >       int err;
-> >       const bool is_iomap =3D fuse_inode_has_iomap(inode);
-> >       bool is_truncate =3D (file->f_flags & O_TRUNC) && fc->atomic_o_tr=
-unc;
-> > -     bool is_wb_truncate =3D is_truncate && fc->writeback_cache;
-> > +     bool is_wb_truncate =3D is_truncate && (is_iomap || fc->writeback=
-_cache);
-> >       bool dax_truncate =3D is_truncate && FUSE_IS_DAX(inode);
-> >
-> >       if (fuse_is_bad(inode))
-> > @@ -477,12 +477,14 @@ static int fuse_flush(struct file *file, fl_owner=
-_t id)
-> >       struct fuse_file *ff =3D file->private_data;
-> >       struct fuse_flush_in inarg;
-> >       FUSE_ARGS(args);
-> > +     const bool is_iomap =3D fuse_inode_has_iomap(inode);
-> >       int err;
-> >
-> >       if (fuse_is_bad(inode))
-> >               return -EIO;
-> >
-> > -     if (ff->open_flags & FOPEN_NOFLUSH && !fm->fc->writeback_cache)
-> > +     if ((ff->open_flags & FOPEN_NOFLUSH) &&
-> > +         !fm->fc->writeback_cache && !is_iomap)
-> >               return 0;
-> >
-> >       err =3D write_inode_now(inode, 1);
-> > @@ -518,7 +520,7 @@ static int fuse_flush(struct file *file, fl_owner_t=
- id)
-> >        * In memory i_blocks is not maintained by fuse, if writeback cac=
-he is
-> >        * enabled, i_blocks from cached attr may not be accurate.
-> >        */
-> > -     if (!err && fm->fc->writeback_cache)
-> > +     if (!err && (is_iomap || fm->fc->writeback_cache))
-> >               fuse_invalidate_attr_mask(inode, STATX_BLOCKS);
-> >       return err;
-> >  }
-> > @@ -820,8 +822,10 @@ static void fuse_short_read(struct inode *inode, u=
-64 attr_ver, size_t num_read,
-> >        * If writeback_cache is enabled, a short read means there's a ho=
-le in
-> >        * the file.  Some data after the hole is in page cache, but has =
-not
-> >        * reached the client fs yet.  So the hole is not present there.
-> > +      * If iomap is enabled, a short read means we hit EOF so there's
-> > +      * nothing to adjust.
-> >        */
-> > -     if (!fc->writeback_cache) {
-> > +     if (!fc->writeback_cache && !fuse_inode_has_iomap(inode)) {
-> >               loff_t pos =3D folio_pos(ap->folios[0]) + num_read;
-> >               fuse_read_update_size(inode, pos, attr_ver);
-> >       }
-> > @@ -870,6 +874,8 @@ static int fuse_iomap_begin(struct inode *inode, lo=
-ff_t offset, loff_t length,
-> >                           unsigned int flags, struct iomap *iomap,
-> >                           struct iomap *srcmap)
-> >  {
-> > +     WARN_ON(fuse_inode_has_iomap(inode));
-> > +
-> >       iomap->type =3D IOMAP_MAPPED;
-> >       iomap->length =3D length;
-> >       iomap->offset =3D offset;
-> > @@ -2021,7 +2027,7 @@ static void fuse_writepage_end(struct fuse_mount =
-*fm, struct fuse_args *args,
-> >        * Do this only if writeback_cache is not enabled.  If writeback_=
-cache
-> >        * is enabled, we trust local ctime/mtime.
-> >        */
-> > -     if (!fc->writeback_cache)
-> > +     if (!fc->writeback_cache && !fuse_inode_has_iomap(inode))
-> >               fuse_invalidate_attr_mask(inode, FUSE_STATX_MODIFY);
+> > Fix this by checking fch->connected under fch->lock in
+> > fuse_uring_create() before publishing the ring via
+> > smp_store_release(&fch->ring, ring) under the same lock scope.
+>
+> We had this discussion before, I still think it is covered by 2nd patch
+> "fuse: fix race between registration and connection abortion", because
+>
+> fuse_uring_destruct() is called by delayed_release() in inode.c and that
+> is only called when there is nothing accessing /dev/fuse anymore.
+>
+> The follow-up patch also handles ring->queue_refs going to 0.
+>
+> From my point of view, what this patch really does is to avoid ring and
+> queue creation overhead when the connection is going down anyway, so
+> just the commit message is a bit confusing.
 
-
-It is so easy to get lost in the code handling attr cache coherency
-between kernel and server, so many little details (a.k.a maintenance
-nightmare). It's not great now, and becoming worse with iomap.
-
-On top of existing writeback_cache special casing and now iomap
-more special casing, passthrough code also has special cases
-that may need to be handled better.
-
-Can we maybe abstract some of these open coded checks in
-a way which is easier to review?
-
-Thinking about some attr_mask in the inode which determines for
-every attribute, who owns the authoritative copy, server or kernel.
-For example, for (writeback_cache || iomap)  kernel owns ATTR_MTIME.
-
-This is very hand wavy and far from dealing with all the complexity
-in every specific case, but the bottom line is - very hard to review that
-this is all correct and nothing missing and very hard to figure out
-what's going on when looking at the code
-for humans I mean... Codex seems to be doing well ;)
+Good point, when I looked at this last month, i had split it into this
+patch first before the registration one. I'll reorder it so the
+registration one goes first and update the commit message for this
+one. Thanks for reviewing the patches!
 
 Thanks,
-Amir.
+Joanne
+
+>
+> >
+> > Fixes: 24fe962c86f5 ("fuse: {io-uring} Handle SQEs - register commands"=
+)
+> > Cc: <stable@vger.kernel.org>
+> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > ---
+> >  fs/fuse/dev_uring.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> > index e467b23e6895..cd75f61018ec 100644
+> > --- a/fs/fuse/dev_uring.c
+> > +++ b/fs/fuse/dev_uring.c
+> > @@ -244,6 +244,10 @@ static struct fuse_ring *fuse_uring_create(struct =
+fuse_chan *fch)
+> >       max_payload_size =3D max(max_payload_size, fch->max_pages * PAGE_=
+SIZE);
+> >
+> >       spin_lock(&fch->lock);
+> > +     if (!fch->connected) {
+> > +             spin_unlock(&fch->lock);
+> > +             goto out_err;
+> > +     }
+> >       if (fch->ring) {
+> >               /* race, another thread created the ring in the meantime =
+*/
+> >               spin_unlock(&fch->lock);
+>
+>
+> Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+>
+>
