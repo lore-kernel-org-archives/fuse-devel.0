@@ -1,342 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53084381C4;
-	Fri, 15 May 2026 18:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDDE3E2AC9
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 18:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778871320; cv=none; b=uXpjC6tO0i2j5fzlI05PHsW5ZPm1WoTYRFc5bvPKp8ZiyvSNiixPXMOxx5ptCD+Wm4ENnjUoR/ss/kM9s7Kd4QxwJgZVTxFN6bSy/5dxWig/JF1kJr/Cp7CBivOddePb6pIoHNOhUGmChtFmk+ILEYKBr/mlW/BPF6NekXz7FDk=
+	t=1778871324; cv=none; b=Z6Qz6E+cjIdU8l98GoA7JHKmEJzi9y//t0lEoTFCUPyA8VxW2ZXDaJ76XNCpo7xctomKEjSzZB86gOWknn/GGErXXNMqr6V6uB7Rgtx6v2eVhL0Jg3fz4hKQ0inuHJFCtIdiQ9rC5067AQDMZwmDCaHd/72FrL7DSdrpxFRvAEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778871320; c=relaxed/simple;
-	bh=1GkJ700uL9Ucg2x3wfOaLXOZp+rlfS1fiEOmhe4obHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V0DwyjvbRSy5oWTyZpvW/09ckuaDQ29Gv+WwuurjoWdkjqF1wKJoWUIivz0nvCoBPX0dzCRanCuvkML2Ma+YLHRiqMVOy9XJ+o4kuTDIVZ6JwNzcfYukG+xoB6xdbSUol6rzZYvuV4u0OoFRyV7rMyyWQvYpbRw2vXLX5ji4d+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UNZwQzox; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778871324; c=relaxed/simple;
+	bh=kcLqChfaUfsZxdE+ZaoO7Smuxnpjx+gJEFnekfLsXTc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OSHZ27fR026vxM2GRQeh3X1889N2LxbgXok2Tpkh409yYYp4W67aLRb08R8t6IuKi5bZMoG2mPIzbhjFY0ZFpEA5BqU5jiLoIJvx0ky9pvZYIEW1OWzZNgEthEaTSNilLNiA5lIF/Hbe1IslH8GNLUMqFEoAk3Rjwpc4nyOZGOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EsRmpDrV; arc=none smtp.client-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UNZwQzox"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D53C2BCB0;
-	Fri, 15 May 2026 18:55:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778871320;
-	bh=1GkJ700uL9Ucg2x3wfOaLXOZp+rlfS1fiEOmhe4obHM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UNZwQzox4LF4VWMj9accy3yskdYWEvryuEXXow73H7rFKgwhs3JlD1QxsHWqXscVe
-	 5GTsInS85oJXiJmNC8Jgn849i17FaUDNrH3cmGhosJD1TQYP5Zrmu7PeGUNb8m6Dmh
-	 pPAnXqc+39iuM6n/hAgIEBcUAEXEVBRByzL3DYPBGg9dR9hT7+ZVImwyBuCyJVgHqf
-	 gq2jZhPuUlYa6yyX9vqp8rllG7sEndAixiTN1EMfbB008siMO6ewf7e0cYFFDFFIWD
-	 b+OG6DhGHfsokHUOCNdsUxPuiOkFH1Y6st+IcDUiaQTgWltB9YscrNLhTKZHCwCWeE
-	 j8AoiKo5o6CeQ==
-Date: Fri, 15 May 2026 11:55:19 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Subject: Re: [PATCH 16/25] libfuse: add lower level iomap_config
- implementation
-Message-ID: <20260515185519.GW9544@frogsfrogsfrogs>
-References: <177747211463.4104686.1151865355399948078.stgit@frogsfrogsfrogs>
- <177747211854.4104686.11102678173277965542.stgit@frogsfrogsfrogs>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EsRmpDrV"
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-130c9dcbd25so894066c88.1
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 11:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778871322; x=1779476122; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bvYQW2qTx86IbdiITvwUjahuQt1CJMW14vU3xiZInE4=;
+        b=EsRmpDrV4QE8jwN4Ryb7dUQt9Wma3Eu3i9EFNAJQ2ADpVyrCO7HW3F32tRWQrN5oul
+         qj7sFJXI4t3YouTjFK4zOvKCdz2ulh+TDmuqjJMYsdzLKQIapsSuiFathdDuCSGmwJzi
+         oj2rLaQ+CzWnjIdtMEZ2Cd2DMlZLNmfyssrke8PxU381vlAQGcf50vqywm4U32w5zRFc
+         G4uk/ClxmBo+StidoOzlb9Pun70UAHTIyy6I5Gix7lCuhHGi/SsJi3+sNJWR3souBkuN
+         v0a2PWC24uWmAAkK3F56v43ntIHYuqbZ8JqaWF24dQuLpw0AJaBzqKRJjVx/p/qR0VV4
+         txFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778871322; x=1779476122;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bvYQW2qTx86IbdiITvwUjahuQt1CJMW14vU3xiZInE4=;
+        b=HCqrq9ju7uXh7CTegoifkNXZzj+/bOqc/gu2MVXRZCmowvu5/Dwt7cBKjYVZXYcY1z
+         yWmJeuwgbTCNHhZmCj3v8asRC8rm7eQxAR278faOHOD6zvbaCPiXfZUgd0iyKgphx/5l
+         esilwnO+S+rrGVx9x3Tq7nzx4tGBzgzRNFsaDqxWL+EEPMS2GTBnXKO2J93HZIboFJxo
+         szB7wRhq+YCXPD4RsHT7m9yOwvCuQvsbldCXi3v2Iq+WvgmOcDfyqq45ws22wY0oUlxw
+         wdGATQdkk9fErvFEi6gBmsz3x1ytOiib+qVHxLsotGly9b1xRm4su8ToU+t6EW8VLNRD
+         2Xqw==
+X-Gm-Message-State: AOJu0Yzi0kIBfirvjZMWHo5EIdsak+FgvnkoHvKN1usCmAC5JM6l+hhh
+	F9AI9MsqTHUGaiqJ5G3+16xTBPkuzMt62R/AOY2AtBgyYJOlAPDhs9maZ802Ng==
+X-Gm-Gg: Acq92OEhKsfcp+JyIphfKiLhghbtUoVfImuebK1SZj6jn64TsD2xqF196cSw1+b0ti5
+	A8A6DT4oSUwDiFsWR3DDoWgbpiKeTfyX8P0faMGQrS0k7yIp8Tcb9p3IQ57oLdN12bv+H0+EYf9
+	tdaRhgHWaIPlBgsrhkL7MHZuAE02k30bcW2dMZLe7NYNiZSNXDTyZ01IGCXvoZ2c+JTnWfI3bMM
+	d77IUgr8LMO9kG7EitRch0ngv/iVPJSmH5McNCFXrM6dWQNACfaSk+zi1noAquZcO9xcWF96sLG
+	Ze90fCZAbBBM9IbAgjdh8FBDf7C8/opLrsLhsWvnne63njI5Q5bIYrHKvR3ud+I0i7qsbVNU0Jd
+	ZlrckdyLklBM18qZ21LMFXJwyuoYgik707+Uz6ZglmaMd8uR27Q7VEdBhIh/vgs2zeSVdoP4Z7x
+	nhYekjG2iQzTE0fqpFHjFDsg9fik7I0QvNccEmZG1jQpcglJods872J1m/FXGrOe89+vHQO+FrQ
+	W23bmgjFqpWaAv4tg==
+X-Received: by 2002:a05:7300:a888:b0:2f0:ee2:f6c6 with SMTP id 5a478bee46e88-30262b43a2bmr4085107eec.19.1778871322185;
+        Fri, 15 May 2026 11:55:22 -0700 (PDT)
+Received: from quark-fedora-PF5F60VQ (162-199-88-188.lightspeed.sntcca.sbcglobal.net. [162.199.88.188])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-302947e917dsm7746100eec.12.2026.05.15.11.55.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 11:55:21 -0700 (PDT)
+From: Jun Wu <quark.zju@gmail.com>
+To: fuse-devel@lists.linux.dev
+Cc: miklos@szeredi.hu,
+	luis@igalia.com,
+	Jun Wu <quark@meta.com>,
+	Joanne Koong <joannelkoong@gmail.com>
+Subject: [PATCH v3] fuse: invalidate readdir cache on epoch bump
+Date: Fri, 15 May 2026 11:55:20 -0700
+Message-ID: <20260515185520.1462772-1-quark.zju@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177747211854.4104686.11102678173277965542.stgit@frogsfrogsfrogs>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 29, 2026 at 07:43:15AM -0700, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Add FUSE_IOMAP_CONFIG helpers to the low level fuse library.
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  include/fuse_common.h   |   37 ++++++++++++++++++++
->  include/fuse_kernel.h   |   31 +++++++++++++++++
->  include/fuse_lowlevel.h |   28 +++++++++++++++
->  lib/fuse_lowlevel.c     |   85 +++++++++++++++++++++++++++++++++++++++++++++++
->  lib/fuse_versionscript  |    1 +
->  5 files changed, 182 insertions(+)
-> 
-> 
-> diff --git a/include/fuse_common.h b/include/fuse_common.h
-> index 277a8209f09d50..2f0aff038c3ece 100644
-> --- a/include/fuse_common.h
-> +++ b/include/fuse_common.h
-> @@ -1240,6 +1240,43 @@ static inline bool fuse_iomap_need_write_allocate(unsigned int opflags,
->  /* use iomap for this inode */
->  #define FUSE_IFLAG_IOMAP		(1U << 2)
->  
-> +/* Which fields are set in fuse_iomap_config_out? */
-> +#define FUSE_IOMAP_CONFIG_SID		(1 << 0ULL)
-> +#define FUSE_IOMAP_CONFIG_UUID		(1 << 1ULL)
-> +#define FUSE_IOMAP_CONFIG_BLOCKSIZE	(1 << 2ULL)
-> +#define FUSE_IOMAP_CONFIG_MAX_LINKS	(1 << 3ULL)
-> +#define FUSE_IOMAP_CONFIG_TIME		(1 << 4ULL)
-> +#define FUSE_IOMAP_CONFIG_MAXBYTES	(1 << 5ULL)
-> +
-> +struct fuse_iomap_config_params {
-> +	uint64_t flags;		/* supported FUSE_IOMAP_CONFIG_* flags */
-> +	int64_t maxbytes;	/* max supported file size */
-> +	uint64_t padding[6];	/* zero */
-> +};
-> +
-> +struct fuse_iomap_config {
-> +	uint64_t flags;		/* FUSE_IOMAP_CONFIG_* */
-> +
-> +	char s_id[32];		/* Informational name */
-> +	char s_uuid[16];	/* UUID */
-> +
-> +	uint8_t s_uuid_len;	/* length of s_uuid */
-> +
-> +	uint8_t s_pad[3];	/* must be zeroes */
-> +
-> +	uint32_t s_blocksize;	/* fs block size */
-> +	uint32_t s_max_links;	/* max hard links */
-> +
-> +	/* Granularity of c/m/atime in ns (cannot be worse than a second) */
-> +	uint32_t s_time_gran;
-> +
-> +	/* Time limits for c/m/atime in seconds */
-> +	int64_t s_time_min;
-> +	int64_t s_time_max;
-> +
-> +	int64_t s_maxbytes;	/* max file size */
-> +};
-> +
->  /* ----------------------------------------------------------- *
->   * Compatibility stuff					       *
->   * ----------------------------------------------------------- */
-> diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
-> index 95c6c179a4398a..897d996a0ce60d 100644
-> --- a/include/fuse_kernel.h
-> +++ b/include/fuse_kernel.h
-> @@ -246,6 +246,7 @@
->   *  - add FUSE_IOMAP and iomap_{begin,end,ioend} for regular file operations
->   *  - add FUSE_ATTR_EXCLUSIVE to enable exclusive mode for specific inodes
->   *  - add FUSE_ATTR_IOMAP to enable iomap for specific inodes
-> + *  - add FUSE_IOMAP_CONFIG so the fuse server can configure more fs geometry
->   */
->  
->  #ifndef _LINUX_FUSE_H
-> @@ -677,6 +678,7 @@ enum fuse_opcode {
->  	FUSE_STATX		= 52,
->  	FUSE_COPY_FILE_RANGE_64	= 53,
->  
-> +	FUSE_IOMAP_CONFIG	= 4092,
->  	FUSE_IOMAP_IOEND	= 4093,
->  	FUSE_IOMAP_BEGIN	= 4094,
->  	FUSE_IOMAP_END		= 4095,
-> @@ -1390,4 +1392,33 @@ struct fuse_iomap_ioend_out {
->  	uint64_t newsize;	/* new ondisk size */
->  };
->  
-> +struct fuse_iomap_config_in {
-> +	uint64_t flags;		/* supported FUSE_IOMAP_CONFIG_* flags */
-> +	int64_t maxbytes;	/* max supported file size */
-> +	uint64_t padding[6];	/* zero */
-> +};
-> +
-> +struct fuse_iomap_config_out {
-> +	uint64_t flags;		/* FUSE_IOMAP_CONFIG_* */
-> +
-> +	char s_id[32];		/* Informational name */
-> +	char s_uuid[16];	/* UUID */
-> +
-> +	uint8_t s_uuid_len;	/* length of s_uuid */
-> +
-> +	uint8_t s_pad[3];	/* must be zeroes */
-> +
-> +	uint32_t s_blocksize;	/* fs block size */
-> +	uint32_t s_max_links;	/* max hard links */
-> +
-> +	/* Granularity of c/m/atime in ns (cannot be worse than a second) */
-> +	uint32_t s_time_gran;
-> +
-> +	/* Time limits for c/m/atime in seconds */
-> +	int64_t s_time_min;
-> +	int64_t s_time_max;
-> +
-> +	int64_t s_maxbytes;	/* max file size */
-> +};
-> +
->  #endif /* _LINUX_FUSE_H */
-> diff --git a/include/fuse_lowlevel.h b/include/fuse_lowlevel.h
-> index df41afee0cfbe5..e97c3df16fb466 100644
-> --- a/include/fuse_lowlevel.h
-> +++ b/include/fuse_lowlevel.h
-> @@ -1425,6 +1425,21 @@ struct fuse_lowlevel_ops {
->  			    uint64_t attr_ino, off_t pos, uint64_t written,
->  			    uint32_t ioendflags, int error, uint32_t dev,
->  			    uint64_t new_addr);
-> +
-> +	/**
-> +	 * Configure the filesystem geometry for iomap mode
-> +	 *
-> +	 * Valid replies:
-> +	 *   fuse_reply_iomap_config
-> +	 *   fuse_reply_err
-> +	 *
-> +	 * @param req request handle
-> +	 * @param p all available iomap configuration parameters
-> +	 * @param psize size of parameters structure
-> +	 */
-> +	void (*iomap_config)(fuse_req_t req,
-> +			     const struct fuse_iomap_config_params *p,
-> +			     size_t psize);
->  };
->  
->  /**
-> @@ -1928,6 +1943,19 @@ int fuse_reply_iomap_begin(fuse_req_t req, const struct fuse_file_iomap *read,
->   */
->  int fuse_reply_iomap_ioend(fuse_req_t req, off_t newsize);
->  
-> +/**
-> + * Reply with iomap configuration
-> + *
-> + * Possible requests:
-> + *   iomap_config
-> + *
-> + * @param req request handle
-> + * @param cfg iomap configuration
-> + * @return zero for success, -errno for failure to send reply
-> + */
-> +int fuse_reply_iomap_config(fuse_req_t req,
-> +			    const struct fuse_iomap_config *cfg);
-> +
->  /* ----------------------------------------------------------- *
->   * Notification						       *
->   * ----------------------------------------------------------- */
-> diff --git a/lib/fuse_lowlevel.c b/lib/fuse_lowlevel.c
-> index 90136408b39204..4750b39ab99137 100644
-> --- a/lib/fuse_lowlevel.c
-> +++ b/lib/fuse_lowlevel.c
-> @@ -2834,6 +2834,89 @@ static void do_iomap_ioend(fuse_req_t req, const fuse_ino_t nodeid,
->  	_do_iomap_ioend(req, nodeid, inarg, NULL);
->  }
->  
-> +#define sizeof_field(TYPE, MEMBER) sizeof((((TYPE *)0)->MEMBER))
-> +#define offsetofend(TYPE, MEMBER) \
-> +	(offsetof(TYPE, MEMBER)	+ sizeof_field(TYPE, MEMBER))
-> +
-> +#define FUSE_IOMAP_CONFIG_V1 (FUSE_IOMAP_CONFIG_SID | \
-> +			      FUSE_IOMAP_CONFIG_UUID | \
-> +			      FUSE_IOMAP_CONFIG_BLOCKSIZE | \
-> +			      FUSE_IOMAP_CONFIG_MAX_LINKS | \
-> +			      FUSE_IOMAP_CONFIG_TIME | \
-> +			      FUSE_IOMAP_CONFIG_MAXBYTES)
-> +
-> +#define FUSE_IOMAP_CONFIG_ALL (FUSE_IOMAP_CONFIG_V1)
-> +
-> +static ssize_t iomap_config_reply_size(const struct fuse_iomap_config *cfg)
-> +{
-> +	if (cfg->flags & ~FUSE_IOMAP_CONFIG_ALL)
-> +		return -EINVAL;
-> +
-> +	return offsetofend(struct fuse_iomap_config_out, s_maxbytes);
-> +}
-> +
-> +int fuse_reply_iomap_config(fuse_req_t req, const struct fuse_iomap_config *cfg)
-> +{
-> +	struct fuse_iomap_config_out arg = {
-> +		.flags = cfg->flags,
-> +	};
-> +	const ssize_t reply_size = iomap_config_reply_size(cfg);
-> +
-> +	if (reply_size < 0)
-> +		fuse_reply_err(req, -reply_size);
+From: Jun Wu <quark@meta.com>
 
-Codex noticed that this should be returning, not falling through.
+FUSE_NOTIFY_INC_EPOCH invalidates dentries, but does not invalidate cached
+readdir results. A process with cwd inside a FUSE mount can therefore
+observe stale readdir(".") output after an epoch bump.
 
-		return fuse_reply_err(...);
+Fix this by recording epoch in the readdir cache and checking it on reuse.
 
---D
+Minimal reproducer:
 
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_BLOCKSIZE)
-> +		arg.s_blocksize = cfg->s_blocksize;
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_SID)
-> +		memcpy(arg.s_id, cfg->s_id, sizeof(arg.s_id));
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_UUID) {
-> +		arg.s_uuid_len = cfg->s_uuid_len;
-> +		if (arg.s_uuid_len > sizeof(arg.s_uuid))
-> +			arg.s_uuid_len = sizeof(arg.s_uuid);
-> +		memcpy(arg.s_uuid, cfg->s_uuid, arg.s_uuid_len);
-> +	}
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_MAX_LINKS)
-> +		arg.s_max_links = cfg->s_max_links;
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_TIME) {
-> +		arg.s_time_gran = cfg->s_time_gran;
-> +		arg.s_time_min = cfg->s_time_min;
-> +		arg.s_time_max = cfg->s_time_max;
-> +	}
-> +
-> +	if (cfg->flags & FUSE_IOMAP_CONFIG_MAXBYTES)
-> +		arg.s_maxbytes = cfg->s_maxbytes;
-> +
-> +	return send_reply_ok(req, &arg, reply_size);
-> +}
-> +
-> +static void _do_iomap_config(fuse_req_t req, const fuse_ino_t nodeid,
-> +		      const void *op_in, const void *in_payload)
-> +{
-> +	const struct fuse_iomap_config_in *arg = op_in;
-> +	struct fuse_iomap_config_params p = {
-> +		.flags = arg->flags & FUSE_IOMAP_CONFIG_ALL,
-> +		.maxbytes = arg->maxbytes,
-> +	};
-> +
-> +	(void)nodeid;
-> +	(void)in_payload;
-> +
-> +	if (req->se->op.iomap_config)
-> +		req->se->op.iomap_config(req, &p, sizeof(p));
-> +	else
-> +		fuse_reply_err(req, ENOSYS);
-> +}
-> +
-> +static void do_iomap_config(fuse_req_t req, const fuse_ino_t nodeid,
-> +			    const void *inarg)
-> +{
-> +	_do_iomap_config(req, nodeid, inarg, NULL);
-> +}
-> +
->  static bool want_flags_valid(uint64_t capable, uint64_t want)
->  {
->  	uint64_t unknown_flags = want & (~capable);
-> @@ -3827,6 +3910,7 @@ static struct {
->  	[FUSE_LSEEK]	   = { do_lseek,       "LSEEK"	     },
->  	[FUSE_SYNCFS]	   = { do_syncfs,      "SYNCFS"      },
->  	[FUSE_STATX]	   = { do_statx,       "STATX"	     },
-> +	[FUSE_IOMAP_CONFIG] = { do_iomap_config, "IOMAP_CONFIG" },
->  	[FUSE_IOMAP_BEGIN] = { do_iomap_begin,	"IOMAP_BEGIN" },
->  	[FUSE_IOMAP_END]   = { do_iomap_end,	"IOMAP_END" },
->  	[FUSE_IOMAP_IOEND] = { do_iomap_ioend,	"IOMAP_IOEND" },
-> @@ -3887,6 +3971,7 @@ static struct {
->  	[FUSE_LSEEK]		= { _do_lseek,		"LSEEK" },
->  	[FUSE_SYNCFS]		= { _do_syncfs,		"SYNCFS" },
->  	[FUSE_STATX]		= { _do_statx,		"STATX" },
-> +	[FUSE_IOMAP_CONFIG]	= { _do_iomap_config,	"IOMAP_CONFIG" },
->  	[FUSE_IOMAP_BEGIN]	= { _do_iomap_begin,	"IOMAP_BEGIN" },
->  	[FUSE_IOMAP_END]	= { _do_iomap_end,	"IOMAP_END" },
->  	[FUSE_IOMAP_IOEND]	= { _do_iomap_ioend,	"IOMAP_IOEND" },
-> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-> index 46465540a1f51b..f1e5cc63da18ee 100644
-> --- a/lib/fuse_versionscript
-> +++ b/lib/fuse_versionscript
-> @@ -264,6 +264,7 @@ FUSE_3.99 {
->  		fuse_fs_can_enable_iomapx;
->  		fuse_lowlevel_discover_iomap;
->  		fuse_service_discover_iomap;
-> +		fuse_reply_iomap_config;
->  } FUSE_3.19;
->  
->  # Local Variables:
-> 
-> 
+- mount a tiny FUSE fs with an empty root directory
+- on opendir, enable fi->cache_readdir and fi->keep_cache
+- chdir into the mount and call readdir(".") to populate readdir cache
+- make the FUSE server report one file in the root directory
+- send only FUSE_NOTIFY_INC_EPOCH
+- call readdir(".") again; before this change it stays stale, after this
+  change it sees the new file
+
+Fixes: 2396356a945b ("fuse: add more control over cache invalidation behaviour")
+Reviewed-by: Luis Henriques <luis@igalia.com>
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Signed-off-by: Jun Wu <quark@meta.com>
+---
+Changes in v3:
+- Add Reviewed-by tags from Luis and Joanne.
+- Resend from a working email setup.
+
+Changes in v2:
+- Addresses Joanne Koong's suggestions:
+  - Drop the FUSE_EPOCH_READDIR init flag.
+  - Add Fixes tag.
+- Rebase onto current mainline.
+---
+ fs/fuse/dev.c     | 6 +++---
+ fs/fuse/fuse_i.h  | 3 +++
+ fs/fuse/readdir.c | 5 ++++-
+ 3 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 5dda7080f4a9..35e04b064f37 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -2038,9 +2038,9 @@ static int fuse_notify_resend(struct fuse_conn *fc)
+ }
+ 
+ /*
+- * Increments the fuse connection epoch.  This will result of dentries from
+- * previous epochs to be invalidated.  Additionally, if inval_wq is set, a work
+- * queue is scheduled to trigger the invalidation.
++ * Increments the fuse connection epoch.  This will cause dentries and
++ * readdir caches from previous epochs to be invalidated.  Additionally,
++ * if inval_wq is set, a work queue is scheduled to trigger the invalidation.
+  */
+ static int fuse_notify_inc_epoch(struct fuse_conn *fc)
+ {
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 17423d4e3cfa..aa8d6dfbbcc7 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -191,6 +191,9 @@ struct fuse_inode {
+ 			/* iversion of directory when cache was started */
+ 			u64 iversion;
+ 
++			/* epoch of fc when cache was started */
++			int epoch;
++
+ 			/* protects above fields */
+ 			spinlock_t lock;
+ 		} rdc;
+diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+index db5ae8ec1030..b18d971e2bb4 100644
+--- a/fs/fuse/readdir.c
++++ b/fs/fuse/readdir.c
+@@ -442,6 +442,7 @@ static void fuse_rdc_reset(struct inode *inode)
+ 	fi->rdc.version++;
+ 	fi->rdc.size = 0;
+ 	fi->rdc.pos = 0;
++	fi->rdc.epoch = 0;
+ }
+ 
+ #define UNCACHED 1
+@@ -483,6 +484,7 @@ static int fuse_readdir_cached(struct file *file, struct dir_context *ctx)
+ 		if (!ctx->pos && !fi->rdc.size) {
+ 			fi->rdc.mtime = inode_get_mtime(inode);
+ 			fi->rdc.iversion = inode_query_iversion(inode);
++			fi->rdc.epoch = atomic_read(&fc->epoch);
+ 		}
+ 		spin_unlock(&fi->rdc.lock);
+ 		return UNCACHED;
+@@ -496,7 +498,8 @@ static int fuse_readdir_cached(struct file *file, struct dir_context *ctx)
+ 		struct timespec64 mtime = inode_get_mtime(inode);
+ 
+ 		if (inode_peek_iversion(inode) != fi->rdc.iversion ||
+-		    !timespec64_equal(&fi->rdc.mtime, &mtime)) {
++		    !timespec64_equal(&fi->rdc.mtime, &mtime) ||
++		    fi->rdc.epoch != atomic_read(&fc->epoch)) {
+ 			fuse_rdc_reset(inode);
+ 			goto retry_locked;
+ 		}
+-- 
+2.54.0
+
