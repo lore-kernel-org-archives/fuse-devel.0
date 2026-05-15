@@ -1,55 +1,55 @@
 Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80EB43D516
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 11:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C3847ECF6
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 11:59:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778846243; cv=none; b=H6fLpaKPMdWBVW201VMvk6KDp3xxPqVfnivGnO2GagTbVCT26l5qndfs8n6HNmAw5yRJeTisGKlqaF1+0wsJKnJ2jK0n3uMRF61qNHqgVeWrupGLgbccCfGm1avIDLoG7WK7l5BcC4Gzm/v232gHnd9ryzf5s4F8MQwwDDCQ+vw=
+	t=1778846372; cv=none; b=jJxsCocAnyrsoQzt0F/NlW6VUZpg5yn9jLWqvf/K6o/3MATIwURGOj+GKvyPzTcQIQhU8RY5GWajtiweIQT66G1cTMMFfJdqazxv+c/q29XQAe4a0fpCKLWOtdJ2GgjTzLvelINcYiWDro/OHo/8h4E5hYqvU/Gsz0l5I8GUOm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778846243; c=relaxed/simple;
-	bh=3suDRmqNdfr744LDzrg/c05qFQkOng9a+k3e1elmJnc=;
+	s=arc-20240116; t=1778846372; c=relaxed/simple;
+	bh=+ZN/rQClRBRBAWs65UAPjEUgJ4Y9HBy6RNfgvjCYLDk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QEtZkjG3li7JCbVaPDCttOYudz2JJiW+VqItRTPjXxCVgms+pYaDc/FFW16cqJ+h/RERskR9moa7jTbGRjTvZbWTJe9xJ52fZaYVROnod2dVi53gB3vA5Eiu2idJncpaDN1Z9iQn4qO/UbYSlei+hgvwA3uUnNiAlYK5HbzyHP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=esvo7jJs; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mshSwpLj; arc=none smtp.client-ip=103.168.172.157
+	 In-Reply-To:Content-Type; b=Q6oIQjRfQBz4TZ9tu60I22ArDJwwqNrjVaofcMqTgnBsmUSTYzLYzvwop8V1o/ZvdTAtnBdp5DYaIDqBCljWKn7lLLsz0iDUhx+OS8r6RnhYR49WbHqwhsJ50qk6ozHBDStZRGqY0ijiwoBHFeCmFMj+RVRNpnvQimuVeAZ9rZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=Z79YpyUw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JmQb/nKr; arc=none smtp.client-ip=103.168.172.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="esvo7jJs";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mshSwpLj"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 43E451400108;
-	Fri, 15 May 2026 07:57:21 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="Z79YpyUw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JmQb/nKr"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 862A81400129;
+	Fri, 15 May 2026 07:59:30 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Fri, 15 May 2026 07:57:21 -0400
+  by phl-compute-05.internal (MEProxy); Fri, 15 May 2026 07:59:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778846241;
-	 x=1778932641; bh=EiSap4plJUpUq1eNZDj08eIiMZtV5onfuWR7wBIRCcM=; b=
-	esvo7jJsmf3kdYlkQVVKafNmXNDX97GFETjEOPgeQkKxNdXjENd+cxu4G2MCz+QI
-	/aDBVpY1kWoTCkBfna4GSAkAk/9ANyhuz/HNu8U2t5OSddjdmFe0dkIaC1rmyrMf
-	A+VA6b80c4WFz0lDEJxtbRB8xJMYzDi9DbBb7vThjUWst18UJI/N+Kar3U16Ok2W
-	aTCA0jkP/C/hAjjWVa6un6x+PmgbRZtIr5sj6viwQAWgVuVqrPldF7JsOujNjdi5
-	bCb5Lcg2jj8Y06gG8MlWVfCgLsmJ2NiNO3QFiFMtUxM1/ZBzLPpjWSOumVFpJqGi
-	q2zXj5BuPK+yYpTMPeiV3w==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1778846370;
+	 x=1778932770; bh=kTPXzdtKVtjmT4/N5aCrO3snBbC23SVWwltpL2BzCts=; b=
+	Z79YpyUwiJoT/GkWrTY+OdbCRcOtapJNxyHXXN6bgkBIHSZDvWA5nSxxo6t/kLo0
+	z3Hy3gosA5hPijHx8QbKP+Ch21gicDJnxA9w1LFN7zKbWE2lOPIit3hHMleS86Qz
+	a/n6Fj+x7tPMjqUwHoXoKdyvleP1qb91/xRqE42Ts1/ctIyxhmqwVoEAAhiG5XGD
+	iCL0SHIVy5L1+S9ZtKGruIXYWtyLDP8tRVYk1k6I79yx2KgUvmuS8CxNfFF3C1za
+	T3gS0wXeXLLR8JwnI+QZNQ6DEWVakiZV+rWYyNZv6rgPM+P96pNPKkWqsnQ9kMVv
+	CdsatwWywTnX0sHVByjzyQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778846241; x=
-	1778932641; bh=EiSap4plJUpUq1eNZDj08eIiMZtV5onfuWR7wBIRCcM=; b=m
-	shSwpLjpLIxBlkWNMrf64kD5hX54ROOsVuJJlh/Cp1sl3N1SH3HqMaTTUe1H2ZZF
-	rxwHZnVMkCK9I6rHyBuX1xSKdTUP4GwHJ1KYFMuCXQaWTnBcaaLPiEVDye2W+Bcq
-	rMS4WJZu3Rt/1XcXZU9TV8eULiqgd8zOboXJ7S0XPaCFVxK+GjLGEIvuGbwqy0mJ
-	ZmTroxDGUDAjRkTRUQQNZoxz41XGSlL2fNgLE46Vg1AAED/EdWxElbd1WOLNe+il
-	TbC2TIWkHxzI+D8OhCXxZomatEVF/C5O+XnOReM4YCUPCtVJtiWOsSMASI8512kY
-	gZ76Jsaq2QCgo6IzcAIZw==
-X-ME-Sender: <xms:IAoHaruYCuFQQZShmq0Nap1mqCWDqsa60oYDaFkCEld_Qzh5Ai2EGQ>
-    <xme:IAoHalx5DDGLKkGWNRbA4lTFKj9eTHvzzq2NwbS-wLrUMRpBS9yX0jZcldvxMsR8Q
-    RwYTI9Wbt-dHXu6GqoEwvRwKSq9s0dlbXtNqX_PS99Dc5XAcr8YJQ>
-X-ME-Received: <xmr:IAoHamAjnibmIsIPkRT6qAV_FtYyocqqgJF8MYx5jqX7r7twahMEyIjfy6TegNram0ytsS2TVkWPFN6DNcEcb8mk04OFZfkEkZcC8McSZcNWWlh6fA>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778846370; x=
+	1778932770; bh=kTPXzdtKVtjmT4/N5aCrO3snBbC23SVWwltpL2BzCts=; b=J
+	mQb/nKrJlv9+NDheUT8mmgSA4BfsvwOuCfSjvxr5SBVKBwRLlkaCe82+yECp5RDa
+	K9tu+AmLI2bW3qln/325s9807pL+Cd6D/CG4va8zXn8ZiEi5fF4wonG6b719o5bI
+	nCKkYKyiP2ml5TEyUNC5jWRkFBLehxzn1DfxA6OeKLVrI0ujqxtTRQUGPA71l3cn
+	KZSqiv5LnRpLxiH3+faLq5GKO6lq3kCcxF4tAiPaJuU3/AD6VCPsCQzl31FOpHIi
+	a4MNUHghA2of8UJ2HzCHh5KP2y9sa1Wp6naMWwVIjJcIqG4VK4RUf6kj5MrVtdYR
+	Ffmn4R4XVIEDhPAViK/1A==
+X-ME-Sender: <xms:ogoHaquanBVINjx5g8vRaaFd11GRnUc28fA69FBgsULS0gYr46btoA>
+    <xme:ogoHaozsNKoFYZGNPh1V7gASpsiVvMIzKDPbZcKJhvUCU6FO9j-TfamQEFYp2ui3e
+    qx3iOFhOVlgrBSyQyc9itURUbM97JMO1FDjWoVJIHYq1XllAn8>
+X-ME-Received: <xmr:ogoHatBOlORvwUKxTjxEafJI5zuIoyZGaFkNbthI1S0cNCL-3TZbKrOtli-5k23UeghBmRrFDbBx-7-8DUq3EyssMWdIQmNNGAhwjmDavXUusfPSzw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufedtfeegucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
@@ -63,16 +63,16 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufedtfeegucetufdote
     fhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprg
     hlihesuggunhdrtghomhdprhgtphhtthhopehhohhrshhtsegsihhrthhhvghlmhgvrhdr
     uggvpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:IAoHarduzfAsUC7Mb-hvTL3mVEwpsQvhEnLoJJ0juw77u9Ca9_gH7A>
-    <xmx:IAoHaokErel-Ixq03HMTrHkdoF2nU7iMK44q1NENq0vdf-maODfjiA>
-    <xmx:IAoHaqEI2OvnjMWFTUzeUexAn8cVPzB76FLt_9Qcj8LTuj02FLKLVw>
-    <xmx:IAoHao4ubAARYgVXMzDSSDWNtUATrd-pU6FMmaTUsntx652ufBsgsQ>
-    <xmx:IQoHamNt6xUT9f8tFPMevyl2esvDxOxA1Qs3ufJ8rRFrP2Vr0ALpp2MW>
+X-ME-Proxy: <xmx:ogoHameN5CiXv2JyXbS_XWMuYjjaDN_pCoRM3pKYQGBPfR6vBh6Vyg>
+    <xmx:ogoHank1V3vUR0lxdwIXU5D2jVN-nopUhR5R1JBHyKO4lvPbvWsfjA>
+    <xmx:ogoHatF-hhZXaFTKU7r9C4GmQhWY2nqzo0OjxRiRdo2l_Bg3p23imA>
+    <xmx:ogoHav6gI380AUuDQyKPxR1MHTRQkO4nN6PkkQOL7eKi1WRNv-govQ>
+    <xmx:ogoHalN50Ml0YCyEIiuGy2ycyHGPkqCrqk44glSXP8Z6G-N7mRORLQ85>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 May 2026 07:57:20 -0400 (EDT)
-Message-ID: <f5ce0e4e-bd77-49f7-82eb-7429242e3c12@bsbernd.com>
-Date: Fri, 15 May 2026 13:57:19 +0200
+ 15 May 2026 07:59:29 -0400 (EDT)
+Message-ID: <a59c061c-3734-47ba-8891-fc72926458da@bsbernd.com>
+Date: Fri, 15 May 2026 13:59:28 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -80,16 +80,16 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] fuse: fix race between ring creation and
- connection abortion
+Subject: Re: [PATCH v1 2/3] fuse: fix race between registration and connection
+ abortion
 To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
 Cc: fuse-devel@lists.linux.dev, ali@ddn.com, horst@birthelmer.de,
  stable@vger.kernel.org
 References: <20260515045541.1171335-1-joannelkoong@gmail.com>
- <20260515045541.1171335-2-joannelkoong@gmail.com>
+ <20260515045541.1171335-3-joannelkoong@gmail.com>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260515045541.1171335-2-joannelkoong@gmail.com>
+In-Reply-To: <20260515045541.1171335-3-joannelkoong@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -97,61 +97,89 @@ Content-Transfer-Encoding: 7bit
 
 On 5/15/26 06:55, Joanne Koong wrote:
 > This fixes this race:
-> - thread a: fuse_uring_cmd() gets called, passes fch->connected check
->   (connection abortion not yet triggered)
-> - thread b: abort is called, calls fuse_uring_abort(),
-> fuse_uring_abort() is a no-op since ring == NULL right now
-> - thread a: creates ring, creates queue, creates entry
-> 
-> which results in
-> - leaked ring, queue, ent
-> - if thread a increments queue_refs before thread b calls
->   fuse_chan_wait_aborted(), then fuse_chan_wait_aborted() calls
+> - thread a: io_uring_enter -> register sqe ->
+>   fuse_uring_create_ring_ent -> allocate ent but doesn't grab queue_ref
+>   yet
+> - thread b: fuse_conn_destroy() -> fuse_chan_abort() ->
+>   fuse_uring_abort() is a no-op due to queue ref being 0
+> - thread a: grabs the queue_ref, queue_ref is now 1, rest of
+>   fuse_uring_do_register() logic executes
+> - thread b: fuse_chan_abort() returns, fuse_chan_wait_aborted() now runs
+>   and calls
 >   "wait_event(ring->stop_waitq, atomic_read(&ring->queue_refs) == 0);"
->   which will hang the abort/unmount thread indefinitely in unkillable
->   state, as nothing will decrement queue_refs or wake stop_waitq.
+> The abort/unmount thread will hang indefinitely in unkillable state as
+> nothing will decrement queue_refs or wake stop_waitq, and the ring,
+> queue, and ent are leaked.
 > 
-> Fix this by checking fch->connected under fch->lock in
-> fuse_uring_create() before publishing the ring via
-> smp_store_release(&fch->ring, ring) under the same lock scope.
-
-We had this discussion before, I still think it is covered by 2nd patch
-"fuse: fix race between registration and connection abortion", because
-
-fuse_uring_destruct() is called by delayed_release() in inode.c and that
-is only called when there is nothing accessing /dev/fuse anymore.
-
-The follow-up patch also handles ring->queue_refs going to 0.
-
-From my point of view, what this patch really does is to avoid ring and
-queue creation overhead when the connection is going down anyway, so
-just the commit message is a bit confusing.
-
+> Fix this by checking fch->connected under fch->lock after the created
+> ent has grabbed a ref count on the queue. This ensures that in the
+> scenario above, it is guaranteed that we either release the queue ref
+> and wake up stop_waitq (in case fuse_chan_wait_aborted() is already
+> waiting) in fuse_uring_do_register() when we detect !fch->connected, or
+> if the connection is aborted after the check, it is guaranteed that the
+> async teardown worker will be running in the background cleaning up ents
+> and decrementing the ent's ref on the queue, which will unblock the
+> eventual queue and ring teardown.
 > 
 > Fixes: 24fe962c86f5 ("fuse: {io-uring} Handle SQEs - register commands")
 > Cc: <stable@vger.kernel.org>
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > ---
->  fs/fuse/dev_uring.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  fs/fuse/dev_uring.c | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
 > 
 > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index e467b23e6895..cd75f61018ec 100644
+> index cd75f61018ec..d9108b5b5db8 100644
 > --- a/fs/fuse/dev_uring.c
 > +++ b/fs/fuse/dev_uring.c
-> @@ -244,6 +244,10 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
->  	max_payload_size = max(max_payload_size, fch->max_pages * PAGE_SIZE);
+> @@ -977,15 +977,26 @@ static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
+>  /*
+>   * fuse_uring_req_fetch command handling
+>   */
+> -static void fuse_uring_do_register(struct fuse_ring_ent *ent,
+> -				   struct io_uring_cmd *cmd,
+> -				   unsigned int issue_flags)
+> +static int fuse_uring_do_register(struct fuse_ring_ent *ent,
+> +				  struct io_uring_cmd *cmd,
+> +				  unsigned int issue_flags)
+>  {
+>  	struct fuse_ring_queue *queue = ent->queue;
+>  	struct fuse_ring *ring = queue->ring;
+>  	struct fuse_chan *fch = ring->chan;
+>  	struct fuse_iqueue *fiq = &fch->iq;
 >  
->  	spin_lock(&fch->lock);
+> +	spin_lock(&fch->lock);
+> +	/* abort teardown path is running or has run */
 > +	if (!fch->connected) {
 > +		spin_unlock(&fch->lock);
-> +		goto out_err;
+> +		if (atomic_dec_and_test(&ring->queue_refs))
+> +			wake_up_all(&ring->stop_waitq);
+> +		kfree(ent);
+> +		return -ECONNABORTED;
 > +	}
->  	if (fch->ring) {
->  		/* race, another thread created the ring in the meantime */
->  		spin_unlock(&fch->lock);
-
+> +	spin_unlock(&fch->lock);
+> +
+>  	fuse_uring_prepare_cancel(cmd, issue_flags, ent);
+>  
+>  	spin_lock(&queue->lock);
+> @@ -1002,6 +1013,7 @@ static void fuse_uring_do_register(struct fuse_ring_ent *ent,
+>  			wake_up_all(&fch->blocked_waitq);
+>  		}
+>  	}
+> +	return 0;
+>  }
+>  
+>  /*
+> @@ -1118,9 +1130,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+>  	if (IS_ERR(ent))
+>  		return PTR_ERR(ent);
+>  
+> -	fuse_uring_do_register(ent, cmd, issue_flags);
+> -
+> -	return 0;
+> +	return fuse_uring_do_register(ent, cmd, issue_flags);
+>  }
+>  
+>  /*
 
 Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
-
-
