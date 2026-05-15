@@ -1,185 +1,138 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C3847ECF6
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 11:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778846372; cv=none; b=jJxsCocAnyrsoQzt0F/NlW6VUZpg5yn9jLWqvf/K6o/3MATIwURGOj+GKvyPzTcQIQhU8RY5GWajtiweIQT66G1cTMMFfJdqazxv+c/q29XQAe4a0fpCKLWOtdJ2GgjTzLvelINcYiWDro/OHo/8h4E5hYqvU/Gsz0l5I8GUOm8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778846372; c=relaxed/simple;
-	bh=+ZN/rQClRBRBAWs65UAPjEUgJ4Y9HBy6RNfgvjCYLDk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Q6oIQjRfQBz4TZ9tu60I22ArDJwwqNrjVaofcMqTgnBsmUSTYzLYzvwop8V1o/ZvdTAtnBdp5DYaIDqBCljWKn7lLLsz0iDUhx+OS8r6RnhYR49WbHqwhsJ50qk6ozHBDStZRGqY0ijiwoBHFeCmFMj+RVRNpnvQimuVeAZ9rZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=Z79YpyUw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=JmQb/nKr; arc=none smtp.client-ip=103.168.172.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16D63FF1C7
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 15:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778859413; cv=pass; b=pYi0LO8W83q9yRRORTrhIJLc7040tRQp2V4Nwo60m7vGa/vd62oBazLdUPxms5l+TYyDvV2ZTdoBr5521CXZWjXsY4rJWX29LiozUG/Ppeu0JJ2XVNk5dlKrkJUkRxDWjsYpIVH9lCWNek8rw0XkfHbhm//BevUf1+BwddK4UaE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778859413; c=relaxed/simple;
+	bh=kykws77BULxtSmKjoBBbw30bnYsC8gmeKzi2jZkmruA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c7YVms9gJTyYuSqPSWG3Rt3iY4X2sAhaARCRiSdXEIaNWJ1R5TmEhsLKvQm8lE8XkNf/BkUB4NdwgstGvJYHhtIt2DAD839AeBUSgyV8tM39oyKNS5OGf/y+Jb4PX4uVbNiMPSgsvJBpIpGMCgB6VMsso7aKmWsJvOOQ07aEYrs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yjh7Wlhx; arc=pass smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="Z79YpyUw";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="JmQb/nKr"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 862A81400129;
-	Fri, 15 May 2026 07:59:30 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Fri, 15 May 2026 07:59:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778846370;
-	 x=1778932770; bh=kTPXzdtKVtjmT4/N5aCrO3snBbC23SVWwltpL2BzCts=; b=
-	Z79YpyUwiJoT/GkWrTY+OdbCRcOtapJNxyHXXN6bgkBIHSZDvWA5nSxxo6t/kLo0
-	z3Hy3gosA5hPijHx8QbKP+Ch21gicDJnxA9w1LFN7zKbWE2lOPIit3hHMleS86Qz
-	a/n6Fj+x7tPMjqUwHoXoKdyvleP1qb91/xRqE42Ts1/ctIyxhmqwVoEAAhiG5XGD
-	iCL0SHIVy5L1+S9ZtKGruIXYWtyLDP8tRVYk1k6I79yx2KgUvmuS8CxNfFF3C1za
-	T3gS0wXeXLLR8JwnI+QZNQ6DEWVakiZV+rWYyNZv6rgPM+P96pNPKkWqsnQ9kMVv
-	CdsatwWywTnX0sHVByjzyQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778846370; x=
-	1778932770; bh=kTPXzdtKVtjmT4/N5aCrO3snBbC23SVWwltpL2BzCts=; b=J
-	mQb/nKrJlv9+NDheUT8mmgSA4BfsvwOuCfSjvxr5SBVKBwRLlkaCe82+yECp5RDa
-	K9tu+AmLI2bW3qln/325s9807pL+Cd6D/CG4va8zXn8ZiEi5fF4wonG6b719o5bI
-	nCKkYKyiP2ml5TEyUNC5jWRkFBLehxzn1DfxA6OeKLVrI0ujqxtTRQUGPA71l3cn
-	KZSqiv5LnRpLxiH3+faLq5GKO6lq3kCcxF4tAiPaJuU3/AD6VCPsCQzl31FOpHIi
-	a4MNUHghA2of8UJ2HzCHh5KP2y9sa1Wp6naMWwVIjJcIqG4VK4RUf6kj5MrVtdYR
-	Ffmn4R4XVIEDhPAViK/1A==
-X-ME-Sender: <xms:ogoHaquanBVINjx5g8vRaaFd11GRnUc28fA69FBgsULS0gYr46btoA>
-    <xme:ogoHaozsNKoFYZGNPh1V7gASpsiVvMIzKDPbZcKJhvUCU6FO9j-TfamQEFYp2ui3e
-    qx3iOFhOVlgrBSyQyc9itURUbM97JMO1FDjWoVJIHYq1XllAn8>
-X-ME-Received: <xmr:ogoHatBOlORvwUKxTjxEafJI5zuIoyZGaFkNbthI1S0cNCL-3TZbKrOtli-5k23UeghBmRrFDbBx-7-8DUq3EyssMWdIQmNNGAhwjmDavXUusfPSzw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufedtfeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdrtg
-    homhdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohep
-    fhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprg
-    hlihesuggunhdrtghomhdprhgtphhtthhopehhohhrshhtsegsihhrthhhvghlmhgvrhdr
-    uggvpdhrtghpthhtohepshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:ogoHameN5CiXv2JyXbS_XWMuYjjaDN_pCoRM3pKYQGBPfR6vBh6Vyg>
-    <xmx:ogoHank1V3vUR0lxdwIXU5D2jVN-nopUhR5R1JBHyKO4lvPbvWsfjA>
-    <xmx:ogoHatF-hhZXaFTKU7r9C4GmQhWY2nqzo0OjxRiRdo2l_Bg3p23imA>
-    <xmx:ogoHav6gI380AUuDQyKPxR1MHTRQkO4nN6PkkQOL7eKi1WRNv-govQ>
-    <xmx:ogoHalN50Ml0YCyEIiuGy2ycyHGPkqCrqk44glSXP8Z6G-N7mRORLQ85>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 May 2026 07:59:29 -0400 (EDT)
-Message-ID: <a59c061c-3734-47ba-8891-fc72926458da@bsbernd.com>
-Date: Fri, 15 May 2026 13:59:28 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yjh7Wlhx"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so88753855e9.2
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 08:36:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778859406; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Z1fP+TgolCNjjfhmpuRP/ON7UHxrYrt6t9lQESnlV0tPg0m2aGSqKjZXKkZUy3oXZa
+         SvW9WAl7BHp2fbvj462ZdwTKkYZY1IyvXVdBIfxsAkgnAt+jzfI7YYYTz3tHJQRAb6YU
+         ZCBH2jH9F9mbdrsAAf/4YMRNFBmPMptvodr7C90iFRjnHrwaQYwbMj+52jCw4bieZxhk
+         4M3zwmZszSl+xFdvR1GzNbCF1qbBy/kwMYMIyCL0cfHt0O9JKHocco4UL51XXTw20C6y
+         HRhmevYgbju0ofhvXSLFkQA2E6DoZvYAwE4hw3B+CTPoBzb/KqSxVRSV/ivn59SEDz5X
+         j3Og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Jftbg9UKQhl6uBWBnvNH84aVd8/N8H9pwuhHklH3D1w=;
+        fh=n7hz32Cy4mbIrifagXOT9iZx81ecGmJfbVj6dBoCXaE=;
+        b=O4zlkWa0vkfdJK/qc6DcKQQcv8o6xdDei6OXN51/78yQHQLT3NnJoJGZvK1A+yEms2
+         E0BH3s1gbMr5UPzC1UM8ap+7/dsXTEqxVk4eXcqi6bqWStmedB27TrMQZnjYgTnymp4T
+         0dUyCqYEpTtfdUHvvWWXuEJfXz2ZhGd4J14DhGXTbyXUSJBwtG7XT8pvpAdI+MpORBaE
+         QIQETSgFGcsVBNCvvtJtAKlMRfWLC9SE89XI52AUa4D7jWxEQyG7NhN7BIFqvf1eZ7n5
+         GrJ1gCSYXKotKK2Xbs3g9yXFsYXpNsnx2tGD6eLNOlfzPnjmz0iaDQf0icWcMNkky5Uv
+         YTJQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778859406; x=1779464206; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Jftbg9UKQhl6uBWBnvNH84aVd8/N8H9pwuhHklH3D1w=;
+        b=Yjh7WlhxzTstu5kIj+ajvU/zjSHNd3XSS0RsVOwRxM9kfvB1M6xDRDY1NKAgRhHzti
+         rwM/ym9YnXYVEinsJ12e5vmS6Cm8hV49BZwe9r+pINFeYHrgbb/ksT/MdUMH8OtAPovV
+         mAsQY4puziwrrgTpcAW6sQgAnzvbydTqhQpCCUMDgSIXYIV5wq1fKTLNftUpeUXmkgX1
+         RvTlev7poCJbk0PftKHaWlLxZg4my9GeoKAUBtBvcH5hirD4hJ3V6/+HbECbco/R2mXy
+         rL0a0P9Cb5TBEw9qcHnLKCkBYMuRh15YhXrv4y+bn6blrX+Jq3JtRUrP3e3ZxonCRBXz
+         yttg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778859406; x=1779464206;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Jftbg9UKQhl6uBWBnvNH84aVd8/N8H9pwuhHklH3D1w=;
+        b=eQK6yhXWXlkfJ38y8vYtxjqOjx0mtaIT1+75Gul2L2ZgymrdsDxdeOhEa1z1EFF8Ct
+         JC8CFcEkTdUscfXYPToCAPEIVkIPCZ1wPQvRh4KW5peMljEqRxBc8POGtNE0iYnv5KU8
+         xKVoCCaW5FWP7PKMsvLNNzBrTReMG0sNdTuazjjHTahGP6O1J6H6/5OHw1nWq/DmKYrg
+         ST6T+IIkmPgyyGXEROKlsQiCc2yWPhlVwl3kk2jlfs7JtjkLvUbBgfdyGtCzCuhvXYEu
+         jvkYETiqRvoHSvK/2ubSCq1l/2lrsc1Gcg9QG+RtloeEQtFDbvIj+dbppFmGuc0U920+
+         ZSDA==
+X-Forwarded-Encrypted: i=1; AFNElJ/2NzBYxaremvT/r4uhSN59d9SiCL2eTqg7AiUA3DFgYMfoGl7qKfSJwmma+Np4Od71+VdvdXXwNo9G@lists.linux.dev
+X-Gm-Message-State: AOJu0YwVDfrb0N0/pQoc27OT6JW7fwiKs0N2xH1k7BJH8kFguatkMlJd
+	qJ05PFpbZh5GLZfCGRWRKdR1/HtgG3hTq8Ysp9VpIBk5rQXLpdEcn+jwnwJlMv/gxO+3p37YbAW
+	vftqZHTtkQGxDTaykBTpDeZOnih+7LSc=
+X-Gm-Gg: Acq92OGKX70WsBVQDh4JkGZoqzHfeNMbGEmVTrSpC5OHEBZbI8WGFSbnuKSa2hFyJHV
+	sacz6rxgY4SCQpOJDuYa6N590TNRldmB950sSIuN+nttzOZvgnftLPTH6IGYqiHbFZ62UiX2BOP
+	lh2IIzOComWFKfms/Y2pSL0BfLtawRxSYoqySAR2kk001swX3WFV1kSm6ibPvGHveqAQZsI/7Lw
+	1gM4JLFTl2aSOZ4ONDlWoB/HdFXe9t8WjAb2JiJaEvz2nZiXujNQErlASVcQ4hnSoNZFpluM0B+
+	vB4kYg==
+X-Received: by 2002:a05:600c:3b21:b0:48a:f18:ece4 with SMTP id
+ 5b1f17b1804b1-48fe6514dd6mr60783315e9.24.1778859406455; Fri, 15 May 2026
+ 08:36:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/3] fuse: fix race between registration and connection
- abortion
-To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev, ali@ddn.com, horst@birthelmer.de,
- stable@vger.kernel.org
-References: <20260515045541.1171335-1-joannelkoong@gmail.com>
- <20260515045541.1171335-3-joannelkoong@gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260515045541.1171335-3-joannelkoong@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260331223927.763741-1-quark@lihdd.net> <20260515001412.1270472-1-quark@lihdd.net>
+ <8733ztt5o8.fsf@igalia.com>
+In-Reply-To: <8733ztt5o8.fsf@igalia.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 15 May 2026 08:36:34 -0700
+X-Gm-Features: AVHnY4Kh2Ono_aaAuXxaM5dgM2Ye6AP7gVnX7i1R3yS2Fo2HCz2yvbZ8r6yvuuM
+Message-ID: <CAJnrk1YKmF29r0qr6ouKHqYTbKC-OR256aa=T+zHsU7jeTtQPQ@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: invalidate readdir cache on epoch bump
+To: Luis Henriques <luis@igalia.com>
+Cc: Jun Wu <quark@lihdd.net>, fuse-devel@lists.linux.dev, miklos@szeredi.hu, 
+	Jun Wu <quark@meta.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, May 15, 2026 at 1:53=E2=80=AFAM Luis Henriques <luis@igalia.com> wr=
+ote:
+>
+> On Thu, May 14 2026, Jun Wu wrote:
+>
+> > From: Jun Wu <quark@meta.com>
+> >
+> > FUSE_NOTIFY_INC_EPOCH invalidates dentries, but does not invalidate cac=
+hed
+> > readdir results. A process with cwd inside a FUSE mount can therefore
+> > observe stale readdir(".") output after an epoch bump.
+> >
+> > Fix this by recording epoch in the readdir cache and checking it on reu=
+se.
+> >
+> > Minimal reproducer:
+> >
+> > - mount a tiny FUSE fs with an empty root directory
+> > - on opendir, enable fi->cache_readdir and fi->keep_cache
+> > - chdir into the mount and call readdir(".") to populate readdir cache
+> > - make the FUSE server report one file in the root directory
+> > - send only FUSE_NOTIFY_INC_EPOCH
+> > - call readdir(".") again; before this change it stays stale, after thi=
+s
+> >   change it sees the new file
+> >
+> > Fixes: 2396356a945b ("fuse: add more control over cache invalidation be=
+haviour")
+> > Signed-off-by: Jun Wu <quark@meta.com>
 
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 
-On 5/15/26 06:55, Joanne Koong wrote:
-> This fixes this race:
-> - thread a: io_uring_enter -> register sqe ->
->   fuse_uring_create_ring_ent -> allocate ent but doesn't grab queue_ref
->   yet
-> - thread b: fuse_conn_destroy() -> fuse_chan_abort() ->
->   fuse_uring_abort() is a no-op due to queue ref being 0
-> - thread a: grabs the queue_ref, queue_ref is now 1, rest of
->   fuse_uring_do_register() logic executes
-> - thread b: fuse_chan_abort() returns, fuse_chan_wait_aborted() now runs
->   and calls
->   "wait_event(ring->stop_waitq, atomic_read(&ring->queue_refs) == 0);"
-> The abort/unmount thread will hang indefinitely in unkillable state as
-> nothing will decrement queue_refs or wake stop_waitq, and the ring,
-> queue, and ent are leaked.
-> 
-> Fix this by checking fch->connected under fch->lock after the created
-> ent has grabbed a ref count on the queue. This ensures that in the
-> scenario above, it is guaranteed that we either release the queue ref
-> and wake up stop_waitq (in case fuse_chan_wait_aborted() is already
-> waiting) in fuse_uring_do_register() when we detect !fch->connected, or
-> if the connection is aborted after the check, it is guaranteed that the
-> async teardown worker will be running in the background cleaning up ents
-> and decrementing the ent's ref on the queue, which will unblock the
-> eventual queue and ring teardown.
-> 
-> Fixes: 24fe962c86f5 ("fuse: {io-uring} Handle SQEs - register commands")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  fs/fuse/dev_uring.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index cd75f61018ec..d9108b5b5db8 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -977,15 +977,26 @@ static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
->  /*
->   * fuse_uring_req_fetch command handling
->   */
-> -static void fuse_uring_do_register(struct fuse_ring_ent *ent,
-> -				   struct io_uring_cmd *cmd,
-> -				   unsigned int issue_flags)
-> +static int fuse_uring_do_register(struct fuse_ring_ent *ent,
-> +				  struct io_uring_cmd *cmd,
-> +				  unsigned int issue_flags)
->  {
->  	struct fuse_ring_queue *queue = ent->queue;
->  	struct fuse_ring *ring = queue->ring;
->  	struct fuse_chan *fch = ring->chan;
->  	struct fuse_iqueue *fiq = &fch->iq;
->  
-> +	spin_lock(&fch->lock);
-> +	/* abort teardown path is running or has run */
-> +	if (!fch->connected) {
-> +		spin_unlock(&fch->lock);
-> +		if (atomic_dec_and_test(&ring->queue_refs))
-> +			wake_up_all(&ring->stop_waitq);
-> +		kfree(ent);
-> +		return -ECONNABORTED;
-> +	}
-> +	spin_unlock(&fch->lock);
-> +
->  	fuse_uring_prepare_cancel(cmd, issue_flags, ent);
->  
->  	spin_lock(&queue->lock);
-> @@ -1002,6 +1013,7 @@ static void fuse_uring_do_register(struct fuse_ring_ent *ent,
->  			wake_up_all(&fch->blocked_waitq);
->  		}
->  	}
-> +	return 0;
->  }
->  
->  /*
-> @@ -1118,9 +1130,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
->  	if (IS_ERR(ent))
->  		return PTR_ERR(ent);
->  
-> -	fuse_uring_do_register(ent, cmd, issue_flags);
-> -
-> -	return 0;
-> +	return fuse_uring_do_register(ent, cmd, issue_flags);
->  }
->  
->  /*
+(btw, I think your v2 email may have gotten corrupted when sending. I
+wasn't able to find it in my inbox and had to manually import Luis's.
+I'm not seeing it show up on lore [1] either)
 
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/fuse-devel/CAJnrk1YOzwNRS+qA74rLMFmx=3DJgE3VVue=
+u9o7-pghsa4bPzYBw@mail.gmail.com/T/#t
