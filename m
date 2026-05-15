@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF08030C15E;
-	Fri, 15 May 2026 19:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21EA737DACE;
+	Fri, 15 May 2026 19:41:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778871734; cv=none; b=Ihzrb2//8GC71B0W8q6Tw3R23XA305zqT/LMelmU/kT6FN8KKpgq8483oaSDU+trnk+bbdtpkwTLOlgpLqjwY+6Un6H6jNXAgw2/Y7JiT2LBqfDJRmutocGsPhHqgddfmJJyhpqakvxmpTlKU0YM8lfyt9SQnR3nbu/OvlzvN94=
+	t=1778874083; cv=none; b=OrUqHqYiyPshUAiegSz8jXpDb05qbGB/0UstxlJYlEdgrfzMIn8Z+W4uHAnLBCsgwsGGdnqQ/tQ+akW1YzGPFfDxFDp7tnrpA7pSa2oG2OO5EoqKae/DdVVMIC250l0+TMH9X8xAR+LUjYQ4HVco0DN3WctKhi70O5TA0MuMXYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778871734; c=relaxed/simple;
-	bh=XNxmO6n6XeMbowCoUMJMpm79ib7wEOn6/9JcH+ReKzE=;
+	s=arc-20240116; t=1778874083; c=relaxed/simple;
+	bh=+vh3vhmlpG9yj8Jw/v3tIJXNg2L8t0Afeh4I5gkP+Wo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X9GC2UWlIPBCneFsAgKmNXtg46MLwjdMuEmb1wXxfIiBmiG2erqUxl5GRr9pqJr+9Srgr1a2SiyDDVFX8t7LjiwWLSSkAYV9iRFAkPoeXt2iRbXjLFTtKb+CqYKUuNNFZw/2JiXGikWhkoI9kdPISObIAqTm6ZwxU4L5b4wVo3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k9buQOa+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ljoMW/I/ZMHyS4Nf1WNC8RBxuKIPy2IRlk1RAZC9yCe4QoPNIBFnRbBV/sfXJD0FKsq4+mAHDAC5F+k525x8DRioZ6HkmsyQmPQAuc1MdjZfXe59sMIFFdxiaKAvwlTth6tV358xDBRbsBeJ4HRaWYPXDrIBqdKpPMg8WU9Btkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pzM5dqTv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k9buQOa+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED2F5C2BCB0;
-	Fri, 15 May 2026 19:02:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pzM5dqTv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D681C2BCB0;
+	Fri, 15 May 2026 19:41:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778871734;
-	bh=XNxmO6n6XeMbowCoUMJMpm79ib7wEOn6/9JcH+ReKzE=;
+	s=k20201202; t=1778874082;
+	bh=+vh3vhmlpG9yj8Jw/v3tIJXNg2L8t0Afeh4I5gkP+Wo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k9buQOa+gGuJHErdcQi2yDuhZ4vB7h3p5wlfVDrcpaabs2EPGGdDO1x+GFt7bZqM0
-	 alY+P/D/2rg4Jls5qLo6n2zIKgbKxliMvfhC1dNlxmCllpR2aS4MDd2GWRyiZSbd4g
-	 ylyze54zqC1/Qex9MMmnrDmxX5O6Hzv+S47ehqMiZO2ynCO7uHL0CyV0OIclCxDTm1
-	 TLCgoV0Oco/SlWvripF+xfhHm8A/ww93A0/NmRswrR5kSJnvZqF7Rt09T8sLjbuE8A
-	 h/JIgPmm/rfZXEDxQrcMDF4cQuStFbgMhEitiFAmENNhQ7YzU6Q3glkwPVp3ihLxVB
-	 QVxaeYxnV0hfA==
-Date: Fri, 15 May 2026 12:02:12 -0700
+	b=pzM5dqTvjczA1s9HxH2kgBzstYrYr+cVdnRda5zoiIytRQRfvGbOB4sqy3lfhfZ5u
+	 cRK9/MpNYLmYf6IT6Vxpme6/zL8DvN6qlKFfdMSovcp+HI5gL5p6K0jfbmUVrjuG18
+	 T7z6QA3TTaq+aVyHofCZv86lGzkzin14FMtkyLCjtwHgDoAU00L5Gvg/NDy+51DzN7
+	 8zIt38GQ3rPkagR4Uj9okxoOztwTMD6nPBU9l6iD8PHWnREds0g2VGOLl2Ddl1IaBR
+	 38+EDqt8AAR/ukxVVLYlo+ymd1j47HSITWmQweQBzK3HvZWgrV+sFbAIg/6q/Wyr5L
+	 dBJ4euOcLVs2w==
+Date: Fri, 15 May 2026 12:41:22 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, john@groves.net,
 	fuse-devel@lists.linux.dev, joannelkoong@gmail.com, neal@gompa.dev
-Subject: Re: [PATCH 22/25] libfuse: create a helper to transform an open
- regular file into an open loopdev
-Message-ID: <20260515190212.GX9544@frogsfrogsfrogs>
-References: <177747211463.4104686.1151865355399948078.stgit@frogsfrogsfrogs>
- <177747211961.4104686.8091769616825139501.stgit@frogsfrogsfrogs>
+Subject: Re: [PATCH 5/7] example/iomap_ow_ll: create a simple iomap out of
+ place write server
+Message-ID: <20260515194122.GY9544@frogsfrogsfrogs>
+References: <177747212852.4106066.65045387245092140.stgit@frogsfrogsfrogs>
+ <177747212967.4106066.15831817668245975912.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -44,459 +44,894 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177747211961.4104686.8091769616825139501.stgit@frogsfrogsfrogs>
+In-Reply-To: <177747212967.4106066.15831817668245975912.stgit@frogsfrogsfrogs>
 
-On Wed, Apr 29, 2026 at 07:44:49AM -0700, Darrick J. Wong wrote:
+On Wed, Apr 29, 2026 at 07:48:28AM -0700, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Create a helper function to configure a loop device for an open regular
-> file fd, and then return an open fd to the loop device.  This will
-> enable the use of fuse+iomap file servers with filesystem image files.
+> Create a toy iomap fileserver as an example of how out of place writes
+> works.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  include/fuse_loopdev.h |   29 +++
->  include/meson.build    |    4 
->  lib/fuse_loopdev.c     |  441 ++++++++++++++++++++++++++++++++++++++++++++++++
->  lib/fuse_versionscript |    1 
->  lib/meson.build        |    3 
->  meson.build            |   11 +
->  6 files changed, 488 insertions(+), 1 deletion(-)
->  create mode 100644 include/fuse_loopdev.h
->  create mode 100644 lib/fuse_loopdev.c
+>  example/single_file.h |    1 
+>  example/iomap_ow_ll.c |  813 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  example/meson.build   |    2 
+>  example/single_file.c |    5 
+>  4 files changed, 819 insertions(+), 2 deletions(-)
+>  create mode 100644 example/iomap_ow_ll.c
 > 
 > 
-> diff --git a/include/fuse_loopdev.h b/include/fuse_loopdev.h
-> new file mode 100644
-> index 00000000000000..aa536e2a0b3964
-> --- /dev/null
-> +++ b/include/fuse_loopdev.h
-> @@ -0,0 +1,29 @@
-> +/*
-> + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2025-2026 Oracle.
-> + * Author: Darrick J. Wong <djwong@kernel.org>
-> + *
-> + * This program can be distributed under the terms of the GNU LGPLv2.
-> + * See the file LGPL2.txt.
-> + */
-> +#ifndef FUSE_LOOPDEV_H_
-> +#define FUSE_LOOPDEV_H_
-> +
-
-Codex complained about the lack of extern "C" { } wrapping in this
-header file.
-
-> +/**
-> + * If possible, set up a loop device for the given file fd.  Return the opened
-> + * loop device fd and the path to the loop device.  The loop device will be
-> + * removed when the last close() occurs.
-> + *
-> + * @param file_fd an open file
-> + * @param open_flags O_* flags that were used to open file_fd
-> + * @param path the path to the open regular file
-> + * @param timeout spend this much time waiting to lock the file
-> + * @param loop_fd set to an open fd to the new loop device or
-> + *        -1 if setting up a loop device is not possible or appropriate
-> + * @param loop_dev (optional) set to a pointer to the path to the loop device
-> + * @return 0 for success, or negative errno on failure
-> + */
-> +int fuse_loopdev_setup(int file_fd, int open_flags, const char *path,
-> +		       unsigned int timeout, int *loop_fd, char **loop_dev);
-> +
-> +#endif /* FUSE_LOOPDEV_H_ */
-> diff --git a/include/meson.build b/include/meson.build
-> index da51180f87eea2..60edd649f1784f 100644
-> --- a/include/meson.build
-> +++ b/include/meson.build
-> @@ -5,4 +5,8 @@ if private_cfg.get('HAVE_SERVICEMOUNT', false)
->    libfuse_headers += [ 'fuse_service.h' ]
->  endif
+> diff --git a/example/single_file.h b/example/single_file.h
+> index 90696a4d5a626a..3ee9dd261352ba 100644
+> --- a/example/single_file.h
+> +++ b/example/single_file.h
+> @@ -75,6 +75,7 @@ extern struct single_file single_file;
+>  struct single_file_ops {
+>  	uint64_t (*calc_st_blocks)(void);
+>  	uint64_t (*calc_bfree)(void);
+> +	uint64_t (*calc_blocks)(void);
+>  };
 >  
-> +if private_cfg.get('FUSE_LOOPDEV_ENABLED')
-> +  libfuse_headers += [ 'fuse_loopdev.h' ]
-> +endif
-> +
->  install_headers(libfuse_headers, subdir: 'fuse3')
-> diff --git a/lib/fuse_loopdev.c b/lib/fuse_loopdev.c
+>  static inline uint64_t b_to_fsbt(uint64_t off)
+> diff --git a/example/iomap_ow_ll.c b/example/iomap_ow_ll.c
 > new file mode 100644
-> index 00000000000000..6d7017277d9eaf
+> index 00000000000000..c4edda1f9bfe40
 > --- /dev/null
-> +++ b/lib/fuse_loopdev.c
-> @@ -0,0 +1,441 @@
+> +++ b/example/iomap_ow_ll.c
+> @@ -0,0 +1,813 @@
 > +/*
 > + * FUSE: Filesystem in Userspace
-> + * Copyright (C) 2025-2026 Oracle.
-> + * Author: Darrick J. Wong <djwong@kernel.org>
+> + * Copyright (C) 2026 Oracle.
 > + *
-> + * Library functions for handling loopback devices on linux.
-> + *
-> + * This program can be distributed under the terms of the GNU LGPLv2.
-> + * See the file LGPL2.txt
+> + * This program can be distributed under the terms of the GNU GPLv2.
+> + * See the file GPL2.txt.
 > + */
-> +#define _GNU_SOURCE
-> +#include "fuse_config.h"
-> +#include "fuse_loopdev.h"
 > +
-> +#ifdef FUSE_LOOPDEV_ENABLED
-> +#include <stdint.h>
+> +/** @file
+> + *
+> + * minimal example iomap out of place write filesystem using low-level API
+> + *
+> + * Compile with:
+> + *
+> + *     gcc -Wall single_file.c iomap_ow_ll.c `pkg-config fuse3 --cflags --libs` -o iomap_ow_ll
+> + *
+> + * Note: If the pkg-config command fails due to the absence of the fuse3.pc
+> + *     file, you should configure the path to the fuse3.pc file in the
+> + *     PKG_CONFIG_PATH variable.
+> + *
+> + * ## Source code ##
+> + * \include iomap_ow_ll.c
+> + * \include single_file.c
+> + * \include single_file.h
+> + */
+> +
+> +#define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 99)
+> +
+> +#ifndef _GNU_SOURCE
+> +#define _GNU_SOURCE
+> +#endif
+> +
+> +#include <fuse_lowlevel.h>
+> +#include <fuse_loopdev.h>
 > +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <errno.h>
 > +#include <fcntl.h>
 > +#include <unistd.h>
-> +#include <string.h>
-> +#include <stdlib.h>
-> +#include <limits.h>
-> +#include <stdbool.h>
-> +#include <errno.h>
-> +#include <dirent.h>
-> +#include <signal.h>
-> +#include <time.h>
-> +#include <sys/stat.h>
+> +#include <assert.h>
+> +#include <pthread.h>
 > +#include <sys/ioctl.h>
-> +#include <sys/file.h>
-> +#include <sys/types.h>
-> +#include <sys/time.h>
-> +#include <linux/loop.h>
+> +#include <sys/stat.h>
+> +#include <linux/fs.h>
+> +#include <linux/stat.h>
+> +#include <linux/falloc.h>
+> +#define USE_SINGLE_FILE_LL_API
+> +#include "single_file.h"
 > +
-> +#include "fuse_log.h"
+> +#define max(x, y) ((x) > (y) ? (x) : (y))
 > +
-> +#define _PATH_LOOPCTL		"/dev/loop-control"
-> +#define _PATH_SYS_BLOCK		"/sys/block"
+> +#define MAP_HOLE	(0)
+> +#define MAP_DELALLOC	(1)
 > +
-> +#ifdef STATX_SUBVOL
-> +# define STATX_SUBVOL_FLAG	STATX_SUBVOL
-> +#else
-> +# define STATX_SUBVOL_FLAG	0
-> +#endif
-> +
-> +static int lock_file(int fd, const char *path)
+> +static uint16_t read_state_to_iomap_type(uint32_t map)
 > +{
+> +	switch (map) {
+> +	case MAP_HOLE:
+> +		return FUSE_IOMAP_TYPE_HOLE;
+> +	case MAP_DELALLOC:
+> +		return FUSE_IOMAP_TYPE_DELALLOC;
+> +	}
+> +
+> +	return FUSE_IOMAP_TYPE_MAPPED;
+> +}
+> +
+> +static uint16_t write_state_to_iomap_type(uint32_t map)
+> +{
+> +	switch (map) {
+> +	case MAP_HOLE:
+> +		return FUSE_IOMAP_TYPE_HOLE;
+> +	case MAP_DELALLOC:
+> +		return FUSE_IOMAP_TYPE_DELALLOC;
+> +	}
+> +
+> +	return FUSE_IOMAP_TYPE_UNWRITTEN;
+> +}
+> +
+> +struct ioow_ll {
+> +	struct fuse_session *se;
+> +	char *device;
+> +
+> +	uint32_t *read_map;
+> +	uint32_t *write_map;
+> +	uint32_t max_file_blocks;
+> +
+> +	uint8_t *freespace;
+> +	uint64_t bdev_blocks;
+> +
+> +	/* really booleans */
+> +	int debug;
+> +
+> +	int dev_index;
+> +};
+> +
+> +static struct ioow_ll ll = { };
+> +
+> +static uint64_t ioow_bytes_allocated(void)
+> +{
+> +	uint32_t *p, *q;
+> +	uint64_t i;
+> +	uint64_t blocks = 0;
+> +
+> +	for (i = 0, p = ll.read_map; i < ll.max_file_blocks; i++, p++)
+> +		if (*p != MAP_HOLE)
+> +			blocks++;
+> +
+> +	for (i = 0, q = ll.write_map; i < ll.max_file_blocks; i++, q++)
+> +		if (*q != MAP_HOLE)
+> +			blocks++;
+> +
+> +	return fsb_to_b(blocks);
+> +}
+> +
+> +static uint64_t ioow_ll_calc_stblocks(void)
+> +{
+> +	return howmany(ioow_bytes_allocated(), 512);
+> +}
+> +
+> +static uint64_t ioow_ll_calc_blocks(void)
+> +{
+> +	return ll.bdev_blocks;
+> +}
+> +
+> +static uint64_t ioow_ll_calc_bfree(void)
+> +{
+> +	return ll.bdev_blocks - b_to_fsb(ioow_bytes_allocated());
+> +}
+> +
+> +static void ioow_ll_init(void *userdata, struct fuse_conn_info *conn)
+> +{
+> +	(void)userdata;
+> +
+> +	if (fuse_set_feature_flag(conn, FUSE_CAP_IOMAP))
+> +		single_file.uses_iomap = true;
+> +	conn->time_gran = 1;
+> +}
+> +
+> +static int ioow_iomap_config_devices(void)
+> +{
+> +	int blocksize = single_file.blocksize;
 > +	int ret;
 > +
-> +	ret = flock(fd, LOCK_EX);
-> +	if (ret) {
-> +		int error = errno;
+> +	ll.dev_index = fuse_lowlevel_iomap_device_add(ll.se, single_file.backing_fd, 0);
+> +	if (ll.dev_index < 0) {
+> +		ret = -ll.dev_index;
+> +		printf("%s: cannot register iomap dev fd=%d: %s\n",
+> +		       ll.device, single_file.backing_fd, strerror(ret));
+> +		return ret;
+> +	}
 > +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path, strerror(error));
-> +		return -error;
+> +	ret = ioctl(single_file.backing_fd, BLKBSZSET, &blocksize);
+> +	if (ret) {
+> +		printf("%s: cannot set block size %u: %s\n",
+> +		       ll.device, single_file.blocksize, strerror(errno));
+> +		return errno;
 > +	}
 > +
 > +	return 0;
 > +}
 > +
-> +static double gettime_monotonic(void)
+> +static void ioow_ll_iomap_config(fuse_req_t req,
+> +				 const struct fuse_iomap_config_params *p,
+> +				 size_t psize)
 > +{
-> +#ifdef CLOCK_MONOTONIC
-> +	struct timespec ts;
-> +#endif
-> +	struct timeval tv;
-> +	static double fake_ret;
+> +	struct fuse_iomap_config cfg = { };
 > +	int ret;
 > +
-> +#ifdef CLOCK_MONOTONIC
-> +	ret = clock_gettime(CLOCK_MONOTONIC, &ts);
-> +	if (ret == 0)
-> +		return ts.tv_sec + (ts.tv_nsec / 1000000000.0);
-> +#endif
-> +	ret = gettimeofday(&tv, NULL);
-> +	if (ret == 0)
-> +		return tv.tv_sec + (tv.tv_usec / 1000000.0);
+> +	(void)p;
+> +	(void)psize;
 > +
-> +	fake_ret += 1.0;
-> +	return fake_ret;
+> +	cfg.flags |= FUSE_IOMAP_CONFIG_BLOCKSIZE;
+> +	cfg.s_blocksize = single_file.blocksize;
+> +
+> +	cfg.flags |= FUSE_IOMAP_CONFIG_MAXBYTES;
+> +	cfg.s_maxbytes = fsb_to_b(ll.max_file_blocks);
+> +
+> +	ret = ioow_iomap_config_devices();
+> +	if (ret)
+> +		fuse_reply_err(req, ret);
+> +	else
+> +		fuse_reply_iomap_config(req, &cfg);
 > +}
 > +
-> +static int lock_file_timeout(int fd, const char *path, unsigned int timeout)
+> +static ssize_t adjust_endoff(uint64_t fileoff, uint64_t *endoff)
 > +{
-> +	double deadline, now;
-> +	int ret;
+> +	if (fileoff >= ll.max_file_blocks)
+> +		return -EIO;
+> +	if (*endoff > ll.max_file_blocks)
+> +		*endoff = ll.max_file_blocks;
+> +	return 0;
+> +}
 > +
-> +	now = gettime_monotonic();
-> +	deadline = now + timeout;
+> +static ssize_t ioow_begin_report(off_t pos, uint64_t count, uint32_t opflags,
+> +				 struct fuse_file_iomap *read,
+> +				 struct fuse_file_iomap *write)
+> +{
+> +	uint64_t fileoff, endoff;
+> +	uint32_t *p, *q;
+> +	uint32_t orig_p, orig_q;
+> +	ssize_t ret;
 > +
-> +	/* Use a tight sleeping loop here to avoid signal handlers */
-> +	while (now <= deadline) {
-> +		struct timespec sleepy = {
-> +			/* sleep 0.1s before trying again */
-> +			.tv_nsec = 100000000,
-> +		};
-> +		int error;
+> +	(void)opflags;
 > +
-> +		ret = flock(fd, LOCK_EX | LOCK_NB);
-> +		if (ret == 0)
-> +			return 0;
+> +	fileoff = b_to_fsbt(pos);
+> +	endoff = b_to_fsb(pos + count);
 > +
-> +		error = errno;
+> +	ret = adjust_endoff(fileoff, &endoff);
+> +	if (ret)
+> +		return ret;
 > +
-> +		if (error != EWOULDBLOCK) {
-> +			fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path,
-> +				 strerror(error));
-> +			return -error;
+> +	if (ll.debug)
+> +		fprintf(stderr,
+> +"%s: pos 0x%llx count 0x%llx fileoff 0x%llx endoff 0x%llx new_endoff 0x%llx\n",
+> +			__func__,
+> +			(unsigned long long)pos,
+> +			(unsigned long long)count,
+> +			(unsigned long long)fileoff,
+> +			(unsigned long long)b_to_fsb(pos + count),
+> +			(unsigned long long)endoff);
+> +
+> +	read->offset = fsb_to_b(fileoff);
+> +	write->offset = fsb_to_b(fileoff);
+> +	read->length = 0;
+> +	write->length = 0;
+> +
+> +	orig_p = ll.read_map[fileoff];
+> +	orig_q = ll.write_map[fileoff];
+> +	read->type = read_state_to_iomap_type(orig_p);
+> +	write->type = write_state_to_iomap_type(orig_q);
+> +
+> +	switch (read->type) {
+> +	case FUSE_IOMAP_TYPE_MAPPED:
+> +	case FUSE_IOMAP_TYPE_UNWRITTEN:
+> +		read->dev = ll.dev_index;
+> +		read->addr = fsb_to_b(orig_p);
+> +		break;
+> +	case FUSE_IOMAP_TYPE_DELALLOC:
+> +	case FUSE_IOMAP_TYPE_HOLE:
+> +		read->dev = FUSE_IOMAP_DEV_NULL;
+> +		read->addr = FUSE_IOMAP_NULL_ADDR;
+> +		break;
+> +	default:
+> +		return -EIO;
+> +	}
+> +
+> +	switch (write->type) {
+> +	case FUSE_IOMAP_TYPE_MAPPED:
+> +	case FUSE_IOMAP_TYPE_UNWRITTEN:
+> +		write->dev = ll.dev_index;
+> +		write->addr = fsb_to_b(orig_q);
+> +		break;
+> +	case FUSE_IOMAP_TYPE_DELALLOC:
+> +	case FUSE_IOMAP_TYPE_HOLE:
+> +		write->dev = FUSE_IOMAP_DEV_NULL;
+> +		write->addr = FUSE_IOMAP_NULL_ADDR;
+> +		break;
+> +	default:
+> +		return -EIO;
+> +	}
+> +
+> +	for (p = ll.read_map + fileoff, q = ll.write_map + fileoff;
+> +	     fileoff < endoff;
+> +	     p++, q++, fileoff++) {
+> +		if (read->type != read_state_to_iomap_type(*p))
+> +			break;
+> +		if (write->type != write_state_to_iomap_type(*q))
+> +			break;
+> +		if (read->type == FUSE_IOMAP_TYPE_MAPPED &&
+> +		    read->addr + read->length != fsb_to_b(*p))
+> +			break;
+> +		if (write->type == FUSE_IOMAP_TYPE_MAPPED &&
+
+The contiguity check needs to happen for unwritten mappings too.
+
+> +		    write->addr + write->length != fsb_to_b(*q))
+> +			break;
+> +
+> +		read->length += single_file.blocksize;
+> +		write->length += single_file.blocksize;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static ssize_t ioow_begin_read(off_t pos, uint64_t count, uint32_t opflags,
+> +			       struct fuse_file_iomap *read,
+> +			       struct fuse_file_iomap *write)
+> +{
+> +	return ioow_begin_report(pos, count, opflags, read, write);
+> +}
+> +
+> +struct free_extent {
+> +	uint32_t startblock;
+> +	uint32_t blockcount;
+> +};
+> +
+> +#define FIND_FREE_INIT_CURSOR	(MAP_DELALLOC + 1)
+> +
+> +static uint32_t ioow_find_free(uint32_t *cursor)
+> +{
+> +	bool wrapped = false;
+> +
+> +	while (!wrapped) {
+> +		if (*cursor >= ll.bdev_blocks || *cursor <= MAP_DELALLOC)
+> +			*cursor = FIND_FREE_INIT_CURSOR;
+> +
+> +		for (; *cursor < ll.bdev_blocks; (*cursor)++) {
+> +			if (ll.freespace[*cursor]) {
+> +				ll.freespace[*cursor] = 0;
+> +				(*cursor)++;
+> +				return *cursor - 1;
+> +			}
 > +		}
 > +
-> +		nanosleep(&sleepy, NULL);
-> +
-> +		now = gettime_monotonic();
+> +		wrapped = true;
 > +	}
 > +
-> +	fuse_log(FUSE_LOG_DEBUG, "%s: could not lock file\n", path);
-> +	return -EWOULDBLOCK;
+> +	return MAP_HOLE;
 > +}
 > +
-> +static int unlock_file(int fd, const char *path)
+> +static void ioow_free_block(uint32_t *block)
 > +{
-> +	int ret;
-> +
-> +	ret = flock(fd, LOCK_UN);
-> +	if (ret) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path, strerror(error));
-> +		return -error;
-> +	}
-> +
-> +	return 0;
+> +	if (*block > MAP_DELALLOC)
+> +		ll.freespace[*block] = 1;
+> +	*block = MAP_HOLE;
 > +}
 > +
-> +static int want_loopdev(int file_fd, const char *path)
+> +static void ioow_remap_block(uint32_t *p, uint32_t *q)
 > +{
-> +	struct stat stbuf;
-> +	int ret;
+> +	ioow_free_block(p);
+> +	*p = *q;
+> +	*q = MAP_HOLE;
+> +}
 > +
-> +	ret = fstat(file_fd, &stbuf);
-> +	if (ret < 0) {
-> +		int error = errno;
+> +static ssize_t ioow_write_allocate(off_t pos, uint64_t count, uint32_t opflags)
+> +{
+> +	uint64_t fileoff, endoff;
+> +	uint32_t *q;
+> +	const bool direct = opflags & (FUSE_IOMAP_OP_DIRECT |
+> +				       FUSE_IOMAP_OP_WRITEBACK);
+> +	uint32_t cursor = FIND_FREE_INIT_CURSOR;
+> +	ssize_t ret;
 > +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: fstat failed: %s\n",
-> +			 path, strerror(error));
-> +		return -error;
-> +	}
-> +
-> +	/*
-> +	 * Keep quiet about block devices, the client can probably still read
-> +	 * and write that.
-> +	 */
-> +	if (S_ISBLK(stbuf.st_mode))
+> +	if (opflags & FUSE_IOMAP_OP_ZERO)
 > +		return 0;
 > +
-> +	ret = S_ISREG(stbuf.st_mode) && stbuf.st_size >= 512;
-> +	if (!ret)
-> +		fuse_log(FUSE_LOG_DEBUG,
-> +			 "%s: file not compatible with loop device\n", path);
-> +	return ret;
-> +}
+> +	fileoff = b_to_fsbt(pos);
+> +	endoff = b_to_fsb(pos + count);
 > +
-> +static int same_backing_file(int dir_fd, const char *name,
-> +			     const struct statx *file_stat)
-> +{
-> +	struct statx backing_stat;
-> +	char backing_name[NAME_MAX + 18 + 1];
-> +	char path[PATH_MAX + 1];
-> +	ssize_t bytes;
-> +	int fd;
-> +	int ret;
+> +	ret = adjust_endoff(fileoff, &endoff);
+> +	if (ret)
+> +		return ret;
 > +
-> +	snprintf(backing_name, sizeof(backing_name), "%s/loop/backing_file",
-> +			name);
+> +	if (ll.debug)
+> +		fprintf(stderr, "%s: set %s pos 0x%llx count 0x%llx\n",
+> +			__func__,
+> +			direct ? "unwritten" : "delalloc",
+> +			(unsigned long long)pos,
+> +			(unsigned long long)count);
 > +
-> +	fd = openat(dir_fd, backing_name, O_RDONLY);
-> +	if (fd < 0) {
-> +		int error = errno;
-> +
-> +		/* unconfigured loop devices don't have backing_file attr */
-> +		if (error == ENOENT)
-> +			return 0;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", backing_name,
-> +			 strerror(error));
-> +		return -error;
-> +	}
-> +
-> +	bytes = pread(fd, path, sizeof(path) - 1, 0);
-> +	if (bytes < 0) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", backing_name,
-> +			 strerror(error));
-> +		ret = -error;
-> +		goto out_backing;
-> +	} else if (bytes == 0) {
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: no path in backing file?\n",
-> +			 backing_name);
-> +		ret = -ENOENT;
-> +		goto out_backing;
-> +	}
-> +
-> +	if (path[bytes - 1] == '\n')
-> +		path[bytes - 1] = 0;
-> +
-> +	ret = statx(AT_FDCWD, path, 0, STATX_BASIC_STATS | STATX_SUBVOL_FLAG,
-> +			&backing_stat);
-> +	if (ret) {
-> +		int error = errno;
-> +
-> +		/*
-> +		 * backing file deleted, assume nobody's doing procfd
-> +		 * shenanigans
-> +		 */
-> +		if (error == ENOENT) {
-> +			ret = 0;
-> +			goto out_backing;
-> +		}
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path, strerror(error));
-> +		ret = -error;
-> +		goto out_backing;
-> +	}
-> +
-> +	/* different devices */
-> +	if (backing_stat.stx_dev_major != file_stat->stx_dev_major)
-> +		goto out_backing;
-> +	if (backing_stat.stx_dev_minor != file_stat->stx_dev_minor)
-> +		goto out_backing;
-> +
-> +	/* different inode number */
-> +	if (backing_stat.stx_ino != file_stat->stx_ino)
-> +		goto out_backing;
-> +
-> +#ifdef STATX_SUBVOL
-> +	/* different subvol (or subvol state) */
-> +	if ((backing_stat.stx_mask ^ file_stat->stx_mask) & STATX_SUBVOL)
-> +		goto out_backing;
-> +
-> +	if ((backing_stat.stx_mask & STATX_SUBVOL) &&
-> +	    backing_stat.stx_subvol != file_stat->stx_subvol)
-> +		goto out_backing;
-> +#endif
-> +
-> +	ret = 1;
-> +
-> +out_backing:
-> +	close(fd);
-> +	return ret;
-> +}
-> +
-> +static int has_existing_loopdev(int file_fd, const char *path)
-> +{
-> +	struct statx file_stat;
-> +	DIR *dir;
-> +	struct dirent *d;
-> +	int blockfd;
-> +	int ret;
-> +
-> +	ret = statx(file_fd, "", AT_EMPTY_PATH,
-> +		    STATX_BASIC_STATS | STATX_SUBVOL_FLAG, &file_stat);
-> +	if (ret) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", path, strerror(error));
-> +		return -error;
-> +	}
-> +
-> +	dir = opendir(_PATH_SYS_BLOCK);
-> +	if (!dir) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", _PATH_SYS_BLOCK,
-> +			 strerror(error));
-> +		return -error;
-> +	}
-> +
-> +	blockfd = dirfd(dir);
-> +
-> +	while ((d = readdir(dir)) != NULL) {
-> +		if (strcmp(d->d_name, ".") == 0 ||
-> +		    strcmp(d->d_name, "..") == 0 ||
-> +		    strncmp(d->d_name, "loop", 4) != 0)
+> +	for (q = ll.write_map + fileoff; fileoff < endoff; q++, fileoff++) {
+> +		if (!direct && *q == MAP_HOLE) {
+> +			fprintf(stderr, "%s: fileoff %lu delalloc\n", __func__, fileoff);
+> +			*q = MAP_DELALLOC;
 > +			continue;
+> +		}
 > +
-> +		ret = same_backing_file(blockfd, d->d_name, &file_stat);
-> +		if (ret != 0)
-> +			break;
+> +		if (direct && (*q == MAP_HOLE || *q == MAP_DELALLOC)) {
+> +			uint32_t free_block = ioow_find_free(&cursor);
+> +
+> +			if (free_block == MAP_HOLE)
+> +				return -ENOSPC;
+
+This shouldn't return ENOSPC if we've filled out any of the map; we can
+just return a short allocation and let the kernel call us back.
+
+> +
+> +			fprintf(stderr, "%s: fileoff %lu unwritten %u\n",
+> +				__func__, fileoff, free_block);
+> +			*q = free_block;
+> +		}
 > +	}
 > +
-> +	closedir(dir);
-> +	return ret;
+> +	single_file.isize = max(single_file.isize, pos + count);
+
+Hrmm.  I'm not sure why I wrote this, the file size shouldn't get
+extended until write complete (e.g. iomap_ioend).
+
+> +	return 0;
 > +}
 > +
-> +static int open_loopdev(int file_fd, int open_flags, char *loopdev,
-> +			size_t loopdev_sz)
+> +static ssize_t ioow_begin_write(off_t pos, uint64_t count, uint32_t opflags,
+> +				struct fuse_file_iomap *read,
+> +				struct fuse_file_iomap *write)
 > +{
-> +	struct loop_config lc = {
-> +		.info.lo_flags = LO_FLAGS_DIRECT_IO | LO_FLAGS_AUTOCLEAR,
-> +	};
-> +	int ctl_fd = -1;
-> +	int loop_fd = -1;
-> +	int loopno;
-> +	int ret;
+> +	ssize_t ret;
 > +
-> +	if ((open_flags & O_ACCMODE) == O_RDONLY)
-> +		lc.info.lo_flags |= LO_FLAGS_READ_ONLY;
+> +	ret = ioow_write_allocate(pos, count, opflags);
+> +	if (ret)
+> +		return ret;
 > +
-> +	ctl_fd = open(_PATH_LOOPCTL, O_RDONLY);
-> +	if (ctl_fd < 0) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", _PATH_LOOPCTL,
-> +			 strerror(error));
-> +		return -error;
-> +	}
-> +
-> +	ret = ioctl(ctl_fd, LOOP_CTL_GET_FREE);
-> +	if (ret < 0) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", _PATH_LOOPCTL,
-> +			 strerror(error));
-> +		ret = -error;
-> +		goto out_ctl;
-> +	}
-> +	loopno = ret;
-> +	snprintf(loopdev, loopdev_sz, "/dev/loop%d", loopno);
-> +
-> +	loop_fd = open(loopdev, open_flags);
-> +	if (loop_fd < 0) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", loopdev, strerror(error));
-> +		ret = -error;
-> +		goto out_ctl;
-> +	}
-> +
-> +	lc.fd = file_fd;
-> +
-> +	ret = ioctl(loop_fd, LOOP_CONFIGURE, &lc);
-> +	if (ret < 0) {
-> +		int error = errno;
-> +
-> +		fuse_log(FUSE_LOG_DEBUG, "%s: %s\n", loopdev, strerror(error));
-> +		ret = -error;
-> +		goto out_loop;
-> +	}
-> +
-> +	close(ctl_fd);
-> +	return loop_fd;
-> +
-> +out_loop:
-> +	ioctl(ctl_fd, LOOP_CTL_REMOVE, loopno);
-> +	close(loop_fd);
-> +out_ctl:
-> +	close(ctl_fd);
-> +	return ret;
+> +	return ioow_begin_read(pos, count, opflags, read, write);
 > +}
 > +
-> +int fuse_loopdev_setup(int file_fd, int open_flags, const char *path,
-> +		       unsigned int timeout, int *loop_fd, char **loop_dev)
+> +static void ioow_ll_iomap_begin(fuse_req_t req, fuse_ino_t ino,
+> +				 uint64_t dontcare, off_t pos, uint64_t count,
+> +				 uint32_t opflags)
 > +{
-> +	char loopdev[PATH_MAX];
-> +	int loopfd = -1;
-> +	int ret;
+> +	struct fuse_file_iomap read, write;
+> +	ssize_t got;
+> +	int ret = 0;
 > +
-> +	*loop_fd = -1;
-> +	if (loop_dev)
-> +		*loop_dev = NULL;
-
-Also we should probably filter some bad flags from open_flags, such as
-O_CREAT and O_TRUNC, since those don't make sense for an existing loop
-device and we definitely don't want to create a /dev/loop/XXX node.
-
---D
+> +	(void)dontcare;
+> +
+> +	if (!is_single_file_ino(ino)) {
+> +		ret = EIO;
+> +		goto out_reply;
+> +	}
+> +
+> +	if (ll.debug)
+> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx opflags 0x%x\n",
+> +			__func__,
+> +			(unsigned long long)pos,
+> +			(unsigned long long)count,
+> +			opflags);
+> +
+> +	if (!single_file.allow_dio && (opflags & FUSE_IOMAP_OP_DIRECT)) {
+> +		ret = ENOSYS;
+> +		goto out_reply;
+> +	}
+> +
+> +	memset(&read, 0, sizeof(read));
+> +	memset(&write, 0, sizeof(write));
+> +
+> +	pthread_mutex_lock(&single_file.lock);
+> +	if (opflags & FUSE_IOMAP_OP_REPORT)
+> +		got = ioow_begin_report(pos, count, opflags, &read, &write);
+> +	else if (fuse_iomap_is_write(opflags))
+> +		got = ioow_begin_write(pos, count, opflags, &read, &write);
+> +	else
+> +		got = ioow_begin_read(pos, count, opflags, &read, &write);
+> +	if (got < 0) {
+> +		ret = -got;
+> +		goto out_unlock;
+> +	}
+> +
+> +	if (ll.debug) {
+> +		fprintf(stderr,
+> +"%s: read offset 0x%llx length 0x%llx type %u dev %u addr 0x%llx flags 0x%x\n",
+> +			__func__,
+> +			(unsigned long long)read.offset,
+> +			(unsigned long long)read.length,
+> +			read.type,
+> +			read.dev,
+> +			(unsigned long long)read.addr,
+> +			read.flags);
+> +		fprintf(stderr,
+> +"%s: write offset 0x%llx length 0x%llx type %u dev %u addr 0x%llx flags 0x%x\n",
+> +			__func__,
+> +			(unsigned long long)write.offset,
+> +			(unsigned long long)write.length,
+> +			write.type,
+> +			write.dev,
+> +			(unsigned long long)write.addr,
+> +			write.flags);
+> +	}
+> +
+> +	/* Not filling even the first byte will make the kernel unhappy. */
+> +	if (read.offset > pos || read.offset + read.length <= pos) {
+> +		printf("%s: made read bad mapping at pos %llu\n", ll.device,
+> +		       (unsigned long long)pos);
+> +		ret = EIO;
+> +		goto out_unlock;
+> +	}
+> +	if (write.offset > pos || write.offset + write.length <= pos) {
+> +		printf("%s: made bad write mapping at pos %llu\n", ll.device,
+> +		       (unsigned long long)pos);
+> +		ret = EIO;
+> +		goto out_unlock;
+> +	}
+> +
+> +out_unlock:
+> +	pthread_mutex_unlock(&single_file.lock);
+> +out_reply:
+> +	if (ret)
+> +		fuse_reply_err(req, ret);
+> +	else
+> +		fuse_reply_iomap_begin(req, &read, &write);
+> +}
+> +
+> +static void ioow_ll_iomap_end(fuse_req_t req, fuse_ino_t ino,
+> +			       uint64_t dontcare, off_t pos, uint64_t count,
+> +			       uint32_t opflags, ssize_t written,
+> +			       const struct fuse_file_iomap *iomap)
+> +{
+> +	uint64_t fileoff, endoff;
+> +	uint32_t *q;
+> +	ssize_t got;
+> +	int ret = 0;
+> +
+> +	(void)dontcare;
+> +	(void)iomap;
+> +
+> +	if (!is_single_file_ino(ino)) {
+> +		ret = EIO;
+> +		goto out_reply;
+> +	}
+> +
+> +	if (ll.debug)
+> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx opflags 0x%x written 0x%zd\n",
+> +			__func__,
+> +			(unsigned long long)pos,
+> +			(unsigned long long)count,
+> +			opflags,
+> +			written);
+> +
+> +	if (written >= 0)
+> +		goto out_reply;
+> +
+> +	/* punch delalloc mappings due to error */
+> +	pthread_mutex_lock(&single_file.lock);
+> +	fileoff = b_to_fsbt(pos);
+> +	endoff = b_to_fsb(pos + count);
+> +
+> +	got = adjust_endoff(fileoff, &endoff);
+> +	if (got < 0) {
+> +		ret = -got;
+> +		goto out_unlock;
+> +	}
+> +
+> +	for (q = ll.write_map + fileoff; fileoff < endoff; q++, fileoff++) {
+> +		if (*q == MAP_DELALLOC)
+> +			ioow_free_block(q);
+> +	}
+> +
+> +out_unlock:
+> +	pthread_mutex_unlock(&single_file.lock);
+> +out_reply:
+> +	fuse_reply_err(req, ret);
+> +}
+> +
+> +static void ioow_ll_iomap_ioend(fuse_req_t req, fuse_ino_t ino,
+> +				 uint64_t dontcare, off_t pos, size_t written,
+> +				 uint32_t ioendflags, int error, uint32_t dev,
+> +				 uint64_t new_addr)
+> +{
+> +	uint64_t fileoff, endoff;
+> +	uint32_t *p, *q;
+> +	ssize_t got;
+> +	int ret = 0;
+> +
+> +	(void)dontcare;
+> +
+> +	if (!is_single_file_ino(ino)) {
+> +		ret = EIO;
+> +		goto out_reply;
+> +	}
+> +
+> +	if (ll.debug)
+> +		fprintf(stderr,
+> +"%s: pos 0x%llx written 0x%zx ioendflags 0x%x error %d dev %u new_addr 0x%llx\n",
+> +			__func__,
+> +			(unsigned long long)pos,
+> +			written,
+> +			ioendflags,
+> +			error,
+> +			dev,
+> +			(unsigned long long)new_addr);
+> +
+> +	if (error) {
+> +		ret = error;
+> +		goto out_reply;
+> +	}
+> +
+> +	pthread_mutex_lock(&single_file.lock);
+> +	fileoff = b_to_fsbt(pos);
+> +	endoff = b_to_fsb(pos + written);
+> +
+> +	got = adjust_endoff(fileoff, &endoff);
+> +	if (got < 0) {
+> +		ret = -got;
+> +		goto out_unlock;
+> +	}
+> +
+> +	for (p = ll.read_map + fileoff, q = ll.write_map + fileoff;
+> +	     fileoff < endoff; p++, q++, fileoff++) {
+> +		fprintf(stderr, "%s: fileoff %lu read %u write %u\n", __func__, fileoff, *p, *q);
+> +		ioow_remap_block(p, q);
+> +	}
+> +
+> +	single_file.isize = max(single_file.isize, pos + written);
+> +
+> +out_unlock:
+> +	pthread_mutex_unlock(&single_file.lock);
+> +out_reply:
+> +	if (ret)
+> +		fuse_reply_err(req, ret);
+> +	else
+> +		fuse_reply_iomap_ioend(req, single_file.isize);
+> +}
+> +
+> +static void ioow_ll_fallocate(fuse_req_t req, fuse_ino_t ino, int mode,
+> +			       off_t pos, off_t count,
+> +			       struct fuse_file_info *fp)
+> +{
+> +	uint64_t fileoff, endoff;
+> +	uint32_t *p, *q;
+> +	ssize_t got;
+> +	int ret = 0;
+> +
+> +	(void)fp;
+> +
+> +	if (!is_single_file_ino(ino)) {
+> +		ret = EIO;
+> +		goto out_reply;
+> +	}
+> +
+> +	if (ll.debug)
+> +		fprintf(stderr, "%s: pos 0x%llx count 0x%llx mode 0x%x\n",
+> +			__func__,
+> +			(unsigned long long)pos,
+> +			(unsigned long long)count,
+> +			mode);
+> +
+> +	if (!(mode & (FALLOC_FL_ZERO_RANGE | FALLOC_FL_PUNCH_HOLE))) {
+> +		ret = EOPNOTSUPP;
+> +		goto out_reply;
+> +	}
+> +
+> +	pthread_mutex_lock(&single_file.lock);
+> +	fileoff = b_to_fsbt(pos);
+> +	endoff = b_to_fsb(pos + count);
+> +
+> +	got = adjust_endoff(fileoff, &endoff);
+> +	if (got < 0) {
+> +		ret = -got;
+> +		goto out_unlock;
+> +	}
+> +
+> +	for (p = ll.read_map + fileoff, q = ll.write_map + fileoff;
+> +	     fileoff < endoff;
+> +	     p++, q++, fileoff++) {
+> +		ioow_free_block(p);
+> +		ioow_free_block(q);
+> +	}
+> +
+> +	if (!(mode & FALLOC_FL_KEEP_SIZE))
+> +		single_file.isize = max(single_file.isize, pos + count);
+> +
+> +out_unlock:
+> +	pthread_mutex_unlock(&single_file.lock);
+> +out_reply:
+> +	fuse_reply_err(req, ret);
+> +}
+> +
+> +static const struct fuse_lowlevel_ops ioow_ll_oper = {
+> +	.lookup		= single_file_ll_lookup,
+> +	.getattr	= single_file_ll_getattr,
+> +	.setattr	= single_file_ll_setattr,
+> +	.readdir	= single_file_ll_readdir,
+> +	.open		= single_file_ll_open,
+> +	.statfs		= single_file_ll_statfs,
+> +	.statx		= single_file_ll_statx,
+> +	.fsync		= single_file_ll_fsync,
+> +
+> +	.init		= ioow_ll_init,
+> +	.iomap_config	= ioow_ll_iomap_config,
+> +	.iomap_begin	= ioow_ll_iomap_begin,
+> +	.iomap_end	= ioow_ll_iomap_end,
+> +	.iomap_ioend	= ioow_ll_iomap_ioend,
+> +	.fallocate	= ioow_ll_fallocate,
+> +};
+> +
+> +#define IOOW_LL_OPT(t, p, v) { t, offsetof(struct ioow_ll, p), v }
+> +
+> +static struct fuse_opt ioow_ll_opts[] = {
+> +	IOOW_LL_OPT("debug",		debug,			1),
+> +	SINGLE_FILE_OPT_KEYS,
+> +	FUSE_OPT_END
+> +};
+> +
+> +static int ioow_ll_opt_proc(void *data, const char *arg,
+> +			    int key, struct fuse_args *outargs)
+> +{
+> +	if (single_file_opt_proc(data, arg, key, outargs) == 0)
+> +		return 0;
+> +
+> +	switch (key) {
+> +	case FUSE_OPT_KEY_NONOPT:
+> +		if (!ll.device) {
+> +			ll.device = strdup(arg);
+> +			return 0;
+> +		}
+> +		return 1;
+> +	}
+> +
+> +	return 1;
+> +}
+> +
+> +static const struct single_file_ops fops = {
+> +	.calc_st_blocks		= ioow_ll_calc_stblocks,
+> +	.calc_blocks		= ioow_ll_calc_blocks,
+> +	.calc_bfree		= ioow_ll_calc_bfree,
+> +};
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +	struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
+> +	struct fuse_cmdline_opts opts = { };
+> +	int ret = 1;
+> +
+> +	if (fuse_opt_parse(&args, &ll, ioow_ll_opts, ioow_ll_opt_proc))
+> +		goto err_args;
+> +
+> +	if (fuse_parse_cmdline(&args, &opts))
+> +		goto err_args;
+> +
+> +	if (opts.show_help) {
+> +		printf("usage: %s [options] <device> <mountpoint>\n\n", argv[0]);
+> +		fuse_cmdline_help();
+> +		fuse_lowlevel_help();
+> +		ret = 0;
+> +		goto err_strings;
+> +	} else if (opts.show_version) {
+> +		printf("FUSE library version %s\n", fuse_pkgversion());
+> +		fuse_lowlevel_version();
+> +		ret = 0;
+> +		goto err_strings;
+> +	}
+> +
+> +	if (!opts.mountpoint || !ll.device) {
+> +		printf("usage: %s [options] <device> <mountpoint>\n", argv[0]);
+> +		printf("       %s --help\n", argv[0]);
+> +		goto err_strings;
+> +	}
+> +
+> +	if (single_file_open(ll.device))
+> +		goto err_strings;
+> +
+> +	if (single_file_configure(ll.device, S_IFBLK, "outtaplace", &fops))
+> +		goto err_singlefile;
+> +
+> +	ll.bdev_blocks = single_file.isize / single_file.blocksize;
+> +	if (ll.bdev_blocks < 3) {
+> +		fprintf(stderr, "%s: block device must be at least %llu bytes long\n",
+> +			ll.device, (unsigned long long)single_file.blocksize * 3);
+> +		goto err_singlefile;
+> +	}
+> +	single_file.isize = 0;
+> +
+> +	ll.freespace = malloc(ll.bdev_blocks);
+> +	if (!ll.freespace) {
+> +		perror("freespace");
+> +		goto err_singlefile;
+> +	}
+> +	memset(ll.freespace, 1, ll.bdev_blocks);
+> +
+> +	/* block 0 means hole, block 1 means dealloc, and 1 spare */
+> +	ll.max_file_blocks = ll.bdev_blocks - 3;
+> +	ll.read_map = calloc(ll.max_file_blocks, sizeof(uint32_t));
+> +	if (!ll.read_map) {
+> +		perror("read map");
+> +		goto err_freespace;
+> +	}
+> +
+> +	ll.write_map = calloc(ll.max_file_blocks, sizeof(uint32_t));
+> +	if (!ll.write_map) {
+> +		perror("read map");
+> +		goto err_readmap;
+> +	}
+> +
+> +	ll.se = fuse_session_new(&args, &ioow_ll_oper, sizeof(ioow_ll_oper),
+> +				 NULL);
+> +	if (ll.se == NULL)
+> +		goto err_writemap;
+> +
+> +	if (fuse_set_signal_handlers(ll.se))
+> +		goto err_session;
+> +
+> +	if (fuse_session_mount(ll.se, opts.mountpoint))
+> +		goto err_signals;
+> +
+> +	fuse_daemonize(opts.foreground);
+> +
+> +	/* Block until ctrl+c or fusermount -u */
+> +	if (opts.singlethread) {
+> +		ret = fuse_session_loop(ll.se);
+> +	} else {
+> +		struct fuse_loop_config *config = fuse_loop_cfg_create();
+> +
+> +		if (!config) {
+> +			ret = 1;
+> +			goto err_mount;
+> +		}
+> +
+> +		fuse_loop_cfg_set_clone_fd(config, opts.clone_fd);
+> +		fuse_loop_cfg_set_max_threads(config, opts.max_threads);
+> +		ret = fuse_session_loop_mt(ll.se, config);
+> +		fuse_loop_cfg_destroy(config);
+> +	}
+> +
+> +err_mount:
+> +	fuse_session_unmount(ll.se);
+> +err_signals:
+> +	fuse_remove_signal_handlers(ll.se);
+> +err_session:
+> +	fuse_session_destroy(ll.se);
+> +err_writemap:
+> +	free(ll.write_map);
+> +err_readmap:
+> +	free(ll.read_map);
+> +err_freespace:
+> +	free(ll.freespace);
+> +err_singlefile:
+> +	single_file_close();
+> +err_strings:
+> +	free(opts.mountpoint);
+> +	free(ll.device);
+> +err_args:
+> +	fuse_opt_free_args(&args);
+> +	return ret ? 1 : 0;
+> +}
+> diff --git a/example/meson.build b/example/meson.build
+> index 24fdcb23cb58f2..6967a2ee370d4b 100644
+> --- a/example/meson.build
+> +++ b/example/meson.build
+> @@ -31,7 +31,7 @@ if platform.endswith('linux')
+>                     output: 'service_hl.socket',
+>                     configuration: private_cfg)
+>  
+> -    single_file_examples += [ 'iomap_ll', 'iomap_inline_ll' ]
+> +    single_file_examples += [ 'iomap_ll', 'iomap_inline_ll', 'iomap_ow_ll' ]
+>  endif
+>  
+>  threaded_examples = [ 'notify_inval_inode',
+> diff --git a/example/single_file.c b/example/single_file.c
+> index 1d66157a8c637c..c4ac998a2c978b 100644
+> --- a/example/single_file.c
+> +++ b/example/single_file.c
+> @@ -382,7 +382,10 @@ static void single_file_statfs(struct statvfs *buf)
+>  	buf->f_bsize = single_file.blocksize;
+>  	buf->f_frsize = 0;
+>  
+> -	buf->f_blocks = single_file.blocks;
+> +	if (single_file_ops && single_file_ops->calc_blocks)
+> +		buf->f_blocks = single_file_ops->calc_blocks();
+> +	else
+> +		buf->f_blocks = single_file.blocks;
+>  	if (single_file_ops && single_file_ops->calc_bfree)
+>  		buf->f_bfree = single_file_ops->calc_bfree();
+>  	else
+> 
+> 
