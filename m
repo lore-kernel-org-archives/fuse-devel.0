@@ -1,154 +1,166 @@
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A613CF03E
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 04:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A691F3E9C04
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 08:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778821027; cv=none; b=LaAOZl9jWJez5kopjE/zX+dZkM8Se8Xbsetu3/lw88zcvVx7A1hKewo145pWL2S25yBKw+v1VLmfkKEjaPL4YBT5+tgDpm08Dzf4t6a9ISajJUi9kaDh/7fJSCBj+L7aXeOlmZy1IWX8MthSMBWfMA7GcvuNl3pElI38aVfBLJk=
+	t=1778835218; cv=none; b=QeYtNktFafZeEaqtl7cmNN9N2IOTATqkamTBShfSC+QSlazZ1GJ+0Xs9cE9gBf9N5FVCqKLVl8UOHJg3pwE2Wwt1YppbZ+52pG2g/2PmJbDOUF8CU77WqQexpjoJU8B/nsrTHlxux8e1we82pUydn4WVgOIQ3vI4bWZVKPrI8dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778821027; c=relaxed/simple;
-	bh=8anho4fFafOkQ7VO2BHenK+uWV+NyCTbuWoVR44uJFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cDxcNY26Aa+4Q2YznJgHtuQ5VC+2yX2bSkIYi6jVoM3PudYOGHoOu8mZJG4mqYXtL5bqQ58eG/InYiBLqkp6VWb/oxFpKWZmdx63w/7NCmroV4db5lQ3O9AOEFcP0BjLPyl8MXvuopLbmrMJ0Ar3xk4fG6Wrrv0rehaRH9IwMt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gDCgt36P; arc=none smtp.client-ip=74.125.224.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778835218; c=relaxed/simple;
+	bh=E6N+1BTrvxpkrBusiE3MlS/R7AhKHq/otsglDqe0dvY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pSMoM3+qNj9gPSD2DKufoZirzJwrjzMmPYqAmt5IWemQLk6dvLAfZ/DtU5YkkSH3khdVdFiG6vmCjuyKOx87bIbh8q8tYE4Zi0zYbmVFrURxTQPM0T57w6glmdXJKKq+8Ndt8S12cMBScCydyxj78622d0Zg1cC063uDkZYnnyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=KIxTLRyT; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gDCgt36P"
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-65d071aac6eso9929018d50.0
-        for <fuse-devel@lists.linux.dev>; Thu, 14 May 2026 21:57:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778821025; x=1779425825; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=edgngAWE4Uy3YSnzl78s2yIdpRinkyGEnbGIaCerM2o=;
-        b=gDCgt36P+F88k1qdPeiOTphFvqPs6SHXFXMSGTysf+rRwLrZfN1NBv2sDjHHeB1XgM
-         uQY6xoIKoCDMK8+ndAC4Vm8+l1A1gz4ocrzunF90cGkczmKZtLVRqoI7BcEeouRfdkNu
-         uWZ7CgM8rCZ0lAqbZGfN2ylyXItISjj8rCBqzeehL8nJmPfP4G6BcyB8vOLXNhzvaSKW
-         1cBHp4Eh69Mabl9BDrBxzD0nOvOpqh/bM6xxMvsTWXnpvHs6ZfypjsFkiP/LXpLr37LD
-         y5qTQpGzwrvxQoRtAfo/h5IpoSowyK/O8nhVfcPM9TwbBh2maDCgQ+WDymPk+pYtpVEY
-         bnfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778821025; x=1779425825;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=edgngAWE4Uy3YSnzl78s2yIdpRinkyGEnbGIaCerM2o=;
-        b=NQ1f7esVywi7awva4XVR4r12qvaeCi2uWY1/mHp0G/FZA2HpO8lWrY3W8aknOTpBZX
-         q6Ctq1c9OL/l0khdGPnMStu9k6KC/LJ0GZe3ikbt6JCtBskj6XFsH/biLJh+6eMfvZA8
-         YRZobOQNW3rjoUitmwkpj/81ZYG6InxgtPzyOWJAqggPWJxZ9yDCaCFB+oFK5OeR1zow
-         y8t3AioFdLvVg/MptYTVGlYcD9nANBQ0RoYQ+2BRJ734G3dlgLqeG3LJqmx+mv+C0z6z
-         EQSzP4fIynb4g4vW6Oi5RYlnpytwlPpqaZ91vYRvBXhKAw/VV2Oh3REUZtJdwVzpTCzq
-         q73g==
-X-Gm-Message-State: AOJu0YxoQ0VmShU+Tp7DIrgraavS2mhs6PsTWwrvRvAHvv5r9dLYH9em
-	nEyFyWd0HLUV0j1HQqMhhwkYbzy6L0GeLQSoW+/9W5397qeb8ZNHz2Lc
-X-Gm-Gg: Acq92OFnTcRFXDaOs9wVD14tUZguS9NVEN2np1tlrUVqqSLyhCzlHNLTFRjkH6x2Sox
-	9EI76OvvguwFsusoGhNy8n8r8RqVB9sLe7aR2oegu+g81OxYRhNkMfGO009BnLcHO6y3qyGC/qU
-	0ghJUw7jr0nOumJXyBATRDGTwhlR32D3pJQnIPlNQEw2ziPIQsu64BAfVo6ipoMxQ9Un5IfXKtA
-	QAnvQBAptTAWNIu++qaW73dgBkOgVuPp1m3VjOVv1HHAd6ghEQuSJBcZmo5rZjbf8RzCo4h7it5
-	bX+aGqYMd/UwsrOD2d7L8z8fvzF+huhjHzymfdiyWLr/r0aMVUiv1hhwoTr8HL6IQN7NbtVz0Mf
-	XxN0Gyi7u0JjggMI7OlWy6tGI4o6h3jY76vddjsuG+jt2b4XD+xyM//h0A+BxodWPDcBNHTmkt2
-	Rb/Nriq7dSk4XOME61bA==
-X-Received: by 2002:a05:690c:e3c4:b0:7b2:9347:7bdf with SMTP id 00721157ae682-7c95c202cf2mr28579087b3.37.1778821024944;
-        Thu, 14 May 2026 21:57:04 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:72::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c7f55ba65fsm24152597b3.36.2026.05.14.21.57.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 21:57:03 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev,
-	bernd@bsbernd.com,
-	ali@ddn.com,
-	horst@birthelmer.de,
-	Heechan Kang <gganji11@naver.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v1 3/3] fuse: fix moving cancelled entry to ent_in_userspace list
-Date: Thu, 14 May 2026 21:55:41 -0700
-Message-ID: <20260515045541.1171335-4-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260515045541.1171335-1-joannelkoong@gmail.com>
-References: <20260515045541.1171335-1-joannelkoong@gmail.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="KIxTLRyT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=HpPv+ZpMXFtdY/G4htYy2Ht8LCKMKn+E53rnG37SiuY=; b=KIxTLRyTxxDS7gASjMU/2OC4PY
+	QLyvXDHLCjH55T5RzG+AnICda013faFwkPoGIri8UP+yqw+rzAdpgf436MlcGgOblBQy7hinL9WTh
+	lcAhKX8bhKRLwiLPIUB9YyNbI6N5/dajQAQ6c4jx/SZxEUk4wA72n+SP3XqX0w0fMjHFOJg8Kgu/E
+	m1rgNONYOX/o9XeFBDbXDvZo4A6CCgbsIKMGSaXy/lw5fPUlhNJQUFBGw4GWytA/ezEAw5Y6XSIM8
+	YurKbnv98ytmDE1I+Fdf18ozAywNtwmP8+Ej6carqpFAQUEyfw1148Fc4mgiGCJ5Ry59K3R5Tpjin
+	8G8aaIug==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wNoIO-000R7c-FH; Fri, 15 May 2026 10:53:24 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Jun Wu <quark@lihdd.net>
+Cc: fuse-devel@lists.linux.dev,  miklos@szeredi.hu,  Jun Wu <quark@meta.com>
+Subject: Re: [PATCH v2] fuse: invalidate readdir cache on epoch bump
+In-Reply-To: <20260515001412.1270472-1-quark@lihdd.net> (Jun Wu's message of
+	"Thu, 14 May 2026 17:14:12 -0700")
+References: <20260331223927.763741-1-quark@lihdd.net>
+	<20260515001412.1270472-1-quark@lihdd.net>
+Date: Fri, 15 May 2026 09:53:27 +0100
+Message-ID: <8733ztt5o8.fsf@igalia.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-fuse_uring_cancel() moves entries that are available (these have no reqs
-attached) to the ent_in_userspace list. ent_list_request_expired()
-checks the first entry on ent_in_userspace and dereferences
-ent->fuse_req unconditionally, which will crash on a cancelled entry
-that was moved to this list.
+On Thu, May 14 2026, Jun Wu wrote:
 
-Fix this by freeing the entry and dropping queue_refs directly in
-fuse_uring_cancel(). This is safe because cancel is the cancel handler
-itself - after io_uring_cmd_done(), no more cancels will be dispatched
-for this command, and teardown serializes with cancel via queue->lock.
+> From: Jun Wu <quark@meta.com>
+>
+> FUSE_NOTIFY_INC_EPOCH invalidates dentries, but does not invalidate cached
+> readdir results. A process with cwd inside a FUSE mount can therefore
+> observe stale readdir(".") output after an epoch bump.
+>
+> Fix this by recording epoch in the readdir cache and checking it on reuse.
+>
+> Minimal reproducer:
+>
+> - mount a tiny FUSE fs with an empty root directory
+> - on opendir, enable fi->cache_readdir and fi->keep_cache
+> - chdir into the mount and call readdir(".") to populate readdir cache
+> - make the FUSE server report one file in the root directory
+> - send only FUSE_NOTIFY_INC_EPOCH
+> - call readdir(".") again; before this change it stays stale, after this
+>   change it sees the new file
+>
+> Fixes: 2396356a945b ("fuse: add more control over cache invalidation beha=
+viour")
+> Signed-off-by: Jun Wu <quark@meta.com>
 
-Since cancel now decrements queue_refs, fuse_uring_abort() must no
-longer gate fuse_uring_abort_end_requests() on queue_refs > 0, as
-cancelled entries may have already dropped queue_refs while requests are
-still queued. Remove the gate so abort always flushes requests and stops
-queues.
+Nice catch!  The fix looks good to me, so feel free to add my
 
-Reported-by: Heechan Kang <gganji11@naver.com>
-Fixes: 4fea593e625c ("fuse: optimize over-io-uring request expiration check")
-Cc: stable@vger.kernel.org
-Co-developed-by: Jian Huang Li <ali@ddn.com>
-Co-developed-by: Horst Birthelmer <horst@birthelmer.de>
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fuse/dev_uring.c   | 6 ++++--
- fs/fuse/dev_uring_i.h | 6 +++---
- 2 files changed, 7 insertions(+), 5 deletions(-)
+Reviewed-by: Luis Henriques <luis@igalia.com>
 
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index d9108b5b5db8..f4ba64a1796a 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -511,8 +511,7 @@ static void fuse_uring_cancel(struct io_uring_cmd *cmd,
- 	queue = ent->queue;
- 	spin_lock(&queue->lock);
- 	if (ent->state == FRRS_AVAILABLE) {
--		ent->state = FRRS_USERSPACE;
--		list_move_tail(&ent->list, &queue->ent_in_userspace);
-+		list_del_init(&ent->list);
- 		need_cmd_done = true;
- 		ent->cmd = NULL;
- 	}
-@@ -521,6 +520,9 @@ static void fuse_uring_cancel(struct io_uring_cmd *cmd,
- 	if (need_cmd_done) {
- 		/* no queue lock to avoid lock order issues */
- 		io_uring_cmd_done(cmd, -ENOTCONN, issue_flags);
-+		kfree(ent);
-+		if (atomic_dec_and_test(&queue->ring->queue_refs))
-+			wake_up_all(&queue->ring->stop_waitq);
- 	}
- }
- 
-diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-index 368f4d0790eb..22ec67e39ee0 100644
---- a/fs/fuse/dev_uring_i.h
-+++ b/fs/fuse/dev_uring_i.h
-@@ -150,10 +150,10 @@ static inline void fuse_uring_abort(struct fuse_chan *fch)
- 	if (ring == NULL)
- 		return;
- 
--	if (atomic_read(&ring->queue_refs) > 0) {
--		fuse_uring_abort_end_requests(ring);
-+	fuse_uring_abort_end_requests(ring);
-+
-+	if (atomic_read(&ring->queue_refs) > 0)
- 		fuse_uring_stop_queues(ring);
--	}
- }
- 
- static inline void fuse_uring_wait_stopped_queues(struct fuse_chan *fch)
--- 
-2.52.0
+Cheers,
+--=20
+Lu=C3=ADs
 
+> ---
+> Changes in v2:
+> - Addresses Joanne Koong's suggestions:
+>   - Drop the FUSE_EPOCH_READDIR init flag.
+>   - Add Fixes tag.
+> - Rebase onto current mainline.
+> ---
+>  fs/fuse/dev.c     | 6 +++---
+>  fs/fuse/fuse_i.h  | 3 +++
+>  fs/fuse/readdir.c | 5 ++++-
+>  3 files changed, 10 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 5dda7080f4a9..35e04b064f37 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -2038,9 +2038,9 @@ static int fuse_notify_resend(struct fuse_conn *fc)
+>  }
+>=20=20
+>  /*
+> - * Increments the fuse connection epoch.  This will result of dentries f=
+rom
+> - * previous epochs to be invalidated.  Additionally, if inval_wq is set,=
+ a work
+> - * queue is scheduled to trigger the invalidation.
+> + * Increments the fuse connection epoch.  This will cause dentries and
+> + * readdir caches from previous epochs to be invalidated.  Additionally,
+> + * if inval_wq is set, a work queue is scheduled to trigger the invalida=
+tion.
+>   */
+>  static int fuse_notify_inc_epoch(struct fuse_conn *fc)
+>  {
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 17423d4e3cfa..aa8d6dfbbcc7 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -191,6 +191,9 @@ struct fuse_inode {
+>  			/* iversion of directory when cache was started */
+>  			u64 iversion;
+>=20=20
+> +			/* epoch of fc when cache was started */
+> +			int epoch;
+> +
+>  			/* protects above fields */
+>  			spinlock_t lock;
+>  		} rdc;
+> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+> index db5ae8ec1030..b18d971e2bb4 100644
+> --- a/fs/fuse/readdir.c
+> +++ b/fs/fuse/readdir.c
+> @@ -442,6 +442,7 @@ static void fuse_rdc_reset(struct inode *inode)
+>  	fi->rdc.version++;
+>  	fi->rdc.size =3D 0;
+>  	fi->rdc.pos =3D 0;
+> +	fi->rdc.epoch =3D 0;
+>  }
+>=20=20
+>  #define UNCACHED 1
+> @@ -483,6 +484,7 @@ static int fuse_readdir_cached(struct file *file, str=
+uct dir_context *ctx)
+>  		if (!ctx->pos && !fi->rdc.size) {
+>  			fi->rdc.mtime =3D inode_get_mtime(inode);
+>  			fi->rdc.iversion =3D inode_query_iversion(inode);
+> +			fi->rdc.epoch =3D atomic_read(&fc->epoch);
+>  		}
+>  		spin_unlock(&fi->rdc.lock);
+>  		return UNCACHED;
+> @@ -496,7 +498,8 @@ static int fuse_readdir_cached(struct file *file, str=
+uct dir_context *ctx)
+>  		struct timespec64 mtime =3D inode_get_mtime(inode);
+>=20=20
+>  		if (inode_peek_iversion(inode) !=3D fi->rdc.iversion ||
+> -		    !timespec64_equal(&fi->rdc.mtime, &mtime)) {
+> +		    !timespec64_equal(&fi->rdc.mtime, &mtime) ||
+> +		    fi->rdc.epoch !=3D atomic_read(&fc->epoch)) {
+>  			fuse_rdc_reset(inode);
+>  			goto retry_locked;
+>  		}
+> --=20
+> 2.54.0
+>
