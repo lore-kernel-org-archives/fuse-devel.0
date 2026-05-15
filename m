@@ -1,73 +1,71 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 671F0405C21
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 23:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA00382F2E
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 23:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778889152; cv=none; b=hYb+4bHP+7AYAYmI66U83Rrh9aDPstGSWEXzWw4en4gTsz7t5sYxHqJlJrgx9iTHkkhjts15zbjNqyGczLxnmTHQ5nuYMJDpPrl15RGeBYRMoGbgl7AXXLZdR/QXQeztRTSLCdU/3sKtGaXJdWZY/5RkNhibnv+Ix3a3SdYq36w=
+	t=1778889155; cv=none; b=J6ZlPl7jUpzVjG+8yxwPad94Q57bly/56yMc4ciwlnJs+N9RHZPRtyfjRNGCmBeplUlvsQKlVYmECIE/DkbvlpItFeHpdzemhC2XquucQCnzPdYKF7D1IbBzeEshHlR+6RvLf4QP4/yTRkvVHVzKu5dfsf5mmv7wD2HHtQxVRZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778889152; c=relaxed/simple;
+	s=arc-20240116; t=1778889155; c=relaxed/simple;
 	bh=5IqH3rtxy34dNHAACvs5lP8NKiJT6VKmEanaZWVybaA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RHJEffb0UaPyrPOGoBdnhPme+9chOZpCNKn0Pd63IATAL/j391rkekakDJrBtz7GxCJ8zZJJ1YFijujGf33/UCORgdJVq5vC/l4YDhQ8VVgLYdFg2S07ZInXsiNC5GQCLnLptKnB3e5lKZL7aUOQLTI0GQsvFgOjBTA2m/1G8RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lihdd.net; spf=pass smtp.mailfrom=lihdd.net; dkim=pass (2048-bit key) header.d=lihdd.net header.i=@lihdd.net header.b=afUeTrgp; arc=none smtp.client-ip=209.85.222.181
+	 MIME-Version; b=PrxgjnSuyxAPnwvUmCsfWG+IdQEJWAGKXx1Iz32YxxAaYH6rm0eQj5s9SQNhUbGWQ9VipSfsNWFZDvT5ZWnioUtoW12DuCTaAQlTMNrwHQOyEhi/+U5ushqw7cJqAT7DK+Blt2Bv2DLAoziE0Ex64gw0SJ3OZ1D+iS8FgMKZUHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lihdd.net; spf=pass smtp.mailfrom=lihdd.net; dkim=pass (2048-bit key) header.d=lihdd.net header.i=@lihdd.net header.b=LqIYNAly; arc=none smtp.client-ip=209.85.217.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lihdd.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lihdd.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lihdd.net header.i=@lihdd.net header.b="afUeTrgp"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-90fe17c157aso65413785a.0
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 16:52:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lihdd.net header.i=@lihdd.net header.b="LqIYNAly"
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-6312970d9e3so278131137.2
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 16:52:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lihdd.net; s=google; t=1778889150; x=1779493950; darn=lists.linux.dev;
+        d=lihdd.net; s=google; t=1778889153; x=1779493953; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
         bh=GQzTKnRgvG1KzI5oOnwgsBb/NWXP2/hzb5cjXiyHb24=;
-        b=afUeTrgpgKjqhzs32MchKw0880+8F9TqlAqTfChbvgrs1wqMA9r3Ko3XHn5iCaNGw9
-         ULDbSV2uKwTNn35vp1nL3xdJRaOX+P3waIvbuBmxg+MvIZPkPEyj/X3YbrM3RUgEBpt4
-         8SPzqt6gGWmZcQ7pRUR5kJrMuTp1sMriPDA09yLVDcINChzxP/+JB8LrbNek6ubR6i/G
-         KmXxD+8qrQQB33cfqPKgrgSmQEYqmp0/tfH6EFImAYENfQl33yYe9RKIWj2Prh6mYHTd
-         MBQPYDswAARzecN2aivk+tZpgeot1i28qfQBknNM6NTFTWj3uvW5GCbKCWyf3hXegZZu
-         BpNQ==
+        b=LqIYNAlyxscRLAiI0qdy1RqxSFP5gE/BXSCPUk4E8wuVoK6yT6UIe+E+ISMUmQjk0w
+         PnzOTYp0DergbEo+1BtookP5ajds3Hrj0HrqIyBcT/oXhzrJz9ftM7n035B88m2Vy1qR
+         Vix3R/qRBvgPOmIujk9mobZjEAhXrplCjiyuzQGl8Ky7K00bVSpvbF49el4S6ONuVA4C
+         muN2MMZ3bPqMjEVEZNfvHQYGoPgngb+eLV0XGWA3KEASvtcxA79pIfhzVq39EzKboLq9
+         OONfCBD0rOsXqJqx4bGKS8IXNsmj6CsUxiOKGqzmaIF30xv53kdIjw5RnLeJREgSI+MZ
+         iwLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778889150; x=1779493950;
+        d=1e100.net; s=20251104; t=1778889153; x=1779493953;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
         bh=GQzTKnRgvG1KzI5oOnwgsBb/NWXP2/hzb5cjXiyHb24=;
-        b=i/VWAyqc2+A6cwVCKegt5gPpVzwG/f/Jpa+Gaa86plKb5IvARwlkHqGjF77U2RWUmf
-         nhpriUZaLIwGCHuaVGA0B4i6K/Kd5Mp0ZGkqSXA1VZYc2qK3kzAJch81M0a1EHg+VVuU
-         0g7vA6GBXoReIu/taFqOsBg4cSAWfHAahyNdY1HmV5RSTSek9aoRGybmubwQ63NlZShB
-         Y1IBX87N0ghZisViI28TRhVWDvY3fVHX8dP7wgah6M9DjVewe2NmUjc6wtqmqyUGzNBB
-         ayFMpMt1BGftj21NgVjFaY4Jc2t6nnFh2rH8EoKnhpkdWHc3VshhF4lHZ9BlKLVN/fkf
-         r4DQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8YvAWEhFl585+tf22BTLHGPR0DZf9XEte229ynZPs7ApP08RocKTwsFYaSzFIMTMNIyZmoj71h7JHr@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjE66nn0qBxcBFlGbQcvlIuVrAE6JfMUSNYu7hcp9hCCwNpnVp
-	ogD/mZmAQYOEKEaV/TYkdvO/qpNkoCac2DD8ySx8bPmjwOnO9+cg0RimBD2hBPjwyrCuwMu3/Ni
-	Q5i9X
-X-Gm-Gg: Acq92OHqiLQOCNG/ed4RXFeJQ5tohzt1QgKJXpDmOoXiyiS8341ArQIjC/72DSoO5g7
-	MLMJa6lwP87WCsr6ZZR61nlwUCMWfrHZ1PBmNzt1etOjD23JEO/jDYbvljO9ZdOqBbVA/aaX8PQ
-	1rApEsdX+6W2696nvZy8kQV4ktW3KpvyequW56qA/QaYhBTqDqekukZbPN83JgiugXTLCDa+G2E
-	UjWcooO1d9baH8VZ+maLd4KX57XOckyo+11jypgQlIU+y27ar97gh+iDNllVZxxoqC/6ablhrs+
-	pFWdXbcyHLF2wvrOg6IMdxtgEoI1qLJVJdMMU5fYwYkzvh6aFIfNGJ9TLonEvFJfSAOa5DIIYx9
-	w5+YzDQGqeSKxz7REvpaPe85U/gK65AMBEkCFSZnmrGIteD1SYG9y/k2b0SFOYJ4DB1gR8Ag6iM
-	/8SfrTLnPCI4j9yaQQqespePQCZxOZGU/SInSnjQ==
-X-Received: by 2002:a05:693c:2c8d:b0:2d9:6373:ad0a with SMTP id 5a478bee46e88-3039818738dmr790404eec.11.1778800158757;
-        Thu, 14 May 2026 16:09:18 -0700 (PDT)
+        b=EjcFxepCk+bkGVdvTIlnVtFQTQNN/QMoGKHUmjY0yqTbUEwoq3hjdXg+/2KyGdpgG/
+         hjj+VhggvVBOvLw80lCmzYIi3MkJBXTP3gi4J1DGzAbUe5hvORzejy1GpZ1IWcKItd7o
+         3/0GsccgYqnmlJP4tbv2chBHeAHUYuk3KrLHoSgMvQ7LWC0bjd0yFmtm6VceGX1HV9Ct
+         7z0icMhdXfhdezA47ACvygBQfrlL/6asHGwQAeWY4MR0pT75HNirP8z9O800MOrwE6sf
+         IMOYOSN00j2ffS+YvdfRfSVbs6kKYC82IP+8rq4N+Bw5Hpo7d0iYKVQe3wNbjuplowoj
+         KuPw==
+X-Gm-Message-State: AOJu0Yx7wCBQSp9ljAqwypp2GMgWm13301I9YRTl7id5lnVSvB+fhq97
+	ed2tbf+a7KoI5n/MYxlHXZooa5D1DTrJl3Si8I8R9iCTPN9OM6ErZLTn0szj9/y7rxVNk5p+BPn
+	iEZ0L
+X-Gm-Gg: Acq92OGJtLjMREZbHwrku1og+KP9xkXeEIx+hzmAS+pIHFnAlYHRjyG3pGx5s8gvBU5
+	ON0cxoUyP2FPcaYinewvER6EgWKSWmQf6iAeIqvAsBGrME76z0XiwiooUBZHeX5Ztk/kX8iRJef
+	dbgx6Iq7qgjT433kTT8BHCviwGPdKLouZT0mVSks+Ak+LIeDP+kJQHkrB3/qwqbXuxMc/Wo6YI0
+	7M9aSXiJ4SI5Nqu6zu7LFwFA8Da0yxdEhjtfJzQm/4umPlnzqxeuu+XWyOgZ+wu6k5emohj7veZ
+	xCJAOz6zEcexBZ4hvKlbYRom2X5YmHkOXx2DRqfmab1mtq6xsAs36K/YUkauh/hnuBH/OzzG/O1
+	G+4NKdmfUdjsDWgF6IQtdiUp89ocEc1e+h2p/XxAWNzin+tSo22Kf2i/xGMC+4C/PgL9d3K74Ae
+	1GynoC7URqmVVOczrhm/vvbcL/6xgxzgg0VHRdZhmJ1LPbU9p3
+X-Received: by 2002:a05:7300:fd16:b0:2f2:6dde:df66 with SMTP id 5a478bee46e88-3039868c86cmr874858eec.22.1778804053795;
+        Thu, 14 May 2026 17:14:13 -0700 (PDT)
 Received: from quark-fedora-PF5F60VQ.thefacebook.com ([2620:10d:c090:500::1:695d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcc464sm5159778eec.14.2026.05.14.16.09.16
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30293e2e69esm6094972eec.1.2026.05.14.17.14.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 16:09:17 -0700 (PDT)
+        Thu, 14 May 2026 17:14:13 -0700 (PDT)
 From: Jun Wu <quark@lihdd.net>
-To: miklos@szeredi.hu
-Cc: luis@igalia.com,
-	linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
+To: fuse-devel@lists.linux.dev
+Cc: miklos@szeredi.hu,
+	luis@igalia.com,
 	Jun Wu <quark@meta.com>
 Subject: [PATCH v2] fuse: invalidate readdir cache on epoch bump
-Date: Thu, 14 May 2026 16:09:15 -0700
-Message-ID: <20260514230915.1208130-1-quark@lihdd.net>
+Date: Thu, 14 May 2026 17:14:12 -0700
+Message-ID: <20260515001412.1270472-1-quark@lihdd.net>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260331223927.763741-1-quark@lihdd.net>
 References: <20260331223927.763741-1-quark@lihdd.net>
