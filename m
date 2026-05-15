@@ -1,268 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F553ED128;
-	Fri, 15 May 2026 21:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778880961; cv=none; b=DacdEWNm+1jsqtvJGyfodhDykuRbQdAM/+tGmeyc3XAlRP7b2w/2KXj6D3fi9nuoRGkisQY6G49hymllRZPKoLCxRK8JK2g16F+4lWduJbrnp+yYxzY8XrWendkxZzn3O59Fnop2JYXn/iVFppJdjaKbgQJRkxUNUvf19wiFSjc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778880961; c=relaxed/simple;
-	bh=5jR0EPpQbz/LEcayC4+RQ4S8xoN1bNi4Tu91p2fnpgU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RDzQpqUAvrZoPVrQ8bkdhu1QWFGNvEK56RbjDIJeAcvAKFDgy9o88Xap7LQvBnqnG/daB79esn1k1vytY0lXmDY+GIr3qotJLlAU9EjzciQUbqs2e/O3mZ19pUvqSU0mor67g4nMc76lXn17vrVWtIhTUAeAYRwcDxa/25EiOlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7gZAs4b; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311EC3EDACD
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 21:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778881417; cv=pass; b=KFTrzpbS4SuShDEzHZJSzSsPQflwjVK8ryj2PGrgdVpUtmNXTqeuMiwVHN3/+s0YzqU0SLKsDNlGRS4QscYpjgpBl0vdYC6zz5XQ2nMoGB6AcQ01hRGkE91skoVlS1zkVHKClZaIrrJsdlw2N7NgmTOHtwgZ09W9ORSRme89Deg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778881417; c=relaxed/simple;
+	bh=Q0CM9CcP2qsJx8ZTNz96giUIPG82DA4jHkT34z88mlQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fBpJ3ons54OdJYFL87Jqg3wG8eiSGltAQv64AAtbHuYKOWBRz1P8fOlk5t8nJdJPeu3q1umAsdO0Js7SzBcQ9aU5GdE+mjXw1k9XjlXSvIxTN5s5JMjOXeeGPqtA/7yR4iYcE8iDlVUmks87oPfx0aUiX45XaK0ZZmIyb3Ip5yI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UBSuTYs1; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7gZAs4b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B41A6C2BCB0;
-	Fri, 15 May 2026 21:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778880960;
-	bh=5jR0EPpQbz/LEcayC4+RQ4S8xoN1bNi4Tu91p2fnpgU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u7gZAs4bq952EgcjujXeAro9bCVVI+S8LRcJ+4Jtw+wFbDzsmZbibRMbvhpavj+QB
-	 du2Eaog1wFNpmr+hN4yxLnD4OsAVo+Z/+S5JbYwstkk1qKocHTm2SX597bAts0VANt
-	 MHNwWXsY3+NrQkOP82wxLad+xD7yPFVhHV02mQWaeodbK/wH1QK7WbFfQsuSnxeLan
-	 PhLl497l0t3FfvfVz78Ei/Djyg9eko2dAcjYnrskfIaflt2eAz7nu2tQTuKYvuGHoT
-	 MNqihmwMJNPqAvaqiuSfnTaxu94RoNt9qiSd/J+MPPtxFH//uOfzQ33wBUaUJTo/eb
-	 dXmS2Kcq0LthQ==
-Date: Fri, 15 May 2026 14:36:00 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev,
-	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com,
-	fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 1/9] fuse: enable caching of timestamps
-Message-ID: <20260515213600.GE9568@frogsfrogsfrogs>
-References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
- <177747206510.4103309.7610933581068572895.stgit@frogsfrogsfrogs>
- <20260514220921.GI9544@frogsfrogsfrogs>
- <CAOQ4uxja1znK3pz3YAX2uFM-GFVS1zENHJzHBLAVrVqcz6bVhw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UBSuTYs1"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-672645dbfeaso496694a12.0
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 14:43:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778881415; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kYqtJhTcvtXHhAGdaUZhMP/LiQZdZVtvnrjHu3bpdO+icgdteBWAXC4pT++lqpkT8w
+         Yfgvo0QpFMPNE4EugrA/pYCjJfPEyunKouWetWxuUIFQ9SSbeFRR4aE+SQTeF/LdIl2F
+         e8AJh8EzwWMyXV1M2CMzKnd/2BfXy42taOuuudI1/Q0aNtmj7Lm6cb4CZRV+u7Sc2G2g
+         iHOOtBxP03FBEo8hSy9FV7prwJANTK8/uiGAySyZbVvfeN4ToIZrQxa96pg4zELxe7cs
+         /9A3rOpnSTZlcUEUAZi8F+QFq4MfK+cUIr4bDtVji2S+wUsd7bCp0pPfKWHjsUANrqD2
+         pUXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4K0dPW2QPPaLp7VmZFFIc9zXTxDqaqGxzNB77scsbfI=;
+        fh=i95lqT/F9WJQKLg9qbsArs3MqiwMQpw1/TIn0b94mME=;
+        b=CPG2Vjot+ZiwIZ3FDEYQo3TYjqnHbkCK6gsv2wJjBtpFoicAOt2sAVjQKtaCb62nl8
+         9zbo1w3+TXdh1H0gnVmdEqNI7vtIt+kYHEBZgF2AjK05O2guu2F9Cq5h6FY0YCfJiZYY
+         aoA8XAKtG8UK+Xho5V26vzIE6pZaWmk4nqSPfbaiqDNWoiMTs51EZZLTh3KMwIPle7Ds
+         yVrGAEg+HNEr/unClN5Z3DELxmqKp/ykFauTb8Im9w8hL+OTW4wKf+6XXeNGOq3Z6PnO
+         HhS28PvzY47iGk5kunoVxZjKv/SdXXQ+6MLBoKDu2fWJbAHc7jvgWHJnk92ua0p6Y3pF
+         7Alg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778881415; x=1779486215; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4K0dPW2QPPaLp7VmZFFIc9zXTxDqaqGxzNB77scsbfI=;
+        b=UBSuTYs1cFTym1FjnAdJQ0vifeXu5nndFs5RU0YHPGMg6jdCG7tb3SfGy1jYfyoyYY
+         msDCo+KwAYnMVv8jJlzI0Ga6XLznad7t9tPcLdAq2hxeo5wkywyd0WDc/gf8llmZ8iZf
+         Dc7sAzO53wjeAqDOkNnOpPVN93EbqdbqqjqhU9l2i/FdYL5lMc9j/VVrPuwhLjL7anbV
+         VIE94sjKKj/jQVDWsJCRhxhKalu4UmkDEUyFWJfEo+T3jGrSHer0RACixDjDv6+s5BuD
+         DmI7uy/eBaxbXMIARPtGwE9XFI9Mv1QCSrHgIiTXBcsJhm9BakgnGqqIMjWWRVtZOfFU
+         Hkrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778881415; x=1779486215;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4K0dPW2QPPaLp7VmZFFIc9zXTxDqaqGxzNB77scsbfI=;
+        b=J9oDBo8pSImADU87/K+snwGosjot5ck/4jUrujYwlMdgKnSQpMQOvoOz6RTp0CyyBC
+         WgCwoiRZnoX1kqNvr6wWn6+ivRr6Y4MpkvlwtN7mkSUqCabZK4ySFB7J+9JehL/ihuSP
+         mBZ/lZEDnhdgylrmlgdFBL69H82RtOQ8vFM33AhT2BEBgXUGPbh3i+CLvPNyXOJQDexg
+         t3DNgVUAJYuQiMQlVJwi3ux3upDdRBpq5Fx9fcDDOM67Jx6QyyXnqI3BaJEVi5VjrwF9
+         rsUxybqTaXtwNCAe5dxuzCboCm0Kk1/guja6/7kmvp+L2+Y3oSIckZDfw1CQBGjXul3k
+         yMwg==
+X-Forwarded-Encrypted: i=1; AFNElJ9edrADACfx0QfWjcPnARqynBF3lyh1j33jmtsxUZhZVWnQzugrAWDnRlq1U3xQlXvhU5A9H9T+BMKH@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyzOLip3nt3LFgbKgWvQGCF7RIy3XUPDOxEnwz8QbPtaLiSUJG
+	ecCav7hRMOSR1ezb1CMh5//2sLZb+Jl2Jtq0KT1UeYPetI3SWX7oOp8RrEKbDTf/ZHKWHwOutwv
+	8Yj519LptTXwrPBG+O+tsdtP0CQ25us8=
+X-Gm-Gg: Acq92OHrZLzSwvO1gf2f3Lt6iGJF1dJshZM7ccXZpsEW5qsg/D1vHFQ6H9vkNWfSf1/
+	QS+Ze55QNwdNTYc7y3kwDZjnJ+yW9A4l8oMQIWeHH6E7ShjTbeDGK7PvftyFyGJeHueUpXeJkQ3
+	RwANwGKIeWbHt6LslovGiUcaZ7pdwIhN6IAAcZTT1pO8MUG2JI2DivvH9wPWMfre8nygXiW8HXO
+	hPevHzRk5d+HqLzkUetrReZ34Kt8zCpK7FccqxcMCLf8iwwIxrtoN7MRd3Z/EK/Dj9bart00jUK
+	22gYxrjVFQobVv6YoFoXohECS1q9BJSnUGXOt3exn6DZs0iS4jXm
+X-Received: by 2002:a05:6402:3510:b0:67f:7e9b:afe8 with SMTP id
+ 4fb4d7f45d1cf-683bc5bdb08mr2947889a12.6.1778881414446; Fri, 15 May 2026
+ 14:43:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxja1znK3pz3YAX2uFM-GFVS1zENHJzHBLAVrVqcz6bVhw@mail.gmail.com>
+References: <177747206436.4103309.9048553717124547447.stgit@frogsfrogsfrogs>
+ <177747206617.4103309.9491664333731079107.stgit@frogsfrogsfrogs> <20260514221847.GL9544@frogsfrogsfrogs>
+In-Reply-To: <20260514221847.GL9544@frogsfrogsfrogs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 15 May 2026 23:43:23 +0200
+X-Gm-Features: AVHnY4Lo33sQrExWGKxaR_cAZTJSjaGP-L92Ukdt5ubczf1SkIvoAriEDI8DfUw
+Message-ID: <CAOQ4uxgU7Gsqd3H7v=izpm8Wbjrc7Qzv_BHzB8WQNpg=X4oMvQ@mail.gmail.com>
+Subject: Re: [PATCH 6/9] fuse: let the kernel handle KILL_SUID/KILL_SGID for
+ iomap filesystems
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: miklos@szeredi.hu, joannelkoong@gmail.com, neal@gompa.dev, 
+	linux-fsdevel@vger.kernel.org, bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 15, 2026 at 10:33:34PM +0200, Amir Goldstein wrote:
-> Sorry I was absent from iomap review for a while.
-> Using these Codex replies as opportunity to get back to it..
-> 
-> On Fri, May 15, 2026 at 12:09 AM Darrick J. Wong <djwong@kernel.org> wrote:
+On Fri, May 15, 2026 at 12:18=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+> wrote:
+>
+> On Wed, Apr 29, 2026 at 07:34:38AM -0700, Darrick J. Wong wrote:
+> > From: Darrick J. Wong <djwong@kernel.org>
 > >
-> > On Wed, Apr 29, 2026 at 07:33:20AM -0700, Darrick J. Wong wrote:
-> > > From: Darrick J. Wong <djwong@kernel.org>
-> > >
-> > > Cache the timestamps in the kernel so that the kernel sends FUSE_SETATTR
-> > > calls to the fuse server after writes, because the iomap infrastructure
-> > > won't do that for us.
-> > >
-> > > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> > > ---
-> > >  fs/fuse/dir.c        |    5 ++++-
-> > >  fs/fuse/file.c       |   18 ++++++++++++------
-> > >  fs/fuse/fuse_iomap.c |    6 ++++++
-> > >  fs/fuse/inode.c      |   13 +++++++------
-> > >  4 files changed, 29 insertions(+), 13 deletions(-)
-> > >
-> > >
-> > > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> > > index 3a76eea04c6425..11898102adefe2 100644
-> > > --- a/fs/fuse/dir.c
-> > > +++ b/fs/fuse/dir.c
-> > > @@ -2265,7 +2265,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
-> > >       struct fuse_attr_out outarg;
-> > >       const bool is_iomap = fuse_inode_has_iomap(inode);
-> > >       bool is_truncate = false;
-> > > -     bool is_wb = fc->writeback_cache && S_ISREG(inode->i_mode);
-> > > +     bool is_wb = (is_iomap || fc->writeback_cache) &&
-> > > +                  S_ISREG(inode->i_mode);
-> > >       loff_t oldsize;
-> > >       int err;
-> > >       bool trust_local_cmtime = is_wb;
-> > > @@ -2405,6 +2406,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
-> > >       spin_lock(&fi->lock);
-> > >       /* the kernel maintains i_mtime locally */
-> > >       if (trust_local_cmtime) {
-> > > +             if ((attr->ia_valid & ATTR_ATIME) && is_iomap)
-> > > +                     inode_set_atime_to_ts(inode, attr->ia_atime);
-> > >               if (attr->ia_valid & ATTR_MTIME)
-> > >                       inode_set_mtime_to_ts(inode, attr->ia_mtime);
-> > >               if (attr->ia_valid & ATTR_CTIME)
-> > > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> > > index fa67b20f5ad3ae..eecd0610fbd3e5 100644
-> > > --- a/fs/fuse/file.c
-> > > +++ b/fs/fuse/file.c
-> > > @@ -262,7 +262,7 @@ static int fuse_open(struct inode *inode, struct file *file)
-> > >       int err;
-> > >       const bool is_iomap = fuse_inode_has_iomap(inode);
-> > >       bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
-> > > -     bool is_wb_truncate = is_truncate && fc->writeback_cache;
-> > > +     bool is_wb_truncate = is_truncate && (is_iomap || fc->writeback_cache);
-> > >       bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
-> > >
-> > >       if (fuse_is_bad(inode))
-> > > @@ -477,12 +477,14 @@ static int fuse_flush(struct file *file, fl_owner_t id)
-> > >       struct fuse_file *ff = file->private_data;
-> > >       struct fuse_flush_in inarg;
-> > >       FUSE_ARGS(args);
-> > > +     const bool is_iomap = fuse_inode_has_iomap(inode);
-> > >       int err;
-> > >
-> > >       if (fuse_is_bad(inode))
-> > >               return -EIO;
-> > >
-> > > -     if (ff->open_flags & FOPEN_NOFLUSH && !fm->fc->writeback_cache)
-> > > +     if ((ff->open_flags & FOPEN_NOFLUSH) &&
-> > > +         !fm->fc->writeback_cache && !is_iomap)
-> > >               return 0;
-> > >
-> > >       err = write_inode_now(inode, 1);
-> > > @@ -518,7 +520,7 @@ static int fuse_flush(struct file *file, fl_owner_t id)
-> > >        * In memory i_blocks is not maintained by fuse, if writeback cache is
-> > >        * enabled, i_blocks from cached attr may not be accurate.
-> > >        */
-> > > -     if (!err && fm->fc->writeback_cache)
-> > > +     if (!err && (is_iomap || fm->fc->writeback_cache))
-> > >               fuse_invalidate_attr_mask(inode, STATX_BLOCKS);
-> > >       return err;
-> > >  }
-> > > @@ -820,8 +822,10 @@ static void fuse_short_read(struct inode *inode, u64 attr_ver, size_t num_read,
-> > >        * If writeback_cache is enabled, a short read means there's a hole in
-> > >        * the file.  Some data after the hole is in page cache, but has not
-> > >        * reached the client fs yet.  So the hole is not present there.
-> > > +      * If iomap is enabled, a short read means we hit EOF so there's
-> > > +      * nothing to adjust.
-> > >        */
-> > > -     if (!fc->writeback_cache) {
-> > > +     if (!fc->writeback_cache && !fuse_inode_has_iomap(inode)) {
-> > >               loff_t pos = folio_pos(ap->folios[0]) + num_read;
-> > >               fuse_read_update_size(inode, pos, attr_ver);
-> > >       }
-> > > @@ -870,6 +874,8 @@ static int fuse_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
-> > >                           unsigned int flags, struct iomap *iomap,
-> > >                           struct iomap *srcmap)
-> > >  {
-> > > +     WARN_ON(fuse_inode_has_iomap(inode));
-> > > +
-> > >       iomap->type = IOMAP_MAPPED;
-> > >       iomap->length = length;
-> > >       iomap->offset = offset;
-> > > @@ -2021,7 +2027,7 @@ static void fuse_writepage_end(struct fuse_mount *fm, struct fuse_args *args,
-> > >        * Do this only if writeback_cache is not enabled.  If writeback_cache
-> > >        * is enabled, we trust local ctime/mtime.
-> > >        */
-> > > -     if (!fc->writeback_cache)
-> > > +     if (!fc->writeback_cache && !fuse_inode_has_iomap(inode))
-> > >               fuse_invalidate_attr_mask(inode, FUSE_STATX_MODIFY);
-> 
-> 
-> It is so easy to get lost in the code handling attr cache coherency
-> between kernel and server, so many little details (a.k.a maintenance
-> nightmare). It's not great now, and becoming worse with iomap.
-> 
-> On top of existing writeback_cache special casing and now iomap
-> more special casing, passthrough code also has special cases
-> that may need to be handled better.
-> 
-> Can we maybe abstract some of these open coded checks in
-> a way which is easier to review?
+> > Let the kernel handle killing the suid/sgid bits because the
+> > write/falloc/truncate/chown code already does this, and we don't have t=
+o
+> > worry about external modifications that are only visible to the fuse
+> > server (i.e. we're not a cluster fs).
+> >
+> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> > ---
+> >  fs/fuse/dir.c |   11 ++++++++---
+> >  1 file changed, 8 insertions(+), 3 deletions(-)
+> >
+> >
+> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> > index 61015e83888ee4..e664a60200ee26 100644
+> > --- a/fs/fuse/dir.c
+> > +++ b/fs/fuse/dir.c
+> > @@ -2477,6 +2477,7 @@ static int fuse_setattr(struct mnt_idmap *idmap, =
+struct dentry *entry,
+> >       struct inode *inode =3D d_inode(entry);
+> >       struct fuse_conn *fc =3D get_fuse_conn(inode);
+> >       struct file *file =3D (attr->ia_valid & ATTR_FILE) ? attr->ia_fil=
+e : NULL;
+> > +     const bool is_iomap =3D fuse_inode_has_iomap(inode);
+> >       int ret;
+> >
+> >       if (fuse_is_bad(inode))
+> > @@ -2485,15 +2486,19 @@ static int fuse_setattr(struct mnt_idmap *idmap=
+, struct dentry *entry,
+> >       if (!fuse_allow_current_process(get_fuse_conn(inode)))
+> >               return -EACCES;
+> >
+> > -     if (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID)) {
+> > +     if (!is_iomap &&
+> > +         (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID))) {
+> >               attr->ia_valid &=3D ~(ATTR_KILL_SUID | ATTR_KILL_SGID |
+> >                                   ATTR_MODE);
+> >
+> >               /*
+> >                * The only sane way to reliably kill suid/sgid is to do =
+it in
+> > -              * the userspace filesystem
+> > +              * the userspace filesystem if this isn't an iomap file. =
+ For
+> > +              * iomap filesystems we let the kernel kill the setuid/se=
+tgid
+> > +              * bits.
+> >                *
+> > -              * This should be done on write(), truncate() and chown()=
+.
+> > +              * This should be done on write(), truncate(), chown(), a=
+nd
+> > +              * fallocate().
+>
+> FWIW Codex noticed that in iomap mode we still send FATTR_KILL_SUIDGID
+> even though we claim the kernel is supposedly handling the mode
+> stripping for us.  Granted I've been starting to suspect that some of
+> these file attribute related things ought to be gated on exclusive mode
+> and not iomap mode.  Will have to do a comprehensive review when I get
+> through the current round of bot complaints.
 
-One way would be to decide that if the fuse server sets FUSE_CAP_IOMAP,
-it doesn't get to use any of the other functionality -- no dax,
-passthrough, writeback_cache, submounts, or anything like that.
-Whatever the fuse server thinks is its dataset for inodes and the
-directory tree, those are the *only* files you get to have.
+As I told Joanne in PASSTHROUGH_INO review
+https://lore.kernel.org/fuse-devel/CAOQ4uxipQJt5zskb_THxueGi_MXpFdywFiGpd_n=
+mWeY_sMHwzQ@mail.gmail.com/
 
-The downside here is that fuse servers lose a lot of flexibility, since
-(afaict) you can have a fuse filesystem with (say) a combination of
-passthrough and writeback_cache files, and that's why (IMO) the codebase
-is /really/ hard to understand.
+Why do we need to deal with these special cases at all?
 
-Then we can simplify quite a lot of the special casing crap all over
-fuse because I can create my own iomap-based file_operations.  For
-example, ->open becomes:
+I understand that you want iomap to be per inode and that
+both you and Miklos are in favor of allowing mixing iomap and passthrough
+and other inode iomodes on the same filesystem, that's fine.
 
-static int fuse_iomap_open(struct inode *inode, struct file *file)
-{
-	struct fuse_mount *fm = get_fuse_mount(inode);
-	bool is_truncate = (file->f_flags & O_TRUNC);
-	int err;
+But we also made a note that the iomap patch set is very big and we would
+all benefit if we could start with a slightly leaner patch set.
 
-	if (fuse_is_bad(inode))
-		return -EIO;
+Mixing on the same filesystem, iomap inodes where kernel handles
+killpriv and regular inodes where server handles killpriv seems like
+too much freedom to me.
 
-	file->f_mode |= FMODE_NOWAIT | FMODE_CAN_ODIRECT;
-	if (fuse_inode_has_atomic(inode))
-		file->f_mode |= FMODE_CAN_ATOMIC_WRITE;
+The moment that filesystem opts-in for IOMAP, can we say that
+the rest of the inodes are at least "local-only" (no remote changes
+of those other inodes)? so server should not be able to have both
+iomap and handle_killpriv enabled.
 
-	err = generic_file_open(inode, file);
-	if (err)
-		return err;
+If IOMAP is going to be merged via the FUSEX protocol, this is one
+of the FUSEX requirements anyway.
 
-	inode_lock(inode);
-	filemap_invalidate_lock(inode->i_mapping);
-	err = fuse_dax_break_layouts(inode, 0, -1);
-	if (err)
-		goto out_inode_unlock;
-
-	err = fuse_do_open(fm, get_node_id(inode), file, false);
-	if (err)
-		goto out_mmaplock;
-
-	fuse_iomap_finish_open(ff, inode);
-
-	if (is_truncate)
-		fuse_truncate_update_attr(inode, file);
-		truncate_pagecache(inode, 0);
-		fuse_iomap_open_truncate(inode);
-	}
-
-out_mmaplock:
-	filemap_invalidate_unlock(inode->i_mapping);
-out_inode_unlock:
-	inode_unlock(inode);
-	return err;
-}
-
-Obviously there are a lot of fuse features that I'd just turn on
-automatically if the fuse server sends FUSE_CAP_IOMAP (like atomic
-truncate on open mode and killpriv) to eliminate even more special
-casing.
-
-Another source of simplification would be to make iomap/exclusive mode
-more aggressive.  In that mode, the kernel uses all its file attribute
-update logic and pushes changes down to the fuse server.  All the attr
-caching and timeout stuff goes away, becauase local filesystems are not
-cluster/network filesystems and don't have to worry about pushing
-changes up to the kernel.
-
-OTOH at this point I've forked fuse.  But if I'm going to do that, I
-might as well just burn the whole thing down and start over.  I don't
-yet have a good vision for how to handle the slow stuff like the
-directory tree.
-
-> Thinking about some attr_mask in the inode which determines for
-> every attribute, who owns the authoritative copy, server or kernel.
-> For example, for (writeback_cache || iomap)  kernel owns ATTR_MTIME.
-
-For iomap/exclusive mode, the kernel should own all attributes.  I'm not
-sure the current codebase actually *does* that though.
-
-> This is very hand wavy and far from dealing with all the complexity
-> in every specific case, but the bottom line is - very hard to review that
-> this is all correct and nothing missing and very hard to figure out
-> what's going on when looking at the code
-> for humans I mean... Codex seems to be doing well ;)
-
-Not really, it's been hallucinating from the start.  That's why half the
-comments are credited to codex, and the other half are the WTFs I found
-while scouring the codebase whilst trying to understand what nonsense it
-was telling me.
-
---D
+Thanks,
+Amir.
