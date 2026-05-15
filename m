@@ -1,198 +1,165 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE42E3EF649
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 22:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778884078; cv=none; b=g5trQSCNLSFSB2A71nXu8+XciHr/8HtMkcyo+EaNqN6OygE7euyi6mfhlucddJuD/TfJ8L7K5HlBHq5P2/f9R/u1sGSXC6kO4Gq8i+b7X369ssfl0K208HRA5zXCFl6B/zEYzv2fdfAQRcirAcGAqA7GoC3kb1sACoqO6WIkKFY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778884078; c=relaxed/simple;
-	bh=TR1wjU7nZtPqcmWoTNaI2Rl8EEuNfs8CmEGTcXnn/Bw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ABT4lGiCaifX32GcIQa1VKBWwADc17RQENBP5ekD8BU5sQ+DMwlmNmrlf+xjEy99330N0Gy+WJfU3WdmtSHpS5zN5pAYTBlODPh/Io7bIAdQajCFeO9KYi3rKlr0WcdaaxQmEYt0woHd6WUPB7YaKVhaz3PwwGEatib6rPUgMbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=DQ04TUIi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gojetiRr; arc=none smtp.client-ip=103.168.172.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23613EAC6B
+	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 22:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778884364; cv=pass; b=uYx2mQff2aqaj13SF2hshdW8cZYHOgvLnxVDwrYKjsUBMoO7lARla8pGUL0hHC++pNMmzY1GuMuXxDD4KK+ZLNsnPiNsPM6Zl0WLBTDpUFtzWWJZR1NBxB3+mGGIz+fMAvmyUf3GuBRGd+YtDY6nN1AMA56Coxnb4evJZNbUK2c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778884364; c=relaxed/simple;
+	bh=KEy3rXHuQwUA3D6zy2MyoIddwUAPoFRAdsVTM7rcQDg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=F0m1P9TSo1KZIaKqT+Gyr73ruSxeg9ZAcZwLdg6LNqDKNx6PlqLbziLpdsgYoCS1ANWvjvRt1cFJEw057hGLWyDom4Kj9yQM7oTl56ptwKcDomwgclGbgeI0r/IJvpXOePTw8dbeAx8uBrE62a/ToBPJ+do9JaiXdak5H0Yrk2g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VcW5uMUC; arc=pass smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="DQ04TUIi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gojetiRr"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 1C2131400093;
-	Fri, 15 May 2026 18:27:56 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 15 May 2026 18:27:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1778884076;
-	 x=1778970476; bh=tFhOaEmyH1PsnNBRzkV4gzt+fR9ihLIFC/kN/iDYh0Y=; b=
-	DQ04TUIiezmgVSZ6PIkixaauSPy0D5xiknNX1SasWl/BSaGySmRebxy35j2rzPF9
-	kyIWwOaUiYBBtg95yLikcWQcEdy4L/rskv0jnn4u+YoH55vgQRADNICgbdpffW2u
-	7jOa5Ys2pOIY+jHWPFFNGdNN2QZdfE0vQrMG3GN3K3Yg8KX2A4aV2rHVc70k1Z3r
-	oRjJ8kjymQ/obywKLF83fJ6zmKZonbLO2EIVAc8P8CesMHLpZ9GXbjZNqLVHAA8B
-	CfS6DmqntUsZ9SrStTkN8lHzQ0FxJseoJOxJ8SgGyLh9URxASW9ngHz4yqPmDAbp
-	/TnUqrJein3rYbNiGcwq3Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778884076; x=
-	1778970476; bh=tFhOaEmyH1PsnNBRzkV4gzt+fR9ihLIFC/kN/iDYh0Y=; b=g
-	ojetiRrOhDzLmBU1bZJ/TjxoPvtnZ0rBhtoxahNaWHacUi9/CKPxe844OXzYprFy
-	U2H4p9PyZmCno09dcWWENBiDp4F10iY0tFaGEsoitlMXlPsdtC56IuKEjirBt+fT
-	mAtuXGBg8msdC8ZZ/8RATqI4dknOWip7TwJt6sEiOSM5bbsJVuxMWICSWPE84qGH
-	j4RsAiY/v5qyWSVDv1cZY3549LSL356u9e69YQEj2jPTRguqGYVJNynJmg+fz50D
-	iJoFu73ACtMzKh4Ee/Ja9mB7SkDZurMj7SFVgGEuYexUEx2AD6Amb5lD5dHYdyDa
-	wCe4FaC5fkxVErKpzShJg==
-X-ME-Sender: <xms:650HajqGZ28EeyT4aXhH5_JUzJRAGTxgmHf8aQ5Sei9HlLipF9Xwkg>
-    <xme:650HauWw0wkT01lZO1NHG8FLF3deaFOzNlOZpq8R1ri9TpW7FZkXOybt7SL_Pskq-
-    mTNjNT0I94DxX5QMZror-6Rn3cVu14-qgYK7XS0DbnByaBFFvAG>
-X-ME-Received: <xmr:650Haubj4FCl6O1SW-USZMtCPFweYrzHs07df-dsNnMrfO4bDtalFX873YTkb67FPiwPfWToY13eyHy-nj3US4YPrZQl-t3JxGKMNtoU8YwrbUWu3Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeduiedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeefgeegfeffkeduudelfeehleelhefgffehudejvdfgteevvddtfeeiheef
-    lefgvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeejpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghilhdrtg
-    homhdprhgtphhtthhopehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohep
-    fhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheprg
-    hlihesuggunhdrtghomhdprhgtphhtthhopehhohhrshhtsegsihhrthhhvghlmhgvrhdr
-    uggvpdhrtghpthhtohepghhgrghnjhhiuddusehnrghvvghrrdgtohhmpdhrtghpthhtoh
-    epshhtrggslhgvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:650HarcM11oSL7ICBN3haNARtLRbd2ePDo4jbDcaaBAcAkL9wAvO6A>
-    <xmx:650Hao0vi8FNTmMD23_Rzi0hBy5cA3jkKnxdCT_zlgDMTShgQBavpA>
-    <xmx:650HaiLoYB_Wd-NTem6hO4wESOvRGVS-wTNBbD77leeb2vXFv05trQ>
-    <xmx:650HanEgtnvoG2RDdNnP8xpqg-863SB0N1HDqGyIwMqy8XmhrCYWwQ>
-    <xmx:7J0HarD6AWEodHWQQp0M-cOy4DQ6v4dVRp4gI_X-VCoZfEDL58a8VgL8>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 May 2026 18:27:54 -0400 (EDT)
-Message-ID: <b27136ac-ce1d-46b9-99d5-7d4cd110c929@bsbernd.com>
-Date: Sat, 16 May 2026 00:27:52 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VcW5uMUC"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48896199cbaso2137385e9.1
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 15:32:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778884361; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ezlOmDalOJ3b1D/PJ3sMlvlhvheZ0CL7W6oicY4ZUIJE8wwgzBe4sQbWNXTVKya2Oq
+         Kp76Q3iRc1sYiXYR3sD6Y2rpH3YKJIlZ++8qFV4TPFPXxNNuwgCZBHSXtW4lAOHFymM/
+         zI8pPr6ysL795zaCIaTkk58HxweacYOByOthyi18ff539a7kx4vDL/No0Y5pJvtTaYL5
+         c4iotLTsKaLqMaNsIYcWFfu650gZorqoc3MgKNvMmh9TtBJqGHExaG8vWg8v1f//jdrg
+         a8jkB4YCUvE2a9KCdlVlWf7BcBnDG948r47DadF7oE5QjBubXOPB6udFSI+ic/uzqRlW
+         1vzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2NWItuYfU1D2m9f78r2wyOhs2jk9CgDDgSslfDxDFGI=;
+        fh=FPEAOfosetfPHlwa4Heva1zGNi7Lg0wSQOSL4ynaxgc=;
+        b=ETB/G6IVqGceh0V08iGBvz/IcUNdyiFy5AQH+sSIKjI0VBmKOJlnJB5LRVIp6XeXLt
+         yrJDQ4aGV+qOsUVX0JQNJLvOQgdk4RS14wOJuJ7vHx/3DSNsBkKISdFc1+3I216EHV62
+         qV30Vx/csxcRqUp8Zu4H4jEtFQTH767ijLp7Jx7kliWTzQ6HClbA9n7gT8KsBgEuhp8o
+         c7VjUy1mVH55PGS8igS1RaMnmuWx3uTPcDkcHfyMWoWaRtheeTt7DjfrHnOifr1CRIe3
+         b7Ows+e+ky1QDsW/HgGIHhNxkAgbQ0Qw853Rw/jsK2Pm4nkCgzbeUVF6yPb12fTP75f+
+         xT6w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778884361; x=1779489161; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2NWItuYfU1D2m9f78r2wyOhs2jk9CgDDgSslfDxDFGI=;
+        b=VcW5uMUC2rBY+y1myNHs3jgzkV/1aIKLXGTJgYwjiHNq+qvDHgldQ1Nj3QzF3hOL7K
+         K8n1X17M4BmAG6zAJRPs/2yZS49pbADwnU/W52CC9aw3+5XE9tP6fcUyXzYKGaa6pS3q
+         YWUVvOdgvTi5rwA827pd0vqJDeZwX2LmYAZEP6XhwfpSYJ/gVuV6IRNBT+Y9E2MDy1S/
+         IBhr8Vqsm0/0B7HpFCkyqCdUJC2iQdQ8YTp+v7VnDUkaEysFvf7QinbfDDg+NHoLuiIA
+         0zI1NxtSaPoqkDl3OngBAUGAbUk5fCu6gZjSikZ3Oo1ZxsgfKQ+rn+FqizWx/tutm7+h
+         513g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778884361; x=1779489161;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2NWItuYfU1D2m9f78r2wyOhs2jk9CgDDgSslfDxDFGI=;
+        b=m6Fk1P4ghXv7gdQEJB295XDcF3dJKvkC2COXlAsM16C6ubCvbIJIs6LLxhPDv//NKn
+         hYqfksmmwHLNrLc41pYPcMkL5PrdB1EJpYc4wlD7sEHCMOL+Z746xAKdgVAF0IKCHWyt
+         Dr6AUU4PZBXnlVl09sReKvxjCewT0eciixHR7lN/jm5GT5l9M0XjL8Yk49a0s/CP/1fC
+         YZEHShvP8TU3Py5pkvcMqTfX8Ad8246Vqy+iE6P4uNRwVrjnY4Cv5F/T4ogFPyac6uug
+         BDv+WkJYQtfv5Nbxwc5bcV7YDZqKDOBifuao+WK2rftXSKMoqA2OOnBu74WS577XSYiG
+         7NKQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+/jXr9NYcURSVbwyaNyPWa7PhD8nWUA9wsXIhBgCr12WhQbCApysPbPiROkgjHAShqzDV4NIaW1Esn@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy8j+FoDIY4Hgb/2ZE+Ry8mr1f/8V8c3sXqrcgp2rZ0gqcbAoXK
+	gg9NCx45ot8BfzqgP9omtF+Bxd2kA7T4MyHzZmrWEr8xLRQCTK+b4r8hUyuIklEGO9DiGnTemFM
+	UUWkGVMhev20H0UabP5/0K+P1FGQSCZ4=
+X-Gm-Gg: Acq92OF+X5ZWSiAtEbQBxgy7S8blSzJyhHJ/+dW8/hCbmju57QoixSPEjFrpogyw1no
+	mnoVNhN1ZtfwK/Jm8+gm04q3q8do2a1wsw4ScnBpQMT1KVq2L7XKbRO2gMs8WQGqhF5gfyJAHaq
+	cCwGUL/GCAOwZoSpNq0n4BIHNzaXQ/0NzpKt9bggvKsK1Ji9wY4KdJS+oScF11GTHx7Y/IVZ/oS
+	CoPgP3Ht/MuCrH+I7sAYuDOQv60UCDzpWGM31fOxxwGdFO09krgBpyOOVqqCKukyzVo95lYi7ev
+	oXBTCt7nfaN001/g
+X-Received: by 2002:a05:600c:a11c:b0:488:9bf8:7f17 with SMTP id
+ 5b1f17b1804b1-48fe61f27famr58024205e9.14.1778884361132; Fri, 15 May 2026
+ 15:32:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 3/3] fuse: fix moving cancelled entry to
- ent_in_userspace list
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, ali@ddn.com,
- horst@birthelmer.de, Heechan Kang <gganji11@naver.com>,
- stable@vger.kernel.org
-References: <20260515045541.1171335-1-joannelkoong@gmail.com>
- <20260515045541.1171335-4-joannelkoong@gmail.com>
- <5c010e24-b4f7-481a-97e8-00da0aec6f3c@bsbernd.com>
- <CAJnrk1bY-2_6biL2dzsu8CLW_daYfpBM=sGxGRXOxj5qvOTFGw@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAJnrk1bY-2_6biL2dzsu8CLW_daYfpBM=sGxGRXOxj5qvOTFGw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260429102058.1362965-1-mszeredi@redhat.com> <CAJnrk1Z_JWtuA3UjucF9=YH63AH_-J_0hzr9jbY99Hx3O8YrAw@mail.gmail.com>
+ <CAJfpegspraqMp1Z3mi_csiw6haawZPa4zWheSUN7MhBy47aYKQ@mail.gmail.com>
+ <CAOQ4uxgV4_Pet0w3f+Sq4kLkvgKM6FyJwZ4AQsnvctC3w=dP6g@mail.gmail.com>
+ <CAJnrk1ZvB-R3Szn-VxOZvPRgX_dXwMLouBphnT9_URCE8SxTvQ@mail.gmail.com>
+ <CAOQ4uxidwSn69A08Urue7S7n8wrGQcyGuvRL387pD+rpSFP-Ew@mail.gmail.com>
+ <CAJnrk1ZJ1pVWn21HZATRes55RJD0F0+6SHbq-8FojPutQTiW6Q@mail.gmail.com> <CAOQ4uxgDGuFq=Szw8G1BMuhuBhZ029kf+FrVq6y2Oq+gaQ78sA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgDGuFq=Szw8G1BMuhuBhZ029kf+FrVq6y2Oq+gaQ78sA@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 15 May 2026 15:32:27 -0700
+X-Gm-Features: AVHnY4LNM2kfTA98WtS7ujLuT4FWn5GAgg_YH63gClGBZqE1ZWJ9NzSsXR_V2zc
+Message-ID: <CAJnrk1YpbLMCM0oUWBBp1t-zfwneWhyv35ckc5JeNxs=SXFePw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add fusex filesystem
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+wOn Fri, May 15, 2026 at 1:17=E2=80=AFPM Amir Goldstein <amir73il@gmail.com=
+> wrote:
+>
+> On Fri, May 15, 2026 at 1:24=E2=80=AFAM Joanne Koong <joannelkoong@gmail.=
+com> wrote:
+> >
+> ...
+> > > Cool. Let's get this rolling.
+> > > I need to get my test setup back in shape.
+> >
+> > What is the test setup you are using? fstests with passthrough_hp or
+>
+> Yes. *was* using while I developed the passthrough patches.
+> Didn't run it for a while.
+>
+> > are there other tests in addition to that? If there's other tests
+> > you'd like me to run besides fstests, please let me know and I'd be
+> > happy to do that.
+>
+> Nothing beyond the libfuse test_passthrough_hp sanity test and
+> fstests with passthough_hp.
+>
+> >
+> > When I ran fstests yesterday with passthrough_hp, I saw generic 683,
+> > 684, and 685 (dropping suid/sgid on fallocate, fpunch, and fzero)
+> > start passing, but beyond that I didn't see any improvements (or
+> > regressions).
+>
+> That's the last report I have on record:
+> https://lore.kernel.org/linux-fsdevel/CAOQ4uxh=3DcLySge6htd+DnJrqAKF=3DC_=
+oJYfVrbpvQGik0wR-+iw@mail.gmail.com/
 
+Thanks for the link. I had compared my test results against runs on
+passthrough_hp --nopassthrough.
 
-On 5/15/26 23:11, Joanne Koong wrote:
-> On Fri, May 15, 2026 at 4:10 AM Bernd Schubert <bernd@bsbernd.com> wrote:
->>
->>
->> On 5/15/26 06:55, Joanne Koong wrote:
->>> fuse_uring_cancel() moves entries that are available (these have no reqs
->>> attached) to the ent_in_userspace list. ent_list_request_expired()
->>> checks the first entry on ent_in_userspace and dereferences
->>> ent->fuse_req unconditionally, which will crash on a cancelled entry
->>> that was moved to this list.
->>>
->>> Fix this by freeing the entry and dropping queue_refs directly in
->>> fuse_uring_cancel(). This is safe because cancel is the cancel handler
->>> itself - after io_uring_cmd_done(), no more cancels will be dispatched
->>> for this command, and teardown serializes with cancel via queue->lock.
->>>
->>> Since cancel now decrements queue_refs, fuse_uring_abort() must no
->>> longer gate fuse_uring_abort_end_requests() on queue_refs > 0, as
->>> cancelled entries may have already dropped queue_refs while requests are
->>> still queued. Remove the gate so abort always flushes requests and stops
->>> queues.
->>>
->>> Reported-by: Heechan Kang <gganji11@naver.com>
->>> Fixes: 4fea593e625c ("fuse: optimize over-io-uring request expiration check")
->>> Cc: stable@vger.kernel.org
->>> Co-developed-by: Jian Huang Li <ali@ddn.com>
->>> Co-developed-by: Horst Birthelmer <horst@birthelmer.de>
->>> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
->>> ---
->>>  fs/fuse/dev_uring.c   | 6 ++++--
->>>  fs/fuse/dev_uring_i.h | 6 +++---
->>>  2 files changed, 7 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
->>> index d9108b5b5db8..f4ba64a1796a 100644
->>> --- a/fs/fuse/dev_uring.c
->>> +++ b/fs/fuse/dev_uring.c
->>> @@ -511,8 +511,7 @@ static void fuse_uring_cancel(struct io_uring_cmd *cmd,
->>>       queue = ent->queue;
->>>       spin_lock(&queue->lock);
->>>       if (ent->state == FRRS_AVAILABLE) {
->>> -             ent->state = FRRS_USERSPACE;
->>> -             list_move_tail(&ent->list, &queue->ent_in_userspace);
->>> +             list_del_init(&ent->list);
->>>               need_cmd_done = true;
->>>               ent->cmd = NULL;
->>>       }
->>> @@ -521,6 +520,9 @@ static void fuse_uring_cancel(struct io_uring_cmd *cmd,
->>>       if (need_cmd_done) {
->>>               /* no queue lock to avoid lock order issues */
->>>               io_uring_cmd_done(cmd, -ENOTCONN, issue_flags);
->>> +             kfree(ent);
->>> +             if (atomic_dec_and_test(&queue->ring->queue_refs))
->>> +                     wake_up_all(&queue->ring->stop_waitq);
->>>       }
->>>  }
->>
->> Hmm, ok, I had done that via fuse_uring_entry_teardown(), but this way
->> is also fine.
->>
->> While thinking about it over night, I wonder if we should abort the
->> connection here. Calls for fuse_uring_cancel() / IO_URING_F_CANCEL
->> happen when
->>
->> a) The daemon dies - that is what I had written the function for
->> b) When one calls
->>
->> With reduced rings queues we would actually need to have per queue refs
->> and if a single queue reaches 0, it would need to re-calculate the
->> queue. In general this gets complex and from my point of view, if
->> fuse-server wants to re-initialize queues, fuse-server should:
->>
->> a) wake up the ring thread with an eventfd (libfuse already has that)
->> b) we need a reconfig SQE (like FUSE_IO_URING_CMD_RECONFIG) that
->> requests to re-configure things
->>
->> Right now that is all not supported, from my point of view we should
->> call fuse_abort_conn() when we call into fuse_uring_cancel()
->>
-> 
-> From what I see, I don't think it's safe to call the abort in
-> fuse_uring_cancel() since the cancel runs in the io_uring submitter's
-> task context and the uring lock is held when it gets called. The abort
-> logic can trigger calls to io_uring_cmd_done(cmd, -ENOTCONN,
-> IO_URING_F_UNLOCKED) (through fuse_uring_stop_queues() ->
-> fuse_uring_entry_teardown()) which will lead to a deadlock in trying
-> to acquire the lock that's already held. I like the idea of keeping
-> things simple with just aborting, but I think in actuality it might
-> lead to more trouble.
-> 
-
-Yeah agreed, this lock is a persistent root of trouble :) I'm still
-tempted to create an async task to tear down the connection here.
-
+Comparing them now to baseline passthrough_hp (no inode passthrough
+commits) on the tests you listed:
+   - on baseline passthrough_hp, I'm seeing generic/193 and
+generic/355 now pass compared to when you ran them in 2023.
+generic/080, generic/120, and generic/215 still fail
+   - with the inode passthrough commits, I see generic/080 and
+generic/215 now pass. generic/120 is still failing, which I think is
+because the backing mount doesn't have noatime but the fuse mount
+does, so getattr passthrough to the backing file will fetch the
+updated access time.
 
 Thanks,
-Bernd
+Joanne
+
+
+>
+> It speaks of some tests that are
+> "failing because of missing mtime/atime/ctime updates" and of
+> "failure to strip suid/sgid bits in some cases"
+>
+> I had imagined that the passthrough of GETATTR would fix some of those
+> failing tests and to some extent, this is in line with your report.
+>
+> Attribute cache and passthrough is an unfinished business.
+> If we could force passthrough of GETATTR when inode is
+> in passthrough iomode, I wouldn't mind.
+>
+> Thanks,
+> Amir.
