@@ -1,93 +1,93 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7848A3D6CB2
-	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 12:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380A63E4C7F
+	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 15:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778935349; cv=pass; b=H8JTzP4T1N56RZXgw7jRHr4YsehcPqV/siSn4oVrT4kciAnLAj9B7+v3iaZtdPjUJ4Su3vmYW9ZoHCeLs/NH69YSRrEzjcyYJFmW9RXTnskVrhDuqcf8wWmRE2IH+YXVs1IRiDJzsxhm/I4qwrHSmKZZbBfwDaDN/ZlhY29xD6A=
+	t=1778945746; cv=pass; b=ao3UPRLfvZ0vnqgMN8hTnaxsDe19tyerxYgerbx8clbEXg8HFM7XdipsdDe8sWRVMn+MFd1kMBKfoTBZg757JuiCUCQl5kD+l8gxvZq+p77JHcEreBR7pt5nkfs3VHG6IZym6fZMdH/+tmRDQWKaK+tF3PPPBOkXjvpund1P/Jc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778935349; c=relaxed/simple;
-	bh=DoVqmSnzig+mF4Iu7v8RTe1euF8b36mCNmXU+UwE6IA=;
+	s=arc-20240116; t=1778945746; c=relaxed/simple;
+	bh=fpwS1NISlMl4eRyrN9kTF1MNlwgsDu4mXgeWlhdxKrU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aXgWlPAuzshwvj6UTxL0BEEAxqMOz95C3d0DuQ/8HMuP6JP+39I4jVkycHDjVICGd8nzzrWWty4GW9V25FcgPiqO/IC0Da+QTtM4b11bGeVzmJS8COKGjjrL/8UATwdPkaKUkScY3NJx0mcpCV6cnmBA/dk3PQHlNiCqmCWJjUE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bkaCaFfl; arc=pass smtp.client-ip=209.85.208.45
+	 To:Cc:Content-Type; b=l9QStQl9wQP680dhS2oGx9zio2kbtI8U8KqcSgrcw0RiDVSx5dBjiNiO/Z33c7ZtR4ak1bLRl1qDgmXHqg/DjnOtmBw7JdRyzZ+ZkLqcSL8ndxpCWYX6xzdHiHwh9q4apE3x6ZrhzhcODiVaq/Bnmku6a5MYeR+ennivg/PxQdc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CRZ47Qti; arc=pass smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bkaCaFfl"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67f7caa33easo1728899a12.1
-        for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 05:42:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778935346; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CRZ47Qti"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-bcc2b199c17so109588866b.3
+        for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 08:35:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778945742; cv=none;
         d=google.com; s=arc-20240605;
-        b=AtvL9RjF+Dn6UylIVuqVbjD0rSHNn+trh1ojpdC2rL/AmGDo8JrAVnolDGDaSC5Sqi
-         S+WKJTvQoCn0cT0PE33WXEqr70CIVb5ojSeih7iITxmnjRRfqD63AL2ZHaHzIALPTmPe
-         tt4hje2Bd4Xqw3XKl6FH6VNalFNUlo4/xJUTEKmPxgUFvahE92PQW6wdwMLtoXzXJPsN
-         A9sSNxg2eRT5b2Lc3uU5EJCMLsDwuA7awuD9WH9nmlZD7cfE/AW4s5d/GB4gVwIdRzAw
-         PST+TMPXT9jWmIinEhrk2+sZAHoyp9Q12rd4cfpOGBRWiQWgMufCIopjBZVNmnyc/goz
-         7beQ==
+        b=DfHaZ3vFlBxATT+QmzkKQaLz8zdQv7Uoob4KJCR1FWs4s2Ju6gP4Cozpu7pGmTA8G2
+         rGF05MOgFTYg8qeLVyFc1jvsteoa4WJluuQGdECjow5k2P2xmAoenu+qEK9rV5JESHIh
+         p0rYC4rm35x2OjeOnn3Tnwfa3CG0KxoBj4ttM/PYytq8AD7RRAvJ/K1RUS95ISjxAwXW
+         TGaoS3a7/CU40Yy+9k7DVqKKyO1Nvqfa1TU5QLK7tgsoq/PmrUg+FN/usx24INr4bQo4
+         frLoFZmZXGD/82qQEX6jkHlyBh5UVsb6Tbnkf/Ts31pfTP56j0H1O3zXatmWJ/1kI5/Z
+         ytGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=ijm9DzQecVgUq00g7bJNtsZv7QhfwsyD/t4jMAZ1IlE=;
-        fh=q2ZyyvM4Fiw/IcYjY421P38D0S1iz8RMnS41yrfdV6o=;
-        b=bWgmwiNTChggxu2BMoPZUXgXo0Rcy6Xeogp8X7avPrppbss/9+n1/c2YBuaC0LGKTf
-         sK1RKx7NIgNn40nKAYcN0DCj3vv+PC1k9HODPV79zb9yklo4iJtI5VwnLxDsBZAq3kvA
-         s2YAMnf7TRraeokkgpUInSPUwWdakuAYZSnIKFVSLySro7zVDnLN+UPsOl7jmJ7tQBz6
-         Y7cK3koa13zfiuGMOMblZyTg7tC1tMnA4tuyOJYbx8eyxO4v4oz0N/H+TB7D65Wyys9C
-         sn4iFZXQydIG+Q6V+RBGZsGiGHr+3kH5WpbhtqUfezBNQPMIzShmiFlH+sQpvfxCT23J
-         /ldg==;
+        bh=zA9VjGoCdws4GITccriUwfqMhrSo1TzaklLYoRAlCIQ=;
+        fh=3ocWaTTsjEiaHmohihpy+//Z2YpXHL9vGREW74p7ghY=;
+        b=jyqYtwtPKmWTOqkEouzJ4r0C1JGShm6vWznKOrlOFIh1VtLa+Z+tUWRmXVteGq9vTL
+         rXP0Vdr3TOMbBj1narA8RCRO4c/FWeX81poPdWjiLzBDFfmZYhVomlxDVyx399LBOLlA
+         u6sbPbmCBSGXARhblquKMbnHn62NvQy7wD0Q8fUy/6cOdBcjHUyWjEuiKytmIU8EOzr5
+         C1py1Bm4DfrEz6bP4UXiLrwGk33GXzvO/htbLjnLV4fN87t0uDGZh4X7BqHz9wPzHA30
+         ff7UPpKCPy2L3IC/UoZqzDvWJyyA7gGz+1OGjFrGl4lHVK4J/qpVqdpiMkisP/cq/isr
+         l4dg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778935346; x=1779540146; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778945742; x=1779550542; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ijm9DzQecVgUq00g7bJNtsZv7QhfwsyD/t4jMAZ1IlE=;
-        b=bkaCaFfljFwvoADhGEKW1Mu17CJH3xcbj9TdFvUTFbYIC6EGXRjxuOdRe3uP6kgWzs
-         Z10QhcIXuwQaK324iOBDUWNNGoS2Yhl2GqJm+GDcw7y3SN8zWpNOkvF6Y8Db5NzhvfKA
-         QRxOH0rI6JEU5y79g6RnZl5vLbBe0WXdSN9TCmMGIfsL0HG2z7xFAiDvT+0WjGbk9oDa
-         NYA/oBy0zCM1XQ8cOiQrZMCKTpkidgCg6tWGbovxMmoIDtfPUXbjNcuBcuj4w3668Uqq
-         Ao73OM5qJD0QrgvQrFj+DslLlqLf+30GOIck/Rr9qcJDceA0uzkogciJ6VnLYIVcsIma
-         fl6A==
+        bh=zA9VjGoCdws4GITccriUwfqMhrSo1TzaklLYoRAlCIQ=;
+        b=CRZ47QtiRp5w1001bkX7RCfmV36Owky6pO2FiFnAK51Qgl95F6xgkcgwK8ZEwCcU+L
+         adUW3/B0o3G8cueSGNM/IA8uE0CgKA1ON8rfKr6KPcrSQGw/vbG66KLpfP/CJbqv8E+T
+         tYfCK3UxdFATVXKDRhXlOpy+J54cdza8eVZ8NdDDNR6ANU0u7lW4XV6g/5CZBWUAcSfM
+         hCYZQd670bKYxVH6IAfrNFz8x0x4F+H+pFgaRAH7J8jqCOfoGqlx1GZ3NGpVsKiHTjUd
+         APxmTdCBvodLic0r0+ivNOgWj3s+bgyDerd8gVJ4zTUVPxv952TwyXVcptnlmM036Id/
+         CP8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778935346; x=1779540146;
+        d=1e100.net; s=20251104; t=1778945742; x=1779550542;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ijm9DzQecVgUq00g7bJNtsZv7QhfwsyD/t4jMAZ1IlE=;
-        b=Zcsth88pp3p0tCjr6BGcn2Bbx/B/ltK5C1qscZ/jJ7ihcoDWW9wkiKXhZHX+XLqrOM
-         UUQaBxoTMq4HmD6W3Cb5mTdk7UINxR9HNRqsYw8sYqAOVi+l3WveuqL8MgkU+AK/Ad89
-         PLz6FQGpTT6I09zXbHqrWG38haJ3Nq61LtSqdL1f6iQALChgbOuYm/pI8tKjkzZFKZBn
-         BfNhjOTj12C+DmAu5J6Z6wXnDw4+CtERsM1JiFNzk1r44qfM3ZuFgqwLk4gs6NhKltaH
-         iwPL0PhBgIoiKbX65sODYpryi29fJy5DzIhg+ePL0i6e2bBT6K0tB/DEhqdLieWEDF4C
-         vqNg==
-X-Forwarded-Encrypted: i=1; AFNElJ8zC7Z71Fm6wttq0qsU8YXGR9j6TCWz2xhC+7HAMc+PU8hr6B1TNEpDaSnuJoj5ThN8xNtg/SvEoXOy@lists.linux.dev
-X-Gm-Message-State: AOJu0Yza0qA+LTjYzZY9XDOvsDP3P2eu2a+9qwltEc2IQsRRBX8jrUd2
-	IE/V9lgm6C/U35JxOLEjuTqPKj6wkzBgdsrjyiylyqmcmV7ljNv7EIvOlyZFEwyXWfNZ0okq14W
-	/cD4JVhlabFSxk+ywNWl6ZidV2hFZ3Iw=
-X-Gm-Gg: Acq92OEMfV62lSsjHSJwQ++KsowlNOndNu2amqf+4hUHu3aXrk/edrLMwleIG2MvauH
-	3KWUnvf/jGTyIY7mRV3O2QyUrEBiB1lYTuv7ijWeo60kGFKcWelj+RL3/1ZpPq8e3w3JfNlprjS
-	PGnPyorA+gkGYfz8N21ytV4NrDObQzZdmdi7tbPy/vmGuYV7IhR6Xb1zaVaOchECweV7sIR00UG
-	Taxu2RzAjzIlXQETFPwZIy4EDb6oIEf+UtnufMvzPEqXNBztiuHtpJMdmh5GrNK3uScNE0e3ZAS
-	PS4wWEAZfWwLr52Fu8GKlLYrki+2OGsLuXLVjZ57mAUBr/KJDgD/
-X-Received: by 2002:a05:6402:40c3:b0:66a:19bd:5cb8 with SMTP id
- 4fb4d7f45d1cf-683bd18c6cfmr4142776a12.18.1778935345613; Sat, 16 May 2026
- 05:42:25 -0700 (PDT)
+        bh=zA9VjGoCdws4GITccriUwfqMhrSo1TzaklLYoRAlCIQ=;
+        b=sKvjJwSOB2EorVDkwHNGxDd2macvMpp215YR43uH7S1Nkijg0IY6Hy7uSWRZWfbvF1
+         Ps1oB3W1xyZ2yr3B38lJHA5NfSYUYCxMMFjx2g5ViUqvmXAWVBOjVrhJzI8BlwcBA4Iy
+         W/93vg3FFVoaIOD33kooFYvE6ZJTwhBUGFzI++4iXzAb83yNSVUqmd3oRMzaOc3hO8Yk
+         ZLIkhDora+igffbbq0E8LDNG39leCEFEQNaMNZSeg+fXxCqcCEFW7vlrdYNvfBtDoETW
+         1hIZDk7wqlfT98+6E278OEU95C4K6/RgTCsmL4B17X2oIDQkb1B+5NcX57tTYx2+JViC
+         On3g==
+X-Forwarded-Encrypted: i=1; AFNElJ/dToVGyF3eU1l8mpu7S0aI0fkCPdMfaTmEaUtam8EGMRt5G3goK5E9OsgDW6osHztNHLoVrEozcyr+@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvIP/AUGeLQcmRpXnO22HAwr8cA0FYoUOPPihz7wLO3Uq5q2VB
+	3kE56P+sEi1tWvfLgYLMGyt8A98XMHkKtliyaJRxMx5F1m6An0zffoBhLc5AxqqT49CmCSJAf2E
+	fREfGaSNPjPN13H3HcO3NsZBXBZI/Bpk=
+X-Gm-Gg: Acq92OEmGb+rDJXywJmDMcZxgn5NOGs/w0HRK5nW3isdM89BgLTMZW5Z8KF3ppBNKbl
+	29BYlUGGzH24H1oOvP+YSNSLZUge9DCPRPWJUa/r+INmXQEt19+72gP6PaEjORFCb214VGBS3dT
+	lfyO3mAoOXLNAdet1JmZLwThIGixIo4mZyyf9y0iZqISeht88L6pSxO5kQaWQw53CEEqx8B+oEf
+	Z+JL/k9uKVCat7daLxK3mV0QTODdYOl2Wr5n56mmAVR2QVzEVYgtN8GTpF4U4iPrrMMBf7Icl4X
+	w81WASqADKXi/CZpqbuWvuwxytLYGL4xWTikNRYovQ==
+X-Received: by 2002:a17:907:c80e:b0:bd4:f814:dbbe with SMTP id
+ a640c23a62f3a-bd517814c55mr466886666b.19.1778945741468; Sat, 16 May 2026
+ 08:35:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260516004004.1455526-1-joannelkoong@gmail.com> <20260516004004.1455526-7-joannelkoong@gmail.com>
-In-Reply-To: <20260516004004.1455526-7-joannelkoong@gmail.com>
+References: <20260516004004.1455526-1-joannelkoong@gmail.com> <20260516004004.1455526-9-joannelkoong@gmail.com>
+In-Reply-To: <20260516004004.1455526-9-joannelkoong@gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 16 May 2026 14:42:13 +0200
-X-Gm-Features: AVHnY4K8MkJE8S7FU4exjd8c6uDm4uV3VpsAJm9LPD3MgDp2jIPzDcgjpbp_yi0
-Message-ID: <CAOQ4uxjCAJSYLnqo67zNeAyj-+YK3A1Odix98nuu2QX+-v-FbA@mail.gmail.com>
-Subject: Re: [PATCH v2 06/21] fuse: implement passthrough for getattr/statx
+Date: Sat, 16 May 2026 17:35:30 +0200
+X-Gm-Features: AVHnY4Lv_tfty6tyl73Y0An7au81a6zgjoX6IM4U97tOfr4AKz4REFsBPKZvBnw
+Message-ID: <CAOQ4uxhUvy_+AEF10H7C1mH8ue9uDQuvcaPJqsMGssWawJZc4Q@mail.gmail.com>
+Subject: Re: [PATCH v2 08/21] fuse: handle zero ops_mask in FUSE_DEV_IOC_BACKING_OPEN
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
 	linux-unionfs@vger.kernel.org
@@ -97,186 +97,57 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, May 16, 2026 at 2:52=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
 m> wrote:
 >
-> From: Amir Goldstein <amir73il@gmail.com>
+> Servers that pre-date the ops_mask field will pass a zero ops_mask in
+> FUSE_DEV_IOC_BACKING_OPEN. Default this to FUSE_PASSTHROUGH_RW_OPS to
+> maintain backwards compatibility.
 >
-> Call vfs_getattr() on backing inode to respond to a user statx(2)
-> request and update the fuse inode attributes with the response.
+> For FUSE_PASSTHROUGH_INO servers, an ops_mask must be set.
+> FUSE_PASSTHROUGH_INO is a new feature with no backwards compatibliity
+> requirements.
 >
-> For now, we assume that calling vfs_getattr() on backing inode is cheap,
-> so we never use cached attributed and always update fuse inode
-> attributes from backing attributes in fuse_permission() and
-> fuse_update_attributes().
->
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 
-I think you've corrected enough of my flop in this patch to justify
-Signed-of-by, but as you wish :)
-
-Thanks,
-Amir.
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
 > ---
->  fs/fuse/dir.c             | 32 ++++++++++++++++++++++++++++++++
->  fs/fuse/fuse_i.h          |  8 +++++++-
->  fs/fuse/passthrough.c     | 36 ++++++++++++++++++++++++++++++++++++
->  include/uapi/linux/fuse.h |  1 +
->  4 files changed, 76 insertions(+), 1 deletion(-)
+>  fs/fuse/backing.c | 20 +++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
 >
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 05f69b8fa4c4..9a8e525f4d2b 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -1414,6 +1414,28 @@ static void fuse_statx_to_attr(struct fuse_statx *=
-sx, struct fuse_attr *attr)
->         attr->blksize =3D sx->blksize;
->  }
+> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+> index 2234ab47406a..b499860e1185 100644
+> --- a/fs/fuse/backing.c
+> +++ b/fs/fuse/backing.c
+> @@ -119,9 +119,23 @@ int fuse_backing_open(struct fuse_conn *fc, struct f=
+use_backing_map *map)
+>         if (map->flags || map->ops_mask & ~FUSE_BACKING_MAP_VALID_OPS)
+>                 goto out;
 >
-> +void fuse_kstat_to_attr(struct fuse_conn *fc, const struct kstat *stat,
-> +                       struct fuse_attr *attr)
-> +{
-> +       memset(attr, 0, sizeof(*attr));
-> +
-> +       attr->ino =3D stat->ino;
-> +       attr->size =3D stat->size;
-> +       attr->blocks =3D stat->blocks;
-> +       attr->atime =3D stat->atime.tv_sec;
-> +       attr->mtime =3D stat->mtime.tv_sec;
-> +       attr->ctime =3D stat->ctime.tv_sec;
-> +       attr->atimensec =3D stat->atime.tv_nsec;
-> +       attr->mtimensec =3D stat->mtime.tv_nsec;
-> +       attr->ctimensec =3D stat->ctime.tv_nsec;
-> +       attr->mode =3D stat->mode;
-> +       attr->nlink =3D stat->nlink;
-> +       attr->uid =3D from_kuid(fc->user_ns, stat->uid);
-> +       attr->gid =3D from_kgid(fc->user_ns, stat->gid);
-> +       attr->rdev =3D new_encode_dev(MKDEV(MAJOR(stat->rdev), MINOR(stat=
-->rdev)));
-> +       attr->blksize =3D stat->blksize;
-> +}
-> +
->  static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
->                          struct file *file, struct kstat *stat)
->  {
-> @@ -1539,6 +1561,12 @@ static int fuse_update_get_attr(struct mnt_idmap *=
-idmap, struct inode *inode,
->         if (fc->no_statx)
->                 request_mask &=3D STATX_BASIC_STATS;
->
-> +       if (fuse_passthrough_op(inode, FUSE_GETATTR)) {
-> +               forget_all_cached_acls(inode);
-> +               return fuse_passthrough_getattr(inode, stat, request_mask=
-,
-> +                                               flags);
+> -       /* For now passthrough inode operations requires FUSE_PASSTHROUGH=
+_INO */
+> -       if (!fc->passthrough_ino && map->ops_mask & FUSE_PASSTHROUGH_INOD=
+E_OPS)
+> -               goto out;
+> +       if (!fc->passthrough_ino) {
+> +               /*
+> +                * For now passthrough inode operations requires
+> +                * FUSE_PASSTHROUGH_INO
+> +                */
+> +               if (map->ops_mask & FUSE_PASSTHROUGH_INODE_OPS)
+> +                       goto out;
+> +               /*
+> +                * To maintain backwards compatibility with servers that
+> +                * pre-date the ops_mask field, a zero ops_mask defaults
+> +                * to passing through both reads and writes
+> +                */
+> +               if (!map->ops_mask)
+> +                       map->ops_mask |=3D FUSE_PASSTHROUGH_RW_OPS;
+> +       } else if (!map->ops_mask) {
+> +               return -EINVAL;
 > +       }
-> +
->         if (!request_mask)
->                 sync =3D false;
->         else if (flags & AT_STATX_FORCE_SYNC)
-> @@ -1737,6 +1765,10 @@ static int fuse_perm_getattr(struct inode *inode, =
-int mask)
->                 return -ECHILD;
 >
->         forget_all_cached_acls(inode);
-> +       if (fuse_passthrough_op(inode, FUSE_GETATTR))
-> +               return fuse_passthrough_getattr(inode, NULL,
-> +                                               STATX_BASIC_STATS, 0);
-> +
->         return fuse_do_getattr(&nop_mnt_idmap, inode, NULL, NULL);
->  }
->
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 502b3b3f7e89..389e28497dc7 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -991,6 +991,8 @@ void fuse_init_symlink(struct inode *inode);
->  /*
->   * Change attributes of an inode
->   */
-> +void fuse_kstat_to_attr(struct fuse_conn *fc, const struct kstat *stat,
-> +                       struct fuse_attr *attr);
->  void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
->                             struct fuse_statx *sx,
->                             u64 attr_valid, u64 attr_version);
-> @@ -1274,7 +1276,8 @@ void fuse_file_release(struct inode *inode, struct =
-fuse_file *ff,
->         (FUSE_PASSTHROUGH_RW_OPS | FUSE_PASSTHROUGH_OP_READDIR)
->
->  /* Inode passthrough operations for backing file attached to inode */
-> -#define FUSE_PASSTHROUGH_INODE_OPS (0)
-> +#define FUSE_PASSTHROUGH_INODE_OPS \
-> +       (FUSE_PASSTHROUGH_OP_GETATTR)
->
->  #define FUSE_BACKING_MAP_OP(map, op) \
->         ((map)->ops_mask & FUSE_PASSTHROUGH_OP(op))
-> @@ -1358,6 +1361,9 @@ static inline bool fuse_passthrough_op(struct inode=
- *inode, enum fuse_opcode op)
->         return fb && fb->ops_mask & FUSE_PASSTHROUGH_OP(op);
->  }
->
-> +int fuse_passthrough_getattr(struct inode *inode, struct kstat *stat,
-> +                            u32 request_mask, unsigned int flags);
-> +
->  #ifdef CONFIG_SYSCTL
->  extern int fuse_sysctl_register(void);
->  extern void fuse_sysctl_unregister(void);
-> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-> index a1d87ed51a94..7de038960b2f 100644
-> --- a/fs/fuse/passthrough.c
-> +++ b/fs/fuse/passthrough.c
-> @@ -219,3 +219,39 @@ void fuse_passthrough_release(struct fuse_file *ff, =
-struct fuse_backing *fb)
->         put_cred(ff->cred);
->         ff->cred =3D NULL;
->  }
-> +
-> +/*
-> + * Inode passthrough operations for backing file attached on lookup.
-> + */
-> +int fuse_passthrough_getattr(struct inode *inode, struct kstat *stat,
-> +                            u32 request_mask, unsigned int flags)
-> +{
-> +       struct fuse_conn *fc =3D get_fuse_conn(inode);
-> +       struct fuse_inode *fi =3D get_fuse_inode(inode);
-> +       struct fuse_backing *fb =3D fuse_inode_backing(fi);
-> +       u64 attr_version =3D fuse_get_attr_version(fc);
-> +       const struct path *fb_path =3D &fb->file->f_path;
-> +       const struct cred *old_cred;
-> +       struct kstat backing_stat;
-> +       struct fuse_attr attr;
-> +       int err;
-> +
-> +       if (!stat)
-> +               stat =3D &backing_stat;
-> +
-> +       old_cred =3D override_creds(fb->cred);
-> +       err =3D vfs_getattr(fb_path, stat, request_mask, flags);
-> +       revert_creds(old_cred);
-> +       if (err)
-> +               return err;
-> +
-> +       /* Always override st_dev and st_ino with FUSE dev and ino */
-> +       stat->dev =3D inode->i_sb->s_dev;
-> +       stat->ino =3D inode->i_ino;
-> +
-> +       /* Fill fuse inode attrs from backing inode stat */
-> +       fuse_kstat_to_attr(fc, stat, &attr);
-> +       fuse_change_attributes(inode, &attr, NULL, 0, attr_version);
-> +
-> +       return 0;
-> +}
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index df366e390f0c..6404ed95c758 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -1143,6 +1143,7 @@ struct fuse_backing_map {
->  #define FUSE_PASSTHROUGH_OP_READ       FUSE_PASSTHROUGH_OP(FUSE_READ)
->  #define FUSE_PASSTHROUGH_OP_WRITE      FUSE_PASSTHROUGH_OP(FUSE_WRITE)
->  #define FUSE_PASSTHROUGH_OP_READDIR    FUSE_PASSTHROUGH_OP(FUSE_READDIR)
-> +#define FUSE_PASSTHROUGH_OP_GETATTR    FUSE_PASSTHROUGH_OP(FUSE_GETATTR)
->
->  /* Device ioctls: */
->  #define FUSE_DEV_IOC_MAGIC             229
+>         file =3D fget_raw(map->fd);
+>         res =3D -EBADF;
 > --
 > 2.52.0
+>
 >
