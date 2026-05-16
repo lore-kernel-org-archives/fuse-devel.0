@@ -1,215 +1,312 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55343E5A33
-	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 16:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB153D47A3
+	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 16:57:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778947913; cv=pass; b=u/UAzhcPneV4IM5UnfDPBMAPN8uUtMt638nSwDzQnbl5aV0XeJLV07ba/uSRheCNg/jumcZpDzqNuNWtq/QK1xs1PKR1IS5AG3KFMfK0VpeUj3moOrsYpj5iIkL2xorrkJlfA84EmFkJMzcMjfxYOt0T9z4r1h9mbjC5layWkKs=
+	t=1778950659; cv=pass; b=fgglFRFJVtHVVfayGoVoLS5LRXHjt6Q0dKs7fQjUNmLIYgdp1eQP3gSqZw9IWLntqnAA+hRaFOMVizzUjZCR8dvBIVnZvZECC7gncrRtuZs5crCoX8sGkS959q++0AUBWLTl+33zl3FBzDrMUT0gbPG8h2uNXlbPeDHhc6+k7N4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778947913; c=relaxed/simple;
-	bh=Q7nlBd/BqBQHvksCEGaenGOCteLulS+SgKiHUiSNSEA=;
+	s=arc-20240116; t=1778950659; c=relaxed/simple;
+	bh=+7ZscICOnsMg+Y/x07Y7dz+QrxTCTQGbuuqMet8Uk5U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CsgUEJkpGUuZRd4gDwRlNjtB8nb4do4ymOOcXU0DFu5PPkZk/GVMwusIh1a9WdLV0aY8M/DsaE9HjtWVtVD9q96fBMWpwsEFIrs6TBVqLqWlxTcQGVSEMzvVLnXz7w67bAM5oKoB6ppJveZpMplYOPCdFEhaphxlTeMEyk4OjQY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXVh87PD; arc=pass smtp.client-ip=209.85.218.44
+	 To:Cc:Content-Type; b=dsGaLdD1vx2nzZBfbxlVys6yfmCCaVvOi4qNXL3Pv3yyALgKi+y+8EU4akYfgwPNk09n67ahREU88vGyYJ6EXWjBXvfaLwYzruWTU4ybBe5MTKpltt6FGF2JbgQ9dX8hA0FV8z8loOg/+klP7rHWgooMx+tkbZlw9RvHY/mTWi8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4bJ/WkG; arc=pass smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXVh87PD"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bd4d7f4fa02so166051266b.3
-        for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 09:11:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778947910; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4bJ/WkG"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-67c1e0229acso1558582a12.1
+        for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 09:57:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778950655; cv=none;
         d=google.com; s=arc-20240605;
-        b=EASNJptVyB+NSED8/BiDQ/GiBwUgDCWdRtEYEDEuQOG9RxGXTnf+fYZxp1HMIx9e7V
-         j6cfc/yfv4uqy51V1rMquSlp/CXQElQWCNIfL3SE6E1IAxVr8U8qL4Cj6kKHN0mpih99
-         Y8Hd/torGb5eVraNX6QpVCcvw0crfAHlGy64EWle1Fua87uymPPkLwXjx6EYhsICq5Pw
-         13EzixIuNBjkH4QvcocWoJh7WUXhpbNZfFPM/PK7TiqpCbn1dzYMZgwDARXYmBwN4eQ+
-         KPCTguS7+XlQcN+6qBm++5CeiQFvYOFI5p9ouQ+OtvGKw1r9h+EPe+Wq4Wno4+0Vs5qY
-         LCOA==
+        b=fyeHxR2F5/JMn+PZC/x1xJZeHsvrPxrv/nWDfyQFUQbbFXmSaJjri3V4708AramUeq
+         npxVlI4Edq7auhUKwGuHn4MoKV+GqR15qxSkS3Y4+SVkIKyU8tCxVzGEOKZ6y+8Na8o9
+         dtUcuCxtwjHXBppg43UMmAojHzwizL4B46qAD8WuD8GE5E08QDGjNVf0q2Q9wRGfJsFt
+         DOzkU9fLAulEaV3WnOJSx+sTwGAoZAJQlrw694z/jQKJWYahLt+ErJ8m3XpfpK/igai9
+         gsx1UA7ptnjIErgIebjBoGmb5pXNfOwv3KIA9jCrOZ60UPWqnsbTMie9OiB6914QEwuf
+         BLnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=uAZW2MBE8275Ldt0n/IGNTEv2ZI5Fh5vxkOF7P2VqHg=;
-        fh=759FKc3ZeWC4HXkllaw8Ay4OW5z3G/mAF1qE3sOHOF0=;
-        b=IjNJbe8TJjXC/sxWazJuRVT04ChBI8pSSSsKPnIK/KX8XPeiPPNEG71waiqeBmdZvd
-         h4DoIHobzh7pgsbQYKP+rPoJ19BVDQydoeIldb1oM/5O4ponl+0kezarUC1zCbrdIc12
-         pb7Z75wa+Rm24EAkTUuo+wLjx+5tMwW67xCPwRtbbaMKCNs5Wd5t6oBy/7OpD3OBKqAO
-         43PfC3oMwQ2l2XLbsNqOgmN4MwAqPtBjnrmNg7xQN+efZm/9lIQuZGRxrKGIUG9E5L3L
-         11bk/KmfswcxyP+Glp9C12EACl1RGruVtlnI0DfZov062uQi+4gtlBpxQZgN5G2Olpc+
-         1j2Q==;
+        bh=PfYU55dN3cL0mcrAM/l2zUvNj113szEXNq9Oi0BW8EQ=;
+        fh=wFtwfFf6KfZHpbijslRJrI48iXfREFRlrjEKWSlNhF0=;
+        b=eI5PCSt1AsN43WTkWy+FSpxz13IgCUtIvjbGRTXDVT/RtkKmKZUF6nfQ9nSXD1f4/R
+         B5H3GF1T6qCHpc/yis56aDLN5yj6/XVv2HB0e3n/E13lh+4xIW2p1Hb6Pq2/VzuW607G
+         640SgoXnrJoLnKLaYSkV3jyZ70ZRzJNxiq3Gne7wRoIVIft8azfj/xPNqlGsgySizhEv
+         SIxi27eM2t3zOsdjhaeyEQ9vmFTMDGY7e6rrqA/YGwaE8DgXln4nN1WUQB7DRr7Y/jSZ
+         CVPTr6OuXndbwOda0YmJiPShkUHCaDFM90DoX39wp2CyoOCMlG28ZciN4ZgQgsi99LtE
+         OHrA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778947910; x=1779552710; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778950655; x=1779555455; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uAZW2MBE8275Ldt0n/IGNTEv2ZI5Fh5vxkOF7P2VqHg=;
-        b=mXVh87PDLNUJTxJiGOifUe4PprhwYUQBu0JXQVR6o+QJMt64znM1PZmvWrly3Vqlvm
-         tClpBr9YdD5POAoqeKl4M/OtGEuEX6n8MyBahv6ktoUUUeIlgf279Wz7GMvbgq311Tia
-         TbjHamZ34zF+RnnAwoEfGrgPnoT2NvIaz+g8mkH/1sFyPZOiYwZ2Bttapm/BsppIDcaw
-         UC8HNRSKeLV+imKXxdIZJiiQtRzthuD9R1y9QhbXxgiTIIhRqrpLwUxpl5HVZKZQ0xEb
-         ihMsEd0qqFGf91ZBQq5GtBO+vkTW2LAZM7a8oxfe6aw9+k7EuTdRm/3LnLSDcUk6antz
-         MvDA==
+        bh=PfYU55dN3cL0mcrAM/l2zUvNj113szEXNq9Oi0BW8EQ=;
+        b=J4bJ/WkGUIpsHX868v8WYAApt+wo1tUjg+9+9WShmCv/eYaqRalvoXiaDVz+oa7DMS
+         TcUPUheE7atXrKyyXMfzFCOIWZ3eZcsgmMkGn52W515hGvLudB8QMPeyZIeZuguCk1R5
+         7QupVqpzfBBzmN2xGJtqpPvvws3I/Ysr6rRe4lXOJUEXzLLxAMWguAWVFlvAGU55q+9l
+         nKJOZOGe+3ca/tEfZCIpu1zOzZdFm4WZn9M0+CfTFt2+IEDGD5CAbD1DVfKMssxUfq9u
+         Kbz18hL7hHXQBbY7OzmUp9KbvVJit1YthPwFkZ5cLyPU3p+n+grJqS4PqtiPg3adbQ9L
+         Ja7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778947910; x=1779552710;
+        d=1e100.net; s=20251104; t=1778950655; x=1779555455;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=uAZW2MBE8275Ldt0n/IGNTEv2ZI5Fh5vxkOF7P2VqHg=;
-        b=aHOI+Vivs76SPGaP7GzFcRR1stjk9YuoVUP9uUBJUQSRyQPwPWspKsHNtVn5HxUBzg
-         yA2vUWMitUpqpLsX9V7QHQB9463UG69z0KbiRjqpUVZLAOgHduuOfW9sgwWt3ohnBxQW
-         g1oblxYgF5RcJkJXiOWwCsCQa6OFjzsh9JJlEc4kdPI6yOdwb5pskaBygEaN1LzloU2S
-         qVm9vyc3j66liH1DUJlEqMgQbZmDbn+ettZhM5pRkW+q9eeZZLNi9daLi9t9ALvyGkMp
-         eu7Nx5RgTb23GXxAQfcCHoj+HWDs0ZFGy9fkgjtROJZfL/9/NkYTtBR6Z1NWrV0UC1Cu
-         LhMA==
-X-Forwarded-Encrypted: i=1; AFNElJ/53yuwIpRu71aKDjHFlg2Nd7eBtc4r6Du3Q2Y/x+MxXA2Lml5go7sov20y8FJ+9Ma3fiGXAqlag+3w@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfHTB0IvJ85rx47PdaTUbQXXfjvCgM1y95MgYbdqLI/O9ljkwB
-	14Sfn+XHhW8+DLMOkAuzDrZCtBFndqDlOObfOh7p7uaDI/RqOVuF4FsKPSxHsg82NdTNduQJcBj
-	nFo3TrzSZKr/7x+Bn9Z3pwCP0H2QKm2I=
-X-Gm-Gg: Acq92OHj4KQHD5DQ9i7KfanRJJGB/LMch86zawQ2qnEI2zZpDxTHzAKxr656v96gugk
-	TI0y5+qqwYyzULfvRav+4WHLWx0l2MMosksxvg+W3DP5wZWg5bTbEAlxCAxzkZB9NP4L/rmG4rU
-	hStRWyTmjC/3BqhPxwtKlqY+S8B0iTHQ17q7DyRcnztJ/+cChU624j+MeoMnOWBtFmWVdmiZ+bA
-	Y7NzHRYH9TasMuXwcimPo3un0fuzAiVqpMVauLth5Uv4QTiJVBiiFcJ0MG48bNIVRJFYN3nE8eJ
-	kLE35fbEdprTwMjnYOv0O1mR5SVTJa+8n2rQpVSKD3HnZE6Trz2W
-X-Received: by 2002:a17:907:c714:b0:bcf:9dd2:f79e with SMTP id
- a640c23a62f3a-bd517964d82mr481784066b.29.1778947909758; Sat, 16 May 2026
- 09:11:49 -0700 (PDT)
+        bh=PfYU55dN3cL0mcrAM/l2zUvNj113szEXNq9Oi0BW8EQ=;
+        b=LTnkFI29nIzIb9wt9BMPjuMZSfyQbnyIJVXWy3ByfMJgQaWTyaKqtEfUXA9XLe7zHk
+         GnlB8439m0pcoo72/G8njuubBXbIYUuG4AQx5H6GC8XYK8/20rWpItCB0/m/b7vej4gd
+         erObJRCeOXE3yxvXJ74nMq/NCjL2ieo5yMgJc0zKByBiA5431hR0l7X+0qdqo8rn72Nb
+         xGaSXYQgf1UrGSPnQvldwzy7+4HdrqhPCwrceTsfh6+BRfitfFf6N9eLASKoXix3dT1y
+         viaYrVmYORlQZ6JWyd8VLnoK5ebjaWRz2VKnxrYcEJnA2SJ37WEiZzAtNKv5fTk7TAJA
+         JsKA==
+X-Forwarded-Encrypted: i=1; AFNElJ8NkaCXYOZAIisZUIwxv3IWQHM8Qx2L/bkNsseme+G/X0YrbGT4WKq91IkII1i69Z+MpxQDY4UWS9MD@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvOGmY6iHfnboj87qG1Cfn9dkovhMzYKdrUIEJJdmoo7J90Or9
+	7nzQHNiWvzqw240KtFumH7R92qW6wlEIH5CnLAK7LgH9iwusANLlJ9Pd8uH2gIAoEJPTyzihPDH
+	lu/GcokzpQgvF5gigpu5rqsGClCj+/hw=
+X-Gm-Gg: Acq92OEMgAEhDwbk48qoFGSbhrHWvWsSX1aTJnEOh/j3sGh8/gfQi0JqqjzS/cBT+nW
+	Epph+4w2qjFPtxK0DvZQ8WtYSRtBBCiJb9Deg+f0F8Zwv9Wg9QFBQcZcQsMA2Ww5n3PN0Q3TGpH
+	FGYdKCg5hCS3m5gz8+a14znawG6mhnNRwN+dujr3+gbbmJKeh2ks9Pm5T89hfYedjGvJe6gx/rr
+	3dvWLokV4tWMh5tvj4GAQmzUCuTkLXkLUk/GlwPE8CdsoAM5ThLrsuUmR7dOLjViGmR2WGlqFgS
+	Elk/VM+aZPa0jV/wx34k9+I3Xvz2IvSxQ6KTqmjagcF+2BD6WK0Y
+X-Received: by 2002:a17:907:d30e:b0:bd5:5834:1d36 with SMTP id
+ a640c23a62f3a-bd558341eb3mr240215066b.21.1778950655055; Sat, 16 May 2026
+ 09:57:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260516004004.1455526-1-joannelkoong@gmail.com>
- <20260516004004.1455526-3-joannelkoong@gmail.com> <CAJnrk1YUjqd+j1yLXuO0M07ueCUYNC0NqgwmQSm3OiY3hnhgZQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1YUjqd+j1yLXuO0M07ueCUYNC0NqgwmQSm3OiY3hnhgZQ@mail.gmail.com>
+References: <20260516004004.1455526-1-joannelkoong@gmail.com> <20260516004004.1455526-10-joannelkoong@gmail.com>
+In-Reply-To: <20260516004004.1455526-10-joannelkoong@gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 16 May 2026 18:11:37 +0200
-X-Gm-Features: AVHnY4LRXBoTp7VSRpHV_Q0T8iOBc_MEV3aFDSOimmKfnbZNrPwrIz-QjGpKgXA
-Message-ID: <CAOQ4uxhyZU_6jbv8kY8od_SgG9yQ6aX+KcB2c1um4DajJdSPqA@mail.gmail.com>
-Subject: Re: [PATCH v2 02/21] fuse: prepare for passthrough of inode operations
+Date: Sat, 16 May 2026 18:57:24 +0200
+X-Gm-Features: AVHnY4K3xOPnY5KV7Cu7pzd-w0DD74SL0JwhfZbdHZi86GE-hR3VwAaWcwTfaws
+Message-ID: <CAOQ4uxiWhWcNbKDo49vWR7HrN4p84JdvjgYyhptDqKxJ7dwoFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 09/21] fuse: handle partial io passthrough for
+ read/write, splice, and mmap
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
 	linux-unionfs@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 16, 2026 at 3:34=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
+On Sat, May 16, 2026 at 2:52=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
 m> wrote:
 >
-> On Fri, May 15, 2026 at 5:52=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
-com> wrote:
-> >
-> > From: Amir Goldstein <amir73il@gmail.com>
-> >
-> > So far, fuse passthrough was implemented for read/write/splice/mmap
-> > operations for regular files opened with FOPEN_PASSTHROUGH.
-> >
-> > A backing file is attached to a fuse inode, but only for as long as
-> > there are FOPEN_PASSTHROUGH files opened on this inode.
-> >
-> > We would like to attach a backing file to fuse inode also without an
-> > open file to allow passthrough of some inode operations.
-> >
-> > Add field ops_mask to the input argument of FUSE_DEV_IOC_BACKING_OPEN
-> > ioctl to declare the operations that would passthrough to the backing
-> > file once it has been attached to the fuse inode on lookup.
-> >
-> > Setting the FUSE_READ/FUSE_WRITE operations in the ops_mask is not
-> > required because those operations are implied by FOPEN_PASSTHROUGH.
-> >
-> > When setting operations other than FUSE_READ/FUSE_WRITE in ops_mask,
-> > non-regular backing files are allowed, so we need to verify when
-> > attaching a backing file to a fuse inode, that their file types match.
-> >
-> > For simplification of inode attribute caching, for now, require a
-> > filesystem with FUSE_PASSTHROUGH_INO (one-to-one mapping from fuse inod=
-e
-> > to backing inode) for setting up passthrough of any inode operations.
-> > We may consider relaxing this requirement for some inode operations
-> > in the future.
-> >
-> > Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > ---
-> >  fs/fuse/backing.c         | 13 ++++++++++---
-> >  fs/fuse/fuse_i.h          | 30 ++++++++++++++++++++++++++++++
-> >  fs/fuse/iomode.c          | 16 ++++++++++++++++
-> >  include/uapi/linux/fuse.h |  9 ++++++++-
-> >  4 files changed, 64 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> > index 4be9ccc5b3ff..0f1e1c1ec367 100644
-> > --- a/include/uapi/linux/fuse.h
-> > +++ b/include/uapi/linux/fuse.h
-> > @@ -243,6 +243,7 @@
-> >
-> > +#define FUSE_PASSTHROUGH_OP(op)        (1ULL << ((op) - 1))
-> > +
-> > +/* op bits for fuse_backing_map ops_mask */
-> > +#define FUSE_PASSTHROUGH_OP_READ       FUSE_PASSTHROUGH_OP(FUSE_READ)
-> > +#define FUSE_PASSTHROUGH_OP_WRITE      FUSE_PASSTHROUGH_OP(FUSE_WRITE)
+> Servers can now pass through only reads or writes instead of being
+> required to pass through both. When the read or write operation is not
+> passed through, fall back to direct io for handling it. This avoids
+> cache coherency issues from mixing the backing file's page cache with
+> the fuse inode's page cache.
 >
-> Do you think we should couple the passthrough op code to the fuse
-> opcode so closely, instead of defining the passthrough ops separately,
-> eg doing something like this?:
+> Reject mmap when passthrough is partial or not set for read/writes since
+> mmap requires both read and write access to the backing page cache.
 >
-> #define FUSE_PASSTHROUGH_READ         (1 << 0)
-> #define FUSE_PASSTHROUGH_WRITE       (1 << 1)
-
-Don't drop the _OP_ please
-Need it to distinguish from FUSE_PASSTHROUGH{,_INO}
-and we need to think if we want to format this as 32bit and extend later
-or start with a u64 ops_mask format from the start.
-
+> The FOPEN_DIRECT_IO check in the read/write fallback is not strictly
+> needed as the caller already handles it, but including it here makes
+> the fallback logic self-contained.
 >
-> In the (far) future when some more advanced passthrough features get
-> added (eg full subtree passthrough), it seems like we'd want to add a
-> passthrough op for that,
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> ---
+>  fs/fuse/file.c        |  7 ++++---
+>  fs/fuse/fuse_i.h      |  3 +++
+>  fs/fuse/passthrough.c | 18 ++++++++++++++++++
+>  3 files changed, 25 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 1173811b2ea7..5b70d8272700 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -1781,7 +1781,7 @@ static ssize_t __fuse_direct_read(struct fuse_io_pr=
+iv *io,
+>
+>  static ssize_t fuse_direct_IO(struct kiocb *iocb, struct iov_iter *iter)=
+;
+>
+> -static ssize_t fuse_direct_read_iter(struct kiocb *iocb, struct iov_iter=
+ *to)
+> +ssize_t fuse_direct_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  {
+>         ssize_t res;
+>
+> @@ -1796,7 +1796,7 @@ static ssize_t fuse_direct_read_iter(struct kiocb *=
+iocb, struct iov_iter *to)
+>         return res;
+>  }
+>
+> -static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_ite=
+r *from)
+> +ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from=
+)
+>  {
+>         struct inode *inode =3D file_inode(iocb->ki_filp);
+>         ssize_t res;
+> @@ -1884,7 +1884,8 @@ static ssize_t fuse_splice_write(struct pipe_inode_=
+info *pipe, struct file *out,
+>         struct fuse_file *ff =3D out->private_data;
+>
+>         /* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> -       if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_=
+IO))
+> +       if (fuse_passthrough_op(file_inode(out), FUSE_WRITE) &&
 
-I don't know. fuse_backing_map has flags, why would we want to put that
-in ops_mask.
+Removing fuse_file_passthrough(ff) makes me uncomfortable.
+It's true that if server sets PASSTHROUGH_OP_WRITE on lookup
+the file has to be opened with FOPEN_PASSTHROUGH, but this
+not easily understood by passing by reviewers.
 
-> but that wouldn't map to a fuse op. I think
-> there are also some fuse ops we might skip defining as passthrough ops
-> but are implicitly passed through (eg FUSE_STATX which is covered by
-> FUSE_GETATTR),
+It's be nicer if we keep this logic contained in a helper where it can be
+properly documented, something like this (following the changes to
+FUSE_PASSTHROUGH_OP() discussed earlier):
 
-This could also become the case with FUSE_CREATE{,_HANDLE}
-or {FUSE,FUSEX}_CREAT.
+static inline u64 fuse_passthrough_op(struct inode *inode, u64 op_mask)
+{
+        struct fuse_inode *fi =3D get_fuse_inode(inode);
+        struct fuse_backing *fb =3D fuse_inode_passthrough(fi);
 
-TBH, the fact that some ops will never be in the mask and
-that some ops have a canonical bit in itself does not justify creating
-a different mapping. Do we also want to squeeze the mask into 32bit
-and leave reserved space? my intuition is to leave it u64.
+        return !fb ? 0 : fb->ops_mask & op_mask;
+}
 
-> so it seems more intuitive to define the passthrough
-> ops as describing capabilities rather than implying that it describes
-> what specific opcodes get passed through?
+static inline struct file *fuse_file_passthrough_op(struct file *file,
+                                                    u64 op_mask)
+{
+        struct fuse_file *ff =3D file->private_data;
 
-hmm. I guess you have a point that it is a bit limiting to commit
-to this arithmetic in UAPI.
-
-My thinking behind this was ease of use with these helpers:
-
-       if (!fuse_passthrough_op(file_inode(in), FUSE_READ))
-
-but those could just as well be macros:
-
-static inline bool fuse_inode_passthrough_op(struct inode *inode,
-                                            u64 opbit)...
-
-#define FUSE_PASSTHROUGH_OP(inode, opname)    \
-             fuse_passthrough_op(inode, FUSE_PASSTHROUGH_OP_ ## opname)
-
-#define FUSE_BACKING_MAP_OP(map, opname) \
-       ((map)->ops_mask & FUSE_PASSTHROUGH_OP ## opname))
+        /*
+         * FOPEN_DIRECT_IO can be used to opt-out of passthrough per file a=
+nd
+         * ops_mask can be used to opt-out of passthrough per operation typ=
+e.
+         */
+        return fuse_file_passthrough(ff) &&
+                !(ff->open_flags & FOPEN_DIRECT_IO) &&
+                fuse_passthrough_op(file_inode(file), op_mask) =3D=3D op_ma=
+sk;
+}
 
 ...
-       if (!FUSE_PASSTHROUGH_OP(file_inode(in), READ))
 
-wdyt?
+static ssize_t fuse_splice_write(struct pipe_inode_info *pipe, struct file =
+*out,
+                                 loff_t *ppos, size_t len, unsigned int fla=
+gs)
+{
+        if (fuse_file_passthrough_op(out, FUSE_PASSTHROUGH_OP_WRITE))
+                return fuse_passthrough_splice_write(pipe, out, ppos,
+len, flags);
+        else
+                return iter_file_splice_write(pipe, out, ppos, len, flags);
+}
+
+
+> +           !(ff->open_flags & FOPEN_DIRECT_IO))
+>                 return fuse_passthrough_splice_write(pipe, out, ppos, len=
+, flags);
+>         else
+>                 return iter_file_splice_write(pipe, out, ppos, len, flags=
+);
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 9e5142a94a09..a1034533ce60 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -1261,6 +1261,9 @@ struct fuse_file *fuse_file_open(struct fuse_mount =
+*fm, u64 nodeid,
+>  void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+>                        unsigned int open_flags, fl_owner_t id, bool isdir=
+);
+>
+> +ssize_t fuse_direct_read_iter(struct kiocb *iocb, struct iov_iter *to);
+> +ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from=
+);
+> +
+>  /* passthrough.c */
+>
+>  /* READ/WRITE are implied by FOPEN_PASSTHROUGH, but defined for complete=
+ness */
+> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+> index f2025772c9c1..d62a1c751157 100644
+> --- a/fs/fuse/passthrough.c
+> +++ b/fs/fuse/passthrough.c
+> @@ -44,6 +44,10 @@ ssize_t fuse_passthrough_read_iter(struct kiocb *iocb,=
+ struct iov_iter *iter)
+>         if (!count)
+>                 return 0;
+>
+> +       if ((ff->open_flags & FOPEN_DIRECT_IO) ||
+> +           !fuse_passthrough_op(file_inode(file), FUSE_READ))
+> +               return fuse_direct_read_iter(iocb, iter);
+> +
+>         ret =3D backing_file_read_iter(backing_file, iter, iocb, iocb->ki=
+_flags,
+>                                      &ctx);
+>
+> @@ -70,6 +74,10 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb=
+,
+>         if (!count)
+>                 return 0;
+>
+> +       if ((ff->open_flags & FOPEN_DIRECT_IO) ||
+> +           !fuse_passthrough_op(inode, FUSE_WRITE))
+> +               return fuse_direct_write_iter(iocb, iter);
+> +
+>         inode_lock(inode);
+>         ret =3D backing_file_write_iter(backing_file, iter, iocb, iocb->k=
+i_flags,
+>                                       &ctx);
+> @@ -91,6 +99,9 @@ ssize_t fuse_passthrough_splice_read(struct file *in, l=
+off_t *ppos,
+>         struct kiocb iocb;
+>         ssize_t ret;
+>
+> +       if (!fuse_passthrough_op(file_inode(in), FUSE_READ))
+> +               return copy_splice_read(in, ppos, pipe, len, flags);
+> +
+>         pr_debug("%s: backing_file=3D0x%p, pos=3D%lld, len=3D%zu, flags=
+=3D0x%x\n", __func__,
+>                  backing_file, *ppos, len, flags);
+>
+
+I understand why you brought this "jump back to direct" into the passthroug=
+h
+helpers to reduce complexity in the call sites, but I think that if you use
+the fuse_file_passthrough_op() helper in the call sites code will look
+better and will not need to "jump back to direct io" in passthrough.c.
+
+> @@ -133,6 +144,9 @@ ssize_t fuse_passthrough_mmap(struct file *file, stru=
+ct vm_area_struct *vma)
+>  {
+>         struct fuse_file *ff =3D file->private_data;
+>         struct file *backing_file =3D fuse_file_passthrough(ff);
+> +       struct inode *inode =3D file_inode(file);
+> +       struct fuse_inode *fi =3D get_fuse_inode(inode);
+> +       struct fuse_backing *fb =3D fuse_inode_backing(fi);
+>         struct backing_file_ctx ctx =3D {
+>                 .cred =3D ff->cred,
+>                 .accessed =3D fuse_file_accessed,
+> @@ -141,6 +155,10 @@ ssize_t fuse_passthrough_mmap(struct file *file, str=
+uct vm_area_struct *vma)
+>         pr_debug("%s: backing_file=3D0x%p, start=3D%lu, end=3D%lu\n", __f=
+unc__,
+>                  backing_file, vma->vm_start, vma->vm_end);
+>
+> +       /* mmap requires both read and write passthrough */
+> +       if ((fb->ops_mask & FUSE_PASSTHROUGH_RW_OPS) !=3D FUSE_PASSTHROUG=
+H_RW_OPS)
+> +               return -ENODEV;
+> +
+
+Changing the helper in call site in nicer and already hits the
+existing ENODEV case:
+
+        if (fuse_file_passthrough_op(file, FUSE_PASSTHROUGH_RW_OPS))
+                return fuse_passthrough_mmap(file, vma);
+        else if (fuse_inode_backing(get_fuse_inode(inode)))
+                return -ENODEV;
 
 Thanks,
 Amir.
