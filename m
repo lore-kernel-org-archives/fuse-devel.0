@@ -1,70 +1,70 @@
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8B626B95B
-	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 00:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9769525228D
+	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 00:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778892755; cv=none; b=UbqWwJxKd/fduGbEJzvrHNtkZIqx3xNpjFZypUQqNkxbk7GNaKvGtwSz5RRvMbHFJGfXXjDxb2Ogh+klHxWXh6pnW2IGEjPj8AX4zpMPuOkGQGrDO8WR1eXdwSbB1CDBe/H0p+9vMXT1/vATqmXhPuc39igZEed2dvyE1NwOR28=
+	t=1778892757; cv=none; b=kFG1vhfnGXc+Teln8Fmjnhdil3suiH5RA2S9e2jH/552kEdUHpFOcKFzihQQZ0pe0hXYDCwiWbs/Levmz+SzupGBPFiRdZrH89Nxc2dokZUeIVqdwXX+BH1MN1cvJXIxxcos+tjCZ1jb9n46v07o5ho+3ee96NBQ0C3ejeX1WJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778892755; c=relaxed/simple;
-	bh=lnGWVaXe1W4lVI4l09z3D2fCyJs03GaPetOlGCDcDms=;
+	s=arc-20240116; t=1778892757; c=relaxed/simple;
+	bh=rkdoWF2UR0uq6E1mFSAg3lE3ANZj9IfGK1CxHSh7FEY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aLQqalxQTJcDokKhIeNAghyxFAf8YjqbgogDYYJCaq3ns48fwGr+11EIGVrKtJWeicvNWGlkV4YAdUs0aJ/9wx9fM8cfhWRiufnu7ywdlvtuLrrSu8I7ZCgxLNv1Ul4xcaLvqBY0rXFPwr6jOTcNFtH7BybYv8z/oJuWfdzzCFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GndOmbcX; arc=none smtp.client-ip=74.125.224.47
+	 MIME-Version; b=HGrrg1r321Wcov2Mc6/bZkLq9BCdsnBOBgx1ZivOuLe+wq5v4V73AZq3gWd6hmXXdmHt10buaQbDjP180MYPX5Dkqx34Q6GttQvC5iIWMonJdoCSID4STZRJEcbIkRY6DBKgjwlvh1S75d7U4woA7ZA8wlMsUw6wNKoQxawm0ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IrKLNEEN; arc=none smtp.client-ip=209.85.128.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GndOmbcX"
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-65890a6ca20so849061d50.0
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 17:52:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IrKLNEEN"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7ca947f9b00so477917b3.0
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 17:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778892752; x=1779497552; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778892755; x=1779497555; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wmT6br8rzgsL/Aos2iiX0KSGLlk/N4FMdvjcXM3+Tgg=;
-        b=GndOmbcXIEVvIgIRGXg++YXk3gMm4+SdNeKc4DAMG4L6dN4J1O54Y/P0O7ftSoqCvT
-         OOiL3g3KnkAjGqnf3p1xTIvxJUyNOz2rPz8rpid9aBsTio5EpY8Sn7prjlY4yuoaWtdR
-         Qs7874b0PC75z7+P3wLxEsSJYeb8pYkdVldWQclTHrnybyk8eLZKcExVy125tcAnUEq0
-         fnAbLPeq6XWobtdzAWsineLFFmWZej8SgqrLTiYtmMKM586eEtgeTSIgG6r7UPlb7iiA
-         OJGmLszkgzR6yVhKREESNQCfuUyO0M3nZ0rLsIE30bPrWTPY82ItyIaGNuKt33Kx8PWj
-         sxoA==
+        bh=UIb2EQ0qB0qDKDILIVr7WEUoUFQaHrTDE6xGfjzccqE=;
+        b=IrKLNEEN7tjJl0OqhhBJxyLdmsqIxCJO1lVuDdAQTLXZfLBTniwI6atD8avREhqNTM
+         4Po7LTrohhumv1NfSibxxQdolB7vPra0vhv86Y9OKYmzUiQdFOZuouVLHX2p/IoOoghA
+         Wwph00bMdJaRSYqIYEkFqJY3rk/cB2lKwdS4pjG0SoxcvcN2M/AXowYI5kgi7QMmn8VU
+         FtWSr04iW6NrNUEqBFtx+LlWeG6qaKPTNkyXOy1h17q/KA/PiUVzBBsoCbEkcBw4wzRv
+         wbczdS6R5vfOF/ZeA0sIHnvsFUVJfSU7ZLDtRSL7A1q1lWG75Mj6D1Tw9n1ZfsDgtIDS
+         EF6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778892752; x=1779497552;
+        d=1e100.net; s=20251104; t=1778892755; x=1779497555;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=wmT6br8rzgsL/Aos2iiX0KSGLlk/N4FMdvjcXM3+Tgg=;
-        b=Wr1z40e/qUfPWsPtV+DOc7BsTt3y8q2gLUIicHW6L9SGNWGbrKNAYEaT2YnS3xSFI0
-         y8epcXAN9UTFj9T6BjQzrDwDfSZDjHTuyh7AlL/Oqug9qW2PERAmfX1OglM4t2BXVI9F
-         WaM3Vu7l6tv+kzQu98/Wox3Pm0ghfX4C3Q+zuV2jojanovmapyMi8zaODpZEXIg7a9EP
-         uGtuovbarfN/odm6Jpe/A5dQAz/6hT5fDs2cDrKui3AtpY85g6W0abaoWBI60Oz0GlCM
-         l61TJ+OX5GPilqzi2rLfEh5f0RFOVGVmyiKV3mACu6dUVI+OgmeRxKBDHYcNLWSS2zjN
-         S1/g==
-X-Gm-Message-State: AOJu0Yxq4gBmZ9mhE3rnkLbLAcUzwRPcP/EN0ZoOu2QKYGdYhrRxPYi0
-	b9JOWybaJBJpb5IGUpg4VUsTlfWeRXw7vtJCyjQBBp/vaKtko82r0yEN
-X-Gm-Gg: Acq92OG+OligAbM1L3JuYYApgB3W9jW92vt93KWg8Y59AopPU7i8thdIXG216+eH7ee
-	irM4XYML5zspETX74GT8J/x7xEiIOqW2ue8SD9kgl47khh2bZLVD9IUfNk3RauQhDkE/eUi4sXM
-	Da8v0gzGAmk01k/UeQajcPKPp0O5haSUJUMHE++eFDDjcCKyeULsffwh8nFm6IWxAOPeRUxQX5X
-	NQcTyRcFjzetXyPnPnIHXlbM1W7i5PjFWrXHMKl2/2XpacfcLNO4XqBnVZQSl3MZHFeGxDap+cQ
-	yNFPU6+52v0qh+PcLKVyMDTf8DfK/RfG2Vj/0rD72Jng7Gn5tFiTgGfBj+D2e0ZQjn/v8l6uTQQ
-	jq+b0swX44OBj0il2TBGQypMl98Hr3vWx796eP+rlTFooC0WdqrimmbGqGQsQPSMwE8CQjlgglw
-	WIthtIGpK7XG8uGhmucLyp
-X-Received: by 2002:a53:c049:0:10b0:650:dbd:6f83 with SMTP id 956f58d0204a3-65e22825847mr5927369d50.48.1778892752241;
-        Fri, 15 May 2026 17:52:32 -0700 (PDT)
-Received: from localhost ([2a03:2880:f806:21::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65e0db0b134sm3280844d50.13.2026.05.15.17.52.31
+        bh=UIb2EQ0qB0qDKDILIVr7WEUoUFQaHrTDE6xGfjzccqE=;
+        b=YCRzB5nJ+rsUe3E6/PDI3N4hm7pcV20vklXKyRaqnIev/hyl3TArVCV2M12CUYsbrU
+         1iG4Cv2zsieMLVFJWt9uhS3aWWezMTZFU0cyxzw+3uQppa/6+UyZwwtwKz/1eWFtmGpM
+         DFUvW4RlsM2/naH/vOr3xSEBfN0Hm3butt0KZYwjxURGF1wLkg+lf+RPGwDjh/eH8av+
+         uMC5STn4cdLleLLbZF3hqqhyhndnmEt9KqDXlVnLaHzwcHR+rn3lIeLjXvUiycvUMJq1
+         gjWO9QlKsb6SvwO6aNCtrSe2tIpC8JMPvq15uZbSSgxttJDpAZZOtev6jMZ3fDVpMe0D
+         NUyQ==
+X-Gm-Message-State: AOJu0YyarRmjKON1dVZ7bq9GW5aB9Dyj87KajcFvoANLlrXx8Qo2fISW
+	haQQU7SYY5H5e8KiXk37s+LWHeW4w0/ExzwvY4a+y+snXHywoQFsKPXx
+X-Gm-Gg: Acq92OG7PWCjMflnuzNUCwxMdqXehDa7VqRCtRIhWuV2JtmkaJTTQlv6ECp83Xyljdb
+	0+2Suu2E4CfEiYMROwt2RsxPXonIR/zcCcGmAl9dwADUGjN30I0WGiaILUHAN87zgtHtWFUebHc
+	RqOe1daNogRZgb+RdZqcoh0TaY+7bnWHdgBnQL+5JBB/KLXKcWDDgageISmD1/trcOEdK2QEGSN
+	uiYLf7xJtxqGDHP+fzy+K41hjrS1nzUWT1Pz7htGczDIC0ZGU7rN3gNwHq3ZLDlteRnG869Zese
+	pD3KBJhk0yEJLUDcWNW6Brvbq0RDKKziKuesitUZ275UnxNgB1YXp9twZ/a4k8iE64PUGbgMHUA
+	UzoJ7resz8W+/i5mxrECfClBWqbszmR1zdJrY5+nm8gi5NF1LXOr+HUlj3wZmdCDuGqs48YB+Tv
+	e/+dGxEC/sBxkfjOoaE/CDr4PtcidQKA==
+X-Received: by 2002:a05:690c:c50c:b0:798:4f55:2c5e with SMTP id 00721157ae682-7c95b82a6f4mr71818887b3.30.1778892754640;
+        Fri, 15 May 2026 17:52:34 -0700 (PDT)
+Received: from localhost ([2a03:2880:f806:e::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c955d8d3aesm21318587b3.30.2026.05.15.17.52.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 17:52:31 -0700 (PDT)
+        Fri, 15 May 2026 17:52:34 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: amir73il@gmail.com,
 	miklos@szeredi.hu
 Cc: fuse-devel@lists.linux.dev,
 	linux-unionfs@vger.kernel.org
-Subject: [PATCH v2 06/21] fuse: implement passthrough for getattr/statx
-Date: Fri, 15 May 2026 17:39:49 -0700
-Message-ID: <20260516004004.1455526-7-joannelkoong@gmail.com>
+Subject: [PATCH v2 07/21] fuse: prepare to setup backing inode passthrough on lookup
+Date: Fri, 15 May 2026 17:39:50 -0700
+Message-ID: <20260516004004.1455526-8-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260516004004.1455526-1-joannelkoong@gmail.com>
 References: <20260516004004.1455526-1-joannelkoong@gmail.com>
@@ -78,169 +78,183 @@ Content-Transfer-Encoding: 8bit
 
 From: Amir Goldstein <amir73il@gmail.com>
 
-Call vfs_getattr() on backing inode to respond to a user statx(2)
-request and update the fuse inode attributes with the response.
+Add a helper for requesting to associate a backing inode for inode
+passthrough operations.
 
-For now, we assume that calling vfs_getattr() on backing inode is cheap,
-so we never use cached attributed and always update fuse inode
-attributes from backing attributes in fuse_permission() and
-fuse_update_attributes().
+This helper is expected to be used to setup backing inode on lookup
+response.
+
+The minimal requirement for the backing inode is to support the
+GETATTR passthrough op.
+
+Unlike setting of passthrough from open, this mapping is created for
+the entire lifetime of the inode and cannot be changed later.
 
 Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/fuse/dir.c             | 32 ++++++++++++++++++++++++++++++++
- fs/fuse/fuse_i.h          |  8 +++++++-
- fs/fuse/passthrough.c     | 36 ++++++++++++++++++++++++++++++++++++
- include/uapi/linux/fuse.h |  1 +
- 4 files changed, 76 insertions(+), 1 deletion(-)
+ fs/fuse/backing.c     | 32 ++++++++++++++++++++------------
+ fs/fuse/fuse_i.h      |  6 ++++--
+ fs/fuse/iomode.c      | 43 +++++++++++++++++++++++++++++++++++++++++++
+ fs/fuse/passthrough.c | 12 +++++-------
+ 4 files changed, 72 insertions(+), 21 deletions(-)
 
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 05f69b8fa4c4..9a8e525f4d2b 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -1414,6 +1414,28 @@ static void fuse_statx_to_attr(struct fuse_statx *sx, struct fuse_attr *attr)
- 	attr->blksize = sx->blksize;
+diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+index 52fccb9ff283..2234ab47406a 100644
+--- a/fs/fuse/backing.c
++++ b/fs/fuse/backing.c
+@@ -17,6 +17,26 @@ struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
+ 	return NULL;
  }
  
-+void fuse_kstat_to_attr(struct fuse_conn *fc, const struct kstat *stat,
-+			struct fuse_attr *attr)
++/*
++ * Get fuse backing object by backing id.
++ *
++ * Returns an fb object with elevated refcount to be stored in fuse inode.
++ */
++struct fuse_backing *fuse_backing_id_get(struct fuse_conn *fc, int backing_id)
 +{
-+	memset(attr, 0, sizeof(*attr));
++	struct fuse_backing *fb;
 +
-+	attr->ino = stat->ino;
-+	attr->size = stat->size;
-+	attr->blocks = stat->blocks;
-+	attr->atime = stat->atime.tv_sec;
-+	attr->mtime = stat->mtime.tv_sec;
-+	attr->ctime = stat->ctime.tv_sec;
-+	attr->atimensec = stat->atime.tv_nsec;
-+	attr->mtimensec = stat->mtime.tv_nsec;
-+	attr->ctimensec = stat->ctime.tv_nsec;
-+	attr->mode = stat->mode;
-+	attr->nlink = stat->nlink;
-+	attr->uid = from_kuid(fc->user_ns, stat->uid);
-+	attr->gid = from_kgid(fc->user_ns, stat->gid);
-+	attr->rdev = new_encode_dev(MKDEV(MAJOR(stat->rdev), MINOR(stat->rdev)));
-+	attr->blksize = stat->blksize;
++	if (backing_id <= 0)
++		return ERR_PTR(-EINVAL);
++
++	rcu_read_lock();
++	fb = idr_find(&fc->backing_files_map, backing_id);
++	fb = fuse_backing_get(fb);
++	rcu_read_unlock();
++
++	return fb;
 +}
 +
- static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
- 			 struct file *file, struct kstat *stat)
+ static void fuse_backing_free(struct fuse_backing *fb)
  {
-@@ -1539,6 +1561,12 @@ static int fuse_update_get_attr(struct mnt_idmap *idmap, struct inode *inode,
- 	if (fc->no_statx)
- 		request_mask &= STATX_BASIC_STATS;
+ 	pr_debug("%s: fb=0x%p\n", __func__, fb);
+@@ -178,15 +198,3 @@ int fuse_backing_close(struct fuse_conn *fc, int backing_id)
  
-+	if (fuse_passthrough_op(inode, FUSE_GETATTR)) {
-+		forget_all_cached_acls(inode);
-+		return fuse_passthrough_getattr(inode, stat, request_mask,
-+						flags);
-+	}
-+
- 	if (!request_mask)
- 		sync = false;
- 	else if (flags & AT_STATX_FORCE_SYNC)
-@@ -1737,6 +1765,10 @@ static int fuse_perm_getattr(struct inode *inode, int mask)
- 		return -ECHILD;
- 
- 	forget_all_cached_acls(inode);
-+	if (fuse_passthrough_op(inode, FUSE_GETATTR))
-+		return fuse_passthrough_getattr(inode, NULL,
-+						STATX_BASIC_STATS, 0);
-+
- 	return fuse_do_getattr(&nop_mnt_idmap, inode, NULL, NULL);
+ 	return err;
  }
- 
+-
+-struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id)
+-{
+-	struct fuse_backing *fb;
+-
+-	rcu_read_lock();
+-	fb = idr_find(&fc->backing_files_map, backing_id);
+-	fb = fuse_backing_get(fb);
+-	rcu_read_unlock();
+-
+-	return fb;
+-}
 diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 502b3b3f7e89..389e28497dc7 100644
+index 389e28497dc7..9e5142a94a09 100644
 --- a/fs/fuse/fuse_i.h
 +++ b/fs/fuse/fuse_i.h
-@@ -991,6 +991,8 @@ void fuse_init_symlink(struct inode *inode);
- /*
-  * Change attributes of an inode
-  */
-+void fuse_kstat_to_attr(struct fuse_conn *fc, const struct kstat *stat,
-+			struct fuse_attr *attr);
- void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
- 			    struct fuse_statx *sx,
- 			    u64 attr_valid, u64 attr_version);
-@@ -1274,7 +1276,8 @@ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
- 	(FUSE_PASSTHROUGH_RW_OPS | FUSE_PASSTHROUGH_OP_READDIR)
+@@ -1289,7 +1289,7 @@ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+ #ifdef CONFIG_FUSE_PASSTHROUGH
+ struct fuse_backing *fuse_backing_get(struct fuse_backing *fb);
+ void fuse_backing_put(struct fuse_backing *fb);
+-struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id);
++struct fuse_backing *fuse_backing_id_get(struct fuse_conn *fc, int backing_id);
+ #else
  
- /* Inode passthrough operations for backing file attached to inode */
--#define FUSE_PASSTHROUGH_INODE_OPS (0)
-+#define FUSE_PASSTHROUGH_INODE_OPS \
-+	(FUSE_PASSTHROUGH_OP_GETATTR)
+ static inline struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
+@@ -1300,7 +1300,7 @@ static inline struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
+ static inline void fuse_backing_put(struct fuse_backing *fb)
+ {
+ }
+-static inline struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc,
++static inline struct fuse_backing *fuse_backing_id_get(struct fuse_conn *fc,
+ 						       int backing_id)
+ {
+ 	return NULL;
+@@ -1353,6 +1353,8 @@ ssize_t fuse_passthrough_splice_write(struct pipe_inode_info *pipe,
+ ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma);
+ int fuse_passthrough_readdir(struct file *file, struct dir_context *ctx);
  
- #define FUSE_BACKING_MAP_OP(map, op) \
- 	((map)->ops_mask & FUSE_PASSTHROUGH_OP(op))
-@@ -1358,6 +1361,9 @@ static inline bool fuse_passthrough_op(struct inode *inode, enum fuse_opcode op)
- 	return fb && fb->ops_mask & FUSE_PASSTHROUGH_OP(op);
++int fuse_inode_set_passthrough(struct inode *inode, int backing_id);
++
+ static inline bool fuse_passthrough_op(struct inode *inode, enum fuse_opcode op)
+ {
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+index 6e2ddfe384b3..3483aaec698e 100644
+--- a/fs/fuse/iomode.c
++++ b/fs/fuse/iomode.c
+@@ -181,6 +181,49 @@ static void fuse_file_uncached_io_release(struct fuse_file *ff,
+ 	fuse_inode_uncached_io_end(inode);
  }
  
-+int fuse_passthrough_getattr(struct inode *inode, struct kstat *stat,
-+			     u32 request_mask, unsigned int flags);
-+
- #ifdef CONFIG_SYSCTL
- extern int fuse_sysctl_register(void);
- extern void fuse_sysctl_unregister(void);
-diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-index a1d87ed51a94..7de038960b2f 100644
---- a/fs/fuse/passthrough.c
-+++ b/fs/fuse/passthrough.c
-@@ -219,3 +219,39 @@ void fuse_passthrough_release(struct fuse_file *ff, struct fuse_backing *fb)
- 	put_cred(ff->cred);
- 	ff->cred = NULL;
- }
-+
-+/*
-+ * Inode passthrough operations for backing file attached on lookup.
-+ */
-+int fuse_passthrough_getattr(struct inode *inode, struct kstat *stat,
-+			     u32 request_mask, unsigned int flags)
++/* Setup passthrough for inode operations without an open file */
++int fuse_inode_set_passthrough(struct inode *inode, int backing_id)
 +{
 +	struct fuse_conn *fc = get_fuse_conn(inode);
 +	struct fuse_inode *fi = get_fuse_inode(inode);
-+	struct fuse_backing *fb = fuse_inode_backing(fi);
-+	u64 attr_version = fuse_get_attr_version(fc);
-+	const struct path *fb_path = &fb->file->f_path;
-+	const struct cred *old_cred;
-+	struct kstat backing_stat;
-+	struct fuse_attr attr;
++	struct fuse_backing *current_fb, *fb;
 +	int err;
 +
-+	if (!stat)
-+		stat = &backing_stat;
++	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) || !fc->passthrough_ino)
++		return 0;
 +
-+	old_cred = override_creds(fb->cred);
-+	err = vfs_getattr(fb_path, stat, request_mask, flags);
-+	revert_creds(old_cred);
-+	if (err)
++	fb = fuse_backing_id_get(fc, backing_id);
++	if (IS_ERR_OR_NULL(fb)) {
++		err = fb ? PTR_ERR(fb) : -ENOENT;
++		fb = NULL;
++		goto fail;
++	}
++
++	current_fb = fuse_inode_backing(fi);
++	if (current_fb) {
++		/* Different backing file on same inode is not allowed */
++		err = current_fb == fb ? 0 : -EBUSY;
++		fuse_backing_put(fb);
 +		return err;
++	}
 +
-+	/* Always override st_dev and st_ino with FUSE dev and ino */
-+	stat->dev = inode->i_sb->s_dev;
-+	stat->ino = inode->i_ino;
++	/* Backing inode requires at least GETATTR op passthrough */
++	err = -EOPNOTSUPP;
++	if (!(fb->ops_mask & FUSE_PASSTHROUGH_OP_GETATTR))
++		goto fail;
 +
-+	/* Fill fuse inode attrs from backing inode stat */
-+	fuse_kstat_to_attr(fc, stat, &attr);
-+	fuse_change_attributes(inode, &attr, NULL, 0, attr_version);
++	err = fuse_inode_uncached_io_start(inode, NULL, fb);
++	if (err)
++		goto fail;
 +
 +	return 0;
++fail:
++	fuse_backing_put(fb);
++	pr_debug("failed to setup backing inode (ino=%lu, backing_id=%d, err=%i).\n",
++		 inode->i_ino, backing_id, err);
++	return err;
 +}
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index df366e390f0c..6404ed95c758 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -1143,6 +1143,7 @@ struct fuse_backing_map {
- #define FUSE_PASSTHROUGH_OP_READ	FUSE_PASSTHROUGH_OP(FUSE_READ)
- #define FUSE_PASSTHROUGH_OP_WRITE	FUSE_PASSTHROUGH_OP(FUSE_WRITE)
- #define FUSE_PASSTHROUGH_OP_READDIR	FUSE_PASSTHROUGH_OP(FUSE_READDIR)
-+#define FUSE_PASSTHROUGH_OP_GETATTR	FUSE_PASSTHROUGH_OP(FUSE_GETATTR)
++
+ /*
+  * Open flags that are allowed in combination with FOPEN_PASSTHROUGH.
+  * A combination of FOPEN_PASSTHROUGH and FOPEN_DIRECT_IO means that read/write
+diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+index 7de038960b2f..f2025772c9c1 100644
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -181,14 +181,12 @@ struct fuse_backing *fuse_passthrough_open(struct file *file, int backing_id)
+ 	struct file *backing_file;
+ 	int err;
  
- /* Device ioctls: */
- #define FUSE_DEV_IOC_MAGIC		229
+-	err = -EINVAL;
+-	if (backing_id <= 0)
+-		goto out;
+-
+-	err = -ENOENT;
+-	fb = fuse_backing_lookup(fc, backing_id);
+-	if (!fb)
++	fb = fuse_backing_id_get(fc, backing_id);
++	if (IS_ERR_OR_NULL(fb)) {
++		err = fb ? PTR_ERR(fb) : -ENOENT;
++		fb = NULL;
+ 		goto out;
++	}
+ 
+ 	/* Allocate backing file per fuse file to store fuse path */
+ 	backing_file = backing_file_open(&file->f_path, file->f_flags,
 -- 
 2.52.0
 
