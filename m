@@ -1,70 +1,70 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4E733987
-	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 00:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 165F025228D
+	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 00:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778892783; cv=none; b=A3uEQSanvfxtQH4/pzP9Z1qTu7+vsOK0PmJDqqeuXyDKRRuEHrrJzvjSan/ieUL3JtGqxCDZ+/Zo/lFnvnQ4xfgcgHD4Al9069lrkQ8ik+B1wqss9WJKvNgyv1QW481BJ4owa/3hJtjlIYC79xUqkNViZzInnPVVvf0A8f5Js94=
+	t=1778892786; cv=none; b=pNXerlTff7r1x1O9w8wGkdLdGoAqkKPZvSHPnSsyMXhT/6NdDimDtY0ZXCWA7T0Lj0xH096RzWH1qFdfXfyvs39rcAA9g5XlVKq61w40jCan5VtQS0xLfjxaTqvPyW1LzULzpfl7dxnlGF95simk6IU4BFlEaxc783f7A6CNa98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778892783; c=relaxed/simple;
-	bh=83QXb2H8zEYU3YJc6kqnJMkvfyLtCVBTo3qBBCSFH80=;
+	s=arc-20240116; t=1778892786; c=relaxed/simple;
+	bh=pB/iMarwsGvZxdwSqwkF0CCgm1K7/63lXSX7V3m4wBU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rDbVlMV0sQ7nRT13WS/Qi/TswskE9RjPZWg17n3Cg2CARQvPFB3PtugeVv2nJmBfxzpRi0mRWL3RUuNIV9L5EqxlRPQfViJgNnFVN90tqosmXG0YZJEFQukrrnKeozZvqf+govkkvBn+F91KdwpHZsxNg9jSfDEXKoQBCG+U904=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qnZ95gr2; arc=none smtp.client-ip=74.125.224.49
+	 MIME-Version; b=mUn50z0PPXj2vQIMItED10fwG8MTmaS+BjwY8IAy+Tu6t6BR1QCBkCXIK+2RbqQCLQNl0aGA1msEG/LGFWQDdNF+Xuz+Fp8YjMPADHt0+omETQFQyeubYUj4gDNRWbhNjrpoktsGGslY0vGUst9Ojk7iEM2nfoL0RqjjfLk1o38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JLlmb0b9; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qnZ95gr2"
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-651d6347a69so2786453d50.0
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 17:53:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JLlmb0b9"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7bdf83185bbso506947b3.2
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 17:53:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778892781; x=1779497581; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778892784; x=1779497584; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=n0otT9kXQRrcjcRWqrPsgABEM99e3TKRKPZ1SqOUbyY=;
-        b=qnZ95gr2nNNUqlshmxucCYigDXEmx250XvP9pd3XoHQrx0EC5LWMfzPzZxVEavqIyU
-         f0Rwq/sBdVzu0sP17ipVJMDXhODteLAd4E3u7SmxEAw3dNiSQj5yW5gSEmBlTqjNV62V
-         9Q6huOh0DTYtBvgHISuXRK/0HGUVKFseAfpY0OblTLc/27gqYwAjrDTJMsvPaUp878QE
-         PrpjH21uO5m/mNEcAseEm/HOrPBA+qO7mJ38fu4LkJ4HIiwH7ihoNJA8XO7fWiV1xq3c
-         0R50ZRW0vQuxTrpN1wdMPeH/5bGBke9F6f68Rk9W0841LjqYs8pPNLWgRY0kT09Q8w9x
-         WLaQ==
+        bh=Aw3LBRGJ21Qgcn+sxKL5AGoP01BrPzR1EMWQXzshZ7M=;
+        b=JLlmb0b92uusIwBTaJMGNTDecgLxO2ax1SkKmQOwXJsfZgal99r+vWuWubqdw9X6Zc
+         Z0XneYDjGOqhxASqpcF7YCvx1Ctze14evv3/DxpNU9Ir7XaOVRtZav1ar0De13wl0xMR
+         /KsbWqFJx66xdC0VU03LXNGJavJEQptoHlApt/CKd04nJNj9QWhmW41LDqOqHkmhTILo
+         8n22BwWV/39gd48pjz9K/dnBwHCFTEiCAgA9TNquqiZfW1+ud0VsfiuVo4mKJjQQLj7g
+         lJQ+ELiWmXE4JAcu/rTHgRcEVSwfcRkkFb0GUuCkobacaDwAaVNaJm+ek5ENsoGtHRSb
+         vcEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778892781; x=1779497581;
+        d=1e100.net; s=20251104; t=1778892784; x=1779497584;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=n0otT9kXQRrcjcRWqrPsgABEM99e3TKRKPZ1SqOUbyY=;
-        b=ioUrH9VGFOLwqpsnZODAic05dcGlRKXazqvsRDNSQcquHLZE5HWyd5iaKs2tD7O6KH
-         EmA8xyGSCUwYkII7PbJY3i4KHwEQYL1PY41T9tzGyaz5G7cP4n9mwFMta3l9VsXVrpgB
-         RCFT7xBmLCTngEqb23fPeZpddYumPjZMXfE4fcFy7kYYucdBQQ5JRW/Kx6Mt+lRmtpzd
-         d6cfzqcMf9Q/OXszGPBaACLi+x0bI+rZ50FFpnU0FhCbMl/BHD3GlgBw/str2V9ubsqH
-         O3Sa5FrySXWkycN3WNXRHJLBsIocEiLgqBzIEAtWRXqXBNq4QKTyQK/iKMdfV7hEgd+O
-         bF3Q==
-X-Gm-Message-State: AOJu0Yzdyl5+xB7qPUsfDuEdgnsLG7fyoyIg91yGxMdviNi7/cAze33u
-	G5+QqFHZJfvlpfVssL1Zz6Nowj8v/evTryJLOBusevj8vVy6EXioQJhu
-X-Gm-Gg: Acq92OEg7PzlAp+ojDTXN52/3EM9aHfOP1mtmcgsIwch4nwCtApSjT53phOHI4J9cIo
-	1Fc8uXXPQnVwBRdOvdLag9MFbb5GIuicUIp2AsoYKuc2XCMmnOQh2tBu6dpWRem6Ukt3KwvmpAQ
-	OVG3FXJkXC2uiUV/m5z0QlOFXlJqMO0BgaAV0cCDoNahVhnaEkSamGmu3I1gVRUUsybR9JEmOMI
-	jDlWCDontluZF6Bu78na4WBZ3oeJHW1CwB6XBzKbY+EUTlgGyjMQsV1Mp9TKkdyW1EBgNsjElnM
-	r4bTFHneomZCZcL770XN6hhXLHkkzoAtIrYPYQHSZn/dNCJSQDJJ2p/7IzixIdfFpHF+Ixku1w5
-	/SAjM8u5p7tCZBzM+L5hHXdYNe987deh7/HN2L0fJlNH7XYAkFvmGO2VAbOgPqZdhVWAUrBwn2W
-	KC9rbWTT6CrzVneteC4peHZPq5aYAQ1gU=
-X-Received: by 2002:a05:690e:250b:10b0:657:a6a4:6ee2 with SMTP id 956f58d0204a3-65e21483a73mr4552396d50.3.1778892780961;
-        Fri, 15 May 2026 17:53:00 -0700 (PDT)
-Received: from localhost ([2a03:2880:f806:1f::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65e0dbcda4bsm3285218d50.18.2026.05.15.17.53.00
+        bh=Aw3LBRGJ21Qgcn+sxKL5AGoP01BrPzR1EMWQXzshZ7M=;
+        b=mKIojaKFeURZSUnEU+Pd37whS0FaVKh8JX6dABYE5sPABl8xdw8+1h4GlXR7TIYFAf
+         aAIN1i3vjMRtapB9SI/PuAwYtNZuAQYiLB4n0GhKoPT0k7fnvF5PAStMY1KHxQVGqZLd
+         P/Dau58d6x2ewPrGJ+zD/q/YMIq6eHWUQR4/BzkXqA7QFz+6TnmLtOPSoHDnbFZTJGXR
+         S5oQov5Ima16YDNNAJaNghA9Wznnfe7xMlO4PN97rxo75cI3dWNqbOjpky4hFHObYMdY
+         iQbtjXHs6zfxdkvak/KY5o15XwE+eX2j/tNN0rbDoxH7TQcfK9L6tf91N5SWhcPtbs6y
+         c5cQ==
+X-Gm-Message-State: AOJu0YyKPzP7e4yQtLgdZBrR6Bfcx8KPd5/i1enW8PASJGhhB+TodcQm
+	5o3gNy5z5d2iKSEivDxu5v4QzgQwq+yTHk7R5/o+N3y2fmbDd9FNj5fl19mW8nYU
+X-Gm-Gg: Acq92OGyR2e9FCKScNTzL15n3mVz5bks32BODtbhxw9MGw7V416qqomcCgDYcyF5Tu+
+	uA4wih/Wav4jcYIz+O2ymJqxv4bquNcKUEsn2SQQI8E01HyRSUtDAvLwlnkAAgJ0WsZjItI6tvl
+	yd1yCt+O2mXKqytEOVnBS7mmkmxJuYgD/horn3ivNFscIAOnxyFsrYWojo9+hwgxwcosQ7UBGUM
+	1ZFXgu//87/edNjBv7DzdAazkYqPJ2r+2vCldvA/Hj4p7CyBhjnX1SH/MvhzxuhKG91XJCE9vt9
+	p6rZiJeyTLF79xB9QJJ6zK2TF6ZCRJOh0Wy1ZVWriLLmXLRsz8lpJf9QCzO3IE/jNGgwDW6QYWf
+	f/d25ktcA0wce5ebjuGnOXxVMerwbyBgAArPAud+5u4OcreZYqxqCiDQGMtTcz3HI4W2cRhBUyj
+	LRl3JB6W5VTbJZP32aolQ=
+X-Received: by 2002:a05:690c:6e85:b0:7bd:b0a0:509c with SMTP id 00721157ae682-7c95b8260e6mr71533377b3.28.1778892784146;
+        Fri, 15 May 2026 17:53:04 -0700 (PDT)
+Received: from localhost ([2a03:2880:f806:b::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c7f5aa24fesm36502657b3.42.2026.05.15.17.53.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 17:53:00 -0700 (PDT)
+        Fri, 15 May 2026 17:53:03 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: amir73il@gmail.com,
 	miklos@szeredi.hu
 Cc: fuse-devel@lists.linux.dev,
 	linux-unionfs@vger.kernel.org
-Subject: [PATCH v2 17/21] backing-inode: add backing_inode_copyattr()
-Date: Fri, 15 May 2026 17:40:00 -0700
-Message-ID: <20260516004004.1455526-18-joannelkoong@gmail.com>
+Subject: [PATCH v2 18/21] backing-inode: add backing_inode_setattr()
+Date: Fri, 15 May 2026 17:40:01 -0700
+Message-ID: <20260516004004.1455526-19-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260516004004.1455526-1-joannelkoong@gmail.com>
 References: <20260516004004.1455526-1-joannelkoong@gmail.com>
@@ -76,155 +76,189 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move logic in ovl_copyattr() to a generic backing_inode_copyattr()
-function in a new fs/backing-inode.c, which other filesystems that use
-backing inodes (eg fuse passthrough) will use.
+Move logic in ovl_setattr() to a generic backing_inode_setattr() function
+in fs/backing-inode.c, which other filesystems that use backing inodes
+(eg fuse passthrough) will use.
 
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/Makefile                   |  2 +-
- fs/backing-inode.c            | 43 +++++++++++++++++++++++++++++++++++
- fs/overlayfs/util.c           | 33 +++------------------------
- include/linux/backing-inode.h | 14 ++++++++++++
- 4 files changed, 61 insertions(+), 31 deletions(-)
- create mode 100644 fs/backing-inode.c
- create mode 100644 include/linux/backing-inode.h
+ fs/backing-inode.c            | 54 ++++++++++++++++++++++++++++
+ fs/overlayfs/inode.c          | 66 ++++++++++-------------------------
+ include/linux/backing-inode.h |  4 +++
+ 3 files changed, 76 insertions(+), 48 deletions(-)
 
-diff --git a/fs/Makefile b/fs/Makefile
-index cf4a745e9679..3f8a227d4938 100644
---- a/fs/Makefile
-+++ b/fs/Makefile
-@@ -40,7 +40,7 @@ obj-$(CONFIG_COMPAT_BINFMT_ELF)	+= compat_binfmt_elf.o
- obj-$(CONFIG_BINFMT_ELF_FDPIC)	+= binfmt_elf_fdpic.o
- obj-$(CONFIG_BINFMT_FLAT)	+= binfmt_flat.o
- 
--obj-$(CONFIG_FS_STACK)		+= backing-file.o
-+obj-$(CONFIG_FS_STACK)		+= backing-file.o backing-inode.o
- obj-$(CONFIG_FS_MBCACHE)	+= mbcache.o
- obj-$(CONFIG_FS_POSIX_ACL)	+= posix_acl.o
- obj-$(CONFIG_NFS_COMMON)	+= nfs_common/
 diff --git a/fs/backing-inode.c b/fs/backing-inode.c
-new file mode 100644
-index 000000000000..474770a1fa9d
---- /dev/null
+index 474770a1fa9d..e72f278789d8 100644
+--- a/fs/backing-inode.c
 +++ b/fs/backing-inode.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Common helpers for stackable filesystems and backing inodes.
-+ */
-+
-+#include <linux/backing-inode.h>
-+
-+/*
-+ * backing_inode_copyattr - copy inode attributes from a backing inode
-+ *
-+ * When a filesystem copies inode information from a backing layer to its own
-+ * inode, it applies the idmapping of the backing mount, ensuring that
-+ * the inode ownership will correctly reflect the ownership of the idmapped
-+ * backing mount. For example, an idmapped backing mount mapping id 1001 to id
-+ * 1000 will take care to map any backing inode owned by id 1001 to id 1000.
-+ * These mapping helpers are nops when the backing mount isn't idmapped.
-+ */
-+void backing_inode_copyattr(struct inode *inode,
-+			    const struct path *backing_path)
+@@ -41,3 +41,57 @@ void backing_inode_copyattr(struct inode *inode,
+ }
+ EXPORT_SYMBOL_GPL(backing_inode_copyattr);
+ 
++int backing_inode_setattr(struct dentry *dentry,
++			  const struct path *backing_path,
++			  struct iattr *attr, const struct cred *cred)
 +{
-+	struct inode *realinode;
-+	struct mnt_idmap *real_idmap;
-+	vfsuid_t vfsuid;
-+	vfsgid_t vfsgid;
++	struct dentry *backing_dentry = backing_path->dentry;
++	struct inode *winode = NULL;
++	int err;
 +
-+	realinode = d_inode_rcu(backing_path->dentry);
-+	real_idmap = mnt_idmap(backing_path->mnt);
++	if (attr->ia_valid & ATTR_SIZE) {
++		winode = d_inode(backing_dentry);
++		err = get_write_access(winode);
++		if (err)
++			return err;
++	}
 +
-+	spin_lock(&inode->i_lock);
-+	vfsuid = i_uid_into_vfsuid(real_idmap, realinode);
-+	vfsgid = i_gid_into_vfsgid(real_idmap, realinode);
++	/*
++	 * Clear ATTR_MODE to avoid BUG_ON in notify_change(), which does not
++	 * allow ATTR_MODE together with ATTR_KILL_SUID/SGID (the first
++	 * notify_change() converted ATTR_KILL_SUID/SGID into ATTR_MODE using
++	 * @dentry's inode mode).
++	 *
++	 * This also ensures notify_change() recomputes the mode from the
++	 * backing inode's current mode, instead of a potentially stale value
++	 * from @dentry's inode.
++	 */
++	if (attr->ia_valid & (ATTR_KILL_SUID|ATTR_KILL_SGID))
++		attr->ia_valid &= ~ATTR_MODE;
 +
-+	inode->i_uid = vfsuid_into_kuid(vfsuid);
-+	inode->i_gid = vfsgid_into_kgid(vfsgid);
-+	inode->i_mode = realinode->i_mode;
-+	inode_set_atime_to_ts(inode, inode_get_atime(realinode));
-+	inode_set_mtime_to_ts(inode, inode_get_mtime(realinode));
-+	inode_set_ctime_to_ts(inode, inode_get_ctime(realinode));
-+	i_size_write(inode, i_size_read(realinode));
-+	spin_unlock(&inode->i_lock);
++	/*
++	 * The filesystem's file is not meaningful to the backing filesystem.
++	 * Clear ATTR_FILE so the backing filesystem does not try to use it.
++	 */
++	attr->ia_valid &= ~ATTR_FILE;
++
++	err = mnt_want_write(backing_path->mnt);
++	if (err)
++		goto out_put_write;
++
++	inode_lock(backing_dentry->d_inode);
++	scoped_with_creds(cred)
++		err = notify_change(mnt_idmap(backing_path->mnt),
++				    backing_dentry, attr, NULL);
++	if (!err)
++		backing_inode_copyattr(dentry->d_inode, backing_path);
++	inode_unlock(backing_dentry->d_inode);
++	mnt_drop_write(backing_path->mnt);
++
++out_put_write:
++	if (winode)
++		put_write_access(winode);
++
++	return err;
 +}
-+EXPORT_SYMBOL_GPL(backing_inode_copyattr);
-+
-diff --git a/fs/overlayfs/util.c b/fs/overlayfs/util.c
-index 3f1b763a8bb4..3e7d66c26c10 100644
---- a/fs/overlayfs/util.c
-+++ b/fs/overlayfs/util.c
-@@ -16,6 +16,7 @@
++EXPORT_SYMBOL_GPL(backing_inode_setattr);
+diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
+index 00c69707bda9..f1cd67e6e9c8 100644
+--- a/fs/overlayfs/inode.c
++++ b/fs/overlayfs/inode.c
+@@ -15,16 +15,17 @@
  #include <linux/namei.h>
- #include <linux/ratelimit.h>
- #include <linux/overflow.h>
+ #include <linux/posix_acl.h>
+ #include <linux/posix_acl_xattr.h>
 +#include <linux/backing-inode.h>
  #include "overlayfs.h"
  
- /* Get write access to upper mnt - may fail if upper sb was remounted ro */
-@@ -1503,38 +1504,10 @@ int ovl_sync_status(struct ovl_fs *ofs)
- 	return errseq_check(&mnt->mnt_sb->s_wb_err, ofs->errseq);
- }
  
--/*
-- * ovl_copyattr() - copy inode attributes from layer to ovl inode
-- *
-- * When overlay copies inode information from an upper or lower layer to the
-- * relevant overlay inode it will apply the idmapping of the upper or lower
-- * layer when doing so ensuring that the ovl inode ownership will correctly
-- * reflect the ownership of the idmapped upper or lower layer. For example, an
-- * idmapped upper or lower layer mapping id 1001 to id 1000 will take care to
-- * map any lower or upper inode owned by id 1001 to id 1000. These mapping
-- * helpers are nops when the relevant layer isn't idmapped.
-- */
- void ovl_copyattr(struct inode *inode)
+ int ovl_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		struct iattr *attr)
  {
- 	struct path realpath;
--	struct inode *realinode;
--	struct mnt_idmap *real_idmap;
--	vfsuid_t vfsuid;
--	vfsgid_t vfsgid;
++	struct path backing_path;
+ 	int err;
+ 	struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
+ 	bool full_copy_up = false;
+-	struct dentry *upperdentry;
  
--	realinode = ovl_i_path_real(inode, &realpath);
--	real_idmap = mnt_idmap(realpath.mnt);
+ 	err = setattr_prepare(&nop_mnt_idmap, dentry, attr);
+ 	if (err)
+@@ -39,57 +40,26 @@ int ovl_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		err = ovl_copy_up(dentry);
+ 	else
+ 		err = ovl_copy_up_with_data(dentry);
+-	if (!err) {
+-		struct inode *winode = NULL;
 -
--	spin_lock(&inode->i_lock);
--	vfsuid = i_uid_into_vfsuid(real_idmap, realinode);
--	vfsgid = i_gid_into_vfsgid(real_idmap, realinode);
+-		upperdentry = ovl_dentry_upper(dentry);
 -
--	inode->i_uid = vfsuid_into_kuid(vfsuid);
--	inode->i_gid = vfsgid_into_kgid(vfsgid);
--	inode->i_mode = realinode->i_mode;
--	inode_set_atime_to_ts(inode, inode_get_atime(realinode));
--	inode_set_mtime_to_ts(inode, inode_get_mtime(realinode));
--	inode_set_ctime_to_ts(inode, inode_get_ctime(realinode));
--	i_size_write(inode, i_size_read(realinode));
--	spin_unlock(&inode->i_lock);
-+	ovl_i_path_real(inode, &realpath);
-+	backing_inode_copyattr(inode, &realpath);
+-		if (attr->ia_valid & ATTR_SIZE) {
+-			winode = d_inode(upperdentry);
+-			err = get_write_access(winode);
+-			if (err)
+-				goto out;
+-		}
+-
+-		if (attr->ia_valid & (ATTR_KILL_SUID|ATTR_KILL_SGID))
+-			attr->ia_valid &= ~ATTR_MODE;
+ 
+-		/*
+-		 * We might have to translate ovl file into real file object
+-		 * once use cases emerge.  For now, simply don't let underlying
+-		 * filesystem rely on attr->ia_file
+-		 */
+-		attr->ia_valid &= ~ATTR_FILE;
+-
+-		/*
+-		 * If open(O_TRUNC) is done, VFS calls ->setattr with ATTR_OPEN
+-		 * set.  Overlayfs does not pass O_TRUNC flag to underlying
+-		 * filesystem during open -> do not pass ATTR_OPEN.  This
+-		 * disables optimization in fuse which assumes open(O_TRUNC)
+-		 * already set file size to 0.  But we never passed O_TRUNC to
+-		 * fuse.  So by clearing ATTR_OPEN, fuse will be forced to send
+-		 * setattr request to server.
+-		 */
+-		attr->ia_valid &= ~ATTR_OPEN;
++	if (err)
++		return err;
+ 
+-		err = ovl_want_write(dentry);
+-		if (err)
+-			goto out_put_write;
++	/*
++	 * If open(O_TRUNC) is done, VFS calls ->setattr with ATTR_OPEN
++	 * set.  Overlayfs does not pass O_TRUNC flag to underlying
++	 * filesystem during open -> do not pass ATTR_OPEN.  This
++	 * disables optimization in fuse which assumes open(O_TRUNC)
++	 * already set file size to 0.  But we never passed O_TRUNC to
++	 * fuse.  So by clearing ATTR_OPEN, fuse will be forced to send
++	 * setattr request to server.
++	 */
++	attr->ia_valid &= ~ATTR_OPEN;
+ 
+-		inode_lock(upperdentry->d_inode);
+-		with_ovl_creds(dentry->d_sb)
+-			err = ovl_do_notify_change(ofs, upperdentry, attr);
+-		if (!err)
+-			ovl_copyattr(dentry->d_inode);
+-		inode_unlock(upperdentry->d_inode);
+-		ovl_drop_write(dentry);
++	backing_path.dentry = ovl_dentry_upper(dentry);
++	backing_path.mnt = ovl_upper_mnt(ofs);
+ 
+-out_put_write:
+-		if (winode)
+-			put_write_access(winode);
+-	}
+-out:
+-	return err;
++	return backing_inode_setattr(dentry, &backing_path, attr,
++				     ovl_creds(dentry->d_sb));
  }
+ 
+ static void ovl_map_dev_ino(struct dentry *dentry, struct kstat *stat, int fsid)
 diff --git a/include/linux/backing-inode.h b/include/linux/backing-inode.h
-new file mode 100644
-index 000000000000..6b43cba9fabd
---- /dev/null
+index 6b43cba9fabd..fd02c87e0f99 100644
+--- a/include/linux/backing-inode.h
 +++ b/include/linux/backing-inode.h
-@@ -0,0 +1,14 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Common helpers for stackable filesystems and backing inodes.
-+ */
+@@ -11,4 +11,8 @@
+ void backing_inode_copyattr(struct inode *inode,
+ 			    const struct path *backing_path);
+ 
++int backing_inode_setattr(struct dentry *dentry,
++			  const struct path *backing_path,
++			  struct iattr *attr, const struct cred *cred);
 +
-+#ifndef _LINUX_BACKING_INODE_H
-+#define _LINUX_BACKING_INODE_H
-+
-+#include <linux/fs.h>
-+
-+void backing_inode_copyattr(struct inode *inode,
-+			    const struct path *backing_path);
-+
-+#endif /* _LINUX_BACKING_INODE_H */
+ #endif /* _LINUX_BACKING_INODE_H */
 -- 
 2.52.0
 
