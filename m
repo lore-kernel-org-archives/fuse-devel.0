@@ -1,74 +1,69 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA00382F2E
-	for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 23:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4DB27707
+	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 00:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778889155; cv=none; b=J6ZlPl7jUpzVjG+8yxwPad94Q57bly/56yMc4ciwlnJs+N9RHZPRtyfjRNGCmBeplUlvsQKlVYmECIE/DkbvlpItFeHpdzemhC2XquucQCnzPdYKF7D1IbBzeEshHlR+6RvLf4QP4/yTRkvVHVzKu5dfsf5mmv7wD2HHtQxVRZY=
+	t=1778892718; cv=none; b=E2AKwJLHWQMLzPn+r3V40VRl5bOC7YX8lxAXNulTp3QSDeMv78TwIe1hbah/W8iqa63OQT/FyWWtxHtcoa9Ee87UjzzSq4dNRJxj4zZ74ZhTYPdibw8w+Wd/coAoGRL/bg2+oTXIpUnFM5BU5MVoDpq3FiTJKqFEzLyGwH9XZmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778889155; c=relaxed/simple;
-	bh=5IqH3rtxy34dNHAACvs5lP8NKiJT6VKmEanaZWVybaA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PrxgjnSuyxAPnwvUmCsfWG+IdQEJWAGKXx1Iz32YxxAaYH6rm0eQj5s9SQNhUbGWQ9VipSfsNWFZDvT5ZWnioUtoW12DuCTaAQlTMNrwHQOyEhi/+U5ushqw7cJqAT7DK+Blt2Bv2DLAoziE0Ex64gw0SJ3OZ1D+iS8FgMKZUHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lihdd.net; spf=pass smtp.mailfrom=lihdd.net; dkim=pass (2048-bit key) header.d=lihdd.net header.i=@lihdd.net header.b=LqIYNAly; arc=none smtp.client-ip=209.85.217.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lihdd.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lihdd.net
+	s=arc-20240116; t=1778892718; c=relaxed/simple;
+	bh=o67AANEOaaDmaW9WzNpQCZJDqZiiEfxqwrW/Av9TDlY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sJyffJlpdw03UZ7TodOaRbsa7kKBw23Y37/iguujNbsDI9nz4iim2dDvwIxWy0wEceqAyfc29AGyPEnVqg3iqNVtXrgOu1+f21SyWqWHTWGqxHy5v7+ihNJ7BWw7MB1o+g0ZLUvSdKdAdbWYAG1EOYnmIa62FXcK/gOvH6qK3/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fl5RDOwT; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lihdd.net header.i=@lihdd.net header.b="LqIYNAly"
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-6312970d9e3so278131137.2
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 16:52:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fl5RDOwT"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7bd5dde63dbso480747b3.3
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 17:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lihdd.net; s=google; t=1778889153; x=1779493953; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GQzTKnRgvG1KzI5oOnwgsBb/NWXP2/hzb5cjXiyHb24=;
-        b=LqIYNAlyxscRLAiI0qdy1RqxSFP5gE/BXSCPUk4E8wuVoK6yT6UIe+E+ISMUmQjk0w
-         PnzOTYp0DergbEo+1BtookP5ajds3Hrj0HrqIyBcT/oXhzrJz9ftM7n035B88m2Vy1qR
-         Vix3R/qRBvgPOmIujk9mobZjEAhXrplCjiyuzQGl8Ky7K00bVSpvbF49el4S6ONuVA4C
-         muN2MMZ3bPqMjEVEZNfvHQYGoPgngb+eLV0XGWA3KEASvtcxA79pIfhzVq39EzKboLq9
-         OONfCBD0rOsXqJqx4bGKS8IXNsmj6CsUxiOKGqzmaIF30xv53kdIjw5RnLeJREgSI+MZ
-         iwLw==
+        d=gmail.com; s=20251104; t=1778892715; x=1779497515; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KLYnxOjuWihDf1OJ1uA3JEFFOQyrieXCrqDHfBzMay4=;
+        b=fl5RDOwTTn+0ejbSOk0vJ+++4RpY1itRXEfn3Bh+T1729ZkO6nI4Mqw8HMrD+RyIYq
+         ViUl7V8ygEwP2Qho4Sb+on/3t/Ae7qHg76CgH88fulLWHR4DA1FolFxiPlY3upfrVF4H
+         PBH5AwMs38zg+VpM6Hw5QN9SXUvnj1qebxseVvrFkYQquOqrqJWrfptkJz+MCvCvD5ws
+         TR5PjMqPIuOnNScXLSoUUgPyxkwpeFeNy8Ed532J0NGFX9gOq9J0g3NoEZCAIx+CRn5c
+         YAXBrDogJN1IIdQfvArlI+mpDFyzlbnrfMCVvJC9XXpCXnHSCKBaxqHKq3y7Gr9b+30J
+         b6vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778889153; x=1779493953;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GQzTKnRgvG1KzI5oOnwgsBb/NWXP2/hzb5cjXiyHb24=;
-        b=EjcFxepCk+bkGVdvTIlnVtFQTQNN/QMoGKHUmjY0yqTbUEwoq3hjdXg+/2KyGdpgG/
-         hjj+VhggvVBOvLw80lCmzYIi3MkJBXTP3gi4J1DGzAbUe5hvORzejy1GpZ1IWcKItd7o
-         3/0GsccgYqnmlJP4tbv2chBHeAHUYuk3KrLHoSgMvQ7LWC0bjd0yFmtm6VceGX1HV9Ct
-         7z0icMhdXfhdezA47ACvygBQfrlL/6asHGwQAeWY4MR0pT75HNirP8z9O800MOrwE6sf
-         IMOYOSN00j2ffS+YvdfRfSVbs6kKYC82IP+8rq4N+Bw5Hpo7d0iYKVQe3wNbjuplowoj
-         KuPw==
-X-Gm-Message-State: AOJu0Yx7wCBQSp9ljAqwypp2GMgWm13301I9YRTl7id5lnVSvB+fhq97
-	ed2tbf+a7KoI5n/MYxlHXZooa5D1DTrJl3Si8I8R9iCTPN9OM6ErZLTn0szj9/y7rxVNk5p+BPn
-	iEZ0L
-X-Gm-Gg: Acq92OGJtLjMREZbHwrku1og+KP9xkXeEIx+hzmAS+pIHFnAlYHRjyG3pGx5s8gvBU5
-	ON0cxoUyP2FPcaYinewvER6EgWKSWmQf6iAeIqvAsBGrME76z0XiwiooUBZHeX5Ztk/kX8iRJef
-	dbgx6Iq7qgjT433kTT8BHCviwGPdKLouZT0mVSks+Ak+LIeDP+kJQHkrB3/qwqbXuxMc/Wo6YI0
-	7M9aSXiJ4SI5Nqu6zu7LFwFA8Da0yxdEhjtfJzQm/4umPlnzqxeuu+XWyOgZ+wu6k5emohj7veZ
-	xCJAOz6zEcexBZ4hvKlbYRom2X5YmHkOXx2DRqfmab1mtq6xsAs36K/YUkauh/hnuBH/OzzG/O1
-	G+4NKdmfUdjsDWgF6IQtdiUp89ocEc1e+h2p/XxAWNzin+tSo22Kf2i/xGMC+4C/PgL9d3K74Ae
-	1GynoC7URqmVVOczrhm/vvbcL/6xgxzgg0VHRdZhmJ1LPbU9p3
-X-Received: by 2002:a05:7300:fd16:b0:2f2:6dde:df66 with SMTP id 5a478bee46e88-3039868c86cmr874858eec.22.1778804053795;
-        Thu, 14 May 2026 17:14:13 -0700 (PDT)
-Received: from quark-fedora-PF5F60VQ.thefacebook.com ([2620:10d:c090:500::1:695d])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30293e2e69esm6094972eec.1.2026.05.14.17.14.13
+        d=1e100.net; s=20251104; t=1778892715; x=1779497515;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KLYnxOjuWihDf1OJ1uA3JEFFOQyrieXCrqDHfBzMay4=;
+        b=HYvAJcy/DJR0C6d83sRu44TJZmrS3eCqsEl8d/JuC+tGrUHYVZ+hP2C4u6RUd70sbZ
+         9NXcbOoH1FzLLEoXzhyq0J/mzf0IfN/3bAXuGlSYMfMhYuzTqEYDuzZPZUxg2Nl9YOdl
+         K0ndsKLpZ3cTTUoAgzAFqivz1xU0HOzvMN38lL2ZYoHulc3Qv9pryEQsaltDkfi4Tpsk
+         Ka4HFHFgLvDB1J9dZUx6lt00XYdu1DpVpKH0tkrwCD33YH9ao1LkLmWKJk25CuHQpvqj
+         kNnaX/2ZQz6UuMeapna9cL15O9GeQN3Rc+QIyKjTQ5IpcZoTvS3SL/gqNcUMe/l93nLz
+         dlPQ==
+X-Gm-Message-State: AOJu0Yzly+Yo1iYQpnVyxIm6tNU0yqdF88J1TmQDKDSVwR38aWKAFuZR
+	XzNfqjWm2F/BgSyBWQKVZmVW7rjRqjd5YplSO6cSvT8NCAY/8LHE0QQI
+X-Gm-Gg: Acq92OE11RKAH1bPAYE2FYxgvalgYuY53a3j2J4i+umrq8CH69MmNl3qTbvpLOBcLZq
+	EqJt9vkbTbozXuiCSD02hMObdTfAmbL8BwLWbyxvprbtW5uBy3EvL9y8l8ckzpvmNYpcQnWVPeI
+	mQy4QRdWKq7JP1wPit6wIxgujZKzPHD626rKTpHBVew9pAZnHC5q7zwrsULyHOGAde4qHo8QmTZ
+	bWiDU+rHTKTxy78HFfilYJmJyzc7M5h/WNcxpKtDOQl9Bh++Z13Bb/aR+bi5Eahesxo5fmkgV5x
+	d73IbdZ0uBd4wbOgczRvqyN5EA/JmRUocONZQwk6DnUG4j1ZQ0SLBTsZktduHRKRwklegsuwZwo
+	IvXKR+wJLgVwU0RNQqbooz+uPO+xews9Kuw+Du8Pzxb1QsJ3A5DdnBWJMpTMawB3Wz03yPUyn/c
+	etlD+awQPxKwved8PSdn2Rx2MhS4ZAjBg=
+X-Received: by 2002:a05:690c:6c87:b0:7c0:8028:11f7 with SMTP id 00721157ae682-7c959b9720amr74834237b3.6.1778892715333;
+        Fri, 15 May 2026 17:51:55 -0700 (PDT)
+Received: from localhost ([2a03:2880:f806:3f::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c9cf5da147sm15615097b3.20.2026.05.15.17.51.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2026 17:14:13 -0700 (PDT)
-From: Jun Wu <quark@lihdd.net>
-To: fuse-devel@lists.linux.dev
-Cc: miklos@szeredi.hu,
-	luis@igalia.com,
-	Jun Wu <quark@meta.com>
-Subject: [PATCH v2] fuse: invalidate readdir cache on epoch bump
-Date: Thu, 14 May 2026 17:14:12 -0700
-Message-ID: <20260515001412.1270472-1-quark@lihdd.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260331223927.763741-1-quark@lihdd.net>
-References: <20260331223927.763741-1-quark@lihdd.net>
+        Fri, 15 May 2026 17:51:54 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: amir73il@gmail.com,
+	miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	linux-unionfs@vger.kernel.org
+Subject: [PATCH v2 00/21] fuse: extend passthrough to inode operations
+Date: Fri, 15 May 2026 17:39:43 -0700
+Message-ID: <20260516004004.1455526-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,99 +72,89 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jun Wu <quark@meta.com>
+This series extends fuse passthrough to support inode operations (getattr +
+setattr) and directory readdir.
 
-FUSE_NOTIFY_INC_EPOCH invalidates dentries, but does not invalidate cached
-readdir results. A process with cwd inside a FUSE mount can therefore
-observe stale readdir(".") output after an epoch bump.
+The existing FUSE_PASSTHROUGH mode attaches a backing file to a fuse inode
+only when a passthrough file is open. This series introduces
+FUSE_PASSTHROUGH_INO, a stricter mode requiring one-to-one inode number
+mapping, which allows attaching a backing file for the lifetime of the fuse
+inode.
 
-Fix this by recording epoch in the readdir cache and checking it on reuse.
+This is based off Amir's work. Patches 1-7 are from his git tree in [1].
 
-Minimal reproducer:
+For testing/debugging, this was done using the passthrough_hp server with the
+changes in [2] applied.
 
-- mount a tiny FUSE fs with an empty root directory
-- on opendir, enable fi->cache_readdir and fi->keep_cache
-- chdir into the mount and call readdir(".") to populate readdir cache
-- make the FUSE server report one file in the root directory
-- send only FUSE_NOTIFY_INC_EPOCH
-- call readdir(".") again; before this change it stays stale, after this
-  change it sees the new file
+This series was run through fstests using passthrough_hp in [2]. There were no
+regressions seen compared to passthrough_hp --nopassthrough and an improvement
+in generic 683, 684, and 685 (dropping suid/sgid) now passing. Compared to
+passthrough_hp without inode operations passed through, generic tests 080 and
+215 (mapped write timestamp updates) now pass.
 
-Fixes: 2396356a945b ("fuse: add more control over cache invalidation behaviour")
-Signed-off-by: Jun Wu <quark@meta.com>
----
-Changes in v2:
-- Addresses Joanne Koong's suggestions:
-  - Drop the FUSE_EPOCH_READDIR init flag.
-  - Add Fixes tag.
-- Rebase onto current mainline.
----
- fs/fuse/dev.c     | 6 +++---
- fs/fuse/fuse_i.h  | 3 +++
- fs/fuse/readdir.c | 5 ++++-
- 3 files changed, 10 insertions(+), 4 deletions(-)
+This is on top of commit ea2ff881bb8e ("fuse: reduce attributes invalidated on
+directory change") + a locally applied patch [3], in Miklos's fuse tree.
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 5dda7080f4a9..35e04b064f37 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -2038,9 +2038,9 @@ static int fuse_notify_resend(struct fuse_conn *fc)
- }
- 
- /*
-- * Increments the fuse connection epoch.  This will result of dentries from
-- * previous epochs to be invalidated.  Additionally, if inval_wq is set, a work
-- * queue is scheduled to trigger the invalidation.
-+ * Increments the fuse connection epoch.  This will cause dentries and
-+ * readdir caches from previous epochs to be invalidated.  Additionally,
-+ * if inval_wq is set, a work queue is scheduled to trigger the invalidation.
-  */
- static int fuse_notify_inc_epoch(struct fuse_conn *fc)
- {
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 17423d4e3cfa..aa8d6dfbbcc7 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -191,6 +191,9 @@ struct fuse_inode {
- 			/* iversion of directory when cache was started */
- 			u64 iversion;
- 
-+			/* epoch of fc when cache was started */
-+			int epoch;
-+
- 			/* protects above fields */
- 			spinlock_t lock;
- 		} rdc;
-diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-index db5ae8ec1030..b18d971e2bb4 100644
---- a/fs/fuse/readdir.c
-+++ b/fs/fuse/readdir.c
-@@ -442,6 +442,7 @@ static void fuse_rdc_reset(struct inode *inode)
- 	fi->rdc.version++;
- 	fi->rdc.size = 0;
- 	fi->rdc.pos = 0;
-+	fi->rdc.epoch = 0;
- }
- 
- #define UNCACHED 1
-@@ -483,6 +484,7 @@ static int fuse_readdir_cached(struct file *file, struct dir_context *ctx)
- 		if (!ctx->pos && !fi->rdc.size) {
- 			fi->rdc.mtime = inode_get_mtime(inode);
- 			fi->rdc.iversion = inode_query_iversion(inode);
-+			fi->rdc.epoch = atomic_read(&fc->epoch);
- 		}
- 		spin_unlock(&fi->rdc.lock);
- 		return UNCACHED;
-@@ -496,7 +498,8 @@ static int fuse_readdir_cached(struct file *file, struct dir_context *ctx)
- 		struct timespec64 mtime = inode_get_mtime(inode);
- 
- 		if (inode_peek_iversion(inode) != fi->rdc.iversion ||
--		    !timespec64_equal(&fi->rdc.mtime, &mtime)) {
-+		    !timespec64_equal(&fi->rdc.mtime, &mtime) ||
-+		    fi->rdc.epoch != atomic_read(&fc->epoch)) {
- 			fuse_rdc_reset(inode);
- 			goto retry_locked;
- 		}
+[1] https://github.com/amir73il/linux/commits/fuse-backing-inode-wip/
+[2] https://github.com/joannekoong/libfuse/commits/extended_passthrough_v2/
+[3] https://lore.kernel.org/fuse-devel/20260513231437.1806724-1-joannelkoong@gmail.com/T/#u
+
+Changelog
+---------
+v1: https://lore.kernel.org/fuse-devel/CAOQ4uxjBZL6CY0mJEiHrw8aR28MHg5pU+Pfr9fUqGdKPDOdwcw@mail.gmail.com/T/
+v1 -> v2:
+- Address Amir's feedback (especially about not mixing cached io mode with
+  passthrough mode, dropping the passthrough open patch, modeling some of the
+  logic after overlayfs)
+- Diff between v2 and v1 for Amir's patches 1-7:
+  https://gist.github.com/joannekoong/451eb02e716fa6321a622a61a95aea04
+
+Amir Goldstein (7):
+  fuse: introduce FUSE_PASSTHROUGH_INO mode
+  fuse: prepare for passthrough of inode operations
+  fuse: prepare for readdir passthrough on directories
+  fuse: implement passthrough for readdir
+  fuse: prepare for long lived reference on backing file
+  fuse: implement passthrough for getattr/statx
+  fuse: prepare to setup backing inode passthrough on lookup
+
+Joanne Koong (14):
+  fuse: handle zero ops_mask in FUSE_DEV_IOC_BACKING_OPEN
+  fuse: handle partial io passthrough for read/write, splice, and mmap
+  fuse: prepare to cache statx attributes from entry replies
+  fuse: clean up fuse_dentry_revalidate()
+  fuse: add struct fuse_entry2_out and helpers for extended entry
+    replies
+  fuse: add passthrough lookup
+  fuse: add passthrough support for entry creation
+  fuse: add passthrough support for create+open
+  fuse: allow backing_id=0 in open to inherit inode's backing file
+  backing-inode: add backing_inode_copyattr()
+  backing-inode: add backing_inode_setattr()
+  fuse: add passthrough setattr
+  fuse: use passthrough getattr in setattr suid/sgid handling
+  docs: fuse: document extended passthrough (FUSE_PASSTHROUGH_INO)
+
+ .../filesystems/fuse/fuse-passthrough.rst     | 126 ++++++
+ fs/Makefile                                   |   2 +-
+ fs/backing-inode.c                            |  97 +++++
+ fs/fuse/backing.c                             |  64 ++-
+ fs/fuse/cuse.c                                |   2 +-
+ fs/fuse/dir.c                                 | 391 +++++++++++++-----
+ fs/fuse/file.c                                |  37 +-
+ fs/fuse/fuse_i.h                              |  83 +++-
+ fs/fuse/inode.c                               |  27 +-
+ fs/fuse/iomode.c                              | 122 +++++-
+ fs/fuse/passthrough.c                         | 122 +++++-
+ fs/fuse/readdir.c                             |   5 +-
+ fs/overlayfs/inode.c                          |  66 +--
+ fs/overlayfs/util.c                           |  33 +-
+ include/linux/backing-inode.h                 |  18 +
+ include/uapi/linux/fuse.h                     |  32 +-
+ 16 files changed, 969 insertions(+), 258 deletions(-)
+ create mode 100644 fs/backing-inode.c
+ create mode 100644 include/linux/backing-inode.h
+
 -- 
-2.54.0
+2.52.0
 
