@@ -1,92 +1,93 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E60194C98
-	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 01:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4696B19F12D
+	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 01:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778893465; cv=pass; b=MiRi1WQq2ZUIptb2GN+gbu5NOIeXhLijLIFUUNApv7hI0T2AP6ihgZMd1Hg2QJoLtyD2CqK8Hs76BBIdlPnH2xUyCXoGJ2IVcV+XhSQT07fDBJGC1q7qKQXJinvsYsp0/cdHCcmuRhjZn30uGeVGmA9gbrJon0P0qns4cXcVSRA=
+	t=1778894460; cv=pass; b=jcSjcrv6lkd+ErVv5cwhGWekoS+gRJzvLFxBDs7LbUmmTgvetCTeCllB3ifUlE2CzgkuCon6LjXaBj1ARrQgyd3xHxVsEcs7oFFTA+7fPNbkvWJuj8tf1y5BW/5M5YS7l7ll2VNtdsge+6ZX4EdVQ2qmSPN+GokEN0ms3uDXrK0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778893465; c=relaxed/simple;
-	bh=HjfXyAreThSB7plifY/0RnO87buo4k7Jm7ynrCfd/68=;
+	s=arc-20240116; t=1778894460; c=relaxed/simple;
+	bh=NlomV3EsWHm3GUuyYGQf0E0j2lWRAoNT9eDqu5MZyBw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VtvTp5TfnRij61yIfyZyfHNPjFl7jCRpJxyf58yfYjrR/QgnX4j5Tg5jjgx2E5RCMUnDe470BbXtMNVnIkIcEb9LA8ipPHhyxRorAfbDSHoqr39K4uzmmmLpW1cRwscW2bUTrUAHkUUqktamuYXR3MTTenwGkHtAsX2FWGW2+0U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LD+CGVa1; arc=pass smtp.client-ip=209.85.128.51
+	 To:Cc:Content-Type; b=MYO/5QLHw9lDxfKGqBuX/SzshZjFJXvEhBMCMTJ+KmEv4aHTvqjQVazZYyC/CFJ/zTrbQB7mvCX0uJGpC/68pgimm7R7VIFxx5fYvRSN1aSND3nxCktuq2R2fGPO4AdJW1BAqw8LY1c4ZwXllmfQB6GSKdMe+jRPqF3rzqiXMR4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qW2vrwjI; arc=pass smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LD+CGVa1"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-488ff90d6c7so2195615e9.2
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 18:04:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778893463; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qW2vrwjI"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43d75312379so936010f8f.1
+        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 18:20:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778894458; cv=none;
         d=google.com; s=arc-20240605;
-        b=X0yOsr/4wVEr5jEL+030S9LblEZlKhKJEpQ0q3FATBOcUoWUAP8LhSdX8ksWFJFvBw
-         1XgHIONCa8TW3gpfhjzSZK9i80X3oFBRwz23H1bVpDFzhbnwL8ctyPw9EydG+p//+WAd
-         i7vkWVflKBfPHTRVz9NlgipznoAFoQMryMAyuFb88fsUwjog08YX7gIUrJ7HGiD+Qx8v
-         oCRkyJU1zormIz39LPKVQTkQ4frck+aPc9njbxZ0eBq2IjLaDqTtJZF1UuL+S2Dvj6hX
-         TEPomG2w4EewVLqVBa152vLWw5eOTqqdIY+FEEqrNzemgs5Jp5axt2AnkOsmDeFH9HeG
-         tS6g==
+        b=fgpKuXA7wKX8AAWmWBcDJE+c6TieXUU72JYhK5xzH+gejMdLN8iJsk3VFFc/o7P5kl
+         ewOnUJD7o24i3wkrBUGpHv3WwRWRZ+FghJTO2J2rNyZh0DrmryJyJy9AX7rasBRbdYOr
+         pW8Lyld19ixQNUpDjYPS+B4MLtUnaedvW+ktVXyniV+eejLpgZzy9pmbOTiFMISxOJCa
+         XydCCkHSj3vP2j0+YSKgxiVG5HlWvCKoZ/3HUQQa4HeJbpwCeCw5DvlkGl46mF+DE1dZ
+         qPEyJ7ByT9yjnUUrrFDcEoHafhVkDZ7YrPyOmggQGbrtXaw5Xs5ieDX/WQYvAgyiAIbz
+         JFqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=rMAbpirgAMOxyu32qU3H1eARc33X7yqH04nuIA50Xlo=;
+        bh=V3oSdJYWZZVYWFwmC2nNp8mo5siJflGnwwUjlIft/aU=;
         fh=m/f6YJvJ+t5+4aY2YI3TD839gW/9+K7lKLC2GNVR6Rw=;
-        b=kdyP7p0oUEio6JTz3pHl64lkyzAoyZ3IbuU3BvY1cYi9iXYWy1K9k2KjaMeeHoitmz
-         OZuXz62SGyX872Ntv1iO8hGj9QDgOeYxQD3AwqsBkY0mPZ9QEOfvgm5uEKsCxffYzOZX
-         aLjAsiAWiYSq1x9quu133eTsUXh6m7MsYY6DCV1eb7E1SVxsEQaHbCYLiJ6yOLlAPAqa
-         +yLCZUxMXH14AYvFQeg3QOrKa0qxULA614nuV4DjlwrgVSy0I//wp/DXb07b+CXw7VCp
-         YCsXNHkPHIVCFCYxjTkpIlQk10i+WS33HXhNHOTgOjUNEVtNL5M8A0meeRRTAUjk773D
-         n1kQ==;
+        b=ZubKj/DO5V57i/xUGvXJ1wHIIKFL0a8tmk0NmTi77fXygDR6c9AeTADJL5de4mxVEP
+         k5+bo6sVTjpHvtX0b/3XjZguDrwx1JK6fUP7zIMAuqIXzmBbQAJrMrMnReqH2S81bZut
+         wcLKCTSyYFkQ+cVBtveI/UAl/kDsL9IaDCCLOIKpRlbrNpFj3PaXVouOKwB+iFibCl6L
+         DJA4erSgB8IhN4li2aGmjbhEHRmMGPCYqfAhX6MRJ96t8QgLhAGlMXZwU0fx69z9TcCj
+         4aNLBJkSXs97+B24RTAjF1UJ1fkOKH2HjzdHioncaKZZ06q0jEAK3V2zb4K+9KgoP+9V
+         rGNw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778893462; x=1779498262; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778894458; x=1779499258; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rMAbpirgAMOxyu32qU3H1eARc33X7yqH04nuIA50Xlo=;
-        b=LD+CGVa1h4jsa4toJg1qeWrRLrQEe40Sq0BHDOBhEK8XQAmvZWo15r01o3VgaJZqes
-         0b1nX/IAyzVM0s5FkM9/pyG+Y1osBEMV++seqNriN8T7Dwb5xp1rWE5nngIVzFSGHjLt
-         3VFQeRidEK8p4BrcaS3uicbmW0v+gLRIWwIyftuGZZbml56hhvOiZ+w/eSwecEkySebw
-         d599ob6Dgr18/EVglWbVT1sawhh4HaUcAqlER9hNwfCG5L+Pnpm5+FTf2cbqL+eiCm5u
-         M/cnKN4J52ZBZdlJf1hy13OsqgkX8dM9Cbrz8PTy3EHChHNqyBjs44rKBT9+NUhORb6P
-         yGBQ==
+        bh=V3oSdJYWZZVYWFwmC2nNp8mo5siJflGnwwUjlIft/aU=;
+        b=qW2vrwjIyOlTRUkprdNYuMyNR+Wqv9GOgfI/uD2akvRVn02lWvKO4LvRBYnYdyqePw
+         zJdQmJyISvL9h9yglGN69+vbyRSVpJiqBFhNEoYgbuX/ieW+XwOhqf+Y2nqrmNavAeaI
+         PouR8aA3XJs+V6fT3WS+cDNZvVgxJaA8+qJgCNKgNfq4hl3HhXDJMzvqYQqFydOXbmE+
+         Krx7hlVuQMGAu84lo4COV0r8ZLgkQUj+aNEMOp1vwG6zc16CeWFoKhR3PZ97fY2t+ahk
+         MVC9OeLNrYxYrR6zN0zm6QkMxRPzwYzOTF3WyQ1abLHarqxvIIIFNfI7a2PxXdUQEhQX
+         oq7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778893463; x=1779498263;
+        d=1e100.net; s=20251104; t=1778894458; x=1779499258;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rMAbpirgAMOxyu32qU3H1eARc33X7yqH04nuIA50Xlo=;
-        b=UD5NyDg/JjM4i+J25vuJIMS3kyR0GVwNFG6ffq1xXqi3nURUWE/0vsPFbfQY66CgWo
-         ltAxdCq41eoLqlC4ovT3NYOZKHLnYFmKg/joIe+1RG5rGtiGM732HvSmldSK8wUDH2Wd
-         jKIgZf9+myg5XLf5Ia9t5K7RE0QDPBG1xH0sctaWw39RgRCx6unAgTMJCDPU0eQ455ag
-         VupNqXH52YiWzUSo5V1mUGspk3PHi3hif0wauwLaIbpziUW4j6Y/rIrSaGqyE2aq3a6O
-         qUQ3BCjOyuqbB52NoZyi7WA/ZAfGIAnGOE0xdPXxSpq/jpxmn/9BhXWbPzZB0o4fEXag
-         HHiQ==
-X-Gm-Message-State: AOJu0Yy4wt3ntjKxLTbafUAyC5HiWevXMN/QNcNrNFD0w1o53oW37nqR
-	SVO56y226BbIqIEFCS02QPFW2mpXiRqjpXLcHMoXApst9keeKAd2M2M6YY/rsPnxvOfihnvF0CT
-	4CViPvW88yyaJO7/rGRZy/5nt7kxgH3ZMjFmfl7xfJw==
-X-Gm-Gg: Acq92OEM9jRwxU6E0vtVEdCBnSCWqgh84imMccIF8FnxrJJ2u1NkRwWmScMcLkC1FB7
-	SzhQyuORWh1bncIuaN2itNkMeu6cA282BOQeWaDToBEpAed89wM6oEx3ryMQit5cUw6ul7sjnxK
-	YH3dcmOeQA/oGnzBpvUAuZ9gEvOoJVaHCCZJgoqUQRQguWs/i/7wC67z0GT3ONQNpAKv2jYXTRF
-	yhPWNyPGCkJke60qQOTApfgO1fQGC2lCLFMjxvf4Vewgscp+wOLYh+P7AtNG3IzMgidNtrfWhpK
-	ue3k1Q==
-X-Received: by 2002:a05:600c:3e11:b0:48f:e230:c3fb with SMTP id
- 5b1f17b1804b1-48fe6626a8emr94789465e9.33.1778893462397; Fri, 15 May 2026
- 18:04:22 -0700 (PDT)
+        bh=V3oSdJYWZZVYWFwmC2nNp8mo5siJflGnwwUjlIft/aU=;
+        b=N5pFRb8AESlWdhs2HA2XwdYlI9myQ3QPhjXT6bAm/SDWIwxTr3CplDB1w9yqqcR9no
+         BEjhHU6fbDcAomQ1++lI6Gbmfu3a6VdUCXVw1hFQIv1UZZt3LU8nKZuTIf5x30z0K475
+         TgX90aG0wiYImdH5I55V7FVlKu6qFB6VaaT/0cKTDWvpVpfxPa3WYtxN9dVx+vOv9J/0
+         xNQCOLT7gvbQlqw2RCaIVkaAw1ysKR3Nvhul+/zBL5pLxYHTbq3wIJCpxaIgSTa0OgTf
+         u79x1OFMyioTXfe/yQPDXX58ryx4cqH4IG4a/8eTrRoAwO7h0OhsyOOVVrN30gykCX69
+         XxNw==
+X-Gm-Message-State: AOJu0Yzf3QlZtu7hQsKonWQB2CChWb39JfHwXNHMKOmbrvOvo0kSMHF9
+	M8k5Ui8NSBanub45sLy62odYlgo7IRPwDOqI6dAFZ8D2iQBFjWvroz49W62ts6oyzHyIKqVFC9o
+	Ta2uNDR0BuMtoiOLLpqhx6ih6wIeS7GM=
+X-Gm-Gg: Acq92OF0CPkAYpJjczXsvxH67qza8Vh+Lapv3+JeBA+Qzyah9z4OOcBEFZQYlfPP4l7
+	NyYeajs5QrWPyI7Vbn75GXqA++EN9pNdz+rn4G9h+AH4+KNjZF/jAWYbjEhC0ztUjDGyfXE9NWf
+	6G3f5iEU3iQk6ez0qoPaA95gCXzpe8Gkq8w53EUQxmH4epUlJnw2oQlQ1p2OJaV75ZP8O9M/Tjd
+	PKeZOhMRefTfyejzqw71rZyqr5FXAirCM+O4aX4PNgTsz6UejZTlTIeL6idqpt6zajmsKbH2fh+
+	6sHir3T/L4oBjb5r
+X-Received: by 2002:a05:6000:2a0e:b0:43e:a8d8:f3dc with SMTP id
+ ffacd0b85a97d-45d916264b9mr10449323f8f.13.1778894457541; Fri, 15 May 2026
+ 18:20:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260516004004.1455526-1-joannelkoong@gmail.com> <20260516004004.1455526-20-joannelkoong@gmail.com>
-In-Reply-To: <20260516004004.1455526-20-joannelkoong@gmail.com>
+References: <20260516004004.1455526-1-joannelkoong@gmail.com> <20260516004004.1455526-21-joannelkoong@gmail.com>
+In-Reply-To: <20260516004004.1455526-21-joannelkoong@gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 15 May 2026 18:04:09 -0700
-X-Gm-Features: AVHnY4KoZdiSGJG-4wYSni3XkLB_-aOuD-lXy6zSI7M5cwElKh-O7LAgLIiFbp0
-Message-ID: <CAJnrk1bm=QOmY9MNZf5rbi-aTLaYetJ2Ziu7A5q9m4MMy5-Y7A@mail.gmail.com>
-Subject: Re: [PATCH v2 19/21] fuse: add passthrough setattr
+Date: Fri, 15 May 2026 18:20:45 -0700
+X-Gm-Features: AVHnY4It9t9mdeAK6RdHpuabloeao3VLH1hUAq1eRnc6MZF8e4a5Ory79r1K4uc
+Message-ID: <CAJnrk1a9_MLyMebfsDe_=Rcd2+TaiD87pW4fd4ve8ZBQPCfGcQ@mail.gmail.com>
+Subject: Re: [PATCH v2 20/21] fuse: use passthrough getattr in setattr
+ suid/sgid handling
 To: amir73il@gmail.com, miklos@szeredi.hu
 Cc: fuse-devel@lists.linux.dev, linux-unionfs@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -95,51 +96,54 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, May 15, 2026 at 5:53=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
 m> wrote:
 >
-> Add passthrough setattr which sets attributes directly on the backing
-> inode through backing_inode_setattr() instead of sending FUSE_SETATTR to
-> the server.
->
-> Passthrough setattr is checked before the
-> handle_killpriv/handle_killpriv_v2 suid/sgid stripping because the
-> stripping is handled natively by notify_change() on the backing inode.
+> When refreshing i_mode for suid/sgid kill during setattr, use
+> passthrough getattr if the inode has that enabled.
 >
 > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > ---
->  fs/fuse/dir.c             |  3 +++
->  fs/fuse/fuse_i.h          |  3 ++-
->  fs/fuse/passthrough.c     | 28 ++++++++++++++++++++++++++++
->  include/uapi/linux/fuse.h |  1 +
->  4 files changed, 34 insertions(+), 1 deletion(-)
+>  fs/fuse/dir.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
 > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 4c7e3e1604af..b67b3b334e69 100644
+> index b67b3b334e69..fd1b3fd86968 100644
 > --- a/fs/fuse/dir.c
 > +++ b/fs/fuse/dir.c
-> @@ -2506,6 +2506,9 @@ static int fuse_setattr(struct mnt_idmap *idmap, st=
-ruct dentry *entry,
->         if (!fuse_allow_current_process(get_fuse_conn(inode)))
->                 return -EACCES;
->
-> +       if (fuse_passthrough_op(inode, FUSE_SETATTR))
-> +               return fuse_passthrough_setattr(entry, attr);
+> @@ -2524,7 +2524,11 @@ static int fuse_setattr(struct mnt_idmap *idmap, s=
+truct dentry *entry,
+>                          * ia_mode calculation may have used stale i_mode=
+.
+>                          * Refresh and recalculate.
+>                          */
+> -                       ret =3D fuse_do_getattr(idmap, inode, NULL, file)=
+;
+> +                       if (fuse_passthrough_op(inode, FUSE_GETATTR))
+> +                               ret =3D fuse_passthrough_getattr(inode, N=
+ULL,
+> +                                                              STATX_MODE=
+, 0);
+> +                       else
+> +                               ret =3D fuse_do_getattr(idmap, inode, NUL=
+L, file);
 
-In the v1 discussion [1], there was a suggestion about gating
-FUSE_PASSTHROUGH_INO on FUSE_HANDLE_KILLPRIV_V2 to avoid the
-non-atomic killpriv path, but I think we were only encountering the
-non-atomic killpriv path because I was calling
-fuse_passthrough_setattr() in the wrong place. I think we can avoid
-this altogether by just having the backing filesystem handle all of
-the suid/sgid stripping atomically through its own notify_change()
-path, which will let us skip all the fuse killpriv handling logic in
-this function.
+I left this part untouched from v1 but there was a discussion [1]
+about whether to enforce that setattr must be passed through if
+getattr is passed through [1]. I think there might be some use cases
+though where having only getattr passed through and not setattr is
+useful (eg server wants fast stat() but needs to intercept attribute
+changes for access control or policy enforcement). I'm not sure if you
+still feel it's better to keep it simple with enforcing that
+getattr+setattr rmust always be passed through together, Amir, but if
+so I'm happy to add that in.
 
 Thanks,
 Joanne
 
-[1] https://lore.kernel.org/fuse-devel/CAOQ4uxipQJt5zskb_THxueGi_MXpFdywFiG=
-pd_nmWeY_sMHwzQ@mail.gmail.com/
+[1] https://lore.kernel.org/fuse-devel/CAOQ4uxg7jaA0FdLW6uzZBRX=3Dm1Xw4v-k7=
+zeQx7kYcpFwFDpf7A@mail.gmail.com/
 
-> +
->         if (attr->ia_valid & (ATTR_KILL_SUID | ATTR_KILL_SGID)) {
->                 attr->ia_valid &=3D ~(ATTR_KILL_SUID | ATTR_KILL_SGID |
->                                     ATTR_MODE);
+>                         if (ret)
+>                                 return ret;
+>
+> --
+> 2.52.0
+>
