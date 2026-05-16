@@ -1,308 +1,172 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC1F26CE2C
-	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 22:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8B22264C0
+	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 23:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778971657; cv=pass; b=DcC1JIHKIIcyi4z95ojCGUfGTA53SLs1bfCmazedvYl+HsslN6/5+qRTkLIhDpGa5W8sZIvLJpZG/mtBYFp7Djt4o9rf2rtLkJMFfPQC5jVJUAh7qUEIvz016IbJXdmFlihQXkryQDjB9OmrKos4ojdUCJYH0HiLcggUXj0NlJ0=
+	t=1778972640; cv=pass; b=B6WGNtl1aZxk0iBzrNT9EY2iTtD3nXFM0nP2l6rx0GmAgYeDudv9iD2QqN0MG+wdlpL7Vitv9m/hOjanYm+imVjVqwL+MNipwZfB+q2z7Ov6Q59O0/MgZVZ7+gBDCzZyQmKSrQw6RKH0pNY3lrVi5GovPeb5NnmtY4tnJCljgvU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778971657; c=relaxed/simple;
-	bh=h8x3DiuiZ/bmr2OA5sky9W9rComCiihL3hpgIK0F9Ko=;
+	s=arc-20240116; t=1778972640; c=relaxed/simple;
+	bh=/y3rTsfAPA+TdIxNGL50QvOlD4VMMFGYfew+jato8a8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tnKWzyHPV8t6GzdHmjlOdTgkjIVP2aI15yNfMXBkmoZrU32w3DaPRENTpg+8jWM8pGsBlraIHAr0oRAZRJ4S+cXLCSEcik84BI5qyEpZTf6BlQg2u480xYxWGWUpGxqYoAwe3UndsFsnP15970ca3QGAcz3G6Yk6fajFvPNSABQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JaQmkkBg; arc=pass smtp.client-ip=209.85.218.51
+	 To:Cc:Content-Type; b=S3fqdcuhSVIFERoxluBxM+UEYVG5izitS6Ih6ysWfQ02nTsISbGB6k+Byn277QPLEISmjIPrdRsKofMlYAANZninvxJjQww9vz+HilyiSRLHJcRPMctjibMcybGyvE4I6MJFUxYmMEYuwerjAWk//NHk1WitdBYzfccqccA5XFU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sg/aAQ5G; arc=pass smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JaQmkkBg"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bcb5370bb0dso277071866b.1
-        for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 15:47:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778971654; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sg/aAQ5G"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-67be871ed3fso2900972a12.1
+        for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 16:03:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778972637; cv=none;
         d=google.com; s=arc-20240605;
-        b=SYde3UQ46nrSJWNRryalumH+AwkY28m9dIitXuKNgDq1MwdxsWAZr0ihhCwiC8690O
-         iYhGTmGSQPvgm8EWyDDXyX0YMfRoICcLu0zgs0lmqcXbsEkHiL9DdbdjtuX93I39+J2c
-         F0NIDdsPRS9qDmOuh1NU+tE/ijElw/gBsou9w4DVNCUFX55rfDvNMJKokkr0AgEdh1nn
-         lxekDoGrbFl7meWOJXYW5sw1n0df59Q5sH7C2S/XcIrj4WD5VRgZw24Yk1Nk1F5wACgI
-         YPT6YA5Beow3AIr7CGEwbIoi6cssx8rXL0BbNrvY4SeTbqW+1Z//YSMMZYGDrEcGq2BL
-         lk5Q==
+        b=KNy7gVoBbaI6F8A+ZE8nwNKDragmab4usAzfbaAl5v6KOwSryfZiLVRm/xSshqgXKT
+         Lq52FBlfpJPKkIOOEc92debHNDGUrbMJXCj1ee+Umbp+XySpioMmXgqK5TABD4ov/xiE
+         qh5aRhJf4kORrg8rSiPiNIWilWe6dfoTX5gCIbwX+66zc6zZpVujpiMeQOhM8a3f2ScA
+         GyH85DP17JEjTq/KnjUKKMAQLpVtE9gkqGWVE7EccT5uwMS84EZKM9pCqbw5Adzmg8Jk
+         f4q+AR1/5wYlMWJAJlz8DAYbG7cudJdq2ORTxh7eCWoIZb013VRKpRE7Zuiq1/1HX+bM
+         zwvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=0voABfhB90nxgqUrLvSddU9akrS4n7YFxWZiophb6Bg=;
-        fh=oHljJBJ+R3hQCTkVmv8fKngvpPqjUQlQ0iMbW1gVTA0=;
-        b=gIc2xQOo7+dLvOLb5S/3ZlmC4TlIBqxJKHQGb2xTthBIGWoRuKgPpBQrG8wfUccIuJ
-         qlT/BeklHa/5zANdKW9QKl3KMytkq+ipxuhNwCO+7mM0ELHwnQARQitr2u3xquggl2go
-         Cktia3nZ6HW3/lK3JMK13UlfuB9vEbp5nbAIvpOJ8I/cq5JOcZUfeXnjPyLwPijxMw5A
-         VQQ8hjFhgKQUwMBAzkC7wwlTL9f+bB90TWwdniV9XCNHlhDtvtyyFW8wny2zqQybKIWp
-         TNONBAxzoyNu92f66yLxaydKhPUcxGKgIAdztzekiwwZTzrVtDtX783p/KeO/hxXQuid
-         /DAg==;
+        bh=8DEfMqQ5RG6l620YFRFpDY/yq4az/n7LwelUR3R4K3o=;
+        fh=Hw6SvA1TMhQzjNR0eGj09y/mHvHEIIBUFaq2hfNjnkI=;
+        b=M1fHxvrOh39xWR1XbGJ7LoblY+IG19bSvPbrd92oucHcAmylaATZQLilp9fvkW3EMy
+         gJ8KgtiwPJT4O30yQKs8T7lZ0/kkG8i51GFdbzhnzQ4Fi8vKefyOVAS7gzWTakU23ZKf
+         JKf6eL0I8I2mfsKxJSwq6/9KLurfLOxAFhWUOyK8mCM6ZO5Kd6aKQzu4axkJR5aR/r2V
+         iWzNj1o8OnD7qw/aBHaVtq0Jy1bryl1dPquwDXIVC9z9p7YBkeZrgNByh91YMi/iPFLv
+         los9l2JufYMYnjW+9UDAYFwV5zMv10HuRdwu+ZTdQ5WaBg0kE9gXiLwAIMQ3PLacQRZo
+         njHQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778971654; x=1779576454; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778972637; x=1779577437; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0voABfhB90nxgqUrLvSddU9akrS4n7YFxWZiophb6Bg=;
-        b=JaQmkkBgO4tdYDQYX0Hf9lhnrH9XCp4STOPsRwmNGbLQjoiemsiTi8uAEi94HZa3mC
-         1y5LmBNJo2kd19cJp/M2SIfBo+NmaaASfBvM+109XvdNGEuUbj2+hkZWGNMv7YtX4HOY
-         XJycB9GvEQp3D+Rph1M0kS7qFnKzJ+dHHJf1bZdtsBeDZrtsM+4xqZoJfLnltqTN1I+S
-         UBxFWE/lqVKDJZN1oPbaGYQxPgUV2Uy0emJRVc3orG0JPO4sRKSspga+l/0+BkMXm1Kn
-         9mLBQcxOqa00HFnMuwBOoAGIDM8xmUVSZYNYw2kni4qn1ZtbjJzt/JotOII8NsI/bRm5
-         LtDA==
+        bh=8DEfMqQ5RG6l620YFRFpDY/yq4az/n7LwelUR3R4K3o=;
+        b=sg/aAQ5GTeeIig5F9LYfCqzpIS5FN6iX8433gwwkR3/ybTZnHJNrjdfBY/SZtrF8f7
+         EPraBxpPqf1CiEK/3GgTJC9hOdWWFSJZZo4sw0ZFq+7aN417AuLW8FmZuhKCGafGLKWY
+         UEadMpp4beMBQr2ZwTLaDgGgiTEGQzhzi5GUqbv3wn1Wm0xDieT0U6OuCF3eKErODihd
+         f+HpRB5mSYJK4Py69MiJ0PL5aQbO2fRpHeqwjvoWsl3Qgf5UePZBP3HUyDDL81csL62w
+         POiKUnGamm5h7I61R0l++1Ptzddg7/OUpNVyIr3DpIK/pmhaURzHvs7ArRrYqhbqcXgT
+         MOkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778971654; x=1779576454;
+        d=1e100.net; s=20251104; t=1778972637; x=1779577437;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0voABfhB90nxgqUrLvSddU9akrS4n7YFxWZiophb6Bg=;
-        b=WeCPPnF3IlOy8menauphIfxXuj1AC1YsBoooR+FzRDBBp6heNGx9eyg3VuwPwJMrOA
-         pqPOZ9e/JHtCihLWi6MCiUqydpnAVCWkyws0xc3fMHWFb3xgEzoqjrQCorE+xyuW+lvW
-         C/jjlAqVMot6drGt8MutHHFrh7KiKrjOBq1CSaVnPIRvg+5AovWK4wt8FLyma088iZhl
-         6hMxYbBoMMd8Gi8UQIdZUeu+mKF6tLbcuKYti/jwD0DgcVsILUPm0mFAapxhYS4L466L
-         wX9IM2Q4olZzPgcNAZkB7EQjNs8iiMjjYV6SWfmI/lV36qoYGdHniWh9KWtcmi109ocC
-         qHIw==
-X-Forwarded-Encrypted: i=1; AFNElJ/qjGTxuCP+kP4wkby1p77JjkZFrB4XLdMr2rWDxLc3W41XZ/IhuswD3r1tPl8Xj6vLhSOMneNHHp/W@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy0dECsKL7JqfH2PyW3FTYWf32VXvjgdwUzRS08zFE47U0IxeN1
-	utpxqDEjsBZWJ5nMASM3aNPUtDpq8cVQHrXhxgAO2ru7vWdFfACe1mV72nmH0lW3glbqg5nTrhO
-	j/uGHN1jKUUu+y6dlNbiB+EuU3J6dHmVg9bR3hbQ=
-X-Gm-Gg: Acq92OH36hehD5PQVswUGYVJubFfQoF3gezPapt7QHtiV5M4F9a9CfhpT4gXWRYzShT
-	fpa6XhIOonrDY2bZhqAjKwZwlVyiBhNvDNFHzjU6hJOYhh7jnQgIAkuHQBf5GIvqPxPdRt3enzH
-	tQYBUEfimpcfttGQzF+j45iCam3tReNw6ta8vDkeuA7ygCi8pNSqLtavo9/Vc9X6fvL/bbW+Zxn
-	X3dwQ/BWMurecfWwf5o+pkWxOojELHWnCMKt0BKNkTkphGV1PtZ2CtNBR6n748BKuDKq/7SUQlR
-	qQdlrmBofQrQZSoof9wjGG4BlK8uRH6i/ARLvCjxUw==
-X-Received: by 2002:a17:907:86a2:b0:ba0:d58b:6045 with SMTP id
- a640c23a62f3a-bd51797a648mr576232166b.27.1778971653962; Sat, 16 May 2026
- 15:47:33 -0700 (PDT)
+        bh=8DEfMqQ5RG6l620YFRFpDY/yq4az/n7LwelUR3R4K3o=;
+        b=r/X1hE5qiEGD10BDj8ApVNy8lcguIhVHpv9F5s46sSw1xpUGuWmO0UqIJYkwWp2S8g
+         E/S3XFRfQnpYhviVbrpDjwPo1rBXtaREJsGOJ6YvtGHqNYVQtqPL7GpMVegmmOVy9eur
+         ILsYxGZ2AQfJkTD00qmeYS3kzghbNzitlu/pOyAdxeVqlqT4+Z5iBB7JsIlohI/xCbJk
+         o1tI8TnV99d5Wh8MPnXzpLYXwMiX/IpR2oQXE3QRtJJ64LAT8YvcqH9h6x4DPv5XOlIC
+         PCnhNTHGo/as4LxqwujhwqYZ3S09IxDNjNPETP+FWGXw4jhesQxpnEV3fGeHxSUNz6CB
+         Qpgg==
+X-Forwarded-Encrypted: i=1; AFNElJ/b+Z1jLXx/ai78nsjlm6QGVBMhHMXjJb9F/7SPwO4UXtTZal/k7baSENzQn2tiUDTp/hGFpUldrOlf@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfSR9oDpJgFf9WsgPbuqnF7W4cCXrO/Oikp1PcLPuX8Jd5FYeo
+	DgYYn5IMGVlvwb6D52DETSMOW5zpYoqY76fT7R/8Oz49tOAn34vmVXdAO6JSxexSbyOyay4KMGX
+	LvEo215QiGVu44W8iYN86D5bqZYPwzlE=
+X-Gm-Gg: Acq92OFl6M/Wd+6b8lmQ7Jnv53CnYtCqgcAe/3OhxSEQ4yk2zrhBCKjhAABKTV0e13I
+	5gEWRwOtYSpmFmIzoSHy6+d8s/iavCu4xB8JISecKQ6rWftzEXmzXOnPUF496+T4iPo5v8r1aE1
+	B9ftTRjt0E5M2oxMgKFGzqqoFzmLaAOyHIcQxIYuqfhdEhG6VDjusIPExL1kqBqpsh2n3HvPh7K
+	Qur5LV3e6ETcLwppaj5dASa1iKm14tiXKiDpULIDuHvFxmU8RzdCmeC6t0VdmAtbTZDRRhyDTbc
+	+rcnB0Ygg2UQASwKR+i5vJEBC+9kh7qwAuF8pCJjXg==
+X-Received: by 2002:a05:6402:11d1:b0:67e:53a4:5807 with SMTP id
+ 4fb4d7f45d1cf-683bd08ff27mr4435341a12.18.1778972637445; Sat, 16 May 2026
+ 16:03:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260516004004.1455526-1-joannelkoong@gmail.com> <20260516004004.1455526-19-joannelkoong@gmail.com>
-In-Reply-To: <20260516004004.1455526-19-joannelkoong@gmail.com>
+References: <20260516004004.1455526-1-joannelkoong@gmail.com>
+ <20260516004004.1455526-20-joannelkoong@gmail.com> <CAJnrk1bm=QOmY9MNZf5rbi-aTLaYetJ2Ziu7A5q9m4MMy5-Y7A@mail.gmail.com>
+In-Reply-To: <CAJnrk1bm=QOmY9MNZf5rbi-aTLaYetJ2Ziu7A5q9m4MMy5-Y7A@mail.gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Sun, 17 May 2026 00:47:22 +0200
-X-Gm-Features: AVHnY4IeY4HZlkYS_Ymc2MPhTLDhL3LQN-9CGXPwza26pRWEv2NOhis8BuWLtzg
-Message-ID: <CAOQ4uxjzPRQTNqasMrNELKOpvSBmuFGxmfygQbx5osuCwWVjdA@mail.gmail.com>
-Subject: Re: [PATCH v2 18/21] backing-inode: add backing_inode_setattr()
+Date: Sun, 17 May 2026 01:03:46 +0200
+X-Gm-Features: AVHnY4IY2vvNxdmoXtMcnAf1FkqaoedjoYIyMCVPCDMOwBHuc7ExpaUUbmAQTEM
+Message-ID: <CAOQ4uxgfEwhy+YRbZ2H6=Rj4b7d=R-DhZVd+_28MA-9VAd-C5g@mail.gmail.com>
+Subject: Re: [PATCH v2 19/21] fuse: add passthrough setattr
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
 	linux-unionfs@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 16, 2026 at 2:53=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
+On Sat, May 16, 2026 at 3:04=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
 m> wrote:
 >
-> Move logic in ovl_setattr() to a generic backing_inode_setattr() function
-> in fs/backing-inode.c, which other filesystems that use backing inodes
-> (eg fuse passthrough) will use.
+> On Fri, May 15, 2026 at 5:53=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
+com> wrote:
+> >
+> > Add passthrough setattr which sets attributes directly on the backing
+> > inode through backing_inode_setattr() instead of sending FUSE_SETATTR t=
+o
+> > the server.
+> >
+> > Passthrough setattr is checked before the
+> > handle_killpriv/handle_killpriv_v2 suid/sgid stripping because the
+> > stripping is handled natively by notify_change() on the backing inode.
+> >
+> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > ---
+> >  fs/fuse/dir.c             |  3 +++
+> >  fs/fuse/fuse_i.h          |  3 ++-
+> >  fs/fuse/passthrough.c     | 28 ++++++++++++++++++++++++++++
+> >  include/uapi/linux/fuse.h |  1 +
+> >  4 files changed, 34 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> > index 4c7e3e1604af..b67b3b334e69 100644
+> > --- a/fs/fuse/dir.c
+> > +++ b/fs/fuse/dir.c
+> > @@ -2506,6 +2506,9 @@ static int fuse_setattr(struct mnt_idmap *idmap, =
+struct dentry *entry,
+> >         if (!fuse_allow_current_process(get_fuse_conn(inode)))
+> >                 return -EACCES;
+> >
+> > +       if (fuse_passthrough_op(inode, FUSE_SETATTR))
+> > +               return fuse_passthrough_setattr(entry, attr);
 >
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> In the v1 discussion [1], there was a suggestion about gating
+> FUSE_PASSTHROUGH_INO on FUSE_HANDLE_KILLPRIV_V2 to avoid the
+> non-atomic killpriv path, but I think we were only encountering the
+> non-atomic killpriv path because I was calling
+> fuse_passthrough_setattr() in the wrong place. I think we can avoid
+> this altogether by just having the backing filesystem handle all of
+> the suid/sgid stripping atomically through its own notify_change()
+> path, which will let us skip all the fuse killpriv handling logic in
+> this function.
 
-Wow this code brings back memories that I tried hard to forget :)
-I hope that fuse passthrough can reap the benefits of all the bugs
-and fixes in ovl_setattr()...
+I think it still matters, but to the only-passthrough-GETATTR case
+and I am still in favor of making this change.
+My point was why have the discussion whether getattr
+for the purpose of killpriv should be passthrough or not (next patch)?
+Why not drop the next patch instead because it will become moot.
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+If FUSE_PASSTHROUGH_INO requires FUSE_HANDLE_KILLPRIV_V2
+it means that FUSE kernel is never trying to play games removing privs
+itself, not with passthrough and not without passthrough.
 
-> ---
->  fs/backing-inode.c            | 54 ++++++++++++++++++++++++++++
->  fs/overlayfs/inode.c          | 66 ++++++++++-------------------------
->  include/linux/backing-inode.h |  4 +++
->  3 files changed, 76 insertions(+), 48 deletions(-)
->
-> diff --git a/fs/backing-inode.c b/fs/backing-inode.c
-> index 474770a1fa9d..e72f278789d8 100644
-> --- a/fs/backing-inode.c
-> +++ b/fs/backing-inode.c
-> @@ -41,3 +41,57 @@ void backing_inode_copyattr(struct inode *inode,
->  }
->  EXPORT_SYMBOL_GPL(backing_inode_copyattr);
->
-> +int backing_inode_setattr(struct dentry *dentry,
-> +                         const struct path *backing_path,
-> +                         struct iattr *attr, const struct cred *cred)
-> +{
-> +       struct dentry *backing_dentry =3D backing_path->dentry;
-> +       struct inode *winode =3D NULL;
-> +       int err;
-> +
-> +       if (attr->ia_valid & ATTR_SIZE) {
-> +               winode =3D d_inode(backing_dentry);
-> +               err =3D get_write_access(winode);
-> +               if (err)
-> +                       return err;
-> +       }
-> +
-> +       /*
-> +        * Clear ATTR_MODE to avoid BUG_ON in notify_change(), which does=
- not
-> +        * allow ATTR_MODE together with ATTR_KILL_SUID/SGID (the first
-> +        * notify_change() converted ATTR_KILL_SUID/SGID into ATTR_MODE u=
-sing
-> +        * @dentry's inode mode).
-> +        *
-> +        * This also ensures notify_change() recomputes the mode from the
-> +        * backing inode's current mode, instead of a potentially stale v=
-alue
-> +        * from @dentry's inode.
-> +        */
-> +       if (attr->ia_valid & (ATTR_KILL_SUID|ATTR_KILL_SGID))
-> +               attr->ia_valid &=3D ~ATTR_MODE;
-> +
-> +       /*
-> +        * The filesystem's file is not meaningful to the backing filesys=
-tem.
-> +        * Clear ATTR_FILE so the backing filesystem does not try to use =
-it.
-> +        */
-> +       attr->ia_valid &=3D ~ATTR_FILE;
-> +
-> +       err =3D mnt_want_write(backing_path->mnt);
-> +       if (err)
-> +               goto out_put_write;
-> +
-> +       inode_lock(backing_dentry->d_inode);
-> +       scoped_with_creds(cred)
-> +               err =3D notify_change(mnt_idmap(backing_path->mnt),
-> +                                   backing_dentry, attr, NULL);
-> +       if (!err)
-> +               backing_inode_copyattr(dentry->d_inode, backing_path);
-> +       inode_unlock(backing_dentry->d_inode);
-> +       mnt_drop_write(backing_path->mnt);
-> +
-> +out_put_write:
-> +       if (winode)
-> +               put_write_access(winode);
-> +
-> +       return err;
-> +}
-> +EXPORT_SYMBOL_GPL(backing_inode_setattr);
-> diff --git a/fs/overlayfs/inode.c b/fs/overlayfs/inode.c
-> index 00c69707bda9..f1cd67e6e9c8 100644
-> --- a/fs/overlayfs/inode.c
-> +++ b/fs/overlayfs/inode.c
-> @@ -15,16 +15,17 @@
->  #include <linux/namei.h>
->  #include <linux/posix_acl.h>
->  #include <linux/posix_acl_xattr.h>
-> +#include <linux/backing-inode.h>
->  #include "overlayfs.h"
->
->
->  int ovl_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
->                 struct iattr *attr)
->  {
-> +       struct path backing_path;
->         int err;
->         struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
->         bool full_copy_up =3D false;
-> -       struct dentry *upperdentry;
->
->         err =3D setattr_prepare(&nop_mnt_idmap, dentry, attr);
->         if (err)
-> @@ -39,57 +40,26 @@ int ovl_setattr(struct mnt_idmap *idmap, struct dentr=
-y *dentry,
->                 err =3D ovl_copy_up(dentry);
->         else
->                 err =3D ovl_copy_up_with_data(dentry);
-> -       if (!err) {
-> -               struct inode *winode =3D NULL;
-> -
-> -               upperdentry =3D ovl_dentry_upper(dentry);
-> -
-> -               if (attr->ia_valid & ATTR_SIZE) {
-> -                       winode =3D d_inode(upperdentry);
-> -                       err =3D get_write_access(winode);
-> -                       if (err)
-> -                               goto out;
-> -               }
-> -
-> -               if (attr->ia_valid & (ATTR_KILL_SUID|ATTR_KILL_SGID))
-> -                       attr->ia_valid &=3D ~ATTR_MODE;
->
-> -               /*
-> -                * We might have to translate ovl file into real file obj=
-ect
-> -                * once use cases emerge.  For now, simply don't let unde=
-rlying
-> -                * filesystem rely on attr->ia_file
-> -                */
-> -               attr->ia_valid &=3D ~ATTR_FILE;
-> -
-> -               /*
-> -                * If open(O_TRUNC) is done, VFS calls ->setattr with ATT=
-R_OPEN
-> -                * set.  Overlayfs does not pass O_TRUNC flag to underlyi=
-ng
-> -                * filesystem during open -> do not pass ATTR_OPEN.  This
-> -                * disables optimization in fuse which assumes open(O_TRU=
-NC)
-> -                * already set file size to 0.  But we never passed O_TRU=
-NC to
-> -                * fuse.  So by clearing ATTR_OPEN, fuse will be forced t=
-o send
-> -                * setattr request to server.
-> -                */
-> -               attr->ia_valid &=3D ~ATTR_OPEN;
-> +       if (err)
-> +               return err;
->
-> -               err =3D ovl_want_write(dentry);
-> -               if (err)
-> -                       goto out_put_write;
-> +       /*
-> +        * If open(O_TRUNC) is done, VFS calls ->setattr with ATTR_OPEN
-> +        * set.  Overlayfs does not pass O_TRUNC flag to underlying
-> +        * filesystem during open -> do not pass ATTR_OPEN.  This
-> +        * disables optimization in fuse which assumes open(O_TRUNC)
-> +        * already set file size to 0.  But we never passed O_TRUNC to
-> +        * fuse.  So by clearing ATTR_OPEN, fuse will be forced to send
-> +        * setattr request to server.
-> +        */
-> +       attr->ia_valid &=3D ~ATTR_OPEN;
->
-> -               inode_lock(upperdentry->d_inode);
-> -               with_ovl_creds(dentry->d_sb)
-> -                       err =3D ovl_do_notify_change(ofs, upperdentry, at=
-tr);
-> -               if (!err)
-> -                       ovl_copyattr(dentry->d_inode);
-> -               inode_unlock(upperdentry->d_inode);
-> -               ovl_drop_write(dentry);
-> +       backing_path.dentry =3D ovl_dentry_upper(dentry);
-> +       backing_path.mnt =3D ovl_upper_mnt(ofs);
->
-> -out_put_write:
-> -               if (winode)
-> -                       put_write_access(winode);
-> -       }
-> -out:
-> -       return err;
-> +       return backing_inode_setattr(dentry, &backing_path, attr,
-> +                                    ovl_creds(dentry->d_sb));
->  }
->
->  static void ovl_map_dev_ino(struct dentry *dentry, struct kstat *stat, i=
-nt fsid)
-> diff --git a/include/linux/backing-inode.h b/include/linux/backing-inode.=
-h
-> index 6b43cba9fabd..fd02c87e0f99 100644
-> --- a/include/linux/backing-inode.h
-> +++ b/include/linux/backing-inode.h
-> @@ -11,4 +11,8 @@
->  void backing_inode_copyattr(struct inode *inode,
->                             const struct path *backing_path);
->
-> +int backing_inode_setattr(struct dentry *dentry,
-> +                         const struct path *backing_path,
-> +                         struct iattr *attr, const struct cred *cred);
-> +
->  #endif /* _LINUX_BACKING_INODE_H */
-> --
-> 2.52.0
->
+Quoting your comment on next patch
+"I think there might be some use cases
+though where having only getattr passed through and not setattr is
+useful (eg server wants fast stat() but needs to intercept attribute
+changes for access control or policy enforcement)."
+
+Valid use case, but in this valid use case, said server may reject/allow
+attribute changes, but eventually if it allows them it will likely apply
+them to the very file which was set as backing inode, so essentially
+FUSE_HANDLE_KILLPRIV_V2 is the natural choice for a
+FUSE_PASSTHROUGH_INO server, even when it wants to introspect
+setattr.
+
+I think the same is true for ATOMIC_O_TRUNC.
+Either backing fs deals with O_TRUNC or server deals with O_TRUNC.
+
+But this is my opinion - I am open to hearing other opinions.
+
+Thanks,
+Amir.
