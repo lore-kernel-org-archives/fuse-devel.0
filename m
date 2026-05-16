@@ -1,155 +1,174 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712A01A3154
-	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 02:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337671A724C
+	for <fuse-devel@lists.linux.dev>; Sat, 16 May 2026 03:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778897543; cv=none; b=P9TvP91ARv91dknsEpy+v+r2jl3kkMANTzfi4sB5PZSlzgnCw0T4phTJJVebbPDElFNg81nAESN10OVlo6Kd0NT0whLQf4JRgbiMFVefPO7+95SloUXiiQEdNBV64KLqtBzXv/K0NwV6HnkzQQJANpeTSTXWcD/eiOd/G0KwPQc=
+	t=1778901631; cv=none; b=R4Rbbf80jMmwyDmODaX46kWRo0Z/syDmPEVwb1W42gL86VbhA8gYlIcO6EAP/DHU0uf8ZPAVE5gJIn4lzoRf6fShvgPRDhErY7AAzYzGdsClhExrCyPP4pY61sOSikvG6Ort0iE1b/nD4xovIAE5KGoVkH3WJ+pb/nR1gPjq7Tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778897543; c=relaxed/simple;
-	bh=6rDfVuGVwaViFTnt51KivUesECctwWwNG4HfJaZ79Rs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oo4QbL7/1fiFaitrJ5IfKYd795dP+socwor7ScCWPWqekmtsY3dql6whlfgbLZcgoXCcsyPem/WYr9DHwWpI1Dks7hBKlpetbi6YU5eLRzpUwaG91d6VhzpOEWNEsLtbfAnpfJyI7lPt+MFHx+7hznoOAnxkPexdpNEw6O/fc7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TpaFIv4M; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778901631; c=relaxed/simple;
+	bh=4Jj+uhZ7Raxn7BV+2S1yt2uQDoqkmnbngfmietsVfOg=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=Kn8NSiXh6IDN5KKcNTbzXCV9rmASQgrYRfL287uj98ZqXNyh8+gkB+Gbu+peYIGCg087vEraCAoS9khNeYsoWauX0p8ZgslFlggFjXj+fBwo28SHiiN+bkbxlnS2p4sCvXRfdazRT6P0Ln6TnSLLCJmtu/PjTr5Vbys3zPG4zlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=buHYxU8/; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TpaFIv4M"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7c23248f3a3so865457b3.1
-        for <fuse-devel@lists.linux.dev>; Fri, 15 May 2026 19:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778897541; x=1779502341; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AYNddEeOwGt0k46UY8z9L6gutGtCdNQjs1ntJnn2kyA=;
-        b=TpaFIv4M9obXc7viMGIfGOX3gD8hZa8CNCA7UAXDegHUluyHPGPFKacpdNHE2ZAHCR
-         Iv98ZJRme3eQT4tMbCTwsQF+7lWlEpYlbfY6SONjXIgoZXmjatjc/O+uO476ezbcdXWv
-         0a8mxqTMfQMRlZcH8np1ZTwpwrJ6z9enqZ0LmDXnjCmbRNGDIWRUqMQ4oJz+UXnX4NQ0
-         E/7aUaBDQe1zRaq9naujMowsbFmiiba4MCvwMxK+Zz+cjGsj1F0t3iWj+mXCyf62tP8Y
-         UELYSbV/S2agloijS094JVgxmWneTf1muKsrEpz0L9mPy+n6SjQsWvDtXkWA4M6S/pcm
-         /XdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778897541; x=1779502341;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AYNddEeOwGt0k46UY8z9L6gutGtCdNQjs1ntJnn2kyA=;
-        b=he2qgSTElGwwZO50JvrKqbECWWtxWbRgfZAqW2znCDRVwkOmwEnki1+ay97wwuY99f
-         aBybNEW6CsaoxsYZ6EYI947YVkfGtG0TomvBFONCqtaWLiZEAjkFTIybrezl6Nt6/LWX
-         0N0SmBs7nWVC4FeMRXp1nD/g2J2lTyPcpk8g9N6wRqrcIv7Os2+Gbcwh1xG1k+GAZ3Vi
-         YL35jp7eSPQfMd1BU/fbGWQp+LhXZDlyMiJLbTUWmb4EtePUSW6zABgn99DtepEh64iu
-         yGp+K82LTsAUnUvcvMp3oHRbWW+MgNkW6/05sLo7BXXRykxsR6Wr4eYV8hJcLM2IHyRh
-         L2oQ==
-X-Gm-Message-State: AOJu0Yz+3QmcJKn/19OtD1XZXUHmKIhFuEMv7anIlNXsfqaobibZSL69
-	No4cDAbWl/qAzJhxila0h745BnwSxXmxxRb7VPbB6NZVF9QDB9ZW7ZnR
-X-Gm-Gg: Acq92OETF9AbtaEjQaLkbcvZdclPosG6hFkTSlDwLdEM7FbNv3jiBZHvR5FWm9sOWPV
-	ViZeoCJPjWD5bCGj+9tOHHphJnFZO5EeuP3R0lh02AAddbZQEVb8j/s3wY9gxZ/xpuD9cm0VZJt
-	F0NMtuk3Msh6e65rjSSNWUE1epJvxOz912ng+yfjM4mB3UOLukXQpfeNAb/4Sg2aFsYZJ6UYDuI
-	9waaAZNodmPCsbONZwTGJlKXb/mp4UYtzYI5vSzgqKHShgzCK6gqfUGwssfjBuIAimqL9NsTy18
-	QVgTIg1luylGbxKjA3xNIh6/HQzx2V6ACSvFOKGURA5ZYqkjfBmpyMs0HGYYa2ja6nsF4RJlYfy
-	vI9SlqCA6DiXwr6pp8ZkKuZlsMpo+Xt1GCyh1HvgGSrYPQnEmUDadRPQOmECxfWa7Xg75oBMvLN
-	znvkWvN6AnxbbROSZ2gjxMUyGdhFwv3vE=
-X-Received: by 2002:a05:690c:3705:b0:7c0:4f0:883d with SMTP id 00721157ae682-7c95d1d977cmr73877487b3.44.1778897541467;
-        Fri, 15 May 2026 19:12:21 -0700 (PDT)
-Received: from localhost ([2a03:2880:f806:1b::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7c7f28b810csm37583987b3.14.2026.05.15.19.12.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 19:12:20 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev,
-	bernd@bsbernd.com,
-	ali@ddn.com,
-	horst@birthelmer.de,
-	Heechan Kang <gganji11@naver.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 3/3] fuse: fix moving cancelled entry to ent_in_userspace list
-Date: Fri, 15 May 2026 19:11:38 -0700
-Message-ID: <20260516021138.2759874-4-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260516021138.2759874-1-joannelkoong@gmail.com>
-References: <20260516021138.2759874-1-joannelkoong@gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="buHYxU8/"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=m6z3J6YAAf8+rhp8kpsa02cUy1jFnUj/ICAyMsOLPTM=;
+	b=buHYxU8/9By+5xoXViOxOvJfsxzOQonRqCCOa+Irkpm5Mha9LL724qWNSchWmlxls7F3DKIYE
+	cqSOcXGfLCuCsMNs6i/gn9X2W1QnaxkCKWEftjMvz0SbWiA/KLqlARfOI0UFZEviNcN1rPySGk6
+	LF5KFai5OBup83kcJXj3cLI=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4gHTdf5QXmzKm4y;
+	Sat, 16 May 2026 11:12:38 +0800 (CST)
+Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
+	by mail.maildlp.com (Postfix) with ESMTPS id EE02240563;
+	Sat, 16 May 2026 11:20:19 +0800 (CST)
+Received: from [10.174.178.46] (10.174.178.46) by
+ kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Sat, 16 May 2026 11:20:19 +0800
+Subject: Re: [PATCH] fuse: virtiofs: fix illegal inode address access in
+ fuse_release_end
+To: "Darrick J. Wong" <djwong@kernel.org>
+CC: <miklos@szeredi.hu>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <yangerkun@huawei.com>,
+	<yi.zhang@huawei.com>, fuse-devel <fuse-devel@lists.linux.dev>
+References: <20260514124102.2703313-1-chengzhihao1@huawei.com>
+ <20260515210719.GD9568@frogsfrogsfrogs>
+From: Zhihao Cheng <chengzhihao1@huawei.com>
+Message-ID: <953d1dc7-f1a4-88a8-1db4-0902b902055f@huawei.com>
+Date: Sat, 16 May 2026 11:20:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20260515210719.GD9568@frogsfrogsfrogs>
+Content-Type: text/plain; charset="gbk"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemk500005.china.huawei.com (7.202.194.90)
 
-fuse_uring_cancel() moves entries that are available (these have no reqs
-attached) to the ent_in_userspace list. ent_list_request_expired()
-checks the first entry on ent_in_userspace and dereferences
-ent->fuse_req unconditionally, which will crash on a cancelled entry
-that was moved to this list.
+ÔÚ 2026/5/16 5:07, Darrick J. Wong Ð´µÀ:
+> [add fuse-devel]
+> 
+> On Thu, May 14, 2026 at 08:41:02PM +0800, Zhihao Cheng wrote:
+>> When a submount (e.g. virtiofs with fc->auto_submounts=true) is umounted
+>> while an async RELEASE request is still pending, an illegal inode address
+>> accessing occurs in fuse_release_end()->iput().
+>>
+>> Trigger process:
+>>   1. virtiofs has a submount; user opens and closes a file under it
+>>   2. Close calls fuse_file_put() with sync=false, sending RELEASE
+>>      asynchronously
+>>   3. fuse_release_end() is scheduled to run later via igrab() holding
+>>      inode ref
+>>   4. File is freed, mount/dentry refcounts are released
+>>   5. User umounts the submount; fuse connection detects remaining
+>>      superblock and does NOT flush the connection's requests
+>>   6. generic_shutdown_super() destroys the superblock and poisons busy
+>>      inodes' inode->i_sb = VFS_PTR_POISON
+>>   7. Later, fuse_request_end() calls fuse_release_end() which does
+>>      iput(inode)
+>>   8. iput() accesses inode->i_sb->s_op at the poisoned address, crash!
+>>
+>> There are two solutions to fix it:
+>>   Solution A: Hold path reference in fuse_file_put, and put path
+>>   synchronously, which could reintroduce the issue fixed by commit
+>>   5a18ec176c934 ("fuse: fix hang of single threaded fuseblk filesystem").
+>>
+>>   Solution B (chosen): Use synchronous RELEASE for auto_submounts (which
+>>   is only supported by virtiofs). The virtiofsd(fuse daemon) and virtiofs
+>>   won't work together under one same kernel instance, so the problem fixed
+>>   by commit 26e5c67deb2e ("fuse: fix livelock in synchronous file put from
+>>   fuseblk workers") won't be brought back in virtiofs.
+> 
+> Does the weird AIO "kernel breaks if you close the fd before all the IOs
+> complete" behavior happen on virtiofsd?
+> 
 
-Fix this by freeing the entry and dropping queue_refs directly in
-fuse_uring_cancel(). This is safe because cancel is the cancel handler
-itself - after io_uring_cmd_done(), no more cancels will be dispatched
-for this command, and teardown serializes with cancel via queue->lock.
+Hi Darrick,
+IMHO, the problem fixed by commit 26e5c67deb2e1f42a9("fuse: fix livelock 
+in synchronous file put from fuseblk workers") happens as following process:
+    fuse user              fuse daemon
+fd = open(file)
+io_submit_one
+  req->ki_filp = fget(iocb->aio_fildes)
+close(fd) // file->f_ref = 1, file won't be released
+                         process FUSE_WRITE req
+                         write(/dev/fuse, reply)
+                          fuse_request_end
+                           fuse_aio_complete_req
+                            aio_complete_rw
+                             fput(iocb->ki_filp)
+                              task_work_add
+                          task_work_run
+                           __fput
+                            fuse_release
+                             __fuse_simple_request
+                              request_wait_answer
 
-Since cancel now decrements queue_refs, fuse_uring_abort() must no
-longer gate fuse_uring_abort_end_requests() on queue_refs > 0, as
-cancelled entries may have already dropped queue_refs while requests are
-still queued. Remove the gate so abort always flushes requests and stops
-queues.
+For viriofs, the user(virtiofs) runs in kernel A(guest), the 
+daemon(virtiofsd) runs kernel B(host), and the fuse_request_end is 
+called by virtio_fs_requests_done_work -> virtio_fs_complete_req_work -> 
+virtio_fs_request_complete, which is under the kworker context(kernel A, 
+guest), so it won't block the daemon thread(kernel B, host).
 
-Reported-by: Heechan Kang <gganji11@naver.com>
-Tested-by: Heechan Kang <gganji11@naver.com>
-Fixes: 4fea593e625c ("fuse: optimize over-io-uring request expiration check")
-Cc: stable@vger.kernel.org
-Co-developed-by: Jian Huang Li <ali@ddn.com>
-Co-developed-by: Horst Birthelmer <horst@birthelmer.de>
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fuse/dev_uring.c   | 6 ++++--
- fs/fuse/dev_uring_i.h | 6 +++---
- 2 files changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index d9108b5b5db8..f4ba64a1796a 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -511,8 +511,7 @@ static void fuse_uring_cancel(struct io_uring_cmd *cmd,
- 	queue = ent->queue;
- 	spin_lock(&queue->lock);
- 	if (ent->state == FRRS_AVAILABLE) {
--		ent->state = FRRS_USERSPACE;
--		list_move_tail(&ent->list, &queue->ent_in_userspace);
-+		list_del_init(&ent->list);
- 		need_cmd_done = true;
- 		ent->cmd = NULL;
- 	}
-@@ -521,6 +520,9 @@ static void fuse_uring_cancel(struct io_uring_cmd *cmd,
- 	if (need_cmd_done) {
- 		/* no queue lock to avoid lock order issues */
- 		io_uring_cmd_done(cmd, -ENOTCONN, issue_flags);
-+		kfree(ent);
-+		if (atomic_dec_and_test(&queue->ring->queue_refs))
-+			wake_up_all(&queue->ring->stop_waitq);
- 	}
- }
- 
-diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-index 368f4d0790eb..22ec67e39ee0 100644
---- a/fs/fuse/dev_uring_i.h
-+++ b/fs/fuse/dev_uring_i.h
-@@ -150,10 +150,10 @@ static inline void fuse_uring_abort(struct fuse_chan *fch)
- 	if (ring == NULL)
- 		return;
- 
--	if (atomic_read(&ring->queue_refs) > 0) {
--		fuse_uring_abort_end_requests(ring);
-+	fuse_uring_abort_end_requests(ring);
-+
-+	if (atomic_read(&ring->queue_refs) > 0)
- 		fuse_uring_stop_queues(ring);
--	}
- }
- 
- static inline void fuse_uring_wait_stopped_queues(struct fuse_chan *fch)
--- 
-2.52.0
+> --D
+> 
+>>
+>> Fetch a reproducer in https://bugzilla.kernel.org/show_bug.cgi?id=221519.
+>>
+>> Fixes: 26e5c67deb2e ("fuse: fix livelock in synchronous file put from fuseblk workers")
+>> Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
+>> ---
+>>   fs/fuse/file.c | 19 +++++++++++++------
+>>   1 file changed, 13 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+>> index c59452d60b8d..a6192b96d861 100644
+>> --- a/fs/fuse/file.c
+>> +++ b/fs/fuse/file.c
+>> @@ -375,13 +375,20 @@ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+>>   	 * synchronous RELEASE is allowed (and desirable) in this case
+>>   	 * because the server can be trusted not to screw up.
+>>   	 *
+>> -	 * Always use the asynchronous file put because the current thread
+>> -	 * might be the fuse server.  This can happen if a process starts some
+>> -	 * aio and closes the fd before the aio completes.  Since aio takes its
+>> -	 * own ref to the file, the IO completion has to drop the ref, which is
+>> -	 * how the fuse server can end up closing its clients' files.
+>> +	 * For auto_submounts (e.g. virtiofs), always use synchronous
+>> +	 * release to avoid illegal inode address access when umount
+>> +	 * happens before async release completes. The async release
+>> +	 * holds inode reference via igrab(), but umount can shutdown
+>> +	 * superblock and poison inode->i_sb before release ends,
+>> +	 * causing crash in fuse_release_end()->iput(). Otherwise,
+>> +	 * always use the asynchronous file put because the current
+>> +	 * thread might be the fuse server. This can happen if a
+>> +	 * process starts some aio and closes the fd before the aio
+>> +	 * completes. Since aio takes its own ref to the file, the IO
+>> +	 * completion has to drop the ref, which is how the fuse server
+>> +	 * can end up closing its clients' files.
+>>   	 */
+>> -	fuse_file_put(ff, false);
+>> +	fuse_file_put(ff, ff->fm->fc->auto_submounts);
+>>   }
+>>   
+>>   void fuse_release_common(struct file *file, bool isdir)
+>> -- 
+>> 2.52.0
+>>
+> 
+> .
+> 
 
