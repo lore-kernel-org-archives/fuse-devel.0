@@ -1,188 +1,191 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2719C38AC90
-	for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 18:04:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779127491; cv=pass; b=KGWsxZZqCDd4GkzalsEdxD5QxIZrYU2Yiy6uUPGnIf+tVA7noql141j8LI8Arc7X58gJ5/RKDD94EzBru3z4aRZxkm9L7h8I+/2aGEXKIFLnuGv1+wSvR+qxMLcCO9ydzfQ68CvsFo6cMdSQuofitaM/W/CeVfs9Dmma0SdwXDg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779127491; c=relaxed/simple;
-	bh=kDDg6N0nN6KEff1emIwXgNf3VdPR+RZcL3mDcfSvr60=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YYP1HW11xWnjT/RiCozVYCME60A5ca+Jq8BBbtnZGR6B73xN40bwTHjPUWq29/DL4wV2Fyk/BcDhVNNiymTW4vpzEyGFb8YGtIDPzenzIem5Z2MQMf65EZVRu6NrAWsMKabQ5JIzOUKP1CyVYEwZw1KmOLoPtA4lhcD5lx9Jm74=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JhTQ0XkS; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD37A38D417;
+	Mon, 18 May 2026 18:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779128051; cv=none; b=Ab2VBNclxnz0LAjuTZ/f4oNhTGyA4862IBvEHl1p7/C0+YSv3IYhjUQ49pIQKcYNNuFvSQbZzWCCxepg6TbuX5LyZpVgMNMtk0Yl7VKLFeBAnRlMq3xewftGyRKm9XAPpWjrQDXvDkybKL6xIeFR3IhdEqZroO04ZLXNdqEEYEY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779128051; c=relaxed/simple;
+	bh=w219VhTpTihdHlnOdR7aP63fg8wurPsI9DN/tAvrxwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LWNEU0jZW50m4VytJ/x8Iwy0/emkQD8QfKmQ68xSMUE5ayWZvoZEdQqn8kBUdE1K6IgvTWYawCBkNnbipkcS1vdB9B/NRBs7k8GsPr6ObWAhf5teIiDgsLa2viSjOA1XYq7ZggSfUyUAtkpW+hDUyg4B9rZcAUVmhXFb+WkdPqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hfPzLdKm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JhTQ0XkS"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43d75312379so2403569f8f.1
-        for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 11:04:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779127488; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cZ9RazKdnN7oQPWf7BLwQobLktwR5PXCGckHqNj4Fox4LwKeP5K2MVj5ywVip4HNg3
-         rV+EukGFbnQqSLQYKyCE4E195mXhcYjlVrJK2snQrqm6U5BO3HOuFTTvVeg2faGTDoN1
-         5NjHgcVFPog1kA0PP4Y6za6vBcN9L7mOh28QXQ/QpFlJwyQov0zf49nF7WpUELjunTTd
-         Nf7ZjK4xyVldFUdeD+DUamZE5pX3TdB/IxQ4Uvpv1zRk9qmD93T4tZXN6qnAbMXy36aV
-         ZXk2XD29zH1kl8QPflZLZXI1wRadAXgb04WCnnY7R34uwFoLGErJBm0Mx5WCYkgdWq7e
-         gk8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CljLoIYskFigaXEtOn3tL+BNQgFNUCP9mu4XODfMHjI=;
-        fh=Bn4csD9ra/4yIGXdSfmbEiUSj2n1DfojCmh6j04maak=;
-        b=baVyUYLYNBoLU51kYNsTkr69h9MGyo6RBGOUUGHWz43AjfbHzWAOrsRY+FZLcLpOl3
-         bP0QcLTVMen8vFIlI+6pwhIKMG2ayuFZ4gmxiiIsHbAkgTE2Q7K/V/OkbDNkwJBstUSV
-         9ZP1zlSj5ugLxfMaG9Ek3CIHgdJJANe/JXAs0Gnz9b8kL+mSUQmdbSukOluNtI6qoXqr
-         CN6J9L7ZCxlM8jKRiY7ExFxLeVsK7y+LQclCUH2cYX8Mm4jKoelrM4gYlAHxCHRRZXBg
-         EucGLWfsINK3XCRARDuTVT+b/NJ9Zl6LKcplj5URN2fupaAaYWNOCF3h5J/Np2qB0x6j
-         p6Zw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779127488; x=1779732288; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CljLoIYskFigaXEtOn3tL+BNQgFNUCP9mu4XODfMHjI=;
-        b=JhTQ0XkSWCbf1C7DRS0S3uL/1C002vnJLkpWgDNVLSgkIF2XzUZXxD4WVl1tW2TnZS
-         o6GVHPYnyfTKDPnxS9Lehzb1cTjIfRxoki/yZC8mY+j/vd6+T+bS3snmTCYOzEwP3ZBL
-         pFZcSKzRSg2JTgZtwk72kAnyo7JZK9tSmHzuwtsGhnO6Bobh96LVPCb1C4cpWA43rkMr
-         ac3LRx0w6ZVM5FyjE5YLUlbAUbfVfepKPQ5+jSHoB0pCJtG/CwbbbQA1Obi4SOYgfE1J
-         SYrgf6sg2Kz1SHl0/AF7i0euUHJnrppznDp3BpPSscutias7MiAkTcVmyhjjDqyimbY7
-         TUjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779127488; x=1779732288;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CljLoIYskFigaXEtOn3tL+BNQgFNUCP9mu4XODfMHjI=;
-        b=XBSmvvQSeFb2P0aN3QmzPKc6aZUjy5+jR/fxnbc4uRT1c7KJyGobAZhcHveDXbBSoi
-         Tmdc9V+P++/a/aLuw6mtHt2CCYBGLuooPyOrPb59JOmBjMxuBIOmM5kKvUH/kp1B3wCp
-         AJ6ThVlYnI5Rol3+AzXCAmpKnDQgDTpFBJdq7yqDHqpJIE4U1dHZ6jUQOiHC6aB4VLHo
-         Ewg+IGncQk5TjvWIHuEuDGSIM9RmJvHfd4CQYCouJeA9uquefw1samMXfBK8/dG12Fr+
-         xF6yz01nd2/TWgKdy1a47LU5gEr++7e5WD23s6bYhZqjAQfRHQLfwHUfSLni7/Ts/BwU
-         4M4Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/20Hc8q4X7wV8I2sykGZ62BLdCHz2UP5AZN8HZV0lCxoW4vrWgfLVZTuQibcMxOKJEBDlUD3BVsE2H@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2Xei3xX59WHclht54pSmXZZk8/w4/LENIJ9S941STZKaV/Vb/
-	7wjEm6hNbBdxk/mevmz6jfqZiAcH1ZxSHgHqu8Uj79AnlQpJSMbOBlMVQtLRU3qu0TGJnrs3s9C
-	m8Q18l5bTlihYRuYOPlxQY0TZO9kzrUs=
-X-Gm-Gg: Acq92OGVt+350hBXQEr2Iy5WZJu6cTNCm/pkCdjKNilqk47aIp+jBn7E7s+CeKiSpFJ
-	Yr53NpirZS/XNKVe8M0Np3YGD5Ke/codnhnmwLnaLlINGjZ7A6Ulr8CA8Kt0AByApFf9xHOSIrz
-	T/jiiNtSmwo4YxNvCAS3O5m61666oqtQ/VwsyFvdG8ojRmNCbroIJ5+8lRSNrRv6PlpFi0UKfvu
-	Xtv96iyT0FhCUo6ELZlj4leQSuwcKs9wZ7gvKsEsNLg0GQI8sHb9VLTfxIoFZxedPRwri4qDKbp
-	qftCcEiVvr2H+mbQ
-X-Received: by 2002:a05:6000:42c2:b0:456:d742:8b4f with SMTP id
- ffacd0b85a97d-45d91438680mr21134881f8f.12.1779127488214; Mon, 18 May 2026
- 11:04:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hfPzLdKm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5A6C2BCB7;
+	Mon, 18 May 2026 18:14:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779128051;
+	bh=w219VhTpTihdHlnOdR7aP63fg8wurPsI9DN/tAvrxwY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hfPzLdKmy1J8MwG/or7BYCpRMu8nrF6k1j4c5VjYCt9zOWl5x9raI5SprSxEIord8
+	 XLrFiQBGUrevSDUE9gzxV5uPf9tNZnuaIRQaAiM6HvXEOVRI/muZs3nkgYJ2j2nPHz
+	 xkA1o7AJqW2e7Kam+571+9asE6kuvvQNhQRUyW2Ecog+n4qrdoGHqXfw1m0YOptBrf
+	 vFlgd15pAs6kQFeWV+zyla3hg/IWmjEX6D/2E9O8gBDE69eeBWZGdvkJk3/JUna8SI
+	 tzwfv/TdQcYb5qsEbF9ErQBPw3lzqbSkz/yVRy/P+Bd4EKKKidGPYV2VDGORs2nMR0
+	 eUnqtNW2RVUnA==
+Date: Mon, 18 May 2026 11:14:10 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: miklos@szeredi.hu
+Cc: joannelkoong@gmail.com, neal@gompa.dev, linux-fsdevel@vger.kernel.org,
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 33/33] fuse: implement freeze and shutdowns for iomap
+ filesystems
+Message-ID: <20260518181410.GA9544@frogsfrogsfrogs>
+References: <177747204948.4101881.16044986246405634629.stgit@frogsfrogsfrogs>
+ <177747205856.4101881.10694466069338531152.stgit@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260516004004.1455526-1-joannelkoong@gmail.com>
- <20260516004004.1455526-3-joannelkoong@gmail.com> <CAJnrk1YUjqd+j1yLXuO0M07ueCUYNC0NqgwmQSm3OiY3hnhgZQ@mail.gmail.com>
- <CAOQ4uxhyZU_6jbv8kY8od_SgG9yQ6aX+KcB2c1um4DajJdSPqA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhyZU_6jbv8kY8od_SgG9yQ6aX+KcB2c1um4DajJdSPqA@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 18 May 2026 11:04:36 -0700
-X-Gm-Features: AVHnY4LHIzzo9vmjpUtLlchtf0O-41uZhMAUHOsNmTtLXcemqB7KqU8vLK1LXnU
-Message-ID: <CAJnrk1aEc1nf7ax0UvdCi7rkzbWDFpgjJcE35HCQyWcPLdoOnw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/21] fuse: prepare for passthrough of inode operations
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	linux-unionfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177747205856.4101881.10694466069338531152.stgit@frogsfrogsfrogs>
 
-On Sat, May 16, 2026 at 9:11=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
->
-> On Sat, May 16, 2026 at 3:34=E2=80=AFAM Joanne Koong <joannelkoong@gmail.=
-com> wrote:
-> >
-> > On Fri, May 15, 2026 at 5:52=E2=80=AFPM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> > >
-> > > +/* op bits for fuse_backing_map ops_mask */
-> > > +#define FUSE_PASSTHROUGH_OP_READ       FUSE_PASSTHROUGH_OP(FUSE_READ=
-)
-> > > +#define FUSE_PASSTHROUGH_OP_WRITE      FUSE_PASSTHROUGH_OP(FUSE_WRIT=
-E)
-> >
-> > Do you think we should couple the passthrough op code to the fuse
-> > opcode so closely, instead of defining the passthrough ops separately,
-> > eg doing something like this?:
-> >
-> > #define FUSE_PASSTHROUGH_READ         (1 << 0)
-> > #define FUSE_PASSTHROUGH_WRITE       (1 << 1)
->
-> Don't drop the _OP_ please
-> Need it to distinguish from FUSE_PASSTHROUGH{,_INO}
-> and we need to think if we want to format this as 32bit and extend later
-> or start with a u64 ops_mask format from the start.
->
-> >
-> > In the (far) future when some more advanced passthrough features get
-> > added (eg full subtree passthrough), it seems like we'd want to add a
-> > passthrough op for that,
->
-> I don't know. fuse_backing_map has flags, why would we want to put that
-> in ops_mask.
+On Wed, Apr 29, 2026 at 07:32:18AM -0700, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> Implement filesystem freezing and block device shutdown notifications
+> for iomap-based servers
+> 
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  include/uapi/linux/fuse.h |   12 +++++++
+>  fs/fuse/inode.c           |   73 +++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 85 insertions(+)
+> 
+> 
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index 5f3724f36f764a..b6fa828776b82f 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -695,6 +695,10 @@ enum fuse_opcode {
+>  	FUSE_STATX		= 52,
+>  	FUSE_COPY_FILE_RANGE_64	= 53,
+>  
+> +	FUSE_FREEZE_FS		= 4089,
+> +	FUSE_UNFREEZE_FS	= 4090,
+> +	FUSE_SHUTDOWN_FS	= 4091,
+> +
+>  	FUSE_IOMAP_CONFIG	= 4092,
+>  	FUSE_IOMAP_IOEND	= 4093,
+>  	FUSE_IOMAP_BEGIN	= 4094,
+> @@ -1257,6 +1261,14 @@ struct fuse_syncfs_in {
+>  	uint64_t	padding;
+>  };
+>  
+> +struct fuse_freezefs_in {
+> +	uint64_t	unlinked;
+> +};
+> +
+> +struct fuse_shutdownfs_in {
+> +	uint64_t	flags;
+> +};
+> +
+>  /*
+>   * For each security context, send fuse_secctx with size of security context
+>   * fuse_secctx will be followed by security context name and this in turn
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index f6ec67a8eb86a2..6d4ff08ad3069a 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1264,6 +1264,74 @@ static struct dentry *fuse_get_parent(struct dentry *child)
+>  	return parent;
+>  }
+>  
+> +#ifdef CONFIG_FUSE_IOMAP
+> +/*
+> + * Second stage of a freeze. The data is already frozen so we only
+> + * need to take care of the fuse server.
+> + */
+> +static int fuse_freeze_fs(struct super_block *sb)
+> +{
+> +	struct fuse_mount *fm = get_fuse_mount_super(sb);
+> +	struct fuse_conn *fc = get_fuse_conn_super(sb);
+> +	struct fuse_freezefs_in inarg = {
+> +		.unlinked = atomic_long_read(&sb->s_remove_count),
+> +	};
+> +	FUSE_ARGS(args);
+> +	int err;
+> +
+> +	if (!fc->iomap)
+> +		return -EOPNOTSUPP;
 
-That's a good point, I like your idea of using flags for that.
+Codex suggests that I implement ->freeze_super here so that on non-iomap
+filesystems, we don't try to flush/sync the filesystem only to fail the
+freeze operation here.
 
->
-> > but that wouldn't map to a fuse op. I think
-> > there are also some fuse ops we might skip defining as passthrough ops
-> > but are implicitly passed through (eg FUSE_STATX which is covered by
-> > FUSE_GETATTR),
->
-> This could also become the case with FUSE_CREATE{,_HANDLE}
-> or {FUSE,FUSEX}_CREAT.
->
-> TBH, the fact that some ops will never be in the mask and
-> that some ops have a canonical bit in itself does not justify creating
-> a different mapping. Do we also want to squeeze the mask into 32bit
-> and leave reserved space? my intuition is to leave it u64.
->
-> > so it seems more intuitive to define the passthrough
-> > ops as describing capabilities rather than implying that it describes
-> > what specific opcodes get passed through?
->
-> hmm. I guess you have a point that it is a bit limiting to commit
-> to this arithmetic in UAPI.
->
-> My thinking behind this was ease of use with these helpers:
->
->        if (!fuse_passthrough_op(file_inode(in), FUSE_READ))
->
-> but those could just as well be macros:
->
-> static inline bool fuse_inode_passthrough_op(struct inode *inode,
->                                             u64 opbit)...
->
-> #define FUSE_PASSTHROUGH_OP(inode, opname)    \
->              fuse_passthrough_op(inode, FUSE_PASSTHROUGH_OP_ ## opname)
->
-> #define FUSE_BACKING_MAP_OP(map, opname) \
->        ((map)->ops_mask & FUSE_PASSTHROUGH_OP ## opname))
->
-> ...
->        if (!FUSE_PASSTHROUGH_OP(file_inode(in), READ))
->
-> wdyt?
+--D
 
-Nice, the macro idea is neat!
-
-I feel like it gives more flexibility to define it separately and I
-think with that, u32 would be more than enough bits as well. But I'm
-happy to go with what you think would be better here.
-
-Thanks,
-Joanne
-
->
-> Thanks,
-> Amir.
+> +
+> +	args.opcode = FUSE_FREEZE_FS;
+> +	args.nodeid = get_node_id(sb->s_root->d_inode);
+> +	args.in_numargs = 1;
+> +	args.in_args[0].size = sizeof(inarg);
+> +	args.in_args[0].value = &inarg;
+> +	err = fuse_simple_request(fm, &args);
+> +	if (err == -ENOSYS)
+> +		err = -EOPNOTSUPP;
+> +	return err;
+> +}
+> +
+> +static int fuse_unfreeze_fs(struct super_block *sb)
+> +{
+> +	struct fuse_mount *fm = get_fuse_mount_super(sb);
+> +	struct fuse_conn *fc = get_fuse_conn_super(sb);
+> +	FUSE_ARGS(args);
+> +	int err;
+> +
+> +	if (!fc->iomap)
+> +		return 0;
+> +
+> +	args.opcode = FUSE_UNFREEZE_FS;
+> +	args.nodeid = get_node_id(sb->s_root->d_inode);
+> +	err = fuse_simple_request(fm, &args);
+> +	if (err == -ENOSYS)
+> +		err = 0;
+> +	return err;
+> +}
+> +
+> +static void fuse_shutdown_fs(struct super_block *sb)
+> +{
+> +	struct fuse_mount *fm = get_fuse_mount_super(sb);
+> +	struct fuse_conn *fc = get_fuse_conn_super(sb);
+> +	struct fuse_shutdownfs_in inarg = {
+> +		.flags = 0,
+> +	};
+> +	FUSE_ARGS(args);
+> +
+> +	if (!fc->iomap)
+> +		return;
+> +
+> +	args.opcode = FUSE_SHUTDOWN_FS;
+> +	args.nodeid = get_node_id(sb->s_root->d_inode);
+> +	args.in_numargs = 1;
+> +	args.in_args[0].size = sizeof(inarg);
+> +	args.in_args[0].value = &inarg;
+> +	fuse_simple_request(fm, &args);
+> +}
+> +#endif /* CONFIG_FUSE_IOMAP */
+> +
+>  /* only for fid encoding; no support for file handle */
+>  static const struct export_operations fuse_export_fid_operations = {
+>  	.encode_fh	= fuse_encode_fh,
+> @@ -1286,6 +1354,11 @@ static const struct super_operations fuse_super_operations = {
+>  	.statfs		= fuse_statfs,
+>  	.sync_fs	= fuse_sync_fs,
+>  	.show_options	= fuse_show_options,
+> +#ifdef CONFIG_FUSE_IOMAP
+> +	.freeze_fs	= fuse_freeze_fs,
+> +	.unfreeze_fs	= fuse_unfreeze_fs,
+> +	.shutdown	= fuse_shutdown_fs,
+> +#endif
+>  };
+>  
+>  static void sanitize_global_limit(unsigned int *limit)
+> 
+> 
