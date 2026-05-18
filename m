@@ -1,134 +1,170 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE2825D527
-	for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 14:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779115575; cv=none; b=YaTyS5nrqbfZoM6hlt5BfA/c+nyoZXQ3M6uVjLPl4MUbtH7DYWSVtiQCjDqPtBhd6NHwCvLpkdSRlxuAkpbGIiOVMYC8r4RKxdsvcp8hiyQeagA7DaNKtDpLYuEiE+Z8I45l88ymVB1yZuNn4T8abIWts2hRWm5Z0Mr7mvg2V14=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779115575; c=relaxed/simple;
-	bh=uCwEMFlrceX2NYy3s0s2xjdsqk9auTPLj4QOWo1OOR8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oBcBigNALyBa97DZrvdMF2OvTQn2ekXC4BSTm/frNu5RxGiR7ihuVcHz5GaokRp2eCtG7mNxIM0s0ma8sY9onZ/32zQ2PcbmhrA3WHFaHRNLV7MGmeI5ScaLyU4YjHQZFhbe5DfhicpAzorFDgV6mu3gPpTYbplIzlg5m9dv8gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=uyKqRxn7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J+rZvXbu; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8340A282F08
+	for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 15:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779118532; cv=pass; b=jRfpGWi3rQjRVb2tMB4xNhDB7BiwxqvqYARA6qnjhA0UfP3qiJTehqPeqCGsy9a3fsJU358/Ie8+9AkyPhKq13yoGPQNOY9DiO/RJz3r4xYI8fBsHEza2XwYStUlbIfHaAUHCH9e2OA7P1fHZ6+dsTYVoirSAA4BrGPtaoGXB6s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779118532; c=relaxed/simple;
+	bh=84ThP6pQAX0kQKJdEUw02F6ZsBBCn/2mySdLvp7NIlU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dQc7rW/eRylcLFgRMZgKdUOz1C+3qFU+El6XjQgNBAn1ijNzidJCfEGtZc7Yni5F3gH1NoE7kPbhZaxwXWQ3XdDyp/uf3Iy1vj31+p4y6Fh2arqWcgFhJXHu33fAefxtvstecKEiUER516pkffRt178NtB1XrrQEXeXfUmldwTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VeOFrJ8U; arc=pass smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="uyKqRxn7";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J+rZvXbu"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.stl.internal (Postfix) with ESMTP id 82A461D0012B;
-	Mon, 18 May 2026 10:46:12 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Mon, 18 May 2026 10:46:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779115572;
-	 x=1779201972; bh=kF/MHu6owxGkDoRJJ1BDiU+HShjK55SOMC12/QfYVOk=; b=
-	uyKqRxn7uaEfk4Kn8D6fgFUha4c1+46VYo8z2F3t5WsQYRXRfsqu+tqkJFupzz0B
-	7D4iX75+pOsXJSbmExoBfHbq8Tg46EcooQF3MTnBylmQNzl2fAg9zXC97mB3S3wa
-	K1uCX8ZhPypO5J9RpTFRPAGJlR0F4lNMIFwgiALvyKXRqJqSwafFI2MMPTTy54CG
-	yB24YeM8bmqxjmfOQLua4039362yfULz96vsLB8j9IoM0q2Zf7fVt124AehqlkeO
-	YXAVb+E4FdcDbW4q/gC0Q4WGKCE/vkSNUeojkAk/dutUk+QvoxGsVN95XyS2EgYJ
-	NHk0gdrLl0EzVXQpBU6kbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779115572; x=
-	1779201972; bh=kF/MHu6owxGkDoRJJ1BDiU+HShjK55SOMC12/QfYVOk=; b=J
-	+rZvXbuMkEA8PQ3kTId5/mojp4MAZ84H8PNyUMGDKVX7MZUKdgZOrImcu8FISJKB
-	979h6pIN77UhReHpMjnjphHvmeK2RFjPbpGl9s43x3Dny2/Lr6BCy7iJfdCEnxqq
-	o1lL4MC7bkralaKTkul3f9SXXcSCqABMPnSX1DvOQoJz+tGVre4Bl16rHugB2ytq
-	GSxH62KQdIw2w4LTZNoevr+LrkuF4C3opb19UpeInEmtUtESmNvfnCJ2yjKY0K87
-	QyPjF73NLPN+lAaYYIY4fcOVNldd2MbYS5VTsg4wIAenwZbe7zkPttD55dIgxjXC
-	DCOk7Pok2gDegcqTZ04aw==
-X-ME-Sender: <xms:MyYLart-2seZC_dil9-u6981wdgzENZEoSLaBz2bmlmPuFhMDBMNPw>
-    <xme:MyYLaoXKLFvSPGSJzqbMbEWZTYBKwsinNQFYP4SwQlYE3S2Sl9H0wVvrf6lRba3DQ
-    y_P3LQbh5t5RcbuL9rYAHsz204wiIUhwF7hap0YKCw3OxMv9G2D>
-X-ME-Received: <xmr:MyYLarzTbOirTM2vQAX3T4QkWUoXihFxX_Gi1grj0Maxh9Ivw3WTcq71Msix-TcDRgfFK8oLrzDrkVO7MChZrk4Q7dI1VbWgepMPfqd9oiE48mm3yA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeeludegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
-    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeduuddpmhhouggv
-    pehsmhhtphhouhhtpdhrtghpthhtohepmhgvsegsvghrkhhotgdrtghomhdprhgtphhtth
-    hopegsshgthhhusggvrhhtseguughnrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehl
-    ihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmhhikhhlohhssehsii
-    gvrhgvughirdhhuhdprhgtphhtthhopehsvggtuhhrihhthieskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpth
-    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepihhoqdhurhhinhhgsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
-    eprgigsghovgeskhgvrhhnvghlrdgukh
-X-ME-Proxy: <xmx:MyYLavF5ErNLZvUO9OGRDcM5KxCO6HHWw4QoIVtVFhgPkijo4Flu4A>
-    <xmx:MyYLagur6QjSqkHYSW7BpibQPS4xV4OKGxWsvJh3bIy6PmsBcyATgg>
-    <xmx:MyYLavDy-yVjQz7b8oAKJIdWyPwPiVYHEeVFaKp3OaKGpcY68i3HDg>
-    <xmx:MyYLarCmVOQd5CyPu-hWM1LU62l_LGIpi1mWsvo_PulKNHQT89qLSQ>
-    <xmx:NCYLauzik5tR2hfyO7Ktti3_gkRcqad2yKZXxAhNl3VqdQVurh6H3Vzc>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 May 2026 10:46:09 -0400 (EDT)
-Message-ID: <0e4f0d30-7ed0-431d-ac9a-874b046337cf@bsbernd.com>
-Date: Mon, 18 May 2026 16:46:08 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VeOFrJ8U"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-44a044cb827so1704644f8f.0
+        for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 08:35:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779118528; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dJu25OPZ/OJ7WD/8ghHTm5ZagiMUK9HQ6PSNLsu8SrUml49WJjpOvOrKiOPDH+Qx+0
+         GXw4BZjhdVAhM4wdj/V0zOhE2UO73noUoTyL3DeLNz+56olwDF8vIEjgbLC4wPu7F39M
+         Up/xcHi2a7dYMoMZxn1HXL+uqyIDePcOA5O+dXfN2dr8OJ5uM0X4oKlwJFXYm5sPQExB
+         hdAZq5rWc+zLElhb/D+fIe5JzM5KTpSroUXUW/Ck3MwCJQAQW3OCJEayulIEgeBCwe5g
+         V+9SLOzRRiVSpTbndZ3qZOfyrlVsM4Lc/6qY1gvsuPGpnVXtZ0U2OAXJeINJgNqdbuZi
+         /3TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PxUqZGIS6/bcymcwBqDjO10ViTvy5//AhLu9BV3RbqI=;
+        fh=LV/ExFvaC1PWPiGVUiH7JyyC3HAK6eRNtvC9kcgQKK8=;
+        b=XMYjyGW2NILt5XF2JAPs4ekszK77wrxMPhLDRlh8AmCJ76O01mYX0qYmstDUoBZAu9
+         lrppQd4E/0ZYomQvp8YY6l+yJYRZS345WdF/uWEbx4qrIL0Ns/62lwgH0RKJTQJhiL6R
+         /eL0k4rczmOaRgDb0rVAesiVUFGY+ddB38Y5P1A3G3FZysAGDGk6kFkwqCsJXeSRfXQV
+         EeV/t0gKJ8e2sYyklq1XFhAqkwbXjZGl/fq2wBfAo1pNckDobPfCHHdILLrwQnQNAr6U
+         hQrwJCE6sy4BsKaRXZgTtCOsMnGzRmh0g3HIr88IshvdC/XsTXZ00ENx1kTibvX87mjE
+         QySw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779118528; x=1779723328; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PxUqZGIS6/bcymcwBqDjO10ViTvy5//AhLu9BV3RbqI=;
+        b=VeOFrJ8ULKrS2qSmyIDlaEGXf2xkh+E4PImmk73WZeMQSzZ7KroF/HGSnyPrFjbbRq
+         i1cM1OSHau0zUehSwURWDuc94qRKS5QTqIbVHZKgU4wKz82dYwWQBGafPXBdehSjmLxi
+         yV/bSny1k0LpNDM6T+PkFitfa95QZ6sc5wlQoS8KV+lidvTJ2lq7Vdd86+kNEo7aMWn3
+         ZoStOleiq6n5dAvh4zdxbYU4uvisiCVxnOOfUkjJFS3FdjHnelLqApqrbmmUNxyzG3gg
+         MIoECdvPJQL+fytcvVYdNaoyzleofYfgnUjkIwGAjQwyRvkDGthKmzo2eqIC5RJ81f5A
+         azGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779118528; x=1779723328;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PxUqZGIS6/bcymcwBqDjO10ViTvy5//AhLu9BV3RbqI=;
+        b=RveZRfE19tQEW5noFl7FudejeRNhjgMzyUhczQG2Ni4TfUw+sx/tnt5PXdUTETmyrG
+         kw7T0BC1MY5CdISz1uUmjA3fY7BYladjzZJ/WII58A9sRyeXojnwYrgxj/y78IGbDDuD
+         U92xfrw7VRCDTWjynjxbvjKwTq11uQ9/htPVD/pFDSOxZ+s/f7NTfCH1NHlb4h2ZWkLE
+         4ho+hJDp9ns6e0x8eucq5woqVbSMjocpizwc+yj6UoWda6qcT3seyCRV8fHEWZjkZB8Z
+         uvwP20sQCLhwZUGmIDnIieRDDLybqp5T5jGPMfpTYDyL+ech0165LphNCTD8WjeNtkR4
+         3taw==
+X-Forwarded-Encrypted: i=1; AFNElJ/WIBZCTwMDucNuYcRIb3us/IAkaunT3KpBIg27/18M9zC1IEftUr/Uo9MrE0kPImijuQ+UEFlk4Mrx@lists.linux.dev
+X-Gm-Message-State: AOJu0YxHjyvl+ZNP3LNH1eNN5HTv1NO/sROsBb+kxsjJ1D/kU7+ixMPZ
+	t68B9HKjIb05STHDAJwKGditXf2aHSk5nC4CqHTXfnZ8ebFxv44mHQM9DX6DYzRjnQ/WxQsUTxc
+	7kYlBKztPQea7UlQzxbHmLixzc8Os+68=
+X-Gm-Gg: Acq92OFv0uwWkcM70Z4ks0mk0HEufXgUu1nO6f/5Q2OkEjROiBGUYhvFi6pz34oZKQe
+	H7r9tqWYVAakiQxtlmE31qF01a2Gfy+8DuN5XlS4QJjtFsrv+Ei15RV1myBpQAuCgFkpVw8KCLA
+	W04hsG+arqv6Z2xyAUaT0uYQbWMcDmMwGFy2LPR5ZyfP7HIAhxLuScIbZrhFGY27xaP1baHG2iZ
+	W0DenyWxdhlyaYlJpceT9jUxcd7FTXspGr+e/qtD+26CukbSkvNjN7KAdj737c9qEe3ICCSvm4d
+	Kn1Mug==
+X-Received: by 2002:adf:f1c4:0:b0:45e:73b4:85cc with SMTP id
+ ffacd0b85a97d-45e73b48628mr9335860f8f.35.1779118527784; Mon, 18 May 2026
+ 08:35:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20260517-fuse-uaf-patch2@berkoc.com> <2889c98c-21e8-47eb-903a-ea40bf5c8c04@ddn.com>
+ <20260518143218.7c7c1689.clarification@berkoc.com> <0e4f0d30-7ed0-431d-ac9a-874b046337cf@bsbernd.com>
+In-Reply-To: <0e4f0d30-7ed0-431d-ac9a-874b046337cf@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 18 May 2026 08:35:16 -0700
+X-Gm-Features: AVHnY4KAMmETSI5TPKWYBXHvLjigj-93k6Q8fB0H-L6LEsFNLzxq0oIO4iRR1ls
+Message-ID: <CAJnrk1YjShKKKgTox9QQ86Y7zzRWUVscvWRCuetHEqv55bdh6A@mail.gmail.com>
 Subject: Re: [PATCH 2/2] fuse: wait for aborted connection before releasing
  last fuse_dev
-To: Berkant Koc <me@berkoc.com>, Bernd Schubert <bschubert@ddn.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Miklos Szeredi <miklos@szeredi.hu>,
- security@kernel.org, Joanne Koong <joannelkoong@gmail.com>,
- linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>,
- fuse-devel <fuse-devel@lists.linux.dev>
-References: <20260517-fuse-uaf-patch2@berkoc.com>
- <2889c98c-21e8-47eb-903a-ea40bf5c8c04@ddn.com>
- <20260518143218.7c7c1689.clarification@berkoc.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260518143218.7c7c1689.clarification@berkoc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: Berkant Koc <me@berkoc.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Greg KH <gregkh@linuxfoundation.org>, Miklos Szeredi <miklos@szeredi.hu>, security@kernel.org, 
+	linux-kernel@vger.kernel.org, io-uring@vger.kernel.org, 
+	Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>, 
+	fuse-devel <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, May 18, 2026 at 7:46=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
+>
+>
+>
+> On 5/18/26 16:32, Berkant Koc wrote:
+> > On Mon, 18 May 2026 11:47:00 +0000, Bernd Schubert <bschubert@ddn.com> =
+wrote:
+> >> Would it be possible for you to test the attached patch?
 
+The fix looks right to me.
 
-On 5/18/26 16:32, Berkant Koc wrote:
-> On Mon, 18 May 2026 11:47:00 +0000, Bernd Schubert <bschubert@ddn.com> wrote:
->> Would it be possible for you to test the attached patch?
-> 
-> Reproducer and KASAN harness from the PATCH 2/2 series are staged.
-> Two-arm plan: revert vs apply, race-widening debug hunk kept in both
-> arms, 2x50 iterations each against torvalds/master tip, KASAN + lockdep
-> + kmemleak enabled. Results back within the day once the base resolves.
-> 
-> Blocker before I build. The patch references ring->chan and chan->conn.
-> On mainline fs/fuse/dev_uring_i.h declares struct fuse_ring with
-> struct fuse_conn *fc at line 110, no chan member; grep fuse_chan
-> across fs/fuse/ returns zero hits. As-is the patch fails to compile
-> with "struct fuse_ring has no member named chan".
-> 
-> Is this based on a DDN topic branch that introduces a fuse_chan
-> abstraction not yet upstream? If so, point me at the base tree or
-> branch URL and I will rebase the test against that. If the references
-> were meant to be ring->fc and fc against current mainline, confirm and
-> I will adjust before the run.
-> 
-> Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
-> 
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 
-Ah, it is based on Miklos' for-next branch, which is also in linux-next
-(I think). Yeah, we have a bit back port headache here.
+> >
+> > Reproducer and KASAN harness from the PATCH 2/2 series are staged.
+> > Two-arm plan: revert vs apply, race-widening debug hunk kept in both
+> > arms, 2x50 iterations each against torvalds/master tip, KASAN + lockdep
+> > + kmemleak enabled. Results back within the day once the base resolves.
+> >
+> > Blocker before I build. The patch references ring->chan and chan->conn.
+> > On mainline fs/fuse/dev_uring_i.h declares struct fuse_ring with
+> > struct fuse_conn *fc at line 110, no chan member; grep fuse_chan
+> > across fs/fuse/ returns zero hits. As-is the patch fails to compile
+> > with "struct fuse_ring has no member named chan".
+> >
+> > Is this based on a DDN topic branch that introduces a fuse_chan
+> > abstraction not yet upstream? If so, point me at the base tree or
+> > branch URL and I will rebase the test against that. If the references
+> > were meant to be ring->fc and fc against current mainline, confirm and
+> > I will adjust before the run.
 
+Yes, on mainline the references are meant to be ring->fc, eg
+
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 5c00fd047c8b..27c417fd9451 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -570,6 +570,7 @@ static void fuse_uring_async_stop_queues(struct
+work_struct *work)
+                                      FUSE_URING_TEARDOWN_INTERVAL);
+        } else {
+                wake_up_all(&ring->stop_waitq);
++               fuse_conn_put(ring->fc);
+        }
+ }
+
+@@ -599,6 +600,7 @@ void fuse_uring_stop_queues(struct fuse_ring *ring)
+
+        if (atomic_read(&ring->queue_refs) > 0) {
+                ring->teardown_time =3D jiffies;
++               fuse_conn_get(ring->fc);
+                INIT_DELAYED_WORK(&ring->async_teardown_work,
+                                  fuse_uring_async_stop_queues);
+                schedule_delayed_work(&ring->async_teardown_work,
 
 Thanks,
-Bernd
+Joanne
+
+> >
+> > Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
+> >
+>
+> Ah, it is based on Miklos' for-next branch, which is also in linux-next
+> (I think). Yeah, we have a bit back port headache here.
+>
+>
+> Thanks,
+> Bernd
