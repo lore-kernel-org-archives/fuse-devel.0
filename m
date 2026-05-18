@@ -1,67 +1,82 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9003E3169
-	for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 09:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A854F318EDA
+	for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 09:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779095214; cv=none; b=Umik24mzg/qA+cj2O2emqiXyMmt2Sc58bRWoI6HA/53u3MzlHLOMgIv1/4c1rjZIwba9fIoBzV+c1d5jlBmwcSst/bpLcyHUr+H47+7kJ7Q5MjRV72TGjTWrWQmCAuVpOyKQbubCMIWvRKw1POlvJ8jIN48AOf8c+ggcvR56i70=
+	t=1779097819; cv=none; b=DCN5l7bha85ttLITYmmw4Ne/2fNEoGQJC4J8z5evazCKkGcDUFVatyV+wWakEqEhpjVp4qh7o23Q19SLPwaWOMliBn35gRZnOEmaiDaL8AxolIuj0JZRZEdF0hb6eexKIoXFQLVmgLKspFHdVrjFkHxfaAseFIquY1HI4zvifPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779095214; c=relaxed/simple;
-	bh=+sv4jnUTyOdjjZciCJyC+lf1CirV23BI+BT8te+prnE=;
+	s=arc-20240116; t=1779097819; c=relaxed/simple;
+	bh=Lg7SHY79Ez90vizKKVcccnw95sWZhe3FLdlAUXK5a1E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YqrQ2Hcen/TOSV51r9FgdTKXZTv+js7ijxEXekjfn1JfMDQ/CTRPKuJd8+ow4khKINHvE9LDE0xtmv7Jc7wOp29Mj0aFLLVIWbsFcsKhU3Bm61xNYyZ88+FstMgUjTKZ1fPZEKkFzE8tncQDkUBaKKDOo1P9IgPoYwu2lVBfY6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I5OQOZvJ; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=ACYFFjU2jEMb13q+OtxAIzeWLxU28QyTXt+h1VoFBsEnMBgGOC3aV+G02E+crkp0IjYFgPRyNDD0g5lAE0VUD/k5O1FfTcOs/bMTb2o9VJmjIVq9BCnwYaaHGGxEmPjEDKaM9iCi5VHqnCHA6eyMEmt74t2XE4Ty+s/fuVYgTos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=0GQm7RJ5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZJvKXuuX; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I5OQOZvJ"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bd394f4a931so447212266b.2
-        for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 02:06:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779095211; x=1779700011; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zSl2K2WdTrcT8MX7//EVVA3HDXITKieSgfsnYmfI0m8=;
-        b=I5OQOZvJsXrI9c0mMGJVL9MVijrBHJt7J//5AKylTxvN/1DmbfS1ofvbaPanAK2s6F
-         Yo/tpujIYuZwekdSM/YKAXjeoD1RhT3hJUORKY8J6ShY6UCSCB7AYislKTrCOnJnfJaL
-         C8mAavqTXE9V6YD9jFxFhVqkwzTINCaM0GPDRP1DUfJ/LNseMBA1t5wy+c50/koVGOtJ
-         wWnJGVKZ9fD/39BtrjKfgPVj3hXzIA+13tTRcwLfWkQvoYO6h4sN9Rk5A2pKyXh0lldE
-         kHGPRhhqfCRkIiScG999wmPpvfsSwFfv7aKglvRS1fXEDyFa08t259VJy3jVJ8gp8aSf
-         selg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779095211; x=1779700011;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zSl2K2WdTrcT8MX7//EVVA3HDXITKieSgfsnYmfI0m8=;
-        b=p7o2Sj98fCJNGcVI9wzAmfLKa0Vp2Wen93v5toG6d+s1Y0eae12rK/paduaNaS+gPQ
-         osyR08Qvprn6p0GBVDX8PzkxuKhY2b5RCM/QVy+65eDCqV9TwLqIIvlhQskNO0aX3Uh0
-         l3T+PV1C7AnsRPSvlB25SvKgiRcl4tB1AjlvPR2SNWG9M9iAhDu6m1d/PPoaMO7b3tsF
-         nUkZK+GeuLzXkuRCCzuG5m5FcnV4lCc5yGldYuu+v+h0sR+1AX9LIHam0rilvlVS67jx
-         ApbEt8Pc3xVMIs262ZOBiOOEbxN/AZmcTC+1xjTIFc8fK34BMlQ6oRCVcxiihQ7MHChE
-         bp+A==
-X-Forwarded-Encrypted: i=1; AFNElJ8MVdIwZLPog4Z10hEKbvhabqbG6N5umsNZ1K2WvJtJHwqMfYc+rAVT7X6jk/I6jzrgrNgvJWY7kulY@lists.linux.dev
-X-Gm-Message-State: AOJu0YyUM5/inWzEt/+/oZiWhlzxvPn4b1iPYXTQhRBdIUEKIpu1NukM
-	FY7Unvu5TbWt8TbSzY6Ny5lUxp5W/eF4ZzwMGc0E+vRn/9pqgjmqTKHC
-X-Gm-Gg: Acq92OGSKDIAE4Sfbvem63/HR6W+oUhJlyjcGh4UT1xVGhM53Z1Cl5B2B23Yda8g/m4
-	36JW481DcbADmjrtJlOPkd4x0tkh+v7iSH16m5chjL2OSovPVae08MOaltGWljJ6ZgGpmgX9aZ2
-	6PmuDRX3euY3svvKiIKok9DSbfDFiaC4yotsyiZoLwDhX3CAgH0CsNeiLTgWMYiDuSfJTCn1/Pb
-	G/LjIZlTyHtBQBj3g1Dgy1ji75XabOo8RW63TVBGEXI7PaM2iijcjcMDxL8ax1Vu8KB2XvnXnVO
-	hOz+qORgCaw4VVzsn7hssV2zvf96nCW+0sX8KzOSy52MlWu9R+RIbdVXp9Wtgmi9WP96k8j1lx1
-	yKolPW3ocEYq0UB3vsOmeXYI1RVzgDXh4xcNCyBx5/TWFuif3cspi6eCb7pJi2SOn04bp0x1uEk
-	6yza4nRxlEHPj9Rc7avEvLi9/KqGPSZCBlB8K6uZD0CncKDfqcdOMz37UHt33LB6tdJdW4hORJD
-	lKOSrPmRmHE/gVFG3Am1MTxcMYG0M3rdesQ7hmpMVFX9YTcD9oRKMrWgeQ=
-X-Received: by 2002:a17:906:6185:b0:bc4:b9f5:fe27 with SMTP id a640c23a62f3a-bd51780c8acmr759171166b.10.1779095211030;
-        Mon, 18 May 2026 02:06:51 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:6e9b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4e57cb8sm535358566b.50.2026.05.18.02.06.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 May 2026 02:06:50 -0700 (PDT)
-Message-ID: <9f3f3dc7-1c52-49b6-91d5-046f1fc7b2a8@gmail.com>
-Date: Mon, 18 May 2026 10:06:48 +0100
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="0GQm7RJ5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZJvKXuuX"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id D4328EC01E8;
+	Mon, 18 May 2026 05:50:15 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Mon, 18 May 2026 05:50:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779097815;
+	 x=1779184215; bh=v1InhRMGTE94+dyIJiJxl4Z17L0BhqwIO4O+ur7YkWQ=; b=
+	0GQm7RJ5xGZUZjcXzgitunEUXB/zSRJeWI/aZ6MTJ+WDMoHemEQhmguld3/5RV84
+	m/8esjH91BlFg6vVRtkUk65ygCl1GRovKeNv9PAk0ip/Z3UdqgeW+0ZamP5Rws/P
+	6Q8w6byVI3NVKKHFcmGLVyofKrY487NwbsGQvpZfnO3KySpvrkd5jZbtemC9B6vm
+	1Lmi+qS9exO87bg1k+P06SZM1m04HS3Ez1DC6hbnzGQQHZn7TvmiU5gkycsHYdYU
+	7DZN1+l4r4BRXIKAaghBkIfTdifa0e9pFQb6lTZ1tB0K7ZI74/bKamWL/ETBMFe7
+	W/SuNVNQr62ojtTyzwAgag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779097815; x=
+	1779184215; bh=v1InhRMGTE94+dyIJiJxl4Z17L0BhqwIO4O+ur7YkWQ=; b=Z
+	JvKXuuXU8AYICd+OjUKSVQgt5CHyrrtRu8jrAiHU+HpnP0d/YXUy9/an6S8C7r/+
+	Gwcy7Ve6EC5ch5SGT++XD2dd37/cXodL5NTYNlFzJsN+xiIF8nz/yowBrvn/Wnma
+	4TRXL6sMjidB7yECl0Qx5jEWk8nAlGAZpN5DvQxpBBUgfW0PpxSAaA/+ABARc3nj
+	9ljj1pHvhHCI8RSwLpFRbIJvSJRAf3k3bR5fsscjRRBJ3GPjSO5l4Jd/tvP3wm7F
+	eIGm6uMPZMtCNa/IxoSI0ZsuNLwlBqomYEIsZ4nIwRioalnApSqIuDDPnDsJbI90
+	68N2J4KiJKO2e9vh2LGrw==
+X-ME-Sender: <xms:1uAKagjWH1Z6sn3K4xIcIfWY2-BdNEG0JTUz_DhlYNyaM1J2hqXFmw>
+    <xme:1uAKak4kHnyi-ctSU4dt3b8WzK7LkANYGUBdl0WEwiGBVBtUaZ9PV5U0AHj6UVQpC
+    2EzwxxVQQwsNYPHG_vOs_jHGXPOZxhDyVFEkhwROgQCYpmh2R1o>
+X-ME-Received: <xmr:1uAKalGkJtn3hPM3eVwFDcc-6Rfeo9Okxxad1PEVeuUsaX2dMAFglrT1y65_UH8Gsn9sfUABfbNsAlKyWz_ChTN5OJ63Y8meDuShFQJuEPS0m_DzIA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeekheehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeetfedtheelgfehheevheetheelhfeujeeitdejvedvvdejtdfgffefhfet
+    hfffveenucffohhmrghinheprghkrgdrmhhsnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtghomhdpnhgs
+    pghrtghpthhtohepuddupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrshhmlh
+    drshhilhgvnhgtvgesghhmrghilhdrtghomhdprhgtphhtthhopegsshgthhhusggvrhht
+    seguughnrdgtohhmpdhrtghpthhtohepmhgvsegsvghrkhhotgdrtghomhdprhgtphhtth
+    hopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthho
+    pehmihhklhhoshesshiivghrvgguihdrhhhupdhrtghpthhtohepshgvtghurhhithihse
+    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehjohgrnhhnvghlkhhoohhnghesghhmrghi
+    lhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopehiohdquhhrihhnghesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrgh
+X-ME-Proxy: <xmx:1uAKamIn8qI2QYbtM-nyhi9NszAcGxQjHTPWs0cRBqk3PaRNxwBPWQ>
+    <xmx:1uAKaigKJgN6LLjM8vPLld2SnFs9c1bPyx0YCmTGHbuQ2wR6VV48Dw>
+    <xmx:1uAKakmA4MPhCiEBatj22-G9OPY64L2kHpO48seeqyBzC8rWgLzlbg>
+    <xmx:1uAKapXLrvHRqmrBgud2emcnNRPjX8RLm9zLeztPIZ2DS0TachwPHw>
+    <xmx:1-AKagW7j_HJdsTJFYcoRVUZKMGk0MboLT4AClI8CVnYKkOR3a16uB60>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 18 May 2026 05:50:13 -0400 (EDT)
+Message-ID: <a44344bb-ad71-41f5-a3c5-81eb99442e5e@bsbernd.com>
+Date: Mon, 18 May 2026 11:50:11 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -71,11 +86,11 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/2] fuse: wait for aborted connection before releasing
  last fuse_dev
-To: Bernd Schubert <bschubert@ddn.com>, Berkant Koc <me@berkoc.com>,
+To: Pavel Begunkov <asml.silence@gmail.com>,
+ Bernd Schubert <bschubert@ddn.com>, Berkant Koc <me@berkoc.com>,
  Greg KH <gregkh@linuxfoundation.org>, Miklos Szeredi <miklos@szeredi.hu>
 Cc: "security@kernel.org" <security@kernel.org>,
  Joanne Koong <joannelkoong@gmail.com>,
- "linux-fuse@vger.kernel.org" <linux-fuse@vger.kernel.org>,
  "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "io-uring@vger.kernel.org" <io-uring@vger.kernel.org>,
  Jens Axboe <axboe@kernel.dk>, fuse-devel <fuse-devel@lists.linux.dev>
@@ -83,74 +98,86 @@ References: <20260517095846.fuse-iouring-uaf.dc5f5dbb71dc@berkoc.com>
  <2026051703-equinox-multitude-91e2@gregkh>
  <20260517-fuse-uaf-cover@berkoc.com> <20260517-fuse-uaf-patch2@berkoc.com>
  <08d3f6e0-7745-4084-995a-95ddb77f7f11@ddn.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <08d3f6e0-7745-4084-995a-95ddb77f7f11@ddn.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <9f3f3dc7-1c52-49b6-91d5-046f1fc7b2a8@gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <9f3f3dc7-1c52-49b6-91d5-046f1fc7b2a8@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 5/17/26 16:00, Bernd Schubert wrote:
-> On 5/17/26 14:59, Berkant Koc wrote:
->> [You don't often get email from me@berkoc.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+
+
+On 5/18/26 11:06, Pavel Begunkov wrote:
+> On 5/17/26 16:00, Bernd Schubert wrote:
+>> On 5/17/26 14:59, Berkant Koc wrote:
+>>> [You don't often get email from me@berkoc.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+>>>
+>>> From: Berkant Koc <me@berkoc.com>
+>>>
+>>> fuse_dev_release() on the last fuse_dev of a connection calls
+>>> fuse_abort_conn(fc) and then immediately fuse_conn_put(fc). For io-uring
+>>> backed connections fuse_abort_conn() reaches fuse_uring_abort(), which
+>>> runs fuse_uring_teardown_all_queues() synchronously once and then
+>>> schedules ring->async_teardown_work to run after
+>>> FUSE_URING_TEARDOWN_INTERVAL (HZ/20). If the synchronous pass left
+>>> queue_refs > 0 the work owns further accesses to ring->queues[*]->
+>>> ent_avail_queue and ent_in_userspace entries.
+>>>
+>>> Meanwhile fuse_conn_put() can drop the last reference and arm
+>>> delayed_release() via call_rcu(). After the RCU grace period
+>>> delayed_release() calls fuse_uring_destruct(), which kfree()s the ring
+>>> entries on each queue->ent_released list. The previously scheduled
+>>> async_teardown_work then runs and walks per-queue lists that contain
+>>> freed entries, producing a slab-use-after-free reported by KASAN at
+>>> fuse_uring_teardown_all_queues+0xee reading ent->list.next from a
+>>> freed kmalloc-192 region.
+>>>
+>>> fuse_wait_aborted() already exists for this purpose: it waits on
+>>> fc->blocked_waitq for num_waiting to drain and then calls
+>>> fuse_uring_wait_stopped_queues(), which waits for ring->queue_refs to
+>>> reach zero. Call it between fuse_abort_conn() and fuse_conn_put() on
+>>> the last-device path so the io-uring teardown work has fully drained
+>>> before the connection can be torn down.
+>>>
+>>> Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+>>> Cc: stable@vger.kernel.org # 6.14+
+>>> Tested-by: Berkant Koc <me@berkoc.com>
+>>> Signed-off-by: Berkant Koc <me@berkoc.com>
+>>> ---
+>>>   fs/fuse/dev.c | 1 +
+>>>   1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+>>> index 5dda7080f4a9..7d9c06654a98 100644
+>>> --- a/fs/fuse/dev.c
+>>> +++ b/fs/fuse/dev.c
+>>> @@ -2566,6 +2566,7 @@ int fuse_dev_release(struct inode *inode, struct file *file)
+>>>                  if (last) {
+>>>                          WARN_ON(fc->iq.fasync != NULL);
+>>>                          fuse_abort_conn(fc);
+>>> +                       fuse_wait_aborted(fc);
+>>>                  }
+>>>                  fuse_conn_put(fc);
+>>>          }
 >>
->> From: Berkant Koc <me@berkoc.com>
->>
->> fuse_dev_release() on the last fuse_dev of a connection calls
->> fuse_abort_conn(fc) and then immediately fuse_conn_put(fc). For io-uring
->> backed connections fuse_abort_conn() reaches fuse_uring_abort(), which
->> runs fuse_uring_teardown_all_queues() synchronously once and then
->> schedules ring->async_teardown_work to run after
->> FUSE_URING_TEARDOWN_INTERVAL (HZ/20). If the synchronous pass left
->> queue_refs > 0 the work owns further accesses to ring->queues[*]->
->> ent_avail_queue and ent_in_userspace entries.
->>
->> Meanwhile fuse_conn_put() can drop the last reference and arm
->> delayed_release() via call_rcu(). After the RCU grace period
->> delayed_release() calls fuse_uring_destruct(), which kfree()s the ring
->> entries on each queue->ent_released list. The previously scheduled
->> async_teardown_work then runs and walks per-queue lists that contain
->> freed entries, producing a slab-use-after-free reported by KASAN at
->> fuse_uring_teardown_all_queues+0xee reading ent->list.next from a
->> freed kmalloc-192 region.
->>
->> fuse_wait_aborted() already exists for this purpose: it waits on
->> fc->blocked_waitq for num_waiting to drain and then calls
->> fuse_uring_wait_stopped_queues(), which waits for ring->queue_refs to
->> reach zero. Call it between fuse_abort_conn() and fuse_conn_put() on
->> the last-device path so the io-uring teardown work has fully drained
->> before the connection can be torn down.
->>
->> Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
->> Cc: stable@vger.kernel.org # 6.14+
->> Tested-by: Berkant Koc <me@berkoc.com>
->> Signed-off-by: Berkant Koc <me@berkoc.com>
->> ---
->>   fs/fuse/dev.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
->> index 5dda7080f4a9..7d9c06654a98 100644
->> --- a/fs/fuse/dev.c
->> +++ b/fs/fuse/dev.c
->> @@ -2566,6 +2566,7 @@ int fuse_dev_release(struct inode *inode, struct file *file)
->>                  if (last) {
->>                          WARN_ON(fc->iq.fasync != NULL);
->>                          fuse_abort_conn(fc);
->> +                       fuse_wait_aborted(fc);
->>                  }
->>                  fuse_conn_put(fc);
->>          }
+>> I might be wrong, but I don't think it is possible, Maybe Pavel or Jens
+>> could help (added to CC). Basically as long as
+>> fuse_uring_async_stop_queues() runs we do not have completed all
+>> io-uring commands via io_uring_cmd_done() and as long as we do not have
+>> completed these io-uring commands.
 > 
-> I might be wrong, but I don't think it is possible, Maybe Pavel or Jens
-> could help (added to CC). Basically as long as
-> fuse_uring_async_stop_queues() runs we do not have completed all
-> io-uring commands via io_uring_cmd_done() and as long as we do not have
-> completed these io-uring commands.
+> If I understand the question right, yes, fuse io_uring cmd requests hold
+> a reference to the fuse file, so until you complete them the file will
+> not get released.
 
-If I understand the question right, yes, fuse io_uring cmd requests hold
-a reference to the fuse file, so until you complete them the file will
-not get released.
 
--- 
-Pavel Begunkov
+Sorry, had totally messed up the phrase, can't read it myself.
 
+What I mean is that the io-uring was set up with /dev/fuse as file and
+as long as fuse holds non-completed 'struct io_uring_cmd *cmd' objects
+there is a reference on the /dev/fuse fd, which blocks the call of
+fuse_dev_release().
+
+
+Thanks,
+Bernd
