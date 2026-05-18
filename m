@@ -1,93 +1,134 @@
-Received: from mail-01.1984.is (mail-01.1984.is [185.112.145.69])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E782C3259;
-	Mon, 18 May 2026 14:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.112.145.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE2825D527
+	for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 14:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779114805; cv=none; b=LCS36DQX+KwfW7WX38k4LTslvlWCls3HrI8b/V5lO4ugegcEmFydrJ0m0PCR2QW9lW0iZNg/jXP27HCfudxLy+O2l3M5JsGK3JroUapuWFub+cRQltWN17aF164kik+1KARQEF+RyLLqfUzLaYL4I0kii+7bvF9Oq7wYvR9hJ6Q=
+	t=1779115575; cv=none; b=YaTyS5nrqbfZoM6hlt5BfA/c+nyoZXQ3M6uVjLPl4MUbtH7DYWSVtiQCjDqPtBhd6NHwCvLpkdSRlxuAkpbGIiOVMYC8r4RKxdsvcp8hiyQeagA7DaNKtDpLYuEiE+Z8I45l88ymVB1yZuNn4T8abIWts2hRWm5Z0Mr7mvg2V14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779114805; c=relaxed/simple;
-	bh=6/3Bmy3SlFTGmZjZnqOGwGw9MTWGgv8VdupJ47MSV9c=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 Content-Type:MIME-Version; b=YN5euPohpUOrBGxXfH97T8XLW6aTATofR+nGRtVi6NgItjiRmPNMz1RuEnRSKafBir7dxB+1d/ZN+HJ37Zs94uUZb2g1cAUtryT8PxFTgATJ+/E6Bl6sAzIrH9y99L4tL5OoQWL2H9wk8hB20/7qeKu93qFZM9wZx3g7Yee5+uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=icce/ZVo; dkim=temperror (0-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=MuYzFaPs; arc=none smtp.client-ip=185.112.145.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=berkoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkoc.com
+	s=arc-20240116; t=1779115575; c=relaxed/simple;
+	bh=uCwEMFlrceX2NYy3s0s2xjdsqk9auTPLj4QOWo1OOR8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oBcBigNALyBa97DZrvdMF2OvTQn2ekXC4BSTm/frNu5RxGiR7ihuVcHz5GaokRp2eCtG7mNxIM0s0ma8sY9onZ/32zQ2PcbmhrA3WHFaHRNLV7MGmeI5ScaLyU4YjHQZFhbe5DfhicpAzorFDgV6mu3gPpTYbplIzlg5m9dv8gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=uyKqRxn7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=J+rZvXbu; arc=none smtp.client-ip=202.12.124.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="icce/ZVo";
-	dkim=temperror (0-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="MuYzFaPs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=berkoc.com;
-	s=1984; h=MIME-Version:Content-Type:Message-ID:Date:References:In-Reply-To:
-	Subject:Cc:To:From:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=6/3Bmy3SlFTGmZjZnqOGwGw9MTWGgv8VdupJ47MSV9c=; b=icce/ZVoFWBC2E4Y7wvu+bS9qX
-	CT2taSx3VhKrB9qASUgBO4Nid8aefXEpZdgZVjB5kTB9BQltIkg7JrP4f54UnQDYx6lYwR8yRo26G
-	8FjfKaWzoP/uQ/a2ncHsub+tlO5pnhblKW1Vivbaz/1aXI3xfzpUmSVCiwiAhk2BtUPcNPMX8PAfA
-	V8UR+ZXICadH8bOGnT8dJ6DjwfUe2e0WwEZtEImNMz2irrwchiecVP2cvqvZ2QTocpTQb65tCwQjR
-	stMI/LfF9HGhwQ1dNr2suzDupVbyCSal5J0egHQTrFDEReGwrG/fyO7kRbbfRP+99/5EyVc/zoRZ/
-	6x3FI6IA==;
-Received: from localhost
-	by mail-01.1984.is with utf8esmtp (Exim 4.96)
-	(envelope-from <me@berkoc.com>)
-	id 1wOz1e-001hPX-1K;
-	Mon, 18 May 2026 14:33:06 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=berkoc.com;
- i=@berkoc.com; q=dns/txt; s=me; t=1779114770; h=message-id : date :
- subject : cc : to : from : sender : reply-to;
- bh=6/3Bmy3SlFTGmZjZnqOGwGw9MTWGgv8VdupJ47MSV9c=;
- b=MuYzFaPsoNCIUknTxqdQmQB/W3w0mJLCRVb7OF5tJpS01uRfMRvLtP1TKHBBnh9hLeM/V
- tcf++nqa+lpRqXNZqOXSF8vmm/y9udRWORdkRsDxhk6m7krNFbUuzuho8HDi8HoGZQHLY3d
- c9G8daMNkXco0aE/UvFhTxpKpY45XQ60O50ix/1kEbYgV+D2vCdu2pe/bgK66Er+pIUFRjb
- 2QKONW+aFxgqOLX+K9zNJoBsrM7bewQfxtwHcL5Sscs2vksPkLEqz2jJHha8uJ7XFvhDpqh
- 4/EkU1OknIYgo+9k7H/JddI6Jkwvq8uoO2KeBuIgDJgRRrL5jGBXJ3EtlSgA==
-From: Berkant Koc <me@berkoc.com>
-To: Bernd Schubert <bschubert@ddn.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
- Miklos Szeredi <miklos@szeredi.hu>,
- security@kernel.org,
- Joanne Koong <joannelkoong@gmail.com>,
- linux-kernel@vger.kernel.org,
- io-uring@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>,
- Pavel Begunkov <asml.silence@gmail.com>,
- fuse-devel <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH 2/2] fuse: wait for aborted connection before releasing last fuse_dev
-In-Reply-To: <2889c98c-21e8-47eb-903a-ea40bf5c8c04@ddn.com>
-References: <20260517-fuse-uaf-patch2@berkoc.com> <2889c98c-21e8-47eb-903a-ea40bf5c8c04@ddn.com>
-Date: Mon, 18 May 2026 16:32:18 +0200
-Message-ID: <20260518143218.7c7c1689.clarification@berkoc.com>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="uyKqRxn7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="J+rZvXbu"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfout.stl.internal (Postfix) with ESMTP id 82A461D0012B;
+	Mon, 18 May 2026 10:46:12 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Mon, 18 May 2026 10:46:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779115572;
+	 x=1779201972; bh=kF/MHu6owxGkDoRJJ1BDiU+HShjK55SOMC12/QfYVOk=; b=
+	uyKqRxn7uaEfk4Kn8D6fgFUha4c1+46VYo8z2F3t5WsQYRXRfsqu+tqkJFupzz0B
+	7D4iX75+pOsXJSbmExoBfHbq8Tg46EcooQF3MTnBylmQNzl2fAg9zXC97mB3S3wa
+	K1uCX8ZhPypO5J9RpTFRPAGJlR0F4lNMIFwgiALvyKXRqJqSwafFI2MMPTTy54CG
+	yB24YeM8bmqxjmfOQLua4039362yfULz96vsLB8j9IoM0q2Zf7fVt124AehqlkeO
+	YXAVb+E4FdcDbW4q/gC0Q4WGKCE/vkSNUeojkAk/dutUk+QvoxGsVN95XyS2EgYJ
+	NHk0gdrLl0EzVXQpBU6kbQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779115572; x=
+	1779201972; bh=kF/MHu6owxGkDoRJJ1BDiU+HShjK55SOMC12/QfYVOk=; b=J
+	+rZvXbuMkEA8PQ3kTId5/mojp4MAZ84H8PNyUMGDKVX7MZUKdgZOrImcu8FISJKB
+	979h6pIN77UhReHpMjnjphHvmeK2RFjPbpGl9s43x3Dny2/Lr6BCy7iJfdCEnxqq
+	o1lL4MC7bkralaKTkul3f9SXXcSCqABMPnSX1DvOQoJz+tGVre4Bl16rHugB2ytq
+	GSxH62KQdIw2w4LTZNoevr+LrkuF4C3opb19UpeInEmtUtESmNvfnCJ2yjKY0K87
+	QyPjF73NLPN+lAaYYIY4fcOVNldd2MbYS5VTsg4wIAenwZbe7zkPttD55dIgxjXC
+	DCOk7Pok2gDegcqTZ04aw==
+X-ME-Sender: <xms:MyYLart-2seZC_dil9-u6981wdgzENZEoSLaBz2bmlmPuFhMDBMNPw>
+    <xme:MyYLaoXKLFvSPGSJzqbMbEWZTYBKwsinNQFYP4SwQlYE3S2Sl9H0wVvrf6lRba3DQ
+    y_P3LQbh5t5RcbuL9rYAHsz204wiIUhwF7hap0YKCw3OxMv9G2D>
+X-ME-Received: <xmr:MyYLarzTbOirTM2vQAX3T4QkWUoXihFxX_Gi1grj0Maxh9Ivw3WTcq71Msix-TcDRgfFK8oLrzDrkVO7MChZrk4Q7dI1VbWgepMPfqd9oiE48mm3yA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeeludegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
+    ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
+    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
+    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeduuddpmhhouggv
+    pehsmhhtphhouhhtpdhrtghpthhtohepmhgvsegsvghrkhhotgdrtghomhdprhgtphhtth
+    hopegsshgthhhusggvrhhtseguughnrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehl
+    ihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmhhikhhlohhssehsii
+    gvrhgvughirdhhuhdprhgtphhtthhopehsvggtuhhrihhthieskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpth
+    htoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepihhoqdhurhhinhhgsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    eprgigsghovgeskhgvrhhnvghlrdgukh
+X-ME-Proxy: <xmx:MyYLavF5ErNLZvUO9OGRDcM5KxCO6HHWw4QoIVtVFhgPkijo4Flu4A>
+    <xmx:MyYLagur6QjSqkHYSW7BpibQPS4xV4OKGxWsvJh3bIy6PmsBcyATgg>
+    <xmx:MyYLavDy-yVjQz7b8oAKJIdWyPwPiVYHEeVFaKp3OaKGpcY68i3HDg>
+    <xmx:MyYLarCmVOQd5CyPu-hWM1LU62l_LGIpi1mWsvo_PulKNHQT89qLSQ>
+    <xmx:NCYLauzik5tR2hfyO7Ktti3_gkRcqad2yKZXxAhNl3VqdQVurh6H3Vzc>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 18 May 2026 10:46:09 -0400 (EDT)
+Message-ID: <0e4f0d30-7ed0-431d-ac9a-874b046337cf@bsbernd.com>
+Date: Mon, 18 May 2026 16:46:08 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Spam-Score: -0.2 (/)
-X-Authenticated-User: me@berkoc.com
-X-Sender-Address: me@berkoc.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] fuse: wait for aborted connection before releasing
+ last fuse_dev
+To: Berkant Koc <me@berkoc.com>, Bernd Schubert <bschubert@ddn.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ security@kernel.org, Joanne Koong <joannelkoong@gmail.com>,
+ linux-kernel@vger.kernel.org, io-uring@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>,
+ fuse-devel <fuse-devel@lists.linux.dev>
+References: <20260517-fuse-uaf-patch2@berkoc.com>
+ <2889c98c-21e8-47eb-903a-ea40bf5c8c04@ddn.com>
+ <20260518143218.7c7c1689.clarification@berkoc.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260518143218.7c7c1689.clarification@berkoc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 18 May 2026 11:47:00 +0000, Bernd Schubert <bschubert@ddn.com> wrote:
-> Would it be possible for you to test the attached patch?
 
-Reproducer and KASAN harness from the PATCH 2/2 series are staged.
-Two-arm plan: revert vs apply, race-widening debug hunk kept in both
-arms, 2x50 iterations each against torvalds/master tip, KASAN + lockdep
-+ kmemleak enabled. Results back within the day once the base resolves.
 
-Blocker before I build. The patch references ring->chan and chan->conn.
-On mainline fs/fuse/dev_uring_i.h declares struct fuse_ring with
-struct fuse_conn *fc at line 110, no chan member; grep fuse_chan
-across fs/fuse/ returns zero hits. As-is the patch fails to compile
-with "struct fuse_ring has no member named chan".
+On 5/18/26 16:32, Berkant Koc wrote:
+> On Mon, 18 May 2026 11:47:00 +0000, Bernd Schubert <bschubert@ddn.com> wrote:
+>> Would it be possible for you to test the attached patch?
+> 
+> Reproducer and KASAN harness from the PATCH 2/2 series are staged.
+> Two-arm plan: revert vs apply, race-widening debug hunk kept in both
+> arms, 2x50 iterations each against torvalds/master tip, KASAN + lockdep
+> + kmemleak enabled. Results back within the day once the base resolves.
+> 
+> Blocker before I build. The patch references ring->chan and chan->conn.
+> On mainline fs/fuse/dev_uring_i.h declares struct fuse_ring with
+> struct fuse_conn *fc at line 110, no chan member; grep fuse_chan
+> across fs/fuse/ returns zero hits. As-is the patch fails to compile
+> with "struct fuse_ring has no member named chan".
+> 
+> Is this based on a DDN topic branch that introduces a fuse_chan
+> abstraction not yet upstream? If so, point me at the base tree or
+> branch URL and I will rebase the test against that. If the references
+> were meant to be ring->fc and fc against current mainline, confirm and
+> I will adjust before the run.
+> 
+> Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
+> 
 
-Is this based on a DDN topic branch that introduces a fuse_chan
-abstraction not yet upstream? If so, point me at the base tree or
-branch URL and I will rebase the test against that. If the references
-were meant to be ring->fc and fc against current mainline, confirm and
-I will adjust before the run.
+Ah, it is based on Miklos' for-next branch, which is also in linux-next
+(I think). Yeah, we have a bit back port headache here.
 
-Assisted-by: Claude:claude-opus-4-7 berkoc-pipeline
+
+Thanks,
+Bernd
