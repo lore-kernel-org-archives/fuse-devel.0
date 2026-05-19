@@ -1,80 +1,80 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64636334C05
-	for <fuse-devel@lists.linux.dev>; Tue, 19 May 2026 11:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E87145349C
+	for <fuse-devel@lists.linux.dev>; Tue, 19 May 2026 14:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779191276; cv=pass; b=Soyv7DyFf9PsBfHz7awzy5yRXckDTCkjOR/nkYnQax9V2STx4xOvRt0og4TG4yxBP62E68+IFEiIOJTe+eApdquxyUMhKhbWGh9ULO7iwRvBUZS8Icc+mVdEHvke+GvbNfT99eEBCEt76NVzRajxqjjBzrK/a7fFOodoqvhOEeg=
+	t=1779200286; cv=pass; b=E4eH7khvPzXJhDYNjmMhZEx0pRsBx+O1s6H9uX4k46ip8YsMuX5qyLEoPh28ifInUkEBRaRjuaFfQ7kjdhcVeP5Lhl4zbhmcbAFDWm/74isQuDaAjGYJ/tF+Zkb+fNWA9J74ypLR814j8+4fZ/l2eMNmx5PioVXi+X23HfrMPig=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779191276; c=relaxed/simple;
-	bh=PeNNTUbxChRdVvLZjt65lvbSRv+y+xQXeN5Dp7nLS4M=;
+	s=arc-20240116; t=1779200286; c=relaxed/simple;
+	bh=KcpyWR9ztcaYoVXnyA8OVvjUi1zJWAvkQ8opvq0mx7A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R1AhYj5LHoBvAKL82FOpbpvmSf1+uRqIiTE3ADDpBkFgw3hxFamn1POMFQoGv1Di0unHP/feR2PRlvAzWqs2OBcgR5lHuVPJuW9DaMjThELhA0opJcWEr5qzwii73oWVjp2mS/c7AbJ6WSCu9k4bZktr5LctSqLxvSCa1U+Qtkc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QARrK1+t; arc=pass smtp.client-ip=209.85.218.46
+	 To:Cc:Content-Type; b=MNiEdye9lyQHI+orBcl1Z6Gs9CZ3ddGlZ+9meSPmpqs4H4fbMYdZzHwV+TabB/Cm/cRLeqBpswFNCMDvHY+HORHfFFY3YmIzKXkqurAbelVksDHOO1cgvmJkWOUv5b7P2CNAJCTEgTLcMsGXnnHYtaepkR7A+13JxWAUhwLkgEU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fFwMw/Q9; arc=pass smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QARrK1+t"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b9d9971d059so491544666b.2
-        for <fuse-devel@lists.linux.dev>; Tue, 19 May 2026 04:47:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779191274; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fFwMw/Q9"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-67929ff6dbfso6106983a12.2
+        for <fuse-devel@lists.linux.dev>; Tue, 19 May 2026 07:18:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779200283; cv=none;
         d=google.com; s=arc-20240605;
-        b=QldoGOKUWpNSRXijFkp2w/i/4tpkykM8kLsm47moP2yvE9Oy8L7tbtWB1JlBY/pSNV
-         LPXVXgJXFG7Qj93rA1JVS8myKDoGNUpEpEED5DyHYgUIg/h/QcTJ6ZO9Q0YGQmJpeyI2
-         6gP2GHZKlVf/JpkP27wjDijjRqwLmRtTO8e5DR10HpGG/ujjpTH0xjk/EiSEbQ8Bo+4q
-         3oAIbh6jKTUb4DX9reLGxYbD5cQms81sKGmbL2i/sPEnhLagPuZGbaZRhL8mMOL/EXjd
-         QgDjD4ZAlGKjAu0yIGlOpIlWQEgCy5ezDgsAq3+haTfsRolK5v8um8Fn36+7huc+Lrb6
-         YCLw==
+        b=SWMNkZTNfYqN3rcYEa7Q6k4GrmEqhIjBAsGllXQe3wcLqKSyCbsRwPHw81SsTJR4Bw
+         v3y4gM4O/x1kNdJvGdzSYIYBGGeXfyVg8sswMyicRkqqthc70/cMiY7yRy1w46es0iK7
+         fFq+MqdoGxDxfmqG/9eUHQPimolTQ7fYlkGxRUSlqv3h+vLPflL4k0J9LjljitGYBeII
+         CI45bTMUnoV4Ft2+Giw5qofMBhL3TZ7U9PZ4L2Bddz/oby44Ttpy9HIMhEBS+C7ypUWB
+         kC6pFvvvUbe4haSamvg8d7ASM9byAsNRm2BtbY/zQ0m4udHEVNghHnF7XO7FKumeTYHQ
+         wyxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=0B2nDA6dNMtvxDIcBHzai6u1Uy3WHBZdoSKhG6gDPfw=;
-        fh=C8vmwGWmMAqm1fAsAiP5Kgr7gpWL+OSEu9JqOzhrv14=;
-        b=eCk9Nb/tcvDSG59l/WHC0iA44JWVVXMjiAzp+1RtXYixtrHeLzIq3QQS9rmzNO+nzE
-         P1citI7gFXYBHHwJVhUknnNuOvaa8EIB8JcztIZ1U1bh6lFUdVuZ64jlz3poQWg7kvU6
-         nPvd+z8y5lMCCih4gAqIOscp/fteFqBIpl5snSnbo4hyhHAOZIJWBthXN2KFrcI2jrtK
-         XnguzkPtRo8mExGfc/yLNGyNyXfth6frLcLnhS9S79L7YZJdSsv6W+1DZJSkOXh+JZCI
-         SelWKIo8iM2UXn06+ohgvO8Ys0HrYpqWnD6Eai6Vnfmeh4LRjm/1JJOBcS0Y1JCs9ywv
-         EIpQ==;
+        bh=KcpyWR9ztcaYoVXnyA8OVvjUi1zJWAvkQ8opvq0mx7A=;
+        fh=eustLEVmU2JHEuyzcV0lHhcYN+PtRWsetlbEmj9LDi0=;
+        b=XsZDmwSGiUTeVk2+owBibajvAn2FlJP4BZRT7p8J+IniiK7KlrkOaO3vOL9Y6dLmkC
+         JjZKxkbIV3bcpCj7pAZ1+mDvTQO3pO/hrd7xHHOL2uRmdr+JgCQ2jM+ZvvgYJxd9lELn
+         mQgvc274sSw+qGLEnlkU0jOVD9o0DlDqibuoSCRuGSdoLNuHa7Px4uB1vrRDXZs/AOPk
+         56WFFShRcsAhoz1IdX/tiLK6aWPLJy3jCwmlpUWUF7RGxgX5xznLEsfj0dstQ+aAwwaQ
+         EUONuDCzIuOXf/O0Yi5/az4mZMp+uY11S/R0cazqAtqyDhi4oDFuYlWkkZQuCInlc6K9
+         AzPg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779191274; x=1779796074; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779200283; x=1779805083; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0B2nDA6dNMtvxDIcBHzai6u1Uy3WHBZdoSKhG6gDPfw=;
-        b=QARrK1+tgBF2TsYC7unn4JFFBVWIPHRGEhbVNRLLh12M4N5EOxkyafa+bl6QQtE3Sg
-         l/uD4eCycYglx5ntRimdsr9mohPefDwXwMzrNN8LH8gMPeR5MC8FzrWSt2pXOpKzAH5M
-         V2Q0YLowEqzQMgnrgAKK1ZoZh6DzUdnco1BDWyMT1surOkt/H7VsZ1Vyb676/EUyBFcK
-         TBtyfwymgDI8jFZwKPvZ3HfSiBV1mDcveFO3CHkrz2GQFRPQCzyeA4w5dzZLiftij9bo
-         G/SYKlviBH/kahrbf/9Ta+y/xNQwnO30IhXF7ZCs2yqYBJfBT5bC4G8PUf6LPv8pEMAw
-         VpwQ==
+        bh=KcpyWR9ztcaYoVXnyA8OVvjUi1zJWAvkQ8opvq0mx7A=;
+        b=fFwMw/Q9FBafbER/5TJMzIKpLKhAkpY41zdy7A4Bv2bnCrWi0WKm+7hojP7sn2NP/A
+         KeVncbHAC5p8fLxzJtW07jUQukJQU2iGJcONMC8KCqHVjyxJgGyIEGMspayG/V/BgJ/3
+         QUqZXCt9RwOhs+LvnnlAQM8pUIObcgUItFoMvxXQHbqNPHjNN/5Xi2JQvxfk5X/9aZ6C
+         8KCqVFiUF8jT6A03FR0HbyE+YriPSM+A+iZs53fnnQ2bWB6rgSdnPj/1QDfizvVN8wIy
+         jWcaoj90q/MvxtJTxEdcBT9pifo3a7R/OwdIDd4++sdIMMYx+WJQqDFTzaDYjAU78R1U
+         qS7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779191274; x=1779796074;
+        d=1e100.net; s=20251104; t=1779200283; x=1779805083;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0B2nDA6dNMtvxDIcBHzai6u1Uy3WHBZdoSKhG6gDPfw=;
-        b=nWZY8TkjRp96rh1pyCryUEEOUakz8E5ayrn/QFjCCZAGEj+6KEwNy080ZEv/RMJEz+
-         CXGTnBoNMwPzI9zX/stq1GejiC7pzB2SaUdiQeYM8NclIG09Pzygrp0dWOPVOic6Ogk7
-         rh7MQt4rCM0F4z5ES8QjUtIQCtx9/kFXdao6vkhGCJmF7fihoKetHJ1J+uSTa7U45NzX
-         NjzXLuxBMmaQpt3ezC94qx8tmCVLEtKDj1i5lNdGylnxMgOg6yc18C9KObTJ+f6CaNuc
-         yKPNRIp87BKRbdo46Dk7jeAp/+sixuV8fuLCN26SLKa5eWlYLjUjS/heXXO8rPSDWNPX
-         YtVg==
-X-Forwarded-Encrypted: i=1; AFNElJ+id6CJBqa+a0qyZTCbwER8HS1/ohT48tWVNZjhq60ZziBUH3L9SQ4IrRWB4c1OVa2QgUuji4BhbZju@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkkTCPHMZhpgaYrtPNduUTXG0LzXI+sCpEIlhG7Lbtl0d+Fpv0
-	RDw0TVsg678/1USsCZ1Y/IlPj0s97RABcTsVAkMO928c+a6t6PIHA7X9peNK7y/+BPftkeXlu8B
-	s5IsV7gwcIwhRt0PqLmG6zoyMPfAplQA=
-X-Gm-Gg: Acq92OF3kJI97E9l4ug1yxdPvu0pHbHATp77PwEP5utnfhH5U7JiS8i2g98pQ7BKqg5
-	CO6ulqu6CXz2jUgOE2ZZ5QFSq6B+UlQ+jWF5c+icfoW3YYgL36Wx0NKERHWpVBN+w9V6bEelAsH
-	eQa/zzY/0huKWNSLZxmhLU+kAnwUSZWLPYjCkgHGjuHZED28E7y9n2Y4jLjjNTXKrsrn703KA1B
-	oEDUUw+BaWP4ioA0036dZVt70vZJz4AbC7Pa0Ec+fKTi7X+X7K/crxDc79AX+yg3T9KRQ6Tx5r+
-	k2fOI9lG1OjOJ+cS1pxpaC+fku9laZB01age3aDjfg==
-X-Received: by 2002:a17:906:5189:20b0:bba:3cf3:2ba6 with SMTP id
- a640c23a62f3a-bd51792d9a8mr795746566b.29.1779191273476; Tue, 19 May 2026
- 04:47:53 -0700 (PDT)
+        bh=KcpyWR9ztcaYoVXnyA8OVvjUi1zJWAvkQ8opvq0mx7A=;
+        b=Fo9loax/9Z8/U7azIuCDw0mI6TAke4jjqekPtxCpJ/zgJRPgU9FhrALGdTFuYyVJRI
+         wL/zPU0aMcPMrL24QA9wxAXRD1siqABAN9y8OjoJltGQl83k0jTFWK3Tc1suMGuPeyoc
+         0/oXv00j3LBRJ+8EqHd5+1IzqsFlxb9bTwnLF0nbpU5Peg/Vj/Asvu8Az760+8tZwgQM
+         ZM1R4YAnLtSh4Crz8MhEIbfM0SGFtWwT3LzTAu8WUVhKetYj4s1K+Sdy3PihIG+btyje
+         YQ7EhgzyPozMzaQ3SKyJnz7grIqVTaXx7zrLHmEGjc2hpjENQkJu5USN97jD6scK9Lv4
+         sFjA==
+X-Forwarded-Encrypted: i=1; AFNElJ9uak7+utGLKLU5uRWv3bFvX0URs92hog9xMpm6jDDeGW16UCqctt+L25BpZr2Xp8ahNbzckE0je21c@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3fjkz2tsYxvUQlRBXm0wwWBwNiPZIl1MHqV074Qu1p9deddAe
+	1XU8u0YXEatlG87UXSYKoWuAPwMKlKJDAOW1Q5ADzIXEI2GKxvgaKHGjaP5It2hK9CZDfls8wfo
+	n1upTEEOZZ25K4d/auiHlDcnweI+pj1A=
+X-Gm-Gg: Acq92OGpdXFQYnTpwH8V3YrvlSYkX5q1jSnYlDxhP+UCMcm0bxn+uaCqfi/EZZOTMoZ
+	bC1JQqEWMNPRbsmfqIq7ngMC7u3xoY4RnhxsqcNAALgT6SzWDfTRrkeUEvHwjYAJPmksvM6P6IQ
+	pk4YXwcyGDnOHV/4/Z1kOYjWu6dz9IwDuHYPmzhdPvIUERzgZyq29vbsMdgs5naEVTQizfbIZMr
+	hO4st7BI5HTvwcon1hGX12eVYsvZkLydXi/sqnRTEdXuuMlNUEYDWElY+Ab+z7IgX3D14fZgGE7
+	GEGF4nVylj3718A1AcIPRbqCqTu7WBvr8hgctEktoR81EWkZn60c
+X-Received: by 2002:a05:6402:5cd:b0:67d:9f52:a78b with SMTP id
+ 4fb4d7f45d1cf-683bd57fd40mr9672772a12.19.1779200282625; Tue, 19 May 2026
+ 07:18:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -82,74 +82,44 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260516004004.1455526-1-joannelkoong@gmail.com>
- <20260516004004.1455526-18-joannelkoong@gmail.com> <CAOQ4uxg9WT7WmJqQezgiCB1jOX_heW+=UJbbFntbfDUdm0H=tQ@mail.gmail.com>
- <CAJnrk1bqfAczXnTxtb_rui2adksDpFKXOvJyj=zotGeWJoA5sw@mail.gmail.com>
-In-Reply-To: <CAJnrk1bqfAczXnTxtb_rui2adksDpFKXOvJyj=zotGeWJoA5sw@mail.gmail.com>
+ <20260516004004.1455526-13-joannelkoong@gmail.com> <CAOQ4uxjMPPp-R37yKoOs1kGUdAOmnp3keVWvfuxi1r8jrxAcTA@mail.gmail.com>
+ <agjDGBQPG2WpDTWO@fedora.fritz.box> <CAJnrk1b_55hMTRxtV8QKBqdfEhT_LQK2byat+x-a8Xrj4nicnw@mail.gmail.com>
+In-Reply-To: <CAJnrk1b_55hMTRxtV8QKBqdfEhT_LQK2byat+x-a8Xrj4nicnw@mail.gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 19 May 2026 13:47:40 +0200
-X-Gm-Features: AVHnY4JCSAmM3oKClqSQO-mMHaJl2Mw25FZtaTf6mqtF1R_x-QV4G-cAKl5EvD8
-Message-ID: <CAOQ4uxiXYmi+LUcETe_ftYzUN_KhPz9aNAe_yiX+kCBYt+zDXw@mail.gmail.com>
-Subject: Re: [PATCH v2 17/21] backing-inode: add backing_inode_copyattr()
+Date: Tue, 19 May 2026 16:17:51 +0200
+X-Gm-Features: AVHnY4LJ3qITr02ccj_9_VFQZZh950e9967B6nCn_Ei3xCEomL4fDgP18jZ8FDk
+Message-ID: <CAOQ4uxj+ss82jZV6yq=LXag2s_ax9rVdtH9uc8W+RnRD+U5qpg@mail.gmail.com>
+Subject: Re: Re: [PATCH v2 12/21] fuse: add struct fuse_entry2_out and helpers
+ for extended entry replies
 To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	linux-unionfs@vger.kernel.org, Christian Brauner <brauner@kernel.org>
+Cc: Horst Birthelmer <horst@birthelmer.de>, miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
+	linux-unionfs@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 19, 2026 at 1:21=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
+On Tue, May 19, 2026 at 1:12=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
 m> wrote:
 >
-> On Sat, May 16, 2026 at 2:33=E2=80=AFPM Amir Goldstein <amir73il@gmail.co=
-m> wrote:
+> On Sat, May 16, 2026 at 12:29=E2=80=AFPM Horst Birthelmer <horst@birthelm=
+er.de> wrote:
+...
+> > Hi Amir,
 > >
-> > On Sat, May 16, 2026 at 2:53=E2=80=AFAM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> > >
-> > > Move logic in ovl_copyattr() to a generic backing_inode_copyattr()
-> > > function in a new fs/backing-inode.c, which other filesystems that us=
-e
-> > > backing inodes (eg fuse passthrough) will use.
-> > >
-> > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> > > ---
-> > >  fs/Makefile                   |  2 +-
-> > >  fs/backing-inode.c            | 43 +++++++++++++++++++++++++++++++++=
-++
-> > >  fs/overlayfs/util.c           | 33 +++------------------------
-> > >  include/linux/backing-inode.h | 14 ++++++++++++
+> > I see there is a lot of talk about using the compounds in a couple of d=
+ifferent contexts.
+> > I really have to apologize for not having the latest patch ready by now=
+, but I'm
+> > a bit unsure how to do it.
 > >
-> >
-> > Nice!
-> >
-> > Please add these files to
-> > FILESYSTEMS [STACKABLE]
-> > section in MAINTAINERS.
-> >
-> > Otherwise, feel free to add:
-> > Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-> >
-> > There is one more cleanup patch required, now or later, to get rid of
-> > some awkwardness in kernel fs code.
-> > If you don't want to deal with it, I can take this cleanup later.
-> >
-> > d_backing_inode() is a noop from the day it was added and has 177
-> > call sites. Those call sites should be converted to d_inode() and
-> > d_backing_inode() should go away.
-> >
-> > backing_inode_security{,_novalidate}() are likewise unneeded
-> > dups of inode_security{,_novalidate}() and should be removed.
+> > I'm not entirely sure if compounds will only be a thing for fusex or if=
+ it will ever
+> > be accepted for the classic FUSE.
 >
-> Awesome! I'm happy to remove these.
+> I'm not sure what the plan is either. I think this will get clarified
+> on Thursday hopefully.
 >
-> You mentioned in v1 that fs/stack.c and the corresponding
-> include/linux/fs_stack.h are pretty much only used by ecryptfs. It
-> looks like there are only two pretty minimal functions in there. Do
-> you think it's also worth moving that logic into ecryptfs and
-> eliminating fs stack?
 
-I wanted to do this once, but ecryptfs is not actively maintained
-(odd fixes only), so the maintainer did not want to take any changes.
-Let's leave it.
+Wait, is there a FUSE call? I did not get an invite :-D
 
 Thanks,
 Amir.
