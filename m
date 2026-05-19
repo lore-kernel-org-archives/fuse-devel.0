@@ -1,69 +1,72 @@
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7A6332628
-	for <fuse-devel@lists.linux.dev>; Tue, 19 May 2026 05:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D151E33F595
+	for <fuse-devel@lists.linux.dev>; Tue, 19 May 2026 05:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779169263; cv=none; b=NX0CcRpSGSYlIo/92IHVjNwSNzarhwD9ayflfKHXbLbfT4leN9+ZZih7irzyi88ih2T1sNIcPdreCaVvTgUpTLpurRAZa3s4dkkKHKhcLvowx1SBWgPSUSY9kHg2W78W0ALvIEuXjwdyOyW56uoAcA6ZJzyAU9NgVwTI+1F/L2o=
+	t=1779169268; cv=none; b=pIodEipXDLQi5uK4qLiPjVHPNZcy35GouIJbncnkLDbxA0bmZdoZ2fKEd/0yy7uujjyz8tOQoMwJzJyHKXI6Cql4PTrTEbEXmNC+i3wJdKSjNoigut6sSjsCyINeE8cer+UuCa1COd0xbGsPA8iXJ5xrocgdv9K2nicYh79NsdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779169263; c=relaxed/simple;
-	bh=OQbleJL4yAVyUvV63NOb8s6YEAQMgMl3/cmA+8Sehjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qu/WbaQnek2+k5oj/Gci9s9Ec3MTaXRLGDtOTsThwgFVskAsxQtnCMwTQkf3AQBYouK7bkCnuy6+30dqLrqZEOdrKW2fUUJDJHBVp7kNDEWqYPw73TmPXvLKHUwenNBb6qdw7wNcS+oTrJqavMk0LzuMz3o10VxbPc9+NW06CIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bu9LE70C; arc=none smtp.client-ip=209.85.128.172
+	s=arc-20240116; t=1779169268; c=relaxed/simple;
+	bh=xj2PXqco0OYgzWLRRPhtDZOD1JPYK8pxo4cMRYsLjhM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ogzKOhF7iZU1gI+HZqvwI2TBEvqsNmZd5oFeL9BcoSJZhEHThZeMJz8f3+qNohAhFc9XnjPT9CVVIGNXBi3ub6VuDv2UJbOFXprKslHmCbmf7CAcNN+bGAqypdcH8D/JZrs8PsIKpg1ZsSolW3LXtRRvcL+kIbV0Ib6tpKlAVKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fDl95hAO; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bu9LE70C"
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7c52e49d978so25624467b3.2
-        for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 22:41:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDl95hAO"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-7ca947f9b00so25449487b3.0
+        for <fuse-devel@lists.linux.dev>; Mon, 18 May 2026 22:41:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779169261; x=1779774061; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=43pbQ5ZD2eCg2UHToz4qgl0khUcjpV2e1snhFPWHvs4=;
-        b=bu9LE70CG30XeESPxWQbTVkyFlxsCuIbXVzdh7dLEjSGV/Tdx9a2gxMVkgTLo6Z35M
-         0t8XxBetMvc7cw7X8J5qGgsnnuDo1/CZxB/m6jVjb1C+tr2fqeMi352tBLsuWiLseoxG
-         cy/oITVZaWh1NLtaoKncwM54EJHNkr4xdmW/IquOTXnFj6RdoFjYDlByI+PYqyFKW6/p
-         LSc+NllYAmJ2cigpjK3fMZ9RcAosRxWrXmFCiyaUmKkZbqKTpU7UCXl62r8IGO9uLTC9
-         g+AxVPRG4foGCU4eJz7mB4pjXUVI5B3kTdOKgTEIR+eGRGvrH2zDjhpwb4CBYsw+pSGA
-         Dxjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779169261; x=1779774061;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779169266; x=1779774066; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=43pbQ5ZD2eCg2UHToz4qgl0khUcjpV2e1snhFPWHvs4=;
-        b=Eq7MosoPc11GTIxZEvKcHJ0n4oss99aAHlITzeeoeJyvtfcfI2kSarjq2l/a5TXSS/
-         7A0ZozPkWFku+OkR6a1A2j0DJdW01kdqjwsoN2zZe2wN42Nz8qkALwDb4h5UJem+7M1u
-         KxzjwkH/zfXc8meWlQXV3ECRmFE6e2+dHSxMYZAkjLABFZgmz+dymCub5WpGBj0C0bu3
-         E2a4rjND9dPJvB0OzldizjakNkUlYDH6UVy+2dbNiEWYnkxGUyBTmmrL5Sa62sU/cC8V
-         Q/2y3VNQqjHg0zauDSY+MG0hnPVKxzo+vTn3BiIQc1Zn86Lwav8pVZHHw1Q5OLUHCtb2
-         oflw==
-X-Gm-Message-State: AOJu0YzvKPoaNzMY3El0EdIOarVdDKeH5WiwUuv6h4SPzmAUw5V/fPRW
-	3hUW0Cuat/bV8zeCP3C+wqbGRwcJzS9RO0tlAsjxrBfh7PiATDKw+rkN
-X-Gm-Gg: Acq92OE7LR0nDJGvHptKCm7G1xC8VeWtQ3tjPCcoMi7GRVicfxcTWz9YbfCPRe/Nz8w
-	qS/KNsMRu+XFHvOmryJPuCeDeuzxqdWreBlSuRDDt1O3TMjBWcs8dhOkvy1OooioKm8bM45B4mQ
-	S++zt3Y8AQ9c+31EGDPls/XvL+/5rCXUxLuMwbmntPFHTnQo4bsGMe2WsjEsCBn4p5Pz+XXfED9
-	7sMD2jUz4roFBqsCBfsGVvj53WSBw+qAUQHvZN6RPGtYWRnin+wt0W++GM6v7vnCDjGT3islvmM
-	7pa3iePsgSq6jyJ1j6fckqJp44SyudnST2Z82FXNpDK+sKr/jrxr2HnhvUHkMUGMHIRwAiLrJXS
-	BnnRI3iOpgtpeMyqtfLDn0PHePrK1InIR6VOnx491OWHus8fC8Or8GwlljJGVFSMOob096lUWPG
-	sWTOUVXYfj9dAI+8t0hD3R
-X-Received: by 2002:a05:690c:885:b0:7b2:bf20:cdc3 with SMTP id 00721157ae682-7c956752091mr206361557b3.0.1779169261234;
-        Mon, 18 May 2026 22:41:01 -0700 (PDT)
-Received: from localhost ([2a03:2880:f806:42::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc991c939asm32250337b3.6.2026.05.18.22.40.59
+        bh=UxEHYRPXPUF5CcnWUlQth343O/vG0e4EfUADmNe/YLQ=;
+        b=fDl95hAO3dJJNH1RpZ44g32ZYFupWtt4QSNoQLafqZuTgcJbnbyLUteDi+LokBfvVm
+         MG5/W5+xgGj+7f2rHRigBZZYIK9rqFS/DXay+MvNB6kRKTW+WoDvSEiWjk3FkfCU38p8
+         aomF7N1W5FVdQnS0qGOpLqBBiFlHgJxexsr8K0U6EBJs8yAItvlU727pOYhhjp6AMTKW
+         PKUreR23PldbZV9yQ3lEt+gNjGeyk7PlWEkVY1Pvu0Mx2HIsJKL09+fnNgBpAXioem+J
+         VDULk0WNDyOHZWgGJuqnElfTX/ypbTjXR9tgjn4WfnJSdPKIEoyCF7YcJgsbDOWakwCZ
+         otaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779169266; x=1779774066;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UxEHYRPXPUF5CcnWUlQth343O/vG0e4EfUADmNe/YLQ=;
+        b=UDIMAirSGmvugBvCaB/aeagTl0u57TWo99hYStJcIK5H0KAHr3TVb+TTso+4T60tlm
+         ALCytdLqlf3BZ4PLNeMTYabmlcNhpqhaa1Sn+ri+Jjasi4iwEb8G4UiGG7H/OB0ut11/
+         ApvJbuJzdDVekgp/puD+Ixj+gdU2LYGYKKhODoeP0UQMaFfbgY58xSjPFLsw5ZmBYS9E
+         kedX6YSoqI7eZE+vEPp5QJxy/ACVrDHttA5dK1zJC3GIAFIDoc2ySbniHgE8Q/dJ0E6y
+         3my+aXCzULcWQGJwAyZykSG/MyV4QhtCrbX5e5PnqUIDqLGtV1Rx+Eybv/M6rGgamY3l
+         67fw==
+X-Gm-Message-State: AOJu0YyHupuKfZT0vVDYO/sStNNxFInXh5wWxBKysqA1gBAD/TnvURdP
+	EBZTaywf8CVxqCj+cUAHqCFJNBygUeapidan7db4dvCsSX4xW0dV+Iw9
+X-Gm-Gg: Acq92OGm3hUTosNu4E4z9r5bZqdVd1BdfitClbKFtwdVZq3GGnzx7wofsCE/n6N1bYI
+	v7xLZaaL+nD1ZJG8bC2c5SS4eNxHfU/n8F0xPRBjsVSDOZ3GMQX+Cz/r74r7CUhk2jVifJpVSwp
+	NVgLnJWdVB5kFJWj4+En2bY27XrrO8xYN1zizw5/F6/NH/V7XRb1uoM1wOKGLNgNlCpLSR6+70D
+	Ne1YYambHjKg2BIOG7MOIVLaU8kR9A8iZ/NhtvMoQ6qdp1NhaNVzE1S1E458CWKdZ0Nde9+v9iY
+	xio+bAeqYpuy8Js0QZFxkJZM9h/6mrMMH23ya8rfgEYNbpBoJIOCLZaH7vnBNUs6hEIroQ7emD5
+	+ZwANryXzHdS/bYyZg98imBYY3t2SBrJ5mHQmXQwTUUodnhr+Z5u/Te7NzqpvzEcbh970Ho064V
+	Tr5tOJF/GT1WyUFLcHIjQ=
+X-Received: by 2002:a05:690c:e159:20b0:7ba:ded4:df53 with SMTP id 00721157ae682-7c95b82a65cmr144251357b3.32.1779169265906;
+        Mon, 18 May 2026 22:41:05 -0700 (PDT)
+Received: from localhost ([2a03:2880:f806:b::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc9bc0dafdsm32141597b3.30.2026.05.18.22.41.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 22:41:00 -0700 (PDT)
+        Mon, 18 May 2026 22:41:04 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: miklos@szeredi.hu
 Cc: fuse-devel@lists.linux.dev,
-	stable@vger.kernel.org,
-	Lei Lu <llfamsec@gmail.com>
-Subject: [PATCH v1 1/2] fuse: re-lock request before replacing page cache folio
-Date: Mon, 18 May 2026 22:28:06 -0700
-Message-ID: <20260519052807.1924269-1-joannelkoong@gmail.com>
+	stable@vger.kernel.org
+Subject: [PATCH v1 2/2] fuse: re-lock request before returning from fuse_ref_folio()
+Date: Mon, 18 May 2026 22:28:07 -0700
+Message-ID: <20260519052807.1924269-2-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260519052807.1924269-1-joannelkoong@gmail.com>
+References: <20260519052807.1924269-1-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -72,64 +75,34 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fuse_try_move_folio() unlocks the request on entry but does not
-re-lock it on the success path. This means fuse_chan_abort() can end the
-request and free the fuse_io_args (eg fuse_readpages_end()) while the
-subsequent copy chain logic after fuse_try_move_folio() accesses the
-fuse_io_args, leading to use-after-free issues.
+fuse_ref_folio() unlocks the request but does not re-lock it before
+returning. fuse_chan_abort() can end the request and the async end
+callback (eg fuse_writepage_free()) can free the args while the
+subsequent copy chain logic after fuse_ref_folio() accesses them,
+leading to use-after-free issues.
 
-Fix this by calling lock_request() before replace_page_cache_folio().
-This ensures the request is locked on the success path which will
-prevent the fuse_io_args from being freed while the later copying logic
-runs, and also ensures that the ap->folios[i]->mapping is never null
-since ap->folios[i] will always point to the newfolio after
-replace_page_cache_folio().
+Fix this by locking the request in fuse_ref_folio() before returning.
 
-Fixes: ce534fb05292 ("fuse: allow splice to move pages")
+Fixes: c3021629a0d8 ("fuse: support splice() reading from fuse device")
 Cc: <stable@vger.kernel.org>
-Reported-by: Lei Lu <llfamsec@gmail.com>
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dev.c | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+ fs/fuse/dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index be4e66ed633c..37b11b89ce1b 100644
+index 37b11b89ce1b..a9385d3597cc 100644
 --- a/fs/fuse/dev.c
 +++ b/fs/fuse/dev.c
-@@ -1158,6 +1158,10 @@ static int fuse_try_move_folio(struct fuse_copy_state *cs, struct folio **foliop
- 	if (WARN_ON(folio_test_mlocked(oldfolio)))
- 		goto out_fallback_unlock;
+@@ -1227,7 +1227,7 @@ static int fuse_ref_folio(struct fuse_copy_state *cs, struct folio *folio,
+ 	cs->nr_segs++;
+ 	cs->len = 0;
  
-+	err = lock_request(cs->req);
-+	if (err)
-+		goto out_fallback_unlock;
-+
- 	replace_page_cache_folio(oldfolio, newfolio);
+-	return 0;
++	return lock_request(cs->req);
+ }
  
- 	folio_get(newfolio);
-@@ -1171,20 +1175,7 @@ static int fuse_try_move_folio(struct fuse_copy_state *cs, struct folio **foliop
- 	 */
- 	pipe_buf_release(cs->pipe, buf);
- 
--	err = 0;
--	spin_lock(&cs->req->waitq.lock);
--	if (test_bit(FR_ABORTED, &cs->req->flags))
--		err = -ENOENT;
--	else
--		*foliop = newfolio;
--	spin_unlock(&cs->req->waitq.lock);
--
--	if (err) {
--		folio_unlock(newfolio);
--		folio_put(newfolio);
--		goto out_put_old;
--	}
--
-+	*foliop = newfolio;
- 	folio_unlock(oldfolio);
- 	/* Drop ref for ap->pages[] array */
- 	folio_put(oldfolio);
+ /*
 -- 
 2.52.0
 
