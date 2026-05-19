@@ -1,161 +1,130 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DC037C926
-	for <fuse-devel@lists.linux.dev>; Tue, 19 May 2026 22:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779228446; cv=pass; b=qyTVWIol1zh9Vc7+zXmevN9Iq0JQ38LRDh1qwEB3VOnvgo0ArZzgUkV7xbl0Hy3VlAj5+uwP9fvPWx95r5CAsLhwr8H+o8zlLGanKrzAAxr+HZJxp8/pqtia318AkGG3YXrWLBKivlY6wqf2CrkqwOmwAdv808gTm2v+C2ihAR0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779228446; c=relaxed/simple;
-	bh=piBDvQwyjk+bAfS1p9n7LLs3zJcyoa4Vky1yx0f3GWM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r7CNJdVjzcaAS2IdsWPokfL5/yxrAKicMxP0jbQRTuBywKzBAc4E/ip405oNesSSXcmLHVybeLPqcuWiAsuZ/ufWjHaMX1eL7aqR2/Zl8F3B/PENeleTsN+Krc32wfPl3oOL6/2idbI+xD3E84pB8J5eT99xIJLdz4+eIz1gyCo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jrwlnTqa; arc=pass smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0083DB30C;
+	Tue, 19 May 2026 22:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779229351; cv=none; b=WPnUgcQvlVTybTz7jeC5hWFupvpGcZJApbpsqtQuIb5XMo9k/u09Q9/0FebDeQLRtOljMULFcpFwW7kiW4xlFsSczIhZ94x3vFvo7KWKI0vPewK46U9oFCt+t2AW5r6zqNbx/UVGLV+6MM94ySPZ3J5+EsyIPQWZSi6Rst+kzqU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779229351; c=relaxed/simple;
+	bh=xYcDZk1WsDwMNBEI0IkX1AhTrdDgiZk9faTLWLXULhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hOJK7wbFWLsf/GtNc6q2MVz84NAFofFceG4qM+g3HM1y03QYtnpo1QP3ayFNBECpyLMEbBx+InUth81qqzKDrAgnXJygM7zxZfHHgreHwvuyE0DtsnFduD6n0DjohIoN3e9Z7xCMAgtXIijiZHdv1gpjEJL+2r80lhhBG+BR4nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nOnHRXmd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jrwlnTqa"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488a14c31eeso24953095e9.0
-        for <fuse-devel@lists.linux.dev>; Tue, 19 May 2026 15:07:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779228443; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lXsLL8BtbMI6vfDXm6orlZbO7Kl6t6/QAZcGrXLRM3E+OcMhFSDf7PEfpZ++ay8gUa
-         vnfTpQxYmxmvghJsRfyJ5CGqzejQ92Yneby6DOpcsGQRnSiNdHew7/jwGa6+HrliO83E
-         w9+Gqo5OiE8X3zqSb/QI3KIedKgl/8U0dzFG8lJcXOZhOxjeOJWVmR5ayHmApntC94jO
-         ymgsGcJQ0JgcV25cFbUVscZZx5sFhuuq4JlC46EtjSAGuloKMadELehrSjzO5lJCTr2i
-         fHuW2wzPS3so7UcWgd5AB3KeEsKhobd141d1Y1a5K8MZJNWBBVdO37KDU6b6t7uUyUFr
-         Lpfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=syIH2X4lqZqn7fO1bqpamX7eCMAdo+GVXIdTu8K5pKs=;
-        fh=mFOR+UyZ8MNlTBNSMxuHQJ0KZjG5a7L0P+Qx/IObRZ4=;
-        b=FFB+bkzZOXedcucbTI85rq0dOPRKFqZwvmrrtZ9rNUAdaIYXfWWcGdxxl87BI1z49R
-         bGIvLf5FaYJv6WUnnytoHes/yXXnEDM9ad5KGWvgAxfw/FVxWrfTlQ0+jIAPDuKdIZX1
-         SEbwDABmwUeR50MLlLoj3OQxpvq/9STgFohFxNfyZWKaYoNwSSxcgmnKgdRQXC6HE3dg
-         4Ooq7HnXr9yKPegfhWELf6JJ469ZJ16mI57PFDhjlOmgXC0jTDA/nOcfoRgZyclNQoQL
-         zIX1gB6QxT1NwrIM5b2Qp5XdAjZD4OuJrnPUtkBUCVDO95aD09O0AGGYo3ufQ/3Y3kbJ
-         2JpA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779228443; x=1779833243; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=syIH2X4lqZqn7fO1bqpamX7eCMAdo+GVXIdTu8K5pKs=;
-        b=jrwlnTqaPjiMg2YiZBbut+eghUz/VYmTJzfWAWrqPENPzWaixXosfkVurovulTzzB2
-         PNbA+WXNs1+1RP1ClI91wKGZDLLHHqrwk1ah/5C1XrcwUv9/H756hjY8ei+M+sy9lZ0W
-         VQ8LwYpEXaD12C91mAn7SD1UdLhxsUbH1DoS67UnPQ6yeWpbzw9wFPGlSYEF290zRCUN
-         VNzAfqREimY/T+jzjdkL8nY+PKhVRvGJ7VdXipnnmfgu28hFUc+OyczXXojyxpyxKLZw
-         XeVMx/flllbHGxsdI0K12rMwE8Q27rtYlc/oOSEM/8zXrUl0bXtePDmUv7LR2F2cl5Bt
-         /C/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779228443; x=1779833243;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=syIH2X4lqZqn7fO1bqpamX7eCMAdo+GVXIdTu8K5pKs=;
-        b=oxMwSwak5uE5bsPoAzibgNDYo/JIU5cDN2j/nIx0toOldTecH0Km2VE1W4z6X9R1yo
-         SRmgfMtt5aBu0HCXg2YYU6C87SOrRBoQ8C+JMvIym6u5zF3/2KTKB/LCOefwo49ecLzl
-         KlF5OU4jHBOAMeLMcBmhRR6I917AlY9ZoQAeI7rd0pURwQ6MVRyJg/FfKrxWSluHP9DS
-         EGs6wJLHe1PE1LMXubrhjIXJsB76ydgIMKKuXV+v9W4RzbhiisjCKf+YFKFaLKgLgDEg
-         fby6nCkB7SROYgMfRLaI2CYVxnQBw8sYcI6FQK8ra+n+Vh7O17LaFyu5DaLzHGw3fjyS
-         M+qA==
-X-Forwarded-Encrypted: i=1; AFNElJ/DYGpznQEFUrPQ01wvE9RySYxWYoS2E+n+1iYhzhX8pVwSw/FfIkWjAPy2K7IQr99/hqTT9oDNEGcC@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzSeeFywtOKD/sN6kgiXfYXC8FVmxrpLVas4b+RobQaWSuz7vL
-	VzL5ZS4yIldVMjm4CdTCqCiBvzmuBbKHsXel69ivB7k65PgEatToKxlzHg3Gg2XS/7H0wGlzXSr
-	7IITOFW4TaJxkapDukA8VgSzHFQtMWtg=
-X-Gm-Gg: Acq92OGr6wTWjnKhuLVSy9NNMMy36Hus0S9TV67CjoWS/zyS/3xs0eOUe5QglYQdx3y
-	/dfBjnTP1yVYiwwWHCqv5yDahe09j86/SK+IOm8AYS51J89nVDOx2CyN8eTHnp7paDcwrwX4ZW9
-	LA6J+Q5AR2IFMBaiY3E3BNrQhrnKYKzrvTPa3/4m364XXtnTH1Qzkzdiy+KvAQMpdemXRLfwLn5
-	j29vrJ/JIda51lMP7rap3o8EH9/ZGbrig/QxNhUb4An20Vujt0Rg0YeQ0rYvdA0YKEIVXNrjlpQ
-	gDgV4w==
-X-Received: by 2002:a05:600c:310f:b0:48f:d346:e646 with SMTP id
- 5b1f17b1804b1-48fe60d5693mr309554015e9.10.1779228443454; Tue, 19 May 2026
- 15:07:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nOnHRXmd"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A2BF61F00893;
+	Tue, 19 May 2026 22:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779229349;
+	bh=UUjnk+fAt2LpePPYpdYfCvrYStDZPTXBjWLuLoxFuI4=;
+	h=Date:From:To:Cc:Subject;
+	b=nOnHRXmdIe3aZ6XL7qTbDwUZLn+5kITC3Bi1xf46SdPvIQCEbT64vCMtiDwTv8aaG
+	 eScQCjVrmRdF0ttV/jasauS1B70qC5mqiRfJuWJnLu2J/YpHNXAnhUIS9an4ZDCe8k
+	 G/La6orrEurvSKgDhBmZ6pg7V6X2oz54Sr5XZreRYisI3JWVXeEifYBie9zJa7w3Bu
+	 0MBWGm7TDruRUKol1wevoiPpPeLBEDo8OcU1h03xIUZIYqj8mOX+Pz5wcESX5hek2/
+	 Fk+giWsjXKwDgSlpMTrWUz28nU4YqRxWkCCHleBo0FFXVbshC1nVlzFNwr7ecqHgiT
+	 qDExjUXBIEkfA==
+Date: Tue, 19 May 2026 15:22:29 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	linux-ext4 <linux-ext4@vger.kernel.org>,
+	fuse-devel <fuse-devel@lists.linux.dev>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Theodore Ts'o <tytso@mit.edu>, Neal Gompa <neal@gompa.dev>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Christian Brauner <brauner@kernel.org>, john@groves.net
+Subject: [PATCHBOMB v9] fuse/libfuse/e2fsprogs: faster file IO for
+ containerized ext4 servers
+Message-ID: <20260519222229.GB9544@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260516004004.1455526-1-joannelkoong@gmail.com>
- <20260516004004.1455526-13-joannelkoong@gmail.com> <CAOQ4uxjMPPp-R37yKoOs1kGUdAOmnp3keVWvfuxi1r8jrxAcTA@mail.gmail.com>
- <agjDGBQPG2WpDTWO@fedora.fritz.box> <CAJnrk1b_55hMTRxtV8QKBqdfEhT_LQK2byat+x-a8Xrj4nicnw@mail.gmail.com>
- <CAOQ4uxj+ss82jZV6yq=LXag2s_ax9rVdtH9uc8W+RnRD+U5qpg@mail.gmail.com> <87tss3ifob.fsf@igalia.com>
-In-Reply-To: <87tss3ifob.fsf@igalia.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 19 May 2026 15:07:11 -0700
-X-Gm-Features: AVHnY4KL6G7lDeu40R_EpbeFkCrgOhHUtUCFqEflHhtz-Ub85W9UjnDv-jTrKTk
-Message-ID: <CAJnrk1b2KfRUTg10+Q6P7GsOYSur=hPFrh_uahmuKWZ3UHjDcQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/21] fuse: add struct fuse_entry2_out and helpers for
- extended entry replies
-To: Luis Henriques <luis@igalia.com>
-Cc: Amir Goldstein <amir73il@gmail.com>, Horst Birthelmer <horst@birthelmer.de>, miklos@szeredi.hu, 
-	fuse-devel@lists.linux.dev, linux-unionfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, May 19, 2026 at 8:26=E2=80=AFAM Luis Henriques <luis@igalia.com> wr=
-ote:
->
->
-> (Sorry, I'm slow catching-up with email :-) )
->
-> On Tue, May 19 2026, Amir Goldstein wrote:
->
-> > On Tue, May 19, 2026 at 1:12=E2=80=AFAM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> >>
-> >> On Sat, May 16, 2026 at 12:29=E2=80=AFPM Horst Birthelmer <horst@birth=
-elmer.de> wrote:
-> > ...
-> >> > Hi Amir,
-> >> >
-> >> > I see there is a lot of talk about using the compounds in a couple o=
-f different contexts.
-> >> > I really have to apologize for not having the latest patch ready by =
-now, but I'm
-> >> > a bit unsure how to do it.
-> >> >
-> >> > I'm not entirely sure if compounds will only be a thing for fusex or=
- if it will ever
-> >> > be accepted for the classic FUSE.
-> >>
-> >> I'm not sure what the plan is either. I think this will get clarified
-> >> on Thursday hopefully.
->
-> From Miklos' email "[post LSFMM summary] where is fuse going?"[1] I
-> thought the plan was clear: both compound and file handles are going to b=
-e
-> in fusex.  Quoting:
->
-> > COMPOUND REQS: let's add this to fusex.  uAPI is simple, kAPI needs ref=
-ining.
-> >
-> > FILE HANDLES: same: let's add to fusex.
->
+Hi everyone,
 
-I think the part we're unclear about is whether the plan is to also
-have this in fuse or just fusex.
+This is the ninth public draft of a prototype to connect the Linux
+fuse driver to fs-iomap for regular file IO operations to and from files
+whose contents persist to locally attached storage devices.  With this
+release, I show that it's possible to build a fuse server for a real
+filesystem (ext4) that runs entirely in userspace yet maintains most of
+its performance.
 
->
-> [1] https://lore.kernel.org/all/CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R=
-1-HqvjfJ8A@mail.gmail.com
->
-> > Wait, is there a FUSE call? I did not get an invite :-D
->
-> Don't worry, I think no one has yet received an invite ;-)
+This effort is now separate from the one to run fuse servers in a
+constrained environment via systemd.  Putting fuse servers in a
+container gets you all the blast radii reduction advantages and provides
+a pathway to removing less popular filesystem drivers to reduce
+maintenance work in the kernel; now we want trade relaxation of that
+isolation for better performance.
 
-I haven't either. I think the only thing we nailed down was the time
-(Thursday at 20:30 CEDT) but I think John is still setting up the
-logistics for it.
+The fuse command plumbing is very simple -- the ->iomap_begin,
+->iomap_end, and iomap ->ioend calls within iomap are turned into
+upcalls to the fuse server via a trio of new fuse commands.  Pagecache
+writeback is now a directio write.  The fuse server can upsert mappings
+into the kernel for cached access (== zero upcalls for rereads and pure
+overwrites!) and the iomap cache revalidation code works.
 
-Thanks,
-Joanne
->
-> Cheers,
-> --
-> Lu=C3=ADs
+At this stage I still get about 95% of the kernel ext4 driver's
+streaming directio performance on streaming IO, and 110% of its
+streaming buffered IO performance.  Random buffered IO is about 85% as
+fast as the kernel.  Random direct IO is about 80% as fast as the
+kernel; see the cover letter for the fuse2fs iomap changes for more
+details.  Unwritten extent conversions on random direct writes are
+especially painful for fuse+iomap (~90% more overhead) due to upcall
+overhead.  And that's with (now dynamic) debugging turned on!
+
+This series has been rebased to 7.1-rc4 since the eighth RFC, with
+the following kernel changes:
+
+1. The BPF stuff has been replaced with a filesystem striping mechanism.
+   This is my first attempt ever to implement raid0.
+
+2. Much tightening of the validation code based on Codex reviews so that
+   we don't expose more "ABI" than we feel like getting yelled at for
+   in 2031.
+
+3. Refactored iomap writeback mapping so that you can use the standard
+   iomap_begin functions for that.
+
+4. Better userspace helpers so that fuse server authors don't have to
+   know quite so much detail of the innards.
+
+5. The libfuse changes are based off the WIP fuse-service-container
+   branch.
+
+There are some questions remaining:
+
+a. fuse2fs doesn't support the ext4 journal.  Urk.
+
+b. I've dropped everything but the kernel patches for basic plumbing and
+   file IO paths because frankly they weren't getting looked at.
+
+c. How on earth am I going to separate out the file_operations?
+   Will it actually work to say that fuse-iomap only supports local
+   filesystems initially?  How many of the "is_iomap?" predicates are
+   actually for local filesystems and not the IO path???
+
+I would like to any part of this submission reviewed for 7.2 now that
+this has been collecting comments and tweaks in non-rfc status for 6
+months.
+
+Kernel:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-striping
+
+libfuse:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git/log/?h=fuse-iomap-striping
+
+e2fsprogs:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/e2fsprogs.git/log/?h=fuse4fs-memory-reclaim
+
+fstests:
+https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfstests-dev.git/log/?h=fuse2fs
+
+--Darrick
