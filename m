@@ -1,198 +1,116 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014D2343D72
-	for <fuse-devel@lists.linux.dev>; Wed, 20 May 2026 19:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB25935BDB2
+	for <fuse-devel@lists.linux.dev>; Wed, 20 May 2026 19:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779305060; cv=pass; b=VX7/pD94h4t8YqZz6C32Z9Lovq9B3bupMQybPE8r6es1Ybu65hLNKRDkoqJU/SWESsgsfqXKZzF9eKgGuMR1vM+mQBtq9GKtlWZpjVJE0QwQGLRItRSzdaBoJ80yX6ODmk4+7JjkgfOf/E3av+dwKuK08GaTRbK6sbveEW+0+DQ=
+	t=1779306939; cv=pass; b=BUeMzk7C0R9T0BEAj1oykJROe118Cedt/EMy7qyOSxMRjxDHTeOnM338Tw0c8n1DUKpBGOeAHVKgPi3RYIHE361RsaH+PqCAqbfpK+c0XJKsKJDHIOCjY1dmR/OWbjV0KaNfy1PFZlk+GVbk+fvp1ZUXVS4NgDOyElc4zQit+0U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779305060; c=relaxed/simple;
-	bh=RYQhR4/pwAjfTBfaUV6x4DC9DCiz845tJhWNEUuUUmU=;
+	s=arc-20240116; t=1779306939; c=relaxed/simple;
+	bh=9Q34cFVQWLWAAn/q3aUqVa8EHeIay+4M9jAXGYL1/Tw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bRljOA9VYsFUMaYL9mY1Im1C9mnb2apJy2pWphMcxQ3GJWEuoln1votKZvpzmjI5wY3U7M4IEw9T2l9FuGKPEyrrYixaGOK/PU6RiGYazE8pvnTr3MvwEJCz2UYym6Ie4e0/OQer/ZTA3OSUAdBL/ZE+zIw1Rzeg2h9iroXboVs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kKavo/OF; arc=pass smtp.client-ip=209.85.208.43
+	 To:Cc:Content-Type; b=LJDfWvb3X7M/1Ruf5QMK8MG2vpDsvFVkLw8I0BmexFT6ss0P6UyXUae/CKL+XHXJS1DGyNxuEv2d9zF9O8g1eVxK633CvAJ5YGJwth+aIvw4CLs6+rgt6zPoBHhc6/65GJIAAkzXbdLyILRrG5lB2JUQMR1jOaPzBqzzvuKAWeM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtwqEJ+s; arc=pass smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kKavo/OF"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-670ab084a39so10974284a12.3
-        for <fuse-devel@lists.linux.dev>; Wed, 20 May 2026 12:24:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779305057; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtwqEJ+s"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so8974446a12.1
+        for <fuse-devel@lists.linux.dev>; Wed, 20 May 2026 12:55:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779306936; cv=none;
         d=google.com; s=arc-20240605;
-        b=bk5xrxUUZyWrsUXbeaR+KBwEFGTkOu3HyVssv2VugQLQUx3J4vzI5vI82Nr1bANzLe
-         0x53d7d+E10+dOq5ZLPNbsNfPFD91pltNnzGopTxJIGJ9gcVVCcp5zzlOZzjPcfu/4oc
-         n4NG55PzXK5chp60mn4uEkSpwlUxzgBxqd3c6enwEK11EFIXUrpgJuwzYYjPM4R2t/Me
-         nRFcq9L5YEjLecMOlYCOn5ST2lRs8Olfgy5Q8jWk1rwxL/QXmr72kdlaisiRFWL4DunN
-         TGotW7gY3pp44abCRm1Imny/UkmwtoNPAT1NiyVAatuRKMCNIFkEhq3/R77uAlSZpo0G
-         614w==
+        b=GVQqDjLc3+FqsbMF5a2Z9s/VJYWdAGFQ7HupQYmPWXhi/PBOGO6Sx6fECFvwVBxikl
+         JV2e7jpjmLfpjkmt0Lrdls6taTVDierrgTvqgLbrBYnA96/H5oCbnmyBGiVFzoMdVtNW
+         PwDtfho1rExpTfa1+5DtcEY55eAWSkoaia5d/7gdPY67HyW6wsyYnCYaxtmAnYtWA6PJ
+         V400gyUvWh8qNBcv+50mAe25D5oSSSWfnsrn/cjLEHymwwOjeB6Kak3Vefnihhpxtpqb
+         ZnIEFUEumJlLZGvAu5D2QJxOZq9yEYDUukLURD6eXwI1owIDtPtucn6XFCt370HUje0A
+         R50w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=MywtOlXewxjrYMqMQj5KpULsLy3W5gueIKRBIijwzkA=;
-        fh=FMVHnfSpeLyYCJiSmwvezHzWPV8pWNjoIxgGgUDMEZI=;
-        b=WaSL2RFmed5I/wxMzqp3eeDcMlfD3PdHS/HeC42cc2fPppoxeCUavn6WJG8E8kMQ88
-         aSF4eFWACXfe39SPVL3ghk7sM5pPuIZr7MwPBYj5f1MlZFTZkRHaPXxZWjtbob7qe2ti
-         YXV1N6ef0TyXIsYvgRNpfAkZKy1rE763w8qt4d/9m5wuPw2jHBM865CLSxCo12FTXNsa
-         Jj6w/uhrTyzG2JJ6rqR64Z5k0Xkkna7OdX8TwEwExxYgIpc69SKFGCzcp+oBrjI6Spab
-         acCvHs3P8Pf7h/LZUjK2eWiOv0pCwClNYuNgvLqlN12vRGPT04GMVthmme9HJDIKcqh9
-         TgrA==;
+        bh=9Q34cFVQWLWAAn/q3aUqVa8EHeIay+4M9jAXGYL1/Tw=;
+        fh=S0G0NCCp6ybMo1ZxVhVYgA1P/H20KiK6NLMYdVioelY=;
+        b=T0NdIKfoaqPPqzn6iMBAYLwBqV2kMKI9lBaQwGjJTnXlt1kosLaW6N77cKaudiDHPA
+         pzR/5aoLOJ4PLHc3HucsoE7fCwKKR6w/qgM/ITDiu4Ud/tcvRmwXwG8eXk4S3K/S4Hrt
+         8v3RqzTjuV1BC8tT5USochYyfliQ43q5hcKK9D5+4Cl4cvpY6244oIoGwmPxfdX8LegV
+         6Kw4yGVhSKS7PQbSrlACKMglDS3BRFMkyZEpTIOniqTWgdeR489aer3uOISScV4HHZMx
+         JaGeEa9lo/nP3P600gjA2PhKHhi060lZYi4Amtvgd7BJsxzFge4qoLkvz5T2sV8tQgUM
+         UKWA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779305057; x=1779909857; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779306936; x=1779911736; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MywtOlXewxjrYMqMQj5KpULsLy3W5gueIKRBIijwzkA=;
-        b=kKavo/OFP001T/0Y2IMVOKrvhfWalDMPBlen+BNGnwf3lpepLF/W3B4D87LCwGlwWi
-         ehNfqggestCawCio8fKJZWZp11NVQPiZydIYhe+3cx++mYByRoJ1PCV82ywgxYDHXcTr
-         4I5nrDj6B1nZAcea5UtsncOPn0Hjkd8qvV5LOKdaNhnNObRodhVa9cj1QaEBiMqWNqYL
-         EWcN47pRQr/457esa/22odcXcPCaGAihlQwOGgvzCE4zKUbTnwwkXZY/4P8xvtEfJ8tw
-         8Lv9LaqnNlk5VZyPfHRg3CtXlC/KBlJN0it0lIH+VJrwwzSNygLXSpVl03KzQsBSQpBH
-         QkNg==
+        bh=9Q34cFVQWLWAAn/q3aUqVa8EHeIay+4M9jAXGYL1/Tw=;
+        b=HtwqEJ+sVx7MLXlUb0iNYFv7tIMx3pILoyHZTuq4j7hyRsgtEdC1TdZtbxiGiDiUXq
+         heR+stAsRgCGR2UkAz7ZcxY8wXZcik7LiceWTjvs1eLjLKNmXDqWM10Ia/h2vLVHjwdR
+         xBFGk7nGpovK8aAFIJfWJbh8j8zULWiSc1jYmGoFgeeoOUpRiHDsK/US+mg08T2uUCTK
+         Cet308HTEZWPNE/8OG3gTPKdJO17qfr454NlNnMfZfAG5jVVLkyfN6P2f7vtK2Sm8DbM
+         iDtyUDMHpzRqt4YPhg1XviEn12oZ/nQ9l4WbC9JbqsspzqKtIab+K9yg+kJed0puF+Kw
+         Zptw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779305057; x=1779909857;
+        d=1e100.net; s=20251104; t=1779306936; x=1779911736;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=MywtOlXewxjrYMqMQj5KpULsLy3W5gueIKRBIijwzkA=;
-        b=bn9rjpMQwj+WVZvybQWGVRpW4n6dZtARwC3L5V6CWyMyNkqYhGQnZy5t3FegVdJT4W
-         PmjLQIIae3oYYORkTQ2oXi4YnMQXlovvUKEG5k3mRynQuvHJHeTeWZMeK0bSLs/dvfOZ
-         CyoYQVHuFa9ULT4cqvlBhSH/vNA+uscDfn/c0yN6FIKxAY9I+SYu5YXJzJlxhul8QeKr
-         lX4Fztz5onhqvY6CWSUhOq9iQunaxZsWLflIJvtJV0Fza859ps1arrGCQcBq2yLUw0l9
-         2x/w2ZdUenMbRyF1OKb9d+bCZ5sToqUPkM5NxHuxSKfa0V5mISX+Cyfh12KukLM2qYwi
-         OsYQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/wzusd43aFFRvpiRvT75jF6IPZ+gw6z54XmPjmmnrirdNquiji6WoDG2jDoL5tCSoRPtoNG1kX/Xsp@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOgJeAplFeqCz0gxsLjVJ5q9C8FJn1SFEZ99FShZxf+MWXwiiw
-	3VGRaNuYTm6n421EykwzOiJcOjFNMGNKj5Tw0Xmw78fGVnmNeb/oH/3CK3HES5EMBGUnbwl7AIL
-	BYpW/AR4/K4fgX5GE/NX3bKiv593C1h4=
-X-Gm-Gg: Acq92OFQv6Inf9s29OGdpHBp331WWeTAPw48WuNd08XN17m4P+hPlmECSHV6h3seQtM
-	u5osB/wu4N4RBvl8JxcSMAxZoVpxRUi6qP65QNcD5JX6C1Phn+zzInStl4tfyIVIlYvb9lBkN5A
-	hhMmVS5kHsUkcf2yY4JUoV03OyjUVXhX9KHSWkyVtx8XfkvhJb8/FDuNuT4a5CrsnByCMywdqbc
-	ZBXzNhxLiqzU2J2kamQZFGuoE7ulSoku7odQCxuwhUK/XePqyzySGlQT73a2NW0ua0QuFVtIGuw
-	u8q8J1MoMayNjiLqqfpivlwyjDNfwWaNk2kt5yAb7A==
-X-Received: by 2002:a05:6402:450a:b0:687:325e:748d with SMTP id
- 4fb4d7f45d1cf-687325e7618mr1999814a12.17.1779305057158; Wed, 20 May 2026
- 12:24:17 -0700 (PDT)
+        bh=9Q34cFVQWLWAAn/q3aUqVa8EHeIay+4M9jAXGYL1/Tw=;
+        b=YH23Meb/cV1BEwK5zrB10L4J232Zy4J2+8pdUcnjb9+ke+2OgfOU8yYpkk372TKm9y
+         i8wvX+hYk2u5kcGU8FH8+4Y7YXIc2jHb/Bz0D4nn5Ux3Uabm/pzBd4CYtBiRxUoKCgAK
+         WAM/rHfkEIQeDW6tje1zqmoWcafjzt3DlAl+IDlQvtVHyCAFeOafLxFZi15N7Xamnz8y
+         beH8jzHuWvH6Ay+Jf3f5cjqZ+RgXbKL0OxoW8ONB79rKBwihPb+c5S9zolkmoZH5HLPQ
+         7HYDUQ9i86MLH4bX5eWlBu0s7NmZPeQolDkSt2WCDTx1eF7doH2fJoiTNyUSVmJnXsoJ
+         /xmA==
+X-Forwarded-Encrypted: i=1; AFNElJ+jxhDkKW5vR+S6OuYvKxuUI1DXT1O6pDZe5vm05fKs/8TF7R3KDQtf4qhMLuj6XskUBw2Zzh+sUjWs@lists.linux.dev
+X-Gm-Message-State: AOJu0YyI3ktpo7oXYJnChqZrTv9BNK4Kz6cz/k0epoIooS5yfVPBvOEX
+	4lX7GDJtiS8BC+pCap/nFEgE5WRfGvoHWGXHpTtaBazsY0DGgljLbm0GLhfZrI1xVSvcHmx4JhK
+	lgIo3fWVKRjN+yOT2CO0HHK3qVAC/YG8=
+X-Gm-Gg: Acq92OFhoObK5ua6gSFRRR/fN+EW+zQQyF5/LUfDWddW7NjKA07IcURyBpS/VS7Dd30
+	EpMVhZEaA/a7cbGEf2ELSXUEVh+gdmFCRo8/h+lUNMm3zIkNHBHla408O6IRHnQ2Qw1zYt5fF3U
+	MpqFh7sdMaRob/Utt9dmj4EDfv2vFsyEP+13pdAoh8pcH/tRq730AfQTLPXEoekZ36Xehfh6M5c
+	bd2x/Wbl4dI4K+i4UHOANmUr1wNU2GyDqLmaF8xjXGmiDDS983VVOjK/WMrZX3J/VnUAtAcas2x
+	x3NODtS2XMwr5xXN7Hnnlj6nDBTjL9gONZBNQJEZ0A==
+X-Received: by 2002:a05:6402:24ce:b0:674:5b2c:d42c with SMTP id
+ 4fb4d7f45d1cf-683bc4b1262mr11201124a12.3.1779306936107; Wed, 20 May 2026
+ 12:55:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJfpegvXnA1QpmfM9V+3VB470xYDNWH8FV0mBV1R1-HqvjfJ8A@mail.gmail.com>
- <20260512202336.GC9544@frogsfrogsfrogs> <CAJfpegsPqja+MzfmvCE5054y9pv1_cwPRH2uGmFws-wwxJmrZQ@mail.gmail.com>
- <20260519220359.GJ9568@frogsfrogsfrogs>
-In-Reply-To: <20260519220359.GJ9568@frogsfrogsfrogs>
+References: <177922944800.2436629.7011047808676668088.stgit@frogsfrogsfrogs> <177922944866.2436629.1081840703046716342.stgit@frogsfrogsfrogs>
+In-Reply-To: <177922944866.2436629.1081840703046716342.stgit@frogsfrogsfrogs>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 20 May 2026 21:24:05 +0200
-X-Gm-Features: AVHnY4Ln7lY5nmU0TWl6gzR2CNOIIBxLScEwRHXkKG8ot2v33vyDrK87LvFUFUM
-Message-ID: <CAOQ4uxg7mkmE+Y+2rrYodwng1ZZZ6PycbwaBufATH4KLOcRnXw@mail.gmail.com>
-Subject: Re: [post LSFMM summary] where is fuse going?
+Date: Wed, 20 May 2026 21:55:24 +0200
+X-Gm-Features: AVHnY4IDRYedZ1G4VMH0xqPAsGnqhnK5ihLw1HmufQQj4kZHRWeB9bEo9aat1HI
+Message-ID: <CAOQ4uxgnJbbTBup7UDh4R0AStx5hL0DYY09Fk7g9ETJehopMmA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] fuse: store backing id in fuse_backing objects
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel <fuse-devel@lists.linux.dev>, 
-	linux-fsdevel@vger.kernel.org, John Groves <John@groves.net>, 
-	Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
-	Horst Birthelmer <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev, 
+	bernd@bsbernd.com, joannelkoong@gmail.com, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 20, 2026 at 12:04=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+On Wed, May 20, 2026 at 12:28=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
 > wrote:
 >
-> On Tue, May 19, 2026 at 11:01:18AM +0200, Miklos Szeredi wrote:
-> > On Tue, 12 May 2026 at 22:23, Darrick J. Wong <djwong@kernel.org> wrote=
-:
-> >
-> > > As for fuse-iomap I'm not sure how to proceed
-> >
-> > I will try to dedicate this week to reviewing fuse-iomap, hopefully
-> > without too many distractions.
+> From: Darrick J. Wong <djwong@kernel.org>
 >
-> Well gosh I had better get going on posting v9 then.
->
-> Since 30 April I've:
->
-> * Ripped out the BPF stuff after all the shouting
-> * Added a simplistic iomap filesystem striping mechanism
-> * Tightened some of the checking of the iomaps being given to the kernel
-> * Made it so that you can remove backing devices
-> * Actually check read/write access with the iomap bdevs
-> * Improved inline data write handling to be less flakey
-> * Amended iomap writeback so that you can run a standard ->iomap_begin
->   to collect mappings
-> * Banned freeze except on iomap filesystems
->
-> * Fixed some integer truncation issues
-> * Add some iomap helpers to libfuse to make it easier for fuse server
->   authors
->
-> > >  -- in the long run I think
-> > > it would be cleaner if each file IO path (virtiofs dax, passthrough,
-> > > writeback_cache, iomap, and whatever we call the original one) had it=
-s
-> > > own file_operations.  But that would require us to refactor the commo=
-n
-> > > code chunks from each file operation function into a bunch of smaller
-> > > functions, which I think would sharply increase the review backlog.
-> >
-> > And so the plan is rather to basically start from scratch and do that
-> > form the beginning in fusex code.
->
-> Heh.  In reading through the fuse code to figure out how I'd get that
-> done, I came to a few realizations:
->
-> 1. It really *is* easier if the server can set FUSE_CAP_IOMAP and from
-> then on every file on the filesystem does things the iomap way.
->
-> 2. Many of the random weird callers of fuse_inode_has_iomap() outside of
-> the regular file IO path are *actually* looking for "is this an
-> exclusive-mode inode"?  That's pretty much all of the file attribute and
-> ACL handling code.
->
+> Make fuse_backing objects know their own id, it'll make tracing and
+> recovery of backing ids easier later on.
 
-When you use the term "exclusive mode" you mean the same thing as
-"local" filesystem as opposed to "remote" (or clustered) filesystem that
-can have attribute changes on the server and needs to implement revalidate.
-Is that right?
+The problem is that in the context of fuse passthrough
+backing_id is just a temporary integer name of a fuse_backing object,
+but fuse_backing may outlive its backing_id (e.g. in fuse_inode_backing()
+and in extreme recycle situation a backing_id can be reassigned a new
+fuse_backing while the old fuse_backing object is still alive.
 
-Can we maybe stick to the "local"/"remote" terminology?
-Or am I missing something subtle?
-
-> 3. iomap and exclusive mode are mostly orthogonal concepts.  One deals
-> with plumbing, the other deals with attributes.
->
->    3a: iomap without exclusive: This is a clustered filesystem client.
->    The client grabs a file layout lease from the server, and uses that
->    to populate the iomappings.  Timestamp updates are forced out after
->    each write, but otherwise it's the same attr cache and timeout that
->    regular fuse uses
->
->    3b: iomap with exclusive: This is basically fuse4fs and all the other
->    local filesystems.  The kernel knows that the fuse server isn't going
->    to change the file attrs out from underneath it, so it can cache
->    timestamp updates in the kernel and only flush them periodically.
->
-> 4. Figure out how all the attribute handling works in fuse is really
-> really complicated.
->
-> But there are questions here -- I'd like it if the fuse server could set
-> FUSE_CAP_IOMAP and all files are iomap.  All the weird userspace inode
-> flags setup setup code goes away.  It'd be even nicer for 3b if you
-> could declare at mount time (or FUSE_IOMAP_CONFIG time) whether you want
-> exclusive mode or not, at which point all files *also* become exclusive
-> files.
->
-> The problem with 3a is that I don't have a client or any way to test
-> that.  If I just don't allow iomap && !exclusive, how sad would anyone
-> be?
->
-
-My view is that as long as you keep the design sufficiently extensible
-to support iomap && !exclusive in the future,
-let those who care enough about iomap && !exclusive step forward
-to code and review and test it if they care enough.
+This only makes sense if backing devs ids are never closed, so maybe
+only if FUSE_IOMAP and FUSE_PASSTHROUGH are mutually
+exclusive (did we do that??) and FUSE_IOMAP never closes backing ids.
 
 Thanks,
 Amir.
