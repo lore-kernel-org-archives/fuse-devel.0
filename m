@@ -1,79 +1,100 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56592212554
-	for <fuse-devel@lists.linux.dev>; Wed, 20 May 2026 03:18:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C6730DEAC;
+	Wed, 20 May 2026 06:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779247092; cv=none; b=it/bunlH389VXowjvnOI6dcIgCQvMegUNY7N4yCv3JbhPkC+EB+EjcCrzOZD9W0amvLbR73IUs+KFDBILfupjyHRKuIHkNFeP8DWPnUqtqH6pJwinZkzHJsZdCOKWYJrpTqRDbmgegf12qlPDMB7p948fYf2NJhp0+rWlZ3wySI=
+	t=1779257722; cv=none; b=OH/NpmcpISXqY1WymAIXBh2n975JOHZi27yvKoeyZMSlsaRwWk/VhX5cYuYdQFdOmYBFMU4VVpYfamfVY3rvQeh9P/9bQE4gwcCfRYg8BLsnD1YHrKhcNh3id+Vg7tO28rqchsm0aLtiW8/h5IwmiejuUHtky9VZyei7nq4Isss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779247092; c=relaxed/simple;
-	bh=ZjBMnhwBC4dYQov25xYuJGFTvAhA+dbq5GOikamTsxA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QjvMOU5k4V96zoLCNW9n5ONOxopaYSaXuNEcPLeuh+8hqm2hA0XInDpuVGre/2TMgYGKE1qZflup6FHZhzAAWALDbqSOYJA5zsvJc9UUm6mDbrcpWrvvXTH4TubjWxhw+nyHcWgsSY/vSsYMCVDhirDhXkjhb/f+ygjx6PtQAcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 8140417053fa11f1aa26b74ffac11d73-20260520
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:66a0aa16-6971-4da0-86bb-85dd0ea7c0bd,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:9a40d36b78919121663b9300498c577a,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
-	DM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,
-	OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 8140417053fa11f1aa26b74ffac11d73-20260520
-X-User: jindongyang@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <jindongyang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 984749361; Wed, 20 May 2026 11:18:00 +0800
-From: Dongyang Jin <jindongyang@kylinos.cn>
-To: miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Dongyang Jin <jindongyang@kylinos.cn>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] fuse: Use NULL instead of 0 for pointer
-Date: Wed, 20 May 2026 11:17:55 +0800
-Message-Id: <20260520031755.2637761-1-jindongyang@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1779257722; c=relaxed/simple;
+	bh=QfxKedq0lzsIHKqxqKAfKgyhObgG6aovxjJg80dmPDM=;
+	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZdpXC/MTJF5/1Ma/6jLKyuQf+u/1oppIuQ7Q8RUrSArOVwd/6EotfztxFr9vBRNjHZ4q3MVxf/vtkp23lLaTD4iZCxHoLJ3hlHc9OLpRXwIcCpXhWJB53HA8XjSZDLcfXFQJQHJOziju+jdetRTS+Ju0aq3u0g58CEhHnRVjK2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z1FBDbxD; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z1FBDbxD"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CADF91F000E9;
+	Wed, 20 May 2026 06:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779257720;
+	bh=RRQ5NrQlBDEI+yHYxqEQQjeyuU5p7LL1W+nO9oeKGm4=;
+	h=Date:Subject:From:To:Cc:In-Reply-To:References;
+	b=Z1FBDbxDsebOMATTxnquLuhYXgm6WAgQAy2bjgVKVPpJvCi0XAcwnon4nqyfjvfxr
+	 t18UVwjQQeLFCfShJ0OV5i0UEISkXe2CAw5ZomDOA0qvwlCosq/qcc89AWbSyQWC1t
+	 7nMfQJUJPvJPZ05m2UstL9fs8IJyFaJd/ETl1bK6xWILfcbTPuPtCElsh+3F8prp7l
+	 e6PzxQkGcMxmkXKChdNej4sfXz7UMAQgeM6NiEYxO/TqNldrrp2Q5hsDvebFsv/lv7
+	 IPXyzBJGrMM36ctGlxS2Ysi4ukDHlTpUhYeU7FkSYuyGok+nnrLLwCe2UuJzmRKwxa
+	 dh8PGGU6e4g+Q==
+Date: Tue, 19 May 2026 23:15:20 -0700
+Subject: [PATCHSET RFC] fuse: allow fuse servers to upload iomap stripe
+ information
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: miklos@szeredi.hu, djwong@kernel.org
+Cc: fuse-devel@lists.linux.dev, bernd@bsbernd.com, neal@gompa.dev,
+ linux-fsdevel@vger.kernel.org, hch@infradead.org, joannelkoong@gmail.com,
+ john@groves.net
+Message-ID: <177925767662.2711065.15846161331592459171.stgit@frogsfrogsfrogs>
+In-Reply-To: <20260519222229.GB9544@frogsfrogsfrogs>
+References: <20260519222229.GB9544@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Pointers should use NULL instead of explicit '0', as pointed out by sparse:
+Hi all,
 
-fs/fuse/dev.c:2151:48: Using plain integer as NULL pointer
+There are certain fuse servers that might benefit from the ability to
+upload storage device striping information into the kernel to assist in
+responding to ->iomap_begin requests.  In other words, this is
+filesystem striping for fuse iomap, implemented in fuse.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202605071323.XbMBRsje-lkp@intel.com/
-Signed-off-by: Dongyang Jin <jindongyang@kylinos.cn>
+For example, consider a fuse server that abstracts a large amount of
+storage for use as intermediate storage by programs.  If the storage is
+striped across hardware devices (e.g. RAID0 or interleaved memory
+controllers) then the iomapping pattern will be completely regular but
+the mappings themselves might be very small.
+
+Performance for large IOs will suck if it is necessary to upcall the
+fuse server every time we cross a mapping boundary.  The fuse server can
+try to mitigate that hit by upserting mappings ahead of time, but
+there's a solution that does not involve BPF that can provide this
+usecase: uploading device striping information into the kernel.
+
+In this case, the fuse server upload a stripe map into the /dev/fuse
+device and receives a "backing" file id.  That id can be combined with a
+new mapping type (FUSE_IOMAP_TYPE_STRIPE) that will load the stripe
+information and adjust the mapping to point to a real block device.
+
+If you're going to start using this code, I strongly recommend pulling
+from my git trees, which are linked below.
+
+With a bit of luck, this should all go splendidly.
+Comments and questions are, as always, welcome.
+
+--D
+
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=fuse-iomap-striping
 ---
- fs/fuse/dev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index be4e66ed633c..6e5439515ead 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -2148,7 +2148,7 @@ void fuse_chan_abort(struct fuse_chan *fch, bool abort_with_err)
- 		fch->connected = 0;
- 		spin_unlock(&fch->bg_lock);
- 
--		fuse_chan_set_initialized(fch, 0);
-+		fuse_chan_set_initialized(fch, NULL);
- 		list_for_each_entry(fud, &fch->devices, entry) {
- 			struct fuse_pqueue *fpq = &fud->pq;
- 
--- 
-2.25.1
+Commits in this patchset:
+ * fuse: allow fuse servers to upload stripe maps
+ * fuse_trace: allow fuse servers to upload stripe maps
+ * fuse: implement striping for iomap
+ * fuse_trace: implement striping for iomap
+---
+ fs/fuse/fuse_i.h           |   30 ++++
+ fs/fuse/fuse_iomap.h       |    8 +
+ fs/fuse/fuse_trace.h       |   57 +++++++-
+ include/uapi/linux/fuse.h  |   24 +++
+ fs/fuse/backing.c          |   85 +++++++++++
+ fs/fuse/dev.c              |    2 
+ fs/fuse/fuse_iomap.c       |  328 +++++++++++++++++++++++++++++++++++++++++++-
+ fs/fuse/fuse_iomap_cache.c |    8 +
+ fs/fuse/inode.c            |    1 
+ 9 files changed, 533 insertions(+), 10 deletions(-)
 
