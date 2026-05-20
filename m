@@ -1,79 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB058372EE3;
-	Tue, 19 May 2026 22:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56592212554
+	for <fuse-devel@lists.linux.dev>; Wed, 20 May 2026 03:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779230569; cv=none; b=tPM1Hc82hST1leoU7i720bXHOmvu05bA+v5UCTDIzKXNRMwbim03z5mhTIm62VW7GxKmrQtN7ecz3wJUwX8qXKsWdDBQIIW8QVyNaes6NKFwANSAcRGLS96iTVYNGHiebiPfVLFPsV8CHJs/fLX6IicPkFgsvSTmjq2vQep2gKs=
+	t=1779247092; cv=none; b=it/bunlH389VXowjvnOI6dcIgCQvMegUNY7N4yCv3JbhPkC+EB+EjcCrzOZD9W0amvLbR73IUs+KFDBILfupjyHRKuIHkNFeP8DWPnUqtqH6pJwinZkzHJsZdCOKWYJrpTqRDbmgegf12qlPDMB7p948fYf2NJhp0+rWlZ3wySI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779230569; c=relaxed/simple;
-	bh=92Z2KQZNMxQjkoGeChAaj5TLY7geqGbfWyzHAMnftVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MpSbUQUy0o/N2d3+JZhIRKIgMYKdN/GrE6KhS4uT4vqIF2r8JQsvOyQ8MByWebMO/Q4MZSmEmCS9pKM1HLpnHaeLr1HAuYrDXaycMAdojm1xhGa4J+H53wCF7ksuNMacPcFzeEhALzqOpyNFIJ+4Gx1UizERoDHATHEZwX+dUDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0S9I5/J; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0S9I5/J"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7ED0A1F000E9;
-	Tue, 19 May 2026 22:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779230567;
-	bh=MuFRKRc6T6nkge9ZU6jD9F0z77s0s4kLag7ah/XwJCw=;
-	h=Date:From:To:Cc:Subject;
-	b=N0S9I5/J961ExApcTtATbxwGHLQ60lujiBA3TksaagyMixi5rOWmwAA537PVM/sTW
-	 5TSkDzbuuL8ork+YJQ7LDeR/ve2Qu4knbXCsRT3jywWJbJn/4KVsBK8URfN0nJU+dN
-	 ITUVoJxPPVFyHLANm6fcpBep3UK9XycdTC9Z13VgVOs4h31cZMh2LjJLC8+P4zjY0T
-	 z/pdbl0Iu+04aOnczl5QIPFvs5tRUEipSCL23RJx8te/Dicx/HX3lbYZLBtakIIfOs
-	 IwvH/fZjX74OH24jR4hnUwz0J8J04IokjhJMUrKMG/xIa/7GqEc/nyzS2T1SZ32Oa0
-	 doAJdX9jztd3A==
-Date: Tue, 19 May 2026 15:42:47 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: fuse-devel <fuse-devel@lists.linux.dev>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: [PATCH] libfuse: fix cppcheck warnings in the new mount service code
-Message-ID: <20260519224247.GC9544@frogsfrogsfrogs>
+	s=arc-20240116; t=1779247092; c=relaxed/simple;
+	bh=ZjBMnhwBC4dYQov25xYuJGFTvAhA+dbq5GOikamTsxA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QjvMOU5k4V96zoLCNW9n5ONOxopaYSaXuNEcPLeuh+8hqm2hA0XInDpuVGre/2TMgYGKE1qZflup6FHZhzAAWALDbqSOYJA5zsvJc9UUm6mDbrcpWrvvXTH4TubjWxhw+nyHcWgsSY/vSsYMCVDhirDhXkjhb/f+ygjx6PtQAcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 8140417053fa11f1aa26b74ffac11d73-20260520
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:66a0aa16-6971-4da0-86bb-85dd0ea7c0bd,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:9a40d36b78919121663b9300498c577a,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,
+	OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 8140417053fa11f1aa26b74ffac11d73-20260520
+X-User: jindongyang@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <jindongyang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 984749361; Wed, 20 May 2026 11:18:00 +0800
+From: Dongyang Jin <jindongyang@kylinos.cn>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dongyang Jin <jindongyang@kylinos.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] fuse: Use NULL instead of 0 for pointer
+Date: Wed, 20 May 2026 11:17:55 +0800
+Message-Id: <20260520031755.2637761-1-jindongyang@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-From: Darrick J. Wong <djwong@kernel.org>
+Pointers should use NULL instead of explicit '0', as pointed out by sparse:
 
-Fix some cppcheck warnings.  No functional changes.
+fs/fuse/dev.c:2151:48: Using plain integer as NULL pointer
 
-Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202605071323.XbMBRsje-lkp@intel.com/
+Signed-off-by: Dongyang Jin <jindongyang@kylinos.cn>
 ---
-Hopefully this clears up the last of the static checker errors with the
-fuse service container branch?
----
- util/mount_service.c |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ fs/fuse/dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/util/mount_service.c b/util/mount_service.c
-index afb345e8b91dfc..8b0eecf5b00ab2 100644
---- a/util/mount_service.c
-+++ b/util/mount_service.c
-@@ -882,7 +882,7 @@ static int mount_service_handle_source_cmd(struct mount_service *mo,
- 					   const struct fuse_service_packet *p,
- 					   size_t psz)
- {
--	struct fuse_service_string_command *oc =
-+	const struct fuse_service_string_command *oc =
- 			container_of(p, struct fuse_service_string_command, p);
- 	char *source;
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index be4e66ed633c..6e5439515ead 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -2148,7 +2148,7 @@ void fuse_chan_abort(struct fuse_chan *fch, bool abort_with_err)
+ 		fch->connected = 0;
+ 		spin_unlock(&fch->bg_lock);
  
-@@ -935,7 +935,8 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
- 	struct fuse_service_string_command *oc =
- 			container_of(p, struct fuse_service_string_command, p);
- 	char *tokstr = oc->value;
--	char *tok, *savetok;
-+	const char *tok;
-+	char *savetok;
- 	char *mntopts;
+-		fuse_chan_set_initialized(fch, 0);
++		fuse_chan_set_initialized(fch, NULL);
+ 		list_for_each_entry(fud, &fch->devices, entry) {
+ 			struct fuse_pqueue *fpq = &fud->pq;
  
- 	if (psz < sizeof_fuse_service_string_command(1)) {
+-- 
+2.25.1
+
