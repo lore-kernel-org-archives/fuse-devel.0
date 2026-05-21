@@ -1,56 +1,56 @@
 Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB10D3546F7
-	for <fuse-devel@lists.linux.dev>; Thu, 21 May 2026 09:02:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA6B369207
+	for <fuse-devel@lists.linux.dev>; Thu, 21 May 2026 09:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779354147; cv=none; b=DFau4d6Fd52rlbL1V0ZhefFNf59yI1lt4K8oXdfDpbQSYNDMlg7vvAVsRzREjhVtADqPYTpq/08LMMjndavdxJYxrbweYYw5z3qAvJKsK1OGybIh2eiqO6/xW1l7qQkjolOcARFPxvN7CSQqL2GvDtyLs6lh8QEJmRgwErb1zrk=
+	t=1779354943; cv=none; b=Q2jCtxBccSOPSqCvpEDuIWnjESkuVNmi84gC/MTDaHdzCwusj5kVgLOICHUPZLXobgG3ErS2EreRj02JhkBl0AaaAaKQ6NkbIChDvKu/N7f5kHVztHaiVhSarVOkEjaw+ZlJ8QcbUuor8HIZNNGWKfDISxUFSjsTtBCmTSChjc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779354147; c=relaxed/simple;
-	bh=MJTHKbO+c6eNmEMwrUNV1+JBb/n86A8lF8NgOoZi8yk=;
+	s=arc-20240116; t=1779354943; c=relaxed/simple;
+	bh=NME2wg+8LeL6k4Ln27qfnBCaPKML1EwO42d7Byy3Lb4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XreCUl8jzu9GCjLhyJ9GQ+sIhKoZCuty28TkMchcrx2k7/iYs90E+PBfTDdAwKRe8fLC5tfsFkGo14XX4d6A3jxi47NnV8n1gtuowj+FPNbsw3XvX+wggwBWnm/M/TVz2OsaXMJ0yoWI8FoaD1drQbXeU8iYXlL7+DkBpJi+0s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=RglQy+3C; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Qo++fNzw; arc=none smtp.client-ip=202.12.124.158
+	 In-Reply-To:Content-Type; b=g6gMT3nT/YHBkj9ihgdPo0fFr1dwJ5WdkNJBa+gB2OkQL+hyCnLKOZpEcnC/I9ufEGXGvGjcWY8CZ6AuRAoG2WeoA99sxSVw7CcftjWJyJujx+eZg5CmqRhPrVZM1LvQSCLCqEVSCB+Dimcq2b0xuwWEdwJay1vQLr1WIOAWln4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=MMhiu7d1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Iwdp5ux2; arc=none smtp.client-ip=202.12.124.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="RglQy+3C";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Qo++fNzw"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1CF447A0017;
-	Thu, 21 May 2026 05:02:25 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="MMhiu7d1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Iwdp5ux2"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 042B97A003E;
+	Thu, 21 May 2026 05:15:40 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Thu, 21 May 2026 05:02:25 -0400
+  by phl-compute-01.internal (MEProxy); Thu, 21 May 2026 05:15:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779354144;
-	 x=1779440544; bh=/FCdekhJONF+JOI0FRf3Fj4XUPPpz0/4JnyGwJAQjY8=; b=
-	RglQy+3Cw0eNwDEg7gth6rKF1U2p5ICVdQA4SThC3m6TPSs6MRKn6uZfqo0NmY58
-	I0vaC0r436V65BsSttsp9LfG9pxXLqigH/inpQ8Qu5ssaLmgarPES2kLostu9tt+
-	/LBvk7f1FhEctPu9y57fnWzHzavr/+JHszpay8damP+ZlBKW5ic3XXIv8lpNOVUt
-	Ci2y19RrLC0ECsA2HsQImbDpzZCB8kAE7TNyzOT3LBy3OArb9b60IXkOYtKgR8Bg
-	jpGwsK7h0xaTzwe9RIDPtkhgWpJFwqdPIAAl3mWSoHtMApfmKNRi8/v2joaoHMHU
-	+Le9/l5MOIAIQPsVIK/loQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779354940;
+	 x=1779441340; bh=TU5901KgKhH4jL7QNn74nNfgljFNJDTLXdqCNfAIiZU=; b=
+	MMhiu7d1r/Kjr4CttPb7vw1gv5LEMiaYahnxdLuibnA1UPDI99mP3FyaqJOxbCIr
+	G+YjzltgUxhVkjglpijhZD1qO63WR9aaEuta+vdEJcs3lopXRBhOb+AjylaSlg86
+	fk5skt4CXSI0hr0zGG9vvgaT6QdH2+A9PLlQpmdNQ0a90Zbol/l7kGIAPcNrTMmL
+	LTW5ncEWQ8TMIOHcImzExtE69puX9+08+B+1xgjabioSm9JSX2iCFvyfixFHZlEI
+	kcNtXVB87jS1YTuAgVxF+Q5NZX8qZrLo3ReP0XLLPNo2B6+XojknHlxUDFqvlqxB
+	LD+h9wW8riW6LCqjOTqsFg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779354144; x=
-	1779440544; bh=/FCdekhJONF+JOI0FRf3Fj4XUPPpz0/4JnyGwJAQjY8=; b=Q
-	o++fNzwZcF3iTuwQlyLjgRrTOs7VSbflUDB56yEqbdQlORlAxw7OT2pr/V11Xo7K
-	diTCpRSZRdOtZsNXSMB/v2Xx5jZs/SesvO+5RqildPGAnSAFnSp1uohy6AaT/rIU
-	WFZ00hpci5yEZL8E/4pQEMUhQLMOfmW/Mb70C9ur6ENfU5/oL/v9l6u0wMmXUxbl
-	A0Cvsz+M+LXzmrNiXrbtLqpurN++8PY9JrXlCvRXRE0926Wp0quxiOPfNdb2lXid
-	86Q7KtviotMpPOaKAiJLFQmzw4/mk9V7JFmUTfFPLJvBlPNQ9LkR+YwN15yllT8x
-	B2mWblfkvuzkqbYSZg/Aw==
-X-ME-Sender: <xms:IMoOanoJhHLVcGOHuVPl1SAvi1iBhLf0I5zOGZyY6nmTG8tezPzoMw>
-    <xme:IMoOaq8UIc8sg7d8DYRrQc3mqzNvECFkFzVH2N38sBy-Thv-djM1f834Tv0ki4RYD
-    3OJXsUkGd-ef5G35REwIsiTsE74Z3GB-OvN1rn_iWd2-dGHlGti>
-X-ME-Received: <xmr:IMoOarfXdCN1vCNsDUBCLaMFtYSWzcXk5hKVVE6Bo0Pj_qzlrkqgC5RolAVIU4DiZNAwm5I92yKlhUx3E4279S6mgPvy0TZ037Gurcovj3qCGTip-A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejuddtucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779354940; x=
+	1779441340; bh=TU5901KgKhH4jL7QNn74nNfgljFNJDTLXdqCNfAIiZU=; b=I
+	wdp5ux26ektO5PQfkAgmqV0fZMeq82GpskuDpyzoUENdAkjy5buV/cI63v2+ftHO
+	2QxO7QC4GlQnsv7uf5cnf84F6AWkA6uI1o8jNeZ54qe3qJNMHGw/jyjFX5IvgXVM
+	oH8p2yn5OIC6IObaP6n52gcC3PPn88bIqX5P0nUpXuAd95/FADwRo6x0EcrRaCf2
+	4KWYUtDP/bQMirpY4QC4Zik6kvvpNSI99IUqr509mL/6Ky1/GK3fpPJ6tOKSSxvV
+	+Ju1CVPFTfdVmFET2bMWTtrsphbB6BlS+1Y1PRW0FLuX91vlObZxSnJfT6UXCvOE
+	y7MpseOcVpb4JIobkseNQ==
+X-ME-Sender: <xms:PM0OankATeLAigqpQyEWpYx4IG4UYCsU54CTtPxk-_Hl1cjot4Pl8w>
+    <xme:PM0OakJZr8qcMVlwqP9hmBkhB6IanmD3Wn2UJr1_8csRP0dRfElVHFizkQreWv83p
+    eNUDrqZWggDzV7_rULKI37M845T_MeyF4VfBZfX0nvdSmMI3zKt>
+X-ME-Received: <xmr:PM0Oak4cKMKxqzEypLWsxffJcgA0lNOGhFqJo2jWfe0pqaAzlHK5M6SJa2kHSKlZ7Gf3vLAkIBhHQ14ujrHledXrIIct2oX8rS9bUlMhUMXt0JuqCQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejuddvucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
@@ -64,16 +64,16 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejuddtucetufdote
     hirdhhuhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhn
     vghlrdhorhhgpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuh
     igrdguvghv
-X-ME-Proxy: <xmx:IMoOasJhcjDO7Vm9Pj8lnD-bst5NoIbIn20DflwSNZrCfUEYCWFlzw>
-    <xmx:IMoOajhiaM2kcdj8q5KzaieW2pRjkIBoifOHf0XBpx-hJVqMguSRmw>
-    <xmx:IMoOaiQmHliqCTbNWmcBDZp5EPd-Gg2U0JC4bfbuj5XCSNk-9R-z2A>
-    <xmx:IMoOalVxjucnxHf_Dju_Xlvul_Usj0xGIZZ0zvMFqsWXqPIKdqIf2g>
-    <xmx:IMoOas4BdMthupWF38UyXjOhWX9ArlOpY2BxBXRiCY4TpcrCeKd3igKI>
+X-ME-Proxy: <xmx:PM0Oag1Amv9srQxD_haVCojZgJIbWvJgLlPHxE5-afnQh8Gwisva6g>
+    <xmx:PM0OaidqPcoO7WCIeVHpDYRTQRTCDqF3FML0_LZiHUMu0QqV6KUUsA>
+    <xmx:PM0OaudAR_ZLhe_Nwg0pWzUvW9pBZwbIdmf8RX9vFZKLLGhRFcJhRw>
+    <xmx:PM0OalwI3vJfPVrJscuw35jfeu75pEY2OmjKH31jjanw0IwXQeODHQ>
+    <xmx:PM0OalunrlCoFotUqNusNDay8P3rexhNnkH0IW-dDfHbkyxx2LrFU5nx>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 May 2026 05:02:23 -0400 (EDT)
-Message-ID: <fb545c0d-a8e1-4dc1-8d06-1c8ec4ec47fc@bsbernd.com>
-Date: Thu, 21 May 2026 11:02:22 +0200
+ 21 May 2026 05:15:39 -0400 (EDT)
+Message-ID: <9954c0ab-3d5e-4318-9b04-4d636520d6ce@bsbernd.com>
+Date: Thu, 21 May 2026 11:15:38 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -81,15 +81,15 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] mount_service: fix some pointer handling
+Subject: Re: [PATCH 4/4] fuse_service: fix uninitialized variable
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: joannelkoong@gmail.com, neal@gompa.dev, miklos@szeredi.hu,
  linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
 References: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
- <177933241501.3536631.17487472051183408289.stgit@frogsfrogsfrogs>
+ <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <177933241501.3536631.17487472051183408289.stgit@frogsfrogsfrogs>
+In-Reply-To: <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -98,41 +98,35 @@ Content-Transfer-Encoding: 7bit
 On 5/21/26 05:07, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Don't leak memory or try to free static data.  Pointed out by
-> clang-check.
+> Initialize the sockaddr_un variable so that subsequent comparisons won't
+> fail in weird ways if getsockname doesn't fill out the object.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  util/mount_service.c |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  lib/fuse_service.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > 
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index 8b0eecf5b00ab2..a86a53c6fff40e 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -974,6 +974,7 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
->  				fprintf(stderr,
->  	"%s: option %s only allowed if 'user_allow_other' is set in %s\n",
->  					mo->msgtag, tok, FUSE_CONF);
-> +				free(mntopts);
->  				return mount_service_send_reply(mo, EPERM);
->  			}
+> diff --git a/lib/fuse_service.c b/lib/fuse_service.c
+> index d14aced29e8268..4340304eaf57b9 100644
+> --- a/lib/fuse_service.c
+> +++ b/lib/fuse_service.c
+> @@ -388,7 +388,7 @@ static int check_sendbuf_size(int sockfd)
+>  static int find_socket_fd(int nr_fds)
+>  {
+>  	struct stat stbuf;
+> -	struct sockaddr_un urk;
+> +	struct sockaddr_un urk = { };
+>  	socklen_t urklen = sizeof(urk);
+>  	int ret;
 >  
-> @@ -1036,7 +1037,8 @@ static int mount_service_handle_mtabopts_cmd(struct mount_service *mo,
->  	/* strtok_r mutates tokstr aka oc->value */
->  	while ((tok = strtok_r(tokstr, ",", &savetok)) != NULL) {
->  		if (!strcmp(tok, "-n")) {
-> -			free(mo->mtabopts);
-> +			if (mo->mtabopts != &IGNORE_MTAB)
-> +				free(mo->mtabopts);
->  			mo->mtabopts = &IGNORE_MTAB;
->  		}
 > 
-Hmm, IGNORE_MTAB as type char is super confusing with the other define
-in mount_util.c and fusermout.c - could you rename that to something
-else? Maybe just change the case to "static char ignore mtab"?
+> 
 
+Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+
+And hmm, we kind of have a test issue - they passed. Uninitialized
+memory is the only reason why there is still valgrind.
 
 Thanks,
 Bernd
