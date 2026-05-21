@@ -1,79 +1,79 @@
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA6B369207
-	for <fuse-devel@lists.linux.dev>; Thu, 21 May 2026 09:15:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25B6937757C
+	for <fuse-devel@lists.linux.dev>; Thu, 21 May 2026 09:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779354943; cv=none; b=Q2jCtxBccSOPSqCvpEDuIWnjESkuVNmi84gC/MTDaHdzCwusj5kVgLOICHUPZLXobgG3ErS2EreRj02JhkBl0AaaAaKQ6NkbIChDvKu/N7f5kHVztHaiVhSarVOkEjaw+ZlJ8QcbUuor8HIZNNGWKfDISxUFSjsTtBCmTSChjc4=
+	t=1779355127; cv=none; b=AZbDbwiJq3iggByjYhWUpTBXOAXyeC+dKXz2UxjT+PTVyOMfIAUIZLBQyGiCbBfGGjgySg5U5TQr+iOViooKikXW8XF7KpOva3uezh0rFwxQ5A8/qjPq+38XUPLvhgxpZPwdNIL7NYWYQNm+g9wjfPVoiijDnDzEy8sNt2QfpdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779354943; c=relaxed/simple;
-	bh=NME2wg+8LeL6k4Ln27qfnBCaPKML1EwO42d7Byy3Lb4=;
+	s=arc-20240116; t=1779355127; c=relaxed/simple;
+	bh=OngPMQkfo3ei1/VP9NszoGptuPyt2v5m/e4/k2jjxbI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g6gMT3nT/YHBkj9ihgdPo0fFr1dwJ5WdkNJBa+gB2OkQL+hyCnLKOZpEcnC/I9ufEGXGvGjcWY8CZ6AuRAoG2WeoA99sxSVw7CcftjWJyJujx+eZg5CmqRhPrVZM1LvQSCLCqEVSCB+Dimcq2b0xuwWEdwJay1vQLr1WIOAWln4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=MMhiu7d1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Iwdp5ux2; arc=none smtp.client-ip=202.12.124.158
+	 In-Reply-To:Content-Type; b=FahrdZQFwfFc5TszOGuChFvQDqPtKMannjYNTNnDcS7y44AF8tPSxcFrPxdgOk3MUgDTb1m6zUTOqVQUFDTVQvy4uJodwx1o6vyodWwsSZu/B2IwtxZikPeKgokCw23bnAd3xLyhMXiqC/A76HOwqwn+4R8V7S2V5VuyaM7WwQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=ZS8vQ3br; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EGZ3W+dd; arc=none smtp.client-ip=202.12.124.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="MMhiu7d1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Iwdp5ux2"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 042B97A003E;
-	Thu, 21 May 2026 05:15:40 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="ZS8vQ3br";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EGZ3W+dd"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5BBAC1D00050;
+	Thu, 21 May 2026 05:18:45 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 21 May 2026 05:15:41 -0400
+  by phl-compute-06.internal (MEProxy); Thu, 21 May 2026 05:18:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779354940;
-	 x=1779441340; bh=TU5901KgKhH4jL7QNn74nNfgljFNJDTLXdqCNfAIiZU=; b=
-	MMhiu7d1r/Kjr4CttPb7vw1gv5LEMiaYahnxdLuibnA1UPDI99mP3FyaqJOxbCIr
-	G+YjzltgUxhVkjglpijhZD1qO63WR9aaEuta+vdEJcs3lopXRBhOb+AjylaSlg86
-	fk5skt4CXSI0hr0zGG9vvgaT6QdH2+A9PLlQpmdNQ0a90Zbol/l7kGIAPcNrTMmL
-	LTW5ncEWQ8TMIOHcImzExtE69puX9+08+B+1xgjabioSm9JSX2iCFvyfixFHZlEI
-	kcNtXVB87jS1YTuAgVxF+Q5NZX8qZrLo3ReP0XLLPNo2B6+XojknHlxUDFqvlqxB
-	LD+h9wW8riW6LCqjOTqsFg==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779355125;
+	 x=1779441525; bh=6JSTUGbU0EQbmrZZLTGRFVjV4A9LwG+ds5dNjSSCmkY=; b=
+	ZS8vQ3brph8R09KZ21wOjHXNN3WDS/ph/2csA83iyRLH0iBtuCtIez5Zqt7b/rTf
+	YtOI1O5o+I9opSv62LpKNcGTAHRyGStexceOlN20UtEBrpgu4X2nT6IoFyvDDbzW
+	tCudJsgpxeKzi8xR/IqW7lGBLx02Cn7yErMlXDQNfTsjeP5CdIHy/bAYcTQbr+bq
+	qwMxAYK7x1M6U/6htvR1RrETZRgzDUC4qYHUjX8a6LOVPUw4wBdBYdxVSxR/MeMX
+	uIBhcr0DhCiZZHF3ElCKjJf5dEiJmmWtwaMCNe7hDvHUsDaBkaeh/KzgqXNHmS0R
+	Zlgni8OMF+jnok7O7A5vSQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779354940; x=
-	1779441340; bh=TU5901KgKhH4jL7QNn74nNfgljFNJDTLXdqCNfAIiZU=; b=I
-	wdp5ux26ektO5PQfkAgmqV0fZMeq82GpskuDpyzoUENdAkjy5buV/cI63v2+ftHO
-	2QxO7QC4GlQnsv7uf5cnf84F6AWkA6uI1o8jNeZ54qe3qJNMHGw/jyjFX5IvgXVM
-	oH8p2yn5OIC6IObaP6n52gcC3PPn88bIqX5P0nUpXuAd95/FADwRo6x0EcrRaCf2
-	4KWYUtDP/bQMirpY4QC4Zik6kvvpNSI99IUqr509mL/6Ky1/GK3fpPJ6tOKSSxvV
-	+Ju1CVPFTfdVmFET2bMWTtrsphbB6BlS+1Y1PRW0FLuX91vlObZxSnJfT6UXCvOE
-	y7MpseOcVpb4JIobkseNQ==
-X-ME-Sender: <xms:PM0OankATeLAigqpQyEWpYx4IG4UYCsU54CTtPxk-_Hl1cjot4Pl8w>
-    <xme:PM0OakJZr8qcMVlwqP9hmBkhB6IanmD3Wn2UJr1_8csRP0dRfElVHFizkQreWv83p
-    eNUDrqZWggDzV7_rULKI37M845T_MeyF4VfBZfX0nvdSmMI3zKt>
-X-ME-Received: <xmr:PM0Oak4cKMKxqzEypLWsxffJcgA0lNOGhFqJo2jWfe0pqaAzlHK5M6SJa2kHSKlZ7Gf3vLAkIBhHQ14ujrHledXrIIct2oX8rS9bUlMhUMXt0JuqCQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejuddvucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779355125; x=
+	1779441525; bh=6JSTUGbU0EQbmrZZLTGRFVjV4A9LwG+ds5dNjSSCmkY=; b=E
+	GZ3W+dd79U5bTnQSMqGN1jBKP4F4xAIPEq0WSSPWVJOgLDkmfj9qrq3NgWKNvzIW
+	RuIg0EvEvmd0EkMMPVpdtv1C998nYPBO3zEbJD6JOc7Osc4octMwaXLz3KyMJfj/
+	zNtMlXBIMWV2weGs8OQuIrvhfhs7WfVxieTNAiiFphkW8cktxRIso+64Q3OT3DU7
+	IENWj+VBpQHc4zKI1MB/8MnHawoWePLbCghteWsLYr8U7LeToaciZCUusangJpWA
+	At1H3INHPU6kgTyRVaY46hDDNx5YG4jizDFzbCZCKPq57KFOKGFZCaKYyxri7Oyt
+	VmMGDydocDs8HbZsYnvpA==
+X-ME-Sender: <xms:9M0OauyEkDgunsFj6FtdsbEPsnAEVogSVqah8d14qIdqC87Kte2A4g>
+    <xme:9M0OajkQcgI7l8YE2ZFcYIDEyu9FybyIk57deiBVdHv6SSTkHcnYZghOdavbtX2Ph
+    O6OtKH0H8AYEK0ce-qQRSjkVkvdvtpC1pUF0hnCAOj2wogldYor>
+X-ME-Received: <xmr:9M0OanntJU4rR9V4aQMoSQ1ics28rA8IeDAkQ3LjC2RXWJpAYPO1nDm0VRJEw99RPx9cTT42f72yVtaZJ6H5-YRxJ4Lb3fMw5ma-7vPQdGKiIyGmNA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejudefucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
     ucfutghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrg
-    htthgvrhhnpeehhfejueejleehtdehteefvdfgtdelffeuudejhfehgedufedvhfehueev
-    udeugeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    gsvghrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeeipdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegujhifohhngheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    nhgvrghlsehgohhmphgrrdguvghvpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvug
-    hirdhhuhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuh
-    igrdguvghv
-X-ME-Proxy: <xmx:PM0Oag1Amv9srQxD_haVCojZgJIbWvJgLlPHxE5-afnQh8Gwisva6g>
-    <xmx:PM0OaidqPcoO7WCIeVHpDYRTQRTCDqF3FML0_LZiHUMu0QqV6KUUsA>
-    <xmx:PM0OaudAR_ZLhe_Nwg0pWzUvW9pBZwbIdmf8RX9vFZKLLGhRFcJhRw>
-    <xmx:PM0OalwI3vJfPVrJscuw35jfeu75pEY2OmjKH31jjanw0IwXQeODHQ>
-    <xmx:PM0OalunrlCoFotUqNusNDay8P3rexhNnkH0IW-dDfHbkyxx2LrFU5nx>
+    htthgvrhhnpeejgfeljeeuffehhfeukedvudfhteethedtheefjefhveduteehhfdttedv
+    keekveenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepsggvrhhnugessghssggvrhhnugdrtgho
+    mhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepug
+    hjfihonhhgsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehfuhhsvgdquggvvhgvlhes
+    lhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehjohgrnhhnvghlkhhoohhngh
+    esghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgv
+    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhikhhlohhssehsiigvrhgvughird
+    hhuhdprhgtphhtthhopehnvggrlhesghhomhhprgdruggvvh
+X-ME-Proxy: <xmx:9M0OalzxPMKS857R6NvXjo8IgLlEA7vA480iPG61-yy9hNmYKpad1g>
+    <xmx:9c0Oasrio8ut96ombZEYkwK3Quya8QtCg-JjYu3UKLjV9-KPxx6q4A>
+    <xmx:9c0Oak4Qjy_v9WtC7JaiRIZJmMGp3hc_mKfXraPe4hL4-4stzzagRA>
+    <xmx:9c0Oajfhu1-r7zCGmU48CoCWttVpU8VRnOn5d6to1rG8uEwhgOzyyw>
+    <xmx:9c0OaqBX93D7K8fbw5cHZvSkLgxkcI9JdUKW0e9WfL0Gq_pt3B0DLoWX>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 May 2026 05:15:39 -0400 (EDT)
-Message-ID: <9954c0ab-3d5e-4318-9b04-4d636520d6ce@bsbernd.com>
-Date: Thu, 21 May 2026 11:15:38 +0200
+ 21 May 2026 05:18:44 -0400 (EDT)
+Message-ID: <24f4f09e-be03-4743-8732-21631c01cedf@bsbernd.com>
+Date: Thu, 21 May 2026 11:18:42 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -81,52 +81,54 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] fuse_service: fix uninitialized variable
+Subject: Re: [GIT PULL] libfuse: new mount service container fixes
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: joannelkoong@gmail.com, neal@gompa.dev, miklos@szeredi.hu,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-References: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
- <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
+Cc: fuse-devel@lists.linux.dev, joannelkoong@gmail.com,
+ linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, neal@gompa.dev
+References: <177933241816.3536811.12585235323301633919.stg-ugh@frogsfrogsfrogs>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <177933241518.3536631.717770834444587345.stgit@frogsfrogsfrogs>
+In-Reply-To: <177933241816.3536811.12585235323301633919.stg-ugh@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 5/21/26 05:07, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
+> Hi Bernd,
 > 
-> Initialize the sockaddr_un variable so that subsequent comparisons won't
-> fail in weird ways if getsockname doesn't fill out the object.
+> Please pull this branch with changes for bsbernd/fuse-service-container.
 > 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  lib/fuse_service.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> As usual, I did a test-merge with the main upstream branch as of a few
+> minutes ago, and didn't see any conflicts.  Please let me know if you
+> encounter any problems.
 > 
+> --D
 > 
-> diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-> index d14aced29e8268..4340304eaf57b9 100644
-> --- a/lib/fuse_service.c
-> +++ b/lib/fuse_service.c
-> @@ -388,7 +388,7 @@ static int check_sendbuf_size(int sockfd)
->  static int find_socket_fd(int nr_fds)
->  {
->  	struct stat stbuf;
-> -	struct sockaddr_un urk;
-> +	struct sockaddr_un urk = { };
->  	socklen_t urklen = sizeof(urk);
->  	int ret;
->  
+> The following changes since commit 93892e469ddb9f5bd3b0923d95410a9d5dba65f7:
 > 
+> libfuse: fix cppcheck warnings in the new mount service code (2026-05-19 15:04:54 -0700)
 > 
+> are available in the Git repository at:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-service-container-fixes_2026-05-20
+> 
+> for you to fetch changes up to cc9f7792afe2cb3df4c5cc71ab2ff5ba270acd8d:
+> 
+> fuse_service: fix uninitialized variable (2026-05-20 19:57:57 -0700)
+> 
+> ----------------------------------------------------------------
+> libfuse: new mount service container fixes [01/12]
+> 
+> This is a collection of bug fixes, codechecker, cppcheck cleanups for
+> the new fuse service container code.
+> 
+> With a bit of luck, this should all go splendidly.
 
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+Thanks for all the updates!
+Before I can merge, there are still cppcheck warnings, had forwarded the
+mail I got from the tests.
 
-And hmm, we kind of have a test issue - they passed. Uninitialized
-memory is the only reason why there is still valgrind.
 
 Thanks,
 Bernd
