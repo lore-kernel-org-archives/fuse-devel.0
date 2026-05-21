@@ -1,56 +1,56 @@
-Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1C33AFAE6
-	for <fuse-devel@lists.linux.dev>; Thu, 21 May 2026 08:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB10D3546F7
+	for <fuse-devel@lists.linux.dev>; Thu, 21 May 2026 09:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779352825; cv=none; b=AsSF0CVU8d+wRHbq51l2WevW1MzaQMI7Yga3ge395ESrTyOon9K861Y15q9as5bejVvyyQdKYYD2gAjZhAQ4sV6DnYJbsBhfpyWrbtVPTpVPZEgcFOOHddVXN+unCrpdupnCrxjpxb1rDNz7Sirelt9jrcez6xLfLJ3eFwP2yjU=
+	t=1779354147; cv=none; b=DFau4d6Fd52rlbL1V0ZhefFNf59yI1lt4K8oXdfDpbQSYNDMlg7vvAVsRzREjhVtADqPYTpq/08LMMjndavdxJYxrbweYYw5z3qAvJKsK1OGybIh2eiqO6/xW1l7qQkjolOcARFPxvN7CSQqL2GvDtyLs6lh8QEJmRgwErb1zrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779352825; c=relaxed/simple;
-	bh=aIM5G96fjQG3IFxN+N/k5gGpQAHSAcF+sQiUq3iGoYI=;
+	s=arc-20240116; t=1779354147; c=relaxed/simple;
+	bh=MJTHKbO+c6eNmEMwrUNV1+JBb/n86A8lF8NgOoZi8yk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hA0nzFN3I8Lg4OpOBtrMSiT6vXh2u1Tq4ugB/PrcmIaAlaIDxgVq86KIZ/gk08xYb7yDBmkEag8bbUIkPvyFa83Q6YsVoyjXWzQUEOfjR+o1iqNJwWND46pIbeK32q0Kd3LTioq1f6rkceRxpc0VlkuDMmu7YBta/1Ft7L+ayeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=DJMVCdY8; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MaLVRWNO; arc=none smtp.client-ip=202.12.124.149
+	 In-Reply-To:Content-Type; b=XreCUl8jzu9GCjLhyJ9GQ+sIhKoZCuty28TkMchcrx2k7/iYs90E+PBfTDdAwKRe8fLC5tfsFkGo14XX4d6A3jxi47NnV8n1gtuowj+FPNbsw3XvX+wggwBWnm/M/TVz2OsaXMJ0yoWI8FoaD1drQbXeU8iYXlL7+DkBpJi+0s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=RglQy+3C; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Qo++fNzw; arc=none smtp.client-ip=202.12.124.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="DJMVCdY8";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MaLVRWNO"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id 8247E1D000E2;
-	Thu, 21 May 2026 04:40:15 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="RglQy+3C";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Qo++fNzw"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 1CF447A0017;
+	Thu, 21 May 2026 05:02:25 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 21 May 2026 04:40:15 -0400
+  by phl-compute-03.internal (MEProxy); Thu, 21 May 2026 05:02:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779352815;
-	 x=1779439215; bh=70yu7/WIDO5i0wlGlfaSr/1hPqkksed6oef94t/+wuI=; b=
-	DJMVCdY8iWqIDknNyzOm62017EhdvaX0eeHftJFD5juIA4mEQVdhDaJP4IO5813c
-	DLR5HX6MFgVhL5dpxRC3P8OBDwhwkBlAXF+6uLYtBNRPhOQcdndM4d6iFJOREE5m
-	I3aVqFBKggSbzaw4IAKBHhD5NsLVwxg3UHvsLDmemEGY0iIYa6v+/uT5mF2cnrgV
-	C30l8HyJVXZRbtZnFNFZMQzBB5wUD4UDRbnNtnOzrYmZZuWOPR+Fyv3H7kfispVO
-	aq9f50YjHw6C7mwWuSYvHZu8e2LRmNU5+UjqqGano2i4vcsLECWxLoJAoCY31KZt
-	LefQVFGtz73ZUnRun2hcrQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779354144;
+	 x=1779440544; bh=/FCdekhJONF+JOI0FRf3Fj4XUPPpz0/4JnyGwJAQjY8=; b=
+	RglQy+3Cw0eNwDEg7gth6rKF1U2p5ICVdQA4SThC3m6TPSs6MRKn6uZfqo0NmY58
+	I0vaC0r436V65BsSttsp9LfG9pxXLqigH/inpQ8Qu5ssaLmgarPES2kLostu9tt+
+	/LBvk7f1FhEctPu9y57fnWzHzavr/+JHszpay8damP+ZlBKW5ic3XXIv8lpNOVUt
+	Ci2y19RrLC0ECsA2HsQImbDpzZCB8kAE7TNyzOT3LBy3OArb9b60IXkOYtKgR8Bg
+	jpGwsK7h0xaTzwe9RIDPtkhgWpJFwqdPIAAl3mWSoHtMApfmKNRi8/v2joaoHMHU
+	+Le9/l5MOIAIQPsVIK/loQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779352815; x=
-	1779439215; bh=70yu7/WIDO5i0wlGlfaSr/1hPqkksed6oef94t/+wuI=; b=M
-	aLVRWNOK2GoIls5kwlwPR1SwzLKZkPQGvaAj4K0IP2EPVUWnlS8wSydvRXI6hSHE
-	G1VEB9ZHHOLmVar8THbaBSazSSvKQcRrgGmS+72kvWaQWmPxD0s4k46Wcqz//56/
-	5Ig4H2jtVt+S5Jn9FXFpghjOvpt1DwG52z9tpecHuz01GPkJj70ixpGVihrICRGj
-	nsOxiZD0F41G1CYVk5/mwG/GSwIKk85j6iVZRXwMyyh/kP3+cNRl6km+zfFhtVQL
-	N1OdCy7u38zMTROXUUr+ufsh36xewvH7V1BgTUYupny9fPblzYhc3MMKLP1uYVMU
-	UwuZr7gMS3VTTo9KE14pg==
-X-ME-Sender: <xms:78QOallhfdLMsd59rtVtQZww-dHd4iFXwnliT4JetwMMyvGA1c3gYw>
-    <xme:78QOaqLY0RRCA-M9z99uuqtzlB-bQHaJqE6jR6Q0QiBpRqYUqlOCSSa1fKDqkUlWc
-    TUwmfKTCSYwsqpiqSwT2Ihz8xLRmGtaKvHDuNBMpMWzwgUaKKmg>
-X-ME-Received: <xmr:78QOai6YyP21fWa73bMHduRkiZ_pFsW33KosKXSqAOj42GkdGeAs7kOwmzwL0BYn8R1OSWYUi-Kn3seKZ_Mk24dH7RA3SsITeGQLMsr2vBFsMME--w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejtdeiucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779354144; x=
+	1779440544; bh=/FCdekhJONF+JOI0FRf3Fj4XUPPpz0/4JnyGwJAQjY8=; b=Q
+	o++fNzwZcF3iTuwQlyLjgRrTOs7VSbflUDB56yEqbdQlORlAxw7OT2pr/V11Xo7K
+	diTCpRSZRdOtZsNXSMB/v2Xx5jZs/SesvO+5RqildPGAnSAFnSp1uohy6AaT/rIU
+	WFZ00hpci5yEZL8E/4pQEMUhQLMOfmW/Mb70C9ur6ENfU5/oL/v9l6u0wMmXUxbl
+	A0Cvsz+M+LXzmrNiXrbtLqpurN++8PY9JrXlCvRXRE0926Wp0quxiOPfNdb2lXid
+	86Q7KtviotMpPOaKAiJLFQmzw4/mk9V7JFmUTfFPLJvBlPNQ9LkR+YwN15yllT8x
+	B2mWblfkvuzkqbYSZg/Aw==
+X-ME-Sender: <xms:IMoOanoJhHLVcGOHuVPl1SAvi1iBhLf0I5zOGZyY6nmTG8tezPzoMw>
+    <xme:IMoOaq8UIc8sg7d8DYRrQc3mqzNvECFkFzVH2N38sBy-Thv-djM1f834Tv0ki4RYD
+    3OJXsUkGd-ef5G35REwIsiTsE74Z3GB-OvN1rn_iWd2-dGHlGti>
+X-ME-Received: <xmr:IMoOarfXdCN1vCNsDUBCLaMFtYSWzcXk5hKVVE6Bo0Pj_qzlrkqgC5RolAVIU4DiZNAwm5I92yKlhUx3E4279S6mgPvy0TZ037Gurcovj3qCGTip-A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejuddtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeeuvghrnhgu
@@ -64,16 +64,16 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddugeejtdeiucetufdote
     hirdhhuhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehvghgvrhdrkhgvrhhn
     vghlrdhorhhgpdhrtghpthhtohepfhhushgvqdguvghvvghlsehlihhsthhsrdhlihhnuh
     igrdguvghv
-X-ME-Proxy: <xmx:78QOam0-ugR4bD_hgDV5iUktpbl3J11E3DNOlJAlyFKJkQ3YJuy69w>
-    <xmx:78QOagf55nf_wVRq36ah86-sKYj3jrDNJeI5LaGRt8wtoYTE42xLLQ>
-    <xmx:78QOakdWVjTxvVVJHAr8RfqE5e9LtNdG0tsUrQ6rcSIVANUpZEUGrg>
-    <xmx:78QOajxi_uAYYK1XZQvg5-PT2OX4HAoVC1XhFFVpA5dgjIGkOJzPfw>
-    <xmx:78QOarv4k2BePbyW7RsYRfhlHKMPVUCBMzl53nPpMlgAyEBxpPGpptt7>
+X-ME-Proxy: <xmx:IMoOasJhcjDO7Vm9Pj8lnD-bst5NoIbIn20DflwSNZrCfUEYCWFlzw>
+    <xmx:IMoOajhiaM2kcdj8q5KzaieW2pRjkIBoifOHf0XBpx-hJVqMguSRmw>
+    <xmx:IMoOaiQmHliqCTbNWmcBDZp5EPd-Gg2U0JC4bfbuj5XCSNk-9R-z2A>
+    <xmx:IMoOalVxjucnxHf_Dju_Xlvul_Usj0xGIZZ0zvMFqsWXqPIKdqIf2g>
+    <xmx:IMoOas4BdMthupWF38UyXjOhWX9ArlOpY2BxBXRiCY4TpcrCeKd3igKI>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 May 2026 04:40:13 -0400 (EDT)
-Message-ID: <567436e2-46d2-4e23-9647-b9af9670a4ea@bsbernd.com>
-Date: Thu, 21 May 2026 10:40:11 +0200
+ 21 May 2026 05:02:23 -0400 (EDT)
+Message-ID: <fb545c0d-a8e1-4dc1-8d06-1c8ec4ec47fc@bsbernd.com>
+Date: Thu, 21 May 2026 11:02:22 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -81,136 +81,58 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] fuse: use fuse_args in try_service_main instead of
- opencoding it
+Subject: Re: [PATCH 3/4] mount_service: fix some pointer handling
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: joannelkoong@gmail.com, neal@gompa.dev, miklos@szeredi.hu,
  linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
 References: <177933241435.3536631.9946604261928168710.stgit@frogsfrogsfrogs>
- <177933241466.3536631.2548927904330465445.stgit@frogsfrogsfrogs>
+ <177933241501.3536631.17487472051183408289.stgit@frogsfrogsfrogs>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <177933241466.3536631.2548927904330465445.stgit@frogsfrogsfrogs>
+In-Reply-To: <177933241501.3536631.17487472051183408289.stgit@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/21/26 05:06, Darrick J. Wong wrote:
+On 5/21/26 05:07, Darrick J. Wong wrote:
 > From: Darrick J. Wong <djwong@kernel.org>
 > 
-> Don't open-code the argument array, just use the existing helpers.
+> Don't leak memory or try to free static data.  Pointed out by
+> clang-check.
 > 
 > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > ---
->  util/mount.fuse.c |   71 +++++++++++++++++++++++++----------------------------
->  1 file changed, 34 insertions(+), 37 deletions(-)
+>  util/mount_service.c |    4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 > 
-> diff --git a/util/mount.fuse.c b/util/mount.fuse.c
-> index 00b133e6234489..bbfd8355dc7f48 100644
-> --- a/util/mount.fuse.c
-> +++ b/util/mount.fuse.c
-> @@ -286,12 +286,7 @@ static int mount_service_child(char **argv)
->  static int try_service_main(char *argv0, char *fstype, char *source,
->  			    const char *mountpoint, char *options)
->  {
-> -	char **argv;
-> -	char dash_o[] = "-o";
-> -	char dash_t[] = "-t";
-> -	char *mntpt;
-> -	int argc = 5; /* argv[0], -t type, mountpoint, and trailing NULL */
-> -	int i = 0;
-> +	struct fuse_args args = FUSE_ARGS_INIT(0, NULL);
->  	int ret;
+> diff --git a/util/mount_service.c b/util/mount_service.c
+> index 8b0eecf5b00ab2..a86a53c6fff40e 100644
+> --- a/util/mount_service.c
+> +++ b/util/mount_service.c
+> @@ -974,6 +974,7 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+>  				fprintf(stderr,
+>  	"%s: option %s only allowed if 'user_allow_other' is set in %s\n",
+>  					mo->msgtag, tok, FUSE_CONF);
+> +				free(mntopts);
+>  				return mount_service_send_reply(mo, EPERM);
+>  			}
 >  
->  	if (!mount_service_present(fstype))
-> @@ -301,44 +296,46 @@ static int try_service_main(char *argv0, char *fstype, char *source,
->  	if (source && source[0] == 0)
->  		source = NULL;
->  
-> -	mntpt = strdup(mountpoint);
-> -	if (!mntpt) {
-> -		perror("mountpoint allocation");
-> -		return -1;
-> +	ret = fuse_opt_add_arg(&args, argv0);
-> +	if (ret)
-> +		goto out;
-> +
-> +	if (source) {
-> +		ret = fuse_opt_add_arg(&args, source);
-> +		if (ret)
-> +			goto out;
->  	}
->  
-> -	if (source)
-> -		argc++;
-> -	if (options)
-> -		argc += 2;
-> +	ret = fuse_opt_add_arg(&args, mountpoint);
-> +	if (ret)
-> +		goto out;
->  
-> -	argv = calloc(argc, sizeof(char *));
-> -	if (!argv) {
-> -		perror("argv allocation");
-> -		free(mntpt);
-> -		return -1;
-> -	}
-> +	ret = fuse_opt_add_arg(&args, "-t");
-> +	if (ret)
-> +		goto out;
-> +
-> +	ret = fuse_opt_add_arg(&args, fstype);
-> +	if (ret)
-> +		goto out;
->  
-> -	argv[i++] = argv0;
-> -	if (source)
-> -		argv[i++] = source;
-> -	argv[i++] = mntpt;
-> -	argv[i++] = dash_t;
-> -	argv[i++] = fstype;
->  	if (options) {
-> -		argv[i++] = dash_o;
-> -		argv[i++] = options;
-> -	}
-> -	argv[i] = 0;
-> +		ret = fuse_opt_add_arg(&args, "-o");
-> +		if (ret)
-> +			goto out;
->  
-> -	if (getuid() != 0) {
-> -		ret = mount_service_child(argv);
-> -	} else {
-> -		/* We're root, just do the mount directly. */
-> -		ret = mount_service_main(argc - 1, argv);
-> +		ret = fuse_opt_add_arg(&args, options);
-> +		if (ret)
-> +			goto out;
->  	}
-> -	free(argv);
-> -	free(mntpt);
-> +
-> +	/* If we're root, just do the mount directly. */
-> +	if (getuid() != 0)
-> +		ret = mount_service_child(args.argv);
-> +	else
-> +		ret = mount_service_main(args.argc, args.argv);
-> +
-> +out:
-> +	fuse_opt_free_args(&args);
->  	return ret;
->  }
->  #endif
+> @@ -1036,7 +1037,8 @@ static int mount_service_handle_mtabopts_cmd(struct mount_service *mo,
+>  	/* strtok_r mutates tokstr aka oc->value */
+>  	while ((tok = strtok_r(tokstr, ",", &savetok)) != NULL) {
+>  		if (!strcmp(tok, "-n")) {
+> -			free(mo->mtabopts);
+> +			if (mo->mtabopts != &IGNORE_MTAB)
+> +				free(mo->mtabopts);
+>  			mo->mtabopts = &IGNORE_MTAB;
+>  		}
 > 
+Hmm, IGNORE_MTAB as type char is super confusing with the other define
+in mount_util.c and fusermout.c - could you rename that to something
+else? Maybe just change the case to "static char ignore mtab"?
 
 
-Thanks a lot much better!
-I think we need something like
-fuse_opt_add_arg(struct fuse_args *args, ...)
-Easy enough to convert to that once libfuse has it.
-
-
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
-
+Thanks,
+Bernd
