@@ -1,365 +1,144 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E8D31715B
-	for <fuse-devel@lists.linux.dev>; Fri, 22 May 2026 09:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E653CA493
+	for <fuse-devel@lists.linux.dev>; Fri, 22 May 2026 10:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779442240; cv=pass; b=ABjhFm+7CCJerDYftAjemT8wAp67K9yshg+svEerbqsplHERpz57qchNrObyDFYJsJE4Yi04LyaZrveJGzu/NpoEosUVl+Mw5c2g9N0tgAz93sMfrIeI+RJUbus7z6p9GH7KT3SkRxvTFYg5/4A8+1/yhsa/lGiXTLVtxRRiCFU=
+	t=1779444233; cv=pass; b=J+yoDYaJfxuEdn7NdfZOqHNpZx4Eooj9DHH3IQgCbEc+n+iyuqs7SNAt+yQQQeauTTby5bMjLoXF3vhHqf/c6inPBjy6hCu3OsdGgQhNONuz5C3NqmXVD2bMO6VGhhiXPglXwggUSvJgtJaISDKRCXXwM35P2gHmZBo2SitGACI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779442240; c=relaxed/simple;
-	bh=aBdslvXGMnRqLTzvdCU5aMGGW6vevm2X9iSBMg2C/Ic=;
+	s=arc-20240116; t=1779444233; c=relaxed/simple;
+	bh=gdxsRuXHNkwnRZYBMEBbND2aGhOV+KTpwOY1IDe0yIg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jQAE1aDqYqkm3PzTa4lPNtPMb/BrciFXYcrSY7GBpyCNrOVKrQn6iMm84wi/uLcMcol8F51Oh43wfsn9SsTRBAiIplCY0c5A9xVfT0MMzA0dcm7WgVHkqNcv8hDD6XXKlSWirwbiVV2CwAP4GFxbiY8IZHySh5EWO3F9ILeaMIY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=pPFQmNS3; arc=pass smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	 To:Cc:Content-Type; b=erYuon8Zk+ie9FpxsCj7Exg89wOdb5ocuTLSuxjCd0p+wFFf8GrrYueU0QyVnLmbLUnXn87goQhfrV3KDFA8AYSGM8KM4eVIngdpltQ1PwEdq3d9JeECYKadgwErUjTqZjJoSgl2jpfFONT1//ArMTzhwnaTG/xRrDKefxSK+tw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LNnlT1hX; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="pPFQmNS3"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9125d2a4d36so502476185a.3
-        for <fuse-devel@lists.linux.dev>; Fri, 22 May 2026 02:30:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779442236; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LNnlT1hX"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-67c2d57a5ceso11300104a12.3
+        for <fuse-devel@lists.linux.dev>; Fri, 22 May 2026 03:03:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779444231; cv=none;
         d=google.com; s=arc-20240605;
-        b=IRFXIjKRWFC+TJbSeVR6qeHCJaY5dHszuWBMs/Ulc2hWt4P5LHiQdNCh24vk1946eH
-         ReimxyW23DVvM9k2mkutemA4hPz+lR9QKQLZJQ/zWQaoJkz2l5UdC8dOPcN9ghbV5M+d
-         DZVUH/RtjFkYOAzkXY8nXfMD3gptuVycBhE8DVSR4gn8bpYKh5W9JzZ2/HkhKiYLgwp3
-         ml0fUCyGIk/j1tB/FFnf6kH2RSuIdyxVZJaJo449EyQoN2mHm4lPQZxGwo31qfG6Gq5d
-         b4RoQxevNM+kDFdogz66J5dEJ/MHFVXqF1Hn4nN52Aa0KwukV2vms8ltuZ/qrp3tglUx
-         +slw==
+        b=DncXyldLbvvobtpxjX2Eamf6MMhhT1AWOcAc7XtfAU/mZ4rMOOXCWtQYEW90cGQ4sg
+         ukBPUYjpNrsuIkOUiUk+/gNZIEMdWqaGabquly7jgmPv06kQ9JUNtc35Kk46W7kNKtlD
+         kVmIE1K+2P8IyaSVujAGHB7WY9z87d/rS3qKVbJEUEoCBKb5tlLFzWOYKYHsQmNR1/yB
+         OtG3ZD2eC5aVGToZ1y1hnZ1f/ScvP4yUFLPE1eUj/xasENZu2qZ8A0xvCLXalR3DmJCb
+         3WSmo6cd1/H2tIcinOh9GCxHFP7ELtwsjWcWHXIDAcTH16EUrMnWJucyADOcaSu1ud+c
+         oqDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=iVU+TziQs+gOx7M+66kD16PammlxtEook1omqWZrRgs=;
-        fh=ue3IAW0kbj8yZj6rO10hzr4FzaK3M37KatBb2fxGUHA=;
-        b=dAjwcEZXJn3fnf7zqxkzCzDKzyCZxcJEfPLyJIiFTQQdq4rwxmWrMUxjAq1Zw//7oR
-         e4x548Po4I4UqAhj39cdHQhBDiUMZ/tGthB+JQSQKFrfJtHKIbmYpPy4Ajbuzz5NUP+6
-         E8J+1iGd7DRUXwnMUv5v2edPGReVC4brZg4LYn9pPBenAwJkIAe20cksy411qVn6TvXa
-         bOcrbyxUQ9L7CgTDdEH1r/fcZ1lVRJ+fCcMr1bgnHagUXoY9hFTRLfiAXWcop2rm3Yoo
-         VO96pFEsBHXYUUOlkz2L7JDqXn6WeaK6eA2WKKYQFFx7BlcQ427jiJ0UWiZ0VH10LxdP
-         TSIA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7VTTzNgP8kZ4WZqo/Pt6YUFHI+mQOpC46U4p4u8GdkY=;
+        fh=kgVcKaK3uZBtfd4wmPy5rpiLSiUw1VWuYihXsaMHewM=;
+        b=AV+Tp/74LT5FmhcvNEqvz8QCQzzEGOIbHlptXyDUO0bWfcbApI3JXCeNhFXnrdT+z5
+         bj5Jt6C6m2XyvxcIN4vK00WHHl9XL5QMi/Oq+stZzXxbk4ot/xLr1LgjcwiIqmOSmorh
+         gA8grK8vy2wBkgwaocEJf9q3REySgorIj9vcLaAn8CjqBb9rCumVAC62fjq9mjYURt7q
+         E7k8a3bmwxAUDpkEWrfhQI9BiguAJfM5xXMQ6ssFiyIDGBs9/e0nxHsL/DQavK5P8jQo
+         /B3o+fLZzWCHJ1GnOnojpf2P5b/Aq2y/dFLqVSeDwy7G53P/REJfRh+OR1Fud6Jb70ZA
+         cftQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1779442236; x=1780047036; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iVU+TziQs+gOx7M+66kD16PammlxtEook1omqWZrRgs=;
-        b=pPFQmNS36ZngFoKGsG+32NzyTAGpRPrR6+KdcHvq3ww7i0oiIIwH9gLQdlDLsj/xeB
-         0lG4JSt20fsveclBsmzjb6yKFoOd5g2fFOjExDssmtq4ACJLuz2x41r99oTef8hfoDlW
-         Zy1fUitZ9joS94t2u4PtP+og+20bvAYiI0q4o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779442236; x=1780047036;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779444231; x=1780049031; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iVU+TziQs+gOx7M+66kD16PammlxtEook1omqWZrRgs=;
-        b=o1bMmPE0LpwAHEN8RJYCN7ImqJTnzou5NsBhPBRKV7Z2AJeu+y8x5wQQ3eVAZJvMcz
-         spcw8FYGBf7wqDuKUC64wq4vObVeL8wT2MZydh1srcK7RfiATDltI/ef7HeOuQ6fF+pw
-         BQ/wuoHxCAAmXBjDfvI4gXZQrNjPovOJ2VfvjONS1EMVG08AORSydNdej6tyguOeNW/Z
-         SdPHMIgQKBvGqWOeoLZhwff9SC0C7rH6esOz7y4IiZo5FvukXYMax0QGJR8cAhC5mgaa
-         L+LrUYSH1RLpJmPy/r/C1DTKZZLMX+47u5d22NCqZjA//Yr2UyN7aM6hXP243WcvR2kB
-         3NKw==
-X-Forwarded-Encrypted: i=1; AFNElJ9aV+EEecHH5yyHCSiTxcG3s5hSQ+XmQPl8FcQpeeCqmUxXs+IA7U+5ZB40yy6jFroIsh2iwagPuly6@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9RXkOcbgMHRYETF3J7gXz1sVg6lIaEFesgtksW9rOltyHZ1mL
-	RG2I0ZMWpHZ6Tx5SPrF1Q7JGAIp49vFO0rx85dzFbDEcakXKTEIF1Oiyme26DK/LrTU8oCFM35M
-	eqOCLasrbJBdgAr7accmSa4zfDLnFTIMpq+NsbvrWAQ==
-X-Gm-Gg: Acq92OFS+7kZSeLpEKBaTL15eoLDwbWNq0ikiMfMOPIiEE+rqSfeFQRqOqXyBSdX2Cz
-	SyC7oKL63PwGi+Ajrakl8pLSfl28AyPpqRWsqzNdjg0wTloaPp9/SrGPtCdl0rQblr0CkIqSvkK
-	1/WNgXa/Guu+vtGTpwNoyBTsN7Ti1k31ShN3IJ5qK00wjNGO6m9O7EiFS+9BfREpLrh9jQIgw4S
-	wwpGQQUV1IEfAz6FAVYfOfJPYL14Lb/7L+7NXRMTzeYRL3JJpvb4ziz9LEOF53zjyfJ2fig1HDY
-	p4gMYzjqcrnUs9e7E0BAcGjWtrkbfcgAfHEY3O8=
-X-Received: by 2002:a05:620a:4407:b0:912:bd42:b46d with SMTP id
- af79cd13be357-914b492c5b3mr409068185a.25.1779442236272; Fri, 22 May 2026
- 02:30:36 -0700 (PDT)
+        bh=7VTTzNgP8kZ4WZqo/Pt6YUFHI+mQOpC46U4p4u8GdkY=;
+        b=LNnlT1hXwJuD1BG5GMNv6wT75c92KIVQmgbCYfGx24moYyneTONoVnL2pVKK7Q6VVr
+         N5sN+m6OjMyCmtNU8uIJ8ux1C34vc0/SmI71aWHIDhnhZQowOG6cMKjr0pBMnIs+9j4y
+         ImklCkrutnKwXrN67uAIN41xNhUBMCO+Xf4mHe30G8j2Dqr2k39h+F7QD8wQ47GQVrvG
+         Up5M5o7RslQGh39s6RlvZ4Vf11j0y4DQ5AtAfJxKRcZsScnkm+YJGlK9wo6xvPSuuzQd
+         KEfp6ZsBZRmRYM3Blr7twayX3gCLIV8FB6AIkyliRgizp9OMTxupFrqDZKd3+uindKAL
+         yBZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779444231; x=1780049031;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7VTTzNgP8kZ4WZqo/Pt6YUFHI+mQOpC46U4p4u8GdkY=;
+        b=MPTbbP9gsVSecGZyOvBwvFX796oQI72M2+Y/DHJKdXtgO7uxbIcPC3v7B2Gk3qDKa5
+         RmZqEgX3soKBXDCgRlhXVntkrcBlEuh2ygzWeWFIj9whdYvDqDuV9jNJDjnLULQOl5PJ
+         KH8+pPaEEhl7Pu7Hh8KZU4p2Y6evaFuw0GRhw3A55o42IhrBh+RV26Ccxw7ebaNlztZh
+         OgKMzyFSyp2/qX3RwEu5W2YiGmPO/NSRMTbs5xP8dHBE0/rNBKYrFkSVsDMEOXW3SpSh
+         XroA49xkD2q/359SKUsUH+PBRBP/aK8cGYd3m2V098plGSAQJwYlZeXZob6t59+U05Fn
+         3KTg==
+X-Forwarded-Encrypted: i=1; AFNElJ8K5Lf+B8X1lzxKAo0r88+W7GGBdDRbwD+FQRP1G3sC49Ncl3+hLGC1GyOrNhS6anfGtb/PKFe0FeNl@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx++LaObS1l3eNX0Dws2xJ9xjJ38y+9hmWjFo6pUZiuIr9q6i2w
+	/AgVq2fo0KHMb01G2xsMa90ihgylOT3cnvXC5SPoh9jjCkcX9jcU+3MO0/GgEBT9nU+9jyxjWbk
+	+lM8HvCm4eAtZ7mG3RD8BgHNi2Ydvrkw=
+X-Gm-Gg: Acq92OGBl86bwurcea0K0ngAGbprmzfULKqL7jI+nh0sKtSbLxSuY7BRa0gOu8c7pxC
+	frKXy8biyqD4OTxLASti5iy0p6m1SpQjtBEXIIc1uXbUF8DSOkmrYUq95ECstNaYxtLdt4eM5Ex
+	bfaSRYIuX5Q+xzGMmlxpNanUQhIFxWgi7/z/Jrvf9/Rifds6iQgpzOe0Zp54VSaJtUy3UBbnq+C
+	pr4T1A+A01m9XsrpANnc1gI6ypL4jAxsU5OthkSzlUD+lWANl/A6PQoIkZT0in6WD76h2uvxK1P
+	kFnR4gwGP/B6OobxFoe5jRx1m2NV0De526jxhIFvpw==
+X-Received: by 2002:a05:6402:458e:b0:687:8a9f:3142 with SMTP id
+ 4fb4d7f45d1cf-6889c4331b9mr1337257a12.10.1779444230564; Fri, 22 May 2026
+ 03:03:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <177922945175.2436837.10366841596277424226.stgit@frogsfrogsfrogs>
- <177922945262.2436837.15780670312601539883.stgit@frogsfrogsfrogs>
- <CAJfpegt=ex3B4mAF6xL5m-BZCtVBYWsP130WEVoSO_BrYibXmA@mail.gmail.com> <20260521225716.GF9544@frogsfrogsfrogs>
-In-Reply-To: <20260521225716.GF9544@frogsfrogsfrogs>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 22 May 2026 11:30:24 +0200
-X-Gm-Features: AVHnY4L53GWAls7HMJ0QgWsDUXxwAk-3vpNcwJbphhev2bphhsFBhqyJFUqti2E
-Message-ID: <CAJfpegtjFT6Hw_YpOHe17Rfi16qMKsbm2Db2Lo7U=f2_CP6Pkw@mail.gmail.com>
-Subject: Re: [PATCH 01/11] fuse: implement the basic iomap mechanisms
+References: <177922944800.2436629.7011047808676668088.stgit@frogsfrogsfrogs> <177922944844.2436629.11205124993260163523.stgit@frogsfrogsfrogs>
+In-Reply-To: <177922944844.2436629.11205124993260163523.stgit@frogsfrogsfrogs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 22 May 2026 12:03:38 +0200
+X-Gm-Features: AVHnY4IK_mvuSe5-3KT9gh4fnkJ4klzAb59GOzP4QZrEfJEjjgpQOz_XglBlrvs
+Message-ID: <CAOQ4uxjJ0eF0vE0hgsNoWqqD+UQ4r-1-b7493cYNPUGSUR+tcA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] fuse: move the passthrough-specific code back to passthrough.c
 To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, neal@gompa.dev, bernd@bsbernd.com, 
-	joannelkoong@gmail.com, fuse-devel@lists.linux.dev, 
-	Christoph Hellwig <hch@infradead.org>
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev, 
+	bernd@bsbernd.com, joannelkoong@gmail.com, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[Cc: Christoph]
-
-On Fri, 22 May 2026 at 00:57, Darrick J. Wong <djwong@kernel.org> wrote:
-
-> On Thu, May 21, 2026 at 06:24:58PM +0200, Miklos Szeredi wrote:
-> > On Wed, 20 May 2026 at 00:26, Darrick J. Wong <djwong@kernel.org> wrote:
-
-> > iomap_begin - fetch a mapping for an I/O
-> > iomap_end - submitted I/O, done with the mapping
+On Wed, May 20, 2026 at 12:29=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+> wrote:
 >
-> It would be more accurate to say that we're done with the mapping.  If
-> the fuse server acquired a resource to provide a mapping (say a cluster
-> lock since technically speaking iomap could be used for them) then it
-> ought to release the lock when we're done with it.
-
-You are talking about things that this first version definitely
-doesn't want to handle.  Stick to local fs for now, especially if it
-just means leaving out parts of the interface that can later be added.
-
-And that's a general comment, if we don't want to get bogged down with
-reviewing thousands of lines of new code, then try to minimize the
-functionality.  If the first version only supported R/O mounts, I'd be
-totally fine with that.
-
-Your current patchset is a prototype: it shows what's possible, but
-that doesn't mean it has to be merged in one go.   Let's try to go in
-baby steps towards the goal that your prototype has set.   But cluster
-locks are even beyond that goal, so just ignore them for now.
-
-> A second example is, if your fuse server implements speculative
-> preallocation (aka delayed allocation) and a pagecache write fails due
-> to ENOMEM or something, you want to notify the fuse server so that it
-> can release the preallocation.
-
-That's a FALLOC_FL_PUNCH_HOLE operation, no?  Fuse already supports that.
-
-> > I'm not clearly seeing the difference between HOLE and DELALLOC in
-> > terms of how the iomap code deals with them.  We really want
-> > description of semantic details, and I'm not finding those except in
-> > the code.
+> From: Darrick J. Wong <djwong@kernel.org>
 >
-> You can't buffered write into a hole because that means there's no space
-> available to land the write, but you can write if there's a reservation.
-> Writeback isn't supposed to fail with ENOSPC.
+> In preparation for iomap, move the passthrough-specific validation code
+> back to passthrough.c and create a new Kconfig item for conditional
+> compilation of backing.c.  In the next patch, iomap will share the
+> backing structures.
 >
-> (You can't direct write into a hole or a reservation either, but that's
-> not illustrative for my argument.)
->
-> It's critical that the kernel knows the mapping state is correct even if
-> iomap itself doesn't care about the difference.
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 
-IDGI.  When a write to device (DIO write/writeback) happens, and iomap
-queries the mapping, the filesystem must return one with
-IOMAP_UNWRITTEN or IOMAP_MAPPED, no?
+Please add
 
-So where does the kernel check the state?
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-> > I also have a slightly bad feeling about IOMAP_BEGIN being used twice
-> > in the buffered write case for different purposes:
-> >
-> >  1) write to cache - AFAICS this is two functions rolled into one:
-> >
-> >    - space reservation: doesn't need the mapping, just returns
-> > ACK/NACK, may need undoing on partial or failed I/O.  May not be
-> > needed
-> >    - read-modify-write: mapping to initialize cache.  Should be rare,
-> > most writes are not this type
-> >
-> >  2) write to device - maybe allocate space, needs destination mapping
->
-> Yes it is.
+and please keep in it future postings even with minor changes.
+I realize that fuse_backing_id_remove() was changed in this version,
+so that's fine, but I only know that because recent revision still fits in
+my ever shrinking context window..
 
--ECANTPARSE
+We discussed the fact that no one has lots of spare time for review
+and re-review is a big production killer (in general).
 
->  I actually had half a mind *not* to duplicate the IOMAP op
-> flags and instead provide an enumeration:
->
-> IOMAP_OP_READ           read{ahead}ing the pagecache from disk
+You must know that very well as a review and also that having
+a "what has changed since last patch rev" is very useful for reviewers
+and also very expensive for authors to maintain...
+...unless AI agents can help to generate per patch Changes
+for the post --- notes?
 
-Okay.
+I assume that Agent can do that on a patch set after it was created
+just by giving it two sets of patches?
+For the very least, producing a "No changes since v.." should be easy
+and useful.
+Letting Agent go over mailbox and verifying that all RVBs have been
+applied is also trivial.
+I realize that patchworks and b4 review can help with these tasks
+but they are more tuned for maintainers and less for authors
+(I think).
 
-> IOMAP_OP_WRITE          writing to the pagecache
+Obviously, I could do that with an agent on my side, but that is not
+a good use of resources and not a good model to put this burden
+on all the reviewers.
 
-This is not an IOMAP operation.  Writing to the page cache does not
-need to know the mapping.    It needs to reserve/allocate space, but
-that's private to the filesystem, the page cache couldn't care less
-about where that data will eventually go.
-
-If the pagecache write need to read data, then make that an IOMAP_OP_READ.
-
-If we wan't to combine allocation with read, that's fine, we'll do
-that with compound requests in due course.
-
-> IOMAP_OP_ZERO           zeroing folios around an unaligned write
-
-Again, fuse already supports FALLOC_FL_ZERO_RANGE.  Having two
-interfaces for the same thing doesn't make sense.
-
-> IOMAP_OP_WRITEBACK      writing to disk
-
-Call this IOMAP_OP_WRITE.
-
-> IOMAP_OP_UNSHARE        trigger cow for shared extents
-
-FALLOC_FL_UNSHARE_RANGE + IOMAP_OP_WRITE
-
-> IOMAP_OP_DIRECTIO_READ  directio
-> IOMAP_OP_DIRECTIO_WRITE
-
-What's the difference from their non-DIO counterparts?
-
-> IOMAP_OP_FIEMAP         fiemap/bmap
-
-Why is this different from IOMAP_OP_READ?
-
-> IOMAP_OP_LEASE_LAYOUT   swapon, effectively
-> IOMAP_OP_REVOKE_LAYOUT  swapoff
-
-This can also be a new "exclusive lease" op + IOMAP_OP_WRITE
-
-> IOMAP_OP_DAX_READ       fsdax "io"
-> IOMAP_OP_DAX_WRITE
-
-All parties should know about what sort of device they are dealing
-with, block or dax or whatever.   This info doesn't need to be sent
-across the interface again and again.
-
-> > > +#define FUSE_IOMAP_DEV_NULL            (0U)    /* null device cookie */
-> >
-> > This is for unallocated mappings?  Not sure that it needs an explicit
-> > constant.  Unused fields are always assumed to be zeroed.
->
-> Correct, this is for any mapping type that isn't MAPPED or UNWRITTEN.
-> Yes, we can assume it's zero, but in light of the recent rseq input
-> validation mess I decided to crank up the level of validation.
-
-I'm not against validating unused fields, that's fine.  But the
-initialization can be implicit.  This simplifies the interface and the
-code.
-
-> > > +/* mapping flags passed back from iomap_begin; see corresponding IOMAP_F_ */
-> > > +#define FUSE_IOMAP_F_NEW               (1U << 0)
-> >
-> > Definition in iomap.h implies this is about the need to zero blocks,
-> > but isn't that exactly the same as UNWRITTEN vs MAPPED?
-> >
-> > Looking at iomap code: IOMAP_UNWRITTEN does imply zeroing, so
-> > FUSE_IOMAP_F_NEW is only useful for IOMAP_MAPPED.  Confused.
->
-> Old unix filesystems don't have unwritten mappings, so any newly
-> allocated blocks get MAPPED status and have to be zeroed.
-
-So why can't old unix filesystems just say this is an IOMAP_UNWRITTEN
-extent instead of a IOMAP_MAPPED extent with an FUSE_IOMAP_F_NEW flag?
- Seems the two are exactly equivalent from an interface PoV.
-
-> > > +#define FUSE_IOMAP_F_DIRTY             (1U << 1)
-> >
-> > The only affect this seems to have is to prevent FUA write in DIO
-> > write path.   FUA writes are an optimization?  Or lack of FUA write is
-> > an optimization?
->
-> Correct -- if the inode is dirty, directio writes can't just issue an
-> FUA with the write and call it a day; it also needs the ioend callback
-> to know when to flush the dirty inode.  This flag just turns off the FUA
-> since we can write the data + metadata and then issue CACHE FLUSH.
-
-Okay, so it's just an optimization.   I'd say, omit for now.
-
-> > > +#define FUSE_IOMAP_F_SHARED            (1U << 2)
-> >
-> > This is passed onto fiemap, it's useful to userspace but does not
-> > change iomap semantics.  I note that while BTRFS obviously does use
-> > shared extents, it does not set this (or any other) iomap flag.
->
-> btrfs doesn't use iomap for pagecache operations
-
-What does fiemap has to do with the pagecache?
-
-> > > +/* fuse-specific mapping flag asking for ->iomap_end call */
-> > > +#define FUSE_IOMAP_F_WANT_IOMAP_END    (1U << 7)
-> >
-> > AFAICS, nothing actually uses this at this point.  Can be dropped?
->
-> I don't know.  There are filesystems like gfs2 that hold a transaction
-> open between ->iomap_begin and ->iomap_end, so the ->iomap_end call is
-> definitely required.  This may or may not be necessary for userspace
-> filesystems, but I wouldn't wager against giving userspace a flag to
-> force the FUSE_IOMAP_END command.
-
-Please drop all "I wouldn't wager against" types of features without a thought.
-
-> > > +#define FUSE_IOMAP_OP_FAULT            (1U << 3)
-> >
-> > Unused.
->
-> page_mkwrite (aka mmap write faults)
-
-But filesystems (at least the prototype ones) simply don't care.  Just drop.
-
-> > > +#define FUSE_IOMAP_OP_NOWAIT           (1U << 5)
-> >
-> > Unused.  If it's NOWAIT, it probably has no business in userspace.
->
-> Later on it means that we can query the cache but not call the server.
-
-So it's internal to the cache and doesn't ever reach the server.  Please drop.
-
-> overwrite_only, atomic, and dontcache are actually flags.
-> And yeah, they're not needed right now but I don't want to have to burn
-> FUSE_CAP_ flags to add them later when I could just -EOPNOTSUPP them
-> now. ;)
-
-Don't worry about that.  Really.   Just drop everything that is not
-needed RIGHT NOW to have a working implementation.  And I mean
-working, not optimized.  Optimization is the last step.
-
-Dropping code is easy and it makes review faster, and at this point
-review is the biggest bottleneck.  Yeah, <insert favorite AI> can
-review patches by the truckful, but it cannot evaluate design
-decisions and high level stuff.
-
-> > > +#define FUSE_IOMAP_NULL_ADDR           (-1ULL) /* addr is not valid */
-> >
-> > Hmm.
->
-> LBA 0 is valid.
-
-So what?  It's an unmapped extent, the address is not used.  Leave it
-zero and validate that it's zero.
-
-> Another strike against high level fuse servers using iomap is that you
-> can't support hardlinks because if you hardlink /mount/a to /mount/b,
-> the high level fuse library will assign different nodeids (and create
-> separate kernel inodes) for a and b.
->
-> That might be a bug in libfuse?
-
-Right.   Just drop highlevel support for iomap and be done with that.
-
-> > > +struct fuse_iomap_begin_out {
-> > > +       /*
-> > > +        * Read file data from here.  This must be set even for a write
-> > > +        * operation due to the possibility of a read-modify-write.
-> > > +        */
-> > > +       struct fuse_iomap_io    read;
-> > > +
-> > > +       /*
-> > > +        * Write file data to here.  This must be set even for a read
-> > > +        * operation.  If writes are not allowed, reply to the IOMAP_BEGIN
-> > > +        * command with EIO or EROFS.
-> > > +        */
-> > > +       struct fuse_iomap_io    write;
-> > > +};
-> >
-> > So this is definitely an improvement over the kABI iomap/srcmap, but I
-> > do wonder if we could get away with a single map, OP_WRITE indicating
-> > which direction it should referring to.
->
-> Not really.  Pagecache write operations can require both a read source
-> and a(n alleged) write destination if someone tries an unaligned write
-> to an uncached region of the file.
-
-Why does that need a write destination?  It needs a promise that the
-space was reserved for the write.  It doesn't need the actual
-destination.   And DELALLOC is exactly that: a promise.   A zero
-return value is perfectly fine for that.  A failed reservation would
-return -ENOSPC.
+Worth a try IMO.
 
 Thanks,
-Miklos
+Amir.
