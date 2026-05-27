@@ -1,80 +1,80 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0C3292B2E
-	for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 22:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D0817A30A
+	for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 23:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779921639; cv=pass; b=ZeLO3wM99NA7QnLjspYYTSarpDc8sdeBvcGrT+M1syiNsI1zxdcp1qW+nr6cttU6WFa6aQq7rCfhlH3LQYnRMwI/0ElEgVvEwlXfKG2ubHczQr1Hy5IkWYsWgDQQrsOyFlxZfRwEoR0j1FU0Y/trcLJrF7u6Obw+HPt1ufxdkQU=
+	t=1779924774; cv=pass; b=h06YoFR4urjIpjl/LQ+AZO71ZRpa9M/IvbbvbwnagXAZL4tG0DCec35Q5GSI46E34vVq1C9wQld9wUZWBq5gWmeaRet4lZJt6PggBvpGK0iHQukg0Ha5X0wPdFiMd5EycrGxV1juLuJj3ncwvQWiyD7Z2TXJmBUoY3nc/Bxbd5U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779921639; c=relaxed/simple;
-	bh=apu/P6/fBfHw730fI/dCBoHLTtx+6SzUKNBbDiT201w=;
+	s=arc-20240116; t=1779924774; c=relaxed/simple;
+	bh=56FsBBxj2wHEtfC8vJ9Jj2zhlxt2kWSIwg5xmvU8nJU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QlF6Wpex4zNJV6Xov7r4LXQMTMAtSetHNCbY8Of2JYxEYeLd4wfRdAffiEjFW6ximmxIPS80kAWG9ceQvVZ1YMu/51HJRRQWZELXm6eugmdF+n/BXGcCMVPN4CNyOLbsPGYXkvqCQpS5Zg3+wZwo1/pj9RZebWtgRGM6t3cciG0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qd1h7nTp; arc=pass smtp.client-ip=209.85.128.48
+	 To:Cc:Content-Type; b=ux7o0KL0z8MoGuXpPzi2M8QGlXxaSbQrqEDYzbkLxbJoXFXrnf7zR+zRR82kYm0WgRv+W3muxaaz7+nTPolXMh742L8vJk+xexsqJBAsYA5fy/bd995NvdcJ+oDDbcn8lXDC3H0caawLI58wafL3D/O4bx0y7DGFDY1mgqXwDkM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q+Dy0ZpL; arc=pass smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qd1h7nTp"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4904fd4f6aeso44095035e9.2
-        for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 15:40:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779921636; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q+Dy0ZpL"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-44e1860558fso7706480f8f.0
+        for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 16:32:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779924771; cv=none;
         d=google.com; s=arc-20240605;
-        b=ROML9rk9zhLkxb9EmRdoKb0zEy6PTmnfXoWPrbHWY6AmyJUzWikAgZLyAjyh740iNT
-         WrpDM18GttdsMlqe56TG3IFWjsBOAJZ0q9ZnXxe+NG0Rkvthh3QQ+gwSErqjIlJcopH+
-         /jFaYjyj6f4hgCdfdvHOBRK+Eut3w5/C3QwhoZJnbqUQNQx3XtYA52NVXxhfbjicAgsw
-         SVsadpOkcyBtQD7ZMC0m2ONuPqsMl7Tq8jfWw2Ze7f6ohnwYghCdW3mEv0KAlXgBIDd0
-         Blm+lzEhJaluja9xSHxnDXNPfauQxQ4RcBH+8I5vSUwCqSRx2P4LfycWvpZ9DH3PqTZe
-         v1KQ==
+        b=E3FdoIJl7NtyoCQ8DAELGybuCResnkEBqesBnrMUKQXVw07dgi1Dul2M7Q3z+72LFW
+         MiM70rSgpJuKivR4g+LC5goIigs1ydHnB5FNZGaifpNh+kPmGGWozcNFV6WLzucske70
+         +/1m4VgYG+JZ8NPfPdHG1fmzRgeQnvVrCZ4HR2iSuaZkrIwHoLV40JIgLKEWHm52V1Z7
+         wXgebmYk3LzZf1Sfaxq/uumWDIhcUr7U/TZac2uMUU45bdMeRMrK++rMzc+o0uXOHiXL
+         Q+mTjq7tr8G1go09YWBm6H/bdXEAHIeUlLUxS47fqhuvymBwD+4Lu7S/0Ygd5yV6zqX+
+         F+uw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=apu/P6/fBfHw730fI/dCBoHLTtx+6SzUKNBbDiT201w=;
-        fh=oYeG/pBFsr4eQ7GKvYFBAVDddq3P1rlayxKQ6UsHItw=;
-        b=djETIpJuR37ogKwb2DXkDfAYTY4D7I0AN+jTZ3YxhXUABVcefX/mBAIJiSxfoQQbNz
-         hVSCgGbB/l5A4TZrI6mYsI2+mEq4mUR9/hwWYOto2r4iFScJcRQl/WnQlsVQcH2oVUj+
-         3Ft+Dz3DMRCI1vYqe56RqKKfV8Gk7ab2O3S2lHV4HaoQj68oczfxjqfkWCdwURrKIuA0
-         Hg05c0tBEiz0b4VzCcXLUKi2WWUveBwbJ0go78jRHF6D20a1jvorZt064xnS5JC+/O4v
-         vJlBhv1clKsFvZH29rroZ5PNt1dLWN41gcvpDBS5l0uEIL57Gm//CwyKfjxHpJyHNOXI
-         1cJA==;
+        bh=DAbDwK2EPqXTD8KIUGi5JLsN5K4f21oPBpM/bqaPFNI=;
+        fh=9tS2UzhdTvWyA2T1ubYm3k5e4ETq5QfeLyyg1kmGDoo=;
+        b=Aa5gpAO/N3jEXqbyvTPddC62FVPxYfAAXHf1xUuK/BRJtjTjCFpGfFlj64GRt4s/jS
+         dkQ/b0rqxu21zgLP94raKZE9F8cVUwFwsazcGgZuIz5/awR4iTpSWSGmi23aVFS4Rp+x
+         4Mm1QHl8hguFeLmHBRzbNaoEi4uv3O6jQE0E4Jia1qsyv/VCz7TXe3MFwQpn1khXBYKx
+         Ykysgoszs3W4qjQ05bIFjTOLRGc/w8GSZztPwOz29n5fDW+lY+TO4NNjRPHNRbEX6BMl
+         0unxSphzLyubh5rUgRQ8oXT/ZwZhSqC/U2mthSNtwj5ShVH98ZxkcES48sGD7QD4cyl1
+         69yg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779921636; x=1780526436; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779924771; x=1780529571; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=apu/P6/fBfHw730fI/dCBoHLTtx+6SzUKNBbDiT201w=;
-        b=Qd1h7nTpp2fa65hD/whJzjwQKr3HHXJHU3mMeFrl+cdD4yrKzqVjfX+ktVHAqiwFPd
-         aikw5zYchLa+Rt8PTm5Ur44R1Yhpr90kgRTep70G7ybYneDnhZCXD2JQDP2zQhDZRjVD
-         Tu0KnYLDbVjBQFd0kFtVUDVCDmuaMsqgcj3/ssQRhtvZa9uVVPiX0+PK7lg+zjLiw4Gs
-         SwAboLAqhWxjmrsaFWelyWjHcYHwWuF2oBiHO/Kr9Ksu7weng3mjJGseeqG/YQe0AjPa
-         OLdJbNNk7nOmjNSkZFff6OVkEe0bJAAqPA6etuBIrqC4rB71vln/13t61WsRfKKlvBKQ
-         Eq0A==
+        bh=DAbDwK2EPqXTD8KIUGi5JLsN5K4f21oPBpM/bqaPFNI=;
+        b=Q+Dy0ZpL2anOqd7FMmza+Q9/Sl9kUIkpUfTC1ZRV4/t6WlIDrHe2qQYd2ho3hV3d5w
+         9yiTt9snhIdbX3qeP5MIprofNAhi5+XCfcZ6XzdOY/eJlW0CDvZ/MmPGW5PFRPFmbjdA
+         +0sp7rO6hli4rS0b+9sUjJglyIHUGeszlYqHH1Uwo39PoekOFgf2Zi47pJf2WTsmWLRx
+         NTra1Af2eUdmk8zOTc2OtswHv6705Evww7d2XWMadDyYKJid1lccG82nDS07bC7gNykf
+         1KI937pxuQvfAS+zxDijG/f1YqxKKCmceBnDaTKwaMNBab/M6yGmx+KKKanTITPSy9kt
+         zevA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779921636; x=1780526436;
+        d=1e100.net; s=20251104; t=1779924771; x=1780529571;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=apu/P6/fBfHw730fI/dCBoHLTtx+6SzUKNBbDiT201w=;
-        b=KOYfArKEuSu0dlkMb9r+pQTs+2wEXDGwuPJCcMtOIwZOlx+6H5u7VUKD9b+RWC4NaR
-         FDkudXo5IOqe6Wsw+zWLg8EKIbQSqDk7Dfhx+ht9OSfLidgugH0hbWvc2o/Asu+aJSGV
-         yO4VERXMqNGNGmQv+Ud6RTXEt20I6pRBxNSdnkrRkQtaeFeC9fKZwHCkExCpLzJBuid5
-         OoZkZD1TEC5yXGmfNtbPBKSeLOX06wvMnVAhHl2yD9Q9yJLE5XnYL9jR0tfARlimpHOR
-         7oTBtCtEEQF0SMCPxMLOP1p4qH4GrqaXoYx1UCGnT7eNs4NONKoPyfhlCwyA8CwbOdFR
-         qlQg==
-X-Forwarded-Encrypted: i=1; AFNElJ9hnJvGGzPA8TeooE4xBNhrE3CdC8CXy1nFITICuEtR38rqh+38elUildbLOwJ87h9QJtXNv5fjjDTQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcRisUuSYrdG5jWCtfC5ryBLoYdyu8iZsrpo7ISJ2GUaWUuqal
-	dsAMt4rgddK8xWyPiVLa5aiIhm+XpiKjrMOAZVZPbrYrigr9NtkX/JKCQWmxipto2EU+L2aZ5ny
-	/rJ1ZJEpXFNDDSaBIC+hhX4aup7KiyBA=
-X-Gm-Gg: Acq92OH42+YtbGNUkr56T7wiBzrc9VVnSI9mkLEMSZKDEI/Uu8q0Y/9GrJivBkJ3/TX
-	4uuiOEusdFmb1/IHowwHsZt4oaKVBHNK4I+ew+niPEXGrr5iFc1Z3dmH2RALv4HhBLhheICRzxN
-	pCRBvOi9lYDX0wyR48Q5IosYXmsWZq6sU7e+VIukuZoXE5nb7Zyb0aweQXWVQOmYzezvMm87Wu4
-	p9bVgcfOXRWCqJg0qv6qWcuV9Shg/1SpJ07Vo9xzRNjujfNlsr4D7MiM3RrXPPhZYdXtb24ZI00
-	6+DB95ZmpF0k/7q53wIynf7huCrONLoNduA+X3c0uhAz
-X-Received: by 2002:a05:600c:1d0d:b0:490:601f:d788 with SMTP id
- 5b1f17b1804b1-490601fd8bamr278017935e9.5.1779921636078; Wed, 27 May 2026
- 15:40:36 -0700 (PDT)
+        bh=DAbDwK2EPqXTD8KIUGi5JLsN5K4f21oPBpM/bqaPFNI=;
+        b=oDCONpeMcB8+eZAxCvmx5Y0tkVNMIbUbyciXeEoyGB1Rf+FfnBH1UwyJ9WFUSVaQXx
+         JShWSO3RWasMBAa0a4dtrKfPQ7+QV6d3ceJ5TzJDJ0MC1M2CmmOqjGvPr5qU3NfbWhWw
+         bQYxnhwMamLbpprHUXYd4Y5HjsX7HGspB6Kn4VMxGf5ScDtEyYo2idTMVQoaSU4T/BrI
+         zQlayN1sdSkSUSL3wzmM1qTTnxR0nQg/sKvkRn6cvhvQ0q6b1+vpgjpjDpRwdMoAaoHy
+         FZozbfNzJ1Pf7dXT712LbMXgdx14ZZF9yMvgs2wFwR3Za/+6+p9B9tsf63UCLLLjCT9R
+         HFig==
+X-Forwarded-Encrypted: i=1; AFNElJ/gEvDMxAzBdb6SgiXJK3AcAcJJL0oC2hruGAOOmsCQnBzUyhPZxo95kKMWTIzjhC374SR5ooMb2a2j@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/Q/FGgEHvap0ePso/jkcm9JjlaSpU9kCLEE7GIwEPrwt8QtJj
+	z7ZCufws5yukuP8Ty1HbT1LGZWjRn1hnXdUj4kDv4LW56x5r8rZiSxpYzLnY6BA8gks8w08Fr1C
+	jDxcee2wGZtfNG0WrRkgIbPqEb4Ikzq8=
+X-Gm-Gg: Acq92OF3JDhqm1tgge3fYXJHkjjaKn3lUHxCBXyNrf9CMwCxIIyMRZ0i6QuFhHhzY8+
+	7IRzXKrHTmtwYMCKX4Uz+A1doubVR7FkEYOMVBKYuqKrPmARSw0BOFMs0pl1eZMEX3mlyd7dB4Q
+	d5lT40KIrjL6JrSpqaneTdjOglw18ID/IVF/6k/IwrspnxQw86ParnClmtzjCNA9Avb4+RyaQh9
+	cXjZfYs6sDbYjBoYk48yhfjYJ7OJU7kl9pMGKYchjgQF8vY1cni+XxeDNslrccN8Af+OURB+F1N
+	q/VMuh7YscKUTps8/L38WPwQIDEvJKDDFg==
+X-Received: by 2002:a05:6000:430b:b0:44b:ad5a:cd33 with SMTP id
+ ffacd0b85a97d-45eb38e4b24mr40128497f8f.40.1779924771483; Wed, 27 May 2026
+ 16:32:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -87,97 +87,95 @@ References: <20251008204133.2781356-1-joannelkoong@gmail.com>
  <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
  <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
  <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
- <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
- <ahaF7UaeQlgajYDi@fedora.fritz.box> <CAOQ4uxiqP=f+5py=2Ma1uEchogYttQ5sKZte6XKRVHAO=pY1DA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxiqP=f+5py=2Ma1uEchogYttQ5sKZte6XKRVHAO=pY1DA@mail.gmail.com>
+ <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com> <CAJfpeguAvw=GTkWhMsjSAyDx5oXXfMLNOPGDUg8HuPRxjppxkA@mail.gmail.com>
+In-Reply-To: <CAJfpeguAvw=GTkWhMsjSAyDx5oXXfMLNOPGDUg8HuPRxjppxkA@mail.gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 27 May 2026 15:40:23 -0700
-X-Gm-Features: AVHnY4IwTYY5ddtTAGaKtbU2Fh0R1_NeaT1KtLDt7fmycX1PzTpXR0Gv5QqS7mI
-Message-ID: <CAJnrk1a_8SCDUPCjAT6a7xK7r=b-iqKeRnkPSbv7dUvjjBGDyw@mail.gmail.com>
-Subject: Re: Re: [PATCH] fuse: disable default bdi strictlimiting
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Horst Birthelmer <horst@birthelmer.de>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
+Date: Wed, 27 May 2026 16:32:38 -0700
+X-Gm-Features: AVHnY4JQDr20gCLRHfYTawrZU6FF5EriZ3mf-jFlylo811faLWmZlWe_-2xZUD4
+Message-ID: <CAJnrk1YJcJJOvZYwzR99DsJyh3dgMffEMQ-A9Rfkg2CGOUTziw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
 	fuse-devel <fuse-devel@lists.linux.dev>, Jan Kara <jack@suse.cz>, 
 	Jingbo Xu <jefflexu@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 27, 2026 at 3:59=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
+On Wed, May 27, 2026 at 5:25=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
+wrote:
 >
-> On Wed, May 27, 2026 at 8:06=E2=80=AFAM Horst Birthelmer <horst@birthelme=
-r.de> wrote:
-> >
-> > On Tue, May 26, 2026 at 06:42:35PM -0700, Joanne Koong wrote:
-> > >
-> > > For getting this to work on fuse servers with strictlimiting, I think
-> > > the next steps are to
-> > > a) as Jan had suggested in [1], come up with some heuristic to
-> > > constrain the max order supported for large folios for these fuse
-> > > servers if they're running with the writeback cache enabled
-> > > b) benchmark ^ and if there are still regressions, then we should
-> > > probably just turn large folios off for these servers
-> > > c) add the granular writeback/dirty accounting for large folios
-> > > d) look into improving the balance_dirty_pages() throttling logic to
-> > > handle narrow gaps between the freerun and full throttling zones
-> > > better and reduce over-throttling
-> > >
-> > > Does this sound like a reasonable way forward?
-> >
-> > Sounds good to me, since we have seen pretty much the same when we enab=
-led
-> > large folios for testing.
-
-Awesome, glad to hear we've been seeing the same things.
-
-> >
-> > >
-> > > For privileged servers, I still think it makes sense to remove the
-> > > strictlimiting requirement or at the least, let admins opt out of tha=
-t
-> > > if they are confident their server is well-behaved.
-> > >
-> >
-> > Here I'm not really sure what the most logical and sane way would be.
-> > I really don't like limits for no reason but I understand the necessity
-> > to have limits enabled for unpriviledged servers.
-> >
-> > Do you think a module parameter is the right way to go here?
-> > The connection parameter might be a problem since an admin would have
-> > to set it for a large number of mounts.
-> >
+> On Wed, 27 May 2026 at 03:42, Joanne Koong <joannelkoong@gmail.com> wrote=
+:
 >
-> Not saying no to a module option, but I am curious.
-> This admin opt-in per mount could easily be implemented in userspace
-> in either libfuse and/or mount helper.
+> > On a 8GB machine (with assuming vm.dirty_ratio=3D20% and
+> > vm.dirty_background_ratio=3D10%), we get 12 MB of freerun, 4 MB of
+> > proportional throttling, and then full throtttling starts at 16 MB.
+> > With 2MB folios, the 4MB zone between freerun and f ull throttling
+> > doesn't leave that much room for the balance_dirty_pages() logic to
+> > adjust the dirtier's speed, which I think causes the writes to
+> > oscillate between freerunning and then being fully (overly) throttled.
 >
-> For such a niche ("I know what I am doing") feature, why does it matter
-> to do this in the kernel module params?
+> Some handwaving: would it be possible for the folio alloc logic to
+> modulate the folio size based on how close are we to the dirty
+> threshold?
 >
+> E.g. if the number of folios to reach the dirty limit is less than 10,
+> then start allocating smaller folios.
 
-I'm hoping we're able to keep things as simple as possible by just
-getting rid of strictlimiting by default for privileged servers on the
-kernel side, without needing any module parameters or libfuse changes,
-but I'm not sure if Miklos is comfortable with that. imo if the server
-is privileged, it can be trusted to not misbehave and should be given
-the same kind of capabilities as a local filesystem. But I guess there
-might be the possibility of user regressions if it turns out people's
-privileged fuse servers are accidentally buggy.
+I don't think this would help for the case where the writes are to
+existing large folios already resident in the page cache, but I can do
+some experimentation with this.
 
-I think the module parameter makes sense if admins trust unprivileged
-servers enough to turn off strictlimiting globally. Otherwise, I think
-Miklos just mentioned there's already a /sys/class/bdi interface that
-lets admins disable strictlimit on a per-mount basis, so I think it
-would be cleaner (though more annoying on the userspace side :)) if
-libfuse used this to turn it off by default. The max supported folio
-order is set per-inode when the inode is first looked up, not at mount
-time, so the admin can disable strictlimit via sysfs after mount
-(which is when the bdi sysfs entry gets created) and new inodes will
-pick up large folio support from there.
+>
+> > I think this problem gets untenable for random writes with large
+> > folios, since dirtying just a few bytes will charge the whole folio
+> > size to the dirty budget. I have a patchset from last year for adding
+> > more granular dirty/writeback tracking [3], I'm going to pick this
+> > series back up. I think it will be useful generically, not just for
+> > fuse.
+>
+> Tracking partial dirty is not going to help free up those large
+> folios, unless the dirty part is migrated to a smaller folio.  Not
+> sure if it's worth the added complexity, maybe...
+
+That's a good point... the whole point of throttling is to cap the
+number of pages pinned in RAM...
+
+>
+> > For getting this to work on fuse servers with strictlimiting, I think
+> > the next steps are to
+> > a) as Jan had suggested in [1], come up with some heuristic to
+> > constrain the max order supported for large folios for these fuse
+> > servers if they're running with the writeback cache enabled
+> > b) benchmark ^ and if there are still regressions, then we should
+> > probably just turn large folios off for these servers
+>
+> Definitely worth exploring the characteristics of the current system.
+>
+> > c) add the granular writeback/dirty accounting for large folios
+> > d) look into improving the balance_dirty_pages() throttling logic to
+> > handle narrow gaps between the freerun and full throttling zones
+> > better and reduce over-throttling
+> >
+> > Does this sound like a reasonable way forward?
+>
+> Yeah, makes sense.
+>
+> > For privileged servers, I still think it makes sense to remove the
+> > strictlimiting requirement or at the least, let admins opt out of that
+> > if they are confident their server is well-behaved.
+>
+> This is already possible via the /sys/class/bdi interface.
+
+Nice, I think in that case we can just have libfuse disable this on
+behalf of the privileged server.
 
 Thanks,
 Joanne
 
+>
+> I'm fine with introducing a config option / module option to turn it
+> off by default.
+>
 > Thanks,
-> Amir.
+> Miklos
