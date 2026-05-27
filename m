@@ -1,351 +1,237 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1761B4218AE
-	for <fuse-devel@lists.linux.dev>; Tue, 26 May 2026 17:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CFC30595B
+	for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 01:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779818038; cv=pass; b=OWlKxHY5PNL4r9o8FwFMvATd/AlbfQEbMAJ0+d/Prak/5ZR+SKvaXqhm9eHNMUzjrvRnOrK6vRPcljpdkXx8clRx5AUohouW0PYGP5BTfUxxtFBYOw331Pqvu+P9ehUxJCKCjZBJ5e89f6pb905nh9K6zMxQpDV+GyssSoKSVcI=
+	t=1779846171; cv=pass; b=CBQUp6i745l0dnjObq/0jqaediJ+ojYEx1X+cBJcq95fIXboUqE1KU8bwZBRXwA6gJuzgBvafKbhIk6JUWxnO2nKluT3S/oH7D/iOG45dxLTdmKQHzPEbXfK6Qai1CGqPIKXCk+wywIrPIGp2G3h1gpjDhnLOJT4PgL2T8wBBwo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779818038; c=relaxed/simple;
-	bh=JXQc2Y9u924ZchPd969ca8ninZoXxlll3D5aT7jCRt4=;
+	s=arc-20240116; t=1779846171; c=relaxed/simple;
+	bh=3dDU0ovfNjE8Z0Ui/Fcwy6KzdmHMn4n3K608kNqE59c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZuS0En7747BmzIoc3PmoQioAlYtKv5SZQlgq9L5RZa1cLZkWNWve1CgaC/10+EiFtL1Ztszu80RIE3hx6tWRfRh4ILaqf77RNcnhO9R9rq3XXmGiSb/8AM2mR4h56YFPrn3FObxZlS8wNFGJgIeHmzt3GcE7l/DKqG4QmtAQgfE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=akcFPwKw; arc=pass smtp.client-ip=209.85.221.51
+	 To:Cc:Content-Type; b=fIjYPcP/uc6y4Vu1fINtrqNHLUXwxfJRD+x0y29F16vhWlIENEIqiCW5TUF9oe93AfySfRtYdBAn33+9PCweeUoW2frd//MNyrZpycNie+xnoG2gSkYdijFuMJtm1P2X5N0gDpDuPfkuaoKNBMuGNXB6JnJR1wPJfBoeAHkRNbo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oor5xSa9; arc=pass smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="akcFPwKw"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-43eb05b1875so5814802f8f.3
-        for <fuse-devel@lists.linux.dev>; Tue, 26 May 2026 10:53:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779818033; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oor5xSa9"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-449de065cb3so10963500f8f.2
+        for <fuse-devel@lists.linux.dev>; Tue, 26 May 2026 18:42:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779846168; cv=none;
         d=google.com; s=arc-20240605;
-        b=ZWuhBYiQI5SHK+h+SfEcE8Qw5RLN3F/8J3nr9RjiCpSMqx1vy3BegxmCWgHjWqo5SX
-         HeEiukQuPeNSAXdvgr5BRvU6v90Lq+XW27uLSJDTZohYlv/hkZUlsbSsWm/e3cuxcoIn
-         BqoRkjpxfW5UVgXUrLvitEgIAqIUG2EODd9EugmRek0jqDAUvtg50MkPT7HLcGHGMyuf
-         J4Loakweaah2m0vuTqhIinWRUmAxJsw1iFaR6u5yWXnWiSYXEAd8tycaWweZOoB6Ml3j
-         sc9olcwjt87yPqRkaHlfAS05V7yqcLdip0u4VY0TIeIFxpdEgieV0q56E7sFnaDpZJT/
-         rWNg==
+        b=LEVCTYIkhhox3aKigY4AY54e0HW/qmNMdhXdQTlE92ZzjxpId14Ca1mQbu2zTiVE9q
+         rt3V9GCEXzujyJG4OqTea9lAXNcCQmjrMLOc/aovdCMHaXKSw0nnlV/QWy9jhQXTYxH2
+         dbit5/DTIC62cCoLgDKTwkWnPyN8VIRBV40yUlmFvbvnG6P0EhrVAw+YVFlCZtDFrbaU
+         KzSN5hK9qvqwS+dBH4Ivo4ZGCbMGUO0H7NnmcLkddo1P1jb+qJKEH433HlMNlyldep6k
+         0dh3WG+VMwlxXbCVixrjgmY890Ow3BNDPL59oCDvpvDMTQroB5jVJ7CyC92FJhNS3T78
+         8p3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=GZH4OSqdk3uZCBCdKANtr4qyhBZQ0FibmwzuYV16sVI=;
-        fh=bpnUAwUMyKs80zx69DQsm5aqFoi2LXHmlXVNZRGj/ds=;
-        b=biahaLRdunaJpGdi/fe07XXvvcK2MPtvWfCBrtrsLOKbpvJSxCvPMiIeDSY6z4nYdd
-         9ra53r7Q2TFtnXIWkOR9kn5FrIFsnoys9XpU0Iuoqwqhvkw3HnpRQp/zn7UgfN+Y6K5z
-         vZ/aL6iNs/PU98sa7nDMsnvPoP0yhXuPY2d1rouVjHpjiGktkIrKLXurPFhYW5JTuZcb
-         UP1I6gkePBrMklEyVg7fXqF6J396fgpiWe+hET5kRsWjztt1WaCUh6S+jnSdn9TsbGXF
-         9aSR+R9etUant5RUV6ibc/4JFZfJY0EVyJ1JPXIxHvui0UZrWvK/0AHz03cesGAfI98O
-         HDbA==;
+        bh=yiTKTKgoPDZ1BR8UlSt0W66yk+nGv8FOARy53b7PmkU=;
+        fh=MeqtulwUrprxAZkIP3qcXTHHNk0Er/+qQmjDfjXCFIg=;
+        b=Dtt2+yBA602mVJgiv5pKs81hfqcf4+mlw1LrJS8xNhPmR2akp8ek9StHUNHezUuHwH
+         VHFdU+u9jmjuVudODkM9JeBQFpzltqb7Lzq2eBV1dfA8V0e6zkhgWtIcvflo3jNzRJ/t
+         Qg6xz60L6DzlMRfuJ6OucLP3heOmTJxvWuelmsrDFvM9nrnI5Vk/zk27UfmjsLHYF1H+
+         bNJe6hVbAjjJwOxn4cY/+bR14wZ6mMQMHh4g2mbWnfRB3KEmFPR90q6/xccJ5PbdIXZi
+         ApDBBzv5BJBCIJZ8/lLMNRUIZkn9IeU0jkNEbyfXIe0kSyH+QOl+ywty8PPg1vpFxQhM
+         nHSg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779818033; x=1780422833; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779846168; x=1780450968; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GZH4OSqdk3uZCBCdKANtr4qyhBZQ0FibmwzuYV16sVI=;
-        b=akcFPwKwBBWrf/aDtcdH8Hr/n1AiKs4raJ5k/wVz6/1mspD1SArAA1XN2dBOAj+G1A
-         ONa03MMW3g9iLFsuxJXZqm7H3nO1UXpBCp3KwHrIeb8vtnF9xx+miquUuAXHgNQlqEu6
-         ODQKWOO5J83KObpmZ7VJDkV6kLsBI6X6bu7A2CK7U6iGH4TSBHIm4z/ezWC5sHblIEPH
-         ijJZqsiXc3ZO9EhuBnDOeYQDlpV3TwehKsJVWHcfOcAUQnYyjko65QguaEYWR6lB8Fib
-         O7hwXT4bOxnhBeyFkCnO7LxsfJC8q91V8j7WFn4v0sBjRJpaCBATq+6KLKOQrxK8Rfw9
-         9cQQ==
+        bh=yiTKTKgoPDZ1BR8UlSt0W66yk+nGv8FOARy53b7PmkU=;
+        b=Oor5xSa9q+qqVRKV9B0xJq4X7Zhj3izaN9GZI8fSeaOTeBYWJgb8e4HAqLZZO8D/xN
+         G5XngHN2cwy4Zxnr4RxOqoCGj3vBnWJ4cXxpYUA31CX2UyWcH5aTai/mxn4cwnz0Qw/b
+         j0gKiRAzZDt5KaleE3flxl+oNakx3GNTjl1TevVV071ipDneJXpS9mluhEht0C1X32mn
+         lQCrADFIO9lsxf6j79a/BskebRsJElIS7CAtGkeHkiWjLQ4GrDKkjxiQZ21r58FpB5se
+         FH1pM3hahZ+eCQBTNUwn2z+43VUS/Fu5Ktdi9JTrvHnHRq2mCQEi5EnRnQyVEsFoLyA3
+         WUiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779818033; x=1780422833;
+        d=1e100.net; s=20251104; t=1779846168; x=1780450968;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GZH4OSqdk3uZCBCdKANtr4qyhBZQ0FibmwzuYV16sVI=;
-        b=cfbGPwpM9lpbCFcsKRSvny4bB1KRQnpDB4atJmbSPO/vHjoVHNwbownZ+V2vSrup1x
-         b5hwqUQoQdSjgbpgoE92P93rjhSdBdCNacqCljq33hbp+W7gcxWnV+5kSgRoadjfo06i
-         KMHce8HR09jJDp/bP5ZIPR7zBqBJ8B0H7jlg/ZliVHi8bx7PZ++Co0KeP8MMvROyLyj+
-         hvd4iWig7Y4lyyjCqJC7HHk1Y/vwV51nkvVFHIkZAUdpD1defkcNbOstjCEBCmxbnJLy
-         qp+ePRk2wtBWWLVQxFaEEv+UdvFlIQczSys8tRC2j8ubJcozsmqaecB2olI34NlC6KJR
-         RemQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8daAqqU2OcP94KSxdyeIMW0yfg+5LDuN8q7iUQtJWab3K1u7KfujX3vXTCPjvBagAFXcbPjM1lzo6g@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnroEYybWKFDzRpHd3Ec/P3AU4iZLBGMzvEPUqpZvUkGxWmJwP
-	jl7MVToHJW5AnN1rdLmWFX1j4xBJd2sxFyP8AA3UvOyeG/lOkwJ0OgKAlRKGAcFdRUTv48TE1eA
-	G2tPumWEKsNc1963KuID9b2leRyDyl/0=
-X-Gm-Gg: Acq92OFiwPjldoS9E6fXJzuFWwpsH3MCBNA6k7pDKDvKuzD2NjCUPB2fv2110CWlU54
-	ivgoc4Gc6nYFPbk+lXCtmhLuqWROUHW+Lxz6wPCAyYKpyoK5ZvQp1d+SJUTMWJR9O79WxAwouGC
-	gM6vkCDdgMAMyM6eTErBqaxmXuLIVcGHrMFaHN/2fjB8YTiXVEsPTa4vZtvW53nuwUn0kNJBDGo
-	mHIK6V1pic0rurJ7vTe69n3/QFbDD8BCb6L5IsFPB7O9x9SUVTVBhWOl69ylDuf5WtohdUXFVgv
-	BUlalw==
-X-Received: by 2002:a05:6000:610:b0:44a:fe14:3738 with SMTP id
- ffacd0b85a97d-45eb36905a7mr35043160f8f.10.1779818032492; Tue, 26 May 2026
- 10:53:52 -0700 (PDT)
+        bh=yiTKTKgoPDZ1BR8UlSt0W66yk+nGv8FOARy53b7PmkU=;
+        b=i12HlsiT0sQek59RSdO9p/CDeAAlQrfbXHY1WU7Pj76ri4TYnbUxdR7K0ALJFobBpv
+         e1Li8REYR3tLrdX/RUKGdMgTM0c2Li74MHHyfoKyJ+RXkT/j9xCCLm/JiSHS9piZhklN
+         hfLZMH9C36QTZeQQUdzIJBZ/WAhq2/XTSzPSk+7HJzCWxboX9R7Q3SM6BWSdzKrx3/8b
+         0/kQiOsjAjP/oUxora++EGTVQ9Q7AiwXM3RBsfrzEJiFocPI/A7ljXzOXZaxeYIOVIW4
+         VTUjdjGpDHsWDashOtznAUOr+QbN+k/TmFmHvF+wrosf0izj+05SNjYBjFBjEmjm4tsK
+         ab9Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+rjDu0LjzRVVUr61QaWTtu+tdn+Ofj3HdTOXW/rrdD0v5o8Wb6/jwhzbXiX/jBQwHg8FKkK5khJx+b@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxj5oIQZ7thYJfjKJHGUFi3gposMsC2XyS+pFdEVa2wlp7g61xr
+	zoTh8HcAblfIGzrs/8W/wdCxKa4Othbb4kXdIRhQRFZlBB4qL+DkmSxeTJ6UyBzatgjUwg/tB9w
+	HGmsLEpCZUGdyPdMmFG6oYol8/LILNzyKu4Xk4yQ=
+X-Gm-Gg: Acq92OEdN1X5a+dd+N4c5Ikx+8zb6Aajh/2hLVtX03uKHJAmDE5iAZXenK9IlaibjTS
+	7Pj7lvGcDSDrZpPBYixE7PTe87dv3pMjeFKOJ4RKEsE6NCa5Y3ZJm9LmPUMHImm1FuZTFNFBPQv
+	Nq+iXrWmGmQYqDM/oVLW0r34MdjVS0N9tFUtGlOB/ht6Eh+qEgcYKdpdSeHz5jZKhsU5I/Cckh3
+	ZC0Hq1dgGoFXr6jEMXwVw+YJZukmv5UChvMxURqWQg5wGCc/R5UZp1LT82veZOz7z66/P+w+VvO
+	zO5o5fbxN6OPXCjGH7RJaPhQvbSeDz9LCQ==
+X-Received: by 2002:a05:6000:2411:b0:441:1e8e:d8fd with SMTP id
+ ffacd0b85a97d-45eb389fd78mr36980281f8f.29.1779846168064; Tue, 26 May 2026
+ 18:42:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260522205823.1597313-1-joannelkoong@gmail.com>
- <CAJnrk1aV1Z0wBQ=ViTKEsojrVkqaNnpRHiBOqFLRL+QtS2gMPA@mail.gmail.com>
- <1c3ef92a-d3b4-47fc-9d34-9c996b8eb0c7@bsbernd.com> <CAJnrk1bOyoUD74byw3ZXWzQ3dAiZObE0V46+=rtkPG8-3vqUEg@mail.gmail.com>
- <55b80c43-2e84-4a42-b383-108f06254b6a@bsbernd.com> <CAJnrk1Zby7T4WMShk+d8QdVoqtAFLSotc9_d0RbGKSnP4fXq9A@mail.gmail.com>
- <1e952be4-6fe1-42c3-a691-114613f2120a@bsbernd.com> <CAJnrk1YKUET6gQoM-S=NdwmyefNbbso+Z+DsokDiGp-8=PPgKA@mail.gmail.com>
- <eac49567-cb04-47a9-be90-5126aa6a4820@bsbernd.com>
-In-Reply-To: <eac49567-cb04-47a9-be90-5126aa6a4820@bsbernd.com>
+References: <20251008204133.2781356-1-joannelkoong@gmail.com>
+ <CAJfpegsyHmSAYP04ot8neu_QtsCkTA2-qc2vvvLrsNLQt1aJCg@mail.gmail.com>
+ <CAJnrk1anOVeNyzEe37p5H-z5UoKeccVMGBCUL_4pqzc=e2J7Ug@mail.gmail.com>
+ <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
+ <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com> <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
+In-Reply-To: <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 26 May 2026 10:53:40 -0700
-X-Gm-Features: AVHnY4KQZe5CBviMn4cuvVeXWTsPWBUysDlbHebBUC6jiJaNvlSKjQE24pYpRcA
-Message-ID: <CAJnrk1aYb6E8Dz2axZTnwMbFCqjPSoC8C--uVvORjLwBGgThzg@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] fuse: add io-uring buffer pools and zero-copy
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, jlayton@kernel.org, axboe@kernel.dk, 
-	fuse-devel@lists.linux.dev
+Date: Tue, 26 May 2026 18:42:35 -0700
+X-Gm-Features: AVHnY4LDC1uj9DPMsbn9uvlPbEP3o78k-rS2ZplLroRxu5-_KduxQfvjyJpX7jk
+Message-ID: <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
+Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jan Kara <jack@suse.cz>, 
+	Jingbo Xu <jefflexu@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 26, 2026 at 9:57=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
+On Tue, May 12, 2026 at 1:56=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
 >
->
-> On 5/26/26 18:01, Joanne Koong wrote:
-> > On Sat, May 23, 2026 at 10:08=E2=80=AFAM Bernd Schubert <bernd@bsbernd.=
-com> wrote:
-> >>
-> >>
-> >> On 5/23/26 01:08, Joanne Koong wrote:
-> >>> On Fri, May 22, 2026 at 3:49=E2=80=AFPM Bernd Schubert <bernd@bsbernd=
-.com> wrote:
-> >>>>
-> >>>> On 5/23/26 00:38, Joanne Koong wrote:
-> >>>>> On Fri, May 22, 2026 at 2:51=E2=80=AFPM Bernd Schubert <bernd@bsber=
-nd.com> wrote:
-> >>>>>>
-> >>>>>> One piece I had been pondering a bit about, though did not dive in=
-to the
-> >>>>>> code yet.
-> >>>>>> What is if payload would be registered per ring entry (as without =
-your
-> >>>>>> changes) and just the header would become a buffer ring (so that c=
-ould
-> >>>>>
-> >>>>> I think payload buffers must be decoupled from ring entries if we w=
-ant
-> >>>>> to reduce memory usage in the non-zero-copy path.
-> >>>>>
-> >>>>>> be pinned that way without loosing one page per entry)?  For zero-=
-copy
-> >>>>>
-> >>>>> For the header pinning changes in my branch, the headers are one
-> >>>>> contiguous region (not per-entry), which circumvents having to
-> >>>>> allocate one page per entry.
-> >>>>>
-> >>>>>> we could register entries without a payload? Advantage here would =
-be
-> >>>>>> that that header buffer would determine max number of entries, onl=
-y
-> >>>>>> little memory would be needed for over-subscribed entries, but ent=
-ries
-> >>>>>> themselves could be registered dynamically on demand.
-> >>>>>
-> >>>>> For zero-copy, entries still may have payloads (though the buffers
-> >>>>> will definitely not need to be as big as the max payload size!),
-> >>>>> either for the non-zero-copyable args or if the request's args aren=
-'t
-> >>>>> page-backed. Unfortunately I think many servers may not be able to =
-use
-> >>>>> zero-copy due to the CAP_SYS_ADMIN requirements, so I think it'd be
-> >>>>> ideal to minimize the memory consumption needed for the non-zero-co=
-py
-> >>>>> path, through the buffer pool for the payload buffers.
-> >>>>
-> >>>> Well, my problem is still why would we need to register ring entries=
- if
-> >>>> they don't have buffers - why not just register less ring entries th=
-en.
-> >>>
-> >>> Entries may be used for servicing requests even if there are less
-> >>> buffers than the number of entries. Most requests don't use the full
-> >>> payload buffer size, so for example with incremental buffer
-> >>
-> >> I think that is an argument for multi-size bufs per ring.
+> On Fri, May 8, 2026 at 2:42=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu>=
+ wrote:
 > >
-> > Which is what the buffer pool provides (decoupling buffers from
-> > entries) if we choose to later add that in the future. With 1:1
-> > entry:buffer mapping, each entry requires a buffer that supports the
-> > max payload size at registration time.
->
-> Let's discuss further below, I would really like to see a design
-> discussion how we make that generic for different IO sizes.
->
+> > On Mon, 27 Oct 2025 at 23:39, Joanne Koong <joannelkoong@gmail.com> wro=
+te:
+> > > Miklos, could you share your thoughts on this? Are you in favor of
+> > > disabling default strictlimiting? Or do you prefer to have it kept
+> > > enabled by default, with some mount option or sysctl added for
+> > > privileged servers to be able to disable strictlimiting + enable larg=
+e
+> > > folios if they use the writeback cache?
 > >
-> >>
-> >>> consumption, this would allow multiple entries to use non-overlapping
-> >>> regions of the same buffer concurrently. As well, if we want to
-> >>> support multiple buffer sizes per ring, there shouldn't be a 1:1
-> >>> mapping between ents and buffers. There's also some requests that
-> >>
-> >> I can counter argue that fuse-server can just send ring entries with a
-> >> different payload sizes - fuse-server could dynamically create as many
-> >> ring entries of the right size as needed.
+> > So what I think we should do is implement some sort of slow writer
+> > test, and see what happens with and without strictlimit.
 > >
-> > I don't think this is a good idea. The server would have to
-> > guesstimate this as it doesn't know the request size until it sees the
-> > request. The server could speculatively pre-register ring ents ahead
+> > Tried to ask claude to do this for me, but not getting very far.
+> >
+> > So if I take this maintainership role seriously and not let myself
+> > drown in the details, then the logical thing to do is to delegate ;)
+> > Which is hard (for me at least) but I'll give it a try...
+> >
+> > Could you please check how things change if there's limited writeback
+> > rate and we disable strictlimit?  And what happens if there are
+> > several such instances running in parallel?
 >
-> How expensive (in terms of memory) usage it is to set up a few small
-> buffers? Compared to one large buffer?
+> I think for unprivileged fuse servers, strictlimting will always need
+> to be enabled or else a malicious user can launch tons of unprivileged
+> servers and eat up the global dirty page budget / starve writeback for
+> the rest of the system. Similarly for privileged servers, it could be
+> unintentionally slow or buggy and eat up the dirty page budget. I'll
+> read through the writeback throttling code to verify this and run some
+> local tests.
 
-It's not just about the memory savings. Fundamentally, I believe it's
-the wrong abstraction to statically couple ents to buffers 1:1 as a
-fixed mapping. Entries and buffers serve different purposes. Entries
-handle request flow, buffers hold data. Statically coupling them 1:1
-is inflexible, introduces unnecessary complexity, and imo has no added
-benefit. This series decouples these two concepts. It allows
-dynamically adding ents in the future as *generic* ents not tied to a
-particular buffer size (eg the added ent can be used to service *any*
-request size, not just the size of the buffer it's tied to). With
-tying ents to buffers, the server is stuck with a static distribution
-that can't adapt to workload changes.
+I read through the writeback throttling code and re-read Jan's very
+helpful comments from this thread last year [1]. So for unprivileged
+servers, I think we definitely cannot remove strictlimiting. If the
+fuse server is slow or unresponsive with writing back the pages, it
+will take up too much of the global dirty budget which will degrade
+write throughput for other filesystems (their throttling will be
+computed against the global dirty page count, eg the freerunning check
+in balance_dirty_pages() and the pos_ratio calculation "pos_ratio =3D
+pos_ratio_polynom(setpoint, dtc->dirty, limit)" (dtc->dirty is the
+global dirty page count)) and any fuse stuck dirty pages are
+essentially unreclaimable. Without strictlimiting, there will be no
+hard cap on how many dirty pages a misbehaving server can accumulate.
 
->
-> > of time but there's no guarantee that would be the right size for the
-> > ring entry either. And once added, if the workload pattern changes,
-> > then the ent and allocated buffer may not be useful anymore. This also
-> > adds (imo needless) complexity to the kernel side. Additionally, the
-> > dynamic ring ents would in the ideal case have payload buffers pinned,
-> > which there is not an non-messy way to do (for buffer pools, the pool
-> > buffer pinning goes through io-uring registered buffers infrastructure
-> > prior to being passed to fuse at registration time). Imo the better
-> > way if you wanted to dynamically add ents would be to add a new buffer
-> > pool to the ring.
->
-> I think the whole point here is that a few small payload sizes are
-> negligible to one single max payload.
->
-> >
-> >>
-> >>> don't need to use payload buffers at all (eg flush, fsync, rmdir,
-> >>
-> >> Could be handled by multi buf sizes as well.
-> >
-> > These requests don't require payload buffers.
-> >
-> > This series already handles this case (eg not assigning a buffer from
-> > the pool to the request).
->
-> It handles exactly one additional case - zero payload size.
->
-> >>
-> >>> etc).  As well for registered buffers / buffer pinning, it is more
-> >>> optimal for the buffer pool to be allocated contiguously and pinned
-> >>> contiguously rather than passed in one by one as a 1:1 entry:buffer
-> >>> mapping.
-> >>
-> >> I don't think how the buffer is passed to fuse-client/kernel matters f=
-or
-> >> (userspace) allocation. I had written before that libfuse's buffer
-> >> allocation is not ideal, I had it continuous in initial development,
-> >> then run into bug and for simplicity changed to per entry allocation.
-> >> Switching back to larger allocations is simple.
-> >> Regarding page mapping/pinning, why does it matter if the buffer in
-> >> kernel is known as per entry or per allocation (assuming payload buffe=
-rs
-> >> are page aligned)?
-> >
-> > It does matter how the buffers are passed to fuse for page pinning.
-> > Please take a look at patch 8 ([PATCH v3 08/10] fuse: support
-> > registered buffers as buffer pools in io-uring) [1]. The buffer pool
-> > is contiguously allocated and registered as an io-uring registered
-> > buffer, and then passed to fuse and by that point, the buffers have
-> > already been pinned by io-uring.
-> >
-> > Even irrespective of page pinning, it would still be good to pass the
-> > buffers contiguously up front as a pool instead of per-ent, as the
-> > purpose of this series is to decouple the 1:1 entry:buffer mapping. Eg
-> > if the request an ent is servicing does not require buffers, a buffer
-> > should not be reserved for that ent, amongst other benefits of a
-> > decoupled mapping.
-> >
-> > [1] https://lore.kernel.org/fuse-devel/20260522205823.1597313-9-joannel=
-koong@gmail.com/
-> >
-> >>
-> >> I think the more important part for buf rings are pinned headers. For =
-4K
-> >> pages the loss is maybe still acceptable and the remaining size could =
-be
-> >> used for small requests and I guess would have a perf benefit. For 64K
-> >> pages the loss is quite a lot.
-> >
-> > That is orthogonal to this series. This series focuses on payload
-> > buffers, and header pinning is not part of this series as
-> > bufpools/bufrings do not need pinned headers, as it makes no
-> > difference for performance. As mentioned in the previous message, when
-> > I was working on a separate series for removing the dispatch overhead,
-> > I implemented header pinning as part of that, as that is when header
-> > pinning becomes actually useful.
->
-> Yes, header pinning is orthogonal, with the exception that ring entries
-> of different payload sizes provide the same feature as buffer pools and
-> with that buffer pools would not be a requirement anymore.
+With strictlimiting on and large folios enabled, the problem is that
+the large folio size can potentially dwarf the server's dirty budget,
+which can lead to excessive throttling. When I ran my benchmarks last
+year, I and independently Jingbo saw severe performance regressions
+for buffered writes with large folios (eg 2 GB/s BW w/o, and 200 MB/s
+BW w/) [2] but I think that might have been because the machines had
+limited RAM, resulting in a very small dirty budget. Fuse sets the max
+ratio of the bdi to 1% of the global dirty threshold, so running
+through some napkin math:
 
-Buffer pools / buffer rings make entries generic (can service any
-size), whereas per-entry different sizes locks each entry to a
-specific size. I don't think ents and buffers should be statically
-coupled 1:1.
+On a 64 GB machine:
+  - DirtyThresh =3D 20% of 64 GB =3D 12.8 GB
+  - BdiDirtyThresh =3D 12.8 GB / 100 =3D 128 MB
+  - 128 MB / 2 MB folio =3D 64 dirty folios
 
->
-> >> Maybe let's summarize
-> >>
-> >> Bufrings
-> >> - Fixed size, allocated at startup, cannot be easily increased or decr=
-eased
-> >> - Allows 0 size payloads (FUSE requests that only need the header)
-> >>
-> >> Entries with payload
-> >> - Allows more flexible setup - fuse server _could_ (not implemented as
-> >> of now) create entries based on incoming IO.
-> >>
-> >> Neither provides real multi-size buffers per ring.
-> >>
-> >
-> > I think perhaps there is a misunderstanding of the patches in this seri=
-es.
-> >
-> > This series implements buffer pools, which decouple the 1:1 mapping
-> > between ents and buffers that currently exists. Right now, ents and
-> > buffers are tightly coupled where each entry has its own dedicated
-> > payload buffer, requiring N buffers for N entries where each buffer
-> > must be large enough to accomodate the maximum payload size.
-> >
-> > This series allows servers to pass in a buffer pool where the buffers
-> > are not statically mapped to an ent at registration time. This
-> > decoupling reduces the memory usage requirements needed to use
-> > fuse-io-uring. It is the necessary stepping stone for future
-> > optimizations such as incremental buffer consumption (allowing
-> > multiple entries to use non-overlapping regions of the same buffer
-> > concurrently) and supporting multi-size buffers per ring.
->
-> I just don't see "reduces the memory usage" - there are few op code that
-> do not need payload buffers. Do you see that exactly these op code
-> disturb your workflow and you do need additional entries/buffers for
-> those? I do see a lot of lookup/revalidate/getxattr, but not the op
-> codes without payload. Equally I see IO that does not max payload for a
-> lot of requests types - anything namespace related and reads/writes
-> below max payload size.
->
-> In the end, what I'm struggling with is that the "zero payload" is just
-> one special case of different IO sizes and the entire code and flow is
-> changed for this one special case, without a discussion forehand how to
-> handle the other cases. And that one special case comes up rarely in my
-> own testing and use cases.
+On a 32 GB machine:
+  - BdiDirtyThresh =3D 64 MB
+  - 32 dirty folios
 
-I think we're talking past each other. Buffer pools aren't about "zero
-payload" as a special case - they're about decoupling buffers from
-entries in general. Zero-payload requests are one beneficiary, but the
-design enables incremental consumption and multi-size buffers as
-future work precisely because of this decoupling.
+On an 8 GB machine:
+  - BdiDirtyThresh =3D 16 MB
+  - 8 dirty folios
+
+On a 8GB machine (with assuming vm.dirty_ratio=3D20% and
+vm.dirty_background_ratio=3D10%), we get 12 MB of freerun, 4 MB of
+proportional throttling, and then full throtttling starts at 16 MB.
+With 2MB folios, the 4MB zone between freerun and f ull throttling
+doesn't leave that much room for the balance_dirty_pages() logic to
+adjust the dirtier's speed, which I think causes the writes to
+oscillate between freerunning and then being fully (overly) throttled.
+
+I think this is also going to be a problem for cgroups with large
+folios since they also, as I understand it, are constrained with a
+limited / tight dirty budget. I ran some initial benchmarks with
+cgroup memory constraints on NVMe and saw similar instability (a
+single writer in a 8 GB cgroup had max write latencies of 6 seconds vs
+15 ms without the cgroup, with the balance_dirty_pages() throttling
+oscillating rather than settling near the set point).
+
+I think this problem gets untenable for random writes with large
+folios, since dirtying just a few bytes will charge the whole folio
+size to the dirty budget. I have a patchset from last year for adding
+more granular dirty/writeback tracking [3], I'm going to pick this
+series back up. I think it will be useful generically, not just for
+fuse.
+
+For getting this to work on fuse servers with strictlimiting, I think
+the next steps are to
+a) as Jan had suggested in [1], come up with some heuristic to
+constrain the max order supported for large folios for these fuse
+servers if they're running with the writeback cache enabled
+b) benchmark ^ and if there are still regressions, then we should
+probably just turn large folios off for these servers
+c) add the granular writeback/dirty accounting for large folios
+d) look into improving the balance_dirty_pages() throttling logic to
+handle narrow gaps between the freerun and full throttling zones
+better and reduce over-throttling
+
+Does this sound like a reasonable way forward?
+
+For privileged servers, I still think it makes sense to remove the
+strictlimiting requirement or at the least, let admins opt out of that
+if they are confident their server is well-behaved.
+
 
 Thanks,
 Joanne
 
+[1] https://lore.kernel.org/linux-fsdevel/tglgxjxcs3wpm4msgxlvzk3hebzcguhuu=
+752hs3eefku6wj4zv@2ixuho7rxbah/
+[2] https://lore.kernel.org/linux-fsdevel/f9b63a41-ced7-4176-8f40-6cba8fce7=
+a4c@linux.alibaba.com/
+[3] https://lore.kernel.org/linux-fsdevel/20250829233942.3607248-1-joannelk=
+oong@gmail.com/
+
 >
+> I think the question is whether we want to let admins opt out of
+> strictlimit when they're confident their server is well-behaved eg
+> through a sysctl an admin can set to disable strictlimiting for all
+> servers. Otherwise, large folios will always have to be off for any
+> server that runs with writeback caching.
 >
 > Thanks,
-> Bernd
+> Joanne
+> >
+> > Thanks,
+> > Miklos
