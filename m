@@ -1,155 +1,168 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B953F54D8
-	for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 12:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779884727; cv=pass; b=Dh2WOhTyT63r0ansOX0SuunUkefhjBfoSXzNx/XtpvhZ0U6bgB8MqUXccl28xemzXqKhZeETOGduPt9HQaytSDyAVWm1ATVuJjX8PHj920JUUOmzHN147l3Z1tj5Lo/OsqR1f3R0ByrFWXAqdUWYj2wKUF9cxpBPhR4+UzCYpAI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779884727; c=relaxed/simple;
-	bh=QH7X6mMUgwH11C8C0NwSvhdxKEnW0MUqm6E18WiMtpg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OEJprEYCMhD6Utm3pmbuSjRD/AcDeVFJZaSKVhEMWBqhZLQKCKsRMFDtV4fLpJAU93WH0+6xws9zfRUsXhgFg4xQXQlvc94d5jgg6bZnvsfdjVaYVv3gDIr0I12E6eZ2g8Ardubh3SHqmQKkw+VxeSFOQZ38PJpEwz09NV9izik=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Sp44t0Lx; arc=pass smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD4F3EFFCE
+	for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 17:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779902293; cv=none; b=nmflZZTX4lD2bjTmeiPA/yqR8/NHhNs/f15DSDPx3evDOqv7IqNdFtMWZfbpflNxSxU25QvzxhciRLr237jo/jmEI1uxybsDytJFJl5KS41ZhfL4MnV1Tjl5MK2dFzaHrvjMS4JtTLk7lBM8DJXLDr7zvJw2DPsiPOxL4QFv95g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779902293; c=relaxed/simple;
+	bh=qOp65fq3N2X7jRLGjAaYL3032PKZKswgZ/zSZ6If4Fo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I5RLPZOC/aPqN7psMbGttabKolab3y9PBP0Vw78eviYcIubJxfhX6dPRHqLw9bmFFsUTrkrCKEXXk9snL1KuMQbpaBf+HaZj9wuHzZ00r60yoSl/PWnWVZ2q/MCMB+XjDcCAK5P/lt1ryHBqhtmch38JykafAwtXln6QDlG9+ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rdMTS3D0; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Sp44t0Lx"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-516cbe16bcfso41795381cf.2
-        for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 05:25:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779884724; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GPojiI8hin4s/WSgB16xVddFQ6RNGL2IeIY3Y2yHwp+189NW+Sd/BkpNHzyhM74mEq
-         PvkBWBmhmzM02JNDcaGqC7Jd0mz2gw+gdZK8Mh9864C2zgzAiNpC1TAY1wdAljhA7bD9
-         638adCywmZXlDlgcH78JHP1HWdQHq2pSWRwkNVHJfeLQCahuojxk3o/JNf9/JQd64Q1W
-         yGKa2Rkzdpg124mYuGoehPkYQQy4jtGRuyU8V8DmMemVmpoZ5UQZ84BefP+YhPRo1xoe
-         HY/UbTMWksSfaX++2iT02JHiEv7THpdLv14bWAphTqCWIEfJ9qnRDOSiSt0QjNkQ6LF1
-         4O2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=w7pZrxFJNQerIMty8B6smj8HjW+76z4MVN8D/42e9J8=;
-        fh=hPMFjvSiEJNFdmNM45Vugcak4l4osAMafAU5Du7IyKc=;
-        b=DEkUciNlDIYUYMqWzDcAGwO6kzewD5AhE7zorih+SB7KKz8WZ0Gu4X2CbufkKVDZI/
-         0aLIwMV8mnzbGIknr5fDHRY0imjK6PGeFjfj+r9MHq+aGqMazS0Dhd2UYCNPUMoIn9Wa
-         9TwDrzTBWRPq0f3D0XoZunUDiFATuu840QIEoOAjwNAaAEsArInh5AszHBZDfciZuqzh
-         SOIbv2wxIu1rWazC1AzdQOrhesGsDlY3Difnq3pCk2SuC1reGum5tStTl/cndpcf0/kr
-         x9LEhn7OBC2K3q/l6z8CL2HGyfliG9NLiJb+NXHpX4kZal2Gp/olMmaD6sKkufOhGl2C
-         CL7w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rdMTS3D0"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-bd2087858c4so2150018766b.0
+        for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 10:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1779884724; x=1780489524; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=w7pZrxFJNQerIMty8B6smj8HjW+76z4MVN8D/42e9J8=;
-        b=Sp44t0Lx6oy/xhpQfKzDh9htzAEUY6nzOxfRGTfuGZNteg3K6/cPD8rQ0CLtI1Xu3Z
-         6UaBK3/RekNdj4Lfs1PHwP7wrhJHPJQiairuq0OaEds+057NjuTwFPqrF89AHBRqH+WM
-         HXhoN/rBpSoVhzwFSpMy8caL4aX36tcudl/40=
+        d=gmail.com; s=20251104; t=1779902290; x=1780507090; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DaXUe2oRlTFZsgauDYmOAtm3bxFhmPRX7HfTi9MJO0U=;
+        b=rdMTS3D01Tdb0SwkCgHJDe+1/+CoRnPOqKFTKLdLaYye1c1J36iBs1p+YpsC+KnHwZ
+         NmqUTotml1c/OhveptWezSiiYSapJOBSa5EIJm7DretWNo8HVOKJQy99YYE3LmYFQh94
+         LB/x9K9upfTIzs2nu9HiO3DAK8MTN7sCXsrwlVEJPv+FIASuAFjlqxJXxmk9FSPnuc3u
+         REJXgxDJIxJle9gYudzkwRyhmD0wsUZAp4dlxF5+21IqWRl0x7+l+lBmp0WTmwpLkK9R
+         yRUyHxi/Jov+ElaC8PifRpNsM+cGBfPag87O9IbROTReFihoSnBcih1IwWexUcc4DCSa
+         cCmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779884724; x=1780489524;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1779902290; x=1780507090;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=w7pZrxFJNQerIMty8B6smj8HjW+76z4MVN8D/42e9J8=;
-        b=GKx8yWz7hQZlnIWudkwpLK/SADSEGqkmmp5qvWgpUsXGvUJaADiVwOVTiO46KjMiNE
-         uAMW/Azeke3+S/7mM477YKV1LtNVXMeVRDa5xY4o+nrGgj9aZYWU02T4taFHzjugS+XJ
-         iiD+Dyb2iiadmpc33vS7SyOLrvcP0aeGQUGGizDvHF9ktiecuhns8gp8XkHHDDEy8PpI
-         xBnWKvmKo98F7IQOK874zHZcgHGyO9EMG8E0JNMOx5n67KwIOjG7i3oWOguVHwYg9p/R
-         imFuig+DeVj5RMhCPHjU5DvdjsIqCs0cK6GeyfovpPPkZZNXYY62A8T/oCO3I0YGw6x1
-         STMg==
-X-Forwarded-Encrypted: i=1; AFNElJ/L6NupxDXc8L/QpCqJko9uc70ZynkU7wzWkJd6EOYLPdWfzbr7mt7e5Q1hY01SeuBd7FxdKvQ/IeZJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFoIBRUUt1fwyxYmgF5b02nR2XpUOejuNzlm+dg1Wk391iPsDQ
-	84I+Ly8NRan3EoI2A9Cnv3nhNrAuOlUkuXh7NLMhLu8DM12VcOEOtFfkEbrJc0hGU+hBmhxE35R
-	7lx49PgNFCuIlBRkL38Psn5CWPfNpsqr7o55+OX2Vrg==
-X-Gm-Gg: Acq92OFIblElYO1GYxfkvrFgv4z3hkrn+UJJTEob6jiQoo6fbtzYT3GFp4hu9Iiv7h9
-	kBNPNT8eTxmiUJNpcWfsJeqpIpJ/5kOGiimkqoSJvknwhAcz+crS3H2AmcXEOE15lYZzjxHog5b
-	PwTjTfJJUAHWbt6PA5ztPGGeRvLJhWqdv+HlVdJRsetuYb6LwTVBIapZLBvUBEJpeIrX+bKl7t4
-	WsZp3VEEmvK61kwUgTbMxwHDd/03vMCr5u2SKV+FG8lnjFamMMmX69lZpPsv/50iz7whTeM+IW3
-	3t8ot5AEB47guX4mowYBaiXFrXp8x9ARwjAAsB8=
-X-Received: by 2002:a05:622a:4019:b0:516:dd65:21af with SMTP id
- d75a77b69052e-516dd652495mr249087861cf.45.1779884724159; Wed, 27 May 2026
- 05:25:24 -0700 (PDT)
+        bh=DaXUe2oRlTFZsgauDYmOAtm3bxFhmPRX7HfTi9MJO0U=;
+        b=hlJH9wbzgfuBBa1BEKxd7928sxHUlD0agRhNECC4i/bCZYF7k5Wu73tamZELL8rj70
+         QsYIlS8lqY8vcjv5Y63gl3Npim+1RnraEQ7GQWQ8DC6iCmvMKoG1M9byu2tJ8iKxFWWE
+         HdgOvlMRWfd3lfk+RqXAONapgX4Y/E0rXraiflEwBhvrrMCLA2Mfgt+aJ4EmU3IXqFp1
+         8dQWSH3zS/H9S+i9/1rN9eGkkjZI/JBtVucHHkU/Ft8hR/lMJckaqX7ZcGlKznzur2v9
+         5Xftr75pYjytE3OFPrjX7N/8BopvC+U/0Oqj9u+NE0Q8glBDDoMkmkUpYubgH026WXHQ
+         2JyA==
+X-Forwarded-Encrypted: i=1; AFNElJ/xxalFuoHLv6UptCPdfimegUxgbXvw0U/lYlzNK6mTb9mEcUSTBcjkNqPB3TikMom9RDpeyhHa3Vd9@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx79WwAa+uTpJI02NY8OSfOb5xey1c00oNEnXb61vLzHAid9Jqg
+	np+3Ujc4lgR39SEMT95t/jt1jSPv9Ez5juPc23EV9t1AWY6NdqdOZVQ9
+X-Gm-Gg: Acq92OE8R63ZNoqKaH2vuEK/r6nb2py/rUpCX4JHSK41UsWCo//iUsz0BjaxS1ul1Tx
+	8YhtRrXaDFpfYyjKoQcsy7I9ZABPKpfTfD5+bq9OI7QTRdekkqjfF7SK1+8GDqiorSW6ySx7hpK
+	uo+8frBTU/0Iq59ujWZ2i2wpnoyODNAj3fCOCfQa3rOjLuienyUHkCQ7LAdyPaLTqLTK9SEGhlp
+	UFUQ8zBf6iuLZzU3/uXFEkZt8b9C8ITWD7X8cJjWXOvYDf1ldNLNyYQBW+brh6Yu924yOO1R/fy
+	2reWX6B0GBzB32Fhpm1Jm+d+uxHQDw4n9Nal2pPxWvBKspKZy3Hnt4sFd5wjLlDnnvo9HqS06OG
+	y3+jC1oFw7OFeQmEiJu5AQ57xqIFT8mEGaUd3znVatCdTPZdUzSQySJ5cq9Cwb6Tb5J6VARTqci
+	Aqg1Vr7W/fg/aAX2agxolAYEH1whkyDM5RJTXHWSOUK3OkSMhgo9p4xBff8pE1yxeHhA+Ck3Ib/
+	l6it/5+k8r6PxE5AGRVzj922dzw1BSbfSy/wb1qykpv8rGMwQ==
+X-Received: by 2002:a17:907:c081:b0:bd9:60d8:6609 with SMTP id a640c23a62f3a-bdd25aeec87mr1635063866b.13.1779902289646;
+        Wed, 27 May 2026 10:18:09 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-cd3a-6e6e-6aae-81a1.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:cd3a:6e6e:6aae:81a1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bddc61de4c4sm635620566b.42.2026.05.27.10.18.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2026 10:18:09 -0700 (PDT)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Bernd Schubert <bernd.schubert@fastmail.fm>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	fuse-devel@lists.linux.dev
+Subject: [PATCH] fuse: add fuse_request_recv tracepoint
+Date: Wed, 27 May 2026 19:18:08 +0200
+Message-ID: <20260527171808.828637-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251008204133.2781356-1-joannelkoong@gmail.com>
- <CAJfpegsyHmSAYP04ot8neu_QtsCkTA2-qc2vvvLrsNLQt1aJCg@mail.gmail.com>
- <CAJnrk1anOVeNyzEe37p5H-z5UoKeccVMGBCUL_4pqzc=e2J7Ug@mail.gmail.com>
- <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
- <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
- <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com> <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 27 May 2026 14:25:12 +0200
-X-Gm-Features: AVHnY4KwHDouTYGOUbTjVfFUD291DFYrxTCujWiChCCBfK7Jp0CgOE__pmRUeLY
-Message-ID: <CAJfpeguAvw=GTkWhMsjSAyDx5oXXfMLNOPGDUg8HuPRxjppxkA@mail.gmail.com>
-Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jan Kara <jack@suse.cz>, 
-	Jingbo Xu <jefflexu@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 27 May 2026 at 03:42, Joanne Koong <joannelkoong@gmail.com> wrote:
+This new tracepoint complements the existing fuse_request_send (enqueue)
+and fuse_request_end (completion) with a tracepoint at the transition
+from "pending" to "in-progress" at the moment a daemon thread dequeues
+a request from fiq->pending.
 
-> On a 8GB machine (with assuming vm.dirty_ratio=20% and
-> vm.dirty_background_ratio=10%), we get 12 MB of freerun, 4 MB of
-> proportional throttling, and then full throtttling starts at 16 MB.
-> With 2MB folios, the 4MB zone between freerun and f ull throttling
-> doesn't leave that much room for the balance_dirty_pages() logic to
-> adjust the dirtier's speed, which I think causes the writes to
-> oscillate between freerunning and then being fully (overly) throttled.
+This is needed for tools tracking the in-flight state of fuse requests.
 
-Some handwaving: would it be possible for the folio alloc logic to
-modulate the folio size based on how close are we to the dirty
-threshold?
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
+---
 
-E.g. if the number of folios to reach the dirty limit is less than 10,
-then start allocating smaller folios.
+Miklos,
 
-> I think this problem gets untenable for random writes with large
-> folios, since dirtying just a few bytes will charge the whole folio
-> size to the dirty budget. I have a patchset from last year for adding
-> more granular dirty/writeback tracking [3], I'm going to pick this
-> series back up. I think it will be useful generically, not just for
-> fuse.
+This patch is not technically a fix patch, but it complements the
+tracepoints that were added in 6.12 by commit 396b209e405a5 ("fuse: add
+simple request tracepoints"), so it is my intention to backport it up to
+6.12.y for use on production kernels.
 
-Tracking partial dirty is not going to help free up those large
-folios, unless the dirty part is migrated to a smaller folio.  Not
-sure if it's worth the added complexity, maybe...
+I came across the need for this tracepoint when working on fuse queue
+monitoring tools [1] for our production env.
 
-> For getting this to work on fuse servers with strictlimiting, I think
-> the next steps are to
-> a) as Jan had suggested in [1], come up with some heuristic to
-> constrain the max order supported for large folios for these fuse
-> servers if they're running with the writeback cache enabled
-> b) benchmark ^ and if there are still regressions, then we should
-> probably just turn large folios off for these servers
+The fuse_request_send tracepoint is broken on 6.12.y, so I also plan to
+post a backport patch for 0d375a1385ed8 ("fuse: capture the unique id of
+fuse commands being sent").  Not sure why it was not tagged as Fixes.
+The existence of fuse_request_recv
 
-Definitely worth exploring the characteristics of the current system.
+This patch is intentionally based on upstream fuse (v7.1-rc2) and not
+on for-next branch, with ease of backport in mind.
 
-> c) add the granular writeback/dirty accounting for large folios
-> d) look into improving the balance_dirty_pages() throttling logic to
-> handle narrow gaps between the freerun and full throttling zones
-> better and reduce over-throttling
->
-> Does this sound like a reasonable way forward?
+Specifically, commit 80cea98b648ba ("fuse: change req->fm to req->chan")
+on for-next needs to apply the same change to the new tracepoint as well.
 
-Yeah, makes sense.
-
-> For privileged servers, I still think it makes sense to remove the
-> strictlimiting requirement or at the least, let admins opt out of that
-> if they are confident their server is well-behaved.
-
-This is already possible via the /sys/class/bdi interface.
-
-I'm fine with introducing a config option / module option to turn it
-off by default.
+Would you consider applying this patch at the bottom of for-next and
+make this adjustment to your refactoring commit?
 
 Thanks,
-Miklos
+Amir.
+
+[1] https://github.com/amir73il/bcc/commits/fuseq/
+
+ fs/fuse/dev.c        |  1 +
+ fs/fuse/fuse_trace.h | 22 ++++++++++++++++++++++
+ 2 files changed, 23 insertions(+)
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 5dda7080f4a90..583155157d117 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1475,6 +1475,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fud, struct file *file,
+ 	req = list_entry(fiq->pending.next, struct fuse_req, list);
+ 	clear_bit(FR_PENDING, &req->flags);
+ 	list_del_init(&req->list);
++	trace_fuse_request_recv(req);
+ 	spin_unlock(&fiq->lock);
+ 
+ 	args = req->args;
+diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
+index bbe9ddd8c7169..289a279b3c312 100644
+--- a/fs/fuse/fuse_trace.h
++++ b/fs/fuse/fuse_trace.h
+@@ -101,6 +101,28 @@ TRACE_EVENT(fuse_request_send,
+ 		  __print_symbolic(__entry->opcode, OPCODES), __entry->len)
+ );
+ 
++TRACE_EVENT(fuse_request_recv,
++	TP_PROTO(const struct fuse_req *req),
++
++	TP_ARGS(req),
++
++	TP_STRUCT__entry(
++		__field(dev_t,			connection)
++		__field(uint64_t,		unique)
++		__field(enum fuse_opcode,	opcode)
++	),
++
++	TP_fast_assign(
++		__entry->connection	=	req->fm->fc->dev;
++		__entry->unique		=	req->in.h.unique;
++		__entry->opcode		=	req->in.h.opcode;
++	),
++
++	TP_printk("connection %u req %llu opcode %u (%s)",
++		  __entry->connection, __entry->unique, __entry->opcode,
++		  __print_symbolic(__entry->opcode, OPCODES))
++);
++
+ TRACE_EVENT(fuse_request_end,
+ 	TP_PROTO(const struct fuse_req *req),
+ 
+-- 
+2.54.0
+
