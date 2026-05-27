@@ -1,80 +1,80 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E9D32D7F8
-	for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 17:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8176233A03A
+	for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 20:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779902548; cv=pass; b=ZPgquUnJojck+aPMY3Rhqo59fizt3Pkn/1KYwL5DodVcDn8gekWXcES09TydKA644IENORIsyheNNqNRC/sLvHNzUlnTUp46UzeZbzitEBlhSYYOrqX8EzU2q1IEjmU77zrZDGiIFWkZgu6q3+sPDU6mqLgupivwjzaZ9y6ScLc=
+	t=1779913800; cv=pass; b=X2QounlHxzjSPjZOZ7drUfOwLCAAcPVP433hsO2mw2SFjexuOv7aUvrlViIa3JTMSF1LHSttZDqK7TCDq0YH9KpCWvdvSLE3rybZAktNfKhKM59nsb1DlQi0IBnr1cjIIA3dZZ6rKh/LtqB41nM+WmXnlTLcBdvSgJwVUqit5Sg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779902548; c=relaxed/simple;
-	bh=xWOELAcUGcSKDZVay+uKVv8DquFSEP0JBDqmg7lGgGI=;
+	s=arc-20240116; t=1779913800; c=relaxed/simple;
+	bh=eNFR6IjUsitbmkorcK5HCMNsZPOV1tLH5Y3OLmT0TQY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kfc4lwioFeyMJzAYcvwD1VOq2lZW8PajItVgmedfi6AOVyIUWoNj4Da9gCWYrb/4Y8qCWnBTeiIoAGupszZiRgSeDBRlNI/FNCAvHi7oOnkmMPidjidZmj3S78wglB46XE5qqC/69vBshQ2cegI+yWGIv0CnHd3HA5Zl8D9JyOY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ik0OTcJV; arc=pass smtp.client-ip=209.85.208.46
+	 To:Cc:Content-Type; b=KMN7glkZMkLCVqa9EnidLBeE3XKqsOLZjQCxZRIxd2DSijKpM+VfPHPMEqW+z8bTfpqDVk8M9GZA6KBSVYDEUYC9VrC68Mb2q5cDrv0I1EFNNRjlTtuKHjfPvQMolgkpkydebbrY8LqJAem4IV/b6a90QzYO9Kv2dqw0b3wH17M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=npX7+qN7; arc=pass smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ik0OTcJV"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-67c1e0229acso19586615a12.1
-        for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 10:22:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779902545; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="npX7+qN7"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-44a14580111so8947166f8f.0
+        for <fuse-devel@lists.linux.dev>; Wed, 27 May 2026 13:29:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779913798; cv=none;
         d=google.com; s=arc-20240605;
-        b=I3dvgw5f48gl9EJMfYUAxmC9Zh2Bn/4PGPrO7CW2WlE76HEGRtdR0mFwW7vDdJdEOk
-         Kwx5uOB6sgVnSGreqWHbZC/TBjceG2exboJeyXLy/su9ReKLLRrjKeLOqTIoSQklrMOf
-         P/3WQAMrelZ8R2TFjwqc2T1Zgd9E/+UjqBAugtVrFzA7w1djUhWS3PPBUE5agov1q3fj
-         2yD1TZUS+fNwm1v40VxNbgpkFO4lFc5VVh0I7iMZNTKyaImfhzbxuYDuMp/SI3oPI+Xr
-         xLtDpvQGxfWL8Jw9K+kk6RW5EzTMsOZsxBTLUsiIYPjriH9ZRJP/jwmWiqVOJb2ps4pm
-         nAVQ==
+        b=EQ4sFFUiNq7oWbPM/yBct4lQJz/lMptFko4NdE/9ZfcDGPM8lLMwzUOigzlOTNKguQ
+         EDf177cpY7cX8+SMoEqUM1LbLOQmlrMzn52vaBfSbrnkNY+iTA2TtRUbQAnfzRpSeYpV
+         eDKgCRv5X6XPWFm/qAVtvkQtbwvd289klGmimyxdIBaN+w1MZYFQrbo006zKLQMRApc/
+         wGwUk1KaFMdH2BvCwgB37t46X1orgCtZAAgLlaJdabs6vwObe+Dh4Z28HVYCu1koqzOR
+         r424KVjngEcKirFz14IJnyhQcjyfqGmqupriv/JhdrA6jksXsWgjPAQ+kiHkVyvf1hv2
+         MopQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=2DCx/GfCsxKID9L9hrqpo9Z9Drtthz58CWbiDxH7ua8=;
-        fh=aXnVIysyGk7s8gKLcSaPRbNtrnTdqS1ftxa6anJCATw=;
-        b=TI9pOSQCknb1cI8TVHNwLk49eTxkzvYQWGSitNlcdimcCew+ULWtewWY+ZLMO5aIxB
-         4y99SBrtjQPBr1COIoNzlPBBm+JWDdtjOuTWdZe8jRI9fmNKKZoGeoaP9AEeztHBfc/Y
-         rwTP2srVviTBH7I1ZtqCQKxjsiGEmNBpsgD5pQomooXV7f3CqcjMLsZWl8slp8MzxEOS
-         81kidDXXpMYFhCHEvI5vfr0eMVwbVtW7ZFo6W5dsTR3XxbZYDEmEW7uPiuYeLbeHZ2X6
-         k9t4RHdznN9l154GidioCthCBK2Edfh+K3ZjQ7MVxKacRcc2WX+qz/PpkZAujSdmkwSp
-         J3lA==;
+        bh=eNFR6IjUsitbmkorcK5HCMNsZPOV1tLH5Y3OLmT0TQY=;
+        fh=kawl8sz6Y0wsynVb484Celdln+2dF9RbONgo4iwVA/A=;
+        b=ijYDqJ/BR1AaZSkFt6A3YDawoeGoRmsPnx21kvxC4zbOThzAHOWsVCFdYlafMUi1y4
+         8i+EqwZJZjWKZ+iCzGNRnyPePj3WtnTrMxDxUsqOypWIGfhDTEHZ5sCxS7Sx8rtnVWrc
+         OM1MvR5bH5vtJN5PdvxFXvQsiyL9tuVTvkjJFDnMbXe/mg7orfoPYRRQ1AnwPdv2Ase+
+         QELtvlS2CKa/eft4hzhb4gTZkP1ztuKfQTiYjImxvdGMu6q94D8A3bQKTuMv/KKnBimM
+         CvGmKMA2DSXlMAM5sFkZBMT/MnmH1ME5zgJ8CZU9X0SBc4nH/jWvMx7HJl7nY4GXfAO1
+         UK2A==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779902545; x=1780507345; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779913798; x=1780518598; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2DCx/GfCsxKID9L9hrqpo9Z9Drtthz58CWbiDxH7ua8=;
-        b=Ik0OTcJVFAgRVNGMVM0ul/QDkx3fD1ZsXeaMza5P0CPjAb5SCNExeSmHODcmjKcLK7
-         MrXH94VG2qBDdiMKuzbsuG1aoNvhl9vmpqWSI5bbMbav8hbKKnfNfvl2+ghqBfxaEhhp
-         Xw2uo0yKYEWezNdCp/Repy4m0OAWdzRaOPMdLQH/7y3G0d/oruKqh9yU9DvTv1BVIowN
-         6Fwjr6231chK1aWyi/Ch+2mQlLe2rgqqeTo7d5/4/RgO9VjV+9ZzvEYMkEBNI565NXAH
-         siIj8NvKwHKAIYXYWVO/cmS94Lv8OL6Pi0pl7MAcnqilR5wB7ymC70kvfyznVwGD9U8V
-         ROmQ==
+        bh=eNFR6IjUsitbmkorcK5HCMNsZPOV1tLH5Y3OLmT0TQY=;
+        b=npX7+qN7iL4WsLfL4rP9iMMBudCRUZQ4KqhRcu6F7bjTNamv5PawXvQqiCKiA9wylk
+         CcTqcPAOJ1CGTk6F2+xcg9BkjxeIDWlxGX15gTJF8ONcmXCokkMKxRc4cd8yL9M22/8z
+         fmr6iAstve9ba5tl6KKg0A3Yy/lh1sBYawEi4CIMg7xCCOZJXLxYYyOsFWnq843Ew9W5
+         ZFdXB3vJC3CDkeZkf4Vq5psbJvG+YnejH3l/MZGTu743vcZSYtmyNgkT8Xhp/PVh6ca5
+         gjQrKQTs6QBT7HGXr1JQOzS9GRXYRzfkldhGhS/99HAUBAajZo5uDmOfUlcw/4UvNQtK
+         S5gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779902545; x=1780507345;
+        d=1e100.net; s=20251104; t=1779913798; x=1780518598;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2DCx/GfCsxKID9L9hrqpo9Z9Drtthz58CWbiDxH7ua8=;
-        b=YwSty20i10KCpTCRcNr0jT/jbFhMZKoW8SvbzRhCik0xQRX+li0eL20dr0eP4kYJKG
-         XwolivUYCXzm2krI8PjjXA/bhM2wgYXaHwcjzzLFjRGoQbMfN6fCqsIWUqCBRcER/sQi
-         c06kJvoLGmtlYjngQrLFTnryROlxCgbjKVmehzlIdTQqbfflIoq9ilyztLLQLfVjAuiX
-         P9cMRyIfHbYqufjr2M6TJso+gnSRXhP/v+cAGK59DTzTUN9bPnVSBe/fXqvGGjrImUjh
-         8/OBVMvrCKhRfRDtucTjp5+0KKdbNfHC/lIv+OY3SyoqI2942QJQMX0Odp1g9flG+XyK
-         mkxw==
-X-Forwarded-Encrypted: i=1; AFNElJ/M1OPHtCPvgHcwvwc9Cvz1jP+tLO8FdJV8TyuQN/3a8l72ohDr+yKAFyFcTWeSQ/kV7nsaVblMj4X2@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywbgl+8qTFfonBbiyMnwY7qULT3CkBTN44sW/10rkxuiIASpeah
-	3Hqnfg2lt2BZIjS2KM8IdyDISP2Sd6P3HcT20i5QWiLzejVTmYUc99R5nuChk1jQ0NrszED1hmW
-	RDnZr2whhynd6I01heADSA2YLdrw08Wk=
-X-Gm-Gg: Acq92OFxaYQzUNHtRiQi9tSekJ86DC1r9xklGbEOZi3h/Pq5aZMGZ8RpW2Op7Vi2Ods
-	S2Y8utwM6ywPhTa0yQ4+yZ7N+hVd4vscUdOvxZ+G2PUNUsFPbOlSsjohc4O03eIBMZjHOsncSzc
-	qXuySIY8PLx8StCTK59wO2dl6tUSeJL9Wy6OtC/woHKf0kP/UYRkZ/OyCEByAnQ+Ya1sUEnBjJW
-	mbsIjxFZu2uS0xnnS1INIWWGSYKesAfoemmiy/LHL+GTEvWMo+oKzKb9K9dgwq+i0sruYLMfoCk
-	yd8dy5vtbYla3F3GZUfIrvwJM9LkfRXT9F298Dcxv4tfAdQz4p80
-X-Received: by 2002:a05:6402:2746:b0:68a:510c:f956 with SMTP id
- 4fb4d7f45d1cf-68a510cfbb5mr3623067a12.1.1779902545340; Wed, 27 May 2026
- 10:22:25 -0700 (PDT)
+        bh=eNFR6IjUsitbmkorcK5HCMNsZPOV1tLH5Y3OLmT0TQY=;
+        b=DfrAClSxJ1LoouUq4ixnsmgwiBPpvsoe08PYZaucjutf9eNylgOsMdo2RmaSnEz3Tx
+         affcEuyerlzagIbIfmai+Haj12D5hAQj1kFlI2yEVBbi3f/eRSis87rJ3Y9rXv32GOqw
+         OBP/WHjeg/kUZyMo3+/b47DjDNrhTvxPAloKOP/POXJKMl3eUwcfpyxma6eOQNP5IRVO
+         hXNdFvGn0xhWLK1g1LmHm4B38Y6HPDVcvNut5gJBCD+cj0YYKD83wQqafUmOB0u+Mttb
+         HZJ0vfdY1FtzpeULLIo9zBMX4lrAT23TI92hwiya6UoQYvNPlL+cCdY+kRlAyPXrcbMd
+         ZTgA==
+X-Forwarded-Encrypted: i=1; AFNElJ+TIDWvitH+aCtfiKLg5cB58zYT3bihkppSw/x7B+unjXjuUQmNWHHOR0poJVyTE1fbfzlYi8E0XsOF@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzc+q0S1rTRzCXLf0Dp8PWvJ/T07OSbJr6TnoxTGPbzshPBEgtb
+	qPajdCufBJR01TI5qcSwMkSgRQjxB9Bc6aoysKuxRUaZXMNUZNXf3Jb1OhxzfrwhunbKchTuzNo
+	y0ZJCDSkQgxYF6eHtvfOjh1iPdewMzm0=
+X-Gm-Gg: Acq92OFE7rKGMqWB1SvbOwZUmPbB1iuqiVStyG7bUPGG/9PzfymoTb6UslST60uvlI1
+	t5uKbtnIeZbNXVsIYO6bnUixzMp2lphd/NO+/bkof+noazSIHjdt2yWSnHgruuhdC4mJulrKrbX
+	zc4CKdDnbYk1oDQNIXM5vw/8eqd/X2IpHDPsGw3aWHHCrrNrIxtaz92Opf5cfHUMy50HEWIuGwX
+	leh76xkqPJDYucxz6nywnp1tBcOH3Mr9ZhTd+SOHyci+tA86NITmMY5CvCS5UsPgqzIMT4/rMgN
+	oULQ6ZqxeMmSqPjceGBX5+oySe5zhhjRqQ==
+X-Received: by 2002:a05:6000:490e:b0:452:bc55:c684 with SMTP id
+ ffacd0b85a97d-45eb36a67d9mr35702711f8f.19.1779913797710; Wed, 27 May 2026
+ 13:29:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -83,19 +83,19 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260527171808.828637-1-amir73il@gmail.com>
 In-Reply-To: <20260527171808.828637-1-amir73il@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 27 May 2026 19:22:13 +0200
-X-Gm-Features: AVHnY4KcStwYqbM4xju8K5FtIa89g6ha0R4fFutIlB5R81CjHbhumw4gTA022bc
-Message-ID: <CAOQ4uxjMEdQTyWMfuxsG7QrVjCehaLOThXo8BcYNXWTRCAnXeQ@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 27 May 2026 13:29:45 -0700
+X-Gm-Features: AVHnY4JTaUPdoYIBESe_57ajG1UaJA-_bI5qfFE03DgitIzmmfzn4W5c7_qvwjw
+Message-ID: <CAJnrk1b0Neuc1PWw0M_M=MsbSBySFK130_hytoVYtjorNk7ewA@mail.gmail.com>
 Subject: Re: [PATCH] fuse: add fuse_request_recv tracepoint
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bernd.schubert@fastmail.fm>, Joanne Koong <joannelkoong@gmail.com>, 
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd.schubert@fastmail.fm>, 
 	"Darrick J . Wong" <djwong@kernel.org>, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 27, 2026 at 7:18=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
- wrote:
+On Wed, May 27, 2026 at 10:18=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
+> wrote:
 >
 > This new tracepoint complements the existing fuse_request_send (enqueue)
 > and fuse_request_end (completion) with a tracepoint at the transition
@@ -105,92 +105,5 @@ On Wed, May 27, 2026 at 7:18=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
 > This is needed for tools tracking the in-flight state of fuse requests.
 >
 > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
->
-> Miklos,
->
-> This patch is not technically a fix patch, but it complements the
-> tracepoints that were added in 6.12 by commit 396b209e405a5 ("fuse: add
-> simple request tracepoints"), so it is my intention to backport it up to
-> 6.12.y for use on production kernels.
->
-> I came across the need for this tracepoint when working on fuse queue
-> monitoring tools [1] for our production env.
->
-> The fuse_request_send tracepoint is broken on 6.12.y, so I also plan to
-> post a backport patch for 0d375a1385ed8 ("fuse: capture the unique id of
-> fuse commands being sent").  Not sure why it was not tagged as Fixes.
-> The existence of fuse_request_recv
 
-... in an LTS kernel will serve as a hint that the fuse_request_send
-tracepoint isn't broken...
-
->
-> This patch is intentionally based on upstream fuse (v7.1-rc2) and not
-> on for-next branch, with ease of backport in mind.
->
-> Specifically, commit 80cea98b648ba ("fuse: change req->fm to req->chan")
-> on for-next needs to apply the same change to the new tracepoint as well.
->
-> Would you consider applying this patch at the bottom of for-next and
-> make this adjustment to your refactoring commit?
->
-> Thanks,
-> Amir.
->
-> [1] https://github.com/amir73il/bcc/commits/fuseq/
->
->  fs/fuse/dev.c        |  1 +
->  fs/fuse/fuse_trace.h | 22 ++++++++++++++++++++++
->  2 files changed, 23 insertions(+)
->
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 5dda7080f4a90..583155157d117 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -1475,6 +1475,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fu=
-d, struct file *file,
->         req =3D list_entry(fiq->pending.next, struct fuse_req, list);
->         clear_bit(FR_PENDING, &req->flags);
->         list_del_init(&req->list);
-> +       trace_fuse_request_recv(req);
->         spin_unlock(&fiq->lock);
->
->         args =3D req->args;
-> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
-> index bbe9ddd8c7169..289a279b3c312 100644
-> --- a/fs/fuse/fuse_trace.h
-> +++ b/fs/fuse/fuse_trace.h
-> @@ -101,6 +101,28 @@ TRACE_EVENT(fuse_request_send,
->                   __print_symbolic(__entry->opcode, OPCODES), __entry->le=
-n)
->  );
->
-> +TRACE_EVENT(fuse_request_recv,
-> +       TP_PROTO(const struct fuse_req *req),
-> +
-> +       TP_ARGS(req),
-> +
-> +       TP_STRUCT__entry(
-> +               __field(dev_t,                  connection)
-> +               __field(uint64_t,               unique)
-> +               __field(enum fuse_opcode,       opcode)
-> +       ),
-> +
-> +       TP_fast_assign(
-> +               __entry->connection     =3D       req->fm->fc->dev;
-> +               __entry->unique         =3D       req->in.h.unique;
-> +               __entry->opcode         =3D       req->in.h.opcode;
-> +       ),
-> +
-> +       TP_printk("connection %u req %llu opcode %u (%s)",
-> +                 __entry->connection, __entry->unique, __entry->opcode,
-> +                 __print_symbolic(__entry->opcode, OPCODES))
-> +);
-> +
->  TRACE_EVENT(fuse_request_end,
->         TP_PROTO(const struct fuse_req *req),
->
-> --
-> 2.54.0
->
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
