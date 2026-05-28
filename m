@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CF936C0AB
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D7C36C581
 	for <fuse-devel@lists.linux.dev>; Thu, 28 May 2026 22:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780008907; cv=none; b=QhcIdJ961KVm5ccwFAbxSTBbbUDrJZXDvvtxsnR1GfdJRnDQtOFJlLt6yjRjYMSpcWt7MuSqkCXMGqCKdpAPlJ3mV7+AmSPctJS697nR8/iermJYEZ1DEhWZiES/P4SMr7YK6KZ0GfVo4h8y2CNTSxzkVifY9anm3F4XOMknvNc=
+	t=1780008907; cv=none; b=ZWZGkGSn7RmsIZfEkNuNqMNvRWBciGJ+ZPhQJdP5J/T5BqysYQiLYcq0knyZP3naj9fVmxoDyFeaJZIiGQeJvuvd5DyYjSu87aJ9nZ2sqa0r1pGxhetnMEkNYa3ZosnIgq7gb//t33rxIRhtvQF9vn7wlUBnnjuNBo1KbF5qiwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780008907; c=relaxed/simple;
-	bh=CiAf4v2bijjKemQ5ieechWfgSy3Lr7ZxAgCJhx0ZIL8=;
+	bh=pRgRe0JletTmVnJWrsDYX/olLyIvAmkmH0JecD4iync=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FN9ydKP5liXmv4Ts4o/z7+MOr3tu5hnbx94ZUIg3Fn4sI3EKHSgnzMzwmmuxcHXNodLZ2gdHJFXNo+DSRwnkOKPEYF9saeRJcde11YpJ4/aT0NmrSx7Q3ts8I5d7/qQqLDb9MBhOmo0Oj/S93xFxAbaLI/LnDitvwBoi731cwR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tZ284Oqa; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=UoLA4unHthbhRl+SWUfEFYj9s4JIq8jZOKAr/sTUFzfBoLpRbqk1VfzGK7jCgFsZXjoo74ijV5EUR61sVa5nv9kW9NbF5MM0Dyqnsg1TlRYzNJH3rOOk2iGqwq2tJ2+WEyVRrUOQaP1U+hGF2+z7DpgHqIUBEHz0nzXME557ul4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YwSqV2aF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tZ284Oqa"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5E9D9C2BCF5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YwSqV2aF"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 462EBC2BCB8;
 	Thu, 28 May 2026 22:55:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780008907;
-	bh=CiAf4v2bijjKemQ5ieechWfgSy3Lr7ZxAgCJhx0ZIL8=;
+	bh=pRgRe0JletTmVnJWrsDYX/olLyIvAmkmH0JecD4iync=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=tZ284OqaVqLZmPnKHVeVoKOVDFBfOaDo2AlsiD3LNxVRkPgbjqOCilh9irASXpcqy
-	 EeC8XJmOB7czeHsMhXfUFlXs06APGuYDIJY92rVJbdf8ctAHjitfpE8qfaF1DPgqzZ
-	 5rJbQ+2/5nFNlygzplLRrIGquuMasAzprxJW36l1CXnOa5u7jSPlSYN3eexA8ONo1p
-	 ROSBjvmoAn1InPvTedxeBtjohYMUOpwAYOCQ1Vorp/ge9h8uFMhhOfpHxeOGMSE1i7
-	 LVGNPwudmJjEpZbR27r3vnLO1cbgorpS5bcj2YqalTAKS6NBALs8KVmbsx5miqqqne
-	 C0dP8/tJ7x/sw==
+	b=YwSqV2aFQU353RpMVGtWndMs0nmyl0AbeQjLHJKyhVZa2NITIoM6pWJE18Ffbh1i4
+	 061Y2Y6juLf+MJ8YZPGnN/xMYMwodgP/m9Ghk2SalkSg8dkP1gT5QZGYzyLR04EVk9
+	 cSm8P04Pa3E7afSzREsHWE/vy4tqnrj/7u8G9zgvvyWYW/SW9oOwkk3xng95pO+NHC
+	 tHrSASlusLpNJnq4bgfonS5EmRIm+beOkJ+33Qc1kYslYSpYva9nv/nXupf1iw648f
+	 tJhJ18drxfOfl7uFYvbFbEP8tnhno9UbULokn6piXyAknA0JIbV47JMm5bYwkVpPId
+	 tvMCHAaOsEThw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58739CD6E43;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FCE6CD4F54;
 	Thu, 28 May 2026 22:55:07 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 29 May 2026 00:55:08 +0200
-Subject: [PATCH v5 4/7] fuse: {io-uring} Allow reduced number of ring
- queues
+Date: Fri, 29 May 2026 00:55:06 +0200
+Subject: [PATCH v5 2/7] fuse: {io-uring} Rename ring->nr_queues to
+ max_nr_queues
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260529-reduced-nr-ring-queues_3-v5-4-1dc08c2fccf6@bsbernd.com>
+Message-Id: <20260529-reduced-nr-ring-queues_3-v5-2-1dc08c2fccf6@bsbernd.com>
 References: <20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com>
 In-Reply-To: <20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com>
 To: Miklos Szeredi <miklos@szeredi.hu>
@@ -49,11 +49,11 @@ Cc: Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>,
  Gang He <dchg2000@gmail.com>, fuse-devel@lists.linux.dev, 
  Bernd Schubert <bschubert@ddn.com>
 X-Mailer: b4 0.15-dev-2a633
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780008905; l=11630;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780008905; l=4025;
  i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
- bh=mFbYznAaoos+vjj7A8c5LeUWOmUvJftFeg4c9UqhtdQ=;
- b=nnE7IJZ3smn3kbrqa/Nb1vNOvvATAe3vk4ZC71G6Gt5RPJ7sKPKYxXD4U+OBKyP+WioKvoS1y
- D42ARDFaBbyC07bGO10tFGwshPPmhhKDXOokGmUevMecO4gw8DdCxCl
+ bh=L1wc6JFQU0CQu21/LW/lH+hsGLhIBO5epAZp8l6FLT8=;
+ b=cyDCWscFS12BTbwksPbL3d1to7PSyqDAqOawG49n3RO1pNAO5lj648bf4oY/Ey+OrdFZxIrqe
+ ekdrapFXm5sCg0ZfumsxEnVgDDpfKg/AppxRTyNNXWWtFai0CZ61ZQC
 X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
  pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/20240529 with
@@ -63,361 +63,126 @@ Reply-To: bernd@bsbernd.com
 
 From: Bernd Schubert <bschubert@ddn.com>
 
-Queues selection (fuse_uring_get_queue) can handle reduced number
-queues - using io-uring is possible now even with a single
-queue and entry.
-
-The FUSE_URING_REDUCED_Q flag is introduced tell fuse server that
-reduced queues are possible, i.e. if the flag is set, fuse server
-is free to reduce number queues.
-
-Notheworth is also that a fuse-io-uring is now marked as ready
-after the fist queue was created.
+This is preparation for follow up commits that allow to run with a
+reduced number of queues.
 
 Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dev_uring.c       | 171 +++++++++++++++++++++++++++-------------------
- fs/fuse/dev_uring_i.h     |   3 +
- fs/fuse/inode.c           |   2 +-
- include/uapi/linux/fuse.h |  10 ++-
- 4 files changed, 112 insertions(+), 74 deletions(-)
+ fs/fuse/dev_uring.c   | 22 +++++++++++-----------
+ fs/fuse/dev_uring_i.h |  2 +-
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 497093384c31e729053d2f5046c9ec59461ac035..d02266b483c89d105bd6301133820697f7caba9c 100644
+index beea0eed203d3dfa90a54a698feb78a20778d9db..01cf372e7d9cafe2dfca003b881d9027098c8af4 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -255,11 +255,11 @@ static int fuse_uring_init_q_map(struct fuse_queue_map *q_map, size_t nr_cpu)
- 	return 0;
- }
- 
--static int fuse_uring_create_q_masks(struct fuse_ring *ring)
-+static int fuse_uring_create_q_masks(struct fuse_ring *ring, size_t nr_queues)
- {
- 	int err, node;
- 
--	err = fuse_uring_init_q_map(&ring->q_map, ring->max_nr_queues);
-+	err = fuse_uring_init_q_map(&ring->q_map, nr_queues);
- 	if (err)
- 		return err;
- 
-@@ -269,7 +269,7 @@ static int fuse_uring_create_q_masks(struct fuse_ring *ring)
- 		return -ENOMEM;
- 	for (node = 0; node < ring->nr_numa_nodes; node++) {
- 		err = fuse_uring_init_q_map(&ring->numa_q_map[node],
--					   ring->max_nr_queues);
-+					    nr_queues);
- 		if (err)
- 			return err;
- 	}
-@@ -301,7 +301,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
- 	max_payload_size = max(FUSE_MIN_READ_BUFFER, fch->max_write);
- 	max_payload_size = max(max_payload_size, fch->max_pages * PAGE_SIZE);
- 
--	err = fuse_uring_create_q_masks(ring);
-+	err = fuse_uring_create_q_masks(ring, nr_queues);
- 	if (err)
- 		goto out_err;
- 
-@@ -330,12 +330,36 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
- 	return res;
- }
- 
-+static void fuse_uring_cpu_qid_mapping(struct fuse_ring *ring, int qid,
-+				       struct fuse_queue_map *q_map,
-+				       int node)
-+{
-+	int cpu, qid_idx, mapping_count = 0;
-+	size_t nr_queues;
-+
-+	cpumask_set_cpu(qid, q_map->registered_q_mask);
-+	nr_queues = cpumask_weight(q_map->registered_q_mask);
-+	for (cpu = 0; cpu < ring->max_nr_queues; cpu++) {
-+		if (node != -1 && cpu_to_node(cpu) != node)
-+			continue;
-+
-+		qid_idx = mapping_count % nr_queues;
-+		q_map->cpu_to_qid[cpu] = cpumask_nth(qid_idx,
-+						     q_map->registered_q_mask);
-+		mapping_count++;
-+		pr_debug("%s node=%d qid=%d qid_idx=%d nr_queues=%zu %d->%d\n",
-+			 __func__, node, qid, qid_idx, nr_queues, cpu,
-+			 q_map->cpu_to_qid[cpu]);
-+	}
-+}
-+
- static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
- 						       int qid)
- {
+@@ -126,7 +126,7 @@ void fuse_uring_abort_end_requests(struct fuse_ring *ring)
+ 	struct fuse_ring_queue *queue;
  	struct fuse_chan *fch = ring->chan;
- 	struct fuse_ring_queue *queue;
- 	struct list_head *pq;
-+	int node;
  
- 	queue = kzalloc_obj(*queue, GFP_KERNEL_ACCOUNT);
- 	if (!queue)
-@@ -373,6 +397,30 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
- 	 * write_once and lock as the caller mostly doesn't take the lock at all
- 	 */
- 	WRITE_ONCE(ring->queues[qid], queue);
-+
-+	/* Static mapping from cpu to per numa queues */
-+	node = cpu_to_node(qid);
-+	fuse_uring_cpu_qid_mapping(ring, qid, &ring->numa_q_map[node], node);
-+
-+	/* global mapping */
-+	fuse_uring_cpu_qid_mapping(ring, qid, &ring->q_map, -1);
-+
-+	/*
-+	 * Pairs with smp_load_acquire() in fuse_uring_select_queue().
-+	 * Released before the per-numa bump below so that observing
-+	 * numa_q_map[node].nr_queues > 0 implies q_map.nr_queues > 0.
-+	 */
-+	smp_store_release(&ring->q_map.nr_queues,
-+			  ring->q_map.nr_queues + 1);
-+
-+	/*
-+	 * smp_store_release, as the variable is read without fc->lock and
-+	 * we need to avoid compiler re-ordering of updating the nr_queues
-+	 * and setting ring->numa_queues[node].cpu_to_qid above
-+	 */
-+	smp_store_release(&ring->numa_q_map[node].nr_queues,
-+			  ring->numa_q_map[node].nr_queues + 1);
-+
- 	spin_unlock(&fch->lock);
- 
- 	return queue;
-@@ -1017,61 +1065,6 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
- 	return 0;
- }
- 
--static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
--{
--	int qid;
--	struct fuse_ring_queue *queue;
--	bool ready = true;
--
--	for (qid = 0; qid < ring->max_nr_queues && ready; qid++) {
--		if (current_qid == qid)
--			continue;
--
--		queue = ring->queues[qid];
--		if (!queue) {
--			ready = false;
--			break;
--		}
--
--		spin_lock(&queue->lock);
--		if (list_empty(&queue->ent_avail_queue))
--			ready = false;
--		spin_unlock(&queue->lock);
--	}
--
--	return ready;
--}
--
--/*
-- * fuse_uring_req_fetch command handling
-- */
--static void fuse_uring_do_register(struct fuse_ring_ent *ent,
--				   struct io_uring_cmd *cmd,
--				   unsigned int issue_flags)
--{
--	struct fuse_ring_queue *queue = ent->queue;
--	struct fuse_ring *ring = queue->ring;
--	struct fuse_chan *fch = ring->chan;
--	struct fuse_iqueue *fiq = &fch->iq;
--
--	fuse_uring_prepare_cancel(cmd, issue_flags, ent);
--
--	spin_lock(&queue->lock);
--	ent->cmd = cmd;
--	fuse_uring_ent_avail(ent, queue);
--	spin_unlock(&queue->lock);
--
--	if (!ring->ready) {
--		bool ready = is_ring_ready(ring, queue->qid);
--
--		if (ready) {
--			WRITE_ONCE(fiq->ops, &fuse_io_uring_ops);
--			WRITE_ONCE(ring->ready, true);
--			wake_up_all(&fch->blocked_waitq);
--		}
--	}
--}
--
- /*
-  * sqe->addr is a ptr to an iovec array, iov[0] has the headers, iov[1]
-  * the payload
-@@ -1155,6 +1148,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
- 	struct fuse_ring *ring = smp_load_acquire(&fch->ring);
- 	struct fuse_ring_queue *queue;
- 	struct fuse_ring_ent *ent;
-+	struct fuse_iqueue *fiq = &fch->iq;
- 	int err;
- 	unsigned int qid = READ_ONCE(cmd_req->qid);
- 
-@@ -1186,7 +1180,19 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
- 	if (IS_ERR(ent))
- 		return PTR_ERR(ent);
- 
--	fuse_uring_do_register(ent, cmd, issue_flags);
-+	fuse_uring_prepare_cancel(cmd, issue_flags, ent);
-+	if (!READ_ONCE(ring->ready)) {
-+		WRITE_ONCE(fiq->ops, &fuse_io_uring_ops);
-+		WRITE_ONCE(ring->ready, true);
-+		wake_up_all(&fch->blocked_waitq);
-+	}
-+
-+	spin_lock(&queue->lock);
-+	ent->cmd = cmd;
-+	spin_unlock(&queue->lock);
-+
-+	/* fetch requests that got queued during registration */
-+	fuse_uring_next_fuse_req(ent, queue, issue_flags);
- 
- 	return 0;
- }
-@@ -1302,22 +1308,43 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
- 	fuse_uring_send(ent, cmd, err, issue_flags);
- }
- 
--static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
-+static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
- {
- 	unsigned int qid;
--	struct fuse_ring_queue *queue;
-+	int node;
-+	unsigned int nr_queues;
-+	unsigned int cpu = task_cpu(current);
- 
--	qid = task_cpu(current);
-+	cpu = cpu % ring->max_nr_queues;
- 
--	if (WARN_ONCE(qid >= ring->max_nr_queues,
--		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
--		      ring->max_nr_queues))
--		qid = 0;
-+	/* numa local registered queue bitmap */
-+	node = cpu_to_node(cpu);
-+	if (WARN_ONCE(node >= ring->nr_numa_nodes,
-+		      "Node number (%d) exceeds nr nodes (%d)\n",
-+		      node, ring->nr_numa_nodes)) {
-+		node = 0;
-+	}
- 
--	queue = ring->queues[qid];
--	WARN_ONCE(!queue, "Missing queue for qid %d\n", qid);
-+	/*
-+	 * Pairs with smp_store_release() in fuse_uring_create_queue().
-+	 * Ensures that if nr_queues is observed > 0, the matching
-+	 * cpu_to_qid[] and ring->queues[] writes are visible too.
-+	 */
-+	nr_queues = smp_load_acquire(&ring->numa_q_map[node].nr_queues);
-+	if (nr_queues) {
-+		qid = ring->numa_q_map[node].cpu_to_qid[cpu];
-+		if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
-+			return NULL;
-+		return READ_ONCE(ring->queues[qid]);
-+	}
- 
--	return queue;
-+	/* global registered queue bitmap */
-+	if (!smp_load_acquire(&ring->q_map.nr_queues))
-+		return NULL;
-+	qid = ring->q_map.cpu_to_qid[cpu];
-+	if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
-+		return NULL; /* Might happen on teardown */
-+	return READ_ONCE(ring->queues[qid]);
- }
- 
- static void fuse_uring_dispatch_ent(struct fuse_ring_ent *ent)
-@@ -1337,7 +1364,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
- 	int err;
- 
- 	err = -EINVAL;
--	queue = fuse_uring_task_to_queue(ring);
-+	queue = fuse_uring_select_queue(ring);
- 	if (!queue)
- 		goto err;
- 
-@@ -1381,7 +1408,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
- 	struct fuse_ring_queue *queue;
- 	struct fuse_ring_ent *ent = NULL;
- 
--	queue = fuse_uring_task_to_queue(ring);
-+	queue = fuse_uring_select_queue(ring);
- 	if (!queue)
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		queue = READ_ONCE(ring->queues[qid]);
+ 		if (!queue)
+ 			continue;
+@@ -167,7 +167,7 @@ bool fuse_uring_request_expired(struct fuse_chan *fch)
+ 	if (!ring)
  		return false;
  
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		queue = READ_ONCE(ring->queues[qid]);
+ 		if (!queue)
+ 			continue;
+@@ -194,7 +194,7 @@ void fuse_uring_destruct(struct fuse_chan *fch)
+ 	if (!ring)
+ 		return;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = ring->queues[qid];
+ 		struct fuse_ring_ent *ent, *next;
+ 
+@@ -254,7 +254,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
+ 
+ 	init_waitqueue_head(&ring->stop_waitq);
+ 
+-	ring->nr_queues = nr_queues;
++	ring->max_nr_queues = nr_queues;
+ 	ring->chan = fch;
+ 	ring->max_payload_sz = max_payload_size;
+ 	smp_store_release(&fch->ring, ring);
+@@ -402,7 +402,7 @@ static void fuse_uring_teardown_all_queues(struct fuse_ring *ring)
+ {
+ 	int qid;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 
+ 		if (!queue)
+@@ -420,7 +420,7 @@ static void fuse_uring_log_ent_state(struct fuse_ring *ring)
+ 	int qid;
+ 	struct fuse_ring_ent *ent;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = ring->queues[qid];
+ 
+ 		if (!queue)
+@@ -889,7 +889,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
+ 	if (!ring)
+ 		return err;
+ 
+-	if (qid >= ring->nr_queues)
++	if (qid >= ring->max_nr_queues)
+ 		return -EINVAL;
+ 
+ 	queue = ring->queues[qid];
+@@ -952,7 +952,7 @@ static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
+ 	struct fuse_ring_queue *queue;
+ 	bool ready = true;
+ 
+-	for (qid = 0; qid < ring->nr_queues && ready; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues && ready; qid++) {
+ 		if (current_qid == qid)
+ 			continue;
+ 
+@@ -1094,7 +1094,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+ 			return err;
+ 	}
+ 
+-	if (qid >= ring->nr_queues) {
++	if (qid >= ring->max_nr_queues) {
+ 		pr_info_ratelimited("fuse: Invalid ring qid %u\n", qid);
+ 		return -EINVAL;
+ 	}
+@@ -1238,9 +1238,9 @@ static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
+ 
+ 	qid = task_cpu(current);
+ 
+-	if (WARN_ONCE(qid >= ring->nr_queues,
++	if (WARN_ONCE(qid >= ring->max_nr_queues,
+ 		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
+-		      ring->nr_queues))
++		      ring->max_nr_queues))
+ 		qid = 0;
+ 
+ 	queue = ring->queues[qid];
 diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-index cb60d6a1dd5573b3e8f80a2581df25738b94ade0..8761f8ef101630424e4090573ec8a377ae968062 100644
+index 9488d77c42ece6f7798992e5abd3a9f5d5151fad..45d16e3d0de67cb42d3d7390fc402b56ba4ea270 100644
 --- a/fs/fuse/dev_uring_i.h
 +++ b/fs/fuse/dev_uring_i.h
-@@ -108,6 +108,9 @@ struct fuse_queue_map {
- 	/* Tracks which queues are registered */
- 	cpumask_var_t registered_q_mask;
+@@ -113,7 +113,7 @@ struct fuse_ring {
+ 	struct fuse_chan *chan;
  
-+	/* number of registered queues */
-+	size_t nr_queues;
-+
- 	/* cpu to qid mapping */
- 	int *cpu_to_qid;
- };
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 0897f8e62b4d18f11a1c60642b32a299e0ef22a0..a768ef3938ea8853a697ef2281a789919716332f 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1465,7 +1465,7 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
- 		FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
- 		FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
- 		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP |
--		FUSE_REQUEST_TIMEOUT;
-+		FUSE_REQUEST_TIMEOUT | FUSE_URING_REDUCED_Q;
- #ifdef CONFIG_FUSE_DAX
- 	if (fm->fc->dax)
- 		flags |= FUSE_MAP_ALIGNMENT;
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index c13e1f9a2f12bd39f535188cb5466688eba42263..3f3afbecfd34b3a239234086072683ef69bc48e2 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -240,6 +240,9 @@
-  *  - add FUSE_COPY_FILE_RANGE_64
-  *  - add struct fuse_copy_file_range_out
-  *  - add FUSE_NOTIFY_PRUNE
-+ *
-+ *  7.46
-+ *  - add FUSE_URING_REDUCED_Q
-  */
+ 	/* number of ring queues */
+-	size_t nr_queues;
++	size_t max_nr_queues;
  
- #ifndef _LINUX_FUSE_H
-@@ -275,7 +278,7 @@
- #define FUSE_KERNEL_VERSION 7
- 
- /** Minor version number of this interface */
--#define FUSE_KERNEL_MINOR_VERSION 45
-+#define FUSE_KERNEL_MINOR_VERSION 46
- 
- /** The node ID of the root inode */
- #define FUSE_ROOT_ID 1
-@@ -448,6 +451,10 @@ struct fuse_file_lock {
-  * FUSE_OVER_IO_URING: Indicate that client supports io-uring
-  * FUSE_REQUEST_TIMEOUT: kernel supports timing out requests.
-  *			 init_out.request_timeout contains the timeout (in secs)
-+ * FUSE_URING_REDUCED_Q: Client (kernel) supports less queues - Server is free
-+ *			 to register between 1 and nr-core io-uring queues
-+ *			 Flag for fuse-sever only, kernel always supports
-+ *			 1..nr-cores queues.
-  */
- #define FUSE_ASYNC_READ		(1 << 0)
- #define FUSE_POSIX_LOCKS	(1 << 1)
-@@ -495,6 +502,7 @@ struct fuse_file_lock {
- #define FUSE_ALLOW_IDMAP	(1ULL << 40)
- #define FUSE_OVER_IO_URING	(1ULL << 41)
- #define FUSE_REQUEST_TIMEOUT	(1ULL << 42)
-+#define FUSE_URING_REDUCED_Q	(1ULL << 43)
- 
- /**
-  * CUSE INIT request/reply flags
+ 	/* maximum payload/arg size */
+ 	size_t max_payload_sz;
 
 -- 
 2.43.0
