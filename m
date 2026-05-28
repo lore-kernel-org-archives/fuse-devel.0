@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0F736CE06
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ABD36D9F1
 	for <fuse-devel@lists.linux.dev>; Thu, 28 May 2026 22:55:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780008907; cv=none; b=qYFNIKbHEdsV7M7kKfZp4Jx7bxIfBhSyFdUfJiHzcB16r9Uzx2h7ttFhy3cly2yEnva3RIZwH58UdZDd9d8WKuIqYFZ5QUdjbWwcoYl3xF2dtHsD4UVt6WwX6Uih77qNzIdQ77o5STTmw9P4yVNsuQDRrJHBG+QC4ve+vQkUlew=
+	t=1780008907; cv=none; b=hMMKoI1AjEn++HzWZnmiAnxKS/PCdBevSSUlY8mMaVqbaknSKyBAIZuIlsWHK+Wo2uo5nvlnlknmJ59lN/U3GKA6SsT5DFtrHDRTJikjicUm5R5+hEwz6XQRqsIsLfvtZ0bVVO+NCz9W6+6nTEv3pltzXSdjwM6LzFoZCON68/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780008907; c=relaxed/simple;
-	bh=X0TMK2UVF8JogYOztut1Fk0QPp65NoIIEL/9tHI1+s4=;
+	bh=hIbfaoE3EFBZq+txBA4/459uuMRX5ioUG28oxzaTC2Y=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Pt5hcjyiRq0ZBHSo/o5nOBvA8OeSDpGrtdcasLrWwUj6OTpZJUEMh9W5FP1SH4M0Vx6BL+w4WPldlbkdBMvTR6xoZeQn2qlvjY4tHjj6xbmt6fRfDbmN8jivh7gKT4Lzsw5DaH9YtvSkWT7ml9ppnu04zeN5tERXGoFPMAoeVkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5hS2nIC; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=cOFM88g1iMmckEXk8zMg6H40hKDNTsMQbiNSCQn2iBgZ/tPcEm/sCHTgS/IhCXq2zxDJulT+Jtb9DPLNPx1n9ytdP7mdUvdYfxGlkXk5614HQdtNuXNki+qKaRVip97iQlgg+Vh2Hylpu1/V44x8Ah2GqGUgw7PFeyzLIJL2QtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=anW4jzHg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5hS2nIC"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 78252C2BCF4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="anW4jzHg"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 69193C2BCC7;
 	Thu, 28 May 2026 22:55:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780008907;
-	bh=X0TMK2UVF8JogYOztut1Fk0QPp65NoIIEL/9tHI1+s4=;
+	bh=hIbfaoE3EFBZq+txBA4/459uuMRX5ioUG28oxzaTC2Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=C5hS2nIC+2xx/broy4VlBcm4DU+769K3xrC6KvRmF8AlGVEm94NQP3gs3BU88SZy3
-	 Q8mkHOM1BRTzFCKqEnWLsVwLkimc/5OJIAwgERtFstkXdrHxjYdxOygeFaPer+93uM
-	 CSFcnDQfJYi4gjJuQXzZO+VgKDj2NzN9YMa5RuaoPsYyFoTVfewYSa+0ou5/UDulJw
-	 PRdoGcLP1vxN1vBSu6vjZtWzyGKRZCI5cRr/rJQhj0E3JVgF+R6iYszNrvPLLdTNLY
-	 jyG2xjse2FjxSHXNImhjJel/l7N1yXzrnqg404j0Le4CxV3e8zd8q2LPCBHrGqiNsk
-	 Gygb3us/MTIWQ==
+	b=anW4jzHgJz9WA/wuITYotn/SVL+SUOiGd38qyOtN9+jdUXQeRzYD2BUlRyKgKVqv/
+	 5uHbcK3fbptDdbqu09NDbIuMeuue8ZohO3+GVnHIXHfaGVJL9xYud7ZWIptOBI5Hyt
+	 lPEgOorYkR++OyhENtIkN/mijGg2W0h4sZo6TaS9mZtebaiNUu4NofzKkIdBJTRLf8
+	 GRQ8zwoECNVaCnFHqsXQzUtum0/4Xt7MoA7Bh7BeG19y/AjhfaKHulUJvrXLv4idhs
+	 Q7IPequpiZkp6Qc0kBQA5WQit8ILgKYZ5RrKJns886aNIYhaNHZxLtQB7A5501+Yli
+	 86ngUOeSWXfHA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7170ACD6E4C;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64912CD6E4E;
 	Thu, 28 May 2026 22:55:07 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 29 May 2026 00:55:10 +0200
-Subject: [PATCH v5 6/7] fuse: {io-uring} Add retry attempts for numa local
- queues for load distribution
+Date: Fri, 29 May 2026 00:55:09 +0200
+Subject: [PATCH v5 5/7] fuse: {io-uring} Queue background requests on a
+ different core
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260529-reduced-nr-ring-queues_3-v5-6-1dc08c2fccf6@bsbernd.com>
+Message-Id: <20260529-reduced-nr-ring-queues_3-v5-5-1dc08c2fccf6@bsbernd.com>
 References: <20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com>
 In-Reply-To: <20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com>
 To: Miklos Szeredi <miklos@szeredi.hu>
@@ -49,11 +49,11 @@ Cc: Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>,
  Gang He <dchg2000@gmail.com>, fuse-devel@lists.linux.dev, 
  Bernd Schubert <bschubert@ddn.com>
 X-Mailer: b4 0.15-dev-2a633
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780008905; l=2695;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780008905; l=4389;
  i=bernd@bsbernd.com; s=20240529; h=from:subject:message-id;
- bh=/JoNay03ra6U1JLIygA2pq3cl7kfAQ5Hf2U4zr91+WM=;
- b=EzBKzAKFwKs/ZnEONPUIehZkwsvic94RA1MhUM/cAAty2i9IGAIWgoPJnfx+laQrgjDCyNhUX
- w7859xBXV4WDmqsxOkedc8+v9fHeW5QuEmOhm0lE07jUemFARf1dG+5
+ bh=0tlq2VqFQ9bbWLDB3YTX229+bvK+tDTUjVmkTXNEh+c=;
+ b=dLxmH4i34ckmZ602rxZekStqg5v2Sm7ZSOKKQAhGQWAOgqPp4/OyKAxZmOMyR3GQ51TW0nH4b
+ JbzAzp6KOruChk6RhUwBmkJQwkSnqThJZ3xrYQX16NPUioi7KALHFa7
 X-Developer-Key: i=bernd@bsbernd.com; a=ed25519;
  pk=EZVU4bq64+flgoWFCVQoj0URAs3Urjno+1fIq9ZJx8Y=
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/20240529 with
@@ -63,96 +63,140 @@ Reply-To: bernd@bsbernd.com
 
 From: Bernd Schubert <bschubert@ddn.com>
 
-This is to further improve performance.
+Running background IO on a different core makes quite a difference.
 
 fio --directory=/tmp/dest --name=iops.\$jobnum --rw=randread \
 --bs=4k --size=1G --numjobs=1 --iodepth=4 --time_based\
 --runtime=30s --group_reporting --ioengine=io_uring\
---direct=1
+ --direct=1
 
 unpatched
-   READ: bw=650MiB/s (682MB/s)
-patched:
-   READ: bw=995MiB/s (1043MB/s)
-
-with --iodepth=8
-
-unpatched
-   READ: bw=641MiB/s (672MB/s)
+   READ: bw=272MiB/s (285MB/s) ...
 patched
-   READ: bw=966MiB/s (1012MB/s)
+   READ: bw=650MiB/s (682MB/s)
 
-Reason is that with --iodepth=x (x > 1) fio submits multiple async
-requests and a single queue might become CPU limited. I.e. spreading
-the load helps.
+Reason is easily visible, the fio process is migrating between CPUs
+when requests are submitted on the queue for the same core.
+
+With --iodepth=8
+
+unpatched
+   READ: bw=466MiB/s (489MB/s)
+patched
+   READ: bw=641MiB/s (672MB/s)
+
+Without io-uring (--iodepth=8)
+   READ: bw=729MiB/s (764MB/s)
+
+Without fuse (--iodepth=8)
+   READ: bw=2199MiB/s (2306MB/s)
+
+(Test were done with
+<libfuse>/example/passthrough_hp -o allow_other --nopassthrough  \
+[-o io_uring] /tmp/source /tmp/dest
+)
+
+Additional notes:
+
+With FURING_NEXT_QUEUE_RETRIES=0 (--iodepth=8)
+   READ: bw=903MiB/s (946MB/s)
+
+With just a random qid (--iodepth=8)
+   READ: bw=429MiB/s (450MB/s)
+
+With --iodepth=1
+unpatched
+   READ: bw=195MiB/s (204MB/s)
+patched
+   READ: bw=232MiB/s (243MB/s)
+
+With --iodepth=1 --numjobs=2
+unpatched
+   READ: bw=366MiB/s (384MB/s)
+patched
+   READ: bw=472MiB/s (495MB/s)
+
+With --iodepth=1 --numjobs=8
+unpatched
+   READ: bw=1437MiB/s (1507MB/s)
+patched
+   READ: bw=1529MiB/s (1603MB/s)
+fuse without io-uring
+   READ: bw=1314MiB/s (1378MB/s), 1314MiB/s-1314MiB/s ...
+no-fuse
+   READ: bw=2566MiB/s (2690MB/s), 2566MiB/s-2566MiB/s ...
+
+In summary, for async requests the core doing application IO is busy
+sending requests and processing IOs should be done on a different core.
+Spreading the load on random cores is also not desirable, as the core
+might be frequency scaled down and/or in C1 sleep states. Not shown here,
+but differnces are much smaller when the system uses performance govenor
+instead of schedutil (ubuntu default). Obviously at the cost of higher
+system power consumption for performance govenor - not desirable either.
+
+Results without io-uring (which uses fixed libfuse threads per queue)
+heavily depend on the current number of active threads. Libfuse uses
+default of max 10 threads, but actual nr max threads is a parameter.
+Also, no-fuse-io-uring results heavily depend on, if there was already
+running another workload before, as libfuse starts these threads
+dynamically - i.e. the more threads are active, the worse the
+performance.
+
+Signed-off-by: Bernd Schubert <bschubert@ddn.com>
 ---
- fs/fuse/dev_uring.c | 33 +++++++++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
+ fs/fuse/dev_uring.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index a79007c36e6be33f662bd5bcb80949a814d426c8..b68b2153dd11fd06962c06aa227a5144f4210aa0 100644
+index d02266b483c89d105bd6301133820697f7caba9c..a79007c36e6be33f662bd5bcb80949a814d426c8 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -19,6 +19,10 @@ MODULE_PARM_DESC(enable_uring,
+@@ -1308,7 +1308,8 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
+ 	fuse_uring_send(ent, cmd, err, issue_flags);
+ }
  
- #define FUSE_URING_IOV_SEGS 2 /* header and payload */
- 
-+/* Number of requests in the queue until another queue is checked */
-+#define FUSE_URING_Q_THRESHOLD 2
-+
-+#define FUSE_URING_Q_RETRIES 2 /* number of retries for a better queue */
- 
- bool fuse_uring_enabled(void)
- {
-@@ -1312,9 +1316,10 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
- 						       bool background)
+-static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
++static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
++						       bool background)
  {
  	unsigned int qid;
--	int node;
-+	int node, retries = 0;
- 	unsigned int nr_queues;
- 	unsigned int cpu = task_cpu(current);
-+	struct fuse_ring_queue *queue, *primary_queue = NULL;
- 
- 	cpu = cpu % ring->max_nr_queues;
- 
-@@ -1344,11 +1349,35 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
- 		if (qid == cpu && background)
- 			qid = cpumask_next_wrap(qid, mask);
- 
-+retry:
+ 	int node;
+@@ -1332,7 +1333,17 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
+ 	 */
+ 	nr_queues = smp_load_acquire(&ring->numa_q_map[node].nr_queues);
+ 	if (nr_queues) {
++		struct cpumask *mask = ring->numa_q_map[node].registered_q_mask;
++
+ 		qid = ring->numa_q_map[node].cpu_to_qid[cpu];
++
++		/*
++		 * Background requests result in better performance on a different
++		 * CPU, unless CPUs are already busy.
++		 */
++		if (qid == cpu && background)
++			qid = cpumask_next_wrap(qid, mask);
++
  		if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
  			return NULL;
--		return READ_ONCE(ring->queues[qid]);
-+		queue = READ_ONCE(ring->queues[qid]);
-+
-+		/* Might happen on teardown */
-+		if (unlikely(!queue))
-+			return NULL;
-+
-+		/* Not atomic and with lock, approximate is enough */
-+		if (READ_ONCE(queue->nr_reqs) < FUSE_URING_Q_THRESHOLD)
-+			return queue;
-+
-+		/* Retries help for load balancing */
-+		if (retries < FUSE_URING_Q_RETRIES) {
-+			if (!retries)
-+				primary_queue = queue;
-+
-+			/* Increase cpu, assuming it will map to a differet qid*/
-+			qid = cpumask_next_wrap(qid, mask);
-+			retries++;
-+			goto retry;
-+		}
- 	}
+ 		return READ_ONCE(ring->queues[qid]);
+@@ -1364,7 +1375,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
+ 	int err;
  
-+	/* Retries exceeded, take the primary target queue */
-+	if (primary_queue)
-+		return primary_queue;
-+
- 	/* global registered queue bitmap */
- 	if (!smp_load_acquire(&ring->q_map.nr_queues))
- 		return NULL;
+ 	err = -EINVAL;
+-	queue = fuse_uring_select_queue(ring);
++	queue = fuse_uring_select_queue(ring, false);
+ 	if (!queue)
+ 		goto err;
+ 
+@@ -1408,7 +1419,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
+ 	struct fuse_ring_queue *queue;
+ 	struct fuse_ring_ent *ent = NULL;
+ 
+-	queue = fuse_uring_select_queue(ring);
++	queue = fuse_uring_select_queue(ring, true);
+ 	if (!queue)
+ 		return false;
+ 
 
 -- 
 2.43.0
