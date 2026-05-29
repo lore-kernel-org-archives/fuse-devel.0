@@ -1,249 +1,856 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8723FF1
-	for <fuse-devel@lists.linux.dev>; Fri, 29 May 2026 11:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E9A33C18B
+	for <fuse-devel@lists.linux.dev>; Fri, 29 May 2026 13:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780053732; cv=none; b=p1ENJVqItuwRLeP/OPLx3MXlrN81G1PBDDBcHkihznkkdgjzqtmRZ2cptaQ9uO5/vSNdAXOj4t3YFUoN4XbBcjRlQbFJOOgsL/AhCOUy7zCE89pI89VddlAf5WwnR91dqFQIm8keBLvdWDEWT7aprzaqySdVB71SmI2z1LaL8FU=
+	t=1780062191; cv=none; b=fyxeK+JnWZEAIUYM/jA5CuPl3cQ8K2hqa7YFqEMIr7Ld0fHOBtX0zmcbt3tc/NC9wWEqeACbuLYSLoAhYB8nUYJkTw8S3a1ENNt8pOq/6QOnOXFKDUDZT5k9gsxfqC9KWxNCK6vvldbxSWjbn3X5HywiXweao51q44vOSi0piyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780053732; c=relaxed/simple;
-	bh=Y480n0CkT3x0aYZwIQkQ8keQT/aHnTS9YGfQnYkb4wI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HZWU7sPfo0cGDQMnoYheU4CdKRn09M27jCuiz8BcvMsUrIKSJhBaWOzrU6ZSW7KhMvQzd+GUKybLAQFavC8v103Tm4bJ9vJK3ZPmsIAysgUMmWeIgu5yPIiUUrFJyNFSSr66ACyaH2uf+uEo41cg1MlMzA/U0bR2iYargMEePgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.fm; spf=pass smtp.mailfrom=fastmail.fm; dkim=pass (2048-bit key) header.d=fastmail.fm header.i=@fastmail.fm header.b=SpiVGhFm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bz7RDIWI; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.fm
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.fm
+	s=arc-20240116; t=1780062191; c=relaxed/simple;
+	bh=ue9ZThP3t/sKd+RjXyGJ45YGMm61kEycggHL/Y49230=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=FXEw8VQgkLOLjRKfar4Ls/hTbt7nojb/Ja99MbZKmqaU0qUwlS8iCiCH9fU8KmO151ilr+eQ9V4r061BaYql2lrRptJA++KSC5OOeN6R9ikgLfTLSR/JeR6/KtOpZOqy+tb4LEyYtPPYn7phiUgZmdExbQ++o0dX35x6ZigLuXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FZvyKoMj; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.fm header.i=@fastmail.fm header.b="SpiVGhFm";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bz7RDIWI"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 5AC2CEC01E2;
-	Fri, 29 May 2026 07:22:10 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 29 May 2026 07:22:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.fm; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1780053730;
-	 x=1780140130; bh=4oBCPu/QwL2NF1a5HAOtZG36cGwt2h7ewd9CDxd6KOA=; b=
-	SpiVGhFmY/ceM8mr5/m8Fnz6A4wovoaF66bffMcZ6caU3mG0u/iq+302dM+6cD5O
-	LfkWk5WMvb4lvAhDf2FTHvYlW1sR8790lfKVdhSKXyhgtUjkEr+WMwYmr3foGsIq
-	bBsTTn+XnBpUc9/4OWKznAVVzcb3hhK0jGlwdCCwhMhnrp49U9ui3J54Uocb8cbb
-	/JO9BIa0LBageVQZ4D1mxIyOQoZ1PzY+Dg/+IQgokGFyQL+vl84xoWvoulKIeN6+
-	kHeWnpr+w+CTZZyiuQAnAaUm2FvzTuld83Wh98NHm45dIkmqydERM+JU64lp+UIg
-	RYmKoUHeRDzuENREPfMyGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1780053730; x=
-	1780140130; bh=4oBCPu/QwL2NF1a5HAOtZG36cGwt2h7ewd9CDxd6KOA=; b=B
-	z7RDIWIWa63sm3K3SA/+8qhtJ3WN8iS9ArkHKOOTAmByKwH9ov0pgKY2MDlCADJg
-	RqVBwz95TPTZfPF9kM695BaFUtR2dj75yFw7siLi4lH6EQQd26P83PSgiim8ZCPj
-	EToKKCXkUiKE3TVo6kKzzP3d59SxQ2asAFmsw96LflTZJnZkM7CHjcAX2HVrqq/y
-	Bsla0L/F+SXwPmQzhVvMZYW8zYmhR+MVbL0xUBVNmu31EBWlP/7pkkIWMqmvShG3
-	+irb8lX3hrweUGfLztJEjGORfeDSKaAOJoCh7bueMmaFxJXQJochth98uJj8ILkl
-	yZZ+sh784r5b49E1FLUjA==
-X-ME-Sender: <xms:4nYZatxYVoTsspyCour1xOyFOgW0Xp5i_CUzGNae1iIPjAp9pX09Tg>
-    <xme:4nYZaowQfEKGzxxJ6ab_QS1SemyNHUaDM_2N8WOs5yjeZNqQx11qLzxxOqQoaU6JX
-    CI2xaF00PuRmVXdUayEEknw4QuDU0OzhQJ8LSetoG9hvyBEJhAF>
-X-ME-Received: <xmr:4nYZatz9YfQmbAyDkga5cGG4pyIVe17_qE9n0VgTdgAk3nCeeMxFt4A2zJFfFjmSzCAI3xn2QK60lrIfO23jJvmzzUh99MbmXmpxB1yaMtonLIr9iQ>
-X-ME-Proxy-Cause: dmFkZTGEOS9MInoRiUXQPZzbXtTcCEmB6DQZ39Z7AHnDb6Yu056uKTZwISHFNMeZ8VyNfz
-    KPTuyM8QutqfxsQWNsEV/RITX3qItkHavQfmcFc0gQ0GrVfVHUzMKwtCWDl/Z6E/Jh4RQ+
-    sIjyKwGiS3BVqt1j25UqaziNu/ilPcEUuBpnKyURvI/4Qm3PpCc4JrPF1D6F/ihfGR10IX
-    N8NM2ohUjfrjxfL9b5bonqcjOtN+kIqYeRUCP3ycJBxzeZL/KtInu6K3Yo1kkKvDtcSQJF
-    WlEEoDBET9KxkDOwaDqtST7xo6xS4FHKOBcM5O4VZvbt/0hZEy6NOmbABO2vqKmfay0NYJ
-    KYnnxlpulNaPVXSkV3fesrza4VOQogwzSm+/61NJcuBWQzo70ZrRzgj+Yka2Fp+5Kdp8eu
-    jlFN/iXXZtGQCW8KRIqm1ftqeic0oNjbSBl7m8mf8pbWooQaOBZloZEx74l/laRBzEIgJ0
-    Z5S8fTCjQ7WLCsVFMtVh75fPOaRkUyFxMD+y8BdJv1IhRg/ICcsIUTlv9wzavKEPJDyp54
-    zX9fJ6o26cA3eAM1k1GZYw0G1v+oRNWdG8PN4SdO8RkTuXIeQKXR0uPiPvi6PUSlJnoMPE
-    Ezh+OMmOQRKBIrXTeX8qo8TYlGEIjaRs4TVv985RbHXS+AO1o+6UEMdq+ZXw
-X-ME-Proxy: <xmx:4nYZaqZ7shtDAZF-hPCCuigT9E1hsT4m-ERt2gmI_cFDLBeCtbrEsQ>
-    <xmx:4nYZamUjGhuNDgpErY6lad12xdzPwvSM4zCbiemRUbLXieEt4mrzVw>
-    <xmx:4nYZaggYQ5MfRs2baQRCoMJajgVPg4_HvW7CcqTibdwYA3TZ7HNAlQ>
-    <xmx:4nYZasus-Qk3U33q0m2DFzsBjJ6SDnOw4jJigHfe1JmpM3BXnBwEQg>
-    <xmx:4nYZakS_WVNFROTKNJ-WfIdtZbRFNdqaEqnWJnDir9aToxrOY8jcnJkR>
-Feedback-ID: id8a24192:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 May 2026 07:22:09 -0400 (EDT)
-Message-ID: <cc8d9d33-444d-4c5e-9def-428794d87f3d@fastmail.fm>
-Date: Fri, 29 May 2026 13:22:08 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FZvyKoMj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780062187;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=FKTA4RCHKCz2KKA9wXNpc4hYUgAoPfVgN618I6qkEvY=;
+	b=FZvyKoMjcbhIiNJ0C1pwYm53BlSntjVzCdzYXHSus8VEVPjtUiv0b6LDJOdVHKB4fdVXR3
+	IEg7i3IZ69LrV1J7+3SNF8/NV4LsLpMs7Y7VwHkh+D90Mx5Lu5d5xzmiT3AY9PEqOYPyqY
+	zBc4mcaHURQeGaPBeEmJCL9mw1ConpQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-676-7EltcZcPMNeMUUQ59KksQQ-1; Fri, 29 May 2026 09:43:06 -0400
+X-MC-Unique: 7EltcZcPMNeMUUQ59KksQQ-1
+X-Mimecast-MFC-AGG-ID: 7EltcZcPMNeMUUQ59KksQQ_1780062185
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-45ef3c7073eso412570f8f.2
+        for <fuse-devel@lists.linux.dev>; Fri, 29 May 2026 06:43:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780062185; x=1780666985;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FKTA4RCHKCz2KKA9wXNpc4hYUgAoPfVgN618I6qkEvY=;
+        b=Az71vVx/zGc4gHgWyjI9+RPQzQLtioZOkyEHF4BPcKu3cAQH1cMfVwX8UYte+O+mYN
+         Phniu6NNV0HKxPTDOvq/QBDO1QXSrMINPHwyijXjYN5xB0AA3zb767v5Dkil0/MeS4fn
+         akCpouSo7sE4L8FF0ay95xOl3ONNtsls7eHcblHHtIzLEgn1Hx52JDqF0icP10s6cqiA
+         CtCmg0ukrYCg+r6fZxrNLEmF+UQENfmTMrbFElsIQFQRQKStDrgfmyT57Rqn4kNUrfyN
+         IfPXkK0oY28VpsLm5ZzrSvE0VXyj+y2Tr4ATlQKuqU7uWfUaKx5rXx3S6+XaLjXLVbC8
+         EAwA==
+X-Gm-Message-State: AOJu0YyZ0WjKmwEEnpB4SGcwWbyxKQJE1Fv7zEgao4f8yQGivT5wdzui
+	PnJBcbGf+J4MuA9iYFP6rJdbBMDg8xzlsPKlPnBIcTeuv2fUIawIaU1MxZL3zrWJ5L1dI+emv3d
+	npS0uNp6sw1k3X9MXn12IybC7zdhMdIXhcVvBLryTpVwS4nI7azzX1D6wAVwGaf0=
+X-Gm-Gg: Acq92OGhbISMT9u6kw/rc5ruRP09Bh2m8Ct7dW7gCS1o5mRKT6ft1NMobs17MApcWwD
+	OsP64ERzCYAjc5j/iPkyd1Nlr5y+R0RVbMKRsusniFOK8kjnCmnD36/R2Ab5YzMqjN0a89eWvMt
+	O3+vmhu+3YOuSxOO8whbJ3Zkab5CGfKNtXxvXmiADb9PIBI+UtT9MJT+jRNYHy+NckwMiUTYA3E
+	nlb3wCLaEgyvhw1AO69iX0bdMpeRL37SUgSe8T5BVLEY/h5wOW1hWo/Ujvgk8qPGoywHk+OXaN8
+	z2q7/HAquP8VutccDO9y6guJE21/Vds+g+6KTY9B/kl5agLqzuDtSdRg1TLw3QqE+eVNREYvm7W
+	VbJU9nqyVn67YJyTpppiFYqKZUBF08V2lkHhIhYgScFiCBBD0C6+VlydM0C1qKMmvaDM8EFgVws
+	BZFvhmArgLpg4=
+X-Received: by 2002:a5d:5f54:0:b0:45e:ce49:43e7 with SMTP id ffacd0b85a97d-45ef1412e75mr5881555f8f.15.1780062184344;
+        Fri, 29 May 2026 06:43:04 -0700 (PDT)
+X-Received: by 2002:a5d:5f54:0:b0:45e:ce49:43e7 with SMTP id ffacd0b85a97d-45ef1412e75mr5881488f8f.15.1780062183814;
+        Fri, 29 May 2026 06:43:03 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (78-131-46-194.pool.digikabel.hu. [78.131.46.194])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef357635fsm3587276f8f.33.2026.05.29.06.43.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 06:43:03 -0700 (PDT)
+From: Miklos Szeredi <mszeredi@redhat.com>
+To: John Groves <john@groves.net>
+Cc: fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
+Date: Fri, 29 May 2026 15:43:01 +0200
+Message-ID: <20260529134302.1989958-1-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: add fuse_request_recv tracepoint
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong
- <joannelkoong@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>,
- fuse-devel@lists.linux.dev
-References: <20260527171808.828637-1-amir73il@gmail.com>
- <92906aae-a3eb-4ea4-adad-7289045fdbff@fastmail.fm>
- <CAOQ4uxiNZPA7SiCf_nkJFa_9HZetJGDn_REoihRTX9ePYpqMmg@mail.gmail.com>
-From: Bernd Schubert <bernd.schubert@fastmail.fm>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAOQ4uxiNZPA7SiCf_nkJFa_9HZetJGDn_REoihRTX9ePYpqMmg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: n_f-DMUUzHNzZu3ddq5Ax509qB4PW_VYKISBqzp4alY_1780062185
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
+The difference is that now the server needs to look at the fmap and check
+if any new device needs registering, the device index is now allocated by
+the kernel and returned by the ioctl().
 
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+---
+This is the first part of what we were talking about: using the backing
+file API for dax devices.
 
-On 5/29/26 12:37, Amir Goldstein wrote:
-> On Fri, May 29, 2026 at 1:01 AM Bernd Schubert
-> <bernd.schubert@fastmail.fm> wrote:
->>
->>
->>
->> On 5/27/26 19:18, Amir Goldstein wrote:
->>> This new tracepoint complements the existing fuse_request_send (enqueue)
->>> and fuse_request_end (completion) with a tracepoint at the transition
->>> from "pending" to "in-progress" at the moment a daemon thread dequeues
->>> a request from fiq->pending.
->>>
->>> This is needed for tools tracking the in-flight state of fuse requests.
->>>
->>> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
->>> ---
->>>
->>> Miklos,
->>>
->>> This patch is not technically a fix patch, but it complements the
->>> tracepoints that were added in 6.12 by commit 396b209e405a5 ("fuse: add
->>> simple request tracepoints"), so it is my intention to backport it up to
->>> 6.12.y for use on production kernels.
->>>
->>> I came across the need for this tracepoint when working on fuse queue
->>> monitoring tools [1] for our production env.
->>>
->>> The fuse_request_send tracepoint is broken on 6.12.y, so I also plan to
->>> post a backport patch for 0d375a1385ed8 ("fuse: capture the unique id of
->>> fuse commands being sent").  Not sure why it was not tagged as Fixes.
->>> The existence of fuse_request_recv
->>>
->>> This patch is intentionally based on upstream fuse (v7.1-rc2) and not
->>> on for-next branch, with ease of backport in mind.
->>>
->>> Specifically, commit 80cea98b648ba ("fuse: change req->fm to req->chan")
->>> on for-next needs to apply the same change to the new tracepoint as well.
->>>
->>> Would you consider applying this patch at the bottom of for-next and
->>> make this adjustment to your refactoring commit?
->>>
->>> Thanks,
->>> Amir.
->>>
->>> [1] https://github.com/amir73il/bcc/commits/fuseq/
->>>
->>>  fs/fuse/dev.c        |  1 +
->>>  fs/fuse/fuse_trace.h | 22 ++++++++++++++++++++++
->>>  2 files changed, 23 insertions(+)
->>>
->>> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
->>> index 5dda7080f4a90..583155157d117 100644
->>> --- a/fs/fuse/dev.c
->>> +++ b/fs/fuse/dev.c
->>> @@ -1475,6 +1475,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fud, struct file *file,
->>>       req = list_entry(fiq->pending.next, struct fuse_req, list);
->>>       clear_bit(FR_PENDING, &req->flags);
->>>       list_del_init(&req->list);
->>> +     trace_fuse_request_recv(req);
->>>       spin_unlock(&fiq->lock);
->>>
->>>       args = req->args;
->>> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
->>> index bbe9ddd8c7169..289a279b3c312 100644
->>> --- a/fs/fuse/fuse_trace.h
->>> +++ b/fs/fuse/fuse_trace.h
->>> @@ -101,6 +101,28 @@ TRACE_EVENT(fuse_request_send,
->>>                 __print_symbolic(__entry->opcode, OPCODES), __entry->len)
->>>  );
->>>
->>> +TRACE_EVENT(fuse_request_recv,
->>> +     TP_PROTO(const struct fuse_req *req),
->>> +
->>> +     TP_ARGS(req),
->>> +
->>> +     TP_STRUCT__entry(
->>> +             __field(dev_t,                  connection)
->>> +             __field(uint64_t,               unique)
->>> +             __field(enum fuse_opcode,       opcode)
->>> +     ),
->>> +
->>> +     TP_fast_assign(
->>> +             __entry->connection     =       req->fm->fc->dev;
->>> +             __entry->unique         =       req->in.h.unique;
->>> +             __entry->opcode         =       req->in.h.opcode;
->>> +     ),
->>> +
->>> +     TP_printk("connection %u req %llu opcode %u (%s)",
->>> +               __entry->connection, __entry->unique, __entry->opcode,
->>> +               __print_symbolic(__entry->opcode, OPCODES))
->>> +);
->>> +
->>>  TRACE_EVENT(fuse_request_end,
->>>       TP_PROTO(const struct fuse_req *req),
->>>
->>
->> I find the name 'fuse_request_recv' a bit confusing. Why not
->> 'fuse_request_read'?
-> 
-> Well, to balance fuse_request_send of course ;)
+It's on top of the famfs-v10 patchset.
 
-Reading my own patch:
-
-Rename trace_fuse_request_send to trace_fuse_request_enqueue
-Add trace_fuse_request_send
-Add trace_fuse_request_bg_enqueue
-Add trace_fuse_request_enqueue
-
-with
-
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index
-1ccf5a9c61ae2b11bc1d0b799c08e6da908a9782..8e1a95f80e5454d1351ecb90beacbb35779731bb
-100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -281,7 +281,9 @@ static void fuse_send_one(struct fuse_iqueue *fiq,
-struct fuse_req *req)
- 	req->in.h.len = sizeof(struct fuse_in_header) +
- 		fuse_len_args(req->args->in_numargs,
- 			      (struct fuse_arg *) req->args->in_args);
--	trace_fuse_request_send(req);
-+
-+	/* enqueue, as it is send to "fiq->ops queue" */
-+	trace_fuse_request_enqueue(req);
- 	fiq->ops->send_req(fiq, req);
- }
-
-@@ -580,6 +582,8 @@ static int fuse_request_queue_background(struct
-fuse_req *req)
- 	}
- 	__set_bit(FR_ISREPLY, &req->flags);
-
-+	trace_fuse_request_bg_enqueue(req);
-+
-
-@@ -1314,6 +1318,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev
-*fud, struct file *file,
- 	clear_bit(FR_PENDING, &req->flags);
- 	list_del_init(&req->list);
- 	spin_unlock(&fiq->lock);
-+	trace_fuse_request_send(req);
-
- 	args = req->args;
- 	reqsize = req->in.h.len;
-
-
-IMHO, trace_fuse_request_enqueue / trace_fuse_request_bg_enqueue for
-adding to the queue and trace_fuse_request_send for reading/handling the
-request is less confusing.
-
+Totally untested, haven't even tried booting it.  Obviously needs
+nontrivial conversion in the server code as well.
 
 Thanks,
-Bernd
+Miklos
+
+fs/fuse/Kconfig           |   1 +
+ fs/fuse/backing.c         |  28 ++-
+ fs/fuse/famfs.c           | 346 ++++++++++----------------------------
+ fs/fuse/famfs_kfmap.h     |   2 -
+ fs/fuse/fuse_i.h          |  25 +--
+ fs/fuse/inode.c           |   7 +-
+ include/uapi/linux/fuse.h |   8 +-
+ 7 files changed, 123 insertions(+), 294 deletions(-)
+
+diff --git a/fs/fuse/Kconfig b/fs/fuse/Kconfig
+index 17fe1f490cbd..8dbd6663808e 100644
+--- a/fs/fuse/Kconfig
++++ b/fs/fuse/Kconfig
+@@ -79,6 +79,7 @@ config FUSE_IO_URING
+ 
+ config FUSE_FAMFS_DAX
+ 	bool "FUSE support for fs-dax filesystems backed by devdax"
++	select FUSE_PASSTHROUGH
+ 	depends on FUSE_FS
+ 	depends on DEV_DAX_FSDEV
+ 	default FUSE_FS
+diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+index d95dfa48483f..e56b7f8d5d2b 100644
+--- a/fs/fuse/backing.c
++++ b/fs/fuse/backing.c
+@@ -37,14 +37,14 @@ void fuse_backing_files_init(struct fuse_conn *fc)
+ 	idr_init(&fc->backing_files_map);
+ }
+ 
+-static int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backing *fb)
++int fuse_backing_id_alloc(struct fuse_conn *fc, void *obj)
+ {
+ 	int id;
+ 
+ 	idr_preload(GFP_KERNEL);
+ 	spin_lock(&fc->lock);
+ 	/* FIXME: xarray might be space inefficient */
+-	id = idr_alloc_cyclic(&fc->backing_files_map, fb, 1, 0, GFP_ATOMIC);
++	id = idr_alloc_cyclic(&fc->backing_files_map, obj, 1, 0, GFP_ATOMIC);
+ 	spin_unlock(&fc->lock);
+ 	idr_preload_end();
+ 
+@@ -75,7 +75,10 @@ static int fuse_backing_id_free(int id, void *p, void *data)
+ 
+ void fuse_backing_files_free(struct fuse_conn *fc)
+ {
+-	idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
++	if (fc->famfs_iomap)
++		famfs_teardown(fc);
++	else
++		idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
+ 	idr_destroy(&fc->backing_files_map);
+ }
+ 
+@@ -88,13 +91,23 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+ 
+ 	pr_debug("%s: fd=%d flags=0x%x\n", __func__, map->fd, map->flags);
+ 
++	if (map->padding)
++		return -EINVAL;
++
++	if (fc->famfs_iomap) {
++		if (map->flags != FUSE_BACKING_DAXDEV)
++			return -EINVAL;
++
++		return famfs_daxdev_open(fc, map);
++	}
++
+ 	/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
+ 	res = -EPERM;
+ 	if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+ 		goto out;
+ 
+ 	res = -EINVAL;
+-	if (map->flags || map->padding)
++	if (map->flags)
+ 		goto out;
+ 
+ 	file = fget_raw(map->fd);
+@@ -144,6 +157,10 @@ int fuse_backing_close(struct fuse_conn *fc, int backing_id)
+ 
+ 	pr_debug("%s: backing_id=%d\n", __func__, backing_id);
+ 
++	/* No close for dax device (yet) */
++	if (fc->famfs_iomap)
++		return -EINVAL;
++
+ 	/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
+ 	err = -EPERM;
+ 	if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+@@ -170,6 +187,9 @@ struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id)
+ {
+ 	struct fuse_backing *fb;
+ 
++	if (fc->famfs_iomap)
++		return NULL;
++
+ 	rcu_read_lock();
+ 	fb = idr_find(&fc->backing_files_map, backing_id);
+ 	fb = fuse_backing_get(fb);
+diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
+index 121ed74e9727..c49362d19b36 100644
+--- a/fs/fuse/famfs.c
++++ b/fs/fuse/famfs.c
+@@ -23,15 +23,15 @@
+ #include "fuse_i.h"
+ 
+ static void famfs_set_daxdev_err(
+-	struct fuse_conn *fc, struct dax_device *dax_devp);
++	struct famfs_daxdev *dd, struct dax_device *dax_devp);
+ 
+ static int
+ famfs_dax_notify_failure(struct dax_device *dax_devp, u64 offset,
+ 			u64 len, int mf_flags)
+ {
+-	struct fuse_conn *fc = dax_holder(dax_devp);
++	struct famfs_daxdev *dd = dax_holder(dax_devp);
+ 
+-	famfs_set_daxdev_err(fc, dax_devp);
++	famfs_set_daxdev_err(dd, dax_devp);
+ 
+ 	return 0;
+ }
+@@ -51,6 +51,26 @@ static const struct address_space_operations famfs_dax_aops = {
+ 
+ /*****************************************************************************/
+ 
++static void famfs_daxdev_free(struct famfs_daxdev *dd)
++{
++	/* Only call fs_put_dax if fs_dax_get succeeded */
++	if (dd->devp) {
++		if (!dd->dax_err)
++			fs_put_dax(dd->devp, dd);
++		put_dax(dd->devp);
++	}
++	kfree(dd->name);
++	kfree(dd);
++}
++
++DEFINE_FREE(famfs_daxdev_free, struct famfs_daxdev *, if (_T) famfs_daxdev_free(_T));
++
++static int famfs_devidx_free(int id, void *p, void *data)
++{
++	famfs_daxdev_free(p);
++	return 0;
++}
++
+ /*
+  * famfs_teardown()
+  *
+@@ -59,263 +79,90 @@ static const struct address_space_operations famfs_dax_aops = {
+ void
+ famfs_teardown(struct fuse_conn *fc)
+ {
+-	struct famfs_dax_devlist *devlist __free(kfree) = fc->dax_devlist;
+-	int i;
+-
+-	fc->dax_devlist = NULL;
+-
+-	if (!devlist)
+-		return;
+-
+-	if (!devlist->devlist)
+-		return;
+-
+-	/* Close & release all the daxdevs in our table */
+-	for (i = 0; i < devlist->nslots; i++) {
+-		struct famfs_daxdev *dd = &devlist->devlist[i];
+-
+-		if (!dd->valid)
+-			continue;
+-
+-		/* Only call fs_put_dax if fs_dax_get succeeded */
+-		if (dd->devp) {
+-			if (!dd->dax_err)
+-				fs_put_dax(dd->devp, fc);
+-			put_dax(dd->devp);
+-		}
+-
+-		kfree(dd->name);
+-	}
+-	kfree(devlist->devlist);
++	idr_for_each(&fc->backing_files_map, famfs_devidx_free,  NULL);
+ }
+ 
+ static int
+-famfs_verify_daxdev(const char *pathname, dev_t *devno)
++famfs_verify_daxdev(const struct path *path, dev_t *devno)
+ {
+-	struct inode *inode;
+-	struct path path;
+-	int err;
++	struct inode *inode = d_inode(path->dentry);
+ 
+-	if (!pathname || !*pathname)
++	if (!S_ISCHR(inode->i_mode))
+ 		return -EINVAL;
+ 
+-	err = kern_path(pathname, LOOKUP_FOLLOW, &path);
+-	if (err)
+-		return err;
+-
+-	inode = d_backing_inode(path.dentry);
+-	if (!S_ISCHR(inode->i_mode)) {
+-		err = -EINVAL;
+-		goto out_path_put;
+-	}
+-
+-	if (!may_open_dev(&path)) { /* had to export this */
+-		err = -EACCES;
+-		goto out_path_put;
+-	}
++	if (!may_open_dev(path)) /* had to export this */
++		return -EACCES;
+ 
+ 	*devno = inode->i_rdev;
+ 
+-out_path_put:
+-	path_put(&path);
+-	return err;
++	return 0;
+ }
+ 
+-/**
+- * famfs_fuse_get_daxdev() - Retrieve info for a DAX device from fuse server
+- *
+- * Send a GET_DAXDEV message to the fuse server to retrieve info on a
+- * dax device.
+- *
+- * @fm:     fuse_mount
+- * @index:  the index of the dax device; daxdevs are referred to by index
+- *          in fmaps, and the server resolves the index to a particular daxdev
+- *
+- * Returns: 0=success
+- *          -errno=failure
+- */
+-static int
+-famfs_fuse_get_daxdev(struct fuse_mount *fm, const u64 index)
++static int famfs_fuse_get_daxdev(const struct path *path, struct famfs_daxdev *dd)
+ {
+-	struct fuse_daxdev_out daxdev_out = { 0 };
+-	struct fuse_conn *fc = fm->fc;
+-	struct famfs_daxdev *daxdev;
+ 	int rc;
+ 
+-	FUSE_ARGS(args);
+-
+-	/* Store the daxdev in our table */
+-	if (index >= fc->dax_devlist->nslots) {
+-		pr_err("%s: index(%lld) > nslots(%d)\n",
+-		       __func__, index, fc->dax_devlist->nslots);
+-		return -EINVAL;
+-	}
+-
+-	args.opcode = FUSE_GET_DAXDEV;
+-	args.nodeid = index;
+-
+-	args.in_numargs = 0;
+-
+-	args.out_numargs = 1;
+-	args.out_args[0].size = sizeof(daxdev_out);
+-	args.out_args[0].value = &daxdev_out;
+-
+-	/* Send GET_DAXDEV command */
+-	rc = fuse_simple_request(fm, &args);
++	/* Verify dev is valid and can be opened and gets the devno */
++	rc = famfs_verify_daxdev(path, &dd->devno);
+ 	if (rc) {
+-		pr_err("%s: rc=%d from fuse_simple_request()\n",
+-		       __func__, rc);
+-		/* Error will be that the payload is smaller than FMAP_BUFSIZE,
+-		 * which is the max we can handle. Empty payload handled below.
+-		 */
++		pr_err("%s: rc=%d from famfs_verify_daxdev()\n", __func__, rc);
+ 		return rc;
+ 	}
+ 
+-	scoped_guard(rwsem_write, &fc->famfs_devlist_sem) {
+-		daxdev = &fc->dax_devlist->devlist[index];
+-
+-		/* Abort if daxdev is now valid (races are possible here) */
+-		if (daxdev->valid) {
+-			pr_debug("%s: daxdev already known\n", __func__);
+-			return 0;
+-		}
+-
+-		/* Verify dev is valid and can be opened and gets the devno */
+-		rc = famfs_verify_daxdev(daxdev_out.name, &daxdev->devno);
+-		if (rc) {
+-			pr_err("%s: rc=%d from famfs_verify_daxdev()\n",
+-			       __func__, rc);
+-			return rc;
+-		}
+-
+-		daxdev->name = kstrdup(daxdev_out.name, GFP_KERNEL);
+-		if (!daxdev->name)
+-			return -ENOMEM;
++	dd->name = kasprintf(GFP_KERNEL, "%pd4", path->dentry);
++	if (!dd->name)
++		return -ENOMEM;
+ 
+-		/* This will fail if it's not a dax device */
+-		daxdev->devp = dax_dev_get(daxdev->devno);
+-		if (!daxdev->devp) {
+-			pr_warn("%s: device %s not found or not dax\n",
+-				__func__, daxdev_out.name);
+-			kfree(daxdev->name);
+-			daxdev->name = NULL;
++	/* This will fail if it's not a dax device */
++	dd->devp = dax_dev_get(dd->devno);
++	if (!dd->devp) {
++		pr_warn("%s: device %s not found or not dax\n",__func__, dd->name);
++			kfree(dd->name);
++			dd->name = NULL;
+ 			return -ENODEV;
+ 		}
+ 
+-		rc = fs_dax_get(daxdev->devp, fc, &famfs_fuse_dax_holder_ops);
+-		if (rc) {
+-			/* Mark as valid with dax_err to prevent retry loop.
+-			 * famfs_dax_err() will return -EIO on access attempts.
+-			 * Teardown handles this case: skips fs_put_dax, calls put_dax.
+-			 */
+-			daxdev->dax_err = 1;
+-			pr_err("%s: fs_dax_get(%lld) failed\n",
+-			       __func__, (u64)daxdev->devno);
+-		}
+-
+-		wmb(); /* All other fields must be visible before valid */
+-		daxdev->valid = 1;
++	rc = fs_dax_get(dd->devp, dd, &famfs_fuse_dax_holder_ops);
++	if (rc) {
++		/* Mark as valid with dax_err to prevent retry loop.
++		 * famfs_dax_err() will return -EIO on access attempts.
++		 * Teardown handles this case: skips fs_put_dax, calls put_dax.
++		 */
++		dd->dax_err = 1;
++		pr_err("%s: fs_dax_get(%lld) failed\n", __func__, (u64)dd->devno);
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-/**
+- * famfs_update_daxdev_table() - Update the daxdev table
+- * @fm:   fuse_mount
+- * @meta: famfs_file_meta, in-memory format, built from a GET_FMAP response
+- *
+- * This function is called for each new file fmap, to verify whether all
+- * referenced daxdevs are already known (i.e. in the table). Any daxdev
+- * indices referenced in @meta but not in the table will be retrieved via
+- * famfs_fuse_get_daxdev() and added to the table
+- *
+- * Return: 0=success
+- *         -errno=failure
+- */
+-static int
+-famfs_update_daxdev_table(
+-	struct fuse_mount *fm,
+-	const struct famfs_file_meta *meta)
++int famfs_daxdev_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+ {
+-	struct famfs_dax_devlist *local_devlist;
+-	struct fuse_conn *fc = fm->fc;
+-	int indices_to_fetch[MAX_DAXDEVS];
+-	int n_to_fetch = 0;
+-	int err;
+-
+-	/* First time through we will need to allocate the dax_devlist */
+-	if (!fc->dax_devlist) {
+-		local_devlist = kcalloc(1, sizeof(*fc->dax_devlist), GFP_KERNEL);
+-		if (!local_devlist)
+-			return -ENOMEM;
+-
+-		local_devlist->nslots = MAX_DAXDEVS;
+-
+-		local_devlist->devlist = kcalloc(MAX_DAXDEVS,
+-						 sizeof(struct famfs_daxdev),
+-						 GFP_KERNEL);
+-		if (!local_devlist->devlist) {
+-			kfree(local_devlist);
+-			return -ENOMEM;
+-		}
+-
+-		/* We don't need famfs_devlist_sem here because we use cmpxchg */
+-		if (cmpxchg(&fc->dax_devlist, NULL, local_devlist) != NULL) {
+-			kfree(local_devlist->devlist);
+-			kfree(local_devlist); /* another thread beat us to it */
+-		}
+-	}
++	struct famfs_daxdev *dd __free(famfs_daxdev_free) = kzalloc_obj(*dd);
++	int rc;
+ 
+-	/* Collect indices that need fetching while holding read lock */
+-	scoped_guard(rwsem_read, &fc->famfs_devlist_sem) {
+-		unsigned long i;
++	CLASS(fd_raw, f)(map->fd);
++	if (fd_empty(f))
++		return -EBADF;
+ 
+-		for_each_set_bit(i, (unsigned long *)&meta->dev_bitmap, MAX_DAXDEVS) {
+-			if (!(fc->dax_devlist->devlist[i].valid))
+-				indices_to_fetch[n_to_fetch++] = i;
+-		}
+-	}
++	rc = famfs_fuse_get_daxdev(&fd_file(f)->f_path, dd);
++	if (rc)
++		return rc;
+ 
+-	/* Fetch needed daxdevs outside the read lock */
+-	for (int j = 0; j < n_to_fetch; j++) {
+-		err = famfs_fuse_get_daxdev(fm, indices_to_fetch[j]);
+-		if (err)
+-			pr_err("%s: failed to get daxdev=%d\n",
+-			       __func__, indices_to_fetch[j]);
+-	}
++	rc = fuse_backing_id_alloc(fc, dd);
++	if (rc >= 0)
++		retain_and_null_ptr(dd);
+ 
+-	return 0;
++	return rc;
+ }
+ 
+ static void
+ famfs_set_daxdev_err(
+-	struct fuse_conn *fc,
+-	struct dax_device *dax_devp)
++	struct famfs_daxdev *dd, struct dax_device *dax_devp)
+ {
+-	int i;
+-
+-	/* Gotta search the list by dax_devp;
+-	 * read lock because we're not adding or removing daxdev entries
+-	 */
+-	scoped_guard(rwsem_write, &fc->famfs_devlist_sem) {
+-		for (i = 0; i < fc->dax_devlist->nslots; i++) {
+-			if (fc->dax_devlist->devlist[i].valid) {
+-				struct famfs_daxdev *dd;
+-
+-				dd = &fc->dax_devlist->devlist[i];
+-				if (dd->devp != dax_devp)
+-					continue;
+ 
+-				dd->error = true;
++	dd->error = true;
+ 
+-				pr_err("%s: memory error on daxdev %s (%d)\n",
+-				       __func__, dd->name, i);
+-				return;
+-			}
+-		}
+-	}
+-	pr_err("%s: memory err on unrecognized daxdev\n", __func__);
++	pr_err("%s: memory error on daxdev %s\n", __func__, dd->name);
+ }
+ 
+ /***************************************************************************/
+@@ -447,9 +294,6 @@ famfs_fuse_meta_alloc(
+ 			meta->se[i].ext_offset = se_in[i].se_offset;
+ 			meta->se[i].ext_len    = se_in[i].se_len;
+ 
+-			/* Record bitmap of referenced daxdev indices */
+-			meta->dev_bitmap |= (1 << meta->se[i].dev_index);
+-
+ 			errs += famfs_check_ext_alignment(&meta->se[i]);
+ 
+ 			extent_total += meta->se[i].ext_len;
+@@ -545,9 +389,6 @@ famfs_fuse_meta_alloc(
+ 				strips_out[j].ext_offset = offset;
+ 				strips_out[j].ext_len    = len;
+ 
+-				/* Record bitmap of referenced daxdev indices */
+-				meta->dev_bitmap |= (1 << devindex);
+-
+ 				extent_total += len;
+ 				errs += famfs_check_ext_alignment(&strips_out[j]);
+ 				size_remainder -= len;
+@@ -603,7 +444,7 @@ famfs_fuse_meta_alloc(
+  * Return: 0=success
+  *          -errno=failure
+  */
+-int
++static int
+ famfs_file_init_dax(
+ 	struct fuse_mount *fm,
+ 	struct inode *inode,
+@@ -625,9 +466,6 @@ famfs_file_init_dax(
+ 	if (rc)
+ 		goto errout;
+ 
+-	/* Make sure this fmap doesn't reference any unknown daxdevs */
+-	famfs_update_daxdev_table(fm, meta);
+-
+ 	/* Publish the famfs metadata on fi->famfs_meta */
+ 	inode_lock(inode);
+ 
+@@ -662,11 +500,6 @@ static int famfs_file_bad(struct inode *inode);
+ 
+ static int famfs_dax_err(struct famfs_daxdev *dd)
+ {
+-	if (!dd->valid) {
+-		pr_err("%s: daxdev=%s invalid\n",
+-		       __func__, dd->name);
+-		return -EIO;
+-	}
+ 	if (dd->dax_err) {
+ 		pr_err("%s: daxdev=%s dax_err\n",
+ 		       __func__, dd->name);
+@@ -680,6 +513,18 @@ static int famfs_dax_err(struct famfs_daxdev *dd)
+ 	return 0;
+ }
+ 
++static struct famfs_daxdev *
++famfs_daxdev_lookup(struct fuse_conn *fc, int devidx)
++{
++	struct famfs_daxdev *dd;
++
++	rcu_read_lock();
++	dd = idr_find(&fc->backing_files_map, devidx);
++	rcu_read_unlock();
++
++	return dd;
++}
++
+ static int
+ famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
+ 			 loff_t file_offset, off_t len, unsigned int flags)
+@@ -730,21 +575,13 @@ famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
+ 			u64 strip_devidx = fei->ie_strips[strip_num].dev_index;
+ 			int rc;
+ 
+-			if (strip_devidx >= fc->dax_devlist->nslots) {
+-				pr_err("%s: strip_devidx %llu >= nslots %d\n",
+-				       __func__, strip_devidx,
+-				       fc->dax_devlist->nslots);
+-				goto err_out;
+-			}
+-
+-			if (!fc->dax_devlist->devlist[strip_devidx].valid) {
++			dd = famfs_daxdev_lookup(fc, strip_devidx);
++			if (!dd) {
+ 				pr_err("%s: daxdev=%lld invalid\n", __func__,
+ 					strip_devidx);
+ 				goto err_out;
+ 			}
+ 
+-			dd = &fc->dax_devlist->devlist[strip_devidx];
+-
+ 			rc = famfs_dax_err(dd);
+ 			if (rc) {
+ 				/* Shut down access to this file */
+@@ -756,7 +593,7 @@ famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
+ 			iomap->offset  = file_offset;
+ 			iomap->length  = min_t(loff_t, len, chunk_remainder);
+ 
+-			iomap->dax_dev = fc->dax_devlist->devlist[strip_devidx].devp;
++			iomap->dax_dev = dd->devp;
+ 
+ 			iomap->type    = IOMAP_MAPPED;
+ 			iomap->flags   = flags;
+@@ -815,11 +652,6 @@ famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
+ 	loff_t local_offset = file_offset;
+ 
+-	if (!fc->dax_devlist) {
+-		pr_err("%s: null dax_devlist\n", __func__);
+-		goto err_out;
+-	}
+-
+ 	if (famfs_file_bad(inode))
+ 		goto err_out;
+ 
+@@ -851,15 +683,13 @@ famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
+ 			struct famfs_daxdev *dd;
+ 			int rc;
+ 
+-			if (daxdev_idx >= fc->dax_devlist->nslots) {
+-				pr_err("%s: daxdev_idx %llu >= nslots %d\n",
+-				       __func__, daxdev_idx,
+-				       fc->dax_devlist->nslots);
++			dd = famfs_daxdev_lookup(fc, daxdev_idx);
++			if (!dd) {
++				pr_err("%s: daxdev=%lld invalid\n", __func__,
++					daxdev_idx);
+ 				goto err_out;
+ 			}
+ 
+-			dd = &fc->dax_devlist->devlist[daxdev_idx];
+-
+ 			rc = famfs_dax_err(dd);
+ 			if (rc) {
+ 				/* Shut down access to this file */
+@@ -884,7 +714,7 @@ famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
+ 			iomap->offset  = file_offset;
+ 			iomap->length  = min_t(loff_t, len, ext_len_remainder);
+ 
+-			iomap->dax_dev = fc->dax_devlist->devlist[daxdev_idx].devp;
++			iomap->dax_dev = dd->devp;
+ 
+ 			iomap->type    = IOMAP_MAPPED;
+ 			iomap->flags   = flags;
+diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
+index 970ad802b492..3f72ae8e4696 100644
+--- a/fs/fuse/famfs_kfmap.h
++++ b/fs/fuse/famfs_kfmap.h
+@@ -124,7 +124,6 @@ struct famfs_file_meta {
+ 	enum famfs_file_type   file_type;
+ 	size_t                 file_size;
+ 	enum famfs_extent_type fm_extent_type;
+-	u64 dev_bitmap; /* bitmap of referenced daxdevs by index */
+ 	union {
+ 		struct {
+ 			size_t         fm_nextents;
+@@ -145,7 +144,6 @@ struct famfs_file_meta {
+  */
+ struct famfs_daxdev {
+ 	/* Include dev uuid? */
+-	bool valid;
+ 	bool error; /* Dax has reported a memory error (probably poison) */
+ 	bool dax_err; /* fs_dax_get() failed */
+ 	dev_t devno;
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index dcbeaceda918..adc88a8681e2 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1006,11 +1006,6 @@ struct fuse_conn {
+ 		/* Request timeout (in jiffies). 0 = no timeout */
+ 		unsigned int req_timeout;
+ 	} timeout;
+-
+-#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+-	struct rw_semaphore famfs_devlist_sem;
+-	struct famfs_dax_devlist *dax_devlist;
+-#endif
+ };
+ 
+ /*
+@@ -1572,6 +1567,7 @@ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+ struct fuse_backing *fuse_backing_get(struct fuse_backing *fb);
+ void fuse_backing_put(struct fuse_backing *fb);
+ struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id);
++int fuse_backing_id_alloc(struct fuse_conn *fc, void *obj);
+ #else
+ 
+ static inline struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
+@@ -1647,22 +1643,14 @@ extern void fuse_sysctl_unregister(void);
+ /* famfs.c */
+ 
+ #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+-int famfs_file_init_dax(struct fuse_mount *fm,
+-			struct inode *inode, void *fmap_buf,
+-			size_t fmap_size);
+ ssize_t famfs_fuse_write_iter(struct kiocb *iocb, struct iov_iter *from);
+ ssize_t famfs_fuse_read_iter(struct kiocb *iocb, struct iov_iter	*to);
+ int famfs_fuse_mmap(struct file *file, struct vm_area_struct *vma);
+ void __famfs_meta_free(void *map);
+ 
++int famfs_daxdev_open(struct fuse_conn *fc, struct fuse_backing_map *map);
+ void famfs_teardown(struct fuse_conn *fc);
+ 
+-/* Set fi->famfs_meta = NULL regardless of prior value */
+-static inline void famfs_meta_init(struct fuse_inode *fi)
+-{
+-	fi->famfs_meta = NULL;
+-}
+-
+ /* Set fi->famfs_meta iff the current value is NULL */
+ static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
+ 						  void *meta)
+@@ -1678,11 +1666,6 @@ static inline void famfs_meta_free(struct fuse_inode *fi)
+ 	}
+ }
+ 
+-static inline void famfs_init_devlist_sem(struct fuse_conn *fc)
+-{
+-	init_rwsem(&fc->famfs_devlist_sem);
+-}
+-
+ static inline int fuse_file_famfs(struct fuse_inode *fi)
+ {
+ 	return (READ_ONCE(fi->famfs_meta) != NULL);
+@@ -1736,6 +1719,10 @@ fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
+ 	return 0;
+ }
+ 
++static inline int famfs_daxdev_open(struct fuse_conn *fc, struct fuse_backing_map *map)
++{
++	return -EINVAL;
++}
+ #endif /* CONFIG_FUSE_FAMFS_DAX */
+ 
+ #endif /* _FS_FUSE_I_H */
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 40e7ea5b6437..5e692fc84297 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1048,9 +1048,6 @@ void fuse_conn_put(struct fuse_conn *fc)
+ 		WARN_ON(atomic_read(&bucket->count) != 1);
+ 		kfree(bucket);
+ 	}
+-	if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
+-		famfs_teardown(fc);
+-
+ 	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+ 		fuse_backing_files_free(fc);
+ 	call_rcu(&fc->rcu, delayed_release);
+@@ -1480,10 +1477,8 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+ 				u64 in_flags = FIELD_PREP(GENMASK_ULL(63, 32), ia->in.flags2)
+ 						| ia->in.flags;
+ 
+-				if (in_flags & FUSE_DAX_FMAP) {
+-					famfs_init_devlist_sem(fc);
++				if (in_flags & FUSE_DAX_FMAP)
+ 					fc->famfs_iomap = 1;
+-				}
+ 			}
+ 		} else {
+ 			ra_pages = fc->max_read / PAGE_SIZE;
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index 1b82895108be..d6e8dc75c8a1 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -248,7 +248,6 @@
+  *    - struct fuse_famfs_iext
+  *    - struct fuse_famfs_fmap_header
+  *  - Add the following structs for the GET_DAXDEV message and reply
+- *    - struct fuse_get_daxdev_in
+  *    - struct fuse_get_daxdev_out
+  *  - Add the following enumerated types
+  *    - enum fuse_famfs_file_type
+@@ -1145,6 +1144,9 @@ struct fuse_notify_prune_out {
+ 	uint64_t	spare;
+ };
+ 
++/* Backing is a dax device */
++#define FUSE_BACKING_DAXDEV	(1 << 0)
++
+ struct fuse_backing_map {
+ 	int32_t		fd;
+ 	uint32_t	flags;
+@@ -1373,10 +1375,6 @@ struct fuse_famfs_fmap_header {
+ 	uint64_t reserved1;
+ };
+ 
+-struct fuse_get_daxdev_in {
+-	uint32_t        daxdev_num;
+-};
+-
+ #define DAXDEV_NAME_MAX 256
+ 
+ /* fuse_daxdev_out has enough space for a uuid if we need it */
+-- 
+2.54.0
+
