@@ -1,75 +1,75 @@
-Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED1D3CFF72
-	for <fuse-devel@lists.linux.dev>; Fri, 29 May 2026 11:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8723FF1
+	for <fuse-devel@lists.linux.dev>; Fri, 29 May 2026 11:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780053318; cv=none; b=ejexhWRksD0J1tTK3ncI0Dvq5EgmLmvtIuAVHJR1RfR93IEm5fOonx9Ex+PGcULH/filMTMwRpDMEynVZmWKHqJdGrsV9IJGVZkS/VxR2S7s/YNWCkjtF6ubojN4diI6f6+ZU67kj/F3AZcQaQectzu3nqFUk1T+8zpgoYk6huE=
+	t=1780053732; cv=none; b=p1ENJVqItuwRLeP/OPLx3MXlrN81G1PBDDBcHkihznkkdgjzqtmRZ2cptaQ9uO5/vSNdAXOj4t3YFUoN4XbBcjRlQbFJOOgsL/AhCOUy7zCE89pI89VddlAf5WwnR91dqFQIm8keBLvdWDEWT7aprzaqySdVB71SmI2z1LaL8FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780053318; c=relaxed/simple;
-	bh=aJoJ8z8P6XEfkAsEia++zc2raq9XOiX8G8iNXjhG5So=;
+	s=arc-20240116; t=1780053732; c=relaxed/simple;
+	bh=Y480n0CkT3x0aYZwIQkQ8keQT/aHnTS9YGfQnYkb4wI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MP5Sb1U5Pms6H/W6OmKdEErB2VBsFt+1iu+wkIA+48wvhBQ8lFevFUyWIuJxVtQpu6bL5/TAaigIkbKz+ESgpERinzzwt25+ox+BFy6XfqNco1sgpbZM7UzxuVtNqDUuUYwbzPeB3rS0HgST+mZiYJAQMrs39Dvu3A+a2H/9bLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.fm; spf=pass smtp.mailfrom=fastmail.fm; dkim=pass (2048-bit key) header.d=fastmail.fm header.i=@fastmail.fm header.b=eIZPUPfg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CHrDQgNN; arc=none smtp.client-ip=103.168.172.155
+	 In-Reply-To:Content-Type; b=HZWU7sPfo0cGDQMnoYheU4CdKRn09M27jCuiz8BcvMsUrIKSJhBaWOzrU6ZSW7KhMvQzd+GUKybLAQFavC8v103Tm4bJ9vJK3ZPmsIAysgUMmWeIgu5yPIiUUrFJyNFSSr66ACyaH2uf+uEo41cg1MlMzA/U0bR2iYargMEePgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.fm; spf=pass smtp.mailfrom=fastmail.fm; dkim=pass (2048-bit key) header.d=fastmail.fm header.i=@fastmail.fm header.b=SpiVGhFm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Bz7RDIWI; arc=none smtp.client-ip=103.168.172.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.fm
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.fm
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.fm header.i=@fastmail.fm header.b="eIZPUPfg";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CHrDQgNN"
+	dkim=pass (2048-bit key) header.d=fastmail.fm header.i=@fastmail.fm header.b="SpiVGhFm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Bz7RDIWI"
 Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id E1AFF14000A7;
-	Fri, 29 May 2026 07:15:15 -0400 (EDT)
+	by mailfout.phl.internal (Postfix) with ESMTP id 5AC2CEC01E2;
+	Fri, 29 May 2026 07:22:10 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 29 May 2026 07:15:15 -0400
+  by phl-compute-06.internal (MEProxy); Fri, 29 May 2026 07:22:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.fm; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1780053315;
-	 x=1780139715; bh=5D0HtU+EpN5rFRr3UvUObtdHs2E0jUF8xutgZpWKfbk=; b=
-	eIZPUPfgVhr/rKCtS9QE/sG9a29CIStKl5QJXsmzcDDbNaQbp+l3hgawvWIoYwbd
-	WgzldVBeJg/sWmmfN/qMzpnbXt6o2mwytNjUg1w8WiMDSm/fBRSCQ4cUMwg0KPBt
-	JDItUwDG3NoJJz4ZPopv8mI6CCN4Mpgl6iiJQ+JKIh+ZhJCwSr7UciOSmsu545pp
-	SFw+mFcRsHh2kHwFl1nrmRmrHIfY1HONVRkDtiQGPzHe4KVcP4LUpVJ3DPYWsk4l
-	2pUrCayobM0mNXnV46uI7ydNcOYOBz03SMhj6KXR/dEri0eiWs3rM2nu8pStMDX7
-	HGTqxjwFrs6dbEM/vheEOw==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1780053730;
+	 x=1780140130; bh=4oBCPu/QwL2NF1a5HAOtZG36cGwt2h7ewd9CDxd6KOA=; b=
+	SpiVGhFmY/ceM8mr5/m8Fnz6A4wovoaF66bffMcZ6caU3mG0u/iq+302dM+6cD5O
+	LfkWk5WMvb4lvAhDf2FTHvYlW1sR8790lfKVdhSKXyhgtUjkEr+WMwYmr3foGsIq
+	bBsTTn+XnBpUc9/4OWKznAVVzcb3hhK0jGlwdCCwhMhnrp49U9ui3J54Uocb8cbb
+	/JO9BIa0LBageVQZ4D1mxIyOQoZ1PzY+Dg/+IQgokGFyQL+vl84xoWvoulKIeN6+
+	kHeWnpr+w+CTZZyiuQAnAaUm2FvzTuld83Wh98NHm45dIkmqydERM+JU64lp+UIg
+	RYmKoUHeRDzuENREPfMyGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1780053315; x=
-	1780139715; bh=5D0HtU+EpN5rFRr3UvUObtdHs2E0jUF8xutgZpWKfbk=; b=C
-	HrDQgNNCExt9JrPk6e6YE6pfeam/q5+Vwxb3Veke4sRcAJ0whLQ9Fbhjf1AIbRBx
-	zHHQH0Nng2b5793FgY2P2JYaOzRM/4LqlFhbAc5HYNCoHnd2hx2/2kLSotgmhjPc
-	FOMnE3cIRUaWL5ZQ9TqF4TwTA5vTIND84N4krOH3HVDMXqS5PR+BB4ZqNQ7+dHYv
-	D1WMoB2Phv/sGVuysL+MbcJ09v2JdOjRbT5UjgRa8neHoB9JZpddMTgxAcVhldPZ
-	JlDG+1LFWuF+pe2+DY7H1b57nOQGkjMdQZoJln2d5kSWhZ8Bu68CG1eYI/Ztb127
-	rPWISyPyOFEOATrzQDkVw==
-X-ME-Sender: <xms:Q3UZarPeysihfpK_wTPn9ZYZ_0SdI6_tnSXM7VtNhj9LDoeX4L8DRQ>
-    <xme:Q3UZas2KpmQd3roqYo6wrx6ZiJYQXBjokd1FwnlG7la-09vT6Qy-30-F6XbdzJuba
-    X30zm_1j7GSTcQPpENcogiZeN-r426JI3iRQT0rFNurX5Jl_7y47g>
-X-ME-Received: <xmr:Q3UZainaq9ktgzoj6RS4L4vGzuazj4Id7rit7IcPO4tF6GwsyvqEQSs8tRmHmG-dJiqsm3PYhGW8SqZFozArmEFMQyakWCZrCG8-ZsD6fddkW1f5Fg>
-X-ME-Proxy-Cause: dmFkZTEc0eI00Sh9raV0ZUnLo1C2YV3STN6Dp/r1uqlozIl+6p91XAAqBPy1yeEw2b/D40
-    4PCBP6PEf1jpuE375+H4sMXwLaWXv63H8K+LcFY2ndb8tJ37xmyaWBsTGWQCPVlawbgnWc
-    KgF1GN3iwIAUuVkmBOKnikUK+OpsSKB9MzVxeBUXb6aiyixrflLD/FJVZxR1eQV/H60EIu
-    uzaaRtAL/y31YeKMizoMtmXEXL2Rhau0eW4LVosdsJS+6V+ciLxZ2D82DZUUX40LcJ9wmf
-    Zbc7hpoj4WIVAoH+PcildGg2efPachjMebe5Xv4HKah7u5FAaD59oOesDFqIcvnVWTt7BK
-    5OluXqlK1lx5SfgSk2ataMbYwQLfYSG0gBeq+bB2vDMJOWX/8GmaiUWLBzU9mGicCQqtPY
-    6Os2hFjwLhjN6aFAKxElFYYmOWKAyFxSa1IS2naP++RNL+MPFZXoXVKlL/RjpwzH/gA+zK
-    uierefRH2ittuOiBFDJ2PEyDCEfMOD++k7rPlVCVUKS3Fz5ZFLneO2u+vMiU3slDsJYbYm
-    KT1J1+CCXTJmMzCV7VXso+/DwNaQg1aGuvVjHzJ1jIk3MjkxgoN42Cu6yT64FdOTR0iU+d
-    KDl2EwANZeORjqwIyKOh80nHatbIq95aLuyvzFl7jvupB06vkr3TUDRhw9xA
-X-ME-Proxy: <xmx:Q3UZarXjmUWkJzZvBFESoE5EzVJpreatxneFvIdhNe8Pqfvq2A4Lsw>
-    <xmx:Q3UZagtPDPsK2VvqFUZA0GQV3DBTZS3A0FoqG4GBG8O5hi2OdKT2Yg>
-    <xmx:Q3UZambjYV-uN6AVfVjlYJl2l8GlDCTgz9qoHXKfEaFdfTUYbw-AzA>
-    <xmx:Q3UZanW-PPv7JPndb6aGulaLHRu4mZJqP1Q1qwLrqu6U7IFCKVqg3A>
-    <xmx:Q3UZarWss1v9IwxvyZ5-l5xWgbbKTmRIWuqkxJdupYg7sRq_xjq2GOln>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1780053730; x=
+	1780140130; bh=4oBCPu/QwL2NF1a5HAOtZG36cGwt2h7ewd9CDxd6KOA=; b=B
+	z7RDIWIWa63sm3K3SA/+8qhtJ3WN8iS9ArkHKOOTAmByKwH9ov0pgKY2MDlCADJg
+	RqVBwz95TPTZfPF9kM695BaFUtR2dj75yFw7siLi4lH6EQQd26P83PSgiim8ZCPj
+	EToKKCXkUiKE3TVo6kKzzP3d59SxQ2asAFmsw96LflTZJnZkM7CHjcAX2HVrqq/y
+	Bsla0L/F+SXwPmQzhVvMZYW8zYmhR+MVbL0xUBVNmu31EBWlP/7pkkIWMqmvShG3
+	+irb8lX3hrweUGfLztJEjGORfeDSKaAOJoCh7bueMmaFxJXQJochth98uJj8ILkl
+	yZZ+sh784r5b49E1FLUjA==
+X-ME-Sender: <xms:4nYZatxYVoTsspyCour1xOyFOgW0Xp5i_CUzGNae1iIPjAp9pX09Tg>
+    <xme:4nYZaowQfEKGzxxJ6ab_QS1SemyNHUaDM_2N8WOs5yjeZNqQx11qLzxxOqQoaU6JX
+    CI2xaF00PuRmVXdUayEEknw4QuDU0OzhQJ8LSetoG9hvyBEJhAF>
+X-ME-Received: <xmr:4nYZatz9YfQmbAyDkga5cGG4pyIVe17_qE9n0VgTdgAk3nCeeMxFt4A2zJFfFjmSzCAI3xn2QK60lrIfO23jJvmzzUh99MbmXmpxB1yaMtonLIr9iQ>
+X-ME-Proxy-Cause: dmFkZTGEOS9MInoRiUXQPZzbXtTcCEmB6DQZ39Z7AHnDb6Yu056uKTZwISHFNMeZ8VyNfz
+    KPTuyM8QutqfxsQWNsEV/RITX3qItkHavQfmcFc0gQ0GrVfVHUzMKwtCWDl/Z6E/Jh4RQ+
+    sIjyKwGiS3BVqt1j25UqaziNu/ilPcEUuBpnKyURvI/4Qm3PpCc4JrPF1D6F/ihfGR10IX
+    N8NM2ohUjfrjxfL9b5bonqcjOtN+kIqYeRUCP3ycJBxzeZL/KtInu6K3Yo1kkKvDtcSQJF
+    WlEEoDBET9KxkDOwaDqtST7xo6xS4FHKOBcM5O4VZvbt/0hZEy6NOmbABO2vqKmfay0NYJ
+    KYnnxlpulNaPVXSkV3fesrza4VOQogwzSm+/61NJcuBWQzo70ZrRzgj+Yka2Fp+5Kdp8eu
+    jlFN/iXXZtGQCW8KRIqm1ftqeic0oNjbSBl7m8mf8pbWooQaOBZloZEx74l/laRBzEIgJ0
+    Z5S8fTCjQ7WLCsVFMtVh75fPOaRkUyFxMD+y8BdJv1IhRg/ICcsIUTlv9wzavKEPJDyp54
+    zX9fJ6o26cA3eAM1k1GZYw0G1v+oRNWdG8PN4SdO8RkTuXIeQKXR0uPiPvi6PUSlJnoMPE
+    Ezh+OMmOQRKBIrXTeX8qo8TYlGEIjaRs4TVv985RbHXS+AO1o+6UEMdq+ZXw
+X-ME-Proxy: <xmx:4nYZaqZ7shtDAZF-hPCCuigT9E1hsT4m-ERt2gmI_cFDLBeCtbrEsQ>
+    <xmx:4nYZamUjGhuNDgpErY6lad12xdzPwvSM4zCbiemRUbLXieEt4mrzVw>
+    <xmx:4nYZaggYQ5MfRs2baQRCoMJajgVPg4_HvW7CcqTibdwYA3TZ7HNAlQ>
+    <xmx:4nYZasus-Qk3U33q0m2DFzsBjJ6SDnOw4jJigHfe1JmpM3BXnBwEQg>
+    <xmx:4nYZakS_WVNFROTKNJ-WfIdtZbRFNdqaEqnWJnDir9aToxrOY8jcnJkR>
 Feedback-ID: id8a24192:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 29 May 2026 07:15:14 -0400 (EDT)
-Message-ID: <d489efeb-000a-4c15-9bd2-3a1b253a0202@fastmail.fm>
-Date: Fri, 29 May 2026 13:15:13 +0200
+ 29 May 2026 07:22:09 -0400 (EDT)
+Message-ID: <cc8d9d33-444d-4c5e-9def-428794d87f3d@fastmail.fm>
+Date: Fri, 29 May 2026 13:22:08 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -193,54 +193,57 @@ On 5/29/26 12:37, Amir Goldstein wrote:
 >> 'fuse_request_read'?
 > 
 > Well, to balance fuse_request_send of course ;)
-> 
-> I'll note that _read() is not adequate for iouring, which bares the question,
-> should we also add a tracepoint at iouring dispatch:
-> 
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 7b9822e8837bc..97cb990bf9de3 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -702,10 +702,12 @@ static int fuse_uring_prepare_send(struct
-> fuse_ring_ent *ent,
->         int err;
-> 
->         err = fuse_uring_copy_to_ring(ent, req);
-> -       if (!err)
-> +       if (!err) {
->                 set_bit(FR_SENT, &req->flags);
-> -       else
-> +               trace_fuse_request_recv(req);
-> +       } else {
->                 fuse_uring_req_end(ent, req, err);
-> +       }
-> 
->         return err;
->  }
-> 
-> Not sure which pid will be traced here? the libfuse queue worker thread pid?
-> Is that meaningful to someone?
-> 
-> Another option for a tracepoint name, looking at the above would be
-> trace_fuse_request_sent()
-> 
-> But I would not change the name until anyone insists.
-> 
 
-So the sad part is that I had done all of that
+Reading my own patch:
 
-https://lore.kernel.org/all/20250403-fuse-io-uring-trace-points-v3-4-35340aa31d9c@ddn.com/
+Rename trace_fuse_request_send to trace_fuse_request_enqueue
+Add trace_fuse_request_send
+Add trace_fuse_request_bg_enqueue
+Add trace_fuse_request_enqueue
 
-However, I had noticed that we take the fiq lock just to increase the
-request unique, changed it to an atomic and then Miklos asked to change
-it to a per CPU counter. That got complex with per-cpu, the updated
-series had bugs, new unpublished versions maybe did not have anymore,
-but I didn't have time to test and triple verify the complexity. Then
-Darrick also changed traces - I had even less time to fix conflicts -
-there were are. From todays point of view, I just should pushed back for
-the atomic change, we now still have the worse spin lock and incomplete
-traces.
+with
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index
+1ccf5a9c61ae2b11bc1d0b799c08e6da908a9782..8e1a95f80e5454d1351ecb90beacbb35779731bb
+100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -281,7 +281,9 @@ static void fuse_send_one(struct fuse_iqueue *fiq,
+struct fuse_req *req)
+ 	req->in.h.len = sizeof(struct fuse_in_header) +
+ 		fuse_len_args(req->args->in_numargs,
+ 			      (struct fuse_arg *) req->args->in_args);
+-	trace_fuse_request_send(req);
++
++	/* enqueue, as it is send to "fiq->ops queue" */
++	trace_fuse_request_enqueue(req);
+ 	fiq->ops->send_req(fiq, req);
+ }
+
+@@ -580,6 +582,8 @@ static int fuse_request_queue_background(struct
+fuse_req *req)
+ 	}
+ 	__set_bit(FR_ISREPLY, &req->flags);
+
++	trace_fuse_request_bg_enqueue(req);
++
+
+@@ -1314,6 +1318,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev
+*fud, struct file *file,
+ 	clear_bit(FR_PENDING, &req->flags);
+ 	list_del_init(&req->list);
+ 	spin_unlock(&fiq->lock);
++	trace_fuse_request_send(req);
+
+ 	args = req->args;
+ 	reqsize = req->in.h.len;
+
+
+IMHO, trace_fuse_request_enqueue / trace_fuse_request_bg_enqueue for
+adding to the queue and trace_fuse_request_send for reading/handling the
+request is less confusing.
+
 
 Thanks,
 Bernd
-
