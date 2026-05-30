@@ -1,175 +1,233 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F00A317161
-	for <fuse-devel@lists.linux.dev>; Sat, 30 May 2026 02:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780107326; cv=pass; b=nLXmWjWgxYBrDL4YfCpzsPeaJsAXdRjESwkkCIuE6m3P6uAtjYCgJxaQJ8BuHcO2JCIOrOaiBOWeUXi9HXsEJ7rbg3W2O8sdUBhUtzsE95va86Md/eIg7y5A0SxKmZjbvf61BHJKUyp7fGGt4LIP3F6P2kIsaAseEx6e4S4Oedw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780107326; c=relaxed/simple;
-	bh=hBo1mZpiq6R1gUudU4oyOhNNAJzH1gaJHQj5Dbqzyik=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e7Oo88khjozbioQ6DLPcFjU8f7bm2bTd4C14BSTEZ83t/nJE9tAhfUxKpz2ANuWF/A81K9E5BmDqthTMcQZR2HBRGxmdCWwYpw6+IZ4ETkd3ZsZnJcH/kK2FTaOUUMePrERbhxwvb1iH6TPCE2MkzbEvyCOhbDbvBpB16i0J0jc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YV1RPVNl; arc=pass smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD5639B489
+	for <fuse-devel@lists.linux.dev>; Sat, 30 May 2026 11:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780139073; cv=none; b=q23h/fInu6OxrkLORs4iwuapw0dTV6mGd9H/g5/cd49mP3qf4X7fPaqGqT/6kypjIlmFewtTvRW9agd1UbIf2SGH4q3eUz+5W0TyaDBUDqu+ogJjIzNIwx5rnJO9snmjbj2AIb6GAtqb+Ok3a/Jexcvd0ORta5ZmYyFQPgaIHdQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780139073; c=relaxed/simple;
+	bh=fPFmUQ1sGZ0nKa25qqUlabVRM6NCAzwUV7H1v0cyQwg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qx3nYYwr09mqH1/SPggGuLnzkKTz6rNUUak5jqR3yaSw15sjwJ6K+X3MtyvqUfGQrX1p+Vtn0+fynhKb8ZIQiB4jrj/Vu45p/ogGbgK+irWgxIJh5CfbOFdpj2yNMgWNHpTKz5y8/Baekoyq+ykbWC6MPcCF7+HiZoOzlQjzjmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rGi+ciVz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Dt7qtgJ/; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bu03kCQx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=CCv9MuTP; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YV1RPVNl"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-45ef6565cfdso354442f8f.0
-        for <fuse-devel@lists.linux.dev>; Fri, 29 May 2026 19:15:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780107323; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AINNCrZ0sL1RsfIXYzYC8lX6PUj4/gzSdWfga3abtRkKdHA330RvBvcRwOAAZYjO98
-         m4CWYT8yjmBl8hSyO0VVBnTZfdusoEeGNUNVzlvX5xVxmyFu6u7OkRxzq3QxYKyG/9dN
-         06V8lgNiYZ85B+fMXocEYVSD3/6gP+5AG7j6MYXHeMl+t6ZYfIw5J6pZXKSkgDf7pmrV
-         H04Arb3NbMnWj5ubGsqnfA/mLR2SUXxzM3zxh1JXFDL2F8Ni/FREtGTOr+bAnqp2t0DR
-         YPFjk/2QOOHUt2+PGdf3h9BAplUz9bR5iVAUfbfQ2CmdextDY1IVfcZS+UJcoNYMBWjD
-         CQOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gEqMOpP7mfSN7mBG1OQxgecdTpvWjr1mxFCqvGIWdFw=;
-        fh=dIiHkR2EYf+xK8D4uyl7AQUEWKneT3gOWOQhys8Ogh8=;
-        b=fXUpbKsjwTONn4CbAGZ8nGWvXQ9MvqjF2zEjzb1jhP/W1812yJ6xC9aOysxIw88ZBp
-         SAGWRSn++Pm2vLz+FLmK1iTXKg/HFA+JGuA2t4AamtA2ZGEDDF/oHMtg8pgz39lxLqs5
-         BIQpvdWwwr5s9pkhHpOIPLbUBnHHLB4UgzyTcCcKJbmTZAQ5+npy4Fgz8m9x7u71lA2O
-         RJAj1sUjm+ABUfh73qQZ1iYmPb6oa9Uza4S4/M7jROLO8Yv3gP6TGN79rJ8XSvdna7Xu
-         KSQcR8NgfR21uRYTnTNqBpxTheWX8VTJgprE9jiNqNA3PfPRWpyIeenQ6z0jSbiuQX99
-         yrMA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780107323; x=1780712123; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gEqMOpP7mfSN7mBG1OQxgecdTpvWjr1mxFCqvGIWdFw=;
-        b=YV1RPVNlnajAyqAKtfFXCgBJQ1mi/RCLGT3SGIGI/l5KXMh8x/n1jdTACRWWC0EC+g
-         8CivgyVr9xSe8DbR25hpEsmnYy1z03Q/FGDgNSkvcF8lzpOvWmFX8/65SUE/MSabL4kM
-         9xZm0fyOtQWPwkVkH6iXysL9OIbAW/mrWc2n1y//wo3sD8EJqL+swdpUZR0uS8c/2YuB
-         mnj88Mc2xnPGWe6ffQbfwLrIovTmtEz9r1HDHb2iwEaeh8RopwFpQozV5um4GxeZqepv
-         ayYR89ZSchtShC1W6yjxNwxCNfZtdQiLMmR/Z6Do+yspAc0wOBIKkttGp9mN/Ccx0MiJ
-         cMcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780107323; x=1780712123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gEqMOpP7mfSN7mBG1OQxgecdTpvWjr1mxFCqvGIWdFw=;
-        b=ov7w+LH1keR8KG1cxMH66BFZI/ezcnL3mhbKRVBK6PeHkunlaQce+EUjbHhVgcEYb1
-         ZoOixddFGGMccEaPKo2pVSCEATffujIWAVOSgu8ZMp/D5KpEj4w6Q0YteNzdzbNe2Dz0
-         pTRwywqzX5XS78SAzWaEa8/T1b+EQFZxJsvAwt7UPAjBoHCSOmPmyjm4SzId5imwY3cQ
-         XnXn5qT+KWPixMKjnM8vU/dEb/o33U+kXzO2xHxzZLzLK/FTQYd7Xlv05Zb/0zuiNZ6h
-         kYC+U+Y4WKOe9PoZ5+odWDBWkPlFKElou3DG0W85hVkSxQImCeiu+fQvP/zCLIFsJjMX
-         v8gw==
-X-Forwarded-Encrypted: i=1; AFNElJ96DkDRPWAQmhz+iSgCMg2W/ZQ3hgTAd83V2i4Bs18skNHybR1C2cAWLIFPIc43YP46RJO2Uhx3XTRz@lists.linux.dev
-X-Gm-Message-State: AOJu0YysqhOasLZHdL0GIneQCyvkQ+abTjC/UEWz5YVN1tpYPARS1e5a
-	nuCpHa53bo8kuq7W2awVBcIuNoV3z3Lm9ZFjJQgLbWRI4K+W//FPHV7W76BvJ8Gix+v+CHDZeSt
-	JKrTp/podjyieu2VelLp+Im25FgSSRZM=
-X-Gm-Gg: Acq92OGSmn+cP5UC59I0txrImV1o2K7oKRGzwL0Lnrpaw60hs/cOTRNUNqNOR5qaFKt
-	UIcgv2jTtLjOOFVhSeE48aw5HJ1N5JgiCOt7ZCL4nAqL8inhnWuUgl8Sebmi2sS3QFp1y3iIgtH
-	vlNNdtnv6ccPmOB9C1ookCYqRPAZovspEtRNvDaQuKHRw8FafDrtvh/O5KaQnmkZfMPbnUYFTFd
-	NZeismkYWpd+1vGZXv/9qpyQa9rgrAomzu7XsTpsd8K8y9tCd7AGmNfgAH32NB/Y2JsJoVGHfZV
-	xn7AyYBHKIK1nzO2
-X-Received: by 2002:a5d:4745:0:b0:45e:9366:94c1 with SMTP id
- ffacd0b85a97d-45ef6b4f79bmr2726468f8f.18.1780107322695; Fri, 29 May 2026
- 19:15:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rGi+ciVz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Dt7qtgJ/";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bu03kCQx";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="CCv9MuTP"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E5021675A8;
+	Sat, 30 May 2026 11:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780139070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GOqpZzhiypjkSjrTc901aMpJIxANgaa/dRvn0XHreaY=;
+	b=rGi+ciVzFXy0v94+Z2JHu82uTWijRYcpLsPfGIPZpLh/CefmmDemLNglT9PEqGHkL5BZe3
+	J4jupzRRF6slBxfI9bVM0GzB0rPuMJ+WRQbruASkVjGvRjep44I+/BSHAXrz4xwu/GGnLG
+	5ccRzxrjKoiT4Q+2zw8OlnH5wEuuvrI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780139070;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GOqpZzhiypjkSjrTc901aMpJIxANgaa/dRvn0XHreaY=;
+	b=Dt7qtgJ/z5imaa5TP1kVu4zneekNzJ2wYXVqgGtLWcx6+uSySN5hNdJG8e/21BJneMlFZf
+	hu9aQ/WcDYTBhvCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780139068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GOqpZzhiypjkSjrTc901aMpJIxANgaa/dRvn0XHreaY=;
+	b=bu03kCQx2HWoglXaRsZvmEoVyKSUHiXzxmdK8JjwLV1QF2BVKrrUb4j+9WY/MxPGYeCwbB
+	WGI1VWK2XvWZVZO01tycLta3Foh7KCbXwMEZvWiVj31GDUmY0MOIM1FzRaaKvtccrKKd40
+	Hvyg1DL1J62AiPrZoBqWBzsPF90YTKc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780139068;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GOqpZzhiypjkSjrTc901aMpJIxANgaa/dRvn0XHreaY=;
+	b=CCv9MuTPam7mBwgsb7S2/3y6uip2bpOwVGQYcRUmp4zSLdrJCZjvSSjZK8cenyW6H1VkXj
+	bcZuyKe669ZPGYBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8049779A7;
+	Sat, 30 May 2026 11:04:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id v+izNDzEGmrAGQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Sat, 30 May 2026 11:04:28 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 73103A0EBD; Sat, 30 May 2026 13:04:13 +0200 (CEST)
+Date: Sat, 30 May 2026 13:04:13 +0200
+From: Jan Kara <jack@suse.cz>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
+	Jingbo Xu <jefflexu@linux.alibaba.com>
+Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
+Message-ID: <oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io>
+References: <20251008204133.2781356-1-joannelkoong@gmail.com>
+ <CAJfpegsyHmSAYP04ot8neu_QtsCkTA2-qc2vvvLrsNLQt1aJCg@mail.gmail.com>
+ <CAJnrk1anOVeNyzEe37p5H-z5UoKeccVMGBCUL_4pqzc=e2J7Ug@mail.gmail.com>
+ <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
+ <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
+ <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
+ <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
+ <s4kv7qep3jlncs67q72xfhserpd66hpbwzkoppiddc5raufyjd@ksuvlfqcrbk2>
+ <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251008204133.2781356-1-joannelkoong@gmail.com>
- <CAJfpegsyHmSAYP04ot8neu_QtsCkTA2-qc2vvvLrsNLQt1aJCg@mail.gmail.com>
- <CAJnrk1anOVeNyzEe37p5H-z5UoKeccVMGBCUL_4pqzc=e2J7Ug@mail.gmail.com>
- <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
- <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
- <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com> <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 29 May 2026 19:15:10 -0700
-X-Gm-Features: AVHnY4Jg-QA5wTBdWB9XzXD9Vhbv_0XU_TUz4CrBYf78TUDU44-Us2FtmwrXQbY
-Message-ID: <CAJnrk1ZSaNRr-HWw-hbo2=LmbZiNGZveb0MwxZbPtBDFgg2icQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jan Kara <jack@suse.cz>, 
-	Jingbo Xu <jefflexu@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
+X-Spam-Flag: NO
+X-Spam-Score: -3.80
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MISSING_XM_UA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
 
-On Tue, May 26, 2026 at 6:42=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> I read through the writeback throttling code and re-read Jan's very
-> helpful comments from this thread last year [1]. So for unprivileged
-> servers, I think we definitely cannot remove strictlimiting. If the
-> fuse server is slow or unresponsive with writing back the pages, it
-> will take up too much of the global dirty budget which will degrade
-> write throughput for other filesystems (their throttling will be
-> computed against the global dirty page count, eg the freerunning check
-> in balance_dirty_pages() and the pos_ratio calculation "pos_ratio =3D
-> pos_ratio_polynom(setpoint, dtc->dirty, limit)" (dtc->dirty is the
-> global dirty page count)) and any fuse stuck dirty pages are
-> essentially unreclaimable. Without strictlimiting, there will be no
-> hard cap on how many dirty pages a misbehaving server can accumulate.
->
-> With strictlimiting on and large folios enabled, the problem is that
-> the large folio size can potentially dwarf the server's dirty budget,
-> which can lead to excessive throttling. When I ran my benchmarks last
-> year, I and independently Jingbo saw severe performance regressions
-> for buffered writes with large folios (eg 2 GB/s BW w/o, and 200 MB/s
-> BW w/) [2] but I think that might have been because the machines had
-> limited RAM, resulting in a very small dirty budget.
->
+On Thu 28-05-26 15:11:18, Joanne Koong wrote:
+> On Thu, May 28, 2026 at 5:34 AM Jan Kara <jack@suse.cz> wrote:
+> > > I think this is also going to be a problem for cgroups with large
+> > > folios since they also, as I understand it, are constrained with a
+> > > limited / tight dirty budget. I ran some initial benchmarks with
+> > > cgroup memory constraints on NVMe and saw similar instability (a
+> > > single writer in a 8 GB cgroup had max write latencies of 6 seconds vs
+> > > 15 ms without the cgroup, with the balance_dirty_pages() throttling
+> > > oscillating rather than settling near the set point).
+> >
+> > Ok, so this is more folios (819) than my 512 gut feeling estimate :) What
+> > was the write throughput of the NVMe drive? The high drive throughput also
+> > requires more dirty data to keep the drive saturated so that writeback
+> > throughput doesn't oscilate too much.
+> 
+> The write throughput of the NVMe drive I was using was around ~1.1
+> Gb/s (measured by running direct I/O). I think with the 1.6GB dirty
+> budget, the math for that ends up being that the device drains it in
+> ~1.5 secs. The performance I was seeing with the initial cgroup
+> benchmarks was with 4k pages (no large folios enabled) on btrfs.
 
-Update: this is no longer a problem. The large folio buffered write
-performance regressions I saw last year was fixed by commit
-494d2f508883 ('fuse: use default writeback accounting') [1], which
-landed last August.
+OK, you might want to experiment with some other filesystem (I suggest xfs
+or ext4) as well. Btrfs writeback behavior is a bit special with its data
+checksum computations etc. and thus latency of starting writeback. It could
+contribute to the erratic behavior with the relatively low dirty limits.
 
-Prior to that commit, on a 2 GB VM, I was seeing for buffered writes:
-No large folios:  840 MB/s
-Large folios: 270 MB/s
+> > > I think this problem gets untenable for random writes with large
+> > > folios, since dirtying just a few bytes will charge the whole folio
+> > > size to the dirty budget. I have a patchset from last year for adding
+> > > more granular dirty/writeback tracking [3], I'm going to pick this
+> > > series back up. I think it will be useful generically, not just for
+> > > fuse.
+> > >
+> > > For getting this to work on fuse servers with strictlimiting, I think
+> > > the next steps are to
+> > > a) as Jan had suggested in [1], come up with some heuristic to
+> > > constrain the max order supported for large folios for these fuse
+> > > servers if they're running with the writeback cache enabled
+> > > b) benchmark ^ and if there are still regressions, then we should
+> > > probably just turn large folios off for these servers
+> >
+> > Yes, as we briefly discussed at LSF, picking proper max folio order is
+> > useful not only for dirty throttling but also for memory reclaim in
+> > general in memory-constrained environments. Strictlimit is just one of the
+> > cases where the limit is very small and so the problems with the memory
+> > overhead of larger folios become very apparent.
+> >
+> > So although we may decide for a FUSE specific heuristic setting the maximum
+> > folio order, you properly point out memory limited memcgs will see similar
+> > issues so I think a more general solution for selecting sensible max order
+> > would be better.
+> 
+> This sounds great. I'll run some more benchmarks to get more data and
+> then come up with a general solution and submit that as an rfc.
+> 
+> > > c) add the granular writeback/dirty accounting for large folios
+> >
+> > As Miklos pointed out and I think we've discussed that also last year since
+> > the full folio is pinned in memory by a single dirty fs block (or whatever
+> > is going to be your unit), finer grained accounting alone doesn't help you
+> > with the narrow limits. We'd also have to add logic to decide about
+> > splitting large folios.
+> 
+> If I'm inferring this right (and please let me know if I"m not), it
+> seems like it would be extremely useful to get the infrastructure
+> working better for splitting file-backed large folios. That seems like
+> the proper long-term solution if I'm understanding it correctly (eg
+> instead of capping the folio order statically across the board, larger
+> folios can be used until there's memory pressure that splits it or if
+> at write time we detect the dirty budget is tight, that will allow the
+> clean parts to be reclaimable and reduce memory pressure and
+> throttling)?
+> 
+> From what I see in __folio_split() in mm/huge_memory.c, it's not
+> currently possible to split dirty file-backed folios (eg
+> iomap_release_folio() will not release the folio if any part of it is
+> dirty), but I think we can get this working in the iomap layer for
+> supporting the per-folio dirty/uptodate state tracking for the split
+> folio instead of rejecting the release. Iomap already tracks which
+> subfolios are dirty vs not, so we have the information upfront as well
+> about how to split the dirty folio optimally. Do you think this would
+> be useful to get working?
 
-After that commit, I now see around a 30% improvement compared to baseline:
-Large folios: 1130 MB/s
+I don't think people have reached concensus on what would be the best way
+to address the issues with coarse granularity of large folios (even within
+myself I haven't quite decided about the best solution :)). So we are just
+experimenting and seeing what could work and what not. Limiting maximum
+folio order is kind of a dumb solution but it is relatively easy to
+implement and might be good enough.
 
-Prior to commit 494d2f508883, fuse was doing its own custom writeback
-accounting but the accounting wasn't updating wb->writeback_inodes
-(which tracks when fuse inodes enter/finish writeback) or
-wb->avg_write_bandwidth (which estimates the device write bandwidth).
-As a result, this caused the balance_dirty_pages() throttling logic to
-think the device is super slow since it's using stale underestimated
-values for how fast the device can drain dirty pages. This caused
-overthrottling based on the wrong estimated calcualtions.With large
-folios this became a noticeably big issue because each folio charges
-more dirty pages, where the balance_dirty_pages() logic thinks it will
-take a super long time to drain those amount of dirty pages.
+Splitting of folios is definitely more complicated, requires support from
+filesystems, can fail for various reasons (folio is pinned, you need to
+allocate memory to split a folio, ...), and is generally more expensive.
+So tuning that properly and making it work reliably under various
+conditions is an order of magnitude harder task and I think at this point
+you'd have a hard time justifying all the complexity without showing why
+the dumb solution isn't good enough... So we might get to splitting folios
+at some point in some shape or form I don't think we're there yet.
 
-commit 494d2f508883 switched fuse to use the mm-internal writeback
-accounting, which properly updated wb->writeback_inodes and
-wb->avg_write_bandwidth, which fixed the incorrect bandwidth
-estimations, which in turn fixed the overthrottling.
-
-Overall, what I'm seeing is that enabling large folios improves
-performance across the board for fuse, even with strictlimiting
-enabled on memory-constrained systems. I'm going to do a closer audit
-of the fuse code to see if we're missing any gaps that will be needed
-for turning on large folios, and then will do some more testing. I'll
-also rerun benchmarks on NVMe to make sure large folios don't lead to
-any performance regressions on fast storage. After that, I think we
-are good to go for turning on large folios.
-
-I'm still planning to look into the cgroup dirty throttling
-instability on NVMe I was seeing earlier and do some benchmarking /
-experimentation with the folio order cap. I'll post updates on that
-when I have them.
-
-Thanks,
-Joanne
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/fs/fuse/file.c?id=3D494d2f508883a6e5c4530e5c6b3c8b2bbfb7318d
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
