@@ -1,993 +1,270 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC7F36C0CD
-	for <fuse-devel@lists.linux.dev>; Mon,  1 Jun 2026 15:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB19359A70
+	for <fuse-devel@lists.linux.dev>; Mon,  1 Jun 2026 18:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780327488; cv=none; b=G8jA8itnv7D2SRcSoW0K20y3LSQ87NFAQV4iYiLRd40ew20zbEHCyS3qDq9FPJQuIGK7U0M3i291y7ZUeH2anLgVysAH/18tBw9KR2dWx+NP8jkwYyCv3nl6MFzWcEoWmKsI0xiwk3c3Q9IErepws1jYDb7kkJ6qEwVqBG8COI8=
+	t=1780339985; cv=none; b=NxixqwLSinttSkvHqDJFQE2Xs9DvMSrJiVfConqbUQkmovEBjfln5EAUrK6c59uMNdkn2GfgMru8x3mJNeNr9feuAtB70Vks6vhOqRoFPFhlL5D0/keHEWwYNfk2+5gqtq9t5ZP7K0JUG+E3/5aLQFiSxorFG75pw1Og6eUmpOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780327488; c=relaxed/simple;
-	bh=a59E96RrLt/QrzSX8t0sThXtJvlE6fYA2T46kXhbG98=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=iwNEibclvsh/c4TGSxslbP9kzhkbO52UipwJTR+moW2DFlgPx4Sz8uhow08C1STgDCncg203wE0wD9Q0nWRvI+7gwrLUkfxSYHL71WV3iRgJ4zZVa2N9S21+iGiI5TwSYdyeEHegJ2aedz9BsSpPmY6+tNf9ZJk3Tg87PIvlIf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iTk0ffje; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1780339985; c=relaxed/simple;
+	bh=sEBit1Spz6g7VcyImiR8P7cP43Zoj2ADbZZ1dH/ximo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PCLcUYB0m3TjeBGsgqUi/GWE+TqWNi4lm61H3kTylPLH0+8wJsIFhklFJJZbKYCVS1wY161fALFDq67remWfHoIXie0kX1NVs8iO7qnkD8d7edtTiz+8yYlZaShY9QALexLJcbZlrRsd9N4jRPJWXVVgVxPqcHO4OaQD4YX+pkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fcpG+SNm; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iTk0ffje"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780327479;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=fXAcMFoMzcsb9TnsH3R4FVx/dV3JAforQW3Xv9fTcQg=;
-	b=iTk0ffjeuFEqft7+3Ebl3503apP0l58u4SsdVkCmWnvxbJuBALNsqpb7RYh2sOwsuxBssC
-	4tVXlVJbGNqub4r+8/6OZgU/8N/spAyW/LY893cl+1yOB1oCukoF0bEUCjVVZw1/9iNnFx
-	QJUwc0TCxEDcfznE+F4FGuk2r9Xa9EQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-528-kdDGAE6qMli0JBK1zVjw0g-1; Mon, 01 Jun 2026 11:23:31 -0400
-X-MC-Unique: kdDGAE6qMli0JBK1zVjw0g-1
-X-Mimecast-MFC-AGG-ID: kdDGAE6qMli0JBK1zVjw0g_1780327410
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-490a786f987so14906195e9.3
-        for <fuse-devel@lists.linux.dev>; Mon, 01 Jun 2026 08:23:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fcpG+SNm"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bd8d0e4e341so2418848566b.0
+        for <fuse-devel@lists.linux.dev>; Mon, 01 Jun 2026 11:53:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780339981; x=1780944781; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EIdVYJu9K4fQfdWSIt/qX+Ktap9LoTUnGmSlIdH+1JQ=;
+        b=fcpG+SNmesv65aldnde0M+G8nrtHHotYuOoi8D82Obx1yNcL7UWUfcHCD+uyUllY0F
+         h3fNyp8QPXt8OvbUNoWarAJ1ODjwW5RpvKqN8BuuUG82lotT6WW1NwsTYS1dB6fvp++k
+         GJuahMzacfTAG+x9h8wcSbbCQ8WJYFipZL6+j0ut+RyjdoOdn3ZYPbm3XJEdu3BDGhAX
+         nl/rtWYlWLSieDmdq+GNTYgxdEYeWvVHQLIwJ6sHCM5ZmYgs2anc5bCJfqCu4kBBfgVz
+         +bAlmxHTDjiGPmaK7QZpXlagYH3IAn1/WH+GqXxc8nFH5jmEIapl/9A7mkIz5F9WQvqn
+         us+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780327410; x=1780932210;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fXAcMFoMzcsb9TnsH3R4FVx/dV3JAforQW3Xv9fTcQg=;
-        b=F0iOgtcNxU7BjZc4KRB8PiOD6cKGVj7Zfgy79c7zcmFMTmHLaduObg2QhusdoKM88a
-         Y4Exp51aA5tz8p5HAwcO+zRKxdndcOJ4FbeLryCw7756/Xn7lKIewbMzTZO3o01viVXz
-         /33kVWvV9iB4HTUtBoT4cQVp3UKumY7wfOh90Lrc+eCEoAhaboPbcsCWJhXDrYVXR612
-         hLQbo4m7mYBqbLbWtzFi9QQqNMieuMnURyvasWPzzPOv2K5b3JtmvoPdRKMuefmtOFX+
-         vaYbIXelBmV70pxha0j8UszQdbk6DwdizUDJnoBMnmjIOho6/lhzbhoSB7ll+WMyWrob
-         lvpQ==
-X-Forwarded-Encrypted: i=1; AFNElJ//6ginZmW9uKNtC/jewvOtzUTTOrnLQ7GemadxapGkkZBliYP23FwoU7OiUZaWklyJEzbtZ7eo+AUb@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+XWIk9yhiQ/CTGGivsQwcCRFn71B39+IwFC8JEvh2bLvJ0LSI
-	bERMrHbXybrpHSOY3wmKm0Gr5bHVQfA8xOAd7qeFFjHVf1cT4Hd5zry0tV2yXxi0t6vL/kSp83g
-	ehnjdFAbhmCtawXnwWpInc4CRTs9JR4EgwXWIOiVCkgYIqKs6xuC3zNxWagj0FcguV36wpOY=
-X-Gm-Gg: Acq92OG53HQa55i9i2Ca1MkjiJou+Lx87yXfkd/s6TR+F2GXAykShLHF1gxMoYADZNt
-	md7YNUCq3de7aIcsuRrvRl3esnaOrW4W+t2DbLHu4I16eiqOdigqEi+BGTPkbuY/As2Uc4QhFaj
-	fVF0LcBpVbxDjAgHSQitA/ZiJ+H1gcriaRf8IW5u7vad1GpuVMR5EPtZ+przCAgO21bqMBnYsvt
-	OV0EVP8LDnvAMyfEqv3RjD7Ysoit19/o3D8PAz07ujIF3FqahPPUKljOM0GxikGS0ydKg44SRyM
-	FYv8PKnk8/44YPEMZokgsKtGlq1UoeJKeksDP1tHl+2r4AIkw3x7N/AI6YPk6V1+sfIRYOUQrTY
-	9VP5BbPO9oSgvxaHzTb8Ri8HETx+OzPNnDc0Q03d9IDHGZRFtXc7MrOmAm9Vn9x/uqu6NZBNXPv
-	/O+e38Jx2qseU=
-X-Received: by 2002:a05:600c:4fd3:b0:48f:e230:d5ab with SMTP id 5b1f17b1804b1-490b0704533mr8846995e9.31.1780327409592;
-        Mon, 01 Jun 2026 08:23:29 -0700 (PDT)
-X-Received: by 2002:a05:600c:4fd3:b0:48f:e230:d5ab with SMTP id 5b1f17b1804b1-490b0704533mr8846105e9.31.1780327408793;
-        Mon, 01 Jun 2026 08:23:28 -0700 (PDT)
-Received: from maszat.piliscsaba.szeredi.hu (78-131-46-194.pool.digikabel.hu. [78.131.46.194])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef34a065esm26789306f8f.5.2026.06.01.08.23.27
+        d=1e100.net; s=20251104; t=1780339981; x=1780944781;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EIdVYJu9K4fQfdWSIt/qX+Ktap9LoTUnGmSlIdH+1JQ=;
+        b=TxJXVZ37cUTJjvQyhrOqLc5XBFVKzgdtuLrV7Tvm38rMyarR3hsBGRol/WI1/niiEm
+         XlAVsDcuAkLHrJ5iAGlNpOwI/ySauHgqaF9JiI47TjVzKWDpqO/Kw4dwD6FED7PK78gH
+         Q/OQh6wTtv8ZN10jm5SdrHLvQlaGfgT9xjLQOtCCKwPxXxyrjH9DNh7cr0dkeCFaV7kn
+         rb4vBP2YwwkMYk3r22OjxihYRQwDkM1eQWFSts4SQpqprNVxPUiPzDeIaoXjRvNV4bQ4
+         tahgNRXsNsfLpnWff3V0CnKdo0wfFyEAB/4vGfPzmdQclWquvMgEoAeZxsMVOa817w0q
+         e30A==
+X-Forwarded-Encrypted: i=1; AFNElJ+h5RZhFYvnQ6AXaBervKVAosV9uqLm0AklWnNQtDOat9lEgdrJm8v+uDuzs+85S6Bd3Zc467VHV3+z@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWdwvb0N+hm3YSEWG+GBGMzTsZb7Zp4fjdFEQQHAscURnn1CZR
+	5acx0SAmch+QWTBii3+XuSUL/04DEOrpfQR+vQb5qInHZzGkKZ/C3LJp
+X-Gm-Gg: Acq92OEoWqwmj1nwWrzd9ZGWBaQ6K3IfP8wXOzz+7hYefeI5K1o+0jwNyzapA/zODnX
+	JBNeVdIxNIWJF073kiYt7bYRT1tqdD/51gDfPyyTEhnApIY20r7o5PG1YVth7lHEgLU5cWITKTC
+	+Qp+Yti1sHUjLh3pzGSA9APpXWNFdKi8xqf0Iu2+3J35w4wC4nqlpIKpvqLzU2u5dmYq37P0mHE
+	rJO3h1Hm/HsHhQa9x+3VViEvQh92kcbnfrIfxCHx4XmOpBrLDKBaQXbn/NT7Rjj1PIXisdjhf1x
+	sF4tN1rAddGj2FiRlL4RY0EwYcyqr4ErzZgeOXkQHat7jI1pvsfXiiCN5ZA63JPmiXhjyTk4yyO
+	0EhDnQTnnhqGENtwBmbTctULlqAqonzC242ifkd0N8KthEY/5CPtk6ZA/na4DsAupWdpZ98bUs0
+	u/f9LaonO5v/OD9DrKQbS2O9IgiooIE/OsvguFLEEKiTkVyIeoxGHUCRXss8d0M+eW7JdNZ+dny
+	IjFuBRQLiC3pljcVWA6NO19I4eojx/2rYkUdfS157HTni3XWA==
+X-Received: by 2002:a17:907:2810:b0:bec:ab0c:243c with SMTP id a640c23a62f3a-becab0c2da1mr301923766b.21.1780339980769;
+        Mon, 01 Jun 2026 11:53:00 -0700 (PDT)
+Received: from localhost (2001-1c00-570d-ee00-fb4a-4b87-a6e0-eb91.cable.dynamic.v6.ziggo.nl. [2001:1c00:570d:ee00:fb4a:4b87:a6e0:eb91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-be9cfc8557csm374637466b.0.2026.06.01.11.53.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 08:23:28 -0700 (PDT)
-From: Miklos Szeredi <mszeredi@redhat.com>
-To: John Groves <jgroves@micron.com>
-Cc: "Darrick J . Wong" <djwong@kernel.org>,
-	fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH] famfs: FUSE_FAMFS_EXT_INTERLEAVE -> FUSE_DEV_IOC_STRIPE_OPEN
-Date: Mon,  1 Jun 2026 17:23:24 +0200
-Message-ID: <20260601152327.2069787-1-mszeredi@redhat.com>
-X-Mailer: git-send-email 2.54.0
+        Mon, 01 Jun 2026 11:53:00 -0700 (PDT)
+Date: Mon, 1 Jun 2026 20:52:59 +0200
+From: Amir Goldstein <amir73il@gmail.com>
+To: Russ Fellows <russ.fellows@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, miklos@szeredi.hu,
+	linux-kernel@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 1/2] fuse: fix FOPEN_PARALLEL_DIRECT_WRITES being ignored
+ for passthrough writes
+Message-ID: <ah3VCxciXhS0CFdP@amir-ThinkPad-T480>
+References: <20260529031918.7361-1-russ.fellows@gmail.com>
+ <20260529031918.7361-2-russ.fellows@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: rwR07wKpB92JcjQungqWIh2gRQXyF_IENJ9uLzpzXnI_1780327410
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260529031918.7361-2-russ.fellows@gmail.com>
 
-Add striped "virtual" backing devices (idea from Darrick).
+Removing stable list - this is definetly NOT a bug fix
+Please CC fuse-devel@lists.linux.dev for future fuse patches
 
-This decouples interleaving from extents, since the interleaving is
-configured on the striped backing device, while simple extents select which
-striped device is to be used and the length/offset within that virtual
-device.
+On Fri, May 29, 2026 at 03:19:15AM +0000, Russ Fellows wrote:
+> FOPEN_PARALLEL_DIRECT_WRITES has no effect on passthrough-backed FUSE
+> files due to two independent bugs that each prevent it from working.
+> Both must be fixed to restore parallel write concurrency.
+> 
+> Bug 1: fuse_passthrough_write_iter() acquires the exclusive inode lock
+> directly:
+> 
+>     inode_lock(inode);
+>     ret = backing_file_write_iter(...);
+>     inode_unlock(inode);
+> 
+> This serializes all concurrent writers regardless of whether the server
+> set FOPEN_PARALLEL_DIRECT_WRITES.  The flag is checked by
+> fuse_dio_wr_exclusive_lock(), called from fuse_dio_lock(), called from
+> fuse_direct_write_iter() -- the non-passthrough O_DIRECT path.
+> fuse_file_write_iter() routes passthrough opens to
+> fuse_passthrough_write_iter() instead, bypassing the flag check entirely.
+> 
+> Bug 2: fuse_file_io_open() in iomode.c strips FOPEN_PARALLEL_DIRECT_WRITES
+> from any open that lacks FOPEN_DIRECT_IO:
+> 
+>     if (!(ff->open_flags & FOPEN_DIRECT_IO))
+>         ff->open_flags &= ~FOPEN_PARALLEL_DIRECT_WRITES;
+> 
+> This is correct for regular direct-IO opens where FOPEN_DIRECT_IO ensures
+> O_DIRECT is actually in effect.  It is wrong for passthrough opens: a
+> passthrough file already bypasses the FUSE page cache by definition, so
+> FOPEN_DIRECT_IO is redundant and should not be required to preserve the
+> parallel-writes flag.
+> 
+> Note: adding FOPEN_DIRECT_IO to the daemon's open flags is not a valid
+> workaround.  fuse_file_write_iter() checks FOPEN_DIRECT_IO before
+> FOPEN_PASSTHROUGH, so setting both causes writes to be routed through
+> fuse_direct_write_iter() (requiring a userspace round-trip) instead of
+> fuse_passthrough_write_iter() (zero-copy kernel path).
+> 
+> Combined effect: a daemon that opens with FOPEN_PASSTHROUGH |
+> FOPEN_PARALLEL_DIRECT_WRITES (without FOPEN_DIRECT_IO) has the parallel
+> flag stripped by Bug 2 before Bug 1 is even reached.  Both bugs must be
+> fixed together.
+> 
+> Fix Bug 1: make fuse_dio_lock() and fuse_dio_unlock() non-static and call
+> them from fuse_passthrough_write_iter(), replacing the open-coded
+> inode_lock/inode_unlock.  This reuses the existing logic that handles
+> FOPEN_PARALLEL_DIRECT_WRITES, append writes, writes past EOF, and
+> page-cache IO mode transitions.
+> 
+> Fix Bug 2: skip the FOPEN_PARALLEL_DIRECT_WRITES strip when
+> FOPEN_PASSTHROUGH is set.  The flag remains stripped for non-passthrough
+> opens without FOPEN_DIRECT_IO, preserving existing behaviour.
+> 
+> Safety: backing_file_write_iter() calls into the backing filesystem's
+> write_iter (e.g. xfs_file_write_iter), which acquires the backing inode's
+> own lock independently.  The FUSE inode lock and the backing inode lock are
+> entirely separate; using inode_lock_shared on the FUSE inode does not
+> affect the backing filesystem's concurrency control.
+> 
+> Fixes: 4d99ff8f6b85 ("fuse: implement open/create with FOPEN_PASSTHROUGH")
 
-Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
----
+Not a fix, because this was very intentional.
+It is a new feature that you are proposing to support parallel
+passthrough dio.
 
-This is the second part of what we were talking about: using the backing
-API for striping.
+Anyway, this patch has many problems
 
-It's on top of the famfs-v10 patchset + the FUSE_BACKING_DAXDEV patch
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Russ Fellows <russ.fellows@gmail.com>
+> ---
+>  fs/fuse/file.c        |  6 +++---
+>  fs/fuse/fuse_i.h      |  2 ++
+>  fs/fuse/iomode.c      |  8 ++++++--
+>  fs/fuse/passthrough.c |  6 +++---
+>  4 files changed, 14 insertions(+), 8 deletions(-)
+> 
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index f94f3dc082c6..602c3f18676e 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -1428,8 +1428,8 @@ static bool fuse_dio_wr_exclusive_lock(struct kiocb *iocb, struct iov_iter *from
+>  	return false;
+>  }
+>  
+> -static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
+> -			  bool *exclusive)
+> +void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
+> +		   bool *exclusive)
+>  {
+>  	struct inode *inode = file_inode(iocb->ki_filp);
+>  	struct fuse_inode *fi = get_fuse_inode(inode);
+> @@ -1455,7 +1455,7 @@ static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
+>  	}
+>  }
+>  
+> -static void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
+> +void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
+>  {
+>  	struct inode *inode = file_inode(iocb->ki_filp);
+>  	struct fuse_inode *fi = get_fuse_inode(inode);
+> @@ -1469,7 +1469,7 @@ static void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
+>  	}
+>  }
+>  
+> -static const struct iomap_write_ops fuse_iomap_write_ops = {
+> +static const struct iomap_write_ops fuse_iomap_write_ops = {	/* unchanged */
+>  	.read_folio_range = fuse_iomap_read_folio_range,
+>  };
+>  
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 17423d4e3cfa..120de517cea0 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -1541,6 +1541,8 @@ int fuse_file_io_open(struct file *file, struct inode *inode);
+>  void fuse_file_io_release(struct fuse_file *ff, struct inode *inode);
+>  
+>  /* file.c */
+> +void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from, bool *exclusive);
+> +void fuse_dio_unlock(struct kiocb *iocb, bool exclusive);
+>  struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
+>  				 unsigned int open_flags, bool isdir);
+>  void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+> index c99e285f3..b3f51e3d1 100644
+> --- a/fs/fuse/iomode.c
+> +++ b/fs/fuse/iomode.c
+> @@ -214,10 +214,14 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+>  	if (fuse_inode_backing(fi) && !(ff->open_flags & FOPEN_PASSTHROUGH))
+>  		goto fail;
+>  
+> -	/*
+> -	 * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO.
+> -	 */
+> -	if (!(ff->open_flags & FOPEN_DIRECT_IO))
+> +	/*
+> +	 * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO, except for
+> +	 * passthrough opens which bypass the page cache regardless and do not
+> +	 * need FOPEN_DIRECT_IO to guarantee direct I/O semantics.
+> +	 */
+> +	if (!(ff->open_flags & FOPEN_DIRECT_IO) &&
+> +	    !(ff->open_flags & FOPEN_PASSTHROUGH))
+>  		ff->open_flags &= ~FOPEN_PARALLEL_DIRECT_WRITES;
+>  
+>  	/*
+> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+> index f2d08ac2459b..f83d0a27cfb9 100644
+> --- a/fs/fuse/passthrough.c
+> +++ b/fs/fuse/passthrough.c
+> @@ -54,11 +54,11 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
+>  				    struct iov_iter *iter)
+>  {
+>  	struct file *file = iocb->ki_filp;
+> -	struct inode *inode = file_inode(file);
+>  	struct fuse_file *ff = file->private_data;
+>  	struct file *backing_file = fuse_file_passthrough(ff);
+>  	size_t count = iov_iter_count(iter);
+>  	ssize_t ret;
+> +	bool exclusive;
+>  	struct backing_file_ctx ctx = {
+>  		.cred = ff->cred,
+>  		.end_write = fuse_passthrough_end_write,
+> @@ -70,10 +70,10 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
+>  	if (!count)
+>  		return 0;
+>  
+> -	inode_lock(inode);
+> +	fuse_dio_lock(iocb, iter, &exclusive);
 
-Totally Untested (TM).
+You can't just use fuse_dio_lock() like this
+it plays nasty games with the iomode.
+It does not even check for O_DIRECT mode, so this would do
+parallel buffered write (at least until it meets the filesystem lock
+but its not something we would want.
+You should study this code better.
 
-The third part will be to use the fuse-iomap uAPI (and just the API, not
-any of the code) from Darrick to describe the simple extents themselves.
+>  	ret = backing_file_write_iter(backing_file, iter, iocb, iocb->ki_flags,
+>  				      &ctx);
 
-And that should be it.  Just some review and testing and I'll be happy to
-move this into fuse-next.
+The problem is that while backing_file_write_iter() does not seem to
+directly require an exclusive lock (apart from maybe file_remove_privs)
+the fuse_passthrough_end_write() callback does I think rely on this
+exclusive lock.
+
+So proving that this can work will require more research and more effort
+and I am not really sure how that is going to work out.
 
 Thanks,
-Miklos
-
- fs/fuse/backing.c         | 108 +++++++++-----
- fs/fuse/dev.c             |  38 +++++
- fs/fuse/famfs.c           | 296 +++++++++-----------------------------
- fs/fuse/famfs_kfmap.h     |  25 +---
- fs/fuse/fuse_i.h          |  23 ++-
- include/uapi/linux/fuse.h |  29 ++--
- 6 files changed, 219 insertions(+), 300 deletions(-)
-
-diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-index e56b7f8d5d2b..d680a01c9f38 100644
---- a/fs/fuse/backing.c
-+++ b/fs/fuse/backing.c
-@@ -37,14 +37,14 @@ void fuse_backing_files_init(struct fuse_conn *fc)
- 	idr_init(&fc->backing_files_map);
- }
- 
--int fuse_backing_id_alloc(struct fuse_conn *fc, void *obj)
-+int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backing_common *backing)
- {
- 	int id;
- 
- 	idr_preload(GFP_KERNEL);
- 	spin_lock(&fc->lock);
- 	/* FIXME: xarray might be space inefficient */
--	id = idr_alloc_cyclic(&fc->backing_files_map, obj, 1, 0, GFP_ATOMIC);
-+	id = idr_alloc_cyclic(&fc->backing_files_map, backing, 1, 0, GFP_ATOMIC);
- 	spin_unlock(&fc->lock);
- 	idr_preload_end();
- 
-@@ -52,33 +52,43 @@ int fuse_backing_id_alloc(struct fuse_conn *fc, void *obj)
- 	return id;
- }
- 
--static struct fuse_backing *fuse_backing_id_remove(struct fuse_conn *fc,
--						   int id)
-+static void fuse_backing_file_free(struct fuse_backing_common *backing)
- {
--	struct fuse_backing *fb;
-+	struct fuse_backing *fb = container_of(backing, typeof(*fb), backing);
- 
--	spin_lock(&fc->lock);
--	fb = idr_remove(&fc->backing_files_map, id);
--	spin_unlock(&fc->lock);
-+	WARN_ON_ONCE(refcount_read(&fb->count) != 1);
-+	fuse_backing_free(fb);
-+}
- 
--	return fb;
-+static void fuse_stripe_free(struct fuse_backing_common *backing)
-+{
-+	struct fuse_backing_stripe *bstripe = container_of(backing, typeof(*bstripe), backing);
-+
-+	kfree(bstripe->stripe);
-+	kfree(bstripe);
- }
- 
- static int fuse_backing_id_free(int id, void *p, void *data)
- {
--	struct fuse_backing *fb = p;
--
--	WARN_ON_ONCE(refcount_read(&fb->count) != 1);
--	fuse_backing_free(fb);
-+	struct fuse_backing_common *backing = p;
-+
-+        switch (backing->type) {
-+	case FUSE_BCK_FILE:
-+		fuse_backing_file_free(backing);
-+		break;
-+	case FUSE_BCK_DAXDEV:
-+		famfs_devidx_free(backing);
-+		break;
-+	case FUSE_BCK_STRIPE:
-+		fuse_stripe_free(backing);
-+		break;
-+	}
- 	return 0;
- }
- 
- void fuse_backing_files_free(struct fuse_conn *fc)
- {
--	if (fc->famfs_iomap)
--		famfs_teardown(fc);
--	else
--		idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
-+	idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
- 	idr_destroy(&fc->backing_files_map);
- }
- 
-@@ -130,11 +140,12 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
- 	if (!fb)
- 		goto out_fput;
- 
-+	fb->backing.type = FUSE_BCK_FILE;
- 	fb->file = file;
- 	fb->cred = prepare_creds();
- 	refcount_set(&fb->count, 1);
- 
--	res = fuse_backing_id_alloc(fc, fb);
-+	res = fuse_backing_id_alloc(fc, &fb->backing);
- 	if (res < 0) {
- 		fuse_backing_free(fb);
- 		fb = NULL;
-@@ -150,30 +161,54 @@ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
- 	goto out;
- }
- 
-+int fuse_stripe_open(struct fuse_conn *fc, struct fuse_stripe *stripe)
-+{
-+	int res;
-+	struct fuse_backing_stripe *bstripe __free(kfree) = kmalloc_obj(*bstripe);
-+
-+	if (!bstripe)
-+		return -ENOMEM;
-+
-+	bstripe->backing.type = FUSE_BCK_STRIPE;
-+	bstripe->stripe = stripe;
-+
-+	res = fuse_backing_id_alloc(fc, &bstripe->backing);
-+	if (res >= 0)
-+		retain_and_null_ptr(bstripe);
-+
-+	return res;
-+}
-+
- int fuse_backing_close(struct fuse_conn *fc, int backing_id)
- {
-+	struct fuse_backing_common *backing;
- 	struct fuse_backing *fb = NULL;
- 	int err;
- 
- 	pr_debug("%s: backing_id=%d\n", __func__, backing_id);
- 
--	/* No close for dax device (yet) */
--	if (fc->famfs_iomap)
--		return -EINVAL;
--
--	/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
--	err = -EPERM;
--	if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
--		goto out;
--
- 	err = -EINVAL;
- 	if (backing_id <= 0)
- 		goto out;
- 
--	err = -ENOENT;
--	fb = fuse_backing_id_remove(fc, backing_id);
--	if (!fb)
--		goto out;
-+	scoped_guard(spinlock, &fc->lock) {
-+		err = -ENOENT;
-+		backing = idr_find(&fc->backing_files_map, backing_id);
-+		if (!backing)
-+			goto out;
-+		err = -EINVAL;
-+		if (backing->type != FUSE_BCK_FILE)
-+			goto out;
-+
-+		fb = container_of(backing, typeof(*fb), backing);
-+
-+		/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
-+		err = -EPERM;
-+		if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
-+			goto out;
-+
-+		WARN_ON(idr_remove(&fc->backing_files_map, backing_id) != backing);
-+	}
- 
- 	fuse_backing_put(fb);
- 	err = 0;
-@@ -185,14 +220,13 @@ int fuse_backing_close(struct fuse_conn *fc, int backing_id)
- 
- struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id)
- {
--	struct fuse_backing *fb;
--
--	if (fc->famfs_iomap)
--		return NULL;
-+	struct fuse_backing_common *backing;
-+	struct fuse_backing *fb = NULL;
- 
- 	rcu_read_lock();
--	fb = idr_find(&fc->backing_files_map, backing_id);
--	fb = fuse_backing_get(fb);
-+	backing = idr_find(&fc->backing_files_map, backing_id);
-+	if (backing && backing->type == FUSE_BCK_FILE)
-+		fb = fuse_backing_get(container_of(backing, typeof(*fb), backing));
- 	rcu_read_unlock();
- 
- 	return fb;
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 0b0241f47170..dd80a174124d 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -2636,6 +2636,41 @@ static long fuse_dev_ioctl_backing_open(struct file *file,
- 	return fuse_backing_open(fud->fc, &map);
- }
- 
-+
-+static long fuse_dev_ioctl_stripe_open(struct file *file, struct fuse_stripe __user *argp)
-+{
-+	struct fuse_dev *fud = fuse_get_dev(file);
-+	struct fuse_stripe hdr;
-+	size_t size;
-+	int backing_id;
-+
-+	if (IS_ERR(fud))
-+		return PTR_ERR(fud);
-+
-+	if (!IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-+		return -EOPNOTSUPP;
-+
-+	if (copy_from_user(&hdr, argp, sizeof(hdr)))
-+		return -EFAULT;
-+
-+	if (hdr.nr_strips > FUSE_STRIPS_MAX)
-+		return -EINVAL;
-+
-+	size = offsetof(struct fuse_stripe, strips[hdr.nr_strips]);
-+	struct fuse_stripe *stripe __free(kfree) = kmalloc(size, GFP_KERNEL_ACCOUNT);
-+	if (!stripe)
-+		return -ENOMEM;
-+
-+	if (copy_from_user(stripe, argp, size))
-+		return -EFAULT;
-+
-+	backing_id = fuse_stripe_open(fud->fc, stripe);
-+	if (backing_id >= 0)
-+		retain_and_null_ptr(stripe);
-+
-+	return backing_id;
-+}
-+
- static long fuse_dev_ioctl_backing_close(struct file *file, __u32 __user *argp)
- {
- 	struct fuse_dev *fud = fuse_get_dev(file);
-@@ -2678,6 +2713,9 @@ static long fuse_dev_ioctl(struct file *file, unsigned int cmd,
- 	case FUSE_DEV_IOC_BACKING_OPEN:
- 		return fuse_dev_ioctl_backing_open(file, argp);
- 
-+	case FUSE_DEV_IOC_STRIPE_OPEN:
-+		return fuse_dev_ioctl_stripe_open(file, argp);
-+
- 	case FUSE_DEV_IOC_BACKING_CLOSE:
- 		return fuse_dev_ioctl_backing_close(file, argp);
- 
-diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-index c49362d19b36..043b451c3584 100644
---- a/fs/fuse/famfs.c
-+++ b/fs/fuse/famfs.c
-@@ -65,21 +65,11 @@ static void famfs_daxdev_free(struct famfs_daxdev *dd)
- 
- DEFINE_FREE(famfs_daxdev_free, struct famfs_daxdev *, if (_T) famfs_daxdev_free(_T));
- 
--static int famfs_devidx_free(int id, void *p, void *data)
-+void famfs_devidx_free(struct fuse_backing_common *backing)
- {
--	famfs_daxdev_free(p);
--	return 0;
--}
-+	struct famfs_daxdev *dd = container_of(backing, typeof(*dd), backing);
- 
--/*
-- * famfs_teardown()
-- *
-- * Deallocate famfs metadata for a fuse_conn
-- */
--void
--famfs_teardown(struct fuse_conn *fc)
--{
--	idr_for_each(&fc->backing_files_map, famfs_devidx_free,  NULL);
-+	famfs_daxdev_free(dd);
- }
- 
- static int
-@@ -140,6 +130,8 @@ int famfs_daxdev_open(struct fuse_conn *fc, struct fuse_backing_map *map)
- 	struct famfs_daxdev *dd __free(famfs_daxdev_free) = kzalloc_obj(*dd);
- 	int rc;
- 
-+	dd->backing.type = FUSE_BCK_DAXDEV;
-+
- 	CLASS(fd_raw, f)(map->fd);
- 	if (fd_empty(f))
- 		return -EBADF;
-@@ -148,7 +140,7 @@ int famfs_daxdev_open(struct fuse_conn *fc, struct fuse_backing_map *map)
- 	if (rc)
- 		return rc;
- 
--	rc = fuse_backing_id_alloc(fc, dd);
-+	rc = fuse_backing_id_alloc(fc, &dd->backing);
- 	if (rc >= 0)
- 		retain_and_null_ptr(dd);
- 
-@@ -174,22 +166,7 @@ void __famfs_meta_free(void *famfs_meta)
- 	if (!fmap)
- 		return;
- 
--	switch (fmap->fm_extent_type) {
--	case SIMPLE_DAX_EXTENT:
--		kfree(fmap->se);
--		break;
--	case INTERLEAVED_EXTENT:
--		if (fmap->ie) {
--			for (int i = 0; i < fmap->fm_niext; i++)
--				kfree(fmap->ie[i].ie_strips);
--		}
--		kfree(fmap->ie);
--		break;
--	default:
--		pr_err("%s: invalid fmap type\n", __func__);
--		break;
--	}
--
-+	kfree(fmap->se);
- 	kfree(fmap);
- }
- DEFINE_FREE(__famfs_meta_free, void *, if (_T) __famfs_meta_free(_T))
-@@ -231,7 +208,7 @@ famfs_fuse_meta_alloc(
- 	size_t extent_total = 0;
- 	size_t next_offset = 0;
- 	int errs = 0;
--	int i, j;
-+	int i;
- 
- 	fmh = fmap_buf;
- 
-@@ -262,7 +239,6 @@ famfs_fuse_meta_alloc(
- 	meta->error = false;
- 	meta->file_type = fmh->file_type;
- 	meta->file_size = fmh->file_size;
--	meta->fm_extent_type = fmh->ext_type;
- 
- 	switch (fmh->ext_type) {
- 	case FUSE_FAMFS_EXT_SIMPLE: {
-@@ -301,109 +277,6 @@ famfs_fuse_meta_alloc(
- 		break;
- 	}
- 
--	case FUSE_FAMFS_EXT_INTERLEAVE: {
--		s64 size_remainder = meta->file_size;
--		struct fuse_famfs_iext *ie_in;
--		int niext = fmh->nextents;
--
--		meta->fm_niext = niext;
--
--		/* Allocate interleaved extent */
--		meta->ie = kcalloc(niext, sizeof(*(meta->ie)), GFP_KERNEL);
--		if (!meta->ie)
--			return -ENOMEM;
--
--		/*
--		 * Each interleaved extent has a simple extent list of strips.
--		 * Outer loop is over separate interleaved extents
--		 */
--		for (i = 0; i < niext; i++) {
--			u64 nstrips;
--			struct fuse_famfs_simple_ext *sie_in;
--
--			/* ie_in = one interleaved extent in fmap_buf */
--			ie_in = fmap_buf + next_offset;
--
--			/* Move past 1 interleaved extent header in fmap_buf */
--			next_offset += sizeof(*ie_in);
--			if (next_offset > fmap_buf_size) {
--				pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
--				       __func__, __LINE__, next_offset,
--				       fmap_buf_size);
--				return -EINVAL;
--			}
--
--			if (!IS_ALIGNED(ie_in->ie_chunk_size, PMD_SIZE)) {
--				pr_err("%s: chunk_size %lld not PMD-aligned\n",
--				       __func__, meta->ie[i].fie_chunk_size);
--				return -EINVAL;
--			}
--
--			if (ie_in->ie_nbytes == 0) {
--				pr_err("%s: zero-length interleave!\n",
--				       __func__);
--				return -EINVAL;
--			}
--
--			nstrips = ie_in->ie_nstrips;
--			meta->ie[i].fie_chunk_size = ie_in->ie_chunk_size;
--			meta->ie[i].fie_nstrips    = ie_in->ie_nstrips;
--			meta->ie[i].fie_nbytes     = ie_in->ie_nbytes;
--
--			/* sie_in = the strip extents in fmap_buf */
--			sie_in = fmap_buf + next_offset;
--
--			/* Move past strip extents in fmap_buf */
--			next_offset += nstrips * sizeof(*sie_in);
--			if (next_offset > fmap_buf_size) {
--				pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
--				       __func__, __LINE__, next_offset,
--				       fmap_buf_size);
--				return -EINVAL;
--			}
--
--			if ((nstrips > FUSE_FAMFS_MAX_STRIPS) || (nstrips < 1)) {
--				pr_err("%s: invalid nstrips=%lld (max=%d)\n",
--				       __func__, nstrips,
--				       FUSE_FAMFS_MAX_STRIPS);
--				errs++;
--			}
--
--			/* Allocate strip extent array */
--			meta->ie[i].ie_strips =
--				kcalloc(ie_in->ie_nstrips,
--					sizeof(meta->ie[i].ie_strips[0]),
--					GFP_KERNEL);
--			if (!meta->ie[i].ie_strips)
--				return -ENOMEM;
--
--			/* Inner loop is over strips */
--			for (j = 0; j < nstrips; j++) {
--				struct famfs_meta_simple_ext *strips_out;
--				u64 devindex = sie_in[j].se_devindex;
--				u64 offset   = sie_in[j].se_offset;
--				u64 len      = sie_in[j].se_len;
--
--				strips_out = meta->ie[i].ie_strips;
--				strips_out[j].dev_index  = devindex;
--				strips_out[j].ext_offset = offset;
--				strips_out[j].ext_len    = len;
--
--				extent_total += len;
--				errs += famfs_check_ext_alignment(&strips_out[j]);
--				size_remainder -= len;
--			}
--		}
--
--		if (size_remainder > 0) {
--			/* Sum of interleaved extent sizes is less than file size! */
--			pr_err("%s: size_remainder %lld (0x%llx)\n",
--			       __func__, size_remainder, size_remainder);
--			return -EINVAL;
--		}
--		break;
--	}
--
- 	default:
- 		pr_err("%s: invalid ext_type %d\n", __func__, fmh->ext_type);
- 		return -EINVAL;
-@@ -513,95 +386,64 @@ static int famfs_dax_err(struct famfs_daxdev *dd)
- 	return 0;
- }
- 
--static struct famfs_daxdev *
--famfs_daxdev_lookup(struct fuse_conn *fc, int devidx)
-+static struct fuse_backing_common *fuse_backing_find(struct fuse_conn *fc, int backing_id)
- {
--	struct famfs_daxdev *dd;
-+	struct fuse_backing_common *backing;
- 
- 	rcu_read_lock();
--	dd = idr_find(&fc->backing_files_map, devidx);
-+	backing = idr_find(&fc->backing_files_map, backing_id);
- 	rcu_read_unlock();
- 
-+	return backing;
-+}
-+
-+static struct famfs_daxdev *famfs_backing_to_daxdev(struct fuse_backing_common *backing)
-+{
-+	struct famfs_daxdev *dd = NULL;
-+	if (backing && backing->type == FUSE_BCK_DAXDEV)
-+		dd = container_of(backing, typeof(*dd), backing);
- 	return dd;
- }
- 
- static int
--famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
--			 loff_t file_offset, off_t len, unsigned int flags)
-+famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct fuse_stripe *stripe,
-+				   struct iomap *iomap)
- {
- 	struct fuse_inode *fi = get_fuse_inode(inode);
- 	struct famfs_file_meta *meta = fi->famfs_meta;
- 	struct fuse_conn *fc = get_fuse_conn(inode);
--	loff_t local_offset = file_offset;
-+	struct famfs_daxdev *dd;
-+	loff_t local_offset = iomap->addr;
-+	u64 chunk_size = stripe->chunk_size;
-+	u64 nstrips = stripe->nr_strips;
-+	u64 chunk_num       = local_offset / chunk_size;
-+	u64 chunk_offset    = local_offset % chunk_size;
-+	u64 chunk_remainder = chunk_size - chunk_offset;
-+	u64 stripe_num      = chunk_num / nstrips;
-+	u64 strip_num       = chunk_num % nstrips;
-+	u64 strip_offset    = chunk_offset + (stripe_num * chunk_size);
-+	u64 strip_dax_ofs = stripe->strips[strip_num].offset;
-+	u64 strip_devidx = stripe->strips[strip_num].backing_id;
-+	int rc;
- 
--	/* This function is only for extent_type INTERLEAVED_EXTENT */
--	if (meta->fm_extent_type != INTERLEAVED_EXTENT) {
--		pr_err("%s: bad extent type\n", __func__);
-+	dd = famfs_backing_to_daxdev(fuse_backing_find(fc, strip_devidx));
-+	if (!dd) {
-+		pr_err("%s: daxdev=%lld invalid\n", __func__,
-+		       strip_devidx);
- 		goto err_out;
- 	}
- 
--	if (famfs_file_bad(inode))
--		goto err_out;
--
--	iomap->offset = file_offset;
--
--	for (int i = 0; i < meta->fm_niext; i++) {
--		struct famfs_meta_interleaved_ext *fei = &meta->ie[i];
--		u64 chunk_size = fei->fie_chunk_size;
--		u64 nstrips = fei->fie_nstrips;
--		u64 ext_size =  min(fei->fie_nbytes, meta->file_size);
--
--		if (!IS_ALIGNED(chunk_size, PMD_SIZE)) {
--			pr_err("%s: chunk_size %lld not PMD-aligned\n",
--			       __func__, meta->ie[i].fie_chunk_size);
--			return -EINVAL;
--		}
--		if (ext_size == 0) {
--			pr_err("%s: ext_size=%lld file_size=%ld\n",
--			       __func__, fei->fie_nbytes, meta->file_size);
--			goto err_out;
--		}
--
--		/* Is the data is in this striped extent? */
--		if (local_offset < ext_size) {
--			struct famfs_daxdev *dd;
--			u64 chunk_num       = local_offset / chunk_size;
--			u64 chunk_offset    = local_offset % chunk_size;
--			u64 chunk_remainder = chunk_size - chunk_offset;
--			u64 stripe_num      = chunk_num / nstrips;
--			u64 strip_num       = chunk_num % nstrips;
--			u64 strip_offset    = chunk_offset + (stripe_num * chunk_size);
--			u64 strip_dax_ofs = fei->ie_strips[strip_num].ext_offset;
--			u64 strip_devidx = fei->ie_strips[strip_num].dev_index;
--			int rc;
--
--			dd = famfs_daxdev_lookup(fc, strip_devidx);
--			if (!dd) {
--				pr_err("%s: daxdev=%lld invalid\n", __func__,
--					strip_devidx);
--				goto err_out;
--			}
--
--			rc = famfs_dax_err(dd);
--			if (rc) {
--				/* Shut down access to this file */
--				meta->error = true;
--				return rc;
--			}
--
--			iomap->addr    = strip_dax_ofs + strip_offset;
--			iomap->offset  = file_offset;
--			iomap->length  = min_t(loff_t, len, chunk_remainder);
--
--			iomap->dax_dev = dd->devp;
--
--			iomap->type    = IOMAP_MAPPED;
--			iomap->flags   = flags;
--
--			return 0;
--		}
--		local_offset -= ext_size; /* offset is beyond this striped extent */
-+	rc = famfs_dax_err(dd);
-+	if (rc) {
-+		/* Shut down access to this file */
-+		meta->error = true;
-+		return rc;
- 	}
-+	iomap->addr  = strip_dax_ofs + strip_offset;
-+	iomap->length  = min_t(loff_t, iomap->length, chunk_remainder);
-+	iomap->dax_dev = dd->devp;
-+
-+	return 0;
- 
-  err_out:
- 	pr_err("%s: err_out\n", __func__);
-@@ -611,11 +453,8 @@ famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 	 * This just means that the r/w is past EOF
- 	 */
- 	iomap->addr    = 0; /* there is no valid dax device offset */
--	iomap->offset  = file_offset; /* file offset */
- 	iomap->length  = 0; /* this had better result in no access to dax mem */
- 	iomap->dax_dev = NULL;
--	iomap->type    = IOMAP_MAPPED;
--	iomap->flags   = flags;
- 
- 	return -EIO;
- }
-@@ -644,24 +483,16 @@ famfs_interleave_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
-  * Return values: 0. (info is returned in a modified @iomap struct)
-  */
- static int
--famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
--			loff_t file_offset, off_t len, unsigned int flags)
-+famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap)
- {
- 	struct fuse_inode *fi = get_fuse_inode(inode);
- 	struct famfs_file_meta *meta = fi->famfs_meta;
- 	struct fuse_conn *fc = get_fuse_conn(inode);
--	loff_t local_offset = file_offset;
-+	loff_t local_offset = iomap->offset;
- 
- 	if (famfs_file_bad(inode))
- 		goto err_out;
- 
--	if (meta->fm_extent_type == INTERLEAVED_EXTENT)
--		return famfs_interleave_fileofs_to_daxofs(inode, iomap,
--							  file_offset,
--							  len, flags);
--
--	iomap->offset = file_offset;
--
- 	for (int i = 0; i < meta->fm_nextents; i++) {
- 		/* TODO: check devindex too */
- 		loff_t dax_ext_offset = meta->se[i].ext_offset;
-@@ -680,10 +511,20 @@ famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 		 */
- 		if (local_offset < dax_ext_len) {
- 			loff_t ext_len_remainder = dax_ext_len - local_offset;
-+			struct fuse_backing_common *backing = fuse_backing_find(fc, daxdev_idx);
- 			struct famfs_daxdev *dd;
- 			int rc;
- 
--			dd = famfs_daxdev_lookup(fc, daxdev_idx);
-+			iomap->length = min_t(loff_t, iomap->length, ext_len_remainder);
-+			iomap->addr = dax_ext_offset + local_offset;
-+			if (backing && backing->type == FUSE_BCK_STRIPE) {
-+				struct fuse_backing_stripe *bstripe =
-+					container_of(backing, typeof(*bstripe), backing);
-+
-+				return famfs_interleave_fileofs_to_daxofs(inode, bstripe->stripe,
-+									  iomap);
-+			}
-+			dd = famfs_backing_to_daxdev(backing);
- 			if (!dd) {
- 				pr_err("%s: daxdev=%lld invalid\n", __func__,
- 					daxdev_idx);
-@@ -710,14 +551,8 @@ famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 			 * iomap->offset: the file offset
- 			 * iomap->length: the valid length resolved here
- 			 */
--			iomap->addr    = dax_ext_offset + local_offset;
--			iomap->offset  = file_offset;
--			iomap->length  = min_t(loff_t, len, ext_len_remainder);
--
- 			iomap->dax_dev = dd->devp;
- 
--			iomap->type    = IOMAP_MAPPED;
--			iomap->flags   = flags;
- 			return 0;
- 		}
- 		local_offset -= dax_ext_len; /* Get ready for the next extent */
-@@ -731,11 +566,8 @@ famfs_fileofs_to_daxofs(struct inode *inode, struct iomap *iomap,
- 	 * This just means that the r/w is past EOF
- 	 */
- 	iomap->addr    = 0; /* there is no valid dax device offset */
--	iomap->offset  = file_offset; /* file offset */
- 	iomap->length  = 0; /* this had better result in no access to dax mem */
- 	iomap->dax_dev = NULL;
--	iomap->type    = IOMAP_MAPPED;
--	iomap->flags   = flags;
- 
- 	return -EIO;
- }
-@@ -767,8 +599,12 @@ famfs_fuse_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
- 	size = i_size_read(inode);
- 
- 	WARN_ON(size != meta->file_size);
-+	iomap->offset = offset;
-+	iomap->type = IOMAP_MAPPED;
-+	iomap->flags = flags;
-+	iomap->length = length;
- 
--	return famfs_fileofs_to_daxofs(inode, iomap, offset, length, flags);
-+	return famfs_fileofs_to_daxofs(inode, iomap);
- }
- 
- /* Note: We never need a special set of write_iomap_ops because famfs never
-diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
-index 3f72ae8e4696..33a0e2d08c6b 100644
---- a/fs/fuse/famfs_kfmap.h
-+++ b/fs/fuse/famfs_kfmap.h
-@@ -7,6 +7,8 @@
- #ifndef FAMFS_KFMAP_H
- #define FAMFS_KFMAP_H
- 
-+#include "fuse_i.h"
-+
- /* KABI version 43 (aka v2) fmap structures
-  *
-  * The location of the memory backing for a famfs file is described by
-@@ -96,13 +98,6 @@ enum famfs_file_type {
- 	FAMFS_LOG,
- };
- 
--/* We anticipate the possibility of supporting additional types of extents */
--enum famfs_extent_type {
--	SIMPLE_DAX_EXTENT,
--	INTERLEAVED_EXTENT,
--	INVALID_EXTENT_TYPE,
--};
--
- struct famfs_meta_simple_ext {
- 	u64 dev_index;
- 	u64 ext_offset;
-@@ -122,18 +117,9 @@ struct famfs_meta_interleaved_ext {
- struct famfs_file_meta {
- 	bool                   error;
- 	enum famfs_file_type   file_type;
--	size_t                 file_size;
--	enum famfs_extent_type fm_extent_type;
--	union {
--		struct {
--			size_t         fm_nextents;
--			struct famfs_meta_simple_ext  *se;
--		};
--		struct {
--			size_t         fm_niext;
--			struct famfs_meta_interleaved_ext *ie;
--		};
--	};
-+	size_t file_size;
-+	size_t fm_nextents;
-+	struct famfs_meta_simple_ext *se;
- };
- 
- /*
-@@ -143,6 +129,7 @@ struct famfs_file_meta {
-  * the responses to GET_FMAP messages
-  */
- struct famfs_daxdev {
-+	struct fuse_backing_common backing;
- 	/* Include dev uuid? */
- 	bool error; /* Dax has reported a memory error (probably poison) */
- 	bool dax_err; /* fs_dax_get() failed */
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index adc88a8681e2..3fda819865e7 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -103,8 +103,19 @@ struct fuse_submount_lookup {
- 	struct fuse_forget_link *forget;
- };
- 
-+enum fuse_backing_type {
-+	FUSE_BCK_FILE,
-+	FUSE_BCK_DAXDEV,
-+	FUSE_BCK_STRIPE,
-+};
-+
-+struct fuse_backing_common {
-+	enum fuse_backing_type type;
-+};
-+
- /** Container for data related to mapping to backing file */
- struct fuse_backing {
-+	struct fuse_backing_common backing;
- 	struct file *file;
- 	struct cred *cred;
- 
-@@ -113,6 +124,11 @@ struct fuse_backing {
- 	struct rcu_head rcu;
- };
- 
-+struct fuse_backing_stripe {
-+	struct fuse_backing_common backing;
-+	struct fuse_stripe *stripe;
-+};
-+
- /** FUSE inode */
- struct fuse_inode {
- 	/** Inode data */
-@@ -1567,7 +1583,7 @@ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
- struct fuse_backing *fuse_backing_get(struct fuse_backing *fb);
- void fuse_backing_put(struct fuse_backing *fb);
- struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id);
--int fuse_backing_id_alloc(struct fuse_conn *fc, void *obj);
-+int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backing_common *backing);
- #else
- 
- static inline struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
-@@ -1588,6 +1604,7 @@ static inline struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc,
- void fuse_backing_files_init(struct fuse_conn *fc);
- void fuse_backing_files_free(struct fuse_conn *fc);
- int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map);
-+int fuse_stripe_open(struct fuse_conn *fc, struct fuse_stripe *stripe);
- int fuse_backing_close(struct fuse_conn *fc, int backing_id);
- 
- /* passthrough.c */
-@@ -1649,7 +1666,7 @@ int famfs_fuse_mmap(struct file *file, struct vm_area_struct *vma);
- void __famfs_meta_free(void *map);
- 
- int famfs_daxdev_open(struct fuse_conn *fc, struct fuse_backing_map *map);
--void famfs_teardown(struct fuse_conn *fc);
-+void famfs_devidx_free(struct fuse_backing_common *backing);
- 
- /* Set fi->famfs_meta iff the current value is NULL */
- static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
-@@ -1675,7 +1692,7 @@ int fuse_get_fmap(struct fuse_mount *fm, struct inode *inode);
- 
- #else /* !CONFIG_FUSE_FAMFS_DAX */
- 
--static inline void famfs_teardown(struct fuse_conn *fc)
-+static inline void famfs_devidx_free(struct fuse_backing_common *backing)
- {
- }
- static inline ssize_t famfs_fuse_write_iter(struct kiocb *iocb,
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index d6e8dc75c8a1..70136f27299b 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -245,7 +245,6 @@
-  *  - Add FUSE_DAX_FMAP capability - ability to handle in-kernel fsdax maps
-  *  - Add the following structures for the GET_FMAP message reply components:
-  *    - struct fuse_famfs_simple_ext
-- *    - struct fuse_famfs_iext
-  *    - struct fuse_famfs_fmap_header
-  *  - Add the following structs for the GET_DAXDEV message and reply
-  *    - struct fuse_get_daxdev_out
-@@ -1153,6 +1152,23 @@ struct fuse_backing_map {
- 	uint64_t	padding;
- };
- 
-+struct fuse_strip {
-+	uint32_t backing_id;
-+	uint32_t reserved;
-+	uint64_t offset;
-+};
-+
-+#define FUSE_STRIPS_MAX  (256)
-+
-+struct fuse_stripe {
-+	uint16_t nr_strips;
-+	uint16_t reserved1;
-+	uint32_t reserved2;
-+	uint64_t chunk_size;
-+
-+	struct fuse_strip strips[] __counted_by(nr_strips);
-+};
-+
- /* Device ioctls: */
- #define FUSE_DEV_IOC_MAGIC		229
- #define FUSE_DEV_IOC_CLONE		_IOR(FUSE_DEV_IOC_MAGIC, 0, uint32_t)
-@@ -1160,6 +1176,7 @@ struct fuse_backing_map {
- 					     struct fuse_backing_map)
- #define FUSE_DEV_IOC_BACKING_CLOSE	_IOW(FUSE_DEV_IOC_MAGIC, 2, uint32_t)
- #define FUSE_DEV_IOC_SYNC_INIT		_IO(FUSE_DEV_IOC_MAGIC, 3)
-+#define FUSE_DEV_IOC_STRIPE_OPEN	_IOW(FUSE_DEV_IOC_MAGIC, 4, struct fuse_stripe)
- 
- struct fuse_lseek_in {
- 	uint64_t	fh;
-@@ -1345,7 +1362,6 @@ enum fuse_famfs_file_type {
- 
- enum famfs_ext_type {
- 	FUSE_FAMFS_EXT_SIMPLE = 0,
--	FUSE_FAMFS_EXT_INTERLEAVE = 1,
- };
- 
- struct fuse_famfs_simple_ext {
-@@ -1355,15 +1371,6 @@ struct fuse_famfs_simple_ext {
- 	uint64_t se_len;
- };
- 
--struct fuse_famfs_iext { /* Interleaved extent */
--	uint32_t ie_nstrips;
--	uint32_t ie_chunk_size;
--	uint64_t ie_nbytes; /* Total bytes for this interleaved_ext;
--			     * sum of strips may be more
--			     */
--	uint64_t reserved;
--};
--
- struct fuse_famfs_fmap_header {
- 	uint8_t file_type; /* enum famfs_file_type */
- 	uint8_t reserved;
--- 
-2.54.0
-
+Amir.
