@@ -1,280 +1,179 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC892C0F91
-	for <fuse-devel@lists.linux.dev>; Mon,  1 Jun 2026 20:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D3C2D12F3
+	for <fuse-devel@lists.linux.dev>; Mon,  1 Jun 2026 20:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780345177; cv=pass; b=bMudA3UWemI9zb4SADV59Il5JHbO1ydc0Mh8Qlbr7aOoOSUF+3YC8+hqnN5GiIG2Px1wl+FwHgSTvJgHDhJwawyr+zisJF1bSaJIXFYM6APDF6ecif5o80aZKZyoBjk6n6Tyi123qqtY0uYiPhWp2Kwd8C+q2ekHq7x4veCSyPI=
+	t=1780345423; cv=pass; b=lHlpYxo1LvfCr3Wt8rlwWaruBgL3he1TNxFxWnqRPajknGOaZop6LDBVb0V2rbklBhA/j5hA5x+4R6zMo18p8q/3DTOljrBUL6XfUFr2EEpGqnctpGzd3wseIGOwqxz+Wk3yl1xZsquI/CN9dYU3z/ZJ6JdTXQdm8m7n6yJp/e0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780345177; c=relaxed/simple;
-	bh=/8PADPJoH3jp0iCik2jN4qRM3x45YVQBXiwRJSFImNI=;
+	s=arc-20240116; t=1780345423; c=relaxed/simple;
+	bh=Fm6M4um3jz58vuU2E3v6tA2UqFpTs4jPcRpeOwF8r8o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eXMC0wf8/vRlka0a59KU7TtI99lZfe4cE/hZ7UlxD3ag76p7JP2SWlJ2TpI7AmRr6K0zqUbcAjL2f3GAa4D7CPxI/LT0p/DTmGZhJFqEtBgFhrxOO8H7WlVKI4H4aqj4cojmv3fchAGsiUoJo3zd1qYQprl8dgxh/AKIgs/XWHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YlZO+6/6; arc=pass smtp.client-ip=209.85.128.47
+	 To:Cc:Content-Type; b=Dgj6AJjm+MUZoQSYDgsO/cv7GOVBJH7uFmFNhbe+nzDxQXe6YLknd/vdfTxV+MX6vMAZrrwmDTkjsgxO9cQKszL3OCGXSFVOfO945uyGDCTtHLzFcnUUwkAlxC/rnlzE8s5VZE+5MqVUP4yNq6nJXgMAdR3fRRPISHzUQnf7p0c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZezqOBMQ; arc=pass smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YlZO+6/6"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49041fb8c23so80435645e9.0
-        for <fuse-devel@lists.linux.dev>; Mon, 01 Jun 2026 13:19:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780345174; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZezqOBMQ"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-68cec9f4c6cso3119408a12.0
+        for <fuse-devel@lists.linux.dev>; Mon, 01 Jun 2026 13:23:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780345421; cv=none;
         d=google.com; s=arc-20240605;
-        b=TuThuqBcA9z4CeiY8K0dUOSqyhOMDesY7jntw0NBmOcp4JKoPFf74CZcd8Rd35MQ21
-         T6Y/4kxaKXtgJyKpVd7T8e6cbJ1ICELqT13YEreHEFoGyEsckNuRYDrFiMDTUeVShxPC
-         nBEMwFdtW1vEWhNwXoXh3BcZeyII2LuFex51Cnqw4dCwCK1OxlbYUO8TcW7diJFawwpF
-         y3rNS0ziLPultWOV8KwHeU7Cd6Gz66X2F3z7gumAzAhp3q9YLEV0EX0+jIkWH8KEIZvl
-         lOfmmJYXE1v1bdaOuXljMNf94pvdZ0/kHtEZYT4v756Sllk3H8Tg7SBhWQA9OSY9LljP
-         clcw==
+        b=OBTELOeMBbTlXcP3N/veq260ihliDhjk+s6qK3QLdl/wKSWmbOmj54h7LD9vV94a0H
+         4LKDeLda3AbcVlAWA0foQshnO+QxgCvTiYTD6ZkIGVFKv1uoK8sods+r+k9jb9whVaSY
+         QaxPBko2cbnrX+ffUAB3XsWNyQ4DhsrGI4PVjthxuY5uv/MEeY0YhxnhPEqsQiQYKD7V
+         V0GBhPVLImhQufVD67d2iPigHpSXDl7FyK+wegtrllbg1mMkwciGs9Y/IV/ngQJh0AV2
+         NSoGJpUFY6bmpKkLkgvMsJ0VPsaiJRrQWfYy7UK6ScbJVAYSUIuF4JVFjvhTb6gVFzzi
+         d1Ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=TLyvuYbpf9fR0AyvYPk05jP3aHxuPivxQmjmfqbtSw8=;
-        fh=M8lBPvMRpTAC4TeztD3gosvNUeftk7G5iYyYeZE6pcs=;
-        b=G+HA38PdyPaJFaTrG/TQke6KyjgWc/LA0PGA/Tosyud3XRhpVllitxpwkqzq/GEpUU
-         VnhGka4zIFSesRkoW/TPt2m9bUGUWxt+XeH58uoym27RcpVW+U5VR8AKsfaOMavgIv4W
-         j6K4pr4WqxPuNxUMXCIGG5wKBqqu4oDV7aUXo5cquxPgLvfoppmXeZF0kNPbNgncEKgf
-         UVzjKmqkNocaE55Qw+bhmhBdgU3vBe/ANpwgsTDF1dWni8PgLGqGbSAIV6Nt3hSAbNnD
-         Tyi/mVqQi8n6dGGZhVsg8hxGaFuwA6ickULeJaSeSgOO7Gw8ZycDsvqcZHhT+4DYxZW0
-         +oWA==;
+        bh=3vdy/9lfk10jFlI5MPXTZTsaeG+vblB7sm0FDgjlwKE=;
+        fh=bE9eAi0lFSu1pyvReswhsmY9yRY367WMudejjV1LeSY=;
+        b=TPagIy8hDE0owIHxgWaUMfAKu+S+0NlRshJqhW5Sc4keSNQh9UIlwEO5Wheqay0v0w
+         /3is39+9eNfiQyMuDPg25qAiF9CIURzbW+aMgCnN5oK9rdJKNk/q+tY2xolwgM9VJ5rU
+         C73/nhm0hFnYLZNeIs6NUpcRCqRMPXykx3b6pZZu5ph5yWeESCdTt81gNLu4YcFLt96J
+         UhTETKOr0qdjg7itlHS6ogFr41Gc+GpiAePemTaTc+YnntkEzdz7jXXpX0Bn+9gTQU4k
+         H6NBhG5G2ARVpmN5BW8VPna3xqePwOSMFrNGouNZuBxUiXrFHVt9EBgYBHsFvgq5fDQz
+         d0Sw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780345174; x=1780949974; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780345421; x=1780950221; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TLyvuYbpf9fR0AyvYPk05jP3aHxuPivxQmjmfqbtSw8=;
-        b=YlZO+6/6q3uoiZ6uKZWPvh/35PKZ6SJtENP3qOy6zta2uLjqk20q+0J+g5m8R21qmw
-         sE541l022VlIwHz027bavzU+YmqrFSLPqAp31BgTfVAwSoOke5QUuVhJHQvF0MznPCvM
-         uGP36FJi4YGsFwfFIBE/zLoVv/V8Kgq8hlAC+cq4Fx83pidIadQKIA/uybT3Ric6CzoT
-         X9xgxbnn/fw+OyZnsEAFw3LXPwOi1O1zTdCZoHuKg04ToQ4251ffkraFzEj1Lv7/R8Bt
-         4OrJCvbcYofu9+XTQhrCjvWdRItwr2ktP9xSp5RNtlzrQPeRmf45PzgCPkRm67snqP4z
-         LCwg==
+        bh=3vdy/9lfk10jFlI5MPXTZTsaeG+vblB7sm0FDgjlwKE=;
+        b=ZezqOBMQe5ksRMwN2tOw321bsjPxDb85gSCDP+ImhB7qSb4IZTGNlDucvb/R1r84m9
+         qBCF8MH8y5IH7wqgz2HaoVtGhUq9DD3MVMwc1kojSPsEZF/Cha7Cya20jzOENephKtso
+         Ek7q0oPAz04e8owf8SUroXh732JMbAHwnEws+DkdKfMhqYEVQ27fDFv9CH0tfmcAEFF4
+         EeM99Fmy3eS21bxA5JhnWGDQ1I0d+kYKmd+KrGsNsCd8LZMc1Vh/7aJsihBLcKolKOF2
+         Jo/8u3AL6Ym08PogDde1EM7jmU+xR3amHZuoClHYNHXW3t65V49LYU8C6Xvm5vDFpj/u
+         FJ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780345174; x=1780949974;
+        d=1e100.net; s=20251104; t=1780345421; x=1780950221;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TLyvuYbpf9fR0AyvYPk05jP3aHxuPivxQmjmfqbtSw8=;
-        b=kSB95yPYor2I6sF4nO16Rz5AzUlwtq5lzw9xjQ0ERc66lBpBO8jeRnVfERH4hvJw1s
-         c1014B8Vz0O95uOaaY1fv16qhY3LaL4YG9FHBk9rdRDFMszPHeFh607FtRx3NF+D8sCu
-         pqXci5FIuS41riv5kQo30dmGv5CJIwS0dqXCcbRpdKWv7f3IC2Ot/VW0PC63t9bNRs3C
-         6lAdyn9/D06PH8Oak/n60b/fY7eZc9eHd4Dj3oeX8EtkbAOq7yRDIoe00888ITWGPfYi
-         mk5YXcBYvsvSYjboIyNxvYG/J69ZE3E4RtOtaeKxBK5t89/WMW9MDxY/vHaNxbEByUPj
-         u0BA==
-X-Forwarded-Encrypted: i=1; AFNElJ+LeFjrHW3J9OmOGGZ0WtrYf0k0HvLYdbx0E9PZ28h0EeTjX21OcaCIYetH0qRJHM3m1ouuTD2jBgtN@lists.linux.dev
-X-Gm-Message-State: AOJu0YxN/TH9liT5/exR3d934O2Z83BR5q3jeStMjbArqTyZ0j7mjgPC
-	RYHfqUdsjvpa/Qa5m+uEIy+n/q84OavFkg/Gw01rNPiuAe6DfoHP4XH897SQ7M42sAfA9QE13Ag
-	LknZAPejJI6cwpiENfQGOh5ybgQO2c0U=
-X-Gm-Gg: Acq92OFBiE1lcYvutPDtxZkzU4QWV8xlITyXQzTbqNNHVGFyIwc5AqRw0etVs9YOXmG
-	nQz+ieXDhDmMfMQUsOx9w9djiC/sWKLJZdqjeM9l/FWfwaW4DLmQ0wBvNxVsNMJcKi/PIWuTGjb
-	ldUrBo3qSAYf0uL1D72/ugV03Dni6YY1g3PDNtPTe9M4PdTINijiHNZTFDNL5dWVJqsnFr0Ci7a
-	REH3g1rhDXswt0kqlfGLnH6emgM38U/EZk6pjYhWmfvSrBwqfvje57pUSIywxBazi1sqZoecYL5
-	dPX23Lx+jw4oOUYR
-X-Received: by 2002:a05:600c:6287:b0:490:a1a6:6f24 with SMTP id
- 5b1f17b1804b1-490a29338a8mr228844215e9.15.1780345174338; Mon, 01 Jun 2026
- 13:19:34 -0700 (PDT)
+        bh=3vdy/9lfk10jFlI5MPXTZTsaeG+vblB7sm0FDgjlwKE=;
+        b=aqK/kOjY3/1JJWSqJsELVgK5LtYL+ANWfd34m3kP8209tsPhlmp/u7AF+ElgTCIlvI
+         2ULpuP7/NxacunBljEO6WlYWWeUPFx6mzwdjcWe01YQ4RLdy2ktrV8AMb+u8WKG0kEbK
+         t5doY3HRzUS57KZxuSNY1JG1LNNPEwxslobRmejSndengZr8FT6dHc7yW7IJwgpBOEQx
+         6wicQxr4/+lTCebGVstkXuhOyp787Kkd8N2ahYPZxvRbXGMoLp8dFL5akvgcmI910cFX
+         Prb2dA+KTus1vPBO6fUMNIEHZpTcIrcL/nF7H8QGTO5Quhk/zF0sH2IEjz7gfJxRhFa1
+         VUzQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/VdCeo9kdiWm2KTCSHwUFp3jqQ4h+0GupwrRnbWw2WxakwDO9/LRkAnayRurbU6IhNRS4ecw3ot/Lb@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3WBNUflPA09svO1eeAhz+uqFDux9Gzvo3rmbadBheizW++s3x
+	UdLTN6T6r6UlUncgjRxic6tYIT3Z+4ITNrzD1DhpVFRvQE0rxGDvI3iAcaW9OMwWdcsljoVSIJm
+	v871Ouc051YwuRRxaxwwBfW8AUvSsWCc=
+X-Gm-Gg: Acq92OGbPBYyWnTmb4km+LBxNYf9wa8eqqYbxE6KscYn8Hc2GNXRg4Zbyh1WvJbfU3j
+	83kp+7A3dAacOUXGFmJbalDkYotB/nL+A7JfpDMW1Wo45YHtg9MIV5DdGbBrqSkO0OxhY4AKMMa
+	KWjqGb2W8xVmHvydRIsm2XkFgL0sO5VjAo0H3lM2jsNzN0YZ/1mWtWf0B1mD2CjI2b7CHR1e0IO
+	wIKPl2aLS6vqSBTUCnELkrPEIHdu5ryORN0FKAprgzMV1Dqu4jZkt80LJPfw88QX8SDhyUWW1MO
+	+ThVVkmYnAr6iGQpgI/0Z13Sj3fTPkXd8q/IhpoDk4FHIUYeIIIo
+X-Received: by 2002:a05:6402:11c6:b0:68c:342f:239e with SMTP id
+ 4fb4d7f45d1cf-68c88b3c34bmr5981654a12.7.1780345420716; Mon, 01 Jun 2026
+ 13:23:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260522205823.1597313-1-joannelkoong@gmail.com>
- <CAJnrk1ZPU+BvTCaQ00OwnnXJ8MkwSZ3RyjH9zndL_GuSPfwirA@mail.gmail.com> <aeb9c03a-0330-4e41-ad33-b884f00691a0@bsbernd.com>
-In-Reply-To: <aeb9c03a-0330-4e41-ad33-b884f00691a0@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 1 Jun 2026 13:19:22 -0700
-X-Gm-Features: AVHnY4KUTjoDDiwD8gJ16srnJIBJpfoj95yC8I7JghsTmHlJXtN-tqxis7W9oLI
-Message-ID: <CAJnrk1YPeeCSsQFjaFNROYcOdBO-kTovOTDkCigNKRt57JREJQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] fuse: add io-uring buffer pools and zero-copy
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, jlayton@kernel.org, axboe@kernel.dk, 
-	fuse-devel@lists.linux.dev
+References: <20260529031918.7361-1-russ.fellows@gmail.com> <20260529031918.7361-2-russ.fellows@gmail.com>
+ <ah3VCxciXhS0CFdP@amir-ThinkPad-T480> <02AD69BF-A91D-4798-A90D-7692D3C1ABD0@gmail.com>
+In-Reply-To: <02AD69BF-A91D-4798-A90D-7692D3C1ABD0@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 1 Jun 2026 22:23:28 +0200
+X-Gm-Features: AVHnY4LctJJobQSLiO3WLovKObSNVtqbvrH95fVZEYwelIN2yUK74a1NSIrwKII
+Message-ID: <CAOQ4uxha6Z8ZH0jT5PB6iujQmLjmpEXBCVLkCFgzegcg+2g=JQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] fuse: fix FOPEN_PARALLEL_DIRECT_WRITES being ignored
+ for passthrough writes
+To: Russ Fellows <russ.fellows@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, miklos@szeredi.hu, 
+	linux-kernel@vger.kernel.org, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 29, 2026 at 2:27=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
->
->
->
-> On 5/29/26 18:32, Joanne Koong wrote:
-> > On Fri, May 22, 2026 at 1:59=E2=80=AFPM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> >>
-> >> This series adds buffer pools (implemented internally as a buffer ring=
-) and
-> >> zero-copy to fuse io-uring.
-> >>
-> >> Prior to this series, ents and buffers are tightly coupled where each =
-entry
-> >> has its own dedicated payload buffer, requiring N buffers for N entrie=
-s where
-> >> each buffer must be large enough to accomodate the maximum payload siz=
-e. This
-> >> is suboptimal as most request types require vastly less bytes than the=
- maximum
-> >> payload size and some requests do not require payload buffers at all.
-> >>
-> >> This series allows servers to pass in a buffer pool (internally manage=
-d as a
-> >> buffer ring) that the kernel will use for servicing ents/requests. Thi=
-s
-> >> decoupling reduces the memory usage requirements needed to use fuse-io=
--uring.
-> >> It allows for future optimizations such as incremental buffer consumpt=
-ion and
-> >> supporting multiple buffer sizes per ring.
-> >>
-> >> This series also allows servers to use io-uring registered buffers as =
-the
-> >> buffer pool which eliminates the overhead of pinning/unpinning user pa=
-ges and
-> >> translating virtual addreses per i/o request.
-> >>
-> >> This series additionally adds zero copy to fuse io-uring. The server c=
-an
-> >> directly access client pages or page cache folios without copying data=
- through
-> >> an intermediary buffer. This requires CAP_SYS_ADMIN privileges and usi=
-ng
-> >> registered buffers.
-> >>
-> >> This series has a dependency on io-uring registered bvec buffers chang=
-es
-> >> in [1].
-> >>
-> >> The throughput improvements from registered buffers and zero-copy depe=
-nds on
-> >> how much of the server's per-request latency is spent on data copying =
-vs
-> >> backing I/O. When backing I/O dominates, the saved memcpy is a negligi=
-ble
-> >> fraction of overall latency. Please also note that for the server to
-> >> read/write into the zero-copied pages, the read/write must go through =
-io-uring
-> >> as an IORING_OP_READ_FIXED / IORING_OP_WRITE_FIXED operation. If the
-> >> server's backing I/O is instantaneous (eg served from cache), the
-> >> overhead of the additional io_uring operation may negate the savings
-> >> from eliminating the memcpy.
-> >>
-> >> In benchmarks using passthrough_hp on a high-performance NVMe-backed
-> >> system, using registered buffers showed around a 10% throughput improv=
-ement
-> >> for direct randreads (~2150 MiB/s to ~2400 MiB/s), a 4% improvement fo=
-r direct
-> >> sequential reads (~2510 MiB/s to ~2620 MiB/s), a 8% improvement for bu=
-ffered
-> >> randreads (~2100 MiB/s to ~2280 MiB/s), and a 6% improvement for buffe=
-red
-> >> sequential reads (~2500 MiB/s to ~2670 MiB/s).
-> >>
-> >> Zero-copy showed around a 35% throughput improvement for direct
-> >> randreads (~2150 MiB/s to ~2900 MiB/s), a 15% improvement for direct
-> >> sequential reads (~2510 MiB/s to ~2900 MiB/s), a 15% improvement for
-> >> buffered randreads (~2100 MiB/s to ~2470 MiB/s), and a 10% improvement
-> >> for buffered sequential reads (~2500 MiB/s to ~2750 MiB/s). I didn't s=
-ee
-> >> enough of a clear improvement for writes due to write latency being I/=
-O
-> >> dominated.
-> >>
-> >> The benchmarks were run using:
-> >>   fio --name=3Dtest_run --ioengine=3Dsync --rw=3Drand{read,write} --bs=
-=3D1M
-> >>   --size=3D1G --numjobs=3D2 --ramp_time=3D30 --group_reporting=3D1
-> >>
-> >> The libfuse changes can be found in [2]. To test the server, run:
-> >> sudo ~/libfuse/build/example/passthrough_hp ~/src ~/mounts/tmp
-> >> --nopassthrough -o io_uring_zero_copy -o io_uring_q_depth=3D8
-> >> Once this series is merged, the libfuse changes will be tidied up and
-> >> submitted upstream.
-> >>
-> >> Thanks,
-> >> Joanne
-> >>
-> >> [1] https://lore.kernel.org/io-uring/20260402160929.2749744-1-joannelk=
-oong@gmail.com/T/#t
-> >> [2] https://github.com/joannekoong/libfuse/commits/zero_copy_v3/
-> >>
-> >
-> > Miklos,
-> >
-> > This series has stalled on an architectural question and I'd
-> > appreciate your input on the direction.
-> >
-> > Background:
-> > In fuse io-uring, entries are reusable communication slots between the
-> > kernel and the daemon. When a request needs to be sent from the kernel
-> > to the daemon, it is assigned to an available entry. The entry carries
-> > the request to userspace, and the response comes back through the same
-> > entry. The number of entries determines how many requests can be
-> > serviced concurrently. Currently, when the daemon registers an entry
-> > during fuse io-uring setup, it passes in a payload buffer (sized to
-> > the maximum payload, typically 1 MiB) alongside it. The buffer is tied
-> > to the entry for the lifetime of the connection.
-> >
-> > Problem that needs to be solved:
-> > Most request types (lookup, getattr, open, etc) require far less than
-> > the maximum payload size, and some (flush, fsync, etc) require no
-> > payload buffer at all. Every entry reserves a full 1 MiB buffer
-> > regardless of actual need. On systems with many entries, this memory
-> > cost scales linearly - for example, 64 entries across 8 queues
-> > requires 512 MiB of payload buffers alone.
-> >
-> > Approach A:
-> > Decouple entries from payload buffers. Entries become generic - any
-> > entry can use any buffer from the pool. At setup time, the daemon
-> > passes in a contiguous pool of memory, and the kernel dynamically
-> > selects and recycles buffers from this pool as entries are assigned
-> > requests. Entries servicing requests with no payloads consume no
-> > buffer, and the pool can have fewer buffers than entries. This
-> > supports adding multi-size buffers and incremental buffer consumption
-> > (multiple entries using non-overlapping regions of the same buffer
-> > concurrently) as optimizations in the future.
-> >
-> > Approach B:
-> > Keep the 1:1 entry-buffer coupling, but allow entries to be registered
-> > with different payload buffer sizes at setup time. The daemon would
-> > register entries with smaller buffers for metadata-heavy workloads and
-> > larger buffers for data-heavy ones. This keeps the existing model of
-> > passing in a payload buffer during entry registration at setup time
-> > and requires no uapi additions. Each entry registration adds buffer
-> > capacity whereas with buffer pools, buffer capacity would have to be
-> > added as a separate pool.
-> >
-> > I want to make sure I'm representing both approaches fairly - Bernd,
-> > please correct anything I've gotten wrong.
->
-> I think for B "at setup time" is not entirely correct - buffers in the
-> current model buffers and entries can be registered at run time.
->
->
-> I have been thinking about approach C, which I think is in between A and =
-B.
-> I my mind approach C does the registration per entry, but payload
-> buffers get added to a buf array, if a payload is set.
-> Max array size would be negotiated as in your approach or maybe better
-> with a config SQE. Different IO size could achieved by multiple buf array=
-s.
+On Mon, Jun 1, 2026 at 9:25=E2=80=AFPM Russ Fellows <russ.fellows@gmail.com=
+> wrote:
 
-Ok, so it looks like we agree that entries should be decoupled from
-buffers. Now it looks like the remaining disagreement is how the
-buffers get passed in.
+> > On Jun 1, 2026, at 12:52=E2=80=AFPM, Amir Goldstein <amir73il@gmail.com=
+> wrote:
+> >
+> > Removing stable list - this is definetly NOT a bug fix
+> > Please CC fuse-devel@lists.linux.dev for future fuse patches
+> >
+> >
+> > Not a fix, because this was very intentional.
+> > It is a new feature that you are proposing to support parallel
+> > passthrough dio.
+> >
+> > Anyway, this patch has many problems
+> >
+> >>
+> >
+> > You can't just use fuse_dio_lock() like this
+> > it plays nasty games with the iomode.
+> > It does not even check for O_DIRECT mode, so this would do
+> > parallel buffered write (at least until it meets the filesystem lock
+> > but its not something we would want.
+> > You should study this code better.
+> >
+> >>      ret =3D backing_file_write_iter(backing_file, iter, iocb, iocb->k=
+i_flags,
+> >>                                    &ctx);
+> >
+> > The problem is that while backing_file_write_iter() does not seem to
+> > directly require an exclusive lock (apart from maybe file_remove_privs)
+> > the fuse_passthrough_end_write() callback does I think rely on this
+> > exclusive lock.
+> >
+> > So proving that this can work will require more research and more effor=
+t
+> > and I am not really sure how that is going to work out.
+> >
+> > Thanks,
+> > Amir.
+>
 
-I still think it's simpler and cleaner to pass in the buffers as a
-contiguous pool upfront instead of passing in each buffer
-individually.
-
-Miklos, what are your thoughts?
-
-Thanks,
-Joanne
+No "top posting" in the mailing list please :)
 
 >
+> Amir,
 >
-> Thanks,
-> Bernd
+> I appreciate your feedback.  I will review and revise my proposed changes=
+.
 >
+> I will also remove the =E2=80=9Cfix=E2=80=9D tag and mark this as an enha=
+ncement to FUSE parallel I/O.
+>
+> As an aside, I have tested the kernel changes quite a bit and have had no=
+ crashes or corruption,
+
+I believe that but the corner cases of parallel dio with extending
+writes are the
+devil in the details and its unlikely that you covered those without
+very deliberate testing
+I am not saying there is a race but takes a lot of proof to remove a
+lock and this
+proof is on the one trying to remove it.
+
+> and the write performance is 3x.
+
+I believe that but can't just remove the lock and show the performance
+
+>  But, I will use your input to focus these changes more appropriately and=
+ eliminate  their unintended consequences.
+>
+
+My instinct is that it might be easier to do this with PASSTHROUGH_INO [1]
+where the attributes are always read from the backing inode, so less
+races to worry about.
+
+Good luck,
+Amir.
+
+[1] https://lore.kernel.org/fuse-devel/20260516004004.1455526-2-joannelkoon=
+g@gmail.com/
