@@ -1,290 +1,426 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC283E2746
-	for <fuse-devel@lists.linux.dev>; Tue,  2 Jun 2026 13:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F4831F997
+	for <fuse-devel@lists.linux.dev>; Tue,  2 Jun 2026 13:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780405286; cv=pass; b=CVyLDkdpk0ctitgILLpU02oEz9H9wZR932pxmd1PntF5jeISzP6a3woiU4Rsy6b1aBOSIr1xvFiGuvvH5bFNJOE70bQbMeZv8G/eit9Em91pw9OMJ8EO5OoSkVPvAC487aeo9hJPujFy3W5SYgPR213AoOmL8T0KNcZNgrbwi94=
+	t=1780406383; cv=pass; b=hqVIp+34jbCoVGwpymHaVP4RuUjMNXRRrbqBIRG2MKNffO13XG51uc5rMxXcgaTc0EgrwQzpFjSJb9aAxFoocKUCgMDfQioyc857ySLgMvl6sBoAyY7vsDLzSmHVsN0Qm1CPTzRRsMugavz3dYkJKmw/L9o0yrNx3h2+2sfsPnI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780405286; c=relaxed/simple;
-	bh=/ho6lGJ76kzPFSZknYfMFJy4z+tOkx5CZ9MjgdeQ1dQ=;
+	s=arc-20240116; t=1780406383; c=relaxed/simple;
+	bh=wCxl3Tv5UjAXMqr4HJPAJZZ1uOkzj847bzegkTtgaHg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aiM4aFwq9rBsDvpEQa1M7/t2WHmwixLI54by7TBUglXKBjazF8XbeduH/IcUuuIeMdxtt6ro4RD3AjFtbhYa5EuMmutb52zKMnPGK67NnoRcWQ7NfVnQGr4ZjPSMvplGGHiShIUF+vFK9mWjd7vT7yiElEg8pG+sTYxIJvjgSl0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZKtbODW; arc=pass smtp.client-ip=209.85.208.53
+	 To:Cc:Content-Type; b=Uj1lA61VnmQ8WYW95wb5U7cVOysbbB8AFwHCNAYQj2O00h6TVnWq8UYeZdDMU73aAq2KqSl8PvSRTaRbX0olWFCbz/2SSBT4aHWCB+9suUDwRy+b4LBW3HHvkrfA3SvLM26AiOR8dEeWy965ssd4DgjweEb+9W61cWOAbfZPzdE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FsAJPOv2; arc=pass smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZKtbODW"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6877c719cb0so18494101a12.2
-        for <fuse-devel@lists.linux.dev>; Tue, 02 Jun 2026 06:01:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780405283; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FsAJPOv2"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68d2342c5e6so3736778a12.3
+        for <fuse-devel@lists.linux.dev>; Tue, 02 Jun 2026 06:19:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780406380; cv=none;
         d=google.com; s=arc-20240605;
-        b=UGgEbOzWxgRg7yu6wjJBTkeUweTRRA7cyv7AXfZisORLekU/5b8UUwzUgl9W+RzSMw
-         DakrR7NTF483gNx6IzQD7eWCUnX9NoieO3P3t9SL8tA5/3SAhCjU3B1sAeBx5fGfm7sJ
-         u+YwhOnPkn7H1xoh6taY4mHdmLP697fJIzrE4mHSbBd6PB7h+fH+BaHM+BGg+VdxcTbX
-         CDmkLmYsb81ZJGVtftQRBdQTAWNxfLcWRBXZhO/i1MZtKF4fBZD5QgmkgpVnzRMGX7fq
-         +UQ/pUaFNQ4j3OrU26yOk9riniZlqUhUyp+zikh7QqjQL658H/PzdEaZuSyiO5ABBRJi
-         HRQg==
+        b=NvN33QyzwHNrdHUW+0BNCcYyMFF4BdKjQWVPMwNH2g1d1YFdCGRMZWW1DdeDump2xu
+         Z5D2auFehVg7CAd9rJix46L0VUN6vpOBTHqTNwE0B8NQbe4n4OhXfnupM9LUjp2RoLVG
+         z6X6oNeL5DOvvaXY2nbIlwbkbpeJB5lmMtXiYPiG8u+l1JTCFiCQ5fuHgYN3h9JnU4Qr
+         tghVnYn7TBBy/hJg/dj6TfzbQvJ+D1niHkcoYvJGwaRq8ta6wLr3dpmbDGNDrwlvzgLW
+         dAMO1561lY5zBdnpYPIxJfriaiLhisy/TlKEETFVyracbkLyj3PbYbIp/BhsExAfZbi9
+         1mHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=GT12yK06xRWdhw1OHOoMBEbkBjZ5NuBepZ00tWwU0+Y=;
-        fh=uSD2NNJ/dlKWfactusHtJ82cK22wZzRJSn1fc18Gx9c=;
-        b=HyD/Ua9iJaK0ZZOG1GwPybV/TjpLoxwi9971aiI0thcJYX6RGd4uLctlMXMk+e3Ynh
-         ihdgdH+ghL+3RT+02rVNQHYpUUCj5WQ8FTTyjgCAYFultn3Sh7Kjwa8uZVjcQnDbqRVI
-         wVobV2DDEaCyZMMHsYxNHWdv5ITHZ19pibKTXvpKyG2MBYOP8TdFG/p+k2L94H/77jFw
-         Y1H/BfSIeLyLZXRf1qNNjRxIGpTKRVY/uLu0JokuF8qKZ9Vy2PNzy4YETtVpnadEumCL
-         YhEzTnxV+3GpPJdSsukiOm9e1p16EOD6wEQQFP788PkVvRwzuSwq8iSxX1+XGEgh7EVQ
-         mwpw==;
+        bh=8rjbJa8Kn9TlrFytgVrTzNTVTXWd8OqV67XJq4KirFg=;
+        fh=jTqEIMgPcUiqfEOo74yOZc3yu6SFd6PmnYLz3qjWMaE=;
+        b=XvSif2mFU5GUovpvyUZsfwvpsLNUGwiSXos1T+XUuPah0kJRagdLh2BuEMiV0GlRmr
+         GTQmYHX9d2GeUVX0eilDgvspntvIh/OhKQjHdqprj2u7USMp7nMbKobS3QUxvqEGQsDZ
+         x9hZeb7CPl02XTbct4et2tymM5aclPqL4YUgA+3ExPo88aex7OcgqN58rk1/DtC6gBTm
+         ydjNPNd+0QotmRUoo1SGn7/gqcWfvMrhmAejxzFibbJUjb6ND9SNHhOV206U8IFVVByB
+         kXnNDwNKmSzb+7j3FalX9/JGHtYdN0XvjCs/zc+6hbSQ43y2Ef1KJd2urNaV+hNX2m/0
+         vr1g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780405283; x=1781010083; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780406380; x=1781011180; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GT12yK06xRWdhw1OHOoMBEbkBjZ5NuBepZ00tWwU0+Y=;
-        b=RZKtbODWfg8lWZyyO957Dk9trMetJmXSvT0OhKML0T/1J9Aobwjk8JiRj8cyka96/o
-         jI+H77NV/5+GWYW/7APPmgEH7jXA9zcSobhR1lc+ZXNYJlhUUOsqyKX0zKiPk1b8+cFJ
-         BikpCRf++CvF5L9+5zlR0dDjzQK/35tHvVR/ebJidVNJA1OZTK+javduqxj5VPW8029o
-         pqpHI5DpXsUK6JF0x+AO2E2O1K2LRrzT50qQUXdz6qXiVghmU6uu4YJiaDTMjdNhxNnY
-         duniL6B1hp94HrQqO9jqwQPUkDDMzjPM016MU7yVps3Hv4QKbLvGx2vsgXYVG7KavynV
-         0jAQ==
+        bh=8rjbJa8Kn9TlrFytgVrTzNTVTXWd8OqV67XJq4KirFg=;
+        b=FsAJPOv2njrcnidke4VCaPeLFxpuvQM9vnLnG6ultWPLeBomxLtWjBmBBx7A2vkIKv
+         r9a1haIISvG6y1fvdP0nfFGB73TyWRzPECJN9CQNlIOmvqbIEDdht/WF6F6r6P5SHIPp
+         yuu3s/CxHzXg4242ECq1ZJJ++Vj8f4nG5t8bUT9KBfo0ITDFP0sBqHAsmWS63exZyCwY
+         Scj9bi7T9Ll5BP+LfVlIqZLMvfJ0qPslUDktbCjrZoL3AqgtOAo/Lx2AqWtqhD1cnCVg
+         knqopeN9xTjUjd3PIeN602nT1O23QQY9IcttZJfxrH+//psLG/6PTjavtDntN5CrFpM+
+         SoZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780405283; x=1781010083;
+        d=1e100.net; s=20251104; t=1780406380; x=1781011180;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GT12yK06xRWdhw1OHOoMBEbkBjZ5NuBepZ00tWwU0+Y=;
-        b=PUtDUxSaXsMirnmKW60fWTKaYBWNgblEjR0tJFyQDQyTMXBLrEJP0IiSESQd+s8+PL
-         Y6SMG6US/+GVnUPSaeBuTjDe+lQhEgiFednOCoJZM7m8xXTBznL9XGblKWkG7lAe9XPs
-         4/7koP1eEUmkcVXHfj4Q3UknjFpgcmjXWULjTHTQP4TkA/3T+0dflWR7l6O3xNnLe5oF
-         Fu3mdEboaFcSrPhK3Hi6Uceorni3sqtQZzssbQmebspGmUK379PzaQgqKN1cI6zrWT80
-         feJVh4hdvDGMRVo9ApNCgGN51yHtJSiTBHM3XbiclDJV7BYDsLSj0NMucBNtGfVIdT7q
-         bhAw==
-X-Forwarded-Encrypted: i=1; AFNElJ8pdncpjclqnihGLxGH7u4cmr/GSdjGMb8sJhuSfwSK2bdv/+EmWimNq1TZG7EUWtsZTNANrFTGSX0+@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWYld1UYd00Yh84KEknEVS1sPETuSnzbd5mVfSFxbvBOAD33RM
-	QgbwXxVxUDJjxmANQ513/EvN/UBmyPUZ0tuNbe62YINOtci2/Sa7eG7R/jfMq5xbYblxo/HWeCO
-	+nXJIhIAytXYwOD2HhtYq1qv4Z4MasRpHT/ucZSY=
-X-Gm-Gg: Acq92OGzytdtkweVtoretEbOs49NOM94iXDUzX6OeLfJ0YegFhES620nqIfaAYWgE6n
-	DUNYF41WiWzQJxWuV11nbbQchyueccNO5kImtaBqlbgBvSrSuE0LzMkSyr0uXrxMCKB7z7uxdtX
-	3ZsR1zYCP9WLNaj+HtFFfj4YBUsfosME4HQ0l51chHkJOm6VnT1VWy1k4rCEv7GEKiZt2627duf
-	cUmxP0B1f1TtxjJEW9mvaHk9xKgyG3VBHfj3pj+gQ9xxFmZrsMauAru9HkWM6mTnn0RlnvwaFKu
-	Gx4AJAZXai5h7U9c2ptmkId8i/AcxoNbUkzl+70JTZ9VtQkCPbiv
-X-Received: by 2002:a05:6402:285:b0:677:75e5:a1b3 with SMTP id
- 4fb4d7f45d1cf-68c8cc290b4mr6202827a12.18.1780405281580; Tue, 02 Jun 2026
- 06:01:21 -0700 (PDT)
+        bh=8rjbJa8Kn9TlrFytgVrTzNTVTXWd8OqV67XJq4KirFg=;
+        b=ZOXrDF+IdiZVmNMgJQMSgXbaYuCQg1GOXMG36m7T1j8vykGc42xYjuXhJeP9zw4GAw
+         WtmjFoOCOZfKj2u/UEPuEe9HeUCXdMSEDsB5VfgkGdWjPPmOhgE2m6Psyy4Dp/0AYT6M
+         6hW5+Hq1x9+ND+3Ika7lmali+UtXVUd+TZSoTIpg2UhI+LCPpdbNEqjMJpsnYaKaoWTf
+         /LUUmbfvcjgeEx//+lmEo56Nv87My9HtA/CSTBU5KcqwcQlKP3LuGfCL4Th1+IY0qAtO
+         Hw24krlQDixIVExeCrNA6l8I2bz4lQTTxfE0h0guq/IMb+mDGKFIN2gEkoEVQQiloE8G
+         wDCA==
+X-Forwarded-Encrypted: i=1; AFNElJ81nCe7+Bvoz0D1o9fmb0moKSrUUhL4Px43hRZFwG2oQFIyj+ht8zOq3qOp6pgly56r117TPd28jzH0@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTKF+TCa3xm0CLD7hd0CEWMLCyweFJQz3FT8rH0848b5i35XsH
+	rg6fxhKJK1HDouBZn7aobQd5yrcn1nuHjJ2xqLipy5hDP4ph3NCR64LFpT53Ey9nO/NUyc8U5KT
+	TFoQHNyxTBh33cfxj3TliZSMXBJS72ho=
+X-Gm-Gg: Acq92OG2qfzXExYAk64y9ZHMo6orcLmTArcdHYMztVF+lMZlLX3t2ot/Hk7CbsNaTZC
+	nhOFdJ2ChkAliFkajGYeE+YvyC8M8PzhfyUWBPILt2P7Z9OAh3+v9lq0bTcjs7e4ar5NX00VeYo
+	aCLHqIpGUsaSGJVhe2+Pwmaw0XbDpCvjLH6A11hf11SrlxJ5MsalvPVvegYaaSBqVPbdUmNStJt
+	Cub027thGggPsBVai0Pt4QSyRFr1FzWLOrl6WRBpyWpwSd6ikOHpDaVwQ8t3m1oytO3r7qr+FZl
+	Uz2UJjcPhhWFVloBSprrKP7O/JvF5lcEdC1WTsP1QCUUNmIvhLu6
+X-Received: by 2002:a05:6402:2229:b0:68d:d511:4a9f with SMTP id
+ 4fb4d7f45d1cf-68dd5114b33mr1788366a12.18.1780406379615; Tue, 02 Jun 2026
+ 06:19:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260529134302.1989958-1-mszeredi@redhat.com> <ah5-40YypaswEG-1@groves.net>
-In-Reply-To: <ah5-40YypaswEG-1@groves.net>
+References: <20260601152327.2069787-1-mszeredi@redhat.com>
+In-Reply-To: <20260601152327.2069787-1-mszeredi@redhat.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 2 Jun 2026 15:01:09 +0200
-X-Gm-Features: AVHnY4LI10OeqWefZhuYWnhAbyP5T-wCIDkQosynud5f2Rd959bkvyQoiKpPdRs
-Message-ID: <CAOQ4uxj3ROiCCRxPnbNJkTzU4KvSYCiVj7jAe6koKZgw7t=2Kg@mail.gmail.com>
-Subject: Re: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
-To: John Groves <john@groves.net>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+Date: Tue, 2 Jun 2026 15:19:25 +0200
+X-Gm-Features: AVHnY4KPVnp-WT8Jv_R53L_1c_C15mvkn6Hl2hOzr3Ve-0D31NGovzZ2qY99zM8
+Message-ID: <CAOQ4uxjFg4rjwGjU2LvZT6AhC+gBk_6Ej5S4p4DKuk8=a71cRw@mail.gmail.com>
+Subject: Re: [PATCH] famfs: FUSE_FAMFS_EXT_INTERLEAVE -> FUSE_DEV_IOC_STRIPE_OPEN
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: John Groves <jgroves@micron.com>, "Darrick J . Wong" <djwong@kernel.org>, fuse-devel@lists.linux.dev, 
 	linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 2, 2026 at 8:59=E2=80=AFAM John Groves <john@groves.net> wrote:
+On Mon, Jun 1, 2026 at 5:40=E2=80=AFPM Miklos Szeredi <mszeredi@redhat.com>=
+ wrote:
 >
-> On 26/05/29 03:43PM, Miklos Szeredi wrote:
-> > The difference is that now the server needs to look at the fmap and che=
-ck
-> > if any new device needs registering, the device index is now allocated =
-by
-> > the kernel and returned by the ioctl().
-> >
-> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> > ---
-> > This is the first part of what we were talking about: using the backing
-> > file API for dax devices.
-> >
-> > It's on top of the famfs-v10 patchset.
-> >
-> > Totally untested, haven't even tried booting it.  Obviously needs
-> > nontrivial conversion in the server code as well.
-> >
-> > Thanks,
-> > Miklos
+> Add striped "virtual" backing devices (idea from Darrick).
 >
-> Miklos, thanks for looking at this.
+> This decouples interleaving from extents, since the interleaving is
+> configured on the striped backing device, while simple extents select whi=
+ch
+> striped device is to be used and the length/offset within that virtual
+> device.
 >
-> First, a scope check. This patch touches only the daxdev registration -
-> GET_FMAP, struct fuse_famfs_fmap_header, and the simple/interleave
-> extent structs in include/uapi/linux/fuse.h are untouched. I'm reading
-> that as tacit agreement to GET_FMAP and its ABI. Can you confirm? If so
-> the large piece is settled and this is really just about how a daxdev
-> gets registered.
->
-> Device indices - the part that has to be right
-> ----------------------------------------------
->
-> Everything below turns on what a famfs device index *is*, so let me make
-> it explicit, because the patch's model of it (kernel-allocated) isn't
-> workable for famfs.
->
-> Famfs daxdevs are shared memory. The same physical memory is mapped by
-> famfs on multiple nodes, and on each node it most likely has a different
-> name and dev_t. What is invariant across nodes is the daxdev's UUID. So
-> a daxdev's definitive identity is its UUID, not a path or a dev_t.
->
-> The index is assigned by famfs userspace, as the order of appearance of
-> daxdevs in the famfs metadata log:
->   - the primary daxdev (which holds the superblock) is always index 0;
->   - additional daxdevs are introduced by ADD_DAXDEV log entries and take
->     1..n in order of appearance.
->   - ADD_DAXDEV log entries establish the UUID-to-index mapping
->   - any file may have extents referencing any or all daxdevs defined
->     previously in the log - by index
->
-> Two properties make the index a userspace-owned, cluster-invariant value
-> the kernel cannot allocate:
->
->   1. Bootstrap. The famfs metadata log establishes the indices - each
->      ADD_DAXDEV entry defines the next - and an index can then appear in
->      any later file fmap. But the log is itself a file on index 0 (with
->      the superblock), so index 0 must resolve before the kernel can even
->      read the log. The numbering is fixed in the log before the kernel
->      sees any of it, so the kernel can't be the allocator.
->      (idr_alloc_cyclic never hands out 0 anyway, so a kernel-assigned
->      primary couldn't even be index 0.)
->
->   2. Cluster-invariance. fmaps live in the shared-memory log, read
->      identically by every node. A given dev_index must denote the same
->      daxdev (the same UUID) on every node, even though it most likely has
->      a different name and dev_t on each node. A kernel-allocated id is
->      node-local and mount-local - the wrong kind of value to live in a
->      shared fmap.
->
-> So the index must be supplied by userspace (which owns the log and
-> resolves each index's UUID to a local device), and the kernel looks
-> devices up by that index. Resolving UUID -> local device is inherently
-> userspace's job; the kernel trusts that resolution and never needs the
-> UUID.
->
-> This is also why the hand-rolled daxdev table is the right structure, not
-> incidental cruft: a small self-contained array in famfs.c, keyed directly
-> by the dense zero-based index, closing the discovery race (valid flag +
-> wmb) and giving O(1) lookup. That's exactly what this index namespace
-> calls for.
->
-> Identity by reference, not by path - this part is right
-> -------------------------------------------------------
->
-> The genuinely better idea here is getting the kernel out of resolving a
-> device pathname: the daemon hands over an already-resolved reference
-> (you do it with an fd, from which the kernel takes inode->i_rdev)
-> instead of a string the kernel has to kern_path(). I want to adopt that
-> - credit where it's due.
->
-> The minimal way to realize it is to have GET_DAXDEV return a dev_t: the
-> kernel uses dax_dev_find() and kern_path()/may_open_dev() drop out
-> entirely. No ABI change - struct fuse_daxdev_out already carries the
-> index and has reserved space (sized with room for a uuid), so it's just
-> filling a reserved field, and the index is already first-class in the
-> reply.
->
-> The fd delivers that same dev_t (the kernel already reads it from
-> f_path), so BACKING_OPEN can realize the same idea - but the dev_t is
-> the part that's actually the improvement, and the daxdev reply ABI
-> already models (index, dev_t) while fuse_backing_map models neither. So
-> realizing it is cleaner without the fd than with it; the costs of going
-> through BACKING_OPEN are below.
->
-> On BACKING_OPEN
-> ---------------
->
-> If you feel strongly about FUSE_DEV_IOC_BACKING_OPEN, I'll make it work
-> - but I want to be honest that for famfs it's a shared-almost-nothing
-> approach:
->
->   - famfs needs its own handler regardless (the famfs branch of
->     fuse_backing_open), and that handler can keep populating the famfs
->     devlist exactly as today - so the only things actually shared are the
->     ioctl entry and the {fd, flags} struct.
->
->   - it forces 'select FUSE_PASSTHROUGH', pulling in file retention, I/O
->     forwarding, refcounting and close - none of which famfs uses. Famfs
->     maps device memory directly via iomap/dax_direct_access; there is no
->     backing file and no famfs close path (fuse_backing_close already
->     returns -EINVAL when famfs_iomap is set).
->
->   - the ABI doesn't fit. struct fuse_backing_map is {int32_t fd; uint32_t
->     flags; uint64_t padding} - it's fd-shaped, with no dev_t field and no
->     index field. To use it for famfs I'd have to carry the device by fd
->     (which forces the daemon to open() the device just to register it -
->     the daemon otherwise never opens it) and smuggle the native index
->     through padding. And the fd does no real work: in famfs_daxdev_open()
->     it's borrowed only to read f_path -> devno, then dropped; exclusivity
->     comes from fs_dax_get()'s holder, not the fd.
->
-> On access control, in case it's a concern behind the fd: the famfs path
-> is already gated on the server holding CAP_SYS_RAWIO at init -
-> FUSE_DAX_FMAP is only offered under capable(CAP_SYS_RAWIO) in
-> fuse_send_init(), and famfs_iomap (hence GET_FMAP/GET_DAXDEV) is enabled
-> only if that flag comes back. So the registering daemon is already
-> raw-IO-trusted; there's no access-control gap an fd's open would close
-> (may_open_dev() isn't a capability check anyway, just a mount-nodev test)=
-.
->
-> Net
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 > ---
 >
-> I'm glad to (a) confirm we're aligned on GET_FMAP and its ABI, and (b)
-> switch GET_DAXDEV to return a dev_t instead of a path. I can't move index
-> allocation into the kernel - the index is a userspace-owned,
-> cluster-invariant value for the reasons above - and I'd keep the famfs
-> daxdev table where it is. Lazy discovery has to keep working either way:
-> only the primary daxdev is known at mount; the rest are discovered as the
-> famfs metadata log is replayed and first referenced by an fmap.
+> This is the second part of what we were talking about: using the backing
+> API for striping.
 >
-> If you still want BACKING_OPEN after the above, say so and I'll make it
-> work, ABI overloads and all - but I think GET_DAXDEV + dev_t is the
-> smaller and better-fitting change.
+> It's on top of the famfs-v10 patchset + the FUSE_BACKING_DAXDEV patch
+>
+> Totally Untested (TM).
+>
+> The third part will be to use the fuse-iomap uAPI (and just the API, not
+> any of the code) from Darrick to describe the simple extents themselves.
+>
+> And that should be it.  Just some review and testing and I'll be happy to
+> move this into fuse-next.
 
-John,
+Yey :)
 
-Allow me to be blunt, because I find your email counter productive.
+This looks very nice!
 
-I insist on BACKING_OPEN. Please stop going in circles.
+I hope it meets John's technical requirements.
 
-Miklos is working hard, doing all the work for you, basically preparing fam=
-fs
-for merge nowish and what I hear when reading in this email is a very long =
-rant.
+>
+> Thanks,
+> Miklos
+>
+>  fs/fuse/backing.c         | 108 +++++++++-----
+>  fs/fuse/dev.c             |  38 +++++
+>  fs/fuse/famfs.c           | 296 +++++++++-----------------------------
+>  fs/fuse/famfs_kfmap.h     |  25 +---
+>  fs/fuse/fuse_i.h          |  23 ++-
+>  include/uapi/linux/fuse.h |  29 ++--
+>  6 files changed, 219 insertions(+), 300 deletions(-)
+>
+> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+> index e56b7f8d5d2b..d680a01c9f38 100644
+> --- a/fs/fuse/backing.c
+> +++ b/fs/fuse/backing.c
+> @@ -37,14 +37,14 @@ void fuse_backing_files_init(struct fuse_conn *fc)
+>         idr_init(&fc->backing_files_map);
+>  }
+>
+> -int fuse_backing_id_alloc(struct fuse_conn *fc, void *obj)
+> +int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backing_comm=
+on *backing)
+>  {
+>         int id;
+>
+>         idr_preload(GFP_KERNEL);
+>         spin_lock(&fc->lock);
+>         /* FIXME: xarray might be space inefficient */
+> -       id =3D idr_alloc_cyclic(&fc->backing_files_map, obj, 1, 0, GFP_AT=
+OMIC);
+> +       id =3D idr_alloc_cyclic(&fc->backing_files_map, backing, 1, 0, GF=
+P_ATOMIC);
 
-Maybe I am slow, but from this very long email, the only thing that I find
-technically relevant is "the index is a userspace-owned".
+Darrick's iomap patches have the range determined by the backing ops.
 
-All the arguments like "famfs does not need to open the device" and alike
-are, unless I am missing something, completely irrelevant and counter
-produtive to your goal of merging famfs.
+Considering that John wants the daxdev ids to be allocated by userspace
+I suppose the number of daxdev ids is limited, same as with iomap
+backing devs, so we could probably start allocating backing stripes
+from max_daxdevs (1000?), to be negotiated at init time.
 
-Yes, you will need to make changes to userspace, please don't list those
-as technical arguments for how the kernel should be implemented.
 
-Letting userspace assign the backing id is trivial.
-Can either create a new ioctl DAXDEV_OPEN or reuse existing fields
-and flags in fuse_backing_map, so that passthrough server could also
-assign its own ids if it wants to.
+>         spin_unlock(&fc->lock);
+>         idr_preload_end();
+>
+> @@ -52,33 +52,43 @@ int fuse_backing_id_alloc(struct fuse_conn *fc, void =
+*obj)
+>         return id;
+>  }
+>
+> -static struct fuse_backing *fuse_backing_id_remove(struct fuse_conn *fc,
+> -                                                  int id)
+> +static void fuse_backing_file_free(struct fuse_backing_common *backing)
+>  {
+> -       struct fuse_backing *fb;
+> +       struct fuse_backing *fb =3D container_of(backing, typeof(*fb), ba=
+cking);
+>
+> -       spin_lock(&fc->lock);
+> -       fb =3D idr_remove(&fc->backing_files_map, id);
+> -       spin_unlock(&fc->lock);
+> +       WARN_ON_ONCE(refcount_read(&fb->count) !=3D 1);
+> +       fuse_backing_free(fb);
+> +}
+>
+> -       return fb;
+> +static void fuse_stripe_free(struct fuse_backing_common *backing)
+> +{
+> +       struct fuse_backing_stripe *bstripe =3D container_of(backing, typ=
+eof(*bstripe), backing);
+> +
+> +       kfree(bstripe->stripe);
+> +       kfree(bstripe);
+>  }
+>
+>  static int fuse_backing_id_free(int id, void *p, void *data)
+>  {
+> -       struct fuse_backing *fb =3D p;
+> -
+> -       WARN_ON_ONCE(refcount_read(&fb->count) !=3D 1);
+> -       fuse_backing_free(fb);
+> +       struct fuse_backing_common *backing =3D p;
+> +
+> +        switch (backing->type) {
+> +       case FUSE_BCK_FILE:
+> +               fuse_backing_file_free(backing);
+> +               break;
+> +       case FUSE_BCK_DAXDEV:
+> +               famfs_devidx_free(backing);
+> +               break;
+> +       case FUSE_BCK_STRIPE:
+> +               fuse_stripe_free(backing);
+> +               break;
+> +       }
+>         return 0;
+>  }
+>
+>  void fuse_backing_files_free(struct fuse_conn *fc)
+>  {
+> -       if (fc->famfs_iomap)
+> -               famfs_teardown(fc);
+> -       else
+> -               idr_for_each(&fc->backing_files_map, fuse_backing_id_free=
+, NULL);
+> +       idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
+>         idr_destroy(&fc->backing_files_map);
+>  }
+>
+> @@ -130,11 +140,12 @@ int fuse_backing_open(struct fuse_conn *fc, struct =
+fuse_backing_map *map)
+>         if (!fb)
+>                 goto out_fput;
+>
+> +       fb->backing.type =3D FUSE_BCK_FILE;
+>         fb->file =3D file;
+>         fb->cred =3D prepare_creds();
+>         refcount_set(&fb->count, 1);
+>
+> -       res =3D fuse_backing_id_alloc(fc, fb);
+> +       res =3D fuse_backing_id_alloc(fc, &fb->backing);
+>         if (res < 0) {
+>                 fuse_backing_free(fb);
+>                 fb =3D NULL;
+> @@ -150,30 +161,54 @@ int fuse_backing_open(struct fuse_conn *fc, struct =
+fuse_backing_map *map)
+>         goto out;
+>  }
+>
+> +int fuse_stripe_open(struct fuse_conn *fc, struct fuse_stripe *stripe)
+> +{
+> +       int res;
+> +       struct fuse_backing_stripe *bstripe __free(kfree) =3D kmalloc_obj=
+(*bstripe);
+> +
+> +       if (!bstripe)
+> +               return -ENOMEM;
+> +
+> +       bstripe->backing.type =3D FUSE_BCK_STRIPE;
+> +       bstripe->stripe =3D stripe;
+> +
+> +       res =3D fuse_backing_id_alloc(fc, &bstripe->backing);
+> +       if (res >=3D 0)
 
-It's all about sharing the infrastructure, not the ioctl number.
+0 is reserved, it cannot be allocated
 
-Are there any other technical problems that you can point out
-with the patches that Miklos posted (including FUSE_DEV_IOC_STRIPE_OPEN)?
+(for daxdev userspace should be able to assign id 0 if needed)
 
-Sorry for the tone of my email.
-I hope that the good intention of working together towards an acceptable
-way to merge famfs speaks louder than my ranting.
+> +               retain_and_null_ptr(bstripe);
+> +
+> +       return res;
+> +}
+> +
+>  int fuse_backing_close(struct fuse_conn *fc, int backing_id)
+>  {
+> +       struct fuse_backing_common *backing;
+>         struct fuse_backing *fb =3D NULL;
+>         int err;
+>
+>         pr_debug("%s: backing_id=3D%d\n", __func__, backing_id);
+>
+> -       /* No close for dax device (yet) */
+> -       if (fc->famfs_iomap)
+> -               return -EINVAL;
+> -
+> -       /* TODO: relax CAP_SYS_ADMIN once backing files are visible to ls=
+of */
+> -       err =3D -EPERM;
+> -       if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+> -               goto out;
+> -
+>         err =3D -EINVAL;
+>         if (backing_id <=3D 0)
+>                 goto out;
+>
+> -       err =3D -ENOENT;
+> -       fb =3D fuse_backing_id_remove(fc, backing_id);
+> -       if (!fb)
+> -               goto out;
+> +       scoped_guard(spinlock, &fc->lock) {
+> +               err =3D -ENOENT;
+> +               backing =3D idr_find(&fc->backing_files_map, backing_id);
+> +               if (!backing)
+> +                       goto out;
+> +               err =3D -EINVAL;
+> +               if (backing->type !=3D FUSE_BCK_FILE)
+> +                       goto out;
+> +
+> +               fb =3D container_of(backing, typeof(*fb), backing);
+> +
+> +               /* TODO: relax CAP_SYS_ADMIN once backing files are visib=
+le to lsof */
+> +               err =3D -EPERM;
+> +               if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+> +                       goto out;
+> +
+> +               WARN_ON(idr_remove(&fc->backing_files_map, backing_id) !=
+=3D backing);
+> +       }
+>
+>         fuse_backing_put(fb);
+>         err =3D 0;
+> @@ -185,14 +220,13 @@ int fuse_backing_close(struct fuse_conn *fc, int ba=
+cking_id)
+>
+>  struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backi=
+ng_id)
+>  {
+> -       struct fuse_backing *fb;
+> -
+> -       if (fc->famfs_iomap)
+> -               return NULL;
+> +       struct fuse_backing_common *backing;
+> +       struct fuse_backing *fb =3D NULL;
+>
+>         rcu_read_lock();
+> -       fb =3D idr_find(&fc->backing_files_map, backing_id);
+> -       fb =3D fuse_backing_get(fb);
+> +       backing =3D idr_find(&fc->backing_files_map, backing_id);
+> +       if (backing && backing->type =3D=3D FUSE_BCK_FILE)
+> +               fb =3D fuse_backing_get(container_of(backing, typeof(*fb)=
+, backing));
+>         rcu_read_unlock();
+>
+>         return fb;
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 0b0241f47170..dd80a174124d 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -2636,6 +2636,41 @@ static long fuse_dev_ioctl_backing_open(struct fil=
+e *file,
+>         return fuse_backing_open(fud->fc, &map);
+>  }
+>
+> +
+> +static long fuse_dev_ioctl_stripe_open(struct file *file, struct fuse_st=
+ripe __user *argp)
+> +{
+> +       struct fuse_dev *fud =3D fuse_get_dev(file);
+> +       struct fuse_stripe hdr;
+> +       size_t size;
+> +       int backing_id;
+> +
+> +       if (IS_ERR(fud))
+> +               return PTR_ERR(fud);
+> +
+> +       if (!IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
+> +               return -EOPNOTSUPP;
+> +
+> +       if (copy_from_user(&hdr, argp, sizeof(hdr)))
+> +               return -EFAULT;
+> +
+> +       if (hdr.nr_strips > FUSE_STRIPS_MAX)
+> +               return -EINVAL;
+> +
+> +       size =3D offsetof(struct fuse_stripe, strips[hdr.nr_strips]);
+> +       struct fuse_stripe *stripe __free(kfree) =3D kmalloc(size, GFP_KE=
+RNEL_ACCOUNT);
+> +       if (!stripe)
+> +               return -ENOMEM;
+> +
+> +       if (copy_from_user(stripe, argp, size))
+> +               return -EFAULT;
+> +
+> +       backing_id =3D fuse_stripe_open(fud->fc, stripe);
+> +       if (backing_id >=3D 0)
+
+Again not sure about 0
+
+> +               retain_and_null_ptr(stripe);
+> +
+> +       return backing_id;
+> +}
+> +
+>  static long fuse_dev_ioctl_backing_close(struct file *file, __u32 __user=
+ *argp)
+>  {
+>         struct fuse_dev *fud =3D fuse_get_dev(file);
+> @@ -2678,6 +2713,9 @@ static long fuse_dev_ioctl(struct file *file, unsig=
+ned int cmd,
+>         case FUSE_DEV_IOC_BACKING_OPEN:
+>                 return fuse_dev_ioctl_backing_open(file, argp);
+>
+> +       case FUSE_DEV_IOC_STRIPE_OPEN:
+> +               return fuse_dev_ioctl_stripe_open(file, argp);
+> +
+>         case FUSE_DEV_IOC_BACKING_CLOSE:
+>                 return fuse_dev_ioctl_backing_close(file, argp);
+>
+> diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
+> index c49362d19b36..043b451c3584 100644
+> --- a/fs/fuse/famfs.c
+> +++ b/fs/fuse/famfs.c
+
+I will leave it to John to review the famfs side of things.
 
 Thanks,
 Amir.
