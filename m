@@ -1,243 +1,261 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265423CF68B
-	for <fuse-devel@lists.linux.dev>; Tue,  2 Jun 2026 17:27:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD4136495F
+	for <fuse-devel@lists.linux.dev>; Tue,  2 Jun 2026 17:47:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780421264; cv=pass; b=W/heWbgPOzq7dPLmuk1jDwKP8wKVZht1DBk/tiCs3RNeOa+9moUkZdqRaNyrij5bcbxxlEs0j2jSQFXxckE5qX+i8rpyxflft7aLwKpWqcUnk6pAg2ezpy2iWz3QfWBj6DIjnmoOLljONVlINcW3Im8Tfa9lFl00MqejEJI6zrA=
+	t=1780422445; cv=pass; b=UJSSEm/LSKWOToj5w0X4awNfalwaDIIz7WhC6DvnyMh83LdUsMrf0pCj9h5fJpDMM5WvuTyD6wCsFBMI2cAHPiewTin8wJ1trGbpnO9aC5JCtOMBzQpG3zNM4OpvkpUCnTfY9jW8ACgvq6rWCksFrE/Pi9eccuIgdbMryRrXFCk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780421264; c=relaxed/simple;
-	bh=I3w7BZ++sXpFMaAkmCnhXCxtPOFG9gVqBgFTYl1YNcg=;
+	s=arc-20240116; t=1780422445; c=relaxed/simple;
+	bh=Et1REafkgt0h4blmUf+LM66HGc4JX7gnmJjTyUp/h+o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s+g2MCao4nJHQZzOVWn6DlBDwQcUK/7Ed0rekPXqsR1EUg+SsDqP/liU+2zE5CzzubOciFy+gxGXCpyqsm/yviFCSyNgDQwWJ6vvCE7IiYm6jhzBJxEYqGoFgJoHRYWfvKUl9q0qC5Ck/3YfyyKkKeHGq3Y1/8XDyV7hHiZEOfM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NpUSnflr; arc=pass smtp.client-ip=209.85.221.41
+	 To:Cc:Content-Type; b=QXOyJwx1sdMMFYptBMHTTIg+tTHW6nmw0jyRiNSq6R0QfWIJ76zPjWNEktPYIxk2YbewrwygUfwkUHyoP0LNpcDsCUozcwC3ttAsy7AuqKcB9xVw8825TAlQs9vGC7z64SkAe4O8oVDEeWHyPeV2okhJPIqoAifvF9F1kzJ67rg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BE0Pnszi; arc=pass smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpUSnflr"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45eedcdaeaaso3817976f8f.3
-        for <fuse-devel@lists.linux.dev>; Tue, 02 Jun 2026 10:27:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780421261; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BE0Pnszi"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490b3637b90so7915485e9.3
+        for <fuse-devel@lists.linux.dev>; Tue, 02 Jun 2026 10:47:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780422442; cv=none;
         d=google.com; s=arc-20240605;
-        b=J6V4fCuNMrUBBUH9elX4yXKp/2sXo9PM10bJx3eaaOTWmlEciniIgSy7AVkMWs02Qk
-         5dTSy68Gan05e05S0f0rcyg4tdG7ThDEwxBcAtWd7mv+2mJZ3bIJVERIkfsnQOa4gbFr
-         nY8dX6aOCy6+oYRoTAZKNQrJO7ltzi7b15RoEJCkRKOCG4Xxw6+26l4OukxAZ2IGeOwo
-         laIblbr9OkADtz03BNQZxFUNV4iwVFXTsD1dntgDRVDT0zcREkcWqiq1FrpEpMSCyn+P
-         ZdG3JOTdUBOIqz2GKDdIyPw/HxdTNwJ1OTcGEx3dF3X6UmRvT2AD5ti+ect8CqZosvzM
-         Dl/g==
+        b=BkSR8IogJsJQQ89R8GkLdkdFi1R2TpY9E1SHnJG+dAMWfK0FhhO55Dr8mR+BzSM4dJ
+         r4yaFWT4ToZ2zV7eAnyb+vfmTdP//gAYTmceYw1Elsh/vyVy1g5nr6ehQo44uxWWipT9
+         EhFtBfzlQngr87RBAK5lAQLsnxhosePwvKB9my1mq/e4xqQWOeBKRef1K20ZKC02CKvR
+         bVKof2a/uSn1zd2FqGNbj3faV1Kyh1ZXlX+v9dbI3P+Fzv+/IFqVP50rNNXEmwBdUbwo
+         jEWw6qd4ZADpd0V+Yxy4fmwZK2tmQPNDlfl4ACJSbeXp4FJ+Uv9646Zf/Sco5op9YCgs
+         B21Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=BG5zttOMZGyDpEsToKngaNIbEV2kV6i4m8XPAycWhi0=;
-        fh=AUmoZASATzffOERAFCEqWoYNML7loqob7wOav7i6j+0=;
-        b=ZUrZaIxoY4iKGbQMaI/YcHciN4z7qkYh5LEOZLP2Ue7iLGBTVUwVCcaU5Ql+ebNgVo
-         zPE0sqLT4BkOazVwstooxvlfPz6KLfX9zZnjy8tCr+tePsvz9i+eWdUDVjmB39vhgRRK
-         t/2eYG6ZhZ6exiRYxmBMijRgc/DAgsEhnUNuKSljz9SIbPlFqMu9+mTJw1s1/7oh/OXj
-         dl3YWuEcnUYNx6WNwA9Bf/IwOqR7iYnOnwwsMbHcetVYYrjfoYm047l1Te7wKpIA4n22
-         n4DAwdT0QBW3hjjoktRo5IVzXLgPgzxGEvcnfb9TBb8BFAvBbLn6CHWFJnnom7Dpzy2d
-         ZwdA==;
+        bh=/4kh4W/NC1tmHC3ywV5Z2oAqBxDhnkcQIxV9wrIAK7Y=;
+        fh=yJuUQNdBP9CKduFvKnOXBRe4xLTTNYo5VxVdS9FylZk=;
+        b=JGhEcNajN97wIisx1sLzEjMIs0XNbPa3r/k+OD6jfUwTPy1ckIHrTD5ZdHq7nhsXvV
+         XFbpyc9ZZgiRzFN3S16uSv5MIENttcB0ZRfINay5z4cvBc7NVEj9opoSqOSVXfBveLq9
+         oXeasxWoZVkv+BMnwLdzpR6AEx8Qjjei8wpCqDrwz+4svWDis8ZLoEeN4aIPDnpR0+Eh
+         U6tqRVgwgIKO3XeCHgt2BBNUvu104o71UovlUVSEe327QckMOcooLEXGdR120GdEJIOs
+         4DQ2T5V7k6s97ujRdHf1/4ALb0Ct8Rqjvz8ni3IKnOmTZ6YcqgzZyeEIE/sLQjwd9Ip+
+         RO5Q==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780421261; x=1781026061; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780422442; x=1781027242; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BG5zttOMZGyDpEsToKngaNIbEV2kV6i4m8XPAycWhi0=;
-        b=NpUSnflrquv1+7Tgc75U1iahw4n0W/PxyrwznHWMA5XJqYQ5FR9G5E/+iDu2ZvqF4x
-         tyqSD6qDLRBgEBZz0I5yqNKAFbP3wQw9StvasNtdBnxasA7vMVmiUPIG4m8Ad8ZOVVLm
-         /mBfEZZi+i4sAhVeHLDTcFz7N4I+pX/3ZWMt+903XymaFigVQsnxKMkFe8iyAaUFvDUG
-         r++WXDQVqZaLQ2/sePP9Q0ATQOwydYtxsOZoFC7Kk7V/D3M1z1+X4pJ3x4L9GjJKBOBw
-         GZIX0vlX9TDLuh4zAy3YP7lmqVLHMGn8XO28eYCIuKxs1088/3Lb8RU96odx6yNX//tn
-         ahyQ==
+        bh=/4kh4W/NC1tmHC3ywV5Z2oAqBxDhnkcQIxV9wrIAK7Y=;
+        b=BE0Pnszi4MyXB9aoRLzX3pSF8HokCDJg1aPBvYEetMwucX5zcLUIjGu9PbQvqBa3IB
+         CcJQ+NQfmUrNFoEP6R8dfgFNNGWQSIQ8RXEsUJW7d93vjF1ty+mez8tl5vLXxmdLvDUy
+         IK/hvWr04xak+CMOOwzxuCBAW0Iph4dcSmWpIl4Kd16HDXlRLX5EaxyS7hUgN+FJ9FGR
+         wzCl6Z9vax08GOipZn1F2PEhjfPqijm14NtTnR530lpuCEkXn9kTXnwVcd3578+/P+Tp
+         RmZ6Aid6wi588rtPFBD/2Rz9EtOherGKqfx4DPU6By+t2INhXs/Ppzl0LJ2HKdi08f/e
+         YFFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780421261; x=1781026061;
+        d=1e100.net; s=20251104; t=1780422442; x=1781027242;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BG5zttOMZGyDpEsToKngaNIbEV2kV6i4m8XPAycWhi0=;
-        b=JhFuonN2Hnjf41mt+qxHc/4Yt5VJAO4gmXXCq5tO7l6KUnJaI7aCtGVtXh/4wS5irQ
-         qoUo/63oJjkiQ/cO/3PD1aNN7lxiWxf6hqZmr4FaVqLTGdyzC48g+PxDA8oxTxJdLshx
-         mjkCtXz7DFaUOeKAVlKuRq/IvZf2PYd5y6iyLk6hMDcf4vkgfaST2zXTFahjOF+3V6PI
-         zqzmkFiaCQMLFvhIr1XnRLHUyYKnLGG5RhiPMnB3D0t5zQaYlNhcf4ITTm4UCNtGx4Il
-         2fypSBAaqf9j5TppDuFWAq0H5XXRhZo/HTb9AkH0FkkDW/VcUieJMugofWirRZimw2+l
-         k8zA==
-X-Forwarded-Encrypted: i=1; AFNElJ9fy2KFABqPwz2op7Ii7SGsrn4ZPc5gKy7J90HJt0iSTE83iLWqA2Jrzt73C+pb+WpiLz2bCJOA0/al@lists.linux.dev
-X-Gm-Message-State: AOJu0YzlA9eePhxBfMqQNqKdZk1PZ4lja4pSmjTMzsZZWA5Gb01f5DNV
-	KfHXzw0Z1AfShm+GCp/pFyvqxlHc4iCTnw2PaMMlbT0QO3mGy64zBvOQI78JLoYsbq/4a72YRuE
-	NfvtYt2GC2ggxOVwU3nZzGGU8+AINYcg=
-X-Gm-Gg: Acq92OFxWS31F8Ju11SvkM9XmpeIrPEIXPiahwoT+OlaPfh/1cRPz1Gr2MqwjzKOYCh
-	LLob0G4y5jqjO7PLmpZnKu1eIBubP6kL4Zr73vBd99NvXzEEge6oAnbGo8aOfsvVLR55wKknHsu
-	VzCb3byhNqUNA9GukmES/GXEw4TL5QkbYgfGz6xfjyp4f+IDTf8FevLic7by5o5DVbQElHfr0aH
-	2i2WAgQmT+wgm7fiY0U1wTBKd1P2RvEovBi3MOKV1kwr7Yd0ksiHsAWb2woa/uIdwLBoTd4E/rM
-	tKUf7XWwyrJF+cBr
-X-Received: by 2002:a05:600c:3552:b0:490:958c:46dc with SMTP id
- 5b1f17b1804b1-490b50928e4mr11089935e9.17.1780421261414; Tue, 02 Jun 2026
- 10:27:41 -0700 (PDT)
+        bh=/4kh4W/NC1tmHC3ywV5Z2oAqBxDhnkcQIxV9wrIAK7Y=;
+        b=Jf3gdtQyzz2EiwIRLF/hpyl19FjmEyHWxCKHH+E2zek/eezF+g2o9bnkXwbeGyf0ue
+         yB2EfKAFIxdvNGPyDlHsttBsixqO2Tcv10+AhgKEk/vBXdFxIuNL9ty2olV3tMT9Bl81
+         xj5fKvT4Vpv2veW1IFS8ne4JiKFKEyslaTxAPm4atdbiY+RQeWcA/cMU2jdf+yLovycX
+         lGadNSf7/h8Lr+CaaXDCY+Vr72SGVzcCukFGZq+UchDOdJcSOz+GtM2x/KhKCu/4GPfp
+         hecDtccw0la0OIPB90n1DhelrRuJERT2ZTmmckWDQvSigoH0YOU3sdqvpwqboqh7lOAw
+         a9uQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+Wxsm/vT8TR0LSJie/q4crUH9fBWlqd9fvdPjbFzg4d+j4szVq96OVxhiABowjxXmGWZMV9m5h0/kw@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5glpSjm4ErGGB9fu4qhw2DJQhQWFQAiB4Itrkz0X2Rv2ZZMkI
+	QqkrugH5jZPC7o2s+c7XpIkmLLA0xdZG3zTeMKbfE+n4PW0jg1wutjzJ0+Z9wo4Z/fb8kkufqGx
+	7fMDWRZbNEKL/QXUzhv1s23HO0i811Qc=
+X-Gm-Gg: Acq92OHUOmSt1gyiqhFDKnwk2hf4Dz/tjMLeyMAYZiz/RClIuKWSAiBFgG2Hw36P0D4
+	MiH87ds7IvLJP+BQ1n+k+q6DHbbKnUboxNykrIocsUXfNHBqJ4kx2o0DtQ7RAN49wCx3AAHXsb8
+	iGAOEZUU2g1n5Mmlxnxe3ieoU94I8Cf4ZxC8eIL98kB7LvDJcvgIXks0KeNSJJFrnQ6tvJbHYjD
+	CA6ZR5Vru2RZlVkksDmw89J/dTTXqa2FmesFiB/c4DT/0hvX5UKxJVAEGOsTYkt2Gen3FsOdebA
+	Vl55dTtqUI36xKGtkBnlCeTfkZE=
+X-Received: by 2002:a05:600c:5394:b0:490:af90:f9c2 with SMTP id
+ 5b1f17b1804b1-490b5073c0emr13481605e9.12.1780422442545; Tue, 02 Jun 2026
+ 10:47:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260601212414.1154139-1-amir73il@gmail.com> <CAJnrk1YGSrEkP2O-JPpie1zqc_5tBH9uHFvMry18TBdCMytNKA@mail.gmail.com>
- <CAOQ4uxjCTCo2SQcuVWt+E-BapjrHWBcqES2PQOcwDFZ+2KgXFw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjCTCo2SQcuVWt+E-BapjrHWBcqES2PQOcwDFZ+2KgXFw@mail.gmail.com>
+References: <20260522205823.1597313-1-joannelkoong@gmail.com>
+ <20260522205823.1597313-10-joannelkoong@gmail.com> <d1d588e9-5d4b-4e3f-8154-e769e9e69f12@linux.alibaba.com>
+In-Reply-To: <d1d588e9-5d4b-4e3f-8154-e769e9e69f12@linux.alibaba.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 2 Jun 2026 10:27:29 -0700
-X-Gm-Features: AVHnY4IJK4ULSLTEiqeQfko7VlAfJ1Sy6Har1ehgfOvT9vkUqj7J3WcehnMlaFk
-Message-ID: <CAJnrk1auhoGN729ptGN4aF0akoMd+oKebBcK_2QNaaoyu8vbzA@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: add fuse_request_sent tracepoint
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd.schubert@fastmail.fm>, 
-	"Darrick J . Wong" <djwong@kernel.org>, fuse-devel@lists.linux.dev
+Date: Tue, 2 Jun 2026 10:47:10 -0700
+X-Gm-Features: AVHnY4JjOP-MCqO93I-_KoH4vglhHfmLL5YvgfrbjZKpOTo7HLt0wf11ZXtcqRE
+Message-ID: <CAJnrk1bSr7B3kp3x8RdZWM+6F6H2h7r-pJhvqxoFpxaOtjF2mQ@mail.gmail.com>
+Subject: Re: [PATCH v3 09/10] fuse: add zero-copy over io-uring
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: miklos@szeredi.hu, bernd@bsbernd.com, jlayton@kernel.org, axboe@kernel.dk, 
+	fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 2, 2026 at 6:32=E2=80=AFAM Amir Goldstein <amir73il@gmail.com> =
-wrote:
+On Tue, Jun 2, 2026 at 2:24=E2=80=AFAM Baokun Li <libaokun@linux.alibaba.co=
+m> wrote:
 >
-> On Mon, Jun 1, 2026 at 11:55=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
-com> wrote:
+> On 2026/5/23 04:58, Joanne Koong wrote:
+> > Implement zero-copy for fuse io-uring, eliminating memory copies betwee=
+n
+> > userspace, the kernel, and the fuse server for read/write operations.
+> > The server can directly access client pages or page cache folios withou=
+t
+> > copying data through an intermediary buffer. When a fuse request arrive=
+s,
+> > the kernel registers the relevant pages into a sparse slot in the
+> > server's io_uring registered buffer table. The server can then operate
+> > on these pages directly using io-uring fixed buffer operations (eg
+> > read_fixed/write_fixed) and the kernel unregisters these pages when the
+> > request completes. Non-page-backed args (eg op out headers) will go
+> > through the payload buffer as normal.
 > >
-> > On Mon, Jun 1, 2026 at 2:24=E2=80=AFPM Amir Goldstein <amir73il@gmail.c=
-om> wrote:
-> > >
-> > > This new tracepoint complements the existing fuse_request_send (enque=
-ue)
-> > > and fuse_request_end (completion) with a tracepoint at the transition
-> > > of the request from the fiq->pending queue to the FR_SENT state.
-
-nit: the io-uring path doesn't have a fiq->pending queue, so maybe
-better to just not mention fiq->pending here. perhaps the wording
-below for "when a daemon thread reads the request" could be made more
-generalized as well
-
-> > >
-> > > The fuse_request_sent fires when a daemon thread reads the request.
-> > > The fuse_request_sent does not fire if daemon fails to read the reque=
-st.
-> > > It also does not fire for forgets and NOTIFY_REPLY, which also do not
-> > > trigger the _send and _end tracepoints.
-
-btw, from what I see, the _send and _end tracepoints do get triggered
-by NOTIFY_REPLY
-
-> > >
-> > > This is needed for tools tracking the in-flight state of user initiat=
-ed
-> > > fuse requests.
-> > >
-> > > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> > > ---
-> > >
-> > > Miklos,
-> > >
-> > > On v1 patch review Bernd did not like the name _recv [1]
-> > > and I did not like his _enqueue/_dequeue suggestion,
-> > > so I picked a new name (_sent) which nicely aligns with the
-> > > request state flag.
-> > >
-> > > It also made me realize that the tracepoint in do_read was
-> > > premature in some error conditions.
-> > >
-> > > Thanks,
-> > > Amir.
-> > >
-> > > Changes from v1:
-> > > - Rename tracepoint s/_recv/_sent
-> > > - Fire in ioruing
-> > > - Fire consistently along with setting FR_SENT, which...
-> > > - Avoids firing when request is not sent sue to failure
-> > >
-> > > [1] https://lore.kernel.org/fuse-devel/cc8d9d33-444d-4c5e-9def-428794=
-d87f3d@fastmail.fm/
-> > >
-> > >  fs/fuse/dev.c        |  1 +
-> > >  fs/fuse/dev_uring.c  |  6 ++++--
-> > >  fs/fuse/fuse_trace.h | 22 ++++++++++++++++++++++
-> > >  3 files changed, 27 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> > > index 5dda7080f4a90..2ad9aedc6237b 100644
-> > > --- a/fs/fuse/dev.c
-> > > +++ b/fs/fuse/dev.c
-> > > @@ -1525,6 +1525,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev=
- *fud, struct file *file,
-> > >         list_move_tail(&req->list, &fpq->processing[hash]);
-> > >         __fuse_get_request(req);
-> > >         set_bit(FR_SENT, &req->flags);
-> > > +       trace_fuse_request_sent(req);
-> > >         spin_unlock(&fpq->lock);
-> > >         /* matches barrier in request_wait_answer() */
-> > >         smp_mb__after_atomic();
+> > This requires CAP_SYS_ADMIN and FUSE_URING_REGISTERED_BUFFERS (which
+> > requires using bufpools). Gating on registered buffers keeps the
+> > configuration space small and avoids partially-optimized modes that are
+> > unlikely to be useful in practice. This is gated behind CAP_SYS_ADMIN
+> > because zero-copy allows the server direct access to the client's
+> > underlying pages, rather than operating on an intermediary buffer that
+> > the contents of the client's pages were copied into or on page cache
+> > folios.
 > >
-> > What information are you trying to ascertain with the tracing? I think
+> > The request flow for the zero-copy write path (client writes data,
+> > server reads it) is as follows:
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > |  Kernel                                   |  FUSE server
+> > |                                           |
+> > |  "write(fd, buf, 1MB)"                    |
+> > |                                           |
+> > |  >sys_write()                             |
+> > |    >fuse_file_write_iter()                |
+> > |      >fuse_send_one()                     |
+> > |        [req->args->in_pages =3D true]       |
+> > |        [folios hold client write data]    |
+> > |                                           |
+> > |  >fuse_uring_copy_to_ring()               |
+> > |    >copy_header_to_ring(IN_OUT)           |
+> > |      [memcpy fuse_in_header]              |
+> > |    >copy_header_to_ring(OP)               |
+> > |      [memcpy write_in header]             |
+> > |                                           |
+> > |    >fuse_uring_args_to_ring()             |
+> > |      >setup_fuse_copy_state()             |
+> > |        [skip_folio_copy =3D true]           |
+> > |                                           |
+> > |      >fuse_uring_set_up_zero_copy()       |
+> > |        [folio_get for each client folio]  |
+> > |        [build bio_vec array from folios]  |
+> > |        >io_buffer_register_bvec()         |
+> > |          [register pages at
+> >                  ent->zero_copy_index]      |
+> > |        [ent->zero_copied =3D true]          |
+> > |                                           |
+> > |      >fuse_copy_args()                    |
+> > |        [skip_folio_copy =3D> return 0       |
+> > |         for page arg, skip data copy]     |
+> > |                                           |
+> > |    >copy_header_to_ring(RING_ENT)         |
+> > |      [memcpy ent_in_out]                  |
+> > |    >io_uring_cmd_done()                   |
+> > |                                           |
+> > |                                           | [CQE received]
+> > |                                           |
+> > |                                           | [issue io_uring READ at
+> > |                                           |  ent->zero_copy_index]
+> > |                                           | [reads directly from
+> > |                                           |client's pages (ZERO_COPY)=
+]
+> > |                                           |
+> > |                                           | [write data to backing
+> > |                                           | store]
+> > |                                           |  [submit COMMIT AND FETCH=
+]
+> > |                                           |
+> > |  >fuse_uring_commit_fetch()               |
+> > |    >fuse_uring_commit()                   |
+> > |      >fuse_uring_copy_from_ring()         |
+> > |    >fuse_uring_req_end()                  |
+> > |      >io_buffer_unregister(ent->zero_copy_index) |
+> > |        [unregister sparse buffer]         |
+> > |      >fuse_zero_copy_release()            |
+> > |        [folio_put for each folio]         |
+> > |      [ent->zero_copied =3D false]           |
+> > |      >fuse_request_end()                  |
+> > |        [wake up client]                   |
+> >
+> > The zero-copy read path is analogous.
+> >
+> > Some requests may have both page-backed args and non-page-backed args.
+> > For these requests, the page-backed args are zero-copied while the
+> > non-page-backed args are copied to the buffer selected from the buffer
+> > ring:
+> >     zero-copy: pages registered via io_buffer_register_bvec()
+> >     non-page-backed: copied to payload buffer via fuse_copy_args()
+> >
+> > For a request whose payload is zero-copied, the
+> > registration/unregistration path looks like:
+> >
+> >     register:  fuse_uring_set_up_zero_copy()
+> >                  folio_get() for each folio
+> >                  io_buffer_register_bvec(ent->zero_copy_index)
+> >
+> >     unregister: fuse_uring_req_end()
+> >                   io_buffer_unregister(ent->zero_copy_index)
+> >                   -> fuse_zero_copy_release() callback
+> >                      folio_put() for each folio
+> >
+> > The throughput improvement from zero-copy depends on how much of the
+> > per-request latency is spent on data copying vs backing I/O. When
+> > backing I/O dominates, the saved memcpy is a negligible fraction of
+> > overall latency. Please also note that for the server to read/write
+> > into the zero-copied pages, the read/write must go through io-uring
+> > as an IORING_OP_READ_FIXED / IORING_OP_WRITE_FIXED operation. If the
+> > server's backing I/O is instantaneous (eg served from cache), the
+> > overhead of the additional io_uring operation may negate the savings
+> > from eliminating the memcpy.
+> >
+> > In benchmarks using passthrough_hp on a high-performance NVMe-backed
+> > system, zero-copy showed around a 35% throughput improvement for direct
+> > randreads (~2150 MiB/s to ~2900 MiB/s), a 15% improvement for direct
+> > sequential reads (~2510 MiB/s to ~2900 MiB/s), a 15% improvement for
+> > buffered randreads (~2100 MiB/s to ~2470 MiB/s), and a 10% improvement
+> > for buffered sequential reads (~2500 MiB/s to ~2750 MiB/s).
+> >
+> > The benchmarks were run using:
+> >   fio --name=3Dtest_run --ioengine=3Dsync --rw=3Drand{read,write} --bs=
+=3D1M
+> >   --size=3D1G --numjobs=3D2 --ramp_time=3D30 --group_reporting=3D1
+> >
+> > Reviewed-by: Jeff Layton <jlayton@kernel.org>
+> > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 >
-> Here is a gist of the output of the tool fuseqtop [1]:
+> Hi Joanne,
 >
-> FUSE in-flight requests [sorted by total time, 3s interval] =E2=80=94 Ctr=
-l-C to stop
-> CONN   OPCODE           UNIQUE               ST  PID     COMM
->      WAIT(ms)   SERV(ms)
-> 45     GETXATTR         14                   D   3096727 getfattr
->      1189.673 129593.636
-> 45     GETXATTR         18                   D   3096730 getfattr
->         0.002 129593.636
-> 45     GETXATTR         20                   D   3096746 getfattr
->       650.664 128186.420
-> 45     GETXATTR         24                   D   3096762 getfattr
->         0.064 128186.420
-> 45     GETXATTR         28                   D   3097736 getfattr
->      2255.352  46739.455
-> 45     GETXATTR         30                   D   3097753 getfattr
->      1463.358  46739.455
-> 45     GETXATTR         34                   D   3097773 getfattr
->       730.723  46739.455
-> 45     GETXATTR         36                   D   3097790 getfattr
->         0.016  46739.455
-> 45     GETXATTR         40                   D   3097812 getfattr
->       785.307  42250.883
-> 45     GETXATTR         42                   D   3097835 getfattr
->         0.014  42250.883
-> 45     GETATTR          44                   Q   3097852 getfattr
->     41411.019          -
-> 45     GETATTR          46                   Q   3098339 df
->      9951.074          -
-> 45     GETATTR          48                   Q   3098368 df
->      8556.918          -
+> If a connection abort happens while a zero-copy request is in-flight,
+> io_buffer_unregister() is never called. The buf_table slot remains
+> occupied and folios stay pinned until the io_uring ring is destroyed.
 >
-> [1] https://github.com/amir73il/bcc/commits/fuseq/
+> So perhaps we need to add the corresponding cleanup in
+> fuse_uring_entry_teardown(). Otherwise looks good to me:
 >
-> This is a depiction of a saturated fuse requests queue.
-> Without the trace_fuse_request_sent() tracepoints the tool can guess but =
-not
-> reliably ascertain the dequeue time.
->
-> > in v1, the placement gave information on how long a request sits on
-> > fiq->pending before it gets selected for processing by the kernel (eg
-> > the pure queue wait time), whereas now it is bundled together with the
-> > time spent doing all the copying to the daemon's buffer. I think
-> > having the placement in v1 also gives a clearer estimate of just the
-> > copy latency, as on the daemon side you could compare that timestamp
-> > with the timestamp of when the read() returns. Is this placement here
-> > more useful for your use case than where you originally had it in v1?
->
-> I had not considered measuring the copy time at all.
-> My workloads are dealing with other orders of magnitude for serving
-> time when serving non-passthrough files from the cloud.
->
-> So for my purpose the placing of the tracepoint _sent at this location
-> is a good fit.
+> Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
 
-Gotcha, that makes sense to me, thanks for the details.
+Hi Baokun,
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Thanks for reviewing this series.  That's a good point - the io buffer
+is unregistered in fuse_uring_req_end() when a request is ended, but
+the abort code calls fuse_uring_stop_fuse_req_end(), not
+fuse_uring_req_end(). I'll add this in.
+
+Thanks,
+Joanne
 
 >
-> If others feel that a "start sending" (or whatever we call this) is also
-> valuable then I think we can add it later if needed.
 >
-> Thanks,
-> Amir.
+> Cheers,
+> Baokun
