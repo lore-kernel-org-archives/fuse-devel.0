@@ -1,138 +1,124 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B86F423A7B
-	for <fuse-devel@lists.linux.dev>; Wed,  3 Jun 2026 08:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8488744BCA5
+	for <fuse-devel@lists.linux.dev>; Wed,  3 Jun 2026 09:57:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780475749; cv=pass; b=ijjpVOCsAXQMvp1qba2M0mQoBNX+28S0kqaBrR+l7wwoecrQipsCyOMLaaLZWZ4dLt+vjGN7SR5biD7tIZwOF/ccMdOUXOD+OYX/KoNaiF3kzpjJS5W469jlrT0DKmImEVkKmUegf/5sefrbTe+8fiekAX65HfDa8qM8yo+6ak0=
+	t=1780480646; cv=pass; b=UEQ7Y83GqljkP18K8DJHeU0TohV4hWb3vc5OBrSWeJjnKfRvJYX6Td2xqzXEiHeSGUPkKStP6T2rUoVnWPuD/3gw92NWBL/LamymbVCDe24kPoPsfpa+GCNxwuIKOA8J39lTslr/H81mD8TGul9r9ugyqLK9D8wNyDRp/P6BV1w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780475749; c=relaxed/simple;
-	bh=F+m5EHKpzyoeMU59zGslD7GYnl1tjf1cNbhiiQSb2Vs=;
+	s=arc-20240116; t=1780480646; c=relaxed/simple;
+	bh=ZCqrAxzAA1VkvSHMPbJW9yIvYLlRWu40qg6zjxtnKxA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GVJjzoSXCA63+Npjd3laZmNK4bONC1wV+B6OkRoVwaWE2StNMT6ajw1imMSYBNFXbT2IPa6ZN5ikTkseKwXQJISPFja9HsQJIf+se4+QKGdqVVNUUuXc1M9pJZSHvTJzpsZ/I/sNnYlx2HMjVpxE49wBNwl69Y6+WBiedo+ajn8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=auE3sG80; arc=pass smtp.client-ip=209.85.222.171
+	 To:Cc:Content-Type; b=A2aoGHBYX+ZT3U+MNA+y9fgXCQEPYB+OZLUpHwlFynueRRJPfEeVLLsRAtZXBExmrCnell9F1RDLm2yvycmzkWqhhCaeWUlC241EqBr/sYFtwjaXy7VqVJz5qDP5jooG3dZ7qr0ehrxXNYHhSZXy0UGYV1gkt+hp92H8qxSmc68=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=dMRCX6MA; arc=pass smtp.client-ip=209.85.222.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="auE3sG80"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-9157b94a07aso205996985a.0
-        for <fuse-devel@lists.linux.dev>; Wed, 03 Jun 2026 01:35:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780475746; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="dMRCX6MA"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-9155183b42cso64734685a.0
+        for <fuse-devel@lists.linux.dev>; Wed, 03 Jun 2026 02:57:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780480643; cv=none;
         d=google.com; s=arc-20240605;
-        b=A8WM3BR3VJq2rroBX8erYa2poZe4WKO6R1w79r2TiHbhPefxcH6l+4FWl4YQhvmEVv
-         cN+PXCR9DVPSWEwGH3NnLeBO5irAzrtHo5X5RfSGkKa1VxguQM7g03DTbWaFQq59rMg/
-         ZVRHdzCfmjbyL5y+wD7qvcSI6xXiltb629qeG7ttr9ff5/C9kLKgdc+duX9suQj/B3+J
-         PNxwwUTVvGHWpGl3Fpx4GVSyAbBtA0wqWvBmcGKMX4F9t4HL/spQBD/PqzWLoZNXMpxd
-         x5yrh5V+4PV8zd6G1yEu7K3rwI9zVLiCpl4B3bWGxSQrXQwEMNRynaRHOR3G+6yTdk6j
-         YEHA==
+        b=JlbBmaY3tlFd0yc6LEBt5KvlSrWW9Xb77uu4D+ZzKK6dvxHpt5guYhS2W3O8Z3adeb
+         evLBH15KLz74Cl57NjEzso/qHyIxAmYn040RzyYZ6tcLpdLJQLHFVypCqza1Cl5qzuI3
+         2Ji0hLtEB3YUSPgoOloOi235nTKePqL4YvHzVplDx1UZuE5YpRFWfVjkzNy720OXpX6Y
+         RovTnJvpbff5rM54mwH+KypMDm7njZDv3AjYmRJmCNlfmvwlitKFcvi9hehLvd8fRiXX
+         kMVlYxINpcYg+f45YJ7vg29Le/GluId3MwNe9ufWEUjf9A3i1nLsFV9aGPG574PejHTM
+         VbtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=kzfV6mTnz6ECoQk5vDbo+2QOxcAXNy7XpAQeuH7cpGs=;
-        fh=NhEnQQsp+XYG8e93Ouvn6IqpVZ7l+tjiFaNalu2K67o=;
-        b=XPdZ2aXrsMNHKiQ256tpAFLFzWlKcC7yFVnC0mkEGg8sdz/OITwuaBFm5TrUk1lIp7
-         ZjyBzkI9EKBROwVHbXasn6dd5UmkEwCH0XVsoPEZ3HyVBUwtsXvA6TaO0BViIkO7YKds
-         2JZasikEHc/iJ7G+BGTQIMGWfGp7v70NyxUNcNJr1le05FXYjcFTefqD2mYWhuyYFJiH
-         ChU/BPaQzbHD9GGEpuMdEe5FlWZ09Cf+H35W7akqMtuXlMDNySsHvdH6SDsnzkUe8rli
-         BIf/eRiAfGTwYERN8GkpxlMElobTDBQxKiR1kIa3a1pU9eRYLKab59ItywvmQgXHJFlu
-         fuLg==;
+        bh=ZCqrAxzAA1VkvSHMPbJW9yIvYLlRWu40qg6zjxtnKxA=;
+        fh=vSYmGaV50BxLTaKdmocP9mYfKJ0sCd8lcPBmWWvoDc0=;
+        b=EUIaPWWwZngfuaMFzxsR8bdXjl9hMUE3gusVqJskB/pbwBWKgH3BIMJ3pad6HHghaW
+         +xg9uKh3wQBhvgc9fwGRsaRhUXZEJbRVBqbUPJMTVUsry9OIaxU4KgbOTH+vZkVSvtBH
+         vo0SJb3Lqe3xAvMWscIn7NhU2QauoZwremLN1x3HsYrNRRzxAQ+U2q8KKE+LR0Dku3jB
+         SydrouQF3gQWDgZhIh3NI/PvJJhUiZOfe0wzhGyZEIaePAoXiW8rPtjjDgwVw7orjx6g
+         GwxobunLwh59CUX+48dqGaU+TVSom8LBrh66zT/LYHjQcdFj00stFiM9EPaMPT+bNENy
+         67Mw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1780475746; x=1781080546; darn=lists.linux.dev;
+        d=szeredi.hu; s=google; t=1780480643; x=1781085443; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kzfV6mTnz6ECoQk5vDbo+2QOxcAXNy7XpAQeuH7cpGs=;
-        b=auE3sG80NktgqKQUsBycgr+NYeeQ/8AHT302mhsWyWZkajq4t1MUCKNdUK1PaPQEVu
-         D6UmGG1Tm2cewpGgb9vRDPR9HCPJTkMp55PUaZtRvzk8Wp/bqA61lc7BG0wqXgXQOc/D
-         8MZcp7PtVdRn33Ci563kBnb4zJN3H680JxkJs=
+        bh=ZCqrAxzAA1VkvSHMPbJW9yIvYLlRWu40qg6zjxtnKxA=;
+        b=dMRCX6MA2ZKnAYmNmqbTbcyWyN6L8zwp6HSIalR9n/7XIHgRHhMe0G0pP8Wo7oGyid
+         n2yXRdpeD+oynFzEVvHZekvSoF0HEi3Ey7tv1KgggpCr/eBJzZLtcR0F9EEr7nn+Iq0l
+         g7XyDi6/w1MhcnEG182Juuyn9Lmbtl4XrskK8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780475746; x=1781080546;
+        d=1e100.net; s=20251104; t=1780480643; x=1781085443;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kzfV6mTnz6ECoQk5vDbo+2QOxcAXNy7XpAQeuH7cpGs=;
-        b=nBQWYAjb8kn9k1PPEwYihkBdUz3MfbrRS4lyGIvrQCPLkeQaWFOjAsOWMDh7+LP6LV
-         lxmdVywyK+yIouOxD4GIIS8NaGm+FysipXY9vxamJXkqjDXrAkeXFyNoZ5rB7l/+VyHe
-         r39mC5MiiMhVrMuKfL1mPX11SzOcQr8tcq83ipHSPT+CysL17aMlQDX9RQaWtWQjNpbE
-         TuTXQWYWrlYjsaZhJDFA3JlhNsvvKE+7tsk3N5zl/FG8CeM62kaBx+axi4DwvsSsy83L
-         TL91M0ktdFQq3yG9cfXbZa0GxzakVUiRw091wIuvtXDsdmZT/QAZKB3EonnohZQXJbn5
-         ngMw==
-X-Forwarded-Encrypted: i=1; AFNElJ+Gqr7mkjMtUNgw+kZxyS9MkWjLtuPXjcj0KltCUTqhIRtejkyPTbDC6QUAS9wy10hIQJTtY36hyWw3@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzzw+sj5wkERAtLPpMhtBvBJ4gI/mkJWMChdqyI2fm83od0ZQAG
-	sndsiOr80yCB8upYd80Zwm/u7SnmtDVBEpQ5+FVyWYQnPIbEfv+QHGMJbc9kVFOYqbprog/F6eL
-	GKVTXU0uulqZU08t0haC8MnAcLKnXSK4Xl18tAhWROnaqUETFcYeVWRVS+A==
-X-Gm-Gg: Acq92OF//zPZZw1kGkDoes4zX/O3742aZU86Q3yFstT6N6rWqWNmeL2J8U/StCwX3/i
-	yVzHpAdHdMEY0E8krOLTaV/c5pelntBB1a4gfwfVyPImHiPQOtWyICYvzpwD94mAAg4EwQikyQe
-	bVKeTzOVfWMFLYxCX0iDPOOQVcpy9BIhD25BWfcpbV9XQY/Bb9wdjZLTtAR3Amyg/ttLiCJlCit
-	Sss185oIPokaCN5Y3/XbLmTW03D0z/ophhLXojvyN2jTMNZKq1kVMN6zZgDSz+vwG0tIh0z08xu
-	HGOQryfvs66oqT+Zks3UNmCLEWbTG9ykvbqh/glwYMOIYlc=
-X-Received: by 2002:a05:620a:2406:10b0:915:6c4d:d74b with SMTP id
- af79cd13be357-9158a7aa7d7mr296739985a.31.1780475745859; Wed, 03 Jun 2026
- 01:35:45 -0700 (PDT)
+        bh=ZCqrAxzAA1VkvSHMPbJW9yIvYLlRWu40qg6zjxtnKxA=;
+        b=Y7qfWBt/ADwyxx35MCJqIbkRzdcGtNGqNvPuU8SOyoSKc6oSBQDqIWUvhV+vkGBJop
+         chMUyr5vaVka5as7Sf8wYV3ieck7NFmNlGdfJxO7nm6op69km+RSuU2qOq0cFczyh9U5
+         HWFdzy0gIXouFW0ervucpAkZ8lH/m2Xrffv3aTXC9TgIAuJRmKfipWDuHex8sdZYo4Vk
+         wax1so9Mw9We+AdilbNIPUTkm5pQLeznxE9ZFCAJlXJ20nyTDbDTwtHhdGerMeBLqoVi
+         5QLiy1lmh9F6Ck/mQ4A10zsi89MD0UIs9l4oVeUmitOrX9vPBu5+t13r6NccDnKwTRJt
+         j0Lg==
+X-Forwarded-Encrypted: i=1; AFNElJ8ogSru+50pbSgq97yHRFhTx1nsUIs+H2JHAWpxJQjQmyQ2kGKYSMvNGixSbW/yAhBbGNK9K5OsC7yB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0yxdxH2HhfnYD6yUxWI0ZMTUwbbaIEemW4CwadjtwK5d/WtqL
+	jMi8ZQr8HW47zkZKnx0+7cbYfx9vptt9BojmESOW1mv9oiYpUjWc2ubc9QC+U+ln4HpCJapgz2D
+	7V1nQtMv1hNm2XAfjicRjJ89U+i6ZpnA9U23L03MRJQ==
+X-Gm-Gg: Acq92OE/GYxnr0bPESNevG8PVL4VobDPvSK85iLMDKU+s6tTam3cqn0JXx7SIhNl+n0
+	GEFc79/vrBQndr7L9QaeXakdXwLxtKWcst1FSKhivSubTxqfOLbIdp/ZExf9cbffVIxTG9iiGmw
+	m/bfc9asUmjfXQErM0zfCRAq7Z+YN2QFqQ6FzbjXZhdGMagpor2sWzcgLTeuMNkIiYi2hEhRLwf
+	ayF2vyZ2czP8DtAKzay2T7Bul7SCITc4hn6ypITF+C+qPCIryJuHxc+jxXISOCDyIs7dYkXf6a0
+	q9PVOMtjNeQ3RyDScu3E9/7HjS038z2k+2umbFGKz0YpNwd29eRIxsliDw==
+X-Received: by 2002:a05:620a:31a8:b0:915:422c:a0 with SMTP id
+ af79cd13be357-9158b6e2074mr292177985a.22.1780480643420; Wed, 03 Jun 2026
+ 02:57:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260529134302.1989958-1-mszeredi@redhat.com> <ah5-40YypaswEG-1@groves.net>
-In-Reply-To: <ah5-40YypaswEG-1@groves.net>
+References: <20260531010107.1953702-1-safinaskar@gmail.com>
+ <20260601-enthusiasmus-canceln-anlehnen-0e62317a9784@brauner>
+ <CAHk-=wifX_rrDjRGnDnOqE-usptAukuXKrmuPuVDP5bOCBWzGQ@mail.gmail.com> <20260601173325.GH2636677@ZenIV>
+In-Reply-To: <20260601173325.GH2636677@ZenIV>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 3 Jun 2026 10:35:35 +0200
-X-Gm-Features: AVHnY4LoJOuscRkWjd8EUUrhDi9rqZKzqt7J6BHlC-LkQxfSmJwdzae4FAaaqHI
-Message-ID: <CAJfpegsJj8cZ=CXL-VGeVDOayAeTzstWJgvQye3N+sudHJ5L9g@mail.gmail.com>
-Subject: Re: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
-To: John Groves <john@groves.net>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
+Date: Wed, 3 Jun 2026 11:57:11 +0200
+X-Gm-Features: AVHnY4IqQCqMS4qklUMIqRUT1Fpv-SuCQDkhxYBkM9m1uTwHwBhUln17rZFWNU4
+Message-ID: <CAJfpegtH-E79D-3UL=pPv-QqJk6C4ODXLLZSAjzQJwSSeqqS-A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Christian Brauner <brauner@kernel.org>, 
+	Askar Safin <safinaskar@gmail.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-api@vger.kernel.org, netdev@vger.kernel.org, 
+	Matthew Wilcox <willy@infradead.org>, Jens Axboe <axboe@kernel.dk>, 
+	Christoph Hellwig <hch@infradead.org>, David Howells <dhowells@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, patches@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	Jan Kara <jack@suse.cz>, Steven Rostedt <rostedt@goodmis.org>, 
+	Joanne Koong <joannelkoong@gmail.com>, fuse-devel <fuse-devel@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 2 Jun 2026 at 09:04, John Groves <john@groves.net> wrote:
-
-> Device indices - the part that has to be right
-> ----------------------------------------------
+On Mon, 1 Jun 2026 at 19:33, Al Viro <viro@zeniv.linux.org.uk> wrote:
 >
-> Everything below turns on what a famfs device index *is*, so let me make
-> it explicit, because the patch's model of it (kernel-allocated) isn't
-> workable for famfs.
-
-The backing ID is a temporary reference for the lifetime of the fuse
-filesystem.  If there's a persistent device index the server just
-needs to map the persistent index to the temporary backing ID.
-
-AFAICS the only case where this matters is debug messages, otherwise
-the kernel couldn't care less about whether the device index is
-persistent or not.
-
-Am I missing something?
-
-> Identity by reference, not by path - this part is right
-> -------------------------------------------------------
+> On Mon, Jun 01, 2026 at 10:17:23AM -0700, Linus Torvalds wrote:
 >
-> The genuinely better idea here is getting the kernel out of resolving a
-> device pathname: the daemon hands over an already-resolved reference
-> (you do it with an fd, from which the kernel takes inode->i_rdev)
-> instead of a string the kernel has to kern_path(). I want to adopt that
-> - credit where it's due.
+> > TLDR: maybe we could ghet rid of "f_op->splice_read". *That* would be
+> > a big simplification.
+>
+> FUSE might be interesting - fuse_dev_splice_read() and its ilk.
+> Communications between the kernel and fuse server at least used to
+> seriously want that, so that would be one place to look for unhappy
+> userland...
+>
+> splice-related logics in fs/fuse/dev.c is interesting; another place
+> like this is kernel/trace/, but I'm less familiar with that one.
 
-Name, dev_t  or fd are are all just ways to reference the same thing:
-the underlying DAX device.  They are completely interchangable, so if
-we have an interface that accepts one, there's no point in making it
-accept the others.
+[Cc: Joanne, fuse-devel]
 
-dev_t -> name:
-   readlink -f /dev/char/$dev
+I'd favor simplification, but care is needed to not regress performance.
 
-name -> dev_t:
-   stat -c %Hr:%Lr $name
-
-name -> fd
-  fd = open(name, O_PATH);
-
-fd -> dev_t
-  fstat(fd, &st);
+Joanne might be in a better position to say something about relative
+performance of various transport modes in fuse.
 
 Thanks,
 Miklos
