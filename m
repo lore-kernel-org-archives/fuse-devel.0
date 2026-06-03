@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A672264A9;
-	Wed,  3 Jun 2026 00:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8B02253FC;
+	Wed,  3 Jun 2026 00:15:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780445713; cv=none; b=K3st+BhKpZH57TsSoNijsAZM3VrRMG1DNMuU8VI+Z+njPYfj6mzgsbzM3dFK1XjJb439AOY4LFtBV9hq06LoqUxdqbEVpssHnKmxOZ8+lGOqNte1Xn+/sfmMtN6b5K+JmjbGupmBBEq+74AMiCE197EPjHrwIpiS7GpedNa6Xs0=
+	t=1780445729; cv=none; b=kkUcC237I6f92awogP5niXjBz5w+coCBrrWsUp4zgmnMpMs8+mt5u71Ia1HE2bTQsZWr2mkfrY74ziI5EU4g0tCYQdEXLbnwW8v308rnBlT5HK4Ck0Lv6/c+acQNO8Fo9HNe9aFxXD+T51d3//wBCIZ0b6NHtRHTi+U9Vi3XyAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780445713; c=relaxed/simple;
-	bh=10CbSTCQDBWKJNmzd1JjSrmuf4EOmLHN4AyMZ7eyKng=;
+	s=arc-20240116; t=1780445729; c=relaxed/simple;
+	bh=q+GXB4YFU+Ves/ohGBjn85csHrcElJ5/of3CrCQxcIs=;
 	h=Date:Subject:From:To:Cc:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D5coxzcZ1B7g0jXvhxcDPNDmM1RlyIQBJGvo0wn5Or0GCkze16vrKWsUqTqgS2g36OPU4HvOvGDHGtFkfV3DASS7eyuloNeEivzyVpuZnmHJLchiFqC5QLRjS7C7pRi8WpDkdeLyInj6ZQ5IeB6XCRHt53Jxn1A/UFJFtWz866M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NFmqK+d8; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=eih/KLzH7lUhGVeMhJJ/SVlJbpPYnnCmjAVOpJKj9VBdoK2DHtY2LVHGZio4im1xoqqICN/j5iUXFbkWX0/B4BKOrANtLF+7cxFBoeCOWiZbUBbdrWf7HqJZZv5LHu3wUcm5jU1e573gsGWI9iuxnCLcEFnntLKMqLHID2uMB0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkDwwf6O; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NFmqK+d8"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CA2931F00893;
-	Wed,  3 Jun 2026 00:15:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkDwwf6O"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 52E001F00893;
+	Wed,  3 Jun 2026 00:15:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780445711;
-	bh=+TjC/FT4bgtivKcQK7C1qgC0IXis/2arP3Q94BASnIY=;
+	s=k20260515; t=1780445727;
+	bh=uXzoepltqwTzkdpIX75akA/7kBGMYxHMevN6xEBL0zQ=;
 	h=Date:Subject:From:To:Cc:In-Reply-To:References;
-	b=NFmqK+d82u+9j1USo6jvDyihJVb254ZVyzyw43T1MsedU2vHb26w1k8vcNCn13BF3
-	 pqpRxJ/RMMR4uNQj3lSZU58OBa5M/GJjFZuAg5HRvMG7zzsjJ+UvlWf2n2z2+A5/52
-	 YYDn8RTaUnx+T55maw28TIbL+gPx5ygcfouFzRetQfjTAGkXTwnF/X9kkt3J9DFJOc
-	 KLhxzu1GRZ9BON87T810JnjlWtZXTWgK9WyAFnDEgk5y0dZYnWojlKzZxAFA8JUDAh
-	 1KT8Ls3uzJ+8L5DdliXjmMZPDCrGcRLnVnlzCC5rHJTo82OQNehukVDuat9KiraEDH
-	 5QwPsABU0Fgfg==
-Date: Tue, 02 Jun 2026 17:15:11 -0700
-Subject: [PATCH 2/6] mount_service: don't pass the chopped buffer to
- apply_fsconfig_mount_opts
+	b=HkDwwf6OspEMttCg+qLYtP4ibX7GtH82YKtZlhZmnxGetYLZCIRTGmBMIaDxijcIy
+	 WDV3JhJPI6nyB7Mj9lsu+W25j3Ni0sBLqFlE9LN2qRRtlIl3DCmGHNlTR9J+N5h1iU
+	 pEvvkV+yo/+x76qDJDE1ATVbbF2LrMtxuqhZfOmjAHDb3fLfphpWhP+f1G7U4Se6ys
+	 NPefbxifqW967e8fa9UHHCPvDugddGB+vSaW5bzFxz7Fw7VtkVSPIfBD7M78/7p/Mo
+	 Thy2BoiPRrF64t/Qw3UveXdfTDBF9g7KW53/BWq48EE8/iooU3+glXb0CcMpKE9A+C
+	 Z3cpPOmPXCP7w==
+Date: Tue, 02 Jun 2026 17:15:27 -0700
+Subject: [PATCH 3/6] mount_service: call the new fsmount ms_flags helpers in
+ the right order
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: djwong@kernel.org, bernd@bsbernd.com
 Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Message-ID: <178044567862.1435997.14889132979032394431.stgit@frogsfrogsfrogs>
+Message-ID: <178044567879.1435997.5518447228002475112.stgit@frogsfrogsfrogs>
 In-Reply-To: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
 References: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
 Precedence: bulk
@@ -46,30 +46,69 @@ Content-Transfer-Encoding: 7bit
 
 From: Darrick J. Wong <djwong@kernel.org>
 
-If mount_service_handle_mntopts_cmd previously looked at the mount
-options to screen for allow_{other,root}, then tokstr (aka oc->value)
-has been modified and not put back.  This causes truncation of the mount
-options passed to fsconfig, so let's use the snapshot that we took
-previously.  Codex noticed this.
+Codex noticed a discrepancy between the new fsmount code that Bernd
+wrote and my port of the even newer mount service code to use the
+helpers that Bernd wrote.  Specifically, set_fsconfig_ms_flags only
+clears bits from MS_FLAGS if there's no corresponding MOUNT_ATTR_ flag,
+whereas ms_flags_to_mount_attrs always clears them.
+
+In other words, set_fsconfig_ms_flags MUST be called before
+ms_flags_to_mount_attrs or we can lose the 'ro' option.  Fix this.
 
 Fixes: 7211953256526f ("mount_service: use the fsmount API helpers from mount_fsmount.c")
 Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- util/mount_service.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ lib/mount_fsmount.c  |    2 ++
+ util/mount_service.c |    5 ++---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 
+diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
+index 83768f0b8d193b..89f5b1a112a9b7 100644
+--- a/lib/mount_fsmount.c
++++ b/lib/mount_fsmount.c
+@@ -35,6 +35,7 @@
+ #define MOUNT_ATTR_NOSYMFOLLOW  0x00200000
+ #endif
+ 
++/* Must be called after set_fsconfig_ms_flags */
+ unsigned long ms_flags_to_mount_attrs(unsigned long ms_flags,
+ 				      unsigned int *mount_attrs)
+ {
+@@ -93,6 +94,7 @@ void log_fsconfig_kmsg(int fd)
+ 	errno = err;
+ }
+ 
++/* Must be called before ms_flags_to_mount_attrs */
+ int set_fsconfig_ms_flags(int fsfd, unsigned long *ms_flags)
+ {
+ 	unsigned long flags = *ms_flags;
 diff --git a/util/mount_service.c b/util/mount_service.c
-index adcc7a296645ff..360a78bab3bd3d 100644
+index 360a78bab3bd3d..9890d6cbf028cf 100644
 --- a/util/mount_service.c
 +++ b/util/mount_service.c
-@@ -994,7 +994,7 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+@@ -1410,14 +1410,12 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
+ 				      const struct stat *stbuf)
+ {
+ 	char tmp[64];
+-	unsigned long ms_flags;
++	unsigned long ms_flags = ntohl(oc->ms_flags);
+ 	unsigned int attr_flags;
+ 	int mfd;
+ 	int error;
+ 	int ret;
  
- #ifdef HAVE_NEW_MOUNT_API
- 	if (mo->fsopenfd >= 0) {
--		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, oc->value);
-+		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, mntopts);
+-	ms_flags = ms_flags_to_mount_attrs(ntohl(oc->ms_flags), &attr_flags);
+-
+ 	ret = set_fsconfig_ms_flags(mo->fsopenfd, &ms_flags);
+ 	if (ret) {
+ 		error = errno;
+@@ -1429,6 +1427,7 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
+ 	 * or string flags!  Return a magic code so the caller will fall back
+ 	 * to regular mount(2).
+ 	 */
++	ms_flags = ms_flags_to_mount_attrs(ms_flags, &attr_flags);
+ 	if (ms_flags)
+ 		return FUSE_MOUNT_FALLBACK_NEEDED;
  
- 		if (ret < 0) {
- 			free(mntopts);
 
