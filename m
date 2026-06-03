@@ -1,90 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E322066DE;
-	Wed,  3 Jun 2026 00:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780445790; cv=none; b=My5OBHgZbQzozkYy7/btc0sYyQsQ5OaJpIPnj+rpYhXw8Rc3YtV19dY16xVSgpLJfOGonzURWiyfy+vVwWWYL6SXhC6mQYk4ZKiG4hE+WKDlR4Bmz9If6mCk2o8M3c3HAS325D5Z7DtHVhw0B6zHYm0ATkrWL/JBoMRBZo5FwIE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780445790; c=relaxed/simple;
-	bh=OEz1I3YVlrxq01G56GzSaeSYaFFzdaXgayTnYP4HqeY=;
-	h=Date:Subject:From:To:Cc:Message-ID:MIME-Version:Content-Type; b=lSZxCxX0tlB27R8N+SVuTiTlq/jmrdoz07Cv1xpC9a4onh8Yhg41B0PwLVnC4JMKpNWD5vsS3A3viz5dAvY2bvS9sDPQ0+vzVjD6fbb/hbu4BZqXNaoItpQPnzb5DiCyuw0asKxzgr6q9ejshFu7uSQw1HaOT7CPZ+xYzd84buY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FshNoR9o; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B86F423A7B
+	for <fuse-devel@lists.linux.dev>; Wed,  3 Jun 2026 08:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780475749; cv=pass; b=ijjpVOCsAXQMvp1qba2M0mQoBNX+28S0kqaBrR+l7wwoecrQipsCyOMLaaLZWZ4dLt+vjGN7SR5biD7tIZwOF/ccMdOUXOD+OYX/KoNaiF3kzpjJS5W469jlrT0DKmImEVkKmUegf/5sefrbTe+8fiekAX65HfDa8qM8yo+6ak0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780475749; c=relaxed/simple;
+	bh=F+m5EHKpzyoeMU59zGslD7GYnl1tjf1cNbhiiQSb2Vs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GVJjzoSXCA63+Npjd3laZmNK4bONC1wV+B6OkRoVwaWE2StNMT6ajw1imMSYBNFXbT2IPa6ZN5ikTkseKwXQJISPFja9HsQJIf+se4+QKGdqVVNUUuXc1M9pJZSHvTJzpsZ/I/sNnYlx2HMjVpxE49wBNwl69Y6+WBiedo+ajn8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=auE3sG80; arc=pass smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FshNoR9o"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6DCBC1F00893;
-	Wed,  3 Jun 2026 00:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780445789;
-	bh=oEZ4ARSIvM5zID4fnk3YWCdFM2aDrOGLB3HIUxBF2uA=;
-	h=Date:Subject:From:To:Cc;
-	b=FshNoR9ocFtgnJYOypD80A0TXUA/loFp6rvEi+P9bYq1OzXM5Q3BknZoYJHBjlR+N
-	 iE8etMCNQ5YCE6YGZysdvde8QvA3drX7Y9ly6rH4ASzNMMLwifW/PaiQiqauKeCyRG
-	 aQsf8bqldyk6KJMuxbI+BZS9d2qC0F9vrjexK+0n/fQTxen4vrxK0LdvgV7lv3A4fP
-	 vBifDhfh13n2Dmn2/TBG7DoIb+gNk1FAq7Xywge0DvlKtIsKHpVR+uWvj/2vMJaH/s
-	 YUUBTX0WEUuQDn7d7wcVHxV7hFocg6M3RUW4WkSuWqVRd4MmXtXYJcFMbvFH/U8tUC
-	 ETDITmaLHN2uA==
-Date: Tue, 02 Jun 2026 17:16:29 -0700
-Subject: [GIT PULL] libfuse: more random fixes for fuse service containers
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com, djwong@kernel.org
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
-Message-ID: <178044568141.1436249.17252850386629267509.stg-ugh@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="auE3sG80"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-9157b94a07aso205996985a.0
+        for <fuse-devel@lists.linux.dev>; Wed, 03 Jun 2026 01:35:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780475746; cv=none;
+        d=google.com; s=arc-20240605;
+        b=A8WM3BR3VJq2rroBX8erYa2poZe4WKO6R1w79r2TiHbhPefxcH6l+4FWl4YQhvmEVv
+         cN+PXCR9DVPSWEwGH3NnLeBO5irAzrtHo5X5RfSGkKa1VxguQM7g03DTbWaFQq59rMg/
+         ZVRHdzCfmjbyL5y+wD7qvcSI6xXiltb629qeG7ttr9ff5/C9kLKgdc+duX9suQj/B3+J
+         PNxwwUTVvGHWpGl3Fpx4GVSyAbBtA0wqWvBmcGKMX4F9t4HL/spQBD/PqzWLoZNXMpxd
+         x5yrh5V+4PV8zd6G1yEu7K3rwI9zVLiCpl4B3bWGxSQrXQwEMNRynaRHOR3G+6yTdk6j
+         YEHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=kzfV6mTnz6ECoQk5vDbo+2QOxcAXNy7XpAQeuH7cpGs=;
+        fh=NhEnQQsp+XYG8e93Ouvn6IqpVZ7l+tjiFaNalu2K67o=;
+        b=XPdZ2aXrsMNHKiQ256tpAFLFzWlKcC7yFVnC0mkEGg8sdz/OITwuaBFm5TrUk1lIp7
+         ZjyBzkI9EKBROwVHbXasn6dd5UmkEwCH0XVsoPEZ3HyVBUwtsXvA6TaO0BViIkO7YKds
+         2JZasikEHc/iJ7G+BGTQIMGWfGp7v70NyxUNcNJr1le05FXYjcFTefqD2mYWhuyYFJiH
+         ChU/BPaQzbHD9GGEpuMdEe5FlWZ09Cf+H35W7akqMtuXlMDNySsHvdH6SDsnzkUe8rli
+         BIf/eRiAfGTwYERN8GkpxlMElobTDBQxKiR1kIa3a1pU9eRYLKab59ItywvmQgXHJFlu
+         fuLg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1780475746; x=1781080546; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kzfV6mTnz6ECoQk5vDbo+2QOxcAXNy7XpAQeuH7cpGs=;
+        b=auE3sG80NktgqKQUsBycgr+NYeeQ/8AHT302mhsWyWZkajq4t1MUCKNdUK1PaPQEVu
+         D6UmGG1Tm2cewpGgb9vRDPR9HCPJTkMp55PUaZtRvzk8Wp/bqA61lc7BG0wqXgXQOc/D
+         8MZcp7PtVdRn33Ci563kBnb4zJN3H680JxkJs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780475746; x=1781080546;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kzfV6mTnz6ECoQk5vDbo+2QOxcAXNy7XpAQeuH7cpGs=;
+        b=nBQWYAjb8kn9k1PPEwYihkBdUz3MfbrRS4lyGIvrQCPLkeQaWFOjAsOWMDh7+LP6LV
+         lxmdVywyK+yIouOxD4GIIS8NaGm+FysipXY9vxamJXkqjDXrAkeXFyNoZ5rB7l/+VyHe
+         r39mC5MiiMhVrMuKfL1mPX11SzOcQr8tcq83ipHSPT+CysL17aMlQDX9RQaWtWQjNpbE
+         TuTXQWYWrlYjsaZhJDFA3JlhNsvvKE+7tsk3N5zl/FG8CeM62kaBx+axi4DwvsSsy83L
+         TL91M0ktdFQq3yG9cfXbZa0GxzakVUiRw091wIuvtXDsdmZT/QAZKB3EonnohZQXJbn5
+         ngMw==
+X-Forwarded-Encrypted: i=1; AFNElJ+Gqr7mkjMtUNgw+kZxyS9MkWjLtuPXjcj0KltCUTqhIRtejkyPTbDC6QUAS9wy10hIQJTtY36hyWw3@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzzw+sj5wkERAtLPpMhtBvBJ4gI/mkJWMChdqyI2fm83od0ZQAG
+	sndsiOr80yCB8upYd80Zwm/u7SnmtDVBEpQ5+FVyWYQnPIbEfv+QHGMJbc9kVFOYqbprog/F6eL
+	GKVTXU0uulqZU08t0haC8MnAcLKnXSK4Xl18tAhWROnaqUETFcYeVWRVS+A==
+X-Gm-Gg: Acq92OF//zPZZw1kGkDoes4zX/O3742aZU86Q3yFstT6N6rWqWNmeL2J8U/StCwX3/i
+	yVzHpAdHdMEY0E8krOLTaV/c5pelntBB1a4gfwfVyPImHiPQOtWyICYvzpwD94mAAg4EwQikyQe
+	bVKeTzOVfWMFLYxCX0iDPOOQVcpy9BIhD25BWfcpbV9XQY/Bb9wdjZLTtAR3Amyg/ttLiCJlCit
+	Sss185oIPokaCN5Y3/XbLmTW03D0z/ophhLXojvyN2jTMNZKq1kVMN6zZgDSz+vwG0tIh0z08xu
+	HGOQryfvs66oqT+Zks3UNmCLEWbTG9ykvbqh/glwYMOIYlc=
+X-Received: by 2002:a05:620a:2406:10b0:915:6c4d:d74b with SMTP id
+ af79cd13be357-9158a7aa7d7mr296739985a.31.1780475745859; Wed, 03 Jun 2026
+ 01:35:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+References: <20260529134302.1989958-1-mszeredi@redhat.com> <ah5-40YypaswEG-1@groves.net>
+In-Reply-To: <ah5-40YypaswEG-1@groves.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 3 Jun 2026 10:35:35 +0200
+X-Gm-Features: AVHnY4LoJOuscRkWjd8EUUrhDi9rqZKzqt7J6BHlC-LkQxfSmJwdzae4FAaaqHI
+Message-ID: <CAJfpegsJj8cZ=CXL-VGeVDOayAeTzstWJgvQye3N+sudHJ5L9g@mail.gmail.com>
+Subject: Re: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
+To: John Groves <john@groves.net>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Bernd,
+On Tue, 2 Jun 2026 at 09:04, John Groves <john@groves.net> wrote:
 
-Please pull this branch with changes for libfuse.
+> Device indices - the part that has to be right
+> ----------------------------------------------
+>
+> Everything below turns on what a famfs device index *is*, so let me make
+> it explicit, because the patch's model of it (kernel-allocated) isn't
+> workable for famfs.
 
-As usual, I did a test-merge with the main upstream branch as of a few
-minutes ago, and didn't see any conflicts.  Please let me know if you
-encounter any problems.
+The backing ID is a temporary reference for the lifetime of the fuse
+filesystem.  If there's a persistent device index the server just
+needs to map the persistent index to the temporary backing ID.
 
---D
+AFAICS the only case where this matters is debug messages, otherwise
+the kernel couldn't care less about whether the device index is
+persistent or not.
 
-The following changes since commit b71dd2629ff24405ad95814ba24773a24436a49e:
+Am I missing something?
 
-Merge pull request #1444 from bsbernd/fuse-service-container (2026-05-26 19:56:02 +0200)
+> Identity by reference, not by path - this part is right
+> -------------------------------------------------------
+>
+> The genuinely better idea here is getting the kernel out of resolving a
+> device pathname: the daemon hands over an already-resolved reference
+> (you do it with an fd, from which the kernel takes inode->i_rdev)
+> instead of a string the kernel has to kern_path(). I want to adopt that
+> - credit where it's due.
 
-are available in the Git repository at:
+Name, dev_t  or fd are are all just ways to reference the same thing:
+the underlying DAX device.  They are completely interchangable, so if
+we have an interface that accepts one, there's no point in making it
+accept the others.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/djwong/libfuse.git tags/fuse-random-fixes_2026-06-02
+dev_t -> name:
+   readlink -f /dev/char/$dev
 
-for you to fetch changes up to 43adcff7f923d7e34f9fe158a2e523481edbf3d5:
+name -> dev_t:
+   stat -c %Hr:%Lr $name
 
-mountservice: advertise fuseblk support (2026-06-02 17:14:27 -0700)
+name -> fd
+  fd = open(name, O_PATH);
 
-----------------------------------------------------------------
-libfuse: more random fixes for fuse service containers [v2 1/2]
+fd -> dev_t
+  fstat(fd, &st);
 
-Here are some miscellaneous fixes for libfuse.
-
-With a bit of luck, this should all go splendidly.
-
-Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-
-----------------------------------------------------------------
-Darrick J. Wong (6):
-fsmount: don't truncate ms_flags in set_fsconfig_ms_flags
-mount_service: don't pass the chopped buffer to apply_fsconfig_mount_opts
-mount_service: call the new fsmount ms_flags helpers in the right order
-mountservice: improve checking of protocol version
-mountservice: don't print bdev preparation error when quiet mode is enabled
-mountservice: advertise fuseblk support
-
-include/fuse_service.h      |  8 ++++++++
-include/fuse_service_priv.h |  4 +++-
-lib/fuse_service.c          | 35 +++++++++++++++++++++++++++++------
-lib/fuse_versionscript      |  1 +
-lib/mount_fsmount.c         |  5 ++++-
-util/mount_service.c        | 33 ++++++++++++++++++++-------------
-6 files changed, 65 insertions(+), 21 deletions(-)
-
+Thanks,
+Miklos
