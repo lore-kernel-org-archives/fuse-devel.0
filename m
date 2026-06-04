@@ -1,153 +1,179 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp02-ext3.udag.de (smtp02-ext3.udag.de [62.146.106.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35314394788
-	for <fuse-devel@lists.linux.dev>; Thu,  4 Jun 2026 07:39:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780558783; cv=pass; b=Vkv7tVl4uvXY1M/vlnbLC3OP/ygA6E0qefMGPQ7Ks5Mn++bWsbAlWlouU/fjvdDYgVfdkO7QQXJoV73GYrdGdepMR9CuA32A5PYClzBEAwxO7WlqI4QAdVfpwjUiAq/tLcPpuHv/cmvLbm7omCZxyuSOsqWGQM/FUbD+v0FPxKs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780558783; c=relaxed/simple;
-	bh=e+K8JI98tjf5hP5bAgSr4Jd5kzHe6QJIzHF3gbCUJH0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gJeVSyUGTzdd6+JxJn57gIgjPRiC2947jyJGl2+qVoHci3LM9MqHAtUPtLNheSTv4dYNZefMXrODMCMiFFRjSWEDoG06iSnSi0nqlrXYS6MWVjib+zf/Ccs/z8BKK9v3MobnlhX2AfIdBSxrjPyEzvT6cT0WBwpLweuN+9V1fng=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OoFWqNIM; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1E83976AD
+	for <fuse-devel@lists.linux.dev>; Thu,  4 Jun 2026 09:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780566379; cv=none; b=KV+XRlMae4ZMZeNmgE2lIKnn16ca+w+K/WAKE28VzQusMm3bnU9lgBEoTXx3KSehHoRkx2tU6pT6hV030po0cQFtzuZNPy1H9vv9yr/I/fsZ6zIewjr3Ffq7FFJ7OwCLlTWR9fg14QH/JSJCPu2QPm/KgCqIsueKODOH91+bTSY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780566379; c=relaxed/simple;
+	bh=lUig2vIfQIVKtr+oWIxWr+8WGfUwmSMl+URtQk7pJIw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hVyTWOLEcvaXMJalJTSItcQXwXIUanZk2poPr+D8jP6Kksl9hv7uvmGfUHMUVxIamZclIO2r5Nl2zGJpvW13XBi4JBIPqUWZlqrylHt1mB6ugbtU2mplewqMr1M16jSswirOkKmB91f5TWPOF2AusJH1X1yiKSRX9/emiCoixro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com; spf=pass smtp.mailfrom=birthelmer.com; dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b=W7I1m4zB; arc=none smtp.client-ip=62.146.106.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OoFWqNIM"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-687ed9aabb3so726850a12.1
-        for <fuse-devel@lists.linux.dev>; Thu, 04 Jun 2026 00:39:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780558780; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BK99rpWokDsGJnz0KQTZa9UPvR+x408sN+Cb8E62VQ+gzBJmBl3jIe0TXzppmhIa0J
-         fG8APeR0G/9r5v54jem8/hd6yoLDEzneAdyItZIzgxID4S2mufE6PlJVy2UwSXbryqpI
-         XMCcZ2NK2emEmeZLwmFFSU7SJLnpfuXMhxSYKXI8m+LphA4VDVhKtKuvSTSW0ieCoCIj
-         etM/RelzLLT8LI7EgZWkds/VGm5UbVoxYDt4XSLbNRhrSQphDXG11kzC+eJHnXbtEn4X
-         XkD6o5lsMexen7Y+PeBlnpHNBpe+CgX6gDchgvKgau607q3q8MevzYJHnvxVQoJ+7LlG
-         559g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Bh+JpTqn5WaQ/HfI1QK63mlUNBVv/IjZhQGAlbMSN4g=;
-        fh=NJGtx/Zmmc35AWu4mPfD1iuEsLvw/5WY/yFozn7py6U=;
-        b=WLX7LTMhAqILf248LqZRRc4gceqnaUS+mEOLzAMmPzjQYHhsP18CpAUbQTO4e/WiQX
-         ylrVC0lUmxtUKo6eZuLQvEROYgJPzjiGw3vpa0gE84+oZJUP5MPgFQp1EAEFahpuKIqe
-         k8fc24WhSONHatAcST/kA83EvGDLYbaVawf6YBAKcW4f1dx1+plRvSr4fjQyWOsFzhFO
-         UHiqFbMryRbEoAVK+WrfZj4/pel9rzrYN/Y3J4vPSABoY/DCmx2XV/fDj616BPovuj83
-         i6Iw408UQaQuEGd2eypsqRjiU6uomgf6oeqnZs/vcgTwBeB7dnBm4xD8cyFRs/o/sW+S
-         gfOA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780558780; x=1781163580; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bh+JpTqn5WaQ/HfI1QK63mlUNBVv/IjZhQGAlbMSN4g=;
-        b=OoFWqNIMrGVlG6NrZnDvw5vqpUQFiLugfHSL377s+Or3zV+jRyYmLonQMkrK+kqYKM
-         P/5Q8lCO8j5r6PMHKnMkS2P2/jF9GtBlJ1nZUzYSZgGwNU4VXAp1A2ck0eZUPJHXvG3H
-         jPUP2iHEK0eY+++0oL7ONnE06khSb4kW7OPUmUU5Gef2T3jKgVzPGD13Vm7Z3LP38Nwf
-         PU9wSp1aIU+pUWPfozOD7PFip12mJ+k6Kpb8XaBj76q5uD6M0zDxDmOdH1K4/kYlzYdN
-         vSJ3hK57dPGT1yEjdNJAoZNq/2iE4LviEd+MjftgB4WhH3qNd9cyHQZV+az7B+VsgksJ
-         ZTkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780558780; x=1781163580;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Bh+JpTqn5WaQ/HfI1QK63mlUNBVv/IjZhQGAlbMSN4g=;
-        b=ZKGP1tS2FP1BV/4K3kuzbCZ+KePZC/P34ufoQhhs5avBfs6ClmWpoSvxQzTI3MR0dz
-         UHn0ohi7sM6WkKXFqxW0zQMxOAw99Xx3dWOO1QrCeAWqnP1UjNc5bCUn/OICWxljBu6a
-         ltPGv6IY/TutNOxu5pEKc5YoIqGpbLkYGVN4vkbqtORccG+nJIHUkIXm1aRiwY+LCs1P
-         6zc0TLawymYOHN+DOJc6cQ0kGcUXlzyyynobIqhd957KVYyCWBhKIu2Wx+uueDWPyX/V
-         Tqouuch0mqplWDGmSyi23rX3DUQlLJbWHNBqclT8FgF2P4IfT//jXuS8/vGdLLHJbPrA
-         xc1Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/EYMAy6e5s3qNf4+IdJkbOk88/9yuOzN3KpL4hMbxqzxFf/dtj4Zu2VXWNt51ywEmHxj+d1Y+/0qks@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3f51dbEn34q0AnYn7/sYRUhA9cImsokjxCRqMRO7x0PjWRIGS
-	btvpdrQ4soY2QB6BrdCYJJmcRDgLMSe7tnn33TqMuBFrQMp+pDEk8N3luEAi4WuJ4fJ8aERFbbz
-	Eky3lJE0Zgdbqij9TV7Wf6pPUTmmKoAY=
-X-Gm-Gg: Acq92OH8EzwpKHbCv2l5P7lSteoBn5T31I7R9DySzObeDCKh2vCxCKYEcV+lKGdpob4
-	tdihHt+XVuqTktPHl8DDo/a1Zc8K3OPwAazPv54j3UYL1mvqYvXZ5ChlTehnN7aDw3rzIFzoNrK
-	Ms3jPdHZpGnQcro9hJoLF4LsuukTTQMyGzj6Su4/xyXGBEeg7jplJPUrQhc49RsaU5AUYLwF+kj
-	x/RbKcxRaUUFjzUW+RaxUbUVuCdGZovQewb4usjnQfON40onDzyUQN14a+poNDJGaEIvFW6roaL
-	5Rzt3PsUKZMQdeb5xtUSkV/CjTa/tALvsXsBM59vJBpqHaOG/Uo=
-X-Received: by 2002:a05:6402:4486:b0:670:8acb:e822 with SMTP id
- 4fb4d7f45d1cf-68e70ce79c3mr3510055a12.12.1780558780334; Thu, 04 Jun 2026
- 00:39:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=birthelmer.com header.i=@birthelmer.com header.b="W7I1m4zB"
+Received: from fedora.fritz.box (065-142-067-156.ip-addr.inexio.net [156.67.142.65])
+	by smtp02-ext3.udag.de (Postfix) with ESMTPA id C51B9E02EE;
+	Thu,  4 Jun 2026 11:46:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=birthelmer.com;
+	s=uddkim-202310; t=1780566369;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=939WDVUDtPOc73uBVHbOs1OZu9OadPcXukcjgRF11LI=;
+	b=W7I1m4zBYcG+1gtGMHy91f4jdhXBTGgd+330vZz+0rkDRmjacnUdPPUxWz4SFbPMsvrGMw
+	WPYDah0ob1mCxqCnxrpFi07YPLkZDOfZcBkhEl34BGWOtpHYem9L8pVwkwN6K7ApoPAMaL
+	x3TeO4HwfAO50G1fjgr9FnsI6uhzACu/qcHtdE13Kua1ho+dEyFiQwVdjofqmX6KxutUgo
+	oBas3yYyfsc+8O2aPctxwHPc40byjoAV+D8I49QON4PPqXK6HHDi95x7erpVJTpbNU28gG
+	4sY9flZ9X0z33zVfQUCogRKG4kdFSxrylMU62WM1zAQvUyT6XGotkeqRRbwyEA==
+Authentication-Results: smtp02-ext3.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.com
+From: Horst Birthelmer <horst@birthelmer.com>
+Subject: [PATCH v7 0/4] fuse: compound commands
+Date: Thu, 04 Jun 2026 11:45:41 +0200
+Message-Id: <20260604-fuse-compounds-upstream-v7-0-27331d085c2a@ddn.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260601152327.2069787-1-mszeredi@redhat.com> <CAOQ4uxjFg4rjwGjU2LvZT6AhC+gBk_6Ej5S4p4DKuk8=a71cRw@mail.gmail.com>
- <CAJfpegt5Q0nmK0JKAfa4Bp_SydR1qiqu7pB0JKkXSCFOYSVDDA@mail.gmail.com>
-In-Reply-To: <CAJfpegt5Q0nmK0JKAfa4Bp_SydR1qiqu7pB0JKkXSCFOYSVDDA@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 4 Jun 2026 09:39:28 +0200
-X-Gm-Features: AVHnY4KAGkPR4XMrGJ1v2HaS6C6G0nzM70KVbpCrnsTsdQpjDfIqLFHVtkWLhqg
-Message-ID: <CAOQ4uxgc_pW57_xeHjm6xauB3Cfx3ZY3Y-NaXO_xvL==vKcFOQ@mail.gmail.com>
-Subject: Re: [PATCH] famfs: FUSE_FAMFS_EXT_INTERLEAVE -> FUSE_DEV_IOC_STRIPE_OPEN
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <jgroves@micron.com>, 
-	"Darrick J . Wong" <djwong@kernel.org>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43PO27DMAwG4KsEmqtCop7O1HsUHfSgGg2xDSk2E
+ gS+e+UAReLBaMefID+Sd1KxZKzkeLiTgnOueehbMG8HEk6u/0aaY8sEGCgOIGiaKtIwnMdh6mO
+ l01gvBd2ZBqu8RNF5EQVp02PBlK8P+fOr5VOul6HcHotmvlb/NmdOGTXeRdRadNL4jxj799ZIV
+ nGGfyrQFJaMl1LxdiZuFfGraMaZ3VdEU2wMHUefhJFsq8hXpdtX5HpLFN6Ck1rrtFXUUwHO9hX
+ VFHRMWZU0ROe2in5RQO8rev2oGUGlECGFp7Isyw9NF+WOGgIAAA==
+X-Change-ID: 20251223-fuse-compounds-upstream-c85b4e39b3d3
+To: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
+ Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>
+Cc: linux-kernel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+ Horst Birthelmer <hbirthelmer@ddn.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780566367; l=4999;
+ i=hbirthelmer@ddn.com; s=20251006; h=from:subject:message-id;
+ bh=lUig2vIfQIVKtr+oWIxWr+8WGfUwmSMl+URtQk7pJIw=;
+ b=mp87QgZjyhI5y/A83XWmVmw2GeAUXy0TwHs9mZ2jGAvShi/gPbqIRl1yCmUt7Rtgxj0ePOogf
+ A0PLb0NInZBAw8feuHOIoPevQAIryyzLZ+/KWxf8GIj65ckieAqnVqK
+X-Developer-Key: i=hbirthelmer@ddn.com; a=ed25519;
+ pk=v3BVDFoy16EzgHZ23ObqW+kbpURtjrwxgKu8YNDKjGg=
 
-On Thu, Jun 4, 2026 at 8:12=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> w=
-rote:
->
-> On Tue, 2 Jun 2026 at 15:21, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> > Considering that John wants the daxdev ids to be allocated by userspace
-> > I suppose the number of daxdev ids is limited, same as with iomap
-> > backing devs, so we could probably start allocating backing stripes
-> > from max_daxdevs (1000?), to be negotiated at init time.
->
-> This doesn't belong in the kernel.
->
-> If we really need to have allocation policies for backing IDs, then
-> just move it completely to userspace.  I.e. pass the backing ID in
-> fuse_backing_map together with a flag (FUSE_BACKING_ID_SET).   It
-> would make the open/close more symmetric, and is a nice flexible
-> interface, so we should have done that from the beginning.  But I
-> guess we opted for the kernel allocation scheme due to its similarity
-> with file descriptors.   Oh well.
+This series adds a single new opcode, FUSE_COMPOUND, that bundles a
+sequence of subrequests into one round trip.  The wire format is
 
-fds also have both dup() and dup2() ;)
+    fuse_in_header (opcode FUSE_COMPOUND)
+    fuse_compound_in
+      fuse_compound_req_in
+      fuse_in_header
+      payload
+      ... (repeated per subop)
 
-Yeh it's no big deal.
-Auto id allocate is a convenient feature, which has cost us nothing
-to implement.
-FUSE_BACKING_ID_SET would be just as easy and would not
-add that much complication, just do idr_alloc with range of 1.
+Compound is opt-in per connection and discovered by trial: the kernel
+assumes support and clears its flag on the first -ENOSYS reply.
+-EOPNOTSUPP declines a specific combination without disabling the
+feature.  In both cases the kernel replays the subops individually
+via fuse_simple_request(), so callers never need a separate
+non-compound code path.
 
-We could already reserve the code point for user assigned id
-for famfs or if we want to use this in the future and shrink the
-ops_mask from FUSE_PASSTHROUGH_INO patches to 32bit
-as Joanne had already suggested:
+The series ships two consumers:
 
-struct fuse_backing_map {
-        int32_t         fd;
-        uint32_t        flags;
-        int32_t          id;
-        uint32_t        ops_mask;
-};
+  - open + getattr, used when fuse_file_open() needs both ff->fh and
+    fresh attrs (O_APPEND, or cached attrs already stale).  This
+    closes the open-then-stat race described in [1].
+  - dentry revalidate, fusing LOOKUP + GETATTR when both the entry
+    and the attribute caches are stale.
 
+The matching libfuse pull request is here [2].  It contains a helper
+that decodes a compound and runs each subop in turn, plus a
+passthrough_hp patch demonstrating both that path and the
+alternative of handling the compound entirely server-side.
 
->
-> > > +       res =3D fuse_backing_id_alloc(fc, &bstripe->backing);
-> > > +       if (res >=3D 0)
-> >
-> > 0 is reserved, it cannot be allocated
->
-> It is confusing either way.  The (res >=3D 0) is expressing the fact
-> that this is not an error value.  If the condition becomes (res > 0)
-> then the zero value becomes an error condition, which is crazy.
+Compounds were reccently discussed more of a thing for fusex 
+but I think we should add them to the 'classic' FUSE as well, 
+and as long as fusex hasn't landed and the full fuse channels 
+are not here, we could add these here.
 
-OK. make sense.
+[1] https://lore.kernel.org/all/20240813212149.1909627-1-joannelkoong@gmail.com/
+[2] https://github.com/libfuse/libfuse/pull/1418
 
-Thanks,
-Amir.
+Signed-off-by: Horst Birthelmer <hbirthelmer@ddn.com>
+---
+Changes in v7:
+- simplify fuse_open_args_fill() handling
+- share result handling between the open+getattr compound and the old code
+- send open+getattr only when the attributes we have are expired
+or we have open flag O_APPEND
+- remove fuse_compound_alloc()/fuse_compound_free()
+- add small header for every request in a compound to send compound flags
+to fuse server
+- Link to v6: https://lore.kernel.org/r/20260226-fuse-compounds-upstream-v6-0-8585c5fcd2fc@ddn.com
+
+Changes in v6:
+- got rid of the count in the compound header
+- added the automatic calling of the combined request if the fuse
+server doesn't process the compound and the implementation allows it
+- due to the variable max operations in the compounds request struct
+fuse_compound_free() had be brought back
+- Link to v5: https://lore.kernel.org/r/20260210-fuse-compounds-upstream-v5-0-ea0585f62daa@ddn.com
+
+Changes in v5:
+- introduced the flag FUSE_COMPOUND_SEPARABLE as discussed here
+- simplify result parsing and streamline the code
+- simplify the result and error handling for open+getattr
+- fixed a couple of issues pointed out by Joanne
+- Link to v4: https://lore.kernel.org/r/20260109-fuse-compounds-upstream-v4-0-0d3b82a4666f@ddn.com
+
+Changes in v4:
+- removed RFC
+- removed the unnecessary 'parsed' variable in fuse_compound_req, since
+  we parse the result only once
+- reordered the patches about the helper functions to fill in the fuse
+  args for open and getattr calls
+- Link to v3: https://lore.kernel.org/r/20260108-fuse-compounds-upstream-v3-0-8dc91ebf3740@ddn.com
+
+Changes in v3:
+- simplified the data handling for compound commands
+- remove the validating functionality, since it was only a helper for
+  development
+- remove fuse_compound_request() and use fuse_simple_request()
+- add helper functions for creating args for open and attr
+- use the newly createn helper functions for arg creation for open and
+  getattr
+- Link to v2: https://lore.kernel.org/r/20251223-fuse-compounds-upstream-v2-0-0f7b4451c85e@ddn.com
+
+Changes in v2:
+- fixed issues with error handling in the compounds as well as in the
+  open+getattr
+- Link to v1: https://lore.kernel.org/r/20251223-fuse-compounds-upstream-v1-0-7bade663947b@ddn.com
+
+---
+Horst Birthelmer (4):
+      fuse: add compound command to combine multiple requests
+      fuse: create helper functions for filling in fuse args for open and getattr
+      fuse: add an implementation of open+getattr
+      fuse: add compound command for dentry revalidation
+
+ fs/fuse/Makefile          |   2 +-
+ fs/fuse/compound.c        | 126 ++++++++++++++++++++++++++++
+ fs/fuse/dev.c             | 206 +++++++++++++++++++++++++++++++++++++++++++---
+ fs/fuse/dev_uring.c       |  31 ++++++-
+ fs/fuse/dir.c             | 139 ++++++++++++++++++++++++++++---
+ fs/fuse/file.c            | 115 +++++++++++++++++++++-----
+ fs/fuse/fuse_dev_i.h      |   5 ++
+ fs/fuse/fuse_i.h          |  39 +++++++++
+ fs/fuse/inode.c           |   9 ++
+ fs/fuse/ioctl.c           |   2 +-
+ include/uapi/linux/fuse.h |  56 +++++++++++++
+ 11 files changed, 685 insertions(+), 45 deletions(-)
+---
+base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
+change-id: 20251223-fuse-compounds-upstream-c85b4e39b3d3
+
+Best regards,
+-- 
+Horst Birthelmer <hbirthelmer@ddn.com>
+
