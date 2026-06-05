@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1883B3B71CD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188E93B71DB
 	for <fuse-devel@lists.linux.dev>; Fri,  5 Jun 2026 22:13:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780697602; cv=none; b=ezNga+EXNFzKg/Y45srQsJ1EPEp8Beexg3L8/5M4mzHcELMROMJ5bkUi7s7RWSIkQBM43c3vFU9BjzyuecVdQ9aFsf9MhKGAh0ZwgggzQRAPZue6gEatlHGNhzJ8UU82f3pzF/fJajk0XOeRuwMmeEW1t1yHp0+VOrEs43qyd/8=
+	t=1780697602; cv=none; b=ivvyRyfsyf+zPQqArByXNbTLzzH5MGRylqErG17bJ3dv9SC7qY6LA3I4+1t3ph1iRvPErLW3HHS7OKtBlFZfHTBcHG2FAltBtg3KBQJxNCscyGf9765zDS3U96LnbRQ3jbQlnjj5Q4kP7i+aB0cABwhGL8LSdYcWSkD2PqvfUvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780697602; c=relaxed/simple;
-	bh=vGwED/AHTx5k8yPVPCGsewXJ8DE0D66o9WvQbJ7+zFY=;
+	bh=OpNjot3JTnQZeq9ri+JQ0nTFwKsYd41nlkzDPgfVPfI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RTvvi0gN71J/SlYvQvLTfEYUgl03tW+tDR7nX+KyIWk4I1n7ldHmYEqI/pXo7BxfbU+xm6VCXKUFZnW1n+6ugeCosjMypldJg3mKlmrHGIkD4VL4OsYHK2iJLaSzGonXYKDECf80kOT+Auei9YRiU267URKRTP5uNH4RAUOfReA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CV+FLr4e; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=MzS77IJGvdfaPo5XzNrddFgstsCUO8Vut7eNIxwLrZ/KWC+uKRFaWPv9izISHQzMIUHsAXIWW+SHO7iH37MoAsOAFExN+4JPCVj37VitgxOe4SglhitJ3HIoseDPrcocebDh9XFfDCCI2SOUDZBElTQVvTd1Oj/b1szRk/HKdtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C7tfF1eB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CV+FLr4e"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CC22FC2BCC6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C7tfF1eB"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B4946C2BCB9;
 	Fri,  5 Jun 2026 22:13:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780697601;
-	bh=vGwED/AHTx5k8yPVPCGsewXJ8DE0D66o9WvQbJ7+zFY=;
+	bh=OpNjot3JTnQZeq9ri+JQ0nTFwKsYd41nlkzDPgfVPfI=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=CV+FLr4eBaixo5ijp20usLBRnEKW60/pvpmVUGiq5Rh8KzgQtvMMWP5LcVUuoSTRV
-	 vP0r1oMwnH3MGGQ/tv+eIqMVbu0xZDu6FxQSnRF7GDHVS60zZeaHeO+BjUEUBmogLD
-	 rjt+xi0SDxG/Lib36K8skzuLZG4hrwfjgEBgR3X1XWL6HGGGcrB7jV1t+6npYF5n22
-	 Zv4TaeMaZk5TjxM6/c3WyP1LC3heul9fwhU9ZXjuJuqpG/dkWd3tvr0NSMnQpoEOsD
-	 tpdfvowk+PMcV58LtC/cCi8iOR1v7wJ6FIt/CASVMNHMQFKdI0gx0AIf9tXNTXLoNQ
-	 RvrI0yqJo/d3A==
+	b=C7tfF1eBf3yH6t9FJzn2vTVmUDDoKaWwvhI7cCI55IEUgNDadTjPwxo+UojSzOT0E
+	 ITOd51nxmnEMtrG/Q4885wo+jrSpTB5DhYufMPyZAI0OcC7Cl+r23G3pqQqLkR9Y5B
+	 FjRs+fkqqctPWPIV9mVxEopK/bXe6fUGZXhO2jmmraKiblLQJ4We4NcAsbLQ8hFxRR
+	 2gJ3UADDKF3XSF7cMugJWWswIe7fyJm3N8C5z4AMuzU40Utju1bUtEaExmor/g85id
+	 D9kndPERL4USTxUVs0KQi8Iy+5vhyB0BHz5HJ1Jgruq/0DfF9LhpC1cZr775F6IDU5
+	 irfq4JNsLuh4Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1081CD8C85;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F1FECD6E7C;
 	Fri,  5 Jun 2026 22:13:21 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Sat, 06 Jun 2026 00:13:08 +0200
-Subject: [PATCH RESEND v3 3/4] fuse: {io-uring} Make a fuse_req on SQE
- commit only findable after memcpy
+Date: Sat, 06 Jun 2026 00:13:06 +0200
+Subject: [PATCH RESEND v3 1/4] fuse: Avoid use-after-free in
+ fuse_uring_async_stop_queues
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260606-fuse-io-uring-race-fixes-v3-3-6fdf5e5b3437@bsbernd.com>
+Message-Id: <20260606-fuse-io-uring-race-fixes-v3-1-6fdf5e5b3437@bsbernd.com>
 References: <20260606-fuse-io-uring-race-fixes-v3-0-6fdf5e5b3437@bsbernd.com>
 In-Reply-To: <20260606-fuse-io-uring-race-fixes-v3-0-6fdf5e5b3437@bsbernd.com>
 To: Pavel Begunkov <asml.silence@gmail.com>, 
@@ -49,15 +49,15 @@ To: Pavel Begunkov <asml.silence@gmail.com>,
  fuse-devel@lists.linux.dev
 Cc: Miklos Szeredi <mszeredi@redhat.com>, Berkant Koc <me@berkoc.com>, 
  Zhenghang Xiao <kipreyyy@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
- xlabai <xlabai@tencent.com>, stable@kernel.org
+ stable@kernel.org
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3598; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1442; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=0J2ELZj79o2Eiq/7V7sCD7bhhOLiecCA9UCTX0goXjU=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLKUPf8rHnvyyNkiL5Wt7T3/ZsugPQmn1UvP3t1ln+LNb
- 73xlGBwRykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAExk1VeG/27V16sTyx9vKOZe
- M8VOdo7vJtZdLD/NVbgr//4Vfve55CDDP23X2cEPlr5cYcv3mHfWPNXl0+KnLT0Ye1bGdOvCBRs
- mJrADAA==
+ bh=X2I4I+6k4VRNTubfnToFcPaR3hqdHMhFlXLJDCyP2XY=;
+ b=kA0DAAgWMvNp7peNQvwByyZiAGojSf7IAbUqifyXmN2ExQoiAsoBRSmBOowCh3B3/B4GUzghN
+ oh1BAAWCAAdFiEEihi8PZT+Dh0m9a/XMvNp7peNQvwFAmojSf4ACgkQMvNp7peNQvw1WwD/XKnz
+ 0hPUlNtLF8bBYvf6Z/4rYjrr/wE7aLWVG3sBhwwBAKBt4X77YYyF1f1LjjgQMAIYFRwiW5pBEND
+ k+DzTi/YI
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -67,106 +67,46 @@ Reply-To: bernd@bsbernd.com
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-Bad userspace might try to trick us and send commit SQEs request
-unique / commit-id of requests that are not even send to
-fuse-server (io_uring_cmd_done() not called) yet.
+fuse_uring_async_stop_queues() might run when the last reference
+on ring->queue_refs was already dropped.
 
-fuse_uring_commit_fetch() ends the fuse request when the ring entry
-has a wrong state, but that could have caused a use-after-free
-with the memcpy operations in fuse_uring_send_in_task().
-In order to avoid such races the call of fuse_uring_add_to_pq()
-is moved after the copy operations and just before completing
-the io-uring request - malicious userspace cannot find the request
-anymore until all prepration work in fuse-client/kernel is completed.
+In order to avoid an early destruction a reference on struct fuse_conn
+is now taken before starting fuse_uring_async_stop_queues() and that
+reference is only released when that delayed work queue terminates.
 
-This also moves fuse_uring_add_to_pq() a bit up in the code to
-avoid a forward declaration. Also not with a preparation commit,
-to make it easier to back port to older kernels.
-
-Reported-by: xlabai <xlabai@tencent.com>
-Reported-by: Berkant Koc <me@berkoc.com>
-Fixes: c090c8abae4b6b ("fuse: Add io-uring sqe commit and fetch support")
+Fixes: 4a9bfb9b6850 ("fuse: {io-uring} Handle teardown of ring entries")
 Cc: stable@kernel.org # 6.14
+Reported-by: Berkant Koc <me@berkoc.com>
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 ---
- fs/fuse/dev_uring.c | 33 +++++++++++++++++++--------------
- 1 file changed, 19 insertions(+), 14 deletions(-)
+ fs/fuse/dev_uring.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index c24a0b5b5357..5dde86e8653b 100644
+index e467b23e6895..c96d72250830 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -714,6 +714,19 @@ static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
- 	return err;
- }
- 
-+/* Used to find the request on SQE commit */
-+static void fuse_uring_add_to_pq(struct fuse_ring_ent *ent)
-+{
-+	struct fuse_ring_queue *queue = ent->queue;
-+	struct fuse_pqueue *fpq = &queue->fpq;
-+	unsigned int hash;
-+	struct fuse_req *req = ent->fuse_req;
+@@ -465,7 +465,10 @@ static void fuse_uring_async_stop_queues(struct work_struct *work)
+ 		schedule_delayed_work(&ring->async_teardown_work,
+ 				      FUSE_URING_TEARDOWN_INTERVAL);
+ 	} else {
++		struct fuse_chan *chan = ring->chan;
 +
-+	req->ring_entry = ent;
-+	hash = fuse_req_hash(req->in.h.unique);
-+	list_move_tail(&req->list, &fpq->processing[hash]);
-+}
-+
- /*
-  * Write data to the ring buffer and send the request to userspace,
-  * userspace will read it
-@@ -736,6 +749,7 @@ static int fuse_uring_send_next_to_ring(struct fuse_ring_ent *ent,
- 	ent->cmd = NULL;
- 	ent->state = FRRS_USERSPACE;
- 	list_move_tail(&ent->list, &queue->ent_in_userspace);
-+	fuse_uring_add_to_pq(ent);
- 	spin_unlock(&queue->lock);
- 
- 	io_uring_cmd_done(cmd, 0, issue_flags);
-@@ -753,19 +767,6 @@ static void fuse_uring_ent_avail(struct fuse_ring_ent *ent,
- 	ent->state = FRRS_AVAILABLE;
- }
- 
--/* Used to find the request on SQE commit */
--static void fuse_uring_add_to_pq(struct fuse_ring_ent *ent,
--				 struct fuse_req *req)
--{
--	struct fuse_ring_queue *queue = ent->queue;
--	struct fuse_pqueue *fpq = &queue->fpq;
--	unsigned int hash;
--
--	req->ring_entry = ent;
--	hash = fuse_req_hash(req->in.h.unique);
--	list_move_tail(&req->list, &fpq->processing[hash]);
--}
--
- /*
-  * Assign a fuse queue entry to the given entry
-  */
-@@ -783,10 +784,13 @@ static void fuse_uring_add_req_to_ring_ent(struct fuse_ring_ent *ent,
+ 		wake_up_all(&ring->stop_waitq);
++		fuse_conn_put(chan->conn);
  	}
- 
- 	clear_bit(FR_PENDING, &req->flags);
-+
-+	/* Until fuse_uring_add_to_pq() the req is not attached to any list */
-+	list_del_init(&req->list);
-+
- 	ent->fuse_req = req;
- 	ent->state = FRRS_FUSE_REQ;
- 	list_move_tail(&ent->list, &queue->ent_w_req_queue);
--	fuse_uring_add_to_pq(ent, req);
  }
  
- /* Fetch the next fuse request if available */
-@@ -1209,6 +1213,7 @@ static void fuse_uring_send(struct fuse_ring_ent *ent, struct io_uring_cmd *cmd,
- 	ent->state = FRRS_USERSPACE;
- 	list_move_tail(&ent->list, &queue->ent_in_userspace);
- 	ent->cmd = NULL;
-+	fuse_uring_add_to_pq(ent);
- 	spin_unlock(&queue->lock);
+@@ -477,6 +480,9 @@ void fuse_uring_stop_queues(struct fuse_ring *ring)
+ 	fuse_uring_teardown_all_queues(ring);
  
- 	io_uring_cmd_done(cmd, ret, issue_flags);
+ 	if (atomic_read(&ring->queue_refs) > 0) {
++		struct fuse_chan *chan = ring->chan;
++
++		fuse_conn_get(chan->conn);
+ 		ring->teardown_time = jiffies;
+ 		INIT_DELAYED_WORK(&ring->async_teardown_work,
+ 				  fuse_uring_async_stop_queues);
 
 -- 
 2.53.0
