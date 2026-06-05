@@ -1,135 +1,213 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33BC64BC014
-	for <fuse-devel@lists.linux.dev>; Fri,  5 Jun 2026 09:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44664C6EF4
+	for <fuse-devel@lists.linux.dev>; Fri,  5 Jun 2026 09:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780650406; cv=pass; b=Fo6+yU3+lOpgHCWxp9xO53JH9RZcInYLg/l5JzKmsS2CF1BMzsiPRcZlyK5z6VJvAimxnoKbMIDy65iWmLs/LyYqiLyUIFCI/3spKhn0L19dmcGGjBnzCILFlQu0XP4hdGTCXNIXISbvuwxzdzSUKy5j77vDJnHUbHjc8Th/N6U=
+	t=1780650918; cv=pass; b=q7KMjd+P9BoaNPAfAvg57trQkiZl0Wfgehi3c6fGgPYlGdcmKAzgueFolHLhxpCN0rksc84B6G3YWK2pDLSgGVXCrj/aMaK2acyaAR1TnWDw+d+WP28QkPQ2s/pYlPU9+KEbNLGrutSAKqCkNx/6WRF/i7udmgfVfYh9u4OSUms=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780650406; c=relaxed/simple;
-	bh=N8qtdxMc9FvLeauKjzXElFTLChhKrM4qeRXr0Gv5hMM=;
+	s=arc-20240116; t=1780650918; c=relaxed/simple;
+	bh=qFH47gBvjitroCnTL3mOyEu1giksZsexcUqzcotk670=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jGtZ3/ngsLKKPr1RkmfMHp1kmptg6J04ZL3XHHkAuOFMJPPCyQJ1lj+Kfr6ujlsCJ2czpXb/PVNpqw3yB8dnpNRDLvyVEw0rlIeQI/nKq4IQKEnSu8E7YcAGAS3CNDbCiV7KYToKAMsb2C5wQCkTl7gPtkfG04lvbs2tFWr15XE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ciOUPWGd; arc=pass smtp.client-ip=209.85.208.41
+	 To:Cc:Content-Type; b=Uaf6H9iCtCMfP9/bwFxMAzq26ZDDaYy4ATmENajiA4azqVZmiuGu6PO21tnvxlGlRgVKDyhdkrqs15ATLdDnlx81qKBSod8RwfPJ+Xe+HPqyTFW9s5B1XAxgAtk9mixUBQ+ccm2t3fDXQD8adqfyA3AJl3vp+pkzZM8qSGXTKvM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YP1FW9kM; arc=pass smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ciOUPWGd"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-68bac6e24fdso2369497a12.1
-        for <fuse-devel@lists.linux.dev>; Fri, 05 Jun 2026 02:06:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780650401; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YP1FW9kM"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-68acf0a15b3so2763614a12.1
+        for <fuse-devel@lists.linux.dev>; Fri, 05 Jun 2026 02:15:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780650915; cv=none;
         d=google.com; s=arc-20240605;
-        b=bOaDMBvfhOeDBeF7Ss2ZDPuI8LMPKmdJ9nBaos0/mgfUaSl1+SP7oT89UpoNumUFie
-         7v2N1wZEg/Y6nJpkZQGSkuj1KkS50kg+ZqdkVlke4p+lhsZRd0DwBdcOJM3LYz9urhF9
-         s6ZWnL8Vlj8JKhpAIqc9IIAPdIR3Tn6akjGErKh0UiMrQblXWIxH7mQfxLxJbdiGgPM7
-         W3/8fpY8Cj2YZPL8IuGgxwkokLOL2QlInZ65wSaH5+RthfB6m78NUIM2YqEVw35fX+Wm
-         1+DH82BPvy6DGeP5aPUtbISizKCLp4teA2Cox838cxAvVEsBPgDLlybDeYhKeUg7tzH4
-         KSPQ==
+        b=CH3i9Y6N1Rp5EGBbF3PY/E0WNk/E3d4HOBrU4JJC21Gko73jne4kuBVq5uOjkXBLy8
+         agSTr9czBRKUaWDGVo4dLp3eAv8trWsji7F14EyA6mcV0s2PnAkbLN9/hWV/7ifH58A9
+         /BUJfwC3a3kR4B04S666CdPX8ZAbmdd7KPmqiwH6SvJhqXuSSXPsLNRvQROvsA0n5mz9
+         XXdNWdv8aIpUT+A/xrf2MXlBov1EZVcWCuIHHlxOwCJakvjkrsAjcp+nLFNfB5SLvJKq
+         FNXR8QnmeZq733asdk9nbrhzDN4jmRB3uZPqfvgf/X7EN3O/2l2jhOnDY9TTVnOrLzNL
+         MR4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=zFzbZMpTUnNwaEuH74pi471fj/IDldYJaiG/NWnnyFw=;
-        fh=pPQZoElwb2SC7ge++6m4C9/sGZNQBiwwAfItb/JHz4g=;
-        b=hl2xIH7XMuiZi3WE1w+nboltLk3XqMAssyUwmPkjXSITnlMHdrZnhBUmgCC0WH+do7
-         5Vz/h0bT6a8OjoDiKgDOFxWSmtgzwpiNEz5JU4rurBU7XPj4FJmt7Yk/snmtvixH93eG
-         7y8Hqxmj5X6F9YE+c/FysyRWEADsgd0UsLIU5FCT+aR0GSgHjhjsorEBe5fdCfFbMqOY
-         PW8/1Jz+q33W67PVsYYHht9dSX3aDdonm2kIcWobGHebRGq8CEZq5FuW4ynD5pX0qu4B
-         8dKTGIZrS9D9yBpW1SH+fHNIyK9QLqPzrEEn2pNSGsZbt+WOi4CitGEFn2q8jQSz6ot+
-         7IoA==;
+        bh=jr479kzHkVSmP26nVlF8fIgrOFb6CLTrJUzA70hRwdM=;
+        fh=H2BOXJTg/Vf6yD4drnpP6Ug4Py4duKW3QGhH+7ZhpFM=;
+        b=h/+BP71BHO15siKsK0ZLmd+NSrnDkQkIu9KkMpNdOe92WkV0aZp7laRINBgjqagfPs
+         axKQHK63Lk5LCc1OunmsRCyAOgr2EtRlrBwd/0u9Y1cbaMwZERB0mTjxpbfshhX3uWVI
+         hiQDjOW7LtYDS+zLLBQXUaIjOE4n2nhPwyOsY+waM47PzspaAHcEv+9xFR6qa5/ACpCd
+         jdrxlKFWoQA8PdaPkcHQlyOwQiCK/q1K6UMkUZCa/d+CybnL94wkTbDdKEBhWue6eL0w
+         IYXbUlXhfroXGyuCx9P4jmJbCLnaBKoIK4bcHnWPU2CFTYvyn7S0wVnrQc759YZh7M/d
+         Um8w==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780650401; x=1781255201; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780650915; x=1781255715; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zFzbZMpTUnNwaEuH74pi471fj/IDldYJaiG/NWnnyFw=;
-        b=ciOUPWGdZZtsrTdAWCF42WbQReBYsjcBqJd2dpaHbjkpblk/1TElyedXjXpRm0ldDN
-         guRCQASltniIJB2EHCs/NgdB1WoFKHY0LtLy1NOjh8IQK8GzPbj9lk6aLGkGChdlbErt
-         8Y4lM22eae+JHWd74AotFfX0MMkJLHIqKlaErcG/02NW/k3/iI/+QMzBYWhUCd1wAgN9
-         gvXiWuTmtDxuA9tjBBIRROw5A35LBwO+83APRaUi07fJrzJ+smNWPjzqVrOu8VXh7U8R
-         1rEcu24tU83CI2vsSUYQnsWO+bGQs0Uai4Vq3oNKa8eC5PU3CNAU73B8XeYBymKit/+T
-         nejg==
+        bh=jr479kzHkVSmP26nVlF8fIgrOFb6CLTrJUzA70hRwdM=;
+        b=YP1FW9kMr4soNZs3B5VEL3uUfi1DwnDcwyHIQa0EqPs5GhdmOHZvME+IYNbpYSjEB3
+         o53lHxW+EO9hoSzI8EyBJslyP0cjEbJQg4Sj8SEOgLrfgX9UJfkIQgfWXwyHThc6DwyW
+         /t3RTZuUV+/wAg4lKiSgYa66lsCj6QR9ZdUmCaBvyOhnQN458mxKR+RBKpHKpgt35Axn
+         49riH7sbC0WAx6PZtrKiK/9ibYgvwp1Tfe+J97OQnj9HDibSO4H9Hyr5IRnO4fjnDnrr
+         70Je/+lZUUnOYxmobF2XT8e03FLf5ssyG8Uc9WBoEsIHMLQgSANArpKV+KsD02gCzez0
+         RIkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780650401; x=1781255201;
+        d=1e100.net; s=20251104; t=1780650915; x=1781255715;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=zFzbZMpTUnNwaEuH74pi471fj/IDldYJaiG/NWnnyFw=;
-        b=JZ82k+J3s3XBRSNE3RrA3xTUNCfZXnqdwDtz40wtziMTFBnNQC3rbfhfOJ8HlQzpjA
-         6BHd3w7oX7VOOaBei4hKG4BFNlfmGpfYobOQlwNSvHqp8/7suT1Pszu/LdbzrzEVu/Tn
-         YerjBXa3RCa7eNM7rzE2IUPgFT1Ld+sehehYRWW88m4QO/+TRHeMdcUtV/eNYy8TMweQ
-         0rmvefBEEEAuemJPe7P6Sm4uBEbHO0s7/UohbdhCu4OvfzVHQs+i38hab9s26/OYQpry
-         qiZUfWOcEI7aGWl7MKaeMWOrAtNaHktBwusvTwlKobxlYLq11XJ5HadDmZrEksFIb1G1
-         ceKA==
-X-Forwarded-Encrypted: i=1; AFNElJ+gdWCLU6ZyDcK7WjZm182M0Bxu7b+aWoah6s38Tw3u1PuuDFb371Eg2uo7uASgqr1sNnjXgjNkvmL3@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpMowy6VGLEgrarFNVxCELWfJimPEqSO8uPwqynmo5y7kabZbI
-	DMXKHdWkfAeNiBeQjKKIsCZ/VLQxuIBpw3a0EfpSJb76NU9P13HT1nztBztXjpC0mbgcrKgUdI/
-	GEmuNNHkIAGaMumEB9hy4obFNPn7pnifMx4nZjbM=
-X-Gm-Gg: Acq92OEVguMFjA6sxnUlXDQL5O5RJfEv6ORqjT4iP7/Bp/U1kFziJR548PNvh52Dqp9
-	K0I3djnEl+NbmjiH9ScLSsU3+oJR65u0MecK/D8Pu/4Uerwb09qjUiHr0j3lyXkQdtiEm06GtJS
-	fd53IPBjm9tpvhlw8uBX7+DQmDbA6XFLniazu44xVKEBrVxQz3E5OW3eLZhX0BKnBCcqUryrgFy
-	GkDpEHCqXsnfalSiihXmK3EMyqO/kv4smx1fkDc6PoVKmhkFaDjg/tYkL8+0EHOzdGIj1nr4NqW
-	o7ed6VM8Qfpyq2euL3ncpfgEQeZe237UAhbhpZ16a0UFX3/hoj3T
-X-Received: by 2002:a05:6402:3553:b0:66d:d2f9:520c with SMTP id
- 4fb4d7f45d1cf-68fa514446emr1215917a12.19.1780650400982; Fri, 05 Jun 2026
- 02:06:40 -0700 (PDT)
+        bh=jr479kzHkVSmP26nVlF8fIgrOFb6CLTrJUzA70hRwdM=;
+        b=dKBUjPKjtzP5FNP3pNBiZVVpOJ70mS0RRWCxucyrtBJ1mgzf4OJkAs85FatH8pOd2U
+         e6aMdw1pwQLg+MLt4R4nEVnYvc/K1sZjR6qxUke9Wstsvcll8DtfQ+njaiAnSePm2IZl
+         9dBG2nrxK9HjEastu9bWA8oLlG3GZAUdbwSVnon3k83jT099NxVa/FatMenl0VwYTydA
+         ykbj2uZfswmpvGvLr/Bw795J+b+htR1mrChJavRjnKfd7gGXe/99A0p8tyPPrf13JzdO
+         EsLTEBm0NGzP2SrFzS3jkSogIGuOMK+KbvJF/KY1537HWYvoaCxlNGbdRGqGNLuaHb/B
+         6TYQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8iPg8YaSbVy2WnfOuVyx0KXpkQ3R+abqZfDhBL4kWRctuaDINSVZqD3ApjIW2EOWzM+NLe/KGOylG9@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkMPdAAoTf4OjBsKyahEbNa/2wYU44tewjz0fFRhGZhriwvxFn
+	OD31cGYXVg085ioOmP6GtTbead12LspGvVMg8ny02TbEqfZ2H+CmrKjjTEPQqFJoZy7Q3UPBSON
+	QrrJqIA2/GhJ1/z6u11jj14b3XKf/1FSSYOqk
+X-Gm-Gg: Acq92OEurupc2/bTnDxZ6mmhzc/y8doJdjgTmvRpdt7dgqzTat5ynOVXoVIN+yrsTjO
+	qbM/wvpiDHyXr3/Zhpyagq/+QhYY+N+qzRdoWup3MKs9osIxPj6xvVn5sLW/cnFa/BpfSzPJUaM
+	r4C0WrCQLKPz/3C4gc+UYeU1J55C1W6w7zao9K4/+sgtdhZXpH6jwmJLuU0LRJ5wzNMtnj0cC2c
+	VNZYDyNPzQnXmORfr76LflZsR4eGkfTYc9zdJxsJbDlJ3mAtmkq4CqvOUV6WWw2bBWB/e9f1y/2
+	357e9Xwl5sFs1iLF0GlaWhaHmHitJxfSDtuy8YaVquUpUAm+/uX+
+X-Received: by 2002:a05:6402:321c:b0:68e:2afc:59af with SMTP id
+ 4fb4d7f45d1cf-68fa4d2425amr1234883a12.10.1780650914879; Fri, 05 Jun 2026
+ 02:15:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260601152327.2069787-1-mszeredi@redhat.com> <CAOQ4uxjFg4rjwGjU2LvZT6AhC+gBk_6Ej5S4p4DKuk8=a71cRw@mail.gmail.com>
- <CAJfpegt5Q0nmK0JKAfa4Bp_SydR1qiqu7pB0JKkXSCFOYSVDDA@mail.gmail.com>
- <CAOQ4uxgc_pW57_xeHjm6xauB3Cfx3ZY3Y-NaXO_xvL==vKcFOQ@mail.gmail.com> <CAJfpegsiA9A8tc0w4JdQ52k2qMr9UrYFF3PRsxRTd1PAfhf4Wg@mail.gmail.com>
-In-Reply-To: <CAJfpegsiA9A8tc0w4JdQ52k2qMr9UrYFF3PRsxRTd1PAfhf4Wg@mail.gmail.com>
+References: <20260604-fuse-compounds-upstream-v7-0-27331d085c2a@ddn.com>
+ <CAOQ4uxjCKFdxryKeLQw3M4C7Jn8tOQzUELqBSu8s5nOU37m4_A@mail.gmail.com> <aiKGgCRxCPOavEnu@fedora.fritz.box>
+In-Reply-To: <aiKGgCRxCPOavEnu@fedora.fritz.box>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 5 Jun 2026 11:06:29 +0200
-X-Gm-Features: AVVi8CcdRAlIiPloYzw5RSnvG9yZHwiE-X4GIMxl7DFYongGg09g6ymP-gt1ahg
-Message-ID: <CAOQ4uxgQUvpp816ZNX5YZXm9pAzn5DyAwxX4npTfis=0FZOLKA@mail.gmail.com>
-Subject: Re: [PATCH] famfs: FUSE_FAMFS_EXT_INTERLEAVE -> FUSE_DEV_IOC_STRIPE_OPEN
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <jgroves@micron.com>, 
-	"Darrick J . Wong" <djwong@kernel.org>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
+Date: Fri, 5 Jun 2026 11:15:03 +0200
+X-Gm-Features: AVVi8CeeG1SZ2Ns7DtYPUM6e7gOve2vABpqf03a2DD4sg_erWFtDS5npjd_LLhU
+Message-ID: <CAOQ4uxgee3qqYveSP+iu9pWPqCekgzkkj-V7r0Z83CKvdtqLnA@mail.gmail.com>
+Subject: Re: Re: [PATCH v7 0/4] fuse: compound commands
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bschubert@ddn.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Luis Henriques <luis@igalia.com>, linux-kernel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	Horst Birthelmer <hbirthelmer@ddn.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 4, 2026 at 4:09=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> w=
-rote:
+On Fri, Jun 5, 2026 at 10:49=E2=80=AFAM Horst Birthelmer <horst@birthelmer.=
+de> wrote:
 >
-> On Thu, 4 Jun 2026 at 09:39, Amir Goldstein <amir73il@gmail.com> wrote:
+> On Fri, Jun 05, 2026 at 10:12:59AM +0200, Amir Goldstein wrote:
+> > On Thu, Jun 4, 2026 at 11:51=E2=80=AFAM Horst Birthelmer <horst@birthel=
+mer.com> wrote:
+> > >
+> > > This series adds a single new opcode, FUSE_COMPOUND, that bundles a
+> > > sequence of subrequests into one round trip.  The wire format is
+> > >
+> > >     fuse_in_header (opcode FUSE_COMPOUND)
+> > >     fuse_compound_in
+> > >       fuse_compound_req_in
+> > >       fuse_in_header
+> > >       payload
+> > >       ... (repeated per subop)
+> > >
+> > > Compound is opt-in per connection and discovered by trial: the kernel
+> > > assumes support and clears its flag on the first -ENOSYS reply.
+> > > -EOPNOTSUPP declines a specific combination without disabling the
+> > > feature.  In both cases the kernel replays the subops individually
+> > > via fuse_simple_request(), so callers never need a separate
+> > > non-compound code path.
+> > >
+> > > The series ships two consumers:
+> > >
+> > >   - open + getattr, used when fuse_file_open() needs both ff->fh and
+> > >     fresh attrs (O_APPEND, or cached attrs already stale).  This
+> > >     closes the open-then-stat race described in [1].
+> > >   - dentry revalidate, fusing LOOKUP + GETATTR when both the entry
+> > >     and the attribute caches are stale.
+> >
+> > I am not sure if the intention for fusex is to carry over or phase out =
+GETATTR
+> > in favor of STATX, but apart of the strategic question whether FUSE_COM=
+POUND
+> > should or should not be added to current FUSE protocol, we need to answ=
+er the
+> > more concrete question:
+> >
+> > Is FUSE_COMPOUND intended to improve existing unmodified servers
+> > which link with newer libfuse and run on a newer kernel?
+> >
+> > If not, then maybe we should start with OPEN/LOOKUP + STATX
+> > from the start.
 >
-> > struct fuse_backing_map {
-> >         int32_t         fd;
-> >         uint32_t        flags;
-> >         int32_t          id;
-> >         uint32_t        ops_mask;
-> > };
+> To your first question about phase out of GETATTR, I don't think so,
+> since fusex will use the same opcodes, so it will be there and we will
+> have to fall back IMHO.
 >
-> Or make backing ID 64 bit (same as node ID, can cast from/to pointer)
-> and ops_mask be part of flags?
+> I have told this to a couple of people I have talked to about fusex
+> I would actually favor to negotiate supported opcodes and features in fus=
+ex
+> and adjust and overwrite the write operations accordingly. This of course=
+ is
+> miles away from the current state.
+>
+> I don't think compounds will do anything for fuse servers that do not sup=
+port it
+> and that don't have special cases that could be made faster when basicall=
+y knowing
+> on a semantical level what the kernel actually wants (this is like some s=
+ort of
+> lookahead in fuse requests. If you are in fuse_atomic_open() the LOOKUP y=
+ou are
+> sending is most likely followed by the CREATE right down below ... but th=
+e fuse
+> server cannot know that unless the kernel tells it)
+>
+> It could have been when the compound handling of not supported operations=
+ would
+> have been in libfuse (which theoretically it still is), then you will sav=
+e
+> user/kernel space switches, but when the kernel has to step in to do the =
+'legacy'
+> calls you actually will lose that intial try, where the fuse server tells=
+ you
+> ENOSYS or EOPNOTSUP.
+>
+> So when linked with a not yet existing new libfuse, we could get faster d=
+ue to the
+> lesser switches to user space. Do you think that answers your initial que=
+stion?
+>
+> I actually have an implementation of the atomic open (this is counter pro=
+ductive
+> for upstream, but I'm using it here as a concrete example to calrify the =
+more general
+> point) and since our fuse server can do the atomic open  way more efficie=
+ntly
+> (everybody knows by now that distributed locks cost you performance)
+> I get 15%-20% more performance on metadataa tests.
+>
+> The definitve answer here is probably somewhere around 'your milage may v=
+ary'.
+> I'm really interested in further discussion about this ... and your opini=
+on here.
+> Would you want to use compounds for some case?
 
-Feels wrong to mix them. I would rather extend fuse_backing_map for
-ops_mask in that case.
+No, I do not have any use cases for compounds that I am aware of.
 
-But note that if we support 64bit ids, we could not use the idr map
-and fuse_open_out and FUSE_DEV_IOC_BACKING_CLOSE
-would be incompatible with this id, so do we really need this widening?
+Compounds of READDIR+STATX was discussed as an technical alternative
+to READDIRPLUS2 which would need to return backing_ids, but I am still
+if this direction is worth pursuing.
 
-I agree that it would have been useful to map a backing file directly to
-an inode on lookup, without having to go through a backing_id mapping,
-sort of a compound LOOKUP+STATX+GET_BACKING
-but there is this security risk of writing an fd using write() syscall.
+>
+> BTW, OPEN+GETATTR is a special case of OPEN+STATX, isn't it?
+>
 
-This risk is not relevant in io_uring AFAIK, so with io_uring we could
-map backing files without a temp id unless the same backing file needs
-to be shared among different inodes or referenced from backing stripes.
-
-Anyway, if you think we should reserve the place for 64bit id just for
-extendability I have no problems with that.
+Yes, I was asking whether FUSE_STATX is expected to supersede
+FUSE_GETATTR in fusex. I don't know that answer.
 
 Thanks,
 Amir.
