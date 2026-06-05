@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186A736F918
-	for <fuse-devel@lists.linux.dev>; Fri,  5 Jun 2026 22:13:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187B53B71B3
+	for <fuse-devel@lists.linux.dev>; Fri,  5 Jun 2026 22:13:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780697602; cv=none; b=TVe1d8dd4riFLzCQpqG1v16L1f7uZYnUMxC7fFEmi2eCx1at/uI/x5/NVQiLSxRZFAcSsv1oBmYU7LTjvC++y0gx1mLxUlS/kd/tcnTzkccZLRiMgiYCDgz4cstx0qbtyUcHzFE3iw/1X+yY39KkN/JBVcxPxMzMhq06t27YE4Q=
+	t=1780697602; cv=none; b=Amet7/f2NvEQ8ANSW6RvyPdLA+GRN8j3gGN8cMFmtmTWEDQdUoStsxD1VOCZUhblcLuzM4mLdeA+QuA2SAdF0kmEVyqWIDkqyKWuJcjjMwrSB1WRQZvVptl/B4FCAKej72uyHDKq4Wul4ko0ugXsiTDYMwtLyrvfQK0A9EZK+jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780697602; c=relaxed/simple;
-	bh=J6KptcaQBq4KPovDIcfaQ+JmIINLYYuyLx6GdCcTrrI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GT3yLgyTI9WdL4cvMPKTvkTcd+9dO2ESA5lQpYh+ZVOv2Eg8lBFVQi0zSgBoS70xnSSqjan61IMzyEAJ9gFnbv6/+l9g0YMx3eFV5UFDunkghKJiEPcqG7Z2RWkASv2t5HVi0+UBrHSgzUuXaYqNi0SF9y7wV5oUZCAJOgM38FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UCJtA9Fi; arc=none smtp.client-ip=10.30.226.201
+	bh=zzcjR3tdjVAc0vSCUYm4sf9kV9JI7lchlMuMEr7MUhQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q3xEe36OzKCK5YABU6TglMhANfDgURm1jz/VFn1fjQBc7JRR0xnXXaK+XWdrFgCsWq+szxK+oxMbtUEaiCqGItYvExpmpV/06Whb5WHUnTn4ho7WXAkR4fKuzUEv1Ma7HXJ0KrSj4/IqhZFUcwo1En9Jo82U9KdG8mmXaRn4wrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edsypr5n; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UCJtA9Fi"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DBA2AC2BCF4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edsypr5n"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8D6EC2BCB4;
 	Fri,  5 Jun 2026 22:13:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780697601;
-	bh=J6KptcaQBq4KPovDIcfaQ+JmIINLYYuyLx6GdCcTrrI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=UCJtA9FivhKJdzRnMmu1UoB11LVznaqqg93bn4J4+P3yHC9ibCjBS72dLO46y6o4q
-	 FEWu5Q+RcfG1TRN464GNBEOtet0cJDzMYl2tP52jj3B5tlnmtnvYHY4bEkmPl4TeH9
-	 f49BRQxKSXykfPPGFSKwu5k7FbI9SagomBCB3d3lo5e2itYRmfEdTFUAzPwbmNG93x
-	 Cy7hMcSqmq3RHskFw32Lltc0xMHhgnrQmjlRrWsCHXhFu9nq0CxHPnQ0/zyyqTeVbl
-	 OEwG5OVL39HwHDkrNUCP9aIDgTnjihA9RGIRQNk3mqqQa4rJp1pWTJ2TPEU3SlPWJF
-	 i1xYtluCfLNAA==
+	bh=zzcjR3tdjVAc0vSCUYm4sf9kV9JI7lchlMuMEr7MUhQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=edsypr5neiO11EhlaW9GvXwQ75peKM/O4+moXgUncGzXPGvBKk2RV1gbI3vcyKgWs
+	 WUxPjaMNRTjQ+2XZlZoUX9TVPmIAEyZKtsuTH8djjLIGz3H1dQWqmdLTiTVK1+OSlO
+	 EIzQf03bc7Jxk0D/ju45xAmH8ev8ncT9TYQZqYV82rRvzrGt+8dsAX9SvbgqOh6A8W
+	 2avQNT/pvyPv+I7X3douuTtMOCP2YhrESYTT2way3FYXTYl31KuafuRIhiiDQQYSFh
+	 fhixxaJSI8UVXygE3Zh0Dh3ZhFVsv1iYjyPuyc4y8Hp4bcxLwOOkaz2V7y5kp7dBXq
+	 DYkoHI1zmNjAA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4099CD8C86;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CDF0CD6E7B;
 	Fri,  5 Jun 2026 22:13:21 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Sat, 06 Jun 2026 00:13:09 +0200
-Subject: [PATCH RESEND v3 4/4] fuse: clear ent->fuse_req in commit_fetch
- error path to prevent UAF
+Subject: [PATCH RESEND v3 0/4] fuse: Fix several io-uring race conditions
+Date: Sat, 06 Jun 2026 00:13:05 +0200
+Message-Id: <20260606-fuse-io-uring-race-fixes-v3-0-6fdf5e5b3437@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,23 +40,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260606-fuse-io-uring-race-fixes-v3-4-6fdf5e5b3437@bsbernd.com>
-References: <20260606-fuse-io-uring-race-fixes-v3-0-6fdf5e5b3437@bsbernd.com>
-In-Reply-To: <20260606-fuse-io-uring-race-fixes-v3-0-6fdf5e5b3437@bsbernd.com>
 To: Pavel Begunkov <asml.silence@gmail.com>, 
  Luis Henriques <luis@igalia.com>, Joanne Koong <joannelkoong@gmail.com>, 
  fuse-devel@lists.linux.dev
 Cc: Miklos Szeredi <mszeredi@redhat.com>, Berkant Koc <me@berkoc.com>, 
  Zhenghang Xiao <kipreyyy@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
- stable@kernel.org
+ stable@kernel.org, xlabai <xlabai@tencent.com>
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2222; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1630; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=tYtRrEKG1PHNzaqyDaz7VjNICWcCdHWNmTzgi1CbCj4=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLKUvRhO8VYc49dwZ9Vb4cF0eqVSuN+NHpvSasa1GSsbl
- lTPn7m4o5SFQYyDQVZMkaVLYo/tlH98smpf11+HmcPKBDKEgYtTACYisoeR4bbWB5t7yzLdJr5h
- lJ7wmb/4Yeftzrnxk4XKo3dYeYXpf2VkWHVE+LJ5g+uz2U7mUpceeseUWc3Yt29xsvZh5uuJAvs
- DGAA=
+ bh=zzcjR3tdjVAc0vSCUYm4sf9kV9JI7lchlMuMEr7MUhQ=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLKUPb+tW3dDuibgg+rBPYsuveMurakXu+uzyeL0sxynT
+ Ms/S9KEOkpZGMQ4GGTFFFm6JPbYTvnHJ6v2df11mDmsTCBDGLg4BWAi10sY/orkhT8pD70bISOv
+ LLyjymwZf22q3ueiX2qu1q5a2e3Wcxn+1+9y/Prr/kqmjn3n8gQSeY7uklzkYHc10+eIcyjftSO
+ WnAA=
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -65,62 +61,50 @@ X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
 X-Original-From: Bernd Schubert <bernd@bsbernd.com>
 Reply-To: bernd@bsbernd.com
 
-From: Zhenghang Xiao <kipreyyy@gmail.com>
+This is to fix race conditions reported by Berkant and Zhenghang.
 
-fuse_uring_commit_fetch() error path calls fuse_request_end(req) without
-clearing ent->fuse_req when fuse_ring_ent_set_commit() fails. The
-still-pending fuse_uring_send_in_task() task-work later dereferences the
-dangling pointer through fuse_uring_prepare_send(), causing a
-use-after-free.
+So far not well tested yet, update about that will follow tomorrow.
 
-Clear ent->fuse_req under queue->lock in the error path, matching the
-pattern in fuse_uring_req_end(). Add a NULL check in
-fuse_uring_send_in_task() so the entry is gracefully recycled if the
-request was detached.
+To: fuse-devel.lists.linux.dev
+To: Pavel Begunkov <asml.silence@gmail.com>
+To: Luis Henriques <luis@igalia.com>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <mszeredi@redhat.com>
+Cc: Berkant Koc <me@berkoc.com>
+Cc: Zhenghang Xiao <kipreyyy@gmail.com>
+Cc: Joanne Koong <joannelkoong@gmail.com>
 
-Annotation/edition by Bernd: The UAF should be fixed by other means already
-and actually has to be avoided that way.
-Just checking for ent->fuse_req == NULL in fuse_uring_send_in_task()
-would be prone to race conditions, because if malicious userspace
-would commit requests that have passed the NULL check, but are
-in doing args copy, it would still trigger a use-after-free.
-Setting ent->fuse_req = NULL in fuse_uring_commit_fetch() still
-makes sense, though. And an additional sanity check in
-fuse_uring_send_in_task() does not hurt either.
-
-Also reported by: Berkant Koc <me@berkoc.com>
-
-Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
-Cc: stable@kernel.org # 6.14
-Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+
+Changes in V3:
+- Just "Fixes: " and CC: stable... updates and removal of security@kernel.org
+  in favour of fuse-devel.lists.linux.dev so that it does not get lost
+
+Changes in v2:
+- fuse_uring_add_req_to_ring_ent() needs to re-initialize req->list
+  after moving fuse_uring_add_to_pq() from fuse_uring_add_req_to_ring_ent
+  to fuse_uring_send in orer to avoid handling fuse requests
+  multiple times (Joanne).
+
 ---
- fs/fuse/dev_uring.c | 3 +++
- 1 file changed, 3 insertions(+)
+Bernd Schubert (3):
+      fuse: Avoid use-after-free in fuse_uring_async_stop_queues
+      fuse: Avoid queue->stopped races and set/read that value under lock
+      fuse: {io-uring} Make a fuse_req on SQE commit only findable after memcpy
 
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 5dde86e8653b..df5103679c8e 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -935,6 +935,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
- 	if (err != 0) {
- 		pr_info_ratelimited("qid=%d commit_id %llu state %d",
- 				    queue->qid, commit_id, ent->state);
-+		ent->fuse_req = NULL;
- 		spin_unlock(&queue->lock);
- 		req->out.h.error = err;
- 		clear_bit(FR_SENT, &req->flags);
-@@ -1233,6 +1234,8 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
- 	int err;
- 
- 	if (!tw.cancel) {
-+		if (WARN_ON_ONCE(!ent->fuse_req))
-+			return;
- 		err = fuse_uring_prepare_send(ent, ent->fuse_req);
- 		if (err) {
- 			fuse_uring_next_fuse_req(ent, queue, issue_flags);
+Zhenghang Xiao (1):
+      fuse: clear ent->fuse_req in commit_fetch error path to prevent UAF
 
+ fs/fuse/dev_uring.c | 52 +++++++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 35 insertions(+), 17 deletions(-)
+---
+base-commit: 040d71ac647099f7bb5e480fcd74ba68abc3cb18
+change-id: 20260518-fuse-io-uring-race-fixes-59760420d2ae
+
+Best regards,
+--
+Bernd Schubert <bernd@bsbernd.com>
 -- 
-2.53.0
+Bernd Schubert <bernd@bsbernd.com>
 
 
