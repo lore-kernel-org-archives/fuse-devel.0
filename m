@@ -1,141 +1,146 @@
-Received: from smtp03-ext2.udag.de (smtp03-ext2.udag.de [62.146.106.30])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8108B4D8D87
-	for <fuse-devel@lists.linux.dev>; Fri,  5 Jun 2026 11:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.30
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780659112; cv=none; b=PVTzxIT4B6oixcTqCqX2I3+gh9ZfRjsIrSm5Zw3OuOIzVd0Dk/OqpNM6BYpPZHkgBQaT9rwLRDoqOZ5RFSw0NSymi3h+zBL5EdKXJ1Mcih83qOz9B0LIOPyrhCeznPp/OpTaMJH39jfsULdqjSZLdqwLo3zpgzN3e0SZHDxURhM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780659112; c=relaxed/simple;
-	bh=52cOt3lCMLPqkOKr0GVwpxlBpKZ0bwzcf7TIJR6ud2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QJZz11NJ5f7qfMP7PQ50FQcjwlfVl+JnNco5tg7WLQPfjFBJe56AkNkM6SK6nxjqEzZnGhN1vZWzW5a5iK6IVI3txgupI4VpJTTNvD9lthHffS4Pd3TPQkJdAqFrAC/l8giCDqjeSUZO1TIV80zFyW48EK0YOZkfY5tk8AQryH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (065-142-067-156.ip-addr.inexio.net [156.67.142.65])
-	by smtp03-ext2.udag.de (Postfix) with ESMTPA id E836DE042E;
-	Fri,  5 Jun 2026 13:26:13 +0200 (CEST)
-Authentication-Results: smtp03-ext2.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Fri, 5 Jun 2026 13:26:12 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Amir Goldstein <amir73il@gmail.com>, 
-	Horst Birthelmer <horst@birthelmer.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Bernd Schubert <bschubert@ddn.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Luis Henriques <luis@igalia.com>, linux-kernel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Horst Birthelmer <hbirthelmer@ddn.com>
-Subject: Re: Re: [PATCH v7 0/4] fuse: compound commands
-Message-ID: <aiKyBRwlJyW2jq4e@fedora.fritz.box>
-References: <20260604-fuse-compounds-upstream-v7-0-27331d085c2a@ddn.com>
- <CAOQ4uxjCKFdxryKeLQw3M4C7Jn8tOQzUELqBSu8s5nOU37m4_A@mail.gmail.com>
- <aiKGgCRxCPOavEnu@fedora.fritz.box>
- <a02168ea-549d-4683-8565-08a39b64eb7f@bsbernd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A94C3314B9
+	for <fuse-devel@lists.linux.dev>; Fri,  5 Jun 2026 12:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780664212; cv=pass; b=oGzH9nJZCSHwS/ioj4ia26G9TjN5OxHt/yHh4NuJMfSXVy2UECcCDLkwCDiwshHECvOtBX1FV97Vmm08ImN1rUE3JwzRQ42PEoXPpnPziXOn6hXHUqXaxP9XXxIPK70YUHeNQzXfNhl2rXHqtPGK9G6W/VNKFxGKduckfGTmx/M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780664212; c=relaxed/simple;
+	bh=rsXLmPn0bzqQ+E3dJfcvgQPBjvd6GQoy+sI3S2Aixnw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kgWkcS8JUlTdi10U6wSoO4zN2vKx4NGD/A+/36LCGN/wV15oVscE7fo0CxGpYkaGgO6HdPhO/ZW1D5T6sENwJUFN+zYCfuHpAcAPZZQE202seg+Y5JKzS1UGa2D+06W2tJUnq5YXwAKwR3FjiojXNd1qc0zkhVZrqameAJTxN7o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=H6bwU9q6; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="H6bwU9q6"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5174a3d9598so16928961cf.3
+        for <fuse-devel@lists.linux.dev>; Fri, 05 Jun 2026 05:56:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780664210; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KU5WhQLHgPY2hfNvfMIVoNLPTYWo9KdLCDNdNFtixsw5ctTh6ud8H9Bz6SorksyK6T
+         ExBYRmJeDIglqM5JVrvG5p/KTKYZPjnVu4LjUG+WVlq9uBuTpf5X3pAKLoL7jLYQF+2h
+         ivZwxL9kEPqkgEzj8LzS1I3IYz9jTHZ6JG/849fzlvycBllgNMMLXzXIcSQzOR51fTzn
+         VbK9I4Z6v5Ye8Zk9vy5T42LK6ojyG3ZYiTKwjxboF089oAwzBGSIdVguWV/QGWH+UHT1
+         7sId4hFrhgcHLmX6bWjKmIsL/SM4Y1BLLPF5mCfBTz0NBCuTP1oRIbkMtkKiNF8N8825
+         n7Fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rsXLmPn0bzqQ+E3dJfcvgQPBjvd6GQoy+sI3S2Aixnw=;
+        fh=tNDEahxcYkKXc2HG938dknnJgaoMvcFuM4PHq3PNWbI=;
+        b=UgkdeJGAf1JJfHXAmmguG/Sbnw7SZraQy3EPznSo9Dtc38ygFHRFd3WVBEdwisHXPK
+         wzfYTCRxx8FMZB5fYQhQT5gMVSYHlRMbWyLTpf4coePWkegpuaK/Q4BKtUMVQdHtkqmE
+         B/cSokg6zsPUWOHvT7JXIB6AaMYgiBbn+QzVXfFFCJ2lZo9nIT7RKM4hc9IbsCbpRQrE
+         dSKUEySD3ND57XWJF7Tzihzir6JVtcyT03ffkAwnV69Y3zGPhMQUCA3ERR0eTlCPCypX
+         u8cqh4cMkZS6T9J9cMGDv1Rvak8LL+qzmo/l8r4u0NRHR5Vm/lw0TOQNVhIBWYBmQC0h
+         W0PA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1780664210; x=1781269010; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rsXLmPn0bzqQ+E3dJfcvgQPBjvd6GQoy+sI3S2Aixnw=;
+        b=H6bwU9q6WbiITu/0YdBT5PE9TG64xR/WDRlQDuhTPJSObgiMPjp+6ugmFkZ9EKv9ms
+         HXRnGLTjQW3WSBwvum/sjIxIDl9DR2w7TQepKmPZUM+6OO48c9CU/8Z/6ESfFsV3E76R
+         ZMk4062NKhnMQZlwc6qdDFaQlR1SWjLXQLOCA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780664210; x=1781269010;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rsXLmPn0bzqQ+E3dJfcvgQPBjvd6GQoy+sI3S2Aixnw=;
+        b=mPRyF98D+6O6HJK2Dq8SKSOau+b0jgMPkK1JG0gTRXKmWzNJZZhqfLzz2yuTb+uKF9
+         bWpUvCtW0kiM3qeNlkghlfuwE22xX+leqXck0pI0EfA7HQvnYITOyyl4QbaFdmpoNVDn
+         o8p+IrVVAPZIARs2m408Q4zHNhRjZvlJtvhtspipVF2eSGBfY+x4DH6G9j9s2iXlerQP
+         CdiX2zwFo5FlX2lcNLyFPjGMuNkFSdIcWu4z3MmFf6fpKuCvriQpS6DsOCogiHsRXnPJ
+         wBwrj1VpDWPkaSsuWtB4ZQoJAHPSLCf9t4HtP3PT5ZrRW2s5pHwaeMerrM2Y9sbi1hpR
+         RsOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+HXnvnAHNOd2/pVI0RvBZAe+tvC9OhpIJnN3KCnpgg463/tnxwt8paLM7FPeAl1luLfTjGLzUS4W5V@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNbCN6A0rsPH4fxHqbTHnyNh7UFjpCTPzf/oPT+TL8eAXjxMeM
+	ydPNv08InfKJe0tT59T4bKvR2OSe2irkmZXay4E3lcO9ilh9vCAK5gvIdX/nZdVJ4FCjjNZalfs
+	vUrlgIAH5mQEKb18/422Xbva//kmF/gBz8JPTw1eRWg==
+X-Gm-Gg: Acq92OEGg8pt2HbiH40LPjGoaqse74C7BQo4QARNxC670ziwvPcvhYEJ/mETcpgSlHa
+	wOe2/8qxhqujUqFX5tSIhN4lO30+9Ng7Lfatl+E/tK1nRn5JOBgB81R0iq3TIjOVzB7ysPtEPkb
+	r/cyIJEDb/SVIgebp8+CuDygC/8ciSlueCNc1UtzO/yPrKHEWqCa3LrpCNYADiZ6pKOXCCyreBV
+	21SlOTgKcdGOcb7btlJrnfnilJeUWStGmvesb7e3bJryKxIelUI893aundwc76AMRT+3wEhi8t0
+	jbFqr7pJpD9gWxLWWNCvcj1b3Xr5S50FnmPyVS/8aEOYxew=
+X-Received: by 2002:a05:622a:620a:b0:517:7406:ccf7 with SMTP id
+ d75a77b69052e-51795b6864bmr45976731cf.49.1780664210438; Fri, 05 Jun 2026
+ 05:56:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a02168ea-549d-4683-8565-08a39b64eb7f@bsbernd.com>
+References: <20260601152327.2069787-1-mszeredi@redhat.com> <CAOQ4uxjFg4rjwGjU2LvZT6AhC+gBk_6Ej5S4p4DKuk8=a71cRw@mail.gmail.com>
+ <CAJfpegt5Q0nmK0JKAfa4Bp_SydR1qiqu7pB0JKkXSCFOYSVDDA@mail.gmail.com>
+ <CAOQ4uxgc_pW57_xeHjm6xauB3Cfx3ZY3Y-NaXO_xvL==vKcFOQ@mail.gmail.com>
+ <CAJfpegsiA9A8tc0w4JdQ52k2qMr9UrYFF3PRsxRTd1PAfhf4Wg@mail.gmail.com> <CAOQ4uxgQUvpp816ZNX5YZXm9pAzn5DyAwxX4npTfis=0FZOLKA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxgQUvpp816ZNX5YZXm9pAzn5DyAwxX4npTfis=0FZOLKA@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 5 Jun 2026 14:56:39 +0200
+X-Gm-Features: AVHnY4JSw5QR_037DA-qDPTE8i1Jc4sk6y-PRRmXUo5gdeoS3PcX002rjYw2wFE
+Message-ID: <CAJfpegve9GMTRwvoA5y7AzUSD4e_EDJFzsqhCVN8xQ+RjQ=+Sw@mail.gmail.com>
+Subject: Re: [PATCH] famfs: FUSE_FAMFS_EXT_INTERLEAVE -> FUSE_DEV_IOC_STRIPE_OPEN
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <jgroves@micron.com>, 
+	"Darrick J . Wong" <djwong@kernel.org>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 05, 2026 at 12:49:55PM +0200, Bernd Schubert wrote:
-> On 6/5/26 10:49, Horst Birthelmer wrote:
-> > On Fri, Jun 05, 2026 at 10:12:59AM +0200, Amir Goldstein wrote:
-> >> On Thu, Jun 4, 2026 at 11:51 AM Horst Birthelmer <horst@birthelmer.com> wrote:
-> >>>
-> >>> This series adds a single new opcode, FUSE_COMPOUND, that bundles a
-> >>> sequence of subrequests into one round trip.  The wire format is
-> >>>
-> >>>     fuse_in_header (opcode FUSE_COMPOUND)
-> >>>     fuse_compound_in
-> >>>       fuse_compound_req_in
-> >>>       fuse_in_header
-> >>>       payload
-> >>>       ... (repeated per subop)
-> >>>
-> >>> Compound is opt-in per connection and discovered by trial: the kernel
-> >>> assumes support and clears its flag on the first -ENOSYS reply.
-> >>> -EOPNOTSUPP declines a specific combination without disabling the
-> >>> feature.  In both cases the kernel replays the subops individually
-> >>> via fuse_simple_request(), so callers never need a separate
-> >>> non-compound code path.
-> >>>
-> >>> The series ships two consumers:
-> >>>
-> >>>   - open + getattr, used when fuse_file_open() needs both ff->fh and
-> >>>     fresh attrs (O_APPEND, or cached attrs already stale).  This
-> >>>     closes the open-then-stat race described in [1].
-> >>>   - dentry revalidate, fusing LOOKUP + GETATTR when both the entry
-> >>>     and the attribute caches are stale.
-> >>
-> >> I am not sure if the intention for fusex is to carry over or phase out GETATTR
-> >> in favor of STATX, but apart of the strategic question whether FUSE_COMPOUND
-> >> should or should not be added to current FUSE protocol, we need to answer the
-> >> more concrete question:
-> >>
-> >> Is FUSE_COMPOUND intended to improve existing unmodified servers
-> >> which link with newer libfuse and run on a newer kernel?
-> >>
-> >> If not, then maybe we should start with OPEN/LOOKUP + STATX
-> >> from the start.
-> > 
-> > To your first question about phase out of GETATTR, I don't think so,
-> > since fusex will use the same opcodes, so it will be there and we will
-> > have to fall back IMHO.
-> 
-> I agree with Amir and also with recent DDN requirements for DLM - there
-> is no good reason to keep getattr. Basically for open we need to know
-> the updated file size. Depending on the backend implementation, getting
-> additionally the time stamps and other attributes _might_ be expensive.
-> And that exactly there the statx mask helps.
-> 
-> And I don't think it is related to fusex vs fuse. If libfuse or fuse
-> server do not support statx with the mask, well, then open+getattr will
-> just not supported for open+getattr - existing behavior?
-> 
-> > 
-> > I have told this to a couple of people I have talked to about fusex
-> > I would actually favor to negotiate supported opcodes and features in fusex
-> > and adjust and overwrite the write operations accordingly. This of course is
-> > miles away from the current state.
-> > 
-> > I don't think compounds will do anything for fuse servers that do not support it
-> > and that don't have special cases that could be made faster when basically knowing
-> > on a semantical level what the kernel actually wants (this is like some sort of
-> > lookahead in fuse requests. If you are in fuse_atomic_open() the LOOKUP you are
-> > sending is most likely followed by the CREATE right down below ... but the fuse
-> > server cannot know that unless the kernel tells it)
-> > 
-> > It could have been when the compound handling of not supported operations would
-> > have been in libfuse (which theoretically it still is), then you will save
-> > user/kernel space switches, but when the kernel has to step in to do the 'legacy'
-> > calls you actually will lose that intial try, where the fuse server tells you
-> > ENOSYS or EOPNOTSUP.
-> > 
-> > So when linked with a not yet existing new libfuse, we could get faster due to the
-> > lesser switches to user space. Do you think that answers your initial question?
-> > 
-> > I actually have an implementation of the atomic open (this is counter productive
-> > for upstream, but I'm using it here as a concrete example to calrify the more general
-> > point) and since our fuse server can do the atomic open  way more efficiently 
-> > (everybody knows by now that distributed locks cost you performance) 
-> > I get 15%-20% more performance on metadataa tests.
-> > 
-> > The definitve answer here is probably somewhere around 'your milage may vary'.
-> > I'm really interested in further discussion about this ... and your opinion here.
-> > Would you want to use compounds for some case?
-> > 
-> > BTW, OPEN+GETATTR is a special case of OPEN+STATX, isn't it?
-> 
-> Exactly, except that statx has a mask built in of what it needs.
+On Fri, 5 Jun 2026 at 11:06, Amir Goldstein <amir73il@gmail.com> wrote:
+>
+> On Thu, Jun 4, 2026 at 4:09=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
+ wrote:
 
-In this regard. I think we can probably make it OPEN+STATX and set the appropriate mask.
+> > Or make backing ID 64 bit (same as node ID, can cast from/to pointer)
+> > and ops_mask be part of flags?
+>
+> Feels wrong to mix them. I would rather extend fuse_backing_map for
+> ops_mask in that case.
 
-> Thanks,
-> Bernd
+Both work.
+
+> But note that if we support 64bit ids, we could not use the idr map
+
+Idr map wasn't the best fit anyway, since it works best for dense
+maps, but a 2^32 cyclic allocation could end up with a very sparse
+one.
+
+A hash map would be much better.
+
+> and fuse_open_out and FUSE_DEV_IOC_BACKING_CLOSE
+> would be incompatible with this id, so do we really need this widening?
+
+Argh...
+
+>
+> I agree that it would have been useful to map a backing file directly to
+> an inode on lookup, without having to go through a backing_id mapping,
+> sort of a compound LOOKUP+STATX+GET_BACKING
+> but there is this security risk of writing an fd using write() syscall.
+>
+> This risk is not relevant in io_uring AFAIK, so with io_uring we could
+> map backing files without a temp id unless the same backing file needs
+> to be shared among different inodes or referenced from backing stripes.
+
+Yeah, we could allow using fd in place of a backing id in io_uring.
+
+Someone was complaining about extra syscall overhead with the current
+scheme, so it's probably a good idea.
+
+> Anyway, if you think we should reserve the place for 64bit id just for
+> extendability I have no problems with that.
+
+I think we should bite the bullet now instead of having to modify the
+interface yet again sometime in the future.
+
+Thanks,
+Miklos
