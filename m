@@ -1,157 +1,128 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556AC4071DD
-	for <fuse-devel@lists.linux.dev>; Fri,  5 Jun 2026 23:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780703693; cv=pass; b=JgOt/efMsnZJaAmyHKIIhzF0n9VL3diRSM/GNbwcm7eZlDu7sZfdOjDztKOStP/ywlRhS7H1zrJVTVVRjLRGGxubhb9CRr3GV5zRzEtYCEKg80FBbJIROOIh0AUwKZTr9xowz025bGWcwntkNGv0OTl/0JKy8dM168bgm44LsG4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780703693; c=relaxed/simple;
-	bh=8eyNbT/xjIi783GCA4LqpiZnMosEaANaWRcuohB7fA0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UeTiGSY9awl6Ri8BVi8uyIE5IPmTa0K/xY2xgbYWbksIadpKJ3XYwi16xc8llicYnsfrh9JX6B5vY0jQ8RFTUUg1YEqfIwqQcwmqq0DYApRGh1/koltz4VlH8Njox1fTU3KAaUuGIeX3fBaQFQse1xlQvtZFmSLfN/z8hiwGEI4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ay5d4awR; arc=pass smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC8878F39;
+	Sat,  6 Jun 2026 04:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780719480; cv=none; b=qlyX2GOeFxzMgU3lW/YdMhajsb2h9IMuYEGF4OoAWrtXdumz9A2jcuO1T6L2+UB/gVj0l+zabT9Qj+n9IaJzdrlWpfV4XrYmLE7nEPE5xuPAkBLoW/wssGlZnmoEFKJKRkI1buEmDt5e6UsMLzTOsL+V/vb7lahNvN4vztGM1HY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780719480; c=relaxed/simple;
+	bh=XDLGXsCF2qkos5D4rVI5/mAGTKp9El+MAmY1Ldecn9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jf0DK8XliHfycuWze4PwauiszNYtOuw3df0aglUHesNqoWCFebZy0UIc4YPpBtNtnX4PoH1xkS2tGNfXtN2ZtpzoLGh7EgS/7icH2cIFvwaECnWj+nUukw4a9GxOCi6oX5oR7R/j/tOWYjXWNK75T+CodMePfvW2O59mjjxP5do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y1HJoEPB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ay5d4awR"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490b613a17bso23735315e9.3
-        for <fuse-devel@lists.linux.dev>; Fri, 05 Jun 2026 16:54:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780703691; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YTqmLdpDTrka1Xx0mxBGAUfNKrjA7Z+mi8GTNdAMbIOunscaumluUQLKRgrx8oJMub
-         2Qp5F1oARmi1qJcsjp48CJpVFTiSYZUf83Ox6mXerEVhyV+2cdP/CarxuZkdZWIGze7t
-         ffh4SaPABQsh3XgMGIGQV/MMpkKNrkByI0qTcQ/4EcfXpuZ6hyQ1Wi0JB4SCbMiCZaNw
-         JqXbME1oWT720JmuzEKpi4UJ8f1BT+xCnGdUU5vtU/uQRRUDw3dXuIRww9IdYNeK6i9B
-         Bkfv4I9Q0NDaR/r40xYRgYBBTFq9XjNNv85zSRtnyBGZoDOoeVXzP/QF9K5Ycx3C1Fm2
-         06gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QCKTB9eiQHhf3+5KhIRHF9+wrSCeXtJWVtvMG4iRxsU=;
-        fh=jww5WMZYYrasZ5KBW1MLvN3fDqUjBJX6h1JP5/LJln0=;
-        b=kwfdmDrVzen97zz32f4Yqkz7cCxepmsy+FE4JRZzSvOmleR+G/iZWu/kj1wh0wXK/y
-         ejl4t3/LA/4fQ1jQWIrte/uApRdaod9WHY8eiFuIiRorjpZtGGokY+eixMSscqgsxS+u
-         l249Z5l/7mtrMNXEGQBjkeNztcWvvhGH94AYB6glY12xI0rHZmeJGHelrJ/QpLGj8Mo+
-         p+9k+hJiLgM68LqSwD4uahXyWTIy3ju12fEiNzKSOUpoF79MahTFfXgINy9XwEARcGFj
-         iJdfk5C16TaRSF6ffD+TJYHUt1hCHdIbeeNExs2xs55WsxCinmVAqoFsviPpuAFT+nhR
-         vL8g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780703691; x=1781308491; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QCKTB9eiQHhf3+5KhIRHF9+wrSCeXtJWVtvMG4iRxsU=;
-        b=Ay5d4awRqkFBS/MVQGLhZ94CiOcY5NaNMne4BYV9cOU/nV+S7Dx2Lp0oWx/l69R1ZJ
-         1r+ABW1ncNNFAbwOShfMF3XduOJnVofebF0QCEZznZVAjt7Gg855PlIDlGXdhxOP0fOR
-         UFV+QvmwCBVkosdChIljskxbV2UNzmgZGi7djXjX+WcRtht2OwuoSAppARYcoy8Is5Te
-         w4T6hS6QXTXJvOuYCcGmordbKriDq/twLGuUzKlpVWiW4oGrVOQevQdMXJfZYftIM2eT
-         RK/E7ckX9ZmHhp/N8sZ3mzYqpLGxVX3vlx5b0wnN1xEdCTOGR2j453dChH2/m9Ywy3mu
-         PojQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780703691; x=1781308491;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QCKTB9eiQHhf3+5KhIRHF9+wrSCeXtJWVtvMG4iRxsU=;
-        b=iTm56h+6XddZzTyriTEV92pYIRMpj+3S+P/l+gN3NOGsHoYPoMm2UnNK+EpoakM5uS
-         DKKnwXwZi+cAf5C5OoEYMLc8Kc7+b9wFOu2S9Zj33WFyyGlkXEBCwBidJMQe36o0IuGR
-         gooYlIKu2Q+d9V0BaHxT077Yu9ToDLam3lrTrtOTX8AAcBizBOxzdzBmJyWtfkc3W/RY
-         OpUvhI4t6HO8Fyb3K/LGkCmN1jGzFqTimrivDhNJXcwUug0rzqOSsA939xX7rmrE+JE5
-         w6ePK1xUWM0+qk9NDLNSULuA3wLFBIzdA2K7GOBHb33MsN3iSc6CVPiusWHiB7I79M6Z
-         XKVA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Lbc9+kYX9YW9PHFTyU4ktw4ZcXc10CfsVmi8JI6kurslp/tkbb2tzjVXtucc43mS5CRNX1XVzuQ2C@lists.linux.dev
-X-Gm-Message-State: AOJu0YxETM6Ux8wrGOCT4yKo2QdfiClYf/o8ozbHSEy8emQfJRhQRJKJ
-	W//jgL0aIN4aDnUcrjcF+CemCoxjVvNNKZoOFLIONx3+HVPJyqYRkzwsgOiP9jXuHXsXKhGZjtg
-	n6slB/bX1Zpakpj0fhcI64uVS+KhLqOQ=
-X-Gm-Gg: Acq92OExKjjlMjqmyPnSqxH8anm5RP44TD/2WrvbcM4q2iPnOQGWeGUYt+yuJfyBzj0
-	GvNVGBbC8JIR7I7adoNsbTXDcrzrodpBNTaez4VnJek0DPe4feX14nLC6g4ptt4tAKT3Cxlbg0g
-	fwvOCFGnNJk+0zrHxWRx40N4arnr9769Ds9+eaTrzW/R5VP0EkG3wBkQ1kqMQOOWtv7ATCvjakF
-	36o8YKug1+sIphbNUm5lE5et7/Yfs+eAubjP4AWKtmoKmaNSj8+b98CYuZ/AZslqNgLlR1I6azn
-	T9JPHnXmJZg+vAsd
-X-Received: by 2002:a05:600c:4e43:b0:490:b9c3:6c69 with SMTP id
- 5b1f17b1804b1-490c2622cf7mr95620165e9.30.1780703690614; Fri, 05 Jun 2026
- 16:54:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y1HJoEPB"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5630C1F00893;
+	Sat,  6 Jun 2026 04:17:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780719479;
+	bh=kjUNKYpq5pjXLHnVC3ZiQ8Fa37UTFYL+RiCkut7PVYQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y1HJoEPBpbUwCAV6+RrWqcoJda1TX0xm0y4FXfNTNyh0bEitF/HRhDz0p+iV72TWN
+	 aFPOi5txqrjE700HRJItDvcl7Wjklj4D/M5ZJjJGl+G0jSUtgyxduR6jkrxVZPRKJu
+	 Zph8vsWittgRkGGAdGeiUPqlTp9lmmX8XbeL6APtOIfCUwFXsfnKTmtM4f856nH2i+
+	 xZHy9dXdrtpxdcaynCzp/2iCRzLDct3LvN9aPkWZHNMx0tZnkXy/IsET9By0tL2sLF
+	 PkXcd585XGI5eu2yogPDHeAnzK1f0vPalB9xd1OWdFv9oCNOBd5E4PDZ+h07/imDZC
+	 3oynQoy5X5OEw==
+Date: Fri, 5 Jun 2026 21:17:58 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev,
+	bernd@bsbernd.com, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 9/9] fuse: set iomap backing device block size
+Message-ID: <20260606041758.GH6095@frogsfrogsfrogs>
+References: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
+ <177922946372.2439242.13829037107289830266.stgit@frogsfrogsfrogs>
+ <CAJnrk1ZQbvCL=ok4WHBn0gC+=k88Cejts_-_DP3epa51Wz5+5g@mail.gmail.com>
+ <20260605000134.GJ6070@frogsfrogsfrogs>
+ <CAJnrk1Zig5+97Qs3JiaSgLE1KJMn-mgXSFUcxM9-kv6xvpfBHA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260606-fuse-io-uring-race-fixes-v3-0-6fdf5e5b3437@bsbernd.com> <20260606-fuse-io-uring-race-fixes-v3-1-6fdf5e5b3437@bsbernd.com>
-In-Reply-To: <20260606-fuse-io-uring-race-fixes-v3-1-6fdf5e5b3437@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 5 Jun 2026 16:54:38 -0700
-X-Gm-Features: AVVi8CdcPpFq7P9Lks5_Z4D-xaUM2uZo80ytNxW6s8yPy0MdxGsHNnlJgZpIJYY
-Message-ID: <CAJnrk1ZutjtD4bZOnLBfSWjNgirhMwikh0hpAhwGzv-Qz_1nbA@mail.gmail.com>
-Subject: Re: [PATCH RESEND v3 1/4] fuse: Avoid use-after-free in fuse_uring_async_stop_queues
-To: bernd@bsbernd.com
-Cc: Pavel Begunkov <asml.silence@gmail.com>, Luis Henriques <luis@igalia.com>, fuse-devel@lists.linux.dev, 
-	Miklos Szeredi <mszeredi@redhat.com>, Berkant Koc <me@berkoc.com>, Zhenghang Xiao <kipreyyy@gmail.com>, 
-	stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Zig5+97Qs3JiaSgLE1KJMn-mgXSFUcxM9-kv6xvpfBHA@mail.gmail.com>
 
-On Fri, Jun 5, 2026 at 3:13=E2=80=AFPM Bernd Schubert via B4 Relay
-<devnull+bernd.bsbernd.com@kernel.org> wrote:
->
-> From: Bernd Schubert <bernd@bsbernd.com>
->
-> fuse_uring_async_stop_queues() might run when the last reference
-> on ring->queue_refs was already dropped.
->
-> In order to avoid an early destruction a reference on struct fuse_conn
-> is now taken before starting fuse_uring_async_stop_queues() and that
-> reference is only released when that delayed work queue terminates.
->
-> Fixes: 4a9bfb9b6850 ("fuse: {io-uring} Handle teardown of ring entries")
-> Cc: stable@kernel.org # 6.14
-> Reported-by: Berkant Koc <me@berkoc.com>
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-> ---
->  fs/fuse/dev_uring.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index e467b23e6895..c96d72250830 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -465,7 +465,10 @@ static void fuse_uring_async_stop_queues(struct work=
-_struct *work)
->                 schedule_delayed_work(&ring->async_teardown_work,
->                                       FUSE_URING_TEARDOWN_INTERVAL);
->         } else {
-> +               struct fuse_chan *chan =3D ring->chan;
-> +
->                 wake_up_all(&ring->stop_waitq);
-> +               fuse_conn_put(chan->conn);
+On Fri, Jun 05, 2026 at 10:41:48AM -0700, Joanne Koong wrote:
+> On Thu, Jun 4, 2026 at 5:01 PM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Fri, May 22, 2026 at 06:06:15PM -0700, Joanne Koong wrote:
+> > > On Tue, May 19, 2026 at 3:33 PM Darrick J. Wong <djwong@kernel.org> wrote:
+> > > >
+> > > > From: Darrick J. Wong <djwong@kernel.org>
+> > > >
+> > > > Add a new ioctl so that an unprivileged fuse server can set the block
+> > > > size of a bdev that's opened for iomap usage.
+> > >
+> > > If I'm understanding it correctly, doesn't the fs/iomap layer align
+> > > all i/o to the fuse file inode->i_blkbits and submits bios to the
+> > > underlying iomap->bdev without ever reading the bdev's
+> > > inode->i_blkbits? Why do we need this fuse ioctl then for setting the
+> > > block size of a bdev?
+> >
+> > It's not for the regular file IO, it's for the blockdev pagecache that
+> > sits in front of filesystem metadata IO.  Block devices do writeback of
+> > their pagecache in units of buffer heads, which is a problem if the
+> > buffer head size is not aligned to the fsblock size.
+> >
+> > Basically, imagine a 1k-fsblock filesystem with 4k pages.  Let us
+> > further assume that block 0 is a superblock, and block 1 is the only
+> > file data in the whole filesystem.
+> >
+> > If the BLKBSZGET size is also 4k, then dirtying the superblock now means
+> > that the bdev pagecache will think that the whole 4k is dirty, because
+> > there's only one bh for the whole 4k.
+> >
+> > Now let's say iomap writes to the sole file data block.  The ondisk data
+> > is newer than the bdev pagecache.  Next, the fuse server initiates
+> > writeout of the dirty bdev pagecache.  It writes the whole page out to
+> > disk, which means the ondisk super is newest, but the file data block
+> > has just been clobbered by stale bdev pagecache!
+> >
+> > Ouch.
+> >
+> > So if we can set the bh size to 1k, we avoid the clobbering.
+> 
+> Thanks for the explanation.
+> 
+> From what I remember, fuseblk servers can pass in a size at mount time
+> for what the kernel should use for filesystem inode i_blkbits size.
+> imo it seems like the responsibility of the fuse server to make sure
+> to pass in a value that matches the buffer head size of the block
+> device it's using, or does this not suffice for what you need?
 
-nit: I think this would be cleaner to just have this be
-ring->chan->conn instead of defining fuse_chan separately.
+Correct, but fuseblk only works with a single block device, whereas you
+can open multiple block devices, register them as iomap backing files,
+and use all of them with files.  You might have sufficient privilege to
+open the bdev O_EXCL, but not necessarily CAP_SYS_ADMIN to change the
+blocksize.
 
->         }
->  }
->
-> @@ -477,6 +480,9 @@ void fuse_uring_stop_queues(struct fuse_ring *ring)
->         fuse_uring_teardown_all_queues(ring);
->
->         if (atomic_read(&ring->queue_refs) > 0) {
-> +               struct fuse_chan *chan =3D ring->chan;
-> +
-> +               fuse_conn_get(chan->conn);
+--D
 
-same here.
-
->                 ring->teardown_time =3D jiffies;
->                 INIT_DELAYED_WORK(&ring->async_teardown_work,
->                                   fuse_uring_async_stop_queues);
->
-
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> --
-> 2.53.0
->
->
+> Thanks,
+> Joanne
+> 
+> >
+> > > It seems like this ioctl is re-implementing the BLKBSZSET ioctl but
+> > > bypasses the cap sys admin privilege checking that the BLKBSZSET ioctl
+> > > requires, which seems like a security violation. Am I understanding
+> > > this correctly?
+> >
+> > It is, but the assumption was that you'd only get fuse-iomap if you
+> > already had CAP_SYS_RAWIO, so you have to have some privilege.  But I
+> > concede that RAWIO != ADMIN.  This might be unnecessary now that fuse
+> > service containers can ask the mount helper to open a bdev in O_EXCL
+> > mode and set a particular blocksize.
+> >
+> > Though note the weird thing -- a sysadmin can use chmod to let
+> > unprivileged userspace to open a bdev and it can open it O_EXCL, but it
+> > can't set the block size unless they have CAP_SYS_ADMIN.
+> >
+> > --D
+> >
