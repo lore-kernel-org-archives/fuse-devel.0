@@ -1,178 +1,196 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12FA305695
-	for <fuse-devel@lists.linux.dev>; Sat,  6 Jun 2026 06:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D176130C14B
+	for <fuse-devel@lists.linux.dev>; Sat,  6 Jun 2026 07:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780726383; cv=none; b=GrCsKb6NCLYn8+iH1nmHm0bZxXc1/4EYAzStU4MsKxgVtRUL/44zDv8RAqe9C7+LGvyvLbOdlatXJmDKWRBbqc/Jv9pzlO5S/eTJKCWU1biYtb2OtxHuG13xlkgYpQo4wODW3MmPTX8riffer7dn73mAbiGOzW+lUvne6QFV/o4=
+	t=1780731701; cv=none; b=RzZlSjgsIJQvZk85AAyTw0P+H5f+wJSgNYHQrTUdBxsJuXxFX05gcIevvo0O/Kcc3Qyk6RMQm55BnIVpRlKQRVd8fsIIFaW6dcF7agMuPOtksTHoutIe+sSJ0VWl0AxZQFXSQMqEzKjHaD2sYPx8iZxKecJ5g4Fbs63+v3PzvBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780726383; c=relaxed/simple;
-	bh=YVkMCLt5FJ+bDbSrJETzwIU6LK60EPUbwXQNXghAHuo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JrdxfFWfoXwbOQ7UotFmmkPGclxQqqH0OLt+EZslPD4M50ekj/rAnHvjS2RKip0YJ5/cYqeYwITh/KqKIugcEdFeaWsVjhrgUGiOfuIOAyEBbiy3UvmPRJPHbKoY4aIUIYl/EoGmiyvW5QMlIKJ5PqLO2wWAQ8GcfVAS6XTcQCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dnl+EcXI; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780731701; c=relaxed/simple;
+	bh=+W4zr0DGXAhGKWxwBMseoH9iSnzHN58utPlU8K0DQXo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zd1ZL3gwMDTKbtBCBt+u0/yNTJo6iUUzpzegWqwOt5P7TccleF6WbchzUQ6LWg5mBfXUNgzFotu9h0obB5nU4sY5F5PFdH8vw8wtiT29AYkMuEV74G23g//OQrX6i00QwVhVNqoR403pUxND0ohGoQtP+X+5LGJvP9QL69fE4X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=aNx8mBDY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AVPuqdLn; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dnl+EcXI"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-45ef1629ff4so1713653f8f.0
-        for <fuse-devel@lists.linux.dev>; Fri, 05 Jun 2026 23:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780726380; x=1781331180; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y22J8nzR3UW0cMYCUVJWDcFSFo/6kHGVqnn/SzRaSz8=;
-        b=dnl+EcXIzSy4EtPF71WNcyUsDMqVa9q6+43pLi+M7D37/oF9r4AoUCLRGo3YcqHvYr
-         7VcCzIFKB2C230+KYX6rUAxGlaYanqkLn9iUqsO8wFwznyyEOoWkI0Wbbx8L4QLm74gr
-         15XK0ua1uk8Ob8TklgZUvDBCWQ6v0CnNGXp07Mro8DmQFZ3MEroziM1fmD453tS9cqHo
-         b3/gYRbaMALHswuIW3KCXZzOyR/Vn1Wn3ht0j8DFWEj5ITMqlJY40OLtDCAjvyqScrV8
-         IkaG5eESmvuCKjia352k91MQ73uRQHAhPtSXLa9GSILjFw7PVEkpQF0AokRbAEntGv5A
-         n5Dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780726380; x=1781331180;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y22J8nzR3UW0cMYCUVJWDcFSFo/6kHGVqnn/SzRaSz8=;
-        b=qCpbZYgYS2kFH7GsJjjLESMZP3RFoVGnuWyppEQqx+gANfw36rXsLw6KpvpBMQnjFN
-         m8zD8v79HNuptZiYZMyP7SWZtYpAYp9GsK91dqmoM9ErEs9zMQxh2DXbfynC3IWLpSfD
-         ePlGWfrUSdII3c+/9xkMZSEAm/WrEj4FNrkekMc/aI8CcaVYOnL5aTotshRWI1gz+8vI
-         guvtUAgBJ5o+TNVJpTpTl59J+oBPupaddJQPkV5T7y1+cmhAf8Ge+HhppEb7WwV2qdXA
-         vjIj3LPwEfPB//bGia81voFCeiaXcIuJD+OmDQDhLP+DfLjpOGRiyiEXD2eCu4cGVK5d
-         0AAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/KyKDKed+1M9887qfyAGsdBPDJdI54gOrStzq5Plp+NHutsVva1rLBo4d5vsvMOeTqY+w6u3aLYo19@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkIaqJLunoQOIZlvlRCA9us05Euxvr6q8x5kRlwnoiLmL7ZSCt
-	5L3U9vwHK1jvbaugM05e4c7HWV5Z2T+IQwojbDS4QNVcbFQG+TkmutnB
-X-Gm-Gg: Acq92OFaosoBtH1b37BidZ3vOCyXah5pAf/B2IrdjhoRvouVV4Yg+SQEzSr8Cjrn/BP
-	0FWwHvb7KOzY1hfyH/IsT4qiqhAF36KXmM9+1TR6RuVehSHseYLy9roRGhBVuXSTDFeyeBHO/a9
-	JJEB0azTat77+bmFL1n2v1Spbv4WCXkPTisVBE+LPtdBRIyeEsjTwSWoJ+rey1MesNNp66VFLju
-	9dm+8QfUtu5VaW16BSJcx4hv2Cbg4TpvukfgrsVaKUw5ZAJIMgKBboc4I2YbQcwBSBVtABSAQKt
-	8b4B1U4Q95S9deVOirdtJWtBwOrOtne/q0Lv1GJP8RRFsg8/++4QxwNRhEJQWbtuGrr0EJsm9k+
-	7nQI4wZAZyexNCVjXwGOI5n2Jo7/IPGlL/wLagi3TDKY8/IaCsNSAviyr9MNt3ut3rpfcs762dB
-	xukcg9+lj3d13nDO/kHEdOswq53WmqFg==
-X-Received: by 2002:a05:600c:c0d3:b0:490:b0e0:3de2 with SMTP id 5b1f17b1804b1-490c265c148mr78044605e9.33.1780726380490;
-        Fri, 05 Jun 2026 23:13:00 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4601f2eadefsm32281391f8f.11.2026.06.05.23.12.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jun 2026 23:13:00 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: linux-fsdevel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Jan Kara <jack@suse.cz>
-Cc: linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-api@vger.kernel.org,
-	netdev@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	ltp@lists.linux.it,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Howells <dhowells@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Collin Funk <collin.funk1@gmail.com>,
-	David Laight <david.laight.linux@gmail.com>,
-	Stefan Metzmacher <metze@samba.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	The 8472 <kernel@infinite-source.de>,
-	Willy Tarreau <w@1wt.eu>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	patches@lists.linux.dev
-Subject: [PATCH 5/5] vmsplice: make sure we don't wait after writing some data
-Date: Sat,  6 Jun 2026 06:10:31 +0000
-Message-ID: <20260606061031.3744880-6-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260606061031.3744880-1-safinaskar@gmail.com>
-References: <20260606061031.3744880-1-safinaskar@gmail.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="aNx8mBDY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AVPuqdLn"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id 2AB9FEC0195;
+	Sat,  6 Jun 2026 03:41:38 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Sat, 06 Jun 2026 03:41:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1780731698;
+	 x=1780818098; bh=kX0K9nG96KhIB611PiGQwvOKCGrWsKHoQTYqfZU9ugU=; b=
+	aNx8mBDY9EflEnUsYc3eUh6MBXja12V3YaRsaH5s3mPH6Q95jREbgFIfzVHwapvM
+	fmWZs287ZtBbk0/jy41T8fUMDojQS5UQFxrBPBcJO9NwCNq0JvejYN4K0DbGJbs+
+	IUnDebRrDjeg5o0jqOFE+ivJWlPAEk9n+4+djIpgPVVCQx0aoPQtxif3i9oO1oQS
+	EQAevHIV8a2JX/Wrc3RzKYyrWAAiBq0CoT6H1YMaM1ZAU5u+5GXhiwKX0g27lCqO
+	UQYecCRycfFbpu15McqWxvVjUn7uACoJ3mSashwXzlzaJkCVpA0W1nPiH4YPHZjg
+	lXANneMnrGV7gXVDP+5csg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780731698; x=
+	1780818098; bh=kX0K9nG96KhIB611PiGQwvOKCGrWsKHoQTYqfZU9ugU=; b=A
+	VPuqdLnDAsHO4ljmqXnBf89eGvlXlq/Nh6I1olfWpWPuUh+FGJDxcuEu4NCi/QKP
+	gkHPYZkLTSf3850IDAtyglm1iqohcgBh+kaEwUYqPvfuiFaEszRPcf+ZFUB4kNyn
+	7yyhLYqRsOkaS/wyU+FIkIKDohV0AM29aWdntIPSAA3Fucc+fGjAcoC0MLfi4lgK
+	k6u/IDhn/bLJ4JrWWQ7htk5zv2cRy0DnAHqtjk9JTd5Wp2bfjAK9TeRAsADO3rrt
+	BTCFi+De5tLMrAPByj230tiD2dFDQQZ/DG199sxWpiy4vXh1LV7b+NTXrGsadIMv
+	gNSLPdIawYynYAjhvwG7Q==
+X-ME-Sender: <xms:Mc8japAtJNGH1XiiNV_xBcJYIgf9vf07V2vjYGvviEwFvtLWXNZIOw>
+    <xme:Mc8japDwt_OeNt5ANiIVY5pANqGPbamG0jCh8crv_1yms5J53gOBcKj9WnCWk9hud
+    vAvZA2s9UIkQqhEKXQo1ja6eFQPUtzIlMh5i31j_92XQNH6giNp>
+X-ME-Received: <xmr:Mc8jakqKSOHxJMuzVh8IPt7yT3IhDyuo3ZJPtrJAtaJh5zpFNI6LNAFDSxTP8sn7TtU>
+X-ME-Proxy-Cause: dmFkZTECkBeHEWa1B4RAF0h7O2iSS1Z6WaoUzCAjdA1445jr0wJ6hXZYHqsNQvbwt4L/6E
+    lue3TLaPpx67LB7Uq0zt3ZNEX5xuXbgRszm36pecMNn96k8mWXSGuBwvyYel8/QZKQOoYe
+    p18RBHL3gl2xyIfLuekZQSad45ZCG9SyjGdtHKJP9g/aq8P/RUZfmK/b6NtS4bUg/5NydC
+    BVzSsGS+a0ZWVa9fMLcNjEt0MsN16rRZaq9KYlHaL8jVVNVyUkgcCP/ZLfP5+I+fCHFq5r
+    gAGHPv6q8LXqXrtFoX4IGWdYCw6LAeqON+z61bT2BOvqSAfu8KP8XBpxL2OAbi/020qxEK
+    cR9GK4Q6ahdFemNvv5dO3nLUSvpqufWKZlNxJmhhCK7rp/cWxlDgPEWi3wSKtv7KvFnBbS
+    DLM+6pAoccMuzj/6WBu2Re41Yq9Uah32vJLuSwrmuQIz7gRFi7kS8jcyOz9TgMjeYNAyJQ
+    BY58xADz0CvHth3O1iF5SUy0EfEHJ1Hc5VZ2vve4aWKu1I+142GpHXbdi5uIcPJwXwyw9S
+    JHd2opIZEp3mJViNz+sFGDevU1PaoBCazDjBfx1XC2ck09AloNA+PP54XqvHX2sA6V+85h
+    8WGkm5VS1YBE9wznUyTw4xNEveiVY/ntadBa+SbJkZ+mak4kAdYIFJTPDJlw
+X-ME-Proxy: <xmx:Mc8jajm3VcTQeIkMENWQp9qnysqkdhpadGiaN6JEfr46y-XjCaLtjQ>
+    <xmx:Mc8jakyB4Uf6TVcH_lHxSEXdxTJoIqkviRPPUsjgR-4pk2LY5AdVrg>
+    <xmx:Mc8jar-Wr0b14Gysli9UASTpQUaabbMNxBmUkAWOCN3fsD8IYSzKsA>
+    <xmx:Mc8jagIkCr3QCKg8v0py9NSb_3EkZOs6Gaq7PVA278ei6Yu3L4YfTA>
+    <xmx:Ms8jaujdl9Ah5HqVdR-X-wp005fU9dxpvT2IoMoQOa93EWXKuBOHMq14>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 6 Jun 2026 03:41:36 -0400 (EDT)
+Message-ID: <742e68e6-c456-4655-a441-aaa8267f1a48@bsbernd.com>
+Date: Sat, 6 Jun 2026 09:41:35 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] fuse: end fuse_req on io-uring cancel task work
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, Chris Mason
+ <clm@meta.com>, stable@vger.kernel.org
+References: <20260605192708.141921-1-joannelkoong@gmail.com>
+ <20260605192708.141921-4-joannelkoong@gmail.com>
+ <058fd2d4-3ba4-46e5-9107-3a7e0ab66653@bsbernd.com>
+ <CAJnrk1YHQEtpwA-ForFWXsLntc950ekqAHg=L9VExVfJ2WF1Rw@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <CAJnrk1YHQEtpwA-ForFWXsLntc950ekqAHg=L9VExVfJ2WF1Rw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Make sure we don't wait for space in pipe after writing some data.
-This is needed for compatibility with previous version of vmsplice.
-Found by LTP vmsplice01.
-See comments in the code and links below for details.
 
-Link: https://lore.kernel.org/all/20260603-raumfahrt-unmerklich-ertrugen-c4ecae70d5f9@brauner/
-Link: https://lore.kernel.org/all/CAHk-=wgV-j-G3d+899Zm1pQ=NaJrddPz=GKcL5Yw5DTUM=GaUw@mail.gmail.com/
-Signed-off-by: Askar Safin <safinaskar@gmail.com>
----
- fs/read_write.c | 39 +++++++++++++++++++++++++++++++++++++--
- 1 file changed, 37 insertions(+), 2 deletions(-)
 
-diff --git a/fs/read_write.c b/fs/read_write.c
-index 77487b307..dbd0debc2 100644
---- a/fs/read_write.c
-+++ b/fs/read_write.c
-@@ -1221,6 +1221,8 @@ SYSCALL_DEFINE6(pwritev2, unsigned long, fd, const struct iovec __user *, vec,
- SYSCALL_DEFINE4(vmsplice, int, fd, const struct iovec __user *, vec,
- 		unsigned long, vlen, unsigned int, flags)
- {
-+	struct pipe_inode_info *pipe;
-+
- 	if (unlikely(flags & ~SPLICE_F_ALL))
- 		return -EINVAL;
- 
-@@ -1229,11 +1231,44 @@ SYSCALL_DEFINE4(vmsplice, int, fd, const struct iovec __user *, vec,
- 		return -EBADF;
- 
- 	/* We do vfs_writev/vfs_readv, so it is okay to pass "false" here */
--	if (!get_pipe_info(fd_file(f), /* for_splice = */ false))
-+	pipe = get_pipe_info(fd_file(f), /* for_splice = */ false);
-+
-+	if (!pipe)
- 		return -EBADF;
- 
- 	if (fd_file(f)->f_mode & FMODE_WRITE) {
--		ssize_t ret = vfs_writev(fd_file(f), vec, vlen, NULL, (flags & SPLICE_F_NONBLOCK) ? RWF_NOWAIT : 0);
-+		/*
-+		 * When writing to the pipe, previous implementation of vmsplice
-+		 * first waited for space in the pipe to appear
-+		 * (depending on whether SPLICE_F_NONBLOCK was passed),
-+		 * then did unconditional non-blocking write to the pipe.
-+		 *
-+		 * This differs from what pwritev2 does.
-+		 *
-+		 * For compatibility we do the same thing previous
-+		 * implementation did.
-+		 *
-+		 * We lock the pipe, do pipe_wait_for_space, then unlock
-+		 * the pipe, and then do vfs_writev. vfs_writev internally
-+		 * locks the pipe again. This may cause TOCTOU: when we
-+		 * do vfs_writev, the pipe may become full again. So we
-+		 * do a loop.
-+		 */
-+
-+		bool non_block = (flags & SPLICE_F_NONBLOCK) || (fd_file(f)->f_flags & O_NONBLOCK);
-+		ssize_t ret;
-+
-+		do {
-+			pipe_lock(pipe);
-+			ret = pipe_wait_for_space(pipe, non_block);
-+			pipe_unlock(pipe);
-+
-+			if (ret < 0)
-+				break;
-+
-+			ret = vfs_writev(fd_file(f), vec, vlen, NULL, RWF_NOWAIT);
-+		} while (!non_block && ret == -EAGAIN);
-+
- 		if (ret > 0)
- 			add_wchar(current, ret);
- 		inc_syscw(current);
--- 
-2.47.3
+On 6/6/26 01:52, Joanne Koong wrote:
+> On Fri, Jun 5, 2026 at 3:09 PM Bernd Schubert <bernd@bsbernd.com> wrote:
+>>
+>>
+>>
+>> On 6/5/26 21:27, Joanne Koong wrote:
+>>> From: Chris Mason <clm@meta.com>
+>>>
+>>> When io_uring delivers task work with tw.cancel set (PF_EXITING,
+>>> PF_KTHREAD fallback, or percpu_ref_is_dying on the ring context),
+>>> fuse_uring_send_in_task() takes the cancel branch, assigns
+>>> -ECANCELED, and falls through to fuse_uring_send(). That path only
+>>> flips the entry to FRRS_USERSPACE and completes the io_uring cmd;
+>>> it never discharges the ring entry's owning reference to the
+>>> fuse_req that fuse_uring_add_req_to_ring_ent() handed it at
+>>> dispatch time.
+>>>
+>>>     fuse_uring_send_in_task()
+>>>       tw.cancel == true
+>>>         err = -ECANCELED
+>>>       fuse_uring_send(ent, cmd, err, issue_flags)
+>>>         ent->state = FRRS_USERSPACE
+>>>         list_move(&ent->list, &queue->ent_in_userspace)
+>>>         ent->cmd = NULL
+>>>         io_uring_cmd_done(-ECANCELED)
+>>>         /* ent->fuse_req still set, req still hashed */
+>>>
+>>> The fuse_req stays linked on fpq->processing[hash] and
+>>> fuse_request_end() is never invoked. The originating syscall
+>>> thread blocks in D-state in request_wait_answer() until
+>>> fuse_abort_conn() runs, which can be the entire connection
+>>> lifetime. For FR_BACKGROUND requests fc->num_background is never
+>>> decremented either, so repeated cancels inflate the counter until
+>>> max_background is hit and all later background ops stall.
+>>>
+>>> The non-cancel error branch already handles this correctly: when
+>>> fuse_uring_prepare_send() fails it calls fuse_uring_req_end()
+>>> before fuse_uring_send(). The cancel branch must do the same.
+>>>
+>>> Fix by calling fuse_uring_req_end(ent, req, err) in the cancel
+>>> branch before falling through to fuse_uring_send().
+>>>
+>>> Fixes: c2c9af9a0b13 ("fuse: Allow to queue fg requests through io-uring")
+>>> Cc: stable@vger.kernel.org
+>>> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+>>> Assisted-by: kres:claude-opus-4-7
+>>> Signed-off-by: Chris Mason <clm@meta.com>
+>>> ---
+>>>  fs/fuse/dev_uring.c | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+>>> index 7cd50990b097..b5cc700575ca 100644
+>>> --- a/fs/fuse/dev_uring.c
+>>> +++ b/fs/fuse/dev_uring.c
+>>> @@ -1222,6 +1222,7 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
+>>>               }
+>>>       } else {
+>>>               err = -ECANCELED;
+>>> +             fuse_uring_req_end(ent, ent->fuse_req, err);
+>>>       }
+>>>
+>>>       fuse_uring_send(ent, cmd, err, issue_flags);
+>>
+>> I think that can race with fuse_uring_stop_queues(), which leaves us two
+> 
+> Hmm, I don't think this races with fuse_uring_stop_queues() as
+> ent->state here is still FRRS_FUSE_REQ and fuse_uring_send_in_task()
+> can only be called for a registered fuse ent, which means the ent has
+> already grabbed the queue refcount which will trigger the async
+> teardown worker to run in the background during abort until the ent is
+> reclaimed. I think this adds a race though with the request expiration
+> checking logic which (a) fixed, so I think you're right that we'll
+> probably need the same cleanup here. I'll look at this early next week
+> and send a v2.
+> 
 
+Right, actually no race at all, just a plain use-after-free, because the
+entry is set to FRRS_USERSPACE and then cleaned up during connection
+abort and then released again through fuse_uring_queues or
+fuse_uring_async_stop_queues.
+
+I actually do not get this part of the commit message
+
+> When io_uring delivers task work with tw.cancel set (PF_EXITING,
+> PF_KTHREAD fallback, or percpu_ref_is_dying on the ring context),
+> fuse_uring_send_in_task() takes the cancel branch, assigns
+> -ECANCELED, and falls through to fuse_uring_send(). That path only
+> flips the entry to FRRS_USERSPACE and completes the io_uring cmd;
+> it never discharges the ring entry's owning reference to the
+> fuse_req that fuse_uring_add_req_to_ring_ent() handed it at
+
+A mean exit does not trigger fuse_dev_release() with a fuse_abort_conn()
+from that function?
+
+
+I do not think we need 3/3 at all.
+
+
+Thanks,
+Bernd
