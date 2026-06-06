@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF61223DFF;
-	Sat,  6 Jun 2026 04:31:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19D74071C7;
+	Sat,  6 Jun 2026 04:54:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780720274; cv=none; b=awyIMeCA89el2tVJf+bM/EHDEzIbptudeCatj6JHkFGO/twgqU3KqDQinVAySEiRMOzBP3F/cp/vyNsaUMZ2WmXt6eT2BMm/Ifncxqp10hhtPQEu3UccyiUiJ2/3BUZ2kTEJ78NSU19J2+Nf7B6oCDyhk51Xhg3HlO0XEEIP8/A=
+	t=1780721656; cv=none; b=fTJJhcNq6+bUhDJeOzHQ/0pTyubJStoYsL6JvygIjudQQX4/zMXWaqNH3dABl9hc0R4/cNyjtkFbFqs9pz/Abbq2JIZ3OvCaHTlIAnajqmK4e4Jv7r/fNpsmKVl/KnN1ehG3QkbQdlreYBKvX8e3qVM++cDI+vDVkP12CUUVKR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780720274; c=relaxed/simple;
-	bh=KqLoNcL/KcPcF9Hi2luBorm0xFyC/O00ISteSGkE154=;
+	s=arc-20240116; t=1780721656; c=relaxed/simple;
+	bh=JMwG1FBhlDByS+DEtTmWqWUqaXX4UHAiZdXLUSNtySI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AObFBL+8QHSFL8emB9rIMQ4xG3Knem0M2BzRL4Ma1d2eA2ttee0/bHihv2ANgh3n81IzvHsVqGfdA283ufNc0jFaVeralX5h6xrYkZv+KFTruJlsWpUisq+IM351u/Jsv3bkeuvBMTnoDUKU0t0XCxUg6it8b69zV6ykABc9RNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uvx/K6j7; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=o8u0is5DQuZPPspUNL40+waNkmetY64paQXh5hQs1TlSiG65MAePDgycqNi8Ndq25Fs9B3EnJ5S8Goe43mpY5VcMRimNIlGoZEIlCSe8j42HmkYr3toYs3Grx5q2c0C8rY/su8bl3NS0UzfHaR9WIZMnMtAiKH2CPZKuh5MPwaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=irJJkGuF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uvx/K6j7"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id A952E1F00893;
-	Sat,  6 Jun 2026 04:31:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="irJJkGuF"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 317111F00893;
+	Sat,  6 Jun 2026 04:54:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780720272;
-	bh=1W9IV2ZLDqB+Xsc4gZrXRsp7mZULuCmGGcJEJACtO0c=;
+	s=k20260515; t=1780721655;
+	bh=oCaZ4/AuDFl5siHMCuM8mODmsptbEq2GNEMKW/fCEnY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Uvx/K6j7LgmHVnEzvj4OekXJwUYgy5MSjGM2c20RDDS85Js8XVoeL82T00AN7uF93
-	 AbY8YQIrBUPqlHzCKIC9y+SUO4aUojf2kKh3XLqDw16ubrNfy+Ym9wsBYtAtNLX09x
-	 Em62IZOpiplsevuuOKjaQ3T1Oj0N201+KwiUiS0KyLWPniWqlUZ9cR7Thar85W1yh5
-	 G/z+qHIUSWtX+rLTDFWX7MSVyxTXsDw58AE/+gdBahd62V+1iN/ND6A7vfjl9QweVd
-	 lOEHfFIB8Tf1DT4YG8W5GIQwlqnhF/7qyOMXBy22IX6+x9Ex5I4P1WCVexSNDdJzcE
-	 b5C2emd9Qvdlg==
-Date: Fri, 5 Jun 2026 21:31:11 -0700
+	b=irJJkGuF5syUGJ/lc6hjJUJRZVRJmxfMMOmEIS0BlBnqWFBZyvegxRACpCKigVtmO
+	 UxkMDwbiOdjb/sHyMJqH13BCD2kWtf+BwbP/BC3FDBdObkNvbC5QGUyeTlSw3VlGZU
+	 xspzQ7UFeQvvy41xoJin5QrE3hv28GcmEgIpjimKvXQUNyBZ2e2NUesuXsO0ETvR2n
+	 uFvZH7FAioQqFzGIlKy1nfccPoPVkMw0fAejaoRZ9K1diMMMr4Wt8o4UCq2xksrffL
+	 h9E4s6Vq22gPLUfwL0CFyiQWmMnOUWtJGBsGrUttBRMe7PEu8fidQfsRfmC5vr6X72
+	 HzKVgWeGu1oAg==
+Date: Fri, 5 Jun 2026 21:54:14 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
+To: Amir Goldstein <amir73il@gmail.com>
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, neal@gompa.dev,
-	bernd@bsbernd.com, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 7/9] fuse: invalidate ranges of backing devices being
- used for iomap
-Message-ID: <20260606043111.GI6095@frogsfrogsfrogs>
-References: <177922946123.2439242.16666495969848656301.stgit@frogsfrogsfrogs>
- <177922946329.2439242.17189876954349215664.stgit@frogsfrogsfrogs>
- <CAJnrk1bvmZ0htacx8sqZ+aBVVS_x+7kap77SEctwwB_F6ttsSw@mail.gmail.com>
- <20260604235304.GI6070@frogsfrogsfrogs>
- <CAJnrk1Yvcet5rqUHLPxgf=YxMG9Lw_-eKkMdXak2-5jchnUq-g@mail.gmail.com>
+	bernd@bsbernd.com, joannelkoong@gmail.com,
+	fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 1/4] fuse: move the passthrough-specific code back to
+ passthrough.c
+Message-ID: <20260606045414.GK6095@frogsfrogsfrogs>
+References: <177922944800.2436629.7011047808676668088.stgit@frogsfrogsfrogs>
+ <177922944844.2436629.11205124993260163523.stgit@frogsfrogsfrogs>
+ <CAOQ4uxjJ0eF0vE0hgsNoWqqD+UQ4r-1-b7493cYNPUGSUR+tcA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -48,79 +47,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Yvcet5rqUHLPxgf=YxMG9Lw_-eKkMdXak2-5jchnUq-g@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjJ0eF0vE0hgsNoWqqD+UQ4r-1-b7493cYNPUGSUR+tcA@mail.gmail.com>
 
-On Fri, Jun 05, 2026 at 09:56:09AM -0700, Joanne Koong wrote:
-> On Thu, Jun 4, 2026 at 4:53 PM Darrick J. Wong <djwong@kernel.org> wrote:
+On Fri, May 22, 2026 at 12:03:38PM +0200, Amir Goldstein wrote:
+> On Wed, May 20, 2026 at 12:29 AM Darrick J. Wong <djwong@kernel.org> wrote:
 > >
-> > On Fri, May 22, 2026 at 06:29:16PM -0700, Joanne Koong wrote:
-> > > On Tue, May 19, 2026 at 3:32 PM Darrick J. Wong <djwong@kernel.org> wrote:
-> > > >
-> > > > From: Darrick J. Wong <djwong@kernel.org>
-> > > >
-> > > > Make it easier to invalidate the page cache for a block device that is
-> > > > being used in conjunction with iomap.  This allows a fuse server to kill
-> > > > all cached data for a block that is being freed, so that block reuse
-> > > > doesn't result in file corruption.  Right now, the only way to do this
-> > > > is with fadvise, which ignores and doesn't wait for pages undergoing
-> > > > writeback.
-> 
-> Rereading this patch... (or maybe just reading it correctly for the
-> first time now :P)
-> 
-> If I'm understanding it correctly, the problem it's trying to solve is
-> that the block device has its own page cache (separate from the fuse
-> inode page cache)
-
-Right.
-
->                   and when the fuseblk server or fuse iomap server is
-> unmounted and done interacting with the block device, there's still
-> data in the block device's cache that lingers - is this correct?
-
-Not quite -- the fuse server could allocate a block to a file (well
-before unmount) that was previously a metadata block, and now it wants
-to dump the pagecache and ensure the kernel isn't doing any writeback
-that could race with a subsequent iomap write.
-
-(fuse4fs does it the other way -- every time it frees a block, it wants
-to flush the pagecache to quiesce any IO, just in case it later wants to
-reallocate it.  Technically you only have to do that with metadata
-blocks, but libext2fs isn't smart enough to know the difference.)
-
-> Is userspace not able to handle this themselves by flushing +
-> invalidating the block device's cache with the BLKFLSBUF ioctl call?
-
-We don't want to flush the entire bdev page cache, just the block that
-we're freeing or allocating.
-
-> > >
-> > > imo this would be cleaner going through the ioctl backing interface
-> > > instead of through notifications.
-> > >
-> > > I was thinking of something similar in idea for this for passthrough
-> > > where you're able to dynamically update or invalidate a mapping
-> > > corresponding to a backing id. It'd be great if we could both use the
-> > > same uapi.
+> > From: Darrick J. Wong <djwong@kernel.org>
 > >
-> > What do you mean by update a mapping?
+> > In preparation for iomap, move the passthrough-specific validation code
+> > back to passthrough.c and create a new Kconfig item for conditional
+> > compilation of backing.c.  In the next patch, iomap will share the
+> > backing structures.
+> >
+> > Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
 > 
-> I don't think my previous comment applies to your patch - I had
-> misinterpreted "invalidate ranges of backing devices" as meaning
-> invalidating the range of a file that is mapped to a backing
-> file/device.
+> Please add
+> 
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+> 
+> and please keep in it future postings even with minor changes.
+> I realize that fuse_backing_id_remove() was changed in this version,
+> so that's fine, but I only know that because recent revision still fits in
+> my ever shrinking context window..
+> 
+> We discussed the fact that no one has lots of spare time for review
+> and re-review is a big production killer (in general).
+> 
+> You must know that very well as a review and also that having
+> a "what has changed since last patch rev" is very useful for reviewers
+> and also very expensive for authors to maintain...
+> ...unless AI agents can help to generate per patch Changes
+> for the post --- notes?
+> 
+> I assume that Agent can do that on a patch set after it was created
+> just by giving it two sets of patches?
+> For the very least, producing a "No changes since v.." should be easy
+> and useful.
+> Letting Agent go over mailbox and verifying that all RVBs have been
+> applied is also trivial.
+> I realize that patchworks and b4 review can help with these tasks
+> but they are more tuned for maintainers and less for authors
+> (I think).
+> 
+> Obviously, I could do that with an agent on my side, but that is not
+> a good use of resources and not a good model to put this burden
+> on all the reviewers.
+> 
+> Worth a try IMO.
 
-Ah, ok.  Glad I could clear up some confusion then. :)
+How about a range diff? e.g.
+
+https://lore.kernel.org/linux-fsdevel/177758364789.1315233.15610945404741826500.stg-ugh@frogsfrogsfrogs/
+
+I think I'd rather spit those out than either (a) try to remember all
+the changes (esp. minor ones) that I slipped in between two patchbombs,
+or (b) go all agenthappy.
 
 --D
 
-> Thanks,
-> Joanne
 > 
-> >
-> > FWIW the functionality here is a lot like POSIX_FADV_DONTNEED, except
-> > that we actually want to wait for writeback and tear down all the folios
-> > in the range because it's mandatory, not advisory.
-> >
-> > (TBH it's more like what filesystems do to the pagecache prior to a
-> > fallocate punch-hole operation).
+> Thanks,
+> Amir.
