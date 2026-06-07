@@ -1,83 +1,124 @@
-Received: from mail-01.1984.is (mail-01.1984.is [185.112.145.69])
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244B878C9C;
-	Sun,  7 Jun 2026 10:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.112.145.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7902512DE
+	for <fuse-devel@lists.linux.dev>; Sun,  7 Jun 2026 19:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780826528; cv=none; b=YhBbS6R0oL1Pnm3Dv8n+IIdHeRlSdosgBUlB+WP4/cv70Rkc0UAJlntEaF6W63jz9/7TQhtdW81MJjIRFIyZ3vRiSoggbd0EauTmrXlcowT1wgQtqU/gDnYXAUkPyp5dcH+b488ksi5WHGaZ6xdtg5EgJkJ65ff4LaioqyN13cc=
+	t=1780860995; cv=none; b=ivYiuwb71PsRmGBguI/o4xVOA9quJ3ZJdLtSoI6MLI0nGoEwplUsFbkhYva1ugeZPu6LaAtXhkFoS5y/dPLdRBCh7E5ZNvuPZJkJFEbzmOfq68A+clbJahOXuC9C9l770Va8YGWMPYueAh2GAL45sqcN1X6NDLgzSOckfuHXz3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780826528; c=relaxed/simple;
-	bh=bipTQkn4p1MP/1SyE5UFCgLwsyCGmogZgGboOdqOo6A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Content-Type:Message-ID:
-	 Date; b=VwC2qMsF9XjzCxl+yN01e5mv6etkml2Z30c4WNGj6lYGiQX5CrEj9i5l3A7rA+OmaGJu1/gkCg8ySN48NUBogzdXuPVNRfyAVOA5f3ChrL9KFE/omH+SrUJI+GmhHObrLXgyIWOGEOtfOnxvJKye5wisJfZqoxQgp1ZFAFXyGdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com; spf=pass smtp.mailfrom=berkoc.com; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=TEhVJH7q; dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b=eGsOv1k2; arc=none smtp.client-ip=185.112.145.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=berkoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkoc.com
+	s=arc-20240116; t=1780860995; c=relaxed/simple;
+	bh=XkUR9tf10XvlaAoORBGQLAImMyjVjlWonI9NzNNf9i4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XqWFGp1tp4Ss0JB4l9kwEGigWikLZ0Ih2CK1L7oUqNX9Q6WNorECAmvhcO306iFwJECcdhFX5VkjXMZjcAfMHeEQFY3cH3a9Lex0dD06weuQC2OkszvLMm3Y/Kli3Q+Mwj/s6/eBSk7srYjCMP6J1yOsUifg8LgiX7txIOBlWmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=EPvV2kip; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=B4MOlcsa; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="TEhVJH7q";
-	dkim=pass (2048-bit key) header.d=berkoc.com header.i=@berkoc.com header.b="eGsOv1k2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=berkoc.com;
-	s=1984; h=Date:Message-ID:Content-Type:References:In-Reply-To:Subject:Cc:To:
-	From:Sender:Reply-To:MIME-Version:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=bipTQkn4p1MP/1SyE5UFCgLwsyCGmogZgGboOdqOo6A=; b=TEhVJH7q8DnNVPdywjZnnxdtYd
-	x382/SkqV26I9QmhEUcJHv8rbtTCV21n9uVtJEEEgUsoW7daVwdeucTVOQHpvhc5FiBattS9NHT8A
-	2FCIL7GIhfZqg31lqY9wKqDGKGYkTQs0C1mkNiyivbKpSTHWFVDz5Fi5nMRb9hpOJNl+9CwdbsX81
-	ApcpfnNIt/k0PRpkQS8IMXR4XQLcweoYtgO7sbh7kOO4GNNR2rwQ0j7y2JKlk1edJatpl3NQGnacC
-	7ce4AmJS1VfVAuUN07Jcjq88AKsdB5NXJ60HUcIWJijUjwAmd3uiZSDzmwfoxzXCX0GHZKq9P4Elu
-	mBPqBOeA==;
-Received: from localhost
-	by mail-01.1984.is with utf8esmtp (Exim 4.96)
-	(envelope-from <me@berkoc.com>)
-	id 1wWAKA-00GyE8-1q;
-	Sun, 07 Jun 2026 10:01:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=berkoc.com;
- i=@berkoc.com; q=dns/txt; s=me; t=1780826454; h=message-id : date :
- subject : cc : to : from : sender : reply-to;
- bh=bipTQkn4p1MP/1SyE5UFCgLwsyCGmogZgGboOdqOo6A=;
- b=eGsOv1k2jpJNcmqu0epn0IvmX6hm9ta9lY6OSUCAPdEVH9sz3wIswep1Bu9DisZdlLWbq
- gKcSALlTMny5X07Zarq+gsnV7E9psV0/1q4uPxeUb0MH/jgwC/DwlpCtMdIXosGypSEscf3
- 7kaBwowJNcKqvWt/MS731ifcpuKJpxtWNwYG2Eat6DiYTNnamOUsMoguIJrS75De8pladQG
- dTTUee/dxjU0ah9zTRkiL07BdRaZobRLHKJlXCnHIx9fdNewq1k4ZJWavMbrnu8tbxlr7rL
- eH/2cNH+lHIuX/oaLZtJpvk2Q8kQHhOVYp0+XyVTy9vv65VZDkVPpZrSf8iQ==
-From: Berkant Koc <me@berkoc.com>
-To: Bernd Schubert <bschubert@ddn.com>,
- Joanne Koong <joannelkoong@gmail.com>,
- Shuvam Pandey <shuvampandey1@gmail.com>
-Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>,
- Zhenghang Xiao <kipreyyy@gmail.com>
-Subject: Re: [PATCH] fuse: {io-uring} use request cleanup helper on commit
- setup failure
-In-Reply-To: <d486fde6-c78d-4a78-8dbd-43b8afaa90cd@ddn.com>
-References: <178059213410.15421.10567268398539539875@gmail.com>
- <CAJnrk1YH_SC9doHp60Vuajc-mzQiopPExMPQVVDtFHzB8vTM6Q@mail.gmail.com>
- <d486fde6-c78d-4a78-8dbd-43b8afaa90cd@ddn.com>
-Content-Type: text/plain; charset=UTF-8
-Message-ID: <178082645430.1952267.3613935151307581690@berkoc.com>
-Date: Sun, 07 Jun 2026 12:00:54 +0200
-X-Spam-Score: -0.2 (/)
-X-Authenticated-User: me@berkoc.com
-X-Sender-Address: me@berkoc.com
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="EPvV2kip";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="B4MOlcsa"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id A54C3EC0088;
+	Sun,  7 Jun 2026 15:36:32 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sun, 07 Jun 2026 15:36:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1780860992;
+	 x=1780947392; bh=XSwwL419DcNkxB4bTWBifhWQAJb+qLSQNt44TgbIJ0Y=; b=
+	EPvV2kipa2/TJFV5H4jBvw8g4ZreaUAN39E7lVRCkhq4LhEEi0YjP3Me9a8Nex6h
+	RZISv3Ew0b2/IqzJ2pdlQLzbPUWggbBp3E92NDdm46ecg4z9AXQNLeNhJdssht6R
+	VUXuLMMkNQwBMacBBcwoRg+kfGza3i14oWZHOIcxciPoEwNJzppF3M55b1Bv0ZKk
+	kdoehsGiKOXwIiD9wKSCHVr41uce0X5VyyOhvf1sBMVjNKe6isi9FG3nJJ8CgOuJ
+	ygxQam7DSsC1xcBJ5XCcyL9KStLmUDVRp6vG0Jiv5Mje8waNaKhFCgKjU+uDOROF
+	GL7EvYpPVdFC345ilTZgKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780860992; x=
+	1780947392; bh=XSwwL419DcNkxB4bTWBifhWQAJb+qLSQNt44TgbIJ0Y=; b=B
+	4MOlcsa/T8Z32cJA3zmemTKk5BQ2EFuBQAvs+NgjzlZo/r61ONci/nylJI0olvlG
+	vKB/7sGWMJOPr2rEdaZNh1u0a5+sii0mvenhkuUjYi5gkkaYzilwVX/+TN5lXKG2
+	ml8nML/z1x437zNL2R6djJOOFo/ZLG58rPPeN0unMWyHxNsDUN4EMXa32l7DE47V
+	ujniY8SJ5eNcLhQEYtr1SBRdRTI/oqe4DKeQc2baUVBS4si2s4UxdYeV4YdFDEZx
+	K4wH3EuXu62Y/0webZ0odbF7hfGIGoPIC4npCiEjUvjnxuSs+QXaUQ+FvbcEYo0n
+	9k5zTdyKd5Xlp4zQIRc9w==
+X-ME-Sender: <xms:QMglamVCd7TvAWAVROrJZxB-kSmisHfguooQu1A__AczhhVKxlpWew>
+    <xme:QMglaqWGVLBzKNW1yndxoZQRRDCuK37LKxrq9XgRCyY10Ow6g8ScR-gP7jBF94bo0
+    lQsyafo-SYrvPraaxPhUHgBA-Cai6slAbvCHysnl3VpyDGlBhpq>
+X-ME-Received: <xmr:QMglatcNc6XEkUZHNsTs1iGFy7kH3XikZkklhga-9EatBlUd92rbaARHcfM0X94SBzb9yohzGYmXg-m9O74P_K0aA0Mr6U27_7cd_wbZsBvFkQabxg>
+X-ME-Proxy-Cause: dmFkZTGYKfWrHwMoSt7CsAPhHuasxa8Kdu+hu/0kE4AjmrCOkQNq8X/rtsZnAtc1fr5NEh
+    +Fo4cpoydqHHMXft1idvRvA7926fHyjaWpnT4an9RVt1h2UvEM3Va/gspmdDihNufXA0r/
+    PgO97iaDJq0toyrcdqutRmDyVIZIG3DIWB7zUrsvjouhCHJZPZGH8lnzqNN2X95kw+F3kA
+    tOBhLowJpsfzUYDKQqAB/pr9ICKIngiW9ETAp5oFfy/6RjY9XQDWJphIv2Wf/RixsmFkAN
+    O2QVWp7JX/mCfxvQyjYmIb0rF0WWnFYo9N9yBKoyPaPgO4682MQ3OItqs4lNB9Ha+IfaFK
+    tAOv4VZ/+Gjc84K810oB3ycIL78fs5drBJtXZdyiQ00111J8x2Gi9tiu7BouCPgi+uAkgF
+    eHbefah3seMW/PJ269aMeKKmJc3DZ0LS46BkRJBUd7oiZU7xQVbQ8Bagwd8Dr7ly6qiLkD
+    453Rjg1GpZWR61m2AU23PElXc1h/0n2nvjRmSl4ETc28klUjOm185k/VeR2Jqg6muR9ljQ
+    HMhOmdceE7Xbf9r8NGXuPv2WfHmyVGf9Ley+/+UNLDWFUtw3NOBPu/oO/jHYGaWMoQzTdu
+    yRVIeoNgdmrGCr8GXGXaT5FirmW9KToTDDYLdChRVSzTIWxWC4OaveWhwBQg
+X-ME-Proxy: <xmx:QMglarWPMQ8QcPBV9U_AvRAH1lkw1mIfPDG1056hCE0dW_0JPXK7Vg>
+    <xmx:QMglaufX5d0GxSwD3YWqnd9cbWpOxuXnYjZhUpB7ns5llrGGcVOY4Q>
+    <xmx:QMglavM3-bjACbQe_a7wgsAIXE7zF7Wt8qk5fWgYq7m8Y9b5Q2woVg>
+    <xmx:QMglakgyT2Y7tJjiuB-ogM8XVHlMPJFfZw4UGicUO4HJQzBBhx8OVQ>
+    <xmx:QMglavkPgmqGErEdNhEc6WFtUKldXYppu7eMftsM4ozt3kXbIjwy3pq3>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 7 Jun 2026 15:36:31 -0400 (EDT)
+Message-ID: <a36689e2-705f-4311-a04e-55462fee1713@bsbernd.com>
+Date: Sun, 7 Jun 2026 21:36:30 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] mount_service: don't pass the chopped buffer to
+ apply_fsconfig_mount_opts
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+References: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
+ <178044567862.1435997.14889132979032394431.stgit@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <178044567862.1435997.14889132979032394431.stgit@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 4 Jun 2026 19:36:15 +0200, Bernd Schubert wrote:
-> Out of interest, did you see the entire series I had submitted?
 
-Yes, I went through the full v3 series, thanks for picking these up.
-My standalone "use request cleanup helper" change is covered by 3/4
-and 4/4, so I will drop it rather than carry a duplicate.
 
-I still have the reproducer that surfaced the commit_fetch and
-async_stop_queues races. Once v3 settles I will run it against the
-series and follow up with a Tested-by if it holds.
+On 6/3/26 02:15, Darrick J. Wong wrote:
+> From: Darrick J. Wong <djwong@kernel.org>
+> 
+> If mount_service_handle_mntopts_cmd previously looked at the mount
+> options to screen for allow_{other,root}, then tokstr (aka oc->value)
+> has been modified and not put back.  This causes truncation of the mount
+> options passed to fsconfig, so let's use the snapshot that we took
+> previously.  Codex noticed this.
+> 
+> Fixes: 7211953256526f ("mount_service: use the fsmount API helpers from mount_fsmount.c")
+> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
+> ---
+>  util/mount_service.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> 
+> diff --git a/util/mount_service.c b/util/mount_service.c
+> index adcc7a296645ff..360a78bab3bd3d 100644
+> --- a/util/mount_service.c
+> +++ b/util/mount_service.c
+> @@ -994,7 +994,7 @@ static int mount_service_handle_mntopts_cmd(struct mount_service *mo,
+>  
+>  #ifdef HAVE_NEW_MOUNT_API
+>  	if (mo->fsopenfd >= 0) {
+> -		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, oc->value);
+> +		int ret = apply_fsconfig_mount_opts(mo->fsopenfd, mntopts);
+
+Btw, what does "oc" stand for? I would have probably called it "cmd".
 
 Thanks,
-Berkant
+Bernd
