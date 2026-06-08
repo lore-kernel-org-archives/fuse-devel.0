@@ -1,222 +1,110 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5886D282F31
-	for <fuse-devel@lists.linux.dev>; Sun,  7 Jun 2026 21:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE7A36AB72
+	for <fuse-devel@lists.linux.dev>; Mon,  8 Jun 2026 11:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780867326; cv=none; b=leGZTRlp5hjymf7oDqwFMAHZjRFAw3nYELb5FXC0hn+Bvu4TIrXd4h3FZqAgW+5c06pwzDh5nE13fnP5SbBOigF8ihTBMSegbPYKo1tRN+g1lQAR8QESSA/59/M9ZE/8DW2ODxvfru82s7sNSV39CUdkw+bu0xDnC1+Pji95evg=
+	t=1780918827; cv=none; b=sjkC2ylUbYwxGw2AOwfckrnFrBbLTX5634Xuyvd/ENLWFt5d+2dbYZvhaODTt+AyoSptX1jRWg6mfW35//Oc1MvibZV5I+v56XewU2ZtG9TLBlyGABc9iM79W8jlq2mXrAfbOy0WQPN2azFWe0Lejmm4xA7Z6dIKZ6pZGTJekD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780867326; c=relaxed/simple;
-	bh=9/t8TQC0LhYRtQQAfU1vQtfIPZbaVprYeumBQ0YkP6Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eesCnB07iIwL7BtfMu0Lv9jlcCrdaKSdcCALy2mNfPqcxJ7ZqoXxaSxXQPiqwkKV+oVyOknDTnNdGmgcimPAnHkWH7oUh5FuSa1Ob75i8cv6Nf28qSzO9MyoJNifBPAyGYc5XN++ntPthLk8ZCebQ1r9xqdUQRQwrR4Tk7IbFAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=L1UlL9CO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PAa5WOjq; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1780918827; c=relaxed/simple;
+	bh=gt817j5d2FZcQYx9aiRFtGll+41qpg8M37eW3rPlaLM=;
+	h=Message-ID:From:To:Cc:In-Reply-To:Subject:Content-Type:Date; b=uDLueJ+ZP06Ix9sRTNJ1CBHcSQGSeXzkk41wNoE0VJV/7FaRRYX370zCOsKzp09nbS6WbLI+BQw4f3O1P98I0MaEXH0Rc996RT6pnOjUxMksNF29thNqd36wvpkQ01WGvgjkLahgmIBiOgyttfObKmr05e+l9vZTr4h1Ur31a6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Ca5hktma; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="L1UlL9CO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PAa5WOjq"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6910E140004D;
-	Sun,  7 Jun 2026 17:22:03 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Sun, 07 Jun 2026 17:22:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1780867323;
-	 x=1780953723; bh=16h7VWs/CXTplT9EuLaOczvUspL1w+5USl6ftBNRwXw=; b=
-	L1UlL9COGk0J4nWX87afobw9uKhh1mqOseVjtoFze/BtQKR34OYZyFIeVn+KaXBS
-	2MLGjc6J8GvLORiT5uSl2fp1O/TCNn57B53Gb9yk+rGVICopopKEuktqofryfRE3
-	OgmIu67j4pmC2L5istoEnHTaGz5AHqsmA28IUw/cFzGnW3gHCcv2QfE1T6RGokca
-	8MIP6M/HfO0JD08gkviaXxiR9xyNrpQow6G3HuP+D6g1rXg+JyO/RzxYygij4pQ1
-	3AN/rA9SkgmVRkB6eJIGqidxqRVGx/rcVZBBw1oYjS0baaZlIbLlD7LJ2MwQiutY
-	vCD9GL4Zk4xGnJbGjHsWQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780867323; x=
-	1780953723; bh=16h7VWs/CXTplT9EuLaOczvUspL1w+5USl6ftBNRwXw=; b=P
-	Aa5WOjq8fU8quyPqCTe2drExMd9MBdyNWdFwUbNgaxQ23TrQa3j6IlpRn7H9v9P3
-	jYosXoAlgujHcSvd2G7fQUaboWelSBOKg92+tGj3fqiUEFnYW6QHn3KdHPrfW9uZ
-	YLRmwFd/1U9DBIMVMJR7EEAh5emrpzAbiXVXimilNcyW3mUYBgDrfx8u/F3rvpWa
-	/QkW2l0nW6SxVs85uc9JPWspT7BJsWmnO+sPgTj+i0V8oX7uCoJ105OuG+yLmZBw
-	S0F8YCvelgTwk+YqKYFV/nf5eOOKFZPrxB6mykDLH0BJrToy2bLPEMFVfFR4rSgj
-	cc43ZJ+oOyAfi74jbloag==
-X-ME-Sender: <xms:--AlagtyX5mMejwHiM8rFBfZas6a-2WO8NvS0IG981R_bhASsav3-w>
-    <xme:--AlakXsniToGGt1jNXMwRPxHUF_l-FF5TzIQmtqfhK36gE2JLlOCi_J8x1MS54y2
-    qW0lq2Rw3_9rnn9FYKpjJjQipuzip0oCUl_l7X1DiPz-sgYNt1e>
-X-ME-Received: <xmr:--AlaosYHhDVlRkrYU9-cld7EghgJrxSLH55-weWW9shR71LwkI64xNMng0LffOy248T77wC-f4INv6lxNdMyuX4fObSrSnb2BbiQ8B_IsjDhcXA0A>
-X-ME-Proxy-Cause: dmFkZTG0qq395WOaSgRwQWM6gv4Glc4XHrssqvkX8x5FOnO0OH3H4A6FweF2uJmGUmfNbl
-    IGm6vnho4QYVoio/mlwFfXzJF3isZ145oqCo20NxyAPDzzIhmxXwUXJfjpeIsakn13Wqwo
-    vO4f2c2gVrvy+z+Zk0YjVh5SBagWNF2OG7r5dZrS/eKY/R4h/G5vVKLf2qthJVpfywlfB9
-    8Uf1fXuNb9qb1Ib06YjfS7o1KBF0bZus91sQhk5wWPo+0pzJBCk13TKDuQyNA7y7yDmRrd
-    5RwFABpIrY2YrtrOWQ2cCK9IObujn1z7XpmtDdKtBdRyLs1YojSJ5y2qLV1NA2fmzJo6Kx
-    3b/2fbpk90CzRukU263GeKt7FXkc3h7DR4ueDCthCN6/j8xXH5Pdb+/hzsYw2WX7ke0KjM
-    eq+WcxVybV8ZWhgDR6QtyGrPQpZzzXBWG1PIDxbNIKOroBb9mDyYirzT5QcTp3ECTvXgq4
-    c7tLH0TLZKy6JM2QD3i6XqtKpqhDKXWtdy4aZuZSvhmo1RU6oMz9b/r45LGlpQLUp2sAw9
-    E5fdl1rz3sDxzhayQ2FM9D8bBigmStLFG/wy9Jnu6lgbNnWRJvKeyc9Fxfug+jENL9xxls
-    3ILe4ZGQjMJ4YjgYoTNeBT8tS/hBt7AkQqFnbtHi/QxSQjIvjCGgkqciW49Q
-X-ME-Proxy: <xmx:--AlagVf1H75KZjAkTO4dfNlHa-WI621xGis5JTM0PotLh-NZrLZaw>
-    <xmx:--AlarmzlR9_AJH3MlNngTaUq-FLrVe0JapDgtK3F94HZmYOcNZtrA>
-    <xmx:--AlapbJq3x6OLIvRtOo6bsjX_M1jA0mPeE1O_Dk6OnCi9WROTL-sg>
-    <xmx:--AlauOmqS-6nRKGVglawpieM72P4qeTwOaLpggpely9r2TcqJd3cQ>
-    <xmx:--AlakTxP7x8EPAFwFSdakbO_BdNM1XWhTQTqyEABzNgUw3EgEx7Nyat>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 7 Jun 2026 17:22:02 -0400 (EDT)
-Message-ID: <0e1c9217-dfbc-4644-8e3b-994a5843a75b@bsbernd.com>
-Date: Sun, 7 Jun 2026 23:22:01 +0200
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Ca5hktma"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ef1629ff4so2764861f8f.0
+        for <fuse-devel@lists.linux.dev>; Mon, 08 Jun 2026 04:40:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1780918824; x=1781523624; darn=lists.linux.dev;
+        h=date:content-transfer-encoding:subject:in-reply-to:cc:to:from
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=gt817j5d2FZcQYx9aiRFtGll+41qpg8M37eW3rPlaLM=;
+        b=Ca5hktmayMxvSkQccRaX0B64NGXMDJ1pHgwsCp7fSQ9vR5tKLaT4aMCpZPX9dUx9MM
+         +lKZXYyIFOA0WcQ81B1xnbZS2w7gUBkt6S7tquuD7IPlpfO/rumHdopS2xo+trBi4WEZ
+         AnGdeu4ikRT0AwWz1zcev8oB8CsOE7FW1bv43TUlyGovY1s3HomuS3TnXNJkinTPi9w1
+         ilERqcztGveLE0NAnLrL784jAYFFHmvm975eJTlInIrYUw1BUsIjVb7os7SDsAS3J5iB
+         qHELTF2gY88VCAcL44PNs1EDBG32KK8jUD8nmIrmyq6rDeZYpGxBVdO6RMLd5x+czvfc
+         UEoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780918824; x=1781523624;
+        h=date:content-transfer-encoding:subject:in-reply-to:cc:to:from
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gt817j5d2FZcQYx9aiRFtGll+41qpg8M37eW3rPlaLM=;
+        b=UeWKLSiigusRRRRHPUn2Yuc5ldTmwKz1dNLoRDMimeCRHQEGZU4+iqDix4sw/FIGKe
+         p+nPFI6TDy8dVP2H44Pn3AiCrkMtkjMZcA9eTQcarb27yCJDBN+he+jw3goxtmaxsaMa
+         JLh1CTPc9DoPDNti0yWqyjt15s4kpBul2a/2HDM9J6sJKko+1Ld8bud6F9a1rbCkoXBU
+         Dh00r+fiYkUe59t83lYdQAudJM7+a8+WzrpD6Y+n3Z9MsmxUb8Z2s0weHphSJlurH/qx
+         IplbHXdIx6kFqyJwNywQqGUQp/CNboRY73V7GvCuuwQqbEVvv08STIJ95Nl19KLCoZW/
+         b+JA==
+X-Forwarded-Encrypted: i=1; AFNElJ/c+AXj+n0rPQeJBcr8M49Wg3nas7Gz7GYhetwz/W0J4gMXq/HhAg2MyE9jkcTetNb2wqdUbC0FtqhD@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0oWG5tPjUwqbtdXw0UrJgM8MiQPUjHQN7q8CkLZgVvfkhOSJs
+	mrSyUoP9qyaEtTSZl5pwzSWYPeII9bT+hRuEdv3mO/BLjunDJ7Z9+iDuerkoJqvj6Ew=
+X-Gm-Gg: Acq92OGAuaF5d3j601CU4S4mxRGo/I+DNVYgbAjDJ7MRqdbVakqxIjDt5l5V4HfsqAx
+	kLcrK12qsqN7v5XG4i8D7MptzLJlm1tyakozId1SbbJY7/I8lATsFPRFPdl3gyaask/yHpAqNrj
+	bxntcZ32oeLqxUo+TffiJjH+uWOKnYBhAuCUEo7Kws/xreHwsLimc7qEDLHo2bXpulwZGnHEk42
+	VjISTev30emz8meZlyIyT9hD8Atv1D4coBQVYIOKragjd6Oas78bbuWypIxFwcLri/p6hR+tDZa
+	TmXLy9BzBlArtc02eYA1BLAraeayYJXLujvk7m7pHziJynDhjILO4+fsDHmb4/wYixlwS6FkZ5x
+	U3gL7+BP6bLYvOn2+O5neYGsn0SlTfDJ9DL9tLsna+CrY0m3zjRA+zyvy6xkyL3O9WXwXBQJpjL
+	yOdF6sA8eEs83kRYc3LnYUAbCGdlfH17tnNDFJCr8aY9PgsEDNlL583P9rp/l9o4hOWcGZ1WsDS
+	Bwtx6If77qR1EJhsmQPBiNvzT2HmK+zFxN8RIPXerSTiQ==
+X-Received: by 2002:a05:6000:46cd:b0:460:1492:4f0d with SMTP id ffacd0b85a97d-4603063c591mr15377117f8f.34.1780918824402;
+        Mon, 08 Jun 2026 04:40:24 -0700 (PDT)
+Received: from localhost.localdomain (p200300ef2f13eb00c11aebd17f9598f1.dip0.t-ipconnect.de. [2003:ef:2f13:eb00:c11a:ebd1:7f95:98f1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f2710sm40821903f8f.14.2026.06.08.04.40.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 04:40:24 -0700 (PDT)
+Message-ID: <6a26aa28.283787d8.1f1282.ba36@mx.google.com>
+From: "Andrea Cervesato" <andrea.cervesato@suse.com>
+To: "Askar Safin" <safinaskar@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, "Christian Brauner" <brauner@kernel.org>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Jan Kara" <jack@suse.cz>, "The 8472" <kernel@infinite-source.de>, patches@lists.linux.dev, "David
+ Howells" <dhowells@redhat.com>, linux-mm@kvack.org, "Collin Funk" <collin.funk1@gmail.com>, "Joanne
+ Koong" <joannelkoong@gmail.com>, "Miklos Szeredi" <miklos@szeredi.hu>, "David
+ Laight" <david.laight.linux@gmail.com>, "Matthew Wilcox" <willy@infradead.org>, "Christoph
+ Hellwig" <hch@infradead.org>, "Steven Rostedt" <rostedt@goodmis.org>, fuse-devel@lists.linux.dev, "David
+ Hildenbrand" <david@kernel.org>, "Pedro Falcato" <pfalcato@suse.de>, ltp@lists.linux.it, "Jens
+ Axboe" <axboe@kernel.dk>, "Stefan Metzmacher" <metze@samba.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, "Andy
+ Lutomirski" <luto@amacapital.net>, linux-api@vger.kernel.org, "Andrew
+ Morton" <akpm@linux-foundation.org>, "Linus Torvalds" <torvalds@linux-foundation.org>, "Willy
+ Tarreau" <w@1wt.eu>
+In-Reply-To: <20260606061031.3744880-1-safinaskar@gmail.com>
+Subject: Re: [LTP] [PATCH 0/5] vmsplice: fix some problems in my previous
+ vmsplice patchset
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Jun 2026 11:40:22 +0000
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/6] mountservice: advertise fuseblk support
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-References: <178044567804.1435997.11438899616254127750.stgit@frogsfrogsfrogs>
- <178044567930.1435997.15363968498209622419.stgit@frogsfrogsfrogs>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <178044567930.1435997.15363968498209622419.stgit@frogsfrogsfrogs>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+Hi Askar,
 
+the patch-set doesn't apply:
 
-On 6/3/26 02:16, Darrick J. Wong wrote:
-> From: Darrick J. Wong <djwong@kernel.org>
-> 
-> Amazingly, permission for the use of the "blkdev" mount option (aka
-> mounting with fuseblk.SUBTYPE instead of fuse.SUBTYPE) rests solely on a
-> getuid()==0 check in userspace.  That /might/ be an indication that the
-> kernel also won't allow this, but as that's the criteria, let's
-> advertise fuseblk explicitly so that a fuse server can discover the
-> capability before calling fuse_service_session_mount().
-> 
-> Signed-off-by: "Darrick J. Wong" <djwong@kernel.org>
-> ---
->  include/fuse_service.h      |    8 ++++++++
->  include/fuse_service_priv.h |    4 +++-
->  lib/fuse_service.c          |   10 ++++++++++
->  lib/fuse_versionscript      |    1 +
->  util/mount_service.c        |    5 ++++-
->  5 files changed, 26 insertions(+), 2 deletions(-)
-> 
-> 
-> diff --git a/include/fuse_service.h b/include/fuse_service.h
-> index bd89189cfe5d5b..0536312dc7120c 100644
-> --- a/include/fuse_service.h
-> +++ b/include/fuse_service.h
-> @@ -61,6 +61,14 @@ static inline bool fuse_service_accepted(const struct fuse_service *sf)
->   */
->  bool fuse_service_can_allow_other(const struct fuse_service *sf);
->  
-> +/**
-> + * Will the mount service helper accept a fuseblk mount?
-> + *
-> + * @param sf service context
-> + * @return true if it will, false if not
-> + */
-> +bool fuse_service_can_fuseblk(const struct fuse_service *sf);
-> +
->  /**
->   * Release all resources associated with the service context.
->   *
-> diff --git a/include/fuse_service_priv.h b/include/fuse_service_priv.h
-> index 8560b1ac610143..cfbc444bf5dcbd 100644
-> --- a/include/fuse_service_priv.h
-> +++ b/include/fuse_service_priv.h
-> @@ -54,8 +54,10 @@ struct fuse_service_packet {
->  #define FUSE_SERVICE_MAX_PROTO	(1)
->  
->  #define FUSE_SERVICE_FLAG_ALLOW_OTHER	(1U << 0)
-> +#define FUSE_SERVICE_FLAG_FUSEBLK	(1U << 1)
->  
-> -#define FUSE_SERVICE_FLAGS		(FUSE_SERVICE_FLAG_ALLOW_OTHER)
-> +#define FUSE_SERVICE_FLAGS		(FUSE_SERVICE_FLAG_ALLOW_OTHER | \
-> +					 FUSE_SERVICE_FLAG_FUSEBLK)
->  
->  struct fuse_service_hello {
->  	struct fuse_service_packet p;
-> diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-> index 7fd10211dbeab4..2d7232c3484aea 100644
-> --- a/lib/fuse_service.c
-> +++ b/lib/fuse_service.c
-> @@ -51,6 +51,9 @@ struct fuse_service {
->  
->  	/* can we use allow_other? */
->  	bool allow_other;
-> +
-> +	/* can we use fuseblk? */
-> +	bool can_fuseblk;
->  };
->  
->  static int __recv_fd(const struct fuse_service *sf,
-> @@ -505,6 +508,8 @@ static int negotiate_hello(struct fuse_service *sf)
->  
->  	if (flags & FUSE_SERVICE_FLAG_ALLOW_OTHER)
->  		sf->allow_other = true;
-> +	if (flags & FUSE_SERVICE_FLAG_FUSEBLK)
-> +		sf->can_fuseblk = true;
->  
->  	size = __send_packet(sf, &reply, sizeof(reply));
->  	if (size < 0) {
-> @@ -612,6 +617,11 @@ bool fuse_service_can_allow_other(const struct fuse_service *sf)
->  	return sf->allow_other;
->  }
->  
-> +bool fuse_service_can_fuseblk(const struct fuse_service *sf)
-> +{
-> +	return sf->can_fuseblk;
-> +}
-> +
->  int fuse_service_append_args(struct fuse_service *sf,
->  			     struct fuse_args *existing_args)
->  {
-> diff --git a/lib/fuse_versionscript b/lib/fuse_versionscript
-> index e09f53bbf3f7dc..b89a7f1f3df3d9 100644
-> --- a/lib/fuse_versionscript
-> +++ b/lib/fuse_versionscript
-> @@ -236,6 +236,7 @@ FUSE_3.19 {
->  		fuse_service_accept;
->  		fuse_service_append_args;
->  		fuse_service_can_allow_other;
-> +		fuse_service_can_fuseblk;
->  		fuse_service_cmdline;
->  		fuse_service_destroy;
->  		fuse_service_exit;
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index df22c1182541b7..6a6a8b608b7c6e 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -367,7 +367,10 @@ static int mount_service_send_hello(const struct mount_service *mo)
->  	struct fuse_service_hello_reply reply = { };
->  	ssize_t size;
->  
-> -	if (getuid() == 0 || user_allow_other)
-> +	if (getuid() == 0)
-> +		hello.flags |= htonl(FUSE_SERVICE_FLAG_FUSEBLK |
-> +				     FUSE_SERVICE_FLAG_ALLOW_OTHER);
-> +	else if (user_allow_other)
->  		hello.flags |= htonl(FUSE_SERVICE_FLAG_ALLOW_OTHER);
->  
->  	size = __send_packet(mo, &hello, sizeof(hello));
-> 
+error: fs/read_write.c: does not exist in index
+hint: Use 'git am --show-current-patch=3Ddiff' to see the failed patch
+hint: When you have resolved this problem, run "git am --continue".
+hint: If you prefer to skip this patch, run "git am --skip" instead.
+hint: To restore the original branch and stop patching, run "git am --abort=
+".
+hint: Disable this message with "git config set advice.mergeConflict false"
+Applying: vmsplice: open-code do_writev and do_readv
+Patch failed at 0001 vmsplice: open-code do_writev and do_readv
 
-This breaks the FreeBSD build
+https://github.com/linux-test-project/ltp-agent/actions/runs/27129052434/jo=
+b/80065058557#step:8:21
 
-2026-06-07T20:28:41.0670421Z cc  -o lib/libfuse3.so.3.19.0 lib/libfuse3.so.3.19.0.p/fuse.c.o lib/libfuse3.so.3.19.0.p/fuse_loop.c.o lib/libfuse3.so.3.19.0.p/fuse_loop_mt.c.o lib/libfuse3.so.3.19.0.p/fuse_lowlevel.c.o lib/libfuse3.so.3.19.0.p/fuse_opt.c.o lib/libfuse3.so.3.19.0.p/fuse_signals.c.o lib/libfuse3.so.3.19.0.p/buffer.c.o lib/libfuse3.so.3.19.0.p/cuse_lowlevel.c.o lib/libfuse3.so.3.19.0.p/helper.c.o lib/libfuse3.so.3.19.0.p/modules_subdir.c.o lib/libfuse3.so.3.19.0.p/mount_util.c.o lib/libfuse3.so.3.19.0.p/fuse_log.c.o lib/libfuse3.so.3.19.0.p/compat.c.o lib/libfuse3.so.3.19.0.p/util.c.o lib/libfuse3.so.3.19.0.p/fuse_daemonize.c.o lib/libfuse3.so.3.19.0.p/mount_bsd.c.o lib/libfuse3.so.3.19.0.p/fuse_service_stub.c.o lib/libfuse3.so.3.19.0.p/modules_iconv.c.o -Wl,--as-needed -Wl,--no-undefined -shared -fPIC -Wl,-soname,libfuse3.so.4 -Wl,--version-script,/home/runner/work/libfuse/libfuse/lib/fuse_versionscript -pthread -Wl,--start-group -ldl -lrt -Wl,--end-group
-2026-06-07T20:28:41.0697146Z ld: error: version script assignment of 'FUSE_3.19' to symbol 'fuse_service_can_fuseblk' failed: symbol not defined
-2026-06-07T20:28:41.0717197Z cc: error: linker command failed with exit code 1 (use -v to see invocation)
-2026-06-07T20:28:41.0839610Z [41/85] cc -Itest/readdir_inode.p -Itest -I../test -Iinclude -I../include -Ilib -I../lib -I. -I.. -fdiagnostics-color=always -Wall -Winvalid-pch -Wextra -std=gnu11 -O2 -g -D_REENTRANT -DHAVE_LIBFUSE_PRIVATE_CONFIG_H -Wno-sign-compare -D_FILE_OFFSET_BITS=64 -Wstrict-prototypes -Wmissing-declarations -Wwrite-strings -fno-strict-aliasing -MD -MQ test/readdir_inode.p/readdir_inode.c.o -MF test/readdir_inode.p/readdir_inode.c.o.d -o test/readdir_inode.p/readdir_inode.c.o -c ../test/readdir_inode.c
+Please update it to a new version after rebasing with the upstream master
+branch.
 
-
-Thanks,
-Bernd
+Regards,
+--
+Andrea Cervesato
+SUSE QE Automation Engineer Linux
+andrea.cervesato@suse.com
