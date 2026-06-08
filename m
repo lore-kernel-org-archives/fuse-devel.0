@@ -1,225 +1,133 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94630329E46
-	for <fuse-devel@lists.linux.dev>; Mon,  8 Jun 2026 17:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780938976; cv=none; b=ttV2QJQyadCfAzV4igcgSxsFGHacrOh2+XChsubzdZ8vA4a0lrx0cOxM5AayogC9S8/Dgv7f4fzCgLEVBFpf2066uIm2WSddhSUawrYGiGECTIRW+wEAChMBD3F42wGBnQSb8nTvEuDSOdn+HuOze+zSFz1sd0bBGJRW8/mto3g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780938976; c=relaxed/simple;
-	bh=OAkaQAIbia/UxfKZhhaUSwQpuzcDHqCQxCk2rq6a3NM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Urju2fmE6c3NRqrSooPpK+Du+TstNEdPFkv5xt0LvbLViBASUnAJVVHLnvxUY/8fsdSXv2XmkcfPnW76TIOlLin8ssvrbncyxZiZyBqnGP3RpG2YtVnz12ESzwGYeG9w+0nqBy3wtj5z1mzurK0h00XUBgci9RxFgwc/w2f1mrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=CYwTzEsZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cXFLQvVF; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FFF3D7D61
+	for <fuse-devel@lists.linux.dev>; Mon,  8 Jun 2026 17:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780939705; cv=pass; b=kBo80f8N+iQBkuiMk+P5Qcese1ix9T+D6aeC2R3z4ix7twRTD+n2ztSxU7Fbn9JwWMqToyy8MuYF8KyiM4xukRXyjAt+qsyXWRd/eR7TIeq6gcAyrpI6L3LE8nQiFc62Qi3JYW7qSmYU1J1WFkn2nZtoVCKIdxprnFa55hxg6GM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780939705; c=relaxed/simple;
+	bh=cowmi3+ykQJgNo3AqI6VXQ21WVCN8gyxHrZRNzzg/dQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uXXlpa49kuKhxdExgWTzFZapNUX+ARciR7PwxMIP0+fx2TOUafUIUk/QwS4GmNZ3QOaBHzUpSZr0FJjbyl0zc8SmpPJ4/mJ3bpZbknsVtffhJ+Aa6qkifNMkGKCODh4lpYarXZYd18njTtbVB3LJIwaxLqGz7Up78pPSYUFCxUE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ZOz5u+OB; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="CYwTzEsZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cXFLQvVF"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id C7361EC0179;
-	Mon,  8 Jun 2026 13:16:12 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Mon, 08 Jun 2026 13:16:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1780938972;
-	 x=1781025372; bh=Llc7jokBTI3ed5STjcyZf98qZ7tkpnVXUvGXJkrnG7A=; b=
-	CYwTzEsZrTQgh0k2rKX8ultVw8u8+fVD5B9d0EfYSTMuQ66Lh0jbHmQUeTeo90Jk
-	0p/07teQ1q8ue3G2HyuV0mAp4gorIG3f4nY2h5jFWRhnt/Ni56GNUl/XzcPWYhco
-	CVduhX3vTnfImWFPOP7qkpevGV4ZvduxXlB1FiUtC/VgBfzlzZQrxF95BCsuUztd
-	oxTwfO4ctyewgJsQs4+XSb/LdPNssjv1P4IQNqqm9DbXoowavvwKaEK0eU55i7rk
-	CUDENBmLiXXsFo7DyqxCRaeADB7m18lc0k9k6PuyP9kOPFOyHnunV0npo8z9UUGu
-	a0g5k5IZIaqrSl5EEceZWQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1780938972; x=
-	1781025372; bh=Llc7jokBTI3ed5STjcyZf98qZ7tkpnVXUvGXJkrnG7A=; b=c
-	XFLQvVF+a19xnBgQjG2ImaSRf3/zgpe2mh+VOu0C4wU8Fri5peZ2CqSCITTr/2In
-	j+2kWaWI0KoW5BvC3QxKN/lsqBhc5QeZBIfSwnbU5BOkPgVs7dJIASKhE4XrvM2Y
-	i+5OF8B3FAeJRUUXUQbKXNRZF77NIMd3gVJGyCkKL+0FWSGWIeykrKnArHR8bbtf
-	CXS3EHPiqkTTR9skvSRtq6EkStWugCcmctz7c4CPHh3w6il7XE+ZFzbnuvWUVsiN
-	0xPCfqVeMIXINz1nq1yKxBel4tbUciRHGHw5QgcXEB+LtIVjY2LiqIFeRcVPhiiz
-	TblxIuspmVPR3PY9oawCA==
-X-ME-Sender: <xms:3Pgmap4Tsa_APkxVIJ1AThF2M_l_ced0YGlPyC7hJqgZMOK8fT9Mug>
-    <xme:3PgmaoZ4ToU1OVPWXUaJdEfh8xntD9wFbC46W00PIxhoVz8A-dReDgGsmca9ykC3x
-    KosWXKsP4uY_adxdC5UHZTI8pejLSHiz3bGgdllaWXU1mnkK4QU>
-X-ME-Received: <xmr:3PgmaghyT8ccHHqWEYs7KJpxIBBQ1MlwWebclz6QXXFxYCzsE150PcVU9VrLYx5yR3qUvo6OHnPlCWGYGsINjaazwd6lgM1TvKoP7HvwW1ouyrn2ng>
-X-ME-Proxy-Cause: dmFkZTGavsvv1XSInRXR4vVNLF1CrSUxB2QoASp/EhpEuyTd0+J0yn1NgKFLiqFbWXs+tt
-    zQH3028oOnsg5nk/IOopfjOWugdL1fnUfblT/+fUYY8jB/ggGExRkGj6RZom3Vsc4isjX2
-    jsc8ebXUivV4hvGQeyh55eCe1tUHVHl9Xn6tPwNk+aeYOzO9/NZ+yoq1XIxNyU0Uj92Jq/
-    saGPUkms8T+Hcm1NCfNujxSE+tUtqMhnusJJ0ZCs1lm8YbTxDSEV8PUX6BPiv8XX9iGQ8G
-    Li9j7evz8fPq2XZJ+DR1qnxr79SStjTH59b2XT/u5N4zWWTe+HUnWlxTE9GRpqK+GPtROM
-    dLqRPRG/EVxYdPrdzfPp7/bI0jA891NJDfpo7hsyXBUfsLK0kLRz4mV7zNAzHHiAlT/a5o
-    pl4NPMxGkrIEy4anenDuw9es9+fhIX5QEwgVZ5my+VD20AcfDztue0wQ/Bgbfm/jyeHdLL
-    aj1E74Ur9/d8+0mY9XN/xP7IuypXamBXXITIHm0dPc1La+P6QXbchOsyibbv0+4eNJNmSx
-    GPPVDsm9tnQaDVc5Mr5Hdr9YMB8kPJTJFVXuhUYWIgb5jh8MrlXHGPU+1apsugxDTyv1Tt
-    iWazzWY03z1Cxa7mrZbDxSJSj9DcTeeJpmJlJX+ShRjU2bjE1Zb63Et4jKvA
-X-ME-Proxy: <xmx:3Pgmah8Xo1AMpMg9Chuq9GvrQKMdnP2xcegSLAiRzSupzbBHqMtgpw>
-    <xmx:3Pgmajr6A2VYAaxF8TH1ToSkwUi-IvW4_zIA-ee13T4P5ry7RbRBEw>
-    <xmx:3PgmahXoaoaOsahm0TRiaO0H4p4_gbLswsxoHtWYnqhc8eDJTNObWQ>
-    <xmx:3PgmaqAJJ7r-8CReOWKTJpdK3YyM-jhluBIrkP-JyYBFt4VEduVcGA>
-    <xmx:3Pgmao5AoZzDotxo50sd6vaNhWemjzcUfCYQrG-QU1OIQ3JzUTTmiU3n>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 8 Jun 2026 13:16:11 -0400 (EDT)
-Message-ID: <57fdff56-6a4b-4bbd-b191-d63b82a14509@bsbernd.com>
-Date: Mon, 8 Jun 2026 19:16:09 +0200
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ZOz5u+OB"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5178a42caa3so44652191cf.1
+        for <fuse-devel@lists.linux.dev>; Mon, 08 Jun 2026 10:28:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780939701; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WDEumOUwNAxYlFO+9bqDn8hGBZCu3/yVzNVJ8BnyaPpu07wtGz3MuYtgVKXvLMJwNU
+         N0j7RFAQruuMgtLA0CQgZNQ0mvyRAW7F4qjWWDeSSFubb/UHt4Y/MMFkxcVp7/e3YK5H
+         gDZgYDPMUfI6ezl7J0TfbxHu259mvKfaOJdYjf1D/KkCvrVWES7+FkGKo3mUL/05DIt+
+         c1quP9Rb7vintOGy7PwzgHWRuNQODl4A1qfbmmVaCygrzoyl2vKZkTlq5sA0Ebw+79EO
+         6tkeBeN8c38AJG7y+JreInpf1da0UsJeztFLqyvCpT2/S1VyJsUw66WUh5DyO/G2Gr90
+         MyVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=d7U4zc/LNIPR/5rhjvkAHPlVmeHUKWR3UtKoj1Vq7Wo=;
+        fh=jjjBLAQ4CvU7y5rowrqvimnCqU2LCM9IFa/jj1BYHl0=;
+        b=hUnkVhY3AFYXiihSCUPgOwGCWcmX7dxUrHVsweK6Og5ei2Mh4IrDTRSPGSx1sGF4Jr
+         NCq3nhIz4oI028VSGaUlfKaz658LAWt9+nZzr4iNF0EaHJtXqrE+uAFsr6RY0+9RwvLM
+         DHPjo/+6lvTxJl8PXcIZDOkDA+R4fKPDLadkHwh3tu8RyLt+/eGLB0Y9Rsm+Kgt+onyc
+         8oBQ/izgCySR6ErbG1ZSxlTwx0xK0IB2vYnSV4/yM8GDiG6ELtY5v5g+R1bWLGw0aQc3
+         Fhu48Mof18G5/sKarNqce7NC0TdK1LaOjaAlWP5JWzZ5+ZXNMURnYal6D4YFWAPFSxNF
+         qC6g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1780939701; x=1781544501; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=d7U4zc/LNIPR/5rhjvkAHPlVmeHUKWR3UtKoj1Vq7Wo=;
+        b=ZOz5u+OBOoKe2eurk52JHt3O+OlaImJRXKczzF7IsdaIRhI1g7JgVZdSipRNvAwkNH
+         5oOe7nsk9LSBilj6N+eWFaOF8C9hW+W2yq6BlDIJI/IkXuo0SoqZXg2qYj8VkOnZ/e1I
+         aMQMTYZX0rdxGX0Ry7Z95C7RgHskhMU0Pugz4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780939701; x=1781544501;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d7U4zc/LNIPR/5rhjvkAHPlVmeHUKWR3UtKoj1Vq7Wo=;
+        b=HE9SC8aSHN/R/YR42TT9dNogal7SFWBz4f3BE/zXVdy6eqLM3MFeh3z99TTQ0PXi2u
+         C/bb7zCy7VPgkioiUpg5FymugNPijET9+M3mNV9uqQlO9g/mZrvU9P82wO1uQEXJt/Ug
+         cselhveJfQun1iucbAcREc86lC3+EgiLTahlXFn6D5xd/KwdMPz1/jnn4PH1hr02G9C1
+         3tbtlQbqS0UpEP9wcXrH5ovdENA7SnD64LjAvwjtGQ9Oc+SOSwoLnLXqXMwv00u9+AHK
+         frH8/fH/MnYL4U2PW73Kr2wVFXl4dhKm9OvxEaBqpse79ssam2ndznTg0ryKpZaxGcJ3
+         ve/g==
+X-Forwarded-Encrypted: i=1; AFNElJ/7/cPGqa63C7ZaxBiK3iSw2IjcviFyB9WgT2MS7kd7CnTG38548UqWITKhuaHacLeTJlt32XIbPq5F@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdHLmeaLowdrmQqpnm0Hc3GuigUTBtn3cu+im36gc3FJZ+aETY
+	Sv4v0cMBt+HTDSgTtOiJ+Vwec3TdIebaEouFDfr9pTeFzcMKVVqRuzk8AQpFLau/smgyB/E8iu4
+	vpzkOXwXN7xPx/KusTUWe8vZlZv3NlSWQhm73sIEO3A==
+X-Gm-Gg: Acq92OF+NUP4AsAuUeE+C1jdoiukzoSLJd5alzI4pPWaOSsXF7uAAiacICcwSMrth98
+	sOy0IkVIMTeKWBJk6sRajMqXYs8AFDC7RR14kDDjyWWiSAUgNcp19J1Rmz18XOA1q/LG6p08j9G
+	lkTb4gaTpmAutoRypnOKxz2/WqdpoLEhup4ld+WhRWVSPDw6B9KxJ9NDD2zpIwfbnUf3+RmTPF3
+	A+WI97gIix5TW0WbruhDiTkrWU1745mqvBsY6ecHWddVV1CT7muJRQINm5orLt3nstoh0wqkZGQ
+	vpOHTs8YoqnYTjOEHcUvzKAcR6CPzWac+tZkfd5/mWwmHuA=
+X-Received: by 2002:a05:622a:4807:b0:517:9399:fa83 with SMTP id
+ d75a77b69052e-5179888bf12mr166237831cf.27.1780939701082; Mon, 08 Jun 2026
+ 10:28:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] fuse: end fuse_req on io-uring cancel task work
+References: <20260605192708.141921-1-joannelkoong@gmail.com> <20260605192708.141921-2-joannelkoong@gmail.com>
+In-Reply-To: <20260605192708.141921-2-joannelkoong@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 8 Jun 2026 19:28:09 +0200
+X-Gm-Features: AVVi8Ceqjpew3fq2St36JCFFgclYbphPBawkkcd3WN0vlnMKQ0jF2eUj0qJh4vY
+Message-ID: <CAJfpeguuR+K1r0SVNScjkSnjt3SF+E7V8PbSB3TgEVEhK-bLNA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] fuse: fix EFAULT clobber in fuse_uring_commit
 To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, Chris Mason
- <clm@meta.com>, stable@vger.kernel.org
-References: <20260605192708.141921-1-joannelkoong@gmail.com>
- <20260605192708.141921-4-joannelkoong@gmail.com>
- <058fd2d4-3ba4-46e5-9107-3a7e0ab66653@bsbernd.com>
- <CAJnrk1YHQEtpwA-ForFWXsLntc950ekqAHg=L9VExVfJ2WF1Rw@mail.gmail.com>
- <742e68e6-c456-4655-a441-aaa8267f1a48@bsbernd.com>
- <CAJnrk1bz=BHryaWkZ0uBCpzLoVM-FSsb4mhA8F7+fnMQ4Tt_YQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAJnrk1bz=BHryaWkZ0uBCpzLoVM-FSsb4mhA8F7+fnMQ4Tt_YQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Cc: bernd@bsbernd.com, fuse-devel@lists.linux.dev, Chris Mason <clm@meta.com>, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 5 Jun 2026 at 21:27, Joanne Koong <joannelkoong@gmail.com> wrote:
+>
+> From: Chris Mason <clm@meta.com>
+>
+> copy_from_user() returns the number of bytes not copied as an unsigned
+> residual on failure (1..sizeof(struct fuse_out_header)). fuse_uring_commit
+> stores that residual in ssize_t err, sets req->out.h.error to -EFAULT,
+> then jumps to out: with err still holding the positive residual.
+>
+>     err = copy_from_user(&req->out.h, &ent->headers->in_out,
+>                          sizeof(req->out.h));
+>     if (err) {
+>         req->out.h.error = -EFAULT;
+>         goto out;          /* err is the positive residual */
+>     }
+>     ...
+>     out:
+>         fuse_uring_req_end(ent, req, err);
+>
+> fuse_uring_req_end() then runs
+>
+>     if (error)
+>         req->out.h.error = error;
+>
+> which overwrites the just-assigned -EFAULT with the positive residual.
+> FUSE callers such as fuse_simple_request() test err < 0 to detect
+> failure, so the positive value is interpreted as success and the
+> caller proceeds with an uninitialised or partial req->out.args.
+>
+> Fix by assigning err = -EFAULT in the failure branch before jumping
+> to out, so fuse_uring_req_end() receives a negative errno and sets
+> req->out.h.error to -EFAULT.
+>
+> Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+> Cc: stable@vger.kernel.org
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> Assisted-by: kres (claude-opus-4-7)
+> Signed-off-by: Chris Mason <clm@meta.com>
 
+Applied, thanks.
 
-On 6/8/26 18:46, Joanne Koong wrote:
-> On Sat, Jun 6, 2026 at 12:41 AM Bernd Schubert <bernd@bsbernd.com> wrote:
->>
->>
->> On 6/6/26 01:52, Joanne Koong wrote:
->>> On Fri, Jun 5, 2026 at 3:09 PM Bernd Schubert <bernd@bsbernd.com> wrote:
->>>>
->>>>
->>>>
->>>> On 6/5/26 21:27, Joanne Koong wrote:
->>>>> From: Chris Mason <clm@meta.com>
->>>>>
->>>>> When io_uring delivers task work with tw.cancel set (PF_EXITING,
->>>>> PF_KTHREAD fallback, or percpu_ref_is_dying on the ring context),
->>>>> fuse_uring_send_in_task() takes the cancel branch, assigns
->>>>> -ECANCELED, and falls through to fuse_uring_send(). That path only
->>>>> flips the entry to FRRS_USERSPACE and completes the io_uring cmd;
->>>>> it never discharges the ring entry's owning reference to the
->>>>> fuse_req that fuse_uring_add_req_to_ring_ent() handed it at
->>>>> dispatch time.
->>>>>
->>>>>     fuse_uring_send_in_task()
->>>>>       tw.cancel == true
->>>>>         err = -ECANCELED
->>>>>       fuse_uring_send(ent, cmd, err, issue_flags)
->>>>>         ent->state = FRRS_USERSPACE
->>>>>         list_move(&ent->list, &queue->ent_in_userspace)
->>>>>         ent->cmd = NULL
->>>>>         io_uring_cmd_done(-ECANCELED)
->>>>>         /* ent->fuse_req still set, req still hashed */
->>>>>
->>>>> The fuse_req stays linked on fpq->processing[hash] and
->>>>> fuse_request_end() is never invoked. The originating syscall
->>>>> thread blocks in D-state in request_wait_answer() until
->>>>> fuse_abort_conn() runs, which can be the entire connection
->>>>> lifetime. For FR_BACKGROUND requests fc->num_background is never
->>>>> decremented either, so repeated cancels inflate the counter until
->>>>> max_background is hit and all later background ops stall.
->>>>>
->>>>> The non-cancel error branch already handles this correctly: when
->>>>> fuse_uring_prepare_send() fails it calls fuse_uring_req_end()
->>>>> before fuse_uring_send(). The cancel branch must do the same.
->>>>>
->>>>> Fix by calling fuse_uring_req_end(ent, req, err) in the cancel
->>>>> branch before falling through to fuse_uring_send().
->>>>>
->>>>> Fixes: c2c9af9a0b13 ("fuse: Allow to queue fg requests through io-uring")
->>>>> Cc: stable@vger.kernel.org
->>>>> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
->>>>> Assisted-by: kres:claude-opus-4-7
->>>>> Signed-off-by: Chris Mason <clm@meta.com>
->>>>> ---
->>>>>  fs/fuse/dev_uring.c | 1 +
->>>>>  1 file changed, 1 insertion(+)
->>>>>
->>>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
->>>>> index 7cd50990b097..b5cc700575ca 100644
->>>>> --- a/fs/fuse/dev_uring.c
->>>>> +++ b/fs/fuse/dev_uring.c
->>>>> @@ -1222,6 +1222,7 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
->>>>>               }
->>>>>       } else {
->>>>>               err = -ECANCELED;
->>>>> +             fuse_uring_req_end(ent, ent->fuse_req, err);
->>>>>       }
->>>>>
->>>>>       fuse_uring_send(ent, cmd, err, issue_flags);
->>>>
->>>> I think that can race with fuse_uring_stop_queues(), which leaves us two
->>>
->>> Hmm, I don't think this races with fuse_uring_stop_queues() as
->>> ent->state here is still FRRS_FUSE_REQ and fuse_uring_send_in_task()
->>> can only be called for a registered fuse ent, which means the ent has
->>> already grabbed the queue refcount which will trigger the async
->>> teardown worker to run in the background during abort until the ent is
->>> reclaimed. I think this adds a race though with the request expiration
->>> checking logic which (a) fixed, so I think you're right that we'll
->>> probably need the same cleanup here. I'll look at this early next week
->>> and send a v2.
->>>
->>
->> Right, actually no race at all, just a plain use-after-free, because the
->> entry is set to FRRS_USERSPACE and then cleaned up during connection
->> abort and then released again through fuse_uring_queues or
->> fuse_uring_async_stop_queues.
->>
->> I actually do not get this part of the commit message
->>
->>> When io_uring delivers task work with tw.cancel set (PF_EXITING,
->>> PF_KTHREAD fallback, or percpu_ref_is_dying on the ring context),
->>> fuse_uring_send_in_task() takes the cancel branch, assigns
->>> -ECANCELED, and falls through to fuse_uring_send(). That path only
->>> flips the entry to FRRS_USERSPACE and completes the io_uring cmd;
->>> it never discharges the ring entry's owning reference to the
->>> fuse_req that fuse_uring_add_req_to_ring_ent() handed it at
->>
->> A mean exit does not trigger fuse_dev_release() with a fuse_abort_conn()
->> from that function?
-> 
-> I don't think tw.cancel implies a connection abort. tw.cancel gets set
-> on io_uring task death or ring death which is different from fuse
-> connection death (eg a single worker thread of a multithreaded daemon
-> exiting doesn't drop any ref on /dev/fuse fd, but that thread's
-> in-flight task work still drains with tw.cancel)
-> 
->>
->> I do not think we need 3/3 at all.
-> 
-> I think this is needed for the cases where tw.cancel occurs without a
-> subsequent fuse abort, else the application syscall thread is stuck
-> uninterruptibly in D-state in request_wait_answer() for the
-> connection's lifetime. tw.cancel with a fuse abort is the common case,
-> but I think unfortunately we also need to handle the case where this
-> doesn't occur.
-
-
-I see, the initial code was using IO_URING_F_TASK_DEAD and I had wrongly 
-assumed that is related to PF_EXITING. 
-Well, I think the fix is clear, although I personally do not like the
-exit code dup (or better triple)
-https://lore.kernel.org/r/20260515045541.1171335-4-joannelkoong@gmail.com
-
-In my option fuse_uring_cancel() and canceled fuse_uring_send_in_task() 
-should go through fuse_uring_entry_teardown().
-
-
-Thanks,
-Bernd
+Miklos
