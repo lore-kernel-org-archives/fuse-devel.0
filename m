@@ -1,81 +1,80 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5804C0400
-	for <fuse-devel@lists.linux.dev>; Tue,  9 Jun 2026 21:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE662F747A
+	for <fuse-devel@lists.linux.dev>; Tue,  9 Jun 2026 22:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781041246; cv=pass; b=i9Ay/ZfEtpzUkEx3O+fHYpsz1E+ryYcy+PQOEMwvI6zJsPvX/1SsaYG6YjMxtjS0ee6jNiFLCatXpJc8wNShhTvfUtwKK5yvRkD5WEF1ecI41m79CnIR8uAXiJ2GQh8RSzm1gp3J3fOtWsHMx/IKDsGc5j+eu5QetSPsexHfc+M=
+	t=1781044446; cv=pass; b=pRXr/ajccoXrhmzp0wGwn2gZf9n1otZf4Wl9R5nkOYKeH3p+n1t/tNlnucVVwOtIM/ecU9D6+8jQVT5o048zsGrp6bloxHkgVVrgSJ0UlZaYlXtHYgVF9qNz6M8P+nOa3sIYRkE6ZM18WFQyFzQzl17q+wkoaa3geq5mJwbscys=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781041246; c=relaxed/simple;
-	bh=LxJbphFnFSLK7hr9bXSOnnqXmI0nFTzhEiHyDOBnbpA=;
+	s=arc-20240116; t=1781044446; c=relaxed/simple;
+	bh=COTblkNy6SCSydFwwrMAdTko/6ck6W25SMup1eD2Wbo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oWmWpw9FcZMV0MQHu3IeY1LTGt2npMsHx4okgWkF6ZZvlTBVAUKBGcln7Vv46AiOOF9tSzSVZzSl5o9Fq1w6gmuCxMcQ0wIET65Odo5w+l3Xw5hPS2QLncgl083EpEPYS1L0DjW3GbHV+j7/fHzjQqmpF+Ad0YETJRz8qC3sTDc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KYHZvAAW; arc=pass smtp.client-ip=209.85.128.47
+	 To:Cc:Content-Type; b=ty53G0ZMeqYV7x+AUH4E40A3Wu+rVTxHDSTQTMOOzY/kCteFG8OEhFJhRSSrfv3jhmHKuEUdXsc/S5+Kar3DggAFX3QuHW0IshgyrPby7KX13g+HXLnE8Ao46fpIe5SEojmw8k/ECVIhlWhxmxzK9bcL8/fqmykhfjMISa8cFUo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DOgLZ8vU; arc=pass smtp.client-ip=209.85.219.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KYHZvAAW"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b64c8311so67540375e9.3
-        for <fuse-devel@lists.linux.dev>; Tue, 09 Jun 2026 14:40:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781041240; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DOgLZ8vU"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ccf181a52bso57300736d6.3
+        for <fuse-devel@lists.linux.dev>; Tue, 09 Jun 2026 15:34:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781044444; cv=none;
         d=google.com; s=arc-20240605;
-        b=c3WY9xutQziQ1iDWyGN3qIXuH+ynFHpJg2dZ3DxINF4ik121SpFQ720ATxWvCEuY0M
-         w9Q0r0PqW2vdaL6gfTTt1UZ4LGNrf+EYLvuH3r7vjoXkD9NF8nLVBclptQRzR5ECpxZ6
-         PF3VvRfcapCpIXyJnGLgGyk4c4jU7IsjJ3xz0uctrzw9ReOU5dOINEhsB+xOUSALnvaw
-         ZKdR4ZaSjv6EfkUx4M9GJQ/qIATk97vqNBKOg2rUGh5WHu60nZ/pdlIQr8ayfY06zOIK
-         baz8Kxi5KMlqaI2mIdeOsMgXgh55+1tFfFWlf+zaWIP2eixNx4GcWvi/IT26YZTOwjPn
-         Am+A==
+        b=CAG2eOsv997mNW/3YHvXbiiFFcG3zECkFSTxOOs7iT4YAwWJFPVltIbXkeRn5ZmMH3
+         z0NHpkJ3mQPXIEakt79lMQH4VIHzHGjBZ6FpQUue1ODbA2+yBm9Q6oL76jSrqd9MqQaH
+         RCaUrfhDzrX+lFWgrbLftrNjoZqX+vLAq+vDWbVfMy9VKH3tUJtrhrgAYv1FjTfriYyN
+         areEb8wqRNJCfPkp2VkF3olXQuuPC4Dc6IDzI9OyXguGA1ZPUy2cN1o6o5Bm7md3pEpp
+         WUcadAm+cNodx7x4Anvg4FMO/JlVKLAxez6kf9DfoLBwJGc5qfs+3/wBPfv2hJ5WFWtG
+         I6fg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=axEo+SQlIOyn631n7kh9nc9Xdviab4sY310qjizLdPY=;
-        fh=VL3xC3SRPQQfbOqr8oVjydleI4cnZw4DA9tcjyGwc60=;
-        b=l3EmkWzFWVErxMJ4ZQDhToFdSB4r6IUYUnW/2XmnehjGV/3PDk9mvxApmRsm/EGJT+
-         oKCtwRP6fplDyIvvukItcjaxkZMy0wxlZ/eLGqJa75KudjZMxeIEqAh1xI7CmII2Nw9p
-         NPW5U25FgIv8hNQMxFRUpMhRgcEyhggzkQxTPHtYwlG0EGrOAUT6pG3KlsPCgqvlB/3j
-         /ZHGYHJQqz4FznXPfkm+xbQz8JxHDYrukJH+XX0+mYFC71v0H969ALATqmZi2H1f2iNn
-         CPyfob+amChIGDX4gq6/EKCchu3cXEIgLJNQuj7QVx2vBvYiQWa7TktL17NK2L+t4KLg
-         UNpw==;
+        bh=js4tlHBiBMVYgQ7eMyaF9Sfm3F9tYvMqzzGrQuJc52E=;
+        fh=a9xF3xW6uoZO6v3beXGZ6HureizoVAlJ55BAjuiwn/o=;
+        b=VB75EBWGJuzncDVWRNti9rkOsIr/kGlRpU3bY+6YZhhznKG71k0YW9JSJp/x6jygSg
+         5WK2bIQSANYx1iCCkKOBfqWyGLZpDvqPKx+RmfrZtAs1aVp9BkMasRFXj29xCPGDACO6
+         zM8fNPYGsTdpiEfXB6jFreYSfhkHQFfrHei9CsZkJu+st+xXQTJCxy4Dxq7kz5zwaRH7
+         K432hgMeE9I473gEt6j71a6s5N9xFHfMQJ9dC8JsLc/1BS6SF+cAi5L/I8XXZuGIrOwR
+         WXanjni9MpjCX0eb9DfJbrh+tlpgWaueOrUFXkJuYjgToPjaAscvilmOaXcZzKJXugj8
+         tIcA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781041240; x=1781646040; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781044444; x=1781649244; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=axEo+SQlIOyn631n7kh9nc9Xdviab4sY310qjizLdPY=;
-        b=KYHZvAAWPKJsnlnU3hsBJ/b8kPY9Cb9azQbNgSSKbZ8ndxsCx4AGMpkahl7oK3hFkg
-         DsTwm4ACeidIljvjr6iSxDARgm48PGXekU7mL6NSEY5LvFhGwrw5WITagzf+VpG0h8rV
-         XqxXHSiuaZuT1LGvsVW58vHuDRv7/BC0FjlhwkytwDRyVeq32CN12SMzwQt/Fl4FiCty
-         mTanTb0KUUbgvUb6TFsCYuFUmVuouxcdPrq3klN0xs4IaXLLgITwZDaqgVN7vQRaBCm3
-         u/O3D+8G6absTLWPQXc3Cd46fjPO8S6bbnwc+7MfAFkijaOmViXXcGXuK6HCRC/vfHh3
-         +Y/g==
+        bh=js4tlHBiBMVYgQ7eMyaF9Sfm3F9tYvMqzzGrQuJc52E=;
+        b=DOgLZ8vU4QHW1XewUT/iFNVFtPRmH58ZU4agLUMuTeZLUS5bS8eQ+4tn9WKZFD+k0U
+         BLj3YaPWLQsGvMZWOYNAOhcDo9cN3nGcwpmpY0hU5PO2It4UpbeoYjio/E3i/2x+CfM3
+         VDSkc5G1Eyc7IxbnfGXw7M51+jXt8NwUZHtsJu7boQCJNstri3D3Pem57aQw9mTXqyS0
+         EeyJawoUlOv3o0XfY3uwOg5qzGCSluxNcy30jbD/oGJbzwXr/Cy8uQ3XUYaS+CC2rdZC
+         K7BRI3abPVETfLHB/0/lrzLSFVGwIJommMXjXYVCiYfSyK/GkDLGB3vuKiwArfCzVios
+         rbfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781041240; x=1781646040;
+        d=1e100.net; s=20251104; t=1781044444; x=1781649244;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=axEo+SQlIOyn631n7kh9nc9Xdviab4sY310qjizLdPY=;
-        b=jmSGGA46MyE1m61HVFJS1x3o+iQCbYelYOhsJ7XhfewJZ5SQ0ESTtLE14zqkdy0Bep
-         C9/mDGmIiV+ShLIexxwdEIwlIEmiEfVyH6ksVpZiFXMaqVMzRL+2f6q8A7rwUpo+/gx9
-         oJ2HULcUHte7zjBgdOx6KQZPjMxxPLBEyccS1W+VVluduV6wHOhvk0GfzGywGT+z9I/1
-         56jxHSuI7nVECvLfAwVgNIYOwjnAN1p9TiFGOBOjuSnqvF/7qPc1DEsX5bfkk1l/wFuQ
-         aKOYs5KbMG26bgqB+G/2wzBbifKTIF+Yq89VrtFn3nOlDpplgd44nMzL2EMZLv2xLS4M
-         kRvA==
-X-Forwarded-Encrypted: i=1; AFNElJ9KiCnbt2XssijkX2siWogzRYLz0BANDxt4HOzMJUbeuWl+WdW7wFzvwCrsRnX2i8qQK20YTCHXVP+/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5fc8/6pipTdhBjy+Zw1LxuMjgJJBSjnCjpQxuUh6wwivtLOc8
-	TBw1o39keWqcECA+D0L7px+Ixvzp13yiesz6UzLqnAhuVOnMdBvkx7OdTR9syX+eYVcSr/nJCb8
-	xTYuWf4CsePlVCB9F9U+vEKG/Y698ipk=
-X-Gm-Gg: Acq92OHIJVoF6mQ6J5s2Qt5GAvR5MNutUwFfd66lEzfZ+kCtVZlm2az6EQ7P61NnvkP
-	YZGGyR3X82OyrxiiYuKo9nsL2LSudEu1X5Mo4cbfZG8jmnp9+wGAubxX7KEx91Tup3GVynkCdE2
-	K/7BCPYx3bhLpah2yLH0/CR0Ql3WnwG5xsCAgOqtw5z5HSoTr5eiDFNSY0eGmLoezJoXd+318ES
-	C+CzfQx9dU80ocSds1A0qUrNmMisEQBNb8jw/WiKCg82kDfkR5xbIKcfHKuWNbPYXlc8TdJ/12+
-	XuFcZAqxlZVwL1zznCK8zSOCeeHtUP510BEHIz1ZF8rAorGok9RmwkGhWb0TFeFNFv3NP7zoVQ=
-	=
-X-Received: by 2002:a05:600c:c493:b0:490:ae52:499c with SMTP id
- 5b1f17b1804b1-490c25f1ab6mr380457125e9.21.1781041239953; Tue, 09 Jun 2026
- 14:40:39 -0700 (PDT)
+        bh=js4tlHBiBMVYgQ7eMyaF9Sfm3F9tYvMqzzGrQuJc52E=;
+        b=ipkDtS1qtjAb6JECG9bB6jp07azs97ow4j0ztOF1eyKECfZDRKXMrJjCUR5+QDhMF0
+         rpy/5gwsLjbKnyoZ2UqjNfleS4s12KcNWzy0ICTA/NZQjj+CyshiuDkUF4/7au5wn1wW
+         KU/oX963NzWAuDWXhZUj69ZZWBofcNDcfM493FbUJ6k6p8L2dZiXie8kmfh9eQ6opCBy
+         QD9NtB5TIze2sLL4GIymwr4OlDb/bwXxLvjx+JjN6kpzw9reywKewqRTwQHXh3+qkoYC
+         ZV/1nLKez2f/UqtrpeYhpvhioo37vhMJ/QcEIRFcAvjgLE4PJQFU+xA5GiYpk5W4ZOFn
+         ONCw==
+X-Forwarded-Encrypted: i=1; AFNElJ80/VUyl6a20rFLqeSf+DbIO/Y5djw67Y/w8uhe/s/9VVgXYTR2fcASjE0tT/UCdBTgMLxfrI7AxRFM@lists.linux.dev
+X-Gm-Message-State: AOJu0YyX/yYsCZ9sNV+pb9carbk5fy9o5NLfp1+s74KnU2xZl49Cn4Xi
+	JD+jQ584DO8/wmOriYWocpJzp+Ngy6cLkGFYmfu+gi2IcpZYVNm2hbgTFv/+sLbhGTMJvDFU2ML
+	c9Lv1JBILazv7ZdbWwdAYQI9GQ9DSC8c=
+X-Gm-Gg: Acq92OHgf+iMo3ylwOUD4GcJ0RwmM3KD28hVoZ7MkRlqFnJAAvVIEAr/wEHFNtSJ0K7
+	zJpIDqyoD9UQlztqLemc2+mwoHOSOgNaNlsHvwYWqe675dc+Oj8M0Sh9ctp8LxO/VZuLH+sQpSi
+	J4nmWzjDHYhPMfa0pgIV2NawQ0od+tRC2A1z+CLXKDlYrFrzyo5ArtMxqtsG2TXveqGdntVqQ0r
+	Yca43+e/RY6Z8t0fZFQbPAES4lft1gQZjXrRNuWJA60/UeCC3iG9FqptkgzGT9JngO7szfVTjUE
+	uhVKXAAMJVCMqPmr
+X-Received: by 2002:a05:6214:212a:b0:8cc:3546:261d with SMTP id
+ 6a1803df08f44-8cf1ddfbb1emr72611696d6.40.1781044444260; Tue, 09 Jun 2026
+ 15:34:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -83,151 +82,182 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <CAFmvuTWx0NUnC-q6T=SAWLJTEp-fvueRqgPQCFtULmGngUs+AQ@mail.gmail.com>
-In-Reply-To: <CAFmvuTWx0NUnC-q6T=SAWLJTEp-fvueRqgPQCFtULmGngUs+AQ@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 9 Jun 2026 14:40:27 -0700
-X-Gm-Features: AVVi8CeB_SmQM9KraIx1CKihkd6E4Tq2Ga_Y3W0uUXXUkxC5i3wvibEMRiwOkHg
-Message-ID: <CAJnrk1YjZZGzzup5biMq+SFuMK0pp8O4ZLTEjji7oJGD6wJNNQ@mail.gmail.com>
+ <CAJnrk1YjZZGzzup5biMq+SFuMK0pp8O4ZLTEjji7oJGD6wJNNQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1YjZZGzzup5biMq+SFuMK0pp8O4ZLTEjji7oJGD6wJNNQ@mail.gmail.com>
+From: =?UTF-8?B?6rmA66+87ISc?= <neck3922@gmail.com>
+Date: Wed, 10 Jun 2026 07:33:51 +0900
+X-Gm-Features: AVVi8Cdp2js1ij8t4qL98AIHRLWri1v0UdX9_6anIu5LvEfWfIGYIuxhVqdq9Nc
+Message-ID: <CAFmvuTU4vn82Rr0XDO+ypzEBH-h_GZ76ccsuFnTJJM1s=3izvg@mail.gmail.com>
 Subject: Re: [BUG] fuse: KASAN null-ptr-deref in fuse_readpages_end after
  aborted splice read reply
-To: =?UTF-8?B?6rmA66+87ISc?= <neck3922@gmail.com>
+To: Joanne Koong <joannelkoong@gmail.com>
 Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com, 
 	fuse-devel <fuse-devel@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 9, 2026 at 2:36=E2=80=AFPM =EA=B9=80=EB=AF=BC=EC=84=9C <neck392=
-2@gmail.com> wrote:
->
-> Hello,
->
-> I am reporting a FUSE read-reply bug reproduced on upstream v7.1-rc7
-> with KASAN enabled. The bug was found with a local syzkaller setup and
-> was also reproduced with a standalone C reproducer.
->
-> Target files:
->   fs/fuse/file.c
->   fs/fuse/dev.c
-> Subsystem: FUSE
-> Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git
-> Git head: 4549871118cf616eecdd2d939f78e3b9e1dddc48
-> Kernel release: v7.1-rc7
->
-> Observed crash:
->
->   KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
->   RIP: fuse_readpages_end+0xe5/0x650
->
-> The same reproducer may also sometimes surface later as:
->
->   RIP: iomap_finish_folio_read+0x163/0x230
->
->   Call Trace:
->     fuse_readpages_end
->     fuse_request_end
->     fuse_dev_do_write
->     fuse_dev_splice_write
->     do_splice
->     __do_splice
->     __x64_sys_splice
->     do_syscall_64
->
-> Root cause analysis:
->
-> The crash appears to involve the FUSE splice read reply path replacing a
-> page cache folio while or shortly after the corresponding FUSE request is
-> aborted.
->
-> In fs/fuse/dev.c, fuse_try_move_folio() does:
->
->   replace_page_cache_folio(oldfolio, newfolio);
->   ...
->   if (test_bit(FR_ABORTED, &cs->req->flags))
->       err =3D -ENOENT;
->   else
->       *foliop =3D newfolio;
->
-> My current understanding is that replace_page_cache_folio() can detach
-> the old folio from its mapping. If FR_ABORTED is observed after that
-> replacement but before *foliop is updated, the completion path can still
-> keep the old folio in ap->folios[]. Then fs/fuse/file.c later does:
->
->   mapping =3D ap->folios[0]->mapping;
->   inode =3D mapping->host;
->
-> and faults because mapping is NULL.
->
-> Reproducer:
->
-> C reproducer:
->   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
-/fuse-readpages-end-v7.1-rc7/repro_fuse_readpages_end_rc7_userns.c
->
-> Symbolized KASAN report:
->   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
-/fuse-readpages-end-v7.1-rc7/clean_c_userns_report_rc7_fuse_readpages_end.t=
-xt
->
-> Kernel config:
->   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
-/fuse-readpages-end-v7.1-rc7/kernel-config-v7.1-rc7.config
->
-> Key config options:
->
->   CONFIG_FUSE_FS=3Dy
->   CONFIG_KASAN=3Dy
->   CONFIG_KASAN_GENERIC=3Dy
->   CONFIG_KASAN_VMALLOC=3Dy
->   CONFIG_KASAN_EXTRA_INFO=3Dy
->   CONFIG_USER_NS=3Dy
->
-> Runtime conditions:
->
->   fuse.enable_uring=3D0
->   unprivileged user namespaces enabled
->   /dev/fuse accessible to the reproducer
->
-> I verified the C reproducer by starting it from uid 1000; it then creates=
- a
-> user namespace before mounting FUSE.
->
-> Brief KASAN excerpt:
->
->   Oops: general protection fault, probably for non-canonical address
->   0xdffffc0000000000
->   KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
->   CPU: 1 UID: 1000 PID: 399 Comm: repro_fuse_read Not tainted 7.1.0-rc7
->   RIP: 0010:fuse_readpages_end+0xe5/0x650
->
->   Call Trace:
->     fuse_request_end
->     fuse_dev_do_write
->     fuse_dev_splice_write
->     do_splice
->     __do_splice
->     __x64_sys_splice
->     do_syscall_64
->
-> If you fix this issue, please add the following tag to the commit:
->
->   Reported-by: Minseo Kim <neck3922@gmail.com>
->
-> If you need anything else, please let me know.
->
-> Best regards,
-> Minseo Kim
->
+Hi Joanne,
 
-Hi Minseo,
+Thank you for the pointer, and sorry for the duplicate report.
 
-I believe this has already been fixed by [1]. Could you verify that
-that patch fixes your issue?
+I applied the two-patch series starting at [1] on top of my v7.1-rc7 tree
+and rebuilt the kernel with the same KASAN config.
 
+Before applying the patches, the C reproducer triggered:
 
-Thanks,
-Joanne
+  KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+  RIP: fuse_readpages_end+0xe5/0x650
 
-[1] https://lore.kernel.org/fuse-devel/20260519052807.1924269-1-joannelkoon=
-g@gmail.com/
+With the patched kernel, I reran the same C reproducer as uid 1000 with a
+user namespace. I did not observe KASAN/Oops/panic in the recorded runs.
+
+Based on my testing, the patch series appears to fix my reproducer.
+
+Thank you for taking the time to check this.
+
+Best regards,
+Minseo Kim
+
+2026=EB=85=84 6=EC=9B=94 10=EC=9D=BC (=EC=88=98) =EC=98=A4=EC=A0=84 6:40, J=
+oanne Koong <joannelkoong@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Tue, Jun 9, 2026 at 2:36=E2=80=AFPM =EA=B9=80=EB=AF=BC=EC=84=9C <neck3=
+922@gmail.com> wrote:
+> >
+> > Hello,
+> >
+> > I am reporting a FUSE read-reply bug reproduced on upstream v7.1-rc7
+> > with KASAN enabled. The bug was found with a local syzkaller setup and
+> > was also reproduced with a standalone C reproducer.
+> >
+> > Target files:
+> >   fs/fuse/file.c
+> >   fs/fuse/dev.c
+> > Subsystem: FUSE
+> > Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git
+> > Git head: 4549871118cf616eecdd2d939f78e3b9e1dddc48
+> > Kernel release: v7.1-rc7
+> >
+> > Observed crash:
+> >
+> >   KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007=
+]
+> >   RIP: fuse_readpages_end+0xe5/0x650
+> >
+> > The same reproducer may also sometimes surface later as:
+> >
+> >   RIP: iomap_finish_folio_read+0x163/0x230
+> >
+> >   Call Trace:
+> >     fuse_readpages_end
+> >     fuse_request_end
+> >     fuse_dev_do_write
+> >     fuse_dev_splice_write
+> >     do_splice
+> >     __do_splice
+> >     __x64_sys_splice
+> >     do_syscall_64
+> >
+> > Root cause analysis:
+> >
+> > The crash appears to involve the FUSE splice read reply path replacing =
+a
+> > page cache folio while or shortly after the corresponding FUSE request =
+is
+> > aborted.
+> >
+> > In fs/fuse/dev.c, fuse_try_move_folio() does:
+> >
+> >   replace_page_cache_folio(oldfolio, newfolio);
+> >   ...
+> >   if (test_bit(FR_ABORTED, &cs->req->flags))
+> >       err =3D -ENOENT;
+> >   else
+> >       *foliop =3D newfolio;
+> >
+> > My current understanding is that replace_page_cache_folio() can detach
+> > the old folio from its mapping. If FR_ABORTED is observed after that
+> > replacement but before *foliop is updated, the completion path can stil=
+l
+> > keep the old folio in ap->folios[]. Then fs/fuse/file.c later does:
+> >
+> >   mapping =3D ap->folios[0]->mapping;
+> >   inode =3D mapping->host;
+> >
+> > and faults because mapping is NULL.
+> >
+> > Reproducer:
+> >
+> > C reproducer:
+> >   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/ma=
+in/fuse-readpages-end-v7.1-rc7/repro_fuse_readpages_end_rc7_userns.c
+> >
+> > Symbolized KASAN report:
+> >   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/ma=
+in/fuse-readpages-end-v7.1-rc7/clean_c_userns_report_rc7_fuse_readpages_end=
+.txt
+> >
+> > Kernel config:
+> >   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/ma=
+in/fuse-readpages-end-v7.1-rc7/kernel-config-v7.1-rc7.config
+> >
+> > Key config options:
+> >
+> >   CONFIG_FUSE_FS=3Dy
+> >   CONFIG_KASAN=3Dy
+> >   CONFIG_KASAN_GENERIC=3Dy
+> >   CONFIG_KASAN_VMALLOC=3Dy
+> >   CONFIG_KASAN_EXTRA_INFO=3Dy
+> >   CONFIG_USER_NS=3Dy
+> >
+> > Runtime conditions:
+> >
+> >   fuse.enable_uring=3D0
+> >   unprivileged user namespaces enabled
+> >   /dev/fuse accessible to the reproducer
+> >
+> > I verified the C reproducer by starting it from uid 1000; it then creat=
+es a
+> > user namespace before mounting FUSE.
+> >
+> > Brief KASAN excerpt:
+> >
+> >   Oops: general protection fault, probably for non-canonical address
+> >   0xdffffc0000000000
+> >   KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007=
+]
+> >   CPU: 1 UID: 1000 PID: 399 Comm: repro_fuse_read Not tainted 7.1.0-rc7
+> >   RIP: 0010:fuse_readpages_end+0xe5/0x650
+> >
+> >   Call Trace:
+> >     fuse_request_end
+> >     fuse_dev_do_write
+> >     fuse_dev_splice_write
+> >     do_splice
+> >     __do_splice
+> >     __x64_sys_splice
+> >     do_syscall_64
+> >
+> > If you fix this issue, please add the following tag to the commit:
+> >
+> >   Reported-by: Minseo Kim <neck3922@gmail.com>
+> >
+> > If you need anything else, please let me know.
+> >
+> > Best regards,
+> > Minseo Kim
+> >
+>
+> Hi Minseo,
+>
+> I believe this has already been fixed by [1]. Could you verify that
+> that patch fixes your issue?
+>
+>
+> Thanks,
+> Joanne
+>
+> [1] https://lore.kernel.org/fuse-devel/20260519052807.1924269-1-joannelko=
+ong@gmail.com/
