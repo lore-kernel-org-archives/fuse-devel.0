@@ -1,172 +1,130 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AADCF274B2A
-	for <fuse-devel@lists.linux.dev>; Tue,  9 Jun 2026 00:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780965022; cv=none; b=TSkppQgSZCGJCAdBtMuu4un7+NW6sXo910lV+j/sBFG0FjOP5TecpDxrHH5F+LtwROgIUIe2D7cGVpN9CycRfuXb7WzoT/5gS7Tt7rOp3uRE4iOcZDaQU/4jPvlXsm6RPkeSqc/1PY4XwZlb1QhSDZ2x+keOoLrK5eLokyX47Fc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780965022; c=relaxed/simple;
-	bh=SVHq+/kO02mzIskKkEksKkfsbEZwLNF9WCyiSZCeee8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qlS/wuzeiwujfltkKV6rI9yApYKknTF6vTYYijYji8SlImQA43qjVKo6gokiRw6syIJJdEuspUyc1+q0LGqMdP2BsQ25jkacfIahw4bqTm6vIo8VN5mSnNZsjbdHNy4ReF7RIuAFpZghdf2uIUgjeaQy4FWou7Yraxylzq3m92c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CTJGvB6D; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EE2361670
+	for <fuse-devel@lists.linux.dev>; Tue,  9 Jun 2026 02:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780970905; cv=pass; b=KV8V2VuJT7SOw8Pox3yvcx8H6Ok7+PrNwXR2M79hrK21DVptsOI7M1EzpcJ4T35mkCwYUxm0qI3Kr0t5YUdTET+M71uiUxhHHduTPY4B3VwFzCWk3cji+ThJdKw4+OH7YDBh8XbM/DnIQ1ZVcNEz1F/vQO2nAWP4pCwWCWBtolA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780970905; c=relaxed/simple;
+	bh=zChJHPfKcoDCYCfGNqhXLv4T1hOnf5GEBjXnAjpuwic=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Pm1rzPbsLW59uMZF6r5iCVCt1yv4WczgG61JcmjGkoKdKbwkvxkbqCz58w32+gvgHQ9u1E3/8JM4zhp6QhpfX5plTXYz72F3LcYu/uURV6g1s6NE2EVN3CIi0uVT2kgy+M38WAKWu5UH4SBny3FvmN6CN7A2q1Rk3ZtkZ4886rU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=efkhCBeA; arc=pass smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CTJGvB6D"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c0c3543590so32944595ad.2
-        for <fuse-devel@lists.linux.dev>; Mon, 08 Jun 2026 17:30:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efkhCBeA"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so3666360f8f.0
+        for <fuse-devel@lists.linux.dev>; Mon, 08 Jun 2026 19:08:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780970901; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ENZhR28Z1Lu+JrbSBcYlC9ZZw98HzgvRgBDFxn2I8RQi1ntt305hNo02tsoEDl9/Tj
+         9dABRF/lOMy6sBDpgjbPRmgil/Q1HwGlUpP8/6ANgckl08qetNoWNKYYu7zMk/6rL20B
+         NSnwVDuqV7pjpqzaSEuuc0WcDRi3Pi40xWeFPMgZIg4aHCUbBhp1GE4GTtFrtRtuRP3L
+         Y1w5A9S6VUto4vujYRC/FYYqtOfb5zWT+XIbNsRQVHehdPF9tnM3fc6IVlkxtZjLw8EW
+         S52C8jBPnidCarvkuSkJ3n6Sfd9PDXm6GAyZMBiI/GPNITf9RcF6laGO0lCnOq5SjJZH
+         zt/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=acqtabDsapWSCa6/hE5Knw8wf9si0FGC/izILB5fcFs=;
+        fh=LrQ+AOLYDfQxaIFqNryYigNe7UVxTxWqzi6VaEmbSe8=;
+        b=Bq3S14BmHjLmZLp/2TfvKceHOKIo3KBcbRKbHELucSBMwYsPZgrT0oM8eH9mFe5M+m
+         hhsjRpVadQ0jGUWaDy2E4I5kJBiRduywCSQl/fWDAxSr05qSDwMK/QRCsE7Dj+yz7mE0
+         jtO48anctNbRejRv408SCqG4wx93r3rBwcTEcQf1+it5xaBt0KGfoodqKAXutbvCn0pb
+         OX03Wu9uOscdBUBMVXwgRzp3o57wjHDuTEMLs7I0DObueaJ599MgRTFSPvQcCk9iewvW
+         BufL6AN3BGy6r1lH9wH4faVZn4teeZB6bKJv8I/oxcAPq48mSl4oL26noc+EnmfNfDyC
+         yfyQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780965020; x=1781569820; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EWu3hw5PgVLWrMCQT6BQQXF2x1rCbMDcemQvj9Nivbo=;
-        b=CTJGvB6Dle763skD0sulEY7BeoFLK6oDQ34SsLy/AWn0KTLP95OYRAjmgyHI+VOhnr
-         JVT5RMrBprLdgLNmXjHFSD2xxn4ni5hs5TMuILBfnlKGyALZ/Y1CQX7gzQsGM8A9BGco
-         CUJj5dN7EfYUiTKZhMAsEIszyDZkRNKeOtcqkYafSbVNEETRAxlMXevhXhcqNdSkfa5a
-         5QvTLFJohYaqfGSBcNnEpCg9cb3He04JH0uLU6Oj/y0PD+LhZYaz4C4ZrN+LG4irx5fE
-         zPt0L1K+nZSqECK3sjGLEr88+rLFagjRyLrt+KpdJJntbQarv08U6ycWrkfGzCx+NcyL
-         JchQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780965020; x=1781569820;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780970901; x=1781575701; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EWu3hw5PgVLWrMCQT6BQQXF2x1rCbMDcemQvj9Nivbo=;
-        b=nca6Xbtmiw9TiT7UEJA1G5mzWxOLQ7fE0FDb8BeVNCONCVpuYPBuHOVX3EbqZZJCxY
-         oMAFlxi4esgW9aMms8k2C4NSkymNJUHaaTixiWXXsrtmrUmY+LHIOGuFAlbSmtJ8MYIp
-         jcByTY3TqwwbZAFlyS7g+mjluw75PLA5Bj+WRiMfAdQXJzuX7FH0A30ujPG1HasKcLpn
-         szF+pGSx2aXUThTaGyCi1q/f0iZG6CLugAFblYFPvD3OgtFoCnlK19OsNoiXPYHOgbsb
-         DF+b6muFE/192/XPcA/b7JCmIYB6niRDYGlnm97yk3nRugeTm0d7JwBSqS9U3nL8K6Mi
-         yFQA==
-X-Forwarded-Encrypted: i=1; AFNElJ/qc6E4/fW+SS1xUYfSB/O6vRoXmZuN0jHjP7svlKoI3t20/RaUD/KLUvksE6x/FmsxQxVWYxeTR+zO@lists.linux.dev
-X-Gm-Message-State: AOJu0YwprOUi++pd4F5EwmYai/D9yKIP7sokf5h71wK/L1X70T4syUOc
-	jyl2lNqlx1lM0zvhmoGxmw7gB199by6SwfP4rvm44N4dRK4vugN4mfVw
-X-Gm-Gg: Acq92OHEEw6DQtmR4ivXh6bvL7b0Cjv/hwIdQOOjRjkjZqN9wM0MKKoJYE3v4DDXlht
-	djtBHCIJAOFS8EQYGn/f7UwuTE/l4XQfWqUMY39Efz+wq2bHdO1iYUvMjOF9Dzoaj4Kq5mbR966
-	sCEpYIe5mmXGsN3IdTcVe4D1bX3UVdZH9gyUXprEpH7iA5IYZj3fX4QtvtE6Y2yEhDfj+BI+Y0T
-	tZzecAhRON8HWcYse7HDhfVf9htY5Ufg8jUZPQxRkSqxLncEeIm0Ykd/24YOxlFc3j02Ennnki6
-	1Mv2h9j6aU2aV5gSMpqQeXsok8OoZmCKiXnBd0g5nIidAEKc3fueywE0nbfq7/856nSmj96Uv/b
-	oFW+AonoKhMWDpampR4FmuujLkdHE0Yn6CN8dHiXsLwJPpNM6i+63gNERr6ZUkpU8ERAdFMSAtw
-	TorSFvDBCe1+IwLjo5mG2M7oEFYlMQ0t569JsL4RuI4/bhUOZjvEOei1JkXpNeosBjI9tnv1Dfc
-	nDVRQ7iPaIl9w==
-X-Received: by 2002:a17:903:908:b0:2c1:a19:8396 with SMTP id d9443c01a7336-2c1e80ff89amr219953885ad.31.1780965019688;
-        Mon, 08 Jun 2026 17:30:19 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:4f::])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164fa404fsm191265615ad.37.2026.06.08.17.30.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 17:30:19 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu
-Cc: bernd@bsbernd.com,
-	fuse-devel@lists.linux.dev,
-	Chris Mason <clm@meta.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] fuse: end fuse_req on io-uring cancel task work
-Date: Mon,  8 Jun 2026 17:28:55 -0700
-Message-ID: <20260609002855.3654601-1-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        bh=acqtabDsapWSCa6/hE5Knw8wf9si0FGC/izILB5fcFs=;
+        b=efkhCBeAjjCpT/20Ek92DlXVhQ9quZprPvS7xXB6rIbpbPH/oVZTF2QOq5H5BDXweA
+         /ywiuNA3lHhTlmjrOQCh4FYo06klq66ul7ZiTP0h9OG0iw3LP2HG9OFaL5+eF6KYNRkR
+         D82r323S+wyE1v6SFAPCGmyhkW2d4ZNcJZs5H7VjnPSYTjRngeexxq4NRbwXRvJjUe3w
+         ks7aEnZir9/QkH4lPAKamgQkxfrAi9teusEJeIMRrnNvuu5bLFzrhSsji+RyfdfQbBMX
+         /UbOaA00QAWWbHvrbObPbPyEoDNZFGFDvWWKVXVSHzAcKXkF4r577fug0Vu7rsndsjh4
+         gB9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780970901; x=1781575701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=acqtabDsapWSCa6/hE5Knw8wf9si0FGC/izILB5fcFs=;
+        b=G7jaSiVIUokcpxuzKEIcAQnP6RLrIEHE8xmEeZNsLd8nykedPDq79Yb3K34sRXVVDt
+         9XCSxCOFRqi8Bc3TsiAKF7atDmoEPbf6/LCQfmrnkLfITRvBvxc18EFPH1oivZ4y/NS8
+         cX5gihTG9KVIBkT6adYSYHUmsK/LaiJT8zwdfPxHKV6r+hKSyvmFlYsl+rGAZg/7YRdi
+         d0M5c274u7r9gUx+dnmj+IW7/1W3hQCNLXHgAKqlawvZ6FUgl2ruQxQmfk2srbm+upPy
+         40SefDWIWF1kY+zwerOsZ/CmTiTi+mQku5S5Ffj72OwKgfU87EuGT2atpLuMHXDrSgPb
+         DKig==
+X-Forwarded-Encrypted: i=1; AFNElJ8zHjeUsqBlp7k0QtgA6lBqqzLFI777J+sQ887LJ8ETDO9vbVYjlEzulpJCVOg3/7ZQVkTbWigyqbdT@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTBPAT9G5+3oz0vzNVKW58lQufFTGF+F79DBm8HWGn8nWDFI/F
+	d5fIBlPX4StYF97/pz/qjanp4mfdEUk0o/W1IuJbx738Bmzlk62imqZW3B5n+KYvmC5jnZdmvUM
+	fK+QPxijuXLknyAYQzU/cJ8/L4Zl8Cqk=
+X-Gm-Gg: Acq92OGdfFley/m+VfmYxgcsieGw+Hm3RaErfxRB3J2/fjYLSuf26IIYeN12EKc80Hi
+	Fn4FpnzPGbo/v8NPLS3RBLJcxGBloV0GIhwK0fZzTUUFf5Cl6GiAx5PlCZtYv3b5DJFJzIRqlqh
+	b2yolNDmetmTlFaQPXEGXkWPDjeCyUzGSVXfSVV+Oc2zEoYAG7qglyieB7nKJP/aG9drih1igZw
+	QsghlbK3pxH8uxYQbrclz2h2ed4QW01QkuSRhWZ6zEvtFf6xorUIUu7Algf4e9nra551BbJ2b31
+	3cxpz/brOPV+MC6pgQpsaQFeJ8uckTP/Ss0fsBmDcnrseZbGA58pQuCoqV1ePcSGpCWRryrJsA=
+	=
+X-Received: by 2002:a5d:40c8:0:b0:45e:eec6:5020 with SMTP id
+ ffacd0b85a97d-4603063ff2dmr21380501f8f.38.1780970901310; Mon, 08 Jun 2026
+ 19:08:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260606-fuse-io-uring-race-fixes-v3-0-6fdf5e5b3437@bsbernd.com> <20260606-fuse-io-uring-race-fixes-v3-3-6fdf5e5b3437@bsbernd.com>
+In-Reply-To: <20260606-fuse-io-uring-race-fixes-v3-3-6fdf5e5b3437@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 8 Jun 2026 19:08:09 -0700
+X-Gm-Features: AVVi8CeVxKSfucqhkLRZUcVqopUg0fbprgDAwM0wFyhLovYGFr-oIuCQjAeSqrg
+Message-ID: <CAJnrk1Zjn5FK8gj=a5gxJbYzQMC0rQ-FPcy1Nj-r9N7ho=PnhA@mail.gmail.com>
+Subject: Re: [PATCH RESEND v3 3/4] fuse: {io-uring} Make a fuse_req on SQE
+ commit only findable after memcpy
+To: bernd@bsbernd.com
+Cc: Pavel Begunkov <asml.silence@gmail.com>, Luis Henriques <luis@igalia.com>, fuse-devel@lists.linux.dev, 
+	Miklos Szeredi <mszeredi@redhat.com>, Berkant Koc <me@berkoc.com>, Zhenghang Xiao <kipreyyy@gmail.com>, 
+	xlabai <xlabai@tencent.com>, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chris Mason <clm@meta.com>
+On Fri, Jun 5, 2026 at 3:13=E2=80=AFPM Bernd Schubert via B4 Relay
+<devnull+bernd.bsbernd.com@kernel.org> wrote:
+>
+> From: Bernd Schubert <bernd@bsbernd.com>
+>
+> Bad userspace might try to trick us and send commit SQEs request
+> unique / commit-id of requests that are not even send to
+> fuse-server (io_uring_cmd_done() not called) yet.
+>
+> fuse_uring_commit_fetch() ends the fuse request when the ring entry
+> has a wrong state, but that could have caused a use-after-free
+> with the memcpy operations in fuse_uring_send_in_task().
+> In order to avoid such races the call of fuse_uring_add_to_pq()
+> is moved after the copy operations and just before completing
+> the io-uring request - malicious userspace cannot find the request
+> anymore until all prepration work in fuse-client/kernel is completed.
+>
+> This also moves fuse_uring_add_to_pq() a bit up in the code to
+> avoid a forward declaration. Also not with a preparation commit,
+> to make it easier to back port to older kernels.
+>
+> Reported-by: xlabai <xlabai@tencent.com>
+> Reported-by: Berkant Koc <me@berkoc.com>
+> Fixes: c090c8abae4b6b ("fuse: Add io-uring sqe commit and fetch support")
+> Cc: stable@kernel.org # 6.14
+> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+> ---
+>  fs/fuse/dev_uring.c | 33 +++++++++++++++++++--------------
+>  1 file changed, 19 insertions(+), 14 deletions(-)
 
-When io_uring delivers task work with tw.cancel set (PF_EXITING,
-PF_KTHREAD fallback, or percpu_ref_is_dying on the ring context),
-fuse_uring_send_in_task() takes the cancel branch, assigns
--ECANCELED, and falls through to fuse_uring_send(). That path only
-flips the entry to FRRS_USERSPACE and completes the io_uring cmd;
-it never discharges the ring entry's owning reference to the
-fuse_req that fuse_uring_add_req_to_ring_ent() handed it at
-dispatch time.
-
-    fuse_uring_send_in_task()
-      tw.cancel == true
-        err = -ECANCELED
-      fuse_uring_send(ent, cmd, err, issue_flags)
-        ent->state = FRRS_USERSPACE
-        list_move(&ent->list, &queue->ent_in_userspace)
-        ent->cmd = NULL
-        io_uring_cmd_done(-ECANCELED)
-        /* ent->fuse_req still set, req still hashed */
-
-The fuse_req stays linked on fpq->processing[hash] and
-fuse_request_end() is never invoked. The originating syscall
-thread blocks in D-state in request_wait_answer() until
-fuse_abort_conn() runs, which can be the entire connection
-lifetime. For FR_BACKGROUND requests fc->num_background is never
-decremented either, so repeated cancels inflate the counter until
-max_background is hit and all later background ops stall. tw.cancel does
-not imply a connection abort (e.g. a single io_uring worker thread exits
-while the fuse connection stays up), so this cannot be left for
-fuse_abort_conn() to clean up.
-
-Ending the req but still routing the entry through fuse_uring_send()
-is not enough: that leaves a req-less entry on ent_in_userspace, and
-ent_list_request_expired() dereferences ent->fuse_req unconditionally
-on the head of that list, which would then NULL-deref.
-
-Fix the cancel branch to release the entry directly. Remove it from the
-queue, complete the io_uring cmd, end the fuse_req, free the entry, and
-drop its queue_refs (waking the teardown waiter if it was the last).
-
-Fixes: c2c9af9a0b13 ("fuse: Allow to queue fg requests through io-uring")
-Cc: stable@vger.kernel.org
 Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-Assisted-by: kres (claude-opus-4-7)
-Signed-off-by: Chris Mason <clm@meta.com>
----
-This depends on "fuse: fix moving cancelled entry to ent_in_userspace
-list" [1] and should be applied after it. That patch removes the
-queue_refs > 0 gate in fuse_uring_abort(); without it, once this cancel
-path drops queue_refs to 0 with requests still queued,
-fuse_uring_abort() skips fuse_uring_abort_end_requests() and those
-requests are never flushed.
-
-[1] https://lore.kernel.org/fuse-devel/20260608192149.23294-4-joannelkoong@gmail.com/
-
-Changelog:
-v1: https://lore.kernel.org/fuse-devel/20260605192708.141921-1-joannelkoong@gmail.com/
-v1 -> v2: 
-* Also clean up ent (Bernd)
-
- fs/fuse/dev_uring.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index fa807aa4bc2c..4256530281fb 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -1236,11 +1236,21 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
- 			fuse_uring_next_fuse_req(ent, queue, issue_flags);
- 			return;
- 		}
-+		fuse_uring_send(ent, cmd, err, issue_flags);
- 	} else {
- 		err = -ECANCELED;
--	}
- 
--	fuse_uring_send(ent, cmd, err, issue_flags);
-+		spin_lock(&queue->lock);
-+		list_del_init(&ent->list);
-+		spin_unlock(&queue->lock);
-+
-+		io_uring_cmd_done(cmd, err, issue_flags);
-+
-+		fuse_uring_req_end(ent, ent->fuse_req, err);
-+		kfree(ent);
-+		if (atomic_dec_and_test(&queue->ring->queue_refs))
-+			wake_up_all(&queue->ring->stop_waitq);
-+	}
- }
- 
- static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
--- 
-2.52.0
-
