@@ -1,121 +1,233 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731C0343D85
-	for <fuse-devel@lists.linux.dev>; Tue,  9 Jun 2026 21:37:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781041039; cv=none; b=hv+7yEOjDergTS4GaZ78KrRKQOdFxEmmj/iEn+cI3vbkrGO1SIfT3sWsfa5U+aB+PAF8XVmDEQd0f67hEeuc6lww07BiTY+yIU9aBcufk8Jac8CdwWZcLY1HrWXxJVD7w/BEussbOmU3Fx5/NUotiETVLpGhX1exh9/2ZBLuxC0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781041039; c=relaxed/simple;
-	bh=OiJQ4YTpdVihAaxQ2tru+SEaP7d4NxUzh9+NIJjvxmU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EpXmunDahpDoSOjUYl4SHRqFuTSu4v3mV5MlRhh0Mtv3d8OCV/bdRNxjjmWyXvRQ1xmFniS//boh5dvBvbzo5oeKE5f+u11e6AjQYzxAsOuzUsNCDbsM8bZbRCDbMnKWYn0odpBfifMLutiuSvkLOkFz2DisInIuKj8w6KqfFpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ghmwxx3Z; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5804C0400
+	for <fuse-devel@lists.linux.dev>; Tue,  9 Jun 2026 21:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781041246; cv=pass; b=i9Ay/ZfEtpzUkEx3O+fHYpsz1E+ryYcy+PQOEMwvI6zJsPvX/1SsaYG6YjMxtjS0ee6jNiFLCatXpJc8wNShhTvfUtwKK5yvRkD5WEF1ecI41m79CnIR8uAXiJ2GQh8RSzm1gp3J3fOtWsHMx/IKDsGc5j+eu5QetSPsexHfc+M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781041246; c=relaxed/simple;
+	bh=LxJbphFnFSLK7hr9bXSOnnqXmI0nFTzhEiHyDOBnbpA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oWmWpw9FcZMV0MQHu3IeY1LTGt2npMsHx4okgWkF6ZZvlTBVAUKBGcln7Vv46AiOOF9tSzSVZzSl5o9Fq1w6gmuCxMcQ0wIET65Odo5w+l3Xw5hPS2QLncgl083EpEPYS1L0DjW3GbHV+j7/fHzjQqmpF+Ad0YETJRz8qC3sTDc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KYHZvAAW; arc=pass smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ghmwxx3Z"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36bcf3d2565so4294888a91.3
-        for <fuse-devel@lists.linux.dev>; Tue, 09 Jun 2026 14:37:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KYHZvAAW"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b64c8311so67540375e9.3
+        for <fuse-devel@lists.linux.dev>; Tue, 09 Jun 2026 14:40:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781041240; cv=none;
+        d=google.com; s=arc-20240605;
+        b=c3WY9xutQziQ1iDWyGN3qIXuH+ynFHpJg2dZ3DxINF4ik121SpFQ720ATxWvCEuY0M
+         w9Q0r0PqW2vdaL6gfTTt1UZ4LGNrf+EYLvuH3r7vjoXkD9NF8nLVBclptQRzR5ECpxZ6
+         PF3VvRfcapCpIXyJnGLgGyk4c4jU7IsjJ3xz0uctrzw9ReOU5dOINEhsB+xOUSALnvaw
+         ZKdR4ZaSjv6EfkUx4M9GJQ/qIATk97vqNBKOg2rUGh5WHu60nZ/pdlIQr8ayfY06zOIK
+         baz8Kxi5KMlqaI2mIdeOsMgXgh55+1tFfFWlf+zaWIP2eixNx4GcWvi/IT26YZTOwjPn
+         Am+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=axEo+SQlIOyn631n7kh9nc9Xdviab4sY310qjizLdPY=;
+        fh=VL3xC3SRPQQfbOqr8oVjydleI4cnZw4DA9tcjyGwc60=;
+        b=l3EmkWzFWVErxMJ4ZQDhToFdSB4r6IUYUnW/2XmnehjGV/3PDk9mvxApmRsm/EGJT+
+         oKCtwRP6fplDyIvvukItcjaxkZMy0wxlZ/eLGqJa75KudjZMxeIEqAh1xI7CmII2Nw9p
+         NPW5U25FgIv8hNQMxFRUpMhRgcEyhggzkQxTPHtYwlG0EGrOAUT6pG3KlsPCgqvlB/3j
+         /ZHGYHJQqz4FznXPfkm+xbQz8JxHDYrukJH+XX0+mYFC71v0H969ALATqmZi2H1f2iNn
+         CPyfob+amChIGDX4gq6/EKCchu3cXEIgLJNQuj7QVx2vBvYiQWa7TktL17NK2L+t4KLg
+         UNpw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781041036; x=1781645836; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=g/d6AWHJfnPs07a6Dbxbqhw92UJsliGSMLCIPRaYN0E=;
-        b=Ghmwxx3Zw/NImF5uTJz4zUQ3pTTpK8TXbo79zc1N758nZUvuy+cHVyhgkDfFVKuRPy
-         oIrL/tzoa1XJnL/+SuuN+xQnsNue+Kn6tjct6/Qashj9nndfvUP/sRqTadBatUekPlYC
-         lsqQyaHg13scNzY30RUhAz0XZLwV0VSH4HssAUol2fiha4PkS/zVJsYgrIXFOVFyjXX7
-         kvxcG56wlHY3DArzgsQfQfRvgAOwKijs2kRYE+LTNIMeo/GA+teDvveMpIw+R5n/eP5h
-         djDReoRLEcir3n/SRrq6RmlRCFSe7sz8gsPkuXAfe0y959SkGMzL7f1TwT4RLZDipYlf
-         vO+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781041036; x=1781645836;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781041240; x=1781646040; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=g/d6AWHJfnPs07a6Dbxbqhw92UJsliGSMLCIPRaYN0E=;
-        b=kCFR60C6gxo0cNpzPHSvUWoJS+doQZFTVMzyv6v/zMduxOSCUygnD+jMfV1d/YTBbU
-         RNVBs8zy4U3OyLjXszHNJCq/frsz/9/XLZbqOZalZJ9ot1j+AfeIQMJNLzGWTub+QiTl
-         4iO7mRgYSKkVTpbjKrKqzF9umbo9LbOVNyC4ufdBe4tMXMoH7YmgV68zCKMQGeERTDUr
-         9oWzCquiMfwtamVY5PL7RRJh5nfYXPOJ1oZaW4O8ofnbtqVJMrg8Whs7fO/20CLMA6MJ
-         WXuQU7sYd/TWoZql7OZ8WpiBZogvXsBocUqrImosnkGODxb8tQTxUuoZe6NXQw3z7cWk
-         wfuw==
-X-Gm-Message-State: AOJu0Yx9W7VjIRLR/fgy48VXhPrzyO3oEKlLNSqAEqJLx6jUex3cRbFn
-	eUZAwKW9JQ/ZFyGCoUy65csNRM9gj15XQkFwJOgUell6Z5Ge+r8SU2sb
-X-Gm-Gg: Acq92OGDZE/qH8Zml+nL9LE/v7dqzypLqtBY0swzWrOx01uxiHbSyBCHEnf/Pw1/EXF
-	mlyXdqzZA58TdzSM2O++PL68E4f4UEhAvqPWjg00VJtkKql/DWv7pE02lqL7SqMEp0prPJcGv1I
-	qPp+4JmhpnzbjRNokd7MrWZ+wpLAMkty2xlx9Yf5f5M6ir2c2WO5eRK2axYQVanjcVqkhnpXVcB
-	55OReU+YFWllmPXmM886r8iH2osScmMxtc3qF4Ha920MkNe97DlbKOtyZTxLKcC5Ge4nKKHFCN6
-	a4XvKkU604wSDa/oOUNwzS3pUWUo5wWYoYKb+O/S9hUz6Xh98I8exv+FV6SqvOGlUvDG9WaBgHq
-	ACzVTWxmibb8LxtFGy/RmDvyz5JPBYBTsETNkXCqgvGj0xcm9aQmJcULMQQZ9c6ZA+qjtR9khCO
-	ul91eJwMIADbj9W6utqkbsGB+AmXxG/JvC5EE37lGv+Y9I9jooWa6owljtPQzAiSEcHP34/YTIq
-	flBHRiuNW3E
-X-Received: by 2002:a17:90a:d606:b0:36d:ee3b:fcae with SMTP id 98e67ed59e1d1-370ee447899mr22047577a91.6.1781041036428;
-        Tue, 09 Jun 2026 14:37:16 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:7::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8428221cc3dsm22322107b3a.1.2026.06.09.14.37.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 14:37:15 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev,
-	bernd@bsbernd.com,
-	stable@kernel.org
-Subject: [PATCH v1] fuse: remove request-less entries from ent_w_req_queue to fix NULL deref
-Date: Tue,  9 Jun 2026 14:36:58 -0700
-Message-ID: <20260609213658.3679900-1-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        bh=axEo+SQlIOyn631n7kh9nc9Xdviab4sY310qjizLdPY=;
+        b=KYHZvAAWPKJsnlnU3hsBJ/b8kPY9Cb9azQbNgSSKbZ8ndxsCx4AGMpkahl7oK3hFkg
+         DsTwm4ACeidIljvjr6iSxDARgm48PGXekU7mL6NSEY5LvFhGwrw5WITagzf+VpG0h8rV
+         XqxXHSiuaZuT1LGvsVW58vHuDRv7/BC0FjlhwkytwDRyVeq32CN12SMzwQt/Fl4FiCty
+         mTanTb0KUUbgvUb6TFsCYuFUmVuouxcdPrq3klN0xs4IaXLLgITwZDaqgVN7vQRaBCm3
+         u/O3D+8G6absTLWPQXc3Cd46fjPO8S6bbnwc+7MfAFkijaOmViXXcGXuK6HCRC/vfHh3
+         +Y/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781041240; x=1781646040;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=axEo+SQlIOyn631n7kh9nc9Xdviab4sY310qjizLdPY=;
+        b=jmSGGA46MyE1m61HVFJS1x3o+iQCbYelYOhsJ7XhfewJZ5SQ0ESTtLE14zqkdy0Bep
+         C9/mDGmIiV+ShLIexxwdEIwlIEmiEfVyH6ksVpZiFXMaqVMzRL+2f6q8A7rwUpo+/gx9
+         oJ2HULcUHte7zjBgdOx6KQZPjMxxPLBEyccS1W+VVluduV6wHOhvk0GfzGywGT+z9I/1
+         56jxHSuI7nVECvLfAwVgNIYOwjnAN1p9TiFGOBOjuSnqvF/7qPc1DEsX5bfkk1l/wFuQ
+         aKOYs5KbMG26bgqB+G/2wzBbifKTIF+Yq89VrtFn3nOlDpplgd44nMzL2EMZLv2xLS4M
+         kRvA==
+X-Forwarded-Encrypted: i=1; AFNElJ9KiCnbt2XssijkX2siWogzRYLz0BANDxt4HOzMJUbeuWl+WdW7wFzvwCrsRnX2i8qQK20YTCHXVP+/@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5fc8/6pipTdhBjy+Zw1LxuMjgJJBSjnCjpQxuUh6wwivtLOc8
+	TBw1o39keWqcECA+D0L7px+Ixvzp13yiesz6UzLqnAhuVOnMdBvkx7OdTR9syX+eYVcSr/nJCb8
+	xTYuWf4CsePlVCB9F9U+vEKG/Y698ipk=
+X-Gm-Gg: Acq92OHIJVoF6mQ6J5s2Qt5GAvR5MNutUwFfd66lEzfZ+kCtVZlm2az6EQ7P61NnvkP
+	YZGGyR3X82OyrxiiYuKo9nsL2LSudEu1X5Mo4cbfZG8jmnp9+wGAubxX7KEx91Tup3GVynkCdE2
+	K/7BCPYx3bhLpah2yLH0/CR0Ql3WnwG5xsCAgOqtw5z5HSoTr5eiDFNSY0eGmLoezJoXd+318ES
+	C+CzfQx9dU80ocSds1A0qUrNmMisEQBNb8jw/WiKCg82kDfkR5xbIKcfHKuWNbPYXlc8TdJ/12+
+	XuFcZAqxlZVwL1zznCK8zSOCeeHtUP510BEHIz1ZF8rAorGok9RmwkGhWb0TFeFNFv3NP7zoVQ=
+	=
+X-Received: by 2002:a05:600c:c493:b0:490:ae52:499c with SMTP id
+ 5b1f17b1804b1-490c25f1ab6mr380457125e9.21.1781041239953; Tue, 09 Jun 2026
+ 14:40:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAFmvuTWx0NUnC-q6T=SAWLJTEp-fvueRqgPQCFtULmGngUs+AQ@mail.gmail.com>
+In-Reply-To: <CAFmvuTWx0NUnC-q6T=SAWLJTEp-fvueRqgPQCFtULmGngUs+AQ@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 9 Jun 2026 14:40:27 -0700
+X-Gm-Features: AVVi8CeB_SmQM9KraIx1CKihkd6E4Tq2Ga_Y3W0uUXXUkxC5i3wvibEMRiwOkHg
+Message-ID: <CAJnrk1YjZZGzzup5biMq+SFuMK0pp8O4ZLTEjji7oJGD6wJNNQ@mail.gmail.com>
+Subject: Re: [BUG] fuse: KASAN null-ptr-deref in fuse_readpages_end after
+ aborted splice read reply
+To: =?UTF-8?B?6rmA66+87ISc?= <neck3922@gmail.com>
+Cc: miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If a copy into the userspace ring buffer fails, a request will be
-terminated and fuse_uring_req_end() will set ent->fuse_req to NULL but
-it will leave the entry on ent_w_req_queue in FRRS_FUSE_REQ state. This
-can lead to a NULL deref if the request expiration logic scans
-ent_w_req_queue in the window before the entry is moved off it.
+On Tue, Jun 9, 2026 at 2:36=E2=80=AFPM =EA=B9=80=EB=AF=BC=EC=84=9C <neck392=
+2@gmail.com> wrote:
+>
+> Hello,
+>
+> I am reporting a FUSE read-reply bug reproduced on upstream v7.1-rc7
+> with KASAN enabled. The bug was found with a local syzkaller setup and
+> was also reproduced with a standalone C reproducer.
+>
+> Target files:
+>   fs/fuse/file.c
+>   fs/fuse/dev.c
+> Subsystem: FUSE
+> Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git
+> Git head: 4549871118cf616eecdd2d939f78e3b9e1dddc48
+> Kernel release: v7.1-rc7
+>
+> Observed crash:
+>
+>   KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+>   RIP: fuse_readpages_end+0xe5/0x650
+>
+> The same reproducer may also sometimes surface later as:
+>
+>   RIP: iomap_finish_folio_read+0x163/0x230
+>
+>   Call Trace:
+>     fuse_readpages_end
+>     fuse_request_end
+>     fuse_dev_do_write
+>     fuse_dev_splice_write
+>     do_splice
+>     __do_splice
+>     __x64_sys_splice
+>     do_syscall_64
+>
+> Root cause analysis:
+>
+> The crash appears to involve the FUSE splice read reply path replacing a
+> page cache folio while or shortly after the corresponding FUSE request is
+> aborted.
+>
+> In fs/fuse/dev.c, fuse_try_move_folio() does:
+>
+>   replace_page_cache_folio(oldfolio, newfolio);
+>   ...
+>   if (test_bit(FR_ABORTED, &cs->req->flags))
+>       err =3D -ENOENT;
+>   else
+>       *foliop =3D newfolio;
+>
+> My current understanding is that replace_page_cache_folio() can detach
+> the old folio from its mapping. If FR_ABORTED is observed after that
+> replacement but before *foliop is updated, the completion path can still
+> keep the old folio in ap->folios[]. Then fs/fuse/file.c later does:
+>
+>   mapping =3D ap->folios[0]->mapping;
+>   inode =3D mapping->host;
+>
+> and faults because mapping is NULL.
+>
+> Reproducer:
+>
+> C reproducer:
+>   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
+/fuse-readpages-end-v7.1-rc7/repro_fuse_readpages_end_rc7_userns.c
+>
+> Symbolized KASAN report:
+>   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
+/fuse-readpages-end-v7.1-rc7/clean_c_userns_report_rc7_fuse_readpages_end.t=
+xt
+>
+> Kernel config:
+>   https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
+/fuse-readpages-end-v7.1-rc7/kernel-config-v7.1-rc7.config
+>
+> Key config options:
+>
+>   CONFIG_FUSE_FS=3Dy
+>   CONFIG_KASAN=3Dy
+>   CONFIG_KASAN_GENERIC=3Dy
+>   CONFIG_KASAN_VMALLOC=3Dy
+>   CONFIG_KASAN_EXTRA_INFO=3Dy
+>   CONFIG_USER_NS=3Dy
+>
+> Runtime conditions:
+>
+>   fuse.enable_uring=3D0
+>   unprivileged user namespaces enabled
+>   /dev/fuse accessible to the reproducer
+>
+> I verified the C reproducer by starting it from uid 1000; it then creates=
+ a
+> user namespace before mounting FUSE.
+>
+> Brief KASAN excerpt:
+>
+>   Oops: general protection fault, probably for non-canonical address
+>   0xdffffc0000000000
+>   KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+>   CPU: 1 UID: 1000 PID: 399 Comm: repro_fuse_read Not tainted 7.1.0-rc7
+>   RIP: 0010:fuse_readpages_end+0xe5/0x650
+>
+>   Call Trace:
+>     fuse_request_end
+>     fuse_dev_do_write
+>     fuse_dev_splice_write
+>     do_splice
+>     __do_splice
+>     __x64_sys_splice
+>     do_syscall_64
+>
+> If you fix this issue, please add the following tag to the commit:
+>
+>   Reported-by: Minseo Kim <neck3922@gmail.com>
+>
+> If you need anything else, please let me know.
+>
+> Best regards,
+> Minseo Kim
+>
 
-Fix this by taking the entry off ent_w_req_queue and changing its state
-from FRRS_FUSE_REQ to FRRS_INVALID before terminating the request.
+Hi Minseo,
 
-Fixes: 4fea593e625c ("fuse: optimize over-io-uring request expiration check")
-Cc: stable@kernel.org
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fuse/dev_uring.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+I believe this has already been fixed by [1]. Could you verify that
+that patch fixes your issue?
 
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index f74ca57f81ec..3a784f182883 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -708,10 +708,20 @@ static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
- 	int err;
- 
- 	err = fuse_uring_copy_to_ring(ent, req);
--	if (!err)
-+	if (!err) {
- 		set_bit(FR_SENT, &req->flags);
--	else
-+	} else {
-+		/*
-+		 * Copying the request failed. Remove the entry from the
-+		 * ent_w_req_queue list and terminate the request
-+		 */
-+		spin_lock(&ent->queue->lock);
-+		list_del_init(&ent->list);
-+		ent->state = FRRS_INVALID;
-+		spin_unlock(&ent->queue->lock);
-+
- 		fuse_uring_req_end(ent, req, err);
-+	}
- 
- 	return err;
- }
--- 
-2.52.0
 
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/fuse-devel/20260519052807.1924269-1-joannelkoon=
+g@gmail.com/
