@@ -1,164 +1,121 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF8523AFB0E
-	for <fuse-devel@lists.linux.dev>; Mon,  8 Jun 2026 21:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780955652; cv=pass; b=SeGrUryBv4vX6EU1zNYVZIa81TN/8Tf1r3d1Px+zk4DudHdlcfkt6A1/oRke0V9IlnXSVleJMKhyRf7QMg3M7WmwISb6fxDcMXsZ7wbrRjx/1NrT8TzBH098joI6Y+jDw6eCMqdoktQQrPmSbyt4qfamPJVoKG0T0TRIBl4wnKE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780955652; c=relaxed/simple;
-	bh=Ee9Xn7IhMjzgRlzNdLn1t0m2wRUlZCl0tmQY9Dwz1fk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZpNrBSPsITL9HeVw2hp1Rpi/uHA/C9ox6sNYVWDcUrjmOj80G5xt4E2Yx+keOd8tP5xJO1op3iXzBR8TjK8wOgFWVDqPSMYrdoasbTprIJ25Yu/Gr9GR+SGS2CqzzSwhkHUrdLO6ff92Uax1XLc/fUUn/hvKSn5cP5hUmUcLKfo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lxgeosMC; arc=pass smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A84617745
+	for <fuse-devel@lists.linux.dev>; Tue,  9 Jun 2026 00:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780963919; cv=none; b=oWXV5ST0Yd2xEvV53G//Wm4u6FGrk9zZrM2Mamxsa0HeICu0XIe2DqwjLof1Wx3aOvb6SYoy19a28bf9qPfMBHjZZBFy+Gfp3ITaa6WiJ46QIwz0H+gu/847SGn/tCYm72+WZB5J47viUTHH1Xz3suXPmMCmJGOfbib7oaulh88=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780963919; c=relaxed/simple;
+	bh=q6l38RVx68ggy068g38ipDNwtgyiFrHPc8VCL56LDOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u9IzQNykno3P3iPwJ05dmaTcVjsu5TLVhEBjQZaZ4sInkQauhTda1Fbc7NbRBZgWOZTc85m2CSbdRlxbvKSyOCFV5ZwgqaKqWahlNseIz4H5dRdKLfxbxktA5wwaDx0fOqZoJP7SwECUbAWgWAOLc6u2ZwmIHGGJmN5O3dz/ITo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G8IqAVQ+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lxgeosMC"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-460166910e6so2458476f8f.2
-        for <fuse-devel@lists.linux.dev>; Mon, 08 Jun 2026 14:54:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780955649; cv=none;
-        d=google.com; s=arc-20240605;
-        b=EKEbkEU76PwPKwgn2ioyOynek91kGHafYSdCn7JeTtkjJcQjvuMOWY/YvJ6A+Q5Pp8
-         qasgt5pwC83pzB9HulhGnrn5pqu5xcLftGLRnbhnYdW6u0ZfdhaBTCLecASc5pod1Rey
-         6pESuNykgj3Rs4n2dcV1WWMpYWVmkzmTRHZcXMggOPzl5n2ONEJR+Jszs7zuZ2u0iE/k
-         wh5W0zXJxpLAWQ0UyhS/8EUIsI1IBSxT2Y0qqLUTQTYVRLwlMH3dtPsOGfe+ZBym5fKR
-         LeNt/9Bex7WZQzht4tRHSkIzt+1QQTgfF1p5nv00JUrEpCJNopBIPivpTmlcD+cXVPHM
-         gVVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hwTesbXU/7kP9E8+n1WAPudvCCHPRs08k9RHR6A0gzM=;
-        fh=ob+yJray2+9lSTdHFh83D6iUw29pCCLJmtaUVpdIZxo=;
-        b=PlAOLNX9GeHE68sCxek46Gj8UNsx4l5d+tWOdnimtCxIgLEJmhDqX4ThSLEkOPARU1
-         Xhit5LnNTi/Ij8GGTKQmuYpBTGsIf8xMiDsVoUY4Pi2RZhozLT20H1UnhWVTt1FEs4rv
-         14QbLHl80/WOBxkQSPZhTtlg77fmf6bgGpQu+tdoiW9tyU+R2f+w0pGLH3bAfwe0keEd
-         9ggTxcx3UYixzpLUFBnoFq153aEboDs24MNbSGUBzKn6e5X+Jo+8WQdThvdIpDhcMSP+
-         zZS/ELog+kT58U7u9HBUZu50jOx5d4N5v90dv7rY2MUXPaoxhNyAl+8b0hNSdpGA5sx+
-         HHMg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780955649; x=1781560449; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hwTesbXU/7kP9E8+n1WAPudvCCHPRs08k9RHR6A0gzM=;
-        b=lxgeosMCYAdC5ThuSdUzibg+d1668EBKEdGsNut1XpFffEpPBipRHqAYUs74QMRqTe
-         jkRFhSR90MVU3QKdPpLYPjnM5FZRo7UVS8z9/xVb2NFaPBhNMfE10TBlj/eIPlOCbZTV
-         hyAQvYbEvAaNh55/VN7b6wpijc28+uexClIWDErhy5hpp1q06ZPfOsfHIRG08pUpdwpp
-         4fltGf39XQh1d5Q+O4PH1DebdBN0+7QQxOYlQUKayeLiBDg7RvaISAnNsJWXoYdhcwVF
-         FEP092+OIbSgtFr229JyDfmSN+t4y5AIV2NafNopwAlRfeS1QVJUT0ZGt6+uy9gT/ND7
-         NPWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780955649; x=1781560449;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hwTesbXU/7kP9E8+n1WAPudvCCHPRs08k9RHR6A0gzM=;
-        b=Ml5Ng0YT+wpvFU2208oVrLWkuTS5LNtin/lZUbHpERir0jVV/QPomq6gVCnFOhC5bY
-         j9OfQxdcmy3l92VfBTZZGG1D4ZlrRnQPq3vEFkmrF+aOgsfH0Zu2SH28nTMIDlRupmyH
-         upORBUpIPeLw5N4LA3lYspzW42LK81BdHZeRMcytR5i7fsi2fqar9paItxeLFHHxC0qe
-         rR95wa3+xNDQKM8kGLiJ1/yjUlhkb8H3g57jhjY9sw3ebe2zlo/ORDDNQxraBkKZE9XQ
-         i5B70UuGJkGM02XjcyIMIBEfxLDGm1055lLga/R0Ld+EKveCQGNUvjxQZIsrcfRHnBrK
-         fUzw==
-X-Gm-Message-State: AOJu0YyItDg98jr0zLYwZfMgeQHKo1ZVmwrU2unxj0w+HbtrBYeVS/Yo
-	E3skh7X5yQInFuStz+ByyRGoO146mi4yVLU9hlQkdlHLm/iHEPSt2NTs+YAshQhqq1XulnYJfej
-	W8SJrp2VZmsV6j8/biT9FndFVjLBggGs=
-X-Gm-Gg: Acq92OEByxCFRzF2ClOUAlCakjkknvGDRHMfnhZpKQg9kytITn7afMypkDozlm3cTcd
-	8w7KV8zJVCuRif4wkGlxWzFJ95fL7OX7rzOZvkdnrUM2wQzie7niggkZg3XB7i/z7UXit/PVtKO
-	d1zy3d2VtUxzwjuGmI4x/FEC6P8YDPv3ucucjVXQc1Kz081AW1dCYL4FmtF4ff9HaxfZXEgfIaQ
-	ROSvnzM/eZzbAW/GTiGTcy+nCZ4gUzKvGN5oTOEpQErwtoOgWfaElRnwu8hMCBEkmZkXPhG0r3H
-	rnW89UNyT8zqo3jpg/4Dgj4yfuiKf6l7ZtJ6wPMppQY4/rvsIwhFpRdr5x+bUGdxKw20zCIVaAI
-	t265t0koE
-X-Received: by 2002:a05:6000:1864:b0:460:5022:8a76 with SMTP id
- ffacd0b85a97d-46050228bd7mr5095144f8f.31.1780955649125; Mon, 08 Jun 2026
- 14:54:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G8IqAVQ+"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 408851F00893;
+	Tue,  9 Jun 2026 00:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780963918;
+	bh=kkpV8mrUdv7taWdazpiT8vEMFi4pj6DaOgD+VqLK50w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=G8IqAVQ+KwKSxLI2j0Th21szO9HuP9bEa3X+sWT53NzhnF4uZcLgBTTO7UXHkiV4a
+	 CGeh94utjKFPyhgfD/Bnkp3K2XLQG4FxFh2Q5XZ2OOcTEOTVKcL4p38VVJGulrgD5B
+	 93i7Gygwr9z886jmXbmc1ooy7zM6/KZF5dJ92tybTuO4bR+J4/Kblijctd5HQYdljl
+	 RXCoJgXsuM2BtBXfLExssHJyK2f1gULKWvW81URBMXU5lgJXjfiEBXrxnj2gPqbZHM
+	 32AsKXX/Qqlr3KdE0CbWSpVbzlHXofa0Tm7KbLBt/cSr6koVqMQFs20NP4L+2R+ux9
+	 uHtLUtQTkXfmw==
+Date: Mon, 8 Jun 2026 17:11:57 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: fuse-devel <fuse-devel@lists.linux.dev>
+Subject: Re: Fwd: [libfuse/libfuse] Improper Link Resolution Before File
+ Access ('Link Following') and Time-of-check Time-of-use (TOCTOU) Race
+ Condition in libfuse (GHSA-926f-3q38-ff52)
+Message-ID: <20260609001157.GM6095@frogsfrogsfrogs>
+References: <libfuse/libfuse/repository-advisories/GHSA-926f-3q38-ff52@github.com>
+ <9e1b592a-2f33-4a21-b7fd-cb210d43bd12@bsbernd.com>
+ <20260608214742.GL6095@frogsfrogsfrogs>
+ <ae3d7142-7bfa-4a18-8e75-baf3f0b64c35@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260608-fuse-io-uring-race-fixes-v4-0-fa410089a0a1@bsbernd.com> <20260608-fuse-io-uring-race-fixes-v4-2-fa410089a0a1@bsbernd.com>
-In-Reply-To: <20260608-fuse-io-uring-race-fixes-v4-2-fa410089a0a1@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 8 Jun 2026 14:53:57 -0700
-X-Gm-Features: AVVi8CeysiIvgDFkKeyCZAH7HfHXkTk8CQFXnpQxzPoRU525poSTIg8BsTNRvnY
-Message-ID: <CAJnrk1YZim4WoKikoMzZ6jMkfh1H6DOFOzh4yT-wo=wOjXbTcA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] fuse: Avoid queue->stopped races and set/read that
- value under lock
-To: bernd@bsbernd.com
-Cc: fuse-devel@lists.linux.dev, Pavel Begunkov <asml.silence@gmail.com>, 
-	Luis Henriques <luis@igalia.com>, Miklos Szeredi <mszeredi@redhat.com>, Berkant Koc <me@berkoc.com>, 
-	Zhenghang Xiao <kipreyyy@gmail.com>, stable@kernel.org, xlabai <xlabai@tencent.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ae3d7142-7bfa-4a18-8e75-baf3f0b64c35@bsbernd.com>
 
-On Mon, Jun 8, 2026 at 2:03=E2=80=AFPM Bernd Schubert via B4 Relay
-<devnull+bernd.bsbernd.com@kernel.org> wrote:
->
-> From: Bernd Schubert <bernd@bsbernd.com>
->
-> There are several readers of queue->stopped that check the value
-> under lock, but fuse_uring_commit_fetch() did not and actually
-> the value was not set under the lock in fuse_uring_abort_end_requests()
-> either. Especially in fuse_uring_commit_fetch it is important
-> to check under a lock, because due to races 'struct fuse_req'
-> might be freed with fuse_request_end, but another thread/cpu
-> might already do teardown work.
->
-> Cc: stable@kernel.org # 6.14
-> Fixes: 4a9bfb9b6850fec ("fuse: {io-uring} Handle teardown of ring entries=
-")
-> Reported-by: Berkant Koc <me@berkoc.com>
-> Reported-by: xlabai <xlabai@tencent.com>
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-> ---
->  fs/fuse/dev_uring.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index d658ef6877a4..c31240967932 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -130,10 +130,9 @@ void fuse_uring_abort_end_requests(struct fuse_ring =
-*ring)
->                 if (!queue)
->                         continue;
->
-> -               queue->stopped =3D true;
-> -
->                 WARN_ON_ONCE(fch->max_background !=3D UINT_MAX);
->                 spin_lock(&queue->lock);
-> +               queue->stopped =3D true;
->                 spin_lock(&fch->bg_lock);
->                 fuse_uring_flush_bg(queue);
->                 spin_unlock(&fch->bg_lock);
-> @@ -898,10 +897,15 @@ static int fuse_uring_commit_fetch(struct io_uring_=
-cmd *cmd, int issue_flags,
->                 return err;
->         fpq =3D &queue->fpq;
->
-> -       if (!READ_ONCE(fch->connected) || READ_ONCE(queue->stopped))
-> +       if (!READ_ONCE(fch->connected))
->                 return err;
->
->         spin_lock(&queue->lock);
-> +       if (unlikely(queue->stopped)) {
-> +               spin_unlock(&queue->lock);
-> +               return err;
-> +       }
-> +
->         /* Find a request based on the unique ID of the fuse request
->          * This should get revised, as it needs a hash calculation and li=
-st
->          * search. And full struct fuse_pqueue is needed (memory overhead=
-).
->
-> --
-> 2.53.0
->
+[add fuse-devel to cc]
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+TLDR: Bernd got a complaint through github about how you can trick
+fuservicemount into unmounting the wrong path by racing a fuse service
+asking for an unmount against someone creating symlinks to critical
+mounts.  The reporter suggested using UMOUNT_NOFOLLOW, but...
+
+On Tue, Jun 09, 2026 at 12:58:46AM +0200, Bernd Schubert wrote:
+> 
+> 
+> On 6/8/26 23:47, Darrick J. Wong wrote:
+> > On Mon, Jun 08, 2026 at 10:25:26PM +0200, Bernd Schubert wrote:
+> >> Hi Darrick,
+> >>
+> >> could you take care of this?
+> > 
+> > How do you want to take care of it?  In-kernel filesystems do not
+> > unmount themselves, so this particular libfuse feature is novel to me.
+> > I don't really get why libfuse has the autounmount feature; if a
+> > filesystem fails to mount, surely you'd rather it just stay there so the
+> > application errors are obvious.
+> > 
+> > <shrug>
+> 
+> That predates me and I was already complaining at LPC 2024 in our fuse
+> session.
+> 
+> Maybe we can disable auto umount for fuse service mount? I didn't have
+> time to check at all.
+
+There's no auto unmount.  The fuse service itself has to request the
+unmount.  But since that's unreleased code, let's just rip it out.
+
+> On my urgent todo list is to switch auto mount with the new mount api to
+> mount fd and maybe disable auto umount without new mount api by default
+> (as compile time option)
+
+Yeah, I think we should just kill it because there's (AFAICT) no good
+usecase.  If the fuse server fails, we want the dead mount to stick
+around so that file IO fails instead of silently(?) going to the parent
+filesystem.  I guess the problem is that there's probably some weird old
+usecase out there, like auto-unmounting /home/XXX from NFS when you log
+out of a server and not having the unmount get stuck due to dead
+fusermount mounts.
+
+> > Since the mount service API is new and nobody uses it (not even fuse4fs)
+> > we could just remove it.  Assuming you haven't cut a release, we could
+> > probably get away with removing the ABI entirely.  If not, we could just
+> > make it reply with EINVAL/EOPNOTSUPP unconditionally.
+> 
+> I'm all for it :)
+
+Removing it? OK. :)
+
+> > That said, why is it the case that most of the other umount2 calls in
+> > libfuse *don't* pass UMOUNT_NOFOLLOW?
+> 
+> No idea, as per above, it predates me ;) I guess we won't need that
+> anymore with umount by mount fd?
+
+I don't think the new fsmount APIs actually cover *unmounting*.  Once
+the mount is exposed to the directory tree, anyone else can walk in and
+start bind mounting it all over the place.
+
+--D
+
+> 
+> Thanks for looking at that!
+> 
+> 
+> Bernd
