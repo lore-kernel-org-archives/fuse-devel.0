@@ -1,151 +1,156 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C76D481672
-	for <fuse-devel@lists.linux.dev>; Thu, 11 Jun 2026 18:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781201937; cv=pass; b=pVdrCT1SyXkNvGkdPVDW9+ltZAyzXwu03nIO7YzCnI5UDHFPBIkFl7ABLWhEIoDxcYNCQ3WL3kQuse1HxLtRkOx/VO6CTXjqb6235gFnLwDCdUp5sNYddnvmyK64ZvX57xTENhHwip4/zBsPlC2rl8iFBhOGeJFC9x07RzmgVH4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781201937; c=relaxed/simple;
-	bh=8lDPI5gL41dfwSme5pJZAZFW82khgbDB66GVkxXOIak=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OPLy0zPnN4cSjng7S2TpX0kmm5Cs/6oYirGvw8FG/xkJJcspJssXCrEGqb5sCXKcyRxycYmfwLaZQ1/GETx0BSlPES7anE1Dr7oXNl6I8gbX4EchNHTJ8fYvciD5lYg+fV/GLaVqsl8Sn3OYeoRlANCL3v1hz04zeMtTHslRugA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=QL4vpphY; arc=pass smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F514D90C9
+	for <fuse-devel@lists.linux.dev>; Thu, 11 Jun 2026 18:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781203632; cv=none; b=sbph15Id1Dx7BmgzUg+q2O0OhoioYcLoTeOiB4Sfz1H90WgqBCbDGHmp1LsZpgyrY/j6tcentjZZL5+Ij1k8nJiXpMK/rT8MjT0On9nMpKjYavreG0EZl8uVcJL6oDHvcUmmQMkqxUyXlAJbKMuEt2+1gMBAbWUPKgFj5HbsjNs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781203632; c=relaxed/simple;
+	bh=MvW//e8oEENjHqIIhQeVjaIGReSZMLtObZ5flrPrI4s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j0+fFCefr6uMklSqRTFljDzpRlZ9gg9pYSI5EwKOFYlSh9VvpLu/kCSFcFaBzqkZ++7Q5IC6sQwLBxjBiU2bjpx0D3bbFk37bwEXmuR4lBgMLOq9NDpVQ93lSg00s1AOZaGNqEa51/9fF5E/4+IkUTGM02ilh8xO9puGgAQx/no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=HDEzRzlY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AHVHje+1; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="QL4vpphY"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-51790c0a692so812631cf.2
-        for <fuse-devel@lists.linux.dev>; Thu, 11 Jun 2026 11:18:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781201933; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QjtISsFqtYrK2LUtIm/VhwwCFIwwedup9RJ0PlwlO163SzHZzdbXjvySdCVgvOd0j3
-         EcjSEkXNWrTSmwlOUPedFlwdgdNoSpYYR0wfMsMLxoqibWPhKKKopM+h0pGOONwMckER
-         rCXBZuRpG7SDOjTE+Rxz4/yw/9VBTFjh2wJ8RlzvGDuCaPqcNG+oI8E5yu1A6SEaxNFY
-         yqwYsdolXC2Cdv1abUBEufPDCZVe+J6ELQX/7P2WzmDXt4RLZzSNyu7LDcxiFedKRC3s
-         oAxHXuX/jh3xYvbNzl83gxUrnd0exy0W9O8Wgx7DQD7YsBcM4+IhUGWTTWbk4UimLleF
-         IBfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=C3DbtFuRBFlmeffuHTzJiPg/wurU4EJ+AHbFtCHhWTA=;
-        fh=FRe1Aepx20bAn3gu5JuZwRK3itv5fSv6k/R1oG4qfxM=;
-        b=SrUqm8I6Iix2a0pUaVFMfO7HkATMaOBssjoGgvKQ45Se120of0QrDxLtPQ5r6yOYKS
-         SUr9wG56ah1tGQtPQn8MqbAZI9lNlxZnRKDBccQRsCtPKpp8oOY+8CLcN3E37Xc4m6TI
-         r/NAmVpeEymZhDth3huJs3hSBKI+0tkyuDTpbPYNInVz6re9aJuCUe5S7kYb3ORIZ71i
-         /a5T0ExZ25umMQmnRX4t7yF8ESoIxhrzICIIH+nM0THlCLU2e47gmHETIsBIkH1neMcC
-         0dMOkiIWIeyHKPNy5Jgkq3djaq00eLssBDFoluS6xEE7EzW267JYWhlk4e+FvhJe1CW6
-         My9g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781201933; x=1781806733; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C3DbtFuRBFlmeffuHTzJiPg/wurU4EJ+AHbFtCHhWTA=;
-        b=QL4vpphYCKfJsTP+b6V+9sfX19S6faCiuUY/mbtRozLM5ZCgFUYAEOihflQpzfA8zI
-         dFFP5CQ744knirR8l50inaqoiubSKZX5UAI4gPye9anjZjhBr2pEDCOoZ2c8vlaO6HJw
-         3YL3ZBQl3SZP08hnQfilnpRsMU+QTRKYpRFjo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781201933; x=1781806733;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=C3DbtFuRBFlmeffuHTzJiPg/wurU4EJ+AHbFtCHhWTA=;
-        b=iOx1OL0Jr6BM12PyUE9s91fyo6N77DOBxnRYeLgC6pq6TRfAz7F+zLjU7g3hnRfn7+
-         kBjx19w3Gn2HGPDqgJ6V/HpImOpRVHFtY7HivOkyzZI+vD8xJvXSWRA5nzS102N920aE
-         rVfnn2QdNSNAAzsEjpykvImTg6teMhJ1HRWbm4YC2aMKeg/uXVvPsmfz/2lSMwFLgf1j
-         iZ642h+Cf2luGo+Shyj8htdvgHrlCz5lPQQEj1PHfwd+2FmzOlpVAUIWjDEW1C3qm5Sq
-         t8/HOlQmtbGL1LfItU3E+rTyTt9h3DZMtpd9IhOSY91/4B275CRJeBS4EkT8sPg0prHq
-         NXtw==
-X-Forwarded-Encrypted: i=1; AFNElJ+iNtSMoLNE764890lpJjrF7CgSOr1vxjNeI17qnKHHNNfiCI3R+uo4YiSNB6b+MuEjbXq4i2GIrq/U@lists.linux.dev
-X-Gm-Message-State: AOJu0YxT0yovRCOcbp4d+/xGvUg7W31bsZkBc9B7uEpvgRBIAo8/EIZT
-	TfALO2inrCRQcovFRoOBB/DjdgFWcrrD2dluSnQRSv42vF/glR/qsMpnUIrigoVY+AMOrjLsIib
-	MHV0HqVJSpwdRpSSzk8l+yPJbf+v+WLgmewrmtMBUvJB3FXEE+LgF
-X-Gm-Gg: Acq92OH5p1Yv6b0gLRZoY04aT8+/yI+fWVRThRLPz7dS4CVcXnANjEq8L3j6CFA1lbY
-	lL6k2JNPVlqDXJf8XChFlYKt8E23ZFwC8ftBDezjA1YH3ehZc+yz78nsSJdKPV1eUBwg+b3wVjg
-	AkoUopnCSmSk5iMePeqKQgpbHyexnSvbeK/ZFeCkdyKs2F4YxGRmqnpAsa5GlPm/1Yy4wrQitHu
-	RwinwJW77o6Av9R+1tA1Rk//qThHvjIOxJSl2N2whFuKDbHLijoNMyMSUWdje5nvX3jK5X2RH6l
-	VTXqxf9nJP+jL2CaoJCBsFYxe9Q8lMDF5QjWoQky
-X-Received: by 2002:ac8:7d55:0:b0:517:7ed5:b570 with SMTP id
- d75a77b69052e-517edd1b7bbmr61380701cf.12.1781201933302; Thu, 11 Jun 2026
- 11:18:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="HDEzRzlY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AHVHje+1"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id E22EB7A00D3;
+	Thu, 11 Jun 2026 14:47:09 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Thu, 11 Jun 2026 14:47:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1781203629;
+	 x=1781290029; bh=e3xfThsQHpMluLj2WYGwq4whONtQxS5U4n3ZNfZvbkA=; b=
+	HDEzRzlYawf3fIPMCVSNME0NhiGnNQ1r9QJsIViTbj91f4iO2GlNRs/9z8XZ5MR5
+	bbCL3XZZMtAOxKvi7Kv6nCqr6PsjH09t2Qok8kem4VG0G8MILWN+vjH7y1GBNJJb
+	K7lrNPj9p9WvULb7c427S0UpJMPxEOsqAbmiEuwIQfsVLu6ThDjbysSvN4MwquT4
+	UfNdSSDl+mRs9pz5MvYokbeyXBN/wojv4breKaEHOgKycKr071Iwt8S1S7sKNTZk
+	A0I+8b96d03IhOWEm8fCx0vL+n7nfH6lSnzhk5L+ec4F67q6LjQToxIuA/Mx7ou5
+	Hma0meIxiHBJvuvXjYdMcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781203629; x=
+	1781290029; bh=e3xfThsQHpMluLj2WYGwq4whONtQxS5U4n3ZNfZvbkA=; b=A
+	HVHje+1/TbOuHCZSME1g8k2CRwDWYWjjcKf5cfpy6cpOo6NnztrPcSjjAU75pgSP
+	6mYV+P8wUvotmN5vy5QztFuhD/IyXLRtHh+UKaO0aQzFL10VzesAcwvtwIUSRmNN
+	zVgxObTsDojqe2EX/Hxpt/K5JF+sQGHhg9h4IGSWQkrnmR1j+NFcXjjxwOsa5gMi
+	aPyDc/aHJE8C5gFLuPVHFNWzXgwcxDIM2oX4Ju1hfyhbowPJwWmOVSbty2XOv7sS
+	L0AH1TC0lU7gxGukHBEg+YHdm85wI/rhlVDvl0bQzvBUVOjWhpFdhNfi0ORg7Nle
+	3WuVo73e5K1Ux4AZFXJJA==
+X-ME-Sender: <xms:rQIragnT3TcG_MGInQ2f0Ll0F24Vk7Ef8ZCEVcszjlHUl808DA7IJA>
+    <xme:rQIramvXhYrxdXNP9LE8tcbfSCbwRtKqCXhUIit8GJfCrvhG_N1Kh0k3BnjUSZYY3
+    dKbnpJHgbG3PrVIAFb8e9ofPZdwR5NB6xYvJ3L-3icbCvDzpt08>
+X-ME-Received: <xmr:rQIram9tPT6qGZko2o7fo2J6rbDkgoayEft4zTRG0H0Gp4_SbISW7CyChnGujDAoEWGGMPXg1JUKqe2XLDD2zLmgpSd5p2VG61CLJZtf5OFHa0oOOw>
+X-ME-Proxy-Cause: dmFkZTEWdWgDIE0r2kBTcSw6a9kMbRqxrC5xOTdS7CRzWhokDiHY05VZObop9BaYwxjOr2
+    by79ywSuta59urMJ3YTtrdlY9bnGf8XCboZ1dH8e4KAp6Os7Sx8frh+GPrP+bpifeN7Sg3
+    0JzBeKwdAIHyY5LAaHZjTH+vyel00ge8xSuP0+bVGA5VR8i6IKVJWwrjP3V4bHmay3Hmuv
+    1I81FUt4eyDupA8UtjDLBCJEaA+pZWGwDQ90auZXmD+aQTiyhuYKrmIkVqknQDsSXOf8zU
+    ORunfTrV3GSF4F7abohcrWDXNxGePfKte8rOphcng8l/2h3SY3OmH/B6X5YHldvyMlutTr
+    267wbCQ8Nvu1nes89b99AXeB4gAEvvi8YSA9fdpAz03VWuFpVuoENN3Eq2tpt3vRXjABMp
+    oG6GwE1OhiFG5AFmLSGq3q5wa5WVWgvwRreEmjfpj6kc1O+WA5sXj9B6T96KblC2TEchyY
+    hOKnsmkAXT+KWGq1CJz7jHIVGDJ5Pi3pDaAJlbrkODUSyME2sz5QHqJKHwrlL7ChwCP20M
+    nraJFJailOk/HtyklltHp9cPLr8KkEhftmhr6jRi793440wY7BVQS2wYPAmVdbh44Avd7E
+    EfLo47NUyRBBD8wV+lulKJ0SFCAJjwdJ5ATjWNbz429L9/PwcbRLfFxCVe3w
+X-ME-Proxy: <xmx:rQIraoN8blpR_2rRGdGCNHcFzkXpXvG0ngGUT41cfOFHUVpWwlNIdg>
+    <xmx:rQIrasFywlxJd4B4B6QCiE3p46myrU_UU7PJtzNI-OAe2GJLezVNWg>
+    <xmx:rQIrauSbzF08R4cnk8_RTNJ6JunCgO_RzNFBFeoi2oJRclxc09FG7w>
+    <xmx:rQIrahuAlohzm8f3DmV-S_veELt2U9lfjqjcIFkmXRUU-Mpdm5k_yg>
+    <xmx:rQIravOSziVcOzGWYyHefhjE-NeJubI9wBEaZI_o6ByLAmvgnJkVYUwv>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 11 Jun 2026 14:47:08 -0400 (EDT)
+Message-ID: <796c1e91-41aa-4c1e-8013-db0dc7d55da7@bsbernd.com>
+Date: Thu, 11 Jun 2026 20:47:06 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/10] fuse: add io-uring buffer pools and zero-copy
+To: Joanne Koong <joannelkoong@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: jlayton@kernel.org, axboe@kernel.dk, fuse-devel@lists.linux.dev
 References: <20260522205823.1597313-1-joannelkoong@gmail.com>
  <CAJnrk1ZPU+BvTCaQ00OwnnXJ8MkwSZ3RyjH9zndL_GuSPfwirA@mail.gmail.com>
- <aeb9c03a-0330-4e41-ad33-b884f00691a0@bsbernd.com> <CAJnrk1YPeeCSsQFjaFNROYcOdBO-kTovOTDkCigNKRt57JREJQ@mail.gmail.com>
- <6ecc45f5-4bce-4af2-bfe4-36c69e624b01@bsbernd.com> <CAJnrk1aS=3KwZ3LpiqcK=gKsj7oru-k-1Xpe2j5puDdmn+hjUA@mail.gmail.com>
+ <aeb9c03a-0330-4e41-ad33-b884f00691a0@bsbernd.com>
+ <CAJnrk1YPeeCSsQFjaFNROYcOdBO-kTovOTDkCigNKRt57JREJQ@mail.gmail.com>
+ <6ecc45f5-4bce-4af2-bfe4-36c69e624b01@bsbernd.com>
+ <CAJnrk1aS=3KwZ3LpiqcK=gKsj7oru-k-1Xpe2j5puDdmn+hjUA@mail.gmail.com>
  <CAJnrk1aacCbOWWWvW2xnQZ0a954-4shXdyO9LBn_Fv_dyUAWnw@mail.gmail.com>
  <CAJfpegtorFv9u2NCPA8v5OHiBUNT-XzUiw_y=7c3U3WEaXRUZA@mail.gmail.com>
  <CAJnrk1arYPY1u8_aiMfYUbmb9Oy4epRWJp_W7-hjAxQ_ggJn9w@mail.gmail.com>
- <CAJfpegs7ttuzD14cnEeRBeDnw2E-5Dz=+xCEWVDRCKqMhDZ62A@mail.gmail.com> <CAJnrk1ZbThfvHBfVq_SntuRLFsvHC=DMBQnNcS7Zu4MV9YXTgQ@mail.gmail.com>
+ <CAJfpegs7ttuzD14cnEeRBeDnw2E-5Dz=+xCEWVDRCKqMhDZ62A@mail.gmail.com>
+ <CAJnrk1ZbThfvHBfVq_SntuRLFsvHC=DMBQnNcS7Zu4MV9YXTgQ@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
 In-Reply-To: <CAJnrk1ZbThfvHBfVq_SntuRLFsvHC=DMBQnNcS7Zu4MV9YXTgQ@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 11 Jun 2026 20:18:42 +0200
-X-Gm-Features: AVVi8CesWE6oQI6PnCNkV8-YIgJF0pIzzhuZAYBX8qa-UTU2uVF9jPVGY4aSe5w
-Message-ID: <CAJfpegvfu2heS4GpvcKxFXaCHfWSrrdCqswkwY2my8zdX_M7Ow@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] fuse: add io-uring buffer pools and zero-copy
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>, jlayton@kernel.org, axboe@kernel.dk, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 11 Jun 2026 at 17:25, Joanne Koong <joannelkoong@gmail.com> wrote:
->
-> On Thu, Jun 11, 2026 at 6:29=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu=
-> wrote:
-> >
-> > On Thu, 11 Jun 2026 at 03:51, Joanne Koong <joannelkoong@gmail.com> wro=
-te:
-> >
-> > > a) I don't see a compelling use case for needing to dynamically
-> > > add/remove individual buffers from an existing pool. If the server
-> > > needs more or less capacity, adding/removing a whole pool or queue
-> > > seems more practical. If we do eventually need single-buffer addition=
-s
-> > > to an existing pool, that can still be layered on to contiguous pools
-> > > (but removing buffers can't).
-> >
-> > If server knows that it will want to remove individual buffers, it
-> > will just have to register them as separate pools (containing a single
-> > buffer), right?
-> >
-> > Buffer pools are a more generic concept, hence they come with some
-> > extra complexity and overhead.   But the interface should be a
-> > superset of what individual buffers provide.
-> >
-> > Am I missing something?
->
+
+
+On 6/11/26 17:24, Joanne Koong wrote:
+> On Thu, Jun 11, 2026 at 6:29 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+>>
+>> On Thu, 11 Jun 2026 at 03:51, Joanne Koong <joannelkoong@gmail.com> wrote:
+>>
+>>> a) I don't see a compelling use case for needing to dynamically
+>>> add/remove individual buffers from an existing pool. If the server
+>>> needs more or less capacity, adding/removing a whole pool or queue
+>>> seems more practical. If we do eventually need single-buffer additions
+>>> to an existing pool, that can still be layered on to contiguous pools
+>>> (but removing buffers can't).
+>>
+>> If server knows that it will want to remove individual buffers, it
+>> will just have to register them as separate pools (containing a single
+>> buffer), right?
+>>
+>> Buffer pools are a more generic concept, hence they come with some
+>> extra complexity and overhead.   But the interface should be a
+>> superset of what individual buffers provide.
+>>
+>> Am I missing something?
+> 
 > The interface is a superset. Internally the difference would be X
 > bufpools with a single buffer vs 1 bufpool with X single buffers.
 > There would be more overhead for X bufpools (eg allocating X
 > fuse_bufpools structs, looking across more bufpools to find a free
-> buffer).
-
-I don't think this is an issue.  Allocation should be as simple as
-keeping per-ring freelist for each buffer size that would have all
-free buffers across an arbitrary number of buf pools.
-
- I don't think it would add much additional complexity, given
+> buffer). I don't think it would add much additional complexity, given
 > that multi-bufpool support would also be needed if we wanted to
 > accommodate different buffer sizes in the same ring.
 
-To conclude: bufpools allow allocating/freeing multiple buffers
-together.  The API is a superset, since allocating/freeing a single
-buffer is still possible.   Additional complexity or performance for
-the bufpool layer should not be significant.
+Really sorry for late replies.
 
-Is that correct?
+Couldn't we make a config SQE define a max array size and then every
+array entry would be something like
 
-If yes, I'd go with bufpools.
+struct buf_entry {
+	char *payload;
+	int buf_pool_idx; /* which buf pool */
+	int idx; /* index within the buf pool */	
+}
+
+
+And then in fuse_uring_ent_in_out you would need to set buf_pool_idx and
+buf_idx
+
+
+Avoids which buf pool still has free entries, but buf pools get added to
+that array, which then would have its own head and tail. Obviously you
+would need to do another pointer lookup to get the actual payload.
+
+Obviously has one more pointer than just a single buf ring.
+
 
 Thanks,
-Miklos
+Bernd
