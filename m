@@ -1,168 +1,102 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E69390990
-	for <fuse-devel@lists.linux.dev>; Thu, 11 Jun 2026 20:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781210377; cv=pass; b=HKyAp/M3uIk55e0mLtS6QjO/dtFxM0PFJe3hZpQNcJj1k3vqGjYKS1CLjoXBcrV1Qp9MuiJ4m5iJ3aDkiJ194oSHJduKd1ooxjPZPcCTgNl1Kdz3HX99RpES6xWLdO4omflWLSka50J9vGEHbCd1Q/Gkn0lzgICENUQ67F3GKJM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781210377; c=relaxed/simple;
-	bh=R8HuhVAMo8f3qAcLXo87GLT7WZLlHhUDUQ5FxZjkYTo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A2v5y05CGRdWKbjPG+XqDQ546gxGodxuELgiNqAyfw+VKCIqK+ZG22dLQPJSh0v5j+UleGqtvNsqU5nyItzRY5WDYsn0yNpovd9oWGH3oc0OeWQruNg3/Sj9BpxjPwRABQywfNU2QGMGikS746jxAlzylbv5eicZfpMNoahatm4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I2t1hn2f; arc=pass smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25726303A04
+	for <fuse-devel@lists.linux.dev>; Fri, 12 Jun 2026 10:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781261929; cv=none; b=bJojgT3F4OHUU/gqlf+2eZbJ2OFUpL/qU8CjiL3wJPiGMnygmxm8r/1/utKQNr6zhR12mSRCdDSMTJiAi1hXqAE0YhGOJPjCt3zCnrGg6OipqCIwynCrl1Pgnfhr79bdqm1vKk0FHAGFSf08Nd1mG9eOLHcbiqALoy4gLNiLcsw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781261929; c=relaxed/simple;
+	bh=QV70zug7pUsuHJm/j+4dKuiEaiBdOZpK58/NCc1YEzM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=thurNLlu/v8TVLUATTELG1kXOPMYBNfUhyFCT8kT6ASz114jPlbJGMBPW2FX6tmq7NFk6zGw9SXrNnWqfx3rQ5zbCsrwduiiiomkj5sVHvLsTdF4rpZad7WqSKrutKWxAx6ATUr79Vu5gzOt/xjGPC6iE/CFpuSHCgDjae6iKu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=gXEFMQ+x; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=e6fkZjkq; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2t1hn2f"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b9318997so1810865e9.2
-        for <fuse-devel@lists.linux.dev>; Thu, 11 Jun 2026 13:39:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781210373; cv=none;
-        d=google.com; s=arc-20240605;
-        b=L932Kh0M1N+yI8tAX34u1bgV5tlrGw7J+9AwxJovbLIVOD/BPsP3gEzpmHAS095KqY
-         qEkOWNYF04tbWK6fo8wJTMiFzWM29Pa+OTRQMpzm+kW6lLIKshTwTXvOm6Yi4B2J/8Wv
-         RJpfsOCJMHO2QD4d3SabtPR7iUua2ADhakVgzjZPCRMU7vnYA9svzVvlb6lmtVqB4prH
-         R4y2VHHhIRCPjjnvibM01dL1tOGwrQDEHtsJs9Krr3VP+AVcvOwk0p/v5L4nyrKbeBrS
-         fFqQPUJZKyDOVNG/id44Co6H8gTIMGel1b6jjQuWN6WL9wX/3CDfm/rwCq2LtEgZIiqf
-         lvdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KJ/2GLeENvhoO48tP3GPrupjjs3AK7krk7QIR001BJE=;
-        fh=EvPU9eCY6AVyvApFsKReO5i6blJ2Vf8Cl+luc5VVqJk=;
-        b=cHji9WTBOIs9xhTAb3PLnYcyuLur51UUMQpKLLrjYikxFHvFKKejjAdyBal0ivi8/C
-         8JRV32vYvuCtev7DnxQ4z12OqV31crCkCe5ASY0B+bMRNLCpy49X2LCxZD0AA3SxtiYX
-         pg/WtCRYCr2vooa5JGmdgPgstvLLl1XNZKzNOOLleZ5ULd58pgFFg+94BBFQ+4qnZ/Zm
-         ARQh8tm0o7Sh/PCPBUrN6svFyCFvm4TewkpCLIMzSSz7mCeHqc9VeV8Mb5zQGvDMgfZA
-         Wr7jwXT72J0iTiTwp5pWm0Ja6Gm+ZodR8qRUuoD7CFDwKd/9oLh1vZaPBlQT2JiyXEQN
-         l8pg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781210373; x=1781815173; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KJ/2GLeENvhoO48tP3GPrupjjs3AK7krk7QIR001BJE=;
-        b=I2t1hn2fcDkH6G+/9qMGB1GVgtJ/9qACzCfhAHoA6/fl48qbdje2zvnt57CFjw5J1p
-         8fisPiyPjGV7gkCi9KGCT8EnIz49YPF+YjW3630faAAtS8E2JBpQML0IeLo/3MxyTae/
-         kRyfO3XnHj1oFQXSTLUeN+agGhv3w8RpRuTd/3b8xOhk0OPjYRvz7mpzMKIjJZnrSiCA
-         i0uKudVghylss3kRkTSd5Lez0aOnyz88J3cRs8WdFx7PGZaxe1O0xYp5t/Zp/gEcWSfR
-         CHY3fTQDoT4/9FR63aXeJdVCnH5BypBBYRYNl/mcBenPuB91xpszyEDq4rDro6igsb1/
-         CR1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781210373; x=1781815173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KJ/2GLeENvhoO48tP3GPrupjjs3AK7krk7QIR001BJE=;
-        b=Nc/R8HwwjjMa8nPxeQn7czO9/DeMx3QHHoABaUbE0Po4RNoVXn/1K86BBuiDig19Za
-         ym+0xj9bEpd5W6JJggndloDDphFuFyqbQZmnzQCm4DP2UK/PRJOnG8Ix0tOK6yPFc4Ys
-         IARjSbwM9TvstM3bWGn/rOc9s1CsN/1CmScxepyGKB9YuIO7LQNzHJV8rF5pXtURExAQ
-         Qu9+hZ23yCI2JrqdNoJsQ9gjs6TPjOxT5QVnKc9L2FwUFTDOkgWzHP5kguIpVl9Hrna2
-         t3tyKatVknUUEtQ/VH33tIlkcTy2a9+utY6xEoBdmm+IfSwKZmAak1WJAPe/ib5RVobw
-         JCMg==
-X-Forwarded-Encrypted: i=1; AFNElJ/yqTGjrOxSqHO5dvLhULpf3LjA2xU18Ca9+Gdv4qztsBso8Xi2gO33Otd7YSCcJKJD2O1yYdon2JbI@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWplANzBWva0oibYJ9sQaCDv9hrRrChOXHlzGz44U7r4hY6hF7
-	OwCHnrM/htYsYbXqfH9yTt2zxB5Aj13iOcCw1o2cMR6uDk8+P6NIVW6o3kdjWIJ6860Zv7luIvH
-	8hveMazGOjc7QS06DryC+ynNsLCHrjNY=
-X-Gm-Gg: Acq92OEBQPsWsSWzYKSaaUBCZ4Y0JaSrlIoJTVxCvXDKAb7YSGSiUoisFgbp2K7nFYM
-	ZiSGvp9oDJNDVruKZ19bLxRCJCWf3r3MER8OyzLItLL0fe370XE6mAI8ulZn0tP1u1SAISxrn9g
-	OApy3Z+PEz3iVg/h6hVCU+Wl3hP9eXlj0KiDs+LHd6/J211neq0xClg/SbD5BO/6WBZdYOY2WuQ
-	21BJ/7N8nKnTujvixtC9w+UCVMnEjKLB0GHnaDwm7KtZn2HKXDlKEX/9KFeG7b4hJ4qASqPk4go
-	5pLaZkSsPA5Gixhjs7bmTQooJCz5fshSzGcRWv8G/VQ0wOzbBjYm8w5Ccy4mEjQ=
-X-Received: by 2002:a05:600c:6994:b0:490:b724:5085 with SMTP id
- 5b1f17b1804b1-490e5619ae2mr60142125e9.33.1781210373043; Thu, 11 Jun 2026
- 13:39:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="gXEFMQ+x";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="e6fkZjkq"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 4B69E1D000E3;
+	Fri, 12 Jun 2026 06:58:47 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 12 Jun 2026 06:58:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1781261927;
+	 x=1781348327; bh=9uyrq9L6Fone56GQvPSX4+qRMkkQPO1Z0wLQFPb+fe0=; b=
+	gXEFMQ+xlfeELskDWh9QCCmfs/5BYtaxFQiLmw5r1/ghnc02fQwmwGfpLI0Rri3r
+	QOYG+E4iDyV1wAbY1t9hRXAEUysd7VqMqnauUAgoxMJHNjc/fnPCvvJJ69PAEZR5
+	/i9SdSODIKAUW+ikoltkVCst0ihlkkM2qXhIC5GsJclsSHW7KUuzbMWLUlhX7tWG
+	Jd4Ul3ZSosW5rajd64oQP65cCkqE1Hqo8n+tAW+UusKO5Oddwzt//eaN6bq3hO3m
+	UrMyrnbDXTS36k1ZqLbWGbLHe3LZ5QKeg3c4Uia71UgZlwUSm82IUACxdPFr+pv2
+	5P4NYBGgbCbuoh6vyOwyoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781261927; x=
+	1781348327; bh=9uyrq9L6Fone56GQvPSX4+qRMkkQPO1Z0wLQFPb+fe0=; b=e
+	6fkZjkqq165NBjgel5wdOxpoWv+tbVKETb7AoDWA1HUsvcQjYS7317NQ9HM4/Rx3
+	mqLJAyThy9edt4zQY3A0fBRN+qTsg0A9Fa14N7tYx7zZf1O0pXa5ICwrMVaHUkF5
+	PUdSR2PtSzQQDWLwuGOwP3C0hVlzTo5uw31yNL0UQJ0snTGgmgaJIQYO3JcC7IaL
+	keMe2E8wO5WOQ/QwRadkC4PLpN18y0Xn+QpZW38pGGMksyNOSFKkHGLyrVCJ3bkm
+	S6p8thjKNU3TFllCVqCCBi3/v1z90JX7gkayRpZD0qlOdVw9g+1DYTCxIKuEn5TB
+	IlujUZszSz+2kdDEFllzw==
+X-ME-Sender: <xms:ZuYrakavxWUHIbjV3Tr4OgfnFwp7wmQLrT7ac9JaT4PIBGqdNk20Lw>
+    <xme:ZuYranII9yHsx0CYWS2oUGYMl6wTLXKlLrF0d1eLewqIykTvNXnaysMRdEs5exv3S
+    8tlzcdQHtLsdtRuzotLaAGW8i0aLmG0GN8WrnsrOIqd4U-AIHUw>
+X-ME-Received: <xmr:ZuYraiCAPnfQdpx7eDTwClFOuJ7Idp38byvHRHrojnjmZIpx0qoRrEVx-x_4C6-oMVIDre6pPafQcHUFurD9RcpfhzagX8Ft00lC9VTRlK7Fjr5r-g>
+X-ME-Proxy-Cause: dmFkZTERrdIpjGQNgIG/OGWz1D9bVoz5V8zWLwtO867Cs6ZH6AMFdMopiIej0jD67aczkQ
+    0aZyT705H1QUkOLV4E5X6tItQSEmnP42ID1YRn0jz2vu9FjqbnfMHdaL23/3Oiy2OndmaK
+    9kCKLxsQMlOmbgA4Qc+YNn6/NIFh+UIGjJmcXTxITpzQ9uEpzg4r7EzSitFtKCWXrgmEBn
+    EwfdaYaoQggGndSuzJI3Hg82Sdx1+0B+RSeVXMmws6kMfUoRQcyShp8ndlX+QQs570NqY5
+    1J4mC2EDpagqGprfjqk8tuDqTicyU0ftYW9wz2e0U9kJxmgbOfueDaktvI9ymLoUmbWHpQ
+    N4+nmXLSlCm6LMFU6MaOzKyQutybQRTOJvBYM8ligKUapNhvODTRY9tGFCu1D13GXiypUB
+    Dsyy7q2MOWfVgmZyalutbjgdbRMTQ9z1KDVRtL8IUxzKRDUEXR+6giJ0RoUtgkR62O0htL
+    XoLGKvlmdi/l0DtZp9d1az9PYJN4swr9WjPfmwnisc9OqoZyHoDMcSq94+r09FODg6Ip4c
+    Jd3KPoYl8Ja8iFrjvZgEEi1KYMn6EyydTGPAQmsCRYYDY0D5kqTLL14An0Q4MvXHyXl+yk
+    vKPuOydtr+EPeK6IMovagNez0e6IQsXqy0Rja39w2w1bWnkwbL4DKyLH4KvA
+X-ME-Proxy: <xmx:ZuYrasrOytSMg7H54Mf6OjKAJDan2oodRv96eBg7CKemcJUb4YH_MQ>
+    <xmx:ZuYratiRLgwSZaRzOUEXri1EGNvW_4-gScoIvThm9FJ5I6wv0TLpjA>
+    <xmx:ZuYrapDpKi0Mwj5FCkd_2gX9his-KsPJJ5VevVK0D_AT3cvbHQmwnQ>
+    <xmx:ZuYraiHgxmdT0KJCsxLW7tMl3qkZaxWuHq4vK8rUJ0YY_8SU5-TROw>
+    <xmx:Z-Yrat6h1nGwNblBnveWnR9HyhSBb6DAa22KbcJkli5LweLG8-H8x8NJ>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 12 Jun 2026 06:58:46 -0400 (EDT)
+Message-ID: <90a8094f-29d1-42a0-8c87-f8cc567c4e0e@bsbernd.com>
+Date: Fri, 12 Jun 2026 12:58:44 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260522205823.1597313-1-joannelkoong@gmail.com>
- <CAJnrk1ZPU+BvTCaQ00OwnnXJ8MkwSZ3RyjH9zndL_GuSPfwirA@mail.gmail.com>
- <aeb9c03a-0330-4e41-ad33-b884f00691a0@bsbernd.com> <CAJnrk1YPeeCSsQFjaFNROYcOdBO-kTovOTDkCigNKRt57JREJQ@mail.gmail.com>
- <6ecc45f5-4bce-4af2-bfe4-36c69e624b01@bsbernd.com> <CAJnrk1aS=3KwZ3LpiqcK=gKsj7oru-k-1Xpe2j5puDdmn+hjUA@mail.gmail.com>
- <CAJnrk1aacCbOWWWvW2xnQZ0a954-4shXdyO9LBn_Fv_dyUAWnw@mail.gmail.com>
- <CAJfpegtorFv9u2NCPA8v5OHiBUNT-XzUiw_y=7c3U3WEaXRUZA@mail.gmail.com>
- <CAJnrk1arYPY1u8_aiMfYUbmb9Oy4epRWJp_W7-hjAxQ_ggJn9w@mail.gmail.com>
- <CAJfpegs7ttuzD14cnEeRBeDnw2E-5Dz=+xCEWVDRCKqMhDZ62A@mail.gmail.com>
- <CAJnrk1ZbThfvHBfVq_SntuRLFsvHC=DMBQnNcS7Zu4MV9YXTgQ@mail.gmail.com> <CAJfpegvfu2heS4GpvcKxFXaCHfWSrrdCqswkwY2my8zdX_M7Ow@mail.gmail.com>
-In-Reply-To: <CAJfpegvfu2heS4GpvcKxFXaCHfWSrrdCqswkwY2my8zdX_M7Ow@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 11 Jun 2026 13:39:20 -0700
-X-Gm-Features: AVVi8Cc1T01OWOxOnvz0R6GuvjulPlqDg-r3Wvy_cB_G0AMcHgT3dkueAoZRoGw
-Message-ID: <CAJnrk1a-8FD8rqpQ0n7+WMMR2LDM040YC4rWA+1xSB48__O0Vw@mail.gmail.com>
-Subject: Re: [PATCH v3 00/10] fuse: add io-uring buffer pools and zero-copy
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bernd@bsbernd.com>, jlayton@kernel.org, axboe@kernel.dk, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT PULL] libfuse: more random fixes for fuse service containers
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org
+References: <178114032924.140224.9298472352650513008.stg-ugh@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <178114032924.140224.9298472352650513008.stg-ugh@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 11, 2026 at 11:18=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
->
-> On Thu, 11 Jun 2026 at 17:25, Joanne Koong <joannelkoong@gmail.com> wrote=
-:
-> >
-> > On Thu, Jun 11, 2026 at 6:29=E2=80=AFAM Miklos Szeredi <miklos@szeredi.=
-hu> wrote:
-> > >
-> > > On Thu, 11 Jun 2026 at 03:51, Joanne Koong <joannelkoong@gmail.com> w=
-rote:
-> > >
-> > > > a) I don't see a compelling use case for needing to dynamically
-> > > > add/remove individual buffers from an existing pool. If the server
-> > > > needs more or less capacity, adding/removing a whole pool or queue
-> > > > seems more practical. If we do eventually need single-buffer additi=
-ons
-> > > > to an existing pool, that can still be layered on to contiguous poo=
-ls
-> > > > (but removing buffers can't).
-> > >
-> > > If server knows that it will want to remove individual buffers, it
-> > > will just have to register them as separate pools (containing a singl=
-e
-> > > buffer), right?
-> > >
-> > > Buffer pools are a more generic concept, hence they come with some
-> > > extra complexity and overhead.   But the interface should be a
-> > > superset of what individual buffers provide.
-> > >
-> > > Am I missing something?
-> >
-> > The interface is a superset. Internally the difference would be X
-> > bufpools with a single buffer vs 1 bufpool with X single buffers.
-> > There would be more overhead for X bufpools (eg allocating X
-> > fuse_bufpools structs, looking across more bufpools to find a free
-> > buffer).
->
-> I don't think this is an issue.  Allocation should be as simple as
-> keeping per-ring freelist for each buffer size that would have all
-> free buffers across an arbitrary number of buf pools.
->
->  I don't think it would add much additional complexity, given
-> > that multi-bufpool support would also be needed if we wanted to
-> > accommodate different buffer sizes in the same ring.
->
-> To conclude: bufpools allow allocating/freeing multiple buffers
-> together.  The API is a superset, since allocating/freeing a single
-> buffer is still possible.   Additional complexity or performance for
-> the bufpool layer should not be significant.
->
-> Is that correct?
 
-That's my understanding of it as well.
 
->
-> If yes, I'd go with bufpools.
+On 6/11/26 03:14, Darrick J. Wong wrote:
+> Hi Bernd,
+> 
+> Please pull this branch with changes for libfuse.
+> 
+> As usual, I did a test-merge with the main upstream branch as of a few
+> minutes ago, and didn't see any conflicts.  Please let me know if you
+> encounter any problems.
 
-I'll send out a v4 that adds Baokun's Reviewed-bys, fixes the
-documentation typo, and adds a note to the zero-copy commit message
-about abort teardown.
+Thank your for all the fixes, LGTM and passed tests - merged.
 
-Thanks,
-Joanne
