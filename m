@@ -1,63 +1,63 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197543624D4
-	for <fuse-devel@lists.linux.dev>; Fri, 12 Jun 2026 21:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB0A3783AE
+	for <fuse-devel@lists.linux.dev>; Fri, 12 Jun 2026 21:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781298412; cv=none; b=R4S+EHDykUNWxYFLcjPG4dm1oX9QC6ONC/GTPXKUm/NKF/TD0Xn5AoMlaS2K7UFWtW2eHO0MPElk/CwY3eNepsBRYlvedddfzh0wd3T5l+Kb7jrxyxTuKXNgDqJOTxVVVnCbxVlONt+6s3zTz6H40AT6WNj3zdquWLwJKE6AQS8=
+	t=1781298414; cv=none; b=YgNV3gH57y7MEeVYwkJyi6TREkeUgEaYmlsPINmG4EJmz5pMmVFxeQNjXZIaehChe3D/Pwy8qK1UEkV49Mv9zT1qpNm6dBNgqz0H1nlK+BmtSZrMUr139KUf+hsM+1uJ43eCjnbb+RINTfGSoyJrGoaoN532buxT50AY+Jtcr2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781298412; c=relaxed/simple;
-	bh=olZ+ZIN1MAaAuqIUkVl4qUMhrWjs0dj8Yx1pHFF9T10=;
+	s=arc-20240116; t=1781298414; c=relaxed/simple;
+	bh=TQO2gkGRZXq7+VI1bK/jhPC5fUHNuSgP4RQEzuqqs/Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JJZuV8UfmSl1v3I3JWy0bMUpL4HcnoXfz5ytgGHqomsfTKkDiz1z5EDSwmgLAYmFP/E6/xMJdpEfT8B6+Fy8cvrz0yDrEK47Ax0Xtlp4BV6eIP2tvhdw49q0bxvuQCUbdSk+GaN34/7CVZ0qD340QI2WIJOGmls6J4FO/NcNSxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a2uLzK1J; arc=none smtp.client-ip=209.85.216.50
+	 MIME-Version; b=ur9jrKbiRkfxulRCTTy/H3eCjw8Nv5lTRPTqX4BhOUP3XcF2XXfLz/+IQ6/bkdLoY8PSfa26QCcR/c9HkrR+4nhTUnUx2JN9syp1WhwJViC1N3pHS7i3rbHz7k7EwTBdAP3n5MbxDEHUxLSFo71Pmh3cOlFJTa5Q1QitAbYeiMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nfho1D39; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a2uLzK1J"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-36baeec21dcso1042732a91.3
-        for <fuse-devel@lists.linux.dev>; Fri, 12 Jun 2026 14:06:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nfho1D39"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c0c2c7d45eso13254435ad.1
+        for <fuse-devel@lists.linux.dev>; Fri, 12 Jun 2026 14:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781298410; x=1781903210; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781298413; x=1781903213; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tonPSuw4U+VByvovsOubEPPvrNqezV6cw0eB8YEnUok=;
-        b=a2uLzK1JYtm/XbrY1f5SXwB92ggUYUGD7CXAVArlLlfNnDO5hcjFIVRRyhf7uiScsP
-         rZBxN2iDPIbK6LBI6Kv/l1stATIZb8bU3R7JsIOPIWr5lHInmjPPNVx5P7SJJcnAxCOC
-         +22T5tEAUTIohzXHErRzDDUktlcGmIpdXM7gLxqOs4r5L7iYrOryT+AYBqrzdUL34sCS
-         FGetBTYGrLxsU/zOMCMHgHi2Zo+479h1oFveFj14U3Af55yvcVnCIIpxAiDT8c48owQE
-         2YY/B/57dJBWoGbp0dVwTbJgw1zz2TVVGrY5MTup/FZfqWUdGOXVd4gK2iih3WteGY6e
-         UwdA==
+        bh=J60d55nzSEpS9mjCd1Eew4uUUkBqTT/clB5V0NYI2gk=;
+        b=nfho1D39JLYicy4UGWXqvp0TJ2lI5FsDN7EXDLXIjiaBAE6x1HGbagn9Pyw3kG615o
+         qIfMoD0MB7Hx+SwpJfEr/IZq1GCL6PP7gTWBLdGkiciyBUBd4ebgPjh+Vc+LJrlZvM9X
+         zOo8pUz+HUTleJY/k/Uk9BP/nUAWtqEB8265KxIl0qNPrNcfm1skvt7P+SrA+3GCBe5L
+         LTAG8WPSkgyamGTSyRzPBQMAfDa/VEsT71K7B1sVsrN9dAWUXaE4iI4CSDp0R1ugo6Wd
+         oZ4eWYT+nb8SkSVAg/qAIry1qD325OMC5QGKRsW4xJ0QF15PcydeqvuMln5Bk3vGhzCS
+         A1jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781298410; x=1781903210;
+        d=1e100.net; s=20251104; t=1781298413; x=1781903213;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=tonPSuw4U+VByvovsOubEPPvrNqezV6cw0eB8YEnUok=;
-        b=HH5hBz59oFpgNrPo8KPv4kptv67WH1n5urPSTgt4R0M/aM+qxh+v0l8Sqw1+rzBQv/
-         vMQNmAISsjYjPrm7sO4TVZ7xAnhfkx39QtWo6K+tFBfvG4a+38kFVQDYsWi9vzay+UHm
-         Ot4AtHiezHU7Kl6uEYdfpMIRWWLJerPOmFrJNUFJ5LjasxowGWbRFapmqxeqBK9G0SSY
-         2Q3ZrBP6eXvi2GJUmP1ufcHSsrwC7uwtEEu87xt76WfAa4Uu6tCutNVeROmS8pB05ja/
-         WGaXQoVvqRZpJSbzGaRhoJ7BLTXgCKnN1a6nd5g+Uaoj7dqumTyXU4rMgUF+qCoWDdD3
-         bHdw==
-X-Gm-Message-State: AOJu0YzcGr6Ge6AaCrI0TRnzHtt6FVeysiKEqRoKwndPlDAr36Ecn8hs
-	Qz2HJ4aHGU5DPQp/RJ0lJzOaatysw5tfN3S3UQKRfU1YPUCRydvUozf4
-X-Gm-Gg: Acq92OGyM9EuOoyEtxGGAmZoeEQlYm5jMRzN8Wn5wlYwOy6aX5ShVZQcUM3sZ6m8AzV
-	tMQdlSPIjMHIdRW20ZjTrChpAdl/hyRyzEhEOZTj3lzPfa2muzbaVfk/ilru6v2QpmrYwbKL2Bt
-	am7AnIWZk3GFtABabncmHQHGMASebWsySc1pS+/kZQqpbOD8rn4+BkLGmu4YSg6d89Iu2IcOsua
-	TFb3jHwrhefWoZW+6p1mqPgTIGKzCL4co3wE37JUnWSAoHuYPSp7VbcHRhfCMr7gyGowGpX/XQR
-	FVdoM0H1Ty6ONVzyhsC3IerqU4GY9XQ5zjmN1gL0z7bPUGwsPte7iE+TCSS24r/bjJv2Ka2YEft
-	nGGO+o90j0zKVy5loQfHaefPMnOHF9aH3expGhwKBWwBJS3l1Hago7vU4aY2E+X0PdSRYcYzYPp
-	DqbSsAMvww9WhvLh5Od/dtXAjAp0yxIrzF2ZH2stRHI2s5iYB9l4Ru2Pbv5gbQBqzQdquJ6QN2B
-	Bg=
-X-Received: by 2002:a17:90b:270b:b0:36b:7c2a:263e with SMTP id 98e67ed59e1d1-37a04494182mr4113044a91.20.1781298410229;
-        Fri, 12 Jun 2026 14:06:50 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:4d::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a212aafb9sm2956711a91.14.2026.06.12.14.06.49
+        bh=J60d55nzSEpS9mjCd1Eew4uUUkBqTT/clB5V0NYI2gk=;
+        b=SSHuFwkV9hsweRfjwD/z9VZKGz0TWXHUEljVextQXt2YEKZDEo+0q6AIaDAq87XNG9
+         xcTlU1e2AR0Rdowy4Ml2P/QuOyvpYTKpx1sqieisFidR/JFvbTRkz6ASVdo4O96XQg3k
+         6IoG9c65wchPSl/bCjKI0h8OrSR+LfgFgzoGyRJtbHVGv9aJEFlDB7zQf8Xji6ty1N2h
+         oGf9+gBIxp4969q11B9R5Pnd15rPKy9Zkopx4egEkDLlNOyeAKkTwQ8eWOtmaRdbJ7dE
+         Jwl7fvRfzlGA3dKNwRYAonLVw+nDfewTU4fOlVzBj+oBWR7DHT067oYvb0B5m7+ZMnNB
+         6HUw==
+X-Gm-Message-State: AOJu0YxTFvUPSbW0/YOnqUKDov+n6Y4FR88i3hgIbxWqXjtRq9WquLP1
+	X85B6iloi2Sag0cib8nXD4mSR9SOkrwOWFR0bazMR2JFuJ6nSMFd0lk7
+X-Gm-Gg: Acq92OFj5UAGQQu0EG6ylTLj50AAcLlrNkpqtEYbgCB4KvLgZHodSspCayyu8Xk+2wK
+	LhIv48en0KQPSs3pC8k4fcDsZHIAcGx4IFrH+G2U78yq6PKSMKBkIzpLFVmXU+e4u5Re3r1/mMD
+	w2l0ZT/uBsO4JeSwpcSJENO/ox/IPDG9dfgE9HmFtaCwVlkRXu0ysB/pLZHkDuPf31iOooENPUO
+	1BM6S2rZzgMWNpDlOBvh5bP/1OJjM8icSLZ2rgzg6DuSjZRuaUTTGhV6vux5M9nQGEE2PFU8xs3
+	6Y1SocktINhc6Bj73MWLs/sWePvkTPpQwtxTElaUh/gIuKDVP1OfXBrJMmWlgowG9pGBtC3CesT
+	wcYqnmTb/KnzAJNXklqlcluTeufCzgwNlpEtqWNXC1B8KRW8vPO1fi+JH/5WBdGSKAXiPd+ywT0
+	VIYpbE25NigYFkqC0EfDrkYYaanOVy0ZAveZcpwgpXaDOl43yuWk4P31J1o18UexhqsTzlzxbEN
+	A==
+X-Received: by 2002:a17:902:c941:b0:2bf:222e:455 with SMTP id d9443c01a7336-2c4109ecfbamr53358285ad.7.1781298412709;
+        Fri, 12 Jun 2026 14:06:52 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:4::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f7c6c52sm30101035ad.22.2026.06.12.14.06.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 14:06:49 -0700 (PDT)
+        Fri, 12 Jun 2026 14:06:51 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: miklos@szeredi.hu
 Cc: fuse-devel@lists.linux.dev,
@@ -66,9 +66,9 @@ Cc: fuse-devel@lists.linux.dev,
 	libaokun@linux.alibaba.com,
 	bernd@bsbernd.com,
 	Bernd Schubert <bschubert@ddn.com>
-Subject: [PATCH v4 02/10] fuse: refactor io-uring header copying to ring
-Date: Fri, 12 Jun 2026 14:05:05 -0700
-Message-ID: <20260612210513.1516038-3-joannelkoong@gmail.com>
+Subject: [PATCH v4 03/10] fuse: refactor io-uring header copying from ring
+Date: Fri, 12 Jun 2026 14:05:06 -0700
+Message-ID: <20260612210513.1516038-4-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260612210513.1516038-1-joannelkoong@gmail.com>
 References: <20260612210513.1516038-1-joannelkoong@gmail.com>
@@ -80,32 +80,32 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move header copying to ring logic into a new copy_header_to_ring()
-function. This makes the copy_to_user() logic more clear and centralizes
-error handling / rate-limited logging.
+Move header copying from ring logic into a new copy_header_from_ring()
+function. This makes the copy_from_user() logic more clear and
+centralizes error handling / rate-limited logging.
 
 Reviewed-by: Bernd Schubert <bschubert@ddn.com>
 Reviewed-by: Jeff Layton <jlayton@kernel.org>
 Reviewed-by: Baokun Li <libaokun@linux.alibaba.com>
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dev_uring.c | 39 +++++++++++++++++++++------------------
- 1 file changed, 21 insertions(+), 18 deletions(-)
+ fs/fuse/dev_uring.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 0b66fe3a5da0..1d37a2ee5532 100644
+index 1d37a2ee5532..42627838cfa6 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -578,6 +578,18 @@ static int fuse_uring_out_header_has_err(struct fuse_out_header *oh,
- 	return err;
+@@ -590,6 +590,18 @@ static __always_inline int copy_header_to_ring(void __user *ring,
+ 	return 0;
  }
  
-+static __always_inline int copy_header_to_ring(void __user *ring,
-+					       const void *header,
-+					       size_t header_size)
++static __always_inline int copy_header_from_ring(void *header,
++						 const void __user *ring,
++						 size_t header_size)
 +{
-+	if (copy_to_user(ring, header, header_size)) {
-+		pr_info_ratelimited("Copying header to ring failed.\n");
++	if (copy_from_user(header, ring, header_size)) {
++		pr_info_ratelimited("Copying header from ring failed.\n");
 +		return -EFAULT;
 +	}
 +
@@ -115,54 +115,31 @@ index 0b66fe3a5da0..1d37a2ee5532 100644
  static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
  				     struct fuse_req *req,
  				     struct fuse_ring_ent *ent)
-@@ -640,13 +652,11 @@ static int fuse_uring_args_to_ring(struct fuse_ring *ring, struct fuse_req *req,
- 		 * Some op code have that as zero size.
- 		 */
- 		if (args->in_args[0].size > 0) {
--			err = copy_to_user(&ent->headers->op_in, in_args->value,
--					   in_args->size);
--			if (err) {
--				pr_info_ratelimited(
--					"Copying the header failed.\n");
--				return -EFAULT;
--			}
-+			err = copy_header_to_ring(&ent->headers->op_in,
-+						  in_args->value,
-+						  in_args->size);
-+			if (err)
-+				return err;
- 		}
- 		in_args++;
- 		num_args--;
-@@ -662,9 +672,8 @@ static int fuse_uring_args_to_ring(struct fuse_ring *ring, struct fuse_req *req,
- 	}
+@@ -600,10 +612,10 @@ static int fuse_uring_copy_from_ring(struct fuse_ring *ring,
+ 	int err;
+ 	struct fuse_uring_ent_in_out ring_in_out;
  
- 	ent_in_out.payload_sz = cs.ring.copied_sz;
--	err = copy_to_user(&ent->headers->ring_ent_in_out, &ent_in_out,
--			   sizeof(ent_in_out));
--	return err ? -EFAULT : 0;
-+	return copy_header_to_ring(&ent->headers->ring_ent_in_out, &ent_in_out,
-+				   sizeof(ent_in_out));
- }
+-	err = copy_from_user(&ring_in_out, &ent->headers->ring_ent_in_out,
+-			     sizeof(ring_in_out));
++	err = copy_header_from_ring(&ring_in_out, &ent->headers->ring_ent_in_out,
++				    sizeof(ring_in_out));
+ 	if (err)
+-		return -EFAULT;
++		return err;
  
- static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
-@@ -693,14 +702,8 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
- 	}
+ 	err = import_ubuf(ITER_SOURCE, ent->payload, ring->max_payload_sz,
+ 			  &iter);
+@@ -810,8 +822,8 @@ static void fuse_uring_commit(struct fuse_ring_ent *ent, struct fuse_req *req,
+ 	struct fuse_ring *ring = ent->queue->ring;
+ 	ssize_t err = -EFAULT;
  
- 	/* copy fuse_in_header */
--	err = copy_to_user(&ent->headers->in_out, &req->in.h,
--			   sizeof(req->in.h));
--	if (err) {
--		err = -EFAULT;
--		return err;
--	}
--
--	return 0;
-+	return copy_header_to_ring(&ent->headers->in_out, &req->in.h,
-+				   sizeof(req->in.h));
- }
+-	if (copy_from_user(&req->out.h, &ent->headers->in_out,
+-			   sizeof(req->out.h)))
++	if (copy_header_from_ring(&req->out.h, &ent->headers->in_out,
++				  sizeof(req->out.h)))
+ 		goto out;
  
- static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
+ 	err = fuse_uring_out_header_has_err(&req->out.h, req);
 -- 
 2.52.0
 
