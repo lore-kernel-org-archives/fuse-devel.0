@@ -1,128 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D967A3DB635;
-	Mon, 15 Jun 2026 10:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FE33AEB32
+	for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 11:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781519162; cv=none; b=UyW2bKj3RnAfmY1cj7tzfZk1d6qYeIRQc+wmb148ms+aPrF+/vyiWCSI0Jrt04oqDLMRPCfdLeCayMXwxVSib6h2T2TvjaHSOsOxEHPhFspQdwaZY+F+GqGJ60/f43dAzxPcbk380W/EkUH0wVtkx0mAz/ClHiaXEWd1TDAR4js=
+	t=1781521726; cv=none; b=n2i0NbX5fDX1gAOsbbdZs2Xe5BojjiLdSGltsHMB4kLd7eNvgNhc/4SCcVhkdEnNHizsWfwtdGyJVrq+Qarxqd9nJo6OJbNxpxXf9U8uumqv1ycuqXg59mGHwRR2cSaICnIrGvtkBGnT4Q1sBgzPK2R5At9EstDWlPH+t77l4OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781519162; c=relaxed/simple;
-	bh=u4Vslsm8hT345MAaGWrSh3WTS1aOsil0d/JKfFF2OV8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=UYxvAwrxf5u4dK1R3mHBuzzNbkQopqE9IggdkbrdBjpbWLsGYF7tAIGtxtEAf879fBfm5d/5hMyyKCokl+a5MFQoS6PIIj/HEdCkVofrsCEL2ALSGBR4drv60gvMxAAJ4t+RaASPDpEnDbusJFEQsCqO8/cyQjb6AWhK9ahulA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kqqyjy7M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1781521726; c=relaxed/simple;
+	bh=AwQzJQpsaP7tyCRGQNL9d45B9fFpF3LslZUYnBEO6io=;
+	h=Subject:From:To:CC:References:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=GX5/nOR0vm5SazKokOeKjBEzzf+h2MzbVKAKLxsGfAo38S7IxYTVbRk3e7B3ZyDJq37vF59NFomSRU5Ed4PNFwld7sq56aEX3EWn7lb/UwNNJKg3ptCOkTtfHSmAdUbD66mR85vJHWnyxKr3wUA0xHc1XNCd3wtDRHbbCqrbxtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=uNgEEBHw; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kqqyjy7M"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 97AB3C2BCB8;
-	Mon, 15 Jun 2026 10:26:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1781519162;
-	bh=u4Vslsm8hT345MAaGWrSh3WTS1aOsil0d/JKfFF2OV8=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=kqqyjy7MrQeiABvTL4G2LkWQdKZS75q+zjIronZEpw6rV7gz64qTwcyJh85FbDxm7
-	 ci3M6a6zK3EB8idfutfvSwIY3PmDwh/5gvY7TKsu9ev4ohXOSREed6b9iKJM8lfd3J
-	 p3KXSgkyxm/wpMTqoiFRHK6o1UZhCt1QvfPO4uqoMBcQoBs+ao9CE/yZTuUweDfAsc
-	 f0aDUE8Ush366WFzWqqqelT+KFM9vr9rQi8o3cvr/u6+7gqDwOCN0tjraUvIQT6Zwb
-	 MkHJYTcwZSawGdVzQ+g3kmbhnlToJ9oNMLT79s7sUewtaR0DJc2lZptTbF4ltkoUxi
-	 J0Hz93tNsWyQQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78DA2CD98C7;
-	Mon, 15 Jun 2026 10:26:02 +0000 (UTC)
-From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Mon, 15 Jun 2026 12:25:56 +0200
-Subject: [PATCH v5] fuse: clear ent->fuse_req in commit_fetch error path
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="uNgEEBHw"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Rq1nRJtbxbHOTjiOD+zf9k9sE8HEWBCiGNjnv2fju7I=;
+	b=uNgEEBHwP934S1njTuxsk1AF5pDhv0jJYbVXWDIr1q7RaZFrUAJIF/vbGIPfUwFG/SK+kB7Px
+	Lut7DS8eyJ0pQQGWmRUm3jxXXAIhtd985bdbWEf/9NXoscr8ZEH2C0r13Ixqk9swz6UgmP2okMX
+	Gf1rMrQNc7dUWHX/rZUulfM=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4gf6bs1J1tz1cyPS;
+	Mon, 15 Jun 2026 19:00:41 +0800 (CST)
+Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4D27640572;
+	Mon, 15 Jun 2026 19:08:37 +0800 (CST)
+Received: from [10.174.178.46] (10.174.178.46) by
+ kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 15 Jun 2026 19:08:36 +0800
+Subject: Re: [PATCH] fuse: virtiofs: fix illegal inode address access in
+ fuse_release_end
+From: Zhihao Cheng <chengzhihao1@huawei.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+CC: <miklos@szeredi.hu>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <yangerkun@huawei.com>,
+	<yi.zhang@huawei.com>, fuse-devel <fuse-devel@lists.linux.dev>
+References: <20260514124102.2703313-1-chengzhihao1@huawei.com>
+ <20260515210719.GD9568@frogsfrogsfrogs>
+ <953d1dc7-f1a4-88a8-1db4-0902b902055f@huawei.com>
+Message-ID: <da9772f5-d20c-0efe-2fb8-74f14e8d490b@huawei.com>
+Date: Mon, 15 Jun 2026 19:08:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260615-fuse-io-uring-race-fixes-v5-1-8a360f055f0b@bsbernd.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43PwQ6CMAwG4FchOzvTjYHMk+9hPJTRyQ6C2YRoC
- O9u8aLGhHj82/xf00kkioGS2GeTiDSGFPqOQ7HJhGuxO5MMDWehQZdQqEr6IfGsl0MM3VlGdCR
- 9uFOShd2VYDQ0Gklw/RrpteD28cS5DenWx8fr0qiW6R/oqCTIvHSWaqywVtWhTjXFrtm6/iIWd
- tSflF2hNFOEBeRl48k4+qXyN8XYCpUz5ZXT2oJBr+CXMp/U2oNmodAogMoioPqm5nl+AgG2Rty
- jAQAA
-X-Change-ID: 20260518-fuse-io-uring-race-fixes-59760420d2ae
-To: Bernd Schubert <bernd@bsbernd.com>, 
- Joanne Koong <joannelkoong@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Zhenghang Xiao <kipreyyy@gmail.com>, 
- Shuvam Pandey <shuvampandey1@gmail.com>, Berkant Koc <me@berkoc.com>
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2103; i=bernd@bsbernd.com;
- h=from:subject:message-id;
- bh=NDmmBuvBA5uUNdQI4TRQ677gpt32rjgzb2l1ZiLAF0Y=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL0L5sYXNcJa3yaectTd4Vo8tyoc+aL3dvuTJV/k526Y
- LaLTumMjlIWBjEOBlkxRZYuiT22U/7xyap9XX8dZg4rE8gQBi5OAZhI7n+GPzyLn3WLr5+tdu/6
- puf80yWcZLjfn7wX11q86eJmf2XzqjWMDNMOv/vaGr/kqTij6plnBafqvOc9kDhy+oHUhZgOCaF
- F6pwA
-X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
- fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
-X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
- auth_id=772
-X-Original-From: Bernd Schubert <bernd@bsbernd.com>
-Reply-To: bernd@bsbernd.com
+In-Reply-To: <953d1dc7-f1a4-88a8-1db4-0902b902055f@huawei.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemk500005.china.huawei.com (7.202.194.90)
 
-From: Zhenghang Xiao <kipreyyy@gmail.com>
+在 2026/5/16 11:20, Zhihao Cheng 写道:
+> 在 2026/5/16 5:07, Darrick J. Wong 写道:
+>> [add fuse-devel]
+>>
 
-fuse_uring_commit_fetch() error path called fuse_request_end(req) without
-clearing ent->fuse_req when fuse_ring_ent_set_commit() fails. The
-still-pending fuse_uring_send_in_task() task-work later dereferences the
-dangling pointer through fuse_uring_prepare_send(), causing a
-use-after-free.
-
-End the request with fuse_uring_req_end(), which handles all conditions
-already.
-
-Annotation/edition by Bernd: The UAF should be fixed by other means already
-and actually has to be avoided that way.
-Just checking for ent->fuse_req == NULL in fuse_uring_send_in_task()
-would be prone to race conditions, because if malicious userspace
-would commit requests that have passed the NULL check, but are
-in doing args copy, it would still trigger a use-after-free.
-Setting ent->fuse_req = NULL in fuse_uring_commit_fetch() still
-makes sense, though.
-
-Reported-by: Shuvam Pandey <shuvampandey1@gmail.com>
-Reported-by: Berkant Koc <me@berkoc.com>
-Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
-Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
----
-This is to fix race conditions reported by Berkant and Zhenghang.
-
-Changes in v5:
-- Rebased against Miklos' for-next branch - all except one patch already
-  picked up
-- Use fuse_uring_req_end() instead of hand coding what it does
----
- fs/fuse/dev_uring.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index ba5edf5d01b3..77c8cec43d9c 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -1003,9 +1003,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
- 		pr_info_ratelimited("qid=%d commit_id %llu state %d",
- 				    queue->qid, commit_id, ent->state);
- 		spin_unlock(&queue->lock);
--		req->out.h.error = err;
--		clear_bit(FR_SENT, &req->flags);
--		fuse_request_end(req);
-+		fuse_uring_req_end(ent, req, err);
- 		return err;
- 	}
- 
-
----
-base-commit: bb43b4c7ea2a8265141aa93240f3f0ca71d85c0e
-change-id: 20260518-fuse-io-uring-race-fixes-59760420d2ae
-
-Best regards,
---  
-Bernd Schubert <bernd@bsbernd.com>
-
+friendly ping
+>> On Thu, May 14, 2026 at 08:41:02PM +0800, Zhihao Cheng wrote:
+>>> When a submount (e.g. virtiofs with fc->auto_submounts=true) is umounted
+>>> while an async RELEASE request is still pending, an illegal inode 
+>>> address
+>>> accessing occurs in fuse_release_end()->iput().
+>>>
+>>> Trigger process:
+>>>   1. virtiofs has a submount; user opens and closes a file under it
+>>>   2. Close calls fuse_file_put() with sync=false, sending RELEASE
+>>>      asynchronously
+>>>   3. fuse_release_end() is scheduled to run later via igrab() holding
+>>>      inode ref
+>>>   4. File is freed, mount/dentry refcounts are released
+>>>   5. User umounts the submount; fuse connection detects remaining
+>>>      superblock and does NOT flush the connection's requests
+>>>   6. generic_shutdown_super() destroys the superblock and poisons busy
+>>>      inodes' inode->i_sb = VFS_PTR_POISON
+>>>   7. Later, fuse_request_end() calls fuse_release_end() which does
+>>>      iput(inode)
+>>>   8. iput() accesses inode->i_sb->s_op at the poisoned address, crash!
+>>>
+>>> There are two solutions to fix it:
+>>>   Solution A: Hold path reference in fuse_file_put, and put path
+>>>   synchronously, which could reintroduce the issue fixed by commit
+>>>   5a18ec176c934 ("fuse: fix hang of single threaded fuseblk 
+>>> filesystem").
+>>>
+>>>   Solution B (chosen): Use synchronous RELEASE for auto_submounts (which
+>>>   is only supported by virtiofs). The virtiofsd(fuse daemon) and 
+>>> virtiofs
+>>>   won't work together under one same kernel instance, so the problem 
+>>> fixed
+>>>   by commit 26e5c67deb2e ("fuse: fix livelock in synchronous file put 
+>>> from
+>>>   fuseblk workers") won't be brought back in virtiofs.
+>>
+>> Does the weird AIO "kernel breaks if you close the fd before all the IOs
+>> complete" behavior happen on virtiofsd?
+>>
+> 
+> Hi Darrick,
+> IMHO, the problem fixed by commit 26e5c67deb2e1f42a9("fuse: fix livelock 
+> in synchronous file put from fuseblk workers") happens as following 
+> process:
+>     fuse user              fuse daemon
+> fd = open(file)
+> io_submit_one
+>   req->ki_filp = fget(iocb->aio_fildes)
+> close(fd) // file->f_ref = 1, file won't be released
+>                          process FUSE_WRITE req
+>                          write(/dev/fuse, reply)
+>                           fuse_request_end
+>                            fuse_aio_complete_req
+>                             aio_complete_rw
+>                              fput(iocb->ki_filp)
+>                               task_work_add
+>                           task_work_run
+>                            __fput
+>                             fuse_release
+>                              __fuse_simple_request
+>                               request_wait_answer
+> 
+> For viriofs, the user(virtiofs) runs in kernel A(guest), the 
+> daemon(virtiofsd) runs kernel B(host), and the fuse_request_end is 
+> called by virtio_fs_requests_done_work -> virtio_fs_complete_req_work -> 
+> virtio_fs_request_complete, which is under the kworker context(kernel A, 
+> guest), so it won't block the daemon thread(kernel B, host).
+> 
+>> --D
+>>
+>>>
+>>> Fetch a reproducer in 
+>>> https://bugzilla.kernel.org/show_bug.cgi?id=221519.
+>>>
+>>> Fixes: 26e5c67deb2e ("fuse: fix livelock in synchronous file put from 
+>>> fuseblk workers")
+>>> Signed-off-by: Zhihao Cheng <chengzhihao1@huawei.com>
+>>> ---
+>>>   fs/fuse/file.c | 19 +++++++++++++------
+>>>   1 file changed, 13 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+>>> index c59452d60b8d..a6192b96d861 100644
+>>> --- a/fs/fuse/file.c
+>>> +++ b/fs/fuse/file.c
+>>> @@ -375,13 +375,20 @@ void fuse_file_release(struct inode *inode, 
+>>> struct fuse_file *ff,
+>>>        * synchronous RELEASE is allowed (and desirable) in this case
+>>>        * because the server can be trusted not to screw up.
+>>>        *
+>>> -     * Always use the asynchronous file put because the current thread
+>>> -     * might be the fuse server.  This can happen if a process 
+>>> starts some
+>>> -     * aio and closes the fd before the aio completes.  Since aio 
+>>> takes its
+>>> -     * own ref to the file, the IO completion has to drop the ref, 
+>>> which is
+>>> -     * how the fuse server can end up closing its clients' files.
+>>> +     * For auto_submounts (e.g. virtiofs), always use synchronous
+>>> +     * release to avoid illegal inode address access when umount
+>>> +     * happens before async release completes. The async release
+>>> +     * holds inode reference via igrab(), but umount can shutdown
+>>> +     * superblock and poison inode->i_sb before release ends,
+>>> +     * causing crash in fuse_release_end()->iput(). Otherwise,
+>>> +     * always use the asynchronous file put because the current
+>>> +     * thread might be the fuse server. This can happen if a
+>>> +     * process starts some aio and closes the fd before the aio
+>>> +     * completes. Since aio takes its own ref to the file, the IO
+>>> +     * completion has to drop the ref, which is how the fuse server
+>>> +     * can end up closing its clients' files.
+>>>        */
+>>> -    fuse_file_put(ff, false);
+>>> +    fuse_file_put(ff, ff->fm->fc->auto_submounts);
+>>>   }
+>>>   void fuse_release_common(struct file *file, bool isdir)
+>>> -- 
+>>> 2.52.0
+>>>
+>>
+>> .
+>>
+> 
+> 
+> 
+> .
 
