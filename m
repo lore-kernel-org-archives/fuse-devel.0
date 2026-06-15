@@ -1,123 +1,97 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF272FFF8D
-	for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 12:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781525650; cv=pass; b=E1H5EhlvYpgr2gB5JpWTr5N4+CqsOZRtgXXqi4DsS8PjsJ80YN5lbfL8iK9746eTuzL2IHDFsHkomT87pu99Zu8u9yfJwFrUNn1hKnwII3YQ0XIVVQdBDmNc3BxLNLUp7Sc6n6hly6Vg6QU1fh0rZrUJ5GDKKe/nDpbP5jevk+Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781525650; c=relaxed/simple;
-	bh=XfZAoXj+wA20rxhk3LNrfJZOmi8LUGW6Zpeh4GKF0HA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HwSoOKpnmVxCf7W3jGIjnCyzefwNr8DcrHDjuTvPzyW6lb6pwwsMrDEXePCkooUcfLhvh8ZBDhQu93x9/GDXXtrQ8WY/npy3M7ESAA167x0L9ruzSLGDIh/i5uEoTReDVyrWG1vsFpqvWJcII3GAUMS4/JeWqBaHdBVr3iFbZQo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=nwxQYMfZ; arc=pass smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1762935A397
+	for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 12:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781525805; cv=none; b=LdK9ZJil2rbiQJHZO7XBHRDRxuopMF7ZuEaYQn5c8Ra7WSJVLqB5UZpLguX9MXk2jq9Y0YWjeQsWmvrb2dhfLEN9jt0QG6xXQwW1PezoZXXh8qDbH5r7D0kXbyOuyBDnhAL+y7VQKR3B7wMDkpW6RTxD+hAZa+R2SF1dcjj8Xb8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781525805; c=relaxed/simple;
+	bh=Ep4St/MXU/i6+fDCyEyaPjKwT6BoIfMp/hPwPjd1NwA=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=PFni7oRqrxUH9RqFq4CjoQDWbUhwAhtU+TZyw8iu8x7hVos1hmcrkcSOIJzYIBv1HvjSQwYb96qVhh1GxMlVi1PK3iYLBqKIPWrgnBHFl0/eu+L00aWSD3TLu3PKVh5NhdrIXal8W4hyr8yXe8I6dcyVaRzWGKnp6D+sZ5UVlHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=GI4sxPVx; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=GI4sxPVx; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="nwxQYMfZ"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5177b1a7441so46352581cf.3
-        for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 05:14:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781525648; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AgR11C4OdQhWQWtuaRX1LNZayE/lz8vjLzN4C7F3i/p24nWKWls41287h6ip24OiN+
-         O7x61WslgEAuVb8UlEATu7mIgK4vrfUKLMj47P7hUY9+4A347iRmvoJK0kS5Zwi9CRU5
-         j8NbFWZ/t/3yvS6M1ZD8dqCK4E+j09LDgm7bII/grr+5Hsaii3JvX/zGwlFbJqreZmeC
-         DvKjFevhu51Owgc2t/SyOp+5ZME2CGYZbTFv/W5BjrIY5Ux5P4pwsgYocpX2fS14/8dl
-         GFIalpLvaMTwcNeu4etSrESAU9vtZkZ2gQ+wF8V6la4vh8m6VK1p8ZZAcNU/Sk5fvMrP
-         fb8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=XfZAoXj+wA20rxhk3LNrfJZOmi8LUGW6Zpeh4GKF0HA=;
-        fh=ECa10rpjAzA5VZpAGsa6ioCFH1L2PUl7G3hHYEYXyWs=;
-        b=OLWQWlmskmCpkuj+HnGSr1CnR9fXSG4X1yjJKRjm8N24MjaZ2KgK/XAyM7arCjmOya
-         1XLI6WB17RA8iksGGFhWsppjOZmhPcCyU00fDPUbf+kZKuwXeiDatNDleLa2iFtwtyRO
-         V9+GK4JzM1McIOLkXg/LM9DYSW4y7vu05AwbWgE7Phw8ThjkuS/6udL3henPlNbsbo/E
-         jFUvONWq6PvdhTvOi7evJHeQFSa8x8xZ4djKa4/dArYoTK9KXsGKbIFcf8rEnqJJ02kc
-         u4rNBm/J5Wh0jWR97j3ODfrbh9ZfPvwUz8iqQspzNjgX68vLv62qRvme/xyudc3eIaK5
-         gIeg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781525648; x=1782130448; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XfZAoXj+wA20rxhk3LNrfJZOmi8LUGW6Zpeh4GKF0HA=;
-        b=nwxQYMfZW16LDTArWpt1Oq4MdA5Ye1J+D+nv9Hh3vmpazKPEHkxIwxxhWUbg40aGUz
-         6zJR3EfD1ttoFm5zOo/jb2+ogJ9u8AmLAyl7G9+7RXtOJ5HQUsV6+TOdfeSwGvp8cU2o
-         VcH5r+O0kcATzt/oy1IxakI2HWkcUU6KHccTw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781525648; x=1782130448;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XfZAoXj+wA20rxhk3LNrfJZOmi8LUGW6Zpeh4GKF0HA=;
-        b=RQDYLKUUfftiT1W2JASxxdUMeQMjpGFwFz1q9oM+/GzLw3LtZR9ISRtl+u1DrYMBHT
-         hyyOdAd9JkL2TWd+e7zVwhazSfBDNvIeOH0u7/xpfp2RZ/qGRWwD9C0sJIU6D7f2uIxg
-         ys/bCrMFL93W5I9CWrdFO92AobDcBLjMER5rI6YW/cVtDE4Qfyw/CWv0ifilMYGzpmXP
-         xCQ8KqBP84ETENCzYb3TKaK2H5tmHZog82d9BMIpmAZJVjdwos4fgMictcSdwT1x7XDd
-         2AKDThPp+ljL/DDHmgoDScFPxxg15Unhol9qzovb23UXoRkgpir2VvTZfJODAQDe6DD5
-         4pVA==
-X-Forwarded-Encrypted: i=1; AFNElJ/5d6qJI+CGx3tWzAh7QBNPZ55LALPG5+hNMeZXeBqkTMP8pXdsHtQvpm6R+KcTqJXagntnAmxRh0dX@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFlEXBp2Lc1tG4MesI+Mk04Bm3wUjXrRhDDtgzv2D7y5p1+s9W
-	gHb1G+MWpr2iCqLy/LSNp8K+1cVsMCFh5q+whnNvJ2YN3AUHnPsKMAW5iJXoGJG620nfckzCgSh
-	9lXm9GBGjOhhOr9B4+1Pn+cIb66KrIuoGx1rFGBIMYQ==
-X-Gm-Gg: Acq92OHoWw3FtwTxeJ6JKgZ4sHJzMsUxR2GDlzre6GMf8UTLw+JjeSDINyGB/H66sCG
-	h95YnsZJJpFkjjmMHv6HJ+3NUFdIr+F5sX9Ukq6sAcBZ48hw1PX0KnRpGFQ4WLN/kMPPuu4MjlW
-	iehEpPLDUB7Zfxjy7DvodkLKj6bjPrDgY3kRqIZTH369t+FdHHcC8WoW6+HBMmiVYlAzhGNcgxr
-	/aBMRKWGUuHEKOt7Ei8nnH/p/auWn9T5zh4cpdnQHz2sgjvLb5ESWUq8HqHA+Wj1Xxx51VmpAY0
-	kAfi/jiAklZHYvBVxlhPLjeFg6aVxY9qvk+RzGuH
-X-Received: by 2002:a05:622a:946:20b0:517:6b57:8164 with SMTP id
- d75a77b69052e-519535ad885mr91822401cf.55.1781525648239; Mon, 15 Jun 2026
- 05:14:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="GI4sxPVx";
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="GI4sxPVx"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=i3fvrmeoyMD3lHK+GthpqTQ/lqfDCBQbHMQZ1AjT2aQ=;
+	b=GI4sxPVxhjqrJZysCMfnpgv5Xo0eQJve0HNhqcWveqpGn0vvP1H9SkWUo3H7k+CBsJRDv/5bX
+	CU8K9ll3Rbjt4t6u0AEHTc5Mgn2bR3ime1jHZZbHSmP4keGeRVq3wJNAaRon958eb/NyIZPIGGS
+	3b5EQB5mDXiEXZsINr6URrA=
+Received: from canpmsgout01.his.huawei.com (unknown [172.19.92.178])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4gf85r6LXlzcb0b;
+	Mon, 15 Jun 2026 20:08:16 +0800 (CST)
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=i3fvrmeoyMD3lHK+GthpqTQ/lqfDCBQbHMQZ1AjT2aQ=;
+	b=GI4sxPVxhjqrJZysCMfnpgv5Xo0eQJve0HNhqcWveqpGn0vvP1H9SkWUo3H7k+CBsJRDv/5bX
+	CU8K9ll3Rbjt4t6u0AEHTc5Mgn2bR3ime1jHZZbHSmP4keGeRVq3wJNAaRon958eb/NyIZPIGGS
+	3b5EQB5mDXiEXZsINr6URrA=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4gf85j4m21z1T4Fv;
+	Mon, 15 Jun 2026 20:08:09 +0800 (CST)
+Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
+	by mail.maildlp.com (Postfix) with ESMTPS id DC40940575;
+	Mon, 15 Jun 2026 20:16:37 +0800 (CST)
+Received: from [10.174.178.46] (10.174.178.46) by
+ kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 15 Jun 2026 20:16:37 +0800
+Subject: Re: [PATCH] fuse: virtiofs: fix illegal inode address access in
+ fuse_release_end
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: "Darrick J. Wong" <djwong@kernel.org>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <yangerkun@huawei.com>,
+	<yi.zhang@huawei.com>, fuse-devel <fuse-devel@lists.linux.dev>
+References: <20260514124102.2703313-1-chengzhihao1@huawei.com>
+ <20260515210719.GD9568@frogsfrogsfrogs>
+ <953d1dc7-f1a4-88a8-1db4-0902b902055f@huawei.com>
+ <da9772f5-d20c-0efe-2fb8-74f14e8d490b@huawei.com>
+ <CAJfpegv0SYbE_TB7Xy24VWDFSvghHexwzxLJ-SyNQ7BXky4hLw@mail.gmail.com>
+From: Zhihao Cheng <chengzhihao1@huawei.com>
+Message-ID: <1dae8432-d890-845a-6552-967665fcf143@huawei.com>
+Date: Mon, 15 Jun 2026 20:16:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260615-fuse-io-uring-race-fixes-v5-1-8a360f055f0b@bsbernd.com>
-In-Reply-To: <20260615-fuse-io-uring-race-fixes-v5-1-8a360f055f0b@bsbernd.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 15 Jun 2026 14:13:56 +0200
-X-Gm-Features: AVVi8CcaEQQac4Iv2yU-d_3-LTpg8SiHEHlzt9Z-AUnerWDWizbsNacJvYQqCVc
-Message-ID: <CAJfpegugOgp19fgT2HYggeOk2wdxiqYSADvpBGPiSJOm5eJxCA@mail.gmail.com>
-Subject: Re: [PATCH v5] fuse: clear ent->fuse_req in commit_fetch error path
-To: bernd@bsbernd.com
-Cc: Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Zhenghang Xiao <kipreyyy@gmail.com>, 
-	Shuvam Pandey <shuvampandey1@gmail.com>, Berkant Koc <me@berkoc.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAJfpegv0SYbE_TB7Xy24VWDFSvghHexwzxLJ-SyNQ7BXky4hLw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemk500005.china.huawei.com (7.202.194.90)
 
-On Mon, 15 Jun 2026 at 12:26, Bernd Schubert via B4 Relay
-<devnull+bernd.bsbernd.com@kernel.org> wrote:
->
-> From: Zhenghang Xiao <kipreyyy@gmail.com>
->
-> fuse_uring_commit_fetch() error path called fuse_request_end(req) without
-> clearing ent->fuse_req when fuse_ring_ent_set_commit() fails. The
-> still-pending fuse_uring_send_in_task() task-work later dereferences the
-> dangling pointer through fuse_uring_prepare_send(), causing a
-> use-after-free.
->
-> End the request with fuse_uring_req_end(), which handles all conditions
-> already.
->
-> Annotation/edition by Bernd: The UAF should be fixed by other means already
-> and actually has to be avoided that way.
-> Just checking for ent->fuse_req == NULL in fuse_uring_send_in_task()
-> would be prone to race conditions, because if malicious userspace
-> would commit requests that have passed the NULL check, but are
-> in doing args copy, it would still trigger a use-after-free.
-> Setting ent->fuse_req = NULL in fuse_uring_commit_fetch() still
-> makes sense, though.
->
-> Reported-by: Shuvam Pandey <shuvampandey1@gmail.com>
-> Reported-by: Berkant Koc <me@berkoc.com>
-> Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+在 2026/6/15 20:06, Miklos Szeredi 写道:
+> On Mon, 15 Jun 2026 at 13:08, Zhihao Cheng <chengzhihao1@huawei.com> wrote:
+>>
+>> 在 2026/5/16 11:20, Zhihao Cheng 写道:
+>>> 在 2026/5/16 5:07, Darrick J. Wong 写道:
+>>>> [add fuse-devel]
+>>>>
+>>
+>> friendly ping
+> 
+> This is fixed in fuse.git#for-next:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/commit/?h=for-next&id=19e8d6bd9ec35db2221e84bfeb1862ab6688a4bc
+> 
+> I added your Reported-by.
 
-Applied, thanks.
+Fine, thanks Miklos.
+> 
+> Thanks,
+> Miklos
+> .
+> 
 
-Miklos
