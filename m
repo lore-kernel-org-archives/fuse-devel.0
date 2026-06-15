@@ -1,101 +1,102 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BD413AA2D
-	for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 07:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13943378D7D
+	for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 08:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781507389; cv=pass; b=mqKPVb27Pm7r1736WgZG5WiU8zapglJ6Jaehz3Ocka1g8FihWZ0jFgCHm8rsS8Hd0Fkh6aSicLXRjbVEffQXb92cnJmbCUadnzdzOgPgK1wB0Dc4rfeQN5ZNjyaw/HSzBci4u6jbKaca8GsfS45HliaWv7ah7UrSL+s+lqO8/KA=
+	t=1781512908; cv=pass; b=oOOGThvV+bs1vsUMhPXNM8PHq3RwAKBEnhEj/iO2OYyE7ZkKNrySxv6Xqjb1mud8HIoE0w6reQqYn4YACN1qW8wVlrrdlzk0gdLoGeQUdMys3THQU/+PmXbjLHwNwoyoQHr5HnFn544DPw54pwlO59+Tzjf2eNEIKwR7RrNMbFE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781507389; c=relaxed/simple;
-	bh=YNx8jkSEPhuQBKYye8AREJ5JE/d+V8ohlitBPkL9+zE=;
+	s=arc-20240116; t=1781512908; c=relaxed/simple;
+	bh=42nleDFZYyVtk4ljqFgYqgrgsqJyLTMzP7u0zd42C7Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nwOqc6A/sAzHGCoHfym3mhoio/6mYAn7oYa+1dYypVouYV4M5Ix2QaTFY19hTfPI2ApV2KUmnnfPUuueG82+QQfiVaj3Zi6lzWmjN96smuGxUn3FSIpNE7Vg0Ev+4WSv+btjSlbOiQc4zauykqERNg/7QIz2T2lW1ZqZ3sVAyto=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=RQQiCeso; arc=pass smtp.client-ip=209.85.160.180
+	 To:Cc:Content-Type; b=Kvbd1cmj85FpVdtwjOMkZqyzi+DgytVqAL4CzS4ziI3KoYtcyWKEv9PZpFjUecrp9Vkmasy7zB3b7IFV2zxpoDZb53Slbenj8lTHtjvL3L//u8VCsrnvB7Jk7ZGib2y48w3d+ZHkC3Vd2FaYDnBfHt8hjU4PjmIHpoI74Jc9oK8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=g7FqJ8i7; arc=pass smtp.client-ip=209.85.160.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="RQQiCeso"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-51758478240so15814841cf.2
-        for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 00:09:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781507386; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="g7FqJ8i7"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-517907feed0so42088471cf.1
+        for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 01:41:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781512906; cv=none;
         d=google.com; s=arc-20240605;
-        b=YzgJaNmlq9KIdB2hhNPsCvVdhTh5CW+H/O46YeZb2rOp4CM8q+IrrxiqiBonfRxVB9
-         QsojRJMDVGQ5Rl4RDFbgxyEEszlSXMTQHgmS8fzXT/Ff8xTE+fGCYyttzcJanTdZV5vO
-         TiOdIwdRGtYrPaeMqS+VAIS6OWu28/jnAMpEHAuJElZt2vdB2aVfnyUI5ooT+XgXEFCv
-         bXthH322Q/AFjvPtLQbPOqbFLwwQVtV539ZAp3glFkPwcBg5vOQgfO4Pr9oEghW7EaMU
-         2meLc1/EXX60VrBF/e+UPdy6GdPpju8VL36fnBYeH65uIvXRG4O3rURjz298cla3PgW4
-         sCTg==
+        b=aj1qBX2Z3idRt8l4MkA3wh2x0xnkXGTbtSuYnnlUWwXv59ln8H4ljvR+iL69U+ajZL
+         viMNMu46iejbE3vrhxN4cgKnK+Hy80Apl6Hc5lRPEZ2Ep0xFK1b7y3yrhyTgAfNAbC3Z
+         hDEstGP70wlFtngFC9rrV7QRbZkijETkUvPjcXZ+i4VWsS1VQS8rK5cKxjhLr5PjtaUu
+         gXT4km2XzGSSpl1Fp5HNRUGFwOLZh7WCBRC31ktucY5CclNXPO7NzTw85PK8YrJxFIth
+         +O+R93LfrCBuyE4mCVwPjL+IBUWh+VjK6PSSpq/NFu4Kc8F16Rg4R+N9Y/REtUe+AdV8
+         Hk3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=YNx8jkSEPhuQBKYye8AREJ5JE/d+V8ohlitBPkL9+zE=;
+        bh=zqm3Bx2UDKuZllmlEYDgKaGSycMbsjHfII7eX+C5d4o=;
         fh=w2Dy9MBCymTAHXuuQoFoyTRhGtZ+o5YcX5Bg6rpudfc=;
-        b=iP34F1R3QGyHT4tnxdAoB5P8mpw5kaQv0fW6m3QdY0Bk96ilvH3tCQx1yOD+hnYLXI
-         C1E/Et9uXCEod6+vZtYMY0bXnMo4wNFxBWzda6I4SZGrWFAzwBDDmdmG/PjzTGOSJWVK
-         U+junwJqEiun7u9jnUdNn6rwIhwYC8fwt3G56B6b9IgPh+5pgtmgUspw8O6ZgpuLkkcN
-         oRhgDOyB5U49MMRw5t0a0tygcKLF5ArsG/2YHkiEoXZlfakiTCwFx3qZnLV02oYugdM6
-         72plo6VR97agmEKIqhtF3QuKbtwMMgWqKgF1ASa1xxzJDzc35OeCi8uPrE5t5b+/pGG9
-         NNJw==;
+        b=Chx/R1ywVNsgeywyoSR1PUSm3oMYFjQtXQyBe41b3Y0fHx4/7Q44rfEA3bSCtFQi7f
+         0fcu1+4f+HBJB612+n1iugDVrHlDs5wGT9uab4+u40Avzs93Is4u41eW71iszU90uKtq
+         vWioD8M58Ez1iwHaRwJ5uDfaN2d8YvKe55p2zE+SMY/NbEh53AVPrUh0oDTLB/fBum8O
+         07tYhXNqPnsKKt9ti/HQiOUW6Rgx+j/7qIZhTC7TC1hCOdVzBm1IPJ/a1zRzdr4ztwNl
+         HYuuRO5AwjUXv5i4+ipP4vOLyScYbu9RbNJppW2DrCtPpurUos8oGJomWw6BZv09Pf0r
+         p2Dg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781507386; x=1782112186; darn=lists.linux.dev;
+        d=szeredi.hu; s=google; t=1781512906; x=1782117706; darn=lists.linux.dev;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YNx8jkSEPhuQBKYye8AREJ5JE/d+V8ohlitBPkL9+zE=;
-        b=RQQiCesowYUHmT13hSXg3yhZvJE7jFZr2ge3sUW1tmUdRTDkuGlP5h1OSobaAWQxqG
-         5pF6WXN5i7sB/kpU08+lkAjZZg3qVe0pNUi3+iNuzKDuKvWYctjMFrD6Qdhwaf1va2rv
-         /WjND6AdLs0VYv1EWEeHozvTHoS8A6Qw5vQ4I=
+        bh=zqm3Bx2UDKuZllmlEYDgKaGSycMbsjHfII7eX+C5d4o=;
+        b=g7FqJ8i7FHLR9Vp0ub71mn4N0Nooxjb3pNJvnm8QE710EbyafAhw4HlUkP0qYRwggP
+         5tGFKKKqb6QzbgadGWUDAGUUEn6ctYmNM0m9DI1lqqQu74j7SwVTBm1fi0HCbTQ7+SFx
+         BEuM8A5kBNw3aKzoSCg8chWMA2hEFLDPHEssc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781507386; x=1782112186;
+        d=1e100.net; s=20251104; t=1781512906; x=1782117706;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YNx8jkSEPhuQBKYye8AREJ5JE/d+V8ohlitBPkL9+zE=;
-        b=oF3CspakNKjWzsq0X1v5c6NYzUJqI82yBIlMIzbKCgdA06368cneN3MMu2zU8KnBcZ
-         y7uNqXn71RQBNAgdIxNb2T9T6y8to+Qj+aSNjSbRB8ATV0Nft3XzXvWxwi+iV1ZbZcJ/
-         KMr6CD9wjZnTNTZVlo3xIad6GUTHmTSX6dVB1UzE9wiKRYc8wdXayMi5mwrL1sjUWyaH
-         96FvG3ocVQH9YuQrfPEPH9H5uzwOXHLBoRptiRcJJ/tVsit8rERmmA3nybSYDP6rLxNL
-         HdFd26ecZSB3Cso2oEiSc/4RaRDM3OHndDfkyxQlOEPTWgoc6qjy/VHsDUH7HhVquOq0
-         pLFA==
-X-Gm-Message-State: AOJu0Yx8aoDOl9Nj1fOgwBZgL0MlAeMJmUVHpxbo6XAnVJ3+92W7bUP4
-	aJv4dcQFcHKLWfaFL3ZJEOOLWQnCC+46M2pYP4luw45jCZtNQfKiCSmYDutuXRD0R65QYAnikQp
-	mrOUO0QyY2+ClZu4WDDSH4nEvdFUuegcGcADyvSb0Yn+5x/t4lLeN
-X-Gm-Gg: Acq92OEQ98ZXJU5DSc3dXT2/P6DcMuNTrSIQ1hjE4qUW7TNwtdRfZuDVQbyLix1yAdA
-	WG2plU/vy9L/xqcAsyVEN2ahDZ+1tEM/bWg8zPYbPdGtgZbi9L0Yw9J2oKmUdb0KQh4mqVE8dS7
-	HMntKAjtTQqNi0XCitN5FOwvyTXzAKDfWH4AODjZaDuTLjsRuU4SEJmx6B3UCtjqOsnwY87hElE
-	6i9vLzDOz53Ynwc7qBZt5J6Wc2u24mDg+yiQ5KdLYjnyjWsTXUZCc8SHT2Ahg9je4kw8G1NW4Wg
-	kEnjeDPSTnS/3tHiRpsanHEi6d7n99TLlf/AtQCURd5nhrRfu+Y=
-X-Received: by 2002:ac8:5785:0:b0:50d:7406:8f05 with SMTP id
- d75a77b69052e-517fe4cd241mr186196931cf.9.1781507386440; Mon, 15 Jun 2026
- 00:09:46 -0700 (PDT)
+        bh=zqm3Bx2UDKuZllmlEYDgKaGSycMbsjHfII7eX+C5d4o=;
+        b=D5NcWOjWWYM5prpchvxsxS3J9wU+nbTalDtDo41BqvFBe1HJRuDXK2LzTFHBzoRT/N
+         n63iFhadE2ZwDYG8I3Ej8AFVptbbQOYjoahwrnfp5d2IrcDRXnyzUlNrC6Y6g8J+RUDT
+         UQNnlJDHyki7KZVQ+ngVCN4JaE4Yste5LrsyR2DY6bmS03EiPU7sMLPgiVuPaEVgAsTI
+         szPk9DTP2lkzIURXbOgNvSDc9s6mStJZG90ufLSaQSWbpjGGYzDwbAp+oESdzS8Iekl5
+         mW8FhuS9Dq/EWSO19uLM47MlVFTRQQwR7emUSNZ4T0A+xizwQNhoQkcLEhkMbjthl4OA
+         YMqw==
+X-Gm-Message-State: AOJu0YwRMmUmV/9ej6fXqVbiL7+DdGOe1aXamvh/zcOFgU32vKECoSfV
+	7vvR64zUSwKZYRfvdT4OP5KIvgTG9NY7A75DOQDgsD5wfnbhEYqzuUDJVsu6GAmI3YbSNIFRbJY
+	IRBOmveF3W6M3x0ZAvnQhF+kchxKw9SDiLmzaxdMLaA==
+X-Gm-Gg: Acq92OHbKwtMj4oSOwLVyCJ1LudGmgnhuFh7mNc15vt5haLJC4jaMEOOrIbxBM1jYA2
+	AfNks3Lb95ColWz1ZhzEenDP7dMYBACT/xJmhF6AteKCBXb+AllckhPJZ5QnKyb2aGhPyvSGjRo
+	X+CCrHOsRaAouJVEAF5fuzDgsgFOMHfNAxJUx2ETnGN/yiJ//s9r7cI8zQkDYQ2wPvilkuK9nZT
+	raSxNeFwr3HBTL8XwuVVUm0wD6BOWdaq46DwVTqb1I8FkaRikIh+Ve+cLoSzlSffZ05IR8Y+OLI
+	lT7WSiQKYvc41c8MuWe1R5iCpeJXo7V3dbZx8poX
+X-Received: by 2002:ac8:7d55:0:b0:50f:b61c:ec4c with SMTP id
+ d75a77b69052e-517fed8259bmr155736561cf.7.1781512905986; Mon, 15 Jun 2026
+ 01:41:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260612210513.1516038-1-joannelkoong@gmail.com> <CAJnrk1YtpVgELApN4ttFi32UcCcWW9dwv88aJpLwN8C9AmT5=w@mail.gmail.com>
-In-Reply-To: <CAJnrk1YtpVgELApN4ttFi32UcCcWW9dwv88aJpLwN8C9AmT5=w@mail.gmail.com>
+References: <20260612210513.1516038-1-joannelkoong@gmail.com> <20260612210513.1516038-8-joannelkoong@gmail.com>
+In-Reply-To: <20260612210513.1516038-8-joannelkoong@gmail.com>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 15 Jun 2026 09:09:34 +0200
-X-Gm-Features: AVVi8Cce47irnkNauQ2OiqQCD9ymAGMUB64qJy4HHCbB51MhwgQ4a_YaTzP-k0c
-Message-ID: <CAJfpeguYHYgOE1dUt2p9Nr=o9uXp21F2O1RQwEDz=SXhUXYewA@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] fuse: add io-uring buffer pools and zero-copy
+Date: Mon, 15 Jun 2026 10:41:33 +0200
+X-Gm-Features: AVVi8CdaciaXFEaNWHD0Vuex3Y4O4dm-o3u5XmMhXD8VBXWmqKnrlyHoUK1mMRg
+Message-ID: <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
+Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
+ buffer ring)
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
 	libaokun@linux.alibaba.com, bernd@bsbernd.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 12 Jun 2026 at 23:47, Joanne Koong <joannelkoong@gmail.com> wrote:
+On Fri, 12 Jun 2026 at 23:07, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-> Patches 1-6 are refactoring changes that have been out since October
-> and have value on their own, independent of the bufpool and zero-copy
-> work. Could you please pick these up for 7.2 so they don't have to be
-> carried and repeatedly rebased?
+> To use this, the server must set the FUSE_URING_BUFPOOL flag during
+> registration and provide the payload buffer pool through the iovec
+> payload in the first sqe.
 
-Applied these.
+I find this interface inconsistent.   Decoupling the buffer(s) from
+the seq's means that the registration should be decoupled as well, no?
 
 Thanks,
 Miklos
