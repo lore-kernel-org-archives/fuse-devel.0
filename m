@@ -1,156 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42AB127281D;
-	Tue, 16 Jun 2026 07:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781595501; cv=none; b=Ss6MGKZDFr3qil6SGvmjA7g1k2Id1LY3Acox7O3r4H9cLWcibSdCfuqz2R40LpRDMGoVS9PxZe+PqfiQBBoY8LU1zmJwotKGgNFECc6QjTDWhhfSqMOAJfW3hTKfY1c980JokaJ3nS3XXfhFVtKht6AQl9lUReX3Cod7dh3zhMY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781595501; c=relaxed/simple;
-	bh=MSkIdaoPuZyf0+E7gKZE6aLeu+EluDF2kYPJBoLVLbw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aD0rAMP/9DKyK8NwShKtB1N1yL/OWJhNbg02QEM2HKfWEhcndKL8BCMltMcnqfwcGX1xrxnLM6hiK2VJlY7LrDVPJiwXgYbd+JZyufmv4zJVtx6eWVlfCQJ2tEELApYsd5dTe8n1Vy4cx6chjSmNNrUoVNTrNj56xTBUka1HQ18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/FWOcUK; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36503EEAE3
+	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 09:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781603619; cv=pass; b=qH3h2g+cLAvp17RBBgh8AHCE8LjADWrNLEiyvtKb6Qe9RmWpnq1tiXatmM/fUGOc2Bmqq1eaHuOqLS68pA+12jWNU/Q4hcLfxWTJnZpO7DppWfi67Pv2a5NPJ4Nedv829ShjTWTbocS73DpduuNV2J7OJJ2Sn2loDi200TqNAq0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781603619; c=relaxed/simple;
+	bh=T3odfu0cfZm3FOgPD1ZthQg9O8neCPky986HowpRTkk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AaKMOZMryYNpExvUMw1XvQkWy2+tda1fnosJVZEyIAKKs/aX5+YdBz/6t0cJEISXFwmfbpciRYO1oDNnbGiZAXChFdjVf7QuDyQcAyq8toi3KdgB4BSpdylOyz5zGX2U2XUDjYRrWQi2L9w+yRpmMmQgQ+3RXCI4CC14cxX99pM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=m1DIoTRZ; arc=pass smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/FWOcUK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B1C1F000E9;
-	Tue, 16 Jun 2026 07:38:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781595499;
-	bh=NyA9CgW7v+BLAirO4rOGrEPReI5ZIQPK5UVmRjBrp0k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=R/FWOcUKI4psIDFxTdh95hxHu460Qf9DwmFfgv2Lq+o3kuGDAQJ6FFkAdCDg8BA2v
-	 nZjfMG+dTQzvqQ2eaTlFwqYEg6BVdSdMwxGkftykFcyc2y6JA9WVJ/jUi1Estr2nQN
-	 dsk1zDiryL+udCV8LrY2e1zGY3gWTrZupRP2uzXOJYDFGDuI6CIWSm8lAgtz9qp0X9
-	 6YCu+rxOWNX1aoanz7+IjewAvm5U085mQYbwz5uP8jxJlmdqr7KM5ViTEhcRnddrrA
-	 N1uObdmqEdNh9z+yvFGwI2cB3k/Pro0S96xS4+JVeWuasLbSdCyPp2f8XSz0QmlwST
-	 U1S7v5BMmhYlA==
-Message-ID: <cae757f2-4e29-48ae-b4b4-90944552a2aa@kernel.org>
-Date: Tue, 16 Jun 2026 09:38:14 +0200
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="m1DIoTRZ"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-5176bbb9384so48414971cf.1
+        for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 02:53:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781603615; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UHm0JRgudu0DjGYB8E1j6jeWryWWFgsE7UiKgA0Y4F6QrO3RZbxGicdi8Qp0zWvFk1
+         9wWTbnx+gbblooggF45OaiY9LUjqB7T3x68uDz1b5a4bBzQ2HPPFzq/kK8jpV4SbxCqX
+         Q72i8Qk17C/pmbR0bA5Kdjgq2PepLyy3m9AZf/zNioikkmXYBV9ScIavOT4EKcCSRff/
+         NmD1pnfmVZqoPwUI26gLpT4unpR7hAf79xP4BO9DzivhdS696OKDpxYuupc6WcJd447Y
+         OdfeX8mRfM8h69W6Dt5jMh+oyOtVLHEjqoj6VhQ6chPVrnO1fzF08BBr6jgkgFvOlM4R
+         Sk1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=N76jOeuIEDKx40fpN2XJKrbXFZziVtcHy6ikHEujW1Q=;
+        fh=w2Dy9MBCymTAHXuuQoFoyTRhGtZ+o5YcX5Bg6rpudfc=;
+        b=lftuuhqs6w1Ls/maSnJdwivMalQiGHH23n8Ifo5wbxECLB0YI1oFAFWc1OySr8eckZ
+         PVCCMsxYkGhkDs6mFgOG/YX6UXUtExIAGzQQyHthyAFnlaK3aaVS+koXKxDcYVCdAMWi
+         +Ja6slHh4+6i21CZazhmUgD1y/Kcu0KMKoz1Ei7Dv05AQGPpc/TTWma50jpYZ8PUZ2D0
+         qcjYoB/FDabInDe5uyls5jizluNlyz9tzeX6lW9w2jbNq46NpAomm588wTONbkyhR5NU
+         fOYpUx486ODre8ovRqeptg8ougE0qIcn5nTB6FJt658k/Lxri+oHV98iPd9SAbMYIz3J
+         HtKA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1781603615; x=1782208415; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=N76jOeuIEDKx40fpN2XJKrbXFZziVtcHy6ikHEujW1Q=;
+        b=m1DIoTRZNZCnm2Xtm11dIxMya1Wo73sct78TJ16haQ35htmb0TgKXDg72fryvl2PMa
+         4QcQpKjYO53swF5iRhZa5vibOfBsO01BTrmW9dofnIDp2NVAb7yxIk81ywRqrRD4t/2S
+         XoypVUYNwnrk4qDGjk4BkokUn32xUKnlblBJM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781603615; x=1782208415;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N76jOeuIEDKx40fpN2XJKrbXFZziVtcHy6ikHEujW1Q=;
+        b=pB3iPEDmJY9Dh6B0Iy85YnNfJf68ejn4H5/vEO9NQIfKu25JcvN9NKMKZM9kVfKnrJ
+         3FUWElQRzVgkbylE6MbJ2OYPjtdveSs5aEll0iCbA8fwS3m91G4iVIfAgcI7MrAjGrZt
+         81vnYayQvskahMqr9L71+WRHkoo9x5GqDq2nfCRB0M1BybtS2s2dHcZIvMbybLXTUc9S
+         Apz+iyWP8/0ikQFUvH7SDQ8Iw6AXZpcvKIl2YDDQfXz9GKknTK0HIzlRo6jhxwOxv1Ov
+         S8oY7erD7YxrHdLgSJUhKcFSiEUOJUqPimfKYZFLhx9Ziakm85y6wZrk7MlnWg/+FEnd
+         RgSw==
+X-Gm-Message-State: AOJu0YwVkn20vdPPN6spmCf7VRrUgV1kwFNsR8z+oQiAKLeyiQtgRUf4
+	EDl1Qutm+GJCu9LoNyxfLZsVF7vt70WYfQ1j05vLARG2IdOJRJxkAtmqa4aEMGg0qf8rC04j6R3
+	kpBmiPHZfz2n91JrBfRwRItt26F6KrNqlV3pIfvqOAg==
+X-Gm-Gg: Acq92OFLZqJAmkCYH1+KKzY/v6K19SPkT3Nf29JYHDCCETsHYMzNUzEBWHqwdRToDlx
+	2jLQ4DS23lnf7sCYT43RbflPA5tzXxf22FpMFAu4vHq6Y83GbvxRRml+MMRkhKFYwaBfz0Jm1Il
+	Me1S5QgFxZZYRg3RWcaEZBYvazJJc5KN22SmyT5pQF/7zA54f99NFNr6SIRNvzQya6v0bah++Xh
+	qQnpHEpPULwoT9TbWDfk6xSIe0D2McU+Vk+fOLiyPR850Qp3e9qexUZo4wcOUWKgshxj50AnGXx
+	J4f/+DEQiwpNBxXdgES2RnyVfqUjgdk3VHy9eQ==
+X-Received: by 2002:a05:622a:8c18:b0:517:92e4:4294 with SMTP id
+ d75a77b69052e-519916a7cf9mr34775941cf.22.1781603615467; Tue, 16 Jun 2026
+ 02:53:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for
- preadv2/pwritev2
-To: Joanne Koong <joannelkoong@gmail.com>, Askar Safin <safinaskar@gmail.com>
-Cc: akpm@linux-foundation.org, axboe@kernel.dk, bernd@bsbernd.com,
- brauner@kernel.org, dhowells@redhat.com, fuse-devel@lists.linux.dev,
- hch@infradead.org, jack@suse.cz, linux-api@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, miklos@szeredi.hu, netdev@vger.kernel.org,
- patches@lists.linux.dev, pfalcato@suse.de, rostedt@goodmis.org,
- torvalds@linux-foundation.org, val@packett.cool, viro@zeniv.linux.org.uk,
- willy@infradead.org
-References: <CAJnrk1Y9egYizkx1H9K0cqxSYuB+7vLvQbV7Tf4C5eHFqnnC-A@mail.gmail.com>
- <20260616011516.4039110-1-safinaskar@gmail.com>
- <CAJnrk1Z_V8TShvWV6zwTMQqXra3J4J5CL5ofFMm9DGoLj9whEw@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAJnrk1Z_V8TShvWV6zwTMQqXra3J4J5CL5ofFMm9DGoLj9whEw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260612210513.1516038-1-joannelkoong@gmail.com>
+ <20260612210513.1516038-10-joannelkoong@gmail.com> <CAJfpegs+EY+eCDOkBgVWhUyd8hBLE3bFY2oaum-k_tS=Cv2SVQ@mail.gmail.com>
+ <CAJnrk1YiUn3JFZCEe5oADyK5+zx6Rh_6KTZbCzeHUjAebUVQBw@mail.gmail.com>
+In-Reply-To: <CAJnrk1YiUn3JFZCEe5oADyK5+zx6Rh_6KTZbCzeHUjAebUVQBw@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 16 Jun 2026 11:53:23 +0200
+X-Gm-Features: AVVi8Cc5ZqHKcS2iDHX-MmkmMkYsULB6j517ANLVIKZXc0HvTQqdga8w6KhA5F4
+Message-ID: <CAJfpegvokfiN4b1tEd+fAPfO8n9hSQKeXt6-UM1OzxwHYA5-hw@mail.gmail.com>
+Subject: Re: [PATCH v4 09/10] fuse: add zero-copy over io-uring
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
+	libaokun@linux.alibaba.com, bernd@bsbernd.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 6/16/26 08:38, Joanne Koong wrote:
-> On Mon, Jun 15, 2026 at 9:15 PM Askar Safin <safinaskar@gmail.com> wrote:
->>
->> Joanne Koong <joannelkoong@gmail.com>:
->>>
->>> I think this is because of how libfuse handles eof / short reads. When
->>> it detects a short read, it fixes up the header length after the
->>> header was already vmspliced to the pipe because it assumes vmsplice
->>> mapped the header's page into the pipe by reference. It assumes that
->>> modifying the header length in place gets then reflected in what the
->>> pipe later splices out.
->>>
->>> The logic for this happens in fuse_send_data_iov() [1]:
->>> a) sets out->len = headerlen (16) + len (16384) = 16400 in the
->>> stack-allocated fuse_out_header
->>> b) vmsplices the header to the pipe
->>> c) splices the backing file to the pipe. if this hits EOF, it'll get
->>> back 15510 instead of 16384
->>> d) detects the short read [2], fixes up the stack out->len = 16 + 15510 = 15526
->>> e) splices the pipe to /dev/fuse
->>>
->>> After this patch, step b) is a straight copy which means step d)'s
->>> fixup doesn't modify what's in the pipe. This could be fixed up in
->>> libfuse to not depend on modify-after-vmsplice, but I don't think this
->>> helps for applications using already-released libfuse versions. I
->>> think this patch needs to be reverted.
->>>
->>> Thanks,
->>> Joanne
->>>
->>> [1] https://github.com/libfuse/libfuse/blob/master/lib/fuse_lowlevel.c#L846
->>> [2] https://github.com/libfuse/libfuse/blob/master/lib/fuse_lowlevel.c#L956
->>
->> Uh, this is very unfortunate. But I still want to remove vmsplice.
->> Maybe we can somehow save my patchsets? For example, let's return EINVAL
->> for this particular combination (writable pipe + SPLICE_F_NONBLOCK).
-> 
-> writable pipe + SPLICE_F_NONBLOCK is a valid vmsplice call today, so I
-> think returning -EINVAL would still cause regressions.
-I recall that, after the vmsplice vs. fork security issue happened, vmsplice was
-blocked in some container runtimes. e.g., [1] still seems to disable it, added
-in 2021 [2].
+On Tue, 16 Jun 2026 at 07:46, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-So maybe one could at least assume that many containerized workloads should be
-able to deal with vmsplice not being available nowadays. But in the general case
-I'm afraid Joanne is right.
+> The userspace FIXED_READ call (eg set up usually through the liburing
+> api io_uring_prep_read_fixed() [1]) takes a buf_index, not an address.
 
-[1] https://github.com/containers/common/blob/main/pkg/seccomp/seccomp.json
-[2]
-https://github.com/containers/common/commit/7ced5daafa0e36102eb931050ba3ff99f42bdfac
+AFAICS buf_index is required, but is not sufficient.  The fixed ops
+require an address as well (to figure out the offset within the
+registered buffer).
 
--- 
-Cheers,
+> Userspace would pass the ent->zero_copy_index as the buf index.
+> ent->zero_copy_index corresponds to the fixed buffer where userspace
+> told the kernel (at sqe registration time through the "uint16_t
+> zero_copy_index" init param) to place the zero-copied pages for that
+> sqe.
 
-David
+Okay so there are two buffers per sqe, one which is corresponds to a
+real userspace address, and a zero copy one that is (by definition)
+kernel-only and doesn't actually have an address.
+
+Passing a NULL address to the fixed op seems okay in this case, but
+that means the offset within the buffer is always zero.
+
+Or am I misunderstanding something?
+
+Thanks,
+Miklos
