@@ -1,58 +1,60 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1FA3B7B93
-	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 23:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536F33F58D8
+	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 23:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781651612; cv=none; b=pY3ScISuM5g7awwawr6XjIfCzwAScegcaaXTEDc/eQKroH0vI+gF1wXpTWSr6HmWepEY2Kbg3eC1mv3ny8mWafY0rdR533MTSQO1if/DrjVwSWRCDp6asSSplWYmFoYfWuluk5LG3hqaRUgPqFQsti4tzLTuWrxQ6qUmhmywua8=
+	t=1781651612; cv=none; b=YWM7y7diOFlL6Wq6RFUZyxv+Xun+uQbqDtb+lfxVfNKjLr7QRNjM34yQ7AqmIQs+/GD3KjEs5jDHFPrErBd7vHyPajRQncjZkUB3UbpewxKmf4QE+FFxhScNxZle061xEDz/qe4DwiMi1Q+cYIvWGGuh64d83/OapWU/2eCRvFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781651612; c=relaxed/simple;
-	bh=J1c6OcagpBk8GqgueK4lBEjPDBmI6ulHmPnbkbmERQA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tkniwbbSFqj1QmWH6//9UwhP4OitV9gSfhZmaIim8dOsTBQ5VSduaXMm+Cp5GxsKuDyKrvLVl6Apr/BvcUBqfcpgDK6G0k4jfGjBb93s8AT7DABs80+ijNWOg1X94wDw1s/R4s1jfyursUNEEkj+6PD0XOqvETab5v84ekHlDmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e/QVQytZ; arc=none smtp.client-ip=209.85.210.53
+	bh=lkS+KHBqJXeYGJHdOSlajz6hbM4WTk5DhH53EzMx/6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gqO6TXgIZlYy3tioMtMSKxzyteWCg5m1wYB0wlavkAEns5uU4l8mW3B7FgdEIa402CEnM7OHH/yI5g8kD5SeHABkqT95cEUhbaN1k0vUPoc7KIno3AYuFlum0uC23Q1kuz2yERRJa0aWu3e2WFYE5D7HsVXiXSElGi4pGp/TI/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qfPXVq/V; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e/QVQytZ"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7e6cdd78fe6so2911533a34.2
-        for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 16:13:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qfPXVq/V"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7e6c047c6bfso4132263a34.3
+        for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 16:13:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1781651610; x=1782256410; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MERZi8+A8JnkZle768llNfGQuagsfS4H/Ir2Lyg/cbk=;
-        b=e/QVQytZTLR+9/ZPx9NHV3+2jz1VXnYLIhNrH3kTnbKL9XgasICleyO5+i137buZn4
-         b1GJO3OgIUQue0bRnqp2jmYlwOyC/GBPVqQqzUpPYK21YzkwJquO0fdc+EKdzc4OTym9
-         4aKaVk0plgoD2086VxHCKBleK7Y18wAHIszOB40dHHolqCesS5MSMseM/u4y8TbTPOTT
-         Dlj4z4oGNonvGa5NUoyeScjJwW8QX5GSO1lQvfAy6U74vtM3ZWtYA0+SKtp9wTIqQXdp
-         RfDpfflHiaj2eB9Dl9c/9J2va+xHM69cT3tZct3k8GfVjB+doXKYTPyAiSHPG96o0ZxU
-         Hxxg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=84DiwMXLdEq4yqPEouNIMtm8S6/TgLWUF9alM51937s=;
+        b=qfPXVq/VU/cq/B/W5dGWC1YUfreb4ZDgBUisZOpgMU5PQPAPfzkAxKk+KuD9gzySob
+         +NXwep4joZwF6K1+QsWI/FrpHwqvvNquw61GKmOzaBKuP09o69LYKKmmmG5r06PTZbD1
+         hTIqiYVaLbfSHuKuWCqJSUu7qG5+HV2lIgOrSUseiwNnbZtRxVUdda59+bE1/jWiS004
+         9sB1KTVCuMYc1JWHw51fnYhmzefxTr/y4QIm+n6vVMKtXWwRcrtC5XdfB6kiGqZNNi7T
+         4mze0XOYrvpQslkN6Szcx3W6mHzNLSl1LKngA7oe8MIlsRcc1Yxu80Nrd9dogwuvJfu+
+         HiRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1781651610; x=1782256410;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MERZi8+A8JnkZle768llNfGQuagsfS4H/Ir2Lyg/cbk=;
-        b=ouuU/YeP5iY4r37jN/jMteYExS0S8fQFAJKsw+fgaumaOWcXgLxgCUnTFi+I197Q3y
-         yaRz158KOzUtuV7UNFO8Amvu4o0oDCwDLLfo+gM52xduQWJ7gzM+IaleWV9pdKrWvjae
-         ESvirhWSehAguYLm34rBqVTpw0aWGnWTaxhfKGToiG1z0wJxISCgfgJFDmF2o1J/3wt5
-         0WsOFBomwuMtaf0Jga7Cuaa+z22WutGl4VEhcxZNArRw1cHrtXttXfYV+a6kC9fVB/Yc
-         c/g58iCCclRZyl4LswSa2cSRlc/2CZkMcXKaK/r4Bt7wJcqpGEoTpix5iN+p7xDPVBuY
-         Jz8A==
-X-Forwarded-Encrypted: i=1; AFNElJ+jHFZcoDim752xP0kGfZtD3rokN/gTu3D8EsaF5Rkp5HY8LXOQoBGOIsVbXZ9cZj/dkVskktTSEvVG@lists.linux.dev
-X-Gm-Message-State: AOJu0Yycb5EJK9leDlHHEhb250wbbxjMMQRf0lvf2fyJVAX8cFp+S2m7
-	Su6t7pZ/WLIHSRRPG6wk8iNuWd/NxmQvr+QJcPPxPGoFjku9cHR0twzb
-X-Gm-Gg: Acq92OGIPcG9p6wXXGh5BrVl26zRFLkZD++QWTn4iOm89eHJG6yR5tt74DOVOCEBBc2
-	O+FXa2kXsM6NczNqoeZKV1p0SaXdEvgy6TfpRborsnyHcTQSjk3gvkrWfLaZszzZ+WnTB7rx1mg
-	o35hsNgvXcpvYpX5RpAKcBXRjTB+Gq6mqq2EPt5zMfGZkGJeFsY1kM7RvShZQaq2vIRod8CtKv1
-	h43HZPtCKME8JEs/JY40L/owHKmertDKJVCuRqfEQkTfew74fRJ7PaaGk63zLxtVinBIWixHdgj
-	Dz0XOyWHPxewg5WjdcR38tWqiee1tO2upDI4PQlJiu2oPSH908vuTb4lTpHdfP0fEexVd9m4vpn
-	MnLr7zMZZr4H6ePNEKP3RQethj6KTQcPwW6Csk++kzxLALFwWUvzfk207VJA/U8JuqE38C9x24J
-	eGbXpcHKfPsfb1wTdG29mkct/GoG0zKHOedx240dtdiGiUbxLfhXXBsIK5RZ92ip2k+hMdGAr2o
-	bY8acg5C3oXnHACq8DbupGuhnVu7MvJE3y2ns85KfSBd0VX/wAS820=
-X-Received: by 2002:a05:6830:4901:b0:7e6:d54e:8fe3 with SMTP id 46e09a7af769-7e90b322f5dmr1484178a34.9.1781651609737;
-        Tue, 16 Jun 2026 16:13:29 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=84DiwMXLdEq4yqPEouNIMtm8S6/TgLWUF9alM51937s=;
+        b=QLsEgjHig1sIRRsJMiudwr9g+0g+/bq/gn0Zgz6B9cK7IgB28PC+fptaoltkivfkEb
+         mPA8eDJsVpBG5siCgNVtvp303Q8QZY7k/NJiPfJD3YOs2ix9TuG+Gv+9Z4eWT3zJaw0g
+         tfWSyVOcd3Ddq5mSKqISN0eO8Gelimp5Z/bxP/mEjiHT2dme0JNbAzNP1QXsRTjHehST
+         znyEBZc9f85L/ANxfYjgrrrlyiy8i6g5n4VfIn1EWJ06kYNylXvICzHnAeuW2EKq3HCR
+         yprSa9RCCAYlbFe/UUUig/+PR+1Cb8b6kJ0Z/2RzaS7WPfqL2UzNLaZwYXcEuwTwR7rz
+         whKA==
+X-Forwarded-Encrypted: i=1; AFNElJ8KSsEGBcI5EIYMUJPIDbH2WE33vtyqKuRUw0Dx6rjGQOQ5Dp5IGTCQEgpGSQZKaQWo4j4RWEzGZsx7@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDnPijuVxp2mYyykOnZcAQ3QovB41BxKAHqrzuU2mslmUQQ8EV
+	T9yjViTi5h8isNzGIziupMMXi7c8my0ozWNFTCDYy8vBqJmC49gFekBj
+X-Gm-Gg: Acq92OEwYXj0NOdqioxL/1KWe0VsSF0pDSmyQsPE5coKmQAJSJSlfFqW1rb5w4m/v29
+	7Twq5Pkvu7NxxJPWyreIEyZkt5GooUJ9okFuaBXRJwoEAbYeO3NtV5SMb1ntqrVvssCEN1ibRq7
+	R91T9HnBw9B5fBVhVc8ogRXEEZTrrGEvoj14aAPpDVZJi1H4OQQ/QZmxZ1Ik2GDiJKbwLXwdr80
+	vbid0/nZvdiUAcIZ6o/9T4gb39jdzvAt5w3fIvVotfiwNJNRhHZ29+Ee6QC+553LF+WAVhpw5E+
+	0hZjNlaaQoB4RGFC4rEiov5ujPaW9CRpoRF6MYAzhkFuMRm5RXWYeOe6K5W1r/PEWBtNd7INlX+
+	GqEIBGldNkCl+G4C2brB1Q/C1uWsDdCmsJUyLiqSAhdRRo4Z1HxLNZs5esSVl/+VAqHXqSy1+FR
+	tPxou3g8fom/UY2cUPmrjvJqIhnQ0V2zPxFNuOEwiAvNp5BEFA2MenASFR6SvDogO07f5azTiGr
+	CaLXCaY317xFLn727peCLrQkqeuDCM17qLZCHV2je/X+Lqd044fVjk=
+X-Received: by 2002:a05:6830:6ae5:b0:7e6:f2ef:e231 with SMTP id 46e09a7af769-7e90b2ae089mr1702940a34.2.1781651610294;
+        Tue, 16 Jun 2026 16:13:30 -0700 (PDT)
 Received: from rdf-gcp2.us-central1-b.c.storage-xlrait-66065.internal (163.80.112.136.bc.googleusercontent.com. [136.112.80.163])
         by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e79f5a1b86sm7530924a34.5.2026.06.16.16.13.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -64,165 +66,104 @@ To: miklos@szeredi.hu,
 	linux-kernel@vger.kernel.org
 Cc: Amir Goldstein <amir73il@gmail.com>,
 	Russ Fellows <russ.fellows@gmail.com>
-Subject: [PATCH v3 0/2] fuse: fix passthrough parallel direct writes
-Date: Tue, 16 Jun 2026 23:13:20 +0000
-Message-ID: <20260616231325.16788-1-russ.fellows@gmail.com>
+Subject: [PATCH v3 1/2] fuse: preserve FOPEN_PARALLEL_DIRECT_WRITES for passthrough opens
+Date: Tue, 16 Jun 2026 23:13:21 +0000
+Message-ID: <20260616231325.16788-2-russ.fellows@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260616231325.16788-1-russ.fellows@gmail.com>
+References: <20260616231325.16788-1-russ.fellows@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series fixes FOPEN_PARALLEL_DIRECT_WRITES being silently ignored for
-FUSE passthrough opens.
+fuse_file_io_open() clears FOPEN_PARALLEL_DIRECT_WRITES for any open
+that lacks FOPEN_DIRECT_IO.  That rule is too strict for passthrough
+opens, which already bypass the page cache through the backing file
+and do not need FOPEN_DIRECT_IO to guarantee direct-I/O semantics.
+Clearing the flag before the passthrough write path sees it prevents
+the kernel from ever taking the shared-lock path for passthrough writes.
 
-Changes since v2:
-  - Patch 1: introduce FOPEN_IOMODE helper macros (FOPEN_IOMODE_IS_CACHED,
-    FOPEN_IOMODE_IS_DIRECT, FOPEN_IOMODE_IS_PASSTHROUGH) to make the flag
-    conditions self-documenting.  Use FOPEN_IOMODE_IS_CACHED for the
-    PARALLEL_DIRECT_WRITES guard.  No behavioral change.
-  - Patch 2: replace open-coded lock/unlock with fuse_passthrough_lock() and
-    fuse_passthrough_unlock() helpers local to passthrough.c.  Add a post-lock
-    re-check of the past-EOF condition to close the TOCTOU window between the
-    initial check and acquiring the shared inode lock.  Restore
-    fuse_dio_lock()/fuse_dio_unlock() to file-private (static) and remove
-    their declarations from fuse_i.h.
+Introduce FOPEN_IOMODE helper macros to classify the effective I/O mode
+of an open file:
 
-Patch 1 preserves FOPEN_PARALLEL_DIRECT_WRITES for passthrough opens.
-fuse_file_io_open() stripped the flag for any open lacking FOPEN_DIRECT_IO.
-That rule is correct for the regular direct-IO path but wrong for passthrough:
-passthrough already bypasses the page cache through the backing file without
-needing FOPEN_DIRECT_IO.  The new FOPEN_IOMODE_IS_CACHED guard expresses the
-correct invariant: suppress the flag only for cached (page-cache) I/O mode.
+  FOPEN_IOMODE_IS_CACHED(oflags)      - page-cache I/O (neither flag)
+  FOPEN_IOMODE_IS_DIRECT(oflags)      - DIRECT_IO is set
+  FOPEN_IOMODE_IS_PASSTHROUGH(oflags) - PASSTHROUGH only (no DIRECT_IO)
 
-Patch 2 makes fuse_passthrough_write_iter() respect FOPEN_PARALLEL_DIRECT_WRITES.
-Previously the function held the exclusive inode lock unconditionally, ignoring
-the flag entirely.  The new fuse_passthrough_lock() allows shared inode locking
-only for direct within-EOF non-append overwrites, and serializes everything else
-with an exclusive lock.  A past-EOF re-check after taking the shared lock closes
-the TOCTOU race where a concurrent EOF-extending write could slip in between the
-initial check and the lock acquisition.
+Use FOPEN_IOMODE_IS_CACHED to express the PARALLEL_DIRECT_WRITES guard
+cleanly: the flag is only suppressed for cached iomode, not for passthrough
+or direct-IO mode.
 
-Passthrough files are always in uncached iomode (committed at open time via
-fuse_file_uncached_io_open()), so the fuse_inode_uncached_io_start() guard from
-fuse_dio_lock() is not needed here.
+This is a prerequisite for passthrough write parallelism; without it the
+shared-lock path in the subsequent patch never activates.
 
-Performance
------------
-Tested on kernel 6.17.13-p4min-v3, custom FUSE daemon with
-FOPEN_PASSTHROUGH | FOPEN_PARALLEL_DIRECT_WRITES, XFS on a RAM-backed null_blk
-device.  fio randwrite 4K direct, iodepth=64:
+Signed-off-by: Russ Fellows <russ.fellows@gmail.com>
+---
+ fs/fuse/iomode.c | 30 +++++++++++++++++++++++++++---
+ 1 file changed, 27 insertions(+), 3 deletions(-)
 
-  numjobs | FUSE IOPS  | Raw XFS IOPS
-  --------|------------|-------------
-        1 |    478,564 |      528,835
-        2 |    941,483 |      ~1.0M *
-        4 |  1,457,284 |      ~1.5M *
-        8 |  1,675,749 |    1,693,406
-
-  * Raw XFS numjobs=2,4 not re-measured on this kernel; numjobs=1 and 8
-    directly measured.  FUSE at numjobs=8 reaches 99% of raw XFS throughput,
-    confirming the shared-lock path is fully active and passthrough overhead
-    is negligible.
-
-Correctness Testing
--------------------
-All seven cases were run on kernel 6.17.13-p4min-v3+ with a custom FUSE
-daemon advertising FOPEN_PASSTHROUGH | FOPEN_PARALLEL_DIRECT_WRITES, backed
-by XFS on a RAM-backed null_blk device (8 GiB).  Each case targets a distinct
-decision branch in fuse_passthrough_lock() and the surrounding write logic.
-The test harness verifies both completion status and exact final file size.
-
-  overwrite
-    Setup:    Pre-seed a 1 GiB file via single-job sequential write.
-    Workload: 4 concurrent fio jobs, 4K direct randwrite over the full 1 GiB,
-              CRC32C verify on every block, runtime=30s.
-    Lock path: FOPEN_PARALLEL_DIRECT_WRITES set + IOCB_DIRECT + no IOCB_APPEND
-               + pos+len <= i_size -> shared inode lock (TOCTOU re-check passes).
-    Validates: Core fix.  Parallel passthrough writes produce correct data under
-               the shared lock; no corruption at any numjobs.
-    Result:   PASS  (zero CRC verify errors; final size 1 GiB)
-
-  read_write
-    Setup:    Pre-seed a 1 GiB file.
-    Workload: 2 fio writer jobs on disjoint 512 MiB regions (CRC32C verify)
-              running simultaneously with 2 fio reader jobs roaming the whole
-              file, all concurrent for 30s.
-    Lock path: Writers take shared inode lock; fuse_passthrough_read_iter()
-               takes no inode lock.
-    Validates: Shared-lock writers coexist correctly with concurrent unlocked
-               readers.  A deadlock or lock regression would stall the workload;
-               a corruption bug would trip the per-block CRC verify.
-    Result:   PASS  (zero verify errors; no stall; final size 1 GiB)
-
-  append
-    Setup:    No pre-existing file.
-    Workload: 4 fio jobs, 4K direct write with --file_append=1 (pwrite() with
-              userspace-managed offsets into a pre-fallocated region); each job
-              writes 4 MiB; no time_based.
-    Lock path: Writes land within the pre-allocated EOF -> shared inode lock
-               (same within-EOF path as overwrite).
-    Validates: Multi-job pwrite-based appends within a pre-allocated extent
-               complete without data loss or size mismatch.
-    Result:   PASS  (final size 16 MiB = 4 jobs x 4 MiB)
-
-  o_append
-    Setup:    No pre-existing file.
-    Workload: 4 concurrent dd processes each open the file O_APPEND and issue
-              16 x 4 MiB writes.  True O_APPEND: the kernel must atomically
-              advance EOF before each write.
-    Lock path: O_APPEND sets IOCB_APPEND -> fuse_passthrough_write_needs_exclusive()
-               returns true -> exclusive inode lock unconditionally.
-    Validates: IOCB_APPEND branch of fuse_passthrough_lock() serializes correctly.
-               No two writers overlap; all 64 blocks land at unique offsets;
-               O_APPEND atomicity is preserved through the passthrough path.
-    Result:   PASS  (final size 256 MiB = 4 x 16 x 4 MiB)
-
-  extend
-    Setup:    truncate file to 64 MiB (sparse).
-    Workload: 4 fio jobs each write 64 MiB to a disjoint region starting beyond
-              the initial EOF (offsets 64, 128, 192, 256 MiB); 1M blocks; direct
-              I/O; no time_based.
-    Lock path: Every write has pos+len > i_size -> the post-lock past-EOF re-check
-               in fuse_passthrough_lock() forces an upgrade to exclusive lock.
-    Validates: Exclusive lock is taken for all past-EOF writes; disjoint regions
-               are written correctly; i_size advances to the correct final value.
-    Result:   PASS  (final size 320 MiB = 64 MiB initial + 4 x 64 MiB)
-
-  extend_race
-    Setup:    truncate file to 64 MiB (sparse).
-    Workload: 4 fio jobs all write the identical 64 MiB region [64 MiB, 128 MiB)
-              simultaneously; last writer wins per block.
-    Lock path: All writes have pos+len > i_size -> exclusive lock required for
-               all.  The post-lock TOCTOU re-check is the key safety net: a job
-               that passed the pre-lock past-EOF check and then lost a race with
-               another writer must still upgrade to exclusive before proceeding.
-    Validates: TOCTOU re-check correctness; no deadlock among N simultaneous
-               past-EOF writers; i_size is consistent after all jobs complete.
-    Result:   PASS  (final size 128 MiB = 64 MiB + 64 MiB; no deadlock)
-
-  buffered
-    Setup:    No pre-existing file.
-    Workload: 4 fio jobs, 4K buffered (non-O_DIRECT) randwrite over 1 GiB,
-              time_based 30s.
-    Lock path: fuse_file_write_iter() routes buffered writes to
-               fuse_cache_write_iter(), bypassing fuse_passthrough_write_iter()
-               entirely.  This patch is not in the call path.
-    Validates: Non-passthrough write path is completely unaffected by these changes.
-    Result:   PASS  (final size 1 GiB)
-
-Russ Fellows (2):
-  fuse: preserve FOPEN_PARALLEL_DIRECT_WRITES for passthrough opens
-  fuse: allow parallel direct writes in passthrough write_iter
-
- fs/fuse/file.c        |  4 +--
- fs/fuse/fuse_i.h      |  2 --
- fs/fuse/iomode.c      | 30 ++++++++++++++++----
- fs/fuse/passthrough.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++--
- 4 files changed, 106 insertions(+), 12 deletions(-)
-
+diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+index c99e285f3..46e60b04c 100644
+--- a/fs/fuse/iomode.c
++++ b/fs/fuse/iomode.c
+@@ -165,6 +165,23 @@ static void fuse_file_uncached_io_release(struct fuse_file *ff,
+ 	(FOPEN_PASSTHROUGH | FOPEN_DIRECT_IO | FOPEN_PARALLEL_DIRECT_WRITES | \
+ 	 FOPEN_NOFLUSH)
+ 
++/*
++ * Helpers to classify the effective I/O mode of an open file.
++ *
++ * FOPEN_IOMODE()         - extract the mode-relevant bits
++ * FOPEN_IOMODE_IS_CACHED - neither DIRECT_IO nor PASSTHROUGH: page-cache I/O
++ * FOPEN_IOMODE_IS_DIRECT - DIRECT_IO is set (may also have PASSTHROUGH)
++ * FOPEN_IOMODE_IS_PASSTHROUGH - PASSTHROUGH only, without DIRECT_IO
++ */
++#define FOPEN_IOMODE(oflags) \
++	((oflags) & (FOPEN_DIRECT_IO | FOPEN_PASSTHROUGH))
++#define FOPEN_IOMODE_IS_CACHED(oflags) \
++	(FOPEN_IOMODE(oflags) == 0)
++#define FOPEN_IOMODE_IS_DIRECT(oflags) \
++	(FOPEN_IOMODE(oflags) & FOPEN_DIRECT_IO)
++#define FOPEN_IOMODE_IS_PASSTHROUGH(oflags) \
++	(FOPEN_IOMODE(oflags) == FOPEN_PASSTHROUGH)
++
+ static int fuse_file_passthrough_open(struct inode *inode, struct file *file)
+ {
+ 	struct fuse_file *ff = file->private_data;
+@@ -216,9 +233,11 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+ 		goto fail;
+ 
+ 	/*
+-	 * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO.
++	 * FOPEN_PARALLEL_DIRECT_WRITES is not supported with cached iomode.
++	 * Passthrough and direct-IO both bypass the page cache, so both are
++	 * eligible to enable parallel direct writes.
+ 	 */
+-	if (!(ff->open_flags & FOPEN_DIRECT_IO))
++	if (FOPEN_IOMODE_IS_CACHED(ff->open_flags))
+ 		ff->open_flags &= ~FOPEN_PARALLEL_DIRECT_WRITES;
+ 
+ 	/*
+@@ -228,8 +247,13 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+ 	 * Note that if user opens a file open with O_DIRECT, but server did
+ 	 * not specify FOPEN_DIRECT_IO, a later fcntl() could remove O_DIRECT,
+ 	 * so we put the inode in caching mode to prevent parallel dio.
++	 *
++	 * Pure direct-IO (DIRECT_IO without PASSTHROUGH) needs no page-cache
++	 * iomode machinery — return early.  When DIRECT_IO and PASSTHROUGH are
++	 * both set, write_iter uses the direct-IO path but the backing file
++	 * still needs to be opened below.
+ 	 */
+-	if ((ff->open_flags & FOPEN_DIRECT_IO) &&
++	if (FOPEN_IOMODE_IS_DIRECT(ff->open_flags) &&
+ 	    !(ff->open_flags & FOPEN_PASSTHROUGH))
+ 		return 0;
+ 
 -- 
 2.51.0
+
