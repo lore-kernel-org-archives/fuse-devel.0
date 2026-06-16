@@ -1,225 +1,285 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C82743C065
-	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 11:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CD22356BE
+	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 14:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781610627; cv=pass; b=aAMJ6ve+7bsLoFDWus/Sc7H2605C07Xv+Kb65CiytPQJb8NAaMLgDQV4bvVxCvsqj0vxDDB1nL+LlW0F+9C1BXfkC1VZ6EY2PAyoUIleqFRuUfJq13DmPzoyvqIaYDmdSCTkbAbRYRnniJgKUyX6oZ6Ys7WruaWwz1Jntjk0vBk=
+	t=1781619805; cv=pass; b=BegAx8J/hTXjSvBga+rfw9e356eYg8ROypGLGcRan+n5Bcau0TCMse5c0nGGsCFuK2JKkMKvkSTQO2hQff++z8zk0epcM+1jJ2+1hoN3G5CqqMKHvxvtsoz3OICKdNJW/tv0SOSac35K2OL3naOqYb9+3I3lfYIMSn8OJleqseg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781610627; c=relaxed/simple;
-	bh=QKG4i+4ZHEfwGJFf6TT9YM//DhFhI78L2GggokTL2Fk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y5LQs+eEMm8a4vxCxLW+gnT2txANlMZK0GXlcDN2GRRJhg5IHmSaFh+sLa2uOxKvF6lWIU1b1L2JqN2QHZTcsM/3WNeHJYnF5TsH5awtdpYFXq6zsK2jXXRZsboUPbtoMJazqszY6D8i4ZSPh5A+Nxqjcyb6vush6pnFBLg0kNg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QNBgBete; arc=pass smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781619805; c=relaxed/simple;
+	bh=fzr9lDlARqBgoOUrRCuEssIpApn3qPTWlKJ6EQG7dFM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=VAJZHd6mJFTEg0kCOsHJyzoFgUnWMyYjjCSIrmrlQdDhhxZX6BMZ/aRA4n5YblA1X65CS/6X+ZUTA1laAhZ9MFMANndqkXj89OHv6tDlF987U+gf3j9BZF8jUlz0GZkv7utpixAlnYS6ZJtgkKtY8wxfbzmJPnEBEpHKTr8Qj5M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=F1ODmxtj; arc=pass smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QNBgBete"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-69165354c87so5666427a12.3
-        for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 04:50:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781610624; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="F1ODmxtj"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9158643e538so417286185a.1
+        for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 07:23:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781619802; cv=none;
         d=google.com; s=arc-20240605;
-        b=TM92Vbez4QNw176JVpc/d9rVcL+HbfSuK7RMRHIyHoLEwn26DAbjEScbpFGIlh+6Oc
-         WppSMCJsy76/jCSSKI4Y17+C0AmFHT+58dvrmq3z+6S19b0cQMJFp2xfJjHIsccmUFqx
-         znF8U5u43/hNUeYTAevylkvJkDlgaFtkb40BCDZJl6+lFrNkRzgSrMr+CmJCQvG0dURc
-         ySfR/gk0CeyJvOtgEmyKrQVQNaCKM+uKkMLX46JWeQXncyPJDfJBHa29cr7ga6KuMhsg
-         k/WQSMKG7A/Te14ZqkRwSm0GXxuQnl9fQkmMqm1jeUl6K2jTfNJC5gSt5DshjV8tfZ3C
-         sZVQ==
+        b=VTp2MyEcA6a5l90+eFgWp7gVbZW8eNIwDWq9Y1D9Ck5zVCS0onr7CQGYVs7K+ItW7x
+         bWbk27kcJgp+QYg233NhUW33fhE722CAc/jU3dDtS1mQNiWsk5dq87K/aZCNsN22JDe+
+         eD80+tMUlwMI38lGkxxgH7qgLj5fIC1CUiztZRnJVZemda7EvVEMb608U42ZXQvaFnSc
+         dqO6h3U4CO2jU2PQEI1p3FQxl9OT/LxUJC51IxGo5RsLHgqEOsY0d3Khy+1G7euP44sV
+         mmKQMlGbDbGFNm2vVVf3xtPpDrisVFN09oBjws98RdZGl+ZqFoRAXoX9WKgYCkZkU15h
+         2eRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RpPwsbenHMVASJp6YboD7PaeEbUb4DMpuUJdrbKpUZ4=;
-        fh=Utqrihk1/KiaU3V3mFbTtjdTvbX1vuk3Wag39N6Isz0=;
-        b=a3L/bpevzJgCqGpjJWSbcoEbiQaayiNHP4xA0SsVmsymQ26zdZ8WWNf7OuLGCdzAU0
-         QrD49o9G94kAPL9dps9/BTuHjWBbS7bsIuKpfExEV8wjIBLTyJaFDBYR9lgW2T/AnfAh
-         DNVhBAeBRVubgws5avRpJ5X61tn/9LRNId1jYZpb/we3hFgiV3BB7Evwt32KdRRkDQ5z
-         QYmcGAN4pA7BgX5clWAs5AF9fUsH4HZtGjIqIT/7GPBizjDkI3P3139EGtsVKEUBQNp/
-         e9ZHvgo6xx/LJ2CFIacpBVJtrIAo6qFQufTJrKkn256Kbvj+a+jjTMUPjBmgbjDRuqs/
-         nS5A==;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
+        fh=MZA7mbopiLyyybBrQSM5hrFwhdOc2m72/9sG0Le4Z8E=;
+        b=f13fLOoHIairyWz5x0CqTyGqmMBk/Gy3GB9zsZip+HStYMAX/CZVNVyjnuJZ/8eZbI
+         g8uo+N8giaBG+55dcEk6aX9tNW315OFF00xjgeIJrHe0o2oaBszRlsshE/dSoG/4ALm9
+         caYeGX/J/tF8P20h/r3eeoXFCxLLLuDOZNwxg03Z0V7Jqo5+FNqO8pTarNtwPb3+uw4/
+         Z4Sm7RsNea1Wxc2mgH6O8BL43xRRZ0BeU57XlrZCAkgnT900x1C8xeg289cCieG1UDV+
+         0Ye38Ak6XG4lIQa4VMy+3LvvTWpmtYbZExlHUIjtJ1p2ZAkpY0m8riQjxNLHX2hbEKfC
+         Wozw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781610624; x=1782215424; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RpPwsbenHMVASJp6YboD7PaeEbUb4DMpuUJdrbKpUZ4=;
-        b=QNBgBeteAx5DM9K6ey+t9Tee7CGtV/qhll9HltJXvxmey1b9IJQOsvjJ6j/d/5TCCq
-         RQRBA6W9f4BgxeOhq0QIi8uL4xosHUeuxSN97aEW/vGoDSp/Qd26NdX/yaiEqILOXniH
-         d+ZNQgXmTHpmJig69JjM2POwiv2APqwxoDF9NbPNi6bcmA+R9IUN9CdXQwbiOrIvzRZC
-         H0FIPx1lafQzGXJdT5gcDxoOd9j2EvxBZzO8QUvGXTSf7OASlylpg0z/0FS5HGD6ycHP
-         ZRx/y0oCGoC6++llLIBvSf35Sq2cO5XmdjfCoKqTm2bm7P2LLgPwhVFYihSDKaCHn+x3
-         nQ6g==
+        d=szeredi.hu; s=google; t=1781619802; x=1782224602; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
+        b=F1ODmxtjT1pR/yaO8+jDN9azujRvvCm1Sv8jvzzeolgQu/qiycJQk4cMhp+4wmguG0
+         0UbC6NulbZAsndd6I0cC28hqyMZVqg8BVRERpnkaSErvjmGiiRbLTKcu1CILB613sNaP
+         8HGeer+2OBhcRwqnmU2PUzBc8PqTBmUWs/FRg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781610624; x=1782215424;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=RpPwsbenHMVASJp6YboD7PaeEbUb4DMpuUJdrbKpUZ4=;
-        b=cWlb0ocKfjX4QO5awHaigikjHzvCFahCXAqvgLTBSXhNoLU/rIXrfTK6CMT3tKWyyO
-         fr5G5a3Nwvsa1vHKc8woILo2j1XqcLWq+JbaGakKChGIga6LLcVdaSt39UkMH7NN6Q7h
-         iD50VVNgIoMHWpDaTipf7SMZ0Exu0lt5+Q2kMZEh0KVt2pryj8AO7ocpE550LujA4j8h
-         AkPy+nJw5G5zoSi6fjn54cYev3HHa9vxBRxowKzXqIJpQUVU0FQRRsnUGv4zUz8AAuDD
-         nRZYQ/R2KNQwbkuXtQxwDvTUo1f7jH7G5X1S19ofZH3gH3KaI14ZV699HE5Wmkm2DjUp
-         J6mg==
-X-Forwarded-Encrypted: i=1; AFNElJ/ZOZ2MSovrlgc1bF9cP/dsaZmkqXTeuPWSuOcT4WAWoSJfemeEyk8dqDEjbY2U75z1bDZKPOaVud7p@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTpkQAikIXVmE+zVoGlSWPiYN7/u5dqBxgjqf8mAR2nZdAYLvQ
-	tsgB4jOUYYh1DPlB7m7c+gmzX8BiWuDg8iDSN+j4UGOHAMeOStVF8CWaQRLrNR0mZxhEi26Cfm0
-	Jwscn4r0DY7SpUx8ElDV2S5Yn1V61xKQ=
-X-Gm-Gg: Acq92OGZ3lyEhPgsQZdQXuiq0IiGGNIbVo+WD/r6agM4LllV0RBipJ4FvJ8/Z8LWR7N
-	Wx5+uP3ecCzdbIZyjGN9H2hMTqjrac5VRet/UJLfpjhg3/IjhcLjiPV8BFnhZ+EWB+ZcoduvPjC
-	FYpwgM17+XuCwx2JCGkbfo2TfjZUxYULx8C9yEbL+IpVDHVb3X0t5xk3KhFCH3DaYog57bvdbQH
-	rOkmtyceNCsGtugYCe+TIy0SJ/8cDI3MK76IBfkR2LW5TTPb5EvWfZqawnAcwRyn8D8OlCf5iHU
-	AtUd/KhcoPfzqnxZzr6cDaKZS47EdamQeL+iZk+HJg==
-X-Received: by 2002:a05:6402:42cf:b0:691:affa:38da with SMTP id
- 4fb4d7f45d1cf-6950875976fmr1864373a12.1.1781610623821; Tue, 16 Jun 2026
- 04:50:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781619802; x=1782224602;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
+        b=NIGb//Ci2v7zezJme4r+/fECtMdsB5mctxioQl7Wov4z0XjR0UeouvcabRwUD+ubiA
+         6ZTrOvcNBZfxPkL2B9yGfiNNsupxhbYCqNYug8PpTRWpDQYjSA302fPmcKDcP7989qst
+         430wW5fzEavAjJH2I1PDzzAx/g0ATX9az/CU6EWiIUu6TAw0PEx81YNAPEXQceRIKYrU
+         p3ZwLWtL5QBQcfy8ujvkMfLwzJHubjXa8cWPzscyBDV+4W6F0jX3BEgAn1YKWkwCXEhN
+         Yjp7DwGH1lFt3KmgElUqUMj5tT08tRCnP8qwny40wClWhJs7LnMaooBpqqN4SJDwnczb
+         ToLg==
+X-Forwarded-Encrypted: i=1; AFNElJ/lzkDmJQ+FPgRGGvQZDMHroSricGRRDaosGV2G/yB6/APkUoWk883Ox/c8H6BxbGVH/YJyZKnOmiuG@lists.linux.dev
+X-Gm-Message-State: AOJu0YycrNBYu6DzLxfGDLGLT+6cbWQcLlG9nDF6U0Z+cxhw1ikFJ/lg
+	c+0D8oQ9LlsEVYoHi+bEIdy4tn7JytcyM1yWg2kXg8rgXA1oFq6Rhr6YwXFFPV3SDRhVpJYAQEo
+	V4ws5xlL6khC26G8/NBXhR/zi1Gs2+y0n26Y49DLtEg==
+X-Gm-Gg: Acq92OHllT6mcNdzC9s61Pi4Qe39bA7Dc5Zut7Kj5pyVcCorUCOmII+pJrm5afj86lP
+	az772WHi8W18uQHK4TFCrdHZXYWFW0itQs1hjkWTMZ370p4LpjJwQUF+G1xy8GMNfAzcjUBkoZd
+	y6A/QNBO0jgGn1RWD5sKQLcPAWwGZGhtZNKrHFSLuspM8VpS0vATrSJQK9rjVn5d26m7/AJhJHU
+	jJLz2tDzxXuLj/b/KjgKYSyVuTCp9TxG4feAyDPpBQp+4PphD6hUtBZJDZT5RyBCPdyoJbyiFAz
+	5tmUS/LMZQ0NdrNODPdGivrCpANbtiwng6M5ig==
+X-Received: by 2002:a05:620a:458b:b0:915:8f76:8029 with SMTP id
+ af79cd13be357-9161bf6c39emr2784387385a.44.1781619802196; Tue, 16 Jun 2026
+ 07:23:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260529031918.7361-1-russ.fellows@gmail.com> <20260616014419.7913-1-russ.fellows@gmail.com>
- <20260616014419.7913-3-russ.fellows@gmail.com>
-In-Reply-To: <20260616014419.7913-3-russ.fellows@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 16 Jun 2026 13:50:12 +0200
-X-Gm-Features: AVVi8CeOZ4TmIF70ww8MhNwGTFIWGJbtaB6gZTfHRBvvjyTFOqpaSXGuF8UoIeY
-Message-ID: <CAOQ4uxioaHgn2gAevs4_GVN9z_XM8CuiBkOUzyP75Axi3Ecaww@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] fuse: allow parallel direct writes in passthrough write_iter
-To: Russ Fellows <russ.fellows@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Russ Fellows <rfellows@xlrait.dev>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 16 Jun 2026 16:23:10 +0200
+X-Gm-Features: AVVi8Cd0AIeavaRflbghiON-bTSlFxcP2divx-eLpYAEhK8HTWW3Md02x4TkOqw
+Message-ID: <CAJfpegtvWRiFQWzr9eXN5gr6cAwwR_wqqRy4K-nyvg3B7u-vrw@mail.gmail.com>
+Subject: [GIT PULL] fuse update for 7.2
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 16, 2026 at 3:44=E2=80=AFAM Russ Fellows <russ.fellows@gmail.co=
-m> wrote:
->
-> From: Russ Fellows <rfellows@xlrait.dev>
->
-> fuse_passthrough_write_iter() currently relies on the generic fuse_dio_lo=
-ck() path to decide whether writes may run under a shared inode lock. That =
-couples passthrough to the regular direct-IO helpers and does not make the =
-passthrough-specific safety conditions explicit.
->
-> Keep the decision local to passthrough.c instead. Allow shared inode lock=
-ing only when all of the following are true:
->
-> - the open carries FOPEN_PARALLEL_DIRECT_WRITES
-> - the write is direct I/O
-> - the write is not append
-> - the write does not extend past EOF
->
-> Buffered writes, append writes, and EOF-extending writes remain serialize=
-d under the exclusive inode lock.
->
-> This preserves the parallel direct-write win for safe overwrite I/O witho=
-ut exporting extra helper APIs from file.c.
->
-> Signed-off-by: Russ Fellows <rfellows@xlrait.dev>
-> ---
->  fs/fuse/passthrough.c | 46 +++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 44 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-> index ee822a983..c32b35a6d 100644
-> --- a/fs/fuse/passthrough.c
-> +++ b/fs/fuse/passthrough.c
-> @@ -25,6 +25,38 @@ static void fuse_passthrough_end_write(struct kiocb *i=
-ocb, ssize_t ret)
->         fuse_write_update_attr(inode, iocb->ki_pos, ret);
->  }
->
-> +static bool fuse_passthrough_io_past_eof(struct kiocb *iocb,
-> +                                        struct iov_iter *iter)
-> +{
-> +       struct inode *inode =3D file_inode(iocb->ki_filp);
-> +
-> +       return iocb->ki_pos + iov_iter_count(iter) > i_size_read(inode);
-> +}
-> +
-> +static bool fuse_passthrough_write_exclusive(struct kiocb *iocb,
-> +                                            struct iov_iter *iter)
-> +{
-> +       struct file *file =3D iocb->ki_filp;
-> +       struct fuse_file *ff =3D file->private_data;
-> +
-> +       if (!(ff->open_flags & FOPEN_PARALLEL_DIRECT_WRITES))
-> +               return true;
-> +
-> +       /*
-> +        * Passthrough writes do not use the regular FUSE direct-IO iomod=
-e path.
-> +        * Allow shared locking only for direct overwrite I/O; buffered w=
-rites,
-> +        * append writes, and writes that may extend EOF remain serialize=
-d.
-> +        */
-> +       if (!(iocb->ki_flags & IOCB_DIRECT))
-> +               return true;
-> +       if (iocb->ki_flags & IOCB_APPEND)
-> +               return true;
-> +       if (fuse_passthrough_io_past_eof(iocb, iter))
-> +               return true;
-> +
-> +       return false;
-> +}
-> +
->  ssize_t fuse_passthrough_read_iter(struct kiocb *iocb, struct iov_iter *=
-iter)
->  {
->         struct file *file =3D iocb->ki_filp;
-> @@ -54,6 +86,7 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
->                                     struct iov_iter *iter)
->  {
->         struct file *file =3D iocb->ki_filp;
-> +       struct inode *inode =3D file_inode(file);
->         struct fuse_file *ff =3D file->private_data;
->         struct file *backing_file =3D fuse_file_passthrough(ff);
->         size_t count =3D iov_iter_count(iter);
-> @@ -70,10 +103,19 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *io=
-cb,
->         if (!count)
->                 return 0;
->
-> -       fuse_dio_lock(iocb, iter, &exclusive);
-> +       exclusive =3D fuse_passthrough_write_exclusive(iocb, iter);
-> +       if (exclusive)
-> +               inode_lock(inode);
-> +       else
-> +               inode_lock_shared(inode);
-> +
+Hi Linus,
 
-This is TOCTOU racy
-You are missing this important part:
+Please pull from:
 
-                /*
-                 * This check
-                 * should be performed only after taking shared inode lock.
-                 * Previous past eof check was without inode lock and might
-                 * have raced, so check it again.
-                 */
-                if (fuse_io_past_eof(iocb, from) ||
+git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
+tags/fuse-update-7.2
 
-Either you duplicate fuse_dio_lock() -> fuse_passthrough_lock()
-or you find a way to have the two share common helper (prefered)
+- Fix lots of bugs, most from the late 6.x era, but some going back to 2.6.x
 
->         ret =3D backing_file_write_iter(backing_file, iter, iocb, iocb->k=
-i_flags,
->                                      &ctx);
-> -       fuse_dio_unlock(iocb, exclusive);
-> +
-> +       if (exclusive)
-> +               inode_unlock(inode);
-> +       else
-> +               inode_unlock_shared(inode);
+- Add subsystems (io-uring, passthrough) and respective maintainers
+(Bernd, Joanne and Amir)
 
-In any case it is ugly to open code this so at least a thin wrapper
-or even a scoped class would be in order (e.g. fuse_passthrough_unlock)
+- Separate transport and fs layers (Miklos)
+
+- Don't block on cat /dev/fuse (Joanne)
+
+- Perform some refactoring in fuse-uring (Joanne)
+
+- Don't use bounce-buffer for READDIR reply in virtio-fs (Matthew R. Ochs)
+
+- Clean up documentation (Randy)
+
+- Improve tracing (Amir)
+
+- Extend page cache invalidation after DIO (Cheng Ding)
+
+- Invalidate readdir cache on epoch change (Jun Wu)
+
+- Misc cleanups
 
 Thanks,
-Amir.
+Miklos
+
+---
+Alberto Ruiz (1):
+      fuse: fix device node leak in cuse_process_init_reply()
+
+Amir Goldstein (1):
+      fuse: add fuse_request_sent tracepoint
+
+Bernd Schubert (3):
+      fuse-uring: Avoid use-after-free in fuse_uring_async_stop_queues
+      fuse-uring: Avoid queue->stopped races and set/read that value under lock
+      fuse-uring: make a fuse_req on SQE commit only findable after memcpy
+
+Cheng Ding (1):
+      fuse: invalidate page cache after DIO and async DIO writes
+
+Chris Mason (3):
+      fuse-uring: fix EFAULT clobber in fuse_uring_commit
+      fuse-uring: fix data races on ring->ready
+      fuse-uring: end fuse_req on io-uring cancel task work
+
+GuoHan Zhao (1):
+      fuse: use current creds for backing files
+
+Ji'an Zhou (1):
+      fuse: clear intr_entry in fuse_resend and fuse_remove_pending_req
+
+Joanne Koong (17):
+      fuse: don't block in fuse_get_dev() for non-sync_init case
+      fuse: re-lock request before replacing page cache folio
+      fuse: re-lock request before returning from fuse_ref_folio()
+      fuse-uring: fix race between registration and connection abortion
+      fuse-uring: check connection abort during ring creation
+      fuse-uring: fix moving cancelled entry to ent_in_userspace list
+      fuse-uring: remove request-less entries from ent_w_req_queue to
+fix NULL deref
+      fuse: fix io-uring background queue dispatch on request completion
+      fuse: remove redundant buffer size checks for interrupt and
+forget requests
+      fuse: remove stray newline in fuse_dev_do_read()
+      fuse: clean up interrupt reading
+      fuse-uring: separate next request fetching from sending logic
+      fuse-uring: refactor io-uring header copying to ring
+      fuse-uring: refactor io-uring header copying from ring
+      fuse-uring: use enum types for header copying
+      fuse-uring: refactor setting up copy state for payload copying
+      fuse-uring: use named constants for io-uring iovec indices
+
+Jun Wu (1):
+      fuse: invalidate readdir cache on epoch bump
+
+Konrad Sztyber (1):
+      fuse: reduce attributes invalidated on directory change
+
+Li Wang (3):
+      fuse: drop redundant err assignment in fuse_create_open()
+      fuse: drop redundant check in fuse_sync_bucket_alloc()
+      fuse: use READ_ONCE in fuse_chan_num_background()
+
+Marco Crivellari (1):
+      fuse: dax: Move long delayed work on system_dfl_long_wq
+
+Matthew R. Ochs (1):
+      fuse: back uncached readdir buffers with pages
+
+Miklos Szeredi (36):
+      virtiofs: fix UAF on submount umount
+      Revert "fuse: fix conversion of fuse_reverse_inval_entry() to
+start_removing()"
+      fuse: do not use start_removing_noperm()
+      fuse: move request timeout code to a new source file
+      fuse: add struct fuse_chan
+      fuse: move fuse_iqueue to fuse_chan
+      fuse: move fuse_dev and fuse_pqueue to dev.c
+      fuse: move 'devices' member from fuse_conn to fuse_chan
+      fuse: move background queuing related members to fuse_chan
+      fuse: move request blocking related members to fuse_chan
+      fuse: move io_uring related members to fuse_chan
+      fuse: move interrupt related members to fuse_chan
+      fuse: split off fch->lock from fc->lock
+      fuse: add back pointer from fuse_chan to fuse_conn
+      fuse: move request timeout to fuse_chan
+      fuse: move struct fuse_req and related to fuse_dev_i.h
+      fuse: don't access transport layer structs directly from the fs layer
+      fuse: move forget related struct and helpers
+      fuse: move fuse_dev_waitq to dev.c
+      fuse: remove #include "fuse_i.h" from "dev_uring_i.h"
+      fuse: remove #include "fuse_i.h" from "req_timeout.c"
+      fuse: abort related layering cleanup
+      fuse: split off fuse_args and related definitions into a separate header
+      fuse: remove fm arg of args->end callback
+      fuse: change req->fm to req->chan
+      fuse: split out filesystem part of request sending
+      fuse: change fud->fc to fud->chan
+      fuse: create poll.c
+      fuse: create notify.c
+      fuse: set params in fuse_chan_set_initialized()
+      fuse: remove fuse_mutex protection from fuse_dev_ioctl_sync_init()
+      fuse: change ring->fc to ring->chan
+      fuse: remove #include "fuse_i.h" from dev.c and dev_uring.c
+      fuse: alloc pqueue before installing fch in fuse_dev
+      fuse: simplify fuse_dev_ioctl_clone()
+      fuse: expand MAINTAINERS with subsystem info, update mailing list
+
+Randy Dunlap (3):
+      fuse-uring: drop kernel-doc notation for a comment
+      fuse: fuse_dev_i.h: clean up kernel-doc warnings
+      fuse: fuse_i.h: clean up kernel-doc comments
+
+Samuel Moelius (1):
+      fuse: avoid 32-bit prune notification count wrap
+
+Thorsten Blum (1):
+      fuse: use QSTR() instead of QSTR_INIT() in fuse_get_dentry
+
+Tim Bird (1):
+      fuse: Add SPDX ID lines to some files
+
+William Theesfeld (1):
+      fuse: convert page array allocation to kcalloc()
+
+Yung-Tse Cheng (1):
+      virtio-fs: avoid double-free on failed queue setup
+
+Zhang Tianci (1):
+      fuse: set ff->flock only on success
+
+Zhenghang Xiao (1):
+      fuse-uring: clear ent->fuse_req in commit_fetch error path
+
+---
+ MAINTAINERS              |   26 +-
+ fs/fuse/Makefile         |    3 +-
+ fs/fuse/acl.c            |    4 +-
+ fs/fuse/args.h           |   65 +++
+ fs/fuse/backing.c        |    3 +-
+ fs/fuse/control.c        |   20 +-
+ fs/fuse/cuse.c           |   32 +-
+ fs/fuse/dax.c            |    2 +-
+ fs/fuse/dev.c            | 1361 ++++++++++++++++++----------------------------
+ fs/fuse/dev.h            |  110 ++++
+ fs/fuse/dev_uring.c      |  491 ++++++++++-------
+ fs/fuse/dev_uring_i.h    |   47 +-
+ fs/fuse/dir.c            |   52 +-
+ fs/fuse/file.c           |  220 +++-----
+ fs/fuse/fuse_dev_i.h     |  351 +++++++++++-
+ fs/fuse/fuse_i.h         |  872 ++++++++++-------------------
+ fs/fuse/fuse_trace.h     |   26 +-
+ fs/fuse/inode.c          |  270 ++-------
+ fs/fuse/notify.c         |  434 +++++++++++++++
+ fs/fuse/poll.c           |  141 +++++
+ fs/fuse/readdir.c        |   94 +++-
+ fs/fuse/req.c            |   99 ++++
+ fs/fuse/req_timeout.c    |  148 +++++
+ fs/fuse/sysctl.c         |    1 +
+ fs/fuse/sysctl.h         |    9 +
+ fs/fuse/virtio_fs.c      |   23 +-
+ fs/fuse/xattr.c          |    4 +-
+ fs/internal.h            |    1 -
+ include/linux/fs/super.h |    2 +
+ 29 files changed, 2776 insertions(+), 2135 deletions(-)
+ create mode 100644 fs/fuse/args.h
+ create mode 100644 fs/fuse/dev.h
+ create mode 100644 fs/fuse/notify.c
+ create mode 100644 fs/fuse/poll.c
+ create mode 100644 fs/fuse/req.c
+ create mode 100644 fs/fuse/req_timeout.c
+ create mode 100644 fs/fuse/sysctl.h
