@@ -1,102 +1,110 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.155.198.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE26378D72
-	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 14:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781620372; cv=pass; b=iusWaeQz5+rKa1gE7fMI2s/W6qedvwrImMOKURuh2TpPAjFV9HO1agG475+flzJwagEktVRyzrWcfJVmGTJbGFAFv0XfAswD6lkjU/+btyh9Ane1672AMKo+YiCePsUFdG37IxDwXKd7VOplGpRwz5iIygP5SA5m+YrNl3RAbrk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781620372; c=relaxed/simple;
-	bh=qYf76rQcTsdQm5oNAXF0ipWi+KiR+RGX2BosUuLXeh4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N7rnnsqyONPxdjPeaoJD4mNI0pvWjH5CGw8RcKr482pzx858lDPwOIqIXbwhqxqcsdIcnELTao9QZELxstINhWBHQj8nqNMTJHzYMQ5ms7zyio62gLDwyHoqv3MbiggibCfQpsYg5jVmpZAiWrijNZrz6JUbjeamSSYsNuvoWwE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Z4PQc34M; arc=pass smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417CD43C05C
+	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 15:19:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.155.198.111
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781623166; cv=none; b=aPkUq6FjYchraCcMwZYY4XeNJigOGwIrUHT6Wc+LqJ4H0P7zQNzu0ELhPsrum6q3tjeTs988dNYHYLLB2WsLQZAieisTuax0sZrzQrUrqPiGQ/q3Yz4IghBZ9oAlPKiFunzjSRnDTMUNievDVyGvHTYwZtAf46ERF4R4e0OaZ5g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781623166; c=relaxed/simple;
+	bh=IyuOPwnmSb/fVTCH/e1N0mn2W7SKPp8fj8S+qLFAPk4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=OvTh2/yRmiEDUKEqz/O74kosmT9jCJBqlG5gxBfLqbWytARu70CG/7ybqA1eS875G7nyQujExhmjarjtsOf2OnODfLI8CnbiraAEIaaYe01GTMiGgFBeDFDVZeUBqTASEzgI3xPG5kPJ+piLtmkgukhoYJCFFT4TJJTDMfjIM70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=tzgoBjDa; arc=none smtp.client-ip=35.155.198.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Z4PQc34M"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8ce9df31130so68779776d6.1
-        for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 07:32:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781620370; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WJ7aulUdaUUglsgK6lDAzZ71QH1mrAWuduOJqcbG/YWHh7cFuMjwJbyE0nFC/0gFQW
-         VIkS2wmvmE7BbDDjxPCy5czxuSZUsSqQw2FxcRA24pCxhcgT5FOAYO2kXutdf5ztY32F
-         UEai5+Wzka/CZ4523x/I+Lc6xk1FWZjlCE6BuP0Z2AIkjy7d8DuvqqPEI81fTjhi8Aay
-         h3mAmLh8ZJbApietmiBQoNJ/rhiLicmLgmt/gWmnjwuAmo6BPYOlL/qyC5MUYEernKJd
-         /c4MWZVJL/Wg5Vc4WcvI6aZKUKAJn9B739ObFiZxQN4ajUfCH+tMiRVvAJxMF7mFepxa
-         iqcw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qYf76rQcTsdQm5oNAXF0ipWi+KiR+RGX2BosUuLXeh4=;
-        fh=uzU81CIwrGKfsULqPeXiktajouTgWaFAMqVjwuFOsbY=;
-        b=I23g6P82PsdeqHfdKJpKLD5nCE6OnY0TZqMSlSNlwQkRIgSVJlTGMgLBZm50jm75/V
-         tFl3a5UFlHVio2ClQAx7/aSdZi6g4p06phCISZVwNcEJTlgzj4+JN0QPipur1mpYkdKX
-         /kBuKMwCf7OQm9pIoexEx06Z4A81TfIiPX6pOp3eGo+URXDwx63KJ26ES6y0pMvrCOem
-         276mN4n04xNHCqA5mD9euDgCacAD3VWIf7hCVilQk4+FyWw3hKcZSaGsHFucE/c7GB0+
-         XlWY8GLIsRU6GvwGjKgrfqEgbNfSKmb+RV2QcT55n+Zgx8xGs/3y1wr2dZDN61qtv0GH
-         eFtQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="tzgoBjDa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781620370; x=1782225170; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qYf76rQcTsdQm5oNAXF0ipWi+KiR+RGX2BosUuLXeh4=;
-        b=Z4PQc34MD9wuWYCUH/mhc0aMQSb+2C7Bk+MHFuj9ZKlS3fBn3zA2JvUcnONQjAu4UT
-         Pp+ujO7dmvaViKm3dkg20DeM3cRh7MfJ8MtW9nDQ8w2ErtfSqIMZ2sEvTeOsh5BwuP4S
-         H2cYcCV2aldY5njgA7zaIjPh36G4dbfybN83Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781620370; x=1782225170;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qYf76rQcTsdQm5oNAXF0ipWi+KiR+RGX2BosUuLXeh4=;
-        b=DInnNyS9E8xooHsa9muEJ5cOUgNqReK2Gx7rEJJa9zXaln/fTrfFFSg69cO5SkWk6e
-         gi+yd0ALXkmx9s7iXZRxa9IbBMfxbkyZ6M39NUsLRaiG71yv+kEcKQRtM6yJTU3P0/m/
-         hFxjjVrVJuPanPKFDSH1vCPVDP2j0fxKF7WmbCpUIrtlEvit7oI9UkJM/Ti2AfVLo3mK
-         +j7DWWE/VDdxDHEPAeF/jleptSLXLDoLzJq5QGVGlLDRgGHScLrgvtbls0/JSgRmX7/W
-         nqNHH/IQDe2B5v99ju1DauIdx3h6qcyrZmCcaeNp1DS2GRUdYGPrzPVRxTU4jzypAMAl
-         L2Nw==
-X-Forwarded-Encrypted: i=1; AFNElJ/NlrNt9VzflSoHzvldlMELiMz+ib5DI6poduNJ0lgbOk/jQNUIhH+COR/FfUqKJ5UuL1F/XWL4ys2E@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFNK+WetO161Mkw3EcuTR83Ovb7t26TsXbOVNtQVihzwQQ2Rrv
-	EZ/xDlZZKhZ+5WFSmOLg3ZXWDmS0vyjOojpOQ6BK8OkimIdjU9WnzUxkB2tqFQ8GBRDbLhA2dAt
-	/NCCFzhNZQNewtnbPLS1fPsQcoNU7R+QmMfGO7AF4lQ==
-X-Gm-Gg: Acq92OFV3Sam1qKhg9k7nOZZglZPZJ9E3vgaDZ4u1voJbVXBtfb8FmcE81i6ADHnNRd
-	QZ9QYbLt7aGkSylgs1Tf9dx5uCOKHl5XzC+f0BBbvf9mp+dqkXcsxxgZa+Sis3CYmZ+a2n4wEwQ
-	adaxIMr39uXQEIbUZSxuLeA+KZxMMwcqwAQcHUo15cFAsppXpQrZeRG6tCnnRAqDZOy5L1tyLP4
-	K+rDXJRIeLBuSBx2cy3iwR+ZpsBqqQH82W0exH3bdBS15CF0mdAE0EOF2kJZc3NKB2Flnpc73MW
-	0DVuEK/WHFRRCtThfIGSonmJj1qf1Uowi1A+Iw==
-X-Received: by 2002:ac8:5e08:0:b0:516:d557:15bb with SMTP id
- d75a77b69052e-51953554bd8mr239431781cf.46.1781620370090; Tue, 16 Jun 2026
- 07:32:50 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1781623165; x=1813159165;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tT9ViwbeGZOmHpTUMJe4+1N7IXhmgG+37I0SsksN/z0=;
+  b=tzgoBjDaLJsh6gyc3vOK2xQ/XJbkKjAONWtTHYHTjYQ2QXJgjBTDtCDD
+   sVwjA2Ovo3GFQCUDeXY8hU9TJ/WhajsFJJRni/1BIufQh7mQ4gSs89aG7
+   RmAB/8fZhq0t2FbdD7+HkQxFlFF1ML+jgVz7a4R8YDnFxTr4YE6gXoVBs
+   9aQ76j6FHflYDy8k8+MsSfLXBkVIgfpC44T6e10AfTmBALJfgPveifRk4
+   f7ME3616FrGFVVbkwDq9F2ygEWqrEoH0sbu5q57YoSoe/mFRIP5jC1k+l
+   SK6BHSpNuU4v6XHvGPeg6wF7dReaiOJ1kAkWT87/35lIjgbklm32BA55l
+   w==;
+X-CSE-ConnectionGUID: G0EU5j04RqGWcfC39FMyUA==
+X-CSE-MsgGUID: 0q2HeqPqRLSwa8yrfFJlRw==
+X-IronPort-AV: E=Sophos;i="6.24,208,1774310400"; 
+   d="scan'208";a="21753083"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 15:19:24 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:10731]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.63.253:2525] with esmtp (Farcaster)
+ id 75061158-3cff-453b-9b7f-4c209f66b456; Tue, 16 Jun 2026 15:19:24 +0000 (UTC)
+X-Farcaster-Flow-ID: 75061158-3cff-453b-9b7f-4c209f66b456
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Tue, 16 Jun 2026 15:19:24 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Tue, 16 Jun 2026 15:19:23 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Shuah Khan
+	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>
+Subject: [PATCH 0/2] fuse: allow FUSE_SYNCFS for privileged userspace servers
+Date: Tue, 16 Jun 2026 15:19:07 +0000
+Message-ID: <20260616151909.916667-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260529134302.1989958-1-mszeredi@redhat.com> <ah5-40YypaswEG-1@groves.net>
- <CAJfpegsJj8cZ=CXL-VGeVDOayAeTzstWJgvQye3N+sudHJ5L9g@mail.gmail.com> <ajAlcVPGa7ytSWOm@groves.net>
-In-Reply-To: <ajAlcVPGa7ytSWOm@groves.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 16 Jun 2026 16:32:38 +0200
-X-Gm-Features: AVVi8CdzKNX6pCMQRYh8T-XAvu5h6XuOLr8CoGsdpXseiXNTzAqHMmIMt95ja_Y
-Message-ID: <CAJfpegvjUpVROuPgG1YiCd9Eg1V8fPtrYaQ+3p_1XhiNo11VGA@mail.gmail.com>
-Subject: Re: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
-To: John Groves <john@groves.net>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D042UWB004.ant.amazon.com (10.13.139.150) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Mon, 15 Jun 2026 at 18:20, John Groves <john@groves.net> wrote:
+FUSE_SYNCFS (propagating syncfs()/sync() to the server) is currently
+enabled only for virtiofs and fuseblk, since an untrusted server can stall
+sync().  But any FUSE filesystem may buffer data in the server that should
+reach storage on sync(); the only thing that should gate it is whether the
+mount was set up with host privilege.  This series lets a plain /dev/fuse
+server opt in via a new FUSE_HAS_SYNCFS INIT flag, honored only for mounts
+owned by the initial user namespace.  Patch 1 has the full rationale and
+the security argument.
 
-> Apologies for the slow response - I've been traveling and juggling the
-> other parts of my job. (If anyone here has only one job, don't tell me;
-> I'll just be jealous.)
+  Patch 1: the kernel change (UAPI flag + gating in process_init_reply()).
+  Patch 2: a selftest that speaks the raw FUSE protocol over /dev/fuse, so
+           it can withhold the flag and directly observe whether the
+           FUSE_SYNCFS opcode is forwarded -- covering the privileged,
+           opt-out, and unprivileged-userns cases.
 
-No worries :)
+A matching libfuse change (FUSE_CAP_SYNCFS negotiation) will be sent to the
+libfuse project once the UAPI flag here is settled.
 
-Thanks,
-Miklos
+Testing: built and booted under QEMU (x86_64).  The selftest passes all
+three cases.  A separate end-to-end check on a FUSE_WRITEBACK_CACHE mount
+confirmed the point of the change: after write() the server had received 0
+bytes (data dirty in the page cache), and after syncfs() it received the
+full buffered payload followed by FUSE_SYNCFS -- i.e. syncfs() flushes
+cached data to the server on a privileged mount.
+
+Jimmy Zuber (2):
+  fuse: allow FUSE_SYNCFS for privileged userspace servers
+  selftests/fuse: add test for FUSE_HAS_SYNCFS privilege gating
+
+ fs/fuse/inode.c                               |  16 +
+ include/uapi/linux/fuse.h                     |  11 +-
+ .../selftests/filesystems/fuse/.gitignore     |   1 +
+ .../selftests/filesystems/fuse/Makefile       |   2 +-
+ .../selftests/filesystems/fuse/test_syncfs.c  | 318 ++++++++++++++++++
+ 5 files changed, 346 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/test_syncfs.c
+
+
+base-commit: 7d87a5a284bb34edb3f4e7e312ef403b3385a7b7
+-- 
+2.50.1
+
