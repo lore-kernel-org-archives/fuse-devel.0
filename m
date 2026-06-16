@@ -1,79 +1,79 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741AF1EEA49
-	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 02:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508F83CE084
+	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 05:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781577560; cv=pass; b=fucgyZJjLv2uw46oNBkxCiepIVYm1ezuRNszUs66DHX+ijgkrqCgJRYq4eS1qsZLByRkG/luhwePgz+rwG2AFHzNF2elDRMP+E1GXqE9hMPFKBeV0ZhlOVN0BlsTvRxsjNCpA4oyPjd23Nia1f76c72Xz3Ov48T0TMxLW07V4/c=
+	t=1781587712; cv=pass; b=kitgNHgtZM9tJKbyFw+fa55bAJZ/X3UajdxgPPet0XTh3Voc1yoNpdB4OaDH9P0YRVcJmHUG3lzYCx98zm8bVCDrPOrlrH5yLnuRT6lLMh7/lw+LzLkvdQPIF6GOp54JkWhKQp/kAOqDF+BBMaYz43ZKbTelzBTdoyfCabeFaOU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781577560; c=relaxed/simple;
-	bh=eFE6fZ1RsdEiMWet9YZaiG3x/gEkqKeMB0pxK+beUNo=;
+	s=arc-20240116; t=1781587712; c=relaxed/simple;
+	bh=wmzy6NTPie4E08TGFZeseoPLmqomCzYmhXyUe5m2SK8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YPnxMP4wAlJAnVA7BfQY1SrZIxxxeTinCwIdZfZuaHhpmTXR7RukbBmfAWIyM0vSqqp8lJ1hEfxuJIfVByKMYwEoXYK4yZ+8z+YymCY7Glj2NButwk/t6HDDtzfQEuKKQ12yRnZ2+3MEozDV5ZoNJiOxsVrt4Uz1pCqBoogqBPI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X8WvoNv2; arc=pass smtp.client-ip=209.85.128.53
+	 To:Cc:Content-Type; b=gkdJx8qGWxsXTRCAfxvBgHE1n5N+EpYk9S2D2EjLL5kunb7JFpvvJ4imJtYyZ94lYjrNgBb/8W0kTdYmXTeiBOBvhcmumFAeAx8/JxuPWOQtE2SzGX4a8ow6ol2jbmhFWe/TSLKRshXCvG1sH9m9G4X6Ri3sVdL0DJE/y/6lu6E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kahfgPUo; arc=pass smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X8WvoNv2"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so24890135e9.0
-        for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 19:39:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781577558; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kahfgPUo"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490ac357c55so39338435e9.1
+        for <fuse-devel@lists.linux.dev>; Mon, 15 Jun 2026 22:28:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781587710; cv=none;
         d=google.com; s=arc-20240605;
-        b=WEE4NMIFe1btC8B2EKGnny8mJLaeRn7QP08knM/jrD4QyXdl9qqxt02SUj3gARuy4k
-         YPjvddXr3fJP6VPb2fFnHfzO7HewxsT+8Rx0WZ9hmAC6zUdEM/kwcBB92fQ0ACYVnEKC
-         d92OtHZASkLwGJ0gtD1EhYevxyjHfg2DR1G17QYUfi5g9ALbIcKC347Fp4lonC2NWXL5
-         9MpAchodD3W//SjaUZixL75oaMRpRXg4coueMSMDj+CBJWhf0EK7W4VqN6K/1AF2iWfO
-         40DWufWdIL+YpIBGsnjP+1fhbz/1G3KLwjCtRoFiFYyQyQMyAX3VAek385dU14TVronU
-         ItXQ==
+        b=O6huxw6FoX01sHxlJs/O4QdjFWUPLKQQkKGGMEFEpalP5E3wZu4Y1+E6byWNRjbvOX
+         B7I0nGgMypiYRUH6XmKkJqo461/IvJYqGOAqb0BrEBOSuhsr+g4UonICHoqlEIm6KjAx
+         kxKGpKEhfvGVkBqto82Gi/gKhN+VsanpQ8fHWVpDJ8T2UUFtiuuJAC6MzdYfadzgl+8l
+         NNW13pattkpiMG0uWIVnEkP5mMkE7kIBiYOWWheWmg3l/I7ptlPbsBTdkmofcMPCLTLz
+         CUU9ENvw/wDBht6jK9nt+bNqW5h8AzWeb49BAtYgT4KawFbS705lROPgVzGlqndyYUS4
+         hgFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=DWR0p+1TpGHgQzXnq2KjJIba8MOShjDAM+VoYOEAHz0=;
+        bh=T/ZQ+VU7Dg0tzIbScBQFAK9eg1db1WJ5p4QvCQ0QP6o=;
         fh=8bUFTemOwDoWiOdOkdFFPfADoT45yqq3f7053C+zN1s=;
-        b=KCMAN616EMLMBnyiIc8eB+fWPhhx1Drs11+LAgLk2asrNoBxFbEGd5BZoWLHzvVf7+
-         kcV3SuZVlQR8QWrtyxz7lbYk0WH9DW72AtETwK6wFQbvn7djI9K/V9PBFlpZbKOwAn5y
-         GkgvM3zK13JmtFE2+vBI9NPtnotQN+EPUFPht5bF6RyvZObAqHzFtkSdkmCQcff/ZoL3
-         YIndD9+sAF3YDV9aFm/UCUTpJGO7QhiiZfQUgOVyHBQCcKPF2VeJS6bmhX1F86zI/K3x
-         WtjgOds+zMZLeZO0F7nRzA3NfNPZ9ktKHFt7+PHSh9f7Ja/t6IhUQ3ksRlojDCe/dyru
-         qaUA==;
+        b=iA9CQ0nywsDgIsj9yzlgcsuUrg232aF33BpLdXb31oXRABKm29AKEZaKxCMTUZVB8h
+         TJTFIUFH3kTmFyasXbUNCiTTzQ9Iw7b7uUOnk+knDg312RQgQJzJnclqAy1pb7fTRoGP
+         SCNv8xALbk2zHTIJ520fdBQI82sxBvs0xChRiP4g8u57Q4RDkHnb5KBKPMPXLCVLLEHI
+         o2VTO9AATNCdFtSgrZ80DvDrwvDxJQrxACMx/WaYaZ7K/zg8CmIry3yitxZJJLH8hrgl
+         liGy1bFmw0riJYGd9LcEm6PWn8+p2tVIY4lnIAWIGK+PQmPeYavDqJ7SqWLOkoOthv87
+         2oGA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781577558; x=1782182358; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781587710; x=1782192510; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DWR0p+1TpGHgQzXnq2KjJIba8MOShjDAM+VoYOEAHz0=;
-        b=X8WvoNv2p5Pl2Ft57tJxjsRYYtb+w2/S59WOjaHwlKzXcfhDtnw/2HlPKgQ7pvbmDj
-         mExoiWfnPwoMeFb6fW4LYX4p0qQLni0JDE+YHAp94K+rh7AEmwNlnGZMMuWJ9Qw3Xboj
-         gn4yxti0/GXaPq2G/2/BNhBCCwLkXSE2dC1hC8V8BGhpsiloQ6IorpVkaLxyX4PLa8Qi
-         MqK+eCOdsJKUOKGLTEKcT+rzNXJsF8hB51FH4diq75K+0/Lczi92WTMnrt0tmgkDxsrB
-         R8syvqNTCNR6J/17fYKLXQDtmZ0uY+rar4uP6zc8XP8LTciYQu4Ojzzvcr8OSze7tBot
-         YfmA==
+        bh=T/ZQ+VU7Dg0tzIbScBQFAK9eg1db1WJ5p4QvCQ0QP6o=;
+        b=kahfgPUo9YVa9GT9MmQF9Lr8VyOYnhzAbYQc1TvNmP2g0T44gW7SgHmp4FDFo6A+UV
+         8w0MLfwMLlwEhhMVi5vMBg26xB8kLeLPQ3uhLQvvsdHoENJXlv85OpPk3U0kyvqaHxj+
+         yPSleKfd24FUvA93HXhFF1ELn/SHnnKuc11QaZisAnMf877ePad0XawD/bxcrM+xGgKi
+         WQpuA2XLq3ZIvR6E5bHK+FmNSgqipp0gWrhIXX/rzcYi1E+IKgA99Xj8LVim5hnn6IQ2
+         S19Ufj0sicodIerGefeK4kSQlBVeMwE2dG+uChcSeck4WwC8d7pATaeYBoD7gBunAqAf
+         Ewwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781577558; x=1782182358;
+        d=1e100.net; s=20251104; t=1781587710; x=1782192510;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=DWR0p+1TpGHgQzXnq2KjJIba8MOShjDAM+VoYOEAHz0=;
-        b=X1rNnyjUFAc2CdtzYCxxnMjnSuZMPOsMIEcMs6hvZeRicQAxkcgXMCmYqRodP96f3i
-         ANxCv9RM60QNGJbXtVUvPinnIb6vrt2IHkkrwOeWN52gj4+kLjRNSWbTsmWwWrBZn6cD
-         /NBMZhh6OWAoTBeyHzwCb81ap0B/WSvqc7CigoO2CPOeVey53YVYrVSXRjEAxIzdY5+C
-         15t5Ag7expPRlSCA/0s9GjJwK0BvnItoW9Jv/9VDC81aTnfCDMhSCOunDuNSC/ZWBlQq
-         kQ4K+z+wxcg6IZ8FPcBvKOqE3bydNXvWRswpa6soxZxismBVzzj43cb7ZnQkD+k8CE0h
-         WphQ==
-X-Gm-Message-State: AOJu0YzDGKPejr69JXDZbIdOx9+epLh0D+qU/4E7x+afSuYqPNbKYeHE
-	lnK8MVyq3f9bK2Q55HXynkKoU4/2IxGzkL2IhcXAGnCf7AIg/btBMdx/0gA6+nGogyi9N3+bcvf
-	X7wxGL/NWdsvSWakf/QCFRwnGj37zzf8=
-X-Gm-Gg: Acq92OG+RBp0Ge/XrydcWQov8lj0jJvedb0S5xKv+LqXDjQQ6jp5uTVVgl3y2+WRy2l
-	IhL+g7dgoF7kJh5IaSiCZgHKoLz+Z0VbxBvBQWcdLAZhV9s58GRofjt/2ojtSjeLK4fiqn58BUU
-	6sEJQT/EkRp714lwmTwXiP2IshFmiEHRCyTUZhIVkpZpVAYxMY6EsSl9mW7Iit5tA5b3EFjAl0r
-	JktHJrHMa/uIQ+7gaendNpkSoJCEmx77AXkRH2A6USTCkdc2ENbDE/tw6i2gqoYBpk3BYSvNmvH
-	NpUI9hcsqCqRn0rwWBOMBE8OrHbQy6QPF6wircFAThO5s0CIwFfjk1XeAno7qSVIh+k=
-X-Received: by 2002:a05:600c:190b:b0:490:adb6:7957 with SMTP id
- 5b1f17b1804b1-490ec524ed1mr216793335e9.33.1781577556097; Mon, 15 Jun 2026
- 19:39:16 -0700 (PDT)
+        bh=T/ZQ+VU7Dg0tzIbScBQFAK9eg1db1WJ5p4QvCQ0QP6o=;
+        b=GX1DcZrPoeXIdkvPHmlU4VbfzSPcUt6nVniyE6NPFE3xEEXOJqvaKc1O7ljHAyW41J
+         +wnoXhnuiAXBuhpryZ1PtU4R1hFAK0xoj3LTOz8BI3ZqoRPJvIJJvZTidoHmwWPlC19/
+         A7sqRXEA4ygM+sl5vwNgUcVmxSif/xX9p5a845GaMj6nJu2xyU+bkQhks571LMS2Y+Le
+         QN6+KWaVwRJj+lEEeiNqKkhy2rVepR06qmWJLkvPtQ8uWpRKhYA8uvfvuV0bOZBbA20G
+         Ct1W2SJaXRnI4bYoz4qshW+BmgX3qE8UUBhGJ4OFPqRbgeoiQeGUtwlm4iLn7pTfHPlU
+         7qWA==
+X-Gm-Message-State: AOJu0YwD3M55UXUvAD7IAUe6cgt/DshFXKxMqQyeRleeOTIxguBdb3Jy
+	52jOduTI4AmXry5rPv4CtNB2wrBsSi9Fml9jJZanwrqcQsEpVpMzllPRFrSWfX1qy11E9HtdB6n
+	jlqmZpa+fp04T/a72DqZpuYCduzclrys=
+X-Gm-Gg: Acq92OFdB1VQPwWDTX/8PEJlczyDsV1KMN0m+bMiy9rZLjCuXk+g5dJdWSoi2Aqa3TA
+	QfjnfR1tYUImDge/Za2k/EtTKieM6nObwiYGwb9fkybPiEMRyR/wuN8/nhGTVa+r93rMLoUSso0
+	fB2xe58gmFAsvOiWpGcoTaySTJq0pq+WdCzR63O88v9i3TDLhyj5Dw6ve2IZtuNg649JUhPLXNq
+	gtpJ6ndJFz3Z48gqt5ckyOpGobjUhrZT3WI+odQcJnCMDrZKeukXyAOsx5QlLLH19Iosjp0XOl8
+	/7PcNKrbovQjpJZ+RV1M/6LUxM1yQfD+bibhCMRHxBIDaGf7Jcfp84EJBPKzzLFMF1o=
+X-Received: by 2002:a05:600d:f:b0:490:c2a3:23cf with SMTP id
+ 5b1f17b1804b1-4922ffbed65mr22656575e9.34.1781587709620; Mon, 15 Jun 2026
+ 22:28:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -81,58 +81,54 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260612210513.1516038-1-joannelkoong@gmail.com>
- <20260612210513.1516038-9-joannelkoong@gmail.com> <CAJfpegsHxCbhZ8v1W7KA8A+9mUwR1iXEoxDDk4vhVaPCpw7Wfg@mail.gmail.com>
-In-Reply-To: <CAJfpegsHxCbhZ8v1W7KA8A+9mUwR1iXEoxDDk4vhVaPCpw7Wfg@mail.gmail.com>
+ <20260612210513.1516038-8-joannelkoong@gmail.com> <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
+In-Reply-To: <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 15 Jun 2026 22:39:04 -0400
-X-Gm-Features: AVVi8CfM3ASJIV7f0VOfmudqfqqW-XLeCgOscJQsSjkax0Vads5b0-Jrui0dMPI
-Message-ID: <CAJnrk1YCKLPRVAhLSXou+FsicD7Zvu8QgEPYaOkNZivvp9dvLg@mail.gmail.com>
-Subject: Re: [PATCH v4 08/10] fuse: support registered buffers as buffer pools
- in io-uring
+Date: Tue, 16 Jun 2026 01:28:18 -0400
+X-Gm-Features: AVVi8CdNnUNR20DrsYvkFu6ntbgEExwofmjoQhA1Uk6oUWPwzDs9QzKMUfW3CPY
+Message-ID: <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com>
+Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
+ buffer ring)
 To: Miklos Szeredi <miklos@szeredi.hu>
 Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
 	libaokun@linux.alibaba.com, bernd@bsbernd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 15, 2026 at 5:06=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
+On Mon, Jun 15, 2026 at 4:41=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
 wrote:
 >
 > On Fri, 12 Jun 2026 at 23:07, Joanne Koong <joannelkoong@gmail.com> wrote=
 :
-> >
-> > Allow servers to use an io-uring registered buffer as the buffer pool.
-> > When the server registers buffers with io-uring, the pages backing the
-> > buffers are pinned upfront. This eliminates the overhead of
-> > pinning/unpinning user pages and translating virtual addresses per i/o
-> > request. This also allows servers to use the same registered buffers fo=
-r
-> > subsequent backing store I/O (eg read_fixed/write_fixed), keeping data
-> > in the same pinned pages without additional pinning or mapping overhead
-> > required.
 >
-> Are pinned pages accounted and limited?
-
-Yes, pinned pages are accounted and limited by the kernel io-uring
-infrastructure (in io_account_mem() in io_uring/rsrc.c) when userspace
-registers the buffers in io-uring.
-
+> > To use this, the server must set the FUSE_URING_BUFPOOL flag during
+> > registration and provide the payload buffer pool through the iovec
+> > payload in the first sqe.
 >
-> > Registered buffers require the buffer pool (FUSE_URING_BUFPOOL) to be
-> > enabled.
->
-> Is there any particular reason for this?  Not saying this is bad, just
-> wondering...
+> I find this interface inconsistent.   Decoupling the buffer(s) from
+> the seq's means that the registration should be decoupled as well, no?
 
-There's no technical reason it can't but it keeps things simpler (with
-the buffer pool, userspace can more optimally register the bufferpool
-into one fixed slot since the buffers are contiguous), reduces the
-surface area of configurations that need to be tested, and allows the
-feature to be advertised under the FUSE_URING_BUFPOOL capability flag
-during init instead of needing a separate flag. I think in practice,
-servers that would want the benefits from registered buffers would
-also want the benefits from buffer pools, so I don't think we're
-leaving out a wanted use case.
+Looking at Bernd's reduced queue series [1], I think we'd most likely
+want to also pass in the number of reduced queues separate from sqe
+registration. I think along the lines of the config sqe Bernd brought
+up, it seems cleanest to add a new cmd op
+(FUSE_IO_URING_CMD_QUEUE_SETUP) where queue-level settings (eg flags,
+number of queues, bufpool, etc) gets passed in. This would have the
+nice side effect of doing the queue creation in this op instead of
+right now creating the queue lazily when the first sqe gets
+registered. On the userspace side, this adds a bit more friction (eg a
+two-phase setup where userspace submits the queue setup cmd, reaps its
+completion, and reuses that sqe to register an entry), but that seems
+like a reasonable tradeoff.
+
+Does this sound ok to you and Bernd?
 
 Thanks,
 Joanne
+
+[1] https://lore.kernel.org/fuse-devel/20260529-reduced-nr-ring-queues_3-v5=
+-0-1dc08c2fccf6@bsbernd.com/T/#u
+
+>
+> Thanks,
+> Miklos
