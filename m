@@ -1,285 +1,102 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CD22356BE
-	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 14:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE26378D72
+	for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 14:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781619805; cv=pass; b=BegAx8J/hTXjSvBga+rfw9e356eYg8ROypGLGcRan+n5Bcau0TCMse5c0nGGsCFuK2JKkMKvkSTQO2hQff++z8zk0epcM+1jJ2+1hoN3G5CqqMKHvxvtsoz3OICKdNJW/tv0SOSac35K2OL3naOqYb9+3I3lfYIMSn8OJleqseg=
+	t=1781620372; cv=pass; b=iusWaeQz5+rKa1gE7fMI2s/W6qedvwrImMOKURuh2TpPAjFV9HO1agG475+flzJwagEktVRyzrWcfJVmGTJbGFAFv0XfAswD6lkjU/+btyh9Ane1672AMKo+YiCePsUFdG37IxDwXKd7VOplGpRwz5iIygP5SA5m+YrNl3RAbrk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781619805; c=relaxed/simple;
-	bh=fzr9lDlARqBgoOUrRCuEssIpApn3qPTWlKJ6EQG7dFM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=VAJZHd6mJFTEg0kCOsHJyzoFgUnWMyYjjCSIrmrlQdDhhxZX6BMZ/aRA4n5YblA1X65CS/6X+ZUTA1laAhZ9MFMANndqkXj89OHv6tDlF987U+gf3j9BZF8jUlz0GZkv7utpixAlnYS6ZJtgkKtY8wxfbzmJPnEBEpHKTr8Qj5M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=F1ODmxtj; arc=pass smtp.client-ip=209.85.222.179
+	s=arc-20240116; t=1781620372; c=relaxed/simple;
+	bh=qYf76rQcTsdQm5oNAXF0ipWi+KiR+RGX2BosUuLXeh4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=N7rnnsqyONPxdjPeaoJD4mNI0pvWjH5CGw8RcKr482pzx858lDPwOIqIXbwhqxqcsdIcnELTao9QZELxstINhWBHQj8nqNMTJHzYMQ5ms7zyio62gLDwyHoqv3MbiggibCfQpsYg5jVmpZAiWrijNZrz6JUbjeamSSYsNuvoWwE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Z4PQc34M; arc=pass smtp.client-ip=209.85.219.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="F1ODmxtj"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9158643e538so417286185a.1
-        for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 07:23:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781619802; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Z4PQc34M"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8ce9df31130so68779776d6.1
+        for <fuse-devel@lists.linux.dev>; Tue, 16 Jun 2026 07:32:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781620370; cv=none;
         d=google.com; s=arc-20240605;
-        b=VTp2MyEcA6a5l90+eFgWp7gVbZW8eNIwDWq9Y1D9Ck5zVCS0onr7CQGYVs7K+ItW7x
-         bWbk27kcJgp+QYg233NhUW33fhE722CAc/jU3dDtS1mQNiWsk5dq87K/aZCNsN22JDe+
-         eD80+tMUlwMI38lGkxxgH7qgLj5fIC1CUiztZRnJVZemda7EvVEMb608U42ZXQvaFnSc
-         dqO6h3U4CO2jU2PQEI1p3FQxl9OT/LxUJC51IxGo5RsLHgqEOsY0d3Khy+1G7euP44sV
-         mmKQMlGbDbGFNm2vVVf3xtPpDrisVFN09oBjws98RdZGl+ZqFoRAXoX9WKgYCkZkU15h
-         2eRA==
+        b=WJ7aulUdaUUglsgK6lDAzZ71QH1mrAWuduOJqcbG/YWHh7cFuMjwJbyE0nFC/0gFQW
+         VIkS2wmvmE7BbDDjxPCy5czxuSZUsSqQw2FxcRA24pCxhcgT5FOAYO2kXutdf5ztY32F
+         UEai5+Wzka/CZ4523x/I+Lc6xk1FWZjlCE6BuP0Z2AIkjy7d8DuvqqPEI81fTjhi8Aay
+         h3mAmLh8ZJbApietmiBQoNJ/rhiLicmLgmt/gWmnjwuAmo6BPYOlL/qyC5MUYEernKJd
+         /c4MWZVJL/Wg5Vc4WcvI6aZKUKAJn9B739ObFiZxQN4ajUfCH+tMiRVvAJxMF7mFepxa
+         iqcw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
-        fh=MZA7mbopiLyyybBrQSM5hrFwhdOc2m72/9sG0Le4Z8E=;
-        b=f13fLOoHIairyWz5x0CqTyGqmMBk/Gy3GB9zsZip+HStYMAX/CZVNVyjnuJZ/8eZbI
-         g8uo+N8giaBG+55dcEk6aX9tNW315OFF00xjgeIJrHe0o2oaBszRlsshE/dSoG/4ALm9
-         caYeGX/J/tF8P20h/r3eeoXFCxLLLuDOZNwxg03Z0V7Jqo5+FNqO8pTarNtwPb3+uw4/
-         Z4Sm7RsNea1Wxc2mgH6O8BL43xRRZ0BeU57XlrZCAkgnT900x1C8xeg289cCieG1UDV+
-         0Ye38Ak6XG4lIQa4VMy+3LvvTWpmtYbZExlHUIjtJ1p2ZAkpY0m8riQjxNLHX2hbEKfC
-         Wozw==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qYf76rQcTsdQm5oNAXF0ipWi+KiR+RGX2BosUuLXeh4=;
+        fh=uzU81CIwrGKfsULqPeXiktajouTgWaFAMqVjwuFOsbY=;
+        b=I23g6P82PsdeqHfdKJpKLD5nCE6OnY0TZqMSlSNlwQkRIgSVJlTGMgLBZm50jm75/V
+         tFl3a5UFlHVio2ClQAx7/aSdZi6g4p06phCISZVwNcEJTlgzj4+JN0QPipur1mpYkdKX
+         /kBuKMwCf7OQm9pIoexEx06Z4A81TfIiPX6pOp3eGo+URXDwx63KJ26ES6y0pMvrCOem
+         276mN4n04xNHCqA5mD9euDgCacAD3VWIf7hCVilQk4+FyWw3hKcZSaGsHFucE/c7GB0+
+         XlWY8GLIsRU6GvwGjKgrfqEgbNfSKmb+RV2QcT55n+Zgx8xGs/3y1wr2dZDN61qtv0GH
+         eFtQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781619802; x=1782224602; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
-        b=F1ODmxtjT1pR/yaO8+jDN9azujRvvCm1Sv8jvzzeolgQu/qiycJQk4cMhp+4wmguG0
-         0UbC6NulbZAsndd6I0cC28hqyMZVqg8BVRERpnkaSErvjmGiiRbLTKcu1CILB613sNaP
-         8HGeer+2OBhcRwqnmU2PUzBc8PqTBmUWs/FRg=
+        d=szeredi.hu; s=google; t=1781620370; x=1782225170; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qYf76rQcTsdQm5oNAXF0ipWi+KiR+RGX2BosUuLXeh4=;
+        b=Z4PQc34MD9wuWYCUH/mhc0aMQSb+2C7Bk+MHFuj9ZKlS3fBn3zA2JvUcnONQjAu4UT
+         Pp+ujO7dmvaViKm3dkg20DeM3cRh7MfJ8MtW9nDQ8w2ErtfSqIMZ2sEvTeOsh5BwuP4S
+         H2cYcCV2aldY5njgA7zaIjPh36G4dbfybN83Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781619802; x=1782224602;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MIq6a2DO3PE+G10OnlmjuAsTYc88sw31FWk5LO5QiDQ=;
-        b=NIGb//Ci2v7zezJme4r+/fECtMdsB5mctxioQl7Wov4z0XjR0UeouvcabRwUD+ubiA
-         6ZTrOvcNBZfxPkL2B9yGfiNNsupxhbYCqNYug8PpTRWpDQYjSA302fPmcKDcP7989qst
-         430wW5fzEavAjJH2I1PDzzAx/g0ATX9az/CU6EWiIUu6TAw0PEx81YNAPEXQceRIKYrU
-         p3ZwLWtL5QBQcfy8ujvkMfLwzJHubjXa8cWPzscyBDV+4W6F0jX3BEgAn1YKWkwCXEhN
-         Yjp7DwGH1lFt3KmgElUqUMj5tT08tRCnP8qwny40wClWhJs7LnMaooBpqqN4SJDwnczb
-         ToLg==
-X-Forwarded-Encrypted: i=1; AFNElJ/lzkDmJQ+FPgRGGvQZDMHroSricGRRDaosGV2G/yB6/APkUoWk883Ox/c8H6BxbGVH/YJyZKnOmiuG@lists.linux.dev
-X-Gm-Message-State: AOJu0YycrNBYu6DzLxfGDLGLT+6cbWQcLlG9nDF6U0Z+cxhw1ikFJ/lg
-	c+0D8oQ9LlsEVYoHi+bEIdy4tn7JytcyM1yWg2kXg8rgXA1oFq6Rhr6YwXFFPV3SDRhVpJYAQEo
-	V4ws5xlL6khC26G8/NBXhR/zi1Gs2+y0n26Y49DLtEg==
-X-Gm-Gg: Acq92OHllT6mcNdzC9s61Pi4Qe39bA7Dc5Zut7Kj5pyVcCorUCOmII+pJrm5afj86lP
-	az772WHi8W18uQHK4TFCrdHZXYWFW0itQs1hjkWTMZ370p4LpjJwQUF+G1xy8GMNfAzcjUBkoZd
-	y6A/QNBO0jgGn1RWD5sKQLcPAWwGZGhtZNKrHFSLuspM8VpS0vATrSJQK9rjVn5d26m7/AJhJHU
-	jJLz2tDzxXuLj/b/KjgKYSyVuTCp9TxG4feAyDPpBQp+4PphD6hUtBZJDZT5RyBCPdyoJbyiFAz
-	5tmUS/LMZQ0NdrNODPdGivrCpANbtiwng6M5ig==
-X-Received: by 2002:a05:620a:458b:b0:915:8f76:8029 with SMTP id
- af79cd13be357-9161bf6c39emr2784387385a.44.1781619802196; Tue, 16 Jun 2026
- 07:23:22 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781620370; x=1782225170;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qYf76rQcTsdQm5oNAXF0ipWi+KiR+RGX2BosUuLXeh4=;
+        b=DInnNyS9E8xooHsa9muEJ5cOUgNqReK2Gx7rEJJa9zXaln/fTrfFFSg69cO5SkWk6e
+         gi+yd0ALXkmx9s7iXZRxa9IbBMfxbkyZ6M39NUsLRaiG71yv+kEcKQRtM6yJTU3P0/m/
+         hFxjjVrVJuPanPKFDSH1vCPVDP2j0fxKF7WmbCpUIrtlEvit7oI9UkJM/Ti2AfVLo3mK
+         +j7DWWE/VDdxDHEPAeF/jleptSLXLDoLzJq5QGVGlLDRgGHScLrgvtbls0/JSgRmX7/W
+         nqNHH/IQDe2B5v99ju1DauIdx3h6qcyrZmCcaeNp1DS2GRUdYGPrzPVRxTU4jzypAMAl
+         L2Nw==
+X-Forwarded-Encrypted: i=1; AFNElJ/NlrNt9VzflSoHzvldlMELiMz+ib5DI6poduNJ0lgbOk/jQNUIhH+COR/FfUqKJ5UuL1F/XWL4ys2E@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFNK+WetO161Mkw3EcuTR83Ovb7t26TsXbOVNtQVihzwQQ2Rrv
+	EZ/xDlZZKhZ+5WFSmOLg3ZXWDmS0vyjOojpOQ6BK8OkimIdjU9WnzUxkB2tqFQ8GBRDbLhA2dAt
+	/NCCFzhNZQNewtnbPLS1fPsQcoNU7R+QmMfGO7AF4lQ==
+X-Gm-Gg: Acq92OFV3Sam1qKhg9k7nOZZglZPZJ9E3vgaDZ4u1voJbVXBtfb8FmcE81i6ADHnNRd
+	QZ9QYbLt7aGkSylgs1Tf9dx5uCOKHl5XzC+f0BBbvf9mp+dqkXcsxxgZa+Sis3CYmZ+a2n4wEwQ
+	adaxIMr39uXQEIbUZSxuLeA+KZxMMwcqwAQcHUo15cFAsppXpQrZeRG6tCnnRAqDZOy5L1tyLP4
+	K+rDXJRIeLBuSBx2cy3iwR+ZpsBqqQH82W0exH3bdBS15CF0mdAE0EOF2kJZc3NKB2Flnpc73MW
+	0DVuEK/WHFRRCtThfIGSonmJj1qf1Uowi1A+Iw==
+X-Received: by 2002:ac8:5e08:0:b0:516:d557:15bb with SMTP id
+ d75a77b69052e-51953554bd8mr239431781cf.46.1781620370090; Tue, 16 Jun 2026
+ 07:32:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260529134302.1989958-1-mszeredi@redhat.com> <ah5-40YypaswEG-1@groves.net>
+ <CAJfpegsJj8cZ=CXL-VGeVDOayAeTzstWJgvQye3N+sudHJ5L9g@mail.gmail.com> <ajAlcVPGa7ytSWOm@groves.net>
+In-Reply-To: <ajAlcVPGa7ytSWOm@groves.net>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 16 Jun 2026 16:23:10 +0200
-X-Gm-Features: AVVi8Cd0AIeavaRflbghiON-bTSlFxcP2divx-eLpYAEhK8HTWW3Md02x4TkOqw
-Message-ID: <CAJfpegtvWRiFQWzr9eXN5gr6cAwwR_wqqRy4K-nyvg3B7u-vrw@mail.gmail.com>
-Subject: [GIT PULL] fuse update for 7.2
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-fsdevel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>
+Date: Tue, 16 Jun 2026 16:32:38 +0200
+X-Gm-Features: AVVi8CdzKNX6pCMQRYh8T-XAvu5h6XuOLr8CoGsdpXseiXNTzAqHMmIMt95ja_Y
+Message-ID: <CAJfpegvjUpVROuPgG1YiCd9Eg1V8fPtrYaQ+3p_1XhiNo11VGA@mail.gmail.com>
+Subject: Re: [PATCH] famfs: FUSE_GET_DAXDEV -> FUSE_DEV_IOC_BACKING_OPEN
+To: John Groves <john@groves.net>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+On Mon, 15 Jun 2026 at 18:20, John Groves <john@groves.net> wrote:
 
-Please pull from:
+> Apologies for the slow response - I've been traveling and juggling the
+> other parts of my job. (If anyone here has only one job, don't tell me;
+> I'll just be jealous.)
 
-git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
-tags/fuse-update-7.2
-
-- Fix lots of bugs, most from the late 6.x era, but some going back to 2.6.x
-
-- Add subsystems (io-uring, passthrough) and respective maintainers
-(Bernd, Joanne and Amir)
-
-- Separate transport and fs layers (Miklos)
-
-- Don't block on cat /dev/fuse (Joanne)
-
-- Perform some refactoring in fuse-uring (Joanne)
-
-- Don't use bounce-buffer for READDIR reply in virtio-fs (Matthew R. Ochs)
-
-- Clean up documentation (Randy)
-
-- Improve tracing (Amir)
-
-- Extend page cache invalidation after DIO (Cheng Ding)
-
-- Invalidate readdir cache on epoch change (Jun Wu)
-
-- Misc cleanups
+No worries :)
 
 Thanks,
 Miklos
-
----
-Alberto Ruiz (1):
-      fuse: fix device node leak in cuse_process_init_reply()
-
-Amir Goldstein (1):
-      fuse: add fuse_request_sent tracepoint
-
-Bernd Schubert (3):
-      fuse-uring: Avoid use-after-free in fuse_uring_async_stop_queues
-      fuse-uring: Avoid queue->stopped races and set/read that value under lock
-      fuse-uring: make a fuse_req on SQE commit only findable after memcpy
-
-Cheng Ding (1):
-      fuse: invalidate page cache after DIO and async DIO writes
-
-Chris Mason (3):
-      fuse-uring: fix EFAULT clobber in fuse_uring_commit
-      fuse-uring: fix data races on ring->ready
-      fuse-uring: end fuse_req on io-uring cancel task work
-
-GuoHan Zhao (1):
-      fuse: use current creds for backing files
-
-Ji'an Zhou (1):
-      fuse: clear intr_entry in fuse_resend and fuse_remove_pending_req
-
-Joanne Koong (17):
-      fuse: don't block in fuse_get_dev() for non-sync_init case
-      fuse: re-lock request before replacing page cache folio
-      fuse: re-lock request before returning from fuse_ref_folio()
-      fuse-uring: fix race between registration and connection abortion
-      fuse-uring: check connection abort during ring creation
-      fuse-uring: fix moving cancelled entry to ent_in_userspace list
-      fuse-uring: remove request-less entries from ent_w_req_queue to
-fix NULL deref
-      fuse: fix io-uring background queue dispatch on request completion
-      fuse: remove redundant buffer size checks for interrupt and
-forget requests
-      fuse: remove stray newline in fuse_dev_do_read()
-      fuse: clean up interrupt reading
-      fuse-uring: separate next request fetching from sending logic
-      fuse-uring: refactor io-uring header copying to ring
-      fuse-uring: refactor io-uring header copying from ring
-      fuse-uring: use enum types for header copying
-      fuse-uring: refactor setting up copy state for payload copying
-      fuse-uring: use named constants for io-uring iovec indices
-
-Jun Wu (1):
-      fuse: invalidate readdir cache on epoch bump
-
-Konrad Sztyber (1):
-      fuse: reduce attributes invalidated on directory change
-
-Li Wang (3):
-      fuse: drop redundant err assignment in fuse_create_open()
-      fuse: drop redundant check in fuse_sync_bucket_alloc()
-      fuse: use READ_ONCE in fuse_chan_num_background()
-
-Marco Crivellari (1):
-      fuse: dax: Move long delayed work on system_dfl_long_wq
-
-Matthew R. Ochs (1):
-      fuse: back uncached readdir buffers with pages
-
-Miklos Szeredi (36):
-      virtiofs: fix UAF on submount umount
-      Revert "fuse: fix conversion of fuse_reverse_inval_entry() to
-start_removing()"
-      fuse: do not use start_removing_noperm()
-      fuse: move request timeout code to a new source file
-      fuse: add struct fuse_chan
-      fuse: move fuse_iqueue to fuse_chan
-      fuse: move fuse_dev and fuse_pqueue to dev.c
-      fuse: move 'devices' member from fuse_conn to fuse_chan
-      fuse: move background queuing related members to fuse_chan
-      fuse: move request blocking related members to fuse_chan
-      fuse: move io_uring related members to fuse_chan
-      fuse: move interrupt related members to fuse_chan
-      fuse: split off fch->lock from fc->lock
-      fuse: add back pointer from fuse_chan to fuse_conn
-      fuse: move request timeout to fuse_chan
-      fuse: move struct fuse_req and related to fuse_dev_i.h
-      fuse: don't access transport layer structs directly from the fs layer
-      fuse: move forget related struct and helpers
-      fuse: move fuse_dev_waitq to dev.c
-      fuse: remove #include "fuse_i.h" from "dev_uring_i.h"
-      fuse: remove #include "fuse_i.h" from "req_timeout.c"
-      fuse: abort related layering cleanup
-      fuse: split off fuse_args and related definitions into a separate header
-      fuse: remove fm arg of args->end callback
-      fuse: change req->fm to req->chan
-      fuse: split out filesystem part of request sending
-      fuse: change fud->fc to fud->chan
-      fuse: create poll.c
-      fuse: create notify.c
-      fuse: set params in fuse_chan_set_initialized()
-      fuse: remove fuse_mutex protection from fuse_dev_ioctl_sync_init()
-      fuse: change ring->fc to ring->chan
-      fuse: remove #include "fuse_i.h" from dev.c and dev_uring.c
-      fuse: alloc pqueue before installing fch in fuse_dev
-      fuse: simplify fuse_dev_ioctl_clone()
-      fuse: expand MAINTAINERS with subsystem info, update mailing list
-
-Randy Dunlap (3):
-      fuse-uring: drop kernel-doc notation for a comment
-      fuse: fuse_dev_i.h: clean up kernel-doc warnings
-      fuse: fuse_i.h: clean up kernel-doc comments
-
-Samuel Moelius (1):
-      fuse: avoid 32-bit prune notification count wrap
-
-Thorsten Blum (1):
-      fuse: use QSTR() instead of QSTR_INIT() in fuse_get_dentry
-
-Tim Bird (1):
-      fuse: Add SPDX ID lines to some files
-
-William Theesfeld (1):
-      fuse: convert page array allocation to kcalloc()
-
-Yung-Tse Cheng (1):
-      virtio-fs: avoid double-free on failed queue setup
-
-Zhang Tianci (1):
-      fuse: set ff->flock only on success
-
-Zhenghang Xiao (1):
-      fuse-uring: clear ent->fuse_req in commit_fetch error path
-
----
- MAINTAINERS              |   26 +-
- fs/fuse/Makefile         |    3 +-
- fs/fuse/acl.c            |    4 +-
- fs/fuse/args.h           |   65 +++
- fs/fuse/backing.c        |    3 +-
- fs/fuse/control.c        |   20 +-
- fs/fuse/cuse.c           |   32 +-
- fs/fuse/dax.c            |    2 +-
- fs/fuse/dev.c            | 1361 ++++++++++++++++++----------------------------
- fs/fuse/dev.h            |  110 ++++
- fs/fuse/dev_uring.c      |  491 ++++++++++-------
- fs/fuse/dev_uring_i.h    |   47 +-
- fs/fuse/dir.c            |   52 +-
- fs/fuse/file.c           |  220 +++-----
- fs/fuse/fuse_dev_i.h     |  351 +++++++++++-
- fs/fuse/fuse_i.h         |  872 ++++++++++-------------------
- fs/fuse/fuse_trace.h     |   26 +-
- fs/fuse/inode.c          |  270 ++-------
- fs/fuse/notify.c         |  434 +++++++++++++++
- fs/fuse/poll.c           |  141 +++++
- fs/fuse/readdir.c        |   94 +++-
- fs/fuse/req.c            |   99 ++++
- fs/fuse/req_timeout.c    |  148 +++++
- fs/fuse/sysctl.c         |    1 +
- fs/fuse/sysctl.h         |    9 +
- fs/fuse/virtio_fs.c      |   23 +-
- fs/fuse/xattr.c          |    4 +-
- fs/internal.h            |    1 -
- include/linux/fs/super.h |    2 +
- 29 files changed, 2776 insertions(+), 2135 deletions(-)
- create mode 100644 fs/fuse/args.h
- create mode 100644 fs/fuse/dev.h
- create mode 100644 fs/fuse/notify.c
- create mode 100644 fs/fuse/poll.c
- create mode 100644 fs/fuse/req.c
- create mode 100644 fs/fuse/req_timeout.c
- create mode 100644 fs/fuse/sysctl.h
