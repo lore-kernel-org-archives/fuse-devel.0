@@ -1,79 +1,75 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE9730FC1A
-	for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 13:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B2A2E7362
+	for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 14:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781703579; cv=pass; b=VfTFN99GA8WNyS/9oduEFY7Z3KFrvKQM03HqOLnuneb9BdUPrmI9d4uD9K+dLgJQk2MM38k0anaU9MvLajMCUvNBGd8/qUiN2NQvRURqEHrjs0M3yyIjseF+q+BJE1SRacuc29dnfqbqiSLXzWhzGqS3A27mBIy+FJkncL+o74g=
+	t=1781705243; cv=pass; b=pOKs2i5GGYeWtfZ/lf5bqIfKkqDwDaGX7EFb3MxBv/9L7GfyvwEKtT86IuPz8hEDPVyV92HnjcSvZ3sZEfnhh46/+tc1L1gt1X8yFEMT3uJu78BQXtkwmdg4Yw6b7Ko13Ykr1Pu40D1dLPyZ/QZL7LimYAKQXB9YdNZf+G5/mKc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781703579; c=relaxed/simple;
-	bh=c3xewMDd2ASD9ODfQTPkB6kGdjcrp5We4edlhEwNJP4=;
+	s=arc-20240116; t=1781705243; c=relaxed/simple;
+	bh=VPCWM17BzQsqJdYXmV3MoUr1JZSJ+q1a9MCu+Hsi26w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H142IYRFf6oNdaZ/MpXpFUOfamuggsHDnGCaY1Kr/DKXhy4tXu6LGSOpAO+/nyZPquBarS6C4X/UH+1HaCq82g+y6X1qJ0QO0h/ICjGPWqQrseHkKPy+RCHfuZsMxk4CkSHprkiASVpVFIEqTfgKpqt96gzHvmO8CxAFPzPtzqU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXnx18Bp; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=KTCWs21ICooBsO9rHnsV410hjnaEbNH8cbkGM4xevPIUgbWw4agJYAKX+x1fBVxSLXVySmcQCdK3tzYGjuI4CE0PQS7uoY8m+zAyvU/loHPmnmwrsv/R8V9+XUoEFP32u64qd46zQFbBtkEgVSAO3EKLueJ/YU3P2mMusTH4DlQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Mlw9jwS2; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXnx18Bp"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-462342ac290so1133310f8f.2
-        for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 06:39:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781703577; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Mlw9jwS2"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-517907feed0so10157011cf.1
+        for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 07:07:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781705241; cv=none;
         d=google.com; s=arc-20240605;
-        b=QxLVdQp1NirhgCobVwBucpoidd9L7KFRiQvzBOcj7io2j52PQdwNfjodaU8GG0MA+Y
-         EKFvh6IrvHTUYKuEOrEYgVPvAzDnfvMOFhqOWb2v4G36MzSg4CwDVMTFUt8MjzIY5WwL
-         /CNL2Fh+PiCzmEx6lObGAz+aISGVeFqW+k/d3mF+S1bTlzGGQwOMLmfctPSeCM+zgqYW
-         IotmG2Nks4InZNnQd2GtcNS7RYaaCRHzoGrL/nu745rxzAEV747a7JE0v8q432GNss6U
-         ODVQR0WCR9pMJEtoPPzjMLLOL63Rz5LkVNvYcy9uhtr+iadB60CjbfQYvrSxaNfM0jmF
-         WFMw==
+        b=aQSFT6eJDbUwPhrTTPJfxfluUhzWRSPZjyOTmP+IC3Y/CXNRzvG1HxKqjF/MYbxvzg
+         OQSqFlZ/3OpzFnmnW9pz9Q58zHMG2nca6zAG015+S94x0C3w+K8kiq2XUIAPqI9iYvNC
+         vWb8YOxo8zefyXRO6U7T54JLdVcYT/9CyxPRPj+/kh9y3jO6jO8QPqrFsDCA1fISa0Jw
+         kNO4grW/oGYdfZQxP6uo8QjRXmYBw1MCRiEbF1kHs15xXRUOU6mWEet4agFNPdhuqHaL
+         pmxthgFaik6T6YoCfWMbsOcamxG+2i27XwQgvCrlTW3+kr4GTF3dQz1jK0CHAYQZ0Rr0
+         sQLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eUMzpz/lXkoHEzQ9GeUuLE7VjwybxAwudZlI2/qprao=;
-        fh=8bUFTemOwDoWiOdOkdFFPfADoT45yqq3f7053C+zN1s=;
-        b=EaFdidFeKGTkz1+FdMz5YiI+kgS1K2qhB5EIMLYnGbu3xPhqQxvBy+s0SEllUedV1x
-         +eWhsIHELZTmE+M1J0UnK8gKoYZP4CYtY1NIDCdURppPMJ5yJnkt2VX9GdeM+4gF1euz
-         3ugMahHEsUlLxz59Hxjwp+Sl8yjiAq/tuZlgQrx7rJ1NJ6JP0btoS/lcdXxG6r7m6nHL
-         2DTghOMwZ2sHWsarrUC8ChpaK75btpNLR3ZVT3a2y0rQV4JZdaMaAbXqyzGd4VVWxWxk
-         ulfrRF7ZbuIkYWOiV4wTkhLvwcfjusVr4iStrmjRa+dL4+HttE7Jdk7G5+/CssJS0Gjq
-         JwcA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=VMA/OCEQ5sEXffln+iIl4mymLuBDT0EfTXL1eKqc/Zc=;
+        fh=w2Dy9MBCymTAHXuuQoFoyTRhGtZ+o5YcX5Bg6rpudfc=;
+        b=a0NVGHvT4VSOFaWkEZvGBbGQ8WI2pWsIrFmBNM8Ybnzbmp00NZqgx+2iJbJo7iFZRl
+         ZSQfdvESXd7z7NLaZcg3kM03ld6d4d5L4dbP4xgRwgS5fuL7eQizpb7HP2PL7hn7uTNM
+         zZlYhkfPAZPTk8OLCQ5ufRho8QX7F1DGY2NcYri5SPjam22oiO9mhBySC7riUKM3KlFc
+         HZYfq+ZK5ZKOhRhrfCg28U7nkws0riEZowzscWdikjZRH81YLHj2yJNpMvvECmSkXjmT
+         I21SXWGugrj43cIlaYG1DnGzKq96GIM+nyoUb1yTEz9+q5YbVQ7ffW7q1jLnh06RBBfT
+         sLJA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781703577; x=1782308377; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eUMzpz/lXkoHEzQ9GeUuLE7VjwybxAwudZlI2/qprao=;
-        b=mXnx18Bp6T4FJvHjov8mnZ+UWQXDS3G6FG/jjD1eXcoXInpffJVj0RZzla8dDhP753
-         NvTvygrzNeQVbhqlq/i0n7lkE9IEX/YsfLRtUREDDYeS6EZNctcjvBd5Yj78TL3H8G+Z
-         hThQKppNglWkY6KQjTLoGQAzz1/nDf4aRoKZpbMO+1/zuc0HIQbKEK5vkNYY6unVyYWP
-         cWfbCET2/C4kKTM5b9yRKclKJ1Pmwor1xGDxR/58mcX7l3MeC0v0RC2YQlFKaK76v/6V
-         rKCCMR98hypxMf6kL4ddCcVcwPfX/vXx7UwSbdCm1Q3p2Hf5gGpW/dB40yIjgiB3JQjw
-         2dxg==
+        d=szeredi.hu; s=google; t=1781705241; x=1782310041; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VMA/OCEQ5sEXffln+iIl4mymLuBDT0EfTXL1eKqc/Zc=;
+        b=Mlw9jwS279ngLqFNmZayvjyOo3A3aRGgieqOzALntl6hVaByTgTXlbQ9UgnnlubMm2
+         cvJ/OSa5hZCUpWtlbHhL25BQCL9Nxqw6Au0/1CQxBhn/mm8ptcs9bBXupfLrB5XTLiq9
+         f/twemRMlFlVz3d/SbI+bTR9vZ24NDn87yz9I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781703577; x=1782308377;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eUMzpz/lXkoHEzQ9GeUuLE7VjwybxAwudZlI2/qprao=;
-        b=CvydX5hagt2rmx+GhYNigVdbMjG2xdqxD7jG8TSwvOuh0quO7XeKtIFD443aTlMtB0
-         f5QKjEdO/pjMrwyv12+c6NllbKtRgAupobpyVfWLyC2JmYi7d/rZZfquGXiRyPJP4pZu
-         MFYZSdlE2bT7qdDUc48SM5Ro8Cpc7kLxJiEVojvO8h04BGrFlBgWn/6hcMlA9YG8Jf62
-         yxv9YdGS3v2gxogc3ZNPNDkDwZ/BgBj5UeiEwZ4v9YhsOFakbORi2K6sgjKPGJy//e1Y
-         6akrNjvwoLeF3sP58lyNTlh4yZlt8JS1/gNP9IIKTxUkbls60AROW1bIKU0J1Qwh6yjK
-         CBxA==
-X-Gm-Message-State: AOJu0Yx6Y6dhrwKQxtVl2a0O9QeLl0CqF2z91k9bJb4lb4uwHr9vAwjQ
-	yWTMrbxpPYjRd3gKIdKgX0ojd9x1d7vvHHnCH2n8KeDZslnqDPqfOlPr5hb/1THiWXgmn2ICmyq
-	i+fxDReMjnAJiKvnPYfbbrvC5l00z4XQ=
-X-Gm-Gg: AfdE7cmoyuNnjR0AObB4NG/gmT/ldE/GAqXMnk160nbvrnYilAfBHxdjwRN5+dW4zq3
-	SdEEmyKaRhBK2B1zPiWcxpkJ4VUO+fESZ+yNlNHgLkTep89Y6Fj1VdbCwN2NrgJLkJCEwKXAXJc
-	Qd+n42IYBzusnxmnj/I4FqhV/HifI4bKxk4lpuET4Ny5xAl2Y+aYIE1Xyl2ZQ8jiqj+COBHLSCc
-	Y7weMKPoKTrrzZgjnmflOdYdX8mnJjpBY0iLmmvEQHMCKsXkKP824Z/UpzYr/wy5thwEXtz7TMQ
-	rcBYXmaVCDtNbNoPHUXFGEf5n8FLtqVcBmIPgH/0k1c/odtGXTVOzhDI
-X-Received: by 2002:a5d:6f1e:0:b0:45e:ec27:b4b0 with SMTP id
- ffacd0b85a97d-4623f8b42a5mr6203211f8f.18.1781703576762; Wed, 17 Jun 2026
- 06:39:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781705241; x=1782310041;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VMA/OCEQ5sEXffln+iIl4mymLuBDT0EfTXL1eKqc/Zc=;
+        b=jkycFhTEWEahEqnWTEW2b63q1NDSGSk2mJQKi95dxSSi1VfSEsqdAJHGxgAyz5JECe
+         3drOYSpK2wGStEwkM661DpEqFqR19dOl4its7JSIDm46qAwfW9R+WbdZlUcHNX3+kapf
+         vM20MJwX88QhKGxZoURfy1LU3pHReZ8a1NACXeKRnBzJnP3v+YbS1W3nd6kftHdY7Zwq
+         B/t6ntFLgP53vdfgoeF4oS/gcw/RWKQUIuz51l2wHECeXXO/+piK7ClVQJ2NSDw0S2Df
+         lw4nPl+sUK8klQ8bmDNj2yoxg9cudAPPmqQNjInoDoZ66PXx3B7fnXTLfVAi6WGZ+cv8
+         87FQ==
+X-Gm-Message-State: AOJu0YzRuUS7aK0i1jWncUkW0aYbURwjXbZ60ymHGsOFkqJInIjSaDXJ
+	W/jNu7ryA2DeUK/jH+sEjOCJVkfG8b11yQjHvRWRSMmiBFTx/iBjS65iSNjGKdOb7o67GYVWObT
+	qWLi3cr5mzXVvOYwluTTAs+RWptJywKec2ulUQLNcsqhQhaWyfvJ8
+X-Gm-Gg: Acq92OGgv9thORkR5Dsv+ZUwnqmkY72/1wHsrK4JJGcaL6G32IZ8YrR4EO546lsaNWn
+	H9JXaB5asa+rm4GeJ+s7Iw7MPV4IPg8IzkeG7W4FCvSCijb5tb+InaowWFu1aje4f7XxyhMs9RA
+	uTgFR1Tz3pdxaQsXl8MUeRz4HIlNERX0Jn9GH/6GoxOAh/2fOhEyB7b86FmWeq0J8sb+8v53CWm
+	WWgahp27a7Fi4u2chc1SS/pXMMVLzDMjyaX634kPzqBvgPZO2A+GlUsIywvfcl3W2RMWNzlmuig
+	a36Kr8v6Q3Css3ToLu+n9WB7GgQ=
+X-Received: by 2002:ac8:5f96:0:b0:517:5bc6:b575 with SMTP id
+ d75a77b69052e-519ace9df10mr37017161cf.4.1781705240827; Wed, 17 Jun 2026
+ 07:07:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -81,56 +77,34 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260612210513.1516038-1-joannelkoong@gmail.com>
- <20260612210513.1516038-10-joannelkoong@gmail.com> <CAJfpegs+EY+eCDOkBgVWhUyd8hBLE3bFY2oaum-k_tS=Cv2SVQ@mail.gmail.com>
- <CAJnrk1YiUn3JFZCEe5oADyK5+zx6Rh_6KTZbCzeHUjAebUVQBw@mail.gmail.com>
- <CAJfpegvokfiN4b1tEd+fAPfO8n9hSQKeXt6-UM1OzxwHYA5-hw@mail.gmail.com>
- <CAJnrk1ZTOcAP85qYpFz6w2TPBK+WMdT1B01T5O_gL68BYAOvCQ@mail.gmail.com>
- <CAJfpegsixwxHLTMhz6uH=ssvETM4zZOS24x5qUM8fvBHTE7Zrg@mail.gmail.com>
- <CAJnrk1afks6eorKTSm__CBMhPcg8v1Cf0gFPVnFDWmfBKMBaew@mail.gmail.com> <CAJfpegtzu-M7+u29_Ck1hGHxDQiQPiz1uqOBs_QkCjSGtjMm9Q@mail.gmail.com>
-In-Reply-To: <CAJfpegtzu-M7+u29_Ck1hGHxDQiQPiz1uqOBs_QkCjSGtjMm9Q@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 17 Jun 2026 09:39:24 -0400
-X-Gm-Features: AVVi8CcdcGOzBJ6JkDWwBuL27WaKQQqc0C9LNcMPe0Ccbize-oapGpApKz_Y0aU
-Message-ID: <CAJnrk1b4DRgf4kxbZfi3e5ntHxKDgiZMiVNFR26ps1N3QPzpbQ@mail.gmail.com>
-Subject: Re: [PATCH v4 09/10] fuse: add zero-copy over io-uring
-To: Miklos Szeredi <miklos@szeredi.hu>
+ <20260612210513.1516038-8-joannelkoong@gmail.com> <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
+ <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com>
+ <CAJfpegvNyqSS2h28-0sB2j2HUoMnKd7StMsPbvNPz67PiS9w9A@mail.gmail.com> <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 17 Jun 2026 16:07:07 +0200
+X-Gm-Features: AVVi8Cco6ezNzD0FoN_-HczZJ1Q8Lo1vwqIv7m_SqXQU5MB70prwfk61KsymVUU
+Message-ID: <CAJfpeguq+LVHoyC7ZzkF_VSAQdqmQFw4DBztiQA1Jfy=U+D9wA@mail.gmail.com>
+Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
+ buffer ring)
+To: Joanne Koong <joannelkoong@gmail.com>
 Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
 	libaokun@linux.alibaba.com, bernd@bsbernd.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 17, 2026 at 8:52=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
-wrote:
->
-> On Wed, 17 Jun 2026 at 14:17, Joanne Koong <joannelkoong@gmail.com> wrote=
-:
->
-> > For plain (non-zero-copied) registered buffers, the fuse server would
-> > still need to pass in the starting address of the buffer pool, so I
->
-> Why?  The kernel couldn't care less about the userspace address at
-> that point, it's literally just using the stored and supplied uaddr's
-> to calculate the offset into the buffer.
+On Wed, 17 Jun 2026 at 14:50, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-Agreed, but I don't think this is how it's currently supported on the
-io-uring side in the kernel. There would need to be added support for
-this in the kernel uapi.
+> I'm not really convinced there's a compelling use case for needing
+> multiple bufpools in one queue. This was the discussion with Bernd in
+> [1] about this. In my opinion, incremental buffer consumption and
+> allowing different queues to support different payload sizes would
+> address the use cases of multiple bufpools within one queue, but would
+> be simpler.
 
->
-> Adding a flag to the _FIXED op to indicate that the offset is being
-> supplied in place of the address should allow unconditionally passing
-> the offset to these ops.
+Confused.  I thought this was exactly about multiple bufpools
+(containing different size bufs) per ring.
 
-Oh, I thought the issue from your first message about the liburing api
-was that offset gets passed in via the "address" arg? For the existing
-kernel IORING_OP_READ_FIXED op, "addr" is already interpreted as an
-"offset" for pages that were kernel-supplied into the registered
-buffer, so I don't think it'd be inconsistent to also allow plain
-registered buffers to do that too.
+If not, then what's the point of dynamically assigning bufs to sqe's?
 
 Thanks,
-Joanne
-
->
-> Thanks,
-> Miklos
+Miklos
