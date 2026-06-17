@@ -1,79 +1,75 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937643E172E
-	for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 11:23:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E717817D6
+	for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 11:48:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781695392; cv=pass; b=q9QqYPTiFeeTwIXFSl80LBdcMN4B2lvpTGf1fNYUmffM8Z+ZCFSWUSH8AO5rdkuon8gp5MN4/OpIHqlhDPMSH0bJ2slLVn55zl/EQRkGsDrscyNmHq6mWNhlOeQRquxSpteE6LQ+mznWsgGp7uDeJwLUvasKu0cONHvg9777jGc=
+	t=1781696925; cv=pass; b=WB/NXiaiArA0pLHgioDomViIunvD+O99I1amKrOyl3IC97rEFpd7eOcGH8SXL15VcZIWagT9VjDU36F0sEttd+Kk2Z/343aL3mQ+6DQDW5TvMQEN0mcOWBV+0h1QiM5egwDxPfyYTRmgL9n/7CI1yYNHti/vFT8SfZgHcLy/l6E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781695392; c=relaxed/simple;
-	bh=oD3DvnVovHIxX+0DbXw9KBNjV96IUrQOdmr1Ac71B6w=;
+	s=arc-20240116; t=1781696925; c=relaxed/simple;
+	bh=RGEOrwR1nCK+qevv036EQvZXnxSUxjC1hYrH9wKLqzU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T6wWHGVQpic5HMtYyPawb9wbRhKutXOhBUMWv0DOAbDNIl76lllkZlHbfQYDHKVWACLBvf2F38ert0HDjTkG/Wfu6IpVnXjL8Wi3R7tlrcOS42xCD/NZwWwYiX6D5cawBXVg7Ng+9pGlA34ox7xZuamxEtpX+kMfms993krE1eI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cPpKbfem; arc=pass smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=ZhEDBFY+n7NtZON/EMtTknV62BHxAaitPDN1pQjCoVlcZyVQPMU4gYzMAtekJuom7RBlLJAC9D0pESu+yOhwMzP23WGIWxb16GCWKjUmobkC/yL9WfZWXkYPS+wuOezGJ3+xgqHCnpqDEIiEP9AaM0BGNiFgR7XL7mwKm74szHY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=nFRgcrc9; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cPpKbfem"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490cdae130cso28252605e9.0
-        for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 04:23:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781695382; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="nFRgcrc9"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-517b1f2c668so63398461cf.2
+        for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 04:48:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781696922; cv=none;
         d=google.com; s=arc-20240605;
-        b=gOY8XH3nRJPTeyDdpm4D2IuSK+S7n/jOsNrplAo0LtV2oGcoR2+/xwLsr6+OY6+hys
-         QjcyOyDesKWrJyD28LL2wxgE8NkR7tTQAz99jRlsXcSLDUETy3eEEaHYnOkRZ0jIbqEy
-         eTUrGPHXUaCqJ4iEpIt3CrSJ1OUtckCvIYM96A/podq9wHNrZj42OW0SToytTCN9wLZH
-         nBKoWIOeENrOExcbPcoXbQdBSuVp17bJ6GAB+EbLSXlfklQporLngBZNOxvbTHz6wViL
-         /9jF9FHbLatALN8DBjd+58F5LtAiZsn7/r9XvrYVSNQcxHJxLzRoPJadxZVlNV/l7H7g
-         BYUw==
+        b=iC7y1nK1bWyn8dYSj8L0zh79YCuBu5LDrKzCi/bDQcCuYaG+6ZxOydERVOakQ97IXf
+         7yhSUGQg7TcVifzPmj4hhu1xGCvO3qeU8UIhw83JmZFPGUGW0FuWHqyiqxmxZX49vb+2
+         dLMROjir+R4ffmaoCj/Gce7qfu6/G3mEO8uzqniPypUWW7AbfVx1BvTftATHFNBkHVxM
+         iyK0LUgl87ZG+yyGdTYHqJzpNMtpHY8oX7qKTd3WQZVH3WcRg4xj1o7CNcFkNRfnP1Ki
+         yIdQGaDkK5M1kBfdVO64xtmKRKMRkEL4tPt9IumL2bI+EEo0Ei+5SlIHFb1fLCb0lDst
+         nhLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Fc0LRftb74TWup33PmKDlrGJlIjKJjk9dKM+rwDokSc=;
-        fh=8bUFTemOwDoWiOdOkdFFPfADoT45yqq3f7053C+zN1s=;
-        b=E4YLl2KqjBjR97VANytj7yfawGngjM+eDgxNwkDE2V1bfjvMlRREQ15iuY1KPsxVG8
-         1p+bVldsBh82NxmYbcyNjNqkpLBT1keTgVTLf2iEbI1euBE+6i+O1s6ADO9ToWX/pSMH
-         DChm84DP5YBGXdrmhuUSyNCn7wlLdpvtUJQkKm8C+umpZL2uBG+4UWRiMmV22/Vdmr8B
-         +x1XSXt+Yy/cfCHLZZ+ZkNlSGgCpjLaDENR+tYae1aTBLgEXqncoz+SulCh+IaHgD2GG
-         +ke2YkuDl7g31cIwOmwtPwsAKwhTDGYaWhMYyvGfRYIlGuhW/YwmoaMIZlhf7iPUUcRS
-         s5ng==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=4zbE6JKMiCOO2SsfeL2Mv+TGGCV5/04jIH8Crz9cMmI=;
+        fh=w2Dy9MBCymTAHXuuQoFoyTRhGtZ+o5YcX5Bg6rpudfc=;
+        b=AOFnRDKpV6AcP4zHi7g8OuRykomo3CEXawlvN+eG210tw1EO/aPbVlqJXDnw5NuhsJ
+         Bh96jYkYoocrd0yeR06XADIhNgzeYeGQmay1lnekBANKzWgsJWBpilzb7wMm+uiSYNps
+         2y5NAppOY+Njv8vlbI3j8ekvmOC0HV+UdgFCjw+nv5elOOO3C5rySGRzGnn6+Qm85BZa
+         RmNooyjs0sduYjJyg3vEj5Ns4a/vv8sh2xMvf9iQALMy8htHNRVz6d+YZoROetPV+DM8
+         CazkluSUkoqrUqwc7kw0PUoutgT2hafI/wmEoOiu6fPigEgOlzarJIwBSObrB2dZ3EA7
+         sOrg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781695382; x=1782300182; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fc0LRftb74TWup33PmKDlrGJlIjKJjk9dKM+rwDokSc=;
-        b=cPpKbfemtxDpJugyFXR4k12SVskwuhEBxVAUnEL3tmKmCInE3lqsE/2b6upzHgcpWa
-         e97rxIVlBlmx5QDYhJtEOnJTUxeULEe3j+ct0K15PAFJxnoo4XAsyqwQNCQgjnwKwDxN
-         2r9516z0zTqGmV3ZK8L37T7gogBTS6cAqUBjdAht+mAnibm+NhGmZ5fm1o60pqZfYKfx
-         gnd8BGSl4/wnEPT3quRJsyF4QYCVpIrpiEQWuIDjRNiaGHCFqbRqiTxPnTGShNyMuTVY
-         1MVlpwT8WO9GsJEhhlpAfRg0Tp/lDY+121P4EBdCODJ5cNoFh7XLZkD9CQ8mvqXuvJKe
-         fTIA==
+        d=szeredi.hu; s=google; t=1781696922; x=1782301722; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4zbE6JKMiCOO2SsfeL2Mv+TGGCV5/04jIH8Crz9cMmI=;
+        b=nFRgcrc9CKFZ0ziJegc+ChCV+uoDM68mtDI44ZrlQPKO89a09tiPJehKvhFitGJ9GD
+         e6NUVoDruXHlj/GaQZeveqDdN7p1b+tEgit2RsGdWAF0e0jj7dR6XZIFsFu+1Yh5hajP
+         +EkGZdh4x1gmQ5tGKr2oscs5fHmLi4f1A+iE0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781695382; x=1782300182;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Fc0LRftb74TWup33PmKDlrGJlIjKJjk9dKM+rwDokSc=;
-        b=OE4EZI2QZS2EKV3w8YixfpJ5zVmNDc45ckcsPSdmxxFc4qsji8c/kwrYh6Gt0gO/ZI
-         xp/fzde6GvnF8/j+ttFk/YzNt2bMb7iGIiR0lIEHvwSsyINYOswL3XxVpBFq6hEyZHLk
-         H0qsrqd8JRe3+QUfHXG1+1R4grwbMsOt474w6/JDEGgvdKioSrTD+9KYq2Mv/Gd+qNr7
-         9pEEtCbZ4yzgdZoetAFtkhw4oNmdxwsI/lNP+XIetYo8MW5+sZaCzi2Ec5wuWKizFVBT
-         bKiU9Ufrc3iVxUNVdU//076ze9TSkRWtXhhSl1nfzlNpXalpLO30PRu/GIRZmEOPqTaZ
-         rzZg==
-X-Gm-Message-State: AOJu0Yy+L8bvsPZS1B/Efj0M74iiqCVLVQkp0V2a8DyFlOWGUICerOGc
-	RbE/vrF+vvYd/ccfIzIzvX+pm57JW31cyiGWUPRrQVlttFPkWwCdarz6V0xL7ZvCljww3EEwtik
-	Ig80cECak1+4Qu3cQpO7SUeChHR/8itY=
-X-Gm-Gg: Acq92OESkA22Vvkt7hLtTlccStkMTb++wqnKwv/ROvISNsXIjIrqTq6y1aZH6ida6ED
-	sIM0Yboe6CMOswAe+XMXL0WKO3ZYzDXoa/ZXvyy1PIdd71ayqZSQEJes835dnEeIgvL9xeOWL+W
-	ruGGLbYm/pDXuP7dhUJok1yASOdtHCDpBkN1g+NnNnAo2Lt8uxNhRkK5e2vtzMVzgL83SYYlvYy
-	VDJNg4oIPHak4vU9xjGoLgdFLL+HbL8jNXry6SZ/wLw8DuJB4PR0KSCa4RVNzUGXK7xRdxfGrhu
-	stMjkOBXuOQUByi6ND5A3L96Uvh6KRHe/oCmBBF2FevnppZRYd/73OGc
-X-Received: by 2002:a05:600c:6a94:b0:490:d354:bcf4 with SMTP id
- 5b1f17b1804b1-492333eb330mr49529455e9.27.1781695381682; Wed, 17 Jun 2026
- 04:23:01 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781696922; x=1782301722;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4zbE6JKMiCOO2SsfeL2Mv+TGGCV5/04jIH8Crz9cMmI=;
+        b=MUsGI7/KPe8iWPELlXpjaAkBSQnVTThNuq07a6rVS5Pz+PGS5ETX5Y39jjroTy1/sM
+         2fKBh24j1WpcPvt05vCgRRjv3gE/ryq3E4cWWeG3zQrsMoEo9qxdG0bFHXXHh7n7jbQs
+         PhgQ4a/aveZeSnTKT40RaNvcfcZj/HVzLFjq9h/AtIyQd9lInc0J2eByG0SYoWx3lX/i
+         /El+OmsDriEgxe4Tu61bKmAl1xX2sGAuRxDCaUa3qp132cNrrhxegwm6/CeAl+WVLUSp
+         2zKRi4Bn2Hf0nAv6pYhV6varmHnLr3Je45nR4wJQs/YIeVsnyiIKXI1TpGZfFZSd5MCm
+         Lr4Q==
+X-Gm-Message-State: AOJu0Yzv+TZfGqFe5qVPDS0jVF0skNf/cXReKA6tR44Xyb1bubj8ELlN
+	3mNu4xqskmzpEiCxs1HZCy4P2RTFuelVq2qtP7rI1IjNIYeNjf1Gninn0+0QBQ0HlfdPH7XhlgY
+	lhPM5YLfp6t/QlixnMz1oCemePf7q1cqWwwW8MskT5g==
+X-Gm-Gg: Acq92OGkIWSr3lPgNIN40FuFibG/cKo4jh+BAX4SUTDY1+hDvyci0ASxq19IuNihv6s
+	ikL9qr01fA4MtlgPXSS5Q9KoXpeTs1fypTJJArabvxAykVKTv/t6ghn9nfzUxYxOjALErx3YsCA
+	P38r+xn9l7TmbpKBiIUgZAe0TWUnQr0mu/QIJSqdh/G0X1KYyFTUwIHlqkLP3qBNTqocUB6aUQo
+	ray6T3G/Y+rSxQrl+WDRS9ZnWCNee3ql2VkW3SV1ev7pJGFdh6VvjykLrHcxofJBsjdM7HjxMCA
+	fnwWowW8ZI1uQg2U+of7no9PVzYFIbLphNVf+g==
+X-Received: by 2002:a05:622a:a191:b0:517:8da1:4d3 with SMTP id
+ d75a77b69052e-519a8cc2a96mr42817961cf.22.1781696921657; Wed, 17 Jun 2026
+ 04:48:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -82,54 +78,36 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260612210513.1516038-1-joannelkoong@gmail.com>
  <20260612210513.1516038-10-joannelkoong@gmail.com> <CAJfpegs+EY+eCDOkBgVWhUyd8hBLE3bFY2oaum-k_tS=Cv2SVQ@mail.gmail.com>
- <CAJnrk1YiUn3JFZCEe5oADyK5+zx6Rh_6KTZbCzeHUjAebUVQBw@mail.gmail.com> <CAJfpegvokfiN4b1tEd+fAPfO8n9hSQKeXt6-UM1OzxwHYA5-hw@mail.gmail.com>
-In-Reply-To: <CAJfpegvokfiN4b1tEd+fAPfO8n9hSQKeXt6-UM1OzxwHYA5-hw@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 17 Jun 2026 07:22:49 -0400
-X-Gm-Features: AVVi8CeG4zsl5uRGZrqbu903jMCfNlksUYZOTNhyQL7DK-qf19GtoqR5-XcdhFs
-Message-ID: <CAJnrk1ZTOcAP85qYpFz6w2TPBK+WMdT1B01T5O_gL68BYAOvCQ@mail.gmail.com>
+ <CAJnrk1YiUn3JFZCEe5oADyK5+zx6Rh_6KTZbCzeHUjAebUVQBw@mail.gmail.com>
+ <CAJfpegvokfiN4b1tEd+fAPfO8n9hSQKeXt6-UM1OzxwHYA5-hw@mail.gmail.com> <CAJnrk1ZTOcAP85qYpFz6w2TPBK+WMdT1B01T5O_gL68BYAOvCQ@mail.gmail.com>
+In-Reply-To: <CAJnrk1ZTOcAP85qYpFz6w2TPBK+WMdT1B01T5O_gL68BYAOvCQ@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 17 Jun 2026 13:48:30 +0200
+X-Gm-Features: AVVi8Cf35p0EXnD4r9o_x2aC9yYdZwXlN5k92pkkwjtYpLjJwiJisn9LUL4MRP4
+Message-ID: <CAJfpegsixwxHLTMhz6uH=ssvETM4zZOS24x5qUM8fvBHTE7Zrg@mail.gmail.com>
 Subject: Re: [PATCH v4 09/10] fuse: add zero-copy over io-uring
-To: Miklos Szeredi <miklos@szeredi.hu>
+To: Joanne Koong <joannelkoong@gmail.com>
 Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
 	libaokun@linux.alibaba.com, bernd@bsbernd.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 16, 2026 at 5:53=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
-wrote:
->
-> On Tue, 16 Jun 2026 at 07:46, Joanne Koong <joannelkoong@gmail.com> wrote=
-:
->
-> > The userspace FIXED_READ call (eg set up usually through the liburing
-> > api io_uring_prep_read_fixed() [1]) takes a buf_index, not an address.
->
-> AFAICS buf_index is required, but is not sufficient.  The fixed ops
-> require an address as well (to figure out the offset within the
-> registered buffer).
+On Wed, 17 Jun 2026 at 13:23, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-For zero-copied registered buffers, the "address" you pass in is the
-raw offset into the buffer (eg if you want to read into the
-zero-copied buffer starting at offset 4k in the buffer, you would call
-io_uring_prep_read_fixed(sqe, fd, (void *)4096, len, file_off,
-buf_index);).
+> For zero-copied registered buffers, the "address" you pass in is the
+> raw offset into the buffer (eg if you want to read into the
+> zero-copied buffer starting at offset 4k in the buffer, you would call
+> io_uring_prep_read_fixed(sqe, fd, (void *)4096, len, file_off,
+> buf_index);).
 
-On the kernel side, fuse uring calls io_buffer_register_bvec() to
-place the application pages or page cache pages into the slot for the
-registered buffer [1]. io-uring internally sets that buffer's uaddr as
-0 (imu->ubuf =3D 0 in io_kernel_buffer_init() [2]) since the pages are
-supplied kernel-side. The liburing io_uring_prep_read_fixed() api will
-call into the kernel io_read_fixed() -> io_init_rw_fixed() ->
-io_import_reg_buf() -> io_import_fixed(). In io_import_fixed(), the
-offset into the fixed buffer is computed with "offset =3D buf_addr -
-imu->ubuf" [3] where buf_addr is the u64 representation of the "void
-*addr" that was passed into io_uring_prep_read_fixed().
+Okay.  Could we have a variant of the _fixed API that takes an offset
+instead of an address?
+
+That would work much better for the plain registered buffers too, as
+the fuse server wouldn't have to look up the address belonging to a
+particular buf_index, just supply the offset that was returned in cqe
+(as you suggested) to the _fixed op.
+
+Hmm?
 
 Thanks,
-Joanne
-
-[1] https://lore.kernel.org/io-uring/20260612184840.4058966-4-joannelkoong@=
-gmail.com/
-[2] https://lore.kernel.org/io-uring/20260612184840.4058966-3-joannelkoong@=
-gmail.com/
-[3] https://elixir.bootlin.com/linux/v7.1/source/io_uring/rsrc.c#L1072
+Miklos
