@@ -1,80 +1,79 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A234A3F39EA
-	for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 13:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE9730FC1A
+	for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 13:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781701844; cv=pass; b=tKPrwuXjWTGY69uRNghQr++gQyxNPqDzHN9as8hpAWgNixP4B4CH6EPKC7YyWq+aO0R7Jp+Kdu8AgZY5IZR9Xev0H3qWc1ImKQHUV7e2eZrgKJ9ch+++XGnIq6f8ApX3AboNEbDF8R56P+fawa8PavzjSteXDMXQdTytQuTncn0=
+	t=1781703579; cv=pass; b=VfTFN99GA8WNyS/9oduEFY7Z3KFrvKQM03HqOLnuneb9BdUPrmI9d4uD9K+dLgJQk2MM38k0anaU9MvLajMCUvNBGd8/qUiN2NQvRURqEHrjs0M3yyIjseF+q+BJE1SRacuc29dnfqbqiSLXzWhzGqS3A27mBIy+FJkncL+o74g=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781701844; c=relaxed/simple;
-	bh=DDLLrTK2+bQu2czfRVNFX5cr7rWhX/nGMMKguVtRPvs=;
+	s=arc-20240116; t=1781703579; c=relaxed/simple;
+	bh=c3xewMDd2ASD9ODfQTPkB6kGdjcrp5We4edlhEwNJP4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ayRTS8+O6Y9Snc4RDVymZNM4rRp/cIZ6tHvkScR+JPM9QbLjHfkNisz7g+bLLpfW8dPXPKiqSEwlxXIOtteMvbC2EzMjU7mOjRpyq+wOJSFKPISx8ftihf3wFg0iExhJvfXNv0aiojeEGl7cO9dptmLtuHnoqWox5TtjbRJKFgk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hw1jsXh7; arc=pass smtp.client-ip=209.85.221.42
+	 To:Cc:Content-Type; b=H142IYRFf6oNdaZ/MpXpFUOfamuggsHDnGCaY1Kr/DKXhy4tXu6LGSOpAO+/nyZPquBarS6C4X/UH+1HaCq82g+y6X1qJ0QO0h/ICjGPWqQrseHkKPy+RCHfuZsMxk4CkSHprkiASVpVFIEqTfgKpqt96gzHvmO8CxAFPzPtzqU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXnx18Bp; arc=pass smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hw1jsXh7"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4629d80fa08so710593f8f.3
-        for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 06:10:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781701841; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXnx18Bp"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-462342ac290so1133310f8f.2
+        for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 06:39:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781703577; cv=none;
         d=google.com; s=arc-20240605;
-        b=iGGhkOWVHjMBoz1TDMKaSJabK0UkaR28PLv1cYnyR+12yehdZIJl9wX6EpYu3xnuoA
-         rpXrMJVFNZgkQfxL+2n/Ryy0O5qoa2eaae3KLIwcVEhU1K0hAf7fF/iQ1GQveXPQmhvs
-         OtBuc5XjK4XgsMNoTcmZEWdJq453NghKXVQm7mw+Tn+8J9HGX/awxA8Fr79m78b94DxZ
-         lteAIPQyECGjPfRix6we4sc21Xl2w2nziflZzRaLJ/auqrCVjyv3qxXi1m79RRcOTcPX
-         qC61BdUspA46vMtpKu1b1cnAnevEhz3T9afRn5irtwisZUaZlBW8fOt+mxBJ9N7L7wi5
-         DaKg==
+        b=QxLVdQp1NirhgCobVwBucpoidd9L7KFRiQvzBOcj7io2j52PQdwNfjodaU8GG0MA+Y
+         EKFvh6IrvHTUYKuEOrEYgVPvAzDnfvMOFhqOWb2v4G36MzSg4CwDVMTFUt8MjzIY5WwL
+         /CNL2Fh+PiCzmEx6lObGAz+aISGVeFqW+k/d3mF+S1bTlzGGQwOMLmfctPSeCM+zgqYW
+         IotmG2Nks4InZNnQd2GtcNS7RYaaCRHzoGrL/nu745rxzAEV747a7JE0v8q432GNss6U
+         ODVQR0WCR9pMJEtoPPzjMLLOL63Rz5LkVNvYcy9uhtr+iadB60CjbfQYvrSxaNfM0jmF
+         WFMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=AbFtTbGoxycCavXstRbefzVGLjiULg0LcxSiv5At1+4=;
-        fh=UcnVS9kJhyFvrgm9a4Y7HbcJc28GzxaOssjkd0DVSAY=;
-        b=DZTs2T/GwB1XH0SpbLc0q1hct1L6Np6X/9Fc74vBbla7YvQvMXwGGGwxhY1ylDeJ4E
-         Z7Avak7aGBB5CkZFWVuad4bDlCsOP43riZbubY+QSKTO6xcIJFk9lgPLodjh3eEbjKJk
-         /CIUOUL7hIfDpcu+Be2BJf/+00cXJrFLu5Qvhpeaku+wxBHvwDHg2JP0zOKPmgn03Kyq
-         2Frfeft8cQ6gDtR3UsUjhDvfUCZM1x4rtMhbuvuYFip89bYu34lrbk27fCeBMblky4fI
-         4ElmY6vevMFNnKnQbSdrnAeG3rEtE9UE/Jy1STqRN2ldbudo6Um/2QKLjKQbvbfLubMR
-         SlIA==;
+        bh=eUMzpz/lXkoHEzQ9GeUuLE7VjwybxAwudZlI2/qprao=;
+        fh=8bUFTemOwDoWiOdOkdFFPfADoT45yqq3f7053C+zN1s=;
+        b=EaFdidFeKGTkz1+FdMz5YiI+kgS1K2qhB5EIMLYnGbu3xPhqQxvBy+s0SEllUedV1x
+         +eWhsIHELZTmE+M1J0UnK8gKoYZP4CYtY1NIDCdURppPMJ5yJnkt2VX9GdeM+4gF1euz
+         3ugMahHEsUlLxz59Hxjwp+Sl8yjiAq/tuZlgQrx7rJ1NJ6JP0btoS/lcdXxG6r7m6nHL
+         2DTghOMwZ2sHWsarrUC8ChpaK75btpNLR3ZVT3a2y0rQV4JZdaMaAbXqyzGd4VVWxWxk
+         ulfrRF7ZbuIkYWOiV4wTkhLvwcfjusVr4iStrmjRa+dL4+HttE7Jdk7G5+/CssJS0Gjq
+         JwcA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781701841; x=1782306641; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781703577; x=1782308377; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AbFtTbGoxycCavXstRbefzVGLjiULg0LcxSiv5At1+4=;
-        b=hw1jsXh79Dl6awKAjkiG13cDdGO0nttbYprcDom6cLIrGiNe0s+oP5466MWeN2y+lF
-         dmXpc4HNhgUgbKuL/Tz/ZsvBmziu8Y6HiAWGaoTMoIcAQgyxA55HQdFE1twmu7MC+wG+
-         1/vENCq2cL+rOuxow3XDQUhqc32s1I9wpWWI8mNyt926Gg75NeBGw24L+A7ew7zyk/rY
-         gvaL3WvHYe/1sx6PP68A9mToFzXZxhYdWzuq4Y8AtYShVaPFloJT+qpXjDDnz1AczPhq
-         MOnVclaVVaubeHShEHvAijSnC6yHXL6PycA0FGCQQ91u1HfU/y0BRogjC8Uq7Iqdizil
-         6mbQ==
+        bh=eUMzpz/lXkoHEzQ9GeUuLE7VjwybxAwudZlI2/qprao=;
+        b=mXnx18Bp6T4FJvHjov8mnZ+UWQXDS3G6FG/jjD1eXcoXInpffJVj0RZzla8dDhP753
+         NvTvygrzNeQVbhqlq/i0n7lkE9IEX/YsfLRtUREDDYeS6EZNctcjvBd5Yj78TL3H8G+Z
+         hThQKppNglWkY6KQjTLoGQAzz1/nDf4aRoKZpbMO+1/zuc0HIQbKEK5vkNYY6unVyYWP
+         cWfbCET2/C4kKTM5b9yRKclKJ1Pmwor1xGDxR/58mcX7l3MeC0v0RC2YQlFKaK76v/6V
+         rKCCMR98hypxMf6kL4ddCcVcwPfX/vXx7UwSbdCm1Q3p2Hf5gGpW/dB40yIjgiB3JQjw
+         2dxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781701841; x=1782306641;
+        d=1e100.net; s=20251104; t=1781703577; x=1782308377;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=AbFtTbGoxycCavXstRbefzVGLjiULg0LcxSiv5At1+4=;
-        b=aW2d5PM//qdMNlJW5CCDWpkd4wWhtvEHNWT+fWGQ2Y4WENyZU+AgiIpWMQl1K7XnnX
-         D2kiFQFTcutb/yMsTMOprgpSjYxXpLq7zZr2mklSM0ijtT2zXrmj/UousCOEG7VY/BSf
-         GNElKlxI40J1s1bA4MPm7cM0b/cnDFb1lySpLlO764lCkoP4J2cq213phSBhyfXqu7c5
-         tWVPFp6ePYt8glQYqIMFoQtrwrY/CBj9uHUIeexRftm5p7H27wxEZUakTFNbFtRCdV2c
-         IMOkcXlQkF5+IgBQPV0XzG9qRvYblGefZGYsToXfQspFRhAdC2oI7YAQx0Ra7+pl3kdo
-         GEOQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/9shm2n3JPWSQVUvhKN41D/5/s0G6s9JYekYU31DKu/NXDCTRrYQfi4PoPbeGmP9jJqjbs6s0DwpdO@lists.linux.dev
-X-Gm-Message-State: AOJu0YzC7ueSamT7VAowLiYWnZun22rkr5wzzo6dZ4FthJVp5qk0lFBW
-	nhPvxrLBfT+4vH9FUSO5Wab091o/ePsQ+KZNlBE8bWfQxhB+/F7NP1FBy/Yd6ikaXDlje8dphYG
-	ILw1SsMiV3eeoeE1/eDSBHdYmEn7VmJ/7kpXQegk=
-X-Gm-Gg: Acq92OGbnjW5sWDwhnRhugkI1HTv1ecXuE0Q7Z40W9mOfW1Yq5Ipy5EBono5zy/uoGe
-	2MWbk5lXfnf3OxIfD9vvDLGbXxTiHuyp+wv0e915nG4XMXWyuocNG2qQ2dpeqvL0VYi3LCxNg9o
-	tbfobJDWqW2aqFQPodWFnlKeT97EDFu+LKu6wlbqMw6M4rRHA3ogtPSIfaEDXy/DQc9D1xjL0hA
-	7KZH0N0rMiGcQLY+tgONm68S3VpLYgFbjsQAmGDJuwJUHJMsRkSliKwHp6BRQ0yaSwxq/Q/1NC8
-	Zd8KDq1aG3lEwHAi2p/0o/pxIoo41A1GrWlOB176z/ar2Dk1He6ojYuFkU4BRusbY/U=
-X-Received: by 2002:a05:600c:608d:b0:490:53b0:9e53 with SMTP id
- 5b1f17b1804b1-492333a1556mr78485235e9.1.1781701840813; Wed, 17 Jun 2026
- 06:10:40 -0700 (PDT)
+        bh=eUMzpz/lXkoHEzQ9GeUuLE7VjwybxAwudZlI2/qprao=;
+        b=CvydX5hagt2rmx+GhYNigVdbMjG2xdqxD7jG8TSwvOuh0quO7XeKtIFD443aTlMtB0
+         f5QKjEdO/pjMrwyv12+c6NllbKtRgAupobpyVfWLyC2JmYi7d/rZZfquGXiRyPJP4pZu
+         MFYZSdlE2bT7qdDUc48SM5Ro8Cpc7kLxJiEVojvO8h04BGrFlBgWn/6hcMlA9YG8Jf62
+         yxv9YdGS3v2gxogc3ZNPNDkDwZ/BgBj5UeiEwZ4v9YhsOFakbORi2K6sgjKPGJy//e1Y
+         6akrNjvwoLeF3sP58lyNTlh4yZlt8JS1/gNP9IIKTxUkbls60AROW1bIKU0J1Qwh6yjK
+         CBxA==
+X-Gm-Message-State: AOJu0Yx6Y6dhrwKQxtVl2a0O9QeLl0CqF2z91k9bJb4lb4uwHr9vAwjQ
+	yWTMrbxpPYjRd3gKIdKgX0ojd9x1d7vvHHnCH2n8KeDZslnqDPqfOlPr5hb/1THiWXgmn2ICmyq
+	i+fxDReMjnAJiKvnPYfbbrvC5l00z4XQ=
+X-Gm-Gg: AfdE7cmoyuNnjR0AObB4NG/gmT/ldE/GAqXMnk160nbvrnYilAfBHxdjwRN5+dW4zq3
+	SdEEmyKaRhBK2B1zPiWcxpkJ4VUO+fESZ+yNlNHgLkTep89Y6Fj1VdbCwN2NrgJLkJCEwKXAXJc
+	Qd+n42IYBzusnxmnj/I4FqhV/HifI4bKxk4lpuET4Ny5xAl2Y+aYIE1Xyl2ZQ8jiqj+COBHLSCc
+	Y7weMKPoKTrrzZgjnmflOdYdX8mnJjpBY0iLmmvEQHMCKsXkKP824Z/UpzYr/wy5thwEXtz7TMQ
+	rcBYXmaVCDtNbNoPHUXFGEf5n8FLtqVcBmIPgH/0k1c/odtGXTVOzhDI
+X-Received: by 2002:a5d:6f1e:0:b0:45e:ec27:b4b0 with SMTP id
+ ffacd0b85a97d-4623f8b42a5mr6203211f8f.18.1781703576762; Wed, 17 Jun 2026
+ 06:39:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -82,72 +81,56 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260612210513.1516038-1-joannelkoong@gmail.com>
- <20260612210513.1516038-8-joannelkoong@gmail.com> <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
- <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com> <7efc8efa-186c-4d74-a319-e4544acf1ef8@bsbernd.com>
-In-Reply-To: <7efc8efa-186c-4d74-a319-e4544acf1ef8@bsbernd.com>
+ <20260612210513.1516038-10-joannelkoong@gmail.com> <CAJfpegs+EY+eCDOkBgVWhUyd8hBLE3bFY2oaum-k_tS=Cv2SVQ@mail.gmail.com>
+ <CAJnrk1YiUn3JFZCEe5oADyK5+zx6Rh_6KTZbCzeHUjAebUVQBw@mail.gmail.com>
+ <CAJfpegvokfiN4b1tEd+fAPfO8n9hSQKeXt6-UM1OzxwHYA5-hw@mail.gmail.com>
+ <CAJnrk1ZTOcAP85qYpFz6w2TPBK+WMdT1B01T5O_gL68BYAOvCQ@mail.gmail.com>
+ <CAJfpegsixwxHLTMhz6uH=ssvETM4zZOS24x5qUM8fvBHTE7Zrg@mail.gmail.com>
+ <CAJnrk1afks6eorKTSm__CBMhPcg8v1Cf0gFPVnFDWmfBKMBaew@mail.gmail.com> <CAJfpegtzu-M7+u29_Ck1hGHxDQiQPiz1uqOBs_QkCjSGtjMm9Q@mail.gmail.com>
+In-Reply-To: <CAJfpegtzu-M7+u29_Ck1hGHxDQiQPiz1uqOBs_QkCjSGtjMm9Q@mail.gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 17 Jun 2026 09:10:28 -0400
-X-Gm-Features: AVVi8Ccb0b1w2e8LSTSRgULxU3vzN8voq-1aPg94t2pXFJpo42em3Ev-XFhubOQ
-Message-ID: <CAJnrk1at1agOZkFpGXE4ktvvC1nQ3mAvO_Mmf=ZRPVgfr8mjnA@mail.gmail.com>
-Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
- buffer ring)
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, axboe@kernel.dk, 
-	jlayton@kernel.org, libaokun@linux.alibaba.com
+Date: Wed, 17 Jun 2026 09:39:24 -0400
+X-Gm-Features: AVVi8CcdcGOzBJ6JkDWwBuL27WaKQQqc0C9LNcMPe0Ccbize-oapGpApKz_Y0aU
+Message-ID: <CAJnrk1b4DRgf4kxbZfi3e5ntHxKDgiZMiVNFR26ps1N3QPzpbQ@mail.gmail.com>
+Subject: Re: [PATCH v4 09/10] fuse: add zero-copy over io-uring
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
+	libaokun@linux.alibaba.com, bernd@bsbernd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 16, 2026 at 6:28=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
+On Wed, Jun 17, 2026 at 8:52=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
 wrote:
 >
-> On 6/16/26 07:28, Joanne Koong wrote:
-> > On Mon, Jun 15, 2026 at 4:41=E2=80=AFAM Miklos Szeredi <miklos@szeredi.=
-hu> wrote:
-> >>
-> >> On Fri, 12 Jun 2026 at 23:07, Joanne Koong <joannelkoong@gmail.com> wr=
-ote:
-> >>
-> >>> To use this, the server must set the FUSE_URING_BUFPOOL flag during
-> >>> registration and provide the payload buffer pool through the iovec
-> >>> payload in the first sqe.
-> >>
-> >> I find this interface inconsistent.   Decoupling the buffer(s) from
-> >> the seq's means that the registration should be decoupled as well, no?
-> >
-> > Looking at Bernd's reduced queue series [1], I think we'd most likely
-> > want to also pass in the number of reduced queues separate from sqe
-> > registration. I think along the lines of the config sqe Bernd brought
-> > up, it seems cleanest to add a new cmd op
-> > (FUSE_IO_URING_CMD_QUEUE_SETUP) where queue-level settings (eg flags,
-> > number of queues, bufpool, etc) gets passed in. This would have the
-> > nice side effect of doing the queue creation in this op instead of
-> > right now creating the queue lazily when the first sqe gets
-> > registered. On the userspace side, this adds a bit more friction (eg a
-> > two-phase setup where userspace submits the queue setup cmd, reaps its
-> > completion, and reuses that sqe to register an entry), but that seems
-> > like a reasonable tradeoff.
-> >
-> > Does this sound ok to you and Bernd?
+> On Wed, 17 Jun 2026 at 14:17, Joanne Koong <joannelkoong@gmail.com> wrote=
+:
 >
-> Can we please discuss this on Thursday? I'm by no means opposed to a
+> > For plain (non-zero-copied) registered buffers, the fuse server would
+> > still need to pass in the starting address of the buffer pool, so I
+>
+> Why?  The kernel couldn't care less about the userspace address at
+> that point, it's literally just using the stored and supplied uaddr's
+> to calculate the offset into the buffer.
 
-Definitely. Discussing this on Thursday sounds like a great idea
+Agreed, but I don't think this is how it's currently supported on the
+io-uring side in the kernel. There would need to be added support for
+this in the kernel uapi.
 
-> config SQE, but I don't see how it will really help. My issue is that
-> any fixed number of queues and queue entries is almost never the right on=
-e.
+>
+> Adding a flag to the _FIXED op to indicate that the offset is being
+> supplied in place of the address should allow unconditionally passing
+> the offset to these ops.
 
-I agree. I definitely think it would be useful to add more queue/ent
-capacity dynamically, but imo I think that should be done separately
-through a new cmd op after uring setup. I think it'd save some
-headache to keep setup and runtime resizing as separate concerns /
-paths and would be easier to reason about different races that could
-happen and would keep the setup logic simpler.
-
-> The config setting (via SQE, ioctl or FUSE_INIT) could be used to
-> prepare the kernel, but final routing update needs to be dynamic.
-
-Agreed that final routing update would be dynamic.
+Oh, I thought the issue from your first message about the liburing api
+was that offset gets passed in via the "address" arg? For the existing
+kernel IORING_OP_READ_FIXED op, "addr" is already interpreted as an
+"offset" for pages that were kernel-supplied into the registered
+buffer, so I don't think it'd be inconsistent to also allow plain
+registered buffers to do that too.
 
 Thanks,
 Joanne
+
+>
+> Thanks,
+> Miklos
