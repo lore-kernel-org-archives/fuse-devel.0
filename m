@@ -1,155 +1,226 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3996E3FB075
-	for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 14:22:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398E72E06EF
+	for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 19:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781706161; cv=none; b=OVjlWKeCSjXiC+UgnSRPMWMx5RYneJuVU0QvR8yDhUnBH6bk/0ahY9WFJe+NX7cXropONF+9juDZS+N6RaTP5gd02247qkIXGDExU14Li6H9Su6+PLEp9ul8On5F1fme5ZWtbN8RFD2VimtsI9jZmSJDn7Pjk+nF1RS9qHPgwoQ=
+	t=1781724518; cv=none; b=eQBqAR1w6zTiqalUTX8JXYFbgUljSdaaMD9/NAzlAGU15lyGRRE3zRZLqbtgWoUgqoi2FbOJiJpUFwMN2xVXSB3TBsUqC+1spcbUzObob4NX4+g50/TLD49iHBX47R+/YhtviX/vz5266BzzxjD9mXt8EHy68PGPpMY81ZeaGbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781706161; c=relaxed/simple;
-	bh=x7naKrMU4DHdabhlEYv+2Rp4mnUdf4RbVYoQu9D3Zxs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LNiLGkSyBborYSIi8dtcxpGuYtMRBfYzxtlPi6g7HTTYBBldtMob3swIQaS0hPJamSawcXESnZWhTo3hfHn2bFcM0w7d7QeASoodxBZWg7WS+rh534sERXAdgkR8OIdb+ql3WfhLCXej4+Fuoz7BFBZ6SlPX4hwoS1Z2SEsSGFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=BEzP2unG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UA86iBG3; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="BEzP2unG";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UA86iBG3"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3030FEC0200;
-	Wed, 17 Jun 2026 10:22:39 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 17 Jun 2026 10:22:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1781706159;
-	 x=1781792559; bh=uW/Nq9eIDHzJ1oEgqwunI6zQ9FZ+0xJIYejCEv3OiY0=; b=
-	BEzP2unGzorv0dRPwBpkHxfzRy7rPYWh1etTE2O0BWEWTNcVAJT/nMAI7gFZdmZ7
-	VJVbqPoYcV13apismxz2/sQt6MRKYihoSiPwc2J6dL9UwJbvCn+nDdPjdZOyNL4w
-	laBr1XlxtQJvWoZiN7BleQQcIlKbdTvO3HZPhVZlZEchqMbw9gBQyJg2c+k4+qIH
-	q7IW+e9t/0XPO/5juyfKpC/gT0CsLT+f0F5/6qm518RA6dOx7suFt9scGbXSFngH
-	xtL40ZA7rLubfGA6+Z5qn1TEk8gdTt5H/LMZIsXs2V2DHRmyXMeFBITHVbPzlz4a
-	3ciGuKVdzMjVxlmScWwJUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781706159; x=
-	1781792559; bh=uW/Nq9eIDHzJ1oEgqwunI6zQ9FZ+0xJIYejCEv3OiY0=; b=U
-	A86iBG37sQaE5ASu7cNm2JP1xNVStkoZhTQP/ghodaH7sk7OcjhnZO2YNE/cByHn
-	TZqxymSCao0yZE6rZhu8Zs2uMv5cHR2H9ULTnAw5Ow2Z7hjIPJAV6FR/1eMx+htT
-	+fjr004ql/RNDuNDLrfcxhUhHCB4UWKikJgZ2FjHdlsEEj79VMJETVcH4mNLNZf2
-	k8GTWC+q3fcpHWMPv+uC/LGnCnm45+ImM6XjuGx7cBRY5PVcpTb6/GB5GtFod72l
-	cje/mfLBsZi7Q42J554g4r5OBwx4LoTdbsGZAKCeT3C7TZajbRPiu0jIbNjdk1UA
-	9YlxQLMDi7ts7j5R7FfGQ==
-X-ME-Sender: <xms:rq0yaoihp17UuE8eOzJWtZtS4ZVALMyWaIdDREPA-eYY6sDNj3Wyyg>
-    <xme:rq0yaqVmzaUY6tvW6I3ylo9sWIeqtVg4goK6dsPifq5jnDwoLS-WKt3MKmGqbshcu
-    QHTjiUdlB5FKeW_S4vOT83urnHtAVAIxu9LVFtoiR4VTAbg5-KW>
-X-ME-Received: <xmr:rq0yanXBPj99YjrA2EegKSu4ucqJJSfF3fLmuOXEKoj4EQptY2R4ahzgCmKGyCKyjxJycFis5_yqBiDVFFTTdAOvmNKz3vQOQuxDdZO1PS0QCNnOxQ>
-X-ME-Proxy-Cause: dmFkZTEWlLB0txU9cXQ7GB/PPTuwvH89a7fuegLmS3N7RkX90L9cmj7HrL/NERK8XQ9R3/
-    ADfdRZDXEXleZ5q6jUhl/qVCKOzKfP2LUlszk7r23psCu+kGRTqH7b8l2WOSxGr9seqpBi
-    gnh+XjJphIa9gkhNVIBtyRrXa7t3NkVNHGS+R7pe/GJoSCpu1N/XMVENEP7oD+LdFXhLfd
-    fbSO3Wc6LnkIaU/NfNAQqx6vM5R3uru4c1N+3cDCpVBranhaQvzpXs/QoPIRcEHK1ioonM
-    w9j4f9JGmR80YqiZegSDUk/rp8DFWf0uleTzLgNowQcowgzdgcv4Mlqb5uKixUbWxUrAbG
-    p3k/OPUOEnTqXauCj/yUH18uw4x3DBKDxQB2JG2OcwkLYfyJtWkFurLdXjHWx+vJmvwFqs
-    xMYImVVFH51nRqTQ0htuUj0jNd7z3+fDV/m/arGsboSJj75CWWzqSDUgA5vKjEETPHTUnX
-    y15+UjPgPWDKgGP0AOJWiN2II9XtheFscSo7o8ElfUhDN3oxdcLX0+sW9RVSJVYZw2dryN
-    zpEyxwCcKxC811y/InyyzcXuBy3M33D4msMQuRwCDcW+dj47I09RdttVqH/YFOKKgQ0k4S
-    fWNeeslCY6Sa/M69fXphkmZtF27XFE2PW0FM7AwsDyvP7kRtUTU24sgvETAg
-X-ME-Proxy: <xmx:rq0yaqibk6xJWCSSazSvKV3rEKxN49A2L6Yjjz4IFWRifdqNzZUf2Q>
-    <xmx:rq0yaiatmlVchsaT9TLqMxvkU0FYXkyrachCdQelG0w_duHeNWSMEQ>
-    <xmx:rq0yanrhQfz3pMW4XR0AMfvCsMTDpPqwWyjvA0qD9CMvaArz7duP2A>
-    <xmx:rq0yavN4XCz3_AENxFwQrPAP53wGo7CTqwi7u8jFeMNEF-1hJIzbNA>
-    <xmx:r60yavC1sYOsubxs_l5SsUS3K6l6Z9jyH9HccMJxaNB3cE1ut1b3gcNn>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Jun 2026 10:22:37 -0400 (EDT)
-Message-ID: <6d80e19c-00d0-49de-bd8b-7571a81b942d@bsbernd.com>
-Date: Wed, 17 Jun 2026 16:22:35 +0200
+	s=arc-20240116; t=1781724518; c=relaxed/simple;
+	bh=OKEp1WsvMQAR42RU/9N0TgIGMM5WOxOMIU4ao2T1z/M=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=ryGcAprLeusmruPAi+TmY/RGXrSGdHJjuTaJt18G1HM7zNGDFDczgfiErxggmCfYQatdgf9JhN/fCRtVUoEbRCXWE2E2/zyeRT6a3cnMGV/ttQjIfw/6qq5rhfeQmY770VVipYMFFNeuu2l9gKqgmFqN7dKR6rCSUAr0PWOZXyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7e7271fad26so1890561a34.0
+        for <fuse-devel@lists.linux.dev>; Wed, 17 Jun 2026 12:28:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781724516; x=1782329316;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AjupFcneIIto65XABs2p2/j0lXF0o0Kwnt7iCTYYUbQ=;
+        b=EJyAVFiWxtnFy+7X3GKa2RXeFQwUgYGVmATPbLHtD3sHyMPpiHHvAL5nsxp8XE4kl8
+         APKudDMniFOcNB3d+Y81J5g/4nIyP9Ya3dAgspJtzQri26nX1jDx/5erT3jTy73bwhE6
+         WQ+KcW4jIb6ZpuvNdRiylesKkXsFpblgJ5Vx8qHXXvF+9e8tt4IZ6oWoXAUTurf6ENel
+         d2ApX6WIKlK2Pht/iflC2QptsnhyjgBu2OQST3LcmNGwz3keFPf6UjGl2o05S3jr4jwT
+         HedX+mPMJpXCzg30dsX954FWKXyU+N+vSICiB05oAEa64b+881a/k6ymBLdzdoefBeuB
+         NB4A==
+X-Gm-Message-State: AOJu0YzTRklBblS/F+T2tCpCz7TZllgz7jg6Se372t5wDARmph54DKTn
+	K3/hBHdtTZJ6FXUax+d3of7iWG6ZgDGh8wwNEw2T9GMAGhLpaJQoCEFyTqmbRqtUZtHyLRBSLa0
+	vwOtK/8NrYcuERi61jJKC+/ljtFnEMEXwkK/Vcilejeezh3MfiUxVYDOMlOLK/w==
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
- buffer ring)
-To: Joanne Koong <joannelkoong@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org,
- libaokun@linux.alibaba.com
-References: <20260612210513.1516038-1-joannelkoong@gmail.com>
- <20260612210513.1516038-8-joannelkoong@gmail.com>
- <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
- <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com>
- <CAJfpegvNyqSS2h28-0sB2j2HUoMnKd7StMsPbvNPz67PiS9w9A@mail.gmail.com>
- <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6820:138e:b0:69e:3426:5b64 with SMTP id
+ 006d021491bc7-6a0c73f3580mr629365eaf.28.1781724516149; Wed, 17 Jun 2026
+ 12:28:36 -0700 (PDT)
+Date: Wed, 17 Jun 2026 12:28:36 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a32f564.9e11d3f7.246028.0002.GAE@google.com>
+Subject: [syzbot] [fuse?] INFO: task hung in fuse_chan_send
+From: syzbot <syzbot+a531d1b1fb0fa2a75a73@syzkaller.appspotmail.com>
+To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    c425609d6ac4 Add linux-next specific files for 20260612
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=1206c3b6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d7a56b1e89b63439
+dashboard link: https://syzkaller.appspot.com/bug?extid=a531d1b1fb0fa2a75a73
+compiler:       Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=163c04ae580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/7fab9a8df61a/disk-c425609d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c2577196651b/vmlinux-c425609d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/053557a7471e/bzImage-c425609d.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a531d1b1fb0fa2a75a73@syzkaller.appspotmail.com
+
+INFO: task syz.0.17:5995 blocked for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz.0.17        state:D stack:27344 pid:5995  tgid:5994  ppid:5839   task_flags:0x400140 flags:0x00080002
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5504 [inline]
+ __schedule+0x1709/0x5530 kernel/sched/core.c:7228
+ __schedule_loop kernel/sched/core.c:7307 [inline]
+ schedule+0x164/0x360 kernel/sched/core.c:7322
+ request_wait_answer fs/fuse/dev.c:743 [inline]
+ __fuse_request_send fs/fuse/dev.c:757 [inline]
+ fuse_chan_send+0x1068/0x1ad0 fs/fuse/dev.c:833
+ fuse_simple_request fs/fuse/fuse_i.h:1012 [inline]
+ fuse_do_getattr+0x370/0x690 fs/fuse/dir.c:1505
+ fuse_update_get_attr+0x600/0x1300 fs/fuse/dir.c:1562
+ vfs_getattr_nosec+0x2e1/0x430 fs/stat.c:213
+ vfs_statx_path+0x2b/0x230 fs/stat.c:299
+ vfs_statx+0x12e/0x200 fs/stat.c:356
+ vfs_fstatat+0x11b/0x170 fs/stat.c:373
+ __do_sys_newfstatat fs/stat.c:538 [inline]
+ __se_sys_newfstatat fs/stat.c:532 [inline]
+ __x64_sys_newfstatat+0x151/0x200 fs/stat.c:532
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0189d9ce59
+RSP: 002b:00007f01893fe028 EFLAGS: 00000246 ORIG_RAX: 0000000000000106
+RAX: ffffffffffffffda RBX: 00007f018a015fa0 RCX: 00007f0189d9ce59
+RDX: 0000000000000000 RSI: 0000200000000500 RDI: ffffffffffffff9c
+RBP: 00007f0189e32d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000001000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f018a016038 R14: 00007f018a015fa0 R15: 00007ffef89eaea8
+ </TASK>
+
+Showing all locks held in the system:
+10 locks held by ktimers/0/16:
+ #0: ffffffff8de611a0 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x3c/0x420 kernel/softirq.c:163
+ #1: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: __local_bh_disable_ip+0x3c/0x420 kernel/softirq.c:163
+ #2: ffff8880b8626260 (&base->expiry_lock){+...}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
+ #2: ffff8880b8626260 (&base->expiry_lock){+...}-{3:3}, at: timer_base_lock_expiry kernel/time/timer.c:1502 [inline]
+ #2: ffff8880b8626260 (&base->expiry_lock){+...}-{3:3}, at: __run_timer_base+0x11a/0x9b0 kernel/time/timer.c:2384
+ #3: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #3: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #3: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
+ #3: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1e0/0x400 kernel/locking/spinlock_rt.c:57
+ #4: ffffc90000157a80 ((&ndev->rs_timer)){+...}-{0:0}, at: expire_timers kernel/time/timer.c:1800 [inline]
+ #4: ffffc90000157a80 ((&ndev->rs_timer)){+...}-{0:0}, at: __run_timers kernel/time/timer.c:2374 [inline]
+ #4: ffffc90000157a80 ((&ndev->rs_timer)){+...}-{0:0}, at: __run_timer_base+0x683/0x9b0 kernel/time/timer.c:2386
+ #5: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: __local_bh_disable_ip+0x3c/0x420 kernel/softirq.c:163
+ #6: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #6: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #6: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
+ #6: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1e0/0x400 kernel/locking/spinlock_rt.c:57
+ #7: ffffffff8de611a0 (local_bh){.+.+}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #7: ffffffff8de611a0 (local_bh){.+.+}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #7: ffffffff8de611a0 (local_bh){.+.+}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
+ #7: ffffffff8de611a0 (local_bh){.+.+}-{1:3}, at: rt_spin_lock+0x1e0/0x400 kernel/locking/spinlock_rt.c:57
+ #8: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: debug_object_activate+0xa8/0x3a0 lib/debugobjects.c:873
+ #9: ffff888037258af8 (&p->pi_lock){-...}-{2:2}, at: class_raw_spinlock_irqsave_constructor include/linux/spinlock.h:572 [inline]
+ #9: ffff888037258af8 (&p->pi_lock){-...}-{2:2}, at: try_to_wake_up+0x67/0x1430 kernel/sched/core.c:4292
+1 lock held by khungtaskd/39:
+ #0: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #0: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #0: ffffffff8dfcb040 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6777
+2 locks held by getty/5363:
+ #0: ffff8880365650a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
+ #1: ffffc90003cc62e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x460/0x1360 drivers/tty/n_tty.c:2211
+
+=============================================
+
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 39 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:122
+ nmi_trigger_cpumask_backtrace+0x17a/0x380 lib/nmi_backtrace.c:65
+ trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
+ __sys_info lib/sys_info.c:157 [inline]
+ sys_info+0x135/0x170 lib/sys_info.c:165
+ check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+ watchdog+0xfd7/0x1030 kernel/hung_task.c:561
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 16 Comm: ktimers/0 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+RIP: 0010:__find_rr_leaf+0x121/0x760 net/ipv6/route.c:840
+Code: c0 33 c1 8d 48 c1 e8 03 48 89 44 24 70 4c 89 7c 24 38 4d 85 ff 74 4e 49 8d 9e 90 00 00 00 48 89 d8 48 c1 e8 03 42 0f b6 04 28 <84> c0 75 21 8b 1b 89 df 44 8b 64 24 4c 44 89 e6 e8 9a 71 e5 f7 44
+RSP: 0018:ffffc90000157160 EFLAGS: 00000a02
+RAX: 0000000000000000 RBX: ffff888036f70490 RCX: ffff88801d688000
+RDX: 0000000000000100 RSI: 0000000000000000 RDI: 0000000000000100
+RBP: ffffc900001572b8 R08: 0000000000000000 R09: 0000000000000100
+R10: ffffc90000157240 R11: fffff5200002ae4a R12: 1ffff1100783a48c
+R13: dffffc0000000000 R14: ffff888036f70400 R15: ffffc900001573b8
+FS:  0000000000000000(0000) GS:ffff888125ece000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000559e696cf1f0 CR3: 000000002a2d2000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ find_rr_leaf net/ipv6/route.c:892 [inline]
+ rt6_select net/ipv6/route.c:936 [inline]
+ fib6_table_lookup+0x3cb/0xb00 net/ipv6/route.c:2254
+ ip6_pol_route+0x228/0x13e0 net/ipv6/route.c:2290
+ pol_lookup_func include/net/ip6_fib.h:669 [inline]
+ fib6_rule_lookup+0x563/0x740 net/ipv6/fib6_rules.c:123
+ ip6_route_input_lookup net/ipv6/route.c:2359 [inline]
+ ip6_route_input+0x78d/0xb20 net/ipv6/route.c:2662
+ ip6_rcv_finish+0x141/0x280 net/ipv6/ip6_input.c:117
+ NF_HOOK+0x336/0x3c0 include/linux/netfilter.h:318
+ __netif_receive_skb_one_core net/core/dev.c:6205 [inline]
+ __netif_receive_skb net/core/dev.c:6318 [inline]
+ process_backlog+0x3bf/0xc50 net/core/dev.c:6669
+ __napi_poll+0xae/0x550 net/core/dev.c:7728
+ napi_poll net/core/dev.c:7791 [inline]
+ net_rx_action+0x621/0xd70 net/core/dev.c:7948
+ handle_softirqs+0x1d9/0x6c0 kernel/softirq.c:626
+ __do_softirq kernel/softirq.c:660 [inline]
+ run_ktimerd+0x69/0x100 kernel/softirq.c:1155
+ smpboot_thread_fn+0x57c/0xa80 kernel/smpboot.c:160
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-On 6/17/26 14:49, Joanne Koong wrote:
-> On Tue, Jun 16, 2026 at 6:26 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
->>
->> On Tue, 16 Jun 2026 at 07:28, Joanne Koong <joannelkoong@gmail.com> wrote:
->>>
->>> On Mon, Jun 15, 2026 at 4:41 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
->>>>
->>>> On Fri, 12 Jun 2026 at 23:07, Joanne Koong <joannelkoong@gmail.com> wrote:
->>>>
->>>>> To use this, the server must set the FUSE_URING_BUFPOOL flag during
->>>>> registration and provide the payload buffer pool through the iovec
->>>>> payload in the first sqe.
->>>>
->>>> I find this interface inconsistent.   Decoupling the buffer(s) from
->>>> the seq's means that the registration should be decoupled as well, no?
->>>
->>> Looking at Bernd's reduced queue series [1], I think we'd most likely
->>> want to also pass in the number of reduced queues separate from sqe
->>> registration. I think along the lines of the config sqe Bernd brought
->>> up, it seems cleanest to add a new cmd op
->>> (FUSE_IO_URING_CMD_QUEUE_SETUP) where queue-level settings (eg flags,
->>> number of queues, bufpool, etc) gets passed in.
->>
->> Why not a separate op for bufpool registration, so it can be done
->> independently of the setup, possibly at some later time?
-> 
-> I'm not really convinced there's a compelling use case for needing
-> multiple bufpools in one queue. This was the discussion with Bernd in
-> [1] about this. In my opinion, incremental buffer consumption and
-> allowing different queues to support different payload sizes would
-> address the use cases of multiple bufpools within one queue, but would
-> be simpler.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-To be honest, I have no idea how to implement queues with different IO
-sizes. What would be the logic to select a queue? And what is if we
-start with an single max-IO buf and a single queue (per numa) and then
-scale up based on need? Let's say we have:
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-Start 1 queue (per numa maybe), one max payload buf in that queue and
-allow to scale up to max nr CPUs for the cpu to queue-id mapping. But
-now additionally we get for the same CPU
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
-- multiple queues of the same buf size
-- multiple queues of different buf sizes
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-Also, every queue has its own ring, syscall aggregation is not given
-anymore.
-
-For me this does not make any sense and to say it with your words "I do
-not see a compelling use case for single bufpool in one queue".
-
-
-Thanks,
-Bernd
-
-
+If you want to undo deduplication, reply with:
+#syz undup
