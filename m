@@ -1,80 +1,79 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE583101A6
-	for <fuse-devel@lists.linux.dev>; Thu, 18 Jun 2026 16:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F8345BE3
+	for <fuse-devel@lists.linux.dev>; Thu, 18 Jun 2026 17:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781799557; cv=pass; b=fDyDUFAh30+1LBYZ5gQOqQBter1Q8t+0Pgs6FNI+gpUC6jPULJkybwr2NABxBZQ1hCs+Vqv/c88Fb6GX03r7Q2rcJDX5zEBeD/ZH8+pB36iLS2l4lUarHVn0itjJbnvULf9bCQEDjx82A5DdEsc7KyTvWlAJSYQchA8DfUCMNdQ=
+	t=1781803264; cv=pass; b=svooI6hGtQyxzsjukKLVAM1Q95aK0rcLzHNLnyY4VHfUhT1rdhiAE9QAcWZ6LsgYM4wIUedyVkZpSpIjK7x8l1O2zTqcppvGSGiIPzf8s3GnWdHzpyABWaQa6RB6/UeswNJsQGrNtKulxclS3KP42FcsDSEtBqjcbHhsUky9wqw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781799557; c=relaxed/simple;
-	bh=tiVI5r0+dF4hAm24TMlhlWYmwOCH6cOJAfpgx3ccJag=;
+	s=arc-20240116; t=1781803264; c=relaxed/simple;
+	bh=0Q0WvGrTyP+d2G395hXpFSjqKL3viFpcD5NvIy7yBtc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f+Jy2GSsxIKNU2iebjlNLgzAy53P34AOQJHf7oGYlmwMBWbnsovmrSfvYGTHV6YLm1QavV5N0pJsjzWZsUpOmOdynl0vAc+41+uLfmLTXEb/sy3o0Phafizv2pd2BS7VVskDv4J4v0whGKvKOkoP+4KITg+u8ijdd79C9v3q0HE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vm5QBIRN; arc=pass smtp.client-ip=209.85.128.53
+	 To:Cc:Content-Type; b=mmzd4WswqYrm+zz24bZrseoRHDb3N41Zkcg+mC4xSWVl68fA3diMhMThPlifWEqlqX3wQvfFV5jetRwClY1Qr9+gaMxmmgvJJngggb0k9wYQc945DaY39t8SJUSpHeI43wQYMNOxMQDoVQS8vzRBpFpNf1ttHdqXmRf9/IQEzUk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nG9OEZsP; arc=pass smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vm5QBIRN"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4922244f7c7so9644085e9.0
-        for <fuse-devel@lists.linux.dev>; Thu, 18 Jun 2026 09:19:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781799553; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nG9OEZsP"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-463f1165e16so1066079f8f.0
+        for <fuse-devel@lists.linux.dev>; Thu, 18 Jun 2026 10:21:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781803261; cv=none;
         d=google.com; s=arc-20240605;
-        b=ilGlfYIIbZnawXfYGFT5q2YAibg+0nigRvlr1uy/OXqMwsz3B+/FwQ+6fwloQI3DWJ
-         eXnV4UtxsOvyqwVK1/1SvJxvL1eSrNyh1GH9oEf2sqLRQep0H9wg8bsXY+lBUvI5YcZt
-         96BbEKKtY3QkWVAomad41+bNxJheafqTYtr4x6uAPMA7/CDYfGO2nyy62ZdhqufLoYyd
-         gnkfMbeeVxTqhD4QrmYCEX9G2f5Y+8AmrFqRGb2yxQ0lRUzU3gJGPn0c7pSqV3mqJzFT
-         AFsYfGLs1A7m2QRuItu+wlEWm1XvtoJp4N3ALd22rZv3V5twN1RXX2ovIiefLwvjCxxQ
-         Q5Kg==
+        b=RlfIFsmODYiywBGFM1yd5LbmFkLAlx31PNJn/nhgxL3+sdLJxPWwVzU9Kte54FgigT
+         d5/cc3ukTj52TBtrYp1suhH3CVzB2sgriTN+qwXj1Xz6zEitZHhBeJjWOfE0pwqNOyoa
+         wPcG35ln3Qz5BtWXSBXvuD8OgRgdGSzndnw0oe7aOrqT7Z5/TXbSHGVV6FwVjVKUHoC0
+         1z71rXa3VG2uFIgR5uovAej+nwIKQE/la6IqJRJMibt3CXH33neNx4npt8mFD1O330vo
+         bxBj/OUayM9gr8tj6DPXBtD8PlWj8FbDLDeRuJTdY+NnSp2eOkmt25b8QA2AJn4G6cYe
+         exMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=EU7WciX8sKH+w9b1XEMPGWcaRxUmRR4gN4otWqE07sQ=;
-        fh=CJLiEEIl60JCYCPNajPAy5mAxxs2ZMi1edZ7acymDbw=;
-        b=KJgDD3LlnXkhjJ9tg9Qp2DT5LzRiHSFXLEaymkdbVVjU/ab2pFEEO23fcZjd4E8TNf
-         OYShZWjb6HCem3kNqnm/5dhpK/R7fgN+nAG76jDPSgU+bHUPv5wx4xajTe6Bel/IT1cs
-         /3wcRplvlAc8xE5se4AWQ5+4ANt5UYjCeEmuRsHR0CvjepVU6HcvSI+gcd7ty7SeVTEf
-         KunFkirZbR6s9x3Vy2K3uc/brkq+kkqVkAicQRsfnc857po4QrVvEehJ+rXdD9IAiGZf
-         4vtbL8VngC4xszVFPHa19RxtwGIBYFM2DEyOYJirm8nppoTA+xYs51pVl3j/NSLfY6xx
-         oLkA==;
+        bh=EPg/U569krhmWGZ0yj7R94247aY6mnhIa1DTroMIzZA=;
+        fh=8bUFTemOwDoWiOdOkdFFPfADoT45yqq3f7053C+zN1s=;
+        b=ctV3ABhU6WPnHZUoDRtxDXGXDi48Ike7cq8w22PHci/KtIp8w6BghfIMNo1uBsFz3o
+         SoBAMNzxcS7n0SlWHCfpd3mxVf6xmWNYY5h6YeH7y5EzoIpTuLPa512yRL5ymXzkBFD6
+         fOF7GM9sD9VM8AhVV5FnNmD6Jnf6K+P7UQ+ySeXbK2fNvN9WL5urzYvHZxMnBHrAbRCc
+         mAfoFHi+v58xfoSd+5VSX5WXfSTdjPs6WQvS99XcCEfR9awn1uXhma0Je+Kc/wshSCuW
+         tiXkkPUX+blJh86/nkl58mTo1Pwfzk9i9tys3s4YjxvkCGS6+sKI82CIQUqr0Wgs2x2a
+         rLsQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781799553; x=1782404353; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781803261; x=1782408061; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EU7WciX8sKH+w9b1XEMPGWcaRxUmRR4gN4otWqE07sQ=;
-        b=Vm5QBIRNy50dqmjufOoz1x1vYgqCRfI2R2dsf8qwcqI69Ftcxkad60LEcg0EcIKdLM
-         Lb2kdt6dwXAW6KGx3xUG0LGgjuX3EPEe8QaEj7oe5uqd14f7DP2EzgytYHH9f8dfgMdv
-         kMuYPjAW1OuApU8zZhsBjTXVGgWNo23X9YX4jEIl7PbqLJ6/mEJ2VN+v5H8iWuqad6AH
-         40F7cd57WnHUe5cmmxz95/1MsvFfSg0bqDxs50CZOV8OF7cdlzY6zsfJYabA8K+2yVVX
-         eeA1imwhvkBoB4CjW7b7psBZDiLvlWnD61QtIT/FtzuV5z2gyJ1KmUhH2+R551fEFnla
-         birw==
+        bh=EPg/U569krhmWGZ0yj7R94247aY6mnhIa1DTroMIzZA=;
+        b=nG9OEZsPRUQoihqgoi7K9nXcRKYfqQz8vR6JviH/PDT798Gw56yHNzWVvQZQsWemQh
+         +z4SyFdNEOxRakQ2TXjcjlEJs+5U9Z73wGUOl16Kt0SRBIZHmQpkm6LwyY+96O2zLU0A
+         pyQGT1GbPhi8egDYmKlrcP+zI0eVYcJ6vmDpn0v1lWDmlxK78deMIvSX8PTgNq7J2Ds2
+         kXAH3cCj1pSZ8yslZDbgP/EYv5e6/m8yCwwWM3dqDs2cWX461BXl6WXTNpLxEQL7AF5Z
+         JSvDB0VBKjPXOx0/kPE8JuufVkvO8UMd2MCj1gl+7URGCcnowvuoxfNpfyMSfkb6C9qR
+         iszQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781799553; x=1782404353;
+        d=1e100.net; s=20251104; t=1781803261; x=1782408061;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=EU7WciX8sKH+w9b1XEMPGWcaRxUmRR4gN4otWqE07sQ=;
-        b=KqsvQ+ix943rqkjr6qR/wbXeGKEp4Wi92sp+jhGIP8Ft7ZL6KZNFSwEgAo2nKHyy85
-         CWhv/Fv8Q2av7chWNyqTRFAHb4ot4lZpL1p4cvLmfY30HrRKvZhHonCCGHL293Q2YNn2
-         HrK9n/GzYx+g6uw4G8ZPyJb3TheLhA5ikCC9GuUk4aZlrsiDAJKVQLl8hJtkH3TZe1i1
-         sflIMBUx+IToEBgQeKvNmgfEAk4vXcbDgiv6B8Uvs8SvAOEzdL58jZsMTWRVqmTRA5R9
-         lhPyHuBuIFh72EvFPBCjYxHrCdKX+/lxcerJvxrjAzR2yJwksYpeKha8VD/7ykllXpTW
-         McSQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9qdxoTL+BqVqEcWtKHEIObn95W3aOLaK1d5KcQ4LaOQ/c6SGTOyMGfJoq3VmDzmzaf55hl+Har7v+E@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqDqsVEXbMrkMbtq/rqkDjCexYB++JpeLlhgMjdINoeypxBOWe
-	UY7gKidwjTSxcplddh1rEp55gX0pK9Ps9tOPTsiY3cp5dhoJGxNwY2uLcPq9qXpmFiFEJjIho/B
-	BwyBAVEGZbTAUF/S56m4NXR7TsMnahw4=
-X-Gm-Gg: AfdE7cnKH93cg1j0QOWRfmZQfeXtWIMs0Rmlw4mwiAt/HaTdvqr1K9zP3XqURRQG4W9
-	usfQL4fql9ci6F89H24hP96nfszJQ4O88Tt/NnKAzVK0ZKnASEJYuvhYIg/JRCsK9xqSVOjcN9U
-	wAEcjkccJhKOxNPZSXZz/cN/VWLo0yhxtrk1pLqmJs22K/Mp8eQSnIf76ABgKAb9wJFY+N478qC
-	k1JepqGlBu5ZSV+ehSIoG4tsEzftJk9TPP9rL9t5Gqe0nRlSrvEG40QYQXEe+Y/jH/P2Ts+9tJ9
-	7BRADHDbPJ6yQKCWcyMjDrjvnSQoGcstXju7606Pyxk4wQMeHJzx
-X-Received: by 2002:a05:600c:a43:b0:490:50c5:8153 with SMTP id
- 5b1f17b1804b1-4923ef47dcdmr5216085e9.2.1781799552494; Thu, 18 Jun 2026
- 09:19:12 -0700 (PDT)
+        bh=EPg/U569krhmWGZ0yj7R94247aY6mnhIa1DTroMIzZA=;
+        b=F+WW5MPz4HAPMnCh48k25kolaN0GguaIzR2zt/39/7dBzLCcNca6e55fkFBbBEEMeW
+         73XWGOKw/L5R49HlUZ1kSHTu7j/NN9xK5L+YSUlpW3C9/vX1DpTCZyWTnIuTi13Qffhr
+         n0UJjd67B00AN4p+ioACZVjUY62zLpMkQAW3GB8tLhuyo9RJdqeJIghPPFK3BS5dI8c3
+         7C3GmFN7m9BJtNTk6put/K3eqVWnkVnmHzFjWib//QJfeJeh1B+jCKe6HHdDRhMFftQ2
+         DGxVJirNseet27zC0GVTvmycSCEJBpeZbGpCeDfQP8BszDQVxl1hEPXrc+Ok0phVv7jw
+         5l2g==
+X-Gm-Message-State: AOJu0YxHnDrrebh6xs8OGGVFccBzclHSV2hcqtDjzkrnaINsLCFNFVXt
+	RuCO+fozKjUilwMU3ekwGx1uXdMUf+uppu2qIG1OyW+fT1F98Y5D60s9j90Vpe5rExzxzuqc+7a
+	v8k5FVdN4laUYMwetxsB1kIMF+7v07ch2+4oodAg=
+X-Gm-Gg: AfdE7cndiB8iyCXzKTkUb2XVfG/+PSxEtxS82cKO1yPlY2H7U4kckJo7z12Dhvm6XGf
+	Em7X5Mqr4HAr/fyZuq4FAw+Uk6VqFmKoAlpIrh7ynJx3U6hc3+LqOxjSP2lVwtlPOQQxY0aHgZo
+	S2vaFAVwdRzlVGRwMgmp8g0w/pOwMOW2g5zWQJULYWhHoh6FJaKFEJScKcZdd6EV3MtNh4id5Jy
+	Wq6TL9M47Ibo4q7mXYf/J613oCwNcTogTbG8kcVa44e//wZwkE47JliWk9nbizXaVLrSQGrwzyV
+	UK67opM4uYHqCDMPv3mikXouaTZ/R4ork7Id/+xQK4OGunprYy8B
+X-Received: by 2002:a5d:420d:0:b0:43f:e721:76b8 with SMTP id
+ ffacd0b85a97d-46508afa8f6mr333484f8f.37.1781803260681; Thu, 18 Jun 2026
+ 10:21:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -86,139 +85,96 @@ References: <20260612210513.1516038-1-joannelkoong@gmail.com>
  <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com>
  <CAJfpegvNyqSS2h28-0sB2j2HUoMnKd7StMsPbvNPz67PiS9w9A@mail.gmail.com>
  <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
- <6d80e19c-00d0-49de-bd8b-7571a81b942d@bsbernd.com> <CAJnrk1bRL+Nk6mDrZyKsymLLGopzL39OQ7on1oDkxcA9zeUYCA@mail.gmail.com>
- <9f0d2b87-ce5d-4c27-b041-dacc5f449efe@bsbernd.com>
-In-Reply-To: <9f0d2b87-ce5d-4c27-b041-dacc5f449efe@bsbernd.com>
+ <CAJfpeguq+LVHoyC7ZzkF_VSAQdqmQFw4DBztiQA1Jfy=U+D9wA@mail.gmail.com>
+ <CAJnrk1Yqa0nvXCBo6GzHc2bP_V5+2dHaJn+2pWkumV0QLr0nSw@mail.gmail.com> <CAJfpegv=u=jfOqtHXpEC60unrzO7XFeP9o9HM18AVqWfN=O0Ww@mail.gmail.com>
+In-Reply-To: <CAJfpegv=u=jfOqtHXpEC60unrzO7XFeP9o9HM18AVqWfN=O0Ww@mail.gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 18 Jun 2026 09:19:00 -0700
-X-Gm-Features: AVVi8CdF0VWBo4cvSk9WJqWXA4DO7Gg0Lsrj2Ul1UWWJzcuCJs3MgNz237dnU5w
-Message-ID: <CAJnrk1Z4AfJ9xTKar_RH8SrLdMsAPuEapwn0QxnaXtmyL1knjQ@mail.gmail.com>
+Date: Thu, 18 Jun 2026 10:20:48 -0700
+X-Gm-Features: AVVi8Ce6M-buetvBNFhokDwwXdjve2bgc_oo6FUovLtMOu-gZVe0pV6ZWwNWIS8
+Message-ID: <CAJnrk1b4r0vbrm_HNe5bV11FVmdKDNAcZzkoLtoW_hEmmBjpdg@mail.gmail.com>
 Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
  buffer ring)
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, axboe@kernel.dk, 
-	jlayton@kernel.org, libaokun@linux.alibaba.com
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
+	libaokun@linux.alibaba.com, bernd@bsbernd.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 18, 2026 at 12:52=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com>=
- wrote:
->
->
->
-> On 6/18/26 09:32, Joanne Koong wrote:
-> > On Wed, Jun 17, 2026 at 7:22=E2=80=AFAM Bernd Schubert <bernd@bsbernd.c=
-om> wrote:
-> >>
-> >> On 6/17/26 14:49, Joanne Koong wrote:
-> >>> On Tue, Jun 16, 2026 at 6:26=E2=80=AFAM Miklos Szeredi <miklos@szered=
-i.hu> wrote:
-> >>>>
-> >>>> On Tue, 16 Jun 2026 at 07:28, Joanne Koong <joannelkoong@gmail.com> =
+On Thu, Jun 18, 2026 at 1:37=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
 wrote:
-> >>>>>
-> >>>>> On Mon, Jun 15, 2026 at 4:41=E2=80=AFAM Miklos Szeredi <miklos@szer=
-edi.hu> wrote:
-> >>>>>>
-> >>>>>> On Fri, 12 Jun 2026 at 23:07, Joanne Koong <joannelkoong@gmail.com=
-> wrote:
-> >>>>>>
-> >>>>>>> To use this, the server must set the FUSE_URING_BUFPOOL flag duri=
-ng
-> >>>>>>> registration and provide the payload buffer pool through the iove=
-c
-> >>>>>>> payload in the first sqe.
-> >>>>>>
-> >>>>>> I find this interface inconsistent.   Decoupling the buffer(s) fro=
-m
-> >>>>>> the seq's means that the registration should be decoupled as well,=
- no?
-> >>>>>
-> >>>>> Looking at Bernd's reduced queue series [1], I think we'd most like=
-ly
-> >>>>> want to also pass in the number of reduced queues separate from sqe
-> >>>>> registration. I think along the lines of the config sqe Bernd broug=
-ht
-> >>>>> up, it seems cleanest to add a new cmd op
-> >>>>> (FUSE_IO_URING_CMD_QUEUE_SETUP) where queue-level settings (eg flag=
-s,
-> >>>>> number of queues, bufpool, etc) gets passed in.
-> >>>>
-> >>>> Why not a separate op for bufpool registration, so it can be done
-> >>>> independently of the setup, possibly at some later time?
-> >>>
-> >>> I'm not really convinced there's a compelling use case for needing
-> >>> multiple bufpools in one queue. This was the discussion with Bernd in
-> >>> [1] about this. In my opinion, incremental buffer consumption and
-> >>> allowing different queues to support different payload sizes would
-> >>> address the use cases of multiple bufpools within one queue, but woul=
-d
-> >>> be simpler.
-> >>
-> >> To be honest, I have no idea how to implement queues with different IO
-> >> sizes. What would be the logic to select a queue? And what is if we
-> >
-> > With the separation between non-IO queues and IO-queues, I think we
-> > could just look at the request type, and dispatch accordingly so that
-> > the metadata ops go to the non-io queues and the read/write ops go to
-> > the io queues. I think the dispatch logic would be otherwise the same
-> > for choosing which particular queue within the non-io or io queues.
-> >
-> >> start with an single max-IO buf and a single queue (per numa) and then
-> >> scale up based on need? Let's say we have:
-> >>
-> >> Start 1 queue (per numa maybe), one max payload buf in that queue and
-> >> allow to scale up to max nr CPUs for the cpu to queue-id mapping. But
-> >> now additionally we get for the same CPU
-> >>
-> >> - multiple queues of the same buf size
-> >> - multiple queues of different buf sizes
-> >>
-> >
-> > I'm not seeing why this would be an issue. For multiple queues of the
-> > same buffer size, it would just be normal queue selection and for
-> > different buffer sizes, we'd jjust have two pools of queues (non-io
-> > and io) and select based on request type first which pool then apply
-> > normal queue selection within that pool. I think if a server has needs
-> > for multiple categories of buffer sizes beyond just non-io vs io,
-> > having multiple bufpools per queue makes more sense than dedicated
-> > queues to the specific categories of the different buffer sizes, but I
-> > doubt this level of granularity would be needed.
 >
-> I'm pretty much lost. It is a 3 dimensional matrix, made of cpus,
-> buffer-size and buffers. I really want to see a logic how you figured
-> which queue has free buffers.
+> On Thu, 18 Jun 2026 at 09:03, Joanne Koong <joannelkoong@gmail.com> wrote=
+:
+>
+> > imo the main benefit is for incremental buffer consumption (allowing
+> > non-overlapping parts of a buffer to be used by multiple entries
+> > concurrently). To recycle back a buffer that is used by multiple
+> > entries, it would require all requests to have been completed but I
+> > don't think in practice this is a bottleneck with reasonably sized
+> > buffer pools across queues. imo incremental buffer consumption scales
+> > more dynamically with runtime workloads than preallocating fixed
+> > buffers of different sizes across different queues trying to
+> > anticipate / guess workload needs. Overprovisioning small buffers
+> > wastes memory if those requests never appear, while splitting the
+> > memory budget towards smaller pools reduces capacity for concurrent
+> > large requests, and workload patterns might need either at different
+> > times.
+>
+> Hmm, so why partition this memory into buffers up front?
+>
+> We could just as well say that managing that chunk of  memory is up to
+> the kernel.  This would simplify the interface: the buffer size is
+> redundant, since it's the same as the max I/O size, no?
 
-We already have logic for this (done in your reduced queue series). I
-think we could just reuse that logic. A basic implementation would be
-having a separate bitmap for non-IO queues vs IO queues, and then once
-you figure out if the request is an IO or non-IO request, the rest of
-the dispatch logic would be the same for choosing a queue from either
-the non-IO queue pool or the IO queue pool. If you're concerned about
-dispatch complexity, I think separate bufpools per queue ends up being
-more complicated.
+That's a good point, especially since we can just return back offset
+into the bufpools instead of buffer id. That's a much cleaner
+interface. Though I guess if we want to be forwards-compatible with
+having the option of multiple bufpools per queue in the future, we'd
+have to add bufsize to the uapi here now. Do you think we should just
+keep it as is then?
 
 >
-> >
-> >>
-> >> Also, every queue has its own ring, syscall aggregation is not given
-> >> anymore.
-> >
-> > Syscall aggregation still applies within each ring, but I don't think
-> > sysclal aggregation is really a big factor given that libfuse and the
-> > server handles requests as they arrive and respond as soon as the
-> > request is handled, instead of batching multiple responses before
-> > submitting; on the dispatch side, requests are sent one by one as they
-> > come in rather than batched, so there's no aggregation to lose.
+> > I think we should still make the design for bufpools
+> > forward-compatible with supporting multiple bufpools if a use case
+> > comes up in the future,
 >
-> Depends, if fuse server starts with 1 buffer per queue and slowly scales
-> up, you basically get exactly one buffer per queue. That is the end of
-> aggregation.
+> Yeah, and separating buffer registration into a separate op would be
+> one step in that direction.   It doesn't have to support multiple
+> bufpools from the start, but splitting out separate functions during
+> initialization is a good idea regardless.
+
+I'm not sure I agree that splitting it out would be a good idea if we
+don't ever end up supporting multiple bufpools (imo, having this in
+QUEUE_SETUP would logically make sense and be more ergonomic) but I'm
+happy to make this change.
+
 >
+> > From my perspective, the use case I see for queues supporting
+> > different payload sizes is for separating IO requests from non-IO
+> > requests (eg lookups, getattrs) onto different queues so that non-IO
+> > requests don't get stuck waiting behind larger IO requests.
+>
+> Note, "queue" could mean two things here:
+>
+>  - fuse's waiting list
+>  - cqe's on the ring
+>
+> Currently there's 1:1 relation between those, but that's not mandatory
+> going forward.  So we could have multiple waiting queues for different
+> types of requests, but a single uring for sending them to the server.
 
-I really don't think servers will start with 1 buffer per queue.
+Even with separate waiting queues and the kernel prioritizing sending
+metadata requests before io, isn't there the issue that if the
+requests/entries on the ring are all IO requests and then a storm of
+metadata ops come in, they're still backed up waiting for the IO
+requests to be finished? Or am I missing something?
 
-Happy to discuss this together in the call later today.
+On the userspace side, I think they'd need a threadpool which would
+add extra context-switching overhead and would have to reserve a few
+threads in that pool just for non-IO requests, and then have a way to
+inspect requests in the ring to prioritize the non-IO ones, which
+seems nontrivial. But maybe there's some simpler way to do this that
+I'm not seeing.
 
 Thanks,
 Joanne
