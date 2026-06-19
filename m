@@ -1,116 +1,411 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00D62D738A
-	for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 08:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9BC360EFF
+	for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 09:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781857400; cv=pass; b=HTnBlsYsPzTVBT9lEwWMZuEKbMy416Be80uB16bGgikjZRrz3bWaS+Zp2Qz/mqd5u+opF3W1e3tLsL+EUuYPOreN4y7bB0+zf0ISdOlB9X6U9VuxYo8nTJVpVvNfk96+T7AkXnHTlqaZzvR3Sq1XdXIcTu3J9s4Zs010kzlXK8w=
+	t=1781859924; cv=pass; b=lWnlH+ErE4/x9Yo0rhHYsPDwXoL1LiHGHZ6oQW0dqaLB5fcPHKeX6ZLUKZZ+hlODQ48DUHd2BXDKjTCkCfsaQcCIG6WIBou+4Ru3FAruSF/FZVBSa4NgcoXdBLDxyXqGWttAP6xdCEPv3kLkTRc51XcC03D2pSJtcX7yksGKhbs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781857400; c=relaxed/simple;
-	bh=p53X8qJeZuXZegtm5nRtHcaV4OUOfxgcS2pvb/a+DVA=;
+	s=arc-20240116; t=1781859924; c=relaxed/simple;
+	bh=FnIPtG5OabVipvjF3sZhiQCaqdXHbGk91kIUiXzybIk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FJpbLKNq/FtBnBppKqaj2vOocKhidjGFwVsOxG1g7/F18g3dSa7/OKLWgZoA1c9VQiigS4ZoOMYh85nFJDq0nYECHoR1qKSjBnVD/adsPUr/K6CDUSD/ej6GsN/mxT8qwDBuNbyDVpEIQRkxEtdZEUZCp1selOpUGxKLNtJ2FFE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=dsmBAAlR; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	 To:Cc:Content-Type; b=icXkxy2PRC3EN9EexiiOS+oqTqKEICGhncS9JuGLP2Mh5g7Xg44WcOW7U6QN94N2Z3EY2bQdc2ksj38AUHTTZoSCYPobp0FxNBy6ao0SrExglhEDXB+EWjyMWIFezFXERgoZoba+SWs9UIut/N0DnI2etwzLQzb8l1ePC2vOSiI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T++EA+ZV; arc=pass smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="dsmBAAlR"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-519defad0d9so10166771cf.2
-        for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 01:23:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781857399; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T++EA+ZV"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-68bd9fce347so3381928a12.2
+        for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 02:05:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781859921; cv=none;
         d=google.com; s=arc-20240605;
-        b=NcAl1W9FZsYNa+6ICsfTMeY8ICPGM8nqzq20vysGlKgXBg2ZcxuBAIgpNxYGREpgvC
-         WXrPq0sIjrJ4FEtbAnaINVk58VM2aUr8YcwNWWca62cxom/Rh/it5t/iRdo/c5fCBJPz
-         KQaRVAfoXr7Bg7gGrSb8vBCZZMEMgODn44IyEouRwp2Gkn/zMBv1fsKKCuQuxENIT0I5
-         uJbaTcdjbtjrJVXG7ihBQpA3f02eaSvLodz2xjaj/dpeqN7QJ5ps/bhZQ55dBD7q50UE
-         a7IB2nauQk1RAOCWupdjVKEXV/L9yzUPApbaV+bW6rqmWCRgxNpDblj+qm5h77RYXfBg
-         2Leg==
+        b=VPnCpDeOyrQIt7G8Kt4uQpuoIcxmfnVPVuNIN3P6i5hWDmuWm9u9hbcZhK3wvUbpWF
+         qLPGaUzoNfOU35TJkAXjEYaUgjZdDM7xACSxj3Q7/2lMGa9alGi0qEVxvNPIEMssGg/C
+         YN2fWulErBuPvxL9yGPTxlLrN3kxAED6RxvlTuFfTRMPHbb0i2m3FcHHE/iH6/4h9XWk
+         AhI+RHK7eF1ERlT0+w3rRbQ1oZMfLFg6VrJGARVXOVUv/DxQ7hmgtMPkRjpqp+QL+pph
+         DM2CSRN2YxPhX+nnOEjPrPPQCu67NJCIMIISut0epuy17OnS5xMWUA6ZeZmAVsawVfwc
+         RFbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=p53X8qJeZuXZegtm5nRtHcaV4OUOfxgcS2pvb/a+DVA=;
-        fh=knyiKQP3T+2y8JixxMzcj7IqJ9nhjbdkAhWZLPBD27g=;
-        b=DqwUO+60AxbaFdVXVWb99EgCUl0dxeYfa+hyFj1w2+b1xaufhJXO4Jcj/G+Gw0lLAw
-         8dFcy2cVeI6/9+Za/rSd7U7hUfRJpWqNmrvYz2JF0hRYgyZZvZAhoFjtG2+J+2fQ8tqx
-         YtQokJQenN4upWMVomm2gbMdLuCb8aARRlXm/EpGonSb76qLRxC71EAKkPGQIw2423DO
-         +3Fi80h5kdvmiBsYsbULLNJR0wLou7RmPvS+X0y6xy3MtE9loO/fWFS3gUKNr3Ox645N
-         5N3954b+dYZn3MIPGZM6/kw7S1ZlRZiz2mOO65ifgdvapKwyEZXJAb3+6HIYoUG+HHmx
-         q6Mw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hp+W/XPor9MTnkpUu8oMu3rvTE/+NmzEH6ACiUnm3pU=;
+        fh=A0xZfzLOlNC0WgRNHROWCdcZx4xmTPCQRKe0XWMImp0=;
+        b=LzzME4H0iL3ElkjtM0IxGmsu050lBuotY8JcV2027zNH1ROYs/vknQ1g8xQu7yckEv
+         YyCHUSIlp9PwvWTfDnD3VRm4vjxu02TtpHQb9lkJ0Bwh8ghMEBMT7vyI8F4TvnW7F5B2
+         AudawDpIKXCOY2BLAoHqSbnQeneckfskwlio2inXyYXoPSPcA4gybe94IBqdBuNWld1v
+         ZOWI7Sl0NCZaep0wPKfHaiBpW8/g9XxnSrRUa3xeM5/ypVRKLy49ExHvuw/as+RDQJu/
+         i/a79CeX1wjAUsnyxjJPHm8aZFy4hswptevwVonwCdiDpruPZpv3Kzzrn1O0gPKS0CAD
+         CK7g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781857399; x=1782462199; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=p53X8qJeZuXZegtm5nRtHcaV4OUOfxgcS2pvb/a+DVA=;
-        b=dsmBAAlRFS6XB4SwyNKgyNfct2gbAd7TNaokFfEWRxNGYPrP0MJpOAmEu46MIoNIYw
-         lTgdscuD8NOq3TJO3INhXNiMVEt/knEL3YooSfu/Q3n3fVJYnfKpmrkib32fD0DtBCD7
-         N37VuCUBdppVY8VDDpoSr01zHzsLnvn8Niek8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781857399; x=1782462199;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781859921; x=1782464721; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p53X8qJeZuXZegtm5nRtHcaV4OUOfxgcS2pvb/a+DVA=;
-        b=Lx+M5fn0En7AbOKFzY11LjlC5CDdJ0pqwLvPI38/6w2WvJK2TbUG+mEpHnCEIxvfDM
-         QVq2OrlnsOVETMPug7wKW5UnIwvayXXwurpY44Tb56HzCulGjfOMWfOYNpWTxgHlUfqJ
-         CH2q0fSsP5eDZW7am/6WgTIbpNbnSDoNHZFxazCQ1pM6f9NxsMi37odJ1jmwv5NGKfIn
-         SbmEAUJo/qu5+x3w5arGT4RS/159xjB8JfZsEhscbuxodXtQYeSNJdBx7yVADkky73gC
-         bH7I0VfO/r3qxhn0dOAc4ZuDsWgpGhrUeq/z3CC+gTxJ9MsGk+l4qz6X54cZPAC3vnsv
-         IQ7A==
-X-Forwarded-Encrypted: i=1; AFNElJ+v2m+4Z3+u4UE2IzSl4jBBUhyopTcc900imowCrKi2ETEeLl3VkLkfDDLmMFUPJj/j9afH5DaEmimi@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw1evTCcv3GBoppt1uvTTA3svQUXvK36bQAZFggPuJZr8OOwWGd
-	/DIWWQM5nXZKO/BPPdZgjkOdqnhG8MUzuzt41QomNZp7lDMKIfhNtQiwUJwc09LzQXTXUgzaHe9
-	MNhgDis0rt1Z1N+ND2vdM65NLKU+IM/8FMqIsNrcjqQ==
-X-Gm-Gg: AfdE7cnSvGmy8cU+djpUJO3qWtgs6IRqVzPBRBQRcKS2EMXj0QRXvQvwz/rFj2xC/o9
-	KEfwBhYNMIINXE3Dmxd4uhWxNi5RmyzsHDAvXMeWOYZYCczppBfRnfuNCIbB0XWIiCwlk+f+Nkh
-	LQoXMLw7mCwXIuR6IKkKILjL+mynIYqoPhPqEebrFol7D7IU6HZxRu1m7b5uS6hl+NV3onK0P6C
-	8XyQLO5NMs7L7jCgDR+VGUJNPtMFvaWHqukObZov1paGvwZEzRBPUbhvfPyV7ZFLtS1sy6sY9+u
-	PxkS9KxdadWsLhCpmuVgPFv8bz4=
-X-Received: by 2002:a05:622a:d4:b0:519:51af:fecc with SMTP id
- d75a77b69052e-519e4917c10mr37068621cf.10.1781857398695; Fri, 19 Jun 2026
- 01:23:18 -0700 (PDT)
+        bh=hp+W/XPor9MTnkpUu8oMu3rvTE/+NmzEH6ACiUnm3pU=;
+        b=T++EA+ZV52cPBpud7n4yR/4wurmvGuAbKF+LBwPLuy0S7ZpJwupAf3kiLVP0zNAV0G
+         yUktYcqxGTMOSiAbaR6A0fSFlfg9NwDZHV+GHKaHHCR/T3fe9urVFJOCHPInMbm1tkZr
+         L4NGi2RRUGF6RhWc2BD3lw+4j+YTUkpfqeeUiHJmeJtkUN8s4IjY76WCR9yc5makkM9o
+         706mnDZ5MfMEq5MubYqhW8Xsa+tyRS8K1ReLgmhlfRMwsPECp6AcSdPPhNgCf2R73h7P
+         2gIHi1X3FRFgVcizdbkAROZSAYPwKFJZq/nooPlAHuCdP4Cr3iB5NI1PPH/MLqKWmiyF
+         JSKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781859921; x=1782464721;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hp+W/XPor9MTnkpUu8oMu3rvTE/+NmzEH6ACiUnm3pU=;
+        b=e2i43USNBe/J9+17x28exu89S+f8Ul41MtbwMOS+aNHzM+S2tp0NjqIneSKtz10dO7
+         bcGmpNJTw3HP495sQWZIpIBm2E1GJg5FikneEPRZmMtI9Ycecdi1wtQBeVt+Wbh8SMhW
+         pxCMVjR/H+EEJQmvAl6eHUffz5Bn6kMOLv6StWMEX74LDmMMzJcBRYTIwJdpMrsR3i99
+         ic1aw3IsifEAsqc8wIdQlcMvVp/hh9wZGf61TsjSqxKPEoKujZNNIioWNP6gfsD6lJi1
+         BwD3ctzzYEzUG4hl4IoEPoNr5yUN2raphGUhftzeOzSpS9Pj4/Hvg83qKeFDxj8pidC1
+         wspQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/JZS9Yh7LPY4h7q5fQjPaEJOvtYZpJ85rJaooqQuF2wD5X+yo35NPE86NEO2W7IOSIqLOiQQj3Xf9U@lists.linux.dev
+X-Gm-Message-State: AOJu0YyDosZcCwORSwpHZaksvfbXYRMNP1TvOU7N5//nyAKxWZlDfJFt
+	go4cbvLglaTKMO3qgqXJ3eB8uUjKbulMUVIcWaZk0S+d53S0CmCcUxnJzykRCr0AhYEbC4fMzXa
+	9GZTeZVTeOiccnQT1KeDksaP7BeeWO08=
+X-Gm-Gg: AfdE7cm8bimtffv2bbwRpkrABfS646az6QVTtCaF8gcTdILO0eaZLw88cAP0g3DcHQ0
+	0n11v4x5WnWjetvb3/Uynb/EIrepWYUAKgmdAXX/fmrdnW/FbbnqFz+cG3A60yQB4QJcl4hGDov
+	9SMI9mweLuZcXJgXgR0TtIfYi5SKD1TMJMU+2QhH/10/w/3kx/PBYfuwC42bQ7QqqWlKkBfIEpH
+	idgX6xva7nTW6z902anhSpofziZOdfXVtOywhfW1pcjox7FHT4M+PxO5Ul2YxHdgYcVLsM1VRiW
+	75y+crW01VcoXc5khT9phq/EMxdoEVY=
+X-Received: by 2002:a05:6402:2685:b0:695:a5a0:2738 with SMTP id
+ 4fb4d7f45d1cf-696e52043ddmr1390771a12.10.1781859920417; Fri, 19 Jun 2026
+ 02:05:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260612210513.1516038-1-joannelkoong@gmail.com>
- <20260612210513.1516038-8-joannelkoong@gmail.com> <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
- <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com>
- <CAJfpegvNyqSS2h28-0sB2j2HUoMnKd7StMsPbvNPz67PiS9w9A@mail.gmail.com>
- <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
- <CAJfpeguq+LVHoyC7ZzkF_VSAQdqmQFw4DBztiQA1Jfy=U+D9wA@mail.gmail.com>
- <CAJnrk1Yqa0nvXCBo6GzHc2bP_V5+2dHaJn+2pWkumV0QLr0nSw@mail.gmail.com>
- <CAJfpegv=u=jfOqtHXpEC60unrzO7XFeP9o9HM18AVqWfN=O0Ww@mail.gmail.com>
- <CAJnrk1b4r0vbrm_HNe5bV11FVmdKDNAcZzkoLtoW_hEmmBjpdg@mail.gmail.com>
- <CAJnrk1ZVs2hOc7CRAVb_fQPJiUvqK837MzOWQqv4VB9YU8q6mQ@mail.gmail.com>
- <CAJfpegsKX6g5v8jaT0iHhSXJV7SzQs1kKBW=ftnRKU27_oPZ8w@mail.gmail.com> <7a107de6-1cd1-4086-997d-258deb3429ae@bsbernd.com>
-In-Reply-To: <7a107de6-1cd1-4086-997d-258deb3429ae@bsbernd.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 19 Jun 2026 10:23:07 +0200
-X-Gm-Features: AVVi8CcuAwtmOSyUIPsWKhYcGPAidhDAKBcEfAK8vzN9ZKN_8jtaTzpKW-utRz4
-Message-ID: <CAJfpeguvahGpw+Lf0wBHK1hNTSqdprOWwTAKW689cJ6zCVpjyA@mail.gmail.com>
-Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
- buffer ring)
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev, axboe@kernel.dk, 
-	jlayton@kernel.org, libaokun@linux.alibaba.com
+References: <20260616231325.16788-1-russ.fellows@gmail.com> <20260616231325.16788-3-russ.fellows@gmail.com>
+In-Reply-To: <20260616231325.16788-3-russ.fellows@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 19 Jun 2026 11:05:08 +0200
+X-Gm-Features: AVVi8CfhFZ6f1r7vNALaOcFPTso1MsNgaUBwUZKGqTk8yrlAxmc_e_4dR3znZdU
+Message-ID: <CAOQ4uxhk6-JZg7-Kq80D=czewTCoOwhtFUT7nS6yEi855ucQEA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] fuse: allow parallel direct writes in passthrough write_iter
+To: Russ Fellows <russ.fellows@gmail.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 19 Jun 2026 at 10:10, Bernd Schubert <bernd@bsbernd.com> wrote:
+On Wed, Jun 17, 2026 at 1:13=E2=80=AFAM Russ Fellows <russ.fellows@gmail.co=
+m> wrote:
+>
+> fuse_passthrough_write_iter() unconditionally called fuse_dio_lock()
+> from file.c, which required those helpers to be exported.  That coupling
+> is unnecessary and the exported symbols are undesirable.
+>
+> Replace the fuse_dio_lock()/fuse_dio_unlock() calls with a
+> passthrough-specific pair, fuse_passthrough_lock() and
+> fuse_passthrough_unlock(), that is self-contained in passthrough.c.
+>
+> The new fuse_passthrough_lock() allows shared inode locking only when
+> all of the following are true:
+>
+>   - the open carries FOPEN_PARALLEL_DIRECT_WRITES
+>   - the write is direct I/O (IOCB_DIRECT)
+>   - the write is not append (IOCB_APPEND absent)
+>   - the write does not extend past EOF
+>
+> The past-EOF check is made once before the lock is taken (fast path
+> to choose lock type), and then re-checked after taking the shared lock.
+> This re-check closes the TOCTOU window: a concurrent writer could extend
+> EOF between the initial check and the lock acquisition; without the
+> re-check a shared-lock writer could concurrently update i_size.
+>
+> Passthrough files are always in uncached iomode (established at open
+> time via fuse_file_uncached_io_open()), so the fuse_inode_uncached_io_sta=
+rt()
+> guard from fuse_dio_lock() is not needed here.
+>
+> Restore fuse_dio_lock() and fuse_dio_unlock() to file-private (static).
+> Remove their declarations from fuse_i.h.
+>
+> Signed-off-by: Russ Fellows <russ.fellows@gmail.com>
+> ---
+>  fs/fuse/file.c        |  6 ++--
+>  fs/fuse/fuse_i.h      |  2 --
+>  fs/fuse/passthrough.c | 74 +++++++++++++++++++++++++++++++++++++++++--
+>  3 files changed, 75 insertions(+), 7 deletions(-)
+>
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 7cba331d0..f8651a195 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -1366,8 +1366,8 @@ static bool fuse_dio_wr_exclusive_lock(struct kiocb=
+ *iocb, struct iov_iter *from
+>         return false;
+>  }
+>
+> -void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
+> -                  bool *exclusive)
+> +static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
+> +                         bool *exclusive)
+>  {
+>         struct inode *inode =3D file_inode(iocb->ki_filp);
+>         struct fuse_inode *fi =3D get_fuse_inode(inode);
+> @@ -1393,7 +1393,7 @@ void fuse_dio_lock(struct kiocb *iocb, struct iov_i=
+ter *from,
+>         }
+>  }
+>
+> -void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
+> +static void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
+>  {
+>         struct inode *inode =3D file_inode(iocb->ki_filp);
+>         struct fuse_inode *fi =3D get_fuse_inode(inode);
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 8d05c7c52..cc428d04b 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -1507,8 +1507,6 @@ int fuse_file_io_open(struct file *file, struct ino=
+de *inode);
+>  void fuse_file_io_release(struct fuse_file *ff, struct inode *inode);
+>
+>  /* file.c */
+> -void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from, bool *excl=
+usive);
+> -void fuse_dio_unlock(struct kiocb *iocb, bool exclusive);
+>  struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
+>                                  unsigned int open_flags, bool isdir);
+>  void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+> index ee822a983..11c16de4d 100644
+> --- a/fs/fuse/passthrough.c
+> +++ b/fs/fuse/passthrough.c
+> @@ -25,6 +25,76 @@ static void fuse_passthrough_end_write(struct kiocb *i=
+ocb, ssize_t ret)
+>         fuse_write_update_attr(inode, iocb->ki_pos, ret);
+>  }
+>
+> +static bool fuse_passthrough_io_past_eof(struct kiocb *iocb,
+> +                                        struct iov_iter *iter)
+> +{
+> +       struct inode *inode =3D file_inode(iocb->ki_filp);
+> +
+> +       return iocb->ki_pos + iov_iter_count(iter) > i_size_read(inode);
+> +}
+> +
+> +/*
+> + * Decide whether an exclusive inode lock is required for a passthrough =
+write
+> + * before the lock is taken.  Returns true (exclusive needed) unless all=
+ of:
+> + *   - server advertised FOPEN_PARALLEL_DIRECT_WRITES
+> + *   - write is direct I/O (not buffered)
+> + *   - write is not append
+> + *   - write does not appear to extend past EOF (re-checked after lock b=
+elow)
+> + */
+> +static bool fuse_passthrough_write_needs_exclusive(struct kiocb *iocb,
+> +                                                  struct iov_iter *iter)
+> +{
+> +       struct fuse_file *ff =3D iocb->ki_filp->private_data;
+> +
+> +       if (!(ff->open_flags & FOPEN_PARALLEL_DIRECT_WRITES))
+> +               return true;
+> +
+> +       if (!(iocb->ki_flags & IOCB_DIRECT))
+> +               return true;
+> +       if (iocb->ki_flags & IOCB_APPEND)
+> +               return true;
+> +       if (fuse_passthrough_io_past_eof(iocb, iter))
+> +               return true;
+> +
+> +       return false;
+> +}
+> +
+> +static void fuse_passthrough_lock(struct kiocb *iocb, struct iov_iter *i=
+ter,
+> +                                 bool *exclusive)
+> +{
+> +       struct inode *inode =3D file_inode(iocb->ki_filp);
+> +
+> +       *exclusive =3D fuse_passthrough_write_needs_exclusive(iocb, iter)=
+;
+> +       if (*exclusive) {
+> +               inode_lock(inode);
+> +       } else {
+> +               inode_lock_shared(inode);
+> +               /*
+> +                * The past-EOF check in fuse_passthrough_write_needs_exc=
+lusive()
+> +                * was made without holding the inode lock and may have r=
+aced
+> +                * with a concurrent EOF-extending write.  Re-check under=
+ the
+> +                * shared lock and upgrade to exclusive if the write now =
+reaches
+> +                * past EOF, to ensure i_size is never updated without ex=
+clusive
+> +                * serialisation.
+> +                */
+> +               if (fuse_passthrough_io_past_eof(iocb, iter)) {
+> +                       inode_unlock_shared(inode);
+> +                       inode_lock(inode);
+> +                       *exclusive =3D true;
+> +               }
+> +       }
+> +}
+> +
+> +static void fuse_passthrough_unlock(struct kiocb *iocb, bool exclusive)
+> +{
+> +       struct inode *inode =3D file_inode(iocb->ki_filp);
+> +
+> +       if (exclusive)
+> +               inode_unlock(inode);
+> +       else
+> +               inode_unlock_shared(inode);
+> +}
+> +
 
-> If queues are treated 1D (per cpu) we end up with limited buf additions
-> and possibly queues of different buf sizes.
-> If we decide to do queues per CPU and buf, we end up 2D (buf x cpu) and
-> search which queue to use gets complex. Maybe I miss something, but it
-> sounds weird.
+I'll take the blame for phrasing my review comment
+"Either you duplicate fuse_dio_lock() -> fuse_passthrough_lock()
+or you find a way to have the two share common helper (prefered)"
 
-For now, lets just keep it the queues 1D, if it turns out that some
-workload needs more queues per CPU then we need to work on a solution
-for that.
+I should have phrased it stronger.
+Unless there is a very good reason not to share a common helper
+we need to use a common helper and not duplicate 99% identical code.
+
+See my untested patch trying to do that below.
 
 Thanks,
-Miklos
+Amir.
+
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index f94f3dc082c6b..6909b4bbba685 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -1397,19 +1397,24 @@ static bool fuse_io_past_eof(struct kiocb
+*iocb, struct iov_iter *iter)
+ }
+
+ /*
+- * @return true if an exclusive lock for direct IO writes is needed
++ * @return true if an exclusive lock for direct IO or passthrough
+writes is needed
+  */
+-static bool fuse_dio_wr_exclusive_lock(struct kiocb *iocb, struct
+iov_iter *from)
++static bool fuse_io_wr_exclusive_lock(struct kiocb *iocb, struct
+iov_iter *from)
+ {
+        struct file *file =3D iocb->ki_filp;
+        struct fuse_file *ff =3D file->private_data;
+        struct inode *inode =3D file_inode(iocb->ki_filp);
+        struct fuse_inode *fi =3D get_fuse_inode(inode);
++       bool fopen_direct_io =3D ff->open_flags & FOPEN_DIRECT_IO;
+
+        /* Server side has to advise that it supports parallel dio writes. =
+*/
+        if (!(ff->open_flags & FOPEN_PARALLEL_DIRECT_WRITES))
+                return true;
+
++       /* Passthrough mode supports parallel IOCB_DIRECT writes */
++       if (!fopen_direct_io && !(iocb->ki_flags & IOCB_DIRECT))
++               return true;
++
+        /*
+         * Append will need to know the eventual EOF - always needs an
+         * exclusive lock.
+@@ -1428,13 +1433,33 @@ static bool fuse_dio_wr_exclusive_lock(struct
+kiocb *iocb, struct iov_iter *from
+        return false;
+ }
+
+ static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
+-                         bool *exclusive)
++static int fuse_parallel_dio_start(struct fuse_file *ff, struct fuse_inode=
+ *fi)
++{
++       /* Permanent uncached mode from passthrough open */
++       if (ff->iomode =3D=3D IOM_UNCACHED)
++               return 0;
++
++       return fuse_inode_uncached_io_start(fi, NULL);
++}
++
++static void fuse_parallel_dio_end(struct fuse_file *ff, struct fuse_inode =
+*fi)
++{
++       /* Permanent uncached mode from passthrough open */
++       if (ff->iomode =3D=3D IOM_UNCACHED)
++               return;
++
++       /* Allow opens in caching mode after last parallel dio end */
++       fuse_inode_uncached_io_end(fi);
++}
++
++/* Take shared/exclusive lock for direct IO or passthrough write */
++void fuse_io_wr_lock(struct kiocb *iocb, struct iov_iter *from, bool
+*exclusive)
+ {
++       struct fuse_file *ff =3D iocb->ki_filp->private_data;
+        struct inode *inode =3D file_inode(iocb->ki_filp);
+        struct fuse_inode *fi =3D get_fuse_inode(inode);
+
+-       *exclusive =3D fuse_dio_wr_exclusive_lock(iocb, from);
++       *exclusive =3D fuse_io_wr_exclusive_lock(iocb, from);
+        if (*exclusive) {
+                inode_lock(inode);
+        } else {
+@@ -1447,7 +1472,7 @@ static void fuse_dio_lock(struct kiocb *iocb,
+struct iov_iter *from,
+                 * have raced, so check it again.
+                 */
+                if (fuse_io_past_eof(iocb, from) ||
+-                   fuse_inode_uncached_io_start(fi, NULL) !=3D 0) {
++                   fuse_parallel_dio_start(ff, fi) !=3D 0) {
+                        inode_unlock_shared(inode);
+                        inode_lock(inode);
+                        *exclusive =3D true;
+@@ -1455,16 +1480,17 @@ static void fuse_dio_lock(struct kiocb *iocb,
+struct iov_iter *from,
+        }
+ }
+
+-static void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
++/* Release shared/exclusive lock taken for direct IO or passthrough write =
+*/
++void fuse_io_wr_unlock(struct kiocb *iocb, bool exclusive)
+ {
++       struct fuse_file *ff =3D iocb->ki_filp->private_data;
+        struct inode *inode =3D file_inode(iocb->ki_filp);
+        struct fuse_inode *fi =3D get_fuse_inode(inode);
+
+        if (exclusive) {
+                inode_unlock(inode);
+        } else {
+-               /* Allow opens in caching mode after last parallel dio end =
+*/
+-               fuse_inode_uncached_io_end(fi);
++               fuse_parallel_dio_end(ff, fi);
+                inode_unlock_shared(inode);
+        }
+ }
+@@ -1793,7 +1819,7 @@ static ssize_t fuse_direct_write_iter(struct
+kiocb *iocb, struct iov_iter *from)
+        ssize_t res;
+        bool exclusive;
+
+-       fuse_dio_lock(iocb, from, &exclusive);
++       fuse_io_wr_lock(iocb, from, &exclusive);
+        res =3D generic_write_checks(iocb, from);
+        if (res > 0) {
+                task_io_account_write(res);
+@@ -1807,7 +1833,7 @@ static ssize_t fuse_direct_write_iter(struct
+kiocb *iocb, struct iov_iter *from)
+                        fuse_write_update_attr(inode, iocb->ki_pos, res);
+                }
+        }
+-       fuse_dio_unlock(iocb, exclusive);
++       fuse_io_wr_unlock(iocb, exclusive);
+
+        return res;
+ }
