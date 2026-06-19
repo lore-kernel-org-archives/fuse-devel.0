@@ -1,129 +1,123 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A25434BA5B
-	for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 07:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781855861; cv=pass; b=pByirm/EQkq8Hb0yi8tWTHQNdAxIEvu/OUR2ZXmuW7ArFp8XC6C5deMPthtGfl50unVNY3owQEHgEpTHbJphxxmOX4F/i4J8jyZLGXV2xOpGqOpT/Jr3gLYfi5b/AsvNrBbcq57gc1mzjfB/2G7J6kn5s3KZlS3e9/7WWDyPEFE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781855861; c=relaxed/simple;
-	bh=hcFvNslR9GIBv86wDA87a8S/oLYtv7V8q5nG/kfE8B8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HcpFNpy+qkRYy/Qw5c92GTonTTmVZeC6EHp5qnaJEbXn9pQrlxkIH/U4qlAywPIlueR8V/hVxX6vOqUxJfmk/u9zaz0txNvs35prcVrpmXufckmzUECNgsQkcnWyYjzUhGDr2I737b3kqA42Ka8YRQNf3lW3k0YnQ07MdS8B9eg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=niqsfeSn; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C3B31E842
+	for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 08:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781856603; cv=none; b=ZmH0UaIlDhJ8xNdryxzsgs7jEoo8w9x2yDGXrv0So1OCzo60DWjhYoUcs4bcYfcw2NrvPa0KgQsDVpz9IDm9m28C1HHhDn3KgiAh+bUNDFCaUesJg3OX2PDzZDwUtbZdDKS14eqGiIp9XbTLbZi3xqlgvYfERHg4v0CcAcTO6O0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781856603; c=relaxed/simple;
+	bh=mIwOG1sqx6n+QnkTqXSI9z11jSkJkH+xDvmnHdUvix0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gb8Toj8/+mbdO9Gx6gGdUZMs4hzbdn5Amh7pEpItnf08TAzE8zDHeZegoV6XCNDCmBQKks2uLB4+N8hoeBFYpD8KHokSRc9CnjM1CMZaPplIvaHB8RV5++rUPcVbvUE/KniyPnY3yadO9pasHx2aVd5Qmf+99YY3odc3ouDl0oY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=v90Cq4io; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AuIwxv+r; arc=none smtp.client-ip=103.168.172.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="niqsfeSn"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-517b1f2c6adso16500061cf.2
-        for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 00:57:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781855857; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NEpFodoa4w8TIMVVJYBiKVSkz+dLA84Mb/gQRPquhQsJK8d0w2BI1rlXNDaVaC7JxZ
-         wpyFtyr2+i6C1vvIyp5JrqH0JY32fvOBB13HTvYmRmdqSBV04qR5vVWQz9sVJ0L7PZSn
-         p8cF7Z64abppdHmvQ8mCqiN+9XQLL2bkU3IcQlhENwtOKUx68VeTMmMCvXq9zrIWuFa3
-         13HlUTNIOex0vt7fK6d0RNxBFpbpM6ax+mWPHs7ruGO84ZurXjaodUki0LmX0x2+k4WS
-         VmfLtu0dYzoOq8NCvC/eYS4YGcwLzRtW+uV0Kr5MiJ4Fk0z4DHj1YIOOBfQgUHrqIa34
-         U/SA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yueEIqiLMjd4SP69a27bbFdVzyy205bKa4rSPUvc9gQ=;
-        fh=w2Dy9MBCymTAHXuuQoFoyTRhGtZ+o5YcX5Bg6rpudfc=;
-        b=bbmDhpj9pdK8ZZ8ifNXqJAbzX/D89RahYR9cBaXYFM4X0gkvD1LDH0OJED6Ix0Dufq
-         rkrK5P+gXDa3GMaY5j7/NQVaLq1Wyp+LQ+az9cPe6g9lkOMPJP17NF2d/E+xUitIXTDf
-         +ghbZFl5lec/6LaXf/Ib99z4MRRYh5V/ULu2qZdhmjmInAwI7p2uh/BYaOsN8claAVqP
-         pGm885UVDSfmZafd433KgExOwNExzbun4DmHf3lA6SlL6QTa6AohDNqTa38WrfCA1pvm
-         voSb/0F1qXCdz7hUn42WdYnHTJT7vUzPDoS3uHzmT0lud4R2HLIMqMm3NB4XnwtcRhQu
-         qQDw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1781855857; x=1782460657; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yueEIqiLMjd4SP69a27bbFdVzyy205bKa4rSPUvc9gQ=;
-        b=niqsfeSn+Yvssm256hdaCOj2eA/8K5kY+RXFhAc+4TGksa9jXNMQyTzD0PwFGVh/bQ
-         c53CrHqnBIIOcMjd1L2sa0GLhoWy6XA9Kt/wNoaRNWzqPhtCEUmJpUx5F+IOGkOgPfrk
-         heRqvgSsxIWFlbC/NfpenaNjyOAjL+7fR8Oto=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781855857; x=1782460657;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yueEIqiLMjd4SP69a27bbFdVzyy205bKa4rSPUvc9gQ=;
-        b=pNwj5IUAKl1Mr1VKpRaUiCnJ7jllp9WvOz7PtCXcTtaVUHQcL0B4PhZeZfgxDZ0/o+
-         CKK4eVU4ltNdAzVpltJhgoVub2YtIsw0YFrULXcRWl8q5TO83QtFusXP/VNbLnIxU06D
-         ZaXVK5PPeLTQ1Fi5L2CjyMV1tfzRb60AVaHVtFP4ZNtB1wsfM+/9eXO135ZEEzytGb6N
-         OQqc6pB9bJYFGDAX7iwoRUs1oUaSvM/ib3XDZ/BRSrHmM1YfIs9fXMs/TUg/MASCKHpT
-         8YJaMW24j+gU5IpDfE3ndGY2zVo9xmwjOCWiMsP/HNsXJMPuuQbhxnj1s/srrEJlrWsJ
-         JHlQ==
-X-Gm-Message-State: AOJu0Yy6KMUeikCixtFn9aPDaAfTHEB5QBqpRlUHWAfZxyB9Jv66tKhT
-	dIe2kniTX82x5xMjRcyz/ByBgsx860xAOFaJ8Z+ktBtZA4aD64jQOjJOi1LuarIML3+ROCeilyY
-	qYzIAQvLTch93x3q4xx4YyFREJnar3lkUVnlnSbiF8Q==
-X-Gm-Gg: AfdE7cmAUSWCaAkGdzCrEMYPSv254FwWLUsNEs/56gF03J0CO8Wsb0MUuAlwGQsg8HF
-	W+VLK2IyfwvuqlnFJa4IvtEkDlnL3lspdjJSeSsb2fhFk+aIMENAjL5IDfr+y5vT00R3z6pBDUi
-	RrKGIijEQeOHO2uDx9g0Iqd+iYvhOUpetqkvchVXVLgSJtG16avxzMHDR2Qjoov8RZogsGTaMPH
-	Jo2eB8oD/IL/T3CE2CkGv1Dm/KaWcFw+Rb6eMvyurMIMffGwYhWVjddc2+YWXtJd41bfGz9WFca
-	9zGWYAyOkRNuBBbO4iugwZQ2jlY=
-X-Received: by 2002:a05:622a:24f:b0:517:580c:bcd3 with SMTP id
- d75a77b69052e-519f02dae0fmr17957461cf.19.1781855857151; Fri, 19 Jun 2026
- 00:57:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="v90Cq4io";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AuIwxv+r"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 1CD75EC013B;
+	Fri, 19 Jun 2026 04:10:01 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Fri, 19 Jun 2026 04:10:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1781856601;
+	 x=1781943001; bh=VOm0LnUZxc6zzlyi/bqBFM2WkigVbV6gf6J2XrjdR1o=; b=
+	v90Cq4ioi2JHo+WfrrGchcUTaax8plmmSNuatCedeJkwziKPmfb1vfBEqLdp/wWH
+	yKlAi9aX3P3hzrBicsZKUnscj/4RC1klP1q5p6zX/cx1C0ntdh/8pCcwr+UacSla
+	2SoorP1GQ1QmKwMlOKh5FO4kqyF2MjNQq99Pzdr7N3ROfQsmLh2UmtR1g0YO5jN8
+	Xq5b6/w5DmoQICwkaa//SzErui1wopFHO02yao5CGNPwfgpDZ0KiqEVkDiszpn7r
+	bs/IbXVTcFulrLLBE5a+jj7cm8gPcOQgMwOEzN8xr1hnDe2y+rJ1wdSLHk0wxifg
+	5+Jtv9l3NoTplNIDqHdKkQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781856601; x=
+	1781943001; bh=VOm0LnUZxc6zzlyi/bqBFM2WkigVbV6gf6J2XrjdR1o=; b=A
+	uIwxv+rysgRNNJHB48NP1LhV2J4j+3qvu7qDlhRWXb2CIS/UBiGi0ws13xgnkDZI
+	OF4j2CpnjRe2ZdSNJG/vUhYlSEvKvZkCdQO/VlHj7SV+NZ2U4KT8hL43QwHuCxK2
+	K2C4yKDfCwlOl1l6k6yRH1L8qzjP2hHIVdyZddKa/DQSr5XGU/s5i3BUKsS+bjX+
+	Pze+B1kVMUt4XQYZyXfrRCqvwQC0ktAKRfaUxgB6tbsTZyOK+m0qTSV9i6DucKfT
+	rIYNA2lAkbMXWpTrURSy0Sujzker7Yxe9u8Ao9Ax4mpPZDi4IaDzPlnIZme5lSfC
+	jgJAMd3AfNaIelWN4kL4g==
+X-ME-Sender: <xms:V_k0apr7r6rh0NNcr4R_L-8FsxjDlgpJ0FmA2MtbKqAXuSC78nbA5Q>
+    <xme:V_k0ak_s3yowvyBv6KJekOzkboQoMqN1QaRjoxNO_NRZyXIt4Rpb5AIXbT6MNV4zQ
+    XPlZmg_STQRyBeAJ_JaVHmYVB-KSWfjS4HnrbwyyjCEKtnjqP2p>
+X-ME-Received: <xmr:V_k0atdm8DA7dub4wlSHj5Zy2lscltOYKWzjjhQ2pyxPvZfosNRY0jX3wVl4ZS0_DDPpIWR0Wcv_qNk_sfHhcaXEhJemGLsr1JVn8DeNLDDY5XRXTg>
+X-ME-Proxy-Cause: dmFkZTFUTrHu2zkOiFBff+dRuPEf+uLsePlQtF9iiIIeRyAyuqSD9cFLdMHBN9IBDwfZMT
+    YPtVuvDJS3HOgkXP2itnIRggGFxXRFVK3BBwdRudlDVLxdkakl/lfbBLmrItmHGPLDu8YD
+    /dbHjPO5uMuRtRfFUArNcsfPZMl4rKUcD08u3nhJYg8VAFb6kolI3SvXYaxc0egYGt6C9r
+    1aMpYsexcm3HZVlg9Ft+0vUhMiVc+tfmVptSPgTxapupIpvCVHgrd2gLIAZEDJPcHBmgPd
+    xowpeYTyyAES1BJQ7rcRMHoFaIUXvPGWXF12sSxs3ip4MY/Mq8K2XcEdZY12nkLJ/kYzNA
+    4Ip7VuoyFT8u9tyROUFGyoHHuvo0vuMzndj4lbFzjxrQaVGNtVuxZbv6RokhwxObvC117s
+    lXB5zfzztAlOGEYbIPCuTF1IpOrkHDRbV7XdqV2VIGyWvzLmayNzUerzdqpVzZ7O6K0jpN
+    djoO7jfVGRYzFpi38bVQ6go4dEIoZ+yjkpaJt8RcBVXpAvtv8eDo0kyjV0tpVlnSKDk9Q3
+    Wulei7qZz/Uphv+n7NSumo49wxklOS7Uhs859aqM1Wy/I0wCqpKVj3z8ZqujBh0zQd3aHf
+    Hgfsk3uL2kamy8FxehzNyfweZc6SvvxYyqccbyKUtjLKIeZt5JmGsf+h8UZQ
+X-ME-Proxy: <xmx:V_k0amISJaLY8mjJKlepXMQAP7_L2dRDWfFbiP15s6cHlJKPj7ub8w>
+    <xmx:WPk0alhWrVQp_dKfzVWdnx0ieYYtJhkuD_aTX07WsH0IsXs9yU-VXA>
+    <xmx:WPk0asTXTrGD1vk0XGnuLjiUrcBJNWxMU7x6U98SgNaZ96ncW0_SWQ>
+    <xmx:WPk0anXSXyDhWn_rJ5ZEPFIsC1YStnbxMaNd35JEw80jIBiGqMLHCw>
+    <xmx:Wfk0avIXHnjYmbt1S1xr5S3to1h7NAz-gIAdZLzCwaatMpJ5b0oigc51>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 19 Jun 2026 04:09:59 -0400 (EDT)
+Message-ID: <7a107de6-1cd1-4086-997d-258deb3429ae@bsbernd.com>
+Date: Fri, 19 Jun 2026 10:09:57 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
+ buffer ring)
+To: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
+Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org,
+ libaokun@linux.alibaba.com
 References: <20260612210513.1516038-1-joannelkoong@gmail.com>
- <20260612210513.1516038-8-joannelkoong@gmail.com> <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
+ <20260612210513.1516038-8-joannelkoong@gmail.com>
+ <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
  <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com>
  <CAJfpegvNyqSS2h28-0sB2j2HUoMnKd7StMsPbvNPz67PiS9w9A@mail.gmail.com>
  <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
  <CAJfpeguq+LVHoyC7ZzkF_VSAQdqmQFw4DBztiQA1Jfy=U+D9wA@mail.gmail.com>
  <CAJnrk1Yqa0nvXCBo6GzHc2bP_V5+2dHaJn+2pWkumV0QLr0nSw@mail.gmail.com>
  <CAJfpegv=u=jfOqtHXpEC60unrzO7XFeP9o9HM18AVqWfN=O0Ww@mail.gmail.com>
- <CAJnrk1b4r0vbrm_HNe5bV11FVmdKDNAcZzkoLtoW_hEmmBjpdg@mail.gmail.com> <CAJnrk1ZVs2hOc7CRAVb_fQPJiUvqK837MzOWQqv4VB9YU8q6mQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1ZVs2hOc7CRAVb_fQPJiUvqK837MzOWQqv4VB9YU8q6mQ@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 19 Jun 2026 09:57:25 +0200
-X-Gm-Features: AVVi8CfeSufonPFqYEkhcpi3RKlCchShW0ve06oR5Br7dkLamMFWBKoO_Z5Cf1Y
-Message-ID: <CAJfpegsKX6g5v8jaT0iHhSXJV7SzQs1kKBW=ftnRKU27_oPZ8w@mail.gmail.com>
-Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
- buffer ring)
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
-	libaokun@linux.alibaba.com, bernd@bsbernd.com
-Content-Type: text/plain; charset="UTF-8"
+ <CAJnrk1b4r0vbrm_HNe5bV11FVmdKDNAcZzkoLtoW_hEmmBjpdg@mail.gmail.com>
+ <CAJnrk1ZVs2hOc7CRAVb_fQPJiUvqK837MzOWQqv4VB9YU8q6mQ@mail.gmail.com>
+ <CAJfpegsKX6g5v8jaT0iHhSXJV7SzQs1kKBW=ftnRKU27_oPZ8w@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <CAJfpegsKX6g5v8jaT0iHhSXJV7SzQs1kKBW=ftnRKU27_oPZ8w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 19 Jun 2026 at 00:23, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-> I like your idea a lot about just passing a chunk of memory to the
-> kernel and offloading the management logic entirely to the kernel.
-> Maybe I'm missing something obvious, but why would multiple pools per
-> queue still be needed?
 
-Maybe you are right that it won't be needed.
+On 6/19/26 09:57, Miklos Szeredi wrote:
+> On Fri, 19 Jun 2026 at 00:23, Joanne Koong <joannelkoong@gmail.com> wrote:
+> 
+>> I like your idea a lot about just passing a chunk of memory to the
+>> kernel and offloading the management logic entirely to the kernel.
+>> Maybe I'm missing something obvious, but why would multiple pools per
+>> queue still be needed?
+> 
+> Maybe you are right that it won't be needed.
 
-But I still feel that splitting the buffer registration from the queue
-entry registration makes sense.  But maybe we agree about that
-already.
+If queues are treated 1D (per cpu) we end up with limited buf additions
+and possibly queues of different buf sizes.
+If we decide to do queues per CPU and buf, we end up 2D (buf x cpu) and
+search which queue to use gets complex. Maybe I miss something, but it
+sounds weird.
 
-> > Even with separate waiting queues and the kernel prioritizing sending
-> > metadata requests before io, isn't there the issue that if the
-> > requests/entries on the ring are all IO requests and then a storm of
-> > metadata ops come in, they're still backed up waiting for the IO
-> > requests to be finished? Or am I missing something?
->
-> Thinking about this some more, I think the kernel could just
-> pre-reserve some ring entries specifically for metadata ops / non-IO
-> requests. That solves it on the kernel side but the userspace side
-> would still need a threadpool of some sort if its backend IO blocks
-> its queue thread.
-
-Do "normal" filesystems use different block device queues for metadata
-and data I/O?
 
 Thanks,
-Miklos
+Bernd
