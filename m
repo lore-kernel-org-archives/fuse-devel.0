@@ -1,214 +1,129 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC9424293C
-	for <fuse-devel@lists.linux.dev>; Thu, 18 Jun 2026 22:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781822246; cv=none; b=IPHFd9OqyMxnP2PrKSJkXlQPt04ibczyIPxfCtRnbSFBP8TmqzynGcVuvSaep16WQBlh4g2wa36WwIpphYn/oNvpsGvvfaa/ZLM+hSq2LezKB1bunnFZp/9kvLbgBpbgx7VSvJ4g/xk+YzuVO25gJByaFmmYLPjOMrsD2KJXS3Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781822246; c=relaxed/simple;
-	bh=CmpHBylSGgRh4CTpoveVH+IaTMZArtm9TzuV0R8TFg0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cn/Xv98I+0dvZg59aN2lOh5bb/3EH1+p5CuMwxVPoe8zeCLjLAE6RUr0lPbF6Unw+JyQU/2pKw9rcXjh8CTSaA/U7m/alWKEu00R7j+eSJ0hvfmV1JHKIf3ZE5I3NBesmhzjFrh0jKHMsNSIn3Wqo46IMwSObHk/qc9WYPyavE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=vxdzrATt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KNaWT6LT; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A25434BA5B
+	for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 07:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781855861; cv=pass; b=pByirm/EQkq8Hb0yi8tWTHQNdAxIEvu/OUR2ZXmuW7ArFp8XC6C5deMPthtGfl50unVNY3owQEHgEpTHbJphxxmOX4F/i4J8jyZLGXV2xOpGqOpT/Jr3gLYfi5b/AsvNrBbcq57gc1mzjfB/2G7J6kn5s3KZlS3e9/7WWDyPEFE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781855861; c=relaxed/simple;
+	bh=hcFvNslR9GIBv86wDA87a8S/oLYtv7V8q5nG/kfE8B8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HcpFNpy+qkRYy/Qw5c92GTonTTmVZeC6EHp5qnaJEbXn9pQrlxkIH/U4qlAywPIlueR8V/hVxX6vOqUxJfmk/u9zaz0txNvs35prcVrpmXufckmzUECNgsQkcnWyYjzUhGDr2I737b3kqA42Ka8YRQNf3lW3k0YnQ07MdS8B9eg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=niqsfeSn; arc=pass smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="vxdzrATt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KNaWT6LT"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id CB6F37A0060;
-	Thu, 18 Jun 2026 18:37:23 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Thu, 18 Jun 2026 18:37:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1781822243;
-	 x=1781908643; bh=WFQdoC+cSKI6TEMahDCbPMzbe4CwBe2pw24cy48raBc=; b=
-	vxdzrATtMDEHfXRqlKJsh/HNY2vrc8ypl9KIjqGcPdJpUCal3tbudv3A8Odsn4WJ
-	06vkNPsgiUtwhprS17O/8ogpdXL6XgYELelrDrEgA4HOyW71+RvZuMrhnm4NHVX9
-	LlXdrxBcjGHiQp9PPYFutboAvKLXKPdITRPhEdiDdq3BqxKZ4IfRDlNfK3DuzoyD
-	UiM7LhSCXt+aKHv2ty0p3hPWaAb4QG/3RFVvA1b/if8PXTnyWfNhFdKWxMA/GX6g
-	Q9HHO/1d+I7U7DyyVpDrX/A73JhQYaPJOYLvF6CSNbTPzMlhPOUBl97YDAy2Wj3U
-	jmHqQmwyYEkccmbKB2+5Ow==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781822243; x=
-	1781908643; bh=WFQdoC+cSKI6TEMahDCbPMzbe4CwBe2pw24cy48raBc=; b=K
-	NaWT6LTgN9i4f9xHkzkLWhHB6jLYD0DRvOARh5j9R/CDBr8MQ4L9KNEEr9hhZKpq
-	9w6J8Sg/SGxZp803WApAfil/MthHv59Car+b5v3KZk5dCFQX1EtwSEFMrv3vmBzo
-	CUbq8C3fQbaRqZhFrA523TATWaC/t2zYv6kmqCtah9zoXo5b9S4KB/7q2wkr3jA+
-	MgrzsHA6R0CrFAOvr7l7ygCP+GYnSBSRhZtBu/UdPkaKAxAvBNHzpwgXzzu9Yg/L
-	PulXRPaZ1hUgvZL5Bh3h930SNZSHjUfdkM3oYqLZ+1FGztmB2wvUqSUpsQnr2g8K
-	fLY+BksSroT0MgwYXsgUg==
-X-ME-Sender: <xms:InM0an3_WmNToVBU5MI57PalvDh1sZU_912JbU8HgCy71OayGRfnkg>
-    <xme:InM0avaFcuAYesYjWtDQSDNY-M2F3tqLQni2EoeeCc4SYIFBttS8SleuYnJFN00_a
-    6bGzp6BreIOeR5mEAxjKVIZRnmEsja_RDAxnyL01MPJK3jQ3mIVJg>
-X-ME-Received: <xmr:InM0avLcW67ATv2NEeQHwGxUcrlOMm8YUT8sbmeLg2T0ozlY0a9jqhtutqFa024n2Oo5QNY0ijkw5k5RUSy2P5dWjVThnaNR9iwBeiMzR326q44QZA>
-X-ME-Proxy-Cause: dmFkZTG1GuXplH7CNAcHLnRUe87Dl0fhMUOrfSI4rooi7qDL8qVyDlQ3DoekUJUgnRARYC
-    jZbroEinwE4UIaS6FloFcxSgFufOvfHbPVpLmGf7UczBvT2wAocqLKUpSucFf4D6tlONWF
-    tmv+kmMus5y+jVCsHmTAavDjiScYkVC92L2GHQJZoG/XLx+HfnbtfW7+a+1rUPlPN1xeaR
-    fKce93mSTMSy7rN4n5iJRP+bEW06jv3ST4URVoKmSQiK5pngCl3la1yZmT/Pdtjv9cbTsA
-    dQ/bWmoyorTHAHiq7tX5SXYvwojGzW4AuJpLHnKc4z9x+ceQjItPaRAG9l0SAonMsTwvrE
-    MPMViHdFxg2dg8p9T7ngpyS3y3311LkHSCzssXEbac9Vih2NNBC23eECvfJqfH5ncLgBgl
-    JU7/6O/sF6T1q5D7xa4xH8ogpGlcBEIg2ro3us8FgvsRdqfmR1p5Ag48XQICARLMvnoOkW
-    0PkEYHPq6pZhjrBhJt4wBLL1gdR5aEx+gjS2GJMdpfnW6tX6zAS+nXbUig9yWUjnUXwHZF
-    vHqBtTb6lY/QByqZ92iK3g2cF2vuqFzop1fosX5GkVemiOE+H/OL/A4YV6jgY+NbRa8Dam
-    GQ6NpzO9jHn9kjMjAXy3BhSSw+rh9CqsZiEjVVDTMiBFJm9YT0VvaH4FoV2w
-X-ME-Proxy: <xmx:InM0auGd5t_Odhm7Ef7kir9h5_M86wiVsR7FCY5fE50cS0Scrr923g>
-    <xmx:InM0amvVfT4m_TBp0l5SatjFg7BSkfuXnSgWBPWa2dd_uDb_Tdinwg>
-    <xmx:InM0atsExDBgLg1x7QFfCSya_B-0-ZPGrmYaySDIR-rAhbgUIzx67Q>
-    <xmx:InM0akCv-i5M-QUIFH8fKWRpCRsXd5NGNoMNPCEAX8Kh4lr-PA04aA>
-    <xmx:I3M0an3DAB07NtWuVzu1_6kqBLXyy7kLEVRdfYBeQuxUIsu3lte1fH0H>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Jun 2026 18:37:21 -0400 (EDT)
-Message-ID: <9ce8460a-6fb7-4592-bbbf-e131b46401ce@bsbernd.com>
-Date: Fri, 19 Jun 2026 00:37:18 +0200
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="niqsfeSn"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-517b1f2c6adso16500061cf.2
+        for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 00:57:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781855857; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NEpFodoa4w8TIMVVJYBiKVSkz+dLA84Mb/gQRPquhQsJK8d0w2BI1rlXNDaVaC7JxZ
+         wpyFtyr2+i6C1vvIyp5JrqH0JY32fvOBB13HTvYmRmdqSBV04qR5vVWQz9sVJ0L7PZSn
+         p8cF7Z64abppdHmvQ8mCqiN+9XQLL2bkU3IcQlhENwtOKUx68VeTMmMCvXq9zrIWuFa3
+         13HlUTNIOex0vt7fK6d0RNxBFpbpM6ax+mWPHs7ruGO84ZurXjaodUki0LmX0x2+k4WS
+         VmfLtu0dYzoOq8NCvC/eYS4YGcwLzRtW+uV0Kr5MiJ4Fk0z4DHj1YIOOBfQgUHrqIa34
+         U/SA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=yueEIqiLMjd4SP69a27bbFdVzyy205bKa4rSPUvc9gQ=;
+        fh=w2Dy9MBCymTAHXuuQoFoyTRhGtZ+o5YcX5Bg6rpudfc=;
+        b=bbmDhpj9pdK8ZZ8ifNXqJAbzX/D89RahYR9cBaXYFM4X0gkvD1LDH0OJED6Ix0Dufq
+         rkrK5P+gXDa3GMaY5j7/NQVaLq1Wyp+LQ+az9cPe6g9lkOMPJP17NF2d/E+xUitIXTDf
+         +ghbZFl5lec/6LaXf/Ib99z4MRRYh5V/ULu2qZdhmjmInAwI7p2uh/BYaOsN8claAVqP
+         pGm885UVDSfmZafd433KgExOwNExzbun4DmHf3lA6SlL6QTa6AohDNqTa38WrfCA1pvm
+         voSb/0F1qXCdz7hUn42WdYnHTJT7vUzPDoS3uHzmT0lud4R2HLIMqMm3NB4XnwtcRhQu
+         qQDw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1781855857; x=1782460657; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yueEIqiLMjd4SP69a27bbFdVzyy205bKa4rSPUvc9gQ=;
+        b=niqsfeSn+Yvssm256hdaCOj2eA/8K5kY+RXFhAc+4TGksa9jXNMQyTzD0PwFGVh/bQ
+         c53CrHqnBIIOcMjd1L2sa0GLhoWy6XA9Kt/wNoaRNWzqPhtCEUmJpUx5F+IOGkOgPfrk
+         heRqvgSsxIWFlbC/NfpenaNjyOAjL+7fR8Oto=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781855857; x=1782460657;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yueEIqiLMjd4SP69a27bbFdVzyy205bKa4rSPUvc9gQ=;
+        b=pNwj5IUAKl1Mr1VKpRaUiCnJ7jllp9WvOz7PtCXcTtaVUHQcL0B4PhZeZfgxDZ0/o+
+         CKK4eVU4ltNdAzVpltJhgoVub2YtIsw0YFrULXcRWl8q5TO83QtFusXP/VNbLnIxU06D
+         ZaXVK5PPeLTQ1Fi5L2CjyMV1tfzRb60AVaHVtFP4ZNtB1wsfM+/9eXO135ZEEzytGb6N
+         OQqc6pB9bJYFGDAX7iwoRUs1oUaSvM/ib3XDZ/BRSrHmM1YfIs9fXMs/TUg/MASCKHpT
+         8YJaMW24j+gU5IpDfE3ndGY2zVo9xmwjOCWiMsP/HNsXJMPuuQbhxnj1s/srrEJlrWsJ
+         JHlQ==
+X-Gm-Message-State: AOJu0Yy6KMUeikCixtFn9aPDaAfTHEB5QBqpRlUHWAfZxyB9Jv66tKhT
+	dIe2kniTX82x5xMjRcyz/ByBgsx860xAOFaJ8Z+ktBtZA4aD64jQOjJOi1LuarIML3+ROCeilyY
+	qYzIAQvLTch93x3q4xx4YyFREJnar3lkUVnlnSbiF8Q==
+X-Gm-Gg: AfdE7cmAUSWCaAkGdzCrEMYPSv254FwWLUsNEs/56gF03J0CO8Wsb0MUuAlwGQsg8HF
+	W+VLK2IyfwvuqlnFJa4IvtEkDlnL3lspdjJSeSsb2fhFk+aIMENAjL5IDfr+y5vT00R3z6pBDUi
+	RrKGIijEQeOHO2uDx9g0Iqd+iYvhOUpetqkvchVXVLgSJtG16avxzMHDR2Qjoov8RZogsGTaMPH
+	Jo2eB8oD/IL/T3CE2CkGv1Dm/KaWcFw+Rb6eMvyurMIMffGwYhWVjddc2+YWXtJd41bfGz9WFca
+	9zGWYAyOkRNuBBbO4iugwZQ2jlY=
+X-Received: by 2002:a05:622a:24f:b0:517:580c:bcd3 with SMTP id
+ d75a77b69052e-519f02dae0fmr17957461cf.19.1781855857151; Fri, 19 Jun 2026
+ 00:57:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
- buffer ring)
-To: Joanne Koong <joannelkoong@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org,
- libaokun@linux.alibaba.com
 References: <20260612210513.1516038-1-joannelkoong@gmail.com>
- <20260612210513.1516038-8-joannelkoong@gmail.com>
- <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
+ <20260612210513.1516038-8-joannelkoong@gmail.com> <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
  <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com>
  <CAJfpegvNyqSS2h28-0sB2j2HUoMnKd7StMsPbvNPz67PiS9w9A@mail.gmail.com>
  <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
  <CAJfpeguq+LVHoyC7ZzkF_VSAQdqmQFw4DBztiQA1Jfy=U+D9wA@mail.gmail.com>
  <CAJnrk1Yqa0nvXCBo6GzHc2bP_V5+2dHaJn+2pWkumV0QLr0nSw@mail.gmail.com>
  <CAJfpegv=u=jfOqtHXpEC60unrzO7XFeP9o9HM18AVqWfN=O0Ww@mail.gmail.com>
- <CAJnrk1b4r0vbrm_HNe5bV11FVmdKDNAcZzkoLtoW_hEmmBjpdg@mail.gmail.com>
- <CAJnrk1ZVs2hOc7CRAVb_fQPJiUvqK837MzOWQqv4VB9YU8q6mQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
+ <CAJnrk1b4r0vbrm_HNe5bV11FVmdKDNAcZzkoLtoW_hEmmBjpdg@mail.gmail.com> <CAJnrk1ZVs2hOc7CRAVb_fQPJiUvqK837MzOWQqv4VB9YU8q6mQ@mail.gmail.com>
 In-Reply-To: <CAJnrk1ZVs2hOc7CRAVb_fQPJiUvqK837MzOWQqv4VB9YU8q6mQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 19 Jun 2026 09:57:25 +0200
+X-Gm-Features: AVVi8CfeSufonPFqYEkhcpi3RKlCchShW0ve06oR5Br7dkLamMFWBKoO_Z5Cf1Y
+Message-ID: <CAJfpegsKX6g5v8jaT0iHhSXJV7SzQs1kKBW=ftnRKU27_oPZ8w@mail.gmail.com>
+Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
+ buffer ring)
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
+	libaokun@linux.alibaba.com, bernd@bsbernd.com
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 19 Jun 2026 at 00:23, Joanne Koong <joannelkoong@gmail.com> wrote:
 
-
-On 6/19/26 00:23, Joanne Koong wrote:
-> On Thu, Jun 18, 2026 at 10:20 AM Joanne Koong <joannelkoong@gmail.com> wrote:
->>
->> On Thu, Jun 18, 2026 at 1:37 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
->>>
->>> On Thu, 18 Jun 2026 at 09:03, Joanne Koong <joannelkoong@gmail.com> wrote:
->>>
->>>> imo the main benefit is for incremental buffer consumption (allowing
->>>> non-overlapping parts of a buffer to be used by multiple entries
->>>> concurrently). To recycle back a buffer that is used by multiple
->>>> entries, it would require all requests to have been completed but I
->>>> don't think in practice this is a bottleneck with reasonably sized
->>>> buffer pools across queues. imo incremental buffer consumption scales
->>>> more dynamically with runtime workloads than preallocating fixed
->>>> buffers of different sizes across different queues trying to
->>>> anticipate / guess workload needs. Overprovisioning small buffers
->>>> wastes memory if those requests never appear, while splitting the
->>>> memory budget towards smaller pools reduces capacity for concurrent
->>>> large requests, and workload patterns might need either at different
->>>> times.
->>>
->>> Hmm, so why partition this memory into buffers up front?
->>>
->>> We could just as well say that managing that chunk of  memory is up to
->>> the kernel.  This would simplify the interface: the buffer size is
->>> redundant, since it's the same as the max I/O size, no?
->>
->> That's a good point, especially since we can just return back offset
->> into the bufpools instead of buffer id. That's a much cleaner
->> interface. Though I guess if we want to be forwards-compatible with
->> having the option of multiple bufpools per queue in the future, we'd
->> have to add bufsize to the uapi here now. Do you think we should just
->> keep it as is then?
-> 
-> Ignore the last two sentences please, I didn't think through your
-> original message.
-> 
 > I like your idea a lot about just passing a chunk of memory to the
 > kernel and offloading the management logic entirely to the kernel.
 > Maybe I'm missing something obvious, but why would multiple pools per
-> queue still be needed? If the server needs more capacity, why not just
-> have the server spin up a new queue? That would have the included
-> benefit of adding more concurrency, and dynamically adding more queues
-> is a feature that would be added to fuse uring regardless. For
-> multipools in one queue, the pools would be discontiguous anyways,
-> which wouldn't help with fragmentation. I don't think adding a queue
-> incurs that much memory or cpu overhead, and imo the scenarios where a
-> server would want to just add more capacity but not parallelism are
-> uncommon.
+> queue still be needed?
 
-How do you select the queue - is the queue now per CPU or is the queue
-2D per CPU and per buffers? If per CPU, what is if you already have
-queues on all CPUs and still want to add buffers?
-If per CPU and buf, gets a 2D matrix - gets difficult to find a suitable
-queue.
-And even if queues are per CPU and enough free CPUs available - might
-cause some non-optimal routing.
+Maybe you are right that it won't be needed.
 
-Maybe I miss some simple logic.
+But I still feel that splitting the buffer registration from the queue
+entry registration makes sense.  But maybe we agree about that
+already.
 
-
-> 
->>
->>>
->>>> I think we should still make the design for bufpools
->>>> forward-compatible with supporting multiple bufpools if a use case
->>>> comes up in the future,
->>>
->>> Yeah, and separating buffer registration into a separate op would be
->>> one step in that direction.   It doesn't have to support multiple
->>> bufpools from the start, but splitting out separate functions during
->>> initialization is a good idea regardless.
->>
->> I'm not sure I agree that splitting it out would be a good idea if we
->> don't ever end up supporting multiple bufpools (imo, having this in
->> QUEUE_SETUP would logically make sense and be more ergonomic) but I'm
->> happy to make this change.
->>
->>>
->>>> From my perspective, the use case I see for queues supporting
->>>> different payload sizes is for separating IO requests from non-IO
->>>> requests (eg lookups, getattrs) onto different queues so that non-IO
->>>> requests don't get stuck waiting behind larger IO requests.
->>>
->>> Note, "queue" could mean two things here:
->>>
->>>  - fuse's waiting list
->>>  - cqe's on the ring
->>>
->>> Currently there's 1:1 relation between those, but that's not mandatory
->>> going forward.  So we could have multiple waiting queues for different
->>> types of requests, but a single uring for sending them to the server.
->>
->> Even with separate waiting queues and the kernel prioritizing sending
->> metadata requests before io, isn't there the issue that if the
->> requests/entries on the ring are all IO requests and then a storm of
->> metadata ops come in, they're still backed up waiting for the IO
->> requests to be finished? Or am I missing something?
-> 
+> > Even with separate waiting queues and the kernel prioritizing sending
+> > metadata requests before io, isn't there the issue that if the
+> > requests/entries on the ring are all IO requests and then a storm of
+> > metadata ops come in, they're still backed up waiting for the IO
+> > requests to be finished? Or am I missing something?
+>
 > Thinking about this some more, I think the kernel could just
 > pre-reserve some ring entries specifically for metadata ops / non-IO
 > requests. That solves it on the kernel side but the userspace side
 > would still need a threadpool of some sort if its backend IO blocks
 > its queue thread.
 
-Isn't that the same as fuse server saying "here are ring entries with
-small buffers for meta ops or other small IO"?
-
+Do "normal" filesystems use different block device queues for metadata
+and data I/O?
 
 Thanks,
-Bernd
+Miklos
