@@ -1,64 +1,70 @@
-Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32903B440F
-	for <fuse-devel@lists.linux.dev>; Fri, 19 Jun 2026 17:04:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.35.192.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFF23659E8
+	for <fuse-devel@lists.linux.dev>; Sun, 21 Jun 2026 18:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781888663; cv=none; b=Rklw46EUMwTDYRcg8uDKT+imjtpTJhifOJUKf8cyRpguhHTFLVsAFrn65jYGctpfwbzkbP/HLEWBXfGbcBRihQoeTIHinDnNU2AWGw7VygjSMLHSLT5B2/5AmPHrotOD8FgK1VOsU+D7quGOfaOVgyD0+ArMpeimIcnBMJluXKA=
+	t=1782066732; cv=none; b=EEG5x7BXY+o3X2Ol5mBwZtU9v9BsBeR5sEhgVInbNeFx+fA7jdiu4aZXBTx2To/r4LiUcm0E3OAlmWATGW5fkJ5gg/CmC2BoNUE31kzkrbrMl06WuJM850DdblOrPutL1+LQ4pPJrE8MhwoK8rgTz34eCgR3ePcRagl6Hqzhg9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781888663; c=relaxed/simple;
-	bh=2/47kzTHLy9MYbv3ZYricazBitgO64xHa7Gj4hs/OBw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E5c7OamXiJoTLdkUWSQ8IMH/NnHcc1d7qqSFgUW32bxYdUSnosX9Ix2DQdE0Pl7PJbLfoQoDALNf0uM5lSqWdqzpvd9fMRlKbOj2EEZTPFTmOsdpBhxjGqMzR3FFYCwWg65ro54q7RxKvucq/EBYuWdWP7sUkjjtEp+ZvgFxWXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=Jwj8uEQN; arc=none smtp.client-ip=52.35.192.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1782066732; c=relaxed/simple;
+	bh=vFCKtZzM892N33+v9kr8F0JPvVpvWNYNKNH26A2gaxk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HFuhPbrMQENNGpKdQZusO30yP3L7vhmpnfF9m3QQDPPPFRnt9L66+WHcgpv4lS5tT94McG1njmDRXJ8nDj20/AxglYpjRULRgFFGNWihbYH/1ay0OhhC34Gz0xJCj7LziqR0AJs4OhL6fP51Tg67aImgitwMtLPfWyQ1TH41q0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rZv7JiCg; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="Jwj8uEQN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rZv7JiCg"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bec450b950dso510256166b.2
+        for <fuse-devel@lists.linux.dev>; Sun, 21 Jun 2026 11:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1781888660; x=1813424660;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=unS1UaSPPzvbJss9rxsLDzbatl+s6dSfyxpJQPb+hUc=;
-  b=Jwj8uEQNL7ExrZq1Hgf0Llvx7uSnjhegNxVe+MrfxGcgaIhvqzyvYvtW
-   A5krNky2n8o0qzipiA6Bde+xIYzh8OwqMfnoAz8eWi3YLuwmsHTJz+SiP
-   YP7twhaxnpajS9M1qXXJFcVQsr6OuggyuOqxS6gSU5HOsEv0tMj1zZl8D
-   BfF1X3aVnrDV6W1WyVl9jhWeDifSxyzQft1D5vsFg7YaCc+4JzhSIJgKw
-   j9eog14sG8N09yb4ioT/3/OyjUeb9fhjkEl3pzOWSQhThe98L3EA/8KSZ
-   I2sJ/nJ03AG34Wh0/uXBRnkJPjxbwcuc57S8eAMsyZ5dKq0b/76ZKop1l
-   g==;
-X-CSE-ConnectionGUID: ywNQMNejRTWz0IUh2DZh1w==
-X-CSE-MsgGUID: 6FdOBDhcRcahcrVlUFG7vQ==
-X-IronPort-AV: E=Sophos;i="6.24,213,1774310400"; 
-   d="scan'208";a="21880305"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 17:04:20 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:12557]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.13.145:2525] with esmtp (Farcaster)
- id bfd89d5f-c834-4de2-8d46-69a6c359b8e4; Fri, 19 Jun 2026 17:04:19 +0000 (UTC)
-X-Farcaster-Flow-ID: bfd89d5f-c834-4de2-8d46-69a6c359b8e4
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 19 Jun 2026 17:04:19 +0000
-Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.43;
- Fri, 19 Jun 2026 17:04:18 +0000
-From: Jimmy Zuber <jamz@amazon.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Shuah Khan
-	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: [PATCH v2 2/2] selftests/fuse: add test for FUSE_HAS_SYNCFS privilege gating
-Date: Fri, 19 Jun 2026 17:02:51 +0000
-Message-ID: <20260619170251.1154562-3-jamz@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260619170251.1154562-1-jamz@amazon.com>
-References: <20260616151909.916667-1-jamz@amazon.com>
- <20260619170251.1154562-1-jamz@amazon.com>
+        d=gmail.com; s=20251104; t=1782066725; x=1782671525; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ymtwgv9woTUilM7loFeiBIkzRl3/bYVO/dFHIfMuJqE=;
+        b=rZv7JiCgYzoWL/riYCfYLpxliEOiW60+5FEG26CXGlAK4YA0IOzxRbOf6gRoVRTYTp
+         goegmpWwWA5u4GJJC2tkR6kMx4F8RsT7fW4QdNg41h7yK7PYd3TqlvcTywmlcCGX8CSG
+         AlmXhjJPoH8mpabgwqgVYgv6SjpbKDgrRkH1qCEG1Mi/HnEAhYdukuWr0eSQeyDqgZtZ
+         vJrnGuxEMXMB/mhuyVr+JAhf+l+RtIX8jf/hwyF3gOxBPeVgUE7OkAsfkQiw7etixGl2
+         s+/+8WPByX+1u9vqPmjZGXuV2P+lWR4HMuY3Q5QHTbT8xVsQrzVl6xrOzRFcyehRU2d1
+         HRfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782066725; x=1782671525;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ymtwgv9woTUilM7loFeiBIkzRl3/bYVO/dFHIfMuJqE=;
+        b=fe9cOtStPEtOWgDdo42qB3yh8Z30CI/h6KZzN0cEICc/Gh8pF1QNdDY/SUO/mUOgMj
+         MhPtTxvkzCMk0QA1OkSGFqOeTTe65CnZBOsDasAhr2wTq2fBcIt6pPVCqnA3zRptP9zL
+         /bqlk8r/vEgnyARqarRYKR3DPsXEA5qjkUVWzfgiOGhU4WFM7X+dsx9iBcqrNLs5sZUT
+         qH7MDKeaD1jto2uN+RoTBKc+FYqCUhMC0ZheNMfbbKO0chJlJy43tUDQpvH+NpMoQ+cl
+         G0OX/Xi1jUTFDaYJytEolnXqqVk4eAYqO4BIuoyezN1uDfieRhMPna8CzepeYyoU+UFg
+         53hg==
+X-Gm-Message-State: AOJu0YxG+PFzxHHrb79jvHecsO1+SAm9SUFIjMVBuFxx8NUZUhP1Pc6N
+	Tenp6fni90DAwFmibf5JSe3nurAtdXmlGAyXy309c4+PcNgi9Yhyidxd
+X-Gm-Gg: AfdE7cmongK5KaaMeoS1oyjqE86QYkOpRwAQJdiv1tBGhao9eh/3cXEOtSM4+n0kIoe
+	tyxjgx0oSRnBE4u1oLh3VADQly8CWStK/dYoFxFOXoKqfkPtqPyn3g8PqWzSmq/LP1q5kNkyuZd
+	EFPoTGs9R7AuIEAwbIpMa3f/WLJXaJq+tqKBwHRqUqWtN/YDpNKkBj8/4DLnoNtkR5dBn5J8Qa7
+	kU3FJ8tDMydqFUGc2UieZZ3aoPmytNiYy/fAqLB7CYMsjiTXWuUj4v6OfLIBCm4fwlcoG7MEZLc
+	pqlGWHy3TjaZI6k1tp0lfLlc3YQS23Jmb2eZ9HcpYQg06Zu2rYE6fSyc/td6mZ0L/G8HHelnXOx
+	jbK8s3CkSExZiso87SnG8xeSNzyWjEXuwSbiewrDCeDjq0dk2uPWqsCRMkDVFOTjZ79LaqIek1p
+	TYZFdU/37iwS5gNXrdYfF0HB2JrkybZrAgpCw=
+X-Received: by 2002:a17:907:6d11:b0:bec:18d5:ddf5 with SMTP id a640c23a62f3a-c0b60a30acbmr467832166b.7.1782066725004;
+        Sun, 21 Jun 2026 11:32:05 -0700 (PDT)
+Received: from localhost.localdomain ([72.255.58.127])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c5e497e7dsm227762766b.5.2026.06.21.11.32.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jun 2026 11:32:04 -0700 (PDT)
+From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+To: amir73il@gmail.com,
+	miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH] fuse: replace passthrough backing-id IDR with IDA plus hashtable
+Date: Sun, 21 Jun 2026 18:31:57 +0000
+Message-ID: <20260621183157.3490-1-mahad.ibrahim.dev@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -66,439 +72,331 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D037UWB004.ant.amazon.com (10.13.138.84) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Add a selftest that talks the raw FUSE protocol over /dev/fuse (rather
-than via libfuse, which negotiates INIT internally) so it can both choose
-whether to advertise FUSE_HAS_SYNCFS and directly observe whether a
-FUSE_SYNCFS opcode is forwarded by the kernel.
+The passthrough code maps an integer backing id to a struct fuse_backing
+using an IDR. idr_alloc_cyclic() stores the fuse_backing pointer at the
+id's index, so the IDR keeps one populated radix-tree slot per live id. A
+comment flags the cost:
 
-Four cases are covered:
+	/* FIXME: xarray might be space inefficient */
 
-  T1: host-root mount, server sets FUSE_HAS_SYNCFS
-      -> FUSE_SYNCFS must reach the server.
-  T2: host-root mount, server does not opt in
-      -> FUSE_SYNCFS must not be sent (back-compat).
-  T3: server opts in but opened /dev/fuse without CAP_SYS_ADMIN while still
-      in the initial user namespace
-      -> FUSE_SYNCFS must be withheld.  This is the case that distinguishes
-         gating on the server's privilege from gating on the mount's user
-         namespace.
-  T4: unprivileged user-namespace mount, server sets FUSE_HAS_SYNCFS
-      -> FUSE_SYNCFS must be withheld.
+Replace the IDR with an IDA for id allocation and a separate hashtable for
+the id-to-pointer lookup. The IDA needs far less memory per id; the
+hashtable adds a fixed per-connection cost. The net effect is a space win
+that grows with the number of live backings, as quantified below.
 
-T4 requires CONFIG_USER_NS and the ability to create an unprivileged
-user-namespace mount; it is skipped otherwise.
+Both IDR and IDA are built on the xarray and walk the same xa_node
+(XA_CHUNK_SIZE is 64 slots per node, and an xa_node is about 576 bytes on
+64-bit). The difference is what fills those slots. The IDR stores one
+fuse_backing pointer per id, so N live ids occupy N slots and need roughly
+N/64 leaf nodes. The IDA stores a 128-byte bitmap that covers 1024 ids
+(IDA_BITMAP_BITS), so the same N ids occupy about N/1024 slots. The id
+space is the same; the IDA represents it far more densely.
 
-Signed-off-by: Jimmy Zuber <jamz@amazon.com>
-Assisted-by: Claude:claude-opus-4-8 [Claude-Code]
+In the dense limit the IDR costs about nine bytes per id (a 576-byte node
+over 64 slots), while the IDA costs about 0.13 bytes per id (a 128-byte
+bitmap over 1024 ids). 4096 live ids would occupy 65 xa_nodes in the IDR
+(about 37 KB) versus roughly 3 KB for the IDA plus the 2 KB hashtable.
+The fixed hashtable makes the new scheme slightly larger below a couple
+hundred backings; above that it uses progressively less memory than the
+IDR, and the gap widens as the count grows.
+
+These figures assume dense, low-numbered ids, which is the most favorable
+case for the IDR. Cyclic allocation drives ids upward and leaves holes as
+backings are closed, spreading the IDR's live entries across more,
+less-full leaf nodes; each IDA chunk still covers 1024 ids however they are
+spread, so it degrades more slowly. The dense case is therefore the
+smallest the gain gets; sparser ids only widen it.
+
+The new fields in struct fuse_backing (an int id and a struct hlist_node)
+add 24 bytes on x86-64, keeping the structure within the kmalloc-64 slab,
+so per-object allocation should remain unchanged.
+
+The hashtable has a fixed 256 buckets (DECLARE_HASHTABLE order 8), so
+lookup time grows with the chain length, about N/256 on average, which is
+O(N) in complexity. At a few thousand backings the chains hold one or two
+entries; at a very large count (for example 100000 backings, about 390
+per chain) this is slower than the IDR's bounded radix walk (at most six
+levels for 31-bit ids, effectively O(1)). fuse_backing_lookup() runs once
+when a passthrough file open attaches its backing, not on each read or
+write, since passthrough I/O goes directly to the backing file, so the
+cost stays off the data path. An rhashtable would keep lookup flat as the
+count grows at the cost of more complexity; the fixed table was chosen
+for simplicity.
+
+The hashtable is 2 KB. Embedding it in struct fuse_conn would charge that
+to every connection, including the majority that never enable passthrough,
+so fc->backing_htable is a pointer allocated lazily by
+fuse_backing_htable_alloc() when passthrough is negotiated in
+process_init_reply(). The IDA itself stays embedded, since it is small. If
+the allocation fails, passthrough is left disabled and init continues,
+matching how the other negotiated features in process_init_reply() behave.
+This preserves the invariant that fc->backing_htable is non-NULL exactly
+when fc->passthrough is set. Every dereference of the table is in
+fuse_backing_id_alloc(), fuse_backing_id_remove() or fuse_backing_lookup(),
+all reached only through the BACKING_OPEN and BACKING_CLOSE ioctls, which
+check fc->passthrough first. A connection that fails the allocation
+therefore behaves like any non-passthrough connection, and the lookup paths
+need no NULL checks.
+
+The IDA has no cyclic allocator, so an explicit cursor
+(backing_files_next_id) is kept: ida_alloc_range() searches from the cursor
+to INT_MAX, and on -ENOSPC the cursor resets to 1 and the allocation is
+retried exactly once. The cursor is accessed with READ_ONCE/WRITE_ONCE; two
+concurrent allocators may read the same value, but the IDA still returns
+distinct ids, so the cursor is only a hint to avoid immediate reuse.
+
+Tested with KCSAN and with KASAN in separate builds, as the two are
+mutually exclusive. KCSAN with lockdep and PROVE_RCU reported no data races
+in fs/fuse under a passthrough workload. Under KASAN, a passthrough server
+drove fuse_backing_lookup() and fuse_backing_id_remove() concurrently on
+the same ids; a temporary udelay() in the lookup, not part of this series,
+widened the window between the hashtable match and fuse_backing_get() so
+the concurrent free reliably overlapped it. No KASAN, RCU-debug, or
+kmemleak reports resulted. fio (16 jobs, io_uring, randrw 4k, 300s) over a
+passthrough mount showed no significant throughput change against the IDR
+version.
+
+Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../selftests/filesystems/fuse/Makefile       |   2 +-
- .../selftests/filesystems/fuse/test_syncfs.c  | 370 ++++++++++++++++++
- 3 files changed, 372 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/filesystems/fuse/test_syncfs.c
+ fs/fuse/backing.c | 96 +++++++++++++++++++++++++++++++++++++----------
+ fs/fuse/fuse_i.h  | 27 ++++++++++++-
+ fs/fuse/inode.c   |  8 ++--
+ 3 files changed, 106 insertions(+), 25 deletions(-)
 
-diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
-index 3e72e742d08e..4e92f363c74a 100644
---- a/tools/testing/selftests/filesystems/fuse/.gitignore
-+++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- fuse_mnt
- fusectl_test
-+test_syncfs
-diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
-index 612aad69a93a..cbba01635226 100644
---- a/tools/testing/selftests/filesystems/fuse/Makefile
-+++ b/tools/testing/selftests/filesystems/fuse/Makefile
-@@ -2,7 +2,7 @@
+diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
+index 472b6afa7dff..322d676bcc16 100644
+--- a/fs/fuse/backing.c
++++ b/fs/fuse/backing.c
+@@ -35,49 +35,97 @@ void fuse_backing_put(struct fuse_backing *fb)
  
- CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
+ void fuse_backing_files_init(struct fuse_conn *fc)
+ {
+-	idr_init(&fc->backing_files_map);
++	ida_init(&fc->backing_files_map);
++	fc->backing_files_next_id = 1;
++	fc->backing_htable = NULL;
+ }
  
--TEST_GEN_PROGS := fusectl_test
-+TEST_GEN_PROGS := fusectl_test test_syncfs
- TEST_GEN_FILES := fuse_mnt
+ static int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backing *fb)
+ {
+ 	int id;
++	int attempt = 1;
++
++retry:
++
++	id = ida_alloc_range(&fc->backing_files_map,
++			     READ_ONCE(fc->backing_files_next_id), INT_MAX, GFP_KERNEL);
++
++	if (id < 0) {
++		if (id == -ENOSPC && attempt--) {
++			WRITE_ONCE(fc->backing_files_next_id, 1);
++			goto retry;
++		}
++		return id;
++	}
++
++	fb->id = id;
  
- include ../../lib.mk
-diff --git a/tools/testing/selftests/filesystems/fuse/test_syncfs.c b/tools/testing/selftests/filesystems/fuse/test_syncfs.c
-new file mode 100644
-index 000000000000..90fb3478554a
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/test_syncfs.c
-@@ -0,0 +1,370 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test that FUSE_SYNCFS is propagated to a userspace server only when the
-+ * server opts in with FUSE_HAS_SYNCFS *and* opened /dev/fuse with
-+ * CAP_SYS_ADMIN in the initial user namespace.
-+ *
-+ * Unlike the libfuse-based selftests, this talks the raw FUSE wire protocol
-+ * over /dev/fuse so it can (a) choose whether to advertise FUSE_HAS_SYNCFS in
-+ * the INIT reply and (b) observe directly whether a FUSE_SYNCFS opcode arrives.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/eventfd.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/uio.h>
-+#include <sys/wait.h>
-+#include <linux/capability.h>
-+#include <linux/fuse.h>
-+
-+#include "../../kselftest.h"
-+
-+#define FUSE_ROOT_ID 1
-+
-+/*
-+ * Add or drop CAP_SYS_ADMIN in the effective set via raw capget/capset
-+ * (avoids a libcap dependency).  Used to construct a server that opens
-+ * /dev/fuse without the privilege FUSE_HAS_SYNCFS requires.
-+ */
-+static int set_sysadmin(int on)
+-	idr_preload(GFP_KERNEL);
+ 	spin_lock(&fc->lock);
+-	/* FIXME: xarray might be space inefficient */
+-	id = idr_alloc_cyclic(&fc->backing_files_map, fb, 1, 0, GFP_ATOMIC);
++	hash_add_rcu(fc->backing_htable->backing_files_ht, &fb->node, id);
++	WRITE_ONCE(fc->backing_files_next_id, (id == INT_MAX) ? 1 : id + 1);
+ 	spin_unlock(&fc->lock);
+-	idr_preload_end();
+ 
+-	WARN_ON_ONCE(id == 0);
+ 	return id;
+ }
+ 
++int fuse_backing_htable_alloc(struct fuse_conn *fc)
 +{
-+	struct __user_cap_header_struct hdr = {
-+		.version = _LINUX_CAPABILITY_VERSION_3,
-+		.pid = 0,
-+	};
-+	struct __user_cap_data_struct data[_LINUX_CAPABILITY_U32S_3] = {};
-+	unsigned int idx = CAP_SYS_ADMIN >> 5;
-+	__u32 bit = 1U << (CAP_SYS_ADMIN & 31);
++	struct fuse_backing_htable *ht;
 +
-+	if (syscall(SYS_capget, &hdr, data))
-+		return -1;
-+	if (on)
-+		data[idx].effective |= bit;
-+	else
-+		data[idx].effective &= ~bit;
-+	return syscall(SYS_capset, &hdr, data);
-+}
++	ht = kzalloc_obj(struct fuse_backing_htable);
++	if (!ht)
++		return -ENOMEM;
 +
-+/*
-+ * eventfd the server child writes once when it receives FUSE_SYNCFS; the
-+ * parent poll()s it to observe (or rule out) propagation.
-+ */
-+static int syncfs_evfd;
++	hash_init(ht->backing_files_ht);
++	fc->backing_htable = ht;
 +
-+static void reply(int fd, uint64_t unique, int error, void *data, size_t len)
-+{
-+	struct fuse_out_header oh = {
-+		.len = sizeof(oh) + len,
-+		.error = error,
-+		.unique = unique,
-+	};
-+	struct iovec iov[2] = {
-+		{ &oh, sizeof(oh) },
-+		{ data, len },
-+	};
-+
-+	if (writev(fd, iov, data ? 2 : 1) < 0)
-+		ksft_print_msg("server writev failed: %s\n", strerror(errno));
-+}
-+
-+static void fill_attr(struct fuse_attr *a, uint64_t ino, uint32_t mode,
-+		      uint32_t nlink)
-+{
-+	memset(a, 0, sizeof(*a));
-+	a->ino = ino;
-+	a->mode = mode;
-+	a->nlink = nlink;
-+	a->blksize = 4096;
-+}
-+
-+/*
-+ * Minimal FUSE server.  Advertises FUSE_HAS_SYNCFS in its INIT reply iff
-+ * @advertise is set.  Signals syncfs_evfd when a FUSE_SYNCFS opcode arrives.
-+ */
-+#define SERVER_MAX_WRITE 65536
-+static void run_server(int fd, int advertise)
-+{
-+	/*
-+	 * The kernel rejects reads (EINVAL) whose buffer is smaller than
-+	 * max_write + header, so size generously for the max_write we
-+	 * advertise in the INIT reply below.
-+	 */
-+	static char buf[SERVER_MAX_WRITE + 4096];
-+
-+	for (;;) {
-+		ssize_t n = read(fd, buf, sizeof(buf));
-+		struct fuse_in_header *ih = (void *)buf;
-+
-+		if (n < 0) {
-+			if (errno == EINTR || errno == EAGAIN)
-+				continue;
-+			return;		/* device closed on unmount/abort */
-+		}
-+		if (n < (ssize_t)sizeof(*ih))
-+			continue;
-+
-+		switch (ih->opcode) {
-+		case FUSE_INIT: {
-+			struct fuse_init_in *in = (void *)(ih + 1);
-+			struct fuse_init_out out = {0};
-+			uint64_t flags = FUSE_INIT_EXT;
-+
-+			out.major = FUSE_KERNEL_VERSION;
-+			out.minor = FUSE_KERNEL_MINOR_VERSION;
-+			out.max_readahead = in->max_readahead;
-+			out.max_write = SERVER_MAX_WRITE;
-+			out.max_background = 16;
-+			out.congestion_threshold = 12;
-+			if (advertise)
-+				flags |= FUSE_HAS_SYNCFS;
-+			out.flags = flags;
-+			out.flags2 = flags >> 32;
-+			reply(fd, ih->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_GETATTR: {
-+			struct fuse_attr_out out = {0};
-+
-+			fill_attr(&out.attr, FUSE_ROOT_ID, S_IFDIR | 0755, 2);
-+			reply(fd, ih->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_SYNCFS: {
-+			uint64_t one = 1;
-+
-+			if (write(syncfs_evfd, &one, sizeof(one)) < 0)
-+				ksft_print_msg("server eventfd write failed: %s\n",
-+					       strerror(errno));
-+			reply(fd, ih->unique, 0, NULL, 0);
-+			break;
-+		}
-+		default:
-+			/*
-+			 * Anything else (e.g. OPENDIR from opening the mount
-+			 * root) is not needed to drive this test; -ENOSYS lets
-+			 * the kernel proceed.
-+			 */
-+			reply(fd, ih->unique, -ENOSYS, NULL, 0);
-+			break;
-+		}
-+	}
-+}
-+
-+/*
-+ * Mount a fuse fs backed by a forked server, issue syncfs(), and report
-+ * whether the server observed FUSE_SYNCFS.  Returns 0 on success, -1 if the
-+ * environment could not support the test (caller should skip).
-+ *
-+ * If @unpriv_open is set, /dev/fuse is opened with CAP_SYS_ADMIN dropped
-+ * (regained only for the mount() syscall), so the device opener -- the
-+ * server principal FUSE_HAS_SYNCFS is gated on -- lacks the privilege even
-+ * though it remains in the initial user namespace.
-+ */
-+static int do_mount_and_syncfs(const char *mnt, int advertise, int unpriv_open,
-+			       int *seen)
-+{
-+	struct pollfd pfd = { .events = POLLIN };
-+	char opts[256];
-+	int fd, mfd = -1, i;
-+	pid_t pid;
-+
-+	syncfs_evfd = eventfd(0, EFD_CLOEXEC);
-+	if (syncfs_evfd < 0)
-+		return -1;
-+
-+	if (unpriv_open && set_sysadmin(0))
-+		goto out_evfd;
-+	fd = open("/dev/fuse", O_RDWR);
-+	if (unpriv_open && set_sysadmin(1)) {
-+		if (fd >= 0)
-+			close(fd);
-+		goto out_evfd;
-+	}
-+	if (fd < 0)
-+		goto out_evfd;
-+
-+	mkdir(mnt, 0755);
-+	snprintf(opts, sizeof(opts),
-+		 "fd=%d,rootmode=40000,user_id=%d,group_id=%d",
-+		 fd, getuid(), getgid());
-+
-+	if (mount("fuse", mnt, "fuse", 0, opts) < 0)
-+		goto out_fd;
-+
-+	pid = fork();
-+	if (pid < 0)
-+		goto out_umount;
-+	if (pid == 0) {
-+		run_server(fd, advertise);
-+		_exit(0);
-+	}
-+
-+	/*
-+	 * The parent does not service the fuse fd; the child does.  Close our
-+	 * copy so the kernel sees a single server, and so that if the child
-+	 * dies the connection aborts instead of hanging us forever.
-+	 */
-+	close(fd);
-+
-+	/*
-+	 * mount() returns before the server has answered FUSE_INIT, so the
-+	 * first open() can race and fail with ENOTCONN; retry until the
-+	 * handshake settles.
-+	 */
-+	for (i = 0; i < 1000; i++) {
-+		mfd = open(mnt, O_RDONLY | O_DIRECTORY);
-+		if (mfd >= 0)
-+			break;
-+		usleep(1000);
-+	}
-+	if (mfd >= 0) {
-+		syncfs(mfd);
-+		close(mfd);
-+	}
-+
-+	/*
-+	 * No waiting is needed: the server writes syncfs_evfd before it replies
-+	 * to FUSE_SYNCFS, and that reply is what unblocks the synchronous
-+	 * syncfs() above.  So once syncfs() has returned, the eventfd is already
-+	 * signalled if the opcode was propagated, and will never be otherwise.
-+	 * poll() with a zero timeout therefore decides both cases immediately.
-+	 */
-+	pfd.fd = syncfs_evfd;
-+	*seen = poll(&pfd, 1, 0) > 0 && (pfd.revents & POLLIN);
-+
-+	kill(pid, SIGKILL);
-+	waitpid(pid, NULL, 0);
-+	umount2(mnt, MNT_DETACH);
-+	close(syncfs_evfd);
 +	return 0;
-+
-+out_umount:
-+	umount2(mnt, MNT_DETACH);
-+out_fd:
-+	close(fd);
-+out_evfd:
-+	close(syncfs_evfd);
-+	return -1;
 +}
 +
-+/* T4: same as above but the mount is created inside a new user namespace. */
-+static int run_in_userns(const char *mnt, int advertise, int *seen)
-+{
-+	uid_t uid = getuid();
-+	gid_t gid = getgid();
-+	char map[64];
-+	int f;
-+
-+	if (unshare(CLONE_NEWUSER | CLONE_NEWNS) < 0)
-+		return -1;	/* unprivileged userns mounts unavailable */
-+
-+	f = open("/proc/self/setgroups", O_WRONLY);
-+	if (f >= 0) {
-+		dprintf(f, "deny");
-+		close(f);
+ static struct fuse_backing *fuse_backing_id_remove(struct fuse_conn *fc,
+ 						   int id)
+ {
+-	struct fuse_backing *fb;
++	struct fuse_backing *iterator;
++	struct fuse_backing *fb = NULL;
+ 
+ 	spin_lock(&fc->lock);
+-	fb = idr_remove(&fc->backing_files_map, id);
++	hash_for_each_possible(fc->backing_htable->backing_files_ht,
++			       iterator, node, id) {
++		if (iterator->id == id) {
++			hash_del_rcu(&iterator->node);
++			fb = iterator;
++			break;
++		}
 +	}
-+	snprintf(map, sizeof(map), "0 %d 1", uid);
-+	f = open("/proc/self/uid_map", O_WRONLY);
-+	if (f < 0 || dprintf(f, "%s", map) < 0)
-+		return -1;
-+	close(f);
-+	snprintf(map, sizeof(map), "0 %d 1", gid);
-+	f = open("/proc/self/gid_map", O_WRONLY);
-+	if (f < 0 || dprintf(f, "%s", map) < 0)
-+		return -1;
-+	close(f);
+ 	spin_unlock(&fc->lock);
+ 
++	if (fb)
++		ida_free(&fc->backing_files_map, id);
 +
-+	/* Need a mount namespace where we can mount fuse unprivileged. */
-+	if (mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL) < 0)
-+		return -1;
+ 	return fb;
+ }
+ 
+-static int fuse_backing_id_free(int id, void *p, void *data)
++void fuse_backing_files_free(struct fuse_conn *fc)
+ {
+-	struct fuse_backing *fb = p;
++	struct fuse_backing *fb;
++	struct hlist_node *tmp;
++	int bkt;
+ 
+-	WARN_ON_ONCE(refcount_read(&fb->count) != 1);
+-	fuse_backing_free(fb);
+-	return 0;
+-}
++	if (!fc->backing_htable)
++		goto out;
+ 
+-void fuse_backing_files_free(struct fuse_conn *fc)
+-{
+-	idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
+-	idr_destroy(&fc->backing_files_map);
++	hash_for_each_safe(fc->backing_htable->backing_files_ht,
++			   bkt, tmp, fb, node) {
++		hash_del_rcu(&fb->node);
++		WARN_ON_ONCE(refcount_read(&fb->count) != 1);
++		fuse_backing_free(fb);
++	}
 +
-+	return do_mount_and_syncfs(mnt, advertise, 0, seen);
-+}
++	kfree(fc->backing_htable);
++	fc->backing_htable = NULL;
 +
-+int main(void)
-+{
-+	char mnt[] = "/tmp/fuse_syncfs_XXXXXX";
-+	int seen, ret;
-+
-+	ksft_print_header();
-+	ksft_set_plan(4);
-+
-+	/* Hard watchdog: never let a stuck syncfs hang the test runner. */
-+	signal(SIGALRM, SIG_DFL);
-+	alarm(60);
-+
-+	if (geteuid() != 0)
-+		ksft_exit_skip("test requires root to mount fuse\n");
-+
-+	if (!mkdtemp(mnt))
-+		ksft_exit_fail_msg("mkdtemp failed\n");
-+
-+	/* T1: host-root mount, server opts in -> syncfs must reach server. */
-+	ret = do_mount_and_syncfs(mnt, 1, 0, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T1: could not mount fuse\n");
-+	else
-+		ksft_test_result(seen,
-+				 "T1 host-root + FUSE_HAS_SYNCFS: server receives FUSE_SYNCFS\n");
-+
-+	/* T2: host-root mount, server does NOT opt in -> no FUSE_SYNCFS. */
-+	ret = do_mount_and_syncfs(mnt, 0, 0, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T2: could not mount fuse\n");
-+	else
-+		ksft_test_result(!seen,
-+				 "T2 host-root, no opt-in: server does NOT receive FUSE_SYNCFS\n");
-+
-+	/*
-+	 * T3: server opts in but opened /dev/fuse without CAP_SYS_ADMIN while
-+	 * still in the initial user namespace -> kernel must withhold
-+	 * FUSE_SYNCFS.  This is the case that distinguishes gating on the
-+	 * server's privilege from gating on the mount's user namespace.
-+	 */
-+	ret = do_mount_and_syncfs(mnt, 1, 1, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T3: could not mount fuse unprivileged\n");
-+	else
-+		ksft_test_result(!seen,
-+				 "T3 init_userns, opener lacks CAP_SYS_ADMIN: FUSE_SYNCFS withheld\n");
-+
-+	/*
-+	 * T4: unprivileged userns mount, server opts in -> kernel must still
-+	 * withhold FUSE_SYNCFS.  Run in a child since it unshares namespaces.
-+	 */
-+	{
-+		pid_t p = fork();
-+
-+		if (p == 0) {
-+			int s = 0;
-+			int r = run_in_userns(mnt, 1, &s);
-+
-+			_exit(r < 0 ? 2 : (s ? 1 : 0));
-+		} else {
-+			int status;
-+
-+			waitpid(p, &status, 0);
-+			if (!WIFEXITED(status))
-+				ksft_test_result_error("T4: child crashed\n");
-+			else if (WEXITSTATUS(status) == 2)
-+				ksft_test_result_skip("T4: userns fuse mount unavailable\n");
-+			else
-+				ksft_test_result(WEXITSTATUS(status) == 0,
-+						 "T4 unpriv userns + opt-in: FUSE_SYNCFS withheld\n");
++out:
++	ida_destroy(&fc->backing_files_map);
+ }
+ 
+ int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map)
+@@ -169,10 +217,18 @@ int fuse_backing_close(struct fuse_conn *fc, int backing_id)
+ 
+ struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id)
+ {
+-	struct fuse_backing *fb;
++	struct fuse_backing *iterator;
++	struct fuse_backing *fb = NULL;
+ 
+ 	rcu_read_lock();
+-	fb = idr_find(&fc->backing_files_map, backing_id);
++	hash_for_each_possible_rcu(fc->backing_htable->backing_files_ht,
++				   iterator, node, backing_id) {
++		if (iterator->id == backing_id) {
++			fb = iterator;
++			break;
 +		}
 +	}
 +
-+	rmdir(mnt);
-+	ksft_finished();
+ 	fb = fuse_backing_get(fb);
+ 	rcu_read_unlock();
+ 
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 85f738c53122..7965c1681b58 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -30,6 +30,7 @@
+ #include <linux/pid_namespace.h>
+ #include <linux/refcount.h>
+ #include <linux/user_namespace.h>
++#include <linux/hashtable.h>
+ 
+ /** Default max number of pages that can be used in a single read request */
+ #define FUSE_DEFAULT_MAX_PAGES_PER_REQ 32
+@@ -94,6 +95,10 @@ struct fuse_backing {
+ 	/* refcount */
+ 	refcount_t count;
+ 	struct rcu_head rcu;
++
++	/* ID Allocation */
++	int id;
++	struct hlist_node node;
+ };
+ 
+ /**
+@@ -407,6 +412,12 @@ struct fuse_sync_bucket {
+ 	struct rcu_head rcu;
+ };
+ 
++#ifdef CONFIG_FUSE_PASSTHROUGH
++struct fuse_backing_htable {
++	DECLARE_HASHTABLE(backing_files_ht, 8);
++};
++#endif
++
+ /**
+  * struct fuse_conn - A Fuse connection.
+  *
+@@ -759,8 +770,14 @@ struct fuse_conn {
+ 	struct fuse_sync_bucket __rcu *curr_bucket;
+ 
+ #ifdef CONFIG_FUSE_PASSTHROUGH
+-	/** @backing_files_map: IDR for backing files ids */
+-	struct idr backing_files_map;
++	/** @backing_files_map: IDA for backing files ids */
++	struct ida backing_files_map;
++
++	/** @backing_files_next_id: Cursor for cyclic allocation */
++	unsigned int backing_files_next_id;
++
++	/** @backing_htable: Pointer to external hashtable */
++	struct fuse_backing_htable *backing_htable;
+ #endif
+ };
+ 
+@@ -1259,6 +1276,7 @@ void fuse_file_release(struct inode *inode, struct fuse_file *ff,
+ struct fuse_backing *fuse_backing_get(struct fuse_backing *fb);
+ void fuse_backing_put(struct fuse_backing *fb);
+ struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backing_id);
++int fuse_backing_htable_alloc(struct fuse_conn *fc);
+ #else
+ 
+ static inline struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
+@@ -1274,6 +1292,11 @@ static inline struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc,
+ {
+ 	return NULL;
+ }
++
++static inline int fuse_backing_htable_alloc(struct fuse_conn *fc)
++{
++	return -EOPNOTSUPP;
 +}
+ #endif
+ 
+ void fuse_backing_files_init(struct fuse_conn *fc);
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index d975073c6029..8adb1eb7ff51 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1389,9 +1389,11 @@ static void process_init_reply(struct fuse_args *args, int error)
+ 			    arg->max_stack_depth > 0 &&
+ 			    arg->max_stack_depth <= FILESYSTEM_MAX_STACK_DEPTH &&
+ 			    !(flags & FUSE_WRITEBACK_CACHE))  {
+-				fc->passthrough = 1;
+-				fc->max_stack_depth = arg->max_stack_depth;
+-				fm->sb->s_stack_depth = arg->max_stack_depth;
++				if (!fuse_backing_htable_alloc(fc)) {
++					fc->passthrough = 1;
++					fc->max_stack_depth = arg->max_stack_depth;
++					fm->sb->s_stack_depth = arg->max_stack_depth;
++				}
+ 			}
+ 			if (flags & FUSE_NO_EXPORT_SUPPORT)
+ 				fm->sb->s_export_op = &fuse_export_fid_operations;
 -- 
-2.50.1
+2.54.0
 
