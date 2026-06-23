@@ -1,232 +1,136 @@
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33E329CB24
-	for <fuse-devel@lists.linux.dev>; Mon, 22 Jun 2026 23:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.155
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782172339; cv=none; b=VOFuBpgdiUNIXYsij+J5i4D1Qg96Q8DnGnC4IdewSDpKEjXVIvsMlugj25shUkyQq6imdSVC8aXHbrU+2UIszeCoL5eXARUMdANgb/oCTONVNgRZIbt7NzCgsANeEDtLnaJMn8HeSZI60nrOCMnTAn6oOpPHZ0wPTbmg60X/eE0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782172339; c=relaxed/simple;
-	bh=8N7GIDud2Es5QYPXDU9U6QqkD+Ti2tRadWjf7L1SU2s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Uyhic5RbtqiL9hFoKizfstlOczdti3SKzIsoTFArgG5KQt3SIS/qfzy6y7qHlsv/DvDRrcFUTWOISYEiIZVK28OgPYnlEBwj3IdlrDaG+f4Lp9fAh/5x1enypNRu0Ql+nPVjhgh7tbJ9Iau0CwLssxVD0yHr5A3PUxulga6gAmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=KHzB5EVI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KGscF0b3; arc=none smtp.client-ip=202.12.124.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96453101C0
+	for <fuse-devel@lists.linux.dev>; Tue, 23 Jun 2026 00:28:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782174500; cv=pass; b=IbVMDG6DyQZtVDpmNenqhO2k7NhSeLkdoAd0BuYdZy4316wF4cW0GL+It8IT8C2SQ40IGS41okG9i20GbPLl6kcJuWro/iz515AkiuUIxjuweAhtbKn/+KM0DMzMlvLU4P2eFV9zx+pOyaxVqxOo1Ve0kz9mLczXy9z2ppLZkWk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782174500; c=relaxed/simple;
+	bh=s3ynWqf52DPj7JHDpT+y/F26yWvSZ/RIxjcRXOZL+hE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AO48BAVOgnPJ6TuDnDqXE0zTfMp8M9Ab9UbxjhB0ULYMCy4PxhSWSAoN9/Zv3xKscn/TWOVRq4PY5tt1Q5wazSMxJwUr/kjLnEoRy38k2Mh0wZxADjAzqiBVmUwlsoOIwS+Y62SdIDFw75mOYJL7vEF+lYQZpW8blZF1xQaHBDw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mqJHzgRT; arc=pass smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="KHzB5EVI";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KGscF0b3"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id B6F937A0090;
-	Mon, 22 Jun 2026 19:52:16 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Mon, 22 Jun 2026 19:52:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1782172336;
-	 x=1782258736; bh=UyKa23hOhjJTO3dNwtr71uRTTw68/U772yfhkVhnvYs=; b=
-	KHzB5EVIx0C5i8UdI4TYhipubVZv/+SKfOFzpkpsLUxRVRZVYKyhU2hittTk/qwW
-	PD31ZhELSy2sBDH9d3e8bbvBtTJqK7/Yf6SlkGe6kcDlpAW/Bi30dKIflcaRDJRq
-	/gcskV2i3iM3q2t6ChTstToCcgpIllHRYsz8hby9ba51Y9UDd5vgvEFY29k+13wp
-	LhsePw/ZgDZcA19cODx2fe5jFcJhjTr+pxSWB0xBfnHByzICHb6wdXOwxNqnFcjI
-	iMNGE8VErLL3USAi4eSsjHglCk9jIC8vvePpw5BMRCGOQCtq65MC2B32XQ6ItIPU
-	hmmAyzi25OM+N8i8/60QrA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782172336; x=
-	1782258736; bh=UyKa23hOhjJTO3dNwtr71uRTTw68/U772yfhkVhnvYs=; b=K
-	GscF0b3WfIG3ZCdzOu7otSHvNf6R/stpGNPFObsYEX5syZ9ZtS0uAvCJzMYEUclb
-	HXT0AltahbpMD4q3Osis285iOd6d/q19g5VSqVPlw+IDal5Mb2EMD8CPIhMFHieq
-	er4R0LCW9QdNh2OYZXc1C8n13k0IOYdmzj+MHBspDBz4OwM0PcVRaBJxdd52kHUK
-	amhQY8WxAdP6OiUQr/pi34VOaB6/wSBikuU4+dFRsLfuDsPx9QYS6g484NRkG4WV
-	44bHu6Dgpdp/PYqAxSk+kN7R7w03vsxfLdnSAg22tu4vwFJ8qbS1Y/AjhqAGkNSV
-	YuN3e+ddiKW940ChG5hBA==
-X-ME-Sender: <xms:sMo5ah8am1_3C8Z8m6P6lpQen7YLOYJo3RfoCTeOhNpRhZC2Cz6lPQ>
-    <xme:sMo5apY6h_zj2hkKog0BPbxy3SgR0ebx_4C7C5nkvTL4d_uND6wA62JhG6EEzl-Np
-    RIcQMj_cub8qjgU7pzLZXWr21b5yAasE_cTe3rPQ3ndw5L8Sj_K9g>
-X-ME-Received: <xmr:sMo5ao0QQmNRnjLRWCQV6KY1oHEch5yvGkxthxbFsAK9Ntsn1a_pJD9AWbeGlHRueGL24or48kRrONUoWU50M99jAwF9HuASlJu0EZEOA-VBXfcmyg>
-X-ME-Proxy-Cause: dmFkZTGZIlbYHD+Xzqs16jUMOHLVJNZb7XZzxfh0VK1+bUPiOoAkH+2AEAKPPkgEsC87wx
-    7oBxiGSVwWsJxbdODojRoNJO8l4VzBM3oCygFZBtCt2zhzVNXFICXxBawjI0UNA4NWeVbl
-    ZTgN18hSH1O67bcbfkQ0PQW8M4TQVBIVevk5eXcfXTDOUA40IuyNxuodatkTBvZHhGtG7T
-    77ft2mR+Xbv10yplk3WG/V2t2KiM8tNHx0ucMGhvre/m8M9sHnDmdVC3iMSusol1ReifVf
-    UlLtcwPfWfZwRrVfySt3MuJ1odhtBA/7dFNOiVt2RBFC3tmekzoCfRrxMWoBIHGM8mF0jq
-    XhNxjqRuYHfHzbEeKnqY1eZrz17Qk+75VfxQtTeLjcqSYJC0Ro8JbMzfG/T9JCs218InXv
-    oyRaeOU6JOnQhG+SiiV2D6TUOSczeGearFEXmWNB+Ar+EkD6K8TLgwFVdHzus80Gr8VlAc
-    PrmDnHFe7Xz2G+h8If8mFuKhYkZNMbfi6i5g5tDQgPb/eai50D0pT5QKDpitlCUVN/mArZ
-    JJDRFiaYmxXuM3jUoAr096q+mFkoRgvogShdoFsJZBLfSEVmtDKaEEuUAApFp82u2YhkCn
-    pvmfevN9wLGQmovXgPExY22DaaL0aGNbmcbmqcxAAMSqSZH0rutQI4dhOe9g
-X-ME-Proxy: <xmx:sMo5asYp6Ql2zWn742D1-Z5uHHwVuSTHYG9HFopUEG_2p8DMNIRNnQ>
-    <xmx:sMo5aoJ8zFC-DvlzQzJ1SkkiOMeNACgLHefFnz24gb6b6fo3IusO_g>
-    <xmx:sMo5ajHu9TFcA6xUEKxUz6uX1TkzeOZgTzrnVJzec9DnmtH5OPoGWQ>
-    <xmx:sMo5anvn6loAqL6hIFVgHBn01AJewMtRx0pvtP7_mayHN2USjQ7mfg>
-    <xmx:sMo5ag0wI5ih0flflDYy1vbWwfiIYvoZBHtd76GUZLvofe44bnj3v8R4>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Jun 2026 19:52:15 -0400 (EDT)
-Message-ID: <8568d20e-b00c-4902-a200-024f8cc1feba@bsbernd.com>
-Date: Tue, 23 Jun 2026 01:52:13 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mqJHzgRT"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-460662fcb4eso3336737f8f.0
+        for <fuse-devel@lists.linux.dev>; Mon, 22 Jun 2026 17:28:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782174497; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BPKZp7ix1//lOv8JP2suaL09VQvCYrsFW3M/i7VDCtVg+dTXhZJz4qeuH6BfCf/xkL
+         4RUpDCuwD90V7cQT4yJZvKYAboxphTD5ZNeu8e463LMwukggam+BhPDJHa85MZUmiTaR
+         CGjnDceDlnwA/cLw0KxYnq90anucKrJA0TZKF/41r8sll772DsoLH5Cg0Kee04ig5mNz
+         HFVk88bDYphYkS1WEkLzVbNVlisNlUNTSV5ERCf3DiekmUm0cf3cpmSgAMA6qOS+Yq5K
+         inE2ww77pmaaziQDb5IARxbgaQSe1MMy4fz7+cHDuTynWv9OUAoRb82DYtA58EBgW7Q4
+         4IqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=s3ynWqf52DPj7JHDpT+y/F26yWvSZ/RIxjcRXOZL+hE=;
+        fh=8bUFTemOwDoWiOdOkdFFPfADoT45yqq3f7053C+zN1s=;
+        b=R1ZbP2em4QRxodI4yDKV086AqmvZkWwJ1E0LAuvzab7AFBegeuo08voDSGs6CKFQtX
+         A0smWV67aOPkdsDryVl40iA40va77XA8FojuVnN00m2O+RMGy7qN8qNDD2zDEJQz1RZo
+         VV5LX6JLoJ2NMzwT0gUgnDi39ZX4F72KxCiXIpg/axtA/LMM0IhjyqbJxjIh3HOw4t8o
+         ZA/UNVOowFRy44OBN0dUuv7GnGnYek+FmXkdq06Ua/nnAleK4VJVd3M02WFCwrkXaYyQ
+         WCNV19o6Ad1jscxpPM18pnVLuU5k43u97YpRicz2IdEqLAnu57aYfbNdOQv9La+e9w1H
+         sUYg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782174497; x=1782779297; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s3ynWqf52DPj7JHDpT+y/F26yWvSZ/RIxjcRXOZL+hE=;
+        b=mqJHzgRTLmsmvJFklyFZw0xQa2+NbVLAsgJnuS2Lb93I6yfdgBc3S6PgNt2OJEpkVi
+         3gAlj3OKF5QnvjfX/avAUOjrS2Cp9DUNEuau2yiez1jwP4pXrTTqch0jvCuuaPN18Hyb
+         Tzy6mc9tdzNb1KrAXtc9cV7XoqlsUalqvY7+E/vu2U4og6TDSs2H/q1A6MG9Q2ECoV1h
+         wAPLOg+TmG77OnDcBIilbCbWPi9GbcqqRSgJmToU89tuDebm3l5u9s1nXTPPaW2IaoWc
+         spYzZJbvpc+h0GmiDnEZRKsUBDbchvbDjqOnv5Dt2pTl480blr4Eo2AWBaGRinrvSlhl
+         YCyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782174497; x=1782779297;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=s3ynWqf52DPj7JHDpT+y/F26yWvSZ/RIxjcRXOZL+hE=;
+        b=JeLRO2lB4yUQzG0ZIm/oRgOS/aFE3BUSdV28xiX6QC+IC8qHaUxwyjySda8ANS5qcj
+         3gY4UYk8ecyAK9XCP47XadIyGYvJo4nzNIKwtbHKLq900kODcDPM0NrAZMw3q13zJ/ez
+         3wYW91CK8o2pmHEgABYLYMVDV6CojL7GE9ZBSZ0O2Qqha8mnZRv79aKJjiSQelBzTDLL
+         wQte5lJldf0/uKY6cuxRgcNcqqTcz588awu8pPuCOCaA5mhWvmLGnLrs/oOviD6vXjEx
+         pkKdvyq0ip9HJNyEIRy4njvRcs77kUL7ITpikUoiEVTtmM7hLY5lGfAUq6kP4U8TajYA
+         wyDQ==
+X-Gm-Message-State: AOJu0Ywjr8e/Cy/Yj6up23pg48GlOiI+vibG3Lr39/moeQPFetCCzy7N
+	1jOJAyruc69xyRPrylb5w3h2aOtraMY+r9wC0KvSBWgDTui7ro9avMSEaN6sTIhsn9Wrh2bk4qE
+	miOrs9reR6ifSjd0X+e0DB1TMlDGhdyc=
+X-Gm-Gg: AfdE7cnyq/GKABNRswcyW8/1vh1RGKFBgHFHZXhKpUGZbi2TzUa/xXEq0j9INfdxNOS
+	UMcKHvV3Ohmysud9rztQU9h9raLCzxyf7D9YdVKTeevIj3HbJrj8TAhb4Z/1OA6PIUKhbAEPAOh
+	pCuQfkIKhQTbjsT8nM2ogNB/FwUNAYTiDkrgsGAU/t2SalgEhnAjehKGl+f0ZwOrQ6cHHWpXma4
+	8aIcfOciC4qcRM44kQWnJkB6/42ADO/cCC78ua0KwGRjP9VraVuA5MKFR1buQGv8gT2cNbRXJ2F
+	7FrNfycc9CLKfQEGJ41emYa5XckM/Wz1a+jHUhd/vddJEbrCRy01
+X-Received: by 2002:adf:ebc5:0:b0:461:a15f:6df4 with SMTP id
+ ffacd0b85a97d-46509f4d2e1mr22894885f8f.35.1782174497192; Mon, 22 Jun 2026
+ 17:28:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/7] fuse: {io-uring} Allow reduced number of ring
- queues
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Luis Henriques <luis@igalia.com>,
- Gang He <dchg2000@gmail.com>, fuse-devel@lists.linux.dev,
- Bernd Schubert <bschubert@ddn.com>
-References: <20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com>
- <20260529-reduced-nr-ring-queues_3-v5-4-1dc08c2fccf6@bsbernd.com>
- <CAJnrk1aGcWGJrkAVVEGfjP6mBVraJuQN0_S9oprV6Yo29srBWA@mail.gmail.com>
- <CAJnrk1Z7ECu5vLqnO7ubdkBLZqLB42njaBinqg2LMWpqx=s4Ew@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAJnrk1Z7ECu5vLqnO7ubdkBLZqLB42njaBinqg2LMWpqx=s4Ew@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260612210513.1516038-1-joannelkoong@gmail.com>
+ <20260612210513.1516038-8-joannelkoong@gmail.com> <CAJfpegsWpKE4kUUQo+NK_cu6oy6h6+A1M=xokvSQbFtZzu9UKQ@mail.gmail.com>
+ <CAJnrk1b1nVFZ8dQYA=iGn-p182HNhhRfZEVe-e_ks_daZAU3Rw@mail.gmail.com>
+ <CAJfpegvNyqSS2h28-0sB2j2HUoMnKd7StMsPbvNPz67PiS9w9A@mail.gmail.com>
+ <CAJnrk1bK-3tpZoeJQKPLjgpQW2F0YQKVhLeGwkN_5tpBVpZ-VQ@mail.gmail.com>
+ <CAJfpeguq+LVHoyC7ZzkF_VSAQdqmQFw4DBztiQA1Jfy=U+D9wA@mail.gmail.com>
+ <CAJnrk1Yqa0nvXCBo6GzHc2bP_V5+2dHaJn+2pWkumV0QLr0nSw@mail.gmail.com>
+ <CAJfpegv=u=jfOqtHXpEC60unrzO7XFeP9o9HM18AVqWfN=O0Ww@mail.gmail.com>
+ <CAJnrk1b4r0vbrm_HNe5bV11FVmdKDNAcZzkoLtoW_hEmmBjpdg@mail.gmail.com>
+ <CAJnrk1ZVs2hOc7CRAVb_fQPJiUvqK837MzOWQqv4VB9YU8q6mQ@mail.gmail.com> <CAJfpegsKX6g5v8jaT0iHhSXJV7SzQs1kKBW=ftnRKU27_oPZ8w@mail.gmail.com>
+In-Reply-To: <CAJfpegsKX6g5v8jaT0iHhSXJV7SzQs1kKBW=ftnRKU27_oPZ8w@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 22 Jun 2026 17:28:04 -0700
+X-Gm-Features: AVVi8Ccv6UPb9cen6Vz_9PIGrOx0tPtJY8n1TaoOhK4DsrtdOJIA3RDtRdIEvg4
+Message-ID: <CAJnrk1bDL7PTgDkQH06sR5saqqTRYVOPuZt1oWOoP8ZQRovfQA@mail.gmail.com>
+Subject: Re: [PATCH v4 07/10] fuse: add io-uring buffer pools (implemented as
+ buffer ring)
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev, axboe@kernel.dk, jlayton@kernel.org, 
+	libaokun@linux.alibaba.com, bernd@bsbernd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jun 19, 2026 at 12:57=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu>=
+ wrote:
+>
+> On Fri, 19 Jun 2026 at 00:23, Joanne Koong <joannelkoong@gmail.com> wrote=
+:
+>
+> > > Even with separate waiting queues and the kernel prioritizing sending
+> > > metadata requests before io, isn't there the issue that if the
+> > > requests/entries on the ring are all IO requests and then a storm of
+> > > metadata ops come in, they're still backed up waiting for the IO
+> > > requests to be finished? Or am I missing something?
+> >
+> > Thinking about this some more, I think the kernel could just
+> > pre-reserve some ring entries specifically for metadata ops / non-IO
+> > requests. That solves it on the kernel side but the userspace side
+> > would still need a threadpool of some sort if its backend IO blocks
+> > its queue thread.
+>
+> Do "normal" filesystems use different block device queues for metadata
+> and data I/O?
 
+No but I think in the block layer (from what I understand), requests
+are always serviced asynchronously which avoids the head-of-line
+blocking problem, whereas the fuse server can't always issue backing
+i/o asynchronously.
 
-On 6/23/26 01:32, Joanne Koong wrote:
-> zOn Fri, Jun 12, 2026 at 7:24 PM Joanne Koong <joannelkoong@gmail.com> wrote:
->>
->> On Thu, May 28, 2026 at 3:55 PM Bernd Schubert via B4 Relay
->> <devnull+bernd.bsbernd.com@kernel.org> wrote:
->>>
->>> From: Bernd Schubert <bschubert@ddn.com>
->>>
->>> Queues selection (fuse_uring_get_queue) can handle reduced number
->>> queues - using io-uring is possible now even with a single
->>> queue and entry.
->>>
->>> The FUSE_URING_REDUCED_Q flag is introduced tell fuse server that
->>> reduced queues are possible, i.e. if the flag is set, fuse server
->>> is free to reduce number queues.
->>>
->>> Notheworth is also that a fuse-io-uring is now marked as ready
->>> after the fist queue was created.
->>>
->>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
->>> ---
->>>  fs/fuse/dev_uring.c       | 171 +++++++++++++++++++++++++++-------------------
->>>  fs/fuse/dev_uring_i.h     |   3 +
->>>  fs/fuse/inode.c           |   2 +-
->>>  include/uapi/linux/fuse.h |  10 ++-
->>>  4 files changed, 112 insertions(+), 74 deletions(-)
->>>
->>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
->>> index 497093384c31e729053d2f5046c9ec59461ac035..d02266b483c89d105bd6301133820697f7caba9c 100644
->>> --- a/fs/fuse/dev_uring.c
->>> +++ b/fs/fuse/dev_uring.c
->>> @@ -373,6 +397,30 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
->>>          * write_once and lock as the caller mostly doesn't take the lock at all
->>>          */
->>>         WRITE_ONCE(ring->queues[qid], queue);
->>> +
->>> +       /* Static mapping from cpu to per numa queues */
->>> +       node = cpu_to_node(qid);
->>> +       fuse_uring_cpu_qid_mapping(ring, qid, &ring->numa_q_map[node], node);
->>
->> Hi Bernd,
->>
->> I don't think we can assume node is within the bounds of numa_q_map.
->> numa_q_map gets allocated with num_online_nodes() # of entries but I
->> think the node returned in cpu_to_node() can exceed that if some nodes
->> were offline when we computed num_online_nodes() (eg num_online_nodes
->> = 2, thhe 2 online nodes are 0 and 3, while 1 and 2 are offline).
->>
->>> +
->>> +       /* global mapping */
->>> +       fuse_uring_cpu_qid_mapping(ring, qid, &ring->q_map, -1);
->>> +
->>> +       /*
->>> +        * Pairs with smp_load_acquire() in fuse_uring_select_queue().
->>> +        * Released before the per-numa bump below so that observing
->>> +        * numa_q_map[node].nr_queues > 0 implies q_map.nr_queues > 0.
->>> +        */
->>> +       smp_store_release(&ring->q_map.nr_queues,
->>> +                         ring->q_map.nr_queues + 1);
->>> +
->>> +       /*
->>> +        * smp_store_release, as the variable is read without fc->lock and
->>> +        * we need to avoid compiler re-ordering of updating the nr_queues
->>> +        * and setting ring->numa_queues[node].cpu_to_qid above
->>> +        */
->>> +       smp_store_release(&ring->numa_q_map[node].nr_queues,
->>> +                         ring->numa_q_map[node].nr_queues + 1);
->>> +
->>>         spin_unlock(&fch->lock);
->>>
->>>         return queue;
->>>
->>> @@ -1186,7 +1180,19 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
->>>         if (IS_ERR(ent))
->>>                 return PTR_ERR(ent);
->>>
->>> -       fuse_uring_do_register(ent, cmd, issue_flags);
->>> +       fuse_uring_prepare_cancel(cmd, issue_flags, ent);
->>> +       if (!READ_ONCE(ring->ready)) {
->>> +               WRITE_ONCE(fiq->ops, &fuse_io_uring_ops);
->>> +               WRITE_ONCE(ring->ready, true);
->>> +               wake_up_all(&fch->blocked_waitq);
->>> +       }
->>
->> I thought we had agreed at LSF that userspace would declare the number
->> of queues upfront and dispatch would be gated until all of them have
->> finished setup/registration rather than going ready when the first
->> entry in a queue gets registered? Did the plan change or am I
->> misremembering?
->>
->> I still have the same thoughts as previously [1] about it. I really
->> don't think we should allow requests to go through io-uring while
->> io-uring setup is still happening. If we want to add dynamic queue
->> addition in the future, we could always do that later through a new
-> 
-> Hi Bernd,
-> 
-> What do you think about dropping FUSE_URING_REDUCED_Q and reframing
-> this series around dynamic queue addition instead? I don't mean to add
-> more work to your plate, but my main reason is the uapi. REDUCED_Q is
-> a narrow flag that's a subset of dynamic addition. Exposing general
-> queue addition would line up with the decoupled queue-creation uapi
-> the bufpool work will use, and it'd be more cohesive with the future
-> feature to dynamically remove queues.
-> 
-> I think this series already has the bulk of the logic for dynamic
-> addition anyways. The main missing piece looks like adding
-> infrastructure to publish the mapping as an immutable RCU snapshot
-> rather than mutating it in place, so a reader never sees a
-> partially-built mapping.
-> 
-> What are your thoughts?
-
-Except of libfuse not being ready to create queues on demand, the series
-basically supports that in kernel. And I was also thinking to use CU to
-update the mapping.
-
-However, I'm lost about the relation of buf pools. I very much disagree
-that adding buf pools has a relation to queues. Unless you want to make
-it 2D, which gets complex to find the right queue. Reasons:
-
-1) If I start a queue in libfuse with a 1MB buffer and later see that it
-gets used, libfuse should add more buffers. However, I would not want it
-to add queues, unless I see that that ring threads occupy all of the core.
-
-2) Lowest latency is still achieved with one queue per cpu - especially
-here it makes sense to have a very low buffer usage and to increase it
-if needed.
-
-3) At least one customer at DDN sets a very specific cpu configuration,
-using more cores is strictly forbidden.
-
+I don't think this is ultimately that important though. I'll drop this idea=
+.
 
 Thanks,
-Bernd
+Joanne
