@@ -1,97 +1,55 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C692E3C76BC
-	for <fuse-devel@lists.linux.dev>; Tue, 23 Jun 2026 09:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4285F37C90A;
+	Tue, 23 Jun 2026 13:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782207766; cv=none; b=KFSkH2hE1Y4uNTFkSZCjvPo60y0x3gjgnTxWH3fWRXgo4OkHT3DuoO4LrDaHZ3L79auh22VeCkFnMTbORtdJquiDmVDuKB5BQZWnm739Tf7My9azuLrNvndNinToXl6pbeE1iDjT9MLFD1Bqu7U5pcwrV4kyeP/HQIG9eEDah/4=
+	t=1782222748; cv=none; b=liSEpTTlWvGyBKGNn+R07m3qyIAWk4ETsdUUnTJ/DE+8kuDD7B0mTIMV3h9zOkGMrc0DtiRIUEeiae6zAmjXwlLLvdF+LfaRiecWAByMVLsFqojQY3H1zhqpAONvxbnLX7hKWHpxIC8qLl15UqYMKpoRW1Z4gDj5QLOiAQHbne8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782207766; c=relaxed/simple;
-	bh=B8aiSRXgNzNgIcTsqvlM+jiX5YYMrahhBOPApOswCwI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HUdWYfNaGBLL0/SIr0DOlh40/GrGbCD60d3PSmAS61DdzyJRPqkwf0kUWlI0Q3M8g3Ts32vZfSLuttuLu3Q4gUehugpuTZCp7cKmAP5OsfkDTtMsMv9g3+ncI2uJtNZ7Jws/rlJ7EApC5ptK3gWzvLj9D2qtVH+DM5eMfu5D7T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NX4mgLsS; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782222748; c=relaxed/simple;
+	bh=9yOGUaL8kbNxM9xfsL/gfAlIaS8sQaxxGD/1qY9o130=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kLyjYqY7E92Ir1UXMCIniK4LBzCEo3VMTHnitXc35VRWft/E7Tv0tJF9MJVF0Hs6KgzDqdxoaz7OLc76+b5g4YPZ/qaZ8+gcEj4XH3liYsueubczo5eSxImSiyvKRctFWPsygVjjJdjzAgoInxj5sql3VdQK29oOB4BSafZ7v1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jn5S83jL; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NX4mgLsS"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490b3637b90so42096445e9.3
-        for <fuse-devel@lists.linux.dev>; Tue, 23 Jun 2026 02:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782207763; x=1782812563; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3SJWx7Zgz0Pyhs4JZwrYmJyYWWMlxydwzpM41quzKVA=;
-        b=NX4mgLsS1blr6SjAbfyjGpXr79UvPCUmXtumz5FGzwHIJ2Gt+OlNQ9P2udxAYlChKM
-         P+qrL9ub1294UZc3bBiKXZu5hNyb4BNVHgx+mWbwbx6aKiwbv7h6B8QlUs+D8R6TjwGb
-         rFmVux4i9kaApoSg+1Xf3diCdOaEYIwh2EQGArlPRy5d9IcMeQTjn0JnDEoDsG6S6dWr
-         fAETAVXCoQRmOi4WNqqHFJe9CAI3acrCf2NeGNGUx56RxvGfLjZq1Ai5CdGrJcVMbrOZ
-         MG84agdqsFrB49x3TPvTHvhoP89HAE9HvCiQoqxa6golN/suSdG/lwjhIgyx7DkCS7ZS
-         7pgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782207763; x=1782812563;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3SJWx7Zgz0Pyhs4JZwrYmJyYWWMlxydwzpM41quzKVA=;
-        b=kqfw0YTgpvPtlzNXQ+mB20E1Ax28fFVZtaVVVSAZ7VGCxBUoI2rkmN2uswMxgavQGy
-         Gs5l7lhz24DKTf7fg0216kKB5nGXp+j12d40TNCp55jm8SlqwJ+3l5xBJs1IgkbK0Z4n
-         HwamtGyH7MTkaZed0cu3PvZ7tzEQNYf2YE5N7SsCMihMwayZohtazzOFigscHDYdu2co
-         XsJxKMAMH/n1WGcPmAnAbZivZpRXgsvnieKo5rNeC2zWpY0kN283PdpT4uhPbyHy8XdZ
-         X/OGPiMBJqk/Id3ysxWuCkWVdc4W8h5cI9pzFHfjG39OP7jhTRTNPqdsuucp+1lATem4
-         6x0w==
-X-Forwarded-Encrypted: i=1; AFNElJ/iKIBfC2gtdId/fQ1uXl6QDrKnqhTZjSxc0V69CutKhQJWDMFm5WbvC5iwihA+o8uLJoJmzyoThgf5@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcKX3U4KX6T/dVlUcO4bcyfJ7HfSHCE5DuQO5FEsaZLPh5KO8w
-	J0QbpWgpleYFW7WERwx/gWij2HZoB+u44O2/4/pb5gQLvEanHjjacoxH
-X-Gm-Gg: AfdE7clHI4WEal4w3H0M5HSttSniWhG1+PX80wZeOLtGIhyUW+DZYbJl3dRQw/UKWF1
-	GuuyeFbgNrWB27MfjU8YWXL1ecoGp7YFxwBE99zDm3JG6vd6KblAuRmhpPzvPr80PtVAAM7X/aA
-	X/pVzsX3ALmsxHAphd1C7UxJygl/hBBi9Dd2S9n9KTrUpJ9aposN/TUALxMCUIMot9KBD+ye+a0
-	wCUkfqzj14k5yq5SX/Bci6JEbUSAu1lv/J0JPNoHAXRvWqVgNX0H9depWzPkduYLLcwNpqtPecF
-	ZZzv6sP8d4cC8GCzdF2Ij4SK2FGb0qpwRfF71DBCTkmX7MLdaf6vWkn2NspeyhKIaBbLxb75qOU
-	YwOEWKyF9ZWnZ96ijOeB3VifMTb02b2NAMwfajF/jzmwm3uxgudK9slWFWR6WRdcEQHJ2PJ3BJq
-	RWYo6ZiM1F
-X-Received: by 2002:a05:600c:8b8a:b0:492:2e48:81e6 with SMTP id 5b1f17b1804b1-4925b389b83mr30093645e9.4.1782207762970;
-        Tue, 23 Jun 2026 02:42:42 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49249455302sm280248525e9.15.2026.06.23.02.42.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 02:42:42 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: avagin@gmail.com
-Cc: akpm@linux-foundation.org,
-	alexander@mihalicyn.com,
-	axboe@kernel.dk,
-	bernd@bsbernd.com,
-	brauner@kernel.org,
-	criu@lists.linux.dev,
-	david@kernel.org,
-	dhowells@redhat.com,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jn5S83jL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=PoOEKS+eDTfInw4OHh9azlmGlb94rL+G6EWiMKCHpNM=; b=jn5S83jLuCl3m+DKs0KX2qnWLx
+	m2yF7h06gH9mTy/pDA92JeRc2O5jP05jl4ogvEK0WS/W+H2H/z3IkvpjXXgmHUpvHT3sptVLvL7Br
+	bdj61w5J3Idd4NY/Zsc55aMTtERBE7uWQwMF+2/Q1aC0sRMqxRDKFRxBcc5cshUtO69Ggren/x0SY
+	h8pgGlgpkm4+nUORnZ/nDCZO9pXSB6IVG3ZOpm0ZJOk3keO0M185jKz4nbdMD+4nbb5wRCPkOSlA3
+	1v37DXKZK7FKgA7oHSLZygJ36ECcR5KQ52Enk4r4EyA8A3DUt7SoRgfLPxdwc+/PDcp90jw/dz7GC
+	VNZ4Ipsw==;
+Received: from [2001:4bb8:2f6:ef61:5b2b:8638:3844:9408] (helo=localhost)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wc1Xy-00000006NCY-17nf;
+	Tue, 23 Jun 2026 13:52:14 +0000
+From: Christoph Hellwig <hch@lst.de>
+To: Christian Brauner <brauner@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Cc: Kelu Ye <yekelu1@huawei.com>,
+	Yifan Zhao <zhaoyifan28@huawei.com>,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
 	fuse-devel@lists.linux.dev,
-	hch@infradead.org,
-	jack@suse.cz,
-	joannelkoong@gmail.com,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	miklos@szeredi.hu,
-	netdev@vger.kernel.org,
-	patches@lists.linux.dev,
-	pfalcato@suse.de,
-	rostedt@goodmis.org,
-	safinaskar@gmail.com,
-	torvalds@linux-foundation.org,
-	val@packett.cool,
-	viro@zeniv.linux.org.uk,
-	willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-Date: Tue, 23 Jun 2026 12:42:11 +0300
-Message-ID: <20260623094211.1080873-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CANaxB-xVCP5HSUNwphFrKPdW0Qh1pA33A6npac60WArkZMFt7w@mail.gmail.com>
-References: <CANaxB-xVCP5HSUNwphFrKPdW0Qh1pA33A6npac60WArkZMFt7w@mail.gmail.com>
+	ntfs3@lists.linux.dev,
+	linux-erofs@lists.ozlabs.org,
+	linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: don't build bios/contexts over multiple iomaps v2
+Date: Tue, 23 Jun 2026 15:51:35 +0200
+Message-ID: <20260623135208.1812933-1-hch@lst.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -99,82 +57,19 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Andrei Vagin <avagin@gmail.com>:
-> Actually, this change introduces a performance and functional
-> regression for CRIU.
-> 
-> Here is a brief overview of how CRIU currently dumps memory pages:
-> 
-> CRIU injects a parasite code blob into the target process's address
-> space. The parasite invokes vmsplice() with the SPLICE_F_GIFT flag to
-> pin physical pages directly inside a pipe without copying them. The main
-> CRIU process then takes over from outside the target context, calling
-> splice() on the other end of the pipe to stream the data directly into
-> checkpoint image files or a remote network socket.
-> 
-> I ran a simple test that creates an anonymous mapping and touches every
-> page within it:
-> Without this patch, CRIU takes 9 seconds to dump the test process.
-> With this patch, It takes 18 seconds...
-> 
-> Plus, it obviously introduces some memory overhead.
-> 
-> If these changes are merged, we will need to completely rework the
-> memory dumping mechanism in CRIU. Using vmsplice() in this proposed form
-> no longer makes any sense for our architecture...
+Hi all,
 
-I just have read some docs for CRIU. I found this statement:
+this patch changes how iomap submits bios for reads.  The old behavior
+to build up bios across iomap was already considered problematic for
+a while, but we now ran into a erofs bug because of it, so it's time
+to finally fix it.
 
-> #### Why `splice` is Better:
-> *   **Consistency via COW**: The `SPLICE_F_GIFT` flag ensures that if the process modifies a "gifted" page after resuming, the kernel performs a **Copy-on-Write (COW)**. The pipe buffer > continues to hold the *original* version of the page as it existed at the moment of the `vmsplice()` call, ensuring a perfectly consistent snapshot of that page.
+It would be great to get the fix into 7.2 as the fixed bug can be
+triggered by users.
 
-This is wrong (with released kernels). I confirmed this by testing this on my current kernel (6.12.90).
-
-See the code in the end of this message.
-
-If you actually rely on mentioned consistency, then, it seems, CRIU is broken.
-
-So, in fact, my patch actually brings consistency to CRIU. :)
-
--- 
-Askar Safin
-
-
-
-
-#define _GNU_SOURCE
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/uio.h>
-#include <sys/wait.h>
-#include <errno.h>
-
-int
-main (void)
-{
-    int p[2];
-    if (pipe (p) != 0)
-        abort ();
-    char buf[1] = {'a'};
-    struct iovec iov[] = {
-        {
-            .iov_base = buf,
-            .iov_len = 1,
-        }
-    };
-    // I pass "SPLICE_F_NONBLOCK | SPLICE_F_GIFT" here, because this is what criu passes
-    if (vmsplice (p[1], iov, 1, SPLICE_F_NONBLOCK | SPLICE_F_GIFT) != 1)
-        abort ();
-    if (close (p[1]) != 0)
-        abort ();
-    buf[0] = 'b';
-    char buf2[1];
-    if (read (p[0], buf2, 1) != 1)
-        abort ();
-    printf ("[%c]\n", buf2[0]); // Prints "b" as opposed to "a" on Linux 6.12.90
-    return 0;
-}
+Changes since v1:
+ - don't submit fuse context after each iteration
+ - consolidate some code to support the above
+ - fix a bug in the fs PI support found while doing the above
