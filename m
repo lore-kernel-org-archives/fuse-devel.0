@@ -1,126 +1,146 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413ED26CE39
-	for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 18:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782327330; cv=pass; b=JzP0MCoECpHpOPl5oKP4RWxZAtfeYSNPcb2ArpxzPaVnfPa2q0xKoQLsWnn1h3GjVvqNooaP2C2Z2fZI4OOgrHBXyNscfVDrviW/FyOVVvUfjOon4DudANyXVRih2mhS2BB0e0jwynRMJY3L0ZImM0KFnT9Makbn2HOmRKGq7fc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782327330; c=relaxed/simple;
-	bh=s1vJ8mKBOUDI7dmycLNBcqgezjzNgpM8VRQz3CviYJU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nljgzTf8ZdlAYXSwaTGVzO8F9NHhCegIwE2r17EbFni0IyqBaLJHuJ4FW5LOevHylj4JZydxMTrfchbYM1UOHJcEqYnAs6BziCxxjzuws+f960rRDmEsVCWEod7MFYl61XzyzOGcTWNoo2bt9WJ5f7qVo1oiVLa+ScWXRVnR4aQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qvWFx0LT; arc=pass smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244F538D3F1
+	for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 20:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782334340; cv=none; b=R6SKEiOsZKzxDQ0xmA3GrIs1gTAXw36RE9gdnlxE3EoC9kSGo1qZp5TRIl1RVxbaUAMdhanFlDVg2L+klQD2RqIovUWO+jlfOpr0w0dPTYm6OKfvUcoemien1GQAkJ5gUi65vBwcXYpcdDfHXbs3YUaV88bgCRZ/y1xlpN41pz8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782334340; c=relaxed/simple;
+	bh=fOk2uLz0kp+du9hIijEy96gF+mn97snUxPEaHV9jQ3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A0FzCScClNlgtnTfnnjjd4kxdji45g5dKQSUjMKMaNkXdd3ZZHY9s85gSmJVi2la7e89V7QeZeAiOUuIvTaRYGgX1nDf1O+mRO7RkKma/8sPNIdc8GFA9+QMlCo7fQ+S8WmNyZUqmBYQVo+Ba5cPhcK1FAN4GOzMkchhxR21VRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GGRXG7vO; arc=none smtp.client-ip=209.85.160.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qvWFx0LT"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-462bb734793so946642f8f.1
-        for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 11:55:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782327328; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TrwsrBArgXesKrKzl04zJtjVgSoaNWGt/yzNOhHWMvpKPbeK2F8BvOE3zSMb5kU8wT
-         3BAA1a/x0Kx1En6JhOn2yR/yMCGHKzqXUmskOyW2Mdo2/suyo2F8zYpUT7qIyRxJX4Oe
-         BGGpItdC078k3tTF8UxAofzTJdGURrXreu3BXRCOCNF5sGhXN+Tn6wDGT3tQjL7x70A8
-         XHgA8alW/YWOWOLQpycdNmbySyxbk7zkd52mL44s70bdKSt4a/NNdysmQF9SLOz5kOA2
-         1FBWso8FcGUrJU0vdHMBUmd2l55RJx2hbYHyvGXhfVPGdJ2qyNhsimiz6BM752PVmJSH
-         Xaeg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dutkJQvZ88RyivrUq2VuUFVtInmTzbSSO0Nvd1JQYws=;
-        fh=a6GkGpXLww2HoWEGsYIxMjijCsJp1/HZ5/w+8tpqBRA=;
-        b=TW3WjLUzlBEGzan27dRHYd7OoeC6TgeNlqjUxsUAyWTvTjcX63vAfivnjiZ/3/ppXs
-         CdANHpvSzcYui6Ui2ZMydXNfszqQo1jl94ekNpb3vQ6E2uhAYavN476Rb9KeAab5cJ39
-         kkCKmrWp9nk44i4fFudqzpk3br75oSF3s5efJt2x4Au2LsDyWaIeZdpOBBT4Yt57NLfM
-         /zbDh2WKkMpUZvSPV5O6tUpGNNtrp1OnxAxLpp4sEid1C3QfPlH10KiQQkQR6gEwyuAm
-         bfUfLB9nRCAhFOfkiY3QZcCtQy4r60NxHqbQ+7pnz+gDXGxCvavjJNMlFIA1BnmMmZC1
-         4X8Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GGRXG7vO"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-44747d96185so867929fac.1
+        for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 13:52:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782327328; x=1782932128; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dutkJQvZ88RyivrUq2VuUFVtInmTzbSSO0Nvd1JQYws=;
-        b=qvWFx0LT1GNkIkoOTUIFOSXuoZdQurfNK5kiTcZV5v1TlJt6lwaXjkWJz0qShHzNCy
-         71lrLL3GIZZ1DTRXC9T0P+iULuC9DLdboP2Qj6hhnP7tNyDfJunkjBlvsd4KCvVib0Mm
-         q4dz1afShEz+kjK7c9+oArAGgne5h1sgtVO6BaLarcCZEbiZy4r9DD59414R0K2Z+gA+
-         O4hUgIN8QcIl7r+kvMPdU8OhFfPa9q+RjwTALLcSQOkTWtb3YoL/Zq1zZv1+vtf5y8+F
-         PA/g77FEW6R4V5xlXRe3H/Zrg+3anYrLcaKNePGvpIHIS8kpyW6sVEcEInT3wbQru3Gt
-         X/zA==
+        d=gmail.com; s=20251104; t=1782334335; x=1782939135; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cT8XyovIujOpRgJEtF3RzCkx+q1q0m2DrqWUvg8EN24=;
+        b=GGRXG7vOoxs2z4JScvhoTamPprKVP3MnoPef9sluwG1ubPOgIOJrM8C6wrYFMNQW1j
+         G2AAwT2KvwUHoazkREfa+zm+LiX1nQQeFoZpoQrFVrb/5uwArlOUwIWeXZ4u/Dvh+B9X
+         fOpf6/jObqnfEEYd6mFcqRKWGVNfelo0VhCBhqArSrZvAP3v1eRA2CmISYSeGDWpMX/m
+         Yrx2ZBuzFtYYaUTGPnItawEQl4DkANBKeECbBd8cIrG7uO34gaFk0HoBWwSCguXt2UsL
+         9S4ItQ0r9GLmoVJA45dn6LmnFPvvBh7MigsjEDz6OxDUtuPk+Xd31klDvBtj/iWe4yG3
+         nYfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782327328; x=1782932128;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dutkJQvZ88RyivrUq2VuUFVtInmTzbSSO0Nvd1JQYws=;
-        b=Sfltw58EgiAcLR/TfRxoPOpsqF/Sy5IFkWWZYsmOmniXOIN/fWcGnc6gRq5iYlRlkV
-         Fj7b30I77C0xmG2xU10Urp/fHIFVeDHc+eStj9uGHGAZWFwPjY9a2ORxv9hAObgBqA7W
-         XtPMECctjzFdw3zf5+fuCtSjki5lPTTs3irFfswXiBd3ITRHHMXvjVWYYskRKweWWq0Q
-         LekTZPQJobw6paM3ILVDKf4pEuBzVJpkUvn35uwdJkiA/tOnZA6ruZH5rQ/8YhsW7Wb2
-         GYf+V3jwM4OHEui8apmMIjXXHdNo9YAzSPY93aDpa6elXncZUV89F/aIqvjR+8OwH1C5
-         VX8A==
-X-Forwarded-Encrypted: i=1; AHgh+RoRYij+zDAcJAh/JhcAAPsTx3tRlyYQHtNOtNVFDnmmuEhfpER2QJr8+xRqf//LBk4IkwNJ7zEE5QB8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxt7NzNLqz3d461uU2gxmejvEdHxEtaCLQKevZ3L4RFvDtRkgCD
-	PubZ8qcc1gvJWVXIE1R5fRFFQziLwagaI7dBhvAWZSnbKl19i6ugSRU1Ymfns2vKWgAY3Y8hlv5
-	tSrogYegk/lzQdurM9UE05aK0XQJzg8k=
-X-Gm-Gg: AfdE7clv9DQo30VOunK+RYLJNXEzFb+mzlRNlf7slTis9Yv5qj4AEgJmUC4zIC7h5Jk
-	huUHyS5DrDEnAPk9PLVo4KsEb0u5RaQd6QNsREvUVGiYhI2MEMhpJzivzFes586Pr/ypG3fvY3S
-	6A4wnGKqy0WEqua13FD+MVxjh9Dkmk9taW/GDkxJ4DRFn6h9DYFWslRqKu9qyERh1GdYLn1tlyp
-	yNdvbiHOLWm4J9HztW6b059PFpgTk9Hl0bVFgukeoyz1OZCvR3h0JQsHBBhzYZsJhEVhuLuonZO
-	us+1NfAZ2ivjgKuVi8Bcwa6ZRpFURuLH3yy6pIdjV//PKGSYdvvW
-X-Received: by 2002:a05:6000:1ace:b0:460:71e6:e3b with SMTP id
- ffacd0b85a97d-46662334928mr32467994f8f.27.1782327327620; Wed, 24 Jun 2026
- 11:55:27 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782334335; x=1782939135;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cT8XyovIujOpRgJEtF3RzCkx+q1q0m2DrqWUvg8EN24=;
+        b=dNaXfqxDPMvdeA2UNioZLWQmWJOOKrHTsRBMAk9FrwJorHp3yQaQn6W+vyHx782dhe
+         nwhyhDBFHFmRHNERK8jRqoKdtDIwIUWemWPT/fBeipwg+cHyRTZGEwBLH/+nPJpJIr84
+         kyje+CChthVtwbkMTaH4GYYv4J9wpFMQEknPON5AplMhzT1ukb/nnEE3EBYrm/CXJ73R
+         Pxe7iEv+xXxrKS0pTywom8Rpqi0pxZ9xfbu8/DDGIElbwE2tooM8EJa8jIiSAkFEW7aZ
+         s/kXImC7m5aLP6txCCyL0AGlCj00s89BU8+BCbe6bAFErMEO/cWO1NcweunszdR01ng6
+         vSoA==
+X-Gm-Message-State: AOJu0YwbyCD3E6k1uPtnRRl1vm+CuJrquNA1ay8e8BQ2ldYggg+1zZm+
+	AXAPYpDlr7nyjqWO5ytyxT32MR35zQS2y+W1djU8etgvtJcCY+f8pDM2hKubnw==
+X-Gm-Gg: AfdE7ck36GozLdvYapEVcacHSWL1Bb55X+xfRkKUqPDPG6Lhs1BrsX8vXuw3iIpJzcC
+	4sUXV7KjQaPTh4q8CGAMxQX3uLW7AUMZrVMnDJZBnXSLtQzay3vGAkM//W338Hvn9znv2/UhCo3
+	D3rq6TTJbDrQu1FdDoRFlsjB45QrmiLrStaupWqEVfM1r1XcGCykYsBmLTHjizLx/Z0RCvHEsJM
+	t0Eb+WbjVEzBLexwOkiPUzWHSPg0TYNBFSt6oiksb10enIE7WGxZWfZdny1emgNKEhCYJgfsLmI
+	+H1BeHQGBTXz8AGoJodQZDhcu5rrGyd+ZZT1aJhyZD/w9WhtIgTlQ8MWcl8K5gP98FhNmHg24KV
+	3iO1LAZygG67Mohl4wLDfMmmq8aAg6DbkPs7DzUIdBHmqXcD/Xa1jOwgtwt5hl0ritQujgXEBio
+	0eVYPqFrMNMLWI9N4vep13D3berJoYNSQ6tOw2K0IURBtif4mzVZ3ixoPykzkjNJtd
+X-Received: by 2002:a05:6871:890:b0:43d:7b24:95 with SMTP id 586e51a60fabf-447dc653ffbmr3634916fac.0.1782334334934;
+        Wed, 24 Jun 2026 13:52:14 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:5d::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-44778b6159fsm7756695fac.11.2026.06.24.13.52.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2026 13:52:14 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	willy@infradead.org,
+	hch@lst.de,
+	linux-fsdevel@vger.kernel.org
+Subject: [PATCH v1] fuse: don't clear folio uptodate on writethrough errors
+Date: Wed, 24 Jun 2026 13:52:01 -0700
+Message-ID: <20260624205201.842714-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260623202843.2064992-1-joannelkoong@gmail.com>
- <20260623202843.2064992-3-joannelkoong@gmail.com> <ajtPMgO65FA1TXhi@casper.infradead.org>
- <20260624073625.GB12359@lst.de>
-In-Reply-To: <20260624073625.GB12359@lst.de>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 24 Jun 2026 11:55:16 -0700
-X-Gm-Features: AVVi8Cf_rkFidIUX6JYWCVRDA5nByM1ZWpGheMNA_h_5f27vsvoibl7LK2mr9uw
-Message-ID: <CAJnrk1aDt4o3hVLfnW0wEZrGE6xw5XXspB5vAg001gv=Ntu+1A@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] fuse: use iomap helpers to update folio uptodate state
-To: Christoph Hellwig <hch@lst.de>
-Cc: Matthew Wilcox <willy@infradead.org>, brauner@kernel.org, djwong@kernel.org, 
-	miklos@szeredi.hu, linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 24, 2026 at 12:36=E2=80=AFAM Christoph Hellwig <hch@lst.de> wro=
-te:
->
-> On Wed, Jun 24, 2026 at 04:29:54AM +0100, Matthew Wilcox wrote:
-> > I believe this to be a bug.  I talked about this a bit as LSFMM, but th=
-e
-> > fundamental problem is that the folio uptodate flag DOES NOT BELONG TO =
-THE
-> > FILESYSTEM (unlike the buffer_head uptodate flag, which definitely does=
-).
-> >
-> > The MM has a number of sanity checks that make sure we haven't
-> > done something awful like mapping a !uptodate folio into userspace.
-> > That would potentially leak confidential information to userspace.
-> > So when a filesystem clears the uptodate flag, the MM can come along
-> > and bring down the whole machine because the mapped folio is now !uptod=
-ate.
-> >
-> > I know we have a terrible writeback error handling story.  But I think
-> > the right thing to do is just take out the calls to clear uptodate.
-> > In all filesystems.  Darrick took it out of iomap in e9c3a8e820ed but
-> > it's time to purge it everywhere.
+In the writethrough path (fuse_send_write_pages()), if the write to the
+server failed or was a short write, the uptodate flag on the folios are
+cleared.
 
-Sounds good, thanks for looking at this. I'll send a patch to remove
-this in fuse.
+As explained by Matthew in [1], this is dangerous because the folio may
+be mapped into userspace. The mm code has the invariant that a
+non-uptodate folio must never be visible to userspace (to avoid
+potentially leaking confidental information to userspace) and has checks
+in place for this that if violated can bring down the whole machine.
 
-Thanks,
-Joanne
+Practically speaking, the effect of this change for the fuse
+writethrough error path is that if an application does a write and then
+the server fails to persist the data or only services a short write, the
+page cache folio keeps the data the application wrote instead of being
+reverted to the server's contents on the next read. The failure is still
+reported to the application synchronously through the short count /
+error return of the write() syscall. Folios that were only partially
+written are unaffected since they were never marked uptodate in the
+first place (fuse_fill_write_page() only marks a folio as uptodate if
+the whole folio was written to).
+
+[1] https://lore.kernel.org/linux-fsdevel/ajtPMgO65FA1TXhi@casper.infradead.org/
+
+Suggested-by: Matthew Wilcox <willy@infradead.org>
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+---
+ fs/fuse/file.c | 18 +-----------------
+ 1 file changed, 1 insertion(+), 17 deletions(-)
+
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index cb8da4c06d17..c4ae4009a423 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -1227,8 +1227,7 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
+ 	struct file *file = iocb->ki_filp;
+ 	struct fuse_file *ff = file->private_data;
+ 	struct fuse_mount *fm = ff->fm;
+-	unsigned int offset, i;
+-	bool short_write;
++	unsigned int i;
+ 	int err;
+ 
+ 	for (i = 0; i < ap->num_folios; i++)
+@@ -1243,24 +1242,9 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
+ 	if (!err && ia->write.out.size > count)
+ 		err = -EIO;
+ 
+-	short_write = ia->write.out.size < count;
+-	offset = ap->descs[0].offset;
+-	count = ia->write.out.size;
+ 	for (i = 0; i < ap->num_folios; i++) {
+ 		struct folio *folio = ap->folios[i];
+ 
+-		if (err) {
+-			folio_clear_uptodate(folio);
+-		} else {
+-			if (count >= folio_size(folio) - offset)
+-				count -= folio_size(folio) - offset;
+-			else {
+-				if (short_write)
+-					folio_clear_uptodate(folio);
+-				count = 0;
+-			}
+-			offset = 0;
+-		}
+ 		if (ia->write.folio_locked && (i == ap->num_folios - 1))
+ 			folio_unlock(folio);
+ 		folio_put(folio);
+-- 
+2.52.0
+
