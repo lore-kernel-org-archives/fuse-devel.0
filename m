@@ -1,135 +1,164 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5030C38B7A1
-	for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 07:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F52E19F115
+	for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 07:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782285155; cv=none; b=lkmcrw+1oBGcLvjjw5+/r/VBqFyY8WiJAo8biRt4AuLZv0x/SA/nS57zskNNVxjlr92tcL0kKqTX3tiRok4H/skdmbYsrBLsw/LWzmEJVivGz+bR8sz4j48hH+paGYfHgwOXo3MwJkGRXoVcSnEoOqkwEiTY9vmdufPvfxPIJ64=
+	t=1782286098; cv=none; b=aN7e36NzvU2ycLra+Ay1vXDuHFS2deM8zDXHp3hPuedURpyfDe8OHnCl3rkwwSG7iqTIOV+95Lj6qsPzwy4bgd7g8S6JoxWcoQBDIah9gotVMYhXds+BLnoworm65sdrqx774nJiyA0BpZ4KzLOfpg5nyYOrsHb+5OjbMQJNLv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782285155; c=relaxed/simple;
-	bh=T+oTEsZifQSSjkTTm8dieBj546vS01rprc6FRMPpgRY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HJVUivRpwRsWu26/acuKmu/6teS9LnchXO8OFL9ZWa/28ogirTVpl0aMs4fNu+xOxUhinAGzgZnL+WJirrAjGJ0g+ALDJlLXDwFrx93OtffNVoq8UJ0dzl2OBVq+/bjCjFZn6fSH3aTZ5WpHfa678SpX+PQqWtkCWP403urkdTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VP80X4C2; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782286098; c=relaxed/simple;
+	bh=qJSBMfkdoXoaC12mVGFZMt2DOfPpNlL/lfHPhDwr6cQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GoVTr1oA2VrCbzwYeakX7BUZajozaG+3r2RgpXjIzuN+qqwB6B6e+U9WJ9GO/t41Ovq3wyb+8Q6MMfCWssaubet0/Sd9U5UebArbULeNQpmTd4WZIalRJs9dd5LFwKJ4f44ljuueB+sQEWhA9YFV4d4pw7pRdxrxvDNfJt+m1N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=UTvMedH8; arc=none smtp.client-ip=115.124.30.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VP80X4C2"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45ef6565cfdso301409f8f.0
-        for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 00:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782285153; x=1782889953; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VhG9FcF945Re4Q58PUpr7BwlsxWpmlT6fgah9/vT28s=;
-        b=VP80X4C2LEMovPnEmn2cJDyB3XpcTQeZxn+hqir0d5ayChT7Jta/2b9N8MpjcfQr1q
-         kqjp+ajjACnCkjpR47VMpGmp/Q3QqJvyQyu3B2u4VxDnXc+zNnnAelQYsixH+y9bfZZy
-         l73qFgpyH+EyHTzEIArFF0xFodbR4E6jnThWgn2X2WPfRYG9c3KUOBI3uHaF9aeVUIY4
-         RIGvPrl5ZmmdxHToHAgeIuSAepQ+7e0Wm3tCe7aaWzf96xcuyL46UmDAP4+h0bFQlhFK
-         ctsKM/Mu7VrPHLpFVOE/kEMwCGYHnZ6idfmHwzX0oZsJgK2euglPFB4+K8AvaGhhlg5+
-         Ft6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782285153; x=1782889953;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=VhG9FcF945Re4Q58PUpr7BwlsxWpmlT6fgah9/vT28s=;
-        b=HyQG9xVxJ1LTcBgY/Tzx7l6OwYOqfNkMqMJYZEpo1I3rhOTS9yWEhqykClYGRpCCU/
-         nz4AzClxbjBQLOIQQJqwzBckl/KIy4IdefRyO8B7faeGVmHQCcJFQYLzpzmj0ws2L8KN
-         yNkhMc+ST1wxcy8qPkd012OPyYXFpBXz8x2T7P9NLyaHjijr3HyTJ88erG8d8bJU168d
-         9nlgkXQqz/CoIneXFhek7l/wiyCc/nfEuwwkPQaiogMQM3+RaAnWz8jX26A5LIHtF6br
-         jDlP+dML9y7xzMUiketdmOfoZ1rixbDOvX1zf8ZrChkJaGmW+CSN2vLKT7PBt53/Dpy6
-         bBRg==
-X-Forwarded-Encrypted: i=1; AHgh+RrZKkneFbYDoyEb5CWDuvBYQ2jmnbefaXqn4rix6l+/yemG3xj88yTb0gRywoL1fSVQljqUBVVNSq7R@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/1wIDWQPOetrq5FVvdl1eEh6pqhxwgyxVqbTDNOugwCjZYR9f
-	pdi+hWO1jA6b5ams8dXFqCOwiAjA63QdiMR4kwtrIOliaiJ1TMMeIgc6
-X-Gm-Gg: AfdE7clpZwGuDP0ssOhti2Kd0cWOkEfdn5lwT3t1f6vpYiqsv6hQpdnucWGGgVlnmMs
-	fSEtZUaY3WXlMDHZbZid1k6XTe2F28J96MMq3foAM9x/w6Wba9a5s3bjzPRlFnKOeFn6VvXWSRb
-	sbzLYe2k4KNgvRtkZGDkXX3e7bCsC9tXjIiOfbnBvvkHcpf6PAyKegqshIrLwzDy/jTBjFGmwEI
-	5gpQDuio/Ca9yFSsexEG0VT05MmVMJX+DooJAJ27gr7qWxAY2s7ZitA0nSM1jhzEwmSAlyBV2WG
-	y4icXmZ6ElPeDfMrFKJzOi5KuPdWBUGinNRZnnm7ikaOylTxi6/RYc16j9U6EqMkQZSfF/tL7D3
-	HXolFNMIqOij7VLes3LcCgJTu0n7+KngdHopgsvRutJnNSc6fdl6YGz28ZVDN3ynz7/b1ZMdWTO
-	XtHXbzRA/P
-X-Received: by 2002:a05:6000:4683:b0:46a:1f35:113f with SMTP id ffacd0b85a97d-46a1f35172dmr8359155f8f.21.1782285152523;
-        Wed, 24 Jun 2026 00:12:32 -0700 (PDT)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46c1ee0189esm4296531f8f.9.2026.06.24.00.12.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jun 2026 00:12:32 -0700 (PDT)
-From: Askar Safin <safinaskar@gmail.com>
-To: avagin@gmail.com
-Cc: akpm@linux-foundation.org,
-	alexander@mihalicyn.com,
-	axboe@kernel.dk,
-	bernd@bsbernd.com,
-	brauner@kernel.org,
-	criu@lists.linux.dev,
-	david@kernel.org,
-	dhowells@redhat.com,
-	fuse-devel@lists.linux.dev,
-	hch@infradead.org,
-	jack@suse.cz,
-	joannelkoong@gmail.com,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	miklos@szeredi.hu,
-	netdev@vger.kernel.org,
-	patches@lists.linux.dev,
-	pfalcato@suse.de,
-	rostedt@goodmis.org,
-	safinaskar@gmail.com,
-	torvalds@linux-foundation.org,
-	val@packett.cool,
-	viro@zeniv.linux.org.uk,
-	willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-Date: Wed, 24 Jun 2026 10:12:26 +0300
-Message-ID: <20260624071226.2272209-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CANaxB-zK5q=Xw6UZTmeFtXsDZjUsPkFk=p485m-wtNTBnf4hgg@mail.gmail.com>
-References: <CANaxB-zK5q=Xw6UZTmeFtXsDZjUsPkFk=p485m-wtNTBnf4hgg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="UTvMedH8"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1782286082; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=PozuBbG6d3qLoGBHNr8vNmIkrckm8zPMeuGqHpKPSkY=;
+	b=UTvMedH806LJcrcaD7IWctTykBD9zJiQrTT1I1wajqIzxjZvQCF1nGEO8LP/tA/qQmD0cWalox1xRyk5kTDK4GGn4jq9ttHInD3/xaMw3h99Sv3Q5I+TC4plnzku6hViZwG45YVJoIIz9/Sd8pwrAwkuIrvCVmlxHND305Ffbe0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0X5XFlA2_1782286080;
+Received: from 30.120.78.16(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X5XFlA2_1782286080 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 24 Jun 2026 15:28:01 +0800
+Message-ID: <89d620e6-7bb0-4c28-9e98-6bd0219e9fb2@linux.alibaba.com>
+Date: Wed, 24 Jun 2026 15:28:00 +0800
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] fuse: enable large folios
+To: Horst Birthelmer <horst@birthelmer.de>
+Cc: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu,
+ fuse-devel@lists.linux.dev
+References: <20260624012132.1719941-1-joannelkoong@gmail.com>
+ <d60d03ff-a1dd-4dff-abe7-d1a35583fcba@linux.alibaba.com>
+ <ajtzjpxWvc3FFRpj@fedora.fritz.box>
+Content-Language: en-US
+From: Jingbo Xu <jefflexu@linux.alibaba.com>
+In-Reply-To: <ajtzjpxWvc3FFRpj@fedora.fritz.box>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Andrei Vagin <avagin@gmail.com>:
-> The CRIU fifo test fails with this change. The problem is that vmsplice
-> with SPLICE_F_NONBLOCK to a fifo file descriptor fails with -EOPNOTSUPP.
+
+
+On 6/24/26 2:10 PM, Horst Birthelmer wrote:
+> On Wed, Jun 24, 2026 at 12:34:16PM +0800, Jingbo Xu wrote:
+>>
+>>
+>> On 6/24/26 9:21 AM, Joanne Koong wrote:
+>>> Enable large folios, capping the max order at the largest request fuse
+>>> can issue, so a folio always fits within a single request. The order
+>>> range minimum is 0, so under memory pressure the allocator falls back to
+>>> smaller folios.
+>>>
+>>> Benchmarks (libfuse passthrough_hp, buffered fio, single job, 4 GiB
+>>> file, medians, NUMA-pinned, performance governor, strictlimiting on by
+>>> default):
+>>>
+>>> tmpfs backing (page-cache bound):
+>>>   workload          bs      large folios off   on        delta
+>>>   seq read,  cold,  128k    3110 MiB/s    4514 MiB/s     +45%
+>>>   seq read,  cold,  1M      3079 MiB/s    5181 MiB/s     +68%
+>>>   seq read,  warm,  128k    2438 MiB/s    4486 MiB/s     +84%
+>>>   seq read,  warm,  1M      2403 MiB/s    5123 MiB/s    +113%
+>>>   writeback write, seq,128k 1211 MiB/s    1699 MiB/s     +40%
+>>>   writeback write, seq, 1M  1462 MiB/s    2208 MiB/s     +51%
+>>>   writeback write, rand,128k 1101 MiB/s   1757 MiB/s     +60% +
+>>>   writeback write, rand, 1M 1284 MiB/s    2228 MiB/s     +74% +
+>>>
+>>> xfs on NVMe backing (device bound for cold I/O):
+>>>   workload          bs      large folios off   on        delta
+>>>   seq read,  cold,  128k    2030 MiB/s    2172 MiB/s      +7% *
+>>>   seq read,  cold,  1M      1999 MiB/s    2181 MiB/s      +9% *
+>>>   seq read,  warm,  128k    2451 MiB/s    4939 MiB/s    +101%
+>>>   seq read,  warm,  1M      2340 MiB/s    5639 MiB/s    +141%
+>>>   writeback write, seq,128k  637 MiB/s     747 MiB/s     +17% *
+>>>   writeback write, seq, 1M   694 MiB/s     833 MiB/s     +20% *
+>>>   writeback write, rand,128k 1004 MiB/s   1648 MiB/s     +64% +
+>>>   writeback write, rand, 1M 1171 MiB/s    2055 MiB/s     +75% +
+>>>
+>>> (*) device-bandwidth bound. Not much throughput gain but system cpu
+>>> utilization was roughly halved
+>>> (+) random write was tested as an overwrite of a hot region (under
+>>> writeback, this is page-cache bound, so the gain comes from lower
+>>> per-folio cpu overhead rather than higher backing-device throughput)
+>>>
+>>> Random reads (4k and 128k) and writethrough writes were neutral with
+>>> no regression (no read-modify-write or read-amplification penalty from
+>>> large folios)
+>>>
+>>> More information about the benchmark setup and results are in
+>>> https://github.com/joannekoong/linux/commits/fuse_large_folios_benchmarks/
+>>>
+>>> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+>>> ---
+>>> This has a dependency on the iomap uptodate helpers that were submitted to
+>>> Christian's vfs tree [1]. If it's easier to route this patch through
+>>> Christian's tree, I can resubmit this.
+>>>
+>>> [1] https://lore.kernel.org/linux-fsdevel/20260623202843.2064992-1-joannelkoong@gmail.com/
+>>>
+>>>  fs/fuse/file.c | 10 ++++++++++
+>>>  1 file changed, 10 insertions(+)
+>>>
+>>> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+>>> index cb8da4c06d17..3c9be6d8ede1 100644
+>>> --- a/fs/fuse/file.c
+>>> +++ b/fs/fuse/file.c
+>>> @@ -3136,4 +3136,14 @@ void fuse_init_file_inode(struct inode *inode, unsigned int flags)
+>>>  
+>>>  	if (IS_ENABLED(CONFIG_FUSE_DAX))
+>>>  		fuse_dax_inode_init(inode, flags);
+>>> +
+>>> +	if (!FUSE_IS_DAX(inode)) {
+>>> +		unsigned int max_pages = min(min(fc->max_write,
+>>> +						 fc->max_read) >> PAGE_SHIFT,
+>>> +					     fc->max_pages);
+>>> +
+>>> +		if (max_pages)
+>>> +			mapping_set_folio_order_range(inode->i_mapping, 0,
+>>> +						      ilog2(max_pages));
+>>> +	}
+>>>  }
+>>
+>> mapping_set_folio_order_range(..., 0, 0) seems harmless even when
+>> max_pages is 0.
+>>
+>> Anyway
+>>
+>> Reviewed-by: Jingbo Xu \<jefflexu@linux.alibaba.com\>
+>>
 > 
-> It seems we need a fix like this one:
+> I was just about to suggest something like
 > 
-> diff --git a/fs/pipe.c b/fs/pipe.c
-> index 429b0714ec57..6fc49e933727 100644
-> --- a/fs/pipe.c
-> +++ b/fs/pipe.c
-> @@ -1253,6 +1253,7 @@ static int fifo_open(struct inode *inode, struct
-> file *filp)
+> mapping_set_folio_order_range(inode->i_mapping, 0,
+> 			      ilog2(max_pages ?: 1));
 > 
->         /* We can only do regular read/write on fifos */
->         stream_open(inode, filp);
-> +       filp->f_mode |= FMODE_NOWAIT;
+> but you are right, it's not a problem.
+>>
+>> -- 
+>> Thanks,
+>> Jingbo
+>>
 > 
->         switch (filp->f_mode & (FMODE_READ | FMODE_WRITE)) {
->         case FMODE_READ:
+> This was actually one of the problems I ran into when I enabled large folios in linux 6.17.
+> Since it would create problems for readahead.
+> 
+> Reviewed-By: Horst Birthelmer <hbirthelmer@ddn.com>
+> 
 
-Does CRIU actually rely on ability to do SPLICE_F_NONBLOCK vmsplice into
-named fifos? Or this is merely a test?
+Okay I got it.  ilog2(0) doesn't equal to 0
 
-If this is just a test, I think we need not to preserve this behavior.
-
-I did debian code search with regex "vmsplice.*SPLICE_F_NONBLOCK" and I
-found very few packages. And it seems all them use pipes, not named fifos.
-
-(On speed: I still think that my vmsplice patches are good thing,
-despite performance regressions in CRIU.)
 
 -- 
-Askar Safin
+Thanks,
+Jingbo
+
