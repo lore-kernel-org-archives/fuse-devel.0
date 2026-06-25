@@ -1,144 +1,110 @@
-Received: from smtp02-ext3.udag.de (smtp02-ext3.udag.de [62.146.106.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529D931E84B
-	for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 20:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.33
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782418926; cv=none; b=qlJwj0/f7Yb6ykx18n5kmuMc2dHQwe3wfur5oUyKdK5G+dVeEpDij2/m4GU5rGo2GVO7Z7myWTzBSm7D6udK7l43ey4d1Blvg9vZIwbI+cBDetc7vL8cNyvKkMZqdcttEjMgmoPPmxhd8PFegITo7rlqosJvBjmkkMR/9GkgkCM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782418926; c=relaxed/simple;
-	bh=J4Nht5kMesSRrYYHaSImRI6BPMMMeFcKfLGbZTN6hrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R0uVrtLfeA73flXmKuxrdO8uTnzFgfGGpnqa2+ihbjF2gu48sxnG3PGnbulzwEWWLlf4UFAVqzXrOVazoiltjA7DUd9ZsX8QUDSJ6nEKMhjJmt5Ik0FpPYk+Fd93BFPTX2VdE1KKxsz1wuhsa5CAnfzY25pB/1iu+Q30Yxaoe90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (024-062-210-188.ip-addr.inexio.net [188.210.62.24])
-	by smtp02-ext3.udag.de (Postfix) with ESMTPA id C7AB7E030C;
-	Thu, 25 Jun 2026 22:16:19 +0200 (CEST)
-Authentication-Results: smtp02-ext3.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Thu, 25 Jun 2026 22:16:19 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, jefflexu@linux.alibaba.com, 
-	fuse-devel@lists.linux.dev
-Subject: Re: Re: Re: [PATCH v1] fuse: enable large folios
-Message-ID: <aj2MU2xKMg4Nlp2L@fedora.fritz.box>
-References: <20260624012132.1719941-1-joannelkoong@gmail.com>
- <ajt1g56cUmOMFJ7z@fedora.fritz.box>
- <CAJnrk1aSaD3Ur3oHdsfdGw1-OSoNZjrVVXz9eB0ZFDrHBR0ssA@mail.gmail.com>
- <ajzTpMB0BZ4TY0Np@fedora.fritz.box>
- <CAJnrk1Z934KuBg22KpERD++g1Tk_Z_LL_kouuoi9uA=1Yj7vkQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F78369204
+	for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 21:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782424491; cv=pass; b=TA2pSbmfFaifMip8vRhwVIDb/a7UJqx60BGEEItTmUPGc8PPnGu/uSS6v36KFP8qvp3ZNkrAtDUmZEGxVYIvs5hSaNPbSI+extTHWSEtdjwlRV/KKOteQ6Rb/noWnSozQwJ65CzYf1sjkiUm8Yndf2WLWvzfbFzDvqE7YI+QW0Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782424491; c=relaxed/simple;
+	bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oOVoMNoaNVHKwBQhPh95AlDvkpzgX5rTaP82vcW/ClAQq7lQh4zCoZZyCGqnsHuptEVKcfprioIAmxxMzwy+rod7f7Zv7OtUVUEvqTfZPJ/svEvShjePr8SnTYu733luybTm3OzDJYyjVVA5vEk088PiQdpUE19sKlNvopzaz/Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EoXa90iV; arc=pass smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EoXa90iV"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-46e4764ca48so231075f8f.0
+        for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 14:54:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782424489; cv=none;
+        d=google.com; s=arc-20260327;
+        b=n4y/376AOp8ytxz5yq83ZArjxnhDmh8KD7sVpdnjmm9z/deIBu7P0d2481Rg6qSocn
+         lWOUTlUIXCf0uTZK79TR4oFTlMt3OeI8V415n7me3zlN6C0vH5w+VEVDjFn4HMDt4AHL
+         c08j6L3hSTjo7rcJ/F3FM4BhuZ1dN1Nsbsp28kxvI/0fQNOoEjLpdkltxqA1iUbaZ+r3
+         LjYw3VY+/d+DvBJMbxYQXXdWwo486Y+cX/FS726aXKbCd5C25Eew+uB5+c1FHptdMmL/
+         Ft78oFPnXEPEbz0J2VRH+K1Lmdp8nT60YL7iPKdMTfHwmATyHiLpJwakYMx4bQ89ZpH6
+         i5Ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+        fh=QiizwqUNUvrDDA1UgBXr+r3ldU2TgNtslepvGak7KWA=;
+        b=TndEkZtJy0KTFBWOPocvhH+BwWB9iPP7B1e4zmBr/JDG6z0rrd426YaH0fsXk15kU0
+         dGmlsdwde4ChcVxGhxHUkylFfhpM0ECMj+uiSXEofHyEU8QDID9iyJ904ASQ84XkS65e
+         USOjuF9pkKlSVStsLOJ5V+23ipwNi7J5ZiX6RMzSxou7+2qnoRL1kM8qvmfC+CbNkNRC
+         K6YDpRWZTtFK7ClbC7Wy5FJhJlCOGfEJZiPfBJHowLcEpDhlXo4chx66bn2G+v2kSJVM
+         +sSDbBN3ZsHGjO9ZlrF38rMvERoSulnDMOBTZ8fWh4Z73uzbfKipmJjo9OUlaI4EvtRx
+         gnig==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782424489; x=1783029289; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+        b=EoXa90iV3mxLHC7qOzEkK8YktIEw+7NbFBGWFJigyAwjv1NnUw33iNJ5NSroISA7ZG
+         6hKGR8Lp2ga8yY9vBv8Ay0R/FWmGdSQg1ZrnRJBwf9/wH60iyJYRZ8PzaWdGPPU2Se2e
+         nKAfPsERo9UmoxNk11l3Oa9Eux5FWa6UsDePU89H1XJDXZ6TXlCAePA6K86q9vDcyqZ5
+         Te8jtx9vEvW/5kfJGwLma4jcCGeok6FISqLkAib3t2zqCbJR7IZIT6+8/mzR2dNLBrRy
+         Ex1O4EXB7s2s8NofFIiVZ5qsOSJX5TDKnWyU5HX45ioIUfRAzwDq2FMZnIa8mTvcpt39
+         aHzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782424489; x=1783029289;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hqP0C+GrCPLuEUi4frPBPhU5bZ7odll3YOOBeZVlniE=;
+        b=FNsNpVrnETX/F5txrjVDPCbu61/wYKFxYe22j5DgJfC0fTJa2KkZz+xYcqzGd1uMM2
+         lhLbs3Z5KEI3aOMCvGpdAMHod806QlvP0bP5EnSK9CwkcCl4deeamjuhzrq4Wee9SDio
+         8n3elV9jESmx2XK/QQwNB+C0r5ZjMSnA5Pxa7hsJd60bb0fGvRfV4qhocBt97ijZC81o
+         DFWlmycHHtUEH/jDTJrqh474HtNVi9EHrS2pyfdWMPk5QX3jpjXjuwKi6fan2ZpUMigN
+         JdUyZSxVD9RgYuvd7BMbgmwbkQhObO0ogRoYd9nUdHR/IcF58TPO5KJoai0/Z8kiJxaB
+         +5FQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rphhut00A8qXxS9/Y6Z4d50QL7uG2lz91iwv8Wdd0aWLUIid3D3f5GJ2iOdaQJce36u2H6t4XyMKO0K@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywu+RFVMR5TkMLmS5bLZlKkiw1rTyW1/Kl9m3kO/gGoGkE/m95k
+	yjFbDpP3JmYeuCqOTgS9E2PIWaB0iQ5D7N8OUp6nwD4HALlxwWOfwU9HG0J2Cnr7XSEJpAQmYmS
+	6dbeU3evuJ+HpBHe97NxuQEdqhuZCJ4I=
+X-Gm-Gg: AfdE7cmP6ayH56ANtSBznr19AbuNvQTCSeQPqJDajcJ0HLAhnvvuGIgiKrxqp1rLZ6U
+	w9MLXeAGCdFy/v+Yb4NP3TcwmZmEgqQZ08GJH2RehUrTOAjJ/3J54OiTu63Ov52BGuMJHrQGtN9
+	wLTGBPkF+6c4YsDeHAb1+1dVDH6n3YDuxiDJL2HGE53VCOZMwRIlKWF6317Nk8VCLF8LXdc5fiP
+	oTT/hgbOi15T+VTuCofivaGPw6zRwFRdfYATytj6pfSZ6Hq5BUzyUnqjOcstmd296BwGSc/0T+Z
+	VXJf0vR5kZjpqGMLUw6ekIlaE6eO27pSGO+t9vzFY6LH3ovsrI99
+X-Received: by 2002:a05:6000:3109:b0:46e:6684:4665 with SMTP id
+ ffacd0b85a97d-46e66844690mr3903048f8f.4.1782424488674; Thu, 25 Jun 2026
+ 14:54:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Z934KuBg22KpERD++g1Tk_Z_LL_kouuoi9uA=1Yj7vkQ@mail.gmail.com>
+References: <20260624212925.1668662-1-joannelkoong@gmail.com> <20260625-zeilen-allein-beimessen-2f631e840538@brauner>
+In-Reply-To: <20260625-zeilen-allein-beimessen-2f631e840538@brauner>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 25 Jun 2026 14:54:37 -0700
+X-Gm-Features: AVVi8CdgcDeH4L7ba7ny6GntgJ_zpXfkq2R6ExpkAUsTrggKSXyXk2XE0Qy7MbI
+Message-ID: <CAJnrk1Ypq2r+xofROACMRJ_QTtAJC1wJueNg4uCvnpDnWyYLXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] iomap: add helper to keep uptodate bitmap in sync
+To: Christian Brauner <brauner@kernel.org>
+Cc: willy@infradead.org, hch@lst.de, djwong@kernel.org, miklos@szeredi.hu, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 25, 2026 at 11:37:23AM -0700, Joanne Koong wrote:
-> On Thu, Jun 25, 2026 at 12:17 AM Horst Birthelmer <horst@birthelmer.de> wrote:
-> >
-> > On Wed, Jun 24, 2026 at 10:52:11AM -0700, Joanne Koong wrote:
-> > > On Tue, Jun 23, 2026 at 11:16 PM Horst Birthelmer <horst@birthelmer.de> wrote:
-> > > >
-> > > > On Tue, Jun 23, 2026 at 06:21:32PM -0700, Joanne Koong wrote:
-> > > > > Enable large folios, capping the max order at the largest request fuse
-> > > > > can issue, so a folio always fits within a single request. The order
-> > > > > range minimum is 0, so under memory pressure the allocator falls back to
-> > > > > smaller folios.
-> > > > >
-> > > > > Benchmarks (libfuse passthrough_hp, buffered fio, single job, 4 GiB
-> > > > > file, medians, NUMA-pinned, performance governor, strictlimiting on by
-> > > > > default):
-> > > > >
-> > > > > tmpfs backing (page-cache bound):
-> > > > >   workload          bs      large folios off   on        delta
-> > > > >   seq read,  cold,  128k    3110 MiB/s    4514 MiB/s     +45%
-> > > > >   seq read,  cold,  1M      3079 MiB/s    5181 MiB/s     +68%
-> > > > >   seq read,  warm,  128k    2438 MiB/s    4486 MiB/s     +84%
-> > > > >   seq read,  warm,  1M      2403 MiB/s    5123 MiB/s    +113%
-> > > > >   writeback write, seq,128k 1211 MiB/s    1699 MiB/s     +40%
-> > > > >   writeback write, seq, 1M  1462 MiB/s    2208 MiB/s     +51%
-> > > > >   writeback write, rand,128k 1101 MiB/s   1757 MiB/s     +60% +
-> > > > >   writeback write, rand, 1M 1284 MiB/s    2228 MiB/s     +74% +
-> > > > >
-> > > > > xfs on NVMe backing (device bound for cold I/O):
-> > > > >   workload          bs      large folios off   on        delta
-> > > > >   seq read,  cold,  128k    2030 MiB/s    2172 MiB/s      +7% *
-> > > > >   seq read,  cold,  1M      1999 MiB/s    2181 MiB/s      +9% *
-> > > > >   seq read,  warm,  128k    2451 MiB/s    4939 MiB/s    +101%
-> > > > >   seq read,  warm,  1M      2340 MiB/s    5639 MiB/s    +141%
-> > > > >   writeback write, seq,128k  637 MiB/s     747 MiB/s     +17% *
-> > > > >   writeback write, seq, 1M   694 MiB/s     833 MiB/s     +20% *
-> > > > >   writeback write, rand,128k 1004 MiB/s   1648 MiB/s     +64% +
-> > > > >   writeback write, rand, 1M 1171 MiB/s    2055 MiB/s     +75% +
-> > > > >
-> > > >
-> > > > Hi Joanne,
-> > > >
-> > > > just out of curiosity, did you disable bdi strict limiting for this?
-> > >
-> > > Hi Horst,
-> > >
-> > > Those results are with strictlimiting on. After commit 494d2f508883
-> > > ('fuse: use default writeback accounting') [1], I didn't see any
-> > > performance regressions anymore with large folios + strictlimiting on.
-> > > More information on why that commit fixed the issue is in [2].
-> > >
-> > > When I ran the benchmarks last week with strictlimiting off, I saw roughly:
-> > >     tmpfs:
-> > >       seq,  128k    1174 -> 1648 MiB/s    +40%
-> > >       seq,  1M      1261 -> 1845 MiB/s    +46%
-> > >       rand, 128k    1148 -> 1638 MiB/s    +43%
-> > >       rand, 1M      1273 -> 2065 MiB/s    +62%
-> > >
-> > >     xfs on NVMe:
-> > >       seq,  128k     621 ->  740 MiB/s    +19%
-> > >       seq,  1M       649 ->  776 MiB/s    +20%
-> > >       rand, 128k    1020 -> 1515 MiB/s    +49%
-> > >       rand, 1M      1125 -> 1895 MiB/s    +68%
-> > >
-> > > Strict limiting on actually had better performance here, which I think
-> > > is because with the small dirty limit, the dirtying and the writeback
-> > > happen in parallel instead of more dirty pages accumulating and then
-> > > writeback getting kicked off. Because the backing device is so fast,
-> > > it didn't cost throughput for the dirtying and the writeback to happen
-> > > concurrently. The benchmarks were run with fsync, so everything had to
-> > > be flushed before the fio run returned. If the backing device was slow
-> > > and writes were bursty and fsync wasn't enforced, I think there'd
-> > > probably be better performance with strictlimiting off than on, since
-> > > the writer would be throttled to the speed of the backing device with
-> > > strictlimtiing on.
-> > >
-> > > > In my tests esapcially the large writes run into throttling pretty
-> > > > fast, so that it effectively writes pagewise, which was not the target
-> > > > of the test.
-> > >
-> > > Are you seeing this on your system with strictlimiting on or off? Is
-> > > that with commit 494d2f508883 in your tree? What test and server were
-> > > you running? Do you know what the speed of the backing device is?
-> >
-> > Without your patch I see that when I enable strict limiting most
-> 
-> Which patch are you referring to? The patch that turns on large folios
-> or the patch that fixes the writeback accounting? Are you seeing this
-> with large folios off or on?
+On Thu, Jun 25, 2026 at 12:46=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
+>
+> > This series is on top of the main linux tree [1] because it depends on =
+some
+> > fuse changes in Miklos's tree that were merged into 7.2 but not yet pul=
+led
+> > into Christian's vfs tree.
+>
+> So I pushed out vfs-7.3.iomap based on current mainline. It'll be
+> rebased once -rc1 is out ofc but so you've got something to base things
+> one.
 
-Large folios enabled and fuse own accounting, so your patch that removes
-the own accounting not applied.
-
-> 
-> Thanks,
-> Joanne
-> 
-> > FUSE_WRITE requests in the fuse server are 4k. With it disabled the
-> > writes are triggered with larger sizes.
-> > Since bdi min_ratio is 0 by default I just assumed that as soon as the
-> > cache gets over the limit a write with that page is triggered.
+Thanks, Christian! I'll base v3 on vfs-7.3.iomap
