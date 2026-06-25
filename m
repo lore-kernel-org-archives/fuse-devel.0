@@ -1,141 +1,88 @@
-Received: from smtp05-ext.udag.de (smtp05-ext.udag.de [62.146.106.75])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922AD171CD
-	for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 07:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3034537C0F6;
+	Thu, 25 Jun 2026 07:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782371844; cv=none; b=NAatOvUtQ9LusQMCRb6baR5dX4PaY6bEvnw1TnmRbeWKlz3KYYdT9EVvGj/Ru177EK3LniPhTstQDDtP3eUIfc3qwA+jGMD8FK9nzz50PJZ9Kam1fTeO4LUiGIudXVtvzdJVpIGRtMauihY+8iBKY/UA3ORp+3pT8MNtBcREofY=
+	t=1782373432; cv=none; b=ui1jmWR9e6mu96fQtxsc5NidcyQsdCpnsoaCYraVsrT61haejY2ZQGtE3aFiCi11QLefXZ2qxPiLngKS8iyv73kX/W703GI4WUp/7jzxMnVuJ2PuDcqDK7FCrXVQhKwN7ISXH4a3Ttw7k9wcpWP4TvAumBMEQjMwLQaqgyP/mB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782371844; c=relaxed/simple;
-	bh=TjT2GMwUKgRarQ1yKO8qygyEQgWm5UTiNL4r9v/T/mI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S359i4ZLy+wSRXoXqRMMN2Js4oC/UBM9V/AzLlfX3F3IH7B+iZz1jEP4sqAIjK9XmURXfX+tfZ6kFk8GaMy5PJEwoYZSALhD8nCJbJ4SgnaxHiroIb7Ssdm9dsF+hxHoPe2pzlE5ZbkZ0NnWU4l6ujmT0B57VW3aWRhTl9tFPe4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (024-062-210-188.ip-addr.inexio.net [188.210.62.24])
-	by smtp05-ext.udag.de (Postfix) with ESMTPA id 5D986E01A6;
-	Thu, 25 Jun 2026 09:17:14 +0200 (CEST)
-Authentication-Results: smtp05-ext.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Thu, 25 Jun 2026 09:17:12 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, jefflexu@linux.alibaba.com, 
-	fuse-devel@lists.linux.dev
-Subject: Re: Re: [PATCH v1] fuse: enable large folios
-Message-ID: <ajzTpMB0BZ4TY0Np@fedora.fritz.box>
-References: <20260624012132.1719941-1-joannelkoong@gmail.com>
- <ajt1g56cUmOMFJ7z@fedora.fritz.box>
- <CAJnrk1aSaD3Ur3oHdsfdGw1-OSoNZjrVVXz9eB0ZFDrHBR0ssA@mail.gmail.com>
+	s=arc-20240116; t=1782373432; c=relaxed/simple;
+	bh=8Kpmnt6rJqz2IYsinEtKGnJv3u35NDT4GQMZZcBwYSk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=EjugSoSJygLLcSUWFqEl8Se2RDY2SZbbvQjTmcBKQhqw6CH++80WsIwnwptVnj+lbI9PHzP9dsubDWJ58z6Gs6TfrR3Of7teJ0nrhEpt1vLZsqeEK1yl6fhPf4w4Lue6E/+XZ5EDvHtCGIAwVuH+hobt2nZ7CsYEbScy6yr3PyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h98B5iTc; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h98B5iTc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B4B1F000E9;
+	Thu, 25 Jun 2026 07:43:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782373430;
+	bh=KNUZd9Y0cWzbb8WiacdB9j4WHVQiN9fbNdDWbtWpD9w=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=h98B5iTc/JTwSLIvhTpbNoVneCn2xTlBFmheR7eiwEPrC42gGG7SSnLPVEXW/LTsK
+	 d+AgQ/JiHxywcwAQG8vL0aBL2UNqQ47gvfL5BXrbs9GRnoqZiLUt/CUiXZNFC1jkaR
+	 K9K5O4h2SkrcUgQAS4bP9CYwu7hyUBOcRIG3Au4Jx7CDoh1jAVRQxk2kX5zI1hM4/y
+	 sgZCZC5J3vu5Z1Af4DxMF3vXUmAVxQbiydk80uNuo+z30wUNJLhgnZ4G4pU1ktoqNP
+	 xNHK3Gk+ofOFf1n2nhTfEz/P+XTAXWp/2+AJ5ZuzEK0kfnv5CZCECINSEbKfdKEiSK
+	 sN7BENl0wYk9A==
+From: Christian Brauner <brauner@kernel.org>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+ Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+ Yuezhang Mo <yuezhang.mo@sony.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Andreas Gruenbacher <agruenba@redhat.com>, Hyunchul Lee <hyc.lee@gmail.com>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
+ Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
+ linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-block@vger.kernel.org, fuse-devel@lists.linux.dev, 
+ gfs2@lists.linux.dev, ntfs3@lists.linux.dev
+In-Reply-To: <20260624174228.2015893-1-willy@infradead.org>
+References: <20260624174228.2015893-1-willy@infradead.org>
+Subject: Re: [PATCH] iomap: Remove FGP_NOFS from iomap_get_folio()
+Message-Id: <20260625-anwesen-allumfassend-konfrontieren-769e406acb07@brauner>
+Date: Thu, 25 Jun 2026 09:43:18 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1aSaD3Ur3oHdsfdGw1-OSoNZjrVVXz9eB0ZFDrHBR0ssA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-d9d01
+X-Developer-Signature: v=1; a=openpgp-sha256; l=938; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=8Kpmnt6rJqz2IYsinEtKGnJv3u35NDT4GQMZZcBwYSk=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTZ3DGSWK8/NXu6nd7dLJ/Fz5nLfLakrMo7u8llUf7yY
+ +G/fVnXdZSyMIhxMciKKbI4tJuEyy3nqdhslKkBM4eVCWQIAxenAEwk4SHDXxEXT92oXWt/97xd
+ 8r9XMSR/1/EFi16v1nn1SNL8spRLjxYjw6KnRltcdqo4RU5dbP1Q7kVdm5x/M0+97at7Rve2PGT
+ awAEA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On Wed, Jun 24, 2026 at 10:52:11AM -0700, Joanne Koong wrote:
-> On Tue, Jun 23, 2026 at 11:16 PM Horst Birthelmer <horst@birthelmer.de> wrote:
-> >
-> > On Tue, Jun 23, 2026 at 06:21:32PM -0700, Joanne Koong wrote:
-> > > Enable large folios, capping the max order at the largest request fuse
-> > > can issue, so a folio always fits within a single request. The order
-> > > range minimum is 0, so under memory pressure the allocator falls back to
-> > > smaller folios.
-> > >
-> > > Benchmarks (libfuse passthrough_hp, buffered fio, single job, 4 GiB
-> > > file, medians, NUMA-pinned, performance governor, strictlimiting on by
-> > > default):
-> > >
-> > > tmpfs backing (page-cache bound):
-> > >   workload          bs      large folios off   on        delta
-> > >   seq read,  cold,  128k    3110 MiB/s    4514 MiB/s     +45%
-> > >   seq read,  cold,  1M      3079 MiB/s    5181 MiB/s     +68%
-> > >   seq read,  warm,  128k    2438 MiB/s    4486 MiB/s     +84%
-> > >   seq read,  warm,  1M      2403 MiB/s    5123 MiB/s    +113%
-> > >   writeback write, seq,128k 1211 MiB/s    1699 MiB/s     +40%
-> > >   writeback write, seq, 1M  1462 MiB/s    2208 MiB/s     +51%
-> > >   writeback write, rand,128k 1101 MiB/s   1757 MiB/s     +60% +
-> > >   writeback write, rand, 1M 1284 MiB/s    2228 MiB/s     +74% +
-> > >
-> > > xfs on NVMe backing (device bound for cold I/O):
-> > >   workload          bs      large folios off   on        delta
-> > >   seq read,  cold,  128k    2030 MiB/s    2172 MiB/s      +7% *
-> > >   seq read,  cold,  1M      1999 MiB/s    2181 MiB/s      +9% *
-> > >   seq read,  warm,  128k    2451 MiB/s    4939 MiB/s    +101%
-> > >   seq read,  warm,  1M      2340 MiB/s    5639 MiB/s    +141%
-> > >   writeback write, seq,128k  637 MiB/s     747 MiB/s     +17% *
-> > >   writeback write, seq, 1M   694 MiB/s     833 MiB/s     +20% *
-> > >   writeback write, rand,128k 1004 MiB/s   1648 MiB/s     +64% +
-> > >   writeback write, rand, 1M 1171 MiB/s    2055 MiB/s     +75% +
-> > >
-> >
-> > Hi Joanne,
-> >
-> > just out of curiosity, did you disable bdi strict limiting for this?
-> 
-> Hi Horst,
-> 
-> Those results are with strictlimiting on. After commit 494d2f508883
-> ('fuse: use default writeback accounting') [1], I didn't see any
-> performance regressions anymore with large folios + strictlimiting on.
-> More information on why that commit fixed the issue is in [2].
-> 
-> When I ran the benchmarks last week with strictlimiting off, I saw roughly:
->     tmpfs:
->       seq,  128k    1174 -> 1648 MiB/s    +40%
->       seq,  1M      1261 -> 1845 MiB/s    +46%
->       rand, 128k    1148 -> 1638 MiB/s    +43%
->       rand, 1M      1273 -> 2065 MiB/s    +62%
-> 
->     xfs on NVMe:
->       seq,  128k     621 ->  740 MiB/s    +19%
->       seq,  1M       649 ->  776 MiB/s    +20%
->       rand, 128k    1020 -> 1515 MiB/s    +49%
->       rand, 1M      1125 -> 1895 MiB/s    +68%
-> 
-> Strict limiting on actually had better performance here, which I think
-> is because with the small dirty limit, the dirtying and the writeback
-> happen in parallel instead of more dirty pages accumulating and then
-> writeback getting kicked off. Because the backing device is so fast,
-> it didn't cost throughput for the dirtying and the writeback to happen
-> concurrently. The benchmarks were run with fsync, so everything had to
-> be flushed before the fio run returned. If the backing device was slow
-> and writes were bursty and fsync wasn't enforced, I think there'd
-> probably be better performance with strictlimiting off than on, since
-> the writer would be throttled to the speed of the backing device with
-> strictlimtiing on.
-> 
-> > In my tests esapcially the large writes run into throttling pretty
-> > fast, so that it effectively writes pagewise, which was not the target
-> > of the test.
-> 
-> Are you seeing this on your system with strictlimiting on or off? Is
-> that with commit 494d2f508883 in your tree? What test and server were
-> you running? Do you know what the speed of the backing device is?
+On Wed, 24 Jun 2026 18:42:26 +0100, Matthew Wilcox (Oracle) wrote:
+> iomap: Remove FGP_NOFS from iomap_get_folio()
 
-Without your patch I see that when I enable strict limiting most 
-FUSE_WRITE requests in the fuse server are 4k. With it disabled the 
-writes are triggered with larger sizes.
-Since bdi min_ratio is 0 by default I just assumed that as soon as the
-cache gets over the limit a write with that page is triggered.
+Moving into -next so we see fallout...
 
-I am not that familiar with the page cache code, so I can't point to
-the exact culprit where writing of the dirty page is triggered.
+---
 
-> 
-> Thanks,
-> Joanne
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/fs/fuse/file.c?id=494d2f508883a6e5c4530e5c6b3c8b2bbfb7318d
-> [2] https://lore.kernel.org/linux-fsdevel/CAJnrk1ZSaNRr-HWw-hbo2=LmbZiNGZveb0MwxZbPtBDFgg2icQ@mail.gmail.com/
-> 
+Applied to the vfs-7.3.iomap branch of the vfs/vfs.git tree.
+Patches in the vfs-7.3.iomap branch should appear in linux-next soon.
 
-Thanks,
-Horst
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.3.iomap
+
+[1/1] iomap: Remove FGP_NOFS from iomap_get_folio()
+      https://git.kernel.org/vfs/vfs/c/ec17795fb797
+
