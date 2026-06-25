@@ -1,122 +1,132 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6AC3603D9
-	for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 09:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83B33CEB9B
+	for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 10:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782378191; cv=none; b=L+V71fiKgzJ4mAdBZ0fgXtUxxUQiIxDuIfGrmxT+ttbOmb5uFRJEaD14o8BcSkltc6d1CNbMm/9GHAJz+tzUJj3XdIPhGwrASt9L2DG0PbQWJq/fj3gTuwRbHheGsU0leaHMsJDUo55UKBEQlby7l3cJQFo685Skj8jVShsAFCk=
+	t=1782382301; cv=none; b=cXERXfNYzd9OAHQZRfZhVTooemR9mq/A4npFOGf0Dqk7uSIwqxqiyknLwoiN7SIZKj/L7Ebfy1g9bvAHl4ql58mzJrNXegjhYVpTKLSpIdbdMueZEIH5I8opYuryy5aRO8sZhsHsu1eu7PAfI2TGB1rnYT2nCKZEbkX9aotbTuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782378191; c=relaxed/simple;
-	bh=FguPNFEFgDgE8rgvKN7AiVQat7qypuBZ+3etEcHfrYM=;
+	s=arc-20240116; t=1782382301; c=relaxed/simple;
+	bh=XGh9YDm1F7Whc/NJ9BuaKR7akM8txwMpeQmBzjBxQ4o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VYV+uTBXyWZwnV7e0aqRlCCXXsEQylcRN9evt14OtbYInrGS6v/5eY5RWXGQ0lPD8Ka/CgU4udbcg6bFNJeTmzsvpF1T2cxdSXqYZZM4/jii8+kVHFKute6wK9Lw14pAIJU5Aq+7Lsz2QycXh8OZCAb20wgQMYyFjeG1guI8PZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c4sNincm; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=ILPvbBprhCCnGiptpLE98g0hx5x0uk8f/lr3IR0ni/D2eT4AktZlROx6raSg34mt7ok/mjatOzTogzUvpBhvXRdNSd/QIX3OumeROfVsB6FnZIOVKslVyASdYnw5pfaaZeM/Q8IgknQ2kiOAT5JIv+he6LlDEnneBWTSyJ/pYII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PhiYxVIU; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c4sNincm"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so19603785e9.1
-        for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 02:03:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PhiYxVIU"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490b9318997so11245885e9.2
+        for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 03:11:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782378189; x=1782982989; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782382298; x=1782987098; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HBSEPUdUYWVlvar6bWIrKaomQq421L3gUjBqqjys/Kg=;
-        b=c4sNincmI9LIukFdjAfVElstNAX+3+cjS/HnX/XrPNfZahBsMo9G3xmecwtBfrZH78
-         OstCkDdpyFA/u+VduFsf0CQYQrOf4m17pclUdFKqOVijxzu3o2qmRj1zMvRTxzqn9uq5
-         J4mNsATfe+Uk9VQUJ3OC+Bad6zHtDoQb+mILkPU01H6o+P2fQpMpR4rMOElr9/dWQMm0
-         DITzqo36GTJ1kHqnYu9b3eQElROtFYtGQBoCeUiKGjlyUgr7WyLsbVeWyz4D+cedcEMD
-         QKgqJ1+nBltoAVhxXKLAtTQNE0M0nEb4sdhJv+6dU5VKXDUStEjLV8OzPnD4fK3Hz0Rn
-         BqnA==
+        bh=ELq4DcsgmxsG/xQ7iP6tdp51y3PfpvNXYbA2lrH5JcM=;
+        b=PhiYxVIUsmO0BHnHFh95B+gvBaIeCjPKn3dRxwFlo+Q87ItR9spzL6wcg5n4stzgLL
+         Rx/xAeU/cH1IAdpwaWxyTwfZN9ElNI50U7tbtbunaEjGnBSKrEfMvaweJu7WM4tb2XoY
+         MJhrJf4+pG+M69WCnPiFQAKVbkfqCNZDanBK+56p8tf3UMbYrxbnrBEn+3zZmDJ9ogoW
+         cn4vPqJth24c9+G04Jdp5V7mhnjpMFgJneRSCCvwUoCoYNaXh4P7aYUKbeXg2ZKlIfts
+         T30Vtj5EH8FzzNyXg6sAHOOhdCk4nj4R15cQ2kH4YUIWaHalpNV32WdzGykQpqojxywM
+         qRWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782378189; x=1782982989;
+        d=1e100.net; s=20251104; t=1782382298; x=1782987098;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=HBSEPUdUYWVlvar6bWIrKaomQq421L3gUjBqqjys/Kg=;
-        b=GkAt6asAee/K5TeMUszUogeKI0aSgQBQSQJnFCWUHRFEziic9E9xOKBABwYKI449K6
-         C6unG8JIpvoqWjFZkjbIB2ZXxxBPovWkfNT/qCbwqtAhSAD9dc0sDiTgNAsiv5c+rouw
-         jilc5PP3b5D5Wy3Pu+ZIwxQPUjEkZYHBAfkidaYPeNMNI2yc11xUSfMSNHmvPyuU8FwK
-         iSQcHd+qy3jT68rgOia48eHHM+GsNVw5Vf/+TaiI0ldofSXcDTEOb5sT3pq0G5qT4baL
-         OIRu3K0s/l/PC8FLYB8XnR2xgswmhTeWgqN1JYOZ59AWXW4NJK7Nvff2C0AlIJ6CfK50
-         WQUA==
-X-Forwarded-Encrypted: i=1; AFNElJ+fyho19dj2Dvca9RHgyuHQPq10qxsVfgkV7fE76eRiIPUcgVCrOvO5GLbyrIDTcbM53d4LByaXYVwK@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywwz9LVF6ijSgDqwZFygcN9rW38vAP+UXIHB0n4fLNRIXHh9tnM
-	kHVx4ds5t5wFcGGcQclOloWS0tp8dc7rIdimuxvwvEfGfVFW3j0zFsYx
-X-Gm-Gg: AfdE7cnB0amKoERnO6Ij7MIlLnngQIpbWyMXL13uJ2kZHM8wt/isXjPCvwFRCy4lgeg
-	/DLast7F2xoNAHxhEhwlDOVVwin0uwkza4pViITOytuc8WvR/UL2RL+3AZicwd+zrBXjWoEaiQZ
-	oqd1VbWbxVO8LMbJQydtizHG8EX9TMWI4J6nhn8UiVzmHagUsoSDAoL4S9aveFXSIikbvwjJjHC
-	bS3yx5d0nwFZGbvGjyVcRYpmFy5r5ldnNBRYova7ANR/UACYFvFLyVsiHbfliXEcAGRFce1xGJ+
-	619yBFkeIfwWdRQNLv1cZ+qmNOm79aRCCR/ZRaYLShQOKGEm31FznsoeiPqykQqYIOqIx5Ex5P2
-	B19cKRZTdZMXpxmTwZYa8n6cZpfdgsbRLZSodU1jPH8CeDt1lx2jWUD+AtvOckkeAGtLiGIyXy2
-	zZK9KryB62CELRqRCggBI=
-X-Received: by 2002:a05:600c:c059:20b0:490:bb3e:30c2 with SMTP id 5b1f17b1804b1-49266885955mr16491185e9.18.1782378187463;
-        Thu, 25 Jun 2026 02:03:07 -0700 (PDT)
+        bh=ELq4DcsgmxsG/xQ7iP6tdp51y3PfpvNXYbA2lrH5JcM=;
+        b=PWxsspuMlwtBvF8x5OV5JT8EmuchASEYHnnmGXjIWF+awbCs11ZozNOTtITOvpzuj/
+         3hf6JoL2En+KK6dQX7az4fMHsna6gTY1Ph+TRJcROQ9XwEL0pmawMsti3D/YYjM9hEUQ
+         cIfmeJwb/QSX3ZD4Cj+gk9YO6sVEmtq/cm9r1/I1355ytCrEe7aIU+ntlFePGXdGNA/n
+         /U3RMgsL3vHs466whoACBGJnId9n4lQr0Py+P5s23sTHb4qSNvIGcFVDdYk6psalxTus
+         U911tAbuMObtA1diReX4g0nHjr2vf/B+G5+KnvMIM7+vnLHFkw7gjBVXiCXSbrnw/Pa7
+         IIGw==
+X-Forwarded-Encrypted: i=1; AFNElJ+/TEzNfeit4uLBvxGve0H2ub5zYrlAfMRcMO+0k6pEWdUEhZW/MV3la/p3lqwQwdh4yaxMNFppZAe0@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDAxkSxg6qlmnuQ/uEALU0/lPF4RZIp3sV72wIh1V0sAUIV97L
+	qU6/aYYmcwogwHqY0oy34dzm1KvN7rhx/NLHRZpH9ulF2rouqHLbWT4r
+X-Gm-Gg: AfdE7clNvVVlJTAXT8upyEhsQAGH8O0vd/E33iSTBjLcOTXNAClQuwRFym72bIoprn/
+	BMjr+7ICryWh1hgbwGjOp4GdUvZUtIqQ8OjS04bkgEKhuXs4z6MX4OUbYRZ5uMuwh/IqkL9QsNm
+	JfeRq/G6soJJQrs8ytiYCGx5nah7O7B1nC+y9g3MD5PP9owZ/oBnXJm4UdgiThJI5eITA2COSJh
+	m1ySMw5EMR/7Qnfhw+92n7gEP6W9tDPEnhYtS5qscMmJfQ0kPST070SEYdAOwXw7r+ps7w4FHqQ
+	mDLXIcK/CC0hgX3YOMb27drqoDzvpqb1ToFrCWvCv+ATJQs8OE/nRwvMWrQ59CgZfTyZc8qFN7u
+	1IFeUsQBR6l4BEqwvzTniFJgc3DUGSfeA0qhs4UGUi3Qy9Mg0T7/HZakEkglsUYbqMF2EJ3YXQT
+	dQez1Vo8TZ
+X-Received: by 2002:a05:600c:8b53:b0:490:9d1b:f086 with SMTP id 5b1f17b1804b1-49266864977mr24965995e9.14.1782382297752;
+        Thu, 25 Jun 2026 03:11:37 -0700 (PDT)
 Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49265975147sm55948915e9.5.2026.06.25.02.03.05
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4926417f0c7sm59950125e9.14.2026.06.25.03.11.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2026 02:03:06 -0700 (PDT)
+        Thu, 25 Jun 2026 03:11:37 -0700 (PDT)
 From: Askar Safin <safinaskar@gmail.com>
-To: val@packett.cool
+To: david@kernel.org
 Cc: akpm@linux-foundation.org,
+	avagin@gmail.com,
 	axboe@kernel.dk,
 	brauner@kernel.org,
-	david@kernel.org,
+	collin.funk1@gmail.com,
+	david.laight.linux@gmail.com,
 	dhowells@redhat.com,
 	fuse-devel@lists.linux.dev,
 	hch@infradead.org,
 	jack@suse.cz,
 	joannelkoong@gmail.com,
+	kernel@infinite-source.de,
 	linux-api@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org,
+	luto@amacapital.net,
+	metze@samba.org,
 	miklos@szeredi.hu,
 	netdev@vger.kernel.org,
 	patches@lists.linux.dev,
 	pfalcato@suse.de,
-	rostedt@goodmis.org,
 	safinaskar@gmail.com,
 	torvalds@linux-foundation.org,
+	val@packett.cool,
 	viro@zeniv.linux.org.uk,
+	w@1wt.eu,
 	willy@infradead.org
-Subject: Re: [PATCH 0/3] vmsplice: make vmsplice a trivial wrapper for preadv2/pwritev2
-Date: Thu, 25 Jun 2026 12:03:01 +0300
-Message-ID: <20260625090303.3796964-1-safinaskar@gmail.com>
+Subject: Re: [PATCH v2 0/7] vmsplice: fix some problems in my previous vmsplice patchset
+Date: Thu, 25 Jun 2026 13:11:32 +0300
+Message-ID: <20260625101132.3859505-1-safinaskar@gmail.com>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <83f05c55-efba-4bf5-abfe-d2ab0819e904@packett.cool>
-References: <83f05c55-efba-4bf5-abfe-d2ab0819e904@packett.cool>
+In-Reply-To: <89ea76b3-e956-4232-8180-ee3929adf905@kernel.org>
+References: <89ea76b3-e956-4232-8180-ee3929adf905@kernel.org>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Val Packett <val@packett.cool>:
-> speaking of fuse_dev_splice……_write actually, this series has broken 
-> xdg-document-portal!
-> 
-> https://github.com/flatpak/xdg-desktop-portal/issues/2026
-> 
-> Specifically what happens is that the EINVAL is returned due to oh.len 
-> != nbytes:
-> 
-> fuse_dev_do_write: oh.len 16400 != nbytes 15526
-> 
-> (where 16400 == 16384 (read len) + 16, 15526 == 15510 (file len) + 16)
-> 
-> After reverting the series, there is no error because oh.len 
-> becomes 15526 too.
+"David Hildenbrand (Arm)" <david@kernel.org>:
+> I think we concluded that we cannot rip out vmsplice that way at this point, and
+> I suspect that Christian will drop that topic branch from -next after -rc1.
 
-Please, test v2 version of my fixes:
-https://lore.kernel.org/lkml/20260625083409.3769242-1-safinaskar@gmail.com/ .
+I think my patches still have a chance.
 
-This should fix this bug.
+On fuse regression: I return EINVAL for particular combination of
+flags used by fuse. This causes fuse to fail-back to non-vmsplice
+code path. I did Debian code search, and I found none significant
+packages, which use same combination of options.
+
+So I think I was able to deal with fuse regression.
+
+On CRIU named fifo "Not supported" regression: it is handled.
+
+On CRIU major performance regression: it is NOT handled. But I still
+think my approach is right. (See cover letter for details.)
+
+(I wrote about all these in cover letter for this v2 patchset.)
+
+So all regressions found so far (except for CRIU major performance
+regression) are handled.
+
+Other option is to introduce some deprecation period (as
+suggested by Andrei Vagin). I can do this, if needed.
 
 -- 
 Askar Safin
