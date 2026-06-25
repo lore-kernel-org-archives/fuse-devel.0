@@ -1,123 +1,162 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8117A3546E3
-	for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 00:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782347738; cv=pass; b=NnYO9Wdvsf3kVOjkrC9pxqgnB2ydKoxK/9ujJa1L5L1p8CSFr3htBodVxwFUMPB36lxxUJO22SBg1ZVN4XAAeNK0vNMY0ZzdoeDlk7NKA3yeMkgzyAWXCW2g/GPYoA941oda+a1zzM12tl/1QoesZo4+mezJQv1HarMzvziJSsg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782347738; c=relaxed/simple;
-	bh=jlY++uhbL9kzvh0wxgu1VtgxWqC79S8nsAlwo8Ixel4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NNKG6GqmTkY3k3V2wTrMYHmtyCRRI5dB5xtbe+hfhPdUcUj2yghHumlSonNGnd/g/9BPdj/SdbE1krv4tZJ9VDIcBs7nRPBpz0AL4q08akrAAGzvHo3Z6u3Zf6GqTwv/EmViLjImkrY0nveX7vppDauh6nPLlAgmrnXsSJViESQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qdToM8Xp; arc=pass smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09A02F6565
+	for <fuse-devel@lists.linux.dev>; Thu, 25 Jun 2026 03:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782359768; cv=none; b=hIjlMpzVdX7DqO/QTRx3N7CvzFwMfUVmTEjJD7EslEFmhiVjyLYocOA8grg0LYrT0tGIZFU1NMMfHdoAdanUfNC7ZclwBHkAOpC944WKiLGLhccCrlPQzcx+y2a2iBkBlOOkXv/plseAP7ZjyhovaHDOZfJ/gaQbGt5dMVipCsE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782359768; c=relaxed/simple;
+	bh=i0aRAUFtI7aqAzKD4q0jr5L562kAcIUmoKjS1lDhZP8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:Cc:To:Content-Type; b=VTZ+heRLQ7/nJs4avFsCFNrTIT6SNJSzi67ax4RkcaOPwJX6K5Iju/6XJxnfLaqCdj1GUoxLuaO8DlPD2pxf9q9RUdEh1xJSvVTFexgPjda6wEu7pAy9zWvmRjkT3KDJimy23TVdoWzVWNHIKhkt1eVSuMmQlbMqWwCa4L20iDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eyNiBhOL; arc=none smtp.client-ip=74.125.82.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qdToM8Xp"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so11758185e9.0
-        for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 17:35:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782347726; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CX6tNGXJHODpj91Z4xPaoyzKcoustqnESu1NAMwsUjPQQYCfQcrCemPL/21NbQZh7l
-         PcS+a+Ph1uKetUD9WIowBI54ikUdowwfNCRn/VLbA9hhSpGVYCBLIdg9Y2AmZYLGXKuV
-         qfj363fVVQBMgKzqlKLA5jH7+i2QygoBOAnt7hAofxvI6E7QQVEerUV8Iz/0KraJqfJr
-         xcbHVauUWVz0Nd60KL+RDuAHDfhaTT017UsIypAORGnllxFQMaqs4QmWaRt+1iUYXFhF
-         gCB6TpUQ9KzYXfZnHWKbzgXD3ANzBltvS4/Mxqs8Af55FpIKiI57mRlvadbAAMWg+Pmf
-         vYjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5taJ+dyir9PzsaMGDhZgZm1otofqcGe3f75cf+Epyl8=;
-        fh=2sLl85C0Zx5PoSrlPVaasCHts8/cEi4nWWLCqLOtz50=;
-        b=aA5a2MtBXH5M1fDK0C9bRKdxiopHQRlYwPAHETf/ATxVZqiNR6iOQ13kmEUnjWbnf0
-         0asV4/EtM/twIsjOz6W736wc5EhphpxbeKRtaWKknz323Ix/MtMTNWfjjxQf5RP1mt5u
-         PwD73DsMjYSTCTYz6cKHjADNL/T9CO1XbDiBj+EvLA5fii7qKuTrHNZ6eZx5d70oLRjg
-         /43+IFPOqcZCoci8jiU5d1i5O4dPvqYES0RASiiSuUEzBNiKMxtNLVn0Wod8gaM+VHdS
-         l+i1cT0iR87nbDxxNV+/sNhLeF2urm/bB7sKf+lHmCV7iKwkr2v+AZtc/zUmeysLB76i
-         jaWw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eyNiBhOL"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-139d5c9a495so2440226c88.0
+        for <fuse-devel@lists.linux.dev>; Wed, 24 Jun 2026 20:56:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782347726; x=1782952526; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782359766; x=1782964566; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:cc:subject:from:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5taJ+dyir9PzsaMGDhZgZm1otofqcGe3f75cf+Epyl8=;
-        b=qdToM8XpESoUgDkqny6cQl7l+xn6LzGMdN0vuSaamNLplxootzitd6O6dLcGsCzoon
-         fxy6DPplhfp0VBaB2wiRKc50D5tICR48Ekp3YfZf25Z+ZYzNCQMfH+fLna59lLKEaU1k
-         td6tLzt1sIcgFaXNrAYfsdDVYgmXl84Dij1XPQsIx3oHionTnAEjHrJUFPpy5JaIQJ9j
-         SNyJKKkxynBn64vUfIIkiSvEqvb+htIva2cmWu3AqoONPbmIAy1N+ZSEZa68ohlrPdUL
-         m7g07VH6QfczwofcvCG4fm57JhQH2MEZjvBBctKL1kN1W/I0S6l92d/4njph3A9JeELp
-         08Cg==
+        bh=srhS5i90p9Ok5lxqwOHZkSzHn+Lf7VA0N+H4FT65HJA=;
+        b=eyNiBhOLy0u9LeuzsUmMUSC7hWO/czKUaYiW95WugyqSKyKVYzV1pvxyXVpeDFvoU5
+         FGYIyNdSF14FcHyD1uBGUhq9se8pB05XrHJi977rXc3gBB4XJ056ugyIWRHcK5rNw57+
+         TFHA0iAiq3xAh/Ufp9hTbFH7dIgYk2Vd930o+YlTVuKSOWuHLpAhzSy4X5ZoGklbm2Wr
+         sA9yTGwWCqzWYkf5o6cpScyL2BgeteWihxd50HaFTP0brqjQ4pZXBoF3AS0BBVrVSCb3
+         +6/idRkldbDsF9n8ZW1AK0ZJBPiZSFA6W2dQck5liWz08lp6/hXOYE2+oRuv4uCaQxu/
+         yh7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782347726; x=1782952526;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5taJ+dyir9PzsaMGDhZgZm1otofqcGe3f75cf+Epyl8=;
-        b=AIJDHx5y8BYY/MScIERyn512SZAU9fSitKpoZ6TO9caNJnQn6amRVk5YymfwWug/bu
-         22tu9ElfgBMCr1N5Xs8bg7wAV1+udR5OOlxvOI4ncl66oDn2BDqT8+nAic8rumaFLw/z
-         yeGFT0C8jsf61Yw4YijLZlzWr4gTdpzz+XlAceMn6YBPlJV+fq80lb4F1KYF3ljDxdQT
-         EOcOOPj1rQkARysC3KxOlxBLP2581psgZd5fMTV9OGAHfNiXxx5cYoSMt+rK/Lh9uO8M
-         0dAYUHHH9MIpFS67VKoK4EGZhkfjqfgqoN1NXTUsqSe5HAvKvpEUpcvF1Qy2ogA2E7wU
-         0BuQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8ZCq1uh105dU3KIl95TU53dkJ3LO7SoXS2HutbMcpXixxH8WJoYBHe6eX+4hE7nd7hp0HjgUdIKToR@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzcg7qNKK1DuS0F3tlQyel4mPnTce/5rGHOZnHBYd0QRYdvIs3m
-	CT7Ex9szQTZgV4C00/RI8DLO/aOcgwFzad2gXbxjFsK0HGhzD1sFO4VB4DpsPuab4uhNG9fyy1/
-	G9Syz+A3PGs/ZyCAzblWiK438JlA/opc=
-X-Gm-Gg: AfdE7ck/MDTB47BxuaFbdtEhJiKhQajmAkayq/GoOfb4BM3QBlNu9yu5fVTBEJGQeFk
-	9AYRVdRSOEZ7WM6CH3hJRlqR81VF/XK4a1m3gYVBfd+KEXumrPYxjEFWSAnTs/wrpDzkYEtWw+I
-	xEDD7ovfSYDjDeP6SeiJR1Qre7Kxpk+xIBTxx6OMnKKM0za8zhbjh93RY4QKb1hJQmRMFmcluS6
-	SqdwChbsyYJhvHkpdgkKFB+s83W+aWjS17hNI3oARDxHbFnxJcRcqzGuskB8VZj3zo2xocmGEz1
-	OMqOqlQDbjrJZnaObGZxZ9JEz6eeNqhKOGgBOyI9jDePgNBGTyAn
-X-Received: by 2002:a05:600c:1392:b0:492:488c:f630 with SMTP id
- 5b1f17b1804b1-492668b6847mr1380885e9.34.1782347725536; Wed, 24 Jun 2026
- 17:35:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782359766; x=1782964566;
+        h=content-transfer-encoding:to:cc:subject:from:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=srhS5i90p9Ok5lxqwOHZkSzHn+Lf7VA0N+H4FT65HJA=;
+        b=YdvhgIPmrWEd1dfJxlmhvS4Ma1Xuc9ehqz6Yu9xOz8Fi052tZih/Pj646/ph0ilntw
+         CiAcOuCHZiNLTN/KPrUWA+kUfwgFesGPnaBKAppaMDDCK85QzpZN0CcPqz3wzYBo/D+k
+         9gB6ziuuOKBnsgaNQ3gg1xnmle603uK5qaq6+N8JlSPt8PJQsN4Jv5jLbkhIZat1v7nv
+         39egQPsDpFSLOvE3T/TSY1RmcapE9+NGjr8jC31CyCF7T+B6U31atbFMteemQZs8TwPI
+         P+Ds2A486WMusFpPfemtE7h/V+1AOkJjMW6u4JI2sGrZOT6aHya5LbRZsp8AIpKuMhEJ
+         cGLA==
+X-Forwarded-Encrypted: i=1; AHgh+RqCeCMw7i21lIn4InxCdXRsWuhYzkwFpyXcpfvOz/OM03YokKgUWRUdzRNhD5TOGc75X76XcdF4FKJf@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIn13gW3dou7FfTlBM3Qc+3qk+nFjqlz1ta0cp4uJn94uCG9Zf
+	yIsqDyIi+w1YwHgS+dZGD8+YEFCeZPrxuNL9jjzznVu10zZVGr8Fsy1M
+X-Gm-Gg: AfdE7ck4DE4wbuIVHXoD6y0gMnewhqJ63iJMT7ZcDA8B1TysrKlDzQm4zQYTniTtf3R
+	g+VnEN07eM7DxGdiukkF9ZMA3kfWCOK//S9IfVxo3qy2WWnmUjV00KrW5NOWx96yfoV+VAo/Fg4
+	5w103FCN0UJN88odDfDTxWQS4nzLPN3mkcvOcUJYtwZwess8FkDcDY1mqsG+hNYoAuLIHcuz49V
+	kH3ejysMBDS0hEbV7Kws94aSPaByPR/bOGPrWcsgFOhmKlvI+4yuITNkVYgOaMOPl8JDbXpyNji
+	nyJllIvf8TeoXteEwknLkjtL8P/YPi3P19UL7ZzAmdw9Uc7YihR4ea65v0lXE54J/IvyU89IUlk
+	sR+rbDGQ8YJk8Ao+4/L/jRQ+BIrSPIKTQiPSBtqT5aszC8Olo+66RUmmvuNgmpiRGXCGiyDrz8x
+	coX1NbUC8VNYx20UbvUivT31pTEA==
+X-Received: by 2002:a05:7300:23cb:b0:2c5:b23e:48a6 with SMTP id 5a478bee46e88-30c84dfad18mr1166720eec.23.1782359765690;
+        Wed, 24 Jun 2026 20:56:05 -0700 (PDT)
+Received: from [192.168.0.142] ([49.207.145.141])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c52c664sm3867938eec.8.2026.06.24.20.56.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Jun 2026 20:56:05 -0700 (PDT)
+Message-ID: <7959ba0b-c39d-4cb3-8269-482d1d593257@gmail.com>
+Date: Thu, 25 Jun 2026 09:25:58 +0530
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260624212925.1668662-1-joannelkoong@gmail.com>
- <20260624212925.1668662-3-joannelkoong@gmail.com> <20260624221820.GB6095@frogsfrogsfrogs>
-In-Reply-To: <20260624221820.GB6095@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 24 Jun 2026 17:35:13 -0700
-X-Gm-Features: AVVi8CfaPQLl0Wy1529H3PRCoe5W_eUxx7v0m8vqdxBIlCqjJBZAJ3GkB5EvT9Y
-Message-ID: <CAJnrk1aMe09bYZ_MiR-tr=umZ1nJxDx0B7DCs751zhxEyCL-7A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] fuse: use iomap helper to mark folio uptodate
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: brauner@kernel.org, willy@infradead.org, hch@lst.de, miklos@szeredi.hu, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Kamalesh Babulal <kamalesh.babulal@gmail.com>
+Subject: [ANNOUNCE/CFP] Linux Plumbers 2026 Containers and Checkpoint/Restore
+ Microconference
+Cc: =?UTF-8?Q?St=C3=A9phane_Graber?= <stgraber@stgraber.org>,
+ Mike Rapoport <mike.rapoport@gmail.com>,
+ Christian Brauner <christian@brauner.io>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Adrian Reber <adrian@lisas.de>,
+ Kamalesh Babulal <kamalesh.babulal@oracle.com>
+To: cgroups@vger.kernel.org, containers@lists.linux.dev, bpf@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-integrity@vger.kernel.org, criu@lists.linux.dev,
+ lxc-devel@lists.linuxcontainers.org, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 24, 2026 at 3:18=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> > --- a/fs/fuse/notify.c
-> > +++ b/fs/fuse/notify.c
-> > @@ -192,7 +194,7 @@ static int fuse_notify_store(struct fuse_conn *fc, =
-unsigned int size,
-> >               if (!folio_test_uptodate(folio) && !err && folio_offset =
-=3D=3D 0 &&
-> >                   (nr_bytes =3D=3D folio_size(folio) || file_size =3D=
-=3D end)) {
-> >                       folio_zero_segment(folio, nr_bytes, folio_size(fo=
-lio));
-> > -                     folio_mark_uptodate(folio);
-> > +                     iomap_folio_mark_uptodate(folio);
->
-> I wonder, if a fuse server stores to a range of dirty pagecache and
-> completely over-stores the dirty range, can that folio still get
-> scheduled for writeback?  I guess it's no big deal if that writeback
-> happens since the fuse server already knew about that content.
->
-Yes I agree, I believe it still gets scheduled for writeback since it
-still has the dirty bit set.
+Hello,
+
+We are pleased to announce the Call for Proposals for the Containers and
+Checkpoint/Restore Microconference[0] at Linux Plumbers Conference 2026,
+taking place in Prague, Czechia, from October 5 to 7, 2026.
+
+This microconference will focus on current work and open problems in
+containers, checkpoint/restore, kernel interfaces, and related userspace
+tooling. We hope to bring together people working on container
+runtimes, CRIU, init systems, distributions, orchestration systems, and
+the kernel interfaces that make these pieces work together.
+
+Topics of interest include, but are not limited to:
+
+  - New VFS and syscall interfaces relevant to containers, including
+    work around idmapped mounts
+
+  - Closing remaining gaps between cgroup v1 and cgroup v2, and making
+    migration easier
+
+  - The growing role of eBPF in container runtimes, observability,
+    policy enforcement, and checkpoint/restore
+
+  - Mechanisms for mediating and intercepting increasingly complex
+    system calls
+
+  - Lowering the barriers to practical use of user namespaces
+
+  - Attestation, measurement, and other approaches to establishing
+    container integrity
+
+  - Better resource-control interfaces and limits for containerized
+    workloads
+
+  - Keeping CRIU working smoothly on modern Linux distributions
+
+  - Checkpoint/restore support for GPUs and similar accelerators
+
+  - Restoring FUSE daemons and related userspace services
+
+  - Handling restartable sequences correctly during checkpoint and
+    restore
+
+  - Support for newly added kernel features and interfaces
+
+  - Shadow stack support on x86 and arm64
+
+  - Support for madvise(MADV_GUARD_INSTALL) and mseal()
+
+  - pidfd-based checkpoint/restore, including process-exit information
+
+We are also interested in additional topics that may emerge as work
+evolves over the coming months. Ongoing development work, operational
+experience, unresolved kernel API questions, and cross-project
+coordination topics are all welcome.
+
+We encourage you to bring open questions, unresolved issues, or problems
+that would benefit from input from others. In your proposal, please
+include a short description of the topic, what you would like to
+discuss, and what kind of feedback or collaboration would help move the
+work forward.
+
+Allocated time per session is expected to be between 15 and 30 minutes.
+
+Please submit proposals through the LPC 2026 abstracts page by August 7:
+
+        https://lpc.events/event/20/abstracts/
+
+Linux Plumbers Conference 2026 will be a hybrid event. While in-person
+presentation is preferred to help keep the sessions smooth and
+interactive, remote presentation will also be available.
+
+We are looking forward to your proposals and to seeing you in Prague.
+
+[0] https://lpc.events/event/20/contributions/2332/
 
 Thanks,
-Joanne
+Containers & Checkpoint/Restart Microconference Team
