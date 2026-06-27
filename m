@@ -1,101 +1,110 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B5D299931
-	for <fuse-devel@lists.linux.dev>; Sat, 27 Jun 2026 17:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782580236; cv=none; b=PvRGEtEONpVsKiPBoa3QDg5mDD10m2RZYShYWg4dFXbw/ILlPx78+22FhsEoLq75guzVe18Y50Rcz+CvV/v9dIKF5dAExFT+koiefVoCyg8xJigOU55O0uvLTgX6+ftfG2ObivwtK77M97oRwBamUiu1IiaJPT3YvQe6EYz8WKY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782580236; c=relaxed/simple;
-	bh=5ttfpm3ifddxsgXghuT2QVAd5kOHJ2Ff3lQ2OTVP4Ms=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=Wikj8jkAMAJO/sL0a2914YjpMneNO96kWj0x5e+dA+z99E8e427xG8Qmvb0rZF23wp9jXor233/0pfsF+Sw33b92Z9AGSQ1jyLA1osbsRmqxAV90vIrn1LefQxn5gI6zmjwyu/oxeZvBWLi2fWSgbTeBlwX00oHBD26kwkDH1jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHcR6S/5; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DF02EF66B
+	for <fuse-devel@lists.linux.dev>; Sat, 27 Jun 2026 20:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782591380; cv=pass; b=CLajgODPNsK5ADI2Dun9LxA0omZFwkyscFEojFEZRm6obEGyDEvdOqEzx8P+dJaqODZdXuUahQfJGSerfe/tSV8jkwOxrmQSGa99RO1NvYa9YqT1fSNf3McsM3bk8sVRYlMvADWfT4oGmty6rxlBmoo3ZwoE0on+jgdEf21uUbE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782591380; c=relaxed/simple;
+	bh=vonzgwcAvKWcKi2a1w6ps9/nPtrSl/q6rzZUFJ/WhmM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=B8ESEdfHpFf7y/NznCwKxBO007QlgifvMcZjp8r4kGRD3tuVBAp++hNIi973dU2+F307VXq0MlV0hqF/4WxfXhso9Du3cHGqdFP1izKoqKOqqQfnEL6WAGt7L0ky7s+uXFiVUc3G9BXE1DAiJAJhzp4caqB22VpZjEXCCdacVKE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PrZcwGBi; arc=pass smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHcR6S/5"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c0be5e548a4so261269466b.3
-        for <fuse-devel@lists.linux.dev>; Sat, 27 Jun 2026 10:10:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PrZcwGBi"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7e94d272a86so1495089a34.2
+        for <fuse-devel@lists.linux.dev>; Sat, 27 Jun 2026 13:16:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782591378; cv=none;
+        d=google.com; s=arc-20260327;
+        b=shGzvRAEE+jtOYfTSesuWU0+6Hz8ipLQE+/TG6Dr07ISQs0Inpmr6unUgptTLKTs4p
+         J2VQ3HCpTP1hX1nc8k0ZUvMrLn+IwwyRNTxXEdgk2L/jxnDTNKtVfWC7+hF1xnI/7IV/
+         /EH0Y4ikUYiBaOaQcRJK51l8Wq+BUyz3EPVRspGIi9klOQL4ZYnn0CRH9nZ28OWjBuN8
+         iZq5LWbC3xGNfdSMWTyRFd+uaFjVQq4JTygd6fSTB7uXhgauRrO5V9YikACmCByrWzld
+         vQnAEyTiqCNfLr3zPO/6Jhg4hrTyDWJVUKV2W9LkTHEyd0ggvHz+sXWfIVnRMP4RCCIu
+         HYoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=vonzgwcAvKWcKi2a1w6ps9/nPtrSl/q6rzZUFJ/WhmM=;
+        fh=xwtyyrkCsT3lLu9XkYJPfnIn9Lk/s7ILbJqtz943ioI=;
+        b=O/WmQf5X9ONgSSJampJw7JOtgsRUqBey7RjSvSSG00Tfc/XuZaUTZWh5YEgAtJVxi2
+         cyKFbREDPLPsnxJjMmdDkbUUAjzzpXmGUMslISJDs/oJYXYlI+eEBvLd5vcVqy3/tnbP
+         7Z36xbD/41yKfGpvjffHuuyin+2VKSK+WlbYZq3HarkvRQcqwNMsFtG2dUW95Eqsnq4Q
+         0X4dDYRW36/XsJVTk24wDvH9BjaiNKhtlyiC8ukd9odT7ATm4URxMUZXJLrjHxQPpf/Y
+         XzCGhbhl90l2oUOusPLap32HLyt0LtkfXRAVWlDa9OcFWO1M23MRSKlewnSAZGWK07oR
+         X2jQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782580233; x=1783185033; darn=lists.linux.dev;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5ttfpm3ifddxsgXghuT2QVAd5kOHJ2Ff3lQ2OTVP4Ms=;
-        b=iHcR6S/5FS25AG99TbrSSJS5vlqj7Nex1rNkzSEdCnDefA5jjhn2CIcQ6DTRqXpBNb
-         BWbp7g4hWr9lg0oNWCflegDtvabTqNonsPXKp3w3qOOYT9GA2+R5EGaJKe8QoTXuXcLT
-         DXVuLW7s63GSPd/WdW8+9WDI1a/gyqvOBCOdHMxor67+7FEGgTMLusNP49NWEK9oF11t
-         +Uj9NVttfFb4daGpDhiZgx6xw/q2GugfwNvmFWiAT+CXJNW5srFuBH5Ay4R3yA7PpQGq
-         3ErP+QtiJz0/C+yPieQzKv2oN7To2cuUFI0x5T0uzJkJMQ+g01mQ0CPQrXuQ6TufDqCQ
-         gjHA==
+        d=gmail.com; s=20251104; t=1782591378; x=1783196178; darn=lists.linux.dev;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vonzgwcAvKWcKi2a1w6ps9/nPtrSl/q6rzZUFJ/WhmM=;
+        b=PrZcwGBiHHnMOYerWQ6IouCHRCTHPdxju4z6SrJ/GChL/TaJZSGTgISRDBgKrN+QB4
+         sRytBnhIYlWWMCGL3/V1/q7Lv2QZW1o4loUwPJrIGTk5mHlPH0iIf4c/Vy8W22aFHK2Y
+         m7n/0ePRG3DN50NjtNnjafniy8UOfa+YShLLXJvC+hf+h0BGghRsE59nWLguFmh5/kvU
+         kmGAYqrNCy+oZ3OFFyupByXDtV9lNRy3ZEIjhf1KI0QzRvOq5eLFtxxY1non6oFFg97v
+         zSgdNcLZKORGWtduNkNIZYY7VyJmy/rb/6y6zAAz/LK63gR1rlY+PCVzyUHUOcOOeQ9v
+         z2Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782580233; x=1783185033;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5ttfpm3ifddxsgXghuT2QVAd5kOHJ2Ff3lQ2OTVP4Ms=;
-        b=IssmzRdzy+NV9hk/j7hqB2VHimhR22Vh3p7d1abzYhMcA3ITLtMuG+5oZ+Ky4nGvRV
-         r0qFHJu+ly26AeqYwNsylwKdt/aouKXMBwaHhQdp9t/lQ16WYLBpDKk2rM32rcRenKfD
-         CxHcO3s3FN71PdqdrvKl7lVtbsAMRiUtzf2kISEJh7WQEYt6qF9uJjYk0MRH+NCTd+tG
-         ngeyD8nGd80zfq8y6XXrsa23mT5nAgRKMTrr19h9vU6fgum7Zgxc29Lfmcj1Or5nJwMw
-         vg8SSD7BzMryiUAZwYwO7u06ripAjFXX0XoqHxBmjwcZaCY0dPWyxP2JgliOTmp9+f4A
-         11cw==
-X-Forwarded-Encrypted: i=1; AHgh+Rr2obI4KBDWFEpIiki84Z3QIDkE763ZJICGJvbbil1+hm06I8pfKZVRSh4SvtQJOfF7krS0oWRhCxX8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxap5b8MyPlrsyKxuA1Wl83iHeXzvbyGkabvAGBp/FPh4S6T8Vg
-	Ux18qoRS/VmQHZoIJNkW09elKfjBsB/V4Db02j7kAA2QoBqy4BddRGO+
-X-Gm-Gg: AfdE7cn4p+6IskCMU3daxYrx5PCKhocRLZayyZXct4hBLPqemcBsqyQFWsQOXws7b40
-	3nZybb0EVL4+jliNaZgFuJyc52UzAIdQS9ENTsdJ5Ts/9VXIsZkJOdF4UfooDJGcX7lejUsZvV2
-	QeFyMa8HpjpvKs6a3AmATP9FvdQMwgsr9OL92hTS7d+nU9WaQVo8yBLSg59iBlInnI0qFDAu50s
-	FsjQeeYZnoivvrLx9viNqJmmpyugERxMAnICLRZXPOMyktusYNBRU66G6yONhrE7VBtpX1q/TnN
-	WTR23o8660CAMWCUr/W6svbYe0u9RTPD11pULqjTJgfolWHsoKNaR/uYRiOOwXa8+d7k6IQP9se
-	nDhnuDme0fmUd95pNOnyCNCtoPmhs+QHC2RZY/a1P/9i8YltoQ0tyWIlAF0kkmMNSwg35x66zl/
-	7LETxGfsTJdh8I4EDn+O4=
-X-Received: by 2002:a17:907:7b8f:b0:c12:343d:d20d with SMTP id a640c23a62f3a-c12343dff47mr217096066b.39.1782580233392;
-        Sat, 27 Jun 2026 10:10:33 -0700 (PDT)
-Received: from localhost ([72.255.58.127])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c11fbbac51asm504245166b.7.2026.06.27.10.10.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Jun 2026 10:10:32 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782591378; x=1783196178;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vonzgwcAvKWcKi2a1w6ps9/nPtrSl/q6rzZUFJ/WhmM=;
+        b=Td76OYZSaxnTYA2v/BU9fXWMJjZckQMq440Kfuy34QMadaDqg8XdYtsB3GLlGvhwWn
+         0h7TYV/4guKhQSmhSL7Xtpx47ExnpJxOd3LWVj5tJSxskqmBTW6Ox7PULGvowb9b0vOE
+         cCvtFinCn8R39L/nwhsurmxrlfd89Gd9gDMLYdJU689fgKosOXgcVvYUxhAEIChQ6adh
+         grdBWLMjsLJZ6Sgq9pV1WkbKrx4VGL98/D4gyLska5kIz0T497UYuHfcTigo+5wRr/Ke
+         cdE6it/+8SHgkkztG3llHY0qiqcA1/R/IFi/DeRTXfDQ3rL9ZkyUFFZMni+MRj6nPIUz
+         xKjQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+tlFZdExHEdhKF8LA1SeD6S7XQOGDyeYP/9YJX3zy+evQ8i+1dgUYbGslsAoqdrsNTsvdJ+ArE1hYP@lists.linux.dev
+X-Gm-Message-State: AOJu0YxBfoULV4CxXHNMNzd9E9QKUYR7toGr+LWAy8wj6h4eYRiirpnq
+	dNYtsmj8u8GJN1jN653oqIEdr7XikifLPjIra106KYEQ/3LAbAW3Ql+QnOBRe3HsotOjRDbvZT2
+	UJkcM2ZWlhnUHQIpoKtv/HIBUHda45s0=
+X-Gm-Gg: AfdE7cnI5wZ2IzUqc+1eOdeGs+Xmr4h/rb3pidf6qb+Pe9l8wStc2+A6h0i2pp3C1hW
+	L2u9n003oeG/Mow8yq8ZPx06Mw417EHMvq2J51qskg4zLgB5cw2gPuzUDbnHnj6tkqwxuvDdjZo
+	QLLEWAdMElbOCg5bNDPcQWAdDD5wWL+GxZ7Y3JBFMpqwtHlAzq4kdqODJUK22KFqntYs8VDuVIx
+	skVgGXpT6RGQ49NC0i6nZkA13oOifHqivDZt7Jz4ypYTnJzPls3km/JauKmmnynHM9WQqRV2HcP
+	hjcw1wEh6iTr4TT6djW3za21a2E=
+X-Received: by 2002:a05:6820:1898:b0:69e:4d9d:5a5 with SMTP id
+ 006d021491bc7-6a13517f894mr9198416eaf.16.1782591377612; Sat, 27 Jun 2026
+ 13:16:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+From: David CARLIER <devnexen@gmail.com>
+Date: Sat, 27 Jun 2026 21:16:06 +0100
+X-Gm-Features: AVVi8CfQPfuIJt8FErPt-56LoIHFiiWRe5CaDM20Y0oTUMuqAStt3j36sP1-HVU
+Message-ID: <CA+XhMqye_NBihcadRTU=w4xAfrdY9rsMB3oHF5+bwHukkjHMoQ@mail.gmail.com>
+Subject: Re: [PATCH 23/32] fuse: split out filesystem part of request sending
+To: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
+	"open list:SCHEDULER" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 27 Jun 2026 17:10:30 +0000
-Message-Id: <DJJZYCL2DGFB.3SAYSE3IIAJY1@gmail.com>
-To: "Amir Goldstein" <amir73il@gmail.com>, "Mahad Ibrahim"
- <mahad.ibrahim.dev@gmail.com>
-Cc: "Miklos Szeredi" <miklos@szeredi.hu>, <fuse-devel@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>,
- <linux-kernel-mentees@lists.linuxfoundation.org>, "Joanne Koong"
- <joannelkoong@gmail.com>
-Subject: Re: [PATCH v2] fuse: replace passthrough backing-id IDR with a
- counter and hashtable
-From: "Mahad Ibrahim" <mahad.ibrahim.dev@gmail.com>
-X-Mailer: aerc 0.21.0
-References: <20260621183157.3490-1-mahad.ibrahim.dev@gmail.com>
- <20260626125131.2117-1-mahad.ibrahim.dev@gmail.com>
- <CAOQ4uxgX0Oqc+KnEHx6n01UfNQAOPfk3m2rQ3vYTGM98HOV0Yw@mail.gmail.com>
-In-Reply-To: <CAOQ4uxgX0Oqc+KnEHx6n01UfNQAOPfk3m2rQ3vYTGM98HOV0Yw@mail.gmail.com>
 
-Thank you Amir, this is incredibly helpful.
+Hi Miklos,
 
-I hadn't thought about offloading the allocator to userspace, but now that
-you mention it, it does make more sense given the server already manages
-most of the backing file lifecycle. Thanks for that.
+This change alters the pid sent on force && nocreds requests =E2=80=94 inte=
+nded?
 
-The two bugs are clear, I overlooked them. I'll scrutinize my code harder
-from now on.
+Previously these allocated a zeroed request and skipped fuse_force_creds(),
+so they went out with in.h.pid =3D=3D 0. In fuse_fill_creds(), args->pid is
+now set before the nocreds early return, and fuse_args_to_req() copies it
+unconditionally =E2=80=94 so writeback, release, and DESTROY requests now r=
+eport the
+triggering (often kernel-worker) pid instead of 0. uid/gid sit below the
+return and are still left at 0.
 
-Since you asked whether Miklos agrees, I'll wait for his response. However
-I will start learning about it right away.
-
-And yeah! I am a student, an LFX kernel mentee under Shuah Khan.
-
-Thanks,
-Mahad
+Looks like the args->pid assignment was hoisted above the nocreds check by
+accident. If keeping these requests credential-free is intended, setting pi=
+d
+only where uid/gid are filled would restore it. If unconditional pid is
+deliberate, disregard.
+Cheers
