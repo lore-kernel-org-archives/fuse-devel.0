@@ -1,58 +1,72 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E44D3FFAC3;
-	Mon, 29 Jun 2026 12:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65DE1DDC37
+	for <fuse-devel@lists.linux.dev>; Tue, 30 Jun 2026 21:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782735496; cv=none; b=ay5PljGT+kTcvymoOD7xbI8W8ch2QdK89O9DXIikmPMzuJaqoX6ZJ5MeXfhRU3YszHfdiEhTIq7+7Bc9VBQF7/u22K6Fn++XmCsvG55sqrytlUmvIQg57uXaFzOLmHzTyxpDytW5uaPI6hkBwVoESbgVqJD6MIA4DGsJsjPgXYE=
+	t=1782854209; cv=none; b=QEO/qUvh7lFOHN6Oj5uDPcuIvN8SasTW2aDAxQzMzagqpS6EToIydwUQBRKgX6Z5cU5tod90lXunwgss6HadGQo772DfyNdDbJrXIDWqrJ0TKSkIw4GyyeGH2xAgJDlj0VVtgG1qOfJazyk8B6jqrswgx2Q9Sp0qRRpN9yXlNV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782735496; c=relaxed/simple;
-	bh=4+t23brUA9ds467O+9uJjeNTARw+qZ8jDp8rrkJi1nc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IVZxMt/T3ocjxsTUaQE52Yzumeq+/YSyir47ww1A1Inu507XrAWUnD09P9/TvWYgztWuoxqpwpGnemZl/IA1yrQ7RCe90z0mv8g/xLvaXZy4esF2fViiyfiHLGsnOJyxLuCTkYCqM328bXTVwGR+jzT6TlXoSf4Se1ysnkvx1QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eedIQ8Qq; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1782854209; c=relaxed/simple;
+	bh=srZhoJGi5hurmVHCz6kvPNOwSvWbs4CHnwq7RDtlBIA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ATBB9GcQYtyH3ZX7Ie4PsSrL2j2us92+SWCjeVg/aNYrnTN/vgjq8vax8UIvcyB5CaMj1ZhfszvlSas4HlqEX3fX8bTH1woSYWjzZ/9e+Jefhvq2TyuXMMS3rvs3behNxVmqETNg7hDRrMfXEBKBc0GwEPj9IbrBxVkEs7F+YII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P8hh7r13; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eedIQ8Qq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=3uv6XzvXDFaI2s9endu4pr1fplTSlVypCXcNeZT65c4=; b=eedIQ8QqTRxd6h5AkRYsGDJ6YS
-	4kv4Qn5bntDkBKjrWSpSeh+NCKdcvYQaj1/Wor3mrcNNW5A/NBxkRLYpc5DBNLH5ln9pOoH4OMSB0
-	QopCbNCZMcCi83A1nojoVmbbu6WX93YKMstLM1HAN2ru8wY+ZgphspFaXxG8KgGo6U1+VSuvunJcg
-	sPWjFbaM7XuoBn9QHr2yMJwqLoq/DoRHlWi8yZAM7hSWlhu5M/xWi/I/sRUtdozgFglmr4934qw7w
-	FbtaIiwSvaJmB5gWy8x7SWEk05EA+j9Y6DN9u2Z63wyuls6oyPysgk047jGC4L+/s4nZCSKoXXCi+
-	jLdF1unA==;
-Received: from clnet-b08-202.ikbnet.co.at ([83.175.123.202] helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1weAwG-0000000EX0p-3WTv;
-	Mon, 29 Jun 2026 12:18:13 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Christian Brauner <brauner@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Cc: Kelu Ye <yekelu1@huawei.com>,
-	Yifan Zhao <zhaoyifan28@huawei.com>,
-	Ritesh Harjani <ritesh.list@gmail.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Sungjong Seo <sj1557.seo@samsung.com>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	fuse-devel@lists.linux.dev,
-	ntfs3@lists.linux.dev,
-	linux-erofs@lists.ozlabs.org,
-	linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: [PATCH 3/3] iomap: submit read bio after each extent
-Date: Mon, 29 Jun 2026 14:17:40 +0200
-Message-ID: <20260629121750.3392300-4-hch@lst.de>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260629121750.3392300-1-hch@lst.de>
-References: <20260629121750.3392300-1-hch@lst.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P8hh7r13"
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-69d8f70cb0cso3762164eaf.0
+        for <fuse-devel@lists.linux.dev>; Tue, 30 Jun 2026 14:16:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782854207; x=1783459007; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oo6xhvaBTtdsTRxDk9nuaB0fFTRo/VyOIBFU9UzBABI=;
+        b=P8hh7r13fe8F2j45OSzCG2QzaK9lDTHALjyF5jYvkkpunFo7wTRL9d6IUEl5bZuAyy
+         exeZcXxsYTo0UjX4AXdezrjm6UggxqjYKinddxqx+aLtSB/KN13Fd1BZ+0VNy59S6e6L
+         LIJ3XDMLwdzsZHpayzM80BWEFBcR8k/+QYyMJK2ZY/bpOT5eVJO2QHylBIf714yjLutX
+         z1vY+UokJtkMBuKpn5+e3vXgdU55T4JI7qADd4VQ5CsKiP06LFnWBSPlseZpcNpwH0y4
+         E78VaMHDgbBi+100kllapKlFe/luOAeR0l9Ehs21yhSIGWH2U8B0Tllb7RfniZSjzNAw
+         nAxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782854207; x=1783459007;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oo6xhvaBTtdsTRxDk9nuaB0fFTRo/VyOIBFU9UzBABI=;
+        b=Fcao+yJZnxQi0BqxaEKR1a5FuTwGRlQS9MTUGAV+KI0eRu1MZhnXhE6iqGEE4KklRa
+         eUk6ntihSNqkn8BdH9ssOtwtMKdhsyv72OYSNEBbcKpTvhRz+KDIgymc3BHx9zRvIZCt
+         stPgGMe8n5jO8iSRPxg1Fl484z+9JXIqrREKz9t1OA8aA8fSpQ8jzx2vsJl+vURaUuSa
+         Dg522D1DQBSdCsgq59Rkz2tMgVVti5vLLAyy9PcDAcGLJ5uYR1g2N3O4RCCYkBZyTWQE
+         NYVZh2D/nU0xktqJr5jw12SqYMx9ayVOuLnmyQuVlWi23IdVmbwtOhCh+GvZpNbp196F
+         Xvhg==
+X-Forwarded-Encrypted: i=1; AFNElJ+sxP6e9/6AFQ2rLyqGsyN/ZczOnSqs6wsTDWG/JXyVpaOnShyZBT/mIqpymPtyZRD7bYTlH7qVxxZ3@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyi0U5iu4zlKGfCz9GYvPebWHtIZ4KCRweH8qdOsHehXGaBE5e+
+	zzmv9MV+YyZX+2M+PndCWLI1wvzs3D+34M12v6LS4FJW4EOC/KqLZHws
+X-Gm-Gg: AfdE7cll5ipgBhYGdz24r1GsaAr5vYsu3brsG+jFsFcFvLq1RzenseOGd4g6AiXB3Xk
+	eaMBJhHmcBQ5rD2CWy5BObeJRJ7CWYRJcAyTD+PZkXfbzryJ3NpQZkrlK87llZckbG9ikSZ0jZE
+	czYrJsnV1MDudmUYkXE4yBybm3MyTZqg8uafqe5wL229KdgGrhs4+vABqGanIKXxH9fGI7hdo7y
+	Wovm4cMDFxUNCFQjRynpm/I5dYql0TtX8mEL+PhY+18xmzj3q7E1J3Ye0yW2EJPyU7qzSaSV63U
+	P6b34vOC7Ml4iiQOCl11C8+dr/wiAT2QWKDvSE9qsy9WPZkI4DKW4RYuVCVWVQwiVBYMLeFQgX5
+	xnj0HU2Oq8CljCBDX6x671G3WsNTvOSH0xTysRzZVNNQrM78gmn5+D6QBQEbFXiIyazi5CKsC9U
+	pgfTF8dmDZ4wa+3TBqJ9H4Q/g0A1yzXfMZFAk3PXyrGFj3jBPCZNW3OUcF168SRC8=
+X-Received: by 2002:a05:6820:709c:20b0:6a1:40ad:cfac with SMTP id 006d021491bc7-6a1890f4cefmr2920430eaf.13.1782854206716;
+        Tue, 30 Jun 2026 14:16:46 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:6::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a18949b384sm2808970eaf.15.2026.06.30.14.16.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 14:16:45 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: miklos@szeredi.hu
+Cc: jlayton@kernel.org,
+	libaokun@linux.alibaba.com,
+	axboe@kernel.dk,
+	bernd@bsbernd.com,
+	fuse-devel@lists.linux.dev
+Subject: [PATCH v5 0/6] fuse: add io-uring buffer pools and zero-copy
+Date: Tue, 30 Jun 2026 14:14:29 -0700
+Message-ID: <20260630211436.2062816-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -60,85 +74,130 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Currently the iomap buffered read path tries to build up read context
-(i.e. bios for the typical block based case) over multiple iomaps as
-long as the sector matches.  This does not take into account files
-that can map to multiple different devices.  While this could be fixed
-by a bdev check in iomap_bio_read_folio_range, the building up of I/O
-over iomaps actually was a problem for the not yet merged ext2 iomap
-port, as that does want to send out I/O at the end of an indirect
-block mapped range.
+This series adds fuse io-uring buffer pools and zero-copy.
 
-So instead of adding more checks move over to a model where a bio only
-spans a single iomap.  Change ->submit_read to be called after each
-iteration so that the bio based users submit the bio after each iomap.
-Fuse is unchanged because the previous commit stopped using ->submit_read
-for it.
+Prior to this series, ents and buffers are tightly coupled where each entry
+has its own dedicated payload buffer, requiring N buffers for N entries where
+each buffer must be large enough to accomodate the maximum payload size. This
+is suboptimal as most request types require vastly less bytes than the maximum
+payload size and some requests do not require payload buffers at all.
 
-Fixes: dfeab2e95a75 ("erofs: add multiple device support")
-Reported-by: Kelu Ye <yekelu1@huawei.com>
-Reported-by: Yifan Zhao <zhaoyifan28@huawei.com>
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-Tested-by: Yifan Zhao <zhaoyifan28@huawei.com>
----
- fs/iomap/bio.c         |  2 ++
- fs/iomap/buffered-io.c | 16 ++++++++--------
- 2 files changed, 10 insertions(+), 8 deletions(-)
+This series allows servers to pass in a buffer pool (a contiguous chunk of
+memory) that the kernel will use as it wishes for servicing ents/requests.
+This decoupling reduces the memory usage requirements needed to use
+fuse-io-uring and lets the kernel do any optimizations for assigning payload 
+memory to requests.
 
-diff --git a/fs/iomap/bio.c b/fs/iomap/bio.c
-index 0f31e35567b4..dc8ac7e370a5 100644
---- a/fs/iomap/bio.c
-+++ b/fs/iomap/bio.c
-@@ -87,6 +87,8 @@ void iomap_bio_submit_read_endio(const struct iomap_iter *iter,
- 	if (iter->iomap.flags & IOMAP_F_INTEGRITY)
- 		fs_bio_integrity_alloc(bio);
- 	submit_bio(bio);
-+
-+	ctx->read_ctx = NULL;
- }
- EXPORT_SYMBOL_GPL(iomap_bio_submit_read_endio);
- 
-diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-index 8d4806dc46d4..276720bc18dc 100644
---- a/fs/iomap/buffered-io.c
-+++ b/fs/iomap/buffered-io.c
-@@ -642,12 +642,12 @@ void iomap_read_folio(const struct iomap_ops *ops,
- 		fsverity_readahead(ctx->vi, folio->index,
- 				   folio_nr_pages(folio));
- 
--	while ((ret = iomap_iter(&iter, ops)) > 0)
-+	while ((ret = iomap_iter(&iter, ops)) > 0) {
- 		iter.status = iomap_read_folio_iter(&iter, ctx,
- 				&bytes_submitted);
--
--	if (ctx->read_ctx && ctx->ops->submit_read)
--		ctx->ops->submit_read(&iter, ctx);
-+		if (ctx->read_ctx && ctx->ops->submit_read)
-+			ctx->ops->submit_read(&iter, ctx);
-+	}
- 
- 	if (ctx->cur_folio)
- 		iomap_read_end(ctx->cur_folio, bytes_submitted);
-@@ -718,12 +718,12 @@ void iomap_readahead(const struct iomap_ops *ops,
- 		fsverity_readahead(ctx->vi, readahead_index(rac),
- 				readahead_count(rac));
- 
--	while (iomap_iter(&iter, ops) > 0)
-+	while (iomap_iter(&iter, ops) > 0) {
- 		iter.status = iomap_readahead_iter(&iter, ctx,
- 					&cur_bytes_submitted);
--
--	if (ctx->read_ctx && ctx->ops->submit_read)
--		ctx->ops->submit_read(&iter, ctx);
-+		if (ctx->read_ctx && ctx->ops->submit_read)
-+			ctx->ops->submit_read(&iter, ctx);
-+	}
- 
- 	if (ctx->cur_folio)
- 		iomap_read_end(ctx->cur_folio, cur_bytes_submitted);
+This series additionally adds zero copy to fuse io-uring. The server can
+directly access client pages or page cache folios without copying data through
+an intermediary buffer. This requires CAP_SYS_ADMIN privileges and using
+buffer pools. The zero copy patch has a dependency on io-uring registered
+bvec changes in [1].
+
+This series is on top of commit 7d87a5a284b with the io-uring bvec changes
+applied.
+
+The throughput improvements from registered buffers and zero-copy depends on
+how much of the server's per-request latency is spent on data copying vs
+backing I/O. When backing I/O dominates, the saved memcpy is a negligible
+fraction of overall latency. Please also note that for the server to
+read/write into the zero-copied pages, the read/write must go through io-uring
+as an IORING_OP_READ_FIXED / IORING_OP_WRITE_FIXED operation.
+
+The throughput improvement from zero-copy depends on how much of the
+per-request latency is spent on data copying vs backing I/O. The gain
+comes from eliminating the payload-buffer memcpy,  but accessing the
+zero-copied pages requires the server to issue the read/write as an
+IORING_OP_READ/WRITE_FIXED operation. The benefit is largest when the
+mempcy is a meaningful fraction of per-request latency while backing i/o
+is still noticable enough that the extra io-uring op's overhead doesn't
+dominate.
+
+Benchmarked with passthrough_hp (--nopassthrough, q_depth=8) on a
+2-socket Intel Xeon Gold 6138 (40 cores / 80 threads), using fio (sync
+engine, bs=1M, O_DIRECT, numjobs=2, 30s run + 10s ramp, 3 runs) where
+direct-I/O throughput is against a RAM-backed (tmpfs) source (backing
+I/O is not the bottleneck):
+
+		baseline   registered-buf   zero-copy   (zc vs base)
+direct read     ~5.1 GB/s  ~5.4 GB/s        ~8.9 GB/s   (+75%)
+direct write    ~3.4 GB/s  ~4.8 GB/s        ~5.1 GB/s   (+50%)
+
+On a device-bound NVMe (~2 GB/s reads) the read gain shrinks to ~10-16% (no
+measurable gains for writes), as backing I/O rather than the eliminated copy
+dominates latency. The benefit overall scales with how much of the per-request
+latency is the data copy versus backing I/O.
+
+The benchmark script and results can be found in [2]. The libfuse changes can
+be found in [3]. To test the server, run:
+sudo ~/libfuse/build/example/passthrough_hp ~/src ~/mounts/tmp --nopassthrough
+-o io_uring_zero_copy -o io_uring_q_depth=8
+Once this series is merged, the libfuse changes will be tidied up and
+submitted upstream.
+
+Thanks,
+Joanne 
+
+[1] https://lore.kernel.org/io-uring/20260612184840.4058966-1-joannelkoong@gmail.com/T/#t
+[2] https://github.com/joannekoong/linux/commits/fuse_zero_copy_benchmarks/
+[3] https://github.com/joannekoong/libfuse/commits/zero_copy_v5
+
+Changelog
+---------
+v4: https://lore.kernel.org/fuse-devel/20260612210513.1516038-1-joannelkoong@gmail.com/
+v4 -> v5:
+* Address Miklos's feedback (separate uring cmd for adding bufpool, pass only
+  bufpool addr and len, pass back bufpool offset instead of buf id, etc)
+* Make zero-copy opt-in on file open
+* Do any zeroing for short zero-copy reads instead of accidentally skipping that
+* Drop Baokun and Jeff's reviewed-bys since the commits had modifications
+* Run more rigorous benchmarks, on bare-metal machine
+
+v3: https://lore.kernel.org/fuse-devel/20260522205823.1597313-1-joannelkoong@gmail.com/
+v3 -> v4:
+* Add reviewed-bys
+* Fix documentation typo, add paragraph about aborts to zero-copy commit
+  message, undo unnecessary padding[6] change, add FUSE_HAS_URING_BUFPOOL
+  advertisement
+
+v2: https://lore.kernel.org/linux-fsdevel/20260402162840.2989717-1-joannelkoong@gmail.com/
+v2 -> v3:
+* Rework the uapis to be more ergonomic. Use io-uring registered buffers
+  infrastructure instead of doing pinning logic in fuse. Get rid of header
+  pinning as that makes no real perf difference
+* Rename from "buffer ring" to buffer pool. Logic is the same, just different
+  naming
+
+v1: https://lore.kernel.org/linux-fsdevel/20260324224532.3733468-1-joannelkoong@gmail.com/
+v1 -> v2:
+* Drop kernel managed buffers from io-uring infrastructure and move it to fuse
+* Add visual diagrams and more documentatoin to commit messages and
+  documentation patch
+
+Joanne Koong (6):
+  fuse: decouple fuse_ring creation from ent registration
+  fuse: add FUSE_IO_URING_CMD_ADD_QUEUE
+  fuse: add io-uring buffer pools
+  fuse: support registered buffer pools in io-uring
+  fuse: add zero-copy over io-uring
+  docs: fuse: document io-uring buffer pool and zero-copy uapi
+
+ .../filesystems/fuse/fuse-io-uring.rst        |   5 +-
+ Documentation/filesystems/fuse/index.rst      |   1 +
+ .../filesystems/fuse/uapi/io-uring.rst        | 143 +++++
+ fs/fuse/args.h                                |   2 +
+ fs/fuse/dev.c                                 |  27 +-
+ fs/fuse/dev.h                                 |   2 +-
+ fs/fuse/dev_uring.c                           | 576 +++++++++++++++---
+ fs/fuse/dev_uring_i.h                         |  56 +-
+ fs/fuse/file.c                                |   2 +
+ fs/fuse/fuse_dev_i.h                          |   1 +
+ fs/fuse/inode.c                               |   6 +-
+ include/uapi/linux/fuse.h                     |  66 +-
+ 12 files changed, 804 insertions(+), 83 deletions(-)
+ create mode 100644 Documentation/filesystems/fuse/uapi/io-uring.rst
+
 -- 
-2.53.0
+2.52.0
 
