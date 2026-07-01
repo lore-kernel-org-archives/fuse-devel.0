@@ -1,128 +1,174 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CDA3C81B5
-	for <fuse-devel@lists.linux.dev>; Wed,  1 Jul 2026 19:17:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DFC3ABDA4
+	for <fuse-devel@lists.linux.dev>; Wed,  1 Jul 2026 22:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782933430; cv=pass; b=q6XaHXn+6Opm/0sghRub16yb9U7oKezPAM03md0BQPzqahKOhfzy72L7YZByl42SkT8gRJEM0aiBLqBtchrweR1gugImCUi4bX5P+2kLcw8AGIbPPq9w2qw8kPHHkp8aVJHvi2UL5W+RmrW66OLsV/P/KbiA2n761gAmaDVXWqo=
+	t=1782945833; cv=pass; b=AuwBi2ai7cX4Asvsa0T0rhnVnG9xI3aRCX01o8FHI37iBi0pSvUr7tOMHRl9WCDeBsFWPzWBxBW49EyyZlreG2FnOdfR4OrzyfsOGS8CGKnR5JShR3zX8PIAFWzSyPIjcYr3PkcjrZlZ6cD9AzxN6ufok/DGIyF+iDwuNqFhRT8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782933430; c=relaxed/simple;
-	bh=r+NletA3FmRDG/GD5IvXS5VhekYurTM15nt1C3iy2LU=;
+	s=arc-20240116; t=1782945833; c=relaxed/simple;
+	bh=LpVwPG9I+MEMBxL9PBfgj32ExPKI7u9Px4MNrpnfjo0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T0l88xdFPocaIlnGRFQUFyPfACkgaLb2ZYzayMqaTHFE6Ff8V8kIOu/f4AyzyRjDZQP59Rnx2HlgvNbmQMnQC70JsKIGN8NAqBhZDSH6H+nZHav5rXOPtLEPGCJ+gy12y9HT4/eh5F85a24CxTbHbLcJrNzRfPNInLUPS22kHNQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=opqq9qRu; arc=pass smtp.client-ip=209.85.160.53
+	 To:Cc:Content-Type; b=osX0qgVcNF3bw9G1Tf9GUk/804xj04M07eVXl2D+l/5Fnagg9EiCVCLqJoieWMp0gtMYgfL9PKuimQq62TNL6199j5AhmfEo0N2yUnHcxDd+v8ExeMOxLzK4agfVfNjf/kcFAYWJ4IubmtWNSap6ArFw/4gYeaQp1wK2Zkgpduc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ssQwy7eL; arc=pass smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="opqq9qRu"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-44aeefa1c00so752558fac.0
-        for <fuse-devel@lists.linux.dev>; Wed, 01 Jul 2026 12:17:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782933428; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ssQwy7eL"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-697e96dd8d2so3509211a12.1
+        for <fuse-devel@lists.linux.dev>; Wed, 01 Jul 2026 15:43:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782945830; cv=none;
         d=google.com; s=arc-20260327;
-        b=dwO5Q3m0cRb32LDV/kWfugCApAth1oPAa3UYtOQXXFtPP7gJLYOoYvCKJXQleCJQJ2
-         KxS8DrLAi9yTuxGCHqBIGW54qfQzEc2cCSHMcVLrR3UNBkb1A6GsE3VVvkWWdzeOSS6p
-         QbYkZZpRG6wVQL10PnjwWYqKCXGtXeTY35lDnysUOUqk6m7g71zjSSn+OlRXCZ3XwyYx
-         fIOlbnQzPZWLis/T9TgzOoNu1L+hSJ9CeJrokVoo/kIW3EbJFWjnZeDekd0LsfqMvZAl
-         R4O2p0XrNowPyw2fSBw+tTDNE1d1wFICDd0qmKhMjxEhpsXqNBVzEJs5pxL7vul8klWy
-         LLLQ==
+        b=IKnRMArf8OnpfKoz4cIlQsGMzYPUwXyIlNIFJyUN8EE+04/luh/Q8GMPsWSHnJYELx
+         6UqErAivry0XzLnldHUVQHKTMICXRe+FGAgfoJ3f/Nd6/gj9x+0SWI8NUmoTiVJA0sNS
+         h9jq+eNDrZ9g69CAnsYu/caFrc/EiXqgEFtmA2MiIswVmaIHllUJobqPU8eUartz7FP+
+         DEkTB5Pw6E/OAyIJdj0lCJ33h5mrjYwWdlQlY9q7QcFiA24UpVj5jSCmPMi8SmNhr8PJ
+         1Dg9F1JVsgTsDOp1cWdUem9MD2hArFo9EkHBZBy5yGtFBwT2kL3prYmDZGSQY8FTRbm/
+         fTXQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=r+NletA3FmRDG/GD5IvXS5VhekYurTM15nt1C3iy2LU=;
-        fh=y+kNHygKoQ1Z1eZvN+ucIY3t+/6Soz26Mvn6vwwyujE=;
-        b=qjDdFYR/xy+dbc3Gb1m9QN3RtYYnuc1YtCg+uwL2NmWkLPxCwB+JEIs0mTxW9jVcQb
-         UaIu3QMp+fo07i45QqHeKpk+1Axud0T/u/9AypLpCrpj7MQ3MTOEY6tMGCo6M9se8ONV
-         0lWm2dOUUpbyWKk91gVNrehxRf9sqGrNRTwDlXvFLHUcYknxPhwgHztiYIfwFhHopbdu
-         je2GrZxIq2D42DLTtAMAtWWiCBflpVAlJ7Jh3wEFNpNhG6LVGIckHSJjX9cv+FDjhVcs
-         o45iw6sRg061vqxtoOTLNQDc2DOXC8E7fDuj725IRJMFgvYjAQYZGWR/V70Ub5G2PDGC
-         ptnA==;
+        bh=//nar+WWcgH1QxQNIpbuE8obkrSYZQkiok9LpXSsCtk=;
+        fh=kMyUwbGIiiBH/lx3/D2skSK/f+xhGRyO6VB19LRJYC8=;
+        b=hzaZNh/90w4NTlBxJAnz8G+0tkgClTVe5w7VRdoKQl3HXcFxA7+4pKzOrGA221dE4O
+         voVxT6ZJ7tZbascPrmyzPmjtAECFoiBVpYsl+gFidxABdCw/T5WILY5boFw1A5J3x5Pl
+         H9zmXhKr6BAT8Mn7CjFTCoauSqAPH8mAtEF5yjE8MEday7ZHiH5ekPIhdqtEDwCeketU
+         CenwIfhfdbYa45tWS63zgB65bT7Z/bn6McbQmf1NtkGjMwYISrQQjiffBNx03kpNBnhh
+         wweUOOm1VLoppzwccOLBeC8C+xurmgaleXP9MKNKASg4tYqVozcbj+zRmxszVoqfK/dO
+         VL/A==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782933428; x=1783538228; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782945830; x=1783550630; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r+NletA3FmRDG/GD5IvXS5VhekYurTM15nt1C3iy2LU=;
-        b=opqq9qRut9Uo+inVjyj9+ZsJzF3gGLKQtPhPG8faBNay+c1dl7VRTsUKC3duhEHSBw
-         +wzsHoE/33UkHbrgfxucL7bPWzciUHL9GKHiBJbGMdjmwm101xSSDN682bWnPXi6zhNw
-         w2STiXNDadeZDV9NnuI/1pRXk+N5OBlTAgqR1rzkYIX5QJvQGslzfDD9JVlI6OpIs6Ss
-         cLYnHYKdNxuUWWDS8lz8D0ASSwhvaYih7LXKTyi3XJNYfB5VYwDSbUizSOBdJWS71gF3
-         3CmzzRNaWcCqyIs3+688z4YsL6zhLc6hfF06dEPWO3Vrvzd7THUvSuV/JrcR8VQqbro8
-         9PMg==
+        bh=//nar+WWcgH1QxQNIpbuE8obkrSYZQkiok9LpXSsCtk=;
+        b=ssQwy7eL2pkuSxTXXLpPUCpxGtrLiBf4MeejFU/+OyLtd/BnagazlN9pe/hiWgwWh9
+         5bTucMZP4FJkijxSziwzwj6ilGbEbfb/9TTgeu4pOtWZIXY7YekWG+LJlndi54y+zA5b
+         3+eQv89P7t/Aq1yMBZFzNOSTtkuF02F3h+twbtYI3BzYDXo73NOb7uFN8FuKE57v7BFY
+         J/+ZHw9SXVDZf6ChdacEGKAozQYlZTh5vFG0aY9d52wTVmSuhrvzdcnbL5PWfLa60k+i
+         UO57QtPj1irKKW3SxwuQy4NW4B6kCRLdFx/6uZA60b+7whaVR+TnzRSqbDL6eIHaJObg
+         xMNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782933428; x=1783538228;
+        d=1e100.net; s=20251104; t=1782945830; x=1783550630;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=r+NletA3FmRDG/GD5IvXS5VhekYurTM15nt1C3iy2LU=;
-        b=B8j1NQm+uEoJvT3kqW+ek4B+KmycAFEQ/kH4cWsApV7qa9EMIZdl3tykA0J9uXROUZ
-         QQa+12rWkce38/pO+n1UyTRxG2vyfg70Fd7OQQa1GSGmL9MIkuuvRTmPmFJPhgzcsTfk
-         zne+MSj21R/jULZU2Fw2DQoVWX067nVyzkUxPw9yqgVrLwBBJmhm4boZG3T1qgGlYCSj
-         Smlek+TPnBUNyG2LATQrgWSsQwfkGxlzK4GsFpDk3Bt7kNaxFNpFn+cY5/SfZ1q6/PEa
-         Nhrbj81JMWTz8+5QvAro8ZusIPvNJSgrTsaiEdqp0iGo/sIZp3wkimiJYeoog0YPoRfD
-         kf2Q==
-X-Forwarded-Encrypted: i=1; AHgh+RorCwkxSs94tn/8u5UBH0InXEhPz0QpgPI4U8l8GZwC117R+eqfxcfHqPBZaW8rKhRtbYnmXgEte3Rk@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3lydYk6WnuoU2mA69sZKRwnh0tZeTYjXf0yVnneKMbzGlW811
-	ns+R/cqqCRQjqjiPyspqOv5/OWotgkRFCWuGgdT62xEC7/IwK+KwaQwwUkTg+2SaVPjRUUo/cLh
-	z/VZCzMIgspYrAlKwbtFMdaJ4KaznRQE=
-X-Gm-Gg: AfdE7clkM2KM6xB58je0dpD189oisTDdvLR5YPr6tzZdjDeOzDU6R8CLghx0YsuSNnv
-	UbNzdDVgQNR/Z/HUID7hMMnSpGJMNia/xZ/Uxs3vG1o+6l2riYFnGDfnNzW5k0SC2ygZb+tFRUH
-	eL7ga0XCKc7P5C963DHhEoX70GDCmqNslWookXmDpG0cMoqQis4vLt6CyVO+t6xJ56I+Ot0b/ON
-	CAwZEnefhWK3fyq7WxzU2sVY64ZtpZZ14zhuWajjmdls0pMWbvngI9uJeJnq4T6DxhuvX8=
-X-Received: by 2002:a05:6871:c8c7:b0:439:ecb3:52bb with SMTP id
- 586e51a60fabf-44ae2b77260mr4418100fac.2.1782933428320; Wed, 01 Jul 2026
- 12:17:08 -0700 (PDT)
+        bh=//nar+WWcgH1QxQNIpbuE8obkrSYZQkiok9LpXSsCtk=;
+        b=b6DbBB8R/IPS4Tgzxesl1yYF6GTUXIHaNqD/yoVUIZXOkHPgBUGwtKV8aPts9EwtTv
+         ZnahzkqAhyGJgNtlmgldG3PkVRHQ/XwyvzUiKabn+ARJcLBtDPgyGEQ2piuNIf1l8ZTF
+         j41L3z7JPCJSXtpkK5r29wFHlUPkreufNHKi6I6O0cWC5JuzUjohRAVLiAc6bklO95rs
+         SOLgwFJBlb8FEup3fHYNobvpBxfSiewjM2C+uiseBlWnyoSNWaYeluha2+IArjyDKpVx
+         RfV0Vo77aNmwjhFQI+CMDcH1NxRI0mpjWqG3XIZU43T2NiZbiKY1wBgAsbqRYufgQMT1
+         1QyA==
+X-Forwarded-Encrypted: i=1; AHgh+RqLnQ1IdkjI4/ZNVeH71b9NQONginF6IvpygmztkRHEriKcT6aaJaTO1VAx7ff+lW+kJLLt4JiyXD1X@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFxVgMhrN61gctLbO6kx8Qmq8fjinFWuuowpoMaKxwDGWh13Ho
+	sJxskNSVA9bUHuYiJHg9pnHLVJf9YL+8b2lfp/1FHUpIUrExiAs5EguX8xQwyNCRahDzJkxugnx
+	/eGJTzr8flduI6+yljky1Qkfq8YNTv6A=
+X-Gm-Gg: AfdE7ck1zRhOroySCcuhayuGRzirGEVUXlJkVNkAzTZNnZiVXGmHUcgUCdMPlVtjwD0
+	Xn0NK+yX2+a148GYWABfpwkOA/jnKmV4m9MugJmmwyjyXIcerdHZH0UqChp9pf494gCgnaQl8QW
+	zw2MTTJyAPcTjNe3gd17aC2jKAp2d1Hv+2uT+2v3Fx5J44G5SUrDR/eiycmC9lkiIiXTMWiT2FI
+	CGa9XfhydIqRgOw5dVoJ1m1khf66GAaIEE/vmkvFP2+FeNUJ2+Bi0w36nskOfsD1Ea26WLVNHn2
+	frH0B/WJi3VXtwkLMoio0Hu/WjmnSjk=
+X-Received: by 2002:a05:6402:2786:b0:698:5d0:2a61 with SMTP id
+ 4fb4d7f45d1cf-6989ef671b7mr1610157a12.0.1782945829965; Wed, 01 Jul 2026
+ 15:43:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <89ea76b3-e956-4232-8180-ee3929adf905@kernel.org>
- <20260625101132.3859505-1-safinaskar@gmail.com> <63f7860c-4f5c-4682-8914-27978b9fbfe1@kernel.org>
- <20260629-bauland-knabbern-abgeladen-c0acbfa62cc2@brauner> <CAPnZJGAJROqfCWSeeBu31HsE6nmgxVqHTNeC554S5y1Y-VN19w@mail.gmail.com>
-In-Reply-To: <CAPnZJGAJROqfCWSeeBu31HsE6nmgxVqHTNeC554S5y1Y-VN19w@mail.gmail.com>
-From: Andrei Vagin <avagin@gmail.com>
-Date: Wed, 1 Jul 2026 12:16:55 -0700
-X-Gm-Features: AVVi8Cfr-c-MwbiVa4Na7Gy64V9E0QAPHBSr0wHsSXCEVpPyigPKnVtNTDOprcQ
-Message-ID: <CANaxB-wewdUnxApVU3yn7hqbztNJFQfN6Y8r_XZk-TZRXpOQ=w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] vmsplice: fix some problems in my previous
- vmsplice patchset
-To: Askar Safin <safinaskar@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>, "David Hildenbrand (Arm)" <david@kernel.org>, akpm@linux-foundation.org, 
-	axboe@kernel.dk, collin.funk1@gmail.com, david.laight.linux@gmail.com, 
-	dhowells@redhat.com, fuse-devel@lists.linux.dev, hch@infradead.org, 
-	jack@suse.cz, joannelkoong@gmail.com, kernel@infinite-source.de, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@amacapital.net, 
-	metze@samba.org, miklos@szeredi.hu, netdev@vger.kernel.org, 
-	patches@lists.linux.dev, pfalcato@suse.de, torvalds@linux-foundation.org, 
-	val@packett.cool, viro@zeniv.linux.org.uk, w@1wt.eu, willy@infradead.org
+References: <20260630211436.2062816-1-joannelkoong@gmail.com>
+ <20260630211436.2062816-7-joannelkoong@gmail.com> <CAOQ4uxj8RU8X0V3+74rw9wjBc2w2TH8qaGXgLq6DdjPuQ8tivg@mail.gmail.com>
+ <CAJnrk1YT+a-NJ3H8rGziAPb9QL5-Qa4A-ojLmz8jSmWKPoJEnw@mail.gmail.com>
+In-Reply-To: <CAJnrk1YT+a-NJ3H8rGziAPb9QL5-Qa4A-ojLmz8jSmWKPoJEnw@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 2 Jul 2026 00:43:37 +0200
+X-Gm-Features: AVVi8Cds_rqXqmg5z91n1cZbxlRDc_LKAhzm50uW_bvVtOp1TOKKbAKiGIr4Q7I
+Message-ID: <CAOQ4uxh2GswbggcjoqabZgsWmJjniwMJ3QbniG8tPkX9C2iZpw@mail.gmail.com>
+Subject: Re: [PATCH v5 6/6] docs: fuse: document io-uring buffer pool and
+ zero-copy uapi
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, jlayton@kernel.org, libaokun@linux.alibaba.com, 
+	axboe@kernel.dk, bernd@bsbernd.com, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 30, 2026 at 9:01=E2=80=AFPM Askar Safin <safinaskar@gmail.com> =
-wrote:
+On Wed, Jul 1, 2026 at 6:35=E2=80=AFPM Joanne Koong <joannelkoong@gmail.com=
+> wrote:
 >
-> On Mon, Jun 29, 2026 at 11:56=E2=80=AFAM Christian Brauner <brauner@kerne=
-l.org> wrote:
-> > The amount of regression reports that we got in short succession doesn'=
-t
-> > make it likely that we can merge a plain degradation.
+> On Wed, Jul 1, 2026 at 4:56=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
+> wrote:
+> >
+> > On Tue, Jun 30, 2026 at 11:17=E2=80=AFPM Joanne Koong <joannelkoong@gma=
+il.com> wrote:
+> > >
+> > > Add documentation for fuse over io-uring usage of buffer pools and
+> > > zero-copy.
+> > >
+> > > Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> > > ---
+> > >  .../filesystems/fuse/fuse-io-uring.rst        |   5 +-
+> > >  Documentation/filesystems/fuse/index.rst      |   1 +
+> > >  .../filesystems/fuse/uapi/io-uring.rst        | 143 ++++++++++++++++=
+++
+> > >  3 files changed, 148 insertions(+), 1 deletion(-)
+> > >  create mode 100644 Documentation/filesystems/fuse/uapi/io-uring.rst
+> > >
+> > > diff --git a/Documentation/filesystems/fuse/fuse-io-uring.rst b/Docum=
+entation/filesystems/fuse/fuse-io-uring.rst
+> > > index d73dd0dbd238..a92dee057d78 100644
+> > > --- a/Documentation/filesystems/fuse/fuse-io-uring.rst
+> > > +++ b/Documentation/filesystems/fuse/fuse-io-uring.rst
+> > > @@ -95,5 +95,8 @@ Sending requests with CQEs
+> > >   |    <fuse_unlink()                         |
+> > >   |  <sys_unlink()                            |
+> > >
+> > > -
+> > > +Buffer pools and zero-copy
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > > +For the userspace protocol used to set up buffer pools and zero-copy=
+, see
+> > > +Documentation/filesystems/fuse/uapi/io-uring.rst.
+> >
+> > This dereference is not clear to me.
+> >
+> > The name of the suggested doc is even more puzzling for me
+> > io-uring.rst is really not an adequest standalone name for this doc
+> > and fuse/uapi path is unconventional in Documentation.
+> > The doc is not even pure uapi, it explains about buffer pools and zero =
+copy.
+> >
+> > Why not include the details inline in fuse-io-uring.rst?
+> > It's not going to be a huge doc and all details seem to be intertwined.
 >
-> Let me repeat: this v2 patchset fixes all regressions found so far,
-> except for major CRIU performance regression
+> The details were originally in fuse-io-uring.rst but I think Miklos
+> preferred having a separate fuse/uapi directory [1] for how userspace
+> interacts with it.
 
-Askar,
+My reading of this comment is that we ALSO need a uAPI document
+not move the buffer pool overview into the uAPI document.
 
-As previously mentioned, this isn't just a major performance issue for
-CRIU; it completely breaks the current pre-dump implementation.
+>
+> I'm happy to change the name of the suggested doc - is there an
+> alternative name you'd prefer more? How do you suggest making the
+> dereference clearer?
 
-The other proposed fixes look like workarounds that target specific
-projects. Since few projects run tests on linux-next kernels, we should
-expect more projects to be affected by these changes.
+Either document commands and structs in fuse-uapi.rst
+(as a placeholder for more commands documentation) or in
+fuse-uapi-io-uring.rst.
+can be under fuse/uapi/ if this feels more organized.
+My point is that doc names can be self describing and I find it better this=
+ way.
+
+But I don't think that the overview of buffer pools and zero copy belongs t=
+here.
+I think they are still very much useful in the fuse-io-uring.rst design doc
+as in v4 and I do not think that Miklos objected to this point.
 
 Thanks,
-Andrei
+Amir.
