@@ -1,199 +1,144 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDE2199E89
-	for <fuse-devel@lists.linux.dev>; Fri,  3 Jul 2026 00:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783037837; cv=pass; b=gezex0wvjk/mwgzGee6TVpgFuFumVysL4qB44xum7wOblQaG9iDz2p3dyP7Ep4mIZ6g9y0IdtVvFu79Bfgu+cJ3L1G0ZFJkUxxwm9pbw24DUfKVV4glme0+V/6zLBkml2Ki0cGoFC0PeNsccq4lpPqo7IpEqsCmkkZb4WQ/Ex7U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783037837; c=relaxed/simple;
-	bh=kRH5ME6cl2uOZNTf4Hz7cjp4HebVSYInnLBFWd3k8/I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RJpzDru+K6V2Ty2UduxCS4icX/94CQE7PSfQPcuqlaMd4QPCF796LNLYrBcLA8ekovTJJ4pmK4myqhKMUns9dLu2rcC5uqBxvzQqDz0l/R1E85uWe8g6g92DXXa1fWZ00160DB8H6EMZi2LCjvYFx/mL1ChJZNEB9UIZ2dGCAlQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tBchV30U; arc=pass smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tBchV30U"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493c59f740cso8115365e9.3
-        for <fuse-devel@lists.linux.dev>; Thu, 02 Jul 2026 17:17:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783037834; cv=none;
-        d=google.com; s=arc-20260327;
-        b=G+eJ86ZgJ2FS3v6m3dAba0g0CWJSlWiyvfpDPiyOWI+yV5v38M4eoVgw2L/tpmAbD4
-         mwJ6dytSV/PBn6P0dsNGxav+BTmrPIbQiRoHoXVFW5MJORgl3IjgL9Gp+31m5ng3LKpu
-         lbQAWkhxh4QJJ+6E90minP8YHUJbtZneDIKiLEK4IQpvXN4lnKjnaD/OkLc8qdtmQR6m
-         nYxTRvxBXOYsz2KUeR6uwBioyfBtWg5ZWrLmEEPTqjSb+wmjQ2yZN/yA/iOus3fh34JX
-         ve9W2zX4LByDVrcTuE/fB6ctOv/m9U9aSgFQWC17riy5sCi3Y2do7CBBNwYUE7wlC/Rt
-         480A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vU7OEUrLlyve1bXZ6P0sGV5EAt2DQDqFHvcpp7wTUdg=;
-        fh=3sUL2lQXzIQ9KUTbrtrXpoI0qYq41o2OzosMdLnPgoA=;
-        b=G7UI1QgMEJABpYNzELrrNAFp9ZD+WZklpYL/jjxNcNF1y3Wt3xWyc0SuFKqG9yPPsE
-         ylFrBUMUVeUpjVtmUydPVVcLW8TPjjgbIXuG6vYT6TtZd5Zva4R5FF88wqfzDarbpfIt
-         Yxlz1XBuEHJWVpBc0p7mNWI660tQiGjqoFBLgSHlrJjTPXqwIb9rW455XlBZ392DyVnu
-         xVeaycftluEXoLEIH7iXR1SZhR2+qBzquylAcSVGMZeJ5NyokqspZ+DJz+iHXbY8TJtV
-         HpupQ1AOMG37UPYunI7WfBfGdw8W0vnXJm+W1KVXBaD8u0vQv4sKEzJBeujrQK34EH0T
-         cBRw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783037834; x=1783642634; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vU7OEUrLlyve1bXZ6P0sGV5EAt2DQDqFHvcpp7wTUdg=;
-        b=tBchV30Uub+P+NkFmtsnfZbLWBXKPtWYqaNFPV3tgiaS3MhvG8cHqkQriOkVS49D8J
-         nf4V+ROheyi4afaZ+JaYHs15DqV6tnOKQ25Y/BAk2QIlT6jdiYb1M/B6x2Bva41FJDHp
-         U/fy8ES7ElanDgMDDrFEAzXooxqppSUydwMMJrrJAQboJ7UulsH1HhKomSr1Elqd0elF
-         y0mweFEjdU6A3z4CwySUiddgdFuwktOLfjNcIszkjBQG6ieTMErMAns+2CA6Woc0YKud
-         QAiWb7sFYf5QNNKMRuehB1RmIKNpl/AwjrQvGhuSpX5jcNrmkLy7hxUQ5KuIvVKOlqRs
-         ooPg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AB51FFC48
+	for <fuse-devel@lists.linux.dev>; Fri,  3 Jul 2026 00:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783040369; cv=none; b=tWkUcCnzQi9B810pqL3nOdbI3wM3O52khcMKBDgVt28HVJGojX16PF4+5MUT6PCQNoRVH0boRC4Gc/xVlxJfjD8sBQIcJJ1jiAyO5UZOSk7x4xflx1CzAYcMAbHdd9jhh8ZpPGkDvkXzaPnD6nZt5ZzHjZLiGy3ZKqbC1zcoxco=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783040369; c=relaxed/simple;
+	bh=o4RYHInGgXGh6dvOC7ZwK3AhvRtpsXn8fwtOJ4yqTeo=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=GZQj7j1+QM1f65Hwrvoqjo7Bdk8Vp+rxKSx1DAJtd9d94JvtcMZ2E2CXlKDkCos8AB/YtIPZE2cy8pNDxuvkHRXSctgozW2alm7+hgOeKECRd6sP0n9fIPEzWPD1mqhv7WQFd9qdEKr+HkHb4D6dNJiR6lA5cn/mPJDS4oAiSMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-48f680bda84so34319b6e.1
+        for <fuse-devel@lists.linux.dev>; Thu, 02 Jul 2026 17:59:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783037834; x=1783642634;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vU7OEUrLlyve1bXZ6P0sGV5EAt2DQDqFHvcpp7wTUdg=;
-        b=WvXrP4+suLJsUZON0O7rl8UrlQHemXLe4MJ9oAvCIA/7kf6tkNF6Ti14ohyxaZw8Az
-         C3NgXW/t/e/K47yTasDFlYwnQY/EGT+uOssFRLPs6fsQl4U0wAkMCFlOeccTKK8mH7uI
-         vn4zzYZK5JvoBPjvLVm0KSApNsPFlbRYAd3eYIfRSjchu8JUyliBW9hk6YIA7m3v8swS
-         IgaG6huMCDMC3LFpP8nYUsU5iWdMPohTBLpuFRW5R98/4cpQfT0OHm5cbmj4L0FydSoG
-         BbdCP8OQosSWnDsWwf8EBDp8upuJOc4uVoleoKBofKSt1ux5O5fj0rYz2Ysg7rEKV6aJ
-         8Cmg==
-X-Forwarded-Encrypted: i=1; AFNElJ9eMOzg1yMZvAPFdrrwYRL6LKkJxfyY8/Fk8ollmmDXRv8gANR2pE+DhfKOjZGEHy8t2mjhc+OssAxT@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzln10RCrQ/Jz/aFnjlkDN1r7fH0Mif6QWe0eK/deYiExWis86/
-	qHjfD+pb16AE25WzI+n0AobyqDrxzqMdxlaPrIZxRsw06UBm0cos2Ck8fKmT0gWRbpVPQCn9w4Y
-	svrY1GBzX1ULyYqSIApUrfKAt8BuRMsk=
-X-Gm-Gg: AfdE7clsCy4fgWusE8YlEe7trpx/nrZ+vWPBoCNXCWDinTjmWk59LJy/1HjSdxmSv68
-	UCd9CIPCNCbwdpgn+F8WgkSf0mxcPFICtnJAOaDGfLr7efnqYstXXkz7K5ALgrinn0tGbze1MKT
-	3Ad2jUxHDtF4f+igUWrXxgqAoxp7UhQ6eOktDA//EUdNixylmVTKaN44X08HZWvlq9tSiZm3QN1
-	H8Lg+haWbIMu5LSf0ZxNDgHyNyg5ig+ySPS1f+Px5gXdGCtnJ5E+FLguH0edPIQKn0vkb8NGZIM
-	3ignQeSKM73/jhdeqsWNWrpPsEsbClrInKbY/8ygJ6bdD2mil9C88/V4tNZK+c4=
-X-Received: by 2002:a05:600c:46d0:b0:493:bc4a:c6b6 with SMTP id
- 5b1f17b1804b1-493c2ba1d3emr113298325e9.38.1783037834179; Thu, 02 Jul 2026
- 17:17:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783040367; x=1783645167;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dcfKlMRqKsuU6sd6tH3oRNAVXTaxMiP1Kfwe4kGN8Fk=;
+        b=YHizY8EW+svWNXE51r2JTd4jUWceA6u+YKKrDs5h2D9bxdK3XImgjMSS6+2kTiPjKc
+         4U5gBygnQ4RjuhG2bMPyo/BfxV9vQw9GhswgjwWs+koqqK6+dSi/touJVxwVnD3cAWDc
+         7ZBC+Xsj3JkQErP1U990wcBfUBV7bG/rXllISioNko2ZUSxUDyF+LZZTolHmLyeROwWW
+         OVsTJ8hLlJkknbL1RfQ99kSDYd6shrTRV5kE/8iVPUfGI5JgSJeaFponNY9bHJPPnYBe
+         dfk0HyQu/n2ehMpVWxkMdq3LrQBQvCoZYBQJQtXbUbY9JVPfLF1GHuHOd2mLl/busicR
+         aMyQ==
+X-Gm-Message-State: AOJu0YzC3zn9Mr3Gx+c7D3tf10hilC/DQYuuejZbiWhUFPAVhTicwdZW
+	xwwpPrkoysEwFrAYHp+QsScN3O7nVsKlL0Ry93vY938nwDmLdsaBCb1+6Xa9Fu67RU78pKidL4l
+	hDAVOS8deo3VR9p3cdTG9Y5Av5FDwqT8uOwxW7bfjWt7eka88F0kMp7R4M7rPvg==
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
- <20260701000949.1666714-18-joannelkoong@gmail.com> <20260702165841.GM9392@frogsfrogsfrogs>
-In-Reply-To: <20260702165841.GM9392@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 2 Jul 2026 17:17:02 -0700
-X-Gm-Features: AVVi8CcxJan3XgaMiYmE7l9m1K7rjamtB3vH8NBAZsWn7x4K1BrIcNnVAJIzZPo
-Message-ID: <CAJnrk1YW0gKRVvHRC+WeKoV2vrquzaC6UkipZkQ34Z0RAQDjtg@mail.gmail.com>
-Subject: Re: [PATCH v2 17/18] iomap: pass iomap_next_fn directly instead of
- struct iomap_ops
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: brauner@kernel.org, hch@lst.de, willy@infradead.org, 
-	hsiangkao@linux.alibaba.com, linux-fsdevel@vger.kernel.org, 
-	linux-xfs@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, Chris Mason <clm@fb.com>, 
-	David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
-	Dan Williams <djbw@kernel.org>, Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
-	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
-	Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
-	Chunhai Guo <guochunhai@vivo.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
-	"Theodore Ts'o" <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, Zhang Yi <yi.zhang@huawei.com>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Andreas Gruenbacher <agruenba@redhat.com>, Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
-	Hyunchul Lee <hyc.lee@gmail.com>, 
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Carlos Maiolino <cem@kernel.org>, 
-	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
-	Johannes Thumshirn <jth@kernel.org>, "open list:BLOCK LAYER" <linux-block@vger.kernel.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:BTRFS FILE SYSTEM" <linux-btrfs@vger.kernel.org>, 
-	"open list:FILESYSTEM DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>, 
-	"open list:EROFS FILE SYSTEM" <linux-erofs@lists.ozlabs.org>, 
-	"open list:EXT2 FILE SYSTEM" <linux-ext4@vger.kernel.org>, 
-	"open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>, 
-	"open list:FUSE FILESYSTEM [CORE]" <fuse-devel@lists.linux.dev>, 
-	"open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>, "open list:NTFS3 FILESYSTEM" <ntfs3@lists.linux.dev>
+X-Received: by 2002:a05:6808:1810:b0:495:d0dd:c6d4 with SMTP id
+ 5614622812f47-4962d7b5a37mr5357866b6e.13.1783040366964; Thu, 02 Jul 2026
+ 17:59:26 -0700 (PDT)
+Date: Thu, 02 Jul 2026 17:59:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a47096e.9dc7bc9d.3d5df4.0005.GAE@google.com>
+Subject: [syzbot] [fuse?] WARNING in super_dev_register
+From: syzbot <syzbot+72fe3ea5814121fbc76e@syzkaller.appspotmail.com>
+To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 2, 2026 at 9:58=E2=80=AFAM Darrick J. Wong <djwong@kernel.org> =
-wrote:
->
-> > diff --git a/fs/iomap/buffered-io.c b/fs/iomap/buffered-io.c
-> > index 3f0932e46fd6..0aa8abc438c1 100644
-> > --- a/fs/iomap/buffered-io.c
-> > +++ b/fs/iomap/buffered-io.c
-> > @@ -626,7 +626,7 @@ static int iomap_read_folio_iter(struct iomap_iter =
-*iter,
-> >       return 0;
-> >  }
-> >
-> > -void iomap_read_folio(const struct iomap_ops *ops,
-> > +void iomap_read_folio(iomap_next_fn iomap_next,
->
-> If you took my earlier suggestion to rename the typedef to
-> iomap_iter_fn, then this parameter ought to be named iter_fn.
+Hello,
 
-Hmm... maybe at that point, it's self-explanatory enough that the arg
-could just be called "iter" instead of "iter_fn"?
+syzbot found the following issue on:
 
->
-> >               struct iomap_read_folio_ctx *ctx, void *private)
-> >  {
-> >       struct folio *folio =3D ctx->cur_folio;
-> > @@ -650,7 +650,7 @@ void iomap_read_folio(const struct iomap_ops *ops,
-> >               fsverity_readahead(ctx->vi, folio->index,
-> >                                  folio_nr_pages(folio));
-> >
-> > -     while ((ret =3D iomap_iter(&iter, ops)) > 0) {
-> > +     while ((ret =3D iomap_iter(&iter, iomap_next)) > 0) {
-> >               iter.status =3D iomap_read_folio_iter(&iter, ctx,
-> >                               &bytes_submitted);
-> >               iomap_read_submit(&iter, ctx);
-> > @@ -688,22 +688,22 @@ static int iomap_readahead_iter(struct iomap_iter=
- *iter,
-> >
-> >  /**
-> >   * iomap_readahead - Attempt to read pages from a file.
-> > - * @ops: The operations vector for the filesystem.
-> > + * @iomap_next: The iomap_next callback for the filesystem.
->
-> "The iomap iteration function for the filesystem" ?
->
-> Using the term "iomap_next" in the definition for iomap_next isn't that
-> helpful.
+HEAD commit:    6eb8711ece2c Add linux-next specific files for 20260702
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=144d2c0a580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=bc069df559a09463
+dashboard link: https://syzkaller.appspot.com/bug?extid=72fe3ea5814121fbc76e
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11e32a6e580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10ebaf41580000
 
-Agreed, I'll replace this with your suggestion.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ec0095ca90c5/disk-6eb8711e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/e30096d3498c/vmlinux-6eb8711e.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9855bbfe6176/bzImage-6eb8711e.xz
 
->
-> >       return ret;
-> > @@ -824,16 +824,16 @@ xfs_file_dio_write_atomic(
-> >       unsigned int            iolock =3D XFS_IOLOCK_SHARED;
-> >       ssize_t                 ret, ocount =3D iov_iter_count(from);
-> >       unsigned int            dio_flags =3D 0;
-> > -     const struct iomap_ops  *dops;
-> > +     iomap_next_fn           dops;
-> >
-> >       /*
-> >        * HW offload should be faster, so try that first if it is alread=
-y
-> >        * known that the write length is not too large.
-> >        */
-> >       if (ocount > xfs_inode_buftarg(ip)->bt_awu_max)
-> > -             dops =3D &xfs_atomic_write_cow_iomap_ops;
-> > +             dops =3D xfs_atomic_write_cow_iomap_next;
-> >       else
-> > -             dops =3D &xfs_direct_write_iomap_ops;
-> > +             dops =3D xfs_direct_write_iomap_next;
->
-> Probably ought to be called iter_fn, or at least something that isn't
-> "dops".
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+72fe3ea5814121fbc76e@syzkaller.appspotmail.com
 
-Nice spotting, I'll rename this in the next version.
+         and is ignored by this kernel. Remove the mand
+         option from the mount to silence this warning.
+=======================================================
+------------[ cut here ]------------
+!sb->s_dev
+WARNING: fs/super.c:509 at super_dev_register+0xf8/0x250 fs/super.c:509, CPU#1: syz.0.17/5906
+Modules linked in:
+CPU: 1 UID: 0 PID: 5906 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+RIP: 0010:super_dev_register+0xf8/0x250 fs/super.c:509
+Code: 04 38 84 c0 0f 85 34 01 00 00 8b 2b 31 ff 89 ee e8 9d 2a 85 ff 85 ed 0f 85 98 00 00 00 e8 e0 25 85 ff eb 17 e8 d9 25 85 ff 90 <0f> 0b 90 48 85 db 75 c4 e8 cb 25 85 ff 90 0f 0b 90 43 0f b6 04 3c
+RSP: 0018:ffffc90003f3f9d0 EFLAGS: 00010293
+RAX: ffffffff82401307 RBX: ffff888032be2000 RCX: ffff88802d478000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff82401d10 R12: 1ffff11007997402
+R13: dffffc0000000000 R14: ffff88803ccba010 R15: dffffc0000000000
+FS:  0000555563c9e500(0000) GS:ffff888125b00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000200000003000 CR3: 00000000505ae000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ sget_fc+0x12f6/0x1a60 fs/super.c:896
+ sget_dev fs/super.c:1480 [inline]
+ get_tree_bdev_flags+0x212/0x4f0 fs/super.c:1867
+ fuse_get_tree+0x194/0x3b0 fs/fuse/inode.c:1877
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1941
+ fc_mount fs/namespace.c:1198 [inline]
+ do_new_mount_fc fs/namespace.c:3777 [inline]
+ do_new_mount+0x319/0xdc0 fs/namespace.c:3853
+ do_mount fs/namespace.c:4186 [inline]
+ __do_sys_mount fs/namespace.c:4402 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4379
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2ea523de59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffebb4997a8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007f2ea54c5fa0 RCX: 00007f2ea523de59
+RDX: 0000200000000080 RSI: 00002000000000c0 RDI: 00002000000001c0
+RBP: 00007f2ea52d3e6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000040 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f2ea54c5fac R14: 00007f2ea54c5fa0 R15: 00007f2ea54c5fa0
+ </TASK>
 
-Thanks,
-Joanne
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
