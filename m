@@ -1,156 +1,68 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-of-o52.zoho.com (sender4-of-o52.zoho.com [136.143.188.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F4141D4EA
-	for <fuse-devel@lists.linux.dev>; Mon,  6 Jul 2026 21:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4811241F7DE
+	for <fuse-devel@lists.linux.dev>; Mon,  6 Jul 2026 22:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783373356; cv=pass; b=gPJ/yoGjAkHFVOpKINLPj2OpxT4Xh1S1TbM609BpulEs2Y2zjsIqQa0UdokIxXqRiOSkVQgiH+8X4sSYzCkjQTwvY69uo8JeIwy1SLR6MNQ1YFN6rPC7gLDERf26t8X0iWOfIXc7IyBwQEHMo8adXJZSprHCgA4h0vMp09teWDc=
+	t=1783376784; cv=pass; b=Y1ZAFM99knCKqjdVxYopwdail9OV41zZqWzzKtFYYY8AJjq/itDyX027/65w+rlyx76wrxyE5+QjW6Qo7HKKB/u9A1wa9np1Kj6wasVInxGj5z8nMFj+NfisdWujoqRwXBTRNta/DMrQ7jyn7U3ifNPuP/BrB/gEx09FxjVHtIM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783373356; c=relaxed/simple;
-	bh=ejtDMaJdQXxJ/SvynymwK2ueeJspq+S9GvRCUAy+T8c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R3/LveB1fqjSrW0Q9qbcItEURafd+XGUg6TABQ0EmU+BVE5KK+aMl9ByWBKgWXIx3S1zGqL1pGzH7+KYBbxiG/OX7dmCnzu5fns9g22ZrsrkrbWRDz5SBxR4JreufaAIJjAkMDidOhfY8U+VnpQKGvxnkM87Eab8cjFOASTZHB8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yctse3mB; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783376784; c=relaxed/simple;
+	bh=Q5kKmKuz74OjHqFWqC7ok5g/jUJwk3ZRWBrRIcyf1Vw=;
+	h=Date:From:To:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=fQAZr9BQemj7TNglsuLgP6eAD0mSFuWg71L1pmj+FFP7zf7eVrCgDdXo2/PWCwv9t7nG6oxGjcsG90NtRpXMe5mDtU+8qwynZOmZOiWFAlKkAfT/Qzk/6oseaLv6YnDrQCatEjuWzkH8uYOcoN2Nb2QW06KndY8tcE7HxwepYAc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website; spf=pass smtp.mailfrom=soss.website; dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b=DoZi3s3l; arc=pass smtp.client-ip=136.143.188.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soss.website
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yctse3mB"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-475417f010dso1921167f8f.2
-        for <fuse-devel@lists.linux.dev>; Mon, 06 Jul 2026 14:29:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783373352; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DBYm77ggnCEGmPqPAmAHnP9eLwb7VJnXbXjlRZAzuNTKG50KQikr/1XTdfS9Z5+sUJ
-         slPeljyvBCe6qI0fX6OPxqo+uJSk8z2O52H0UTFMjO+v3x2BWD+9FTi4oEGZCZgPfqz8
-         T7AHf1TKGUaTn8mYbRLus33CY1kis4s8a37ZkZI0ltNq8DiWdfmAYpPQzrRDUmFyfvfH
-         gwLGxdYnU0owW1yQy6+1HVEpKD7NpIAwMRKDcJSldQOAo3D7i3sWbr/aOI4lNkDGmqNJ
-         eUphTkGLSjGF17IEwWJCVPmF8vYOjXNhNTOXWkEVjAxxZA9rCuPVEsIapOFjh8jX7pYw
-         +kpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yV2xPTCF17xoiTfTi0rcuMy0VIBAYGpyV+M9+DsjCZI=;
-        fh=g2++KCFymCNHZBSO0E13r1id6n8KVo9s4u7tgyFe4JQ=;
-        b=CwS71g+ae5lo9VpykuMpd4ov8ioRO9vZVWfHMIkwWmIH/TrABYYI2teaRbLSLgXM1i
-         7CHOTF7mu9R0tGLICsB8WZaxNCTVQggrOcY8nL3CqOdUq8kd5CE58ph+menDHKTB/AUD
-         juzHpdm8ZwmJvcLr23kP2yCl9iJdC34C+w0ex4KQqo8JqyEAJo0mGaDVtdIBAKvFvR/r
-         avXm5L+5Cj6qHuZkyL0FxIN9qanGhQicvMnDx4sEjH94W9jPDRDZYqykVzsKzUBOlKTo
-         e6Loei3Nerl8wXMGyI0SZoNONBn6j34kvwjPACOyxahXgzXn3Po2q7JIdvX3u8U/6NwY
-         GGGQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783373352; x=1783978152; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yV2xPTCF17xoiTfTi0rcuMy0VIBAYGpyV+M9+DsjCZI=;
-        b=Yctse3mBMyhES9GZP1G7BuIbAHy2iwhguORg6ndx6KKAdKiwxvacVXzhnbpzThrVQj
-         Wf7zkWAzy4PktBwYGGWm7nhPXK2ibjws5gAlzbHU1WdCHH88l0544K2r1j+H/cW7kSgw
-         5zSDMhVxUHWBX45AP31bm4PAWLs2EFw39CoWuZDrD0QRJWpxzsQGixQQrz7bbLqHJBuw
-         76L8mqmNy0nomWK/wRR8HSr/vRWfJUccwNU/VrDunTWLI1rFt/fZx4WMVmQ00jQUNJZP
-         7Tk2PtyhpB2llJTbrUgka2h12g7oJ1PiTsjIfbmGvSoFJyR6krSuuNiKnIYge5+6iwYT
-         0XTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783373352; x=1783978152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=yV2xPTCF17xoiTfTi0rcuMy0VIBAYGpyV+M9+DsjCZI=;
-        b=B2p5y69TwqSVvVWdg6LbCjPA4BGEavGiNu/4FT4/+Rr6Q2m5k/NwWfvjZsa1KuPaaZ
-         feRMi7tX6N0ipcCpODN+3J6K5YTzyAkgOuGW6i3b09CLIPBSkNS4lvsrNLIQZp+XhA+K
-         mjpOgeLrkUWkl2AWY7hBbuAea+KrNjghTpdl2lsIhFl9lKor5WLr0xX3Hczlv0crEG40
-         ba0Zv8nxbHT/24IzoNLb6hYUmOYSzeSnJLUozusWniBiJwRE+p8vTBNLj7qPlTjgYgh+
-         l5I559S5gxE3Im59L/OwoOukdXvaHqShhDP9v2pzIjeXknbOlSwP3hnsRdlXMJOsHCe9
-         VSmw==
-X-Forwarded-Encrypted: i=1; AHgh+RrtI5Rr0AXQVhRnMwdCNRWCO7QhJdYxCln4ruqPSTjn6NEwZu+w0HVWOLCXM/YzI58omt8fLPd4ghP0@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDfg1i++rLPYRtFzRWsmZt7WB040B/g1LuLC7Q376tyMneTEZ0
-	tyS49v+2Nczrd5Bkv4MZrFQPNQ0DP3QrMpf789a+5NbPTF9VSIfy531UqDUQ46RMkwRqgpLN4nq
-	H4tcuezUZn5x6I1bzzMknS306wQ48Dwg=
-X-Gm-Gg: AfdE7ck7YM7EOiV3WCyX+xnAVQLXVPyZcn9VCo9lCqMREpYgheDQYOoPww2/LLlRtK1
-	X72J/Sdjv8cXMXGvP715+SYGROZYnp17Ak0phsmiATkAwd08jk+7MWyGYhOZ9r4MWpiq+zkiCXZ
-	1VoqmxQpSC1HtUZN98DYAsAsgmUxeB5djNEekG/3sYD/YBFRB+YnT+HX3VrHVSVvIhsaD6S9WoY
-	ue6RFy/qgyz3s6Q/XnrequTDvxWJwXjuFeFaf7GoWxrEIhPAa215D55aZGrOgPmDGFKnXrHmuPU
-	HMb04wMV+OBODNT/Z4fK6eHpCJn4dQHnW2nkXt7/pxyRuWSm2rdk
-X-Received: by 2002:a05:6000:461e:b0:470:258b:b20a with SMTP id
- ffacd0b85a97d-47de666aef2mr2350243f8f.10.1783373352362; Mon, 06 Jul 2026
- 14:29:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b="DoZi3s3l"
+ARC-Seal: i=1; a=rsa-sha256; t=1783376780; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Hs8L17bpNThxG1A39w1+eq91qYNjLHdwaEoKlHOKGegOjDLAsL25bU+Kfvrv8GZEp8UlnDM21R68h/3RWp8UXBqLiHYkds2QdLzjm1eOe+jVkNwQa7zJdPsyorcgLPeohf63apEWrC9BXVP9+jfkCkOaQw2XCxeY9AVH72c7j94=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783376780; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=Q5kKmKuz74OjHqFWqC7ok5g/jUJwk3ZRWBrRIcyf1Vw=; 
+	b=UtBfhsou59FTq8VvaRMed+DsDUK/f2obOViYXaAMbKalV5lb6Yy43hfhtDeIM7YrgNCnq1LSmQtHus64FeoKytULkICFhGTN5UiN15lBavrdW62jjoWJei9qiMGESnXNgeCGx46Zz2EKlYYl56zHm/NsJISZeTK0LWQd9b2kZ8M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=soss.website;
+	spf=pass  smtp.mailfrom=skye@soss.website;
+	dmarc=pass header.from=<skye@soss.website>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783376780;
+	s=zmail; d=soss.website; i=skye@soss.website;
+	h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=Q5kKmKuz74OjHqFWqC7ok5g/jUJwk3ZRWBrRIcyf1Vw=;
+	b=DoZi3s3lEMWQq/oWeWnrmt/8gyrcojg6fni+o5HAZEXgq7bOJW3iVVsConY8c7uC
+	v3+glDJTL6Fb4mLn4T8xVCBTGpd3oJvwLhbClyi7WxFxBmDdkP5B309alqAZ+ekR5vB
+	/T7abMK/qUQ7d2eq/vEcTAZ5NNivoO+1DOjWtqq8=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1783376780215730.9427622197549; Mon, 6 Jul 2026 15:26:20 -0700 (PDT)
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1783376778791372.9653029310457; Mon, 6 Jul 2026 15:26:18 -0700 (PDT)
+Date: Mon, 06 Jul 2026 17:26:18 -0500
+From: Skye Soss <skye@soss.website>
+To: "fuse-devel" <fuse-devel@lists.linux.dev>
+Message-ID: <19f398a15e3.502695601806579.8550477790560725089@soss.website>
+In-Reply-To: 
+Subject: mount_service: possible implementation changes
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706191309.2887515-1-xmei5@asu.edu> <20260706191309.2887515-2-xmei5@asu.edu>
-In-Reply-To: <20260706191309.2887515-2-xmei5@asu.edu>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 6 Jul 2026 14:28:59 -0700
-X-Gm-Features: AVVi8Cctz9S3C3og57xfHMRSwiAL9HNQVcXwAkJBNWzNm0RaRb4KC_PHR3BqWaI
-Message-ID: <CAJnrk1Z8uS=ZR9HPeuuUiHUcydE6OW9WkmnonqSchTnfmwhk+g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] fuse: reject oversized payload_sz in fuse_uring_copy_from_ring()
-To: Xiang Mei <xmei5@asu.edu>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Pavel Begunkov <asml.silence@gmail.com>, 
-	Luis Henriques <luis@igalia.com>, Weiming Shi <bestswngs@gmail.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-On Mon, Jul 6, 2026 at 12:13=E2=80=AFPM Xiang Mei <xmei5@asu.edu> wrote:
->
-> fuse_uring_copy_from_ring() imports the payload buffer with length
-> ring->max_payload_sz but passes the server-controlled payload_sz to
-> fuse_copy_out_args() unchecked.  A larger payload_sz drains the iterator
-> to exhaustion and fuse_copy_fill() hits BUG_ON(!err), panicking the
-> kernel.  Reject replies whose payload_sz exceeds the imported buffer.
->
->   kernel BUG at fs/fuse/dev.c:1053!
->   RIP: 0010:fuse_copy_fill+0x6c6/0x7e0
->   Call Trace:
->    fuse_copy_args
->    fuse_uring_copy_from_ring     fs/fuse/dev_uring.c:686
->    fuse_uring_cmd
->    io_uring_cmd
->    __io_issue_sqe
->    io_submit_sqes
->    __do_sys_io_uring_enter
->    entry_SYSCALL_64_after_hwframe
->
-> Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
-> Reported-by: Weiming Shi <bestswngs@gmail.com>
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Xiang Mei <xmei5@asu.edu>
-> ---
->  fs/fuse/dev_uring.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 0814681eb04b..f6127c230dd9 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -679,6 +679,9 @@ static int fuse_uring_copy_from_ring(struct fuse_ring=
- *ring,
->         if (err)
->                 return err;
->
-> +       if (ring_in_out.payload_sz > ring->max_payload_sz)
-> +               return -EINVAL;
-> +
->         err =3D setup_fuse_copy_state(&cs, ring, req, ent, ITER_SOURCE, &=
-iter);
->         if (err)
->                 return err;
-> --
-> 2.43.0
->
+Right now the new mount_service protocol works by first gaining root capabilities via fuservicemount being setuid, then communicating with a socket-activated systemd service to run the actual filesystem implementation in a sandboxed systemd unit.
 
-Makes sense to me. Thanks for including the stack trace in the commit messa=
-ge.
+I think there could be an improvement to the design by instead moving the privileged parts into a systemd socket activation unit, and having that privileged service spawn the containerized systemd unit as a child transient unit, or via socket activation with a root-only socket file.
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Ie. The fuservicemount binary would be a non-setuid binary, and simply communicate with a socket in /run that is backed by a privileged socket-activated service. Upon activation, the service would use the peer credentials to enforce limits such as `mount_max`, and configure `/dev/fuse`. Finally, it would spawn the sandboxed systemd unit to run the filesystem, using `--scope` to transfer the file descriptors to the new process, or using socket activation with a socket file that only root can read and write to.
 
-Same comment about stable@ as in the other patch - not sure if the
-commit message has to explicitly include the tag.
+The advantage of this approach over the current design is compatibility with containers with the no_new_privileges security feature enabled. That disables privilege-elevation through execve (ie. setuid and setcaps binaries), but the use of systemd socket activation would still work.
 
-Thanks,
-Joanne
+The other advantage is limiting the access of the filesystem sandbox startup to the privileged service, which can prevent issues arising from parsing bugs (not privilege escalation, but potentially DOS issues by escaping the systemd resource-control group).
+
