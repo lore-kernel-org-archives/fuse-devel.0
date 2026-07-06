@@ -1,85 +1,156 @@
-Received: from smtp06-ext.udag.de (smtp06-ext.udag.de [62.146.106.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990053FFF85
-	for <fuse-devel@lists.linux.dev>; Mon,  6 Jul 2026 08:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A533939C2
+	for <fuse-devel@lists.linux.dev>; Mon,  6 Jul 2026 19:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783327624; cv=none; b=FGYIX8Qm47GdcWidGxyGFsCCOIhYCjqdS6i15gYvnP2lT9y/IcD4/sv+DiCMfu+v4ELDgavBoctrL9NOFiNahaxbUPYEBg7DlwUkjsmFyv0fxLYR/yKdg8kv8q0qsWTzJlH4ICpMne26p65wxb3giW0Mdupn7hWd0VUiYQbizFY=
+	t=1783365195; cv=none; b=LpAbEX18KH9/V3Xgw0eVrMRn/LvKaQNlHf4cR16Zy/gbGmxZHI5Y9TUlRKiTnDEwXa3lGr1ZJ7mvbeKCeJt7hVuRPL2jhizqQxLBgq9u2W2MKGe9HXp9rJ530gKy8pgyj7OMn1Qa9CN513bOGbHwxMoD/fHshcNLayH9viS6KrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783327624; c=relaxed/simple;
-	bh=N0ipES8qU50qXeGFg4WHel6oSqeHKOLaMvmBbItJzU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=taDQxut6R+JJyRIApkhi1gPfQeTGmXoMgk3T1BYqKpNuKxar6JhbLHf0rThzKyukQdy4zaox/Q24G/+6SYvzalSN7YH+MAH4PF8LA2ehRGalOkacrmoomPAmnnCsh3MIznpROm67OKj+5ZGW8vpF33AjGmSu1UknGedbkrucd94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (084-133-067-156.ip-addr.inexio.net [156.67.133.84])
-	by smtp06-ext.udag.de (Postfix) with ESMTPA id CA895E0139;
-	Mon,  6 Jul 2026 10:38:54 +0200 (CEST)
-Authentication-Results: smtp06-ext.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Mon, 6 Jul 2026 10:38:53 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Jingbo Xu <jefflexu@linux.alibaba.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fuse: don't bump attr_version for async direct read
- completion
-Message-ID: <aktpOW1LWNkn-jlE@fedora.fritz.box>
-References: <20260706082931.99288-1-jefflexu@linux.alibaba.com>
+	s=arc-20240116; t=1783365195; c=relaxed/simple;
+	bh=37dZLS8+XjPV2moknXidk/o2Y6Ob8gEEnVuNJQmf/JQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R9TDxzSvQXkJoKps92LGbjLXkIR2yWw1dMH+rFxFXRPDTA+2H71tipHOHTgbLm38wRP7t/HawlT5VKfeef2eQcaCv3CGYHep5vTgzOfA28NGmkkacatGAUHXrHwyEjFmpn+0NBDr3nRmia2pv2wJC5IS5/tjQHJe+feujWDzPYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=LW35/w5k; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="LW35/w5k"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-847e6f03df8so4176651b3a.0
+        for <fuse-devel@lists.linux.dev>; Mon, 06 Jul 2026 12:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=asu.edu; s=google; t=1783365193; x=1783969993; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vmex5FC2Ozic0gXU74AlvczPwbP5fXpdO30VDNiM1kg=;
+        b=LW35/w5kAb8bI/e2GIzNvJvREkomnBeoEBJIbRi/iuGCZkqiLPNQwyFUe7RhDODojZ
+         xM9+KGr6LwfBeejtJW6kWKyfX1uDlgb1iu9GNgV8nBp6uOHTn72c6jiK1y8xPfNF9+b5
+         H8joEvit/7P+HhjuKynlPddZzFtJ+OGr/ZjL1a6NCrEhwgHpDkzoGbNwl6A5cBkHwUHV
+         CMkIeLAzG6CZM4CiHROSO3ranaeXpRgexRCG4o+df2F644Di+CYoJsBey3FN9lOtLXsm
+         20nQiVI0FK9HzmfeCVpciZKLGRK9ZMSs0FIyFquApWrtmqg0pSB5RIm54ZItrg0v7r5W
+         ykpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783365193; x=1783969993;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vmex5FC2Ozic0gXU74AlvczPwbP5fXpdO30VDNiM1kg=;
+        b=ZIi/jTmkfqfelISDt+N2iEwrsqi3RCD9NXXRsWSk7+i2LO3ot0UBpisIf9wv29PKHH
+         GJcKUHJYTE+XV3uoYwF8HAxTHv6VUQ8hOR73N2cSD8u5LU8MB1Y608Cd3n6z958o7oCh
+         AgNqHC+C5GlBva9vSCPvIrQ8r9svPw/NsoT28AuL7oDLw/O9qF1ZVN8NFNMmv8HPBoEC
+         IxgsNHerpVlo6GTWljTNue4qJcc3ldKRhdfiCyJbpv8SdIFPJrfQit6+ntGWblrAPs1L
+         DSfK/ZRqwzs/sDoZ5rGkSvPNwD4ut0Jdq2EJk9t5ed/sqjNSh3fW8VNRF8tY1vAlFTV2
+         E1hA==
+X-Gm-Message-State: AOJu0YxXpbmeBaZR3aysjMpjxVC1ujyfdGhm1aH+ap8hvKoUeTTXP0c1
+	I6d1EOug/sb9j7uIQgF6xk3zhvs6SH4gqc/UkmpV9YraLywRnRtYlaw0+q7nrLP24A==
+X-Gm-Gg: AfdE7clVgpO49DixN8IrCSd7uXhFuLA0bgPqvbTLeaJNJNf7BgUUJ+AsV9Djpg2xiQl
+	UPyHn4Jpeiw59KxAotQ+M09EFn8Ojk7jCZ4XZn++qWZF/hFNwwE/Dk+YIBtRuM5KrkjLA+YZuUl
+	FDsWFegunbc9EHoZAzzLKoPsTBZHlWoNBMa8C+xpRVdxOXLgLLLnQdOma0mtedFEy4KCELfxJUi
+	mxE0+gyOGtwExKDO/H3OFGYDv55we2/zasistNam/ZSY8Ay8Apk7GGYyy+3D2cP1nnErpp/oQeJ
+	OiOx1SGiCnLV/F5/VNYlEBlPwatUxoNtFyLw1eHTcF/rNpVFv4K0lbVPUfbtQeYgp02NtnBD2a0
+	TJWPvfnbORJfuVSEWorKeCVKdmo95iTUWTqHpzxVLV4Lo3AikaS+1bIyKYerQmaVzJWOIsmpxVw
+	==
+X-Received: by 2002:a05:6a00:4652:b0:847:9656:4f6b with SMTP id d2e1a72fcca58-84826c1dfaemr1935180b3a.4.1783365192857;
+        Mon, 06 Jul 2026 12:13:12 -0700 (PDT)
+Received: from p1.. ([2607:fb91:1505:a069:3376:a42b:82ac:8903])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6b9b389sm4343231b3a.13.2026.07.06.12.13.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 12:13:12 -0700 (PDT)
+From: Xiang Mei <xmei5@asu.edu>
+To: Bernd Schubert <bernd@bsbernd.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Luis Henriques <luis@igalia.com>,
+	Weiming Shi <bestswngs@gmail.com>,
+	Xiang Mei <xmei5@asu.edu>
+Subject: [PATCH 1/2] fuse: copy request headers via a stack buffer for io-uring
+Date: Mon,  6 Jul 2026 12:13:08 -0700
+Message-ID: <20260706191309.2887515-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260706082931.99288-1-jefflexu@linux.alibaba.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 06, 2026 at 04:29:31PM +0800, Jingbo Xu wrote:
-> The attr_version counter should only be incremented when cached
-> attributes are actually modified (as documented in commit 1fb69e781729
-> ("fuse: fix race between getattr and write")).  Async direct reads do not
-> modify any cached inode attributes (size, mtime, ctime), so bumping
-> attr_version in fuse_aio_complete() for reads is incorrect.
-> 
-> This unconditional bump causes a livelock when auto_inval_data is
-> enabled together with writeback_cache: fuse_cache_read_iter() issues a
-> FUSE_GETATTR before every read, but by the time the response arrives,
-> an async DIO read completion has already incremented fi->attr_version
-> past the snapshot taken before the request.  The GETATTR result is then
-> discarded (attr_version race), fi->i_time is never refreshed, and every
-> subsequent read triggers yet another GETATTR -- creating an infinite
-> loop of useless round-trips.
-> 
-> Fix this by only bumping attr_version for write completions, consistent
-> with the synchronous DIO write path (fuse_write_update_attr) and the
-> cached write path.
-> 
-> Signed-off-by: Jingbo Xu <jefflexu@linux.alibaba.com>
-> ---
->  fs/fuse/file.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index ceada75310b8..c41287e8bc15 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -688,7 +688,7 @@ static void fuse_aio_complete(struct fuse_io_priv *io, int err, ssize_t pos)
->  		struct address_space *mapping = io->iocb->ki_filp->f_mapping;
->  		ssize_t res = fuse_get_res_by_io(io);
->  
-> -		if (res >= 0) {
-> +		if (res >= 0 && io->write) {
->  			struct fuse_conn *fc = get_fuse_conn(inode);
->  			struct fuse_inode *fi = get_fuse_inode(inode);
->  
-> -- 
-> 2.19.1.6.gb485710b
-> 
-> 
-LGTM
+The fuse-io-uring transport copies req->in.h out to the ring in
+fuse_uring_copy_to_ring() and req->out.h back in fuse_uring_commit().
+Both headers live inside the fuse_request slab object, whose cache
+(fuse_req_cachep) is created without a usercopy whitelist, so copying
+them directly to/from userspace trips CONFIG_HARDENED_USERCOPY and
+panics:
 
-Reviewed-by: Horst Birthelmer <hbirthelmer@ddn.com>
+  usercopy: Kernel memory exposure attempt detected from SLUB object
+  'fuse_request' (offset 56, size 40)!
+  kernel BUG at mm/usercopy.c:102!
+  RIP: 0010:usercopy_abort+0x6c/0x80
+  Call Trace:
+   __check_heap_object
+   __check_object_size
+   copy_header_to_ring          fs/fuse/dev_uring.c:618
+   fuse_uring_prepare_send
+   fuse_uring_send_in_task
+   ...
+   __do_sys_io_uring_enter
+   entry_SYSCALL_64_after_hwframe
+
+Bounce both headers through an on-stack copy so the usercopy touches
+stack memory, not the slab object.
+
+Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+Reported-by: Weiming Shi <bestswngs@gmail.com>
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Xiang Mei <xmei5@asu.edu>
+---
+ fs/fuse/dev_uring.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 77c8cec43d9c..0814681eb04b 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -744,6 +744,7 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
+ {
+ 	struct fuse_ring_queue *queue = ent->queue;
+ 	struct fuse_ring *ring = queue->ring;
++	struct fuse_in_header in_header;
+ 	int err;
+ 
+ 	err = -EIO;
+@@ -765,8 +766,9 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
+ 	}
+ 
+ 	/* copy fuse_in_header */
+-	return copy_header_to_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->in.h,
+-				   sizeof(req->in.h));
++	in_header = req->in.h;
++	return copy_header_to_ring(ent, FUSE_URING_HEADER_IN_OUT, &in_header,
++				   sizeof(in_header));
+ }
+ 
+ static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
+@@ -871,11 +873,13 @@ static void fuse_uring_commit(struct fuse_ring_ent *ent, struct fuse_req *req,
+ 			      unsigned int issue_flags)
+ {
+ 	struct fuse_ring *ring = ent->queue->ring;
++	struct fuse_out_header out_header;
+ 	ssize_t err = -EFAULT;
+ 
+-	if (copy_header_from_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->out.h,
+-				  sizeof(req->out.h)))
++	if (copy_header_from_ring(ent, FUSE_URING_HEADER_IN_OUT, &out_header,
++				  sizeof(out_header)))
+ 		goto out;
++	req->out.h = out_header;
+ 
+ 	err = fuse_uring_out_header_has_err(&req->out.h, req);
+ 	if (err) {
+-- 
+2.43.0
+
