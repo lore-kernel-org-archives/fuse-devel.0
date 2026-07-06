@@ -1,125 +1,166 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E1B386C08
-	for <fuse-devel@lists.linux.dev>; Mon,  6 Jul 2026 02:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783306644; cv=none; b=auQ471q9CD5KNw7WLEginhXRQRnlOaL/hxCClvB+yu3PDtNrUlZWAD7LbQUCGa58fqe4wwZFabfBeYlGDo3AvmRlNOMN0xy5dddVwXV9Furt6RiCotZ1+CwQa1c/K1VkKeNbt7NSKpJeabNfasvVq1IeYkEubd171brv11rYNiw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783306644; c=relaxed/simple;
-	bh=74umDaW/oR/0VfwpmttI7HW8f17UQCWChBCHJdRj/ro=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hn3MsJnIflIzfa44tzg43iY6HDDTJwe7JLKgWWFsJKGPQ+UOqNxFesG6c8hOGGmm6OgSnMfXA3FTd3ydrn7hprf+J3r/5ZsWswuuhpk4X/qiFCdC3AaC48Pe6AuV4NOu9+MmvSMB3tAxMX+bmWzrlORTULl2DCEWpYbbpYiUzjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQC8SC2l; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278A93C4161;
+	Mon,  6 Jul 2026 06:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.141.245
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783319407; cv=fail; b=rTvfv5N/qmGnGGCmE31tfzZiXi6cmFyaKTmVz9j8DHt8oA/wso/MfPyclTYTS7IoWnoNTb6z4xb8uT8f+HSLJq2qq23GCeMXMI1LhNUHCTHPCqSZyAY0mHrNZ16F6G1xkWqJyveJptSEU1N0bQhGStV59/gXvL3baSaj3LVHhuY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783319407; c=relaxed/simple;
+	bh=vz0oHVhrPccbsqdRtm8A+143zZ+gEZVxLGetXk9U6eg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=BCaP0UA4GSqsuEMzAXETK2uWzPt+nwbCZoPLsLDKrbgVUBwFXJ2UdLGJrGrJEtpaznf84IaPwGubFwBWxfywrJPDUVbO6CLVNWX75+M+L2sSLVZFzLnzX8YqUlTcA0mEOXTyvj7EpVK8Kk2JBR8algbvw4FBWiNdje4zfK4RyZ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com; spf=pass smtp.mailfrom=wdc.com; dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b=owdh9T2I; dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b=ObBuLps3; arc=fail smtp.client-ip=68.232.141.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wdc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wdc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQC8SC2l"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-847917c3678so1877882b3a.1
-        for <fuse-devel@lists.linux.dev>; Sun, 05 Jul 2026 19:57:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="owdh9T2I";
+	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="ObBuLps3"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1783319401; x=1814855401;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=vz0oHVhrPccbsqdRtm8A+143zZ+gEZVxLGetXk9U6eg=;
+  b=owdh9T2Igwz6sW6pbwIat93j8FOGYnSn3NAyv82/oo2evVBgtmA6ihk9
+   EZd5u5zme/cCspZWz/WMupUJdnJgMgbvK+zx2Y1GyQUni/zF4Vz9qbDud
+   7U57SIxv0M0lD6a9tJuz8M6vZypeHHTvh/CuGslI9dGAg5Fd/wmfUUVi2
+   EW8Ztn8ehiJoDwu9Uq2O7GJk8li669iTBKAXYZ5kP9jLdwf5LAvV1ha3a
+   aT+PieLGeNWMigYQYEBlkKBgVnqwLJDffiCD04Y+HR+y47/aXRmp+88X/
+   vSCc2DOMfodby+b0JMIHZ9wWlUdrNIJ8I/oxyGsEMR+t9ZE0+DvKS/0i/
+   g==;
+X-CSE-ConnectionGUID: bYWWxOloQtyjpXJPVgB9sw==
+X-CSE-MsgGUID: QUL15jWKQVu7rvy+t8fKIA==
+X-IronPort-AV: E=Sophos;i="6.25,149,1779120000"; 
+   d="scan'208";a="150138768"
+Received: from mail-eastusazon11012013.outbound.protection.outlook.com (HELO BL0PR03CU003.outbound.protection.outlook.com) ([52.101.53.13])
+  by ob1.hgst.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 06 Jul 2026 14:29:49 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xQQ+xqePzw0y0GzGKKBGkL2w73j+FRtcttUp1Y9rwOE56AMtpqaomYydw5zcN7s98sebQ2Cd+/Yr5AlVJNCVriMVIbu7IqjdxjPqgXGbSRQU0zPYL8PXjZFJaP7mamHot/SQO0ZrPo1itJEfaGzBu2enOG3GX2X8i4CqjDXBrMA4VMK5rqSoQIAhPdhNiAt/Ls4/amcqSgpSAff+GPNxwRCznKHgEpzHPTgwkV/2Kff+wi7uartZnm8gzSK7Esz9mfwYbvIISkzrNP0b9TwDzlDiU1mma2sXd1Hh3Fx/xxyi/Ln0vXnR6era9PDZX/odj8YPzWXiwUDMWYCo+NUY/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9bHW7ZuSWCE1rUh5CXe1113OZldCAC5J4eHnZzb9Hes=;
+ b=htVWkPwQb6vH7F/cY4B+tvDfTlaipYjNVI1OE9URJ0IcNOev9DnWQYDxGMU6OCG5OrJcw9t46e2Dy81eur6YZOVaE4PDGMiibDKtN7ICSzm6AaZ3OTVqZ+Gg+a/TVoNNrN4E4j+Qs79aVy4c792RR6S3eFxtmx67sZWoZGoody+CNsm6gkLPB1dFDWWQ/eSGLlow3I/pskkCAh6tV12vRa2lEdmpiB1wFc9fSWHNZbFOF+/5FOa7wkX/XKdjmPKmMOARAu0QsX5IvYMpG/uGyaFDm0Rz9n27MpfsYuxTSxydnkxUVk0Nv8Ck72LQisnffezgwr60VyF/u71kRD1F7Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783306643; x=1783911443; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eIS3WxpZwI00WNR4jAglvrbvaRYxaDp80Lk0sy8LA+g=;
-        b=SQC8SC2lYmmrdjK+TyiDAH7hAek6zieMt+dEF0iZneyNPiKc47s2TOzIRFOXl6rF+y
-         06A6PkFFoVm0hJgjh6iV6Z9BeEPxfQJAUG7/nc8e1gl+5F+l1cLbl8xBvfUMf3/2ZVVc
-         Xu+gAAkS61+AOx3wkgd7b8/1Jf1C1AUuUl8MCVcWNJuPSASDBtwTYonfol5MXaTTSri+
-         pfHfUZyCLCfmIVdnX/zCnG6hk5xCYw4SJSql2WykiK2ymj6i5XUz4pa+VPmI+0+PEbey
-         lHUuxSlYXJN8Kh0uDO0JgI+6+5NDNQr/tSgwWa7/sLfwVEmgJl86EFUe2lo6j5spTlzE
-         bAQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783306643; x=1783911443;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eIS3WxpZwI00WNR4jAglvrbvaRYxaDp80Lk0sy8LA+g=;
-        b=c1dy5WVLHd//dRIivzznxde8xQrCoUZ8VaOsuJfswYN2TANHEBJT4x0h1mPShGc3fm
-         GUsQWTog30IsB40F1pt1lMiba8ByQ2CGDCG5dVmpyJWT6f/gwE1Wt9cldyhEQWDw12jn
-         Df6guzz9MaJAuob8UpwcJYPWVl1Pjdj9kJ6pXJpETgVxar9rjr+DCZH+wSj8xjOQJWSg
-         sWajipmMte3knOIy/4e5j5+NexYz66POiE8hcjP4QEkHk8IjuKZJiCfuYqSbUroINF0E
-         KAgl0nLKoPwJA7/QbAghtllLbdPK/rTcAUMirNm+CyZGnJSK86dxCV7ltUk1kgAAtKra
-         QVKg==
-X-Gm-Message-State: AOJu0YzF4iavZCvxO6X7qdXnGB/XIfW9OrT22HdN9I/Y+z6G4Xswo/68
-	6n3ShRl0tA0F5fmzmOvNprvyd3CD9Bhnjb6IHjDtLbsTL8NmgFBUtwqB
-X-Gm-Gg: AfdE7ckOt6GxfqjP0k2Vwu/iqFqmMrt2+Zbn45w42pbfNglfHIuoBWpn4KMng7DtaMe
-	QnyKrgeQ/oTyCh8NIgvy63FSQ6hX0jQ3EqYKmQEqgipMHrZrGp28kyfZyCtzUz3YlS51mxxOEa0
-	UWY511Fa97S2emAWRp5JEFY8Xa5D5u6GgGvTE86Tx8FK25wx24OzxUGx85bvvy5z4qMnQXri3Fx
-	2D7W0eN410MLYYAu6RJCOPM3tvStWmDvOW9cD9qu6mUg96hi5/9PwGcImlVLQ9w320ZxRL7HEcp
-	X/kCXTQxkh+HCt41c+73Jpcf5SZOg0sfiStZpOGJpYIFmtfhZbbVKKkBwJ/NVc/uuqWQz3YNLhs
-	4BHJjqz0tRN05Ka+2dYy+xzGO3JdvPzMnVVqnpRAqnkbYPrLkSVrR0bv3oiezM8ONwz3oqDt62K
-	+qp+wyXo3bliIaonOO15uVkFG+bTdXC7RaYTPUiZfXxEsZP9dju7NHZV1uZg==
-X-Received: by 2002:a05:6a21:6b0d:b0:3b4:6af4:bdce with SMTP id adf61e73a8af0-3c03f9cb1bamr6596642637.20.1783306642585;
-        Sun, 05 Jul 2026 19:57:22 -0700 (PDT)
-Received: from localhost.localdomain ([101.90.17.205])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9e91b0a2c4sm4988244a12.19.2026.07.05.19.57.20
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 05 Jul 2026 19:57:21 -0700 (PDT)
-From: Yafang Shao <laoar.shao@gmail.com>
-To: miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev,
-	Yafang Shao <laoar.shao@gmail.com>,
-	David Howells <dhowells@redhat.com>
-Subject: [RFC PATCH] fuse: fall back to copy_splice_read() when i_size is zero
-Date: Mon,  6 Jul 2026 10:57:05 +0800
-Message-ID: <20260706025705.58301-1-laoar.shao@gmail.com>
-X-Mailer: git-send-email 2.50.1
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9bHW7ZuSWCE1rUh5CXe1113OZldCAC5J4eHnZzb9Hes=;
+ b=ObBuLps373psav1oRH4L6R8eLCNdjvdCen/3Wv+Q0l8JI20rycguID1QZ9RUAjmt+CQSWbjo+aiZ5I2jmKIGW3X2kOeScHPZHNN0XXt8J7uFdXZI/PsxAVY5vSifY9K5PXkNUi5P3XTpWLxlC9tuYzBjEeZ5jCfup59OgNvmG5U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wdc.com;
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14) by CH2PR04MB6808.namprd04.prod.outlook.com
+ (2603:10b6:610:98::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.11; Mon, 6 Jul
+ 2026 06:29:46 +0000
+Received: from SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85]) by SA1PR04MB10065.namprd04.prod.outlook.com
+ ([fe80::9b98:bf8a:b0b1:ef85%6]) with mapi id 15.21.0181.009; Mon, 6 Jul 2026
+ 06:29:46 +0000
+Date: Mon, 6 Jul 2026 15:29:39 +0900
+From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: Christian Brauner <brauner@kernel.org>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
+	Namjae Jeon <linkinjeon@kernel.org>, Sungjong Seo <sj1557.seo@samsung.com>, 
+	Yuezhang Mo <yuezhang.mo@sony.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Hyunchul Lee <hyc.lee@gmail.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Carlos Maiolino <cem@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, Naohiro Aota <naohiro.aota@wdc.com>, 
+	Johannes Thumshirn <jth@kernel.org>, linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-block@vger.kernel.org, fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	ntfs3@lists.linux.dev
+Subject: Re: [PATCH] iomap: Remove FGP_NOFS from iomap_get_folio()
+Message-ID: <aktK-gWJcef1W0So@shinmob>
+References: <20260624174228.2015893-1-willy@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260624174228.2015893-1-willy@infradead.org>
+X-ClientProxiedBy: TY4P286CA0022.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:2b0::18) To SA1PR04MB10065.namprd04.prod.outlook.com
+ (2603:10b6:806:4dd::14)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR04MB10065:EE_|CH2PR04MB6808:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7563a91e-fafa-4e70-8a31-08dedb27f941
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|19092799006|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	mBw4PWWpx8eVaeUs2NPWTyfpc/nQ+GrVfPzjqmCAnHNJkC44tekrNwDRF/VWN6vJn4ea3lWVA6oOW2+L4oX7GFKH/iAQMPSNVoxj3g4lzrskjBUrlgvEh7pBFRazylSuAgk/H4esk7QSmP7d5Giqpg4GSt5sYM33in2vju17Y98jJk9qWKB7aKNqzxvvm71y7RejaUyfBNPjH5QGVMUsVEtsCjCSj/kZJAH3Vz3gInicf0VzqJhuJN3nc+h/Dti2ORv9GiHgxwclOeR+8xC1rPdii6r9sf/d3qD5VbP0rsUyT32G7dWsKZ2K46hSvNFxVeHywKOKzaEzKxeKoLOxs0+XP8Lhwdm9XUSBOMEiYk8EJlt4jDzFeei6Qb6nJ/hj2I4N1Om4glpCqSSiiwk0/KPy6jwtNscdheE8c99sb3PJSMZuuNWq2Nl7Z7hBmPqkfbZnMRi1cNnOXRUhyNMxKRKCm3skte61zXsCjnfg/Mfz7KwxiAWf7vlmr2+4qq6P5rRNTKnQ9VMPnNYyX3nf0NyqRti4ujlQuKSRjrTehbAcPb9SMONShwjf82mj8JPbqLucnDhR8YY0/wsylyZZ6wuiWmUcWerkjlZRvmoWWmZdQDuknlmVSCWdV2iF+sdEDss3Bwfv5lSKnMD0Ylc6DKQbmK5koj1EZWdeT60JHss=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR04MB10065.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(19092799006)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?oFlyTCv6k1z3IL5DuWBqDbdtPMK9HXuD0Q3FYaRV/mzgZYHzUw83u5hoXxa+?=
+ =?us-ascii?Q?KXPB0e+noMA+pZjPS+wpZa9U9TUwOf/fa2WNDsGGq3H34KYaBvLRsEM6fzuM?=
+ =?us-ascii?Q?MBUj7TeI2o99WD1B6ggolrZ4qFSupRGxpMI651x7K63/xk2o6FMWjR+15nGe?=
+ =?us-ascii?Q?Cj/RHZl65UkyzN94r9tGtBDtEVpeCck1tm3PQDXvjN7ePjbeK+PhXpXbZfNq?=
+ =?us-ascii?Q?/ZhtqtPdV1NlEMImcGK5EjzVBdFFMzAM8WmItUKbRw46SHmM3V0h58lL+bhK?=
+ =?us-ascii?Q?RZJziuSq9E0I11HDOXQdX+ht7YwDyjhb/kMeweFEqHsKD475IVejOQJaa9XR?=
+ =?us-ascii?Q?rUWxOEPNX3TQPvpZSj7GxBZWZkyNFHS5wCglTYnnnStDSqF5dBo8po6aq/uT?=
+ =?us-ascii?Q?A4DdxbKXy/7bu9T+EHGV+9rFfbZEQ2BWJb341Ka0z6zFPlG8uzxcx2tIG8Gn?=
+ =?us-ascii?Q?1Ag1rN/6zqQKJ9i0nTgFk0LiA2YUeLbvW4OsQVDgVthkhbDh9deIXXdW7Fjt?=
+ =?us-ascii?Q?AU+U7M3MjOiPb8oLoT4yrmIzfNnGqYnouiZ08WEM57YCYhhVd1spqxAgrxFH?=
+ =?us-ascii?Q?8nNvdTuH3R8+j9b1t4el2bKyq0jwC18iRui9dxnzeaoxPL1S1MJjk8sb1EZ+?=
+ =?us-ascii?Q?r85bWd9OttMgmRLvBazmgc8KfnBLrDQHvxpyA1T8XYpskDiEZ27q9SIWaA3v?=
+ =?us-ascii?Q?mrCHamxbOg9z5RluJDWcwGSec1TL3L6Sx6YWsxo8SIVi3Pe0p3qgu/7o2K/q?=
+ =?us-ascii?Q?069BjmcJPfKvR7AddNvUHt220FQia+B8HiBk6ux7ZgZ5VIBfOdypHGMSQ+9P?=
+ =?us-ascii?Q?ihiLA1TaTW7JA3K5cEKAEg3RiwiyiTHzpA7VobqeBV+5GjhpJJ7MP1IMtYKu?=
+ =?us-ascii?Q?vSwTQHMKByk3f9jxVk5RXNzIH40OUBphnxqyoBoJOwLu8ME2p8psktYAv5Ck?=
+ =?us-ascii?Q?sYFc3tT0lG8RSFFTcuv/Akdjp0Xvz2E7YClsNDc+autf4MSESnTt990Eyok4?=
+ =?us-ascii?Q?CWAYYzl3WO4ce4Cp/YBM4QqdG9U6T1MdjAiVr8ZdglK2X07ZlgX2DhpWyQvk?=
+ =?us-ascii?Q?y8u01zoAUI8KD6Nr4KNg3CUWD588kXJY3MhpKUhzSpv+jKpK/KBoGIUOI2md?=
+ =?us-ascii?Q?Am39Qi6aNUZFdfHLBpeE5oSbNzsoSlPKXd0dtbOsBUATFUuqVyVFUUEJPRoD?=
+ =?us-ascii?Q?pvwmbs3MF4BQlAVDjEF5m0GZB/36AHMCNS8vpWORQdKk3u5sUpodXqBWr9cN?=
+ =?us-ascii?Q?U8dUwo+2Ns7MsbedXjCgzRkUgKj619xMmiLW+pWL/xFtnEwjIKXk8I0uEIR/?=
+ =?us-ascii?Q?HlMcwf1spWyq69ZifQMQEbkrI/dURgmiasX/DcKm1rC4Cqi3sieLaHq5h+tZ?=
+ =?us-ascii?Q?4N5CxYN+CIv9cipPFYOsg0y8kssr2VwaedULu5JYrOK9JsQQszHbykpksIFr?=
+ =?us-ascii?Q?mhiOYPh2tRgfCJMe5f22k57S+AAki8Ay9igecFatkFKE1EIcGStW4im4AksR?=
+ =?us-ascii?Q?ZVrcsXYajuk/a4XefK7bnxCcFuFspYvzuWPGhlGEzukcG2wewZro4aOFl4UT?=
+ =?us-ascii?Q?iLprOKPgoodC7fF7iGYH38XJNXkilv3NZyd7c9cXZBfuuaZHQXtbvqC6ZUwL?=
+ =?us-ascii?Q?5qXQHcsSeeZc2dXrzrkQU+fy5iNxyjKmg7zPPD0aG8V6oTqpJs08Z9wKiMIz?=
+ =?us-ascii?Q?CwrCDMybbkXOZP20k1AkRBqFx9+LE7B1aJ39Mr/wO8btKdy+sw3erL4JkYB5?=
+ =?us-ascii?Q?eE09TYPgPSsU33wxBFlsr66iJPj40OQ=3D?=
+X-Exchange-RoutingPolicyChecked:
+	XZkudOC0Rjuy1oiowRSROWVbXLal9S2sGPPZEaNaDD61/3POFeki1rLJPgPEY3PudmqXnKmcS1k/tWlieIZxFzcIuUOrrcDrbJot+xMD5R/D4Q7L4oHvYkLBHclExKy3PYVuO4Tb9vG7QgM5aa8DmXojiRJ+90s8Uo/kI9E3ybtkgIlO09QzklkH5tujpvg/XYSgddsQdyj2en+n1qSsMzPN6MvMMXJgOW2W9A+H1JBhY4BPhf2Ft7wPDp2/7FSvusnD4DJ7nWNLQR+ehF77YCrzRagpHs2jzeGRxndV9U6b7bi3GJvH4IL9bIlTuzk1WVXWnMTrlCmCAWj17Iuv4Q==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	v6nJRSEeLCEa1V7UpIGhi+k1pt9PcEl1ujsNPmS3qdI9dmKmM07w8k1mXXPeTDu4vYHbnSnAWC0Zb9Gc2EJRf/p+RGD5RyJuq5/iQCObFDnMdgiXFLDnEzFcP4UPYAs7wsVbyulMQCpzkldPJIpo6vZLiSIHoaKcN4tc0J5zMd/QCFqqzf21oL4uQ8Bopq+SBb4UDVXAi19+2k/9vO3T/Kr0n7+4sfzcFs78pfU86NFiCn9lWKfLTh0ZrFiURSI25h2N7mHkYxj0FUfQZr3CNYxd331AeHpChJc/WnlszknHmBRznL1ViEKMV3w7Ef3WZHsxkX7MnYsZDropy8lz92U4NR/RoKjUnw96OmQW9aarcZ43IGiawU5DSNNOdVMN5SrD9ZLIPnHFCr4uMYWJ8goYOaQzhzAQSZI1SkCs21l/NRuoLjZCqxV/RM0CaPwp15TBuC+HuxeitQHrQ22FMIM9jRT7+Ov9aD65c4D3URrfBTP22tgGoarm5h1ZRdSWuKzw4Latu1EJKxZ/+22wkceS1SA1Ao+KYwgtD8LGqmSgHCMn8R7an/ZZYz75VjZfFelVyzaP1yEcFU1W3Wb74HXnW4iCyPna93qgsX0rCkKunP64f9gylyUFyWxVrmA+
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7563a91e-fafa-4e70-8a31-08dedb27f941
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR04MB10065.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2026 06:29:46.6114
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NXt1fIS/up+PELokBaFAz/W+wTzjrauHW7z+Uup0zV5VYTTw357pZxXFLFzqQwF8NQy9uDajrVattcm7fZz6WTBstnCe5YFHhLf0U6Lxzqw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR04MB6808
 
-After upgrading the kernel from 6.1.y to 6.18.y on production servers,
-some containers failed to read lxcfs data. The root cause is that our
-lxcfs is still at the old v3.0.4, which does not include commit
-25982f5 ("Set the file size to 4k") [0].
+On Jun 24, 2026 / 18:42, Matthew Wilcox (Oracle) wrote:
+> FGP_NOFS is legacy; filesystems should be using memalloc_nofs_save/restore
+> instead.  We have it here in iomap because it was buried in
+> grab_cache_page_write_begin() and we didn't want to change this behaviour
+> as part of the folio transition.
+> 
+> I have tested this with XFS and see no issues.  Other filesystems (cc'd)
+> may need to make adjustments.  Please test with lockdep enabled.
 
-Between 6.1.y and 6.18.y, the FUSE splice_read path was converted
-from generic_file_splice_read() to filemap_splice_read() by commit
-2cb1e08985e3 ("splice: Use filemap_splice_read() instead of
-generic_file_splice_read()"). Unlike generic_file_splice_read(),
-filemap_splice_read() strictly checks i_size and refuses to read
-from zero-size files, which breaks virtual FUSE filesystems like
-the old lxcfs.
+I applied this patch on top of v7.2-rc1 kernel, and ran my zonefs test set.
+I observed no failure. Good from zonefs point of view:
 
-While the proper long-term fix is to upgrade lxcfs, the kernel
-should be resilient to this common FUSE daemon behavior. Therefore,
-when i_size is zero, fall back to copy_splice_read() instead of
-filemap_splice_read(). copy_splice_read() calls the file's read_iter
-operation, which sends a FUSE_READ request to the daemon and lets it
-generate the content dynamically. This is safe because for genuinely
-empty files the daemon simply returns 0 bytes.
-
-Link: https://github.com/lxc/lxcfs/commit/25982f5d7e008e6ad13df28af3006ab8286f4c97 [0]
-Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
-Cc: David Howells <dhowells@redhat.com>
----
- fs/fuse/file.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index e052a0d44dee..78a499b24ac8 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -1893,8 +1893,14 @@ static ssize_t fuse_splice_read(struct file *in, loff_t *ppos,
- 	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
- 	if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_IO))
- 		return fuse_passthrough_splice_read(in, ppos, pipe, len, flags);
--	else
-+	else if (i_size_read(in->f_mapping->host))
-+		/* filemap_splice_read() requires non-zero i_size; for virtual
-+		 * FUSE daemons that report st_size = 0, fall back to
-+		 * copy_splice_read() which reaches the daemon via read_iter.
-+		 */
- 		return filemap_splice_read(in, ppos, pipe, len, flags);
-+	else
-+		return copy_splice_read(in, ppos, pipe, len, flags);
- }
- 
- static ssize_t fuse_splice_write(struct pipe_inode_info *pipe, struct file *out,
--- 
-2.52.0
-
+Tested-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
