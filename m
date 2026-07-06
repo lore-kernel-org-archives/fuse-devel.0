@@ -1,124 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC913161A4;
-	Fri,  3 Jul 2026 10:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E1B386C08
+	for <fuse-devel@lists.linux.dev>; Mon,  6 Jul 2026 02:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783075048; cv=none; b=NBkBuqmD3Z5C6dTQsW77a+YcJFPPOziPoA3ob4nzYFi0JXEIw8x2g9QYDQmozRLcLVEA0UJGuHjbeCObklCztB8zGF1djZxm3mAj3mTlR9BmgBVbwzmjfhW2VoAYsaSveP50I99WnYb+0O/azEyB85v2gFiRxUEHMbc4w5uyiCk=
+	t=1783306644; cv=none; b=auQ471q9CD5KNw7WLEginhXRQRnlOaL/hxCClvB+yu3PDtNrUlZWAD7LbQUCGa58fqe4wwZFabfBeYlGDo3AvmRlNOMN0xy5dddVwXV9Furt6RiCotZ1+CwQa1c/K1VkKeNbt7NSKpJeabNfasvVq1IeYkEubd171brv11rYNiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783075048; c=relaxed/simple;
-	bh=d4s4dMLniDIuK4LTsTNvbrHzQ5sC7wrFJBhb2lMg/u0=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=hzO8GDLQc6WIhHSjeerGPh7k8fUjKV3P+oVBPa2o1gs+zNEJx+gYtkqBlQQ5HUpwLj+7mv44jiOXvB/4BAY5MGZeeyRc4VvUXBxU5NC1yv16WkrII7ia2zP+UU3CK1ipCkODCRnJj6SEesA7ax/OBI8S6aVfKX1GgUs4K/JiFvM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W8LzFtRD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783306644; c=relaxed/simple;
+	bh=74umDaW/oR/0VfwpmttI7HW8f17UQCWChBCHJdRj/ro=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Hn3MsJnIflIzfa44tzg43iY6HDDTJwe7JLKgWWFsJKGPQ+UOqNxFesG6c8hOGGmm6OgSnMfXA3FTd3ydrn7hprf+J3r/5ZsWswuuhpk4X/qiFCdC3AaC48Pe6AuV4NOu9+MmvSMB3tAxMX+bmWzrlORTULl2DCEWpYbbpYiUzjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQC8SC2l; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W8LzFtRD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6CFA1F000E9;
-	Fri,  3 Jul 2026 10:37:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783075047;
-	bh=ibq5yGoOYYUKiAiXchC0WA0gL3l+/26cw0R84LkFjaY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=W8LzFtRDEJ+LA4ga+f6QzIP5wIjhPrvbgSkeN5H9fdUp8ldRpYac+VP2pbFWqLIaZ
-	 VOZRYcIErzh7ZZVI1opgKNPyPdXZNYzLlXZRZvIfpIEGsP8CRSvmh6dp1f1DUAQ8eT
-	 REmssNKn6FgP95Nylwk1jyDskOejoq/ZtxJV6+SZMcueW6AmnmkTRlSc0afIY2ZaY4
-	 0j6EQgUmekHKxLsbkP1RtsOiATrm0qsMc/rLKl6p2+xyg60HQXm8THGcRmHmGEbsA5
-	 +KIVTrOUxI8EdD77tZ08aAlBNDaVgctnhdPNMu6u++MTrLUeeidjuDh4Pwu7QdGwKu
-	 L34A4eoQ9xeiA==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQC8SC2l"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-847917c3678so1877882b3a.1
+        for <fuse-devel@lists.linux.dev>; Sun, 05 Jul 2026 19:57:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783306643; x=1783911443; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eIS3WxpZwI00WNR4jAglvrbvaRYxaDp80Lk0sy8LA+g=;
+        b=SQC8SC2lYmmrdjK+TyiDAH7hAek6zieMt+dEF0iZneyNPiKc47s2TOzIRFOXl6rF+y
+         06A6PkFFoVm0hJgjh6iV6Z9BeEPxfQJAUG7/nc8e1gl+5F+l1cLbl8xBvfUMf3/2ZVVc
+         Xu+gAAkS61+AOx3wkgd7b8/1Jf1C1AUuUl8MCVcWNJuPSASDBtwTYonfol5MXaTTSri+
+         pfHfUZyCLCfmIVdnX/zCnG6hk5xCYw4SJSql2WykiK2ymj6i5XUz4pa+VPmI+0+PEbey
+         lHUuxSlYXJN8Kh0uDO0JgI+6+5NDNQr/tSgwWa7/sLfwVEmgJl86EFUe2lo6j5spTlzE
+         bAQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783306643; x=1783911443;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eIS3WxpZwI00WNR4jAglvrbvaRYxaDp80Lk0sy8LA+g=;
+        b=c1dy5WVLHd//dRIivzznxde8xQrCoUZ8VaOsuJfswYN2TANHEBJT4x0h1mPShGc3fm
+         GUsQWTog30IsB40F1pt1lMiba8ByQ2CGDCG5dVmpyJWT6f/gwE1Wt9cldyhEQWDw12jn
+         Df6guzz9MaJAuob8UpwcJYPWVl1Pjdj9kJ6pXJpETgVxar9rjr+DCZH+wSj8xjOQJWSg
+         sWajipmMte3knOIy/4e5j5+NexYz66POiE8hcjP4QEkHk8IjuKZJiCfuYqSbUroINF0E
+         KAgl0nLKoPwJA7/QbAghtllLbdPK/rTcAUMirNm+CyZGnJSK86dxCV7ltUk1kgAAtKra
+         QVKg==
+X-Gm-Message-State: AOJu0YzF4iavZCvxO6X7qdXnGB/XIfW9OrT22HdN9I/Y+z6G4Xswo/68
+	6n3ShRl0tA0F5fmzmOvNprvyd3CD9Bhnjb6IHjDtLbsTL8NmgFBUtwqB
+X-Gm-Gg: AfdE7ckOt6GxfqjP0k2Vwu/iqFqmMrt2+Zbn45w42pbfNglfHIuoBWpn4KMng7DtaMe
+	QnyKrgeQ/oTyCh8NIgvy63FSQ6hX0jQ3EqYKmQEqgipMHrZrGp28kyfZyCtzUz3YlS51mxxOEa0
+	UWY511Fa97S2emAWRp5JEFY8Xa5D5u6GgGvTE86Tx8FK25wx24OzxUGx85bvvy5z4qMnQXri3Fx
+	2D7W0eN410MLYYAu6RJCOPM3tvStWmDvOW9cD9qu6mUg96hi5/9PwGcImlVLQ9w320ZxRL7HEcp
+	X/kCXTQxkh+HCt41c+73Jpcf5SZOg0sfiStZpOGJpYIFmtfhZbbVKKkBwJ/NVc/uuqWQz3YNLhs
+	4BHJjqz0tRN05Ka+2dYy+xzGO3JdvPzMnVVqnpRAqnkbYPrLkSVrR0bv3oiezM8ONwz3oqDt62K
+	+qp+wyXo3bliIaonOO15uVkFG+bTdXC7RaYTPUiZfXxEsZP9dju7NHZV1uZg==
+X-Received: by 2002:a05:6a21:6b0d:b0:3b4:6af4:bdce with SMTP id adf61e73a8af0-3c03f9cb1bamr6596642637.20.1783306642585;
+        Sun, 05 Jul 2026 19:57:22 -0700 (PDT)
+Received: from localhost.localdomain ([101.90.17.205])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9e91b0a2c4sm4988244a12.19.2026.07.05.19.57.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 05 Jul 2026 19:57:21 -0700 (PDT)
+From: Yafang Shao <laoar.shao@gmail.com>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	Yafang Shao <laoar.shao@gmail.com>,
+	David Howells <dhowells@redhat.com>
+Subject: [RFC PATCH] fuse: fall back to copy_splice_read() when i_size is zero
+Date: Mon,  6 Jul 2026 10:57:05 +0800
+Message-ID: <20260706025705.58301-1-laoar.shao@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 17/18] iomap: pass iomap_next_fn directly instead of
- struct iomap_ops
-From: Christian Brauner <brauner@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Christoph Hellwig <hch@lst.de>, 
- brauner@kernel.org, willy@infradead.org, hsiangkao@linux.alibaba.com, 
- linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org, 
- Jens Axboe <axboe@kernel.dk>, Chris Mason <clm@fb.com>, 
- David Sterba <dsterba@suse.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Jan Kara <jack@suse.cz>, Dan Williams <djbw@kernel.org>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
- Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
- Chunhai Guo <guochunhai@vivo.com>, Namjae Jeon <linkinjeon@kernel.org>, 
- Sungjong Seo <sj1557.seo@samsung.com>, Yuezhang Mo <yuezhang.mo@sony.com>, 
- Theodore Ts'o <tytso@mit.edu>, Andreas Dilger <adilger.kernel@dilger.ca>, 
- Baokun Li <libaokun@linux.alibaba.com>, 
- Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
- "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
- Zhang Yi <yi.zhang@huawei.com>, Jaegeuk Kim <jaegeuk@kernel.org>, 
- Miklos Szeredi <miklos@szeredi.hu>, 
- Andreas Gruenbacher <agruenba@redhat.com>, 
- Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
- Hyunchul Lee <hyc.lee@gmail.com>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
- Naohiro Aota <naohiro.aota@wdc.com>, Johannes Thumshirn <jth@kernel.org>, 
- "open list:BLOCK LAYER" <linux-block@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- "open list:BTRFS FILE SYSTEM" <linux-btrfs@vger.kernel.org>, 
- "open list:FILESYSTEM DIRECT ACCESS (DAX)" <nvdimm@lists.linux.dev>, 
- "open list:EROFS FILE SYSTEM" <linux-erofs@lists.ozlabs.org>, 
- "open list:EXT2 FILE SYSTEM" <linux-ext4@vger.kernel.org>, 
- "open list:F2FS FILE SYSTEM" <linux-f2fs-devel@lists.sourceforge.net>, 
- "open list:FUSE FILESYSTEM [CORE]" <fuse-devel@lists.linux.dev>, 
- "open list:GFS2 FILE SYSTEM" <gfs2@lists.linux.dev>, 
- "open list:NTFS3 FILESYSTEM" <ntfs3@lists.linux.dev>
-In-Reply-To: <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
-References: <20260701000949.1666714-1-joannelkoong@gmail.com>
- <20260701000949.1666714-18-joannelkoong@gmail.com>
- <20260702140705.GE21339@lst.de> <20260702165117.GK9392@frogsfrogsfrogs>
- <CAJnrk1b8j5WHtbHOWNXc4=QBFOxde1f2QxTOeui7Ta8O-xWcTA@mail.gmail.com>
-Date: Fri, 03 Jul 2026 12:37:14 +0200
-Message-Id: <20260703-nachrangig-gegeben-befestigen-8219a53648c7@brauner>
-X-Mailer: b4 0.16-dev-4217c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1636; i=brauner@kernel.org;
- h=from:subject:message-id; bh=d4s4dMLniDIuK4LTsTNvbrHzQ5sC7wrFJBhb2lMg/u0=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS5T7iz7fS6t1kzwm8fcparv3KDyXRbpMKKF15fNPbwT
- dVe5OMk1lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCRtgxGhmMbHf76zT147eA7
- nZiMnzu9Q+v+PNtl5pjYUP6f6/XP/z8YGe7siubVVw14xJBz7G+cn2VOrNK0S08/rfgQ3Ddj8wq
- eCi4A
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-On 2026-07-02 18:47 -0700, Joanne Koong wrote:
-> On Thu, Jul 2, 2026 at 9:51 AM Darrick J. Wong <djwong@kernel.org> wrote:
-> >
-> > On Thu, Jul 02, 2026 at 04:07:05PM +0200, Christoph Hellwig wrote:
-> > > Looks good:
-> > >
-> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > >
-> > > In terms of merge logistics, I wonder if we should delay this and
-> > > the previous patch to the next merge window so that we can minimize the
-> > > cross-subsystem merge pain with more file system iomap conversion.
-> > > If none of them actually happen until rc6 or so, orif  the merges aren't
-> > > painful we could still pick them up late in the merge window.
-> >
-> > I'd say everything but this patch should go in during the merge window
-> > for 7.3, along with clear instructions to brauner/torvalds to expect
-> > this patch to appear right before 7.3-rc1 gets tagged, to clean up all
-> > the other changes that come in.
-> 
-> Just to clarify, did you mean this patch and the previous one? If i'm
-> interpreting Christoph's concern correctly, I think he's worried about
-> other filesystems converting to iomap using the ->iomap_begin() /
-> ->iomap_end() functions still? That sounds like a good plan to me, for
-> v3 I'll submit everything but this patch and the last one and then
+After upgrading the kernel from 6.1.y to 6.18.y on production servers,
+some containers failed to read lxcfs data. The root cause is that our
+lxcfs is still at the old v3.0.4, which does not include commit
+25982f5 ("Set the file size to 4k") [0].
 
-Ok, so we'll do the prep for vfs-7.3.iomap (aka to be merged in the
-v7.3-rc1 cycle)...
+Between 6.1.y and 6.18.y, the FUSE splice_read path was converted
+from generic_file_splice_read() to filemap_splice_read() by commit
+2cb1e08985e3 ("splice: Use filemap_splice_read() instead of
+generic_file_splice_read()"). Unlike generic_file_splice_read(),
+filemap_splice_read() strictly checks i_size and refuses to read
+from zero-size files, which breaks virtual FUSE filesystems like
+the old lxcfs.
 
-> submit these patches (and any cleanup ones that become necessary) to
-> Christian right before 7.3-rc1 gets tagged (which as I understand it,
-> is when the merge window is about to close).
+While the proper long-term fix is to upgrade lxcfs, the kernel
+should be resilient to this common FUSE daemon behavior. Therefore,
+when i_size is zero, fall back to copy_splice_read() instead of
+filemap_splice_read(). copy_splice_read() calls the file's read_iter
+operation, which sends a FUSE_READ request to the daemon and lets it
+generate the content dynamically. This is safe because for genuinely
+empty files the daemon simply returns 0 bytes.
 
-and merge these _after_ v7.3-rc1 has been tagged...
+Link: https://github.com/lxc/lxcfs/commit/25982f5d7e008e6ad13df28af3006ab8286f4c97 [0]
+Signed-off-by: Yafang Shao <laoar.shao@gmail.com>
+Cc: David Howells <dhowells@redhat.com>
+---
+ fs/fuse/file.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index e052a0d44dee..78a499b24ac8 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -1893,8 +1893,14 @@ static ssize_t fuse_splice_read(struct file *in, loff_t *ppos,
+ 	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+ 	if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_IO))
+ 		return fuse_passthrough_splice_read(in, ppos, pipe, len, flags);
+-	else
++	else if (i_size_read(in->f_mapping->host))
++		/* filemap_splice_read() requires non-zero i_size; for virtual
++		 * FUSE daemons that report st_size = 0, fall back to
++		 * copy_splice_read() which reaches the daemon via read_iter.
++		 */
+ 		return filemap_splice_read(in, ppos, pipe, len, flags);
++	else
++		return copy_splice_read(in, ppos, pipe, len, flags);
+ }
+ 
+ static ssize_t fuse_splice_write(struct pipe_inode_info *pipe, struct file *out,
+-- 
+2.52.0
 
