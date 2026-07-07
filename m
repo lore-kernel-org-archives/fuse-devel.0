@@ -1,68 +1,154 @@
-Received: from sender4-of-o52.zoho.com (sender4-of-o52.zoho.com [136.143.188.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4811241F7DE
-	for <fuse-devel@lists.linux.dev>; Mon,  6 Jul 2026 22:26:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3B6173
+	for <fuse-devel@lists.linux.dev>; Tue,  7 Jul 2026 01:06:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783376784; cv=pass; b=Y1ZAFM99knCKqjdVxYopwdail9OV41zZqWzzKtFYYY8AJjq/itDyX027/65w+rlyx76wrxyE5+QjW6Qo7HKKB/u9A1wa9np1Kj6wasVInxGj5z8nMFj+NfisdWujoqRwXBTRNta/DMrQ7jyn7U3ifNPuP/BrB/gEx09FxjVHtIM=
+	t=1783386375; cv=pass; b=Qd1Edwy0rwAJzkW9/U5whX7CdJJ/g+ykadrKbVow0IAyOgneFhvDG/46EHLmgnzU8u3ceG5ax87Yxpv3as/nG7vVe2AL15TOPv9XTQoacXRKuFKH8P0ukdi0oDqFEKYWFoW8jQOgqQq48GuqUJkGZ+Kg1ByLc3jOrpJ4iadwg+s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783376784; c=relaxed/simple;
-	bh=Q5kKmKuz74OjHqFWqC7ok5g/jUJwk3ZRWBrRIcyf1Vw=;
-	h=Date:From:To:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=fQAZr9BQemj7TNglsuLgP6eAD0mSFuWg71L1pmj+FFP7zf7eVrCgDdXo2/PWCwv9t7nG6oxGjcsG90NtRpXMe5mDtU+8qwynZOmZOiWFAlKkAfT/Qzk/6oseaLv6YnDrQCatEjuWzkH8uYOcoN2Nb2QW06KndY8tcE7HxwepYAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website; spf=pass smtp.mailfrom=soss.website; dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b=DoZi3s3l; arc=pass smtp.client-ip=136.143.188.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soss.website
+	s=arc-20240116; t=1783386375; c=relaxed/simple;
+	bh=1cVUMFMBeoUz0Y8dmZcg+CAn0nZ3hquYpnV4AN1MMHM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pQznANfWhSd0xC/nQzDk3MuJO8fGgxvhh0NbEqdEregH4q4SxR4ZaxmNOUom+SZa/0JMBLNZcf+ji9inyfSRdVGNxGzNmFH/2OGJnwHvAo9owmWgUgNZsV90JCM4kYiZsrf5bZj3wzMnH3W8NFkpStSRgQXGisfpiIsR6pZlGZY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AtsURakA; arc=pass smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b="DoZi3s3l"
-ARC-Seal: i=1; a=rsa-sha256; t=1783376780; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Hs8L17bpNThxG1A39w1+eq91qYNjLHdwaEoKlHOKGegOjDLAsL25bU+Kfvrv8GZEp8UlnDM21R68h/3RWp8UXBqLiHYkds2QdLzjm1eOe+jVkNwQa7zJdPsyorcgLPeohf63apEWrC9BXVP9+jfkCkOaQw2XCxeY9AVH72c7j94=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783376780; h=Content-Type:Content-Transfer-Encoding:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
-	bh=Q5kKmKuz74OjHqFWqC7ok5g/jUJwk3ZRWBrRIcyf1Vw=; 
-	b=UtBfhsou59FTq8VvaRMed+DsDUK/f2obOViYXaAMbKalV5lb6Yy43hfhtDeIM7YrgNCnq1LSmQtHus64FeoKytULkICFhGTN5UiN15lBavrdW62jjoWJei9qiMGESnXNgeCGx46Zz2EKlYYl56zHm/NsJISZeTK0LWQd9b2kZ8M=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=soss.website;
-	spf=pass  smtp.mailfrom=skye@soss.website;
-	dmarc=pass header.from=<skye@soss.website>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783376780;
-	s=zmail; d=soss.website; i=skye@soss.website;
-	h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
-	bh=Q5kKmKuz74OjHqFWqC7ok5g/jUJwk3ZRWBrRIcyf1Vw=;
-	b=DoZi3s3lEMWQq/oWeWnrmt/8gyrcojg6fni+o5HAZEXgq7bOJW3iVVsConY8c7uC
-	v3+glDJTL6Fb4mLn4T8xVCBTGpd3oJvwLhbClyi7WxFxBmDdkP5B309alqAZ+ekR5vB
-	/T7abMK/qUQ7d2eq/vEcTAZ5NNivoO+1DOjWtqq8=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1783376780215730.9427622197549; Mon, 6 Jul 2026 15:26:20 -0700 (PDT)
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1783376778791372.9653029310457; Mon, 6 Jul 2026 15:26:18 -0700 (PDT)
-Date: Mon, 06 Jul 2026 17:26:18 -0500
-From: Skye Soss <skye@soss.website>
-To: "fuse-devel" <fuse-devel@lists.linux.dev>
-Message-ID: <19f398a15e3.502695601806579.8550477790560725089@soss.website>
-In-Reply-To: 
-Subject: mount_service: possible implementation changes
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtsURakA"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c1276f8414bso441723066b.0
+        for <fuse-devel@lists.linux.dev>; Mon, 06 Jul 2026 18:06:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783386373; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eUFkDtO3fQo9FUC8se7/HeDB6r9shVPjxrFpydrxB5Qjx8EG5HP73Q/i/NVMNESMBt
+         p13K/Axv+1oops46XSTp7jc+zqC4SDrf1+VXI64GL62hYdO5N/6MsGR4ioawDcro1cVn
+         awt6K3bqFYVh2MKXqLFQ9+evXKYAOQ7jCZ2e8zdQwzs5EtRD2VpyV/Dj18e2JgHGnC+2
+         zVgqZy0EzKcAvgW3C82+Fld/KvIvYiIiUaf/v560gCvau8EZ/o0fROq5Vh++fy0WAvOb
+         G3JS/5qJjosu5rbYbfAjeYQJ9N8Vy116EeTvS+kM9vwHP1Nw33n0NoRdAPlOOHWe3L1B
+         3aoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
+        fh=jaOQmaiH0e/fk5BUfV5y6pp5uP6XQo8iNSshIfXiY5U=;
+        b=UbpeyXYJ3FDZVsVE0vpb7uFj1JEBYC/KEdkMVFI8/A6UkE3Ch7dj1cY0S8CQ5yfsRH
+         FxMEcdQ1A153eL4DyQssW+JOM1gG+sGyeuEd44B366krcR9zTTTIpnM8FUxUG6ry511i
+         LPsVxJRLjqikwy32Bg7h9JD2PEO/pCGUXUV6gwJkwuxsZrA/AUCLEL1+8VYZcyNAGakh
+         1g/7S/gazRA2+kKCfAmOGndX0KdnXl/rm6qtbwUPFaHvHc8NtksLg9DifmOqaJfBHF4w
+         IeMZuSoWYCNfJFaz9eu2SMtREOvbEJrkTJpAj+Y0riQ1nomU9jVR1tVHjT+Go5qZef5l
+         ExzQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783386373; x=1783991173; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
+        b=AtsURakAHp/xDKQez75k8nBzYIAFXJMvrXn6Ntd/Iv/EgNR8nAJ+w1NRmmh3KEa6je
+         0syQNz9N7Tqp90EhNIV8uZ5VFfYdZRuPeoV2OBiIdxkat/Cr7L7/AnmyJ6VkA7MLpCJ7
+         cpgkQMwpzV4nFfmCoH2TwlGWsiLrgXFAGtO/IbexBjDeSvMdDQSXe6mRNAOgWo7de69/
+         KJoFFFO5UgjzY02gzpzVz7IfW5aPLVTvdXV1tKHmpLQABkGfig4IWpuQmdywAFlhGMNh
+         1IpAjQtPH3dBYmrrwInqomYTy0+F76gsEhpQrhztuBc5PNae24pYjYsnPuaGoDQrJKup
+         kSSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783386373; x=1783991173;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
+        b=kZQkJsqmkGyfPXuVc/g9I1+6DUg/Ma6YAHfjmx132H1G6y2fhGcqqTj4tQQui7l/iA
+         kIbqA+ftcR2i0zIi82U13WOLc4XIuQY0a8xgQ1dxJrWGsSCySDFi6b2etLha2IaQlhFv
+         UtQL2y+UhnE8s0ZAvzwOqUxn3gnmr3DvPGsDI0bMU1GKLxLSx32LQnnlb8k3sYYADAO7
+         NK9YMe5SsQORpv3M0Ua85GAMvEFMEfbu3/eLdbhpa7k6neWC8167aPc7WGVd3bvtq6SL
+         c7ZPSyz328tSo+ly/Ecj100QW7dFI6pSvxg8jztdhiNmtsKYwjj55H9V54ifEVIoohYl
+         7ieA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9TJNqVLvL+RYSMYtqWS7TBA87lVAYTEVUG7ErkiH643J1E8wXEwX9dzXhMFG2AtjA9XJtIa1At6jE@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqUr73X4tUcwaXDg09Yw/fnoE39arSd4souEuz5HpDbe0ZMQE7
+	L1pD0Hp4oo/zgY7Cxr69Yb0CKl4cTb7paM6srXqQ/sz3/5Vs+U9P5JGc8DLGf/iuSU16A6qADsy
+	hbMCRwnW7GEuUZkI+F5a//N2FXY+UA/A=
+X-Gm-Gg: AfdE7cluFsOkksgjJHkXTP4PMO/YzD4Cl0q7VS+CRxwjXwQ6hcPIzA64xV0lut7Eh1e
+	eMlgsDau/NNa2ZhuCeSwPZfHjRBOVSxtCk1Y+Hken9sIy6UJrGoK8Sof3MQMjFlyS+QthT1C3WG
+	hBZ6p2mAyvZEz/lOCU3UO74OYaAefBd2V86Z45NTLKRmvB0/5MsljfLlhyOA0iYHeV0rPHdIgGD
+	9nVzw3QVBeQLmYZkCvrlsh82iGGNK5JQg8y98l+G6i/+Crw/hbfdzDawoBGHBMsuqNX3FVavdh+
+	zXb3xnuZPKIKJviz61k5MRPGYM9fidc386iipGjAmKF4lxvcmyRoTd9Gn//ogR0xiENRsh7o0w=
+	=
+X-Received: by 2002:a17:906:a2d9:b0:c12:cacc:92c6 with SMTP id
+ a640c23a62f3a-c15a699604bmr108442866b.59.1783386372722; Mon, 06 Jul 2026
+ 18:06:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260703092815.4602-1-swethav0411@gmail.com> <CAJnrk1bxAfK0QJQtQ213T0ZKhXu4Pi=2wfRfZ5u0_frC8bucDw@mail.gmail.com>
+In-Reply-To: <CAJnrk1bxAfK0QJQtQ213T0ZKhXu4Pi=2wfRfZ5u0_frC8bucDw@mail.gmail.com>
+From: Swetha Vadlakonda <swethav0411@gmail.com>
+Date: Tue, 7 Jul 2026 06:36:01 +0530
+X-Gm-Features: AVVi8CeXlaZFCuhFG6NwSUSQ8oaTkB5rs31sBMoBozWu9soJY8C4jbsGkGRjM28
+Message-ID: <CAAoLz1fpotiSjFcthTEMZEAaKbhtd0poHC2w++eWMCa-euoKbQ@mail.gmail.com>
+Subject: Re: [PATCH] fuse: add folio_max_order and folio_min_order controls in fusectl
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: quoted-printable
 
-Right now the new mount_service protocol works by first gaining root capabilities via fuservicemount being setuid, then communicating with a socket-activated systemd service to run the actual filesystem implementation in a sandboxed systemd unit.
+On Tue, Jul 7, 2026 at 2:40=E2=80=AFAM Joanne Koong <joannelkoong@gmail.com=
+> wrote:
+>
+> On Fri, Jul 3, 2026 at 2:31=E2=80=AFAM Vadlakonda Swetha <swethav0411@gma=
+il.com> wrote:
+> >
+> > Expose `folio_max_order` and `folio_min_order` entries under the FUSE
+> > control filesystem (`/sys/fs/fuse/connections/<connection_id>/`).
+> >
+> > Motivation:
+> > For fuse based systems like GCSFuse (Google Cloud Storage Fuse), large
+> > folios gives a significant boost to the read performance.
+> > - Without large folios, single file read perf is capped at 3GiB/s
+> > - With large folios, we are able to achieve 12GiB/s, 1MB blocksize
+> > - Writes:2GiB/s with large folios vs 1.6GiB/s without folios for 1MB bs
+> >
+> > We understand that subfolio dirty page tracking is not available for
+> > writeback cache with large folios. However this is not a blocker for
+>
+> The buffered write and writeback paths in fuse go through iomap which
+> tracks subfolio dirty state.
 
-I think there could be an improvement to the design by instead moving the privileged parts into a systemd socket activation unit, and having that privileged service spawn the containerized systemd unit as a child transient unit, or via socket activation with a root-only socket file.
+Thanks for the review and update. I was under the impression that not
+all changes
+related to subfolio dirty page tracking are done.
+>
+> > GCSFuse and similar cloud/network-based filesystems for the following
+> > reasons:
+> >
+> > 1. We generally recommend applications to use larger io sizes (>1MB)
+> >    for writes because of the latency involved with the network calls.
+> > 2. Random writes & small overwrites are also not recommended for cloud
+> >    based filesystems.
+> > 3. Beneficial when write back cache is explicitly disabled. Incase of
+> >    GCSFuse, write back cache is disabled for different other reasons.
+> >
+> > Providing these controls allow individual filesystems to explicitly opt
+> > into large folios once they evaluate their specific workload patterns.
+>
+> Could you explain the use case of this granularity? The page cache
+> already adjusts folio size adaptively (eg small/random i/o still has
+> small orders, high-order allocations fall back gracefully to
+> lower-order allocations under memory pressure, etc) so it's a bit
+> unclear to me why a tunable would be needed. It also won't enforce the
+> order for any inodes that are already in the cache.
 
-Ie. The fuservicemount binary would be a non-setuid binary, and simply communicate with a socket in /run that is backed by a privileged socket-activated service. Upon activation, the service would use the peer credentials to enforce limits such as `mount_max`, and configure `/dev/fuse`. Finally, it would spawn the sandboxed systemd unit to run the filesystem, using `--scope` to transfer the file descriptors to the new process, or using socket activation with a socket file that only root can read and write to.
+Our primary motivation was to give fine-grained control and users can set
+it as per their workload requirements. But agreed on the fallback strategy =
+and
+have a single on/off switch.
+>
+> There's a patch to enable large folios by default [1] and the
+> benchmark numbers showed improvements all around, so I don't think
+> this would be something individual filesystems would have to
+> explicitly opt into. Does the change in [1] suffice for your use case?
 
-The advantage of this approach over the current design is compatibility with containers with the no_new_privileges security feature enabled. That disables privilege-elevation through execve (ie. setuid and setcaps binaries), but the use of systemd socket activation would still work.
-
-The other advantage is limiting the access of the filesystem sandbox startup to the privileged service, which can prevent issues arising from parsing bugs (not privilege escalation, but potentially DOS issues by escaping the systemd resource-control group).
-
+Yes, the change in [1] completely suffices for GCSFuse.
