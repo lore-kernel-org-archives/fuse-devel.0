@@ -1,154 +1,97 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3B6173
-	for <fuse-devel@lists.linux.dev>; Tue,  7 Jul 2026 01:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783386375; cv=pass; b=Qd1Edwy0rwAJzkW9/U5whX7CdJJ/g+ykadrKbVow0IAyOgneFhvDG/46EHLmgnzU8u3ceG5ax87Yxpv3as/nG7vVe2AL15TOPv9XTQoacXRKuFKH8P0ukdi0oDqFEKYWFoW8jQOgqQq48GuqUJkGZ+Kg1ByLc3jOrpJ4iadwg+s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783386375; c=relaxed/simple;
-	bh=1cVUMFMBeoUz0Y8dmZcg+CAn0nZ3hquYpnV4AN1MMHM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pQznANfWhSd0xC/nQzDk3MuJO8fGgxvhh0NbEqdEregH4q4SxR4ZaxmNOUom+SZa/0JMBLNZcf+ji9inyfSRdVGNxGzNmFH/2OGJnwHvAo9owmWgUgNZsV90JCM4kYiZsrf5bZj3wzMnH3W8NFkpStSRgQXGisfpiIsR6pZlGZY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AtsURakA; arc=pass smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A20778F39;
+	Tue,  7 Jul 2026 05:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783402833; cv=none; b=u7/4GirG/pXcQiBFoXNAFOebs05bo9jXfR+b19RyfSpgeFoh1uK7cLsjsKxU//LZIoG1uO7k1WB7VAap0WsZB730F0FMA0/42R/rgo9FbfGMQV6ufKV6nH6Z1uQ9TKNb7HVejIB7nzN6gcIIsrPiIv+A+uyJwF5v4ycjKLGP5pw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783402833; c=relaxed/simple;
+	bh=uubafVnUIfwSUXbsQG5Xy1vrRdrghwYnk8PvsPPHpg0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tyGYZvTwyK0v5HGkCAfIywGrzpMywYNAk6l0KM7hX1dc1Dgzy/5L9P3QihEFv0Lsa+M0jAynynuVv+fivB+k3a5IpI6VYGIcmoI1YYjcbYjGr36QpstAexysE/I/hOU/8cygm3leWHMRE0yTouqUkjw2WaIjF9f8WfFZbrGLBiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFC0juX1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtsURakA"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c1276f8414bso441723066b.0
-        for <fuse-devel@lists.linux.dev>; Mon, 06 Jul 2026 18:06:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783386373; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eUFkDtO3fQo9FUC8se7/HeDB6r9shVPjxrFpydrxB5Qjx8EG5HP73Q/i/NVMNESMBt
-         p13K/Axv+1oops46XSTp7jc+zqC4SDrf1+VXI64GL62hYdO5N/6MsGR4ioawDcro1cVn
-         awt6K3bqFYVh2MKXqLFQ9+evXKYAOQ7jCZ2e8zdQwzs5EtRD2VpyV/Dj18e2JgHGnC+2
-         zVgqZy0EzKcAvgW3C82+Fld/KvIvYiIiUaf/v560gCvau8EZ/o0fROq5Vh++fy0WAvOb
-         G3JS/5qJjosu5rbYbfAjeYQJ9N8Vy116EeTvS+kM9vwHP1Nw33n0NoRdAPlOOHWe3L1B
-         3aoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
-        fh=jaOQmaiH0e/fk5BUfV5y6pp5uP6XQo8iNSshIfXiY5U=;
-        b=UbpeyXYJ3FDZVsVE0vpb7uFj1JEBYC/KEdkMVFI8/A6UkE3Ch7dj1cY0S8CQ5yfsRH
-         FxMEcdQ1A153eL4DyQssW+JOM1gG+sGyeuEd44B366krcR9zTTTIpnM8FUxUG6ry511i
-         LPsVxJRLjqikwy32Bg7h9JD2PEO/pCGUXUV6gwJkwuxsZrA/AUCLEL1+8VYZcyNAGakh
-         1g/7S/gazRA2+kKCfAmOGndX0KdnXl/rm6qtbwUPFaHvHc8NtksLg9DifmOqaJfBHF4w
-         IeMZuSoWYCNfJFaz9eu2SMtREOvbEJrkTJpAj+Y0riQ1nomU9jVR1tVHjT+Go5qZef5l
-         ExzQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783386373; x=1783991173; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
-        b=AtsURakAHp/xDKQez75k8nBzYIAFXJMvrXn6Ntd/Iv/EgNR8nAJ+w1NRmmh3KEa6je
-         0syQNz9N7Tqp90EhNIV8uZ5VFfYdZRuPeoV2OBiIdxkat/Cr7L7/AnmyJ6VkA7MLpCJ7
-         cpgkQMwpzV4nFfmCoH2TwlGWsiLrgXFAGtO/IbexBjDeSvMdDQSXe6mRNAOgWo7de69/
-         KJoFFFO5UgjzY02gzpzVz7IfW5aPLVTvdXV1tKHmpLQABkGfig4IWpuQmdywAFlhGMNh
-         1IpAjQtPH3dBYmrrwInqomYTy0+F76gsEhpQrhztuBc5PNae24pYjYsnPuaGoDQrJKup
-         kSSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783386373; x=1783991173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e0WA+1xWMmwxJhQG3lcP+OMC81WDVxu32cEwJ7yzLdU=;
-        b=kZQkJsqmkGyfPXuVc/g9I1+6DUg/Ma6YAHfjmx132H1G6y2fhGcqqTj4tQQui7l/iA
-         kIbqA+ftcR2i0zIi82U13WOLc4XIuQY0a8xgQ1dxJrWGsSCySDFi6b2etLha2IaQlhFv
-         UtQL2y+UhnE8s0ZAvzwOqUxn3gnmr3DvPGsDI0bMU1GKLxLSx32LQnnlb8k3sYYADAO7
-         NK9YMe5SsQORpv3M0Ua85GAMvEFMEfbu3/eLdbhpa7k6neWC8167aPc7WGVd3bvtq6SL
-         c7ZPSyz328tSo+ly/Ecj100QW7dFI6pSvxg8jztdhiNmtsKYwjj55H9V54ifEVIoohYl
-         7ieA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq9TJNqVLvL+RYSMYtqWS7TBA87lVAYTEVUG7ErkiH643J1E8wXEwX9dzXhMFG2AtjA9XJtIa1At6jE@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqUr73X4tUcwaXDg09Yw/fnoE39arSd4souEuz5HpDbe0ZMQE7
-	L1pD0Hp4oo/zgY7Cxr69Yb0CKl4cTb7paM6srXqQ/sz3/5Vs+U9P5JGc8DLGf/iuSU16A6qADsy
-	hbMCRwnW7GEuUZkI+F5a//N2FXY+UA/A=
-X-Gm-Gg: AfdE7cluFsOkksgjJHkXTP4PMO/YzD4Cl0q7VS+CRxwjXwQ6hcPIzA64xV0lut7Eh1e
-	eMlgsDau/NNa2ZhuCeSwPZfHjRBOVSxtCk1Y+Hken9sIy6UJrGoK8Sof3MQMjFlyS+QthT1C3WG
-	hBZ6p2mAyvZEz/lOCU3UO74OYaAefBd2V86Z45NTLKRmvB0/5MsljfLlhyOA0iYHeV0rPHdIgGD
-	9nVzw3QVBeQLmYZkCvrlsh82iGGNK5JQg8y98l+G6i/+Crw/hbfdzDawoBGHBMsuqNX3FVavdh+
-	zXb3xnuZPKIKJviz61k5MRPGYM9fidc386iipGjAmKF4lxvcmyRoTd9Gn//ogR0xiENRsh7o0w=
-	=
-X-Received: by 2002:a17:906:a2d9:b0:c12:cacc:92c6 with SMTP id
- a640c23a62f3a-c15a699604bmr108442866b.59.1783386372722; Mon, 06 Jul 2026
- 18:06:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFC0juX1"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 49DF31F000E9;
+	Tue,  7 Jul 2026 05:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783402832;
+	bh=xP+xYI1ctWvYVNjrW0wq1G2Ka2f+jdpaaUgD9EtHysI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lFC0juX17kd/Il+GWfVvFIlbok0okzgPDT/Mm76by/fs9HdnQmLNfSLXcshiI5cJA
+	 B7B4Arf1UU260X2ne25fXSVsRm+Nesh7mCm9pzi5k0dYyx6oBeMllv4S5y9DezlzI4
+	 Gzf2OWoiZTalTVQks4WjeyhOuBFWjvds0UwigJaC5ONDWVi/EWMMMV3w9ju2h8Zj1o
+	 SR20TOC12lojNSr+0nMDbPO23kAasB1OWlQfjZNsMRwgAJiSeJE9IYVV4aHQHhhL2q
+	 +I83SfQle+0m76aBLUwjZNGnvu/DTNkxq0SL+6ItydFIxp3YQ2vBBzhWaOVWo6pe7e
+	 mYQbycrq/YKeA==
+Date: Mon, 6 Jul 2026 22:40:31 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Xiang Mei <xmei5@asu.edu>, Bernd Schubert <bernd@bsbernd.com>,
+	Miklos Szeredi <miklos@szeredi.hu>, Kees Cook <kees@kernel.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	Luis Henriques <luis@igalia.com>, Weiming Shi <bestswngs@gmail.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] fuse: copy request headers via a stack buffer for
+ io-uring
+Message-ID: <20260707054031.GF9381@frogsfrogsfrogs>
+References: <20260706191309.2887515-1-xmei5@asu.edu>
+ <CAJnrk1Z-6ezCKAEicOEoFVJfhg6Es6R+E=iH4HepmwrpBiETdw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260703092815.4602-1-swethav0411@gmail.com> <CAJnrk1bxAfK0QJQtQ213T0ZKhXu4Pi=2wfRfZ5u0_frC8bucDw@mail.gmail.com>
-In-Reply-To: <CAJnrk1bxAfK0QJQtQ213T0ZKhXu4Pi=2wfRfZ5u0_frC8bucDw@mail.gmail.com>
-From: Swetha Vadlakonda <swethav0411@gmail.com>
-Date: Tue, 7 Jul 2026 06:36:01 +0530
-X-Gm-Features: AVVi8CeXlaZFCuhFG6NwSUSQ8oaTkB5rs31sBMoBozWu9soJY8C4jbsGkGRjM28
-Message-ID: <CAAoLz1fpotiSjFcthTEMZEAaKbhtd0poHC2w++eWMCa-euoKbQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: add folio_max_order and folio_min_order controls in fusectl
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Z-6ezCKAEicOEoFVJfhg6Es6R+E=iH4HepmwrpBiETdw@mail.gmail.com>
 
-On Tue, Jul 7, 2026 at 2:40=E2=80=AFAM Joanne Koong <joannelkoong@gmail.com=
-> wrote:
->
-> On Fri, Jul 3, 2026 at 2:31=E2=80=AFAM Vadlakonda Swetha <swethav0411@gma=
-il.com> wrote:
+On Mon, Jul 06, 2026 at 02:17:12PM -0700, Joanne Koong wrote:
+> On Mon, Jul 6, 2026 at 12:13 PM Xiang Mei <xmei5@asu.edu> wrote:
 > >
-> > Expose `folio_max_order` and `folio_min_order` entries under the FUSE
-> > control filesystem (`/sys/fs/fuse/connections/<connection_id>/`).
+> > The fuse-io-uring transport copies req->in.h out to the ring in
+> > fuse_uring_copy_to_ring() and req->out.h back in fuse_uring_commit().
+> > Both headers live inside the fuse_request slab object, whose cache
+> > (fuse_req_cachep) is created without a usercopy whitelist, so copying
+> > them directly to/from userspace trips CONFIG_HARDENED_USERCOPY and
+> > panics:
 > >
-> > Motivation:
-> > For fuse based systems like GCSFuse (Google Cloud Storage Fuse), large
-> > folios gives a significant boost to the read performance.
-> > - Without large folios, single file read perf is capped at 3GiB/s
-> > - With large folios, we are able to achieve 12GiB/s, 1MB blocksize
-> > - Writes:2GiB/s with large folios vs 1.6GiB/s without folios for 1MB bs
+> >   usercopy: Kernel memory exposure attempt detected from SLUB object
+> >   'fuse_request' (offset 56, size 40)!
+> >   kernel BUG at mm/usercopy.c:102!
+> >   RIP: 0010:usercopy_abort+0x6c/0x80
+> >   Call Trace:
+> >    __check_heap_object
+> >    __check_object_size
+> >    copy_header_to_ring          fs/fuse/dev_uring.c:618
+> >    fuse_uring_prepare_send
+> >    fuse_uring_send_in_task
+> >    ...
+> >    __do_sys_io_uring_enter
+> >    entry_SYSCALL_64_after_hwframe
 > >
-> > We understand that subfolio dirty page tracking is not available for
-> > writeback cache with large folios. However this is not a blocker for
->
-> The buffered write and writeback paths in fuse go through iomap which
-> tracks subfolio dirty state.
+> > Bounce both headers through an on-stack copy so the usercopy touches
+> > stack memory, not the slab object.
+> >
+> > Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+> > Reported-by: Weiming Shi <bestswngs@gmail.com>
+> > Assisted-by: Claude:claude-opus-4-8
+> > Signed-off-by: Xiang Mei <xmei5@asu.edu>
+> 
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> 
+> I think the cc stable@vger.kernel.org tag is missing here. I added
+> stable@ to the cc list on this email, but I'm not sure if they require
+> the tag being explicitly in the commit message to get it backported.
 
-Thanks for the review and update. I was under the impression that not
-all changes
-related to subfolio dirty page tracking are done.
->
-> > GCSFuse and similar cloud/network-based filesystems for the following
-> > reasons:
-> >
-> > 1. We generally recommend applications to use larger io sizes (>1MB)
-> >    for writes because of the latency involved with the network calls.
-> > 2. Random writes & small overwrites are also not recommended for cloud
-> >    based filesystems.
-> > 3. Beneficial when write back cache is explicitly disabled. Incase of
-> >    GCSFuse, write back cache is disabled for different other reasons.
-> >
-> > Providing these controls allow individual filesystems to explicitly opt
-> > into large folios once they evaluate their specific workload patterns.
->
-> Could you explain the use case of this granularity? The page cache
-> already adjusts folio size adaptively (eg small/random i/o still has
-> small orders, high-order allocations fall back gracefully to
-> lower-order allocations under memory pressure, etc) so it's a bit
-> unclear to me why a tunable would be needed. It also won't enforce the
-> order for any inodes that are already in the cache.
+I used to like it for XFS once upon a time when we did manual reviews
+and QA of LTS branches, because it was a headsup for something that I
+should actually watch to make sure it actually showed up in stable-rc.
 
-Our primary motivation was to give fine-grained control and users can set
-it as per their workload requirements. But agreed on the fallback strategy =
-and
-have a single on/off switch.
->
-> There's a patch to enable large folios by default [1] and the
-> benchmark numbers showed improvements all around, so I don't think
-> this would be something individual filesystems would have to
-> explicitly opt into. Does the change in [1] suffice for your use case?
-
-Yes, the change in [1] completely suffices for GCSFuse.
+--D
