@@ -1,100 +1,42 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A78149C6F
-	for <fuse-devel@lists.linux.dev>; Wed,  8 Jul 2026 02:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFB33F9294
+	for <fuse-devel@lists.linux.dev>; Wed,  8 Jul 2026 07:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783477063; cv=none; b=RLH/sd1vvzx5O4EJFJqGQ+GTkk+TLuBugEHYBhI5v6+E1XuGVCB+rZcIPIVmXRcetATl4cA5+7Uu1Eq4imAm6eXQiYbHDG4bAS4MdcOqtRS6++fGMY03tFRrfCsE1jolguf+PVYae04njvxyWlxQkj79LVRoP+Ot2mx0q2VHC9E=
+	t=1783497014; cv=none; b=eJ57pTSrLaLK5FaYwLXodY9UB7OZcKUBkT0RxO0cPJuZ5E5XcLJki4zbKHAOS1EQn28xREYv+BGa9DBOwdFAu5rGS3m5YnXAkgUVZpRHix2PHp7i6X5HQrH+zabLOjuNwSynnWoygNkx2zaWC0HayACRad9Sm5dQh+Kw/WzsTh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783477063; c=relaxed/simple;
-	bh=VTpuXugbb3driSBNByNtnQMoPDWn2BXFDTWYR9hWO0Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tg7vAzwMwQz9ZwDwwcugRn9f7K+ZgKvRq0lNJKpcQA9ZIjnDI+mPPYGc6M5RXAcycaT1SUEjTp962vQ25SqSRHzP53+sbIIRCcJEg/LrZHIZ5/o54ecb/IS5glSa5niRJ7eTnt55oNTGtY+eqOF+JAMIy9/SAdNqFTpEjO3n51M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2d70450a7a7311f1aa26b74ffac11d73-20260708
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED, SA_EXISTED
-	SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
-	CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
-	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:c4543caa-e37a-41ab-9817-4137638980be,IP:10,
-	URL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:35
-X-CID-INFO: VERSION:1.3.12,REQID:c4543caa-e37a-41ab-9817-4137638980be,IP:10,UR
-	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:35
-X-CID-META: VersionHash:e7bac3a,CLOUDID:3afa366ae6f3ad8bd8e6f7dcf514b09c,BulkI
-	D:260708101733F4N6G4QB,BulkQuantity:0,Recheck:0,SF:17|19|66|78|102|127|865
-	|898,TC:nil,Content:0|15|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:
-	nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,AR
-	C:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2d70450a7a7311f1aa26b74ffac11d73-20260708
-X-User: liwang@kylinos.cn
-Received: from computer.. [(116.128.244.169)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1372840259; Wed, 08 Jul 2026 10:17:32 +0800
-From: Li Wang <liwang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Li Wang <liwang@kylinos.cn>
-Subject: [PATCH] fuse: drop redundant err assignments in fuse_dev_do_write()
-Date: Wed,  8 Jul 2026 10:17:05 +0800
-Message-Id: <20260708021705.3436-1-liwang@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1783497014; c=relaxed/simple;
+	bh=M7NmYC/Iylm9myghHwqILim55SAUt9QrM+UZYk0eJlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ocFEul9OpPnH1/evAmK81WPfSwtQEsnSf35/tFdQaAh7wd/l9KFhxrUDheB9ldMpt81+9OiwhHZKyeu8AnRWnmr/5mg2XU+QQHbIjlVGHmU9ERq4Lpv0PPPcPItQsLihPgRvIBlGxPRmNJhygrvf94jvnHtnQy5sYV/SL4NtdOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id D0D1368B05; Wed,  8 Jul 2026 09:49:48 +0200 (CEST)
+Date: Wed, 8 Jul 2026 09:49:48 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: brauner@kernel.org, djwong@kernel.org, miklos@szeredi.hu,
+	willy@infradead.org, linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 1/3] fuse: don't clear folio uptodate on
+ writethrough errors
+Message-ID: <20260708074948.GA32452@lst.de>
+References: <20260707220450.1200943-1-joannelkoong@gmail.com> <20260707220450.1200943-2-joannelkoong@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260707220450.1200943-2-joannelkoong@gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-After fuse_copy_one() succeeds, err is set to -EINVAL before validating
-oh.len. When oh.len equals nbytes, err is already -EINVAL, so the extra
-assignments before the notification and oh.error checks are redundant.
+Looks good:
 
-Signed-off-by: Li Wang <liwang@kylinos.cn>
----
- fs/fuse/dev.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 5763a7cd3b37..7813f6214d0e 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -1887,7 +1887,6 @@ static ssize_t fuse_dev_do_write(struct fuse_dev *fud,
- 		 * Only allow notifications during while the connection is in an
- 		 * initialized and connected state
- 		 */
--		err = -EINVAL;
- 		if (!fch->initialized || !fch->connected)
- 			goto copy_finish;
- 
-@@ -1898,7 +1897,6 @@ static ssize_t fuse_dev_do_write(struct fuse_dev *fud,
- 		goto copy_finish;
- 	}
- 
--	err = -EINVAL;
- 	if (oh.error <= -512 || oh.error > 0)
- 		goto copy_finish;
- 
--- 
-2.34.1
-
+Reviewed-by: Christoph Hellwig <hch@lst.de>
