@@ -1,104 +1,162 @@
-Received: from sender4-of-o52.zoho.com (sender4-of-o52.zoho.com [136.143.188.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4847F3655F1
-	for <fuse-devel@lists.linux.dev>; Thu,  9 Jul 2026 16:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783616273; cv=pass; b=LdiiybyM5tnGC8c+FM+iVA55nYOS/0/EXCcKghcO41IddSp8LEzHmIvHLbLjIKGjiqMq1hgzNjw6IVl14xmWUVfuP292Q/wMWbfrJTsUqQGDsAkGWuC0HYvQQ5TS8FafFIP0kIHQV4QcrMYqIBblyRv8jnnqRIbkPX+pb6so+FU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783616273; c=relaxed/simple;
-	bh=aQPjNtfTbM/V+x7nABekVwfPFKEqBH0dYpeOYEWEXWw=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=ertrwHarnnen0IObKFaDDdrbJkTx0C77A9BrDu8wkFu/1oUkgmrbH5Nz0GVIXnz2J+D5sTScBdeNyowYd2aoVWzSuCvMUbv7nWm5kulvHSH1LU+02zFbvCjdLAMCMbvyatKeEcCnxuQDQHXHH6vQFWyIznCYttX1/85OfhsEVyo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website; spf=pass smtp.mailfrom=soss.website; dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b=COsdgt+I; arc=pass smtp.client-ip=136.143.188.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soss.website
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAD93AB47C
+	for <fuse-devel@lists.linux.dev>; Thu,  9 Jul 2026 21:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783631500; cv=none; b=kfyxhQpgokhgrugQ/ePRSlKTG3cUZMNGJqEwmMG2oK5GzBezDh3R4P1vgQsRrgfUYOkVwgO7F60tBLLMszXPEeqP/LQxfbsPACAFWblFdq3C0uMhPBS2QxFEwag1/PhfV3TK5iN2hQv3vZprddM1mtap6nh6UKBd/AGkgRrNSds=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783631500; c=relaxed/simple;
+	bh=7wR85BSlK6g7rPPLZUmhmMR7qWMPn8HJ/Ov54TKx1o4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j90yCm4nHNo75CGQNmj7hbVCwKQhZHuvmUUV4eu+PgNpKZWYIqT9hGqUneUMCbWXEc0cqrldbUtScJ6qaVJ6Nnd3pKDrn2XfMPgP9MW86i14wwOiAlyUcPaHYSPipIElOGI/02i28aPPUwrLT3n+QnzRdnFZ9nDyf8E6y9plo9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=NC5SyeyP; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b="COsdgt+I"
-ARC-Seal: i=1; a=rsa-sha256; t=1783616270; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=db6JFMhVgkX65ut1Zs1TO2gB+A1H1cYdl0LQT96n9FuBOUx3k5KOQkZbBEqU4/h/Ud6v0oM8lj5jcj/z1+VI9oq7+6dfFaZdDwJvFHlZXg2kvyiSc+nfbmja7yQyf9KvY8UsLCpSs+uT9xbrtKPQocnWvhaFDeKESaINnxa6mmQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783616270; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=oU6GkL27y8OCf/tivtZmc9NNealdi11+Dyo5RiEanUQ=; 
-	b=kf5Iy4iMqqZXNLgS/veOSgiCDs8PL0TyCYexdSZfapyC84BJQnps3dmpHFOXrrmvxqtkoWcdTe/kZuUh7z8Ndh5h/6YBPPXNVDS+1ZzLG954EQ4Ezq+alnXjvTkzs9hlZOU9PmUaGX6qZQzUjkMblQg4jEZqQ9yja9rbD5Hg7pY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=soss.website;
-	spf=pass  smtp.mailfrom=skye@soss.website;
-	dmarc=pass header.from=<skye@soss.website>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783616270;
-	s=zmail; d=soss.website; i=skye@soss.website;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=oU6GkL27y8OCf/tivtZmc9NNealdi11+Dyo5RiEanUQ=;
-	b=COsdgt+IpgcuZtg5Lc/d1KLs05IHwMkVavY1LJR2DDqX8JaLxefCBG6kEvb+R3dP
-	kSAWqC+poucpYewirChIjaQqdy0SfjviKgErNw6hHFvhzvNzyrm+GVtcxxHZMOsbYFX
-	9rdF0eE6m3AWvFaUPGRz56E3pixTaoikOtVCumC0=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1783616270168633.5670345436552; Thu, 9 Jul 2026 09:57:50 -0700 (PDT)
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 178361626858032.745307215741605; Thu, 9 Jul 2026 09:57:48 -0700 (PDT)
-Date: Thu, 09 Jul 2026 11:57:48 -0500
-From: Skye Soss <skye@soss.website>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: "fuse-devel" <fuse-devel@lists.linux.dev>
-Message-ID: <19f47d06911.1ee803102145318.5945925919167031194@soss.website>
-In-Reply-To: <20260707055248.GG9381@frogsfrogsfrogs>
-References: <19f398a15e3.502695601806579.8550477790560725089@soss.website> <20260707055248.GG9381@frogsfrogsfrogs>
-Subject: Re: mount_service: possible implementation changes
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="NC5SyeyP"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cc891373e0so1938925ad.2
+        for <fuse-devel@lists.linux.dev>; Thu, 09 Jul 2026 14:11:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=asu.edu; s=google; t=1783631498; x=1784236298; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XuEkKfOMhfrm+8X9CsfK3WSrB0bxoAf1wJ4HbTJkHGI=;
+        b=NC5SyeyPspb14La3hMZRXWEOpU9yBkfZOV5wIuw3BfnWkxBBEPJHZ0F1i7wYqB9CQf
+         8YaXwqBQa7g48NM1yREKEsIJPULY/lExd3LP4MHCq7VbV9GGwuhmrZhuARZuySS25Njl
+         uzmFYEKmWW/ios7KrQcw58/C2vMMAP5NOMmU52CyrTJgIuw9hTw3FVltp+C6ZK2YqHHH
+         SwYt6x7A69kYKrNf69Bc7gCFx642TrNXQ3mgUY73EeeAqWvzXhy4L+0OnPppBWiozhit
+         TLICGBl6smKVatrjmfGeJCIDsU8I3UsG8X3qpsbY1VBb00xr/x4oi/35KfuNLRbcIJ+T
+         0nlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783631498; x=1784236298;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XuEkKfOMhfrm+8X9CsfK3WSrB0bxoAf1wJ4HbTJkHGI=;
+        b=MOXwsDUSURhN7IvWUYp0GVyq8r+DAeFNyDdfqkJfBL2XHRWSDXhRUsH6kP1uw8qdDP
+         TVOU3IYEfiU9NKjlWB5oF/zW13QecCbc2hjezGNY05AasdPGy127YnCABwxLGOvXxw/U
+         V7NF8bUw7/LuJ2HeVkWCmwU+otqJcuIDnbGPHybr+4/GzCLAAqY8QfMrtZVe0fnDZCAv
+         ZwUMRun8l/qBBw0ePPkbPcNhi8tmhUCIlC0b98dchSA9Sy9SczWwodnxmxkS2kCMivsK
+         +d81Mo9L7rhSF6x98xbQvpbBJa36QdmbwanHbazP4nMc2ow3UatyZNdbkUiZ7h5DCVdU
+         NvLQ==
+X-Gm-Message-State: AOJu0YxHVJupT3BHVY/MxdjTMMeFpJ2CSXOXPC5TpmC5Mpbw+Jf9gKX9
+	3A6eNIT+jCIOOALuSIor/Xqd6/ZlN+hVKoO+/nMAYAvKwKHZj5FuT390lGuGY15OTw==
+X-Gm-Gg: AfdE7cl1rc66sXyczLLMKVBPuepJOdCcxVikjC0AA/ozBrj9F5rTIhSxItnnGpEn76p
+	IAMOCFDNS2/9WndAoPJESmxL+ni3qvKgiRzjBf9qMQmmJ/jowUI7aZqrCoSPTTjvxoQieAAvsU6
+	0eZb7wbhgEFVB25V5/vCHycXNv8na9/0LeVBFYKc/cxdl/SbjRwlpWH5deCsGb9zAlyg6t8u8Zo
+	d616ssAI0m7tC2VtDiZO9dxE5ZJDwqnsaNrLZ10x15N9ea7vVtangxRbyMQQy7Ro4VWRQboLrlr
+	Oxu25YU5x9dyhD8ldN6s5w4Z4aXi4WAlgQqSPNjfwEQjeWtuK2K668E0O/qk2HbWR4Ln6H7063f
+	7hdjHcztwjmG9Hg+k6iiEbSdxSS4/ayaJPhDHix+t4KUDNs2wZtbeSMCihZU0dbfb3sC5Cq7C
+X-Received: by 2002:a17:903:4b0d:b0:2cc:ffa6:462a with SMTP id d9443c01a7336-2ccffa65d47mr55654255ad.10.1783631497770;
+        Thu, 09 Jul 2026 14:11:37 -0700 (PDT)
+Received: from p1.. ([2607:fb91:150f:dd4:6d78:821f:ff11:b509])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d5bd2fsm49742475ad.78.2026.07.09.14.11.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 14:11:36 -0700 (PDT)
+From: Xiang Mei <xmei5@asu.edu>
+To: Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>
+Cc: fuse-devel@lists.linux.dev,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Luis Henriques <luis@igalia.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	bestswngs@gmail.com,
+	Xiang Mei <xmei5@asu.edu>
+Subject: [PATCH v3 1/2] fuse: copy request headers via a stack buffer for io-uring
+Date: Thu,  9 Jul 2026 14:11:29 -0700
+Message-ID: <20260709211130.543773-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
 
+The fuse-io-uring transport copies req->in.h out to the ring in
+fuse_uring_copy_to_ring() and req->out.h back in fuse_uring_commit().
+Both headers live inside the fuse_request slab object, whose cache
+(fuse_req_cachep) is created without a usercopy whitelist, so copying
+them directly to/from userspace trips CONFIG_HARDENED_USERCOPY and
+panics:
 
- > On Mon, Jul 06, 2026 at 05:26:18PM -0500, Skye Soss wrote: 
- > > ...
- > > Ie. The fuservicemount binary would be a non-setuid binary, and simply 
- > > communicate with a socket in /run that is backed by a privileged 
- > > socket-activated service. Upon activation, the service would use the 
- > > peer credentials to enforce limits such as `mount_max`, and configure 
- > > `/dev/fuse`. Finally, it would spawn the sandboxed systemd unit to run 
- > > the filesystem, using `--scope` to transfer the file descriptors to 
- > > the new process, or using socket activation with a socket file that 
- > > only root can read and write to. 
- >  
- > How do you get the socket-activated part of fuservicemount to call 
- > move_mount() (mounting) and openat() (resource acquisition) in the same 
- > mount namespace as the directly-invoked part of fuservicemount?  A 
- > socket service has no idea what namespace(s) are in use by the client; 
- > its entire relationship with the client is limited to whatever is shared 
- > through the socket.
+  usercopy: Kernel memory exposure attempt detected from SLUB object
+  'fuse_request' (offset 56, size 40)!
+  kernel BUG at mm/usercopy.c:102!
+  RIP: 0010:usercopy_abort+0x6c/0x80
+  Call Trace:
+   __check_heap_object
+   __check_object_size
+   copy_header_to_ring          fs/fuse/dev_uring.c:618
+   fuse_uring_prepare_send
+   fuse_uring_send_in_task
+   ...
+   __do_sys_io_uring_enter
+   entry_SYSCALL_64_after_hwframe
 
-A privileged service can enter the mount namespace of its peer by obtaining
-the pid via SO_PEERPIDFD, and passing /proc/$pid/ns/mnt to setns().
+Bounce both headers through an on-stack copy so the usercopy touches
+stack memory, not the slab object.
 
-SO_PEERPIDFD is Linux kernel 6.5+, but the commit message alludes to a
-portable alternative if we need to support older kernels
-(ba47545c756b55f4b114c45fea7d52dd1577e181).
+Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+Cc: stable@vger.kernel.org
+Reported-by: Weiming Shi <bestswngs@gmail.com>
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Xiang Mei <xmei5@asu.edu>
+Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+---
+v3: no context change; add Bernd's Reviewed-by
 
- > > The advantage of this approach over the current design is 
- > > compatibility with containers with the no_new_privileges security 
- > > feature enabled. That disables privilege-elevation through execve (ie. 
- > > setuid and setcaps binaries), but the use of systemd socket activation 
- > > would still work. 
- >  
- > Yes, though this adds more moving parts to the machinery.
+ fs/fuse/dev_uring.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-I'm not sure it does because the `fuservicemount` binary would no longer be
-security-sensitive. Ie. it would remove all of the `drop_privs`/`restore_privs`
-calls that litter the mount_service file, as there will now only be one
-privilege transfer boundary.
-
- > I am, of course, curious to read any patches you have implementing this. 
-
-Thanks for the interest! I'll try to write something up next week.
-
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 77c8cec43d9c..0814681eb04b 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -744,6 +744,7 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
+ {
+ 	struct fuse_ring_queue *queue = ent->queue;
+ 	struct fuse_ring *ring = queue->ring;
++	struct fuse_in_header in_header;
+ 	int err;
+ 
+ 	err = -EIO;
+@@ -765,8 +766,9 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
+ 	}
+ 
+ 	/* copy fuse_in_header */
+-	return copy_header_to_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->in.h,
+-				   sizeof(req->in.h));
++	in_header = req->in.h;
++	return copy_header_to_ring(ent, FUSE_URING_HEADER_IN_OUT, &in_header,
++				   sizeof(in_header));
+ }
+ 
+ static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
+@@ -871,11 +873,13 @@ static void fuse_uring_commit(struct fuse_ring_ent *ent, struct fuse_req *req,
+ 			      unsigned int issue_flags)
+ {
+ 	struct fuse_ring *ring = ent->queue->ring;
++	struct fuse_out_header out_header;
+ 	ssize_t err = -EFAULT;
+ 
+-	if (copy_header_from_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->out.h,
+-				  sizeof(req->out.h)))
++	if (copy_header_from_ring(ent, FUSE_URING_HEADER_IN_OUT, &out_header,
++				  sizeof(out_header)))
+ 		goto out;
++	req->out.h = out_header;
+ 
+ 	err = fuse_uring_out_header_has_err(&req->out.h, req);
+ 	if (err) {
+-- 
+2.43.0
 
