@@ -1,298 +1,104 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-of-o52.zoho.com (sender4-of-o52.zoho.com [136.143.188.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692122E03E4
-	for <fuse-devel@lists.linux.dev>; Wed,  8 Jul 2026 23:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4847F3655F1
+	for <fuse-devel@lists.linux.dev>; Thu,  9 Jul 2026 16:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783552119; cv=pass; b=jsuDhTOZhtoosS6JSlIqxeKTOrxN0W/rPyzgPL/nl6EI3S2IuczvMbWbWdml7+iPfi8ul0ApSDy11TY6uf5GxMA7rKS5pT8jc3IJw3m4dHK8dCEf9T7D7ewWCEaG6vrQowhwO8ibLkvMOdutg2LmC3EqzZNPjRxAz9pgu3qq6pM=
+	t=1783616273; cv=pass; b=LdiiybyM5tnGC8c+FM+iVA55nYOS/0/EXCcKghcO41IddSp8LEzHmIvHLbLjIKGjiqMq1hgzNjw6IVl14xmWUVfuP292Q/wMWbfrJTsUqQGDsAkGWuC0HYvQQ5TS8FafFIP0kIHQV4QcrMYqIBblyRv8jnnqRIbkPX+pb6so+FU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783552119; c=relaxed/simple;
-	bh=5oDhM3CQ9FQQnfBEe8EqsSS7V5h57dHoN7VUrpoxS5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QX6kNdYt69cJXhPC5tkjXWf7UnXzvkvXxxaLh7qL/fI/GFewORkaW6X9mFLu9lFOtzT9pFMq+VOedP5wRjmO+KvB0xNkeq04O+iqvjdd3AH+rEPsXCURQvzATdt4t9w3jzftSopmI11m789dHcigcfhsw082Vwg86M8AkfmwFqA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PlMOwc9J; arc=pass smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783616273; c=relaxed/simple;
+	bh=aQPjNtfTbM/V+x7nABekVwfPFKEqBH0dYpeOYEWEXWw=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=ertrwHarnnen0IObKFaDDdrbJkTx0C77A9BrDu8wkFu/1oUkgmrbH5Nz0GVIXnz2J+D5sTScBdeNyowYd2aoVWzSuCvMUbv7nWm5kulvHSH1LU+02zFbvCjdLAMCMbvyatKeEcCnxuQDQHXHH6vQFWyIznCYttX1/85OfhsEVyo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website; spf=pass smtp.mailfrom=soss.website; dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b=COsdgt+I; arc=pass smtp.client-ip=136.143.188.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soss.website
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PlMOwc9J"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47362928f65so218749f8f.2
-        for <fuse-devel@lists.linux.dev>; Wed, 08 Jul 2026 16:08:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783552116; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MaCiULc78i0UsQsBkcnVOPsWPoBhwt75iXyX++GuVNHYxaQfk25tyyLXm9yXGYLbi/
-         Pm5Vl53wjmsNtZ4Abe8H2ZsAtufEXnLm8kB4Qu6fX1sKvkUEwOAIseSGjDCd6PCcw8c1
-         wIY7YYE2x7u0xB74h8ibwZmFom3LcY7exMg7CmvYVJfXSYZmaslaZc/1ebfFbsnhN1sI
-         ON1nyL/GK05+mR4N+pcT+BKRHEYb2sulXcmabwYQtVNMZW6eOP8yo/VFWCIdpf/14CVU
-         FL6vL7dJTCl591o1IhmpU8wlpk8xY+D2u72oFYAitMJOvFPOQpiDJcnQsVFEYV1JEaS0
-         xrTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zMeLfN37Sih0DPM+5bwgFixJafUbOgpeRhPzslYTy8w=;
-        fh=HxVcl5T3JiQYuuTG7olFX0qW9ga23xtEtABmBYvCVp4=;
-        b=LhAdGTnvJgaFMg2MDCB6j8aPr3vXnhuLBNFFhVP2raE9Lce2V4+HywmS+l7d4s4gsh
-         NfatDHuOqyCwAvAoXaMbvuwOtAdqRw15hZdWL8nBDUUnXv09ILlBydh1x8L8juaAk4VA
-         O4jpYEiWczgqMnwvw76IkqVz4KjgcA+ZoOUQ6SFCR2GHeS/whYBP06QUmvQlwpvZ7M0T
-         4E3ZfmliFJIAFa/XpRFxCbzdG2n+cQCqQjciAbo+guvzDYKpwIX+MT7f/yTVTBGuFHKm
-         ufUL68rmOm3tDWhNz0pA3Qg2XO4ulXxttIhj4v8Xv+DU4gnjPHQJXHfAAmJvnsxPJ493
-         WdDg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783552116; x=1784156916; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zMeLfN37Sih0DPM+5bwgFixJafUbOgpeRhPzslYTy8w=;
-        b=PlMOwc9JyD/HZA13Nu+umVSR3Hg2a5uY1KHDWzXXh2OFFZeQ80rtxJaazYO3UWkBI4
-         qjON5qoXP5OJ/31KY3gFWnNByC7pZ+Is+bSOVAVWB68XdPN/uDEM3fIsXA+jyPoqOWt5
-         tOFcgFaUdZumJu1TnfL/kaDI8wBG6qIgiZMlxTYaYdnfkPwnnAQNrqkiYORsfhKVr4ho
-         Z7U3wXJb586+XbxuGDlPl6TozxDfUFYnFKjgrjYKlEnkKmERLgqoZiBbTeF/0mZZFhbY
-         eI57E09scE+rTEXdXyQWfIHbB3/H3RHHcxBlInWj8+ROaT7Y5NkZQy7XNEqdGwOXzCCt
-         wYNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783552116; x=1784156916;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zMeLfN37Sih0DPM+5bwgFixJafUbOgpeRhPzslYTy8w=;
-        b=HzMuG5STSeZJYB8mt3AaLSG13Ada6NT3vDzHkpdjLBxOKSsr6QKw3tFZl7XfIV2oEq
-         jT1d4So2NGz1diTldLeWFgyS5rt3PIiaaCXQoL2G+VonBBuUAx/nZrNljseuwyIGvxJ7
-         qEgoTSczdouQgnbZqVv+DVQX3U+I8K33Vk/fwjnlmAzYFTaKzEmo1iac5ZDJNdCAvhju
-         dW6pJTljFWO8tcVfxfIkn50RQKcsx6ywvJE0KG/Edcz2bvDbAQSuOICNHktle+gpYYe2
-         5nWsi4pNiqL/iuODDy5FRFzM216yG927XSmNXQCBmS2YEOgK3mm1TLYQl8Joyq6UbzZL
-         7qbA==
-X-Forwarded-Encrypted: i=1; AHgh+RondTXuOv9U26syHaeWW4AhDkC8JhmwafiKPMiMFzoz0ybUZPMxm++Wp5Lu7NfWm+EEqL+FhxzmIx75@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTN5aWk9MKyz+FXFbRiO/eLR7Xw6YFICxxlOh0xokSAysIC1F5
-	sl2gYYwKPpdWjczVbbzupN2E0hIMv5CoBn8W0MuMlslYUdA3LexiIR9nmkN5BlkY6laiKU/bBRi
-	xGl+6rBmtTDqc1UKkar8UNlef0nYIn08=
-X-Gm-Gg: AfdE7cmqfonU/bkJlJTeH+HsLHdUpHM+j/Z63xJt/qSNzREKstvs0xvPF0gRWFkf7j6
-	pW/+IOnzBw8tYUPXxM/xW2g4nlm35JBam7r0xoZZUsQJDYqbSAMcWH+t1IIKsVvPpTIWA48jHjw
-	nUyq2eG7iWeFmOs6t6O/HSesfPll/qO36BJnk5I+mmdane+D8v0GIu3ix3ftEsp5CB6JX8dZGon
-	ogNuh2ilEdc5ccErkeC8e3OXPTYbOckrHvR9UpQ+qpvUGFddiy0qI8NzFdiFTe3DdFn+WlfwYG9
-	nqnl5SDhx00hJLy8BdHddH7bBgImHEmUkbuMM6XQ9y852YzMafXk
-X-Received: by 2002:a05:6000:2c04:b0:476:681c:4642 with SMTP id
- ffacd0b85a97d-47df07a8280mr4872351f8f.44.1783552115565; Wed, 08 Jul 2026
- 16:08:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b="COsdgt+I"
+ARC-Seal: i=1; a=rsa-sha256; t=1783616270; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=db6JFMhVgkX65ut1Zs1TO2gB+A1H1cYdl0LQT96n9FuBOUx3k5KOQkZbBEqU4/h/Ud6v0oM8lj5jcj/z1+VI9oq7+6dfFaZdDwJvFHlZXg2kvyiSc+nfbmja7yQyf9KvY8UsLCpSs+uT9xbrtKPQocnWvhaFDeKESaINnxa6mmQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1783616270; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=oU6GkL27y8OCf/tivtZmc9NNealdi11+Dyo5RiEanUQ=; 
+	b=kf5Iy4iMqqZXNLgS/veOSgiCDs8PL0TyCYexdSZfapyC84BJQnps3dmpHFOXrrmvxqtkoWcdTe/kZuUh7z8Ndh5h/6YBPPXNVDS+1ZzLG954EQ4Ezq+alnXjvTkzs9hlZOU9PmUaGX6qZQzUjkMblQg4jEZqQ9yja9rbD5Hg7pY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=soss.website;
+	spf=pass  smtp.mailfrom=skye@soss.website;
+	dmarc=pass header.from=<skye@soss.website>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783616270;
+	s=zmail; d=soss.website; i=skye@soss.website;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=oU6GkL27y8OCf/tivtZmc9NNealdi11+Dyo5RiEanUQ=;
+	b=COsdgt+IpgcuZtg5Lc/d1KLs05IHwMkVavY1LJR2DDqX8JaLxefCBG6kEvb+R3dP
+	kSAWqC+poucpYewirChIjaQqdy0SfjviKgErNw6hHFvhzvNzyrm+GVtcxxHZMOsbYFX
+	9rdF0eE6m3AWvFaUPGRz56E3pixTaoikOtVCumC0=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1783616270168633.5670345436552; Thu, 9 Jul 2026 09:57:50 -0700 (PDT)
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 178361626858032.745307215741605; Thu, 9 Jul 2026 09:57:48 -0700 (PDT)
+Date: Thu, 09 Jul 2026 11:57:48 -0500
+From: Skye Soss <skye@soss.website>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: "fuse-devel" <fuse-devel@lists.linux.dev>
+Message-ID: <19f47d06911.1ee803102145318.5945925919167031194@soss.website>
+In-Reply-To: <20260707055248.GG9381@frogsfrogsfrogs>
+References: <19f398a15e3.502695601806579.8550477790560725089@soss.website> <20260707055248.GG9381@frogsfrogsfrogs>
+Subject: Re: mount_service: possible implementation changes
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260707184417.3682270-1-xmei5@asu.edu> <20260707184417.3682270-2-xmei5@asu.edu>
- <cf0574fc-03d8-4b0b-b1f4-bbca59e31686@bsbernd.com>
-In-Reply-To: <cf0574fc-03d8-4b0b-b1f4-bbca59e31686@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 8 Jul 2026 16:08:21 -0700
-X-Gm-Features: AUfX_mznvTOiu1WXGWnG-l27X67eb5f5IdTOyMIwpjkQXYTLtlxgDSIJfN6t9Jw
-Message-ID: <CAJnrk1Y3bkDtztsXdF-3JL0tqxhaarriKCvO4-N3-QrL6X_4oQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] fuse: reject oversized payload_sz in fuse_uring_copy_from_ring()
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Xiang Mei <xmei5@asu.edu>, djwong@kernel.org, Miklos Szeredi <miklos@szeredi.hu>, 
-	Kees Cook <kees@kernel.org>, "Gustavo A . R . Silva" <gustavoars@kernel.org>, stable@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Pavel Begunkov <asml.silence@gmail.com>, Luis Henriques <luis@igalia.com>, 
-	Weiming Shi <bestswngs@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 8, 2026 at 12:22=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
->
-> Hi Xiang,
->
-> On 7/7/26 20:44, Xiang Mei wrote:
-> > fuse_uring_copy_from_ring() imports the payload buffer with length
-> > ring->max_payload_sz but passes the server-controlled payload_sz to
-> > fuse_copy_out_args() unchecked.  A larger payload_sz drains the iterato=
-r
-> > to exhaustion and fuse_copy_fill() hits BUG_ON(!err), panicking the
-> > kernel.  Reject replies whose payload_sz exceeds the imported buffer.
-> >
-> >   kernel BUG at fs/fuse/dev.c:1053!
-> >   RIP: 0010:fuse_copy_fill+0x6c6/0x7e0
-> >   Call Trace:
-> >    fuse_copy_args
-> >    fuse_uring_copy_from_ring     fs/fuse/dev_uring.c:686
-> >    fuse_uring_cmd
-> >    io_uring_cmd
-> >    __io_issue_sqe
-> >    io_submit_sqes
-> >    __do_sys_io_uring_enter
-> >    entry_SYSCALL_64_after_hwframe
-> >
-> > Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
-> > Cc: stable@vger.kernel.org
-> > Reported-by: Weiming Shi <bestswngs@gmail.com>
-> > Assisted-by: Claude:claude-opus-4-8
-> > Signed-off-by: Xiang Mei <xmei5@asu.edu>
-> > Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> > ---
-> > v2: add: Cc stable and Reviewed-by tags
-> >
-> >  fs/fuse/dev_uring.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> > index 0814681eb04b..f6127c230dd9 100644
-> > --- a/fs/fuse/dev_uring.c
-> > +++ b/fs/fuse/dev_uring.c
-> > @@ -679,6 +679,9 @@ static int fuse_uring_copy_from_ring(struct fuse_ri=
-ng *ring,
-> >       if (err)
-> >               return err;
-> >
-> > +     if (ring_in_out.payload_sz > ring->max_payload_sz)
-> > +             return -EINVAL;
-> > +
-> >       err =3D setup_fuse_copy_state(&cs, ring, req, ent, ITER_SOURCE, &=
-iter);
-> >       if (err)
-> >               return err;
->
-> Good catch and sorry for lare review! Hrmm, it just gives me a bit headac=
-he,
-> because idea for max_payload_size in fuse_uring_create() that it prevents
-> exactly that.
-
-I don't think this is related to fuse_uring_create()'s
-max_payload_size. The problem this fix addresses is that the
-ring_ent_in_out.payload_sz header value returned by userspace can be
-whatever arbitrary big value userspace wants to set.
-
-Maybe I'm misunderstanding what you're saying, but i think this fix is
-orthogonal to the setxattr issue you mention below? afaict, that one
-has a different root cause (unbounded in_args copy coming from the
-kernel side when sending requests vs. trying to copy in an unbounded
-server-set payload size when handling a server's reply).
-
->
-> After tracing through the code, I think we have two cases where max_paylo=
-ad calculation
-> in fuse_uring_create() is not enough for xattr and ioctl
->
-> For xattr we have an additional in addition to the patch above - it sends=
- unchecked
-> against max_pages and  fuse_dev_do_read() has an additional op code prote=
-ction
-> that I had missed
-
-Nice find, I didn't realize setxattr had a special error value either
-
->
->        /* If request is too large, reply with an error and restart the re=
-ad */
->         if (nbytes < reqsize) {
->                 req->out.h.error =3D -EIO;
->                 /* SETXATTR is special, since it may contain too large da=
-ta */
->                 if (args->opcode =3D=3D FUSE_SETXATTR)
->                         req->out.h.error =3D -E2BIG;
->                 fuse_request_end(req);
->                 goto restart;
->         }
->
->
->
-> And I think with the current patch is incomplete and missing something li=
-ke this
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 77c8cec43d9c..449b84ac24e7 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -725,6 +725,14 @@ static int fuse_uring_args_to_ring(struct fuse_ring =
-*ring, struct fuse_req *req,
->                 num_args--;
->         }
->
-> +       /*
-> +        * A FUSE_SETXATTR value may exceed the ring buffer; match
-> +        * fuse_dev_do_read() instead of overrunning the payload iterator=
-.
-> +        */
-> +       if (fuse_len_args(num_args, (struct fuse_arg *)in_args) >
-> +           ring->max_payload_sz)
-> +               return args->opcode =3D=3D FUSE_SETXATTR ? -E2BIG : -EIO;
-> +
->         /* copy the payload */
->         err =3D fuse_copy_args(&cs, num_args, args->in_pages,
->                              (struct fuse_arg *)in_args, 0);
->
->
->
-> And a generic patch, but that has the potential to break existing userspa=
-ce is
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index 449b84ac24e7..d25d7922bbdd 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -251,7 +251,14 @@ static struct fuse_ring *fuse_uring_create(struct fu=
-se_chan *fch)
->                 goto out_err;
->
->         max_payload_size =3D max(FUSE_MIN_READ_BUFFER, fch->max_write);
-> -       max_payload_size =3D max(max_payload_size, fch->max_pages * PAGE_=
-SIZE);
-> +       /*
-> +        * A max_pages-sized paged reply may be preceded by a fixed op re=
-ply
-> +        * header (e.g. FUSE_IOCTL); reserve a page of header room generi=
-cally.
-> +        */
-> +       max_payload_size =3D max(max_payload_size,
-> +                              fch->max_pages * PAGE_SIZE + PAGE_SIZE);
-
-I hope we don't have to do this because imo even with a feature flag,
-it gets confusing/cluttered. What about just having it be the
-responsibility of userspace/libfuse to allocate a big enough buffer to
-hold ioctl reply headers if they want to handle ioctls that have
-max_payload_size amount of data? On the kernel side we'd just need to
-store the buf_size value the user already passes in at registration
-time and use that value for the import and payload-size bounds check
-instead of max_payload_size which seems like a pretty minimal change.
-If the kernel insists on the + PAGE_SIZE headroom, across lots of
-queues that have lots of buffers each, I think that memory waste may
-add up as well :(
-
-I think with bufferpools being the primary interface going forward
-(not sure if you agree with this, but with zero-copy and other
-optimizations being gated on it, I view it as that in my mind), the
-ioctl issue won't be a problem since the kernel can allocate more
-memory than max_payload_size to that particular request from the pool.
-
-Since they have alternative solutions (libfuse or buffer pools), maybe
-we don't need to bake this in here?
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
 
-> +       /* getxattr/listxattr values are bounded only by XATTR_SIZE_MAX *=
-/
-> +       max_payload_size =3D max(max_payload_size, (size_t)XATTR_SIZE_MAX=
-);
+ > On Mon, Jul 06, 2026 at 05:26:18PM -0500, Skye Soss wrote: 
+ > > ...
+ > > Ie. The fuservicemount binary would be a non-setuid binary, and simply 
+ > > communicate with a socket in /run that is backed by a privileged 
+ > > socket-activated service. Upon activation, the service would use the 
+ > > peer credentials to enforce limits such as `mount_max`, and configure 
+ > > `/dev/fuse`. Finally, it would spawn the sandboxed systemd unit to run 
+ > > the filesystem, using `--scope` to transfer the file descriptors to 
+ > > the new process, or using socket activation with a socket file that 
+ > > only root can read and write to. 
+ >  
+ > How do you get the socket-activated part of fuservicemount to call 
+ > move_mount() (mounting) and openat() (resource acquisition) in the same 
+ > mount namespace as the directly-invoked part of fuservicemount?  A 
+ > socket service has no idea what namespace(s) are in use by the client; 
+ > its entire relationship with the client is limited to whatever is shared 
+ > through the socket.
 
-afaict XATTR_SIZE_MAX is 64k, so if a server deliberately sets max
-pages to a very small value because they don't have enough memory, it
-seems counter-intuitive to force all their buffers to be >=3D 64k. As I
-understand it, the vast majority of xattrs are small (tens of bytes),
-so maybe better to just let them proceed and return an error on an
-oversized xattr than pay 64k/entry in every queue? If they really want
-to support 64k xattrs, then imo it should be their responsibility to
-allocate a big enough buffer size for that.
+A privileged service can enter the mount namespace of its peer by obtaining
+the pid via SO_PEERPIDFD, and passing /proc/$pid/ns/mnt to setns().
 
-Thanks,
-Joanne
+SO_PEERPIDFD is Linux kernel 6.5+, but the commit message alludes to a
+portable alternative if we need to support older kernels
+(ba47545c756b55f4b114c45fea7d52dd1577e181).
 
->
->         spin_lock(&fch->lock);
->         if (!fch->connected) {
->
->
-> Question is how we could add it in, maybe with a feature flag?
->
->
-> Thanks,
-> Bernd
+ > > The advantage of this approach over the current design is 
+ > > compatibility with containers with the no_new_privileges security 
+ > > feature enabled. That disables privilege-elevation through execve (ie. 
+ > > setuid and setcaps binaries), but the use of systemd socket activation 
+ > > would still work. 
+ >  
+ > Yes, though this adds more moving parts to the machinery.
+
+I'm not sure it does because the `fuservicemount` binary would no longer be
+security-sensitive. Ie. it would remove all of the `drop_privs`/`restore_privs`
+calls that litter the mount_service file, as there will now only be one
+privilege transfer boundary.
+
+ > I am, of course, curious to read any patches you have implementing this. 
+
+Thanks for the interest! I'll try to write something up next week.
+
+
