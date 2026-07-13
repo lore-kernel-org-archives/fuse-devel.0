@@ -1,110 +1,131 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111041F09A8
-	for <fuse-devel@lists.linux.dev>; Mon, 13 Jul 2026 22:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B4237A839
+	for <fuse-devel@lists.linux.dev>; Mon, 13 Jul 2026 23:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783980697; cv=pass; b=uhzN5aFqZubHPVxcXzwZiijroZy0Lvr/4S+4wRunfeWeeVB3mCCXKGsaFzRGicwYuy/fVxIzCwWXfEDullPbd9eOAzNWhpxkctEerPPHO+8+b8+95nE8gl9tilIzt7tU3b8fHJSoo2ZRya07aM/zGSqvUTaLpc4r9+g1ZAWAotw=
+	t=1783986695; cv=pass; b=F5Nqxh0D9arR6N9UY+nUd1YqiQtQEx3IJcra4jRcuRAEQtnUBYsMfPq7bwQs/hPpXmGRWAt+A/KVxHhket6v3KdaVoD+O0aj1SDWsmwyhQw3xA+r8J5HZFoW/6oCSSKe2QaNGXgkDI8vEJcUJuTiHQnUqP9azY28/zzGlkdXCtw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783980697; c=relaxed/simple;
-	bh=RYLqTn8lhEpoxphy0WxGRTYgZn3auH47Zx0QJMaEO54=;
+	s=arc-20240116; t=1783986695; c=relaxed/simple;
+	bh=QIDOrEJ4WepeZV45FGMnOxOTF8vP+LfpfgppYUTtmao=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eBqjyVUmQx6ungd5xtbZLQFWdlJgGHCS3yfMSm+TsOjkkB2BmfWlpNC2sgMYZlhwFr4HLyURPMKasAFDihzUIWQZwPzaf85ZinUU9k+4FPkgldkynWwjWGC0vfkajI+KjfKO+J+WuKwcmWcihBmBlQ9TPt+F4DShtEBKksxivN0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rTIEAApe; arc=pass smtp.client-ip=209.85.128.54
+	 To:Cc:Content-Type; b=qttzvaldVgiqZZIOJml9Sulm+y8u2HJeKNhsED8tjlpJ0NgRsnBTpk9vxwca0Gqw285P9vSkTs5c0UeIYfoMYfdTt5ynaP6h5tJVegHznw5A6ni6VBCgFC7M6qZzVkbmjLvX9JD53RnRNBNxdA+9l1e7PwL1HhDrWLFv6LhT7/Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=khm/+u9z; arc=pass smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rTIEAApe"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493f2e39e81so14269555e9.2
-        for <fuse-devel@lists.linux.dev>; Mon, 13 Jul 2026 15:11:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783980694; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="khm/+u9z"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47de0093c42so287720f8f.3
+        for <fuse-devel@lists.linux.dev>; Mon, 13 Jul 2026 16:51:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783986692; cv=none;
         d=google.com; s=arc-20260327;
-        b=rtfP6mDUR2ZJriat2C1UE29IR9B32jBmTPGls2WZvjCRYCt92iNgOTCr7NyvSWaDpW
-         YCz+YNenBRfUBd9NUyg/CpMUbxu68WtzVVG+/+Nx4ijQInom15PBtm8ILC95QUHK+fSP
-         2o8BCPR1/9VV7iV6Cn4KJZ07BVIPbLJD97N4qZ3c8WwfwwJaBqxx7ScIIxPaOLR9ZJ+w
-         YXtb3CjmhFYOGVXbCOZUHPtVbFp0pJVH5JF0nluK4uUIfPU2CSw8+tEo+rc+DSVUF7PD
-         5aTEKOMClC9B2F86I9YezKUTHmZ17Qu5feFr4c/avjZmVUivZ+WtbbSYVaXfKriLsI8+
-         cCVg==
+        b=fhBOVy6pyYLRb9yVuqi2ek0C4PjV/T0Qo75aEJnLsOo2ouJs1fv9dsiDd+1f7ZI0Rz
+         u+rTw0EJ5etuVkj5IBGdmhx12l0c+XkHohj6sI+3O+IsAZCInknVJlDtW6ADdPxXOeOS
+         5dJM60rmWy/dOyUnvLRuiETitU3gVB6AmoprprRAiwlSgrDxagLh2L8eqbvfqZerwqIZ
+         1YHQMeNU1cSTDXnJf+IFrEom4uG+vEBuAnju3zLCu9MZ4IXJfKbC1ZpxG2e71gTQh7c4
+         0h5tRyr7PFihWvNGSqOeu1rWo4WU0cAixXAzJbwLOCzzmLY0Jmzdwu53/SEscbjV/i6N
+         YlPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=RYLqTn8lhEpoxphy0WxGRTYgZn3auH47Zx0QJMaEO54=;
+        bh=QIDOrEJ4WepeZV45FGMnOxOTF8vP+LfpfgppYUTtmao=;
         fh=QinOkR/v+QSoOPiaAYElXOdlTqDkCgDAFawHHu9orEY=;
-        b=bmM2Xbl4ujMvu2TXcTAZ857cgIaVaIy/Jx9TQ4MBFHURIQ8khucYEmq420K9OpeMvy
-         hy4K8SXYsEttPs8zBZmUbVXmuuU08ZbqgfrGcbrA6OhbA5GzrZ6SGra1o5ZNBLd7ZbqK
-         anL7mLqVc0xAMzBu1Txo4XbkLmIxr6Pzq9Rd8cBmC2MH36xRx3xVzqiaj21VD24/EWGb
-         sj0x5JovAIVj3fGajlKoQmZPdxcOH3COKgTyf1XNn9Aq6mWyrFKamB2vVSTtdPD9SZjO
-         dAv8MYqXE9ThRVdrAfDWk8+eLsgw4xqn0axZvDoAS8J+MgWYAukOVmli1g5T6DyvhAlD
-         tdYA==;
+        b=iunXKKIUjBGiKqNDtt4bL4Oc5eQ24RzWUl5aN1eSRfsDOowHPFmJKjOk91CgezF4ON
+         iLwFaMO/TuKxiNKKVkoIgW+kuPbQuPEJCjQUTeCHHPmMeh+3Pg6uVmSVyrzBfzqtd7oh
+         T9fwjbl0WL5MiFm0Ba70nEHA5ytlDKkFHyv6pmaFn5nijMtbYRyvRypn1YjTARyqRiQr
+         gDBLrnD0UBm5pD10Qt43orya/lA6ODAExHgxdqc+7S8gHPlu5EuHt25KlniN+NbS1Uwn
+         lSB+8/g7jLYeG4mK3tX5ysfzLUd1VzCQUD4dHMA3J0l1bUSCR6mo/WFi6AIJBwln69dv
+         1WYA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783980694; x=1784585494; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783986692; x=1784591492; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=RYLqTn8lhEpoxphy0WxGRTYgZn3auH47Zx0QJMaEO54=;
-        b=rTIEAApes/Y63IL3k+/OIokpB1YcEqaXG56+FQNx6Pkg2lEnpLKwhQLD4lAs62maqC
-         Tk8Hk2UHH3380PgevFbTgPbmNNuZjjvNec54Y2KS1LboGyCzYKz0uT3zacVhZ46t29IO
-         xGNg2mIxJmXgHIvnKssQ6a453k7T6WF+y19BbdFsMChBVerlPPsHZQp8JUAD8i0jV+cV
-         LMbri2EN6xQ4Cb3QY/uISXXK3+EQCbVVj5FgiQP7pKkJ8Y9QLPzErcw68YKIwivzD+zW
-         9vhaK4RDuPyEkFGFqnJRfwCOB0IphTsWwa/yuMscF+F35elFKfcO8t0AZXZE21UamSbM
-         TJQw==
+        bh=QIDOrEJ4WepeZV45FGMnOxOTF8vP+LfpfgppYUTtmao=;
+        b=khm/+u9zHd3ilPEVZQPWQMcRwYjOUHn3hK231SsylWJhS3dZmrZn5aETN4eReZH+3Q
+         A7hsc2+N/xSAf5MBQZp/CvCxx82W49O3gw8G1PAH6l9/OTtOOQ+mN98J6Pvhz/Gtbfmh
+         RZpp9TeB9b9NM87rWarHg6XxOovj1XUUhhnRsFxdBkLN1bQcBSgYVnMNRkhTQI3e753j
+         YEU9WspuwQX5Mc5iSKgiqPE8EN/eB5/ZthB7w4cMu+dywD3r5pO9wUUtAUAbFArDZlSn
+         CeKLSaxf58pIMH3h6gH1ti+FXay672R6OujKufS8zcutive45J3GRso2PFVAsNCf4G9q
+         EMNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783980694; x=1784585494;
+        d=1e100.net; s=20251104; t=1783986692; x=1784591492;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RYLqTn8lhEpoxphy0WxGRTYgZn3auH47Zx0QJMaEO54=;
-        b=tPXOUBopi1A9wP7lXYXbMDSZQza5q4lJmTgXSQj4kifOlgXtcQRsZXQGTVIcOYNzWS
-         AJm+ZozDezhYWlIL7MwiZgDwYTuiWQjMZ2W5vLA18OlC8IIFWfMXuLZxzZ2p2QeaS04C
-         Yo7YnTyJRp4xLQhFomNzuSpCxx/tGdYqe2iAw/R1tF6/W5VDFiBlw0XEQOvMMR0pIBdd
-         ScviBt9BL3pCneUgLkYGtlLJ4TSUfVovAOeT/umAHp8nCu/hpGZ9DSucJ1c2rJicNRKX
-         LFUXOcuCGdPjludElixDXcIV0djHB0v54DtivGejx3pkJDHZO/w8EH8G0qb+oZSVc8sJ
-         LEiw==
-X-Gm-Message-State: AOJu0YzogUZKiHR+5vAgCSG/fHSLs06Hyzx7evdVNsYaQIDrnliIPcK4
-	+KDy7JRkjnwA7SRsJH9KDqMn/ngUEfhoED0aS0N9kvYaQEbZJae6lJ6T2jU1ABl4HAB1FgBlr4t
-	JsGygcFnd+kjZ2/YrJRYkaMNTCKIpJERZu7DLe8s=
-X-Gm-Gg: AfdE7ck0xgzpWtZrYd4CQ8QluddJGDG9qHvccERre3hfMtkD+Oa1jLVcC3ni5DkMphe
-	Di82l1L/Hcm/RX2Ml4BrfIJsRzQ2B2YgJLJcKB46/GabxpsdSpgDEToSRACKgxkaSA439v7XWRm
-	4QpKJLzXgCEyU7yGMpH2tpj+JP1hcomPDJAXS9mxW35+MjVjPZUGQuObvCHddB9FnHfc5H1xm23
-	eWx/QLG/tjp3oZ8ZY1MsDloiWu8rR7qx7zkOZOyBv7K+twHw6Q1CqnAnjB1y9gNaRWCVRPJ+AhA
-	WWukic86WrNlXkuLGyZ1gRGSATphWQZTm4AOH1Bq3+xjYnyrdIbvpNIfKgZCRiZsuh7AjQ==
-X-Received: by 2002:a05:6000:2006:b0:47d:edab:a721 with SMTP id
- ffacd0b85a97d-47f2dce9698mr12173493f8f.31.1783980694461; Mon, 13 Jul 2026
- 15:11:34 -0700 (PDT)
+        bh=QIDOrEJ4WepeZV45FGMnOxOTF8vP+LfpfgppYUTtmao=;
+        b=mT7tGxqkkoqJF+tXqbrwHuy8SQvrWyu0lUq7B6H+TzSLR/AwkrL73mmLgxQp//2edS
+         Two2XE18c0q2rNCIydtFKTsOCId8fi/F1fzjA3WnTqUJif6JTkCk2V+yJ7iNcCQO5d4a
+         zVe1ONz/X++JlQBOe2gkFTHEYkOZ8e6kAp3FzJKaql5rkppAESWV6Y4j0kJFfM0W/ImR
+         SMWl9LI0UoY0u8NSwgyFOtmMtXEdnizVMQtS/nZ3iJSLQEStmJ9vcFktziXaZTMWQ/kG
+         kx7VHQNL6xCRKFPh/BuEGr1rSd0Q+U4Xqhn6MiS6+rBjFOloU1x2V+okFUgfsksoc5/4
+         1S9w==
+X-Gm-Message-State: AOJu0YzJYdpNbZZMmd4w6Kl9h7LXQadCsuEQi8Q2yDzWF76s6sI0uWdB
+	+bTBZEsG7dMd8y+GEFpJYET952DCgKQ/qcOhjh+ynvhQHDquUijZ2h52xPwyq7iEW6jN7ktcHle
+	e/LzQfXQOKdDK1MOEsm1iENE+iakRFyVV4rfYmCE=
+X-Gm-Gg: AfdE7clyQj/qCVpaxSIL+EQNylckfcbkDf3g5/yhN7gCJlt2V/dQVebiusx8L/7Awlh
+	Y5kQAIjf84fu0XLgXAM6eGzew3DMKbYNvv15fJYIF3oG03amj056Y4w4v55jkqy2ClD18/9j6vv
+	6vjfmkzad322Tf0LPJeDnoX0yaNWC5f/ImP892aBSbpDbuTf/e02Bxqxt0tKaAL7tiFQg1BEi17
+	Bdnw1B+FrU7TyzfzJIKNYTX5ORqdQWm+EhBzg+67tIMth/f2wX8f/ETo8LBwaP34Cr+LSU1bXNw
+	u9tPXVEIBCFeoKDPKzd2/gv3DfklZwHOFbujsnMkKJyiH0xY+oXZSPmWmJE6lsr93nb9SQ==
+X-Received: by 2002:a5d:5c89:0:b0:476:cfa0:a976 with SMTP id
+ ffacd0b85a97d-47f2dcb60fcmr13603037f8f.5.1783986692301; Mon, 13 Jul 2026
+ 16:51:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260713175345.2542331-1-joannelkoong@gmail.com>
-In-Reply-To: <20260713175345.2542331-1-joannelkoong@gmail.com>
+References: <20260713175345.2542331-1-joannelkoong@gmail.com> <CAJnrk1b9jjvP6a9PaYAiA0HZcJ0_dR_O2aGWPF44T2NNBJC94w@mail.gmail.com>
+In-Reply-To: <CAJnrk1b9jjvP6a9PaYAiA0HZcJ0_dR_O2aGWPF44T2NNBJC94w@mail.gmail.com>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 13 Jul 2026 15:11:22 -0700
-X-Gm-Features: AUfX_my9JOM1Anjv8osAQkporAxxoHoY0M2kvYC4ypcjnle895hVIZpywcmiiHM
-Message-ID: <CAJnrk1b9jjvP6a9PaYAiA0HZcJ0_dR_O2aGWPF44T2NNBJC94w@mail.gmail.com>
+Date: Mon, 13 Jul 2026 16:51:20 -0700
+X-Gm-Features: AUfX_my6FijZPNDEgqBOq4yrwgYzrjba6PmZziF1Sz1HBvGPPiRPm2XXMZ3jWL8
+Message-ID: <CAJnrk1Zo_j_QY9Q=jft5=fio9mU36uy5LXP3bC4=xO8DbakzrA@mail.gmail.com>
 Subject: Re: [PATCH v1 0/2] fuse: fix missing barriers in io-uring init
 To: miklos@szeredi.hu, bernd@bsbernd.com
 Cc: fuse-devel@lists.linux.dev, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 13, 2026 at 10:54=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
+On Mon, Jul 13, 2026 at 3:11=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
 >
-> These are two pre-existing issues Sashiko reported [1] on the fuse zeroco=
-py
-> series.
+> On Mon, Jul 13, 2026 at 10:54=E2=80=AFAM Joanne Koong <joannelkoong@gmail=
+.com> wrote:
+> >
+> > These are two pre-existing issues Sashiko reported [1] on the fuse zero=
+copy
+> > series.
+> >
+> > [1] https://sashiko.dev/#/patchset/20260630211436.2062816-1-joannelkoon=
+g%40gmail.com
 >
-> [1] https://sashiko.dev/#/patchset/20260630211436.2062816-1-joannelkoong%=
+> Sashiko noted some other places that are also missing barriers [1].
+> Will send v2 to add these places as well.
+
+These additional ones aren't real bugs. They're not reachable on a
+well-behaved server and on a malicious/buggy server, the failure is
+benign / self-correcting.
+
+I think we need some sort of way to help Sashiko understand so it
+doesn't keep flagging this on every future patch anyone submits. I
+think there's a few other places where some of Sashiko's
+assumptions/analysis are wrong (eg uring-cmd sqe stability semantics
+[1] in the zero-copy series). I'll look into this unless anyone
+already knows how to do this.
+
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/fuse-devel/CAJnrk1Y2tiwCecH-HVyaP79kcmBoEYu--mm=
+wRKzp=3D9uZNaiSUA@mail.gmail.com/
+
+>
+> [1] https://sashiko.dev/#/patchset/20260713175345.2542331-1-joannelkoong%=
 40gmail.com
-
-Sashiko noted some other places that are also missing barriers [1].
-Will send v2 to add these places as well.
-
-[1] https://sashiko.dev/#/patchset/20260713175345.2542331-1-joannelkoong%40=
-gmail.com
