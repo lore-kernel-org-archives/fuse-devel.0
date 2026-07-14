@@ -1,161 +1,209 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EB0432E84
-	for <fuse-devel@lists.linux.dev>; Tue, 14 Jul 2026 23:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784073258; cv=none; b=m/bmWB39lS9gye0pIHTX/V2JW+fx4KoKP8vK+p2Ao0dBfERg+OHcCzuxNIledhys/r5r+fODq5eu1rdTjaTQK4rEyqcByqOcHqje6zivorT/j7d9tTQgH1oXHj1PbfQxVdASGF6qLJuv1z4dORxREiGyjXEDgiNjTj9zRb+02Mo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784073258; c=relaxed/simple;
-	bh=t2bCjvQESDfrtTkydLO1/4vSR4Czd2I4rz/vDz9rwe0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=URRCAs7rx5Z30hTMw0O3rf/xbw/btuHprHeUG/ZVboF1L0AzxU82UIsSJf00BzTL+VS1CQAad3J2haFu90ZZod3cjK9ab0yXm0ExkgBJ2D0TFkMMDTwHJnreRTZUF0rhksNxsuAwgt+ERUcwDirYFqBFxc+xWCkw97Rx9W2wVaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=kK1/+wGS; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E2927587D
+	for <fuse-devel@lists.linux.dev>; Tue, 14 Jul 2026 23:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784073410; cv=pass; b=irom0K7f2chSMbWhZR3P1qSk9ntHDqsyogFNhX3oTm/J6EU9RmnTT7h12YAruEaXtjE0Zf9Ja4uwwrJPWERrp81wQW+Mq9ucOKwxWDxsB3H0aKrnMXhvz6EIq0LQEkpUjYbqwbCpLPSGHU2zegbGfy0J7bIRYmXm/LryMPK51vE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784073410; c=relaxed/simple;
+	bh=6Fpv/SB25gudhh3flfFdWSjRk6FL3uKgMmFq0SGfsa0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MJGdDaoPGxrOruWf3glBmS1deObp3ox5hQ67no3iRFKpeZ2SfPqRtQlUv131OOwOjKE6lklfa4Tc+lHm1LuDzCF+V7zv9dzMszFqMzKu4xktZmyzuYpziA1/RPENkhlL8Eye60lz/5dkOnA5Hf+7OCkjt3TidW4DyeU8hgs4+PU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=XCJEpJ1C; arc=pass smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="kK1/+wGS"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2caced6038eso21347705ad.0
-        for <fuse-devel@lists.linux.dev>; Tue, 14 Jul 2026 16:54:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="XCJEpJ1C"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84847482584so1196838b3a.0
+        for <fuse-devel@lists.linux.dev>; Tue, 14 Jul 2026 16:56:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784073408; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UMbKksDLyMrr2Dwdy1yseaquv04StnogVI5CZG+xeScELXTcciH4W2uems4Dr9JNHl
+         gTrWmvZTJ1n2nqf2G7CpB7ue3nrlbbD9kNKpPjDgqBuVLq2VbyUvgNeg+AaB4HJh8fum
+         S2GVc4/08eDxwQSStAxoDoknKSZ+jDUc/nMc6PZxK9nbcZLL+HXEmvYkXNSjXXacIBfX
+         Gi0p8kuR/P2jKjVG94wd7krTxCh9yl5BzCO7MbA2pwTrWw0pRW9bzK2H3Kaac25Zvs3V
+         RYE3MZqOyPN8tPB80vg1R4vkbuXEZGA7Fd1RjtN+Y0F3jU9w4YfSKrtzUNx4E35FIOl3
+         Bexw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wbAPfP4ZbZmDgX9Nwlzq5TjRPzqN58/bDtfUIlP4wNM=;
+        fh=lblv571AwPgir4ZaAT5pIf8m5aDjqjJTMvQcuBIfbAA=;
+        b=WTIdDO3CCw91aJGociRlCdM7m4751S10ux+Qe61wEjMKmbutY6oNf3m71+/rSHMILr
+         4+wfGN+GKqrEkXaaQLpmKm4hrQMf4Eu8SupEpirBJkJLmSCCuGm0p2vzbVFHJ1x04t8h
+         P4O7m3cI0PbJ9wL3jS3QYZpErmBusTi1Scfll/DEcxRSiFb/Z1kZ3UsUz4bJ00DomzsC
+         KSdUjgP4yBILARLKdBTRJ7NTgu1W2eoUc/lLHpR3BIngCSWtAVEpNmFMrlNVlkmOzy5n
+         rw6Q2Uw+hwEcOSRPWKtgWjei1giHTa30wgexKv2b2nYqERPcGLf1IvNdhs79idmLwiUk
+         /aWg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1784073256; x=1784678056; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WEci7FoVON0/ZMv2IFLGjX0V0D6atEWv0SWH6c8vLwQ=;
-        b=kK1/+wGSRoWnxRwlJKY9id2noDRKODa0RL92ZYrw+iFvOhedw8JP0TY7GNjkS5L8D/
-         4djxYVyQjJnRJ2uA+O8f0vlKZIJ72o9yul4+JcyWpSA25VC5QZhc9tfeUDF58nOa398S
-         FEzMAsFxz98wtn0ocjBd0fEfpowO2Cmxnc0MQR9DfEnbU2oEkIsR06AzWZgWMAzF0BxB
-         SY0tvfrsYugs2QdX7wW9jNTnSTwE3/OYeWIs6s8Xd65J5GKpfivkk/qtVtSzezfffmA4
-         f6omJlPUfG/UVY8nw2OhcBAc3zhbrfkwAjzoOejxrRgTbF06C04HToirq4m4cZ/oNLyq
-         Hxsw==
+        d=asu.edu; s=google; t=1784073408; x=1784678208; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wbAPfP4ZbZmDgX9Nwlzq5TjRPzqN58/bDtfUIlP4wNM=;
+        b=XCJEpJ1C8xyPiUkuFlFHShNQfXbMzdevApX0hQXtfUEagEUKe1ZZAnL614KBBg/R1z
+         Q/qTqLPFH+glFGnAln4YdX9I95KhWj/HXUbBQ0ntkrZ3GS6XfzjmiqXrbwvxO0B5v5Sw
+         gRfzIR9v7/0qXJzPwuhC+2GCbrfmRTdcbxoLzmJeBTaqs8bD2ruSqVQMzTuzSkl78R0l
+         3NWWf9s3eiLUdi++gzeevBL5LpqlnRo9mD62KCZRwEnn9P200NSGdkWX/NZlJafdrGlw
+         RR2fSi6CSe7FUsIhbbUgJsQOIjwqW9ChIDwStnt62bBUueFkESQQWJYm5hduRSfUsgJL
+         yhag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784073256; x=1784678056;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WEci7FoVON0/ZMv2IFLGjX0V0D6atEWv0SWH6c8vLwQ=;
-        b=mTyGmV16ocLjO4QktH0LXFsx/LvsScfmWuAc0nrWsnIil1hJyhcTVAMRoCcPDUUwQP
-         Hwn8azb3ZcBFdytgzVGRbU40zzWd+dNpP4Pz4B/LzEWLEefLY2kFKzBYSh+gMG0CAPoI
-         TRsybE5dv8Gs+AoJY5zo6rMsws6+OPY/WyWoZrRMNTeycFXOVWljl8yR6kJbjJ4i5DcW
-         3iX938JirAZAbVP4/dN5aDXPanPjdfCs6H0eeVYnGyU6StzbH2Fc59oqS1BxN2jbGwnX
-         WSbbPFiWssk22QNorUAnhT+3NqB0cAaoCpcf9j36KXfpl9kDtzCh8s8a2oLs34X3MnK7
-         y5KA==
-X-Gm-Message-State: AOJu0YysSHFz7AsOIzVU9neIVH0YIP4BWQCLWB6+7Bkb5fGagHJT8Fvh
-	cFfuQqZjFzZQzUUolD7sHbNljUU9xYKqGlE20muVgmhOmEtxQAEsGWP48/Xq/vrqfA==
-X-Gm-Gg: AfdE7ckINCoMPRLZ64A+4G5/KiGOh4Wbs4/WxFcp8WQWX5Yr9B9PRlnjROM3AKIOpgS
-	aN6rDDxAfENx6ijUs2dLPyPjM1oa36Rp6rW8ZUOJrlCZprupm+pHoijUAZMnJKbTKy/PW+BaT94
-	g1Cf6qeIYxsFeqkXpxNEVLs15HKlze6qOSyipmMAZd4JCSg66dc/KspMcS+6gDdPdpBrkOhphJu
-	KvMDlI10k8VNMf2SXlEyM1v1e51kNC3Db3eDZhj6ZZpeItMU6zvNg3tvBcRl5Fey3BCa6Uj323S
-	o0cZOw/72xxf92TtA8QbeMgdeoZjDQOnQifL7yEWEuIjyrucda1mi4MID2eh2MovrgWdir3WkFD
-	44VXfEhr4cVk9VkSaAmcWYGtgRCzVUc2fO/SaE+sZdWohE7xyRlMK9nPptEI26qjlz5xvtnQCmg
-	==
-X-Received: by 2002:a17:902:e785:b0:2ce:b67d:cf06 with SMTP id d9443c01a7336-2ceb67ddf65mr114511605ad.1.1784073256262;
-        Tue, 14 Jul 2026 16:54:16 -0700 (PDT)
-Received: from p1.. ([2607:fb91:1513:463e:34c6:f6a3:8e91:2983])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3d451sm123236075ad.65.2026.07.14.16.54.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 16:54:15 -0700 (PDT)
-From: Xiang Mei <xmei5@asu.edu>
-To: Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>
-Cc: fuse-devel@lists.linux.dev,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Luis Henriques <luis@igalia.com>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	bestswngs@gmail.com,
-	Xiang Mei <xmei5@asu.edu>
-Subject: [PATCH v4 3/3] fuse: deduplicate the oversized-request error selection
-Date: Tue, 14 Jul 2026 16:54:08 -0700
-Message-ID: <20260714235408.1666063-3-xmei5@asu.edu>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260714235408.1666063-1-xmei5@asu.edu>
-References: <20260714235408.1666063-1-xmei5@asu.edu>
+        d=1e100.net; s=20251104; t=1784073408; x=1784678208;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wbAPfP4ZbZmDgX9Nwlzq5TjRPzqN58/bDtfUIlP4wNM=;
+        b=ZhLIExx2fHBa8bYMO+MC3GvdPdJ/P2xtTqIHDQ8Z0Nj9BiS/CMG6nu0baZRvMEhiPV
+         guqIecbvZNtZPf0uE9xpUtkLGSh01dUAWTJClLWp2NTZAX2x8AbZoEEvHAr5ahTgD0Qp
+         9lZgOtRB/8jjRokdp52waYmr8oKe3D1iiYY5u6R4T97CWH+Jbq25D58pkHDjzuGXrCCX
+         2e7M0h7hFKmV1rXKTApPY99VbQxy15gncrlwukkXOZkK0WC1nXtYPyIksiU8RJm/zfA2
+         NPQVW/l3G0cgvwNax7y+HTrhNy5JVps/2Ys94rgK6L6O6GJ4p+K+uLMF5yND5u6aXPRA
+         ZkZg==
+X-Gm-Message-State: AOJu0YxGsSM8TGmRJHK4umijwTM/kMH5cipOcGKKXxLgM6SkAEovrvNt
+	/XaYb1Abf11wpP5sVv+Q09S5A5LSxqyXa5VvY+uAnh33BUbkd5EVpipwRvaBSmIgvtehLq3a1Ju
+	LXSF0bcS59NC9+miGkRsKNSOGbat9PvV4Mm1X8QOy
+X-Gm-Gg: AfdE7cmZzMBtAYyBIzBbHEDxU2zruc0a8yL9bjMjQm76Da+LjbCRQQ5a+JUj8Hp+H/9
+	QUzfY2RU77sSXpEsuf3punOgqro4nr86gP1mVYXt7MkcT6gncWJ77b8tSuBE5Xj2qR72n5TAPoZ
+	lYtbrvYMBH2eqKMJhK6Zj4WXh6WUoGtO56qNAHz0xKh4ZCWNumVJpzflJIS8BnIyrP05997IUy4
+	o20MSzMV0VXzf0lDzccOZaJH57JVR5S25MBrmseUowpBYWGEkI7hBDlQuJ6of2MHhBD0CAo
+X-Received: by 2002:a05:6a00:1d09:b0:848:2f58:e1ec with SMTP id
+ d2e1a72fcca58-84870798902mr15715102b3a.39.1784073408405; Tue, 14 Jul 2026
+ 16:56:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260709211130.543773-1-xmei5@asu.edu> <26a9a225-617c-4492-af1d-152d71414f4d@linux.alibaba.com>
+In-Reply-To: <26a9a225-617c-4492-af1d-152d71414f4d@linux.alibaba.com>
+From: Xiang Mei <xmei5@asu.edu>
+Date: Tue, 14 Jul 2026 16:56:36 -0700
+X-Gm-Features: AUfX_mw5OdcJsljs_oJJ0LuEjIoWcseG9aZEf-wHZwZ0vy0tq-WnqPuMiDAI62k
+Message-ID: <CAPpSM+QrQk8k8NH5Qz5XHf-O=U0Et_OJFpP4iBtX4dkJ8gamEg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] fuse: copy request headers via a stack buffer for io-uring
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: fuse-devel@lists.linux.dev, linux-hardening@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
+	Luis Henriques <luis@igalia.com>, Pavel Begunkov <asml.silence@gmail.com>, bestswngs@gmail.com, 
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>, Joanne Koong <joannelkoong@gmail.com>, 
+	Kees Cook <kees@kernel.org>, Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-fuse_dev_do_read() and fuse_uring_args_to_ring() both pick the error for
-a request that does not fit the server's buffer, and both special-case
-FUSE_SETXATTR.  Move that choice into a helper so the two transports
-cannot drift apart.
+On Mon, Jul 13, 2026 at 1:20=E2=80=AFAM Baokun Li <libaokun@linux.alibaba.c=
+om> wrote:
+>
+> Hi Xiang,
+>
+> On 2026/7/10 05:11, Xiang Mei wrote:
+> > The fuse-io-uring transport copies req->in.h out to the ring in
+> > fuse_uring_copy_to_ring() and req->out.h back in fuse_uring_commit().
+> > Both headers live inside the fuse_request slab object, whose cache
+> > (fuse_req_cachep) is created without a usercopy whitelist,
+>
+>
+> Then why not allocate "fuse_request" with kmem_cache_create_usercopy()
+> to add a usercopy whitelist instead?
+>
+> That would avoid the extra stack usage for the bounce headers and
+> the 56 bytes of copying they incur.
+>
+>
+> Thanks,
+> Baokun
+You are right. I have dropped previous reviewers' tags and sent a v4
+since it's a hot path:
+https://lore.kernel.org/fuse-devel/20260714235408.1666063-1-xmei5@asu.edu/T=
+/#t
 
-No functional change.
-
-Signed-off-by: Xiang Mei <xmei5@asu.edu>
----
-v4: introduce fuse_req_too_large_error as a helper
-
- fs/fuse/dev.c        | 5 +----
- fs/fuse/dev_uring.c  | 2 +-
- fs/fuse/fuse_dev_i.h | 7 +++++++
- 3 files changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index b8e43e374b35..56c38aca7389 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -1584,10 +1584,7 @@ static ssize_t fuse_dev_do_read(struct fuse_dev *fud, struct file *file,
- 
- 	/* If request is too large, reply with an error and restart the read */
- 	if (nbytes < reqsize) {
--		req->out.h.error = -EIO;
--		/* SETXATTR is special, since it may contain too large data */
--		if (args->opcode == FUSE_SETXATTR)
--			req->out.h.error = -E2BIG;
-+		req->out.h.error = fuse_req_too_large_error(args);
- 		fuse_request_end(req);
- 		goto restart;
- 	}
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 4529505b2bca..cebd8f871627 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -729,7 +729,7 @@ static int fuse_uring_args_to_ring(struct fuse_ring *ring, struct fuse_req *req,
- 	}
- 
- 	if (fuse_len_args(num_args, (struct fuse_arg *)in_args) > ent->payload_sz)
--		return args->opcode == FUSE_SETXATTR ? -E2BIG : -EIO;
-+		return fuse_req_too_large_error(args);
- 
- 	/* copy the payload */
- 	err = fuse_copy_args(&cs, num_args, args->in_pages,
-diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index b511aaab6bfc..4958158c0f02 100644
---- a/fs/fuse/fuse_dev_i.h
-+++ b/fs/fuse/fuse_dev_i.h
-@@ -13,6 +13,8 @@
- #include <linux/workqueue.h>
- #include <linux/fs.h>
- 
-+#include "args.h"
-+
- /* Ordinary requests have even IDs, while interrupts IDs are odd */
- #define FUSE_INT_REQ_BIT (1ULL << 0)
- #define FUSE_REQ_ID_STEP (1ULL << 1)
-@@ -367,6 +369,11 @@ static inline struct fuse_dev *__fuse_get_dev(struct file *file)
- 	return fud;
- }
- 
-+static inline int fuse_req_too_large_error(struct fuse_args *args)
-+{
-+	return args->opcode == FUSE_SETXATTR ? -E2BIG : -EIO;
-+}
-+
- void fuse_iqueue_init(struct fuse_iqueue *fiq, const struct fuse_iqueue_ops *ops, void *priv);
- 
- struct fuse_dev *fuse_get_dev(struct file *file);
--- 
-2.43.0
-
+Xiang
+>
+> >  so copying
+> > them directly to/from userspace trips CONFIG_HARDENED_USERCOPY and
+> > panics:
+> >
+> >   usercopy: Kernel memory exposure attempt detected from SLUB object
+> >   'fuse_request' (offset 56, size 40)!
+> >   kernel BUG at mm/usercopy.c:102!
+> >   RIP: 0010:usercopy_abort+0x6c/0x80
+> >   Call Trace:
+> >    __check_heap_object
+> >    __check_object_size
+> >    copy_header_to_ring          fs/fuse/dev_uring.c:618
+> >    fuse_uring_prepare_send
+> >    fuse_uring_send_in_task
+> >    ...
+> >    __do_sys_io_uring_enter
+> >    entry_SYSCALL_64_after_hwframe
+> >
+> > Bounce both headers through an on-stack copy so the usercopy touches
+> > stack memory, not the slab object.
+> >
+> > Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+> > Cc: stable@vger.kernel.org
+> > Reported-by: Weiming Shi <bestswngs@gmail.com>
+> > Assisted-by: Claude:claude-opus-4-8
+> > Signed-off-by: Xiang Mei <xmei5@asu.edu>
+> > Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+> > Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> > ---
+> > v3: no context change; add Bernd's Reviewed-by
+> >
+> >  fs/fuse/dev_uring.c | 12 ++++++++----
+> >  1 file changed, 8 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> > index 77c8cec43d9c..0814681eb04b 100644
+> > --- a/fs/fuse/dev_uring.c
+> > +++ b/fs/fuse/dev_uring.c
+> > @@ -744,6 +744,7 @@ static int fuse_uring_copy_to_ring(struct fuse_ring=
+_ent *ent,
+> >  {
+> >       struct fuse_ring_queue *queue =3D ent->queue;
+> >       struct fuse_ring *ring =3D queue->ring;
+> > +     struct fuse_in_header in_header;
+> >       int err;
+> >
+> >       err =3D -EIO;
+> > @@ -765,8 +766,9 @@ static int fuse_uring_copy_to_ring(struct fuse_ring=
+_ent *ent,
+> >       }
+> >
+> >       /* copy fuse_in_header */
+> > -     return copy_header_to_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->i=
+n.h,
+> > -                                sizeof(req->in.h));
+> > +     in_header =3D req->in.h;
+> > +     return copy_header_to_ring(ent, FUSE_URING_HEADER_IN_OUT, &in_hea=
+der,
+> > +                                sizeof(in_header));
+> >  }
+> >
+> >  static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
+> > @@ -871,11 +873,13 @@ static void fuse_uring_commit(struct fuse_ring_en=
+t *ent, struct fuse_req *req,
+> >                             unsigned int issue_flags)
+> >  {
+> >       struct fuse_ring *ring =3D ent->queue->ring;
+> > +     struct fuse_out_header out_header;
+> >       ssize_t err =3D -EFAULT;
+> >
+> > -     if (copy_header_from_ring(ent, FUSE_URING_HEADER_IN_OUT, &req->ou=
+t.h,
+> > -                               sizeof(req->out.h)))
+> > +     if (copy_header_from_ring(ent, FUSE_URING_HEADER_IN_OUT, &out_hea=
+der,
+> > +                               sizeof(out_header)))
+> >               goto out;
+> > +     req->out.h =3D out_header;
+> >
+> >       err =3D fuse_uring_out_header_has_err(&req->out.h, req);
+> >       if (err) {
+>
+>
