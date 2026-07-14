@@ -1,138 +1,225 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF8A367F4A
-	for <fuse-devel@lists.linux.dev>; Tue, 14 Jul 2026 11:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784028128; cv=pass; b=F70T2WoDEMo0NcgRnSp3Bl4iKTf+nQu787Ojq58e5dxc4ciZM5IdqaqCGWqoYNVNGTYYtUVOEJq6UnSgwyaJymX69gvYNcMZTViWk4kemgtu+yR0Mw/qg+5uRCNdK8kcdIMb3ot/jS/b4LF2DJ3LqjnNqiERY/a98t2lL0A04F0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784028128; c=relaxed/simple;
-	bh=bJUeMKQG3cczeINdPYa5bHkurV0CwFGNWw6AvZenC78=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=csfHSEn/Pi19HiTuYyOq+DrTNgIn1x9fM/QxfJJiH1jcjsuF2IkjxQdud1R9dRFHyohKXTKZMzFt95X5Bw6ugVauVOS/pxRXDaQ+s1wcs4W99bErmyRJLzdl5b3sw5FGtmAn8gxN1JMcoRFjQcGh0kMwMF2sU+U9N7CSaT/ddcY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EbicG5gP; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093AA39CCE0
+	for <fuse-devel@lists.linux.dev>; Tue, 14 Jul 2026 17:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784049018; cv=none; b=aNJs0tQstgKbHXJPkA0t0XYbNAC+OlWfIrwV0MzzeFIp4xRnyp4mPuJwuZjNTW8QE+C1OHz6IdA8ftp3hcrjAaWNJ70mlxyLO25Psx8pmHk4Ou09FEZcgWJu+wgXMX8ZO/DXh0MGMv0WufDnNwJKXfj2/H42SmI9Gs6ukdaTARQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784049018; c=relaxed/simple;
+	bh=ql+WtXiju1TmdGiHrGommNGgAvPHu8GW4ovYZl9Ugfs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D8tL17XEblixwjfEGnF5eXfjwEdNNkug3bDTTVRdAJFUmtfv3pQ42ouQvLJXIPJscoTw5FLI4+kGQ/bDpNHr3kww5sswAkyguZQH3Mxl/OsFq1eLFvXO3e21w1lIJwccu3wCfwLGvSGjtB5d99PZmYBL9JcKuZb8kEo5sWXbxqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Uwn8A/dU; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=wWBmG7X6; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=bJBDKPsP; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=ZWinf9Mu; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EbicG5gP"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-69a50189d25so7289930a12.3
-        for <fuse-devel@lists.linux.dev>; Tue, 14 Jul 2026 04:22:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784028125; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TvnxogttsDFp9o25KIFeK0HyaDdaC4hpbEIid/fHZ8tk1uRJ/9pA2WPRGzu9xXECHw
-         gEgFCPvq9a5PAk00jbSCOZ7YO/rWGrT9JqWTStzJGJ4kSHZ4HI/+yYlO9oIJQ+Y35mjV
-         kgzl2S6lWsuqKDI6DI++as/pAmLde/9/nwikRHH3h2DfcFXEczNpyNb74DmPTmswc1D9
-         83F0wiDveH+yI5cjniZyI3r6VEp60rshx6shECZIYO3uw11Nk4Tv5GUhNIkPH6sGkg9F
-         1oORcvrzKYplSeugFLb1Dt5vykVZrkSEF/sC82ci9U1/laHRfctuBCQ9Quyh00ox7AGw
-         virA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bJUeMKQG3cczeINdPYa5bHkurV0CwFGNWw6AvZenC78=;
-        fh=7CE5F+RZJ7A3Ul78pm0R/Mp/QBwSA0g/mI07TzjJ/UI=;
-        b=XAaIjmg+NmvtAf4/luF+Y64vxbGrxmLfoE/EyESnBrPZiAnC9lqSWYH8VznBseS+13
-         zBQNac5219jS4TsFIzWSjN3ywmay9FDMa32ibdrDkqn34gZF2RWj+Iui5l+Y3pYwkCLZ
-         eQVD1pLasmXUHvUxQvCJyCqqr6VPym4NxP9+I5bRWvBS7tTqc38EfrlxFbTo+lHvcCXg
-         eI6oONfkslpfqab9sN4Plo3D9qQ54sxIcR1WyEAxFb0/zz2CgsYCvQnUToc/xr7tbG8n
-         KXOFcdNJksej3S9hgLWSb7ZzXZm9H2pdyCSkKIweEPSdW3/lAt6N8Mcxavabv4Z36d5O
-         baUg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784028125; x=1784632925; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bJUeMKQG3cczeINdPYa5bHkurV0CwFGNWw6AvZenC78=;
-        b=EbicG5gPAU/T+TPRYLu4A3nuzzZcN+0lBZJXYsxNky6S8Y44n5kpcPiMvPlJchyPK+
-         EZxn/YmmwqjKjW2cSqFe09ScXS2gXEOQrOJG2F/nHNly4BEyNrcu1o82vTz9KIIvFiJL
-         z30Wj2PnfoU/9MDxdJSJfUa43Q+KyKdi3r+BJn5oJVL3GJNx6L38G3B9vyZJW9wKg8VY
-         7eJVkdpcdasiDIFnrsJl639AbmnwIfAOflordaD8QKXBfGQa5JdYBQPFln7T+U4u51dB
-         WJlSOdgMtvnjZl+cb89k4E/3P1IUcbLmAVAk64+i9g2Y3k5C44bJjxRJPA9ioJW5+C0/
-         23mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784028125; x=1784632925;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bJUeMKQG3cczeINdPYa5bHkurV0CwFGNWw6AvZenC78=;
-        b=OAD/m58iwWFH+LtFyygEzwsSs8YIwKFz0NoEsa3zK0DhoDGdfTVvCPkGs+NBlgCVpE
-         2PTRyZTHQB5jxrSMnV8qi6aLP3eysmuqNgwlVqvsd/qVfZEtpr9QE5ZD0wsi16msxmM5
-         Q7uGk7Ph3d5D4ZIQoIAXKD4WBc1nsvR7nsbkAqJvk0omHY3VR3LJFHclQlJqANgwIg48
-         FLR9edydzn3x1oUVMhoBPQQVjQkwXC09qjKP0WGxYgSprNu89r8zWXZ7UqrjgCFxR7yh
-         o3GPn3A4OcrKvQdwqJy2djPoDUSDT91ufT0OQz/5RLRE7hKLXapWgPEa75AGXPN2aV+l
-         1Khw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro5SHmQpEHY4/5ZFzIjheOtskOW3gKsKG64t2cxPT0jLwOpQpcTwDulKox7BGQPt++8imK9yIft4l7j@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1P7O+hwoKtK0u2w+SjUBDPOhWASNiLub87/h6juCyoYyvOfhd
-	QfnZQD0qOmdOzGoFYAgDxhWqkB/a9yz50TILwNzmDmk9Ynm6DWO48LgdY02dSi+irjC0iaXqhzH
-	kl1oNy5QVqHSpHdvKUxH/oHUd1CJfftDfIXcP+Gc=
-X-Gm-Gg: AfdE7ckEs5++/P8YM6VBWyZBqGIHmcMdu3IbF4KiKcA7Qd91R4f2XQWjy/zktR0JT6E
-	Vskm5SE5ZGbY8E3Di+UkTrD/2ZJEXU5Ly9BAIgidaYjlQPZjjEY0s1sAdKIFXtM7OlcYgMVUYj4
-	6lIK/Yhx7WscvP+A1nU5/NsuzzjMYlZAFDCNHoaqeHVmwII0GomvPnrd6tIJHebpLm0PYSeIE1I
-	7H6UDmokmd2+2HK3ktHLP+6WBRq54h/SDv6eYgRleHVJghxC5QBlX+0kWGdCBWZDy5xGmohnYFV
-	mUloR+uS
-X-Received: by 2002:a05:6402:a299:10b0:69d:4ed6:449a with SMTP id
- 4fb4d7f45d1cf-69d4ed64c46mr482016a12.8.1784028124702; Tue, 14 Jul 2026
- 04:22:04 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Uwn8A/dU";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="wWBmG7X6";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="bJBDKPsP";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="ZWinf9Mu"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AE02875931;
+	Tue, 14 Jul 2026 17:10:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784049015; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rq65HxjS96GzSQbJcIB1UdAlTsGtC31W9ZjmCJ/+8o0=;
+	b=Uwn8A/dUj8hZWwan0DhTob67jN7T7CtNwhBlECagYwKgHx/D9IuXb/uxPu1dDqeisdCBI1
+	KVa0+qwmoaDS6rAUEgih5Yz4B+5hOXqfo+OhaxS0Ub6ZU2B2NxdS+LEehrfe1ncXvNRp/x
+	yzEf68zYE+Gr87FmZXSbljvry0tTqmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784049015;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rq65HxjS96GzSQbJcIB1UdAlTsGtC31W9ZjmCJ/+8o0=;
+	b=wWBmG7X697ZLXtO79XHFO4MWOXA26j9pv7VBH0R8NI0KHKA41I/FcAcyKSKKDfTK9dGZR/
+	Ar9vvpIj+4l6GfCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=bJBDKPsP;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=ZWinf9Mu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784049012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rq65HxjS96GzSQbJcIB1UdAlTsGtC31W9ZjmCJ/+8o0=;
+	b=bJBDKPsPbNBvMQrK15vdTQ9tjIK6KCMzxz72sCOmYlMzMRun72NuCYfMHjUv7PqVntMaJm
+	jF2+HKm7QSdRdi0R9g5dRQtlpVhYAhjSK5VFkDSiCvHPEh2Iup4X90wa/SgOmQvUMMe/XW
+	WIjlaiAl7yGAXy7DULCVvCLQTth4MGA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784049012;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Rq65HxjS96GzSQbJcIB1UdAlTsGtC31W9ZjmCJ/+8o0=;
+	b=ZWinf9MuCFuIZQdjkUgsp3zQfyqjuzlvNcwWR2xoMHUUlEhTczZD0eyGrtViRHK9Fqoa2I
+	pusN/3K87ilw5TAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9998A779AE;
+	Tue, 14 Jul 2026 17:10:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id EGp6JXRtVmr7PgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 14 Jul 2026 17:10:12 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 363E0A1319; Tue, 14 Jul 2026 19:10:12 +0200 (CEST)
+Date: Tue, 14 Jul 2026 19:10:12 +0200
+From: Jan Kara <jack@suse.cz>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
+	Jingbo Xu <jefflexu@linux.alibaba.com>
+Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
+Message-ID: <4fsrafuhoqgoirlt2sy6vk2ljvb3tdps4hqbcrm5qc2pr6tlaf@tboejm2wdq2s>
+References: <CAJfpegsyHmSAYP04ot8neu_QtsCkTA2-qc2vvvLrsNLQt1aJCg@mail.gmail.com>
+ <CAJnrk1anOVeNyzEe37p5H-z5UoKeccVMGBCUL_4pqzc=e2J7Ug@mail.gmail.com>
+ <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
+ <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
+ <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
+ <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
+ <s4kv7qep3jlncs67q72xfhserpd66hpbwzkoppiddc5raufyjd@ksuvlfqcrbk2>
+ <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
+ <oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io>
+ <CAJnrk1ZU40tRDq0z3yM0+yv=KhiZ-fNjUTO=ccv1tuc0xDx2Vg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260713175345.2542331-1-joannelkoong@gmail.com>
- <CAJnrk1b9jjvP6a9PaYAiA0HZcJ0_dR_O2aGWPF44T2NNBJC94w@mail.gmail.com> <CAJnrk1Zo_j_QY9Q=jft5=fio9mU36uy5LXP3bC4=xO8DbakzrA@mail.gmail.com>
-In-Reply-To: <CAJnrk1Zo_j_QY9Q=jft5=fio9mU36uy5LXP3bC4=xO8DbakzrA@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 14 Jul 2026 13:21:53 +0200
-X-Gm-Features: AUfX_mx0XwOPLr_TC9ZSVZR7KwlGJvFz9wpGiR9F2T_Q54IMIVcuOKELEzZmZKs
-Message-ID: <CAOQ4uxg1m0C6suUpoO8hNkgnqEH-APV3BJgzKg2biCEoC6kXVw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] fuse: fix missing barriers in io-uring init
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, bernd@bsbernd.com, fuse-devel@lists.linux.dev, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1ZU40tRDq0z3yM0+yv=KhiZ-fNjUTO=ccv1tuc0xDx2Vg@mail.gmail.com>
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: AE02875931
+X-Spam-Flag: NO
+X-Spam-Score: -4.01
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-On Tue, Jul 14, 2026 at 1:51=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> On Mon, Jul 13, 2026 at 3:11=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
-com> wrote:
+On Mon 13-07-26 18:13:29, Joanne Koong wrote:
+> On Sat, May 30, 2026 at 4:04 AM Jan Kara <jack@suse.cz> wrote:
 > >
-> > On Mon, Jul 13, 2026 at 10:54=E2=80=AFAM Joanne Koong <joannelkoong@gma=
-il.com> wrote:
+> > On Thu 28-05-26 15:11:18, Joanne Koong wrote:
+> > > On Thu, May 28, 2026 at 5:34 AM Jan Kara <jack@suse.cz> wrote:
+> > > > > I think this is also going to be a problem for cgroups with large
+> > > > > folios since they also, as I understand it, are constrained with a
+> > > > > limited / tight dirty budget. I ran some initial benchmarks with
+> > > > > cgroup memory constraints on NVMe and saw similar instability (a
+> > > > > single writer in a 8 GB cgroup had max write latencies of 6 seconds vs
+> > > > > 15 ms without the cgroup, with the balance_dirty_pages() throttling
+> > > > > oscillating rather than settling near the set point).
+> > > >
+> > > > Ok, so this is more folios (819) than my 512 gut feeling estimate :) What
+> > > > was the write throughput of the NVMe drive? The high drive throughput also
+> > > > requires more dirty data to keep the drive saturated so that writeback
+> > > > throughput doesn't oscilate too much.
 > > >
-> > > These are two pre-existing issues Sashiko reported [1] on the fuse ze=
-rocopy
-> > > series.
-> > >
-> > > [1] https://sashiko.dev/#/patchset/20260630211436.2062816-1-joannelko=
-ong%40gmail.com
+> > > The write throughput of the NVMe drive I was using was around ~1.1
+> > > Gb/s (measured by running direct I/O). I think with the 1.6GB dirty
+> > > budget, the math for that ends up being that the device drains it in
+> > > ~1.5 secs. The performance I was seeing with the initial cgroup
+> > > benchmarks was with 4k pages (no large folios enabled) on btrfs.
 > >
-> > Sashiko noted some other places that are also missing barriers [1].
-> > Will send v2 to add these places as well.
->
-> These additional ones aren't real bugs. They're not reachable on a
-> well-behaved server and on a malicious/buggy server, the failure is
-> benign / self-correcting.
->
-> I think we need some sort of way to help Sashiko understand so it
-> doesn't keep flagging this on every future patch anyone submits. I
-> think there's a few other places where some of Sashiko's
-> assumptions/analysis are wrong (eg uring-cmd sqe stability semantics
-> [1] in the zero-copy series). I'll look into this unless anyone
-> already knows how to do this.
+> > OK, you might want to experiment with some other filesystem (I suggest xfs
+> > or ext4) as well. Btrfs writeback behavior is a bit special with its data
+> > checksum computations etc. and thus latency of starting writeback. It could
+> > contribute to the erratic behavior with the relatively low dirty limits.
+> 
+> I reran the benchmarks on xfs and ext4 and saw similiar results. The
+> max write latency under the memcg were
+> xfs        5.1s
+> ext4      5.2 s
+> btrfs      6.2 s
+> 
+> compared to the non-memcg case (0.4 to 2.0 ms). This didn't affect
+> throughput though, just the tail latency. When I ran xfs with large
+> folios disabled, I still saw ~4.1s.
 
-You may want to talk with your colleague Chris Mason about adding review
-prompts for FUSE, because he is also running AI analysis on existing subsys=
-tems
-regardless of mailing list patches.
-I didn't try, but you can probably figure out how to add FUSE specific
-review prompts
-to Sashiko yourself...
+OK, interesting. Thanks for running these tests! Also it is good to know
+this is not really related to large folios, that somewhat simplifies
+matters.
 
-Thanks,
-Amir.
+> From the balance_dirty_pages() ftrace tracepoints, the dirty_ratelimit
+> value is consistently stable / accurate but it looks like what's
+> happening is that during freerun, the writer essentially dirties at
+> memcpy speed until the freerun ceiling, and then the soft/proportional
+> throttling kicks in but doesn't kick in fast or hard enough, which
+> allows the number of dirty pages to exceed the hard limit by ~2x, and
+> then at that point the writer is forced into the loop where it sleeps
+> max_pause (200ms) each iteration until writeback has drained the
+> number of dirty pages back under the limit.
+
+OK, above you mentioned that the dirty limit for the memcgs is set at
+1.6GB. Does that mean that dirty throttling allows memcg to dirty up to
+~3.2GB of pages? I wouldn't have expected that...
+
+Also you mentioned that the disk you are using has writeback throughput of
+~1.1GB/s. Even with 3.2GB of pages we should get below the dirty limit in
+2s and not 5. So there's something going on I don't understand yet :)
+
+BTW how much memory does the machine have in total?
+
+> If we wanted to fix this, it seems like we could for
+> memory-constrained memcgs either start soft/proportional throttling
+> earlier or make it throttle more aggressively as dirty approaches the
+> limit, or start writeback sooner so it finishes draining the dirty
+> pages faster. When I experimented with lowering
+> dirty_background_ratio, the worst-case latency dropped around 2-3x
+> (~6s to 2s) but there was still multi-second tail latencies. Maybe
+> this indicates more that the throttling needs to happen earlier/harder
+> than that writeback needs to happen earlier.
+
+Hum, can you share the script you are using for the benchmark? I can try
+running in on my machine and see what happens. If I'm able to reproduce
+these long waits, I want to do a bit of tracing to understand what's
+happening with various writeback statistics. Because these large tail
+latencies aren't really expected. The original design goal was to keep
+maximum write latency (for fast enough disks) around 0.2s.
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
