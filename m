@@ -1,156 +1,119 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 842DE3B47C6
-	for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 17:43:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784137410; cv=none; b=RoHlkX11th1Zn48elekO+spH7CafUjTR78nYbKzLLsaiqNpfPowgMwqaDWBzUnkavU2Qc+iD2Y2EDfqp8N+5y+olAT+kwzrZ2fIwrYV9t3r4j9ctDTdBu2REX+dqh5rig45cW5eae8cMs4jOJZPbwW+P+/QJCem6MTD7PAO7Y5M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784137410; c=relaxed/simple;
-	bh=NHNR9MKOzKYImCQUQZNPPlvA4wqlB+NM6RJgzl6eQCM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dk2O2umav6j5RI/QXuAKaV9TiQpUcABKPhvgMWRvNQoApKDIk+TvoS+AKS5tKSVKhRJdEYP/RkE+nkfxHMU729RHkAaNqSZrrW1YqAmUxae+FnCnXCWnvp2BA9JpqGsCBpapifN8MKrt2JKSDmVQelG4LoE9gNtW+HVKjYWHiZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FMoBPVAo; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC3E4A13B9
+	for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 17:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784137909; cv=pass; b=KR7P8VzF2MYIi3qGo9fnRGOOrypC1PwG7Qd+F/J+7LFeQGOJVn+E5DHtvnyRyW8Lr2niSFZJtMtbEOuGz9LkXzjN7RjnZMMtmRW1oF1Jj2+scWXvpeoMU66G/ZYsQkhM05/FhXBX86ELhuvP0zwJRpM02zt2umjUv7zwvZcVF+4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784137909; c=relaxed/simple;
+	bh=DU6lIIGiAmL3vAHbSfUlkC/knXl8i9oP0EzDpJow4Yo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cXvDzgS3n2ioScYXyTwU1Iz5Afel4ZDPrOuhrya2IQBQcs3pwANs1jWVLrHYIe3EgbBhs5zRlKITPpB70g7mr/veKjY9dGj/anzT91unpk3xWMfbBzdrILdYR3S1eFr7+J1/dAsr9ehO7v//6tY2vnNbjJYnQ6/5Xou2SpaxU54=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pEKYHC6C; arc=pass smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FMoBPVAo"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7eb3865ea6fso3799564a34.2
-        for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 10:43:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pEKYHC6C"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4758bd3731bso1876508f8f.0
+        for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 10:51:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784137906; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IqIKR36u42QMZT6Js/e/yWOsKukja8PlJYQiFkAgjjFdgWxhvFYZrRKXvYhkyy3S6P
+         2Xv5aE/QAZlGTNKNDQAwq9ziUarrSmmT4wrW5ud+kIoW1iYTbkAt0e6LrKHBuAzV/V0S
+         mNwDd8iex8FySelTn2H8dDgy3VIEiBXJxp3orznGTRjmFDs1eb2dhmDEmvCgLz5H0+oK
+         OT2B1BqTDm4S6gtzVb9rT/s1oDnmt0T6XdDCvTuOV+SLEwKA0Mxmbh1qETs1K7Q5yQl2
+         tAIHBoTIND24RzgPs1Eua9b8iHvPbLn0FbkEH5rWzdsH7ysLBMJ34Vj2BNT+O619CtrU
+         yZzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DU6lIIGiAmL3vAHbSfUlkC/knXl8i9oP0EzDpJow4Yo=;
+        fh=l7HR2UoqST9bp+1uw0MHejaRu/I/QYh1wrMwqbvenHA=;
+        b=bLzM4PzcYxuz92REnJu6Z8zQVb1GYOH3z8s4lFHkFtOdXJ2v4PDc52hQY8hCMT+oek
+         0NsaI3uWKj7ArIfXON3cNcCM30DI29kvD92B9VCrnBcKsHtHGpH6ieGG2Zxrppw2roMN
+         f5fr3wwhe/tGEesCwsSwNNaoKlX73hlV/jrTkxeAFtG7a4Ben/Z2mlhcRn1AEQ+00Ez2
+         ycPULk+9t9BmCDosrs85GW2ce2c4wGZhvHqBmVOcsymu8ToQNewKqCXKBBEQRoGn7rnR
+         JZ74JjTNQzupxztbEQMWAGjo+8javPvRqsUfPCKTxHxTeZQa3dfmYfIork5mFqxtEDHB
+         J+IQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784137408; x=1784742208; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4h9AQKqH7OWc4BD3uJy3+HI4wlXgrocnJFgRfCOCii4=;
-        b=FMoBPVAot+r1mtLX2CqfokAyFnJVAUDhFinbQ0oqs4gYFVrcIO1Kk1yB2y2fzXbAV9
-         htSxBdJ5wO5DzA5kYumKyeWK7YspQ009LHBJo+8r1EicoG3nQHdSarPiH1s4TsDdnhgV
-         kIiUZQO2is6C5xbI4k1HYttW6axS0F23EP5S9yewHIVZwZSqzsBZdsyVWxdeMxxDG7fQ
-         ATSC+CnEzOKJYMKJdIbi6d6CdF90QwNPGpvfFDsWOAeMOZYTEoR+WCxVszzgTyeuI+RT
-         /w7GVjANTaLudTPjVutRlF/Ojkl063WBBHJtkrAd53yVZF80B9seGwc2v7loV0oqf/qX
-         +sJg==
+        d=gmail.com; s=20251104; t=1784137906; x=1784742706; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DU6lIIGiAmL3vAHbSfUlkC/knXl8i9oP0EzDpJow4Yo=;
+        b=pEKYHC6ChfyLhVZD+x9ZYHt2RMZ9JDQeFW7WY91j3F2SXItJH+vyfwH93knOFggjSY
+         jNmcdNQd/xNRcJ4QOIIm2sdsUVC3SEekhcMarQKCJ64TQDMsr+og1Uc6gkNrncc5jxEr
+         2wiyIMuYnF52Vnhd9cZ3CtWV1hjQBo1Gj+lmhFRBclGgU0S6fGH2///JKoLepr3yxHUa
+         BMoJLisoaQCBan4JOXhMEtb9A/Gg4s0SEMVoXuxxRl5ODL2vZJ24zJuTf6GbnWO2gCOc
+         21gEqOFiX+eRm4RQva6wvm8/OeVGiGe6WJ+Xi1wPb3J1QKar5juNgqchC+EnAC5QkPkG
+         Iyiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784137408; x=1784742208;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4h9AQKqH7OWc4BD3uJy3+HI4wlXgrocnJFgRfCOCii4=;
-        b=S1Rs/te9ovqaAhMppY+StCXxw/7LhmpWWVimREGAlpxJ0uEvRDKaoBps1C9dYJq25P
-         TqF+FSM1GjxZLjvbbYAQeiWKgRmEbiJMoHQ6zpaNvLstSlzrD25P+3IlxffdAjB695tt
-         712/RPPSGYegICAJThH98QqwqImYw9wCfrtVFtKzUx5BrskzN4skWd8tGG7uadSooilS
-         34wtT8Rz4CPh8JZMqm9VK4163NsZZJqLzW7QCu4jNzTNibbpdmr8UZqP1+CJ75yXk2qM
-         4QOdUnCSm3udfwsGIIp6wx5VcejUKCjT1ZMSvgrV1d6k0yzPH8280nFm/pjXE8XKvC07
-         XsNw==
-X-Gm-Message-State: AOJu0Yy+Qqsp4QfWQaKNNrIkRCvMObppNludpmDrlriPLXhMCa7vilgU
-	S21mFUG/lmH1xEJNhSKK4w5wNqqf8pJfOfFpmvOAGhQuaLwAFLOziNCh
-X-Gm-Gg: AfdE7clPj7mRw0m71QjUAKPmoP/rmXxz68Y9kjXCiL8DbqCPsOlRj+gx56u8efF0JkI
-	hMlxk9iTLFoAciQML229f6B1ATYHIgmSaZIJcFc+25EMGrm0yEUToNVYZNUExFK83Dp0+TcaIQ6
-	/XRhwmnt+T2algGHYovebUjz8BDC0ObfpUtpw4OFpmzKHfUVo4vwyA1cC/Dzb9qsvO9oijTyA7i
-	68UiXv5ZL39GVNbIVkjEwc0Yxjk4rvRcPM4LYlkur346yrsqfZlxNxSCWUEkvlpV82S8UcLGssT
-	bmi6fPg4iaFuGwQsJMHACGJ7W7xdRz6edYcLx0sYcAzxtPUfGlre9dQqlZ9p8Ath90jD4T3jUpz
-	u0yoha8+C2DBMEZ6NX4dZq9xxPOH8JJ/NzKDXokQjOpLYkZvyWoiyjlfbdwmjhySwFsm83ybJE5
-	ZOJQaRr9bKwOGad06Pw3pCkQ4Frlves+bfRpnJe90UGg1IWF05rev1H586Y/oEGq8z
-X-Received: by 2002:a05:6830:4190:b0:7e5:68d0:462d with SMTP id 46e09a7af769-7ec423299b6mr5191121a34.19.1784137408225;
-        Wed, 15 Jul 2026 10:43:28 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:4a::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ec14489139sm9884551a34.5.2026.07.15.10.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 10:43:27 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: miklos@szeredi.hu,
-	bernd@bsbernd.com
-Cc: fuse-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH v2 3/3] fuse: publish io-uring queues with release semantics
-Date: Wed, 15 Jul 2026 10:43:05 -0700
-Message-ID: <20260715174305.336261-4-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260715174305.336261-1-joannelkoong@gmail.com>
-References: <20260715174305.336261-1-joannelkoong@gmail.com>
+        d=1e100.net; s=20251104; t=1784137906; x=1784742706;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DU6lIIGiAmL3vAHbSfUlkC/knXl8i9oP0EzDpJow4Yo=;
+        b=fhpl4UFwqmE3sPD6q7BLlhUgkFnwIvygjw7HIxqix6lLKoTWzWifbvqKnKT8zN41tZ
+         2rQ/Oyq+U89jWb2r0ocg82TLfnkz0zB8wvJNrHm5Si5qnJqmdUHVE7TaKDKGjbtkTfmx
+         XOG80TOXvd1rJTuhmxJlY4EJMU3K+5kYkAz9lh+Y8Au5DWWqjJT6jIv/X6kt/H7+28SM
+         UJptwEwT3qFr/iThxnCvgHvFqlW07I6UiCtwuF/e6bNmZK5eBRS6SumkUokCdzswgJNM
+         p4ypyxGM/PTP8byQD8u18z51H3y49sI+cSVwi5VvcOI7hwAdBLXvgofBB0aU0nU3SBfh
+         YEFA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp9ZL3miXsu9kLUbW7IzlJzywer9lKb30va/uaX4wYFL9uwRtSzHPvLK6fPCmiLu2qeRCd6BcSeEBtj@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNl5CFgi0ljUp18ZuG+DgTl5b8/1/VFNt5E9IBB8rsrwh8/fUg
+	b8qzfGmDifrCYhfCkICKzCrSmBrCLvgYaHF/HxZg5xmWAJDG/9Gl+yTc/+D0TeJC60iqVD2eHFI
+	Wz2/+eWIsL9NNnfBrAsd44e3cgRlUVcbjJnEqlBs=
+X-Gm-Gg: AfdE7clro3wxBeTzFEPlNddk/p7mHD/1iqctwqUWxUhlzrVcSN4Uoo5Pt8oHIlTLCVn
+	51D1HnCoz2PuYWQCg2nOM6EHLOPzSt85IcD7sws3djZDlfNDlP9IJPe8aoaUiOcy29gg6us2LL3
+	Ht17l14RywmoSJqHac1Z8ltacUCfnoqzU41cGGBurYXflpTr/3+pS8B680emy36h2NtkiLQ9FYQ
+	+qdpBGuGwCPBDG5SZj8r3guM/1cCPY8XtgscGQMQ7Won8llEMmJn6YKBPR68v+MOm9tqCmaSnE2
+	mA/JqsieyAYjap8DSEIS8PsQbN7Em3BfSdoe1rrNWDwSoAwrpWaN
+X-Received: by 2002:a5d:5f53:0:b0:472:1424:fc7c with SMTP id
+ ffacd0b85a97d-47f55ee9da5mr478466f8f.10.1784137906052; Wed, 15 Jul 2026
+ 10:51:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260714073230.4324-1-liwang@kylinos.cn>
+In-Reply-To: <20260714073230.4324-1-liwang@kylinos.cn>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 15 Jul 2026 10:51:34 -0700
+X-Gm-Features: AUfX_mxBCrYH3SWRPEpomKoHZuZ-9fFN3rytuVNZOII2RvIGvdwYcVXmSeGcPQw
+Message-ID: <CAJnrk1ZGVFJykTmtLr2jbxtvrJqq1P+-T3LgHsyrUQPj5wFxLQ@mail.gmail.com>
+Subject: Re: [PATCH] fuse: select alternative io_uring queue if local queue is full
+To: Li Wang <liwang@kylinos.cn>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jinxu Du <dujinxiu@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-fuse_uring_create_queue() initializes a fuse_ring_queue and then
-publishes the pointer into ring->queues[qid] with WRITE_ONCE() under the
-fch->lock. There are several readers that may concurrently be fetching
-that pointer locklessly and then deferencing it.
+On Tue, Jul 14, 2026 at 12:33=E2=80=AFAM Li Wang <liwang@kylinos.cn> wrote:
+>
+> fuse_uring_task_to_queue() always maps requests to the queue for
+> task_cpu(current). A single-threaded submitter with high queue depth
+> could leave other per-CPU queues idle while one queue handles all
+> traffic.
+>
+> Prefer the local queue when it has available ring entries. If the local
+> queue is full, try other queues on the same NUMA node before falling
+> back to use the local queue.
 
-WRITE_ONCE() doesn't ensure ordering of the queue's field
-initialization before the ring->queues[qid] pointer assignment. The
-queue must be published with smp_store_release() so the field
-initialization is guaranteed to happen before.
+Hi Li,
 
-Readers in paths where the read may happen concurrently with the store
-need to use READ_ONCE() because any race involving a plain access is
-undefined.
+I think this is already covered by Bernd's changes in his reduced
+queues patchset [1].
 
-Fixes: 24fe962c86f5 ("fuse: {io-uring} Handle SQEs - register commands")
-Cc: stable@vger.kernel.org
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fuse/dev_uring.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+Thanks,
+Joanne
 
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 51f985154aa1..bf9d51f2a508 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -321,9 +321,11 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
- 	}
- 
- 	/*
--	 * write_once and lock as the caller mostly doesn't take the lock at all
-+	 * fch->lock serializes concurrent creators for this qid.
-+	 * smp_store_release() are for the lockless readers who must see a
-+	 * fully initialized queue after &ring->queues[qid] is set
- 	 */
--	WRITE_ONCE(ring->queues[qid], queue);
-+	smp_store_release(&ring->queues[qid], queue);
- 	spin_unlock(&fch->lock);
- 
- 	return queue;
-@@ -434,7 +436,7 @@ static void fuse_uring_log_ent_state(struct fuse_ring *ring)
- 	struct fuse_ring_ent *ent;
- 
- 	for (qid = 0; qid < ring->nr_queues; qid++) {
--		struct fuse_ring_queue *queue = ring->queues[qid];
-+		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
- 
- 		if (!queue)
- 			continue;
-@@ -967,7 +969,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
- 	if (qid >= ring->nr_queues)
- 		return -EINVAL;
- 
--	queue = ring->queues[qid];
-+	queue = READ_ONCE(ring->queues[qid]);
- 	if (!queue)
- 		return err;
- 	fpq = &queue->fpq;
-@@ -1035,7 +1037,7 @@ static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
- 		if (current_qid == qid)
- 			continue;
- 
--		queue = ring->queues[qid];
-+		queue = READ_ONCE(ring->queues[qid]);
- 		if (!queue) {
- 			ready = false;
- 			break;
-@@ -1191,7 +1193,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
- 		return -EINVAL;
- 	}
- 
--	queue = ring->queues[qid];
-+	queue = READ_ONCE(ring->queues[qid]);
- 	if (!queue) {
- 		queue = fuse_uring_create_queue(ring, qid);
- 		if (!queue)
--- 
-2.52.0
-
+[1] https://lore.kernel.org/fuse-devel/20260529-reduced-nr-ring-queues_3-v5=
+-0-1dc08c2fccf6@bsbernd.com/
