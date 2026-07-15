@@ -1,163 +1,264 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B953C9885
-	for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 09:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784108431; cv=pass; b=eWl0pzQE/GSmdgcQKC7tiI3yI20snH5Wm8jCCEEsCME8pV6MhII3FkmzhN0oNE99v2X1EqUclj11u0on75+3WlY+QEC+dfAulLbLV3qAH43m+jStCSn4CtAKaJm5gFvsjd2nYwrVsopSX+xtN/K4i0AJALGIN5bbJwMctyDcNyk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784108431; c=relaxed/simple;
-	bh=u5x5UjFfiIypuUG/u8VBeYI24RclQQxYRKNVOEumIHY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R4t8rujILt1VKdGhdPGot8sAGIoW6oKgJAJ6zVrtc84ZcjMjTTqhPi4r7w967pUFbiV5weIWJoJRWDhhf6VRjTljBbltZdK3oaff2TkjTJf/RxbAQL8cIykH3deMwkpPkvsSLnkzfi+Xg1/7/fVIolQLb2nIgpRS/2XTL54UeI4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qAGRH/xz; arc=pass smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5DB43FD2E
+	for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 10:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784111161; cv=none; b=Wf3sRgRGr29cRZ//s0JtblM1w0epth95+1+w7ujOQYh1iUI78LHZP4cadm/nsHeClcGNSOxWDiMfbJnxsCGkvj3GNkaxEcACRq3IU6okT6NTSJE01o18zks9DhZ/15u8N++dGL3Weuwn3e1WLm7YLbmqyxSZIfneVMOS8Fj8K8w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784111161; c=relaxed/simple;
+	bh=cIwnFvQPyhGuGM1fO3R3zM145ByDlyOMkHGiDXzotqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dv70xv+ScS2M1/ZSZJK300S01F/j4ylfeo6EsttbWj/oHAfxhQjTECyxO/4baSBV2qcD27OzFdY2+04CpTaoJUq7WxVrK0dNVaXaVWEoAJNJ+WnTvBiHkplWS3rPgAXXaQVjonuZfVYplC2j4szrYSZZPZqYaagI40i6f5qK7Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=trsKGIJz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1csrscSW; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=trsKGIJz; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1csrscSW; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qAGRH/xz"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c15e03c2763so392591166b.0
-        for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 02:40:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784108416; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kMuza6Pa5Ehq3oJ/kl49l68o1sRAP9h4tT5qbZFqg8fqYZlhqf+bQTlisOBnkNiKvD
-         gdE6HrhIE0GfvT7AAofPDD6OzQRKAivpEGw96GJ5lUDEdO1X95L9YpMoV5Bwfi42qmke
-         ULUL32IfGu0Bhp2nMNaX8d9qPoo6Z2fZNqpl4rKfisHiRLTospf9ENdN+o0TeY+d2f3b
-         41jqScFyXZDOgM0PWFVYHC9AEDKBJFxf35XnS6Fd5tWS1eKrH6PGC8T1SdzEadF286me
-         goQtIabXLo/ksb9OX+mQrkxS5biQZjJ/5md9D6rRUsaiP6tcNA4vwyVgpE56iaB5g2ZJ
-         9zUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ayP+P5/Pd6BGHZjCoYBRcVoPcvH07ra6Sodaq/Yi54U=;
-        fh=/w4JtELTj7U53mK0tyAMyHDu9WFMxaog5Bcmri9BMcY=;
-        b=Y1vJBpeq21nXkrPG/tL77LYrI99AKqcU66/uCc0YBra2QssNmgp7o3g5IDFEkZkcOq
-         a4my+phqImGGouk5rNthvoumhAf8Ao8Us20z4z+Jr31Y8GNYafqF3cPfakNLI1EM7zHR
-         CaJLf9K9MBjSy5aOlx51FN+X3cRTNbfo9PjPWg1uTmkY1lxulVZUM3894bVoNhkeoIXU
-         TSJGGJMKTYvwv5GU5w1ao4T/mezcj1xXiVpBQqo3MrFTetzID8Yxj4+G8BdRSLxbqtG/
-         tXXDJg5VMWAmCGaXTJwLONGDp+PVQD5EghLyNyNzsAYRwDvLUTZswTrrVtZm+4948flu
-         wpwA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784108416; x=1784713216; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ayP+P5/Pd6BGHZjCoYBRcVoPcvH07ra6Sodaq/Yi54U=;
-        b=qAGRH/xzMzztyJkVB2H2+ET56nzzjNF4moMuErSM5sBrXTvrjW4vKIQxhOAOaUEw20
-         IsNl+6beZpU9s3T1V01eqtqN4wulVGCX58d2J3ru6K/GIuYOb4zL8esvvBXhQcph2RDf
-         2aw2+BHDJ4b0bm5lVkTL13NQ7TgAby7ixnSisnP4xT1AXfT8xrl73R1t9J5xgnROm0Fd
-         81BQ21vNwNAoKZMHN4Ar9laOSVjLOPOpupEQXSEtRyyI8v4s0Lwetdadz3dkoCs43VyY
-         +7CbsUcwsdEsn+JTlqoJ0LPuykzolk98mOGPlSvLn/LDlmoBZAPENBhKY+poRnb6a/uO
-         s9TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784108416; x=1784713216;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ayP+P5/Pd6BGHZjCoYBRcVoPcvH07ra6Sodaq/Yi54U=;
-        b=Lsk6SD/DQSDgXdtJtrCeHeeeZ7X3XANIs+oRoT/oMVbTk5Nqw5CsDVHAQ8U10ZfE69
-         /zAYTZapI/hF0xF3uXUnG1gKMO9hFL29wXz227Y7iIhllHk8PWU/5ObAJjzqB8QJ5ew6
-         E/jbbC6+58IR8jlwaQX5OySW9b6cC57A+4LfKUFm1HDm3rZp7Oqm0pHx9S5/8IMhOi0r
-         dHK4Fl7qWB3gN7h4SotpMOeLBVxncnjRHt8aI6mh76tZbK4kP+udlJ3HjZAICSk0h7Wn
-         nVkIgHB3NHRgeQUPyiZjlabEa9boUXwlpEW/rjI5imr7tqEIeRq2IpvpQl8Cqc+fBS0m
-         XpAg==
-X-Forwarded-Encrypted: i=1; AHgh+RopqZUGNcGJcHaVre+xoIAO6YirYu9+ynZGf2xUzqW2NQimzLndsAR0kDeR/gOjbismPM31WxRviB8p@lists.linux.dev
-X-Gm-Message-State: AOJu0YwM1wgn8wBueVwvmpb3UPXvpv+5Y/CyY2MFdjC74tKp2ennA6UX
-	TKjnMTLPg6a/LDl1PdzKof/Nizy6vret84FbPCYiloSZGNw770yGNn5Z1FVC1fnMiEw/A7QT9e6
-	zqSxD9u40uK+Mqh0FuGmrOGcg2A/V0KM=
-X-Gm-Gg: AfdE7clOdLGXoETqlN1pqE9cQbzIYi1wdSQVhkDitK4bQzd6xdhZuIc6sSm/Zsda7lX
-	vtTQ4OCIllRVJtuXty6MSDuVYCR/LnRM7zqcEY9fqmo/DLxo+ThuH0BRhSlhh6M5PCOKMxTt/nK
-	YdGwDgB9XVJQxxYEMzvFcws1FqiRaZUggUAyN0e4qtzWBsJN3uiDWEWd6/p7Bkk1CGK7qhGefHM
-	Lqe82mWZ9LsIWk1Ye6eXhUkLXfXTpo4c2rzkrBHxf7PMSebxzgsEtw0m/w/FP4TdWBS0quLbA==
-X-Received: by 2002:a17:907:6e86:b0:c08:5bdb:e904 with SMTP id
- a640c23a62f3a-c161e89a8f7mr791839866b.9.1784108416323; Wed, 15 Jul 2026
- 02:40:16 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="trsKGIJz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1csrscSW";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="trsKGIJz";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1csrscSW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4076978343;
+	Wed, 15 Jul 2026 10:25:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784111158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CmZiaQrotq3cBk0/Y3CHz5HrI2O9cF8F1vioHLIpahg=;
+	b=trsKGIJzXqNQWO2W6eZWRBL2zXJYqD6hLzii2zZ5obImiHn/0Dah9vv5Xcm+cjG6vkqV1w
+	HPvOyXSoZicE7aK+lNeBuRlhRPWxuIhf3De2W/g4QoI7po7JpzSXjBnAzQ4vNjmo5LQT3z
+	H7y0XVdDiPKOYIvS5An9MFsY9VUtiUw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784111158;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CmZiaQrotq3cBk0/Y3CHz5HrI2O9cF8F1vioHLIpahg=;
+	b=1csrscSWhjziox863nKHjBo+E/89KMzmgstsTf0rc/PSafFWyP7hUyGoAv9uhnlgXoAUds
+	Z0kLt8d5gY3H+yBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=trsKGIJz;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=1csrscSW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1784111158; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CmZiaQrotq3cBk0/Y3CHz5HrI2O9cF8F1vioHLIpahg=;
+	b=trsKGIJzXqNQWO2W6eZWRBL2zXJYqD6hLzii2zZ5obImiHn/0Dah9vv5Xcm+cjG6vkqV1w
+	HPvOyXSoZicE7aK+lNeBuRlhRPWxuIhf3De2W/g4QoI7po7JpzSXjBnAzQ4vNjmo5LQT3z
+	H7y0XVdDiPKOYIvS5An9MFsY9VUtiUw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1784111158;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CmZiaQrotq3cBk0/Y3CHz5HrI2O9cF8F1vioHLIpahg=;
+	b=1csrscSWhjziox863nKHjBo+E/89KMzmgstsTf0rc/PSafFWyP7hUyGoAv9uhnlgXoAUds
+	Z0kLt8d5gY3H+yBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 30653779AD;
+	Wed, 15 Jul 2026 10:25:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Yj+OCzZgV2qXVwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 15 Jul 2026 10:25:58 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 42736A1323; Wed, 15 Jul 2026 12:25:54 +0200 (CEST)
+Date: Wed, 15 Jul 2026 12:25:54 +0200
+From: Jan Kara <jack@suse.cz>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
+	Jingbo Xu <jefflexu@linux.alibaba.com>, Shakeel Butt <shakeelb@google.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
+Message-ID: <nv2h2dd2xoj4zjfvnhsxud2p5e2uw3og22ovqureik4pey72qb@i75tn5ttavfo>
+References: <CAJnrk1bx+32Tq5DOk6=C+_smV2HgP3+RT6gpYLSNMEirFs_EkQ@mail.gmail.com>
+ <CAJfpegsy2XRR6g1J4Mg0MXPckx3NVprW56XvYhEko0=7PcHiQQ@mail.gmail.com>
+ <CAJnrk1bZX44HaXmNMxEeEwhuFHgEjxXLnjKy8a-6T6LFuf+K2A@mail.gmail.com>
+ <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
+ <s4kv7qep3jlncs67q72xfhserpd66hpbwzkoppiddc5raufyjd@ksuvlfqcrbk2>
+ <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
+ <oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io>
+ <CAJnrk1ZU40tRDq0z3yM0+yv=KhiZ-fNjUTO=ccv1tuc0xDx2Vg@mail.gmail.com>
+ <4fsrafuhoqgoirlt2sy6vk2ljvb3tdps4hqbcrm5qc2pr6tlaf@tboejm2wdq2s>
+ <CAJnrk1b65ypz4bdtd1rTQBYOpOEP+DcoZJUSL87jVDssW1A+pw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260713220932.413004-1-amir73il@gmail.com> <20260713220932.413004-2-amir73il@gmail.com>
- <20260715-seilschaft-fahrbahn-talstation-6c45445d2535@brauner>
-In-Reply-To: <20260715-seilschaft-fahrbahn-talstation-6c45445d2535@brauner>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 15 Jul 2026 11:40:05 +0200
-X-Gm-Features: AUfX_mxOzjZVXHNjf0PogjbfsvYj10SoFZT144LLQab9SavhtKt6eUxVr6kJ1c4
-Message-ID: <CAOQ4uxh0J6CMCeUYRQX7buf+SHp2Az4kvWWvtMk9A1h-tqhmmQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] fs: preserve ACL_DONT_CACHE state in forget_cached_acl()
-To: Christian Brauner <brauner@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1b65ypz4bdtd1rTQBYOpOEP+DcoZJUSL87jVDssW1A+pw@mail.gmail.com>
+X-Spam-Flag: NO
+X-Rspamd-Action: no action
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.com:email,suse.cz:email,suse.cz:dkim]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 4076978343
+X-Spam-Score: -4.01
 
-On Wed, Jul 15, 2026 at 11:02=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
->
-> > The ACL_DONT_CACHE state is meant to be a constant state for the inode
-> > for filesystems that want to opt out of posix acl caching.
+On Tue 14-07-26 18:21:57, Joanne Koong wrote:
+> On Tue, Jul 14, 2026 at 10:10 AM Jan Kara <jack@suse.cz> wrote:
+> > On Mon 13-07-26 18:13:29, Joanne Koong wrote:
+> > > On Sat, May 30, 2026 at 4:04 AM Jan Kara <jack@suse.cz> wrote:
+> > > > On Thu 28-05-26 15:11:18, Joanne Koong wrote:
+> > > > > On Thu, May 28, 2026 at 5:34 AM Jan Kara <jack@suse.cz> wrote:
+> > > > > > > I think this is also going to be a problem for cgroups with large
+> > > > > > > folios since they also, as I understand it, are constrained with a
+> > > > > > > limited / tight dirty budget. I ran some initial benchmarks with
+> > > > > > > cgroup memory constraints on NVMe and saw similar instability (a
+> > > > > > > single writer in a 8 GB cgroup had max write latencies of 6 seconds vs
+> > > > > > > 15 ms without the cgroup, with the balance_dirty_pages() throttling
+> > > > > > > oscillating rather than settling near the set point).
+> > > > > >
+> > > > > > Ok, so this is more folios (819) than my 512 gut feeling estimate :) What
+> > > > > > was the write throughput of the NVMe drive? The high drive throughput also
+> > > > > > requires more dirty data to keep the drive saturated so that writeback
+> > > > > > throughput doesn't oscilate too much.
+> > > > >
+> > > > > The write throughput of the NVMe drive I was using was around ~1.1
+> > > > > Gb/s (measured by running direct I/O). I think with the 1.6GB dirty
+> > > > > budget, the math for that ends up being that the device drains it in
+> > > > > ~1.5 secs. The performance I was seeing with the initial cgroup
+> > > > > benchmarks was with 4k pages (no large folios enabled) on btrfs.
+> > > >
+> > > > OK, you might want to experiment with some other filesystem (I suggest xfs
+> > > > or ext4) as well. Btrfs writeback behavior is a bit special with its data
+> > > > checksum computations etc. and thus latency of starting writeback. It could
+> > > > contribute to the erratic behavior with the relatively low dirty limits.
+> > >
+> > > I reran the benchmarks on xfs and ext4 and saw similiar results. The
+> > > max write latency under the memcg were
+> > > xfs        5.1s
+> > > ext4      5.2 s
+> > > btrfs      6.2 s
+> > >
+> > > compared to the non-memcg case (0.4 to 2.0 ms). This didn't affect
+> > > throughput though, just the tail latency. When I ran xfs with large
+> > > folios disabled, I still saw ~4.1s.
 > >
-> > Commit facd61053cff1 ("fuse: fixes after adapting to new posix acl api"=
-)
-> > used this facility to opt out of posix acl caching for fuse inodes with
-> > fuse server that does not negotiate FUSE_POSIX_ACL (fc->posix_acl).
+> > OK, interesting. Thanks for running these tests! Also it is good to know
+> > this is not really related to large folios, that somewhat simplifies
+> > matters.
 > >
-> > The commit also takes care to gate the forget_all_cached_acls() call in
-> > fuse_set_acl() on fc->posix_acl because there is no need for it, but
-> > there are other placed in fuse code which call forget_all_cached_acls()
-> > unconditional to fc->posix_acl and those cause the loss of the
-> > ACL_DONT_CACHE state.
+> > > From the balance_dirty_pages() ftrace tracepoints, the dirty_ratelimit
+> > > value is consistently stable / accurate but it looks like what's
+> > > happening is that during freerun, the writer essentially dirties at
+> > > memcpy speed until the freerun ceiling, and then the soft/proportional
+> > > throttling kicks in but doesn't kick in fast or hard enough, which
+> > > allows the number of dirty pages to exceed the hard limit by ~2x, and
+> > > then at that point the writer is forced into the loop where it sleeps
+> > > max_pause (200ms) each iteration until writeback has drained the
+> > > number of dirty pages back under the limit.
 > >
-> > This is not only a functional bug. Properly timed, a get_acl() from thi=
-s
-> > fuse filesystem can return a stale cached value, as was observed in tes=
-ts,
-> > because set_acl() does not invalidate the unintentional acl cache.
-> >
-> > We could fix this in fuse, but it actually makes no sense for the vfs
-> > helper forget_cached_acl() to invalidate the ACL_DONT_CACHE state, so
-> > let it not do that to fix fuse and future users of ACL_DONT_CACHE.
-> >
-> > Fixes: facd61053cff1 ("fuse: fixes after adapting to new posix acl api"=
-)
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> >
-> > diff --git a/fs/posix_acl.c b/fs/posix_acl.c
-> > index b4bfe4ddf64e..3dc62c1c2708 100644
-> > --- a/fs/posix_acl.c
-> > +++ b/fs/posix_acl.c
-> > @@ -93,6 +93,13 @@ static void __forget_cached_acl(struct posix_acl **p=
-)
-> >  {
-> >       struct posix_acl *old;
-> >
-> > +     /*
-> > +      * ACL_DONT_CACHE is expected to be a "const" value and xchg it w=
-ith
-> > +      * ACL_NOT_CACHED would enable acl caching for the inode -
-> > +      * clearly not what the caller has intended.
-> > +      */
-> > +     if (READ_ONCE(*p) =3D=3D ACL_DONT_CACHE)
-> > +             return;
->
-> Still on vacation this week but I took a glimpse:
->
-> If this isn't what the caller intended, having ACL_DONT_CACHE end up
-> should be treated like a bug. So shouldn't this then be a WARN_ON_ONCE()
-> and return?
+> > OK, above you mentioned that the dirty limit for the memcgs is set at
+> > 1.6GB. Does that mean that dirty throttling allows memcg to dirty up to
+> > ~3.2GB of pages? I wouldn't have expected that...
+> 
+> On a couple of the runs, I saw it get as high as up to 5GB.
+> 
+> I think this is because the balance_dirty_pages() code uses the memcg
+> stats (NR_FILE_DIRTY) but these stats are only periodically
+> flushed/refreshed when reading it, so the balance dirty code is
+> seeing/using lagging/non-uptodate values.
+> 
+> I'm seeing this in
+>   balance_dirty_pages()
+>       balance_domain_limits(mdtc,...)
+>           domain_dirty_avail()
+>                 mem_cgroup_wb_stats()
+>                        mem_cgroup_flush_stats_ratelimited()
+> 
+> where mem_cgroup_flush_stats_ratelimted() has this logic:
+> 
+> void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg)
+> {
+>         /* Only flush if the periodic flusher is one full cycle late */
+>         if (time_after64(jiffies_64, READ_ONCE(flush_last_time) + 2*FLUSH_TIME))
+>                 mem_cgroup_flush_stats(memcg);
+> }
+> 
+> where FLUSH_TIME is defined as 2UL * HZ, which afaict means the
+> flushing can be around 2 seconds stale (accounting for the periodic
+> flusher in flush_memcg_stats_dwork() that flushes every FLUSH_TIME
+> interval).
+> 
+> From what I see, the freerun and hard limit checks use this stale
+> under-reported value (in domain_dirty_freerun() and
+> wb_position_ratio()), which means the writer gets to keep dirtying and
+> blow past the limit for up to 2 extra seconds before the throttling
+> limits it.
 
-The caller has requested to *forget* any *cached* *acl*.
-The value ACL_DONT_CACHE means that there are no cached acls to forget
-so the call is a success.
-Therefore, WARN_ON is not called for IMO.
+I see. That would indeed explain why we can overrun the dirty limit so
+much.
 
-Sorry to interrupt vacation.
-Let's continue when you get back.
+> Maybe one idea is to in the memcg throttle path do the flush based on
+> how many pages are getting dirtied instead of on how much time has
+> elapsed? It looks like flushing grabs the rstat lock though, so maybe
+> only doing it in the throttled case where it's past freerun would be
+> best. It looks like the logic in the regular non-ratelimited
+> mem_cgroup_flush_stats() call does something similar. I can run some
+> experiments this week with this if you think it could be promising.
 
-Thanks,
-Amir.
+Checking some git history, this actually seems to be a relatively recent
+change from Shakeel (added to CC) - d9b3ce8769e3 ("mm: writeback: ratelimit
+stat flush from mem_cgroup_wb_stats"). So you can check whether reverting
+that change makes dirty throttling not overshoot so much.
+
+Shakeel, your change to use mem_cgroup_flush_stats_ratelimited() in
+mem_cgroup_wb_stats() results in applications overshooting memcg dirty
+limits by several gigabytes which for small memcgs (with 8GB memory in this
+case, which means a dirty limit of ~1.5GB) is a considerable issue. I guess
+the ratelimiting should take into account the size of memcg (or ideally the
+dirty limit in the case of mem_cgroup_wb_stats()) as well. Using
+somewhat outdated numbers for dirty throttling is fine but when we can
+overshoot the dirty limit more than three times, it leads to rather long
+stalls in dirty throttling and similar issues...
+
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
