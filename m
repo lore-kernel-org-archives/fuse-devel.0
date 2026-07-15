@@ -1,104 +1,156 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CE448A2A8;
-	Wed, 15 Jul 2026 15:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784130198; cv=none; b=pzdVc0jMdzVgKY0a6QOXsi42/HgC7OvJq7e43rEg/A3wjOEI++jC9o/TUK+lsSVzThhyOCChUXAiwB0vuQnMgtno3h9wJIgmBPfgxaFcXHgeq2VFJ0YHeJBXMMLLOkMxkKGtUWxDiDBMvGjJqqqfCkjcnDrkNsMZp5gbBnSAXRo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784130198; c=relaxed/simple;
-	bh=KTpI4ajP7tZ+58EKrEwmElnfiNgrQmJpX5w9lLsnbVQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Qrho1c77FYVpFEyQKUS5U2UkfroSNkqCfucvgjtMsJuwe8MQ93SzTgj0h2UuX3RRAZCFogGlWbvBI5mzjX86MvGtnsVuRdn6kW7fr6zonA8Uo5H3mG9kFb2UC2CzglgbNeYfaDpH4JWESj/y/0ZKx+OzIacHTsBUtWNfEvSC0R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=X+7QU0Mh; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001C348BD39
+	for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 15:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784130790; cv=pass; b=jAoxhVSjtHVUFMpSIA2AEMWp1xZIpAmqrLeWgrZuce1lnIc8VQsYnpt7iAlkjMwtnNnOwYsgfcq99tIm15zcPDsva+DoF/Q0knhsr/0qZATdHmzy9qDNVwXDl7HnxTIHCCSKz1zJ1HgxraVdPAHqj3siMhECjA/2FMJW34tSsng=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784130790; c=relaxed/simple;
+	bh=q6cKBZdpYUeBw2lS1ypmmwqf8CCdyOQyy3KXC5MRLFQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jf7vUG0Q9xksEr+dq+8W0TDwSwtz9UDYjKrMFTcVgcS7Ot7wd/tMMkjpRq9xd97I1p6cHGT215RGFycPwEx0AFDkLYq/aAA+4cNMyqdnnPY24BNucIiOejRTritlezehTpBo7OhH7W3RnkalppHDh5SrFuK4HXP303Q8S3dk4Bk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a8vk3eME; arc=pass smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="X+7QU0Mh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=h91dzcGBqh6bO1sKLAZB47WCpn3nyQhlpwOzbbUz0dc=; b=X+7QU0MhROV6xa8PpxNNybvUWY
-	ywGBvxFFqkdz2oju4tkDDiKWZeo/aYqZLHaOBSTScig3nU6rjrQAySJ0160moz+jsZKdrMukX+4z3
-	tOr6TRzZh6V0hFtGSM6CDTVtHuuYpXAUk5y1gaVaS41Ls03LPRIzJUcwf3Si6I628xsqm3LFe51h9
-	0l01KORgxIl5vOdCsk0EGF/85xZwyiy9uiw95m7UZ5Bf57X61O2e+++SMqQfvL870EXXPiysWxUbH
-	efwSGQMPhryXSmEXIcjpbCUP1bvabH+Z1Mc6h3OZhYSE6nIm5Xin14qRlZStlzFNE6fF+ibGtJ131
-	+/7LJfxA==;
-Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
-	by fanzine2.igalia.com with utf8esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wk1lG-00FWvx-5b; Wed, 15 Jul 2026 17:43:02 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Christian Brauner <brauner@kernel.org>,  Miklos Szeredi
- <miklos@szeredi.hu>,  linux-fsdevel@vger.kernel.org,
-  fuse-devel@lists.linux.dev,  stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] fs: preserve ACL_DONT_CACHE state in
- forget_cached_acl()
-In-Reply-To: <20260713220932.413004-2-amir73il@gmail.com> (Amir Goldstein's
-	message of "Tue, 14 Jul 2026 00:09:31 +0200")
-References: <20260713220932.413004-1-amir73il@gmail.com>
-	<20260713220932.413004-2-amir73il@gmail.com>
-Date: Wed, 15 Jul 2026 16:43:28 +0100
-Message-ID: <871pd445sv.fsf@wotan.olymp>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a8vk3eME"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47df6a5202bso3655491f8f.0
+        for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 08:53:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784130787; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ET+CU+PCJ+azadyE81FDQtPS44eiHpYETH2APyjpD3vY5/0DZaO4ETltejbg45YWhh
+         2BJqLU6CTrls669FOLoFvcEhxjrtAeH0mdz3aO0b4d+Z3iNKTu6OW+JbatAGGwORD8Cg
+         sQxxEmvqFwC4dlYcX7/LKtbzcxkaInVDLVZsWXHlQpduYhuEtydVdw153GN4lRZfE/0x
+         uAGDUbojJ8SOM1JSjErv7/LqT87ARf/9NhGE13OttU1sVCqchMHLpiwJl6aHtxleX0oc
+         sW1wX9T5TpWP0o0ow+2k2Pq5zE4E9oVLhoCBgO11unmokg7dthIVCbr14LpkxI9TJDGb
+         Y/TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=q6cKBZdpYUeBw2lS1ypmmwqf8CCdyOQyy3KXC5MRLFQ=;
+        fh=qy1XGcwQJ7tTsUEI4c0bPXBnnRg8uab3iC6zgA6+L3w=;
+        b=GaHhsbzxpjiAIRo1aX4xNHuzPkziQH5WhMRjy0TGEXY1HW9uZCX9R/5LVZmx8me/AW
+         AdAnv7CIgptPpkuOgaas9OCiJNNLUEokTmUQ5Rl/wVoy8qu77veUzfl3iNFaLzUvuwO0
+         kc82Ht2EmleUq6YPDuH+pUtTnZgq12ZDKqvjE8XnYNErj3rskIXPwzmMcSqO8CtMrGQN
+         Zr7P93pF1K+MKndZ1Oe5F8VXhMgTXmUpwWHtPMK6VTQ2BZr9MoXbSSgMQ3UNcxmobCFw
+         367Wlzlf+DbFLW8zUs/nBLwzf+Hd7ImMFDft44D/kX637AjyWXbMp30AlTEcKWm0Srnc
+         8U2g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784130787; x=1784735587; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=q6cKBZdpYUeBw2lS1ypmmwqf8CCdyOQyy3KXC5MRLFQ=;
+        b=a8vk3eMECvxwcXWIElE+lcfNPUUj6u1peyqekmY7Nd81PDH3zHHa+UGptZS6y0CqwX
+         9MRa4sPRFvUaTbqV4DCxXOSEnJKGINK9Dhx9KHvPlxElrBSacZC6eAmetsaL/5rBGqcT
+         SYXD11GrHYCT3FeGPFhByckiC9aqBoAyV9CJKxUl/mf5seWKfsituhl++7thzzDeTxtC
+         6/rR0pi3v+HYuSxvXltD7/x8flDuk26LdL+bCkIe/dbwURQYBcBghWXh4qA3GyOVgUDP
+         4UOLwNN1Hs/SndJvsSTJ6t2KQ+G0uBTauHqguPPRrKmT2RM8XKXHfVSfaC/+ENMcb9g1
+         n9Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784130787; x=1784735587;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=q6cKBZdpYUeBw2lS1ypmmwqf8CCdyOQyy3KXC5MRLFQ=;
+        b=SVCDIf75VfauRaGbeXU6jc2cBkAqLHMN7w2HqmcsBoB7v2INR2reXig1kq95oNjmo1
+         LIrF/t5k26mcYw+P3PpZd0P7k42HhmBg+lLvv6joEbG0rDvCNLstenr4dhnaQUSzxNPD
+         WvppYJ+hNyfytA3dWBVmRI/U5FLdYQ9ADQWSrRyQgWOgr4DVvQgPWozdRs7D4VVwL2xu
+         C09yLeLA8W1ZYfsNTJQgZvfZpLcf7RcvSJCf0Wct2n8L42CzfmpBgZl6bRuRIYM1Lv0F
+         96i2j6u3bX4RxRYkxfscPgUZp/TvOq8rCgvtdLbB51g3nqqXxxF+f0i/c2Eyy9heyggA
+         a59A==
+X-Forwarded-Encrypted: i=1; AHgh+Rrwgm3P1SZBSWTnVtLum4P5zp3QxKB0zE5Y6pNvBAa/iazOPwXAAHrTVsQMueJ0DedltAAqs4NLwLcU@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+YnkoWbnLgaTbBVvQ6+5TwYPM7nCNvbF3FSK/q6C7VOAW8IBT
+	qE8Qq90IR1WW6Tn8j6hSfyB8ZshLCy6Rqma1U74GBmgW0j7iG+cAscydPCBeZGIsNsHWXFBjcZM
+	7MoGV7p07ea+J0U7LaR1Ot8L8y5sxPLc=
+X-Gm-Gg: AfdE7claoJ6nhbQlWrp+c4KsG2jaOaC4th52Rc8CxW3T5yrpXYUu1OS19WQuHDM1lrJ
+	sBCBTFl3rF2b8mQyLk41yWe+arj4NvIynzH1rqTZojT2EjtHae8i0qa07ue2HntKVbtDjcV+OZO
+	sSBWWvis3BYcq/GFtcDcuqVfGZV0Wi9O8i+NVoH9wR3NpOz+gUO+ka+WMSLpkF4Op57SPL9eMK6
+	t47d9jNltLeFmq2P7zqmi2p2vIZL4nUy3s/cAILT/RDGES1mmbM1qD1Y5JabZuX15+ZoG8bibrE
+	0eAnFmKZK4BW932QI/ePZkzIdyl4OEXXHuppiK0kzEmQdtGGC1baPswsCwUUcVI=
+X-Received: by 2002:a05:6000:4201:b0:475:e3fe:8ac3 with SMTP id
+ ffacd0b85a97d-47f4fca86eemr3714736f8f.8.1784130787042; Wed, 15 Jul 2026
+ 08:53:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260713175345.2542331-1-joannelkoong@gmail.com>
+ <CAJnrk1b9jjvP6a9PaYAiA0HZcJ0_dR_O2aGWPF44T2NNBJC94w@mail.gmail.com>
+ <CAJnrk1Zo_j_QY9Q=jft5=fio9mU36uy5LXP3bC4=xO8DbakzrA@mail.gmail.com> <CAOQ4uxg1m0C6suUpoO8hNkgnqEH-APV3BJgzKg2biCEoC6kXVw@mail.gmail.com>
+In-Reply-To: <CAOQ4uxg1m0C6suUpoO8hNkgnqEH-APV3BJgzKg2biCEoC6kXVw@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 15 Jul 2026 08:52:55 -0700
+X-Gm-Features: AUfX_myi4_L8KFJGelEiwEMm_-nESlXVjSp_TxBdEh6JNd5VUFZ0yTAoUU0lPks
+Message-ID: <CAJnrk1ZBQQy5pwBQmDwKvumcGkUT5dhtQz=D8FwO-j2LWA-EJA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] fuse: fix missing barriers in io-uring init
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: miklos@szeredi.hu, bernd@bsbernd.com, fuse-devel@lists.linux.dev, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 14 2026, Amir Goldstein wrote:
+On Tue, Jul 14, 2026 at 4:22=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
+>
+> On Tue, Jul 14, 2026 at 1:51=E2=80=AFAM Joanne Koong <joannelkoong@gmail.=
+com> wrote:
+> >
+> > On Mon, Jul 13, 2026 at 3:11=E2=80=AFPM Joanne Koong <joannelkoong@gmai=
+l.com> wrote:
+> > >
+> > > On Mon, Jul 13, 2026 at 10:54=E2=80=AFAM Joanne Koong <joannelkoong@g=
+mail.com> wrote:
+> > > >
+> > > > These are two pre-existing issues Sashiko reported [1] on the fuse =
+zerocopy
+> > > > series.
+> > > >
+> > > > [1] https://sashiko.dev/#/patchset/20260630211436.2062816-1-joannel=
+koong%40gmail.com
+> > >
+> > > Sashiko noted some other places that are also missing barriers [1].
+> > > Will send v2 to add these places as well.
+> >
+> > These additional ones aren't real bugs. They're not reachable on a
+> > well-behaved server and on a malicious/buggy server, the failure is
+> > benign / self-correcting.
+> >
+> > I think we need some sort of way to help Sashiko understand so it
+> > doesn't keep flagging this on every future patch anyone submits. I
+> > think there's a few other places where some of Sashiko's
+> > assumptions/analysis are wrong (eg uring-cmd sqe stability semantics
+> > [1] in the zero-copy series). I'll look into this unless anyone
+> > already knows how to do this.
+>
+> You may want to talk with your colleague Chris Mason about adding review
+> prompts for FUSE, because he is also running AI analysis on existing subs=
+ystems
+> regardless of mailing list patches.
+> I didn't try, but you can probably figure out how to add FUSE specific
+> review prompts
+> to Sashiko yourself...
+>
+> Thanks,
+> Amir.
 
-> The ACL_DONT_CACHE state is meant to be a constant state for the inode
-> for filesystems that want to opt out of posix acl caching.
->
-> Commit facd61053cff1 ("fuse: fixes after adapting to new posix acl api")
-> used this facility to opt out of posix acl caching for fuse inodes with
-> fuse server that does not negotiate FUSE_POSIX_ACL (fc->posix_acl).
->
-> The commit also takes care to gate the forget_all_cached_acls() call in
-> fuse_set_acl() on fc->posix_acl because there is no need for it, but
-> there are other placed in fuse code which call forget_all_cached_acls()
-> unconditional to fc->posix_acl and those cause the loss of the
-> ACL_DONT_CACHE state.
->
-> This is not only a functional bug. Properly timed, a get_acl() from this
-> fuse filesystem can return a stale cached value, as was observed in
-> tests, because set_acl() does not invalidate the unintentional acl
-> cache.
->
-> We could fix this in fuse, but it actually makes no sense for the vfs
-> helper forget_cached_acl() to invalidate the ACL_DONT_CACHE state, so
-> let it not do that to fix fuse and future users of ACL_DONT_CACHE.
->
-> Fixes: facd61053cff1 ("fuse: fixes after adapting to new posix acl api")
-> Cc: stable@vger.kernel.org Signed-off-by: Amir Goldstein
-> <amir73il@gmail.com>
-> ---
->  fs/posix_acl.c | 7 +++++++ 1 file changed, 7 insertions(+)
->
-> diff --git a/fs/posix_acl.c b/fs/posix_acl.c index
-> b4bfe4ddf64ea..3dc62c1c27087 100644 --- a/fs/posix_acl.c +++
-> b/fs/posix_acl.c @@ -93,6 +93,13 @@ static void
-> __forget_cached_acl(struct posix_acl **p)
->  {
->  	struct posix_acl *old;
->=20=20
-> + /* + * ACL_DONT_CACHE is expected to be a "const" value and xchg it
-> with + * ACL_NOT_CACHED would enable acl caching for the inode - + *
-> clearly not what the caller has intended.  + */ + if (READ_ONCE(*p) =3D=3D
-> ACL_DONT_CACHE) + return;
->  	old =3D xchg(p, ACL_NOT_CACHED); if (!is_uncached_acl(old))
->  		posix_acl_release(old);
+The prompts Sashiko uses are in this subdirectory, which is open
+source and anyone can contribute:
+https://github.com/sashiko-dev/sashiko/tree/main/third_party/prompts/kernel=
+/subsystem
 
-Nice catch!  FWIW feel free to add my
+I added a minimal fuse prompt [1], I think we can continue improving
+on that as we go.
 
-Reviewed-by: Luis Henriques <luis@igalia.com>
+Thanks,
+Joanne
 
-Cheers,
---=20
-Lu=C3=ADs
+[1] https://github.com/sashiko-dev/sashiko/blob/main/third_party/prompts/ke=
+rnel/subsystem/fuse.md
