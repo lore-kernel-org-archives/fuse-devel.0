@@ -1,119 +1,201 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC3E4A13B9
-	for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 17:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F8F3B6359
+	for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 18:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.41
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784137909; cv=pass; b=KR7P8VzF2MYIi3qGo9fnRGOOrypC1PwG7Qd+F/J+7LFeQGOJVn+E5DHtvnyRyW8Lr2niSFZJtMtbEOuGz9LkXzjN7RjnZMMtmRW1oF1Jj2+scWXvpeoMU66G/ZYsQkhM05/FhXBX86ELhuvP0zwJRpM02zt2umjUv7zwvZcVF+4=
+	t=1784139206; cv=pass; b=ETEehySo+WhjGibgDCUmy5xjkcjWjwo9vQb37fwPEW8ci0EIe5ymvytpC92G2mw7yTYJ7/f8oZt4gmbsmnAGRUa3HXF0oDd8OW89r6KO8Et0PE9N93GON4USJghf5X8Eo49+ya4a6vwaKF5Hzu1ByZyXGkfwLs5/awavv0GIXfw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784137909; c=relaxed/simple;
-	bh=DU6lIIGiAmL3vAHbSfUlkC/knXl8i9oP0EzDpJow4Yo=;
+	s=arc-20240116; t=1784139206; c=relaxed/simple;
+	bh=TlTrHrgV9T9HsF1/ikFD5MM6TsMNEWuH7t9v3bzGGpA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cXvDzgS3n2ioScYXyTwU1Iz5Afel4ZDPrOuhrya2IQBQcs3pwANs1jWVLrHYIe3EgbBhs5zRlKITPpB70g7mr/veKjY9dGj/anzT91unpk3xWMfbBzdrILdYR3S1eFr7+J1/dAsr9ehO7v//6tY2vnNbjJYnQ6/5Xou2SpaxU54=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pEKYHC6C; arc=pass smtp.client-ip=209.85.221.46
+	 To:Cc:Content-Type; b=TFvIn0BT/k4HHEzBlfLhpoDkSKzYLsAKU/KRwE4jxys1xhfDmv3Aq7eKdNB420ToTgKezqSkCpY8bULay3GN2LZfLKYBWoDpZHlkECtFyRF17u8sA5feCFaj/VyaP3gevq718uHjf4QPUBdjUyah++x2GXYjTMyBHiK50WVUar4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NKt08RGI; arc=pass smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pEKYHC6C"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4758bd3731bso1876508f8f.0
-        for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 10:51:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784137906; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NKt08RGI"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-493c7902f47so47847985e9.1
+        for <fuse-devel@lists.linux.dev>; Wed, 15 Jul 2026 11:13:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784139197; cv=none;
         d=google.com; s=arc-20260327;
-        b=IqIKR36u42QMZT6Js/e/yWOsKukja8PlJYQiFkAgjjFdgWxhvFYZrRKXvYhkyy3S6P
-         2Xv5aE/QAZlGTNKNDQAwq9ziUarrSmmT4wrW5ud+kIoW1iYTbkAt0e6LrKHBuAzV/V0S
-         mNwDd8iex8FySelTn2H8dDgy3VIEiBXJxp3orznGTRjmFDs1eb2dhmDEmvCgLz5H0+oK
-         OT2B1BqTDm4S6gtzVb9rT/s1oDnmt0T6XdDCvTuOV+SLEwKA0Mxmbh1qETs1K7Q5yQl2
-         tAIHBoTIND24RzgPs1Eua9b8iHvPbLn0FbkEH5rWzdsH7ysLBMJ34Vj2BNT+O619CtrU
-         yZzw==
+        b=AdQddq0aQhIbGdxeR0oYY6hCU52Vn9mG9SIX7ktmamgR1FXVkQa1Req2PjI/fKZESs
+         ZNAGV5RJiF0CNx9Cqi+axj23rCadVa/eJulg/lw28Xf4KumUUwbPasV56c9rbXHbuRHj
+         tcJAHNO05Q+S4USiCDJwmyuvs4767aoR/yJLwZiUFHVXedDxUkopFzqjmmDP5QR9+ghT
+         75ICxRTLWRYcxIFYyE4IbFdH1rk1ivfQVUcMOSILaikU9PZW/7qUtYWl7IrYWBIKAYgR
+         LqJLJQyOgnfLEvhhjVGnbHyiCG0p/tEJSUBm2KPt/LFzPQgYdOqMDZofQJLXJIx7d8OM
+         ejOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=DU6lIIGiAmL3vAHbSfUlkC/knXl8i9oP0EzDpJow4Yo=;
-        fh=l7HR2UoqST9bp+1uw0MHejaRu/I/QYh1wrMwqbvenHA=;
-        b=bLzM4PzcYxuz92REnJu6Z8zQVb1GYOH3z8s4lFHkFtOdXJ2v4PDc52hQY8hCMT+oek
-         0NsaI3uWKj7ArIfXON3cNcCM30DI29kvD92B9VCrnBcKsHtHGpH6ieGG2Zxrppw2roMN
-         f5fr3wwhe/tGEesCwsSwNNaoKlX73hlV/jrTkxeAFtG7a4Ben/Z2mlhcRn1AEQ+00Ez2
-         ycPULk+9t9BmCDosrs85GW2ce2c4wGZhvHqBmVOcsymu8ToQNewKqCXKBBEQRoGn7rnR
-         JZ74JjTNQzupxztbEQMWAGjo+8javPvRqsUfPCKTxHxTeZQa3dfmYfIork5mFqxtEDHB
-         J+IQ==;
+        bh=2Y5Uh47jmS2lL6sNnuOrdeSccdkAkRk2F1888yDlqwc=;
+        fh=jkjxU88K5tf/Q/k4Duz+q4lSYuWYKabAYeb/TrhO150=;
+        b=d3Ck51NCK6jwdvYnQbjQAqsdILDxVLZWX6lXoU6A8SnuWtOGeAYvb5J0RJ2RUVukK0
+         w0dYK5gkwFpYLA1FjT6Rl2GjbjmfpDjQejZn5jD4aKLX0/BqffdSxTfPKx4G3KzJerEm
+         LuxHtlyqXuvzc/zRl8wZnGqrRL8glvkOH9UU42M2dcw8BnobNCxoyqEnlN5nLYT5FeQa
+         M9rVNEgfGQhKiiibkmQ3+nrsqg8V9e48S6QM+fjBPV0/+Sy7jTad8wMZ+cUK6zY/oaam
+         C1EpQXe0Rs6/skBSUTV10aDW0kEH/jfaJfklMjr6Ke7xT8w15JgyB7H+ovdSd38n6fAA
+         oUzQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784137906; x=1784742706; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784139197; x=1784743997; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=DU6lIIGiAmL3vAHbSfUlkC/knXl8i9oP0EzDpJow4Yo=;
-        b=pEKYHC6ChfyLhVZD+x9ZYHt2RMZ9JDQeFW7WY91j3F2SXItJH+vyfwH93knOFggjSY
-         jNmcdNQd/xNRcJ4QOIIm2sdsUVC3SEekhcMarQKCJ64TQDMsr+og1Uc6gkNrncc5jxEr
-         2wiyIMuYnF52Vnhd9cZ3CtWV1hjQBo1Gj+lmhFRBclGgU0S6fGH2///JKoLepr3yxHUa
-         BMoJLisoaQCBan4JOXhMEtb9A/Gg4s0SEMVoXuxxRl5ODL2vZJ24zJuTf6GbnWO2gCOc
-         21gEqOFiX+eRm4RQva6wvm8/OeVGiGe6WJ+Xi1wPb3J1QKar5juNgqchC+EnAC5QkPkG
-         Iyiw==
+        bh=2Y5Uh47jmS2lL6sNnuOrdeSccdkAkRk2F1888yDlqwc=;
+        b=NKt08RGIsC98lkPweXk03M3qQwZOp7Jv+ysr8I4kZXHHBcp47U99qSn4KcT0E03N1z
+         FfZ5UPTyGuo3rXRNKqlxK1kQOoTITChdTmkpHKrZXx1lpNOzgXaRL8ry7Pp5hgLZQXQ8
+         FyLOGJhWW9LBES0Xv7I9jBYuZ/DJrTxkoTvu5Qc5/5YeVtoWddKbRydpDXQOfsxy654x
+         eaZ83bA4xsJu5LpH1MyFi9LgvGFbPBuQIS3T2RtmrGG4B9N2PCRDjZm3lftWrcJuQVcl
+         IyJNoZ0TuH93zJwkA8Yh6cMycY6iYHQfWfvYNtRCVG3zgu6HhqS2AqpT4b/MTDIz88zR
+         vGOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784137906; x=1784742706;
+        d=1e100.net; s=20251104; t=1784139197; x=1784743997;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DU6lIIGiAmL3vAHbSfUlkC/knXl8i9oP0EzDpJow4Yo=;
-        b=fhpl4UFwqmE3sPD6q7BLlhUgkFnwIvygjw7HIxqix6lLKoTWzWifbvqKnKT8zN41tZ
-         2rQ/Oyq+U89jWb2r0ocg82TLfnkz0zB8wvJNrHm5Si5qnJqmdUHVE7TaKDKGjbtkTfmx
-         XOG80TOXvd1rJTuhmxJlY4EJMU3K+5kYkAz9lh+Y8Au5DWWqjJT6jIv/X6kt/H7+28SM
-         UJptwEwT3qFr/iThxnCvgHvFqlW07I6UiCtwuF/e6bNmZK5eBRS6SumkUokCdzswgJNM
-         p4ypyxGM/PTP8byQD8u18z51H3y49sI+cSVwi5VvcOI7hwAdBLXvgofBB0aU0nU3SBfh
-         YEFA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp9ZL3miXsu9kLUbW7IzlJzywer9lKb30va/uaX4wYFL9uwRtSzHPvLK6fPCmiLu2qeRCd6BcSeEBtj@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNl5CFgi0ljUp18ZuG+DgTl5b8/1/VFNt5E9IBB8rsrwh8/fUg
-	b8qzfGmDifrCYhfCkICKzCrSmBrCLvgYaHF/HxZg5xmWAJDG/9Gl+yTc/+D0TeJC60iqVD2eHFI
-	Wz2/+eWIsL9NNnfBrAsd44e3cgRlUVcbjJnEqlBs=
-X-Gm-Gg: AfdE7clro3wxBeTzFEPlNddk/p7mHD/1iqctwqUWxUhlzrVcSN4Uoo5Pt8oHIlTLCVn
-	51D1HnCoz2PuYWQCg2nOM6EHLOPzSt85IcD7sws3djZDlfNDlP9IJPe8aoaUiOcy29gg6us2LL3
-	Ht17l14RywmoSJqHac1Z8ltacUCfnoqzU41cGGBurYXflpTr/3+pS8B680emy36h2NtkiLQ9FYQ
-	+qdpBGuGwCPBDG5SZj8r3guM/1cCPY8XtgscGQMQ7Won8llEMmJn6YKBPR68v+MOm9tqCmaSnE2
-	mA/JqsieyAYjap8DSEIS8PsQbN7Em3BfSdoe1rrNWDwSoAwrpWaN
-X-Received: by 2002:a5d:5f53:0:b0:472:1424:fc7c with SMTP id
- ffacd0b85a97d-47f55ee9da5mr478466f8f.10.1784137906052; Wed, 15 Jul 2026
- 10:51:46 -0700 (PDT)
+        bh=2Y5Uh47jmS2lL6sNnuOrdeSccdkAkRk2F1888yDlqwc=;
+        b=YOywSH+9s7zKcF/vxIxFCShGtD8AkwFp/8XB7P8v4G+8qXaxt2IfusPJW6WiV3/lf3
+         R+W6IArWNU1o7G+zJSjZw7Syp0/8JtpM1jCX04PizCxeL7pQNbB0S+Y/0ki3ddA6FAQv
+         mveIVChTjRjFqj7JXqBd/D9I2R23497pHube5pXG1wcs4wI423bgS7zErR7T9Y2pdObH
+         iqu243T8FSKxzts0r68YbMOaLbTUeHwQvNQNAHOHDyBgM1Jj8PWy+4onS7WMLrVPUgmy
+         PEVFcq2AVRn0HWOlb40tPq1HlH99+8kxEvEOGoUMG/MxXr7wcACVqi3DFYaEskOgJopc
+         +5wg==
+X-Forwarded-Encrypted: i=1; AHgh+RrjVIDfQY5JRffgIbzHqyEkROfJ0pPb1rh7wPYQhzxCmMtDfP4qpIbwi+w0LaSPQJhsbFwH88ijgN0T@lists.linux.dev
+X-Gm-Message-State: AOJu0YzclWXx06MWlz8vV1mTuNGv6itC3vnzSvvR5oIIUJY5n4ofaCvb
+	p6MBxBgY/Ujp9prOCXXp6OfUhqwu96rTiJ5J+2Zdk2BMgprWDIfRRtDvPdl1SprASaGn2t4qa5t
+	pRBq+6wGS8/BeXHvB5s34Wszlj2OlqJM=
+X-Gm-Gg: AfdE7cmbvsBfHFxVEX8OocFhuaV2um9YLU0ys1sO9N+HqTpn0asJyobcBQV7/FhpcjS
+	Lkcrxwb/OuwQumzFzbjgtOMZfKErWJb8fVMPwVk5xLfOdVmrpBhHTpmjtZqpNbsX29vvuuiTXQ4
+	hUyPUxWex0Nkbd0ClMIT/if+rgeAkiXJG/ufeKVTFfzD/wGquBZcm9AxeE+w+XQHEJC7qzZi33p
+	+IMwHq0LVH0dSj4bfN+aUaqNAZsPBJL4p5NqkbvYty9WcwHshc0l+k01B6y4EaFaENWTSoIfX+O
+	UG+MYnLb1cB0sgLBUt+UEkZFKtaGrEIxfBOWv+BMNSy5gO+D6Zf0
+X-Received: by 2002:a05:600c:42c8:b0:490:d354:bcf4 with SMTP id
+ 5b1f17b1804b1-4953c28b5edmr28410535e9.27.1784139197027; Wed, 15 Jul 2026
+ 11:13:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260714073230.4324-1-liwang@kylinos.cn>
-In-Reply-To: <20260714073230.4324-1-liwang@kylinos.cn>
+References: <20260714235408.1666063-1-xmei5@asu.edu>
+In-Reply-To: <20260714235408.1666063-1-xmei5@asu.edu>
 From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 15 Jul 2026 10:51:34 -0700
-X-Gm-Features: AUfX_mxBCrYH3SWRPEpomKoHZuZ-9fFN3rytuVNZOII2RvIGvdwYcVXmSeGcPQw
-Message-ID: <CAJnrk1ZGVFJykTmtLr2jbxtvrJqq1P+-T3LgHsyrUQPj5wFxLQ@mail.gmail.com>
-Subject: Re: [PATCH] fuse: select alternative io_uring queue if local queue is full
-To: Li Wang <liwang@kylinos.cn>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jinxu Du <dujinxiu@kylinos.cn>
+Date: Wed, 15 Jul 2026 11:13:03 -0700
+X-Gm-Features: AUfX_mw-teJ0Q6ljAmZl4MTwHTDoeMlbTti5lf97n8LexyPhS1kxB0kDNkM69po
+Message-ID: <CAJnrk1b4VAsyEMx7obFTBgP8M3dBcD1+QnKVQK-r881MBySDOg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] fuse: whitelist the request headers for usercopy
+To: Xiang Mei <xmei5@asu.edu>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Baokun Li <libaokun@linux.alibaba.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>, fuse-devel@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, Luis Henriques <luis@igalia.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, bestswngs@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 14, 2026 at 12:33=E2=80=AFAM Li Wang <liwang@kylinos.cn> wrote:
+On Tue, Jul 14, 2026 at 4:54=E2=80=AFPM Xiang Mei <xmei5@asu.edu> wrote:
 >
-> fuse_uring_task_to_queue() always maps requests to the queue for
-> task_cpu(current). A single-threaded submitter with high queue depth
-> could leave other per-CPU queues idle while one queue handles all
-> traffic.
+> The fuse-io-uring transport copies req->in.h out to the ring in
+> fuse_uring_copy_to_ring() and req->out.h back in fuse_uring_commit().
+> Both headers live inside the fuse_request slab object, whose cache
+> (fuse_req_cachep) is created without a usercopy whitelist, so copying
+> them directly to/from userspace trips CONFIG_HARDENED_USERCOPY and
+> panics:
 >
-> Prefer the local queue when it has available ring entries. If the local
-> queue is full, try other queues on the same NUMA node before falling
-> back to use the local queue.
+>   usercopy: Kernel memory exposure attempt detected from SLUB object
+>   'fuse_request' (offset 56, size 40)!
+>   kernel BUG at mm/usercopy.c:102!
+>   Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+>   RIP: 0010:usercopy_abort (mm/usercopy.c:90)
+>   Call Trace:
+>    __check_heap_object (mm/slub.c:8268)
+>    __check_object_size (mm/usercopy.c:197 mm/usercopy.c:258 mm/usercopy.c=
+:223)
+>    copy_header_to_ring (fs/fuse/dev_uring.c:618)
+>    fuse_uring_prepare_send (fs/fuse/dev_uring.c:776 fs/fuse/dev_uring.c:7=
+85)
+>    fuse_uring_send_in_task (fs/fuse/dev_uring.c:1306)
+>    tctx_task_work_run (io_uring/tw.c:96)
+>    task_work_run (kernel/task_work.c:233)
+>    io_run_task_work (io_uring/tw.h:84)
+>    io_cqring_wait (io_uring/wait.c:278)
+>    __do_sys_io_uring_enter (io_uring/io_uring.c:2685)
+>    entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
+>
+> in.h and out.h are adjacent in struct fuse_req, so a single usercopy
+> region starting at in.h covers both and nothing else.  Create the cache
+> with that region whitelisted.
+>
+> Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+> Cc: stable@vger.kernel.org
+> Reported-by: Weiming Shi <bestswngs@gmail.com>
+> Suggested-by: Baokun Li <libaokun@linux.alibaba.com>
+> Assisted-by: Claude:claude-opus-4-8
+> Signed-off-by: Xiang Mei <xmei5@asu.edu>
+> ---
+> v3: no context change; add Bernd's Reviewed-by
+> v4: drop previous tags; use kmem_cache_args to reserve usercopy area
+>
+>  fs/fuse/dev.c        | 9 +++++++--
+>  fs/fuse/fuse_dev_i.h | 5 +++++
+>  2 files changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 5763a7cd3b37..b8e43e374b35 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -2404,10 +2404,15 @@ static struct miscdevice fuse_miscdevice =3D {
+>
+>  int __init fuse_dev_init(void)
+>  {
+> +       struct kmem_cache_args args =3D {
+> +               .useroffset =3D offsetof(struct fuse_req, in.h),
+> +               .usersize =3D sizeof_field(struct fuse_req, in.h) +
+> +                           sizeof_field(struct fuse_req, out.h),
+> +       };
+>         int err =3D -ENOMEM;
+> +
+>         fuse_req_cachep =3D kmem_cache_create("fuse_request",
+> -                                           sizeof(struct fuse_req),
+> -                                           0, 0, NULL);
+> +                                           sizeof(struct fuse_req), &arg=
+s, 0);
+>         if (!fuse_req_cachep)
+>                 goto out;
+>
+> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+> index 668c8391d61c..b511aaab6bfc 100644
+> --- a/fs/fuse/fuse_dev_i.h
+> +++ b/fs/fuse/fuse_dev_i.h
+> @@ -81,6 +81,11 @@ struct fuse_req {
+>         /** @flags: Request flags, updated with test/set/clear_bit() */
+>         unsigned long flags;
+>
+> +       /*
+> +        * @in and @out are the usercopy region of this cache (see
+> +        * fuse_dev_init()); keep them adjacent.
+> +        */
+> +
+>         /** @in: The request input header */
+>         struct {
+>                 /** @in.h: The request input header */
+> --
+> 2.43.0
+>
 
-Hi Li,
-
-I think this is already covered by Bernd's changes in his reduced
-queues patchset [1].
+I think this is more a matter of preference as they're both
+functionally correct but imo the previous approach seemed cleaner,
+given that only the io-uring path needs this. The extra hop goes
+through a tmp stack variable whose memory is already in the L1 cache
+and the memcpys are small (~40 bytes), so I think the cost is
+essentially negligible. Not sure if Bernd or Miklos or Amir have a
+preference here.
 
 Thanks,
 Joanne
-
-[1] https://lore.kernel.org/fuse-devel/20260529-reduced-nr-ring-queues_3-v5=
--0-1dc08c2fccf6@bsbernd.com/
