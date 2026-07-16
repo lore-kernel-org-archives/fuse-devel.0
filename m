@@ -1,52 +1,51 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0E130DEA5;
-	Thu, 16 Jul 2026 12:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695B942CAF2
+	for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 15:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784206161; cv=none; b=m/plBwKpqth8FWhs1A7dn1ia9SD3V1X/sLoogP+cP/753SFFZ0Avqt/SkMwZWvuRkkZmhvONMD+ZnOyNAwOvlFf0puOh7qmDDm7G6v3o+h1jS2BL4b3ETWg+ZQ+F6FuYEOxdQ0nIv/x1dlsGVw2LHTR7N46Q85gBexQUkoLkywI=
+	t=1784214757; cv=none; b=Fo7ELLYOsIv7sNROR+B+CSXHvLLotLJOTkkyi18mmF30HvJ7Yz3OAhAUIOUsouvHtSpIKKojefOtKaik67tChwNh0WnNIQ3vzIHyygsicrJglne3UA7BwCzs2VtT32gpS3TAY/BmJTMMEH1Mrbc42eCq28wbVv6uPihDvFA1vCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784206161; c=relaxed/simple;
-	bh=5SggAL8W7FjBNNBAAmEdYkV9MPvIzcTxA136Xy/kQ/E=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rWLKpVcrBKCWqRB3xU23U5WqdeSMgOpl+7yGOTTXok3uzQDvhIxpG3rNcLTg2qddXDZvXEicjPM9qeOqpgIM35QvMZ1B8O3REmUmo4NvaHCVPuAIkxz+2de8HYr+rBzh/oekbMp/1dXc1wBT11bGF/4o/MzR68fiV1UCGEmL6mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=fOZpAeRl; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1784214757; c=relaxed/simple;
+	bh=uDqcPbDBXYik1/mwJQskjuOLgwLNwWIHXpcYAM+s/K8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OSnxK7VTZATIyPZVosU/Gc80UeE/YP4S2WAMKXTn8Ov3ypcH0y3QxYLBfjBDOJyZAwO3dkk30Iwq7EmlI1L4azNFF0kbcwnDSTrLpWR5ug3Tzsu1GoGvc+tnuQA6sHiKX/QIoNUWT+KRJHZXy1kZg64qi/pb+qCW2+5ANZnvylU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GGMLhlng; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="fOZpAeRl"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=ow4y7RBs8TK9F664Wr5L5yTjag7BNJlXO1x6vpYxro8=; b=fOZpAeRl/+2JpvHokAX3zAx5s/
-	Bd27ARapSLKP1zsIcBXHE5IXEmg5h6CEUi08PP1Haed2bley5opxkMhfXtU3amnRsuEp/biEovh0v
-	s2XiAtzLIRSL9oQghQLhwmyRsH861a4Ubo6CJnw+InNRedveLMTt/FyTv0u61HEeBlYWkVvLCXoSm
-	Btd8ChE7AvWgRrJpFe5QPITfBRuhzmu/10o3u4kr/Gp9N6jVFGSvXUazarkeq8uzBt8AWrfq91gDh
-	ZiCIV5LI5u3GVOY3XJ5KYzautGXhhRUCiU8fqiWj6tP3qzM/C4QyDLJ3kP3f71U+zfmt5uc1kcQXu
-	V+H4hLZA==;
-Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
-	by fanzine2.igalia.com with utf8esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wkLWZ-00FuUc-DO; Thu, 16 Jul 2026 14:49:11 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Chen Linxuan <me@black-desk.cn>
-Cc: Amir Goldstein <amir73il@gmail.com>,  Christian Brauner
- <brauner@kernel.org>,  Miklos Szeredi <miklos@szeredi.hu>,
-  linux-fsdevel@vger.kernel.org,  fuse-devel@lists.linux.dev,  Chen Linxuan
- <chenlinxuan@uniontech.com>
-Subject: Re: [PATCH 2/2] selftests/fuse: add ACL_DONT_CACHE regression test
-In-Reply-To: <CAC1kPDMPfYAUsmT-yx4NK=hT5OdeZuJpyVTbfHZxfdbH8b_=uQ@mail.gmail.com>
-	(Chen Linxuan's message of "Thu, 16 Jul 2026 04:24:27 -0700")
-References: <20260713220932.413004-1-amir73il@gmail.com>
-	<20260713220932.413004-3-amir73il@gmail.com>
-	<87wluw2qeh.fsf@wotan.olymp>
-	<CAOQ4uxjzAXgBaggRNJxcEn39LY4+D6ZVHLqODJ3C6cHnDdkG_g@mail.gmail.com>
-	<87se5k2des.fsf@wotan.olymp>
-	<CAOQ4uxjakizfBuTYUG-=K+L1MUfaCkwtKUyNh2g_9K2c4u3-Ng@mail.gmail.com>
-	<CAC1kPDMPfYAUsmT-yx4NK=hT5OdeZuJpyVTbfHZxfdbH8b_=uQ@mail.gmail.com>
-Date: Thu, 16 Jul 2026 13:49:37 +0100
-Message-ID: <87o6g785ge.fsf@wotan.olymp>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GGMLhlng"
+Date: Thu, 16 Jul 2026 08:11:59 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1784214740;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lk73c7VSYJMT59FvW2bMubFxnaIYiVimDC3EYXy0KJo=;
+	b=GGMLhlng9gQKMvPkCZloioMU2n1pZyhzy+RAHjGgeLNY2c0BZsanmzUSH0QTiC69VqJECc
+	eR1ZCqPyKKky6WOyJLOPNrXKjQtN4e5TDD2k8JyDJGFU1HoiWgl39VBsLYarX656tVrn6x
+	kr8b+j4+HfX4kIgWFwhoSNuY1lxxToA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
+	Jingbo Xu <jefflexu@linux.alibaba.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, yosry@kernel.org
+Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
+Message-ID: <aljxUvui60dm3yvj@linux.dev>
+References: <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
+ <s4kv7qep3jlncs67q72xfhserpd66hpbwzkoppiddc5raufyjd@ksuvlfqcrbk2>
+ <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
+ <oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io>
+ <CAJnrk1ZU40tRDq0z3yM0+yv=KhiZ-fNjUTO=ccv1tuc0xDx2Vg@mail.gmail.com>
+ <4fsrafuhoqgoirlt2sy6vk2ljvb3tdps4hqbcrm5qc2pr6tlaf@tboejm2wdq2s>
+ <CAJnrk1b65ypz4bdtd1rTQBYOpOEP+DcoZJUSL87jVDssW1A+pw@mail.gmail.com>
+ <nv2h2dd2xoj4zjfvnhsxud2p5e2uw3og22ovqureik4pey72qb@i75tn5ttavfo>
+ <ue5xd6f4nfggwodfhbqaispmr5aq2dyszezvy26bl4rtsk6xii@uceqazdioj3o>
+ <CAJnrk1bwabyWY+rzzSKfKWp3rivcQm=zae3xzNSZc2hnLj6-Aw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -54,81 +53,177 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1bwabyWY+rzzSKfKWp3rivcQm=zae3xzNSZc2hnLj6-Aw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 16 2026, Chen Linxuan wrote:
+Hi Jan & Joanne,
 
-> On Thu Jul 16, 2026 at 6:10 PM CST, Amir Goldstein wrote:
->> On Wed, Jul 15, 2026 at 10:41=E2=80=AFPM Luis Henriques <luis@igalia.com=
-> wrote:
->>>
->>> Hi!
->>>
->>> On Wed, Jul 15 2026, Amir Goldstein wrote:
->>>
->>> [...]
->>> >> A question: in my own tests I have been following a different approa=
-ch,
->>> >> where the filesystem is mounted from a shell script that does the ac=
-tual
->>> >> testing.  I wonder if you think your approach (i.e. writing the actu=
-al
->>> >> test in C, using the kselftest macros) is the preferred one.
->>> >
->>> > I always prefer a standalone C program for a selftest.
->>> > For fstests naturally the tests are done by the shell scripts,
->>> > so it really depends.
->>>
->>> Cool, thanks.  I'll consider adapting my own tests to have a similar
->>> format as this one.
->>>
->>> >> Anyway, the test looks good to me, and I just have a few minor comme=
-nts
->>> >> below.
->>> >>
->>> >> > fuse_acl_cache_test is only built when libfuse3 is detected via
->>> >> > pkg-config.
->>> >>
->>> >> Yeah, I've sent a patch recently converting the only existing test t=
-o also
->>> >> user fuse3 instead.  Not sure that's acceptable though, since there'=
-s a
->>> >> chance of breaking some CI.
->>> >
->>> > I mean if the test is not built it wont run, so I don't know why CI w=
-ould fail.
->>> > Obviously some systems do not have libfuse. That's fine by me
->>> > not everyone needs to run all the tests.
->>>
->>> Oh! as usual my comment wasn't clear :-)
->>>
->>> In fact, my comment wasn't really very relevant in the context of this
->>> patch as, in my opinion, I think it's OK for new tests to depend on fus=
-e3.
->>>
->>> I was talking about my own patch[1] which was converting the existing
->>> test, which depends on fuse2, to use fuse3.  That's what I was referring
->>> to when talking about breaking CI: we could have a scenario where a test
->>> was being built and executed and, because it's now using fuse3, it can't
->>> be built any more.
->>>
->>> [1] https://lore.kernel.org/all/20260708131122.2917-3-luis@igalia.com/
->>>
->>
->> CC test author
->> I think your concern is exaggerated
->> This test is 1 year old. Who runs this test and doesn't have fuse3?
->
-> A quick note on why it used fuse2 to begin with: back then there was no
-> fuse3-based test anywhere in the selftests tree. Amir actually pointed me
-> to tools/testing/selftests/memfd [1] as the reference to follow, and
-> that one (both its Makefile and fuse_mnt.c) is built on libfuse2, so I
-> simply copied that pattern for consistency.
+On Wed, Jul 15, 2026 at 06:28:16PM -0700, Joanne Koong wrote:
+> On Wed, Jul 15, 2026 at 3:32 AM Jan Kara <jack@suse.cz> wrote:
+> >
+> > [resending once more, this time with correct Shakeel's address]
+> >
+> > On Tue 14-07-26 18:21:57, Joanne Koong wrote:
+> > > On Tue, Jul 14, 2026 at 10:10 AM Jan Kara <jack@suse.cz> wrote:
+> > > > On Mon 13-07-26 18:13:29, Joanne Koong wrote:
+> > > > > On Sat, May 30, 2026 at 4:04 AM Jan Kara <jack@suse.cz> wrote:
+> > > > > > On Thu 28-05-26 15:11:18, Joanne Koong wrote:
+> > > > > > > On Thu, May 28, 2026 at 5:34 AM Jan Kara <jack@suse.cz> wrote:
+> > > > > > > > > I think this is also going to be a problem for cgroups with large
+> > > > > > > > > folios since they also, as I understand it, are constrained with a
+> > > > > > > > > limited / tight dirty budget. I ran some initial benchmarks with
+> > > > > > > > > cgroup memory constraints on NVMe and saw similar instability (a
+> > > > > > > > > single writer in a 8 GB cgroup had max write latencies of 6 seconds vs
+> > > > > > > > > 15 ms without the cgroup, with the balance_dirty_pages() throttling
+> > > > > > > > > oscillating rather than settling near the set point).
+> > > > > > > >
+> > > > > > > > Ok, so this is more folios (819) than my 512 gut feeling estimate :) What
+> > > > > > > > was the write throughput of the NVMe drive? The high drive throughput also
+> > > > > > > > requires more dirty data to keep the drive saturated so that writeback
+> > > > > > > > throughput doesn't oscilate too much.
+> > > > > > >
+> > > > > > > The write throughput of the NVMe drive I was using was around ~1.1
+> > > > > > > Gb/s (measured by running direct I/O). I think with the 1.6GB dirty
+> > > > > > > budget, the math for that ends up being that the device drains it in
+> > > > > > > ~1.5 secs. The performance I was seeing with the initial cgroup
+> > > > > > > benchmarks was with 4k pages (no large folios enabled) on btrfs.
+> > > > > >
+> > > > > > OK, you might want to experiment with some other filesystem (I suggest xfs
+> > > > > > or ext4) as well. Btrfs writeback behavior is a bit special with its data
+> > > > > > checksum computations etc. and thus latency of starting writeback. It could
+> > > > > > contribute to the erratic behavior with the relatively low dirty limits.
+> > > > >
+> > > > > I reran the benchmarks on xfs and ext4 and saw similiar results. The
+> > > > > max write latency under the memcg were
+> > > > > xfs        5.1s
+> > > > > ext4      5.2 s
+> > > > > btrfs      6.2 s
+> > > > >
+> > > > > compared to the non-memcg case (0.4 to 2.0 ms). This didn't affect
+> > > > > throughput though, just the tail latency. When I ran xfs with large
+> > > > > folios disabled, I still saw ~4.1s.
+> > > >
+> > > > OK, interesting. Thanks for running these tests! Also it is good to know
+> > > > this is not really related to large folios, that somewhat simplifies
+> > > > matters.
+> > > >
+> > > > > From the balance_dirty_pages() ftrace tracepoints, the dirty_ratelimit
+> > > > > value is consistently stable / accurate but it looks like what's
+> > > > > happening is that during freerun, the writer essentially dirties at
+> > > > > memcpy speed until the freerun ceiling, and then the soft/proportional
+> > > > > throttling kicks in but doesn't kick in fast or hard enough, which
+> > > > > allows the number of dirty pages to exceed the hard limit by ~2x, and
+> > > > > then at that point the writer is forced into the loop where it sleeps
+> > > > > max_pause (200ms) each iteration until writeback has drained the
+> > > > > number of dirty pages back under the limit.
+> > > >
+> > > > OK, above you mentioned that the dirty limit for the memcgs is set at
+> > > > 1.6GB. Does that mean that dirty throttling allows memcg to dirty up to
+> > > > ~3.2GB of pages? I wouldn't have expected that...
+> > >
+> > > On a couple of the runs, I saw it get as high as up to 5GB.
+> > >
+> > > I think this is because the balance_dirty_pages() code uses the memcg
+> > > stats (NR_FILE_DIRTY) but these stats are only periodically
+> > > flushed/refreshed when reading it, so the balance dirty code is
+> > > seeing/using lagging/non-uptodate values.
+> > >
+> > > I'm seeing this in
+> > >   balance_dirty_pages()
+> > >       balance_domain_limits(mdtc,...)
+> > >           domain_dirty_avail()
+> > >                 mem_cgroup_wb_stats()
+> > >                        mem_cgroup_flush_stats_ratelimited()
+> > >
+> > > where mem_cgroup_flush_stats_ratelimted() has this logic:
+> > >
+> > > void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg)
+> > > {
+> > >         /* Only flush if the periodic flusher is one full cycle late */
+> > >         if (time_after64(jiffies_64, READ_ONCE(flush_last_time) + 2*FLUSH_TIME))
+> > >                 mem_cgroup_flush_stats(memcg);
+> > > }
+> > >
+> > > where FLUSH_TIME is defined as 2UL * HZ, which afaict means the
+> > > flushing can be around 2 seconds stale (accounting for the periodic
+> > > flusher in flush_memcg_stats_dwork() that flushes every FLUSH_TIME
+> > > interval).
+> > >
+> > > From what I see, the freerun and hard limit checks use this stale
+> > > under-reported value (in domain_dirty_freerun() and
+> > > wb_position_ratio()), which means the writer gets to keep dirtying and
+> > > blow past the limit for up to 2 extra seconds before the throttling
+> > > limits it.
+> >
+> > I see. That would indeed explain why we can overrun the dirty limit so
+> > much.
+> >
+> > > Maybe one idea is to in the memcg throttle path do the flush based on
+> > > how many pages are getting dirtied instead of on how much time has
+> > > elapsed? It looks like flushing grabs the rstat lock though, so maybe
+> > > only doing it in the throttled case where it's past freerun would be
+> > > best. It looks like the logic in the regular non-ratelimited
+> > > mem_cgroup_flush_stats() call does something similar. I can run some
+> > > experiments this week with this if you think it could be promising.
+> >
+> > Checking some git history, this actually seems to be a relatively recent
+> > change from Shakeel (added to CC) - d9b3ce8769e3 ("mm: writeback: ratelimit
+> > stat flush from mem_cgroup_wb_stats"). So you can check whether reverting
+> > that change makes dirty throttling not overshoot so much.
+> >
+> 
+> Reverting d9b3ce8769e3 fixes the issue. On xfs, I'm now seeing the
+> number of dirty pages stays bounded by the limit instead of going 2x+
+> over, and the max latency is now around ~0.33s instead of ~4s.
+> 
+> > Shakeel, your change to use mem_cgroup_flush_stats_ratelimited() in
+> > mem_cgroup_wb_stats() results in applications overshooting memcg dirty
+> > limits by several gigabytes which for small memcgs (with 8GB memory in this
+> > case, which means a dirty limit of ~1.5GB) is a considerable issue. I guess
+> > the ratelimiting should take into account the size of memcg (or ideally the
+> > dirty limit in the case of mem_cgroup_wb_stats()) as well. Using
+> > somewhat outdated numbers for dirty throttling is fine but when we can
+> > overshoot the dirty limit more than three times, it leads to rather long
+> > stalls in dirty throttling and similar issues...
 
-Ah! I wasn't aware there was yet another selftest relying on fuse2.
-Thanks a lot for pointing that out.  It now makes sense -- that's a very
-old test.
+Yeah I agree this is an issue.
 
-Cheers,
---=20
-Lu=C3=ADs
+> 
+> It looks like commit d9b3ce8769e3 was landed in Feb 2024 when rstat
+> was still using the single global lock. I see commit 748922dcfabd
+> ("cgroup: use subsystem-specific rstat locks to avoid contention")
+> later in the tree, which was landed around May 2025 and reduces that
+> global lock contention. That might make the cost of the flush a lot
+> lower than what it was when the ratelimit was needed in d9b3ce8769e3,
+> so maybe reverting d9b3ce8769e3 wouldn't make much of a difference for
+> write-heavy workloads and would be the simplest fix?
+
+Unfortunetely global lock was just part of the cost and even per-subsystem
+lock reduces contention across subsystems but flushing is still expensive as the
+kernel may have to traverse the cgroup update tree for each cpu on the system.
+
+CCing Yosry who is looking into similar issue but for zswap stats. Maybe a
+general solution for such specific stats is to move them from rstat to a
+separate mechanism where update can be a bit more expensive but the read side
+can be cheap. 
+
+> If it does still
+> regress, I'd be happy to look into making the flush based on how many
+> pages have been dirtied and scaled to the dirty limit, if that sounds
+> like the best way forward. 
+
+First let's see if the general solution is doable and simple otherwise we can
+explore use-case specific solutions. In extreme case revert is an options as
+well but I would prefer a more sophisticated ratelimiting (that Jan suggested)
+than a revert.
+
+> I tried running the sysbench
+> oltp_write_only benchmark mentioned in d9b3ce8769e3 on my setup but
+> couldn't get the database to dirty pages fast enough to trigger the
+> balance dirty pages logic to see how it performs without the
+> ratelimiting. If you still have the script for how you ran the test
+> back in 2024, I'm happy to give it a go on my local machine.
+
+Unfortunately I don't have those scripts or setup.
