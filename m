@@ -1,229 +1,210 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695B942CAF2
-	for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 15:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFE73AF678
+	for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 17:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784214757; cv=none; b=Fo7ELLYOsIv7sNROR+B+CSXHvLLotLJOTkkyi18mmF30HvJ7Yz3OAhAUIOUsouvHtSpIKKojefOtKaik67tChwNh0WnNIQ3vzIHyygsicrJglne3UA7BwCzs2VtT32gpS3TAY/BmJTMMEH1Mrbc42eCq28wbVv6uPihDvFA1vCg=
+	t=1784224794; cv=none; b=n6dOeLB4i5UUDKKn0QIL/MXHhcBmfhNzoYcw/LHZcTxBLvLbakE3rKKokJQ6iuONnjRATYML5XgCKdNq0LGqUq5OqHOz5O6SKfx1tBYN2vaCctYbBQumbkW8teoAFkJEICH3xLBHigrs//uUThj2XlzgdlH/6ueqpS4zr9pz9bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784214757; c=relaxed/simple;
-	bh=uDqcPbDBXYik1/mwJQskjuOLgwLNwWIHXpcYAM+s/K8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OSnxK7VTZATIyPZVosU/Gc80UeE/YP4S2WAMKXTn8Ov3ypcH0y3QxYLBfjBDOJyZAwO3dkk30Iwq7EmlI1L4azNFF0kbcwnDSTrLpWR5ug3Tzsu1GoGvc+tnuQA6sHiKX/QIoNUWT+KRJHZXy1kZg64qi/pb+qCW2+5ANZnvylU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GGMLhlng; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1784224794; c=relaxed/simple;
+	bh=JdJkCAqSPMkyeuoVPcyHxAVz9vuOlCReGpJsjLsd2VI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RZ+rXU9B/KZVuUMulU26EXSKdFA+fjHvxoSBbAfG8zpk71zKUtd4GNe1ovlXX9E0HlEjkZCv7NJsycIH/HD40p9W5XHpzaLfFoGl24CJ/vCQbSB01eCfeHUD5IEH/B8l6fcGCJ3c5KGPzvzdJ15GFl+nM4HYj/YSOGyOCR5vhqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/CiElvm; arc=none smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GGMLhlng"
-Date: Thu, 16 Jul 2026 08:11:59 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1784214740;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lk73c7VSYJMT59FvW2bMubFxnaIYiVimDC3EYXy0KJo=;
-	b=GGMLhlng9gQKMvPkCZloioMU2n1pZyhzy+RAHjGgeLNY2c0BZsanmzUSH0QTiC69VqJECc
-	eR1ZCqPyKKky6WOyJLOPNrXKjQtN4e5TDD2k8JyDJGFU1HoiWgl39VBsLYarX656tVrn6x
-	kr8b+j4+HfX4kIgWFwhoSNuY1lxxToA=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel@vger.kernel.org, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
-	Jingbo Xu <jefflexu@linux.alibaba.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, yosry@kernel.org
-Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
-Message-ID: <aljxUvui60dm3yvj@linux.dev>
-References: <CAJnrk1aJwdY+fphnhHjAXFwjGqWQgVB+sn2Ce0gReein3H8EWQ@mail.gmail.com>
- <s4kv7qep3jlncs67q72xfhserpd66hpbwzkoppiddc5raufyjd@ksuvlfqcrbk2>
- <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
- <oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io>
- <CAJnrk1ZU40tRDq0z3yM0+yv=KhiZ-fNjUTO=ccv1tuc0xDx2Vg@mail.gmail.com>
- <4fsrafuhoqgoirlt2sy6vk2ljvb3tdps4hqbcrm5qc2pr6tlaf@tboejm2wdq2s>
- <CAJnrk1b65ypz4bdtd1rTQBYOpOEP+DcoZJUSL87jVDssW1A+pw@mail.gmail.com>
- <nv2h2dd2xoj4zjfvnhsxud2p5e2uw3og22ovqureik4pey72qb@i75tn5ttavfo>
- <ue5xd6f4nfggwodfhbqaispmr5aq2dyszezvy26bl4rtsk6xii@uceqazdioj3o>
- <CAJnrk1bwabyWY+rzzSKfKWp3rivcQm=zae3xzNSZc2hnLj6-Aw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/CiElvm"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-43bf9548df4so3539622fac.0
+        for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 10:59:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784224791; x=1784829591; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Umu98Nn8yuwqmYOA/mpn5fk2aY2nzCueaauDYNUeD28=;
+        b=Q/CiElvmhQzdgXArjoa9HkxgzCfjlzFRGZw/qwBCuypQjsimolC8NOTmb8yBMs0/7q
+         2WKUjmBECCP3q2Qn7ogWW/enO6X3HxF366SzCRc5bHiX9P2kEXfhxH0nW9ubWJXPT2YG
+         HoHDPrJH2lSlPr71rpnPKwxh6tBUOW5uAfE5VfOG6v/cAt6aJnuqSYSSMIBJxEuQ74MW
+         w2sdeKE43rfAujEGYzabTmsS9331oz07Y28faHDaOk1wqU5kv7ea32ijqdj1PW/B4ZgU
+         nLu8HaQRc1wWUotklY8NhfsBdy+5JiCV48RLont5/xMZ4w+6JGz6F66w547T/0CWynd0
+         fcog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784224791; x=1784829591;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Umu98Nn8yuwqmYOA/mpn5fk2aY2nzCueaauDYNUeD28=;
+        b=abnLosN9foS8Efc3HxB7UgpBd02+S/vOPNT+jUqT+BORsSsu2X15L5IaHj9aQyuN06
+         DLCYs6EWseqUUyyo/EFJPwSPaPTfNSCDtrbiuNvdkTujODjvg3HxHsAVylacknJ4/rEH
+         O9aNkVa/i0h0umwC70/1YH5kPjV4kr4BmDBzOPw+7pBzpfcYYZr6y+jNdixMgTjQIdRy
+         hJVBuOe93mvUwYzKCHtv2VHc2aF3ttI/CJuts8OxKNoa6PLMvTqzMSBhjBxtDASagyQ+
+         4e8lcir/kJPddWkJRCPAjKStheT5YXRM4n8Owm2omgwWaBLobS6a3cO4vR8+ucG/ETTP
+         m+3g==
+X-Forwarded-Encrypted: i=1; AHgh+RqJWerYETsBKdwYRcpUj8aUCo9PvSBt8gFi4fdCyhhyCz2nrmj5dOJaCYxrT12DfNRpQ13mxrgrjdRy@lists.linux.dev
+X-Gm-Message-State: AOJu0YxX1YtUvq7KrI2emLYkWsonRYTlQKzaGULtlycYqWUI8xdfjxaa
+	a0yQxYDjQ3eyaq1XuLzcW49LbV6Du0HlWAzlCCdnPZVhlsrfwsG3FVwa/Wox6Q==
+X-Gm-Gg: AfdE7cke6XpFUZmG2konc4v8XwAmP/orraGfL/LsmDdyXBwCknAWuhD4yDqqOgmWf77
+	Y31ko14pZlEUan1Uj/86tNtYXJh5JNFpYznFjkSaWjZN3TlhWj5evOASE+/beaq6+zArkNATpxM
+	XJdY2Ka4QsBBh7tlMNvwpGoag5L4X5MCBp/TLcmrt9pGOqJAmg426Sfvz42wbB27Xy9aejryBQ9
+	FKl4zmp3ajB36puG7hqnv2Q+simqBiJ16CPCeoqDc2a2FYTmbYjsr+1X6jxJE2tH0M3yACPpYbW
+	Nz47MGYdS7QgymfdXkvibucLYN4X0F1qIVtlsxa/aI4UGxmjm6JbI97bgHvVWpDAbdqxVeuNByE
+	y/u3dDLaHFouuEdBSGZ5eI2yxDoy9sTUo3GoFljfneciMw26oXamaxiIqb+NUO2u7oGvNTvFo3Y
+	4pG+UwGcDR2BK8eTS8dTBiNBNB22vC8GVIAVfpqTKvvIQieGJeSfSCRuVned7pifE5
+X-Received: by 2002:a05:6870:3042:b0:448:558c:d82e with SMTP id 586e51a60fabf-4560b8a7908mr7520135fac.39.1784224791319;
+        Thu, 16 Jul 2026 10:59:51 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:4a::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4560a9b178fsm7759843fac.5.2026.07.16.10.59.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 10:59:50 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: miklos@szeredi.hu
+Cc: jlayton@kernel.org,
+	libaokun@linux.alibaba.com,
+	axboe@kernel.dk,
+	bernd@bsbernd.com,
+	amir73il@gmail.com,
+	fuse-devel@lists.linux.dev
+Subject: [PATCH v6 0/6] fuse: add io-uring buffer pools and zero-copy
+Date: Thu, 16 Jul 2026 10:59:02 -0700
+Message-ID: <20260716175908.2339738-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1bwabyWY+rzzSKfKWp3rivcQm=zae3xzNSZc2hnLj6-Aw@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
 
-Hi Jan & Joanne,
+This series adds fuse io-uring buffer pools and zero-copy.
 
-On Wed, Jul 15, 2026 at 06:28:16PM -0700, Joanne Koong wrote:
-> On Wed, Jul 15, 2026 at 3:32 AM Jan Kara <jack@suse.cz> wrote:
-> >
-> > [resending once more, this time with correct Shakeel's address]
-> >
-> > On Tue 14-07-26 18:21:57, Joanne Koong wrote:
-> > > On Tue, Jul 14, 2026 at 10:10 AM Jan Kara <jack@suse.cz> wrote:
-> > > > On Mon 13-07-26 18:13:29, Joanne Koong wrote:
-> > > > > On Sat, May 30, 2026 at 4:04 AM Jan Kara <jack@suse.cz> wrote:
-> > > > > > On Thu 28-05-26 15:11:18, Joanne Koong wrote:
-> > > > > > > On Thu, May 28, 2026 at 5:34 AM Jan Kara <jack@suse.cz> wrote:
-> > > > > > > > > I think this is also going to be a problem for cgroups with large
-> > > > > > > > > folios since they also, as I understand it, are constrained with a
-> > > > > > > > > limited / tight dirty budget. I ran some initial benchmarks with
-> > > > > > > > > cgroup memory constraints on NVMe and saw similar instability (a
-> > > > > > > > > single writer in a 8 GB cgroup had max write latencies of 6 seconds vs
-> > > > > > > > > 15 ms without the cgroup, with the balance_dirty_pages() throttling
-> > > > > > > > > oscillating rather than settling near the set point).
-> > > > > > > >
-> > > > > > > > Ok, so this is more folios (819) than my 512 gut feeling estimate :) What
-> > > > > > > > was the write throughput of the NVMe drive? The high drive throughput also
-> > > > > > > > requires more dirty data to keep the drive saturated so that writeback
-> > > > > > > > throughput doesn't oscilate too much.
-> > > > > > >
-> > > > > > > The write throughput of the NVMe drive I was using was around ~1.1
-> > > > > > > Gb/s (measured by running direct I/O). I think with the 1.6GB dirty
-> > > > > > > budget, the math for that ends up being that the device drains it in
-> > > > > > > ~1.5 secs. The performance I was seeing with the initial cgroup
-> > > > > > > benchmarks was with 4k pages (no large folios enabled) on btrfs.
-> > > > > >
-> > > > > > OK, you might want to experiment with some other filesystem (I suggest xfs
-> > > > > > or ext4) as well. Btrfs writeback behavior is a bit special with its data
-> > > > > > checksum computations etc. and thus latency of starting writeback. It could
-> > > > > > contribute to the erratic behavior with the relatively low dirty limits.
-> > > > >
-> > > > > I reran the benchmarks on xfs and ext4 and saw similiar results. The
-> > > > > max write latency under the memcg were
-> > > > > xfs        5.1s
-> > > > > ext4      5.2 s
-> > > > > btrfs      6.2 s
-> > > > >
-> > > > > compared to the non-memcg case (0.4 to 2.0 ms). This didn't affect
-> > > > > throughput though, just the tail latency. When I ran xfs with large
-> > > > > folios disabled, I still saw ~4.1s.
-> > > >
-> > > > OK, interesting. Thanks for running these tests! Also it is good to know
-> > > > this is not really related to large folios, that somewhat simplifies
-> > > > matters.
-> > > >
-> > > > > From the balance_dirty_pages() ftrace tracepoints, the dirty_ratelimit
-> > > > > value is consistently stable / accurate but it looks like what's
-> > > > > happening is that during freerun, the writer essentially dirties at
-> > > > > memcpy speed until the freerun ceiling, and then the soft/proportional
-> > > > > throttling kicks in but doesn't kick in fast or hard enough, which
-> > > > > allows the number of dirty pages to exceed the hard limit by ~2x, and
-> > > > > then at that point the writer is forced into the loop where it sleeps
-> > > > > max_pause (200ms) each iteration until writeback has drained the
-> > > > > number of dirty pages back under the limit.
-> > > >
-> > > > OK, above you mentioned that the dirty limit for the memcgs is set at
-> > > > 1.6GB. Does that mean that dirty throttling allows memcg to dirty up to
-> > > > ~3.2GB of pages? I wouldn't have expected that...
-> > >
-> > > On a couple of the runs, I saw it get as high as up to 5GB.
-> > >
-> > > I think this is because the balance_dirty_pages() code uses the memcg
-> > > stats (NR_FILE_DIRTY) but these stats are only periodically
-> > > flushed/refreshed when reading it, so the balance dirty code is
-> > > seeing/using lagging/non-uptodate values.
-> > >
-> > > I'm seeing this in
-> > >   balance_dirty_pages()
-> > >       balance_domain_limits(mdtc,...)
-> > >           domain_dirty_avail()
-> > >                 mem_cgroup_wb_stats()
-> > >                        mem_cgroup_flush_stats_ratelimited()
-> > >
-> > > where mem_cgroup_flush_stats_ratelimted() has this logic:
-> > >
-> > > void mem_cgroup_flush_stats_ratelimited(struct mem_cgroup *memcg)
-> > > {
-> > >         /* Only flush if the periodic flusher is one full cycle late */
-> > >         if (time_after64(jiffies_64, READ_ONCE(flush_last_time) + 2*FLUSH_TIME))
-> > >                 mem_cgroup_flush_stats(memcg);
-> > > }
-> > >
-> > > where FLUSH_TIME is defined as 2UL * HZ, which afaict means the
-> > > flushing can be around 2 seconds stale (accounting for the periodic
-> > > flusher in flush_memcg_stats_dwork() that flushes every FLUSH_TIME
-> > > interval).
-> > >
-> > > From what I see, the freerun and hard limit checks use this stale
-> > > under-reported value (in domain_dirty_freerun() and
-> > > wb_position_ratio()), which means the writer gets to keep dirtying and
-> > > blow past the limit for up to 2 extra seconds before the throttling
-> > > limits it.
-> >
-> > I see. That would indeed explain why we can overrun the dirty limit so
-> > much.
-> >
-> > > Maybe one idea is to in the memcg throttle path do the flush based on
-> > > how many pages are getting dirtied instead of on how much time has
-> > > elapsed? It looks like flushing grabs the rstat lock though, so maybe
-> > > only doing it in the throttled case where it's past freerun would be
-> > > best. It looks like the logic in the regular non-ratelimited
-> > > mem_cgroup_flush_stats() call does something similar. I can run some
-> > > experiments this week with this if you think it could be promising.
-> >
-> > Checking some git history, this actually seems to be a relatively recent
-> > change from Shakeel (added to CC) - d9b3ce8769e3 ("mm: writeback: ratelimit
-> > stat flush from mem_cgroup_wb_stats"). So you can check whether reverting
-> > that change makes dirty throttling not overshoot so much.
-> >
-> 
-> Reverting d9b3ce8769e3 fixes the issue. On xfs, I'm now seeing the
-> number of dirty pages stays bounded by the limit instead of going 2x+
-> over, and the max latency is now around ~0.33s instead of ~4s.
-> 
-> > Shakeel, your change to use mem_cgroup_flush_stats_ratelimited() in
-> > mem_cgroup_wb_stats() results in applications overshooting memcg dirty
-> > limits by several gigabytes which for small memcgs (with 8GB memory in this
-> > case, which means a dirty limit of ~1.5GB) is a considerable issue. I guess
-> > the ratelimiting should take into account the size of memcg (or ideally the
-> > dirty limit in the case of mem_cgroup_wb_stats()) as well. Using
-> > somewhat outdated numbers for dirty throttling is fine but when we can
-> > overshoot the dirty limit more than three times, it leads to rather long
-> > stalls in dirty throttling and similar issues...
+Prior to this series, ents and buffers are tightly coupled where each entry
+has its own dedicated payload buffer, requiring N buffers for N entries where
+each buffer must be large enough to accomodate the maximum payload size. This
+is suboptimal as most request types require vastly less bytes than the maximum
+payload size and some requests do not require payload buffers at all.
 
-Yeah I agree this is an issue.
+This series allows servers to pass in a buffer pool (a contiguous chunk of
+memory) that the kernel will use as it wishes for servicing ents/requests.
+This decoupling reduces the memory usage requirements needed to use
+fuse-io-uring and lets the kernel do any optimizations for assigning payload 
+memory to requests.
 
-> 
-> It looks like commit d9b3ce8769e3 was landed in Feb 2024 when rstat
-> was still using the single global lock. I see commit 748922dcfabd
-> ("cgroup: use subsystem-specific rstat locks to avoid contention")
-> later in the tree, which was landed around May 2025 and reduces that
-> global lock contention. That might make the cost of the flush a lot
-> lower than what it was when the ratelimit was needed in d9b3ce8769e3,
-> so maybe reverting d9b3ce8769e3 wouldn't make much of a difference for
-> write-heavy workloads and would be the simplest fix?
+This series additionally adds zero copy to fuse io-uring. The server can
+directly access client pages or page cache folios without copying data through
+an intermediary buffer. This requires CAP_SYS_ADMIN privileges and using
+buffer pools. The zero copy patch has a dependency on io-uring registered
+bvec changes in [1].
 
-Unfortunetely global lock was just part of the cost and even per-subsystem
-lock reduces contention across subsystems but flushing is still expensive as the
-kernel may have to traverse the cgroup update tree for each cpu on the system.
+This series is on top of commit 7d87a5a284bb and on top of the io-uring bvec
+changes and the changes from the series in [2] applied.
 
-CCing Yosry who is looking into similar issue but for zswap stats. Maybe a
-general solution for such specific stats is to move them from rstat to a
-separate mechanism where update can be a bit more expensive but the read side
-can be cheap. 
+The throughput improvements from registered buffers and zero-copy depends on
+how much of the server's per-request latency is spent on data copying vs
+backing I/O. When backing I/O dominates, the saved memcpy is a negligible
+fraction of overall latency. Please also note that for the server to
+read/write into the zero-copied pages, the read/write must go through io-uring
+as an IORING_OP_READ_FIXED / IORING_OP_WRITE_FIXED operation.
 
-> If it does still
-> regress, I'd be happy to look into making the flush based on how many
-> pages have been dirtied and scaled to the dirty limit, if that sounds
-> like the best way forward. 
+The throughput improvement from zero-copy depends on how much of the
+per-request latency is spent on data copying vs backing I/O. The gain
+comes from eliminating the payload-buffer memcpy,  but accessing the
+zero-copied pages requires the server to issue the read/write as an
+IORING_OP_READ/WRITE_FIXED operation. The benefit is largest when the
+mempcy is a meaningful fraction of per-request latency while backing i/o
+is still noticable enough that the extra io-uring op's overhead doesn't
+dominate.
 
-First let's see if the general solution is doable and simple otherwise we can
-explore use-case specific solutions. In extreme case revert is an options as
-well but I would prefer a more sophisticated ratelimiting (that Jan suggested)
-than a revert.
+Benchmarked with passthrough_hp (--nopassthrough, q_depth=8) on a
+2-socket Intel Xeon Gold 6138 (40 cores / 80 threads), using fio (sync
+engine, bs=1M, O_DIRECT, numjobs=2, 30s run + 10s ramp, 3 runs) where
+direct-I/O throughput is against a RAM-backed (tmpfs) source (backing
+I/O is not the bottleneck):
 
-> I tried running the sysbench
-> oltp_write_only benchmark mentioned in d9b3ce8769e3 on my setup but
-> couldn't get the database to dirty pages fast enough to trigger the
-> balance dirty pages logic to see how it performs without the
-> ratelimiting. If you still have the script for how you ran the test
-> back in 2024, I'm happy to give it a go on my local machine.
+		baseline   registered-buf   zero-copy   (zc vs base)
+direct read     ~5.1 GB/s  ~5.4 GB/s        ~8.9 GB/s   (+75%)
+direct write    ~3.4 GB/s  ~4.8 GB/s        ~5.1 GB/s   (+50%)
 
-Unfortunately I don't have those scripts or setup.
+On a device-bound NVMe (~2 GB/s reads) the read gain shrinks to ~10-16% (no
+measurable gains for writes), as backing I/O rather than the eliminated copy
+dominates latency. The benefit overall scales with how much of the per-request
+latency is the data copy versus backing I/O.
+
+The benchmark script and results can be found in [3]. The libfuse changes can
+be found in [4]. To test the server, run:
+sudo ~/libfuse/build/example/passthrough_hp ~/src ~/mounts/tmp --nopassthrough
+-o io_uring_zero_copy -o io_uring_q_depth=8
+Once this series is merged, the libfuse changes will be tidied up and
+submitted upstream.
+
+Thanks,
+Joanne 
+
+[1] https://lore.kernel.org/io-uring/20260612184840.4058966-1-joannelkoong@gmail.com/T/#t
+[2] https://lore.kernel.org/fuse-devel/20260715174305.336261-1-joannelkoong@gmail.com/
+[3] https://github.com/joannekoong/linux/commits/fuse_zero_copy_benchmarks/
+[4] https://github.com/joannekoong/libfuse/commits/zero_copy_v5
+
+Changelog
+---------
+v5: https://lore.kernel.org/fuse-devel/20260630211436.2062816-1-joannelkoong@gmail.com/
+v5 -> v6:
+* Remove WARN_ON tag, add missing barrier (Sashiko)
+* Bring back some documentation from v4, rename uapi doc (Amir)
+
+v4: https://lore.kernel.org/fuse-devel/20260612210513.1516038-1-joannelkoong@gmail.com/
+v4 -> v5:
+* Address Miklos's feedback (separate uring cmd for adding bufpool, pass only
+  bufpool addr and len, pass back bufpool offset instead of buf id, etc)
+* Make zero-copy opt-in on file open
+* Do any zeroing for short zero-copy reads instead of accidentally skipping that
+* Drop Baokun and Jeff's reviewed-bys since the commits had modifications
+* Run more rigorous benchmarks, on bare-metal machine
+
+v3: https://lore.kernel.org/fuse-devel/20260522205823.1597313-1-joannelkoong@gmail.com/
+v3 -> v4:
+* Add reviewed-bys
+* Fix documentation typo, add paragraph about aborts to zero-copy commit
+  message, undo unnecessary padding[6] change, add FUSE_HAS_URING_BUFPOOL
+  advertisement
+
+v2: https://lore.kernel.org/linux-fsdevel/20260402162840.2989717-1-joannelkoong@gmail.com/
+v2 -> v3:
+* Rework the uapis to be more ergonomic. Use io-uring registered buffers
+  infrastructure instead of doing pinning logic in fuse. Get rid of header
+  pinning as that makes no real perf difference
+* Rename from "buffer ring" to buffer pool. Logic is the same, just different
+  naming
+
+v1: https://lore.kernel.org/linux-fsdevel/20260324224532.3733468-1-joannelkoong@gmail.com/
+v1 -> v2:
+* Drop kernel managed buffers from io-uring infrastructure and move it to fuse
+* Add visual diagrams and more documentatoin to commit messages and
+  documentation patch
+
+Joanne Koong (6):
+  fuse: decouple fuse_ring creation from ent registration
+  fuse: add FUSE_IO_URING_CMD_ADD_QUEUE
+  fuse: add io-uring buffer pools
+  fuse: support registered buffer pools in io-uring
+  fuse: add zero-copy over io-uring
+  docs: fuse: document io-uring buffer pool and zero-copy uapi
+
+ .../filesystems/fuse/fuse-io-uring.rst        |  36 +-
+ Documentation/filesystems/fuse/index.rst      |   1 +
+ .../fuse/uapi/fuse-uapi-io-uring.rst          | 129 ++++
+ fs/fuse/args.h                                |   2 +
+ fs/fuse/dev.c                                 |  27 +-
+ fs/fuse/dev.h                                 |   2 +-
+ fs/fuse/dev_uring.c                           | 577 +++++++++++++++---
+ fs/fuse/dev_uring_i.h                         |  56 +-
+ fs/fuse/file.c                                |   2 +
+ fs/fuse/fuse_dev_i.h                          |   1 +
+ fs/fuse/inode.c                               |   6 +-
+ include/uapi/linux/fuse.h                     |  66 +-
+ 12 files changed, 821 insertions(+), 84 deletions(-)
+ create mode 100644 Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
+
+-- 
+2.52.0
+
