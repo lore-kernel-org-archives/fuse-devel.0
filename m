@@ -1,145 +1,153 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9167C3F926B
-	for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 10:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784196795; cv=pass; b=BYQ1NQ5GitJC3d2NkBTxmgRZMIrhuwGGz2GOA/z7ON+7WOxymJBr8GrFcBu/adqcBXKCERVeVIeG+9wgywhVxjyl213yiHZDvFk8sVyWYP5awirKn4oXGJ9PO/Qwg2yEW3hNjJNh9oC5A2rK0NqukttbofbvBA2RX6A8wMvpHgc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784196795; c=relaxed/simple;
-	bh=/9vGo0nmavtDHHxTO/UOxlUFCFS9hnJACPQkba+EWgQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W9dgD8Sa5dnK9sc79wegPMucBexNT2/76BHDLUszTQA0HRXCrcWcv+cqDK7QZ7AvsowjY0PaSQvTqfMWE5qJvYJVcQ42ixFgwousOavFgrrC8nSX4WSjnMIeDlsepgNvSvkCa8Pl+ZnWH2GOul0OvZlcxHOGJDdKBrtXx0T/tg8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sUhOjZIi; arc=pass smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D356140D58E
+	for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 11:24:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784201072; cv=none; b=iA5Pd7SBU19Htzn70dRaKBxcQQURJ5zvadneymzlksvHr8N50JyMhJNElgA6F5XMGuG/Szt7Z/bK8qmW4sL275yBrpUohvgGY6HowsYQJMe8ADX+K6Uv/W2unBbLLZCzrKlHEJbDI69KgBN5f9yZL7AqNrNBGypgz8u7EY1zJWA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784201072; c=relaxed/simple;
+	bh=3UdHm+M8lKa5MLSdTYWeeHBIbgSQfbVPCv/3tSzGdDQ=;
+	h=Mime-Version:From:References:In-Reply-To:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pqo3Zj3wXDJeIAIcC1xL+zX4MdJcSlIWYcw4UnNz/zALagtsmt2e7u0bJBCpz6fO+ysKBzernD+vhdIHy/Z8YskfhttvLUKtxI24Z+HbYW1VFs5+KMaRT3Koy0ZTT/PIyKLQDDaIVrER0qcAeafzE3M4I+LnPRFa7zjtGWxt4aE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=black-desk.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=black-desk.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sUhOjZIi"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47de008b020so257163f8f.1
-        for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 03:13:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784196790; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KukEv6fSOJTsidPXUq1hhgYkCIqlMJUGnRHc225Pzr9GNmsdz9Z05YF6Km5s9LiQr7
-         rZ2ojjVAk2STU93WlL9g1yDcmyA99cd2DKovO6pWLUtBRBzJdVlci9OJHR7Fkmfi9gUB
-         YZcR07IqBWdHCQxRZ7qBicz2pbO8LdPe+ZZpZeU8f9R1PVijoHICaFBfX5Lfmr7CBtQw
-         Kxx3TYCdC2eSg8zJlBIDy/wKIQeGGwXQem8KchL1CvYQ63ZP6XWPqVCq4dPgJGc2PW32
-         Jdg1VYLdSIPlr2HTTWWHcyWTO6wHNqKLOR9M8/xc+lA2giqCM7hrCxoG71ZzDlAYWzkl
-         2xUA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0gYTRKSMZ6a4wFC/UrH2Lbf5sG7BiHCm8zMFzcg/FqU=;
-        fh=3gdo/mzmJ5VEQB6dtFQW0QoOgvQBhvaz0oTcWrRtIBo=;
-        b=ZvWXFdXB3LRLTKJot3jDa93jZcCqJMTZbz5n3GpWtCAcJQ8KTBjmkX1ZSJmadftVmw
-         Jc3uJpiBbeV9nfSJltYx/S9Tgq7RVWPLubplZbvFsa3lmYPxhOL0Um1AGyQ5h/uivJYK
-         MFj5DRO33qJZodR7fuSOCblIqa7icM95DryYHzs+s9Uj01ZQJrgZQsmmW+bpI2/FuTLD
-         veasc/teOJbyfHZOJUG2HbtODphbWBVPbGoiA3GsL8oxxrNltSbT4mdTnNflb1z1FCo6
-         sETGJLuBK/NshnOLgTE6hdGDBAjQDh+A4s113UzGpxZYBKvJAK0ZmzN7zJr2BMRhIEIt
-         8jKw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784196790; x=1784801590; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0gYTRKSMZ6a4wFC/UrH2Lbf5sG7BiHCm8zMFzcg/FqU=;
-        b=sUhOjZIi3cDOxPWOr2FDfaJWSVJCJIGo4hNqulCyXPrdGSCoQl/XhdqWjCw/sDEPlh
-         SyyCxvPs3zGptugtoB5SnNTXsLnmtXRqX4QYsVwAV5wp1cNH7KsdoS4fbgaV7rSaxAy1
-         UPrvfJzA7EC0yYDaVmbS7gwZroyWqyhNbilhn5xihQ304C8z3wrEccUsyUm7fJ0H8U7I
-         loUmaWU448X9eGuYKuuUcIiODQ0tvwLFHI3O1/YMGekcfu2JsgtUBngrtugqMh+9nMN5
-         2USLvf4Zn6yE+VjyC9G/RtLhpW0z5EqGoczY81UwxFwXAE33zKJiJQ0wyWEsyNpbHE0M
-         EijA==
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeb11c7347so5125194e87.0
+        for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 04:24:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784196790; x=1784801590;
+        d=1e100.net; s=20251104; t=1784201069; x=1784805869;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :date:in-reply-to:references:from:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0gYTRKSMZ6a4wFC/UrH2Lbf5sG7BiHCm8zMFzcg/FqU=;
-        b=rbrAoW7UTrI0ZndDh4QiRasksnAle5xiQ3uCGqXHFtMM3KzH/R4msT83kF4aP10Auv
-         FhAdpPhFNqU0UU0esL2B6+TgsO1k+lffoQ2WZh9xXMHSjiBLa1VyCUhPHVw7LRBeJksZ
-         UlxmQ3nBrHbyNk2LkaSmRwbnWHiixKNOT6B9GqW6hzVkI7jCVL39CarrLeZA4FEdC9X2
-         0gOrKKuquCwtQ2JekwByqkLJUgMRmO0Zck07UBlzvdS3T+Z0f9uVs1exX/QTUj3NZpIz
-         CK05Azl3SsQIbEqHzqk6jaxt4XiegrVMKL0oMANBSdJZYGn3nH8EFsjJ25RtJQaCiLaq
-         KZNA==
-X-Forwarded-Encrypted: i=1; AHgh+RpvFK85HLO/hw7QBZxjN/K6t0uVrt/gsTFIWgiYmQqHZ5UkJf+A6TbTeAt1cxndyOews0FksO3UkmjI@lists.linux.dev
-X-Gm-Message-State: AOJu0YyIlfR6aVCLJdhx7NQHmuy6o9//VgYmLwnJH+4mEfIuIKkpTQf6
-	cljwOqa3mHqoycATXCx13DyD2AY07FolTdWYTSLEe3RE1UxXTsMZRSQuMKkXEarRSAtuVLyTx3G
-	WLfPZOtCCG1KZroj/vTdgltCwRlmsVhY=
-X-Gm-Gg: AfdE7cmgO/AJhLnCPDd4DOYH4XzpSUIm2FC15WXpPmKniBWdgyvX/ZJJNzcGH9RH3s8
-	yw9XzThJSU1HMx0fJbBbc+nAsRrWJ+PGDxKl3sijisobXusbDsA62FP5RUqvl35jVHRlR1nKO1o
-	vvgO88Mg677qCFcPSxwhRlzW5exEU8XU+3xwDyQti/66iM00RjkaCnQa+zGwd2LQyO0AEt+7EgJ
-	5XTTWyU/Ahg1tn1q2mmoP+OgrGxMatgDrSZ1Nv4ZVu5aQdkzpoCBZr2n7vhUoc=
-X-Received: by 2002:a05:6000:1acc:b0:472:3090:d88c with SMTP id
- ffacd0b85a97d-47f5a557550mr2382202f8f.24.1784196790209; Thu, 16 Jul 2026
- 03:13:10 -0700 (PDT)
+        bh=LTzxnY7b/gLeO67eQm2TEajWopCh2GV8+8KAlY+37SQ=;
+        b=CV5FY9n4ajVyv1clnQ1qHmdc/k88kDpyS99Ixmj1qCq0mUJI0lmOy+ZYZhCfphTprD
+         VbwxBSHVW2e1NNqDTQuV7irKbSa5APVLMcXCUUSIMp46TbY66uNrA5MVxzyEurP0V3sE
+         bCeFQaVzQOjDXi3CnNuCeLOVbANaHNClbr7yvkZACSLy9DtRP38EHfpOh15HPJgLBa13
+         NY3P6RAggZGwQ+e/jEpaK/ETkhMu5jwTufCJ+TK9xrK0SWjMfYR1PMf7RUW8HKbl61gR
+         UxPMVtBwm37SBk2A4HeXf8VNHyuM1/+WPJTKKy4ODmj9vPDIAXTZuSHgDVUWrxqfFXMP
+         o+8w==
+X-Forwarded-Encrypted: i=1; AHgh+RrCfPsd5OXJ1zuABWV1f+KS6/iupaYK6jAgbF5efJuoPguRX8LTC+MAkgILE51decQ8Ofp5yPMQvjzz@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1fGgBO1mYWS8kco1ggbXTAfIi8SKGejq57Bz1hMwl8VdkeSGL
+	JwO5vesBg/Z7tjZ989J88MYTr/s2/zYD5iqg66Qes29F/fmKT6Rnq26PAhKOLR4ThRA=
+X-Gm-Gg: AfdE7ckfAKUArHal2MhSXzq593vNTCVGbPoIDFxQAYz+VtyA0rpg+PoS9QQPIj33zoj
+	UrjBhC/xEHVQtvoOpxoL8I4PO244u3b7LxqCkY+S1pfTKTWkjm2GFmA1F6SNDJsbBo6IZXXmdF9
+	jXF6KGWaXCuzsTo23Tk7vp/kHMY32qUd/9opjmlAzY53EITg9RGpbyH4b+sHyVstcBJzDfQ27u0
+	oIaqDCpfaQC3wtMGlKycqaJssUb3Y1zF4irQaMHDPPMD2Es8vRBeEE9iORFumUgIdWgwoG/7XnZ
+	0ihxX48XBDnp3eWbiig7eB7Vpn7X7io5OAzCj1wEN+Bw6iwJAJcbjCipVT4Sg8yKdllb3uMCT2Z
+	ngmIJExyqUMlJB/FgLlEdAXq0t4he6p+ZJAg9XciemM4YOzO7cTMSyoRCMMWUmLs1+LLPL+m7ko
+	5fLpLNXa9z0oOqzZgISAG696zH+DWSkriRKRzC4xxId7A9fk+oU6VetRkvZV5ZUdBW5Q==
+X-Received: by 2002:a05:6512:131f:b0:5ae:b130:1e1 with SMTP id 2adb3069b0e04-5b15d78ec38mr1860639e87.28.1784201068733;
+        Thu, 16 Jul 2026 04:24:28 -0700 (PDT)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com. [209.85.167.49])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01ca5002fsm4935914e87.27.2026.07.16.04.24.28
+        for <fuse-devel@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Jul 2026 04:24:28 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b28ce91111so76656e87.3
+        for <fuse-devel@lists.linux.dev>; Thu, 16 Jul 2026 04:24:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Ro7yYaPsk4saOSYxEQ2Eld3iHkbE0fVSgnQ/jqdNNRP56S3K6fNQVBkKmcWx5549zqC/ED1kJN/5Wof@lists.linux.dev
+X-Received: by 2002:a05:6512:66da:b0:5aa:6f0e:8404 with SMTP id
+ 2adb3069b0e04-5b15d782523mr1118358e87.21.1784201068106; Thu, 16 Jul 2026
+ 04:24:28 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 16 Jul 2026 04:24:27 -0700
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 16 Jul 2026 04:24:27 -0700
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+From: Chen Linxuan <me@black-desk.cn>
+X-Mailer: aerc
 References: <20260713220932.413004-1-amir73il@gmail.com> <20260713220932.413004-3-amir73il@gmail.com>
-In-Reply-To: <20260713220932.413004-3-amir73il@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 16 Jul 2026 12:12:58 +0200
-X-Gm-Features: AUfX_mzXKKyPECDpxtr7aH47OhobPNkCrTgnnp8wyafWqJnPsgum1B0ttIWoL90
-Message-ID: <CAOQ4uxhO-eJ=QU_okX0y8TgjZcn1-UnB-myNawmXLk2ACjOieg@mail.gmail.com>
+ <87wluw2qeh.fsf@wotan.olymp> <CAOQ4uxjzAXgBaggRNJxcEn39LY4+D6ZVHLqODJ3C6cHnDdkG_g@mail.gmail.com>
+ <87se5k2des.fsf@wotan.olymp> <CAOQ4uxjakizfBuTYUG-=K+L1MUfaCkwtKUyNh2g_9K2c4u3-Ng@mail.gmail.com>
+In-Reply-To: <CAOQ4uxjakizfBuTYUG-=K+L1MUfaCkwtKUyNh2g_9K2c4u3-Ng@mail.gmail.com>
+Date: Thu, 16 Jul 2026 04:24:27 -0700
+X-Gmail-Original-Message-ID: <CAC1kPDMPfYAUsmT-yx4NK=hT5OdeZuJpyVTbfHZxfdbH8b_=uQ@mail.gmail.com>
+X-Gm-Features: AUfX_mxGku0anB5kg196OG0yAhxo-Nz-aiBDpeDvzZ032RF_rOyBv-UA9XtXhaQ
+Message-ID: <CAC1kPDMPfYAUsmT-yx4NK=hT5OdeZuJpyVTbfHZxfdbH8b_=uQ@mail.gmail.com>
 Subject: Re: [PATCH 2/2] selftests/fuse: add ACL_DONT_CACHE regression test
-To: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Luis Henriques <luis@igalia.com>
+To: Amir Goldstein <amir73il@gmail.com>, Luis Henriques <luis@igalia.com>
+Cc: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, Chen Linxuan <chenlinxuan@uniontech.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 14, 2026 at 12:09=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
-> wrote:
+On Thu Jul 16, 2026 at 6:10 PM CST, Amir Goldstein wrote:
+> On Wed, Jul 15, 2026 at 10:41=E2=80=AFPM Luis Henriques <luis@igalia.com>=
+ wrote:
+>>
+>> Hi!
+>>
+>> On Wed, Jul 15 2026, Amir Goldstein wrote:
+>>
+>> [...]
+>> >> A question: in my own tests I have been following a different approac=
+h,
+>> >> where the filesystem is mounted from a shell script that does the act=
+ual
+>> >> testing.  I wonder if you think your approach (i.e. writing the actua=
+l
+>> >> test in C, using the kselftest macros) is the preferred one.
+>> >
+>> > I always prefer a standalone C program for a selftest.
+>> > For fstests naturally the tests are done by the shell scripts,
+>> > so it really depends.
+>>
+>> Cool, thanks.  I'll consider adapting my own tests to have a similar
+>> format as this one.
+>>
+>> >> Anyway, the test looks good to me, and I just have a few minor commen=
+ts
+>> >> below.
+>> >>
+>> >> > fuse_acl_cache_test is only built when libfuse3 is detected via
+>> >> > pkg-config.
+>> >>
+>> >> Yeah, I've sent a patch recently converting the only existing test to=
+ also
+>> >> user fuse3 instead.  Not sure that's acceptable though, since there's=
+ a
+>> >> chance of breaking some CI.
+>> >
+>> > I mean if the test is not built it wont run, so I don't know why CI wo=
+uld fail.
+>> > Obviously some systems do not have libfuse. That's fine by me
+>> > not everyone needs to run all the tests.
+>>
+>> Oh! as usual my comment wasn't clear :-)
+>>
+>> In fact, my comment wasn't really very relevant in the context of this
+>> patch as, in my opinion, I think it's OK for new tests to depend on fuse=
+3.
+>>
+>> I was talking about my own patch[1] which was converting the existing
+>> test, which depends on fuse2, to use fuse3.  That's what I was referring
+>> to when talking about breaking CI: we could have a scenario where a test
+>> was being built and executed and, because it's now using fuse3, it can't
+>> be built any more.
+>>
+>> [1] https://lore.kernel.org/all/20260708131122.2917-3-luis@igalia.com/
+>>
 >
-> Add a test that reproduces the stale ACL bug fixed by:
->   "fs: preserve ACL_DONT_CACHE state in forget_cached_acl()"
->
-> A FUSE mount that does not negotiate FUSE_POSIX_ACL initialises inodes
-> with i_acl =3D ACL_DONT_CACHE.  Before the fix, calling
-> forget_all_cached_acls() (e.g. from fuse_update_get_attr() on a
-> statx(AT_STATX_FORCE_SYNC)) would silently replace ACL_DONT_CACHE with
-> ACL_NOT_CACHED, enabling the kernel ACL cache.  A subsequent getxattr
-> would populate the cache, and because fuse_set_acl() skips
-> forget_all_cached_acls() for !fc->posix_acl, later ACL changes were
-> not visible to callers =E2=80=94 getxattr returned stale data.
->
-> The test mounts a minimal libfuse3 lowlevel filesystem (no
-> FUSE_POSIX_ACL negotiated) and:
->   1. Issues two getxattrs =E2=80=94 both must reach the daemon, proving
->      ACL_DONT_CACHE suppresses caching before any trigger.
->   2. Calls statx(AT_STATX_FORCE_SYNC) to trigger forget_all_cached_acls()=
-.
->   3. Issues another getxattr (populates the cache on a buggy kernel).
->   4. Switches the daemon to a different-sized ACL (ACL_B).
->   5. Issues a final getxattr =E2=80=94 expects ACL_B (44 bytes) and daemo=
-n
->      call count 4; a buggy kernel returns stale ACL_A (28 bytes).
->
-> fuse_acl_cache_test is only built when libfuse3 is detected via
-> pkg-config.
->
-> Signed-off-by: Amir Goldstein <amir73il@gmail.com>
-> ---
+> CC test author
+> I think your concern is exaggerated
+> This test is 1 year old. Who runs this test and doesn't have fuse3?
 
-> +static int do_force_statx(const char *path)
-> +{
-> +       struct statx stx;
-> +
-> +       return syscall(SYS_statx, AT_FDCWD, path,
-> +                      AT_STATX_FORCE_SYNC, STATX_BASIC_STATS, &stx);
-> +}
-> +
+A quick note on why it used fuse2 to begin with: back then there was no
+fuse3-based test anywhere in the selftests tree. Amir actually pointed me
+to tools/testing/selftests/memfd [1] as the reference to follow, and
+that one (both its Makefile and fuse_mnt.c) is built on libfuse2, so I
+simply copied that pattern for consistency.
 
-Christian,
+Thanks,
+Chen Linxuan
 
-If no other comments require me sending v2, please change this to plain
-statx() on commit.
-
-Thanks Luis for pointing this out.
-Amir.
+[1] https://lore.kernel.org/all/CAOQ4uxjKFXOKQxPpxtS6G_nR0tpw95w0GiO68UcWg_=
+OBhmSY=3DQ@mail.gmail.com/
