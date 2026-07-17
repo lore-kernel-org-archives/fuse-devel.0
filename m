@@ -1,118 +1,117 @@
 Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACA8417D92
-	for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 13:57:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24ED418A3F
+	for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 13:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784296666; cv=pass; b=S1gwYRoO64D4bymNUN0SFCuIBPSQ+s0xRdU2v0e1xrDAfjPw+LOLgQGDlT5YINqEsc1yeJasF0xGK9bHZs3UNJ9ZZp4A81SBuWCAHVCpf/R+1t9dni+5ia3cnBS4K5OJeiHmqbVL6pxllskkExKdcUth+yKVxPRF0z49cEB5kHM=
+	t=1784296700; cv=pass; b=JckBfC6rzEp730wAnSgSaqXxu+A/uS5vMvi/P4V1QcHD2PLHhye8NTkAz3iLFiUrcOBZuH7bSMWbSSazq/6u83hl+7Rqu6/BRi3wG6QGt4M2Sc2pRR/rAQxuWIGE49zH+p24WGMHnSE0ZKHAkg5SmQMeh4mxzCRkDb+XClwlWQI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784296666; c=relaxed/simple;
-	bh=NIWlgGZ82N2t72YpcAJ4bZjUa8T2t2a+Dfe1kNiZoh4=;
+	s=arc-20240116; t=1784296700; c=relaxed/simple;
+	bh=Vetewaw4ZWP6OUjK6Pzy6ekfaTNGiO49HenhGemTi8E=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xyxsc41gsDVpYjJfij1LqZMbinDZzK2jo3qRITGzBCXyeysWfaei5v5YkXiDRNHvikvN6L2myCbCCfaV/fA/YXi8HWDvglxV3i0vYRu4t2tlsSH/do6QN33yr8gR9oURjr+/p/xR6xsxMU/qIHsP8nn2sxv0LjkVgfzc2DmM1dc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=f8UffKgP; arc=pass smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=Iac73UlUoyqueWi2qwjJOwfCTwquuR0c/p3eJnPfWWbIpZVdO8bj5v/BavDIOgDDW1NW1Gag4IiyqRulYNXQVHevN5t278oRXjjK3AlIo1ZHlySovKFVyzrxAnGyap5ZoX9koBSnVvG6TK5tw9qEQTotiFBquI50YTZptBFTkag=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=PThNV2+s; arc=pass smtp.client-ip=209.85.160.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="f8UffKgP"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51bfa429aa6so10647111cf.0
-        for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 06:57:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784296664; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="PThNV2+s"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51c2b2c9eccso59168361cf.2
+        for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 06:58:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784296698; cv=none;
         d=google.com; s=arc-20260327;
-        b=HR80KXckcvVZxrpZVoRYJkZ4UI56Xa+6iVGgFDmWL1d74Ggx14eAm2bLska8neLxfE
-         /bqQKNTdAmApWrD1kM4rWNw8Sbao+n1LfW+r3ccniASTayIvjGgWvZlLjnPBa8jkLFjS
-         1sTOCMPeMtPSoIYafM9vjaGz/y6VOMA7pmBE+SxfdijyWu5yUOp4yN/+Ecz/e+Q3XHzH
-         GYflDc9NzoDjaO2+c54Z5Xra7lQppTh0bACQ5ov/h3Hyq031pK/nfQSEh/4TLBTIW0NA
-         5bIyEP5R7EzcoztLYYArNMuSt72RI/RCyBo0QEXkUnZaKha4dcPoHJ0fYgPzrL2BZYD5
-         8YMQ==
+        b=pqmdNZauO1OaATOdaS0YTTjZZrPVy5E75uVSu4QnnInGyJDkT0/x9Bsgx2sGbUEz39
+         LQ1lfCd3oMYV5+uX9sLIDeNCYd1QuXRur4u7I3BtnEIYwv+0CkAopqbfhZenqIQB1uq+
+         ixCUA/LkrSOeh0cIvMypD3o0H2A5Q2mAnoecTrPYezCSotQosIf+SVr49od8tmC7Q3eW
+         okDcqKntMi4iHQ65+a0ezBAPqZDH3jyBuF3gQmXZbHAM0+bQz+4ySkEe3T4QU0lR7jwy
+         gNpi+RcLcvC8JRketjQmfVP7VGKJNs1NG/vRrvL03M0d5Ia+oCuVkpbTe1U725FqfP+R
+         cC4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=Odov6B43vXk+vo0isqEdE3SnLJCUOIZ/aQObDx6RNE0=;
-        fh=wa1t6Z3SNn1iMlHnGOuVKVdkvCfj4iS6xX2+7MOYXo8=;
-        b=n4lOenKA6aCKxwSfsKxymlxLcvM2rCmFgN73NEv4df2ux50C3Tuq881E7PDI0sbrWx
-         D97s42KxXIhxFXLl13PbXZtfblWKy3t0DCcmrcOS7FZ4k/Q/bHLiRxHNZ2yBmx51DqWW
-         pQE5EklkE6JJMIEzkoYOF9Ap4eCMwbagIqq38YRtlXYCJc55UjSZe8L0RlnJU77emms+
-         +LozYfppK81YU6et2+PbC62+tIfcIHG5bPC8pb//ocmqhlSGLBBtGzktz4sUxXBNQYdO
-         6V9M64e8B8xKZtC8GZUpgoh8xTATs3gEDvbmVRQKj3GosA0SCyKDMfr5vHQ/C50O1G9e
-         7TBA==;
+        bh=5etTCWmgcSF9TkzltHZJDFVEm66yIWk1FShqyhXR7+4=;
+        fh=zcSaEOVo4soKypz0TS+RPFmlK5b/RJDJ45CX77W2DiU=;
+        b=EIyn4ICe+fClmoDnOqw0yToymFmKaDkz1jr+UpniumWl075J9ruQs9p0u1bKIwauee
+         +9wTsGC8yAU4dfpM6DWCalpb0/G5y/+mSrUaSRZrLgJJJq0g4PtyphFMdKLrd0/Inig5
+         A9jwio3fcJuIBUynQPnC5OBh/1K1Ya1syXBU+T65hkCj3uMDqw9R/QxMIrywEDfsNUOR
+         Q/5S52ElnUWjsFL7fX7xEM1IQsUuQmgvsbeTPJSEAFccTY6KLQfpCf8QvUhMrKe4MtZV
+         k6CH/zdUehqpreDf5lid7Wz2ikVNKaF1RYWNXTnxBVC/LUl8qMox0/qXcUHOqMxSQwt/
+         cL4g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1784296664; x=1784901464; darn=lists.linux.dev;
+        d=szeredi.hu; s=google; t=1784296698; x=1784901498; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Odov6B43vXk+vo0isqEdE3SnLJCUOIZ/aQObDx6RNE0=;
-        b=f8UffKgP+12dt/8Tu9fFWsA/ETkJx+EudxOxDoA/D8enLvdN6lUXAw+KeJTlDBybmj
-         y2TDnm5tuH7T9iVcum+WEmif9N8LGxL1VIwamryn2GCVd57Db6jwkBKDt30+ByCvPbHF
-         GlNJfl/hwxNxnPhTpKm8kdaHl7ncgszv43/J8=
+        bh=5etTCWmgcSF9TkzltHZJDFVEm66yIWk1FShqyhXR7+4=;
+        b=PThNV2+sIx2/3sX1bBcpPzmH/DEghqc20UVMBroIl48tZ1mO+mozl70g28KOvvQtdS
+         Z0k3ryN1yeCK58rXyG1UOUzb77o67eL4JQZlYJyd2ixmgfSwyUhR+LxVG5Xn9GsRUrb3
+         CHgANk807+doFaZgbHMmFkeqGplxGsPXEbvNQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784296664; x=1784901464;
+        d=1e100.net; s=20251104; t=1784296698; x=1784901498;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=Odov6B43vXk+vo0isqEdE3SnLJCUOIZ/aQObDx6RNE0=;
-        b=mLHVkom+rylAtEon5xvhxa+fmbRHgfrYOM9tUd75qoPYhYz9rCxBmxgmqHbsmWGHDD
-         RRmENTICMrcvzm4I+JMr4si+9zDEZuoGZCX54DXJPhWwduLChz2pQ0Q0CvsIfX1eauic
-         Whe2clUed25+mrp29x0LsuF+6g82t/DMIYYF+3vNnz5T1QVeppG7860yxlFr2UOnfz3B
-         OEYuZgi36JkjALiJZ0PVVK69cElXyUauQAXcTf5Y5BYYT3RcQIBoO9fy1Y/pvD+HLD89
-         6YQqlNMDoVh17Qi7fHV0QC6+ANyKm1K5MjNGgC7PyfuCn4fpiOtpAVycS0y3ZL7L69ko
-         7aFw==
-X-Forwarded-Encrypted: i=1; AHgh+RrZUoAN087DCi9OqNNs57TmwCtwa7Q/K+my4+ATcaBTQLIWPaOycXI1LCuEitDQKhBA9OtzwbYoyQKr@lists.linux.dev
-X-Gm-Message-State: AOJu0YzMyif3HobSdzlumKinRt/nsT4YIq2ZCUY8B3GiDiq9/iQ0PZGg
-	zMfwNt9+Xd4Q7HjJkfj+bBF0shzsoREQNIzYYhYOu5FiaUY0h+InMU/DZjdnYCYLtw+UzoC6Jkt
-	m9OAoQjsUdObTC42yDl9W0GlRr9rHS6IiOQQe1NQY3w==
-X-Gm-Gg: AfdE7clWtmfygBYV4Ahd13IF/ONk/FP1DnevfrFJQDdGGjLkYbMHOSAiMS9q7X+bexj
-	RD2ZwoyqN4XRHBd95QTLp4egzxHMH1EI0P5oVCZhTMN758LwX+pGto1F2XE7c1rlxOTOZveEcyw
-	3RvGuKgtuo0ugOjAye/smPFoO5RgOTcaW+vjYs+GykCVRnb0kUIv4XNBTtqYqGc01ehES/lV6LV
-	18gZaV1hpauoikzLiOCMrETPYJpmNohRD37+OjPgMvfBcijNfnatdDOwD6Abjrewre5LGTKI5Xp
-	/Ve4ttPs7b1pfeQ=
-X-Received: by 2002:a05:622a:428f:b0:51c:7aa7:e0ec with SMTP id
- d75a77b69052e-5212c6edb84mr26552241cf.41.1784296664072; Fri, 17 Jul 2026
- 06:57:44 -0700 (PDT)
+        bh=5etTCWmgcSF9TkzltHZJDFVEm66yIWk1FShqyhXR7+4=;
+        b=QW0OpclshTgLLWJXhvL7Q/K6rMqPjq7v8Py2GrBswpnahAUjXkzcomn3hxZ23PABs5
+         Zjhy35mOFtJ3CZKf5bLA23TI1wExRWdxkmyBnflt0mub0SzagWMru+i7yml6LwiBDluk
+         iNMvqbJpkSGmP+usXhqYVMz+/PJeFD2S24x9l/axkLEsOHp4W480D+d6S+nTITRkOOMe
+         x/F//fCleHgH2/r4oQSWhJ5L+4luTi5ESfqb1aqkzIXd0HaLuTeBmw7oQQw1a+gzecMi
+         fEw0x7N49OkbgT3ObWf6q89uV2CGDYL/dizQu6c6epr2L8iJh8z4ehko3pZMEXrGS1Zm
+         E4HA==
+X-Gm-Message-State: AOJu0Yy2h5bHBlsmxD+K+EdKyn96oEz6qKtXwIwmbgi2npsB2T5G4PPh
+	hCk5VtlSzG5Y8RukDKd56/BYmOrunU6WonN+QW9zRmEHGN8jrDcAAIOVUopoHL24UZGMwJ+4Lgh
+	y8+og1ql0cYvd5qIlK26+XU4n4SYTsXfYSjkkxjfaoQ==
+X-Gm-Gg: AfdE7cnqEaxWLRbM57j/1k+q6FrIiC7VBTa+VxD2b8RnZvpvKuj62mk6RXG3SmKUUsa
+	FeWk6PX2DTsoWAd8jv+Rq9yIygxco1tceOS7+e/wfB1FZS+E+IK5tkQBlfbOYsq+e5nLYvINR65
+	R00eFmfIVF+zrN7Kwnu8Kgf7YZ0W2NMTGuPG/OBicRLd4o5ZTsbJch/w61qIHSg+r0TacVEu2ye
+	+TCGJa1oQc0oKwrOEBv+tl5QFttvqzRYqMzYNeFsfwl7tLFxLHsbqG1evc6LsluBsCw5xTp7WSE
+	VDbvSiQIhyVfAik=
+X-Received: by 2002:ac8:7e8a:0:b0:51c:1eef:4fb6 with SMTP id
+ d75a77b69052e-5213c006a81mr22210001cf.10.1784296697659; Fri, 17 Jul 2026
+ 06:58:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260701110052.5309-1-luis@igalia.com> <CAOQ4uxh0Jsa-wqXsTnroJ7W+8hspHEn8ZUrpaxi5YEOZXhCXZQ@mail.gmail.com>
- <87pl16c2z8.fsf@wotan.olymp> <CAOQ4uxg-LcCp5_2OGFo71ejJEPc14uL_D6n04jwy3C2GuoWy7g@mail.gmail.com>
- <87o6gp7ot2.fsf@wotan.olymp>
-In-Reply-To: <87o6gp7ot2.fsf@wotan.olymp>
+References: <20260706082931.99288-1-jefflexu@linux.alibaba.com>
+In-Reply-To: <20260706082931.99288-1-jefflexu@linux.alibaba.com>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 17 Jul 2026 15:57:33 +0200
-X-Gm-Features: AUfX_mz2LdaCUC1hNOEJYLmikLhfBvHescNtIoMby8GIbWVTc9oKo81tDbVlBvM
-Message-ID: <CAJfpegt1ObYX+6+GQ+TcWqnwaYRkzUS_YhVwEN3rLYE0NqQWvw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: cache POSIX ACLs when setting them
-To: Luis Henriques <luis@igalia.com>
-Cc: Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Matt Harvey <mharvey@jumptrading.com>, 
-	kernel-dev@igalia.com, Seth Forshee <sforshee@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>
+Date: Fri, 17 Jul 2026 15:58:06 +0200
+X-Gm-Features: AUfX_mxEeGbhsNsVW6ZBak3qLdoiqEKh8Riq8lqgeUBGEo3QhHH0g-yYW4g2_nQ
+Message-ID: <CAJfpegvqdRQDDd6io2an5mBU=3Lkp23aHDa-ETN3EWVotu29WQ@mail.gmail.com>
+Subject: Re: [PATCH] fuse: don't bump attr_version for async direct read completion
+To: Jingbo Xu <jefflexu@linux.alibaba.com>
+Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 2 Jul 2026 at 10:56, Luis Henriques <luis@igalia.com> wrote:
-
-> Yeah, maybe your right, maybe I'm missing something as well and there is a
-> good reason for not doing it.
+On Mon, 6 Jul 2026 at 10:29, Jingbo Xu <jefflexu@linux.alibaba.com> wrote:
 >
-> I was going to CC Christian, but I see you did that already :-)
+> The attr_version counter should only be incremented when cached
+> attributes are actually modified (as documented in commit 1fb69e781729
+> ("fuse: fix race between getattr and write")).  Async direct reads do not
+> modify any cached inode attributes (size, mtime, ctime), so bumping
+> attr_version in fuse_aio_complete() for reads is incorrect.
 >
-> Maybe he remembers the reasons behind this while working on commit
-> facd61053cff ("fuse: fixes after adapting to new posix acl api").
+> This unconditional bump causes a livelock when auto_inval_data is
+> enabled together with writeback_cache: fuse_cache_read_iter() issues a
+> FUSE_GETATTR before every read, but by the time the response arrives,
+> an async DIO read completion has already incremented fi->attr_version
+> past the snapshot taken before the request.  The GETATTR result is then
+> discarded (attr_version race), fi->i_time is never refreshed, and every
+> subsequent read triggers yet another GETATTR -- creating an infinite
+> loop of useless round-trips.
+>
+> Fix this by only bumping attr_version for write completions, consistent
+> with the synchronous DIO write path (fuse_write_update_attr) and the
+> cached write path.
+>
+> Signed-off-by: Jingbo Xu <jefflexu@linux.alibaba.com>
 
-It's not that.  Those lines come from the original fuse acl support in
-commit 60bcc88ad185 ("fuse: Add posix ACL support").
-
-Maybe the thinking behind that was that the server might modify the
-acl when setting it.  Not sure if this can actually happen for network
-fs.
-
-In any case it is unlikely to matter in real world cases.  For now
-let's just document these quirks.
+Can you please add a Fixes: tag and possibly Cc: stable@... if appropriate?
 
 Thanks,
 Miklos
