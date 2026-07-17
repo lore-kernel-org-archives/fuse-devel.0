@@ -1,86 +1,138 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B607A3FB7DE
-	for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 14:29:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784298584; cv=none; b=a2puvg5J+yBeLdhqhJChuGHigBouLc652nVWW1RGuz9GIxhFLOyL7uS0ZJjnEWWYSPwBbYUxAMD3Kypiw/of4YDFNY3fE4Lhe3aF7Sa1phd3o7Eb6IBVJW6yREp6K5qp+ZyhYHgJMNzFtbtFRxvxV46KFlN3OCX8kj8+FGpKbE0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784298584; c=relaxed/simple;
-	bh=I5ldIjRGD3cNvUQF+m5WOM6prop/74NfY9VNphtqOQA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SzA0XalCjcgSmKieGTV8ndDQv39zSK3+h/prctKgwYAWMpTeiLeLGCqeEYYZ7NiVwMlDCF7rAR+U3QjVNu3ePoYiCOtwp+kxf+3HUJ4vLEdh2wVCsTa8y1NHqX5BfoNMsPWiqoYJupnngG84cTJJqgKU6uKk1ATUWmwf3SpGV7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=vWCJaR4k; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D676422532
+	for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 14:43:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784299410; cv=pass; b=qUtF3UN7BCw3bBpiTsLJyEct7Kf6UJG0Uv/cAgzI9CHqsSEGUzRD2JSWqWAKMLI/jyAwgTU3F2T0/5FGEOLZzjyD/xgoX/hizQUtePp2PuhVihL1VSiwbrMYK0CP7oFPUfuPDm2X1CXWdXJ7Nw8sebqSZb67w1jFK+kaQHggPmQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784299410; c=relaxed/simple;
+	bh=xMVbjuxUMCd+in1O0hq2Lo+UksoR1rhO7SpPcRBLhhM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z0LYU1RR5lX5yiI2BzdBt0t8Y38nPZg/OFzu2EAgZ4s6M+Z1O+AFBWr+8nDeNNxth7fdwHlmSSYObcs02TlkBWEzmRaa/Y/H87gIQCDl2K4T4GqNmDchZRYTn1kLxg7+OiKoNW8G6iEGkvqs4DJoCfTscnWYkJklkGShmP8mqjc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kz9gEyXY; arc=pass smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="vWCJaR4k"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1784298575; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=2QkTdjWC0lSY6M9Vz7HbKNPdgT55JYfFATk17MFjoN4=;
-	b=vWCJaR4kEt4whIBmSk32EIB+bKH4bZONPzwJD7aGhsL+6rAh02qGHC9Og6rMauh7ECx1gAihzTuquOEOpUPKKXpIqF62Awm65VJigd8repdTiba9oj0FyzS0/lpxZ/ZUEbJyDWyVoR6LgmO+l3ZPtied2INUQlv6cjcuOlwrUOw=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R621e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045133197;MF=jefflexu@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0X7HYLFb_1784298572;
-Received: from localhost(mailfrom:jefflexu@linux.alibaba.com fp:SMTPD_---0X7HYLFb_1784298572 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 17 Jul 2026 22:29:33 +0800
-From: Jingbo Xu <jefflexu@linux.alibaba.com>
-To: miklos@szeredi.hu,
-	fuse-devel@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	horst@birthelmer.de,
-	stable@vger.kernel.org
-Subject: [PATCH v2] fuse: don't bump attr_version for async direct read completion
-Date: Fri, 17 Jul 2026 22:29:32 +0800
-Message-Id: <20260717142932.71778-1-jefflexu@linux.alibaba.com>
-X-Mailer: git-send-email 2.19.1.6.gb485710b
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kz9gEyXY"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-698bf7a1a2dso11085091a12.0
+        for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 07:43:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784299407; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BSDhTTmmgCwf82Lw1mqryHgFNDJUnZ7clG0TuYzcIp8R8f0HvVfDWnkt3HezMQ1rm/
+         j1tj+8uPpuSbpwiMO/KFNZLecaNOq7tndVCLNicDdqefhLjmVLYlR8NZcEYYCFPK8zUr
+         0N9xZsLh5Ds9dvy5LcVjZK8Kp2hrXCBhHYMkZmvQ6pw98BPlhWgrpmnKCRn9Jz5YKwZE
+         Myc69lCvcR61Dh9MEyZWOoEmXYrEKZ49cUDz4cDTWhG+1jskI1ziHJe7+UKv8bmk/Mbk
+         rpi/o6/iu9n/Tq7D7elOxr7EpMocVOnkN3dRFD+s6UnfA5h7l6LaIWcuhCTA9m7/HWWJ
+         HDrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lCxDrB3QhKE1++b/RR6ySzQlEZvksrfBn9TZvGZONMw=;
+        fh=wQHN+7GhsljXnXjgsDdT8E5eW8auoHPwOr+D2bObRM4=;
+        b=I4CE4rWrovztu1cNZzanvLe7ht/CrW1nwfFDJGTSF4249pACVW3/Cfwg50WANwBBM5
+         1A80hH4555iRE39ajxAwa02EYQB3kQj9JYcXzsP7FgAgokcBBs0N4CsNgw2WXEUX2qjX
+         APRWxQ0jb8KqX9vRExTd0oDR6WWmaEptJHFRJwSghdxyJYnvBO0r97KCWyVnhxeeyyAA
+         eXuCjS09xKvkJS8rcJqcEhrWXI+AY2gqN6QDbDND83b3cNN+3whNDHlMwOJJeaXur/lk
+         5leIHyIylSlj51JJWGqDmiJHLSblge41n+mgCWBWdTN3+sJcnGmzacIdOj4pUKhIvWwd
+         +XcA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784299407; x=1784904207; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lCxDrB3QhKE1++b/RR6ySzQlEZvksrfBn9TZvGZONMw=;
+        b=Kz9gEyXYeHeYKaUeAlt2qK9ifavf4sWt3jk61xHP38eitgnb/F6rOVM0ZbMbYpWBtO
+         HmbOfaVXjXXHHc5ezI5QPcXcbNAedyvHASY6P/8KYnQJnCpj66whITLgE7HMMQM9ucm1
+         f926zpQb+atirwRW2iImiA4pMNTp74yCIakBvGDBKD5ptpOuJHxW7SHmhY8iw2FIyfAv
+         imTDW8dP02CaHHM4YDZ1ixOQBSgCQd3qmAAz01RC/tSMWtlqCqgLc0jtaRmH5z9O00oR
+         XKLbB7NwK2QwZPCUu+pTf5n33ZEf/6UL10P3fpt9P5iLtU/VPleu4jwyV4YRUXxRzYfe
+         BNNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784299407; x=1784904207;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lCxDrB3QhKE1++b/RR6ySzQlEZvksrfBn9TZvGZONMw=;
+        b=S7PWpeFJdr5E7F0Qv9uHeN/WIO/ZuFrQg9x/xiwP0dzIaTnVUzQYfJheupQNiXLw8j
+         arYlTry1UAtrM416oRcLG3YjNkTq9POV+BbfZm+8MzZi7D8y1oTpwPD4ip7zTkMe+Yt6
+         idS7unI01w8jukdpeYhO0L7X1hM7DPltvWnRUcE+SW3e28uE6aMoXvb+xFe29ZEH9YSM
+         Yu2D/imvQglG4KXdi+dzkJ3G7KUleYKIggu3X/5+Hp9fXHWn81Jdmw1SESRNtlLTMS/I
+         78hVB4c2h947xfkR928NLtGebp3IlyKtVXaiDiW4wjqeL3Uu7hZ0QfvLTl6D+0noTSLr
+         WkvA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpu9FzOTTCCRq9Nid1VLFty4ztnFRiGgy+/wK1tMxlXWYWsyDW3D+XeHYzPe+yvZXMMNVKkAqlA1+p0@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIBnDkO7Leor4O8zZ4aZ7ibtpY5vO6h7m2TDL0aUA2oPtbJn3W
+	mhC/8OaxtTwW4I2nIfMvTTZG7GTS9t3D1oSPWAzx6Pt+Ln+tNvhOWjRB6UT0X1IrZ1zdKsY0uQi
+	Vu+g5wTP+EYQvzIuL/9oHyeBog5rffgo=
+X-Gm-Gg: AfdE7cmSS5fmOwgtP2QV3Vexc7lcrF1EscVf7fgSKDsemZBFg0LuhjnnSHsFsXM3nBV
+	1XZGwd1VCqY11e9KZ/6sgKuEEbGCm1HTrQR5ZpiV+9Z5wF6qtU07nJkVm9I/ispwoj+8f/AOSpn
+	GpVLt/+tYyABrWbTzeJrR34roSqZ0TRloKFJxwZvwsWaqrU88QqXB+3sivLnMYDrRIfyOPvXuv/
+	jMoqlkNNgcTD7h4omRc65QvHjOQwbjAUk10a445QIpDy98VbpDYkog8UWsRhcWpkatUHwSTcA==
+X-Received: by 2002:a05:6402:a502:10b0:699:8397:55f8 with SMTP id
+ 4fb4d7f45d1cf-69e6528abdfmr822443a12.18.1784299407172; Fri, 17 Jul 2026
+ 07:43:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260701110052.5309-1-luis@igalia.com> <CAOQ4uxh0Jsa-wqXsTnroJ7W+8hspHEn8ZUrpaxi5YEOZXhCXZQ@mail.gmail.com>
+ <87pl16c2z8.fsf@wotan.olymp> <CAOQ4uxg-LcCp5_2OGFo71ejJEPc14uL_D6n04jwy3C2GuoWy7g@mail.gmail.com>
+ <87o6gp7ot2.fsf@wotan.olymp> <CAJfpegt1ObYX+6+GQ+TcWqnwaYRkzUS_YhVwEN3rLYE0NqQWvw@mail.gmail.com>
+In-Reply-To: <CAJfpegt1ObYX+6+GQ+TcWqnwaYRkzUS_YhVwEN3rLYE0NqQWvw@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 17 Jul 2026 16:43:15 +0200
+X-Gm-Features: AUfX_mzoGfmJZTAWQmNTvy5CJb4ejjS5YiQ0wGRMo3gdzSpICU-wdJMdl09a6As
+Message-ID: <CAOQ4uxjxGeGW=ndKTQ7gWr4N2DJLMxtK4qdhXDFQPrVMMQgDZw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: cache POSIX ACLs when setting them
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Luis Henriques <luis@igalia.com>, fuse-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Matt Harvey <mharvey@jumptrading.com>, 
+	kernel-dev@igalia.com, Seth Forshee <sforshee@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The attr_version counter should only be incremented when cached
-attributes are actually modified (as documented in commit 1fb69e781729
-("fuse: fix race between getattr and write")).  Async direct reads do not
-modify any cached inode attributes (size, mtime, ctime), so bumping
-attr_version in fuse_aio_complete() for reads is incorrect.
+On Fri, Jul 17, 2026 at 3:57=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> =
+wrote:
+>
+> On Thu, 2 Jul 2026 at 10:56, Luis Henriques <luis@igalia.com> wrote:
+>
+> > Yeah, maybe your right, maybe I'm missing something as well and there i=
+s a
+> > good reason for not doing it.
+> >
+> > I was going to CC Christian, but I see you did that already :-)
+> >
+> > Maybe he remembers the reasons behind this while working on commit
+> > facd61053cff ("fuse: fixes after adapting to new posix acl api").
+>
+> It's not that.  Those lines come from the original fuse acl support in
+> commit 60bcc88ad185 ("fuse: Add posix ACL support").
 
-This unconditional bump causes a livelock when auto_inval_data is
-enabled together with writeback_cache: fuse_cache_read_iter() issues a
-FUSE_GETATTR before every read, but by the time the response arrives,
-an async DIO read completion has already incremented fi->attr_version
-past the snapshot taken before the request.  The GETATTR result is then
-discarded (attr_version race), fi->i_time is never refreshed, and every
-subsequent read triggers yet another GETATTR -- creating an infinite
-loop of useless round-trips.
+Right.
 
-Fix this by only bumping attr_version for write completions, consistent
-with the synchronous DIO write path (fuse_write_update_attr) and the
-cached write path.
+>
+> Maybe the thinking behind that was that the server might modify the
+> acl when setting it.  Not sure if this can actually happen for network
+> fs.
 
-Fixes: 01e9d11a3e79 ("fuse: add support of async IO")
-Reviewed-by: Horst Birthelmer <hbirthelmer@ddn.com>
-Signed-off-by: Jingbo Xu <jefflexu@linux.alibaba.com>
----
- fs/fuse/file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Same conclusion that Luis and me reached - it is technically
+possible that a server like that exists, but they probably don't.
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index ceada75310b8..c41287e8bc15 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -688,7 +688,7 @@ static void fuse_aio_complete(struct fuse_io_priv *io, int err, ssize_t pos)
- 		struct address_space *mapping = io->iocb->ki_filp->f_mapping;
- 		ssize_t res = fuse_get_res_by_io(io);
- 
--		if (res >= 0) {
-+		if (res >= 0 && io->write) {
- 			struct fuse_conn *fc = get_fuse_conn(inode);
- 			struct fuse_inode *fi = get_fuse_inode(inode);
- 
--- 
-2.19.1.6.gb485710b
+>
+> In any case it is unlikely to matter in real world cases.  For now
+> let's just document these quirks.
 
+unlikely to matter if we do cache on setacl or unlikely to matter
+if we don't cache?
+
+I guess both are true.
+
+Thanks,
+Amir.
