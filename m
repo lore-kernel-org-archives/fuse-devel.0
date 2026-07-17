@@ -1,112 +1,75 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp05-ext.udag.de (smtp05-ext.udag.de [62.146.106.75])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADDA391845
-	for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 09:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784280776; cv=pass; b=ui5lk8Op/OPJIfX3BmFeGeJMstR3UBI4JipaAPIboWuIE0va/Spfz3x/gw03YgIFqZPYEojO2jW+F455MJcxorSy6BbDD0ts3KaG2MaCwN2SiFau6HeWlj2O72NGNs5GteRRM151nXmEVeMpMBIwtClDWct7oULInOTYKtlKuJo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784280776; c=relaxed/simple;
-	bh=EOcoM3NVJxyoUJKMiuYL7XV3Isk90eFpxl6BkeBiY+o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nMUt5gd9P/ToS6VESh1TRdH+gSDY1kTnyaI6EMrUdDN5hxt3kwoj8I3sCR7DRJfFDTjJxdUYmvPHwoYI6blLaf56rbsAFfaV0Cxpb7ML5qYI3TS1Ruupw1zyJc/GFh5KRyd0ZAEIfkSL05qsbokh/DTLkXUUgYjd34fAnHDYCAg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=l545UBqe; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="l545UBqe"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51bfa429aa6so8724591cf.0
-        for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 02:32:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784280773; cv=none;
-        d=google.com; s=arc-20260327;
-        b=N6hNbL1KnKyUopvk1eBJQlKgyUZuMH28h9XopHQmsb94MNQKzennLb9TFM581yzh2C
-         E7fo2mm3MufZ8+aePJ31O4Eba6h+lzJBaa9psdMOdINrdNUpWU6VDVFC/z/tBeClY97w
-         w27pagakgc9cKqc9fCoDUFe1QeW4lrKS4fNHXSu6dVpPe4tE4Z/gtwjPrmZ72CaQ4+Cy
-         WUcfcfK1VrbB/VbDz9khDMvR3Q7iTl/n62pgEfeFdGotSApHv/wqNA6evXIRN/mKqAQS
-         40GL8aEkvDF35s8q6nP7tqtcb28upkGO2mfVQT6gb2U1YOUp1bfnjoH/QwbU6+ZpikyT
-         12CA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Br2rAChfq5LxgdYoEAnojNMavSxSyNWgCgnaRat0FcM=;
-        fh=/EqMhjG1Isgke6IPK1UW0gXVeIYUbpCcPOVrEi48M8c=;
-        b=ELxPlY5NySrks1inHVISsiCzTqki+GqjvedXEiOdgxpkk+pE7p5BRaLyabY6e6DSJL
-         gwQDfmBvY7SNOjVZo/hRlFnxozSABauOQ4a5I6qwBaj8b+ts6+SDuHoBLKkZ5BBe+rxS
-         Yj5EjiwgYqZSiByRZpDY4YcMcEnWrPgtw8gaQOJHGA2ResOomaSGSLa8iWMTA7I3jK8Y
-         wnK61eLmd8P/EHQjfsWl+oJ2oS5B+e2dtfG+EjcavhJ3MFQZmqMVuQXBAxPbr/V1LQgT
-         uYRyo70bIm9BJyRSz+K0a9g4Ob8DgKLjuytcu4Oku9/ucBKa1nxFD57AO30/n27QqBg1
-         RpMA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1784280773; x=1784885573; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Br2rAChfq5LxgdYoEAnojNMavSxSyNWgCgnaRat0FcM=;
-        b=l545UBqegJqO/D54jqTd0y/AVM/DdIXapmwpcJBV2wJT3ETmVWxJI5n/QFBJ3E/o3H
-         R/vLzWnmck7m4TwzmEmGYbB8xqU8Rt7bXwZ4QEP8BShTtmPpLuxfOCf4Z0znlOoyRA1u
-         P7UfEfE1bXs8qjKkhNhh+haRshA5y07QsGZpI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784280773; x=1784885573;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Br2rAChfq5LxgdYoEAnojNMavSxSyNWgCgnaRat0FcM=;
-        b=BTwOzdrUqVWQnLunSLrCz+f8rMMgdd3LmSpYFgYW/NUvGck1mprjkukGL8s+mUL3wM
-         z542neWP+q123dIP+c8ek7rogflSmCtn3Xb61K0ujr6uP83AUAvHIqeuAaiZO6c5s39e
-         u0MjcndJu+ZbPv8/AT20wwpysOYMvRbQVmJ1i3c67dNNWLW7rEgDrAwNUwE1BSI5VBgd
-         cRKhriTlXjJRs17hW5iKmo0RQl8/5h9vyZGF6Jd62nN71J6T5NIKgNZvGavWeunpIm7Z
-         aVaBkuPsRPYVsDMnz6ulzzsMa4vCmt5WGibcKt83CQkrz/VCx8V3OhefNv1zo8Xtvc1o
-         2w4Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpzrE7BqnlJyLEaI3FMs9CRCfypGZiWldOc0/q6RHif8wLI/mLLeoz0mfZllJ9cAqMubJx0Hlup3unX@lists.linux.dev
-X-Gm-Message-State: AOJu0YyevDo/sO6lhdrLVO03A+IGAwDxlCwp0kOHofVPxqmhgsrzEKqQ
-	VvrcYUPnyvtIrFmoqXWQpwvDkJ2x/MBUm1BFl/OxCEpZaEDU/BsBfU8MoKbJjA2XvHtqm5TV6ha
-	//YBMDo+4Ud8RfbzYGv+cp3SVZDhEJCpzhPfmQ/yEmg==
-X-Gm-Gg: AfdE7cnki9kYXK8lVY+VtTqm8gTYSm4XYh4CHgWoH7PU4x34DVL6gm/3VA1NATqLARZ
-	vcKthzajmAKdS/BK/ioK/ATFcYYwk8ZAlz9mTXcjWQtxUnOMNLjqImz0A0j3ZAUVLeHbwH2MuG/
-	tgr9foORmPj8CqKylV9FISmcP0qJf2bAytBPrvwdPeAJmYkzgCR9XmeQkBQzcmlw4WyLvvuJh6r
-	+N2xUGqjMOuIMn4fCFPnfe2nrr8iGdr6f6/mS+jrZhE44gkar6Uit3mtu5ox3MjY+3Wr6w4N745
-	B7+tF3PrebC5lEQ=
-X-Received: by 2002:ac8:7f8b:0:b0:517:5f04:f23f with SMTP id
- d75a77b69052e-521298a8a73mr16412201cf.4.1784280773369; Fri, 17 Jul 2026
- 02:32:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00B33806D0
+	for <fuse-devel@lists.linux.dev>; Fri, 17 Jul 2026 10:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.75
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784283486; cv=none; b=Gs8Bx7DOQAk1uo6xmJOOi1dcNHzj90IUrFDREqYIzQMVj6UYi08hkIuGV1ubiiO3rVX4bNR+5kMxa0yh4S+of9aSxOcnf7bNj6RTCahLOSzlkifDkaB7kIIX1J+j/zHvKk65KXQFD0HGUVm4pbRnYXfrpmdahmbQGqJWUmQPaA4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784283486; c=relaxed/simple;
+	bh=fdPDgO39oBf4kwIJWrPk50a+l92vbETKojaAu8EGo7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aMUinvhIgOyCVYF81TDavbeegtUAqk3o4rbUHbI/NfQnRAAuVu7IUfxiwlfCWUJfYaweRvnAU7frBKCz9YwX/mlOLo6a5VI3KBWu8weZMtPmsSjpiuqyAA/TSzoOPB80b/rPCQFpZbxHL3s+tTH0Kupc31FSsCRduJML5rEH7Iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
+Received: from localhost (084-133-067-156.ip-addr.inexio.net [156.67.133.84])
+	by smtp05-ext.udag.de (Postfix) with ESMTPA id 14F65E030D;
+	Fri, 17 Jul 2026 12:17:55 +0200 (CEST)
+Authentication-Results: smtp05-ext.udag.de;
+	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
+Date: Fri, 17 Jul 2026 12:17:55 +0200
+From: Horst Birthelmer <horst@birthelmer.de>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Haofeng Li <lihaofeng@kylinos.cn>, joannelkoong@gmail.com, 
+	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, djwong@kernel.org, 
+	brauner@kernel.org
+Subject: Re: Re: [PATCH v2] fuse: honor desc offset in readahead reads
+Message-ID: <aln_xvOTDN_xIHFD@fedora.fritz.box>
+References: <CAJnrk1ZDc=f1XvRU6j6WsqiSAy75wd1-X2fNRhcK3j-OGDkqcw@mail.gmail.com>
+ <20260717032835.922433-1-lihaofeng@kylinos.cn>
+ <CAJfpegv=akLW1qzq=B=F11Qfx5Gg8qoRiV4Z-pty-0Og+sU4GQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260716175908.2339738-1-joannelkoong@gmail.com> <20260716175908.2339738-2-joannelkoong@gmail.com>
-In-Reply-To: <20260716175908.2339738-2-joannelkoong@gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 17 Jul 2026 11:32:42 +0200
-X-Gm-Features: AUfX_mwTDUoDcJfEO7khi5zy09C8QU-gv9h0evyLHT1GQLJGwMuxuV2425kM3UM
-Message-ID: <CAJfpegsNb=1P7Vh+DVfg3Ve9T8ggHxi1Y-ZhqiQ6R1bbnCTHGA@mail.gmail.com>
-Subject: Re: [PATCH v6 1/6] fuse: decouple fuse_ring creation from ent registration
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, axboe@kernel.dk, 
-	bernd@bsbernd.com, amir73il@gmail.com, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegv=akLW1qzq=B=F11Qfx5Gg8qoRiV4Z-pty-0Og+sU4GQ@mail.gmail.com>
 
-On Thu, 16 Jul 2026 at 19:59, Joanne Koong <joannelkoong@gmail.com> wrote:
->
-> Currently, the connection's fuse_ring is created lazily on the first
-> FUSE_IO_URING_CMD_REGISTER command. A server registers entries from one
-> thread per queue (one per CPU) and those threads issue their first
-> REGISTER command concurrently. They then race to create the single
-> per-connection fuse_ring, which required open-coded handling in
-> fuse_uring_create() to detect and protect against concurrent creations.
->
-> Decouple fuse_ring creation from ent registration and move it to
-> FUSE_INIT reply processing after a server has negotiated and set
-> FUSE_OVER_IO_URING. The ring is published before the connection is
-> marked initialized. fuse_uring_register() no longer creates the ring and
-> it instead uses the ring set up at init time.
+On Fri, Jul 17, 2026 at 10:56:20AM +0200, Miklos Szeredi wrote:
+> On Fri, 17 Jul 2026 at 05:28, Haofeng Li <lihaofeng@kylinos.cn> wrote:
+> >
+> > fuse_handle_readahead records non-zero descs[].offset when
+> > iomap skips leading uptodate blocks in a folio, but
+> > fuse_send_readpages built FUSE_READ from folio_pos() alone.
+> > The reply was still copied at descs[0].offset, so wrong
+> > file data was placed into the page cache.
+> >
+> > Add descs[0].offset to the request position. Apply the
+> > same correction in fuse_short_read for EOF size updates.
+> >
+> > Fixes: 4ea907108a5c ("fuse: use iomap for readahead")
+> > Signed-off-by: Haofeng Li <lihaofeng@kylinos.cn>
+> > Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> 
+> Sashiko founds some more cases:
+> https://sashiko.dev/#/patchset/20260717032835.922433-1-lihaofeng%40kylinos.cn
+> 
+> This is a large folio issue, right?  I do wonder why fsx-linux missed
+> these with the large folios enabled.
 
-What about if the fuse ring is not yet set up?  Should
-fuse_uring_register() wait in that case?
+I think it probably never occured since fuse_readahead() only fills in folio boundaries?
+This could be coincidence or readahead controls 'job'. I'm not that familiar with that code.
 
-Thanks,
-Miklos
+I just got suspicious on your question, since I have large folios enabled in testing, too, and
+have not seen the case.
+
+> 
+> Thanks,
+> Miklos
+> 
+
