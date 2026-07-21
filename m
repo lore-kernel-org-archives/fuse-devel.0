@@ -1,232 +1,248 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92063E00A8
-	for <fuse-devel@lists.linux.dev>; Mon, 20 Jul 2026 10:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741F4325485
+	for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 10:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784542076; cv=pass; b=NfF92MugCgp/7QR+icWwZkwnMyBWrOhNmmezjkvMq0DBLroDba+Vm8KioI7OOIZeSnkuLw0C83VB000FWmKcP0yieIFr0c+XHiV6+insM0k3Aqc4dtj3e+qUc//QYOVdWxJzIFj9uIIUK6xpZdD9GWMigBTT2xryZcupePPSRE4=
+	t=1784630105; cv=pass; b=ECuhstgYbMJy/XaQsQuU8huw93U4Jo7i3jXg0VjBumyPcvJrP2zrIdgiyPMI7nIXI9Ws8SiIliKmwqoaxXZFaFz488OBbgCgbi8XVBNobqNI8ahyoUtvu8Qn7sPb9JLcH3kR48uQ09HgW32cCFcljyflV1KcT7u/vTyUgSimQh8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784542076; c=relaxed/simple;
-	bh=0rQxBYeUI9kccjQsg7LlbwcyM5KH4xYI/FlafZxUfTY=;
+	s=arc-20240116; t=1784630105; c=relaxed/simple;
+	bh=TqvASy5oHqcQJpgaY1PeP/SN6AO8XQJyq3SUDNCBQCY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lpi5C455Ur2P/oLnAIouJ2MDcdH7ydurXREjVdhCMcPxjvxKfm2/McAmwinNdUbOL1lALoN7+tdMAEis6zJXU+mhJUT7id1tYp/LE++VTk7BqEwu6WSvgVN2Vr4lOMUSDOs/w1m/XPuXWxLFs5b0Mo1mW5oeeRZvxE8GGZqeME0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wy0K3d4t; arc=pass smtp.client-ip=209.85.218.51
+	 To:Cc:Content-Type; b=E9uqFiZMW35w3nqwcsJHBMrZBP1d+SQD+wGxRF3yRU8sgOHsP815rvoNj+Pef8vNBnejgg/GqSTPGPPc6eMCH4exmno0cOkayCq7+cLg6+ZqQ1u7JpJbJa0YNoH5arHjNJ8mk9C7mxh1+5YlLH6O4RbgylJMGjtZqKXDHLAykh4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=knhxczXe; arc=pass smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wy0K3d4t"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c1614804757so1051783366b.1
-        for <fuse-devel@lists.linux.dev>; Mon, 20 Jul 2026 03:07:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784542061; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="knhxczXe"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15cd3fd760so1249390566b.2
+        for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 03:35:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784630102; cv=none;
         d=google.com; s=arc-20260327;
-        b=jiCa6FIpVDMI84A/PvpM/c71Coi2wRqJ2PsrrcmCfbYLbGIC47upFynD5Daa6cYJva
-         wogaAIogc44LSyeyhSfjQSSVRi/E1l12RiTyq7zbpUDwt7Wipsb3mqaoHuRv5+ItkleF
-         b0+8Pksf8on3FY2WPid4V21zi5kaOaAPZu6telOyXfGgooZOErla1UghAAt/HGag0UFN
-         uGyoAuaHf/1Lt4IK63kZNmfnGf3xQ2uOM/A5CcmNhBRhDbgRrVI3/X/PAuF4YlE3mvAo
-         r1lnEzD+2bbm52fDVjkkxqoC1woV3m5+0mWOHU+EelJ9oAEyBy+2Qqkn4edxvzN66uoc
-         p4+w==
+        b=sGPJKbj+CKf0NFtNaVuSsV9PnnPmOiANsEwuq65E9iRZ9uXTs0oJWZvl6wgcf2vvC2
+         cG8FKYcigWzljlzlCVHqsfKp+8yNk9lMB9ys5nE17b7zUSQ5bZYxLPEPJxuANpenbJ82
+         uqhUawbuFlK7XcPtXZNNk0RUTdMpr9KO7SYrUXJWRRCpS8Ul1pefGeJFzkd5ay/sray6
+         ft/DT4y+SlZISdpMVP97tJF7PNEb0c2bL2+DqO4oNKqo9iNj8okOYIjKDPeiRZgcBkng
+         OiONfIe2xRc5HJ5hWOnA3GLE+6Bzqoe03lxOFrEr/w3kB4pabordwgiyBKp3R4ozyGMi
+         KgXA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=MCCq1AIeKXMGUk+k9l/Opmj013LJUPQC31Mm1vW63VU=;
-        fh=xjwN6yoMU1YVsdU/az1IStYpKHQKwNMaUJle64CTHkk=;
-        b=BW4NtOPUgwR/g80pq1BWkirxi1X76z/4eZO7B6uxWWo/j6Cmjzw81V7vn4hrF/446f
-         HIaC6RRyJPoDvfjktS8PwaM3jJtIVJMGLR6s0wZoXgYgPhKj4de15bZKFWfW3UajH16l
-         2wI6LW+ymau8JvYUk/Xj5OOlJD7hDWRlPdYcPPlVY9ztMSnLlwzHrWcmo7r2dGidtoty
-         OIAfq1STHQmQ2JIEsM8IMoJCUsR84zWYMii8GmajFdMvHDK6IQ0sUhiJDVk3XtlT3Kak
-         vjgUyMDdoKDS38KSFSnXTbW6Kpk2pTj9G1A2tL4WYls1eNo7zLEiAFlvBjbw9Zp6kpNm
-         TgeA==;
+        bh=k5FWMC9LbDIMIa0XTYNmKVwsDtOhMaV0TuIONGukZMI=;
+        fh=Nju9hoGTXrT/804Ia+ZrCQwtcr79Jv6eijSEFkba10w=;
+        b=bgkEU86lkqfdfoq47lGjrpGcDWdxqzFcPteia3CD8hLyh3hbKgZ36LyPhbARMP7lLc
+         W0dCkxCZQ+PfVamRhaHyAJXMytRDbO+mJflxCayvN+l9Pz0mm5UcYwlhTr+Z9PfwHWDj
+         vj3dV4tRQHaof2S8jjZyqK9KIBOEwUDGarCRdvo8NSkwyk5v7hNdD3ZWaFJuYb8mCT4m
+         aLkaiojTJct8XDOuDOXMaA8L9Fl5w3R+F8RfnKFBQWucDMFStVm+78ASLz5FdyYqE9b2
+         tO+PAHcf6yje0GsBzV4TjDA7WaDUxBgOGWT4lq87Pna/BgRbNvhVv8D+p0cDp3vDups8
+         8Vfg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784542061; x=1785146861; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784630102; x=1785234902; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=MCCq1AIeKXMGUk+k9l/Opmj013LJUPQC31Mm1vW63VU=;
-        b=Wy0K3d4t/kP9gfNr0Js9wo8GQdxbtw0m60JPUHcaUQxpZ4I08BgH5W43icAqZ2bjGv
-         Jpp8LdtmxeJQGjtGxX4teDm+I0wnJwLNU8Hy0O6A743Zyam5OX8XEDp/SMiG/ludARyy
-         diilEcByllG1+bGKBtLk7lizrzGu+O1pwRQwEcPgsiMxjIa9wcxZy+DiclaALWKqcEiG
-         dgiBekeKRzLLZTTY6xd5N7DzWACAPYTMjZsVjuzLPbj3RW1XZ5dw/xBXfoWZKV8Pthke
-         tahm1d438FvWU66bSheFcVMkOEpncKSIqKVWu6AO14WktorxqglqVAa+Hp1SPfbzhOle
-         V+jg==
+        bh=k5FWMC9LbDIMIa0XTYNmKVwsDtOhMaV0TuIONGukZMI=;
+        b=knhxczXeeTDRP9fMvUJOTtYulzOgUPUvnhXpgZYVYFB2cLNN+F05pIvzatIKEz7URV
+         YTrJIL1i3zQoP7oZMjFAW2Xa+i+zFhAQFHTUAsgXx/9eUrfKVTClN5RZuN9L6d2yoicX
+         5EHu6psUU6OZxLrA4GCq1Iiqt3ajsu8aX19pWtbEytBYYiGse4wC16RvHCx/2A0UR+m/
+         xeqy7mwY3NYRlslFW6EvUAuAjic7SgPenW3fW0GA981Bo7aFA8Eh076TH5Om2TSsHs5v
+         bVxQe3DnCyhSlvFSDuFYaimee9LWWB8kXJ/JXGl77Q+M3fcRc6TmDWnJIz0tfwpTST3j
+         0h6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784542061; x=1785146861;
+        d=1e100.net; s=20251104; t=1784630102; x=1785234902;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=MCCq1AIeKXMGUk+k9l/Opmj013LJUPQC31Mm1vW63VU=;
-        b=Nq5+bbkl/9JXshHNA7D/b62M/UlN6s68S/KN2dOeNyf+z5dEuZ/ILLns8FIjr/oXg3
-         hLVJ7W39yEe7X9pCdTI+EIRPCx0PqWz6uEmfp+n9vE5Ie5FIp4YpWth78+9VEqjPjYOB
-         8s4RU5P/RBnFVJZPXddpX8uSI7cAg+gX7pM+HKo3IclWYJCTcpCNI8G4RYPxvjCGo5vJ
-         9IyCElmxUKrj7+qJmxFUDyaCNckhdYpWMUWNBpFovmX389TtwvvnDFLUYF1eepEEXDWh
-         9p+e01ztDHzxJ6G5cjEIrkMh+xVNSXflLRJLpQpQ5ILFIMm7/w9gMlRETPaMunHFg1sG
-         iwRg==
-X-Forwarded-Encrypted: i=1; AHgh+RoYI3c5N/YCXGJdBZXCtVtuCnv4HwK/X1ZK3t05QcBCt/xpqnpYKF0xKsMX1TUC9FVSw5+1aLmqKmy7@lists.linux.dev
-X-Gm-Message-State: AOJu0YwThCYUJRft0OtHUt5P2riylVBvo8WLKkbbTHbCyUNIeHuUAVnp
-	BJO8xn/Wr5iOuEeVXErsBvKxJmCaEkJosS/NRLh1gWoEKWyW4BjGfjqYqT37oxQ6DpqylUb8Axz
-	1d6XNoMlxYxAlKh3dgjaG/4gfQySw/yA=
-X-Gm-Gg: AfdE7cluZHgV8M3Hff0+0v9wbjz+B2uw2hA0geuKe+0HdE87Bl79/FCM4HfMad7ge5z
-	hA5HvoA5OjJQgZrUYo/ySf8AgJCg7/MGGPSQEM3ngjV5J9fOAyjKccTD5MmFFWMKNf/gcyeuyTl
-	GVw2mSCagFVOdG4lZW4ZJTUaqcTvapZGC8k+ybCtteDkSIEypxFC3tcaxbMuPdzPV6DI8Hq+9Pj
-	ycLhXnczNRzfkMPnm3tVSkOqaizW3WmeRV6XaaZdlfTmi6MCoVg2kkEH6gL0KMpnU/0Wn+vNA==
-X-Received: by 2002:a05:6938:a087:10b0:c16:7969:12be with SMTP id
- a640c23a62f3a-c16b47c1e4emr338791966b.31.1784542060903; Mon, 20 Jul 2026
- 03:07:40 -0700 (PDT)
+        bh=k5FWMC9LbDIMIa0XTYNmKVwsDtOhMaV0TuIONGukZMI=;
+        b=VUdX5W9qZBYTq2ZyX9HUc9unxRnloGqCVESzuMjdUHw0ZnfC81pWMYiF6E9CSjGSTF
+         0KtwZdIXqB2XyeH1rwx3YI+l/B9EBK/oYPDNPDdcMWhst1z4VJ+eO58WACB0LeiLsQbQ
+         q1RRi1gyouas1RZC8vvJxv/rujuJsSQHUWZtwofzgfRqFDRsL/XIX0DKg3QLc1l/7EvM
+         i0EXIbw6uvD8OXgfllMVT7FbESZ/olCw5Uax1aV8JVX2f2bn5uHHy5d078vIbKqPzgZL
+         yavMx+EXyqEQuU5qTmb2RLZO254ww8zRMe5isPGo9V+qavdaySNusyQydq7dF94wnIpL
+         9A1Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqWJjNbaWUWkhnYjF2M8YcWsJPyAXJ9Efr2OaELnFKngb7hZ+SRu9ymAowj0KA/yfW2vF+HMrfo2Tjt@lists.linux.dev
+X-Gm-Message-State: AOJu0YxChYUAX9RtOXVoif8cG2eBLhBA60hF/ULhaIwZ52Ih47vrZ8on
+	CpXOMl48TAHHYdD2O0HLjjvnTbQZ3uE7Z5oPoBxu8OsvltH6j5egqv2uBg8b7Mem92FxzKPjbr3
+	oYMSxkt4/2s2nWlzF2yqHu4zZAbye3FA=
+X-Gm-Gg: AfdE7clxJfrigLFTsM5cSG9l5X7E7sDNN9WYCR++0TmazHjHfmwLiIiI8pu0/utj9wq
+	OCv18cQIphh0tlk7TLRQzBxEm+DPWC+ZuQ+eoWUoEL2ipbghWzaiuATJKv9u6cGCuEKaXXo1NLL
+	DKbtzCaNcS5v1XgSRhvafhLXTI3ZQSN9qBvOQMC0Rd/l1MLuNHDlBT9AlfHGjCooFX14Yi4WkpT
+	GkoyR6oI9WDdguLpBnqM2joqbXUClbKoot2WheDhDuMXiLShhMffL2cK40Z8i4=
+X-Received: by 2002:a17:907:3ea0:b0:c15:f647:205b with SMTP id
+ a640c23a62f3a-c16b47d83e8mr812528466b.46.1784630101365; Tue, 21 Jul 2026
+ 03:35:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
-In-Reply-To: <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
+References: <20260708131122.2917-1-luis@igalia.com> <20260708131122.2917-2-luis@igalia.com>
+In-Reply-To: <20260708131122.2917-2-luis@igalia.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 20 Jul 2026 12:07:29 +0200
-X-Gm-Features: AUfX_mz15n8tVrhQrtGTVlRLA7H7ya2xjAmCYkRT34S0zyePGJ2_WjcXc9IUx7k
-Message-ID: <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
-Subject: Re: [PATCH V11 0/9] famfs: port into fuse
-To: John Groves <john@jagalactic.com>
-Cc: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Date: Tue, 21 Jul 2026 12:34:49 +0200
+X-Gm-Features: AUfX_mwe-kr8_QLhqZNCl123Jf4668wp7ph2V3Nb7km4AvovQpW14T1tnnO5W8I
+Message-ID: <CAOQ4uxi=mcRf7wZdbXjCH9+doh1f1rxpZ4sxjg0MDLz_dirrYw@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 1/5] Documentation: fuse: add document on caches
+ being used by FUSE
+To: Luis Henriques <luis@igalia.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 20, 2026 at 5:44=E2=80=AFAM John Groves <john@jagalactic.com> w=
-rote:
+On Wed, Jul 8, 2026 at 3:11=E2=80=AFPM Luis Henriques <luis@igalia.com> wro=
+te:
 >
-> From: John Groves <john@groves.net>
+> This new file aims at documenting the caches that are used by FUSE.  At
+> the moment only the symlink and the ACLs caches are described.
 >
-> This has been quite a gauntlet so far. Some requests were made but eventu=
-ally
-> ruled out (e.g. using BPF for fault handling).
-
-I'm sorry John, but this patch set is not what I was hoping to see.
-I don't know if we are miscommunicating or if it is something else.
-I will try to do my best to explain again.
-
-I say miscommunication when looking at your comment in reply to [1]:
-"First, a scope check. This patch touches only the daxdev registration -
-GET_FMAP, struct fuse_famfs_fmap_header, and the simple/interleave
-extent structs in include/uapi/linux/fuse.h are untouched. I'm reading
-that as tacit agreement to GET_FMAP and its ABI. Can you confirm? If so
-the large piece is settled and this is really just about how a daxdev
-gets registered."
-
-This was a wrong assumption on your part, it was NOT confirmed and
-I even responded to it with a mini tantrum.
-
-I feel that you may have not gotten Miklos' second patch [2] at all, becaus=
-e
-you have not responded to it.
-Maybe because it was sent only to your work email?
-
+> Signed-off-by: Luis Henriques <luis@igalia.com>
+> ---
+>  .../filesystems/fuse/fuse-caches.rst          | 86 +++++++++++++++++++
+>  1 file changed, 86 insertions(+)
+>  create mode 100644 Documentation/filesystems/fuse/fuse-caches.rst
 >
-> Concrete requests (demands?) from the fuse community included the followi=
-ng:
-> - Pass daxdevs into the kernel via an ioctl rather than a new fuse
->   message/response
+> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentati=
+on/filesystems/fuse/fuse-caches.rst
+> new file mode 100644
+> index 000000000000..52b2558b5a68
+> --- /dev/null
+> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
+> @@ -0,0 +1,86 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +FUSE Caches
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +This document summarises the different types of caches that are used in =
+FUSE.
+> +For each cache type, it attempts to document the rules that are followed=
+ to
+> +insert, validate and invalidate data into the cache.
 
-Look at this patch by Miklos:
-[1] https://lore.kernel.org/fuse-devel/20260529134302.1989958-1-mszeredi@re=
-dhat.com/
+It looks a bit misleading as if the list is complete.
+Maybe list all the caches: attribute, dentry, data, readdir, symlink, ACL
+(anything else?) and then say that documenting them is TBD.
 
-Look more closely at the diffstat:
- 7 files changed, 123 insertions(+), 294 deletions(-)
-
-It's not about this ioctl, it's about infrastructure reuse.
-It's about the fact that there is NOTHING special about dax_devlist;
-and no reason not to manage it via backing_files_map.
-
-The reason you stated was that you want userspace to determine the
-daxdev_index/backing_id - fine, no problem - this is why I asked that
-you pass it the desired backing_id in the ioctl.
-In fact I think that all fuse backing_ids would be better assigned by user =
-space
-so the extension of padding =3D> backing_id is not unique to famfs.
-
-And the best part is that this request requires no changes to your userspac=
-e.
-You already bite the bullet and maintain the new/old uapi but changing the
-kernel implementation does not require this burden from you, so to be hones=
-t
-I really don't understand why you did not follow Miklos' suggestion.
-
-> - Lose the famfs interleaved extent format. I have complied with this req=
-uest.
->   It makes some things worse, but we'll discuss that later.
->
-
-I am really not aware of a request to lose the interleaved extent format.
-How can this patch [2] from Miklos which reimplements this format as a gene=
-ric
-uapi be mistaken for a request to lose this format?
-
-> There has also been a desire from the fuse community for famfs to use an
-> experimental implementation of virtual backing-devs from Darrick. I'm lea=
-ving
-> this out as a potential future optimization - although Darrick has announ=
-ced
-> that he (and $employer) intend to abandon that work, so it's not clear wh=
-ether
-> that will become viable.
-
-Forgive me John, but I am having a hard time following the logic of
-this statement.
-How are Darrick's future plans about fuse iomap even remotely related?
-
-In this patch Miklos has ALREADY IMPLEMENTED
-"striped "virtual" backing devices (idea from Darrick)"
-[2] https://lore.kernel.org/linux-fsdevel/20260601152327.2069787-1-mszeredi=
-@redhat.com/
-
-An idea does not die when employers change priorities.
-
-The diffstat is also impressive:
- 6 files changed, 219 insertions(+), 300 deletions(-)
-
-Especially when considering the fact that the insertions are generic code
-that could be useful to fuse passthrough regardless of famfs.
-
-Let me recap the former review requests as I understand them:
-
-1. Use ioctl instead of GET_DAXDEV
-2. Use backing files infra for daxdev table
-3. Use ioctl instead of GET_FMAP
-4. Use backing files infra for fmaps
-
-Request #1 was fulfilled in the v11 patch set.
-Other requests were not fulfilled and with no explanation why,
-not one that I could find anyway.
-
-Perhaps requests 2-4 were lost in the spam folder and/or lost
-in translation, so I will repeat my question from review of [1]:
-
-Are there any other *technical* problems that you can point out
-with the patches that Miklos posted (including FUSE_DEV_IOC_STRIPE_OPEN)?
+However, I must say that mentioning attribute cache in the context of ACL
+cache without a minimal description of attribute cache is a bit confusing.
 
 Thanks,
 Amir.
+
+> +
+> +symlink caching
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Whenever there's a link resolution request, the VFS will call into
+> +``fuse_get_link()`` which will then send a ``FUSE_READLINK`` request to =
+the
+> +user-space FUSE server. However, the server can ask the kernel to cache =
+all
+> +links resolutions by setting the ``FUSE_CACHE_SYMLINKS`` flag during the
+> +``FUSE_INIT`` negotiation.
+> +
+> +If this flag is set, FUSE will immediately call into the VFS
+> +``__page_get_link()`` from the ``->get_link()`` inode operation. The fir=
+st time
+> +this is done for a specific link, it will end-up sending the ``FUSE_READ=
+LINK``
+> +to user-space but the link contents will then be added into page-cache. =
+The next
+> +time the link needs to be resolved, it will use the link content that is=
+ already
+> +cached, and will only fallback into sending the request to use-space if =
+the
+> +folio isn't up-to-date.
+> +
+> +ACL caching
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +FUSE has allowed the usage of POSIX ACLs for a long time as they could b=
+e set
+> +and accessed simply as extended attributes. However, it was only with th=
+e
+> +addition of the ``FUSE_POSIX_ACL`` flag that ACLs started to be fully su=
+pported.
+> +Without this flag, ACLs can still be set, but the VFS won't use them for
+> +performing permission checks - that would be the user-space server's
+> +responsibility.
+> +
+> +Also, without setting ``FUSE_POSIX_ACL``, ACLs will not be cached by the=
+ kernel.
+> +In this case, new inodes ``i_acl`` and ``i_default_acl`` fields will be =
+set to
+> +``ACL_DONT_CACHE``.
+> +
+> +On the other hand, if ``FUSE_POSIX_ACL`` is set during ``FUSE_INIT``, wh=
+en an
+> +ACL is accessed the VFS layer will first check if it's already cached. I=
+f it is
+> +not, FUSE ``->get_acl`` operation is called, which will eventually send =
+a
+> +user-space request. Future accesses to this inode ACL will then use the =
+cached
+> +data.
+> +
+> +Setting an ACL in an inode, however, won't cache it immediately. It will=
+ send
+> +user-space a request with the new ACL, and the FUSE server may perform s=
+ome
+> +modifications before storing it.
+> +
+> +On the other hand, ACLs will be removed for the cache in the following
+> +situations:
+> +
+> +-  When setting an ACL in an inode and the user-space server has set the
+> +   ``FUSE_POSIX_ACL`` flag, all previously cached ACLs for this inode wi=
+ll be
+> +   invalidated.
+> +-  When invalidating an inode through the ``FUSE_NOTIFY_INVAL_INODE`` op=
+eration.
+> +-  When ``->d_revalidate()`` is called for a dentry that requires a look=
+up (e.g.
+> +   it has expired) and that lookup operation is successful.
+> +-  When the VFS needs to check access rights for an inode (by calling
+> +   ``->permission()``), attributes may need to be refreshed. If that hap=
+pens,
+> +   any cached ACLs for that inode will be invalidated.
+> +-  After setting an inode attribute (i.e. operation ``FUSE_SETATTR`` is =
+sent to
+> +   user-space), the user-space server may have also updated the ACLs, so=
+ any
+> +   cached ACLs for this inode are also invalidated.
+> +-  While processing ``FUSE_READDIRPLUS`` and a new dentry is added (unle=
+ss this
+> +   dentry is already being looked up (``DCACHE_PAR_LOOKUP``))
+> +-  In general, when there is the need to sent a ``FUSE_STATX`` or
+> +   ``FUSE_GETATTR`` to user-space (e.g. because the attributes have expi=
+red).
+> +   This may happen in the following cases:
+> +
+> +   -  When doing an ``->llseek()`` on a file with ``SEEK_END``, ``SEEK_H=
+OLE`` or
+> +      ``SEEK_DATA``.
+> +   -  When the ``FUSE_AUTO_INVAL_DATA`` flag is set at ``INIT`` time (to
+> +      automatically invalidate cached pages), and a buffered read
+> +      (``->read_iter()``) past EOF is done on a non-passthrough file.
+> +   -  When the ``FUSE_WRITEBACK_CACHE`` flag is set at ``INIT`` time, an=
+d a
+> +      buffered write (``->write_iter()``) past EOF is done on a non-pass=
+through
+> +      file.
+> +   -  When the ``FUSE_AUTO_INVAL_DATA`` flag is set at ``INIT`` time and=
+ the VFS
+> +      needs to read a directory contents (``->iterate_shared()``) for a
+> +      directory that is allowed to be cached.
+>
