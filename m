@@ -1,94 +1,93 @@
 Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AB547DF9B
-	for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 10:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26171480DC9
+	for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 10:43:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784630377; cv=pass; b=HY2iEDZLW0oq+UB1wwsXUsMCf7sYAEDHHU8xGzFph4HfzeapprbYAugOBlZDSvK9/0S/L/xJyKfWzCVZLKx7GPGa7ilu8dFXxBkaWMVBLcxuMvHkdEtHwrcWjqoKbjucbGz6MLi3cwx0mkc0l44P+iaOtssSCdlDP3ZkdWRA728=
+	t=1784630605; cv=pass; b=bVuQvpAdkxSGaQ540QWUTf7NBy42/eeOUA33RQuRVwpAS+wBsSynatxf1+5OLTIAHc6j/Ny5YLiVujAW/byi+Lsq0qbJgn4scqtq7aE0RbT2qydB7xC9Rixi0ogBLhfO0+9aAtYEC0FAN28jlS3wxHSe/qLfSdGk2uhN/1mN+hQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784630377; c=relaxed/simple;
-	bh=XZGHCmg6TBJYjgMIect/KToxzi5RrtqxOX1ZKL7mmsQ=;
+	s=arc-20240116; t=1784630605; c=relaxed/simple;
+	bh=A25viQ7EAG6emyGkQ7HiOnM6vg0tcED8YtAzWy0+LTE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d/s+EhBAKC8nTwGR5R2TSHFlQo1Ak9yhA88wOyf88JeCY+tuCO/5hwgN4ZisxHlauCtbcJyXjwqxF+X6joYlet4mVuMVMJGKu+5WLXiq5rTUJDc+ZCL6Ig4Gx0nCW+mzMiEpwsgijDHa13VbK9yFiCz0r7FA0Smk1sb9ioGxH5k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jtoaKXww; arc=pass smtp.client-ip=209.85.208.49
+	 To:Cc:Content-Type; b=ktJEOWyKLrbbDPRtFILKtMSsRPmE218QqbFc8VVneAsVZp75ZAtwNUMBu5ZxM0JroRqHq/WCw0LMUxMD1b7f9BFknx9GYrXFye+eYOwN19jj+3SE6flNAFSgvCgX2OirrQskmm1mHWmEaOvTGq9YslAqe6OrOJfk5+20G5TXSkY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=knZw2ztS; arc=pass smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jtoaKXww"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-69e5f8a193bso5988495a12.2
-        for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 03:39:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784630374; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="knZw2ztS"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-69e28b554ceso10190132a12.0
+        for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 03:43:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784630601; cv=none;
         d=google.com; s=arc-20260327;
-        b=ZG4QmQQUeIHG3vbExUkzPcvgar4HMXaehFs4ASWTTYTtg+M0SQiIkWS322f+dyED8V
-         jg+57vaJusFLkFr/xOyqED4fvG2z9a+KLSN9/w4KBaiOPdIe6actBo0Kz8XficfPdgpb
-         Kf6E/AfCJDefYBGLPOdUHBfXS501+umrb98mmSLw9yfwjCZUKiQcUbotFUhqsm7yFxzn
-         xalZCGRYOC+TCu3afJSqsrGQgSN6j50tCp+3UlxCVZO/odI1oGYhx5IgWgAVsI3BiLfG
-         HgMvxRzacBZ4EKGNnmS59Vp8pAGAYSlclQmRK2vmdksqmuEn33rlF74rFHXtlmtUveDQ
-         5KlQ==
+        b=UpIQ4kiVqR5kfCxbIFF8+gdoNT65GfjkjmmVIhrsy3h2R1FVx3ekwinL9nd4uAENMU
+         A9ILSKeTlvmczzV1tMkomVzAs39VHq36TBTLGrMJcbLsCHZ0QEJZtvezPSapLyn1K/Rh
+         KGKr59cJWUR+5kmO09y7Sb0aCjzvULZxCCQJVDR/ZJhdsb9p5OhK7lcAwrSvBkaPc3eh
+         Mzbczdbca239W25kIxUw850Z8JOfvmV6aKDAwz5BT51MOu2LucMmVA+Os+n/4gfmzSNy
+         fuO3+avJOaldfI/UrOVmsqBweLMmfv4A209f4HpL8FGlPwYt0eS2/pSOt5BgZHAhBP7W
+         CGkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+juJHzVoFamh7S+C2xEheDkvInVCn4UAMogNf2TTBRY=;
-        fh=ytPK1343J1L5th+QH6Io1oW0uvpcTNkuQ7uIL3FtdVQ=;
-        b=TBMsld750PoC4LN54+f+wehuRcZa6Q1xxNqd/Imkqk84z/2cbZ99wrc8otRIPhDZJW
-         7YccN47yySTkTFKZixCSZU317mebrExRFlJpxMdtYb/6r3zna3nJsyGBrpLbKRJndfBn
-         r7jn1PRTtafAQzxDH0cDsGFKw4rdvr7EYUK72ljQdYaj/FZR18H+/OZC9cmw+ebHW9l5
-         vZneloMmn+prPBOGyEOx/c3Oxn8zPHT8A4XW9J23NiCqw08MbDRSBmHBO+/cjkhWU6t5
-         F3631fA9FBQcc2hDPLj9mmBPj702I5Tf40LBIhExGbKNtFAHpYF9tkh7WOdaW2x97d+Y
-         maKA==;
+        bh=jFR4MxJKt991gKtgkD97i/FsFQMAvicdyhpcnCFtKs4=;
+        fh=nKE8UBgVqkusZ5kk16hJnHK+tRz2bciolDzALBQWfgQ=;
+        b=X6IFgfPpAnEMJyn9bLtVVePeLlyCC/p6WZmOxqTvZVu8ZNGl4Wgd9BhieFsxNE8XFY
+         uA0EZBfl1QkqTm033mjcZV/Kk7YvqZijllYxwBnPCAQRq8y5lTZZPfBgX1kmdsSiFtw4
+         9tTUuckxrkS5ycb1g5v8Cj+96cMj1nD7IxMxdn45w1QFBlSKMiQx/820qmJLt5X7OCHN
+         JH5Lb1NooExq3+yws7S/gSPv2hmRnurD24QwHZS176cisumhQg3wgoa57ilCptsd2t8E
+         LIhOR1VXFT3pHuqIe2ZhUWw/+fR1Y2f4/wbjWz3im28b9gb7jVFG6L2FzmCNZtAKnkAe
+         gcrQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784630374; x=1785235174; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784630601; x=1785235401; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=+juJHzVoFamh7S+C2xEheDkvInVCn4UAMogNf2TTBRY=;
-        b=jtoaKXww2tDVQocL+XqEtKcJri9j6wgEr7PEgYhSte/oqDBuSa1u4JXWSYxwejXvHe
-         nTYEYhKRp7SioOW82YERRFFAB9OrEzYqnG+YPFdPq6IMSbRJ4LUfgL4WIql7iRBke2xF
-         2tSTU13Bg4H6Ms4I8BN+wKAxfrvaO3xSJxp3kVjPFL4jc1EA5BAMZF6fY+76hmsshq65
-         9aud0vZ1zjT2mAzasDGyxBUd3hW77JqvsEVhUo3oclK3eRVQBxQuMQWTnX1MCAa/xXeu
-         A2PWIVvrr6kSXawJF7MrS5lxWpN/KrLQZtqD0EHcERzMbVZQsBVpU3L4zinXRWFTnwL2
-         aDZg==
+        bh=jFR4MxJKt991gKtgkD97i/FsFQMAvicdyhpcnCFtKs4=;
+        b=knZw2ztSxfCWWxJpUbuMoG2ZnTnZu0dhiV7MGmp2SJrQIJFfraJ54LTWnyUKR6ckzH
+         Puw3KiHIhqg1SJIcS9uD1eYVVRYLWs79zAjBnA1Lv08NagELP1y9y8MlZTNkJEtsCIj1
+         cOc6J/HEqY1lhuWWSzOoFY0KwWHDmOX/nSwsReynRR15TBUNOz/c49ufdSnBbP4psqcx
+         2dzkZPsq9VNGmXOGQAwyuvA8CaKwAvz83MDGwrukKHvponlVymQrODrTDJo2GsrWj5FE
+         85nWrIm2bGl5IfQsTihTcOF+pJf0xHBChPZUnRhE8OGrDntkFO2MYm8pHhLHTWnzDmR+
+         Q73g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784630374; x=1785235174;
+        d=1e100.net; s=20251104; t=1784630601; x=1785235401;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+juJHzVoFamh7S+C2xEheDkvInVCn4UAMogNf2TTBRY=;
-        b=W9Hh2jVp6eizVSxPGKvGTlwoqO4/HIFdq+8TFhjECtEbxmQWVVqHoNO9eAY+EiqFZI
-         wrgAtGK8MLlQkVYBt7Z9/jdKUuRq3xmL5+pTOYqqJEVYZGRTpQLsHqjo9AJYvxZCCTtn
-         zu8YDycuVMOa4uKW89B+zbrreg+cFLs1I7F11hMHBSV3lVpwkVI9xgi/6McAtAnU3MLa
-         14ME4j3QkypvZxIjZJ2WiLFo8yOSohDI9iYNHbl9MGq0f2OX5iXveiiX73i57swIQCPx
-         Dy2zGxUrKWhYld4ZjLZNUPXctv0EB5tutKBkcKHpXKwWCtjJLn/q6wf/lCBYzPy1+rPJ
-         DdjA==
-X-Forwarded-Encrypted: i=1; AHgh+RqLa4v85e5bI1qDZIxNsFpY4ePogxeQ5GskYFLvQSfo08X8qTX4dU8/1m0ffojimG+8JXfsLxNZ1FUb@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxtjb2Wgegk27O/JVdEYfPTfk7AnhFGG15BUz8pFq9gw+nBZ2Md
-	svTRTnhMEpQte5suGvYbO/F3mSP6+El+/Yu55Srtplya2DOVgbcJlLZYI++FMOHWgNbB6dyPG/a
-	CE3dZyGSnGIrjvW7qKaV0zncsBdxW4m4=
-X-Gm-Gg: AR+sD11bU3TjkuR3hjA258CEDmL64GTIneURZjnqhsV9HTRx4bRfKDpGLVLl8xbi5yD
-	eRo/uW/36CmixrpJGKUyiojHVsAa0k3dxt8LBPSDJayLDDypX9clDCPD+RNBXq4wwMuXZmMnbg3
-	1pxPHWTqey3ElCD/1LWUYqZjPO75caxeVJdv4JQZeaN/4ucFeZQnDPvoxWcJBuYSRwk3zYMSi1W
-	kHPrgdNKq/qq9HnqJwwDntnkJaLjqo+8WZ5kAOVwsM2WObeOHg+kt34ZGVM+wo=
-X-Received: by 2002:a05:6402:2547:b0:698:ad4b:abe1 with SMTP id
- 4fb4d7f45d1cf-69e652b057emr6842578a12.27.1784630373641; Tue, 21 Jul 2026
- 03:39:33 -0700 (PDT)
+        bh=jFR4MxJKt991gKtgkD97i/FsFQMAvicdyhpcnCFtKs4=;
+        b=JdUEhOhVy/qUgfDNmbRZ0AXlVcDgbcwQYL0cjj3YocnasSNlEJK9df5sPeKfeVoIBI
+         +SP5N9PdmipVgMrq5lBKiItS7cVbHkwYH+X+dG8ZgjyuHOlq3qHmNIRYCT0KEqKCPjxk
+         3dIANjiDQtuwIKhBmi2PJkRg6IHu5o6Lf3q6nZocJMGFTdsLtJAsph0kdroInfwWO/BT
+         V4FITcHGyI4LesGgTEV4qat0/UYozNFih6TrHwX3aPJy7qIBnS+jQFjtJL3KZL9kfqqZ
+         aOfrwP6K3Axto/4iqlXSUlV7klJzyrlU1S5+o0iGejjQOfqI0w3y9A73vqAsFdICZ8pA
+         /YbA==
+X-Forwarded-Encrypted: i=1; AHgh+Ro6lalmCJ505MiSKLcvXnfZxmjR6sMmzD8MZWClBL6jPzNKXMBcaNG/mJuv8glDLSC8HtriY2sba9Ds@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSc5qcZsP/zeZWtCAUoDv4qUSes8w8gt72of3qeDvsaUQbS3zv
+	aSzAzb4GrTylC0d4deRtMYKSiOD4nUsqT74H9dqBPyLK6XjW7/QOoJgIWg20WNUul0YAFq+UMVD
+	KNLNlDuwQSjkMvebXAfcv/HR0iGkoC1w=
+X-Gm-Gg: AR+sD10ZIfe5dwD56tONtzX4nmIhFyeS1f09YmMW9zjtr36N9kYDf4d3jZ3koyE/rbT
+	puEyIHEOlkFwpyZaa0PuJnTkLY34xZsqSrBmMbNqy9DjtIBK8QM362+wSPRgAP/lj69sZopEVGT
+	zWxiVrK2TPGBsN3/5Yjuf7Krvc+FNb7wKFbuwydFSt3SszoUzbM/jRjNO0Kvllm4ppOZN24iVy6
+	69qYUIUyOmDu3e4Sy7bdTjplIYEZFo7/XhzKsiwaBkjW/eAWAxvjOQPvYrjM2g=
+X-Received: by 2002:a05:6402:5186:b0:697:cd86:7626 with SMTP id
+ 4fb4d7f45d1cf-69e6525c6a4mr6666445a12.8.1784630601191; Tue, 21 Jul 2026
+ 03:43:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260708131122.2917-1-luis@igalia.com> <20260708131122.2917-5-luis@igalia.com>
-In-Reply-To: <20260708131122.2917-5-luis@igalia.com>
+References: <20260708131122.2917-1-luis@igalia.com> <20260708131122.2917-6-luis@igalia.com>
+In-Reply-To: <20260708131122.2917-6-luis@igalia.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 21 Jul 2026 12:39:22 +0200
-X-Gm-Features: AUfX_mw-as6l6Zy89-e3FLAF03oa9ZdPjmY0IaC2DMkG4PcsftqTr3WAv-bdzMM
-Message-ID: <CAOQ4uxiOqkXfySiFcYhWUR_c1_UeAA62vK2Py-ML=TpQyrUbCw@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 4/5] selftests/filesystems: add fuse symlink
- caching test
+Date: Tue, 21 Jul 2026 12:43:09 +0200
+X-Gm-Features: AUfX_mzJE1zhKJjoqFDdPmAYFJP_IT0AkKnoZ5roRGFl4ifYtgBZ-2w1TlYJLYo
+Message-ID: <CAOQ4uxg6WHG1S4--ZN7dsEnYOKY+q8y6qCNYL7=UE+=9G4-+GQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v1 5/5] selftests/filesystems: add fuse ACLs caching test
 To: Luis Henriques <luis@igalia.com>
 Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
 	Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
@@ -100,192 +99,311 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Jul 8, 2026 at 3:11=E2=80=AFPM Luis Henriques <luis@igalia.com> wro=
 te:
 >
-> This patch adds a simple test that allows to verify that, when resolving =
-a
-> symlink, user-space is called only the first time when caching is enabled
-> or, if caching is disabled, every time the symlink resolution is requeste=
-d.
+> This patch adds a simple test that allows to verify that ACLs caching is
+> working as expected.  I.e. it verifies that, if FUSE_POSIX_ACL flag is se=
+t,
+> user-space is only called once when accessing an inode ACL and that
+> subsequent accesses are cached in the kernel.
 >
 > Signed-off-by: Luis Henriques <luis@igalia.com>
 > ---
->  .../selftests/filesystems/fuse/.gitignore     |   1 +
->  .../selftests/filesystems/fuse/Makefile       |   6 +-
->  .../selftests/filesystems/fuse/symlink_fs.c   | 115 ++++++++++++++++++
->  .../filesystems/fuse/symlink_test.sh          |  52 ++++++++
->  4 files changed, 173 insertions(+), 1 deletion(-)
->  create mode 100644 tools/testing/selftests/filesystems/fuse/symlink_fs.c
->  create mode 100755 tools/testing/selftests/filesystems/fuse/symlink_test=
-.sh
+>  .../selftests/filesystems/fuse/.gitignore     |   2 +
+>  .../selftests/filesystems/fuse/Makefile       |  13 +-
+>  .../selftests/filesystems/fuse/acl_fs.c       | 216 ++++++++++++++++++
+>  .../selftests/filesystems/fuse/acl_test.sh    |  66 ++++++
+>  .../selftests/filesystems/fuse/setgetacl.c    |  62 +++++
+>  5 files changed, 357 insertions(+), 2 deletions(-)
+>  create mode 100644 tools/testing/selftests/filesystems/fuse/acl_fs.c
+>  create mode 100755 tools/testing/selftests/filesystems/fuse/acl_test.sh
+>  create mode 100644 tools/testing/selftests/filesystems/fuse/setgetacl.c
 >
 > diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/=
 testing/selftests/filesystems/fuse/.gitignore
-> index 3e72e742d08e..cfdc5ca3ded4 100644
+> index cfdc5ca3ded4..1733ebb9d7fd 100644
 > --- a/tools/testing/selftests/filesystems/fuse/.gitignore
 > +++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-> @@ -1,3 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
+> @@ -2,3 +2,5 @@
 >  fuse_mnt
 >  fusectl_test
-> +symlink_fs
+>  symlink_fs
+> +acl_fs
+> +setgetacl
 > diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/te=
 sting/selftests/filesystems/fuse/Makefile
-> index 422cd1b1688d..342da0878006 100644
+> index 342da0878006..3bbf9d837e9a 100644
 > --- a/tools/testing/selftests/filesystems/fuse/Makefile
 > +++ b/tools/testing/selftests/filesystems/fuse/Makefile
-> @@ -3,7 +3,8 @@
+> @@ -3,8 +3,8 @@
 >  CFLAGS +=3D -Wall -O2 -g $(KHDR_INCLUDES)
 >
 >  TEST_GEN_PROGS :=3D fusectl_test
-> -TEST_GEN_FILES :=3D fuse_mnt
-> +TEST_PROGS :=3D symlink_test.sh
-> +TEST_GEN_FILES :=3D fuse_mnt symlink_fs
+> -TEST_PROGS :=3D symlink_test.sh
+> -TEST_GEN_FILES :=3D fuse_mnt symlink_fs
+> +TEST_PROGS :=3D symlink_test.sh acl_test.sh
+> +TEST_GEN_FILES :=3D fuse_mnt symlink_fs acl_fs setgetacl
 >
 >  include ../../lib.mk
 >
-> @@ -19,3 +20,6 @@ endif
+> @@ -18,8 +18,17 @@ ifeq ($(VAR_LDLIBS),)
+>  VAR_LDLIBS :=3D -lfuse3 -pthread
+>  endif
 >
+> +ACL_CFLAGS :=3D $(shell pkg-config libacl --cflags 2>/dev/null)
+> +ACL_LDLIBS :=3D $(shell pkg-config libacl --libs 2>/dev/null)
+> +
 >  $(OUTPUT)/fuse_mnt: CFLAGS +=3D $(VAR_CFLAGS)
 >  $(OUTPUT)/fuse_mnt: LDLIBS +=3D $(VAR_LDLIBS)
+>
+>  $(OUTPUT)/symlink_fs: CFLAGS +=3D $(VAR_CFLAGS)
+>  $(OUTPUT)/symlink_fs: LDLIBS +=3D $(VAR_LDLIBS)
 > +
-> +$(OUTPUT)/symlink_fs: CFLAGS +=3D $(VAR_CFLAGS)
-> +$(OUTPUT)/symlink_fs: LDLIBS +=3D $(VAR_LDLIBS)
-> diff --git a/tools/testing/selftests/filesystems/fuse/symlink_fs.c b/tool=
-s/testing/selftests/filesystems/fuse/symlink_fs.c
+> +$(OUTPUT)/acl_fs: CFLAGS +=3D $(VAR_CFLAGS)
+> +$(OUTPUT)/acl_fs: LDLIBS +=3D $(VAR_LDLIBS)
+> +
+> +$(OUTPUT)/setgetacl: CFLAGS +=3D $(ACL_CFLAGS)
+> +$(OUTPUT)/setgetacl: LDLIBS +=3D $(ACL_LDLIBS)
+> diff --git a/tools/testing/selftests/filesystems/fuse/acl_fs.c b/tools/te=
+sting/selftests/filesystems/fuse/acl_fs.c
 > new file mode 100644
-> index 000000000000..1aee26c91b3f
+> index 000000000000..4b5e0073ab4f
 > --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/fuse/symlink_fs.c
-> @@ -0,0 +1,115 @@
+> +++ b/tools/testing/selftests/filesystems/fuse/acl_fs.c
+> @@ -0,0 +1,216 @@
 > +// SPDX-License-Identifier: GPL-2.0
+> +
 > +/*
-> + * Simple filesystem to test FUSE symlink cache
+> + * Simple filesystem to test FUSE ACLs cache
 > + *
-> + * This is a simple FUSE filesystem that contains two objects: a file na=
-med
-> + * 'file' and a symlink to that file named 'link'.  Whenever the ->readl=
-ink() is
-> + * executed to resolve 'link' a counter will be incremented.  A ->read()=
- to any
-> + * filesystem object will return the value in this counter.
+> + * This is a simple FUSE filesystem that contains a single object (a fil=
+e named
+> + * 'file') and which allows to set the 'system.posix_acl_access' ACL on =
+that
+> + * object.  Whenever this ACL is read from the FUSE filesystem, a counte=
+r is
+> + * incremented.  And value for this counter can be obtained from reading=
+ from
+> + * this file.
 > + *
-> + * A '--cache' argument will allow to enable symlink caching (disabled b=
-y
-> + * default).  This means that, if caching is enabled, resolving a symlin=
-k will
-> + * only call into user-space the first time.
+> + * When ACLs are being cached (the '--cache' argument was used to mount =
+this
+> + * filesystem), this counter will only be incremented the first time the=
+ ACL is
+> + * read, as the kernel won't be calling into user-space again until that=
+ cache
+> + * is invalidated.
 > + */
+> +#define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 12)
 > +
-> +#define FUSE_USE_VERSION 31
-> +
-> +#include <fuse.h>
+> +#include <fuse_lowlevel.h>
 > +#include <stdio.h>
+> +#include <stdlib.h>
 > +#include <string.h>
 > +#include <errno.h>
 > +#include <fcntl.h>
-> +#include <stddef.h>
-> +#include <assert.h>
+> +#include <time.h>
+> +#include <sys/stat.h>
+> +#include <sys/param.h>
+> +#include <sys/xattr.h>
 > +
 > +#define FILE   "file"
-> +#define LINK   "link"
+> +#define TIMEOUT        86400.0f
 > +
 > +static struct options {
-> +       int cache_symlinks;
+> +       int cache_acls;
 > +} options;
 > +
 > +static const struct fuse_opt option_spec[] =3D {
-> +       { "--cache", offsetof(struct options, cache_symlinks), 1 },
+> +       { "--cache", offsetof(struct options, cache_acls), 1 },
 > +       FUSE_OPT_END
 > +};
 > +
-> +static int readlink_counter =3D 0;
+> +static int getxattr_counter =3D 0;
 > +
-> +static void *symlink_init(struct fuse_conn_info *conn, struct fuse_confi=
-g *cfg)
+> +static void acl_init(void *userdata, struct fuse_conn_info *conn)
 > +{
-> +       if (options.cache_symlinks)
-> +               fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
-> +
-> +       return NULL;
+> +       if (options.cache_acls)
+> +               fuse_set_feature_flag(conn, FUSE_CAP_POSIX_ACL);
+> +       else
+> +               fuse_unset_feature_flag(conn, FUSE_CAP_POSIX_ACL);
 > +}
 > +
-> +static int symlink_getattr(const char *path, struct stat *stbuf,
-> +                          struct fuse_file_info *fi)
+> +static int acl_stat(fuse_ino_t ino, struct stat *stbuf)
 > +{
-> +       int res =3D 0;
+> +       char data[64];
 > +
-> +       memset(stbuf, 0, sizeof(struct stat));
-> +       if (strcmp(path, "/") =3D=3D 0) {
+> +       stbuf->st_ino =3D ino;
+> +       switch (ino) {
+> +       case 1:
 > +               stbuf->st_mode =3D S_IFDIR | 0755;
 > +               stbuf->st_nlink =3D 2;
-> +       } else if (strcmp(path + 1, FILE) =3D=3D 0) {
-> +               char data[64];
-> +
+> +               break;
+> +       case 42:
 > +               stbuf->st_mode =3D S_IFREG | 0444;
 > +               stbuf->st_nlink =3D 1;
-> +               stbuf->st_size =3D sprintf(data, "%d\n", readlink_counter=
+> +               stbuf->st_size =3D sprintf(data, "%d\n", getxattr_counter=
 );
-> +       } else if (strcmp(path + 1, LINK) =3D=3D 0) {
-> +               stbuf->st_mode =3D S_IFLNK | 0444;
-> +               stbuf->st_nlink =3D 1;
-> +               stbuf->st_size =3D strlen(FILE);
-> +       } else
-> +               res =3D -ENOENT;
+> +               break;
+> +       default:
+> +               return -1;
+> +       }
 > +
-> +       return res;
-> +}
-> +
-> +static int symlink_readlink(const char *path, char *buf, size_t size)
-> +{
-> +       if (strcmp(path + 1, LINK) !=3D 0)
-> +               return -ENOENT;
-> +
-> +       memcpy(buf, FILE, strlen(FILE));
-> +       readlink_counter++;
+> +       stbuf->st_uid =3D getuid();
+> +       stbuf->st_gid =3D getgid();
+> +       stbuf->st_atime =3D stbuf->st_mtime =3D stbuf->st_ctime =3D time(=
+NULL);
 > +
 > +       return 0;
 > +}
 > +
-> +static int symlink_read(const char *path, char *buf, size_t sz, off_t of=
-f,
+> +static void acl_lookup(fuse_req_t req, fuse_ino_t parent, const char *na=
+me)
+> +{
+> +       struct fuse_entry_param e;
+> +
+> +       memset(&e, 0, sizeof(e));
+> +
+> +       if (parent !=3D 1 || strcmp(name, FILE) !=3D 0)
+> +               fuse_reply_err(req, ENOENT);
+> +       else {
+> +               e.ino =3D 42;
+> +               e.attr_timeout =3D TIMEOUT;
+> +               e.entry_timeout =3D TIMEOUT;
+> +               acl_stat(e.ino, &e.attr);
+> +               fuse_reply_entry(req, &e);
+> +       }
+> +}
+> +
+> +static void acl_getattr(fuse_req_t req, fuse_ino_t ino,
 > +                       struct fuse_file_info *fi)
+> +{
+> +       struct stat attr;
+> +
+> +       memset(&attr, 0, sizeof(struct stat));
+> +       if (acl_stat(ino, &attr) =3D=3D -1)
+> +               fuse_reply_err(req, ENOENT);
+> +       else
+> +               fuse_reply_attr(req, &attr, TIMEOUT);
+> +}
+> +
+> +static void acl_read(fuse_req_t req, fuse_ino_t ino, size_t size,
+> +                    off_t off, struct fuse_file_info *fi)
 > +{
 > +       char data[64];
 > +       int len;
 > +
-> +       len =3D sprintf(data, "%d\n", readlink_counter);
-> +       memcpy(buf, data, len);
-> +
-> +       return len;
+> +       len =3D sprintf(data, "%d\n", getxattr_counter);
+> +       if (off < len)
+> +               fuse_reply_buf(req, data + off, MIN(len - off, size));
+> +       else
+> +               fuse_reply_buf(req, NULL, 0);
 > +}
 > +
-> +static const struct fuse_operations symlink_oper =3D {
-> +       .init           =3D symlink_init,
-> +       .getattr        =3D symlink_getattr,
-> +       .readlink       =3D symlink_readlink,
-> +       .read           =3D symlink_read,
+> +char *xattr_value =3D NULL;
+> +size_t xattr_value_sz =3D 0;
+> +
+> +static void acl_setxattr(fuse_req_t req, fuse_ino_t ino, const char *nam=
+e,
+> +                        const char *value, size_t size, int flags)
+> +{
+> +       int ret =3D 0;
+> +
+> +       if (ino !=3D 42)
+> +               ret =3D ENOENT;
+> +       else if (!strcmp(name, "system.posix_acl_access")) {
+> +               if (xattr_value)
+> +                       free(xattr_value);
+> +               xattr_value =3D malloc(size);
+> +               memcpy(xattr_value, value, size);
+> +               xattr_value_sz =3D size;
+> +       } else
+> +               ret =3D ENOTSUP;
+> +
+> +       fuse_reply_err(req, ret);
+> +}
+> +
+> +static void acl_getxattr(fuse_req_t req, fuse_ino_t ino, const char *nam=
+e,
+> +                        size_t size)
+> +{
+> +       if (ino !=3D 42)
+> +               fuse_reply_err(req, ENOENT);
+> +       else if (!xattr_value || strcmp(name, "system.posix_acl_access"))
+> +               fuse_reply_err(req, ENODATA);
+> +       else if (size) {
+> +               fuse_reply_buf(req, xattr_value, xattr_value_sz);
+> +               getxattr_counter++;
+> +       } else
+> +               fuse_reply_xattr(req, xattr_value_sz);
+> +}
+> +
+> +static const struct fuse_lowlevel_ops acl_op =3D {
+> +       .init           =3D acl_init,
+> +       .lookup         =3D acl_lookup,
+> +       .getattr        =3D acl_getattr,
+> +       .getxattr       =3D acl_getxattr,
+> +       .setxattr       =3D acl_setxattr,
+> +       .read           =3D acl_read,
 > +};
 > +
 > +int main(int argc, char *argv[])
 > +{
-> +       int ret;
+> +       struct fuse_session *se;
+> +       struct fuse_loop_config *config;
 > +       struct fuse_args args =3D FUSE_ARGS_INIT(argc, argv);
+> +       struct fuse_cmdline_opts opts;
+> +       int ret =3D -1;
 > +
-> +       options.cache_symlinks =3D 0;
+> +       options.cache_acls =3D 0;
+> +
+> +       if (fuse_parse_cmdline(&args, &opts) !=3D 0)
+> +               return ret;
+> +
+> +       if (opts.mountpoint =3D=3D NULL) {
+> +               printf("usage: %s [options] <mountpoint>\n", argv[0]);
+> +               goto out_args;
+> +       }
+> +
 > +       if (fuse_opt_parse(&args, &options, option_spec, NULL) =3D=3D -1)
-> +               return 1;
+> +               goto out_args;
 > +
-> +       ret =3D fuse_main(args.argc, args.argv, &symlink_oper, NULL);
+> +       se =3D fuse_session_new(&args, &acl_op, sizeof(acl_op), NULL);
+> +       if (!se)
+> +               goto out_args;
+> +       if (fuse_set_signal_handlers(se))
+> +               goto out_session;
+> +       if (fuse_session_mount(se, opts.mountpoint))
+> +               goto out_signal;
+> +
+> +       fuse_daemonize(opts.foreground);
+> +       if (opts.singlethread) {
+> +               ret =3D fuse_session_loop(se);
+> +       } else {
+> +               config =3D fuse_loop_cfg_create();
+> +               fuse_loop_cfg_set_clone_fd(config, opts.clone_fd);
+> +               fuse_loop_cfg_set_max_threads(config, opts.max_threads);
+> +               ret =3D fuse_session_loop_mt(se, config);
+> +               fuse_loop_cfg_destroy(config);
+> +               config =3D NULL;
+> +       }
+> +       fuse_session_unmount(se);
+> +
+> +out_signal:
+> +       fuse_remove_signal_handlers(se);
+> +out_session:
+> +       fuse_session_destroy(se);
+> +out_args:
+> +       free(opts.mountpoint);
 > +       fuse_opt_free_args(&args);
 > +
 > +       return ret;
 > +}
-> diff --git a/tools/testing/selftests/filesystems/fuse/symlink_test.sh b/t=
-ools/testing/selftests/filesystems/fuse/symlink_test.sh
+> diff --git a/tools/testing/selftests/filesystems/fuse/acl_test.sh b/tools=
+/testing/selftests/filesystems/fuse/acl_test.sh
 > new file mode 100755
-> index 000000000000..546541c1920e
+> index 000000000000..9070c51c6784
 > --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/fuse/symlink_test.sh
-> @@ -0,0 +1,52 @@
+> +++ b/tools/testing/selftests/filesystems/fuse/acl_test.sh
+> @@ -0,0 +1,66 @@
 > +#!/bin/sh
 > +# SPDX-License-Identifier: GPL-2.0
 > +
@@ -310,15 +428,26 @@ ools/testing/selftests/filesystems/fuse/symlink_test.sh
 > +
 > +mkdir -p mnt
 > +
-> +./symlink_fs ./mnt
+> +#sudo su -
+> +#cd /home/miguel/kernel/linux/tools/testing/selftests/filesystems/fuse
+> +#dmesg -c > /dev/null
+> +#tmux -S ./bla -f a
+> +#./acl_fs -d --cache ./mnt
+> +#setfacl -m u:daemon:r mnt/file
+> +#getfacl mnt/file
 > +
-> +echo -n "Testing symlink without cached: "
+> +./acl_fs ./mnt
+> +
+> +echo -n "Testing ACLs without cache: "
+> +
+> +# set ACL
+> +./setgetacl ACCESS u::rw-,g::rw-,o::rw-,u:nobody:r--,m::rw- mnt/file
 > +
 > +# When symlink caching is disabled every access to a symlink is expected=
  to
 > +# result in a call to user-space
 > +for i in $(seq 1 10); do
-> +       readlink ./mnt/link > /dev/null
+> +       ./setgetacl ACCESS mnt/file > /dev/null
 > +done
 > +
 > +res=3D$(cat ./mnt/file)
@@ -327,22 +456,100 @@ ools/testing/selftests/filesystems/fuse/symlink_test.sh
 > +
 > +fusermount -u ./mnt
 > +
-> +./symlink_fs --cache ./mnt
+> +./acl_fs --cache ./mnt
 > +
-> +echo -n "Testing symlink with cache: "
+> +echo -n "Testing ACLs with cache: "
 > +
-> +# With caching enabled, there will only be a single call into user-space
-> +for i in $(seq 0 10); do
-> +       readlink ./mnt/link > /dev/null
+> +# set ACL
+> +./setgetacl ACCESS u::rw-,g::rw-,o::rw-,u:nobody:r--,m::rw- mnt/file
+> +
+> +# With caching enabled, there will be a single call into user-space
+> +for i in $(seq 1 10); do
+> +       ./setgetacl ACCESS mnt/file > /dev/null
 > +done
-> +
 > +res=3D$(cat ./mnt/file)
-> +assert_value 1 $res "Got $ res, expected 1"
+> +assert_value $res 1 "Got $res, expected 1"
+> +
 > +echo "PASSED"
+> diff --git a/tools/testing/selftests/filesystems/fuse/setgetacl.c b/tools=
+/testing/selftests/filesystems/fuse/setgetacl.c
+> new file mode 100644
+> index 000000000000..035e7daa1c5d
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/fuse/setgetacl.c
+> @@ -0,0 +1,62 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/* Simple ACL set/get wrapper */
+> +
+> +#include <stdio.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <sys/types.h>
+> +#include <sys/acl.h>
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +       acl_t acl;
+> +       acl_type_t type;
+> +       char *buf;
+> +
+> +       if ((argc !=3D 3) && (argc !=3D 4)) {
+> +               fprintf(stderr, "Usage: %s <acl type> [<value>] <file>\n"=
+,
+> +                       argv[0]);
+> +               fprintf(stderr, "where <acl type> is ACCESS or DEFAULT\n"=
+);
+> +               return 1;
+> +       }
+> +
+> +       if (!strcmp(argv[1], "ACCESS"))
+> +               type =3D ACL_TYPE_ACCESS;
+> +       else if (!strcmp(argv[1], "DEFAULT"))
+> +               type =3D ACL_TYPE_DEFAULT;
+> +       else {
+> +               fprintf(stderr, "Invalid ACL type\n");
+> +               return 1;
+> +       }
+> +
+> +       if (argc =3D=3D 3) {
+> +               /* Get ACL */
+> +               acl =3D acl_get_file(argv[2], type);
+> +               if (acl =3D=3D NULL) {
+> +                       perror("acl_get_file");
+> +                       return 1;
+> +               }
+> +               buf =3D acl_to_text(acl, NULL);
+> +               if (buf =3D=3D NULL)
+> +                       perror("acl_from_text");
+> +               else {
+> +                       fprintf(stdout, "%s\n", buf);
+> +                       acl_free(buf);
+> +               }
+> +       } else {
+> +               /* Set ACL */
+> +               acl =3D acl_from_text(argv[2]);
+> +               if (acl =3D=3D NULL) {
+> +                       perror("acl_from_text");
+> +                       return 1;
+> +               }
+> +               if (acl_set_file(argv[3], type, acl) !=3D 0)
+> +                       perror("acl_set_file");
+> +       }
+> +
+> +       acl_free(acl);
+> +
+> +       return 0;
+> +}
 >
 
-As we discussed, consider doing this as a single c test program,
-but not a must as you wish.
+I think this test is already covered by
+https://lore.kernel.org/linux-fsdevel/20260713220932.413004-3-amir73il@gmai=
+l.com/
+
+If there is any missing coverage, it could be added to my test,
+assuming that my test (which tests a regression) will be merged first.
 
 Thanks,
 Amir.
