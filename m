@@ -1,113 +1,84 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031F336680E
-	for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 13:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784640817; cv=pass; b=crE5/lbQh0m7WM40DR37FQDQrvV59Oz0oZx2fqop7/S4TnUHDZ6UFuFGhOshKeztxjsOJfxTma4LsY/2cK57S2NN0DYT6g5esFr57kWumUsqvUyutfmSVK/P1h6nhaPKDz5V5vqzHrehnZhv9FxFtTfc1HkOIPQHlOmcRB1h0Sw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784640817; c=relaxed/simple;
-	bh=rNzrvZM88XZhJ/ibbATDgXG7xLkMNA1yYRwnbou2tjM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pfhbqIdxgmiGAC5A9NqAFaDaHrMaG6E3JCy8uf7o7akfkqKLproK5Z/HwRsv2WXeWXlXv24E+nPFuzdBet1HwMv5PUWQ/mpC0YTwhhxR87DYUqRHvCmx8ZF/jBBBUpsVEEWwDFXuPjqtjbH/aL3ScpDkAvpkVFtFOy9+ksp5blw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qcjiewOH; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8C0470444;
+	Tue, 21 Jul 2026 19:53:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784663617; cv=none; b=o3eQ/vTmEzzf/u67XWnPD8w4L1BKC2CVWUEB4G+Tej4wyR6UrOIRCmcT3nKGHP+SaCcYwhi9/BShjpZiB/+2zMSurNeK786Mn8e6VNCYkogxVtQm5KCcvpq+a4uWzp4mHBKu4PeBoC+QG1BzC0xHJsIuKdVswQBAVo2gApeCygM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784663617; c=relaxed/simple;
+	bh=JqvfSiC7cX1c+lScMhu4+cv07tUy79gb7YGS5lz10Fw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OUnCLE1t04GdlMTxpEwbCOP4WujmhMrO7WrRIyFKasLXy8JO7UkrN3fxoNsBqzgJOSh3jkgUEplAylNhhuu8Yyfk3fKiDVXlm4yytBkqfh0ZVZTEkYoGGLbkUz3ucomk4kn1M2ly9SsgW2XX+EtC8jNn4ObO7NxAWBiPPz2z/wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jk5XTw4a; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qcjiewOH"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-698aa7ba320so11192077a12.1
-        for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 06:33:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784640814; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qToNx9JoVFWXOTFV+kRoy4jWh9Z8HX3eQoTND91nJnGwHHiwEo7qyW/qCxxXUY4AgU
-         FmLBRRoRFg/k6KcJdrbLdjJNYs2UygyhjA1P2Z9sZJQebA5DVZHjhdC9zSU6igvsQKt4
-         0ksAqyvnDkVIRjSk6dC10eFie8BQnB29yUKM5xaCMChRiz63xmP4C38GWsi69p69ClvT
-         OxtEHZMBkhOrWSWlfHXkrdaxvMcESs5mhIjgL2DiB/3BGrCMqPeGf+1W+KCWnBWpP008
-         7bxSjFtRvRUCVPPfU33ybHHCl/lvQNEV3xGa/L5e4zk1dJi1IGLLFMp14pwcyUecoc2l
-         ZKXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=f1XXWrkonfhWp4x9b+npN+8YhmLz2dbbZnMxAHV6hr4=;
-        fh=WCoosAIv2x6VcIHDaq18Rr9yVFRp8rYcuDvvYzFBup8=;
-        b=JJe4D55vG19d2MvtqP6zsypz96oJ5SBY7wqZupx3JalVlxCwfjMOjcETigBopJAEYx
-         gRbqabAIkt9rfMxW3WOaaeX2Pre4V0mzgfhAJ1ncG+cztR6oaMSwYglkFQ/UFYmg8JKq
-         z2J/YO8fzowo8EXF03uEFqLbjAorBlL92ilaSxyUUJy//rLKzjwTENen/bIJk7vwAPmJ
-         T9xEC0ui8UppgCKztMNxOjEbSJ3RWDbax26FMYdaqxJwGfKlu6Nji077Woj86aES3mbY
-         YlzX920jr6K1vpUP+Iq23au4ZQ/135mnuCtcc/8HxsFvYYo2ji+puT+5f53JgaJOMqD0
-         laJw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784640814; x=1785245614; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=f1XXWrkonfhWp4x9b+npN+8YhmLz2dbbZnMxAHV6hr4=;
-        b=qcjiewOHn/6Pm1ODjZlGxpvbNbIIAbjpYFKjsKqxKjwsaFii2aQCQpW3mQmlJUNmeM
-         t3+CSTL/8/9rwawUOXinuSoWiSdOfBV88lDUhs0CUqPTX9DU9G7h91yr42c7gGEopsnN
-         9GqqFEGoX50/tt9xKgftpENre2HRVE+bn06haCEIcQslw5NgmAg3bFhTWIp9RcifXeFs
-         YfSVH8+PfH1WiUuvNH6KcdxA8gFfr7yroe9lmMh0lM7XLT3N9s6OzGNXR2RVtgKwMxtX
-         OHkOUUVU4hD83q8w4OkE4MgrnTWjmGEA/Go5bhd0WHQ8w/zUxfx+U2OBolh1rH9D6xdP
-         ks6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784640814; x=1785245614;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=f1XXWrkonfhWp4x9b+npN+8YhmLz2dbbZnMxAHV6hr4=;
-        b=da//eNeKuXkkbpw715oX1pwWAHCbbEKlrOId5fv7qiCIPjcUdmQDmbO3U8dNMSTqr1
-         NudCRcSbdYVF8Si36CYCGmneHX52HZtiYbmERpL4Ptll0sdc8oPzFemLEIn+Xd9Uak2N
-         yboiLTWcfZbynDnsbPNHVpiMznwcLWSSKKTfNQ96wGljazMUbGo/C2iaR8djDRYxUkzW
-         XSkyX9AaRPANuzxU4Q9M5JVI2DSU/ItCsdIGMhGTKT8HgWfNP03UlOOrvYDr6NQ3Dcpn
-         3E6HqVLuvw/4hGPNeXV2xWDZFOV17uTcc95WZYWhbUGlih1zFYgRHkhGs8AfvbmF0SPa
-         kpIg==
-X-Forwarded-Encrypted: i=1; AHgh+RrOsuXSCbRrk6BbMxdp+YGzo/U29HW4sKv8bIlAhqvLaLgi/D4HUkSKt9qbuBCyOSwhXaezDvmeJ5gt@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3xEmZpSjtyYdZK50kX5bXRMe3p+tKi79VK1chaYnwYAXeIqQb
-	1MCRJpFVu5jCRuLluy0Fy7OHSD0v2wetq4o6jBin4qf4b5JzAoQY5DTYZJjPBffGj7/CvS5sDeM
-	RMpibd+k8NKIdlx3GjwhGHoGiGFAOVbg=
-X-Gm-Gg: AR+sD10fAtQcOdLyJU1bFXJdCk309cX8/Wh4KtgD1ggXNkln34NiZml4FsJeLFFOE31
-	t1UUJCpqaej688AT8UrqaDGsrfbAXCkf86UbTNcqNx2X5rRqIllWeSNsZhNowYYFx0tZm+rg0W6
-	+PwfB4+zaHOS2Gktd75+SJxPu24Dr9EFh7LfPLm08eEsy3L5dJSMJ3mGMnRCBlZ9DwgKIhTu1tT
-	L+5EjUK5eVpqZSILkOp/l9Y9WbfF6KNEe5to15U12c+mhCTc7XlIZYcq8bMXDM=
-X-Received: by 2002:a05:6402:40c7:b0:697:eb97:a4ed with SMTP id
- 4fb4d7f45d1cf-69e64dd54d5mr7238368a12.7.1784640813894; Tue, 21 Jul 2026
- 06:33:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jk5XTw4a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF6011F00A3A;
+	Tue, 21 Jul 2026 19:53:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784663615;
+	bh=2ggrn9XyIKCQny1JL5vrXSp37lSngaz7lY9EDDxQuY0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Jk5XTw4aKLXtLTktilXZPUmOo0PqyH3NgG5jfBGrVWTXRGsbtPhdIsUIzhegSFIUg
+	 QBVGsKKbvNBTj/aHJSloLM1Nt2uZsvmpHSMQJN703jJpHK+noNmHSgD4dpv5+nJjhI
+	 /8fHSMFkdSk72gzCY4k3hM3RqItlnAanbqeQTp23c69vnuWKBq39xbXMufgdsolwM2
+	 Rr7hHH3GU25+T87O/G1cKtZ1fR2HET1yw+fn2BWYHNXHJiXaPFZb4lQotPTddHI8xG
+	 J5gfRu7q4OEAIJN6qPrErrzbaOoBFh7ElDDG7KOs7k1s7agCeKIJ3KtecvAy8BfgXL
+	 Z1dQcGiBwHE0g==
+From: Christian Brauner <brauner@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+In-Reply-To: <20260713220932.413004-1-amir73il@gmail.com>
+References: <20260713220932.413004-1-amir73il@gmail.com>
+Subject: Re: [PATCH 0/2] Fix for unintended FUSE ACL cache
+Message-Id: <20260721-windig-probieren-neben-887a66d13db4@brauner>
+Date: Tue, 21 Jul 2026 21:53:28 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260708131122.2917-1-luis@igalia.com> <20260708131122.2917-6-luis@igalia.com>
- <CAOQ4uxg6WHG1S4--ZN7dsEnYOKY+q8y6qCNYL7=UE+=9G4-+GQ@mail.gmail.com> <87o6g0o5kf.fsf@wotan.olymp>
-In-Reply-To: <87o6g0o5kf.fsf@wotan.olymp>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 21 Jul 2026 15:33:22 +0200
-X-Gm-Features: AUfX_mz9yUXAR3es9RA7Uhh_aBNVWfJzCtuGsyVUMkBx_EfvpbZEeVo4PEoSjPA
-Message-ID: <CAOQ4uxjTs5xh3-bMOOm1s9j0LiKchtVj+z0ZzK=EEepeR+uweA@mail.gmail.com>
-Subject: Re: [RFC PATCH v1 5/5] selftests/filesystems: add fuse ACLs caching test
-To: Luis Henriques <luis@igalia.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev-4217c
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1108; i=brauner@kernel.org;
+ h=from:subject:message-id; bh=JqvfSiC7cX1c+lScMhu4+cv07tUy79gb7YGS5lz10Fw=;
+ b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWTFn7NzXHPpaWHErjLPM627VhXsyt3k+G3OdrEH8T6z7
+ hqrnuW72lHKwiDGxSArpsji0G4SLrecp2KzUaYGzBxWJpAhDFycAjCR37YM/7NY9uus3HPixHHn
+ f9kqNw7c0xeyaz6txnxigR6H4K/FSqWMDHNvLY3zP5K/5+Dx9MKKWXdv7/wiy6Rh+HW9Ruhao90
+ XjFkB
+X-Developer-Key: i=brauner@kernel.org; a=openpgp;
+ fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-> > I think this test is already covered by
-> > https://lore.kernel.org/linux-fsdevel/20260713220932.413004-3-amir73il@gmail.com/
-> >
-> > If there is any missing coverage, it could be added to my test,
-> > assuming that my test (which tests a regression) will be merged first.
->
-> Sure, that makes sense.  I will make sure that any addition ACL testing is
-> added to your selftest.  To be honest, I saw your fix+selftest only
-> *after* sending this RFC :-)
+On Tue, 14 Jul 2026 00:09:30 +0200, Amir Goldstein wrote:
+> Fix for unintended FUSE ACL cache
+> 
+> Christian,
+> 
+> I bet you did not miss fuse acls...
+> Ghosts from the past have come back to haunt me now.
+> 
+> [...]
 
-Fair point.
-TBH I didn't see your test either because I was too busy chasing the
-ACL cache bug ;)
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Thanks,
-Amir.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
+
+[1/2] fs: preserve ACL_DONT_CACHE state in forget_cached_acl()
+      https://git.kernel.org/vfs/vfs/c/85f9e659787f
+[2/2] selftests/fuse: add ACL_DONT_CACHE regression test
+      https://git.kernel.org/vfs/vfs/c/67eca5c355be
+
