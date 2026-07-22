@@ -1,172 +1,89 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4D53AEF58
-	for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 23:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784675453; cv=pass; b=S3PtuNq3vCWQ6xZ1yR1BSriCoGQaAwdwzbotGttZ/dlxub7AglypVw00/VvvZZge4hdKG24/80lrkHnPvpXrhBBh2aVP2LWIRUa4wArqClwneFBn1nJlL5O04ssVGYNyGMvWVIEfDHidwUQu81PnzR09XDJezG2dznyrkY5bkZQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784675453; c=relaxed/simple;
-	bh=MRbjWT22PIzwFOiJto4ZeF9L6vJEEFfi47cZdOq3nIk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jdy08ElhtX74ukevD205fhRZBJpaLh8nysJ0di+kogCW6h040HMMpzvQuQVvAaIjRoTr3ThjjP5wAxC5n/pu7QuofZIOXAxIUFscz4/YEAU407BE5GE3EfRjG48J/MlezujTZ7OgDU9nuqY8xkS+27HEuUJM6IqaehS5NaQIFeM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GIXxfTHj; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90F130C164;
+	Wed, 22 Jul 2026 08:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784709744; cv=none; b=kUfYe8gaGUdVbVpdSKRiomZ+W/rXWuiWArvtx81N+N40aMvbWqShzhqi7VGtssldnP41I1ezMHABda11mBx8EW4tUxc/Ru2HknzRX9riSjsXe7V6ff+mqM/sDJUgD0+R6cRDgpLufwUa+woVwWrazdu4nkOB2eMoLXAxHzDO+Iw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784709744; c=relaxed/simple;
+	bh=9pTA1Ysr36RHMPS3fGpfsQwQSeSp1XZOvdGad3+ksLQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gkJTJ/sNzFuEzjEHKT16sXWkUTRggwrlvE9UE+lEXEzofCIK2yxBbWTrcJVpdIdpud44IIWX8iLr/PkhL3auFDEd0jQWzwVJdUhR55QWzdhFJfU0QEmnNuOLXc2DSXPpIyQca/Ui06duQLfEAhuKlLQ4f/zyAUI60l1arYmVYEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=QmNKhK/f; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GIXxfTHj"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47de008b020so4106825f8f.1
-        for <fuse-devel@lists.linux.dev>; Tue, 21 Jul 2026 16:10:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784675450; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ml+b4WXojstFyNhy8W3xvXYeVvDymM3lmR65ecy1bE4Zx1S6hz2UtuEvqVerS7nEOl
-         QAtfSKFGR9RbVCcjrchLjxRJkKov/PK1aivSbe2zYTMacCmO5gn0upZwv8iOkW20wkRL
-         VuFbzJPMYQzIrbHz/va5tQ82BqkzhQcw7z+4gGH4yVXEXQIw9Wrq75SBEM5qo3eNCCWW
-         2lGA7afGrDuEG1U+en+OWM0X3ZBJpudtRS5q5sTlSPpReyqhFFkTYETtXDxnxOdqTcsu
-         X7xKSxsuMPElSfqLFDU7flwIrOrkrSquwAmkHmZcFbDNG8m6H+n6+sz3a5/Rin21egOf
-         aUvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qyYzpLcXnJ68OYY/4qWO9PG1H6KngVBPvYKsxTOdj8A=;
-        fh=Q8O9YYkmBgdFmB7lpGxOuA4sl0mP9jR4ijm1QAlA0tg=;
-        b=ic76zp7XvVnj7L/EzgSx7n+jYV8N0XzcwFU3Yht88hiJhpfbzG0T48rStLrQzca4ZO
-         OKlltZr+YAyNsMw/kT0pFXLXsg1WdcBq9rxRu5fwAfZjPY/ZNDAs+bEw5RrzeFvkvQkh
-         JejOW/JGV6lsPRvfCHSXukl2i8shd7spM80rPiCU29wAie8LYPCc1zhxN89XdH4s+2AA
-         MsnJlsLKNtkcnNL6QwcdJlD/jjD8EVJnWhNKcpayMcVlYMKft2UQPmvxqC+/VB16ZbRy
-         bxOTZpISVF79/ZC1NZMOMuq7b2XFrEv+N7oO4SQD1219M3+Pc4yKslkps9YwykTAlimw
-         Txwg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784675450; x=1785280250; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qyYzpLcXnJ68OYY/4qWO9PG1H6KngVBPvYKsxTOdj8A=;
-        b=GIXxfTHjvwY9eotbGK8XHrAmv3I6lAqxgG5Y9IsSqiH8bQV1RCkl8S9uXLPUoUtKPT
-         hCd3vyW5i4w6tqFAVYXturE8jzh4z6HWFQykf0HQ2tLvS5SiTHpRhmbn8F2CXRzpbpVI
-         eBNzEFPzXYBL6QqOtjKlBgIOT+0RGGVC6jBHSFj0egfB9xUuargNZzYL/4vLR1DUXcpj
-         3nn+Z+grMHGiIz+X94P9rxYi8S6hfV8MAiEKWz6VMwvT2aBExEDCsI5P5dw7V7UF317c
-         QgNLuRuh4NVeCP9nkfiNpbkw8RctyreSLTOwqSCj7Jh7rFlthffW8irEZ3g47II34YC8
-         eM2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784675450; x=1785280250;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qyYzpLcXnJ68OYY/4qWO9PG1H6KngVBPvYKsxTOdj8A=;
-        b=XBsg4tyUHVObdLmaMf+fxKzbahvtV/1P/WFSRhWZsaFU7SLZM0j+iz8+gScsluDeVR
-         95dteAlctL5ZpfrlvoHK+9KfzIP5bhhX+/RwEJzXAptPtNz3waPoqucrlBxHMtcwBO/l
-         ArXwIekCTToogrJ0EkgLp8e4gGOsVsWbhXPhEHaim9A9G2e6hOU1pw6uRJID5k3JKFXn
-         pn8zFFBtUmvBnYGya8M7eAnvFsROMf+R3h/mSY2Wdd+m6TX+Jp1C2DWMobsNvDEOUnCW
-         x4xO+T+ep0L6VYyQ/Ccef1jllfc+1/O/EIm28tdZKr9Ik7dXjM13Ta+WbhQPQSEVmC1J
-         rT8g==
-X-Forwarded-Encrypted: i=1; AHgh+RqrqwdhQfTnPVZlwiO65LStkgsldrP/7n2abyYttsLcEUAQBegMKznV+n2w5z0HXRT8702DqtzcXm0i@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYorLTf+qoBtWVfXid5Oojh/0IOVB8JMfc7DBaJ9vzzkL34iHK
-	EyKOgBbgut1DXigtf//PQ1ty1Sh+J4/ksY/azTVEVe+d+dO5KJVt/Gu+l2vg//MnpAuOHqYaSUS
-	1QnDyWpnpGah/aZRUvkqS1Wn1CtTJ49U=
-X-Gm-Gg: AR+sD107XxTY9X74jCuY73GfqSzJ5DdRmIsi5Zn4Wv9md53QhlvhkE2FVclXjECBbr4
-	D78I9Tymrh89mrnPQs026iur10DDIDpvy1PvXU3JULgtf3sd2xFKfP3K/TglwQTDr+umEphv4d8
-	yW7MyL9iRsCthNJ1HEZWgYJ8r2HaBS4hHf8XuDacPPZkzMcf+m6C/TFzSyiOVn5HKXSyaS8bGPV
-	47ovPNHFOGlkKCTMPgch1g2r7hoKZFdzgFZptiIzxJIPa+ZP+36fL5GmPQ1g2hUosVD7anhcSnH
-	FxVDW+fmkiN/Uxhc43ae3HvDLBS0fMQS+TavH9/4jg==
-X-Received: by 2002:a05:6000:38f:b0:47d:f6a5:1fbb with SMTP id
- ffacd0b85a97d-47f840b5648mr1932933f8f.13.1784675449525; Tue, 21 Jul 2026
- 16:10:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="QmNKhK/f"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=/YxQyjgA/fdfqnw5SWvH6cP4fGv+BzKuyW/E0Com4U4=; b=QmNKhK/fj6UlGx2tFafCxDwshD
+	BA36EPaUUV/5hpCbd2Krj53Q4rNeJjb9sxzgRRRJd+HaNrQShEIIUPQ2rlB8DcxIWEynlnBlWrmbb
+	r7/NYfBwJZUVd0Ehjh5UTOrAUMajYTVrgD32c+n7eLc/PIELqhNMrjIKMqOxC9RwP4lxSkyWFw54E
+	S5v9LDJkJn1CQYWZHd23b+qAiveKj1ZyGMNqUAUWT3Gi7T4G14mhtmesgi/uKipW8U93BjCH4oba3
+	NJ3ayc7pfxg9QdowEdT9G15y0jODpsCKVhHGijGYQ3wxMcJVztXtn9F4yLOzmyJTl7CBsEhCYEiwm
+	1qx8wrOg==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with utf8esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wmSWt-002uun-1V; Wed, 22 Jul 2026 10:42:15 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Christian Brauner <brauner@kernel.org>, Miklos Szeredi
+ <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 0/2] Fix for unintended FUSE ACL cache
+In-Reply-To: <20260721-windig-probieren-neben-887a66d13db4@brauner>
+References: <20260713220932.413004-1-amir73il@gmail.com>
+ <20260721-windig-probieren-neben-887a66d13db4@brauner>
+Date: Wed, 22 Jul 2026 09:42:16 +0100
+Message-ID: <87tsprqutz.fsf@wotan.olymp>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260716175908.2339738-1-joannelkoong@gmail.com>
- <20260716175908.2339738-2-joannelkoong@gmail.com> <CAJfpegsNb=1P7Vh+DVfg3Ve9T8ggHxi1Y-ZhqiQ6R1bbnCTHGA@mail.gmail.com>
- <CAJnrk1Y8mwyeqqL=CaW-=Qn+kRghZNbJqSMqCSW_8DDCVyKKgg@mail.gmail.com>
- <CAJfpegucmqTZan0rLL8YoKy6h8UCzKuZQAsvasFpHgy64Nh4JA@mail.gmail.com> <CAJnrk1YMO2FgReO0Uc8Axx+D2C3WWGgU2YF6R0XSk72AvULXEw@mail.gmail.com>
-In-Reply-To: <CAJnrk1YMO2FgReO0Uc8Axx+D2C3WWGgU2YF6R0XSk72AvULXEw@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 21 Jul 2026 16:10:35 -0700
-X-Gm-Features: AUfX_myMkJabfvVNyUw1ptriyNdddXOIzizJ6XLeTapGHYcfglUn6fJoM8VHQ78
-Message-ID: <CAJnrk1ZUUk=Emu1AfGtZ+GBHd7pH_9h1u-0kUstPVJ2cT38N2w@mail.gmail.com>
-Subject: Re: [PATCH v6 1/6] fuse: decouple fuse_ring creation from ent registration
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, axboe@kernel.dk, 
-	bernd@bsbernd.com, amir73il@gmail.com, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 17, 2026 at 10:53=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
->
-> On Fri, Jul 17, 2026 at 9:41=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu=
-> wrote:
-> >
-> > On Fri, 17 Jul 2026 at 18:28, Joanne Koong <joannelkoong@gmail.com> wro=
-te:
-> > >
-> > > On Fri, Jul 17, 2026 at 2:32=E2=80=AFAM Miklos Szeredi <miklos@szered=
-i.hu> wrote:
-> > > >
-> > > > On Thu, 16 Jul 2026 at 19:59, Joanne Koong <joannelkoong@gmail.com>=
- wrote:
-> > > > >
-> > > > > Currently, the connection's fuse_ring is created lazily on the fi=
-rst
-> > > > > FUSE_IO_URING_CMD_REGISTER command. A server registers entries fr=
-om one
-> > > > > thread per queue (one per CPU) and those threads issue their firs=
-t
-> > > > > REGISTER command concurrently. They then race to create the singl=
-e
-> > > > > per-connection fuse_ring, which required open-coded handling in
-> > > > > fuse_uring_create() to detect and protect against concurrent crea=
-tions.
-> > > > >
-> > > > > Decouple fuse_ring creation from ent registration and move it to
-> > > > > FUSE_INIT reply processing after a server has negotiated and set
-> > > > > FUSE_OVER_IO_URING. The ring is published before the connection i=
-s
-> > > > > marked initialized. fuse_uring_register() no longer creates the r=
-ing and
-> > > > > it instead uses the ring set up at init time.
-> > > >
-> > > > What about if the fuse ring is not yet set up?  Should
-> > > > fuse_uring_register() wait in that case?
-> > >
-> > > The fuse ring is set up when the kernel processes the FUSE_INIT reply=
-.
-> > > If userspace races ahead and issues a REGISTER before the FUSE_INIT
-> > > reply is processed, they get back -EAGAIN and will need to retry,
-> > > which is the same as the pre-existing behavior. The ring gets
-> > > published before fch->initialized gets set.
-> > >
-> > > Not sure if this answers your question or if I'm misreading what you'=
-re asking.
-> >
-> > That was my question, yes.
-> >
-> > Retrying in a loop doesn't sound like good behavior.
-> >
-> > I was thinking that with sync INIT the completing the write() with the
-> > INIT reply does not mean that the connection gets initialized.
-> >
-> > Shouldn't the REGISTER op block until initialization is complete?
->
-> Yes, this would be more ideal for the sync case. libfuse currently
-> works around this with the retry loop.
->
-> This is a pre-existing issue that's not introduced by this series
-> though, so I'll send a patch out for this separately.
+On Tue, Jul 21 2026, Christian Brauner wrote:
 
-We can fix up libfuse [1] to no longer send REGISTER before the
-connection is initialized, so I don't think a kernel fix is strictly
-needed here, but if you still prefer kernel code to coordinate this, I
-can send that out.
+> On Tue, 14 Jul 2026 00:09:30 +0200, Amir Goldstein wrote:
+>> Fix for unintended FUSE ACL cache
+>>=20
+>> Christian,
+>>=20
+>> I bet you did not miss fuse acls...
+>> Ghosts from the past have come back to haunt me now.
+>>=20
+>> [...]
+>
+> Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+> Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Thanks,
-Joanne
+Maybe I'm just being too eager, but I don't see these patches in that
+tree.  Is there a delay between this email and the actual branch update,
+or did this patch got dropped somehow?
 
-[1] https://github.com/libfuse/libfuse/pull/1561
+Cheers,
+--=20
+Lu=C3=ADs
+
+> Please report any outstanding bugs that were missed during review in a
+> new review to the original patch series allowing us to drop it.
+>
+> It's encouraged to provide Acked-bys and Reviewed-bys even though the
+> patch has now been applied. If possible patch trailers will be updated.
+>
+> Note that commit hashes shown below are subject to change due to rebase,
+> trailer updates or similar. If in doubt, please check the listed branch.
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+> branch: vfs.fixes
+>
+> [1/2] fs: preserve ACL_DONT_CACHE state in forget_cached_acl()
+>       https://git.kernel.org/vfs/vfs/c/85f9e659787f
+> [2/2] selftests/fuse: add ACL_DONT_CACHE regression test
+>       https://git.kernel.org/vfs/vfs/c/67eca5c355be
