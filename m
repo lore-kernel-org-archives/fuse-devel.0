@@ -1,196 +1,125 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A313F3932D1
-	for <fuse-devel@lists.linux.dev>; Wed, 22 Jul 2026 15:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784733865; cv=pass; b=I1sSI8Df53r5SyANiDzcgJ4IDh8eE/imSwRWBEDgZV/WQy7CfGElOU4Cdbu+3G1F/Q1FE0ZJeC/h7vx9b5hhqsk802BgwM5mmm5b5FMXtw1uApGs9LJvYD75AbnkcIiuW/plWBlsGPBoRjolZWWdjSnrmw+qnc6Lw7lwvT/5Eo8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784733865; c=relaxed/simple;
-	bh=FmqQi9tHDOGtMRA8eYccGrCqdDwhdIqG1ghsXPY1Uts=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1706F3FA5CC
+	for <fuse-devel@lists.linux.dev>; Wed, 22 Jul 2026 20:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784752705; cv=none; b=ufKTWUtauSpwvFuYnhb0f+FBxgnTFtgmQCl0+FIVJohD2ZU1TDfs4eryJyipbHZ8Xd4lxXxHjmz/VScGA7GQ1dlxsSpmT2uVka9FEeoiMLfLtEWivF3vLIVFWubXijuual5qwVZxj4+BAQDhSzmZ8R1LKnansLlYKr37cM9ji+U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784752705; c=relaxed/simple;
+	bh=Sv1yin451FNf9IBjRzFJe2OiUZg4U4oZrwcgx94tkak=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YdKoGt7Fv/bzpXFIGQFYghS45GWYvQhzP9aVgS1HAImxWZPshLhRqUfvRewWknkSEqbKE9l8o7t71RNVqr21GuMni/2UfyyRjW9Lu1B+K8rpbge61UTaXg5fjEC/gzIqeWnYiqAt65y8ETdsqtNX29Em2uKI+REeIYmorVoD/SQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=lZub4YDw; arc=pass smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="lZub4YDw"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92e7c6ec9dbso690646885a.0
-        for <fuse-devel@lists.linux.dev>; Wed, 22 Jul 2026 08:24:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784733856; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MnAaGeWf4FilGw4ZxlHto/D1oS0Rhk33JMNmL9wRffEqe9Xeg4iXSdlVJprsYllpCN
-         0q7gplbqWv8thSnUTzfhAzrmtC2COYm4Q3hWiMvD1tTfnwW85UCdMoU3TGaPNpKpoq9F
-         Z/3DF+VigJwgdM7FLgBhAxZA9GaIbmVMjQuYMMS8384VdaaYu8+663vQe+FWUY0HtSUQ
-         0EcXYSeErxee8lgmOt1EzYztdxzxiZtH94ijfzKCyMCMJsuRnp0bAoqEAaXXkkvaCDYc
-         q11f/yTS7TAlPcHXxzuKS4ooTQGyGVc3NjFhOsgJ4BOeB/eSZZ1SF+I+9fnrOuypzCHk
-         PRKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
-        fh=Vd4gDjUJhJuyLpvXhXxlFzgCEgaj9sGbTfmWuhl+oqY=;
-        b=oeiWxGqx/BK98FN0QjFrA7rwxzrnPUzzM950bHl1PX55OkIWONCcqZFdSeRDhqWYg3
-         b8t1sEIBUCxyl5+fsx8vdwqvi/Y3YDy7QRjucAw30zvBRDInww2sxSHPQ+4/nuBJe6fR
-         j+P3gPYHPYLHaSO01GCf53E3RL1Y/wEpOBshMJMy6J1aUUuWdtPXAPiCbsqbLV23fEWJ
-         Ru2F2nnQgHGYui1Q5GjTpZJyWYBAT3rWvlS8ecre1MA+YmfY8fGtKI536m28WJHVaq1l
-         upyVnQFc16HhQYCUprj9/yaX7kE9D7/MDyG503pV4i2O3Z1ibBT1qifZ0bg7GZ4IUo6k
-         HxMg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1784733856; x=1785338656; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
-        b=lZub4YDwgHtq/qw3NACjxGrTTKi/1BxBqrfHlTLq7DlD2Qyp3D9SgeRsw3vNyxlCkn
-         /HbCvHuLP8ox/U2nBc7dzX7xEv93MuYDbtK9YR453xk6VKa2W4pzfk7em+y8K/Wr1KDB
-         EcymrYeIfk6j3OticzPUhcsLl06mighdpSe/s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784733856; x=1785338656;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Ff8+sJsygEDuStaVFp2hCNrsI9M5jePRaYSdvrv4X0o=;
-        b=VQeNK68/habSZv63GM0umskp7z0V6PIQVVMo03fEjqAwQfn3J7oCoROEnbdle/Both
-         NUVT/ycFPfxdm7cS9QJBzofJGlZpcN/+l0Lr+6hPO38apLWPPMnGXPG0q+avC1zS69CM
-         Y7qSLpjsn2TaBu8nFjfu14nkZTsaSQckPYhyqQZqdqfmvAjQFMfJdxsxIdtgW8fcOGNP
-         bJwk99V0Lsy0ZlxRT6dunojy3OGjr7v971N5gyNIE8XFG4Nh6AY8EBLu+WullqVuyaS9
-         d4NdVnFpy6IUxjxuzTKe+KgGIMsnws9mAJomloq1ev5ZF3BG4hnWuHmrNvsdmf/MIG6k
-         D0iw==
-X-Forwarded-Encrypted: i=1; AHgh+RpwXHQgR4HPqXxnXKmDzAMbGEYwPZG/pHo2NpsYVX3CCpxW2ohhvfOfDAtQQE4Hj6R6/uBBJmXKtJXe@lists.linux.dev
-X-Gm-Message-State: AOJu0YyUViVjNqT/zT1C8oaLAKb7oSme7i8nK3MQD++N1oIm9wWht3KA
-	EtHuUmEU1Y4ydyiXupYlPos/IM7mk4urvNsZuXPCHrQ5dRDrRCEM4nj441Y5mX9WjInZDc1j8A+
-	11PS455thWNtj3sgPuhJfVOsYSLFXXMg8FzOQpCiqSQ==
-X-Gm-Gg: AR+sD11yZKWExaRs5iyefWR62BbafRGFZtTT0RnTyS4GdfQxjrvew+mfelSUJg0FFFp
-	b9KmvMFS1nyCqmUWTY0uCg9n5RulTulXUCxS0OjuTEfglqZxC4ajqmNhllK0awnpJ/AltQpc9l+
-	MhxCzDzAPfaSyMHw0xGW7BhDIpqulS/N61dJI3at5v/l7AMOg/czy5kbJ1MOK0JESDe3QTzqUpj
-	v9gwnIwvo+JAyuKtxjG5B0r1yE0HB3olbpx7/hD+nkjkNZ5XncoP5DMqvKsuoPtyo15gXEaLVJ/
-	pfH7LmHiErAxUzTaYw==
-X-Received: by 2002:a05:620a:2844:b0:92e:9cb3:3f71 with SMTP id
- af79cd13be357-930b3ed66f6mr2281752885a.36.1784733856139; Wed, 22 Jul 2026
- 08:24:16 -0700 (PDT)
+	 To:Cc:Content-Type; b=qhQfIneIa9FDRtYFJCwONURxpjvwIinjIlMG1YpRiWDrGjGPvH84pMCuH/MN2lApnXB+GzLopW6cg1jDZAx+vHO891I3FQKGRun4WeWW7NeiyTJe/6T6Ps+vAjT76iyNzcz/ExCCv6FX7Npv30ki1weB9OeKjGVegdp4Loudrk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D78821F00A3F
+	for <fuse-devel@lists.linux.dev>; Wed, 22 Jul 2026 20:38:23 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c169ae1cb26so1150759566b.1
+        for <fuse-devel@lists.linux.dev>; Wed, 22 Jul 2026 13:38:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrM1fOj124oQ4KVBFdY5FMGpLx/CiKuoGAy28xyWPjaQfxgm6WS6ll/ZtBZuFZik96vV/cqb8FVSu+U@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPGZBhsZBE4iIca5fkOEK2SpFx/CqeGcR/qdH/Xaa6jlc3AFzh
+	FDBOTsmKm+Ks7IOPAdASFcc6YhMmyv8tTr198odbsc8WZ0w9jQUmA2aJXv3EOOK9ziWPGEfAkqc
+	LZ/7Cpdm5Q/4PWPfC3UafpkJEXchccwo=
+X-Received: by 2002:a17:907:1c26:b0:c16:242a:4744 with SMTP id
+ a640c23a62f3a-c1c30e5a414mr272454266b.17.1784752702639; Wed, 22 Jul 2026
+ 13:38:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260720034553.68798-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
- <0100019f7da174eb-4cd0f3ae-59da-4533-b469-6eee009a22bd-000000@email.amazonses.com>
-In-Reply-To: <0100019f7da174eb-4cd0f3ae-59da-4533-b469-6eee009a22bd-000000@email.amazonses.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 22 Jul 2026 17:24:05 +0200
-X-Gm-Features: AUfX_mxUSuw0ZWzZWiq2Rpl7efuyYxiFK3IBC4AQjtyaBV6Cq7Rj41foWBlGbSE
-Message-ID: <CAJfpegvkbK4xtQsssn3yrdLn7zZRGB8MeRcauP8mbmJRCnFouw@mail.gmail.com>
-Subject: Re: [PATCH V11 4/9] famfs_fuse: Create files with famfs fmaps
-To: John Groves <john@jagalactic.com>
-Cc: John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+References: <CAJnrk1bG6ddP6-dgXpGBRGnCH49oTMPwkJmF--+gefmy+zBo-w@mail.gmail.com>
+ <oocwnxqgd4klrem6hkya3sddqoxkosml4ysz23if4j7wj2qdwi@5skgc4ftu7io>
+ <CAJnrk1ZU40tRDq0z3yM0+yv=KhiZ-fNjUTO=ccv1tuc0xDx2Vg@mail.gmail.com>
+ <4fsrafuhoqgoirlt2sy6vk2ljvb3tdps4hqbcrm5qc2pr6tlaf@tboejm2wdq2s>
+ <CAJnrk1b65ypz4bdtd1rTQBYOpOEP+DcoZJUSL87jVDssW1A+pw@mail.gmail.com>
+ <nv2h2dd2xoj4zjfvnhsxud2p5e2uw3og22ovqureik4pey72qb@i75tn5ttavfo>
+ <ue5xd6f4nfggwodfhbqaispmr5aq2dyszezvy26bl4rtsk6xii@uceqazdioj3o>
+ <CAJnrk1bwabyWY+rzzSKfKWp3rivcQm=zae3xzNSZc2hnLj6-Aw@mail.gmail.com>
+ <aljxUvui60dm3yvj@linux.dev> <CAJnrk1aTx44=jy0ODHY2sHh16bKsYkwBKj_O-MsnZYjXGW2cCA@mail.gmail.com>
+ <alpfQxaYs5hQ0BaU@google.com>
+In-Reply-To: <alpfQxaYs5hQ0BaU@google.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Wed, 22 Jul 2026 13:38:10 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zMwp-wxJz6AjBSEuW+vn-7ff2VwAdHpVHFAqy0skgD2OA@mail.gmail.com>
+X-Gm-Features: AUfX_mzbIxhaji4ACa_s6MziyJYJfdhM5If0Ugu2QBVMrEAPT0o4Q-nTgVPbFwM
+Message-ID: <CAO9r8zMwp-wxJz6AjBSEuW+vn-7ff2VwAdHpVHFAqy0skgD2OA@mail.gmail.com>
+Subject: Re: [PATCH] fuse: disable default bdi strictlimiting
+To: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>
+Cc: Joanne Koong <joannelkoong@gmail.com>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel@vger.kernel.org, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 20 Jul 2026 at 05:46, John Groves <john@jagalactic.com> wrote:
+> > > First let's see if the general solution is doable and simple otherwise we can
+> > > explore use-case specific solutions. In extreme case revert is an options as
+> > > well but I would prefer a more sophisticated ratelimiting (that Jan suggested)
+> > > than a revert.
+> > >
+> >
+> > Sounds good. I'll keep an eye out for the work Yosry's doing on this
+> > and look into hooking it up to writeback if/when his general solution
+> > becomes available.
+>
+> I am not sure if I had in mind would generalize well. For zswap, I was
+> just going to replace rstat with per-memcg atomic counters, and simply
+> walk the cgroup parents in the update path, as the zswap load/store path
+> shouldn't be too hot.
+>
+> However, looking at other in-kernel flushers (including
+> mem_cgroup_wb_stats()), I see they consume other stats like
+> NR_INACTIVE_FILE/NR_ACTIVE_FILE, which are updated in the page
+> allocation path. I am not sure if a cgroup parent walk with atomic
+> updates would fly there.
+>
+> A more problematic one is count_shadow_nodes(), which consumes slab
+> object stats. I think we definitely cannot do atomic updates in the slab
+> allocation path. Although it seems like count_shadow_nodes() is a rough
+> estimate and perhaps we can forgoe using the stats there.
+>
+> If we want a generic solution for in-kernel flushers to improve stats
+> accuracy without killing performance, I think we need a heavier lift to
+> rework rstat or move away from it completely.
 
-> +/* Famfs fmap message components */
-> +
-> +#define FAMFS_FMAP_VERSION 1
+(Adding a few more people and mailing lists)
 
-Please don't use separate versioning for extents.  It doesn't help
-with feature negotiation, so let's just use the INIT feature flags for
-this purpose.
+So I experimented with a per-memcg atomics in zswap (see [1] for
+context), and it appears to be too expensive even for updating the
+zswap stats during reclaim / swap faults. So I think zswap will need a
+similar approach to writeback and other in-kernel users.
 
-> +
-> +#define FAMFS_FMAP_MAX 32768 /* Largest supported fmap message */
+One idea is to keep per-CPU per-cgroup counters, but on the update
+side we update all the parents' counters, instead of just updating the
+current cgroup's counters. Flushing the stats then only needs to
+iterate the per-CPU counters and doesn't need to walk the cgroup tree
+at all. There is added work on the update side, but hopefully it's
+cheap enough to update per-CPU counters, and cgroup hierarchies aren't
+usually too deep.
 
-Not sure if it makes sense declaring this on the user API.
+A more radical approach is to completely drop the per-CPU rstat trees.
+So instead of walking the parents to add them to the per-CPU tree, we
+just walk the parents and directly update the stat. The flush side
+will then always iterate the per-CPU counters to accumulate them. With
+this approach, the update cost roughly remains the same, but the flush
+cost changes. Instead of walking the trees and flushing all cgroups,
+but only doing it on CPUs/cgroups that actually have updates, we
+always iterate and sum the per-CPU counters. The average flush cost
+may become more expensive, but it should be more consistent and won't
+scale with the cgroup tree size. I am not sure if this would be a net
+win or not.
 
-> +
-> +enum fuse_famfs_file_type {
-> +       FUSE_FAMFS_FILE_REG,
-> +       FUSE_FAMFS_FILE_SUPERBLOCK,
-> +       FUSE_FAMFS_FILE_LOG,
-> +};
+We can also choose to do the above for all the stats or only the ones
+used by in-kernel flushers, the latter would probably perform better
+but at the cost of more complexity.
 
-Unused, apparently.
+I honestly don't have any time to pursue any of these approaches, so
+this is mostly just a brain dump. But I do think we should try to more
+systematically solve the stats flushing problem as it has given us a
+lot of pain over the years.
 
-> +
-> +enum famfs_ext_type {
-> +       FUSE_FAMFS_EXT_SIMPLE = 0,
-> +};
-
-An enum with a single value is not useful.
-
-> +
-> +struct fuse_famfs_simple_ext {
-
-struct fuse_extent {
-
-> +       uint32_t se_devindex;
-
-uint64_t backing_id.
-
-> +       uint32_t reserved;
-> +       uint64_t se_offset;
-> +       uint64_t se_len;
-
-Please  drop the "se_" prefix.
-
-Please add more spare space here (e.g. uint64_t space[3]).
-
-> +};
-
-> +
-> +struct fuse_famfs_fmap_header {
-
-struct fuse_extents_header {
-
-> +       uint8_t file_type; /* enum fuse_famfs_file_type */
-
-Unused
-
-> +       uint8_t reserved;
-> +       uint16_t fmap_version;
-
-Don't use, plese.
-
-> +       uint32_t ext_type; /* enum famfs_ext_type */
-
-Unused.
-
-> +       uint32_t nextents;
-
-Okay.
-
-> +       uint32_t fmap_size; /* Inclusive of this header */
-
-That's the same as outh.len.
-
-> +       uint64_t file_size;
-
-Same as i_size
-
-Thanks,
-Miklos
+[1]https://lore.kernel.org/linux-mm/CAO9r8zP6JrZcBnzb8A3A9V8so4gJMWLvrJQ7VwPyyU417GikQg@mail.gmail.com/
