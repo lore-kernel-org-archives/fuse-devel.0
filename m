@@ -1,135 +1,150 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62E442A162
-	for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 10:33:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784802826; cv=none; b=NUMZ8Kl1ZCNKi2NVwG6VUT2Cx6OGcQrAVzXuyfCnqMvTjK2ekj/VaZ2pXfGoNMGppTBK90qHgfDi312OKJsWpHt8E2nt1EEhC1SplrMA6FOrY5RZNSKGvK7k7QdSMBW7M0fwuAQc+mJRNNmKX5jVsqJG8ltoHMZ3TuvJiK7jX6s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784802826; c=relaxed/simple;
-	bh=4yafZFPnyVwBi4okVVI4GeWrVkVxVEVTn1dr+WfM34E=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R/5SVR/ZOs2+MAC4u7/EKO9I/KyXxO+5+OhtyKoJo2K0aflL6jBG9vKYWz/7MFl7OGPIl8wBFP/mRy783VSwmwdkXtezvtkgc2Hp0LvafR+z0Xcy9QWCyS6tqZVU4dMZIL8qhUI8cmjRLStX9rdMqpM4J1IkzVac4PkR2pd8fbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=f1n/QbzC; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7FD39A045
+	for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 10:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784803425; cv=pass; b=FoVNtUSaxxv4E6PnGnD4W/SxOuJSN+P8F80KYRMQ5OQNrM1Txrxxvb9zhV8vWa43Cy/mw43Y0RoilJKago+gEKUOp/R/P4TERRd68JqZpDuk6hrJuCuAxye7KKOIhHDijpHODqJuYgjsBqK9/1ZXlp3pTeS9nxynYzSvJWHLNjQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784803425; c=relaxed/simple;
+	bh=rlJv+mw8BD3iFcTcqOGzYCU+NZGCTFxq34Kx1L5VNz8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Z7NEtKEvxipx91ompdYodJlQqD8FT/5l54zGamWc2BRZXtELLvCZJZqsRDhmb6bsm+7bc09PsP2+R/B6CCJ/I/dxVcdAnw17kRSE2PJ2ygdL/61M8bbs/bad+Vs6JMGUCq5O0qfzOUP4GmDcx7/rBPKLGbswdPbrVqv6LQLxZ4w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rc7Vr8Gg; arc=pass smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="f1n/QbzC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784802823;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4yafZFPnyVwBi4okVVI4GeWrVkVxVEVTn1dr+WfM34E=;
-	b=f1n/QbzCJCgrZYtBN/Q5kRlrjLdvKbjvfjQi4C3rVe0ZvAXyzvC17khrZXBfaxCA5F2GJ7
-	+D+W8IWkDiCOXYXICzf6v4QeAwdj9wydZxLvbYmhtaZQT/vv7/D8WMrVZEtR8lwSyRd/4N
-	+Kji151N8QTCUY5Kupxg6dyYDFRCb9A=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-636-kBbbHt8JM2yjEVwfn1eusg-1; Thu, 23 Jul 2026 06:33:42 -0400
-X-MC-Unique: kBbbHt8JM2yjEVwfn1eusg-1
-X-Mimecast-MFC-AGG-ID: kBbbHt8JM2yjEVwfn1eusg_1784802821
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-69c2f98aa9fso731488a12.2
-        for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 03:33:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rc7Vr8Gg"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-698aa7ba3e6so823279a12.1
+        for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 03:43:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784803421; cv=none;
+        d=google.com; s=arc-20260327;
+        b=GwBKjrOUT+o/9HkUd5i2h/cF7v9FHD6dGWYuaheddPYPdhaPmQemvFiKYXXhUKFeuY
+         uaySzJi3rUXUU8RgJWuk7COohVfiE3VhqiDE9OF+4vbOrOEnbXI69jEeVIHxQaLm7Ua+
+         y1JTNDvvXaGbnCWQpcQQ+yRjXt4fKm3NrpjT1tDP7nlFmjfLdtslEdrdI3p9dbd9/uCi
+         qyvFPPXl55nwtYJmmrzFQr2ce/WDbPq4Q7VHZyFxBe7XSHa7exbf51bah9Er192sGU/w
+         /VPKCwGMRAmvIRq1qGI4CGkGfolccm0UCDkURuWQ8RnB+PJXeI2CXbUWS6hu1F5vrJCB
+         MOPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Yj/KZFc5ifCFuJo4yf9/lFHJ6OnUkHsoFdTLxJvdxYk=;
+        fh=3GMN4kWt3U6KlaJMN9TL+QegqI0aYdgtTkXpTHxXyAQ=;
+        b=g1IhG/m91XQ1AJodJIr85bqjordk15RRxspVc6X2rRUHx7QZOQmUiZD6/RJ8pjFA59
+         4Y0hqryjotWaYULoht1q+1yJu7BZqIiJdSb8/7ybdYC2dz16eV4vJwB1URkFWB45Zjj7
+         g1JfCkDkBanI8GguYAcOkDYLD1DcoEOFWOLcTFtlRqwLIDWTcVSX1Y4qyagc6pqajyBj
+         GwEKq+zMAN5g2gyhpJZdk7ai0FCSB4cmGECzZLbWaRsDWqHrC57Q007Q97ucQughzEhj
+         mHk243pmH2GtWM7IA62ZzIi9rCqcPRTDDipX2BAW6Z+acWbB2guApeYKWx9ZWlI0d1Q2
+         zyPw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784803421; x=1785408221; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Yj/KZFc5ifCFuJo4yf9/lFHJ6OnUkHsoFdTLxJvdxYk=;
+        b=rc7Vr8GghC1LKdtkphjvMZnhPlp3k5JSh3/GvsPmFad7etgHajn7f4/He0BXj4hW8S
+         1/UrFBfruMGw1IFjFLc066DuMMi/b86qARdxqhdoLNgerf1deShE+Z3MZ+qiHUYZoxSf
+         Aa+ZmS96F9b6j3r6QryXiG4rz2OMt1KY/U3/XD7WpUyMcVOG+52QoX3bPpqde80yrQhy
+         bsZv1lYUCzO5IEYXOjLZ2+ekP+Ktu2GI3QB4prlerSUsoqi2fE4qJgX1lOHabhJnLtYW
+         y2Up7La/TZvF5988R8TXQu7aG/OgAvsoIn62cADUnjSzZhrAlcgamB3a9BKhcALwXgfd
+         HOpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784802821; x=1785407621;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20251104; t=1784803421; x=1785408221;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5WI5zEkKRJ1Ip2LJyTTDzt9st5AsT9mj7pwmV5si8WA=;
-        b=n50+XRjiy4lVRTMsiBNdkhpmpKCMsrfFIIi5HbRNBtWUyJklEclECjZmEpcdA8dlU0
-         itFQrZL5lf/Yiujk5oR4G6LN2IxAihUMhFmv9FrImY+a4TM6kX3yhazVIh6wUhbtkNwY
-         rUZRC2nVlKO+XixBKolYj99JBxA6rGLcWTwnGMK8QrnS5Czajl+lYtTT5W45By3JyRja
-         MniRpOT0X9ElLq4mO2EpmYCAyr3HvM6zGEa2N9Q5PSt8OZ+Yfrndjhu2KEiYVaMmAQwo
-         E1O+dmpcEq6W3W9SazfGDBXpdm9nuMuEFTbXDrMUDf608A3zhShQw0CNs5oZHKeAXSwZ
-         Gjtg==
-X-Gm-Message-State: AOJu0Yx1D0JFJDayAZJEicuSXOfoa0yaiYld5Cx1NG+fN9eyy9etUiFs
-	sbv6Hv6K3nAzFRclR9d+/PoEFbdTSQSt0dbU14kb8OBZHzmQqgcqk/ci1dIp0qHsjDZ9gnPQEwz
-	UpOcUV4ZvgE81v54rzWDMziPaCfxYcz4QjdFcINgFv+RdDksHD0/RZhm2CPIJQzI=
-X-Gm-Gg: AR+sD10m/ULHnBwnY7VAJ5JKDkl5dRXSia+W6+JyONtZ513XuIXllAMXiR8wX7PQYIS
-	2j3afLwzfibRSz9KM3rgAVzuFobEQyqhsrvkyHLQoE/6XWSOSYyMpCe0+qI02QPB4aSbaBJuE5O
-	/CjPqN+zfp12HQBKbaQpS6rV2nqPHxMRWNio4q/FQtsgpTvE+caQdXu3NgoxvAZ0QnGcAkguCN3
-	M1+ulOp7K+qvjIoIHXB7n1VT3PVkHy1wNnLm9ICjPedNMO5LQz1SK13Yc2VsG6wgm38eOcRsx5N
-	doNXDXph/iIhyxrD0ld/3nqQAHdXUeGUuRo8bYTac3YsmEpbcgeQ6vehPb/6079cFjgXWhU2Rrc
-	+Y+OCw/NwUM1KrPqMiE+wH02MgKcagzD3NWUHEuFCihk=
-X-Received: by 2002:a05:6402:4391:b0:698:c11b:b180 with SMTP id 4fb4d7f45d1cf-69f6ccd4294mr903532a12.3.1784802821205;
-        Thu, 23 Jul 2026 03:33:41 -0700 (PDT)
-X-Received: by 2002:a05:6402:4391:b0:698:c11b:b180 with SMTP id 4fb4d7f45d1cf-69f6ccd4294mr903519a12.3.1784802820693;
-        Thu, 23 Jul 2026 03:33:40 -0700 (PDT)
-Received: from li-88bb8a88-b016-11ec-80f1-6c24081bc674.ibm.com ([2a10:3781:5edd:0:9f93:40c:17a4:1c7c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69f345b1a17sm2028009a12.5.2026.07.23.03.33.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 03:33:39 -0700 (PDT)
-Message-ID: <dac098e12a3a28785e7bebc0597cc8b7f0ab720e.camel@redhat.com>
-Subject: Re: [PATCH] fuse: skip destination updates for zero-byte copy
-From: Niels de Vos <ndevos@redhat.com>
-To: Yichong Chen <chenyichong@uniontech.com>, Miklos Szeredi
- <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Thu, 23 Jul 2026 12:33:38 +0200
-In-Reply-To: <20260723100743.93881-1-chenyichong@uniontech.com>
-References: <20260723100743.93881-1-chenyichong@uniontech.com>
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44)
+        bh=Yj/KZFc5ifCFuJo4yf9/lFHJ6OnUkHsoFdTLxJvdxYk=;
+        b=c2cic6AsWuRRKfZ62rKyr/U9er+NEE5+rHoCkaV/nkKbuCNSU3lmVgQ2/P2N5Ooyj2
+         WTOukez2jx3xGbDqeVaENTGZNcZ4Tz9DoHjUgxsomX9MFBR/Y1rnM+kAXK35bYSNaIDr
+         F4Ea3DdaIb/fRurSFsPIr/hd0k0NKmoHkSCHgJAs1rlHedwC8UKRNUaA8vhLfUj+7bw1
+         LJiiVhz/CtBn2bVaMOl3UK23+9PigQOUosRRjYgaolZGXLbLz4T+WD/JiO7TLaFGjFyl
+         2SKDgoLmuAmvnbvLhsaZJFcugD+8QLDNuxyefN866O2bH7RRkmwdCtRBpdIa3utnPuPW
+         pDDg==
+X-Forwarded-Encrypted: i=1; AHgh+RpvME1j/zV5WChVLey2/FnFwTKqSxadvJfBmMETC7LE8HNaERjLY9NWRWVKoyWXAG5WTub/PN5nTdX6@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJ6ZpQ4Y5Uh+zz2bp7pRtAy3H9kyfa9INtJVdkJRQgQUajNLck
+	BvS9PQRbALE6P6/cQ7fhvSOMbIQEiQWR7oLYa7ebF8fF+ilYBBHqTFNJFkX8uoe3eSpn0NPSQmy
+	zKgn854aTY8wiwwva+78H6msFSiv0J+g=
+X-Gm-Gg: AR+sD10Fl0RdfWCgUVPiKfF84ZLLFgS0/B7ZmSnHbCk5j7oL1Bk0Nkxtr91xaeCwMyt
+	rg5T/4qutxCUkO946vlftFLZaA1RNDtEqEDn8hxpmodfRiCjY1Qn3kBbtKuFvyDhlMvxDaPmQNW
+	o0S3gYumEEllDoZqP1aimjIcpvthVGgkkJIfWrPNVorl37WR9NnGB2lZkcs3l4vEqI+gm/t8dW0
+	Q0KbutbCcBM07rNEeS9MwrEHIAteKt/NbjJou2NK3nG7eEHVUD5x/bcpKcOTD+JWOD1Wb3AtA==
+X-Received: by 2002:a05:6402:3584:b0:69c:6672:a243 with SMTP id
+ 4fb4d7f45d1cf-69f6cd020bemr1052386a12.38.1784803421137; Thu, 23 Jul 2026
+ 03:43:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: uf-qjRCo_zojVJ9Gh-UU-xoSMpb6VQAS0MBZ2kEKbwE_1784802821
-X-Mimecast-Originator: redhat.com
+References: <20260723100743.93881-1-chenyichong@uniontech.com>
+In-Reply-To: <20260723100743.93881-1-chenyichong@uniontech.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 23 Jul 2026 12:43:29 +0200
+X-Gm-Features: AUfX_mw8s-pYApsl79W0OK9sthH4Z2w10i9Nh9DOJmU5EYGlCtVVstS7MdDPxM0
+Message-ID: <CAOQ4uxjys+yENYgjROu3Ui-athFjdY0E4fGhR4qsb2ed04wqkw@mail.gmail.com>
+Subject: Re: [PATCH] fuse: skip destination updates for zero-byte copy
+To: Yichong Chen <chenyichong@uniontech.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Niels de Vos <ndevos@redhat.com>, fuse-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-07-23 at 18:07 +0800, Yichong Chen wrote:
-> __fuse_copy_file_range() may receive a successful copy reply with
-> zero
-> bytes copied.=C2=A0 This can happen even though the VFS only calls the
-> file
-> operation with a non-zero length, for example if the FUSE daemon
-> reaches
+On Thu, Jul 23, 2026 at 12:15=E2=80=AFPM Yichong Chen <chenyichong@uniontec=
+h.com> wrote:
+>
+> __fuse_copy_file_range() may receive a successful copy reply with zero
+> bytes copied.  This can happen even though the VFS only calls the file
+> operation with a non-zero length, for example if the FUSE daemon reaches
 > EOF while the kernel has stale source size information.
->=20
-> In that case no data was written to the destination.=C2=A0 Do not
-> invalidate
-> the destination page cache or update the destination timestamps and
-> cached
+>
+> In that case no data was written to the destination.  Do not invalidate
+> the destination page cache or update the destination timestamps and cache=
+d
 > size state for a zero-byte copy result.
->=20
+
+Why not?
+If the FUSE daemon reaches EOF and VFS thinks that there is still something
+to read then obviously the cached size is incorrect.
+Also invalidating the last page cache in this case does not seem like a ter=
+rible
+idea in any case.
+
+Are you proposing this "fix" because an application encountered a problem
+or unexpected behavior or why?
+
+Thanks,
+Amir.
+
+
+>
 > Fixes: 88bc7d5097a1 ("fuse: add support for copy_file_range()")
 > Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
 > ---
-> =C2=A0fs/fuse/file.c | 4 ++++
-> =C2=A01 file changed, 4 insertions(+)
->=20
+>  fs/fuse/file.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
 > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
 > index ceada75310b8..75eb97b26912 100644
 > --- a/fs/fuse/file.c
 > +++ b/fs/fuse/file.c
-> @@ -3040,6 +3040,10 @@ static ssize_t __fuse_copy_file_range(struct
-> file *file_in, loff_t pos_in,
-> =C2=A0=09=09err =3D -EIO;
-> =C2=A0=09=09goto out;
-> =C2=A0=09}
-> +=09if (!bytes_copied) {
-> +=09=09err =3D 0;
-> +=09=09goto out;
-> +=09}
-> =C2=A0
-> =C2=A0=09truncate_inode_pages_range(inode_out->i_mapping,
-> =C2=A0=09=09=09=09=C2=A0=C2=A0 ALIGN_DOWN(pos_out, PAGE_SIZE),
-
-Thanks, this looks good to me.
-
-My style preference would be to make it an "else if" because bytes_copied i=
-s
-used in the if-statement above already too. I don't think it is required to
-adjust this, the functioning will remain the same.
-
-Acked-by: Niels de Vos <ndevos@ibm.com>
-
+> @@ -3040,6 +3040,10 @@ static ssize_t __fuse_copy_file_range(struct file =
+*file_in, loff_t pos_in,
+>                 err =3D -EIO;
+>                 goto out;
+>         }
+> +       if (!bytes_copied) {
+> +               err =3D 0;
+> +               goto out;
+> +       }
+>
+>         truncate_inode_pages_range(inode_out->i_mapping,
+>                                    ALIGN_DOWN(pos_out, PAGE_SIZE),
+> --
+> 2.51.0
+>
+>
