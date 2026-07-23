@@ -1,155 +1,104 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA183DCD86
-	for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 07:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784791624; cv=pass; b=hGMxPm6Tbp2O0buF7WYSKufM4N4/jNoFbssFNBVsPOgsDMsjEab5NE3ly80ca4eMqqOd9BI8BIP+8JdOggHeNtYhQQaHZXY0+GMK1mV1YTqdar110oE8AUZNMILNg52yWE3pugW5XIf2ckJtc5WKxr7bthLa2mfnHr0NJnmIQuY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784791624; c=relaxed/simple;
-	bh=b//sUnMrNPrgR6EPqqnROk2FSBW3tccYwHVa9XOhJ0s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bY7G7Mz8h4gOE3CK548+MrEaTPsX7P64D6tUJduB/grbZabMciXXqrmxTFtUwAcqycNSPK9LasHkut6rhRxqQe9kLkJUwsPKSLpOlTRRbn+TjbNc+lplAlTHWo+n4s7V467b1Kx41fzCxh7/ICgWMG6TAWiuDQnEkbvpmihCPwk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ifwqHt/W; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A433EE1EF
+	for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 10:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784801283; cv=none; b=dieFbw54BRbhtP2kXViHMvb4O1yzgbGm+Fifx19NsoidEuHyPXfo/kl4Z8yeeSMCm7ZNKDnQls7awPJw2sxHBdUuF0yA4iV+Kya7il3pEJOWnEJ1QHyUhMy44lzmPuWkBsjXfYN3oD+R2fa5Rvj/RCPzG/NRRtXP8DI8jeQXXXU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784801283; c=relaxed/simple;
+	bh=WIJ8zoCUR21GYtd/zYEWmLmg3ioW227TCu8s+oTOfKk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IBgfwDLXcS0xg/kjjq4dpFExuLCvAAePkej4/EEZpEyKn5J6ccTBSrzufHYiI+HlqAL2T6vLJsgKeYgKMjAy7kJclSyz/4I0POwfFuRuhSkgiz9Ze7b0GfUYtqyEllFd7TcU8zJAtytc5VVRotwnm32/crobIjcgktxXjMMQ8yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=VTd6fWfp; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ifwqHt/W"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-51c928bf172so3193041cf.3
-        for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 00:27:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784791621; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CTAZpBSnL5rTp89fw1Y4/2Zg0dxT1Ub3oOyOvk4kaOYQQ+xb+KJWQR6roEBmx0qqAH
-         ACXxa89D57VIcxbuxRJW9tR8rFrtdDVfU49N3+Ud4Kdop83jS5Djoo37cd8bgQWy6Scv
-         ijA8eGOTWfWrCJg2mQN3/X9n+VYVQfia+7tc1MKukjDofdwiWsWVyAmgXdRFbAdrbzBb
-         9fjINy/PonD+mdkJTVbJZc1AhnI1c6TDU7McPuF3rTFbVnYIRr0/tUBNlTUDy28To+GT
-         F0vCCr/W1HcB8igQlqbreQbanEiMzY45uvYBQf0fqRq/sRVedEG7Cjl3dxLdW+rDqxPb
-         CsIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
-        fh=S7WjRA0si2ztL1ORO3L1/YkOsrkHEXaHUT+LQatGxok=;
-        b=f6Loifi/k0Q6qJfVWAo1fgpqxhDVncG280QP4iwbES1bd/jDnfq0Q1GRUiNQ8gRqMW
-         9UxPH6fofmOZhMNs0Scjs2SAG93VblwoeT5jJrkhTxa4TNtvkYkxxTPK3INUhgoss4E+
-         dfh/yjnRstxC+7a06LuCm2e2onD+EfEghtiL/uon6H8FDiVeTxLJE3n7GKFFkxDplmg8
-         uZygvcNTecBihJh+RNWzFLMxOJMt1QBXZwLKE86LQmNdWWJPX1JXJmFZF0Cp/CFiAUPM
-         TNY3qP6jx5nS+zUEgR3WcZvGT8WSvEEfWldW8of179yZDb7FhX3mj1G/admpv5xhaDhx
-         TV7Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1784791621; x=1785396421; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
-        b=ifwqHt/W55wPd4Lnq0xdWNU8ww+SIa2oD7hSl6nSREaB5EAY4iFGq5HvxsW+P+/RQY
-         ADRskkgt8XnCb3S86alVGZ6F9IIw8H1saT0UpKZkZ+0+bHqrx/+iTGR1IrKjM+9GAbQa
-         mQhggvNoAvv3yS8a/MP2GOmsgUuMzuEAzZGmc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784791621; x=1785396421;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=fxFO3X4XqUIh2d5y311IhLxWE4w0WxZ2aZSjb8KpjAY=;
-        b=GbaTBWSDJnFgw3Tuk6jrrAowqeJ3UI5phYbcLGxUKV5WtI6EhsxL9Fv5n+PcTw2TA6
-         ao/erdtL0qZTJp0ln68XrxiiR2xzrFSrd4oO1kcrhrkw45UlYIvPN3Y9dv70qDFULnC/
-         YGHiXQjx7ioEDGTjiDMkBcecPO4QqDv+7s9Vv+z/tDwORbBHvGEP/nkZl2C8YFHjwc7o
-         m0bz+mZnLMLe8JVCYgCAp/1OejChV8N97/Gx2gYn4tib0QViqwtK7FpD19TKg5GizdcS
-         LLpH1vL1/XUR0YcKTmyALRmRK32ypbRQeR/RFsx2Nefsq+HR+5KY5fC2I4gWq2e/YMJo
-         pSzw==
-X-Forwarded-Encrypted: i=1; AHgh+RpMlBZQJxdg4bmqLXAWb6Sbx3mQrkwvO1Mc9Uj2cT2bx4/F4XQcgIF5hj9Pc8yg2AMwMJQEKQHU9Dqa@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcAkbeXFhz3Qcv8QHXlJxIX2F0oXrCnhWD1lHCtwdRR/GO1vuC
-	qXyufXmR2UFPd4L5tpO9qIIUWo29RB9vNbvTfMoK7bE24KhRt9EXpyNs1KIZMK9u/9esnAE87iS
-	qbJ7i4XCu3xvGQXeqT3xTnhfn5KkCuKvl9+wkNy0Qeg==
-X-Gm-Gg: AR+sD1390L37xMKaA5rBlTEJph86kAodgRQjWPM385U55WCKn6mK90snUeKDds9hmKI
-	9OsB6W4IBSY7p7CA6/5RWZuME1URRbeK3WvJepjJmZ+fWTxf0fdVZSw/8Gi0hVxqkhkqJjTlupc
-	zi88P/ZURe/PezqCs3UqJ0Oa55KlKnXeOUqwRjdLcsNme1odEW9DJFtw+ngpek5Cx3nJfwJC/Ht
-	c+aXl5HR6oSryD5JpRyPXh6tsQhBm5s2YKhbzDbGrPgOszblEIVH1tvCQo7b3EqNPPnQ/D2ehkn
-	MApPE/1s9nBMFDE3Uw==
-X-Received: by 2002:a05:620a:2548:b0:92e:bc28:5479 with SMTP id
- af79cd13be357-9310384ec50mr192569785a.2.1784791621432; Thu, 23 Jul 2026
- 00:27:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="VTd6fWfp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1784801272;
+	bh=SyEj6ffhKouPQ65FzqWZ5omOcf6iNe2eBQKGES0cck0=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=VTd6fWfpbNBDdG+HPX3ue5XktIZlJwgRJjAk+l7pkS9Kx7tdGLNNdh27GQCtUuwmF
+	 pl3eevsfNtD47ef4LJhBlJsFg4gTTwC2f3QD0tjBS5W0cAthokwTjzIpi2kKruULDS
+	 pG01iD8oBOrynt574zLkoJtMmlUSN0OuzsarVbIs=
+X-QQ-mid: esmtpgz14t1784801267t5021f021
+X-QQ-Originating-IP: yyiCvLDjUzqqWBNqmYNCBz3TUBXDcMyCPvYE+a4CS2c=
+Received: from uniontech.com ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 23 Jul 2026 18:07:46 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 14259689437232123810
+EX-QQ-RecipientCnt: 5
+From: Yichong Chen <chenyichong@uniontech.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Niels de Vos <ndevos@redhat.com>,
+	fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Yichong Chen <chenyichong@uniontech.com>
+Subject: [PATCH] fuse: skip destination updates for zero-byte copy
+Date: Thu, 23 Jul 2026 18:07:43 +0800
+Message-Id: <20260723100743.93881-1-chenyichong@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260720034358.68714-1-john@jagalactic.com> <0100019f7d9fbe81-6cb16662-2522-47ea-a152-fab0ee3d9b35-000000@email.amazonses.com>
- <CAOQ4uxiEzP2e=cRw-AiGxtSv6WMSA5yR3cmgrF97s7ggU6wzqg@mail.gmail.com>
- <CAJfpegt9PwHksYhsQZeCsW0eooXVVihyieTpeHMmC-+Pq8BWaw@mail.gmail.com>
- <CAOQ4uxhuivjMMt_Dm3VwKmOhHg7ZHdAww6j6jp+RMjPoRde+bA@mail.gmail.com> <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1Yat+SEr=SmZXwUt9y2WcC0VEC4KUpPrkrRSjMEmx42WQ@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 23 Jul 2026 09:26:50 +0200
-X-Gm-Features: AUfX_mzfzrRwI4hZxEkdZS2OluMEiPX8JQa0b2ZxVMGEYubjhyQzQWfbCHdsQ4U
-Message-ID: <CAJfpegtnja6tkOnNPD2WZxu14Dd+UM9AvynsVB_E268iSXLbkQ@mail.gmail.com>
-Subject: Re: [PATCH V11 0/9] famfs: port into fuse
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Amir Goldstein <amir73il@gmail.com>, John Groves <john@jagalactic.com>, 
-	John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: NuZvjORXcxgLWFkBUrOYQfPWW27rgSZIJzLGP1CB2PEHa44jzlqwyah1
+	+VFkkFncDJ1fUs4d60DaT8YyJ0vC9OHpGpZ3uAesl+TzLG4Khf1HKCRDKLcdt+xrP7rCZdP
+	W8QvzMTNq5eYxg3f9w14h6nhsR8+XpkndMzoMvv+sUGZVkdZM3p6JKF9M+ayXh50IZzYvy/
+	pj4s6t6oU52jHVZd924GjgLIFNRNtNlt+iVLM6N0fJj47XqTaUaeDbvt2SRdttprDFTDHBe
+	T06kjYIQ4FCT+SnP50Sd3tQXY7Dn2tOHt1wpqsBsVRGxQBcJLg8Ikmz+qYEV+fs2WeTuv7E
+	cYaw1vQ3kCHbkTJgMTexxKU543XCu7VzEDTKxVq2zoAYoFWn3vkadNcB57j/24FbCGGlGkU
+	ZVaXr8zNCmXbi/v7SrM+E0RVIMx/atjYtEJy1tguLeGhW+ssZ+pZ2yglsXqiRIW79GOh3cJ
+	Jk3alOiGa9Ymp08w83MKLgfDpsHJMdqj3su3ZfLbG6z1HRaVEAGIUezLmDkya1NRm30s9IM
+	VBY63faCbM2hXqB+Z4130FcAVv49g7G4Qv+g5htrqmDZNEMWcgT7Mv9e99jNo2a250oQoY+
+	uM7bsfvp1Sy3BGD3sEpsNWzAmHxdrDEwAAZDFkM7wSuLG3+BGpggk1jt/3zaFF7fHsV/L02
+	KnKrIbp3MKgIyMjaMrOJyVY8H2jEHY1fG8R15rOm+e9Wf5XlSuSIK3rs2bTf9acvXt3Zec/
+	3thJfE4Dh9WGFTsbgdurpUdC/osExOjDU/EoPN70lIYOl3OtqbKPMiaHtlDmKbTeQXBqlc+
+	7EUjn01lyIrrcVhHa2Z4haQupmBquOH7I/5E+HfSHew4PQh8Zx6/id2BUzm7Nwl/IP0JyKB
+	s5eByekt+bOjIDl6djsUd1FvHgvlbVs+U/9abgwtGn5F+6lAAOY/l68vU75p3M6bUrtn0AD
+	lLMU0ppiX2cjZU//iZG44WiFTUJyIV/M4esHcm9As9aGiPW1NIgInjeTCvMJpABj3UJt4Oa
+	C5CYArriI7cTtBmlNE/65/EWaAmww=
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-RECHKSPAM: 0
 
-On Wed, 22 Jul 2026 at 16:43, Joanne Koong <joannelkoong@gmail.com> wrote:
+__fuse_copy_file_range() may receive a successful copy reply with zero
+bytes copied.  This can happen even though the VFS only calls the file
+operation with a non-zero length, for example if the FUSE daemon reaches
+EOF while the kernel has stale source size information.
 
-> I had the same impression as Amir. The FUSE_DEV_IOC_STRIPE_OPEN patch
-> [1] right now is only for the interleaved case to handle striping, but
-> imo it seems a lot cleaner to make FUSE_DEV_IOC_STRIPE_OPEN a generic
-> interface for handling any backing layout that corresponds to a
-> backing id, and having the simple extent case go through this same
-> infrastructure / path. Especially since John's future patches for
-> adding the interleaving will go through the ioctl, it seems nicer
-> server-side as well for famfs to have one consolidated path instead of
-> needing two totally different ones.
+In that case no data was written to the destination.  Do not invalidate
+the destination page cache or update the destination timestamps and cached
+size state for a zero-byte copy result.
 
-That's a valid point, but I still feel that those things are different.
+Fixes: 88bc7d5097a1 ("fuse: add support for copy_file_range()")
+Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
+---
+ fs/fuse/file.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Striping:
-  - always static
-  - size limited by the number of devices
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index ceada75310b8..75eb97b26912 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -3040,6 +3040,10 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+ 		err = -EIO;
+ 		goto out;
+ 	}
++	if (!bytes_copied) {
++		err = 0;
++		goto out;
++	}
+ 
+ 	truncate_inode_pages_range(inode_out->i_mapping,
+ 				   ALIGN_DOWN(pos_out, PAGE_SIZE),
+-- 
+2.51.0
 
-Extent map:
-  - may be static (famfs) or dynamic (general block fs)
-  - size is unlimited
-
-Doing extent maps with an ioctl makes it clunky in the dynamic/unlimited case.
-
-> If not the ioctl, what did you have in mind for a generic interface? I
-> think anything else would have to keep GET_FMAP, but maybe I'm wrong
-> here.
-
-Good question.  A NOTIFY_EXTENT_MAP (similar to Darrick's
-FUSE_NOTIFY_IOMAP_UPSERT, but multiple extents) would work, I think.
-
-Maybe the striping setup can also be done with a notification.  The
-original reason for doing  FUSE_DEV_IOC_BACKING_OPEN() out of band was
-to prevent security issues with writing an fd with plain write()
-syscalls.  This issue does not affect io-uring, which does not use
-write and so the ioctl can be completely eliminated.  But that's
-another story..
-
-Thanks,
-Miklos
