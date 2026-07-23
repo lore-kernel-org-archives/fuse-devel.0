@@ -1,150 +1,138 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from va-2-111.ptr.blmpb.com (va-2-111.ptr.blmpb.com [209.127.231.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7FD39A045
-	for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 10:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784803425; cv=pass; b=FoVNtUSaxxv4E6PnGnD4W/SxOuJSN+P8F80KYRMQ5OQNrM1Txrxxvb9zhV8vWa43Cy/mw43Y0RoilJKago+gEKUOp/R/P4TERRd68JqZpDuk6hrJuCuAxye7KKOIhHDijpHODqJuYgjsBqK9/1ZXlp3pTeS9nxynYzSvJWHLNjQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784803425; c=relaxed/simple;
-	bh=rlJv+mw8BD3iFcTcqOGzYCU+NZGCTFxq34Kx1L5VNz8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z7NEtKEvxipx91ompdYodJlQqD8FT/5l54zGamWc2BRZXtELLvCZJZqsRDhmb6bsm+7bc09PsP2+R/B6CCJ/I/dxVcdAnw17kRSE2PJ2ygdL/61M8bbs/bad+Vs6JMGUCq5O0qfzOUP4GmDcx7/rBPKLGbswdPbrVqv6LQLxZ4w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rc7Vr8Gg; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF1D288BA
+	for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 13:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.111
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784812829; cv=none; b=RSKhoP8WNfMsS1UNsESTF1janbIGTIKxbC8J2KO5Tzk6NjOkJf1n5pzEIW4YZ30rZTqKobekzQBg9gBHbQobTDuHA47Ugz702XDYGeim6xry9lBijPWa4+28gsZdlGMmz7REcB0o4MzzJEJ+oOEkEuhNlOHjnitOsWEeevqO918=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784812829; c=relaxed/simple;
+	bh=DZ7LOVwtKcR2SgOiA/nezmsa+LgdZ/6uhMFP+lGxz5M=;
+	h=Subject:Date:Cc:From:Content-Type:Message-Id:Mime-Version:To; b=LAoE5svS/sGjFBk3YzMGFu0o8PmYVeYPONqTfDqN0kHtJyxUC6shdYOLsXv2Frr5svde0ynJZ7UDEfuAyLfBQNrTBDek/sF+kSdQki3+gQiMSQ+iNRIljLlPRwD3wwMYncY1ev0jOzweeCMVwcZY6UDa55fgfYvMq2Qi7kx253k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=XRPSV2tA; arc=none smtp.client-ip=209.127.231.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rc7Vr8Gg"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-698aa7ba3e6so823279a12.1
-        for <fuse-devel@lists.linux.dev>; Thu, 23 Jul 2026 03:43:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784803421; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GwBKjrOUT+o/9HkUd5i2h/cF7v9FHD6dGWYuaheddPYPdhaPmQemvFiKYXXhUKFeuY
-         uaySzJi3rUXUU8RgJWuk7COohVfiE3VhqiDE9OF+4vbOrOEnbXI69jEeVIHxQaLm7Ua+
-         y1JTNDvvXaGbnCWQpcQQ+yRjXt4fKm3NrpjT1tDP7nlFmjfLdtslEdrdI3p9dbd9/uCi
-         qyvFPPXl55nwtYJmmrzFQr2ce/WDbPq4Q7VHZyFxBe7XSHa7exbf51bah9Er192sGU/w
-         /VPKCwGMRAmvIRq1qGI4CGkGfolccm0UCDkURuWQ8RnB+PJXeI2CXbUWS6hu1F5vrJCB
-         MOPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Yj/KZFc5ifCFuJo4yf9/lFHJ6OnUkHsoFdTLxJvdxYk=;
-        fh=3GMN4kWt3U6KlaJMN9TL+QegqI0aYdgtTkXpTHxXyAQ=;
-        b=g1IhG/m91XQ1AJodJIr85bqjordk15RRxspVc6X2rRUHx7QZOQmUiZD6/RJ8pjFA59
-         4Y0hqryjotWaYULoht1q+1yJu7BZqIiJdSb8/7ybdYC2dz16eV4vJwB1URkFWB45Zjj7
-         g1JfCkDkBanI8GguYAcOkDYLD1DcoEOFWOLcTFtlRqwLIDWTcVSX1Y4qyagc6pqajyBj
-         GwEKq+zMAN5g2gyhpJZdk7ai0FCSB4cmGECzZLbWaRsDWqHrC57Q007Q97ucQughzEhj
-         mHk243pmH2GtWM7IA62ZzIi9rCqcPRTDDipX2BAW6Z+acWbB2guApeYKWx9ZWlI0d1Q2
-         zyPw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784803421; x=1785408221; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Yj/KZFc5ifCFuJo4yf9/lFHJ6OnUkHsoFdTLxJvdxYk=;
-        b=rc7Vr8GghC1LKdtkphjvMZnhPlp3k5JSh3/GvsPmFad7etgHajn7f4/He0BXj4hW8S
-         1/UrFBfruMGw1IFjFLc066DuMMi/b86qARdxqhdoLNgerf1deShE+Z3MZ+qiHUYZoxSf
-         Aa+ZmS96F9b6j3r6QryXiG4rz2OMt1KY/U3/XD7WpUyMcVOG+52QoX3bPpqde80yrQhy
-         bsZv1lYUCzO5IEYXOjLZ2+ekP+Ktu2GI3QB4prlerSUsoqi2fE4qJgX1lOHabhJnLtYW
-         y2Up7La/TZvF5988R8TXQu7aG/OgAvsoIn62cADUnjSzZhrAlcgamB3a9BKhcALwXgfd
-         HOpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784803421; x=1785408221;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Yj/KZFc5ifCFuJo4yf9/lFHJ6OnUkHsoFdTLxJvdxYk=;
-        b=c2cic6AsWuRRKfZ62rKyr/U9er+NEE5+rHoCkaV/nkKbuCNSU3lmVgQ2/P2N5Ooyj2
-         WTOukez2jx3xGbDqeVaENTGZNcZ4Tz9DoHjUgxsomX9MFBR/Y1rnM+kAXK35bYSNaIDr
-         F4Ea3DdaIb/fRurSFsPIr/hd0k0NKmoHkSCHgJAs1rlHedwC8UKRNUaA8vhLfUj+7bw1
-         LJiiVhz/CtBn2bVaMOl3UK23+9PigQOUosRRjYgaolZGXLbLz4T+WD/JiO7TLaFGjFyl
-         2SKDgoLmuAmvnbvLhsaZJFcugD+8QLDNuxyefN866O2bH7RRkmwdCtRBpdIa3utnPuPW
-         pDDg==
-X-Forwarded-Encrypted: i=1; AHgh+RpvME1j/zV5WChVLey2/FnFwTKqSxadvJfBmMETC7LE8HNaERjLY9NWRWVKoyWXAG5WTub/PN5nTdX6@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJ6ZpQ4Y5Uh+zz2bp7pRtAy3H9kyfa9INtJVdkJRQgQUajNLck
-	BvS9PQRbALE6P6/cQ7fhvSOMbIQEiQWR7oLYa7ebF8fF+ilYBBHqTFNJFkX8uoe3eSpn0NPSQmy
-	zKgn854aTY8wiwwva+78H6msFSiv0J+g=
-X-Gm-Gg: AR+sD10Fl0RdfWCgUVPiKfF84ZLLFgS0/B7ZmSnHbCk5j7oL1Bk0Nkxtr91xaeCwMyt
-	rg5T/4qutxCUkO946vlftFLZaA1RNDtEqEDn8hxpmodfRiCjY1Qn3kBbtKuFvyDhlMvxDaPmQNW
-	o0S3gYumEEllDoZqP1aimjIcpvthVGgkkJIfWrPNVorl37WR9NnGB2lZkcs3l4vEqI+gm/t8dW0
-	Q0KbutbCcBM07rNEeS9MwrEHIAteKt/NbjJou2NK3nG7eEHVUD5x/bcpKcOTD+JWOD1Wb3AtA==
-X-Received: by 2002:a05:6402:3584:b0:69c:6672:a243 with SMTP id
- 4fb4d7f45d1cf-69f6cd020bemr1052386a12.38.1784803421137; Thu, 23 Jul 2026
- 03:43:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="XRPSV2tA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1784812810; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=QbYK/yaSVm7KhKX7ZeS9SqJ7Yk0gKAbykooHzSoc4B8=;
+ b=XRPSV2tA1flZMDaNhKS1yUPLGr1S2RNM3KgrWS9uImc/gCPeBQZHTFssOd6EJ7edhI8WJv
+ ny9PDJOimtwgXx7VlXxapMDaK+Z0/SJuN7e1/YOY+T/oAYGBCPITc2iRXRjlXM9xs15LT1
+ gpeWbe3md54OB7kiNwQ/YdB9K75/NjeP3VTPOVEhNve6ZDPaCAfNyg7nk5Mm4j6J6WO/Lb
+ utXCQ8GZmZ9lZR8P7ozuj+OzW/BDX8K4K/qAe05OWvCVvjQJOtMuWQB/ouOboofLsxvqz+
+ py6eVo/DgUpoQQqCQZETUM/9Qhjx47heBoWfvuZAmATQsfrxlV/2t6Zu+lvEPQ==
+Subject: [PATCH] fuse: fix use-after-free in request resend
+Date: Thu, 23 Jul 2026 21:20:04 +0800
+Cc: "Zhao Chen" <winters.zc@antgroup.com>, <fuse-devel@lists.linux.dev>, 
+	<linux-kernel@vger.kernel.org>, "Jia Zhu" <zhujia.zj@bytedance.com>, 
+	<stable@vger.kernel.org>
+From: "Jia Zhu" <zhujia.zj@bytedance.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Message-Id: <20260723132004.85088-1-zhujia.zj@bytedance.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260723100743.93881-1-chenyichong@uniontech.com>
-In-Reply-To: <20260723100743.93881-1-chenyichong@uniontech.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 23 Jul 2026 12:43:29 +0200
-X-Gm-Features: AUfX_mw8s-pYApsl79W0OK9sthH4Z2w10i9Nh9DOJmU5EYGlCtVVstS7MdDPxM0
-Message-ID: <CAOQ4uxjys+yENYgjROu3Ui-athFjdY0E4fGhR4qsb2ed04wqkw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: skip destination updates for zero-byte copy
-To: Yichong Chen <chenyichong@uniontech.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Niels de Vos <ndevos@redhat.com>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-Original-From: Jia Zhu <zhujia.zj@bytedance.com>
+To: "Miklos Szeredi" <miklos@szeredi.hu>
+X-Lms-Return-Path: <lba+26a621508+8e14ac+lists.linux.dev+zhujia.zj@bytedance.com>
 
-On Thu, Jul 23, 2026 at 12:15=E2=80=AFPM Yichong Chen <chenyichong@uniontec=
-h.com> wrote:
->
-> __fuse_copy_file_range() may receive a successful copy reply with zero
-> bytes copied.  This can happen even though the VFS only calls the file
-> operation with a non-zero length, for example if the FUSE daemon reaches
-> EOF while the kernel has stale source size information.
->
-> In that case no data was written to the destination.  Do not invalidate
-> the destination page cache or update the destination timestamps and cache=
-d
-> size state for a zero-byte copy result.
+fuse_chan_resend() moves requests from fpq->processing to a private
+to_queue before putting them back on fiq->pending.
 
-Why not?
-If the FUSE daemon reaches EOF and VFS thinks that there is still something
-to read then obviously the cached size is incorrect.
-Also invalidating the last page cache in this case does not seem like a ter=
-rible
-idea in any case.
+The old ordering made FR_PENDING visible before the request was on a
+list protected by fiq->lock:
 
-Are you proposing this "fix" because an application encountered a problem
-or unexpected behavior or why?
+  CPU0: fuse_chan_resend()      CPU1: request_wait_answer()
+  ------------------------      ---------------------------
+  move req to to_queue
+  set FR_PENDING
+                                fatal signal
+                                fuse_remove_pending_req()
+                                  lock fiq->lock
+                                  list_del(req->list)
+                                  __fuse_put_request(req)
+                                    drop queue reference
+                                return to fuse_chan_send()
+                                fuse_put_request(req)
+                                  req may be freed
+  clear_bit(FR_SENT)     <----- possible use-after-free
+  req->in.h.unique ...   <----- possible use-after-free
+  list_splice(to_queue, pending)
 
-Thanks,
-Amir.
+fuse_remove_pending_req() treats FR_PENDING as meaning that req->list is
+on a queue protected by the lock passed to it. Here req->list still belongs
+to the private to_queue, so the signal path can remove and drop the queue
+reference while resend still dereferences req.
 
+Fix this by taking fiq->lock before publishing FR_PENDING, and keep the
+request state updates and pending-list splice in the same critical
+section.
 
->
-> Fixes: 88bc7d5097a1 ("fuse: add support for copy_file_range()")
-> Signed-off-by: Yichong Chen <chenyichong@uniontech.com>
-> ---
->  fs/fuse/file.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index ceada75310b8..75eb97b26912 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -3040,6 +3040,10 @@ static ssize_t __fuse_copy_file_range(struct file =
-*file_in, loff_t pos_in,
->                 err =3D -EIO;
->                 goto out;
->         }
-> +       if (!bytes_copied) {
-> +               err =3D 0;
-> +               goto out;
-> +       }
->
->         truncate_inode_pages_range(inode_out->i_mapping,
->                                    ALIGN_DOWN(pos_out, PAGE_SIZE),
-> --
-> 2.51.0
->
->
+Fixes: 760eac73f9f6 ("fuse: Introduce a new notification type for resend pending requests")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jia Zhu <zhujia.zj@bytedance.com>
+---
+ fs/fuse/dev.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 5763a7cd3b37f..a0ca400697611 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1760,7 +1760,7 @@ static ssize_t fuse_dev_splice_read(struct file *in, loff_t *ppos,
+ void fuse_chan_resend(struct fuse_chan *fch)
+ {
+ 	struct fuse_dev *fud;
+-	struct fuse_req *req, *next;
++	struct fuse_req *req;
+ 	struct fuse_iqueue *fiq = &fch->iq;
+ 	LIST_HEAD(to_queue);
+ 	unsigned int i;
+@@ -1781,28 +1781,25 @@ void fuse_chan_resend(struct fuse_chan *fch)
+ 	}
+ 	spin_unlock(&fch->lock);
+ 
+-	list_for_each_entry_safe(req, next, &to_queue, list) {
+-		set_bit(FR_PENDING, &req->flags);
+-		clear_bit(FR_SENT, &req->flags);
+-		/* mark the request as resend request */
+-		req->in.h.unique |= FUSE_UNIQUE_RESEND;
+-	}
+-
+ 	spin_lock(&fiq->lock);
+ 	if (!fiq->connected) {
+ 		spin_unlock(&fiq->lock);
+-		list_for_each_entry(req, &to_queue, list)
+-			clear_bit(FR_PENDING, &req->flags);
+ 		fuse_dev_end_requests(&to_queue);
+ 		return;
+ 	}
+ 	/*
+-	 * Remove interrupt entries for resent requests to prevent stale
+-	 * intr_entry on fiq->interrupts after the request is re-queued.
++	 * fuse_remove_pending_req() assumes that FR_PENDING implies req->list
++	 * is protected by the supplied queue lock.  Publish the flag under
++	 * fiq->lock so the request cannot be removed while it is still on the
++	 * private to_queue list.
+ 	 */
+ 	list_for_each_entry(req, &to_queue, list) {
++		clear_bit(FR_SENT, &req->flags);
++		/* mark the request as resend request */
++		req->in.h.unique |= FUSE_UNIQUE_RESEND;
+ 		if (test_bit(FR_INTERRUPTED, &req->flags))
+ 			list_del_init(&req->intr_entry);
++		set_bit(FR_PENDING, &req->flags);
+ 	}
+ 	/* iq and pq requests are both oldest to newest */
+ 	list_splice(&to_queue, &fiq->pending);
+-- 
+2.39.5 (Apple Git-154)
