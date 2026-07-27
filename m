@@ -1,282 +1,302 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D3D3655CC
-	for <fuse-devel@lists.linux.dev>; Sun, 26 Jul 2026 01:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C11B43031B;
+	Mon, 27 Jul 2026 17:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785031200; cv=none; b=ILUqPeBc2hXFHCPA+h9nTPj03hlyshaOKAx4pUs8It8cRQ35KevCxXOnDaLJyx2xi+8PIMGgQ4HlQ0c0sLOeTEvk4WLQZIrngcVL4zazXMyIOZBC2EswHno9JbTaifcWWxNgHzWW5j9syTGRxQwlwFI3kTdKpd+TdxTo99uOZ4c=
+	t=1785173445; cv=none; b=r9KO6SBNt0PN33Lb44i+urQi91LEv/qTXsr7vsdWKiWHmYSDluCkw9fXklk6JO+M6LhI75tG8UoIMEqcbDxgt9C0CfYpMUsiFChP9v+otYCVWQ1iC5Gb4JvmT83KyrpyB6u7UKmizJxbwkLlO4DPMqSkM24Pi+8ZnZ52wO+jLYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785031200; c=relaxed/simple;
-	bh=NH5raMSM8K5aGx3VXVWhIWxb/BttE1lA7uKf6rnyPJo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cwo3WvWgdyquypGJegifILjmAfqYrNcn3ZXIwX+qtzSlfbzYMIf0aXJfcdaINGmU6Z5tRxFJ39s4ons/kcfGMVcjbUpR14tMvTr/k8eUdTVZi7yf+vTVdr43MkRcg4McfETOawP3K3MgTqwqnXU0kcZMtgC39wuZxPnf0sCgRa0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mVD/Nc0I; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785173445; c=relaxed/simple;
+	bh=dwys1TcfXyooM435Onf7sbe/CuSRNaKujEasTaSq9g8=;
+	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=fhkCmB6xYZtFVkmXEG2Q691gfG8F3vyppB3uzE4K3Z0pTg8jI37wLSZ6/VqIeVDAWxWdJtcQocPM0/SJFUNBgAjYTAZCoYIlvo6CKa5XyIyUAldu5yAYtnngbiHpApOsjdZ082gjoYsMRxo6aYfd/h6FNlU01z4RJMW1XnZwwVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VKu7ASeh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mVD/Nc0I"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7ec49608332so743279a34.3
-        for <fuse-devel@lists.linux.dev>; Sat, 25 Jul 2026 18:59:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785031197; x=1785635997; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gg16MgmONoPjLbUFY3dyA78voi0asb/XfImqT3Ui7xs=;
-        b=mVD/Nc0IvW8Om0Xzvs7hu6ahTPqUB8GGKaY3p+qJkEXMM7cuqcw/JyZNAXzrrb/ZVA
-         Ze/I97ByWjf+C1L6o+5+fJ4lCjFjQQbACsqUWEWK5pwNJ+VHQHcboxoII5XdNeRlsvhT
-         DP0Vr3OkxkKbKmHJXpKq5j9IsFeLfkPMilurSR75JN/M0EXFyHLmFxZy2j35pGfmCG+i
-         yrbH4dtrsIUs+50054RXtDYLe+YXmoZn9IPXv8Ca7ARSB3TAO/3DHkEluCkMj3Ykl4Yd
-         THur6OTP8ppi9AbE7jjHMl0dw5bubTjx6UzvkjwZVyx5nmL6/4MILSLQx5yOT2FQP9M1
-         xDUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785031197; x=1785635997;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gg16MgmONoPjLbUFY3dyA78voi0asb/XfImqT3Ui7xs=;
-        b=NiOAlAxV+3wLFX1kTwtYalCIfhRuh9jh009/9IDCJiPrD8b5wxCLlNRCU9Gsbm3CUq
-         AALk2okrVdS0sZneT5sKQWb0lzURRBijNQazVBMsEy4X2TDj0VXoEBvBGg2Fn/DEo4OG
-         mK66NSyWgN7zihPN1G8CJXtCMYwi1KwNEo2H4QIGp6nG9p3ZM5E0Ry//yGDtt1Va2V8q
-         P19XzOvvRcAyGkt2/A1+kXuSh3sN1TsjdlCNxCUOkGgN4e1BbKg3ItgWbQM0SfqpcA7W
-         3FCqRmnHR3hqfLHas91GxXHTC7A3rM+vQyqyDAaPsN/d5yC/AM4YmDRyMrV+jbisI2r9
-         iOzg==
-X-Forwarded-Encrypted: i=1; AHgh+RriH71kXEYt4FjgvuzQy++pY4nlQ1l/KWWT2pBtP82Oo2PM6+qQ6qpOJHA+l/gY8sNSdMX4bVHK1j3m@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxm85aOCA/m0Tbwsbz/PxDMAH6Us4ja3mDGJDaiEloeqvydjd59
-	BOBZIV0JTeZjzuyzUAbsHlUlGPcawdFu5BJXtJTaAjP9Uf5Mjimard2b
-X-Gm-Gg: AR+sD12384tZiSKvRuARtzr1amQkbv8Qa7nrtQTMMcMVVUkocYlGAAgZRIi3mLYBUq8
-	8WQQULHWar+2xHoQ7OgaCHyZ6xwXi6QR01kznmPX6qu/y4lmqNtApcb2Fbpj2VLdvYabKxpaU/E
-	0lS6Vi8QlJu7IYsKTGIA6swjKkzFm+1U4OsT58mwoNaVOJOeqP8JMeASrjGjqqJ8NhH9TEbVOOC
-	MsYaUHTZoUCl9kI0gYIvtMBKaOpiyaT6fuuwGfrC5RExaREV5jPfkAmyh1XWajpcyMYYVOv6ceq
-	r4wAaNrURJkhCyEYMg2n18gtr4RXIDAkwbrklE+q0pJ0itXgu0a4gj2tSEihC1SWwj/4u0q9LC6
-	eTeS0WnpctBNVysIEiqF3EkRit4ZbpARcYQNl+Yq2KO8Iz4atAnIMAltqc/GAM2ohygyL95jJGF
-	WoOZY5Gnx+1rBAKwkLCuVVIxmLk2J56btKandjrNkh7aMVpIC4HU+38fm1V8nBi5L4vPGCMdISO
-	gBwvBEtDdPsMJmGVAlrKXTD58o/V/mX4U2jOiYM2Nqs
-X-Received: by 2002:a05:6830:67c6:b0:7dc:c4ae:a689 with SMTP id 46e09a7af769-7ee78a51bb2mr3356144a34.2.1785031197279;
-        Sat, 25 Jul 2026 18:59:57 -0700 (PDT)
-Received: from rdf-gcp2.us-central1-b.c.storage-xlrait-66065.internal (163.80.112.136.bc.googleusercontent.com. [136.112.80.163])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ee29e0ec5bsm9335656a34.10.2026.07.25.18.59.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 18:59:56 -0700 (PDT)
-From: Russ Fellows <russ.fellows@gmail.com>
-To: miklos@szeredi.hu
-Cc: amir73il@gmail.com,
-	fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Russ Fellows <russ.fellows@gmail.com>
-Subject: [PATCH v4 2/2] fuse: allow parallel direct writes in passthrough write_iter
-Date: Sun, 26 Jul 2026 01:59:55 +0000
-Message-ID: <20260726015955.319132-3-russ.fellows@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260726015955.319132-1-russ.fellows@gmail.com>
-References: <20260616231325.16788-1-russ.fellows@gmail.com>
- <20260726015955.319132-1-russ.fellows@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VKu7ASeh"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1184D1F000E9;
+	Mon, 27 Jul 2026 17:30:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785173437;
+	bh=UPy7m8y+L+9++wJJD0ni0RrPl7TvxOQSpeWA878iGhk=;
+	h=From:To:Cc:Subject:Date;
+	b=VKu7ASehXEh3KrmbNB3PQb5GUje3Rz1AYxoR/Ut1XMLHtUhO9XMXvLMipIt/ursFo
+	 UC9XYHg6i3SPhGvVfS6CG88JvYce/rJAKC0LH+mYQCgyodWM0yx6jnrsGMXoxXr5kt
+	 jsOE1h0OaYKyl5eOMVqNQqSl4SClyiPHUbSRyp0JMSC1hpkx01+HVWyqxRZzoDot8H
+	 JAXvaKdAz9RMaWqOrDKnhlR6+E1XwkV78BzMjl2MRN3ryxORgP/+CTVJfBFV8Xkm9z
+	 4GjP6LzsrSuq9IxkQRXRP2aLwytRQRBChmInbfkHq31UetMKdZSzOB2MEvdVGBbJ5F
+	 G/AGSjzeG3gTg==
+From: "syzbot" <syzbot@kernel.org>
+To: syzkaller-bugs@googlegroups.com, Kusaram Devineni <kusaram@devineni.in>, <fuse-devel@lists.linux.dev>, "Miklos Szeredi" <miklos@szeredi.hu>
+Cc: linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
+Subject: [PATCH] fuse: abort connection on /dev/fuse flush to prevent deadlock
+Message-ID: <9650a974-ec3b-49d6-b6f8-89159d399239@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Date: Mon, 27 Jul 2026 17:30:37 +0000 (UTC)
 
-fuse_passthrough_write_iter() unconditionally took the exclusive inode
-lock, so passthrough writes were fully serialised even when the server
-advertised FOPEN_PARALLEL_DIRECT_WRITES and the write was direct,
-non-append and within EOF.  Native direct-IO writes already take a
-shared lock in that case via fuse_dio_lock(); passthrough should do the
-same.
+From: Kusaram Devineni <kusaram@devineni.in>
 
-Rather than duplicate the direct-IO locking logic, generalise it and
-share it between both write paths:
+A single-threaded FUSE daemon can deadlock if it mounts a filesystem and
+opens a file on it. When the process exits or calls close_range(), the
+kernel closes file descriptors in ascending numerical order.
 
- - rename fuse_dio_wr_exclusive_lock() to fuse_io_wr_exclusive_lock()
-   and teach it that a passthrough open without FOPEN_DIRECT_IO only
-   qualifies for the shared lock when the write itself is IOCB_DIRECT
-   (buffered passthrough writes keep the exclusive lock);
- - factor the uncached-io refcount dance into fuse_parallel_dio_start()
-   and fuse_parallel_dio_end(), which are no-ops for the permanent
-   uncached iomode that passthrough opens hold, so the shared-lock
-   past-EOF re-check works unchanged for both paths;
- - rename fuse_dio_lock()/fuse_dio_unlock() to fuse_io_wr_lock()/
-   fuse_io_wr_unlock(), export them via fuse_i.h, and call them from
-   fuse_passthrough_write_iter().
+If the /dev/fuse file descriptor (e.g., fd 5) is closed first, filp_close()
+decrements the file reference count but defers the actual release (fput) to
+task work. As a result, the FUSE connection remains active.
 
-No functional change for the native direct-IO write path.
+Next, when the FUSE file descriptor (e.g., fd 6) is closed, filp_close()
+calls fuse_flush(), which sends a synchronous FUSE_FLUSH request to the
+daemon. Since the daemon is the same thread that is currently blocked in
+the close() syscall, it cannot process the request. The FUSE_FLUSH request
+uses args.force = true, making the wait uninterruptible. The thread hangs
+forever, eventually triggering a hung task panic:
 
-Suggested-by: Amir Goldstein <amir73il@gmail.com>
-Signed-off-by: Russ Fellows <russ.fellows@gmail.com>
+Call Trace:
+ <TASK>
+ __schedule+0x17d9/0x56c0 kernel/sched/core.c:7234
+ schedule+0x164/0x2b0 kernel/sched/core.c:7326
+ request_wait_answer fs/fuse/dev.c:743 [inline]
+ __fuse_request_send fs/fuse/dev.c:757 [inline]
+ fuse_chan_send+0x1065/0x1ab0 fs/fuse/dev.c:833
+ fuse_simple_request fs/fuse/fuse_i.h:1012 [inline]
+ fuse_flush+0x66e/0x8b0 fs/fuse/file.c:504
+ filp_flush+0xbd/0x190 fs/open.c:1471
+ filp_close+0x1d/0x40 fs/open.c:1484
+ __range_close fs/file.c:793 [inline]
+ __do_sys_close_range fs/file.c:854 [inline]
+ __se_sys_close_range+0x3d3/0x900 fs/file.c:818
+ do_syscall_64+0x15f/0x560 arch/x86/entry/syscall_64.c:94
+
+To fix this, implement a .flush method for /dev/fuse (fuse_dev_operations).
+The .flush method is called synchronously by filp_close() during the
+close() syscall, bypassing the fput delay.
+
+In fuse_dev_flush(), if this is the final close of the file descriptor
+(file_count(file) == 1), the device is marked as closing. Since multiple
+cloned /dev/fuse devices can exist for the same connection, the closing
+state of each device is tracked under the channel lock. If all devices
+associated with the channel are closing, the FUSE connection is proactively
+aborted. By aborting the connection synchronously in .flush, any subsequent
+fuse_flush() calls on FUSE files will immediately fail with -ENOTCONN
+instead of blocking indefinitely, avoiding the deadlock.
+
+To handle the race where a /dev/fuse file descriptor is closed before it is
+fully installed into a connection (i.e., fud->chan is still NULL),
+cmpxchg() is used to atomically transition fud->chan from NULL to
+FUSE_DEV_CHAN_DISCONNECTED. This prevents a concurrent fuse_dev_install()
+from succeeding on a device that is already being closed. Furthermore,
+because the VFS may invoke .fasync after .flush but before .release,
+fuse_get_dev() and __fuse_get_dev() must reject the
+FUSE_DEV_CHAN_DISCONNECTED sentinel to prevent .fasync from dereferencing
+it.
+
+Note that CUSE (Character Device in User Space) also shares
+fuse_dev_operations and therefore inherits this new .flush callback, which
+is safe and consistent with its lifecycle.
+
+Fixes: 4a9d4b024a31 ("switch fput to task_work_add")
+Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview syzbot
+Tested-by: syzbot <syzbot@syzkaller.appspotmail.com>
+Reported-by: syzbot+0dbb0d6fda088e78a4d8@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0dbb0d6fda088e78a4d8
+Link: https://syzkaller.appspot.com/ai_job?id=fdcc0473-0605-4428-aad0-dd002b5f15aa
+Signed-off-by: Kusaram Devineni <kusaram@devineni.in>
+
 ---
- fs/fuse/file.c        | 53 ++++++++++++++++++++++++++++++++++---------
- fs/fuse/fuse_i.h      |  2 ++
- fs/fuse/passthrough.c |  6 ++---
- 3 files changed, 47 insertions(+), 14 deletions(-)
-
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 79d1b50..449837a 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -1349,19 +1349,29 @@ static bool fuse_io_past_eof(struct kiocb *iocb, struct iov_iter *iter)
- }
- 
- /*
-- * @return true if an exclusive lock for direct IO writes is needed
-+ * @return true if an exclusive lock for direct IO or passthrough writes is
-+ * needed
-  */
--static bool fuse_dio_wr_exclusive_lock(struct kiocb *iocb, struct iov_iter *from)
-+static bool fuse_io_wr_exclusive_lock(struct kiocb *iocb, struct iov_iter *from)
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 5763a7cd3..8b14c7d57 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1662,18 +1662,23 @@ static int fuse_dev_open(struct inode *inode, struct file *file)
+ struct fuse_dev *fuse_get_dev(struct file *file)
  {
- 	struct file *file = iocb->ki_filp;
- 	struct fuse_file *ff = file->private_data;
- 	struct inode *inode = file_inode(iocb->ki_filp);
- 	struct fuse_inode *fi = get_fuse_inode(inode);
-+	bool fopen_direct_io = ff->open_flags & FOPEN_DIRECT_IO;
+ 	struct fuse_dev *fud = fuse_file_to_fud(file);
++	struct fuse_chan *fch = fuse_dev_chan_get(fud);
+ 	int err;
  
- 	/* Server side has to advise that it supports parallel dio writes. */
- 	if (!(ff->open_flags & FOPEN_PARALLEL_DIRECT_WRITES))
- 		return true;
+-	if (unlikely(!fuse_dev_chan_get(fud))) {
++	if (unlikely(!fch)) {
+ 		/* only block waiting for mount if sync init was requested */
+ 		if (!fud->sync_init)
+ 			return ERR_PTR(-EPERM);
  
-+	/*
-+	 * Passthrough opens without FOPEN_DIRECT_IO only support parallel
-+	 * writes for I/O that is itself direct (IOCB_DIRECT); buffered
-+	 * passthrough writes still need the exclusive lock.
-+	 */
-+	if (!fopen_direct_io && !(iocb->ki_flags & IOCB_DIRECT))
-+		return true;
+-		err = wait_event_interruptible(fuse_dev_waitq, fuse_dev_chan_get(fud) != NULL);
++		err = wait_event_interruptible(fuse_dev_waitq,
++					       (fch = fuse_dev_chan_get(fud)) != NULL);
+ 		if (err)
+ 			return ERR_PTR(err);
+ 	}
+ 
++	if (unlikely(fch == FUSE_DEV_CHAN_DISCONNECTED))
++		return ERR_PTR(-EPERM);
 +
- 	/*
- 	 * Append will need to know the eventual EOF - always needs an
- 	 * exclusive lock.
-@@ -1380,13 +1390,33 @@ static bool fuse_dio_wr_exclusive_lock(struct kiocb *iocb, struct iov_iter *from
- 	return false;
+ 	return fud;
  }
  
--static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
--			  bool *exclusive)
-+static int fuse_parallel_dio_start(struct fuse_file *ff, struct fuse_inode *fi)
+@@ -2211,17 +2216,31 @@ void fuse_chan_wait_aborted(struct fuse_chan *fch)
+ 	fuse_uring_wait_stopped_queues(fch);
+ }
+ 
++static bool fuse_dev_all_closing(struct fuse_chan *fch)
 +{
-+	/* Passthrough opens are in permanent uncached mode */
-+	if (ff->iomode == IOM_UNCACHED)
++	struct fuse_dev *pos;
++
++	lockdep_assert_held(&fch->lock);
++
++	list_for_each_entry(pos, &fch->devices, entry) {
++		if (!pos->closing)
++			return false;
++	}
++	return true;
++}
++
+ int fuse_dev_release(struct inode *inode, struct file *file)
+ {
+ 	struct fuse_dev *fud = fuse_file_to_fud(file);
+ 	/* Pairs with cmpxchg() in fuse_dev_install() */
+ 	struct fuse_chan *fch = xchg(&fud->chan, FUSE_DEV_CHAN_DISCONNECTED);
+ 
+-	if (fch) {
++	if (fch && fch != FUSE_DEV_CHAN_DISCONNECTED) {
+ 		struct fuse_pqueue *fpq = &fud->pq;
+ 		LIST_HEAD(to_end);
+ 		unsigned int i;
+ 		bool last;
++		bool abort;
+ 
+ 		/* Make sure fuse_dev_install_with_pq() has finished */
+ 		spin_lock(&fch->lock);
+@@ -2234,14 +2253,15 @@ int fuse_dev_release(struct inode *inode, struct file *file)
+ 		list_del(&fud->entry);
+ 		/* Are we the last open device? */
+ 		last = list_empty(&fch->devices);
++		abort = fch->connected && fuse_dev_all_closing(fch);
+ 		spin_unlock(&fch->lock);
+ 
+ 		fuse_dev_end_requests(&to_end);
+ 
+-		if (last) {
++		if (last)
+ 			WARN_ON(fch->iq.fasync != NULL);
++		if (abort)
+ 			fuse_chan_abort(fch, false);
+-		}
+ 		fuse_conn_put(fch->conn);
+ 	}
+ 	fuse_dev_put(fud);
+@@ -2375,6 +2395,34 @@ static void fuse_dev_show_fdinfo(struct seq_file *seq, struct file *file)
+ }
+ #endif
+ 
++static int fuse_dev_flush(struct file *file, fl_owner_t id)
++{
++	struct fuse_dev *fud = fuse_file_to_fud(file);
++	struct fuse_chan *fch;
++	bool abort;
++
++	if (file_count(file) != 1)
 +		return 0;
 +
-+	return fuse_inode_uncached_io_start(fi, NULL);
++	/*
++	 * Atomically transition fud->chan from NULL to FUSE_DEV_CHAN_DISCONNECTED
++	 * on final close to prevent a later fuse_dev_install() from succeeding.
++	 */
++	fch = cmpxchg(&fud->chan, NULL, FUSE_DEV_CHAN_DISCONNECTED);
++	if (!fch || fch == FUSE_DEV_CHAN_DISCONNECTED)
++		return 0;
++
++	spin_lock(&fch->lock);
++	fud->closing = true;
++	abort = fch->connected && fuse_dev_all_closing(fch);
++	spin_unlock(&fch->lock);
++
++	if (abort)
++		fuse_chan_abort(fch, false);
++
++	return 0;
 +}
 +
-+static void fuse_parallel_dio_end(struct fuse_file *ff, struct fuse_inode *fi)
-+{
-+	/* Passthrough opens are in permanent uncached mode */
-+	if (ff->iomode == IOM_UNCACHED)
-+		return;
+ const struct file_operations fuse_dev_operations = {
+ 	.owner		= THIS_MODULE,
+ 	.open		= fuse_dev_open,
+@@ -2383,6 +2431,7 @@ const struct file_operations fuse_dev_operations = {
+ 	.write_iter	= fuse_dev_write,
+ 	.splice_write	= fuse_dev_splice_write,
+ 	.poll		= fuse_dev_poll,
++	.flush		= fuse_dev_flush,
+ 	.release	= fuse_dev_release,
+ 	.fasync		= fuse_dev_fasync,
+ 	.unlocked_ioctl = fuse_dev_ioctl,
+diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+index 668c8391d..2833a0350 100644
+--- a/fs/fuse/fuse_dev_i.h
++++ b/fs/fuse/fuse_dev_i.h
+@@ -302,6 +302,9 @@ struct fuse_dev {
+ 	/** @sync_init: Issue FUSE_INIT synchronously */
+ 	bool sync_init;
+ 
++	/** @closing: Final close has started, protected by chan->lock */
++	bool closing;
 +
-+	/* Allow opens in caching mode after last parallel dio end */
-+	fuse_inode_uncached_io_end(fi);
-+}
+ 	/** @chan: Fuse channel for this device */
+ 	struct fuse_chan *chan;
+ 
+@@ -330,17 +333,25 @@ struct fuse_copy_state {
+ 	} ring;
+ };
+ 
+-/* fud->chan gets assigned to this value when /dev/fuse is closed */
+-#define FUSE_DEV_CHAN_DISCONNECTED ((struct fuse_chan *) 1)
+-
+ /*
+- * Lockless access is OK, because fud->chan is set once during mount and is valid
+- * until the file is released.
++ * fud->chan has the following monotonic state transitions:
++ *
++ * NULL -> valid channel -> FUSE_DEV_CHAN_DISCONNECTED
++ * NULL -----------------> FUSE_DEV_CHAN_DISCONNECTED
+  *
+- * fud->chan is set to FUSE_DEV_CHAN_DISCONNECTED only after the containing file is
+- * released, so result is safe to dereference in most cases.  Exceptions are:
+- * fuse_dev_put() and fuse_fill_super_common().
++ * A valid channel pointer remains valid until the file is released. Final
++ * flush can install FUSE_DEV_CHAN_DISCONNECTED directly for an uninstalled
++ * device, preventing any later channel installation. The sentinel therefore
++ * means that the channel can no longer be installed or accessed through this
++ * file; it does not imply that release has already run and it must never be
++ * dereferenced.
++ *
++ * fuse_dev_chan_get() reads this state locklessly. Callers must distinguish
++ * NULL, a valid channel pointer, and FUSE_DEV_CHAN_DISCONNECTED before
++ * dereferencing the result.
+  */
++#define FUSE_DEV_CHAN_DISCONNECTED ((struct fuse_chan *) 1)
 +
-+/* Take shared/exclusive inode lock for a direct IO or passthrough write */
-+void fuse_io_wr_lock(struct kiocb *iocb, struct iov_iter *from, bool *exclusive)
+ static inline struct fuse_chan *fuse_dev_chan_get(struct fuse_dev *fud)
  {
-+	struct fuse_file *ff = iocb->ki_filp->private_data;
- 	struct inode *inode = file_inode(iocb->ki_filp);
- 	struct fuse_inode *fi = get_fuse_inode(inode);
- 
--	*exclusive = fuse_dio_wr_exclusive_lock(iocb, from);
-+	*exclusive = fuse_io_wr_exclusive_lock(iocb, from);
- 	if (*exclusive) {
- 		inode_lock(inode);
- 	} else {
-@@ -1399,7 +1429,7 @@ static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
- 		 * have raced, so check it again.
- 		 */
- 		if (fuse_io_past_eof(iocb, from) ||
--		    fuse_inode_uncached_io_start(fi, NULL) != 0) {
-+		    fuse_parallel_dio_start(ff, fi) != 0) {
- 			inode_unlock_shared(inode);
- 			inode_lock(inode);
- 			*exclusive = true;
-@@ -1407,16 +1437,17 @@ static void fuse_dio_lock(struct kiocb *iocb, struct iov_iter *from,
- 	}
- }
- 
--static void fuse_dio_unlock(struct kiocb *iocb, bool exclusive)
-+/* Release the inode lock taken for a direct IO or passthrough write */
-+void fuse_io_wr_unlock(struct kiocb *iocb, bool exclusive)
+ 	/* Pairs with xchg() in fuse_dev_install() */
+@@ -355,8 +366,9 @@ static inline struct fuse_dev *fuse_file_to_fud(struct file *file)
+ static inline struct fuse_dev *__fuse_get_dev(struct file *file)
  {
-+	struct fuse_file *ff = iocb->ki_filp->private_data;
- 	struct inode *inode = file_inode(iocb->ki_filp);
- 	struct fuse_inode *fi = get_fuse_inode(inode);
+ 	struct fuse_dev *fud = fuse_file_to_fud(file);
++	struct fuse_chan *fch = fuse_dev_chan_get(fud);
  
- 	if (exclusive) {
- 		inode_unlock(inode);
- 	} else {
--		/* Allow opens in caching mode after last parallel dio end */
--		fuse_inode_uncached_io_end(fi);
-+		fuse_parallel_dio_end(ff, fi);
- 		inode_unlock_shared(inode);
- 	}
- }
-@@ -1759,7 +1790,7 @@ static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	ssize_t res;
- 	bool exclusive;
+-	if (!fuse_dev_chan_get(fud))
++	if (!fch || fch == FUSE_DEV_CHAN_DISCONNECTED)
+ 		return NULL;
  
--	fuse_dio_lock(iocb, from, &exclusive);
-+	fuse_io_wr_lock(iocb, from, &exclusive);
- 	res = generic_write_checks(iocb, from);
- 	if (res > 0) {
- 		task_io_account_write(res);
-@@ -1773,7 +1804,7 @@ static ssize_t fuse_direct_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 			fuse_write_update_attr(inode, iocb->ki_pos, res);
- 		}
- 	}
--	fuse_dio_unlock(iocb, exclusive);
-+	fuse_io_wr_unlock(iocb, exclusive);
- 
- 	return res;
- }
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index c288f28..821eccf 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -1529,6 +1529,8 @@ struct fuse_file *fuse_file_open(struct fuse_mount *fm, u64 nodeid,
- 				 unsigned int open_flags, bool isdir);
- void fuse_file_release(struct inode *inode, struct fuse_file *ff,
- 		       unsigned int open_flags, fl_owner_t id, bool isdir);
-+void fuse_io_wr_lock(struct kiocb *iocb, struct iov_iter *from, bool *exclusive);
-+void fuse_io_wr_unlock(struct kiocb *iocb, bool exclusive);
- 
- /* backing.c */
- #ifdef CONFIG_FUSE_PASSTHROUGH
-diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-index f2d08ac..2f4fe90 100644
---- a/fs/fuse/passthrough.c
-+++ b/fs/fuse/passthrough.c
-@@ -54,11 +54,11 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
- 				    struct iov_iter *iter)
- {
- 	struct file *file = iocb->ki_filp;
--	struct inode *inode = file_inode(file);
- 	struct fuse_file *ff = file->private_data;
- 	struct file *backing_file = fuse_file_passthrough(ff);
- 	size_t count = iov_iter_count(iter);
- 	ssize_t ret;
-+	bool exclusive;
- 	struct backing_file_ctx ctx = {
- 		.cred = ff->cred,
- 		.end_write = fuse_passthrough_end_write,
-@@ -70,10 +70,10 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
- 	if (!count)
- 		return 0;
- 
--	inode_lock(inode);
-+	fuse_io_wr_lock(iocb, iter, &exclusive);
- 	ret = backing_file_write_iter(backing_file, iter, iocb, iocb->ki_flags,
- 				      &ctx);
--	inode_unlock(inode);
-+	fuse_io_wr_unlock(iocb, exclusive);
- 
- 	return ret;
- }
--- 
-2.51.0
+ 	return fud;
 
+
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+-- 
+See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
+You can comment on the patch as usual, syzbot will try to address
+the comments and send a new version of the patch if necessary.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
