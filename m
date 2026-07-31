@@ -1,41 +1,73 @@
-Received: from SHSQR01.spreadtrum.com (mx1.unisoc.com [222.66.158.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984C1370AE6
-	for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 07:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=222.66.158.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673FE42464E
+	for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 12:03:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785481333; cv=none; b=dT01hTeQlyF7Ae8PiiD4glTIBdOU49lj3ZYSK6Y3NnWWi3zFFpkwmFLe8a/wfah56eSXOq2AInJWnDl3WAhi0F6mjJB07FiUI6+GV8qqhgEv0HI4Cqykn4zcWHx3qWz+ubBcG3d/87n+ySF9qenHg9Sqld30fdvp/akx2j/j3a8=
+	t=1785499436; cv=none; b=LoLJlpFTL2t7CM/jgt5UnUeDFfJnWnZzPl8P6Nm9JRzbL/guabUr82Zhpg34p6tOF9YcaNVDczkgOSRdPUG3tTH1s4/uEjIN794NgHqf4TGz8igdmfVZJxhhEd8dBP93tFxs5t5cAb9rGxYdo2WXzCYtTW4oSuzhqJ2LVXS8Nfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785481333; c=relaxed/simple;
-	bh=foCXtiqE0gFPL3F1keI1B4kV/lVifB1Uc2Dyz6MRAn0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HFuT/xZfaAG0LmdHdn80ncxx2XDZ3rd0TxZyJhZ3axWwxLE0jRA0QHS1V/uXwDWpIQkD7IrJrNFLsQcmZR871yqj89iLeuGUH7MoK2aFr4AWmzP6x8S702zoJRCmw15waQkCAyYnZvabJ0YuwIk/dxELGE35yuT4gs/IW2o84cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=unisoc.com; spf=pass smtp.mailfrom=unisoc.com; dkim=pass (2048-bit key) header.d=unisoc.com header.i=@unisoc.com header.b=B9e8QRsG; arc=none smtp.client-ip=222.66.158.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=unisoc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unisoc.com
+	s=arc-20240116; t=1785499436; c=relaxed/simple;
+	bh=a3u47kRr3Do278tdnqPPYoZAssH2IdMcqqRKQFentd0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nsWsl4NYzu6pS18jju6LvKMm54rB1Bw9Z1ZblNny4i6LVlEo36soeIaIiQngZiF7g+uH4Ty5Eq+NETmuFr91pjnPehjrVu3Vs3MPH9R8UOFCZxN5n4mq55dZdi4YY1Joiv7yJQ2mca2sh0Tu6W6PAr8ASIY4P4ew+AP4qqzA5bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=IRr5GaMX; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=unisoc.com header.i=@unisoc.com header.b="B9e8QRsG"
-Received: from dlp.unisoc.com ([10.29.3.86])
-	by SHSQR01.spreadtrum.com with ESMTPS id 66V71Bwm039779
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 31 Jul 2026 15:01:11 +0800 (+08)
-	(envelope-from Xuewen.Yan@unisoc.com)
-Received: from SHDLP.spreadtrum.com (BJMBX01.spreadtrum.com [10.0.64.7])
-	by dlp.unisoc.com (SkyGuard) with ESMTPS id 4hBH666csQz2KMMbm;
-	Fri, 31 Jul 2026 15:01:02 +0800 (CST)
-Received: from BJ10918NBW01.spreadtrum.com (10.0.73.73) by
- BJMBX01.spreadtrum.com (10.0.64.7) with Microsoft SMTP Server (TLS) id
- 15.0.1497.48; Fri, 31 Jul 2026 15:01:08 +0800
-From: Xuewen Yan <xuewen.yan@unisoc.com>
-To: <miklos@szeredi.hu>, <cmllamas@google.com>, <tkjos@google.com>,
-        <jstultz@google.com>
-CC: <quic_pkondeti@quicinc.com>, <quic_pragalla@quicinc.com>,
-        <qxy65535@gmail.com>, <ke.wang@unisoc.com>, <pin.xia@unisoc.com>,
-        <fuse-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH] fuse: give wakeup hints to the scheduler for synchronous requests
-Date: Fri, 31 Jul 2026 15:01:02 +0800
-Message-ID: <20260731070102.5850-1-xuewen.yan@unisoc.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="IRr5GaMX"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8ff20870ac7so6066286d6.1
+        for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 05:03:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=trailofbits.com; s=google; t=1785499434; x=1786104234; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BzP4sK4hBb/8A2cn+zbTFn82mSE4pQ11vgzpnhcOkCA=;
+        b=IRr5GaMXG6/hxjNFyAVRxfnbhUYRhPuk1BPIiSoLR5wDvzABZnCR/C+hPTzkLLNc0r
+         gxNqYvqYpxBTttdZIe6T9XVUjUUotuo8I/TQqMXu1bOxFE7qdxkvdWTyDaJJaNIoX5ir
+         Zt+baRobI6dYXLVI83JHh4foQsd0MWgneyVCbUX0i6knGvWzUYesIuLHn+i7ns1lWzyV
+         cndImK94k2ImrJqbo+JHumW5T7nixPJfPJMix6drm0d2SuThwxuWBmo2OBM1AR6REwwN
+         PUfJq21qv31f0J6oZha89I7i5JLeo0wtvPoO86LoAsiqXc4mNe5tktUBG5VqgfL0xlsq
+         prvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785499434; x=1786104234;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BzP4sK4hBb/8A2cn+zbTFn82mSE4pQ11vgzpnhcOkCA=;
+        b=ELfgCrApygtrQgWHIcyZoXMz7QiWoSO8sSzbIuHNqKMAh5L8+OYMjmoHAQrWjCYLeD
+         VJvW6SvIzUTKqVv9qDOBvREPtP5laPjdtuGYJDcImIrrgDtoOTiPHQ24T5WE8VwPmXuL
+         BA7hyKf1GyBM2+eyJCb/xAfp0cJZN5kzuDCStpVI0eJ8OyeIdZUfjlxfVnCfBFz1e5HR
+         szp1NVrgvyOHDfCixwQ/IIUaR37xgfHgm4mwqSoEyJP2UNwlBsulutrDJn/7OLwRWWIY
+         7O72HDTtHUErsypd0S1ve556n0gis/egMLcNKW6zv96Ikek1vTv4yQzIUWPfaGCkWpr8
+         ARGQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq7QnfgPwwFB4UVR3D9KU6/k7H5XZn/ZG6HAgvgAdkJ1unCWJva8p7tDwn5AbhmEtGg+k7tUZ41lpEo@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0Jx+MyL6bePXHZPesdMYhOJvwkyYaSo0QfI1B+5W6fFnx+XGq
+	oeWipnxV/j1APzdlYvKSZ3rZnCvkyBqQk6AznF0gzNkoW0odyNah+PMyx8E4c/vUfAc=
+X-Gm-Gg: AR+sD10UufEwXCb7WGlWdLegSm6GZMzv4D1ItzWmawWF5+n8Oe+SCHjPXgfVjY8q5pQ
+	W4K+VE56d4kVKVqsYRz0mdWkA88pt2JS5xnIsCgrr5PQbtpBujh1qQZEiKlwL3H8FSQsC7F4LaN
+	jaA0Ibh5tpaFXXFcOyMTl8tuBO2fUdpKvVYN1sSUcWV0Akjk2A0RatWeX6/O0k4TEuIlg53uL/b
+	u8n03/TuZaVsii8AbgVMaaWrEZMWG8VktXShXlX8dKNfy6xsy3N1rQxaHNsYDjpV34bKQKEBUQ9
+	16tHz1J2VrTM/HrDd0bS1zkxsxw/nN2u7047xYfd+2mAZYO9O6c8Gg6A0eC6yd6VCVhYJfrOX4T
+	6z4q1qTZJmWH4kS26/NOgek/pyTEbZCIVLvYQfyOMcaw1WeIna5axIQnWNDTO19qt0YKYoazqZP
+	BZmxMBC7iexMNelWmRkKc+GprLOXitO63Tls0g2UDSB8yR1VhESLDedU5XzGy7teUSjg==
+X-Received: by 2002:a05:6214:2025:b0:8f1:440c:7f81 with SMTP id 6a1803df08f44-908421a38e2mr30020526d6.4.1785499434242;
+        Fri, 31 Jul 2026 05:03:54 -0700 (PDT)
+Received: from localhost ([146.190.222.192])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-908435def8fsm8686026d6.38.2026.07.31.05.03.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jul 2026 05:03:54 -0700 (PDT)
+From: David Lee <david.lee@trailofbits.com>
+To: miklos@szeredi.hu
+Cc: David Lee <david.lee@trailofbits.com>,
+	Kyle Zeng <kylebot@openai.com>,
+	Dominik 'Disconnect3d' Czarnota <dominik.czarnota@trailofbits.com>,
+	fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] fuse: wait for sync init request after abort
+Date: Fri, 31 Jul 2026 12:03:52 +0000
+Message-ID: <20260731120353.558833-1-david.lee@trailofbits.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -43,193 +75,44 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SHCAS03.spreadtrum.com (10.0.1.207) To
- BJMBX01.spreadtrum.com (10.0.64.7)
-X-MAIL:SHSQR01.spreadtrum.com 66V71Bwm039779
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=unisoc.com;
-	s=default; t=1785481303;
-	bh=CMsl8o5kXQxLzgM5Z3mcaSA8U0z33PlPemckYfJtCzQ=;
-	h=From:To:CC:Subject:Date;
-	b=B9e8QRsGTmeFtrj9XKSUJ3cyk6Qk671X6wVRswkRUr6UK35kvnBcQn3xp+1LXPou/
-	 AYMweik/KPA2G5dj1vvxsSK2AlAgAjZpWe5WM2Mqt+Cy0l5c40OvGVF3Orfas3IlDQ
-	 geNeclZ8ryQKOCwRU+QYvuYB/XmDJ5pddJniV9NUFBBHo5Aop0Z9fbx75otPOMMfZT
-	 vmPwBWhnWBPDoOPfYhGh7nK/5uSk5NLGFDafFNrA/iDQpONIUoWXLzZklZzcaNtxWa
-	 SkLXlAtPVGVPrUFOqXBeLMX3nSDhTVpUfEg4XTJ5LEsX8WDYGljyPu7vazejjT+aZn
-	 bcUKOJIScFwog==
 
-When a synchronous FUSE request is sent, the in-kernel client queues it
-on fiq->pending and wakes the userspace daemon sleeping in
-fuse_dev_do_read()->wait_event_interruptible_exclusive(fiq->waitq, ...).
-The client then blocks in request_wait_answer() waiting for the reply,
-so the waker is about to go to sleep: this is exactly the pattern that
-WF_SYNC is meant to optimise.
-As Peter Zijlstra explained in the earlier discussion [1],
-WF_SYNC is a hint that the waker is about to sleep and the waker and
-wakee share data, so stacking the woken thread on the current CPU
-is beneficial for cache locality instead of searching for an idle one.
+After a fatal signal interrupts synchronous FUSE_INIT,
+request_wait_answer() aborts the channel and returns immediately.  If the
+request is in an FR_LOCKED reply-copy interval, fuse_chan_abort() leaves
+it for the writer to finish.  The synchronous caller can then free the
+fuse_init_args that owns the reply destination while the writer is still
+copying into it.
 
-Add a wake_up_sync() wrapper for task on the synchronous request path.
+Wait for fuse_request_end() after aborting the channel.  This keeps the
+synchronous caller's reply storage alive until any locked copy has
+finished, while preserving the fatal-signal abort behavior.
 
-Performance:
+Fixes: 204aa22a686b ("fuse: abort on fatal signal during sync init")
+Cc: stable@vger.kernel.org
+Bug found and triaged by OpenAI Security Research and 
+validated by Trail of Bits.
 
-  On an Android big.LITTLE device where the FUSE daemon (MediaProvider)
-  runs as a background service on the little cores while foreground
-  applications run on the big cores, the synchronous wakeup hint lets
-  the scheduler pull the daemon thread onto the big core that is
-  issuing the request, where the request data is cache-hot.  Measured
-  by qixiaoyu [2] on a 2000-picture zip decompression to /sdcard:
-
-    ------------------------------------------
-    | Default   | patched     | Improvement |
-    ------------------------------------------
-    | 13.0 s    | 7.0 s       | 46%         |
-    ------------------------------------------
-
-    Server thread wall duration: 3583 ms -> 1276 ms
-    Server runs on big core:       5% -> 79%
-
-  The original 4K-file copy/compress/decompress workload [1] on the
-  same kind of device showed a ~28% improvement (13.8s -> 9.9s).
-
-  Note: Miklos reported [2] that on his test box he could not observe
-  an actual migration from wake_up_interruptible_sync(); the benefit
-  appears to be most visible on asymmetric topologies (big.LITTLE,
-  where the daemon normally lives on a little core) and on workloads
-  dominated by small synchronous requests.  No regression was
-  reported on the symmetric- SMP test setups tried.
-
-The earlier version of this change [1] added a `bool sync` argument
-to all three hooks of `struct fuse_iqueue_ops` and threaded it
-through virtio_fs as well.  Miklos questioned the interface churn,
-and the patch has been stalled since.
-
-Re-work it so the exported interface is left alone.  The hint is
-carried in a new FR_SYNC_WAKEUP bit of the existing `fuse_req->flags`
-bitfield (an `unsigned long`, so no layout change):
-
-  - __fuse_request_send() sets the flag before fuse_send_one().
-  - fuse_dev_queue_req() consumes it with test_and_clear_bit() and
-    forwards the result to fuse_dev_wake_and_unlock(), which then
-    picks wake_up_sync() or wake_up().
-  - The forget, interrupt and resend paths pass `false` explicitly,
-    preserving their original wake_up() behaviour.
-
-Only /dev/fuse ever wakes fiq->waitq; virtio_fs and fuse_uring
-dispatch through their own transport and never call wake_up(), so
-threading `sync` through their ops would just add an unused argument.
-test_and_clear_bit() makes the flag a one-shot hint that cannot leak
-into a future requeue, and no extra cleanup is needed in
-fuse_request_end()/fuse_put_request().
-
-[1] https://lore.kernel.org/lkml/1638780405-38026-1-git-send-email-quic_pragalla@quicinc.com/
-[2] https://lore.kernel.org/lkml/20221222093407.GA1141@mi-HP-ProDesk-680-G4-MT/
-
-This work is based on "Pradeep P V K <quic_pragalla@quicinc.com>"  and
-"Pavankumar Kondeti <quic_pkondeti@quicinc.com>"
-
-Assisted-by: TRAE:GLM-5.2
-Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
+Assisted-by: Codex:gpt-5.6-sol gpt-5.5-cyber
+Signed-off-by: Kyle Zeng <kylebot@openai.com>
 ---
- fs/fuse/dev.c        | 22 ++++++++++++++++------
- fs/fuse/fuse_dev_i.h |  3 +++
- 2 files changed, 19 insertions(+), 6 deletions(-)
+Trail of Bits has a reproducer for this bug that triggers a
+KASAN use-after-free and can share if needed.
+
+ fs/fuse/dev.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 5763a7cd3b37..689470a548a2 100644
+index 5763a7cd3..deee1585d 100644
 --- a/fs/fuse/dev.c
 +++ b/fs/fuse/dev.c
-@@ -210,10 +210,13 @@ EXPORT_SYMBOL_GPL(fuse_req_hash);
- /*
-  * A new request is available, wake fiq->waitq
-  */
--static void fuse_dev_wake_and_unlock(struct fuse_iqueue *fiq)
-+static void fuse_dev_wake_and_unlock(struct fuse_iqueue *fiq, bool sync)
- __releases(fiq->lock)
- {
--	wake_up(&fiq->waitq);
-+	if (sync)
-+		wake_up_sync(&fiq->waitq);
-+	else
-+		wake_up(&fiq->waitq);
- 	kill_fasync(&fiq->fasync, SIGIO, POLL_IN);
- 	spin_unlock(&fiq->lock);
- }
-@@ -230,7 +233,7 @@ void fuse_dev_queue_forget(struct fuse_iqueue *fiq,
- 	if (fiq->connected) {
- 		fiq->forget_list_tail->next = forget;
- 		fiq->forget_list_tail = forget;
--		fuse_dev_wake_and_unlock(fiq);
-+		fuse_dev_wake_and_unlock(fiq, false);
- 	} else {
- 		kfree(forget);
- 		spin_unlock(&fiq->lock);
-@@ -251,7 +254,7 @@ void fuse_dev_queue_interrupt(struct fuse_iqueue *fiq, struct fuse_req *req)
- 			list_del_init(&req->intr_entry);
- 			spin_unlock(&fiq->lock);
- 		} else  {
--			fuse_dev_wake_and_unlock(fiq);
-+			fuse_dev_wake_and_unlock(fiq, false);
+@@ -725,6 +725,8 @@ static void request_wait_answer(struct fuse_req *req)
+ 
+ 		if (req->args->abort_on_kill) {
+ 			fuse_chan_abort(fch, false);
++			wait_event(req->waitq,
++				   test_bit(FR_FINISHED, &req->flags));
+ 			return;
  		}
- 	} else {
- 		spin_unlock(&fiq->lock);
-@@ -281,11 +284,13 @@ EXPORT_SYMBOL_GPL(fuse_request_assign_unique);
  
- static void fuse_dev_queue_req(struct fuse_iqueue *fiq, struct fuse_req *req)
- {
-+	bool sync = test_and_clear_bit(FR_SYNC_WAKEUP, &req->flags);
-+
- 	spin_lock(&fiq->lock);
- 	if (fiq->connected) {
- 		fuse_request_assign_unique_locked(fiq, req);
- 		list_add_tail(&req->list, &fiq->pending);
--		fuse_dev_wake_and_unlock(fiq);
-+		fuse_dev_wake_and_unlock(fiq, sync);
- 	} else {
- 		spin_unlock(&fiq->lock);
- 		req->out.h.error = -ENOTCONN;
-@@ -752,6 +757,11 @@ static void __fuse_request_send(struct fuse_req *req)
- 	/* acquire extra reference, since request is still needed after
- 	   fuse_request_end() */
- 	__fuse_get_request(req);
-+	/*
-+	 * This is a synchronous request: the caller will block waiting for
-+	 * the answer. Hint the scheduler via wake_up_sync().
-+	 */
-+	set_bit(FR_SYNC_WAKEUP, &req->flags);
- 	fuse_send_one(fiq, req);
- 
- 	request_wait_answer(req);
-@@ -1806,7 +1816,7 @@ void fuse_chan_resend(struct fuse_chan *fch)
- 	}
- 	/* iq and pq requests are both oldest to newest */
- 	list_splice(&to_queue, &fiq->pending);
--	fuse_dev_wake_and_unlock(fiq);
-+	fuse_dev_wake_and_unlock(fiq, false);
- }
- 
- /* Look up request on processing list by unique ID */
-diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
-index 668c8391d61c..40a791094813 100644
---- a/fs/fuse/fuse_dev_i.h
-+++ b/fs/fuse/fuse_dev_i.h
-@@ -38,6 +38,8 @@ struct fuse_iqueue;
-  * @FR_PRIVATE:		request is on private list
-  * @FR_ASYNC:		request is asynchronous
-  * @FR_URING:		request is handled through fuse-io-uring
-+ * @FR_SYNC_WAKEUP:	use synchronous wakeup when queueing this request to
-+ *			give the scheduler a hint about the waker task
-  */
- enum fuse_req_flag {
- 	FR_ISREPLY,
-@@ -53,6 +55,7 @@ enum fuse_req_flag {
- 	FR_PRIVATE,
- 	FR_ASYNC,
- 	FR_URING,
-+	FR_SYNC_WAKEUP,
- };
- 
- /**
 -- 
-2.25.1
-
+2.53.0
