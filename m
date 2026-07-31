@@ -1,116 +1,113 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E354446F4
-	for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 15:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785512839; cv=none; b=PqflRRKr6ppaqIZ5SVGBBWnbfaN1mDotPWyuOk5frFUWEfMkQsCHUWBwBWKLbAK+mqww4BS5ehGm+BeFFmWuyeirQ50EF/zJPxmKnW8um/QJYRNwGE3eH0YOa9VTtI7urD99rL63aLGDEPI1RIxgJE6EhJVFgTxTS5XbVeHXg5M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785512839; c=relaxed/simple;
-	bh=q9fTxzQBxBbEOD0ugwC1u9DmGKFny8cbzCFkkk/qHaA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i8BQvR9ti4qY3wSJZPxSw6OGsrowEWv8mhFp0bzU8l/MBvySDOkTNEAYZt2uHwbplEgFU2IrTp0I7cm3Mv+nh5wC+cyUBM2spzOvgb4Dn/JArNUMIyrCvlmDaiH19oSuchN5goujSTwXHQbaF9PmjHAVqB47+ShPBtzYxhsIR/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VgxyQ92C; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE66446830
+	for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 17:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785518982; cv=pass; b=a8aK1hm1vzgMm5nO2CeIuY+rK6N+DbmxkeJC/V4IpsOpiDkhxAY5b9DRycdWY0saFQO00GSlojF7CEzfdtlNC2baVy0ViEeGHrYsG7MTcfGO4LjpDIr+WHdzDMuV0V5ay1Z59U6NKIGLkX6lGXrMlpViMEDqfR7u5srfv48bhIw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785518982; c=relaxed/simple;
+	bh=ltSG9Hlxo+QdEflXofV1+I2D/0M3HtsFoks7deEIxEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aunz57hc0nlFI5ZFCSpmtj4frXIGcr3+lE8XOolvFSh+MUG8XyJN/9JyDSoOHp0nPEBiYyFknA4mZIUUgcjEkX1sUzbBpbED7/xXPmW00mqSNFzRF/VmuzSGS2lu8t5WB1oAGdeAOLRn3WhpKAZUPcVIo+VyOVoFySrCJi3y4SE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPfQw2xB; arc=pass smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VgxyQ92C"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8487214ad2bso1729621b3a.1
-        for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 08:47:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPfQw2xB"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47f59f25ec4so649449f8f.2
+        for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 10:29:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785518979; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UY2uh5XiU6NwN9HZWvEgY27YZSS2TFEDpuPWStMRHS2oYvp8d6CEtu8rnsch55X3M6
+         +gE77VBCuxCCy8VZ9XAegHLCRTaCkDinPRV+YwGg5GAp/Xm2GTWKklmLjKx21LVG3xQb
+         0QxaHBPCVrFGREzAZoZE6jB5o6C2YN55crs3K6lyIexqolEeNGuDwIBoNLf3/2XNriVL
+         VUZc2IywE0N7WPZzNWoAdRKcuSrZ/8D/MCLpSy2O5JyyrledExl5p5ZpsgdBl8YHVebb
+         J/dHIEbNOUOJNN1EDtyocW8nuBQSH259IbiP1JNuRQGSyDQKTJispvBqbNxRZ+3eIHVo
+         M10Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ltSG9Hlxo+QdEflXofV1+I2D/0M3HtsFoks7deEIxEI=;
+        fh=a7xgFANURfQUBZSnBO4+NjzFqAaWpRU4oVigNmd4rlg=;
+        b=OblQHC66qyLpCJQVXLXrP6DAp6tSR/NoRQKb3oNADJnteppM7yR6vYKoCX5f1b2Jv7
+         pSU2AdXzzzoNUxaE0vd06SDxz8adpo10YDsyuteSi0151Ix8AcNu54VRACNEUsi2GZ2G
+         IsJTRPwpBcfsyaQX+9Vgku1DSfw2zS3slfi0qwTooPJylEWx4fxyEJUl5VTuih6Um8bq
+         AsVcrmcGCxf1iP+UGDjr/yPQ5UalbUCVZBs9/ENDO5/O15px72Hq5XKYCJgLLKa3onTI
+         NGGkEGwp9YBOwa9Wz9eFBnUqpZ5vujN/6I9GLIaqT7mHHgVreLLNCnQAvrUz1qMU3DAv
+         wVRQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785512837; x=1786117637; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ztFk56Q0jQFdzSj0FNqD8W6vnZr/B9xHGh5NLKm3eIQ=;
-        b=VgxyQ92CSKawkmEsEJly8Zix7OlYsuFdgIIjm9VPRuALcavZyjjDA6VwvWKuN5Slo/
-         YCwl2ip6tDmv+Dlw9qisoH2i4jPh3cepiplHr8TKzXwA4+POkkTDmBZUh4meci0kQEtm
-         cyq7DPyIGpkpPW3oh+9qDea2EsF4J9ntK7p2h8fmG1hvSaLx6bIdW2GLwkRanGGS0jn6
-         fPgfZcTrW2WUaUiXqG+DehAzEz86SxDVG9aIqTxJ3CXKU0+E0LLVFr4mse2fR6dIv7dq
-         XFUNJRrAGVj5GtYRLxwdauZPHAnwoOwA2wsUoGjlwMyjtIImXwNh1AxACqSNO24/QJpB
-         Sj1Q==
+        d=gmail.com; s=20251104; t=1785518979; x=1786123779; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ltSG9Hlxo+QdEflXofV1+I2D/0M3HtsFoks7deEIxEI=;
+        b=iPfQw2xBHUmm/ric7UlG/6xWMlOZ/oDFJbaz6dDVOz6o7YT1i5OXxfAk0s1rH6sN3S
+         1dj1QDcSwayVbsgK4KXhPSjJAyHevbX77c8jWsVkzaKMO4KklkLrpvgZGPo3E78ktVr9
+         plFUP/Ffr2Os2WBFywWik61FZuoCdbKfseRp4kM6d16CtGnyB2/Dls5xqTj8l8dWBfpp
+         MORIh0IT4Gb+XvK7N/+SP5Wg/eEF3H5M+Ni/pr7hyRfLCUVTxXbmcfEXkLFmoRkeOSBi
+         +tTyCV6LUb0Zg6XmPeUnIikht4uYNfp0lEvIM8ePId+f6hQ1ODOHGEpBbNnNbe4K/8uA
+         MfHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785512837; x=1786117637;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ztFk56Q0jQFdzSj0FNqD8W6vnZr/B9xHGh5NLKm3eIQ=;
-        b=TKLwZ/T5OEKfdgJW8ct7zvNOLRxEnWZebvz6Q8oagt+Cs1EQXFDORE7tHLuf/EkfDn
-         2peDhDX34Zw/v5NHlo2wuJXhmQKDdGSO8e0xDbShqS9AUx72JHTlSq3dGBy0a5Vb+UeK
-         pqQtjYvOFaCEr9vGEdL/vif2L3EKF9UaoeNqfV+tMyrcxxbXhlb3giBbQQzxf2tgG3sK
-         LqweVZuyrbF+mxJFHc9mi/TpbRoMQJ+aHxLiRT+zOUC7N968uoIL0S5mJAdPwGihLRjj
-         O76YWixIUKi2i8gQix6PdRo0GVIked0hwqjNXq2AuOdo8697MpWz1cdodIrhTH8sSOBo
-         cZOg==
-X-Gm-Message-State: AOJu0Yw3lQoDA6mJc/Jg5Iejh5kq58hwNQEyHC5a85kOaS55y57P2WJU
-	jsYdsWX63wepqTe+iStTUPD8nfJ54JyvGrt3oaFJCQdDAaVLgk55xnW5
-X-Gm-Gg: AR+sD13xPRFZ38IdjqU2vwgfV4t0GKJYUc3rQQ5uc9K4QTE+fzzhWQLeFLBHI0GWZhK
-	3QaJ4mptCOdwO7+1mHSZuKjpEi5OkXez+d5XTdiyitqFtafdTuFYY24X2LfJAfZmo/pNctGEnfO
-	92eFWb/9i3XL7EWq6sa/H7ot9TVDI1+lcl/gyOAvfkZm0ZlhKKfbt+tze8nJmUFUUrLLEKUUaqF
-	vvFTgwSxct62hAJqg4kknkt4x8IrKuUDkdgDVVqIF6ZIXF9e0fQbrbwo1bSzV4klkwjkkr5LyHR
-	jkUip0RK3oCe5usTY/pRWT1Ld9lXTGXxgqgKN/RKUOg49HferXKpi6iI1NPKBmytmQaR//ncUUr
-	Hc/RYvuafW2+x5QGO9OvMHi7RlawJ2UwJIeMmdh8GwthcQaCYJfkAvjsdCLMeUY8DT9BO1w598O
-	mAXTgSnu6H6dmpWAS6dieb+3iDU2Y5Boi3VorE8aGsAZBSgEMWH5o9SSs=
-X-Received: by 2002:a05:6a00:e8b:b0:848:86cf:267b with SMTP id d2e1a72fcca58-84ee4956bb8mr138216b3a.61.1785512836463;
-        Fri, 31 Jul 2026 08:47:16 -0700 (PDT)
-Received: from ubuntu.. ([110.9.142.4])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbe39eb13dbsm753566a12.29.2026.07.31.08.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 08:47:16 -0700 (PDT)
-From: Sang-Heon Jeon <ekffu200098@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] fuse: use min_not_zero() in fuse_init_server_timeout()
-Date: Sat,  1 Aug 2026 00:44:36 +0900
-Message-ID: <20260731154440.1117457-1-ekffu200098@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1785518979; x=1786123779;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ltSG9Hlxo+QdEflXofV1+I2D/0M3HtsFoks7deEIxEI=;
+        b=snOeY9CpOlmPT3OyyDkT4qwUxfc8yNNzie51/lkTxhne19/SSVfsJPyJ6M4Lamy662
+         MDH4qLHvwqwUUR8PLLnnXRtTioFuM+mZx12+GN8BTRRHtJr/JLZ0n4YJ0MujdAcU6hER
+         bn/gErUsLlHDyRaOPWAKUwFu/7+efhuF2dKYSd8RIE0gs6Gc47uFfzjCCdsbG/jqge2I
+         2Dv1/JA3EzT3tumh1JvVr+1kxq90ZtzBCC7avj+nv0586R3V0mXgejVSpPw393fFkizP
+         oYKH6+kMLVN/hpCC6FdLDcPqRICMhJ+mkw5Poafk/Ic5Fl+J2bzBoS4r/ylzsHnOweQf
+         TdtQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrzIPkfdE4ARJFQQ3yuuppcmH0BRiufJHgmfIkDS+6db1kHQmfvphVmCA49Ko4t8hKyFwwPIjlGBya2@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLopMHtGBdBm4QeRDncSXtxs3PCXnOvMrdx9NCZXMlfY99RwPX
+	/0KFrvgm+EsBsKaZl6WcZdhmg3RRfCPWOcb7r6QccRy6BkhHYSRkeaYppIhxT3cvEMHUyjz/LBG
+	tRhmKoCHPXLZlU/UfWbH5j9wUoIk/Qfk=
+X-Gm-Gg: AR+sD12WS7CcoA47WlQGUPkdMEtyv7IWl1F6CvFFGKnSeCxpJXKAD7oF46chHpw2AEz
+	P1Jk+e7MdgNHLWiG4CfmlgpGRZRFkaK11iNka1316aWDHCT9pY8YltWMwG6PeEpQBP40YgO0T5w
+	COlyLWj7TgtIyI7iJeqiMBL6+y70NySAhT25F1XpZTumSrDseUZZGGeQZsvLgKKWfyFKwrtGl4j
+	8cuO7K82Xm9E5MgIUnMVG0bZgCKMi1G/MVdiLcV9ltztpCVhAvhq26Zq4t+42vIKr4UZsig7hTO
+	mJk+qVAGeVc0SJ6lxLG9wqYSSQRnmdoZi5+TF33WH2TpJsopgo+zvHzbx7Cgqbkh3hDtDzaHDx4
+	twmKh6elShnMLoPmyGGMLGbjaACnkUJGT1x9n
+X-Received: by 2002:a05:6000:2311:b0:47f:c62e:9cbe with SMTP id
+ ffacd0b85a97d-47fd72f08e8mr1063493f8f.31.1785518979167; Fri, 31 Jul 2026
+ 10:29:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260731154440.1117457-1-ekffu200098@gmail.com>
+In-Reply-To: <20260731154440.1117457-1-ekffu200098@gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 31 Jul 2026 10:29:27 -0700
+X-Gm-Features: AUfX_mybUcSTQYAYhOiPqPjw7xYcP5l-oiW_FZcZGnM5KUu8EmQe97t8jqN3rNg
+Message-ID: <CAJnrk1YO+ToJiv3JAyvuMQ-AUDug_P_0=43EDnwsBzxqb6uQVg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: use min_not_zero() in fuse_init_server_timeout()
+To: Sang-Heon Jeon <ekffu200098@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-fuse_init_server_timeout() limits timeout to fuse_max_req_timeout with
-the same logic as min_not_zero(), and returns early exactly when the
-computed timeout would be zero.
+On Fri, Jul 31, 2026 at 8:44=E2=80=AFAM Sang-Heon Jeon <ekffu200098@gmail.c=
+om> wrote:
+>
+> fuse_init_server_timeout() limits timeout to fuse_max_req_timeout with
+> the same logic as min_not_zero(), and returns early exactly when the
+> computed timeout would be zero.
+>
+> So use min_not_zero() instead and return when the computed timeout is
+> zero.
+>
+> No functional change.
+>
+> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
 
-So use min_not_zero() instead and return when the computed timeout is
-zero.
-
-No functional change.
-
-Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
----
- fs/fuse/req_timeout.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/fs/fuse/req_timeout.c b/fs/fuse/req_timeout.c
-index 6cc6fc491343..95a1acd7bc08 100644
---- a/fs/fuse/req_timeout.c
-+++ b/fs/fuse/req_timeout.c
-@@ -128,18 +128,12 @@ static void set_request_timeout(struct fuse_chan *fch, unsigned int timeout)
- 
- void fuse_init_server_timeout(struct fuse_chan *fch, unsigned int timeout)
- {
--	if (!timeout && !fuse_max_req_timeout && !fuse_default_req_timeout)
--		return;
--
- 	if (!timeout)
- 		timeout = fuse_default_req_timeout;
- 
--	if (fuse_max_req_timeout) {
--		if (timeout)
--			timeout = min(fuse_max_req_timeout, timeout);
--		else
--			timeout = fuse_max_req_timeout;
--	}
-+	timeout = min_not_zero(timeout, fuse_max_req_timeout);
-+	if (!timeout)
-+		return;
- 
- 	timeout = max(FUSE_TIMEOUT_TIMER_FREQ, timeout);
- 
--- 
-2.43.0
-
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
