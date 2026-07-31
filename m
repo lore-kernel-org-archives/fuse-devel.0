@@ -1,113 +1,104 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE66446830
-	for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 17:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785518982; cv=pass; b=a8aK1hm1vzgMm5nO2CeIuY+rK6N+DbmxkeJC/V4IpsOpiDkhxAY5b9DRycdWY0saFQO00GSlojF7CEzfdtlNC2baVy0ViEeGHrYsG7MTcfGO4LjpDIr+WHdzDMuV0V5ay1Z59U6NKIGLkX6lGXrMlpViMEDqfR7u5srfv48bhIw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785518982; c=relaxed/simple;
-	bh=ltSG9Hlxo+QdEflXofV1+I2D/0M3HtsFoks7deEIxEI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aunz57hc0nlFI5ZFCSpmtj4frXIGcr3+lE8XOolvFSh+MUG8XyJN/9JyDSoOHp0nPEBiYyFknA4mZIUUgcjEkX1sUzbBpbED7/xXPmW00mqSNFzRF/VmuzSGS2lu8t5WB1oAGdeAOLRn3WhpKAZUPcVIo+VyOVoFySrCJi3y4SE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPfQw2xB; arc=pass smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96E137AA87
+	for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 20:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.68.102
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785530337; cv=none; b=kWa6kHd8Jr+s6eSOXhdI41cjlF7EuQPXLcOjoCf+Sk8GF3D1r7tJINoTSGH5Oniuuz+oisfcZ36sHlU1UmMqakU7bMToZxGfXkul3X2D/MhNRgG1GpPFw/YFACqMhNyoUbHr+C26yWg7iIGx2hAOeqWlGQW6k4onF8+DLGVNJo0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785530337; c=relaxed/simple;
+	bh=taS6rUdv5gSiPxqmImB/coa9UsW48A6kRT5CAj9t/V4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZhUF+R6sWM1a29fE7oRcZ68q8WKisl0bHGR406Ee0HoY7Foi2QxUJS7s3JNb6IoBq0iy5FIpIprYdZmd1R4X6n+KyMptKwaR4RP3pQDrxSn6BFZ1OK+e3kViBhfyVsCa7Vry8mWZ8eI4DMxZ0JWqAOlNqPstVdYMfRYhuT+3Z5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=Zi6l71Ca; arc=none smtp.client-ip=44.246.68.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPfQw2xB"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47f59f25ec4so649449f8f.2
-        for <fuse-devel@lists.linux.dev>; Fri, 31 Jul 2026 10:29:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785518979; cv=none;
-        d=google.com; s=arc-20260327;
-        b=UY2uh5XiU6NwN9HZWvEgY27YZSS2TFEDpuPWStMRHS2oYvp8d6CEtu8rnsch55X3M6
-         +gE77VBCuxCCy8VZ9XAegHLCRTaCkDinPRV+YwGg5GAp/Xm2GTWKklmLjKx21LVG3xQb
-         0QxaHBPCVrFGREzAZoZE6jB5o6C2YN55crs3K6lyIexqolEeNGuDwIBoNLf3/2XNriVL
-         VUZc2IywE0N7WPZzNWoAdRKcuSrZ/8D/MCLpSy2O5JyyrledExl5p5ZpsgdBl8YHVebb
-         J/dHIEbNOUOJNN1EDtyocW8nuBQSH259IbiP1JNuRQGSyDQKTJispvBqbNxRZ+3eIHVo
-         M10Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ltSG9Hlxo+QdEflXofV1+I2D/0M3HtsFoks7deEIxEI=;
-        fh=a7xgFANURfQUBZSnBO4+NjzFqAaWpRU4oVigNmd4rlg=;
-        b=OblQHC66qyLpCJQVXLXrP6DAp6tSR/NoRQKb3oNADJnteppM7yR6vYKoCX5f1b2Jv7
-         pSU2AdXzzzoNUxaE0vd06SDxz8adpo10YDsyuteSi0151Ix8AcNu54VRACNEUsi2GZ2G
-         IsJTRPwpBcfsyaQX+9Vgku1DSfw2zS3slfi0qwTooPJylEWx4fxyEJUl5VTuih6Um8bq
-         AsVcrmcGCxf1iP+UGDjr/yPQ5UalbUCVZBs9/ENDO5/O15px72Hq5XKYCJgLLKa3onTI
-         NGGkEGwp9YBOwa9Wz9eFBnUqpZ5vujN/6I9GLIaqT7mHHgVreLLNCnQAvrUz1qMU3DAv
-         wVRQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="Zi6l71Ca"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785518979; x=1786123779; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ltSG9Hlxo+QdEflXofV1+I2D/0M3HtsFoks7deEIxEI=;
-        b=iPfQw2xBHUmm/ric7UlG/6xWMlOZ/oDFJbaz6dDVOz6o7YT1i5OXxfAk0s1rH6sN3S
-         1dj1QDcSwayVbsgK4KXhPSjJAyHevbX77c8jWsVkzaKMO4KklkLrpvgZGPo3E78ktVr9
-         plFUP/Ffr2Os2WBFywWik61FZuoCdbKfseRp4kM6d16CtGnyB2/Dls5xqTj8l8dWBfpp
-         MORIh0IT4Gb+XvK7N/+SP5Wg/eEF3H5M+Ni/pr7hyRfLCUVTxXbmcfEXkLFmoRkeOSBi
-         +tTyCV6LUb0Zg6XmPeUnIikht4uYNfp0lEvIM8ePId+f6hQ1ODOHGEpBbNnNbe4K/8uA
-         MfHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785518979; x=1786123779;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ltSG9Hlxo+QdEflXofV1+I2D/0M3HtsFoks7deEIxEI=;
-        b=snOeY9CpOlmPT3OyyDkT4qwUxfc8yNNzie51/lkTxhne19/SSVfsJPyJ6M4Lamy662
-         MDH4qLHvwqwUUR8PLLnnXRtTioFuM+mZx12+GN8BTRRHtJr/JLZ0n4YJ0MujdAcU6hER
-         bn/gErUsLlHDyRaOPWAKUwFu/7+efhuF2dKYSd8RIE0gs6Gc47uFfzjCCdsbG/jqge2I
-         2Dv1/JA3EzT3tumh1JvVr+1kxq90ZtzBCC7avj+nv0586R3V0mXgejVSpPw393fFkizP
-         oYKH6+kMLVN/hpCC6FdLDcPqRICMhJ+mkw5Poafk/Ic5Fl+J2bzBoS4r/ylzsHnOweQf
-         TdtQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrzIPkfdE4ARJFQQ3yuuppcmH0BRiufJHgmfIkDS+6db1kHQmfvphVmCA49Ko4t8hKyFwwPIjlGBya2@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLopMHtGBdBm4QeRDncSXtxs3PCXnOvMrdx9NCZXMlfY99RwPX
-	/0KFrvgm+EsBsKaZl6WcZdhmg3RRfCPWOcb7r6QccRy6BkhHYSRkeaYppIhxT3cvEMHUyjz/LBG
-	tRhmKoCHPXLZlU/UfWbH5j9wUoIk/Qfk=
-X-Gm-Gg: AR+sD12WS7CcoA47WlQGUPkdMEtyv7IWl1F6CvFFGKnSeCxpJXKAD7oF46chHpw2AEz
-	P1Jk+e7MdgNHLWiG4CfmlgpGRZRFkaK11iNka1316aWDHCT9pY8YltWMwG6PeEpQBP40YgO0T5w
-	COlyLWj7TgtIyI7iJeqiMBL6+y70NySAhT25F1XpZTumSrDseUZZGGeQZsvLgKKWfyFKwrtGl4j
-	8cuO7K82Xm9E5MgIUnMVG0bZgCKMi1G/MVdiLcV9ltztpCVhAvhq26Zq4t+42vIKr4UZsig7hTO
-	mJk+qVAGeVc0SJ6lxLG9wqYSSQRnmdoZi5+TF33WH2TpJsopgo+zvHzbx7Cgqbkh3hDtDzaHDx4
-	twmKh6elShnMLoPmyGGMLGbjaACnkUJGT1x9n
-X-Received: by 2002:a05:6000:2311:b0:47f:c62e:9cbe with SMTP id
- ffacd0b85a97d-47fd72f08e8mr1063493f8f.31.1785518979167; Fri, 31 Jul 2026
- 10:29:39 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1785530335; x=1817066335;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SnLOtL6OfB2jJTAGaU2rbvIii1GYRI8Lg0cDOKcF0mw=;
+  b=Zi6l71CaYwK9vlvYBu8XfwWuyA/hvt5RjkkvxsBi17m84qMmoAslNMot
+   QK9/pZz4P1MSsDwldIYrL1i5rGORNQAlhBa78ga8cjo3fmT6Y9R69Js6f
+   j6sAHc2F4rrfLQwHDGrDY4w/LU6Wr+JaNJStIaloSR98L87PofnL6qnkY
+   uqQ0nTzBd9loQaW4xBtyEItricZBc2bFFdS8aQLGqOthHuRSRlc93fsfm
+   xuuulA9BJSI0Y+VJSpCh1mpp/v6LcC/SF3iVYr9wVk8zcBbkskaXWQXhS
+   m4mTFcr4ls0Oijy+QRgp1KpdN8i7tMztfLuoH9sB/ME2bD3uxxvU2Gr8N
+   A==;
+X-CSE-ConnectionGUID: bz6HU1t+SO6baJcNZaqujA==
+X-CSE-MsgGUID: 7urMvQkdQwyfJwIVGlX91w==
+X-IronPort-AV: E=Sophos;i="6.25,197,1779148800"; 
+   d="scan'208";a="24812452"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 20:38:55 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:9604]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.47.97:2525] with esmtp (Farcaster)
+ id 50979d40-255f-4bf0-8f91-511eeb35044b; Fri, 31 Jul 2026 20:38:55 +0000 (UTC)
+X-Farcaster-Flow-ID: 50979d40-255f-4bf0-8f91-511eeb35044b
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Fri, 31 Jul 2026 20:38:55 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Fri, 31 Jul 2026 20:38:54 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: Miklos Szeredi <miklos@szeredi.hu>, Shuah Khan <shuah@kernel.org>
+CC: <fuse-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>
+Subject: [PATCH 0/2] fuse: zero the partial EOF page when extending a file
+Date: Fri, 31 Jul 2026 20:38:40 +0000
+Message-ID: <20260731203842.540798-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260731154440.1117457-1-ekffu200098@gmail.com>
-In-Reply-To: <20260731154440.1117457-1-ekffu200098@gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 31 Jul 2026 10:29:27 -0700
-X-Gm-Features: AUfX_mybUcSTQYAYhOiPqPjw7xYcP5l-oiW_FZcZGnM5KUu8EmQe97t8jqN3rNg
-Message-ID: <CAJnrk1YO+ToJiv3JAyvuMQ-AUDug_P_0=43EDnwsBzxqb6uQVg@mail.gmail.com>
-Subject: Re: [PATCH] fuse: use min_not_zero() in fuse_init_server_timeout()
-To: Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D033UWC003.ant.amazon.com (10.13.139.217) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Fri, Jul 31, 2026 at 8:44=E2=80=AFAM Sang-Heon Jeon <ekffu200098@gmail.c=
-om> wrote:
->
-> fuse_init_server_timeout() limits timeout to fuse_max_req_timeout with
-> the same logic as min_not_zero(), and returns early exactly when the
-> computed timeout would be zero.
->
-> So use min_not_zero() instead and return when the computed timeout is
-> zero.
->
-> No functional change.
->
-> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
+Extending a fuse file past a non-page-aligned EOF does not zero the tail of
+the old last page.  When that page is cached and has been mmap-dirtied
+beyond the old EOF, the now in-bounds tail is served to later reads as stale
+data rather than zeros, which violates POSIX file-extension semantics.
 
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+This is the same class of bug that commit b1817b18ff20 ("NFS: Protect
+against 'eof page pollution'") fixed for the NFS client; fuse has the
+equivalent gap on its non-writeback_cache, FOPEN_KEEP_CACHE path.
+pagecache_isize_extended() cannot be reused because it is a no-op when
+i_blocksize() >= PAGE_SIZE, which always holds for a non-fuseblk mount, so
+patch 1 open-codes the zeroing and calls it from all three paths that extend
+a file: buffered write, setattr/truncate, and fallocate.  Patch 2 adds a
+self-contained raw /dev/fuse selftest covering each path; every case fails
+without patch 1 and passes with it.
+
+Tested by booting the patched kernel under User-Mode Linux and running the
+new selftest (4/4 pass; 4/4 fail without patch 1), and reproduced against
+libfuse's passthrough_ll example daemon (-o cache=always,no_writeback).
+
+Jimmy Zuber (2):
+  fuse: zero the partial EOF page when extending a file
+  selftests/fuse: test post-EOF page zeroing when a file is extended
+
+ fs/fuse/dir.c                                 |   3 +
+ fs/fuse/file.c                                |  56 +++
+ fs/fuse/fuse_i.h                              |   1 +
+ .../selftests/filesystems/fuse/.gitignore     |   1 +
+ .../selftests/filesystems/fuse/Makefile       |   3 +
+ .../filesystems/fuse/write_extend_eof_test.c  | 368 ++++++++++++++++++
+ 6 files changed, 432 insertions(+)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
+
+
+base-commit: 7d87a5a284bb34edb3f4e7e312ef403b3385a7b7
+-- 
+2.50.1
+
