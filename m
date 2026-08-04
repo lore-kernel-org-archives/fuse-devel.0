@@ -1,74 +1,73 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292E43328FD
-	for <fuse-devel@lists.linux.dev>; Tue,  4 Aug 2026 06:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F754396579
+	for <fuse-devel@lists.linux.dev>; Tue,  4 Aug 2026 09:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785823751; cv=none; b=Pde3+bbGF2sFhD4t/CJcRrXOUL9j2JinApw+u12JCEx8E3IaZDH3k84ZEdlubsFqd1ZBgFbQLbuNaplFn7kYXlZ8uniWheapvZ+cSUROHUHsbBMuYCDENg6LDyf2al90qy5YlUrgFw3fLHeZMutRrFZ1ZR1e4fPjMalEeonlbIw=
+	t=1785835100; cv=none; b=gZplIsA1sE3DSzOOJGQ0UmNYeKEKAPNrWXmDmZahLhXtUvJ12+AQrveswK+kavuuEs+2DkS8V21UBcWhkTbzeT0+0eHWRht7pIosKEnhsq2xec9zE9X+fCzQfFUqSRfH463aNNLZgw0WgrSIn1Q1cdkDuIrMwsI+QERnXi2h6wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785823751; c=relaxed/simple;
-	bh=82W1jolxQXWCFZM2JCRJXessZ9IBLu9YUb9lv+2DmGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CEWEMxNl1J8Uc+xJL8c9lA9IEAGKjoLsRHR6ld7XZknv+bX84TsMuIf8C7L7TKCcYsKG1ut9DAIZ24GwXU/66J12iE24xkCIK6qXDKAjESjiJzzqfF2qySdO72Gay3wPQemn1I8FS4r54Ah5wpbZwgT8IbdPvSY+EkF+4TK/ca8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=WP9gOgfp; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trailofbits.com
+	s=arc-20240116; t=1785835100; c=relaxed/simple;
+	bh=WUQQSY6H5nJcSQifraCw4S12jimpulyl4w5ppW94kbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jF/81FljCPqdDRkNC0GxUQnUqa10nDW0BTyzalSIsMBw6hWdnlNdg4hF52CtRuNE7i/+NybwBh3bceKkrxRSbWlxKFtUvVhnlv/NFTE7qiKVg2qnsAdgVRy4XSTAMX7rS74oN490gnFgyBcglLNhqwKJ3VSj3EC0x1DMyMqxWO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fkl+OcwM; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b="WP9gOgfp"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e512a9a6bso223625185a.2
-        for <fuse-devel@lists.linux.dev>; Mon, 03 Aug 2026 23:09:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fkl+OcwM"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc97653887so47517995ad.1
+        for <fuse-devel@lists.linux.dev>; Tue, 04 Aug 2026 02:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trailofbits.com; s=google; t=1785823749; x=1786428549; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785835097; x=1786439897; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tre2t3DqAwsbqOY53Q7DgQbI8TFT+tAJpRwqGOsH2Sg=;
-        b=WP9gOgfp6PBL/76Tj49WR4uU3+pSlfAJ82A7ZrH7bW1k6fNKDv+c/k756+7eBPD7+p
-         U3udr7Sp8g9YuLpx9+NHC+3gxFp+RFcFoglXxdgqFHArZKkA28oSKTi2J9FpFtyROaQ4
-         l0Mcypm3rf/DI7NjC7YBtgU2ORJRCiHzPXLwNRvFiBClslV8ls/WT/FryfPJz+Wyd2LG
-         U341FB3eqKUDBaU96K33+EuQaBPBLZDaoNW/Ow+nBxx3jMdTNPp+6K8zRk68SrZtvPy8
-         d9kErgPcil9oHTMx8doL+/31VoiB11cufag8/Pfh0eWwzcYNUWmFk4wjIm505PsLaMm6
-         LbdQ==
+        bh=MGZtXrUugdh2Qw+yVg+F+V/hXWeRO6AD+o+/wkdKhes=;
+        b=Fkl+OcwMW+ol5vNpakYkDTrXBUVN+JbRFwiehahrKXjleQaPBC1zbg2JTndIoBdTIx
+         po8jo+jPDbjAJr8xZMXomVS+XooGgLkzqn4+zwazU/yDKmC7+kNnwrLHrPpf3sukD+CK
+         4BlI/ssg+xg5aq5A5NbGHJKacCg1JyglL49QYKSUw+AcJdpxd74Rd0j6DrOqDT8ztEr1
+         rXe1icpbcGzIbAVVe97WNY24mX3jDmYbW4rOz+EVtx525OKOZtrdTyCtHZEap/0xcz1h
+         oG04ikEmR16Vu4EFMkUpesc8fOdqCrA0md6AkdPTBNPpUFKmGLFlSUyRGSwGe9G9licm
+         7UEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785823749; x=1786428549;
+        d=1e100.net; s=20251104; t=1785835097; x=1786439897;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=tre2t3DqAwsbqOY53Q7DgQbI8TFT+tAJpRwqGOsH2Sg=;
-        b=Gm61lfBrf5zSckwuCYj9ADOoNjUcfXg2niO1uVMry9iw2fYjPgYX7qIr9aN6gALJWY
-         FwcsLRnaRXq8tfgAkNywhFk20Sa4fVIS7/KTIbRMEJonPUUfXCRdT0kxDyMFu1IrQ62t
-         SzEOmgx+qvX1JyN1r83bfdFlLSvFf2DpnaZAzAgdEuyM+Azsj9bLtkVt6qW9CEv3+Xi8
-         HLTaLRaev5tiVqL0uAoaBZfpzp3pg/xgQCmhhoXxL0PiRWDmSpTIYdjJhEtxl7BfqOHJ
-         Xit8t0X3egLChDnBLpusVrgKZXBDtsK8aCOzIs+wJmotyLA8rCIXq/vrJhqfWDApenLD
-         Qhvw==
-X-Forwarded-Encrypted: i=1; AHgh+RqAshIlswqNyCmjzZ2aevJ7HV0CQJzUfXCGLVJiyJURcnpyxR3LAfZiv1qXmLWmY8w6ApbNu6DUvXt6@lists.linux.dev
-X-Gm-Message-State: AOJu0YxWbZpbtTFrO3LjeCQ3MKHbrtk+iwkTAXeXy4JoGzKFec91OvcF
-	eSE1aZqX5q9AoLGGsbsiFnmBJUR7dMdkX9ItZGYRzJNHqIOWD0S+FMWcJpGv1Udiucs=
-X-Gm-Gg: AR+sD10SfALJ2Y5eLJmiL4mjijb4UjPKSovSHWKt61KERYOPwABGtPDplx5kcGYbRhI
-	pPV1HtXtmE3C7XU+IG7O+btmqWCfWEh6zaH7Wvi87s2RHlMaX6hazVHVo2Q+1semijK8I4XeS0r
-	fRlqe9jXcpNanC/Eh0TNZ4u0ZPT7ftRwYU+pPP4e4nbq0EKIL1mHstlj3HXD5+AyIFU9ygencA0
-	doWSikN4gUYfQQ8Ip74AR3ID0F/DgMS8nPI0nfsil/GkSH87p4PhRS1wLhQGMOWbgSvH28WUfNN
-	H3coEpp0ZxtF+YROppN/znmFGcLjf2TXZ33/PLSunt6VvyDXWXBsgSY97KzOOGHvUMugSA0EllS
-	eMyf5vpRdhEPxBivjOO8OyOIkVAZpGxP7a0S5lFL++xJJEqhqXM58FhJ41yrBPjlHGcgg+Qb2X4
-	NSEMNAIwiY585X86MGGiG/eZGMVbCZ2eiSOSkIyRCNmuC6SExxLgj7B+FqqolfRU/WMA==
-X-Received: by 2002:a05:620a:935a:b0:92e:76a1:96cd with SMTP id af79cd13be357-934a0786047mr1718187385a.13.1785823749092;
-        Mon, 03 Aug 2026 23:09:09 -0700 (PDT)
-Received: from localhost ([146.190.222.192])
-        by smtp.gmail.com with UTF8SMTPSA id af79cd13be357-93641748985sm5080285a.16.2026.08.03.23.09.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Aug 2026 23:09:08 -0700 (PDT)
-From: David Lee <david.lee@trailofbits.com>
-To: miklos@szeredi.hu
-Cc: Kyle Zeng <kylebot@openai.com>,
-	Dominik 'Disconnect3d' Czarnota <dominik.czarnota@trailofbits.com>,
-	Sven Eckelmann <sven@narfation.org>,
-	fuse-devel@lists.linux.dev,
+        bh=MGZtXrUugdh2Qw+yVg+F+V/hXWeRO6AD+o+/wkdKhes=;
+        b=NhyZqW2vkkSFQUASF1/N9+tlMOQjFDgPehxpvw4gf9QBsGYtB/jXqs3sl44/VvaxXh
+         inFzB7EQZau6EXPlWijZ/4cu4hG8vstgV1jMUdbve7hRR3FyrTBHNRItl4jFiYJtIKud
+         HChXlUqVd5VcCc/Rvzf4giQo0aahwG+568E/+KYtLaJgwYoGS9qbmGCfa/JFTL/ufwhF
+         AlttgIVQCkmJJkoDC3yG7KxiKn+t8zn1QzaTsCNK4nCKqAfU9CcFCObYC8EYbyyUkv/X
+         IkGIOPzwfTXAMzNtojw4WdFnv+UocnvHYbtlFnVb6ah8DC5Y4TvQSvDizorHIGIty4eU
+         ZI0A==
+X-Forwarded-Encrypted: i=1; AHgh+RqOvNTiXquQYgwYcD9GQ6eRIELtot+GNtLV8WjwBiWSqlLqsPWpMEaiWicAYmUL0tmQadeSYUvXnq1u@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBcNv+YIX2gyKuxu6paS30GJbXWYOMn1PPkFqcvFKBoSn1NYzx
+	Uga3PJHNFaW49Pelg+oMpsEN89CRFzYTp9kDJv5jCcEsxD/ZUH9tFXS/
+X-Gm-Gg: AR+sD10Wrt0yt7bxpB9Ft6BhecanviIqChXjlnaLU520lBUAjqk2uGe85+aMOsLQv/G
+	NG8/1aC+de3GQMwVlIyWFhe0/HlgD4ZGCkFlAkvqqkSFgV4+qWwYKWo69fYySY+E6JsUvSa3dUd
+	tJsy514PUeig41fd+FS0Tu3BtLQvE66Bs5iPx5VWSrGI/S09pszl+HDmZP6ktmrDjF+O6YmwSWJ
+	6p34XA+AnzmmwV3l5sqzx7LFChmT4gZFV+uZAQ6MarmowkUa2uw8Asx8L46v4EYuIRE8/Rdpq24
+	gb2DwbfRhyEyWTmb03VXJXnLOEvrb9034eq79RZzqpIFD/+8LsI738HzdjEHA3uQpLWXMZp/VTZ
+	UDljiGTMtlElTMxzf/WciKHzNOVSBVXJJDbp4/GiN541dmQx4aY5FPMYJ/ICEHJxnh30XuGj661
+	X/raMlmos5Mzy+thVBk3Yf6aox0DB7T/ik3qoZp0NIwhICymBk8lHKth8P27xfRtc=
+X-Received: by 2002:a17:902:d2c9:b0:2c9:cf5d:d9bc with SMTP id d9443c01a7336-2d0524b5269mr129321495ad.35.1785835097533;
+        Tue, 04 Aug 2026 02:18:17 -0700 (PDT)
+Received: from TENCENT64.site ([103.7.29.106])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0a9f8fee7sm3681065ad.16.2026.08.04.02.18.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 02:18:17 -0700 (PDT)
+From: Jun Yang <littleddfu@gmail.com>
+X-Google-Original-From: Jun Yang <junvyyang@tencent.com>
+To: Miklos Szeredi <miklos@szeredi.hu>,
+	fuse-devel@lists.linux.dev
+Cc: Zhao Chen <winters.zc@antgroup.com>,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	David Lee <david.lee@trailofbits.com>
-Subject: [PATCH v2] fuse: wait for sync init request after abort
-Date: Tue,  4 Aug 2026 06:09:07 +0000
-Message-ID: <20260804060908.711279-1-david.lee@trailofbits.com>
-X-Mailer: git-send-email 2.43.0
+	Jun Yang <junvyyang@tencent.com>,
+	TencentOS Corvus AI <corvus@tencent.com>
+Subject: [PATCH 0/2] fuse: fix request lifetime races in the resend path
+Date: Tue,  4 Aug 2026 17:17:07 +0800
+Message-ID: <20260804091757.503476-1-junvyyang@tencent.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,53 +76,57 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Kyle Zeng <kylebot@openai.com>
+Two fixes for races introduced together with FUSE_NOTIFY_RESEND
+(760eac73f9f6, v6.9), where fuse_chan_resend() moves in-flight requests
+from fpq->processing back onto fiq->pending.
 
-After a fatal signal interrupts synchronous FUSE_INIT,
-request_wait_answer() aborts the channel and returns immediately.  If the
-request is in an FR_LOCKED reply-copy interval, fuse_chan_abort() leaves
-it for the writer to finish.  The synchronous caller can then free the
-fuse_init_args that owns the reply destination while the writer is still
-copying into it.
+Both concern the same invariant. FR_PENDING means "queued on fiq->pending,
+protected by fiq->lock", and it is what fuse_remove_pending_req() relies on
+to unlink a request and drop the queue's reference. A request on
+fiq->pending can therefore be released without going through
+fuse_request_end(), so anything that sets FR_PENDING, or that leaves a
+request linked elsewhere while FR_PENDING is set, has to be done under
+fiq->lock.
 
-Wait for fuse_request_end() after aborting the channel.  This keeps the
-synchronous caller's reply storage alive until any locked copy has
-finished, while preserving the fatal-signal abort behavior.
+Patch 1 sets FR_PENDING under fiq->lock. fuse_chan_resend() currently
+publishes the bit while the requests are reachable only through a
+stack-local list, so a concurrent waiter can unlink and release a request
+that fuse_chan_resend() is still iterating over.
 
-Fixes: 204aa22a686b ("fuse: abort on fatal signal during sync init")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5.6-sol Codex:gpt-5.5-cyber
-Signed-off-by: Kyle Zeng <kylebot@openai.com>
-Co-developed-by: David Lee <david.lee@trailofbits.com>
-Signed-off-by: David Lee <david.lee@trailofbits.com>
----
-Changes in v2:
-- Restore Kyle Zeng as the patch author and correct the sign-off chain.
-- Move the research credit below the commit-message separator.
+Patch 2 re-checks FR_SENT under fiq->lock in fuse_dev_queue_interrupt().
+Its callers sample FR_SENT unlocked and fuse_chan_resend() clears it under
+fiq->lock, so a request can end up queued on fiq->pending and linked on
+fiq->interrupts at the same time.
 
-v1: https://lore.kernel.org/all/20260731120353.558833-1-david.lee@trailofbits.com/
+Dependency between the two patches
+==================================
 
-Bug found and triaged by OpenAI Security Research and
-validated by Trail of Bits.
+They are independent and neither supersedes the other, so please apply them
+together rather than picking one. Patch 2 does not affect the unlocked
+FR_PENDING publish that patch 1 fixes. Patch 1 cannot catch an intr_entry
+that is linked after its locked walk has already run, because that link
+happens once fuse_chan_resend() has released fiq->lock. Patch 1 on its own
+also makes the condition patch 2 fixes easier to hit, since requests that
+would previously have been torn out of the resend list now survive to be
+re-queued.
 
-Trail of Bits has a reproducer for this bug that triggers a
-KASAN use-after-free and can share if needed.
+Both were found by code audit and confirmed on v7.2-rc6 (075b74841bd0),
+where the series was built and tested; the resend and interrupt paths were
+verified to still be exercised with the series applied.
 
- fs/fuse/dev.c | 2 ++
- 1 file changed, 2 insertions(+)
+A KASAN reproducer for this issue is available if requested.
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 5763a7cd3..deee1585d 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -725,6 +725,8 @@ static void request_wait_answer(struct fuse_req *req)
- 
- 		if (req->args->abort_on_kill) {
- 			fuse_chan_abort(fch, false);
-+			wait_event(req->waitq,
-+				   test_bit(FR_FINISHED, &req->flags));
- 			return;
- 		}
- 
+Reported-by: TencentOS Corvus AI <corvus@tencent.com>
+Signed-off-by: Jun Yang <junvyyang@tencent.com>
+
+Jun Yang (2):
+  fuse: set FR_PENDING under fiq->lock in fuse_chan_resend()
+  fuse: don't queue an interrupt for a request that is back on
+    fiq->pending
+
+ fs/fuse/dev.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
+
 -- 
-2.53.0
+2.43.7
+
