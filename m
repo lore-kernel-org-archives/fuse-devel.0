@@ -1,131 +1,129 @@
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f2.google.com (mail-wr2-f2.google.com [74.125.225.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FDB47DF95
-	for <fuse-devel@lists.linux.dev>; Wed,  5 Aug 2026 15:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDF1427F8E
+	for <fuse-devel@lists.linux.dev>; Wed,  5 Aug 2026 16:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785944134; cv=none; b=dSua7y2F0Uwr0TffnY9f5x5hcIBDEopv9Kq4SznSxbSFftieg0XUUEYynRuhrE26QOsLc3Sb5di1uCYIBVTLQMuxrFHrh14/5UP2A93yWIj2uiN6JbM7rsr7JXXo/6/eEZYnV1dydh/vYtEm404IKjDlzXc2AToISAcZJG5z33A=
+	t=1785948636; cv=none; b=jJD6KflG+n7kI/5M1NrCv3ZQRKvsGsOIFyiw58lB14nDS3vEErmIt6RziL5E/iPCMr+q/3SWcvcbBaAd3VMP9puUiQNCRss8K3eXKMWUKqPAaXPClsOqOSC/1btWuZx+6vfZv5tbuKPXnqvgBosGi+zxqoXvrP4F6s0GkHR6W0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785944134; c=relaxed/simple;
-	bh=Ffov6x7aMRWcNdjw3BW2cf688BpyZunYkKTHRb+Y8pg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QUaQG5G/KrxNnDqeikb/nBUCqFweM+RvAnfsdp0YBf0tbhIJrBZdY8res4+fFV9pwKX1kSz4C13lpxc8d2K2MFnx3R73gwuxG5231CYxT+jhEho+t/VHippiCluSdrqHMoqhNqnjOgIOHGg64zRl+zeqW/r8Q28J632x6gx0oX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=lWmI4mQ1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eJjswOs+; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1785948636; c=relaxed/simple;
+	bh=BszZ6KBeKZ6Qg3CtgvJEAnRrVNmYR4/7gcB+znjO7EI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RZpXd/NU1Rq5sAAcjhfdCQ3G9LDjl1ukEbZdw2+/fEQ1X8PRVjdWwaZAThNIMLp03AYdT/VHT25v8XQS2d50YnJsv3MLH7Hvk/zhEmWcchv+pN87mre7FJcMLdO3NEq2JEr7B+fYZqV4nLusnsuvlvGKaAC6OzWb3Z+2oA+v/qY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EqiCPOn0; arc=none smtp.client-ip=74.125.225.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="lWmI4mQ1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eJjswOs+"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DB1597A0135;
-	Wed,  5 Aug 2026 11:35:24 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Wed, 05 Aug 2026 11:35:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1785944124;
-	 x=1786030524; bh=HGeUghNr42wAliyy3ZMpQtbhlpd/K1eYU5gGYzBK/Is=; b=
-	lWmI4mQ1s2mRdN1O5PbqiiwXahGlFUYu6lEPh/V89/eH7OjO5lxlS4Cma0dNwmm9
-	Y3q/P4qQd4PsLZCHkeInlDOAfeZVoc7CThXafxZ3yvyeBvbNJPhz/fEHEVpHpZeI
-	2qjtgpADmhDbT/WcaaJVdHABzzx///kkT4/3E+fo2WC3xsoUT2MS7DL1l9RoIgew
-	MEF+RaYUZkfi56EVzX2TjQHm6EE0aHw1T6dePBY1K8Nr/uX29B0qKONF6w5C1V+g
-	hXlxwZvFqjr4X1jmygGtJuDVK4de5pPsKDsoflzTVsUB1v8+iCgYUwbfFVreEaHx
-	moGzqsCqh/zztJsG7qWkqA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1785944124; x=
-	1786030524; bh=HGeUghNr42wAliyy3ZMpQtbhlpd/K1eYU5gGYzBK/Is=; b=e
-	JjswOs+akd4vt/EY7tosijVONw7un850jLHD6jLdEyRoZHenuaYAZJ6XK3cYPNBy
-	0bOC7BzOo5MzB73rPbfUeK1nFHprKnkZ7Z8GNBycBgRhI6TlZg2LbzWE/dDto8vT
-	XKFF+ByqVihvm6Oq7fbglFVXs2Z0hK7a/lKrhXtTSLyPN1Snlvev71v6m+wtK6W6
-	qpxQqwuThhmuRU3+GMsQ1HQfcQy7rh0S50+VT52qN+0/oEn/X8RJxpVft41gOJb/
-	RbW6kTF68rwjaLK8fdEOaLBYYyiEa/QQ3+XMpopVsDC12JiMDdXYVcTEDy8ye3xA
-	Kx5h3Ot35XvheC7EMBG9w==
-X-ME-Sender: <xms:O1hzaoiiENERIsEbt84GH-w2AV51NKDymSevbEDSuxk15Gq-sMUDRQ>
-    <xme:O1hzahvSKkrwaKHU2nOy0bPP-YsCmobP3ursHVdrm4sRei91_2KiMjbeRm2DR1X5s
-    XYTkXZJto4wGUzfpXnsUgwxpHQmdXirLXRHkiNyc2JLmGr--l41_w>
-X-ME-Received: <xmr:O1hzauSLmG9JP6g3WcsgKD8Jd4xNjNHm5rYhgbX_Jeu8ZtLkwwGw0CGlRDrCk7B5mB7KYZVU4nclcBKEBZTrLnWdEXh7l1FhrXJbopBH2VTojfoIFQ>
-X-ME-Proxy-Cause: dmFkZTFPGwIbPtQuDb9A9pElP9sM0ztlxGqki7tIyMlzkufW2L2kVpPhyUZTfluhxdVdpH
-    KKQv0KkFN0OInihQ2njLuaGVs0Mai6FhiDCjouLaFG6EVLRsl4LotU4KEjJgUQFUAZ33B2
-    gk1JvbhFaHFGZIBlv7pB852BxEZSzA+9USy6kSx8ZRCnvGIe6Z5L76uNFyN8aMMyFfw2QI
-    M8GOZAm82lk4ZhzHWcFnuMWcoqdcwFkiHiL6U5mzckwIfUCCG2GmPjigJpZhLz129QhOTl
-    TDrXtX5Fwn7p4efdwCRN+G83Qb3o451mnpQ0r8nVplNwcsm3tYnNDfZ63b62PMcd44A5n+
-    94TtYhhj2vEQinNBIhr0BzCGdfAd02mD12i95g2ZMLcZYQQ9e5VBCCmWAgR6XQPURlz2x3
-    9BeXkP+quMzsPxwuQljhn+mThPmQcEX4BcpFOyxulvvyYaT+KlJK6573toW1jKHSoVsY5R
-    j5EYhtOhWfzQ+ARIiTDRSkWoPv4BlvMBr8py9QCldl1uPfct/oD4bqln8Nf6uPPpqMwl4Q
-    zbo+xEIc1LNOoTMq15gO+Ki+AYwNGoTfvCM5xG7ZGVEAQtD3+9Ko3xoneYJmW5TGxZDMST
-    HWzk2rsuN78A/QISOnZOyE9arjUm1XguktPgwH4T5VNqrXq8NPF+boI3o/QQ
-X-ME-Proxy: <xmx:O1hzat3HH5LGXSY2cvByFCUAFlOyinKdoDpZE2r1Bz1-LwHX0rQBTw>
-    <xmx:O1hzarsCrx5gfn23mrmNUKnd9CAVNxBb4SM1tafvd67DD_21fYpZmA>
-    <xmx:O1hzargmxYnzEiuQtJRzV3e4b8lSdpBP1IN16kSxwEKiVc9npzkLMQ>
-    <xmx:O1hzak-K555VAAX7Ne22PRvo01y7DOLBxFVZc1fgGLMLYY3ixHzEpg>
-    <xmx:PFhzanzML7rGy9QFlnRz1Y80S1yNJc1IlDrvN89-3yjGsrLyYAOmQGwP>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Aug 2026 11:35:22 -0400 (EDT)
-Message-ID: <24e71071-1571-48ef-972e-08cb6564eaa6@bsbernd.com>
-Date: Wed, 5 Aug 2026 17:35:21 +0200
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EqiCPOn0"
+Received: by mail-wr2-f2.google.com with SMTP id ffacd0b85a97d-47f7f93b3d4so222236f8f.1
+        for <fuse-devel@lists.linux.dev>; Wed, 05 Aug 2026 09:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1785948632; x=1786553432; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=d+VuNurPstAmXmltuo2GrH5As/aKoCfWEX/g2T2jGFE=;
+        b=EqiCPOn0ErFHvD8Aqb9uCoVTSMleR8CHG6j1miVYVlnYfz8xtKv77S7El7/q+VpDur
+         n1surGiA9b9N6S3Vo8hJUzfX5E8W0KXLvndApY3yU2gwwERLbRibZGyImkK6u5hsJlwh
+         bDK76/0KBdCjqijFuaPQKQ1NUoruOYSzUwgc6saKVt3L7S39yMGssKmFeX5SVU9JoBd9
+         ThcSFUYQQGbbJDtJOq/2z4q7uVaXpvMJPXEonFymjs8IzAbWOLqAO0z/OHctVLONopg1
+         Jg6rzyKM0kzQwlQz6I0CxQOlxO6QSUu0EoBUcrxetOIXLwl9265WJ59ryANaH9pNT/8m
+         shSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785948632; x=1786553432;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=d+VuNurPstAmXmltuo2GrH5As/aKoCfWEX/g2T2jGFE=;
+        b=U6AhFcR1Ufx0FJIBnVApCyh2TOSi1lh560u44KKPqzzw2aKiPMJYlwegesg3H26Ly0
+         U1kkCGB/6ts26KW0C1qgfhlwAbmvWvTpqzeGpfnc4vM6agU89XM/++ID2LsRGKLruLWO
+         o2hDRO5s3tY5TeLJBkKWsGjE0xO2xvIVKxHKUCc5G3/i/MYoxzvLYQtyXL9Fbvw5Pex/
+         ebqPH4bsptkFQFe80b8P2t+Q7bfeG05cHliqgqi7IzMdUe5iVQ7eMBd7YMV/H7/TjF4y
+         yOBadQkETw5SNXWtsvd1NZ4cT46c1LUitZhQXnbxQ7bbPMQIZY0lzIA9vUh7eb5CwWoa
+         ZHeg==
+X-Forwarded-Encrypted: i=1; AHgh+RqBiP1D8y/Lx6dGTfDBunZg2RArNHixzQFiEdHD0M9aYVrVOG1uL0D82tueFE8sKjB3tsIXPM5+MOsu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5YyXAHAXiKQknbfWq5iJOcwMTeMLzD1QYLg3Fga19qNJ2pR5i
+	3Vvtiwyi482i+9kq2f2QqpIltPoGrsQh20PgXctvn16s2jElG6Iu/Rwv8fjVr4LR+kU=
+X-Gm-Gg: AR+sD10O7vuesaUWMk6us9U7U/uUwxYKgOe9iy4fN6hH8oOkOBrtCM7mvHRUgoMlyDp
+	6uXQvzW6tcuwDvCJa/ALA0PZLL7LJtwVKBK4dfLBlLcuwKo9oUvqHTQ1+dqVgZR8P/HBZrtTNPa
+	29sgKHFppMtAgQ8oVu012oOlsISNID/hvsONGuXwht7Ydqy2sjp3SxFsrLvuRSbXufV4dv8+2lt
+	iP7XZwaFZZkIY1CkT6kDBWgWek4o8nBr+vVjqiWCekkK/q0DSS9xpez+HzvrgVJ8SZgV+YCoy97
+	OCH6osSQruEMtj9TukYgzGUeZkTSnWi6GSID/FL4TwlfbM2O+88jK/OW1VxqXwgiQnq8RK+GgIn
+	iMy96saxLLiJFPAiTLUxTxYJOvqE0tHanvev0OOsJOlI4MfLqlvujSPwmoN2/YVnjWoXsXwvmjn
+	LPGWdJwsvjTMtjJWpnJ0YncKPfWOgd99A21lIoXvBLWpFniXH5tAbayDMDhx83Oij9
+X-Received: by 2002:a05:6000:d4f:b0:47f:9d0e:f8f with SMTP id ffacd0b85a97d-47fec627a65mr12452020f8f.26.1785948632621;
+        Wed, 05 Aug 2026 09:50:32 -0700 (PDT)
+Received: from localhost.localdomain ([2001:af0:8000:1409:193:86:92:181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47febf7e5bdsm9821153f8f.0.2026.08.05.09.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2026 09:50:31 -0700 (PDT)
+Date: Wed, 5 Aug 2026 18:50:30 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: cgroups@vger.kernel.org, containers@lists.linux.dev, 
+	criu@lists.linux.dev
+Cc: Kamalesh Babulal <kamalesh.babulal@gmail.com>, bpf@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, linux-integrity@vger.kernel.org, 
+	lxc-devel@lists.linuxcontainers.org, fuse-devel@lists.linux.dev, 
+	=?utf-8?B?U3TDqXBoYW5l?= Graber <stgraber@stgraber.org>, Mike Rapoport <mike.rapoport@gmail.com>, 
+	Christian Brauner <christian@brauner.io>, Adrian Reber <adrian@lisas.de>, 
+	Kamalesh Babulal <kamalesh.babulal@oracle.com>
+Subject: Re: [ANNOUNCE/CFP] Linux Plumbers 2026 Containers and
+ Checkpoint/Restore Microconference
+Message-ID: <anNn1INJrRef2ViZ@localhost.localdomain>
+References: <7959ba0b-c39d-4cb3-8269-482d1d593257@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/6] fuse: decouple fuse_ring creation from ent
- registration
-To: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
-Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, axboe@kernel.dk,
- amir73il@gmail.com, fuse-devel@lists.linux.dev
-References: <20260716175908.2339738-1-joannelkoong@gmail.com>
- <20260716175908.2339738-2-joannelkoong@gmail.com>
- <CAJfpegsNb=1P7Vh+DVfg3Ve9T8ggHxi1Y-ZhqiQ6R1bbnCTHGA@mail.gmail.com>
- <CAJnrk1Y8mwyeqqL=CaW-=Qn+kRghZNbJqSMqCSW_8DDCVyKKgg@mail.gmail.com>
- <CAJfpegucmqTZan0rLL8YoKy6h8UCzKuZQAsvasFpHgy64Nh4JA@mail.gmail.com>
- <CAJnrk1YMO2FgReO0Uc8Axx+D2C3WWGgU2YF6R0XSk72AvULXEw@mail.gmail.com>
- <CAJnrk1ZUUk=Emu1AfGtZ+GBHd7pH_9h1u-0kUstPVJ2cT38N2w@mail.gmail.com>
- <CAJfpegsAQfAp85ZBCX-picMnqAvBQCNWTVVO-Vaz94nj6HkWFg@mail.gmail.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-From: Bernd Schubert <bernd@bsbernd.com>
-In-Reply-To: <CAJfpegsAQfAp85ZBCX-picMnqAvBQCNWTVVO-Vaz94nj6HkWFg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7ozpukrxhw32oga7"
+Content-Disposition: inline
+In-Reply-To: <7959ba0b-c39d-4cb3-8269-482d1d593257@gmail.com>
 
 
+--7ozpukrxhw32oga7
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [ANNOUNCE/CFP] Linux Plumbers 2026 Containers and
+ Checkpoint/Restore Microconference
+MIME-Version: 1.0
 
-On 7/22/26 14:00, Miklos Szeredi wrote:
-> On Wed, 22 Jul 2026 at 01:10, Joanne Koong <joannelkoong@gmail.com> wrote:
-> 
->> We can fix up libfuse [1] to no longer send REGISTER before the
->> connection is initialized, so I don't think a kernel fix is strictly
->> needed here, but if you still prefer kernel code to coordinate this, I
->> can send that out.
-> 
-> With async INIT this is possible by waiting until the write(2) syscall
-> for the INIT reply returns.  This is because the initialization is
-> performed within the context of the write call.
-> 
-> For sync INIT the initialization is performed in the context of the
-> mount/FSCONFIG_CMD_CREATE, libfuse can wait until the respective
-> syscall returns.
-> 
-> So yes, it's possible to ensure this from userspace, no kernel change is need.
+Hello.
 
+On Thu, Jun 25, 2026 at 09:25:58AM +0530, Kamalesh Babulal <kamalesh.babula=
+l@gmail.com> wrote:
+> We are pleased to announce the Call for Proposals for the Containers and
+> Checkpoint/Restore Microconference[0] at Linux Plumbers Conference 2026,
+> taking place in Prague, Czechia, from October 5 to 7, 2026.
+=2E..
+> Please submit proposals through the LPC 2026 abstracts page by August 7:
+>=20
+>         https://lpc.events/event/20/abstracts/
 
-The patch here from Joanne needs a slight update:
-https://github.com/libfuse/libfuse/pull/1561
+Just a quick reminder that the CfP for the MC [1] topics is just around
+the corner. There is a chance to bring up topics of _your_ liking.
 
-I can amend myself next week (once I'm through with review here).
-
-As I wrote there, I had run last into -EAGAIN last year and had added an
--EAGAIN handler. Pity that I didn't record in the commit message the
-exact reason :/
+Regards,
+Michal
 
 
-Thanks,
-Bernd
+[1] https://lpc.events/event/20/sessions/267/
+
+--7ozpukrxhw32oga7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCanNp0RsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+Ajh6gEA+JVKvBO47pbrAwGAdZKn
+odfo4fAHSl0NLd8LTjOZA9ABAPg+Z9QFz4yhF4juz/IqW3AL7DcP/4GylW4G2PcG
+K90I
+=KTnA
+-----END PGP SIGNATURE-----
+
+--7ozpukrxhw32oga7--
