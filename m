@@ -1,75 +1,75 @@
 Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB6047CA6C
-	for <fuse-devel@lists.linux.dev>; Wed,  5 Aug 2026 15:28:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FDB47DF95
+	for <fuse-devel@lists.linux.dev>; Wed,  5 Aug 2026 15:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785943697; cv=none; b=Kp0Dy5lIlZEuo9vYa6numTzG2W5Ed//l5lGc+ICdIgpwGIHUDNXGTE3LYuG2vYhGe5dVqevVIVZv20Xjc4ARdWiKpP6mE5kZpMOm54FEe1TiVrkNqbipo4L5wdXgftC7vUHOhZrglBjeNILEUIlE6e3IhDtb019WLE3ORwZ/Iqw=
+	t=1785944134; cv=none; b=dSua7y2F0Uwr0TffnY9f5x5hcIBDEopv9Kq4SznSxbSFftieg0XUUEYynRuhrE26QOsLc3Sb5di1uCYIBVTLQMuxrFHrh14/5UP2A93yWIj2uiN6JbM7rsr7JXXo/6/eEZYnV1dydh/vYtEm404IKjDlzXc2AToISAcZJG5z33A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785943697; c=relaxed/simple;
-	bh=Qyd41A0e5XUizgcjYbHkN2HjN0qhiUqVbl+Qw8Bbf6w=;
+	s=arc-20240116; t=1785944134; c=relaxed/simple;
+	bh=Ffov6x7aMRWcNdjw3BW2cf688BpyZunYkKTHRb+Y8pg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NeiHNi3fOGTk7PAv0TXa15WALrZkzL3qZ/bFx7Wok256yACcWO/7p7HL9hgBFvl3Bl/JxFuSdiDkj4DAaVP4oke6ubSOQzB3Dwui5nicgk8tz26KdyjtvjHL+kKxJAa75Y4A3sRGOeq/LvBf3LJFXYf/3IDo8XK4sRMfECVwxNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=VRxF2Jbt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Rd72da6E; arc=none smtp.client-ip=202.12.124.152
+	 In-Reply-To:Content-Type; b=QUaQG5G/KrxNnDqeikb/nBUCqFweM+RvAnfsdp0YBf0tbhIJrBZdY8res4+fFV9pwKX1kSz4C13lpxc8d2K2MFnx3R73gwuxG5231CYxT+jhEho+t/VHippiCluSdrqHMoqhNqnjOgIOHGg64zRl+zeqW/r8Q28J632x6gx0oX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=lWmI4mQ1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eJjswOs+; arc=none smtp.client-ip=202.12.124.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="VRxF2Jbt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Rd72da6E"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1B2607A011C;
-	Wed,  5 Aug 2026 11:28:04 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="lWmI4mQ1";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eJjswOs+"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id DB1597A0135;
+	Wed,  5 Aug 2026 11:35:24 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 05 Aug 2026 11:28:04 -0400
+  by phl-compute-06.internal (MEProxy); Wed, 05 Aug 2026 11:35:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1785943683;
-	 x=1786030083; bh=C6XT21SzcmzKoqQfFczqkTLjYYhoo0k7LkH+5t7WEQ0=; b=
-	VRxF2Jbtvl3VyyBlhZ0Jx5m7HB585o3hy800LJPDwI2684BWlWP4YOp+pkUTt5cP
-	QBjZzZtEKA+BYuItOzU2yiNoTBY/io/JDp7LByhjgRnodd9zqP7W6qIcCusYWrBf
-	i2+CzY2KaqRnNIqObMTcaPYcAMQDQA6jffjBQCGxnAg+Vq/dFqHdIqHCL8dmki3u
-	Q9e3O1s/0pS0njL30JIxL0JUaYTMtgb4NIMXrRgpyAh9nAqnUVQGAiEiQeu+MtpD
-	zCHnR4LbIY3iwA6pj9TLyZ4NC6nwfXSBBYeAY71FZ5Tm1tQOadBO6DZlLuncY85L
-	DxMN6AAtolNBP5hE/bsK3g==
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1785944124;
+	 x=1786030524; bh=HGeUghNr42wAliyy3ZMpQtbhlpd/K1eYU5gGYzBK/Is=; b=
+	lWmI4mQ1s2mRdN1O5PbqiiwXahGlFUYu6lEPh/V89/eH7OjO5lxlS4Cma0dNwmm9
+	Y3q/P4qQd4PsLZCHkeInlDOAfeZVoc7CThXafxZ3yvyeBvbNJPhz/fEHEVpHpZeI
+	2qjtgpADmhDbT/WcaaJVdHABzzx///kkT4/3E+fo2WC3xsoUT2MS7DL1l9RoIgew
+	MEF+RaYUZkfi56EVzX2TjQHm6EE0aHw1T6dePBY1K8Nr/uX29B0qKONF6w5C1V+g
+	hXlxwZvFqjr4X1jmygGtJuDVK4de5pPsKDsoflzTVsUB1v8+iCgYUwbfFVreEaHx
+	moGzqsCqh/zztJsG7qWkqA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1785943683; x=
-	1786030083; bh=C6XT21SzcmzKoqQfFczqkTLjYYhoo0k7LkH+5t7WEQ0=; b=R
-	d72da6EHOXBx7Qw2/YHiJqzWw8L3+OzrE51pPrnQ7N13Lw9aZEOkFQlrg3q5CBq1
-	fSPBFlwM3VmsRgfUAyUo6/VHv3HG5XSRwX/nExJghuK0HoE2vXuay6NN3jCYPyRt
-	N5jIhE1sqxZLucRYX+UHe8185TP0duXr2fBRPTAXywLQo9nLlHtRpEUT9ul/HG5o
-	LtMwd2hyvudLJor69da3EVqBBCT+wK4/NFlf+V1MWFqoTZ9MU2w3mtpuQ7SSEAm+
-	82++hh9qL7aSMd4eKw7XA9D0qVpcavl8NGkE71TRoiraKeaELLm5S+IlAuMRJQj/
-	jDeP+1oMjfIPc987rZYnw==
-X-ME-Sender: <xms:glZzantAKIMp3SePX-xCfV344227Jfv_3BXmvBcUaRfFefVHy1wCCw>
-    <xme:glZzapJkJaxkOQn8BNKcS5hMrTJf4ytSf1J-9_g24ZOSJek4kSpVor-MXhh165AVI
-    -cpR9WWXCt9TdcSBUeyrhCOwVXvfSsqdOYYEXViObsQyn4TA14rQw>
-X-ME-Received: <xmr:glZzao_Sk35_Ww2bMkTI-YwfTQg8rgbrHXinLzg7huOnwKt4j7ObbCIuqdsI3paqmqibNgr4tcpSl4uHtLHkMacE7yYG_9T4C5rRE4a0MT-vWSpiJQ>
-X-ME-Proxy-Cause: dmFkZTEj2wNWnhtKHkHMUp1Z6LqfA/Kd2cZ8/88TNyHDXD4WUW472vCSYYq4oNGa0Zv517
-    MAiC0OZSi356FfDyGNN5Tsb/4x/3TgMmSxny9/HYamFmsz1dDZLKMlrOPG2xi5T1DkVoS9
-    5xM/sgay4j6tuLuoczXwnnUjZAkESOJc8MegFe+7IjtY96N8okZ2aEQBDjWUn1h6DqPtjk
-    iiKnyUndJJ3wxdH8bicbhL1ANE9ZiiWt81RVhI8Eby3wDjv89JEt4V/T325RZIREtG50e/
-    3h+2QgaNnfdIRROv/BnQoPbzcFQcgdMYXJUT66YB4qLYQ0dqPhIy7K7E0CZby1e2raSlZM
-    ncbJBiyotrIZwoSHten9IWH+TM65WhSq2W/wqCaGfiU5atcQnLENkqNHu+YN+YagwIcSJL
-    1pnP5rzvW2dYi6IBZKknYmKTT3KQE/vUi/WR6CvwFUqmSHuoF2kmLppSGwaAapC9tOT6P7
-    f+UO5R6/JKoRcWH4QTUk0Dp/tLnLU0ctoVmg7waF5o+JR/qos8Iwg0mdiXzs+5NSGq51ul
-    1891Mxjd8lIb2aKHp3wOmkK14HeSae4srcCNsg3RDgeO8X/fMWAESw35yFCu2vfU2oEsUb
-    dnw6vCvgPKi6rAtucKc4h9yhxKkwSk/kCo50fgA3esyvFPN7RUrKtENUwqpQ
-X-ME-Proxy: <xmx:glZzaqyAPiTgKF8-sVIMSkPD0qGHqa64ZKyWdSErOKX2WwDxgKJBgA>
-    <xmx:glZzat6sodBcVI62u1ItLbGP8tzUMkqrY2dhfmrJG4i4u_fB13jyHA>
-    <xmx:glZzap8JN4VTo3Is1dxC86rDggxfPUGZu9dh-TwcyIbO0s6QBg65_w>
-    <xmx:glZzaqqwNH-AmdipCwRkhiPEmTxzeyY4MSikTCNlQLbjFKvJGl_7Ug>
-    <xmx:g1Zzavs-hQkD6DG-gr1fPd0nOr3_QNd2nZmxhh_WWSyF6GmDRGk2rJHL>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1785944124; x=
+	1786030524; bh=HGeUghNr42wAliyy3ZMpQtbhlpd/K1eYU5gGYzBK/Is=; b=e
+	JjswOs+akd4vt/EY7tosijVONw7un850jLHD6jLdEyRoZHenuaYAZJ6XK3cYPNBy
+	0bOC7BzOo5MzB73rPbfUeK1nFHprKnkZ7Z8GNBycBgRhI6TlZg2LbzWE/dDto8vT
+	XKFF+ByqVihvm6Oq7fbglFVXs2Z0hK7a/lKrhXtTSLyPN1Snlvev71v6m+wtK6W6
+	qpxQqwuThhmuRU3+GMsQ1HQfcQy7rh0S50+VT52qN+0/oEn/X8RJxpVft41gOJb/
+	RbW6kTF68rwjaLK8fdEOaLBYYyiEa/QQ3+XMpopVsDC12JiMDdXYVcTEDy8ye3xA
+	Kx5h3Ot35XvheC7EMBG9w==
+X-ME-Sender: <xms:O1hzaoiiENERIsEbt84GH-w2AV51NKDymSevbEDSuxk15Gq-sMUDRQ>
+    <xme:O1hzahvSKkrwaKHU2nOy0bPP-YsCmobP3ursHVdrm4sRei91_2KiMjbeRm2DR1X5s
+    XYTkXZJto4wGUzfpXnsUgwxpHQmdXirLXRHkiNyc2JLmGr--l41_w>
+X-ME-Received: <xmr:O1hzauSLmG9JP6g3WcsgKD8Jd4xNjNHm5rYhgbX_Jeu8ZtLkwwGw0CGlRDrCk7B5mB7KYZVU4nclcBKEBZTrLnWdEXh7l1FhrXJbopBH2VTojfoIFQ>
+X-ME-Proxy-Cause: dmFkZTFPGwIbPtQuDb9A9pElP9sM0ztlxGqki7tIyMlzkufW2L2kVpPhyUZTfluhxdVdpH
+    KKQv0KkFN0OInihQ2njLuaGVs0Mai6FhiDCjouLaFG6EVLRsl4LotU4KEjJgUQFUAZ33B2
+    gk1JvbhFaHFGZIBlv7pB852BxEZSzA+9USy6kSx8ZRCnvGIe6Z5L76uNFyN8aMMyFfw2QI
+    M8GOZAm82lk4ZhzHWcFnuMWcoqdcwFkiHiL6U5mzckwIfUCCG2GmPjigJpZhLz129QhOTl
+    TDrXtX5Fwn7p4efdwCRN+G83Qb3o451mnpQ0r8nVplNwcsm3tYnNDfZ63b62PMcd44A5n+
+    94TtYhhj2vEQinNBIhr0BzCGdfAd02mD12i95g2ZMLcZYQQ9e5VBCCmWAgR6XQPURlz2x3
+    9BeXkP+quMzsPxwuQljhn+mThPmQcEX4BcpFOyxulvvyYaT+KlJK6573toW1jKHSoVsY5R
+    j5EYhtOhWfzQ+ARIiTDRSkWoPv4BlvMBr8py9QCldl1uPfct/oD4bqln8Nf6uPPpqMwl4Q
+    zbo+xEIc1LNOoTMq15gO+Ki+AYwNGoTfvCM5xG7ZGVEAQtD3+9Ko3xoneYJmW5TGxZDMST
+    HWzk2rsuN78A/QISOnZOyE9arjUm1XguktPgwH4T5VNqrXq8NPF+boI3o/QQ
+X-ME-Proxy: <xmx:O1hzat3HH5LGXSY2cvByFCUAFlOyinKdoDpZE2r1Bz1-LwHX0rQBTw>
+    <xmx:O1hzarsCrx5gfn23mrmNUKnd9CAVNxBb4SM1tafvd67DD_21fYpZmA>
+    <xmx:O1hzargmxYnzEiuQtJRzV3e4b8lSdpBP1IN16kSxwEKiVc9npzkLMQ>
+    <xmx:O1hzak-K555VAAX7Ne22PRvo01y7DOLBxFVZc1fgGLMLYY3ixHzEpg>
+    <xmx:PFhzanzML7rGy9QFlnRz1Y80S1yNJc1IlDrvN89-3yjGsrLyYAOmQGwP>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 5 Aug 2026 11:28:01 -0400 (EDT)
-Message-ID: <35c122f4-7d38-4493-8aba-83af1d776b87@bsbernd.com>
-Date: Wed, 5 Aug 2026 17:27:59 +0200
+ 5 Aug 2026 11:35:22 -0400 (EDT)
+Message-ID: <24e71071-1571-48ef-972e-08cb6564eaa6@bsbernd.com>
+Date: Wed, 5 Aug 2026 17:35:21 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,49 +77,55 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/6] fuse: add io-uring buffer pools and zero-copy
-To: Joanne Koong <joannelkoong@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
+Subject: Re: [PATCH v6 1/6] fuse: decouple fuse_ring creation from ent
+ registration
+To: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
 Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, axboe@kernel.dk,
  amir73il@gmail.com, fuse-devel@lists.linux.dev
 References: <20260716175908.2339738-1-joannelkoong@gmail.com>
- <CAJfpegv-Yiokb3YNkCNXf8f7YTSxsEVSD8YmrAt=y+1mg2oJ2Q@mail.gmail.com>
- <CAJnrk1Y1QaD2tc0LfPxS8yF4mv3K7x7q02pOqbWGBwYgztEkmQ@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
+ <20260716175908.2339738-2-joannelkoong@gmail.com>
+ <CAJfpegsNb=1P7Vh+DVfg3Ve9T8ggHxi1Y-ZhqiQ6R1bbnCTHGA@mail.gmail.com>
+ <CAJnrk1Y8mwyeqqL=CaW-=Qn+kRghZNbJqSMqCSW_8DDCVyKKgg@mail.gmail.com>
+ <CAJfpegucmqTZan0rLL8YoKy6h8UCzKuZQAsvasFpHgy64Nh4JA@mail.gmail.com>
+ <CAJnrk1YMO2FgReO0Uc8Axx+D2C3WWGgU2YF6R0XSk72AvULXEw@mail.gmail.com>
+ <CAJnrk1ZUUk=Emu1AfGtZ+GBHd7pH_9h1u-0kUstPVJ2cT38N2w@mail.gmail.com>
+ <CAJfpegsAQfAp85ZBCX-picMnqAvBQCNWTVVO-Vaz94nj6HkWFg@mail.gmail.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAJnrk1Y1QaD2tc0LfPxS8yF4mv3K7x7q02pOqbWGBwYgztEkmQ@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+In-Reply-To: <CAJfpegsAQfAp85ZBCX-picMnqAvBQCNWTVVO-Vaz94nj6HkWFg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 7/17/26 20:43, Joanne Koong wrote:
-> On Fri, Jul 17, 2026 at 3:18 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
->>
->> I think if the synchronization between INIT is sorted out then this is
+On 7/22/26 14:00, Miklos Szeredi wrote:
+> On Wed, 22 Jul 2026 at 01:10, Joanne Koong <joannelkoong@gmail.com> wrote:
 > 
-> I'll submit a patch for the INIT synchronization separately to avoid
-> respinning a v7, since it's a pre-existing issue not introduced by
-> this series.
+>> We can fix up libfuse [1] to no longer send REGISTER before the
+>> connection is initialized, so I don't think a kernel fix is strictly
+>> needed here, but if you still prefer kernel code to coordinate this, I
+>> can send that out.
 > 
->> good to go.  Sashiko can't apply the series, I guess because of the
->> non-standard base.   Not sure if we can help that.
->>
->> Also because Bernd and you are co-maintainers of fuse-uring, I'd hope
->> for an ack from Bernd (when he returns from vacation).
+> With async INIT this is possible by waiting until the write(2) syscall
+> for the INIT reply returns.  This is because the initialization is
+> performed within the context of the write call.
 > 
-> Bernd, this is targeting the 7.3 merge window, which opens August
-> 16th. Because it involves cross-coordination with Jens's tree, I'd
-> prefer to get this in at the start of the window. Can you please look
-> at this series and make it a priority before then?
-
-I will hopefully get it reviewed till next Sunday, didn't manage last
-weekend (was kind of working all weekend on the new libfuse test suite,
-because pytest does not hand out when something hangs). And from
-tomorrow on traveling again. Exactly that hang and uncooperative pytest
-caused extra work in the nights when I was on vacation and I then didn't
-manage the review this series :(
+> For sync INIT the initialization is performed in the context of the
+> mount/FSCONFIG_CMD_CREATE, libfuse can wait until the respective
+> syscall returns.
+> 
+> So yes, it's possible to ensure this from userspace, no kernel change is need.
 
 
-Sorry about the delays,
+The patch here from Joanne needs a slight update:
+https://github.com/libfuse/libfuse/pull/1561
+
+I can amend myself next week (once I'm through with review here).
+
+As I wrote there, I had run last into -EAGAIN last year and had added an
+-EAGAIN handler. Pity that I didn't record in the commit message the
+exact reason :/
+
+
+Thanks,
 Bernd
-
