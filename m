@@ -1,78 +1,74 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D8943E07C
-	for <fuse-devel@lists.linux.dev>; Tue,  4 Aug 2026 09:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01503DAACA
+	for <fuse-devel@lists.linux.dev>; Wed,  5 Aug 2026 07:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785835107; cv=none; b=hR90nmBZXpXvFfkXhCJcm8jEOboyqZcNNRO5/RSrgH6GkHmfJ3T1FQnKdJrT0xTaXOJ57eCd5zqpYY5skX2psvckxCzY7OW/89jCKwAfrbkP19qloknJ7rvahu/5i0TiWlFObFztiicckSLXYm/fh9uYFIFJEJj3Eb5x9yQWMSw=
+	t=1785913838; cv=none; b=ITEW/xS/mz8wO+OjfiM/QwQ16oABSACkNOYLH8MutgTL2ScrIJwvpYI1tG0SHN42E8Hv7vPtV0yhu0XXNrvD70/f7+X9M1Vsdv2ahg38H18AG1YcEuRfahau3+GqauqQsRHcPEx/g0k4yXwviVAcs+cDdYAGa/+t0uWGEMxSQjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785835107; c=relaxed/simple;
-	bh=RAB/MyUME2ucjjrxIXJWFmq6CahFTDgCw45WyA2sOc0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Gy1qfSjGR61Jk6Ghl4oLoJEPRHcRAOA4t4mhgCGxMzrpYWnkzxD9ygD9MKZTJybqtqkNORxbacjg15Q8JEQT8/YT1aInkXqW+HY7T3+WOTdqDk9bu9t8r+iq66HvTowzhjQNrQp3OXwKg9Yo5qvCXdec7LIqIvU9SlZocP45rsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I6gnQVKH; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785913838; c=relaxed/simple;
+	bh=N3mO1b011qA+KBHCe7QtNtviBAochPCzqgohVFrsKZ4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aNj3ztbWAvXTO1ayYs6c6GsnK2BGIdJ0y3Xi8gmuHByWyDIOjJG8hyPbPC2sRRGfxwAwFDKmDISZyhOK2bueaXat4s3LXO/q6tQGqi5blgVNI14dGucb4PW747vfrerR9D7+7LsTX7l6CoCzyM2QibzJR6W8++3WYfecP/OcfVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=RIvw4VOa; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I6gnQVKH"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc73e322dbso42914945ad.1
-        for <fuse-devel@lists.linux.dev>; Tue, 04 Aug 2026 02:18:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="RIvw4VOa"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-84a2c90e383so1427004b3a.0
+        for <fuse-devel@lists.linux.dev>; Wed, 05 Aug 2026 00:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785835102; x=1786439902; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GoaS38uzGP/FgfFST1kKMJA7M2vxyy+l5McECO9UQbc=;
-        b=I6gnQVKH8e//+JdYOgOpBbVTzuHKzCptUG2AIspTwS3a+b4FtSfC79nijmPJayoMoN
-         Z15hbLzr7J9LX25NdGq4BBh5L08895FInXlWQ71bRVeceu1WRIMQS06OwaefJiNOan0U
-         i0nZAs8PhKGVgq1BEL6fiueWzxLqHFKNEqEfOo0zowfJkZsH76L5TweqyMVdQpgEjLbr
-         g8pEKHVJ/YahKWnGXwzJXgIzaEG+owtWpkZTtNbuA/ghDXYqJHA0xL8qvOHTqJJyJAZW
-         j6MeA/AmpGLqxgc0JBJtFrFoJxmAE8W7tRvf8mc6iDxPeJ4o6ZTgnQxATm4RwEr+IJyf
-         iAMQ==
+        d=shopee.com; s=shopee.com; t=1785913836; x=1786518636; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=I4p7A4a8uzdqY/w2zVL3zSZnd/Avw/OZHzP9cuvYZiE=;
+        b=RIvw4VOabRhvTA4dB7IPAXrob3a7XaMgfYNTzOQHaaSbyxC4J4NXa99MX4/63Bidpk
+         c5dfGZPDCYTH6zjsJMG2UqAer63MZl/c693t4z8VBVhElBVTsQzwQgia0eivCyEx3kiF
+         Hv5Yjz7fRqkzzURQrQbwhaQMRo8Cte/U4w/HDSRQAt+u+ROS/Tfx1zoeKuEJwSwi96rJ
+         5VGsVdQJxSmQyKXmFM2321ZLZRwJnD6daQbLue9UWqd37LQUXIka5MJH+Os3StVhx7I4
+         shLrHui25BMM9jv3YmvmGN9LMlkxVqXjN4XSsQ/xve1VL6OHBiMi/HecEeVZP52KfsHF
+         zUdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785835102; x=1786439902;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GoaS38uzGP/FgfFST1kKMJA7M2vxyy+l5McECO9UQbc=;
-        b=OzQBZ9WKd/ZUlsKvc56XRntuSAeQUKi2STDd9wCFM/IE4RrCVh4R1QDEugAD0Jmjtz
-         7Hc5ENJeOGgKJBVKI1g4+JOT/t7gRcvE7rs0C9KgUfeHVWjW9afkALSTYvfwBUBWeizL
-         n7VaV8WUnRrpu/6eafefwaRyjG4jI48fpSFwK+ARQ6dPNw0koDIQgNnw8tSFGo3XpEnv
-         jMT6qt7UKCoaaFdvkA63//qQk6+zxrxiqM8FDvUU6OukFjnvR0RnzYRDUNUXNoDng3I5
-         AiKNhmRm2m4Bxj6S+Kyx6rbaidq0HPHrLTArD6s25nJyA1Ky6kUb5FaAsC+6FPxfceRj
-         U4TQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpzLjxlNwQfY4mNeh+JjwhUh3J5ptmuKpgIz/muFUHq4p6dWPcGLqg/Wlv1HCtww/JT6xxWPtSIxEv8@lists.linux.dev
-X-Gm-Message-State: AOJu0YzDdecOMi14o8BjAgKg0GyYOZkS/xhTtKTf8APJp4ThtrPcvUsO
-	kDpA4uWzEad/D3lRhyWVIEd2VhVQERrsvtlSc2Dd91zz4CVQOvv5xvgOeNyMJTxyrQ7Vaw==
-X-Gm-Gg: AR+sD12a9c5dHucjL1KyyVW+gZp/GTJHJj16+vh8wZU1OO1Rv4cnfSSH4h0GNi6rErP
-	TdhPp40lMTC23P37G8QHDNwNNWKae55HCL+lb17prg3A051LwUfskqNo0djWUu94G3O6zprl+aG
-	SfANv4UVne4cbhbPRb15OG+FfL/KXdvdTQoqa7T8lioNf9WyiTw7T7zmcYB1JG3g21QJE9Y+PSt
-	M1a5k+lyvRGY+pw9gNdWUkRqIOvBDFAGti0yCR9sHfPHHJu0HfM/gln3bF7N7JF+ZzGTkZ06SFq
-	4aUa5tFONjxdO89PoxEr5NucrVCvAG0IwWPzUQwruHntdgowKhZ+zjbpdQacQv+GDX+I2K/DCgE
-	BS12d80WhoFBSnAdwHYM7ej6xFiogtqYNlpFcRYvJP1KPeWUK7R/XJFm2oJhyO6GgLPv/IlREKy
-	eeK21som/ZyowNe6B884lsUr+MAO5Y9WwCDGLyIUlGGIzqYdHOhL3y/gaIGLmDMDE=
-X-Received: by 2002:a17:903:1a67:b0:2cf:7e56:22c4 with SMTP id d9443c01a7336-2d0523e1c85mr138995385ad.30.1785835102279;
-        Tue, 04 Aug 2026 02:18:22 -0700 (PDT)
-Received: from TENCENT64.site ([103.7.29.106])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0a9f8fee7sm3681065ad.16.2026.08.04.02.18.20
+        d=1e100.net; s=20251104; t=1785913836; x=1786518636;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=I4p7A4a8uzdqY/w2zVL3zSZnd/Avw/OZHzP9cuvYZiE=;
+        b=o38fhXN7ANDCtnMYOZrUp0RC5PX0yBLDr4yYmqkBSefIDKb7Crkmsm9D7bFQXPevRC
+         B43CPmyuozfeeW5M7B2b/OZLBLGnoJb8lzXYv1ary9AoTmTnl/U5hG1ejUtq7TUIeHLk
+         iB6+0pzzhnwzixUE6hEkqLZ5p8UMtw/M28r/sksc3NT2iZMpqOrB6O9qxEKyP/4DECol
+         t7poy9XIshpQb9MzleU3JTp1GyZyqQtk5eT3nY2tQjH6bKMiaHa98Wwabe0BnXBMqzlN
+         eWcP3EiyYtGntunvC+Kh5NJ5XXHE9SIbZETrUxBzyVjvosi511QRfivYCgJPIyR7wMnj
+         Gxpw==
+X-Gm-Message-State: AOJu0YyjQSB5P7kNkMNcxVEg7GsgoaF+4NZAyWoBpPpc+qy/PXUvrD1w
+	87CT5HnO3Po6mjGQ/NFD0A9n9imNSbbUxkK7nV7S6qZOD2QSvt3QDbuUTBAdBMUSO0CBaO/PqgT
+	cDevMlzKQJWqT2CmxyEtjNBrosCGj8lr8qyIOy1u8BSYuBkHntsEWU6bIdhg0pOENZfAOQ/cokM
+	eOtujnyOam3Jo+CART7kDs0DwI7LTG6U/vbrJLURLIiUjcU45dBQ==
+X-Gm-Gg: AR+sD100f9N17eCo3P3zmiX9qDqaxSf++4+hGD1rBs3CpycWQUojWYlN8yYTfnv0n9b
+	i0xmJCvoW4/YlbUcegZlZeX1FV8kTC4ij6A9e50Vgp9H8nJx120qGeA/vF/DaHHoFDBTE/+e7KJ
+	lmVcPahEPdhH/B0S/Azm8vuIbBLeNyqyiakORdqAkZ74Nm56tb+bqwpCybqA7zsMiq+olLrSBAR
+	ie0lYYZwP2PwB1kVUR+sBx14zq4YRnbC5VWuxYGvR+iThfTc23/9LT00RXnInkFgGf/Y+Kotd1h
+	UaZjhJL2fJ+QynV6TqETgPoPhHIr6FjRXkSg9W5ueeyQc8X57uenECzK9WRRNClglr9czkF297Q
+	b03O1j1N/5VfgZfZE5KmdsIe4zf/mfZ84hVfmFfoxZjucD27jOpEZdS9eDnJoOJarHr4vUosNos
+	CKJ3BJYnig7pPWsZqjz/bPx3Us0skaPuMa+NxGQIDjRs1HKIKkpTQ+TewjFceXvr6wj2WKKhPvp
+	uX3dgWxPlFteFvzOvjgGzgbFhZDdQ==
+X-Received: by 2002:a05:6a21:329d:b0:3bf:9bd9:cf60 with SMTP id adf61e73a8af0-3cb6c752f11mr9559682637.6.1785913836153;
+        Wed, 05 Aug 2026 00:10:36 -0700 (PDT)
+Received: from LPMV6FJ9FM.cn.corp.seagroup.com ([143.92.118.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31586402e53sm18460076eec.11.2026.08.05.00.10.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 02:18:21 -0700 (PDT)
-From: Jun Yang <littleddfu@gmail.com>
-X-Google-Original-From: Jun Yang <junvyyang@tencent.com>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	fuse-devel@lists.linux.dev
-Cc: Zhao Chen <winters.zc@antgroup.com>,
-	linux-kernel@vger.kernel.org,
-	Jun Yang <junvyyang@tencent.com>,
-	stable@kernel.org,
-	TencentOS Corvus AI <corvus@tencent.com>
-Subject: [PATCH 2/2] fuse: don't queue an interrupt for a request that is back on fiq->pending
-Date: Tue,  4 Aug 2026 17:17:09 +0800
-Message-ID: <20260804091757.503476-3-junvyyang@tencent.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260804091757.503476-1-junvyyang@tencent.com>
-References: <20260804091757.503476-1-junvyyang@tencent.com>
+        Wed, 05 Aug 2026 00:10:35 -0700 (PDT)
+From: Runli <mingyu.he@shopee.com>
+To: fuse-devel@lists.linux.dev
+Cc: miklos@szeredi.hu,
+	libaokun@linux.alibaba.com,
+	winters.zc@antgroup.com,
+	littleswimmingwhale@gmail.com,
+	Runli <mingyu.he@shopee.com>
+Subject: [PATCH] fuse: serialize resend state transitions with fiq->lock
+Date: Wed,  5 Aug 2026 15:10:06 +0800
+Message-ID: <20260805071006.26275-1-mingyu.he@shopee.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -81,62 +77,81 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fuse_dev_queue_interrupt() links a request onto fiq->interrupts based on
-an FR_SENT observation its callers make without fiq->lock: in
-request_wait_answer(), in fuse_dev_do_read() after setting FR_SENT, and in
-fuse_dev_do_write() on an interrupt reply with -EAGAIN.
+fuse_chan_resend() moves processing requests to a private to_queue, then
+sets FR_PENDING before taking fiq->lock. A fatal signal can consequently
+remove and free a request while it is still being prepared for resend:
 
-fuse_chan_resend() invalidates that observation: under fiq->lock it clears
-FR_SENT, sets FR_PENDING and splices the request back onto fiq->pending. A
-caller that sampled FR_SENT just before that happens links the request onto
-fiq->interrupts just after, so the request ends up queued on fiq->pending
-*and* on fiq->interrupts.
+  CPU 0 (request holder)          CPU 1 (resend)
+  ----------------------          ----------------
+  request_wait_answer()
+                                  req moved to private to_queue
+                                  set_bit(FR_PENDING)
+  fatal signal
+  fuse_remove_pending_req()
+    list_del(&req->list)
+    __fuse_put_request(req)
+  fuse_put_request(req)
+    free req
+                                  clear_bit(FR_SENT)
+                                  update req->in.h.unique
 
-That combination is a problem, because a request on fiq->pending can be
-released without ever going through fuse_request_end(). A waiter whose wait
-is interrupted calls fuse_remove_pending_req(), which sees FR_PENDING,
-unlinks the request from fiq->pending and drops the queue's reference;
-fuse_chan_send() then drops the last one. Unlike fuse_request_end(), that
-path has no FR_INTERRUPTED cleanup, so the request can be released while
-still linked on fiq->interrupts, and the next fuse_dev_do_read() walks it
-in fuse_read_interrupt().
+Hold fiq->lock while updating the requests and moving them to
+fiq->pending, serializing the transition with fuse_remove_pending_req().
 
-Re-check FR_SENT in fuse_dev_queue_interrupt() under fiq->lock, which is
-the lock fuse_chan_resend() holds when it clears it. This restores the
-invariant "FR_PENDING set => intr_entry not linked", both sides of it now
-being taken under fiq->lock. No interrupt is lost: the request is going
-back to the daemon, and fuse_dev_do_read() re-queues the interrupt once it
-has set FR_SENT again.
+Connected requests retain the same flags, unique IDs, and queue order. On
+disconnection, fuse_dev_end_requests() still ends every request, while
+requests that were never requeued are no longer marked pending or resent.
 
-Confirmed on v7.2-rc6 (075b74841bd0).
+This also combines the two linear list walks into one, reducing the total
+iteration count from 2n to n. The fiq->lock critical section remains O(n).
 
 Fixes: 760eac73f9f6 ("fuse: Introduce a new notification type for resend pending requests")
-Cc: stable@kernel.org
-Reported-by: TencentOS Corvus AI <corvus@tencent.com>
-Assisted-by: tencentos-corvus-ai:kimi-k3
-Signed-off-by: Jun Yang <junvyyang@tencent.com>
+Signed-off-by: Runli <mingyu.he@shopee.com>
 ---
-A KASAN reproducer for this issue is available if requested.
-
- fs/fuse/dev.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ fs/fuse/dev.c | 24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
 diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index e62c7ed8bcf4..c4df1d4abd33 100644
+index 5763a7cd3b37..fc1f5b9f100c 100644
 --- a/fs/fuse/dev.c
 +++ b/fs/fuse/dev.c
-@@ -240,6 +240,11 @@ void fuse_dev_queue_forget(struct fuse_iqueue *fiq,
- void fuse_dev_queue_interrupt(struct fuse_iqueue *fiq, struct fuse_req *req)
- {
+@@ -1781,26 +1781,22 @@ void fuse_chan_resend(struct fuse_chan *fch)
+ 	}
+ 	spin_unlock(&fch->lock);
+ 
+-	list_for_each_entry_safe(req, next, &to_queue, list) {
+-		set_bit(FR_PENDING, &req->flags);
+-		clear_bit(FR_SENT, &req->flags);
+-		/* mark the request as resend request */
+-		req->in.h.unique |= FUSE_UNIQUE_RESEND;
+-	}
+-
  	spin_lock(&fiq->lock);
-+	/* fuse_chan_resend() may have put the request back on fiq->pending */
-+	if (!test_bit(FR_SENT, &req->flags)) {
-+		spin_unlock(&fiq->lock);
-+		return;
-+	}
- 	if (list_empty(&req->intr_entry)) {
- 		list_add_tail(&req->intr_entry, &fiq->interrupts);
- 		/*
+ 	if (!fiq->connected) {
+ 		spin_unlock(&fiq->lock);
+-		list_for_each_entry(req, &to_queue, list)
+-			clear_bit(FR_PENDING, &req->flags);
+ 		fuse_dev_end_requests(&to_queue);
+ 		return;
+ 	}
+-	/*
+-	 * Remove interrupt entries for resent requests to prevent stale
+-	 * intr_entry on fiq->interrupts after the request is re-queued.
+-	 */
+-	list_for_each_entry(req, &to_queue, list) {
++
++	list_for_each_entry_safe(req, next, &to_queue, list) {
++		set_bit(FR_PENDING, &req->flags);
++		clear_bit(FR_SENT, &req->flags);
++		/* mark the request as resend request */
++		req->in.h.unique |= FUSE_UNIQUE_RESEND;
++		/*
++		 * Remove interrupt entries for resent requests to prevent stale
++		 * intr_entry on fiq->interrupts after the request is re-queued.
++		 */
+ 		if (test_bit(FR_INTERRUPTED, &req->flags))
+ 			list_del_init(&req->intr_entry);
+ 	}
 -- 
-2.43.7
+2.47.0
 
