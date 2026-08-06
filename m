@@ -1,263 +1,226 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9656A4248C5
-	for <fuse-devel@lists.linux.dev>; Thu,  6 Aug 2026 22:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786054750; cv=pass; b=j8CH44SViIOVSohwvUERmwWEddy7zR+yasbhrRfVNjntc/tgPxhLgIhTefyUACIhZwxKGGV0dJMzVZcY3a2qSfph6v3JSAMYMaY/K4kBoxhBmJATu2g4RSFUywZ27WRswLZURF52zE7BuZxCf04VSQjASLE61Sax04+HiNepmpQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786054750; c=relaxed/simple;
-	bh=furuEMtrfOaQTsiNxKrQWpuWz4pjwbUTXMI8PUSc/Lg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JlZ8/5h/dpROmTxK2Q1rfzcSvEUNg53Z3O7EGbWqyiTB51n7429c77mSvxRrCWZ83mmyZLglOz3COnCY3apgrJ1+dLr27Ddzn0On62YsxScy36FCQhQY4J+Ofa43iGAP4QZ8ro1NYQAWAW2uVHVJYvGb5Fip3XeARsqkE6SYfJk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F0s0Lzzy; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F0s0Lzzy"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47f7027ca11so1906203f8f.3
-        for <fuse-devel@lists.linux.dev>; Thu, 06 Aug 2026 15:19:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786054747; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NaI2NulKQAuWU+q5UbfnDtdJA53MtW4l9sW3c4y3ljvgOD6cj4GdqM+hHobZ8aLzaB
-         n252TYCZoQ9P71nGzV5IiBgln6fvVRrz0tDK+T9CIziCS6b+Rr5fSy/FSsH0j5QgKyX7
-         EzALnmuk8zE9G+QOCh5F5HMzg1GdevkgRFa/W0WuZiUcWKItU17GeYL+k7QfKRNI/DHs
-         1rjuxuCguPZc4sO9jkvx3k5B8tpMsSWks0Qh/A6fHlvL94sIvLSjeC//LtKpRMrgELf0
-         hXNKKEmwzz3SkISXp+lvr9OXgvHF++FF5Vwatv22YAuOkAvduaRAjiItWdYTArjIJp/T
-         mIOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LY5mD6y+jHwiQHKRXtdt+aR6mgCxws3lvW47vALHQvE=;
-        fh=QleTfS7LP3+W7MToTtH61rX9iPq54uzy9hyx6bjZcgw=;
-        b=KPlBmc2jBV/GZS8NNpQMwepbpZ5EU55/lKFogEeKAGpN7f2pOCN/kFnbkg7QtKbrDo
-         pxdc+fIgAOnjz0L+scBOff9YyUuTfp0wwktXVofpHpoFm5XisusZisoFLN+9g+1wP70A
-         ET34R9NKIz2E5zBLPcEVJW6/pIM/JnfA1Bkky5+cx/tDLW11km42/t/COIWPF4hdOtbc
-         OF3V89ViVKKpfTO19WUIzpI6HUfEUU1USH/n5CRcjl1UBG9PHujmo0VdaM3hnBO+lNBp
-         yGttdhqhSFaVsBYvpaDa4H5hwB29Nhxvn7eJ/+h//38Qmk8Blv0F5Q2tkNoMwZ8MS9SD
-         EJBg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786054747; x=1786659547; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LY5mD6y+jHwiQHKRXtdt+aR6mgCxws3lvW47vALHQvE=;
-        b=F0s0LzzyQYOJ7uv6fLvdPmgCYxJUlYmXtw9u3Bzo2Pg3oJAN7mBPcJuL7N/vx0CZ/F
-         KnMyacbCVuyPul8GrnVILyDP6BTMZm04p+J/m0xg+1KC4iJLs5IAq7KbmgsFo4W/rFoa
-         YcJYYXTMJu8sxkNw1+/7gz62sSeWuhLOJ8X8/GG3tQix29dErDoEURI8IqkdhbYiRWgH
-         zNivNKZ+r9+exP0UAdhYufZZ1QSf3PebzCONezNdYdHbavkf7ARCQV6r7rVZ81LcCQmy
-         UWL9G86KjSzLpg7tb+1dboIa+3wrnbNpERrz5krPA1Mr15ZFp/ztscLq6jyEpkQ3gjb+
-         1AEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786054747; x=1786659547;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LY5mD6y+jHwiQHKRXtdt+aR6mgCxws3lvW47vALHQvE=;
-        b=Royqju0C2asoSEK2wyb3Pr1LZkBWZepJcZ4QzET/J4tjCq8fGANjHD1v68TYMKsK5t
-         OLvfNWBnCgthtUAYE/6GSodv8c5HyLiWdRtKcKfGF8yEA38Vy0uCjsB2DV6zuVlCImvF
-         ES2EfeAlbtwcrN5MNLawZTyK7LU3LSUczPI/TOvIG01/eDwvdFheZ9bPEuXlEN3rj8t4
-         aCZ+j4Vl4VX6qpqs2IGim0S6QqoteJLKhBN4p4EvanmcQY6LiIK5U9czkkrfumlTkVH1
-         UyB54L0Pb5oLJvPUm7gV00fRSLvHQdML7Vj2BtTMOQ5XkwnyPv8afOiS//ZHhc5jCYhe
-         tfsA==
-X-Forwarded-Encrypted: i=1; AHgh+RoO4SbEh44dsEWy2YMTNUT34xefzjEHg7/PyLhrl1fPQYtL8vYjbr05+Nrc0Z9+QPa9RL+9qEbQrb6+@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLNI2NlJyvtFdV0juTJlz/Tgc2vFLnP77m+Vr2kxEHf4e00nus
-	NM0QQNlJZYAwhIk9C7KDqi277N4Vf307faq+jwoX4MHdsStBj5ws3qyW2JOVW3PGJw5ghTjwpyf
-	6HxSNc12xy0+15WlLwYve3gG4TjnopOQ=
-X-Gm-Gg: AR+sD133wj27MWjy+AruOnF1GvlD/kNIjkM/cMfG9YOdYzMJvSkPmA2GEgf4Ah1fREA
-	vkGMya9uF1XMn0nLE7Qyf28uRoajT0HMBHVOIOT0HZT4X1aOuPwyceuIPsqiLQxoXNuQaFYAjVF
-	7fKwR/+8xwZBZEINOV+whIPbVuj3OWs9OU6ixna3q18P91Bd1bAK0fOidkBW+eS1vn3q/5qaSqy
-	rUG6hhlSdO0K2TRGmnhuyfhuiNFcp7XRxT52YXPJU1QiMdxZ05ImQ6EKUluNUgKjqcUTuBZvmbh
-	3qyhajt5NYvqb0mJcKbw7LzO16jF1tqzBHNNoMAWZain1cPuRvIeoJ2MfZ0CwAJ29rxGeOHZx03
-	MFlMFejaYL5u9Sgi1SNY+Zm++
-X-Received: by 2002:a05:6000:1ac5:b0:47f:fd05:25a2 with SMTP id
- ffacd0b85a97d-47ffd0525ccmr7054857f8f.8.1786054746517; Thu, 06 Aug 2026
- 15:19:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BFA3DA7C8;
+	Thu,  6 Aug 2026 22:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786054994; cv=none; b=fMUXIzOcXVfscrojCwMM/XSRdTNqxJvwyib+r4AsHocUsOxoXz99Zm8f0N4svb6Hc7gUTU524R0l9ctnADXbQD+C2qtSsNomE4gxamJff6xe90jRXv6J+CGXgNYw0nM9DdwE5OU2+jATZrJ7jQikiWaM8zPXKLO8wYzNT+ysfvI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786054994; c=relaxed/simple;
+	bh=tGvzdTq7uHgUkxF6mM6FTnwURgWycNfryP9u0aplqSQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MxhQqt7ex5PISPldK3GSs1eSI5Txgln9w2FQMtuGUYs5lRTVLXRXum7ucmh7S4cQn4wTXpGVy/+xvaDJFOq+SEk8mdAm5CGizrl4oU8kp/1g3FwSwqTb+J4QhKYg+YdQUC6HCJVTqeE4AbRqEaRMPkHAqyfVCkW1TRW2fwIFyfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf04.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 32E4E1A0532;
+	Thu,  6 Aug 2026 22:23:04 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf04.hostedemail.com (Postfix) with ESMTPA id 5165220024;
+	Thu,  6 Aug 2026 22:22:47 +0000 (UTC)
+Date: Thu, 6 Aug 2026 17:22:46 -0500
+From: John Groves <John@groves.net>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 09/12] famfs: Register secondary daxdevs by path
+ (FAMFSIOC_DAXDEV_OPEN)
+Message-ID: <anUIQfuDqFADAIrf@groves.net>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022940.75910-1-john@jagalactic.com>
+ <0100019fc574b43d-effbc86f-dd35-4154-8c2e-17699ef0edb6-000000@email.amazonses.com>
+ <20260806052904.GI3560084@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260716175908.2339738-1-joannelkoong@gmail.com>
- <20260716175908.2339738-4-joannelkoong@gmail.com> <865afb18-533b-4542-86f8-c77215175c41@bsbernd.com>
-In-Reply-To: <865afb18-533b-4542-86f8-c77215175c41@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 6 Aug 2026 15:18:53 -0700
-X-Gm-Features: AUfX_mxSCayb12i1MZh19PaSaCt316jvhGETlkFMSpf9sYTvNy_WkRHIK2cbLHY
-Message-ID: <CAJnrk1beAMwnaUANB6MyPv6Rqj8gZ5FaQZ80zrBA=JNA1vdyOA@mail.gmail.com>
-Subject: Re: [PATCH v6 3/6] fuse: add io-uring buffer pools
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: miklos@szeredi.hu, jlayton@kernel.org, libaokun@linux.alibaba.com, 
-	axboe@kernel.dk, amir73il@gmail.com, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260806052904.GI3560084@frogsfrogsfrogs>
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 5165220024
+X-Stat-Signature: wsdnwprc31ufep4sxch9cfq8onkesyai
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX19e4VzaVm7w/scC5Jjieds+bkP0iPQMh3A=
+X-HE-Tag: 1786054967-655130
+X-HE-Meta: U2FsdGVkX1+Qg2TeFUY/rbdu+YjAmAAK0KDZIcb6vC4OemkFW8hbbeA6wN/YOtJ/nDCy7YlzV3tkY5Wo2i6IU2lKVATqIAkRasRrEyLjebYFbND6yFIE9w9bOsmF2JQv7//QV/7D4uq3f9hx9/U1BR8ukt1NQyolYyrKlfd5RnbNC3+S9Zpnu8SH+iPcY1p/r5d9TJ0Nz4KEcsIdaxYlCA/dY7TBTWebA5m7dq7M2A4ZaqcU9GrGsruOWf1qCLRFGgX/4PpsP2gl2wZW34MXTLNcuwXjeXh+bgsjYQL0QmrY5kgeGZni99ekWDnK0prsHB0SonDbOD/cgMcaFgD61OvCSywzMVaCCpxh/5gxbzxjriJfYrSkz1JbZB0GnzdP
 
-On Thu, Aug 6, 2026 at 11:36=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
-wrote:
->
-> > On 7/16/26 19:59, Joanne Koong wrote:
-> >
-> > @@ -1397,14 +1578,17 @@ void fuse_uring_queue_fuse_req(struct fuse_ique=
-ue *fiq, struct fuse_req *req)
-> >       req->ring_queue =3D queue;
-> >       ent =3D list_first_entry_or_null(&queue->ent_avail_queue,
-> >                                      struct fuse_ring_ent, list);
-> > -     if (ent)
-> > -             fuse_uring_add_req_to_ring_ent(ent, req);
-> > -     else
-> > -             list_add_tail(&req->list, &queue->fuse_req_queue);
-> > -     spin_unlock(&queue->lock);
-> > +     if (ent) {
-> > +             if (!fuse_uring_prep_buffer(ent, req)) {
-> > +                     fuse_uring_add_req_to_ring_ent(ent, req);
-> > +                     spin_unlock(&queue->lock);
-> > +                     fuse_uring_dispatch_ent(ent);
-> > +                     return;
-> > +             }
-> > +     }
->
-> Pure style, somehow "if (!fuse_uring_prep_buffer(ent, req))" reads like a=
-n
-> error case, *maybe*
->
->         ent =3D list_first_entry_or_null(&queue->ent_avail_queue,
->                                        struct fuse_ring_ent, list);
->         /* no idle entry, or no free pool buffer for this req */
->         if (!ent || fuse_uring_prep_buffer(ent, req)) {
->                 list_add_tail(&req->list, &queue->fuse_req_queue);
->                 spin_unlock(&queue->lock);
->                 return;
->         }
->
->         fuse_uring_add_req_to_ring_ent(ent, req);
->         spin_unlock(&queue->lock);
->         fuse_uring_dispatch_ent(ent);
->         return;
->
-> err_unlock:
-> ...
->
-> and similar in fuse_uring_ent_assign_req()
->
->         req =3D list_first_entry_or_null(req_queue, struct fuse_req, list=
-);
->         if (!req || fuse_uring_next_req_update_buffer(ent, req)) {
->                 fuse_uring_recycle_buffer(ent);
->                 return NULL;
->         }
->
->         fuse_uring_add_req_to_ring_ent(ent, req);
->         return req;
->
->
-> Just a pure style suggestion, though.
->
-
-Happy to make this change. Thanks for reviewing the patches. I'll wait
-until you have finished reviewing the other patches in this series
-before sending this.
-
-> >
-> > -     if (ent)
-> > -             fuse_uring_dispatch_ent(ent);
-> > +     list_add_tail(&req->list, &queue->fuse_req_queue);
-> > +     spin_unlock(&queue->lock);
-> >
-> >       return;
-> >
-> > +struct fuse_bufpool {
-> > +     /* starting uaddr of the bufpool */
-> > +     uintptr_t base_uaddr;
+On 26/08/05 10:29PM, Darrick J. Wong wrote:
+> On Mon, Aug 03, 2026 at 02:29:47AM +0000, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > Famfs file maps (fmaps) may reference multiple daxdevs. Before passing
+> > an fmap that references a new daxdev, the daxdev is pushed into the
+> > kernel via FAMFSIOC_DAXDEV_OPEN). This adds daxdevs to daxdev_table for
+> > index-based resolution from famfs extents to daxdevs.
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  fs/famfs/famfs_file.c            | 74 ++++++++++++++++++++++++++++++++
+> >  include/uapi/linux/famfs_ioctl.h | 24 +++++++++++
+> >  2 files changed, 98 insertions(+)
+> > 
+> > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
+> > index e7f271ce6d03..e11a55ecf8d7 100644
+> > --- a/fs/famfs/famfs_file.c
+> > +++ b/fs/famfs/famfs_file.c
+> > @@ -287,6 +287,76 @@ famfs_file_init_dax(struct file *file, void __user *arg)
+> >  	return rc;
+> >  }
+> >  
+> > +/**
+> > + * famfs_daxdev_open() - FAMFSIOC_DAXDEV_OPEN ioctl handler
+> > + * @file: any file in the famfs mount (the table is per-superblock)
+> > + * @arg:  ptr to struct famfs_ioc_daxdev in user space
+> > + *
+> > + * Register a devdax device (identified by path) into the mount's daxdev table
+> > + * at the caller-specified index, so files whose extents reference that index
+> > + * can be mapped. The path is resolved by lookup_daxdev() - the same helper the
+> > + * mount uses for the primary daxdev - so every slot is resolved identically.
+> > + * Registering exposes raw device memory, so it requires CAP_SYS_RAWIO.
+> > + */
+> > +static int
+> > +famfs_daxdev_open(struct file *file, void __user *arg)
+> > +{
+> > +	struct super_block *sb = file_inode(file)->i_sb;
+> > +	struct famfs_fs_info *fsi = sb->s_fs_info;
+> > +	struct famfs_ioc_daxdev dd;
+> > +	dev_t devno;
+> > +	char *path;
+> > +	int rc;
 > > +
-> > +     /* size of each buffer in the pool */
-> > +     size_t buf_size;
+> > +	if (!capable(CAP_SYS_RAWIO))
+> > +		return -EPERM;
 > > +
-> > +     /* total number of buffers in the pool */
-> > +     unsigned int nr_bufs;
+> > +	if (copy_from_user(&dd, arg, sizeof(dd)))
+> > +		return -EFAULT;
 > > +
-> > +     /* bitmap tracking which buffers are free */
-> > +     unsigned long free_map[];
-> > +};
+> > +	/* @flags is reserved; reject non-zero so it stays available */
+> > +	if (dd.flags)
+> > +		return -EINVAL;
 > > +
-> >  /** A fuse ring entry, part of the ring queue */
-> >  struct fuse_ring_ent {
-> >       /* userspace buffer */
-> >       struct fuse_uring_req_header __user *headers;
-> > -     void __user *payload;
-> > +     struct iovec payload;
->
-> Here I have a real concern. What is if fuse server sets up
-> really really large buffers, to thrash the CPUs?
->
-> setup_fuse_copy_state() is now changed to
->
-> -       err =3D import_ubuf(dir, ent->payload, ring->max_payload_sz, iter=
-);
-> +       err =3D import_ubuf(dir, ent->payload.iov_base, ent->payload.iov_=
-len,
-> +                         iter);
->
-> And the iov is taken as it from the SQE. Is there actually a really good
-> reason to have the payload as iov, at least in this series? I could imagi=
-ne
-> it might make sense to have it as iov once we make the buf pools more
-> dynamically usable.
->
-> Could we restrict setup_fuse_copy_state() to ring->max_payload_sz?
-
-The payload.iov fields are not taken directly from the bufpool sqe. It
-is assigned in fuse_uring_select_buffer() to reflect one buffer within
-the pool. ent->payload.iov_len is set to pool->buf_size, which in
-fuse_uring_add_bufpool(), we set pool->buf_size to be
-ring->max_payload_sz. Looking at import_ubuf() though, even if we did
-pass in the entire buffer pool size here, it is harmless, as the bytes
-copied are already limited/determined by the request (eg on the
-send-side, copies are bound by in-arg sizes and on the reply side,
-fuse_copy_out_args() rejects any payload_sz exceeding sum of the out
-args before doing any copying). Right now pools hand out buffers of
-the same size so iov_len tracking isn't needed, but pools will be
-handing out differently-sized buffers.
-
->
+> > +	/*
+> > +	 * If this daxdev index is already populated there is nothing to do.
+> > +	 * The index is cluster-invariant, so a valid slot already names this
+> > +	 * device; skip the path resolution entirely. install_daxdev() rechecks
+> > +	 * ->valid under the write lock, so this is purely an optimization.
+> > +	 */
+> > +	scoped_guard(rwsem_read, &fsi->devlist_sem) {
+> > +		if (dd.daxdev_index >= fsi->dax_devlist->nslots)
+> > +			return -EINVAL;
+> > +		if (fsi->dax_devlist->devlist[dd.daxdev_index].valid)
+> > +			return 0;
+> > +	}
 > > +
-> > +     /* buffer id in the pool, if bufpools are used. ignored otherwise=
- */
-> > +     unsigned int buf_id;
-> >
-> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> > index cfb055c0c764..f7173b5d4321 100644
-> > --- a/include/uapi/linux/fuse.h
-> > +++ b/include/uapi/linux/fuse.h
+> > +	if (dd.daxdev_path_len == 0 || dd.daxdev_path_len >= PATH_MAX)
+> > +		return -EINVAL;
+> > +
+> > +	/* +1 so the terminating NUL is included within the bound */
+> > +	path = strndup_user((const char __user *)(uintptr_t)dd.daxdev_path,
+> > +			    dd.daxdev_path_len + 1);
+> > +	if (IS_ERR(path))
+> > +		return PTR_ERR(path);
+> > +
+> > +	rc = lookup_daxdev(path, &devno);
+> > +	if (rc)
+> > +		goto out;
+> > +
+> > +	/*
+> > +	 * The daxdev table is allocated at mount time (for the slot-0 primary),
+> > +	 * so it is always present here; no need to allocate it.
+> > +	 */
+> > +	rc = famfs_install_daxdev(fsi, sb, dd.daxdev_index, devno, path);
+> > +	if (rc)
+> > +		pr_debug("%s: failed to install daxdev index %llu (%s)\n",
+> > +		       __func__, dd.daxdev_index, path);
+> > +out:
+> > +	kfree(path);
+> > +	return rc;
+> > +}
+> > +
 > >  /**
-> > @@ -1312,6 +1322,14 @@ struct fuse_uring_cmd_req {
-> >       /* queue the command is for (queue index) */
-> >       uint16_t qid;
-> >       uint8_t padding[6];
+> >   * famfs_file_ioctl() - Top-level famfs file ioctl handler
+> >   * @file: the file
+> > @@ -308,6 +378,10 @@ famfs_file_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+> >  		rc = 0;
+> >  		break;
+> >  
+> > +	case FAMFSIOC_DAXDEV_OPEN:
+> > +		rc = famfs_daxdev_open(file, (void __user *)arg);
+> > +		break;
 > > +
-> > +     union {
-> > +             struct {
-> > +                     /* base address of bufpool */
-> > +                     uint64_t uaddr;
-> > +                     uint32_t len;
-> > +             } bufpool;
->
->
-> Ok, if we ever want to add a new bufpool, I guess we could
-> invent "struct { } bufpool2;". Personally I would have
-> preferred to have an index in here, currently always set
-> to 0, but not a strict requirement.
->
+> >  	case FAMFSIOC_MAP_CREATE:
+> >  		rc = famfs_file_init_dax(file, (void __user *)arg);
+> >  		break;
+> > diff --git a/include/uapi/linux/famfs_ioctl.h b/include/uapi/linux/famfs_ioctl.h
+> > index b4eb373c1ade..751d8b033c2e 100644
+> > --- a/include/uapi/linux/famfs_ioctl.h
+> > +++ b/include/uapi/linux/famfs_ioctl.h
+> > @@ -77,6 +77,29 @@ struct famfs_ioc_fmap_header {
+> >  	__u64 reserved1;
+> >  };
+> >  
+> > +/**
+> > + * struct famfs_ioc_daxdev - register an additional backing daxdev by path
+> > + * @daxdev_index:    the (cluster-invariant) index this daxdev occupies in
+> > + *                   extent dev_index fields. Index 0 is the mount-time primary.
+> > + * @daxdev_path:     userspace pointer to the devdax device path (e.g.
+> > + *                   "/dev/dax0.0"); resolved in the kernel the same way the
+> > + *                   mount primary is.
+> > + * @daxdev_path_len: length of the path string, not counting the NUL.
+> > + * @flags:           reserved; must be zero.
+> > + *
+> > + * Standalone famfs registers every daxdev by path: the mount primary comes in
+> > + * as the mount device name, and slots 1..n come in here. (This deliberately
+> > + * differs from fuse's fd-based FUSE_DEV_IOC_DAXDEV_OPEN; each side is uniform
+> > + * within itself.) Passing the path by pointer keeps the struct fixed-size, so
+> > + * longer paths never require an ABI change.
+> > + */
+> > +struct famfs_ioc_daxdev {
+> > +	__u64 daxdev_index;
+> > +	__u64 daxdev_path;
+> > +	__u32 daxdev_path_len;
+> 
+> Can't we just pass an open fd to a dax device and have it use that
+> rather than doing its own path operations?
+> 
+> --D
 
-If we ever want to add a new bufpool, I think it'd be cleaner for the
-kernel to assign the bufpool id and pass it back in the cqe to the
-FUSE_IO_URING_CMD_ADD_BUFPOOL cmd rather than the server assigning it.
-With server-supplied indexes, we would have to also track / prevent
-collisions, gaps, out-of-range values, etc.
+Could do, but then there would be two ways to "open" a daxdev, since the primary
+is passed by path via the mount command or call.
 
-Thanks,
-Joanne
+If anybody thinks that's superior enough to do it 2 different ways, let me know.
+Otherwise I'll leave it.
+
+Thanks!
+John
+
+<snip>
+
