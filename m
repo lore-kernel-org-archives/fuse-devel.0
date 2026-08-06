@@ -1,385 +1,229 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D64236403D;
-	Thu,  6 Aug 2026 20:59:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786049967; cv=none; b=R0Wm48XPAPY8rhJiKLZsnuaPOe3KNkXxRC04s4rVSYhkqlIPOvtB+Htx/zYj1LmXrvFqq+dYQODllHpyadvnFnvAk/ivifDT84L7txx5K1pptf4IoLze0RMp6XIvsMqSUcMXV36wiFTAp+AVb/ifdmAOyawhcrMmKL0S7bEpk1s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786049967; c=relaxed/simple;
-	bh=f+glLTwLHrgOx3n5kNTZD8gFaKG3d+0k50x/OseJ1k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CmhHWHOjWPmi0FB59X4fXHxyCM4kZJQ7pKf0gqd/svUy8Epj0edD1vPd1KMM97y8ZrIgPeF7ELgkOqHhgGLfw+PCbSt638uEsZ+MqJo6NiIiKeN9OpWEjmYZOr3UnpR+jbb+Z4VfgiP9dwzO2QEyAoHm8hMF9WRx+9BAMOMBwTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf06.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id A703A140134;
-	Thu,  6 Aug 2026 20:53:31 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf06.hostedemail.com (Postfix) with ESMTPA id E2B4220010;
-	Thu,  6 Aug 2026 20:53:14 +0000 (UTC)
-Date: Thu, 6 Aug 2026 15:53:13 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 07/12] famfs: MAP_CREATE ioctl and fmap ingest (ABI
- 44)
-Message-ID: <anTxt3qsUQuCKvMz@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022919.75875-1-john@jagalactic.com>
- <0100019fc5746312-6cfe9a07-a658-4aba-b1e9-5233b0ddfcf4-000000@email.amazonses.com>
- <20260806052449.GG3560084@frogsfrogsfrogs>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E51447F765
+	for <fuse-devel@lists.linux.dev>; Thu,  6 Aug 2026 21:04:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786050263; cv=pass; b=dZFthfsUwqsY8aHfHP/IIpHXaZp+LOdKxXqjgpxas8IsHOH5fB+SFiAYKJ6S+8o+Pxw8LcCogkb8mWD62wF/Y0m27yauefY/LcZ8vXFb1QlLvJkHJv6Pzf27inQkZZn0ttDpxhcv2Fyx1iF6cZSYfzY+BrmzQdeHJwTmERej704=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786050263; c=relaxed/simple;
+	bh=8ilisN6b9rsvSV7tujnE8pXGbGA5qhlw1JHj7X5z5Dg=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=PILETp9cPP5trnSNWg8/cuIXRXevfOGP6Iz5PD/uZNpm86LQVFiG4riDhcOBMpzxakPWfKmjdBtUTiSL4kZIpRBQ1aAtk6eEJNgjnpZy8Gq/NYBu5IIocYzzIM8Ow08M7GppiAmVPrGn2Eyg6kWRJe+/Z4aLIIy351YWrCKQBNM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z4GqklpI; arc=pass smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z4GqklpI"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4957eefd361so19837675e9.1
+        for <fuse-devel@lists.linux.dev>; Thu, 06 Aug 2026 14:04:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786050260; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gjDcQUPd/fxqHhSQLkvJxCtwlip9diuH9xyF6F6ioLny9j463iEQyRkcO3i/KbZ66h
+         kKZv2Sm+llYTLwi2FWYjwp2GFfwn4KW2bmTO5CGom9qeBiwBa3dt4QDqTL50r8Se/hGK
+         szgUZQVP9TXGbZ7s9Pm+66nNIV4zUssIEFm6HkkY52aDU4MYPt0BiBZZm58yuwU/ZreQ
+         Mv/4d4UoPYEq6gTvLjLFnyBuN/F5til3hNbZzgdVro4u6UDE30x0Q66670fPQdSgQo9B
+         4v78b3/r6gP9vAlGDi5/Ews5iRdaKe0dpDy17OK95fUbt0AOSNn/mc5qx4wUsvvwiXNV
+         Tmpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=8ilisN6b9rsvSV7tujnE8pXGbGA5qhlw1JHj7X5z5Dg=;
+        fh=dRK/oHwaYU4CCxMcQvwKDpPQW2o3BQgPKdBEJrkIiDg=;
+        b=d06GSLtopT5UIOmw+G7czB0uf9cZ6qNZiaoqioOnDK0bAPugFrBbsVUQphYCtTgSo8
+         +aXOUcZGyO0YyY1zmxIL+o0LBa+pgyvy9iV2IYbRwMAZGQ21hb2E29ypTIVdCmpAsGOl
+         mW8A0JRsAX7OzixD4CXUGZ3/dvJNwnuYCn7lAAQhT0BJDBhY3lpR/AGEOc/P5HBieZB9
+         h4RPgoKOkRlFOoZslOLl0TNU8X8MVj5Jx/OTwyXfhCZmicyPVsEZ5N14jZlyD7keLnoG
+         Iwb8VSqVmq2N721XlcxaLHwgrC7VxXdb1OyBbIB1qJkj9zgzO7PorNnX0LfjTIPPcwCJ
+         2PRQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786050260; x=1786655060; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8ilisN6b9rsvSV7tujnE8pXGbGA5qhlw1JHj7X5z5Dg=;
+        b=Z4GqklpI1iNFgvbnXHpG6t3Youmc/d0H4A7dSQQKyFYzuWCplkbWDKuCj7xTPPxld/
+         bbqGeKwVc+oqIhuISt5oqfx6P8x1FeyN8S0jbpJOJVa7+KO27EepseIHhCLUvOI6v3q3
+         Rss/lk6sixKxVw0cA4KOL4uOtxbqGEOGdP21sjCd6FNiohBFOwotsYp84AcgtO5q0ngU
+         LFUjqfd2ffNcHgFXmU6LJAad4YIs3AC+E8xUsYtJ77nUGIf0GxS583ZpnoRT7iv44c0i
+         OhzAr5j2M+2mt71rjXGMnoRpTQMVQb7GlG7Mlf8znqy2DEo6yFOyRKVBL71ivWnZqqcC
+         fWMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786050260; x=1786655060;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=8ilisN6b9rsvSV7tujnE8pXGbGA5qhlw1JHj7X5z5Dg=;
+        b=I3Tb1LLoQuZBPJRqiUA7ydMApjvXbf2rYThr23XyCu5wYXHaQd7EQsahU5TjidTH3k
+         4ibU9QapjSZtL0XIR6lGYdjoq/qvgo7K6+cLY/ojbftQCrTk8IN1o+lxJOq5cDaAciGa
+         pWlFvDnn6JPUZiZAk5ZMV9jZXXwNl7asK+vkDDYz7l7EYB3Q8dNYiju/0wGsvYs/dzPC
+         NRsfOQZtssC7jUjp2cFUpTdSpXE445TRfC8OqLtRv1ZtaU2SR6tVv96TFmSCSQh/lKq0
+         +ERlnDUQ6zAwiJIWew8VL4++3yUQZkvxwUhZsTxDTVg3K9W5whioQtbePs2ZozH9H2u9
+         D4pw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr1ypusn85WIoZkdWVlLhWshtLSWdXvsGxmmJTbniZ2RubuGbDE8/JveFl8/YuWpDVQzwopCqVgNhh1@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVIvRoGsQ39Ouemp9JpsNQCbtNTwMaE1s/M89t11TnPswf1ezF
+	5iS9BIjaDcxKJ2SeHREEsdeBw410adY9RdOmOtltVE55FeBQ2v2tMlLZjed32NrS9Ifch3k8gVk
+	gJqJLiWfhhAQyhvsTQnSyFTL7ALK3zHM=
+X-Gm-Gg: AR+sD138C8dNAkWpK+NqU48C3AximJcO6ZxPOzt1Gqvrzk7xgbzXj8mS/eEDAg0Oero
+	eafaQl3gz7OgBzOGtdMsKB5oTW9MSmA2krHQWFaWLRhxXij8KUlvIjrqsVPGfQLcnrFs5hlu4Dj
+	0mv50UP9UZeZegj65r2g7yMyRfP8PRWprfa4ZES7aW8jtGGTJ5eYWZACOxCU/uly+G/N706TE7J
+	y+YQKBGi34jfL077Sk8xbZYhYBth6gJvwgCoTzA79VUstoQz116yBb5H6qMKzllAQPBAbQX+GBP
+	oxHZ3/I0gE0+RwH8NBVs6hay4+IpuAdAosyJIG8bTI+cdMH4o+518N7q9auNm6ECtS+7VrdeHH/
+	ejyz6h1eXVHeiluktKX1CuALaglaA8Et6++1M2zjN+iAPxiI=
+X-Received: by 2002:a05:600c:8b55:b0:495:3de8:33a6 with SMTP id
+ 5b1f17b1804b1-4994e7cdd39mr269199205e9.16.1786050259636; Thu, 06 Aug 2026
+ 14:04:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806052449.GG3560084@frogsfrogsfrogs>
-X-Stat-Signature: moa1cpj8pcs6f16nimka5m19rgobpa64
-X-Rspamd-Server: rspamout06
-X-Rspamd-Queue-Id: E2B4220010
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX19crjVaPOFBEHmKBC7wFurdodKMOgzBtgA=
-X-HE-Tag: 1786049594-931971
-X-HE-Meta: U2FsdGVkX1/4IpGuRLK5HgSSFcQqi44u6Z1DdtiGAfxjzuoLO+PsjuPjwAKirjJX7OtYtPChdy9wL09X/s9feMcatR6K08AJBqaEEKgLj0cZgyU6xLu2skbPALPZxqc3I0zKBjh/pX+ft5373sWXay0M/G93BVTmK4Ua99Oq1vRi65PTG46zEzA2S06wGD6DNn44Q0r7Itg69TuxX03OIdqfHmPwHysgpbJXfx+HzNk4bNPJk4fzzYszQ6XvrVDBxnDayxHngCtwX9tEB8SRI+JwDNbOB/nP1D+Pyvqcbb8rEuaW1mAV7p9IyWrEzDSAHu0wQ3adQFzxpvQXRQo6vSXrh2RW0ynyYuRFnp7qUraMUAUPT9guGQ7k/0W9zbVS
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 6 Aug 2026 14:04:06 -0700
+X-Gm-Features: AUfX_mxaCgp8oYES6RNp3g9or9e5V5Tk3wVFme00shwxNtlto6HFGbmfyuWHQps
+Message-ID: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+Subject: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/08/05 10:24PM, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 02:29:26AM +0000, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
-> > Add the famfs file ioctl handler (FAMFSIOC_NOP, FAMFSIOC_MAP_CREATE) and
-> > the KABI-44 self-describing fmap message: the wire ABI in famfs_ioctl.h
-> > (famfs_ioc_fmap_header plus the simple and interleaved extent structs), the
-> > in-core famfs_file_meta, and famfs_file_init_dax(), which copies the
-> > message in, parses both the simple-extent and interleaved (striped) wire
-> > forms into inode->i_private, and sets S_DAX.
-> > 
-> > Resolving those mappings to dax-device offsets (iomap_begin) is added in
-> > the following commit; the read/write/fault paths keep their NULL iomap_ops
-> > stub until then.
-> > 
-> > Also add famfs ioctls to ioctl-number.rst
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
-> >  fs/famfs/famfs_file.c                         | 326 +++++++++++++++++-
-> >  fs/famfs/famfs_inode.c                        |   1 +
-> >  fs/famfs/famfs_internal.h                     |  46 +++
-> >  include/uapi/linux/famfs_ioctl.h              |  91 +++++
-> >  5 files changed, 462 insertions(+), 3 deletions(-)
-> >  create mode 100644 include/uapi/linux/famfs_ioctl.h
-> > 
-> > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > index 3f0ef1e27eb0..5e244dec1b98 100644
-> > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > @@ -299,6 +299,7 @@ Code  Seq#    Include File                                             Comments
-> >  'u'   00-2F  linux/ublk_cmd.h                                          conflict!
-> >  'u'   20-3F  linux/uvcvideo.h                                          USB video class host driver
-> >  'u'   40-4f  linux/udmabuf.h                                           userspace dma-buf misc device
-> > +'u'   50-5F  linux/famfs_ioctl.h                                       famfs shared memory file system
-> >  'v'   00-1F  linux/ext2_fs.h                                           conflict!
-> >  'v'   00-1F  linux/fs.h                                                conflict!
-> >  'v'   00-0F  linux/sonypi.h                                            conflict!
-> > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
-> > index 678f2035fd5f..d710c8a0c923 100644
-> > --- a/fs/famfs/famfs_file.c
-> > +++ b/fs/famfs/famfs_file.c
-> > @@ -13,9 +13,313 @@
-> >  #include <linux/mm.h>
-> >  #include <linux/dax.h>
-> >  #include <linux/iomap.h>
-> > +#include <linux/capability.h>
-> >  
-> > +#include <linux/famfs_ioctl.h>
-> >  #include "famfs_internal.h"
-> >  
-> > +/* Expose famfs kernel abi version as a read-only module parameter */
-> > +static int famfs_kabi_version = FAMFS_KABI_VERSION;
-> > +module_param(famfs_kabi_version, int, 0444);
-> > +MODULE_PARM_DESC(famfs_kabi_version, "famfs kernel abi version");
-> 
-> Maybe make the "NOP" ioctl a geometry ioctl that tells you the abi
-> version and (I guess) the page and pmd size? :D
+Hi Yosry,
 
-I like it - will do
+On Wed, Jul 22, 2026 at 1:38=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrot=
+e:
+>
+> > > > First let's see if the general solution is doable and simple otherw=
+ise we can
+> > > > explore use-case specific solutions. In extreme case revert is an o=
+ptions as
+> > > > well but I would prefer a more sophisticated ratelimiting (that Jan=
+ suggested)
+> > > > than a revert.
+> > > >
+> > >
+> > > Sounds good. I'll keep an eye out for the work Yosry's doing on this
+> > > and look into hooking it up to writeback if/when his general solution
+> > > becomes available.
+> >
+> > I am not sure if I had in mind would generalize well. For zswap, I was
+> > just going to replace rstat with per-memcg atomic counters, and simply
+> > walk the cgroup parents in the update path, as the zswap load/store pat=
+h
+> > shouldn't be too hot.
+> >
+> > However, looking at other in-kernel flushers (including
+> > mem_cgroup_wb_stats()), I see they consume other stats like
+> > NR_INACTIVE_FILE/NR_ACTIVE_FILE, which are updated in the page
+> > allocation path. I am not sure if a cgroup parent walk with atomic
+> > updates would fly there.
+> >
+> > A more problematic one is count_shadow_nodes(), which consumes slab
+> > object stats. I think we definitely cannot do atomic updates in the sla=
+b
+> > allocation path. Although it seems like count_shadow_nodes() is a rough
+> > estimate and perhaps we can forgoe using the stats there.
+> >
+> > If we want a generic solution for in-kernel flushers to improve stats
+> > accuracy without killing performance, I think we need a heavier lift to
+> > rework rstat or move away from it completely.
+>
+> (Adding a few more people and mailing lists)
+>
+> So I experimented with a per-memcg atomics in zswap (see [1] for
+> context), and it appears to be too expensive even for updating the
+> zswap stats during reclaim / swap faults. So I think zswap will need a
+> similar approach to writeback and other in-kernel users.
 
-> 
-> > +void
-> > +famfs_meta_free(struct famfs_file_meta *map)
-> > +{
-> > +	if (map) {
-> > +		switch (map->fm_extent_type) {
-> > +		case FAMFS_IOC_EXT_SIMPLE:
-> > +			kfree(map->se);
-> > +			break;
-> > +		case FAMFS_IOC_EXT_INTERLEAVE:
-> > +			if (map->ie) {
-> > +				u32 i;
-> > +
-> > +				for (i = 0; i < map->fm_niext; i++)
-> > +					kfree(map->ie[i].ie_strips);
-> > +			}
-> > +			kfree(map->ie);
-> > +			break;
-> > +		default:
-> > +			break;
-> > +		}
-> > +	}
-> > +	kfree(map);
-> > +}
-> > +
-> > +/**
-> > + * famfs_file_init_dax() - FAMFSIOC_MAP_CREATE ioctl handler
-> > + * @file: the un-initialized file
-> > + * @arg:  user pointer to a self-describing fmap message
-> > + *
-> > + * The map-create ioctl carries the fmap as a self-describing message: a
-> > + * struct famfs_ioc_fmap_header followed by an extent list. The message is
-> > + * copied in, parsed into a famfs_file_meta, and published on inode->i_private.
-> > + * Both the simple-extent and the interleaved (striped) wire forms are handled.
-> > + * The wire layout byte-matches the fmap carried in a fuse famfs GET_FMAP reply.
-> > + */
-> 
-> This kerneldoc is for the next function?
+Thanks for running the experiment.
 
-Oops, fixed thanks!
+In a previous thread [1], you mentioned your team was investigating
+some premature OOM kills that might be attributed to this same stale
+stats issue in the vmscan path. Did that turn out to be the case?
+Asking because if so, that might be something we'd hit at Meta too.
 
-> 
-> > +static int
-> > +famfs_check_ext_alignment(struct famfs_meta_simple_ext *se)
-> > +{
-> > +	int errs = 0;
-> > +
-> > +	if (!IS_ALIGNED(se->ext_offset, PMD_SIZE))
-> > +		errs++;
-> > +	if (!IS_ALIGNED(se->ext_len, PMD_SIZE))
-> > +		errs++;
-> 
-> Does this need to check the dax dev index is valid?  Or is it ok to just
-> fail an IO if that index is garbage?
+>
+> One idea is to keep per-CPU per-cgroup counters, but on the update
+> side we update all the parents' counters, instead of just updating the
+> current cgroup's counters. Flushing the stats then only needs to
+> iterate the per-CPU counters and doesn't need to walk the cgroup tree
+> at all. There is added work on the update side, but hopefully it's
+> cheap enough to update per-CPU counters, and cgroup hierarchies aren't
+> usually too deep.
 
-That is validated elsewhere
+I'm not sure about the zswap case, but for the writeback case there
+are significantly more updates than reads. There are four stat updates
+for every folio that gets dirtied / written back, so four per page
+with 4k folios, while the read happens around every few hundred pages
+dirtied. In the scenario I was testing with memory.max set to 8 GB and
+using the default 20% dirty ratio, during freerun the stat gets read
+once every 256 to 512 pages (with flushes happening less frequently
+than reads).
 
-> 
-> > +
-> > +	return errs;
-> > +}
-> > +
-> > +static int
-> > +famfs_file_init_dax(struct file *file, void __user *arg)
-> > +{
-> > +	struct famfs_ioc_fmap_header fmh;
-> > +	struct famfs_file_meta *meta = NULL;
-> > +	struct famfs_fs_info *fsi;
-> > +	struct super_block *sb;
-> > +	struct inode *inode;
-> > +	void *fmap_buf = NULL;
-> > +	size_t extent_total = 0;
-> > +	size_t next_offset;
-> > +	int errs = 0;
-> > +	int rc;
-> > +	u32 i, j;
-> > +
-> > +	inode = file_inode(file);
-> > +	if (!inode)
-> > +		return -EBADF;
-> > +	if (inode->i_private)
-> > +		return -EEXIST;
-> > +
-> > +	sb  = inode->i_sb;
-> > +	fsi = sb->s_fs_info;
-> > +	if (fsi->deverror)
-> > +		return -ENODEV;
-> > +	if (!famfs_opt_enabled(fsi, FAMFS_OPT_MAP_CREATE))
-> > +		return -EPERM;
-> > +
-> > +	if (copy_from_user(&fmh, arg, sizeof(fmh)))
-> > +		return -EFAULT;
-> > +
-> > +	if (fmh.fmap_version != FAMFS_FMAP_VERSION)
-> > +		return -EINVAL;
-> > +	if (fmh.fmap_size < sizeof(fmh))
-> > +		return -EINVAL;
-> > +	if (fmh.fmap_size > FAMFS_FMAP_MSG_MAX)
-> > +		return -EFBIG;
-> > +	if (fmh.nextents < 1)
-> > +		return -EINVAL;
-> > +
-> > +	fmap_buf = kvmalloc(fmh.fmap_size, GFP_KERNEL);
-> > +	if (!fmap_buf)
-> > +		return -ENOMEM;
-> > +
-> > +	if (copy_from_user(fmap_buf, arg, fmh.fmap_size)) {
-> > +		rc = -EFAULT;
-> > +		goto out;
-> > +	}
-> > +	next_offset = sizeof(fmh);	/* start of the extent list */
-> > +
-> > +	meta = kzalloc_obj(*meta, GFP_KERNEL);
-> > +	if (!meta) {
-> > +		rc = -ENOMEM;
-> > +		goto out;
-> > +	}
-> > +
-> > +	meta->error = false;
-> > +	meta->file_type = fmh.file_type;
-> > +	meta->file_size = fmh.file_size;
-> > +	meta->fm_extent_type = fmh.ext_type;
-> > +
-> > +	switch (fmh.ext_type) {
-> > +	case FAMFS_IOC_EXT_SIMPLE: {
-> > +		struct famfs_ioc_simple_ext *se_in = fmap_buf + next_offset;
-> > +
-> > +		next_offset += (size_t)fmh.nextents * sizeof(*se_in);
-> > +		if (next_offset > fmh.fmap_size) {
-> > +			rc = -EINVAL;
-> > +			goto out;
-> > +		}
-> > +
-> > +		meta->fm_nextents = fmh.nextents;
-> > +		meta->se = kcalloc(meta->fm_nextents, sizeof(*meta->se),
-> > +				   GFP_KERNEL);
-> > +		if (!meta->se) {
-> > +			rc = -ENOMEM;
-> > +			goto out;
-> > +		}
-> > +
-> > +		for (i = 0; i < fmh.nextents; i++) {
-> > +			meta->se[i].dev_index  = se_in[i].se_devindex;
-> > +			meta->se[i].ext_offset = se_in[i].se_offset;
-> > +			meta->se[i].ext_len    = se_in[i].se_len;
-> > +
-> > +			if (meta->se[i].dev_index >= FAMFS_MAX_DAXDEVS) {
-> > +				rc = -EINVAL;
-> > +				goto out;
-> > +			}
-> > +			meta->dev_bitmap |= BIT_ULL(meta->se[i].dev_index);
-> > +			errs += famfs_check_ext_alignment(&meta->se[i]);
-> > +			extent_total += meta->se[i].ext_len;
-> > +		}
-> > +		break;
-> > +	}
-> > +
-> > +	case FAMFS_IOC_EXT_INTERLEAVE: {
-> > +		s64 size_remainder = meta->file_size;
-> > +		u32 niext = fmh.nextents;
-> > +
-> > +		meta->fm_niext = niext;
-> > +		meta->ie = kcalloc(niext, sizeof(*meta->ie), GFP_KERNEL);
-> > +		if (!meta->ie) {
-> > +			rc = -ENOMEM;
-> > +			goto out;
-> > +		}
-> > +
-> > +		/* Outer loop is over the separate interleaved extents */
-> > +		for (i = 0; i < niext; i++) {
-> > +			struct famfs_ioc_iext *ie_in = fmap_buf + next_offset;
-> > +			struct famfs_ioc_simple_ext *sie_in;
-> > +			u64 nstrips;
-> > +
-> > +			next_offset += sizeof(*ie_in);
-> > +			if (next_offset > fmh.fmap_size) {
-> > +				rc = -EINVAL;
-> > +				goto out;
-> > +			}
-> > +
-> > +			if (ie_in->ie_chunk_size == 0 ||
-> > +			    !IS_ALIGNED(ie_in->ie_chunk_size, PMD_SIZE)) {
-> > +				rc = -EINVAL;
-> > +				goto out;
-> > +			}
-> > +			if (ie_in->ie_nbytes == 0) {
-> > +				rc = -EINVAL;
-> > +				goto out;
-> > +			}
-> > +
-> > +			nstrips = ie_in->ie_nstrips;
-> > +			if (nstrips < 1) {
-> > +				rc = -EINVAL;
-> > +				goto out;
-> > +			}
-> > +
-> > +			meta->ie[i].fie_chunk_size = ie_in->ie_chunk_size;
-> > +			meta->ie[i].fie_nstrips    = ie_in->ie_nstrips;
-> > +			meta->ie[i].fie_nbytes     = ie_in->ie_nbytes;
-> > +
-> > +			/* The strip extents follow the interleaved-ext header */
-> > +			sie_in = fmap_buf + next_offset;
-> > +			next_offset += nstrips * sizeof(*sie_in);
-> > +			if (next_offset > fmh.fmap_size) {
-> > +				rc = -EINVAL;
-> > +				goto out;
-> > +			}
-> > +
-> > +			meta->ie[i].ie_strips =
-> > +				kcalloc(nstrips, sizeof(meta->ie[i].ie_strips[0]),
-> > +					GFP_KERNEL);
-> > +			if (!meta->ie[i].ie_strips) {
-> > +				rc = -ENOMEM;
-> > +				goto out;
-> > +			}
-> > +
-> > +			/* Inner loop is over the strips */
-> > +			for (j = 0; j < nstrips; j++) {
-> > +				struct famfs_meta_simple_ext *so =
-> > +					&meta->ie[i].ie_strips[j];
-> > +
-> > +				so->dev_index  = sie_in[j].se_devindex;
-> > +				so->ext_offset = sie_in[j].se_offset;
-> > +				so->ext_len    = sie_in[j].se_len;
-> > +
-> > +				if (so->dev_index >= FAMFS_MAX_DAXDEVS) {
-> > +					rc = -EINVAL;
-> > +					goto out;
-> > +				}
-> > +				meta->dev_bitmap |= BIT_ULL(so->dev_index);
-> > +				errs += famfs_check_ext_alignment(so);
-> > +				extent_total += so->ext_len;
-> > +				size_remainder -= so->ext_len;
-> 
-> This is a lot of indenting, maybe each case should be a separate helper
-> function?
-> 
-> --D
+I'm not too familiar with memcg or vmstat so apologies if this is a
+naive question, but does it make sense for memcg to just do a similar
+approach to what vmstat does? As I understand it, mod_lruvec_state()
+updates the node counter and the memcg counter (if memcg applies),
+where for updating the node counter, mod_node_state() does some
+batching where it updates the global counter for that stat only once
+it crosses some threshold (pcp->stat_threshold). Could memcg keep its
+per-CPU counter as the accumulator but once it reaches some threshold,
+it then propagates it up the parent/ancestors into a per-memcg atomic
+global counter? The atomic would then only have to be touched once per
+batch than on every update, which might eliminate the overhead of the
+per-memcg atomic you saw previously? It seems like this would get rid
+of needing to do any flushing altogether, as we could just read that
+global counter directly.
 
-But I still fit it in 80 columns! :D
+>
+> A more radical approach is to completely drop the per-CPU rstat trees.
+> So instead of walking the parents to add them to the per-CPU tree, we
+> just walk the parents and directly update the stat. The flush side
+> will then always iterate the per-CPU counters to accumulate them. With
+> this approach, the update cost roughly remains the same, but the flush
+> cost changes. Instead of walking the trees and flushing all cgroups,
+> but only doing it on CPUs/cgroups that actually have updates, we
+> always iterate and sum the per-CPU counters. The average flush cost
+> may become more expensive, but it should be more consistent and won't
+> scale with the cgroup tree size. I am not sure if this would be a net
+> win or not.
 
-This one I think I will leave as-is unless somebody feels strongly.
+I wonder if this scales for machines that have a significant number of
+cores? Onsomething like the 96-core / 192-thread machine Yunzhao
+mentioned in the zswap case, it seems like the flush now would have to
+touch multiple additional cachelines per CPU when it seems like for
+the majority of the stats, only a small fraction of those hardware
+threads would have any updates on them?
 
-Thank you!
+>
+> We can also choose to do the above for all the stats or only the ones
+> used by in-kernel flushers, the latter would probably perform better
+> but at the cost of more complexity.
 
-John
+I agree. For the writeback case, afaict I think we really only need to
+do this for NR_FILE_DIRTY and NR_WRITEBACK, neither of which are
+updated from the page allocation path.
 
-<snip>
+>
+> I honestly don't have any time to pursue any of these approaches, so
+> this is mostly just a brain dump. But I do think we should try to more
+> systematically solve the stats flushing problem as it has given us a
+> lot of pain over the years.
+>
 
+Thanks for writing up your thoughts on this - I found it helpful!
+
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/linux-mm/CAO9r8zOiwgG80EjqdZFgWQvODUe1RzecLemxc=
+B7xXNm_f3XfbA@mail.gmail.com/
