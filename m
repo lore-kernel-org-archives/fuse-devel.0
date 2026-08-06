@@ -1,273 +1,286 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E301C84AB;
-	Thu,  6 Aug 2026 16:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D2546A60A
+	for <fuse-devel@lists.linux.dev>; Thu,  6 Aug 2026 17:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786033908; cv=none; b=My1IwzwrkpVdGdOR237HbihFUvbUyEhGCmeV8iPNUKosIF9iYBLTyXvlmMgbDvpnLNptUE0SRvJgjbiq9CoTLoEb3zrkj5hkYJj3GQHTFuyle7C+g9QpKC5ilcWsnxd0SkwCcCNc1gEDwG8/3N3hi82Bn+7xkgKrtx3xaMASgG8=
+	t=1786036573; cv=none; b=m92xN6abc2lttof8hpctmvTEVJAT3E1tm3Uls82AZGImw3iaDG2YjBM4sNbiZUgkv4veiiYhGlOerf2Pq4HAM2IW9e5Ihmsm4sdRS+Apf/3C/MPAkGKdzphKahRwfmz2iBx6+poIYNKM+nUqVJeZz1Q8sMY9z++jOvfQh4FyA14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786033908; c=relaxed/simple;
-	bh=S1WHS47dZqOWcWdyoLnXM71Fkc3PHLqdyZiQgtqEFPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A1ByiVxYf9uEV7ztpVe6FGe3jKfBX7bm5RnG+Yv/vhp2RQOGqw+ZDtq6OGclLdTSYIjZ+yPv5K4S3z30EfqXtCPuhfHPSYY88RgbKM0fOtT5PTAsN0SDxj/oYcA2j1QF0WnsUwDPmuE/6rQ1xG0RDISHXUvNnV5d6JIazQF2nMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id C9AD0A0110;
-	Thu,  6 Aug 2026 16:31:34 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id 1FEAF17;
-	Thu,  6 Aug 2026 16:31:17 +0000 (UTC)
-Date: Thu, 6 Aug 2026 11:31:16 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 04/12] famfs: Introduce inode_operations and
- super_operations
-Message-ID: <anSgvuQ872AjkSK2@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022849.75812-1-john@jagalactic.com>
- <0100019fc573edf6-93c159df-6197-4bdf-9f1d-74b77a72ce7e-000000@email.amazonses.com>
- <20260806051230.GD3560084@frogsfrogsfrogs>
+	s=arc-20240116; t=1786036573; c=relaxed/simple;
+	bh=G5a3bxBFh4kdO6SVvsJSgDtiVQtkx06O5WoBfnXowOY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FMWnr85BjrDV6klF9rilXtu+ok8YeDWp1PjHTP6WIksNg7Rq1br4gRoRQcotLAkLezysTdjrSJqNIJ+fyINp/uILgHpVh7ECMr8PESZPuOukBnpeoPTt0ru25Rg7ipkc7TuJ+cxJ/yXJ72OlK59h9JZcMRvaDZhrOjLehJ0Kdr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=e74RlkRw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PkCwj1tz; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="e74RlkRw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PkCwj1tz"
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 10C90EC011A;
+	Thu,  6 Aug 2026 13:16:10 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Thu, 06 Aug 2026 13:16:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1786036570;
+	 x=1786122970; bh=uZMTA7XwD6A0AJFjzrMiTiyyMXR0vaRbc5NiaKiclbE=; b=
+	e74RlkRwhA5VcykUYJzCVhGHjeo8Oi3T+tvtRblZpuQloS6Zzmn+0wkfw54VIG8M
+	lez34ovDGfbIH4cvx1B12iDLBNcTJ/2eBBZlQsZl/7rCjKbzZIgfHCm7PiqRbXYY
+	SamsX8S+BS4QXkI+ABVTfgRLY0OgTnOfJ/NG8G1+owm4ejjg0B5eLHl5dxQYzsfJ
+	LTO1j+2YYsssaKBm1cpAP2KNR6IhsrS7NxapBrQsCM4mA7JLhEeFUkioy5JrrlKP
+	h+s6xndTJO9AfMNigeH7Ew1DSb9/k1lBLb+0/fdRPziRchEH0ZXbXmuJH/yKtGWw
+	fiX/Z3E1aX5FiYQE/ElJ0w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786036570; x=
+	1786122970; bh=uZMTA7XwD6A0AJFjzrMiTiyyMXR0vaRbc5NiaKiclbE=; b=P
+	kCwj1tze9MFE5OcLLNd4y/JM3M4UiCdD129ZAmmfEMGY1NWv6i5mvXFTR0puIlkf
+	N68/25MkHwboWzyQ1ugwIPd441yWNh7xIN/UgFWRQCmC8adchvwtRS6V2S/EGsat
+	8PnMbRs4QDZTkAhnV5sKVXye2EslXGb2XrjdPRLRVaOqBbipupeXz7prwvsV/WyU
+	8z4ooAV+ux9EkbokzshrAC+Lnh4DY1vugCckHnaKVHP+jlhMdmL1nrsAXMKRO/GE
+	okQne5AVt3cZIqRfFhAtIb06lSpeAYhzkis+71/0ac8Lk8cpFjtPKF0Rj2wZ2oNL
+	hyGLpeDFq5QA90VpL1RPA==
+X-ME-Sender: <xms:WMF0apKsMHKDn2Zo7PUDFUJ6Es-FANGi6nKJewN7x8zQt2DC4m9TVw>
+    <xme:WMF0al0UDJt6_oEgumz_MAu3STr0K23yZeXwi4NmVFW9p6dMOhGVN67HtruC3mFUL
+    ntFdbEZtqriTM1j8OcTEL0SR_FQTPcloHtd9WIEUmrIXbj7_F1y>
+X-ME-Received: <xmr:WMF0av4N4ZHxUwKMy8NsWmLc8CFWUaP_bPx_7xrYZBWpNbMLR3ctCeGKasohPA2vh_NdXfWj3-gNJUVp78QztP4hEQzOgTZ5t9hsSf0jnJ26qBfzWA>
+X-ME-Proxy-Cause: dmFkZTFrn9LLjkB4JDoJBS8X6mVvx0bdQTRS3mqNgTW4jR6S+8EgIc3bgC7FaVjAHFknVI
+    dMHqzymUdHyri7E62KZeGWeXkp98TBduvuc229bucub6yA/Xystltm52JcwV48tvb50Vig
+    QVUY4NjCHSJ6uo7fXqnDK/XkNSLhcmzzNpWJCuHgdcwXJOYmJInfC356/HDvd4p6UOl5HD
+    ozk0YpKvGGfJ4RR8FH1v1MEZqkgbA/y8Uf2HXdLB08VhkClX8SfZikdAsBhmBasJDV/DyW
+    JsdXRrOdW6HagUgoOJ9oYWFCI6qjoaYJQDmszFWTiTI8gljpbGAL2NgXLjfAJvM28l46df
+    Wx8sFwihvsk8MxJKKjP25qHeugktGYIlbcyCkE3DloD4zwq2qc9JA4m3M5z6YLUcVGRzuS
+    RsPxRJ6OCVIylFQyTCBXBpXe7KH/YoZWOqOfSFZlkn6mAr++SF3QUvESEiavGlsPmV4FR6
+    7bGhFJRpvB7N3g6hb2Sz8k7shdxS+TMLIF8LgR8w5pY3K9RNvVQhmtby4oxcOJEqkHsMZt
+    TLGVggiu9NJGRPc+dHhXO0Pu5CSAz/iZeEQdZ7VeU9fvTRCFPdYgLLMkgvKOsbUCKJHKei
+    bvPapenkSS4nH6HhwgrWOxxShtYbeC+WCDBusr73TYP/JoctcJGHtW8mTLzw
+X-ME-Proxy: <xmx:WMF0au-I2svbdq_OJckd7Dupprduk9gtN6_7JPJ6JM6xdCOnemI_yg>
+    <xmx:WMF0amVjQRUy1Wt58V8QAmrSB9_XyU1fN0Sy_Acysr3sI1Cw4KNm-A>
+    <xmx:WMF0ahoLqZHCyCdbKmjtHXU-V7PWdw9UgfNhgrsHV3-0z8gY8Tyu1A>
+    <xmx:WMF0agnUd0AaO-zdmffZPX0SFut9FCEaJz85qVzTcA5A9_JdV7Hihw>
+    <xmx:WsF0ai7BmGliiKIuC4wJcm9BoQauaThM8Fkm1lQKCFK9GUgRV-fKhnGG>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Aug 2026 13:16:07 -0400 (EDT)
+Message-ID: <aee67498-d242-4d9f-9b77-0548d61e30b2@bsbernd.com>
+Date: Thu, 6 Aug 2026 19:16:06 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806051230.GD3560084@frogsfrogsfrogs>
-X-Stat-Signature: ha4eefzwkjiajen9eszr5zyeqn47tzdi
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 1FEAF17
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+8g1aralK8ALulQm0aAsZil2Ejzt4LBlM=
-X-HE-Tag: 1786033877-219472
-X-HE-Meta: U2FsdGVkX19FDx7M19BFjDZUbutSb/i+gHmwI5uUhFDw0kOlD+8xaf2k6wfg6MtvehsDkMFGuBvN4S0We2DKi3glVZE29vIPxTCKx4WUvmxXCsuBiGEekBW3N5Pmts0imjwbdoDr4E1Yl0DSbcsnmn+ZwiODX5smwNoXp6N6o5O5jTYfj0naen56uroTnTKrzYYHXOhQ42qcDuTiaLP+VrlN0y33KluDXqEafT5k4INmq+MchKXeKb1DSTEVzWEVTLPAv+OEuZf6GzPyet0CykF4hmOB3jUiQR7OH8U5Ux0F9SjsGdUyd+jHwb4W9GErzzYimJd2po9PdGdFu0l0bOfPWfwq3TDhVItCmwkc00YPKv9AP5gBqAk11GK6ws8P
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 1/6] fuse: decouple fuse_ring creation from ent
+ registration
+To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
+Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, axboe@kernel.dk,
+ amir73il@gmail.com, fuse-devel@lists.linux.dev
+References: <20260716175908.2339738-1-joannelkoong@gmail.com>
+ <20260716175908.2339738-2-joannelkoong@gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260716175908.2339738-2-joannelkoong@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 26/08/05 10:12PM, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 02:28:56AM +0000, John Groves wrote:
-> > From: John Groves <john@groves.net>
-> > 
-> > The famfs inode and super operations are generic other than
-> > show_options, evict_inode and setattr (which prevents truncation..
-> > 
-> > This commit builds but is still too incomplete to run
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  fs/famfs/famfs_inode.c    | 249 +++++++++++++++++++++++++++++++++++++-
-> >  fs/famfs/famfs_internal.h |   6 +
-> >  2 files changed, 252 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/fs/famfs/famfs_inode.c b/fs/famfs/famfs_inode.c
-> > index ad71e5e7a8e3..efc6b852eca0 100644
-> > --- a/fs/famfs/famfs_inode.c
-> > +++ b/fs/famfs/famfs_inode.c
-> > @@ -29,6 +29,9 @@
-> >  
-> >  #define FAMFS_DEFAULT_MODE	0755
-> >  
-> > +static const struct inode_operations famfs_file_inode_operations;
-> > +static const struct inode_operations famfs_dir_inode_operations;
-> > +
-> >  static struct inode *famfs_get_inode(
-> >  			struct super_block *sb,
-> >  			const struct inode *dir,
-> > @@ -54,11 +57,11 @@ static struct inode *famfs_get_inode(
-> >  		init_special_inode(inode, mode, dev);
-> >  		break;
-> >  	case S_IFREG:
-> > -		inode->i_op = NULL /* famfs_file_inode_operations */;
-> > +		inode->i_op = &famfs_file_inode_operations;
-> >  		inode->i_fop = NULL /* &famfs_file_operations */;
-> >  		break;
-> >  	case S_IFDIR:
-> > -		inode->i_op = NULL /* famfs_dir_inode_operations */;
-> > +		inode->i_op = &famfs_dir_inode_operations;
-> >  		inode->i_fop = &simple_dir_operations;
-> >  
-> >  		/* Directory inodes start off with i_nlink == 2 (for ".") */
-> > @@ -72,6 +75,246 @@ static struct inode *famfs_get_inode(
-> >  	return inode;
-> >  }
-> >  
-> > +/***************************************************************************
-> > + * famfs inode_operations
-> > + */
-> > +
-> > +static int
-> > +famfs_setattr(
-> > +	struct mnt_idmap *idmap,
-> > +	struct dentry *dentry,
-> > +	struct iattr *iattr)
-> > +{
-> > +	struct inode *inode = d_inode(dentry);
-> > +	struct famfs_fs_info *fsi = inode->i_sb->s_fs_info;
-> > +
-> > +	/* Resizing a famfs file (its size is pinned to the fmap) */
-> > +	if ((iattr->ia_valid & ATTR_SIZE) &&
-> > +	    !famfs_opt_enabled(fsi, FAMFS_OPT_TRUNCATE) &&
+
+
+On 7/16/26 19:59, Joanne Koong wrote:
+> Currently, the connection's fuse_ring is created lazily on the first
+> FUSE_IO_URING_CMD_REGISTER command. A server registers entries from one
+> thread per queue (one per CPU) and those threads issue their first
+> REGISTER command concurrently. They then race to create the single
+> per-connection fuse_ring, which required open-coded handling in
+> fuse_uring_create() to detect and protect against concurrent creations.
 > 
-> Does truncating the file down release the mapped memory?
-> Can you truncate it up?  How does the famfs manager deal with this?
-
-Truncate won't be enabled in any situation I can currently think of,
-but it made sense to gate it with the opt_enabled mechanism in case
-it makes sense at some point.
-
-Space is not freed; It's still part of the daxdev, which is never
-sparse.  The famfs metadata log is authoritative on allocations, and 
-doesn't currently support delete, so the dax memory for a file is 
-spoken for until the whole file system is killed.
-
-There are cases where chmod/chown make sense, but the change is local
-and ephemeral - not recorded to the metadata log.
-
+> Decouple fuse_ring creation from ent registration and move it to
+> FUSE_INIT reply processing after a server has negotiated and set
+> FUSE_OVER_IO_URING. The ring is published before the connection is
+> marked initialized. fuse_uring_register() no longer creates the ring and
+> it instead uses the ring set up at init time.
 > 
-> > +	    iattr->ia_size != i_size_read(inode))
-> > +		return -EPERM;
-> > +	if ((iattr->ia_valid & ATTR_MODE) &&
-> > +	    !famfs_opt_enabled(fsi, FAMFS_OPT_CHMOD))
-> > +		return -EPERM;
-> > +	if ((iattr->ia_valid & (ATTR_UID | ATTR_GID)) &&
-> > +	    !famfs_opt_enabled(fsi, FAMFS_OPT_CHOWN))
-> > +		return -EPERM;
-> > +	if ((iattr->ia_valid & (ATTR_ATIME | ATTR_MTIME)) &&
-> > +	    !famfs_opt_enabled(fsi, FAMFS_OPT_UTIMES))
-> > +		return -EPERM;
-> > +
-> > +	return simple_setattr(idmap, dentry, iattr);
-> > +}
-> > +
-> > +static const struct inode_operations famfs_file_inode_operations = {
-> > +	/* All generic */
-> > +	.setattr	   = famfs_setattr,
-> > +	.getattr	   = simple_getattr,
-> > +};
-> > +
-> > +/*
-> > + * Internal inode creation helper, shared by ->create, ->mkdir, ->mknod and
-> > + * ->symlink. Each of those callers is responsible for its own FAMFS_OPT_*
-> > + * permission check before getting here.
-> > + */
-> > +static int
-> > +famfs_mknod(struct mnt_idmap *idmap, struct inode *dir, struct dentry *dentry,
-> > +	    umode_t mode, dev_t dev)
-> > +{
-> > +	struct famfs_fs_info *fsi = dir->i_sb->s_fs_info;
-> > +	struct timespec64 tv;
-> > +	struct inode *inode;
-> > +
-> > +	if (fsi->deverror)
-> > +		return -ENODEV;
-> > +
-> > +	inode = famfs_get_inode(dir->i_sb, dir, mode, dev);
-> > +	if (!inode)
-> > +		return -ENOSPC;
-> > +
-> > +	d_make_persistent(dentry, inode);
-> > +	tv = inode_set_ctime_current(inode);
-> > +	inode_set_mtime_to_ts(inode, tv);
-> > +	inode_set_atime_to_ts(inode, tv);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct dentry *famfs_mkdir(struct mnt_idmap *idmap, struct inode *dir,
-> > +		struct dentry *dentry, umode_t mode)
-> > +{
-> > +	struct famfs_fs_info *fsi = dir->i_sb->s_fs_info;
-> > +	int rc;
-> > +
-> > +	if (fsi->deverror)
-> > +		return ERR_PTR(-ENODEV);
-> > +	if (!famfs_opt_enabled(fsi, FAMFS_OPT_MKDIR))
-> > +		return ERR_PTR(-EPERM);
-> > +
-> > +	rc = famfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFDIR, 0);
-> > +	if (rc)
-> > +		return ERR_PTR(rc);
-> > +
-> > +	inc_nlink(dir);
-> > +
-> > +	return ERR_PTR(0);
-> > +}
-> > +
-> > +static int famfs_create(struct mnt_idmap *idmap, struct inode *dir,
-> > +			struct dentry *dentry, umode_t mode, bool excl)
-> > +{
-> > +	struct famfs_fs_info *fsi = dir->i_sb->s_fs_info;
-> > +
-> > +	if (fsi->deverror)
-> > +		return -ENODEV;
-> > +	if (!famfs_opt_enabled(fsi, FAMFS_OPT_CREATE))
-> > +		return -EPERM;
-> > +
-> > +	return famfs_mknod(&nop_mnt_idmap, dir, dentry, mode | S_IFREG, 0);
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+> ---
+>  fs/fuse/dev.c         |  8 +++-----
+>  fs/fuse/dev.h         |  2 +-
+>  fs/fuse/dev_uring.c   | 26 ++++++++++----------------
+>  fs/fuse/dev_uring_i.h |  5 +++++
+>  fs/fuse/inode.c       |  4 +++-
+>  5 files changed, 22 insertions(+), 23 deletions(-)
 > 
-> Is the model here that you creat() a file and then the famfs server has
-> to go find it some cxl memory?  I was kinda under the impression that
-> you'd get the famfs software to map some memory to a name, and then the
-> famfs server on each node would create it and upload the mapping, and
-> now the cxlmem-backed file can be mmaped from multiple nodes?
-> 
-> But maybe this is less of a cluster filesystem than I assumed it was.
-> 
-> --D
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 8b68b24af9d7..d50792162d8b 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -75,6 +75,9 @@ void fuse_chan_set_initialized(struct fuse_chan *fch, struct fuse_chan_param *pa
+>  		fch->minor = param->minor;
+>  		fch->max_write = param->max_write;
+>  		fch->max_pages = param->max_pages;
+> +
+> +		if (param->io_uring_enabled)
+> +			fuse_uring_conn_init(fch);
+>  	}
+>  
+>  	/* Pairs with smp_load_acquire() readers of fch->initialized */
+> @@ -411,11 +414,6 @@ void fuse_chan_set_fc(struct fuse_chan *fch, struct fuse_conn *fc)
+>  	fch->conn = fc;
+>  }
+>  
+> -void fuse_chan_io_uring_enable(struct fuse_chan *fch)
+> -{
+> -	fch->io_uring = 1;
+> -}
+> -
+>  void fuse_pqueue_init(struct fuse_pqueue *fpq)
+>  {
+>  	spin_lock_init(&fpq->lock);
+> diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
+> index aed69fd14c41..8d25378c0918 100644
+> --- a/fs/fuse/dev.h
+> +++ b/fs/fuse/dev.h
+> @@ -22,6 +22,7 @@ struct fuse_chan_param {
+>  	unsigned int minor;
+>  	unsigned int max_write;
+>  	unsigned int max_pages;
+> +	bool io_uring_enabled;
+>  };
+>  
+>  struct fuse_chan *fuse_chan_new(void);
+> @@ -34,7 +35,6 @@ void fuse_chan_max_background_set(struct fuse_chan *fch, unsigned int val);
+>  unsigned int fuse_chan_num_waiting(struct fuse_chan *fch);
+>  void fuse_chan_set_fc(struct fuse_chan *fch, struct fuse_conn *fc);
+>  void fuse_chan_set_initialized(struct fuse_chan *fch, struct fuse_chan_param *param);
+> -void fuse_chan_io_uring_enable(struct fuse_chan *fch);
+>  ssize_t fuse_chan_send(struct fuse_chan *fch, struct fuse_args *args);
+>  int fuse_chan_send_bg(struct fuse_chan *fch, struct fuse_args *args, gfp_t gfp_flags);
+>  int fuse_chan_send_notify_reply(struct fuse_chan *fch, struct fuse_args *args, u64 unique);
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index bf9d51f2a508..b7c6100c4176 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -238,7 +238,6 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
+>  {
+>  	struct fuse_ring *ring;
+>  	size_t nr_queues = num_possible_cpus();
+> -	struct fuse_ring *res = NULL;
+>  	size_t max_payload_size;
+>  
+>  	ring = kzalloc_obj(*ring, GFP_KERNEL_ACCOUNT);
+> @@ -258,12 +257,6 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
+>  		spin_unlock(&fch->lock);
+>  		goto out_err;
+>  	}
+> -	if (fch->ring) {
+> -		/* race, another thread created the ring in the meantime */
+> -		spin_unlock(&fch->lock);
+> -		res = fch->ring;
+> -		goto out_err;
+> -	}
+>  
+>  	init_waitqueue_head(&ring->stop_waitq);
+>  
+> @@ -278,7 +271,13 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
+>  out_err:
+>  	kfree(ring->queues);
+>  	kfree(ring);
+> -	return res;
+> +	return NULL;
+> +}
+> +
+> +void fuse_uring_conn_init(struct fuse_chan *fch)
+> +{
+> +	if (fuse_uring_create(fch))
+> +		fch->io_uring = 1;
+>  }
+>  
+>  static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+> @@ -1178,15 +1177,10 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+>  	struct fuse_ring *ring = smp_load_acquire(&fch->ring);
+>  	struct fuse_ring_queue *queue;
+>  	struct fuse_ring_ent *ent;
+> -	int err;
+>  	unsigned int qid = READ_ONCE(cmd_req->qid);
+>  
+> -	err = -ENOMEM;
+> -	if (!ring) {
+> -		ring = fuse_uring_create(fch);
+> -		if (!ring)
+> -			return err;
+> -	}
+> +	if (!ring)
+> +		return -EINVAL;
+>  
+>  	if (qid >= ring->nr_queues) {
+>  		pr_info_ratelimited("fuse: Invalid ring qid %u\n", qid);
+> @@ -1197,7 +1191,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+>  	if (!queue) {
+>  		queue = fuse_uring_create_queue(ring, qid);
+>  		if (!queue)
+> -			return err;
+> +			return -ENOMEM;
+>  	}
+>  
+>  	/*
+> diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+> index 55f8d04e4b0b..d721a4fc0215 100644
+> --- a/fs/fuse/dev_uring_i.h
+> +++ b/fs/fuse/dev_uring_i.h
+> @@ -135,6 +135,7 @@ struct fuse_ring {
+>  	bool ready;
+>  };
+>  
+> +void fuse_uring_conn_init(struct fuse_chan *fch);
+>  void fuse_uring_stop_queues(struct fuse_ring *ring);
+>  void fuse_uring_abort_end_requests(struct fuse_ring *ring);
+>  int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
+> @@ -174,6 +175,10 @@ static inline bool fuse_uring_ready(struct fuse_chan *fch)
+>  
+>  #else /* CONFIG_FUSE_IO_URING */
+>  
+> +static inline void fuse_uring_conn_init(struct fuse_chan *fch)
+> +{
+> +}
+> +
+>  static inline void fuse_uring_abort(struct fuse_chan *fch)
+>  {
+>  }
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index d975073c6029..ce4891a04a37 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1272,6 +1272,7 @@ static void process_init_reply(struct fuse_args *args, int error)
+>  	struct fuse_mount *fm = ia->fm;
+>  	struct fuse_conn *fc = fm->fc;
+>  	struct fuse_init_out *arg = &ia->out;
+> +	bool io_uring_enabled = false;
+>  	bool ok = true;
+>  
+>  	if (error || arg->major != FUSE_KERNEL_VERSION)
+> @@ -1402,7 +1403,7 @@ static void process_init_reply(struct fuse_args *args, int error)
+>  					ok = false;
+>  			}
+>  			if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
+> -				fuse_chan_io_uring_enable(fc->chan);
+> +				io_uring_enabled = true;
+>  
+>  			if (flags & FUSE_REQUEST_TIMEOUT)
+>  				timeout = arg->request_timeout;
+> @@ -1432,6 +1433,7 @@ static void process_init_reply(struct fuse_args *args, int error)
+>  			.minor = fc->minor,
+>  			.max_write = fc->max_write,
+>  			.max_pages = fc->max_pages,
+> +			.io_uring_enabled = io_uring_enabled,
+>  		};
+>  		fuse_chan_set_initialized(fc->chan, &cp);
+>  	}
 
-Not quite. The memory is allocated when a file is committed to the
-metadata log, before a file is ever creat'd. When the log is played, 
-initially empty file instances get created (by the famfs lib in user
-space) and then the fmaps get passed in via FAMFS_IOC_MAP_CREATE 
-(after which files are usable). (the word "file" is admittedly 
-overloaded here; hope it makes sense.)
+Thanks, I should have done that from the beginning!
 
-The cluster aspect is unusual if not unique. Only one node (the master) 
-can write the MD log, meaning only that node can create files (by which 
-I mean commit file_create log entries). Other nodes can only play the 
-log, which guarantees they see files that point the the same memory 
-cluster-wide.
-
-Although file allocation is immutable until you kill the superblocks
-and start over, data can be mutable from any node you like. This is
-definitely unusual.
-
-The MD log is append-only, and does not support mutations to allocation
-(truncate/append/delete), which solves the cluster consistency problem
-around which files point where. The worst structural inconsistency
-that's possible, if some nodes are behind on playing the log, is that
-those nodes don't see the newest files.
-
-Thank you!
-John
-
-<snip>
-
+Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
