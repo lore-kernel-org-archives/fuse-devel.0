@@ -1,297 +1,292 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E0B831F9A5;
-	Thu,  6 Aug 2026 05:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785994734; cv=none; b=E4hINVvtsE2n4Lh7xkAtB4NL7xY5zaB/T1gZT3gcz5QzBjglpMuZpsBp6yjAtJkuimdUN11z1msxOEtdS91HMSmYvNaV9AVAeY3hS2W5JJe2y9n3XOWu9OjmrhT03wCF59tOMFgl8OnqiMtRkgcDXdIYUg5G6wkJHkLj9fFmtMM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785994734; c=relaxed/simple;
-	bh=L81Gr6P5a728WMvMFjKLgHLP45lr7qAP9Y0Aifk120U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ls12DGzNLtUjEUo2H6waOvTFHo6LtokwPIuqV/M0uX82dlTSryeDs1Zr1MvpkWOsO/BY1FpR3zjya0jrSgfUG6pWBffBYp0EFOpQdQ/yH8AHwL8Jr6XpJbyy+e1OGED4ClAMKk+X4oLf4bp10oTHAF86/EwCPkT25ydU23q62xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=edLsjiiz; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DAF352C52
+	for <fuse-devel@lists.linux.dev>; Thu,  6 Aug 2026 07:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786002056; cv=pass; b=YcvPiKXsmj2UH+J/vZRTJFiK42WdQHquBdkhN3ajC1qSohApjcWkg+u2m0haB5aegnqgDXmGfNR62HTeBaGaz5EW6/nl5jcGlbR4oqn1F8elR9qUYCr/qaR6C006RASE9YlxnUrEJ2H4Ms3SsG5kDXuSj0d9iuaWsU7ZPl6vHJw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786002056; c=relaxed/simple;
+	bh=vyDsItitL/VUg0TCImiFTzvwWgG4k1gO0r0ApnhsMBs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HwZP8DLxEp/Jwj2UxiFcXHb9tSuIxUmQfJzw1lQ++7VOH5ETXl8EQrLtxVdj2BffEEACGH9FOwwcDaExXLd4MrbVX2gPPyJSXV4KKpiN9xrxf8HudC2U2Y7XPMO2/dOVLBmp+re3IqgXrXUoq5hZKeheqOeLhuG+l1S0CIPCL0c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nzKrX0IR; arc=pass smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="edLsjiiz"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 1A2401F000E9;
-	Thu,  6 Aug 2026 05:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785994733;
-	bh=S1IfjQLdDCOc5kDbzKWnjvR3WajSSqGNKDzYKfGSTgE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=edLsjiiz6/oX1ELsrLrTXtUabnLdZ3cD8XXabOMZQoPzMhzKjLOsPVFclMTOxZdk5
-	 c1FlBtpYmLQqo7qCD0ud7WG1tD/LOTywCs9sbAZd4DvoT7z+LvWpbQUYGYgEQbnoDq
-	 d3sIcHJ+KMZyRMrFfpoO5LqdQb6DqB3bRfnFktJrEsg27zycXkBygGNYtu0uSdu+0e
-	 36ykJAgPOlpAfi0mUAh+gP9wx6ZAl01Aiy24VQ0/ke96/O32hP6idZE+iQE1rAD4O/
-	 K7bKz+Sp+oVd4XUOM8OGUNPOUWeOYkyKADNEQqSOR1cLw0WxB2qbJvHwBRlW7M+rov
-	 Rp2rKkfmQI05g==
-Date: Wed, 5 Aug 2026 22:38:52 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Groves <john@jagalactic.com>
-Cc: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ira Weiny <iweiny@kernel.org>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Gabriel Whigham <gabewhigham@gmail.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH V12 12/12] famfs: Add documentation
-Message-ID: <20260806053852.GM3560084@frogsfrogsfrogs>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803023009.75966-1-john@jagalactic.com>
- <0100019fc5752a8f-df47f869-a29b-4b6d-936a-67dd521c0f5e-000000@email.amazonses.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nzKrX0IR"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-92e99ef0902so103269585a.2
+        for <fuse-devel@lists.linux.dev>; Thu, 06 Aug 2026 00:40:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786002053; cv=none;
+        d=google.com; s=arc-20260327;
+        b=WJrWFBAfgnMGlf1b/L1YuGGphCLPIZ+bf7GeKX2SXlOrsv+ZKHVv067aPbqp3a7SL+
+         oc/5/jTtyZ7oPDc2cQ8+w30nVYKq81lMoeDUm1IcHcBs6UgsRi56b2MyW4nFOvq58P/l
+         94IMQHcPsnMk5Cf8+BiZavFD/xHW8YV3i+EpJZnDn3G+M0T3s47rXkERj+mRxV8BHbKV
+         BTg14HJdXQFArUIEP3YsQEzc2pt9l/PaBGkBFJhDSXnZq2zQZ/NK5g3Og9edLR2JPluK
+         mM+YkuhAdrczMO/DLJr8cDJchExyEYihn0FA7//6W/FrKPj2JwoGihcSudMpWURd4x7e
+         D56Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=37DNYH584RQR0c1a1t67teM9/6ensH+lBvw1aVuJotk=;
+        fh=/54nqxHLW9K0E6vjrILDTtjss3Iw7N6C3N2n/N/GvtM=;
+        b=ssgb8pAXxbzRCsx58OacB/Qgk+ApbywB5DN6xgveSvSmM8LL14UzrDhJnWfxkD3jCv
+         t1Wz5gW52t7D09Nyk7stpFFRFrH1zIAVvBP69YdnrWwtYhno2DwuKOTf2a0OMFXNT5X1
+         y0AsUNb+4ZniiUb4rUcfJiQ9dO9pG/8FfIzpBYpdebiVkrLyyIiDYR10/p3coz88Erl4
+         ZE7cN8vXL4+/gH84BRIlk2GCJB0WnApX3478H64iBL8U1vqzhMYagNlOaN6M2L/uXDdO
+         IhpC2Rqe2T9v9RCWgLx8xN43xDDHyKc7jGNdM0lVi44awlf7R/uvsu0XwrOJe20m5H7U
+         Xn1A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786002053; x=1786606853; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=37DNYH584RQR0c1a1t67teM9/6ensH+lBvw1aVuJotk=;
+        b=nzKrX0IRZgVm9DmRhRrqBwl9wMpxT1m6euroomMCIMKsaxOKwIeR/S52IZyYaw/0bs
+         LlyeUNcb027lkITfY3peCOsiL3CkfGmG9dAXc8nERJC5lx/anxGHpyN7ssHK/k7Hmyhn
+         cwYanAGPSnsqBe7izvsxWZ17Dlglc0zYdJzFNjDGeKQMDshVG1UkGcbuj4iJQf/N39pd
+         0jbvvxrdyXMrnou7xTHXMZ/NXMUhYhQ7bNh7VM8Szm3kOe81rWGuiLwk0Rag/hNWccrq
+         CYT0HcwcX0PxHBIQEvoUzudwAMusqndtt+NbkarQeNZQhPsr2H78DkPQ+1vN5eM8YUEc
+         r+Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786002053; x=1786606853;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=37DNYH584RQR0c1a1t67teM9/6ensH+lBvw1aVuJotk=;
+        b=LO9qwKNc/aAyWZB8+Ty3K5YruHsxzuUgBqIwfzUZr8VZc9fElOcnGnB1yVtNEjZoGB
+         D7oId+e1Q3kgpZBX+QZl2AB6fn28OjTycg4gmwTLZPByMbau34tE9vFw56SmyGzbCtEg
+         uueDbKMCFEWrYr1+koGs8TURGWzNVEo8vlnyTQntwcPZqhKTLKoOoFpPZiaJIPlgWGPB
+         GPLaB/RqxOUjm4BMbJeh2P8Y9QfPHlepUQSSwv34R6upr8OjUIOMXR4azANRtgunRELk
+         hQNX2iI+U5pqUOIZsUr+VXcKB6YChBgVzCYIFOQYVOFVGUmGF8ESdwYAGeMqhLkMdCV7
+         gj+w==
+X-Forwarded-Encrypted: i=1; AHgh+RpvJz+58SrfI2dd3wagBnHyz+kBcCYCfhHiOpPnct0U5ocSaYZsMjA8+MaZOyMNh71mV6z+b2tO7OZa@lists.linux.dev
+X-Gm-Message-State: AOJu0YwD4pR6qDYp3U8ceyEuPXzd4Gy+hkyPbJTH0Nz0YcHYQS3vckM4
+	ZGh5QN1Rl0LcmQGxbQqmYn9ZramfbNkl2ildZjPmgJQ5WBzzc02pKkiJMZYOPYFp/onVYi0kWyQ
+	53WeNN3WoIi1k0SnR5v70yEj9BHgvKTY=
+X-Gm-Gg: AR+sD10zH0a2LZhxbSistBNEWfJKzUrsu2ZyQQxX9DdI2cKWGsdANhVP5mWOxyl/rSx
+	c7n8le5X8eJjuEf6nfWgt6Qra2IIGh1suoktuorMNowbVOSdNLimCYox6JfzhJVpyMIvxbM7MMB
+	BM3EORUBjh8/LuQxL/x5iFwT7zFJHwlQwQyBHDGQtSrX8VeYd/gmG3R8XKGINLK8k+5pYqKwgFg
+	RW5RsLnUzYGFtA8uW1yf4tiKUv9+aFbgLi5ymT1Dqtga7lvXyOFP1aaam+Zgpt7/r/kc5DW4BCr
+	uZhrYZLoxNeoRkoZyBF9JK9qh1JwBcl60nkP/3YIrF8jj4Bh+eVoplxx
+X-Received: by 2002:a05:620a:aa12:b0:930:f1ea:8cf4 with SMTP id
+ af79cd13be357-936491c0258mr1191115485a.47.1786002053388; Thu, 06 Aug 2026
+ 00:40:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0100019fc5752a8f-df47f869-a29b-4b6d-936a-67dd521c0f5e-000000@email.amazonses.com>
+References: <20260731070102.5850-1-xuewen.yan@unisoc.com>
+In-Reply-To: <20260731070102.5850-1-xuewen.yan@unisoc.com>
+From: Xuewen Yan <xuewen.yan94@gmail.com>
+Date: Thu, 6 Aug 2026 15:40:30 +0800
+X-Gm-Features: AUfX_mwZOCv89LmJaP0g_KVXJ8AtAYS6qoMeSScusqiPP7dLxvG6y4IlwoY80FY
+Message-ID: <CAB8ipk8CyuPRQv2mSwnc-ssj2Aes=eFdpDDk9nuxEwxMOCS9Dg@mail.gmail.com>
+Subject: Re: [RFC PATCH] fuse: give wakeup hints to the scheduler for
+ synchronous requests
+To: Xuewen Yan <xuewen.yan@unisoc.com>
+Cc: miklos@szeredi.hu, cmllamas@google.com, tkjos@google.com, 
+	jstultz@google.com, quic_pkondeti@quicinc.com, quic_pragalla@quicinc.com, 
+	qxy65535@gmail.com, ke.wang@unisoc.com, pin.xia@unisoc.com, 
+	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 03, 2026 at 02:30:18AM +0000, John Groves wrote:
-> From: John Groves <John@Groves.net>
-> 
-> Add Documentation/filesystems/famfs.rst and update MAINTAINERS
-> 
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: John Groves <john@groves.net>
+Hi Miklos,
+
+Any comments?
+
+Thanks!
+
+On Fri, Jul 31, 2026 at 3:03=E2=80=AFPM Xuewen Yan <xuewen.yan@unisoc.com> =
+wrote:
+>
+> When a synchronous FUSE request is sent, the in-kernel client queues it
+> on fiq->pending and wakes the userspace daemon sleeping in
+> fuse_dev_do_read()->wait_event_interruptible_exclusive(fiq->waitq, ...).
+> The client then blocks in request_wait_answer() waiting for the reply,
+> so the waker is about to go to sleep: this is exactly the pattern that
+> WF_SYNC is meant to optimise.
+> As Peter Zijlstra explained in the earlier discussion [1],
+> WF_SYNC is a hint that the waker is about to sleep and the waker and
+> wakee share data, so stacking the woken thread on the current CPU
+> is beneficial for cache locality instead of searching for an idle one.
+>
+> Add a wake_up_sync() wrapper for task on the synchronous request path.
+>
+> Performance:
+>
+>   On an Android big.LITTLE device where the FUSE daemon (MediaProvider)
+>   runs as a background service on the little cores while foreground
+>   applications run on the big cores, the synchronous wakeup hint lets
+>   the scheduler pull the daemon thread onto the big core that is
+>   issuing the request, where the request data is cache-hot.  Measured
+>   by qixiaoyu [2] on a 2000-picture zip decompression to /sdcard:
+>
+>     ------------------------------------------
+>     | Default   | patched     | Improvement |
+>     ------------------------------------------
+>     | 13.0 s    | 7.0 s       | 46%         |
+>     ------------------------------------------
+>
+>     Server thread wall duration: 3583 ms -> 1276 ms
+>     Server runs on big core:       5% -> 79%
+>
+>   The original 4K-file copy/compress/decompress workload [1] on the
+>   same kind of device showed a ~28% improvement (13.8s -> 9.9s).
+>
+>   Note: Miklos reported [2] that on his test box he could not observe
+>   an actual migration from wake_up_interruptible_sync(); the benefit
+>   appears to be most visible on asymmetric topologies (big.LITTLE,
+>   where the daemon normally lives on a little core) and on workloads
+>   dominated by small synchronous requests.  No regression was
+>   reported on the symmetric- SMP test setups tried.
+>
+> The earlier version of this change [1] added a `bool sync` argument
+> to all three hooks of `struct fuse_iqueue_ops` and threaded it
+> through virtio_fs as well.  Miklos questioned the interface churn,
+> and the patch has been stalled since.
+>
+> Re-work it so the exported interface is left alone.  The hint is
+> carried in a new FR_SYNC_WAKEUP bit of the existing `fuse_req->flags`
+> bitfield (an `unsigned long`, so no layout change):
+>
+>   - __fuse_request_send() sets the flag before fuse_send_one().
+>   - fuse_dev_queue_req() consumes it with test_and_clear_bit() and
+>     forwards the result to fuse_dev_wake_and_unlock(), which then
+>     picks wake_up_sync() or wake_up().
+>   - The forget, interrupt and resend paths pass `false` explicitly,
+>     preserving their original wake_up() behaviour.
+>
+> Only /dev/fuse ever wakes fiq->waitq; virtio_fs and fuse_uring
+> dispatch through their own transport and never call wake_up(), so
+> threading `sync` through their ops would just add an unused argument.
+> test_and_clear_bit() makes the flag a one-shot hint that cannot leak
+> into a future requeue, and no extra cleanup is needed in
+> fuse_request_end()/fuse_put_request().
+>
+> [1] https://lore.kernel.org/lkml/1638780405-38026-1-git-send-email-quic_p=
+ragalla@quicinc.com/
+> [2] https://lore.kernel.org/lkml/20221222093407.GA1141@mi-HP-ProDesk-680-=
+G4-MT/
+>
+> This work is based on "Pradeep P V K <quic_pragalla@quicinc.com>"  and
+> "Pavankumar Kondeti <quic_pkondeti@quicinc.com>"
+>
+> Assisted-by: TRAE:GLM-5.2
+> Signed-off-by: Xuewen Yan <xuewen.yan@unisoc.com>
 > ---
->  Documentation/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++
->  Documentation/filesystems/index.rst |   1 +
->  MAINTAINERS                         |   1 +
->  3 files changed, 144 insertions(+)
->  create mode 100644 Documentation/filesystems/famfs.rst
-> 
-> diff --git a/Documentation/filesystems/famfs.rst b/Documentation/filesystems/famfs.rst
-> new file mode 100644
-> index 000000000000..048791bcbcfd
-> --- /dev/null
-> +++ b/Documentation/filesystems/famfs.rst
-> @@ -0,0 +1,142 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+>  fs/fuse/dev.c        | 22 ++++++++++++++++------
+>  fs/fuse/fuse_dev_i.h |  3 +++
+>  2 files changed, 19 insertions(+), 6 deletions(-)
+>
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 5763a7cd3b37..689470a548a2 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -210,10 +210,13 @@ EXPORT_SYMBOL_GPL(fuse_req_hash);
+>  /*
+>   * A new request is available, wake fiq->waitq
+>   */
+> -static void fuse_dev_wake_and_unlock(struct fuse_iqueue *fiq)
+> +static void fuse_dev_wake_and_unlock(struct fuse_iqueue *fiq, bool sync)
+>  __releases(fiq->lock)
+>  {
+> -       wake_up(&fiq->waitq);
+> +       if (sync)
+> +               wake_up_sync(&fiq->waitq);
+> +       else
+> +               wake_up(&fiq->waitq);
+>         kill_fasync(&fiq->fasync, SIGIO, POLL_IN);
+>         spin_unlock(&fiq->lock);
+>  }
+> @@ -230,7 +233,7 @@ void fuse_dev_queue_forget(struct fuse_iqueue *fiq,
+>         if (fiq->connected) {
+>                 fiq->forget_list_tail->next =3D forget;
+>                 fiq->forget_list_tail =3D forget;
+> -               fuse_dev_wake_and_unlock(fiq);
+> +               fuse_dev_wake_and_unlock(fiq, false);
+>         } else {
+>                 kfree(forget);
+>                 spin_unlock(&fiq->lock);
+> @@ -251,7 +254,7 @@ void fuse_dev_queue_interrupt(struct fuse_iqueue *fiq=
+, struct fuse_req *req)
+>                         list_del_init(&req->intr_entry);
+>                         spin_unlock(&fiq->lock);
+>                 } else  {
+> -                       fuse_dev_wake_and_unlock(fiq);
+> +                       fuse_dev_wake_and_unlock(fiq, false);
+>                 }
+>         } else {
+>                 spin_unlock(&fiq->lock);
+> @@ -281,11 +284,13 @@ EXPORT_SYMBOL_GPL(fuse_request_assign_unique);
+>
+>  static void fuse_dev_queue_req(struct fuse_iqueue *fiq, struct fuse_req =
+*req)
+>  {
+> +       bool sync =3D test_and_clear_bit(FR_SYNC_WAKEUP, &req->flags);
 > +
-> +.. _famfs_index:
-> +
-> +==================================================================
-> +famfs: The fabric-attached memory file system
-> +==================================================================
-> +
-> +- Copyright (C) 2024-2026 Micron Technology, Inc.
-> +
-> +Introduction
-> +============
-> +Compute Express Link (CXL) provides a mechanism for disaggregated or
-> +fabric-attached memory (FAM). This creates opportunities for data sharing;
-> +clustered apps that would otherwise have to shard or replicate data can
-> +share one copy in disaggregated memory.
-> +
-> +Famfs, which is not CXL-specific in any way, provides a mechanism for
-> +multiple hosts to concurrently access data in shared memory, by giving it
-> +a file system interface. With famfs, any app that understands files can
-> +access data sets in shared memory. Although famfs supports read and write,
-> +the real point is to support mmap, which provides direct (dax) access to
-> +the memory - either writable or read-only.
-> +
-> +Shared memory can pose complex coherency and synchronization issues, but
-> +there are also simple cases. Two simple and eminently useful patterns that
-> +occur frequently in data analytics and AI are:
-> +
-> +* Serial Sharing - Only one host or process at a time has access to a file
-> +* Read-only Sharing - Multiple hosts or processes share read-only access
-> +  to a file
-> +
-> +The famfs file system is part of the famfs framework; user space
-> +components [1] handle metadata allocation and distribution, and populate
-> +the in-kernel files (via ioctls) so that they map directly to shared
-> +memory.
-
-Ok, so maybe it is the famfs server that's supposed to go modify the
-directory tree after the metadata log updates.
-
-> +The famfs framework manages coherency of its own metadata and structures,
-> +but does not attempt to manage coherency for applications.
-> +
-> +Famfs also provides data isolation between files. That is, even though
-> +the host has access to an entire memory "device" (as a devdax device), apps
-> +cannot write to memory for which the file is read-only, and mapping one
-> +file provides isolation from the memory of all other files. This is pretty
-> +basic, but some experimental shared memory usage patterns provide no such
-> +isolation.
-> +
-> +Principles of Operation
-> +=======================
-> +
-> +Famfs is a file system with one or more devdax devices as a first-class
-> +backing device(s). Metadata maintenance and query operations happen
-> +entirely in user space.
-> +
-> +The famfs user space provides each file's map (fmap) and its backing
-> +devdax devices to the kernel through ioctls (FAMFSIOC_MAP_CREATE and
-> +FAMFSIOC_DAXDEV_OPEN), after which read/write/mapping faults are handled
-> +entirely in the kernel with no up-calls for all active files.
-> +
-> +The famfs user space is responsible for maintaining and distributing
-> +consistent metadata. This is currently handled via an append-only
-> +metadata log within the memory, but this is orthogonal to the famfs
-> +kernel code.
-> +
-> +Once instantiated, "the same file" on each host points to the same shared
-> +memory, but in-memory metadata (inodes, etc.) is ephemeral on each host
-> +that has a famfs instance mounted. Use cases are free to allow or not
-> +allow mutations to data on a file-by-file basis.
-> +
-> +When an app accesses a data object in a famfs file, there is no page cache
-> +involvement. The CPU cache is loaded directly from the shared memory. In
-> +some use cases, this is an enormous reduction in read amplification
-> +compared to loading an entire page into the page cache.
-> +
-> +
-> +Famfs is Not a Conventional File System
-> +---------------------------------------
-> +
-> +Famfs files can be accessed by conventional means, but there are
-> +limitations. The famfs kernel module is not involved in the allocation of
-> +backing memory for files at all; the famfs user space creates files and
-> +supplies their fmaps and devdax device info to the kernel via ioctls.
-
-...and just to be clear, regular programs *do not* modify the directory
-tree, create files, or delete them?
-
-> +Famfs differs in some important ways from conventional file systems:
-> +
-> +* Files must be pre-allocated by the famfs framework; allocation is never
-> +  performed on (or after) write.
-> +* Any operation that changes a file's size is considered to put the file
-> +  in an invalid state, disabling access to the data. It may be possible to
-> +  revisit this in the future. (Typically the famfs user space can restore
-> +  files to a valid state by replaying the famfs metadata log.)
-> +
-> +Famfs exists to apply the existing file system abstractions to shared
-> +memory so applications and workflows can more easily adapt to an
-> +environment with disaggregated shared memory.
-> +
-> +Memory Error Handling
-> +=====================
-> +
-> +Possible memory errors include timeouts, poison, and unexpected
-> +reconfiguration of an underlying dax device. In all of these cases, famfs
-> +receives a call from the devdax layer via its
-> +dax_holder_operations->notify_failure() function. If any memory errors have
-> +been detected, access to the affected
-> +daxdev is disabled to avoid further errors or corruption.
-> +
-> +In all known cases, famfs can be unmounted cleanly. In most cases errors
-> +can be cleared by re-initializing the memory - at which point a new famfs
-> +file system can be created.
-
-Should media failure notifications get passed to the new fserror
-framework (see xfs_verify_media.c)?
-
---D
-
-> +Key Requirements
-> +================
-> +
-> +The primary requirements for famfs are:
-> +
-> +1. Must support a file system abstraction backed by sharable devdax memory
-> +2. Files must efficiently handle VMA faults
-> +3. Must support metadata distribution in a sharable way
-> +4. Must handle clients with a stale copy of metadata
-> +
-> +The famfs kernel component takes care of 1-2 above by caching each file's
-> +mapping metadata in the kernel.
-> +
-> +Requirements 3 and 4 are handled by the user space components, and are
-> +largely orthogonal to the functionality of the famfs kernel module.
-> +
-> +Requirements 3 and 4 cannot be met by conventional fs-dax file systems
-> +(e.g. xfs) because they use write-back metadata; it is not valid to mount
-> +such a file system on two hosts from the same in-memory image.
-> +
-> +
-> +Famfs Usage
-> +===========
-> +
-> +Famfs usage is documented at [1].
-> +
-> +
-> +References
-> +==========
-> +
-> +- [1] Famfs user space repository and documentation
-> +      https://github.com/cxl-micron-reskit/famfs
-> diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-> index 1f71cf159547..97a9a1f1e96a 100644
-> --- a/Documentation/filesystems/index.rst
-> +++ b/Documentation/filesystems/index.rst
-> @@ -91,6 +91,7 @@ Documentation for filesystem implementations.
->     ext3
->     ext4/index
->     f2fs
-> +   famfs
->     gfs2/index
->     hfs
->     hfsplus
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ca7b90a8f0a1..8c282857b103 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -9910,6 +9910,7 @@ M:	John Groves <John@Groves.net>
->  L:	linux-fsdevel@vger.kernel.org
->  L:	linux-cxl@vger.kernel.org
->  S:	Supported
-> +F:	Documentation/filesystems/famfs.rst
->  F:	fs/famfs/
->  
->  FANOTIFY
-> -- 
-> 2.53.0
-> 
-> 
-> 
+>         spin_lock(&fiq->lock);
+>         if (fiq->connected) {
+>                 fuse_request_assign_unique_locked(fiq, req);
+>                 list_add_tail(&req->list, &fiq->pending);
+> -               fuse_dev_wake_and_unlock(fiq);
+> +               fuse_dev_wake_and_unlock(fiq, sync);
+>         } else {
+>                 spin_unlock(&fiq->lock);
+>                 req->out.h.error =3D -ENOTCONN;
+> @@ -752,6 +757,11 @@ static void __fuse_request_send(struct fuse_req *req=
+)
+>         /* acquire extra reference, since request is still needed after
+>            fuse_request_end() */
+>         __fuse_get_request(req);
+> +       /*
+> +        * This is a synchronous request: the caller will block waiting f=
+or
+> +        * the answer. Hint the scheduler via wake_up_sync().
+> +        */
+> +       set_bit(FR_SYNC_WAKEUP, &req->flags);
+>         fuse_send_one(fiq, req);
+>
+>         request_wait_answer(req);
+> @@ -1806,7 +1816,7 @@ void fuse_chan_resend(struct fuse_chan *fch)
+>         }
+>         /* iq and pq requests are both oldest to newest */
+>         list_splice(&to_queue, &fiq->pending);
+> -       fuse_dev_wake_and_unlock(fiq);
+> +       fuse_dev_wake_and_unlock(fiq, false);
+>  }
+>
+>  /* Look up request on processing list by unique ID */
+> diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+> index 668c8391d61c..40a791094813 100644
+> --- a/fs/fuse/fuse_dev_i.h
+> +++ b/fs/fuse/fuse_dev_i.h
+> @@ -38,6 +38,8 @@ struct fuse_iqueue;
+>   * @FR_PRIVATE:                request is on private list
+>   * @FR_ASYNC:          request is asynchronous
+>   * @FR_URING:          request is handled through fuse-io-uring
+> + * @FR_SYNC_WAKEUP:    use synchronous wakeup when queueing this request=
+ to
+> + *                     give the scheduler a hint about the waker task
+>   */
+>  enum fuse_req_flag {
+>         FR_ISREPLY,
+> @@ -53,6 +55,7 @@ enum fuse_req_flag {
+>         FR_PRIVATE,
+>         FR_ASYNC,
+>         FR_URING,
+> +       FR_SYNC_WAKEUP,
+>  };
+>
+>  /**
+> --
+> 2.25.1
+>
+>
