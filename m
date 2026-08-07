@@ -1,106 +1,175 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f4.google.com (mail-pj2-f4.google.com [74.125.227.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0EC433E79;
-	Thu,  6 Aug 2026 22:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A170712B94
+	for <fuse-devel@lists.linux.dev>; Fri,  7 Aug 2026 03:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786055455; cv=none; b=PHoq6ddZPcE0XMn7V0RzQFXPkULCJdBYe6/Lhn6uiv+OZCWlcIUElCvDfUzlu7J9V6hDo6/Q9jq5tnxCv+Li0TmL3gncyBvgmTZGxo9zACTOkhwSiDSIRnsQRXEAY2iKafE+VXBSHgoHHG16uPuVIC1FIAAEVp/PpOhk6vDbkFc=
+	t=1786072557; cv=none; b=O3TfwsRNgrsVfsVf2aaHLwgTyrqiklJTdUZq09ZkuA2Tp5gE6VmdTdOZ3jXgcvxi4WhwdKJ0d01A/WezlZAn9ULc2lQmis8qw+S8I8gxrvkD54F2SYzzqbP/hzE++xgXCtLshMvF+h4hY9zRQXyyFjG5/bvGvRrxbcr8XuCT27Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786055455; c=relaxed/simple;
-	bh=qyHVJJ1Np197evupjuCDw3AOO9nsqP38d1h6nU3H+Dw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4DFkLLtjBuhFQq9NeUDvUx+miJvuKZ+QKFUnmreiKSkYQnKM3ITiS3sLR4w6hhSG6t/pPAPCRdVXD7W4USlDOgjcWgkKl+QGR6e1k/V7JBMxUxPukMF1ZnlLIbcRE/y2Uv0IHD2V04iwYOLeS4Xh7dYEV7JD/5lpPE4wP+VDpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id DC0C7140553;
-	Thu,  6 Aug 2026 22:30:43 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id B1F551B;
-	Thu,  6 Aug 2026 22:30:27 +0000 (UTC)
-Date: Thu, 6 Aug 2026 17:30:26 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 10/12] famfs: Add runtime operation-permission (opts)
- framework
-Message-ID: <anUJmuNV5mFBmksw@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022950.75930-1-john@jagalactic.com>
- <0100019fc574dabe-572d99fc-3bb0-421a-afec-05432de2a757-000000@email.amazonses.com>
- <20260806053100.GJ3560084@frogsfrogsfrogs>
+	s=arc-20240116; t=1786072557; c=relaxed/simple;
+	bh=3A5C3EXvvGEoWJ1l+7sfPmTDNuAFh/3jvfuQgavhu6o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K4T8daJM7QQhBlleLP7aZn1PcGmwhQLc5J7JK56SlkcBraelHE5DRVD5ABeL+aplyM75sJsV5qhwLz03e0CryyC7ESf8aRe5YAkqOoeWLdfGBaOvf8gYZZw+wAtMsQHlzYl0oyARVbaN8ndkvuSv13etU0gvHIv+r4jH6dTGY7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rpUrj0Ri; arc=none smtp.client-ip=74.125.227.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rpUrj0Ri"
+Received: by mail-pj2-f4.google.com with SMTP id 98e67ed59e1d1-3896ccc93b5so1197765a91.1
+        for <fuse-devel@lists.linux.dev>; Thu, 06 Aug 2026 20:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786072555; x=1786677355; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RCJZpBnqKALyKAEdfIL5xWelEc6Lw3PrSrs6EoGxV8w=;
+        b=rpUrj0Rix+LtpVzslVWVz4VITZxQPD305L6dVuQCuKQMkb14cvOYk3JgP+Ec0d6yhs
+         H6Ta7M2kOFB4DVdJCriDVvQSgxqb5d//+8zmcG+puJmA2+HbYu5s1MUIXf7ADMov5Jvw
+         nRFbyP/h/BZhVok58Jc7CKgUHTfAgvyExTvjTrO5KnJNod5UZFFQU2nCrQmqZicu91Sw
+         4kpUOZkH0x0l4qzu8FrINK7nECfszRXeW8vsyB+9Be+lFpyHbrYaHeE2FswdNQc1H5jT
+         Ut2+5Zbsx/kFoORr5SPxa9/cH/8Fxlh9GXIrJnJY4tNngh2UVqcBdybl4HOs8N7r8rRn
+         BCsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786072555; x=1786677355;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RCJZpBnqKALyKAEdfIL5xWelEc6Lw3PrSrs6EoGxV8w=;
+        b=n216oQOAHIbgDMFLfXCSooZxHmzauvl394lvolRTT0f3YQES2zxeK9xyFn8DToH7/r
+         naVwpSOw6An5R7ldI2FWXJKAuVMQnrrZwDnulVgFzrtX1iFM4wKIVpK1flQ9PGJIVLkL
+         amwiHk5uX6E2aXjdABicOhG9F3sjEwkTIbEDIZGDO/qH9oYhScyL95lUeO0j1cV+a2Um
+         6nf4ff0WZUl8W36+G1wy4C5dqWfxC0j+UgJ+PKsMos+SF/15ID2H+KwdylSV/tK1GW2i
+         LQACocB8M/sO6dmfEP3uLMjmkmhgMpauq4BluHWMm/96D55V9UyWebG7zIXuntyjuy9G
+         N7Vw==
+X-Forwarded-Encrypted: i=1; AHgh+RoFW2sY0da6u0rgcLVk9HAzVeISvVoxXRGTtRuI8RgxbPAuHS6AW+NbO1v3t1KhoYGrcRXIRMGe9N9/@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmaHVjrhhdzO2NDWKZS1bOcTj1BZhO3LtOr6DKFFOgHSJzxEM/
+	U7CS3voMid4wYVU4mABWjYiMJ9oi+hNwn7iuvPlCqOsDmSHkt0v2589l
+X-Gm-Gg: AR+sD12OCkE85dKDtAlEyxGMVVH6YTQHkdgAmGw7BmIrhMgeovzfkJSLU0/w0VazqpC
+	pPSN6MB1Tf6KKQOvCEVyQhMxcVasqouOTR1xIFtGpt6VeyFHbtqqlXQjfhqqEXsQtmPVQMqYaEL
+	J3tUn2yA0OkamQ51pMintVjt4NivhzNlqC7yRPJp51gCL0c+Zr831wzCMM6ye6Ez67CpT7+mAAf
+	iejJx7oYaMHlUxyub+n/xJ7oY5wDJoYTGITMOmRNVDlLgZ5E1jAqyfaf7u9MvWmUTpe3t0R6DN+
+	ZiQMSiAXJusnwKj/BI7yfYPp9kLvFjfUxz9wCWvsSNsvmDmEgFPv82+5Ts/CSORUmQepo3R/l3w
+	6DKqLpyc4YDlGmouWMOPl2rp0TnNUBip4DwXESVMTLU9vEw5Gjplp4E+mXyB/jL6xro15zPQEZx
+	F08LD601SjcxCiA0D5E+CpCR+3Myjv5RfYUOyQSbnzqCqqsLpsMoQ/AO0CWPwa099+qjhzZ3iZk
+	Gd0/BlfkQ==
+X-Received: by 2002:a17:90b:2dc5:b0:38e:ad9d:1151 with SMTP id 98e67ed59e1d1-3909d79f314mr7651334a91.4.1786072554897;
+        Thu, 06 Aug 2026 20:15:54 -0700 (PDT)
+Received: from J4f-Laptop.localdomain ([2409:8a55:94ec:7c81:f9fc:df1b:ed1e:972c])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-390b30d465csm388060a91.2.2026.08.06.20.15.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 20:15:54 -0700 (PDT)
+From: Shihuang Liu <shlomojune6@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Zhao Chen <winters.zc@antgroup.com>,
+	fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shihuang Liu <shlomojune6@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] fuse: fix use-after-free in fuse_chan_resend()
+Date: Fri,  7 Aug 2026 11:15:34 +0800
+Message-ID: <20260807031534.4362-1-shlomojune6@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806053100.GJ3560084@frogsfrogsfrogs>
-X-Stat-Signature: bw5em5g91hg913xpaesgugrouo4wrfn9
-X-Rspamd-Server: rspamout06
-X-Rspamd-Queue-Id: B1F551B
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX19JCa/3povowe+DVCaTZremTyrvXzE9dnQ=
-X-HE-Tag: 1786055427-275828
-X-HE-Meta: U2FsdGVkX19kEufDJVAy1gAj6uX2nDLCMmpAAN6usy3i1o+xi9PabxL+EioG4DkZXPut0+l8QSWoMAI3GpyQVamkZYvkiIf0/ZrhbwCamP2Bn7uXlbwx/m0WCdq5TaB/klmYruBqb+w85tYTPKSaW2J4uznKsgho/Y0ChfhKuc6JRG21vYVJGSZPvtvGXKIIrbMDgyuEVaYAS9AQ0VXNOOW9fUKpE2pboIcdZpuZaIDcguVWUExVC3d1axI8+sUl2q6zUhaJYeCKCRWI5FrXSnExsHx7SqBaOguD71asvanO+3QVIDwcfV3OxywzVd3pRmdY5gx/oUx601TQ5cF27dxii60aVlQ8DcTrGrRchmAN9zlorO5H1Eu7Nf9fXjkk
+Content-Transfer-Encoding: 8bit
 
-On 26/08/05 10:31PM, Darrick J. Wong wrote:
-> On Mon, Aug 03, 2026 at 02:29:57AM +0000, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
-> > famfs denies most namespace, attribute and data operations by default
-> > because the userspace log, not the kernel, is authoritative for a famfs
-> > instance. Earlier commits already guard each such operation with a
-> > famfs_opt_enabled(fsi, FAMFS_OPT_x) check backed by a permissive stub. This
-> > commit defines the permission bitmap and makes those checks live.
-> 
-> Why would it ever be acceptable for user programs to mess with the
-> directory tree and file attributes?  There's nothing here that would
-> seem to write to the userspace log.  Or am I mistaken, and only the
-> program that maintains the userspace log (e.g. the famfs server) can do
-> these kinds of operations?
-> 
-> --D
+fuse_chan_resend() sets FR_PENDING before acquiring fiq->lock
+and before the request is actually inserted into fiq->pending.
+A concurrent cancellation path may therefore observe FR_PENDING,
+incorrectly assume that the request belongs to the lock-protected
+pending list, remove it, and drop the queue-held reference.
+The waiting thread may then release the final reference
+and free the request while fuse_chan_resend() still holds
+and accesses it, resulting in a use-after-free.
 
-Mostly it's the code that maintains the log that needs to create stub
-files and then pass in fmaps (MAP_CREATE). Changes made via the 
-"front door" of a mount are ephemeral, but allowing them can have practical
-value (e.g. allowing chown/chmod, which people actually seem to need to
-do sometimes. Also at one point a user sent me a patch enabling symlink
-creation, because some software needed that.)
+The following is a simple race scenario:
 
-But you're right that any changes we do allow are ephemeral (not logged).
+CPU1                                CPUx
 
-Thanks!
-John
+fuse_chan_resend()
+  move req from processing
+  to stack-local to_queue
 
-<snip>
+  set FR_PENDING
+                                    request receives SIGKILL
+
+                                    fuse_remove_pending_req()
+                                        sees FR_PENDING set
+                                        list_del(&req->list)
+                                        drop queue reference
+
+                                    request thread drops its reference
+                                    refcount reaches zero
+                                    req is freed
+
+  access struct fuse_req
+  lead to use-after-free
+
+A FUSE request being resent concurrently with fatal-signal
+cancellation can trigger a slab use-after-free.
+[   27.327266] ==================================================================
+[   27.329157] BUG: KASAN: slab-use-after-free in fuse_chan_resend+0x29c/0x7c0
+[   27.330554] Write of size 8 at addr ffff8880079975a0 by task exploit/1711
+
+Move the FR_PENDING publication and the other resend state updates
+under fiq->lock, in the same critical section that requeues the
+requests on fiq->pending. This prevents cancellation from observing
+FR_PENDING while the request is still on the private to_queue list.
+
+Fixes: 760eac73f9f6 ("fuse: Introduce a new notification type for resend pending requests")
+Cc: stable@vger.kernel.org
+Signed-off-by: Shihuang Liu <shlomojune6@gmail.com>
+---
+ fs/fuse/dev.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 5763a7cd3b37..e54567bd247e 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1760,7 +1760,7 @@ static ssize_t fuse_dev_splice_read(struct file *in, loff_t *ppos,
+ void fuse_chan_resend(struct fuse_chan *fch)
+ {
+ 	struct fuse_dev *fud;
+-	struct fuse_req *req, *next;
++	struct fuse_req *req;
+ 	struct fuse_iqueue *fiq = &fch->iq;
+ 	LIST_HEAD(to_queue);
+ 	unsigned int i;
+@@ -1781,18 +1781,9 @@ void fuse_chan_resend(struct fuse_chan *fch)
+ 	}
+ 	spin_unlock(&fch->lock);
+ 
+-	list_for_each_entry_safe(req, next, &to_queue, list) {
+-		set_bit(FR_PENDING, &req->flags);
+-		clear_bit(FR_SENT, &req->flags);
+-		/* mark the request as resend request */
+-		req->in.h.unique |= FUSE_UNIQUE_RESEND;
+-	}
+-
+ 	spin_lock(&fiq->lock);
+ 	if (!fiq->connected) {
+ 		spin_unlock(&fiq->lock);
+-		list_for_each_entry(req, &to_queue, list)
+-			clear_bit(FR_PENDING, &req->flags);
+ 		fuse_dev_end_requests(&to_queue);
+ 		return;
+ 	}
+@@ -1801,6 +1792,11 @@ void fuse_chan_resend(struct fuse_chan *fch)
+ 	 * intr_entry on fiq->interrupts after the request is re-queued.
+ 	 */
+ 	list_for_each_entry(req, &to_queue, list) {
++		set_bit(FR_PENDING, &req->flags);
++		clear_bit(FR_SENT, &req->flags);
++		/* mark the request as resend request */
++		req->in.h.unique |= FUSE_UNIQUE_RESEND;
++
+ 		if (test_bit(FR_INTERRUPTED, &req->flags))
+ 			list_del_init(&req->intr_entry);
+ 	}
+-- 
+2.43.0
 
