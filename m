@@ -1,154 +1,122 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14879466AE5;
-	Fri,  7 Aug 2026 22:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7804D3B7B79
+	for <fuse-devel@lists.linux.dev>; Sat,  8 Aug 2026 04:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786141074; cv=none; b=OU5FQfAw7SuiEo57cQ3IB+s/8z8rkRbFCjTNOl7dSD9LnO3DtP5Kal4jK0E2KCca3TFG8Ar6c8rkpbekthIkoK/iufsHuYq+dqs/f0C99esgDsXl5d1/2/grmvlfOqKBiGufh1eMPLZGyTQb+5a3ugIBsnIv4diWhYPQ9GXH48U=
+	t=1786162460; cv=none; b=pUYMKKP6ZYz4zqsHfIzOH3MLTuASX3X4tXZ7zCdzPvAwkYiur0lIm+VdvnBkBibyD402ki2z0G9Ss5B5Dv9TN9YVJVPEluA3xAhr+8URdqafYeJBQ5mbdQIai7eec5j+IvWERhRGpRjp8hB0Sq3zr9o4Bqmhq/KuFpd/q1ouGFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786141074; c=relaxed/simple;
-	bh=J4JLIR8qt7OMPKMUTgAP0WX5jKAWME93N1J+XGiazdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c8xIiRU+envJBWHryQZ/9cBlv5oMbUsqeK3/rXJKsFTYBQBpRc+IoRP8kL2K4opWaa6zplUf7K0zqVAIrrMHiNDmyvYWfFeS/ojWWELeukohUuG0ukSO69XRM9gkBPsHCl5GeADmB/oyWwsE+/bxj14rnFkQkScJiFNuDL59B5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 42B5AC01E3;
-	Fri,  7 Aug 2026 22:17:39 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf17.hostedemail.com (Postfix) with ESMTPA id C813317;
-	Fri,  7 Aug 2026 22:17:22 +0000 (UTC)
-Date: Fri, 7 Aug 2026 17:17:21 -0500
-From: John Groves <john@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Subject: Re: [PATCH V12 07/12] famfs: MAP_CREATE ioctl and fmap ingest (ABI
- 44)
-Message-ID: <anZXxns2H0hraevA@groves.net>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022919.75875-1-john@jagalactic.com>
- <0100019fc5746312-6cfe9a07-a658-4aba-b1e9-5233b0ddfcf4-000000@email.amazonses.com>
- <20260806052449.GG3560084@frogsfrogsfrogs>
- <anTxt3qsUQuCKvMz@groves.net>
+	s=arc-20240116; t=1786162460; c=relaxed/simple;
+	bh=LUUMjvwx1ZLvOgSqmbq+FnmECJbxWLCi6OGtMsAG6ms=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XTWI6wHGBQHpEMLbybKvO7wXuwJZQfE97bvcHSZ8FCCi0uHdy+lzxsu5+PhJFog8zhJFIGze5zwIhHJpPQRvZH1cBEazMeVVmfgNsGgOMuangbCUG6IB88hSQ89jsho/6aLDMj3ZfwPp8shXwso+CrrvCqn+SFGVQaf6U2atoP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=YtIQs16H; arc=none smtp.client-ip=115.124.30.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="YtIQs16H"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1786162449; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=fWIXQWbNp+6Q8890tdht3r1yuX0LyiNTJjfhYFMLpo8=;
+	b=YtIQs16H0wYV4BkjXkjN/Ri+sBbUXIa8CBTP/t7uk1joU+DJbrhPYlEolEL7Ls5qfBJbCZnHvcyiqArYeTUCKLZW6K8GZTA+i5AqQgY5f8icI/HgSSzpFjd1HRpTFa4WSI8lhNF3+5/6kA4KE1OOdnwp2oljQdpHpmfIGil4Ws8=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X8YJ3bb_1786162419;
+Received: from x31h02109.sqa.na131.tbsite.net(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X8YJ3bb_1786162419 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sat, 08 Aug 2026 12:14:08 +0800
+From: Baokun Li <libaokun@linux.alibaba.com>
+To: fuse-devel@lists.linux.dev
+Cc: miklos@szeredi.hu,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mreitz@redhat.com,
+	jefflexu@linux.alibaba.com
+Subject: [PATCH v2] fuse: check for NULL root inode in fuse_fill_super_submount
+Date: Sat,  8 Aug 2026 12:13:39 +0800
+Message-ID: <20260808041339.1687459-1-libaokun@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anTxt3qsUQuCKvMz@groves.net>
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: C813317
-X-Stat-Signature: 8j34j75gqi1wmp6t4z3xaq87gdp38by1
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+Jhg+QZrZX5fW8FKmAtX44m54gPSILj4M=
-X-HE-Tag: 1786141042-871016
-X-HE-Meta: U2FsdGVkX19CtPIfRxeFZ3e99ugG6+ZU3FJMM8tlxbxau2+hivErNN8eJFH7VkJHIzdcrThG0zrLMFoBhzt+qIVnrbtUGpNoH2u0ciCcd1TX4m8T34JMcfhKMrCpF1shSRwIqSGS6E9LxQ0z67EQxus0sJB8AqdTVFbP+mFcJhkxSzvGwXcl6DAp1lEouJWztVlhsYZ3ixSy8Cn8s4mKt8jyY2cmnMcg8sxPxG0dz4NQwdQaIqamoAtByXbmTzVN6ymFtoS2vI78/PkZL15H5B2V3yN3vEpo79o3qWwgaxcvIEHzBRpRh+tOZf13+uWS4nO+5VnxYxqjD+oqAyCgLBwCy9PjI0xTdbLAdVpXmobkOf4+RwMP0ar5Mk01PK5t
+Content-Transfer-Encoding: 8bit
 
-On 26/08/06 03:53PM, John Groves wrote:
-> On 26/08/05 10:24PM, Darrick J. Wong wrote:
-> > On Mon, Aug 03, 2026 at 02:29:26AM +0000, John Groves wrote:
-> > > From: John Groves <John@Groves.net>
-> > > 
-> > > Add the famfs file ioctl handler (FAMFSIOC_NOP, FAMFSIOC_MAP_CREATE) and
-> > > the KABI-44 self-describing fmap message: the wire ABI in famfs_ioctl.h
-> > > (famfs_ioc_fmap_header plus the simple and interleaved extent structs), the
-> > > in-core famfs_file_meta, and famfs_file_init_dax(), which copies the
-> > > message in, parses both the simple-extent and interleaved (striped) wire
-> > > forms into inode->i_private, and sets S_DAX.
-> > > 
-> > > Resolving those mappings to dax-device offsets (iomap_begin) is added in
-> > > the following commit; the read/write/fault paths keep their NULL iomap_ops
-> > > stub until then.
-> > > 
-> > > Also add famfs ioctls to ioctl-number.rst
-> > > 
-> > > Signed-off-by: John Groves <john@groves.net>
-> > > ---
-> > >  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
-> > >  fs/famfs/famfs_file.c                         | 326 +++++++++++++++++-
-> > >  fs/famfs/famfs_inode.c                        |   1 +
-> > >  fs/famfs/famfs_internal.h                     |  46 +++
-> > >  include/uapi/linux/famfs_ioctl.h              |  91 +++++
-> > >  5 files changed, 462 insertions(+), 3 deletions(-)
-> > >  create mode 100644 include/uapi/linux/famfs_ioctl.h
-> > > 
-> > > diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > index 3f0ef1e27eb0..5e244dec1b98 100644
-> > > --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> > > @@ -299,6 +299,7 @@ Code  Seq#    Include File                                             Comments
-> > >  'u'   00-2F  linux/ublk_cmd.h                                          conflict!
-> > >  'u'   20-3F  linux/uvcvideo.h                                          USB video class host driver
-> > >  'u'   40-4f  linux/udmabuf.h                                           userspace dma-buf misc device
-> > > +'u'   50-5F  linux/famfs_ioctl.h                                       famfs shared memory file system
-> > >  'v'   00-1F  linux/ext2_fs.h                                           conflict!
-> > >  'v'   00-1F  linux/fs.h                                                conflict!
-> > >  'v'   00-0F  linux/sonypi.h                                            conflict!
-> > > diff --git a/fs/famfs/famfs_file.c b/fs/famfs/famfs_file.c
-> > > index 678f2035fd5f..d710c8a0c923 100644
-> > > --- a/fs/famfs/famfs_file.c
-> > > +++ b/fs/famfs/famfs_file.c
-> > > @@ -13,9 +13,313 @@
-> > >  #include <linux/mm.h>
-> > >  #include <linux/dax.h>
-> > >  #include <linux/iomap.h>
-> > > +#include <linux/capability.h>
-> > >  
-> > > +#include <linux/famfs_ioctl.h>
-> > >  #include "famfs_internal.h"
-> > >  
-> > > +/* Expose famfs kernel abi version as a read-only module parameter */
-> > > +static int famfs_kabi_version = FAMFS_KABI_VERSION;
-> > > +module_param(famfs_kabi_version, int, 0444);
-> > > +MODULE_PARM_DESC(famfs_kabi_version, "famfs kernel abi version");
-> > 
-> > Maybe make the "NOP" ioctl a geometry ioctl that tells you the abi
-> > version and (I guess) the page and pmd size? :D
-> 
-> I like it - will do
+fuse_iget() can return NULL when its inode allocation fails, but
+fuse_fill_super_submount() passed the result straight to get_fuse_inode()
+and decremented fi->nlookup without checking it:
 
-Err, gonna leave this alone after all. The kabi_version is already exposed
-as a module parameter - which is better. That is needed before mount (and
-the ioctls can't be called till mounted). The other useful stuff that goes 
-here is the supported page sizes (which famfs generally calls "allocation 
-units". But there again, user space needs them prior to mount. So exposing 
-those as one or more module parameters is ideal.
+        root = fuse_iget(sb, parent_fi->nodeid, ...);
+        fi = get_fuse_inode(root);
+        fi->nlookup--;
 
-The NOP ioctl originated to answer the question "is this file famfs", and
-it still works fine for that (and user space relies on that in certain
-circumstances).
+Inside fuse_iget() the inode allocation can fail and return NULL.  The
+submount root takes the iget5_locked() path, whose alloc_inode() can fail
+under memory pressure (the auto-submount branch can fail the same way in
+new_inode() or fuse_alloc_submount_lookup()):
 
-Thanks!
-John
+        inode = iget5_locked(sb, nodeid, fuse_inode_eq, fuse_inode_set,
+                             &nodeid);
+        if (!inode)
+                return NULL;
 
-<snip>
+A NULL root makes get_fuse_inode() a container_of() on NULL and the
+nlookup decrement a write to a bogus address, oopsing the mount.  With
+CONFIG_KASAN the following null pointer dereference is reported when the
+root inode allocation of an auto-submount fails (e.g. under memory
+pressure):
+
+==================================================================
+BUG: KASAN: null-ptr-deref in fuse_get_tree_submount+0x656/0x8b0
+Read of size 8 at addr 00000000000002b0 by task ls/942
+CPU: 0 PID: 942 Comm: ls Tainted: G W 6.6 #15
+Call Trace:
+ <TASK>
+ fuse_get_tree_submount+0x656/0x8b0
+ vfs_get_tree+0x48/0x140
+ fc_mount+0x13/0x50
+ fuse_dentry_automount+0x7a/0xb0
+ __traverse_mounts+0xca/0x330
+ step_into+0x339/0xac0
+ path_lookupat+0xc5/0x2f0
+ filename_lookup+0x163/0x2a0
+ vfs_statx+0xd5/0x200
+ do_statx+0x83/0xd0
+ __x64_sys_statx+0xa0/0xc0
+ do_syscall_64+0x37/0x90
+ entry_SYSCALL_64_after_hwframe+0x78/0xe2
+ </TASK>
+==================================================================
+
+Return -ENOMEM instead; the caller tears down the partially built
+superblock on error, matching the other error returns in this
+function.
+
+Fixes: 1866d779d5d2 ("fuse: Allow fuse_fill_super_common() for submounts")
+Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
+---
+Changes since v1:
+ * Correct the Fixes tag.
+
+v1: https://patch.msgid.link/20260806152134.1594639-1-libaokun@linux.alibaba.com
+
+ fs/fuse/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index d975073c6029..455c7feba057 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1639,6 +1639,8 @@ static int fuse_fill_super_submount(struct super_block *sb,
+ 	fuse_fill_attr_from_inode(&root_attr, parent_fi);
+ 	root = fuse_iget(sb, parent_fi->nodeid, 0, &root_attr, 0, 0,
+ 			 fuse_get_evict_ctr(fm->fc));
++	if (!root)
++		return -ENOMEM;
+ 	/*
+ 	 * This inode is just a duplicate, so it is not looked up and
+ 	 * its nlookup should not be incremented.  fuse_iget() does
+-- 
+2.43.7
 
