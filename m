@@ -1,173 +1,223 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8242042C511
-	for <fuse-devel@lists.linux.dev>; Mon, 10 Aug 2026 16:49:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D1D2F12DA
+	for <fuse-devel@lists.linux.dev>; Mon, 10 Aug 2026 18:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786380590; cv=pass; b=s4wf3teMK1NQosWHcqJ1R0TE4PDp2UyEKitgwbASytQxBN+09DjUgfkHv32QfW6L7cNshK39cvNinWhd/8wTVI14nkiwNi472XNq9sOlogdWc0QNuv9UYnZVjNOblo34p6Q0jqb8QtX05waKld2h2B2S77GmAw8TAgsq0R1vfX0=
+	t=1786387443; cv=pass; b=jJPUiROts5qp4Goqc5oYSbM47vk/y+20v/tuF6LjdxnKFzy2qgKoJNBl3Arvs4d66kb3fOAzlBHCNDHS8xOe7S5ZuSZK21GCrMJUK9qfTTgYk0D/TsV7SmtKYr89beyHbFAeMyI+dFCNiZzDEyU2ldXJO+kYMauSqXbn58U0FGA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786380590; c=relaxed/simple;
-	bh=opQteIDfNDFGbe327v0N4D1kt+GGRQG5/oQ05zdVIEY=;
+	s=arc-20240116; t=1786387443; c=relaxed/simple;
+	bh=C3672GsGsY2/UL7vfkutsQ4ku3Q5wCtnn5EwQZops84=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z9s+uen8D1JFfVlyHACKRYGynu/nf49LaPBxqdDS9SSrJAaS0KNIMfsC+WrclVUHh9mdpg5A05qajqGwT3wFA7DqhlqoWvGEi4yoipijdpmHs7sPNh92/i/kwbrbNpyAzRdGs0FAemQ6pVNtmgPUKKOziL3jHbq+O/o6Fl0veHk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ThsWfLpa; arc=pass smtp.client-ip=209.85.128.49
+	 To:Cc:Content-Type; b=VNdspwkN9+CYmFGjl53TiaoYy8EuhWuTfpQnpmTegg/4bRyoVBfCQqYtCv+o06kLG33uE5F8xcWF4RkEFVHjYdj7FAZZBo8lO/M/IT2Szl9MtvNYQ6/NcYbe3nfXdlurgC9kEG/5ei+795yAXcFTY0RbI71T2s8YlvZYh1ghI9s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sj5hhVXF; arc=pass smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ThsWfLpa"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4957eefd361so15468415e9.1
-        for <fuse-devel@lists.linux.dev>; Mon, 10 Aug 2026 09:49:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786380585; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sj5hhVXF"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15b1da6b82so205422166b.1
+        for <fuse-devel@lists.linux.dev>; Mon, 10 Aug 2026 11:44:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786387440; cv=none;
         d=google.com; s=arc-20260327;
-        b=r6PJG2x10KbOeVR0pOadFoxoo+olsNxLi2ceZLuIGlh181a5/Q2az3tiF2gU/KuD90
-         +PxZWpbqi5b6ktg1k3hcZuAH8j3ty+a2+bBYYFun41VTuElK2onkS4RvZ9wADAa5ahPg
-         q3wZSSR8iqTFoxZ27LynLjc10n/gLa6FQqwiHhDf6DWYFHs4oPkmcphv4UgqL2L8VcHE
-         QGQxYVhjDBpcWOzxL/GmW43zownydywmIUCZgtMKVM8rPy5aupcyV67YTAo7rjueyBdk
-         7n+KrULAV24SGiwLlmfqdRQb2qBixVQWQyU7hKwvx1PM4PLwTjdbPba7TktiIxFGaV8Z
-         K+cQ==
+        b=jm2Z2dNa9uRfIh41n2OJNdNlrSlGPffyQxfblr1q64EKmwpHHX+Q0ttjVR2akuV5TH
+         pgCIX/LhQc0+WFHrdnLHOca9dd3MsxeHAGNFskqPZurOzCa9nJmXmthCDyhtK61I+AOD
+         /AOm2Z7ZT2La67J2x6TRcCOnkFuf5qa9shavDbHYaf1159WOo/LRYkBpvqye002NyhpH
+         TiYK1U333eXcmHcjv4zSEDQak4CFTGLwZZLYdnoWV/vhGYNa4lIAL+/0YPvkV0aCRJe/
+         G4RCjYt6kHhYR9x99RD1U+CnRwQjO+hMnv34CWgWQkkpKnMMyTgjllo0yZsYv2t3zoNb
+         lIvQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=opQteIDfNDFGbe327v0N4D1kt+GGRQG5/oQ05zdVIEY=;
-        fh=3OjUp4gNxrdSWch/+lW0SDiBMSm1NTzfsqJs4+WxwHg=;
-        b=UavRx91Lax6BlE8weav0G6l3+Wk0pmiKJT420HcvDMA2MFrwCG1u5P1PLofRxTW4q/
-         v2AGzu4smRwx6wcPEXwN97PUmh0cs73fSf+9hf7uU2+D0E2lzSUcqOhMqnqy4qirufEN
-         3SAJ1cpbLVG3pWrbm38x6OOSsHzIAIa9i2tA1JNrls1VRRUzycoR0bKgwnCwaMPgkn7R
-         jPzbra6v0wt3t605k/aLB4ft5bzGmR6Yx5pGzev0iA9bj5Ctc2h9M76AbVcp/r+cl9fU
-         jzoqI6NXeFj+u792pAC+L23iw6VLJjbK3rC7mhPxJ9z9t1JlXaQMOwLKyACwD57/3Hmj
-         8d3Q==;
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        fh=HgIo6ZCzwFKZShgVo6GrbmN1buRgx640ykCxpXFrXkI=;
+        b=k7Br1b1BrvKgW8RvrDsYjs9DefeQJGQdsFtGAyLcy84S/OQHZjF9MJ/r213Rer5gCp
+         q9XyJYjpg3rzKezw1j5Lk+DHkzJjkEuwT5/6TeR/XMsZLI72sFLYSuPq5ODb4R3rk5v0
+         BBDF27Sb+CH1ghG9NGJETCF+B/oMflVnY3PfZ3ecn3+W2DNgFZQi3ypbCRoDJBxxllrh
+         iolwjO1AAcJSLqkDynB4EFxjzhJW6lSFxW9yzlc43eW/n02F8Meu/o/xG0kaeDxnNOuv
+         oJeXaZrXnV2dw6bhQXUH8v2Zvh1FxnS7pzJQAebgjFAwgXaw1M4h5/ou+3n6CWF+1zLR
+         Cbvg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786380585; x=1786985385; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786387440; x=1786992240; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=opQteIDfNDFGbe327v0N4D1kt+GGRQG5/oQ05zdVIEY=;
-        b=ThsWfLpa7Qk2zOebVukYekKJnw0f0sENHK0o3uByXFK31Jq/teh7KvclGWb7GE1hds
-         I3EfsKMyf5e3WjYWaWZ+V0zh3QvJSnR/A9+jlV3bLIhTlWor8LYLm3OKRkidNUT11cwb
-         dgUX9ZmSDOpP07GB+bBEPLUIxaDtLBcTxkia0Qe/eFa6ryNzEKZY71I27gzMfeYo+fNT
-         WKRbp0Z6ZNV+/qAQIKXWZw81aCpyBCMZK84XqmLxQLpJuQ7OTl97Q3imLgnFtwQHOX28
-         wp6sY887xh3ktJWoLlsFzzXqtHjLrNaHxWWHUJLtUyyeTgBgJ2EFbETLLmi8XKS/HXaP
-         YtdA==
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        b=sj5hhVXFrUuyjbUOUsir1Z1Tj64JbhcNUTYNghmWj5jnf54MtyHTtxq1SCGxzVa0O5
+         P5eJPhRsMqGjA2sZZ1/18u1UjzHFasOS31iYEwqOF+mlHX8+ozMYuRjPCTJWajzm6Zsm
+         B0/UPZEg8+too/e0OMSlNDwdR7D+NaHaQ9JY4FRtaenWGZi/GtDP6MABwTH4o975ea8J
+         zENep9sPe7KtUinzc/7a3CKYd5dJA93K1BYE1e+7mETJkyQBp1IgvPmJFGrqiW/sSOdd
+         tR/WjV0+M1HlHmRQ6NprP6vPk+bcdHCbBsqjpSflvF7D+LruCRoGAcZlX3Z/NAluDpvo
+         CHIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786380585; x=1786985385;
+        d=1e100.net; s=20251104; t=1786387440; x=1786992240;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=opQteIDfNDFGbe327v0N4D1kt+GGRQG5/oQ05zdVIEY=;
-        b=RdC0IJ2xa0JoXzmwxo/3esCK6KoQ3bdlMFL+LkGDZRDvWgh5p+jCm+C/nbiUpDUEFQ
-         RzbXYHjwhXQFsxGUFI2HWYwjy8Rm4K7kuOtVM9X4/9vQDjUPbBCqfE76sqY1ettgDKiL
-         JpXrZtDGwXRWL3BpUnbxjEpiJfgG3PoFbjakf/RzkhzYhZLLDIjnc7RD+yi2FLQ6UpZR
-         mcJ5GlXbmeHks8Xo52MDDseRl6R6DpYMc/a97TAQia2Kzq4puK49iMZfWSpkkh0hi6VP
-         D/JphwCf4VtNs+7iObx3Yv1uX1KBE25rz5ETt/L93ZMTGMthAz4VnCO1Pb8TXsjDG2/8
-         1WfA==
-X-Forwarded-Encrypted: i=1; AHgh+RojTY+s/OrQn0gsDkCjV+9JY0jOFnp6Feje9xEhYI5WRJ9a3GoryXIKH5FxxsJ+wo+EY8BvlUGyXiTP@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSots24JpAgNx62wVz4JM2IMlIOkkM8H3nls3XTC/4/nE6/7E6
-	F2MTv0iumMa6Kfp6MK2myj9JyH4/qNvp5a5KAzHJ1E9IKYvacw8Y7yBGujolphj/UGSpcPFXtPr
-	/TQxd2PX1/bwWhNnaq+jzvG2gclDiGIw=
-X-Gm-Gg: AR+sD12BxQ0Puss+Yvvjb5TJ4jW+HcN8Ud77GrixArUjfgqSb5+3W01ZzpMyW7nEvXD
-	97QBb5pa0lz/Q94xMBKqSdoYUlu2GIMefk2079lcz0fAmiizmYfmXBa48zD00db9IKFQiAV2s/o
-	RuE3FVTHSo2GdZzM8kSJaUxAUCvyhXNuZDMXQEz348wzxZZq/+DkPZ9FP6/7MbMOJ7gvIfTSAyA
-	2tLj39l1np8AFJoSf4qSOnF/GlBeD+4x2f1yV+SmXwVHGBiRjIjBFcjpW7ERnDThwka+IT2EAST
-	36li5e6V+H1Gt7MbvDuFVHQX04WggL4KJ2yydK4/63fq8KTsLdQC9+ttib5R3NpS6l6hiii2SY3
-	CWi7FqWqhNcaU3957+Vfelu3V
-X-Received: by 2002:a05:600c:8b4b:b0:495:5fdf:2075 with SMTP id
- 5b1f17b1804b1-4995e0254cemr315174035e9.0.1786380585382; Mon, 10 Aug 2026
- 09:49:45 -0700 (PDT)
+        bh=YX4TRaBIx6sKxn+7PkuMnvBBIHo6U81xdDIXbs86H4E=;
+        b=YOixZTukwDqRf9OX7HaYsvNGVwGshdKaUNwsg9Shj6NhT8KV1z9o9E7MAFkJwcX/we
+         sY0cyCCMCAQupPkpVPT9hsuzU+ydCTPRcmIaWZjrYZFy1DPY6Io+S0cp3LiEqgZrxNZ2
+         0yiVHbejoEUyV8gpx9qd9ZRotUUyE+3S0JC1/GyBmiWJX5S4CaqhhQeQGxCZNZUa6uwG
+         tCYGmO97RyrN2BOtTn/AsKeKQSq4vTcM6i+9KwkSW17qqEt+oIQAxez/GbXed6Vr++Ju
+         2jQwhFV/PBkZorJEt9b1LHVU+UIkOoh7wtNA3VuD8vXZkwEM0gr+m5lg2RYGpoIOf9QY
+         savA==
+X-Forwarded-Encrypted: i=1; AHgh+RrOhv5SM9C57QxudIrf1kQmRumn22mEFcLnLBXQM3ABcz7BGpppTnhnAM+zhWdEP6KNZJ15aGwwOTBk@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz6TEjSfXxILIEqEb+6JrPaWUPaW0kr11g2vz1tkj2P3Mi2RTcB
+	FFYiSE/6TaTBZMp2CKhdC3VhETm75aidKoa6W5ByekuXg4IqF94rs0g6Ybl4KyRrqEL+Zs+asLx
+	w8vyG2AW3Y/SZ2l3mnXI4/oz9xXVPwJA=
+X-Gm-Gg: AR+sD10MfdGRT/abxGierH3fye9E1Oq8uhUfiwZD9Uy8e/PpD2cgDJQn7Ldbm+svWkJ
+	QE1iJ5wt6Qha85JcHI+GhQD7De25wte+CBFydDAGrXIsqqrnE11HDXrqBNhPyMN+l+h5qFO+uqX
+	f1DxF7/4FbLhI8U+wVQVqzcCDIiX+PycLsm7iVFkEG2Un/jr/sk5TEd5W/aE04GLTCcmI1fm+7C
+	zh08dOSYVA+V3ZpULxssg6hReWkZXei4S0K5AbbXfsVIEaaSSA3tBpESlejU0vxcsE5txeOJX0f
+	I1/N4rN0COm/A23ax7Q5nv0qCNIcoudHxX27gNIwwr2fVcB9cH+L4B4V
+X-Received: by 2002:a17:907:1c01:b0:c12:b227:614b with SMTP id
+ a640c23a62f3a-c2087558b24mr976428066b.27.1786387439743; Mon, 10 Aug 2026
+ 11:43:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
-In-Reply-To: <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 10 Aug 2026 09:49:31 -0700
-X-Gm-Features: AUfX_mxLee7dpyylWKON8KDAzBJgmBm61mwBeQMBp_ggGZ_j5xRcyxsvPI5PLAk
-Message-ID: <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
+References: <20260803022730.75731-1-john@jagalactic.com> <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <CAOQ4uxhpkP7FsjaqqVO2aDSKCJ9yc3WKms6dncqnDuwGxqthng@mail.gmail.com>
+ <anQZdSsJSyoqJkCo@casper.infradead.org> <20260806053409.GL3560084@frogsfrogsfrogs>
+In-Reply-To: <20260806053409.GL3560084@frogsfrogsfrogs>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 10 Aug 2026 20:43:48 +0200
+X-Gm-Features: AUfX_mzPA_vPx6O-eQdEFVgO0KbHbmWxqFSTIYp2pX0K6A7Tp_f_HeH4HfA_LAw
+Message-ID: <CAOQ4uxgP5K6JM-WJfYDAQxN+6aWCNZLjeaocT2KGdxapjq3u-w@mail.gmail.com>
+Subject: Re: [PATCH V12 00/12] famfs: the Fabric-Attached Memory File System (standalone)
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, John Groves <john@jagalactic.com>, 
+	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 6, 2026 at 2:31=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrote=
-:
+On Thu, Aug 6, 2026 at 7:34=E2=80=AFAM Darrick J. Wong <djwong@kernel.org> =
+wrote:
 >
-> On Thu, Aug 6, 2026 at 2:04=E2=80=AFPM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
+> On Thu, Aug 06, 2026 at 06:19:49AM +0100, Matthew Wilcox wrote:
+> > On Mon, Aug 03, 2026 at 10:52:19AM +0200, Amir Goldstein wrote:
+> > > > The most important thing to know about famfs is that it CANNOT be u=
+sed as a
+> > > > general purpose file system. It is for enabling file-based byte-lev=
+el access
+> > > > (including direct mmap) to very large (e.g. 100TB) shared/disaggreg=
+ated
+> > > > memory appliances - which have become available during this long pr=
+ocess,
+> > > > and which are in need of Linux support.
+> > > >
+> > > > So famfs cannot be used by anybody who doesn't know why they need i=
+t; Making
+> > > > famfs standalone means it can't affect users who don't use it. And =
+my super-
+> > > > mega-corp employer (Micron), as well as other memory companies, nee=
+d it.
+> > > > We do not intend to abandon it, but imagine if we did: fs/famfs/ sh=
+ould be
+> > > > removed if the memory companies can't be bothered to maintain it.
+> > >
+> > > It does not work this way.
+> > > When vfs maintainers accept standalone famfs they accept the burden o=
+f
+> > > maintaining it whenever vfs internal APIs change even if the filesyst=
+em was
+> > > abandoned by the mega-corps.
+> > > That is the code of the push back for adding new filesystems.
+> > > Removing the fs and breaking deployed systems is not an option for th=
+e vfs
+> > > maintainers.
 > >
-> > I'm not too familiar with memcg or vmstat so apologies if this is a
-> > naive question, but does it make sense for memcg to just do a similar
-> > approach to what vmstat does? As I understand it, mod_lruvec_state()
-> > updates the node counter and the memcg counter (if memcg applies),
-> > where for updating the node counter, mod_node_state() does some
-> > batching where it updates the global counter for that stat only once
-> > it crosses some threshold (pcp->stat_threshold). Could memcg keep its
-> > per-CPU counter as the accumulator but once it reaches some threshold,
-> > it then propagates it up the parent/ancestors into a per-memcg atomic
-> > global counter? The atomic would then only have to be touched once per
-> > batch than on every update, which might eliminate the overhead of the
-> > per-memcg atomic you saw previously? It seems like this would get rid
-> > of needing to do any flushing altogether, as we could just read that
-> > global counter directly.
+> > Sure it is.  We removed EFS just last month, because we decided that it
+> > wasn't worth keeping any more.  Just like we removed Itanium architectu=
+re
+> > support (and a number of other architectures before that).  We've remov=
+ed
+> > other filesystems in the past (xiafs, ext, surely a few others).
 >
-> The memcg stats perform similar per-CPU counting and thresholding. The
-> main difference from vmstat AFAICT is the cgroup hierarchy. In vmstat
-> we have per-CPU counters and a global atomic counter for each stat.
-> For memcg, we have the same for each cgroup, then we also have a
-> cgroup tree. When we read the stats of a cgroup, we usually want the
-> hierarchical stats including all of its children, so we can't just
-> read the global counter.
->
-> We use rstat, a cgroup framework that keeps track of which cgroups
-> have updates on which CPUs, and then memcg has thresholding logic on
-> top to only flush if the number of pending updates exceeds a
-> threshold. Essentially, if the magnitude updates on a CPU exceeds
-> MEMCG_CHARGE_BATCH, we add it to a global per-memcg counter. We only
-> flush if that global per-memcg counter has > NR_CPUS *
-> MEMCG_CHARGE_BATCH updates. So in theory I think we tolerate up to 2 *
-> NR_CPUS * MEMCG_CHARGE_BATCH of stale stats (combined for all the
-> stats).
->
-> See memcg_rstat_updated() and memcg_vmstats_needs_flush() for this logic.
->
-> Looking at this code again, it made me realize that we already iterate
-> the per-CPU stats_updates on every update to increment the number of
-> pending stats on this CPU. I wonder if we can replace this with
-> actually updating the stat on each parent, then the flush path only
-> needs to accumulate CPU counters. Or maybe as you mention, we update
-> the global per-memcg counter when updates on a CPU exceed a threshold,
-> and forgo the rstat flushing logic completely.
+> and freevxfs just this week because the one user/complainer said hch
+> could let it die.
 >
 
-I can run some experiments and see if updating the global per-memcg
-counter per batch and forgoing flushing could be a viable solution. I
-can use my setup to test it for writeback, but for the zswap use case,
-what's the best way to test if the changes are too expensive? Is there
-a benchmark program you're running?
+Guys really, these examples prove what point exactly?
+They prove that if all the users are gone we can remove a filesystem
+wow, revelation.
 
-For updating the stat on each parent and having the flush path only
-accumulate CPU counters, I think this means we would have to
-unconditionally walk the ancestors + update its counters on every
-update, as we wouldn't be able to early break if the flushable
-threshold was already exceeded. I don't think we could replace the
-stats_update update, as it seems like readers still need some way of
-knowing when to flush. It seems like this could be a nontrivial
-performance hit, but maybe it's a non-factor in reality. If you think
-this would be useful to get benchmark numbers on, I can run some
-experiments on this too.
+This is the reality as I see it:
+Famfs is backed by a major corp selling expensive hardware
+and championed by John who has proved commitment above and beyond.
+So as it stands, famfs is a fair candidate for merging standalone.
+
+And yet, circumstances can and do change over the years.
+I need only name your employer as a recent example of
+major corp losing interest and axing the maintainers budget to many project=
+s.
+
+These things can and do happen and when they happen there is often
+little correlation to the number of deployed users who paid many $$$ for th=
+e
+expensive hardware, which major corp lost interest in maintaining.
+
+If as a community we do not prepare ourselves for this possibility we
+would be fools.
+In the unlikely event of future famfs abandonment we are left with two tech=
+nical
+options depending on the choices that we make in the present:
+
+1. The VFS maintainers are left to maintain an abandoned fs whose surface
+    area interacting with the code is super/inode/file/vm operations and mo=
+re
+2. FUSE maintainer is left to maintain an abandoned feature whose surface
+    area interacting with the code is substantially smaller - basically, so=
+me
+    custom logic for DAX fault handling - because the rest is (or can be)
+    plain fuse with a dash of fuse passthrough.
+
+No option is categorically better or worse than the other.
+The burden just falls on different people and the weight of the burden
+depends on how much active development of the API is going on.
+
+We have had many mostly-dead filesystems which did not bother anyone
+for a long time, until someone comes along and starts a revolution in the A=
+PI,
+such as folios, iomap, new mount api, parallel dirops and then we pay the p=
+rice,
+or the abandoned customers pay the price.
+
+I said enough, probably too much.
+I'll be happy with any decision, just as long as we make it continuously
+based on correct information.
 
 Thanks,
-Joanne
+Amir.
