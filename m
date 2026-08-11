@@ -1,235 +1,188 @@
-Received: from a11-80.smtp-out.amazonses.com (a11-80.smtp-out.amazonses.com [54.240.11.80])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E656A34EF03;
-	Mon, 10 Aug 2026 20:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F053C28504F;
+	Tue, 11 Aug 2026 00:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786393572; cv=none; b=RwxJWiGaNYaUyoI3zSOarmdLbT9kkrJ7R+TfOzYMXsRGPM/Q5+z7UdZaV1bCOAseMQ1EbKl+d2Gi/JKy5Ly3EYLfneHgax8CJ8BLcyvuTSIGs8POSJDcnlXH5czTUr4LdJLlkOYkDpGuOPF8l6n/oqD5SwaJRE2r1dfIWO9YPXQ=
+	t=1786409306; cv=none; b=mEfSKX9Igncm6inxQtmi5EZ7LZXspO/rFFmf+/1z0Ui2aqvYFn8oeX09NyipbJyEJNszTdfsgTQh7bWPtVBewp2biAuF36gXNwHU+pHwd09zWwWCiDpkCixZ4jrSevcAL6qCc5HBRYTJVvJE2tbcooW2NGaDxElWMOmMH+FME2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786393572; c=relaxed/simple;
-	bh=jlzaWT67ROlF0vfbvokOde288YAFHqOzVK71vsJxpdg=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=C28cpEtTWS3rhwXj+eVuGbqIchqr7heS5U9Iavji7czLBwe3APWRIwhW5ATSph2CXSW2uoTmC2aY3T6PiplE0p+Wdbq7MJdiwmmcDgqfCNANga7onxW324vpGuzicrv+rV86P3Fr/rsSkMXpOjWzHdlqeNamJQgN2V9MS0ZG89I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=lGS9I+AT; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=ifS33NOT; arc=none smtp.client-ip=54.240.11.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1786409306; c=relaxed/simple;
+	bh=tQJKYAJCM8/IP2w8iYhe+xhqvbrDNSqHT+FreZPPRTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fXreWYQwzp+pUTeQx3RE8Ra5AdSBm0lZJVF5fKc1UQnQVcQ6yGZbUhfhKbgRpaSxaasx6+qRoxbRw8QXOe9NRZjXaRtU1c+tJhJjpsuvcTm0XDdkslMHMZS6srZU8fI+06LKecgaj+cX+stwWrpUltK82hpzL4f6X5F+ylbQ+OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KcUlgPzU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="lGS9I+AT";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="ifS33NOT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1786393569;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=jlzaWT67ROlF0vfbvokOde288YAFHqOzVK71vsJxpdg=;
-	b=lGS9I+ATknj9B1YCRSvnciUiZKSNweGCxe32f0LROMEHN3xP/SrfWEsdAvrsLHIF
-	iG3yP50CAmfIMIz3qV5yj/YQiSA33W9UKRy1Uf51eaiXr1Eg2nfQQyRVHSbua37DYI3
-	GmIiqs28CcYck8GThPMJW035AUgNHnuQ3zMEXQIo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1786393569;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=jlzaWT67ROlF0vfbvokOde288YAFHqOzVK71vsJxpdg=;
-	b=ifS33NOTfcs6ck4PCf6QQr5PXxApjrbMC9lx8HuEbWV7xZCJxjip9IhJXQr+4g7Q
-	2/unBRkeA9N2cj03zaXj+bDrGErpbcN6r6xoBqdpyCSIgz99pNFw1cD3QmCU4Rt0z88
-	xXL107PYC+HiCaiavirbq/ZidMELEODt7PhzS4Tc=
-Subject: [PATCH v13 12/12] famfs: Add documentation
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>, 
-	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
-	=?UTF-8?Q?Jake_Edge?= <jake@lwn.net>, 
-	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
-	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
-	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
-	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
-	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
-	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
-	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
-	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
-	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
-	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
-	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
-	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
-	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
-	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
-	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
-	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
-	=?UTF-8?Q?Andrew_Morton?= <akpm@linux-foundation.org>, 
-	=?UTF-8?Q?Namjae_Jeon?= <linkinjeon@kernel.org>, 
-	=?UTF-8?Q?Lorenzo_Stoakes?= <ljs@kernel.org>, 
-	=?UTF-8?Q?Greg_Kroah-Hartman?= <gregkh@linuxfoundation.org>, 
-	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
-	=?UTF-8?Q?Pasha_Tatashin?= <pasha.tatashin@soleen.com>, 
-	=?UTF-8?Q?Haren_Myneni?= <haren@linux.ibm.com>, 
-	=?UTF-8?Q?Pratyush_Yadav?= <pratyush@kernel.org>, 
-	=?UTF-8?Q?Giovanni_Cabiddu?= <giovanni.cabiddu@intel.com>, 
-	=?UTF-8?Q?Jiri_Slaby?= <jirislaby@kernel.org>, 
-	=?UTF-8?Q?Ethan_Nelson-Moo?= =?UTF-8?Q?re?= <enelsonmoore@gmail.com>, 
-	=?UTF-8?Q?Gabriel_Whigham?= <gabewhigham@gmail.com>, 
-	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
-	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
-	=?UTF-8?Q?venkataravis=40m?= =?UTF-8?Q?icron=2Ecom?= <venkataravis@micron.com>, 
-	=?UTF-8?Q?linux-doc=40?= =?UTF-8?Q?vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
-	=?UTF-8?Q?fuse-devel=40lists=2Elinux=2E?= =?UTF-8?Q?dev?= <fuse-devel@lists.linux.dev>, 
-	=?UTF-8?Q?John_Groves?= <john@groves.net>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jonathan.cameron@huawei.com>
-Date: Mon, 10 Aug 2026 20:26:09 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KcUlgPzU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D35F71F000E9;
+	Tue, 11 Aug 2026 00:48:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786409304;
+	bh=qKS1JcrH56Iarz4e1apBMWyGOHTnqlTit3H0mkZq1+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KcUlgPzUP/WSHmvVXiEzTL5xhOjnjhy7SP7rgYlFvuerL+rkI/JPIc+z7BGGVt1sU
+	 ZyFZN7JkpLvRGEI6sU/jVXwO5WmJP91a/h99jXywKX7eYkdeJI3VVnlczza/UfQU82
+	 +LNG1qA870ipZuZNLOKkx77RgZu8h51N+IBnUuynE25xmHem+jjw3tuIVPL2F5+7cn
+	 k0tieup1r3NUEn8y8sV61DAq9Kb2oD7p7ty72liD9iKhtaTB/e2jJs4dbAjLepqR8w
+	 PpHOwAI+e205XoAy1r9jq2Ahu/S+ZL6UC1DsRDMyYPzkmDNEtm9iCOdCSzBpjMAYPK
+	 AGyK+owE1mQCA==
+Date: Tue, 11 Aug 2026 00:48:22 +0000
+From: Yosry Ahmed <yosry@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, 
+	Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
+	Jingbo Xu <jefflexu@linux.alibaba.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi
+ strictlimiting")
+Message-ID: <anpsLy_pCanocgS1@google.com>
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: 
- <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com>
-References: 
- <0100019fed5850ec-2bdfb17a-3086-44ea-8fdd-777d3ce12a33-000000@email.amazonses.com> 
- <20260810202559.96415-1-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHdKQYd8BhJGjNjSyqPwMCz2Vr35AAAFwXs
-Thread-Topic: [PATCH v13 12/12] famfs: Add documentation
-X-Wm-Sent-Timestamp: 1786393567
-X-Original-Mailer: git-send-email 2.55.0
-Message-ID: <0100019fed5aa95d-21a4a553-a4af-476a-9903-43dd5af8a017-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.08.10-54.240.11.80
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
 
-From: John Groves <john@groves.net>=0D=0A=0D=0AAdd Documentation/filesyst=
-ems/famfs.rst and update MAINTAINERS=0D=0A=0D=0AReviewed-by: Randy Dunlap=
- <rdunlap@infradead.org>=0D=0ATested-by: Randy Dunlap <rdunlap@infradead.=
-org>=0D=0AReviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>=0D=0A=
-Signed-off-by: John Groves <john@groves.net>=0D=0A---=0D=0A Documentation=
-/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++=0D=0A Documenta=
-tion/filesystems/index.rst |   1 +=0D=0A MAINTAINERS                     =
-    |   1 +=0D=0A 3 files changed, 144 insertions(+)=0D=0A create mode 10=
-0644 Documentation/filesystems/famfs.rst=0D=0A=0D=0Adiff --git a/Document=
-ation/filesystems/famfs.rst b/Documentation/filesystems/famfs.rst=0D=0Ane=
-w file mode 100644=0D=0Aindex 000000000000..048791bcbcfd=0D=0A--- /dev/nu=
-ll=0D=0A+++ b/Documentation/filesystems/famfs.rst=0D=0A@@ -0,0 +1,142 @@=0D=
-=0A+.. SPDX-License-Identifier: GPL-2.0=0D=0A+=0D=0A+.. _famfs_index:=0D=0A=
-+=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+famfs: Th=
-e fabric-attached memory file system=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+- Copyright (C) 2024-2026 Micron Technolo=
-gy, Inc.=0D=0A+=0D=0A+Introduction=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=0D=0A+Compute Express Link (CXL) provides a mechanism for disaggregat=
-ed or=0D=0A+fabric-attached memory (FAM). This creates opportunities for =
-data sharing;=0D=0A+clustered apps that would otherwise have to shard or =
-replicate data can=0D=0A+share one copy in disaggregated memory.=0D=0A+=0D=
-=0A+Famfs, which is not CXL-specific in any way, provides a mechanism for=
-=0D=0A+multiple hosts to concurrently access data in shared memory, by gi=
-ving it=0D=0A+a file system interface. With famfs, any app that understan=
-ds files can=0D=0A+access data sets in shared memory. Although famfs supp=
-orts read and write,=0D=0A+the real point is to support mmap, which provi=
-des direct (dax) access to=0D=0A+the memory - either writable or read-onl=
-y.=0D=0A+=0D=0A+Shared memory can pose complex coherency and synchronizat=
-ion issues, but=0D=0A+there are also simple cases. Two simple and eminent=
-ly useful patterns that=0D=0A+occur frequently in data analytics and AI a=
-re:=0D=0A+=0D=0A+* Serial Sharing - Only one host or process at a time ha=
-s access to a file=0D=0A+* Read-only Sharing - Multiple hosts or processe=
-s share read-only access=0D=0A+  to a file=0D=0A+=0D=0A+The famfs file sy=
-stem is part of the famfs framework; user space=0D=0A+components [1] hand=
-le metadata allocation and distribution, and populate=0D=0A+the in-kernel=
- files (via ioctls) so that they map directly to shared=0D=0A+memory.=0D=0A=
-+=0D=0A+The famfs framework manages coherency of its own metadata and str=
-uctures,=0D=0A+but does not attempt to manage coherency for applications.=
-=0D=0A+=0D=0A+Famfs also provides data isolation between files. That is, =
-even though=0D=0A+the host has access to an entire memory "device" (as a =
-devdax device), apps=0D=0A+cannot write to memory for which the file is r=
-ead-only, and mapping one=0D=0A+file provides isolation from the memory o=
-f all other files. This is pretty=0D=0A+basic, but some experimental shar=
-ed memory usage patterns provide no such=0D=0A+isolation.=0D=0A+=0D=0A+Pr=
-inciples of Operation=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Famfs is a file system with one or =
-more devdax devices as a first-class=0D=0A+backing device(s). Metadata ma=
-intenance and query operations happen=0D=0A+entirely in user space.=0D=0A=
-+=0D=0A+The famfs user space provides each file's map (fmap) and its back=
-ing=0D=0A+devdax devices to the kernel through ioctls (FAMFSIOC_MAP_CREAT=
-E and=0D=0A+FAMFSIOC_DAXDEV_OPEN), after which read/write/mapping faults =
-are handled=0D=0A+entirely in the kernel with no up-calls for all active =
-files.=0D=0A+=0D=0A+The famfs user space is responsible for maintaining a=
-nd distributing=0D=0A+consistent metadata. This is currently handled via =
-an append-only=0D=0A+metadata log within the memory, but this is orthogon=
-al to the famfs=0D=0A+kernel code.=0D=0A+=0D=0A+Once instantiated, "the s=
-ame file" on each host points to the same shared=0D=0A+memory, but in-mem=
-ory metadata (inodes, etc.) is ephemeral on each host=0D=0A+that has a fa=
-mfs instance mounted. Use cases are free to allow or not=0D=0A+allow muta=
-tions to data on a file-by-file basis.=0D=0A+=0D=0A+When an app accesses =
-a data object in a famfs file, there is no page cache=0D=0A+involvement. =
-The CPU cache is loaded directly from the shared memory. In=0D=0A+some us=
-e cases, this is an enormous reduction in read amplification=0D=0A+compar=
-ed to loading an entire page into the page cache.=0D=0A+=0D=0A+=0D=0A+Fam=
-fs is Not a Conventional File System=0D=0A+------------------------------=
----------=0D=0A+=0D=0A+Famfs files can be accessed by conventional means,=
- but there are=0D=0A+limitations. The famfs kernel module is not involved=
- in the allocation of=0D=0A+backing memory for files at all; the famfs us=
-er space creates files and=0D=0A+supplies their fmaps and devdax device i=
-nfo to the kernel via ioctls.=0D=0A+=0D=0A+Famfs differs in some importan=
-t ways from conventional file systems:=0D=0A+=0D=0A+* Files must be pre-a=
-llocated by the famfs framework; allocation is never=0D=0A+  performed on=
- (or after) write.=0D=0A+* Any operation that changes a file's size is co=
-nsidered to put the file=0D=0A+  in an invalid state, disabling access to=
- the data. It may be possible to=0D=0A+  revisit this in the future. (Typ=
-ically the famfs user space can restore=0D=0A+  files to a valid state by=
- replaying the famfs metadata log.)=0D=0A+=0D=0A+Famfs exists to apply th=
-e existing file system abstractions to shared=0D=0A+memory so application=
-s and workflows can more easily adapt to an=0D=0A+environment with disagg=
-regated shared memory.=0D=0A+=0D=0A+Memory Error Handling=0D=0A+=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Possi=
-ble memory errors include timeouts, poison, and unexpected=0D=0A+reconfig=
-uration of an underlying dax device. In all of these cases, famfs=0D=0A+r=
-eceives a call from the devdax layer via its=0D=0A+dax_holder_operations-=
->notify_failure() function. If any memory errors have=0D=0A+been detected=
-, access to the affected=0D=0A+daxdev is disabled to avoid further errors=
- or corruption.=0D=0A+=0D=0A+In all known cases, famfs can be unmounted c=
-leanly. In most cases errors=0D=0A+can be cleared by re-initializing the =
-memory - at which point a new famfs=0D=0A+file system can be created.=0D=0A=
-+=0D=0A+Key Requirements=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=0D=0A+=0D=0A+The primary requirements for famfs are:=0D=0A+=0D=0A+=
-1. Must support a file system abstraction backed by sharable devdax memor=
-y=0D=0A+2. Files must efficiently handle VMA faults=0D=0A+3. Must support=
- metadata distribution in a sharable way=0D=0A+4. Must handle clients wit=
-h a stale copy of metadata=0D=0A+=0D=0A+The famfs kernel component takes =
-care of 1-2 above by caching each file's=0D=0A+mapping metadata in the ke=
-rnel.=0D=0A+=0D=0A+Requirements 3 and 4 are handled by the user space com=
-ponents, and are=0D=0A+largely orthogonal to the functionality of the fam=
-fs kernel module.=0D=0A+=0D=0A+Requirements 3 and 4 cannot be met by conv=
-entional fs-dax file systems=0D=0A+(e.g. xfs) because they use write-back=
- metadata; it is not valid to mount=0D=0A+such a file system on two hosts=
- from the same in-memory image.=0D=0A+=0D=0A+=0D=0A+Famfs Usage=0D=0A+=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Famfs usage is documented at =
-[1].=0D=0A+=0D=0A+=0D=0A+References=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=
-=0A+=0D=0A+- [1] Famfs user space repository and documentation=0D=0A+    =
-  https://github.com/cxl-micron-reskit/famfs=0D=0Adiff --git a/Documentat=
-ion/filesystems/index.rst b/Documentation/filesystems/index.rst=0D=0Ainde=
-x 1f71cf159547..97a9a1f1e96a 100644=0D=0A--- a/Documentation/filesystems/=
-index.rst=0D=0A+++ b/Documentation/filesystems/index.rst=0D=0A@@ -91,6 +9=
-1,7 @@ Documentation for filesystem implementations.=0D=0A    ext3=0D=0A =
-   ext4/index=0D=0A    f2fs=0D=0A+   famfs=0D=0A    gfs2/index=0D=0A    h=
-fs=0D=0A    hfsplus=0D=0Adiff --git a/MAINTAINERS b/MAINTAINERS=0D=0Ainde=
-x 156fa62f7086..605b8d06f7d8 100644=0D=0A--- a/MAINTAINERS=0D=0A+++ b/MAI=
-NTAINERS=0D=0A@@ -9910,6 +9910,7 @@ M:=09John Groves <john@groves.net>=0D=
-=0A L:=09linux-fsdevel@vger.kernel.org=0D=0A L:=09linux-cxl@vger.kernel.o=
-rg=0D=0A S:=09Supported=0D=0A+F:=09Documentation/filesystems/famfs.rst=0D=
-=0A F:=09fs/famfs/=0D=0A=20=0D=0A FANOTIFY=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=
-=0A
+On Mon, Aug 10, 2026 at 09:49:31AM -0700, Joanne Koong wrote:
+> On Thu, Aug 6, 2026 at 2:31 PM Yosry Ahmed <yosry@kernel.org> wrote:
+> >
+> > On Thu, Aug 6, 2026 at 2:04 PM Joanne Koong <joannelkoong@gmail.com> wrote:
+> > >
+> > > I'm not too familiar with memcg or vmstat so apologies if this is a
+> > > naive question, but does it make sense for memcg to just do a similar
+> > > approach to what vmstat does? As I understand it, mod_lruvec_state()
+> > > updates the node counter and the memcg counter (if memcg applies),
+> > > where for updating the node counter, mod_node_state() does some
+> > > batching where it updates the global counter for that stat only once
+> > > it crosses some threshold (pcp->stat_threshold). Could memcg keep its
+> > > per-CPU counter as the accumulator but once it reaches some threshold,
+> > > it then propagates it up the parent/ancestors into a per-memcg atomic
+> > > global counter? The atomic would then only have to be touched once per
+> > > batch than on every update, which might eliminate the overhead of the
+> > > per-memcg atomic you saw previously? It seems like this would get rid
+> > > of needing to do any flushing altogether, as we could just read that
+> > > global counter directly.
+> >
+> > The memcg stats perform similar per-CPU counting and thresholding. The
+> > main difference from vmstat AFAICT is the cgroup hierarchy. In vmstat
+> > we have per-CPU counters and a global atomic counter for each stat.
+> > For memcg, we have the same for each cgroup, then we also have a
+> > cgroup tree. When we read the stats of a cgroup, we usually want the
+> > hierarchical stats including all of its children, so we can't just
+> > read the global counter.
+> >
+> > We use rstat, a cgroup framework that keeps track of which cgroups
+> > have updates on which CPUs, and then memcg has thresholding logic on
+> > top to only flush if the number of pending updates exceeds a
+> > threshold. Essentially, if the magnitude updates on a CPU exceeds
+> > MEMCG_CHARGE_BATCH, we add it to a global per-memcg counter. We only
+> > flush if that global per-memcg counter has > NR_CPUS *
+> > MEMCG_CHARGE_BATCH updates. So in theory I think we tolerate up to 2 *
+> > NR_CPUS * MEMCG_CHARGE_BATCH of stale stats (combined for all the
+> > stats).
+> >
+> > See memcg_rstat_updated() and memcg_vmstats_needs_flush() for this logic.
+> >
+> > Looking at this code again, it made me realize that we already iterate
+> > the per-CPU stats_updates on every update to increment the number of
+> > pending stats on this CPU. I wonder if we can replace this with
+> > actually updating the stat on each parent, then the flush path only
+> > needs to accumulate CPU counters. Or maybe as you mention, we update
+> > the global per-memcg counter when updates on a CPU exceed a threshold,
+> > and forgo the rstat flushing logic completely.
+> >
+> 
+> I can run some experiments and see if updating the global per-memcg
+> counter per batch and forgoing flushing could be a viable solution.
+> I can use my setup to test it for writeback, but for the zswap use
+> case, what's the best way to test if the changes are too expensive? Is
+> there a benchmark program you're running?
+
+I was running stress-ng and measuring the latency of zswap_load() and
+zswap_store() with bpftrace. But I suspect whatever works for writeback
+should work for zswap :)
+
+> 
+> For updating the stat on each parent and having the flush path only
+> accumulate CPU counters, I think this means we would have to
+> unconditionally walk the ancestors + update its counters on every
+> update, as we wouldn't be able to early break if the flushable
+> threshold was already exceeded. I don't think we could replace the
+> stats_update update, as it seems like readers still need some way of
+> knowing when to flush. It seems like this could be a nontrivial
+> performance hit, but maybe it's a non-factor in reality. If you think
+> this would be useful to get benchmark numbers on, I can run some
+> experiments on this too.
+
+I think we need to experiment with how much work we can shift around
+between the update and reader sides.
+
+Right now, on the update side, we call __css_rstat_updated(), which
+iterates the parents and puts them on the per-CPU rstat tree, then we
+iterate the parents again in memcg_rstat_updated() and:
+- Check if flushing threshold is already met.
+- Update per-CPU counter for stats_updates.
+- If per-CPU update exceeds (another) threshold, we update an atomic for
+  stats_updates.
+
+The flush side checks the flushing threshold and does an rstat flush,
+which will walk the update trees on all CPUs and iterates all child
+cgroups on it. Pretty expensive when the threshold is met.
+
+I think we discussed two different options:
+
+(a) On stats updates, iterate the parents and update the per-CPU
+counters of the stat directly.
+
+In this case, we can't keep using rstat, as we would still need to add
+the cgroup and all its ancestors to the update tree anyway and the flush
+cost will remain similar. So on the flush path we'll need to iterate all
+CPUs and add the counters. We can explore if use a cpumask can help
+here, but perhaps not since we'll need to update it atomically on all
+stat updates.
+
+I imagine that if we do this we'll drop the stats_updates optimization
+to avoid adding more cost to the update side. We'll be replacing parent
+stats_updates modification with parent stat counter modification. But
+maybe it's feasible to keep both to limit the cost of flusing.
+
+This only works if the cost of iterate the CPUs on the flush side ends
+up being cheaper than the current flush. I imagine the average cost will
+be higher but the cost should be much more consistent vs the current
+flush, so the tail should be better.
+
+(b) On stats updates, iterate the parents and update the per-CPU
+counters of the stat directly AND update a global atomic if the per-CPU
+counter exceeds a threshold. I think updates may get too expensive as we
+may need to update multiple atomics, especially when updating the root
+counter as it will be contended by all cgroups.
+
+The flush side becomes an atomic read, so should be very cheap, and we
+can drop other heuristics and optimizations.
+
+---
+
+I think ultimately we need to experiment with these approachs (and
+perhaps others) to check what actually works in practice. You'll
+probably want some benchmarks or synthetic tests with many cgroups to
+exercise the worst case scenarios.
+
+For the zswap stats, I used to run stress-ng with a bunch of workers
+(20, 50, 100, ..) in cgroups of different levels. Since all workers are
+in the same cgroups, all the parents are common and all threads end up
+competing on the same atomics, so worst case scenario. I was also
+testing in a VM that has more CPUs than stress-ng workers, to exercise
+the full extent of the concurrency and contention.
+
+This could be a lot of work, so I am not really asking you to do it, but
+just brainstorming and sharing ideas :)
