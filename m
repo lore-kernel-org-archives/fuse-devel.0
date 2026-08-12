@@ -1,352 +1,466 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 247193DEAE3
-	for <fuse-devel@lists.linux.dev>; Wed, 12 Aug 2026 20:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786568384; cv=pass; b=fgN3WrOU0GFmrjmCg+yxLcxyBAT4T2/YcYeFGRGyrQye5LxsvlL64ZJXeYeIufifxSepDGFMUyPt+WnaLWyBytZ0aOkodlCl4KMjcRfeEeDxdFoCRAOGJnYjTp9OxoTpo0p3dBoFkn8kEeHAWcbqCAztCNYsALhX2wkuNXsEa6o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786568384; c=relaxed/simple;
-	bh=yWL2WL83hQ19XP/v0uAHa0MucXl7dvYxfvVpUpky/+c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qSDCcuzdl7jmMtHNl7/tVG4ciEf7w/IELDMPheL4LjhOzrL3oUhLMcdD1lIERYdm6QQ7gUEBBk3UtWMR8YnaRxUFKM5pyhQk1nXR3OKPNIIdYdehuTJoNCYlUD+BnsqQMkRWSFbEd1W6LcM/00d+QlMIzJIKE3crM5TzyZ3VdRU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gnE+IegS; arc=pass smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FB6494800
+	for <fuse-devel@lists.linux.dev>; Wed, 12 Aug 2026 22:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786573822; cv=none; b=TJClhbu3QJcg/ZZ8jJBSr5iAzLuoWhcypuYZNcRLDOmKnqVXPoA4NaVMjECnp83nOuhC+2rFTZmq8pB7U7VJVQSpygNvnCk9TQR3pXBAEpazwcr6cnqpPaCD/VBuvua+GB17HDF6x1Tade8HW72t+lDGVsGO+IMoUzdDN7eWEkk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786573822; c=relaxed/simple;
+	bh=/9p9y6QgQ7ieuuOE4DytVu90z9qJ0rmZ5Fk3tK8Di30=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rrZvxybV99iQ9M5thoT3ALekpI9/097fzhjEwA4vFXlBi6wejzhDT+LbxNbcetQspMewekl8Hre0fIYkcotfjIbMgpxpFJj+6GrFDZSUTfdnmjNwqcfEMIJJ6Mwsw0G2FFhB+UNbzwRa4/XkmFn3+7Si8+nhvjAF7Vvf6lzDpJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=XKrtcAYa; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lKEKEveK; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gnE+IegS"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47fe89fb333so810370f8f.3
-        for <fuse-devel@lists.linux.dev>; Wed, 12 Aug 2026 13:59:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786568380; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kmlmyC5YSJchbpFzYVEGGoJDewzh5kpqPd8tLGm+Umj7BrMq//hdOZDlSj9gIfgtFz
-         8tQoM1iFZovBt6zijHNgWQL4jv1WLELVzQC0wZau9xuslrTqCS4dMKHEMLS1YiLnm7mA
-         kjqqc9rYi4wPYQwQlCuWDy6tSNpwRGUj2l+9e33OxeeyKrh28BItNCkl3V09LKzGg9Z+
-         abDdlEa8rsnbuIU/6uFx7Va+L1lz9Ur7zfoj1ciTj6yGPtmvq7PyRjPW89HmryjAKWAO
-         9l07nlPUwbqG6uCw37PyoekcQ13f7QasDn2DE335/oMCw7ptPe6d7LAocaqoJ7+9dAka
-         /trw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cG6kQ9uiiQnTnSbk7yBwezCJNC8B3xUK4sacoj5tne4=;
-        fh=iZ1VsgPGf2HLWM97oCsGJ7+tzPXl0GjMmBSPJm7D50U=;
-        b=rRJ9clVGlk2dzRsoQ6n+4I8wwHP7qaCmltCnbx6jr7orscuxdeRooQYOlFFUqWV4sY
-         H6TzuIc1s8Jv6M3NY+Bom6jcR7vFA+JPX6Tx2SE2bqyHR8jKM0n+aQKZCARJkPzrKm4P
-         jFw+/hKeUBSmAts0rQugHWLLrS3Tn7mV2o7h8xMA1uoOGsM3JSVBZDG+T22C0PxKbIG7
-         DKMFVB7DwfSRmSups6FTwRcn9pa5fF5iZtl0Ncv/7W6g7sg7agRn5KXKEDymt7uO6kVZ
-         ISgAfSLPZbttN1Q2c1SIoAJHVj+mQ1z0RIyte6jU0grNmQbQ9/RvdhxCpNMpOQdvXsOq
-         Uywg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786568380; x=1787173180; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cG6kQ9uiiQnTnSbk7yBwezCJNC8B3xUK4sacoj5tne4=;
-        b=gnE+IegSx9pqgbKwmgclzwPjkUGlU0CSSIxGt/63+BaOCP0XPDCWFYTn/HTXoo260V
-         qFNNzQHMuzSTZQqzEwzLXf4mY1ULo4JL2BxYRBbwyFBiWgeaZK9S396bSqEdwAyoICHp
-         AlY0tqx9hdYYMCLrSkOD4PfFhX97RH9RouZG4dhhOnyFmmLX1+CSrhgKUTOUSdk7NI9i
-         JUZNuGwANm2JfNaO6fyfr/1T1niyS7G2OdLOkj6BfvZF8t3Y7wVOdORqvqz206FL4G5K
-         WwSOgJvtVdIecB6q64fOKYOPII2Ltq+gveOZjJsoMsIUIgjdlXlDMP8J/tP4Eb8B+BkU
-         wbXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786568380; x=1787173180;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cG6kQ9uiiQnTnSbk7yBwezCJNC8B3xUK4sacoj5tne4=;
-        b=Xdc2yTjhnnTLmyW9FCT4JXLvFzINGeM7WJ02qOr0LH46CB/Ll1w6/NHKu7CnV+wgnA
-         sEDDrE9qtbFiw4mait713STY0iVrdLitbYVT21P+zzNmc1Y6R+3KYOM8b1MnAJc1FoBu
-         CnxZzZo1i+/k2sW3E4onRTcBUUjV7lXbXyn3+ov9LpyZf+eQaC4EO3gKg1Uh7WMDUUJE
-         vFdj5Mu3cGZwpM29cXru8nymKDDBoe5k8Wjvuvnu0knCGNSnumNIPi0tbFKEh6A8pU3Z
-         uFAvL8aB2N8nMdiJUYFljp3SDUmp3GKdvIt8tfLinrrIEc2UwGf/SpGSGM4cKDfXTRPg
-         BAaw==
-X-Forwarded-Encrypted: i=1; AHgh+RqGhVJ/s1zkLlWVU6exc64m+3TzuXnwSUj6oJWSE6gpdHjkAr/Xe9/qnd/pBO6YojS9/FlDZ6UkTsyT@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGLgT9zjdyDTWpwgY8V+/mW3UzeZ+pEpfUgYnVMYa3aZMUXOLR
-	MiHlOZ1QhWgmH9O3oJHycOiq/Lq/8UmTs61dWZLko8h6KiQLNsjrGqZ8umxyVU3U07uz1594wnT
-	UylosUAmNLzU9FdqH8ynu4nc7DEM1ZJY=
-X-Gm-Gg: AR+sD12CjcZU+8lkSv0QQ3B+trpHuO/UqI0J7fzTE5VFExSrNYUwP8Pq5dpH3P5Fsn0
-	sGkUHj3aiH/o02xbM4wJDz4FiY6YpaBul7O+JEFhITZCgWesq+AGfdKMS1VlgpGP9o4/FEuHOc+
-	r75WyMuwOQ/y36OVfXUKjCIDgIpUPnZZGcJ4L1uFMQfvZOcYUi9RvPissywQTUa+b+9p2QVZbl/
-	N5pXFR0Yl4Kg7vStKFXXrUfYIpm8nd7A2M+CdF34K44pQNwXpw3M/WERpYNB4+5BVREb6MBaSZ6
-	808NDRwBp75Aoj9dxe7rBVxhg9MOzWns5LevtNSiwQBf4DLzL5RxoIrxTZzWUJ1+1ChMYt8QEZ5
-	/Kqhjw3KJ+qdKAdOAN8rXQfry9FxDeI2n+uY=
-X-Received: by 2002:a05:6000:60b:b0:47f:eb22:4d9a with SMTP id
- ffacd0b85a97d-48159fee3d5mr1167517f8f.22.1786568380185; Wed, 12 Aug 2026
- 13:59:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="XKrtcAYa";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lKEKEveK"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E5B301400107;
+	Wed, 12 Aug 2026 18:30:15 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Wed, 12 Aug 2026 18:30:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1786573815;
+	 x=1786660215; bh=MzMjuzWzfj80wTplkUR3wjFLHiCyjw8ijs0yxZj7GBA=; b=
+	XKrtcAYaiR6kSRlUNP3Eaba5vFpkyltI/HcMeLzxns1OTKlQrtj11lLdgLgEk6dt
+	E+FHrjoR77C6TkNobE9i/kESAp4UXRPuSBkJr3Jsc+YQflPSTiMr61ml+zQ1vzBB
+	XteN3YhO5nOqOnm2PnRiYm68g0dznLZb3QAorvu4hyYhxRPUJq+QhfNjsNGHBwvG
+	hI4Tsrpm8+stnKFSOKYPlVkiL6KCHT0Q4TKKefqYjckL/aQWnqACrktc829dbp9R
+	1AT6cV17rLhKdp35KJmywm86dS16zUHBoC3QeS/ZbWYd6jE8wJ0LacY6tMDmFiiq
+	EqUXM4c5F/Fx5wO78CCpxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786573815; x=
+	1786660215; bh=MzMjuzWzfj80wTplkUR3wjFLHiCyjw8ijs0yxZj7GBA=; b=l
+	KEKEveKlztQognEPSU/q0ccwSuiZWwae8A15a8XEsCElB3jfXuQ9qNlNFURIQBXb
+	WOTCMTLhNdKp4oExaZJ1RTUxbF3aSWykT460I+HPnRBSzGCIa2iYZ0PRcH1EVA1k
+	l9bvh0AYarjy5G2u6daB8Jy9LF9qlMlwdNyFehy1riOrbCuJ/3X3lndPSkh0Umel
+	4DDFvSeAgFzVDmaMHYDJctwN2eKrO+I4HaeUTa5KFuGSvj+E2+XopzS3yl0Q8Rlv
+	opXTXYDVIGep/WGKfnhxGmQhsQpSYeH+oJMPqSoru1uWBNXiGGeH4z2oen+QK9zn
+	Rorl5YVnQdQxrpEoi6iHg==
+X-ME-Sender: <xms:9vN8as7H4AdJrxCuorysOPgzJtX83LRMFqCpqUbfJfeg2kwP4LZX4w>
+    <xme:9vN8aumUz7ItLwxRHR6d2ibOIpUEDO72rcklvS3pgSkRdmhPpWzYIjmHuceYjBjeo
+    sOcKhKlzVTpP4jV4mbV6RwD6CRETfPi-TkxHVjPUwslEXt6tthT>
+X-ME-Received: <xmr:9vN8apqRrD54KE036XHzMoDAZ4oknq8zruJMPIdsZfo9QXleZ_PcOltPVmirMacOKKe6ogi9BW8BWCR4EAeR81IloCOyM9Cq_tGFtvdWmJ0udgZggAVbv_cbNg>
+X-ME-Proxy-Cause: dmFkZTEBeYY4dx1QWP6YCO3/gIZt88woZ00o6Q1ZBpAlXWudmSombSKFs9d8cGAaw44bZy
+    b5IsOSZhantmhMRX4rZhmjSB38iSkoGTD+qIhAYp9g/ncyRoeCyEspZJUQNcPAaWJijhaG
+    0pfkRKpaxsLas0hdEDYDct4cnReY1gLLXhkTyeSvmMyKEzXTOO+FdRBf9OF7lrRgoJo1m3
+    f/zfifb3EBELeWt1bnnCpmrYeROBh5p+/5PST9EjdnP15p4CaGuGAM5P1okU7vhhrVpOif
+    Da7a6CeKkYS0nrFwMvKq6INRdvcnQRIGAJcZ9HMC+vKYsRGuTosXX8s0lG/DsD8TpU76nc
+    5LGQAy+J3VmC1Ttlbg1hpeyeBHgJETZ6gHTz2YHhomXfH+QNUleEvjReRXCODD5oR1tHAO
+    t5ljQuXplqpGgmtGXfSOH49Ha8JBazPGSrDNSQlL8ppv83BVSCUrwq/tV2lYcVADY9smNY
+    O6qNkrBcYbIovbki3N27WXX6sYJPMvfA5OLJwoE0MUh7fLDgsSw1dZbaMWLOxiWmrCRD7x
+    sKDRBn+yDM4PYc9B1x5VlU/mvDQ9qBbVabp+ExTBYrdY9QQR7DxlBqxN4JsVfpWg6HSXKV
+    LA3N2tK60YNf7pdCK0INrEPqxH4tJbgAuG/jRrkAdA2D5ufZNuE91lRTV7HQ
+X-ME-Proxy: <xmx:9vN8alu6j9JRksuHfywgnIENeqsmoToXZAuH3XcL10MRH98p-NIyKA>
+    <xmx:9vN8amF2XvLfTGXwBPsc2YzSGkAEJ9gH8yqokQCwh22ZxxXpcKvbTQ>
+    <xmx:9vN8amaIaN4hZr_VJb4jVyrAiBYk7m7Eh6r2NxccLH0azgiMJvibXQ>
+    <xmx:9vN8amV1omJNen-BjnX_9qD6pVyxQcaihHqgZv9fM8TuJovlIGb4JA>
+    <xmx:9_N8alqYFXgArL9DhhonP_rB8qv33KK7q8HehIOfN8puDpG5W4TIOWT0>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Aug 2026 18:30:12 -0400 (EDT)
+Message-ID: <777e9671-aff7-41e7-911c-dc3aacc877f3@bsbernd.com>
+Date: Thu, 13 Aug 2026 00:30:11 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
- <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com> <anpsLy_pCanocgS1@google.com>
-In-Reply-To: <anpsLy_pCanocgS1@google.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 12 Aug 2026 13:59:25 -0700
-X-Gm-Features: AUfX_mwFa8e6pDMfp1WdXiJ_HKLGDCz9OWII2-x-7qK48Cw8cAhcq_BvLRoXfk8
-Message-ID: <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 5/6] fuse: add zero-copy over io-uring
+To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
+Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, axboe@kernel.dk,
+ amir73il@gmail.com, fuse-devel@lists.linux.dev
+References: <20260716175908.2339738-1-joannelkoong@gmail.com>
+ <20260716175908.2339738-6-joannelkoong@gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260716175908.2339738-6-joannelkoong@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Aug 10, 2026 at 5:48=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
->
-> On Mon, Aug 10, 2026 at 09:49:31AM -0700, Joanne Koong wrote:
-> > On Thu, Aug 6, 2026 at 2:31=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> w=
-rote:
-> > >
-> > > On Thu, Aug 6, 2026 at 2:04=E2=80=AFPM Joanne Koong <joannelkoong@gma=
-il.com> wrote:
-> > > >
-> > > > I'm not too familiar with memcg or vmstat so apologies if this is a
-> > > > naive question, but does it make sense for memcg to just do a simil=
-ar
-> > > > approach to what vmstat does? As I understand it, mod_lruvec_state(=
-)
-> > > > updates the node counter and the memcg counter (if memcg applies),
-> > > > where for updating the node counter, mod_node_state() does some
-> > > > batching where it updates the global counter for that stat only onc=
-e
-> > > > it crosses some threshold (pcp->stat_threshold). Could memcg keep i=
-ts
-> > > > per-CPU counter as the accumulator but once it reaches some thresho=
-ld,
-> > > > it then propagates it up the parent/ancestors into a per-memcg atom=
-ic
-> > > > global counter? The atomic would then only have to be touched once =
-per
-> > > > batch than on every update, which might eliminate the overhead of t=
-he
-> > > > per-memcg atomic you saw previously? It seems like this would get r=
-id
-> > > > of needing to do any flushing altogether, as we could just read tha=
-t
-> > > > global counter directly.
-> > >
-> > > The memcg stats perform similar per-CPU counting and thresholding. Th=
-e
-> > > main difference from vmstat AFAICT is the cgroup hierarchy. In vmstat
-> > > we have per-CPU counters and a global atomic counter for each stat.
-> > > For memcg, we have the same for each cgroup, then we also have a
-> > > cgroup tree. When we read the stats of a cgroup, we usually want the
-> > > hierarchical stats including all of its children, so we can't just
-> > > read the global counter.
-> > >
-> > > We use rstat, a cgroup framework that keeps track of which cgroups
-> > > have updates on which CPUs, and then memcg has thresholding logic on
-> > > top to only flush if the number of pending updates exceeds a
-> > > threshold. Essentially, if the magnitude updates on a CPU exceeds
-> > > MEMCG_CHARGE_BATCH, we add it to a global per-memcg counter. We only
-> > > flush if that global per-memcg counter has > NR_CPUS *
-> > > MEMCG_CHARGE_BATCH updates. So in theory I think we tolerate up to 2 =
-*
-> > > NR_CPUS * MEMCG_CHARGE_BATCH of stale stats (combined for all the
-> > > stats).
-> > >
-> > > See memcg_rstat_updated() and memcg_vmstats_needs_flush() for this lo=
-gic.
-> > >
-> > > Looking at this code again, it made me realize that we already iterat=
-e
-> > > the per-CPU stats_updates on every update to increment the number of
-> > > pending stats on this CPU. I wonder if we can replace this with
-> > > actually updating the stat on each parent, then the flush path only
-> > > needs to accumulate CPU counters. Or maybe as you mention, we update
-> > > the global per-memcg counter when updates on a CPU exceed a threshold=
-,
-> > > and forgo the rstat flushing logic completely.
-> > >
-> >
-> > I can run some experiments and see if updating the global per-memcg
-> > counter per batch and forgoing flushing could be a viable solution.
-> > I can use my setup to test it for writeback, but for the zswap use
-> > case, what's the best way to test if the changes are too expensive? Is
-> > there a benchmark program you're running?
->
-> I was running stress-ng and measuring the latency of zswap_load() and
-> zswap_store() with bpftrace. But I suspect whatever works for writeback
-> should work for zswap :)
->
-> >
-> > For updating the stat on each parent and having the flush path only
-> > accumulate CPU counters, I think this means we would have to
-> > unconditionally walk the ancestors + update its counters on every
-> > update, as we wouldn't be able to early break if the flushable
-> > threshold was already exceeded. I don't think we could replace the
-> > stats_update update, as it seems like readers still need some way of
-> > knowing when to flush. It seems like this could be a nontrivial
-> > performance hit, but maybe it's a non-factor in reality. If you think
-> > this would be useful to get benchmark numbers on, I can run some
-> > experiments on this too.
->
-> I think we need to experiment with how much work we can shift around
-> between the update and reader sides.
->
-> Right now, on the update side, we call __css_rstat_updated(), which
-> iterates the parents and puts them on the per-CPU rstat tree, then we
-> iterate the parents again in memcg_rstat_updated() and:
-> - Check if flushing threshold is already met.
-> - Update per-CPU counter for stats_updates.
-> - If per-CPU update exceeds (another) threshold, we update an atomic for
->   stats_updates.
->
-> The flush side checks the flushing threshold and does an rstat flush,
-> which will walk the update trees on all CPUs and iterates all child
-> cgroups on it. Pretty expensive when the threshold is met.
->
-> I think we discussed two different options:
->
-> (a) On stats updates, iterate the parents and update the per-CPU
-> counters of the stat directly.
->
-> In this case, we can't keep using rstat, as we would still need to add
-> the cgroup and all its ancestors to the update tree anyway and the flush
-> cost will remain similar. So on the flush path we'll need to iterate all
-> CPUs and add the counters. We can explore if use a cpumask can help
-> here, but perhaps not since we'll need to update it atomically on all
-> stat updates.
->
-> I imagine that if we do this we'll drop the stats_updates optimization
-> to avoid adding more cost to the update side. We'll be replacing parent
-> stats_updates modification with parent stat counter modification. But
-> maybe it's feasible to keep both to limit the cost of flusing.
->
-> This only works if the cost of iterate the CPUs on the flush side ends
-> up being cheaper than the current flush. I imagine the average cost will
-> be higher but the cost should be much more consistent vs the current
-> flush, so the tail should be better.
->
-> (b) On stats updates, iterate the parents and update the per-CPU
-> counters of the stat directly AND update a global atomic if the per-CPU
-> counter exceeds a threshold. I think updates may get too expensive as we
-> may need to update multiple atomics, especially when updating the root
-> counter as it will be contended by all cgroups.
->
-> The flush side becomes an atomic read, so should be very cheap, and we
-> can drop other heuristics and optimizations.
->
+
+
+On 7/16/26 19:59, Joanne Koong wrote:
+> Implement zero-copy in fuse io-uring to eliminate memory copies between
+> the application, kernel, and server for read/write operations. The
+> server can directly access client pages or page cache folios without
+> copying data through an intermediary buffer. When a fuse request arrives,
+> the kernel registers the relevant pages into a sparse slot in the
+> server's io_uring registered buffer table. The server can then operate
+> on these pages directly using io-uring fixed buffer operations (eg
+> read_fixed/write_fixed) and the kernel unregisters these pages when the
+> request completes. Non-page-backed args (eg op out headers) will go
+> through the payload buffer as normal. The server can specify which open
+> files should have their reads/writes go through zero-copy, by setting
+> the FOPEN_IO_URING_ZERO_COPY flag when servicing opens.
+> 
+> This requires CAP_SYS_ADMIN and bufpools. This is gated behind
+> CAP_SYS_ADMIN because zero-copy allows the server direct access to the
+> client's underlying pages, rather than operating on an intermediary
+> buffer that the contents of the client's pages were copied into or on
+> page cache folios.
+> 
+> The request flow for the zero-copy direct-io write path (client writes
+> data, server reads it) is as follows:
+> =======================================================================
+> |  Kernel                                   |  FUSE server
+> |                                           |
+> |  "write(fd, buf, 1MB)"                    |
+> |                                           |
+> |  >sys_write()                             |
+> |    >fuse_file_write_iter()                |
+> |      >fuse_send_one()                     |
+> |        [req->args->in_pages = true]       |
+> |        [folios hold client write data]    |
+> |                                           |
+> |  >fuse_uring_copy_to_ring()               |
+> |    >copy_header_to_ring(IN_OUT)           |
+> |      [memcpy fuse_in_header]              |
+> |    >copy_header_to_ring(OP)               |
+> |      [memcpy write_in header]             |
+> |                                           |
+> |    >fuse_uring_args_to_ring()             |
+> |      >setup_fuse_copy_state()             |
+> |        [skip_folio_copy = true]           |
+> |                                           |
+> |      >fuse_uring_set_up_zero_copy()       |
+> |        [folio_get for each client folio]  |
+> |        [build bio_vec array from folios]  |
+> |        >io_buffer_register_bvec()         |
+> |          [register pages at
+>                  ent->zero_copy_index]      |
+> |        [ent->zero_copied = true]          |
+> |                                           |
+> |      >fuse_copy_args()                    |
+> |        [skip_folio_copy => return 0       |
+> |         for page arg, skip data copy]     |
+> |                                           |
+> |    >copy_header_to_ring(RING_ENT)         |
+> |      [memcpy ent_in_out]                  |
+> |    >io_uring_cmd_done()                   |
+> |                                           |
+> |                                           | [CQE received]
+> |                                           |
+> |                                           | [issue io_uring READ at
+> |                                           |  ent->zero_copy_index]
+> |                                           | [reads directly from
+> |                                           |client's pages (ZERO_COPY)]
+> |                                           |
+> |                                           | [write data to backing
+> |                                           | store]
+> |                                           |  [submit COMMIT AND FETCH]
+> |                                           |
+> |  >fuse_uring_commit_fetch()               |
+> |    >fuse_uring_commit()                   |
+> |      >fuse_uring_copy_from_ring()         |
+> |    >fuse_uring_req_end()                  |
+> |      >io_buffer_unregister(ent->zero_copy_index) |
+> |        [unregister pages from index]      |
+> |      >fuse_zero_copy_release()            |
+> |        [folio_put for each folio]         |
+> |      [ent->zero_copied = false]           |
+> |      >fuse_request_end()                  |
+> |        [wake up client]                   |
+> 
+> The zero-copy read path is analogous.
+> 
+> Some requests may have both page-backed args and non-page-backed args.
+> For these requests, the page-backed args are zero-copied while the
+> non-page-backed args are copied to the buffer selected from the buffer
+> pool:
+>     zero-copy: pages registered via io_buffer_register_bvec()
+>     non-page-backed: copied to payload buffer via fuse_copy_args()
+> 
+> For a request whose payload is zero-copied, the
+> registration/unregistration path looks like:
+> 
+>     register:  fuse_uring_set_up_zero_copy()
+>                  folio_get() for each folio
+>                  io_buffer_register_bvec(ent->zero_copy_index)
+> 
+>     unregister: fuse_uring_req_end()
+>                   io_buffer_unregister(ent->zero_copy_index)
+>                   -> fuse_zero_copy_release() callback
+>                      folio_put() for each folio
+> 
+> Please note that on abort for in-flight zero-copied requests that have
+> been sent to userspace, the registered bvec slot remains occupied and
+> its folios remain pinned until the io-uring ring is destroyed, at which
+> point io-uring unregisters all buffers and the fuse_zero_copy_release()
+> callback drops the folio references. Unregistering at teardown would
+> require operating on the ring context directly, whose validity is hard
+> to ascertain; this is deemed not worth the complexity for the abort
+> race, since everything is freed when the ring is torn down.
+> 
+> The throughput improvement from zero-copy depends on how much of the
+> per-request latency is spent on data copying vs backing I/O. The gain
+> comes from eliminating the payload-buffer memcpy,  but accessing the
+> zero-copied pages requires the server to issue the read/write as an
+> IORING_OP_READ/WRITE_FIXED operation. The benefit is largest when the
+> mempcy is a meaningful fraction of per-request latency while backing i/o
+> is still noticable enough that the extra io-uring op's overhead doesn't
+> dominate.
+> 
+> Benchmarked with passthrough_hp (--nopassthrough, q_depth=8) on a
+> 2-socket Intel Xeon Gold 6138 (40 cores / 80 threads), using fio (sync
+> engine, bs=1M, O_DIRECT, numjobs=2, 30s run + 10s ramp, 3 runs) where
+> direct-I/O throughput is against a RAM-backed (tmpfs) source (backing
+> I/O is not the bottleneck):
+> 
+> 		baseline   registered-buf   zero-copy   (zc vs base)
+> direct read     ~5.1 GB/s  ~5.4 GB/s        ~8.9 GB/s   (+75%)
+> direct write    ~3.4 GB/s  ~4.8 GB/s        ~5.1 GB/s   (+50%)
+> 
+> Reads end up higher than writes because the backing store reads faster
+> than it writes (the baseline shows the same read>write gap, and the raw
+> device does too). On a device-bound NVMe (~2 GB/s reads) the read gain
+> shrinks to ~10-16% (and no measurable gains for writes), as backing I/O
+> rather than the eliminated copy dominates latency.
+> 
+> The benefit overall scales with how much of the
+> per-request latency is the data copy versus backing I/O.
+> 
+> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 > ---
->
-> I think ultimately we need to experiment with these approachs (and
-> perhaps others) to check what actually works in practice. You'll
-> probably want some benchmarks or synthetic tests with many cgroups to
-> exercise the worst case scenarios.
->
-> For the zswap stats, I used to run stress-ng with a bunch of workers
-> (20, 50, 100, ..) in cgroups of different levels. Since all workers are
-> in the same cgroups, all the parents are common and all threads end up
-> competing on the same atomics, so worst case scenario. I was also
-> testing in a VM that has more CPUs than stress-ng workers, to exercise
-> the full extent of the concurrency and contention.
->
-> This could be a lot of work, so I am not really asking you to do it, but
-> just brainstorming and sharing ideas :)
+>  fs/fuse/args.h            |   2 +
+>  fs/fuse/dev.c             |  19 +++-
+>  fs/fuse/dev_uring.c       | 181 +++++++++++++++++++++++++++++++++++---
+>  fs/fuse/dev_uring_i.h     |   6 ++
+>  fs/fuse/file.c            |   2 +
+>  fs/fuse/fuse_dev_i.h      |   1 +
+>  include/uapi/linux/fuse.h |  34 +++++++
+>  7 files changed, 229 insertions(+), 16 deletions(-)
+> 
+> diff --git a/fs/fuse/args.h b/fs/fuse/args.h
+> index ecfe51a192af..5173264a1261 100644
+> --- a/fs/fuse/args.h
+> +++ b/fs/fuse/args.h
+> @@ -42,6 +42,8 @@ struct fuse_args {
+>  	bool is_pinned:1;
+>  	bool invalidate_vmap:1;
+>  	bool abort_on_kill:1;
+> +	/* server requested io-uring zero-copy for this op */
+> +	bool zero_copy:1;
+>  	struct fuse_in_arg in_args[4];
+>  	struct fuse_arg out_args[2];
+>  	void (*end)(struct fuse_args *args, int error);
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index d50792162d8b..3d1910a9db52 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -1247,11 +1247,20 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
+>  
+>  	if (folio) {
+>  		size = folio_size(folio);
+> -		if (zeroing && count < size)
+> -			folio_zero_range(folio, 0, size);
+> +		if (zeroing && count < size) {
 
-Thanks for your guidance and insights on this, Yosry! Your responses
-have been very helpful.
+This function is quite complex and long, maybe a comment here
 
-I'll do some experimentation with this and try to get a sense of what
-the update costs are.
+/* io-uring zery-copy */
 
-One thing I was unclear about and have been looking at is how
-pervasive/important this issue is outside of the writeback case. It
-looks like there are roughly 4 other categories of users that rely on
-stats that can be 2s stale: zswap, cachestat(), working set, and
-vmscan.
+> +			if (cs->skip_folio_copy) {
+> +				if (offset)
+> +					folio_zero_range(folio, 0, offset);
+> +				if (offset + count < size)
+> +					folio_zero_range(folio, offset + count,
+> +							 size - offset - count);
 
-Of these, vmscan is the only one that looks troublesome. Some armchair
-analysis below:
+Maybe
+folio_zero_segments(folio, 0, offset, offset + count, size);
 
-a) zswap (zswap_shrinker_count()): 2s of staleness looks fine. the
-stats are only used to calculate the compression ratio and the ratio
-scales a count that comes from a list_lru and *isn't* stale. The ratio
-is an average over the whole pool, so it seems like that should be
-fairly steady across 2s. A stale result doesn't seem too bad - afaict,
-it is a heuristic of how zswap should get weighed against the other
-shrinkers.
+> +			} else {
+> +				folio_zero_range(folio, 0, size);
+> +			}
+> +		}
+>  	}
+>  
+> -	while (count) {
+> +	while (!cs->skip_folio_copy && count) {
 
-b) cachestat() syscall (filemap_cachestat()): seems preferable to just
-rely on the 2s flusher worker. The results are returned back to
-userspace and not used for any internal kernel decision-making, seems
-ok to have one field in it (nr_recently_evicted) potentially be stale.
-Seems better to err on the side of less frequent flushing anyways, as
-the call path is invoked from unprivileged userspace and flushes the
-root memcg.
+For readibility and also to let the compiler know that
+cs->skip_folio_copy never changes, maybe at the top of the function
 
-c) workingset: looking at the original commits, the calculations are
-estimates that don't require exact stats -
+const bool uring_zero_copy = cs->skip_folio_copy;
 
-refaulting (workingset_test_recent()): commit 9b3016154c91 ("memcg:
-sync flush only if periodic flush is delayed")
-    Now the question: what are the side-effects of this change? The worst
-    that can happen is the refault codepath will see 4sec old lruvec stats
-    and may cause false (or missed) activations of the refaulted page which
-    may under-or-overestimate the workingset size.  Though that is not very
-    concerning as the kernel can already miss or do false activations.
+and then
 
-shadow-node shrinker (count_shadow_nodes()): commit d4a5b369ad6d ("mm:
-ratelimit stat flush from workingset shrinker")
-    On further inspection it seems like we don't really need
-    accurate stats in this function as it was already approximating the amo=
-unt
-    of appropriate shadow entries to keep for maintaining the refault
-    information.
+while (!uring_zero_copy && count) {
 
-d) vmscan (prepare_scan_control()): for determining whether reclaim
-can deactivate, there's this logic
 
-                /*
-                 * When refaults are being observed, it means a new
-                 * workingset is being established. Deactivate to get
-                 * rid of any stale active pages quickly.
-                 */
-                refaults =3D lruvec_page_state(target_lruvec,
-                                WORKINGSET_ACTIVATE_ANON);
-                if (refaults !=3D target_lruvec->refaults[WORKINGSET_ANON] =
-||
-                        inactive_is_low(target_lruvec, LRU_INACTIVE_ANON))
-                        sc->may_deactivate |=3D DEACTIVATE_ANON;
-                else
-                        sc->may_deactivate &=3D ~DEACTIVATE_ANON;
+Also would avoid the comment I asked for above.
 
-(and same for DEACTIVATE_FILE for file-backed folios)
+>  		if (cs->write && cs->pipebufs && folio) {
+>  			/*
+>  			 * Can't control lifetime of pipe buffers, so always
+> @@ -1344,6 +1353,10 @@ int fuse_copy_args(struct fuse_copy_state *cs, unsigned numargs,
+>  	for (i = 0; !err && i < numargs; i++)  {
+>  		struct fuse_arg *arg = &args[i];
+>  		if (i == numargs - 1 && argpages)
+> +			/*
+> +			 * if cs->skip_folio_copy is set, this just does any
+> +			 * needed zeroing. No copying is involved.
+> +			 */
+>  			err = fuse_copy_folios(cs, arg->size, zeroing);
+>  		else
+>  			err = fuse_copy_one(cs, arg->value, arg->size);
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index ed7e783bd68d..d7d517497a1e 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -23,6 +23,7 @@ MODULE_PARM_DESC(enable_uring,
+>  #define FUSE_URING_IOV_PAYLOAD 1
+>  
+>  #define FUSE_URING_ADD_BUFPOOL_FLAGS	(FUSE_URING_REGISTERED_BUFPOOL)
+> +#define FUSE_URING_ADD_QUEUE_FLAGS	(FUSE_URING_ZERO_COPY)
+>  
+>  bool fuse_uring_enabled(void)
+>  {
+> @@ -33,6 +34,11 @@ struct fuse_uring_pdu {
+>  	struct fuse_ring_ent *ent;
+>  };
+>  
+> +struct fuse_zero_copy_bvs {
+> +	unsigned int nr_bvs;
+> +	struct bio_vec bvs[];
+> +};
+> +
+>  static const struct fuse_iqueue_ops fuse_io_uring_ops;
+>  
+>  enum fuse_uring_header_type {
+> @@ -115,8 +121,36 @@ static void fuse_uring_flush_bg(struct fuse_ring_queue *queue)
+>  	}
+>  }
+>  
+> +static bool can_zero_copy_req(struct fuse_ring_ent *ent, struct fuse_req *req)
+> +{
+> +	struct fuse_args *args = req->args;
+> +
+> +	if (!ent->queue->zero_copy || !args->zero_copy)
+> +		return false;
+> +
+> +	if (args->opcode != FUSE_READ && args->opcode != FUSE_WRITE)
+> +		return false;
+> +
+> +	return args->in_pages || args->out_pages;
+> +}
+> +
+> +static void zero_copy_unregister(struct io_uring_cmd *cmd,
+> +				 struct fuse_ring_ent *ent,
+> +				 unsigned int issue_flags)
+> +{
+> +	if (ent->zero_copied) {
+> +		int err = io_buffer_unregister(cmd, ent->zero_copy_index,
+> +					       issue_flags);
+> +
+> +		if (err)
+> +			pr_warn_ratelimited("qid=%d zero-copy unregister failed: %d\n",
+> +					    ent->queue->qid, err);
+> +		ent->zero_copied = false;
+> +	}
+> +}
+> +
+>  static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
+> -			       int error)
+> +			       int error, unsigned int issue_flags)
+>  {
+>  	struct fuse_ring_queue *queue = ent->queue;
+>  	struct fuse_ring *ring = queue->ring;
+> @@ -136,6 +170,8 @@ static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
+>  
+>  	spin_unlock(&queue->lock);
+>  
+> +	zero_copy_unregister(ent->cmd, ent, issue_flags);
+> +
+>  	if (error)
+>  		req->out.h.error = error;
+>  
+> @@ -311,7 +347,7 @@ void fuse_uring_conn_init(struct fuse_chan *fch)
+>  }
+>  
+>  static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+> -						       int qid,
+> +						       int qid, bool zero_copy,
+>  						       bool fail_if_exists)
+>  {
+>  	struct fuse_chan *fch = ring->chan;
+> @@ -330,6 +366,7 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+>  	queue->qid = qid;
+>  	queue->ring = ring;
+>  	spin_lock_init(&queue->lock);
+> +	queue->zero_copy = zero_copy;
+>  
+>  	INIT_LIST_HEAD(&queue->ent_avail_queue);
+>  	INIT_LIST_HEAD(&queue->ent_commit_queue);
+> @@ -715,6 +752,9 @@ static int setup_fuse_copy_state(struct fuse_copy_state *cs,
+>  
+>  	fuse_copy_init(cs, dir == ITER_DEST, iter);
+>  
+> +	if (ent->zero_copied)
+> +		cs->skip_folio_copy = true;
+> +
+>  	cs->is_uring = true;
+>  	cs->req = req;
+>  
+> @@ -746,6 +786,62 @@ static int fuse_uring_copy_from_ring(struct fuse_req *req,
+>  	return err;
+>  }
+>  
+> +static void fuse_zero_copy_release(void *priv)
+> +{
+> +	struct fuse_zero_copy_bvs *zc_bvs = priv;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < zc_bvs->nr_bvs; i++)
+> +		folio_put(page_folio(zc_bvs->bvs[i].bv_page));
+> +
+> +	kfree(zc_bvs);
 
-target_lruvec->refaults[] gets set at the end of the reclaim pass. It
-stores the same lruvec_page_state() value that prepare_scan_control()
-will read at the start of the next reclaim pass, which means if
-reclaim passes happen more frequently than the 2s flushes (eg under
-sustained/heavy memory pressure), this logic will incorrectly assume
-no refaults occurred and deactivation is disabled, which afaict means
-folios won't be moved from the active -> inactive list, and reclaim
-will start evicting pages from the inactive list that are hot (eg more
-refaults).
+kvfree (see below)?
 
-This is from reading the code rather than a reproducer though, so I
-don't know how much this matters in practice. Unlike for the writeback
-case, I don't think flushign more frequently solves the problem. It
-would shrink the staleness window but not eliminate it. Maybe one
-solution is to keep the deactivation state for a period of time if
-refaults were observed.
+> +}
+> +
+> +static int fuse_uring_set_up_zero_copy(struct fuse_ring_ent *ent,
+> +				       struct fuse_req *req,
+> +				       unsigned int issue_flags)
+> +{
+> +	struct fuse_args_pages *ap;
+> +	int err, i, ddir = 0;
+> +	struct fuse_zero_copy_bvs *zc_bvs;
+> +	struct bio_vec *bvs;
+> +
+> +	/* out_pages indicates a read, in_pages indicates a write */
+> +	if (req->args->out_pages)
+> +		ddir |= IO_BUF_DEST;
+> +	if (req->args->in_pages)
+> +		ddir |= IO_BUF_SOURCE;
+> +
+> +	ap = container_of(req->args, typeof(*ap), args);
+> +
+> +	zc_bvs = kmalloc(struct_size(zc_bvs, bvs, ap->num_folios),
+> +			 GFP_KERNEL_ACCOUNT);
 
-If it turns out iterating the parents and updating the per-CPU
-counters of the stat on updates is too expensive, perhaps it makes
-sense to keep the existing rstat logic as is and have caller-side
-workarounds, as only writeback and vmscan would require them.
+Assuming one folio per page and 1MB max_nr_pages:
+
+struct_size(zc_bvs, bvs, n) == 8 + 16 * 256 = 4104
+
+Shouldn't this be kvmalloc()?
+
+
+(otherwise looks good, will do another review in the morning, though).
+
 
 Thanks,
-Joanne
+Bernd
