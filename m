@@ -1,117 +1,297 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6F82F9D82
-	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 07:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9806945628F
+	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 11:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786604840; cv=none; b=G2Y8xMgIQVt6XB07LBfnLBSJnUAGLruORXDBVSFIch1BwRRBOeZGd7xHbdtysadajhl+gbv4hK1DnkTSMTbKeBHtn47QW76B2gY+Z8IA/XLpswtV+mAj3CaKjfwdNrbdBsdyLdn8AnsTjFc/p8s6Tf5TPTth8iwN/vc9FYOjHr0=
+	t=1786618868; cv=none; b=LD4hE5U0T1x9Mi74TXUroo4YnzpVobHr2dohGB8AVkUTqgtBMH+4NYs7qPVLN1sZJ+oxKHs8kq7ezvxPGwL8GiQ7gaU6XBTBRnnHuNnio0u6pYFAEzwVpoY/Rk/O9q7z3zp8aLwYBg+cmtHH8SO8SiHBwLWDzCCm05YmrWZa69g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786604840; c=relaxed/simple;
-	bh=dvtVXTBpPANpd/CP6OTRiErgstDc7nass+eIVRqpM2U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IHWuhHKEo+KeRU9eUQiKfHr45jiCqyGzzFJBgTBUuEf0e8f9eNg9Aj2eIUaYeqxMHwG7bL0pD1qYV+7RRwDMi1raDuLb/Ll0GyT13J3vwYUQl9/0jtLt22TUuiH/m05lXFARHR9PABthyAgvzToksdmwxXaNX+2HsXZHIlohcFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DRvo79uD; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786618868; c=relaxed/simple;
+	bh=buCUQAMZ41VaxQnz4Oj8/raDLXthokPzKuZ9jT91xn8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DfoP94Utb0uuE1GPs7077WuULM17prqaj+hqb2Exs4aifKRlE6D3U+pwTL9ioWljxk92ZkFx65fSlImecDUKHIv1aF7ZwteIOE+FM4O5vN6UXM2kp7nn22eaJdIz1cR7tdUrfVKXf3VVFrehdL5W1r/UeB/iadWm2JjSo05L0lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=g/06DoPx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FiZ5inWN; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DRvo79uD"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47de0093c42so1626075f8f.3
-        for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 00:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786604837; x=1787209637; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZBJlGaBVvkoWha3BD37z+KADfrwniJqY/MnyXvUctT4=;
-        b=DRvo79uDg65qOBvjm6O8LLQiJHO7BXLfreLB+X2ReTaeV0tQ3O2hix4Jm8lu9k3erG
-         ZXeImlT1mMnX0xvJIpQnRfpwsNLC9+TgZiz3BVqe+HDiOU6X4SH7gG+48g7jS+Q71M4G
-         zge/os34AunrCWV7W3+oUPYjptMC/xDf9AfTDpnxI09udMfR/adQpXYpISWkXrU46GL1
-         xHiuNe4ipYsed9xY/hT4Bjvat+zwd+YpvfMkdCKYRcCyWn7ivk8VpUlQFxVOcEOLdw9A
-         L3lOvhdmViNks/v1x0A+yNRU0mOP0k6KO2oAnVZsGdkEO20ax0cQFw9c+VgMRnyv6nNV
-         dUCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786604837; x=1787209637;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ZBJlGaBVvkoWha3BD37z+KADfrwniJqY/MnyXvUctT4=;
-        b=fXVxYXM6Jzx7AocRB3AaDiYyF0d0nw3o5JYz1i3Nf5IPq3RogrgV+1yEUx6cjRzc0S
-         2RJxlxM9eOT45RZE3XvMueHk9AUOG5iFpraPpMyILpctKzawR1hxCPoiE4vWIlEyF8Mr
-         WUhwJXXsfHHuIBVEm58jtB6nXU+zyAoasFrOk6p4Ar+U/6fyN04njnR9gzzl7P/uQN5e
-         O/8XpcgPAL/a3aFa5Wv/KilNF9VWFnm78eLndEY9EFkTTBDOuGlGcN0ufeHpCDEnax4V
-         GZpTprPVpCJ7+68N57hEoNXe2rpvR3zS6ukenSG4OTiFb8ezpFbEO234phISLM0dFIky
-         EPrw==
-X-Gm-Message-State: AOJu0YxWk6BjDLBn1zxxNFRZAvBIGyQpvPnA4e/pPeqbL6k3FCbthkJI
-	F56oC2KINIgH3tSZiNZqXtRFlhoubFpUpV4MZRKTBhTSYmXub+OIhbV2v9TW1bJuB+Y=
-X-Gm-Gg: AR+sD13YU6Fe8abzV0oDvIw3HLBS68q8IhvdkS3sRDhHfB2ll6NxdIBOMYIP9QCm4eE
-	lX3MT3PQTzCCNfnQjcw0vTUMezZSq2fh+1y0W6RBi3EuRZRJnMB/8RuN5RdwLsBPcy95dNGRgO9
-	hZgeWQHK03GD8hieXmr3YQb//4GN74+xnkaGj48SRhB73sT3EOurVmzANTPR3ugMxb6yZ4G8TP7
-	JOC7oq+zAhDir3J3IefKst0rz1posL049o3bZEq/CIgtL/NtNObdrms7yWzy3+By7OjE59OtyXo
-	5QPcYX0L/Ehjtg/x4SHSL1Czugb9pY/6ZMVBP8jT3SoQNpb2kMgJaRT0j33P3YFOy7ERKHEtSwb
-	gie8+urZpRLeYRBktGKaBwpyKI2lQT99PZ0FabILBQlAo4z4C/GZutH4S0SmQ+0wczzw4piPQl6
-	1buUhYNE+eoOeeAYa46YNmeqdgksGI1doWnwRPowFR5d+eB2GsbRtc8/igBoPP1Y099A/xpuvQP
-	zblgGdStLYIw+o4xQ==
-X-Received: by 2002:a5d:5e0f:0:b0:47f:f002:3652 with SMTP id ffacd0b85a97d-48159ec134bmr3193548f8f.12.1786604837294;
-        Thu, 13 Aug 2026 00:07:17 -0700 (PDT)
-Received: from zephyr ([77.237.185.99])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4815a569c1fsm3725870f8f.15.2026.08.13.00.07.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 00:07:16 -0700 (PDT)
-From: Ali Nasrollahi <a.nasrolahi01@gmail.com>
-X-Google-Original-From: Ali Nasrollahi <A.Nasrolahi01@gmail.com>
-To: fuse-devel@lists.linux.dev
-Cc: miklos@szeredi.hu,
-	linux-kernel@vger.kernel.org,
-	Ali Nasrollahi <A.Nasrolahi01@gmail.com>
-Subject: [PATCH] fuse: ioctl: fix comparison in fuse_setup_measure_verity()
-Date: Thu, 13 Aug 2026 07:06:29 +0000
-Message-ID: <20260813070629.248821-1-A.Nasrolahi01@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="g/06DoPx";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FiZ5inWN"
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9E11B7A0114;
+	Thu, 13 Aug 2026 07:00:55 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Thu, 13 Aug 2026 07:00:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1786618855;
+	 x=1786705255; bh=AFTgmgsNwb8k8YdFVtxgmyQxLgKjikyvfk3vsWdHSQo=; b=
+	g/06DoPxM6PhgvGdTXpHVYxew/Qb63ZXROAE1GQ4IXPqx7s1JviZq1L5PNNtm9ga
+	eeP8VWgWRMzZbwLSJVP+e6FKMmEwagxntyJa9jxhnPyyxq6c6tGc2h1qvwIp+EO0
+	d9hqYaweMU+0XZoI/JDuWlCVYCnFeAUP3fq3I+TxEU28xeSkIdbe9GSBvMhku/cd
+	L18acY+KlDtJX7Evly48HnJHEizC8h/0hy1r4q2Q+zNji4EYqgISmTOVkhTKI2AW
+	fSQPrF9eNKjFLkTL2PzmFwEMFGRfRhbOY0MKZq8wQom1srK7ltX4HwpbTSSt7uac
+	DoOac3jR4gZQt/Ydyi8BZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786618855; x=
+	1786705255; bh=AFTgmgsNwb8k8YdFVtxgmyQxLgKjikyvfk3vsWdHSQo=; b=F
+	iZ5inWNVEkJd+mtYO1MQeS288iKYMjrIqBWHkPJCrjkjxbOnz1Rt1Va3G9QgdVtO
+	CkD6IkaFINqdg8SVTqWU2tcIdSHPHd4J0esKYbpIDcdtQgFS4I3IkorgdAoVO6Lu
+	cQH3o3DPO9W+CrKAoEmjg5fyN1MIMqdkSwnKdM212gTbOIze4Zf+3ziZXKvtEki2
+	V653T6c0Ym7n8THLJ/jckICEdv3Hc3U0ujk7EH6TAGq1aNFSMCi4PZZSHJNZUZTZ
+	Duw4vh/q/a4qslYkERMh1KYmcUwkuTUPGNHwnVKgaN8KDpvLD0bVV/jdxDfsudHp
+	x0h1IiAKfcIEx6Er5o3+w==
+X-ME-Sender: <xms:5aN9amAKa8FNWXQFzwflRv-z3X4Oqb9VSqj-FEa3vSl-komyaTFFhA>
+    <xme:5aN9ahMZFeVDsRsArkVjO91TLDKPQIUIiaz0265rSSPJnFb9EYUzHSCE1smEzRJjx
+    syl1n9-Zv0oS9Wo1ZxBFUB8D4H9I8Y64nQSWkSXz2huHl64Nrj9CA>
+X-ME-Received: <xmr:5aN9anyTu10zvv-gF1JUyBqd2qQTgI33wzYTgWg9AkA34h63eRE7rywhhAuM85i2hyx7yjNaOSSoVmPLWjcHNsnnNITrPCAbLqyAXSbLSjyZ5lAbw5eg5GC2>
+X-ME-Proxy-Cause: dmFkZTFChU0l17PwWkb7ND7+B8DfjODFef5797kApV426U5RjLmXxx0d5WekgQNCXro8Sx
+    DUsiv0pjfW8/FnLi/uYn+s7arJ9w5O2YKs6vuw0PKCn7e5O2RI2EWlJ6esvjIRzLVVGNOC
+    jLFZWzGl0QoUbgg8qB/Epb5cvPzYkd7Lv5XQG/dSD/2F50Is/HKjVGCWWs4sZY6lrPDcwb
+    MaMqNthH3Y44qUUUyxcIoVQvk5PABv+BwP0XJ77sPR2twVcvwg69Cheroi3WtP7JfhUWGM
+    CX9YF0ktg9a7jBmeTgOfHskObJY3GrThcMNhO2qsyiAmrAuvjOMvAwVp9Dkf7ileOX7AIs
+    PLVyVUNryKQCkDKfmWYx53y7nhHSGoyu8IBXsPihAAMJLw/qz1X3iO9lWKzPB1SHE3Ccik
+    CNZuq1eMIbdFIrJpFxnuAR+JroatsVCwvWyewnqBBMb5IRm9YOobZVs5eMEjlTUi2Lpqhi
+    JL+4/cwMgIMmfHkU2DYUZ0mFo8uP87Th1JzyK0EGJucokC4dvL/W+nt30TwQSd7mYKrp2D
+    YB3fOJHJos0yKM3NPIR8KdIpMmMTqRPl6yXp4e7g4maSultdYPRw8QmHSNClSefeBbVdr3
+    I5dzwBOMnwXTX3SG+wvb0cdjZhatiRF0+GvPtRmlC9VXfZTPJ1OobQSrpbLQ
+X-ME-Proxy: <xmx:5aN9apWT_D9-U7-VUWNBWnw0SGrN9xhBhFeY9Zp3Mb0w5e07Sgm5dg>
+    <xmx:5aN9ahMQWeLUeuWeVLUz5dYvQZBRrg2rboH_BGUNFujl5BsrbMtQLA>
+    <xmx:5aN9ajDlST6E2MnnsqA_hATHtxIevMtAOVQc8QVklc0baGL8LbMZ9w>
+    <xmx:5aN9amdzLGWXgGnIEaXK4FbGXzI0NGpRJUAFiQVFHwUyCSkEIpZ4tA>
+    <xmx:56N9arTJdBUuJJ_af2mrggoe5M4N8rKuLilaWsxUPhmuKFItSOh5bHef>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 13 Aug 2026 07:00:52 -0400 (EDT)
+Message-ID: <0c85a312-cc12-4f28-a675-0576540e3a00@bsbernd.com>
+Date: Thu, 13 Aug 2026 13:00:50 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 3/6] fuse: add io-uring buffer pools
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, jlayton@kernel.org, libaokun@linux.alibaba.com,
+ axboe@kernel.dk, amir73il@gmail.com, fuse-devel@lists.linux.dev
+References: <20260716175908.2339738-1-joannelkoong@gmail.com>
+ <20260716175908.2339738-4-joannelkoong@gmail.com>
+ <865afb18-533b-4542-86f8-c77215175c41@bsbernd.com>
+ <CAJnrk1beAMwnaUANB6MyPv6Rqj8gZ5FaQZ80zrBA=JNA1vdyOA@mail.gmail.com>
+ <87e52592-854f-4650-8a14-36e64a629d37@bsbernd.com>
+ <CAJnrk1bsqY=SAovPYBxPM9fSSQT7eU9seEez2fQqSGRVqpUpXA@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <CAJnrk1bsqY=SAovPYBxPM9fSSQT7eU9seEez2fQqSGRVqpUpXA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Clang reports a warning in fuse_setup_measure_verity() in
-fs/fuse/ioctl.c when comparing the `__u16 digest_size` with SIZE_MAX
-minus the size of `struct fsverity_digest`:
 
-	warning: result of comparison of constant 18446744073709551611
-	with expression of type '__u16' (aka 'unsigned short') is always
-	false [-Wtautological-constant-out-of-range-compare]
 
-This was first observed while building an x86_64 kernel with Clang and
-W=1. Since -Werror was enabled in my build, the warning caused the build
-to fail.
+On 8/13/26 00:38, Joanne Koong wrote:
+> On Tue, Aug 11, 2026 at 2:28 PM Bernd Schubert <bernd@bsbernd.com> wrote:
+>>
+>>
+>> On 8/7/26 00:18, Joanne Koong wrote:
+>>> On Thu, Aug 6, 2026 at 11:36 AM Bernd Schubert <bernd@bsbernd.com> wrote:
+>>>>
+>>>>> On 7/16/26 19:59, Joanne Koong wrote:
+>>>>>
+>>>>> @@ -1397,14 +1578,17 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
+>>>>>       req->ring_queue = queue;
+>>>>>       ent = list_first_entry_or_null(&queue->ent_avail_queue,
+>>>>>                                      struct fuse_ring_ent, list);
+>>>>> -     if (ent)
+>>>>> -             fuse_uring_add_req_to_ring_ent(ent, req);
+>>>>> -     else
+>>>>> -             list_add_tail(&req->list, &queue->fuse_req_queue);
+>>>>> -     spin_unlock(&queue->lock);
+>>>>> +     if (ent) {
+>>>>> +             if (!fuse_uring_prep_buffer(ent, req)) {
+>>>>> +                     fuse_uring_add_req_to_ring_ent(ent, req);
+>>>>> +                     spin_unlock(&queue->lock);
+>>>>> +                     fuse_uring_dispatch_ent(ent);
+>>>>> +                     return;
+>>>>> +             }
+>>>>> +     }
+>>>>
+>>>> Pure style, somehow "if (!fuse_uring_prep_buffer(ent, req))" reads like an
+>>>> error case, *maybe*
+>>>>
+>>>>         ent = list_first_entry_or_null(&queue->ent_avail_queue,
+>>>>                                        struct fuse_ring_ent, list);
+>>>>         /* no idle entry, or no free pool buffer for this req */
+>>>>         if (!ent || fuse_uring_prep_buffer(ent, req)) {
+>>>>                 list_add_tail(&req->list, &queue->fuse_req_queue);
+>>>>                 spin_unlock(&queue->lock);
+>>>>                 return;
+>>>>         }
+>>>>
+>>>>         fuse_uring_add_req_to_ring_ent(ent, req);
+>>>>         spin_unlock(&queue->lock);
+>>>>         fuse_uring_dispatch_ent(ent);
+>>>>         return;
+>>>>
+>>>> err_unlock:
+>>>> ...
+>>>>
+>>>> and similar in fuse_uring_ent_assign_req()
+>>>>
+>>>>         req = list_first_entry_or_null(req_queue, struct fuse_req, list);
+>>>>         if (!req || fuse_uring_next_req_update_buffer(ent, req)) {
+>>>>                 fuse_uring_recycle_buffer(ent);
+>>>>                 return NULL;
+>>>>         }
+>>>>
+>>>>         fuse_uring_add_req_to_ring_ent(ent, req);
+>>>>         return req;
+>>>>
+>>>>
+>>>> Just a pure style suggestion, though.
+>>>>
+>>>
+>>> Happy to make this change. Thanks for reviewing the patches. I'll wait
+>>> until you have finished reviewing the other patches in this series
+>>> before sending this.
+>>>
+>>>>>
+>>>>> -     if (ent)
+>>>>> -             fuse_uring_dispatch_ent(ent);
+>>>>> +     list_add_tail(&req->list, &queue->fuse_req_queue);
+>>>>> +     spin_unlock(&queue->lock);
+>>>>>
+>>>>>       return;
+>>>>>
+>>>>> +struct fuse_bufpool {
+>>>>> +     /* starting uaddr of the bufpool */
+>>>>> +     uintptr_t base_uaddr;
+>>>>> +
+>>>>> +     /* size of each buffer in the pool */
+>>>>> +     size_t buf_size;
+>>>>> +
+>>>>> +     /* total number of buffers in the pool */
+>>>>> +     unsigned int nr_bufs;
+>>>>> +
+>>>>> +     /* bitmap tracking which buffers are free */
+>>>>> +     unsigned long free_map[];
+>>>>> +};
+>>>>> +
+>>>>>  /** A fuse ring entry, part of the ring queue */
+>>>>>  struct fuse_ring_ent {
+>>>>>       /* userspace buffer */
+>>>>>       struct fuse_uring_req_header __user *headers;
+>>>>> -     void __user *payload;
+>>>>> +     struct iovec payload;
+>>>>
+>>>> Here I have a real concern. What is if fuse server sets up
+>>>> really really large buffers, to thrash the CPUs?
+>>>>
+>>>> setup_fuse_copy_state() is now changed to
+>>>>
+>>>> -       err = import_ubuf(dir, ent->payload, ring->max_payload_sz, iter);
+>>>> +       err = import_ubuf(dir, ent->payload.iov_base, ent->payload.iov_len,
+>>>> +                         iter);
+>>>>
+>>>> And the iov is taken as it from the SQE. Is there actually a really good
+>>>> reason to have the payload as iov, at least in this series? I could imagine
+>>>> it might make sense to have it as iov once we make the buf pools more
+>>>> dynamically usable.
+>>>>
+>>>> Could we restrict setup_fuse_copy_state() to ring->max_payload_sz?
+>>>
+>>> The payload.iov fields are not taken directly from the bufpool sqe. It
+>>> is assigned in fuse_uring_select_buffer() to reflect one buffer within
+>>> the pool. ent->payload.iov_len is set to pool->buf_size, which in
+>>> fuse_uring_add_bufpool(), we set pool->buf_size to be
+>>> ring->max_payload_sz. Looking at import_ubuf() though, even if we did
+>>> pass in the entire buffer pool size here, it is harmless, as the bytes
+>>> copied are already limited/determined by the request (eg on the
+>>> send-side, copies are bound by in-arg sizes and on the reply side,
+>>> fuse_copy_out_args() rejects any payload_sz exceeding sum of the out
+>>> args before doing any copying). Right now pools hand out buffers of
+>>> the same size so iov_len tracking isn't needed, but pools will be
+>>> handing out differently-sized buffers.
+>>
+>> Yeah, I noticed later that it is actually not an issue, but had already
+>> disassembled my equipment and didn't manage to reply before now.
+>>
+>>>
+>>>>
+>>>>> +
+>>>>> +     /* buffer id in the pool, if bufpools are used. ignored otherwise */
+>>>>> +     unsigned int buf_id;
+>>>>>
+>>>>> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+>>>>> index cfb055c0c764..f7173b5d4321 100644
+>>>>> --- a/include/uapi/linux/fuse.h
+>>>>> +++ b/include/uapi/linux/fuse.h
+>>>>>  /**
+>>>>> @@ -1312,6 +1322,14 @@ struct fuse_uring_cmd_req {
+>>>>>       /* queue the command is for (queue index) */
+>>>>>       uint16_t qid;
+>>>>>       uint8_t padding[6];
+>>>>> +
+>>>>> +     union {
+>>>>> +             struct {
+>>>>> +                     /* base address of bufpool */
+>>>>> +                     uint64_t uaddr;
+>>>>> +                     uint32_t len;
+>>>>> +             } bufpool;
+>>>>
+>>>>
+>>>> Ok, if we ever want to add a new bufpool, I guess we could
+>>>> invent "struct { } bufpool2;". Personally I would have
+>>>> preferred to have an index in here, currently always set
+>>>> to 0, but not a strict requirement.
+>>>>
+>>>
+>>> If we ever want to add a new bufpool, I think it'd be cleaner for the
+>>> kernel to assign the bufpool id and pass it back in the cqe to the
+>>> FUSE_IO_URING_CMD_ADD_BUFPOOL cmd rather than the server assigning it.
+>>> With server-supplied indexes, we would have to also track / prevent
+>>> collisions, gaps, out-of-range values, etc.
+>>
+>> Dunno what your plans with that are, but I would take that number as
+>> opaque user-space identifier and not something to be used by fuse
+>> kernel. In my mind without coding, I would put the bufpools into a list
+>> without an index that fuse kernel would use. IMHO it only needs to check
+>> if any pool in the list has free bufs.
+>> Anyway, while I would prefer to have the userspace identifier in the
+>> struct, that is not a blocker and we can add it in bufpool2 when we have
+>> actual usage. Or userspace needs to use the identfier from io-uring and
+>> we use that, as you suggest.
+> 
+> I don't really have a preference here. I can add a zero-enforced
+> "uint32_t reserved" field in to keep this choice open-ended for now,
+> that could be repurposed to hold an id in the future, if that becomes
+> necessary. Even without this though, I don't think we would need a
+> separate bufpool2 - I think we could just use "flags" to indicate
+> multi-bufpool, and have an "id" field added to the struct.
 
-However, the same warning can also be reproduced with the same build
-options using tinyconfig with FUSE enabled, so this is not specific to
-the kernel configuration used in the original build.
+I'm also ok with just a flag, we both just need to be make sure that 
+nothing else gets added below the union for ABI compat. On 64 bit 
+systems there should be padding, but 32 bit arch is not excluded.
+The alternative would be a something like 
 
-The comparison is between the 16-bit digest_size and a size_t-sized
-constant. Cast digest_size to size_t so that the comparison is performed
-using the same type as the size calculation.
 
-Signed-off-by: Ali Nasrollahi <A.Nasrolahi01@gmail.com>
----
- fs/fuse/ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+		 * created with FUSE_URING_ZERO_COPY. On a non-zero-copy queue
+		 * this must be 0
+		 */
+		uint16_t ent_zero_copy_buf_index;
 
-diff --git a/fs/fuse/ioctl.c b/fs/fuse/ioctl.c
-index 3614ea603913..3487e30d997c 100644
---- a/fs/fuse/ioctl.c
-+++ b/fs/fuse/ioctl.c
-@@ -130,7 +130,7 @@ static int fuse_setup_measure_verity(unsigned long arg, struct iovec *iov)
- 	if (copy_from_user(&digest_size, &uarg->digest_size, sizeof(digest_size)))
- 		return -EFAULT;
- 
--	if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
-+	if ((size_t)digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
- 		return -EINVAL;
- 
- 	iov->iov_len = sizeof(struct fsverity_digest) + digest_size;
--- 
-2.55.0
+		/* To enforce a specific size for the union on all CPU archs */
+		uin64_t for_union_size[2];
+	};
 
+
+
+
+Thanks,
+Bernd
