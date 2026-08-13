@@ -1,137 +1,117 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282A22F1FEC
-	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 07:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6F82F9D82
+	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 07:07:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786604487; cv=none; b=hkLuVL7yGfWpla0me2ZYLEu735aHPozMwlkZ4XsYBg22Rfg79Xv9UkT6hKI+jzAuoHY0Z9MtQODJxXtOT7v6waHjQ51jgYMxKI1EhHE/P15R14zQTUQKK6XdrWXA3IprI2ZeSziw/69uQWlWy742lt8tU2BlLAxGIxQjTcYKfzc=
+	t=1786604840; cv=none; b=G2Y8xMgIQVt6XB07LBfnLBSJnUAGLruORXDBVSFIch1BwRRBOeZGd7xHbdtysadajhl+gbv4hK1DnkTSMTbKeBHtn47QW76B2gY+Z8IA/XLpswtV+mAj3CaKjfwdNrbdBsdyLdn8AnsTjFc/p8s6Tf5TPTth8iwN/vc9FYOjHr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786604487; c=relaxed/simple;
-	bh=pJ4bXSHGfm8TbQyOoSBLs6jPz6gU1/UAwnTr/Sicq3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EsQtBqOgLX/g5g8ieiX4IRj2DPmmA3Ltkz4Sr8ZPFMFkvhOv3Qof2QkAG3csGEG4cZWb8opFulLvnzCzj8LZjLBRDPdcXvx+Lqv1dk8ygJknpsj6JwMguPE3h1MyE9ejDYAT2to82dFCUNT6lDXXcfgoShXM15VNyjL8E41MsCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CXF44Hkg; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1786604840; c=relaxed/simple;
+	bh=dvtVXTBpPANpd/CP6OTRiErgstDc7nass+eIVRqpM2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IHWuhHKEo+KeRU9eUQiKfHr45jiCqyGzzFJBgTBUuEf0e8f9eNg9Aj2eIUaYeqxMHwG7bL0pD1qYV+7RRwDMi1raDuLb/Ll0GyT13J3vwYUQl9/0jtLt22TUuiH/m05lXFARHR9PABthyAgvzToksdmwxXaNX+2HsXZHIlohcFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DRvo79uD; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CXF44Hkg"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so508093a91.3
-        for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 00:01:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DRvo79uD"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47de0093c42so1626075f8f.3
+        for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 00:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1786604476; x=1787209276; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/+va/p8eCSzFb3xt/YoCSohYQyDiAZvnN1kvdxdc8t8=;
-        b=CXF44Hkgbza01JJQioMua1fSGwMjGrsfOv1TU+By1SMT9EZagPk/EY4uV5P42WNhhr
-         J9WaEIh4s27jRxGZHFWUTlW0M0lHWSUH0OflRzgp3p8DdOi45+8rb1YfuZD/V68AEesi
-         EIjXrc0METAcvfmKqF6rUQoA03KlvD4RVnNSg=
+        d=gmail.com; s=20251104; t=1786604837; x=1787209637; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZBJlGaBVvkoWha3BD37z+KADfrwniJqY/MnyXvUctT4=;
+        b=DRvo79uDg65qOBvjm6O8LLQiJHO7BXLfreLB+X2ReTaeV0tQ3O2hix4Jm8lu9k3erG
+         ZXeImlT1mMnX0xvJIpQnRfpwsNLC9+TgZiz3BVqe+HDiOU6X4SH7gG+48g7jS+Q71M4G
+         zge/os34AunrCWV7W3+oUPYjptMC/xDf9AfTDpnxI09udMfR/adQpXYpISWkXrU46GL1
+         xHiuNe4ipYsed9xY/hT4Bjvat+zwd+YpvfMkdCKYRcCyWn7ivk8VpUlQFxVOcEOLdw9A
+         L3lOvhdmViNks/v1x0A+yNRU0mOP0k6KO2oAnVZsGdkEO20ax0cQFw9c+VgMRnyv6nNV
+         dUCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786604476; x=1787209276;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/+va/p8eCSzFb3xt/YoCSohYQyDiAZvnN1kvdxdc8t8=;
-        b=euCIIge+lph5urGLKpeCol/j9e44k8smYLo5JI1SPXrzLfbNM5em2BXCDwmty4ebA/
-         gvEOsmIQG9sZWDkdpJHq3sPQ8BALQFZNdLygAbFgwy+O8j652C8O5jMSzCztFt7o8aPr
-         HALi0bBqpRAHCmss3d74syusxpdSLXPjEJM/YBo2BqtDLT4dT6L6oclZHfPbVMJ5An2U
-         DgVqs3/LMv6pDCYU4fRHbtgs6m3aiYA3ZaOqCNddTopP2SyGUE/MANWxXlaIZ2eZ6g3u
-         +gey/ZBf270f9eDPIO4ddSLKfatIBe1BvGek4Bxf+26Vuf//z/rujO7c0nbrvenH9ogI
-         7tBA==
-X-Gm-Message-State: AOJu0YyHLX6Oof9s+yaO4fgY4i50YOwSSUu+RB20jesBZ2b5hYGlLBCZ
-	2Ai877C75Vdnvj5dQqIiF+buCsjxLHVUQs6g2YP+uxa0zXZNPIQe6Wl9KDlYyOr3Kg==
-X-Gm-Gg: AR+sD10aCB33FIzRw79Mv8OJajisJ/BecRXa/wUdi3j5fKf+6a895fuhhp4slrKcDav
-	ljU3i87fiFr/5aAh5KSW26lkKNi0jApvPA9SsLHz31w7yYqpa8osMm5Lnq7McGDoDbUp1w+zlCN
-	5WogPuYMZXWDHFzBb/3K4by21vOrF/ZpH403c0lsQGD8/Apc9VF/BwbJK13ZOgPSPT1Jsl+st9s
-	bE5/dVUofvRR98scHRemEaTaNm//wKsEg+Oj90w0xihPqcgK+3gg5JtaARlvmrgPO7xpox1bg58
-	7zIeDNr7rW/wpa0GV2KZvjshuOZ8hrfI2bhun+/FBHQb9ftmrbx9skzpjocCWJGpjD+25I5P9js
-	3dMZLSuGH/Bn9tFwiDBA+eE7DLrG2FetMp/E0r55OYfHah/rpdV5p3044TdC+4cRAn/Lw6IKLZZ
-	Ssk4CpAp4udOkgbYfm22tYwMwMH0v3cJUSszGh7ZwYIoRsXcegLjneszgqBhdsG7w34uhsqKN48
-	ASsRGUD+Xv/b55Bg9vFvekAMCB5
-X-Received: by 2002:a17:90a:e70d:b0:38e:7268:220d with SMTP id 98e67ed59e1d1-3931e31b7d7mr4571815a91.20.1786604476449;
-        Thu, 13 Aug 2026 00:01:16 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2031:6:d0c1:aa7f:9c69:12bc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3931db13c3bsm671336a91.3.2026.08.13.00.01.14
+        d=1e100.net; s=20251104; t=1786604837; x=1787209637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZBJlGaBVvkoWha3BD37z+KADfrwniJqY/MnyXvUctT4=;
+        b=fXVxYXM6Jzx7AocRB3AaDiYyF0d0nw3o5JYz1i3Nf5IPq3RogrgV+1yEUx6cjRzc0S
+         2RJxlxM9eOT45RZE3XvMueHk9AUOG5iFpraPpMyILpctKzawR1hxCPoiE4vWIlEyF8Mr
+         WUhwJXXsfHHuIBVEm58jtB6nXU+zyAoasFrOk6p4Ar+U/6fyN04njnR9gzzl7P/uQN5e
+         O/8XpcgPAL/a3aFa5Wv/KilNF9VWFnm78eLndEY9EFkTTBDOuGlGcN0ufeHpCDEnax4V
+         GZpTprPVpCJ7+68N57hEoNXe2rpvR3zS6ukenSG4OTiFb8ezpFbEO234phISLM0dFIky
+         EPrw==
+X-Gm-Message-State: AOJu0YxWk6BjDLBn1zxxNFRZAvBIGyQpvPnA4e/pPeqbL6k3FCbthkJI
+	F56oC2KINIgH3tSZiNZqXtRFlhoubFpUpV4MZRKTBhTSYmXub+OIhbV2v9TW1bJuB+Y=
+X-Gm-Gg: AR+sD13YU6Fe8abzV0oDvIw3HLBS68q8IhvdkS3sRDhHfB2ll6NxdIBOMYIP9QCm4eE
+	lX3MT3PQTzCCNfnQjcw0vTUMezZSq2fh+1y0W6RBi3EuRZRJnMB/8RuN5RdwLsBPcy95dNGRgO9
+	hZgeWQHK03GD8hieXmr3YQb//4GN74+xnkaGj48SRhB73sT3EOurVmzANTPR3ugMxb6yZ4G8TP7
+	JOC7oq+zAhDir3J3IefKst0rz1posL049o3bZEq/CIgtL/NtNObdrms7yWzy3+By7OjE59OtyXo
+	5QPcYX0L/Ehjtg/x4SHSL1Czugb9pY/6ZMVBP8jT3SoQNpb2kMgJaRT0j33P3YFOy7ERKHEtSwb
+	gie8+urZpRLeYRBktGKaBwpyKI2lQT99PZ0FabILBQlAo4z4C/GZutH4S0SmQ+0wczzw4piPQl6
+	1buUhYNE+eoOeeAYa46YNmeqdgksGI1doWnwRPowFR5d+eB2GsbRtc8/igBoPP1Y099A/xpuvQP
+	zblgGdStLYIw+o4xQ==
+X-Received: by 2002:a5d:5e0f:0:b0:47f:f002:3652 with SMTP id ffacd0b85a97d-48159ec134bmr3193548f8f.12.1786604837294;
+        Thu, 13 Aug 2026 00:07:17 -0700 (PDT)
+Received: from zephyr ([77.237.185.99])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-4815a569c1fsm3725870f8f.15.2026.08.13.00.07.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Aug 2026 00:01:15 -0700 (PDT)
-Date: Thu, 13 Aug 2026 16:01:12 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [RFC PATCH] fuse: permit freezing while waiting for request
- answer
-Message-ID: <an1qlV7yYfnznMbU@google.com>
-References: <20260812095431.1216919-1-senozhatsky@chromium.org>
+        Thu, 13 Aug 2026 00:07:16 -0700 (PDT)
+From: Ali Nasrollahi <a.nasrolahi01@gmail.com>
+X-Google-Original-From: Ali Nasrollahi <A.Nasrolahi01@gmail.com>
+To: fuse-devel@lists.linux.dev
+Cc: miklos@szeredi.hu,
+	linux-kernel@vger.kernel.org,
+	Ali Nasrollahi <A.Nasrolahi01@gmail.com>
+Subject: [PATCH] fuse: ioctl: fix comparison in fuse_setup_measure_verity()
+Date: Thu, 13 Aug 2026 07:06:29 +0000
+Message-ID: <20260813070629.248821-1-A.Nasrolahi01@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260812095431.1216919-1-senozhatsky@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-On (26/08/12 18:54), Sergey Senozhatsky wrote:
-> Suspend freezes tasks in random order and doesn't take into
-> consideration producer-consumer dependency that may exist
-> between tasks.  One example where this can cause issues is:
-> fuse server getting frozen ahead of clients, which then get
-> stuck waiting for req answers that never come (the server
-> is already frozen):
-> 
->  PM: suspend entry (s2idle)
->  Filesystems sync: 0.018 seconds
->  Freezing user space processes
->  Freezing user space processes failed after 20.001 seconds (1 tasks refusing to freeze, wq_busy=0):
->  task:ThreadPoolForeg state:D stack:0     pid:7873  tgid:7854  ppid:7827   flags:0x00004006
->  Call Trace:
->   <TASK>
->   __schedule+0x554/0x1320
->   ? vprintk_emit+0x2a8/0x320
->   schedule+0x5e/0xd0
->   __fuse_simple_request+0x4c8/0x6d0
->   fuse_do_getattr+0x1e9/0x320
->   fuse_update_get_attr+0x362/0x6a0
->   fuse_file_read_iter+0x13a/0x1b0
->   vfs_read+0x29f/0x2f0
->   ksys_read+0x75/0xf0
->   do_syscall_64+0x70/0xf0
-> 
-> Make all wait-event calls in request_wait_answer() freezer-friendly.
-> This uses TASK_FREEZABLE_UNSAFE because often time we freeze holding
-> locks (in the upper layers), which triggers debug_locks warning.
-> 
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> ---
->  fs/fuse/dev.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 27dafda2a841..9e98ece4143f 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -703,8 +703,10 @@ static void request_wait_answer(struct fuse_req *req)
->  
->  	if (!fch->no_interrupt) {
->  		/* Any signal may interrupt this */
-> -		err = wait_event_interruptible(req->waitq,
-> -					test_bit(FR_FINISHED, &req->flags));
-> +		err = wait_event_state(req->waitq,
-> +				       test_bit(FR_FINISHED, &req->flags),
-> +				       TASK_INTERRUPTIBLE |
-> +				       TASK_FREEZABLE_UNSAFE);
+Clang reports a warning in fuse_setup_measure_verity() in
+fs/fuse/ioctl.c when comparing the `__u16 digest_size` with SIZE_MAX
+minus the size of `struct fsverity_digest`:
 
-Or I can switch to TASK_FREEZABLE, people probably don't run fuse
-under lockdep, and that debug locks warning is WARN_ONCE() and
-is not a terminal condition for lockdep.  We landed TASK_FREEZABLE
-a while back in fuse_get_req().  Alternatively, I can also switch
-fuse_get_req() to TASK_FREEZABLE_UNSAFE.  It sort of exists for
-cases like this, on one hand; I understand that adding new
-FREEZABLE_UNSAFE users might be problematic on the other hand.
+	warning: result of comparison of constant 18446744073709551611
+	with expression of type '__u16' (aka 'unsigned short') is always
+	false [-Wtautological-constant-out-of-range-compare]
 
-We use fuse on consumer devices (laptops) and suspend is important,
-failing suspend is a bad user experience.
+This was first observed while building an x86_64 kernel with Clang and
+W=1. Since -Werror was enabled in my build, the warning caused the build
+to fail.
+
+However, the same warning can also be reproduced with the same build
+options using tinyconfig with FUSE enabled, so this is not specific to
+the kernel configuration used in the original build.
+
+The comparison is between the 16-bit digest_size and a size_t-sized
+constant. Cast digest_size to size_t so that the comparison is performed
+using the same type as the size calculation.
+
+Signed-off-by: Ali Nasrollahi <A.Nasrolahi01@gmail.com>
+---
+ fs/fuse/ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fs/fuse/ioctl.c b/fs/fuse/ioctl.c
+index 3614ea603913..3487e30d997c 100644
+--- a/fs/fuse/ioctl.c
++++ b/fs/fuse/ioctl.c
+@@ -130,7 +130,7 @@ static int fuse_setup_measure_verity(unsigned long arg, struct iovec *iov)
+ 	if (copy_from_user(&digest_size, &uarg->digest_size, sizeof(digest_size)))
+ 		return -EFAULT;
+ 
+-	if (digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
++	if ((size_t)digest_size > SIZE_MAX - sizeof(struct fsverity_digest))
+ 		return -EINVAL;
+ 
+ 	iov->iov_len = sizeof(struct fsverity_digest) + digest_size;
+-- 
+2.55.0
+
