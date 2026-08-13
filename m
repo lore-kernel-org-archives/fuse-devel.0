@@ -1,75 +1,74 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9806945628F
-	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 11:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFFF48987D
+	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 17:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786618868; cv=none; b=LD4hE5U0T1x9Mi74TXUroo4YnzpVobHr2dohGB8AVkUTqgtBMH+4NYs7qPVLN1sZJ+oxKHs8kq7ezvxPGwL8GiQ7gaU6XBTBRnnHuNnio0u6pYFAEzwVpoY/Rk/O9q7z3zp8aLwYBg+cmtHH8SO8SiHBwLWDzCCm05YmrWZa69g=
+	t=1786640493; cv=none; b=MKN0CTDmExfuXuyY4BRqXsW8nf0Zt1qnh44ylS3J9Xpgj/MxoXZsMifO5Iewy12VYIRKcVXAi82R/kOXOXkZ8ZWFGqcZqy2+Lu2hN8PZzMEVlwXVlbfdLpWCyJva803sdKF2Ax+WcdA/SfUdjFSO7fYr/u4qxrW5XTij3v8l80I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786618868; c=relaxed/simple;
-	bh=buCUQAMZ41VaxQnz4Oj8/raDLXthokPzKuZ9jT91xn8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DfoP94Utb0uuE1GPs7077WuULM17prqaj+hqb2Exs4aifKRlE6D3U+pwTL9ioWljxk92ZkFx65fSlImecDUKHIv1aF7ZwteIOE+FM4O5vN6UXM2kp7nn22eaJdIz1cR7tdUrfVKXf3VVFrehdL5W1r/UeB/iadWm2JjSo05L0lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=g/06DoPx; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=FiZ5inWN; arc=none smtp.client-ip=202.12.124.154
+	s=arc-20240116; t=1786640493; c=relaxed/simple;
+	bh=nzq8hPFh0MLhLgKs3f4eiTWCY5j/h8Lwe/TvWsHY30M=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=Peeg7lvhHMQkz88bU/W4GXutzZ7HZmINllef24JbFw5qqKqxMXWn33sUWUQ4K9wxJQLD9ShMv2UsqTcY1vJ8b+QxurN8fvFYqKkGzwKtHPbv1WDqPR/D8d8KTFpa4+B/pagS/oaYbu2XBExHNbhww0O0MQK7JiQL2DDLwpDHzEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=fa7ZeYZm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hPLKqFIR; arc=none smtp.client-ip=202.12.124.153
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="g/06DoPx";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="FiZ5inWN"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 9E11B7A0114;
-	Thu, 13 Aug 2026 07:00:55 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 13 Aug 2026 07:00:55 -0400
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="fa7ZeYZm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hPLKqFIR"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 7CA737A002D;
+	Thu, 13 Aug 2026 13:01:30 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 13 Aug 2026 13:01:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1786618855;
-	 x=1786705255; bh=AFTgmgsNwb8k8YdFVtxgmyQxLgKjikyvfk3vsWdHSQo=; b=
-	g/06DoPxM6PhgvGdTXpHVYxew/Qb63ZXROAE1GQ4IXPqx7s1JviZq1L5PNNtm9ga
-	eeP8VWgWRMzZbwLSJVP+e6FKMmEwagxntyJa9jxhnPyyxq6c6tGc2h1qvwIp+EO0
-	d9hqYaweMU+0XZoI/JDuWlCVYCnFeAUP3fq3I+TxEU28xeSkIdbe9GSBvMhku/cd
-	L18acY+KlDtJX7Evly48HnJHEizC8h/0hy1r4q2Q+zNji4EYqgISmTOVkhTKI2AW
-	fSQPrF9eNKjFLkTL2PzmFwEMFGRfRhbOY0MKZq8wQom1srK7ltX4HwpbTSSt7uac
-	DoOac3jR4gZQt/Ydyi8BZg==
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1786640490; x=1786726890; bh=aVQdEqgKyX
+	cCSfKBDO9paiPIjpLvjQeNUJa+bVPdvm8=; b=fa7ZeYZm0vOrYAvx2A74/Y3ZfV
+	NIPQxiQ6o5acxt2QcFzpCiqMKbwjT2SjKpT9CV8B/+R6CMdQDOjBwRRStNs6oTeU
+	15zuFJvY6X1fP5f8LfCsBtRQt8HYSKyAx6GNTvu9jRgj4DW6hb3VB9V9DgGPyOfK
+	P+U+qLRbCc3naoOFTkjj8PZxRbSP8GWqQO1egLqBBVLatLfqY2Be90UAWr8w1v0i
+	AcO9IoKVuM+R91DSv7+0OZJkdMfUpWzQ74LXl/2JhoB8JaCfBY2wzAcw7lhLARET
+	mfRbk++Uzwpe6/QD3It5aDmkRRvRGhRuq2tY7+vWMQxeM7DtgqGX67RbL6ow==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786618855; x=
-	1786705255; bh=AFTgmgsNwb8k8YdFVtxgmyQxLgKjikyvfk3vsWdHSQo=; b=F
-	iZ5inWNVEkJd+mtYO1MQeS288iKYMjrIqBWHkPJCrjkjxbOnz1Rt1Va3G9QgdVtO
-	CkD6IkaFINqdg8SVTqWU2tcIdSHPHd4J0esKYbpIDcdtQgFS4I3IkorgdAoVO6Lu
-	cQH3o3DPO9W+CrKAoEmjg5fyN1MIMqdkSwnKdM212gTbOIze4Zf+3ziZXKvtEki2
-	V653T6c0Ym7n8THLJ/jckICEdv3Hc3U0ujk7EH6TAGq1aNFSMCi4PZZSHJNZUZTZ
-	Duw4vh/q/a4qslYkERMh1KYmcUwkuTUPGNHwnVKgaN8KDpvLD0bVV/jdxDfsudHp
-	x0h1IiAKfcIEx6Er5o3+w==
-X-ME-Sender: <xms:5aN9amAKa8FNWXQFzwflRv-z3X4Oqb9VSqj-FEa3vSl-komyaTFFhA>
-    <xme:5aN9ahMZFeVDsRsArkVjO91TLDKPQIUIiaz0265rSSPJnFb9EYUzHSCE1smEzRJjx
-    syl1n9-Zv0oS9Wo1ZxBFUB8D4H9I8Y64nQSWkSXz2huHl64Nrj9CA>
-X-ME-Received: <xmr:5aN9anyTu10zvv-gF1JUyBqd2qQTgI33wzYTgWg9AkA34h63eRE7rywhhAuM85i2hyx7yjNaOSSoVmPLWjcHNsnnNITrPCAbLqyAXSbLSjyZ5lAbw5eg5GC2>
-X-ME-Proxy-Cause: dmFkZTFChU0l17PwWkb7ND7+B8DfjODFef5797kApV426U5RjLmXxx0d5WekgQNCXro8Sx
-    DUsiv0pjfW8/FnLi/uYn+s7arJ9w5O2YKs6vuw0PKCn7e5O2RI2EWlJ6esvjIRzLVVGNOC
-    jLFZWzGl0QoUbgg8qB/Epb5cvPzYkd7Lv5XQG/dSD/2F50Is/HKjVGCWWs4sZY6lrPDcwb
-    MaMqNthH3Y44qUUUyxcIoVQvk5PABv+BwP0XJ77sPR2twVcvwg69Cheroi3WtP7JfhUWGM
-    CX9YF0ktg9a7jBmeTgOfHskObJY3GrThcMNhO2qsyiAmrAuvjOMvAwVp9Dkf7ileOX7AIs
-    PLVyVUNryKQCkDKfmWYx53y7nhHSGoyu8IBXsPihAAMJLw/qz1X3iO9lWKzPB1SHE3Ccik
-    CNZuq1eMIbdFIrJpFxnuAR+JroatsVCwvWyewnqBBMb5IRm9YOobZVs5eMEjlTUi2Lpqhi
-    JL+4/cwMgIMmfHkU2DYUZ0mFo8uP87Th1JzyK0EGJucokC4dvL/W+nt30TwQSd7mYKrp2D
-    YB3fOJHJos0yKM3NPIR8KdIpMmMTqRPl6yXp4e7g4maSultdYPRw8QmHSNClSefeBbVdr3
-    I5dzwBOMnwXTX3SG+wvb0cdjZhatiRF0+GvPtRmlC9VXfZTPJ1OobQSrpbLQ
-X-ME-Proxy: <xmx:5aN9apWT_D9-U7-VUWNBWnw0SGrN9xhBhFeY9Zp3Mb0w5e07Sgm5dg>
-    <xmx:5aN9ahMQWeLUeuWeVLUz5dYvQZBRrg2rboH_BGUNFujl5BsrbMtQLA>
-    <xmx:5aN9ajDlST6E2MnnsqA_hATHtxIevMtAOVQc8QVklc0baGL8LbMZ9w>
-    <xmx:5aN9amdzLGWXgGnIEaXK4FbGXzI0NGpRJUAFiQVFHwUyCSkEIpZ4tA>
-    <xmx:56N9arTJdBUuJJ_af2mrggoe5M4N8rKuLilaWsxUPhmuKFItSOh5bHef>
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1786640490; x=1786726890; bh=aVQdEqgKyXcCSfKBDO9paiPIjpLvjQeNUJa
+	+bVPdvm8=; b=hPLKqFIR8LJdt2xjdpVW8UjcCmxynGgb6l73hliBnI5haMGAYXK
+	lo7PFX7Ksb3QQXQc5390gDzO9+Lavb8tkPd0OOXMT9Jvt/FJj2SUiqqY4TCJZd3C
+	QwUOSE1re1myEMELlTvacyXXY+q67vLwrEm3ge3dAorlH1YSWEE9KtjuxawZ3Q3k
+	ab+zWXtyTRuvQQ/w/AKb/tVt3Rt05ujkcLbGLPh1tbaCW2F5M7T8pzAfhS5rtuyq
+	x9i8ml6zQmb/RNLOHZRoF0RggHDMzcAvJMInjdePO79m8ffGFACxfxqVWs1669JA
+	9/qJdA30VhD86+rR2fjt3o2dxAnssnWz7Xw==
+X-ME-Sender: <xms:afh9arPxqmA6t43LQVddK7NkZ7lapBiUhOOVcKSFtJosm_jg_M7HbQ>
+    <xme:afh9amopo1cWWZzlci3NdkrXEiKMXQ31p1X0kvxGduC8C3K-VPrTfpFJ7yZzmtT4G
+    oRchY1PrddwqLDDRnC7FGPNuDHeZouGGltKa-nNwHL9eVIqimgb>
+X-ME-Received: <xmr:afh9aoeyGkm6fADr_In77xpygRRkvoSb8jVl-BUz73C67pownTU_fl7VjTx8dxaQLdqe7FQhFsDcZw-bJJewKSgxoXS22CyT-nWTHu0g6me3ddolyuYMOllT>
+X-ME-Proxy-Cause: dmFkZTFvgBeH1S+nD/YmBEIErfVD2dnPom2FaOi3L4q4po+K+aC7a6AVm7M/wlgR5g55dR
+    M1qgsENqrCldYkObVOCuw81UT1i5i1eaLR5T84s6s9KL9cvVd5fAYugUoeTzqJ8sQS/jdH
+    CqL4mUIGiMaeJ0i/jo7ISvhNYT7B+fYLVMj2gPWn+rhl3Xe0pDVOXUVgRoAikFJORx5P6G
+    OyF4bPOBr09158+7MT6nmuCd0RW/R6qOE5JlzVFlWn4LQ2ybHKLl+nAhQruFPOCGvb+tmQ
+    IfvAFa+4aYYdLjgXrB84XaKuKEchfk2B39JMzVvn48Sb74YLPXZWJ/LR35J85Gi77ywIEh
+    GZi/D4c+OtFpssF293pLTONE0DolW+OK5ahPFK8TcRi/M0qmwzi+tPqDVf/XzQF9/UoITn
+    OTwm7tNsYUucy2wH2EmXMPcuJfepPX4coIMUdYn8ugjmuo09IREuCCNH6MxCkzaAmXQJ/3
+    gYvfcEfkZ/tg/MLHuXsOyTI+paCgVQYOk3zmqdtvlNkUITdBlSeoD1hZ2ANM/SrJlRB2N9
+    i7TcK5KmhNwtY0DmP0w4ZDnGGNAFfkpTwYchcmAZhMXyk0bPubj419NHf8oVSQe2XRWEpj
+    OrCWhshmfjwzqq6GH8iZZmg7MKZva3y+y25VCigqWbh54ug+mUHkkZmEwHUA
+X-ME-Proxy: <xmx:afh9akSthBUAk6hiGw_lnMkxhPU9Y_TOqeIf6QYrY4HKZ-dnEhTP2A>
+    <xmx:afh9apY5s4MaZXM1oJ_78wx1mleKNCRKcFqWJh1VmDz5XJE_RZqWFQ>
+    <xmx:afh9avdDvdEO307Uj2q5dsIyMaYnLwyBsAC3vR_shAsgZcXfqq0AVA>
+    <xmx:afh9aiKY5sW0junZ-2m_nEfcXdI03TRBd2CbGKMXCpMM0x7HoILkNg>
+    <xmx:avh9aq4bdyVKxasJ_PJ5-Bk8H6xfTtvJIRYO_0sXuHXKDTb7BQyoXYOU>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Aug 2026 07:00:52 -0400 (EDT)
-Message-ID: <0c85a312-cc12-4f28-a675-0576540e3a00@bsbernd.com>
-Date: Thu, 13 Aug 2026 13:00:50 +0200
+ 13 Aug 2026 13:01:27 -0400 (EDT)
+Content-Type: multipart/mixed; boundary="------------L6zYhcaaJdCWteYj84GaszRm"
+Message-ID: <d8ead20f-91b6-49d6-95f5-f54dd76a411d@bsbernd.com>
+Date: Thu, 13 Aug 2026 19:01:26 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,221 +76,194 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/6] fuse: add io-uring buffer pools
+Subject: Re: [PATCH v6 5/6] fuse: add zero-copy over io-uring
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: miklos@szeredi.hu, jlayton@kernel.org, libaokun@linux.alibaba.com,
  axboe@kernel.dk, amir73il@gmail.com, fuse-devel@lists.linux.dev
 References: <20260716175908.2339738-1-joannelkoong@gmail.com>
- <20260716175908.2339738-4-joannelkoong@gmail.com>
- <865afb18-533b-4542-86f8-c77215175c41@bsbernd.com>
- <CAJnrk1beAMwnaUANB6MyPv6Rqj8gZ5FaQZ80zrBA=JNA1vdyOA@mail.gmail.com>
- <87e52592-854f-4650-8a14-36e64a629d37@bsbernd.com>
- <CAJnrk1bsqY=SAovPYBxPM9fSSQT7eU9seEez2fQqSGRVqpUpXA@mail.gmail.com>
+ <20260716175908.2339738-6-joannelkoong@gmail.com>
+ <777e9671-aff7-41e7-911c-dc3aacc877f3@bsbernd.com>
+ <CAJnrk1bmxOXn=4W8fgn1ckGsoJasQ0AzuZpBP46uA3bhQvyjLA@mail.gmail.com>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAJnrk1bsqY=SAovPYBxPM9fSSQT7eU9seEez2fQqSGRVqpUpXA@mail.gmail.com>
+In-Reply-To: <CAJnrk1bmxOXn=4W8fgn1ckGsoJasQ0AzuZpBP46uA3bhQvyjLA@mail.gmail.com>
+
+This is a multi-part message in MIME format.
+--------------L6zYhcaaJdCWteYj84GaszRm
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 8/13/26 00:38, Joanne Koong wrote:
-> On Tue, Aug 11, 2026 at 2:28 PM Bernd Schubert <bernd@bsbernd.com> wrote:
+On 8/13/26 01:19, Joanne Koong wrote:
+> On Wed, Aug 12, 2026 at 3:30 PM Bernd Schubert <bernd@bsbernd.com> wrote:
 >>
+>>> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+>>> index d50792162d8b..3d1910a9db52 100644
+>>> --- a/fs/fuse/dev.c
+>>> +++ b/fs/fuse/dev.c
+>>> @@ -1247,11 +1247,20 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
+>>>
+>>> @@ -746,6 +786,62 @@ static int fuse_uring_copy_from_ring(struct fuse_req *req,
+>>>       return err;
+>>>  }
+>>>
+>>> +static void fuse_zero_copy_release(void *priv)
+>>> +{
+>>> +     struct fuse_zero_copy_bvs *zc_bvs = priv;
+>>> +     unsigned int i;
+>>> +
+>>> +     for (i = 0; i < zc_bvs->nr_bvs; i++)
+>>> +             folio_put(page_folio(zc_bvs->bvs[i].bv_page));
+>>> +
+>>> +     kfree(zc_bvs);
 >>
->> On 8/7/26 00:18, Joanne Koong wrote:
->>> On Thu, Aug 6, 2026 at 11:36 AM Bernd Schubert <bernd@bsbernd.com> wrote:
->>>>
->>>>> On 7/16/26 19:59, Joanne Koong wrote:
->>>>>
->>>>> @@ -1397,14 +1578,17 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
->>>>>       req->ring_queue = queue;
->>>>>       ent = list_first_entry_or_null(&queue->ent_avail_queue,
->>>>>                                      struct fuse_ring_ent, list);
->>>>> -     if (ent)
->>>>> -             fuse_uring_add_req_to_ring_ent(ent, req);
->>>>> -     else
->>>>> -             list_add_tail(&req->list, &queue->fuse_req_queue);
->>>>> -     spin_unlock(&queue->lock);
->>>>> +     if (ent) {
->>>>> +             if (!fuse_uring_prep_buffer(ent, req)) {
->>>>> +                     fuse_uring_add_req_to_ring_ent(ent, req);
->>>>> +                     spin_unlock(&queue->lock);
->>>>> +                     fuse_uring_dispatch_ent(ent);
->>>>> +                     return;
->>>>> +             }
->>>>> +     }
->>>>
->>>> Pure style, somehow "if (!fuse_uring_prep_buffer(ent, req))" reads like an
->>>> error case, *maybe*
->>>>
->>>>         ent = list_first_entry_or_null(&queue->ent_avail_queue,
->>>>                                        struct fuse_ring_ent, list);
->>>>         /* no idle entry, or no free pool buffer for this req */
->>>>         if (!ent || fuse_uring_prep_buffer(ent, req)) {
->>>>                 list_add_tail(&req->list, &queue->fuse_req_queue);
->>>>                 spin_unlock(&queue->lock);
->>>>                 return;
->>>>         }
->>>>
->>>>         fuse_uring_add_req_to_ring_ent(ent, req);
->>>>         spin_unlock(&queue->lock);
->>>>         fuse_uring_dispatch_ent(ent);
->>>>         return;
->>>>
->>>> err_unlock:
->>>> ...
->>>>
->>>> and similar in fuse_uring_ent_assign_req()
->>>>
->>>>         req = list_first_entry_or_null(req_queue, struct fuse_req, list);
->>>>         if (!req || fuse_uring_next_req_update_buffer(ent, req)) {
->>>>                 fuse_uring_recycle_buffer(ent);
->>>>                 return NULL;
->>>>         }
->>>>
->>>>         fuse_uring_add_req_to_ring_ent(ent, req);
->>>>         return req;
->>>>
->>>>
->>>> Just a pure style suggestion, though.
->>>>
->>>
->>> Happy to make this change. Thanks for reviewing the patches. I'll wait
->>> until you have finished reviewing the other patches in this series
->>> before sending this.
->>>
->>>>>
->>>>> -     if (ent)
->>>>> -             fuse_uring_dispatch_ent(ent);
->>>>> +     list_add_tail(&req->list, &queue->fuse_req_queue);
->>>>> +     spin_unlock(&queue->lock);
->>>>>
->>>>>       return;
->>>>>
->>>>> +struct fuse_bufpool {
->>>>> +     /* starting uaddr of the bufpool */
->>>>> +     uintptr_t base_uaddr;
->>>>> +
->>>>> +     /* size of each buffer in the pool */
->>>>> +     size_t buf_size;
->>>>> +
->>>>> +     /* total number of buffers in the pool */
->>>>> +     unsigned int nr_bufs;
->>>>> +
->>>>> +     /* bitmap tracking which buffers are free */
->>>>> +     unsigned long free_map[];
->>>>> +};
->>>>> +
->>>>>  /** A fuse ring entry, part of the ring queue */
->>>>>  struct fuse_ring_ent {
->>>>>       /* userspace buffer */
->>>>>       struct fuse_uring_req_header __user *headers;
->>>>> -     void __user *payload;
->>>>> +     struct iovec payload;
->>>>
->>>> Here I have a real concern. What is if fuse server sets up
->>>> really really large buffers, to thrash the CPUs?
->>>>
->>>> setup_fuse_copy_state() is now changed to
->>>>
->>>> -       err = import_ubuf(dir, ent->payload, ring->max_payload_sz, iter);
->>>> +       err = import_ubuf(dir, ent->payload.iov_base, ent->payload.iov_len,
->>>> +                         iter);
->>>>
->>>> And the iov is taken as it from the SQE. Is there actually a really good
->>>> reason to have the payload as iov, at least in this series? I could imagine
->>>> it might make sense to have it as iov once we make the buf pools more
->>>> dynamically usable.
->>>>
->>>> Could we restrict setup_fuse_copy_state() to ring->max_payload_sz?
->>>
->>> The payload.iov fields are not taken directly from the bufpool sqe. It
->>> is assigned in fuse_uring_select_buffer() to reflect one buffer within
->>> the pool. ent->payload.iov_len is set to pool->buf_size, which in
->>> fuse_uring_add_bufpool(), we set pool->buf_size to be
->>> ring->max_payload_sz. Looking at import_ubuf() though, even if we did
->>> pass in the entire buffer pool size here, it is harmless, as the bytes
->>> copied are already limited/determined by the request (eg on the
->>> send-side, copies are bound by in-arg sizes and on the reply side,
->>> fuse_copy_out_args() rejects any payload_sz exceeding sum of the out
->>> args before doing any copying). Right now pools hand out buffers of
->>> the same size so iov_len tracking isn't needed, but pools will be
->>> handing out differently-sized buffers.
+>> kvfree (see below)?
 >>
->> Yeah, I noticed later that it is actually not an issue, but had already
->> disassembled my equipment and didn't manage to reply before now.
+>>> +}
+>>> +
+>>> +static int fuse_uring_set_up_zero_copy(struct fuse_ring_ent *ent,
+>>> +                                    struct fuse_req *req,
+>>> +                                    unsigned int issue_flags)
+>>> +{
+>>> +     struct fuse_args_pages *ap;
+>>> +     int err, i, ddir = 0;
+>>> +     struct fuse_zero_copy_bvs *zc_bvs;
+>>> +     struct bio_vec *bvs;
+>>> +
+>>> +     /* out_pages indicates a read, in_pages indicates a write */
+>>> +     if (req->args->out_pages)
+>>> +             ddir |= IO_BUF_DEST;
+>>> +     if (req->args->in_pages)
+>>> +             ddir |= IO_BUF_SOURCE;
+>>> +
+>>> +     ap = container_of(req->args, typeof(*ap), args);
+>>> +
+>>> +     zc_bvs = kmalloc(struct_size(zc_bvs, bvs, ap->num_folios),
+>>> +                      GFP_KERNEL_ACCOUNT);
 >>
->>>
->>>>
->>>>> +
->>>>> +     /* buffer id in the pool, if bufpools are used. ignored otherwise */
->>>>> +     unsigned int buf_id;
->>>>>
->>>>> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
->>>>> index cfb055c0c764..f7173b5d4321 100644
->>>>> --- a/include/uapi/linux/fuse.h
->>>>> +++ b/include/uapi/linux/fuse.h
->>>>>  /**
->>>>> @@ -1312,6 +1322,14 @@ struct fuse_uring_cmd_req {
->>>>>       /* queue the command is for (queue index) */
->>>>>       uint16_t qid;
->>>>>       uint8_t padding[6];
->>>>> +
->>>>> +     union {
->>>>> +             struct {
->>>>> +                     /* base address of bufpool */
->>>>> +                     uint64_t uaddr;
->>>>> +                     uint32_t len;
->>>>> +             } bufpool;
->>>>
->>>>
->>>> Ok, if we ever want to add a new bufpool, I guess we could
->>>> invent "struct { } bufpool2;". Personally I would have
->>>> preferred to have an index in here, currently always set
->>>> to 0, but not a strict requirement.
->>>>
->>>
->>> If we ever want to add a new bufpool, I think it'd be cleaner for the
->>> kernel to assign the bufpool id and pass it back in the cqe to the
->>> FUSE_IO_URING_CMD_ADD_BUFPOOL cmd rather than the server assigning it.
->>> With server-supplied indexes, we would have to also track / prevent
->>> collisions, gaps, out-of-range values, etc.
+>> Assuming one folio per page and 1MB max_nr_pages:
 >>
->> Dunno what your plans with that are, but I would take that number as
->> opaque user-space identifier and not something to be used by fuse
->> kernel. In my mind without coding, I would put the bufpools into a list
->> without an index that fuse kernel would use. IMHO it only needs to check
->> if any pool in the list has free bufs.
->> Anyway, while I would prefer to have the userspace identifier in the
->> struct, that is not a blocker and we can add it in bufpool2 when we have
->> actual usage. Or userspace needs to use the identfier from io-uring and
->> we use that, as you suggest.
+>> struct_size(zc_bvs, bvs, n) == 8 + 16 * 256 = 4104
+>>
+>> Shouldn't this be kvmalloc()?
 > 
-> I don't really have a preference here. I can add a zero-enforced
-> "uint32_t reserved" field in to keep this choice open-ended for now,
-> that could be repurposed to hold an id in the future, if that becomes
-> necessary. Even without this though, I don't think we would need a
-> separate bufpool2 - I think we could just use "flags" to indicate
-> multi-bufpool, and have an "id" field added to the struct.
-
-I'm also ok with just a flag, we both just need to be make sure that 
-nothing else gets added below the union for ABI compat. On 64 bit 
-systems there should be padding, but 32 bit arch is not excluded.
-The alternative would be a something like 
+> I'm not sure what the upper limit is for a kmalloc, but I'll change
+> this to kvmalloc().
 
 
-		 * created with FUSE_URING_ZERO_COPY. On a non-zero-copy queue
-		 * this must be 0
-		 */
-		uint16_t ent_zero_copy_buf_index;
-
-		/* To enforce a specific size for the union on all CPU archs */
-		uin64_t for_union_size[2];
-	};
-
-
-
+As far as I know kmalloc will allocate continuos pages and might fail
+under fragmentation if more than a page is needed. I'm not entirely sure
+if kvmalloc for such a small allocation will actually do the job.
+How about the attached patch? And with that maybe we should limit
+max_nr_pages to 256 for ZC?
 
 Thanks,
 Bernd
+--------------L6zYhcaaJdCWteYj84GaszRm
+Content-Type: text/x-patch; charset=UTF-8;
+ name="io_buffer_register_bvec-self-release.patch"
+Content-Disposition: attachment;
+ filename="io_buffer_register_bvec-self-release.patch"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2ZzL2Z1c2UvZGV2X3VyaW5nLmMgYi9mcy9mdXNlL2Rldl91cmluZy5j
+CmluZGV4IGQ3ZDUxNzQ5N2ExZS4uZTFiNTVmN2MwYzA5IDEwMDY0NAotLS0gYS9mcy9mdXNl
+L2Rldl91cmluZy5jCisrKyBiL2ZzL2Z1c2UvZGV2X3VyaW5nLmMKQEAgLTM0LDExICszNCw2
+IEBAIHN0cnVjdCBmdXNlX3VyaW5nX3BkdSB7CiAJc3RydWN0IGZ1c2VfcmluZ19lbnQgKmVu
+dDsKIH07CiAKLXN0cnVjdCBmdXNlX3plcm9fY29weV9idnMgewotCXVuc2lnbmVkIGludCBu
+cl9idnM7Ci0Jc3RydWN0IGJpb192ZWMgYnZzW107Ci19OwotCiBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGZ1c2VfaXF1ZXVlX29wcyBmdXNlX2lvX3VyaW5nX29wczsKIAogZW51bSBmdXNlX3Vy
+aW5nX2hlYWRlcl90eXBlIHsKQEAgLTc4NiwyNCArNzgxLDEyIEBAIHN0YXRpYyBpbnQgZnVz
+ZV91cmluZ19jb3B5X2Zyb21fcmluZyhzdHJ1Y3QgZnVzZV9yZXEgKnJlcSwKIAlyZXR1cm4g
+ZXJyOwogfQogCi1zdGF0aWMgdm9pZCBmdXNlX3plcm9fY29weV9yZWxlYXNlKHZvaWQgKnBy
+aXYpCi17Ci0Jc3RydWN0IGZ1c2VfemVyb19jb3B5X2J2cyAqemNfYnZzID0gcHJpdjsKLQl1
+bnNpZ25lZCBpbnQgaTsKLQotCWZvciAoaSA9IDA7IGkgPCB6Y19idnMtPm5yX2J2czsgaSsr
+KQotCQlmb2xpb19wdXQocGFnZV9mb2xpbyh6Y19idnMtPmJ2c1tpXS5idl9wYWdlKSk7Ci0K
+LQlrZnJlZSh6Y19idnMpOwotfQotCiBzdGF0aWMgaW50IGZ1c2VfdXJpbmdfc2V0X3VwX3pl
+cm9fY29weShzdHJ1Y3QgZnVzZV9yaW5nX2VudCAqZW50LAogCQkJCSAgICAgICBzdHJ1Y3Qg
+ZnVzZV9yZXEgKnJlcSwKIAkJCQkgICAgICAgdW5zaWduZWQgaW50IGlzc3VlX2ZsYWdzKQog
+ewogCXN0cnVjdCBmdXNlX2FyZ3NfcGFnZXMgKmFwOwogCWludCBlcnIsIGksIGRkaXIgPSAw
+OwotCXN0cnVjdCBmdXNlX3plcm9fY29weV9idnMgKnpjX2J2czsKIAlzdHJ1Y3QgYmlvX3Zl
+YyAqYnZzOwogCiAJLyogb3V0X3BhZ2VzIGluZGljYXRlcyBhIHJlYWQsIGluX3BhZ2VzIGlu
+ZGljYXRlcyBhIHdyaXRlICovCkBAIC04MTQsMTMgKzc5NywxMSBAQCBzdGF0aWMgaW50IGZ1
+c2VfdXJpbmdfc2V0X3VwX3plcm9fY29weShzdHJ1Y3QgZnVzZV9yaW5nX2VudCAqZW50LAog
+CiAJYXAgPSBjb250YWluZXJfb2YocmVxLT5hcmdzLCB0eXBlb2YoKmFwKSwgYXJncyk7CiAK
+LQl6Y19idnMgPSBrbWFsbG9jKHN0cnVjdF9zaXplKHpjX2J2cywgYnZzLCBhcC0+bnVtX2Zv
+bGlvcyksCi0JCQkgR0ZQX0tFUk5FTF9BQ0NPVU5UKTsKLQlpZiAoIXpjX2J2cykKKwkvKiBv
+bmx5IG5lZWRlZCB1bnRpbCByZWdpc3RyYXRpb24gY29waWVzIGl0IGludG8gdGhlIHJpbmcg
+Ki8KKwlidnMgPSBrbWFsbG9jX2FycmF5KGFwLT5udW1fZm9saW9zLCBzaXplb2YoKmJ2cyks
+IEdGUF9LRVJORUxfQUNDT1VOVCk7CisJaWYgKCFidnMpCiAJCXJldHVybiAtRU5PTUVNOwog
+Ci0JemNfYnZzLT5ucl9idnMgPSBhcC0+bnVtX2ZvbGlvczsKLQlidnMgPSB6Y19idnMtPmJ2
+czsKIAlmb3IgKGkgPSAwOyBpIDwgYXAtPm51bV9mb2xpb3M7IGkrKykgewogCQlidnNbaV0u
+YnZfcGFnZSA9IGZvbGlvX3BhZ2UoYXAtPmZvbGlvc1tpXSwgMCk7CiAJCWJ2c1tpXS5idl9v
+ZmZzZXQgPSBhcC0+ZGVzY3NbaV0ub2Zmc2V0OwpAQCAtODI4LDEyICs4MDksMTMgQEAgc3Rh
+dGljIGludCBmdXNlX3VyaW5nX3NldF91cF96ZXJvX2NvcHkoc3RydWN0IGZ1c2VfcmluZ19l
+bnQgKmVudCwKIAkJZm9saW9fZ2V0KGFwLT5mb2xpb3NbaV0pOwogCX0KIAotCWVyciA9IGlv
+X2J1ZmZlcl9yZWdpc3Rlcl9idmVjKGVudC0+Y21kLCBidnMsIGFwLT5udW1fZm9saW9zLAot
+CQkJCSAgICAgIGZ1c2VfemVyb19jb3B5X3JlbGVhc2UsIHpjX2J2cywKLQkJCQkgICAgICBk
+ZGlyLCBlbnQtPnplcm9fY29weV9pbmRleCwKLQkJCQkgICAgICBpc3N1ZV9mbGFncyk7CisJ
+ZXJyID0gaW9fYnVmZmVyX3JlZ2lzdGVyX2J2ZWMoZW50LT5jbWQsIGJ2cywgYXAtPm51bV9m
+b2xpb3MsIE5VTEwsIE5VTEwsCisJCQkJICAgICAgZGRpciwgSU9fQlVGX0ZfUFVUX0ZPTElP
+UywKKwkJCQkgICAgICBlbnQtPnplcm9fY29weV9pbmRleCwgaXNzdWVfZmxhZ3MpOworCWtm
+cmVlKGJ2cyk7CiAJaWYgKGVycikgewotCQlmdXNlX3plcm9fY29weV9yZWxlYXNlKHpjX2J2
+cyk7CisJCWZvciAoaSA9IDA7IGkgPCBhcC0+bnVtX2ZvbGlvczsgaSsrKQorCQkJZm9saW9f
+cHV0KGFwLT5mb2xpb3NbaV0pOwogCQlyZXR1cm4gZXJyOwogCX0KIApkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9saW51eC9pb191cmluZy9jbWQuaCBiL2luY2x1ZGUvbGludXgvaW9fdXJpbmcv
+Y21kLmgKaW5kZXggNDI4MDFmMGI2NDU2Li45ODA5NDhjODZjNjIgMTAwNjQ0Ci0tLSBhL2lu
+Y2x1ZGUvbGludXgvaW9fdXJpbmcvY21kLmgKKysrIGIvaW5jbHVkZS9saW51eC9pb191cmlu
+Zy9jbWQuaApAQCAtNDEsNiArNDEsMTUgQEAgc3RhdGljIGlubGluZSB2b2lkIGlvX3VyaW5n
+X2NtZF9wcml2YXRlX3N6X2NoZWNrKHNpemVfdCBjbWRfc3opCiAJKChwZHVfdHlwZSAqKSYo
+Y21kKS0+cGR1KSBcCiApCiAKKy8qIEZsYWdzIGZvciBpb19idWZmZXJfcmVnaXN0ZXJfYnZl
+YygpICovCitlbnVtIGlvX2J1ZmZlcl9yZWdpc3Rlcl9mbGFncyB7CisJLyoKKwkgKiBUaGUg
+Y2FsbGVyIGhvbGRzIGEgZm9saW8gcmVmZXJlbmNlIHBlciBidmVjLCB0byBiZSBkcm9wcGVk
+IHdoZW4gdGhlCisJICogYnVmZmVyIGlzIHJlbGVhc2VkLiBSZWdpc3RlcnMgd2l0aG91dCBy
+ZWxlYXNlL3ByaXYuCisJICovCisJSU9fQlVGX0ZfUFVUX0ZPTElPUwk9ICgxdSA8PCAwKSwK
+K307CisKICNpZiBkZWZpbmVkKENPTkZJR19JT19VUklORykKIGludCBpb191cmluZ19jbWRf
+aW1wb3J0X2ZpeGVkKHU2NCB1YnVmLCB1bnNpZ25lZCBsb25nIGxlbiwgaW50IHJ3LAogCQkJ
+ICAgICAgc3RydWN0IGlvdl9pdGVyICppdGVyLApAQCAtOTYsOCArMTA1LDggQEAgaW50IGlv
+X2J1ZmZlcl9yZWdpc3Rlcl9yZXF1ZXN0KHN0cnVjdCBpb191cmluZ19jbWQgKmNtZCwgc3Ry
+dWN0IHJlcXVlc3QgKnJxLAogCQkJICAgICAgIHVuc2lnbmVkIGludCBpc3N1ZV9mbGFncyk7
+CiBpbnQgaW9fYnVmZmVyX3JlZ2lzdGVyX2J2ZWMoc3RydWN0IGlvX3VyaW5nX2NtZCAqY21k
+LCBjb25zdCBzdHJ1Y3QgYmlvX3ZlYyAqYnZzLAogCQkJICAgIHVuc2lnbmVkIGludCBucl9i
+dmVjcywgdm9pZCAoKnJlbGVhc2UpKHZvaWQgKiksCi0JCQkgICAgdm9pZCAqcHJpdiwgdTgg
+ZGlyLCB1bnNpZ25lZCBpbnQgaW5kZXgsCi0JCQkgICAgdW5zaWduZWQgaW50IGlzc3VlX2Zs
+YWdzKTsKKwkJCSAgICB2b2lkICpwcml2LCB1OCBkaXIsIHVuc2lnbmVkIGludCBmbGFncywK
+KwkJCSAgICB1bnNpZ25lZCBpbnQgaW5kZXgsIHVuc2lnbmVkIGludCBpc3N1ZV9mbGFncyk7
+CiBpbnQgaW9fYnVmZmVyX3VucmVnaXN0ZXIoc3RydWN0IGlvX3VyaW5nX2NtZCAqY21kLCB1
+bnNpZ25lZCBpbnQgaW5kZXgsCiAJCQkgdW5zaWduZWQgaW50IGlzc3VlX2ZsYWdzKTsKICNl
+bHNlCkBAIC0xNTQsNyArMTYzLDggQEAgc3RhdGljIGlubGluZSBpbnQgaW9fYnVmZmVyX3Jl
+Z2lzdGVyX2J2ZWMoc3RydWN0IGlvX3VyaW5nX2NtZCAqY21kLAogCQkJCQkgIGNvbnN0IHN0
+cnVjdCBiaW9fdmVjICpidnMsCiAJCQkJCSAgdW5zaWduZWQgaW50IG5yX2J2ZWNzLAogCQkJ
+CQkgIHZvaWQgKCpyZWxlYXNlKSh2b2lkICopLCB2b2lkICpwcml2LAotCQkJCQkgIHU4IGRp
+ciwgdW5zaWduZWQgaW50IGluZGV4LAorCQkJCQkgIHU4IGRpciwgdW5zaWduZWQgaW50IGZs
+YWdzLAorCQkJCQkgIHVuc2lnbmVkIGludCBpbmRleCwKIAkJCQkJICB1bnNpZ25lZCBpbnQg
+aXNzdWVfZmxhZ3MpCiB7CiAJcmV0dXJuIC1FT1BOT1RTVVBQOwpkaWZmIC0tZ2l0IGEvaW9f
+dXJpbmcvcnNyYy5jIGIvaW9fdXJpbmcvcnNyYy5jCmluZGV4IGYzZjAxZTBjODEwMi4uYmQ3
+M2E3ZWU5OGNjIDEwMDY0NAotLS0gYS9pb191cmluZy9yc3JjLmMKKysrIGIvaW9fdXJpbmcv
+cnNyYy5jCkBAIC0xNTgsNiArMTU4LDE1IEBAIHN0YXRpYyB2b2lkIGlvX3JlbGVhc2VfdWJ1
+Zih2b2lkICpwcml2KQogCX0KIH0KIAorc3RhdGljIHZvaWQgaW9fcmVsZWFzZV9rYnVmX2Zv
+bGlvcyh2b2lkICpwcml2KQoreworCXN0cnVjdCBpb19tYXBwZWRfdWJ1ZiAqaW11ID0gcHJp
+djsKKwl1bnNpZ25lZCBpbnQgaTsKKworCWZvciAoaSA9IDA7IGkgPCBpbXUtPm5yX2J2ZWNz
+OyBpKyspCisJCWZvbGlvX3B1dChidmVjX2ZvbGlvKCZpbXUtPmJ2ZWNbaV0pKTsKK30KKwog
+c3RhdGljIHN0cnVjdCBpb19tYXBwZWRfdWJ1ZiAqaW9fYWxsb2NfaW11KHN0cnVjdCBpb19y
+aW5nX2N0eCAqY3R4LAogCQkJCQkgICBpbnQgbnJfYnZlY3MpCiB7CkBAIC0xMTAxLDggKzEx
+MTAsOCBAQCBFWFBPUlRfU1lNQk9MX0dQTChpb19idWZmZXJfcmVnaXN0ZXJfcmVxdWVzdCk7
+CiAgKi8KIGludCBpb19idWZmZXJfcmVnaXN0ZXJfYnZlYyhzdHJ1Y3QgaW9fdXJpbmdfY21k
+ICpjbWQsIGNvbnN0IHN0cnVjdCBiaW9fdmVjICpidnMsCiAJCQkgICAgdW5zaWduZWQgaW50
+IG5yX2J2ZWNzLCB2b2lkICgqcmVsZWFzZSkodm9pZCAqKSwKLQkJCSAgICB2b2lkICpwcml2
+LCB1OCBkaXIsIHVuc2lnbmVkIGludCBpbmRleCwKLQkJCSAgICB1bnNpZ25lZCBpbnQgaXNz
+dWVfZmxhZ3MpCisJCQkgICAgdm9pZCAqcHJpdiwgdTggZGlyLCB1bnNpZ25lZCBpbnQgZmxh
+Z3MsCisJCQkgICAgdW5zaWduZWQgaW50IGluZGV4LCB1bnNpZ25lZCBpbnQgaXNzdWVfZmxh
+Z3MpCiB7CiAJc3RydWN0IGlvX3JpbmdfY3R4ICpjdHggPSBjbWRfdG9faW9fa2lvY2IoY21k
+KS0+Y3R4OwogCXN0cnVjdCBpb19tYXBwZWRfdWJ1ZiAqaW11OwpAQCAtMTEyNSw2ICsxMTM0
+LDEyIEBAIGludCBpb19idWZmZXJfcmVnaXN0ZXJfYnZlYyhzdHJ1Y3QgaW9fdXJpbmdfY21k
+ICpjbWQsIGNvbnN0IHN0cnVjdCBiaW9fdmVjICpidnMsCiAJZm9yIChpID0gMDsgaSA8IG5y
+X2J2ZWNzOyBpKyspCiAJCWJ2ZWNbaV0gPSBidnNbaV07CiAKKwkvKiBpbXUgaXMgb25seSBr
+bm93biBoZXJlLCBhbmQgbmVlZHMgdGhlIGJ2ZWNzIGluIHBsYWNlICovCisJaWYgKGZsYWdz
+ICYgSU9fQlVGX0ZfUFVUX0ZPTElPUykgeworCQlpbXUtPnJlbGVhc2UgPSBpb19yZWxlYXNl
+X2tidWZfZm9saW9zOworCQlpbXUtPnByaXYgPSBpbXU7CisJfQorCiB1bmxvY2s6CiAJaW9f
+cmluZ19zdWJtaXRfdW5sb2NrKGN0eCwgaXNzdWVfZmxhZ3MpOwogCXJldHVybiByZXQ7Cg==
+
+
+--------------L6zYhcaaJdCWteYj84GaszRm--
