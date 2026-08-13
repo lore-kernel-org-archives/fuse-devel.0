@@ -1,75 +1,75 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7DD3314AC
-	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 20:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080B93769FD
+	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 21:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786653769; cv=none; b=NN+vJDVG2oXUX/QtAgQIZnnm4oj0YNG4NYXACV2BWmMQSbMI26FHAG0h6Wh/q2PchFUjGBBVjKZcvdfbkKeiOIwI4azcbvs4iJZo9Q680dATm1GWgvA1EchQ9i6Y/wkFXOMEGASIHMHl4uPjHaiczdie96HOxJzYulgIj8YEnwc=
+	t=1786655185; cv=none; b=a3lLTuXCE5N6mq4qYoM5vqQ9jrM/YBozBFpt6REifkHJhHwaoTAnokJGdjkgafqen4Ec0N5Ozdt4XzHcOh2y1zP3iLmNmQSZAmaXCAjJFMFoQlHU4Oh5mwoTHH1a2KI3NRbPyRP0NvzyYZ3N4GDM8IGoyTMZ5tKWk8WeqLIx0LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786653769; c=relaxed/simple;
-	bh=zvXWKLP5EAA3Yo98R+MOiPd8cIVVvgwnetVIzsjWxG0=;
+	s=arc-20240116; t=1786655185; c=relaxed/simple;
+	bh=R1kj8Nj6/SfTQ0MIiA4WuUcCGWRVK6yGwhrF+vMSRnw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LnPZZGqDj9tp9JmIXoT8MwZF4N0naKsA2WqgmqKu+25j5CFQiYQre/sRAZLgmDxBof6mTasCU/tIVFCU6NTOOztRoqtUet68UM1LeY2ZQ6lshTRF+rtWNun2ZCmZgbIcW4A2L0rCC9a5PMIVWzeeGuNRl91s3RQh9wEx+qD2c6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=k+taWILi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Kgdep5hM; arc=none smtp.client-ip=202.12.124.157
+	 In-Reply-To:Content-Type; b=Z9ma+kGmw5ea/r8aeyms+IxaNdJhlCoXHNngo5K+tU62XB+0nAt1q13FOnxeFjXiqFazx0jqgK/9cQi+wUBkZGC3kLfChNC2cVaJbI5YamVceGF+H2Z/5stJM78X+QmP9n2CdKTY6Fhns+7SLsNaFPG+VYdrXXTLZ5p87YMP7ic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=QFoPj4YA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gVoAQhcE; arc=none smtp.client-ip=202.12.124.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="k+taWILi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Kgdep5hM"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C4F997A0287;
-	Thu, 13 Aug 2026 16:42:46 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="QFoPj4YA";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gVoAQhcE"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.stl.internal (Postfix) with ESMTP id A9ACC1D0026E;
+	Thu, 13 Aug 2026 17:06:21 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 13 Aug 2026 16:42:46 -0400
+  by phl-compute-12.internal (MEProxy); Thu, 13 Aug 2026 17:06:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1786653766;
-	 x=1786740166; bh=Xj4bEIuFefAKXObiy2MNc2ZfNKIA08J+l7ofTA4OyGg=; b=
-	k+taWILiY1++/XFwP/UybG6y57d8JOPDBucZiALDYL9f+kld6Ajz+Czedr6yu4cC
-	vRCpzgcCbU4+Ye6LuBJh8EaAPJsaxmgKVAbZicqOBxh5Tmjo3sMEfIFvvS68qpWM
-	68fjY21vcfPFASfyqvAVktWe3UvwDoyk9ozFJzjvJpCOWpOro12i5fSROXhFsl0L
-	l50sSvkUqEbGyWyDb8a2bFoZtZU1fwCz8ZMJJYTOlLQHfw12iIrnYb8ngEp8QBnA
-	1wrXi0bzYlW1LcHIMKlM5fnVN7rqSRSEQcXOtcagUOSajxowpvHGj92FKdHeWUIp
-	n+Htxyp2MNMN+yyo6lEP+w==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1786655181;
+	 x=1786741581; bh=fEMClcjw3jXvDePakt4y0yKMguMAaR7MSsVztGIa4IE=; b=
+	QFoPj4YASh6ivuAbmzL4WK5iyhVPa/vf6e/DU1aheDR8WlxVg2S4WqisZrA7MhZI
+	OlNm8YX6ENLGpAxt02f6QsX5HPGmy6rE+BP+nHc2uKz5Kf8VkgfSBMm2QSb+PPAA
+	aZbGSOfKC3IfsbQ4Lojj73MjmBPtbD3TyS43vMHWpThUs4O1azkFtBaB08tx+27o
+	yTukzn9k+EbdTLbVmWz/Zsp8BWlZFa0VdcLG3bkLGMkB+CQNQQSHTUzB5Hj6frnu
+	NhFZXjsudlNaeA3nLjzpyfSTwxy0hu9XsLmb4q4M4l7daSozrs1WFVgfMZZ/Zsr4
+	APJFA8Z2iJJptmkoFVgYzA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786653766; x=
-	1786740166; bh=Xj4bEIuFefAKXObiy2MNc2ZfNKIA08J+l7ofTA4OyGg=; b=K
-	gdep5hM9xXpo+k7mjHgXCqefOlXROMkvk0Je8mFFnYUXNXfaD3GF8AY9SQmDPZzs
-	TVF1QnT06UcC4dfpNvBx5Astgeh0YtloCZRywU6g0SS3S9YxWe/5rHCt5b8a0sws
-	iir8OIJVOygr5KICWU0ZYTvOM/mkZJhnk5uJAWqJ9tle+BMEkJfy3N03Qx/NM7Fg
-	7u6gi8MnskWcR0NilCrofVPjk9fs5/Nav8hkG01Q3ghoeS8/SqkOLKwitYW9ubtR
-	cRWbR9M2ajY103k5A9xdCoI2AMIM1F8hqXDR93txY2wIDCq+5Itwqb5duZ3FCixM
-	BQhuhvm44QpkXVcdPXf4w==
-X-ME-Sender: <xms:RSx-aqLq2BoY8i9F5pmycDdSLJ5qh2SbJKlfUPrQ-NngmxuZ1GkyqQ>
-    <xme:RSx-ai3hMKktHOQKWY9ueePgzNhdmkCIo8PNYs7CbLlqJVsekgrd9hvlvb7yEljmo
-    Vti4MHpXheDu8afR8IT3LZZy77FNdvkynaf2QKbVnwfg9tiWpEh>
-X-ME-Received: <xmr:RSx-ao4iT9cx7PsYd-S0ynE2v_72IOMcM_Hk6SUEYbmuwg7CUOHSVfbt2BQQfeSLIzu-UsKn_ucCUdy96iLJivuZbAZRr5q9awTc3Dff7xJSE64PRbh8xYlk>
-X-ME-Proxy-Cause: dmFkZTEeJWCPA/JkDRFPUA6D5kGD/n009ObMt1ACJPxayvQoF7ITQ1C4kT5UPAtGscLj+X
-    iq048Z/+k1BzJTsWCcyG9sYTJEL97ol8Z9U5/ohFsGQyeTOGBUXJynzzPzYVhP+kNmcM7u
-    DxQBBBSQjrOAuK7/vhjEVT+EE1N8fPN8SZDjZ1Us3IFgs0THSmaZj8sMqeHB4GB+9I4JYK
-    aLrReJJtYP0Kt0dR7g2OvxW1ik2KYRmsYMe5XnrNDcBXBUGe5HVmuil2QLcr9Mdu7D3N1C
-    KH0RxAIaB1W2LNJbkBhsxscHBG/yvJsP32NHq+ZhoQnACbs1ivfAG1R8kp9CdqOnJrWLZM
-    kIP0tqFu9CyoGvNdsrShjsvtrZx8uXruwY3/3hyLFYyiReyYTiaD9y3F8We6B3IcftSnlx
-    viF5xyNAsswBZfSZlkHEfArXVkcukM3d+ROgYpuSpqEOZxnAlUoGaec/z+DM92ya7yHUnB
-    kADNk/ljiuWBb7NOegO/ErKEjhLC56jIHUIroS1oY9tgwYpCSPyXfR3jPwk9RYQltlewmG
-    KKMgfqhbHhCxUejaVb4Ylsa1VhZV2T8Q94MAaCD2o10JusyVPh7/xaMG0oVmzeNwAN+7oI
-    HZHSlwhx9MskcKPKTuNcQ3lTiV+okkWDV+GRvxOAjfI5TxtCfa1SRjDwmh8g
-X-ME-Proxy: <xmx:RSx-aj-q8hahkgk3BgETaLLIWsrSOq-MCU3tcju09_kKAwnoQGv4mg>
-    <xmx:RSx-anVyNdK3hhj6GVdslV44bxqAhzkXnkxCwAlPoPoAWx4sT2VYBQ>
-    <xmx:RSx-aurU2w3C8ocl6iOg8gUagPFDFG7nuqHkIJZf49eiO_yX6ve_mQ>
-    <xmx:RSx-apmhKC_hpFlRAEeTfy1eCr0499WlsQTNRMFLT0Ku5-UqJOj5Fw>
-    <xmx:Rix-an57u7F7uEvvLsWaOQgzgF8CyKz8Jug14q98tUQy5hPU3Pusd-gM>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786655181; x=
+	1786741581; bh=fEMClcjw3jXvDePakt4y0yKMguMAaR7MSsVztGIa4IE=; b=g
+	VoAQhcEVpYfHuuRPnXHYA3e3AR4F5wTOTPG9wYbwgBhMr7xs3JQMoDp6Uzw67H6v
+	QJh04VbVdKCRjUS+HJS5jX6lZanwUrxbFXTYjBaQZeJtB3dVRrKhl3vfip9IRFAe
+	E2oJc1aQkq+z5N0PSzQEUt+woxdW1Zf3g1q8ZGAHPYUBOZQaAikhe4f3/V7SXt7Q
+	TUxICyFSGXXj9CQL3jQaB6V88ulm83QwRLpa5/ESTAyFbrCBTXT2edxfBhuaSLVk
+	UhPT3pphy1Fwzm/04SRtZ/CskIX0NRGdAfUFEgozFfI57aT4+dNQDDs/qY/iSGkM
+	bD+7e89WGbx4U3Cd1exNQ==
+X-ME-Sender: <xms:zDF-apJB0AOmhPjL8e6x-AFQ_vT0fWNQqjh5xQvS-h-cGLnBPsg2Dg>
+    <xme:zDF-al2F3FcYSlIO861-Cj3es3kclZ9o9beo8BYLoo9n1mM_EGQdR4BmaXXc3oeIU
+    QU3B4qNH5jRm4iH5AICJ6M9j-Ul4KKk5i9zXu0dFKiQ9vI3qAW7>
+X-ME-Received: <xmr:zDF-av4qJ2gif_Q7b5twML7QJYr4GiPYXNOd0sh2f80VRuLLTPXZcA76vYMfh154GE6P5cbk0YntGa5ADLM7xw5J_urfoJZ8qj2Y1iHw4jBqTBsZ6yQceRfT>
+X-ME-Proxy-Cause: dmFkZTE1ThVBVn7iLvBxOT/1odEI0+vY58GwHsmWOEI8n0Np2mtbhfyUprmclA9ffWzB5p
+    GJ6cFmum08yYVjnxHtbYz37TTK4XgnyORHboQtqAgTkdcMy6pIm7MDibX5EfdxHaHYigLF
+    7GSu+E50mLWz2tkBzyersbHKB22Hp0mDe0Wm8jQLjFGdfebR8cZd9Ao4URnUk3+cwEkwXU
+    ES2aZSt5tVEdfkbHhwzqZC35JDeLjbCqJUPlyKVC53GOrA5ceIHuGAZuLjBwBaKQE3jL0b
+    gYMBzFooILFvPX68k0F1US5c6/BuEk6puWnDkYu9mIs4BwDsYklBP5muP0i045Hm5txkqe
+    JGqZjeJULVxJBWwIpU1CiLoptsNAOBLnXco5MjpyKNzUkUoIli49XyYl3HCy96UxbbRxPN
+    2bCZOqsM8tuQABh3dQniQETxqhqSjIJpr5vzve4YiQdj/Z4/lgfJwXHPgDX2LevNnkR6Dr
+    k8ji41R0Vhy8J1feAhEE3ok/PtUtGEwPTHPLXOVP1UsSqnmnaKJoXMT92403rTCffX3aLX
+    +NhNH7qXZx1QXHhPZDU7itNNXSFaiEm1zkVG2CqJmP7wwQKoti3wfycVx09Tsvx+JZd0d+
+    3JIkw9FZd/hlFKd+guACkf9/Q2tp0GAU/cVweqOvjU2UEiErRhpEFjHdWyqA
+X-ME-Proxy: <xmx:zDF-au_hwsGf2-c622ElHYqKu5Lz9iW_kbPWpr1W_YmaBK4y6JI-Cg>
+    <xmx:zDF-amVIJZXZOIIoGaztfo0aVLg3NYOXp_gzclR_GDXxDoC7K7ydpA>
+    <xmx:zDF-ahqMb-GEMM-w9Mt9jvb1AFXQGqApC4fv-V_JKePPuq_0eTyeUA>
+    <xmx:zDF-agnB4ntl1MBNfAnJ2MvSo6JosZaLOhxytHGWqqchPRv03p1hlA>
+    <xmx:zTF-ai7quyafUapvwgFzV7IAsUWXOrsbf4xonTjr7fua0gb3OkpnIUZF>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Aug 2026 16:42:43 -0400 (EDT)
-Message-ID: <4484d6f7-652b-4c7e-af49-6972753d133e@bsbernd.com>
-Date: Thu, 13 Aug 2026 22:42:41 +0200
+ 13 Aug 2026 17:06:18 -0400 (EDT)
+Message-ID: <bb69a16c-edf9-4f65-bd64-7c0a56d17e47@bsbernd.com>
+Date: Thu, 13 Aug 2026 23:06:16 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,98 +77,230 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/6] fuse: add zero-copy over io-uring
+Subject: Re: [PATCH v6 4/6] fuse: support registered buffer pools in io-uring
 To: Joanne Koong <joannelkoong@gmail.com>
 Cc: miklos@szeredi.hu, jlayton@kernel.org, libaokun@linux.alibaba.com,
  axboe@kernel.dk, amir73il@gmail.com, fuse-devel@lists.linux.dev
 References: <20260716175908.2339738-1-joannelkoong@gmail.com>
- <20260716175908.2339738-6-joannelkoong@gmail.com>
- <777e9671-aff7-41e7-911c-dc3aacc877f3@bsbernd.com>
- <CAJnrk1bmxOXn=4W8fgn1ckGsoJasQ0AzuZpBP46uA3bhQvyjLA@mail.gmail.com>
- <d8ead20f-91b6-49d6-95f5-f54dd76a411d@bsbernd.com>
- <CAJnrk1Yw7Pf96GQpguY3HjzfTn47r+O8KGWQZJmuikC5aAGP7Q@mail.gmail.com>
+ <20260716175908.2339738-5-joannelkoong@gmail.com>
+ <fa4e1520-b36e-4619-a1b2-5974f27a5cc4@bsbernd.com>
+ <CAJnrk1ah0+F+VvpGnLJwqmKFRfb1Bo8Vc_V6ucy5=9JQT=G9Wg@mail.gmail.com>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAJnrk1Yw7Pf96GQpguY3HjzfTn47r+O8KGWQZJmuikC5aAGP7Q@mail.gmail.com>
+In-Reply-To: <CAJnrk1ah0+F+VvpGnLJwqmKFRfb1Bo8Vc_V6ucy5=9JQT=G9Wg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 
 
-On 8/13/26 20:09, Joanne Koong wrote:
-> On Thu, Aug 13, 2026 at 10:01 AM Bernd Schubert <bernd@bsbernd.com> wrote:
+On 8/13/26 00:56, Joanne Koong wrote:
+> On Tue, Aug 11, 2026 at 3:45 PM Bernd Schubert <bernd@bsbernd.com> wrote:
 >>
 >>
 >>
->> On 8/13/26 01:19, Joanne Koong wrote:
->>> On Wed, Aug 12, 2026 at 3:30 PM Bernd Schubert <bernd@bsbernd.com> wrote:
->>>>
->>>>> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
->>>>> index d50792162d8b..3d1910a9db52 100644
->>>>> --- a/fs/fuse/dev.c
->>>>> +++ b/fs/fuse/dev.c
->>>>> @@ -1247,11 +1247,20 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
->>>>>
->>>>> @@ -746,6 +786,62 @@ static int fuse_uring_copy_from_ring(struct fuse_req *req,
->>>>>       return err;
->>>>>  }
->>>>>
->>>>> +static void fuse_zero_copy_release(void *priv)
->>>>> +{
->>>>> +     struct fuse_zero_copy_bvs *zc_bvs = priv;
->>>>> +     unsigned int i;
->>>>> +
->>>>> +     for (i = 0; i < zc_bvs->nr_bvs; i++)
->>>>> +             folio_put(page_folio(zc_bvs->bvs[i].bv_page));
->>>>> +
->>>>> +     kfree(zc_bvs);
->>>>
->>>> kvfree (see below)?
->>>>
->>>>> +}
->>>>> +
->>>>> +static int fuse_uring_set_up_zero_copy(struct fuse_ring_ent *ent,
->>>>> +                                    struct fuse_req *req,
->>>>> +                                    unsigned int issue_flags)
->>>>> +{
->>>>> +     struct fuse_args_pages *ap;
->>>>> +     int err, i, ddir = 0;
->>>>> +     struct fuse_zero_copy_bvs *zc_bvs;
->>>>> +     struct bio_vec *bvs;
->>>>> +
->>>>> +     /* out_pages indicates a read, in_pages indicates a write */
->>>>> +     if (req->args->out_pages)
->>>>> +             ddir |= IO_BUF_DEST;
->>>>> +     if (req->args->in_pages)
->>>>> +             ddir |= IO_BUF_SOURCE;
->>>>> +
->>>>> +     ap = container_of(req->args, typeof(*ap), args);
->>>>> +
->>>>> +     zc_bvs = kmalloc(struct_size(zc_bvs, bvs, ap->num_folios),
->>>>> +                      GFP_KERNEL_ACCOUNT);
->>>>
->>>> Assuming one folio per page and 1MB max_nr_pages:
->>>>
->>>> struct_size(zc_bvs, bvs, n) == 8 + 16 * 256 = 4104
->>>>
->>>> Shouldn't this be kvmalloc()?
+>> On 7/16/26 19:59, Joanne Koong wrote:
+>>> Allow servers to use a buffer pool that is also registered through
+>>> io-uring. When the server registers a buffer pool with io-uring, the
+>>> pages backing the pool are pinned upfront. This eliminates the overhead
+>>> of pinning/unpinning user pages and translating virtual addresses per
+>>> i/o request. This also allows servers to use the same registered memory
+>>> for subsequent backing store I/O (eg read_fixed/write_fixed), keeping
+>>> data in the same pinned pages without additional pinning or mapping
+>>> overhead required.
 >>>
->>> I'm not sure what the upper limit is for a kmalloc, but I'll change
->>> this to kvmalloc().
+>>> To use this, the server needs to set the FUSE_URING_REGISTERED_BUFPOOL
+>>> flag when adding a bufpool through the FUSE_IO_URING_CMD_ADD_BUFPOOL
+>>> cmd. For every sqe submitted (including the one for adding the bufpool),
+>>> it should set sqe->uring_cmd_flags to include IORING_URING_CMD_FIXED,
+>>> and pass in the index where the registered bufpool resides to
+>>> sqe->buf_index.
+>>>
+>>> Benchmarked with passthrough_hp (--nopassthrough, q_depth=8) on a
+>>> 2-socket Intel Xeon Gold 6138 (40 cores / 80 threads), using fio (sync
+>>> engine, bs=1M, O_DIRECT, numjobs=2, 30s run + 10s ramp, 3 runs) where
+>>> direct-I/O throughput is against a RAM-backed (tmpfs) source (backing
+>>> I/O is not the bottleneck):
+>>>
+>>>                   baseline      registered buffers
+>>>   direct read       ~5.1 GB/s     ~5.4 GB/s   (+~5%)
+>>>   direct write      ~3.4 GB/s     ~4.8 GB/s   (+~45%)
+>>>
+>>> Registered buffers bring up the write path speed up closer to speed of
+>>> reads. There isn't much improvement for reads because it is already fast
+>>> enough where it's at the copy-bound ceiling (surpassing that requires
+>>> doing zero-copy). On a device-bound NVMe though, the differences are
+>>> within noise, as backing I/O dominates per-request latency.
+>>>
+>>> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+>>> ---
+>>>  fs/fuse/dev_uring.c       | 122 +++++++++++++++++++++++++++++++-------
+>>>  fs/fuse/dev_uring_i.h     |   8 +++
+>>>  include/uapi/linux/fuse.h |   4 ++
+>>>  3 files changed, 112 insertions(+), 22 deletions(-)
+>>>
+>>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+>>> index e9da92b46090..ed7e783bd68d 100644
+>>> --- a/fs/fuse/dev_uring.c
+>>> +++ b/fs/fuse/dev_uring.c
+>>> @@ -22,6 +22,8 @@ MODULE_PARM_DESC(enable_uring,
+>>>  #define FUSE_URING_IOV_HEADERS 0
+>>>  #define FUSE_URING_IOV_PAYLOAD 1
+>>>
+>>> +#define FUSE_URING_ADD_BUFPOOL_FLAGS (FUSE_URING_REGISTERED_BUFPOOL)
+>>> +
+>>>  bool fuse_uring_enabled(void)
+>>>  {
+>>>       return enable_uring;
+>>> @@ -47,6 +49,27 @@ static inline bool bufpool_enabled(struct fuse_ring_queue *queue)
+>>>       return queue->payload_mode == FUSE_PAYLOAD_BUFPOOL;
+>>>  }
+>>>
+>>> +static inline bool bufpool_registered(struct fuse_ring_queue *queue)
+>>> +{
+>>> +     return queue->bufpool && queue->bufpool->registered;
+>>> +}
+>>> +
+>>> +/*
+>>> + * For a registered bufpool, every sqe that drives a payload import (REGISTER,
+>>> + * COMMIT_AND_FETCH) must carry the registered buffer index of the pool.
+>>> + * This also must be called from the command's issue handler, where cmd->sqe is
+>>> + * still valid
+>>> + */
+>>> +static inline bool fuse_uring_cmd_index_ok(struct io_uring_cmd *cmd,
+>>> +                                        struct fuse_ring_queue *queue)
+>>> +{
+>>> +     if (!bufpool_registered(queue))
+>>> +             return true;
+>>> +
+>>> +     return (cmd->flags & IORING_URING_CMD_FIXED) &&
+>>> +            READ_ONCE(cmd->sqe->buf_index) == queue->bufpool->registered_index;
+>>> +}
+>>> +
+>>>  static void uring_cmd_set_ring_ent(struct io_uring_cmd *cmd,
+>>>                                  struct fuse_ring_ent *ring_ent)
+>>>  {
+>>> @@ -653,19 +676,42 @@ static int copy_header_from_ring(struct fuse_ring_ent *ent,
+>>>       return 0;
+>>>  }
+>>>
+>>> +static int fuse_uring_import_payload(struct fuse_ring_ent *ent, int dir,
+>>> +                                  struct iov_iter *iter,
+>>> +                                  unsigned int issue_flags)
+>>> +{
+>>> +     void __user *base = ent->payload.iov_base;
+>>> +     size_t len = ent->payload.iov_len;
+>>> +     int err = 0;
+>>> +
+>>> +     if (!base) {
+>>> +             memset(iter, 0, sizeof(*iter));
+>>> +             return 0;
+>>> +     }
+>>> +
+>>> +     if (bufpool_registered(ent->queue))
+>>> +             err = io_uring_cmd_import_fixed((u64)(uintptr_t)base, len, dir,
+>>> +                                             iter, ent->cmd, issue_flags);
+>>> +     else
+>>> +             err = import_ubuf(dir, base, len, iter);
 >>
->>
->> As far as I know kmalloc will allocate continuos pages and might fail
->> under fragmentation if more than a page is needed. I'm not entirely sure
->> if kvmalloc for such a small allocation will actually do the job.
->> How about the attached patch? And with that maybe we should limit
->> max_nr_pages to 256 for ZC?
+>> Hmm ok, just an annotation, I have to admit that I don't like
+>> issue_flags too much. Especially for the optimization that DDN has by
+>> avoiding io_uring_cmd_complete_in_task(), IO_URING_F_UNLOCKED is rather
+>> painful. Additionaly with that optimization the lock might get
+>> contended. The new addition here doesn't introduce it, but also doesn't
+>> make it any better.
 > 
-> I think kvmalloc should be fine. For size > PAGE_SIZE it tries kmalloc
-> first and has a fallback to vmalloc. For small allocations, kvmalloc
-> is just plain kmalloc.
+> For what it's worth, the locks aren't taken on these paths (eg sends
+> go through fuse_uring_dispatch_ent() ->
+> io_uring_cmd_complete_in_task() and task work runs with
+> ctx->uring_lock held, and commits run in the command's issue handler,
+> where the lock is likewise held).
 
-I think the patch I had attached is more elegant, but we can do that any
-time later. I just found kvmalloc_flex, I guess that would be most suitable.
+Yeah, except for the optimization that avoids
+io_uring_cmd_complete_in_task/fuse_uring_send_in_task
+and submits the request directly from the caller.
+Anyway, it was just an annotation, as this lock is not new.
+
+> 
+> Threading the issue_flags through gets a bit annoying, but I
+> personally don't see a better way for core io-uring infrastructure to
+> determine whether a given call path already holds the lock or not.
+> 
+
+The flag doesn't work that well with the optimization when the caller is
+in io-uring context, we need to figure out that with Jens/Pavel later on.
+
+>>
+>>> +
+>>> +     if (err)
+>>> +             pr_info_ratelimited("fuse: Import of user buffer failed\n");
+>>> +
+>>> +     return err;
+>>> +}
+>>> +
+>>> @@ -1362,8 +1421,21 @@ static int fuse_uring_add_bufpool(struct io_uring_cmd *cmd,
+>>>       uintptr_t pool_uaddr;
+>>>       unsigned int pool_len, nr_bufs;
+>>>       size_t pool_size, buf_size;
+>>> +     bool registered = flags & FUSE_URING_REGISTERED_BUFPOOL;
+>>> +
+>>> +     if (!ring || qid >= ring->nr_queues)
+>>> +             return -EINVAL;
+>>>
+>>> -     if (!ring || qid >= ring->nr_queues || flags)
+>>> +     if (flags & ~FUSE_URING_ADD_BUFPOOL_FLAGS)
+>>> +             return -EINVAL;
+>>> +
+>>> +     /*
+>>> +      * A registered bufpool is reached through an io_uring fixed buffer, so
+>>> +      * this command must be submitted with IORING_URING_CMD_FIXED and the
+>>> +      * registered buffer index in sqe->buf_index. That index is recorded
+>>> +      * below and enforced on every REGISTER / COMMIT_AND_FETCH sqe.
+>>> +      */
+>>> +     if (registered && !(cmd->flags & IORING_URING_CMD_FIXED))
+>>>               return -EINVAL;
+>>
+>> Hmm, why do we actually need FUSE_URING_REGISTERED_BUFPOOL if the
+>> decision can be made by IORING_URING_CMD_FIXED?
+> 
+> It's not strictly needed, but imo it makes uapi more explicit and the
+> contract more clear. I don't feel strongly about this though, I'm fine
+> with either approach.
+
+I don't have a strong opinion, it just looks a bit weird to have a flag
+that could be used and then to introduce another one and give userspace
+even more choices and possible failure points.
+Would there ever be a reason to register a buffer, but not to use that
+in fuse?
+
+> 
+>>
+>>>
+>>> diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+>>> index cdf56f8b38b5..e142cae43022 100644
+>>> --- a/fs/fuse/dev_uring_i.h
+>>> +++ b/fs/fuse/dev_uring_i.h
+>>> @@ -49,6 +49,14 @@ enum fuse_queue_payload_mode {
+>>>  };
+>>>
+>>>  struct fuse_bufpool {
+>>> +     bool registered;
+>>> +
+>>> +     /*
+>>> +      * io_uring registered buffer table index for this pool, bound at
+>>> +      * ADD_BUFPOOL time. Only valid if the bufpool is registered
+>>> +      */
+>>> +     u16 registered_index;
+>>
+>> Dunno, could this go into the previous commit or be reserved in the
+>> previous commit? This addition make bisect hard due to ABI change?
+> 
+> This is an addition to a kernel-internal struct, not an uapi-defined
+> one, so I don't think this affects ABI. The previous commit doesn't
+> have any notion of registered buffers, so I think moving these
+> definitions to the previous commit would be confusing.
+
+Ah yes sorry, my fault, I shouldn't do reviews past midnight. Sorry again.
+
 
 Thanks,
 Bernd
