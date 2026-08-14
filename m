@@ -1,64 +1,64 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A70F4ADD9B
-	for <fuse-devel@lists.linux.dev>; Fri, 14 Aug 2026 19:00:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FA34A13BC
+	for <fuse-devel@lists.linux.dev>; Fri, 14 Aug 2026 19:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786734050; cv=none; b=VTsXKyhL7Pnxa+gDDSk3RgZLRYM4VcPtyY99ssQXQdVdbpDEj9SfXp5oaQ403aj1ytrpDQKLF/FstNXxr4VWK0n6ouXQ99WsEFTLs5RT3fwCBwpBLEQE6aQcTQA6lh1A1gKbE6reB9aV66WpRG7QwjzPbv9AUrNGwYjEmg3mdk8=
+	t=1786734050; cv=none; b=XZYoYSiLl7DREtT1DP4Wjf8Ch3y0rg6dgE+GaLfgw+fKBdHVF7VAujhlTMlZLSQotF+bJ6F0976yX2g79srBRm6Fo6H/DcePVV3KankydEFS53Ksgd7yC0lOr3ANwgsceLSad7JpLjNUnh0cdDKXKB00hb9u1ISxCArfcIE0AoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786734050; c=relaxed/simple;
-	bh=1QC6L8Ncv1Tg5hPEdv+OQr86E7Gvppg5xWUQOT+qnxE=;
+	bh=bhvxtOWmtdhwovH+p/FbJtwZ5mz6rPophp/2zaFBr4s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N9HkejypCYTRV0h3eljMws/b+cLmFizxAu8jOG+RmUkrJ4wffsiIzSQEY3C5GMPCInWvfKqUWPbZ1VlQJQGCAzfiTc8gjjETgEUDMYyjnfq85HfOJuhjaxcMiXhZCIJroQOm3Q4eJvDIuJz7ecG0fxK9GgBkPzsSIrkf1N5VOwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUSQ3XGJ; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=VCLAMNNPYyc0wmDVbFCSyFl/qmxSC+9RAzbZ9hO5WsjS0ApwKwMU+LQITbG+jMGuCfV2wJROdHqEQ16Ja0n4PyZ7wK2qMGKfl8HlKQLpbnUVVqRJodIxuwHtUPpnGKSEV7Ww4+Oau0JalE77pbG2+2y+R5dmcdI9xKH+iUisJ4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n+u1oX+m; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUSQ3XGJ"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so18344985ad.1
-        for <fuse-devel@lists.linux.dev>; Fri, 14 Aug 2026 12:00:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n+u1oX+m"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38dfe910e9dso1500778a91.3
+        for <fuse-devel@lists.linux.dev>; Fri, 14 Aug 2026 12:00:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786734042; x=1787338842; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786734039; x=1787338839; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4mzMerttDsOfbpanKYvzPBMaaP/LbFZq2gC3FgUEkFw=;
-        b=WUSQ3XGJDoUI8q/j6+9WkJVfUBxDu/i8vBAq7fKo/Q0rAt4opKlv5wU/jhayUyxEQV
-         wt/MvylIDcmFn5EBeJPmIuFAU0fjLmAShZrtc1Unxap2xbnmuVIzGbPIBlFnPwmWj0ty
-         05Hr62JcivKAlqPzYTN9C+nGmeLj6I/B9QPEJOvvF7g2oOTqVW9iYpxC3J/uqUzeZNoR
-         KDUtSThqbf5z7pmLbMpCIQnKDxxWSDZFZh1pgDjgUnf2NAMIrYa1ZMn9E+Spik1qSHnM
-         pECRyGlnG+OMKKnOyEiYIFYL9qBNZvvWisgCmvUbLFAeLXRhAZnrezvcIEl2B+nh+ffC
-         t1ng==
+        bh=agleD0q/wihAA5HubW+ukCeqb/5zzbMhQzrnq2hVrYk=;
+        b=n+u1oX+mpc8UkJCbvMBxGbNSgu6j7ZHGXPmPyHRKAo4yo+jDzSO7MVkekZKvDbsNoF
+         ylxVVmcG4+Rego7++j43prl49QSbj75+4aR78XFll6j7a5Dq/TQ2oK85XpnG0eyzzs+m
+         8t/J8cO5LWNXqmsZczXX0POEnNMXZi8Nd3gUomVYTAcCewX2wOfscFozzVgrk+5WuBhb
+         Iw2f/8PkTUNe5CNPpSmQ2DvSsIeiTrXhkmBH91kWsId2mccLL7aqaX8krx7p51ZCF9/G
+         V2vy19GnE5JmBSiCNlIusRMrtutzn+khBp9ssc90fGRodF1yficA6utxfahNcBzUPQJ8
+         3cgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786734042; x=1787338842;
+        d=1e100.net; s=20251104; t=1786734039; x=1787338839;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4mzMerttDsOfbpanKYvzPBMaaP/LbFZq2gC3FgUEkFw=;
-        b=VXrrdXORUeg5b4GC47RgfhMgG0XZcutzUr5mLRrkSblWUovYbj8DxD7ryTzTSVPsBU
-         AVLez8QAUJU8hmJVKZzERRP7iYOx7W7X6gpuLPfOjz1Pjh3yyEgM6O2IEBl1bL7dIrEo
-         sesIEyWOgsP0fWDW659z6A8OgKzNlXtk/WBN7vzu17Eix6sYlcNcQZzftlPGdbPU1Kzd
-         U6It2SCNofgxSJOAjEv9yy04w1+q5KFkY5U3v0trZ1rEoemOKHwd1WPo8Fg3NC5fdZtv
-         UeFD8LcZntDtPRIeEvXAZPj9dTq6pEoyKV6fk1LublgBYEheCVNIEdgOm//NhktkgbLM
-         SkAg==
-X-Forwarded-Encrypted: i=1; AHgh+RrgNG88gcNi0hxaEvNUsrLaYb+zcfWCyJhEnrH6XFyYeStcjiEYfPmoXRH1Tx+W5Ayad0kuOVAk+a5s@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfNZMMOECLmnPjF/yfjqogE39b/JykkhhD7JD7AHvzfADIuygr
-	E7VUd8L1v2S3PMBV+OdOrPAKDZzNEn6qjfuDhLux3PckVLeGHh1fsc6z7R0I1g==
-X-Gm-Gg: AR+sD11+cUc5IvjnjdLG+MC69qNapgVZvRcv6maKgBlzXv34kS590DvioeMHJmMBjDN
-	2TaQOD2YnjdiWhozB50n6a3xeGlmySMQwpMvVs6QSjf3wE7xcXW4U47/7aQETjjVAGvGp60U9Ye
-	VXMr7B5e+AsBZSur0EpAXHsVepSLTKyQozhy3utwnXO+BI7hfBX9kXtLkT+TnHk79omlPfY1qNJ
-	G2u42Fie8BhBfmQ+gOKhX9C27dHPrhiWhXyKfFblNCk8arDbmR/Ndh22FdmkgIGvKvyOvn01iC7
-	k/V5TjdC0wvNoMvfQ60k1PcAGdH7iFO3/Oyyqg7pIJ9cFVIfxSxNZAwyvBtF0lp9mynxQK5vJxD
-	XbbtrzR0LOLHYAyVCOYMmqKKK+8IXiREtZcPeD4fQJEkC2mmx+sYIqwEODeCYDSkYnTYWDyAIFN
-	3fQitp1bLPgYDMziVLDzTbN0n7uFz1mgJADmZSOf8rn4ffa9UsV95By0RiXWEZ5KL8Mg49HXAN/
-	oikmnIDkLoCe70qy7nJ8CbPDnaJAXBOaD6AdiFe
-X-Received: by 2002:a17:902:e80b:b0:2cc:a977:4260 with SMTP id d9443c01a7336-2d3b0cebeaemr92728785ad.21.1786734041508;
-        Fri, 14 Aug 2026 12:00:41 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:55::])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d3ae805f4dsm14248995ad.37.2026.08.14.12.00.40
+        bh=agleD0q/wihAA5HubW+ukCeqb/5zzbMhQzrnq2hVrYk=;
+        b=MC/5P3zrswDeKSWl8nki0muoIMQP8hl7VSOAYCl07puJo0k/DoBc+Hr39MB213r1Qi
+         4lA4HivKOa/jD83bg+XhvLBr6j7Bn0SYgWZnanGHAnxzYNWdUBHtLlx6BLTt4jVDvFCm
+         hwurRXVCjcMwvcVjVVUYj1ir7FF1U4MpxAjNGNtBfoT2+sE67WPS3+H0bjd7eHEzLeEM
+         7Wj0vHecJq09gMLuGd/Y4CeCa80407rc8R9Ue8K6Q9TtpAC6NyMklCOxYG3XPJxDK3iA
+         /k6nKQRYUe7wjdmes285qvFJERVQcWUpJHcL7kS1gEWcjtn7shefS0cM6eMlx6nk9h3J
+         edDA==
+X-Forwarded-Encrypted: i=1; AHgh+RosCwq4Yfj2aEiii2TazUq+VgFBRZuwrzQxW0KASKTmsbjuelQVbhxVzyPoujTR5i3WQrhGlotY80sQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzkPGPCGo8n9No6gq+N1c8PdMKqBfonGwZTBgriKojyDyfQ08PW
+	51G6hJQyl/HZMZ9RPN2cCzEk+eOBUQ9cTuUXtRnRPanEm3FuhmOHwECd
+X-Gm-Gg: AR+sD13KLPdIUvJom0hO9AareZbotNdHgpCCavUvpxL8OKjQ7VO4zI3to34EETYbRbL
+	wX557fivX2WkYM6rGOnYeJZZV5/eLzohEuQK94vwimJRpm00GCD8rR5J/N/quHpt2OYTyz6ExcU
+	XBaP2Yta+ewrnynnTmrsoCJX1xGmj7kfU7Rt1YGAQXK8ASXbEVyvqieLfx4g8ftgYu3eic+FlpP
+	zXq6N6TqcpSQR1NbJeJWdu8mstNrUus9Bb6G6NWw6GaOk5EdVTuef+SrE3v4uJTOVdovtIItaxQ
+	y4rQ+tIOtJJ1pjp6hpuG5TfgwdxZCQyBgvRAuaqN8pMNmPFw9h0Eq0UsjPn/lbyCWu0Mx7auGjj
+	MPT5LELRaFN6ODLD2TOhflmPPXm+duv5O5NxRVQh6AAX824ocnDjrDhSlUpb8tqADbPnqry8df4
+	l0pvEMmvjQYT5m/brY9Thfw6qLBu8rbm+1+c0ITorq0Ozead5M3uHCEMztE35mr7Ye+41QsrYcB
+	/SFkdwfk7CRa9p9y7w+N4c4wM0sCQOhvRbVrNmI
+X-Received: by 2002:a17:90b:4c8f:b0:38d:dfd1:7c1 with SMTP id 98e67ed59e1d1-3933b77fff8mr7987572a91.2.1786734039073;
+        Fri, 14 Aug 2026 12:00:39 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:56::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-394ea97207fsm3628214a91.1.2026.08.14.12.00.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Aug 2026 12:00:40 -0700 (PDT)
+        Fri, 14 Aug 2026 12:00:38 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: miklos@szeredi.hu
 Cc: jlayton@kernel.org,
@@ -67,9 +67,9 @@ Cc: jlayton@kernel.org,
 	bernd@bsbernd.com,
 	amir73il@gmail.com,
 	fuse-devel@lists.linux.dev
-Subject: [PATCH v7 6/6] docs: fuse: document io-uring buffer pool and zero-copy uapi
-Date: Fri, 14 Aug 2026 11:59:46 -0700
-Message-ID: <20260814185946.3679478-7-joannelkoong@gmail.com>
+Subject: [PATCH v7 5/6] fuse: add zero-copy over io-uring
+Date: Fri, 14 Aug 2026 11:59:45 -0700
+Message-ID: <20260814185946.3679478-6-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260814185946.3679478-1-joannelkoong@gmail.com>
 References: <20260814185946.3679478-1-joannelkoong@gmail.com>
@@ -81,210 +81,716 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add documentation for fuse over io-uring usage of buffer pools and
-zero-copy.
+Implement zero-copy in fuse io-uring to eliminate memory copies between
+the application, kernel, and server for read/write operations. The
+server can directly access client pages or page cache folios without
+copying data through an intermediary buffer. When a fuse request arrives,
+the kernel registers the relevant pages into a sparse slot in the
+server's io_uring registered buffer table. The server can then operate
+on these pages directly using io-uring fixed buffer operations (eg
+read_fixed/write_fixed) and the kernel unregisters these pages when the
+request completes. Non-page-backed args (eg op out headers) will go
+through the payload buffer as normal. The server can specify which open
+files should have their reads/writes go through zero-copy, by setting
+the FOPEN_IO_URING_ZERO_COPY flag when servicing opens.
 
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+This requires CAP_SYS_ADMIN and bufpools. This is gated behind
+CAP_SYS_ADMIN because zero-copy allows the server direct access to the
+client's underlying pages, rather than operating on an intermediary
+buffer that the contents of the client's pages were copied into or on
+page cache folios.
+
+The request flow for the zero-copy direct-io write path (client writes
+data, server reads it) is as follows:
+=======================================================================
+|  Kernel                                   |  FUSE server
+|                                           |
+|  "write(fd, buf, 1MB)"                    |
+|                                           |
+|  >sys_write()                             |
+|    >fuse_file_write_iter()                |
+|      >fuse_send_one()                     |
+|        [req->args->in_pages = true]       |
+|        [folios hold client write data]    |
+|                                           |
+|  >fuse_uring_copy_to_ring()               |
+|    >copy_header_to_ring(IN_OUT)           |
+|      [memcpy fuse_in_header]              |
+|    >copy_header_to_ring(OP)               |
+|      [memcpy write_in header]             |
+|                                           |
+|    >fuse_uring_args_to_ring()             |
+|      >setup_fuse_copy_state()             |
+|        [skip_folio_copy = true]           |
+|                                           |
+|      >fuse_uring_set_up_zero_copy()       |
+|        [folio_get for each client folio]  |
+|        [build bio_vec array from folios]  |
+|        >io_buffer_register_bvec()         |
+|          [register pages at
+                 ent->zero_copy_index]      |
+|        [ent->zero_copied = true]          |
+|                                           |
+|      >fuse_copy_args()                    |
+|        [skip_folio_copy => return 0       |
+|         for page arg, skip data copy]     |
+|                                           |
+|    >copy_header_to_ring(RING_ENT)         |
+|      [memcpy ent_in_out]                  |
+|    >io_uring_cmd_done()                   |
+|                                           |
+|                                           | [CQE received]
+|                                           |
+|                                           | [issue io_uring READ at
+|                                           |  ent->zero_copy_index]
+|                                           | [reads directly from
+|                                           |client's pages (ZERO_COPY)]
+|                                           |
+|                                           | [write data to backing
+|                                           | store]
+|                                           |  [submit COMMIT AND FETCH]
+|                                           |
+|  >fuse_uring_commit_fetch()               |
+|    >fuse_uring_commit()                   |
+|      >fuse_uring_copy_from_ring()         |
+|    >fuse_uring_req_end()                  |
+|      >io_buffer_unregister(ent->zero_copy_index) |
+|        [unregister pages from index]      |
+|      >fuse_zero_copy_release()            |
+|        [folio_put for each folio]         |
+|      [ent->zero_copied = false]           |
+|      >fuse_request_end()                  |
+|        [wake up client]                   |
+
+The zero-copy read path is analogous.
+
+Some requests may have both page-backed args and non-page-backed args.
+For these requests, the page-backed args are zero-copied while the
+non-page-backed args are copied to the buffer selected from the buffer
+pool:
+    zero-copy: pages registered via io_buffer_register_bvec()
+    non-page-backed: copied to payload buffer via fuse_copy_args()
+
+For a request whose payload is zero-copied, the
+registration/unregistration path looks like:
+
+    register:  fuse_uring_set_up_zero_copy()
+                 folio_get() for each folio
+                 io_buffer_register_bvec(ent->zero_copy_index)
+
+    unregister: fuse_uring_req_end()
+                  io_buffer_unregister(ent->zero_copy_index)
+                  -> fuse_zero_copy_release() callback
+                     folio_put() for each folio
+
+Please note that on abort for in-flight zero-copied requests that have
+been sent to userspace, the registered bvec slot remains occupied and
+its folios remain pinned until the io-uring ring is destroyed, at which
+point io-uring unregisters all buffers and the fuse_zero_copy_release()
+callback drops the folio references. Unregistering at teardown would
+require operating on the ring context directly, whose validity is hard
+to ascertain; this is deemed not worth the complexity for the abort
+race, since everything is freed when the ring is torn down.
+
+The throughput improvement from zero-copy depends on how much of the
+per-request latency is spent on data copying vs backing I/O. The gain
+comes from eliminating the payload-buffer memcpy,  but accessing the
+zero-copied pages requires the server to issue the read/write as an
+IORING_OP_READ/WRITE_FIXED operation. The benefit is largest when the
+mempcy is a meaningful fraction of per-request latency while backing i/o
+is still noticable enough that the extra io-uring op's overhead doesn't
+dominate.
+
+Benchmarked with passthrough_hp (--nopassthrough, q_depth=8) on a
+2-socket Intel Xeon Gold 6138 (40 cores / 80 threads), using fio (sync
+engine, bs=1M, O_DIRECT, numjobs=2, 30s run + 10s ramp, 3 runs) where
+direct-I/O throughput is against a RAM-backed (tmpfs) source (backing
+I/O is not the bottleneck):
+
+		baseline   registered-buf   zero-copy   (zc vs base)
+direct read     ~5.1 GB/s  ~5.4 GB/s        ~8.9 GB/s   (+75%)
+direct write    ~3.4 GB/s  ~4.8 GB/s        ~5.1 GB/s   (+50%)
+
+Reads end up higher than writes because the backing store reads faster
+than it writes (the baseline shows the same read>write gap, and the raw
+device does too). On a device-bound NVMe (~2 GB/s reads) the read gain
+shrinks to ~10-16% (and no measurable gains for writes), as backing I/O
+rather than the eliminated copy dominates latency.
+
+The benefit overall scales with how much of the
+per-request latency is the data copy versus backing I/O.
+
 Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- .../filesystems/fuse/fuse-io-uring.rst        |  36 ++++-
- Documentation/filesystems/fuse/index.rst      |   1 +
- .../fuse/uapi/fuse-uapi-io-uring.rst          | 126 ++++++++++++++++++
- 3 files changed, 161 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
+ fs/fuse/args.h            |   2 +
+ fs/fuse/dev.c             |  24 ++++-
+ fs/fuse/dev_uring.c       | 182 +++++++++++++++++++++++++++++++++++---
+ fs/fuse/dev_uring_i.h     |   6 ++
+ fs/fuse/file.c            |   2 +
+ fs/fuse/fuse_dev_i.h      |   2 +
+ include/uapi/linux/fuse.h |  34 +++++++
+ 7 files changed, 236 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/filesystems/fuse/fuse-io-uring.rst b/Documentation/filesystems/fuse/fuse-io-uring.rst
-index d73dd0dbd238..29f98057500d 100644
---- a/Documentation/filesystems/fuse/fuse-io-uring.rst
-+++ b/Documentation/filesystems/fuse/fuse-io-uring.rst
-@@ -11,6 +11,9 @@ and works. For generic details about FUSE see fuse.rst.
- This document also covers the current interface, which is
- still in development and might change.
+diff --git a/fs/fuse/args.h b/fs/fuse/args.h
+index ecfe51a192af..5173264a1261 100644
+--- a/fs/fuse/args.h
++++ b/fs/fuse/args.h
+@@ -42,6 +42,8 @@ struct fuse_args {
+ 	bool is_pinned:1;
+ 	bool invalidate_vmap:1;
+ 	bool abort_on_kill:1;
++	/* server requested io-uring zero-copy for this op */
++	bool zero_copy:1;
+ 	struct fuse_in_arg in_args[4];
+ 	struct fuse_arg out_args[2];
+ 	void (*end)(struct fuse_args *args, int error);
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index d8f97943e973..90dceb7da571 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1248,11 +1248,25 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
  
-+For the userspace protocol, see
-+Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst.
-+
- Limitations
- ===========
- As of now not all requests types are supported through io-uring, userspace
-@@ -95,5 +98,34 @@ Sending requests with CQEs
-  |    <fuse_unlink()                         |
-  |  <sys_unlink()                            |
+ 	if (folio) {
+ 		size = folio_size(folio);
+-		if (zeroing && count < size)
+-			folio_zero_range(folio, 0, size);
++		if (zeroing && count < size) {
++			/*
++			 * When the copy is skipped the folio already holds the
++			 * payload, so only the bytes outside [offset, offset +
++			 * count) may be zeroed.
++			 *
++			 * Otherwise, the whole folio is cleared first so that a
++			 * failed copy leaves zeros rather than stale folio
++			 * contents.
++			 */
++			if (cs->skip_folio_copy)
++				folio_zero_segments(folio, 0, offset,
++						    offset + count, size);
++			else
++				folio_zero_range(folio, 0, size);
++		}
+ 	}
  
--
--
-+Buffer pools
-+============
+-	while (count) {
++	while (!cs->skip_folio_copy && count) {
+ 		if (cs->write && cs->pipebufs && folio) {
+ 			/*
+ 			 * Can't control lifetime of pipe buffers, so always
+@@ -1345,6 +1359,10 @@ int fuse_copy_args(struct fuse_copy_state *cs, unsigned numargs,
+ 	for (i = 0; !err && i < numargs; i++)  {
+ 		struct fuse_arg *arg = &args[i];
+ 		if (i == numargs - 1 && argpages)
++			/*
++			 * if cs->skip_folio_copy is set, this just does any
++			 * needed zeroing. No copying is involved.
++			 */
+ 			err = fuse_copy_folios(cs, arg->size, zeroing);
+ 		else
+ 			err = fuse_copy_one(cs, arg->value, arg->size);
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 17806da93039..1547a4f0d9b9 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -22,6 +22,8 @@ MODULE_PARM_DESC(enable_uring,
+ #define FUSE_URING_IOV_HEADERS 0
+ #define FUSE_URING_IOV_PAYLOAD 1
+ 
++#define FUSE_URING_ADD_QUEUE_FLAGS	(FUSE_URING_ZERO_COPY)
 +
-+Without a buffer pool, every entry needs to pass a dedicated payload buffer
-+large enough for the maximum payload size. A buffer pool decouples entries
-+from payload buffers. The server hands the kernel one contiguous buffer pool
-+of memory and when the kernel sends the server a request, it indicates the
-+offset into the pool for that request's payload. Internally, the kernel is
-+able to manage/optimize the buffer pool memory however it likes.
+ bool fuse_uring_enabled(void)
+ {
+ 	return enable_uring;
+@@ -31,6 +33,11 @@ struct fuse_uring_pdu {
+ 	struct fuse_ring_ent *ent;
+ };
+ 
++struct fuse_zero_copy_bvs {
++	unsigned int nr_bvs;
++	struct bio_vec bvs[];
++};
 +
-+A server may also register the pool region with io_uring as a fixed buffer.
-+The backing pages are then pinned once, avoiding per-request pinning and
-+address translation. This also allows servers to use the same registered
-+buffers for subsequent backing store I/O through io-uring, keeping data
-+in the same pinned pages without additional pinning / mapping overhead.
+ static const struct fuse_iqueue_ops fuse_io_uring_ops;
+ 
+ enum fuse_uring_header_type {
+@@ -113,8 +120,36 @@ static void fuse_uring_flush_bg(struct fuse_ring_queue *queue)
+ 	}
+ }
+ 
++static bool can_zero_copy_req(struct fuse_ring_ent *ent, struct fuse_req *req)
++{
++	struct fuse_args *args = req->args;
 +
-+Zero-copy
-+=========
++	if (!ent->queue->zero_copy || !args->zero_copy)
++		return false;
 +
-+Zero-copy lets the server read from / write to the client's pages (pinned
-+user pages for direct I/O, or page-cache folios for buffered I/O) without an
-+intermediary payload copy. This requires CAP_SYS_ADMIN privileges.
++	if (args->opcode != FUSE_READ && args->opcode != FUSE_WRITE)
++		return false;
 +
-+When a fuse request arrives for a file that opted into zero-copy, the kernel
-+registers the relevant pages (pinned user pages for direct i/o or underlying
-+page cache folios for buffered i/o) into a sparse slot in the server's
-+io_uring registered buffer table. The server can then operate on these pages
-+directly using io-uring fixed buffer operations (eg read_fixed / write_fixed)
-+and the kernel unregisters these pages when the request completes.
-+Non-page-backed args (eg op out headers) will go through the payload buffer as
-+normal.
-diff --git a/Documentation/filesystems/fuse/index.rst b/Documentation/filesystems/fuse/index.rst
-index 393a845214da..3dada6c4057a 100644
---- a/Documentation/filesystems/fuse/index.rst
-+++ b/Documentation/filesystems/fuse/index.rst
-@@ -12,3 +12,4 @@ FUSE (Filesystem in Userspace) Technical Documentation
-    fuse-io
-    fuse-io-uring
-    fuse-passthrough
-+   uapi/fuse-uapi-io-uring
-diff --git a/Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst b/Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
-new file mode 100644
-index 000000000000..8367be7ea29d
---- /dev/null
-+++ b/Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
-@@ -0,0 +1,126 @@
-+.. SPDX-License-Identifier: GPL-2.0
++	return args->in_pages || args->out_pages;
++}
 +
-+=====================================
-+FUSE-over-io-uring uapi documentation
-+=====================================
++static void zero_copy_unregister(struct io_uring_cmd *cmd,
++				 struct fuse_ring_ent *ent,
++				 unsigned int issue_flags)
++{
++	if (ent->zero_copied) {
++		int err = io_buffer_unregister(cmd, ent->zero_copy_index,
++					       issue_flags);
 +
-+Commands
-+========
++		if (err)
++			pr_warn_ratelimited("qid=%d zero-copy unregister failed: %d\n",
++					    ent->queue->qid, err);
++		ent->zero_copied = false;
++	}
++}
 +
-+``enum fuse_uring_cmd``:
+ static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
+-			       int error)
++			       int error, unsigned int issue_flags)
+ {
+ 	struct fuse_ring_queue *queue = ent->queue;
+ 	struct fuse_ring *ring = queue->ring;
+@@ -134,6 +169,8 @@ static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
+ 
+ 	spin_unlock(&queue->lock);
+ 
++	zero_copy_unregister(ent->cmd, ent, issue_flags);
 +
-+``FUSE_IO_URING_CMD_ADD_QUEUE``
-+  Create a queue identified by ``fuse_uring_cmd_req.qid``. Queue-wide
-+  options are passed in ``fuse_uring_cmd_req.flags``:
+ 	if (error)
+ 		req->out.h.error = error;
+ 
+@@ -309,7 +346,7 @@ void fuse_uring_conn_init(struct fuse_chan *fch)
+ }
+ 
+ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+-						       int qid,
++						       int qid, bool zero_copy,
+ 						       bool fail_if_exists)
+ {
+ 	struct fuse_chan *fch = ring->chan;
+@@ -328,6 +365,7 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
+ 	queue->qid = qid;
+ 	queue->ring = ring;
+ 	spin_lock_init(&queue->lock);
++	queue->zero_copy = zero_copy;
+ 
+ 	INIT_LIST_HEAD(&queue->ent_avail_queue);
+ 	INIT_LIST_HEAD(&queue->ent_commit_queue);
+@@ -713,6 +751,9 @@ static int setup_fuse_copy_state(struct fuse_copy_state *cs,
+ 
+ 	fuse_copy_init(cs, dir == ITER_DEST, iter);
+ 
++	if (ent->zero_copied)
++		cs->skip_folio_copy = true;
 +
-+  ``FUSE_URING_ZERO_COPY``
-+    Enable zero-copy on this queue. Requires ``CAP_SYS_ADMIN`` and a buffer
-+    pool, which is added separately via ``ADD_BUFPOOL`` before registering
-+    entries (see `Zero-copy`_).
+ 	cs->is_uring = true;
+ 	cs->req = req;
+ 
+@@ -744,6 +785,62 @@ static int fuse_uring_copy_from_ring(struct fuse_req *req,
+ 	return err;
+ }
+ 
++static void fuse_zero_copy_release(void *priv)
++{
++	struct fuse_zero_copy_bvs *zc_bvs = priv;
++	unsigned int i;
 +
-+``FUSE_IO_URING_CMD_ADD_BUFPOOL``
-+  Register the payload buffer pool for an existing queue. The server provides
-+  a single contiguous region in ``fuse_uring_cmd_req.bufpool.uaddr`` /
-+  ``.len``. This command must be issued after ``ADD_QUEUE`` and before
-+  registering any payload-carrying entries on that queue.
-+  ``fuse_uring_cmd_req.flags`` must be 0. Submitting this command with
-+  ``IORING_URING_CMD_FIXED`` marks the pool as registered, which avoids per
-+  i/o pinning/unpinning and mapping overhead (see `Buffer pools`_).
++	for (i = 0; i < zc_bvs->nr_bvs; i++)
++		folio_put(page_folio(zc_bvs->bvs[i].bv_page));
 +
-+``FUSE_IO_URING_CMD_REGISTER``
-+  Register a ring entry (a long-lived SQE that carries the request header
-+  iovec). For a zero-copy queue, ``fuse_uring_cmd_req.ent_zero_copy_buf_index``
-+  indicates the reserved registered buffer table slot this entry uses for
-+  zero-copy (see `Zero-copy`_).
++	kvfree(zc_bvs);
++}
 +
-+``FUSE_IO_URING_CMD_COMMIT_AND_FETCH``
-+  Commit the reply for a completed request and fetch the next one. The
-+  request is identified by ``fuse_uring_cmd_req.commit_id`` (the value the
-+  kernel reported in ``fuse_uring_ent_in_out.commit_id``).
++static int fuse_uring_set_up_zero_copy(struct fuse_ring_ent *ent,
++				       struct fuse_req *req,
++				       unsigned int issue_flags)
++{
++	struct fuse_args_pages *ap;
++	int err, i, ddir = 0;
++	struct fuse_zero_copy_bvs *zc_bvs;
++	struct bio_vec *bvs;
 +
-+Structures
-+==========
++	/* out_pages indicates a read, in_pages indicates a write */
++	if (req->args->out_pages)
++		ddir |= IO_BUF_DEST;
++	if (req->args->in_pages)
++		ddir |= IO_BUF_SOURCE;
 +
-+``struct fuse_uring_cmd_req`` (80-byte SQE command area):
++	ap = container_of(req->args, typeof(*ap), args);
 +
-+============================  ==================================================
-+Field                         Meaning
-+============================  ==================================================
-+``flags``                     Command-specific flags (see each command).
-+``commit_id``                 Request id, for ``COMMIT_AND_FETCH``.
-+``qid``                       Queue index.
-+``bufpool.uaddr``             Pool base address, for ``ADD_BUFPOOL``.
-+``bufpool.len``               Pool length in bytes, for ``ADD_BUFPOOL``.
-+``bufpool.reserved``          Must be 0, for ``ADD_BUFPOOL``.
-+``ent_zero_copy_buf_index``   Per-entry zero-copy slot, for ``REGISTER``.
-+============================  ==================================================
++	zc_bvs = kvmalloc_flex(*zc_bvs, bvs, ap->num_folios,
++			       GFP_KERNEL_ACCOUNT);
++	if (!zc_bvs)
++		return -ENOMEM;
 +
-+``struct fuse_uring_ent_in_out`` (reported by the kernel per request):
++	zc_bvs->nr_bvs = ap->num_folios;
++	bvs = zc_bvs->bvs;
++	for (i = 0; i < ap->num_folios; i++) {
++		bvs[i].bv_page = folio_page(ap->folios[i], 0);
++		bvs[i].bv_offset = ap->descs[i].offset;
++		bvs[i].bv_len = ap->descs[i].length;
++		folio_get(ap->folios[i]);
++	}
 +
-+============================  ==================================================
-+Field                         Meaning
-+============================  ==================================================
-+``flags``                     ``FUSE_URING_ENT_ZERO_COPY`` if zero-copied.
-+``commit_id``                 Id to echo back in ``COMMIT_AND_FETCH``.
-+``payload_sz``                Total payload size in bytes (see `Zero-copy`_).
-+``offset``                    Payload buffer offset within the pool.
-+============================  ==================================================
++	err = io_buffer_register_bvec(ent->cmd, bvs, ap->num_folios,
++				      fuse_zero_copy_release, zc_bvs,
++				      ddir, ent->zero_copy_index,
++				      issue_flags);
++	if (err) {
++		fuse_zero_copy_release(zc_bvs);
++		return err;
++	}
 +
-+Buffer pools
-+============
-+Setup:
++	ent->zero_copied = true;
 +
-+* Issue ``ADD_QUEUE`` for the qid.
-+* Issue ``ADD_BUFPOOL`` with ``bufpool.uaddr`` and ``bufpool.len`` pointing
-+  at the region.
-+* Register entries with ``REGISTER``.
++	return 0;
++}
 +
-+For every request that has a payload, the kernel reports where the payload
-+lives in ``struct fuse_uring_ent_in_out`` (part of
-+``struct fuse_uring_req_header``):
+ /*
+  * Copy data from the req to the ring buffer
+  */
+@@ -762,6 +859,13 @@ static int fuse_uring_args_to_ring(struct fuse_req *req,
+ 		.commit_id = req->in.h.unique,
+ 	};
+ 
++	if (can_zero_copy_req(ent, req)) {
++		ent_in_out.flags |= FUSE_URING_ENT_ZERO_COPY;
++		err = fuse_uring_set_up_zero_copy(ent, req, issue_flags);
++		if (err)
++			return err;
++	}
 +
-+``offset``
-+  Byte offset, within the pool region, for this request's payload buffer.
-+  The server adds this to the pool base address to locate the payload.
+ 	err = setup_fuse_copy_state(&cs, req, ent, ITER_DEST, &iter,
+ 				    issue_flags);
+ 	if (err)
+@@ -793,6 +897,18 @@ static int fuse_uring_args_to_ring(struct fuse_req *req,
+ 	}
+ 
+ 	ent_in_out.payload_sz = cs.ring.copied_sz;
++	/*
++	 * on a zero-copied write the pages are registered for the server to
++	 * read via a fixed-buffer op rather than copied into the payload
++	 * buffer, so copied_sz does not account for it. The server still needs
++	 * the total inbound size to know how many bytes to read from the
++	 * registered buffer, so add the page arg (always the last in-arg) back
++	 * in
++	 */
++	if (cs.skip_folio_copy && args->in_pages)
++		ent_in_out.payload_sz +=
++			args->in_args[args->in_numargs - 1].size;
 +
-+``payload_sz``
-+  Number of payload bytes for this request.
+ 	if (bufpool_enabled(ent->queue) && ent->payload.iov_base)
+ 		ent_in_out.offset =
+ 			(uintptr_t)ent->payload.iov_base - ent->queue->bufpool->base_uaddr;
+@@ -831,11 +947,25 @@ static int fuse_uring_copy_to_ring(struct fuse_ring_ent *ent,
+ 				   sizeof(req->in.h));
+ }
+ 
+-static bool fuse_uring_req_has_payload(struct fuse_req *req)
++static bool fuse_uring_req_has_copyable_payload(struct fuse_ring_ent *ent,
++						struct fuse_req *req)
+ {
+ 	struct fuse_args *args = req->args;
+ 
+-	return args->in_numargs > 1 || args->out_numargs;
++	if (!can_zero_copy_req(ent, req))
++		return args->in_numargs > 1 || args->out_numargs;
 +
-+To use registered buffers, the server registers the pool region with io_uring
-+and submits ``ADD_BUFPOOL`` with ``IORING_URING_CMD_FIXED`` set in
-+``sqe->uring_cmd_flags`` and the index of the registered bufpool in
-+``sqe->buf_index``. Every SQE the server submits afterwards must follow the
-+same fixed-buffer protocol, carrying ``IORING_URING_CMD_FIXED`` and that same
-+``sqe->buf_index``. The same registered buffer can be reused for the server's
-+backing-store I/O as well (e.g. ``IORING_OP_READ_FIXED`` /
-+``IORING_OP_WRITE_FIXED``).
++	/*
++	 * the asymmetry between in_numargs > 2 and out_numargs > 1 is because
++	 * the per-op header is extracted before fuse_copy_args() for inargs but
++	 * not for outargs
++	 */
++	if ((args->in_numargs > 1) && (!args->in_pages || args->in_numargs > 2))
++		return true;
++	if (args->out_numargs && (!args->out_pages || args->out_numargs > 1))
++		return true;
 +
-+Zero-copy
-+=========
-+Requirements:
++	return false;
+ }
+ 
+ static int fuse_uring_select_buffer(struct fuse_ring_ent *ent)
+@@ -892,7 +1022,7 @@ static int fuse_uring_next_req_update_buffer(struct fuse_ring_ent *ent,
+ 		return 0;
+ 
+ 	buffer_selected = !!ent->payload.iov_base;
+-	has_payload = fuse_uring_req_has_payload(req);
++	has_payload = fuse_uring_req_has_copyable_payload(ent, req);
+ 
+ 	if (has_payload && !buffer_selected)
+ 		return fuse_uring_select_buffer(ent);
+@@ -910,7 +1040,7 @@ static int fuse_uring_prep_buffer(struct fuse_ring_ent *ent,
+ 		return 0;
+ 
+ 	/* no payload to copy, can skip selecting a buffer */
+-	if (!fuse_uring_req_has_payload(req))
++	if (!fuse_uring_req_has_copyable_payload(ent, req))
+ 		return 0;
+ 
+ 	return fuse_uring_select_buffer(ent);
+@@ -936,7 +1066,7 @@ static int fuse_uring_prepare_send(struct fuse_ring_ent *ent,
+ 		ent->state = FRRS_INVALID;
+ 		spin_unlock(&ent->queue->lock);
+ 
+-		fuse_uring_req_end(ent, req, err);
++		fuse_uring_req_end(ent, req, err, issue_flags);
+ 	}
+ 
+ 	return err;
+@@ -1035,7 +1165,7 @@ static void fuse_uring_commit(struct fuse_ring_ent *ent, struct fuse_req *req,
+ 
+ 	err = fuse_uring_copy_from_ring(req, ent, issue_flags);
+ out:
+-	fuse_uring_req_end(ent, req, err);
++	fuse_uring_req_end(ent, req, err, issue_flags);
+ }
+ 
+ /*
+@@ -1160,7 +1290,12 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
+ 				    queue->qid, commit_id, ent->state);
+ 		fuse_uring_recycle_buffer(ent);
+ 		spin_unlock(&queue->lock);
+-		fuse_uring_req_end(ent, req, err);
++		/*
++		 * Unregister any zero copyable pages since ent->cmd is null
++		 * when it hits fuse_uring_req_end() in this path
++		 */
++		zero_copy_unregister(cmd, ent, issue_flags);
++		fuse_uring_req_end(ent, req, err, issue_flags);
+ 		return err;
+ 	}
+ 
+@@ -1284,10 +1419,14 @@ static struct fuse_ring_ent *
+ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+ 			   struct fuse_ring_queue *queue)
+ {
++	const struct fuse_uring_cmd_req *cmd_req =
++		io_uring_sqe128_cmd(cmd->sqe, struct fuse_uring_cmd_req);
+ 	struct fuse_ring *ring = queue->ring;
+ 	struct fuse_ring_ent *ent;
+ 	struct iovec iov[FUSE_URING_IOV_SEGS];
+ 	struct iovec *headers, *payload;
++	unsigned int zero_copy_index;
 +
-+* The server must be privileged (``CAP_SYS_ADMIN``).
-+* A zero-copy queue: ``ADD_QUEUE`` with the ``FUSE_URING_ZERO_COPY`` flag set.
-+* A buffer pool: ``ADD_BUFPOOL``.
-+* For each entry, ``REGISTER`` with ``ent_zero_copy_buf_index`` set to the
-+  index this entry uses in the server's io_uring registered-buffer table.
-+  This is where the kernel registers the request's pages for the server to
-+  access (it is separate from the payload pool). On a non-zero-copy queue this
-+  field must be 0.
+ 	int err;
+ 
+ 	err = fuse_uring_get_iovec_from_sqe(cmd->sqe, iov);
+@@ -1297,6 +1436,10 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+ 		return ERR_PTR(err);
+ 	}
+ 
++	zero_copy_index = READ_ONCE(cmd_req->ent_zero_copy_buf_index);
++	if (zero_copy_index && !queue->zero_copy)
++		return ERR_PTR(-EINVAL);
 +
-+Zero-copy is selected per open file. The server sets the open-file flag in
-+the ``FUSE_OPEN`` / ``FUSE_CREATE`` reply:
+ 	err = -EINVAL;
+ 	headers = &iov[FUSE_URING_IOV_HEADERS];
+ 	if (headers->iov_len < sizeof(struct fuse_uring_req_header)) {
+@@ -1315,9 +1458,14 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+ 		}
+ 	} else {
+ 		if (payload->iov_len < ring->max_payload_sz) {
++			spin_unlock(&queue->lock);
+ 			pr_info_ratelimited("Invalid req payload len %zu\n",
+ 					    payload->iov_len);
++			return ERR_PTR(err);
++		}
++		if (queue->zero_copy) {
+ 			spin_unlock(&queue->lock);
++			pr_info_ratelimited("Can only use zero copy with bufpools\n");
+ 			return ERR_PTR(err);
+ 		}
+ 		queue->payload_mode = FUSE_PAYLOAD_PER_ENT;
+@@ -1335,6 +1483,7 @@ fuse_uring_create_ring_ent(struct io_uring_cmd *cmd,
+ 	ent->headers = headers->iov_base;
+ 	if (queue->payload_mode == FUSE_PAYLOAD_PER_ENT)
+ 		ent->payload = *payload;
++	ent->zero_copy_index = zero_copy_index;
+ 
+ 	atomic_inc(&ring->queue_refs);
+ 	return ent;
+@@ -1364,7 +1513,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+ 
+ 	queue = READ_ONCE(ring->queues[qid]);
+ 	if (!queue) {
+-		queue = fuse_uring_create_queue(ring, qid, false);
++		queue = fuse_uring_create_queue(ring, qid, false, false);
+ 		if (IS_ERR(queue))
+ 			return PTR_ERR(queue);
+ 	}
+@@ -1389,8 +1538,9 @@ static int fuse_uring_add_queue(struct io_uring_cmd *cmd, struct fuse_chan *fch)
+ 	unsigned int qid = READ_ONCE(cmd_req->qid);
+ 	uint64_t flags = READ_ONCE(cmd_req->flags);
+ 	struct fuse_ring_queue *queue;
++	bool zero_copy = flags & FUSE_URING_ZERO_COPY;
+ 
+-	if (!ring || flags)
++	if (!ring)
+ 		return -EINVAL;
+ 
+ 	if (qid >= ring->nr_queues) {
+@@ -1398,7 +1548,13 @@ static int fuse_uring_add_queue(struct io_uring_cmd *cmd, struct fuse_chan *fch)
+ 		return -EINVAL;
+ 	}
+ 
+-	queue = fuse_uring_create_queue(ring, qid, true);
++	if (flags & ~FUSE_URING_ADD_QUEUE_FLAGS)
++		return -EINVAL;
 +
-+``FOPEN_IO_URING_ZERO_COPY``
-+  Reads/writes on this open file should use zero-copy.
++	if (zero_copy && !capable(CAP_SYS_ADMIN))
++		return -EPERM;
 +
-+For a request that is zero-copied, the kernel sets ``FUSE_URING_ENT_ZERO_COPY``
-+in ``fuse_uring_ent_in_out.flags`` and places the request's pages at the
-+entry's ``ent_zero_copy_buf_index``. The server then issues
-+``IORING_OP_READ_FIXED`` / ``IORING_OP_WRITE_FIXED`` against that index to
-+transfer the data directly to/from the client's pages.
++	queue = fuse_uring_create_queue(ring, qid, zero_copy, true);
+ 	if (IS_ERR(queue))
+ 		return PTR_ERR(queue);
+ 
+@@ -1595,7 +1751,7 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
+ 
+ 		io_uring_cmd_done(cmd, err, issue_flags);
+ 
+-		fuse_uring_req_end(ent, ent->fuse_req, err);
++		fuse_uring_req_end(ent, ent->fuse_req, err, issue_flags);
+ 		kfree(ent);
+ 		if (atomic_dec_and_test(&queue->ring->queue_refs))
+ 			wake_up_all(&queue->ring->stop_waitq);
+diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+index e142cae43022..263d0f8b9714 100644
+--- a/fs/fuse/dev_uring_i.h
++++ b/fs/fuse/dev_uring_i.h
+@@ -79,6 +79,10 @@ struct fuse_ring_ent {
+ 	/* buffer id in the pool, if bufpools are used. ignored otherwise */
+ 	unsigned int buf_id;
+ 
++	/* true if the request's pages are being zero-copied */
++	bool zero_copied;
++	unsigned int zero_copy_index;
 +
-+For such a request, ``payload_sz`` includes the zero-copied page bytes
-+(transferred via the registered buffer at ``ent_zero_copy_buf_index``). Any
-+non-page-backed args (e.g. op headers) are still copied through the pool
-+payload buffer at ``offset``.
+ 	/* the ring queue that owns the request */
+ 	struct fuse_ring_queue *queue;
+ 
+@@ -142,6 +146,8 @@ struct fuse_ring_queue {
+ 
+ 	/* only allocated when payload_mode == FUSE_PAYLOAD_BUFPOOL */
+ 	struct fuse_bufpool *bufpool;
++
++	bool zero_copy;
+ };
+ 
+ /*
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index da5859e8159d..7b883cf170ac 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -605,6 +605,7 @@ void fuse_read_args_fill(struct fuse_io_args *ia, struct file *file, loff_t pos,
+ 	args->out_argvar = true;
+ 	args->out_numargs = 1;
+ 	args->out_args[0].size = count;
++	args->zero_copy = ff->open_flags & FOPEN_IO_URING_ZERO_COPY;
+ }
+ 
+ static void fuse_release_user_pages(struct fuse_args_pages *ap, ssize_t nres,
+@@ -1151,6 +1152,7 @@ static void fuse_write_args_fill(struct fuse_io_args *ia, struct fuse_file *ff,
+ 	args->out_numargs = 1;
+ 	args->out_args[0].size = sizeof(ia->write.out);
+ 	args->out_args[0].value = &ia->write.out;
++	args->zero_copy = ff->open_flags & FOPEN_IO_URING_ZERO_COPY;
+ }
+ 
+ static unsigned int fuse_write_flags(struct kiocb *iocb)
+diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+index 668c8391d61c..f41749f484df 100644
+--- a/fs/fuse/fuse_dev_i.h
++++ b/fs/fuse/fuse_dev_i.h
+@@ -325,6 +325,8 @@ struct fuse_copy_state {
+ 	bool write:1;
+ 	bool move_folios:1;
+ 	bool is_uring:1;
++	/* set when the payload is zero-copied. folios are filled in place */
++	bool skip_folio_copy:1;
+ 	struct {
+ 		unsigned int copied_sz; /* copied size into the user buffer */
+ 	} ring;
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index 538d844da099..7435e09c87fe 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -246,6 +246,8 @@
+  *  - add FUSE_HAS_IO_URING_BUFPOOL
+  *  - add fuse_uring_cmd_req bufpool struct
+  *  - add bufpool offset field to fuse_uring_ent_in_out struct
++ *  - add FUSE_URING_ZERO_COPY, FUSE_URING_ENT_ZERO_COPY, and
++ *    FOPEN_IO_URING_ZERO_COPY flag
+  */
+ 
+ #ifndef _LINUX_FUSE_H
+@@ -389,6 +391,12 @@ struct fuse_file_lock {
+  * FOPEN_NOFLUSH: don't flush data cache on close (unless FUSE_WRITEBACK_CACHE)
+  * FOPEN_PARALLEL_DIRECT_WRITES: Allow concurrent direct writes on the same inode
+  * FOPEN_PASSTHROUGH: passthrough read/write io for this open file
++ * FOPEN_IO_URING_ZERO_COPY: use io-uring zero-copy for reads/writes on this
++ *                           open file. Honored only when the serving io-uring
++ *                           queue was set up for zero-copy
++ *                           (FUSE_URING_ZERO_COPY) and the request carries page
++ *                           payload. Otherwise reads/writes fall back to
++ *                           copying.
+  */
+ #define FOPEN_DIRECT_IO		(1 << 0)
+ #define FOPEN_KEEP_CACHE	(1 << 1)
+@@ -398,6 +406,7 @@ struct fuse_file_lock {
+ #define FOPEN_NOFLUSH		(1 << 5)
+ #define FOPEN_PARALLEL_DIRECT_WRITES	(1 << 6)
+ #define FOPEN_PASSTHROUGH	(1 << 7)
++#define FOPEN_IO_URING_ZERO_COPY (1 << 8)
+ 
+ /**
+  * INIT request/reply flags
+@@ -1259,6 +1268,13 @@ struct fuse_supp_groups {
+ #define FUSE_URING_IN_OUT_HEADER_SZ 128
+ #define FUSE_URING_OP_IN_OUT_SZ 128
+ 
++/**
++ * fuse_uring_ent_in_out flags
++ *
++ * FUSE_URING_ENT_ZERO_COPY: Set if the ent's payload is zero-copied
++ */
++#define FUSE_URING_ENT_ZERO_COPY	(1 << 0)
++
+ /* Used as part of the fuse_uring_req_header */
+ struct fuse_uring_ent_in_out {
+ 	uint64_t flags;
+@@ -1310,6 +1326,14 @@ enum fuse_uring_cmd {
+ 	FUSE_IO_URING_CMD_ADD_BUFPOOL = 4,
+ };
+ 
++/*
++ * fuse_uring_cmd_req flags for FUSE_IO_URING_CMD_ADD_QUEUE
++ *
++ * FUSE_URING_ZERO_COPY is only supported for queues with bufpools on privileged
++ * servers
++ */
++#define FUSE_URING_ZERO_COPY		(1 << 0)
++
+ /**
+  * In the 80B command area of the SQE.
+  */
+@@ -1330,6 +1354,16 @@ struct fuse_uring_cmd_req {
+ 			uint32_t len;
+ 			uint32_t reserved;
+ 		} bufpool;
++
++		/*
++		 * Index of this entry's slot in the server's io_uring
++		 * registered buffer table, where the kernel registers the
++		 * request's pages for zero-copy. Set for
++		 * FUSE_IO_URING_CMD_REGISTER cmds only, and only on queues
++		 * created with FUSE_URING_ZERO_COPY. On a non-zero-copy queue
++		 * this must be 0
++		 */
++		uint16_t ent_zero_copy_buf_index;
+ 	};
+ };
+ 
 -- 
 2.52.0
 
