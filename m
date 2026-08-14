@@ -1,68 +1,68 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2451A7E792
-	for <fuse-devel@lists.linux.dev>; Fri, 14 Aug 2026 04:25:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5081730D40D
+	for <fuse-devel@lists.linux.dev>; Fri, 14 Aug 2026 06:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786681541; cv=none; b=AIkmIuXJqPZADPih9ibzyw6UQ6EEh44QblpG9i9whp4zgf/A2Ye8GHDWcfT16TH5vT8l+fLvZeBN5aAFue/RR+hQ6WEVmP8CWPnQz/cG8Aqe+vU51hMwy4TbbiLi7a7KobuUK6ypz/c1jVhzsGuVJyjopq04xqeatIWtO6fNy+A=
+	t=1786688386; cv=none; b=pwZLy5TI1+somTp8JhiXIDAGtsUC7TIiY0nC538aaZuKd9in+9oC1DHNbcx9eaaHteV4s6TPZYkw9LhlCTQNcS5yoYhJP/sPHMM3M3lKDYCsTvdUe5YRXiUHzx09C317HXIcHpqvFlnuATbX1szqUpv5ay3SvAQ+6XqLCvLedQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786681541; c=relaxed/simple;
-	bh=Bj+GFIAM9t+QnayRLXvIYZmBxLjkp3TTy/+Mx2LFMYQ=;
+	s=arc-20240116; t=1786688386; c=relaxed/simple;
+	bh=KFbfKvgkiUh0eoArZY7l15PSg3pn/R5+srLV0KmzU3o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=syYe0hwAIFyPvlCXUJnUyTYRcKJB91zInc3DZfbaC8vyNzL4NFOtH2jhgfRNorH37cPGr29nQ0TI/TNAJTmrvwFYzkHso2O5qdQxbwIXQiIZjD7o6L/DppY6H5GaodwWMR8WQhZ5cvbG+7UNz5VK4fKCj3GyzexBr/nmaOjxGS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FiHwa0fG; arc=none smtp.client-ip=209.85.216.47
+	 In-Reply-To:Content-Type; b=LYnVC21ZljMniqNReLwKbve/Ek4L/ZpvIWmBrVDgUCN8cHGTia84McQRoWjQ/u7J/0FHcVX24hy8zrQDNUSJG4fxaa6lt4D/MgfYq/UGKMa3DEiGrjy2ekZtJ/X52yWMcKl3CcJGOOjRIxDAJhxIVoZF1/3mniIZ+wBXTjOhHl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PybQ81JM; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FiHwa0fG"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so590646a91.0
-        for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 21:25:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PybQ81JM"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38e69bdb0fcso622545a91.1
+        for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 23:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786681539; x=1787286339; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786688385; x=1787293185; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=TPnXUKqHB09+gprPc9dr6m7TW7NThR7K77XWxdq9JR4=;
-        b=FiHwa0fGqYfFpekYr4pp7fQvMX5HRvdj7IauP5MvBg/qv3t4QuboHwp+roWzyJ5Vn4
-         M/fJ59rxYmYBx4KC2htgh1c8KfaHj8++it25QTRx0M+kLfpwNhvcdvubt7FDnBL18h4v
-         OtizWi46JUKFgnwkUAkwpjNXx1HhmfwhWJ7khy5rKQZ7O2L+P9ak7WRk/I4iaTfGptSj
-         QYlK2/vbdfsUVU04Bi68zeKn/0YndcmVfaLrX03mZJHKVAtA7ipwOQTL4zgo3imLgF0P
-         6Y8zccBTLMVdruWx4mdQx5ykwwswCCJyJoCin8LEtl3HfXU2dMolLf8bAKzVX00HMD/E
-         MzbA==
+        bh=8zzHteahxWER+bHLxgDmoneuuL+9/H/S/HBeqpOauBo=;
+        b=PybQ81JMDY+iq4qgztv4NelvziP3DrfMIABTPsCY3zbSBTS5agJ2by11C2S6r8Hvn9
+         q3Dy3DkEvea8gGkoiKT+iljwuP+JsWyrUlc6YUmtVMj0b7HhMcsJR2g+iuwxP3QMpNAM
+         XySOQvDwFxS+Xj0KqoHcoqdM7G9/HlOaeqvbsJpWP5gYiYdqftVMwtsr146VIZ5H2xmW
+         GAHJajwCmp8dtX6zSroSe6GoSxAcgvYFQqW/w+mkeTikvTWeEmQU3+bzZlgmyd6VZAUA
+         darFBOLEpTO72rKVuIC3wt33g8/k4WAnI7xFbnd+6drmBKJgCrN8n1WjKd4hwUOHdxWD
+         PRKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786681539; x=1787286339;
+        d=1e100.net; s=20251104; t=1786688385; x=1787293185;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TPnXUKqHB09+gprPc9dr6m7TW7NThR7K77XWxdq9JR4=;
-        b=Uk1zSsUYBv2h7AhooCayXQNRt/GndqbY7XO/b9yFTfxySMCW1n6TeOxFWFpZk3bJEL
-         CaDCuTG5HBHGk///TatkuMVValVzjerwgAgQGEuRhWIqSWd/1tdeGPDwhiUdd6XOWSYn
-         na3o+Coc8hDSE/EOowSQdwBcOhRSafpVcUSXbwsB/JaZe7eolnTMRwNXX0kh/bKu8Tlu
-         XBKhaI8xSoxlLvChA1qImcEbedULWLW5Vc7UHTjvWjuNawL7ADfu8Pxr7BaXu2lzfhN5
-         6+PjlGIjfW1kXSoQ0fdw4V9zt2Vyv6xLWt+RCHZRQkrGjnp4+ZdewtsbXALgC9LXUbp9
-         dnqw==
-X-Forwarded-Encrypted: i=1; AHgh+RoehHLXzfPCJYLo7NK/zPUx+6w56zzZmXgETV/PHt4vbpM9zp7cvIT97wcGgpXE+xju8YW6lesGtTZu@lists.linux.dev
-X-Gm-Message-State: AOJu0Yya3tGoqV/Dzy86Ju3GqxjO2yjlKShskVE6F1+r7PA2lEvHT0zE
-	4FEXrRszE2zV9usa6ZOW33b0dkXxvygJBEnIDTvdpr0IPoTqbvj577IxnMYnJSjt3R0=
-X-Gm-Gg: AR+sD13E8okRyx717482oH4QU2/Klki/uXTpPSvQh6yIIMOMI+QAn0AYsS3kIZHxgWY
-	fclVTFcQ1SXC/PKlbpiSw9sEvGJpJiN7fMUe1Xwf8pI2WnhRXEuWRNEqseTb178nzV89kSARkC4
-	vBuK4j3hYRrJbuhDFRK7UkKH3WapJ09AgXfpL9E9rw1wymTWua9fEy8+ntyl0SdhCJsuDzKb4qb
-	6oVZVUV2DvQSFyOy9Da3/k2WRQE1tFmP/uQKRdvYyJ4Cnx//kINKnJ85DYi8e6VImASsExtpTDg
-	Tyg0lcI6tlkc0amMHhDA0CKsWNtElNZk8o25wBZIQ7T+Rf9s/dyxt16W54UTTnBfrjRJ2x4MSEP
-	7wDq9yXtk6KQOPDzUo6/kzPvwPnCUHSaDARVcmbAULSwlkk9iBmYwWjNvJdanJiiAzdZaHv0X70
-	mVyqZ44/trp+ObbxYCKF6Yk0jw4t5AL0WqZXT7wFeZ9W0A9ni55q2TnRLEHHMvp9rztAvAGHnfJ
-	ESz4UoI6Q==
-X-Received: by 2002:a17:90b:1c87:b0:380:540:d499 with SMTP id 98e67ed59e1d1-3933cae4b3amr2936349a91.6.1786681539297;
-        Thu, 13 Aug 2026 21:25:39 -0700 (PDT)
+        bh=8zzHteahxWER+bHLxgDmoneuuL+9/H/S/HBeqpOauBo=;
+        b=UnrE8r4L66VBWsfJcrzPKN49SleN+9QNb8NqxXo7d6ON+bRyQk9qQq5tXmd+mj1IzS
+         bxLgBxhz5G0vCt8yWTMQaG6fJvsw3KEJpRr2tksyEUeOoZ4WRNKsYX4Gh4SWxAqoA74b
+         btt2tDATIfGZwrTmsX88lxxv02oqbtqAxjlr1STgpmM5/83hps/ZuQB0+E3JGbCxbiHA
+         8fgUlpRsSOczyG7bFgh0brCtjZnf30T/yUtdUqV9STscD4Suvwr+CC0IAYCe0Z1g/lGI
+         bGkd0TqcleaFvugzXqnRP0A4M1qpBaWvRzxcGfyN0ftWGp9AP8kGBaxRZWdxJtsS/xAg
+         /pvg==
+X-Forwarded-Encrypted: i=1; AHgh+RrrPFMkGzYtySQl0lkCSGohG4kG1Q2oLv1ATuObkDEL9g4wGz6N0fgEH6Xi1DglAQZmvhZZqyWawyie@lists.linux.dev
+X-Gm-Message-State: AOJu0YyjclZQ3UxIuxl1nl9/NkoBCfKa1cdXmYll1heonthMT5cPPfqa
+	gKCV3bGrDP2pAOyrBSLJ6S+WlTQx/btJGTURE3/B3dD8Jny3p5wcRv+d
+X-Gm-Gg: AR+sD11T7WZohI6/zjPEh9jsstrkqqGaZ13NskROuaFqG/o+JAQWJMZqrTHgHc8EF8B
+	Z5ANlHq7nNTtAyKBtxnWuV4pN5wiCIVJIvD9bHSlEifDOznUY+Hgq7Sc4btjdNUzX0qwfIaRuTQ
+	gQeBqXdxZQx5cJjkx4XyBIKDIvOPkIVvbHzoZLsu+Dv0KbfQ7ZpngXq2QJgWTH9KXqVbW8yWg5H
+	FrJpvYYYJsXdQs7oQEwvxvIbtpqJ619qPkww4EPwRptbKqJz2qSSJMl9jRb1kP21/TrEhnEWhfM
+	pBWMxCN37BMwbKbYvPNTYQNyRjF99T+q24hP8I2AmotGzTLsJjy4TEsKKLnaKVL4GrFqM+ir/t3
+	sJYwKVqJ4r6eSismSg8RPjuS17T7TepNXadbfhyFsTePnUCZLaNBFFHm2pAkbCcIJsMbQVruqT9
+	dcrv9LVY4FN/exxbj77NATVb0zsdqRkaagLo1uAYfvKlXFn+C/RhifHnyZHaJUBHKDQTkCE9xD7
+	zF+nS8Ikg==
+X-Received: by 2002:a17:90b:5450:b0:38d:c74d:29c5 with SMTP id 98e67ed59e1d1-3933ed23db1mr3617266a91.19.1786688384548;
+        Thu, 13 Aug 2026 23:19:44 -0700 (PDT)
 Received: from [10.22.68.200] ([111.223.92.222])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-394ea996575sm788095a91.8.2026.08.13.21.25.37
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3933b688035sm667180a91.3.2026.08.13.23.19.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 13 Aug 2026 21:25:38 -0700 (PDT)
-Message-ID: <33747609-53e7-4f17-9e97-2fdff67b4460@gmail.com>
-Date: Fri, 14 Aug 2026 12:25:36 +0800
+        Thu, 13 Aug 2026 23:19:44 -0700 (PDT)
+Message-ID: <1bc066fa-ee8c-426a-9c63-b0ee305de5a5@gmail.com>
+Date: Fri, 14 Aug 2026 14:19:40 +0800
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -70,136 +70,89 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fuse: clear stale intr_entry in fuse_remove_pending_req()
-To: Baokun Li <libaokun@linux.alibaba.com>, fuse-devel@lists.linux.dev
-Cc: miklos@szeredi.hu, jefflexu@linux.alibaba.com, winters.zc@antgroup.com,
- stable@vger.kernel.org
-References: <20260728031641.2497811-1-libaokun@linux.alibaba.com>
+Subject: Re: [PATCH 0/2] fuse: fix request lifetime races in the resend path
+To: Jun Yang <littleddfu@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ fuse-devel@lists.linux.dev
+Cc: Zhao Chen <winters.zc@antgroup.com>, linux-kernel@vger.kernel.org,
+ Jun Yang <junvyyang@tencent.com>, TencentOS Corvus AI <corvus@tencent.com>
+References: <20260804091757.503476-1-junvyyang@tencent.com>
 Content-Language: en-US
 From: Tang Yizhou <tangyeechou@gmail.com>
-In-Reply-To: <20260728031641.2497811-1-libaokun@linux.alibaba.com>
+In-Reply-To: <20260804091757.503476-1-junvyyang@tencent.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/7/26 11:16 am, Baokun Li wrote:
-> Commit f8fce75fedf7 ("fuse: clear intr_entry in fuse_resend and
-> fuse_remove_pending_req") removes stale interrupt entries in
-> fuse_chan_resend() when requests are moved back to fiq->pending.
-> However, that cleanup only covers interrupt entries that are already
-> linked at scan time.  It can race with a concurrent queue_interrupt()
-> from the request holder:
+On 4/8/26 5:17 pm, Jun Yang wrote:
+> Two fixes for races introduced together with FUSE_NOTIFY_RESEND
+> (760eac73f9f6, v6.9), where fuse_chan_resend() moves in-flight requests
+> from fpq->processing back onto fiq->pending.
 > 
->   CPU 0 (holder thread)           CPU 1 (resend)
->   ---------------------           --------------
-> 
->   req in processing (FR_SENT=1)
-> 
->   signal arrives
->   set_bit(FR_INTERRUPTED)
->   test_bit(FR_SENT) -> true
->   queue_interrupt():
->     spins on fiq->lock ...
->                                   fuse_chan_resend():
->                                     set_bit(FR_PENDING)
->                                     clear_bit(FR_SENT)
->                                     spin_lock(&fiq->lock)
->                                     cleanup scan:
->                                       intr_entry not linked yet
->                                       -> list_del_init is a no-op
->                                     list_splice -> fiq->pending
->                                     spin_unlock(&fiq->lock)
->     ... acquires fiq->lock
->     list_empty(&req->intr_entry) -> true
->     FR_FINISHED not set
->     -> intr_entry added to fiq->interrupts
->        AFTER the cleanup already ran
-> 
->   fatal signal arrives
->   fuse_remove_pending_req():
->     test_bit(FR_PENDING) -> true
->     list_del(&req->list)
->     __fuse_put_request
->   fuse_put_request (refcount -> 0)
->   -> req freed, intr_entry dangling
->      on fiq->interrupts
-> 
+> Both concern the same invariant. FR_PENDING means "queued on fiq->pending,
+> protected by fiq->lock", and it is what fuse_remove_pending_req() relies on
 
-Good catch. We discovered this issue in our recent stability testing. The
-proposed fix looks reasonable, and we plan to validate it.
+Hi,
 
-> fuse_dev_queue_interrupt() only checks list_empty() and FR_FINISHED
-> before linking intr_entry -- it does not check FR_PENDING, so a
-> request already spliced back to fiq->pending can still be added to
-> fiq->interrupts.  The lock contention itself produces the bad
-> ordering: while the resend holds fiq->lock to scan the queued
-> requests, the holder spins in queue_interrupt() and links intr_entry
-> right after the scan finishes.
-> 
-> The dangling entry then causes the same use-after-free that the
-> above commit describes: fuse_read_interrupt() writes to the freed
-> slab object via list_del_init() and leaks req->in.h.unique to
-> userspace.  Once the freed memory is reused, INIT_LIST_HEAD() turns
-> the entry into a self-loop and list_empty(&fiq->interrupts) returns
-> false forever, so the daemon reads the same phantom FUSE_INTERRUPT
-> in an infinite loop and never consumes fiq->pending.
-> 
-> Close the race in fuse_remove_pending_req(), which is the common
-> bail-out path for both the legacy and the io_uring transport: after
-> the request is removed from the pending queue, also unlink intr_entry
-> under fiq->lock before the reference is dropped.  fiq->lock must be
-> taken explicitly since the lock argument is the ring queue lock in
-> the io_uring case, while fiq->interrupts is always protected by
-> fiq->lock.  This runs on the holder thread after any
-> queue_interrupt() it issued, and no other path can re-link the entry
-> once the request is off the queues (re-queueing an interrupt from
-> FUSE_INTERRUPT's -EAGAIN reply requires finding the request in the
-> processing queue first).
+Currently FR_PENDING doesn't mean the request is protected by fiq->lock. It
+looks like this is your solution, so you need to clearly explain why you are
+doing this.
 
-The commit message is too verbose and looks AI-generated.
+> to unlink a request and drop the queue's reference. A request on
+
+It is unrelated to the queue's reference. I think you need to check whether the
+AI's output is correct first.
+
+> fiq->pending can therefore be released without going through
+> fuse_request_end(), so anything that sets FR_PENDING, or that leaves a
+> request linked elsewhere while FR_PENDING is set, has to be done under
+> fiq->lock.
+> 
+> Patch 1 sets FR_PENDING under fiq->lock. fuse_chan_resend() currently
+> publishes the bit while the requests are reachable only through a
+> stack-local list, so a concurrent waiter can unlink and release a request
+> that fuse_chan_resend() is still iterating over.
+> 
+> Patch 2 re-checks FR_SENT under fiq->lock in fuse_dev_queue_interrupt().
+> Its callers sample FR_SENT unlocked and fuse_chan_resend() clears it under
+> fiq->lock, so a request can end up queued on fiq->pending and linked on
+> fiq->interrupts at the same time.
+> 
+> Dependency between the two patches
+> ==================================
+> 
+> They are independent and neither supersedes the other, so please apply them
+> together rather than picking one. Patch 2 does not affect the unlocked
+> FR_PENDING publish that patch 1 fixes. Patch 1 cannot catch an intr_entry
+> that is linked after its locked walk has already run, because that link
+> happens once fuse_chan_resend() has released fiq->lock. Patch 1 on its own
+> also makes the condition patch 2 fixes easier to hit, since requests that
+> would previously have been torn out of the resend list now survive to be
+> re-queued.
+> 
+> Both were found by code audit and confirmed on v7.2-rc6 (075b74841bd0),
+> where the series was built and tested; the resend and interrupt paths were
+> verified to still be exercised with the series applied.
+> 
+> A KASAN reproducer for this issue is available if requested.
+
+Since you have a KASAN reproducer, please first describe how to trigger the
+issue and what the symptoms are, as a prelude to the solution.
 
 -- 
 Best Regards,
 Yi
 
 > 
-> Fixes: 760eac73f9f6 ("fuse: Introduce a new notification type for resend pending requests")
-> Cc: stable@vger.kernel.org # 6.9
-> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
-> ---
->  fs/fuse/dev.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> Reported-by: TencentOS Corvus AI <corvus@tencent.com>
+> Signed-off-by: Jun Yang <junvyyang@tencent.com>
 > 
-> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> index 5763a7cd3b37..87891162985c 100644
-> --- a/fs/fuse/dev.c
-> +++ b/fs/fuse/dev.c
-> @@ -678,6 +678,8 @@ static int queue_interrupt(struct fuse_req *req)
->  
->  bool fuse_remove_pending_req(struct fuse_req *req, spinlock_t *lock)
->  {
-> +	struct fuse_iqueue *fiq = &req->chan->iq;
-> +
->  	spin_lock(lock);
->  	if (test_bit(FR_PENDING, &req->flags)) {
->  		/*
-> @@ -686,6 +688,18 @@ bool fuse_remove_pending_req(struct fuse_req *req, spinlock_t *lock)
->  		 */
->  		list_del(&req->list);
->  		spin_unlock(lock);
-> +
-> +		/*
-> +		 * Remove stale intr_entry queued by queue_interrupt() before
-> +		 * the request was requeued, which would otherwise dangle on
-> +		 * fiq->interrupts once the request is freed.
-> +		 */
-> +		if (test_bit(FR_INTERRUPTED, &req->flags)) {
-> +			spin_lock(&fiq->lock);
-> +			list_del_init(&req->intr_entry);
-> +			spin_unlock(&fiq->lock);
-> +		}
-> +
->  		__fuse_put_request(req);
->  		req->out.h.error = -EINTR;
->  		return true;
+> Jun Yang (2):
+>   fuse: set FR_PENDING under fiq->lock in fuse_chan_resend()
+>   fuse: don't queue an interrupt for a request that is back on
+>     fiq->pending
+> 
+>  fs/fuse/dev.c | 29 +++++++++++++++--------------
+>  1 file changed, 15 insertions(+), 14 deletions(-)
+> 
+
 
 
