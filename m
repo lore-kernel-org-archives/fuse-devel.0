@@ -1,75 +1,68 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC80F3B27E8
-	for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 21:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2451A7E792
+	for <fuse-devel@lists.linux.dev>; Fri, 14 Aug 2026 04:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786656050; cv=none; b=OmfX2F+IDPgwKNtEp9N9p4STmNVOt4u5Kp17RJyDQ7jUR0vQH/y2mDPe1PKJWsZXQ1Qk+YmHqsdWnYhWvvmTdoZRlW9ILDN+1imbfS2iD02bO5M9WjwBYiYC/2LBvuVZ8eiafjsaik9HAYi2UKTJ9AxeFUxJsR3dzOo7Xl1rU2c=
+	t=1786681541; cv=none; b=AIkmIuXJqPZADPih9ibzyw6UQ6EEh44QblpG9i9whp4zgf/A2Ye8GHDWcfT16TH5vT8l+fLvZeBN5aAFue/RR+hQ6WEVmP8CWPnQz/cG8Aqe+vU51hMwy4TbbiLi7a7KobuUK6ypz/c1jVhzsGuVJyjopq04xqeatIWtO6fNy+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786656050; c=relaxed/simple;
-	bh=dKPl/CbCtH6zqxCtODdog6fs7udBgLYyNT2kvn5mMzk=;
+	s=arc-20240116; t=1786681541; c=relaxed/simple;
+	bh=Bj+GFIAM9t+QnayRLXvIYZmBxLjkp3TTy/+Mx2LFMYQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CoZOnPVL3O7Qxhrvr5U5GENM5w6YlJvlbcfNqt4eUjX6h0fCbev0nUIu1VvWTpR43XPwcSP2O8OotniiD5ORQTjVguGPYgYABtn4K9CRMKYGRNv9PxMvZAQWzC5jYGPy/CoQJrWkadUESSjpgfZaR8bFzgFdn7SCRtSJ2ZJm0IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=RG7Ceif0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=a7KuhGxO; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	 In-Reply-To:Content-Type; b=syYe0hwAIFyPvlCXUJnUyTYRcKJB91zInc3DZfbaC8vyNzL4NFOtH2jhgfRNorH37cPGr29nQ0TI/TNAJTmrvwFYzkHso2O5qdQxbwIXQiIZjD7o6L/DppY6H5GaodwWMR8WQhZ5cvbG+7UNz5VK4fKCj3GyzexBr/nmaOjxGS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FiHwa0fG; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="RG7Ceif0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="a7KuhGxO"
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id DE2F31D0035E;
-	Thu, 13 Aug 2026 17:20:45 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Thu, 13 Aug 2026 17:20:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1786656045;
-	 x=1786742445; bh=yrkTR9EZ/O5pI8cjmiZy/nOOco+iGrRwaIsZFzPVKMk=; b=
-	RG7Ceif0VvnmBPDfYraJVwHOhO4wZYO+dIYHKnpH/dRqtPlR04PW9pOe1GuiskVq
-	YiPOKRxuTOjqVU+4H+TAU9vLvhOr58Y3MkBPeIUrhQozJ6moUJkyU4JzsG4c4hC9
-	+ylIRUCOBHj3IyjRU/Jl9WFpavtEV0qqmn+mzBP99ARMuVwqFjprENTRhecl0pDB
-	RsXhGPGEeeMG78faTCOrMJS4q4NF/1gDmOCZ41icDbK3aXzCgdioQJ9atOlJhmPp
-	dWckxu37gTst/M9eiVlX1WMSpE1+mPCuAJpkQPY0dbkghsuBcbzSthMaraU2lgJg
-	/4gLITnGKnehy2rUFF8MRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786656045; x=
-	1786742445; bh=yrkTR9EZ/O5pI8cjmiZy/nOOco+iGrRwaIsZFzPVKMk=; b=a
-	7KuhGxOIkiyPScD8T7oeqJxWHsTDnHHVQ7+EJecirGSCImfgQilaBJKkEnB1LZk6
-	2Xjpx96zejIX8l4R7k8IqFNvlYy9aj4LvKnXHbGdVVxP/kU3howwAJxd3OQCs5Ft
-	99k1kjtTF0wb9+yDWxymRLbfpCdsMrrZAY3pdJS509KiOc+5y9bMz/Nnc6Q5jJS6
-	hdYLxm0e6H2u1ZoDZhaAZ6QRfZjByOK5yNYba01KhXGKlewdwRBDJj4A7RgD1pt8
-	MWLmnP4QqBdDvy3JX4vHHVXvNiF0MfZwxfr2tY3Qec1ZBkOa5+8FGjKasVAGgFX4
-	JgTt5AIdHiVCs0LjQuNzw==
-X-ME-Sender: <xms:LDV-airChqrRKA4QrOFIBJd1-sHSgk9r4hya1yNePxC6vnAF9paTQA>
-    <xme:LDV-ahXWOafNXJugcsnifx0sEUhVbzSqF0_DMWxBbOMVSK2nQibAFVfrH6XjMj1C3
-    y_JaZ7crAQlcE8QRX0ahjjyipQFZnoirZSl0ahSgmL5bOthH0QRoQ>
-X-ME-Received: <xmr:LDV-albZBwMeNX8vGxYMGy8AJDcf6izA3sQ4wjoLNbv4pAT53f900gfwh2EEZDjE4gTjngALN3S7_gb4KYMuRxudKjz2Mk2XLkYHkIkbbdVLwER7RXrZYZAb>
-X-ME-Proxy-Cause: dmFkZTF20b8oImTBDjY9LR6LjoV4jsK/9Jn3ymxFVVOWiDxCXYA2c/MEgbdpM4Xj+rA517
-    c8icjuJ33xmcJ52hvI71HQ3dXPuKnJOVpQpR/FoOHlFisDisuTRwNkhJzQ47nx+yU+hTw4
-    2xJ9SC8jOYpBz/AfZJfpYk2CMwdxJkXoohArDHtbGRtTcfn+lhDSGo2ytpilqwJhbWYpUB
-    50PKLF7JA+S0SnV4SuPgsSpgGJ16rHmNcj0UYhOy8Ei1NglligQgC0b800csdPGDlJYa7a
-    MAjj/zxmM1D6omKd2KGfkscbiVSIMPrcLu9Fu8ljg/iEbadEeIqzUuPeA2xxc8s5B59Slf
-    sMY/EuwFYUKOTCwyxfRf9PQKBxZNe4XSuejzPYmthjZLT74mbS1168B1SKNMaKmgbbaqVM
-    T8f9xMWoC8LIDLF8MrO7Iqyp0Nbtc2O1z98MRR+JoE7EvkY17gKWADybK2YEVx6tkVRLhS
-    NcrZ5UcMRV6Y6GosKW4VvCZZPyxYUdFh/Eds95IEgpolE7Epwics6CCEW9nJAIo4Z/x6ex
-    QCafgD19uFz5XkFEfniNHBD5Di/ocZABzawLGQ5+m975nj2hcweBe9SPX0OqdEdJ/Tws16
-    ksaJSFVWqQq3fUJneIwuOy5RN9FtvFkfzEadXfYVWeYP8hxUMZ5VIYp+W9/Q
-X-ME-Proxy: <xmx:LDV-amctMJkRQWoRNFrVhCjKfb8jODO0K-GzqTLfd0-Sk5WB_za9tw>
-    <xmx:LDV-an06HCPGA3OlGNRxi0hSxB3GkMWEeTMAugHPetI5wG-lijNcLA>
-    <xmx:LDV-alIwNi_xP1x34uaF2HvwE8N-z6G78R8XTbSxJlks7Y9H0GUFkQ>
-    <xmx:LDV-auH8oATMDm-2v_ZXZayYRDf5KGaR3-Uq8sddvWRNxUWz1BdA9g>
-    <xmx:LTV-aiaTS0iiIBCJeAC-TyuShl1torMDUZvE0S5x514CoW4PVlm7ClnX>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 13 Aug 2026 17:20:42 -0400 (EDT)
-Message-ID: <d3d41c2d-f8a6-4c43-8d08-78f767781277@bsbernd.com>
-Date: Thu, 13 Aug 2026 23:20:40 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FiHwa0fG"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so590646a91.0
+        for <fuse-devel@lists.linux.dev>; Thu, 13 Aug 2026 21:25:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786681539; x=1787286339; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TPnXUKqHB09+gprPc9dr6m7TW7NThR7K77XWxdq9JR4=;
+        b=FiHwa0fGqYfFpekYr4pp7fQvMX5HRvdj7IauP5MvBg/qv3t4QuboHwp+roWzyJ5Vn4
+         M/fJ59rxYmYBx4KC2htgh1c8KfaHj8++it25QTRx0M+kLfpwNhvcdvubt7FDnBL18h4v
+         OtizWi46JUKFgnwkUAkwpjNXx1HhmfwhWJ7khy5rKQZ7O2L+P9ak7WRk/I4iaTfGptSj
+         QYlK2/vbdfsUVU04Bi68zeKn/0YndcmVfaLrX03mZJHKVAtA7ipwOQTL4zgo3imLgF0P
+         6Y8zccBTLMVdruWx4mdQx5ykwwswCCJyJoCin8LEtl3HfXU2dMolLf8bAKzVX00HMD/E
+         MzbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786681539; x=1787286339;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TPnXUKqHB09+gprPc9dr6m7TW7NThR7K77XWxdq9JR4=;
+        b=Uk1zSsUYBv2h7AhooCayXQNRt/GndqbY7XO/b9yFTfxySMCW1n6TeOxFWFpZk3bJEL
+         CaDCuTG5HBHGk///TatkuMVValVzjerwgAgQGEuRhWIqSWd/1tdeGPDwhiUdd6XOWSYn
+         na3o+Coc8hDSE/EOowSQdwBcOhRSafpVcUSXbwsB/JaZe7eolnTMRwNXX0kh/bKu8Tlu
+         XBKhaI8xSoxlLvChA1qImcEbedULWLW5Vc7UHTjvWjuNawL7ADfu8Pxr7BaXu2lzfhN5
+         6+PjlGIjfW1kXSoQ0fdw4V9zt2Vyv6xLWt+RCHZRQkrGjnp4+ZdewtsbXALgC9LXUbp9
+         dnqw==
+X-Forwarded-Encrypted: i=1; AHgh+RoehHLXzfPCJYLo7NK/zPUx+6w56zzZmXgETV/PHt4vbpM9zp7cvIT97wcGgpXE+xju8YW6lesGtTZu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yya3tGoqV/Dzy86Ju3GqxjO2yjlKShskVE6F1+r7PA2lEvHT0zE
+	4FEXrRszE2zV9usa6ZOW33b0dkXxvygJBEnIDTvdpr0IPoTqbvj577IxnMYnJSjt3R0=
+X-Gm-Gg: AR+sD13E8okRyx717482oH4QU2/Klki/uXTpPSvQh6yIIMOMI+QAn0AYsS3kIZHxgWY
+	fclVTFcQ1SXC/PKlbpiSw9sEvGJpJiN7fMUe1Xwf8pI2WnhRXEuWRNEqseTb178nzV89kSARkC4
+	vBuK4j3hYRrJbuhDFRK7UkKH3WapJ09AgXfpL9E9rw1wymTWua9fEy8+ntyl0SdhCJsuDzKb4qb
+	6oVZVUV2DvQSFyOy9Da3/k2WRQE1tFmP/uQKRdvYyJ4Cnx//kINKnJ85DYi8e6VImASsExtpTDg
+	Tyg0lcI6tlkc0amMHhDA0CKsWNtElNZk8o25wBZIQ7T+Rf9s/dyxt16W54UTTnBfrjRJ2x4MSEP
+	7wDq9yXtk6KQOPDzUo6/kzPvwPnCUHSaDARVcmbAULSwlkk9iBmYwWjNvJdanJiiAzdZaHv0X70
+	mVyqZ44/trp+ObbxYCKF6Yk0jw4t5AL0WqZXT7wFeZ9W0A9ni55q2TnRLEHHMvp9rztAvAGHnfJ
+	ESz4UoI6Q==
+X-Received: by 2002:a17:90b:1c87:b0:380:540:d499 with SMTP id 98e67ed59e1d1-3933cae4b3amr2936349a91.6.1786681539297;
+        Thu, 13 Aug 2026 21:25:39 -0700 (PDT)
+Received: from [10.22.68.200] ([111.223.92.222])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-394ea996575sm788095a91.8.2026.08.13.21.25.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 13 Aug 2026 21:25:38 -0700 (PDT)
+Message-ID: <33747609-53e7-4f17-9e97-2fdff67b4460@gmail.com>
+Date: Fri, 14 Aug 2026 12:25:36 +0800
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,231 +70,136 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 6/6] docs: fuse: document io-uring buffer pool and
- zero-copy uapi
-To: Joanne Koong <joannelkoong@gmail.com>, miklos@szeredi.hu
-Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, axboe@kernel.dk,
- amir73il@gmail.com, fuse-devel@lists.linux.dev
-References: <20260716175908.2339738-1-joannelkoong@gmail.com>
- <20260716175908.2339738-7-joannelkoong@gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260716175908.2339738-7-joannelkoong@gmail.com>
+Subject: Re: [PATCH] fuse: clear stale intr_entry in fuse_remove_pending_req()
+To: Baokun Li <libaokun@linux.alibaba.com>, fuse-devel@lists.linux.dev
+Cc: miklos@szeredi.hu, jefflexu@linux.alibaba.com, winters.zc@antgroup.com,
+ stable@vger.kernel.org
+References: <20260728031641.2497811-1-libaokun@linux.alibaba.com>
+Content-Language: en-US
+From: Tang Yizhou <tangyeechou@gmail.com>
+In-Reply-To: <20260728031641.2497811-1-libaokun@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
-
-On 7/16/26 19:59, Joanne Koong wrote:
-> Add documentation for fuse over io-uring usage of buffer pools and
-> zero-copy.
+On 28/7/26 11:16 am, Baokun Li wrote:
+> Commit f8fce75fedf7 ("fuse: clear intr_entry in fuse_resend and
+> fuse_remove_pending_req") removes stale interrupt entries in
+> fuse_chan_resend() when requests are moved back to fiq->pending.
+> However, that cleanup only covers interrupt entries that are already
+> linked at scan time.  It can race with a concurrent queue_interrupt()
+> from the request holder:
 > 
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+>   CPU 0 (holder thread)           CPU 1 (resend)
+>   ---------------------           --------------
+> 
+>   req in processing (FR_SENT=1)
+> 
+>   signal arrives
+>   set_bit(FR_INTERRUPTED)
+>   test_bit(FR_SENT) -> true
+>   queue_interrupt():
+>     spins on fiq->lock ...
+>                                   fuse_chan_resend():
+>                                     set_bit(FR_PENDING)
+>                                     clear_bit(FR_SENT)
+>                                     spin_lock(&fiq->lock)
+>                                     cleanup scan:
+>                                       intr_entry not linked yet
+>                                       -> list_del_init is a no-op
+>                                     list_splice -> fiq->pending
+>                                     spin_unlock(&fiq->lock)
+>     ... acquires fiq->lock
+>     list_empty(&req->intr_entry) -> true
+>     FR_FINISHED not set
+>     -> intr_entry added to fiq->interrupts
+>        AFTER the cleanup already ran
+> 
+>   fatal signal arrives
+>   fuse_remove_pending_req():
+>     test_bit(FR_PENDING) -> true
+>     list_del(&req->list)
+>     __fuse_put_request
+>   fuse_put_request (refcount -> 0)
+>   -> req freed, intr_entry dangling
+>      on fiq->interrupts
+> 
+
+Good catch. We discovered this issue in our recent stability testing. The
+proposed fix looks reasonable, and we plan to validate it.
+
+> fuse_dev_queue_interrupt() only checks list_empty() and FR_FINISHED
+> before linking intr_entry -- it does not check FR_PENDING, so a
+> request already spliced back to fiq->pending can still be added to
+> fiq->interrupts.  The lock contention itself produces the bad
+> ordering: while the resend holds fiq->lock to scan the queued
+> requests, the holder spins in queue_interrupt() and links intr_entry
+> right after the scan finishes.
+> 
+> The dangling entry then causes the same use-after-free that the
+> above commit describes: fuse_read_interrupt() writes to the freed
+> slab object via list_del_init() and leaks req->in.h.unique to
+> userspace.  Once the freed memory is reused, INIT_LIST_HEAD() turns
+> the entry into a self-loop and list_empty(&fiq->interrupts) returns
+> false forever, so the daemon reads the same phantom FUSE_INTERRUPT
+> in an infinite loop and never consumes fiq->pending.
+> 
+> Close the race in fuse_remove_pending_req(), which is the common
+> bail-out path for both the legacy and the io_uring transport: after
+> the request is removed from the pending queue, also unlink intr_entry
+> under fiq->lock before the reference is dropped.  fiq->lock must be
+> taken explicitly since the lock argument is the ring queue lock in
+> the io_uring case, while fiq->interrupts is always protected by
+> fiq->lock.  This runs on the holder thread after any
+> queue_interrupt() it issued, and no other path can re-link the entry
+> once the request is off the queues (re-queueing an interrupt from
+> FUSE_INTERRUPT's -EAGAIN reply requires finding the request in the
+> processing queue first).
+
+The commit message is too verbose and looks AI-generated.
+
+-- 
+Best Regards,
+Yi
+
+> 
+> Fixes: 760eac73f9f6 ("fuse: Introduce a new notification type for resend pending requests")
+> Cc: stable@vger.kernel.org # 6.9
+> Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
 > ---
->  .../filesystems/fuse/fuse-io-uring.rst        |  36 ++++-
->  Documentation/filesystems/fuse/index.rst      |   1 +
->  .../fuse/uapi/fuse-uapi-io-uring.rst          | 129 ++++++++++++++++++
->  3 files changed, 164 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
+>  fs/fuse/dev.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> diff --git a/Documentation/filesystems/fuse/fuse-io-uring.rst b/Documentation/filesystems/fuse/fuse-io-uring.rst
-> index d73dd0dbd238..29f98057500d 100644
-> --- a/Documentation/filesystems/fuse/fuse-io-uring.rst
-> +++ b/Documentation/filesystems/fuse/fuse-io-uring.rst
-> @@ -11,6 +11,9 @@ and works. For generic details about FUSE see fuse.rst.
->  This document also covers the current interface, which is
->  still in development and might change.
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 5763a7cd3b37..87891162985c 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -678,6 +678,8 @@ static int queue_interrupt(struct fuse_req *req)
 >  
-> +For the userspace protocol, see
-> +Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst.
+>  bool fuse_remove_pending_req(struct fuse_req *req, spinlock_t *lock)
+>  {
+> +	struct fuse_iqueue *fiq = &req->chan->iq;
 > +
->  Limitations
->  ===========
->  As of now not all requests types are supported through io-uring, userspace
-> @@ -95,5 +98,34 @@ Sending requests with CQEs
->   |    <fuse_unlink()                         |
->   |  <sys_unlink()                            |
->  
-> -
-> -
-> +Buffer pools
-> +============
+>  	spin_lock(lock);
+>  	if (test_bit(FR_PENDING, &req->flags)) {
+>  		/*
+> @@ -686,6 +688,18 @@ bool fuse_remove_pending_req(struct fuse_req *req, spinlock_t *lock)
+>  		 */
+>  		list_del(&req->list);
+>  		spin_unlock(lock);
 > +
-> +Without a buffer pool, every entry needs to pass a dedicated payload buffer
-> +large enough for the maximum payload size. A buffer pool decouples entries
-> +from payload buffers. The server hands the kernel one contiguous buffer pool
-> +of memory and when the kernel sends the server a request, it indicates the
-> +offset into the pool for that request's payload. Internally, the kernel is
-> +able to manage/optimize the buffer pool memory however it likes.
+> +		/*
+> +		 * Remove stale intr_entry queued by queue_interrupt() before
+> +		 * the request was requeued, which would otherwise dangle on
+> +		 * fiq->interrupts once the request is freed.
+> +		 */
+> +		if (test_bit(FR_INTERRUPTED, &req->flags)) {
+> +			spin_lock(&fiq->lock);
+> +			list_del_init(&req->intr_entry);
+> +			spin_unlock(&fiq->lock);
+> +		}
 > +
-> +A server may also register the pool region with io_uring as a fixed buffer.
-> +The backing pages are then pinned once, avoiding per-request pinning and
-> +address translation. This also allows servers to use the same registered
-> +buffers for subsequent backing store I/O through io-uring, keeping data
-> +in the same pinned pages without additional pinning / mapping overhead.
-> +
-> +Zero-copy
-> +=========
-> +
-> +Zero-copy lets the server read from / write to the client's pages (pinned
-> +user pages for direct I/O, or page-cache folios for buffered I/O) without an
-> +intermediary payload copy. This requires CAP_SYS_ADMIN privileges.
-> +
-> +When a fuse request arrives for a file that opted into zero-copy, the kernel
-> +registers the relevant pages (pinned user pages for direct i/o or underlying
-> +page cache folios for buffered i/o) into a sparse slot in the server's
-> +io_uring registered buffer table. The server can then operate on these pages
-> +directly using io-uring fixed buffer operations (eg read_fixed / write_fixed)
-> +and the kernel unregisters these pages when the request completes.
-> +Non-page-backed args (eg op out headers) will go through the payload buffer as
-> +normal.
-> diff --git a/Documentation/filesystems/fuse/index.rst b/Documentation/filesystems/fuse/index.rst
-> index 393a845214da..3dada6c4057a 100644
-> --- a/Documentation/filesystems/fuse/index.rst
-> +++ b/Documentation/filesystems/fuse/index.rst
-> @@ -12,3 +12,4 @@ FUSE (Filesystem in Userspace) Technical Documentation
->     fuse-io
->     fuse-io-uring
->     fuse-passthrough
-> +   uapi/fuse-uapi-io-uring
-> diff --git a/Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst b/Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
-> new file mode 100644
-> index 000000000000..66b0fcbcde24
-> --- /dev/null
-> +++ b/Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
-> @@ -0,0 +1,129 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=====================================
-> +FUSE-over-io-uring uapi documentation
-> +=====================================
-> +
-> +Commands
-> +========
-> +
-> +``enum fuse_uring_cmd``:
-> +
-> +``FUSE_IO_URING_CMD_ADD_QUEUE``
-> +  Create a queue identified by ``fuse_uring_cmd_req.qid``. Queue-wide
-> +  options are passed in ``fuse_uring_cmd_req.flags``:
-> +
-> +  ``FUSE_URING_ZERO_COPY``
-> +    Enable zero-copy on this queue. Requires ``CAP_SYS_ADMIN`` and a buffer
-> +    pool, which is added separately via ``ADD_BUFPOOL`` before registering
-> +    entries (see `Zero-copy`_).
-> +
-> +``FUSE_IO_URING_CMD_ADD_BUFPOOL``
-> +  Register the payload buffer pool for an existing queue. The server provides
-> +  a single contiguous region in ``fuse_uring_cmd_req.bufpool.uaddr`` /
-> +  ``.len``. This command must be issued after ``ADD_QUEUE`` and before
-> +  registering any payload-carrying entries on that queue. Flags:
-> +
-> +  ``FUSE_URING_REGISTERED_BUFPOOL``
-> +    The pool region is registered ahead of time with io_uring to avoid per i/o
-> +    pinning/unpinning and mapping overhead.
-> +
-> +``FUSE_IO_URING_CMD_REGISTER``
-> +  Register a ring entry (a long-lived SQE that carries the request header
-> +  iovec). For a zero-copy queue, ``fuse_uring_cmd_req.ent_zero_copy_buf_index``
-> +  indicates the reserved registered buffer table slot this entry uses for
-> +  zero-copy (see `Zero-copy`_).
-> +
-> +``FUSE_IO_URING_CMD_COMMIT_AND_FETCH``
-> +  Commit the reply for a completed request and fetch the next one. The
-> +  request is identified by ``fuse_uring_cmd_req.commit_id`` (the value the
-> +  kernel reported in ``fuse_uring_ent_in_out.commit_id``).
-> +
-> +Structures
-> +==========
-> +
-> +``struct fuse_uring_cmd_req`` (80-byte SQE command area):
-> +
-> +============================  ==================================================
-> +Field                         Meaning
-> +============================  ==================================================
-> +``flags``                     Command-specific flags (see each command).
-> +``commit_id``                 Request id, for ``COMMIT_AND_FETCH``.
-> +``qid``                       Queue index.
-> +``bufpool.uaddr``             Pool base address, for ``ADD_BUFPOOL``.
-> +``bufpool.len``               Pool length in bytes, for ``ADD_BUFPOOL``.
-> +``ent_zero_copy_buf_index``   Per-entry zero-copy slot, for ``REGISTER``.
-> +============================  ==================================================
-> +
-> +``struct fuse_uring_ent_in_out`` (reported by the kernel per request):
-> +
-> +============================  ==================================================
-> +Field                         Meaning
-> +============================  ==================================================
-> +``flags``                     ``FUSE_URING_ENT_ZERO_COPY`` if zero-copied.
-> +``commit_id``                 Id to echo back in ``COMMIT_AND_FETCH``.
-> +``payload_sz``                Total payload size in bytes (see `Zero-copy`_).
-> +``offset``                    Payload buffer offset within the pool.
-> +============================  ==================================================
-> +
-> +Buffer pools
-> +============
-> +Setup:
-> +
-> +* Issue ``ADD_QUEUE`` for the qid.
-> +* Issue ``ADD_BUFPOOL`` with ``bufpool.uaddr`` and ``bufpool.len`` pointing
-> +  at the region.
-> +* Register entries with ``REGISTER``.
-> +
-> +For every request that has a payload, the kernel reports where the payload
-> +lives in ``struct fuse_uring_ent_in_out`` (part of
-> +``struct fuse_uring_req_header``):
-> +
-> +``offset``
-> +  Byte offset, within the pool region, for this request's payload buffer.
-> +  The server adds this to the pool base address to locate the payload.
-> +
-> +``payload_sz``
-> +  Number of payload bytes for this request.
-> +
-> +To use registered buffers, the server should pass ``FUSE_URING_REGISTERED_BUFPOOL``
-> +as a flag to ``ADD_BUFPOOL`` and set ``IORING_URING_CMD_FIXED`` in
-> +``sqe->uring_cmd_flags`` and put the index of the registered bufpool in
-> +``sqe->buf_index``. The same registered buffer can be reused for the server's
-> +backing-store I/O as well (e.g. ``IORING_OP_READ_FIXED`` /
-> +``IORING_OP_WRITE_FIXED``).
-> +
-> +When using registered bufpools, every SQE the server submits must follow the
-> +standard fixed-buffer protocol: set ``IORING_URING_CMD_FIXED`` in
-> +``sqe->uring_cmd_flags`` and put the index of the registered bufpool in
-> +``sqe->buf_index``.
-> +
-> +Zero-copy
-> +=========
-> +Requirements:
-> +
-> +* The server must be privileged (``CAP_SYS_ADMIN``).
-> +* A zero-copy queue: ``ADD_QUEUE`` with the ``FUSE_URING_ZERO_COPY`` flag set.
-> +* A buffer pool: ``ADD_BUFPOOL``.
-> +* For each entry, ``REGISTER`` with ``ent_zero_copy_buf_index`` set to the
-> +  index this entry uses in the server's io_uring registered-buffer table.
-> +  This is where the kernel registers the request's pages for the server to
-> +  access (it is separate from the payload pool). On a non-zero-copy queue this
-> +  field must be 0.
-> +
-> +Zero-copy is selected per open file. The server sets the open-file flag in
-> +the ``FUSE_OPEN`` / ``FUSE_CREATE`` reply:
-> +
-> +``FOPEN_IO_URING_ZERO_COPY``
-> +  Reads/writes on this open file should use zero-copy.
-> +
-> +For a request that is zero-copied, the kernel sets ``FUSE_URING_ENT_ZERO_COPY``
-> +in ``fuse_uring_ent_in_out.flags`` and places the request's pages at the
-> +entry's ``ent_zero_copy_buf_index``. The server then issues
-> +``IORING_OP_READ_FIXED`` / ``IORING_OP_WRITE_FIXED`` against that index to
-> +transfer the data directly to/from the client's pages.
-> +
-> +For such a request, ``payload_sz`` includes the zero-copied page bytes
-> +(transferred via the registered buffer at ``ent_zero_copy_buf_index``). Any
-> +non-page-backed args (e.g. op headers) are still copied through the pool
-> +payload buffer at ``offset``.
-
-Thank you for the additional documentation!
-
-Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
+>  		__fuse_put_request(req);
+>  		req->out.h.error = -EINTR;
+>  		return true;
 
 
