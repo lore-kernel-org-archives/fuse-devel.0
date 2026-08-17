@@ -1,89 +1,107 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25B041D628;
-	Mon, 17 Aug 2026 14:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FF64457C5
+	for <fuse-devel@lists.linux.dev>; Mon, 17 Aug 2026 15:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786975906; cv=none; b=t3U7aUHqOLKA2veEKoWf2AwOYRE8hqCrpzGE4b8rSzZYCERretg9T+7HvDQ+HG+sqMOdscQXwneHxl4J1lmtR8R601A8ogTMW3/hlptCZkn1YxNmDeKIXlgOEqT5VW3s6Lo+I6Egf6FUxc0aMjRdSMSZo1YNNv7V66mg0qcEiVU=
+	t=1786979908; cv=none; b=ZA+gp3MEcpog1r7NrxvB+fuJFJ2ofpwEBClXvOcUrplGNpwlbgHakMTgQ4/bFFe0HplJhku9mG/M8wSAfHu/lh1MXBvtMMN/eyaziYR636B3wkbynrYFHeghQzU+GD14pwxpsk/Rybxbuwh9vvVTDj2Juo1tVKBrM/KgpDPmwZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786975906; c=relaxed/simple;
-	bh=gzdMPSY5857b33eoqcvliN4DZtcbHYo5tfiX4/6mTiM=;
+	s=arc-20240116; t=1786979908; c=relaxed/simple;
+	bh=iTuPbUlen4774ig2yCMvJ99XD5oszOd5LAnS26sa+nk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jHf6b/EkzU2HyJW2SrzaEyNs/l3vPDcL2TCc7B3U1KpAVkFPaIKiMIC8jsH5NEI/gJL5BseFCG9kB4fluxaxrsffHrdGHvABlsq7He1Yr9pT/XpbqOk0O3QZQpzI+MzAT7kWjHhE+0i3PtIzf/e4CSJAjPDpPc1c+RxY3NyiUVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=rpxXcis0; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	 MIME-Version:Content-Type; b=PL6WVNaHpWome2+TOe+yQPvWgVWSdqEa3ddhsqvDZl2j4qzUed7Ua36zNMw+G8u0bmU6y84YziIr41hy6Pg0O1Wv7hBUQAx0r1kSZswBmEFOyq5Gu6COPPtB/RFoCG5Ib+4AurPLTUa5GzxexUN5j9KyXAK0A852o0Ywf62bXzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=IVw0nDLf; arc=none smtp.client-ip=115.124.30.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="rpxXcis0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:From:Reply-To; bh=YxrwnrFhtOfXg8AzEHEtSrO2yR4kSnVVGUJ2cFKcvN4=; b=
-	rpxXcis0UvU9CK5L6qSwYGL1Oqn9s+UUloY3QsuB3IGb3E/V2taQWDq+likoAy4Hyxyw7b9fns912
-	Udj6Cf9k9kzmvnEXp9iX2PpP0zJohpy4O5++NpBULew00hs5vmQWYGxcgXRuJv0FdFt4PCcdFTtjM
-	kJQaUbjE5EfjrPH/ffgSM0KA4xeuVC21PG8i0SxYxXAEB+eTD+ezigucPYXSODVsVfzN+mC7BjHQx
-	fTwTen8Q/AcUklCW0yDWNcguPXOPwLvqrkWnf99MumV1JIu3A7Gvdq8G+TkMWRF1LknDVuM0RlxpL
-	Kd73v4YEFre13cCvBYQovvUW0DTxLRrcXw==;
-Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
-	by fanzine2.igalia.com with utf8esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wvy3p-004Xy6-00; Mon, 17 Aug 2026 16:11:33 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Chen Linxuan <me@black-desk.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: fuse-devel@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="IVw0nDLf"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1786979903; h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type;
+	bh=LZc3qwCUsh6/0o/S/EuPVqXvFA+E/rxqZAGvfeoj3z0=;
+	b=IVw0nDLf1B4K5kYKmh9Z0GC9yiUYNdG08Ee6nHXozbW288Wr5CvxQNb6OMARM+K+80uFy2hBwgq47zYjoM5lUv9jaARGtV6MwxyFfHSmkdjV3+1OOEiDX32/v0Y3sJxpsj8wXVTwXPSTyqqDynnMZxQkZqXgSWu1E0bES48JFCU=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X9A6oAG_1786979901;
+Received: from x31h02109.sqa.na131.tbsite.net(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X9A6oAG_1786979901 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 17 Aug 2026 23:18:21 +0800
+From: Baokun Li <libaokun@linux.alibaba.com>
+To: fuse-devel@lists.linux.dev
+Cc: miklos@szeredi.hu,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Matt Harvey <mharvey@jumptrading.com>,
-	kernel-dev@igalia.com,
-	Luis Henriques <luis@igalia.com>
-Subject: [RFC PATCH v2 3/8] selftests/fuse: check that fusectlfs is mounted
-Date: Mon, 17 Aug 2026 15:11:51 +0100
-Message-ID: <20260817141156.6079-4-luis@igalia.com>
-In-Reply-To: <20260817141156.6079-1-luis@igalia.com>
-References: <20260817141156.6079-1-luis@igalia.com>
+	vgoyal@redhat.com,
+	jefflexu@linux.alibaba.com,
+	stable@vger.kernel.org
+Subject: [PATCH 2/2] fuse: fix invalidate lock leak on open O_TRUNC DAX failure
+Date: Mon, 17 Aug 2026 23:18:01 +0800
+Message-ID: <20260817151801.2677899-3-libaokun@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260817151801.2677899-1-libaokun@linux.alibaba.com>
+References: <20260817151801.2677899-1-libaokun@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The control filesystem for FUSE needs to be mounted for the fusectl_test to
-be successfully run.  Skip the test is that is not the case.
+fuse_open() takes filemap_invalidate_lock() for a DAX truncate
+(dax_truncate = true) and releases it before the out_inode_unlock
+label.  But when fuse_dax_break_layouts() fails, the goto
+out_inode_unlock skips the unlock and leaks the rwsem, so any later
+fault or truncate on the file stalls on the stale lock.
 
-Signed-off-by: Luis Henriques <luis@igalia.com>
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+fuse_dax_break_layouts() can fail with -ERESTARTSYS when a signal
+interrupts the wait for busy DAX pages to drain:
+
+  open("file", O_RDWR | O_TRUNC)
+  └─ fuse_open()
+     ├─ filemap_invalidate_lock()        # dax_truncate
+     └─ fuse_dax_break_layouts()
+        └─ dax_break_layout()
+           └─ wait_page_idle()           # TASK_INTERRUPTIBLE
+              └─ fuse_wait_dax_page()    # unlock, schedule, re-lock
+                 └─ signal → -ERESTARTSYS
+     goto out_inode_unlock               # <- lock leaked
+
+Fix this by moving filemap_invalidate_unlock() below the label so
+that all error paths release the lock, and rename the label to
+out_unlock as it now covers more than just the inode lock.
+
+Fixes: 2fdbb8dd0155 ("fuse: fix deadlock between atomic O_TRUNC and page invalidation")
+Cc: <stable@vger.kernel.org> # v6.0+
+Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
 ---
- tools/testing/selftests/filesystems/fuse/fusectl_test.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ fs/fuse/file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tools/testing/selftests/filesystems/fuse/fusectl_test.c b/tools/testing/selftests/filesystems/fuse/fusectl_test.c
-index 0d1d012c35ed..2dcfd3ebe0d5 100644
---- a/tools/testing/selftests/filesystems/fuse/fusectl_test.c
-+++ b/tools/testing/selftests/filesystems/fuse/fusectl_test.c
-@@ -48,6 +48,7 @@ FIXTURE_SETUP(fusectl)
- 	uid_t uid = getuid();
- 	gid_t gid = getgid();
- 	char buf[32];
-+	char path_buf[PATH_MAX];
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index ceada75310b8..e7b2a839f081 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -272,7 +272,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+ 		filemap_invalidate_lock(inode->i_mapping);
+ 		err = fuse_dax_break_layouts(inode, 0, -1);
+ 		if (err)
+-			goto out_inode_unlock;
++			goto out_unlock;
+ 	}
  
- 	/* Setup userns */
- 	ASSERT_EQ(unshare(CLONE_NEWNS|CLONE_NEWUSER), 0);
-@@ -93,6 +94,12 @@ FIXTURE_SETUP(fusectl)
- 		     strerror(errno));
+ 	if (is_wb_truncate || dax_truncate)
+@@ -296,9 +296,9 @@ static int fuse_open(struct inode *inode, struct file *file)
+ 		else if (!(ff->open_flags & FOPEN_KEEP_CACHE))
+ 			invalidate_inode_pages2(inode->i_mapping);
+ 	}
++out_unlock:
+ 	if (dax_truncate)
+ 		filemap_invalidate_unlock(inode->i_mapping);
+-out_inode_unlock:
+ 	if (is_wb_truncate || dax_truncate)
+ 		inode_unlock(inode);
  
- 	self->connection = statbuf.st_dev;
-+
-+	sprintf(path_buf, "/sys/fs/fuse/connections/%d", self->connection);
-+	if (access(path_buf, F_OK) != 0)
-+		SKIP(return,
-+		     "fusectl doesn't seem to be mounted: %s\n",
-+		     strerror(errno));
- }
- 
- FIXTURE_TEARDOWN(fusectl)
+-- 
+2.43.7
+
