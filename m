@@ -1,130 +1,101 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246AC44AB60
-	for <fuse-devel@lists.linux.dev>; Mon, 17 Aug 2026 16:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786983344; cv=pass; b=JMgvF1adyT396SgVv1qufcg9x7fJstnZH1Z01AH2UhiuOEMtQlAzKhJ4uLv5mQhosuuqgXq1ZkqsWE5Kc6MHBN3LoAtnXepeYTKgAWdb29iDrWQSoI7DPUWjSogDnSTzxJhw0Y+mE+XZl8k1/BzVfahxgy92s6F7k+J3Tpq+E9Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786983344; c=relaxed/simple;
-	bh=Mkhe5gox6eVsgExwz5Ayb7EcutWJSZ4CdtytZKyOI4E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V3pdKzk4Myyjs7ZCjdXX+n6Wp812DHuIzZtw7v0ccLwBu+A+v8158siErXivtnIktMdh5F1JSY38HuZnSMVZRF4S/WHTyVdlcp8Cy5S6g2JUNDTi8QgufEZSLZmHW/ouywR4nuKHbeSMYFrV7WwYEHPKljpVUsDPYF+AE3cHRm0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ltFwc3ou; arc=pass smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9FF37F732
+	for <fuse-devel@lists.linux.dev>; Mon, 17 Aug 2026 18:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786991028; cv=none; b=mgw+9nWtAPfnyFDRCQ72rwEadDZJIkLbMvBOpeZIbuFj4hwF6EunduAspgair/JK9KsSAPEXiSwORksbBkiIVbA5zP1YcFZr2xpCEiaRJN2x6QOQHYkd9AAEFxiCg1OXaYscgoclb6dutfXOjajTEDpROywaB7+ZjyyolEbyiIM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786991028; c=relaxed/simple;
+	bh=LVDe64lWgpPCkNreEDf2tLyaHhXxDx9u8aiw0v1yScA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=epo6rTI1/ZHR8E2M2gkv3w9vk50maqIEiAOnVgin2Oyz9omelZEvBGgCBtFwifAABjr/a9y+u9MAxngAB1ryWd2WlCK9a3qImJnYXrxQFzbrMHSKM488M4nOLgRr52jJlYQeJHg9zqZTuOdU5K4i97ms5r5N2XXh/Upg32y7rAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b=Je1ibGyE; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ltFwc3ou"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-936d00181abso161137185a.2
-        for <fuse-devel@lists.linux.dev>; Mon, 17 Aug 2026 09:15:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786983342; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GKHW5iVGkD9ET6e9uB0Co4tJtLr5gssqO18VrY71Y+ifQV2GpUAUCNAopXkaRIy5bt
-         c/l23Xx3nfeFGko+I3d7n6iLHwb/G/u/2VCQ4ZoBSzmnTgoitS852vdcFCRG7ITxPJwC
-         xkdk1yZGC2/2nzW/gEpOjEaOK7CCNtG/ykKrZy1Lf041iI30Cu0YKjuWusOl1q3OjQ6y
-         d64gBpFvGpxQ8ODaxx2hYB3A3L0h6wAl6Bi+qdYHLN6lS2Ix2wIAUD/tS+eCjqFlKi80
-         OTCfLp2zaTdEpafqZBDndG2VZdkHtnkFbGGPCycBptOGh0EFu+glVxcGS068j8MgSrtD
-         Japg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=EnvGXtiyY0vjHDhLAuq73Kig9VT/aUwBwM7cIFN58BY=;
-        fh=x2DgWIMpPIBbEGzxEoTL8ujApQ7x58e8Jd+Rn7LXVG8=;
-        b=JPRL8iRDmjfo3iqYJI16GTeZtVv/KW38dvriRuIXZGHKoxniB79olaQsoefeLaqTXW
-         UP/ROHIzaUKkAdSgd9cDVsP5VZ1TLyZAhcoJ4GVTovsSisiqrtMGLLGhyjeQ3zTXSf80
-         2k1qV3wcHaF+SpRXeIb6KgBRX9s+MMJPs+27s3bd01kC0f/n69nEoUJt537BfT0MSb5f
-         ExVwzIJR9JoAsuZYPTJJLuMGeW8Mngo1pJheVgoEhWWFqiYHL954HGUO9vVZvn5NwsX9
-         fhFi2rtb1l1eX0634yFwGKAlS0qEnJF1NSuqlA07Udi0EoQ2Gq9LqSmOBIJgUMV3hKdz
-         aTrQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=kernel-dk.20251104.gappssmtp.com header.i=@kernel-dk.20251104.gappssmtp.com header.b="Je1ibGyE"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-7eb64085c45so2598463a34.2
+        for <fuse-devel@lists.linux.dev>; Mon, 17 Aug 2026 11:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1786983342; x=1787588142; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=kernel-dk.20251104.gappssmtp.com; s=20251104; t=1786991023; x=1787595823; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=EnvGXtiyY0vjHDhLAuq73Kig9VT/aUwBwM7cIFN58BY=;
-        b=ltFwc3ouBDrUOyXltGGp9VZPqbMNt5GkoOrISmzVDd+V5HsI+RPhUl2rlfKbZr6xRm
-         4gUFiWe23S7XzDQR02f2TdIsn5LrQUxjdtXC/ILuSqtu9H/PjXE6BzG3hIL+xzMPzLeS
-         sYQK474FVeosqFNw/rVpnGCpemeUkINE1MEpE=
+        bh=nCOP7+TOaVuS+LiopjP3H/CO/x+I5bJYg6vD4bW3O/0=;
+        b=Je1ibGyEmDuNTh6a7zm6zLx3f4c9gCKPMDq/AoojUQoDAj/g1Rk99vn+w+8C6JqdD7
+         ZSR+wK6yXQKC/sAz7uko0ZZlzImnTNHGA7XCgcYtXrNggnw+lwvSYrD7dfHcZk+i0BSz
+         1kph8fKSbZ2qvGok7JA9U5OSdDn2X3wkFObS8a/Na3TKDFz5bJmvQVQNqGvl1X+pQ9rw
+         dezrpM5C9uyp5sJv8rGcHwzl9ue0QR1mlnaYHIokIvn3lPL0oO3jRZDAFLQ4cupKXNHC
+         fTEHWEe0RdoFR7Z166pESIhOIc9oH/Ku2zcAoZYDZ63ukpbnXk3IADhlbENJA/VQ1oEv
+         +m2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786983342; x=1787588142;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=EnvGXtiyY0vjHDhLAuq73Kig9VT/aUwBwM7cIFN58BY=;
-        b=Nm5YnrxDodMqr4UROK9c03LikRz+a2S13CG4mcFmX2KcYbe4qQLsZirI/U1f7jzr4C
-         o6oXbg18FTpU9ODg/PpqTqyeKoXF1Le6J7hvAQPVwkK/iwQ2ytLHk9Rd4I2+VpPTTeYV
-         2o3cI74UWekTW/WqiHHPy11PDlr+DKhYg8RVUXiwWT+1ZdMrpSYPntTYQ1boV7cOuRF4
-         XZWSHP+fNPgc0h4z7fB2zPS5oDvxkrKdHUOeHakt2akmStvFK3A0p4MueQEP0KBdDe9M
-         wmQLTM6craiWp1GJQenZPeikPG0BDFXf1ryPzEoUJoG3yjym1PySn7r6qR1fE1dp4y5K
-         dXLw==
-X-Gm-Message-State: AOJu0YwDb40nDcF0NstW/L92wXanu6N9Z3SiyIEGkUdpQE07VZK4TTzA
-	YIWNxgdpYvjsvOD4GIHoEGqRZxkT5Z96GPBVpTlPdZqijHrW16nFVnmi5sP3w+4LgxOkCMunDR8
-	f77aEyEh/JddSK5x6TrunVgX3feC/kMtGF0SWhpuvCw==
-X-Gm-Gg: AR+sD13pweXg3QyjUfiaqZ8xruQSI3CQrd2KiPRzM5uJCgplzkPtALDanbYzFQmFCLx
-	wHGN2NQPmX0YmKI2KYUKeuz1NTxhmOzrb+dcfme0lMBo+AgIVmc1hAnytkPY4WBYdg1BXVNrOre
-	+XdG/TcZXnaNY5C/q2aKIuQuql4FZ5GnSFeFw4spTs4ILXN2CSfp3/oxOVLa2V9/ypqoCuTfOXW
-	a9qoG9aBMF147r6MinpFfk9WlRBLpPFtMGzInfiWbrfrOSCgdedtewZXwwi8lmZOAUkcAbNcR0l
-	SPpXc2eMZ1J0JmMSWCY8uvU2/houwesaFcVbpKngmAg65pK7bW0D5MsvwmslfrQLXJUMHQr3bTn
-	86E6IVV7mZUsm
-X-Received: by 2002:a05:620a:1a08:b0:92a:1b20:fe0c with SMTP id
- af79cd13be357-936d202b16bmr2435875285a.17.1786983341883; Mon, 17 Aug 2026
- 09:15:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786991023; x=1787595823;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nCOP7+TOaVuS+LiopjP3H/CO/x+I5bJYg6vD4bW3O/0=;
+        b=RjNwsSYj5PK4j9AL1pZJk4iKfqi2EsoPKpg61yOvOCWsOW4RwartEXyKKMPnR+evAK
+         vigvGUeyVXzaaSwewn9+jdbX5a5eP0p8swKNFEG2LEjAZ6Trr8dorHoCghzY6DG7k0fZ
+         tyPQnd1VHj/4w34SrmsJXR3yMk6tM2rVwLsmsIOVo6SLkIw2jC3omGLbq9ZWu0kkXbXd
+         ku5NZ4Ol1pSGIgHooJ+aLU9ByPLIAJwNZPF2kojFaf3Zws8D7ZyG0w8Uhw1rHvIcCOdV
+         tr7KTpZI9MwDkcqCnX1v+QQu1C9OcYIiba3Wk8zonPLBF/4LA0ycYWaHwE3D/oWmF5gY
+         91xg==
+X-Forwarded-Encrypted: i=1; AHgh+RrMioE+pQpxKEJDfrQBKEjnjDr1vgITwOT62J8KIo+afL+TudfJRuSXDn8DlNGufZWMEF+Nqb4XR4GF@lists.linux.dev
+X-Gm-Message-State: AOJu0YzSKrVxt7wH9UonvDvPJbrpVc3dAMq1NTpq8nFOfb+wNSEHhdLk
+	ai7xen60Ij22noVy5c9qRHbTCcQr/UDSwXzbg9PXkp3DwShY+lU8dZl+JtDjiZAaiyY=
+X-Gm-Gg: AR+sD10/LobjWY/29zB4bLFCZoyYMx4nhniwlgpqzeXivsWkFOC1zndmi5Ho0QuJaDc
+	3P0iC4Gw2PdKV0VRcJNczDHqeeZinpqM1NoBGi1mTMVrT1i/P94LYq7qnNm+fqBLYTmO2JwNxem
+	81gyb3VZeARM/yqq+47TfcCV0uY6Y6u7VXiGFifSxA+PcwR0J0iv8aZwEOsoICWJToc9WDIzYxK
+	/+TeeuCXBLbZyM7a2VNGua2ds55N3H+jox21RW/K3PwiwbD1PwroX0+jXS28cK3FmXrQ3oSN37X
+	DRtb6AUUdOkVxhHvNrc/RIwTWgMoOPv2EYZmuhhOJn9PBqPOgaaBLPFidW/muy93cMfUvC5Mjq6
+	ViwOzzB1FaNMwdQwiDdesT/lHjypbo1hQnE6yYyu1vUhoACG7R3855PC3+i76JYjUwj58O8rN8S
+	lee7C6+G7NNerKADOSuD3VvG4XWck3PzzgQfJAsvuT68YKN4OtnqfT4qsR+QL9UgcN3rE2841Nt
+	0Nnhyt0MvqnwwSgCF5a1bjp6jHxHnZps+iFIPxIfDCXbIq3lLWe
+X-Received: by 2002:a05:6830:6018:b0:7e6:f31c:47bd with SMTP id 46e09a7af769-7f3de37a4famr26635245a34.3.1786991022877;
+        Mon, 17 Aug 2026 11:23:42 -0700 (PDT)
+Received: from [192.168.1.150] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f41c0f35a3sm2024505a34.21.2026.08.17.11.23.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Aug 2026 11:23:41 -0700 (PDT)
+Message-ID: <68d33203-3f0f-434b-b542-d135c39492c0@kernel.dk>
+Date: Mon, 17 Aug 2026 12:23:40 -0600
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260812095431.1216919-1-senozhatsky@chromium.org>
-In-Reply-To: <20260812095431.1216919-1-senozhatsky@chromium.org>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 17 Aug 2026 18:15:30 +0200
-X-Gm-Features: AcwNN1WN45RnJwIh88m4AzEaKbDRUTbR2beokMHmuVqrkMLHPSOG8Zg4pWohx-U
-Message-ID: <CAJfpegvFc=fESH4_mEDcba9BDzUE6u3Oj_+cwU4Hudv8oBjZZA@mail.gmail.com>
-Subject: Re: [RFC PATCH] fuse: permit freezing while waiting for request answer
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/6] fuse: add io-uring buffer pools and zero-copy
+To: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong <joannelkoong@gmail.com>
+Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, bernd@bsbernd.com,
+ amir73il@gmail.com, fuse-devel@lists.linux.dev
+References: <20260814185946.3679478-1-joannelkoong@gmail.com>
+ <CAJfpegvKygVyKMatZwySzqQaS-Q64kjocximitducp9dyBXRBQ@mail.gmail.com>
+Content-Language: en-US
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <CAJfpegvKygVyKMatZwySzqQaS-Q64kjocximitducp9dyBXRBQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 12 Aug 2026 at 11:54, Sergey Senozhatsky
-<senozhatsky@chromium.org> wrote:
->
-> Suspend freezes tasks in random order and doesn't take into
-> consideration producer-consumer dependency that may exist
-> between tasks.  One example where this can cause issues is:
-> fuse server getting frozen ahead of clients, which then get
-> stuck waiting for req answers that never come (the server
-> is already frozen):
->
->  PM: suspend entry (s2idle)
->  Filesystems sync: 0.018 seconds
->  Freezing user space processes
->  Freezing user space processes failed after 20.001 seconds (1 tasks refusing to freeze, wq_busy=0):
->  task:ThreadPoolForeg state:D stack:0     pid:7873  tgid:7854  ppid:7827   flags:0x00004006
->  Call Trace:
->   <TASK>
->   __schedule+0x554/0x1320
->   ? vprintk_emit+0x2a8/0x320
->   schedule+0x5e/0xd0
->   __fuse_simple_request+0x4c8/0x6d0
->   fuse_do_getattr+0x1e9/0x320
->   fuse_update_get_attr+0x362/0x6a0
->   fuse_file_read_iter+0x13a/0x1b0
->   vfs_read+0x29f/0x2f0
->   ksys_read+0x75/0xf0
->   do_syscall_64+0x70/0xf0
->
-> Make all wait-event calls in request_wait_answer() freezer-friendly.
-> This uses TASK_FREEZABLE_UNSAFE because often time we freeze holding
-> locks (in the upper layers), which triggers debug_locks warning.
+On 8/17/26 9:29 AM, Miklos Szeredi wrote:
+> On Fri, 14 Aug 2026 at 21:00, Joanne Koong <joannelkoong@gmail.com> wrote:
+>>
+>> This series implements fuse io-uring buffer pools and zero-copy.
+> 
+> Applied.
+> 
+> I cherry picked the io-uring patches, since they don't seem to be
+> bound for -next.
 
-If the lock is uncontended, then fine.  If something's waiting on such
-a lock, then the freezing will still fail.  This is unfortunate, but
-still better than failing the uncontended case as well.  So I don't
-see an issue with this.
+Right, I had them staged for 7.2 for Joanne, but then wasn't fully aware
+(and gone a lot recently) if the plan was to shove it into 7.3 Hence I
+never did a new branch for that, picking them from the 7.2 branch is
+fine.
 
-Thanks,
-Miklos
+-- 
+Jens Axboe
