@@ -1,111 +1,102 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F5B4477FF
-	for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 09:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F87C44212B
+	for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 09:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787043637; cv=pass; b=p9MryyA6wyTdUaA6dkmlbS0lk1ViAzqCLoIqNIuT5mbixCobZKgny4L3l/87SUTziqamtkwabOXRr9Gbwd/77agYyqGXAabdRkG5/V2ETo/xaidw89xLXRsslwaUhTSYav58h0LddblumZosOnbUw1xVs+ZfbB+Oz1ndwBswxOk=
+	t=1787044962; cv=pass; b=arPjlW81DbFHVEqXtzBhMyoCzM2jLR/Dx6w+ZDJAbm3Qh163PXiaEToo9UMrqzcyBrGmN/K7qpiEhyzpFdhybENY0lcB0Wv3tzYLDLQVl7RdUS3uzfDxHY0HixrOicIlwDV+Au/xXvu8eWfGUP7nBzLwor8qlYgoxxEK2EBw7Ps=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787043637; c=relaxed/simple;
-	bh=PuUsHnkwV+GwukLo/OUOgoL1rvv8d48vU5mVF1rYvcg=;
+	s=arc-20240116; t=1787044962; c=relaxed/simple;
+	bh=QOsIj7oHlKxPR+bfScX6z8QYgUfcPjn6GIkbh6a+ne0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TC0HSV+BUUaL5VYePQD9TaSm0TkMs0p++19z6OZVV2ZeZFGsyUvUyyvgSiCW3hBc8QgMq8ViGGji++7gxEAhbSCJTPWqFz+iimOvuPFj+No98aiw8YrDGHEOVDqdNX1E0+mfGmjuuHM38NyRPkNnUV4sOAsagK+Rpr2JH+cVs6I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=AOekNWn0; arc=pass smtp.client-ip=209.85.160.170
+	 To:Cc:Content-Type; b=cPRIuO1ht8SLl7rrSvo+e1mHsOo6xnqYfzj6jSifF8Eqhf+nARCw/750v1/qxK6mXiirQQtf9v+tFc02fMulEJAkC7uh+v6Fy5owO8ng1SfSLiI6OPPIIxmljedP3/ATPwPaZkdIEQH0jpYR7PIXWjmrn3Wa/RGQ4Ki6N3QfZFk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ViRmenxG; arc=pass smtp.client-ip=209.85.160.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="AOekNWn0"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-529a1ee0e62so30744091cf.2
-        for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 02:00:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787043635; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ViRmenxG"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51bfe810293so19908091cf.1
+        for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 02:22:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787044958; cv=none;
         d=google.com; s=arc-20260327;
-        b=fBfpn6rOQuFAQWne4Tc4+gKep/4Fw+2Sk/GIhB4VEfAqgaPQad1nkM7n9+bPs4uR6d
-         G/cjaGpPtT5pnFahQhqz7QbMOlptS2c4XcY+lZNqKp4hXcD4Gp2idv3A9FO/9BJwWgz/
-         LrfKhyz0UmtjtJoUWuYc+d7hA0BwdcgbEdaBkcmcbU6wHtkpC0sP/opGnhU8MTOFRW2g
-         MBlCxjRoM5OFyNdba2LS1wR4cHOc7o0v85dVb5SHgEivtKL0bfMuFKv9DAkRKoHNa3AK
-         l4/khD/x4pAe2vohdTx7NUXOkKTU146HjWr3cMCbZXyNW3sd1NFVmJjo/I6qKb0k+JP0
-         vpjg==
+        b=bTvvnl9/QgAhHD5xoS08vUnR+rFQ5OWhayOriZV4qYBQ5ItDJLnTwTbWEUaMOsiKyg
+         2YMG0gyhKb2UwqWZQBVVOjJpqr9a7vZHBElztfsqvyLPh3YoMzpKAPiftc2amnOpUBtZ
+         /5ELw6Jlv8H7mHpFEoQmLaMgZw0+YjgxWb8SoXBDq4Z8go1MJB6UCMsrjwEDr4bRM83M
+         CNWYCYQBgtiLUhy3CzbFfnGoPa6GvO5fQSbxn4JTXZByZpZTOs1Z/33HgmzFopi61cma
+         Jn5PuQ7ZHFFM0AWwRBajaiCA3y0FqXqpXdDIhqm1fhafUr5kn4jeufGhKoF+YcVQIiSk
+         8wgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=R5CidgEMiRl1k9cS1Q9dWntzhCa54VWy2ZOXfNAzMyg=;
-        fh=Daxy3zhO+W+L8cuaHBXEAyIG7ftX6C09jlhPgXWz+OA=;
-        b=RXpUtiVN7rKJMU9ZtUy0oXP5rKVIcMly2D7xbwv9tdttQguBE2P4jGPSbQQMgY2Ysl
-         v8zQVe9FJzRawTqdr3i0rfxIi3fTI342Y4UHWc02rdtBzIH5lEYaPSMSRGwH5+TvGz7L
-         m8TIMwJtoE3rB5sy4G6ohTvK8VAKkL0CeWYBs6a/xb8OzgVdbDpS6dQLDuIIr0qEmFiF
-         RE82F+67oTDsdHh1ofe1i0f0tKBhAbrheX2NhmN2EXyh6pz+GKSTN80IwmQkkHUx4Q3b
-         1IEKMOfIkYPsH6Q5FbRctK/JPoSxSOCNqyGa9w3tu+mlrtAB08/CB56xN4oqDyPQHrjg
-         LImA==;
+        bh=QOsIj7oHlKxPR+bfScX6z8QYgUfcPjn6GIkbh6a+ne0=;
+        fh=BDMKgbfEFlxe/XvT5W4FXWTkVjrXFP72Q0neHIdohTU=;
+        b=bF2nDVSj06aHV6iSysdq3ffCYzWn0eQj5B/VqEVMWRLEUe7aKsulg0GNxop/z5QB/C
+         Ds/pBGpgvGHhOFifUUntxlXSWPPwu8SfhIY+l5S+IdmUjy3EqLNzd7lrB5L96EIwWwMp
+         2Tq0NO0IkIFNuzLnmpd2a6X/OkIij37q3mjkt0wfS3UwbqCQqjEpJdb39uafOVilwbOE
+         mkkULZ1fzw/4cPbXT08h3tACTICDXYXxP8HeiS8vN02H5/LvFO3kZZIyuGi5uudVDS5X
+         7gjeXfs9W7ZQXNyAAOt5lil5cJTS1xsib9x1RZL/6MdweiK7syMkgJg9JEGKZO8DmjdW
+         e4Pg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787043635; x=1787648435; darn=lists.linux.dev;
+        d=szeredi.hu; s=google; t=1787044958; x=1787649758; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=R5CidgEMiRl1k9cS1Q9dWntzhCa54VWy2ZOXfNAzMyg=;
-        b=AOekNWn0Cy1KI4ee01d1eXbhseW+fVfydpO3IvVmpSBRcCPKXGm3aT0OLk6jdoTIKB
-         4pkC489r1BEut8mPIQhsjTmzY5uiaR2Oqut7tnMa2mFge77xVhcz0Gg+WR/Q42ZYTmNb
-         dOsrzw4Z6pJtdTPc/Z6p/mPbJdgUljBnoDilU=
+        bh=QOsIj7oHlKxPR+bfScX6z8QYgUfcPjn6GIkbh6a+ne0=;
+        b=ViRmenxG8Iu9xiirlYNuCVOEjRI9nvSNBCINFHyrSOpXlMIeDCtVNQIpSGoFRGKcrY
+         GL/MvdT6+yhlCcGHo3spAQhorpbnrADKE0USkj0zc6Hr6IK/81OMcHMf3dSoQUD10765
+         3xa3WLflMGGbHPSHuNG7N+icFV3QpnYqq2hpE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787043635; x=1787648435;
+        d=1e100.net; s=20251104; t=1787044958; x=1787649758;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=R5CidgEMiRl1k9cS1Q9dWntzhCa54VWy2ZOXfNAzMyg=;
-        b=Xokm4MSMeUaBfzfaBY+30Q5fR/F0cvmrdx83fC+fnVZCh4Su4TVF/hKmL6tzhb5S8f
-         7qNEo+EzyQKCyPZD1mheVKGkolkCwNf2DPVHcqKzK9Ctd57gj2eIMtdCcUaesvVBU5fl
-         j5c+BJuhxT3ygUD5x/nHHtXVBsR377xk7pEiwrGKah2HBp7sjZkPbtbyER8ScvxvTXNu
-         dyUOmDlpEj+tDKL4EElmLs4a1guWx5K9E2fRqlquPNZiy8fNG4cxJdNrlQS14HNceat+
-         /kmLbB7brqn/ZwXA6FcrzTVxD50rVJuhkaAzTZWb5x89YzsoF0vuGCM93K7P/d/KDXuo
-         bNPQ==
-X-Gm-Message-State: AOJu0YyAJDaYk1d56V8sbR/0EE8y+rogcsFOjGxu4jsEbyu9YZXGACSC
-	mp2oESarZI5LVCY8kjzGw/X6JDAPUGj3MAKYWx7BmzwIAmTgXVqE/SksD4bpLAyyZCu/dnSJO+y
-	FU55m9OJmav7uwb6kCLpXdWHDVL9EKbnb4bQ1sQXfCA==
-X-Gm-Gg: AR+sD10LjDAjz4BK5tC7XdfnDMNEBJjvUswvB6OUkPeNFZhrydaAqQqL+oJuvhVM0ZQ
-	8ww7qS9CxLUUBIefMJHFwpo52tZDM2GLZbJd3zpjItNQ2TLTDk0HwJzpqFYb2e++R6KozZZLpHP
-	7I48GZIKUn9Nrx5LqmuZaqZGl5RfDM4sxgdW214JCANNIBS9LIlD/5BUGNtRoPT029gVvmowdPQ
-	s9eNpgSvJoUAqnyudxkf7y4EYbatXDQRvnqchqQ7PEIzazJZxuDwZ4b6uk9BThkDFtVSyWZ1Udf
-	hg9cSEWPdsSEBXHBqC/ACZ5bTUp9vgcW0s4xZY3lWcZRA6NftY7SLGN187IJ0H/zAsN3t5vkF0W
-	L
-X-Received: by 2002:ac8:5d14:0:b0:52d:a4e5:6b3c with SMTP id
- d75a77b69052e-52dbd638fedmr69294871cf.15.1787043634544; Tue, 18 Aug 2026
- 02:00:34 -0700 (PDT)
+        bh=QOsIj7oHlKxPR+bfScX6z8QYgUfcPjn6GIkbh6a+ne0=;
+        b=ms3fNxqUG3dKxLRpT2Rqrf/Qa29UkSHYbEy1A6ZTCtCxVfg7SBGPM8xCTT1dcWFj/t
+         QnvzaQv6B4axEjddSWHOH5l30nrMKnT6p00xdBRr1h90TVMgzWTiUWIfRjO6jU13ksNg
+         0n7Adbdsojq7511dNhmPHJDBt1aEDK7vyQNF9WcBOIqH2sPqWOswOZTSfPjh28Yo+W4I
+         PxkkAqML8zLTf0mJidiskjTsa41w/DBJJ5BlGLcuWz0U2phda+lkVInXvV/DKc0i9ymI
+         2+QUJsHOrqw3AkDK3zaJvxgvO+2DQCpdnVPWRPYij23PoUFVMEkT+oQef6w1PbuNc/9c
+         zgEg==
+X-Gm-Message-State: AOJu0YyJuCrkfJT/dT1nWcYFaF7UIXNQDfn8q8e+cJ5uil9wpGgEohk2
+	PvAGVZ8jkMHXJR0ox6HH8hZffl6kHuCJ+/97qS4qLnQsQY/u2UPjs5AZgyxBqWSYPrvIIX3PGFA
+	qVSSHFAl4kYA1NjUbveOkkrSr2kza9TY4Hx1jJy7vQg==
+X-Gm-Gg: AR+sD13nNI94CJJG966bTY2U0kUxrNg4//aah6T7SQe/4PyuSeDDC614EvgxD4p3oKe
+	iUISpA4ojDQlvmeFPscv8icmV4ufh+5JkZ8YGUe5AKU/AfksK0vQFdtnXiStVJcQozqK4krR1ZY
+	B2R74GS3Mb4tGI9lgUKuKmWgUsA6UuJix3H780hqOJ73Z5YWGpTgDqWI71ArxYL1HTZbpv63PT/
+	bvP0Ug+ykUnw/qFLByJv9GByNvWs2TsFPVexo/b2tN67subUv9RNLSh6Cefy5iykgILp888iE91
+	3n2bj0qUeHcKM3BKB4ji9i+c+7lhOE0QDd1ymbWbUY+12eLLqY4iNutN6RJCsGtoCtwCqIsF+7L
+	c
+X-Received: by 2002:a05:622a:1790:b0:51b:f640:2a4f with SMTP id
+ d75a77b69052e-52d853bbb8amr318791521cf.4.1787044958684; Tue, 18 Aug 2026
+ 02:22:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260811045350.164272-1-libaokun@linux.alibaba.com>
-In-Reply-To: <20260811045350.164272-1-libaokun@linux.alibaba.com>
+References: <20260808041339.1687459-1-libaokun@linux.alibaba.com>
+In-Reply-To: <20260808041339.1687459-1-libaokun@linux.alibaba.com>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 18 Aug 2026 11:00:22 +0200
-X-Gm-Features: AcwNN1UI4gK_pCbrtgIMokQHxsecaJh6Di9rXH5OahnTepvGPsPL6ngyGsHIPnc
-Message-ID: <CAJfpegvVDjK64Yd0A-NHEcX-jCj+eVhKrt6aC7hLu6hHEN2HHA@mail.gmail.com>
-Subject: Re: [PATCH] fuse: reject a duplicate fd= mount option
+Date: Tue, 18 Aug 2026 11:22:27 +0200
+X-Gm-Features: AcwNN1VItSWEE7RBF224CaGW1gStvgzdjPq0b8SJPr6i29MjpJAo-VJQ8ZFtyHg
+Message-ID: <CAJfpegs2PwgkPNVmHwpHKJ4Bs0R+Qw87xEcCvWVGSgcZhOWPpQ@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: check for NULL root inode in fuse_fill_super_submount
 To: Baokun Li <libaokun@linux.alibaba.com>
 Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, jefflexu@linux.alibaba.com
+	linux-kernel@vger.kernel.org, mreitz@redhat.com, jefflexu@linux.alibaba.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 11 Aug 2026 at 06:54, Baokun Li <libaokun@linux.alibaba.com> wrote:
+On Sat, 8 Aug 2026 at 06:14, Baokun Li <libaokun@linux.alibaba.com> wrote:
+
+> Return -ENOMEM instead; the caller tears down the partially built
+> superblock on error, matching the other error returns in this
+> function.
 >
-> fuse_opt_fd() stored the fuse device in ctx->fud and bumped its refcount
-> unconditionally:
->
->         ctx->fud = fuse_dev_grab(file);
->
-> If fd= is given twice (two fsconfig FSCONFIG_SET_FD calls), the second
-> call overwrites ctx->fud and grabs the new device, while the reference
-> taken on the first device is never released - a permanent refcount leak
-> that pins the first fuse_dev until reboot.
->
-> Reject a second fd= outright.  ctx is zeroed on allocation, so a non-NULL
-> ctx->fud reliably means the option was already processed.
->
-> Fixes: d42eb23b2ef9 ("fuse: don't require /dev/fuse fd to be kept open during mount")
+> Fixes: 1866d779d5d2 ("fuse: Allow fuse_fill_super_common() for submounts")
 > Signed-off-by: Baokun Li <libaokun@linux.alibaba.com>
 
 Applied, thanks.
