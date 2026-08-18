@@ -1,94 +1,94 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CDA255F28
-	for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 13:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C145F28850E
+	for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 13:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787058613; cv=pass; b=WcYregQeYyPjYPJLHBKwTYKPZ6pKC0YnFZdthAn+QAMMGCuCiMyV1H3pMUJiNjDBGoSuXlrDPmTGAb+4pW0Zh+fne3HrXQO3ZMs4yWLAk+RSwMXz49BoTrXPtIkPG61xlW8+EXHCrLhV+MmlLznlQNIC0a/6qS+jA7GdkIzG6os=
+	t=1787058803; cv=pass; b=j+x16NbCq7A0ClqDno/ac66//gGtA3jd0maFvw8oDN2L8XWl7ewNzZlKeqQ26v19zkfam25e9vf9ZM6mIR3BBCpsn7IlFciktRm8B1B9pwy4EbbY1DV8SZRg6x2b34lG6R+Umq6Vbk4VOjZtf0w7z984ZbwbtCcFbzFa/lGpgz4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787058613; c=relaxed/simple;
-	bh=73gAlgpoJyy1D7VzXCf22FlOlZS5/jAqPmtYq5Tn1kk=;
+	s=arc-20240116; t=1787058803; c=relaxed/simple;
+	bh=NrvfAoBO2gpa5p2tJ/J9rrAX/Lc0FG0htGkiFU8pvAU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nOjKKz4fdFtWd0d6jmaOozGBtkWFTUEgGzt4gk4Ggvjp8BKfwOoBiUDhcPSbOniGwdqsjf/+3TSfDgTuqkxGirKtYVxr/np+HOQHcY3gikIIg1H+3FxmTKZY4lJOjrkyhWgd0SOjCPmqX2S3nhL9sc6hdpUMC+Tr6NSzz5iKZAQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jhboaiy5; arc=pass smtp.client-ip=209.85.208.52
+	 To:Cc:Content-Type; b=Pneli8wYx1A2BbfeIHIqWxn8zWomSmFlyYgDdZhHT02ElZmL/fNQq1jdncWc1Gh10sei6gA7UBrbiT3IprIc28uenG2l+1e3zzItaQrKV22TkTz2Wb2DpLboCFdFJhR3AS1NOF1eQ7t0q6lGaTyA6/TtpAF6wnS60YF9G/vZ2q8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YyGAGX/g; arc=pass smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jhboaiy5"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a36982a875so6116802a12.0
-        for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 06:10:11 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787058610; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YyGAGX/g"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a10d02ff43so8223722a12.0
+        for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 06:13:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787058799; cv=none;
         d=google.com; s=arc-20260327;
-        b=ep8fAWoMMFDOG2OHSub8nYu8Uic8fHMZPUy5X1hxXtvyaL3AotGKCCoAAQHBrxvuLl
-         f0ysswQnkoe5cnOAFkK8Mx92b0DZ4jysPeTFFSvw6xi3hvVqwMCbQu225r+AvS7oniPt
-         MIzE/LCu0l7WPAXNKAxiZO5OQSP6K92xlf1TW4Mkh8PSOLwquO49PplDxyCoL8PY1LJW
-         J2X7C7UEZkiNQDXEoofQ6BuQhZPtVNqb05UA8c4ODhiZK6QExw82C0bLuOxzuWlvfxcb
-         3kk7rXxodOSALZxbQrQgrkagDSicDj8R0t2AF2KqgI9hTfchA7RFnS2yrPMBViNTCWG2
-         BUhg==
+        b=q+oO02UIl3Syah9zEox312z1cxzbR8s5YoAtecpfsVWtTRTTPH1e1oVWLCx+Q4Vywr
+         DohesAJixq1O7XK4di06a2mOyWuyle/7/cnsCKZ3b41QgM3pfOBZ2k/cGMvsaQMi4qQ5
+         +7jW+XtivO/XMap6fIhhLKYHEWeEvEs/HFeDQdYk1X3kmG+MRynhnGRhyIzyAiXwaZAS
+         MiT1/zF+mqdJMD0EK8B57MJZzlDzz4VHDKfco99g/WJtJVYzZrYjYazfZjH4+8pN9gaa
+         j9Na4m+pvvtew/1iR2nklcMZt/Ck2qIgmo2Mrg5kral4WpzP1kuTtGaI8X/RVH01OvuS
+         GFOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=dGG09TZgpGEihO9jRJv0GpS2z8N8d+8AwbLPkXQ4xj8=;
-        fh=f/oqMgAa1XdHcjPSsvZdl8PyKE3v/S3rtKz2UAK5SJ0=;
-        b=Qxd6OHPL6jyNWI/8xO9B9h2tCdcJEvx2R8sdcPo6qaF45Q6R1MYiZo88vdhl4fbz1H
-         9CnMO03iivCC4wV3KjPyrQizIq9wG8Vm8J/dKXZKaUvjqmdTSc3eKHRvjGVcZ56r4kri
-         Zszr7wLPTwywvwGTiiogARE5onUYkq9L2N/EJzXPSi5vnd/zz4cUNrreBAEvfCMyuMk1
-         dAavQg6cq7B6Jo4pDpMxlLR7GsOkUVFJjCbCu2zulVZnTRsuK0hnP8UbF2rv4V0Y4kBJ
-         NHksY9NaObwX/qsWnztTTaeHLK0k7ZLKCUNxUYMjAmEotLyhY4+Uv8LFC5/cUVFk5473
-         izLw==;
+        bh=iGklY9B2TVwZnj8ed5pwTJRS4Y3AlZdf07yaEbb8FJE=;
+        fh=BlMcofPMvw+EEeiXVKX63IDYHUtkPpI3uVfjEqsLLwk=;
+        b=FrA6UGJtA/2P9TldxrYfV5gZ3Qsir+nKXQyVGuvPld/bqb9mtQOHC+XzvXsO2T6mxW
+         LjDLlEwAABXtna6fu2Pq1TCL1tb+A8CauX341Ct6jzpTyNi921rHgxh42T8mRRdzt5HK
+         vNYhTtA+WyZaqReBFTJib3OYbWqZT04GWtZ3luUsZG6/nn25LSUVbYGUmJUhIp1vCgiL
+         1oEsRDvSByhw/ytdZe9vBpmSrqkXr8oKwFc7IIFG3bRVWSxXWH6fkDR7fW1XJgBQAuhs
+         Jh23T9iGIFwLLmkC3Ti+rZR3wV1RVNgaCQ4M2/HYBmQdrn17k1surW0LcUvjryqSH9/1
+         nMvw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787058610; x=1787663410; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787058799; x=1787663599; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dGG09TZgpGEihO9jRJv0GpS2z8N8d+8AwbLPkXQ4xj8=;
-        b=Jhboaiy5AqewJKRcyBTOEn9nwSMlKBqQVyDWt4CIXQH1EADErn25iPK6n4w1vEp/Zy
-         hZg2pZSZi8mm4g5TmGCcvWSuhGEqFsGlr8UelVEP/TJ1r+0FUBpzuObvBxXFxkDJ0dRA
-         xR0Qv2OTrvemPoIZN8bLE406D20j7JEsNhg+lVwFHEAzDJefss3VRZL+qpTZW+yVQWlX
-         O2izURggvCyhNzXPoP7RzXYx6E/gD6v+d578yKilVp9F7X3nzOJ+GA62sPs2ed/J5vav
-         97avsXJI9NyF8u6ZfFmlRSFxfFM5i7gO2wTYKeqyqZZ8dZs6OWv89KVlbKQKDwB2ux/6
-         FWtA==
+        bh=iGklY9B2TVwZnj8ed5pwTJRS4Y3AlZdf07yaEbb8FJE=;
+        b=YyGAGX/guj5yexO4fYUGm8g7MOC/Wz95/qzWCaeLgZXhNf5YUZb0dRRbAYSCxiCHgr
+         OIgpSpUquWVsUEJRe+C13nq31mLgGrvTPhsH37fHGgeQOdn7F0omfnBsIqAR6i0IFPpR
+         xXhALkYJVr0SIVYmxPaPorWhmPR4sXsv3LQPpOIBZcX2oixam4pCeoPCLiaPww0Wr+hU
+         AKlIz2/+kI8CRUCHFqyUbL6r480KrQrX7gUxMWBiYJdwqRbMZrdYT3PxC2ARX6D3wYxA
+         k+sz7gY/HHABAlv3l3d3Sw93XJGhr2K3UyiM/szhGqf9VEdXraM3TspBfoVS0aPOT1xW
+         RYLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787058610; x=1787663410;
+        d=1e100.net; s=20251104; t=1787058799; x=1787663599;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dGG09TZgpGEihO9jRJv0GpS2z8N8d+8AwbLPkXQ4xj8=;
-        b=aFFsMmx32A3VZ+oTFEoqWdzjIMwXdhtHsU9qXp5anvJchXbl/Gaau68HsUj1bhoyjp
-         CtQeSxl+lnnFxFJf145DHQTPak+62rxfny0ujoG7Kk8AabY1mKugZkwrizt6JPcUaWGQ
-         7RmZGiR2Wvo2e1umBjkwdC1keqeH47dCn800WkRxaonb4Krxgc5V0/F4dl4Y3DaOS+qA
-         nQ9hn6y4I2s0LfqWPGueEQXFekfLlVf+hjyEUeCyNTZmAS0R1Uih1h/gP02wv7AVteMc
-         mNAAv9b8KnHZiVajvCslLIAySYtomcfNmkmGBdkwv94fAL5lCrWSmtJ10lLfFHeI/gcH
-         M+xA==
-X-Forwarded-Encrypted: i=1; AHgh+Rqnw1fKbVWSYdV64MjRDEXr+/hTmW25aYXgzJ4cwg9iWAO1QpVBV5lvCML9WvTVYS3fIeusptwTrpQu@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNl0jOBJJrCqjn8qQRiGNdeGh48sQ0sxBKQSlubLgGUcyTl/CN
-	apyNWkkvFWGWPPHGuL3CO39M49SvULkdOGC418ZnPF0VIAtwtXcFp30jT98O4C5pGFAGKH9n5ik
-	KYiuqQVyWA9a9ysDlIQ2cg83dDg3mYY4=
-X-Gm-Gg: AR+sD10oHJeKN1+83MBgE9uw8Z4EQrYZLlCTit0hF2SqWl+pKg83JAu1OO/zS6G16Zn
-	+bCkhIsP3SkAoYZ9HTyXyQ3XJxPF2H6ltgyY1NWF4Lld+bVml+8kEHBtzeZNB4FsCJAGhTbksNn
-	Y56+/HPu8YLPBrTWCp6XLvtNCahVBd8hng8Zpps+kMQE/+2gBkxrwJE91jfbT6jr1EFtf5I7b0/
-	uVFb09tgO6Wn/WJZFPdcB3KI6wpJ+KrSVBnDGT9nyyMwtIbkS0ijE58mzgSJJXaD/WGFFD2/iC+
-	8MdyrJ7kEvMyXKUkRvCU+0hviRKga4Dv8GaVVqvArLW3sik+VTN/pVs5
-X-Received: by 2002:a05:6402:2411:b0:6a3:ebe1:c2c2 with SMTP id
- 4fb4d7f45d1cf-6a3ebe1c47emr3481370a12.2.1787058609896; Tue, 18 Aug 2026
- 06:10:09 -0700 (PDT)
+        bh=iGklY9B2TVwZnj8ed5pwTJRS4Y3AlZdf07yaEbb8FJE=;
+        b=dYHr86fl/IGK1LjwEM8ATbIveBMb9X/ZSBI2iSjF0v+iuJmJlRpn3/P7ElKVTQaevh
+         OSjKc85+2yHyTaUVdaIrtrUiKbKnAMUx2LmhyajBBxwx4DhAc9wgcwXWYcfaALaop8RG
+         hUaid51YtcOw9QtdgMI1YsEcKnZhN96Dvrc5hnpyyc7m8r73C8z8/UAkI+tWSoa3Zo1a
+         PglLeZLVopGQXWz9/Hs0G3SE09cjfCbmIyWFhfhtFD/cKW6UayXQLjyfDP0Qkng6qJAV
+         w/Lk/VkltK/wYDN/WdlXGohjSdwOTlzyMMUBNP9oA3G9B69pkYRlzEO0B81t2HycdmYm
+         uJ5g==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9mgR1Fd5AajiQn17jvcb17rY4CyKEp+ceu155mxZjc4SZWGZNLxCaSnqiO3kKfyBB7APCHvJHRjRC@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGeaoGc3zbnGwdwKKWl3+nZUUyaAg17Z9lkU3dO2qcmh0v5h/h
+	dZCPGl1OqkL0SiJ8i65CBjmKNW0IlCyVQ/ng/cSoDRl2J9VHqMvLJLxGTDYLySzYYRDBYGJ+nv+
+	tzDSZvQUadjQ6MqLmjJ/OsB/DIaH57Iw=
+X-Gm-Gg: AR+sD10FwRadj8x79i264CcxQL0LNQEvg5eGX4xf3NFrtp7RYHTJqCzMPRMQ7zPY235
+	EWEleacX3oRLHWJZckZ27ZEuu14u+NRuYVstnZZmRO/ARTZoNgdHlGSsrlqEisE94mynx9ggJEi
+	OlZHdkj8fC1otcCfCOIx2tUOOMVNhFZCxNPPIkjR1OgSTemh++2hERVuTfowF0fEeBChQwAuoaY
+	3yl9wakvctWxDS8+tWIAVQInhwag6Z6eyvds8in+ya43hR7tcvN9/a/sHFtKI4ns7IMd33QiEBM
+	Q8IgizZgG8XDiUazxF8cCV/n3egpPrDelJRet1VHO+0SxQ==
+X-Received: by 2002:a05:6402:21cd:b0:6a3:e40e:f650 with SMTP id
+ 4fb4d7f45d1cf-6a3e40ef8e1mr3821993a12.6.1787058799088; Tue, 18 Aug 2026
+ 06:13:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260817141156.6079-1-luis@igalia.com> <20260817141156.6079-6-luis@igalia.com>
-In-Reply-To: <20260817141156.6079-6-luis@igalia.com>
+References: <20260817141156.6079-1-luis@igalia.com>
+In-Reply-To: <20260817141156.6079-1-luis@igalia.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 18 Aug 2026 15:09:58 +0200
-X-Gm-Features: AcwNN1XX_qer3UzmnYeF7-g6rjmiD1hdkvaAJ3jQKsiCCk6pIgwlzs0nFMRCWP8
-Message-ID: <CAOQ4uxgUECPPchwipkH6qg=q1L_Fqg9=_cPOC6wm9TJ27EQqEw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 5/8] selftests/fuse: factor-out test fixture setup/teardown
+Date: Tue, 18 Aug 2026 15:13:07 +0200
+X-Gm-Features: AcwNN1V62W8BaaJ1kbcQBcxCIwzScRNatY9AKqmKZPaqUboU8xIVjVTh7a2De5Q
+Message-ID: <CAOQ4uxhoOKC7XyK7D_izd-=28RC2OA0Xmjf41rhhO2kPhM7F1Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/8] fuse: caches documentation and testing
 To: Luis Henriques <luis@igalia.com>
 Cc: Miklos Szeredi <miklos@szeredi.hu>, Chen Linxuan <me@black-desk.cn>, 
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
@@ -100,149 +100,44 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Aug 17, 2026 at 4:11=E2=80=AFPM Luis Henriques <luis@igalia.com> wr=
 ote:
 >
-> In order to reduce new tests setup/teardown code duplication, factor-out
-> these functions from the existing acl_cache test.
+> Hi!
+>
+> I'm (finally!) sending v2 of this patchset.  It tries to document (and ad=
+d
+> a few kselftests) to the different types of caches that are currently in =
+use
+> within FUSE.  As I mentioned in v1 the idea for documenting this came fro=
+m
+> Miklos during this year's LSFMM, where he mentioned he would like to see
+> caches usage documented before he could merge an initial version of fusex=
+.
+>
+> This version documents symlinks, attributes, ACLs and readdir caches.  St=
+ill
+> missing: dentries and data caching.
+>
+> I'm still sending it as an RFC as I'm still not sure if it fulfils Miklos=
+'
+> initial goal.
+>
+> As usual feedback is welcome, as I'll (slowly) continue looking into othe=
+r
+> cache types.
+>
+> Major changes since v1:
+> - Added more caches to the document
+> - Changed tests format to single self-contained binaries
+> - Since Amir added a new fuse3-based test, the conversion to fuse3 of the
+>   fusectl has minor changes to the Makefile
+>   - NOTE: I've kept Amir's Reviewed-by anyway (should I drop it?)
 
-When I read this I thought you were going to share these helpers with the
-new symlink and readdir cache tests, but you did not.
+It's fine. I trust your judgement.
 
-Maybe a fuse_common.c would make sense to reduce boiler plate
-in new fuse tests.
+Please see Sashiko review comments.
 
-These helpers and fixture look pretty similar in all three tests.
+My main concern is with the doc - it's not an easy read
+and I would have liked it to be and I found many correctness error
+which is not a good sign.
 
 Thanks,
 Amir.
-
-
->
-> Signed-off-by: Luis Henriques <luis@igalia.com>
-> ---
->  .../filesystems/fuse/fuse_acl_cache_test.c    | 82 ++++++++++++-------
->  1 file changed, 53 insertions(+), 29 deletions(-)
->
-> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test=
-.c b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> index 2411a6e285f1..8bdc90572be2 100644
-> --- a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> +++ b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> @@ -50,6 +50,8 @@
->
->  #include "kselftest_harness.h"
->
-> +#define MAX_ERR_MSG 256
-> +
->  /* ---- ACL binary encoding --------------------------------------------=
----- */
->  /*
->   * POSIX ACL v2 xattr format (little-endian):
-> @@ -193,52 +195,74 @@ FIXTURE(acl_cache) {
->         pthread_t            thread;
->  };
->
-> -FIXTURE_SETUP(acl_cache)
-> +int fs_setup(struct fuse_session **se, char *mountpoint, char *file_path=
-,
-> +            pthread_t *thread, char *err)
->  {
->         char *fuse_argv[] =3D { "fuse_acl_cache_test", NULL };
->         struct fuse_args args =3D FUSE_ARGS_INIT(1, fuse_argv);
->
-> -       g_ds.acl            =3D acl_a;
-> -       g_ds.acl_size       =3D sizeof(acl_a);
-> -       g_ds.getxattr_count =3D 0;
-> -
-> -       strcpy(self->mountpoint, "/tmp/acl_cache_test_XXXXXX");
-> -       if (!mkdtemp(self->mountpoint))
-> -               SKIP(return, "mkdtemp: %s", strerror(errno));
-> +       strcpy(mountpoint, "/tmp/acl_cache_test_XXXXXX");
-> +       if (!mkdtemp(mountpoint)) {
-> +               snprintf(err, MAX_ERR_MSG, "mkdtemp: %s", strerror(errno)=
-);
-> +               return -1;
-> +       }
->
-> -       snprintf(self->file_path, sizeof(self->file_path),
-> -                "%s/" FILE_NAME, self->mountpoint);
-> +       snprintf(file_path, PATH_MAX, "%s/" FILE_NAME, mountpoint);
->
-> -       self->se =3D fuse_session_new(&args, &fs_ops, sizeof(fs_ops), NUL=
-L);
-> -       if (!self->se) {
-> -               rmdir(self->mountpoint);
-> -               SKIP(return, "fuse_session_new failed");
-> +       *se =3D fuse_session_new(&args, &fs_ops, sizeof(fs_ops), NULL);
-> +       if (!*se) {
-> +               rmdir(mountpoint);
-> +               snprintf(err, MAX_ERR_MSG, "fuse_session_new failed");
-> +               return -1;
->         }
->
-> -       if (fuse_session_mount(self->se, self->mountpoint)) {
-> -               fuse_session_destroy(self->se);
-> -               rmdir(self->mountpoint);
-> -               SKIP(return, "fuse_session_mount failed "
-> -                            "(missing fusermount3 or insufficient privil=
-eges)");
-> +       if (fuse_session_mount(*se, mountpoint)) {
-> +               fuse_session_destroy(*se);
-> +               rmdir(mountpoint);
-> +               snprintf(err, MAX_ERR_MSG, "fuse_session_mount failed "
-> +                       "(missing fusermount3 or insufficient privileges)=
-");
-> +               return -1;
->         }
->
-> -       if (pthread_create(&self->thread, NULL, run_daemon, self->se)) {
-> -               fuse_session_unmount(self->se);
-> -               fuse_session_destroy(self->se);
-> -               rmdir(self->mountpoint);
-> -               SKIP(return, "pthread_create: %s", strerror(errno));
-> +       if (pthread_create(thread, NULL, run_daemon, *se)) {
-> +               fuse_session_unmount(*se);
-> +               fuse_session_destroy(*se);
-> +               rmdir(mountpoint);
-> +               snprintf(err, MAX_ERR_MSG, "pthread_create: %s", strerror=
-(errno));
-> +               return -1;
->         }
->
->         fuse_opt_free_args(&args);
-> +
-> +       return 0;
-> +}
-> +
-> +static void fs_teardown(struct fuse_session *se, pthread_t thread,
-> +                       char *mountpoint)
-> +{
-> +       fuse_session_exit(se);
-> +       fuse_session_unmount(se);
-> +       pthread_join(thread, NULL);
-> +       fuse_session_destroy(se);
-> +       rmdir(mountpoint);
-> +}
-> +
-> +FIXTURE_SETUP(acl_cache)
-> +{
-> +       char err[MAX_ERR_MSG];
-> +
-> +       g_ds.acl            =3D acl_a;
-> +       g_ds.acl_size       =3D sizeof(acl_a);
-> +       g_ds.getxattr_count =3D 0;
-> +
-> +       if (fs_setup(&self->se, self->mountpoint, self->file_path,
-> +                    &self->thread, err))
-> +               SKIP(return, err);
->  }
->
->  FIXTURE_TEARDOWN(acl_cache)
->  {
-> -       fuse_session_exit(self->se);
-> -       fuse_session_unmount(self->se);
-> -       pthread_join(self->thread, NULL);
-> -       fuse_session_destroy(self->se);
-> -       rmdir(self->mountpoint);
-> +       fs_teardown(self->se, self->thread, self->mountpoint);
->  }
->
->  static int do_force_statx(const char *path)
