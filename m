@@ -1,366 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338783EBF3B
-	for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 18:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787078440; cv=none; b=Da/5ZiatUOZ3IdU8vxSOv6S77oXibpztE8SsbRSeAp1HColjOgAA8FeBklVpEIYZMOEPAqpzRpew8DyYcJoIKCR4lRoUde7soWoUCcXYFDKOo4OrC25XZ+qgf1fNeVqp3gCPMh7aN5IyHce8y0K2fmAhEs4I5u6tLsaPnqx1LjM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787078440; c=relaxed/simple;
-	bh=ZE5+6QrhQgi0WQlXf807LxaLxRdPddcD5KNpfJRWiCo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4159A26F288
+	for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 19:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787083077; cv=pass; b=gSXgPdFEdKAWr5SSWlJSr9wJqaQwx7HLqITa1mGXW3V2ZWaizSURVbbKknOZziIx+D29YX/UE06psfK1N7Owk4iny4msvir8PM82VG7heQNWU8BmdG2tfqSC1HYpORDHuBwvEAOmAGx6vVAaFbG2M+ufrvFUUrUHyamV58m3nuI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787083077; c=relaxed/simple;
+	bh=Szm3BHWLk691Tkb3wpX+u/chbB+Kd0H25f5yPjsHjDY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GXOA2kZNjlShJUWRb6KXynRAsfoywjYS/OCfea5g/cknwZVfctp1MWPamg0jTEHelYVDOkvi9DPN2V+in4y3X8DzFJz+Vq0hZcPwnj0JY61rjnA2Vj7B/vWGXhoOyGDGLeLe5f1nJv4Ai/iZ6ZQj4wnb69XLHERw+SUBtYDLXYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gxo2dy9i; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=PYp4G2nEGirDn+S7nvcIqs/KkE3czJhmTYhFpyjPmeouhEsLZYpPNB9dHFCN5BvWQ1Qwu6XAm6fM9iNuQsniGU0LaCgggbDL4RAhoP4hj465uhx4puiZJCuCApsmSW/9LLExdj+WZBuGtneg0xOJ8R78JROkKa4eJ70B2ckin5Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ednhY4Yi; arc=pass smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gxo2dy9i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 943481F00ACA
-	for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 18:40:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787078437;
-	bh=ny3XfJw5AppvIZCDXFSTRJl6zICfUFbpvldeep36UPQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Gxo2dy9i+r9hMkx4kXWc3gktO/h6sygr3MqxCShm2PUAKqgro78w65IZ9rJErhTDd
-	 mTJnTV362z9LZ+RA85FOQ2zL0HMWfeS/e10WuK2U0u3Z7ldKsHiPfTiXArsChaLbp6
-	 sTl8V/iaCsF8lD+dI7XbReDvP/kjO624/3Bo7wGBKgr3uU09fWxJweFTcuFn07Xad6
-	 lsgZoZFBYA5lAkMWNkdsSE3seXNWMpQkooUQlA2M3SmGoxYzCV5oQlQLm78YCEvZcb
-	 kctcvvms/EzCQo3PEnajZYc3dcDMOnr20bCVWu1ZyBof57sh99gqp0tU0HMrL5gGSN
-	 bgw7TuI0U44AQ==
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c20ce3c118aso19386166b.0
-        for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 11:40:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rr1aPwOAgo9D138LcxHOFfxubTg5aLw6c4IyXjkv7s9EjY0+RoXLbaOMqRUkd538IzeLdO2KSLxi1ue@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmGp8CA2JfUXPMVs+TWx5sC0ThCDRZzpsKbMSY5gesKW9O10Mj
-	bIDZzaThB3cO+5Tcv0BJwJ4a4nsXxRF48O45v9dwEdPCfBiENbYKKsEX4fw7BYcMrOyL/OIjU0r
-	dOnDmctHuOoyYsST6/3hr/05NdJch888=
-X-Received: by 2002:a17:907:a68a:b0:c21:4698:ee9e with SMTP id
- a640c23a62f3a-c22297f3440mr23803966b.7.1787078436420; Tue, 18 Aug 2026
- 11:40:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ednhY4Yi"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6a10d02ff43so512958a12.0
+        for <fuse-devel@lists.linux.dev>; Tue, 18 Aug 2026 12:57:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787083074; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gh2IgWt34xXFZfLbNcqvG/Z0AWZN1EWx+fWemfPo9hywPVj3qPtvmOzh7ap+paZhIT
+         PyjdDhYUts2UnbBYFyO/s3uOemHQOwJzXF8/4wybQUAzS6cvQpiYYq0fAFTv9YJfS4cG
+         8Ir0ZzOVoRKr+mQWNbQcBogSto6OS4p+kvjJa0IZooqLfobk6ZydZ77b7qAxPkrwwQ2Z
+         gm2uWYLr5DWY6D//BxFa5BfiszpsHX38TcYkwQg+1kH10abxazL/O8e4zRt5M5NtnMqz
+         axv3GPldg2gVsdVQXYK3Ro52R8eDegf72a76pII28P3G2FJJ7Mg4FyheWqR76/x6Ntc5
+         NWgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WSJnz51fcIZBid2gs89wxh+KscHIMubJ0sU5re+K3qI=;
+        fh=P9cX9jd98rZWJNPqW4I5FdOE+5qwKjvXDOfKBJo9dBY=;
+        b=nJSvgdzuxFdBRRn2xXtJTEsLoxOXmcS3MojVxMGF6eK1bg7wuw2syXbUkUJ0ol/8c6
+         UXneLXiThUM4qqSHTINvpZPzy9ngT5nBDLV8SBva+ZSPu0J1KG8nIPdCGuLJVZnFxJ30
+         oGb6k3CVzSnwbIUUcgiOBMJPLxlh+CrWFxbzQsk8DTGNKEvf7Wz9s1xGPsJYT8z+YChV
+         rzH9zByqyODmydfWHYjCfW/rGyclOw01bOD5fr9AhfQ1ayT9GvWpu3IP5jy1n9RdbxEW
+         f1ZBZq9Y4xy18JYliEH5+7PJ1klBmuK2Aj4O3jrD820HHpegkTGyzbeVbZzJqq1tHTb8
+         jnPQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787083074; x=1787687874; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=WSJnz51fcIZBid2gs89wxh+KscHIMubJ0sU5re+K3qI=;
+        b=ednhY4YiSED7bRDUUYrkWkLNBDD5BJbqOoF03IP7F2oXHVyUqMeRM8T9ElIoKpmJiR
+         31rki8Xa+TaexFyWEHE0a6greA9nMw7yJ/Hf80PnDUN+0LfiPvH3Iqka/+0D3JV3YyUA
+         B31UVm3oEO7l1eaVujRda5QxHLfowrZ0zCBdJJleCdri0uO/m6JRR9E1tl4WzY2Hcyf0
+         P5Tvhc4BGwm3Cz6yJwZ3JCgFj3fY/yrwZXbTVaynmP8c08WlD3axFWJ1L7oT5ogpDpK+
+         LRPQFmqPnk9l9uLmC3nqC9FbI2eYk/rvm7RoaBvhVxh9yzE7aoiRLSzp+qgGxav87Oz3
+         3Rtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787083074; x=1787687874;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WSJnz51fcIZBid2gs89wxh+KscHIMubJ0sU5re+K3qI=;
+        b=IuNxC3iejA4y9g5geN6Gd0JAC3XmrqlAXHN8y2pEOC0rkFQAMdnvSYKnsWcQTG9S7G
+         bd4KX0tUd5pmP7Z1dB8ZQb+kuQ0tjDx+Dj1bHyMWaMfm2KBh/R/wJhDqGbtrDKYJklAp
+         xya4A7TyO8URv7nNedwyw4syzsTzrsPTY9hiGpIVbAEJzltrjTavx4e4Sc6TjnJVor5U
+         8VjZ/zv05gsYNCG3xofnR0gakUFm1XG4W3Wsbz1XulMut6CibtW9lF4cNi/WeV2yW5JJ
+         oXBbsp8Rlum4DECwdElECqPHAF8lSik03lOninXur8cQ0qCASPexrxbAP153gdraj3sI
+         Eh1Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrPJmUUOUA59/kiqHIjO1r729EplqsQW/L78aelIIMlUCFjJbOtNhtZsc1LrflnSzykUUVAeOz50jsx@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKQitg0B1BkqHuOWmc4553hPvWT/O0ZPV7vqvLUblWNaC4UETt
+	wEEoVAi1RlDSfUGyAv6MLSacjIli/SIGjavGGnpZj//ySwfAT27XAygl1ZpfnIIxZZrCE16Ktm2
+	4QhCwixpHupexfXBZWU0a1f5mMDrAePM=
+X-Gm-Gg: AR+sD13JHbtRYGzEhmaAk5Vi4zsHmUc/BL6bx66Tz28z3WPoCl8Uln5f+bboKF9o8/N
+	JKGaubGGhmgvKgp7aCj2GWm/mmSG9qVzYzQ6BaRSgyPohKZlH7KVCpij1cML7ZvaOjMeNi9qQSH
+	AIkW6QULIIXDywTgkm5Sjn+Zl0pFqddlEsMulqqei9Irrxdq7E/NDK9lchlFZBoCJHbxtmnbldz
+	cGcrn9BILhq9bBLS/mR06gP05Wod8pr7pWcrCpCFdtGk50DSQ2iTrazF+9xWHBzRtUXmfG1KkZs
+	JResIB8hZO2iU4i/RwOmFT5mCmCXEMnxmzSg4tDAqXGlOw==
+X-Received: by 2002:a05:6402:3983:b0:698:ecf:d18a with SMTP id
+ 4fb4d7f45d1cf-6a3fb76aae4mr349028a12.9.1787083074119; Tue, 18 Aug 2026
+ 12:57:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
- <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
- <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
-In-Reply-To: <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Tue, 18 Aug 2026 11:40:24 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
-X-Gm-Features: AcwNN1X1aov6WUElnPNE-Id7S1ebr1jq7bpiqptm-nHaxscbWcI6WEioZMaqF7I
-Message-ID: <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
+References: <20260817141156.6079-1-luis@igalia.com> <20260817141156.6079-2-luis@igalia.com>
+ <CAOQ4uxjsx-Atq3tGsUeakGNZYLVHayVXPne1E6gM0J9tZp+f6g@mail.gmail.com> <87mruje8a7.fsf@wotan.olymp>
+In-Reply-To: <87mruje8a7.fsf@wotan.olymp>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 18 Aug 2026 21:57:41 +0200
+X-Gm-Features: AcwNN1VmEJCZ2dfSdLunAIKvJi6pxYGeoutfft8jaBr1bHqfqj2oEFnFdnxoK3A
+Message-ID: <CAOQ4uxjnJ436FHZUZMKNx5C9gPKvD5c0n9ojcnxQBoUCuBTVqQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/8] Documentation: fuse: add document on caches
+ being used by FUSE
+To: Luis Henriques <luis@igalia.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Chen Linxuan <me@black-desk.cn>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 12, 2026 at 1:59=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> On Mon, Aug 10, 2026 at 5:48=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wr=
+On Tue, Aug 18, 2026 at 5:51=E2=80=AFPM Luis Henriques <luis@igalia.com> wr=
 ote:
-> >
-> > On Mon, Aug 10, 2026 at 09:49:31AM -0700, Joanne Koong wrote:
-> > > On Thu, Aug 6, 2026 at 2:31=E2=80=AFPM Yosry Ahmed <yosry@kernel.org>=
- wrote:
-> > > >
-> > > > On Thu, Aug 6, 2026 at 2:04=E2=80=AFPM Joanne Koong <joannelkoong@g=
-mail.com> wrote:
-> > > > >
-> > > > > I'm not too familiar with memcg or vmstat so apologies if this is=
- a
-> > > > > naive question, but does it make sense for memcg to just do a sim=
-ilar
-> > > > > approach to what vmstat does? As I understand it, mod_lruvec_stat=
-e()
-> > > > > updates the node counter and the memcg counter (if memcg applies)=
-,
-> > > > > where for updating the node counter, mod_node_state() does some
-> > > > > batching where it updates the global counter for that stat only o=
-nce
-> > > > > it crosses some threshold (pcp->stat_threshold). Could memcg keep=
- its
-> > > > > per-CPU counter as the accumulator but once it reaches some thres=
-hold,
-> > > > > it then propagates it up the parent/ancestors into a per-memcg at=
-omic
-> > > > > global counter? The atomic would then only have to be touched onc=
-e per
-> > > > > batch than on every update, which might eliminate the overhead of=
- the
-> > > > > per-memcg atomic you saw previously? It seems like this would get=
- rid
-> > > > > of needing to do any flushing altogether, as we could just read t=
-hat
-> > > > > global counter directly.
-> > > >
-> > > > The memcg stats perform similar per-CPU counting and thresholding. =
-The
-> > > > main difference from vmstat AFAICT is the cgroup hierarchy. In vmst=
-at
-> > > > we have per-CPU counters and a global atomic counter for each stat.
-> > > > For memcg, we have the same for each cgroup, then we also have a
-> > > > cgroup tree. When we read the stats of a cgroup, we usually want th=
-e
-> > > > hierarchical stats including all of its children, so we can't just
-> > > > read the global counter.
-> > > >
-> > > > We use rstat, a cgroup framework that keeps track of which cgroups
-> > > > have updates on which CPUs, and then memcg has thresholding logic o=
-n
-> > > > top to only flush if the number of pending updates exceeds a
-> > > > threshold. Essentially, if the magnitude updates on a CPU exceeds
-> > > > MEMCG_CHARGE_BATCH, we add it to a global per-memcg counter. We onl=
-y
-> > > > flush if that global per-memcg counter has > NR_CPUS *
-> > > > MEMCG_CHARGE_BATCH updates. So in theory I think we tolerate up to =
-2 *
-> > > > NR_CPUS * MEMCG_CHARGE_BATCH of stale stats (combined for all the
-> > > > stats).
-> > > >
-> > > > See memcg_rstat_updated() and memcg_vmstats_needs_flush() for this =
-logic.
-> > > >
-> > > > Looking at this code again, it made me realize that we already iter=
-ate
-> > > > the per-CPU stats_updates on every update to increment the number o=
-f
-> > > > pending stats on this CPU. I wonder if we can replace this with
-> > > > actually updating the stat on each parent, then the flush path only
-> > > > needs to accumulate CPU counters. Or maybe as you mention, we updat=
-e
-> > > > the global per-memcg counter when updates on a CPU exceed a thresho=
-ld,
-> > > > and forgo the rstat flushing logic completely.
-> > > >
-> > >
-> > > I can run some experiments and see if updating the global per-memcg
-> > > counter per batch and forgoing flushing could be a viable solution.
-> > > I can use my setup to test it for writeback, but for the zswap use
-> > > case, what's the best way to test if the changes are too expensive? I=
-s
-> > > there a benchmark program you're running?
-> >
-> > I was running stress-ng and measuring the latency of zswap_load() and
-> > zswap_store() with bpftrace. But I suspect whatever works for writeback
-> > should work for zswap :)
-> >
-> > >
-> > > For updating the stat on each parent and having the flush path only
-> > > accumulate CPU counters, I think this means we would have to
-> > > unconditionally walk the ancestors + update its counters on every
-> > > update, as we wouldn't be able to early break if the flushable
-> > > threshold was already exceeded. I don't think we could replace the
-> > > stats_update update, as it seems like readers still need some way of
-> > > knowing when to flush. It seems like this could be a nontrivial
-> > > performance hit, but maybe it's a non-factor in reality. If you think
-> > > this would be useful to get benchmark numbers on, I can run some
-> > > experiments on this too.
-> >
-> > I think we need to experiment with how much work we can shift around
-> > between the update and reader sides.
-> >
-> > Right now, on the update side, we call __css_rstat_updated(), which
-> > iterates the parents and puts them on the per-CPU rstat tree, then we
-> > iterate the parents again in memcg_rstat_updated() and:
-> > - Check if flushing threshold is already met.
-> > - Update per-CPU counter for stats_updates.
-> > - If per-CPU update exceeds (another) threshold, we update an atomic fo=
-r
-> >   stats_updates.
-> >
-> > The flush side checks the flushing threshold and does an rstat flush,
-> > which will walk the update trees on all CPUs and iterates all child
-> > cgroups on it. Pretty expensive when the threshold is met.
-> >
-> > I think we discussed two different options:
-> >
-> > (a) On stats updates, iterate the parents and update the per-CPU
-> > counters of the stat directly.
-> >
-> > In this case, we can't keep using rstat, as we would still need to add
-> > the cgroup and all its ancestors to the update tree anyway and the flus=
-h
-> > cost will remain similar. So on the flush path we'll need to iterate al=
-l
-> > CPUs and add the counters. We can explore if use a cpumask can help
-> > here, but perhaps not since we'll need to update it atomically on all
-> > stat updates.
-> >
-> > I imagine that if we do this we'll drop the stats_updates optimization
-> > to avoid adding more cost to the update side. We'll be replacing parent
-> > stats_updates modification with parent stat counter modification. But
-> > maybe it's feasible to keep both to limit the cost of flusing.
-> >
-> > This only works if the cost of iterate the CPUs on the flush side ends
-> > up being cheaper than the current flush. I imagine the average cost wil=
-l
-> > be higher but the cost should be much more consistent vs the current
-> > flush, so the tail should be better.
-> >
-> > (b) On stats updates, iterate the parents and update the per-CPU
-> > counters of the stat directly AND update a global atomic if the per-CPU
-> > counter exceeds a threshold. I think updates may get too expensive as w=
-e
-> > may need to update multiple atomics, especially when updating the root
-> > counter as it will be contended by all cgroups.
-> >
-> > The flush side becomes an atomic read, so should be very cheap, and we
-> > can drop other heuristics and optimizations.
-> >
-> > ---
-> >
-> > I think ultimately we need to experiment with these approachs (and
-> > perhaps others) to check what actually works in practice. You'll
-> > probably want some benchmarks or synthetic tests with many cgroups to
-> > exercise the worst case scenarios.
-> >
-> > For the zswap stats, I used to run stress-ng with a bunch of workers
-> > (20, 50, 100, ..) in cgroups of different levels. Since all workers are
-> > in the same cgroups, all the parents are common and all threads end up
-> > competing on the same atomics, so worst case scenario. I was also
-> > testing in a VM that has more CPUs than stress-ng workers, to exercise
-> > the full extent of the concurrency and contention.
-> >
-> > This could be a lot of work, so I am not really asking you to do it, bu=
+>
+> On Tue, Aug 18 2026, Amir Goldstein wrote:
+>
+> > On Mon, Aug 17, 2026 at 4:11=E2=80=AFPM Luis Henriques <luis@igalia.com=
+> wrote:
+> >>
+> >> This new file aims at documenting the caches that are used by FUSE.  A=
 t
-> > just brainstorming and sharing ideas :)
+> >> the moment only symlink, attributes, ACLs and readdir caches are descr=
+ibed.
+> >>
+> >> Signed-off-by: Luis Henriques <luis@igalia.com>
+> >> ---
+> >>  .../filesystems/fuse/fuse-caches.rst          | 142 +++++++++++++++++=
++
+> >>  1 file changed, 142 insertions(+)
+> >>  create mode 100644 Documentation/filesystems/fuse/fuse-caches.rst
+> >>
+> >> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Document=
+ation/filesystems/fuse/fuse-caches.rst
+> >> new file mode 100644
+> >> index 000000000000..071febf45d00
+> >> --- /dev/null
+> >> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
+> >> @@ -0,0 +1,142 @@
+> >> +.. SPDX-License-Identifier: GPL-2.0
+> >> +
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +FUSE Caches
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +
+> >> +Introduction
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +
+> >> +This document summarises the different types of caches that are used =
+in FUSE.
+> >> +For each cache type, it attempts to document the rules that are follo=
+wed to
+> >> +insert, validate and invalidate data into the cache.
+> >> +
+> >> +symlink caching
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +
+> >> +Whenever there's a link resolution request, the VFS will call into
+> >> +``fuse_get_link()`` which will then send a ``FUSE_READLINK`` request =
+to the
+> >> +user-space FUSE server. However, the server can ask the kernel to cac=
+he all
+> >> +links resolutions by setting the ``FUSE_CACHE_SYMLINKS`` flag during =
+the
+> >> +``FUSE_INIT`` negotiation.
+> >> +
+> >> +If this flag is set, FUSE will immediately call into the VFS
+> >> +``__page_get_link()`` from the ``->get_link()`` inode operation. The =
+first time
+> >> +this is done for a specific link, it will end-up sending the ``FUSE_R=
+EADLINK``
+> >> +to user-space but the link contents will then be added into page-cach=
+e. The next
+> >> +time the link needs to be resolved, it will use the link content that=
+ is already
+> >> +cached, and will only fallback into sending the request to use-space =
+if the
+> >> +folio isn't up-to-date.
+> >> +
+> >> +Attributes caching
+> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> +
+> >> +Attributes obtained from user-space, for example when an inode is fir=
+st
+> >> +looked-up, are cached in the kernel. However, these attributes have a=
+ timeout
+> >> +associated and once expired they are invalidated.
+> >> +
+> >> +Thus, the ``FUSE_GETATTR`` operation will be sent to user-space only =
+if the
+> >> +attributes aren't yet available, the attributes aren't valid (timeout=
+), or if
+> >> +there is an explicit request for doing so (for example, by using the
+> >> +``AT_STATX_FORCE_SYNC`` flag in ``statx``). This may happen in the fo=
+llowing
+> >> +situations:
+> >
+> > "This may happen" what may happen? I don't see it referring to anything=
+.
 >
-> Thanks for your guidance and insights on this, Yosry! Your responses
-> have been very helpful.
+> Yeah, that sentence doesn't really make a lot of sense.  I'll rephrase.
 >
-> I'll do some experimentation with this and try to get a sense of what
-> the update costs are.
+> >> +
+> >> +#. An explicit request from VFS to get the attributes for an inode (t=
+hrough the
+> >> +   ``->getattr()`` callback).
+> >> +#. When an ``->llseek()`` is requested to FUSE with a type of request
+> >> +   (``whence``):
+> >> +
+> >> +   -  ``SEEK_{HOLE,DATA}`` and the user-space doesn't implement the
+> >> +      ``FUSE_LSEEK`` operation (it has returned ``ENOSYS``), or
+> >> +   -  ``SEEK_END``
+> >> +
+> >> +#. When doing a buffered read past EOF or automatic page cache invali=
+dation mode
+> >> +   is enabled (``FUSE_AUTO_INVAL_DATA``).
+> >> +#. When doing a buffered write with write-back cache enabled
+> >> +   (``FUSE_CAP_WRITEBACK_CACHE``).
+> >
+> > This list is incomplete and strange. it has post EOF write for
+> > writeback which is the exception
+> > and leaves out every non writeback write.
+>
+> This list was meant to list the scenarios where the FUSE_GETATTR is sent
+> (the "this may happen" above).  But I'll review the list again.
+>
+> > If you composed this list yourself I highly recommend an LLM for this t=
+ask
+> > if you used LLM I suggest a stronger model.
+> >
+> > Generally speaking, I find that today's robots are much better at writi=
+ng these
+> > sorts of docs than I am - as long as I sit at the helm and guide them
+> > about where to expand on and where to keep it concise.
+>
+> Thank you for the suggestion (I did not use an LLM btw).  In fact, do you
+> think this document is really useful, given that everyone will be running
+> an LLM anyway?  (I've been asking this question myself...)
+>
 
-Looking forward to that!
+LLM is very good in collecting information and arranging it in nicely forma=
+tted
+structures, but you need to keep a very good eye on the output and you need
+to focus on it to make the document relevant to the prospective audience of
+human readers. Running LLM to document without a human on the helm
+you can get half truths and plain lies.
 
->
-> One thing I was unclear about and have been looking at is how
-> pervasive/important this issue is outside of the writeback case. It
-> looks like there are roughly 4 other categories of users that rely on
-> stats that can be 2s stale: zswap, cachestat(), working set, and
-> vmscan.
->
-> Of these, vmscan is the only one that looks troublesome. Some armchair
-> analysis below:
->
-> a) zswap (zswap_shrinker_count()): 2s of staleness looks fine. the
-> stats are only used to calculate the compression ratio and the ratio
-> scales a count that comes from a list_lru and *isn't* stale. The ratio
-> is an average over the whole pool, so it seems like that should be
-> fairly steady across 2s. A stale result doesn't seem too bad - afaict,
-> it is a heuristic of how zswap should get weighed against the other
-> shrinkers.
+Also, for economic reasons, the way to work with LLM is to let it research =
+the
+code base and create nice reviable "brain dumps" that you OR the LLM can
+read later into context.
 
-There is also the zswap limits calculation, which Song sent a patch to
-change to using ratelimited flushing. I think that case is more
-problematic as it can cause OOM kills if we use stale stats (e.g.
-after a burst of writeback frees up space in zswap). Adding Song here.
+Doing this research every time is neither cost effective nor reliable nor
+deterministic.
 
-The shrinker case is more benign.
-
->
-> b) cachestat() syscall (filemap_cachestat()): seems preferable to just
-> rely on the 2s flusher worker. The results are returned back to
-> userspace and not used for any internal kernel decision-making, seems
-> ok to have one field in it (nr_recently_evicted) potentially be stale.
-> Seems better to err on the side of less frequent flushing anyways, as
-> the call path is invoked from unprivileged userspace and flushes the
-> root memcg.
-
-I am not sure how the cachestat() syscall is used, but my preference
-would be to treat it like memory.stat and do a full flush on userspace
-read, unless it's a syscall that is invoked frequently for some
-reason.
-
->
-> c) workingset: looking at the original commits, the calculations are
-> estimates that don't require exact stats -
->
-> refaulting (workingset_test_recent()): commit 9b3016154c91 ("memcg:
-> sync flush only if periodic flush is delayed")
->     Now the question: what are the side-effects of this change? The worst
->     that can happen is the refault codepath will see 4sec old lruvec stat=
-s
->     and may cause false (or missed) activations of the refaulted page whi=
-ch
->     may under-or-overestimate the workingset size.  Though that is not ve=
-ry
->     concerning as the kernel can already miss or do false activations.
-
-Incorrect activations can lead to thrashing in some cases, but I am
-not sure how practical the concern is.
-
->
-> shadow-node shrinker (count_shadow_nodes()): commit d4a5b369ad6d ("mm:
-> ratelimit stat flush from workingset shrinker")
->     On further inspection it seems like we don't really need
->     accurate stats in this function as it was already approximating the a=
-mount
->     of appropriate shadow entries to keep for maintaining the refault
->     information.
->
-> d) vmscan (prepare_scan_control()): for determining whether reclaim
-> can deactivate, there's this logic
->
->                 /*
->                  * When refaults are being observed, it means a new
->                  * workingset is being established. Deactivate to get
->                  * rid of any stale active pages quickly.
->                  */
->                 refaults =3D lruvec_page_state(target_lruvec,
->                                 WORKINGSET_ACTIVATE_ANON);
->                 if (refaults !=3D target_lruvec->refaults[WORKINGSET_ANON=
-] ||
->                         inactive_is_low(target_lruvec, LRU_INACTIVE_ANON)=
-)
->                         sc->may_deactivate |=3D DEACTIVATE_ANON;
->                 else
->                         sc->may_deactivate &=3D ~DEACTIVATE_ANON;
->
-> (and same for DEACTIVATE_FILE for file-backed folios)
->
-> target_lruvec->refaults[] gets set at the end of the reclaim pass. It
-> stores the same lruvec_page_state() value that prepare_scan_control()
-> will read at the start of the next reclaim pass, which means if
-> reclaim passes happen more frequently than the 2s flushes (eg under
-> sustained/heavy memory pressure), this logic will incorrectly assume
-> no refaults occurred and deactivation is disabled, which afaict means
-> folios won't be moved from the active -> inactive list, and reclaim
-> will start evicting pages from the inactive list that are hot (eg more
-> refaults).
->
-> This is from reading the code rather than a reproducer though, so I
-> don't know how much this matters in practice. Unlike for the writeback
-> case, I don't think flushign more frequently solves the problem. It
-> would shrink the staleness window but not eliminate it. Maybe one
-> solution is to keep the deactivation state for a period of time if
-> refaults were observed.
-
-We do have an internal test that runs a VM under memory pressure and
-we started observing OOM kills after the ratelimited flush was added
-in vmscan, so I think it's more problematic than just reclaiming hot
-memory, but I didn't look too closely.
-
->
-> If it turns out iterating the parents and updating the per-CPU
-> counters of the stat on updates is too expensive, perhaps it makes
-> sense to keep the existing rstat logic as is and have caller-side
-> workarounds, as only writeback and vmscan would require them.
-
-Also zswap limits calculation. I am not sure how benign the workingset
-case is, but it has been ratelimited for a while now AFAICT, so maybe
-it's fine.
-
->
-> Thanks,
-> Joanne
+Thanks,
+Amir.
