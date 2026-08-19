@@ -1,267 +1,185 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E85D380FCA
-	for <fuse-devel@lists.linux.dev>; Wed, 19 Aug 2026 13:48:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBED1486BB9
+	for <fuse-devel@lists.linux.dev>; Wed, 19 Aug 2026 16:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787147293; cv=none; b=LjfBu6bnwjSavEI2JB9vYb92J8QiTrCa+gklXH0aWRPdWXbEvM8LpIR0/cyESzvCsh9RDXdvYfqRNuwS5K6ofjtsGwjCuXA7dhKEBz5+0tDwETBJK9pLT1fB4YAqqYcJstfoPlN0wxwpdkOznAUAJmGqSySEamaSnMO2d2Px1VM=
+	t=1787155974; cv=none; b=Be7f5UBhgzyn9ePRN+eD7vZ6pV0AQyqbsnB1gQLqs4OFp2mS9p/04iADJYHJMY5LLqr+2lmbDooqbJWT8RR06ts6gPQZaybVX+YDE/O+pVHpL1axtXmXoYgzrgPi7W539i58lw7cV7IZhs4Hm0cHMzKCyNSK41rpsEpLXFA0HdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787147293; c=relaxed/simple;
-	bh=UVRw1fu0B8Ctcz1/a8YqaBLNPF+Krtdu5nk2iXdycqA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VUuo3sLyKN2qmA0Bpzi3p5D7yRil5iHzQRTcokNOAR1+44gnA00AETgLSnPqfxm2eIbV78Z9gKJsQm9D0viNLBVIWVo5N3oH9SNtM7cwT7KFXZCZYGaoQ4nbpgVB9Fh60S7ZD7PIHKJXS7msI5x7qK3ZXX+P9Fdnf52FoCMUZP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=GqYFNt4q; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=bXYbx99A; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=etk9K476; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=pXl7vQ/j; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1787155974; c=relaxed/simple;
+	bh=YU/38JsMz4gbSQi9Z5l65cYhx8sF+PBBlci/NA0jW/Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=esxaCzxnmcxLemikxzfLxsr3EvK0nrH+c4MZxMInJwgnm/93pd13Mnd+1OJ5KDxFotIfPppFu9QXRN3rA2g2+vi8fyMkZC0Ew0jb5AH7u3E/ycboDFls3zy9PMEyWUgpDPKze+3wOKbh7h0hGX6VhlLi6X9H+RvnTPhzG62o9/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20251104.gappssmtp.com header.i=@davidwei-uk.20251104.gappssmtp.com header.b=GNnKj3x9; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="GqYFNt4q";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="bXYbx99A";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="etk9K476";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="pXl7vQ/j"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E3FC63E58;
-	Wed, 19 Aug 2026 13:47:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787147283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NQEX4oeo4rqbzT7vGiKmt7h632aZft2fmcG+U9QUHZs=;
-	b=GqYFNt4qNp9FiF7i4t9aM5jSvdhKBKwjXzwbxRGkIsGnHVQeU25vfvBj7fPNUV5oyjZdWo
-	2cfdTvtXKwW/4bZhbVF+z8IRaS1q71CUxVT2V/p9tyAVPXVYvQCN9KkrB061prohK8jiAD
-	OSmMRW7iI+sLYpd22kfQ94sxY+6zhAA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787147283;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NQEX4oeo4rqbzT7vGiKmt7h632aZft2fmcG+U9QUHZs=;
-	b=bXYbx99AQHu1nAIitY0cIYRL7Cv2xdqxtzGg0xdxbbs0JKe6kvskvJr9izYcnkLAOd+92h
-	pUyXtPctHwV7dlAg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=etk9K476;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="pXl7vQ/j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1787147278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NQEX4oeo4rqbzT7vGiKmt7h632aZft2fmcG+U9QUHZs=;
-	b=etk9K476Eta0CnYtRSQ7hGOx6PIItSY6RsSsch7ILl4F4zSKZuCnpPglhtfsl4upBZxqPR
-	OCNXuy3y7lt2UGQtPRdISvIbQncmDvQrO8JEtON0HiplJlYzJZJKewEJnxcOj08+oXHeHK
-	s7i3EjwJtNdDPf2ULQbLN0RIQs/9jss=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1787147278;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NQEX4oeo4rqbzT7vGiKmt7h632aZft2fmcG+U9QUHZs=;
-	b=pXl7vQ/jwFEZncnMhQfAFYaeNXVf/9UaG/55dlMwIsWKFD29C7MqYAdU92vw+ApIQoM7as
-	v9kcpR0pZOFnuKBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D3601362E;
-	Wed, 19 Aug 2026 13:47:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GmGWMw60hWrQXQAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 19 Aug 2026 13:47:58 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 75318A13B2; Wed, 19 Aug 2026 15:47:58 +0200 (CEST)
-Date: Wed, 19 Aug 2026 15:47:58 +0200
-From: Jan Kara <jack@suse.cz>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Jimmy Zuber <jamz@amazon.com>, Shuah Khan <shuah@kernel.org>, 
-	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Jan Kara <jack@suse.cz>, Joanne Koong <joannelkoong@gmail.com>, 
-	Brian Foster <bfoster@redhat.com>
-Subject: Re: [PATCH 1/2] fuse: zero the partial EOF page when extending a file
-Message-ID: <jgowolx6ax3yz7q4fm76gyhhcmea5ahljxhbnncr2qspqzhujg@vb3tiqln6led>
-References: <20260731203842.540798-1-jamz@amazon.com>
- <20260731203842.540798-2-jamz@amazon.com>
- <CAJfpegseDzOV1jH5eE2LcbWJAuY2hQmdS1xwBmZCMXk4D3D+=g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=davidwei-uk.20251104.gappssmtp.com header.i=@davidwei-uk.20251104.gappssmtp.com header.b="GNnKj3x9"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-ca80d708489so42794a12.1
+        for <fuse-devel@lists.linux.dev>; Wed, 19 Aug 2026 09:12:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=davidwei-uk.20251104.gappssmtp.com; s=20251104; t=1787155971; x=1787760771; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=I4vzXpvHAcLaYocQF8fljGBe8SJDDqmPaqS44yvJv+k=;
+        b=GNnKj3x9E4KgO5AWQ5U9XI6Sp9mTwyjs14DfTKryKpglHne+C8vkRolfnYMTsnr3/p
+         s7X2nvnGhVe/D7IVjBnGd/A4lhHtEPgtTb9sPLiYE2QhZdAu6/tYlWqzcoLFIRzT+tEd
+         QEYi2NURlgzX7S/fVA3B0migjOY9JqwDN32+nGvkOUfy971ULdujgyXEdw8+wNH1z0ng
+         Ryb3tm8hLGVNAAdDIkSzkXxwUYxHwl6Ep6aQe0U7kbgOFbNYHZi0WpJ1+7026qzPk9zc
+         /Z1O1KdrsuCTmtMF/zJXdntGfUwIP6nFvQRN3XLwQ+EW5/FiHbYrKmm+D5g3hIwcTbtf
+         3s8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787155971; x=1787760771;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=I4vzXpvHAcLaYocQF8fljGBe8SJDDqmPaqS44yvJv+k=;
+        b=PAoGc+CXB2ChgLHpwR2QK12UD/535pdzOEGWcAeTil51pTK7+Bn1tXgoHyGeyzqnHF
+         I0vDVdZTj8EbPM8nLs/6hdgp0bB/Dc5Xki3kPC0MDYvehlW42IqK1A0BT4TENWndkhvu
+         DWVkFHzXYyFrcpNtcMJmn/afPWLQ5Mh8+plAwExQQgDW6hn6s53HVDbMwgjC3UDQLo4X
+         /JMyJcMarsDe1JQ9qcr1ediNbrbZNilL7P+ndtsCqrjJ2ffKodHvF9dctYNNDqvPMoY/
+         LTtTuPhzyk6tf3ECuctAXxaJ0Xjpyt5mT818RV86Hv63PlJFH6zo33Hi6mJlAwnHZfWz
+         R3Qg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp0COWW01W9s4ah/fe3+bsEki7QMuBe2g4UiIiJWjvn7oU58eZEnZhNCqKJWwjXDQ5sSGyEYHbBNnWi@lists.linux.dev
+X-Gm-Message-State: AFuF++nCifwMzrHFuQJVZX4MmXnjAzxkZhFRx99xQg/acvskNqTGVXox
+	T0VQwxzoWiN4WN5ZOSwTi76cpyODOBtHKk6970zfSYQKYqe8s3NtbZe140quyOxKtXE=
+X-Gm-Gg: AR+sD10p2qM3Yo7eVG8mLGVD1VtJqQwc6AS4ileqsB33CWXLZl0nKFd8hOfUgzria83
+	OzYvyyMeLO4WKQH+Ki9093JqfYqXtXmb9I343OaSolBYvWyXqA34eYMWGXX+xKJnU3ADmZt1y2i
+	nF4fhWn3YAM5XTW05dYBWpSEydoyoITtqBaocI8gaYoPr+Lu/n4UfCDt0D87RV1V4o3ITUkXkqP
+	LTobyt6DNz6pkiDJZWND1cW9WM1JQfREF1jFH5PP6tnEYgakVyK8nco9/kAsUi0Xj1EqdLicSAx
+	pIACwl0SdNEGd43gZHiaMeKACifkQHKlh7F9hR/0PeRETYVKHPy7AnOuEhBE5xTASh/itQl5ADD
+	X0Yi9L37tcunF+Z5hP9cogavu0X5ZfkL+xwwHzO77aVnTSZpxZ28oCTklfZnTR2V0GZpe2HYtoO
+	J6sH+BPJpk02Zey20JYczzE+0qsqeA83CClcsvRijsEnbPsmz27fB53kGX0e12Gy4kQgKZU4NkB
+	mWJQcH2hFp/kaOLNcDNkpnInQTTwNrc1dtjSA25OXOmUBRdzewr+M+Nqas8qA==
+X-Received: by 2002:a17:90b:2d0b:b0:38e:9784:dd47 with SMTP id 98e67ed59e1d1-395a044f2c1mr324350a91.1.1787155970721;
+        Wed, 19 Aug 2026 09:12:50 -0700 (PDT)
+Received: from ?IPV6:2a03:83e0:1156:1:c8f:b917:4342:fa09? ([2620:10d:c090:500::6:8b67])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1416ad53874sm14632076c88.4.2026.08.19.09.12.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Aug 2026 09:12:50 -0700 (PDT)
+Message-ID: <9bbda36f-740a-400f-92c0-3f6f3bdd0662@davidwei.uk>
+Date: Wed, 19 Aug 2026 09:12:48 -0700
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegseDzOV1jH5eE2LcbWJAuY2hQmdS1xwBmZCMXk4D3D+=g@mail.gmail.com>
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: E3FC63E58
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[amazon.com,kernel.org,lists.linux.dev,vger.kernel.org,suse.cz,gmail.com,redhat.com];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.com:email]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/7] fuse: {io-uring} Allow to reduce the number of
+ queues and request distribution
+To: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>,
+ Gang He <dchg2000@gmail.com>, fuse-devel@lists.linux.dev,
+ Bernd Schubert <bschubert@ddn.com>
+References: <20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com>
+ <65b910bc-67cf-49b6-b471-25280e7ba997@davidwei.uk>
+ <bece8a86-83aa-43e5-bf8f-551537a2506d@bsbernd.com>
+Content-Language: en-US
+From: David Wei <dw@davidwei.uk>
+In-Reply-To: <bece8a86-83aa-43e5-bf8f-551537a2506d@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello!
-
-On Wed 19-08-26 11:29:50, Miklos Szeredi wrote:
-> On Fri, 31 Jul 2026 at 22:39, Jimmy Zuber <jamz@amazon.com> wrote:
-> > Extending a fuse file past a non-page-aligned EOF does not zero the tail of
-> > the old last page.  If that page is cached and was dirtied beyond the old
-> > EOF -- e.g. an application mmap()ed the EOF page and stored into the region
-> > past EOF, which is undefined until the file grows -- the now in-bounds tail
-> > is exposed to subsequent reads as stale data instead of zeros, in violation
-> > of POSIX file-extension semantics.
-> >
-> > Other filesystems zero this via pagecache_isize_extended(), but that helper
-> > is a no-op for fuse: it returns early when i_blocksize() >= PAGE_SIZE, and
-> > a non-fuseblk fuse mount has s_blocksize == PAGE_SIZE (the server-supplied
-> > st_blksize only sets fi->cached_i_blkbits, not i_blkbits).  The NFS client
-> > hit the same problem and open-codes the zeroing in
-> > nfs_truncate_last_folio(); add the equivalent fuse_zero_partial_eof_folio()
-> > and call it from the three paths that extend a file: a buffered write, a
-> > size-extending setattr/truncate, and a size-extending fallocate
-> > (fuse_write_update_attr(), fuse_do_setattr() and fuse_file_fallocate()).
-> >
-> > writeback_cache connections are unaffected, as their writes go through
-> > iomap_file_buffered_write(), which zeroes post-EOF folios.  The bug is
-> > observable on a non-writeback_cache server that returns FOPEN_KEEP_CACHE on
-> > writable files (without FOPEN_DIRECT_IO), and is caught by the new
-> > write_extend_eof fuse selftest.
-> >
-> > Signed-off-by: Jimmy Zuber <jamz@amazon.com>
-> > ---
-> >  fs/fuse/dir.c    |  3 +++
-> >  fs/fuse/file.c   | 56 ++++++++++++++++++++++++++++++++++++++++++++++++
-> >  fs/fuse/fuse_i.h |  1 +
-> >  3 files changed, 60 insertions(+)
-> >
-> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> > index 795e92037ce7..f6614ccef186 100644
-> > --- a/fs/fuse/dir.c
-> > +++ b/fs/fuse/dir.c
-> > @@ -2282,6 +2282,9 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
-> >          */
-> >         if ((is_truncate || !is_wb) &&
-> >             S_ISREG(inode->i_mode) && oldsize != outarg.attr.size) {
-> > +               if (outarg.attr.size > oldsize)
-> > +                       fuse_zero_partial_eof_folio(inode, oldsize,
-> > +                                                   outarg.attr.size);
-> >                 truncate_pagecache(inode, outarg.attr.size);
-> >                 invalidate_inode_pages2(mapping);
-> >         }
-> > diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> > index cb8da4c06d17..a9063b4e9217 100644
-> > --- a/fs/fuse/file.c
-> > +++ b/fs/fuse/file.c
-> > @@ -21,6 +21,8 @@
-> >  #include <linux/splice.h>
-> >  #include <linux/task_io_accounting_ops.h>
-> >  #include <linux/iomap.h>
-> > +#include <linux/highmem.h>
-> > +#include <linux/rmap.h>
-> >
-> >  static int fuse_send_open(struct fuse_mount *fm, u64 nodeid,
-> >                           unsigned int open_flags, int opcode,
-> > @@ -1200,20 +1202,64 @@ static ssize_t fuse_send_write(struct fuse_io_args *ia, loff_t pos,
-> >         return err ?: ia->write.out.size;
-> >  }
-> >
-> > +/*
-> > + * An operation extended i_size past a non-folio-aligned old EOF at @from,
-> > + * turning [@from, @to) into a hole that must read back as zero.  If the old
-> > + * last folio is cached and was dirtied beyond the old EOF (e.g. mmap stores
-> > + * into the post-EOF region, which are undefined until the file grows), zero
-> > + * that tail so it is not exposed as stale data (xfstests generic/363).
-> > + *
-> > + * pagecache_isize_extended() cannot be used: it bails out for
-> > + * i_blocksize() >= PAGE_SIZE, and a non-fuseblk mount has
-> > + * s_blocksize == PAGE_SIZE, so the zeroing has to be done here.
-> > + * Callers hold i_rwsem, serialising this against concurrent writes and
-> > + * truncates; it must not run under fi->lock, as it locks the folio.
-> > + */
-> > +void fuse_zero_partial_eof_folio(struct inode *inode, loff_t from, loff_t to)
-> > +{
-> > +       struct folio *folio;
-> > +       size_t offset, end;
-> > +
-> > +       if (from >= to)
-> > +               return;
-> > +
-> > +       folio = filemap_lock_folio(inode->i_mapping, from >> PAGE_SHIFT);
-> > +       if (IS_ERR(folio))
-> > +               return;
-> > +
-> > +       if (folio_mkclean(folio))
-> > +               folio_mark_dirty(folio);
-> > +
-> > +       if (folio_test_dirty(folio)) {
-> > +               offset = offset_in_folio(folio, from);
-> > +               end = min_t(loff_t, to - folio_pos(folio), folio_size(folio));
-> > +               folio_zero_segment(folio, offset, end);
-> > +       }
-> > +
-> > +       folio_unlock(folio);
-> > +       folio_put(folio);
-> > +}
-> > +
+On 2026-08-17 14:39, Bernd Schubert wrote:
 > 
-> While the fix is probably correct, I'm not happy with it.
 > 
-> Why does pagecache_isize_extended() not handle blocksize >= PAGE_SIZE?
+> On 8/14/26 22:55, David Wei wrote:
+>> On 2026-05-28 15:55, Bernd Schubert via B4 Relay wrote:
+>>> This adds bitmaps that track which queues are registered and which queues
+>>> do not have queued requests.
+>>> These bitmaps are then used to map from request core to queue
+>>> and also allow load distribution. NUMA affinity is handled and
+>>> fuse client/server protocol does not need changes, all is handled
+>>> in fuse client internally.
+>>>
+>>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
+>>> ---
+>>> Changes in v5
+>>> - Rebased to miklos-for-next (Linux 7.2 base).
+>>> - Folded "Fetch a queued fuse request on command registration" into
+>>>     "Allow reduced number of ring queues", inlining fuse_uring_do_register()
+>>>     into fuse_uring_register().
+>>>     - Fixed retry logic in "Add retry attempts for numa local queues":
+>>>       replaced cpu++ with cpumask_next_wrap(qid, mask) so each retry
+>>>       advances to a genuinely different registered queue (Joanne)-
+>>>     - Simplified "Prefer the current core over mapping" (Joanne).
+>>>     - Folded READ_ONCE() annotation for ring->ready into "Allow reduced
+>>>       number of ring queues" to match WRITE_ONCE() on the writer side and
+>>>       suppress a KCSAN data-race warning.
+>>>
+>>> Changes in v4:
+>>> - Fix leak of ring->numa_q_map
+>>> - Fix q-imbalance due to an issue in static cpu->qid mapping
+>>> - Performance tunings, like preferring the current cpu
+>>> - Removal of distribution among queues, Joanne had concerns about it.
+>>>     As it is an optimization, it can be added later again. At least
+>>>     most of it was removed, some light distribution is still left in.
+>>> - At the end of the series, add fuse debugfs entries. This could
+>>>     be factored out.
+>>> - Link to v3: https://lore.kernel.org/r/20251013-reduced-nr-ring-queues_3-v3-0-6d87c8aa31ae@ddn.com
+>>>
+>>> ---
+>>> Bernd Schubert (7):
+>>>         fuse: {io-uring} Add queue length counters
+>>>         fuse: {io-uring} Rename ring->nr_queues to max_nr_queues
+>>>         fuse: {io-uring} Use bitmaps to track registered queues
+>>>         fuse: {io-uring} Allow reduced number of ring queues
+>>>         fuse: {io-uring} Queue background requests on a different core
+>>>         fuse: {io-uring} Add retry attempts for numa local queues for load distribution
+>>>         fuse: {io-uring} Prefer the current core over mapping
+>>>
+>>>    fs/fuse/dev_uring.c       | 313 ++++++++++++++++++++++++++++++++++------------
+>>>    fs/fuse/dev_uring_i.h     |  25 +++-
+>>>    fs/fuse/inode.c           |   2 +-
+>>>    include/uapi/linux/fuse.h |  10 +-
+>>>    4 files changed, 269 insertions(+), 81 deletions(-)
+>>> ---
+>>> base-commit: 2dcf16d41cc04472a4f9bc6e99d0ab26cfb1afb1
+>>> change-id: 20250722-reduced-nr-ring-queues_3-6acb79dad978
+>>>
+>>> Best regards,
+> 
+> Hi David,
+> 
+>>
+>> Hi Bernd,
+>>
+>> What is the current status of this patchset? Do you intend to keep it as
+>> is, or as Joanne mentioned combine it with queue add/remove?
+> 
+> I think we should combine it with queue registration from Joannes series
+> and that got merged today. And with that should aim for the next merge
+> window. I also want to add in the RCU lock for mapping updates.
+> 
+> Next step is that I need a merge request from Joanne for libfuse, so
+> that I can test with FUSE_IO_URING_CMD_ADD_QUEUE. Or at least I need the
+> branch. Well, I could add this in myself, but that would a) lead to
+> merge conflicts and b) cause even more work.
+> 
+>>
+>> We're running FUSE io_uring on fairly large hosts with >150 physical
+>> cores. FUSE io_uring ends up creating 300+ io_uring instances, which
+>> wastes memory and bumps against rlimit memlock.
+> 
+> I fully understand, however, I also cannot focus on one task only.
+> Besides having a totally different day job (right now fixing ublk_drv
+> tear-down issues), there is also libfuse (just check recent commit
+> history... I hadn't planned to rewrite tests, but I didn't get pytest to
+> hand out information what is failing. That all takes quite a bit of my
+> previous time). I'm fully open for co-maintainers...
 
-Because originally it didn't do any zeroing. It was only used to
-writeprotect the tail page so that the filesystem could allocate missing
-blocks under mmaped page after i_size extension which makes sense only when
-blocksize < pagesize. Then Brian added the zeroing in commit 52aecaee1c264
-("mm: zero range of eof folio exposed by inode size extension") mostly
-because it was a convenient place where to add it. For standard disk-based
-filesystems the zeroing is needed only when bs < PAGE_SIZE because the
-zeroing of the tail block gets handled by the filesystem itself in a
-different place.
+Of course, I understand you have other things you're working on. I
+didn't want to step on your toes and work on something you've already
+made progress on. At the same time, it sounds like you're spread thin,
+so while I'm not certain on co-maintainership, perhaps we can talk about
+how to shard this work better?
 
-> Where does straddling folio zeroing happen for other filesystems?
-
-It is generally done by the filesystem. E.g. for extending writes XFS
-zeroes from xfs_file_write_checks() -> xfs_file_write_zero_eof(), ext4 from
-ext4_write_checks() -> ext4_block_zero_eof(). Similarly for extending
-truncate e.g. ext4_setattr() calls ext4_block_zero_eof().
-
-I agree the zeroing is kind of messy and could use some standardization
-(especially because it's a corner case people rarely think about and as a
-result we had several issues in this area over the years in various
-filesystems). But it's a bit tricky because of fs-specific needs (locking,
-journalling) for the tail block update and also because this is somewhat
-performance sensitive path so you don't want to do too much needless work
-due to abstraction.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> 
+> 
+> Thanks,
+> Bernd
