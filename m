@@ -1,185 +1,281 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBED1486BB9
-	for <fuse-devel@lists.linux.dev>; Wed, 19 Aug 2026 16:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787155974; cv=none; b=Be7f5UBhgzyn9ePRN+eD7vZ6pV0AQyqbsnB1gQLqs4OFp2mS9p/04iADJYHJMY5LLqr+2lmbDooqbJWT8RR06ts6gPQZaybVX+YDE/O+pVHpL1axtXmXoYgzrgPi7W539i58lw7cV7IZhs4Hm0cHMzKCyNSK41rpsEpLXFA0HdQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787155974; c=relaxed/simple;
-	bh=YU/38JsMz4gbSQi9Z5l65cYhx8sF+PBBlci/NA0jW/Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=esxaCzxnmcxLemikxzfLxsr3EvK0nrH+c4MZxMInJwgnm/93pd13Mnd+1OJ5KDxFotIfPppFu9QXRN3rA2g2+vi8fyMkZC0Ew0jb5AH7u3E/ycboDFls3zy9PMEyWUgpDPKze+3wOKbh7h0hGX6VhlLi6X9H+RvnTPhzG62o9/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20251104.gappssmtp.com header.i=@davidwei-uk.20251104.gappssmtp.com header.b=GNnKj3x9; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 179313BF67A
+	for <fuse-devel@lists.linux.dev>; Wed, 19 Aug 2026 17:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787162185; cv=pass; b=dab0KBwPwtKt+pofZyaDfevmUM8fl5FVWq3JNN21nw476/AMqpmz7IT508ScT44ZsQUVFF4G1ls5YF856sfbhKREnvKHlxHY/KljkBBu8DqNk1/dneoKIOHTZCEsn0KaHU370HgBkYxllohNsk9Fy9SOYIVs3pFy4ft0zotmpe4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787162185; c=relaxed/simple;
+	bh=Ge0fTCperD0VmQW37wpD3EYUkS5p6P0y5lidLMyRx+U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pBV8gNv6qZ04CAIF2WZem6fhT5HPDYdhMvY3pjppuwGP7daPUj4CmDTQUo9NVxJ+d8625oBfqSNDG5YX7Nt+5g2uPKy9P4fMAw7k60UqlC+uCVbCSTMRbhBnNjmZG7z40JEzvl/hDjlEBLHlFB+jnEfPlo4Z7r8lO1rOt5d1KLk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T1wtdm5Z; arc=pass smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20251104.gappssmtp.com header.i=@davidwei-uk.20251104.gappssmtp.com header.b="GNnKj3x9"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-ca80d708489so42794a12.1
-        for <fuse-devel@lists.linux.dev>; Wed, 19 Aug 2026 09:12:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T1wtdm5Z"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-495437bb891so1119675e9.1
+        for <fuse-devel@lists.linux.dev>; Wed, 19 Aug 2026 10:56:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787162181; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MeR42aZQ/oEu6DMjuVYsWrXqaResDlDjAc4IZYo4W6z6P4Gt0G0xwPcv6FlCmim+it
+         jTQPmDT5YNH8KCx98fXxOtXsPV7Y2GmHvdTb0uRQgqq7XrsRWrmdNdongL4ond3xwOE8
+         MCcDddazDqqKK/Yvxb3POWBXJrxISWdm/aBGkfhJfKpiQwwIyLzsETs31HbJyeOtlQXy
+         H+pEAhDfXMztSGrmqChts0uIE7qcyAazzVcB2cX+jzX6I6K2F2vXfO/PCxDBb15Wq40L
+         uapriyvOiQsAPVRO8vj8pn1LYUSdwT6lRaQLb3+uZhEO9v33OZb/2k0w1XQ09hV9TVDH
+         eLtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lL3RD45r9AvsvR1KMjnS+PGFCfZfRV3Sl9G+rpxFW1w=;
+        fh=WT2oWA+2t9Y1VTSJASH0NI97uiNi59Lf1R4+6ApKzzg=;
+        b=I9VrxNuGHw39tj4mLUUthoRDPwvXz3iyylYVFDVFz/VJjx4xc/yMQmjqca9ge+wVGb
+         xNQ+VP91skcDHqQeGdF4oLvxM1ZLc6SAuGWdT74Hrkvi3czvKdjZGwupa1IGspN4Tspq
+         If1P/MpGA5sIxuudiiI/kGLVjuQZ3Y1UlsupSltWhhuco+4upwoyDY6u69Jy7wupnSQl
+         HBiJmWg3CWYA9qy+xoo98FBODvBWVSHec23hKLaE4p8r/0RRW1SY9GSxtzmlKz8KV4Ko
+         xjOjdsXHgK9EG+fGV9NG7Uuom+K91UtDfU6jgud274JUc958kBqpjLMSdso+BJe3DO1c
+         2Xkw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20251104.gappssmtp.com; s=20251104; t=1787155971; x=1787760771; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=I4vzXpvHAcLaYocQF8fljGBe8SJDDqmPaqS44yvJv+k=;
-        b=GNnKj3x9E4KgO5AWQ5U9XI6Sp9mTwyjs14DfTKryKpglHne+C8vkRolfnYMTsnr3/p
-         s7X2nvnGhVe/D7IVjBnGd/A4lhHtEPgtTb9sPLiYE2QhZdAu6/tYlWqzcoLFIRzT+tEd
-         QEYi2NURlgzX7S/fVA3B0migjOY9JqwDN32+nGvkOUfy971ULdujgyXEdw8+wNH1z0ng
-         Ryb3tm8hLGVNAAdDIkSzkXxwUYxHwl6Ep6aQe0U7kbgOFbNYHZi0WpJ1+7026qzPk9zc
-         /Z1O1KdrsuCTmtMF/zJXdntGfUwIP6nFvQRN3XLwQ+EW5/FiHbYrKmm+D5g3hIwcTbtf
-         3s8A==
+        d=gmail.com; s=20251104; t=1787162181; x=1787766981; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lL3RD45r9AvsvR1KMjnS+PGFCfZfRV3Sl9G+rpxFW1w=;
+        b=T1wtdm5Z8rcgIlSeJ/htY+HI65aMni2q4hXmGvncuODtmnGeGP1XR1py0oWI+nNPUy
+         eCoZfWCuvMMc29M7R3NhW8rAmaXngFGDnv+X4tbeRKetqrxcMfkZfQ9CQ9HwYquQy5y2
+         xkyVId0LOXMhgekoXFb1KPVIYqxYEk6JtwqV2OpNQ64s/D0E30xodZgYvhJzXOvGh+P3
+         /5Lh/MX5L83ki/QCVtTf23a/pBgVgoGONeyxXTgyVqU/WILgKfOjSEGC7AAex6tvcNcD
+         XBid2SMk80mCEBWaLFG7aPYXRTvinHlNNm+6h6FPofXjOmfoLUZ9R7n5W1Tgy77SAHhD
+         ddAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787155971; x=1787760771;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=I4vzXpvHAcLaYocQF8fljGBe8SJDDqmPaqS44yvJv+k=;
-        b=PAoGc+CXB2ChgLHpwR2QK12UD/535pdzOEGWcAeTil51pTK7+Bn1tXgoHyGeyzqnHF
-         I0vDVdZTj8EbPM8nLs/6hdgp0bB/Dc5Xki3kPC0MDYvehlW42IqK1A0BT4TENWndkhvu
-         DWVkFHzXYyFrcpNtcMJmn/afPWLQ5Mh8+plAwExQQgDW6hn6s53HVDbMwgjC3UDQLo4X
-         /JMyJcMarsDe1JQ9qcr1ediNbrbZNilL7P+ndtsCqrjJ2ffKodHvF9dctYNNDqvPMoY/
-         LTtTuPhzyk6tf3ECuctAXxaJ0Xjpyt5mT818RV86Hv63PlJFH6zo33Hi6mJlAwnHZfWz
-         R3Qg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0COWW01W9s4ah/fe3+bsEki7QMuBe2g4UiIiJWjvn7oU58eZEnZhNCqKJWwjXDQ5sSGyEYHbBNnWi@lists.linux.dev
-X-Gm-Message-State: AFuF++nCifwMzrHFuQJVZX4MmXnjAzxkZhFRx99xQg/acvskNqTGVXox
-	T0VQwxzoWiN4WN5ZOSwTi76cpyODOBtHKk6970zfSYQKYqe8s3NtbZe140quyOxKtXE=
-X-Gm-Gg: AR+sD10p2qM3Yo7eVG8mLGVD1VtJqQwc6AS4ileqsB33CWXLZl0nKFd8hOfUgzria83
-	OzYvyyMeLO4WKQH+Ki9093JqfYqXtXmb9I343OaSolBYvWyXqA34eYMWGXX+xKJnU3ADmZt1y2i
-	nF4fhWn3YAM5XTW05dYBWpSEydoyoITtqBaocI8gaYoPr+Lu/n4UfCDt0D87RV1V4o3ITUkXkqP
-	LTobyt6DNz6pkiDJZWND1cW9WM1JQfREF1jFH5PP6tnEYgakVyK8nco9/kAsUi0Xj1EqdLicSAx
-	pIACwl0SdNEGd43gZHiaMeKACifkQHKlh7F9hR/0PeRETYVKHPy7AnOuEhBE5xTASh/itQl5ADD
-	X0Yi9L37tcunF+Z5hP9cogavu0X5ZfkL+xwwHzO77aVnTSZpxZ28oCTklfZnTR2V0GZpe2HYtoO
-	J6sH+BPJpk02Zey20JYczzE+0qsqeA83CClcsvRijsEnbPsmz27fB53kGX0e12Gy4kQgKZU4NkB
-	mWJQcH2hFp/kaOLNcDNkpnInQTTwNrc1dtjSA25OXOmUBRdzewr+M+Nqas8qA==
-X-Received: by 2002:a17:90b:2d0b:b0:38e:9784:dd47 with SMTP id 98e67ed59e1d1-395a044f2c1mr324350a91.1.1787155970721;
-        Wed, 19 Aug 2026 09:12:50 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1156:1:c8f:b917:4342:fa09? ([2620:10d:c090:500::6:8b67])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1416ad53874sm14632076c88.4.2026.08.19.09.12.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2026 09:12:50 -0700 (PDT)
-Message-ID: <9bbda36f-740a-400f-92c0-3f6f3bdd0662@davidwei.uk>
-Date: Wed, 19 Aug 2026 09:12:48 -0700
+        d=1e100.net; s=20251104; t=1787162181; x=1787766981;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lL3RD45r9AvsvR1KMjnS+PGFCfZfRV3Sl9G+rpxFW1w=;
+        b=EblUx/h03BSqs34syKhrftQ9wZAi5VSPpsAVxcvIDqL2MIN7lnwhXRL4zVnhjEjeGd
+         47+QZ3oupFivAxqc2rEfi1PWDjdHwUChn6Yhqy5OCzkz5C8m12FdD7cK7NjaEU1WhSSg
+         CiBVe3N7G6Rviv1tPtcuQ2j5Uqfp0qFsJXr8Ffsy4l877TEhqQsuVF8Tq1hCJsPEUIUd
+         MEbtwde4CD48vmgxuZol4zj7blRDwfAsMEl3Cm3huTlXau803scBfGDJqMBkLZxvEG4n
+         ZtzKobu8KCutrcn1vtl6FVS2M9Akcvg6ZtZFh7BAIgbiYygXAl2MrN+qa80K9cAPIZcp
+         R9gw==
+X-Forwarded-Encrypted: i=1; AHgh+RoyQWBe2s+93r78btQ8vN8cKLqOQDJXtA3eziDf/cp6RWnI5lSSCiT3D1ODuOE8Tzets2z7cuqpluD5@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxh+KE3Gwo39FYRDZ9diJzv90yt7AkSX/w/m9Y0UJiHlmcZn8+2
+	IEP1qGsIYYyepY/bs86TsGGi0LDj+AW9e0vcHCR5WW4vRw/CPfzmBU6cuV8bXbzdc2lJ0XgUW/n
+	ZvNj061aJmustKP28eHuRYW+7yGU9YlU=
+X-Gm-Gg: AR+sD13xhrUCGgjO4nnh6xSh8nh0NjF66ObRjcipj8Z5HxURulX0CgmsoAfyBNbBuxg
+	rBrQBenqCJXn85RtPLIHwR4TMtmrZJxRN9pVXTj3TILitDcw4sj1mGAxLlAddMACDTA0t8z6g3b
+	n1QNRm7aMp8Z0nTFF+oR2s/Eez5lvzTXRVVKiy1F1tUuKfnlGdZnkh3dDUXbTcCWl5p9P8Txuqb
+	Mi5+ZolLTnN9aFkNR2XdJWH06E4yJ4IbQxt1jRr5W9Q2ywgATGne2vtSij2ZHuRAcSRBm1uBu1B
+	2BWM9/Ul0WVSIDi+LntZKdVzGrvwR8yqwu3Si6GbFMjQ8ajKyKOpv522hTrjd7edrvi/5nuDIJz
+	ktgYL0k9ZqhvLNaQs5Aa7kWDa
+X-Received: by 2002:a05:600c:c114:b0:499:71d6:359a with SMTP id
+ 5b1f17b1804b1-499b070c272mr15469805e9.8.1787162181274; Wed, 19 Aug 2026
+ 10:56:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/7] fuse: {io-uring} Allow to reduce the number of
- queues and request distribution
-To: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>,
- Gang He <dchg2000@gmail.com>, fuse-devel@lists.linux.dev,
- Bernd Schubert <bschubert@ddn.com>
-References: <20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com>
- <65b910bc-67cf-49b6-b471-25280e7ba997@davidwei.uk>
- <bece8a86-83aa-43e5-bf8f-551537a2506d@bsbernd.com>
-Content-Language: en-US
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <bece8a86-83aa-43e5-bf8f-551537a2506d@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260814185946.3679478-1-joannelkoong@gmail.com>
+ <20260814185946.3679478-2-joannelkoong@gmail.com> <CAJfpegt2NTn27A_QoMnfb8gDLZpRc9WHzWW6wGBjWc+nvJxg=A@mail.gmail.com>
+In-Reply-To: <CAJfpegt2NTn27A_QoMnfb8gDLZpRc9WHzWW6wGBjWc+nvJxg=A@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 19 Aug 2026 10:56:09 -0700
+X-Gm-Features: AcwNN1UWexYVNdBzgqK24KpSy8KxnvhKNikrPYPswF8zWn4VmuBn9Am0yZs9Ap8
+Message-ID: <CAJnrk1bocn3zSUe23E4F6oTNyosmF8kdVdFB-2hX2qbSqx-LDA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/6] fuse: decouple fuse_ring creation from ent registration
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: jlayton@kernel.org, libaokun@linux.alibaba.com, axboe@kernel.dk, 
+	bernd@bsbernd.com, amir73il@gmail.com, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-08-17 14:39, Bernd Schubert wrote:
-> 
-> 
-> On 8/14/26 22:55, David Wei wrote:
->> On 2026-05-28 15:55, Bernd Schubert via B4 Relay wrote:
->>> This adds bitmaps that track which queues are registered and which queues
->>> do not have queued requests.
->>> These bitmaps are then used to map from request core to queue
->>> and also allow load distribution. NUMA affinity is handled and
->>> fuse client/server protocol does not need changes, all is handled
->>> in fuse client internally.
->>>
->>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
->>> ---
->>> Changes in v5
->>> - Rebased to miklos-for-next (Linux 7.2 base).
->>> - Folded "Fetch a queued fuse request on command registration" into
->>>     "Allow reduced number of ring queues", inlining fuse_uring_do_register()
->>>     into fuse_uring_register().
->>>     - Fixed retry logic in "Add retry attempts for numa local queues":
->>>       replaced cpu++ with cpumask_next_wrap(qid, mask) so each retry
->>>       advances to a genuinely different registered queue (Joanne)-
->>>     - Simplified "Prefer the current core over mapping" (Joanne).
->>>     - Folded READ_ONCE() annotation for ring->ready into "Allow reduced
->>>       number of ring queues" to match WRITE_ONCE() on the writer side and
->>>       suppress a KCSAN data-race warning.
->>>
->>> Changes in v4:
->>> - Fix leak of ring->numa_q_map
->>> - Fix q-imbalance due to an issue in static cpu->qid mapping
->>> - Performance tunings, like preferring the current cpu
->>> - Removal of distribution among queues, Joanne had concerns about it.
->>>     As it is an optimization, it can be added later again. At least
->>>     most of it was removed, some light distribution is still left in.
->>> - At the end of the series, add fuse debugfs entries. This could
->>>     be factored out.
->>> - Link to v3: https://lore.kernel.org/r/20251013-reduced-nr-ring-queues_3-v3-0-6d87c8aa31ae@ddn.com
->>>
->>> ---
->>> Bernd Schubert (7):
->>>         fuse: {io-uring} Add queue length counters
->>>         fuse: {io-uring} Rename ring->nr_queues to max_nr_queues
->>>         fuse: {io-uring} Use bitmaps to track registered queues
->>>         fuse: {io-uring} Allow reduced number of ring queues
->>>         fuse: {io-uring} Queue background requests on a different core
->>>         fuse: {io-uring} Add retry attempts for numa local queues for load distribution
->>>         fuse: {io-uring} Prefer the current core over mapping
->>>
->>>    fs/fuse/dev_uring.c       | 313 ++++++++++++++++++++++++++++++++++------------
->>>    fs/fuse/dev_uring_i.h     |  25 +++-
->>>    fs/fuse/inode.c           |   2 +-
->>>    include/uapi/linux/fuse.h |  10 +-
->>>    4 files changed, 269 insertions(+), 81 deletions(-)
->>> ---
->>> base-commit: 2dcf16d41cc04472a4f9bc6e99d0ab26cfb1afb1
->>> change-id: 20250722-reduced-nr-ring-queues_3-6acb79dad978
->>>
->>> Best regards,
-> 
-> Hi David,
-> 
->>
->> Hi Bernd,
->>
->> What is the current status of this patchset? Do you intend to keep it as
->> is, or as Joanne mentioned combine it with queue add/remove?
-> 
-> I think we should combine it with queue registration from Joannes series
-> and that got merged today. And with that should aim for the next merge
-> window. I also want to add in the RCU lock for mapping updates.
-> 
-> Next step is that I need a merge request from Joanne for libfuse, so
-> that I can test with FUSE_IO_URING_CMD_ADD_QUEUE. Or at least I need the
-> branch. Well, I could add this in myself, but that would a) lead to
-> merge conflicts and b) cause even more work.
-> 
->>
->> We're running FUSE io_uring on fairly large hosts with >150 physical
->> cores. FUSE io_uring ends up creating 300+ io_uring instances, which
->> wastes memory and bumps against rlimit memlock.
-> 
-> I fully understand, however, I also cannot focus on one task only.
-> Besides having a totally different day job (right now fixing ublk_drv
-> tear-down issues), there is also libfuse (just check recent commit
-> history... I hadn't planned to rewrite tests, but I didn't get pytest to
-> hand out information what is failing. That all takes quite a bit of my
-> previous time). I'm fully open for co-maintainers...
+On Wed, Aug 19, 2026 at 4:35=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
+wrote:
+>
+> On Fri, 14 Aug 2026 at 21:00, Joanne Koong <joannelkoong@gmail.com> wrote=
+:
+> >
+> > Currently, the connection's fuse_ring is created lazily on the first
+> > FUSE_IO_URING_CMD_REGISTER command. A server registers entries from one
+> > thread per queue (one per CPU) and those threads issue their first
+> > REGISTER command concurrently. They then race to create the single
+> > per-connection fuse_ring, which required open-coded handling in
+> > fuse_uring_create() to detect and protect against concurrent creations.
+> >
+> > Decouple fuse_ring creation from ent registration and move it to
+> > FUSE_INIT reply processing after a server has negotiated and set
+> > FUSE_OVER_IO_URING. The ring is published before the connection is
+> > marked initialized. fuse_uring_register() no longer creates the ring an=
+d
+> > it instead uses the ring set up at init time.
+>
+> I tested this with loraw (a "raw" loopback tester that doesn't use
+> libfuse) and it fails with
+>
+> root@kvm:~# ./loraw -u  /mnt/fuse
+> loraw: loraw.c:1010: lo_start_uring: Assertion `!cqe->res' failed.
+>
+> cqe->res is -22 (EINVAL).
+>
+> Attaching the reproducer.  To compile:
+>
+> cp $(KERNEL_TREE)/include/uapi/linux/fuse.h fuse_kernel.h
+> gcc loraw.c -oloraw -luring
+>
 
-Of course, I understand you have other things you're working on. I
-didn't want to step on your toes and work on something you've already
-made progress on. At the same time, it sounds like you're spread thin,
-so while I'm not certain on co-maintainership, perhaps we can talk about
-how to shard this work better?
+Thanks for attaching the repro.
 
-> 
-> 
-> Thanks,
-> Bernd
+This is happening because this patch uses the FUSE_OVER_IO_URING init
+reply as a signal that the ring should be created, but I missed that
+the FUSE_OVER_IO_URING reply is *optional*.
+
+Prior to this patch, there's two scenarios:
+a) server sets FUSE_OVER_IO_URING reply at init time - requests will
+automatically block until fuse-io-uring is completely set up
+b) server does not set FUSE_OVER_IO_URING but later sends uring
+register request - requests will continue along /dev/fuse path until
+fuse-io-uring is completely set up
+
+Libfuse sets FUSE_OVER_IO_URING in the reply, but the loraw.c server does n=
+ot.
+
+I think the best way to fix this is to have the ring creation happen
+when the kernel receives the first io-uring command instead of at
+FUSE_INIT or at FUSE_IO_URING_CMD_REGISTER ent creation time, given
+that FUSE_IO_URING_ADD_QUEUE needs the ring to exist:
+
+Subject: [PATCH] fuse: create fuse_ring on the first io-uring command
+
+Commit 6330b1f61ed1 ("fuse: decouple fuse_ring creation from ent
+registration") moved fuse_ring creation to FUSE_INIT reply processing,
+gated on the server setting FUSE_OVER_IO_URING in its reply flags.
+
+However, that flag is optional. Libfuse sets it but servers not going
+through libfuse may not.
+
+Create the ring on the first io-uring command instead, independent of
+what the server negotiated. Ring creation stays decoupled from ent
+registration, which FUSE_IO_URING_CMD_ADD_QUEUE depends on since it
+needs the ring to exist before any entry is registered.
+
+Fixes: 6330b1f61ed1 ("fuse: decouple fuse_ring creation from ent registrati=
+on")
+Reported-by: Miklos Szeredi <mszeredi@redhat.com>
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+---
+ fs/fuse/dev.c         |  2 +-
+ fs/fuse/dev_uring.c   | 18 +++++++++++-------
+ fs/fuse/dev_uring_i.h |  5 -----
+ 3 files changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 4fec31fc0b84..a665d76292c9 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -77,7 +77,7 @@ void fuse_chan_set_initialized(struct fuse_chan
+*fch, struct fuse_chan_param *pa
+                fch->max_pages =3D param->max_pages;
+
+                if (param->io_uring_enabled)
+-                       fuse_uring_conn_init(fch);
++                       fch->io_uring =3D 1;
+        }
+
+        /* Pairs with smp_load_acquire() readers of fch->initialized */
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index e22a48c9a678..23c26099d159 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -303,6 +303,7 @@ static struct fuse_ring *fuse_uring_create(struct
+fuse_chan *fch)
+ {
+        struct fuse_ring *ring;
+        size_t nr_queues =3D num_possible_cpus();
++       struct fuse_ring *res =3D NULL;
+        size_t max_payload_size;
+
+        ring =3D kzalloc_obj(*ring, GFP_KERNEL_ACCOUNT);
+@@ -322,6 +323,12 @@ static struct fuse_ring *fuse_uring_create(struct
+fuse_chan *fch)
+                spin_unlock(&fch->lock);
+                goto out_err;
+        }
++       if (fch->ring) {
++               /* race, another thread created the ring in the meantime */
++               spin_unlock(&fch->lock);
++               res =3D fch->ring;
++               goto out_err;
++       }
+
+        init_waitqueue_head(&ring->stop_waitq);
+
+@@ -336,13 +343,7 @@ static struct fuse_ring *fuse_uring_create(struct
+fuse_chan *fch)
+ out_err:
+        kfree(ring->queues);
+        kfree(ring);
+-       return NULL;
+-}
+-
+-void fuse_uring_conn_init(struct fuse_chan *fch)
+-{
+-       if (fuse_uring_create(fch))
+-               fch->io_uring =3D 1;
++       return res;
+ }
+
+ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *r=
+ing,
+@@ -1685,6 +1686,9 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd,
+unsigned int issue_flags)
+        if (!smp_load_acquire(&fch->initialized))
+                return -EAGAIN;
+
++       if (!smp_load_acquire(&fch->ring) && !fuse_uring_create(fch))
++               return -ENOMEM;
++
+        switch (cmd_op) {
+        case FUSE_IO_URING_CMD_REGISTER:
+                err =3D fuse_uring_register(cmd, issue_flags, fch);
+diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+index 263d0f8b9714..3233b07430d2 100644
+--- a/fs/fuse/dev_uring_i.h
++++ b/fs/fuse/dev_uring_i.h
+@@ -184,7 +184,6 @@ struct fuse_ring {
+        bool ready;
+ };
+
+-void fuse_uring_conn_init(struct fuse_chan *fch);
+ void fuse_uring_stop_queues(struct fuse_ring *ring);
+ void fuse_uring_abort_end_requests(struct fuse_ring *ring);
+ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
+@@ -224,10 +223,6 @@ static inline bool fuse_uring_ready(struct fuse_chan *=
+fch)
+
+ #else /* CONFIG_FUSE_IO_URING */
+
+-static inline void fuse_uring_conn_init(struct fuse_chan *fch)
+-{
+-}
+-
+ static inline void fuse_uring_abort(struct fuse_chan *fch)
+ {
+ }
+--
+2.52.0
+
+
+If you'd prefer an inline replacement for the original commit instead
+of a fixup patch on top of the tree, please let me know and I'd be
+happy to send that over. Whatever would be easiest for you.
+
+Thanks,
+Joanne
