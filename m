@@ -1,89 +1,128 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com [50.112.246.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C5A3F58E1;
-	Thu, 20 Aug 2026 10:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B5443F4C7
+	for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 12:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=50.112.246.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787222483; cv=none; b=Rps8Bp7pMOXp2LYK3Vs2gU51ZS7kIbCGQZ7dmZ64M6saSkJWsJwjPYb2ZYaHNq/fw74rWwgG1hZ+Q4wZpzRTsSpDEkXU5KYOf347MCEkYgv65gVDimLO4F4U8UGxJsjWka/VkFqs6NOXzpMZ1DQK1xifGRAslbDhjlF7+0u3cyo=
+	t=1787228803; cv=none; b=ZbDHYGCkx+pMUVO6GAcSD/Ow2cC23BJTRbmnFcsm6rcmPIsqNj9cWUtk+ew4dmK0Yie2UkqjJ57ylv1F1rR7yEUSDG0o8SfHdZjuIrADCzgZnEkJzst5XgdZKYWikZHZsV+khsveDNmjJeA3eys017XyDiRuszsrrLUueyhl36c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787222483; c=relaxed/simple;
-	bh=TxptvlsWpoC3IHlBpWmv7Jr3XQBii5dXCz1Wf6tKYFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gNce2TFawv6h8XqIjulzjL8WS+CPCAnHhalZYD6ckJMD4DbCMk78UF/hrQI+LWX22HV4ac7/OMpwUswUTdtH1R7SCYhzdFbOgiZiVleUyo4pem348EwqdtQswtDTJvNZyO3prD3RVJUPuulzZFg+yrOKvk4FF8xOIjoqbUwlm6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IbDigmCb; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787228803; c=relaxed/simple;
+	bh=KGy3wbb4e/85HQYh0jh64/YsxWHHeC4OzH3rdUZLBlw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=p8SxI/+ggG/6TB1HO+y4Jf8KHj/Xmh/ly3588XgYnH9DmyaOvZbG0ha77adi05RW/xCgYFXVVlb+Xwg3m7dPqyrDbNNjpWQQgjPvJokbIF1iO6NbWhxny7rx2Ge8QPHsNHkYMuk8H4WdKP0v93dm3R3TTcoWTBciFVlv97VtAWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=jO9zxHVx; arc=none smtp.client-ip=50.112.246.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IbDigmCb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=4axu5f3ZFy9nhF6jr3ZiDEC2ngzj+j39W2+MyShgJZ0=; b=IbDigmCb7Shr+VIqVz4otAUxjN
-	soxhTWg1bgmougR6KLxriKz4Rp5pFOUKZdCxYY5y1Ax1/MPtuy3ZdLyHPIZzWRU+Z4JO2DR2nxPZd
-	XEi+UJP1rgA28s5wEfp1h8xUVjxEl25n4Z0zBjXyytg6DzeFfv3EShwLICDAVazmxf8wdYeLhz86p
-	D7siufmLQ8bxz7GtDhW54QDyfsIR+M2wfwk1tw7Skjx1WaHP7c3fhM2WKdqTiabxXDEeziObnkdKb
-	oJ38WwK0xgRQVjVbPz7Pau8Kn2ZqVjNMa1mjpv7leyVMYhc1wWc/A0ZP63K2xfvPXq9pzFKCNp1Zb
-	9drsCViQ==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.99.2 #2 (Red Hat Linux))
-	id 1wx0Cz-000000031rx-2y9m;
-	Thu, 20 Aug 2026 10:41:17 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 1CACD3006FA; Thu, 20 Aug 2026 12:41:12 +0200 (CEST)
-Date: Thu, 20 Aug 2026 12:41:11 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
-Message-ID: <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
-References: <20260819023542.561653-1-senozhatsky@chromium.org>
- <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
- <20260820084933.GA4036497@noisy.programming.kicks-ass.net>
- <aobDGgivy43cz7xQ@google.com>
- <20260820091018.GA4120091@noisy.programming.kicks-ass.net>
- <aobGRjc7SE1rwIHu@google.com>
- <20260820093402.GB1837346@noisy.programming.kicks-ass.net>
- <aobKfyGHkdMcleoc@google.com>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="jO9zxHVx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1787228802; x=1818764802;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XNDe6hzTnioBMy8ogcGWzfWkTJLYmVGcV6XW8AEfk8E=;
+  b=jO9zxHVxZwY0xZSA2iz83FXmVUPYc4u57hNAOrHWdTwtfVd9TBYh6hi0
+   1KNO55JZrtAaoudFpfH0JsPt9n+vySrj2ptEfdM3k4fMPvPccUf9Q2YvO
+   36zPhwtuKu1Ld/dgptPeRzBOAZrSJbZV5pibHOLhYH0YCz4oiTMXATIMi
+   MrCc9b0cGwHmODwEmLNKwgh2aG1mGyOlMgWV+xPs4n4LlWspDXszU2gF9
+   zGGbMAJfCFXtSUlVqqGi5aKrvgxdJPrvzTG0DFRPm7bHkUsxqkJcSgGI9
+   ix/Vrhjyhua47u4dkxLSyTYBBicI//bSNDbry25HT/LbsLMY9UkKQE9gz
+   g==;
+X-CSE-ConnectionGUID: CAHgs9wJT0OH8AUYy9+v9g==
+X-CSE-MsgGUID: ja8YcO3BQuaUFHQkoCjVRQ==
+X-IronPort-AV: E=Sophos;i="6.25,233,1779148800"; 
+   d="scan'208";a="26266254"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 12:26:41 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.48:21655]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.40.166:2525] with esmtp (Farcaster)
+ id 56275c21-e293-4b22-877d-03819bb14115; Thu, 20 Aug 2026 12:26:41 +0000 (UTC)
+X-Farcaster-Flow-ID: 56275c21-e293-4b22-877d-03819bb14115
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Thu, 20 Aug 2026 12:26:41 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Thu, 20 Aug 2026 12:26:40 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: <miklos@szeredi.hu>, <--to=shuah@kernel.org>
+CC: <fuse-devel@lists.linux.dev>, <--cc=linux-kernel@vger.kernel.org>,
+	<--cc=linux-kselftest@vger.kernel.org>, <--cc=jack@suse.com>,
+	<--cc=joannelkoong@gmail.com>, <--cc=bfoster@redhat.com>
+Subject: [PATCH v2 0/2] fuse: zero the partial EOF page when extending a file
+Date: Thu, 20 Aug 2026 12:26:25 +0000
+Message-ID: <20260820122627.156961-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aobKfyGHkdMcleoc@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D032UWA004.ant.amazon.com (10.13.139.56) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Thu, Aug 20, 2026 at 06:47:03PM +0900, Sergey Senozhatsky wrote:
+Extending a fuse file past a non-page-aligned EOF does not zero the tail of
+the old last page.  When that page is cached and has been mmap-dirtied beyond
+the old EOF, the now in-bounds tail is served to later reads as stale data
+rather than zeros, which violates POSIX file-extension semantics.
 
-> > PM_FREEZE_ME_LAST is going to be trouble I think, before long you'll
-> > need PM_FREEZE_ME_REALLY_LAST or somesuch nonsense.
-> 
-> We probably need more than one, yeah.  This doesn't take into consideration
-> relations between tasks within a priority group.  If client A holds a lock
-> and enters freezer, and client B sleeps on that lock, then this group
-> cannot be suspended.  We need clients to reach some freezer checkpoint,
-> instead of doing in-place freezing.
-> 
-> > Using cgroups for this also doesn't sound right.
-> 
-> This begins sounding pessimistic.
-> 
-> cgroup-s sounded solid to me, because this moves all the clients to that
-> save freezer checkpoint when they don't hold any locks.  The only
-> problem is that if a task never reaches "return from syscall" then
-> we fail suspend.  (I'm only talking about user-space tasks here, in the
-> context of fuse or inotify.)  Why don't cgroups sound right to you?
+Some file systems get this zeroing automatically at writeback time
+(block_write_full_folio() / iomap_writeback_handle_eof() zero the tail of the
+folio straddling i_size).  A non-writeback caching fuse file system uses neither
+path, so it has to zero the tail itself from the size-extending paths, like
+XFS (xfs_file_write_zero_eof()) and ext4 (ext4_block_zero_eof()) do.
+pagecache_isize_extended() cannot be reused: it is a no-op when
+i_blocksize() >= PAGE_SIZE, and would increase the work in that function
+for use cases that don't need it, if changed to support this situation.
 
-The cgroup hierarchy is already a mess, and the more different things
-you want to stuff in there, the worse it gets.
+Patch 1 adds fuse_zero_partial_eof_folio() and calls it up front from the
+three paths that extend a file: buffered write, setattr, and
+fallocate.  Patch 2 adds a self-contained raw /dev/fuse selftest covering each
+path.
 
-Also, I still have machines with CGROUP=n.
+Tested by booting the patched kernel under User-Mode Linux and running the new
+selftest, and reproduced against libfuse's passthrough_ll example daemon.
 
-Also, you'd be putting suspend success in the hands of userspace, that
-sounds like a mighty fail right there.
+Changes since v1 [1]:
+- Miklos and Jan Kara discussed whether there was a better pattern with less
+  duplication between file systems.  Jan confirmed that other file systems do
+  this zeroing themselves from their write/setattr paths (e.g. XFS
+  xfs_file_write_zero_eof(), ext4 ext4_block_zero_eof()), because the block /
+  iomap writeback that would otherwise zero the straddling folio does not run
+  on this path.  File systems currently implement this separately.  It is
+  beyond me to pursue unifying it.  Restructure to match the pattern in other
+  file systems: zero [old EOF, write start) up front from fuse_perform_write()
+  rather than after the fact from fuse_write_update_attr(), keyed on the write
+  starting beyond EOF.
+- This keeps the zeroed range disjoint from the written data, so a write that
+  lands inside the old EOF folio is preserved by construction; the v1
+  "pos - written" arithmetic and the fallocate double-call are gone.
+- fuse_write_update_attr() goes back to being a pure attr update; the
+  setattr/truncate call in fuse_do_setattr() is unchanged.
+- The selftest is unchanged from v1.
+
+[1] https://lore.kernel.org/all/20260731203842.540798-1-jamz@amazon.com/
+
+Jimmy Zuber (2):
+  fuse: zero the partial EOF page when extending a file
+  selftests/fuse: test post-EOF page zeroing when a file is extended
+
+ fs/fuse/dir.c                                 |   3 +
+ fs/fuse/file.c                                |  56 +++
+ fs/fuse/fuse_i.h                              |   1 +
+ .../selftests/filesystems/fuse/.gitignore     |   1 +
+ .../selftests/filesystems/fuse/Makefile       |   3 +
+ .../filesystems/fuse/write_extend_eof_test.c  | 368 ++++++++++++++++++
+ 6 files changed, 432 insertions(+)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
+
+
+base-commit: 7d87a5a284bb34edb3f4e7e312ef403b3385a7b7
+-- 
+2.50.1
+
