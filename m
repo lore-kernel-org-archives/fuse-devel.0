@@ -1,125 +1,148 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D741388392
-	for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 04:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773FE3101A5
+	for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 08:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787201851; cv=none; b=kbNqeKq587MDGcQ0ZzumYqTGBfR6EntZYzmsepm+h6WeS1LxfA9C1iZ/3VYy63qUrQbka9C2yD5GCoZWpL7XV07/wPFwACBAuJXJ87Wsr18nVWAnvTqDozgiUH3xQrEi+Zh4vPXUq5FHBXiEOpl16H5BLK9pg6xm2rQqjFO4B1A=
+	t=1787212954; cv=none; b=EzOjxWdZFMxqTH03Dxm8WLC5Wf4/zDC9ocJaDNeb5jbGDvUo85jfsT72yrCNiwZ8sX5YoGzRoZnzms/7j9kzBSRRwSS2+fsg6pGFFDvrFjfcG1p9hOQwX++SAnJzRMdf+K4RKs4bNjG4PuJhQczSTYg1DpGxRFlaFG0qpbpmhN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787201851; c=relaxed/simple;
-	bh=2USlnEWAV/BsZQrU3qAzmNex/6iGANpKQ905z4pSmNU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=odrQQ9cejO9bAV/lIODfqcU/CPUh8b20b2BYd6RW6ZBqMHQTSSTV5gr+6bvxkkU6/dNWBy24ITQpDX9/dqfXC05xwgvq27Fr+C/0HYCwplu7874KVl7poJyGvFVGyQaBGIAXbTNEq/G2n6kmqvZy5oG7u8EdGxwEpq4VS7Q/aU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=l2lAcCum; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1787212954; c=relaxed/simple;
+	bh=oDNtL9q6PA9lWND/Kj/icXSwDPZdkWeac2v+tsTXka4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vFd5mKPkWXrF0Nm/GVKT1irqknQYLr8CX9dPNwWB4h2MGZRbhcsJYgK0occjMgqV5/OvP9cZPN1D+kjbOBujq+Vlsv8xrMpVoIfhINMSJh/ik84nqqX23ihYKem0xJp/Ey94sTKqQeM5/y+dJpQ8bv04Mc0optIGId0up0Trcxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Asg6sron; arc=none smtp.client-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="l2lAcCum"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cacb8416a1so15445215ad.1
-        for <fuse-devel@lists.linux.dev>; Wed, 19 Aug 2026 21:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1787201849; x=1787806649; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=t8/KAiE7r+9ujV+X79tz4aj1EOYlpuTPQ/LgkCZoCHE=;
-        b=l2lAcCumrnN19ISh8gU9jw5E4G5yWSpxwk/y+rpNj78aOnoB2zHWicqOXNZGHhgxBr
-         65YgVRCQC1OuG969cHhT47BsgBdMdiOuTZcBP+NzMMmIesMCD3sXhXg/U7MNfYe6QR2W
-         gqkHcYs6nVfGZVDPTF0fIed+klyDEr3elTi44=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787201849; x=1787806649;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=t8/KAiE7r+9ujV+X79tz4aj1EOYlpuTPQ/LgkCZoCHE=;
-        b=Bpcnhj2g3buDSZ4zRNbYdoKfEySrysoI42XVQ/5iMTY1vlS7epAQseOQPVkTXpt7TS
-         6tyLETWw6AekZ2LWgB3x1HGbQ9zFNhlJNs2+008Ffrh4Q1kay9PJ7uH5suVaPyc9vn7F
-         LnEKmUh0JJiFX1ptfINHCWmHDacorgWchrvZuO7vfphxdunm6w/9SRtbt75jr+Ea+E0+
-         XjmF3S60Z6Q6LeqIXdPPpdcHmV65UU2WIJiOf/fqnl+4N1lze3dPKxC+KRsyZAkvAQFL
-         2qjZ/m63G5GosVMEeJ4WmB9ipKNcFE6BII+gWcKGnO4bEjmbaiY1QpEzNeBjSmT3evXd
-         VN3Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rr7Vkd0U2PtaAzl39ygxO+YINjzl1/E9nc5cbyDPXGue1D7a6XW1mt7M5GdlnObGmRLehNlxTSLWzyX@lists.linux.dev
-X-Gm-Message-State: AFuF++nEgScZydnZFsGe4u1XSeD4GrkxFOkXdtL4NHGr3rCuDCpf73uC
-	WEbQg6eNOEMkFY3e9dGFPv8CigHg4nkr3v39D20fSrMWXfMWljUwIofXsBJQ/edyYA==
-X-Gm-Gg: AR+sD12mhveyi0L27EZ7POcyyBodaANwk5uCMuM19PbGh+kYnjL6L5UcTKikyWCGaF3
-	qSrqIAqSi7TGtl4mKe78Hyjx/VNBi3Axwrzm0qo4fMCY9gLxxuQUBr2fgVrZAhhtLdH0igjwV6p
-	Axm7izXByW+8Ghfl7YmMaFnZMSzNznB0d7z2CNvpRyNWjMtD4LcwEfkhdHfLTd/Sc/THeMDocOP
-	9dTbdVasJq/s+QuPbfwOJrJrcWppulTA8ysfqqu2BoWtjwCIr5XuUn/rxaX9uJfJxg/mx0n+ISW
-	LKqpdq+vZzpQT3U/jMUQOo2mtJgUF9x6y0wt02JMRhV7Zwh/FFJAl25NAFqbqWBcD2b9fE3P//c
-	XPz5TfdY5cwv6V8A6QY+qTyYvNXdCqryo7T1U3zYUPVxC7NbSnWCBrIemG86MPgAlspuR92sg+o
-	BMBKEAXyltnLyoeAjzSaxyi/5vogQws7WdysRj4bbHQO00qiu0dECGRC6XgRRcyb+2GBrQdqKLq
-	gTs/v229J16PjOvs8uwh4sIyCy9
-X-Received: by 2002:a17:903:3903:b0:2cf:b68a:340 with SMTP id d9443c01a7336-2d5fd6af8acmr188906615ad.10.1787201849305;
-        Wed, 19 Aug 2026 21:57:29 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2031:6:7beb:7701:c87e:f611])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d62d587eb2sm2002465ad.24.2026.08.19.21.57.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 21:57:28 -0700 (PDT)
-Date: Thu, 20 Aug 2026 13:57:11 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
-Message-ID: <aoaGrFzQFfcd5le9@google.com>
-References: <20260819023542.561653-1-senozhatsky@chromium.org>
- <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Asg6sron"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1787212942; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=sLJR9NjgHayWyT8bSiX/XNWBjS9Rx97OdUV5ydVYrrw=;
+	b=Asg6sronZshtcxtdjsLnmK75H1fnfkIzdZrWJeYyz1Bk/SThsxbSqTXxplZr/EHG8XizLFB2uGuRaOMh+hDYTM8b17n7lQFx1qAdfgoDtZI5gksrwNR3i0foO3s5Bkjs/5NqH6WFZWM9ArNRLGmtc2KI1Nh6jVsLIiIbFMY4OYo=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R691e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X9IqXA8_1787212941;
+Received: from 30.221.131.226(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X9IqXA8_1787212941 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 20 Aug 2026 16:02:22 +0800
+Message-ID: <69545a14-e3ca-487c-a98d-b9f16b745c39@linux.alibaba.com>
+Date: Thu, 20 Aug 2026 16:02:21 +0800
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/6] fuse: decouple fuse_ring creation from ent
+ registration
+To: Bernd Schubert <bernd@bsbernd.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: jlayton@kernel.org, axboe@kernel.dk, amir73il@gmail.com,
+ fuse-devel@lists.linux.dev
+References: <20260814185946.3679478-1-joannelkoong@gmail.com>
+ <20260814185946.3679478-2-joannelkoong@gmail.com>
+ <CAJfpegt2NTn27A_QoMnfb8gDLZpRc9WHzWW6wGBjWc+nvJxg=A@mail.gmail.com>
+ <CAJnrk1bocn3zSUe23E4F6oTNyosmF8kdVdFB-2hX2qbSqx-LDA@mail.gmail.com>
+ <f0cc2fd8-bf0a-4722-b81c-d54fbafd00a7@bsbernd.com>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <f0cc2fd8-bf0a-4722-b81c-d54fbafd00a7@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On (26/08/19 12:03), Miklos Szeredi wrote:
-> On Wed, 19 Aug 2026 at 04:35, Sergey Senozhatsky
-> <senozhatsky@chromium.org> wrote:
-> >
-> > Suspend freezes tasks in random order and doesn't take into
-> > consideration producer-consumer dependency that may exist
-> > between tasks.  One example where this can cause issues is:
-> > fuse server getting frozen ahead of clients, which then get
-> > stuck waiting for req answers that never come (the server
-> > is already frozen).
-> >
-> > Make all wait-event calls in request_wait_answer() freezer-friendly.
-> >
-> > This, however, doesn't address all cases.  E.g. in-place
-> > PM-freeze of a request_wait_answer() task holding a contended
-> > VFS lock still will block suspend.
-> >
-> > Note: this uses TASK_FREEZABLE, not TASK_FREEZABLE_UNSAFE,
-> > which may trigger debug_locks warning during suspend (if
-> > request_wait_answer() task holds some locks at the time
-> > of freeze.)
-> 
-> This is not okay.  I see the "no new users" warning on
-> TASK_FREEZABLE_UNSAFE, but this needs further discussion.
+Hi all,
 
-Sure.  In RFC patch I had TASK_FREEZABLE_UNSAFE but eventually
-"don't add new users" won.
+On 2026/8/20 04:05, Bernd Schubert wrote:
+>
+> On 8/19/26 19:56, Joanne Koong wrote:
+>> On Wed, Aug 19, 2026 at 4:35 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+>>> On Fri, 14 Aug 2026 at 21:00, Joanne Koong <joannelkoong@gmail.com> wrote:
+>>>> Currently, the connection's fuse_ring is created lazily on the first
+>>>> FUSE_IO_URING_CMD_REGISTER command. A server registers entries from one
+>>>> thread per queue (one per CPU) and those threads issue their first
+>>>> REGISTER command concurrently. They then race to create the single
+>>>> per-connection fuse_ring, which required open-coded handling in
+>>>> fuse_uring_create() to detect and protect against concurrent creations.
+>>>>
+>>>> Decouple fuse_ring creation from ent registration and move it to
+>>>> FUSE_INIT reply processing after a server has negotiated and set
+>>>> FUSE_OVER_IO_URING. The ring is published before the connection is
+>>>> marked initialized. fuse_uring_register() no longer creates the ring and
+>>>> it instead uses the ring set up at init time.
+>>> I tested this with loraw (a "raw" loopback tester that doesn't use
+>>> libfuse) and it fails with
+>>>
+>>> root@kvm:~# ./loraw -u  /mnt/fuse
+>>> loraw: loraw.c:1010: lo_start_uring: Assertion `!cqe->res' failed.
+>>>
+>>> cqe->res is -22 (EINVAL).
+>>>
+>>> Attaching the reproducer.  To compile:
+>>>
+>>> cp $(KERNEL_TREE)/include/uapi/linux/fuse.h fuse_kernel.h
+>>> gcc loraw.c -oloraw -luring
+>>>
+>> Thanks for attaching the repro.
+>>
+>> This is happening because this patch uses the FUSE_OVER_IO_URING init
+>> reply as a signal that the ring should be created, but I missed that
+>> the FUSE_OVER_IO_URING reply is *optional*.
+>>
+>> Prior to this patch, there's two scenarios:
+>> a) server sets FUSE_OVER_IO_URING reply at init time - requests will
+>> automatically block until fuse-io-uring is completely set up
+>> b) server does not set FUSE_OVER_IO_URING but later sends uring
+>> register request - requests will continue along /dev/fuse path until
+>> fuse-io-uring is completely set up
+>>
+>> Libfuse sets FUSE_OVER_IO_URING in the reply, but the loraw.c server does not.
+>>
+>> I think the best way to fix this is to have the ring creation happen
+>> when the kernel receives the first io-uring command instead of at
+>> FUSE_INIT or at FUSE_IO_URING_CMD_REGISTER ent creation time, given
+>> that FUSE_IO_URING_ADD_QUEUE needs the ring to exist:
+> I don't think we should allow io-uring without FUSE_OVER_IO_URING and 
+> I really thought that was disabled. 
 
-> Existing users of the _UNSAFE variant are NFS and samba.   I haven't
-> checked the context where these are called.
-> 
-> Apparently __sb_start_write() uses the safe variant, yet I'm quite
-> sure it will be called in various locking contexts.
+I share Bernd's concern here. Allowing io-uring without
+FUSE_OVER_IO_URING means enabling a capability beyond what was
+negotiated. We should honor the negotiated feature set, and print
+the negotiated flags to dmesg at INIT time so issues like this are
+easy to spot.
 
-We also use "safe" variant in fuse_get_req().
+>
+> <... checking the code ...>
+>
+> I'm on a ublk branch without your commits a applied, i.e. plain upstream 7.2 fuse
+>
+> fuse_uring_cmd()
+> 	/* Once a connection has io-uring enabled on it, it can't be disabled */
+> 	if (!enable_uring && !fch->io_uring) {
+> 		pr_info_ratelimited("fuse-io-uring is disabled\n");
+> 		return -EOPNOTSUPP;
+> 	}
 
-> Why is this unsafe exactly?  Does that unsafeness apply to
-> filesystems?  If so why do we allow freezing while blocked on
-> sb_start_write()?
+BTW, the current code clears fch->io_uring on REGISTER failure:
 
-Right, I don't have much to add to the point that maybe file-systems
-can get a waiver.  If we suspend under un-contended VFS lock then it
-doesn't look like unsafe here (we similarly can sleep indefinitely
-under the same lock waiting for server reply); if the lock is contended
-then suspend will fail.
+                if (err) {
+                        fch->io_uring = 0;
+                        wake_up_all(&fch->blocked_waitq);
+                        return err;
+                }
+
+But by then other entries may have already registered successfully,
+fiq->ops is switched to fuse_io_uring_ops, and requests are flowing
+through the uring path. Clearing fch->io_uring here may reject all
+subsequent io_uring commands with -EOPNOTSUPP while the data path
+is still running on uring ops.
+
+fch->io_uring is a protocol fact — the daemon negotiated
+FUSE_OVER_IO_URING at INIT time. A single REGISTER failure should
+not regress it, at least not once the ring is ready. The daemon
+can retry; the negotiated capability should be permanent.
+
+
+Thanks,
+Baokun
+
+
