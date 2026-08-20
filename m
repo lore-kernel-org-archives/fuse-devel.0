@@ -1,437 +1,119 @@
-Received: from pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.245.243.92])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C6143C7A2
-	for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 13:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.245.243.92
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787230999; cv=none; b=lXMrJ5iTJ7VlOxKEBb8J6lMx/LT4BCu9NTykTjX7eF87Snc3hfRdGOsoVHh+iDqRbZq+6WGNh892rHuByiozPpLhEC1FuSkNo2NnlOZrhVpuU08t/GqBYRwr3WBXtXQi++gIJNQEvi4jNiHmLGGOxU50nNgz3VlJtBnWVWGb8Uo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787230999; c=relaxed/simple;
-	bh=TC/gEjcaDahOGzLQ0qBz0TKbqHmaEx0xaOk0vlqdkRQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uT1h7XSIQcq9m8oiDJG/Af3x9kT3FBNaDo5s9VgIB1tf70sF2DRxTeNqqMhqlIw1gC5K4o2/Zab/FzZ0jAiUNNtgI3ijDR1gcF/EQr//yjUQ+W9mcDJhqtaNHg1Bz0GtJqqAV5vkkuPEVv+lTtoMmwnETrHEr6cotBi6U17mZ1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=sXVzWcrV; arc=none smtp.client-ip=44.245.243.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC1847ACE4
+	for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 16:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787242316; cv=pass; b=lDDVqkyIlFqT1jiG1zxXgtSdFqr5tpEDdams4JkqsYsM2RzrNRiA6Ac26fcQKDHYxqFz5fn8ZkREAJZnS2cXNsezF6LE8HS3NBnWRB1Ki3V4WEGK4JTFOInHr0ceFx4i2XH3nMVnIt05gq9r3Y88t2i6hMQII0itgVijaM/pJE8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787242316; c=relaxed/simple;
+	bh=wdeJi7X/Q4rgQSfLamGPD1WkYbyFGSOSEOk4sVh7M9Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GAt5ByWDwHhppNq7a7u8XMjVrS8ncsXTj/CUUJkq+rSmeXO8YxUsDufFjCpedoLbmgahUlNU9Dt2sEQMS8GWc00CTSWyuIm3994vb3NfhhnzJy9bIIfbiQ2Dj29IZ7CNIFeo/NJ4MY/O9J3ETqQCT7SCRfLb4mVJM8w9B4mGzAI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ZEMSHs3D; arc=pass smtp.client-ip=209.85.160.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="sXVzWcrV"
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ZEMSHs3D"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-51c928bf172so16613901cf.3
+        for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 09:11:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787242312; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nM9rBK9IvdQvL3JCPTqTnB4hHx3GQdIsdK+cBQewkat9RjGQqe6S+qWlI2QUYq640/
+         zE/nTJmSb6iU9CAk61sAJbC6R5IS0HtQGNMSFCnQkHOPExJfPUnPUjk5meHAay/7FYVf
+         ywO9CuHZRy8kH1DoYjjDtCLlZtqBpMsDYd3wpppHi98qstb9HnnEg8WK7RyXLQePhbFF
+         /Rzd70Lpki9076Kfb5obwkquqRQ8IBIy2CXxMpglk03twZydJ6oLdn69vLJkGF4hJLc4
+         h95PAc/XZq5T6Pp82mn/SPPRAXO/4LC50OfQ+lY38MzsPkqay7GoCzrVVXH47xWWT5jU
+         1J5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ymkU8qd4K4bZB6E/swdK1MBXnSrS5Bp9t+afR5EeVdo=;
+        fh=W+Qj9KizOrMFzsxnJyrb6qE3W0GjxXA884roKCAmuSs=;
+        b=oYaxmEFzmBqH+B0q3oXkezuCZKiUOgV+5aGjXA6svlMygpH5BwBEVE97iaRuJ+umQI
+         Kev296rx1KjvITQQkr3tVYaJkx1DSBk+cIqmqwad2s1LsIiULyOkeYvbEw8Q4wFIOStF
+         krXi5qqnejNe1neMFZN6KeKa/mZmFR6es9dBsf2o8kXlzUz5J9RciWzVTb2AA39c9fr6
+         0HJYwQ8XKdlvFpopVIH+seVsQ3mLk7Y03A9lXQyoImgkx6drJNGrtrtLhCDCbmkfXa/9
+         ukhGNWxW5VgOhk3FS6rwxua4d4m8huNhyRS5TUjgZSiF8mDgoK1Jpp/ZdWmd9B10I16x
+         a3Bw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1787230997; x=1818766997;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=GyV3eF5AwmF0ksd3fZmNP5deV2Ca8CiMD7eozPEEj9A=;
-  b=sXVzWcrVXZ3X3BgynLWGcRCTwb3FfoPNEV3pPQPOEoubjdlxBglLGEVl
-   hEI9ckj4u6Pv2KR09dJ4l40wDkfnYRJFWjLbR5eMrnPH5huHA6H2HUJir
-   uPx7utw0PVXFRvvLyicirXg6pCXxYb1/104hWcVoV+pooMk8sYwFPJTSH
-   RHTIO7OaJ8RgaL4htHyLKpFZmYSWpqtQjr4izzY+0cNVG4Ve0fdC4Xo/9
-   hujd6WwJog0TT8ccB4JwAZpMM2PUG3qS8NXpOZL5F1XB9x3STFo/ny4PS
-   79Tk0BhDerLiGQ4Sl+4WSbVqmCwpBw4JjwJyyVeqgRNWX3Mp8F27hdNMs
-   A==;
-X-CSE-ConnectionGUID: FexE2yvGS6G//J+zfKd2BQ==
-X-CSE-MsgGUID: D5cS9HBqRpGlv7rZ/Mjb5A==
-X-IronPort-AV: E=Sophos;i="6.25,233,1779148800"; 
-   d="scan'208";a="25974355"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2026 13:03:17 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.51:31619]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.23.75:2525] with esmtp (Farcaster)
- id 07032202-e1ff-451c-b203-6c7da7d62e05; Thu, 20 Aug 2026 13:03:16 +0000 (UTC)
-X-Farcaster-Flow-ID: 07032202-e1ff-451c-b203-6c7da7d62e05
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Thu, 20 Aug 2026 13:03:15 +0000
-Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Thu, 20 Aug 2026 13:03:14 +0000
-From: Jimmy Zuber <jamz@amazon.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-	<linux-api@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Shuah Khan
-	<shuah@kernel.org>, <linux-kselftest@vger.kernel.org>
-Subject: [PATCH v3 2/2] selftests/fuse: add test for FUSE_HAS_SYNCFS privilege gating
-Date: Thu, 20 Aug 2026 13:01:58 +0000
-Message-ID: <20260820130158.254808-3-jamz@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260820130158.254808-1-jamz@amazon.com>
-References: <20260820130158.254808-1-jamz@amazon.com>
+        d=szeredi.hu; s=google; t=1787242312; x=1787847112; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ymkU8qd4K4bZB6E/swdK1MBXnSrS5Bp9t+afR5EeVdo=;
+        b=ZEMSHs3DE4mai6YYBrpuN3XShE5n78BM7N3XTtMTg2/2/nrIVi9ODGvsfB/tBwV8Po
+         HoCVlwPXDB3toi30EjSFlImluITIZifr74s8Lb1KAbJTS7MX9Q9oDu9u9ZdJWFE7EuQx
+         yfzxFCm+q/amQaT1JUkWUiuPGbNrQHKaprW0A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787242312; x=1787847112;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ymkU8qd4K4bZB6E/swdK1MBXnSrS5Bp9t+afR5EeVdo=;
+        b=RVFLy0C1+yZzQC4UwmmYyLq3V3wd4UU/Cf8CCOl9FsqTpRC75VbU0mhcU3ChoHQGNa
+         dG37I5Rv4HSwphrdyGLmo7L3T/z9oUKF2aseGXZR/z2gtMxUwa8pV3Uv0XtTBDIlVY6b
+         lOtRg2w1ipHrzIq/v2Pa82tWNiqp+/Ou3dMAA7t+DLoXmioVpD6bnxog/At/oIlPackA
+         Zh8jva4xYSMMf4sb6Yq6BFRI+oRxpqzUCa/GyyuZxTgcldVPOFSTZIiMnympTq8FD7Gt
+         miK8rsNy/7Mf73Na+qTQbbF6sLdbuYLgWIFxLzAH1O+WYVp+guUO2jhns3FP2cwsBOv+
+         zgrA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr0Ypt3yZP7H/4BY5jk77DZwX9XN3cak3PBVGsga0WikOr+ypqpOzUENO7jZF58WfSrEVJGcpIy7OLS@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWGZ5GHqBoSYP3yX4py7gWJtugEGhy6oQx4OCw+kEAr/6tqZ6A
+	fYlhgGT/uggCDHR/7uVKprbbl91dj4HrzoVVQTMl2g/sqNAtvOcEHJuHpmdCoximRXCDomeIi+X
+	brWZIU63ZsDtzjxDZ+iorqzbjyYZsNr4RiO/pTHoOFw==
+X-Gm-Gg: AR+sD12wIehtsKo8a/KZiYGbXTXgUFA2HkVkk/WMdphYxFKjotG6INi/BsJ0rN9H3ZS
+	78d8I/I2Y+l7qbeer6M1bkeRQS5aus9dwRgKfUcE55VPmfz5E81ms9BnfnGIPTf4IF6451WPgWN
+	+sLQisKod6sAVEx4HpzHd+9YZdN4GqQHdKn2XxCzly3wEJB3k7GdM4/oa0ckFvlFFP5kGyXeH8w
+	UbP8g6rxpaXWvTGwhZh2mqwoc0xt/enpl0oUocp+9zZlWPcfLF6K1c2M8QzuplraNrsDd7ZK2yv
+	qNmOM2uWKJFmz+ON4nYgtxZhXyOo5X5hnloE6P3F5R3wEV3VnCi8eDgB3qT8zR+F8Pd3mvWEE8q
+	9
+X-Received: by 2002:a05:622a:2447:b0:527:43a:2f31 with SMTP id
+ d75a77b69052e-52dd58cf89emr139582711cf.15.1787242311914; Thu, 20 Aug 2026
+ 09:11:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D036UWB002.ant.amazon.com (10.13.139.139) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+References: <20260819023542.561653-1-senozhatsky@chromium.org>
+ <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
+ <20260820084933.GA4036497@noisy.programming.kicks-ass.net>
+ <aobDGgivy43cz7xQ@google.com> <20260820091018.GA4120091@noisy.programming.kicks-ass.net>
+ <aobGRjc7SE1rwIHu@google.com> <20260820093402.GB1837346@noisy.programming.kicks-ass.net>
+ <aobKfyGHkdMcleoc@google.com> <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 20 Aug 2026 18:11:40 +0200
+X-Gm-Features: AcwNN1U8VRCnKe90HOpNZaDIfAjWPtm3XBLjBJ7inxfgMD5QyxcpFAhW03fUODU
+Message-ID: <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, fuse-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Add a selftest that talks the raw FUSE protocol over /dev/fuse (rather
-than via libfuse, which negotiates INIT internally) so it can both choose
-whether to advertise FUSE_HAS_SYNCFS and directly observe whether a
-FUSE_SYNCFS opcode is forwarded by the kernel.
+On Thu, 20 Aug 2026 at 12:41, Peter Zijlstra <peterz@infradead.org> wrote:
 
-Three cases are covered:
+> Also, you'd be putting suspend success in the hands of userspace, that
+> sounds like a mighty fail right there.
 
-  T1: host-root mount, server sets FUSE_HAS_SYNCFS
-      -> FUSE_SYNCFS must reach the server.
-  T2: host-root mount, server does not opt in
-      -> FUSE_SYNCFS must not be sent (back-compat).
-  T3: server opts in but opened /dev/fuse without CAP_SYS_ADMIN while still
-      in the initial user namespace
-      -> FUSE_SYNCFS must be withheld.  This is the case that distinguishes
-         gating on the server's privilege from gating on the mount's user
-         namespace.
+Freeze ordering is also a hard/impossible problem without the help of
+userspace.  One obvious heuristic is if task has a /dev/fuse fd open,
+it is a server.  This simple ordering between server and non-server
+tasks fails if
 
-Signed-off-by: Jimmy Zuber <jamz@amazon.com>
-Assisted-by: Claude:claude-opus-4-8 [Claude-Code]
----
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../selftests/filesystems/fuse/Makefile       |   2 +-
- .../selftests/filesystems/fuse/test_syncfs.c  | 309 ++++++++++++++++++
- 3 files changed, 311 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/filesystems/fuse/test_syncfs.c
+ - task X is a server of A, while also doing ops on B
 
-diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
-index 3e72e742d08e..4e92f363c74a 100644
---- a/tools/testing/selftests/filesystems/fuse/.gitignore
-+++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
- fuse_mnt
- fusectl_test
-+test_syncfs
-diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
-index 612aad69a93a..cbba01635226 100644
---- a/tools/testing/selftests/filesystems/fuse/Makefile
-+++ b/tools/testing/selftests/filesystems/fuse/Makefile
-@@ -2,7 +2,7 @@
- 
- CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
- 
--TEST_GEN_PROGS := fusectl_test
-+TEST_GEN_PROGS := fusectl_test test_syncfs
- TEST_GEN_FILES := fuse_mnt
- 
- include ../../lib.mk
-diff --git a/tools/testing/selftests/filesystems/fuse/test_syncfs.c b/tools/testing/selftests/filesystems/fuse/test_syncfs.c
-new file mode 100644
-index 000000000000..d3ca2613b45c
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/test_syncfs.c
-@@ -0,0 +1,309 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Test that FUSE_SYNCFS is propagated to a userspace server only when the
-+ * server opts in with FUSE_HAS_SYNCFS *and* opened /dev/fuse with
-+ * CAP_SYS_ADMIN in the initial user namespace.
-+ *
-+ * Unlike the libfuse-based selftests, this talks the raw FUSE wire protocol
-+ * over /dev/fuse so it can (a) choose whether to advertise FUSE_HAS_SYNCFS in
-+ * the INIT reply and (b) observe directly whether a FUSE_SYNCFS opcode arrives.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <unistd.h>
-+#include <sys/eventfd.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+#include <sys/types.h>
-+#include <sys/uio.h>
-+#include <sys/wait.h>
-+#include <linux/capability.h>
-+#include <linux/fuse.h>
-+
-+#include "../../kselftest.h"
-+
-+#define FUSE_ROOT_ID 1
-+
-+/*
-+ * Add or drop CAP_SYS_ADMIN in the effective set via raw capget/capset
-+ * (avoids a libcap dependency).  Used to construct a server that opens
-+ * /dev/fuse without the privilege FUSE_HAS_SYNCFS requires.
-+ */
-+static int set_sysadmin(int on)
-+{
-+	struct __user_cap_header_struct hdr = {
-+		.version = _LINUX_CAPABILITY_VERSION_3,
-+		.pid = 0,
-+	};
-+	struct __user_cap_data_struct data[_LINUX_CAPABILITY_U32S_3] = {};
-+	unsigned int idx = CAP_SYS_ADMIN >> 5;
-+	__u32 bit = 1U << (CAP_SYS_ADMIN & 31);
-+
-+	if (syscall(SYS_capget, &hdr, data))
-+		return -1;
-+	if (on)
-+		data[idx].effective |= bit;
-+	else
-+		data[idx].effective &= ~bit;
-+	return syscall(SYS_capset, &hdr, data);
-+}
-+
-+/*
-+ * eventfd the server child writes once when it receives FUSE_SYNCFS; the
-+ * parent poll()s it to observe (or rule out) propagation.
-+ */
-+static int syncfs_evfd;
-+
-+static void reply(int fd, uint64_t unique, int error, void *data, size_t len)
-+{
-+	struct fuse_out_header oh = {
-+		.len = sizeof(oh) + len,
-+		.error = error,
-+		.unique = unique,
-+	};
-+	struct iovec iov[2] = {
-+		{ &oh, sizeof(oh) },
-+		{ data, len },
-+	};
-+
-+	if (writev(fd, iov, data ? 2 : 1) < 0)
-+		ksft_print_msg("server writev failed: %s\n", strerror(errno));
-+}
-+
-+static void fill_attr(struct fuse_attr *a, uint64_t ino, uint32_t mode,
-+		      uint32_t nlink)
-+{
-+	memset(a, 0, sizeof(*a));
-+	a->ino = ino;
-+	a->mode = mode;
-+	a->nlink = nlink;
-+	a->blksize = 4096;
-+}
-+
-+/*
-+ * Minimal FUSE server.  Advertises FUSE_HAS_SYNCFS in its INIT reply iff
-+ * @advertise is set.  Signals syncfs_evfd when a FUSE_SYNCFS opcode arrives.
-+ */
-+#define SERVER_MAX_WRITE 65536
-+static void run_server(int fd, int advertise)
-+{
-+	/*
-+	 * The kernel rejects reads (EINVAL) whose buffer is smaller than
-+	 * max_write + header, so size generously for the max_write we
-+	 * advertise in the INIT reply below.
-+	 */
-+	static char buf[SERVER_MAX_WRITE + 4096];
-+
-+	for (;;) {
-+		ssize_t n = read(fd, buf, sizeof(buf));
-+		struct fuse_in_header *ih = (void *)buf;
-+
-+		if (n < 0) {
-+			if (errno == EINTR || errno == EAGAIN)
-+				continue;
-+			return;		/* device closed on unmount/abort */
-+		}
-+		if (n < (ssize_t)sizeof(*ih))
-+			continue;
-+
-+		switch (ih->opcode) {
-+		case FUSE_INIT: {
-+			struct fuse_init_in *in = (void *)(ih + 1);
-+			struct fuse_init_out out = {0};
-+			uint64_t flags = FUSE_INIT_EXT;
-+
-+			out.major = FUSE_KERNEL_VERSION;
-+			out.minor = FUSE_KERNEL_MINOR_VERSION;
-+			out.max_readahead = in->max_readahead;
-+			out.max_write = SERVER_MAX_WRITE;
-+			out.max_background = 16;
-+			out.congestion_threshold = 12;
-+			if (advertise)
-+				flags |= FUSE_HAS_SYNCFS;
-+			out.flags = flags;
-+			out.flags2 = flags >> 32;
-+			reply(fd, ih->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_GETATTR: {
-+			struct fuse_attr_out out = {0};
-+
-+			fill_attr(&out.attr, FUSE_ROOT_ID, S_IFDIR | 0755, 2);
-+			reply(fd, ih->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_SYNCFS: {
-+			uint64_t one = 1;
-+
-+			if (write(syncfs_evfd, &one, sizeof(one)) < 0)
-+				ksft_print_msg("server eventfd write failed: %s\n",
-+					       strerror(errno));
-+			reply(fd, ih->unique, 0, NULL, 0);
-+			break;
-+		}
-+		default:
-+			/*
-+			 * Anything else (e.g. OPENDIR from opening the mount
-+			 * root) is not needed to drive this test; -ENOSYS lets
-+			 * the kernel proceed.
-+			 */
-+			reply(fd, ih->unique, -ENOSYS, NULL, 0);
-+			break;
-+		}
-+	}
-+}
-+
-+/*
-+ * Mount a fuse fs backed by a forked server, issue syncfs(), and report
-+ * whether the server observed FUSE_SYNCFS.  Returns 0 on success, -1 if the
-+ * environment could not support the test (caller should skip).
-+ *
-+ * If @unpriv_open is set, /dev/fuse is opened with CAP_SYS_ADMIN dropped
-+ * (regained only for the mount() syscall), so the device opener -- the
-+ * server principal FUSE_HAS_SYNCFS is gated on -- lacks the privilege even
-+ * though it remains in the initial user namespace.
-+ */
-+static int do_mount_and_syncfs(const char *mnt, int advertise, int unpriv_open,
-+			       int *seen)
-+{
-+	struct pollfd pfd = { .events = POLLIN };
-+	char opts[256];
-+	int fd, mfd = -1, i;
-+	pid_t pid;
-+
-+	syncfs_evfd = eventfd(0, EFD_CLOEXEC);
-+	if (syncfs_evfd < 0)
-+		return -1;
-+
-+	if (unpriv_open && set_sysadmin(0))
-+		goto out_evfd;
-+	fd = open("/dev/fuse", O_RDWR);
-+	if (unpriv_open && set_sysadmin(1)) {
-+		if (fd >= 0)
-+			close(fd);
-+		goto out_evfd;
-+	}
-+	if (fd < 0)
-+		goto out_evfd;
-+
-+	mkdir(mnt, 0755);
-+	snprintf(opts, sizeof(opts),
-+		 "fd=%d,rootmode=40000,user_id=%d,group_id=%d",
-+		 fd, getuid(), getgid());
-+
-+	if (mount("fuse", mnt, "fuse", 0, opts) < 0)
-+		goto out_fd;
-+
-+	pid = fork();
-+	if (pid < 0)
-+		goto out_umount;
-+	if (pid == 0) {
-+		run_server(fd, advertise);
-+		_exit(0);
-+	}
-+
-+	/*
-+	 * The parent does not service the fuse fd; the child does.  Close our
-+	 * copy so the kernel sees a single server, and so that if the child
-+	 * dies the connection aborts instead of hanging us forever.
-+	 */
-+	close(fd);
-+
-+	/*
-+	 * mount() returns before the server has answered FUSE_INIT, so the
-+	 * first open() can race and fail with ENOTCONN; retry until the
-+	 * handshake settles.
-+	 */
-+	for (i = 0; i < 1000; i++) {
-+		mfd = open(mnt, O_RDONLY | O_DIRECTORY);
-+		if (mfd >= 0)
-+			break;
-+		usleep(1000);
-+	}
-+	if (mfd >= 0) {
-+		syncfs(mfd);
-+		close(mfd);
-+	}
-+
-+	/*
-+	 * No waiting is needed: the server writes syncfs_evfd before it replies
-+	 * to FUSE_SYNCFS, and that reply is what unblocks the synchronous
-+	 * syncfs() above.  So once syncfs() has returned, the eventfd is already
-+	 * signalled if the opcode was propagated, and will never be otherwise.
-+	 * poll() with a zero timeout therefore decides both cases immediately.
-+	 */
-+	pfd.fd = syncfs_evfd;
-+	*seen = poll(&pfd, 1, 0) > 0 && (pfd.revents & POLLIN);
-+
-+	kill(pid, SIGKILL);
-+	waitpid(pid, NULL, 0);
-+	umount2(mnt, MNT_DETACH);
-+	close(syncfs_evfd);
-+	return 0;
-+
-+out_umount:
-+	umount2(mnt, MNT_DETACH);
-+out_fd:
-+	close(fd);
-+out_evfd:
-+	close(syncfs_evfd);
-+	return -1;
-+}
-+
-+int main(void)
-+{
-+	char mnt[] = "/tmp/fuse_syncfs_XXXXXX";
-+	int seen, ret;
-+
-+	ksft_print_header();
-+	ksft_set_plan(3);
-+
-+	/* Hard watchdog: never let a stuck syncfs hang the test runner. */
-+	signal(SIGALRM, SIG_DFL);
-+	alarm(60);
-+
-+	if (geteuid() != 0)
-+		ksft_exit_skip("test requires root to mount fuse\n");
-+
-+	if (!mkdtemp(mnt))
-+		ksft_exit_fail_msg("mkdtemp failed\n");
-+
-+	/* T1: host-root mount, server opts in -> syncfs must reach server. */
-+	ret = do_mount_and_syncfs(mnt, 1, 0, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T1: could not mount fuse\n");
-+	else
-+		ksft_test_result(seen,
-+				 "T1 host-root + FUSE_HAS_SYNCFS: server receives FUSE_SYNCFS\n");
-+
-+	/* T2: host-root mount, server does NOT opt in -> no FUSE_SYNCFS. */
-+	ret = do_mount_and_syncfs(mnt, 0, 0, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T2: could not mount fuse\n");
-+	else
-+		ksft_test_result(!seen,
-+				 "T2 host-root, no opt-in: server does NOT receive FUSE_SYNCFS\n");
-+
-+	/*
-+	 * T3: server opts in but opened /dev/fuse without CAP_SYS_ADMIN while
-+	 * still in the initial user namespace -> kernel must withhold
-+	 * FUSE_SYNCFS.  This is the case that distinguishes gating on the
-+	 * server's privilege from gating on the mount's user namespace.
-+	 */
-+	ret = do_mount_and_syncfs(mnt, 1, 1, &seen);
-+	if (ret < 0)
-+		ksft_test_result_skip("T3: could not mount fuse unprivileged\n");
-+	else
-+		ksft_test_result(!seen,
-+				 "T3 init_userns, opener lacks CAP_SYS_ADMIN: FUSE_SYNCFS withheld\n");
-+
-+	rmdir(mnt);
-+	ksft_finished();
-+}
--- 
-2.50.1
+ - task X is server, blocked on task Y which is not a server
 
+What about adding a flag to mutex/rwsem that allows making them
+freezable at setup time?  Then fuse fs could set that flag for its
+locks (including VFS locks).
+
+Thanks,
+Miklos
