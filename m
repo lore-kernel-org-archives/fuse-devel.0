@@ -1,119 +1,215 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC1847ACE4
-	for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 16:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C2F3FBEB8
+	for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 16:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787242316; cv=pass; b=lDDVqkyIlFqT1jiG1zxXgtSdFqr5tpEDdams4JkqsYsM2RzrNRiA6Ac26fcQKDHYxqFz5fn8ZkREAJZnS2cXNsezF6LE8HS3NBnWRB1Ki3V4WEGK4JTFOInHr0ceFx4i2XH3nMVnIt05gq9r3Y88t2i6hMQII0itgVijaM/pJE8=
+	t=1787242602; cv=pass; b=Q8ZTkx6y3InaMIIGoYs1qfhQT259YYG0esTp9aJVwKQWcpvNfxctZvJQooXIiJBtjvzhV7BYVUwxLtztiR0wiC/YIHfdEOb+MZQSBL2skMp8q4hDoSssWZILf+ghOULDVgDf2LfkXg+dx/a70kAoYK6VlOBCdyK46AGwXpo7Rd8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787242316; c=relaxed/simple;
-	bh=wdeJi7X/Q4rgQSfLamGPD1WkYbyFGSOSEOk4sVh7M9Q=;
+	s=arc-20240116; t=1787242602; c=relaxed/simple;
+	bh=gvbj1Flm+o6QN8vyK+ktCKnSyI977S0HugcbkLWWXWw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GAt5ByWDwHhppNq7a7u8XMjVrS8ncsXTj/CUUJkq+rSmeXO8YxUsDufFjCpedoLbmgahUlNU9Dt2sEQMS8GWc00CTSWyuIm3994vb3NfhhnzJy9bIIfbiQ2Dj29IZ7CNIFeo/NJ4MY/O9J3ETqQCT7SCRfLb4mVJM8w9B4mGzAI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ZEMSHs3D; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	 To:Cc:Content-Type; b=qtRd008TUsRLo2Yoy5JZttjCEuMGqVlmnk580Z9GEZS+8cbDqE46WHjWqeBfT9Yw6RuA166lD8L89QBCaPAOQEQSE13sjm7aERLa4Cm/oQEF3qVQ/u1QDuS/ylZe0jVl7KfsGGwkBbgwTGcyR7ARoyJZdmLlp6RTCrx8j5IJLIA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRJtfJ/+; arc=pass smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ZEMSHs3D"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-51c928bf172so16613901cf.3
-        for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 09:11:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787242312; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRJtfJ/+"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-499a4d1d7f1so20679325e9.3
+        for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 09:16:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787242599; cv=none;
         d=google.com; s=arc-20260327;
-        b=nM9rBK9IvdQvL3JCPTqTnB4hHx3GQdIsdK+cBQewkat9RjGQqe6S+qWlI2QUYq640/
-         zE/nTJmSb6iU9CAk61sAJbC6R5IS0HtQGNMSFCnQkHOPExJfPUnPUjk5meHAay/7FYVf
-         ywO9CuHZRy8kH1DoYjjDtCLlZtqBpMsDYd3wpppHi98qstb9HnnEg8WK7RyXLQePhbFF
-         /Rzd70Lpki9076Kfb5obwkquqRQ8IBIy2CXxMpglk03twZydJ6oLdn69vLJkGF4hJLc4
-         h95PAc/XZq5T6Pp82mn/SPPRAXO/4LC50OfQ+lY38MzsPkqay7GoCzrVVXH47xWWT5jU
-         1J5Q==
+        b=P/Xo8KIQnQ2aELs+iGGp0HApK/CzeerFLzbzTOVl1tBumU1zJmcsGzBFog94xbOaFR
+         0LiawWOODObF3PDqDoQuvSwJFtCh/HDMgeYY8Vwj6GOiunbJaTJlrXrxmYzOSJfrESRy
+         pRA2ajAbYf/1b+fOMX17aNZFj8ar2kD6hr2xmzuGslXbxHUFBsllCLN46xCr21lANPPr
+         A9oEEvOSjqjQu+8jU/j6L9xZMI9L+hMdpBuncO5kT2AQrSfzpHjLV4wKFbdZMDWl74ad
+         oDOOWGOpNNoO3K7X4Bxtumbqbw63iZq9NOCGZ6td9fjsmHpAm8OfeHhhCVkmQhxDNvjT
+         hHUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ymkU8qd4K4bZB6E/swdK1MBXnSrS5Bp9t+afR5EeVdo=;
-        fh=W+Qj9KizOrMFzsxnJyrb6qE3W0GjxXA884roKCAmuSs=;
-        b=oYaxmEFzmBqH+B0q3oXkezuCZKiUOgV+5aGjXA6svlMygpH5BwBEVE97iaRuJ+umQI
-         Kev296rx1KjvITQQkr3tVYaJkx1DSBk+cIqmqwad2s1LsIiULyOkeYvbEw8Q4wFIOStF
-         krXi5qqnejNe1neMFZN6KeKa/mZmFR6es9dBsf2o8kXlzUz5J9RciWzVTb2AA39c9fr6
-         0HJYwQ8XKdlvFpopVIH+seVsQ3mLk7Y03A9lXQyoImgkx6drJNGrtrtLhCDCbmkfXa/9
-         ukhGNWxW5VgOhk3FS6rwxua4d4m8huNhyRS5TUjgZSiF8mDgoK1Jpp/ZdWmd9B10I16x
-         a3Bw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aFoTj6/0l+rb4Ye3htHwoOMHysPF41NubEuQBpEG2pI=;
+        fh=/w6ig0Jwns8pH9KsT7GeDmitdGi+dRc7S1IUqx1PjN8=;
+        b=D84lbvwpAC/nG7Ppi91RPo3WtfqB7HPoJ+9L24Jl8B+rVd1HABdurXM2Qx5Vq+q7td
+         OQREqsvmN8ZA2A/8/PAXfXyLHpQ6HgLrwF9w044ADdFUXlD32rXzvq981GCcd1Ydz+j5
+         tIzPFipaWMfsV85MbSbiAluc0Q1xWyzPxcBJ9qsIGOGCgVpy17xIuV4wl3EEtvgc0ceP
+         jxgL4vS3LVz0hVAghi/fZAhGwmNh5+qLyzsdrN3GnWLJqp34teSTt3Tf42SpNTj1UwN+
+         mUCiBslf3etF1PsM5ttZWDBsFphrONPM2ybdrIg6Y0Ayd/zzxPIkucSpAOGXmUT07mwZ
+         EoCg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787242312; x=1787847112; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ymkU8qd4K4bZB6E/swdK1MBXnSrS5Bp9t+afR5EeVdo=;
-        b=ZEMSHs3DE4mai6YYBrpuN3XShE5n78BM7N3XTtMTg2/2/nrIVi9ODGvsfB/tBwV8Po
-         HoCVlwPXDB3toi30EjSFlImluITIZifr74s8Lb1KAbJTS7MX9Q9oDu9u9ZdJWFE7EuQx
-         yfzxFCm+q/amQaT1JUkWUiuPGbNrQHKaprW0A=
+        d=gmail.com; s=20251104; t=1787242599; x=1787847399; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aFoTj6/0l+rb4Ye3htHwoOMHysPF41NubEuQBpEG2pI=;
+        b=QRJtfJ/+zdl4XwfAaFwc517Y9qv4mDidlsXoYmp+GmH1giM3FCmIjOChn2iBj8vpL7
+         4VpldpVtU678fP6vf/PdIbc/PFOqnc03KXJ8ECf7S0pMK55sond5JFd99GV22O5TT9zO
+         KR8Cd3KluT+aYOMwqkGC63B9GNrZMbMBOKDzJWej1HrhzNh+WxVgmJVkoJqZ0xYF2fK8
+         oVvdPsHmaKC1L1TUpOj0O4Q6GIBOYDlvc9bJ4U8SseUysn7yHb5/AG2B7k8YnmUjLzAV
+         OkOI64Fri2rrM+mHsen5SWpvA08EaT93/L/pEhns5ztaC2S2a4wZ8cLBAkv6J+qv5bsA
+         MlCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787242312; x=1787847112;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ymkU8qd4K4bZB6E/swdK1MBXnSrS5Bp9t+afR5EeVdo=;
-        b=RVFLy0C1+yZzQC4UwmmYyLq3V3wd4UU/Cf8CCOl9FsqTpRC75VbU0mhcU3ChoHQGNa
-         dG37I5Rv4HSwphrdyGLmo7L3T/z9oUKF2aseGXZR/z2gtMxUwa8pV3Uv0XtTBDIlVY6b
-         lOtRg2w1ipHrzIq/v2Pa82tWNiqp+/Ou3dMAA7t+DLoXmioVpD6bnxog/At/oIlPackA
-         Zh8jva4xYSMMf4sb6Yq6BFRI+oRxpqzUCa/GyyuZxTgcldVPOFSTZIiMnympTq8FD7Gt
-         miK8rsNy/7Mf73Na+qTQbbF6sLdbuYLgWIFxLzAH1O+WYVp+guUO2jhns3FP2cwsBOv+
-         zgrA==
-X-Forwarded-Encrypted: i=1; AHgh+Rr0Ypt3yZP7H/4BY5jk77DZwX9XN3cak3PBVGsga0WikOr+ypqpOzUENO7jZF58WfSrEVJGcpIy7OLS@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWGZ5GHqBoSYP3yX4py7gWJtugEGhy6oQx4OCw+kEAr/6tqZ6A
-	fYlhgGT/uggCDHR/7uVKprbbl91dj4HrzoVVQTMl2g/sqNAtvOcEHJuHpmdCoximRXCDomeIi+X
-	brWZIU63ZsDtzjxDZ+iorqzbjyYZsNr4RiO/pTHoOFw==
-X-Gm-Gg: AR+sD12wIehtsKo8a/KZiYGbXTXgUFA2HkVkk/WMdphYxFKjotG6INi/BsJ0rN9H3ZS
-	78d8I/I2Y+l7qbeer6M1bkeRQS5aus9dwRgKfUcE55VPmfz5E81ms9BnfnGIPTf4IF6451WPgWN
-	+sLQisKod6sAVEx4HpzHd+9YZdN4GqQHdKn2XxCzly3wEJB3k7GdM4/oa0ckFvlFFP5kGyXeH8w
-	UbP8g6rxpaXWvTGwhZh2mqwoc0xt/enpl0oUocp+9zZlWPcfLF6K1c2M8QzuplraNrsDd7ZK2yv
-	qNmOM2uWKJFmz+ON4nYgtxZhXyOo5X5hnloE6P3F5R3wEV3VnCi8eDgB3qT8zR+F8Pd3mvWEE8q
-	9
-X-Received: by 2002:a05:622a:2447:b0:527:43a:2f31 with SMTP id
- d75a77b69052e-52dd58cf89emr139582711cf.15.1787242311914; Thu, 20 Aug 2026
- 09:11:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787242599; x=1787847399;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aFoTj6/0l+rb4Ye3htHwoOMHysPF41NubEuQBpEG2pI=;
+        b=WVKVoLuVsxwpebWueGQHzcunUhHIBon6zOI+98kz5iu4vRDFFmlzKvMKGtul67FI59
+         XMVV+eyYBSgDuD6MrD8FRDk1SfoJohJqZfbxBDK/eQ3vlBJv/GaPP5KCIEJT1fxoEZrq
+         AN7/Ga9HpoHPIbqL1dZYZg5fbkiAAwbz5KF34pjk7DmxDvSgl05Vyt+ckE7mjpCIM4yp
+         2wa1/fszBAcRsGLuHCVZnD9zzDMGMV63n1EJ8spLqY7EAmv2P24JayRP3rZl4CoXPyyO
+         7GRIsMGFgKZ3dhkZ71tg8tbEPGfIOCVMB5UpjMadsmD6bwV3Irq8WAd9PQ4dCA7fNxFc
+         Wcfg==
+X-Forwarded-Encrypted: i=1; AHgh+RoUGM9mRDIBvMyFdMd0F8OX1sGIEzRrHWglViUukWG7a0CkUMQkPDlasN19HeczbwUvInPzQiLpL+06@lists.linux.dev
+X-Gm-Message-State: AOJu0YyqTlIZPLBuKdhHrG0BoKiMyWlFbZFN5BdHGE1bh15qSQrZXQvN
+	UlgKP5LcmS9zCUcYwTo+LPillCnl36QmFJZMfz5vulG+u+0LuFipHz4iKDD531nBPLmFOoHXBRs
+	eSdqTQGRB+E4U+X3xK3ql2atulNLID0Y=
+X-Gm-Gg: AR+sD11CXAl7gbhkLEmPzzWO4aLQDi4wkYZFxZRmQZPVMCvqF/eInqGxtbJlL4V/rVH
+	ONFldpu5szu+TJin5PDagKl9HwC3RcQJVv0qUeB9EDV0XPiUh++od9MMVLKL64vmmwhOk7n/XGe
+	LjaEMESBvPtMRMkRQd9k86uy6lQpMGWtdh/+sJBYh4Sli6t8zCEmdG4Qgn7LHIF59wcPy3ck04z
+	68lSMTa1wDvHKj3QM/4XQI8iYeTbrUjLmjXzo9T2TLsjqcCqkJp56hIgwOtStvdtJt4Y9ymvsKK
+	7LE3sYXrGIV9J2Nlx9sRlxB67T4L2RHYA2FDJWai5egYzNRf8BtdWu0UH2s5BxC5f4PrkTnEJdJ
+	wcPJXJx8BZDrlEFPqwdnLPeef
+X-Received: by 2002:a05:600d:19:b0:499:b4aa:3d70 with SMTP id
+ 5b1f17b1804b1-499b4aa3dd7mr55417565e9.14.1787242598941; Thu, 20 Aug 2026
+ 09:16:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260819023542.561653-1-senozhatsky@chromium.org>
- <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
- <20260820084933.GA4036497@noisy.programming.kicks-ass.net>
- <aobDGgivy43cz7xQ@google.com> <20260820091018.GA4120091@noisy.programming.kicks-ass.net>
- <aobGRjc7SE1rwIHu@google.com> <20260820093402.GB1837346@noisy.programming.kicks-ass.net>
- <aobKfyGHkdMcleoc@google.com> <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
-In-Reply-To: <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 20 Aug 2026 18:11:40 +0200
-X-Gm-Features: AcwNN1U8VRCnKe90HOpNZaDIfAjWPtm3XBLjBJ7inxfgMD5QyxcpFAhW03fUODU
-Message-ID: <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	linux-fsdevel@vger.kernel.org
+References: <20260814185946.3679478-1-joannelkoong@gmail.com>
+ <20260814185946.3679478-2-joannelkoong@gmail.com> <CAJfpegt2NTn27A_QoMnfb8gDLZpRc9WHzWW6wGBjWc+nvJxg=A@mail.gmail.com>
+ <CAJnrk1bocn3zSUe23E4F6oTNyosmF8kdVdFB-2hX2qbSqx-LDA@mail.gmail.com>
+ <f0cc2fd8-bf0a-4722-b81c-d54fbafd00a7@bsbernd.com> <69545a14-e3ca-487c-a98d-b9f16b745c39@linux.alibaba.com>
+In-Reply-To: <69545a14-e3ca-487c-a98d-b9f16b745c39@linux.alibaba.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Thu, 20 Aug 2026 09:16:26 -0700
+X-Gm-Features: AcwNN1UrR_EoRyqvxR48afEW0T9peAEu4yos0UL6zL_t1OAcEh18dR-YmmWQyus
+Message-ID: <CAJnrk1a0ztS6iSZvCFgFf6tH5W4rJM_BdgkJHLjjftJF8qeyNQ@mail.gmail.com>
+Subject: Re: [PATCH v7 1/6] fuse: decouple fuse_ring creation from ent registration
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, jlayton@kernel.org, 
+	axboe@kernel.dk, amir73il@gmail.com, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 20 Aug 2026 at 12:41, Peter Zijlstra <peterz@infradead.org> wrote:
+On Thu, Aug 20, 2026 at 1:02=E2=80=AFAM Baokun Li <libaokun@linux.alibaba.c=
+om> wrote:
+>
+> Hi all,
+>
+> On 2026/8/20 04:05, Bernd Schubert wrote:
+> >
+> > On 8/19/26 19:56, Joanne Koong wrote:
+> >> On Wed, Aug 19, 2026 at 4:35=E2=80=AFAM Miklos Szeredi <miklos@szeredi=
+.hu> wrote:
+> >>> On Fri, 14 Aug 2026 at 21:00, Joanne Koong <joannelkoong@gmail.com> w=
+rote:
+> >>>> Currently, the connection's fuse_ring is created lazily on the first
+> >>>> FUSE_IO_URING_CMD_REGISTER command. A server registers entries from =
+one
+> >>>> thread per queue (one per CPU) and those threads issue their first
+> >>>> REGISTER command concurrently. They then race to create the single
+> >>>> per-connection fuse_ring, which required open-coded handling in
+> >>>> fuse_uring_create() to detect and protect against concurrent creatio=
+ns.
+> >>>>
+> >>>> Decouple fuse_ring creation from ent registration and move it to
+> >>>> FUSE_INIT reply processing after a server has negotiated and set
+> >>>> FUSE_OVER_IO_URING. The ring is published before the connection is
+> >>>> marked initialized. fuse_uring_register() no longer creates the ring=
+ and
+> >>>> it instead uses the ring set up at init time.
+> >>> I tested this with loraw (a "raw" loopback tester that doesn't use
+> >>> libfuse) and it fails with
+> >>>
+> >>> root@kvm:~# ./loraw -u  /mnt/fuse
+> >>> loraw: loraw.c:1010: lo_start_uring: Assertion `!cqe->res' failed.
+> >>>
+> >>> cqe->res is -22 (EINVAL).
+> >>>
+> >>> Attaching the reproducer.  To compile:
+> >>>
+> >>> cp $(KERNEL_TREE)/include/uapi/linux/fuse.h fuse_kernel.h
+> >>> gcc loraw.c -oloraw -luring
+> >>>
+> >> Thanks for attaching the repro.
+> >>
+> >> This is happening because this patch uses the FUSE_OVER_IO_URING init
+> >> reply as a signal that the ring should be created, but I missed that
+> >> the FUSE_OVER_IO_URING reply is *optional*.
+> >>
+> >> Prior to this patch, there's two scenarios:
+> >> a) server sets FUSE_OVER_IO_URING reply at init time - requests will
+> >> automatically block until fuse-io-uring is completely set up
+> >> b) server does not set FUSE_OVER_IO_URING but later sends uring
+> >> register request - requests will continue along /dev/fuse path until
+> >> fuse-io-uring is completely set up
+> >>
+> >> Libfuse sets FUSE_OVER_IO_URING in the reply, but the loraw.c server d=
+oes not.
+> >>
+> >> I think the best way to fix this is to have the ring creation happen
+> >> when the kernel receives the first io-uring command instead of at
+> >> FUSE_INIT or at FUSE_IO_URING_CMD_REGISTER ent creation time, given
+> >> that FUSE_IO_URING_ADD_QUEUE needs the ring to exist:
+> > I don't think we should allow io-uring without FUSE_OVER_IO_URING and
+> > I really thought that was disabled.
+>
+> I share Bernd's concern here. Allowing io-uring without
+> FUSE_OVER_IO_URING means enabling a capability beyond what was
+> negotiated. We should honor the negotiated feature set, and print
+> the negotiated flags to dmesg at INIT time so issues like this are
+> easy to spot.
 
-> Also, you'd be putting suspend success in the hands of userspace, that
-> sounds like a mighty fail right there.
+Not sure if you missed this reply [1], but will copy and paste it here:
 
-Freeze ordering is also a hard/impossible problem without the help of
-userspace.  One obvious heuristic is if task has a /dev/fuse fd open,
-it is a server.  This simple ordering between server and non-server
-tasks fails if
+This is pre-existing behavior that's been there since the beginning
+(kernel version 6.14). I don't think we can change this now, or
+it'll break backwards compatibility, like Miklos's loraw program.
 
- - task X is a server of A, while also doing ops on B
+>
+> >
+> > <... checking the code ...>
+> >
+> > I'm on a ublk branch without your commits a applied, i.e. plain upstrea=
+m 7.2 fuse
+> >
+> > fuse_uring_cmd()
+> >       /* Once a connection has io-uring enabled on it, it can't be disa=
+bled */
+> >       if (!enable_uring && !fch->io_uring) {
+> >               pr_info_ratelimited("fuse-io-uring is disabled\n");
+> >               return -EOPNOTSUPP;
+> >       }
+>
+> BTW, the current code clears fch->io_uring on REGISTER failure:
+>
+>                 if (err) {
+>                         fch->io_uring =3D 0;
+>                         wake_up_all(&fch->blocked_waitq);
+>                         return err;
+>                 }
+>
+> But by then other entries may have already registered successfully,
+> fiq->ops is switched to fuse_io_uring_ops, and requests are flowing
+> through the uring path. Clearing fch->io_uring here may reject all
+> subsequent io_uring commands with -EOPNOTSUPP while the data path
+> is still running on uring ops.
+>
 
- - task X is server, blocked on task Y which is not a server
-
-What about adding a flag to mutex/rwsem that allows making them
-freezable at setup time?  Then fuse fs could set that flag for its
-locks (including VFS locks).
+This is also pre-existing behavior. The check in fuse_uring_cmd() is a
+&& not an ||. It'll only return -EOPNOTSUPP if admin disables
+enable_uring.
 
 Thanks,
-Miklos
+Joanne
+
+[1] https://lore.kernel.org/fuse-devel/CAJnrk1Z_ioW02xbrUekpzSJNerHL=3DXH-V=
+YqHmUXFzyUD4HDNdQ@mail.gmail.com/
