@@ -1,174 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4674F488DA0
-	for <fuse-devel@lists.linux.dev>; Fri, 21 Aug 2026 12:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B8D30DEB2
+	for <fuse-devel@lists.linux.dev>; Fri, 21 Aug 2026 13:00:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787315317; cv=none; b=fynVKglGIsUJO2GOce+sAagopSOu2An+ChCGwxsOiDv7D8U9YGUdbXzsJ7V5PbFtxDJo3EgYSIUhkCg2oHgXMFRBG1YsXBK7bSRVNFRmQ7Y9zLsF+6zqxYCI67LIuFNs6OaMbvvfbYYoMOMTYStnlJJKwr5QN9B3rQCstt/VakE=
+	t=1787317216; cv=none; b=nkOUOXW0u/cSc+5IaLCxNgxYFXjjrW840VtnlTxTXopR2IiBabKV4Ln1dsm+RluNWjNzQg2INGflOYKxJW7YKaDOtqojaLlLdf48sMVDsx8gKjc6Ne0foaLriPYY3GXQKW8f/4h5fKahv9CmifKYTPR8n8AGg6/Soa9hpDb+zXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787315317; c=relaxed/simple;
-	bh=WKWXpP6aQqbm2TDpfgD5ho5L8lIqE/VT2/vMAHz9oIo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PvmlmoBtKgxfU0LcWIJToVO28z44TLTQZE+p7oy5hJ9bq1ar9KFQwKsZALv0l1+6Oi+X37BEI713hVztZKpG4NPtXnoV3ZaVYqP1THRvSEUQjPezs3tdQeJfG7YwOLbVUJHF5iNh6H+qLNE/NsD25ZwNC++TSgmtvomylZGMXPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p7KasALh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1787317216; c=relaxed/simple;
+	bh=TQVri1VbG3k26GTVvPhW+rQvpCyLbdhL30xPsXPok1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S8nyRkhEbUpOFxbZOgNmh9LJdE5OIAOOcHh7It6hlDgFX/ej08SWoUqc0famzIPb/C1CvI/48fJD+rCAlpmCV9YqCt+PFR9J5NBqnHjrvxHGH2q+Gk/f26DL3AKFo5Ww0g9hZv1MDXUJctnk9YXoPlTT4JOtTb7EvfbogZ6pmy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=rlVeSsGh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=btXEGCMf; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p7KasALh"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B9EE4C2BCF7;
-	Fri, 21 Aug 2026 12:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1787315316;
-	bh=WKWXpP6aQqbm2TDpfgD5ho5L8lIqE/VT2/vMAHz9oIo=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=p7KasALhoVtd+dFtLwOW7n73FoiYFTELLmVLJKGiVltXnSLKG9MmZfQgiEsxJhXZr
-	 zovhEPSxmJ6A1nN3dx96JX9QmMalTrWO04H9GMBABEL/8cZ3eqFJEtKratpqVjXdZM
-	 7SUr2yDvc5nVqFZYUQrmPtf1TXNynTRrbCm2i7IDAeF8n3brmryU8jGWTPmCgeqX+1
-	 0MSprhiuyw0pZEI0ZbJWDIFqhsoordFf2eShJ4wpI9ocyu0YfDvy4ztcBgX+7DS+7B
-	 GqTpdkKjQN52L1nlJ3ST7x32Evyu2qsa1QXRvCTgFKgZDxu3GK3KcY9DA485TOCHdP
-	 hW0DpvvHNA6dg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9128EC5DF89;
-	Fri, 21 Aug 2026 12:28:36 +0000 (UTC)
-From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 21 Aug 2026 14:28:32 +0200
-Subject: [PATCH] fuse: Fix the condition to enable over-io-uring
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="rlVeSsGh";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="btXEGCMf"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 75A1614001F7;
+	Fri, 21 Aug 2026 09:00:13 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Fri, 21 Aug 2026 09:00:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1787317213;
+	 x=1787403613; bh=jPwAAHStks5puw+Sn0UGu4PzkEYNx3VmfQfonbs5q0E=; b=
+	rlVeSsGhqpBg9zjl0jjpNbKy7m2SLAzMKXYIuI49WCnAIu52QVVW3WLRjHqiHsmm
+	EElGRxKts/hHPGBeG/eSsKjVPuPxZ0vonptb9edUFvGE8mJzMYR4dwKec7EtzMpm
+	Eyx/yn2GSyEcqT+Y9HsCOiwMgSVufIk1c3RhEHRA/64qDp5Gfwx2xwVD+K+JU59c
+	UruB06CFtjk0vT5SC7dzE5iRCIXK/ItofbXSbuCyYp2SvjTYzoX/WQbGI16lFqTM
+	qKdDQpVtcXdCQ8UkTv8SHEjp9tTEl12tzFW9RmyIqtj/Uhw/fZvoFkh2qpu81MYO
+	HVEdyNELSP6FP3CoRzld6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787317213; x=
+	1787403613; bh=jPwAAHStks5puw+Sn0UGu4PzkEYNx3VmfQfonbs5q0E=; b=b
+	tXEGCMfsw/u2Ak66YZAE2+0rxWG3VQc0nlCXrEs91AtDdxgDPU3ZKjtjv2GN5Kos
+	Pfwz579MNLUu8IzRcKsTQ+HaB0L/94ax9GYtKi4q1QhKKnxXulHyfPGjhIYtuhtk
+	YY42VBC0xQfOZS1uwcjPmCFJnPO8ilC6CJf4old+kl1n15HNN9oAOGknzMLDcpuW
+	ePUA+JbvmGA5nO0us5htwViQ2zqtY31UKdtKqm7dNxStb0bHgIbwuRxlVu9wYdsp
+	NZz0zbTdR3NFS0mIJiLE/PqPCgedBCCcG2kO1DQSCw+ZKTJxPrwa7JVL3LxYtk/n
+	pOlM6jB3ZlMuZ6XM2ngNg==
+X-ME-Sender: <xms:3EuIask_Rghn1c09a4rEyTHTwDmckg3hpeHYTow-_4_t63iaIXMmzA>
+    <xme:3EuIasgsM02iYMe9HAtXicS2j6XC8u9UlogEhLaoqAPCTbOg3tHqCQ_dTW1jfW7Mq
+    -ulAvPSaFWJfNdLOKUWBMu9ySx50vaVCzuGFmPXS5AWJ603WYW97Q>
+X-ME-Received: <xmr:3EuIao2VGtkrSiryjRDMR3ooGM3qJr6JUj4vvjLpunpRH1nX97HYVWkanQfzwTjxnfktXJ_aZfAhr7NHKvyObV33Uvtt3Kyi3_EciaZsMU5H-s2pAhs_qufD>
+X-ME-Proxy-Cause: dmFkZTEn9+iYvMPup1kK07lZl5gJmcQX1An123ru39uwPK9D5oSjcUyDaOzqgYNm74oDxE
+    RUsFpQqK1pGgHY079ii8odmt0sXKwmwa9o/Qpc4hLxcgfuUmHzJx5n95wPnjDYo1FC6lMF
+    srRQztpa4/TSbcl5dkYYSSMfO0KzCXOK84qMX1cLn6J2FmZ1T0F0/Qz1nhVjf2PYHYdaVI
+    erbvFBLMfjlDkGzNtyuG/qqMdEIf/XMO+5DGJpUQ2V6mW7X+cnk28wpaObwLOq9Fmt0ood
+    W8+X8hBQnv2q8kpZ0MKdqPjhlA/SBqyPzwDkr+EzAwUVJI2DWYh8pgD2iHEpdFxoZ6AMbk
+    vs6xvG5LLbfO6j7byBdcaG3cgFlDYQgOMkKx7aUeOHKvVIsa0p7Q0/eobUCFOYABzZWKL/
+    LaAGMqiLdqqbYzbCw58G4mFm/nfCgvEKxrR60rJD4/KvHRskvFR4g0iL2wCMZHRVVuBGLV
+    Tqpcz8HQpk+xTKz31CrjsiFCz2AuLfTyVjfDC302I6+bNmqT4qB3He6FnObgYSjB6sr7Fg
+    8ANfNKACjNMReAjLEwK4RC1+zsgdkQa4AoJCZkFTB3g9H0/vr3d7/TX567VoXoP3TTZOaL
+    wnImJprYbMOj49N0RiIb4cdglpuq4ammnBHTpcAK1hu4I23A/7PvrFg/1kPg
+X-ME-Proxy: <xmx:3EuIatK698jA0VD1Lf4S2iXE1F0XLgLgAtgArLIiQh11acamBAityw>
+    <xmx:3EuIagyTxexGaXt_nsQcLLMW8dcO1N0GXRRQo4ThO6O6C7vahEDdrg>
+    <xmx:3EuIajVftdfTnre8DMMqqotvnPtv4bFXdp--k6j4WYz6uT0qskYsHw>
+    <xmx:3EuIaojlKxqO5Qa1SlpkO6KQh46JkhtF6wDi3EmFMxvd8Nlg8blLJg>
+    <xmx:3UuIaiVIV5Cfn74R88fD_MM-RN7VpgW-XdC_O1z0wUA-3kPbPzyVy77E>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 21 Aug 2026 09:00:10 -0400 (EDT)
+Message-ID: <09fc2e63-a1a1-4c29-95be-cfb5f0db9ea7@bsbernd.com>
+Date: Fri, 21 Aug 2026 15:00:08 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260821-fuse-fix-enable-condition-v1-1-488f77b27e96@bsbernd.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWM0QqDMAwAf0XyvICW6cp+ZeyhpqmLSB2NykD8d
- 7Pt8eDudlAuwgr3aofCm6jM2aC5VECvkAdGicbgatfV3jWYVmVM8kHOoZ8Yac5RFqswJn8L4Uq
- uJQ/Wvwub93s/nn/WtR+Zlu8QjuMEY8xDGH0AAAA=
-X-Change-ID: 20260821-fuse-fix-enable-condition-df87aa4c25c8
-To: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev, 
- Baokun Li <libaokun@linux.alibaba.com>, 
- Thomas <thomas.fractalbits@gmail.com>, zhu <zzsheng@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fuse: Fix the condition to enable over-io-uring
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev,
+ Baokun Li <libaokun@linux.alibaba.com>, Thomas
+ <thomas.fractalbits@gmail.com>, zhu <zzsheng@gmail.com>,
  Stefan Hajnoczi <stefanha@gmail.com>
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3881; i=bernd@bsbernd.com;
- h=from:subject:message-id;
- bh=x0saBZr76A+AJaVweFwY6LEpGdlTSPbLMHA+ayIkzFU=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLI6XIqzbqyVN3LL9K2+JbCmeUYt+6LVbZfLXpvnyLhwL
- dgd+2JHRykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAEyk1JGRYcudz3z7OJ+ITPVQ
- 4Pin5+gee8tL7uQPzp1PBeOXZNSx/WD4Z/ayX6yDcVPQscdnNSu2cR15sdDTycfRNCQtIzp9uvE
- UdgA=
-X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
- fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
-X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
- auth_id=772
-X-Original-From: Bernd Schubert <bernd@bsbernd.com>
-Reply-To: bernd@bsbernd.com
-
+References: <20260821-fuse-fix-enable-condition-v1-1-488f77b27e96@bsbernd.com>
 From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260821-fuse-fix-enable-condition-v1-1-488f77b27e96@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-I had accidentally used "&&" instead of "||" and totally broken
-the intention of the condition. This has several implications
 
-1) fuse-servers can bypass the module option "enable_uring"
-   by setting FUSE_OVER_IO_URING in the FUSE_INIT reply, although
-   fuse-client/kernel wouldn't have announced availability of
-   that flag. I.e.
 
-2) fuse-servers do not need to set FUSE_OVER_IO_URING in FUSE_INIT
-   reply and could just send FUSE_IO_URING_CMD_REGISTER at
-   any time while IO is already going on. That has further
-   implications:
+On 8/21/26 14:28, Bernd Schubert via B4 Relay wrote:
+> From: Bernd Schubert <bernd@bsbernd.com>
+> 
+> I had accidentally used "&&" instead of "||" and totally broken
+> the intention of the condition. This has several implications
+> 
 
-    2.1) The barrier in fuse_block_alloc() waiting for fuse_uring_ready()
-         is then bypassed - fuse requests are not blocked until queues
-         are initialized - results in dynamic switching from /dev/fuse
-         to io-uring.
+[...]
 
-    2.2) The dynamic switching from /dev/fuse to io-uring exposes
-         at least one easily exposable lock order issue between
-         fch->bg_lock and queue->lock. There might more issues, as
-         dynamic run time switching was never tested.
-
-The change itself is simple, but brings behavior change,
-FUSE_OVER_IO_URING has to be set in the FUSE_INIT_REPLY by fuse servers
-to accept any IORING_OP_URING_CMD. Libfuse does that and the only
-non-libfuse implementation I found (fractal-fuse) also does that.
-Qemu patches for fuse-io-uring are not merged yet, as far as I know.
-
-Also moved up is the check for fch->initialized as a fuse-server
-implementation might try to setup io-uring before FUSE_INIT is
-processed and might have gotten -EOPNOTSUPP instead of -EAGAIN.
-
-Also fixed is a stale comment that explain the handling of the
-FUSE_OVER_IO_URING flag in early RFC versions.
-
-If there should be a report from any library or application we
-probably need to revert this commit, although slightly modified then
-to prevent bypassing of the module option.
-
-Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
----
- fs/fuse/dev_uring.c | 16 ++++++++--------
- fs/fuse/inode.c     |  4 ----
- 2 files changed, 8 insertions(+), 12 deletions(-)
-
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 77c8cec43d9c..eba322f79df1 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -1237,8 +1237,15 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
- 	}
- 	fch = fud->chan;
- 
-+	/*
-+	 * fuse_uring_register() needs the ring to be initialized,
-+	 * we need to know the max payload size
-+	 */
-+	if (!fch->initialized)
-+		return -EAGAIN;
-+
- 	/* Once a connection has io-uring enabled on it, it can't be disabled */
--	if (!enable_uring && !fch->io_uring) {
-+	if (!enable_uring || !fch->io_uring) {
- 		pr_info_ratelimited("fuse-io-uring is disabled\n");
- 		return -EOPNOTSUPP;
- 	}
-@@ -1248,13 +1255,6 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
- 	if (!fch->connected)
- 		return -ENOTCONN;
- 
--	/*
--	 * fuse_uring_register() needs the ring to be initialized,
--	 * we need to know the max payload size
--	 */
--	if (!fch->initialized)
--		return -EAGAIN;
--
- 	switch (cmd_op) {
- 	case FUSE_IO_URING_CMD_REGISTER:
- 		err = fuse_uring_register(cmd, issue_flags, fch);
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index d975073c6029..f29bd7432fa3 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1474,10 +1474,6 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
- 	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
- 		flags |= FUSE_PASSTHROUGH;
- 
--	/*
--	 * This is just an information flag for fuse server. No need to check
--	 * the reply - server is either sending IORING_OP_URING_CMD or not.
--	 */
- 	if (fuse_uring_enabled())
- 		flags |= FUSE_OVER_IO_URING;
- 
-
----
-base-commit: 818bebeb63dd6bf5f4e07e145f6cdbace520a34c
-change-id: 20260821-fuse-fix-enable-condition-df87aa4c25c8
-
-Best regards,
---  
-Bernd Schubert <bernd@bsbernd.com>
+>  	/* Once a connection has io-uring enabled on it, it can't be disabled */
+> -	if (!enable_uring && !fch->io_uring) {
+> +	if (!enable_uring || !fch->io_uring) {
+>  		pr_info_ratelimited("fuse-io-uring is disabled\n");
+>  		return -EOPNOTSUPP;
+>  	}
+> @@ -1248,13 +1255,6 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
+>  	if (!fch->connected)
+>  		return -ENOTCONN;
+>  
+> -	/*
+> -	 * fuse_uring_register() needs the ring to be initialized,
+> -	 * we need to know the max payload size
+> -	 */
+> -	if (!fch->initialized)
+> -		return -EAGAIN;
+> -
+>  	switch (cmd_op) {
+>  	case FUSE_IO_URING_CMD_REGISTER:
+>  		err = fuse_uring_register(cmd, issue_flags, fch);
+Sorry, actually we need a v2, besides that forgot to add stable@, this
+would also allow to disable io-uring for existing connections.
 
 
