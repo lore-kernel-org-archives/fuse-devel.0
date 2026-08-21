@@ -1,171 +1,150 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACE117A300
-	for <fuse-devel@lists.linux.dev>; Fri, 21 Aug 2026 03:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6174302FC;
+	Fri, 21 Aug 2026 08:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787283489; cv=none; b=RgP3UqjjnuhARJTeRqEaoCayjSD19sBx7QKaFwrJhppF5hhkIaGrzUfUq1huihcllslkJBmuKfSbyl7JdOPzpsaojuGBf2OkyP54bDZIM9N1aeuclw83g7cuEc4aeWvkGTOOD4Gyu/MAVfbG2F0AYZZM5P1VxEqmWtKIvvfzkco=
+	t=1787301011; cv=none; b=LHtgkOR3MvawEBI9avRY2rWr2r1/g2IHBjNgzrt0Qv9yo0QOPUrSr5IVkVWD+PY8k5a0DDhWd0zVXICb5v271vMqMIOkNlHkiPuIXJAOLRghkNJD4OMVZ1DdQ+JGBE7IWNw5mTttDjvVqAG0oCHZ6wj3C+JH42yE/OJVwQv5KX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787283489; c=relaxed/simple;
-	bh=XEgYbUNB9kuPVtGB3vZNHrRWfekGWTYCINujxDrNPAw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jvlTMUom0RGtUsMVxwMeIFHejuZx1jul7H3YrQPgU/OioSxu/H4vvRM+YBKzbJk/1igFilFCiYWZGDHKx3OCof22fZUEjhIBycpMnUwVbvudIeHSyowKuFs4a5h5HsLNkBhSTQ5HN0JYT5vyiWTLSzOHiXIInJ2StNO1rhxv6u4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=u82eCogE; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1787301011; c=relaxed/simple;
+	bh=yQM9EwOQSt4eWKGD5WkSLlcBSpxVBDNRKDVQYCrEtNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZNEYzWqz1tm6w0jxA9OwFB1dKIKH/WBdF8zpIvO8qS241Cm80lngM80Hc2Uiuq4D4x1sjqOgmhg58cNcAiofRDI47dmCgDNHBKqmESQ9Yzatzq4xQdzhAPIXT3+05VOAooh1Mon6mw7U+RkhXbC6bRxEAqxYIwPQF3vZvLVQAd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CF9L2Va9; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="u82eCogE"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1787283482; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=z6MjVqUQKZ9bvzn6AHVPCESoZgIGzx9GU/J1VOzfHdk=;
-	b=u82eCogE3NXlu1Kc68pr635EO2doaMmd5ZMbu2HaDz7PvXURpBaM1Tb8VuXVEffcSNzYsqtjaZXUH89AHevQPVKPqS1w8CdJvx6i5XQKytTUj3BZ2X6WrdhLkDykUgw5XP+CD+pZpQe/Ev+6MBMQr+b8FYV6v9TxJLN0/f6gSYw=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R271e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X9L.k7n_1787283481;
-Received: from 30.221.131.126(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X9L.k7n_1787283481 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 21 Aug 2026 11:38:02 +0800
-Message-ID: <f41796b8-161c-4380-9073-615ed45c995c@linux.alibaba.com>
-Date: Fri, 21 Aug 2026 11:38:01 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CF9L2Va9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=gl8fb8JjOt7jyq6F4GMJVng/PK8CkvTTmG/1jkQcCUI=; b=CF9L2Va9gTD+NorHUbJTKqnVLP
+	kYOg4FP0jVIAsFtNlh6p4dlRvKJuzF5QMOmD9R+10HG0MOwvM+Q+HujowTaMR7mzGDC/G93mM+dCL
+	kk0Wwe9rY4jk05zN2Zjz3v+UIDBJ/XCN+0nNkBDJzx2LMi0C5gwxlW4qbTs7H42tX+1scSKZ6XzRE
+	D9TCe0coTTo2+63FASsyoK+znEUZFZOYmiscvDsWGgs+cnlY9Ro4vMf46E2fqL6sm2ii0kVo73cl6
+	w/Vw3yc8XwdN6OqCstsGdj8fggYaeOTPx92KJRSzBGrO2yRt2AodfkDrboApkrZ5T1c4ZRMNYFrC+
+	fC5+xvaQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wxKdW-0000000H18n-05r2;
+	Fri, 21 Aug 2026 08:30:02 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id CE85E300324; Fri, 21 Aug 2026 10:30:00 +0200 (CEST)
+Date: Fri, 21 Aug 2026 10:30:00 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
+	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
+Message-ID: <20260821083000.GF687043@noisy.programming.kicks-ass.net>
+References: <20260819023542.561653-1-senozhatsky@chromium.org>
+ <CAJfpegu2wOG85R6KSvCwHOuxe2fWczA1KbrFcCZz=ofUch4K=w@mail.gmail.com>
+ <20260820084933.GA4036497@noisy.programming.kicks-ass.net>
+ <aobDGgivy43cz7xQ@google.com>
+ <20260820091018.GA4120091@noisy.programming.kicks-ass.net>
+ <aobGRjc7SE1rwIHu@google.com>
+ <20260820093402.GB1837346@noisy.programming.kicks-ass.net>
+ <aobKfyGHkdMcleoc@google.com>
+ <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
+ <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/6] fuse: decouple fuse_ring creation from ent
- registration
-To: Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, jlayton@kernel.org, axboe@kernel.dk,
- amir73il@gmail.com, fuse-devel@lists.linux.dev
-References: <20260814185946.3679478-1-joannelkoong@gmail.com>
- <20260814185946.3679478-2-joannelkoong@gmail.com>
- <CAJfpegt2NTn27A_QoMnfb8gDLZpRc9WHzWW6wGBjWc+nvJxg=A@mail.gmail.com>
- <CAJnrk1bocn3zSUe23E4F6oTNyosmF8kdVdFB-2hX2qbSqx-LDA@mail.gmail.com>
- <f0cc2fd8-bf0a-4722-b81c-d54fbafd00a7@bsbernd.com>
- <69545a14-e3ca-487c-a98d-b9f16b745c39@linux.alibaba.com>
- <CAJnrk1a0ztS6iSZvCFgFf6tH5W4rJM_BdgkJHLjjftJF8qeyNQ@mail.gmail.com>
- <fa10e184-8390-4e79-abfa-e0dcb6888da8@bsbernd.com>
- <CAJnrk1YfHOqcoNhCS=ukMiOH436_NzSVtNiPLpSw6fqWDhKGjA@mail.gmail.com>
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <CAJnrk1YfHOqcoNhCS=ukMiOH436_NzSVtNiPLpSw6fqWDhKGjA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com>
 
-On 2026/8/21 01:46, Joanne Koong wrote:
-> On Thu, Aug 20, 2026 at 10:20 AM Bernd Schubert <bernd@bsbernd.com> wrote:
->>
->>
->> On 8/20/26 18:16, Joanne Koong wrote:
->>> On Thu, Aug 20, 2026 at 1:02 AM Baokun Li <libaokun@linux.alibaba.com> wrote:
->>>> Hi all,
->>>>
->>>> On 2026/8/20 04:05, Bernd Schubert wrote:
->>>>> On 8/19/26 19:56, Joanne Koong wrote:
->>>>>> On Wed, Aug 19, 2026 at 4:35 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
->>>>>>> On Fri, 14 Aug 2026 at 21:00, Joanne Koong <joannelkoong@gmail.com> wrote:
->>>>>>>> Currently, the connection's fuse_ring is created lazily on the first
->>>>>>>> FUSE_IO_URING_CMD_REGISTER command. A server registers entries from one
->>>>>>>> thread per queue (one per CPU) and those threads issue their first
->>>>>>>> REGISTER command concurrently. They then race to create the single
->>>>>>>> per-connection fuse_ring, which required open-coded handling in
->>>>>>>> fuse_uring_create() to detect and protect against concurrent creations.
->>>>>>>>
->>>>>>>> Decouple fuse_ring creation from ent registration and move it to
->>>>>>>> FUSE_INIT reply processing after a server has negotiated and set
->>>>>>>> FUSE_OVER_IO_URING. The ring is published before the connection is
->>>>>>>> marked initialized. fuse_uring_register() no longer creates the ring and
->>>>>>>> it instead uses the ring set up at init time.
->>>>>>> I tested this with loraw (a "raw" loopback tester that doesn't use
->>>>>>> libfuse) and it fails with
->>>>>>>
->>>>>>> root@kvm:~# ./loraw -u  /mnt/fuse
->>>>>>> loraw: loraw.c:1010: lo_start_uring: Assertion `!cqe->res' failed.
->>>>>>>
->>>>>>> cqe->res is -22 (EINVAL).
->>>>>>>
->>>>>>> Attaching the reproducer.  To compile:
->>>>>>>
->>>>>>> cp $(KERNEL_TREE)/include/uapi/linux/fuse.h fuse_kernel.h
->>>>>>> gcc loraw.c -oloraw -luring
->>>>>>>
->>>>>> Thanks for attaching the repro.
->>>>>>
->>>>>> This is happening because this patch uses the FUSE_OVER_IO_URING init
->>>>>> reply as a signal that the ring should be created, but I missed that
->>>>>> the FUSE_OVER_IO_URING reply is *optional*.
->>>>>>
->>>>>> Prior to this patch, there's two scenarios:
->>>>>> a) server sets FUSE_OVER_IO_URING reply at init time - requests will
->>>>>> automatically block until fuse-io-uring is completely set up
->>>>>> b) server does not set FUSE_OVER_IO_URING but later sends uring
->>>>>> register request - requests will continue along /dev/fuse path until
->>>>>> fuse-io-uring is completely set up
->>>>>>
->>>>>> Libfuse sets FUSE_OVER_IO_URING in the reply, but the loraw.c server does not.
->>>>>>
->>>>>> I think the best way to fix this is to have the ring creation happen
->>>>>> when the kernel receives the first io-uring command instead of at
->>>>>> FUSE_INIT or at FUSE_IO_URING_CMD_REGISTER ent creation time, given
->>>>>> that FUSE_IO_URING_ADD_QUEUE needs the ring to exist:
->>>>> I don't think we should allow io-uring without FUSE_OVER_IO_URING and
->>>>> I really thought that was disabled.
->>>> I share Bernd's concern here. Allowing io-uring without
->>>> FUSE_OVER_IO_URING means enabling a capability beyond what was
->>>> negotiated. We should honor the negotiated feature set, and print
->>>> the negotiated flags to dmesg at INIT time so issues like this are
->>>> easy to spot.
->>> Not sure if you missed this reply [1], but will copy and paste it here:
->>>
->>> This is pre-existing behavior that's been there since the beginning
->>> (kernel version 6.14). I don't think we can change this now, or
->>> it'll break backwards compatibility, like Miklos's loraw program.
->>>
->> I think we need to discuss this. I had replied that the current
->> accidental scheme we
->>
->> - deadlock (lock order), with bg_lock being one issue, but I bet there
->> is more
->> - module option bypass
->> - bypass of what fuse-client/kernel announces
->>
->> I.e. if a fuse-server did implement the accidental scheme, it was broken
->> anyway.
->>
->> If wanted to be paranoid, we would switch to FUSE_OVER_IO_URING2 flag
->> and ignore FUSE_OVER_IO_URING. I hope you don't insist on allowing
-> I don't think a new FUSE_OVER_IO_URING2 flag helps. If the kernel
-> ignores FUSE_OVER_IO_URING as you describe, servers using older
-> versions of libfuse will break. If it accepts both flags, it's
-> behaviorally identical to just enforcing FUSE_OVER_IO_URING.
->
->> fuse-server to set flags that fuse-server doesn't even announce...
->>
-> I think this is a call better left up to Miklos. I don't know how
-> rigorously it is enforced in linux that nothing should break backwards
-> compatibility. The code was released in March 2025 as part of kernel
-> version 6.14, so it's been roughly a year and a half, which I guess
-> isn't that long in the grand scheme of things, but if Miklos has his
-> loraw server program that relies on this, it's probably likely there's
-> other users out there who have servers that would similarly just break
-> if we switch the policy now.
->
-> I haven't had time to look deeply at the lockdep thing you wrote
-> about, but from a first glance, couldn't we fix it at the source?
-> flush_bg_queue() calls ->send_req() while holding the fch->bg_lock
-> which is what creates the bg_lock -> queue->lock deadlock. If it
-> instead only does the background accounting under the lock and moves
-> the requests to a caller-provided list where the caller only sends
-> *after* dropping the bg_lock, doesn't that solve the deadlock? This
-> would fix it for every server regardless of whether it sent
-> FUSE_OVER_IO_URING or not. I'll try to get some time to look at this
-> next week.
+On Thu, Aug 20, 2026 at 06:11:40PM +0200, Miklos Szeredi wrote:
+> On Thu, 20 Aug 2026 at 12:41, Peter Zijlstra <peterz@infradead.org> wrote:
+> 
+> > Also, you'd be putting suspend success in the hands of userspace, that
+> > sounds like a mighty fail right there.
+> 
+> Freeze ordering is also a hard/impossible problem without the help of
+> userspace.
 
-Makes sense — separating dequeue from send eliminates the nesting
-structurally.
+In case of fuse, perhaps.
 
+> One obvious heuristic is if task has a /dev/fuse fd open,
+> it is a server.  This simple ordering between server and non-server
+> tasks fails if
+> 
+>  - task X is a server of A, while also doing ops on B
+> 
+>  - task X is server, blocked on task Y which is not a server
+> 
+> What about adding a flag to mutex/rwsem that allows making them
+> freezable at setup time?  Then fuse fs could set that flag for its
+> locks (including VFS locks).
 
-Cheers,
-Baokun
+That would be adding conditionals to the mutex, something we all pay
+for, always.
 
+I was thinking it shouldn't be too hard to add a graph to the tasklist,
+where each task has a list of other tasks that should be frozen before
+it.
+
+That way the task iteration in try_to_freeze_tasks() can be modified to
+iterate this list (recursively; depth-first etc.) before it goes and
+freezes the initial task.
+
+Obviously adding a link to the graph needs to ensure the whole thing
+stays free of cycles, but that is 'details' :-)
+
+And while this is fairly straight forward to make work, I fear it is the
+wrong shape for the problem, since the server is more of an 'after'
+rather than a 'before' relation. You would have to add all clients to
+the before of the server.
+
+Another approach might be to have each task have a list of tasks that
+needs to be done later, and have this relation be counted in the
+destination task.
+
+Then, on freeze, create a list of all tasks and start iteration, for
+each task that has a non-zero count of prior tasks, move it to the tail.
+This relies on freeze points being a location where a task has no
+relations. Such that when a task is frozen, it has no dependencies.
+
+Then, again assuming it was a non-cyclic graph, it will always finish
+the freeze in an order that resolves the dependencies.
+
+This might be a little more tricky to implement, but should be doable.
+
+In both scenarios the tracking of the actual dependencies is of course
+going to be key.
+
+One way would be for each file op to be wrapped like 'link-$op-unlink'
+such that the client (the task doing the file op) gets linked to the
+server (the task responsible for satisfying the request) before it can
+block, and unlinked once its done.
+
+Link/unlink could be a simple as:
+
+	struct task_struct *client, *server;
+
+link;
+	atomic_inc(&server->freezer_count);
+	client->freezer_link = server;
+
+unlink:
+
+	atomic_dec(&client->freezer_link->freezer_count);
+	client->freezer_link = NULL;
+
+And the freezer should assert: !task->freezer_link, to ensure you
+cannot be frozen while still having a link out, since this would keep
+the link target's count elevated and inhibit freezer forever more.
+
+This also deals with the server being a client of yet another fuse
+filesystem. Creating cycles in fuse mounts would already be a recipe
+for disaster today, without all this, so I'm assuming this all just
+'works'.
+
+Does any of that make sense?
