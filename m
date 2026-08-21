@@ -1,101 +1,181 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A7C43B3F5;
-	Fri, 21 Aug 2026 15:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD9B494A1E
+	for <fuse-devel@lists.linux.dev>; Fri, 21 Aug 2026 16:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787325551; cv=none; b=OvYb/2UHQf2elYTvqUf6L/wVD6MAP/dZGoaCCqNLjyFz5XubJHTexCpgv7+6mE7SY/Lfwhhxc5GWPceunngzE47NP1MboGmZauBg+qKTL5n7p6E6E8khZn1A9nGYATU0YSmgKqa3pV0ebAINmYO6+jCVLJPNQnC5RZDf0fam0Wo=
+	t=1787329156; cv=none; b=KGYtw77GTtfIl052jrxHc9bGgnOVUlazf+E30RkTbJVt2ZNhFA4Mc/4LQUXpdKc+ij+N1ZRqtYkac+ElQEjFkEJ+kO9ZACygZ0LLtVlrPjupLN0FZr1JEn7DHF8RIwr0bfEwpiUTxWOYHJzLrHAVO43gHnfDbs3iUSNe1PBiSLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787325551; c=relaxed/simple;
-	bh=DgvivRGfuO7pmPJ+C4WzaSQrVKUkmZqrVNcqR7Bx/t0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bG+C4G6bTOGLJ8lPbyvKlCJoJWYe8c9nUYL9Q0AwkTwofsoyWr4j/6liXK0HNaWx8u4UWVcyWmH5I4W1zbn6VvnW67uSAQLn3ArBRMWvGVvvbvS9UAEcIROGIRuEBOefVkcvSxrRMASrChSTpYfMp9faK2hfLI7ByJBr9WNhYV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=qer0+X9/; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1787329156; c=relaxed/simple;
+	bh=jnUlTXasHGk+r6HNeeigydBLj/voi7Led5fgjz6m7bU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=B8m27Dayg1pwzG5fkyFMJi2nOOViBbF/AUwdC/NfPlhS2B7KlII0jMzRvMcmI8ApJP4NQVfDSZ6FWkzN+VvO/oxTMcUKNzI4SOOaP4iet0652N0rlHCTlPkQQ84AgH4YFk/Tf1Xe0mKESGi8VMvkzccRgi8lwZ9/JwzPMxAjIEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TZfRmwKD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="qer0+X9/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Su9KgWL2onkGSwDtlDmPuaX1T/I/VKpTVIzc0TrDrBw=; b=qer0+X9/Z7BpQqiVV3fPeRwHoQ
-	HD3GiQFVB9g37fijIo+LwAlvbQSJh+7Yo24Bvmn1T+sySxFAhJPw7ucRL72Y+Z/Nc2KQ+3hzk7JDl
-	DpFEvJcNBtDVnmBsNxWC8EW1lOB9FhMqUWvGHKeYc/nROoRcYyB0gthUTuoCJVazc0mm5H/fkp0Ue
-	tirT1bU+quNUVo2GoGNtNZpurTSk5iFG5glYR1T0ToXW0R8Vb4dNc+uft/9Plo03NnH7l+CqYzyNG
-	LVPXVDkgGBklXHKq4hE6npoSdstZe6dVY6rAwwPC2d6IQpKrGQWOq0vL+gaHprOF4FrqZjcmJOmav
-	0I2S+8sg==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wxQgr-000000002G8-2ZWU;
-	Fri, 21 Aug 2026 14:57:53 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id B5F853006FA; Fri, 21 Aug 2026 16:57:52 +0200 (CEST)
-Date: Fri, 21 Aug 2026 16:57:52 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2] fuse: permit freezing while waiting for request answer
-Message-ID: <20260821145752.GG687043@noisy.programming.kicks-ass.net>
-References: <20260820084933.GA4036497@noisy.programming.kicks-ass.net>
- <aobDGgivy43cz7xQ@google.com>
- <20260820091018.GA4120091@noisy.programming.kicks-ass.net>
- <aobGRjc7SE1rwIHu@google.com>
- <20260820093402.GB1837346@noisy.programming.kicks-ass.net>
- <aobKfyGHkdMcleoc@google.com>
- <20260820104111.GC1837346@noisy.programming.kicks-ass.net>
- <CAJfpegsSzOqs1zkhB9GZxsT5HT1zXDbHsZNEbA7P7mxe0w2dng@mail.gmail.com>
- <20260821083000.GF687043@noisy.programming.kicks-ass.net>
- <CAJfpegvRw0Emd=2hsEeg3AvYaLgRBUbMdo-=eUMa3FRFfnetgA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TZfRmwKD"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6BD53C19425;
+	Fri, 21 Aug 2026 16:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787329154;
+	bh=jnUlTXasHGk+r6HNeeigydBLj/voi7Led5fgjz6m7bU=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=TZfRmwKDnGeKYI35GT15VnbQRssL/mp4cb5s56xFGf32VVI0XRGaJaoJ16mscRc95
+	 znt1RR7v42BHMuTBCBp9AnwM8j2BDEXH6vjPhgupRukiGodJj1i0wOqCkDYYx3ziBz
+	 LXN5gP3R88VvBMbn23a12pw1MRsEtvkMrDmkuXGezYnjIt71E4mF4mVnoDiGPa9u4g
+	 sZF2HGqnMdXeW7c4xYFp9lvIW3EUDPtN6xNEZ0P0TuTBjrGjV5vpbf3IaoG/pyonYa
+	 cT+OdsX/BPX0XCUyvubVH2bmjHNJL3NGgAAlCuoBwAT7EaejHzI9IzxqHyu4erGh/r
+	 zinWHCibSdcUw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 408A6C5DF97;
+	Fri, 21 Aug 2026 16:19:14 +0000 (UTC)
+From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
+Date: Fri, 21 Aug 2026 18:19:09 +0200
+Subject: [PATCH v2] fuse: Fix the condition to enable over-io-uring
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegvRw0Emd=2hsEeg3AvYaLgRBUbMdo-=eUMa3FRFfnetgA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260821-fuse-fix-enable-condition-v2-1-35a386d3d443@bsbernd.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NSw6CMBRFt0I69hnaIK2O3Idh0M+r1GhL+oBoC
+ Hu34AYcnuTccxdGmAMSu1QLyzgHCikWEIeK2V7HO0JwhZmoRVsrwcFPhODDGzBq80SwKbowlhU
+ 4r6TWjRUnq1jZDxmLt7dv3Y9pMg+04xbcjD7QmPJnP5/55v3zM3Pg0CjlpTRC4rm9GjKYozva9
+ GLduq5fWBoNnNYAAAA=
+X-Change-ID: 20260821-fuse-fix-enable-condition-df87aa4c25c8
+To: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>
+Cc: Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev, 
+ Baokun Li <libaokun@linux.alibaba.com>, 
+ Thomas <thomas.fractalbits@gmail.com>, zhu <zzsheng@gmail.com>, 
+ Stefan Hajnoczi <stefanha@gmail.com>, stable@kernel.org
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4122; i=bernd@bsbernd.com;
+ h=from:subject:message-id;
+ bh=jUQYqgugAEmYi2fMM2GSsrtAuh84XLRvxWs4GiKHi2A=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLI6qhoO1Z1ccsmkmWXOoc9bq16VBLA7ZP/I0F+cwBHX/
+ twqfIJvRykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAExEKZCR4fcJ1X6V7ZIH0uQn
+ vTGfLXT20NSwLW+yJ3Qd4XWPFXK/NZOR4dg/2ZfNgRPY6i/PVEi7c/VF63274ohdUqlGfjODv2/
+ y4AUA
+X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
+ fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
+X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
+ auth_id=772
+X-Original-From: Bernd Schubert <bernd@bsbernd.com>
+Reply-To: bernd@bsbernd.com
 
-On Fri, Aug 21, 2026 at 04:33:57PM +0200, Miklos Szeredi wrote:
-> On Fri, 21 Aug 2026 at 10:30, Peter Zijlstra <peterz@infradead.org> wrote:
-> 
-> > That would be adding conditionals to the mutex, something we all pay
-> > for, always.
-> 
-> It's just one bit (could be stashed  into LSB of ->first_waiter),
-> Condition is checked before going to sleep, i.e. adds one branch in
-> the slow path.  Don't think this could be measurable.
+From: Bernd Schubert <bernd@bsbernd.com>
 
-I suppose I'm not at all sure how it would differ from having
-mutex_lock_freezable(), or how it would help in this situation.
+The existing condition in fuse_uring_cmd() is there only to avoid
+disabling io-uring for connections that already run with it, missing
+was a condition to refuse any IORING_OP_URING_CMD if the
+connection/channel didn't get enabled because of missing FUSE_INIT
+reply flag FUSE_OVER_IO_URING. Without the reply flag the barrier in
+fuse_uring_ready() doesn't work and IO could already be going on and
+cause deadlock states (at a minimum one between fch->bg_lock and
+queue->lock).
 
-> > One way would be for each file op to be wrapped like 'link-$op-unlink'
-> > such that the client (the task doing the file op) gets linked to the
-> > server (the task responsible for satisfying the request) before it can
-> > block, and unlinked once its done.
-> 
-> Okay, how do you know which task or tasks are responsible for
-> satisfying the request?  That's not a generally calculable
-> information.
-> 
-> sshfs is a simple example: the transport layer process is ssh, but it
-> is in no way involved in fuse transactions, there's just a pipe
-> between the two.   How would the kernel know it has to link the ssh
-> process when the pipe is written to?
-> 
-> There are probably many such examples where this fails.
+The change itself is trivial, but brings behavior change,
+FUSE_OVER_IO_URING has to be set in the FUSE_INIT_REPLY by fuse servers
+to accept any IORING_OP_URING_CMD. Libfuse does that and the only
+non-libfuse implementation I found (fractal-fuse) also does it.
+Qemu patches for fuse-io-uring are not merged yet, as far as I know.
 
-Well, it was 'your' (as in not me) suggestion to have a freeze priority,
-which sorta implied you knew what tasks to apply it to :/
+Moved up is the smp_load_acquire(&fch->initialized) check, as a
+fuse-server implementation might try to setup io-uring before FUSE_INIT
+is processed and might have gotten -EOPNOTSUPP instead of -EAGAIN.
 
-Anyway, I suppose that in this case the fuse server is responsible to
-communicate this dependency to the kernel -- or the sshfs fuse server
-should use libssh and embed the ssh client inside itself, instead of
-using pipes, dunno.
+Also fixed is a stale comment that explains the handling of the
+FUSE_OVER_IO_URING flag in early RFC versions.
+
+If there should be a report from any library or application we
+probably need to revert this commit.
+
+Fixes: 3393ff964e0f ("fuse: block request allocation until io-uring init is complete")
+Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+---
+Changes in v2:
+- Seperate condition for fch->io_uring, switching from "&&" to "||" would have
+  brought up another regression.
+- Commit message update, fortunately bypassing the module option
+  wasn't possible because of another check in process_init_reply()
+- Link to v1: https://patch.msgid.link/20260821-fuse-fix-enable-condition-v1-1-488f77b27e96@bsbernd.com
+---
+ fs/fuse/dev_uring.c | 31 ++++++++++++++++++-------------
+ fs/fuse/inode.c     |  4 ----
+ 2 files changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index e22a48c9a678..c6dd420c4034 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -1665,25 +1665,30 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
+ 	}
+ 	fch = fud->chan;
+ 
+-	/* Once a connection has io-uring enabled on it, it can't be disabled */
+-	if (!enable_uring && !fch->io_uring) {
+-		pr_info_ratelimited("fuse-io-uring is disabled\n");
+-		return -EOPNOTSUPP;
+-	}
++	/*
++	 * The ring is sized from values negotiated by FUSE_INIT
++	 *
++	 * Pairs with smp_store_release() in fuse_chan_set_initialized()
++	 */
++	if (!smp_load_acquire(&fch->initialized))
++		return -EAGAIN;
+ 
+ 	if (fch->abort_with_err)
+ 		return -ECONNABORTED;
+ 	if (!fch->connected)
+ 		return -ENOTCONN;
+ 
+-	/*
+-	 * fuse_uring_register() needs the ring to be initialized,
+-	 * we need to know the max payload size
+-	 *
+-	 * Pairs with smp_store_release() in fuse_chan_set_initialized()
+-	 */
+-	if (!smp_load_acquire(&fch->initialized))
+-		return -EAGAIN;
++	/* Once a connection has io-uring enabled on it, it can't be disabled */
++	if (!enable_uring && !fch->io_uring) {
++		pr_info_ratelimited("fuse-io-uring is disabled by module parameter\n");
++		return -EOPNOTSUPP;
++	}
++
++	if (!fch->io_uring) {
++		pr_info_ratelimited(
++			"fuse-io-uring not enabled on this connection\n");
++		return -EOPNOTSUPP;
++	}
+ 
+ 	switch (cmd_op) {
+ 	case FUSE_IO_URING_CMD_REGISTER:
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 1c6ee01c6796..e9552be3637b 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1480,10 +1480,6 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
+ 	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+ 		flags |= FUSE_PASSTHROUGH;
+ 
+-	/*
+-	 * This is just an information flag for fuse server. No need to check
+-	 * the reply - server is either sending IORING_OP_URING_CMD or not.
+-	 */
+ 	if (fuse_uring_enabled())
+ 		flags |= FUSE_OVER_IO_URING | FUSE_HAS_IO_URING_BUFPOOL;
+ 
+
+---
+base-commit: d1dbc59200b54944f00251ca4dfbb2b318beca13
+change-id: 20260821-fuse-fix-enable-condition-df87aa4c25c8
+
+Best regards,
+--  
+Bernd Schubert <bernd@bsbernd.com>
 
 
