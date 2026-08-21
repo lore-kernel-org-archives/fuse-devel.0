@@ -1,161 +1,178 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-100.freemail.mail.aliyun.com (out30-100.freemail.mail.aliyun.com [115.124.30.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7DD35E93E
-	for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 23:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787269173; cv=pass; b=tbid1+f3ECp6rhHWdiX+cEgVK+K5V68bfR0qWBifcM6Diry8xURIDh2NzWhix1lan326UJBPpmhg4hUmfhZe0Rt9x1vcdW7uHTGtefHt6liXwhr68wEXb/KIBLRmSGMcoeWbC6uxr+OpS4XzxX7cw03cLbwCXNuOLpdoeyVQJJU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787269173; c=relaxed/simple;
-	bh=uakSqtDmfHirt56Ih9c2dlFS7k35p9i6DyOchGy5ecg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a76HnTPQfL2kVugmHiaWncQlKeu5dvjCBPGns3yI+yxTApiBUgSCj9+QsmkdTUqDkU1H3Xnc3FFoO+xlpLGS+xm54Hk2At18Po/EYHdZvkbOePdX+v4qg+XsRjTWzNTR1YN/dVc48UX6YfbAe8KzeolTt/FebKqRsKqZ3CXkdOM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kCHhdof3; arc=pass smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63D7357D0B
+	for <fuse-devel@lists.linux.dev>; Fri, 21 Aug 2026 03:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.100
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787281505; cv=none; b=TXEYYw5FzcKwQV57p8WPpSRbpaicOBvFkxuZy13VCjPTscROVJj6vnhfz7AG/bJvtWyaL29AKPI1jQcePTKFvgpxh3EtKKf8e/1v4roWfCjxG53SJw8SjHJsqd0Xxll0hk3nKQWy3AM7g8JvbCQAZOfouw0SA02hx5517umGll4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787281505; c=relaxed/simple;
+	bh=BmNwHn2AJsw4rNvqyA0ZEVnsa/+8ld46ibF30TWN3gs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bLEdXWSQyBV/wMyXi5F4yDpdULya6YSgDCAqMf4ZYd4ERanYpGPBgvUBK0+ILxU8nB5a4AaFsZ/rIuSH7x+OIPLKEQX1QwnS8NwOGffso2LiwLrzQ7uERWcllBvUJ3qD3s/AviNbEEwk/AAoMZRRD94DzYlWFuPE0ko9RIjF3pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=bGQtbl3a; arc=none smtp.client-ip=115.124.30.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kCHhdof3"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4996f1ee4a4so2889325e9.2
-        for <fuse-devel@lists.linux.dev>; Thu, 20 Aug 2026 16:39:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787269170; cv=none;
-        d=google.com; s=arc-20260327;
-        b=o9H28rTiH+Zvp4sPRnQizn9wU/N3WsWLzdXrSNmPVL3VxD2pMDehFKanHuMIJkW7zr
-         W8Cf6XMIjHrocIm15wOGBU5tgv6LEoiJ2F1J2fqbPuBFrdwGNb9DfioyFtPqeN64fWMo
-         L6vYwdHXGK3y/UgNPFQWe/k/3ljomo6guYaxVgMiHxxNvBG8TtA6xjpF5f4qz40OHGuQ
-         VbIUvYJdmFGij1V1DTlrTDc0lmO7RdorVqCjiGBjNAIeQ+m09/6vEBEyGjFPTawerRUA
-         ZeXzmN0qn7NLuQofvpk7kAJV5zcr16D89XwqpfH6TgpoLQo4PdgegA1GYBnCYnByujKH
-         1/qA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6FWGDnWimdEuyVbIhKTlp9NOezQCpG6klu9pcGU95pc=;
-        fh=PVyddzk5pbGGdmNUS9RObzEEajpAeQhyVTS4Cvgz4Ao=;
-        b=pp+wFQQQZk//OlSP2vGdlEeDgklslQSK6wtolEELS1c6JxjYC7otjZRooScFT8qea+
-         KXPdjjeXS4Xj4ivimE49D0Imsj8bGq8EdvmdgkSwFJ6k3eQcqKZNs/5xiOIm5rIIdqxg
-         QGxCnyL0MF3hsMfPhWwyhTXBsbqd71WmTfDksx/yj7wGvm0Kbl9UBdAoB8Bcxtjx/D88
-         9flWau60jacqBg5CCalkLAOBCteOiwglwucDdvrT9L26FAH4uUnC1/dqHurTfI4eb0eG
-         8p/yj/z3KgBfLqZ/UJs/FIv3Ylk/ZTGdpYy9Idw693PFMMfpdmWygmzJB4V/bwWzM88w
-         bwiw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787269170; x=1787873970; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6FWGDnWimdEuyVbIhKTlp9NOezQCpG6klu9pcGU95pc=;
-        b=kCHhdof3LMb0BvzLioJmNHmPbCSlAaOFOJA1W77HWCDhQ6LFZEq8s1v0sPzK+wuK4y
-         al7rixYBJtINWImCdG0m6sZUyAlypFWnxiYnUEld4IjI031/iosEbVHTy4QOiA8vIrtj
-         K6p21+9+fRYvS+dZL1WkkntKmaF0O/N17xkGo6UrAMGno3xw63LOvSu6jyBX8vDdNDbO
-         ++zh6JX70NVvw/FsqZU6LxFGU8HcXLKJp+ZXgPRsXigaSllpXU0Bs7dRqhJ03mouw49p
-         UILZbjlTJp2LDsdihvWHOerC5+LgrzgaWfzZN9yD6KApj+JhIn8y/JvV3gu1Im+7Utgu
-         pPug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787269170; x=1787873970;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6FWGDnWimdEuyVbIhKTlp9NOezQCpG6klu9pcGU95pc=;
-        b=mVngotEKMV4LnlGDJsHKXE04LA9WXzpfm2I9w/TtFrFk5hsTn5lyZ7Yoz3eYNdWhK1
-         gvNXrrhjvY30lCSNIWdqqpxAeQ98m42ru53bb55xwF/77aR1McWoM0i7cePHMYCn5vjq
-         QgkAEvvpXRgbuav25CVnCsj6ZcadE4lJf32QHk4+6gTxJNYhpFtmTFLXKxuaFm/+c0Z/
-         hyMKGJQsxNPWpNqc2wFekxooUCQD9hmQqpcjUEwbGJ40czN9aYh9CFvH6bQix0EehgoW
-         f3f0jmyDzDAm0XSOewmvcWS3wynLRz7/WqCjbR7V5E5JpknQNh9xpwweMZSc6yvdDBLM
-         LVTQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqIRg38wqpmPKyR3yJiDX4BYqiHF+gYClzstu7uCwTLH/jCpkBsRgIk9vDj/osY0foFKJfToF+KfCdY@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZXCyepD/xule5pniehqZpOeSErOofkcwG1W+9pzcSi5/SRAQf
-	O2RIV4TCsyzjqYWCvAgfczZF1QbtNbbaKleYuFFFzJtxRrShKpnP7PGkK2RS+GPB0dpumU0f+8w
-	PvtCABq2oFRFhhSuX59+6QMpbq0afGPc=
-X-Gm-Gg: AR+sD12oZWlrKso+OqZwU0fLy0S3dR4+M8XQtJY48cfz09goM/1eaK8lcx6Jhw/bceT
-	VRhoSVYFLcQ7TSmIE1uwOXIonJ0hm/IZWziiVOu9F3h8qdVWotYOm3eUu5pTAGG3ZO9mFY4R7sn
-	no6vL8aq8fcYmebf4DqkTWHur6sbbSfJuVE5lPmr2Xf4OzXuqDbpuV9634n8Tjr/v/tHRBiWlxi
-	pt4Ur5o4EAM/zjyQ4oa9oIRYsoXTTRtKctHaC/9JlqSF7Ip3982fALcX6xHkR+o3TGC7Q0dxMdV
-	SeUFOzXzJzbxIg42+upeEajTsUF3waN4yMByBT9jXlG5YuC2SWXN2ReJ18vpPAU9mj40SX1nxiM
-	0PjV8BT5g1I1Povfm80GCnxCQ
-X-Received: by 2002:a05:600c:3588:b0:496:c18c:f9a3 with SMTP id
- 5b1f17b1804b1-499b83184eamr33065975e9.5.1787269170200; Thu, 20 Aug 2026
- 16:39:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="bGQtbl3a"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1787281492; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=Br3QkJHlleAOtH+rDxnPCzx7tnyje53p1y5X/KgJzX0=;
+	b=bGQtbl3ald/o+p0HKHVJJG6As+ZTif1wisE2cBTtIa6thwxHCw/Ga6DtYbjsrlz/qG+QkuQbq9g/tZZdtis19TFkwqt9afbcmOJ6t1U8QIUSFJTi9adnwMNGYYVI1gKM3UZcNT71c8/t0WghKHLhwEOLd6TvkulZTYaUxvdHK9I=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=7;SR=0;TI=SMTPD_---0X9L.ZjD_1787281490;
+Received: from 30.221.131.126(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X9L.ZjD_1787281490 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 21 Aug 2026 11:04:51 +0800
+Message-ID: <bfdf3493-b208-4df0-89f0-0f14032814f0@linux.alibaba.com>
+Date: Fri, 21 Aug 2026 11:04:50 +0800
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
- <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
- <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
- <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
-In-Reply-To: <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 20 Aug 2026 16:39:17 -0700
-X-Gm-Features: AcwNN1W2WwOZ6oRwPRAG9dZBaGHXMlGuhp9w5dO0dP8YLHD19Z4QrM5cxrAENkE
-Message-ID: <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/6] fuse: decouple fuse_ring creation from ent
+ registration
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ jlayton@kernel.org, axboe@kernel.dk, amir73il@gmail.com,
+ fuse-devel@lists.linux.dev
+References: <20260814185946.3679478-1-joannelkoong@gmail.com>
+ <20260814185946.3679478-2-joannelkoong@gmail.com>
+ <CAJfpegt2NTn27A_QoMnfb8gDLZpRc9WHzWW6wGBjWc+nvJxg=A@mail.gmail.com>
+ <CAJnrk1bocn3zSUe23E4F6oTNyosmF8kdVdFB-2hX2qbSqx-LDA@mail.gmail.com>
+ <f0cc2fd8-bf0a-4722-b81c-d54fbafd00a7@bsbernd.com>
+ <69545a14-e3ca-487c-a98d-b9f16b745c39@linux.alibaba.com>
+ <CAJnrk1a0ztS6iSZvCFgFf6tH5W4rJM_BdgkJHLjjftJF8qeyNQ@mail.gmail.com>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <CAJnrk1a0ztS6iSZvCFgFf6tH5W4rJM_BdgkJHLjjftJF8qeyNQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 18, 2026 at 11:40=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wro=
-te:
+On 2026/8/21 00:16, Joanne Koong wrote:
+> On Thu, Aug 20, 2026 at 1:02 AM Baokun Li <libaokun@linux.alibaba.com> wrote:
+>> Hi all,
+>>
+>> On 2026/8/20 04:05, Bernd Schubert wrote:
+>>> On 8/19/26 19:56, Joanne Koong wrote:
+>>>> On Wed, Aug 19, 2026 at 4:35 AM Miklos Szeredi <miklos@szeredi.hu> wrote:
+>>>>> On Fri, 14 Aug 2026 at 21:00, Joanne Koong <joannelkoong@gmail.com> wrote:
+>>>>>> Currently, the connection's fuse_ring is created lazily on the first
+>>>>>> FUSE_IO_URING_CMD_REGISTER command. A server registers entries from one
+>>>>>> thread per queue (one per CPU) and those threads issue their first
+>>>>>> REGISTER command concurrently. They then race to create the single
+>>>>>> per-connection fuse_ring, which required open-coded handling in
+>>>>>> fuse_uring_create() to detect and protect against concurrent creations.
+>>>>>>
+>>>>>> Decouple fuse_ring creation from ent registration and move it to
+>>>>>> FUSE_INIT reply processing after a server has negotiated and set
+>>>>>> FUSE_OVER_IO_URING. The ring is published before the connection is
+>>>>>> marked initialized. fuse_uring_register() no longer creates the ring and
+>>>>>> it instead uses the ring set up at init time.
+>>>>> I tested this with loraw (a "raw" loopback tester that doesn't use
+>>>>> libfuse) and it fails with
+>>>>>
+>>>>> root@kvm:~# ./loraw -u  /mnt/fuse
+>>>>> loraw: loraw.c:1010: lo_start_uring: Assertion `!cqe->res' failed.
+>>>>>
+>>>>> cqe->res is -22 (EINVAL).
+>>>>>
+>>>>> Attaching the reproducer.  To compile:
+>>>>>
+>>>>> cp $(KERNEL_TREE)/include/uapi/linux/fuse.h fuse_kernel.h
+>>>>> gcc loraw.c -oloraw -luring
+>>>>>
+>>>> Thanks for attaching the repro.
+>>>>
+>>>> This is happening because this patch uses the FUSE_OVER_IO_URING init
+>>>> reply as a signal that the ring should be created, but I missed that
+>>>> the FUSE_OVER_IO_URING reply is *optional*.
+>>>>
+>>>> Prior to this patch, there's two scenarios:
+>>>> a) server sets FUSE_OVER_IO_URING reply at init time - requests will
+>>>> automatically block until fuse-io-uring is completely set up
+>>>> b) server does not set FUSE_OVER_IO_URING but later sends uring
+>>>> register request - requests will continue along /dev/fuse path until
+>>>> fuse-io-uring is completely set up
+>>>>
+>>>> Libfuse sets FUSE_OVER_IO_URING in the reply, but the loraw.c server does not.
+>>>>
+>>>> I think the best way to fix this is to have the ring creation happen
+>>>> when the kernel receives the first io-uring command instead of at
+>>>> FUSE_INIT or at FUSE_IO_URING_CMD_REGISTER ent creation time, given
+>>>> that FUSE_IO_URING_ADD_QUEUE needs the ring to exist:
+>>> I don't think we should allow io-uring without FUSE_OVER_IO_URING and
+>>> I really thought that was disabled.
+>> I share Bernd's concern here. Allowing io-uring without
+>> FUSE_OVER_IO_URING means enabling a capability beyond what was
+>> negotiated. We should honor the negotiated feature set, and print
+>> the negotiated flags to dmesg at INIT time so issues like this are
+>> easy to spot.
+> Not sure if you missed this reply [1], but will copy and paste it here:
 >
-> On Wed, Aug 12, 2026 at 1:59=E2=80=AFPM Joanne Koong <joannelkoong@gmail.=
-com> wrote:
-> >
-> > d) vmscan (prepare_scan_control()): for determining whether reclaim
-> > can deactivate, there's this logic
-> >
-> >                 /*
-> >                  * When refaults are being observed, it means a new
-> >                  * workingset is being established. Deactivate to get
-> >                  * rid of any stale active pages quickly.
-> >                  */
-> >                 refaults =3D lruvec_page_state(target_lruvec,
-> >                                 WORKINGSET_ACTIVATE_ANON);
-> >                 if (refaults !=3D target_lruvec->refaults[WORKINGSET_AN=
-ON] ||
-> >                         inactive_is_low(target_lruvec, LRU_INACTIVE_ANO=
-N))
-> >                         sc->may_deactivate |=3D DEACTIVATE_ANON;
-> >                 else
-> >                         sc->may_deactivate &=3D ~DEACTIVATE_ANON;
-> >
-> > (and same for DEACTIVATE_FILE for file-backed folios)
-> >
-> > target_lruvec->refaults[] gets set at the end of the reclaim pass. It
-> > stores the same lruvec_page_state() value that prepare_scan_control()
-> > will read at the start of the next reclaim pass, which means if
-> > reclaim passes happen more frequently than the 2s flushes (eg under
-> > sustained/heavy memory pressure), this logic will incorrectly assume
-> > no refaults occurred and deactivation is disabled, which afaict means
-> > folios won't be moved from the active -> inactive list, and reclaim
-> > will start evicting pages from the inactive list that are hot (eg more
-> > refaults).
-> >
-> > This is from reading the code rather than a reproducer though, so I
-> > don't know how much this matters in practice. Unlike for the writeback
-> > case, I don't think flushign more frequently solves the problem. It
-> > would shrink the staleness window but not eliminate it. Maybe one
-> > solution is to keep the deactivation state for a period of time if
-> > refaults were observed.
->
-> We do have an internal test that runs a VM under memory pressure and
-> we started observing OOM kills after the ratelimited flush was added
-> in vmscan, so I think it's more problematic than just reclaiming hot
-> memory, but I didn't look too closely.
->
+> This is pre-existing behavior that's been there since the beginning
+> (kernel version 6.14). I don't think we can change this now, or
+> it'll break backwards compatibility, like Miklos's loraw program.
 
-Would you be able to share the test you're using? I've been trying to
-repro it locally without much luck.
+Yes, I saw it, but pre-existing doesn't necessarily mean correct.
+Enabling capabilities beyond what was negotiated easily introduces
+inconsistencies.
+
+In our recent hardening work we found that the fch->io_uring switch
+causes anomalies in several mechanisms (mostly in our downstream tree),
+which is why I replied in Bernd's thread — he raised the
+enable_uring / fch->io_uring bypass there.
+
+>>> <... checking the code ...>
+>>>
+>>> I'm on a ublk branch without your commits a applied, i.e. plain upstream 7.2 fuse
+>>>
+>>> fuse_uring_cmd()
+>>>       /* Once a connection has io-uring enabled on it, it can't be disabled */
+>>>       if (!enable_uring && !fch->io_uring) {
+>>>               pr_info_ratelimited("fuse-io-uring is disabled\n");
+>>>               return -EOPNOTSUPP;
+>>>       }
+>> BTW, the current code clears fch->io_uring on REGISTER failure:
+>>
+>>                 if (err) {
+>>                         fch->io_uring = 0;
+>>                         wake_up_all(&fch->blocked_waitq);
+>>                         return err;
+>>                 }
+>>
+>> But by then other entries may have already registered successfully,
+>> fiq->ops is switched to fuse_io_uring_ops, and requests are flowing
+>> through the uring path. Clearing fch->io_uring here may reject all
+>> subsequent io_uring commands with -EOPNOTSUPP while the data path
+>> is still running on uring ops.
+>>
+> This is also pre-existing behavior. The check in fuse_uring_cmd() is a
+> && not an ||. It'll only return -EOPNOTSUPP if admin disables
+> enable_uring.
+
+Yes, that's exactly the problem. Right now we have several flags
+with unclear boundaries:
+
+  enable_uring: user-controlled, can be toggled at any time
+  fch->io_uring: set to 1 at INIT negotiation, but cleared to 0
+      on any entry registration failure — even if other entries
+      have already registered successfully and fiq->ops has been
+      switched to uring ops. The two states are inconsistent.
+  ring->ready: set when at least one entry has registered
+
+I think the clean design would be: at INIT time, decide based on
+enable_uring and the negotiated flags whether to initialize uring
+and set fch->io_uring. After that, enable_uring is no longer
+consulted — fch->io_uring is write-once. When ring->ready (at
+least one entry registered), take the io_uring path; otherwise
+fall back to the classic /dev/fuse path. This way each
+variable has a single, clear semantic.
+
 
 Thanks,
-Joanne
+Baokun
+
