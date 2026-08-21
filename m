@@ -1,244 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C12B47B43E;
-	Fri, 21 Aug 2026 11:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4674F488DA0
+	for <fuse-devel@lists.linux.dev>; Fri, 21 Aug 2026 12:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787312421; cv=none; b=dyoeHVJYokqdXIh/yX0ozOquSFFdDJHVCK7FxvYymV/yrLKgrlC1ljL/RlO+29vKDUGJsIWw3AmWVm/wS+xS+vH12rReNUiG9yxcT07lbCpPhRPMeDKsWWfYRjNuauuhBNyLZEJtg9yOip1w3EhlmzBJlR4PnrLkdAoKffNERLM=
+	t=1787315317; cv=none; b=fynVKglGIsUJO2GOce+sAagopSOu2An+ChCGwxsOiDv7D8U9YGUdbXzsJ7V5PbFtxDJo3EgYSIUhkCg2oHgXMFRBG1YsXBK7bSRVNFRmQ7Y9zLsF+6zqxYCI67LIuFNs6OaMbvvfbYYoMOMTYStnlJJKwr5QN9B3rQCstt/VakE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787312421; c=relaxed/simple;
-	bh=NW5ezp3UBYABHtSn57DxiJAJdWRS69ouWi3NcX9rwNE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cwS9oDeWsumg6a75fR5m1gyczA8K6EV0X6LyPkJ1+A/dpi6dZvAIks9sWnOObNOhPqD+/84WxbrVfIN0YdSlOSyvukt443w30pvmG7/LLqHm5XAYVUdEGI41kl1C1Ts2B0nY/+1wVQd22Ox0VHkVIu+7kl10O7UfZzXZdq8aCZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfv+6/SH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787315317; c=relaxed/simple;
+	bh=WKWXpP6aQqbm2TDpfgD5ho5L8lIqE/VT2/vMAHz9oIo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PvmlmoBtKgxfU0LcWIJToVO28z44TLTQZE+p7oy5hJ9bq1ar9KFQwKsZALv0l1+6Oi+X37BEI713hVztZKpG4NPtXnoV3ZaVYqP1THRvSEUQjPezs3tdQeJfG7YwOLbVUJHF5iNh6H+qLNE/NsD25ZwNC++TSgmtvomylZGMXPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p7KasALh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfv+6/SH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D19C21F000E9;
-	Fri, 21 Aug 2026 11:40:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787312416;
-	bh=QAry0w+4LHlbiY3u257K5+LjrU2QJaSc/mnEH8VEnQs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=cfv+6/SHLgM5qih8qOzllcJRt9Q26jrCJSsXbtLBbIjUBLEVj3khW15HMTlmqsQ0d
-	 09EdR+Y1sSjhKFhi1DqmfqqL8E7evD061TL+CA8szxr2klOOc7N10ZXOdXbJXLwNIb
-	 pG6fgPgkYJJnBMHPikLU7qTdHSPo73xnZspDF6mLUZ6dbk5oPGC5z0BGaPROksC5Zj
-	 1oxO+61KMkF+r8lr5u7vM6FtWSNv1IYKGaRE5MjHCt83zZxzg3C3aEr6oHapS/5zWt
-	 cexfwvw4uZMz8mHJQ+scBbnEYdaBabRe/ZUEm+wZJqHPL/Lu8qeMrfb7xH5Tm71N7e
-	 bElRFlcb3DnZw==
-Message-ID: <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
-Date: Fri, 21 Aug 2026 13:39:59 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p7KasALh"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9EE4C2BCF7;
+	Fri, 21 Aug 2026 12:28:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787315316;
+	bh=WKWXpP6aQqbm2TDpfgD5ho5L8lIqE/VT2/vMAHz9oIo=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=p7KasALhoVtd+dFtLwOW7n73FoiYFTELLmVLJKGiVltXnSLKG9MmZfQgiEsxJhXZr
+	 zovhEPSxmJ6A1nN3dx96JX9QmMalTrWO04H9GMBABEL/8cZ3eqFJEtKratpqVjXdZM
+	 7SUr2yDvc5nVqFZYUQrmPtf1TXNynTRrbCm2i7IDAeF8n3brmryU8jGWTPmCgeqX+1
+	 0MSprhiuyw0pZEI0ZbJWDIFqhsoordFf2eShJ4wpI9ocyu0YfDvy4ztcBgX+7DS+7B
+	 GqTpdkKjQN52L1nlJ3ST7x32Evyu2qsa1QXRvCTgFKgZDxu3GK3KcY9DA485TOCHdP
+	 hW0DpvvHNA6dg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9128EC5DF89;
+	Fri, 21 Aug 2026 12:28:36 +0000 (UTC)
+From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
+Date: Fri, 21 Aug 2026 14:28:32 +0200
+Subject: [PATCH] fuse: Fix the condition to enable over-io-uring
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-To: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, John Groves <john@jagalactic.com>,
- John Groves <John@groves.net>, Dan Williams <djbw@kernel.org>,
- Bernd Schubert <bschubert@ddn.com>,
- Alison Schofield <alison.schofield@intel.com>,
- John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
- Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <jic23@kernel.org>,
- Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
- <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
- Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
- Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
- Gregory Price <gourry@gourry.net>, Andrew Morton
- <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>,
- Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Gabriel Whigham <gabewhigham@gmail.com>, Aravind Ramesh
- <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com>
- <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs>
- <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260821-fuse-fix-enable-condition-v1-1-488f77b27e96@bsbernd.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWM0QqDMAwAf0XyvICW6cp+ZeyhpqmLSB2NykD8d
+ 7Pt8eDudlAuwgr3aofCm6jM2aC5VECvkAdGicbgatfV3jWYVmVM8kHOoZ8Yac5RFqswJn8L4Uq
+ uJQ/Wvwub93s/nn/WtR+Zlu8QjuMEY8xDGH0AAAA=
+X-Change-ID: 20260821-fuse-fix-enable-condition-df87aa4c25c8
+To: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>
+Cc: Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev, 
+ Baokun Li <libaokun@linux.alibaba.com>, 
+ Thomas <thomas.fractalbits@gmail.com>, zhu <zzsheng@gmail.com>, 
+ Stefan Hajnoczi <stefanha@gmail.com>
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3881; i=bernd@bsbernd.com;
+ h=from:subject:message-id;
+ bh=x0saBZr76A+AJaVweFwY6LEpGdlTSPbLMHA+ayIkzFU=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLI6XIqzbqyVN3LL9K2+JbCmeUYt+6LVbZfLXpvnyLhwL
+ dgd+2JHRykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAEyk1JGRYcudz3z7OJ+ITPVQ
+ 4Pin5+gee8tL7uQPzp1PBeOXZNSx/WD4Z/ayX6yDcVPQscdnNSu2cR15sdDTycfRNCQtIzp9uvE
+ UdgA=
+X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
+ fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
+X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
+ auth_id=772
+X-Original-From: Bernd Schubert <bernd@bsbernd.com>
+Reply-To: bernd@bsbernd.com
 
-On 8/11/26 11:24, Christian Brauner wrote:
-> On Tue, Aug 11, 2026 at 10:59:50AM +0200, Miklos Szeredi wrote:
->> On Thu, 6 Aug 2026 at 06:37, Darrick J. Wong <djwong@kernel.org> wrote:
->>
->>> IOWs, let's fix the remaining wobbles (if any) and just merge this
->>> already.  No more side quests through gigantic refactorings of fusex,
->>> that's too much to ask after you already redesigned and reimplemented
->>> the whole thing already.
->>
->> Without any intention to change the direction, let me just state some facts:
->>
->>  - it was never suggested that famfs depend on the fusex work in any way
->>
->>  - the plan to add famfs mappings to fuse was laid out two and a half
->> years ago in reply to the very first rfc posting and has basically
->> remained unchanged since then:
->>
->> https://lore.kernel.org/all/CAJfpegv8XzFvty_x00UehUQxw9ai8BytvGNXE8SL03zfsTN6ag@mail.gmail.com/
->>
->> I understand how that seemingly simple API addition was overwhelming
->> for John, and I should have been more proactive in helping with the
->> implementation.  That's entirely my fault.
->>
->> On the other hand John could have been more trusting that the plan will work.
->>
->> But that's behind us now, let's move on...
-> 
-> with fuse, please...
+From: Bernd Schubert <bernd@bsbernd.com>
 
-Okay, we're now (again? :) ) in a difficult situation where some people support
-standalone famfs, while other people (including Christian) prefer a fuse version.
+I had accidentally used "&&" instead of "||" and totally broken
+the intention of the condition. This has several implications
 
-The history on the fuse approach hasn't exactly been a role model (bpf is where
-things really went wrong), so I understand the pushback from John. At the same
-time, I also read that the earlier fuse problems might now have been solved and
-that there were many misunderstandings.
+1) fuse-servers can bypass the module option "enable_uring"
+   by setting FUSE_OVER_IO_URING in the FUSE_INIT reply, although
+   fuse-client/kernel wouldn't have announced availability of
+   that flag. I.e.
 
-Reading the arguments from both sides, I think we're missing a common
-understanding when it comes to the fuse-based approach of:
+2) fuse-servers do not need to set FUSE_OVER_IO_URING in FUSE_INIT
+   reply and could just send FUSE_IO_URING_CMD_REGISTER at
+   any time while IO is already going on. That has further
+   implications:
 
-(a) Whether a fuse-based approach is feasible.
+    2.1) The barrier in fuse_block_alloc() waiting for fuse_uring_ready()
+         is then bypassed - fuse requests are not blocked until queues
+         are initialized - results in dynamic switching from /dev/fuse
+         to io-uring.
 
-    Are there any major blockers remaining?
+    2.2) The dynamic switching from /dev/fuse to io-uring exposes
+         at least one easily exposable lock order issue between
+         fch->bg_lock and queue->lock. There might more issues, as
+         dynamic run time switching was never tested.
 
-(b) Whether a fuse-based approach is inefficient.
+The change itself is simple, but brings behavior change,
+FUSE_OVER_IO_URING has to be set in the FUSE_INIT_REPLY by fuse servers
+to accept any IORING_OP_URING_CMD. Libfuse does that and the only
+non-libfuse implementation I found (fractal-fuse) also does that.
+Qemu patches for fuse-io-uring are not merged yet, as far as I know.
 
-    Are there scenarios remaining where performance or metadata overhead would
-    be bad without an easy way to improve the situation?
+Also moved up is the check for fch->initialized as a fuse-server
+implementation might try to setup io-uring before FUSE_INIT is
+processed and might have gotten -EOPNOTSUPP instead of -EAGAIN.
 
-(c) Whether a fuse-based approach is a bad conceptual fit.
+Also fixed is a stale comment that explain the handling of the
+FUSE_OVER_IO_URING flag in early RFC versions.
 
-    Will fuse have to carry a lot of famfs special sauce that cannot
-    really be used elsewhere / generalized?
+If there should be a report from any library or application we
+probably need to revert this commit, although slightly modified then
+to prevent bypassing of the module option.
 
-(d) Whether a fuse-based approach is too invasive.
+Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+---
+ fs/fuse/dev_uring.c | 16 ++++++++--------
+ fs/fuse/inode.c     |  4 ----
+ 2 files changed, 8 insertions(+), 12 deletions(-)
 
-    Will fuse extensions to support famfs actually make it harder to maintain or
-    slower on some paths?
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 77c8cec43d9c..eba322f79df1 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -1237,8 +1237,15 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
+ 	}
+ 	fch = fud->chan;
+ 
++	/*
++	 * fuse_uring_register() needs the ring to be initialized,
++	 * we need to know the max payload size
++	 */
++	if (!fch->initialized)
++		return -EAGAIN;
++
+ 	/* Once a connection has io-uring enabled on it, it can't be disabled */
+-	if (!enable_uring && !fch->io_uring) {
++	if (!enable_uring || !fch->io_uring) {
+ 		pr_info_ratelimited("fuse-io-uring is disabled\n");
+ 		return -EOPNOTSUPP;
+ 	}
+@@ -1248,13 +1255,6 @@ int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
+ 	if (!fch->connected)
+ 		return -ENOTCONN;
+ 
+-	/*
+-	 * fuse_uring_register() needs the ring to be initialized,
+-	 * we need to know the max payload size
+-	 */
+-	if (!fch->initialized)
+-		return -EAGAIN;
+-
+ 	switch (cmd_op) {
+ 	case FUSE_IO_URING_CMD_REGISTER:
+ 		err = fuse_uring_register(cmd, issue_flags, fch);
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index d975073c6029..f29bd7432fa3 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1474,10 +1474,6 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
+ 	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+ 		flags |= FUSE_PASSTHROUGH;
+ 
+-	/*
+-	 * This is just an information flag for fuse server. No need to check
+-	 * the reply - server is either sending IORING_OP_URING_CMD or not.
+-	 */
+ 	if (fuse_uring_enabled())
+ 		flags |= FUSE_OVER_IO_URING;
+ 
 
-(e) Whether a fuse-based approach will make famfs harder to extend.
+---
+base-commit: 818bebeb63dd6bf5f4e07e145f6cdbace520a34c
+change-id: 20260821-fuse-fix-enable-condition-df87aa4c25c8
 
-    Is there known follow-up work that will be hard/impossible to model in fuse?
-
-(f) Whether a fuse-based approach will reduce maintenance effort.
-
-    Will maintaining fuse extensions possibly be harder than maintaining
-    standalone famfs?
-
-(g) Whether a fuse-based approach would make famfs more complex.
-
-    Will the shift to user space result in a significantly more complicated
-    overall solution that must be maintained?
-
-(h) Who would help drive the fuse approach?
-
-    Fuse people seem to be willing to help, but I expect that there must be a
-    close cooperation with John to make this fly. I don't expect that John
-    himself can easily (or understandably wants to :) ) do the heavy fuse
-    lifting.
-
-(i) Who would maintain any famfs fuse extensions and own any bugs?
-
-    famfs will possibly depend on fuse extensions that might initially only be
-    used by famfs. Would the fuse maintainers just naturally deal with that?
-
-(j) Whether a fuse-based approach has an end in sight.
-
-    famfs goes back .... quite a long time. It would be nice to close that
-    chapter :)
-
-    Is there an end in sight, or could we end up in the same situation in 6m/1y/
-    ...
-
-    IOW, is there a way to agree on an MVP that won't require a lot of further
-    re-planning and changes to a fuse-based design?
+Best regards,
+--  
+Bernd Schubert <bernd@bsbernd.com>
 
 
-In the past there were plenty of misunderstandings. People can continue figuring
-this out on the list, not sure how well that will go :)
-
-I know that John had calls with fuse folks in the past. Maybe it makes sense for
-all parties (including all relevant maintainers) to have a focused meeting where
-they can go through the points raised above and try to get a common understanding?
-
-Sure, opinions will still differ, but I'd hope that we can at least try to
-minimize misunderstandings.
-
-I don't have a strong opinion on either approach, I think the most important
-part is to find a way forward that will get famfs over the finishing line.
-
--- 
-Cheers,
-
-David
