@@ -1,273 +1,170 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE37E383991
-	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 21:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787608664; cv=none; b=ad9OknWI4yOOR0CO7EnNdHIV4FRMbQBEO2HJCRxMgemBi0eW4Uoenk9BcLBeh44pYUtA/60J6KW8RteHFN8Xs2libiGxX+KMNzjXL20jCXapFpBm/IHG3QZbZJkSEhZa684HVn/AFdJ2c+iyJVtvyXo86uyqj/NugBUo7M+gVo0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787608664; c=relaxed/simple;
-	bh=obWNPYJ7d66NWekxzUnb4y6BJax3a7wT1M2tWe2UTzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nCe/Ju6B98zPrq2Ogitk++ZjqcZmyJ45eIDx3gOX3M+jr6fDtQxAhvEyOk1G5fHUAzXz+MHmScl9dn15gYRNzm2n8vq/8cryTThp4IjBCWjUAfy3OrRjQDzuuIY88IryJmwKTADu6KV1+sEMTPKPKfJPrbNKi7EeADe4kT88QBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bur.io; spf=pass smtp.mailfrom=bur.io; dkim=pass (2048-bit key) header.d=bur.io header.i=@bur.io header.b=FNWWEQmz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lBGAw/I3; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bur.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bur.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16BC3803C5
+	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 23:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787614985; cv=pass; b=O1MX5J1KDmhE1qqpPoZQfv09PNsghK0v29DDSSVYaswtDaHUQbSQ8JywPkFXkhgZo1Z4R0UiYUqPtpgRqTlx1HcpbRbQoiY4StPMEvIznmRFjv7GGd8EbRZvOVbDljqS8wZrSncFYVV+AJF41jWUMrhsl+0fxqPJ9eFgAi4rgTA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787614985; c=relaxed/simple;
+	bh=sHnXZHT8WiiUeAdh+tKiJaengtnfesqTEZdJsUGA+8I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sLySR+CVMTAIARoFTTAdO/X3iF8l6k2GR7npBZVs9Ug1Gv4Bu+akxklvHVxBAkyprCbc0bnEAJF2lVkrdCSTpgK77e8PuQBIRLcMA9RV+GB++a6lsI/D+D42/6D2eeCy64hrnjtco+Buk/WHpZqEiqbUZgimFw3HPcsyZUuSXyc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NpRm02D7; arc=pass smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bur.io header.i=@bur.io header.b="FNWWEQmz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lBGAw/I3"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id EC0D11400077;
-	Mon, 24 Aug 2026 17:57:41 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Mon, 24 Aug 2026 17:57:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bur.io; h=cc:cc
-	:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1787608661; x=1787695061; bh=br0ZJAK4IX
-	Iy8kwo/WXMM3d+veAzs8uRALVZi5vGptg=; b=FNWWEQmzEd1qyyWvePwgFcmcRh
-	SdTDISybhfuzBDdmuAewb/cNV6JpywabKgINVGDt/mXC5iKLkoixZCqYTKSelNPv
-	ID0CdT8x+xKk2a7u/Qz7eYSUC1zDP0YEjo9ovUSxa6Agb02107/i6t1pghkfTNo4
-	S/aayMIdKpP+GmjCY2zjGCmLuzD+6jveuz9D6APJkZD7WgiXR6P1/8AEptFFgA4H
-	6a4SUGB/lto+DQ4FZIn9jnXlxjpTtB+M/WYty/5vF23TL13CwGLIl6z3r+4pEq/h
-	OO+CHgFFDFZlJhV1Y7ketuL1Mn3uDE5XqvQMVf7MH0ySgg/VH1g2AFw4lA0Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1787608661; x=1787695061; bh=br0ZJAK4IXIy8kwo/WXMM3d+veAzs8uRALV
-	Zi5vGptg=; b=lBGAw/I3t+Yi/Sa+CxZeHVLqcCILr01czD893qqjA/TQO2J4IIw
-	gVRcqlfrl7adfTsSSDhyCO1z0e6UeRN8DBRx61Bt54/oL19d+wlImKQCzHpG4ebk
-	bs2Hmwj3sjRVqC9i7JAMUtLpo5YDTmgvAg7Ty2DsT4SRlFRbtaV103OTSxps17F4
-	1/jZhb8e1zOXuhkm3TfZkLF5t/I8ewYwJD/yl7H3N4GHyqrQ6dWrxKOMepJxtd+V
-	iybomIDebQNbzDC8OYaoWtRaYf1STThFACe8GhfTsQrzhikbbeL7a8LKW+imudS9
-	1lCaPnsW07m3pFu7NBbxZJe0TMVX0uW7yoQ==
-X-ME-Sender: <xms:Vb6MalmfLtI5O3lhLKcjJBpP5ZQHMiyr9OdA7Tdj-KidFuypOQRBHg>
-    <xme:Vb6MavO4gshkSaUOWeUmZCS4bIluvEcak3ALc9fEdVyoCGcxqoGBGkioGd7UY8MBB
-    xPHx9kYhixyxOi2jblgox_CKME1Et5-33PT8HD5r7R41bhxXSJznvFw>
-X-ME-Received: <xmr:Vb6ManrKQoe3zrAuft29csb52t9_1qGksWDUCPA2Uu3l_9rUI71v-dX0KmNRWFZRuvRlFSgmJqxOJbRQXzfh5Rl4OmY>
-X-ME-Proxy-Cause: dmFkZTGqEyykA1sOnyeBdFBZbfPmYjAPXliUF3xVtonO1PONGbI/HUGTKz6CIcPE+ajJlB
-    NRtYDck65qi3MRs/v8pzQmypGRsZnzqLrTPndbJdH0iMs1/XferK9Goja2IhbuucbvTeio
-    8llUXcBogYs8jeock4al/vTTHwQMI8F20qW31IP7lUOqoxCtO1FlvbDi+N6vYBf0AtuHYC
-    7T8hWs3larCSIVbNRk90Chci+p1tEbOw0kOHJBezbzGjy/LoOrwIv6fFy9Rt0gkFZYJr/+
-    sVOYT9XIYiN/uRpl+moQAzWBuRCvhNb1BKtrEQ/nMKescxsUFQx3y6BtJY7woG1AyXyRY4
-    WQrwGGkB4FAANePkMLJvqrgeghrxhIhk6yku5ckvUjzvWjULHY2tjiFr645hy4CRDoksui
-    Ovyh6g9964Dx/QNTR67/D6ZfdRVVTCebqaSia7BlC/LYInTMZM6lVpuFZeU2JaJAovOMiJ
-    eWvKOGHING1/fEtAQ3TZ44gRNp/N15HgZALUY6lVOcfoWxY7Yh4ZKUIAwNoL5cPX/yHNEI
-    dZUIhEJHn4Idf1f+3nTmbYo9i+vVsCDQXL8o685j6dtPl7NtWPttejm8nImb+s4SsM5twl
-    Y1L8+7Vfud+fozVFi4u8vSHoxFtG6LbO8WNNYIy2CY8fWyAEwN6FhC6esujA
-X-ME-Proxy: <xmx:Vb6MaotoLc5Iylk5B3iqY4LVqkDX5waHOQx8_FVFV2BbPZ4X9WlamQ>
-    <xmx:Vb6Mar6GMInl1Bg16G_pevTsi0NFwJQQShIEap_ntUGiPbZlqHwckQ>
-    <xmx:Vb6MahTH7sc7AdPsKNDf2HLH7AIDMtgk9h5amFGI2sQf4kprdkaMpA>
-    <xmx:Vb6MajnJsAQ4_iHX2Ra1JlfwYjgRLsPZJqYR60rbpMPkbBrOgbUeGw>
-    <xmx:Vb6ManxzZpL2hhuKnDhTCvNtQwDsEsq-Do7OwmbG9vZbFUEUQzrwfIWi>
-Feedback-ID: i083147f8:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 24 Aug 2026 17:57:40 -0400 (EDT)
-Date: Mon, 24 Aug 2026 14:57:13 -0700
-From: Boris Burkov <boris@bur.io>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	fuse-devel@lists.linux.dev, linux-nfs@vger.kernel.org,
-	devel@lists.orangefs.org, Pavel Begunkov <asml.silence@gmail.com>
-Subject: Re: [PATCH 3/7] btrfs: Use filemap_invalidate_pages()
-Message-ID: <20260824215713.GB3664690@zen.localdomain>
-References: <20260820193343.3852967-1-willy@infradead.org>
- <20260820193343.3852967-4-willy@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpRm02D7"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so24838545e9.3
+        for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 16:43:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787614982; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OyweMqhXbWxyWsJTx/Z/F1qx/ENu8Q0X6Z5niuEDkeG9xzFCvp20G49hgRkm50CUXK
+         hyh8GbigYslzV8W79mPeeVfVHa2J+gaKiqEIIzJ+qDd2lRAamRJFXbw0Edf1Vfiy8xty
+         SWHytZ6cCpUa/h1TPL9nLD+5RjczecryU1jeCT5yFwjyk/JYVTBDPhQxCJFeqrKwFOkJ
+         45IsylR/hjzm9yRZhzn6AdZRToLjhxj1s2G4ihOZn7aW1wn2jAfYDxxPMB7qxNEN7hWo
+         W0VRfpFla40bezooyYU/Lssv4/YZTorieojeJLcp9jCJXBZkqojS1b17e6t/TWRfegRU
+         a8Bw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sHnXZHT8WiiUeAdh+tKiJaengtnfesqTEZdJsUGA+8I=;
+        fh=PHsg2IQJSyJo2HpekVcqcXp704eNtAyY4yqDXcDTXJQ=;
+        b=NPN8y60G+YvEkwH9rbmZonu1X1SwseRsZT8tM9yPsTTjjtHb93X0ybCd5ugU3L2vaR
+         ZPB6MqUnU88GofnnaeWZDxcD8TxiucbX+0GUWc6kiYWJzHQNDAmRs37s1upqKL2pAk8J
+         V4S+AiRYuE+iqCfc5KnhQUnYfGpKHZvUO/6+Iq9lI3Yn9vellseuxUMc5V7TWRkQHVvy
+         ecz+VgrurTmSj7IxY9UHgYC0cnw8sEWla7zOgmIXj1wCXYMxSQGWmDep2F3pBuTbWKdz
+         1zlk0fhO0mHGhb/fBttSWiNvCw/DoV9OOKkgxpsfkBM2khMAshwZvsA21bkxZEE3ZuxQ
+         n0Mg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787614982; x=1788219782; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sHnXZHT8WiiUeAdh+tKiJaengtnfesqTEZdJsUGA+8I=;
+        b=NpRm02D7bI6hFkdOIrfwlHuXM5X/MDkKaCE1FknPc3qtjo31CuVhSYAB4CSKDmP8wk
+         MMGv40CwG3LAmAZFdGqRLGiVCuMAYqyfFcxnjxvQJtGEAfdZQo/rX1pmE/0C2SxykEKV
+         cVpq1TQ897bI74mgjuK+Tx+2HYDGKYrh1JGhK1jpX+4Jf0yiFay5JRRHfBbWWavFQxXC
+         fKmQo3V8Ix1KvpsoaCzUWE9Wga59ZkmCbDfmBYweIBiz2aQ2VDdChgGp8wqpKbil0eGX
+         3KdvYVNddC8XvHhQn8ux/1aCUrRfyDbsqA0jNGnndNzXRJt7fvFZiHX1HmQlMTp8FjaM
+         SNUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787614982; x=1788219782;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sHnXZHT8WiiUeAdh+tKiJaengtnfesqTEZdJsUGA+8I=;
+        b=ntjuTESbwZwP7GD15gBP7F/Wf85HOIHfegiejERM8TC+ZHkC4LrKbTfJUn4F7A7efo
+         dIM8cHm4jGbvgoVyvm+8iZLEu7/IQ1jNa09zbUlxrlriXdkSzb5PjbQfXAG3KlqX/jfZ
+         jt+QLBMv3Y4g73dmup5UAcbpL9UkqdfbzTzAmXmZduNSjsVToh5hfGB0IVgb0P/VR6Qz
+         ZyMnt1uVoYsD6MOJLEvTRY8ObSP3Hz/vz+w+k6kZiDukHgVOkT+AdXsK/Uf70x2YMlYn
+         G1J/037l4bEjmQotL43JVGG0t16Zqy3crX3u4btCa6z2LoT+TmhgF0CUF+pLJjxtx5HS
+         Ncnw==
+X-Forwarded-Encrypted: i=1; AHgh+RpQLAiWARZ2bFNF7CKiKK5uZC+L7GY9Jx4DkIvSYF/aJKTcqgjbpDSEKfjdJOknleQ45lJSZQcgTXko@lists.linux.dev
+X-Gm-Message-State: AFuF++nGDzIklD3qGpQ+0zHo0JB8o06eugXpiI+uNEOwQR+rgWc5EdJv
+	x+UR1FfqUNloRBgN9OTdiBWOKk3HWDupaK5xuDCB78RvYKsZizjTrpsQWvujkrogbxCimY39X3y
+	TqaZKhDLqBJA8OH1li4aLhZxmm775sIE=
+X-Gm-Gg: AR+sD12DeMz5hLhYwzvBA8oFLqoFKtIZL6Al2VD+RshAqCXNQvlCCT7Y8INwzPbnrBi
+	cl02YFji1/Pb+pMfhq4PeUlYsSQrGacy5Z11GZ/1jE6pTQtbm9GVrw70ap0+HGMi5M9iZ1wwlm3
+	RGSaQTebZTufN0tG4nXGYenjIYtV9yzwoQVnaRLXYPEroI4M5bIAbYC2cdAXCQrCAEb1v++sG7r
+	eRFutaGG8D+vnRb0cqDBrmjEi6b/pedDblyLHWO9OCWVr6Qs1udMCme3odsQ9u020Af2UPz4Niq
+	2yt9UX1lrqFYpQ9yVMMwbRhRGKW0DCqCXXqA5zdXoIKJbBrjfMRtkXmVdRqPuNUv0GEdPn+r7sZ
+	H4jMuLuiQqMGFNLAqL9tUBnFmO5g=
+X-Received: by 2002:a05:600c:5294:b0:499:7f38:d77 with SMTP id
+ 5b1f17b1804b1-499b830f690mr402396315e9.6.1787614981730; Mon, 24 Aug 2026
+ 16:43:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260820193343.3852967-4-willy@infradead.org>
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+ <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
+ <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
+ <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
+ <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com> <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
+In-Reply-To: <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 24 Aug 2026 16:42:49 -0700
+X-Gm-Features: AcwNN1Wa1AOcfS35Y1v_bgY_n2l1WDv-MkAP-PHL7EYAY7Mw9O0j_aJCxbHrZ54
+Message-ID: <CAJnrk1ZU1UO35n46acq9My77G8=h3JUCLXchiamBCFbiDZXJzg@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: James Houghton <jthoughton@google.com>
+Cc: Yosry Ahmed <yosry@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, 
+	Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 20, 2026 at 08:33:36PM +0100, Matthew Wilcox (Oracle) wrote:
-> btrfs relies on invalidate_inode_pages2() /
-> invalidate_inode_pages2_range() doing writeback by calling
-> btrfs_launder_folio().  While this works, it is inefficient as each
+On Fri, Aug 21, 2026 at 6:39=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+>
+> On Fri, Aug 21, 2026 at 12:41=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> w=
+rote:
+> >
+> > On Thu, Aug 20, 2026 at 4:39=E2=80=AFPM Joanne Koong <joannelkoong@gmai=
+l.com> wrote:
+> > > Would you be able to share the test you're using? I've been trying to
+> > > repro it locally without much luck.
+> >
+> > The exact test uses some internal testing libraries, we're looking
+> > into whether we can translate it to a standalone C repro.
+> >
+> > From a high-level, the test:
+> > - Creates a VM with 260 MB (256 MB for testing + 4 MB margin) in a
+> > cgroup, backed by shmem THPs. The VM is not a fully fledged VM, just a
+> > KVM VM running bare metal code (so 4 MB is enough margin).
+> > - Enables zswap in the cgroup.
+> > - Tells the VM to write to 256 MB of its memory.
+> > - Checks the cgroup shmem usage and that no swap occurred (no limit).
+> > - Sets the cgroup limit to half the VM memory.
+> > - Checks the cgroup shmem usage and swap again, usage should be ~half
+> > and so is swap.
+> > - Tells the VM to read the 256 MB of memory again. This should cause a
+> > lot of thrashing and reclaim, but no OOM kills as all guest memory is
+> > reclaimable.
+> >
+> > With the ratelimited flushing, the test started flaking 5-10% of the
+> > time due to OOM kills.
+>
+> Hi Joanne, Yosry,
+>
+> I've attached a reproducer for you (as a patch that should apply to
+> Linus's tree).
+>
+> In tools/testing/selftests/kvm, `make` should build it. Instructions
+> for running it (like setting up swap/etc.) are in the comment at the
+> top of the file.
+>
+> As part of the patch, I've also included a sysctl to dynamically tune
+> whether or not the memcg stats flush is rate-limited. You should find
+> that when it is rate-limited, OOMs occur, and when it is not, OOMs do
+> not occur.
+>
+> This reproducer behaves slightly differently than our internal
+> version. This version, when run with `-b 512M` anyway, seems to OOM
+> simply by setting memory.max, whereas our internal version would OOM
+> upon re-accessing the memory. Not really a meaningful difference, but
+> just wanted to point it out.
+>
+> Please let me know if you have any trouble running this test or if the
+> test is wrong in some way.
+>
 
-I don't believe btrfs_launder_folio() is doing writeback, it is just
-dropping otherwise leaked qgroup reservation. So this part of the
-commit message feels inaccurate to me, at least.
-
-> folio is written back and waited for individually.  Far better to call
-> filemap_invalidate_pages() which will do a bulk write first, then remove
-> the page cache.
-> 
-> With this done, btrfs_launder_folio() no longer needs to exist so
-> delete it.
-> 
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  fs/btrfs/direct-io.c        |  2 +-
->  fs/btrfs/disk-io.c          | 11 +++++++----
->  fs/btrfs/free-space-cache.c |  4 ++--
->  fs/btrfs/inode.c            | 12 ++----------
->  fs/btrfs/volumes.c          |  4 ++--
->  5 files changed, 14 insertions(+), 19 deletions(-)
-> 
-> diff --git a/fs/btrfs/direct-io.c b/fs/btrfs/direct-io.c
-> index 460326d34143..4bb5890d0898 100644
-> --- a/fs/btrfs/direct-io.c
-> +++ b/fs/btrfs/direct-io.c
-> @@ -115,7 +115,7 @@ static int lock_extent_direct(struct inode *inode, u64 lockstart, u64 lockend,
->  			/*
->  			 * We could trigger writeback for this range (and wait
->  			 * for it to complete) and then invalidate the pages for
-> -			 * this range (through invalidate_inode_pages2_range()),
-> +			 * this range (through filemap_invalidate_pages()),
->  			 * but that can lead us to a deadlock with a concurrent
->  			 * call to readahead (a buffered read or a defrag call
->  			 * triggered a readahead) on a page lock due to an
-> diff --git a/fs/btrfs/disk-io.c b/fs/btrfs/disk-io.c
-> index 2f1666d9544e..2cf9189225c9 100644
-> --- a/fs/btrfs/disk-io.c
-> +++ b/fs/btrfs/disk-io.c
-> @@ -3304,7 +3304,8 @@ static void invalidate_and_check_btree_folios(struct btrfs_fs_info *fs_info)
->  	struct extent_buffer *eb;
->  	int ret;
->  
-> -	ret = invalidate_inode_pages2(fs_info->btree_inode->i_mapping);
-> +	ret = filemap_invalidate_pages(fs_info->btree_inode->i_mapping, 0,
-> +			OFFSET_MAX);
->  	if (likely(ret == 0))
->  		return;
->  
-> @@ -3339,7 +3340,8 @@ static void invalidate_and_check_btree_folios(struct btrfs_fs_info *fs_info)
->  		rcu_read_lock();
->  	}
->  	rcu_read_unlock();
-> -	invalidate_inode_pages2(fs_info->btree_inode->i_mapping);
-> +	filemap_invalidate_pages(fs_info->btree_inode->i_mapping, 0,
-> +			OFFSET_MAX);
->  }
->  
->  static u32 calc_block_max_order(u32 sectorsize_bits)
-> @@ -4739,7 +4741,8 @@ static void btrfs_destroy_delalloc_inodes(struct btrfs_root *root)
->  			unsigned int nofs_flag;
->  
->  			nofs_flag = memalloc_nofs_save();
-> -			invalidate_inode_pages2(inode->i_mapping);
-> +			filemap_invalidate_pages(inode->i_mapping, 0,
-> +					OFFSET_MAX);
-
-I believe that this was the original motivating call to
-invalidate_inode_pages2 that I cared about. The context it runs in is
-when the filesystem has failed on a transaction and needs to invalidate
-the remaining dirty pages that have delalloc associated with them.
-
-I am trying to figure out if trying to force the writeback in this
-semi-failed context will also result in freeing the reservation, and
-also testing this patch series on the test that I originally fixed with
-launder_folio().
-
-With all that said, thank you for working on cleaning up the mess I made
-by adding this "creative" usage of ->launder_folio(). Hopefully we can
-figure this out cleanly.
+Thank you so much, James! This is very helpful - I will run some
+experiments with your repro this week.
 
 Thanks,
-Boris
-
->  			memalloc_nofs_restore(nofs_flag);
->  			iput(inode);
->  		}
-> @@ -4837,7 +4840,7 @@ static void btrfs_cleanup_bg_io(struct btrfs_block_group *cache)
->  		unsigned int nofs_flag;
->  
->  		nofs_flag = memalloc_nofs_save();
-> -		invalidate_inode_pages2(inode->i_mapping);
-> +		filemap_invalidate_pages(inode->i_mapping, 0, OFFSET_MAX);
->  		memalloc_nofs_restore(nofs_flag);
->  
->  		BTRFS_I(inode)->generation = 0;
-> diff --git a/fs/btrfs/free-space-cache.c b/fs/btrfs/free-space-cache.c
-> index e2af75a205ea..a5d5eba2c85d 100644
-> --- a/fs/btrfs/free-space-cache.c
-> +++ b/fs/btrfs/free-space-cache.c
-> @@ -1307,7 +1307,7 @@ static int __btrfs_wait_cache_io(struct btrfs_root *root,
->  				io_ctl->entries, io_ctl->bitmaps);
->  out:
->  	if (ret) {
-> -		invalidate_inode_pages2(inode->i_mapping);
-> +		filemap_invalidate_pages(inode->i_mapping, 0, OFFSET_MAX);
->  		BTRFS_I(inode)->generation = 0;
->  		if (block_group)
->  			btrfs_debug(root->fs_info,
-> @@ -1500,7 +1500,7 @@ static int __btrfs_write_out_cache(struct inode *inode,
->  	io_ctl->inode = NULL;
->  	io_ctl_free(io_ctl);
->  	if (ret) {
-> -		invalidate_inode_pages2(inode->i_mapping);
-> +		filemap_invalidate_pages(inode->i_mapping, 0, OFFSET_MAX);
->  		BTRFS_I(inode)->generation = 0;
->  	}
->  	btrfs_update_inode(trans, BTRFS_I(inode));
-> diff --git a/fs/btrfs/inode.c b/fs/btrfs/inode.c
-> index 2534cd9284d5..a1bb73f083aa 100644
-> --- a/fs/btrfs/inode.c
-> +++ b/fs/btrfs/inode.c
-> @@ -7616,12 +7616,6 @@ static void wait_subpage_spinlock(struct folio *folio)
->  	spin_unlock_irq(&bfs->lock);
->  }
->  
-> -static int btrfs_launder_folio(struct folio *folio)
-> -{
-> -	return btrfs_qgroup_free_data(folio_to_inode(folio), NULL, folio_pos(folio),
-> -				      folio_size(folio), NULL);
-> -}
-> -
->  static bool __btrfs_release_folio(struct folio *folio, gfp_t gfp_flags)
->  {
->  	if (try_release_extent_mapping(folio, gfp_flags)) {
-> @@ -10027,9 +10021,8 @@ ssize_t btrfs_do_encoded_write(struct kiocb *iocb, struct iov_iter *from,
->  		ret = btrfs_wait_ordered_range(inode, start, num_bytes);
->  		if (ret)
->  			goto out_cb;
-> -		ret = invalidate_inode_pages2_range(inode->vfs_inode.i_mapping,
-> -						    start >> PAGE_SHIFT,
-> -						    end >> PAGE_SHIFT);
-> +		ret = filemap_invalidate_pages(inode->vfs_inode.i_mapping,
-> +				start, end);
->  		if (ret)
->  			goto out_cb;
->  		btrfs_lock_extent(io_tree, start, end, &cached_state);
-> @@ -10782,7 +10775,6 @@ static const struct address_space_operations btrfs_aops = {
->  	.writepages	= btrfs_writepages,
->  	.readahead	= btrfs_readahead,
->  	.invalidate_folio = btrfs_invalidate_folio,
-> -	.launder_folio	= btrfs_launder_folio,
->  	.release_folio	= btrfs_release_folio,
->  	.migrate_folio	= btrfs_migrate_folio,
->  	.dirty_folio	= btrfs_data_dirty_folio,
-> diff --git a/fs/btrfs/volumes.c b/fs/btrfs/volumes.c
-> index 6eab4cc73ce4..0301465ab87f 100644
-> --- a/fs/btrfs/volumes.c
-> +++ b/fs/btrfs/volumes.c
-> @@ -1370,8 +1370,8 @@ struct btrfs_super_block *btrfs_read_disk_super(struct block_device *bdev,
->  		 * Drop the page of the primary superblock, so later read will
->  		 * always read from the device.
->  		 */
-> -		invalidate_inode_pages2_range(mapping, bytenr >> PAGE_SHIFT,
-> -				      (bytenr + BTRFS_SUPER_INFO_SIZE) >> PAGE_SHIFT);
-> +		filemap_invalidate_pages(mapping, bytenr,
-> +				bytenr + BTRFS_SUPER_INFO_SIZE - 1);
->  	}
->  
->  	filemap_invalidate_lock_shared(mapping);
-> -- 
-> 2.47.3
-> 
+Joanne
