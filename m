@@ -1,161 +1,94 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B29DB399D00
-	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 07:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787557276; cv=pass; b=W2e/5oLgJpe9KX+0F0SBieju5WrolCnwV5DoKx/1oE41KTpFCf+iSnHMdVS+Fzscq+XbkPRwrNrbdKFhDrN9KftytcGX/k2N+i5wGuRQ7Wume1fzneMoAKjI7RX3P1EGkY5qmcqL/7wdokpLlfUZYVbQWitooHsPy/ifWzwB+eo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787557276; c=relaxed/simple;
-	bh=mdsvrY0ISPRS0P8l6Q2ATVhO2qJcd3GXtM94ZK/661M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KV9ksOM0lugrjFGsTlM+od8QGKiUEc+ZbfrMQs1GPeDVxJX4SUhEx3mnfq7gnTjV3xfQ0pZsBKThFxxUQylA2qqKli8vviVVftU6ph3k7gRRqm54vEUEQXSIe9OxujPSj3PAF/6AHpE4+D7d3ig/inDcwZAXkxNdwDg+2EejeQk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=qngrBtqL; arc=pass smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2918627AC31
+	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 07:59:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787558400; cv=none; b=SmXOVfANd/ZR4rdrfUdJLIk45KOAxTZcxDB0Y2RTsIVWfoH/wLVacd1+eis/LXoHWJPOFEylMdZr4l3Op1sOVi0r8j+JiL0ytZbmFqKiiRWtD1sa5XGd7smJ0zedhMuKICkmyeAeykFiGw7lMQXaKoZoWpm/XT2gZe4IrGzz+vE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787558400; c=relaxed/simple;
+	bh=eZpQ0TZ4cH4ak8aYBG05InfCfhzvlFPRWZB982fA9/g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=txBXYPD9SY/YHo+GtftKx7LEBjEwXtFABniv08e2pXMKNmvFvZ+XNXmrAam2FVrhMt+mh447+yDZdKvsM0Bik/ECE4uJXnh6/GgdW0+K2icVfIbrBdTwXvGwbyUi36UTWt12ER+J2vGeBVe0p8OqH45VwcOI+yEaUJLVLWKMEeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=l3/hi+bF; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="qngrBtqL"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c08df8513so19135601cf.3
-        for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 00:41:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787557272; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WZ603Y6q0A9BxFJRq3a4TGURZbLdbNm1wpov4QzSZMc5nGeuCiOycFuEdUBrVHX+Tf
-         oB6D+Umz5QQ6EEQaanMB6HRWg5q1iBLK+HTUVBZMa9M0iuywwV5w/qEBfQimX+M4q1qA
-         apXIlNyo0EPRzLjpQZ+zCvhaheM/90IW7YIManpgZZ7faGa/jNnt2C9HbeEgg6MeB5Pl
-         5wHPlAvBjN92cSmqbXFGh1Mi0ORqFGnHTiRBLsaGC71wHOqtg2KCGTw+5hT2ngqa66q+
-         ysqPTHAdyA34GIFBfwU7xEiDwIenQOLIQDNtadOdg1GobazUyN5JTmjNABK8JLY5AbKI
-         N3WQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Klk3k/9iOZSzHajoiDP/ePmCKQpQct/Ey07OIgVaiL8=;
-        fh=TrszWY8bYTROaTxP0Aytr+rO62szQJG+3s1FkAv/VUo=;
-        b=dgEhf+dvcs7VAcM+UF9qydfQdLQT9cGvXarG1G0EL7rqPuHIfZ2TGGQrZ6e/qMfuG+
-         DjeR6iTGgTUnyDte9yn+l9ikPubk9JKDXTKlA5Xvi82n6dK7Tw4cO5Ala2Z/etMRdnPH
-         sIpqwmtFwDyxbJ7rGvhcV1RGqwfFMkfje0zLJWd5tZBLjbCYCILjMXJ3oHibuLp6bJPc
-         dn2wgtewMZMpvtSOQdE6lgCqa69yj5eOKobJMNtXGqahys0J2PSZi4zZY8go5vG8kXH6
-         IIVXWsafrSFUU8B/n1q94qo0VFl9jiTLOxE6tWPNbLqgITntsBG0kQz3nbpG3YA7hQEQ
-         j73w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787557272; x=1788162072; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Klk3k/9iOZSzHajoiDP/ePmCKQpQct/Ey07OIgVaiL8=;
-        b=qngrBtqLyfKVeKCmJLlqZG65oS2ctUz9DMBBykKdwQ8Zw4378TivKRy5CO7Ck91P96
-         V7OAqF5W5vDE4iU6j5ff9kfrN180WZq0X5ECQHtxTBAK/ng/Ac1hmg2aNAapC4O6TM3M
-         xCSVHwtlgrgz+EuWpEgCT/g2yor3/lg2N56aA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787557272; x=1788162072;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Klk3k/9iOZSzHajoiDP/ePmCKQpQct/Ey07OIgVaiL8=;
-        b=JfFi7xxjyatQcT2quCMFYul2pKUDCJLOpCb5WcnD9MdTIpq9bg4N+XNw0zQWB0W3ZW
-         QGfrFwfxtuSExU0LBpTlsQwh58Bl8n2h0WHpaJXG5Yf5oDEJ8werCUKBYBc6chUaVHBU
-         YmsOHpqj4Tmd5ryZtwW4SIk2cLPxUvq+eEKgnk3xTgyF2LnIhM94VWMGqpKFBMzmCoz4
-         30Lpt8f/My4hnp28GfX/vHke1Fjwrq241/DPLkwAJwdvtTTEmTjx9xNldsfMgP30QSUI
-         5zMk5bfzls7DNqfhvlhj2xqqZCTz+1MMZ9xqQBkJ5mwDTkWbDJ5N9BhsiEbrSPl7RcHg
-         YeiA==
-X-Forwarded-Encrypted: i=1; AHgh+RrhsNqfNT0VeYYSY+BJjCaGF1tsZd/YAH7dub/8kmUgf8BxIJOvp4gsaDNOUEciSTZvxkVtMPTGccTG@lists.linux.dev
-X-Gm-Message-State: AFuF++m0kY465JBI4PwdA9+xIVoT5HZKsXCnwidqdUx8K/mDb5VSwLJl
-	O7LWHINfM/uBV+5LhxpEqBsyIkdpa+PJR00wBxM//zcNQRsqIwp9AaLCCE0eEIqXWjC91ta4Fvk
-	SiU6dasZHYb1vFcjYpD+w13vwUqeRa4Diy8lCqv6DzQ==
-X-Gm-Gg: AR+sD10rC3MJX/lthLKPv6+J1dlEPbtcxux/O7LdDaZVcopWB3fL1Opllu8sIqxaaz1
-	AhRtKOcGAtR6qR3GN3O/p1/T3dDdRyGCZyG3Khp7R6xg5mWqygiLghnGi27BLwOlqw+YKe56TNp
-	eh6+Q+QNCJVGTiElB8Cb3DSHBJV5svyQXPxrbAT05xhVSYGzHLAWfFFfxgbWtwxLXi7a1eCxgkC
-	GKtPqBfTy3TNxlOOS4SteraQu1Sq9BAlWbMdkcwVcT4P5cEyBkEA/He0Gh0EYsXYLqYaSMKQUuA
-	nLxfxSBE6OD7dusZ6S/pg8orYnSXZnXY0qljg8mL11sFfDpDNpKDeTc0+jgcyERhYr84Cd39Q3+
-	aq6M=
-X-Received: by 2002:ac8:5815:0:b0:51c:1117:c6a with SMTP id
- d75a77b69052e-52df56f0b73mr226396731cf.4.1787557272431; Mon, 24 Aug 2026
- 00:41:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="l3/hi+bF"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1787558390; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=eZpQ0TZ4cH4ak8aYBG05InfCfhzvlFPRWZB982fA9/g=;
+	b=l3/hi+bFynKOuYqsVH+7DlNqdh9ntiDg+VNx2D3X+FOAA3ks8CucPsGkUc1oRxxr5SA/HMGa1h6d9RZMmIeQR11MZXid3ZDRHygTkWzJlHaX9i8ZkerH0+rvI+rdS1fpr/e/GG9OH8Cx+HICCj/8vnnpdLFzKYK2kUFM96HjkG0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam011083073210;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=8;SR=0;TI=SMTPD_---0X9VKbr4_1787558389;
+Received: from 30.221.131.155(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0X9VKbr4_1787558389 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Mon, 24 Aug 2026 15:59:49 +0800
+Message-ID: <ba933500-eab4-4ee5-b276-2e155cd992ba@linux.alibaba.com>
+Date: Mon, 24 Aug 2026 15:59:48 +0800
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com> <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs> <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner> <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
- <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com> <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
-In-Reply-To: <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 24 Aug 2026 09:41:00 +0200
-X-Gm-Features: AcwNN1XWfONgBRIlU-yXy6CPly98fZpO_MCf0GW5eGggOdo-Gs861y_E4L66dCQ
-Message-ID: <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-To: John Groves <john@groves.net>
-Cc: David Hildenbrand <david@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	"John Groves (jgroves)" <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fuse: Fix the condition to enable over-io-uring
+To: bernd@bsbernd.com
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong
+ <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev,
+ Thomas <thomas.fractalbits@gmail.com>, zhu <zzsheng@gmail.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, stable@kernel.org
+References: <20260821-fuse-fix-enable-condition-v2-1-35a386d3d443@bsbernd.com>
+From: Baokun Li <libaokun@linux.alibaba.com>
+In-Reply-To: <20260821-fuse-fix-enable-condition-v2-1-35a386d3d443@bsbernd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, 22 Aug 2026 at 23:55, John Groves <john@groves.net> wrote:
+Hi Bernd,
 
-> Famfs does work in fuse, but some of the asks are things that I don't see
-> how I can agree to. I think Miklos and I should discuss those 1:1, to figure
-> out if there is a way forward.
->
-> I think the virtual backing-dev thing is a non-starter,
+On 2026/8/22 00:19, Bernd Schubert via B4 Relay wrote:
+> + /* Once a connection has io-uring enabled on it, it can't be disabled */
+> + if (!enable_uring && !fch->io_uring) {
+> + pr_info_ratelimited("fuse-io-uring is disabled by module parameter\n");
+> + return -EOPNOTSUPP;
+> + }
+> +
+> + if (!fch->io_uring) {
+> + pr_info_ratelimited(
+> + "fuse-io-uring not enabled on this connection\n");
+> + return -EOPNOTSUPP;
+> + }
 
-The virtual backing-dev is an abstraction.
+This combined with the REGISTER error path can hang IO when the ring is
+already operational.  E.g. 100 entries, the 100th REGISTER fails after
+ring->ready is set:
 
-Is it sufficient for you if I promise that this is going to do the
-same thing as the standalone famfs at the same performance level?
+  new request:                        server fetch:
+  fuse_send_one()                     IORING_OP_URING_CMD
+    fiq->ops->send_req()                fuse_uring_cmd()
+      fuse_uring_queue_fuse_req()         if (!fch->io_uring)  // == 0
+        -> queued, no consumer              return -EOPNOTSUPP
 
->  and I think that the famfs
-> portion of the fuse ABI basically can't live without extents that are
-> (daxdev, offset, length).
+The error path clears fch->io_uring but never reverts fiq->ops, so
+requests keep flowing into io_uring queues while COMMIT_AND_FETCH is
+rejected for all 99 active entries.
 
-Sigh.  My proposal was (backing-id, offset, length).  Again this is an
-abstraction.  A backing ID can be a daxdev, a striped logical device
-or it can be a block dev or even a plain file.
+Maybe only tear down if the ring never became ready:
 
-> Also, I'm curious: if you don't know of a use case for the striping code outside
-> of famfs, why ask famfs to completely rewrite that?  (and I agree, other
-> than the eventual remote possibility of competing 'famfs-ng' fuse servers,
-> I don't see much likelihood that this piece will be shared.)
+      if (err) {
+          if (!fuse_uring_ready(fch)) {
+              fch->io_uring = 0;
+              wake_up_all(&fch->blocked_waitq);
+              pr_info("[%u] fuse-io-uring disabled on connection err=%d\n",
+                      fch->conn->dev, err);
+          }
+          return err;
+      }
 
-Because the striping feature fits much better into a virtual device
-API than the extent mapping API.  This is how striping has worked in
-linux for the last 30 years.
 
-> Miklos, I trust that you are a good faith actor, although you seem to be
-> spread pretty thin. Can you commit to a series of 1:1 conversations with
-> me to try to work through the disconnects?
+Regards,
+Baokun
 
-Fine, let's find a time.
 
-Thanks,
-Miklos
