@@ -1,176 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4914B43553A;
-	Mon, 24 Aug 2026 14:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB4141B8E4
+	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 14:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787581521; cv=none; b=P5Q1htna//nQCCMefrEI8EZ7m8TB3hh7FPTnkBlxyoqZM0jsWkB6eDBcimfkVSHc/NHlW1CadTE4Dxj/BOzTX+JeLW5ktiSwUiuznEBftpGqoz4WL8gCNaQPrUVSggc8hgQ11evpyebYnEM4VVkRaEwuTHy6jG79tXUM6Pw8UmQ=
+	t=1787581872; cv=none; b=qBenBpC/ntCOsHjW5KJQu2Ek7kLjwiRTPyRQET+byFga/KxZn48GyCFE4OXPiiWhvuawmHXhFaur2k1he7YJEAMUmjZIYnbR08WLc3qXiDgtavPt0U1msglzd9pyQx1EHcaI+8PIDTkkL6Cv5cN9gFfBbR+/Sf146g5f5i6BydQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787581521; c=relaxed/simple;
-	bh=esKFE2dLfD7i26+NbesYp0TnsWSV4i+ufozFlUg2USE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iEBcJV6zCt6vj9eBKWa1Me3eQ7CMqedS8wSK1T7+tBQjmv6Oj4rrIxJNK0t5bqaxRgvOdueKy92MRGihJ1YpkDCxkYFx2l0n1VRKPEVIMGbamPTYuQDq9Fg14awE6P4AFHK7MWkRs7TN/E/U7fVcn1gDMppirntX4ayIw5fDnzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G+KJ2E6T; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787581872; c=relaxed/simple;
+	bh=XVEK7EY1wWtjtsyn0MPN/WQ5HzdK5BbHbhtTV/4UEg8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lS03wqiW3KZ5pCX2/iYacht9WGrw73bzCuCQopDDpCBlkOSSrWbcGFMx/J9jqCE1qvhQtAIPB1UYaq2PzRVmwMPd2OGB9WloA3bD1+XNiJ0SQmM7UI30r9MmaolOIYKmEv6I7EoLT2C1Ukv3P9lVIaww8QRx2TH24JEov8SNfnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=WhHhg7gO; arc=none smtp.client-ip=44.246.1.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G+KJ2E6T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 852921F000E9;
-	Mon, 24 Aug 2026 14:25:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787581519;
-	bh=kx7nJEikJd2gAo7BYzCy7HT2bzgfxWIFVO4K1fhLNjI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=G+KJ2E6TIDYSCodKeXSegNEfNhDILpnmt10ek/yTqJuG37bTXWi9OAf/f7dyDOpSg
-	 3xamtGf2DEYEUwIyHfkl+ZGx3O39oIRrBHSSxUAvfwWWWdpq9eC/YO9tMwLvaf4rui
-	 6mapgKJk+K6fRTJE9Arfmm/dJyAObm/kY/orCTisBk9UfSV7C/6eLEAfTe/vc6I9iL
-	 j1cSmIjSszUIQUKXhg9K5gvpywJPV5Vb4vktf3OpHJvOaI9dDLwwz478TxF8bniwoc
-	 +vvF2rzbWJx1TcPY+xGgJ7i/P1JwHVlsMTMf3LH1Vq3itRk+Glr84qWCBbDNdJpS2A
-	 uiLGrIAliyIKQ==
-Message-ID: <8b916c0f-a2ae-45df-90c1-f712bc4fffd9@kernel.org>
-Date: Mon, 24 Aug 2026 16:25:03 +0200
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="WhHhg7gO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1787581869; x=1819117869;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=XzH7Buy5si9W237HHH8/LM5uhMjJc+hKh7mJg5q8s70=;
+  b=WhHhg7gOJvtFXZHhZWTn8yPMRbh6rFV710yhU4yUZdwGtKGACZbWOFRS
+   cN58Z3cdV2bpxi/fRz8SXBGGCIoO8XvLEIc8VN1BaJMuJQjTj4graw5PW
+   xWxvyWvo9Q7gzladibAbg2/VNiekkYIJhSlXt22FZcfHoZ1TEA4hVJaee
+   UeUilpWaPP5gB7Wc4THs/KJO4YkQj5hQNhi9fX18Olq1ed+ZD+ZzcDUz6
+   9MWm9qumBgfqQtoufMVDTRg+NiZ2p+jZ+sV2OG+A4T49mUGJc/lwJ0FKg
+   BnfXUbT2G4FFwg/P9vaLNik+J/DsdDEuCJOULmY/G0E9fZtnSjKt7RC5w
+   Q==;
+X-CSE-ConnectionGUID: 15mV54/9ThSrae1y4zuZPQ==
+X-CSE-MsgGUID: +KOaNdi6QBeqwERcH88FzA==
+X-IronPort-AV: E=Sophos;i="6.25,240,1779148800"; 
+   d="scan'208";a="26779934"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 14:31:09 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:20407]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.23.75:2525] with esmtp (Farcaster)
+ id 37ee16d5-546c-4b2e-802e-a8b43474d441; Mon, 24 Aug 2026 14:31:08 +0000 (UTC)
+X-Farcaster-Flow-ID: 37ee16d5-546c-4b2e-802e-a8b43474d441
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
+ Mon, 24 Aug 2026 14:31:08 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46;
+ Mon, 24 Aug 2026 14:31:07 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: <miklos@szeredi.hu>, <shuah@kernel.org>
+CC: <fuse-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <jack@suse.com>, <joannelkoong@gmail.com>,
+	<bfoster@redhat.com>
+Subject: [PATCH v4 0/2] fuse: zero the partial EOF page when extending a file
+Date: Mon, 24 Aug 2026 14:30:50 +0000
+Message-ID: <20260824143052.1546163-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
-To: John Groves <john@groves.net>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Christian Brauner <brauner@kernel.org>,
- "Darrick J . Wong" <djwong@kernel.org>, John Groves <john@jagalactic.com>,
- Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>,
- Alison Schofield <alison.schofield@intel.com>,
- "John Groves (jgroves)" <jgroves@micron.com>,
- Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <jic23@kernel.org>,
- Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
- <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
- Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
- Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
- Gregory Price <gourry@gourry.net>, Andrew Morton
- <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>,
- Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
- Jiri Slaby <jirislaby@kernel.org>,
- Ethan Nelson-Moore <enelsonmoore@gmail.com>,
- Gabriel Whigham <gabewhigham@gmail.com>, Aravind Ramesh
- <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
-References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
- <20260803022828.75776-1-john@jagalactic.com>
- <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
- <20260806043712.GB3560084@frogsfrogsfrogs>
- <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
- <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
- <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
- <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
- <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D035UWA002.ant.amazon.com (10.13.139.60) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On 8/22/26 23:55, John Groves wrote:
-> 
-> 
-> On Fri, Aug 21, 2026, at 2:39 PM, Miklos Szeredi wrote:
->> On Fri, 21 Aug 2026 at 13:40, David Hildenbrand (Arm) <david@kernel.org> wrote:
->>
->>> (a) Whether a fuse-based approach is feasible.
->>>
->>>     Are there any major blockers remaining?
->>
->> No.
+Extending a fuse file past a non-page-aligned EOF does not zero the tail of
+the old last page.  When that page is cached and has been mmap-dirtied beyond
+the old EOF, the now in-bounds tail is served to later reads as stale data
+rather than zeros, which violates POSIX file-extension semantics.
+
+Some file systems get this zeroing automatically at writeback time
+(block_write_full_folio() / iomap_writeback_handle_eof() zero the tail of the
+folio straddling i_size).  A non-writeback caching fuse file system uses neither
+path, so it has to zero the tail itself from the size-extending paths, like
+XFS (xfs_file_write_zero_eof()) and ext4 (ext4_block_zero_eof()) do.
+
+Patch 1 calls truncate_pagecache_range() over the newly-exposed range up front
+from the three paths that extend a file: buffered write, setattr, and
+fallocate.  Patch 2 adds a self-contained raw /dev/fuse selftest covering each
+path.
+
+Tested by booting the patched kernel under User-Mode Linux and running the new
+selftest, and reproduced against libfuse's passthrough_ll example daemon.
+
+Changes since v3 [3]:
+- Drop the fuse_zero_partial_eof_folio() helper and call
+  truncate_pagecache_range(inode, from, to - 1) from the three extend paths
+  instead.  Miklos pointed out the helper's folio_mkclean()/folio_mark_dirty()
+  dance is only needed by file systems using buffer heads (as Jan noted), and
+  that truncate_pagecache_range() already does the rest of the zeroing.  The
+  selftest is unchanged and still passes with patch 1 (and fails without it).
+
+Changes since v1 [1]:
+- Zero from the size-extending paths up front, keyed on the write starting
+  beyond EOF, rather than after the fact from fuse_write_update_attr(), so a
+  write that lands inside the old EOF folio is preserved.  (v2 [2] carried this
+  change but went out with malformed recipient headers; it was resent as
+  v3 [3].)
+
+[1] https://lore.kernel.org/all/20260731203842.540798-1-jamz@amazon.com/
+[2] https://lore.kernel.org/all/20260820122627.156961-1-jamz@amazon.com/
+[3] https://lore.kernel.org/all/20260820123533.190470-1-jamz@amazon.com/
+
+Jimmy Zuber (2):
+  fuse: zero the partial EOF page when extending a file
+  selftests/fuse: test post-EOF page zeroing when a file is extended
+
+ fs/fuse/dir.c                                 |   3 +
+ fs/fuse/file.c                                |   9 +
+ .../selftests/filesystems/fuse/.gitignore     |   1 +
+ .../selftests/filesystems/fuse/Makefile       |   3 +
+ .../filesystems/fuse/write_extend_eof_test.c  | 368 ++++++++++++++++++
+ 5 files changed, 384 insertions(+)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
 
 
-Thanks both for your input. I see still some disagreement, but ...
-
-> 
-> Famfs does work in fuse, but some of the asks are things that I don't see
-> how I can agree to. I think Miklos and I should discuss those 1:1, to figure
-> out if there is a way forward.
-
-... I think this is the right approach. If you want more people involved, just
-speak up.
-
->>
->> We (Amir, Joanne, me) explained to John how this is exactly what's
->> needed to make famfs work.  We've not seen an acceptance of that yet.
-> 
-> I am not feeling that my technical concerns have been heard and 
-> understood, and I have not thought that the suggested changes to famfs 
-> would preserve its fitness for purpose. 
-> 
-> Whether I'm right or wrong can be figured out if we discuss it 1:1. The 
-> on-list conversations have been something that my cardiologist asked
-> me to stop reading. (only semi-joking)
-
-Yeah, I think there are some misunderstandings, and if you can figure that out
-in a 1:1, and let the outcome be known to the rest of us, that would be great.
-
+base-commit: 7d87a5a284bb34edb3f4e7e312ef403b3385a7b7
 -- 
-Cheers,
+2.50.1
 
-David
