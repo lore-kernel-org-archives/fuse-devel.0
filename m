@@ -1,170 +1,177 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16BC3803C5
-	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 23:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787614985; cv=pass; b=O1MX5J1KDmhE1qqpPoZQfv09PNsghK0v29DDSSVYaswtDaHUQbSQ8JywPkFXkhgZo1Z4R0UiYUqPtpgRqTlx1HcpbRbQoiY4StPMEvIznmRFjv7GGd8EbRZvOVbDljqS8wZrSncFYVV+AJF41jWUMrhsl+0fxqPJ9eFgAi4rgTA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787614985; c=relaxed/simple;
-	bh=sHnXZHT8WiiUeAdh+tKiJaengtnfesqTEZdJsUGA+8I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sLySR+CVMTAIARoFTTAdO/X3iF8l6k2GR7npBZVs9Ug1Gv4Bu+akxklvHVxBAkyprCbc0bnEAJF2lVkrdCSTpgK77e8PuQBIRLcMA9RV+GB++a6lsI/D+D42/6D2eeCy64hrnjtco+Buk/WHpZqEiqbUZgimFw3HPcsyZUuSXyc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NpRm02D7; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NpRm02D7"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so24838545e9.3
-        for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 16:43:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787614982; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OyweMqhXbWxyWsJTx/Z/F1qx/ENu8Q0X6Z5niuEDkeG9xzFCvp20G49hgRkm50CUXK
-         hyh8GbigYslzV8W79mPeeVfVHa2J+gaKiqEIIzJ+qDd2lRAamRJFXbw0Edf1Vfiy8xty
-         SWHytZ6cCpUa/h1TPL9nLD+5RjczecryU1jeCT5yFwjyk/JYVTBDPhQxCJFeqrKwFOkJ
-         45IsylR/hjzm9yRZhzn6AdZRToLjhxj1s2G4ihOZn7aW1wn2jAfYDxxPMB7qxNEN7hWo
-         W0VRfpFla40bezooyYU/Lssv4/YZTorieojeJLcp9jCJXBZkqojS1b17e6t/TWRfegRU
-         a8Bw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sHnXZHT8WiiUeAdh+tKiJaengtnfesqTEZdJsUGA+8I=;
-        fh=PHsg2IQJSyJo2HpekVcqcXp704eNtAyY4yqDXcDTXJQ=;
-        b=NPN8y60G+YvEkwH9rbmZonu1X1SwseRsZT8tM9yPsTTjjtHb93X0ybCd5ugU3L2vaR
-         ZPB6MqUnU88GofnnaeWZDxcD8TxiucbX+0GUWc6kiYWJzHQNDAmRs37s1upqKL2pAk8J
-         V4S+AiRYuE+iqCfc5KnhQUnYfGpKHZvUO/6+Iq9lI3Yn9vellseuxUMc5V7TWRkQHVvy
-         ecz+VgrurTmSj7IxY9UHgYC0cnw8sEWla7zOgmIXj1wCXYMxSQGWmDep2F3pBuTbWKdz
-         1zlk0fhO0mHGhb/fBttSWiNvCw/DoV9OOKkgxpsfkBM2khMAshwZvsA21bkxZEE3ZuxQ
-         n0Mg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787614982; x=1788219782; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sHnXZHT8WiiUeAdh+tKiJaengtnfesqTEZdJsUGA+8I=;
-        b=NpRm02D7bI6hFkdOIrfwlHuXM5X/MDkKaCE1FknPc3qtjo31CuVhSYAB4CSKDmP8wk
-         MMGv40CwG3LAmAZFdGqRLGiVCuMAYqyfFcxnjxvQJtGEAfdZQo/rX1pmE/0C2SxykEKV
-         cVpq1TQ897bI74mgjuK+Tx+2HYDGKYrh1JGhK1jpX+4Jf0yiFay5JRRHfBbWWavFQxXC
-         fKmQo3V8Ix1KvpsoaCzUWE9Wga59ZkmCbDfmBYweIBiz2aQ2VDdChgGp8wqpKbil0eGX
-         3KdvYVNddC8XvHhQn8ux/1aCUrRfyDbsqA0jNGnndNzXRJt7fvFZiHX1HmQlMTp8FjaM
-         SNUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787614982; x=1788219782;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sHnXZHT8WiiUeAdh+tKiJaengtnfesqTEZdJsUGA+8I=;
-        b=ntjuTESbwZwP7GD15gBP7F/Wf85HOIHfegiejERM8TC+ZHkC4LrKbTfJUn4F7A7efo
-         dIM8cHm4jGbvgoVyvm+8iZLEu7/IQ1jNa09zbUlxrlriXdkSzb5PjbQfXAG3KlqX/jfZ
-         jt+QLBMv3Y4g73dmup5UAcbpL9UkqdfbzTzAmXmZduNSjsVToh5hfGB0IVgb0P/VR6Qz
-         ZyMnt1uVoYsD6MOJLEvTRY8ObSP3Hz/vz+w+k6kZiDukHgVOkT+AdXsK/Uf70x2YMlYn
-         G1J/037l4bEjmQotL43JVGG0t16Zqy3crX3u4btCa6z2LoT+TmhgF0CUF+pLJjxtx5HS
-         Ncnw==
-X-Forwarded-Encrypted: i=1; AHgh+RpQLAiWARZ2bFNF7CKiKK5uZC+L7GY9Jx4DkIvSYF/aJKTcqgjbpDSEKfjdJOknleQ45lJSZQcgTXko@lists.linux.dev
-X-Gm-Message-State: AFuF++nGDzIklD3qGpQ+0zHo0JB8o06eugXpiI+uNEOwQR+rgWc5EdJv
-	x+UR1FfqUNloRBgN9OTdiBWOKk3HWDupaK5xuDCB78RvYKsZizjTrpsQWvujkrogbxCimY39X3y
-	TqaZKhDLqBJA8OH1li4aLhZxmm775sIE=
-X-Gm-Gg: AR+sD12DeMz5hLhYwzvBA8oFLqoFKtIZL6Al2VD+RshAqCXNQvlCCT7Y8INwzPbnrBi
-	cl02YFji1/Pb+pMfhq4PeUlYsSQrGacy5Z11GZ/1jE6pTQtbm9GVrw70ap0+HGMi5M9iZ1wwlm3
-	RGSaQTebZTufN0tG4nXGYenjIYtV9yzwoQVnaRLXYPEroI4M5bIAbYC2cdAXCQrCAEb1v++sG7r
-	eRFutaGG8D+vnRb0cqDBrmjEi6b/pedDblyLHWO9OCWVr6Qs1udMCme3odsQ9u020Af2UPz4Niq
-	2yt9UX1lrqFYpQ9yVMMwbRhRGKW0DCqCXXqA5zdXoIKJbBrjfMRtkXmVdRqPuNUv0GEdPn+r7sZ
-	H4jMuLuiQqMGFNLAqL9tUBnFmO5g=
-X-Received: by 2002:a05:600c:5294:b0:499:7f38:d77 with SMTP id
- 5b1f17b1804b1-499b830f690mr402396315e9.6.1787614981730; Mon, 24 Aug 2026
- 16:43:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857AC1A6808;
+	Mon, 24 Aug 2026 23:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787615645; cv=none; b=GtK2SP9/B4JTvAs5YsV1XCJ5B/ePrdRS25LusdMLYaCURg9q4I54f7i+c9E80qkttjZQgolo+n4uaWRMk3krReBzy+ip4stExBJVF6mhnJQVCoxIjD/+yt2hbYEzaNtfNdts9FHuQ8DZvSCHYmohQ1guHODl6eCVveUm6ox+Hm8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787615645; c=relaxed/simple;
+	bh=YMtsvaPMhaJLi9vMElcaik8XpWsWPo0DE60Oo8CIAC8=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=sW+BxmtN6cRb0LqlxPRC7TTe2WKAgTw01ilxtriBt6xAWMYRQUI3/Sb6cBaxgPQZLlL99m0tD6K/UyZbQsYCDhLQWNcl7WJGwZ2HXlEo4UGod4RaI9W4QblMUBw8BtaflWhDSmRSd7/MfQb70rS29TJiVRX1ZF16B2z4JECzIBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 66E2AA028D;
+	Mon, 24 Aug 2026 23:53:59 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf17.hostedemail.com (Postfix) with ESMTPA id BA4E117;
+	Mon, 24 Aug 2026 23:53:46 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 1DEB2F40067;
+	Mon, 24 Aug 2026 19:53:46 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-09.internal (MEProxy); Mon, 24 Aug 2026 19:53:46 -0400
+X-ME-Sender: <xms:idmMauRPrtUla9qRbhvt2_0s-gOtSXQJ6oW6QWzI4RYdfWKeXayTTg>
+    <xme:idmMaumvvdBBLt3x0JiN9Geb0OQe_taMdqTLqJd4Mq039O7VWz71Lnq9W55yIp8pj
+    Zx9DgY8f9Rx3fGP9TVFuMhkiwauLuxySxTBravrSpVNXrDycOq9MP0_>
+X-ME-Proxy-Cause: dmFkZTFNdvBIYoqkIophUMonGCfqR072dJfXrrSBykjE0PcM8D01g5aR2SyokIQ/29dWMV
+    +MpQ4Pd0AvzqaA3zAW7dQe1gLVJpFLwFO9Epoebc5cxJ+b9UdYVw6/cNTZIMrxvQFAH2OH
+    2M7mhaArg46OGgg3mMGu1sm3SaF/xv+Fm0dxq+tYSTWYcbWTMTeX2kgo96SMfnMnqoBLFk
+    zFnAhbFBYag4FBV6zUGEr8v1PBur7ayBAYs4kCpCVwyQG3VtEpfMMQTUU1g+Vi8zymicPl
+    NeOEkVKkd4fKLigg0edc5ZuIxSSXjv04NcSZt0l8e9URq7iG9UcXrC3mJ9a/dU8LH2pTj7
+    J4WPMxqpzGHdhO+v8lh37u9DfbVGu8EEzhvkVKbkSWnAAwqG8OBHiuConeJ45woHQ5FYx+
+    52uZ8fHY2DRTBH0qzBo/RPsqDYNmPm8K04dYGvd4zRJlmhjHSBsth4t/RelGt+mmKIT/NQ
+    2f5y4WnsRrQoMofmLuPkxeTEJ58wIoifaka0XMYRu4MNHUjXt4saQXWbHwBzthVVdjpHSt
+    IvJPP9vrf1r1pC9VveY2zScooLw4hepc4++nRXbUA3qwV0R4+tVngu9nhV+15D0K041z1d
+    WPHl1UIrzPwCoTb+ntgEvpPDm/7JViS2OFuqKy512teb2ShZC1fC/x9ZedTg
+X-ME-Proxy: <xmx:itmMapHx4ry7FcmOjVfJveQlbJbyuvXgVkhAr0jqSbYuzw8MC1y-Sw>
+    <xmx:itmMasAAsWov3rD-6ZER_fYrnKjY-cVv1aJJo_prum4A3z7WB1lzLA>
+    <xmx:itmMajO5mBMiGuP1GfHx73urD-cFZkU1ikJ1fMKOgnrNyuqXEE2BMQ>
+    <xmx:itmManeP3766O-mcCV15NJudbj-o19HeOuNh9-dENXDVv5l7ivCWPQ>
+    <xmx:itmMamgsfMaeL3UKtVOAurP9TNOCVtyWB9rL5Z90ld3thvFiGrcqGgh4>
+Feedback-ID: i3a164872:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id D36F8700069; Mon, 24 Aug 2026 19:53:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
- <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
- <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
- <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
- <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
- <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com> <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
-In-Reply-To: <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 24 Aug 2026 16:42:49 -0700
-X-Gm-Features: AcwNN1Wa1AOcfS35Y1v_bgY_n2l1WDv-MkAP-PHL7EYAY7Mw9O0j_aJCxbHrZ54
-Message-ID: <CAJnrk1ZU1UO35n46acq9My77G8=h3JUCLXchiamBCFbiDZXJzg@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: James Houghton <jthoughton@google.com>
-Cc: Yosry Ahmed <yosry@kernel.org>, Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, 
-	Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Mon, 24 Aug 2026 18:53:25 -0500
+From: "John Groves" <john@groves.net>
+To: "Miklos Szeredi" <miklos@szeredi.hu>
+Cc: "David Hildenbrand" <david@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>,
+ "John Groves" <john@jagalactic.com>, "Dan Williams" <djbw@kernel.org>,
+ "Bernd Schubert" <bschubert@ddn.com>,
+ "Alison Schofield" <alison.schofield@intel.com>,
+ "John Groves (jgroves)" <jgroves@micron.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Jake Edge" <jake@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Vishal Verma" <vishal.l.verma@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Jonathan Cameron" <jic23@kernel.org>,
+ "Stefan Hajnoczi" <shajnocz@redhat.com>,
+ "Joanne Koong" <joannelkoong@gmail.com>,
+ "Josef Bacik" <josef@toxicpanda.com>,
+ "Bagas Sanjaya" <bagasdotme@gmail.com>,
+ "Chen Linxuan" <chenlinxuan@uniontech.com>,
+ "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Shivank Garg" <shivankg@amd.com>,
+ "Ackerley Tng" <ackerleytng@google.com>,
+ "Gregory Price" <gourry@gourry.net>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Namjae Jeon" <linkinjeon@kernel.org>,
+ "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Ira Weiny" <iweiny@kernel.org>,
+ "Pasha Tatashin" <pasha.tatashin@soleen.com>,
+ "Haren Myneni" <haren@linux.ibm.com>,
+ "Pratyush Yadav" <pratyush@kernel.org>,
+ "Giovanni Cabiddu" <giovanni.cabiddu@intel.com>,
+ "Jiri Slaby" <jirislaby@kernel.org>,
+ "Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
+ "Gabriel Whigham" <gabewhigham@gmail.com>,
+ "Aravind Ramesh" <arramesh@micron.com>,
+ "Ajay Joshi" <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Message-Id: <ed2ce261-50af-4515-99f0-51f69dc206af@app.fastmail.com>
+In-Reply-To: 
+ <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
+References: 
+ <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com>
+ <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs>
+ <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
+ <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+ <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+ <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
+ <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: BA4E117
+X-Stat-Signature: q7byakz5pg5nc7rqry5nhs79cmtepzsf
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/MFztRw88PMkWUbpQaFPOCrF1W5rOUeEY=
+X-HE-Tag: 1787615626-627444
+X-HE-Meta: U2FsdGVkX1/nUAzRQZz9GChlN55Gfmuc8oQWAgHe/Cuzkpc9Pkjw+7PIbX0QRcOgKA6VqrTNRiTzwhx9fRhfEm+dkWphA42Gu+nLBKwP5bi1GQrd9PRoxWku3ODNBeIDENBSWvM/nuZrAw1S8O/dx11pEkMOZnfysTpOj1G7DZtUPSTdVMVBMcHx5U07HpuLModoV46KznPRh+Tlj29wlLPdlPJmgovUk4dSp8xv4oBKcZx+eZXLa8E6W8jjUXb3vskpEuZQN7WV+OlaI19eEunOd4lv8gyi7DRdD/os9/Vwz5O0zSWCMv0KHY+Tr3P8i7gYkSS/oXNvIZ9lN34XHKw0D5GNEvoUZeTSPfeW7MLyEPc/B84jtUK2bl/zAPY3
 
-On Fri, Aug 21, 2026 at 6:39=E2=80=AFPM James Houghton <jthoughton@google.c=
-om> wrote:
->
-> On Fri, Aug 21, 2026 at 12:41=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> w=
-rote:
-> >
-> > On Thu, Aug 20, 2026 at 4:39=E2=80=AFPM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> > > Would you be able to share the test you're using? I've been trying to
-> > > repro it locally without much luck.
-> >
-> > The exact test uses some internal testing libraries, we're looking
-> > into whether we can translate it to a standalone C repro.
-> >
-> > From a high-level, the test:
-> > - Creates a VM with 260 MB (256 MB for testing + 4 MB margin) in a
-> > cgroup, backed by shmem THPs. The VM is not a fully fledged VM, just a
-> > KVM VM running bare metal code (so 4 MB is enough margin).
-> > - Enables zswap in the cgroup.
-> > - Tells the VM to write to 256 MB of its memory.
-> > - Checks the cgroup shmem usage and that no swap occurred (no limit).
-> > - Sets the cgroup limit to half the VM memory.
-> > - Checks the cgroup shmem usage and swap again, usage should be ~half
-> > and so is swap.
-> > - Tells the VM to read the 256 MB of memory again. This should cause a
-> > lot of thrashing and reclaim, but no OOM kills as all guest memory is
-> > reclaimable.
-> >
-> > With the ratelimited flushing, the test started flaking 5-10% of the
-> > time due to OOM kills.
->
-> Hi Joanne, Yosry,
->
-> I've attached a reproducer for you (as a patch that should apply to
-> Linus's tree).
->
-> In tools/testing/selftests/kvm, `make` should build it. Instructions
-> for running it (like setting up swap/etc.) are in the comment at the
-> top of the file.
->
-> As part of the patch, I've also included a sysctl to dynamically tune
-> whether or not the memcg stats flush is rate-limited. You should find
-> that when it is rate-limited, OOMs occur, and when it is not, OOMs do
-> not occur.
->
-> This reproducer behaves slightly differently than our internal
-> version. This version, when run with `-b 512M` anyway, seems to OOM
-> simply by setting memory.max, whereas our internal version would OOM
-> upon re-accessing the memory. Not really a meaningful difference, but
-> just wanted to point it out.
->
-> Please let me know if you have any trouble running this test or if the
-> test is wrong in some way.
->
 
-Thank you so much, James! This is very helpful - I will run some
-experiments with your repro this week.
 
-Thanks,
-Joanne
+On Mon, Aug 24, 2026, at 2:41 AM, Miklos Szeredi wrote:
+> On Sat, 22 Aug 2026 at 23:55, John Groves <john@groves.net> wrote:
+> 
+> > Famfs does work in fuse, but some of the asks are things that I don't see
+> > how I can agree to. I think Miklos and I should discuss those 1:1, to figure
+> > out if there is a way forward.
+> >
+> > I think the virtual backing-dev thing is a non-starter,
+> 
+> The virtual backing-dev is an abstraction.
+> 
+> Is it sufficient for you if I promise that this is going to do the
+> same thing as the standalone famfs at the same performance level?
+> 
+> >  and I think that the famfs
+> > portion of the fuse ABI basically can't live without extents that are
+> > (daxdev, offset, length).
+> 
+> Sigh.  My proposal was (backing-id, offset, length).  Again this is an
+> abstraction.  A backing ID can be a daxdev, a striped logical device
+> or it can be a block dev or even a plain file.
+> 
+> > Also, I'm curious: if you don't know of a use case for the striping code outside
+> > of famfs, why ask famfs to completely rewrite that?  (and I agree, other
+> > than the eventual remote possibility of competing 'famfs-ng' fuse servers,
+> > I don't see much likelihood that this piece will be shared.)
+> 
+> Because the striping feature fits much better into a virtual device
+> API than the extent mapping API.  This is how striping has worked in
+> linux for the last 30 years.
+> 
+> > Miklos, I trust that you are a good faith actor, although you seem to be
+> > spread pretty thin. Can you commit to a series of 1:1 conversations with
+> > me to try to work through the disconnects?
+> 
+> Fine, let's find a time.
+> 
+> Thanks,
+> Miklos
+> 
+
+I'll ping you directly about times to talk. Thank you for being willing to do that.
+
+Regards,
+John
