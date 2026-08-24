@@ -1,60 +1,63 @@
-Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+Received: from pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.26.1.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB4141B8E4
-	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 14:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.246.1.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C934334C9
+	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 14:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.26.1.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787581872; cv=none; b=qBenBpC/ntCOsHjW5KJQu2Ek7kLjwiRTPyRQET+byFga/KxZn48GyCFE4OXPiiWhvuawmHXhFaur2k1he7YJEAMUmjZIYnbR08WLc3qXiDgtavPt0U1msglzd9pyQx1EHcaI+8PIDTkkL6Cv5cN9gFfBbR+/Sf146g5f5i6BydQ=
+	t=1787581918; cv=none; b=KDxb9owE5/A1jPXQFoje3CcEAluyzcXtoylHmRlmchhMJvblIQoqDdLdZz0LxYNzMu3miLqaPs25zf855lr+ibWw0iFep0dy7eDwG3lKijqkdKHWFU8rHIYp/Uzrlau1RhdEXLgssLFrYq/iO2U7K9GHQU28u6jdeV+7D1lAwVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787581872; c=relaxed/simple;
-	bh=XVEK7EY1wWtjtsyn0MPN/WQ5HzdK5BbHbhtTV/4UEg8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lS03wqiW3KZ5pCX2/iYacht9WGrw73bzCuCQopDDpCBlkOSSrWbcGFMx/J9jqCE1qvhQtAIPB1UYaq2PzRVmwMPd2OGB9WloA3bD1+XNiJ0SQmM7UI30r9MmaolOIYKmEv6I7EoLT2C1Ukv3P9lVIaww8QRx2TH24JEov8SNfnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=WhHhg7gO; arc=none smtp.client-ip=44.246.1.125
+	s=arc-20240116; t=1787581918; c=relaxed/simple;
+	bh=oAmKG89BSiGgcW6XhsvVAYvDuwz7DDrBBtt4wMakxvM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gArWnXKlopmLWY305QY+jOi7VV/gCovu8sb799Ngvl7YAjKw+/AVC9jdCkA3aQQrmgOu5Z08e8NxJmf6S2OPOgwcgk6XIQjheWH6QzUX4QqoBB76x5sPsnGhX8wcn8fNSKrc/oTi+v5q6ofL381B77mNd1CcmwL8w4RqxEu0/CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=r/WEffSS; arc=none smtp.client-ip=52.26.1.71
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="WhHhg7gO"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="r/WEffSS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1787581869; x=1819117869;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=XzH7Buy5si9W237HHH8/LM5uhMjJc+hKh7mJg5q8s70=;
-  b=WhHhg7gOJvtFXZHhZWTn8yPMRbh6rFV710yhU4yUZdwGtKGACZbWOFRS
-   cN58Z3cdV2bpxi/fRz8SXBGGCIoO8XvLEIc8VN1BaJMuJQjTj4graw5PW
-   xWxvyWvo9Q7gzladibAbg2/VNiekkYIJhSlXt22FZcfHoZ1TEA4hVJaee
-   UeUilpWaPP5gB7Wc4THs/KJO4YkQj5hQNhi9fX18Olq1ed+ZD+ZzcDUz6
-   9MWm9qumBgfqQtoufMVDTRg+NiZ2p+jZ+sV2OG+A4T49mUGJc/lwJ0FKg
-   BnfXUbT2G4FFwg/P9vaLNik+J/DsdDEuCJOULmY/G0E9fZtnSjKt7RC5w
+  t=1787581916; x=1819117916;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=yzKD5WwtMJMFFjCtja3a5C0KRabX8L7BqjVzHqWXjh8=;
+  b=r/WEffSSC41KC6y+/EpNzPmaSHfH5uyxfJbHs584TvNNkSnDhZ4a/ZbK
+   NP6WONtJIPNbuz7t7C8PdJTzaJm2KLIi9NHCfpy3h+bg8QKicm2Gypl0E
+   6sJccJA9cShgTGYUMSoeUzhXr0/oxftmNWUETVN57fEGtTfKs7bFhpfwC
+   TuaTc0aV76nBFQFMnw4f+H4zD4KnD2pxVV2kJ4wzj4ZxCvurWbnV6M7Al
+   caAw+xD29CpeC/kLhCt4jxPjNiWEXSE92rjx0sY0zeGG/2iFyC1wGAAYX
+   paXn+Q5zk3k8fS75e5AXUAxGCNvOqs/vwOTMGMzKUi3Z9XU2tST4UflFI
    Q==;
-X-CSE-ConnectionGUID: 15mV54/9ThSrae1y4zuZPQ==
-X-CSE-MsgGUID: +KOaNdi6QBeqwERcH88FzA==
+X-CSE-ConnectionGUID: PigiWMXhQOCXbYCjvvcZMw==
+X-CSE-MsgGUID: 3ON9/EU1TdWh2bsvAuvPGw==
 X-IronPort-AV: E=Sophos;i="6.25,240,1779148800"; 
-   d="scan'208";a="26779934"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 14:31:09 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:20407]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.23.75:2525] with esmtp (Farcaster)
- id 37ee16d5-546c-4b2e-802e-a8b43474d441; Mon, 24 Aug 2026 14:31:08 +0000 (UTC)
-X-Farcaster-Flow-ID: 37ee16d5-546c-4b2e-802e-a8b43474d441
+   d="scan'208";a="26807252"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-006.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 14:31:56 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:1998]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.43.135:2525] with esmtp (Farcaster)
+ id 2e5dd481-abae-45dc-82ca-ee3640a9875d; Mon, 24 Aug 2026 14:31:55 +0000 (UTC)
+X-Farcaster-Flow-ID: 2e5dd481-abae-45dc-82ca-ee3640a9875d
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.217) with Microsoft SMTP Server
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.45;
- Mon, 24 Aug 2026 14:31:08 +0000
+ Mon, 24 Aug 2026 14:31:55 +0000
 Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.46;
- Mon, 24 Aug 2026 14:31:07 +0000
+ Mon, 24 Aug 2026 14:31:54 +0000
 From: Jimmy Zuber <jamz@amazon.com>
 To: <miklos@szeredi.hu>, <shuah@kernel.org>
 CC: <fuse-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
 	<linux-kselftest@vger.kernel.org>, <jack@suse.com>, <joannelkoong@gmail.com>,
 	<bfoster@redhat.com>
-Subject: [PATCH v4 0/2] fuse: zero the partial EOF page when extending a file
-Date: Mon, 24 Aug 2026 14:30:50 +0000
-Message-ID: <20260824143052.1546163-1-jamz@amazon.com>
+Subject: [PATCH v4 1/2] fuse: zero the partial EOF page when extending a file
+Date: Mon, 24 Aug 2026 14:30:51 +0000
+Message-ID: <20260824143052.1546163-2-jamz@amazon.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260824143052.1546163-1-jamz@amazon.com>
+References: <20260824143052.1546163-1-jamz@amazon.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -63,7 +66,7 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D035UWA002.ant.amazon.com (10.13.139.60) To
+X-ClientProxiedBy: EX19D035UWB003.ant.amazon.com (10.13.138.85) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
 Extending a fuse file past a non-page-aligned EOF does not zero the tail of
@@ -77,47 +80,74 @@ folio straddling i_size).  A non-writeback caching fuse file system uses neither
 path, so it has to zero the tail itself from the size-extending paths, like
 XFS (xfs_file_write_zero_eof()) and ext4 (ext4_block_zero_eof()) do.
 
-Patch 1 calls truncate_pagecache_range() over the newly-exposed range up front
-from the three paths that extend a file: buffered write, setattr, and
-fallocate.  Patch 2 adds a self-contained raw /dev/fuse selftest covering each
-path.
+Call truncate_pagecache_range() over the newly-exposed range up front from the
+three paths that extend a file, before the new size is published:
 
-Tested by booting the patched kernel under User-Mode Linux and running the new
-selftest, and reproduced against libfuse's passthrough_ll example daemon.
+  - a buffered write whose position is past the old EOF (fuse_perform_write());
+  - a size-extending setattr/truncate (fuse_do_setattr());
+  - a size-extending fallocate (fuse_file_fallocate()).
 
-Changes since v3 [3]:
-- Drop the fuse_zero_partial_eof_folio() helper and call
-  truncate_pagecache_range(inode, from, to - 1) from the three extend paths
-  instead.  Miklos pointed out the helper's folio_mkclean()/folio_mark_dirty()
-  dance is only needed by file systems using buffer heads (as Jan noted), and
-  that truncate_pagecache_range() already does the rest of the zeroing.  The
-  selftest is unchanged and still passes with patch 1 (and fails without it).
+This unmaps the stale mappings and zeroes the partial tail of the old EOF
+folio, so a later read returns zeros.  Truncating [old EOF, write start) before
+a buffered write keeps the dropped range disjoint from the written data, so a
+write that lands inside the old EOF folio is preserved.
 
-Changes since v1 [1]:
-- Zero from the size-extending paths up front, keyed on the write starting
-  beyond EOF, rather than after the fact from fuse_write_update_attr(), so a
-  write that lands inside the old EOF folio is preserved.  (v2 [2] carried this
-  change but went out with malformed recipient headers; it was resent as
-  v3 [3].)
+writeback_cache connections are unaffected, as their writes go through
+iomap_file_buffered_write(), which zeroes post-EOF folios.  The bug is
+observable on a non-writeback_cache server that returns FOPEN_KEEP_CACHE on
+writable files (without FOPEN_DIRECT_IO), and is caught by the new
+write_extend_eof fuse selftest.
 
-[1] https://lore.kernel.org/all/20260731203842.540798-1-jamz@amazon.com/
-[2] https://lore.kernel.org/all/20260820122627.156961-1-jamz@amazon.com/
-[3] https://lore.kernel.org/all/20260820123533.190470-1-jamz@amazon.com/
+Signed-off-by: Jimmy Zuber <jamz@amazon.com>
+---
+ fs/fuse/dir.c  | 3 +++
+ fs/fuse/file.c | 9 +++++++++
+ 2 files changed, 12 insertions(+)
 
-Jimmy Zuber (2):
-  fuse: zero the partial EOF page when extending a file
-  selftests/fuse: test post-EOF page zeroing when a file is extended
-
- fs/fuse/dir.c                                 |   3 +
- fs/fuse/file.c                                |   9 +
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../selftests/filesystems/fuse/Makefile       |   3 +
- .../filesystems/fuse/write_extend_eof_test.c  | 368 ++++++++++++++++++
- 5 files changed, 384 insertions(+)
- create mode 100644 tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
-
-
-base-commit: 7d87a5a284bb34edb3f4e7e312ef403b3385a7b7
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index 795e92037ce7..a6f0f509f840 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -2282,6 +2282,9 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	 */
+ 	if ((is_truncate || !is_wb) &&
+ 	    S_ISREG(inode->i_mode) && oldsize != outarg.attr.size) {
++		if (outarg.attr.size > oldsize)
++			truncate_pagecache_range(inode, oldsize,
++						 outarg.attr.size - 1);
+ 		truncate_pagecache(inode, outarg.attr.size);
+ 		invalidate_inode_pages2(mapping);
+ 	}
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index cb8da4c06d17..6ec13c6aafe6 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -1368,9 +1368,13 @@ static ssize_t fuse_perform_write(struct kiocb *iocb, struct iov_iter *ii)
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+ 	loff_t pos = iocb->ki_pos;
++	loff_t old_size = i_size_read(inode);
+ 	int err = 0;
+ 	ssize_t res = 0;
+ 
++	if (pos > old_size)
++		truncate_pagecache_range(inode, old_size, pos - 1);
++
+ 	if (inode->i_size < pos + iov_iter_count(ii))
+ 		set_bit(FUSE_I_SIZE_UNSTABLE, &fi->state);
+ 
+@@ -2913,6 +2917,11 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+ 
+ 	/* we could have extended the file */
+ 	if (!(mode & FALLOC_FL_KEEP_SIZE)) {
++		loff_t oldsize = i_size_read(inode);
++
++		if (offset + length > oldsize)
++			truncate_pagecache_range(inode, oldsize,
++						 offset + length - 1);
+ 		if (fuse_write_update_attr(inode, offset + length, length))
+ 			file_update_time(file);
+ 	}
 -- 
 2.50.1
 
