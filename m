@@ -1,116 +1,84 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C97415F22
-	for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 13:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787577248; cv=pass; b=PmMEIPw6uFYGVluEpVDcNg0Co4iAkVSwHvapyaVvxxhmAC+qCpOo1OEbW7M8rTpuGqXZZa0aGBnmcB75Pt3syfWs5M74IPXP94V9Nlb6mnxEeU0aXefg7D88kjO7fzLQ+yPYaHbyQmEU1ys7edwcBZ7vDoQ72Mm8TUyXp21bxrU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787577248; c=relaxed/simple;
-	bh=CzMHD3unGU/ezDMcqvC3UC+o6FZUdHEIyrpiZIAg+gc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZkufilBPW46sVmg8raSIXYul+CKUMGsn/vB9udN+LhoRNxAYwAAtnrYXNF1FrTQ0sGm8ctep2dE/ICeE80vw0SROp8NM1hJEyVNKTFjGIxs2JRy7iiX9QmlxE/mD3fAJFUuCEY41OeQM9C3WK6i+24JcVBxHQc7RjpxJXjoWs9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=PdTxuChD; arc=pass smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8E4426429;
+	Mon, 24 Aug 2026 13:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787578180; cv=none; b=jS54w/L8T1A2Yeyss8uYyL4B85tZnDoeXKtDObZesObNsiLLzcstAa0pgbrZsj/V/pHLT4vv9/aBoPCZy3cjujADMn90vS41BW6dDTWxaZH9QKK4H1+lwqMmBayOdSidOUwcA0Se8KNg+0Ki58rPrj+2N/PXFAlvU2V5m+sVKsI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787578180; c=relaxed/simple;
+	bh=39FjQlUMP5udyZxk+WGpe9HcVJf/vBCTJVYsMuZuSuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jO4IWvN/6FJoUw73i0quGuFjAM/ZQW+oNyz3DcLyxSlWRnVxZtwhKWNI5g+rEcJPo3cg7VjSrPdleZBZYQVqtVT9YkMmLhh23hOewSprPW7asq+nOD+d5r4u+sCk9JyHe5nQR0UFBgJblWyoq2LoGtdg3+iBext2YnHi7R7ZTeU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DVpXuCgB; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="PdTxuChD"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92e6391b114so248188085a.3
-        for <fuse-devel@lists.linux.dev>; Mon, 24 Aug 2026 06:14:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787577246; cv=none;
-        d=google.com; s=arc-20260327;
-        b=qMG0YWFmMhKOesvndSPpiD6lZg3gy35yBsCAZh/qfqmMryM2Y3FgD2CTB602/hZ5A+
-         z9C7X2qamjLagmgRhfoZyTd8ve8t2j2Zh9nUcIaPp+Dd3c7AliXr6TDCpeegaSEVBwZE
-         CmL+a+li6467xhxbJXVtMcd7ARnOEbCPG0pHjpcFDdzhyoJYEKUWdYCadRdxl2DzNhU/
-         jx7Ug8uoy4jnegWaFGFlWETZFpgYY83Y+L4Ia0cn2k2L1Fxb1UT8ysP64c5riZVdTrrj
-         6ESlwv8VDSMX/vjH6gr+4JlX5X9prmp6Y5vXvvALYH4LcKcYo5/5Tgs68jBOMWFTGG+C
-         dMUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=qGGLhKIHK8dGCQLwKjMU7h4rFU3X17jfPSxCogOt6Gc=;
-        fh=5cucsUd2CNI6mcb0hGWK0k0oeFUAEbRFQnYlgYmkYyw=;
-        b=AxWVUp2mCGvvegoO9TZ4pwHOJsHWh1jPMdbYVshxui8qC8LystYPnuMvCWkKyIepbV
-         J1fnEKoojhXTAzMaBL8ezFMfF56cZQgTDAokxH/p0Ag3jtr/AQ4YLI30KuMSRGosHM81
-         uWIqvMHH7ItqRelrbJN0Uotjtq/ayut/7OtmOah/dAwj40z+/fA6QuHZm/Oh2LA9IJwl
-         hbtTvtF8i+YFOEWCFaTWnbxcNy1RgKeOUX7yKUqr99AHUUB7eYvOIwkYLLoALXglJFXp
-         8HKYXWPcGRM4UF9kVkyZ/PMZUIHT7LhmdLSOehJ2TnwPrzWSpiB7pjUMP6DWQNhPYSJT
-         /hqw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787577246; x=1788182046; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qGGLhKIHK8dGCQLwKjMU7h4rFU3X17jfPSxCogOt6Gc=;
-        b=PdTxuChDrOen0GxSdlCEhLlZYTW62EsHGA+xJ+5rOO7nBtW+eY0EmsZY6jhkVAHbW3
-         Bu2Xuzc4xHsxhkr7PSzIZpXYYMkD1ADFHZYh1swgYGYptTzpI7V+P9DAzhi3pxiKeVeZ
-         EThojz00a3EdRBKdf5fYM59XugECh2gQyvoXo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787577246; x=1788182046;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=qGGLhKIHK8dGCQLwKjMU7h4rFU3X17jfPSxCogOt6Gc=;
-        b=X1+5OCt56Y1xRvlx3eagR5T3HZgfDEHN8asBDH3ditbdIBezubVzUDdv4HeATNv81p
-         I/WN5MRe/aoYAWViLEMk7T0Dj70CvVSSbvx3PGQ6Jh+cHjSNrce/b/2++KK6ZXSAJ1z/
-         yy5gHpTUx+VN/1KlRLOIje2FHmIwcu223sif7JgeasVX6RR35pncvpNHZlnyS+2GE7WU
-         pirYpyB8bqCVV9qCV9Jyb/4I+ajZCqeoQe2rTxiou113rLcFpJpOc+I2EU302B4myPNH
-         56jrniV5ANWqrN7OV4ilMHcfcjfCPO6DsxTN42anDJCJkVRvg/qndp/1wAHJX/WX3jDF
-         oCFA==
-X-Forwarded-Encrypted: i=1; AHgh+Rrw7/nLuRAWbMMcW1WMCNLHFbktyYZ9I5Z8SlJoRYa5VzN6zsqg3yFwsEmZbKAphzmgOk/88IscQBXf@lists.linux.dev
-X-Gm-Message-State: AFuF++mktfOo2n6EYHoZJ1hl6sK5iK+Pyklb2EbWlkw7ppoVz5j4vxGO
-	ufkDFdXcAbqkoTXkbfmOyTfCDeRq/6Y8SCJO6ifdt/YiJHrPoSnMHqoaqTY6otxaMIc7XTVZ0B7
-	BMC7nMpbCcZc9ckrzabEKD/86ayplETquM8F+HP2PGA==
-X-Gm-Gg: AR+sD11f4ll8rOVgRT28xMU+K/cDNABwip/yStW7LKHUz/vG8rfGp9mFcuaeQ4Kjm4e
-	zFOBlBQNGQoqn9eFGoK7VcrWSkQLdKuS+ZwYDx2tFactG6wqygyo7KSLu2tZ29lTxldsmsAQfM5
-	Dp1CVFu1S/YZIjLxgic6Y/0zSlzrEzaGhySxLssHcziq+kh/EP68NSQLp3npfIqoWlgVAauCaEv
-	Dp4IM7SJddas/jsy/fbYdHEd4cc3RpZeZXdZzo1bncm+Uv7NgRgbms5/eXw3IF7kH3zdNYuzRDJ
-	Fhd+MsVN4xaUhVG24cyNUvQLhBZiyXNMBb7lhRng2t0ApyYvzQAgAvm8zqQv6PluLklAsiSZ0FA
-	UO7k=
-X-Received: by 2002:a05:620a:5750:b0:916:10f6:780f with SMTP id
- af79cd13be357-9373953509amr1588246685a.27.1787577245733; Mon, 24 Aug 2026
- 06:14:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DVpXuCgB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=UP1TeJcQT74aqE7HfHCPzdq0084a2GndPFA/TBwUbHY=; b=DVpXuCgBWzg4bh1HoyTUjrvA7a
+	g10c2SRZCIct6G9ZFfmQ2xDtSRhzhvqg2iqKHeN34oUDs2mF8AkL4J1MbE3654XNJFqg/ZdbF4oxj
+	pf2I0N7VJIOWBRcdbFZgSYn9avDzAW+Xx+qe+fjTKty5JOw0KvHc2fk4qUalN5QpwUDn9VN4e6wDh
+	W29tgfU11wmdEgc6SYoRRgsdTfw38IlXNfwZYxT15ovSXkeoFOtT4JVo27hfDLiGm72vzie5Vf2fH
+	ENPz5NXe8NNZi5OSbLqQgl6OKMlEWF3mvgt5/cF6qcPLFK6DFenQCIt/gE91p/L6xfUTQUq4PmRu9
+	pCTg9upQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wyUjx-00000007HHf-3ewO;
+	Mon, 24 Aug 2026 13:29:29 +0000
+Date: Mon, 24 Aug 2026 14:29:29 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	fuse-devel@lists.linux.dev, linux-nfs@vger.kernel.org,
+	devel@lists.orangefs.org, Pavel Begunkov <asml.silence@gmail.com>
+Subject: Re: [PATCH 2/7] fuse: Use filemap_invalidate_pages()
+Message-ID: <aoxHOSC9kTPbKeNq@casper.infradead.org>
+References: <20260820193343.3852967-1-willy@infradead.org>
+ <20260820193343.3852967-3-willy@infradead.org>
+ <CAJfpegvP3i8ZJc2T=+f4rAhZ4E1QcT5+jC6mQPLxtB-yoK9Brw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260820123533.190470-1-jamz@amazon.com> <20260820123533.190470-2-jamz@amazon.com>
-In-Reply-To: <20260820123533.190470-2-jamz@amazon.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 24 Aug 2026 15:13:54 +0200
-X-Gm-Features: AcwNN1X0yMdB_Xw--2TlAcHWFEbPlDL4l3JW0OZo8vrZHgvCHyF1YZDBOHI7mRI
-Message-ID: <CAJfpegtZQZ+c+Sz-tm144xKXuwLNTTOSHHbSWULwqQGkREMCHw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] fuse: zero the partial EOF page when extending a file
-To: Jimmy Zuber <jamz@amazon.com>
-Cc: shuah@kernel.org, fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, jack@suse.com, joannelkoong@gmail.com, 
-	bfoster@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegvP3i8ZJc2T=+f4rAhZ4E1QcT5+jC6mQPLxtB-yoK9Brw@mail.gmail.com>
 
-On Thu, 20 Aug 2026 at 14:36, Jimmy Zuber <jamz@amazon.com> wrote:
+On Mon, Aug 24, 2026 at 11:05:46AM +0200, Miklos Szeredi wrote:
+> On Thu, 20 Aug 2026 at 21:34, Matthew Wilcox (Oracle)
+> <willy@infradead.org> wrote:
+> >
+> > FUSE relies on invalidate_inode_pages2() / invalidate_inode_pages2_range()
+> > doing writeback by calling fuse_launder_folio().  While this works, it
+> > is inefficient as each page is written back and waited for individually.
+> > Far better to call filemap_invalidate_pages() which will do a bulk write
+> > first, then remove the page cache.
+> 
+> filemap_invalidate_page() suggests to use invalidate_lock to prevent
+> races with pages coming back.  I'm not sure that without it the
+> behavior is identical.
+> 
+> Maybe add a variant that takes that lock?
 
-> +void fuse_zero_partial_eof_folio(struct inode *inode, loff_t from, loff_t to)
-> +{
-> +       struct folio *folio;
-> +       size_t offset, end;
-> +
-> +       if (from >= to)
-> +               return;
-> +
-> +       folio = filemap_lock_folio(inode->i_mapping, from >> PAGE_SHIFT);
+I don't understand what use that would be.  As soon as that function
+drops the lock, the pages could be reinstated.  If the caller needs the
+pages to not come back, it must need to hold the invalidate_lock across
+the whole operation.
 
-How about:
-truncate_pagecache_range(inode, from, to - 1);
-?
-
-The mkclean/mark_dirty magic is only needed by filesystems using
-buffer heads, as Jan pointed out.  The other parts of the zeroing are
-done by the above helper.
-
-Thanks,
-Miklos
+Before any filesystem people get funny ideas about closing the O_DIRECT
+race, you can't do that because you'll deadlock on doing I/O to the same
+file that you've mmaped.
