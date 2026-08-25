@@ -1,193 +1,147 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368C23CE4B5
-	for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 21:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797283EAC6D
+	for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 22:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787692433; cv=none; b=HtN/tElaBaOB/BOHF/b3bMFN8TJtVqoeSGtlKJP5dDAxUBNKP4FMJQuiD3fY+BiGDMjwAQ4w1kGQrbU+TAqDoqEmcBOMpOLJRtWCrXv1Jp+LA165IvmhlA3zE6Xql8VLDUZ6Oaj6zzMIybCzHg3MOvC3moBoGRmyQ15Wibn4Stg=
+	t=1787695735; cv=none; b=J+p7XfyvY+mbiiDYQtJyE9+MRw5vXgLxS9GCernFm5ZVEAKKVFa6C+0XAJggvg9p5GMaxoKXAwc2q8njj71TlgTD9zf58NWCFfspDY0ckk3pRMwRLtfuWav4pNX/QeOo2f1U25OCWgfLIyEujV7CyZxfLRJMypAS1eLT84KQkUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787692433; c=relaxed/simple;
-	bh=NJvPOFm+S1FnVfVlIhh5jr3FN4cDQ9zflT1PIMVXqnQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=XnB4SyBt6NA3AqWIJmsFOeLfRIMyT+wHg+TFOEMnYZPa4pjdevxqTrtUKKx2hr6e1tZa3KEdgaVRgcS748dllLnKNiB6P7AZ2f5vWXv/kp1md/X8ygd82YYXr0YpwOJ3Zf1gGLrE14f9iei6KYIiOY8flQVHW4UuguBQSKUls5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20251104.gappssmtp.com header.i=@davidwei-uk.20251104.gappssmtp.com header.b=oyWLhDXF; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20251104.gappssmtp.com header.i=@davidwei-uk.20251104.gappssmtp.com header.b="oyWLhDXF"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-8525efa7274so293365b3a.2
-        for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 14:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20251104.gappssmtp.com; s=20251104; t=1787692431; x=1788297231; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ddAeZrHvMNk2F9xZwSOeWSN27MXbjBM9ycj3Kiv7Pbw=;
-        b=oyWLhDXFG0Db9so/ZOiS9JpuCfyvSAhWEcq3NLmBIs9xxbts6yuS96Hwww4EaPv6Xx
-         /buJf95Fp6YzeSoeyPIYji0CDVdW3ZsSd1dmDcQE8IdgZViv43m640pIvBRBCfGIZyBy
-         dvg1xFxJd2wZQfaDxIrhuD3thcArmN2vX0rV7eWX/9Qw8lJzW5KxkCIy/N9wlaB0a3Uf
-         CW2STSvq/9XiaWR8zNhvY/XRgDznygpZTiftCO34D/de9DZDPS5abFzKcvyGPoRuHiY3
-         TXVPQCWvUqs6mXz8ghL9gO5b1DaaBuFgcc3n+6CljE3TW5opQCzs7apOrNhmna997/6K
-         rv8Q==
+	s=arc-20240116; t=1787695735; c=relaxed/simple;
+	bh=ALvTtQS/ZvvUR9gxm8qmzRxg51/e/os61XAFTpQzc/U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iwvOoD3RGEqJMCL02crDfO3oKaQUzToBZi6WdCLaVoraJnBMlizcjgG+9s7mujK8QdlCNWVv0UVTbfftj47ilptGMOnlHcSt7xLlLMWA9vHMJBg20hUm+jY3ds1f/0MVs/nUmfn16HrAYEtTzvzSG98ooHHSJFsXgzixvwT5Up0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7e9f69ee6f4so343866a34.2
+        for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 15:08:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787692431; x=1788297231;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ddAeZrHvMNk2F9xZwSOeWSN27MXbjBM9ycj3Kiv7Pbw=;
-        b=hLPBuuYaFoHaYKPnAjglzntfuGWfTvQ1erj5boRFhmRPonQMR+jR+Pf0b+GHt5Eg2H
-         8ZQNBGE2HCpITFoz9RxSQSKZqlVrluEyr3LRfQzt8oCOzEugs3QH3UJkWtpf+NGqBZNl
-         /JzbT1xhSytFBPt2zdprIg/6dBGKiYxg+d2tpHES37AiRSpX89ooa+t1/+ni5Dy/6MsF
-         uaWl4sVJhdlLQNsHmQWP0uECdavhplb44co693H+4tUmdJgg6FuGZM8hJ3PBfU2T0tla
-         uWBh93b9lwvRCIgbzkijK6AmHMJDFMAV+vjwgRDH3VdSaZvsjvo8Dka6g67qsA79Rvsv
-         10Mw==
-X-Forwarded-Encrypted: i=1; AHgh+RrVdh8sXWdSpSBTEZ1uT7rvq+6g6SGleIae4/uroayZDs8qGhAlO43SxuuwagwOrI1db7qmWLIGnt0g@lists.linux.dev
-X-Gm-Message-State: AFuF++mztqctDF+T434JfYy/HBDLiuxC+fXF3mi7l0ZPTNhQefaqVo15
-	nQrmvucZSh84jIw0quxY3PEX4Q1Qhfvktq0iTiRJKwCQskrw77S49ozOq8SntfJx0AE=
-X-Gm-Gg: AR+sD10QqTw0FXqMUQYfdPOC3TtqP8fvhe7nhccUdDA0XaPz3IgPkLm+xH1Mz8CNUCg
-	gzhN5AbJ/BuZjDi1DEsxrIBbchQ6SUcDeYP4nzJ6z2TdRssfSUeiDlt55g7Ke36HsMBcLL0WXqW
-	NUn/hfgMWzhv3Nd8lsNRufafqJM2L4IjJqF8UE43fK6rEPaHr+9Y1iCmxwB9cYzQIPqVMpZgTVy
-	QUOjhD5pPs7Uy428FVCe0elFbEG/Sc9LxiuuMHJnSDhAN2/fvjZ0vv3zVsbtcQmuMZS/yrNVcZQ
-	MmMU5ik+/7Sr33xTHTgUTLMPKmnUnee/fZJGGs5c7F6Ij4QpMRMmHM0fiz8tKfYsftgMZspHif4
-	o2sbTuW7TQUY/li/sH4QeY1ZwQCmi/4DRs/N4kxWNCuUHwSBpXuNg2j4x+9T61LYoMcq8gC25si
-	WUpecubEG/PyQ+Vdp7AKk3457Wdi6KrIGx5tALJM4TEu90CQ7bahHZPDUcqATg+PEXNYxaT4/PH
-	LNzCuzhZ7TaqopjC6te6mNEuSyLJdFKqW6+x2Aih8FW67QFqpSbHBsT60Y5
-X-Received: by 2002:a05:6a21:3086:b0:3c0:eeb7:28b with SMTP id adf61e73a8af0-3cf762865f1mr2284086637.8.1787692431478;
-        Tue, 25 Aug 2026 14:13:51 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1156:a:73:30bd:a4b6:294c? ([2620:10d:c090:500::6:3a4f])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141a9036c85sm1754277c88.9.2026.08.25.14.13.50
+        d=1e100.net; s=20251104; t=1787695733; x=1788300533;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ALvTtQS/ZvvUR9gxm8qmzRxg51/e/os61XAFTpQzc/U=;
+        b=W+zAQMYsKDA8/eWFc1fS/sDNO4AS96Yxbi397rOwBTf7ryBqOgWDsnTTWCj/boH+7f
+         Uth70ku8Q3vje4c7roEa6oMxBidyQJBSlPXc7oM59SN0Exo8528w/G4SorBCuHvDcn/h
+         0N5iYHFzw0xmtikENZhwoQdFeW+D7yk4zKqcZSXJBJFbpTGvtVxJYfDZZqU6/FXsYvxa
+         9mZg/kOkjwAhSHrrT+S7U1HCu4prBpisbZY2tDWfNYzZJIwMyV4ojlAoS7QPHiZWfNTV
+         aS9kPwocTZKvZpVHmoePoVIgNvAa57+P/02or15YBnceYEW+GSSLC57Ws1yLBF8KbLdT
+         FBHw==
+X-Forwarded-Encrypted: i=1; AHgh+Rp79dz/cYFh7E9OtjYG4s0Lf/LyKuxbYJFDJ7n/pvmoXUmIxhOhG/1BX0C36eEAzkmrXuKuvOMmC2QL@lists.linux.dev
+X-Gm-Message-State: AFuF++m6uNpBLvrf3YoOiWvhaNSbcISgSdkVrTPZIsebVssOC57TiLMf
+	qcFAHkuYrtA75elm3L+KFXFeq0+jj6c3e3AwfMeBTeBJL/ncyoUp8rIv99U/ybw+
+X-Gm-Gg: AR+sD105S3jQNV3QpF/IQxRODtZe/IXZqKwKkLgsFFwGdTXWPViXjgutOyb/QFbnqTL
+	4+TYwbt2GtJglZZTnhwKaQKXknU6hBEkEOblxRfa7Ei+cJgk3S6Dq43Dh8dv5iI/5QP6OFQtmMF
+	XVboNywOJ0PFUz3FEZ36+BvLibYdf0IDTAWkNmM5spv/Q+N0C05GQ1XdMDzEE/KYUCqa2Unb95H
+	HXJcm3IjBWKeRgcbE7CUwPjgofiPDPpr9zdscd/4udWHD86vb140v+pSIu/9q/m+TS9Qw5QXFJ/
+	iqTTpdQXdfEBinvXy9Dccjs4G7y2YCGXpJJ4Xd+puY9dspE36Uh+dzemPLO8/GBjHyZ8D80sjEL
+	1hQtdOUGG25L4fD5WjQGnbN1q7Kr1++xbHQsVzAdv3in0aocXWB3DdNpzlTNU/ZqocTWb9NE5Ja
+	C0xCbtN+RdkYivnn5hoJdfbGHLz/ROPzLEc3uV6rYVxC+PwpNnxWHS47vOwoPGfq8sgtoEp7DZe
+	rDKB4t9QZqE/OYVkMeI0PA0W08Ij2iNTPcTHUO27y2587ay4/tNv24puZSegExKnrqwuDV5dYmr
+	sk4jShXVB2aW9rs/is9+D0rsjU7cT9McbZw=
+X-Received: by 2002:a05:6830:6687:b0:7df:5fc:3fd5 with SMTP id 46e09a7af769-7f4c4dd1f54mr2502110a34.1.1787695733210;
+        Tue, 25 Aug 2026 15:08:53 -0700 (PDT)
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com. [209.85.210.42])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f4c8410090sm119535a34.19.2026.08.25.15.08.51
+        for <fuse-devel@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 14:13:50 -0700 (PDT)
-Message-ID: <4ab0f3d3-e626-4017-b0d8-fbfd7956ac87@davidwei.uk>
-Date: Tue, 25 Aug 2026 14:13:47 -0700
+        Tue, 25 Aug 2026 15:08:52 -0700 (PDT)
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7eb5bdb50fcso297817a34.1
+        for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 15:08:51 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrCI3epD5C+5dXvUto2IhWpMkBuW+gfODxJ34BQPNGJzPYvbJg6OoqxC2DyhNxW/dKonuOuaajmJ9FR@lists.linux.dev
+X-Received: by 2002:a05:6830:7104:b0:7f1:ddf1:c731 with SMTP id
+ 46e09a7af769-7f4c5097628mr2648400a34.13.1787695731676; Tue, 25 Aug 2026
+ 15:08:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/7] fuse: {io-uring} Allow to reduce the number of
- queues and request distribution
-From: David Wei <dw@davidwei.uk>
-To: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Luis Henriques <luis@igalia.com>,
- Gang He <dchg2000@gmail.com>, fuse-devel@lists.linux.dev,
- Bernd Schubert <bschubert@ddn.com>
-References: <20260529-reduced-nr-ring-queues_3-v5-0-1dc08c2fccf6@bsbernd.com>
- <65b910bc-67cf-49b6-b471-25280e7ba997@davidwei.uk>
- <bece8a86-83aa-43e5-bf8f-551537a2506d@bsbernd.com>
- <9bbda36f-740a-400f-92c0-3f6f3bdd0662@davidwei.uk>
-Content-Language: en-US
-In-Reply-To: <9bbda36f-740a-400f-92c0-3f6f3bdd0662@davidwei.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com> <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs> <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner> <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+ <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+ <20260822002111.GA6110@frogsfrogsfrogs> <20260825-hinab-kanarienvogel-mitschnitt-04a662533a24@brauner>
+In-Reply-To: <20260825-hinab-kanarienvogel-mitschnitt-04a662533a24@brauner>
+From: Neal Gompa <neal@gompa.dev>
+Date: Tue, 25 Aug 2026 18:08:14 -0400
+X-Gmail-Original-Message-ID: <CAEg-Je8d0kKH=kPiG7RDK4jGiTvECyOA_uFkZzbuvDpR+owJEA@mail.gmail.com>
+X-Gm-Features: AcwNN1Ug6ZjMUQh0-6_7H39nZVAq6SWCLa31cOPu7pwraCiDoCVhUYh7Q1UxHT4
+Message-ID: <CAEg-Je8d0kKH=kPiG7RDK4jGiTvECyOA_uFkZzbuvDpR+owJEA@mail.gmail.com>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+To: Christian Brauner <brauner@kernel.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-08-19 09:12, David Wei wrote:
-> On 2026-08-17 14:39, Bernd Schubert wrote:
->>
->>
->> On 8/14/26 22:55, David Wei wrote:
->>> On 2026-05-28 15:55, Bernd Schubert via B4 Relay wrote:
->>>> This adds bitmaps that track which queues are registered and which queues
->>>> do not have queued requests.
->>>> These bitmaps are then used to map from request core to queue
->>>> and also allow load distribution. NUMA affinity is handled and
->>>> fuse client/server protocol does not need changes, all is handled
->>>> in fuse client internally.
->>>>
->>>> Signed-off-by: Bernd Schubert <bschubert@ddn.com>
->>>> ---
->>>> Changes in v5
->>>> - Rebased to miklos-for-next (Linux 7.2 base).
->>>> - Folded "Fetch a queued fuse request on command registration" into
->>>>     "Allow reduced number of ring queues", inlining fuse_uring_do_register()
->>>>     into fuse_uring_register().
->>>>     - Fixed retry logic in "Add retry attempts for numa local queues":
->>>>       replaced cpu++ with cpumask_next_wrap(qid, mask) so each retry
->>>>       advances to a genuinely different registered queue (Joanne)-
->>>>     - Simplified "Prefer the current core over mapping" (Joanne).
->>>>     - Folded READ_ONCE() annotation for ring->ready into "Allow reduced
->>>>       number of ring queues" to match WRITE_ONCE() on the writer side and
->>>>       suppress a KCSAN data-race warning.
->>>>
->>>> Changes in v4:
->>>> - Fix leak of ring->numa_q_map
->>>> - Fix q-imbalance due to an issue in static cpu->qid mapping
->>>> - Performance tunings, like preferring the current cpu
->>>> - Removal of distribution among queues, Joanne had concerns about it.
->>>>     As it is an optimization, it can be added later again. At least
->>>>     most of it was removed, some light distribution is still left in.
->>>> - At the end of the series, add fuse debugfs entries. This could
->>>>     be factored out.
->>>> - Link to v3: https://lore.kernel.org/r/20251013-reduced-nr-ring-queues_3-v3-0-6d87c8aa31ae@ddn.com
->>>>
->>>> ---
->>>> Bernd Schubert (7):
->>>>         fuse: {io-uring} Add queue length counters
->>>>         fuse: {io-uring} Rename ring->nr_queues to max_nr_queues
->>>>         fuse: {io-uring} Use bitmaps to track registered queues
->>>>         fuse: {io-uring} Allow reduced number of ring queues
->>>>         fuse: {io-uring} Queue background requests on a different core
->>>>         fuse: {io-uring} Add retry attempts for numa local queues for load distribution
->>>>         fuse: {io-uring} Prefer the current core over mapping
->>>>
->>>>    fs/fuse/dev_uring.c       | 313 ++++++++++++++++++++++++++++++++++------------
->>>>    fs/fuse/dev_uring_i.h     |  25 +++-
->>>>    fs/fuse/inode.c           |   2 +-
->>>>    include/uapi/linux/fuse.h |  10 +-
->>>>    4 files changed, 269 insertions(+), 81 deletions(-)
->>>> ---
->>>> base-commit: 2dcf16d41cc04472a4f9bc6e99d0ab26cfb1afb1
->>>> change-id: 20250722-reduced-nr-ring-queues_3-6acb79dad978
->>>>
->>>> Best regards,
->>
->> Hi David,
->>
->>>
->>> Hi Bernd,
->>>
->>> What is the current status of this patchset? Do you intend to keep it as
->>> is, or as Joanne mentioned combine it with queue add/remove?
->>
->> I think we should combine it with queue registration from Joannes series
->> and that got merged today. And with that should aim for the next merge
->> window. I also want to add in the RCU lock for mapping updates.
->>
->> Next step is that I need a merge request from Joanne for libfuse, so
->> that I can test with FUSE_IO_URING_CMD_ADD_QUEUE. Or at least I need the
->> branch. Well, I could add this in myself, but that would a) lead to
->> merge conflicts and b) cause even more work.
->>
->>>
->>> We're running FUSE io_uring on fairly large hosts with >150 physical
->>> cores. FUSE io_uring ends up creating 300+ io_uring instances, which
->>> wastes memory and bumps against rlimit memlock.
->>
->> I fully understand, however, I also cannot focus on one task only.
->> Besides having a totally different day job (right now fixing ublk_drv
->> tear-down issues), there is also libfuse (just check recent commit
->> history... I hadn't planned to rewrite tests, but I didn't get pytest to
->> hand out information what is failing. That all takes quite a bit of my
->> previous time). I'm fully open for co-maintainers...
-> 
-> Of course, I understand you have other things you're working on. I
-> didn't want to step on your toes and work on something you've already
-> made progress on. At the same time, it sounds like you're spread thin,
-> so while I'm not certain on co-maintainership, perhaps we can talk about
-> how to shard this work better?
+On Tue, Aug 25, 2026 at 9:44=E2=80=AFAM Christian Brauner <brauner@kernel.o=
+rg> wrote:
+>
+> > > Without John's trust I'm not taking this on.
+> >
+> > Whatever path you and John decide on, I would very much like to see the
+> > question of Which famfs driver do we merge? to be resolved for 7.4.
+>
+> While it is reasonable to place limits on how long a series is pushed
+> out (I like to move with some speed myself.) we have two competing
+> implementations and that will have to play out. We should not merge an
+> fs just to finally merge _something_. The fact that this was more
+> contentious than usual doesn't imply we need to merge a version, doesn't
+> matter which one it is. That's a bad reason.
+>
 
-Hi Bernd, following up on this. Can we work on queue add/remove which we
-need to fix our problems with FUSE io_uring in parallel? You seem to be
-spread very thin across different areas. We don't have the bandwidth to
-co-maintain FUSE/libfuse, but we can work on the patches. What do you
-think?
+Well, after 12 iterations in this version alone (working on this for
+three years) and forcing multiple side quests on John, I think it's
+not very fair to him to keep stringing him along like this.
 
-> 
->>
->>
->> Thanks,
->> Bernd
+At this point, I find it hard to believe there's much more to discuss
+about a not-a-filesystem that is relatively isolated from the rest of
+us. I've been following this discussion and while I don't necessarily
+grok everything, I understand it well enough to know that someone
+should just shepherd it through with John and just work things out in
+post. Honestly, the amount of metaphorical heartburn that must have
+been generated by this is insane. If I had any say worth a damn, I'd
+say let's just have Darrick work with John to close it out and get it
+landed for 7.4.
+
+Ultimately, the question of which famfs should be merged should be
+decided by John and Darrick (presuming we just all let Darrick
+shepherd this through). This has gone on way too long, I'm getting
+echoes of the sched_ext mess... :/
+
+
+--=20
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
