@@ -1,103 +1,89 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C75B296BC8
-	for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 13:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787663013; cv=pass; b=pVfn3CMF/hwN+cf+FLX5Ur9qhud/GUnPzJ3PgoaLptxETc7dCjjTbxKemNltjW/gR05llHAhZBjgFVvLYZxEaLQcF6vsOQrk11yCpxMO0jg0rIVw8VSlA4mVraUDxqOPhVtca+xeg3hvh50IUbL72fzqh9kD0NMLLnHeBN9eiOk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787663013; c=relaxed/simple;
-	bh=CUEr/e5MholbNaYQzXTmEQ6JBM5Dsq0Y//IYN7xJv38=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fvI1WrOAUCTZoC3mbzQaHWaN3SP3oZr6RVLY009Na8peLrNRRdmNnSMRL32aiXIi0SLQS0rnUo4aoQMjKEXEIX+filjBre2WvJUePRcv716S1NpTPtudgcYgYl5qTuEwjKz6kiDRiR/POHXAoova0TL1szE6KbyypPbiIp7Qzsg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=fykuS/kf; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504FB481647;
+	Tue, 25 Aug 2026 13:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787664859; cv=none; b=HVbUxe7IHOaUcCnKwxlZoXbWR2eZEpDEOTX0oPB/YZWivfpPhTD5eI/S7hX0QNTZLuk7oMGQrx0DQQaFUXK+aAWRVuvRgdxAE7a35uZnPOF6e49UuuHMKmmUFlIr1XofREiPNBBoO8aIDrZSAetK0S0pJpP+w0S4GIeI5GxerhI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787664859; c=relaxed/simple;
+	bh=Ur494N8tncOiuUSFJwAM1NGjeVD1akKThWH07XBptkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ypd1LyzBJFF3+F/c1ep5XzaLqoaToLn1sPxBLiiq661mEWtfamgV5OPiQdBodOaKzBLJxPTm04G8afp4X/QkloQec8HyQTgy6IPx4DZ2xT56XqdxqcLIWoDuXQlKPvGGkVwI0N7iNfHKeN5y0x3hSwUwoHZL7LQPx07uOaOc3y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ANonr/2C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="fykuS/kf"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51bfa429aa6so4393121cf.0
-        for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 06:03:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787663011; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XSt3PpLCkC1SdYDq/OpFdZ0L6r4z+QPCHJZE+4JBtcrWp+RWurYa5j4y42gaxLz8Jw
-         7UW4LlKt2E7wV4H65FEJJ4l0VgnUtoCd9mecisjBMIi8G6xQnMesojYbb5KGdbd68nJ2
-         Yw/5v9GnMUQPDC4bjGqG+0uq9cN3XxlYYrzsn6M7GsnXGPIzhLFH3qZJD9bP4bCwwtBw
-         MLrgomPTYM999DrScD3LatojmYMltfKE93Y7JkDgIhrFAqZm8YVe2VWMepGadapG96yS
-         iSBmrgytOXIDOG+4k8ygqwvETvMcdWkI2r5UlDIn2zlFa8TUBsVZMFmwZ3mVVoOUsu5C
-         bQ+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=CUEr/e5MholbNaYQzXTmEQ6JBM5Dsq0Y//IYN7xJv38=;
-        fh=/ayxSprbVnal+qi9czzY2aY0tcf9jBUUcSaj0qcbQTI=;
-        b=Y4EyHfr9+BZpPerqeA3BN4fXPsD3tIk76zNxLVPMAgkRJVYARTFTD9IvMj2AFnV4YQ
-         TEDe/ABQXCu+dBDeNW0TOt1VbZKbW0p3wvpKT2XJBwWln6S3H0BdZjJCv9aBEfOhsAs7
-         DE334+7ajQwXfuyjVsGnlOwx6/Hg2M+1dy4QsMmbiRxUg1C+YXy3JQUTdoa35GqPSPGz
-         LKqcie6s5CWS4mQNlhs9IvXpJHCBpCEloYEczmnsP8Dg/8ot210vGryLcf20OtyOtqsv
-         tMlYXdDNlBoHxL1fypgfBdudaL/9fXCR7EcTPi+qGuNmL2Rx6EF7taeF8vJ+rGOUMVvQ
-         gIiA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787663011; x=1788267811; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CUEr/e5MholbNaYQzXTmEQ6JBM5Dsq0Y//IYN7xJv38=;
-        b=fykuS/kfIOG6J28lAS85unf+NTL5nXRj5fmHomz8UvS2iOouZ9WfmK7AhPUAvMwSxp
-         lbxSFn6MjzDeEuZsEeMMgv7an8AiRtqn1HGTnduf7IXCQ8tN6jN+9VHi+KMwQ32wJV9j
-         0ei1geR3ZyQOuCwWw60jo2xcpPrq47uhNUWGc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787663011; x=1788267811;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=CUEr/e5MholbNaYQzXTmEQ6JBM5Dsq0Y//IYN7xJv38=;
-        b=hfpd+VRFG1bI86Jeg2r9q6azYPOrdKC4uBpPYqelNaJQZ8O9+fuMUHaJMxe1lKwA5Y
-         Rukq8EDerh0WA/h8DK49AlTg00uSWylq4d+WjGI2wOHgJQAX/IXczytLTHKvPdGUtwgt
-         ZyM0jVF/Rzb1PT3n+sH4GCG4qQd1g/vo6cY6sekw5PL12AngNsU1zP3IsF6cvYktE1y6
-         IL6EDQCnx2OlUaO/Wbr5xe9lRrtx94uvC1W67xNJSoDc0bqTV6M5Z6Gqk3vFucdbrIkt
-         Z//F/9NIMXzE8Jx3v7eVIxFCjKqdhY7YsA2+A2yeleP0Uq3NAa9Xr3OtWddmtip06WSC
-         zDlg==
-X-Gm-Message-State: AFuF++ldIAsWHPN4nCXnTXMo6CftrLTMbaQZZkDQhYs+1ZXK4AejJqOy
-	RIJ3to2qeAxthCjHhB7KNOFrnVvxyTT9JOourZmetarpWU4jLefS8xPkQ89GhlVOIt2NQknjHNm
-	n7R9p4exYAuWr6vUmx7ubW+4GQ+bMpYn+Mq0dqoj6Ig==
-X-Gm-Gg: AR+sD10FtBh2PpOz/wjFjlHqvcKO4yL5g3+u+xfAccoLOUV8MuuZ4M9OPfHVoHIt59p
-	48EGbM+tEUhJXjmLxxwjtrk9rKBbSY5D5cCsOOoWHWq6hwB6Fe3HJFLLBmpYrblYl0DN4OgI64y
-	nT+T8i+cx7LA2Q6NYr+sl53p6Fv4raOnG5wrhZxTEnUm7lRyAqGLGxFK0qQzR+/KyE+LVbgnV6o
-	gV4xo7ZgdG8KbaoSiIljrBqMC/pIKkzZDgcB+DOatzOeCwNrn2MrBaEW+1y3HPrt/lMxenTVSyw
-	f1faPvv4p7r7lBS1h1QlZXFlMCKd1f+QXnjjDWWJ57DEhEJVMyIRijbZy+sJ5o0w/1v886vCNlO
-	NhUg=
-X-Received: by 2002:a05:622a:118d:b0:51b:fb5f:b263 with SMTP id
- d75a77b69052e-52e2ec1e5demr67516461cf.4.1787663011283; Tue, 25 Aug 2026
- 06:03:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ANonr/2C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430A01F000E9;
+	Tue, 25 Aug 2026 13:34:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787664858;
+	bh=8sEDHtJiuV3WEA+sVpfliu1h4A/h9boCX0oYBZXCbMk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ANonr/2CovldT/yYJtMwtmKZ/t8+e7ApMmSuLw+MiM7p7KYE6RnPF5lqgfWbp43if
+	 sq1+DoT3HbJ4WzE/8bjmiwHymsIeVYwA6KcX+p3OrOUpqcB+VwZkm2UG+gwTfBnLGF
+	 urLG8AvUxKvAGYdNTQvRBdCi4mDIqQBi3uC/Z+LeD+4RioLvH5lYtzaqfXwPDIwoJ6
+	 xHspLTBK6UG8TwPf2u7sMwV6FDe41CVmTbC9o33sAA58sONMHRntAnPBY5Gwz5+SZR
+	 qYxO4jEqeXm0jcQCHO8LolSc7R0KiT+oSOXfZ1v0n82Gy/AsAIBUG6xqI33EZG9i/Y
+	 SwDQ3HyyBerNg==
+Date: Tue, 25 Aug 2026 15:34:04 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
+	Dan Williams <djbw@kernel.org>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+Message-ID: <20260825-hinab-kanarienvogel-mitschnitt-04a662533a24@brauner>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com>
+ <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs>
+ <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
+ <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+ <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+ <20260822002111.GA6110@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260820130158.254808-1-jamz@amazon.com>
-In-Reply-To: <20260820130158.254808-1-jamz@amazon.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 25 Aug 2026 15:03:19 +0200
-X-Gm-Features: AcwNN1V-E0YVDUa4WhV6OmS9gRNJfrQeO1sZEy5JreCrY0gVdVTUszFjJtAbGlQ
-Message-ID: <CAJfpegsR1oNh_PnmK-a+k=6ttdpXYAyg6SsQe=ZMCZN03gvPhA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] fuse: allow FUSE_SYNCFS for privileged userspace servers
-To: Jimmy Zuber <jamz@amazon.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Shuah Khan <shuah@kernel.org>, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260822002111.GA6110@frogsfrogsfrogs>
 
-On Thu, 20 Aug 2026 at 15:02, Jimmy Zuber <jamz@amazon.com> wrote:
+> > Without John's trust I'm not taking this on.
+> 
+> Whatever path you and John decide on, I would very much like to see the
+> question of Which famfs driver do we merge? to be resolved for 7.4.
 
-> This series lets a plain /dev/fuse server opt in via a new FUSE_HAS_SYNCFS
-> INIT flag, honored only when the server opened /dev/fuse with CAP_SYS_ADMIN
-> privilege in the initial user namespace -- checked with file_ns_capable() at
-> mount time.
-
-Applied, thanks.
-
-Miklos
+While it is reasonable to place limits on how long a series is pushed
+out (I like to move with some speed myself.) we have two competing
+implementations and that will have to play out. We should not merge an
+fs just to finally merge _something_. The fact that this was more
+contentious than usual doesn't imply we need to merge a version, doesn't
+matter which one it is. That's a bad reason.
