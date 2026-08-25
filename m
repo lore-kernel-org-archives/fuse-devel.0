@@ -1,183 +1,215 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587EC2E7393
-	for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 07:08:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485D93F20E3
+	for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 09:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787641708; cv=pass; b=F+GQ/ctAMYyEUE5aNuK2j0U5D4MhhHwI4XRZaRRda/vGXhVbs4PN9xYJtefVeOM4WJYvgh2D3bJC6pxU07g9iHr1wg6vpzLAF3XCLzR3EDVrf/hJAgmxtBnAWk2/FchfF0lNonUvqb5PXn3NutXps2ugVjnx43pcV024BNAsyUI=
+	t=1787650858; cv=pass; b=DcbKgJ7g9BJrxY/vui7b4oD6SlcJtuxlM2z5c3NK/X9mG6PD2knZGTXrKZqDHLW5tLt+ghefJgM1uYtgo4lskZPKR2E+JcgBGftIMUkB4BSozQcSY9DlUo7r7nhVSzhsY12pL/+u8OVk7qsSZy1R+J9XdH/JzGQGTXegqq3CZLs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787641708; c=relaxed/simple;
-	bh=YLC6H3tBQW6nRRMf6LiPtQJuL1Ra+q2lA0+1KSYOB+Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tM3/sVhzQcMw5jcM02N6eaggpZfncgxIqQBgmwXTgjpTMIQ0H68StKV4IoulzLH49dxr38SSm1YRVBwXm5nKD8MC8ESaZZFJGc9tnILZdKWBiWCd6IFtRwqj8vgg8GNtDewudjc0E17FmeJlj1Js8LlgLuhpLHdNvLjPZvj1ReI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=pfdOuHuD; arc=pass smtp.client-ip=209.85.160.182
+	s=arc-20240116; t=1787650858; c=relaxed/simple;
+	bh=mXiMtyLOOYxxVMQ8MUK/K08ApFUpRcECz0ksD1wsMDE=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=s8RVFZlef7G+p6m06/FCCp59yfGyr6P8CzlSl932t9Ktxw6lfxJvoU6QrXWWnGECfdh5537mcbPhl0UfcJ8HGfzzWUApeIztG0Iuq4STOThRCvAa9puebjGKw7qEJVFf+6O2NsHOGd7u0U8eymWj2tP4X3tyJMClp/seLHvy0tM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ivMlqSZF; arc=pass smtp.client-ip=209.85.160.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="pfdOuHuD"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-51c2a449c57so25153251cf.1
-        for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 00:08:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787641705; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ivMlqSZF"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-51c0ecfaee7so29509031cf.0
+        for <fuse-devel@lists.linux.dev>; Tue, 25 Aug 2026 02:40:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787650852; cv=none;
         d=google.com; s=arc-20260327;
-        b=dWlOWC23/Akz9IBtHDq82W0D8HBi7NVO0etwbckw0pQ8s+vP8E5XsmUaztEYA/ChTq
-         MNnzKU0bKQj2+TLRiBi4oPWTX9vnbMdmwHBi6f9zpSBqWNGjnzytK28kbjhlSWP8/0Hf
-         k411gzrjzHRA9D2y2E6iUNGbOla1+XUfPP/VH53Vfsnaiqlp9Cv+aKuJuAeID0ndrevG
-         c3nPGvPj0lsK7advW13WQn/bnZ/tK9rWoU9rUWQfAg3wYfG7q8bdJ9xgeLR0wpKElBsv
-         /A9LjUJN4lAeDfmDTOD95s3l7BCofyhNJgDHq1HO9zePUY8NsI6y/sSiGfA29DWiFKE8
-         gkMg==
+        b=LzyB/1x+nJVTQXKaNuD6R8W7PYVbf7rrl9u/uMk4ZkNJZTbmYOFNfb6I7eAk8gFh30
+         iUu2pmX8mL1bY5uSos3NPGP1j7WSkVkRAXMznJktkmXTKu44S+xxTcIIyj9Igk4rGJms
+         qEBuHKbpegXwOCdtjlNKebnbDbCNkrXq1APWQr2Ugn7QI2nTpcHXea+I39443i9q9Pb9
+         Ihb+64N6qrqhWv6No6Rc7fz8gSctWBbxp/cP70k8OvjyPDW6pXDwrMCjIWRfUb8mufzb
+         uDUqg/on2u1Fga6TFvtNGjbBN6mQFp0c2DO59cD0/9wjGAdJYTbh3eQs4Bu0IYV/3TyG
+         Xgjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FUPUaRwtppzW7Cz0zNlhCOY1JMoitTGaOwtquxqzhgM=;
-        fh=RMaa32ya7R5keqWNS5yuxv72JQ59GTREybtwLF0ErW4=;
-        b=iD6HHeSMrkDy8huqoTlBXyFK5Wnu6P+SKjjwaebdQ1W2QavwqBwF+D8WBcxI1DqEWh
-         6AskzpeCJ8w1lIEEtD8bgY6zoa2LRrtBs0KSAqp4Yh2H9J3DKRGvQRkxcu2y5tlRmMnv
-         m5FJ5bZY4w7pHRm+wYO6uI9pVqzPb6j9cv4VUtx8ru1HwnT5ITozQ37/KOdGI8ayZjhv
-         v30glmzPDm8SwJ4UTnosqcfDLr5WHo8ECYhNTeCMzFT3t11HJ/piokuZSK0KeCINMR2R
-         6vGo00VuSYwnlboV6WXgdO4oOGgP4ubQkYeU9rEdMZXaAVB2KMKRjGEB7tBLiWaXAm0E
-         QgFQ==;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=5+zCHFKCNOCONPbwIiY32D/ElA6N423eilIEaRYhv2E=;
+        fh=Ac/tL6fFGINIG6ym31MYZamHCUDbisWDb6p4FG3SuJs=;
+        b=YElVe67pDMpY7lPD2iDBmsF8loA0u6o7s+Nwjl/iKuyqQ8W8A8j4yxw5ft/TOkCXYe
+         XPSdFSs92RE8nvmoGQTBAOTU+VeTVX6hiEqDWY6rm5erZ+6chsKcPXnzhvu9VvfVwYJG
+         TO/5llO2p7w8hSDIusN8um12fgyzv6bezIQ1fAurK8bfTe3Ku8Wvr1t2ScC66+Ng09MD
+         KIx6T9fMppvogjRdY50h5awinjRRLPWIhGip6pTh9oaqS690lZZmajGbPDqwjFWajIAO
+         MA0NeFqdgi5xDa/qe0B7sPrHyfa1U+yrJ/8vgigJF5YrBCJQ8r0dFBwulm5RnX18ILfU
+         hShw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787641705; x=1788246505; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FUPUaRwtppzW7Cz0zNlhCOY1JMoitTGaOwtquxqzhgM=;
-        b=pfdOuHuDUzJo2ABIpQb2KNsGGY2kDgub2TAc0enX8zzameZRVhgv7TrZc9DtP0p+wN
-         /xgRpH8WeI1bQgbhLnbKx9yQbzxVvJx27mnMGpFn/qqwG3DvyYRhhAADO9uUdfpKCjEt
-         /TDhLagkSjQ8GqGButPqlbrmOMpEUDpNmHKAk=
+        d=szeredi.hu; s=google; t=1787650852; x=1788255652; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5+zCHFKCNOCONPbwIiY32D/ElA6N423eilIEaRYhv2E=;
+        b=ivMlqSZFmUYgn/lVwrfWcxCxavuJ0kV0rmF4RObrVf+tYAvsPKFjSVYWdOjJvaldP1
+         GlBm+YxFKvon3A1/d5hSLeCM3PkYEJlEBRrG+J/LWhdnVAMjlvlwnFSyLD1wwlIXRnU1
+         GvBQdChki1L8+zETLeEGBQheJHHk1fID9bwsk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787641705; x=1788246505;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=FUPUaRwtppzW7Cz0zNlhCOY1JMoitTGaOwtquxqzhgM=;
-        b=LtwLtLC9hBrFZeffRP8cc27bUC0ZLRjLKg3BFzVlb4iLg1Dfq1ObuCL00aW5gxRR5P
-         fJZk0WEzd0ccfoyRpgCUjLwG/2YeVIk4dM0fd/2PSNdQSfVy/g83zBhYd0O3kWVIgaJH
-         9FVuMkErdY4iUqJ2tlcCFf7bHNFVEQ7fwESj/g1jAmrf6bmxt6lwYcjDPrhb7+/xtB1C
-         9MmdE6wBEsKLkxa26yWYKcqz8mNtLUDLuKhKaetpCFbTws4U9n6IO4w3KmRAMvHtDkgF
-         +FSL8gzn+PyHpw3xFBOXsIRoLHgGwBtkVKSovXUY0q1mV7JhIjssgxN0tkFAm1tzwLRt
-         lqFw==
-X-Forwarded-Encrypted: i=1; AHgh+RqSq7CnKy1D398Qmns8MS3Gh2WzX+IlQvuDtupe5y8fHqAXhDXKVRkCZYROssum0Za0vWyRrqv3oJwH@lists.linux.dev
-X-Gm-Message-State: AFuF++k8+j2bpCB6hWe0wttk5RWPZuewAI8lNJBeoA2N8lu43J8J+yKQ
-	3sy3ZXs9vtGg8goIH4LeEA4jVXpe3DOlNlCT8ZlUA4ehQLTgtTAHg/+VTciIutrGQmFhvYu4fgL
-	h8aHRKiNoVg9YsKFhiuVDhKH5bYxTsgpmkztdcce5bA==
-X-Gm-Gg: AR+sD11/fgEJ0705YCgC/9uv3xc2S/LgxX5fvfVoBcVJDRV+ylnbZAOuSHCYREGx4vv
-	VnVYLGyKfyP1sY7ftahE+xMh31AdqHAv+DYzg8V34X9cNtBsNjAmInGNPgDqLbFDHffO31VoUs9
-	zHuurNVBNfWOuzI7uJfJe57g9EwTB6QKMWIDA/Ln+qCJH4woyNBoGQjROVU6hTvScDounrxqLu4
-	bQfz88x0txWec1ADmAxxDoBPD/uEV83ALQjbEOzXB1ACglhvwCnQoBcDs8qC4VAlA2WzWn6AFpb
-	X39q/1Oap1t8L/yVC4lMOkG7Jprujl3KaU2n9cDnn0vCfZdpMaV31yAioFNlI6EcyyGt1MI2gMk
-	W6Qg=
-X-Received: by 2002:ac8:5f53:0:b0:52d:6afd:7db5 with SMTP id
- d75a77b69052e-52df59ec0d3mr342600351cf.25.1787641705339; Tue, 25 Aug 2026
- 00:08:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787650852; x=1788255652;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5+zCHFKCNOCONPbwIiY32D/ElA6N423eilIEaRYhv2E=;
+        b=lDlQj+2PeIQ9F4fuK1Bkc3c3bdLR4evj3gywCD5Yl70cWt1g8LVe/SgdktOBkeZFsE
+         2cZZENF6bt3ukW6XjtK7ScVlix3LOs6mRedmOIY0ZA7VdAnbFhoKCFBJwJz9uoRSixz8
+         A/JGsO7lZXeLZixUB66o2m1uS1/YugUmxIscy3+EZViAoRbYx5oc4njAXCdR2/WzZtL4
+         VCjV0zFvwia1jimC3HJGMO52aTDvURti8jWG9Tqv3ief5a4yNV/ulirG3vUqfqY5J6MT
+         K264LcIKuQAvEvHVup0Ve3S+b4zEm73fi0aWlL20/jWcKwN5sRjPdpNQ3dY2P6vcNuV0
+         E1gA==
+X-Forwarded-Encrypted: i=1; AHgh+RoZNK9NWsxzJKda+clzY3taSna6L8Jpc43M2Kb+KZJNG2hf9cCegoufkmcfNPSuxyiNRGJYeBru+VOf@lists.linux.dev
+X-Gm-Message-State: AFuF++klb4mRsH0+XClG8eUE2J67axysYUdsLq0jKByJTGSS1VOsAO5C
+	RdRGv1hJB9fLubHlM6GbXCs8OSTOYsb6b0zFTtHmvf1qCg4DGpARhLiRHJzVLa9e5QxNn6hNHGm
+	/Sn6nPMUghtD7KDHs52zz1CtD115hvMFDcOr9c9UZOw==
+X-Gm-Gg: AR+sD10kySknd3+0kY//tDNR+eGrni0b2GEN+DX/LoaVYA7JiwwQ2b91aJh1IvXKOW/
+	rU762Xj66gaqMMTXsCM1GKnz679UYQMBBuZU62XbEl+ULLhHX7/HPqMq0m/XfzGseOco9ILsrfO
+	5FeFi3mcP656eDWak5No+JEB+a8jw6XU+CzFEcb/Bill3/lqT6DdyIg7IWDm6kqXLnxy8EzN9OC
+	T1i+fqyR70kypSsYI3MpIRPi7N79RVP5ZaWuwYibJ2PVqe/54xHDq9dUe9M65U/grdSxP29JCdD
+	kORGrMVqw/Uc6ISVTuHRtGrw7ytmM9CQwXQYUjtsHanwyPszZ2V39DJMsMDb9b2YH56jonQ+kzM
+	B339ztF3ll4Ldug==
+X-Received: by 2002:a05:622a:2b09:b0:51b:fc67:c73c with SMTP id
+ d75a77b69052e-52e09bb401amr277343041cf.16.1787650852351; Tue, 25 Aug 2026
+ 02:40:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260820193343.3852967-1-willy@infradead.org> <20260820193343.3852967-3-willy@infradead.org>
- <CAJfpegvP3i8ZJc2T=+f4rAhZ4E1QcT5+jC6mQPLxtB-yoK9Brw@mail.gmail.com>
- <aoxHOSC9kTPbKeNq@casper.infradead.org> <CAJfpegv3Ak+qNLb=fTSCSz7-taQ3Ui-Hkmqgn4PaGPe=CR4cbQ@mail.gmail.com>
- <aoyKxvdQdeJQfPHj@casper.infradead.org> <CAJfpegtgenUaudDcvecJuV2_WkkVw=gdcB0Eqg=UFKPMZP1uKQ@mail.gmail.com>
- <aoyt5pL7mXYwSqsG@casper.infradead.org>
-In-Reply-To: <aoyt5pL7mXYwSqsG@casper.infradead.org>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 25 Aug 2026 09:08:13 +0200
-X-Gm-Features: AcwNN1VLOxg4TFDsQzXPHVySuwqrEIZSjxOFz1CuAgo80c2cUSWOrt0F79eOWzI
-Message-ID: <CAJfpegv_SKhArUNBFUtsmkXSn+JzYgOjhFOqVf-Yd9MnsjBY_w@mail.gmail.com>
-Subject: Re: [PATCH 2/7] fuse: Use filemap_invalidate_pages()
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chris Mason <clm@fb.com>, 
-	David Sterba <dsterba@suse.com>, Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Mike Marshall <hubcap@omnibond.com>, Martin Brandenburg <martin@omnibond.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-block@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, linux-nfs@vger.kernel.org, 
-	devel@lists.orangefs.org, Pavel Begunkov <asml.silence@gmail.com>
+Date: Tue, 25 Aug 2026 11:40:40 +0200
+X-Gm-Features: AcwNN1X_1gdCMa4DF67VXGoGPqzeSAs-aOF2k1OnofG-LbfJv4e1RDFSRaIrsoo
+Message-ID: <CAJfpegu_5Sfbbi36ss3_4k_3Va+RSbnHxRbCUxWoTRcraQ07cw@mail.gmail.com>
+Subject: [GIT PULL] fuse update for 7.3
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel <fuse-devel@lists.linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 24 Aug 2026 at 22:47, Matthew Wilcox <willy@infradead.org> wrote:
->
-> On Mon, Aug 24, 2026 at 09:33:03PM +0200, Miklos Szeredi wrote:
+Hi Linus,
 
-> > In the second case filemap_write_and_wait_range() won't write protect
-> > or unmap the page, so it may become dirty after the writeback.
->
-> But that can also happen in the first case.  page_mkwrite() can be called
-> immediately after the folio is unlocked, for example.  Or the folio can
-> be evicted and replaced with a different folio which is then dirtied.
+Please pull from:
 
-Let me try to make up a very concrete example.  It's not realistic and
-very unlikely to exist, yet something more subtle might be relying on
-this behavior.  I don't know.   At this point I'm just trying to show
-you that the two are really not equivalent, not that this has any
-practical significance.
+git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
+tags/fuse-update-7.3
 
-Let's imagine a distributed filesystem based on fuse.  It wants to
-serialize accesses to a file to avoid sub page writes reverting to
-stale data on cached writeback.  Cached writeback is unavoidable in
-case of writable mmap, so it tries to handle this case correctly by
-totally excluding cached aliases existing on different nodes.   If one
-node reads a range of pages, that range is invalidated on all other
-nodes.
+- Improve performance of the io-uring transport by introducing buffer
+pools and zero-copy (Joanne)
 
-The below example show store to a single page on node A and B with and
-without launder_page, starting with both having the page mmapped but
-not yet in cache.
+- Fix lots of bugs (Baokun Li)
 
-1) with launder_page
+- Fix io-uring initialization issues (Joanne, Bernd)
 
-store on A
-  - send READ
-  - server checks that no aliases exists
-  - returns page
-  - page is mapped in address space and dirtied
+- More prep work for large folios (Joanne)
 
-store on B
-  - send READ
-  - server sees alias on A, sends INVALIDATE
-  - INVALIDATE is processed on A:
-     + page is locked,
-     + unmapped
-     + data written to server via launder_page
-     + unlocked
-  - returns updated page
-  - page is mapped in address space and dirtied
+- Don't limit buffered read to 128k (Jim Harris)
 
- store on A concurrently with previous store on B
-   a) happens before page is unmapped:
-      - change is written by launder_page together with previous store
-   b) happens after page is unmapped:
-      -  page lock waits for writeback to finish
-      -  sends READ
-      - server sees in progress READ on B
-      - wait until READ on B is finished
-      - sends INVALIDATE to B
-      - ...
+- Fix zeroing of page end (dirtied with mmap) on file size extension
+(Jimmy Zuber)
 
-2) without launder_page
+- Improve performance in certain cases with wake_up_sync() when
+queuing request (Xuewen Yan)
 
-store on A: same as above
+- Misc fixes and cleanups (Xuewen Yan)
 
-store on B
-  - send READ
-  - server sees alias on A, sends INVALIDATE
-  - INVALIDATE is processed on A:
-     + page is written back
-     + unmapped
-  - returns updated page
-  - page is mapped in address space and dirtied
-
- store on A concurrently with previous store on B
-   a) happens before page writeback:
-      - change is written together with previous store
-   b) happens after page writeback but before unmap:
-      - since page is still mapped, store succeeds, page becomes dirty
-      - at this point we have differing cache contents on A and B
+Note: some commits touch io-uring source files, these have been in the
+io-uring tree and have Jens' SoB.
 
 Thanks,
 Miklos
+
+---
+Baokun Li (7):
+      fuse: fix invalidate lock leak on setattr writeback failure
+      fuse: fix invalidate lock leak on open O_TRUNC DAX failure
+      cuse: wait for pending RCU callbacks on module exit
+      fuse: reject a duplicate fd= mount option
+      fuse: check for NULL root inode in fuse_fill_super_submount
+      fuse: wake one waiter per freed slot when raising max_background
+      fuse: invalidate the correct range after O_APPEND direct write
+
+Ben Dooks (1):
+      fuse: make dentry_tree_work static
+
+Bernd Schubert (1):
+      fuse: Fix the condition to enable over-io-uring
+
+Jim Harris (1):
+      fuse: allow larger read requests by setting bdi->io_pages
+
+Jimmy Zuber (2):
+      selftests/fuse: test post-EOF page zeroing when a file is extended
+      fuse: zero the partial EOF page when extending a file
+
+Joanne Koong (16):
+      fuse: don't clear folio uptodate on writethrough errors
+      iomap: add helper to mark folio uptodate
+      fuse: use iomap helper to mark folio uptodate
+      fuse: fix missing barrier when checking io-uring readiness
+      fuse: use release/acquire for fch->initialized
+      fuse: publish io-uring queues with release semantics
+      io_uring/rsrc: rename
+io_buffer_register_bvec()/io_buffer_unregister_bvec()
+      io_uring/rsrc: split io_buffer_register_request() logic
+      io_uring/rsrc: add io_buffer_register_bvec()
+      io_uring/rsrc: rename and export IO_IMU_DEST / IO_IMU_SOURCE
+      fuse: decouple fuse_ring creation from ent registration
+      fuse: add FUSE_IO_URING_CMD_ADD_QUEUE
+      fuse: add io-uring buffer pools
+      fuse: support registered buffer pools in io-uring
+      fuse: add zero-copy over io-uring
+      docs: fuse: document io-uring buffer pool and zero-copy uapi
+
+Mark Brown (1):
+      io_uring: Add missing include for ITER_SOURCE and ITER_DEST
+
+Miklos Szeredi (2):
+      fuse: move "epoch" from dentry.d_time to fuse_dentry.epoch
+      fuse: fix race between interrupt and resend
+
+Rochan Avlur (1):
+      fuse: wait for FR_FINISHED on abort_on_kill to prevent use-after-free
+
+Sang-Heon Jeon (1):
+      fuse: use min_not_zero() in fuse_init_server_timeout()
+
+Xiang Mei (1):
+      fuse: copy request headers via a stack buffer for io-uring
+
+Xuewen Yan (1):
+      fuse: give wakeup hints to the scheduler for synchronous requests
+
+---
+ Documentation/block/ublk.rst                       |  14 +-
+ Documentation/filesystems/fuse/fuse-io-uring.rst   |  36 +-
+ Documentation/filesystems/fuse/index.rst           |   1 +
+ .../filesystems/fuse/uapi/fuse-uapi-io-uring.rst   | 126 ++++
+ drivers/block/ublk_drv.c                           |  22 +-
+ fs/fuse/args.h                                     |   2 +
+ fs/fuse/cuse.c                                     |   8 +-
+ fs/fuse/dev.c                                      | 104 ++--
+ fs/fuse/dev.h                                      |   2 +-
+ fs/fuse/dev_uring.c                                | 633 ++++++++++++++++++---
+ fs/fuse/dev_uring_i.h                              |  56 +-
+ fs/fuse/dir.c                                      |  37 +-
+ fs/fuse/file.c                                     |  40 +-
+ fs/fuse/fuse_dev_i.h                               |   5 +
+ fs/fuse/fuse_i.h                                   |   2 +
+ fs/fuse/inode.c                                    |  16 +-
+ fs/fuse/notify.c                                   |   4 +-
+ fs/fuse/readdir.c                                  |   2 +-
+ fs/fuse/req_timeout.c                              |  12 +-
+ fs/iomap/buffered-io.c                             |   6 +
+ include/linux/io_uring/cmd.h                       |  38 +-
+ include/linux/io_uring_types.h                     |   6 +
+ include/linux/iomap.h                              |   1 +
+ include/uapi/linux/fuse.h                          |  63 +-
+ io_uring/io_uring.c                                |   2 +-
+ io_uring/rsrc.c                                    | 127 +++--
+ io_uring/rsrc.h                                    |   5 -
+ .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/fuse/Makefile  |   3 +
+ .../filesystems/fuse/write_extend_eof_test.c       | 368 ++++++++++++
+ 30 files changed, 1487 insertions(+), 255 deletions(-)
+ create mode 100644 Documentation/filesystems/fuse/uapi/fuse-uapi-io-uring.rst
+ create mode 100644
+tools/testing/selftests/filesystems/fuse/write_extend_eof_test.c
