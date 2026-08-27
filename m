@@ -1,143 +1,140 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3FE36C588
-	for <fuse-devel@lists.linux.dev>; Thu, 27 Aug 2026 21:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787867072; cv=pass; b=BbDGoNis5LLxabTwP0//NJVGxroHSkj7VTgSnIXlDK6Jr/NRRUJU3FSTVV1oqiGKpEDjuF3KP540JWSvuJuAH9pSaSJXfEFtCu3p1XHyIU3IV8rnMvB48h1YEqtLfZt3p21ICcZNkw75cBxAKCffAIsqo+4qFF9w31kk/pdlm3o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787867072; c=relaxed/simple;
-	bh=0sBuqucNWMJ3PQ7mkm0GStLfwt7hAbIgMaO5tBFyaUk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E23NQOYbajELZfTsc0EzNWutOHGqDiRfOPoO8W/6XuJw0lRL8/Jm/k1ID2eQA+ksKgixrWCYBj8TSlO72yN9wvhgBKGlWLfaKddtaxS5M1+v5dLEKdI+giIsv+klgGaHkqS1eKu25/NUH/wLo6n5yGCLxBc8LzMcp6HG9WsGcT4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=pass smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=Va77KthW; arc=pass smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82539388E40;
+	Thu, 27 Aug 2026 23:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.29
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787873860; cv=none; b=qd7zBitERxxhSB6niNjCasMdh+pEX+JXZAlIFFKwYICJGodN62PDy8cdqy94BcT1c3KSwfRVZHLfN62QtC4KLd+1jYBcbjvqSEnSwrGEDt87muVquT+gJItwzB0XTRXMY2jGZocsXPv/EjCLdtkCdsWX8CxhlHhXXfa6HKWZdkQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787873860; c=relaxed/simple;
+	bh=roJWN4cAkw3lsWVT+3PPpbj8f+Kp9XmLq5Rgq241830=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=apJOkknm3ZH9ymYASwu4vQfViN3DpctNven8H/lC064G7qUAknHv88+mgcpvYCGqXd4BWedUmg+Tj3vIUZgUVOBsBtCy8z0YENtBLu60wGL7Y/gBinyU8IY3LSTLnogt3KOEvfOozXnMm/4a5BiIEmEAUxcX2sB3nRGhwwpEOdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=TfA53l96; arc=none smtp.client-ip=79.135.106.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="Va77KthW"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-45ef92f7cdeso121489fac.0
-        for <fuse-devel@lists.linux.dev>; Thu, 27 Aug 2026 14:44:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787867069; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Qu1MJD/QPFlSjHQbLK3RNpRivodGaq+Ykpd+xHbL8+SCTXyX4J2Mj/nHTh/3Qhve44
-         Q4iNfO6dg8NTIrBaRFyk9jG5EJNyMai3nROob/9/UczeW42naEjYXpd51DhTWFvUhvIU
-         QYNTWWYR+Ik4nk+Fz/LKVgCmxC2nTZ2a8Tgglo0KxCjzioVG22zzCAdKIRSWnbog5AwF
-         wTcmtJVSFr0uwZa/P/opcQ5ms/ngkOtLYS+EqCyBn9AeSf6JCsX13BhJDMQuQCc6XvC/
-         /2mzQ2m5ACDdcT0eCTkNOLbWjwMSG/qeWcNafG7GNp5ONwRQBICM668d2WFXiFnWUxP3
-         7h4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kqBamkmhnxpQu01OYVCgjjVqjgGXsL5/W693jooZv34=;
-        fh=Fj47wHZpcvO0Ded53/yhwRNsMo36PgPD5+/qNn3GC/g=;
-        b=TypG2YyKg7MKnmRZOn+ZoV4qseoxGd/95XKi8AilAM9wHnczewECQiN6fb+D90rjTH
-         hMFuogs0NjycEfu/AZ4wvY2s6iif6xD/uomKTo03HCd9hEFps6p0hpUxfETKzl3ijUX4
-         tkjwU8p/dQWotT9F3rhJLqH2J9j1aRqVxGinrALWyYOMu3O1BQTOVBotIsXZYP94HKMj
-         PY7qgkd2wNOA8nGFwxiJGK0oC2KEN48UKR06bHP3djMy0oDZtsMM7HbySazi6dA+gzFI
-         0oVP97JDDkdqeoOgDBtTTRcXTHjQ9b6ZatLnR6LqIXwEoiBWPEY0EOuk/+JU+Lo+z6Nw
-         jLzg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1787867069; x=1788471869; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kqBamkmhnxpQu01OYVCgjjVqjgGXsL5/W693jooZv34=;
-        b=Va77KthWGR7HqCOLTOka3yzNoCxLNmlxVc66DoFjRz4F975lpSJ85LXv5TL1c7zQ1q
-         zDBcXdwuVKVx/5HFZvx/iKbUmyaiUgu2O5q4tyxJmzjWoJ6ZkFrhkKmDAyf8uWtDmzfo
-         s5wcnpg0AWmf7Hrr3ZRkzaPS0mWzPvdv42Sq1FWNDcI6opPCmof3lodxcHg86NYSP3TQ
-         xgShzAQfswuGwYqYBU0vGw8ir8VStgTypZTkAjNrj5yCOY28GQKup2ydxc8H9yadHYDL
-         Gh6bnAk+uEykXWAUjygokXJIL36dDb9DnVLz3aMfx6anpNWEArS0RIBBz55pCQWm7nX9
-         mDuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787867069; x=1788471869;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kqBamkmhnxpQu01OYVCgjjVqjgGXsL5/W693jooZv34=;
-        b=TrLnIkWWiFgEoudUZ36MKUtujBFqutPBEit7gYOYcvfeAaDcG4ZJ7H33wiR/aAEOgg
-         R7NRtq28H/rpZ+6qBcEoKHbYvnaVbuJPmKBXuQc2IhXVF0nLktqbx6na0dc43B/8fNeK
-         ApqXFJxaTmjWP5rfigz6NwxVrjs8XA5li4lG0cvxOdeFrQ673lZvLPwZpz2PEoKp3EgC
-         Y839Yt50WL/I6Tu6wj6s+HPO9s0BxmLkCUuyJe90TDWMlIC9X6153bRDNNofclkT0Ka3
-         snH3/h21b8595VAxwSeCey6f2y7fGMzFqug1FmUbzFVBtPqBA4A1hTxQtEh6kFjE5m2v
-         1S/w==
-X-Forwarded-Encrypted: i=1; AHgh+RoOM4xTCrPTIc0EkHJOdF5Gwz51lBqm8r/hpWs1dKUpBK7gdAGGht89hRwvFJNjDQBsI6RP4hpYm8EC@lists.linux.dev
-X-Gm-Message-State: AFuF++mXwvfWnPiY49ON4AwUF57mpmFflQJKu4d/f8a7LtPvjdzxJUHP
-	ipXcDKe4iRdIVvXzVAl37OD33kht4u0nrqfbeyIvsUcAGyHgnxYOafwC8wKQhhtEiFfmIENcVJ0
-	J6jqmbHcjerq8v6MNhnCqMa8bP2PySJkIK6wIH0MtWg==
-X-Gm-Gg: AR+sD12R0PgCn7MNMclLyie78VHgRNdMRq4NMs2GM2K6yv5VGYBk7ObsQHaN9jMrz8q
-	jIFt8MZYT1gIy+ABoVWJyt2cklCamUxCKtl9vemx0pfGkcTg749HOhSUGrKWy/mAGh5/cvmSX2R
-	IchfMoTjH1Er/P5iNe8i1exzt9nSBL9gdUvw3jwCJxEjKI47w6gliIBAumJBhUqBWnSJJvv5EZY
-	4LQg4QGscwR0wgMliyQuwcD/Y2BOPDJFmhkOFCE6iW5reJFLGQ5ndKHpjdg1/HwIEXj4clPfczi
-	P6TByYVxp5IPcNIXteDnDPwVkRsYbrdQtkzsgscoWY578w==
-X-Received: by 2002:a05:6870:45a0:b0:42e:7e04:e9ce with SMTP id
- 586e51a60fabf-468328882d8mr1702119fac.0.1787867069273; Thu, 27 Aug 2026
- 14:44:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="TfA53l96"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1787873849; x=1788133049;
+	bh=yVSYTNeXd6hS3RLPYC9rT3aHpFbl1zbVD5TY6q52Up4=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=TfA53l96Uh5Xp1XxlEEPe16GU/IynCmD/J07QmuPjhKrHP0/D5VG3QgnS6qxToTga
+	 s97bSTpQ8oMj/BdUXtS9DJxen0ErYa5enL1zGExXxFezRybIXgPJDoTT1WDjU0ETZ3
+	 QLf6Wiv2L5FWQFvvTMy1NN2YXfTcJs/XShcQ7+Zcc9l6VI1V0dGNS42TGNRCDMUBAV
+	 UCidsR8lxMQvJBtS6ItGXiUPkuR9qRY1i79rCUb7jDihsE4zAWdukz3VSvMMjHuXqB
+	 5TBteDqUqH4f1mqdeoFX0UeKLhNxKhnP8v8BsQ/doMFQtxc/yCdekD0TDWRfXnCijb
+	 /A3D4sFcVqU2A==
+Date: Thu, 27 Aug 2026 23:37:24 +0000
+To: Miklos Szeredi <miklos@szeredi.hu>, Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, German Maglione <gmaglione@redhat.com>, Shuah Khan <shuah@kernel.org>
+From: Aaron Paterson <apaterson@pm.me>
+Cc: =?utf-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, Aaron Paterson <apaterson@pm.me>
+Subject: [PATCH 0/5] fuse: report a request refused for a live nodeid as stale
+Message-ID: <cover.1787873791.git.apaterson@pm.me>
+Feedback-ID: 6356313:user:proton
+X-Pm-Message-ID: 4f6b556ef2198c8aff6e9b8b3a4ea46157b46f15
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260827185722.3234622-1-csander@purestorage.com>
- <20260827185722.3234622-2-csander@purestorage.com> <CAJnrk1YfTg-Lz+TmM+c=Asc8N4QGuY9_g8zUXtaNr4O7hG1Djw@mail.gmail.com>
-In-Reply-To: <CAJnrk1YfTg-Lz+TmM+c=Asc8N4QGuY9_g8zUXtaNr4O7hG1Djw@mail.gmail.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Thu, 27 Aug 2026 14:44:18 -0700
-X-Gm-Features: AcwNN1UylVUquZ8opNqZqu3tNIHriO6d1S55vB3s5Iygu5DbEGaADAEUlDBXhJo
-Message-ID: <CADUfDZoEosgMMQ47BDWBskTOZrYZpg6VUT5c4kwczDLRLXYk=Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] io_uring/cmd: split io_uring_cmd_set_res() from io_uring_cmd_done()
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Ming Lei <tom.leiming@gmail.com>, 
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
-	Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>, linux-block@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org, 
-	linux-btrfs@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	io-uring@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 27, 2026 at 1:05=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
->
-> Hi Caleb,
->
-> On Thu, Aug 27, 2026 at 11:57=E2=80=AFAM Caleb Sander Mateos
-> <csander@purestorage.com> wrote:
-> >
-> > In preparation for setting the io_uring NVMe passthru CQE results from
-> > the blk-mq request completion rather than the task work callback, split
-> > out functions io_uring_cmd_set_res{,32}() from io_uring_cmd_done{,32}()=
-.
-> > This allows io_uring_cmd_done{,32}() and __io_uring_cmd_done() to be
-> > consolidated into a single CQE-size-agnostic function with 3 fewer
-> > arguments than __io_uring_cmd_done().
-> >
->
-> The conversion looks logically correct to me but the interface feels a
-> bit annoying / fragile on the caller side.
->
-> Is there a way nvme can get what it needs without changing the other
-> callers? Would it work to just keep the existing
-> io_uring_cmd_done{,32}() as is and add a separate API for special
-> callers like nvme, eg:
->
->   void io_uring_cmd_set_res32(struct io_uring_cmd *cmd, s32 ret, u64 res2=
-);
->   void __io_uring_cmd_done(struct io_uring_cmd *cmd, unsigned issue_flags=
-);
->
-> where io_uring_cmd_done{,32} would then just be inline wrappers over
-> those? afaict, then only the nvme callsite would have to change and
-> fuse, btrfs, block, ublk, and scsi_bsg could just stay as is. Do you
-> think something like that makes sense to do?
+A FUSE request that names a nodeid and nothing else is only sent for an
+inode the client has looked up and holds a reference to, and the server
+owes the client that inode until it is sent FUSE_FORGET. When a server
+answers such a request with ENOENT it is describing a handle it was
+obliged to honour, not a file that has gone away, and the client passes
+that ENOENT to the caller unchanged: a file that never stopped existing
+is reported missing.
 
-Sure, sounds fine to me. Thanks for taking a look.
+This series reports that case as stale instead, so the VFS retries the
+lookup rather than handing a spurious ENOENT to userspace. The path
+opens say EOPENSTALE, which is what an open says when the cached
+information it started from has gone stale and which path_openat()
+resolves into ECHILD under LOOKUP_RCU or ESTALE otherwise; everything
+else says ESTALE, which retry_estale() answers by repeating the lookup
+once under LOOKUP_REVAL. NFS reports its own stale opens the same way.
 
-Best,
-Caleb
+The conversion is written twice, once in fs/fuse for any transport and
+once in fs/fuse/virtio_fs.c at reply completion, and each one fixes the
+symptom without the other. They are sent together because they were
+found together; if only one is wanted, patch 3 is the general one and
+patch 5 is the virtio-specific one, and either can be dropped.
+
+Why it matters, and how it was found: a server that releases an inode
+as soon as a rename displaces the name it was looked up by will refuse
+opens for inodes the client still holds. On such a server, roughly one
+open in eight during a rename race is refused while stat continues to
+describe the file. That reaches real programs. git's t5318 fails 52 to
+53 subtests per round against such a mount and 0 against local disk on
+the same machine in the same alternating run, and the mechanism is
+visible underneath it: .git/index opens ending ENOENT are 49 of 116 on
+the affected mount against 9 of 157 on local disk, where those 9 are
+the legitimate ones a fresh repository makes before an index exists.
+The user-visible failure is a destroyed git index.
+
+Measurements. All four arms are one kernel source, 6.18.5, with one
+config, built from trees that differ only in whether these patches are
+applied, run against the same server with the same probe for the same
+duration:
+
+  arm  fs/fuse  virtio_fs  opens    refused
+   A   stock    stock      323076   45201 (14.0%)
+   B   stock    patched     54378   0
+   C   patched  stock      323776   0
+   D   patched  patched    315114   0
+
+Every refusal on arm A is the contradiction: open said ENOENT while
+stat on the same path still described the file. Arms C and A carry
+almost identical open counts against the same server, so the pair
+differing only in fs/fuse is 45201 refusals against none. Arms B and C
+are why the two conversions are sent together but either can be
+dropped: each removes the symptom without the other.
+
+For the record, the same fault measured 12.9% on a 6.8 distro kernel
+three weeks earlier, so nothing between 6.8 and 6.18 addressed it, which
+is consistent with these patches applying to current mainline with only
+hunk-offset movement.
+
+The first two patches are selftest housekeeping that patch 4 needs: a
+build artifact that was not ignored, and a rename of the libfuse3
+pkg-config variables so a second test can share the same guard. Patch 4
+is the test itself, which mounts a libfuse3 server that refuses one
+request for a live nodeid and asserts the caller does not see ENOENT.
+It skips where libfuse3 or fusermount3 is unavailable.
+
+checkpatch is clean apart from two warnings I believe are false
+positives, and I would rather name them than leave them to be
+rediscovered: MAINTAINERS already carries
+F: tools/testing/selftests/filesystems/fuse/ under FUSE FILESYSTEM
+[CORE], so the new selftest needs no MAINTAINERS change; and the
+char *fuse_argv[] in the test cannot be static const, because
+struct fuse_args carries a plain char **argv that libfuse may modify.
+
+Aaron Paterson (5):
+  selftests/fuse: ignore the built acl cache test
+  selftests/fuse: name the libfuse3 flags for the library
+  fuse: report a request refused for a live nodeid as stale
+  selftests/fuse: cover a request refused for a live nodeid
+  virtiofs: report a request refused for a live nodeid as stale
+
+ fs/fuse/dir.c                                 |  10 +
+ fs/fuse/file.c                                |  11 +
+ fs/fuse/fuse_i.h                              |  19 +
+ fs/fuse/inode.c                               |   2 +-
+ fs/fuse/virtio_fs.c                           |  62 +++
+ .../selftests/filesystems/fuse/.gitignore     |   2 +
+ .../selftests/filesystems/fuse/Makefile       |  16 +-
+ .../filesystems/fuse/fuse_estale_test.c       | 450 ++++++++++++++++++
+ 8 files changed, 565 insertions(+), 7 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_estale_te=
+st.c
+
+--=20
+2.55.0.553.g4ad8c266be
+
+
