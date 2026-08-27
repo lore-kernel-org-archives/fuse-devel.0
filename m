@@ -1,161 +1,266 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4213F54D3
-	for <fuse-devel@lists.linux.dev>; Wed, 26 Aug 2026 14:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE533290B9
+	for <fuse-devel@lists.linux.dev>; Thu, 27 Aug 2026 00:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787754285; cv=pass; b=X6G8By4o6D2PAGR5weF+Poxzoguv3vZVYyyMeI8eEyWWSecUiR/APkbNV/GX6l5eb2X/jYI2MSmaxjfzJrQYWRUqxAL7sh/KGocFMNy+namgGuzoPcKD9clJNbz0wWsXzHnaHEEKjUgFnWVJa+bfsxT4be/rm1NPvu8ty5cu9Jc=
+	t=1787790541; cv=pass; b=izEg2HXl4Big4NlKi5XnT7afDOZy5wrEaib4k+K1wtKreTKtKPt4F6sY7wC3D7uZjq8XSK00dLEOfQ7owoWJdFSC1YmYfq1/07hz3mWULputIUOD/0E3k4hzHwY9o1TL4Jslh30rcErsquUvGp3uWp1qvAj12MFOkTP7c1W9KPE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787754285; c=relaxed/simple;
-	bh=A0QN/EAqu8XLPFPlccLmBUTZOWgUpFz48lcfU/pPYkU=;
+	s=arc-20240116; t=1787790541; c=relaxed/simple;
+	bh=3fQ9kx6tzAI4WTf9nNCFYujhq/OSiQc1G0MQhkXWBKg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dbCU1hPggLb40q2GUBhWUx+pKT60pSoNck17LpamYfkyHRHK/X/9Mak4hOSE0WcO5h4AFg9QWaHdbfa99MFPp6BfFiEFZfk92bP29BJPK150wGF53qQseZSjqdbYSdn5ZpfDu30JttSWkLdpw9GCPF4Dhv96iKxnL/34F2hkOIY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=CLQm77qv; arc=pass smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	 To:Cc:Content-Type; b=t0SpPNGab9dXIifxLoyTteX26ugwPsQ132XQpRwWENjSJPq2Bk3hIM6ZuSOWhooEaCj0t9cccxZYaSb7K9W38967Uf8ARTIMLrOBZpfUhS3/Lx8P3R/Cr7YF98w+Wh9uCSBe0lpEHS6lpN+EqkZf4QJ7vFtgXQap/jKf0/3WIVY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XxBqvQvw; arc=pass smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="CLQm77qv"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-52e2d1bdbc0so7382521cf.0
-        for <fuse-devel@lists.linux.dev>; Wed, 26 Aug 2026 07:24:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787754283; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XxBqvQvw"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4955aa106b1so14546725e9.0
+        for <fuse-devel@lists.linux.dev>; Wed, 26 Aug 2026 17:28:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787790538; cv=none;
         d=google.com; s=arc-20260327;
-        b=Z8c5jEOEZe7FQ1rpDDi0PJAOgrU3TpvRlMJ1DGWgbErWnTIJ+nM7fmg99KygbZoLBk
-         PzGn0q8ELKaSMrFu1VdFj54tk8WDHOIwEcXCNlOfRVpi+lpuBbT5Bh6eZPZeDNK5FNyK
-         sz/KRW0v6GKDGneXg+XLkTSN1Kfnrjw+ljjQwCzpbxGEUw5eWCPbXFUvguOjAEQYAsLM
-         dVf6HONuIw3eZA1K8rdEIdXsTvsPSNwKSDnOiNUYEpqU2PAJKOHjvN+L+Qda41i7FvcR
-         cvoN6Yw5se8qXIKVvUUTGoLxVTJIlGZxu8jgj4P1qXtvwNV+zifxI0opU5f/nSp5slPA
-         FKxQ==
+        b=ZpjyQyGKb/pIB4mzGgA84vw6RVrQJrp1tMsTVRlAihSYnA1lVMssGdaS5MNjV7yY2x
+         0T23PyzYrVhbmWSD0ce+6BQPyBVLTvajEndSotSOE0ly+3w7ylZOPnDrQmEHesFLUIPG
+         jASfAHnIpDelAF+KUeJU6v1wZ+a+qpoMyg6ixF/c4rM4XRTWXZiPGHSdTDXsDAZnOjv9
+         30HqRS+g6EHNyLW7+OYVolmXmvyzR1L7pINxZtpJjmLkX/8mYPlxdxxg/cy+IfR1qiTV
+         IgpbzEVy9gk72zOPvs0WwqO0r8rNa1dAACrRTuzBEQAWOGZhOtU5th5D28f6rMmvnToi
+         8oPQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=4zi7ASXYHVtJ5N5oFB5m7S11BPl38SzlWjS+qYhieJI=;
-        fh=zNwLqlXIN8TpCA7Tuz5kb+/GNrDh2XGSFmqGj3G5kcs=;
-        b=AilibRUdyhVuuVwtI+Db20D5VH07+7DqkS+9fQst5DQF6NFDIbH7PE6e5yH6juU4BI
-         7IxcqPnACnVSLRqnLmIl7HWyOT58jzarN3/uVcjFnZRos2rRrkr7uKnGyZuuXs7h3GG6
-         e8pVbGYprTcjjcS0UeKyDkJck7nLTbHUkuarVB6tA7abfDK+YQRfJlWJGlVH6oWmBME3
-         B+31aFmAq8qzJ9HrFtS+GDQdkmCH2CQKk4o6Tij4F919QBH5bt2PKLBk66C3Lfujx6tL
-         Ic9SeHF7JiDIIz0z3doa+3DjLHYwQZ6KBaa0L2JE4WF+d/fDwlahxnSwHotGqqjtSjAq
-         Abww==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4cZqKKK1TDfNXpWdtR/tDO5Ky/FCuSlms00pdh6fymw=;
+        fh=Y9RthcSVoluIhyNkZxVnEry8iPNpEzq6fR3SmIKB0PI=;
+        b=A5CJgXtaTlvZ5ZZHsIrnk24sjOch7qaZa5Q1LhMxV4OgMnvhO+qeWy01oB0bgNdMiH
+         MkuXGbvUbqmqEB+cku40S/HkA28fN6+RvS06o52vVLQv8w8c6pGHMbPZs9kFGDGezpJu
+         0eicuf/14dGKNKLBBwYXIBN1mRrFjroZR4OKim1W+mMXr+4xCWnJBl7KfyR1hxqTjrmL
+         hZdq56P5wmjIeL38vgscGOJjx9FxUIgENjzUufScPcZYm0nhdTefVHurc+DEH3oObwTF
+         VQYjLDtx0e4qLrEfAKPrTm7Ik1WN+5B6O1zS5JxLMrJUANPPuGchO933H9+11OODgyis
+         dkEg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1787754283; x=1788359083; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4zi7ASXYHVtJ5N5oFB5m7S11BPl38SzlWjS+qYhieJI=;
-        b=CLQm77qvhK3q2s7KFm10R+9v1c/ks1zQribSlE6gBSsvYJ81/J1PKhzGKnAIoHxIty
-         VURTKK16CmWBg3R0QxurX4yd5reFkJCVxAOUDsMTSNtwCVYwx0Mgt/jO/5T2YSgny6/U
-         EXAd6/Jqd2zA3aQ+HfBESWVAECUtyagckzwjI=
+        d=gmail.com; s=20251104; t=1787790538; x=1788395338; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4cZqKKK1TDfNXpWdtR/tDO5Ky/FCuSlms00pdh6fymw=;
+        b=XxBqvQvwjQNjZEX2HCXDRt8F5lpJxtzVPruXwHY8sb/nM29IoxsEocKXcAlCkdpIc3
+         PDKfd1FyxKuZJg9SMgfc3mjxtly1QG5tORBPdOWxIfcwj1aJ3hhDoZGSSlXh2LAufNlV
+         hIVE99Jp8CY0zzRJktBdzb6U2bwbioQkKvcPERc4YGTXad0abCa08FFeSUutsmMBwf+b
+         KkIw3Eoa5HSKXadoRyY5lk94pqvcSmDf2lgVNc9SNDkk7jolr4F6T9bRm/NnzWKfJ3WY
+         2OxVLiQMtwp7PrDrWX6Mvg/EcrK3z8Hw0GNBCbX/k5dNJixOydZ3uNpFQvVzechBpe5P
+         1svw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787754283; x=1788359083;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=4zi7ASXYHVtJ5N5oFB5m7S11BPl38SzlWjS+qYhieJI=;
-        b=As7H5iu6Jldd5NvI92ppO1mDeqC6e/vrp77IUQXwEALF9EYRsoB+BZYWkVdBuxnYmk
-         +LHtVbSPiwq0PjeIvpxKctWtKDQoRdXqNzBAP0KvWfvortFCeieARtoDtMOEXNh48VcV
-         g2KW51GWNW+YlUGFLIO58h8tTlbxnuPGC3y7QAPHaPvIoa9GRdac7PehLBL4goZJcopx
-         QaqxrOWy6/Es5+jT/nd8MxmrmaK4hrn4LJc/1sVXTrQPSmPv6DWbxg5/o+3bBj1cuxv0
-         N3+fDJnYcfQpQbI7qibQHN7ALsMmFa8LTTeBD23hzH3k0gD+Umpg90OjAW4+8JiFxhs7
-         lWOA==
-X-Gm-Message-State: AFuF++mx/vpqU72/sMxT9P8GWECmWei1IlN9N55nTNAiL+4XNGf9DrsP
-	W9tJr866iZevPTfX9RKdM0Nn/qU92Q57/nhqBAI2gu6EedRDxXPtr33NOuA2kvPt8Dbr/JQ54lm
-	rQOGFKgaJduIRkYL7ekTbFDH2VXP0sJufVPvkAuOfWg==
-X-Gm-Gg: AR+sD10rE4/5/ZXuGDlHDPHau0Q4tZlVHlXYS/8RG0OrBLYj39W01HrHhX9zVE/JXMJ
-	qENt8ZybZQI6f8mjld8UgbZqPEmMTIAuS26DLI/Pjie9qDa/7PPhBphWsrklumjlfo2FyUmYuQz
-	dgOL35Xu66kS+meCS/xKNOLyXnZwIgS16MTUMW3IvexTE/nW0VUdNmXHbfSm7q4EJnSyRPjNF7V
-	uz7n4r6Xe7rfup/dL2pTTxRtTEWeXJxpTk9udsyojPgxW9K79DYA4Vmd0I+uC0sggqvECmiDZwG
-	JHfisfpF3ImZ4pab2kuNOpp/LWFKIQUr+q5Yisr77XPXq5RUTU8Q46uPw5InQRDCVbMD3RksUGM
-	20yE=
-X-Received: by 2002:ac8:7e8d:0:b0:52d:918b:92e2 with SMTP id
- d75a77b69052e-52e4222c9c4mr70297011cf.6.1787754282849; Wed, 26 Aug 2026
- 07:24:42 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787790538; x=1788395338;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4cZqKKK1TDfNXpWdtR/tDO5Ky/FCuSlms00pdh6fymw=;
+        b=DMEGrEVxkmi4fL4jZgaruzUwBDqLsKOI96YU0/hJZ987UNjYC59CiKgx0hLBsA1Wb0
+         vxJksyzZSw83j7pWD1gg3AUL4zCXpJ1x4Y95VNc6mUiCh1a8n7hiJfbWkbkwnfREs9yz
+         cETL8f5PG5xSb+QetZIxEWG07uc1BesuXBNYYC2mvwerWiA/PKbvZ2DgXqTYeoAuyv0p
+         OEH/bJzvnDT6ZegCPlO1zpwzhc44/lz6jwueCBBRJs8KvQQEjLLJtPmsHIPek76o2SHe
+         ZlmrOLi2PZvlVCvWLHeJk11dItHdCt2cX5+DamnTxvr+LpOTfQ/nERLomy4PytOxUQr/
+         VMwQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpMpetEdhnNeE5cNm9Czb5rPvzywz3pQfFrMmpmXJGYFLlYOkHNJ5NsQXgQMygZ7CGK6mWLbGsjM617@lists.linux.dev
+X-Gm-Message-State: AFuF++m7L0CAf9fxKGixZy4SkH3DerG4zrh4H8P0YNPfZCh18oK51wAK
+	balEr5vMF8j+G68rpRXOUU6iRUIY4YDY4tzYsfyFhSHcVvkhB34YH1pwMxe63DageAO2Ajsr8+3
+	ztgWRD653VTnxwXWcd6TbXgYo/jY35kQ=
+X-Gm-Gg: AR+sD13Qaw/OPHYtaMPR43KwYAn09SDIh5MyC4mvMmv6ebzboPhN5krffdyD437Va2L
+	rWC0BP8GIKLeYogcW0SJ3YuSv4djCVnuZkfAbx/2SYe3ujzURsfzrdM8QULC+smBunO7TFmxakW
+	NH8ZIZAD+4Yi/Y3ojNwoh/GToFszfFFZWGTKeef3hWyAretLcMRUnt7/lE8PdXLBYwSZxhAaVE/
+	TWCYDNn6QgK8cfB+sPSUmd7Hh8hv7oIH60C/NwYASMhJMqXC7Uu4ICLSghmmGiQZkHBaIekMiqA
+	QayI9zjY3s1NeTkBumMsePa157F5GwxG7NBpPg/EVdvVIKFEmzCvvYXEBhE7hAOBpqrwowZlW0w
+	hEUjtGfkSC7cdFLLM4Pe2OTT/XxI=
+X-Received: by 2002:a05:600c:3acf:b0:499:db5a:1049 with SMTP id
+ 5b1f17b1804b1-499dc70246bmr113665505e9.8.1787790537745; Wed, 26 Aug 2026
+ 17:28:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706025705.58301-1-laoar.shao@gmail.com>
-In-Reply-To: <20260706025705.58301-1-laoar.shao@gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 26 Aug 2026 16:24:31 +0200
-X-Gm-Features: AcwNN1WSKybzEO-CNbHMiZgkUgE16mM5-sYoVBdlJf8kl45Rl8KA_KwyJ7uLTJ0
-Message-ID: <CAJfpeguGzyVctgBRp+JFzs1ohzHG7hZ+EwRokE_yX0w-zJNyMg@mail.gmail.com>
-Subject: Re: [RFC PATCH] fuse: fall back to copy_splice_read() when i_size is zero
-To: Yafang Shao <laoar.shao@gmail.com>
-Cc: fuse-devel@lists.linux.dev, David Howells <dhowells@redhat.com>
-Content-Type: multipart/mixed; boundary="000000000000fa2c510659f3fa74"
-
---000000000000fa2c510659f3fa74
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com> <anpsLy_pCanocgS1@google.com>
+In-Reply-To: <anpsLy_pCanocgS1@google.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 26 Aug 2026 17:28:45 -0700
+X-Gm-Features: AcwNN1XMTGinUnlY4ug2mkf_JuHPFNH6ilizd91iZP4Nfao1NkxbweldZ9jzh4E
+Message-ID: <CAJnrk1b5asARJ_g176DsoNCvf+iFqzPbOtVveeuPxTPZDmnuKw@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 6 Jul 2026 at 04:57, Yafang Shao <laoar.shao@gmail.com> wrote:
+On Mon, Aug 10, 2026 at 5:48=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrot=
+e:
+>
+> On Mon, Aug 10, 2026 at 09:49:31AM -0700, Joanne Koong wrote:
+> > On Thu, Aug 6, 2026 at 2:31=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> w=
+rote:
+> >
+> > For updating the stat on each parent and having the flush path only
+> > accumulate CPU counters, I think this means we would have to
+> > unconditionally walk the ancestors + update its counters on every
+> > update, as we wouldn't be able to early break if the flushable
+> > threshold was already exceeded. I don't think we could replace the
+> > stats_update update, as it seems like readers still need some way of
+> > knowing when to flush. It seems like this could be a nontrivial
+> > performance hit, but maybe it's a non-factor in reality. If you think
+> > this would be useful to get benchmark numbers on, I can run some
+> > experiments on this too.
+>
+> I think we need to experiment with how much work we can shift around
+> between the update and reader sides.
+>
+> Right now, on the update side, we call __css_rstat_updated(), which
+> iterates the parents and puts them on the per-CPU rstat tree, then we
+> iterate the parents again in memcg_rstat_updated() and:
+> - Check if flushing threshold is already met.
+> - Update per-CPU counter for stats_updates.
+> - If per-CPU update exceeds (another) threshold, we update an atomic for
+>   stats_updates.
+>
+> The flush side checks the flushing threshold and does an rstat flush,
+> which will walk the update trees on all CPUs and iterates all child
+> cgroups on it. Pretty expensive when the threshold is met.
+>
+> I think we discussed two different options:
+>
+> (a) On stats updates, iterate the parents and update the per-CPU
+> counters of the stat directly.
+>
+> In this case, we can't keep using rstat, as we would still need to add
+> the cgroup and all its ancestors to the update tree anyway and the flush
+> cost will remain similar. So on the flush path we'll need to iterate all
+> CPUs and add the counters. We can explore if use a cpumask can help
+> here, but perhaps not since we'll need to update it atomically on all
+> stat updates.
+>
+> I imagine that if we do this we'll drop the stats_updates optimization
+> to avoid adding more cost to the update side. We'll be replacing parent
+> stats_updates modification with parent stat counter modification. But
+> maybe it's feasible to keep both to limit the cost of flusing.
+>
+> This only works if the cost of iterate the CPUs on the flush side ends
+> up being cheaper than the current flush. I imagine the average cost will
+> be higher but the cost should be much more consistent vs the current
+> flush, so the tail should be better.
+>
+> (b) On stats updates, iterate the parents and update the per-CPU
+> counters of the stat directly AND update a global atomic if the per-CPU
+> counter exceeds a threshold. I think updates may get too expensive as we
+> may need to update multiple atomics, especially when updating the root
+> counter as it will be contended by all cgroups.
+>
+> The flush side becomes an atomic read, so should be very cheap, and we
+> can drop other heuristics and optimizations.
+>
+> ---
+>
+> I think ultimately we need to experiment with these approachs (and
+> perhaps others) to check what actually works in practice. You'll
+> probably want some benchmarks or synthetic tests with many cgroups to
+> exercise the worst case scenarios.
+>
 
-> While the proper long-term fix is to upgrade lxcfs, the kernel
-> should be resilient to this common FUSE daemon behavior. Therefore,
-> when i_size is zero, fall back to copy_splice_read() instead of
-> filemap_splice_read(). copy_splice_read() calls the file's read_iter
-> operation, which sends a FUSE_READ request to the daemon and lets it
-> generate the content dynamically. This is safe because for genuinely
-> empty files the daemon simply returns 0 bytes.
+These are the results I'm seeing from the benchmarks. I'm comparing
+non-ratelimited rstat vs (a) vs (b). I'm comparing non-ratelimited
+rstat instead of ratelimited rstat, because ratelimited rstat relies
+on the 2s flusher and doesn't incur any additional flushing when
+called.
 
-Thanks for the report and patch.  Naturally the kernel needs to be
-fixed in this case, the no-regression rules makes that mandatory.
+~On the update side~
+ns per update (measured by having a kthread pinned to each CPU and all
+threads updating the same cgroup for a 200ms window, run on 80 CPUs,
+computed as total CPU time / # updates)
+depth      rstat      (a)         (b)
+    1        22.34       32.49      60.10
+    8        22.46       47.12      140.72
+    16      22.49       70.96      206.39
+    32      22.51       139.16    305.40
 
-Can you please try the attached patch?   This is actually fixing
-behavior for FOPEN_DIRECT_IO, so if it fixes the regression that would
-be wonderful.
+(a) and (b) perform worse on higher memcg depths, whereas rstat is
+unaffected by depth level, which makes sense given that (a) and (b)
+can't break early if the flushable threshold has already been
+exceeded.
+
+~On the flush side~
+ns per flush call (measured at leaf of memcg chain, ie best scenario
+for rstat, # CPUs on the system is 80)
+  rstat                      10165.60 ns   (min 9924)
+    (a)                       734.10 ns
+    (b)                        4.79 ns
+
+(a) is around 14x cheaper than an rstat flush, which I think is
+because the rstat flush goes through every stat, even ones that are
+not directly relevant.
+
+
+Using some napkin math, I think the breakeven point for (a) is around:
+                      updates per read
+depth 1             ~900
+depth 8             ~380
+depth 32           ~80
+
+eg for depth 1:  (10165.60 - 734.10) / (32.49 -  22.34)
+
+This is assuming one read per flush, which is what (a) and (b) would
+necessarily have to pay, whereas rstat only needs to flush when the #
+of stats updates exceeds the MEMCG_CHARGE_BATCH * nr_cpus threshold,
+so the updates per read numbers above are in reality lower.
+
+Running a fio write job and using tracepoints to count # of stat
+updates, # of reads of those stats, and how many of those reads flush,
+I'm seeing:
+                     updates/s              reads/s
+flushes/s         updates per read
+bs=3D1M            643                           119                 45
+                       5
+bs=3D4k            156,415                     123                 58
+                     1267
+
+For larger folio sizes, (a) is cheaper for writeback (since there are
+4 update events *per folio* in the dirtying/writeback lifecycle) but
+for smaller folio sizes (eg order 0 folios), (a) is worse, as a lot
+more updates are incurred, and the performance is worse the deeper the
+memcg is nested.
+
+
+I also ran some experiments with Jan's suggestion of scaling the flush
+threshold to the memcg's limit rather than to the number of cpus. It
+helps the overshoot we saw and slightly outperforms doing a plain
+non-ratelimited flush (100% of dirty limit vs 101% on a 1G memcg, 103%
+vs 107% on a 256M memcg) but led to ~2.4x more flushes.
+
+The initial reason we switched to the ratelimited version of the flush
+was because flushing was expensive, but I'm not sure if flushing is as
+expensive as it used to be. Testing the non-ratelimited version, the
+flushes account for about 0.9% of the system CPU the write path
+already spends, and I didn't see any throughput difference between the
+two (249-252 MB/s either way), on a 32G memcg. With the
+non-ratelimited version, it's also not a flush per read - it's still
+"ratelimited" by number of updates that have elapsed since the last
+flush (only flushing if stats_updates >=3D MEMCG_CHARGE_BATCH * nr_cpus)
+which means concurrent writers writing back at the same time will
+"share" flushes rather than triggering their own.
+
+In light of the above, imo it seems to make the most sense to just do
+the plain non-ratelimited flush for mem_cgroup_wb_stats() and make the
+flushing magnitude bound again, wh ich also aligns with what the
+global non-memcg domain does. The question is whether the extra flush
+cost is acceptable, but the numbers above make me think it is.
 
 Thanks,
-Miklos
-
---000000000000fa2c510659f3fa74
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="fuse-fall-back-to-copy_splice_read-on-FOPEN_DIRECT_I.patch"
-Content-Disposition: attachment; 
-	filename="fuse-fall-back-to-copy_splice_read-on-FOPEN_DIRECT_I.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mta6py0j0>
-X-Attachment-Id: f_mta6py0j0
-
-RnJvbSAyMDEwZWQ3MzI0MzVmN2Q2NWI3MDA3NTk1YzI2M2FkYTljM2JjOGU0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBNaWtsb3MgU3plcmVkaSA8bXN6ZXJlZGlAcmVkaGF0LmNvbT4K
-RGF0ZTogV2VkLCAyNiBBdWcgMjAyNiAxNjoxMTo1OSArMDIwMApTdWJqZWN0OiBbUEFUQ0hdIGZ1
-c2U6IGZhbGwgYmFjayB0byBjb3B5X3NwbGljZV9yZWFkKCkgb24gRk9QRU5fRElSRUNUX0lPCgpZ
-YWZhbmcgU2hhbyByZXBvcnRzOgoKICAiQWZ0ZXIgdXBncmFkaW5nIHRoZSBrZXJuZWwgZnJvbSA2
-LjEueSB0byA2LjE4Lnkgb24gcHJvZHVjdGlvbiBzZXJ2ZXJzLAogIHNvbWUgY29udGFpbmVycyBm
-YWlsZWQgdG8gcmVhZCBseGNmcyBkYXRhLiBUaGUgcm9vdCBjYXVzZSBpcyB0aGF0IG91cgogIGx4
-Y2ZzIGlzIHN0aWxsIGF0IHRoZSBvbGQgdjMuMC40LCB3aGljaCBkb2VzIG5vdCBpbmNsdWRlIGNv
-bW1pdCAyNTk4MmY1CiAgKCJTZXQgdGhlIGZpbGUgc2l6ZSB0byA0ayIpIFswXS4KCiAgQmV0d2Vl
-biA2LjEueSBhbmQgNi4xOC55LCB0aGUgRlVTRSBzcGxpY2VfcmVhZCBwYXRoIHdhcyBjb252ZXJ0
-ZWQgZnJvbQogIGdlbmVyaWNfZmlsZV9zcGxpY2VfcmVhZCgpIHRvIGZpbGVtYXBfc3BsaWNlX3Jl
-YWQoKSBieSBjb21taXQKICAyY2IxZTA4OTg1ZTMgKCJzcGxpY2U6IFVzZSBmaWxlbWFwX3NwbGlj
-ZV9yZWFkKCkgaW5zdGVhZCBvZgogIGdlbmVyaWNfZmlsZV9zcGxpY2VfcmVhZCgpIikuIFVubGlr
-ZSBnZW5lcmljX2ZpbGVfc3BsaWNlX3JlYWQoKSwKICBmaWxlbWFwX3NwbGljZV9yZWFkKCkgc3Ry
-aWN0bHkgY2hlY2tzIGlfc2l6ZSBhbmQgcmVmdXNlcyB0byByZWFkIGZyb20KICB6ZXJvLXNpemUg
-ZmlsZXMsIHdoaWNoIGJyZWFrcyB2aXJ0dWFsIEZVU0UgZmlsZXN5c3RlbXMgbGlrZSB0aGUgb2xk
-CiAgbHhjZnMuIgoKRml4IGJ5IHVzaW5nIGNvcHlfc3BsaWNlX3JlYWQoKSBmb3IgdGhlIEZPUEVO
-X0RJUkVDVF9JTyBjYXNlLCBqdXN0IGxpa2UgdGhlClZGUyBkb2VzIGZvciBEQVggYW5kIE9fRElS
-RUNUIGZpbGVzLgoKUmVwb3J0ZWQtYnk6IFlhZmFuZyBTaGFvIDxsYW9hci5zaGFvQGdtYWlsLmNv
-bT4KQ2xvc2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNjA3MDYwMjU3MDUuNTgz
-MDEtMS1sYW9hci5zaGFvQGdtYWlsLmNvbS8KRml4ZXM6IDJjYjFlMDg5ODVlMyAoInNwbGljZTog
-VXNlIGZpbGVtYXBfc3BsaWNlX3JlYWQoKSBpbnN0ZWFkIG9mIGdlbmVyaWNfZmlsZV9zcGxpY2Vf
-cmVhZCgpIikKU2lnbmVkLW9mZi1ieTogTWlrbG9zIFN6ZXJlZGkgPG1zemVyZWRpQHJlZGhhdC5j
-b20+Ci0tLQogZnMvZnVzZS9maWxlLmMgfCA1ICsrKystCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNl
-cnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZnMvZnVzZS9maWxlLmMgYi9m
-cy9mdXNlL2ZpbGUuYwppbmRleCBmYjVlYzAwZGFiMzMuLmM2YjZkYTM5NWNiZSAxMDA2NDQKLS0t
-IGEvZnMvZnVzZS9maWxlLmMKKysrIGIvZnMvZnVzZS9maWxlLmMKQEAgLTE4NzQsNyArMTg3NCwx
-MCBAQCBzdGF0aWMgc3NpemVfdCBmdXNlX3NwbGljZV9yZWFkKHN0cnVjdCBmaWxlICppbiwgbG9m
-Zl90ICpwcG9zLAogCXN0cnVjdCBmdXNlX2ZpbGUgKmZmID0gaW4tPnByaXZhdGVfZGF0YTsKIAog
-CS8qIEZPUEVOX0RJUkVDVF9JTyBvdmVycmlkZXMgRk9QRU5fUEFTU1RIUk9VR0ggKi8KLQlpZiAo
-ZnVzZV9maWxlX3Bhc3N0aHJvdWdoKGZmKSAmJiAhKGZmLT5vcGVuX2ZsYWdzICYgRk9QRU5fRElS
-RUNUX0lPKSkKKworCWlmIChmZi0+b3Blbl9mbGFncyAmIEZPUEVOX0RJUkVDVF9JTykKKwkJcmV0
-dXJuIGNvcHlfc3BsaWNlX3JlYWQoaW4sIHBwb3MsIHBpcGUsIGxlbiwgZmxhZ3MpOworCWVsc2Ug
-aWYgKGZ1c2VfZmlsZV9wYXNzdGhyb3VnaChmZikpCiAJCXJldHVybiBmdXNlX3Bhc3N0aHJvdWdo
-X3NwbGljZV9yZWFkKGluLCBwcG9zLCBwaXBlLCBsZW4sIGZsYWdzKTsKIAllbHNlCiAJCXJldHVy
-biBmaWxlbWFwX3NwbGljZV9yZWFkKGluLCBwcG9zLCBwaXBlLCBsZW4sIGZsYWdzKTsKLS0gCjIu
-NTQuMAoK
---000000000000fa2c510659f3fa74--
+Joanne
