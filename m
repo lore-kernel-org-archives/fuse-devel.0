@@ -1,326 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFCA391E5F
-	for <fuse-devel@lists.linux.dev>; Fri, 28 Aug 2026 13:17:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83D63822AA;
+	Fri, 28 Aug 2026 17:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787923045; cv=none; b=FikkIoIGryHV4iUwcNC5fNMmNkxeGWBLTNo4AYMW2zCOackp+WjZ/K3wiCPMBym9ksXKcM5CKaj/LgVJPmc8GQT5kAPP+1M/SBQnaLfdDIR0IQzCXbPC0KV3+9G7L6C8Fe+1oHObK3MdiMfKsZZP8/KhuggaqNh0BiCTNB72lQg=
+	t=1787938821; cv=none; b=HSUKOJKVX4576HPwinTXDgXUeobrxak4Fpm8umw3n8V4a2oUhSWZ4b/EkB+3ZcWeYX4AcRoCI6fHAFjLccC1/6TBMfLiEzEIWOB2FrUYOid5BvsaiSeQ+YErClCl3G+xMC83fjaaA9D/A4jIB0P2zQKL86feFEn0LqXMvPipV4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787923045; c=relaxed/simple;
-	bh=mvGL/Z6C0Re6DrFrYesxk/Q4uufXmrCFIKM47XXYy2M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZYU4KziyFm3J77DNQvg129bO6hlva6eHA+kUT6AzLStRs62VjT6qimklaOovoeBvMetkUiOBJV84gYXDlV3f8YdY+tKZVAgvpzrb2TPWl9Q6OGN498yV3nlhqIXFyQkwz3A/xv2fgL5ZGg40KjbNm7yR6UH4DukT6qd56RSksIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UyvuhnKP; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UyvuhnKP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A6D1F00A3E
-	for <fuse-devel@lists.linux.dev>; Fri, 28 Aug 2026 13:17:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787923042;
-	bh=LXWsySxCAhI2eKubAnh1Qok8EJGkZG2y63EPSSYhj5I=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=UyvuhnKPSnuQrqsbE0ARAQuwBiMkIN3fyqBNebM7kEVUZIU+wqErq/AqQZfMk8SzO
-	 m4MqzXjL80cjVyZgIrb2uo3znrd3Mg6bYTMnTr2vzEvoA+6cJeBS6qL6ZJ03i8u7zc
-	 g6H5KCKAlmiqdPt8gsGB/01eFfOHrbctWP6cB+0YZzV7uYwD9lMBTJMm/nI2ui2B1X
-	 F+sUj8UzR+Hv+Th48BEHmpe+NccUbhoinPDmu3EMYkqmGHKkTZfDPPfzUf9nWYsZOm
-	 PrummRw8x6PeVhNHqxEvZsOUS8R0NDAVMziEKWNneSuSjpNV0dM0sTRGYhMMtLAugh
-	 kEl9ZyrXNW3iQ==
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c255c58156bso128911766b.3
-        for <fuse-devel@lists.linux.dev>; Fri, 28 Aug 2026 06:17:22 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rq9JNKaUFKcdNxa+zHtqbc/LFjymViU2HPZoNM3kC0G5Q5cjRLl0tSYhgAxy6tMiEUivbSr8P/1Osby@lists.linux.dev
-X-Gm-Message-State: AFuF++kbrmXNWlmuMPZTwOiWiz4Eive59MvIm+xclb93Zke0vyGQBctC
-	ePsaN5pOBbBYmPtpjtRWfJAkmJgH4NGqXW7303KkQ9yfVj7/FMih8R7yRxJtNi/P8QChdaENR91
-	dn7sfaCtmVDkJs4n8ZqW6NGhzNs7g9MM=
-X-Received: by 2002:a17:907:9813:b0:c24:e1e9:69c with SMTP id
- a640c23a62f3a-c255667b63dmr416435066b.0.1787923040778; Fri, 28 Aug 2026
- 06:17:20 -0700 (PDT)
+	s=arc-20240116; t=1787938821; c=relaxed/simple;
+	bh=a6XZSYNaxo8FvCxsKJebyhBvC+GqhRrIxNJ4JBsbVbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s8WN+V3GKKspLRWyTAz6CETjrKF5ZI0H2fbHrzlGtffAc45JtRya5qquckTiSxAQ2UGw7k0FegRTbQBj7Eba5SlaqGSXQDgptJH9thKvfjMvZOmcPAjzKvGAH0EpVK9J83aJzUUhkT1WBBRuhIurpRCal9QpAApCgh6cTMStXFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf11.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 38354A04C3;
+	Fri, 28 Aug 2026 17:40:14 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf11.hostedemail.com (Postfix) with ESMTPA id 8C67B2002A;
+	Fri, 28 Aug 2026 17:39:57 +0000 (UTC)
+Date: Fri, 28 Aug 2026 12:39:56 -0500
+From: John Groves <john@groves.net>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	John Groves <john@jagalactic.com>, Dan Williams <djbw@kernel.org>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	"John Groves (jgroves)" <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Jake Edge <jake@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Ira Weiny <iweiny@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Haren Myneni <haren@linux.ibm.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Jiri Slaby <jirislaby@kernel.org>, 
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>, Gabriel Whigham <gabewhigham@gmail.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	"fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH V12 02/12] famfs: Module operations, fs_context, and mount
+Message-ID: <apHCzGheqgqjgILT@groves.net>
+References: <0100019fc572ca94-ec363dd7-3a77-484b-b4b7-f2503a0931a6-000000@email.amazonses.com>
+ <20260803022828.75776-1-john@jagalactic.com>
+ <0100019fc5739e5d-bc002300-eede-4c40-9ca8-a277b754496e-000000@email.amazonses.com>
+ <20260806043712.GB3560084@frogsfrogsfrogs>
+ <CAJfpegtW4bFn=oNfTipCxhiExaqSXnhXeBd6Uq15FpepqCJaPQ@mail.gmail.com>
+ <20260811-baugebiet-hofiert-fanden-3354f4a5e820@brauner>
+ <ab642f3a-e377-4292-b2ff-bc970f5384e8@kernel.org>
+ <CAJfpegsC-D0AJij3E=dbKzZCH0nijE7+rpPut-EnRd3r0uCMtg@mail.gmail.com>
+ <ea56c85b-d564-4451-b704-58448a07bfa6@app.fastmail.com>
+ <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
- <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
- <anpsLy_pCanocgS1@google.com> <CAJnrk1b5asARJ_g176DsoNCvf+iFqzPbOtVveeuPxTPZDmnuKw@mail.gmail.com>
- <CAO9r8zOeh1fFsY5CG1C8CDCJH25eiioY-otRv6Krn1=S21PeaA@mail.gmail.com> <CAJnrk1YO5E6ETxn9RmM-LWRQSRxwF9iEakAPz6veMPjaKMAEOQ@mail.gmail.com>
-In-Reply-To: <CAJnrk1YO5E6ETxn9RmM-LWRQSRxwF9iEakAPz6veMPjaKMAEOQ@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Fri, 28 Aug 2026 06:17:09 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zPErbULcVTzk8GGS8w=6d-Qn10rLSkSOEzrO++Vhx7+Dw@mail.gmail.com>
-X-Gm-Features: AcwNN1VqPOz4jQ794_KmrH9eGNa1-pCCTewSGBGtIJmecacOEyoNdreux6MHngs
-Message-ID: <CAO9r8zPErbULcVTzk8GGS8w=6d-Qn10rLSkSOEzrO++Vhx7+Dw@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpeguuL8He4dKC0+CQU3c=Ss9nDEH=9VckB5mqxOr01X2q4Q@mail.gmail.com>
+X-Rspamd-Queue-Id: 8C67B2002A
+X-Stat-Signature: to9ea9gectc5dcsz8unohh9rdicjnar6
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/yikPLksdokF4Uqf19N14BEsQ4Pk/vaGI=
+X-HE-Tag: 1787938797-959519
+X-HE-Meta: U2FsdGVkX1/thqv1X8QxTl8kJ3H1mNoX7R1l9oU4DnHS95JpgBLHEUur4QgjaQ9W2gxZ0jE/GhGGDX126ps0cD2eFNmAnw+yw0IJBwaffQc36yTNPhuBA/f/fwdW3/aSKNr9H2b80K6ta0zaWh2p2Tsj0mD2qM2bWVXcHuinFwSmNA3Tqr0Z61K1XfNZnJ6zHxqgEVraj5Zte9Ert8l6y48kB0FGX53iRlUoY+V0M4JSHJdhKqW64/5FsN2m1LNrUQwm3yCC1n8KfMAKG8/eYD60zjLRYDpvLG/+M3IuhcGiZq9Gj8ciCf1plIl+HjbxcxWO4z6R86PS3PJGjFsqUHd4yoYDiiOwhNDsbP2sHpqwVQNMZh4WorQoTzSi9Gny
 
-> > > These are the results I'm seeing from the benchmarks. I'm comparing
-> > > non-ratelimited rstat vs (a) vs (b). I'm comparing non-ratelimited
-> > > rstat instead of ratelimited rstat, because ratelimited rstat relies
-> > > on the 2s flusher and doesn't incur any additional flushing when
-> > > called.
-> > >
-> > > ~On the update side~
-> > > ns per update (measured by having a kthread pinned to each CPU and all
-> > > threads updating the same cgroup for a 200ms window, run on 80 CPUs,
-> > > computed as total CPU time / # updates)
-> > > depth      rstat      (a)         (b)
-> > >     1        22.34       32.49      60.10
-> > >     8        22.46       47.12      140.72
-> > >     16      22.49       70.96      206.39
-> > >     32      22.51       139.16    305.40
+On 26/08/24 09:41AM, Miklos Szeredi wrote:
+> On Sat, 22 Aug 2026 at 23:55, John Groves <john@groves.net> wrote:
+> 
+> > Famfs does work in fuse, but some of the asks are things that I don't see
+> > how I can agree to. I think Miklos and I should discuss those 1:1, to figure
+> > out if there is a way forward.
 > >
-> > There goes my dream if an rstat-free world :')
-> >
-> > I am very surprised though that you care about hierarchies this deep.
-> > I don't think we have anything close to even 8 at Google, and in all
-> > my previous testing I usually test up to 4 or 5 levels. I suspect at
->
-> At Meta, we often see depths 8 to 16.
-
-Interesting :)
-
-> > that level the difference might be acceptable. But aren't other
-> > operations also really expensive at that depth? I imagine the charging
-> > path is really slow if it has to do atomic updates for 32 parents. Is
->
-> I agree. This aligns with what I saw when running the page counter
-> approach for zwap on depth 32. For the writeback path though, the
-> dirtying / writeback folio lifecycle is just stat updates. There's a
-> charge, but that happens only once, when the folio enters the page
-> cache.
-
-FWIW, when I added the per-memcg thresholding for flush (i.e.
-stats_updates), there were some regressions in some microbenchmarks on
-the update side due to the parent iteration in deep hierarchies.
-However, we decided the regressions were acceptable because they were
-of low significance compared to the extra of charging/uncharging in
-those deep hierarchies. As you said, charges are not 1:1 to stat
-updates, but it was considered a general indicator of acceptable
-performance for the workload at that depth. That is all obviously very
-hand wavy :)
-
-> > the update path really a problem given everything else?
-> >
-> > Given the constant cost of rstat updates, it also seems like
-> > memcg_vmstats_needs_flush() is mostly evaluating to true and skipping
-> > the parent walk. I wonder how much this remains true in practice, I
-> > think Shakeel mentioned that it does help in production.
->
-> I think for the writeback path, this is probably often encountered in
-> practice, since the threshold is 64 * nr_cpus and any sustained write
-> would cross that quickly. It would matter most with order-0 folios
-> since there's 4 updates incurred per folio independent of folio size.
-
-Makes sense.
-
-> > > (a) and (b) perform worse on higher memcg depths, whereas rstat is
-> > > unaffected by depth level, which makes sense given that (a) and (b)
-> > > can't break early if the flushable threshold has already been
-> > > exceeded.
-> > >
-> > > ~On the flush side~
-> > > ns per flush call (measured at leaf of memcg chain, ie best scenario
-> > > for rstat, # CPUs on the system is 80)
-> > >   rstat                      10165.60 ns   (min 9924)
-> > >     (a)                       734.10 ns
-> > >     (b)                        4.79 ns
-> > >
-> > > (a) is around 14x cheaper than an rstat flush, which I think is
-> > > because the rstat flush goes through every stat, even ones that are
-> > > not directly relevant.
-> >
-> > I think that's only part of the story. rstat iterates all children
-> > cgroups as well. I think reading multiple contiguous stats may
-> > actually be really cheap since they are likely in the same cacheline.
->
-> In that benchmark, the flush cost was measured at the leaf of the
-> memcg chain, so I don't think there were any children to iterate here.
-> Maybe some of it is attributed to the rstat locking? I'm not too sure.
->
-> >
-> > >
-> > > Using some napkin math, I think the breakeven point for (a) is around:
-> > >                       updates per read
-> > > depth 1             ~900
-> > > depth 8             ~380
-> > > depth 32           ~80
-> > >
-> > > eg for depth 1:  (10165.60 - 734.10) / (32.49 -  22.34)
-> > >
-> > > This is assuming one read per flush, which is what (a) and (b) would
-> > > necessarily have to pay, whereas rstat only needs to flush when the #
-> > > of stats updates exceeds the MEMCG_CHARGE_BATCH * nr_cpus threshold,
-> > > so the updates per read numbers above are in reality lower.
-> > >
-> > > Running a fio write job and using tracepoints to count # of stat
-> > > updates, # of reads of those stats, and how many of those reads flush,
-> > > I'm seeing:
-> > >                      updates/s              reads/s
-> > > flushes/s         updates per read
-> > > bs=1M            643                           119                 45
-> > >                        5
-> > > bs=4k            156,415                     123                 58
-> > >                      1267
-> > >
-> > > For larger folio sizes, (a) is cheaper for writeback (since there are
-> > > 4 update events *per folio* in the dirtying/writeback lifecycle) but
-> > > for smaller folio sizes (eg order 0 folios), (a) is worse, as a lot
-> > > more updates are incurred, and the performance is worse the deeper the
-> > > memcg is nested.
-> >
-> > Hmm interesting analysis, but I actually think a more interesting one
-> > is the effect of the update latency in respective update paths. For
-> > example, in the zswap_store() case you analyzed earlier, it ends up
-> > being in the noise. I would check what the hottest update paths are
-> > (probably networking?) and check what the update paths are, to check
-> > if they are really sensitive to the increased update cost. It could be
-> > the case that at least stats that are used by in-kernel flushers do
-> > not really care about the extra update cost.
->
-> Extrapolating a bit from the synthetic benchmarks, at depth 8, I think
-> the extra overhead incurred on an update comes out to roughly around
-> 25ns, and at depth 16, around 48ns. I haven't looked at the networking
-> path, but the lru path (__update_lru_size()) looks concerning, as it
-> would have that extra overhead while holding the lru lock, which "is
-> already a heavy contention point on memory-heavy workloads" [1]. As I
-> understand it, reclaim, compaction, and the page cache path all
-> serialize on that lock.
-
-Yeah it could be a problem, but I think we won't know for sure until
-we run a reclaim-heavy workload (e.g. build the kernel in a constraint
-cgroup) and check for actual regressions. I am often surprised by what
-actually shows up (or doesn't) in higher-level workloads.
-
->
-> If we were to move all the callers off rstat, I think this also would
-> unfortunately make the walk more expensive. As I understand it, each
-> stat would be a per-cpu counter which would be added to the
-> memcg_vmstats_percpu struct, and that would have to spill onto
-> multiple cachelines. Or maybe I'm missing something here and there
-> would be a better way to do it.
-
-Yeah. I count 54 stats, with 8 bytes per counter that's ~7 cachelines
-(on x86_64). I can see that being really expensive, but I can also see
-it disappear into the noise if the stats updated together live in
-close cachelines and the CPU prefetches surrounding cachelines.
-
-> > > I also ran some experiments with Jan's suggestion of scaling the flush
-> > > threshold to the memcg's limit rather than to the number of cpus. It
-> > > helps the overshoot we saw and slightly outperforms doing a plain
-> > > non-ratelimited flush (100% of dirty limit vs 101% on a 1G memcg, 103%
-> > > vs 107% on a 256M memcg) but led to ~2.4x more flushes.
-> > >
-> > > The initial reason we switched to the ratelimited version of the flush
-> > > was because flushing was expensive, but I'm not sure if flushing is as
-> > > expensive as it used to be. Testing the non-ratelimited version, the
-> > > flushes account for about 0.9% of the system CPU the write path
-> > > already spends, and I didn't see any throughput difference between the
-> > > two (249-252 MB/s either way), on a 32G memcg. With the
-> > > non-ratelimited version, it's also not a flush per read - it's still
-> > > "ratelimited" by number of updates that have elapsed since the last
-> > > flush (only flushing if stats_updates >= MEMCG_CHARGE_BATCH * nr_cpus)
-> > > which means concurrent writers writing back at the same time will
-> > > "share" flushes rather than triggering their own.
-> >
-> > Yup, this is exactly what I mean. This is a good analysis for the cost
-> > of the flush: how much it matters end-to-end. Even though the full
-> > flush is 14x more expensive according to your numbers, it seems like
-> > it ultimately doesn't affect performance much. I would do the same for
-> > the update paths, see if the extra cost really matters. WDYT?
->
-> imo ideally it would be great to minimize any overhead we can where if
-> we don't need the precision for a certain stat, then it would be
-> preferable to not incur any extra overhead for it on updates if the
-> overhead saved on reads doesn't justify it. In the grand scheme of
-> things though, I think in most cases, the extra overhead/latency isn't
-> really discernible except at high depths and except for the lock
-> contention issue mentioned above.
-
-Right. I am just trying to avoid the complexity of having two update
-schemes if we can help it. If we can move everything to a new "better"
-scheme, that would be great. But it might be the case that we have to
-have a different scheme just for stats where the current update/read
-tradeoff doesn't make sense.
-
-> I don't really have an issue with rstat for cases like writeback where
-> we're not doing a lot of reads compared to updates,
-
-I don't remember why ratelimiting was added, but I suspect for cases
-with large trees, high number of CPUs, and/or high cgroup lock
-contention -- the cost of a normal flush could get really high. Back
-in the day when we used to always flush the entire tree (before
-per-memcg thresholding), we ran into hard lockups for flushes taking
->10s with irqs off (we had atomic flushing back then).
-
->  but I think we do
-> need to get rid of the rstat rate-limiting, as it seems so arbitrary
-> to rely on two seconds for stats being updated. Bounding it by time
-> and not stats_updates feels wrong. Even in the cases where precision
-> doesn't matter, it seems better to give those callers a higher stats
-> updates threshold depending on how much error they can tolerate, than
-> to rely on a blanket 2 seconds.
-
-100% agreed. I never liked the ratelimited flush tbh. I think we
-practically end up just not flushing in most cases (but I never really
-checked), so it's just a way to feel good about skipping a flush :P
-
-> > > In light of the above, imo it seems to make the most sense to just do
-> > > the plain non-ratelimited flush for mem_cgroup_wb_stats() and make the
-> > > flushing magnitude bound again, wh ich also aligns with what the
-> > > global non-memcg domain does. The question is whether the extra flush
-> > > cost is acceptable, but the numbers above make me think it is.
-> >
-> > If we can eat the cost of the flush here that's great, but I think we
-> > can't say the same for the vmscan and zswap paths (at least)? :/
->
-> I haven't tried out the vmscan repro or run any benchmarks on that
-> path, but the logic in vmscan seems weird to me, as it will always
-> conclude that there were no refaults whenever reclaim scans faster
-> than the refaults counter advances (which I think would be most of the
-> time under memory pressure). I'm thinking maybe we could do something
-> similar to what Usama did in [1] where we fold the refault delta into
-> a per-lruvec accumulator and let it decay. I'm planning to look more
-> into this and will follow up then.
-
-Looking forward to it.
-
-> For the zswap path, it's still a bit unclear to me whether exactness
-> is necessary or whether the 64 * nr_cpus error tolerance is
-> acceptable. If that error tolerance is acceptable, I think it makes
-> sense to use the non-ratelimited version of rstat with no forced
-> flushing, given that reads are supposed to be rare since rarely
-> anybody (from what I understand) in practice sets zswap.max. Quick
-> benchmarks at depth=4 with zswap.max set at every level, 20 workers on
-> 80 cpus:  rstat forced = ~7,600 stores/s, rstat unforced = ~300k
-> stores/s, and hierarchical per-cpu counters = ~440k stores/s. The
-> hierarchical per-cpu counters outperforms rstat unforced on the stores
-> given that it removes the flush, but we already see massive
-> improvements from using rstat unforced over rstat forced.
-
-I would like to avoid the ratelimited flush for the limit checking for
-the same reasons discussed above. I think we were all under the
-assumption that the limit is rarely set in practice (other than 0 or
-max), until we saw [*].
-
-[*]https://lore.kernel.org/linux-mm/20260817131843.45121-1-husong@kylinos.cn/.
-
->
+> > I think the virtual backing-dev thing is a non-starter,
+> 
+> The virtual backing-dev is an abstraction.
+> 
+> Is it sufficient for you if I promise that this is going to do the
+> same thing as the standalone famfs at the same performance level?
+> 
+> >  and I think that the famfs
+> > portion of the fuse ABI basically can't live without extents that are
+> > (daxdev, offset, length).
+> 
+> Sigh.  My proposal was (backing-id, offset, length).  Again this is an
+> abstraction.  A backing ID can be a daxdev, a striped logical device
+> or it can be a block dev or even a plain file.
+> 
+> > Also, I'm curious: if you don't know of a use case for the striping code outside
+> > of famfs, why ask famfs to completely rewrite that?  (and I agree, other
+> > than the eventual remote possibility of competing 'famfs-ng' fuse servers,
+> > I don't see much likelihood that this piece will be shared.)
+> 
+> Because the striping feature fits much better into a virtual device
+> API than the extent mapping API.  This is how striping has worked in
+> linux for the last 30 years.
+> 
+> > Miklos, I trust that you are a good faith actor, although you seem to be
+> > spread pretty thin. Can you commit to a series of 1:1 conversations with
+> > me to try to work through the disconnects?
+> 
+> Fine, let's find a time.
+> 
 > Thanks,
-> Joanne
->
-> [1] https://lore.kernel.org/linux-mm/20260727162550.2032-4-usama.arif@linux.dev/
->
-> >
-> > >
-> > > Thanks,
-> > > Joanne
+> Miklos
+
+Miklos and I met yesterday and I think we found workable path forward.
+We will be collaborating on some changes to the famfs metadata transport,
+likely mostly via me trying to make it easy for Miklos to bring up a
+famfs testbed VM, and Miklos doing some re-work on famfs to make it
+more consonant with fuse (fuse-onic? ;).
+
+Meanwhile, the most recent standalone famfs series (v13) had some very 
+helpful review comments - many of which apply to both the fuse and
+standalone implementations. I plan to publish a v14 standalone branch
+with those improvements, and also cross-port the appropriate portions
+to the fuse series, which will probably be called v15.
+
+That updated fuse series should be the foundation for Miklos' rework - 
+and I'll get it ready as fast as I can.
+
+Miklos, thank you for working with me on this. I think this was one of
+those cases where there is no good substitute for face-to-face
+collaboration.
+
+Regards,
+John
+ 
+
