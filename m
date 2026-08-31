@@ -1,236 +1,440 @@
-Received: from a11-127.smtp-out.amazonses.com (a11-127.smtp-out.amazonses.com [54.240.11.127])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880763F8893;
-	Sat, 29 Aug 2026 17:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.127
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5F243BDD6;
+	Mon, 31 Aug 2026 13:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788023606; cv=none; b=o68npjfRXz2aC6DefBUo/02ZfJ49KHaMWNpWVTYTt8qq2VcUmVL4X5Zmyxu0n3APD/FaOz4H9jvtOcwiuHRg8gsVEWhU6kyxoYym5TiLZdRBCW/VzELRvZKM0wA8mAn4ACXdb7LZ8DENfiktLh7xzypkRhtxQVHQ4deC8XFXa6o=
+	t=1788183221; cv=none; b=XvEgJIorpOr9PX2DI8DKeTbfFLBa3FTsYeZVZoTor+aUM3OwKnNS4Bdm7EY5BL2OOXRdKukTRvppBOSVTH1krlnYWXUHU1mPAxBC1mb3JxkLwWNxvoRYE829k1T0RXlsRvL9X8MFbP+LRG9Dz873qMwPDvcME4ygYY61yMiADQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788023606; c=relaxed/simple;
-	bh=1hTdEQvbjrgWTg8L2D6TFiHhycnEwzxEVaO9WRFhRWw=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=enNBX5KMQzmixTQmEqCqIed0HRzHNb2Qcbzxj0O8OJI/qLVYcVWkO6n0HdR7IIenu6AzYQ2TB+KrdsqiVfqFY1Dx55KqyVESP8djs6MhUa05t5s6pn4PibtXfTuHaiABpCs1Xv3SXd9Uw14qsMtFCSsfw1hLovb7en6DNL5Klg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=LG6QgSzP; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=flmyZaK6; arc=none smtp.client-ip=54.240.11.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1788183221; c=relaxed/simple;
+	bh=TE17VwI9rll3f2GWMfg7sEj/C6x4l/DjzALtKz0vQbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LrmC+a3b2XT+O+BhjmRAhHb8pM42zufXZDpRGTDCivf3ZxuL4gfFCnN08ouJoloPSo+rb2FRZwje0iYi7Yz4FzAvY3U1IPY5n+z2RtqHikhF8YDLJoRd4HEktVpBwGN5uiU3kp7ZEU2w3wkpiqLGLi244gGZZ9Rlnblu1gLFxCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b4/xcCCf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="LG6QgSzP";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="flmyZaK6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rjayupzefgi7e6fmzxcxe4cv4arrjs35; d=jagalactic.com; t=1788023603;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=1hTdEQvbjrgWTg8L2D6TFiHhycnEwzxEVaO9WRFhRWw=;
-	b=LG6QgSzPDDJSgm+1+xxqIKLOYFzM0uUUJFptKP+rqB7eo/UvkIcDpgda1tlTpdxw
-	ioYDJxmtTzIQUvr35cgEwdlWy+nazRE51etOm+IhNaTYdUcadccJpaa6W9/gz9XtlG6
-	nQXxUjxYJJDHC/jvAxOjEtp4e7hwri3ncKRz2lec=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1788023603;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=1hTdEQvbjrgWTg8L2D6TFiHhycnEwzxEVaO9WRFhRWw=;
-	b=flmyZaK6GTrZeraVVj9o5Q21Krle4MKDn7r1TWtIytdgW3PJeLDWQKf/H5PhINWQ
-	meAEwBWhRioPsDWKTdYbY3BW3bBG/Q9U/Vx17q5dlT9FJX/WbFISiyVFTdPJI2ByZ8R
-	2sdyUfyB+2EJFQO2/GPUVn1pN8h5EAsETb7p7wtg=
-Subject: [PATCH V14 12/12] famfs: Add documentation
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Dan_Williams?= <djbw@kernel.org>, 
-	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
-	=?UTF-8?Q?Jake_Edge?= <jake@lwn.net>, 
-	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
-	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
-	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
-	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
-	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jic23@kernel.org>, 
-	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
-	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
-	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
-	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
-	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
-	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
-	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
-	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
-	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
-	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
-	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
-	=?UTF-8?Q?Andrew_Morton?= <akpm@linux-foundation.org>, 
-	=?UTF-8?Q?Namjae_Jeon?= <linkinjeon@kernel.org>, 
-	=?UTF-8?Q?Lorenzo_Stoakes?= <ljs@kernel.org>, 
-	=?UTF-8?Q?Greg_Kroah-Hartman?= <gregkh@linuxfoundation.org>, 
-	=?UTF-8?Q?Ira_Weiny?= <iweiny@kernel.org>, 
-	=?UTF-8?Q?Pasha_Tatashin?= <pasha.tatashin@soleen.com>, 
-	=?UTF-8?Q?Haren_Myneni?= <haren@linux.ibm.com>, 
-	=?UTF-8?Q?Pratyush_Yadav?= <pratyush@kernel.org>, 
-	=?UTF-8?Q?Giovanni_Cabiddu?= <giovanni.cabiddu@intel.com>, 
-	=?UTF-8?Q?Jiri_Slaby?= <jirislaby@kernel.org>, 
-	=?UTF-8?Q?Ethan_Nelson-Moo?= =?UTF-8?Q?re?= <enelsonmoore@gmail.com>, 
-	=?UTF-8?Q?Gabriel_Whigham?= <gabewhigham@gmail.com>, 
-	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
-	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
-	=?UTF-8?Q?venkataravis=40m?= =?UTF-8?Q?icron=2Ecom?= <venkataravis@micron.com>, 
-	=?UTF-8?Q?linux-doc=40?= =?UTF-8?Q?vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
-	=?UTF-8?Q?fuse-devel=40lists=2Elinux=2E?= =?UTF-8?Q?dev?= <fuse-devel@lists.linux.dev>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jonathan.cameron@huawei.com>, 
-	=?UTF-8?Q?John_Groves?= <john@groves.net>
-Date: Sat, 29 Aug 2026 17:13:23 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b4/xcCCf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F14D1F00ACA;
+	Mon, 31 Aug 2026 13:33:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788183219;
+	bh=btqJjj1YUoC5weF03sT25svIkf/+PmS962BjMyfzVHQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=b4/xcCCf1FKPa0PC98eAuUvUANhQpp1IqDYMDIPpKqiiarXYsQ+yv60JljUHnxKpu
+	 e+lJJQOiOHvhkFg7BeDOVjuTJ1asElCx2Z0vsjZQ12RpDmVVtMlEhgXNp3JvYOHxeu
+	 c/XY7GQyCFP55jHNoMlKY5BoRkjtGUaHI/QP87wjBlY40x7pr7rOBuWf9UESuaOSTF
+	 6gtZRmOyliMuoN2U+1xg1Lu5KYJEyCHpraHK2XFnJ3j3hWvP3PQIEY+ZqObDV6aCz0
+	 ZTP39ws4ZfAtvJjBixEvBxH3bhm9KYL06m2KG2unyMuoS+r1twFahIBs2s5A8ZTB71
+	 IFfIwA37C/FnQ==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Yung-Tse Cheng <mes900903@gmail.com>,
+	Miklos Szeredi <mszeredi@redhat.com>,
+	Sasha Levin <sashal@kernel.org>,
+	gmaglione@redhat.com,
+	vgoyal@redhat.com,
+	stefanha@redhat.com,
+	miklos@szeredi.hu,
+	virtualization@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-6.12] virtio-fs: avoid double-free on failed queue setup
+Date: Mon, 31 Aug 2026 09:20:44 -0400
+Message-ID: <20260831133314.4125787-16-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260831133314.4125787-1-sashal@kernel.org>
+References: <20260831133314.4125787-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.48
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: 
- <010001a04e801a4e-8eb212cd-b263-4043-ab65-33e480d2d7d4-000000@email.amazonses.com>
-References: 
- <010001a04e801a4e-8eb212cd-b263-4043-ab65-33e480d2d7d4-000000@email.amazonses.com> 
- <20260829171317.7551-1-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHdN9lAfqnLmnnsQyaIwPphM+3eHAAAHF0l
-Thread-Topic: [PATCH V14 12/12] famfs: Add documentation
-X-Wm-Sent-Timestamp: 1788023602
-X-Original-Mailer: git-send-email 2.55.0
-Message-ID: <010001a04e83009f-d8fd0bf4-337f-4420-a73d-780df3cc27af-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.08.29-54.240.11.127
+Content-Transfer-Encoding: 8bit
 
-From: John Groves <John@Groves.net>=0D=0A=0D=0AAdd Documentation/filesyst=
-ems/famfs.rst and update MAINTAINERS=0D=0A=0D=0AReviewed-by: Randy Dunlap=
- <rdunlap@infradead.org>=0D=0ATested-by: Randy Dunlap <rdunlap@infradead.=
-org>=0D=0AReviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>=0D=0A=
-=0D=0AReviewed-by: "Darrick J. Wong" <djwong@kernel.org>=0D=0AReviewed-by=
-: Jeff Layton <jlayton@kernel.org>=0D=0ASigned-off-by: John Groves <john@=
-groves.net>=0D=0A---=0D=0A Documentation/filesystems/famfs.rst | 142 ++++=
-++++++++++++++++++++++++=0D=0A Documentation/filesystems/index.rst |   1 =
-+=0D=0A MAINTAINERS                         |   1 +=0D=0A 3 files changed=
-, 144 insertions(+)=0D=0A create mode 100644 Documentation/filesystems/fa=
-mfs.rst=0D=0A=0D=0Adiff --git a/Documentation/filesystems/famfs.rst b/Doc=
-umentation/filesystems/famfs.rst=0D=0Anew file mode 100644=0D=0Aindex 000=
-000000000..048791bcbcfd=0D=0A--- /dev/null=0D=0A+++ b/Documentation/files=
-ystems/famfs.rst=0D=0A@@ -0,0 +1,142 @@=0D=0A+.. SPDX-License-Identifier:=
- GPL-2.0=0D=0A+=0D=0A+.. _famfs_index:=0D=0A+=0D=0A+=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+famfs: The fabric-attached memory file =
-system=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=
-=0A+- Copyright (C) 2024-2026 Micron Technology, Inc.=0D=0A+=0D=0A+Introd=
-uction=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+Compute Express L=
-ink (CXL) provides a mechanism for disaggregated or=0D=0A+fabric-attached=
- memory (FAM). This creates opportunities for data sharing;=0D=0A+cluster=
-ed apps that would otherwise have to shard or replicate data can=0D=0A+sh=
-are one copy in disaggregated memory.=0D=0A+=0D=0A+Famfs, which is not CX=
-L-specific in any way, provides a mechanism for=0D=0A+multiple hosts to c=
-oncurrently access data in shared memory, by giving it=0D=0A+a file syste=
-m interface. With famfs, any app that understands files can=0D=0A+access =
-data sets in shared memory. Although famfs supports read and write,=0D=0A=
-+the real point is to support mmap, which provides direct (dax) access to=
-=0D=0A+the memory - either writable or read-only.=0D=0A+=0D=0A+Shared mem=
-ory can pose complex coherency and synchronization issues, but=0D=0A+ther=
-e are also simple cases. Two simple and eminently useful patterns that=0D=
-=0A+occur frequently in data analytics and AI are:=0D=0A+=0D=0A+* Serial =
-Sharing - Only one host or process at a time has access to a file=0D=0A+*=
- Read-only Sharing - Multiple hosts or processes share read-only access=0D=
-=0A+  to a file=0D=0A+=0D=0A+The famfs file system is part of the famfs f=
-ramework; user space=0D=0A+components [1] handle metadata allocation and =
-distribution, and populate=0D=0A+the in-kernel files (via ioctls) so that=
- they map directly to shared=0D=0A+memory.=0D=0A+=0D=0A+The famfs framewo=
-rk manages coherency of its own metadata and structures,=0D=0A+but does n=
-ot attempt to manage coherency for applications.=0D=0A+=0D=0A+Famfs also =
-provides data isolation between files. That is, even though=0D=0A+the hos=
-t has access to an entire memory "device" (as a devdax device), apps=0D=0A=
-+cannot write to memory for which the file is read-only, and mapping one=0D=
-=0A+file provides isolation from the memory of all other files. This is p=
-retty=0D=0A+basic, but some experimental shared memory usage patterns pro=
-vide no such=0D=0A+isolation.=0D=0A+=0D=0A+Principles of Operation=0D=0A+=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A=
-+=0D=0A+Famfs is a file system with one or more devdax devices as a first=
--class=0D=0A+backing device(s). Metadata maintenance and query operations=
- happen=0D=0A+entirely in user space.=0D=0A+=0D=0A+The famfs user space p=
-rovides each file's map (fmap) and its backing=0D=0A+devdax devices to th=
-e kernel through ioctls (FAMFSIOC_MAP_CREATE and=0D=0A+FAMFSIOC_DAXDEV_OP=
-EN), after which read/write/mapping faults are handled=0D=0A+entirely in =
-the kernel with no up-calls for all active files.=0D=0A+=0D=0A+The famfs =
-user space is responsible for maintaining and distributing=0D=0A+consiste=
-nt metadata. This is currently handled via an append-only=0D=0A+metadata =
-log within the memory, but this is orthogonal to the famfs=0D=0A+kernel c=
-ode.=0D=0A+=0D=0A+Once instantiated, "the same file" on each host points =
-to the same shared=0D=0A+memory, but in-memory metadata (inodes, etc.) is=
- ephemeral on each host=0D=0A+that has a famfs instance mounted. Use case=
-s are free to allow or not=0D=0A+allow mutations to data on a file-by-fil=
-e basis.=0D=0A+=0D=0A+When an app accesses a data object in a famfs file,=
- there is no page cache=0D=0A+involvement. The CPU cache is loaded direct=
-ly from the shared memory. In=0D=0A+some use cases, this is an enormous r=
-eduction in read amplification=0D=0A+compared to loading an entire page i=
-nto the page cache.=0D=0A+=0D=0A+=0D=0A+Famfs is Not a Conventional File =
-System=0D=0A+---------------------------------------=0D=0A+=0D=0A+Famfs f=
-iles can be accessed by conventional means, but there are=0D=0A+limitatio=
-ns. The famfs kernel module is not involved in the allocation of=0D=0A+ba=
-cking memory for files at all; the famfs user space creates files and=0D=0A=
-+supplies their fmaps and devdax device info to the kernel via ioctls.=0D=
-=0A+=0D=0A+Famfs differs in some important ways from conventional file sy=
-stems:=0D=0A+=0D=0A+* Files must be pre-allocated by the famfs framework;=
- allocation is never=0D=0A+  performed on (or after) write.=0D=0A+* Any o=
-peration that changes a file's size is considered to put the file=0D=0A+ =
- in an invalid state, disabling access to the data. It may be possible to=
-=0D=0A+  revisit this in the future. (Typically the famfs user space can =
-restore=0D=0A+  files to a valid state by replaying the famfs metadata lo=
-g.)=0D=0A+=0D=0A+Famfs exists to apply the existing file system abstracti=
-ons to shared=0D=0A+memory so applications and workflows can more easily =
-adapt to an=0D=0A+environment with disaggregated shared memory.=0D=0A+=0D=
-=0A+Memory Error Handling=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Possible memory errors include timeout=
-s, poison, and unexpected=0D=0A+reconfiguration of an underlying dax devi=
-ce. In all of these cases, famfs=0D=0A+receives a call from the devdax la=
-yer via its=0D=0A+dax_holder_operations->notify_failure() function. If an=
-y memory errors have=0D=0A+been detected, access to the affected=0D=0A+da=
-xdev is disabled to avoid further errors or corruption.=0D=0A+=0D=0A+In a=
-ll known cases, famfs can be unmounted cleanly. In most cases errors=0D=0A=
-+can be cleared by re-initializing the memory - at which point a new famf=
-s=0D=0A+file system can be created.=0D=0A+=0D=0A+Key Requirements=0D=0A+=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+The primary re=
-quirements for famfs are:=0D=0A+=0D=0A+1. Must support a file system abst=
-raction backed by sharable devdax memory=0D=0A+2. Files must efficiently =
-handle VMA faults=0D=0A+3. Must support metadata distribution in a sharab=
-le way=0D=0A+4. Must handle clients with a stale copy of metadata=0D=0A+=0D=
-=0A+The famfs kernel component takes care of 1-2 above by caching each fi=
-le's=0D=0A+mapping metadata in the kernel.=0D=0A+=0D=0A+Requirements 3 an=
-d 4 are handled by the user space components, and are=0D=0A+largely ortho=
-gonal to the functionality of the famfs kernel module.=0D=0A+=0D=0A+Requi=
-rements 3 and 4 cannot be met by conventional fs-dax file systems=0D=0A+(=
-e.g. xfs) because they use write-back metadata; it is not valid to mount=0D=
-=0A+such a file system on two hosts from the same in-memory image.=0D=0A+=
-=0D=0A+=0D=0A+Famfs Usage=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=
-=0A+Famfs usage is documented at [1].=0D=0A+=0D=0A+=0D=0A+References=0D=0A=
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+- [1] Famfs user space repos=
-itory and documentation=0D=0A+      https://github.com/cxl-micron-reskit/=
-famfs=0D=0Adiff --git a/Documentation/filesystems/index.rst b/Documentati=
-on/filesystems/index.rst=0D=0Aindex 1f71cf159547..97a9a1f1e96a 100644=0D=0A=
---- a/Documentation/filesystems/index.rst=0D=0A+++ b/Documentation/filesy=
-stems/index.rst=0D=0A@@ -91,6 +91,7 @@ Documentation for filesystem imple=
-mentations.=0D=0A    ext3=0D=0A    ext4/index=0D=0A    f2fs=0D=0A+   famf=
-s=0D=0A    gfs2/index=0D=0A    hfs=0D=0A    hfsplus=0D=0Adiff --git a/MAI=
-NTAINERS b/MAINTAINERS=0D=0Aindex bfc3acf72c9c..515a3d832397 100644=0D=0A=
---- a/MAINTAINERS=0D=0A+++ b/MAINTAINERS=0D=0A@@ -9901,6 +9901,7 @@ M:=09=
-John Groves <John@Groves.net>=0D=0A L:=09linux-fsdevel@vger.kernel.org=0D=
-=0A L:=09linux-cxl@vger.kernel.org=0D=0A S:=09Supported=0D=0A+F:=09Docume=
-ntation/filesystems/famfs.rst=0D=0A F:=09fs/famfs/=0D=0A=20=0D=0A FANOTIF=
-Y=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
+From: Yung-Tse Cheng <mes900903@gmail.com>
+
+[ Upstream commit 6af3330ec5d5fb8c06c04eb520a71cf73ea5a765 ]
+
+virtio_fs_setup_vqs() allocates fs->vqs and fs->mq_map before calling
+virtio_find_vqs(). If virtio_find_vqs() fails, the error path frees both
+pointers and returns an error to virtio_fs_probe().
+
+virtio_fs_probe() then drops the last kobject reference, and
+virtio_fs_ktype_release() frees fs->vqs and fs->mq_map again. This leaves
+dangling pointers in struct virtio_fs and can trigger a double-free during
+probe failure cleanup.
+
+Set fs->vqs and fs->mq_map to NULL immediately after kfree() in the
+virtio_fs_setup_vqs() error path so that the later kobject release sees an
+uninitialized state and kfree(NULL) becomes harmless.
+
+This can be reproduced when a broken virtio-fs device advertises more
+request queues than the transport actually provides. In that case
+virtio_find_vqs() fails while setting up the extra queue, and the probe
+path reaches the double-free cleanup sequence.
+
+Signed-off-by: Yung-Tse Cheng <mes900903@gmail.com>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+
+LLM Generated explanations, may be completely bogus:
+
+## Phase 1: Commit Message Forensics
+
+### Step 1.1: Subject Line
+**Record:** `[virtio-fs] [avoid] double-free on failed queue setup` —
+explicit bug fix in the virtio-fs driver error path during virtqueue
+setup.
+
+### Step 1.2: Tags
+**Record:**
+- **Signed-off-by:** Yung-Tse Cheng `<mes900903@gmail.com>` (author)
+- **Signed-off-by:** Miklos Szeredi `<mszeredi@redhat.com>`
+  (FUSE/virtio-fs maintainer)
+- No Fixes:, Reported-by:, Tested-by:, Reviewed-by:, Acked-by:, Link:,
+  or Cc: stable tags
+
+Notable: maintainer Signed-off-by is a strong quality signal.
+
+### Step 1.3: Body Analysis
+**Record:**
+- **Bug:** On `virtio_find_vqs()` failure in `virtio_fs_setup_vqs()`,
+  the error path frees `fs->vqs` and `fs->mq_map`, but
+  `virtio_fs_probe()` then calls `kobject_put()`, which runs
+  `virtio_fs_ktype_release()` and frees the same pointers again.
+- **Symptom:** Double-free and dangling pointers during probe-failure
+  cleanup; potential kernel crash / memory corruption.
+- **Trigger:** Broken virtio-fs device advertising more request queues
+  than the transport actually provides.
+- **Root cause:** Missing NULL assignment after `kfree()` in the setup
+  error path, so the kobject release path cannot tell memory was already
+  freed.
+
+### Step 1.4: Hidden Bug Fix?
+**Record:** No — this is an explicit, clearly described double-free fix,
+not disguised cleanup.
+
+---
+
+## Phase 2: Diff Analysis
+
+### Step 2.1: Inventory
+**Record:**
+- **File:** `fs/fuse/virtio_fs.c` (+2 lines, 0 removed)
+- **Function:** `virtio_fs_setup_vqs()`
+- **Scope:** Single-file, surgical fix (2 lines)
+
+### Step 2.2: Code Flow Change
+**Record:**
+- **Hunk (error path in `virtio_fs_setup_vqs()`):**
+  - **Before:** On failure (`ret != 0`), `kfree(fs->vqs)` and
+    `kfree(fs->mq_map)` leave dangling pointers in `struct virtio_fs`.
+  - **After:** Same frees, then `fs->vqs = NULL` and `fs->mq_map =
+    NULL`, so later `virtio_fs_ktype_release()` does harmless
+    `kfree(NULL)`.
+
+### Step 2.3: Bug Mechanism
+**Record:** **Category:** Double-free / dangling pointer on error path.
+**Mechanism:** `virtio_fs_setup_vqs()` and `virtio_fs_ktype_release()`
+both free the same allocations without coordinating ownership transfer.
+
+### Step 2.4: Fix Quality
+**Record:** Obviously correct, minimal, standard kernel pattern.
+Regression risk is very low — only affects the failure path and makes
+cleanup idempotent.
+
+---
+
+## Phase 3: Git History Investigation
+
+### Step 3.1: Blame
+**Record:**
+- `kfree(fs->vqs)` in error path: Stefan Hajnoczi, 2018-06-12
+  (`a62a8ef9d97da2`)
+- `if (ret) { ... kfree(fs->mq_map); }` wrapper: Peter-Jan Gootzen,
+  2024-05-01 (`529395d2ae6456`, "virtio-fs: add multi-queue support")
+- The **double-free mechanism** was introduced when kobject lifecycle
+  landed in `virtio_fs_ktype_release()` — commit `a8f62f50b4e4e`
+  (2024-02-12, "virtiofs: export filesystem tags through sysfs"). That
+  commit is an ancestor of this tree and of `v6.18`.
+
+### Step 3.2: Fixes: Tag
+**Record:** N/A — no Fixes: tag present.
+
+### Step 3.3: Related File History
+**Record:** Recent `virtio_fs.c` activity includes other probe/cleanup
+fixes (e.g. `c014021253d77` incorrect fsvq kobj check). No related fix
+for this double-free is present. The candidate fix is not yet in this
+tree.
+
+### Step 3.4: Author Context
+**Record:** Yung-Tse Cheng has no prior commits in this checkout. Miklos
+Szeredi is the FUSE maintainer and signed off on the patch.
+
+### Step 3.5: Dependencies
+**Record:** Standalone, 2-line fix. No series dependencies. `git apply
+--check` succeeds cleanly against the local tree.
+
+---
+
+## Phase 4: Mailing List and External Research
+
+### Step 4.1: Original Discussion
+**Record:** `b4 dig -c` failed (commit not in local tree). Web search
+found the patch at [mail-archive.com](https://www.mail-
+archive.com/linux-kernel@vger.kernel.org/msg2622149.html) and [Patchew](
+https://patchew.org/linux/20260405193039.178506-1-mes900903@gmail.com/).
+Posted 2026-04-06 by Yung-Tse Cheng. Standalone 1-patch series. Lore
+fetch timed out; no review-thread details retrieved.
+
+### Step 4.2: Reviewers
+**Record:** From Spinics archive: To: virtio-fs maintainers (gmaglione,
+vgoyal, stefanha, miklos). Cc: virtualization@, linux-fsdevel@, linux-
+kernel@. Appropriate maintainers were included.
+
+### Step 4.3: Bug Report
+**Record:** No external bug report or syzbot link. Author describes
+reproducible scenario with a misconfigured/broken virtio-fs device.
+
+### Step 4.4: Related Patches
+**Record:** Standalone fix, not part of a multi-patch series.
+
+### Step 4.5: Stable List History
+**Record:** No stable-list discussion found. UNVERIFIED due to lore
+access failure.
+
+---
+
+## Phase 5: Code Semantic Analysis
+
+### Step 5.1: Key Functions
+**Record:** `virtio_fs_setup_vqs()`, `virtio_fs_ktype_release()`,
+`virtio_fs_probe()`
+
+### Step 5.2: Callers
+**Record:**
+- `virtio_fs_setup_vqs()` — called only from `virtio_fs_probe()` (line
+  1133)
+- `virtio_fs_ktype_release()` — kobject `.release` callback, invoked via
+  `kobject_put()` from `virtio_fs_probe()` error path (line 1160) and
+  normal teardown paths
+
+### Step 5.3: Callees
+**Record:** `kcalloc()`, `virtio_find_vqs()`, `kfree()`, `kobject_put()`
+— standard probe allocation/cleanup.
+
+### Step 5.4: Reachability
+**Record:**
+```
+virtio device probe → virtio_fs_probe()
+  → virtio_fs_setup_vqs() [fails]
+    → error path kfree(vqs, mq_map)
+  → out: kobject_put()
+    → virtio_fs_ktype_release() [double-free without fix]
+```
+Reachable during virtio-fs device enumeration when queue setup fails
+(broken device, ENOMEM, or `virtio_find_vqs()` failure). Not a syscall
+path directly, but triggered during driver probe on systems with virtio-
+fs enabled.
+
+### Step 5.5: Similar Patterns
+**Record:** No `fs->vqs = NULL` or `fs->mq_map = NULL` anywhere in
+current `virtio_fs.c`. The dangling-pointer pattern is unique to this
+error path.
+
+---
+
+## Phase 6: Cross-Reference Against Local Tree
+
+### Step 6.1: Buggy Code Present?
+**Record:** **YES.** Local tree is **v6.18.44** (`git describe HEAD` →
+`v6.18.44-1-g2736c32da98b9`). Current code at lines 989–992 frees
+without NULLing:
+
+```989:992:fs/fuse/virtio_fs.c
+        if (ret) {
+                kfree(fs->vqs);
+                kfree(fs->mq_map);
+        }
+```
+
+And `virtio_fs_ktype_release()` at lines 195–196 frees the same pointers
+again. Fix is not yet applied.
+
+### Step 6.2: Backport Complications
+**Record:** Clean apply — `git apply --check` passed with exit code 0.
+No conflicts expected.
+
+### Step 6.3: Related Fixes Already Present?
+**Record:** None. `git log -S 'fs->mq_map = NULL'` returned no results.
+No grep matches for NULL assignments.
+
+---
+
+## Phase 7: Subsystem Context
+
+### Step 7.1: Subsystem
+**Record:** `fs/fuse/virtio_fs.c` — virtio-fs driver (FUSE over virtio).
+**Criticality: IMPORTANT** — affects virtualization/virtio-fs users, not
+universal core kernel, but probe failures can crash the host/VM.
+
+### Step 7.2: Activity
+**Record:** Actively maintained; recent virtio-fs and fuse fixes in this
+tree.
+
+---
+
+## Phase 8: Impact and Risk Assessment
+
+### Step 8.1: Who Is Affected
+**Record:** Systems with `CONFIG_VIRTIO_FS` enabled (module or built-in)
+where virtio-fs device probe fails during queue setup — VMs with virtio-
+fs, hosts exporting virtio-fs, or broken/malicious virtio device
+configurations.
+
+### Step 8.2: Trigger Conditions
+**Record:**
+- `virtio_find_vqs()` failure (e.g. device advertises more queues than
+  transport supports)
+- Also any error path through `out:` label with `ret != 0` after
+  `fs->vqs`/`fs->mq_map` were allocated (including ENOMEM)
+- Not everyday, but reproducible on probe failure; privileged entity
+  controlling virtio device configuration can trigger it
+
+### Step 8.3: Failure Mode Severity
+**Record:** **Double-free** → kernel oops, possible memory corruption.
+**Severity: HIGH** (crash / potential security impact from heap
+corruption on probe failure).
+
+### Step 8.4: Risk-Benefit
+**Record:**
+- **Benefit:** HIGH — prevents crash on legitimate probe failure paths
+- **Risk:** VERY LOW — 2 lines, error-path only, idempotent cleanup
+- **Ratio:** Strongly favors backport
+
+---
+
+## Phase 9: Final Synthesis
+
+### Step 9.1: Evidence Summary
+
+**FOR backport:**
+- Real double-free bug with clear mechanism
+- Reproducible trigger described (broken virtio-fs queue advertisement)
+- HIGH severity (kernel crash / memory corruption)
+- Minimal 2-line fix, applies cleanly
+- FUSE maintainer (Miklos Szeredi) Signed-off-by
+- Bug present in this 6.18.44 tree since kobject lifecycle (Feb 2024);
+  mq_map added second vector (May 2024)
+- Standard NULL-after-kfree pattern
+
+**AGAINST backport:**
+- Only triggered on probe failure, not hot path
+- No syzbot report or CVE
+- Lore review thread not fully retrieved
+
+**UNRESOLVED:**
+- Whether reviewers explicitly nominated for stable (lore fetch failed)
+- Whether patch has landed in mainline yet (not in this checkout)
+
+### Step 9.2: Stable Rules Checklist
+1. Obviously correct and tested? **PASS** — standard pattern; maintainer
+   SOB; author describes reproduction
+2. Fixes a real bug? **PASS** — verified double-free in local code
+3. Important issue? **PASS** — double-free on probe failure (HIGH)
+4. Small and contained? **PASS** — 2 lines, 1 file
+5. No new features/APIs? **PASS**
+6. Can apply to local tree? **PASS** — clean apply verified
+
+### Step 9.3: Exception Categories
+**Record:** None — this is a straight bug fix, not a
+quirk/ID/DT/build/doc exception.
+
+### Step 9.4: Decision Rationale
+This tree (6.18.44) contains the buggy code: `virtio_fs_setup_vqs()`
+frees `fs->vqs` and `fs->mq_map` on error without NULLing them, and
+`virtio_fs_probe()` unconditionally calls `kobject_put()` which re-frees
+them in `virtio_fs_ktype_release()`. The fix is minimal, obviously
+correct, and prevents a kernel crash on a realistic probe-failure path.
+It fully meets stable kernel criteria.
+
+---
+
+## Verification
+
+- [Phase 1] Parsed subject, tags, body from provided commit message
+- [Phase 1] Confirmed maintainer Signed-off-by: Miklos Szeredi
+- [Phase 2] Read current `virtio_fs_setup_vqs()` error path (lines
+  986–993): missing NULL assignments
+- [Phase 2] Read `virtio_fs_ktype_release()` (lines 191–197): frees same
+  pointers
+- [Phase 2] Read `virtio_fs_probe()` error path (lines 1158–1161):
+  `kobject_put()` on all failures
+- [Phase 3] `git describe HEAD`: v6.18.44-1-g2736c32da98b9
+- [Phase 3] `git blame -L 989,992`: error-path code from 2018 (vqs) and
+  2024 (mq_map wrapper)
+- [Phase 3] `git show 529395d2ae6456`: mq_map kfree added to error path
+  without NULL
+- [Phase 3] `git show a8f62f50b4e4e`: kobject lifecycle introduced
+  double-free mechanism
+- [Phase 3] `git merge-base --is-ancestor a8f62f50b4e4e HEAD`: confirmed
+  in tree
+- [Phase 3] `git merge-base --is-ancestor 529395d2ae6456 HEAD`:
+  confirmed in tree
+- [Phase 3] `git log -S 'fs->mq_map = NULL'`: no existing fix
+- [Phase 4] `b4 dig -c df25d4faca41c`: failed (commit not in tree)
+- [Phase 4] Web search: found patch submission at mail-archive.com and
+  Patchew (2026-04-06)
+- [Phase 4] Lore direct fetch: timed out — review comments UNVERIFIED
+- [Phase 5] `grep virtio_fs_setup_vqs`: single caller in
+  `virtio_fs_probe()`
+- [Phase 5] Traced probe → setup_vqs error → kobject_put → ktype_release
+  call chain
+- [Phase 6] Confirmed buggy code present at lines 989–992; fix absent
+  (no NULL assignments)
+- [Phase 6] `git apply --check`: patch applies cleanly (exit 0)
+- [Phase 7] Read `fs/fuse/Kconfig`: VIRTIO_FS depends on FUSE_FS +
+  VIRTIO
+- [Phase 8] Assessed severity: double-free on probe failure = HIGH
+
+**YES**Those background searches finished and line up with the earlier
+analysis:
+
+- **Author lookup** — No commits from Yung-Tse Cheng / `mes900903` in
+  this 6.18.44 tree; the patch is still a candidate, not merged here.
+- **Commit message search** — Nothing matching “avoid double-free on
+  failed queue setup” in local history.
+- **Alternate-fix search** — No other commit in `fs/fuse/` that already
+  fixes this.
+
+Together that confirms the bug is present locally and the fix isn’t
+applied yet. The backport recommendation remains **YES**.
+
+ fs/fuse/virtio_fs.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index b2f6486fe1d56..2b3daa93e299a 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -988,7 +988,9 @@ static int virtio_fs_setup_vqs(struct virtio_device *vdev,
+ 	kfree(vqs);
+ 	if (ret) {
+ 		kfree(fs->vqs);
++		fs->vqs = NULL;
+ 		kfree(fs->mq_map);
++		fs->mq_map = NULL;
+ 	}
+ 	return ret;
+ }
+-- 
+2.53.0
+
