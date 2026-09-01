@@ -1,131 +1,202 @@
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC057411F95
-	for <fuse-devel@lists.linux.dev>; Tue,  1 Sep 2026 07:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32D3331A6E
+	for <fuse-devel@lists.linux.dev>; Tue,  1 Sep 2026 21:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788246537; cv=none; b=ENM8psehioE3CI0BsgLTTn2LnNAamGOWEiEboWwVfQyKBYbzl1aJYcKCLqAPp2lMMKQMsRh4WStrjMkP7KzlrLSs2XTfZdp8XSFRd0rQs5hbTkIhLbzoinI+gOklG2JIH5qsKxyNKMlE+0/6JCPDCKkAvHkIh4zubvccxwUaKUs=
+	t=1788298456; cv=none; b=ZTeuu2hClNQ8hX2A3QdIHvjI5QDMLsQePKJgwbBQO7mG+zOHR8ik8qsM8terdKMw9DXisCndf6jAI2dDLBaoM5+oWULxO5e2B8EvK4kwfEZs4zUnRCwVp2S+YRPSzpgeth2LreFurJPZoG7ssoWk4yCwdH0x0sX62jhBUJ40r7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788246537; c=relaxed/simple;
-	bh=s+rA/oJfvAQqoRdIJy0+Zoc+dBC+QVhLAl4NY61D5yo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F1IVGWNon6WwGW7VSQqu8Q4JE1dTET4IPtpiY9fKKMhqxn4qYHCjm6Mbh6RxK5aM1fiAGk4vE56NYtsJZnXp63qRzDG/ehjtd3J5Y4BLLk0muRymbaoe1YvjDvdr4mmekzDCoQDaYpGnFHixLIDkBPIBrxVcZ7XI5Sfr0EpzArM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=il4NvB8+; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HwpXgIwK; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1788298456; c=relaxed/simple;
+	bh=Ose34srI3hrAxlZZz+7jEVM8bnJ/tOc2D7m3K6ahiJ0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=AwfwLCvSrhkrBNzzCmiatB7JAZhWotB2F/hnhps9MPtrTQU0n65T7mL1Q/GCUObEfW7mMN8Mpgn7BT5PK0IOMPOHo0i1PQybWz1FoDG2oXm+UCKJLiQlNAcrZVYQemHzVkj/Zerz5CTRtKChSz3DXcSbRlxCp/UmE/7PgwcF/P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CZ6J5ajH; arc=none smtp.client-ip=209.85.216.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="il4NvB8+";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HwpXgIwK"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 8B51D7A00C5;
-	Tue,  1 Sep 2026 03:08:51 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Tue, 01 Sep 2026 03:08:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1788246531;
-	 x=1788332931; bh=0HUitffnCzV7MqUhZcIiSOwrfeH0xmK+tvPQOd3zPXE=; b=
-	il4NvB8+BVDKG7VXXSCHvxgjqn2plGS2HeZBCtMlg+s8nR2srHWth0HATK0ca2J3
-	NEg1o8OW6EJ0llHSZuWwUP7Ky3hHEhnLPjwzWsOi17Z6ArUJpjRjaK0VxQ2Z+Dfg
-	2tajvAbvExgPXjEbG7M4U9lDhRVDgB3e2F98WU26m2vzXvC29+BzV6IA2qxvK9mU
-	lXQisIv5vddCbVEqQUKLI38g1vJ/53NnYOsC1KeG9zy9HQVQMOfxBFA3luIBL+5M
-	iAK6Pq0TvJUUKN2T6vnz5mCko5mjyZn5FL5nmb+GwKRfa/63Fl11gNdzM7uMAIEs
-	9q/ibxjD8ZPDvf8xZbmJAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1788246531; x=
-	1788332931; bh=0HUitffnCzV7MqUhZcIiSOwrfeH0xmK+tvPQOd3zPXE=; b=H
-	wpXgIwKpZ9w6GP+hB4/IYbMsumvpaEGeiv8FBedf0oUGYzS9j7j+l2ennF44xsxi
-	n1eVgCdSth0brUhrQygv5ya4s+8erKc9AnmyAE+n1n81iJqpg+EChDMLAbxUGSMH
-	wwsa+5gQJUy17t8d1bRzc/NP3Fpx6BNIpFq+eMG3O/1vnqxrWwqHRQyQPNbPBwwy
-	4W5+Po2jlkSCtR21azA/S53CyakhBacg1W7LShWgoNFuPFm2i5DoHEaej1M+y3Lw
-	vnD/i/dVMPfvTmNVvUU2Yu8mWXj0Sx0ELfdGk/6x0mYv5up+0sLjkLXBrCeh0RpO
-	5ihwFNgk7WLzC7MbRQNKg==
-X-ME-Sender: <xms:A3qWapAcEvoFh4w3GsUB6V6F94yUvGfAK7D-upXbqjFvtRsI5T7ACw>
-    <xme:A3qWauhJTldALYAbxcwNUv5Nw6iy09SZ68byVtQ0eXtZzuBXg41ZkriT2MYrmN7Cd
-    QBUACVvYhH_8ElCr9ZHg4mJhTdNb5k2KRH6GztuSVlqqHwQTJQi>
-X-ME-Received: <xmr:A3qWapn1hUIiPdUgjOP1unRN92Pc02fHuKPlpwZq7SdWP04lANi-jM3VpFdp-4pu2kbET-T0pYTWxn4x9ePhCZYwdnrGU073WWuuG0lTX3AavT2Odw>
-X-ME-Proxy-Cause: dmFkZTE3Kdpcwhfn6CjrqnRdOc13xYmUZIhHqabG8bQnKpMG1zXn/B7zY70PXGjP7WJkWu
-    glfZ3byeHRmO72Vdb6XF2bicHkl7tU2tDPeJmg8U89WCSED28wf7pCT9Sz1Jk038vljHwm
-    +8D4t98pB7vPmRGTdpQvBEJWHtYoF9fT9fqOcqaVMP5mTY8W6fi8+GmA4F3Afvs08dWfXM
-    AMToujyFLGGefR7Tt4FCfhtmnIvXN5QLKASn5tcFKxVsW1FYZcypmAyxf9q+8jXciKqvaP
-    P2b6SvIkGdwL+lsex/t9xqyOD667TIHhJvihEUrXIZSsTeqm+VWuzg53g1mEhysq9Ccimg
-    c6lFGSCVEpZORnNzg3nD5HnteCJkDTuAqbXuIaX3eGKFi6h9A6hBonwDgmLxYA1G2Q4V3k
-    5elP9PoGnfKOTU53sD+B80QIUwcYt+nUSzK3IIRAGcxWBrOE+nqbUIDgeu325HW0w/rML5
-    wHCCLWdQCPoD9+o5eVx64EsOHCqwAg+qbywpc0Yp2XauZ0l1qfTYoGe6ksjP455paaN2qM
-    +og29ynQzXoFNlK+hAEEkjzBPt6CU8VElf1cs0XtparxGp1D8NXTZHhLPQmKEXTMOknJln
-    7vunD5oVUstjYmbECMvf9ZnIpiKxzxYIPZuVtSN1g3W+EetrdRL7z5fkRH0w
-X-ME-Proxy: <xmx:A3qWaioW3Z0LwlGHCCu7UsP1o-pcczvfEWPrWYi7QFSjfkpICGOIFg>
-    <xmx:A3qWaqFhBWH138H-bELMbWcwzZGY27lOLNOBziAX-Zc7VaWdTG88VA>
-    <xmx:A3qWamyFAxJHa2nPHHcAL3FWtsB6dUlWi165sX24fOGPY7V0IE1fRw>
-    <xmx:A3qWanrq2QR3GAiwvwbNeokNsXwPFSSN5ZvjK0haltk4OgbwCLg87Q>
-    <xmx:A3qWalK3GJNovIbkynaqP8kdIZvSbAy2hv1bjipUddRGtoC5kYG63S2b>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Sep 2026 03:08:50 -0400 (EDT)
-Message-ID: <a164f719-58f6-4fe8-a26d-96682a654af8@bsbernd.com>
-Date: Tue, 1 Sep 2026 09:08:48 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CZ6J5ajH"
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38e54b6556aso444079a91.2
+        for <fuse-devel@lists.linux.dev>; Tue, 01 Sep 2026 14:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1788298454; x=1788903254; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=snVEO/sl2HX+PIDOygdJc1iuoXl2isJC1BgiDdwU6RM=;
+        b=CZ6J5ajHHw+ZjtAuF+OMFXV1pzJvf7GzS4RyI/dBPjJstxD1rQma+CIX3gIg1P9OVD
+         WSeFPzoWA5QoTW42LtJybDF+FF15KaveSB8lc8TVlJJMwA1azE1l/uTicHv/ctLXvbN8
+         G2kCuPuRBZ51JhxEf0Kfr9lHE1agB4Yua/LqT3QkUSSJLb+s72Exa/w18IbAU1GhOlEs
+         dyuc+wSUQ1yqk+tfjP/VbuXz4k8q2KPk/kIYevwF1E3BhzWGQI777z17pX+91OM7d1XL
+         w6IO9Gk+YjI73LGsng7Hgp4n3o+HyV0xdJYdLnIqQ/tKZpk+2rzQuUxPqrDD87tnmzGs
+         7yeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788298454; x=1788903254;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=snVEO/sl2HX+PIDOygdJc1iuoXl2isJC1BgiDdwU6RM=;
+        b=JTsr7L0cwSI1SEYdQUy739WS1XXJ7DZdO6isxPZeRja2hYZ7QNQEu8Hdniit8w3HjJ
+         BM+1EnVBX716EWyWpEWLFSt397DzpgPyOBQ67XCCRoz0Yio9Qn1vedN7P6wclwvSyo3B
+         otHw005X9ogb2CgAOMMDkOPpzF1FEEwE+TFtNrHFlElMmy+sLN4HHEOVmhXKPB28QNHv
+         gPEHttM8BWDiDQrS9cGZLHa0LDn8nQLZPJnnTOCyefBcZ/Sg+++1BNgxQxwIhlBuN/7/
+         Mu0izb5r+H4J5Btxh32r5fTH89U3oUJVXjM940YwTUUVZPWMD2syIy+EYFYfi6UJX/k9
+         Wrhg==
+X-Gm-Message-State: AFuF++myiy+iTrIJ19ArGpGk8RgTz5pUtByhv1ZPpQPQkK601mRpBqy7
+	nC/2BSOsHVYqu91rvtutAR/uYq1IZmo16kIg1GdfJGXHlDFEUsSBGAquk4XaJgQQk/IlKxSQ9NN
+	ri/HZjS2FOZc3q9naIcCZwXSf2lepzPKEFERt78PS9AV5P0yeV6cT65+BssVkL+r4kjQACU5kmA
+	19eJQP1yDm13UEXKRzNOQ1jo+c/Yggcr24lKJacLkhO0WV1+9zbijTga8NFhh259U=
+X-Received: from dycaa14.prod.google.com ([2002:a05:7301:540e:b0:315:877c:f169])
+ (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:5110:b0:38e:97f0:aa4b with SMTP id 98e67ed59e1d1-39ae83dc551mr1602194a91.13.1788298453859;
+ Tue, 01 Sep 2026 14:34:13 -0700 (PDT)
+Date: Tue,  1 Sep 2026 14:34:12 -0700
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: disabling uds interface by default in libfuse builds
-To: "Sonono, Tofik" <tofik.sonono@intel.com>
-Cc: "david@adalogics.com" <david@adalogics.com>,
- fuse-devel <fuse-devel@lists.linux.dev>,
- "Andersson, Magnus" <magnus.andersson@intel.com>
-References: <7592d7af-ba3f-4506-a69c-ae9efa542566@bsbernd.com>
- <CY5PR11MB618643B25E49C18F0B6C3B1082A82@CY5PR11MB6186.namprd11.prod.outlook.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CY5PR11MB618643B25E49C18F0B6C3B1082A82@CY5PR11MB6186.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.966.g6673acef38-goog
+Message-ID: <20260901213412.1763253-1-changyuanl@google.com>
+Subject: [RFC] Handling 0-sized pseudo-files (cgroupfs/sysfs/procfs) in
+ virtiofs and FUSE
+From: Changyuan Lyu <changyuanl@google.com>
+To: fuse-devel@lists.linux.dev, virtio-fs@lists.linux.dev
+Cc: Miklos Szeredi <miklos@szeredi.hu>, khazhy@google.com, peternewman@google.com, 
+	German Maglione <gmaglione@redhat.com>, Hanna Czenczek <hreitz@redhat.com>, posk@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Tofik,
+Hi all,
 
-[please find my reply inline as custom on kernel lists]
+We have been investigating an issue when sharing host pseudo-filesystems
+(such as /sys/fs/cgroup, /proc, and /sys) into a guest VM via virtiofs.
+For our environment, we would like to provide statistics about the
+enclosing host-level container (such as cgroup metrics) to feed into
+application decisions in the VM guest, for which we would like to pass
+through pseudo-filesystems like /sys/fs/cgroup.
 
-On 9/1/26 08:29, Sonono, Tofik wrote:
-> Hi Bernd,
-> 
-> I see, thanks for letting me know, and good to have this spotted.
-> 
-> Perhaps adding the build option makes the most sense, but why do we need to
-> guard the addition of the custom I/O API if we have added the
-> documentation that
-> describes the requirements for its proper utilization and
-> implementation? Is it
-> to highlight this issue for existing users of this API so they get a
-> compilation
-> error when they upgrade libfuse? Would it be an option for us to add the
-> desired
-> validation in the `stream_read()` implementation example to make it more
-> correct?
+Virtiofs does not support this well today. When guest applications read
+dynamic pseudo-files (for example, /sys/fs/cgroup/cgroup.controllers or
+cgroup.stat), they frequently receive 0 bytes (EOF), even though the host
+file contains live dynamic content.
+
+We would like to discuss our findings and proposed solutions for both
+virtiofsd and the guest kernel FUSE client.
 
 
-isn't the problem that <uds-client> provides the socket and an
-<application/fuse-server (libfuse)> reads the socket. So if <uds-client>
-does something wrong, <fuse-server> does out of bound reads, i.e. the
-part that is not guilty. For <default-client/kernel> we just expect that
-it works perfectly, but with a userspace client that guarantee is not
-given. To get it perfectly safe fuse-server needs to add a lot of sanity
-checks and I'm not even sure if that will work, because <uds-client> can
-spoof all kind of data in the headers.
+1. Problem Analysis
+===================
 
-I'm fully open for discussion how to handle it. At the moment I don't
-have a good idea how to get it perfectly safe, so my reaction is
-<disable it by default>.
+In Linux, kernel pseudo-files (kernfs, cgroupfs, procfs) report
+st_mode = S_IFREG and st_size = 0 via stat()/statx() because their
+content is generated dynamically on read().
 
+In virtiofsd with the default CachePolicy::Auto mode, open_flags is 0
+(FOPEN_DIRECT_IO is not set). Consequently, the guest kernel routes reads
+through the page cache:
+
+  fuse_file_read_iter()
+    -> fuse_cache_read_iter()
+      -> generic_file_read_iter()  (mm/filemap.c)
+
+In generic_file_read_iter(), the kernel checks:
+  if (iocb->ki_pos >= i_size_read(inode))
+      return 0;
+
+Because inode->i_size is 0, generic_file_read_iter() immediately returns
+0 bytes (EOF) from guest RAM without ever issuing a FUSE_READ request to
+virtiofsd.
+
+
+2. Host Daemon (virtiofsd) Solution
+===================================
+
+To prevent generic_file_read_iter() from truncating reads at i_size == 0,
+the guest must open the file with FOPEN_DIRECT_IO so that reads go through
+fuse_direct_read_iter() and dispatch FUSE_READ to virtiofsd.
+
+However, setting FOPEN_DIRECT_IO unconditionally on all 0-sized files is
+problematic because regular empty files (e.g. touch empty.txt) grown
+while open via ftruncate() may encounter mmap(MAP_SHARED) limitations on
+older kernels without FUSE_DIRECT_IO_ALLOW_MMAP.
+
+In virtiofsd [1], we implemented an automatic detection in
+do_open() and create():
+When a regular file has st_size == 0, virtiofsd inspects the underlying
+host filesystem type using fstatfs64(). If the file resides on a known
+pseudo-filesystem (e.g. CGROUP2_SUPER_MAGIC, CGROUP_SUPER_MAGIC,
+PROC_SUPER_MAGIC, SYSFS_MAGIC, TRACEFS_MAGIC, DEBUGFS_MAGIC,
+SECURITYFS_MAGIC, BPF_FS_MAGIC), virtiofsd sets OpenOptions::DIRECT_IO
+(FOPEN_DIRECT_IO) in the open reply:
+
+  if flags & (libc::O_DIRECTORY as u32) == 0
+      && !opts.contains(OpenOptions::DIRECT_IO)
+      && is_zero_sized_pseudo_file(&file)?
+  {
+      opts |= OpenOptions::DIRECT_IO;
+  }
+
+With this change, standard read() syscalls (e.g. via dd, head, or runtimes)
+in the guest receive FOPEN_DIRECT_IO and successfully read dynamic host
+pseudo-file content.
+
+
+3. Guest Kernel Issue: fuse_splice_read()
+=========================================
+
+Even with FOPEN_DIRECT_IO returned by virtiofsd, utilities that use
+splice()/sendfile() (such as BusyBox cat, GNU cat in certain cases, or cp)
+still fail and return 0 bytes.
+
+Looking at fs/fuse/file.c:fuse_splice_read():
+
+  static ssize_t fuse_splice_read(struct file *in, loff_t *ppos,
+                                  struct pipe_inode_info *pipe, size_t len,
+                                  unsigned int flags)
+  {
+      struct fuse_file *ff = in->private_data;
+
+      /* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+      if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_IO))
+          return fuse_passthrough_splice_read(in, ppos, pipe, len, flags);
+      else
+          return filemap_splice_read(in, ppos, pipe, len, flags);
+  }
+
+Notice that when FOPEN_DIRECT_IO is set, fuse_splice_read() falls back to
+filemap_splice_read() in mm/filemap.c. filemap_splice_read() also checks
+*ppos >= i_size_read() and immediately breaks with 0 bytes spliced.
+
+Other filesystems (such as 9p, ceph, cifs, kernfs) handle direct I/O
+splice reads by delegating to copy_splice_read(), which invokes
+in->f_op->read_iter() (fuse_direct_read_iter).
+
+We propose the following fix for the guest kernel fs/fuse/file.c:
+
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -1884,6 +1884,8 @@ static ssize_t fuse_splice_read(struct file *in, loff_t *ppos,
+ 	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+ 	if (fuse_file_passthrough(ff) && !(ff->open_flags & FOPEN_DIRECT_IO))
+ 		return fuse_passthrough_splice_read(in, ppos, pipe, len, flags);
++	else if (ff->open_flags & FOPEN_DIRECT_IO)
++		return copy_splice_read(in, ppos, pipe, len, flags);
+ 	else
+ 		return filemap_splice_read(in, ppos, pipe, len, flags);
+ }
+
+
+Questions for Upstream
+======================
+
+1. For virtiofsd: Does the automatic detection of pseudo-filesystems via
+   fstatfs magic match upstream expectations, or would upstream prefer an
+   explicit configuration option (such as per-path cache policies)?
+2. For the kernel: Does the proposed copy_splice_read() fallback for
+   FOPEN_DIRECT_IO files in fuse_splice_read() look acceptable?
+
+Any feedback and suggestions would be greatly appreciated.
+
+[1] https://gitlab.com/Lencerf/virtiofsd/-/commit/ee9445c7d2963a60e554f8483bd47b7c1634d569
 
 Thanks,
-Bernd
-
+Changyuan Lyu
