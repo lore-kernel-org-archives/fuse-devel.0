@@ -1,106 +1,126 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1634B1272;
-	Wed,  2 Sep 2026 17:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD9D4CCDC8
+	for <fuse-devel@lists.linux.dev>; Wed,  2 Sep 2026 19:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788368452; cv=none; b=nGs/I953iN6bdCqzu27u+oWb7xKFkXSvhZvsDQFGs+V+YwKlKRNJWqLM9Y2dnF/7qAIRhg55VnikJHSxLmuUYHajaHogbMWv1SdT4bwMHqydR41esjsekMCe3ZToh8c3Slqb/nH1M6WOlkRoPEpYqQ8nHqkQfa6Vqukmbv5IjR0=
+	t=1788377713; cv=none; b=coUHBF2q1T5SRhLdm9/+isXpnczr79Ms72yvhkBHhRfTvPJBS6dCmgx8Vyi7W68GZ8jgCtVS4oIjT7fcepeR4PJRK+FgMBtbvDmLTRfflk5qdf3MUN9B6n3cQnSQGaivQCw7WuxXkkhxQphrcjtU3UPUwtBee2sm2ps5LpacL24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788368452; c=relaxed/simple;
-	bh=D3lJpq+jx9Xd0lCiMWIDke55AqPQ53y7tXdw894mwtU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ea9pL2Et4YpyPZN6HogZsgGRqspuec4QzjyqnSfdiYohMzuoEHIKSJGMK9bOTBie4gig3eFVWlUvB1P/a6LBy8TbtuuraTb6d3Uc2oc//PrAOmNoXRNRv4fTLtwYZEOliDBkAZHgvRfoEU6yBwpTu+stWcDahR1aiysS9XVvR9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RBMFhir6; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788377713; c=relaxed/simple;
+	bh=BvdDyPUvlOpdi9wnTRyO+uo5N4XFvGV8H4S7yy3KuIQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aiBtJynuBcmJZnR+26koofs+fXI3dvyXErQjiFQhUAFssmlT4rE4F2uRAxMVuko+9Eu9my81lGEgg+2LK2uRbw8Kd3f+Oe3N1GJaq2uJA21lMQAy6fODHdI5+Onn+IAiY8zVjPQ9K6lBRugkM/pJgMPPH2LVMoxJcUM8uvfPzuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DS+R64jP; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RBMFhir6"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=E2vaO3YjVSSC5+Npa0rciElxgRGVqK95oNyRn4MLJyw=; b=RBMFhir6pzq7zqy3vPrPZT+i8w
-	NV1a/NiRjTMMVLrgRD2OppXpH1bmLoXmiAqiOmtduPXZeJLvtuaMUw/+CC8nCC7hu8SJCprNE2WQ9
-	JgS2wW6EsYxnH4roPPGrzT4XUWVSmvZy2eYh1uW04fULxXKOQedLVf7PQzwlIR17IuOj/zQb50maX
-	pL8OmAXgrGeoJID/ds80xXMctazwkfCtOi55rt6hIrnBl9c1OHhBjUiJM9iW+2TDJ4XsP3yL0z1px
-	nCGX70OxxzstQdn4mTFuyMSnTLl7uNRVUZ+qGwEswH3Li4BFd4q4pIGc7TZ7xDWbYtMHG1kET7pmD
-	GvPSRPyQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x1oKN-0000000FLU4-25hr;
-	Wed, 02 Sep 2026 17:00:47 +0000
-Message-ID: <6530afe2-f4be-490b-86a0-f09ac106d0d8@infradead.org>
-Date: Wed, 2 Sep 2026 10:00:46 -0700
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DS+R64jP"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-52fa223df07so13096841cf.3
+        for <fuse-devel@lists.linux.dev>; Wed, 02 Sep 2026 12:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1788377702; x=1788982502; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CZzpxxPA75w/wx7lhKvy8pkZXTVKN6GbmCrT4ENXQUA=;
+        b=DS+R64jPIsZNELGcaAECY59L6Gwjgu+BnlhUdtFAsiJFwKiaPV8V8OiWx2NQ6LaNxt
+         8gmiYbto80yn0lo6z14rJ7a9ySzJtsHv7LZejz5rf109HdWKef01VhUOk13d4D7uteFp
+         VohEk0sakBSsfRA8YW47FHzO6vnqGpq5+LpRk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788377702; x=1788982502;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CZzpxxPA75w/wx7lhKvy8pkZXTVKN6GbmCrT4ENXQUA=;
+        b=CUx57/ugidivsgcddK8/J9lJUEsMs/WK2V+fC5d5mb4e0CGzhEYAk3WocIVAZFyZDc
+         wmGQ8kliuhfLylBeI8l7GGWEsIIxEjbH7jWyIvDI90tmLXJeOC5QQn4NS/KCgRIWyQGS
+         uWGRCvBXzjCNo+aO0fsUirly+d6NK4ed554K+Y3GsetJyq1Pe5C41l792Jh1s1kyfYUX
+         Jjw+iQl7dZ7OmlAtWmg/ms1MeejEfOBwIDOriZPIENra2vg218RK28HFqmXSklqY8DER
+         xnHdOYI+tZEZbSnF99Ub5r+yfvhgT4n5lrrw82DJe2TStJaVcviXDofWYu4wGAi5OFpb
+         knVA==
+X-Forwarded-Encrypted: i=1; AKwUvBwTAZ1uX+6JKQkLzcAcdtSQFiVZvS8DkhfytgZoOFcoBN0zyPus7GGrGoERTDuquBboK+adVud5y+k5@lists.linux.dev
+X-Gm-Message-State: AFuF++nLfHEeBNG72A7jm5wn1G4KUZ1Y5b59sZy7hUsd8JQyr+mQgKAx
+	L4Lw+ecTKZEvuOMCfFEzK09V/esVd2W7QDChp4UjZTMk5Go/8S1uGcdymzge+xLnnvDgbU5Q2ls
+	ueLTDQg==
+X-Gm-Gg: AYBFou0PG4Sx0Vn1ne6brtZDTLeNoU02N2zK2TiD+sl+lRDxpuT6duE6W8MYR1Z8EWt
+	vo/7u74or+YXIukc39GL1O1iYgeoDRf1w3Gbv+i68xTzRTV1h975ix/XrR4yVW5fxDEtBPgejqB
+	P99yRG/F5OnxhpXIvf772hO0Krha1k4PTq+aqJd5jQgXsaAwSLiAWcqPOvRnHeyPUG25KCoGAsG
+	vyFHfxpdgmcbdCbx/KI51n160qMaC3sy67i+XuCGoUFk4Pkaqc5YRnJYqRHKlqari5SpXSHCHkO
+	simCuzY3uhccYzLi9uEBkHMiqY3bX/DI9jHoimRcGRB+mdVQvuRxLKXdglZrSivm37YK5z6kr2x
+	cgUnoVcb+jlQyPBPlMsBLAeZ7OdqQ6IRzqihneiXnLouI83V0X6p7fhoCHAB3qbcaLRfL1M5+YP
+	6kFame/s0xCmyPrlHH6AxpHB7ebd0L5GcfUnIYlzX5wV/r7KH3BmByWCXyFjHE4/YJr85yZky/r
+	eH/ltG45C5IMDRaC5fOh3yqug==
+X-Received: by 2002:ac8:7d93:0:b0:517:92a6:fcd5 with SMTP id d75a77b69052e-53036c4218fmr90456461cf.18.1788377702170;
+        Wed, 02 Sep 2026 12:35:02 -0700 (PDT)
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com. [74.125.230.204])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90e9eec71c5sm25513956d6.32.2026.09.02.12.35.01
+        for <fuse-devel@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Sep 2026 12:35:01 -0700 (PDT)
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-530411c7ee1so160261cf.0
+        for <fuse-devel@lists.linux.dev>; Wed, 02 Sep 2026 12:35:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwwW3qzD0PTjzSdQo5iJp/sOV2GaJVVIba1NgM1IMpqe29KtYSt1zHXO7cAmsckjBzV7c8Bo+HD7z7y@lists.linux.dev
+X-Received: by 2002:a05:622a:22a1:b0:52e:2243:6292 with SMTP id
+ d75a77b69052e-53043cb05d3mr3477651cf.2.1788377700377; Wed, 02 Sep 2026
+ 12:35:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: fuse: harmonize numeration
-To: Manuel Ebner <manuelebnerli@mailbox.org>,
- Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: fuse-devel@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260902143541.703277-2-manuelebnerli@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260902143541.703277-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260901213412.1763253-1-changyuanl@google.com> <CAJfpegtWYP-q82428iHd9gOBkAmoB=mgfGZRs3oi2FiAm3W-yA@mail.gmail.com>
+In-Reply-To: <CAJfpegtWYP-q82428iHd9gOBkAmoB=mgfGZRs3oi2FiAm3W-yA@mail.gmail.com>
+From: Khazhy Kumykov <khazhy@chromium.org>
+Date: Wed, 2 Sep 2026 12:34:49 -0700
+X-Gmail-Original-Message-ID: <CACGdZYK7wk0fMz7v7K_HSBfJvOYRmpWvaeNF8fBfU=j041gYuA@mail.gmail.com>
+X-Gm-Features: AcwNN1X1Mg4LYCUjdd1XdfvBEc5eboyV6sEgS52Rgi2jqZ-kCC6ZRG_IJMk3rMs
+Message-ID: <CACGdZYK7wk0fMz7v7K_HSBfJvOYRmpWvaeNF8fBfU=j041gYuA@mail.gmail.com>
+Subject: Re: [RFC] Handling 0-sized pseudo-files (cgroupfs/sysfs/procfs) in
+ virtiofs and FUSE
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Changyuan Lyu <changyuanl@google.com>, fuse-devel@lists.linux.dev, 
+	virtio-fs@lists.linux.dev, peternewman@google.com, 
+	German Maglione <gmaglione@redhat.com>, Hanna Czenczek <hreitz@redhat.com>, posk@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Sep 2, 2026 at 12:46=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
+wrote:
+>
+> On Tue, 1 Sept 2026 at 23:34, Changyuan Lyu <changyuanl@google.com> wrote=
+:
+>
+> > 1. For virtiofsd: Does the automatic detection of pseudo-filesystems vi=
+a
+> >    fstatfs magic match upstream expectations, or would upstream prefer =
+an
+> >    explicit configuration option (such as per-path cache policies)?
+>
+> Why not just set "--cache never" for the pseudo fs export?
 
+Enabling caching does give a pretty noticeable performance improvement
+for those files that can be cached, and we'd like to have just a
+single export instead of setting up multiple and assembling it
+piecemeal. (To this end we do have an out-of-tree extension to the
+virtiofsd-rs passthrough module to allow changing caching duration on
+a per file basis as the protocol allows..., been meaning to start a
+thread if folks are interested in this since it has proven somewhat
+useful for us now).
 
-On 9/2/26 7:35 AM, Manuel Ebner wrote:
-> Replace with '1.', '2.' with '1)', '2)' to harmonize file.
-> 
+But I felt having first class support for this felt more "right" -
+enabling caching shouldn't break reading of certain files, and the
+server is in a position to know if a file would support this or not.
 
-Yes, that does make the .rst file be internally consistent, so
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-It's interesting that the generated html always uses periods
-(at least in my testing), regardless of what is used in the input
-file. E.g., "A)" becomes "A." in the generated html.
-
-
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
->  Documentation/filesystems/fuse/fuse.rst | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/fuse/fuse.rst b/Documentation/filesystems/fuse/fuse.rst
-> index 0fbd5a03f..063d99959 100644
-> --- a/Documentation/filesystems/fuse/fuse.rst
-> +++ b/Documentation/filesystems/fuse/fuse.rst
-> @@ -173,10 +173,10 @@ the error set to EINTR.
->  It is also possible that there's a race between processing the
->  original request and its INTERRUPT request.  There are two possibilities:
->  
-> -  1. The INTERRUPT request is processed before the original request is
-> +  1) The INTERRUPT request is processed before the original request is
->       processed
->  
-> -  2. The INTERRUPT request is processed after the original request has
-> +  2) The INTERRUPT request is processed after the original request has
->       been answered
->  
->  If the filesystem cannot find the original request, it should wait for
-> @@ -239,9 +239,9 @@ How are requirements fulfilled?
->  
->   A) The mount owner could gain elevated privileges by either:
->  
-> -    1. creating a filesystem containing a device file, then opening this device
-> +    1) creating a filesystem containing a device file, then opening this device
->  
-> -    2. creating a filesystem containing a suid or sgid application, then executing this application
-> +    2) creating a filesystem containing a suid or sgid application, then executing this application
->  
->      The solution is not to allow opening device files and ignore
->      setuid and setgid bits when executing programs.  To ensure this
-
--- 
-~Randy
+khazhy
+>
+> > 2. For the kernel: Does the proposed copy_splice_read() fallback for
+> >    FOPEN_DIRECT_IO files in fuse_splice_read() look acceptable?
+>
+> Yes, in fact this patch has been sitting in my local tree for a week.
+>  Pushed out now, updated with a link to this report as well.
+>
+> Thanks,
+> Miklos
