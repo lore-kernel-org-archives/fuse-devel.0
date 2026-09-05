@@ -1,95 +1,94 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438903126D6
-	for <fuse-devel@lists.linux.dev>; Sat,  5 Sep 2026 14:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6216384CED
+	for <fuse-devel@lists.linux.dev>; Sat,  5 Sep 2026 14:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788616884; cv=pass; b=dlM/Db0vw7ENnDEFVuutapVJXWJ3eONTie3Ojd6dPNSLiK4/+MO6ZRtp/sLgBHXuc79COZiEOmRBphW7+LG3bslj+dqsMe11GRwgOid6pGWTT/24gJJK4blPEQjpmtQtqCXYH/7fmZ6XmmPMbh+rqFU14peKd2a1ioT1X33AYvI=
+	t=1788617519; cv=pass; b=oZLHhkThtrNUB9F1ov/VFbm/dpqV+ft2Os198Engr+NPWDbLJfgwkpTklLhRrl1ONlGkB9yeqfdLKS4NlIR7s7/OiUBpobCSfPtMP0y/aV2doMkm9Zw9fcu8zqFd+3VdFAhfQTHUyAOZJgiINVSWzeLlqQW3hS6ILtGpIoRFu50=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788616884; c=relaxed/simple;
-	bh=M7fAdXtBDfEORDW145jXu6v4iUab4x+K54eSd0w9thQ=;
+	s=arc-20240116; t=1788617519; c=relaxed/simple;
+	bh=lvUK/fKlC/5odo3hYQRDDPopCyKykRxFDlQPs6Wbxvo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ESqWGQjmxaThJieZCY0UkQmpV0HoId136pDz4cYOw7sIXLGS4x2g62UL9uPmR4UVFC2I3XrTChLHdIcjIm2gw8+Jz8ZwArU7FMT9nF5BBfxis1OtTqqqIaxVtb0BR21jurOlHgoP6UJ3vJhVQfl1gQs9YF02Ocq/m2l5dtZKcZI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EktEAPBi; arc=pass smtp.client-ip=209.85.208.53
+	 To:Cc:Content-Type; b=EFS+vizaX4HBDz2QB8AP4bmix0JvHtpzif4UTLB6qcrT8vwyslGbom1vea2dlEbQUeJr/qoqC9cx1MJ4l/0eTlG6KNFUinOjhu2LeG9ENHAetSZeNKIz9XkT2nCq3wCpbplohbscKiMaG5+mPnYwaRo8+8uGDXjHAGGn9muFiGE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A+XzO/+C; arc=pass smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EktEAPBi"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6a68ca482e2so2679330a12.0
-        for <fuse-devel@lists.linux.dev>; Sat, 05 Sep 2026 07:01:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788616870; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A+XzO/+C"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49cd77e0f95so17814795e9.3
+        for <fuse-devel@lists.linux.dev>; Sat, 05 Sep 2026 07:11:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788617515; cv=none;
         d=google.com; s=arc-20260327;
-        b=SY869HKMCNBtxe/ntXAUl+29qvBaGwQrgiuxpv+7aEiczUlIdAJ/09lGoIvc3oJWUa
-         NuFXQvghH7baDzHqww1gHJdF+PHp+OMmvtKWtYUmFhW8p6JxVII0GcQ4L+aAPPrPDqWI
-         767nVVTP47o7DRjIkal5HdLn5LGSX/+U/v+m7QrNMsnjOhYlwo/wnih9RdpVh+UovB0t
-         Qo5aq3HwhZ0FXVfDzbJaK3rnJpXth5wXXvCv9QqDejFNTxFA9jcaZEnxgoJBTrrtEgyg
-         OrLNl6uBtx0Tvr2RsygJQ/MEKwa9ppdJV4S8Ab/xfVssqmM8ekyHc76olVYpD0IPcSTA
-         bZ2w==
+        b=HyR5dvydn2zvg1/ehtg8XyVDMWnvyL9kDFn3pzxxbFsxg6iW4HOrcpBsw32rS7yrJl
+         NVEVQs07YAmjKLZkkQye9FjJwTqGFuLCDknf1aTFeRRgr0uT2+Eq+9iI8Syua4YSX3xR
+         SLW1K6muWiTC9GRPIOn3f2NYhDRiSh7cS1P3isMAmanISbEd3WfO23A2XugvXS7UglXA
+         nMriv4G0M8+A7HlrGFLtNxlBkDow00fZalMDhhgrBcptQqJFw2QpJP2AF8sEiyC7KcBs
+         cbxeJ89y6mMfm9FIvN4BFqyA+3koJEruSv07+qUl6mx7DT2pepkR3pBrU2uzsSUjpr1M
+         c8hA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=I+I8QUj3WVciHxoRXxP9OcDrC3AowirtGwOcl3KlFtc=;
-        fh=q2fBeBKHxSN0JkAxs1LxvIv3sqAdpe9T2VIK2r+30qc=;
-        b=V7tKwtahFAslE3mL/GBbE2Qz4uZFk0m+5uXKv++JVMuLXyiNApsUZ+vuDoX52buzTu
-         OsahmsJnBETSW8yI40eCZ18BMr1SXiBs497x1xmYDKUW/9fdQERUlDzQNkylP+Z6K+G5
-         LLvaN506avGZ3WX9mJYYFA3S/EL05KoWLGqO/lpWRhDIFDLx9ydPFQ6krvfHkhDeFHql
-         AVCoE9nfjUF73SMtv6wPrJ0RPgL/Fm9lRfEl9RvwvQmZ5VXksr3ZqOWRrFzQmkMQHyH9
-         yCyZvOKjkhH2+oQqto0BLGSsGoZf8wmJCdgI8STPofXmFW/x/bzICZc5ExQm3qP/XUTS
-         V/rA==;
+        bh=8dOwFXHyy7nBbryAA1ywk4yLaVEXFLRRnv/TLBt1Mfg=;
+        fh=TwoZ4XCOJ+/2xuLybG1mOBn5qxsJ8vaT+xQba5uYinE=;
+        b=i/M4gINxUTGjFo8oe3/xj5qMS/rHbge81MFvzRTDzAQcpTvX5ddEU/lN/pnSpKEzQI
+         ZGk8y34fFTUQ6MbO46tRJYr4wbqC+78PoE45ABVKpMxYN+gFTEvKvsJ/j7Kr1BbTAC7j
+         2eHP6CxSTfUmJll9i4vsg+uyecV6pxxf/SAn2F/QVyDgyz20XnNivdCXAWSHwW60blVm
+         WyfRr9O/18CUASQ0p0q2zofG7Fu01dws9xBIqxyMzPkP5kPwl5b6PwCy7f8tbSsC0KCe
+         p+ocMvOObFQQknQDhf1v5nDaSUivGcKHbIWNDCz5OJrnHdfmaJSM303AnaaEXpHe4XjP
+         Jjng==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788616870; x=1789221670; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788617515; x=1789222315; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=I+I8QUj3WVciHxoRXxP9OcDrC3AowirtGwOcl3KlFtc=;
-        b=EktEAPBiuDBcyMbeFPw9odFnpDHF12jRhOfm0PCIru5u66s2JMeLdELtp/FNKjx4Wk
-         pDyoNUg1s/ht1ryNYn1EWyXMw16qwhWaIc4vUNr4ifQ6SscZoir5xIuTiijTZhPKMHuZ
-         3yhOA1QWACmboJBE8Qz87+zia+1+ZCnlQddwXWFN/KOslGFWVLT49fJWo85k1fq+oGKj
-         VdxM+7KP2HKclYw1iXy8fvIrw67vU8b1MV6Y8FfZRmTUG4qnvUDA9uxlPBwrdFBmWMcI
-         oP7RVX/mEdpmw4dz+/sE/XjfqPuBUD2yEDHI8sjuo7YhPPflI61f1/lWizFPZ9mS/YZ6
-         Jt4w==
+        bh=8dOwFXHyy7nBbryAA1ywk4yLaVEXFLRRnv/TLBt1Mfg=;
+        b=A+XzO/+CJG2DmZHKvcWGIdkT0gvDgAwxmIO92Bu4xiakRWuN68TPMr793K+Ub8wu5v
+         4kxHGafvDnhvMxvQHzmxwcJFoUIfTBlREYZRQPcn53D81Od2DHw1nB+ncPAXBNMeUoK1
+         VFEIoG4a7GlctrQiUGF+ByUiYPGnvKlq8hLIgsfuvL1SfMQ7WSZ8c0llh/65R1pc0JiE
+         p9acpjivsi1rr6qj0c3sRS1nn9onExmxdhuLGABJV8owe+/998CPIqR3jrwGy883B8eB
+         drVavgN6swx/p7WWiPDeC0Dgvt8E42q0MTzEjlBFkTTpDwbRGg2laAoHVuKMCbVySL6m
+         8nSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788616870; x=1789221670;
+        d=1e100.net; s=20251104; t=1788617515; x=1789222315;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=I+I8QUj3WVciHxoRXxP9OcDrC3AowirtGwOcl3KlFtc=;
-        b=CLml+kbJLrIHHVi4Dq7th1owCEPbn/q+PuZxDT2vVs0/d0J8aNpOT8D49Y/crEmY19
-         0Bsv2WcdlrtSIy6AHl/q1GOACeVbbR7Rhk3MNAIoDnMG3YsUaPsp/ifKeUP7USb7WDn5
-         Wd+wu0ZqD7kdYonN1JxFLkXs/vu6AOANI08esle4+5LiKdzQVMaM4B9+XJUZU0xlbhlv
-         c9yQX4bMra0CKRfpaDwFB1dfeQaQ+wuMeZZnnydCgdYR3kLgZfwzRuOEIVetj3p29sK0
-         ZZLdnpqqQpAzEu6H2cHfNGMzIRV6h1H47Vl+gXjshhTt8kcJiQkxZWrSGfsaD+NsFO/9
-         WDYQ==
-X-Forwarded-Encrypted: i=1; AKwUvBypJcXdnw5zFPUwmzyy2TLAjfG1lTM3vQrOEkT2IrwhRNI6Pg4ZAOZ7f9Zn7+Z5lXoEXUGblCgJyVKp@lists.linux.dev
-X-Gm-Message-State: AFuF++m7Ey9RIL1xGV665jePd6PQYWwGcGpUAYuPy5DPWWVnnQZ9rl7Q
-	mWDWFo4+gS1n6Yzewhe6aR/T17Nyt8oelOAhFYZrkcIfA57CTVrs+6SDH7UFeiCOOI1r0F7couT
-	HUWk2mHRgT70gHg9Qz87qXAu8Aw6NI6Y=
-X-Gm-Gg: AYBFou2tZ3YRKWF2zR7vm5Ih+XMMctDHMDVdpLWTFfXUjlsb3V25yzZ0kSdmpWR6ru8
-	OZoAfQ+Vpfm9RxwWRkXyqBXurZAb/h5xzLJr7sjKJadfgrQfQqxx949etW94quwWc3AmcjsaeeR
-	2fiUnf0Ml6tVhcfTiU49blVWGJXNxvrI9JXRY0H3bsiIwlszoz+N83fCuRHUuTRG0LHwNMZ0A/a
-	GTfhLH12zjYqIGUVYqtGT/7cToGwHYFIep/soqXV7bZoOcHh/Mzu9hVWjj2Y7kh2onACF/XUkkA
-	GIJEu8oYPXuzlzuTpRRSrFYx0Bj5K5ZS71t2jCy/+/ilYw==
-X-Received: by 2002:a05:6402:3220:b0:6a6:3ee3:655a with SMTP id
- 4fb4d7f45d1cf-6a7e8d368f2mr9247527a12.3.1788616869820; Sat, 05 Sep 2026
- 07:01:09 -0700 (PDT)
+        bh=8dOwFXHyy7nBbryAA1ywk4yLaVEXFLRRnv/TLBt1Mfg=;
+        b=D7BHQmWVcO11x3HoE3ezCEFT1BR+Hn1WJOjHlUWOUz+elY9Ysyx0IR0GwkODpialEi
+         ZxDNK4lby89/T+z02EId5V3I1bDBnG70yNb60XWuAd3Oz7KYg/gQwHSjveFEfaWYgRau
+         uYo0rkcCET/c4A8ltYnarv6McAUv39H0qjq2QBP1ycliji8SaelEDfGRGQnFlLUFXPAY
+         v2QNd06z3G/cBTU5aK7nqK5DN8zIpQbsNZgCkq4xlm02SQwv6yMlTRGI0FwOqZXknRZ4
+         4ylFmcYW6+0Jy/CukrO+8DDt8Btg34tWB9/2GvA54aDTb29+YlGV90I/CiY8vaq4J7LN
+         jW+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzlu3t7i2uj9WrfXTsVNmKDDBQl6917oaxpwRHQ5R2hkBvQF/wSEgUHtbwabk9LKkaFDyVHnEmu+zXR@lists.linux.dev
+X-Gm-Message-State: AFuF++loahEwDgN9OH1P2KNUBxh2kO5QzI43UWWDY/Lk24cp/s1elAS7
+	Qg0mzd8Y/HCnbV/NVeSNlihwThiaSGjWqjyTo1CzhMvgDdD7dGqAjrTKK39nf373GkWuqLK2NA+
+	3KnvJtlSZyEcLJxOKrx9PghXOJ1cSUg8=
+X-Gm-Gg: AYBFou1pjpQivloNHu0xs3q+4fXezktzYaksDvAAioAebmt8uoZWrNCptJ5AJ6vHPTG
+	6v4T8AK/9yHvoCEt36LDF57Tgrb1ck48doFm6pbivCSNsXWJmGHOhC3q2AMbk2L8AkussOS6UZ0
+	01BNL0kjKCCJ+Ye2U77M0hlzCKX7weituoHz5BAExfc1j3ILWwQva9P8tgoHQsdPA93+iLkVLdx
+	kyWC8VAr8MxMsMnVRBOHpDR6iapN2qBNPah5XCwFuSRoCiui4D8YtL5c5Hnr44AO6dQuQILavYi
+	g8ItuiyavtXQFfbv8KT4ilBCd7m1hGfELviu2LOkJ6VD7w==
+X-Received: by 2002:a05:600c:1991:b0:49b:2796:be30 with SMTP id
+ 5b1f17b1804b1-49cf824f7damr117762365e9.11.1788617514483; Sat, 05 Sep 2026
+ 07:11:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260904103920.4471-1-luis@igalia.com> <20260904103920.4471-6-luis@igalia.com>
-In-Reply-To: <20260904103920.4471-6-luis@igalia.com>
+References: <20260904103920.4471-1-luis@igalia.com> <20260904103920.4471-9-luis@igalia.com>
+In-Reply-To: <20260904103920.4471-9-luis@igalia.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 5 Sep 2026 16:00:58 +0200
-X-Gm-Features: AcwNN1XVifAlKbq_jupyMk4YvbgYjZtTaM8XtGl9N8tec_dpEk5CYKJCab76ZDY
-Message-ID: <CAOQ4uxjMvHdaZfwjkHK3tV6ChsapobpHE9mq8NJSvduOGruvMg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 5/8] selftests/fuse: use dynamically allocated
- memory to store ACLs
+Date: Sat, 5 Sep 2026 16:11:43 +0200
+X-Gm-Features: AcwNN1UdXGZXZ6wH3FV9f5IAIXIptSPvwpDev9NoyEDWmtBTRnq0S2p7ZwVozxY
+Message-ID: <CAOQ4uxh+rKuR39ruJO6PxoUCCdP_U0M=ecn-dayv+7-jKgrDNg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 8/8] selftests/fuse: add fuse readdir caching test
 To: Luis Henriques <luis@igalia.com>
 Cc: Miklos Szeredi <miklos@szeredi.hu>, Chen Linxuan <me@black-desk.cn>, 
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
@@ -101,117 +100,346 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Sep 4, 2026 at 12:38=E2=80=AFPM Luis Henriques <luis@igalia.com> wr=
 ote:
 >
-> Instead of directly using static arrays for the ACL value, allocate memor=
-y
-> for storing it.  This will make it easier to implement ACL tests that als=
-o
-> set the xattr dynamically.
+> This new test will check the caching behaviour using combinations of two
+> opendir flags: FOPEN_KEEP_CACHE and FOPEN_CACHE_DIR.
 >
 > Signed-off-by: Luis Henriques <luis@igalia.com>
-
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 > ---
->  .../filesystems/fuse/fuse_acl_cache_test.c    | 32 ++++++++++++++++---
->  1 file changed, 27 insertions(+), 5 deletions(-)
+>  .../selftests/filesystems/fuse/.gitignore     |   1 +
+>  .../selftests/filesystems/fuse/Makefile       |   2 +
+>  .../fuse/fuse_readdir_cache_test.c            | 274 ++++++++++++++++++
+>  3 files changed, 277 insertions(+)
+>  create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_readdir=
+_cache_test.c
 >
-> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test=
-.c b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> index 12cbf9753d03..c2d6658ff7de 100644
-> --- a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> +++ b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> @@ -80,7 +80,7 @@ static const uint8_t acl_b[] =3D {
+> diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/=
+testing/selftests/filesystems/fuse/.gitignore
+> index ebfe7133d811..ffa356f23e8c 100644
+> --- a/tools/testing/selftests/filesystems/fuse/.gitignore
+> +++ b/tools/testing/selftests/filesystems/fuse/.gitignore
+> @@ -4,3 +4,4 @@ fusectl_test
+>  write_extend_eof_test
+>  fuse_acl_cache_test
+>  fuse_symlink_cache_test
+> +fuse_readdir_cache_test
+> diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/te=
+sting/selftests/filesystems/fuse/Makefile
+> index 3a5a557dde7a..570ced181168 100644
+> --- a/tools/testing/selftests/filesystems/fuse/Makefile
+> +++ b/tools/testing/selftests/filesystems/fuse/Makefile
+> @@ -6,6 +6,7 @@ TEST_GEN_PROGS :=3D fusectl_test
+>  TEST_GEN_PROGS +=3D write_extend_eof_test
+>  TEST_GEN_PROGS +=3D fuse_acl_cache_test
+>  TEST_GEN_PROGS +=3D fuse_symlink_cache_test
+> +TEST_GEN_PROGS +=3D fuse_readdir_cache_test
+>  TEST_GEN_FILES :=3D fuse_mnt
 >
->  struct daemon_state {
->         pthread_mutex_t lock;
-> -       const uint8_t  *acl;
-> +       uint8_t        *acl;
->         size_t          acl_size;
->         int             getxattr_count;
->  };
-> @@ -142,15 +142,26 @@ static void fs_getattr(fuse_req_t req, fuse_ino_t i=
-no,
->  static void fs_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name=
-,
->                         size_t size)
->  {
-> +       uint8_t *acl =3D NULL;
-> +       size_t acl_size;
+>  include ../../lib.mk
+> @@ -30,5 +31,6 @@ $(OUTPUT)/fuse_mnt: LDLIBS +=3D $(VAR_LDLIBS)
+>
+>  $(OUTPUT)/fuse_acl_cache_test: fuse_common.c fuse_acl_cache_test.c
+>  $(OUTPUT)/fuse_symlink_cache_test: fuse_common.c fuse_symlink_cache_test=
+.c
+> +$(OUTPUT)/fuse_readdir_cache_test: fuse_common.c fuse_readdir_cache_test=
+.c
+>
+>  EXTRA_CLEAN :=3D fuse_common.o
+> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_readdir_cache_=
+test.c b/tools/testing/selftests/filesystems/fuse/fuse_readdir_cache_test.c
+> new file mode 100644
+> index 000000000000..7c49cc6a23e3
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/fuse/fuse_readdir_cache_test.c
+> @@ -0,0 +1,274 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Simple filesystem to test FUSE readdir cache
+> + *
+> + * It will simply perform readdir operations on a directory checking how=
+ many
+> + * times a request is sent to user-space using all the possible caching
+> + * combination setting (FOPEN_KEEP_CACHE and FOPEN_CACHE_DIR flags).
+> + */
 > +
->         if (ino !=3D FILE_INO ||
->             strcmp(name, "system.posix_acl_access") !=3D 0) {
->                 fuse_reply_err(req, ENODATA);
->                 return;
->         }
->
-> +       if (size) {
-> +               acl =3D malloc(size);
-> +               if (!acl) {
-> +                       fuse_reply_err(req, ENOMEM);
-> +                       return;
+> +#include <stdio.h>
+> +#include <limits.h>
+> +#include <dirent.h>
+> +
+> +#include "kselftest_harness.h"
+> +
+> +#include "fuse_common.h"
+> +
+> +#define DIRNAME "mydir"
+> +#define FILENAME "myfile"
+> +
+> +#define DIR_INO 42
+> +#define FILE_INO 43
+> +#define DOT_INO 40
+> +#define DOTDOT_INO 41
+> +
+> +#define TIMEOUT        86400.0f
+> +
+> +struct test_state {
+> +       pthread_mutex_t lock;
+> +       bool cache_readdir;
+> +       bool keep_cache;
+> +       int readdir_counter;
+> +} test_state =3D {
+> +       .lock =3D PTHREAD_MUTEX_INITIALIZER,
+> +};
+> +
+> +static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
+e)
+> +{
+> +       struct fuse_entry_param e =3D {};
+> +
+> +       if (parent !=3D FUSE_ROOT_ID || strcmp(name, DIRNAME) !=3D 0)
+> +               fuse_reply_err(req, ENOENT);
+
+Again: allergic to non matching {} and can just return here no need
+for all this nesting
+
+> +       else {
+> +               if (!strcmp(name, DIRNAME)) {
+
+This condition is already guaranteed when we get here
+
+> +                       e.ino =3D DIR_INO;
+> +                       e.attr.st_mode =3D S_IFDIR | 0755;
+> +                       e.attr.st_nlink =3D 1;
+> +               } else {
+> +                       e.ino =3D FUSE_ROOT_ID;
+> +                       e.attr.st_mode =3D S_IFDIR | 0755;
+> +                       e.attr.st_nlink =3D 2;
 > +               }
+> +               e.attr.st_mtime =3D time(NULL);
+> +               e.attr_timeout =3D TIMEOUT;
+> +               e.entry_timeout =3D TIMEOUT;
+> +               fuse_reply_entry(req, &e);
 > +       }
->         pthread_mutex_lock(&g_ds.lock);
-> -       const uint8_t *acl      =3D g_ds.acl;
-> -       size_t         acl_size =3D g_ds.acl_size;
-> +       acl_size =3D g_ds.acl_size;
-> +       if (acl && (size >=3D acl_size))
-> +               memcpy(acl, g_ds.acl, acl_size);
->         g_ds.getxattr_count++;
->         pthread_mutex_unlock(&g_ds.lock);
->
-> @@ -160,6 +171,8 @@ static void fs_getxattr(fuse_req_t req, fuse_ino_t in=
-o, const char *name,
->                 fuse_reply_err(req, ERANGE);
->         else
->                 fuse_reply_buf(req, (const char *)acl, acl_size);
+> +}
 > +
-> +       free(acl);
->  }
->
->  static const struct fuse_lowlevel_ops fs_ops =3D {
-> @@ -181,8 +194,10 @@ FIXTURE_SETUP(acl_cache)
->  {
->         char err[MAX_ERR_MSG];
->
-> -       g_ds.acl =3D acl_a;
->         g_ds.acl_size =3D sizeof(acl_a);
-> +       g_ds.acl =3D malloc(g_ds.acl_size);
-> +       ASSERT_NE(g_ds.acl, NULL);
-> +       memcpy(g_ds.acl, acl_a, g_ds.acl_size);
->         g_ds.getxattr_count =3D 0;
->
->         if (fs_setup(&self->se, self->mountpoint, &fs_ops, &self->thread,=
+> +static int fill_stat(fuse_ino_t ino, struct stat *st)
+> +{
+> +       int ret =3D 0;
+> +
+> +       st->st_ino =3D ino;
+> +       st->st_mtime =3D time(NULL);
+
+Doesn't this need to be a const value?
+to make sure that it does not change from here to lookup time?
+
+Thanks,
+Amir.
+
+> +
+> +       switch (ino) {
+> +       case FUSE_ROOT_ID:
+> +               st->st_mode =3D S_IFDIR | 0755;
+> +               st->st_nlink =3D 2;
+> +               break;
+> +       case DOT_INO:
+> +       case DOTDOT_INO:
+> +       case DIR_INO:
+> +               st->st_mode =3D S_IFDIR | 0755;
+> +               st->st_nlink =3D 1;
+> +               break;
+> +       case FILE_INO:
+> +               st->st_mode =3D S_IFREG | 0444;
+> +               st->st_nlink =3D 1;
+> +               break;
+> +       default:
+> +               ret =3D -1;
+> +               break;
+> +       }
+> +
+> +       return ret;
+> +}
+> +
+> +static void fs_getattr(fuse_req_t req, fuse_ino_t ino,
+> +                      struct fuse_file_info *fi)
+> +{
+> +       struct stat st =3D {};
+> +
+> +       if (fill_stat(ino, &st) < 0)
+> +               fuse_reply_err(req, ENOENT);
+> +       else
+> +               fuse_reply_attr(req, &st, TIMEOUT);
+> +}
+> +
+> +static void fs_opendir(fuse_req_t req, fuse_ino_t ino,
+> +                      struct fuse_file_info *fi)
+> +{
+> +       pthread_mutex_lock(&test_state.lock);
+> +       fi->keep_cache =3D test_state.keep_cache;
+> +       fi->cache_readdir =3D test_state.cache_readdir;
+> +       pthread_mutex_unlock(&test_state.lock);
+> +       fuse_reply_open(req, fi);
+> +}
+> +
+> +static void fs_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+> +                      off_t offset, struct fuse_file_info *fi)
+> +{
+> +       struct stat st =3D {};
+> +       char buf[1024];
+> +       char *pbuf;
+> +       size_t rem =3D size;
+> +       size_t sz;
+> +       int nextoff =3D 0;
+> +
+> +       if (ino !=3D DIR_INO) {
+> +               fuse_reply_err(req, ENOTDIR);
+> +               return;
+> +       }
+> +       if (offset) {
+> +               fuse_reply_buf(req, NULL, 0);
+> +               return;
+> +       }
+> +       pbuf =3D buf;
+> +       fill_stat(DOT_INO, &st);
+> +       sz =3D fuse_add_direntry(req, pbuf, rem, ".", &st, nextoff++);
+> +       rem -=3D sz;
+> +       pbuf +=3D sz;
+> +       fill_stat(DOTDOT_INO, &st);
+> +       sz =3D fuse_add_direntry(req, pbuf, rem, "..", &st, nextoff++);
+> +       rem -=3D sz;
+> +       pbuf +=3D sz;
+> +       fill_stat(FILE_INO, &st);
+> +       sz =3D fuse_add_direntry(req, pbuf, rem, FILENAME, &st, nextoff++=
+);
+> +       rem -=3D sz;
+> +
+> +       fuse_reply_buf(req, buf, size - rem);
+> +
+> +       pthread_mutex_lock(&test_state.lock);
+> +       test_state.readdir_counter++;
+> +       pthread_mutex_unlock(&test_state.lock);
+> +}
+> +
+> +static const struct fuse_lowlevel_ops fs_ops =3D {
+> +       .lookup         =3D fs_lookup,
+> +       .getattr        =3D fs_getattr,
+> +       .opendir        =3D fs_opendir,
+> +       .readdir        =3D fs_readdir,
+> +};
+> +
+> +FIXTURE(readdir_cache)
+> +{
+> +       struct fuse_session *se;
+> +       char mountpoint[MOUNTPOINT_SZ];
+> +       pthread_t thread;
+> +};
+> +
+> +FIXTURE_VARIANT(readdir_cache)
+> +{
+> +       bool cache_readdir;
+> +       bool keep_cache;
+> +};
+> +FIXTURE_VARIANT_ADD(readdir_cache, nocache)
+> +{
+> +       .cache_readdir =3D false,
+> +       .keep_cache =3D false,
+> +};
+> +FIXTURE_VARIANT_ADD(readdir_cache, cache_readdir)
+> +{
+> +       .cache_readdir =3D true,
+> +       .keep_cache =3D false,
+> +};
+> +FIXTURE_VARIANT_ADD(readdir_cache, keep_cache)
+> +{
+> +       .cache_readdir =3D false,
+> +       .keep_cache =3D true,
+> +};
+> +FIXTURE_VARIANT_ADD(readdir_cache, cache)
+> +{
+> +       .cache_readdir =3D true,
+> +       .keep_cache =3D true,
+> +};
+> +
+> +FIXTURE_SETUP(readdir_cache)
+> +{
+> +       char err[MAX_ERR_MSG];
+> +
+> +       pthread_mutex_lock(&test_state.lock);
+> +       test_state.readdir_counter =3D 0;
+> +       test_state.cache_readdir =3D variant->cache_readdir;
+> +       test_state.keep_cache =3D variant->keep_cache;
+> +       pthread_mutex_unlock(&test_state.lock);
+> +
+> +       if (fs_setup(&self->se, self->mountpoint, &fs_ops, &self->thread,=
  err))
-> @@ -195,6 +210,7 @@ FIXTURE_SETUP(acl_cache)
->  FIXTURE_TEARDOWN(acl_cache)
->  {
->         fs_teardown(self->se, self->thread, self->mountpoint);
-> +       free(g_ds.acl);
->  }
->
->  static int do_force_statx(const char *path)
-> @@ -210,6 +226,7 @@ TEST_F(acl_cache, stale_after_force_sync)
->         char    buf[512];
->         ssize_t sz;
->         int     count;
-> +       uint8_t *acl;
->
->         /*
->          * Step 1: two getxattr calls before any statx(FORCE_SYNC).
-> @@ -270,8 +287,13 @@ TEST_F(acl_cache, stale_after_force_sync)
->          * !fc->posix_acl mounts (it skips forget_all_cached_acls in that=
- case).
->          * On a fixed kernel the ACL was never cached, so this is moot.
->          */
-> +       acl =3D malloc(sizeof(acl_b));
-> +       ASSERT_NE(acl, NULL);
-> +       memcpy(acl, acl_b, sizeof(acl_b));
+> +               SKIP(return, err);
+> +}
 > +
->         pthread_mutex_lock(&g_ds.lock);
-> -       g_ds.acl      =3D acl_b;
-> +       free(g_ds.acl);
-> +       g_ds.acl      =3D acl;
->         g_ds.acl_size =3D sizeof(acl_b);
->         pthread_mutex_unlock(&g_ds.lock);
->         TH_LOG("step 4: daemon switched to ACL_B (%zu bytes)", sizeof(acl=
-_b));
+> +FIXTURE_TEARDOWN(readdir_cache)
+> +{
+> +       fs_teardown(self->se, self->thread, self->mountpoint);
+> +}
+> +
+> +TEST_F(readdir_cache, test_readdir_cache)
+> +{
+> +       struct dirent *dentry;
+> +       DIR *dir;
+> +       char pathname[PATH_MAX];
+> +       int total_counter, rewind_counter;
+> +       int dentrycount;
+> +
+> +       sprintf(pathname, "%s/%s", self->mountpoint, DIRNAME);
+> +
+> +       dir =3D opendir(pathname);
+> +       if (dir =3D=3D NULL)
+> +               TH_LOG("opendir(): %s", strerror(errno));
+> +       ASSERT_NE(dir, NULL);
+> +
+> +       errno =3D 0;
+> +       dentrycount =3D 0;
+> +       while ((dentry =3D readdir(dir)))
+> +               dentrycount++;
+> +       ASSERT_EQ(errno, 0);
+> +       ASSERT_EQ(dentrycount, 3);
+> +
+> +       rewinddir(dir);
+> +       errno =3D 0;
+> +       dentrycount =3D 0;
+> +       while ((dentry =3D readdir(dir)))
+> +               dentrycount++;
+> +       ASSERT_EQ(errno, 0);
+> +       ASSERT_EQ(dentrycount, 3);
+> +
+> +       ASSERT_EQ(closedir(dir), 0);
+> +
+> +       pthread_mutex_lock(&test_state.lock);
+> +       rewind_counter =3D test_state.readdir_counter;
+> +       pthread_mutex_unlock(&test_state.lock);
+> +
+> +       dir =3D opendir(pathname);
+> +       if (dir =3D=3D NULL)
+> +               TH_LOG("opendir(): %s", strerror(errno));
+> +       ASSERT_NE(dir, NULL);
+> +
+> +       errno =3D 0;
+> +       dentrycount =3D 0;
+> +       while ((dentry =3D readdir(dir)))
+> +               dentrycount++;
+> +       ASSERT_EQ(errno, 0);
+> +       ASSERT_EQ(dentrycount, 3);
+> +
+> +       ASSERT_EQ(closedir(dir), 0);
+> +
+> +       pthread_mutex_lock(&test_state.lock);
+> +       total_counter =3D test_state.readdir_counter;
+> +       pthread_mutex_unlock(&test_state.lock);
+> +
+> +       if (!variant->cache_readdir) {
+> +               ASSERT_EQ(rewind_counter, 2);
+> +               ASSERT_EQ(total_counter, 3);
+> +       } else if (!variant->keep_cache) {
+> +               ASSERT_EQ(rewind_counter, 1);
+> +               ASSERT_EQ(total_counter, 2);
+> +       } else {
+> +               ASSERT_EQ(rewind_counter, 1);
+> +               ASSERT_EQ(total_counter, 1);
+> +       }
+> +}
+> +
+> +TEST_HARNESS_MAIN
