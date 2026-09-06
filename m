@@ -1,390 +1,185 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86931306B08
-	for <fuse-devel@lists.linux.dev>; Sat,  5 Sep 2026 21:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788642257; cv=pass; b=ptT7B0u8Ht66xlD4nSVCByvE0IJ/zc/FbV4ZvpufYHxFQLMLvu1XFPA0XtKlneN4xijV4/yLC4t0JQA98SP8P4YnNb8BO1SIe7KUV0b55kwb8bqFpBjcIXdvue5Hqsuc1jKAK2cGKhslBZguYvU36lIHCqoODEJqgI38Dz9uzns=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788642257; c=relaxed/simple;
-	bh=s6VS3DZLpok0SPOelwlOCDclFr77MQbpRNGV0W8z9+w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YqyEJvGjMRg0wTvo8a5zf/oYuXStbuSlNe3KdjstmACt4f2QrlBUM9c2ni4S0zffwTnWGNqBN/ZJhQuFBeclniKkng5ms8fWd2wTV+sg1tksehmMEtn+U6YqeNpLuICbfcFvxwGuHq/f7FoNE7B41oxMvPrNq4QYSmjtsjXY4o0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LiVf9v3t; arc=pass smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DE4313E0D
+	for <fuse-devel@lists.linux.dev>; Sun,  6 Sep 2026 01:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788658168; cv=none; b=owyR4DVfsHKOkOh3SvRLmxnbCyO17nF2xXhr2ZWPSjggYgmSqfxVg/0xLWEQ2f6HczCas6BUxijlomt02OmyVkkNVML9OglRhx0UIwqT3Wi20kzBBJHKRc2b2BQAv5I/eMZwO7axtngqw+8lZBO1/IaiYcJVOjbIRByk60Gm7tE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788658168; c=relaxed/simple;
+	bh=Mc7C7vEd+geTmXBQsqBzXuNVgESWzoaEEie4c5Cym1I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JxI3kxwXE6Gh4v3oWp7l82he9/+frnVvcuvWt5OuAvrbBLIWVAAiy3nHDYxTNf4MRs9LWm7uapDvaqpZFJU4EZL/X0zMj+6pFBT7rjR4HTIG+HamB3nzNlDpu1NQWugav8McIWfk7915goHoNGm84GqN4cBEBkubd0yMfB7CNXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=TP5ZaF+B; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LiVf9v3t"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c1c26d7e951so359861366b.0
-        for <fuse-devel@lists.linux.dev>; Sat, 05 Sep 2026 14:04:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788642254; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oeJV2AUsmNDg3uKjke/JE08p3u8/Ybj8uQWYbPFIbNSeIJex4QVigK3teVuG3TW180
-         Ohfvf9JfjJ6zD3z/hsU732q4obA8P2D5RPECWCQADQ7iHpAF6v9m4MEEcZw0DjF7xy6Y
-         bk0DZPlk5ccw+GBVDd5V9ZcZB4RGtO7V6k1hSpb7vzZNp4p8/bfKfaX+FuMRRSMxWtSW
-         oqgKR4lq+SZY2xshayrMSJR90fJx8eJwrUBmsVIDE16wcjDFheQqPV8AzvDZS3KcUPyj
-         3mrqK84IvGG3aCFofFNPdVWX+JNtXId3VHD+/5U4l7gRun1JU+ckIdkiZRtyXFfmmuo2
-         ns2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TaGKzrCfkUb2Hi0Z+kKUJZ0adsD2jRJ+dpt5bj+rlkY=;
-        fh=BvmA6gb0AdiQbdI2o7TZuLuM16xeZVNzhUdIvoBMVtA=;
-        b=RCLvgyyBeUEtuclSPty+qx6BHcZgXPyTo2N3AnZpVqSNXuTq2opZGOP8yi3SeOuGXa
-         59KlpiSD/aDaC9GSrVFVilCe06ajpjR2k7eCt+fUJE/sOiSNQZlpgAmn9LF55ue8xyeF
-         0DHjCWmQVKJAqIHKQymDUp4dzGEQSSAwCD10FSLoJ7GCuToA6imVvsd8S+AUdZ64SNJJ
-         sb0BBSYjaZg5dfQ9ZiXKytZddcYYNLdVTjBl4V9SifuUTeAkRUeHgX0JqVC7YGrogVlI
-         D1/EQGVo6644AsjWN7G7+yvMuNhq05ukDKSet8kSQKLsyddEtfVsWy9/egrjowmhGiih
-         NH5Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="TP5ZaF+B"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2d6fe26ef1cso23091225ad.2
+        for <fuse-devel@lists.linux.dev>; Sat, 05 Sep 2026 18:29:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788642254; x=1789247054; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TaGKzrCfkUb2Hi0Z+kKUJZ0adsD2jRJ+dpt5bj+rlkY=;
-        b=LiVf9v3tXiRFpV9Ypy+RsgdOLWgL7ar7+8v3SZ/kWJlKXPcRRvzlq1h2vu+vhxZ8Iu
-         fppqZkuOekl+PxQ/XpzhsNYNnHkyyuZ2VJP2eysZPIi+cck43jxwdhfkPyqq3GnhcYSK
-         QjG4GZCX6BS7EE7FOe5WfLnMzv3JIJI1wNnK4p0VJea2lrDyeR+kEdzE2emSSHJ171Vj
-         tX69wtgf4CqoQIZilr4j/W9CKDjzXN1u42tT+L/Y+A+98Fb/vy+ElVatFdMBsXIWb0wk
-         GLXj0R7he+wlgla9Si502wkxH1/qGWswWMP+wmPEt9pUmLDbZarqfzhhyzeOcnfv1I6R
-         amDA==
+        d=asu.edu; s=google; t=1788658167; x=1789262967; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fINQR5Ssvu+nKJR1KqypgzqxRtq2wGfTV7dTHptCiTk=;
+        b=TP5ZaF+ByFXPiRsP93g91CDO/4ey5orGFxRHXgKeSWiV/CczmgqVyJYZwGGrd44J4u
+         3UUlqqUhiUvoh1bbN2ldchue6rOFHHxNMvvmDnLmaSKyYhC7qg124SBqAPf17xYza4M5
+         udBX+EO3oZyRK2EbvY44MZ+J7khif65c4qx9w0jqQy85hSLNf982S3h/2zBZHRQzoCIx
+         8xiX69k4YG7ElsmoPzUJBa9Y2TjDJYK0GhOfnmfl0wtqAMgoRRwJsv1Pvr625p3e11Om
+         gwSjPqeyKSLQgEHAFSiueJys6ZzEsrUcDsz0OyaExj9mbZZfq/gzX7111kS+d/SOQQO+
+         3I2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788642254; x=1789247054;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TaGKzrCfkUb2Hi0Z+kKUJZ0adsD2jRJ+dpt5bj+rlkY=;
-        b=Yi3egdBhNIRFSzlXrmIC06OZyi3Nadf2L+q61XDtXWniLPC14TtOP82KW0DYWYkbyp
-         ueXHVLU+f8pHYZ9SAF9PTP5qrSIpQtOS2MLpg0supHwvCQHs977bTrMBP0khM8G60V7S
-         GNedQH1+5mC/f4fgikBWegazzcUeo4CXh7QggpKR43nrolFPmcoz3WA6zO9E68IqpSyB
-         gT7eESNbMfbzfwdRFF9Au+1dNbU5S/DkcUVZdJ6FjKiXA0PAiddetROWC1ewecCzW00f
-         uTnBJOejpYmb4pwOg3S4yhFKL2k1MRpK4Z7Y+XOkNDfOIzqlYvbfv/DdgebGOoxB1rsO
-         UV2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBwc80afbk5pPPhls1IFO1ExVa9QO8zyb1ul9t3bm1voj+SeMCiIe34y5rpb2eV9yCtMvhcpLXmkc4nA@lists.linux.dev
-X-Gm-Message-State: AFuF++kFKpexJBdAllgzeEWvYciwltaXIg5FDrB33v4Yn4DAkRgKGgpS
-	SAnGxhJFIOz2goAp01LG2305fSVCwwFQEPE4soF+1/tRnbhM1o7UtopwQG/O+qiTXeAQT8qlALC
-	rt90boKC5qf6yXMKFgNgfC00jzdpQY28=
-X-Gm-Gg: AYBFou3FIkhUMvWlP+0YUaqvBvE/I3Scr2wG6Hyi900lQhV+DzEq3sxDLqsJJc5L4Vx
-	uSEc6ztyhYWcVkL2emhwIwkrIWdCMyfMpBZvJM0NafPmpeCNBY9tSoLxAV1niX/rkP/GNd2gzbA
-	HvUC4LwKL5HGNljVTXj+Pq6OF39qGQb7wpS2LYsjRgEsaYZJLkOJc4L8ditJdBFKnEkfAYfPTP4
-	1vpEsW67ZYKwrPCpEsNFxgDpOTZbkp4ftrqMwkFrQsVao7FNXBDjKnNQ5pXQgn8u3eTT4XcFRIZ
-	cnfql56d1ljU/dfMC/w5IHQACaR5r09nebuDaNW71r8yiKL+NQ4QMT1J
-X-Received: by 2002:a17:906:c154:b0:c25:378c:6262 with SMTP id
- a640c23a62f3a-c260ca388f9mr507742166b.22.1788642253449; Sat, 05 Sep 2026
- 14:04:13 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788658167; x=1789262967;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fINQR5Ssvu+nKJR1KqypgzqxRtq2wGfTV7dTHptCiTk=;
+        b=So9HoSm7Jw7Hp0IqXG3nnK5wKXJPzqXIztqrxjUZOSh5sN6+R6+3i5ebX37OdLp0PA
+         lrTnpBs0in0JbjU3THtouKc6teYq2fHdvk84t2GcstcWwVmNhlVJHKwW0BJxQ/4UR2ng
+         oYAX7E9HO0QUcgpaMYedeFjCkHNnKvGHcKBaqgtHgv8FcRPZiBoc1+TrexxECAcPCJSt
+         pRDzNdoLVLomwmZA5eLY+JE9kbgXndo5ERsrTMEcMNEIdFxUA2AGi1h2R6vbEcoswtAl
+         pzc50ilvb35p1RxsuyiB4NZ/1ebGYPQa7bXcgeHxiPzxK5/QW9HU15pfnhyhT9dt7m9h
+         y1pw==
+X-Gm-Message-State: AFuF++nnmIxO9wBhvJ7NRf71thnSpdBedqc5yxxmWIFfoFOCfk0OiCnC
+	QScTSysL/Ieeec32KMY7TW+55E9rJFYgOzBSkhtX6o+rxakb/uSEptxQiT7zVbX00g==
+X-Gm-Gg: AYBFou0KiN169nsvCg/xEwlm09u496CoKMCIHWcdpl8+tzDaEhMMk6e2x7g+KS9qQJU
+	e8cyzCYGEnMnwn5kXZGOCNwdf2BTISBuf//hfu33N9IEsXHWywM7PxuIFPhKckswJYZnIYN+QYL
+	TxDJT9UNnjSywS1o231RB8T9M+hEUjQgCQngkjvkcaelz+cd78nVK6o5vab9OKsLnGrXsSJ/kz3
+	yjJ7FlxIW+wuzx3yrIf+JgT/C2phD7mXSfE7jxOJRdYsd83VOujUDV5otYeWB1mJZ62d7hD/9hS
+	7VEmsHBCpolabZ5N6+fZEP0RAW0pKIcVSjcloox+uwn2ZpZLFDLMIuqGAa6VKqTMfcVnSmS5Lfs
+	D8N+GsvUI2Reio+r3ufTD7GQZzQkBDgejvtFePY64e7NV0oVyxhqLISxZvDmcWnMoq5Sk40Sdgp
+	RLLKeIiwJ8ejIqqyqcGPHqheE4zS+ptSFkQPgXdMkul2XqvlGJEEjnMao2Ik5VJjkU5sCd8LYas
+	omh4uhT/LnhSXpQMnC/Z8XSOus/p+0SKjc=
+X-Received: by 2002:a17:903:37c7:b0:2d1:134:b86e with SMTP id d9443c01a7336-2db122ed6femr226702135ad.2.1788658166513;
+        Sat, 05 Sep 2026 18:29:26 -0700 (PDT)
+Received: from p1.. (129-219-8-31.nat.asu.edu. [129.219.8.31])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339b314cfcsm17456853eec.19.2026.09.05.18.29.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Sep 2026 18:29:26 -0700 (PDT)
+From: Xiang Mei <xmei5@asu.edu>
+To: Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	Baokun Li <libaokun@linux.alibaba.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>
+Cc: fuse-devel@lists.linux.dev,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Luis Henriques <luis@igalia.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	bestswngs@gmail.com,
+	Xiang Mei <xmei5@asu.edu>
+Subject: [PATCH v6 1/2] fuse: bound io-uring payload copies to the registered buffer size
+Date: Sat,  5 Sep 2026 18:29:22 -0700
+Message-ID: <20260906012924.1928316-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260904103920.4471-1-luis@igalia.com> <20260904103920.4471-2-luis@igalia.com>
-In-Reply-To: <20260904103920.4471-2-luis@igalia.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 5 Sep 2026 23:04:01 +0200
-X-Gm-Features: AcwNN1XnYRQIgKqlUssZabistQLhTMEWSDeJ2X4w6TLt8SE5yeXbaJjHLfbLIsY
-Message-ID: <CAOQ4uxiZL3yVxys8ZE-NdAvhG3qFqpPjM5gW_r2csLFBW1y6QA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/8] Documentation: fuse: add document on caches
- being used by FUSE
-To: Luis Henriques <luis@igalia.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Chen Linxuan <me@black-desk.cn>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 4, 2026 at 12:38=E2=80=AFPM Luis Henriques <luis@igalia.com> wr=
-ote:
->
-> This new file aims at documenting the caches that are used by FUSE.  At
-> the moment only symlink, attributes, ACLs and readdir caches are describe=
-d.
->
-> Signed-off-by: Luis Henriques <luis@igalia.com>
-> ---
->  .../filesystems/fuse/fuse-caches.rst          | 158 ++++++++++++++++++
->  1 file changed, 158 insertions(+)
->  create mode 100644 Documentation/filesystems/fuse/fuse-caches.rst
->
-> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentati=
-on/filesystems/fuse/fuse-caches.rst
-> new file mode 100644
-> index 000000000000..e9f60355d7ff
-> --- /dev/null
-> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
-> @@ -0,0 +1,158 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +FUSE Caches
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Introduction
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +This document summarises the different types of caches used in FUSE. For=
- each
-> +cache type, it documents the rules to insert data into it. It also docum=
-ents the
-> +rules for validating and invalidating data in the cache.
-> +
-> +symlink caching
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Whenever there's a link resolution request for a FUSE filesystem, the VF=
-S will
-> +call into ``fuse_get_link()``, the ``->get_link()`` inode operation. Thi=
-s
-> +function will then send a ``FUSE_READLINK`` request to the user-space FU=
-SE
-> +server.
-> +
-> +The server can ask the kernel to cache all link resolutions by setting t=
-he
-> +``FUSE_CACHE_SYMLINKS`` flag during the ``FUSE_INIT`` negotiation. If th=
-is flag
-> +is set, when the VFS calls into the ``->get_link()`` operation, FUSE wil=
-l
-> +immediately call ``__page_get_link()``. The first time this is done for =
-a
-> +specific inode, it will result in sending the ``FUSE_READLINK`` request =
-to
-> +user-space. But the result returned from this request will then be added=
- into
-> +the page-cache. The next time this link needs to be resolved, it will us=
-e the
-> +link resolution already cached, and will only fallback to user-space if =
-the
-> +folio isn't up-to-date.
-> +
-> +Attributes caching
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Inode attributes may be obtained from user-space by different FUSE opera=
-tions.
-> +For example, ``FUSE_LOOKUP``, ``FUSE_GETATTR``, and also several other
-> +operations that create file system objects (e.g. ``FUSE_MKDIR``). These
-> +attributes obtained from user-space are cached by the kernel. They have,
-> +however, a timeout associated and once it expires, they are invalidated.=
- The
-> +next time the attributes are needed, a request (``FUSE_GETATTR``) will b=
-e sent
-> +to the FUSE server.
-> +
-> +The ``FUSE_GETATTR`` request can be sent to user-space in three differen=
-t
-> +scenarios:
-> +
-> +#. if the attributes for the inode aren't yet available in the kernel;
-> +#. if they are not valid any more (timed-out, or have been invalidated),=
- or
-> +#. if there is an explicit request for forcing the request to be sent (f=
-or
-> +   example, by using the ``AT_STATX_FORCE_SYNC`` flag in ``statx``).
-> +
-> +Regarding the attributes invalidation, they may happen in several occasi=
-ons:
-> +
-> +- Upon user-space request for invalidation:
-> +
-> +  - A ``FUSE_NOTIFY_INVAL_INODE`` will invalidate ``STATX_BASIC_STATS``;
-> +  - ``FUSE_NOTIFY_DELETE`` and ``FUSE_NOTIFY_INVAL_ENTRY`` invalidate
-> +    ``FUSE_STATX_MODDIR``.
-> +
+The fuse-io-uring copy paths do not check that the data they copy fits
+in the ring entry's payload buffer.  fuse_uring_copy_from_ring() passes
+the server-supplied payload_sz straight to fuse_copy_out_args(), and
+fuse_uring_args_to_ring() copies the request in-args without comparing
+them against the buffer.  Either can exhaust the imported iterator and
+hit fuse_copy_fill()'s BUG_ON(!err).
 
-OK from here...
+An unprivileged user can trigger the request side by mounting a FUSE
+filesystem that registers small payload buffers and then issuing a
+setxattr() whose value exceeds them:
 
-> +- When setting (or removing) an ACL on an inode ``STATX_CTIME`` is inval=
-idated;
-> +  if the ``FUSE_POSIX_ACL`` flag was set by the FUSE server,
-> +  ``STATX_BASIC_STATS`` will also be invalidated.
-> +- On a ``->rename()`` operation, both the old and the new entities will =
-have
-> +  it's ctime invalidated (``STATX_CTIME``). Also, the directories for bo=
-th the
-> +  old and the new entities will also have their attributes invalidated
-> +  (``FUSE_STATX_MODDIR``)
-> +- When creating or deleting a new file system object (``->link()/->unlin=
-k()``,
-> +  ``->symlink()``, ``->mkdir()/->rmdir()``, ``->tmpfile()``, or
-> +  ``->atomic_open()``), the directory where the object is created/delete=
-d will
-> +  have it's attributes invalidated (``FUSE_STATX_MODDIR``).
-> +- If a ``->link()`` operation is interrupted by a signal (``EINTR``) the=
- inode
-> +  being linked will have it's attributes invalidated (``STATX_BASIC_STAT=
-S``).
-> +- When doing a readdir (``->iterate_shared()`` operation) and the direct=
-ory
-> +  contents is not cached, ``STATX_ATIME`` attributes will be invalidated=
-.
-> +- When doing a symlink resolution (by sending a ``FUSE_READLINK`` reques=
-t)
-> +  ``STATX_ATIME`` will be invalidated.
-> +- When doing a ``->flush()`` (i.e. sending a ``FUSE_FLUSH`` request) and
-> +  writeback cache is enabled, ``STATX_BLOCKS`` will be invalidated.
-> +- When truncating a file on open using ``O_TRUNC`` open flag (and the FU=
-SE
-> +  server has set ``FUSE_ATOMIC_O_TRUNC`` during ``FUSE_INIT``), then
-> +  ``FUSE_STATX_MODSIZE`` will be invalidated.
-> +- When setting attributes in an inode (``->setattr()``) and there's a si=
-gnal
-> +  that interrupts the operation (``EINTR``), then ``STATX_BASIC_STATS`` =
-will be
-> +  invalidated.
-> +- When data is read from a file, ``STATX_ATIME`` will be invalidated (un=
-less the
-> +  file system is read-only).
-> +- When data is written info a file, ``FUSE_STATX_MODSIZE`` is invalidate=
-d.
+  kernel BUG at fs/fuse/dev.c:1064!
+  Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+  CPU: 1 UID: 0 PID: 148 Comm: exploit Not tainted 7.3.0-rc1 #2
+  RIP: 0010:fuse_copy_fill (fs/fuse/dev.c:1033)
+  Call Trace:
+   <TASK>
+   fuse_copy_args (fs/fuse/dev.c:1354 fs/fuse/dev.c:1380)
+   fuse_uring_args_to_ring (fs/fuse/dev_uring.c:891)
+   fuse_uring_prepare_send (fs/fuse/dev_uring.c:940 fs/fuse/dev_uring.c:1057)
+   fuse_uring_send_in_task (fs/fuse/dev_uring.c:1745)
+   tctx_task_work_run (io_uring/tw.c:96)
+   tctx_task_work (io_uring/tw.c:133)
+   task_work_run (kernel/task_work.c:233)
+   io_run_task_work (io_uring/tw.h:84)
+   io_cqring_wait (io_uring/wait.c:278)
+   __do_sys_io_uring_enter (io_uring/io_uring.c:2676)
+   do_syscall_64 (arch/x86/entry/syscall_64.c:61)
+   entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
+   </TASK>
 
-... till here - to me it feels like TMI
-I don't think it helps to keep a description of the code in a text file
-There is very little hope in getting them to stay in sync and very little
-point to begin with. This list is not complete even now (e.g. fallocate)
-nor should it be complete IMO.
-If one wants to know what operations invalidate which attrs one can grep
-for fuse_invalidate_attr_mask().
-I think it is more important for the doc to explain the principles behind t=
-he
-attribute mask and give some examples. Something like:
+Bound both directions against ent->payload.iov_len, the length the
+server registered, so an oversized reply is rejected with -EINVAL and an
+oversized request with -E2BIG/-EIO, matching fuse_dev_do_read().
 
-FUSE uses fine-grained invalidation masks rather than invalidating all
-attributes at once.
-The principle is that each operation only invalidates the specific
-attributes that the operation
-could have changed on the server. The masks used are:
+On a zero-copied request the last page-backed argument is handed to the
+server as registered pages rather than copied into the payload buffer,
+so exclude it from the request-side sum to avoid rejecting valid
+zero-copy reads and writes.
 
-STATX_ATIME - after reads and readlink, since the server may update access =
-time
-STATX_CTIME - after xattr changes (including ACL set/remove) and rename
-STATX_BLOCKS - after a successful flush with writeback cache, since
-the server's block count may differ from the local one
-FUSE_STATX_MODIFY (STATX_MTIME | STATX_CTIME | STATX_BLOCKS) - after
-writeback completion (without writeback cache), since the server may
-have updated modification metadata
-FUSE_STATX_MODSIZE (FUSE_STATX_MODIFY | STATX_SIZE) - after writes,
-truncate-on-open, and fallocate, since the server's size and
-modification metadata may have changed
-FUSE_STATX_MODDIR (FUSE_STATX_MODSIZE | STATX_NLINK) - after directory
-modifications (create, unlink, mkdir, rmdir, rename), since the server
-may have updated the directory's size, timestamps, and link count
-STATX_BASIC_STATS - as a full invalidation, used for server-initiated
-invalidation (FUSE_NOTIFY_INVAL_INODE), interrupted setattr, and
-interrupted link
-The full set of invalidation points can be found by searching for
-fuse_invalidate_attr_mask() in the FUSE source.
+Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+Cc: stable@vger.kernel.org
+Reported-by: Weiming Shi <bestswngs@gmail.com>
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Xiang Mei <xmei5@asu.edu>
+---
+v2: add: Cc stable and Reviewed-by tags
+v3: propose the patch fixing another issue found by Bernd by Joanne suggested way
+v4: no context change as v3; add Reviewed-by: Joanne Koong ...
+v5: no change
+v6: rebase on fuse.git#for-next.  The ring entry already keeps the payload
+    iovec and imports it at iov_len, so only the two bounds checks are left.
+    Skip the page-backed arg on a zero-copied request, it does not consume
+    the payload buffer. 
 
+ fs/fuse/dev_uring.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-> +
-> +ACL caching
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +FUSE has allowed the usage of POSIX Access Control Lists (ACLs) for a lo=
-ng time,
-> +as they can be set and accessed simply as extended attributes. However, =
-it was
-> +only with the introduction of the ``FUSE_POSIX_ACL`` flag that ACLs star=
-ted to
-> +be fully supported. Without this flag being set during the ``FUSE_INIT``
-> +negotiation, ACLs can still be set, but the VFS won't use them for perfo=
-rming
-> +permission checks - that would be the user-space server's responsibility=
-.
-> +
-> +Also, without setting ``FUSE_POSIX_ACL``, ACLs will not be cached by the=
- kernel.
-> +In this case, new inodes ``i_acl`` and ``i_default_acl`` fields will be =
-set to
-> +``ACL_DONT_CACHE``.
-> +
-> +On the other hand, if the ``FUSE_POSIX_ACL`` flag is set then, when an i=
-node ACL
-> +is accessed, VFS will first check if it's already cached. If it is not, =
-FUSE
-> +``->get_acl()`` operation (``fuse_get_acl()``) is called, which will eve=
-ntually
-> +send a user-space request. Future accesses to this inode ACL will use th=
-e cached
-> +data.
-> +
-> +Setting an ACL in an inode will also result in sending a request to the =
-FUSE
-> +server for setting it. But this operation won't immediately cache the AC=
-L -- it
-> +will only be cached after it is accessed again and requested from user-s=
-pace.
-> +
-> +On the other hand, ACLs will be removed from the cache in the following
-> +situations:
-> +
-> +- When setting an ACL in an inode (and the ``FUSE_POSIX_ACL`` flag is se=
-t),
-> +  previously cached ACLs for this inode will be invalidated.
-> +- When invalidating an inode through the ``FUSE_NOTIFY_INVAL_INODE`` ope=
-ration.
-> +- When ``->d_revalidate()`` is called for a dentry that requires a looku=
-p (e.g.
-> +  it has expired) and that lookup operation is successful.
-> +- When the VFS needs to check access rights for an inode (by calling
-> +  ``->permission()``), attributes may need to be refreshed. If that happ=
-ens, any
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index c6dd420c4034..981b7c295e5e 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -775,6 +775,9 @@ static int fuse_uring_copy_from_ring(struct fuse_req *req,
+ 	if (err)
+ 		return err;
+ 
++	if (ring_in_out.payload_sz > ent->payload.iov_len)
++		return -EINVAL;
++
+ 	err = setup_fuse_copy_state(&cs, req, ent, ITER_SOURCE, &iter,
+ 				    issue_flags);
+ 	if (err)
+@@ -854,6 +857,7 @@ static int fuse_uring_args_to_ring(struct fuse_req *req,
+ 	int num_args = args->in_numargs;
+ 	int err;
+ 	struct iov_iter iter;
++	size_t copy_size;
+ 	struct fuse_uring_ent_in_out ent_in_out = {
+ 		.flags = 0,
+ 		.commit_id = req->in.h.unique,
+@@ -887,6 +891,16 @@ static int fuse_uring_args_to_ring(struct fuse_req *req,
+ 		num_args--;
+ 	}
+ 
++	copy_size = fuse_len_args(num_args, (struct fuse_arg *)in_args);
++	/* a zero-copied page arg does not consume the payload buffer */
++	if (cs.skip_folio_copy && args->in_pages && num_args)
++		copy_size -= in_args[num_args - 1].size;
++
++	if (copy_size > ent->payload.iov_len) {
++		fuse_copy_finish(&cs);
++		return args->opcode == FUSE_SETXATTR ? -E2BIG : -EIO;
++	}
++
+ 	/* copy the payload */
+ 	err = fuse_copy_args(&cs, num_args, args->in_pages,
+ 			     (struct fuse_arg *)in_args, 0);
+-- 
+2.43.0
 
-Isn't this a private case which is already covered by the last item?
-
-> +  cached ACLs for that inode will be invalidated.
-> +- After setting an inode attribute (i.e. operation ``FUSE_SETATTR`` is s=
-ent to
-> +  user-space), the user-space server may have also updated the ACLs. Thu=
-s, any
-> +  cached ACLs for this inode are also invalidated.
-> +- While processing ``FUSE_READDIRPLUS`` and an already existing dentry n=
-eeds to
-> +  be updated.
-
-I think that both ->d_revalidate() and readdirplus could be generalized
-to something like "Whenever attributes are refreshed from the server"
-
-Because those specific cases are not related to ACL specifically,
-they are related to attribute cache and to the unwritten dentry cache.
-
-Again, the idea is to write a doc that explains the principles and is less
-likely to get out of sync with the code.
-
-It's fine to list d_revalidate and READDIRPLUS as examples to the
-category, but as a comprehensive list of use caes, I think this is wrong.
-
-> +- In general, when there is the need to send a ``FUSE_STATX`` or
-> +  ``FUSE_GETATTR`` to user-space (e.g. when attributes expired).
-> +
-> +readdir caching
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +When opening a directory a ``FUSE_OPENDIR`` will be sent to the FUSE ser=
-ver, and
-> +server will be responsible for setting the open flags related with cachi=
-ng,
-> +namely ``FOPEN_KEEP_CACHE`` and ``FOPEN_CACHE_DIR``.
-> +
-> +If neither flags are set by the user-space FUSE server, then every ``rea=
-ddir``
-> +will result in a ``FUSE_READDIR`` (or ``FUSE_READDIRPLUS``) request bein=
-g sent.
-> +If ``FOPEN_CACHE_DIR`` is set by the server, then the result of a ``read=
-dir``
-> +will be cached by the kernel and reused for the current open. If
-> +``FOPEN_KEEP_CACHE`` is also set, the cache will be kept and reused in t=
-he
-> +future, when the directory is open again for reading.
-
-AFAIK this is not what KEEP_CACHE means.
-It means keeping the cache from the past opens for this open.
-IIRC I gave the exact same comment in v2.
-
-Thanks,
-Amir.
