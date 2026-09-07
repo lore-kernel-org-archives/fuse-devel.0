@@ -1,324 +1,360 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D26372058;
-	Mon,  7 Sep 2026 06:05:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B866146983B;
+	Mon,  7 Sep 2026 10:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788761113; cv=none; b=HFMNa9N2ymYhrw94PkKm8f3gnXwYN++HQM6v406O7Fq/1cYIvJAQW2Kdlt1g5plkDiWz1uNVAs1r5QC14vubNURLsh2uoQnMcXEGZ6E9klB9AFklpx5SAaSPMiYkScuovjZKc5hDz/1BANMCoUog3a48y5RBuwk2TTHX+44nZ3s=
+	t=1788777495; cv=none; b=qnPMlyCJOLSivvlfcaV8mScF9JocjVRiU6mrxNa0ulKnEo1OBO/6NeJdhg3d6agA6SqD4gpimjtMtxCON0av66vTl5R1E+wOzkudQEj1ueek2fxsjhTTdTtbFmnoVR0ouMlWFw6NOrGTEDukEcdk9wygfx2OzY6g6w+ONQoX2Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788761113; c=relaxed/simple;
-	bh=9orKWGEZ9lUfHOz13R0MuutwxAutMIr1x5Q16KvOFUg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uv94JWmr5ryk7r2Q73I8PbYBzPzD5pSe3/rr5hIxPyNeSTT4B8pGzssf3cWRUyzSLp8mWfw+E/yeMSLeOXxKPspSY1UiL+SRAZ+ogeNEdAJLBo1q5k2fkBQkcpWCJwvS+tNbn/qCzKELLUiKLu3KRyeNWATG3SdFIh4pFd37XLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uLuJh3xm; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1788777495; c=relaxed/simple;
+	bh=6NZOHra8lTsFun8t90P8HBwi7g86kXWmYX99yHStxLA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=LcAKZ2qDpZNwDp6fwD+6Dyr1IvTqFjC6SbXOyYdcsDJyip1WAQYGCn3NXEiTyMclxurfvIzUMdoW+sDThfFq65wH64TuZaDdUCsxYqBeiczR3OB8B9k3mqVYyfchbVM9tfmB/9ic6VITT5E0uYB/BW7KhP97W1PPSwTW66ivfMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Kk9scPP/; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uLuJh3xm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=OjJ0lPhuwDWz0mKBuGHCQwKRNSMrXhJq6rQPeivDlJA=; b=uLuJh3xmld+g5DnD/lguXv+MmA
-	DQGM+RLAEeyzf0mPXY6HuyN2Yrf9nDASl7ytJJFluOGvAvLOLQuEJxhljz1xUI3g1Z0rrbKSHD3Ht
-	Dz+cROgn+FbHF58bUyEdMXE9SNFf/CcNgRijVJSZ9+9/QnxhWRnX/2iABNucnbzYzZh6SisSwvcqO
-	hAQzwVF4dsEtYy92hwZmbxs5YAlZ3DKiuPcVUv7BoqZdcKkpYk+TtKU66qWSk9rYOEk/54jZyiFVm
-	vVJdQQwg8GbU4ZyLjzI7qQHd2BW0nkLn2WWDO+u32wF6k3HAh/Fuc2oVHR0QeZ4MLfVQqssSszZOU
-	iwgrn1LA==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x3STc-00000005zMf-3PBa;
-	Mon, 07 Sep 2026 06:05:09 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	fuse-devel@lists.linux.dev
-Subject: [PATCH] fuse: repair lots of uapi kernel-doc
-Date: Sun,  6 Sep 2026 23:05:07 -0700
-Message-ID: <20260907060507.2582993-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Kk9scPP/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=oTUGssR/3r0/0f908oP42rFSS/z7JA3CnVkfo5DPhZA=; b=Kk9scPP/hJfrzZO+OrcmurbVIB
+	P77F0bzJyDALFQt1qhezO1HRqYktXP4SYcyazy+6vj02luGcxHoa7tLKBOnf3cXrbKyDDH0iGyeMR
+	uaAvN0f1+FdMgaKenRhnHGGl7lROJJAWxuim+u5SXUsJKswVbOEUfPmS/977M3jSw72DHiQwoih0I
+	iMtmpe5/3Dl1zkD5BdtFWHxCNmXWOVqFZyMn5yQAZ3HMsT5WRHl43xgge5pu4cGPEpIcAphTRrEby
+	LuoUBqAKRfRXiPai5uf4QWwzkiGEJNHDSTyZRW4o1FiHsoEK86HUcnGnjOXmEBSsA5CCNH8ZopbfB
+	y+bXZ2eQ==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1x3Wja-00FzHa-LC; Mon, 07 Sep 2026 12:37:54 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,  Chen Linxuan <me@black-desk.cn>,
+  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  fuse-devel@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,  Matt
+ Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
+Subject: Re: [RFC PATCH v3 1/8] Documentation: fuse: add document on caches
+ being used by FUSE
+In-Reply-To: <CAOQ4uxiZL3yVxys8ZE-NdAvhG3qFqpPjM5gW_r2csLFBW1y6QA@mail.gmail.com>
+	(Amir Goldstein's message of "Sat, 5 Sep 2026 23:04:01 +0200")
+References: <20260904103920.4471-1-luis@igalia.com>
+	<20260904103920.4471-2-luis@igalia.com>
+	<CAOQ4uxiZL3yVxys8ZE-NdAvhG3qFqpPjM5gW_r2csLFBW1y6QA@mail.gmail.com>
+Date: Mon, 07 Sep 2026 11:38:41 +0100
+Message-ID: <87tso1firy.fsf@wotan.olymp>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Fix all (24) kernel-doc warnings in <uapi/linux/fuse.h>:
-- modify some instances to use common C comment style instead of
-  kernel-doc
-- convert a few instances to use kernel-doc format
+Hi Amir,
 
-The warnings are all of this form (list is truncated for brevity):
+On Sat, Sep 05 2026, Amir Goldstein wrote:
 
-Warning: include/uapi/linux/fuse.h:370 This comment starts with '/**', but isn't a kernel-doc comment.
- * Bitmasks for fuse_setattr_in.valid
-Warning: include/uapi/linux/fuse.h:386 This comment starts with '/**', but isn't a kernel-doc comment.
- * Flags returned by the OPEN request
-Warning: include/uapi/linux/fuse.h:414 This comment starts with '/**', but isn't a kernel-doc comment.
- * INIT request/reply flags
-Warning: include/uapi/linux/fuse.h:526 This comment starts with '/**', but isn't a kernel-doc comment.
- * CUSE INIT request/reply flags
-Warning: include/uapi/linux/fuse.h:630 This comment starts with '/**', but isn't a kernel-doc comment.
- * extension type
-Warning: include/uapi/linux/fuse.h:1307 This comment starts with '/**', but isn't a kernel-doc comment.
- * Header for all fuse-io-uring requests
-Warning: include/uapi/linux/fuse.h:1320 This comment starts with '/**', but isn't a kernel-doc comment.
- * sqe commands to the kernel
+> On Fri, Sep 4, 2026 at 12:38=E2=80=AFPM Luis Henriques <luis@igalia.com> =
+wrote:
+>>
+>> This new file aims at documenting the caches that are used by FUSE.  At
+>> the moment only symlink, attributes, ACLs and readdir caches are describ=
+ed.
+>>
+>> Signed-off-by: Luis Henriques <luis@igalia.com>
+>> ---
+>>  .../filesystems/fuse/fuse-caches.rst          | 158 ++++++++++++++++++
+>>  1 file changed, 158 insertions(+)
+>>  create mode 100644 Documentation/filesystems/fuse/fuse-caches.rst
+>>
+>> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentat=
+ion/filesystems/fuse/fuse-caches.rst
+>> new file mode 100644
+>> index 000000000000..e9f60355d7ff
+>> --- /dev/null
+>> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
+>> @@ -0,0 +1,158 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +FUSE Caches
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +Introduction
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +This document summarises the different types of caches used in FUSE. Fo=
+r each
+>> +cache type, it documents the rules to insert data into it. It also docu=
+ments the
+>> +rules for validating and invalidating data in the cache.
+>> +
+>> +symlink caching
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +Whenever there's a link resolution request for a FUSE filesystem, the V=
+FS will
+>> +call into ``fuse_get_link()``, the ``->get_link()`` inode operation. Th=
+is
+>> +function will then send a ``FUSE_READLINK`` request to the user-space F=
+USE
+>> +server.
+>> +
+>> +The server can ask the kernel to cache all link resolutions by setting =
+the
+>> +``FUSE_CACHE_SYMLINKS`` flag during the ``FUSE_INIT`` negotiation. If t=
+his flag
+>> +is set, when the VFS calls into the ``->get_link()`` operation, FUSE wi=
+ll
+>> +immediately call ``__page_get_link()``. The first time this is done for=
+ a
+>> +specific inode, it will result in sending the ``FUSE_READLINK`` request=
+ to
+>> +user-space. But the result returned from this request will then be adde=
+d into
+>> +the page-cache. The next time this link needs to be resolved, it will u=
+se the
+>> +link resolution already cached, and will only fallback to user-space if=
+ the
+>> +folio isn't up-to-date.
+>> +
+>> +Attributes caching
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +Inode attributes may be obtained from user-space by different FUSE oper=
+ations.
+>> +For example, ``FUSE_LOOKUP``, ``FUSE_GETATTR``, and also several other
+>> +operations that create file system objects (e.g. ``FUSE_MKDIR``). These
+>> +attributes obtained from user-space are cached by the kernel. They have,
+>> +however, a timeout associated and once it expires, they are invalidated=
+. The
+>> +next time the attributes are needed, a request (``FUSE_GETATTR``) will =
+be sent
+>> +to the FUSE server.
+>> +
+>> +The ``FUSE_GETATTR`` request can be sent to user-space in three differe=
+nt
+>> +scenarios:
+>> +
+>> +#. if the attributes for the inode aren't yet available in the kernel;
+>> +#. if they are not valid any more (timed-out, or have been invalidated)=
+, or
+>> +#. if there is an explicit request for forcing the request to be sent (=
+for
+>> +   example, by using the ``AT_STATX_FORCE_SYNC`` flag in ``statx``).
+>> +
+>> +Regarding the attributes invalidation, they may happen in several occas=
+ions:
+>> +
+>> +- Upon user-space request for invalidation:
+>> +
+>> +  - A ``FUSE_NOTIFY_INVAL_INODE`` will invalidate ``STATX_BASIC_STATS``;
+>> +  - ``FUSE_NOTIFY_DELETE`` and ``FUSE_NOTIFY_INVAL_ENTRY`` invalidate
+>> +    ``FUSE_STATX_MODDIR``.
+>> +
+>
+> OK from here...
+>
+>> +- When setting (or removing) an ACL on an inode ``STATX_CTIME`` is inva=
+lidated;
+>> +  if the ``FUSE_POSIX_ACL`` flag was set by the FUSE server,
+>> +  ``STATX_BASIC_STATS`` will also be invalidated.
+>> +- On a ``->rename()`` operation, both the old and the new entities will=
+ have
+>> +  it's ctime invalidated (``STATX_CTIME``). Also, the directories for b=
+oth the
+>> +  old and the new entities will also have their attributes invalidated
+>> +  (``FUSE_STATX_MODDIR``)
+>> +- When creating or deleting a new file system object (``->link()/->unli=
+nk()``,
+>> +  ``->symlink()``, ``->mkdir()/->rmdir()``, ``->tmpfile()``, or
+>> +  ``->atomic_open()``), the directory where the object is created/delet=
+ed will
+>> +  have it's attributes invalidated (``FUSE_STATX_MODDIR``).
+>> +- If a ``->link()`` operation is interrupted by a signal (``EINTR``) th=
+e inode
+>> +  being linked will have it's attributes invalidated (``STATX_BASIC_STA=
+TS``).
+>> +- When doing a readdir (``->iterate_shared()`` operation) and the direc=
+tory
+>> +  contents is not cached, ``STATX_ATIME`` attributes will be invalidate=
+d.
+>> +- When doing a symlink resolution (by sending a ``FUSE_READLINK`` reque=
+st)
+>> +  ``STATX_ATIME`` will be invalidated.
+>> +- When doing a ``->flush()`` (i.e. sending a ``FUSE_FLUSH`` request) and
+>> +  writeback cache is enabled, ``STATX_BLOCKS`` will be invalidated.
+>> +- When truncating a file on open using ``O_TRUNC`` open flag (and the F=
+USE
+>> +  server has set ``FUSE_ATOMIC_O_TRUNC`` during ``FUSE_INIT``), then
+>> +  ``FUSE_STATX_MODSIZE`` will be invalidated.
+>> +- When setting attributes in an inode (``->setattr()``) and there's a s=
+ignal
+>> +  that interrupts the operation (``EINTR``), then ``STATX_BASIC_STATS``=
+ will be
+>> +  invalidated.
+>> +- When data is read from a file, ``STATX_ATIME`` will be invalidated (u=
+nless the
+>> +  file system is read-only).
+>> +- When data is written info a file, ``FUSE_STATX_MODSIZE`` is invalidat=
+ed.
+>
+> ... till here - to me it feels like TMI
+> I don't think it helps to keep a description of the code in a text file
+> There is very little hope in getting them to stay in sync and very little
+> point to begin with. This list is not complete even now (e.g. fallocate)
+> nor should it be complete IMO.
+> If one wants to know what operations invalidate which attrs one can grep
+> for fuse_invalidate_attr_mask().
+> I think it is more important for the doc to explain the principles behind=
+ the
+> attribute mask and give some examples. Something like:
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bernd@bsbernd.com>
-Cc: Joanne Koong <joannelkoong@gmail.com>
-Cc: fuse-devel@lists.linux.dev
+OK, I see what you mean -- keeping this document in lockstep with any code
+changes would likely be impossible.  I appreciate the suggestions below
+(thanks a lot!).  I integrate them in the next revision.
 
- include/uapi/linux/fuse.h |   82 +++++++++++++++++++++---------------
- 1 file changed, 50 insertions(+), 32 deletions(-)
+Cheers,
+--=20
+Lu=C3=ADs
 
---- linux-next-20260904.orig/include/uapi/linux/fuse.h
-+++ linux-next-20260904/include/uapi/linux/fuse.h
-@@ -367,7 +367,7 @@ struct fuse_file_lock {
- 	uint32_t	pid; /* tgid */
- };
- 
--/**
-+/*
-  * Bitmasks for fuse_setattr_in.valid
-  */
- #define FATTR_MODE	(1 << 0)
-@@ -383,7 +383,7 @@ struct fuse_file_lock {
- #define FATTR_CTIME	(1 << 10)
- #define FATTR_KILL_SUIDGID	(1 << 11)
- 
--/**
-+/*
-  * Flags returned by the OPEN request
-  *
-  * FOPEN_DIRECT_IO: bypass page cache for this open file
-@@ -411,7 +411,7 @@ struct fuse_file_lock {
- #define FOPEN_PASSTHROUGH	(1 << 7)
- #define FOPEN_IO_URING_ZERO_COPY (1 << 8)
- 
--/**
-+/*
-  * INIT request/reply flags
-  *
-  * FUSE_ASYNC_READ: asynchronous read requests
-@@ -523,30 +523,30 @@ struct fuse_file_lock {
- #define FUSE_HAS_IO_URING_BUFPOOL (1ULL << 43)
- #define FUSE_HAS_SYNCFS		(1ULL << 44)
- 
--/**
-+/*
-  * CUSE INIT request/reply flags
-  *
-  * CUSE_UNRESTRICTED_IOCTL:  use unrestricted ioctl
-  */
- #define CUSE_UNRESTRICTED_IOCTL	(1 << 0)
- 
--/**
-+/*
-  * Release flags
-  */
- #define FUSE_RELEASE_FLUSH	(1 << 0)
- #define FUSE_RELEASE_FLOCK_UNLOCK	(1 << 1)
- 
--/**
-+/*
-  * Getattr flags
-  */
- #define FUSE_GETATTR_FH		(1 << 0)
- 
--/**
-+/*
-  * Lock flags
-  */
- #define FUSE_LK_FLOCK		(1 << 0)
- 
--/**
-+/*
-  * WRITE flags
-  *
-  * FUSE_WRITE_CACHE: delayed write from page cache, file handle is guessed
-@@ -560,12 +560,12 @@ struct fuse_file_lock {
- /* Obsolete alias; this flag implies killing suid/sgid only. */
- #define FUSE_WRITE_KILL_PRIV	FUSE_WRITE_KILL_SUIDGID
- 
--/**
-+/*
-  * Read flags
-  */
- #define FUSE_READ_LOCKOWNER	(1 << 1)
- 
--/**
-+/*
-  * Ioctl flags
-  *
-  * FUSE_IOCTL_COMPAT: 32bit compat ioctl on 64bit machine
-@@ -586,21 +586,21 @@ struct fuse_file_lock {
- 
- #define FUSE_IOCTL_MAX_IOV	256
- 
--/**
-+/*
-  * Poll flags
-  *
-  * FUSE_POLL_SCHEDULE_NOTIFY: request poll notify
-  */
- #define FUSE_POLL_SCHEDULE_NOTIFY (1 << 0)
- 
--/**
-+/*
-  * Fsync flags
-  *
-  * FUSE_FSYNC_FDATASYNC: Sync data only, not metadata
-  */
- #define FUSE_FSYNC_FDATASYNC	(1 << 0)
- 
--/**
-+/*
-  * fuse_attr flags
-  *
-  * FUSE_ATTR_SUBMOUNT: Object is a submount root
-@@ -609,28 +609,28 @@ struct fuse_file_lock {
- #define FUSE_ATTR_SUBMOUNT      (1 << 0)
- #define FUSE_ATTR_DAX		(1 << 1)
- 
--/**
-+/*
-  * Open flags
-  * FUSE_OPEN_KILL_SUIDGID: Kill suid and sgid if executable
-  */
- #define FUSE_OPEN_KILL_SUIDGID	(1 << 0)
- 
--/**
-+/*
-  * setxattr flags
-  * FUSE_SETXATTR_ACL_KILL_SGID: Clear SGID when system.posix_acl_access is set
-  */
- #define FUSE_SETXATTR_ACL_KILL_SGID	(1 << 0)
- 
--/**
-+/*
-  * notify_inval_entry flags
-  * FUSE_EXPIRE_ONLY
-  */
- #define FUSE_EXPIRE_ONLY		(1 << 0)
- 
- /**
-- * extension type
-- * FUSE_MAX_NR_SECCTX: maximum value of &fuse_secctx_header.nr_secctx
-- * FUSE_EXT_GROUPS: &fuse_supp_groups extension
-+ * enum fuse_ext_type - extension type
-+ * @FUSE_MAX_NR_SECCTX: maximum value of &fuse_secctx_header.nr_secctx
-+ * @FUSE_EXT_GROUPS: &fuse_supp_groups extension
-  */
- enum fuse_ext_type {
- 	/* Types 0..31 are reserved for fuse_secctx_header */
-@@ -1036,14 +1036,14 @@ struct fuse_fallocate_in {
- };
- 
- /**
-- * FUSE request unique ID flag
-+ * define FUSE_UNIQUE_RESEND - FUSE request unique ID flag
-  *
-  * Indicates whether this is a resend request. The receiver should handle this
-  * request accordingly.
-  */
- #define FUSE_UNIQUE_RESEND (1ULL << 63)
- 
--/**
-+/*
-  * This value will be set by the kernel to
-  * (struct fuse_in_header).{uid,gid} fields in
-  * case when:
-@@ -1273,12 +1273,12 @@ struct fuse_supp_groups {
- };
- 
- /**
-- * Size of the ring buffer header
-+ * define FUSE_URING_IN_OUT_HEADER_SZ - Size of the ring buffer header
-  */
- #define FUSE_URING_IN_OUT_HEADER_SZ 128
- #define FUSE_URING_OP_IN_OUT_SZ 128
- 
--/**
-+/*
-  * fuse_uring_ent_in_out flags
-  *
-  * FUSE_URING_ENT_ZERO_COPY: Set if the ent's payload is zero-copied
-@@ -1305,34 +1305,52 @@ struct fuse_uring_ent_in_out {
- };
- 
- /**
-- * Header for all fuse-io-uring requests
-+ * struct fuse_uring_req_header - Header for all fuse-io-uring requests
-  */
- struct fuse_uring_req_header {
--	/* struct fuse_in_header / struct fuse_out_header */
-+	/**
-+	 * @in_out: struct fuse_in_header / struct fuse_out_header
-+	 */
- 	char in_out[FUSE_URING_IN_OUT_HEADER_SZ];
- 
--	/* per op code header */
-+	/**
-+	 * @op_in: per op code header
-+	 */
- 	char op_in[FUSE_URING_OP_IN_OUT_SZ];
- 
-+	/**
-+	 * @ring_ent_in_out: TBD
-+	 */
- 	struct fuse_uring_ent_in_out ring_ent_in_out;
- };
- 
- /**
-- * sqe commands to the kernel
-+ * enum fuse_uring_cmd - sqe commands to the kernel
-  */
- enum fuse_uring_cmd {
-+	/** @FUSE_IO_URING_CMD_INVALID: invalid command value */
- 	FUSE_IO_URING_CMD_INVALID = 0,
- 
--	/* register the request buffer and fetch a fuse request */
-+	/**
-+	 * @FUSE_IO_URING_CMD_REGISTER: register the request buffer and
-+	 * fetch a fuse request
-+	 */
- 	FUSE_IO_URING_CMD_REGISTER = 1,
- 
--	/* commit fuse request result and fetch next request */
-+	/**
-+	 * @FUSE_IO_URING_CMD_COMMIT_AND_FETCH: commit fuse request result
-+	 * and fetch next request
-+	 */
- 	FUSE_IO_URING_CMD_COMMIT_AND_FETCH = 2,
- 
--	/* add a queue */
-+	/**
-+	 * @FUSE_IO_URING_CMD_ADD_QUEUE: add a queue
-+	 */
- 	FUSE_IO_URING_CMD_ADD_QUEUE = 3,
- 
--	/* add a bufpool to a queue */
-+	/**
-+	 * @FUSE_IO_URING_CMD_ADD_BUFPOOL: add a bufpool to a queue
-+	 */
- 	FUSE_IO_URING_CMD_ADD_BUFPOOL = 4,
- };
- 
-@@ -1344,7 +1362,7 @@ enum fuse_uring_cmd {
-  */
- #define FUSE_URING_ZERO_COPY		(1 << 0)
- 
--/**
-+/*
-  * In the 80B command area of the SQE.
-  */
- struct fuse_uring_cmd_req {
+
+>
+> FUSE uses fine-grained invalidation masks rather than invalidating all
+> attributes at once.
+> The principle is that each operation only invalidates the specific
+> attributes that the operation
+> could have changed on the server. The masks used are:
+>
+> STATX_ATIME - after reads and readlink, since the server may update acces=
+s time
+> STATX_CTIME - after xattr changes (including ACL set/remove) and rename
+> STATX_BLOCKS - after a successful flush with writeback cache, since
+> the server's block count may differ from the local one
+> FUSE_STATX_MODIFY (STATX_MTIME | STATX_CTIME | STATX_BLOCKS) - after
+> writeback completion (without writeback cache), since the server may
+> have updated modification metadata
+> FUSE_STATX_MODSIZE (FUSE_STATX_MODIFY | STATX_SIZE) - after writes,
+> truncate-on-open, and fallocate, since the server's size and
+> modification metadata may have changed
+> FUSE_STATX_MODDIR (FUSE_STATX_MODSIZE | STATX_NLINK) - after directory
+> modifications (create, unlink, mkdir, rmdir, rename), since the server
+> may have updated the directory's size, timestamps, and link count
+> STATX_BASIC_STATS - as a full invalidation, used for server-initiated
+> invalidation (FUSE_NOTIFY_INVAL_INODE), interrupted setattr, and
+> interrupted link
+> The full set of invalidation points can be found by searching for
+> fuse_invalidate_attr_mask() in the FUSE source.
+>
+>
+>> +
+>> +ACL caching
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +FUSE has allowed the usage of POSIX Access Control Lists (ACLs) for a l=
+ong time,
+>> +as they can be set and accessed simply as extended attributes. However,=
+ it was
+>> +only with the introduction of the ``FUSE_POSIX_ACL`` flag that ACLs sta=
+rted to
+>> +be fully supported. Without this flag being set during the ``FUSE_INIT``
+>> +negotiation, ACLs can still be set, but the VFS won't use them for perf=
+orming
+>> +permission checks - that would be the user-space server's responsibilit=
+y.
+>> +
+>> +Also, without setting ``FUSE_POSIX_ACL``, ACLs will not be cached by th=
+e kernel.
+>> +In this case, new inodes ``i_acl`` and ``i_default_acl`` fields will be=
+ set to
+>> +``ACL_DONT_CACHE``.
+>> +
+>> +On the other hand, if the ``FUSE_POSIX_ACL`` flag is set then, when an =
+inode ACL
+>> +is accessed, VFS will first check if it's already cached. If it is not,=
+ FUSE
+>> +``->get_acl()`` operation (``fuse_get_acl()``) is called, which will ev=
+entually
+>> +send a user-space request. Future accesses to this inode ACL will use t=
+he cached
+>> +data.
+>> +
+>> +Setting an ACL in an inode will also result in sending a request to the=
+ FUSE
+>> +server for setting it. But this operation won't immediately cache the A=
+CL -- it
+>> +will only be cached after it is accessed again and requested from user-=
+space.
+>> +
+>> +On the other hand, ACLs will be removed from the cache in the following
+>> +situations:
+>> +
+>> +- When setting an ACL in an inode (and the ``FUSE_POSIX_ACL`` flag is s=
+et),
+>> +  previously cached ACLs for this inode will be invalidated.
+>> +- When invalidating an inode through the ``FUSE_NOTIFY_INVAL_INODE`` op=
+eration.
+>> +- When ``->d_revalidate()`` is called for a dentry that requires a look=
+up (e.g.
+>> +  it has expired) and that lookup operation is successful.
+>> +- When the VFS needs to check access rights for an inode (by calling
+>> +  ``->permission()``), attributes may need to be refreshed. If that hap=
+pens, any
+>
+> Isn't this a private case which is already covered by the last item?
+>
+>> +  cached ACLs for that inode will be invalidated.
+>> +- After setting an inode attribute (i.e. operation ``FUSE_SETATTR`` is =
+sent to
+>> +  user-space), the user-space server may have also updated the ACLs. Th=
+us, any
+>> +  cached ACLs for this inode are also invalidated.
+>> +- While processing ``FUSE_READDIRPLUS`` and an already existing dentry =
+needs to
+>> +  be updated.
+>
+> I think that both ->d_revalidate() and readdirplus could be generalized
+> to something like "Whenever attributes are refreshed from the server"
+>
+> Because those specific cases are not related to ACL specifically,
+> they are related to attribute cache and to the unwritten dentry cache.
+>
+> Again, the idea is to write a doc that explains the principles and is less
+> likely to get out of sync with the code.
+>
+> It's fine to list d_revalidate and READDIRPLUS as examples to the
+> category, but as a comprehensive list of use caes, I think this is wrong.
+>
+>> +- In general, when there is the need to send a ``FUSE_STATX`` or
+>> +  ``FUSE_GETATTR`` to user-space (e.g. when attributes expired).
+>> +
+>> +readdir caching
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +When opening a directory a ``FUSE_OPENDIR`` will be sent to the FUSE se=
+rver, and
+>> +server will be responsible for setting the open flags related with cach=
+ing,
+>> +namely ``FOPEN_KEEP_CACHE`` and ``FOPEN_CACHE_DIR``.
+>> +
+>> +If neither flags are set by the user-space FUSE server, then every ``re=
+addir``
+>> +will result in a ``FUSE_READDIR`` (or ``FUSE_READDIRPLUS``) request bei=
+ng sent.
+>> +If ``FOPEN_CACHE_DIR`` is set by the server, then the result of a ``rea=
+ddir``
+>> +will be cached by the kernel and reused for the current open. If
+>> +``FOPEN_KEEP_CACHE`` is also set, the cache will be kept and reused in =
+the
+>> +future, when the directory is open again for reading.
+>
+> AFAIK this is not what KEEP_CACHE means.
+> It means keeping the cache from the past opens for this open.
+> IIRC I gave the exact same comment in v2.
+>
+> Thanks,
+> Amir.
