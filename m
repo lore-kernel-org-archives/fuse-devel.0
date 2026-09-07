@@ -1,34 +1,34 @@
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2292045561F;
-	Mon,  7 Sep 2026 10:44:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6E1468C12;
+	Mon,  7 Sep 2026 10:47:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788777865; cv=none; b=BiAiVKUEjTuiklw+LERTXIPtD25Kw7AmaTmbPqSL5PhV/xELMaxmUkkeQR+n6/XxaEBZF96CVTcfn4i4DXHHSA3s/VfLL5s73IeF0fw832Usb4avNgCEpp3R9jb2L63rrRVcpGoYN3HPgyMTSncDATNajlTONl2ti+FHbltB4qg=
+	t=1788778073; cv=none; b=oeW3UF09tPfIBwjrnedgrEUra66zLM3qR2BDH8CByykObzD2nBwNMfRW41HP5cs1htY9nOxPmG6Tv26gtDncnPOcuEJ+4oJr+B29vEk722uabVRGfpVJS9Ck4due1TR+nCWWgtpw/OVoVUrRlGysbXckp+2J1CPoqZUNrpvC7Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788777865; c=relaxed/simple;
-	bh=HfUjNdqwF8k05W8k8ECuUMgIMjwA8JbbF+FafzXP4TU=;
+	s=arc-20240116; t=1788778073; c=relaxed/simple;
+	bh=/RWIyNjqirvwWI2Abb5gX+Ifo8vToD5ewLeveh1ryi0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=c7fvaNtv05C3+Xp0fuu36hAEtjIi5ZjcOheGPH0axDBAgxNTw/zSQwJviYJDislNAK6oAKgt+COaBrTd1ilebCjiYfUNoxiCK6rvAvXRO6UJmEBMswkULl9LMeGsuI8/0VONKFcPoEifi3g89lGi7uoZxj3m76Znrg7OAzAF6uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=RxK9PcPY; arc=none smtp.client-ip=213.97.179.56
+	 MIME-Version:Content-Type; b=qb6PM63zu/dIbgHK+R3V5ADQyClNVmCF0nTK80bHNu9NI+Yf089lTzY7F/yaJnSCxLkxAlcnrREhN1KUFdzKX4MToSXmRWFkHJgCzQwM85CJ/0+NZFxNFlLlU6+L7b85Xhg3CqxJMpKiY7IPNac7ojjM7JCZPSqd4zm4MtIgREM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=byeLDi3e; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="RxK9PcPY"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="byeLDi3e"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
 	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=pBCg7u49xpfBsWBvFB9jk6E2nhJPT8YcUxlHzKNM8WM=; b=RxK9PcPYkOrTuOM7DTVueJYSLt
-	FJANQJZNPFqnzcVCY3ecpmaakRjFGhlLVw0dK2a0GQwdSglGG+w6glu+SedKwqRxNJyS+qLKVI+i5
-	HjDaSaCjZQLns2bQOsQWROXxLy5vKufZPYE+WUolGOWiC4jOLpcEHPS2ATCQnjE8EGiv54jHgRhUA
-	oKs5YIao02R0PhnkjTDwNExrpIcsDgI7IczuYBU9tYYBFit++5HtvtEMH5BNKQBqWXdwo9I42IPh6
-	l9axhfsspxE6TASh00U2yfiXM4GpDoI2EsMjQDuFGD5dGAkSxAJbohhsQ1GDZq+3n34lJamMp9KXF
-	LSzVcHow==;
+	bh=5qGJhtGKVj3/RcTbVVEoXO+DeZ70o5gB9nKQMuv0DTA=; b=byeLDi3eEpRHu4evu1vxBP+prC
+	S+vmEc4Vi3Od4sqlsP4CYpqGWp2Fn+SS01KRtdMnCJZTbXsHllxaVlhxfvYW6G+SuMHxWcEuop3gw
+	23QGorKscyYJYxpuimEyuMMsByp4soB7xdHlfZd7eY2QBsvPC6yHI0O8WcQGIrSiBaYA7+aMAfluA
+	OLts/EdWPLaOVPi12SjveLahrGyhaiq1UlV0dr6ChD2fI/64hyUeFormm61VW5qKsKXkDxMlL3M3q
+	0BehW0cZSc3E4AYb/U5wEqXJSOTTYaMbHjyI+YdIOnd2SQhW9ZyFjGTibODBK5kP/i55YJoI/zAXd
+	2mQdzA2Q==;
 Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1x3Wpg-00FzOb-Dm; Mon, 07 Sep 2026 12:44:12 +0200
+	id 1x3Wt6-00FzTt-QF; Mon, 07 Sep 2026 12:47:44 +0200
 From: Luis Henriques <luis@igalia.com>
 To: Amir Goldstein <amir73il@gmail.com>
 Cc: Miklos Szeredi <miklos@szeredi.hu>,  Chen Linxuan <me@black-desk.cn>,
@@ -36,15 +36,15 @@ Cc: Miklos Szeredi <miklos@szeredi.hu>,  Chen Linxuan <me@black-desk.cn>,
  <skhan@linuxfoundation.org>,  fuse-devel@lists.linux.dev,
   linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,  Matt
  Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
-Subject: Re: [RFC PATCH v3 4/8] selftests/fuse: factor-out test fixture
- setup/teardown
-In-Reply-To: <CAOQ4uxgR8v6H=8fHMmLjChsuXUn8560nzda55t8pCNA1ocvg_A@mail.gmail.com>
-	(Amir Goldstein's message of "Sat, 5 Sep 2026 14:45:08 +0200")
+Subject: Re: [RFC PATCH v3 6/8] selftests/fuse: add some extra ACL caching
+ tests
+In-Reply-To: <CAOQ4uxhF6qaAxLFt0UP8nBbZTWVVYf_Y7zgL8Lu9xEnJzg=GiA@mail.gmail.com>
+	(Amir Goldstein's message of "Sat, 5 Sep 2026 14:38:24 +0200")
 References: <20260904103920.4471-1-luis@igalia.com>
-	<20260904103920.4471-5-luis@igalia.com>
-	<CAOQ4uxgR8v6H=8fHMmLjChsuXUn8560nzda55t8pCNA1ocvg_A@mail.gmail.com>
-Date: Mon, 07 Sep 2026 11:44:59 +0100
-Message-ID: <87pkypfihg.fsf@wotan.olymp>
+	<20260904103920.4471-7-luis@igalia.com>
+	<CAOQ4uxhF6qaAxLFt0UP8nBbZTWVVYf_Y7zgL8Lu9xEnJzg=GiA@mail.gmail.com>
+Date: Mon, 07 Sep 2026 11:48:31 +0100
+Message-ID: <87ld9dfibk.fsf@wotan.olymp>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -59,277 +59,113 @@ On Sat, Sep 05 2026, Amir Goldstein wrote:
 > On Fri, Sep 4, 2026 at 12:38=E2=80=AFPM Luis Henriques <luis@igalia.com> =
 wrote:
 >>
->> In order to reduce new tests setup/teardown code duplication, factor-out
->> these functions from the existing acl_cache test into a new fuse_common.c
->> file that can be reused in other tests.
+>> This adds some extra tests to ACL caching:
+>> - Verify that reading ACLs results in the expected number of requests
+>>   being sent user-space, depending on whether cache is enabled or disabl=
+ed
+>> - Verify caching behaviour on some caching invalidation scenarios
+>>
+>> While there, add test binary to .gitignore.
 >>
 >> Signed-off-by: Luis Henriques <luis@igalia.com>
 >> ---
->>  .../selftests/filesystems/fuse/Makefile       |  8 ++-
->>  .../filesystems/fuse/fuse_acl_cache_test.c    | 62 +++----------------
->>  .../selftests/filesystems/fuse/fuse_common.c  | 60 ++++++++++++++++++
->>  .../selftests/filesystems/fuse/fuse_common.h  | 25 ++++++++
->>  4 files changed, 100 insertions(+), 55 deletions(-)
->>  create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_common=
-.c
->>  create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_common=
-.h
+>>  .../selftests/filesystems/fuse/.gitignore     |   1 +
+>>  .../filesystems/fuse/fuse_acl_cache_test.c    | 179 ++++++++++++++++++
+>>  2 files changed, 180 insertions(+)
 >>
->> diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/t=
-esting/selftests/filesystems/fuse/Makefile
->> index a3ee9b3a2f5d..7744f796eb06 100644
->> --- a/tools/testing/selftests/filesystems/fuse/Makefile
->> +++ b/tools/testing/selftests/filesystems/fuse/Makefile
->> @@ -21,8 +21,12 @@ ifeq ($(VAR_LDLIBS),)
->>  VAR_LDLIBS :=3D -lfuse3 -pthread
->>  endif
->>
->> +CFLAGS +=3D $(VAR_CFLAGS)
->> +LDLIBS +=3D $(VAR_LDLIBS)
->> +
->>  $(OUTPUT)/fuse_mnt: CFLAGS +=3D $(VAR_CFLAGS)
->>  $(OUTPUT)/fuse_mnt: LDLIBS +=3D $(VAR_LDLIBS)
->>
->> -$(OUTPUT)/fuse_acl_cache_test: CFLAGS +=3D $(VAR_CFLAGS)
->> -$(OUTPUT)/fuse_acl_cache_test: LDLIBS +=3D $(VAR_LDLIBS)
->> +$(OUTPUT)/fuse_acl_cache_test: fuse_common.c fuse_acl_cache_test.c
->> +
->> +EXTRA_CLEAN :=3D fuse_common.o
+>> diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools=
+/testing/selftests/filesystems/fuse/.gitignore
+>> index fb51603fe419..f7f3dd345a50 100644
+>> --- a/tools/testing/selftests/filesystems/fuse/.gitignore
+>> +++ b/tools/testing/selftests/filesystems/fuse/.gitignore
+>> @@ -2,3 +2,4 @@
+>>  fuse_mnt
+>>  fusectl_test
+>>  write_extend_eof_test
+>> +fuse_acl_cache_test
 >> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_tes=
 t.c b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
->> index 2411a6e285f1..12cbf9753d03 100644
+>> index c2d6658ff7de..9608a0adb967 100644
 >> --- a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
 >> +++ b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
->> @@ -33,23 +33,15 @@
->>   */
+>> @@ -83,6 +83,7 @@ struct daemon_state {
+>>         uint8_t        *acl;
+>>         size_t          acl_size;
+>>         int             getxattr_count;
+>> +       bool            cache;
+>>  };
 >>
->>  #define _GNU_SOURCE
->> -#include <errno.h>
->>  #include <fcntl.h>
->>  #include <linux/limits.h>
->> -#include <pthread.h>
->>  #include <stdint.h>
->> -#include <stdio.h>
->> -#include <stdlib.h>
->> -#include <string.h>
->> -#include <sys/stat.h>
->>  #include <sys/xattr.h>
->> -#include <unistd.h>
->> -
->> -#define FUSE_USE_VERSION 31
->> -#include <fuse_lowlevel.h>
->>
->>  #include "kselftest_harness.h"
->>
->> +#include "fuse_common.h"
->> +
->>  /* ---- ACL binary encoding -------------------------------------------=
------ */
 >>  /*
->>   * POSIX ACL v2 xattr format (little-endian):
->> @@ -176,69 +168,33 @@ static const struct fuse_lowlevel_ops fs_ops =3D {
->>         .getxattr =3D fs_getxattr,
+>> @@ -91,9 +92,17 @@ struct daemon_state {
+>>   */
+>>  static struct daemon_state g_ds =3D {
+>>         .lock =3D PTHREAD_MUTEX_INITIALIZER,
+>> +       .cache =3D false,
 >>  };
 >>
->> -/* ---- Daemon thread -------------------------------------------------=
------- */
->> -
->> -static void *run_daemon(void *arg)
->> -{
->> -       fuse_session_loop((struct fuse_session *)arg);
->> -       return NULL;
->> -}
->> -
->>  /* ---- kselftest harness ---------------------------------------------=
------- */
+>>  /* ---- FUSE lowlevel callbacks ---------------------------------------=
+----- */
+>> +static void fs_init(void *userdata, struct fuse_conn_info *conn)
+>> +{
+>> +       pthread_mutex_lock(&g_ds.lock);
+>> +       if (g_ds.cache)
+>> +               fuse_set_feature_flag(conn, FUSE_CAP_POSIX_ACL);
+>> +       pthread_mutex_unlock(&g_ds.lock);
+>> +}
 >>
->>  FIXTURE(acl_cache) {
->>         struct fuse_session *se;
->> -       char                 mountpoint[PATH_MAX];
->> +       char                 mountpoint[MOUNTPOINT_SZ];
->>         char                 file_path[PATH_MAX];
->>         pthread_t            thread;
->>  };
+>>  static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *na=
+me)
+>>  {
+>> @@ -115,6 +124,8 @@ static void fs_lookup(fuse_req_t req, fuse_ino_t par=
+ent, const char *name)
+>>         e.attr.st_ino     =3D FILE_INO;
+>>         e.attr.st_mode    =3D S_IFREG | 0644;
+>>         e.attr.st_nlink   =3D 1;
+>> +       e.attr.st_uid =3D getuid();
+>> +       e.attr.st_gid =3D getgid();
+>>         fuse_reply_entry(req, &e);
+>>  }
+>>
+>> @@ -175,10 +186,38 @@ static void fs_getxattr(fuse_req_t req, fuse_ino_t=
+ ino, const char *name,
+>>         free(acl);
+>>  }
+>>
+>> +static void fs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *nam=
+e,
+>> +                           const char *value, size_t size, int flags)
+>> +{
+>> +       int ret =3D 0;
+>> +       uint8_t *acl;
+>> +
+>> +       if (ino !=3D FILE_INO)
+>> +               ret =3D ENOENT;
+>> +       else if (!strcmp(name, "system.posix_acl_access")) {
+>> +               acl =3D malloc(size);
+>> +               if (acl) {
+>> +                       memcpy(acl, value, size);
+>> +                       pthread_mutex_lock(&g_ds.lock);
+>> +                       if (g_ds.acl)
+>> +                               free(g_ds.acl);
+>> +                       g_ds.acl =3D acl;
+>> +                       g_ds.acl_size =3D size;
+>> +                       pthread_mutex_unlock(&g_ds.lock);
+>> +               } else
+>> +                       ret =3D ENOMEM;
+>> +       } else
+>> +               ret =3D ENOTSUP;
+>> +
 >
-> Nice!
-> I think it would be even nicer to have struct fuse_common_ctx
-> with the common members embedded in the per test state,
-> but I'll let you decide if you want to do that or not.
+> I am allergic to mismatching {} in if/else statements.
 
-Thanks for the suggestion.  It may make sense indeed to have that common
-struct, although it would probably only include the spinlock and a bool
-for enabling/disabling the cache.  I'll have a closer look and see if it
-makes sense.
+Ah! Ah! OK, I'll fix that.  (And I also admit I'm not consistent with
+this, which probably means I'm not allergic :-) )
+
+> I personally think that code will be cleaner with a goto error
+> without all these multi nesting levels.
+
+Sure, I'll refactor it accordingly.
 
 Cheers,
 --=20
 Lu=C3=ADs
-
->
-> Thanks,
-> Amir.
->
->>
->>  FIXTURE_SETUP(acl_cache)
->>  {
->> -       char *fuse_argv[] =3D { "fuse_acl_cache_test", NULL };
->> -       struct fuse_args args =3D FUSE_ARGS_INIT(1, fuse_argv);
->> +       char err[MAX_ERR_MSG];
->>
->> -       g_ds.acl            =3D acl_a;
->> -       g_ds.acl_size       =3D sizeof(acl_a);
->> +       g_ds.acl =3D acl_a;
->> +       g_ds.acl_size =3D sizeof(acl_a);
->>         g_ds.getxattr_count =3D 0;
->>
->> -       strcpy(self->mountpoint, "/tmp/acl_cache_test_XXXXXX");
->> -       if (!mkdtemp(self->mountpoint))
->> -               SKIP(return, "mkdtemp: %s", strerror(errno));
->> +       if (fs_setup(&self->se, self->mountpoint, &fs_ops, &self->thread=
-, err))
->> +               SKIP(return, err);
->>
->>         snprintf(self->file_path, sizeof(self->file_path),
->>                  "%s/" FILE_NAME, self->mountpoint);
->> -
->> -       self->se =3D fuse_session_new(&args, &fs_ops, sizeof(fs_ops), NU=
-LL);
->> -       if (!self->se) {
->> -               rmdir(self->mountpoint);
->> -               SKIP(return, "fuse_session_new failed");
->> -       }
->> -
->> -       if (fuse_session_mount(self->se, self->mountpoint)) {
->> -               fuse_session_destroy(self->se);
->> -               rmdir(self->mountpoint);
->> -               SKIP(return, "fuse_session_mount failed "
->> -                            "(missing fusermount3 or insufficient privi=
-leges)");
->> -       }
->> -
->> -       if (pthread_create(&self->thread, NULL, run_daemon, self->se)) {
->> -               fuse_session_unmount(self->se);
->> -               fuse_session_destroy(self->se);
->> -               rmdir(self->mountpoint);
->> -               SKIP(return, "pthread_create: %s", strerror(errno));
->> -       }
->> -
->> -       fuse_opt_free_args(&args);
->>  }
->>
->>  FIXTURE_TEARDOWN(acl_cache)
->>  {
->> -       fuse_session_exit(self->se);
->> -       fuse_session_unmount(self->se);
->> -       pthread_join(self->thread, NULL);
->> -       fuse_session_destroy(self->se);
->> -       rmdir(self->mountpoint);
->> +       fs_teardown(self->se, self->thread, self->mountpoint);
->>  }
->>
->>  static int do_force_statx(const char *path)
->> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_common.c b/to=
-ols/testing/selftests/filesystems/fuse/fuse_common.c
->> new file mode 100644
->> index 000000000000..3a91cac25b81
->> --- /dev/null
->> +++ b/tools/testing/selftests/filesystems/fuse/fuse_common.c
->> @@ -0,0 +1,60 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +#include "fuse_common.h"
->> +
->> +static void *run_daemon(void *arg)
->> +{
->> +       fuse_session_loop((struct fuse_session *)arg);
->> +       return NULL;
->> +}
->> +
->> +int fs_setup(struct fuse_session **se, char *mountpoint,
->> +            const struct fuse_lowlevel_ops *fs_ops,
->> +            pthread_t *thread, char *err)
->> +{
->> +       char *fuse_argv[] =3D { "fuse_test", NULL };
->> +       struct fuse_args args =3D FUSE_ARGS_INIT(1, fuse_argv);
->> +
->> +       strcpy(mountpoint, MOUNTPOINT_TEMPLATE);
->> +       if (!mkdtemp(mountpoint)) {
->> +               snprintf(err, MAX_ERR_MSG, "mkdtemp: %s", strerror(errno=
-));
->> +               return -1;
->> +       }
->> +
->> +       *se =3D fuse_session_new(&args, fs_ops, sizeof(*fs_ops), NULL);
->> +       if (!*se) {
->> +               rmdir(mountpoint);
->> +               snprintf(err, MAX_ERR_MSG, "fuse_session_new failed");
->> +               return -1;
->> +       }
->> +
->> +       if (fuse_session_mount(*se, mountpoint)) {
->> +               fuse_session_destroy(*se);
->> +               rmdir(mountpoint);
->> +               snprintf(err, MAX_ERR_MSG, "fuse_session_mount failed "
->> +                       "(missing fusermount3 or insufficient privileges=
-)");
->> +               return -1;
->> +       }
->> +
->> +       if (pthread_create(thread, NULL, run_daemon, *se)) {
->> +               fuse_session_unmount(*se);
->> +               fuse_session_destroy(*se);
->> +               rmdir(mountpoint);
->> +               snprintf(err, MAX_ERR_MSG, "pthread_create: %s", strerro=
-r(errno));
->> +               return -1;
->> +       }
->> +
->> +       fuse_opt_free_args(&args);
->> +
->> +       return 0;
->> +}
->> +
->> +void fs_teardown(struct fuse_session *se, pthread_t thread, char *mount=
-point)
->> +{
->> +       fuse_session_exit(se);
->> +       fuse_session_unmount(se);
->> +       pthread_join(thread, NULL);
->> +       fuse_session_destroy(se);
->> +       rmdir(mountpoint);
->> +}
->> +
->> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_common.h b/to=
-ols/testing/selftests/filesystems/fuse/fuse_common.h
->> new file mode 100644
->> index 000000000000..77d5eb58550d
->> --- /dev/null
->> +++ b/tools/testing/selftests/filesystems/fuse/fuse_common.h
->> @@ -0,0 +1,25 @@
->> +#ifndef __SELFTEST_FUSE_COMMON_H__
->> +#define __SELFTEST_FUSE_COMMON_H__
->> +
->> +#define _GNU_SOURCE
->> +#include <errno.h>
->> +#include <pthread.h>
->> +#include <stdio.h>
->> +#include <stdlib.h>
->> +#include <string.h>
->> +#include <unistd.h>
->> +
->> +#define FUSE_USE_VERSION 31
->> +#include <fuse_lowlevel.h>
->> +
->> +#define MAX_ERR_MSG 256
->> +
->> +#define MOUNTPOINT_TEMPLATE "/tmp/fuse_test_XXXXXX"
->> +#define MOUNTPOINT_SZ 64
->> +
->> +int fs_setup(struct fuse_session **se, char *mountpoint,
->> +            const struct fuse_lowlevel_ops *fs_ops,
->> +            pthread_t *thread, char *err);
->> +void fs_teardown(struct fuse_session *se, pthread_t thread, char *mount=
-point);
->> +
->> +#endif /* __SELFTEST_FUSE_COMMON_H__ */
-
