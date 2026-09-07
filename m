@@ -1,132 +1,324 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B137D282F1C
-	for <fuse-devel@lists.linux.dev>; Sun,  6 Sep 2026 01:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788658366; cv=pass; b=iUtufVQwrg5HNEdK5FTS0lDHKk0hzHR0vKN4whmSYdgFes6RVo04KjgWOtj/GYdTpx2/nzwCrzmW903OQOKEP/vDjWZZD8tG7+PQ+VN4Du7AHwR3quoOBNiW5mx+/HU2CkTN9rgwz3u4d54kaa9qqc5viGA9n0V8ygCv/a2GDOA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788658366; c=relaxed/simple;
-	bh=XkGisV3Evjj7Mvd+zTCV+TdTT1vDp/RPTN9iZlFQXP0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WFn8NiTqE716wXaHPqyk8MjinRZT9Ys0LNl55GfBeddBmpLIhd5n/rE8djm3yR0YzlfXXBOjUkZPmk0evCg62hZWqBo0uvgoHTWz5Db7mctXHO/OrdC5oN+CFaCm7QMQ9EckTC1n9+jDSNMlkAPQkoZzjZG50C8OLs+gKVEWih0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=EPThJFtS; arc=pass smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D26372058;
+	Mon,  7 Sep 2026 06:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788761113; cv=none; b=HFMNa9N2ymYhrw94PkKm8f3gnXwYN++HQM6v406O7Fq/1cYIvJAQW2Kdlt1g5plkDiWz1uNVAs1r5QC14vubNURLsh2uoQnMcXEGZ6E9klB9AFklpx5SAaSPMiYkScuovjZKc5hDz/1BANMCoUog3a48y5RBuwk2TTHX+44nZ3s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788761113; c=relaxed/simple;
+	bh=9orKWGEZ9lUfHOz13R0MuutwxAutMIr1x5Q16KvOFUg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uv94JWmr5ryk7r2Q73I8PbYBzPzD5pSe3/rr5hIxPyNeSTT4B8pGzssf3cWRUyzSLp8mWfw+E/yeMSLeOXxKPspSY1UiL+SRAZ+ogeNEdAJLBo1q5k2fkBQkcpWCJwvS+tNbn/qCzKELLUiKLu3KRyeNWATG3SdFIh4pFd37XLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uLuJh3xm; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="EPThJFtS"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-86265451beeso840768b3a.0
-        for <fuse-devel@lists.linux.dev>; Sat, 05 Sep 2026 18:32:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788658364; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Wh13qUR2hvFeoHcF01t4UaOf4UKJPirrv5MdHaVuDrQNXaHbOfAZ7AdNnB+7jjUugY
-         DOBhQAXfDePCWO4+FbVkbUX/W9t4f6g1iEZryv+05lkk3PtbtR+lij489Z9JPB6iaTGd
-         Jgm06k0zvOYnUPAC7j901fPeEXwDZH59dJmPlai0PmeKxROvYTp3UlXZKoYiwyOtZN+3
-         CUMJIlzR4ZMq85AHO8XPwEOsJN4KvE4hHhJdNJN9F8k6sHWQnHOzTJe57xgrCPM+DutL
-         BL9yWAS/I4XIS+g3Ai9UdAQV817rU9rVrfsU0LKA8qlRUOn21d6zc7yjwye+euL19u1A
-         o90Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5c69AaY32kskBXaaf974C8085cag74RfiCzN2LO7Q78=;
-        fh=kyqRgwAUjMkG1MxF0v81xNFA//+qDqa2xvM0hSRcgJ4=;
-        b=YogHyDNj/Xr+54jKK3S98f5DSNnfkHNc/2H+PhkoikY6kiaSTnWZpvHkQCZH+1hrSz
-         rKHyeoSasrvtqr5bpH5Ock5t8KfmDtOhFMmd6kxL7fkO/a3Mzz+MYLSANtD0YOO70t7Y
-         jlFV4fjIs8joBQ+rdWJzKzYP3PEM4/w8RRrrxqX4en/JaDUkhkwOy8sBVD0jsphjv7/D
-         fCYgTX0TzQYcdAXNsHkbQx1uRvU9qKo8ULdYHW9tRzmbNhqRsUM2e4ow2Zj9eCBqCiYJ
-         xtjdxYDVfwiCAcaqOM61OFANqEBY+buNa5URq0UEkIrtBy0cFZgVFajoZPL9Di1p5Iih
-         8IJw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1788658364; x=1789263164; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=5c69AaY32kskBXaaf974C8085cag74RfiCzN2LO7Q78=;
-        b=EPThJFtSCvB1+dU4ct9HJNzwkBPiO01aoN9JPyJicKc0791Hvu3V1LvXLRxJOwwyc9
-         XTNLuY3ub5VrsHP0+5SFElya4QIij/aJYLvDTZY9X4Z/FkrzNCv3sW/ubID3ItdmSi9y
-         vuxbyKHb2LBe8sPL9Q+vd5JrzlmxYKnAYx7HaKIMA+I6n6c76p4nt2GuXl9Nzx66lIqU
-         oRYPusa/jZUIgI/sNIlUf2rgKy29zJJRZPuHsiPnrw56o63o1LWmo/30sT6Wq9UoVDyd
-         A1/AxeEFWYlPxGyGZKea34oZwv4gAwdBpa1GpNIHmWlrdScDoEjGVpYuYw5rUV8ZQSLz
-         /TuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788658364; x=1789263164;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5c69AaY32kskBXaaf974C8085cag74RfiCzN2LO7Q78=;
-        b=bN2fN+2QkLtMHThD25i+IeuFvsPHnQiZ0/ntslxaAJqeHIbGr6Av4Ed0dS5usxxAxE
-         Hx0AtbXn/qWQXkGYpEv2UoVncgv8fo+mKyVJkkjYIQu/l522PVlTmSvlModoyrsEFomQ
-         Fr+9GI2ZBbrPNcA9UBmInq+hkn/Crfp1e4/DsNBCZesq/uOwQVRutLOZpRXS6ojTaSbA
-         VQ9IYsipYmHng0I9ywUewMnsESrTLeQ65XxwhvfJ6+1cGPDrBkFPtK/iAzUMNP/0JMQK
-         0i4dMFtEGFTTroVCTEdqcWrCb6O2fu2ulafISR1U3Svi5sl1qCaZOwWv+yWX6ilpz66S
-         uZSg==
-X-Forwarded-Encrypted: i=1; AKwUvBzIl+Mzyl0AOFWuvKnP+nAjbBH2CNhcao1rnmPP6pE5AvpdGyRSLfXQxbwdpxJ+94vR9qOijWdfwZJC@lists.linux.dev
-X-Gm-Message-State: AFuF++kTIJUmQ4ww6EeHOA+XPKeAsmkLt2FbhGMn1i64BNAzomUaJdl7
-	UsRtKGZWfu6KqCigOgFs2KzBdX0AmpjxuHcpl/3qQF3nJgLiHg5DoZNP5tP87TSR5luZCnhUx5W
-	7BN16U4+vUvKgrmI3xTQZ43iWLKh6vqgRfnsWQtU3
-X-Gm-Gg: AYBFou3b/HSZck4yylBmeyV6wI7lVsJ44X544nThHlrrHb0FoeMl3qFQxZHx0Dw9YiV
-	Ui08ck0BTytOrbFpVDGyMgZKGjQvAEzq4y6Nar6CqE9E/dnlvCW3x5GNS66b7hphs2IytoYdCWl
-	lSLgS0P8WfG/ubMNXVJlzAdeXtRB68wvvwJ9NjkR1e55RMd6msPt5jnTvTvo9fxcs11K1liOZdN
-	a+AS7hiNG2zUX1IKTksMeJeocEGS26iSkmq5b1CVihiPknuhmEYw4rWAxig7uM/Cqt4gvPHsmmM
-	7mlXITC7IAyZChk/68tETHeSdzIqIab+Jx7ZBX25nci6TapXeJqzIs3WcFmyOR+tw3t2gXy0B5l
-	zYr44xGU1WQ==
-X-Received: by 2002:a05:6a00:2c94:b0:857:727c:a1f2 with SMTP id
- d2e1a72fcca58-8616907f6e9mr21628645b3a.20.1788658363695; Sat, 05 Sep 2026
- 18:32:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uLuJh3xm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=OjJ0lPhuwDWz0mKBuGHCQwKRNSMrXhJq6rQPeivDlJA=; b=uLuJh3xmld+g5DnD/lguXv+MmA
+	DQGM+RLAEeyzf0mPXY6HuyN2Yrf9nDASl7ytJJFluOGvAvLOLQuEJxhljz1xUI3g1Z0rrbKSHD3Ht
+	Dz+cROgn+FbHF58bUyEdMXE9SNFf/CcNgRijVJSZ9+9/QnxhWRnX/2iABNucnbzYzZh6SisSwvcqO
+	hAQzwVF4dsEtYy92hwZmbxs5YAlZ3DKiuPcVUv7BoqZdcKkpYk+TtKU66qWSk9rYOEk/54jZyiFVm
+	vVJdQQwg8GbU4ZyLjzI7qQHd2BW0nkLn2WWDO+u32wF6k3HAh/Fuc2oVHR0QeZ4MLfVQqssSszZOU
+	iwgrn1LA==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1x3STc-00000005zMf-3PBa;
+	Mon, 07 Sep 2026 06:05:09 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	fuse-devel@lists.linux.dev
+Subject: [PATCH] fuse: repair lots of uapi kernel-doc
+Date: Sun,  6 Sep 2026 23:05:07 -0700
+Message-ID: <20260907060507.2582993-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260727233706.218446-1-xmei5@asu.edu> <20260727233706.218446-2-xmei5@asu.edu>
- <CAJfpegtvYJPBt=AcssH25mn5VDR3Gdkhf1PvuLR5HkJ=CmkYpQ@mail.gmail.com>
-In-Reply-To: <CAJfpegtvYJPBt=AcssH25mn5VDR3Gdkhf1PvuLR5HkJ=CmkYpQ@mail.gmail.com>
-From: Xiang Mei <xmei5@asu.edu>
-Date: Sat, 5 Sep 2026 18:32:32 -0700
-X-Gm-Features: AcwNN1UPXRzFZw8ZZGT_UcW_OJxAT5DgOQb9MbK7fu1zShy4ZYp6C_Z4xnhZ2ys
-Message-ID: <CAPpSM+RgWtmFLUAMfCvCg0ek0z-fSLAjr-eCVYivv0z5tKNVxQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] fuse: bound io-uring payload copies to the
- registered buffer size
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
-	Baokun Li <libaokun@linux.alibaba.com>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>, fuse-devel@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, Luis Henriques <luis@igalia.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, bestswngs@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 18, 2026 at 5:28=E2=80=AFAM Miklos Szeredi <miklos@szeredi.hu> =
-wrote:
->
-> On Tue, 28 Jul 2026 at 01:37, Xiang Mei <xmei5@asu.edu> wrote:
->
-> > Store the registered payload length (payload->iov_len) in the ring entr=
-y
-> > and use it for the import and both bounds checks, so the buffer the
-> > server provided is honoured and an oversized reply/request is rejected
-> > (-EINVAL for a reply, and -E2BIG/-EIO for a request, matching
-> > fuse_dev_do_read()) instead of panicking.
->
-> Can you please update this on latest fuse.git#for-next?  It looks like
-> some of the checks are already added by Joanne's patches.
->
-Thanks for your help merging 1/3. I checked the latest version finding
-there is some changes to these functions but the check is still
-missing and we can still trigger the bug so I rebased the fix and
-dropped the review-by tag. V6 has been sent for your review:
+Fix all (24) kernel-doc warnings in <uapi/linux/fuse.h>:
+- modify some instances to use common C comment style instead of
+  kernel-doc
+- convert a few instances to use kernel-doc format
 
-https://lore.kernel.org/fuse-devel/20260906012924.1928316-1-xmei5@asu.edu/T=
-/#t
+The warnings are all of this form (list is truncated for brevity):
 
-Thanks,
-Xiang
+Warning: include/uapi/linux/fuse.h:370 This comment starts with '/**', but isn't a kernel-doc comment.
+ * Bitmasks for fuse_setattr_in.valid
+Warning: include/uapi/linux/fuse.h:386 This comment starts with '/**', but isn't a kernel-doc comment.
+ * Flags returned by the OPEN request
+Warning: include/uapi/linux/fuse.h:414 This comment starts with '/**', but isn't a kernel-doc comment.
+ * INIT request/reply flags
+Warning: include/uapi/linux/fuse.h:526 This comment starts with '/**', but isn't a kernel-doc comment.
+ * CUSE INIT request/reply flags
+Warning: include/uapi/linux/fuse.h:630 This comment starts with '/**', but isn't a kernel-doc comment.
+ * extension type
+Warning: include/uapi/linux/fuse.h:1307 This comment starts with '/**', but isn't a kernel-doc comment.
+ * Header for all fuse-io-uring requests
+Warning: include/uapi/linux/fuse.h:1320 This comment starts with '/**', but isn't a kernel-doc comment.
+ * sqe commands to the kernel
 
-> Thanks,
-> Miklos
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Bernd Schubert <bernd@bsbernd.com>
+Cc: Joanne Koong <joannelkoong@gmail.com>
+Cc: fuse-devel@lists.linux.dev
+
+ include/uapi/linux/fuse.h |   82 +++++++++++++++++++++---------------
+ 1 file changed, 50 insertions(+), 32 deletions(-)
+
+--- linux-next-20260904.orig/include/uapi/linux/fuse.h
++++ linux-next-20260904/include/uapi/linux/fuse.h
+@@ -367,7 +367,7 @@ struct fuse_file_lock {
+ 	uint32_t	pid; /* tgid */
+ };
+ 
+-/**
++/*
+  * Bitmasks for fuse_setattr_in.valid
+  */
+ #define FATTR_MODE	(1 << 0)
+@@ -383,7 +383,7 @@ struct fuse_file_lock {
+ #define FATTR_CTIME	(1 << 10)
+ #define FATTR_KILL_SUIDGID	(1 << 11)
+ 
+-/**
++/*
+  * Flags returned by the OPEN request
+  *
+  * FOPEN_DIRECT_IO: bypass page cache for this open file
+@@ -411,7 +411,7 @@ struct fuse_file_lock {
+ #define FOPEN_PASSTHROUGH	(1 << 7)
+ #define FOPEN_IO_URING_ZERO_COPY (1 << 8)
+ 
+-/**
++/*
+  * INIT request/reply flags
+  *
+  * FUSE_ASYNC_READ: asynchronous read requests
+@@ -523,30 +523,30 @@ struct fuse_file_lock {
+ #define FUSE_HAS_IO_URING_BUFPOOL (1ULL << 43)
+ #define FUSE_HAS_SYNCFS		(1ULL << 44)
+ 
+-/**
++/*
+  * CUSE INIT request/reply flags
+  *
+  * CUSE_UNRESTRICTED_IOCTL:  use unrestricted ioctl
+  */
+ #define CUSE_UNRESTRICTED_IOCTL	(1 << 0)
+ 
+-/**
++/*
+  * Release flags
+  */
+ #define FUSE_RELEASE_FLUSH	(1 << 0)
+ #define FUSE_RELEASE_FLOCK_UNLOCK	(1 << 1)
+ 
+-/**
++/*
+  * Getattr flags
+  */
+ #define FUSE_GETATTR_FH		(1 << 0)
+ 
+-/**
++/*
+  * Lock flags
+  */
+ #define FUSE_LK_FLOCK		(1 << 0)
+ 
+-/**
++/*
+  * WRITE flags
+  *
+  * FUSE_WRITE_CACHE: delayed write from page cache, file handle is guessed
+@@ -560,12 +560,12 @@ struct fuse_file_lock {
+ /* Obsolete alias; this flag implies killing suid/sgid only. */
+ #define FUSE_WRITE_KILL_PRIV	FUSE_WRITE_KILL_SUIDGID
+ 
+-/**
++/*
+  * Read flags
+  */
+ #define FUSE_READ_LOCKOWNER	(1 << 1)
+ 
+-/**
++/*
+  * Ioctl flags
+  *
+  * FUSE_IOCTL_COMPAT: 32bit compat ioctl on 64bit machine
+@@ -586,21 +586,21 @@ struct fuse_file_lock {
+ 
+ #define FUSE_IOCTL_MAX_IOV	256
+ 
+-/**
++/*
+  * Poll flags
+  *
+  * FUSE_POLL_SCHEDULE_NOTIFY: request poll notify
+  */
+ #define FUSE_POLL_SCHEDULE_NOTIFY (1 << 0)
+ 
+-/**
++/*
+  * Fsync flags
+  *
+  * FUSE_FSYNC_FDATASYNC: Sync data only, not metadata
+  */
+ #define FUSE_FSYNC_FDATASYNC	(1 << 0)
+ 
+-/**
++/*
+  * fuse_attr flags
+  *
+  * FUSE_ATTR_SUBMOUNT: Object is a submount root
+@@ -609,28 +609,28 @@ struct fuse_file_lock {
+ #define FUSE_ATTR_SUBMOUNT      (1 << 0)
+ #define FUSE_ATTR_DAX		(1 << 1)
+ 
+-/**
++/*
+  * Open flags
+  * FUSE_OPEN_KILL_SUIDGID: Kill suid and sgid if executable
+  */
+ #define FUSE_OPEN_KILL_SUIDGID	(1 << 0)
+ 
+-/**
++/*
+  * setxattr flags
+  * FUSE_SETXATTR_ACL_KILL_SGID: Clear SGID when system.posix_acl_access is set
+  */
+ #define FUSE_SETXATTR_ACL_KILL_SGID	(1 << 0)
+ 
+-/**
++/*
+  * notify_inval_entry flags
+  * FUSE_EXPIRE_ONLY
+  */
+ #define FUSE_EXPIRE_ONLY		(1 << 0)
+ 
+ /**
+- * extension type
+- * FUSE_MAX_NR_SECCTX: maximum value of &fuse_secctx_header.nr_secctx
+- * FUSE_EXT_GROUPS: &fuse_supp_groups extension
++ * enum fuse_ext_type - extension type
++ * @FUSE_MAX_NR_SECCTX: maximum value of &fuse_secctx_header.nr_secctx
++ * @FUSE_EXT_GROUPS: &fuse_supp_groups extension
+  */
+ enum fuse_ext_type {
+ 	/* Types 0..31 are reserved for fuse_secctx_header */
+@@ -1036,14 +1036,14 @@ struct fuse_fallocate_in {
+ };
+ 
+ /**
+- * FUSE request unique ID flag
++ * define FUSE_UNIQUE_RESEND - FUSE request unique ID flag
+  *
+  * Indicates whether this is a resend request. The receiver should handle this
+  * request accordingly.
+  */
+ #define FUSE_UNIQUE_RESEND (1ULL << 63)
+ 
+-/**
++/*
+  * This value will be set by the kernel to
+  * (struct fuse_in_header).{uid,gid} fields in
+  * case when:
+@@ -1273,12 +1273,12 @@ struct fuse_supp_groups {
+ };
+ 
+ /**
+- * Size of the ring buffer header
++ * define FUSE_URING_IN_OUT_HEADER_SZ - Size of the ring buffer header
+  */
+ #define FUSE_URING_IN_OUT_HEADER_SZ 128
+ #define FUSE_URING_OP_IN_OUT_SZ 128
+ 
+-/**
++/*
+  * fuse_uring_ent_in_out flags
+  *
+  * FUSE_URING_ENT_ZERO_COPY: Set if the ent's payload is zero-copied
+@@ -1305,34 +1305,52 @@ struct fuse_uring_ent_in_out {
+ };
+ 
+ /**
+- * Header for all fuse-io-uring requests
++ * struct fuse_uring_req_header - Header for all fuse-io-uring requests
+  */
+ struct fuse_uring_req_header {
+-	/* struct fuse_in_header / struct fuse_out_header */
++	/**
++	 * @in_out: struct fuse_in_header / struct fuse_out_header
++	 */
+ 	char in_out[FUSE_URING_IN_OUT_HEADER_SZ];
+ 
+-	/* per op code header */
++	/**
++	 * @op_in: per op code header
++	 */
+ 	char op_in[FUSE_URING_OP_IN_OUT_SZ];
+ 
++	/**
++	 * @ring_ent_in_out: TBD
++	 */
+ 	struct fuse_uring_ent_in_out ring_ent_in_out;
+ };
+ 
+ /**
+- * sqe commands to the kernel
++ * enum fuse_uring_cmd - sqe commands to the kernel
+  */
+ enum fuse_uring_cmd {
++	/** @FUSE_IO_URING_CMD_INVALID: invalid command value */
+ 	FUSE_IO_URING_CMD_INVALID = 0,
+ 
+-	/* register the request buffer and fetch a fuse request */
++	/**
++	 * @FUSE_IO_URING_CMD_REGISTER: register the request buffer and
++	 * fetch a fuse request
++	 */
+ 	FUSE_IO_URING_CMD_REGISTER = 1,
+ 
+-	/* commit fuse request result and fetch next request */
++	/**
++	 * @FUSE_IO_URING_CMD_COMMIT_AND_FETCH: commit fuse request result
++	 * and fetch next request
++	 */
+ 	FUSE_IO_URING_CMD_COMMIT_AND_FETCH = 2,
+ 
+-	/* add a queue */
++	/**
++	 * @FUSE_IO_URING_CMD_ADD_QUEUE: add a queue
++	 */
+ 	FUSE_IO_URING_CMD_ADD_QUEUE = 3,
+ 
+-	/* add a bufpool to a queue */
++	/**
++	 * @FUSE_IO_URING_CMD_ADD_BUFPOOL: add a bufpool to a queue
++	 */
+ 	FUSE_IO_URING_CMD_ADD_BUFPOOL = 4,
+ };
+ 
+@@ -1344,7 +1362,7 @@ enum fuse_uring_cmd {
+  */
+ #define FUSE_URING_ZERO_COPY		(1 << 0)
+ 
+-/**
++/*
+  * In the 80B command area of the SQE.
+  */
+ struct fuse_uring_cmd_req {
