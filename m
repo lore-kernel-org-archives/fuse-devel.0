@@ -1,247 +1,335 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011006.outbound.protection.outlook.com [40.107.208.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B613154529E;
-	Wed,  9 Sep 2026 12:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788955741; cv=none; b=KLz8pHbYvCDCMZRab5KuwIwHeEyYsJlj0w00jBJgrQhWnAPpeKI6oOtrpGz4nxhPOGHV/pQgSe5xYnJc0+SoH+qyVuBwuMGtJV9EMqyc/2Y+2liB7VNXQ7mrMZ20RGpm+CyxDDQpH9DB5PSWVvqysKNNGgpYeB88zydbYPsZVTc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788955741; c=relaxed/simple;
-	bh=Tr7NeP1XAHfJ7HqrKKBxhlWmTq0V2hBOX4MjlUrY6wo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sqMLKM8J5IWYEAJnG86qNukqnCpAebe15zIsiE9vuONNxw4cu1jUP4egA13BMjfD7Kn6QDx2DIgbfaGxr8TDbPfulDQVJii7NrDw6hr3qWn9kRSL21Gfv+nDhBNX0FPf+ZiPCKEnP/sCntgEminfaJaZDYDgBwvvObRFFw+kbZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QSBO7XfB; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A98239E6C;
+	Wed,  9 Sep 2026 13:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788959026; cv=fail; b=lX8U5wTnrcj0DZ+DovwW9QHvIdr6v3dnrn+5MyhuabLoWaKK4+DM7WAspdlLOIi3fVrw5y4eNh/AxYjoEV3xO/R8nM8cCy28GrKCjHc/mHhp3CskTeiGlsstDUou6iRtWOLeGzlzZtTyhpJjo40IDYqmbnaqlhEEpv30vxNK3aY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788959026; c=relaxed/simple;
+	bh=VNvCEBhFlfJsGvPGvNxFWoQ89ONBg3+kO5jqrPLAP0I=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ccrrJY4U2rkqbCm4NKB4NZ+K7gny0S72b/oMm9vami5N86MMGpXv8PZ6OqDeGPA+lDfQnecme6Nr0dbdyd4dOyaSh5rTYZOo+mhJaF91bYZ8odG05cIcDz2G9u89GOpX0kDL5clc4SCfSraORlINOFlrk6xkPidgoMy2fqNdzWQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dhy7V1FM; arc=fail smtp.client-ip=40.107.208.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSBO7XfB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC671F00A3E;
-	Wed,  9 Sep 2026 12:08:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788955739;
-	bh=+vl7JXesMvOyLvN4TqdpRFvW5tHWQV0Z6fTfMaOZcos=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=QSBO7XfB9eJuCgdZw4woX9h6hLVv1DAAKEMcqqTtIlfNGaiMpuLvQbzhC/HsUDqDy
-	 15tzsyERcKb/dCy0KrTkU176RhbTCcy21TSs/XRVe0a2CeHrpUDlqlX+4eqWNdQmSP
-	 ZwfdXLWGjYgxyEXXB+UjA+lgDSAN24eS4K+Y/at+9+bmLKnF2sQtudlKc4XZf2yWBT
-	 GWiqoV+03Qgq8XKU5kEPlMdYwMF4DBOmSD8P6FFdNW88ziMwb+5x2tUJ7KBFC2OEkv
-	 y0F1ASE9ljvI2KQ6gM2g9pgM4YchyP5SgcvLLQZd8YcLUPlszfpfiqg7ho1AxZsTq8
-	 3yCEIs6vu9sRQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1x4H6m-00000006flL-2cBD;
-	Wed, 09 Sep 2026 12:08:56 +0000
-Date: Wed, 09 Sep 2026 13:08:55 +0100
-Message-ID: <86wlsu39uw.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Leon Romanovsky <leon@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Doug Gilbert <dgilbert@interlog.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Jaya Kumar <jayalk@intworks.biz>,
-	Simona Vetter <simona@ffwll.ch>,
-	Helge Deller <deller@gmx.de>,
-	Sebastian Reichel <sre@kernel.org>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Peter Xu <peterx@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Rik van Riel <riel@surriel.com>,
-	Harry Yoo <harry@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Anup Patel <anup@brainfault.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>,
-	Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Xu Xin <xu.xin16@zte.com.cn>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Michal Hocko <mhocko@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	selinux@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	bpf@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 28/39] mm: drop some redundant checks around hugetlb VMAs
-In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-28-dacf19cce22b@kernel.org>
-References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
-	<20260908-b4-mmap-prepare-vma-flag-sanify-v1-28-dacf19cce22b@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dhy7V1FM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zFch5AmN70jckfKU11SPqMhqhtcFTNpgSHCcb4PNRWDNWWbsQCpmWqW+gYiyMW73Qras7l05vmV5M+UdAkuA86XzFJeu6e/1myozQNTP9/2PjlxxK/Bgsi5qbooK74hB/8ySyTHkRCjpBjvuWXub4OQ1fze/BgVeKJaaCafMW9XK2DGCij4Xood8rack/KqPLpVSI2JOMRCBfN5kSP50SJFkai7WfzTOXU8VatQ6j2yGenDA0DIRUUiPMLFlVfWGZ8n2NKgGIAy75YbNaZPzClszK32O8nvs608eyVqWnus5qcHAY+XyYACxnh3Fto2VJk/pk7Pq1fVzMYAVxl2xnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XxlDZTcF0fh3QvXh8qfUwVUfKyFaONChdOcNAJnkEeo=;
+ b=IFiCOxJ5nnRalMXIEQwsjaDRFZ3tXPxV8Lgd3YwBVsOZGkMsC/bZRPiInIpM1z8j0E7iH6eTTsd9U6tci6mK6dtfx9Y+kPlZjgWROZTZqcymhGsdUfVGWKSGT2a7Wt1HqTeiypCo8Z9btFeqUnar55WX/3ZehKnfQ4dKZP/ncD4UOLVivshrexPkJ8ZxHWAFK+dPBUy7485t+l3JEu3pmqmx7omnIP0G4RZzl8i5Uddd/89m9WhJtjEy063wpG5xl1Xi8/0ORSGY2iYHCWQYbKDXysflnF1QbcvcMvdBfU8mtPbVAQnY5i1/V5+gEV9QUWXW7uGgqVDeMfI6++it/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XxlDZTcF0fh3QvXh8qfUwVUfKyFaONChdOcNAJnkEeo=;
+ b=dhy7V1FMTBPuXOUCue+t9c1BiUgTILAooVsDhfGyaCH/E6NqoYpsv6aJoWZQxXh/i22ZZXiPCF5zbd8MkDGqwBLLZWLWW0zKB08ujE9L1OBjtykdOmhmaIq1dnfqN6jG4GK0Qwnf+5nUtqPo8/2nSLzY3O+zAmcUsCYEH81uGoI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SJ2PR12MB7917.namprd12.prod.outlook.com (2603:10b6:a03:4c7::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Wed, 9 Sep 2026
+ 13:03:37 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%3]) with mapi id 15.21.0406.005; Wed, 9 Sep 2026
+ 13:03:37 +0000
+Message-ID: <3c7020e8-eeab-4cc2-9286-2ca613c08e07@amd.com>
+Date: Wed, 9 Sep 2026 15:03:30 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: FUSE deadlocks vs. copy_from_user() and locks (Was: Re: [PATCH
+ v10 04/27] drm/xe/eudebug: Introduce discovery for resources)
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>,
+ Joanne Koong <joannelkoong@gmail.com>, Amir Goldstein <amir73il@gmail.com>,
+ intel-xe@lists.freedesktop.org, fuse-devel@lists.linux.dev,
+ sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Mika Kuoppala <mika.kuoppala@linux.intel.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
+References: <20260903145952.848051-1-mika.kuoppala@linux.intel.com>
+ <20260903145952.848051-5-mika.kuoppala@linux.intel.com>
+ <20260903152224.AD48C1F00A3F@smtp.kernel.org>
+ <178878748003.179185.16833574173741290547@jlahtine-mobl>
+ <178894801687.37859.4186888279082797860@jlahtine-mobl>
+ <aqEzHQMrI8p9XVcu@phenom.ffwll.local>
+ <785085e8-c9db-4d84-ab55-3a8caf9f4a35@amd.com>
+ <178895308548.62143.17472983986994555742@jlahtine-mobl>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <178895308548.62143.17472983986994555742@jlahtine-mobl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MN2PR14CA0024.namprd14.prod.outlook.com
+ (2603:10b6:208:23e::29) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: ljs@kernel.org, akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de, david@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca, leon@kernel.org, paul@paul-moore.com, stephen.smalley.work@gmail.com, perex@perex.cz, tiwai@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, dgilbert@interlog.com, James.Bottomley@HansenPartnership.com, mkp@kernel.org, jayalk@intworks.biz, simona@ffwll.ch, deller@gmx.de, sre@kernel.org, jhubbard@nvidia.com, peterx@redhat.com, mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen
- @linux.intel.com, x86@kernel.org, acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, riel@surriel.com, harry@kernel.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, arnd@arndb.de, muchun.song@linux.dev, osalvador@suse.de, willy@infradead.org, jack@suse.cz, oupton@kernel.org, catalin.marinas@arm.com, maddy@linux.ibm.com, anup@brainfault.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, borntraeger@linux.ibm.com, frankja@linux.ibm.com, imbrenda@linux.ibm.com, agordeev@linux.ibm.com, gerald.schaefer@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com, davem@davemloft.net, andreas@gaisler.com, viro@zeniv.linux.org.uk, brauner@kernel.org, matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com, chrisl@kernel.
- org, kasong@tencent.com, shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev, youngjun.park@lge.com, hannes@cmpxchg.org, qi.zheng@linux.dev, shakeel.butt@linux.dev, axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, xu.xin16@zte.com.cn, chengming.zhou@linux.dev, mhocko@kernel.org, miklos@szeredi.hu, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-d
- evel@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7917:EE_
+X-MS-Office365-Filtering-Correlation-Id: 27425ac2-010e-49ea-8d0c-08df0e72c2f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|23010399003|366016|4143699003|5023799004|11063799006|56012099006|10067099003|6133799003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	FWkHueubOFu2r/0uqTlBjL2baRkeAfo7RXmJ3QVWTllzMsLiQdG2vP8PCk4DVvn+i8UcCAu+wMpQS91Qc9IdyPOpw3AhzsTRb2hVg7DtMK8SG8p8quqwxVUSuKmjN/u12BFKi7PNmBtpBKc9YGLK2HEXc4coH4xaNVA3v0NZa+U498QbxO4CVC374cyEzW+15KmWi3SJZPvvIc5PFnPGV8RGtMobNoGVjGepq8NY534zNeE0hKbCzwNNTvCDDhz31PzRqQFfdovBIwpTKkHItCUXD9iolVVSeVtM9x7PjJoAt4qV1XNrzl/7IAYnhPLrHua1g53Z5VHbOrfXrAO9D7NhhbMXr0SJxVGHAATj8y+WXnQdkpBghjFzPe8SM728Q+b5htOgmHkm8ptFLFhqHFrEJ6qBJmN5GKhdsZBUV+pmMjaISaFoeWvfefLA+uWy1CAQggtjy1Yqa5ASB9RdB0EKfOlSNKhv3Ac1Z+yL1EzBpsi1hA8TISu1oqMv2rhzqnqIkE5X591L1duIoE6xZDqAvu4YlkrBEMP6FuFCyEuUeys32p+Ufs9vKfBeLm5gbwgegoDne5rkgghRwlMPtoVoyiqh5/O0xw3SOgFy6BA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(23010399003)(366016)(4143699003)(5023799004)(11063799006)(56012099006)(10067099003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NDA5aHhhNUpJeS9LZnNLUmhJL0xuK3gxVXVmTG1DTGp3Nmd5NjF6TndIRFlT?=
+ =?utf-8?B?bWtxbE40ZjU4T21oaGNKTmlsWG9xTk9TY2p3dk12MldFdzVrS0FYd0s1U1J6?=
+ =?utf-8?B?dU56Z0N2VHhZWGVMeURkdHEva2pZcVZhZmF4WWNNVHFZcjZrS1p6bm9OcUpI?=
+ =?utf-8?B?ZDdOK24wUmxRZUVPUkVQTDMxVkI3NzZ5RkViYXcvajNzUURhUlQvSFI0bmp4?=
+ =?utf-8?B?YmdXc0NhUDRBSzVBQk1uMGJybkdCbU4zcW5GK0ZLSjJZQW5vOEluakI5dWt1?=
+ =?utf-8?B?SUUwZUZycEhzK0RYSFo1WGFwTDVpc01WSjM5TnZUV1dMYkdSWjI1eE5xMFFh?=
+ =?utf-8?B?QTI5akdiQ0hpNVBxeFVwQkJ3MnFsQW1USnAxczErTlVKcjVKaCtUMEZJT3M3?=
+ =?utf-8?B?VFJidm12UUZBREpYZk83T0k3UzF4L3BsMjNtdVZKNlBnalBqb0paMWN4dHla?=
+ =?utf-8?B?RG85aDlvdEl5eG53aEY2dE5wcEQ4WDhsMTlXM2E3VWZxb3FYZFRFd09IQVBJ?=
+ =?utf-8?B?OFk5RzVYRFZVc2lMcC9wTjR4b1NxZjhoYnJPYm1yZEhFdGp3ODRZcjZwMGVq?=
+ =?utf-8?B?bWRNenc2SDlLdENoczNpdWUxQUF0YlAyZWhHTTlCSWVXWHlKeCt4a21hZXpi?=
+ =?utf-8?B?aTZtUWF4T3NLeWludjJMYjVPem5UeTltQUUwTVpaUTlnNG1menhqRVcyMllS?=
+ =?utf-8?B?UjNXUUU0eVU5clRsQWV5TjRDbTZpK2NHT3dpRGk0TXNOdzdZMnB5QjNGSWVw?=
+ =?utf-8?B?VGZ5S1doUnpMMStQTzRodEdkU3VTdkNMbklFMXA3STlOdzlUUk84QnprVktj?=
+ =?utf-8?B?RHpRcmdCKzY2cUZoZFkvbW12T0hpcmZ1MkI5dWxTSDIxRlRnOXp2dWJJL3gy?=
+ =?utf-8?B?ZnBWUmxqM3JVaFdUR2hxK1huWlBONnpLR0pxUFpBeWY0ejRIbVNYUEl1clBO?=
+ =?utf-8?B?Mk5DczBNemhXL3pFdFR0RTA4MUJ0aGhkZUJ2SEU2SEY5QTJ2d05mWWNnWVJQ?=
+ =?utf-8?B?UWlPVS9xby9TYmo1STNISk9YRVVMamFKK3ZwNG02ZFFuM1Rud0VkV0F2NTAr?=
+ =?utf-8?B?UTlSSzVVbWdYc2JUTFNwMHJEVzJTL3poTHpFWXNwRHU0Y0Noc0xuUkRZRzBw?=
+ =?utf-8?B?NUVOUEhZOHVmM1VqYjd5aFVKK1ltaUdiVElSbExLVUM3UUlUTEFJN04vaGQx?=
+ =?utf-8?B?OVhWa1lmcHNHeHUzMXZmZHJxTWZhTTV4K1lTbVpRNkgvekg3dDN2N3N0VzBn?=
+ =?utf-8?B?OUVpelg5YTZRNDM0NEFSdDhVcmVWdldHUnc0RnpsRktRUm11czlGbFk1QTBj?=
+ =?utf-8?B?aVJuUnZqMzZzMzhEamlGWGFTTXNWYVJCY1VuRHdoWVhZY080UllIVEgzSlJh?=
+ =?utf-8?B?dWNaYTlPV0l2WjAzRGpiUnA1K3VuVHpNS0hOSkFaTGlpSlJ6U3A3d1N3SW9k?=
+ =?utf-8?B?RjNFM2xhTFlSVEx6bnRRU054MHRlUUhMU0hVVzh5VWNMZlNxU0FMVU8vUlVr?=
+ =?utf-8?B?ZEgyVFJKQ3M1N09mcGZWV2R5QjFpY1NGRHhna1daUHM0UEQzdzlZQmw3Mk9Z?=
+ =?utf-8?B?YUdZR3VFWUprRGdjYisyTTB5bnZZd3NQdGlkVkNYZ29TbThWSUpwZ0xuUk5D?=
+ =?utf-8?B?OWt4MjcvcGd5Qk4xY2I0aWs3VzFOczBSYnZ3UjU3M1ZTMS95UU8yWTQ2Z1Nn?=
+ =?utf-8?B?T0NaU0s1WVhLT3pIRU91cUVOOVZKZVhWaDdheHZqWmovcDNFMUtoUHk4NGc1?=
+ =?utf-8?B?UXdoY1A2RnBkUFlGUkljclB5WHF4OVJYSmsvOVdMZzE3aWIvTHYxdEFXVzdI?=
+ =?utf-8?B?aFhOckNPWXRXWkZNUEZwRDNMc2tUMTdIRVVwSTh0Q1pHQkRZcm1TaSs0eGZv?=
+ =?utf-8?B?UStQdThuM2pRQlB5NnFQcWhUQ01XYithT0JsNUZGUVJ1UG41VHZSd0pFT2w2?=
+ =?utf-8?B?NGdLTUdsUER5cVR6dUxjY0lWd091L20xM0txcnZtcklsMVhWck5PMG1NbXZT?=
+ =?utf-8?B?SUx3b2xLaTg3RHBzZHF1MkFiU205Z2Vqa3BrYVVDUDYybEQxUlJ3cmtBQ0hJ?=
+ =?utf-8?B?OERvNzFLV2V5L1I0QnM0RDFuSW80ZXNFWkRlcCtybklNSXE5amxQUmJveXNo?=
+ =?utf-8?B?cUtUc1h1YnB5L043dkJ5U2gwc2tHNllBeEVZbTVXWE83eUpMRnpJa1RNRU83?=
+ =?utf-8?B?OE9XSEVteXdYQVNodGVMRjkwa2loNjJRM2JCdmpDbEY0ZlluSUtyN0ZBbnlh?=
+ =?utf-8?B?VTUzcnMwVmV6SVV2UU0wc2cwN3Qrbnk0YUIvSUx1bjdYTTRZejVlanFUaHNj?=
+ =?utf-8?Q?MSsJdgtLbufZ16aMWl?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27425ac2-010e-49ea-8d0c-08df0e72c2f7
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2026 13:03:37.1501
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ah3BMLnprk+U8BNeShDiEVOQXph75Hf3/T9CcWZUdR0dIi+cNSkXN5cr+9qcyVoj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7917
 
-On Tue, 08 Sep 2026 21:01:32 +0100,
-"Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+On 9/9/26 13:24, Joonas Lahtinen wrote:
+> (+ userfaultfd maintainers)
 > 
-> Adjust code which inadvertently perform redundant checks on hugetlb VMAs
-> and clean them up:
+> Quoting Christian König (2026-09-09 14:02:21)
+>> On 9/9/26 12:21, Simona Vetter wrote:
+>>> On Wed, Sep 09, 2026 at 01:00:16PM +0300, Joonas Lahtinen wrote:
+>>>> (Adding bunch of FUSE folks and DRM folks in the hopes of coming to a
+>>>> resolution here.)
+>>>>
+>>>> Quoting Joonas Lahtinen (2026-09-07 16:24:40)
+>>>>> Quoting sashiko-bot@kernel.org (2026-09-03 18:22:23)
+>>>>>> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+>>>>>> - [High] Global ordered workqueue stall via copy_from_user block while holding ioctl_lock.
+>>>>>> - [Medium] Event sequence numbers (seqno) can be queued out-of-order in the event stream due to a race between seqno generation and event queuing.
+>>>>>> --
+>>>>>>
+>>>>>> commit e2061e72d8e954a17bde35e9c970ee41bc2db0ad
+>>>>>> Author: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+>>>>>>
+>>>>>>     drm/xe/eudebug: Introduce discovery for resources
+>>>>>>
+>>>>>> This commit introduces a resource discovery mechanism for debugger connections.
+>>>>>> When a debugger connects, all existing resources for the target client are
+>>>>>> relayed as events via an ordered workqueue, and DRM ioctls are blocked using
+>>>>>> an rw_semaphore until discovery is complete.
+>>>>>>
+>>>>>>> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_device.c
+>>>>>>> index 032a7ec5fbc8d..f10959b898297 100644
+>>>>>>> --- a/drivers/gpu/drm/xe/xe_device.c
+>>>>>>> +++ b/drivers/gpu/drm/xe/xe_device.c
+>>>>>> [ ... ]
+>>>>>>> @@ -238,8 +239,12 @@ static long xe_drm_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+>>>>>>>  
+>>>>>>>       ACQUIRE(xe_pm_runtime_ioctl, pm)(xe);
+>>>>>>>       ret = ACQUIRE_ERR(xe_pm_runtime_ioctl, &pm);
+>>>>>>> -     if (ret >= 0)
+>>>>>>> +     if (ret >= 0) {
+>>>>>>> +             bool lock = xe_eudebug_discovery_lock(file, cmd);
+>>>>>>>               ret = drm_ioctl(file, cmd, arg);
+>>>>>>
+>>>>>> [Severity: High]
+>>>>>> Does holding the discovery lock across drm_ioctl() create a vector for a
+>>>>>> workqueue stall? 
+>>>>>>
+>>>>>> If an unprivileged user maps the ioctl argument pointer to a blocking FUSE
+>>>>>> or userfaultfd region, drm_ioctl() can be stalled indefinitely during
+>>>>>> copy_from_user() while holding xef->eudebug.ioctl_lock for read.
+>>>>>
+>>>>> Don't think this is a very realistic vector to address, as it would
+>>>>> also extend to every other copy_from_user() and also to userptr across
+>>>>> all drivers.
+>>
+>> Yeah I don't think that this is a major problem.
+>>
+>> Using copy_from_user() while holding a lock is usually fundamentally broken in the first place.
 > 
-> * hugetlb VMAs have VMA_DONTEXPAND_BIT set so a VMA_SPECIAL_FLAGS check
->   suffices. (migrate_vma_setup() regains an explicit hugetlb test later in
->   the series, once VMA_SPECIAL_FLAGS is removed.)
+> Well, ultimately also applies to userptr. How would we go about
+> implementing that without any outer locks?
 > 
-> * hugetlb VMAs unconditionally set vma->vm_ops, so they are never
->   anonymous.
-> 
-> * hugetlb VMAs do not set VMA_PFNMAP_BIT so checking for this is redundant.
-> 
-> While we're here also drop a VM_BUG_ON() which the simplified check above
-> makes unreachable, and use the new VMA flag API.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  arch/arm64/kvm/mmu.c         | 4 +---
->  drivers/gpu/drm/drm_gpusvm.c | 3 +--
->  mm/migrate_device.c          | 4 ++--
->  3 files changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index a7968f8d24bf..3c1240ffc38d 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -1463,14 +1463,12 @@ static int get_vma_page_shift(struct vm_area_struct *vma, unsigned long hva)
->  {
->  	unsigned long pa;
->  
-> -	if (vma_is_hugetlb(vma) && !(vma->vm_flags & VM_PFNMAP))
-> +	if (vma_is_hugetlb(vma))
->  		return huge_page_shift(hstate_vma(vma));
->  
->  	if (!(vma->vm_flags & VM_PFNMAP))
->  		return PAGE_SHIFT;
->  
-> -	VM_BUG_ON(vma_is_hugetlb(vma));
-> -
->  	pa = (vma->vm_pgoff << PAGE_SHIFT) + (hva - vma->vm_start);
->  
->  #ifndef __PAGETABLE_PMD_FOLDED
+> Grab locks, figure out what pages are needed, release locks, pre-fault,
+> re-grab locks and do best attempt to resolve? And that's going to be a
+> live-lock at best again.
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+Yeah and that is exactly what you *must* do for userptrs.
 
-	M.
+There is no really alternative to that because you can't grab the same lock outside a page fault you do inside an MMU notfier.
 
--- 
-Without deviation from the norm, progress is not possible.
+So all drivers who use userptrs basically implement the following sequence:
+
+1. Take a copy of page table update sequence number.
+2. Walk page tables, extract PFNs.
+3. Prepare your DMA operations.
+4. Grab the MMU notifier lock.
+5. Compare your sequence number, if it doesn't match revert everything and try again.
+6. Submit your DMA operation to the HW
+7. Drop the MMU notifier lock.
+
+What you describe above for eudebug sounds a lot like it won't work correctly, you can't work with outside locks in the userptr handling.
+
+> 
+> That'd be a massive undertaking for each driver, I think.
+> 
+>> But there are other issues which are much more problematic.
+>>
+>>>>>
+>>>>> Having a malfunctioning FUSE driver and getting a malfunctioning system
+>>>>> as a result is probably somewhat expected.
+>>>>
+>>>> Based on further chatting on this with Sima, I was volunteered to pull
+>>>> together the discussion here.
+>>>>
+>>>> We seem to have Sashiko picking up on patterns about accessing userspace
+>>>> memory with locks held and potential for copy_from_user() (or userptr) to
+>>>> then take indefinitely long to resolve. And that spreads to deadlocks
+>>>> everywhere situation very fast.
+>>>>
+>>>> Based on reading of [1] and [2], it seems pretty much expected FUSE
+>>>> drivers can trivially deadlock and ultimately in worst case the situation
+>>>> can only be solved by manually aborting those connections by sysadmin.
+>>
+>> The real problem comes with userfaultfd and the combination with HMM.
+>>
+>> Drivers implementing HMM usually use a background workers to resolve recoverable page faults using the function hmm_range_fault().
+>>
+>> If userfaultfd together with hmm_range_fault() can block those background workers indefinitely it can block other applications from using the HW without any sysadmin having any chance to figure out what is going on.
+>>
+>> That is a classic local deny of service attack and I fear hmm_range_fault() needs something like a timeout to handle that.
+> 
+> From my position, if userspace is injected to the dependency path for
+> resolving page-faults, with potentially unbounded execution times, the
+> timeouts would better be asserted at the FUSE/UFFD side and then simply
+> failing the operations with a bang if not met.
+
+That won't work like that. Both FUSE and UFFD can take any time they want for an operation.
+
+>>>> It also seems (from the Sashiko comments) that by design, there's no
+>>>> upper bound for how long an operation can take, so a bad FUSE driver
+>>>> may stall for however long it sees fit to serve page-fault or in the
+>>>> case of [3] it may decide to not actually populate the PTEs (or maybe
+>>>> invalidate them immediately).
+>>>>
+>>>> Should we really be refactoring the whole kernel for the sake of
+>>>> knowingly allowing potentially malicious userspace driver to idefinitely
+>>>> stall or incorrectly resolve page faults? That'll be quite a lot of
+>>>> complexity added to all the other drivers.
+>>
+>> +1
+>>
+>> Regards,
+>> Christian.
+> 
+> I was also meaning to convey that I don't think indefinitely blocking
+> copy_from_user() is acceptable, either. However earlier you seemed to
+> indicate towards that being something we should expect?
+
+Correct, that copy_from_user() can take any amount of time is perfectly expected.
+
+The problem is that most GPU HW currently can't deal with that because it can't take the work of the HW in case of a fault.
+
+Regards,
+Christian.
+
+> 
+> Regards, Joonas
+> 
+>>>>
+>>>> Or should there be more protections on FUSE / uffd to ensure such
+>>>> idefinitive stall can't happen? Or maybe this is just an academic
+>>>> problem and we amend review-prompts not to bring it up?
+>>>>
+>>>> Or maybe I missed some part of the FUSE docs and this isn't a real
+>>>> problem?
+>>>
+>>> Thanks for typing this up, matches what I think is going on here.
+>>>
+>>>> Regards, Joonas
+>>>>
+>>>> PS. There is a related patch in [3] which tries to address the problem,
+>>>> but we'll quickly run into live-locks and other issues even if we
+>>>> refactored things into: pre-fault, take locks, do _nofault() access, and
+>>>> retry if that fails.
+>>>
+>>> Yeah just quickly wanting to add here that in my opinion, trying to sort
+>>> this out in all the various subsystem is not how we should even start to
+>>> think about this issue. This would be a fundamental change in how
+>>> subsystems are allowed to nest locking with stuff that can trigger
+>>> userspace faults.
+>>>
+>>> I did ponder a bit how this could be solved on the fuse side of things,
+>>> maybe with some seccomp style filters. Like maybe lockdep could be
+>>> enlisted to help catch deadlocks, with a special "this is a fuse process,
+>>> it all defacto runs in fault handler context. But that only catches bugs
+>>> in normal use, not malicious exploits. And given that userspace can choose
+>>> the timing and unblock at will (I think so at least), this is pretty
+>>> powerful tool for being nasty to the kernel.
+>>>
+>>> But mostly I want to really, really stand back in awe about this issue and
+>>> not think too hard about it.
+>>>
+>>> Cheers, Sima
+>>>
+>>>> [1] https://www.kernel.org/doc/html/next/filesystems/fuse.html#kernel-userspace-interface
+>>>> [2] https://www.kernel.org/doc/html/next/filesystems/fuse.html#aborting-a-filesystem-connection
+>>>> [3] https://sashiko.dev/#/patchset/20260827062142.4038272-1-srinivasan.shanmugam%40amd.com
+>>>
+>>
+
