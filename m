@@ -1,268 +1,249 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985145678E4;
-	Wed,  9 Sep 2026 14:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788965490; cv=none; b=GJvEMPG1Eq33hlCF8Y+aCYj7m5CDoPkSZbWygqz51Wsq+qT27WMwAch0tx0zcFeWFARR90xiNOqYw+vkZAGYnzjmKBq3QQ6Wac7ZEptxTEU5w5nP8V89m4epDoIpSEm6o2Nu/2/dBDdec2eFD+ML+JGhEii75B0a+Mk/VXJfwkw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788965490; c=relaxed/simple;
-	bh=S6Bg5dd0rBRENwk7hGa55DW3vqRfuWWzVAUJKJGp/Xk=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=efW04iIw4p/CHHiHUCyljl3xBSoTZd0EYIJy8iQMl0bDhcOPK+fH6TCypuzb7JZtio1BzcxH48n2nd94JNb6c7JkoWRq5J3eNmWspPYA/sb5QEj+8UPu2xOIxjrkfIIAFF7wjMA9UOrb4dobM0F9d3XnRsEUSxP4RA86zWaVj+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q3MzKuIF; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A59F3B1ED0
+	for <fuse-devel@lists.linux.dev>; Wed,  9 Sep 2026 19:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788981606; cv=pass; b=AmuMBrqh7IGv8rahqrb9s57Dcux6zPfPjdcOBQ7KVTmGFDgi3AFYiJ6c0N6RGVq7DYny55gcjTCASn58lpoCKKNZdw4mApAAdbYP/R4OkQCYh+Mtm6vj61Qy08MMnzH9DfctN+rmxS3ojkFKiGOs2dGjoSBNPjiqWHkmD0r9UpU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788981606; c=relaxed/simple;
+	bh=Ajiydw3L25W781rT08oBIgJWAfLm/lQwQ3vUJDLb5Dg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YRvDmWXwDThJcSS6cZ1ktO8kQxl+Yggvi5sMbbtQUW8kq1Lr+qr5zodwkGRRuJMA/qNWQQoW2nR7Qco87vqjp/OwDDFazJNjFtwvxsXkknT2Mf2mW8EOKMOspJ1DeUsgwWCOli6ttRYVdSzKS0AS5ADssBLvG4yKimsFitpXFpA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RuNU7XDd; arc=pass smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q3MzKuIF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788965487; x=1820501487;
-  h=mime-version:content-transfer-encoding:in-reply-to:
-   references:subject:from:cc:to:date:message-id;
-  bh=S6Bg5dd0rBRENwk7hGa55DW3vqRfuWWzVAUJKJGp/Xk=;
-  b=Q3MzKuIFtd3+o1DRa1YMndxWC717gdIOr/oxY3eBRQHC2YtZV23pWK72
-   SLWnJdvTkn7Gk3HVJ1g1e4XoeQnQulUd8ecZx4ME36CwDpe3W8IRa9nWt
-   WZce8h44DXnBX7AnNHAaMeKnlJydGsnByDm9ujVwFeFl280Qp+kXirDMM
-   bdNH0vFuIwqgdRnf5CtKIUbd501E+uJMLgqsWNRGjIYFuU9jQgRM78z/0
-   L6pWSXHiIkJOu3qs+6e2IL2M9hGYi0+7NYWVHjkWh7XDQSLyqP48+FwpF
-   yER7itAyiSgcmPaNoWUGLY1/Pk48bOx7ghuxkKMAjYXulHhONbZmWx6de
-   A==;
-X-CSE-ConnectionGUID: M29MmJtORb6fCzd5kRIbeg==
-X-CSE-MsgGUID: st5OEQZAQhOoSyRfn0cHtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89263194"
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="89263194"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 07:51:26 -0700
-X-CSE-ConnectionGUID: 88RNOmbkSHiGwLK5a5PqvQ==
-X-CSE-MsgGUID: ILfhd0crSpuNLp0FcqyurA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
-   d="scan'208";a="267662499"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 07:51:22 -0700
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RuNU7XDd"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4843f205a5bso4186836f8f.1
+        for <fuse-devel@lists.linux.dev>; Wed, 09 Sep 2026 12:20:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788981601; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jjfzbuU3Eb77PqGVCa0gLUe1HCMDPkYLoPORJN38UAt9nk6j8AP2sxEit42DJ/+zP1
+         RgsAe10kdJ2qz+uvq9+tEK8bBTXN2lzOPQe44/kWeweMF3gyoYEXZVR0Lwx1RxAWFU3w
+         WJPFVwLTgp0BwCW87JKhOz75ywhFQDSxfzXlSqITJQMvqHjFq9hTjuA0Iz4pZRU5J0G3
+         soO3OyF3ym2O2rpgJHTyY6DPMcEJdOqdvMX4uR674TSiI+1d2iL/qdAhlj1wJmXg3ems
+         W4azkDPOQFRNa2pweyFPutwBzqFT3tuBpwupJcgkln1lTVL7Q0yWdjwYN1E6UBg2LBjP
+         izzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5FRm+Wk/CzcgkkZNM6le/ovLDE/1ge45ZLQJ5VGLwHc=;
+        fh=zKz3KqQL+Qfhh2jSabhfG9NVW7QDIKDfJQEtSFrzx2I=;
+        b=K6rLrTdKKCW9znJanGp92bJ3jzcTHi9OpsFWohHyhWzdQeaDyW+j9UJnNF+hd1mmld
+         sAobzhT40owWaJ3EHrew1S9GBsPKJC1ppKV0gFG1DbMuzb/nYiixw7yxzGN7ug+B9HxM
+         t/it1J1pVHIGhvjqP0LYZaz/inSQWNEoIidXPWe6ptM9Ad84gxRabI5ieyT3ICgTxzDm
+         XA+xDL4rjmX7Sa8GQdkSXokPYZZVoIU9jMZfxQ3oEXELUxbf8eurRR5w2GF/yPx65uxv
+         KW1IFGrCOAkaT+ExAmUloY6W4M93tlTuhDOGCM1tAnSnoOH0Z4QchwD6tNqdpxeE3SDm
+         +CEg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788981601; x=1789586401; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=5FRm+Wk/CzcgkkZNM6le/ovLDE/1ge45ZLQJ5VGLwHc=;
+        b=RuNU7XDdtZEd+o762+Gn+R/7KLPgM18lNGyfqEbnaAsNoUKUlmImAAhIqcH9mxgQXd
+         MTmrmDQjMzMvH9rEdxL0zQH312tLCiIgcRfcBUie+k17RAN8Rd+kL2eebLYjq1XRZsl0
+         CyglDHun1mngC8p9jamWCrobHzcIOlJip58bekJ0sfmbsbK/9wwmXopD4oCGonDkDz7A
+         8dMqHgfx1E+uxVx2Z1Ai8mqbiY8Ehns0gmqaOwz8BtPwjxO0jaMzhCaSbB2kwhEKpLts
+         6JploVFqFHiN3JY7w8rWmE8rovl5Yw66XQumlSJyEcso1RmT0QlTf7pdcYtsUf33Mhyi
+         QQKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788981601; x=1789586401;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5FRm+Wk/CzcgkkZNM6le/ovLDE/1ge45ZLQJ5VGLwHc=;
+        b=ku3dF0QqEPQRKayzFDd1CUKCgWjuJwj3HrV6HmCn0JJQYxQXhVlyATEDrmzS+LXGnW
+         Rk7W4QwlzXtaZeKH+nfaP7C0nzV7x1JykQuRxPTyxJDEkBFfQnpLGgKe/jE5ruS/vfkw
+         ivYjJdVQ3iU6ltDRU1rgrSJibzROcY854J30uyZ1eow7lP2cwJtUFYk6lrkvjwGH/whd
+         C2/o+vWzqVl/3/Cm1dh6B7LffbQeqGwt3obbpx86eU1DhGR8IE3GAz7ocFl+ktjFh9WS
+         PJq4uIs4s5Z8QuTRorE8g8Mp+UySPboSySSknMWaHq+FQZl1fziLGJ7qrIIHVILNHHi8
+         ZSsw==
+X-Forwarded-Encrypted: i=1; AKwUvByW5m6N49KWE3/Qbc/n8btWqJqX77PAALMkcGaB3lLP5CGJZcYEMUUFHD/mAtBbJCio8xPbcn4qEMGH@lists.linux.dev
+X-Gm-Message-State: AFuF++nVJr6l2AQHUoy9tVcsW+xjNB6SGR174RlIu5WvRGBEQb6/p+an
+	+X0n9UIcvwt/2WwKLW60/eGT46s3T/Mq6r4mtYUIOiilluZQdpCtiRKWe15YbbBF/HMH2nRclQp
+	uFMknB9P8ivNlT78uEpfpRQHcZu0gLpo=
+X-Gm-Gg: AYBFou3bgXjPxFAnoN9bVm0SLOX1wyBOmvGDfb8cEe14lFls7VRwuyipS53d7Y+w7iK
+	vis9phOJDANqCxNyUlXSA26576aCoCAcj9EtX88wfxdhmVlUI5Dg4s+i7FQLZufLqndgVTKqSOy
+	bSVzATSUO04aMxywS1cEPKEAWmKTAPmoHAcv+9sbrBlhQjrGcMSJM/JZs/RIDboyqhcoBdjAa5x
+	pflchJY/lXuL0JSTbRYkhX4aIRtPhUM7fOrkDWgAcv7m1gJwkIbC84zgIBv1s6tdwfLvaaInB2z
+	ewSSabGW1POY4YTtSz3gWuuBmXJGJinsOEpv48CLB4/r3gm0JrzsQuK2j0xVsKSpM7pN4ANhk9C
+	mQDX2j0Sz7a/QUvWqZA2z7ry6eeaMQCnRFAQhXpXLfoU3jbrM
+X-Received: by 2002:a5d:588b:0:b0:485:ac96:7263 with SMTP id
+ ffacd0b85a97d-485ac9673b3mr6592105f8f.12.1788981600320; Wed, 09 Sep 2026
+ 12:20:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20260906012924.1928316-1-xmei5@asu.edu>
+In-Reply-To: <20260906012924.1928316-1-xmei5@asu.edu>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 9 Sep 2026 12:19:47 -0700
+X-Gm-Features: AcwNN1UbD6k4LeCepkUvjqBr96R-weQxM4XVCQGN4UqRnGUCJVeyGH44lDLJG20
+Message-ID: <CAJnrk1aXL9QuW+USSbx2La9qgNYU8jybqqpoSSRo6wEAAZqxAw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] fuse: bound io-uring payload copies to the
+ registered buffer size
+To: Xiang Mei <xmei5@asu.edu>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Baokun Li <libaokun@linux.alibaba.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>, fuse-devel@lists.linux.dev, 
+	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, Luis Henriques <luis@igalia.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, bestswngs@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <3c7020e8-eeab-4cc2-9286-2ca613c08e07@amd.com>
-References: <20260903145952.848051-1-mika.kuoppala@linux.intel.com> <20260903145952.848051-5-mika.kuoppala@linux.intel.com> <20260903152224.AD48C1F00A3F@smtp.kernel.org> <178878748003.179185.16833574173741290547@jlahtine-mobl> <178894801687.37859.4186888279082797860@jlahtine-mobl> <aqEzHQMrI8p9XVcu@phenom.ffwll.local> <785085e8-c9db-4d84-ab55-3a8caf9f4a35@amd.com> <178895308548.62143.17472983986994555742@jlahtine-mobl> <3c7020e8-eeab-4cc2-9286-2ca613c08e07@amd.com>
-Subject: Re: FUSE deadlocks vs. copy_from_user() and locks (Was: Re: [PATCH v10 04/27] drm/xe/eudebug: Introduce discovery for resources)
-From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, Joanne Koong <joannelkoong@gmail.com>, Amir Goldstein <amir73il@gmail.com>, intel-xe@lists.freedesktop.org, fuse-devel@lists.linux.dev, sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Alex Deucher <alexander.deucher@amd.com>, Matthew Brost <matthew.brost@intel.com>, Thomas =?utf-8?q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, dri-devel@lists.freedesktop.org, Mika Kuoppala <mika.kuoppala@linux.intel.com>, Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
-To: Christian =?utf-8?q?K=C3=B6nig?= <christian.koenig@amd.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Date: Wed, 09 Sep 2026 17:51:18 +0300
-Message-ID: <178896547895.102087.5758513424678942429@jlahtine-mobl>
-User-Agent: alot/0.13.dev2+g40c57d620
 
-Quoting Christian K=C3=B6nig (2026-09-09 16:03:30)
-> On 9/9/26 13:24, Joonas Lahtinen wrote:
-> > (+ userfaultfd maintainers)
-> >=20
-> > Quoting Christian K=C3=B6nig (2026-09-09 14:02:21)
-> >> On 9/9/26 12:21, Simona Vetter wrote:
-> >>> On Wed, Sep 09, 2026 at 01:00:16PM +0300, Joonas Lahtinen wrote:
-> >>>> (Adding bunch of FUSE folks and DRM folks in the hopes of coming to a
-> >>>> resolution here.)
-> >>>>
-> >>>> Quoting Joonas Lahtinen (2026-09-07 16:24:40)
-> >>>>> Quoting sashiko-bot@kernel.org (2026-09-03 18:22:23)
-> >>>>>> Thank you for your contribution! Sashiko AI review found 2 potenti=
-al issue(s) to consider:
-> >>>>>> - [High] Global ordered workqueue stall via copy_from_user block w=
-hile holding ioctl_lock.
-> >>>>>> - [Medium] Event sequence numbers (seqno) can be queued out-of-ord=
-er in the event stream due to a race between seqno generation and event que=
-uing.
-> >>>>>> --
-> >>>>>>
-> >>>>>> commit e2061e72d8e954a17bde35e9c970ee41bc2db0ad
-> >>>>>> Author: Mika Kuoppala <mika.kuoppala@linux.intel.com>
-> >>>>>>
-> >>>>>>     drm/xe/eudebug: Introduce discovery for resources
-> >>>>>>
-> >>>>>> This commit introduces a resource discovery mechanism for debugger=
- connections.
-> >>>>>> When a debugger connects, all existing resources for the target cl=
-ient are
-> >>>>>> relayed as events via an ordered workqueue, and DRM ioctls are blo=
-cked using
-> >>>>>> an rw_semaphore until discovery is complete.
-> >>>>>>
-> >>>>>>> diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/=
-xe_device.c
-> >>>>>>> index 032a7ec5fbc8d..f10959b898297 100644
-> >>>>>>> --- a/drivers/gpu/drm/xe/xe_device.c
-> >>>>>>> +++ b/drivers/gpu/drm/xe/xe_device.c
-> >>>>>> [ ... ]
-> >>>>>>> @@ -238,8 +239,12 @@ static long xe_drm_ioctl(struct file *file, =
-unsigned int cmd, unsigned long arg)
-> >>>>>>> =20
-> >>>>>>>       ACQUIRE(xe_pm_runtime_ioctl, pm)(xe);
-> >>>>>>>       ret =3D ACQUIRE_ERR(xe_pm_runtime_ioctl, &pm);
-> >>>>>>> -     if (ret >=3D 0)
-> >>>>>>> +     if (ret >=3D 0) {
-> >>>>>>> +             bool lock =3D xe_eudebug_discovery_lock(file, cmd);
-> >>>>>>>               ret =3D drm_ioctl(file, cmd, arg);
-> >>>>>>
-> >>>>>> [Severity: High]
-> >>>>>> Does holding the discovery lock across drm_ioctl() create a vector=
- for a
-> >>>>>> workqueue stall?=20
-> >>>>>>
-> >>>>>> If an unprivileged user maps the ioctl argument pointer to a block=
-ing FUSE
-> >>>>>> or userfaultfd region, drm_ioctl() can be stalled indefinitely dur=
-ing
-> >>>>>> copy_from_user() while holding xef->eudebug.ioctl_lock for read.
-> >>>>>
-> >>>>> Don't think this is a very realistic vector to address, as it would
-> >>>>> also extend to every other copy_from_user() and also to userptr acr=
-oss
-> >>>>> all drivers.
-> >>
-> >> Yeah I don't think that this is a major problem.
-> >>
-> >> Using copy_from_user() while holding a lock is usually fundamentally b=
-roken in the first place.
-> >=20
-> > Well, ultimately also applies to userptr. How would we go about
-> > implementing that without any outer locks?
-> >=20
-> > Grab locks, figure out what pages are needed, release locks, pre-fault,
-> > re-grab locks and do best attempt to resolve? And that's going to be a
-> > live-lock at best again.
->=20
-> Yeah and that is exactly what you *must* do for userptrs.
->=20
-> There is no really alternative to that because you can't grab the same lo=
-ck outside a page fault you do inside an MMU notfier.
+On Sat, Sep 5, 2026 at 6:29=E2=80=AFPM Xiang Mei <xmei5@asu.edu> wrote:
+>
+> The fuse-io-uring copy paths do not check that the data they copy fits
+> in the ring entry's payload buffer.  fuse_uring_copy_from_ring() passes
+> the server-supplied payload_sz straight to fuse_copy_out_args(), and
+> fuse_uring_args_to_ring() copies the request in-args without comparing
+> them against the buffer.  Either can exhaust the imported iterator and
+> hit fuse_copy_fill()'s BUG_ON(!err).
+>
+> An unprivileged user can trigger the request side by mounting a FUSE
+> filesystem that registers small payload buffers and then issuing a
+> setxattr() whose value exceeds them:
+>
+>   kernel BUG at fs/fuse/dev.c:1064!
+>   Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+>   CPU: 1 UID: 0 PID: 148 Comm: exploit Not tainted 7.3.0-rc1 #2
+>   RIP: 0010:fuse_copy_fill (fs/fuse/dev.c:1033)
+>   Call Trace:
+>    <TASK>
+>    fuse_copy_args (fs/fuse/dev.c:1354 fs/fuse/dev.c:1380)
+>    fuse_uring_args_to_ring (fs/fuse/dev_uring.c:891)
+>    fuse_uring_prepare_send (fs/fuse/dev_uring.c:940 fs/fuse/dev_uring.c:1=
+057)
+>    fuse_uring_send_in_task (fs/fuse/dev_uring.c:1745)
+>    tctx_task_work_run (io_uring/tw.c:96)
+>    tctx_task_work (io_uring/tw.c:133)
+>    task_work_run (kernel/task_work.c:233)
+>    io_run_task_work (io_uring/tw.h:84)
+>    io_cqring_wait (io_uring/wait.c:278)
+>    __do_sys_io_uring_enter (io_uring/io_uring.c:2676)
+>    do_syscall_64 (arch/x86/entry/syscall_64.c:61)
+>    entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
+>    </TASK>
+>
+> Bound both directions against ent->payload.iov_len, the length the
+> server registered, so an oversized reply is rejected with -EINVAL and an
+> oversized request with -E2BIG/-EIO, matching fuse_dev_do_read().
+>
+> On a zero-copied request the last page-backed argument is handed to the
+> server as registered pages rather than copied into the payload buffer,
+> so exclude it from the request-side sum to avoid rejecting valid
+> zero-copy reads and writes.
+>
+> Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+> Cc: stable@vger.kernel.org
+> Reported-by: Weiming Shi <bestswngs@gmail.com>
+> Assisted-by: Claude:claude-opus-4-8
+> Signed-off-by: Xiang Mei <xmei5@asu.edu>
+> ---
+> v2: add: Cc stable and Reviewed-by tags
+> v3: propose the patch fixing another issue found by Bernd by Joanne sugge=
+sted way
+> v4: no context change as v3; add Reviewed-by: Joanne Koong ...
+> v5: no change
+> v6: rebase on fuse.git#for-next.  The ring entry already keeps the payloa=
+d
+>     iovec and imports it at iov_len, so only the two bounds checks are le=
+ft.
+>     Skip the page-backed arg on a zero-copied request, it does not consum=
+e
+>     the payload buffer.
+>
+>  fs/fuse/dev_uring.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> index c6dd420c4034..981b7c295e5e 100644
+> --- a/fs/fuse/dev_uring.c
+> +++ b/fs/fuse/dev_uring.c
+> @@ -775,6 +775,9 @@ static int fuse_uring_copy_from_ring(struct fuse_req =
+*req,
+>         if (err)
+>                 return err;
+>
+> +       if (ring_in_out.payload_sz > ent->payload.iov_len)
+> +               return -EINVAL;
+> +
 
-Sure, not same locks. But essentially any device or HW unit level
-locks held while dealing with userptr or using copy_from_user() would
-now become potential deadlocks automatically. No need to take any nested
-locks, it's just that whichever shared lock is taken will immediately
-become a potential deadlock for completely unrelated DRM client and
-thus also different process.
+This logic will break fuse zero-copy reads (ent->payload.iov_len is zero).
 
-> So all drivers who use userptrs basically implement the following sequenc=
-e:
->=20
-> 1. Take a copy of page table update sequence number.
-> 2. Walk page tables, extract PFNs.
-> 3. Prepare your DMA operations.
-> 4. Grab the MMU notifier lock.
-> 5. Compare your sequence number, if it doesn't match revert everything an=
-d try again.
-> 6. Submit your DMA operation to the HW
-> 7. Drop the MMU notifier lock.
->=20
-> What you describe above for eudebug sounds a lot like it won't work corre=
-ctly, you can't work with outside locks in the userptr handling.
+imo I think the cleanest fix for this bug in general would be to just
+remove the BUG_ON in fuse_copy_fill() and return back the error, eg
 
-For the eudebug scenario here it's not to do with userptr. The access is
-now done in patch 13 with access_process_vm() and hopefully in future
-with access_remote_vm().
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ static int fuse_copy_fill(struct fuse_copy_state *cs)
+              err =3D iov_iter_get_pages2(cs->iter, &page, PAGE_SIZE, 1, &o=
+ff);
+              if (err < 0)
+                      return err;
+-             BUG_ON(!err);
++             if (!err)
++                     return -EIO;
+              cs->len =3D err;
 
-This lock we actually can easily refactor out. It's just a lock to
-easily allow generating a coherent snapshot of DRM client resources
-and debug metadata.
+This would cover both the request and reply side and get rid of the
+special logic here and below. It'd also make backporting to stable a
+lot easier. I think it would still be worth having the FUSE_SETXATTR
+errno fix (eg returning -E2BIG instead of -EIO)
 
-I'm just raising to concern generically for any userspace memory
-access path be it copy_from_user() or userptr. Any lock taken on the
-outside of such handling will become poisoned for all other DRM clients.
+    if (fuse_len_args(num_args, (struct fuse_arg *)in_args) >
+          ent->payload.iov_len)
+              return args->opcode =3D=3D FUSE_SETXATTR ? -E2BIG : -EIO;
 
-> > That'd be a massive undertaking for each driver, I think.
-> >=20
-> >> But there are other issues which are much more problematic.
-> >>
-> >>>>>
-> >>>>> Having a malfunctioning FUSE driver and getting a malfunctioning sy=
-stem
-> >>>>> as a result is probably somewhat expected.
-> >>>>
-> >>>> Based on further chatting on this with Sima, I was volunteered to pu=
-ll
-> >>>> together the discussion here.
-> >>>>
-> >>>> We seem to have Sashiko picking up on patterns about accessing users=
-pace
-> >>>> memory with locks held and potential for copy_from_user() (or userpt=
-r) to
-> >>>> then take indefinitely long to resolve. And that spreads to deadlocks
-> >>>> everywhere situation very fast.
-> >>>>
-> >>>> Based on reading of [1] and [2], it seems pretty much expected FUSE
-> >>>> drivers can trivially deadlock and ultimately in worst case the situ=
-ation
-> >>>> can only be solved by manually aborting those connections by sysadmi=
-n.
-> >>
-> >> The real problem comes with userfaultfd and the combination with HMM.
-> >>
-> >> Drivers implementing HMM usually use a background workers to resolve r=
-ecoverable page faults using the function hmm_range_fault().
-> >>
-> >> If userfaultfd together with hmm_range_fault() can block those backgro=
-und workers indefinitely it can block other applications from using the HW =
-without any sysadmin having any chance to figure out what is going on.
-> >>
-> >> That is a classic local deny of service attack and I fear hmm_range_fa=
-ult() needs something like a timeout to handle that.
-> >=20
-> > From my position, if userspace is injected to the dependency path for
-> > resolving page-faults, with potentially unbounded execution times, the
-> > timeouts would better be asserted at the FUSE/UFFD side and then simply
-> > failing the operations with a bang if not met.
->=20
-> That won't work like that. Both FUSE and UFFD can take any time they want=
- for an operation.
+as its own patch, where that check is only about picking the right
+errno, not about preventing the BUG.
 
-Wouldn't that then directly mean that anything to do with page-faults
-would immediately exclude everything related to dma-bufs?
+WDYT?
 
-> >>>> It also seems (from the Sashiko comments) that by design, there's no
-> >>>> upper bound for how long an operation can take, so a bad FUSE driver
-> >>>> may stall for however long it sees fit to serve page-fault or in the
-> >>>> case of [3] it may decide to not actually populate the PTEs (or maybe
-> >>>> invalidate them immediately).
-> >>>>
-> >>>> Should we really be refactoring the whole kernel for the sake of
-> >>>> knowingly allowing potentially malicious userspace driver to idefini=
-tely
-> >>>> stall or incorrectly resolve page faults? That'll be quite a lot of
-> >>>> complexity added to all the other drivers.
-> >>
-> >> +1
-> >>
-> >> Regards,
-> >> Christian.
-> >=20
-> > I was also meaning to convey that I don't think indefinitely blocking
-> > copy_from_user() is acceptable, either. However earlier you seemed to
-> > indicate towards that being something we should expect?
->=20
-> Correct, that copy_from_user() can take any amount of time is perfectly e=
-xpected.
->=20
-> The problem is that most GPU HW currently can't deal with that because it=
- can't take the work of the HW in case of a fault.
+Thanks,
+Joanne
 
-Doesn't that then raise the question if indefinitely stalling page fault
-responses or improperly handling page fault responses is actually reasonable
-if we want to support most GPU HW? Which I kinda hope we do want to support.
-
-Regards, Joonas
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > Regards, Joonas
+>         err =3D setup_fuse_copy_state(&cs, req, ent, ITER_SOURCE, &iter,
+>                                     issue_flags);
+>         if (err)
+> @@ -854,6 +857,7 @@ static int fuse_uring_args_to_ring(struct fuse_req *r=
+eq,
+>         int num_args =3D args->in_numargs;
+>         int err;
+>         struct iov_iter iter;
+> +       size_t copy_size;
+>         struct fuse_uring_ent_in_out ent_in_out =3D {
+>                 .flags =3D 0,
+>                 .commit_id =3D req->in.h.unique,
+> @@ -887,6 +891,16 @@ static int fuse_uring_args_to_ring(struct fuse_req *=
+req,
+>                 num_args--;
+>         }
+>
+> +       copy_size =3D fuse_len_args(num_args, (struct fuse_arg *)in_args)=
+;
+> +       /* a zero-copied page arg does not consume the payload buffer */
+> +       if (cs.skip_folio_copy && args->in_pages && num_args)
+> +               copy_size -=3D in_args[num_args - 1].size;
+> +
+> +       if (copy_size > ent->payload.iov_len) {
+> +               fuse_copy_finish(&cs);
+> +               return args->opcode =3D=3D FUSE_SETXATTR ? -E2BIG : -EIO;
+> +       }
+> +
+>         /* copy the payload */
+>         err =3D fuse_copy_args(&cs, num_args, args->in_pages,
+>                              (struct fuse_arg *)in_args, 0);
+> --
+> 2.43.0
+>
