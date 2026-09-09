@@ -1,180 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE7D3002B9;
-	Wed,  9 Sep 2026 07:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4C03A874F;
+	Wed,  9 Sep 2026 10:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788939485; cv=none; b=LPpDvO14P9dvovPn8DBpbgZboEWgWseOh56r4Yl3HRsELiuo6wI5iGUvzvwyG7C2cybqA2tGiUKe2XyOvDNn17v21zvSMlnoP/DWtW19w+kjr4mq8hfcJYaeIMQkZuEmjQKtYsjAJRIVumrnWTQ1eFr4PDHQJUlqspWXIOWdwrs=
+	t=1788948028; cv=none; b=gX3/wlbGpjdtDNRqLzdIhbr63KumbXlLYM5yIa+sFTN8bN0hbMXXt0Fb10rW7Sg+Xijdd+pb4U1tZt28/ciBPYEdazwWwVLgIKRudG0Jj5g/h8lGnbi6xTCXnR4lTok25fbbdmrL/MJWtUFa8JJYFGzsaGQzP0Fkla0i5xErcbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788939485; c=relaxed/simple;
-	bh=nTAm35845aAqmOQtS6HyRYHkKn+bOdSMAV3QF5uJvY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZdQmzFnen4pGM4M62lN7CkOLWz1/1MCEJEt2hgKO7FlRi4xKC9STZLFtV+TYQNNzy6w4guOP7Nnf0JOeDgs+Fl7UJqdo2lV+8wa+WPR92q+n7cn+23HaVocVKLhTHI0KyyiHyqIHIp0yxOlO+SUikaYa/YdguoVldsNeaQK4tos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fMvwOMtK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788948028; c=relaxed/simple;
+	bh=eNGgSSjrjGwGa7MyUDUhNbv97kA+7jiJHOtpwZPzqqI=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=mpd7IsLZqIg0i8wOghg0ShtzimeGpxbWxnI8Y8Q/TXc4z9r1JWIfPtqhQhPAagThUZDziO1FmycIvaxw2fokhcgUwM0pkrlC8lL3Cwjy1FyOXfcoX8wZfrIHZdJ2vP6yhqFVCxCsDEL0PoWUdY49Pv5S3VhFQhDVHSxLya+jBL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ld8YTZJw; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fMvwOMtK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8484C1F00A3A;
-	Wed,  9 Sep 2026 07:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788939483;
-	bh=z7WoiQ3kTHyw/Ii8U53W3jB43VLKD3M/+zE0Et0v4Dk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fMvwOMtKjnQJHWqbGOBFRkxLXNBsibipPgj2Q6P064WQJWMW7wfdq4gqVuVvBLOBi
-	 mw2LdSGq7nWqdIa6eYDVqIpvJUSLUA2zonOikKUX6K36rwbteoOJo/Gwa7LLNDfbhI
-	 EHt9w7bjV4yHdhIGfrHtCRftSsoS+o6rrCDY1usY=
-Date: Wed, 9 Sep 2026 09:37:54 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	David Hildenbrand <david@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-	Paul Moore <paul@paul-moore.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
-	Doug Gilbert <dgilbert@interlog.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>,
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>,
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
-	Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	Muchun Song <muchun.song@linux.dev>,
-	Oscar Salvador <osalvador@suse.de>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oupton@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
-	Byungchul Park <byungchul@sk.com>,
-	Gregory Price <gourry@gourry.net>,
-	Ying Huang <ying.huang@linux.alibaba.com>,
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
-	Kairui Song <kasong@tencent.com>,
-	Kemeng Shi <shikemeng@huaweicloud.com>,
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
-	Youngjun Park <youngjun.park@lge.com>,
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
-	Xu Xin <xu.xin16@zte.com.cn>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Michal Hocko <mhocko@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org,
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 09/39] drivers/usb/mon: update to use mmap_prepare + map
- kernel pages
-Message-ID: <2026090947-daycare-gentleman-9796@gregkh>
-References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
- <20260908-b4-mmap-prepare-vma-flag-sanify-v1-9-dacf19cce22b@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ld8YTZJw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788948025; x=1820484025;
+  h=mime-version:content-transfer-encoding:in-reply-to:
+   references:subject:from:cc:to:date:message-id;
+  bh=eNGgSSjrjGwGa7MyUDUhNbv97kA+7jiJHOtpwZPzqqI=;
+  b=Ld8YTZJwhk5hfj22Uz/8tr4WqLqEWhINAjO8qSEHtWGpj5OCwpUsJ2Jq
+   6Zy97XYCedCOSD8Jz+6mI4UF2gSOuiYdBgcfpy5yho/blj2zsm2Fb2QMe
+   Q0KhJDJgoafsLMnH+42tpI8Jah4z/lel427EPKOZpPrIJ7ppdnlBhGwfW
+   CJy8MjctWx6UbU8y/x1wNhLEzwRQc5XWwHoE4ygWdEZB/V/IGvVkvr8Yb
+   lVP6Bz+Det6qdmtd54iAItnA7ZQZEQS1JBAuGbM9FtJCMZcb9P9S/1Nn2
+   2f+iULWvnm+/ihUKNUoQI8u+xTWONdCvViolvIRnrvOqFUl5uNXpQ/iFn
+   Q==;
+X-CSE-ConnectionGUID: TDo5nw2yQbydn+VK8C5pjw==
+X-CSE-MsgGUID: LsFNXLz3RW+/i2gntcxG8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="112144521"
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="112144521"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 03:00:24 -0700
+X-CSE-ConnectionGUID: 8kL4oKFrTO6EoWZIuU2syw==
+X-CSE-MsgGUID: kQPjiEa8SV+/VRiuMWp26Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,270,1779174000"; 
+   d="scan'208";a="301145261"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.37])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2026 03:00:20 -0700
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-9-dacf19cce22b@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <178878748003.179185.16833574173741290547@jlahtine-mobl>
+References: <20260903145952.848051-1-mika.kuoppala@linux.intel.com> <20260903145952.848051-5-mika.kuoppala@linux.intel.com> <20260903152224.AD48C1F00A3F@smtp.kernel.org> <178878748003.179185.16833574173741290547@jlahtine-mobl>
+Subject: FUSE deadlocks vs. copy_from_user() and locks (Was: Re: [PATCH v10 04/27] drm/xe/eudebug: Introduce discovery for resources)
+From: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: intel-xe@lists.freedesktop.org, fuse-devel@lists.linux.dev, sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Christian =?utf-8?q?K=C3=B6nig?= <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, Matthew Brost <matthew.brost@intel.com>, Thomas =?utf-8?q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, dri-devel@lists.freedesktop.org, Mika Kuoppala <mika.kuoppala@linux.intel.com>
+To: Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, Joanne Koong <joannelkoong@gmail.com>, Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 09 Sep 2026 13:00:16 +0300
+Message-ID: <178894801687.37859.4186888279082797860@jlahtine-mobl>
+User-Agent: alot/0.13.dev2+g40c57d620
 
-On Tue, Sep 08, 2026 at 09:01:13PM +0100, Lorenzo Stoakes (ARM) wrote:
-> Replace the deprecated .mmap hook with its replacement .mmap_prepare. As
-> part of this change, additionally take the approach of mapping pages upon
-> mmap rather than providing a fault handler.
-> 
-> The page span cannot be mutated when an mmap mapping is in place, so this
-> is safe to do in advance (the MON_IOCT_RING_SIZE ioctl operation exits
-> -EBUSY if it's attempted, gated by the rp->mmap_active reference count).
-> 
-> Utilise the newly introduced mmap_action_map_discontig_kernel_pages() to do
-> this, which allows for iteration over pages in mon_bin_discontig_get().
-> 
-> mon_bin_discontig_init() increments the rp->mmap_active reference count to
-> stabilise page spans. Should an error arise the core unmaps the VMA and
-> mon_bin_vma_close() drops the reference again.
-> 
-> The vm_ops->close hook implemented in mon_bin_vma_close() will ensure
-> correct reference count arithmetic upon unmap (with mon_bin_vma_open()
-> accounting for splitting).
-> 
-> The existing semantics are all retained, including not mapping past the
-> range of available pages, with a SIGBUS being raised in a userland process
-> that attempts to access past this point.
-> 
-> Ultimately insert_page() is invoked to insert each page, which increments
-> the reference count on each mapped page. This mimics what was being done
-> previously, only we pre-map the entire range rather than doing so on
-> demand.
-> 
-> The existing fault handler did nothing that required demand paging, and was
-> presumably implemented this way due for historic reasons.
-> 
-> One behavioural difference: pages are no longer faulted in on demand, so a
-> page discarded with MADV_DONTNEED is not repopulated and a subsequent
-> access raises SIGBUS, as with other pre-populated kernel mappings.
-> 
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+(Adding bunch of FUSE folks and DRM folks in the hopes of coming to a
+resolution here.)
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Quoting Joonas Lahtinen (2026-09-07 16:24:40)
+> Quoting sashiko-bot@kernel.org (2026-09-03 18:22:23)
+> > Thank you for your contribution! Sashiko AI review found 2 potential is=
+sue(s) to consider:
+> > - [High] Global ordered workqueue stall via copy_from_user block while =
+holding ioctl_lock.
+> > - [Medium] Event sequence numbers (seqno) can be queued out-of-order in=
+ the event stream due to a race between seqno generation and event queuing.
+> > --
+> >=20
+> > commit e2061e72d8e954a17bde35e9c970ee41bc2db0ad
+> > Author: Mika Kuoppala <mika.kuoppala@linux.intel.com>
+> >=20
+> >     drm/xe/eudebug: Introduce discovery for resources
+> >=20
+> > This commit introduces a resource discovery mechanism for debugger conn=
+ections.
+> > When a debugger connects, all existing resources for the target client =
+are
+> > relayed as events via an ordered workqueue, and DRM ioctls are blocked =
+using
+> > an rw_semaphore until discovery is complete.
+> >=20
+> > > diff --git a/drivers/gpu/drm/xe/xe_device.c b/drivers/gpu/drm/xe/xe_d=
+evice.c
+> > > index 032a7ec5fbc8d..f10959b898297 100644
+> > > --- a/drivers/gpu/drm/xe/xe_device.c
+> > > +++ b/drivers/gpu/drm/xe/xe_device.c
+> > [ ... ]
+> > > @@ -238,8 +239,12 @@ static long xe_drm_ioctl(struct file *file, unsi=
+gned int cmd, unsigned long arg)
+> > > =20
+> > >       ACQUIRE(xe_pm_runtime_ioctl, pm)(xe);
+> > >       ret =3D ACQUIRE_ERR(xe_pm_runtime_ioctl, &pm);
+> > > -     if (ret >=3D 0)
+> > > +     if (ret >=3D 0) {
+> > > +             bool lock =3D xe_eudebug_discovery_lock(file, cmd);
+> > >               ret =3D drm_ioctl(file, cmd, arg);
+> >=20
+> > [Severity: High]
+> > Does holding the discovery lock across drm_ioctl() create a vector for a
+> > workqueue stall?=20
+> >=20
+> > If an unprivileged user maps the ioctl argument pointer to a blocking F=
+USE
+> > or userfaultfd region, drm_ioctl() can be stalled indefinitely during
+> > copy_from_user() while holding xef->eudebug.ioctl_lock for read.
+>=20
+> Don't think this is a very realistic vector to address, as it would
+> also extend to every other copy_from_user() and also to userptr across
+> all drivers.
+>=20
+> Having a malfunctioning FUSE driver and getting a malfunctioning system
+> as a result is probably somewhat expected.
+
+Based on further chatting on this with Sima, I was volunteered to pull
+together the discussion here.
+
+We seem to have Sashiko picking up on patterns about accessing userspace
+memory with locks held and potential for copy_from_user() (or userptr) to
+then take indefinitely long to resolve. And that spreads to deadlocks
+everywhere situation very fast.
+
+Based on reading of [1] and [2], it seems pretty much expected FUSE
+drivers can trivially deadlock and ultimately in worst case the situation
+can only be solved by manually aborting those connections by sysadmin.
+
+It also seems (from the Sashiko comments) that by design, there's no
+upper bound for how long an operation can take, so a bad FUSE driver
+may stall for however long it sees fit to serve page-fault or in the
+case of [3] it may decide to not actually populate the PTEs (or maybe
+invalidate them immediately).
+
+Should we really be refactoring the whole kernel for the sake of
+knowingly allowing potentially malicious userspace driver to idefinitely
+stall or incorrectly resolve page faults? That'll be quite a lot of
+complexity added to all the other drivers.
+
+Or should there be more protections on FUSE / uffd to ensure such
+idefinitive stall can't happen? Or maybe this is just an academic
+problem and we amend review-prompts not to bring it up?
+
+Or maybe I missed some part of the FUSE docs and this isn't a real
+problem?
+
+Regards, Joonas
+
+PS. There is a related patch in [3] which tries to address the problem,
+but we'll quickly run into live-locks and other issues even if we
+refactored things into: pre-fault, take locks, do _nofault() access, and
+retry if that fails.
+
+
+[1] https://www.kernel.org/doc/html/next/filesystems/fuse.html#kernel-users=
+pace-interface
+[2] https://www.kernel.org/doc/html/next/filesystems/fuse.html#aborting-a-f=
+ilesystem-connection
+[3] https://sashiko.dev/#/patchset/20260827062142.4038272-1-srinivasan.shan=
+mugam%40amd.com
