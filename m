@@ -1,228 +1,180 @@
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091124CA287
-	for <fuse-devel@lists.linux.dev>; Tue,  8 Sep 2026 22:38:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE7D3002B9;
+	Wed,  9 Sep 2026 07:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788907102; cv=none; b=nNpzHBQTgyJEpbz7TLoGu+Na+DAvP7lSiPSTOuNIJ0uTZmsGsWmMHGEUusRWI57ZFyTztw3gQmaDb3wFJLF8GLcF+3FBAmq9UDDxY9Kwl5C1tLg42BmoLK7xV3r1AMvuZbUCGzMjO55Hjl/zQ71iv1seG2NK1OyZGA/GzJlkDCk=
+	t=1788939485; cv=none; b=LPpDvO14P9dvovPn8DBpbgZboEWgWseOh56r4Yl3HRsELiuo6wI5iGUvzvwyG7C2cybqA2tGiUKe2XyOvDNn17v21zvSMlnoP/DWtW19w+kjr4mq8hfcJYaeIMQkZuEmjQKtYsjAJRIVumrnWTQ1eFr4PDHQJUlqspWXIOWdwrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788907102; c=relaxed/simple;
-	bh=aaWerwP3vvBPdSaDKhPoyzh4o7ShZOBBuWwC/ctK678=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=SyknNKTBaCyE9Yr09x7C//JBxlXi1azyEE9qNF91515yHcmFmHIfKhaX0/5r01/P4bAvnKqFYdYzqv8JEPFg4yQNqTPKW50TlXqGflflzFKpuPetBaUm+OUf1CtNkE7fn1Gco7//KL5ZhmXRpz7785usdRv1qzjyckIBwMIfZTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=cqFSfrlg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mrr5DOx/; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	s=arc-20240116; t=1788939485; c=relaxed/simple;
+	bh=nTAm35845aAqmOQtS6HyRYHkKn+bOdSMAV3QF5uJvY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZdQmzFnen4pGM4M62lN7CkOLWz1/1MCEJEt2hgKO7FlRi4xKC9STZLFtV+TYQNNzy6w4guOP7Nnf0JOeDgs+Fl7UJqdo2lV+8wa+WPR92q+n7cn+23HaVocVKLhTHI0KyyiHyqIHIp0yxOlO+SUikaYa/YdguoVldsNeaQK4tos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fMvwOMtK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="cqFSfrlg";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mrr5DOx/"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id B178B1D000C0
-	for <fuse-devel@lists.linux.dev>; Tue,  8 Sep 2026 18:38:16 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 08 Sep 2026 18:38:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to; s=fm2; t=1788907096; x=1788993496; bh=Jvs8IeDkNE
-	I6YXx26iS9Tz+TJyjoxpMxCAD7qKq42K8=; b=cqFSfrlgoXlnKyk2JvF4HazuiG
-	IabtflLcb66r+7zeU/LO8ywukmui6MiYFu+693SKPUeAKc2/uKQB/Fffnhxc7fcy
-	IZNCwghnyno3h4MrsaDZdW9k6YX+PiXdyBjT3vpq3X65uafpEhnO0JISr9CGKxcz
-	Ry9ZpV0Y7+RuNJzKkU9rnEVMRKSLeCjSRBP4HTLQbW1TWxavE3+6L6VjBAsQPFx2
-	a9DM2Ae2iQqxGkP7KvONSNzOjOEtszPKNwpDFRA8PoJZ11+Debi+ah6x9T+D+AaJ
-	5hFWMlrK0J6U3AmOJt8tCQmT3EuMaDkdGGiB/KXr4YsD8/oDsp+rPOZP1x1g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1788907096; x=1788993496; bh=Jvs8IeDkNEI6YXx26iS9Tz+TJyjoxpMxCAD
-	7qKq42K8=; b=mrr5DOx/VELkWUUNxrMR28rX6YMXg1yMC4dl4/ciKqH1azxhiQS
-	hCDhOrD12uGacRUjRB1PrmVOYK8ypiy6h7OkoHbD1p4KqmiZAbmBUC34u+Al1nLN
-	WAve+VuGE/22in08qOiyjQyqep8lGpgbSP2II8qhEaCgFhrSlgsLX+RFfUrq9081
-	tQJ7J8QvcjIsfD/zPXvwcB9w8exKTlsl2jHHL4wusyPjCmlbdqD4Tw4sDmDZgUTI
-	eDq8lUGgSPVVp56ijAJO5Wt+HO4TYrQ0KVg8Ve7kLrJ9ZXeO0yS8LAzUUmokkiUN
-	jDpztnRuQE5NmQ780yydm/XjmSO7cSCESFg==
-X-ME-Sender: <xms:WI6galTc71ZywqY8X_ALiICmnt2JXihtOv6t-_YwORjcBSc6qZVYiw>
-    <xme:WI6galtcJCCwp7lUsR07Eg1GvU7xSIAop71x42gVvCYinV9lIsJgi78cuYAgZK8Ns
-    qb-u5MgRohLY6Vkuy9VIgMl1wXrAvx4sIjw5B5qW4kWvEwIJKGI>
-X-ME-Received: <xmr:WI6gageAe-R24PSn99UVMm9N_c2KC482o2nK_rSammRJ6A4_gxBkkI7BfhkW5i2loxGtQEc06jJyIB2LQQWzJEWFTPFEfhOloVep5uTxsku2AewlLw>
-X-ME-Proxy-Cause: dmFkZTGzyLuJZXQwcqU4vKHawTTtRiDzLRlKZIBkfLzUyZVua6MiT/TBW3yT8JY9zq8UY5
-    E8O/Y+OzmdjehrQDeCnRZKahC6V+1N0BifaD7PdoQppwp+x4QbL3UZ1Ssw2KTNEcvlYNYK
-    0OBOxm7btAc+FpZL09NjPJ2vywBMwfCLzd+K2WvncZAUq6ZP4rxXPLiPdDW8c6pTsz3JWk
-    EaAjOEtvlB9HhjG0sCmjEWq6B8gVzbw7+0F9hwAHHrynF+NJ3opD/FbQI2SIGS5ane8tcx
-    Ej8qEX4f9KRN5VyTAJE0oHVU3jW4Wbs5PxXhRicS620zJdNIa8hoGjRVANNY988+ddywhi
-    8cRCxyVdhHWD81w/BpQ2H/611sAfgHl+qXLks8o2yvuz/ObFT9hNFrTerrJQlBqIisI70N
-    qwU+fzYtNsU7YPlnsBTonwfkUtObMi2R42b45+oukZc2TiIgD2BqjG8jjwTK7OGljLsdh7
-    WixyoTHe03RnqDC9CJWpnHCcy6a5h8hpUEZf/KDlXMyfkgyqawzU8pArWc8mDS92Ug9RZ8
-    t7xKTtbA0bzPvUMWXOWluKg0B1nEEiICAB2qj9kcyVnqXxHbSdPYDeUxc/CmLosX6iM934
-    mYYpk6ECqIL2cyIEXX5xE7GiVNaeuR+3gmQK8z8xkwMGLllTD85qoxRe/Eiw
-X-ME-Proxy: <xmx:WI6gaiJOhb5D84OIEHcXeCxh31zCoFtKwH7TlncUF2qt5_NaYUAs7A>
-    <xmx:WI6gaubFcQc3H-svy6hnNAPHfMAr5rIfDrO_xLGj98XWnMhXxyH_vg>
-    <xmx:WI6gatvT8Ah14pCmebfheW-jR-DxuTIImPfujpFx730SgQn1EzAmXg>
-    <xmx:WI6garv_w3Py2m9WCXL65utH97gdnN3syDnVdqdQDcnojTzdgCuDCg>
-    <xmx:WI6gahRq0fOfZHfFju540YIM7wdOXT89NA8952fW82k2a3VYj6sQCk_h>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA for
- <fuse-devel@lists.linux.dev>; Tue, 8 Sep 2026 18:38:16 -0400 (EDT)
-Message-ID: <8ab2e1b3-548d-4b80-b99f-849ba3f639e7@bsbernd.com>
-Date: Wed, 9 Sep 2026 00:38:14 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fMvwOMtK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8484C1F00A3A;
+	Wed,  9 Sep 2026 07:38:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788939483;
+	bh=z7WoiQ3kTHyw/Ii8U53W3jB43VLKD3M/+zE0Et0v4Dk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fMvwOMtKjnQJHWqbGOBFRkxLXNBsibipPgj2Q6P064WQJWMW7wfdq4gqVuVvBLOBi
+	 mw2LdSGq7nWqdIa6eYDVqIpvJUSLUA2zonOikKUX6K36rwbteoOJo/Gwa7LLNDfbhI
+	 EHt9w7bjV4yHdhIGfrHtCRftSsoS+o6rrCDY1usY=
+Date: Wed, 9 Sep 2026 09:37:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>,
+	Doug Gilbert <dgilbert@interlog.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>,
+	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>,
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+	selinux@vger.kernel.org, linux-sound@vger.kernel.org,
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 09/39] drivers/usb/mon: update to use mmap_prepare + map
+ kernel pages
+Message-ID: <2026090947-daycare-gentleman-9796@gregkh>
+References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
+ <20260908-b4-mmap-prepare-vma-flag-sanify-v1-9-dacf19cce22b@kernel.org>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: fuse-devel@lists.linux.dev
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-Subject: [ANNOUNCE] libfuse 3.18.3 has been released
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-9-dacf19cce22b@kernel.org>
 
-Dear all,
+On Tue, Sep 08, 2026 at 09:01:13PM +0100, Lorenzo Stoakes (ARM) wrote:
+> Replace the deprecated .mmap hook with its replacement .mmap_prepare. As
+> part of this change, additionally take the approach of mapping pages upon
+> mmap rather than providing a fault handler.
+> 
+> The page span cannot be mutated when an mmap mapping is in place, so this
+> is safe to do in advance (the MON_IOCT_RING_SIZE ioctl operation exits
+> -EBUSY if it's attempted, gated by the rp->mmap_active reference count).
+> 
+> Utilise the newly introduced mmap_action_map_discontig_kernel_pages() to do
+> this, which allows for iteration over pages in mon_bin_discontig_get().
+> 
+> mon_bin_discontig_init() increments the rp->mmap_active reference count to
+> stabilise page spans. Should an error arise the core unmaps the VMA and
+> mon_bin_vma_close() drops the reference again.
+> 
+> The vm_ops->close hook implemented in mon_bin_vma_close() will ensure
+> correct reference count arithmetic upon unmap (with mon_bin_vma_open()
+> accounting for splitting).
+> 
+> The existing semantics are all retained, including not mapping past the
+> range of available pages, with a SIGBUS being raised in a userland process
+> that attempts to access past this point.
+> 
+> Ultimately insert_page() is invoked to insert each page, which increments
+> the reference count on each mapped page. This mimics what was being done
+> previously, only we pre-map the entire range rather than doing so on
+> demand.
+> 
+> The existing fault handler did nothing that required demand paging, and was
+> presumably implemented this way due for historic reasons.
+> 
+> One behavioural difference: pages are no longer faulted in on demand, so a
+> page discarded with MADV_DONTNEED is not repopulated and a subsequent
+> access raises SIGBUS, as with other pre-populated kernel mappings.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-I am pleased to announce the release of libfuse 3.18.3.
-
-The source code is available for download at
-https://github.com/libfuse/libfuse/releases.
-
-Please report any issues on this mailing list or the GitHub issue
-tracker at https://github.com/libfuse/libfuse/issues.
-
-From ChangeLog.rst:
-
-Security Fixes
---------------
-
-* ``fuse_session_custom_io()`` is disabled unless libfuse is built with
-  ``-Denable-custom-io=true``, and returns ``-ENOTSUP`` otherwise. The
-  ``hello_ll_uds`` example is built only with that option, and enabling it
-  warns at configure time.
-  Reason is a custom io peer might not be a kernel and can
-  forge requests that libfuse parses without bounds checks, crashing or
-  corrupting the filesystem process. See ``doc/README.custom-io``.
-
-* fusermount3: resolve the mountpoint once, through an ``O_PATH|O_NOFOLLOW``
-  descriptor. A symlink swapped in between the type check and the second
-  lookup could redirect the mount.
-* fusermount3: run the auto-unmount probe as the calling user. It opened the
-  caller-supplied mountpoint with elevated privileges before, so a symlink
-  could get an attacker-chosen path opened as root.
-* mount_util: terminate the ``/bin/mount`` and ``/bin/umount`` argument
-  vectors with ``--``. ``fsname`` reaches them straight from ``-ofsname=`` in
-  setuid-root fusermount3, and the child raises the real uid to 0 before
-  ``execle()``, so an unprivileged caller controlled a positional operand of a
-  mount(8) that was not in restricted mode.
-* mount_util: skip the mtab update entirely for option-like mount arguments.
-  BusyBox mount(8) does not honour ``--``.
-* fusermount3: unmount through ``unmount_fuse()`` when passing the device
-  descriptor to the caller fails, so that path drops privileges and runs the
-  ``fusermount3 -u`` checks instead of calling ``umount2()`` as root on a
-  caller-supplied path.
-* fusermount3 and lib: pass ``UMOUNT_NOFOLLOW`` on the kernel and non-setuid
-  unmount paths.
-* fusermount3: check the ``fstat()`` return value when validating the
-  communication file descriptor.
-* fusermount3: fix an out-of-bounds read at index -1 in ``get_mnt_opts()``
-  when the option string is empty, which a read-only mount with no further
-  options reaches.
-* util: avoid a pointer underflow when trimming ``fuse.conf`` lines.
-* fusermount3: reject a negative ``mount_max`` other than the documented -1.
-  A typo such as -2 made the limit comparison always true and blocked every
-  non-root mount.
-* lib: relay the KILLPRIV_V2 kill-suidgid flags to the filesystem in the new
-  ``fuse_file_info::kill_suidgid``. Only ``setattr`` saw them before, so a
-  filesystem that had taken over clearing suid/sgid never learned of it on
-  ``O_TRUNC`` open and on write, and the bits survived.
-
-Note: ``fuse_file_info::kill_suidgid`` is new in 3.18.3 and ``FUSE_VERSION``
-carries no patch level. A filesystem built against these headers but running
-against an older 3.18 library finds the field permanently zero, so require
-3.18.3 at run time as well.
-
-Important Fixes
----------------
-
-* Fixed a hang on ``statx`` in builds without ``HAVE_STATX``: ``_do_statx()``
-  never replied, so the kernel waited forever.
-* io-uring: the CQE dispatch validated the opcode against ``fuse_ll_ops[]``
-  but called through ``fuse_ll_ops2[]``, so an opcode with no handler there
-  was called as a null function pointer.
-* io-uring: fixed the notify-retrieve reply buffer handling. The
-  ``fuse_notify_retrieve_in`` header sits at the start of the payload buffer,
-  not in the ring header.
-* io-uring: fixed the ``req_header_sz`` calculation, which sized the header
-  buffer from the wrong struct.
-* io-uring: create the rings with ``IORING_SETUP_SUBMIT_ALL``, so one failing
-  commit SQE no longer leaves the rest of the batch unsubmitted.
-* io-uring: ``fuse_reply_none()`` commits the ring entry. A FORGET answered
-  that way leaked the entry and left the kernel-side request outstanding.
-* fusermount3: treat ``ECONNABORTED`` like ``ENOTCONN`` when deciding whether
-  to auto-unmount, so a daemon that dies with io-uring registered no longer
-  leaves the mount behind.
-* ``receive_fd()``: check ``CMSG_FIRSTHDR()`` for NULL before dereferencing it.
-* ``fuse_session_loop_mt_312()`` no longer destroys ``se->mt_lock`` before
-  ``fuse_session_destroy()`` destroys it again, which was undefined behaviour
-  on every multi-threaded shutdown.
-* ``fuse_loop_cfg_create()`` returning NULL is checked before the config is
-  dereferenced in ``fuse_session_loop_mt_312()`` and
-  ``fuse_session_loop_mt_31()``.
-* iconv: the error check after opening the ``fromfs`` descriptor tested
-  ``tofs``, so a failed ``iconv_open()`` was ignored and left an invalid
-  descriptor behind.
-* mount.fuse: a failure to clear ``FD_CLOEXEC`` went undetected, because the
-  result was compared against 1 rather than -1.
-* ``grow_pipe_to_max()`` opens ``/proc/sys/fs/pipe-max-size`` with
-  ``O_CLOEXEC``; a concurrent fork+exec leaked the descriptor into the child.
-* Fixed a build failure for ``FUSE_USE_VERSION`` 312 and newer without symbol
-  versioning, where ``fuse_loop_mt()`` expanded to an undeclared
-  ``fuse_loop_mt_312()``.
-* Fixed a Clang 21 build failure in ``ST_MTIM_NSEC``.
-* Fixed leaks: the pipe when its size cannot be grown, the mountpoint in
-  ``fuse_session_mount()`` and ``fuse_session_destroy()``, the pipe
-  descriptors when ``fork()`` or ``setsid()`` fail in ``fuse_daemonize()``,
-  the context when ``pthread_setspecific()`` fails, ``print_module_help()``,
-  and a ``fuse_pollhandle`` in ``fuse_lib_poll()``.
-* Examples: ``update_fs()`` uses ``localtime_r()``. ``localtime()`` returns a
-  shared static ``struct tm``, so it raced with the session threads and
-  ``strftime()`` could format a half-overwritten time.
-* Examples: ``cuse_client`` caps the transfer size at 16 MiB. ``do_rw()``
-  passed the SIZE argument straight to ``calloc()``.
-* Examples: memfs_ll locking, refcounting and bounds fixes, including a
-  use-after-free on rename overwrite and on a concurrent forget.
-* Examples: passthrough_hp lock-order and lifetime fixes. The directory
-  stream is protected by a per-handle lock, ``fs.mutex`` is taken before
-  ``Inode::m`` and when ``link()`` raises nlookup, and no inode lock is held
-  across a syscall or a reply.
-
-Documentation
--------------
-
-* The fuse-devel mailing list moved to lists.linux.dev.
-* Man page and README corrections.
-
-The following people have contributed code to this release:
-
-Abhinav Agarwal <abhinavagarwal1996@gmail.com>
-Alexander Mikhalitsyn <aleksandr.mikhalitsyn@futurfusion.io>
-Ashish Ahuja <shivashish.ahuja@gmail.com>
-Benjamin Peterson <benjamin@python.org>
-Bernd Schubert <bernd@bsbernd.com>
-Darrick J. Wong <djwong@kernel.org>
-Jan Engelhardt <jengelh@inai.de>
-Jingbo Xu <jefflexu@linux.alibaba.com>
-Keerthana KT <keerthana@labs.digiscrypt.com>
-Mikhail Novosyolov <m.novosyolov@rosa.ru>
-Miklos Szeredi <mszeredi@redhat.com>
-Robert Doebbelin <robert@quobyte.com>
-nikola-sh <nikola-sh@narod.ru>
-wangrzneu <wangrzneu@gmail.com>
-wilkis <marvin+github@alruno.eu>
-
-(a full list of credits containing all known contributors is included in
-the `AUTHORS` file).
-
-Best,
--Bernd
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
