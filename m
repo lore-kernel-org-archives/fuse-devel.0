@@ -1,123 +1,274 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E9E548576
-	for <fuse-devel@lists.linux.dev>; Wed,  9 Sep 2026 11:44:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788954286; cv=pass; b=fVcr9wy3JDSaxtjoUDBvttsCiMsxQUB2I/v28bH1bjsCbtOMEYEmwYxai4VffexHhh96exuapf6NN7xQ6YNgRzb0VZtpUTwbf/135CY31pCkUdVROxvXP7oh0oiUrebYwjx6RFQAs9F6BOZbwN4jrx3u1m5DI/bRYCyyIYIUfbs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788954286; c=relaxed/simple;
-	bh=TiHdvofftLkGJ1d4Tmmtmp05uTxczhnU5MgLLIauK+M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ARtbUGx+P38Jn368Nn42GKDs8atJgR5QjmCqvejsW0961soI6UUQcEbfT/B+P3wH9B8A6YlAIMyHtqE/igJMayoV0YBFckKrLlCqnyRoqv5i96dFmcT8l4v9VnULj/Cg1yRl+cLCGepQ0I3lYuqLUNy8SfODelNegTHZUD5+2ao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=CDJxmCeC; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5B954DAC8;
+	Wed,  9 Sep 2026 12:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788955684; cv=none; b=lXvxLdXGAwNPj1jDOkJzFnjPrrEl5Vi8zu+PoiqV3G44M8a07fMIomu/sj5H3oOReKeu7/9GNEpshtEY1ynFgWicPIpIG2uP+8jVG6NbxXwxQ+opHQoIu7+B3f5VApEDjW2ZdSbkDtO9ZkpRFOaEp0wokXeEsV17bW2cd57V4kM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788955684; c=relaxed/simple;
+	bh=qhZzv3+w6u5VffgNW+o34f0K00FSNYAmal52FMUVvno=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CwDAawZmPhJmmgquBEl8FTuJ8q0VsdOLaDDudJYEwtNN+78wo7NeNESR8C/l76NNELwSF1PsvRdiLfokXlOlWMKXQzVokvZ5b/Bl/lIDYPBURsLTThG1IeJ9azTqdsi2lNVZEFa2dQhp26KcYg5BzfVimkMr966tWa54TniZGZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLY49pi+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="CDJxmCeC"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-530280b8234so6621751cf.0
-        for <fuse-devel@lists.linux.dev>; Wed, 09 Sep 2026 04:44:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788954283; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YwwEbRW2HEG1W9tAOmY9XW19p8NqWf1xUbx0kl6Gq+dUPoujLDQhC/qnWanqSPUHsr
-         E5qMOiCOqj+BP/svb+pCIz/Evc3JLXnapYVrg9NofMKYdtE8zdjF8czeCcIjl+3AzD61
-         J1HzWLSCb7kpi//y6UzHORikrNyyuAIjshfmLYUhyjnavW7EYD8nQRXDeAEUC8I6zUEW
-         Yt18HW5W5pnbi2mIsJPw9ahA5FHRwDHwZi60TbG2JX0/tZ5D7ZsYqa7dtsXWBZi8mgaH
-         DciQvJ4bu6QIa5focku9Xi6niIx9Kvdh1/UIUMS+RzaBxX0L7ZXtKOQF/2eShBYlCmcy
-         BSjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=/N+0yVy13tQgS5+ScpnESpLk/uyTrS9jGVGpFKTxRCA=;
-        fh=m7eNZKdU4mBbSH7z/BQTu4zrl/0Z38ZTRZvqHOYM0C4=;
-        b=oNdyUuJOphxC/0RZf227ymBC9TMIyNQ4p0xtV+7USb8Nh03ZamUASbd4qKVvj5yd8T
-         yorJSYZrflLlF0wxKbHMjcu6GDuQpoS4Izq+XbLWrVD9MYxvi1YnELwURBA1kIccryU1
-         ON0z5Wfu14cygkjFLXcQnae+9c/zOg6CWJN0hUivZw6ztcMbCqL6K8+xcx0YITW/CQed
-         6IyIBkSWQHlE296LJt9iJh4N5TAN8kNufG9SNL8EHc6sQfYSt9+RqsMY4smVu9c24oOV
-         4UGuFzqqm6BZBPtH2AUGaLnx/xmM2Qa0Ba9Ne7lMIDEk73TnKuiI87enzXlDaPHwQFyx
-         RrXA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1788954283; x=1789559083; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/N+0yVy13tQgS5+ScpnESpLk/uyTrS9jGVGpFKTxRCA=;
-        b=CDJxmCeCWae4rEswWFv18I0b8mtZ1WnjgpRWgjk73zCK2W8IqnrBH4jh0lg6ecA+4Q
-         sKJHnki0vdh2o3OIKngRCKpE+tqaDwz2iE0HtNHU6Eg6AFA0ZK7Zg6R5MrXeo45tvD8y
-         9Di20cKwctjNdb6zWZT4ytPbAzh0x+E/OvIhQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788954283; x=1789559083;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/N+0yVy13tQgS5+ScpnESpLk/uyTrS9jGVGpFKTxRCA=;
-        b=Zi92P29hqjSKCDk2oAouPdjQavd0NlQLmiR2vXoYG46PkNqQ9yP/1nfkDWT6+SUoq9
-         axjj/C2z5blFgihT5jZX2/DDuJWGl6q0bYibwGF059xfwD1+z2Yhw+SIgUrzujkE/ZgV
-         MjbaQ9wpuF158iF7PO9nDJK6xZwQ9pJlRjvra5W7t/CDO5gxLpr8hpyN4aLW2rCBJCdg
-         55S8RqYJ3Tg8G7dXIaDWaGe42AdL0C1tuqFhKM00R4VA/8lRlzFJ3ySrB0XKRc6E3kxW
-         X6AhyQZplRMn0oN0fegfIejcIcCJtlHnMpEcnkdDK2lhwVOdU2BFHe9S/57mrHLpiYnJ
-         qKug==
-X-Forwarded-Encrypted: i=1; AKwUvBz0YcgGpgi13TnchXNJk/QGtvNuNl1QPV1255iMp8dBWoT1G1SXQwys4qOu67m1E365sCxkR1tRiupW@lists.linux.dev
-X-Gm-Message-State: AFuF++ls89Kwa4zaIa7afEsPnNUR//BcrwtC+hLe5FVq4+dvOJ0vhONK
-	M+gPfyMeLc95z5Yz1JSAD6mH5fhGVn43YO/jibIZVnFHywifsCZ2if4CPxhRGLxRyXC/uwXx+8B
-	RrYceZ6cmrBAMw5Nm2TYPo5M/D7CSGmpi4k/Kf7W1ow==
-X-Gm-Gg: AYBFou3Y4SvZU/36rVdLYQ0i7njZux3EVOgcNruezErtFyfLB38U7/OoVOCIKxKOiNX
-	7tRaLR74mVv+AW94GMev3DHa99EtGkiM6Tr6QuHT0jMOiXlWj2FHH0r9FpB1yDHw/mQCWHhElRx
-	KoM7/7jwwauCHYholjz6arWzllZx2hkNk5xYFjtr0kocj+0+GP4Ds6GEcdRW0hVwHQeeithGrhB
-	0aEciz1O8Gzdh2WbpYoumvzY3z+l7d+/oU5v8BCK58L6at6diElZ0cRDg6t/LAaREhk2Kqtq65+
-	Zna+ofO5NA9RS+F/wjsKw2YOTbH+zCt3fO6XJBAQJmEwRDbISADWKp3myCmmF9bwJ7SsQQ/bNEO
-	JmlyvtcDGLFQG
-X-Received: by 2002:a05:622a:308:b0:530:42e5:f39d with SMTP id
- d75a77b69052e-530913734b9mr126064511cf.25.1788954278478; Wed, 09 Sep 2026
- 04:44:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLY49pi+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B041F00A3D;
+	Wed,  9 Sep 2026 12:08:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788955682;
+	bh=s0XvwQqrYpxLMLTJmGlP3OBogX+H2vHo2hOLlq5lC/4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=TLY49pi+Cs7EEMaDTGcn4qy6Qpcb4tCLLQabsiuxRuieFcOduuhR0SXsNy/UqV053
+	 LTLJzRsrZobFM+u8KAWi/AxL9rak8lF/hB3ASc5j/P5gK6JsTYTLznyOIjtDTtDa+k
+	 ORmjuFe/YcEbLMRVg0hXrf/0pz4nkqGBIjyKjBGWoHBcNRUe90PkvSLs5HLrZYszHB
+	 EdQZy99ss9QvvDBlcj1jiu7Nbzz/FMu6uLgae9WC6VNYg9MrsiTw00X9RT6CKbWfK3
+	 uOoG3Ngxmo6HIBl33vl+TtXZPg1CPUWrOiI2FFoUv677uPNi2hHjh6Cry1F/dt0+F4
+	 wpDbNWMsR4n5Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1x4H5r-00000006fj0-1Co8;
+	Wed, 09 Sep 2026 12:07:59 +0000
+Date: Wed, 09 Sep 2026 13:07:57 +0100
+Message-ID: <86y0da39wi.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	David Hildenbrand <david@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Leon Romanovsky <leon@kernel.org>,
+	Paul Moore <paul@paul-moore.com>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Doug Gilbert <dgilbert@interlog.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>,
+	Jaya Kumar <jayalk@intworks.biz>,
+	Simona Vetter <simona@ffwll.ch>,
+	Helge Deller <deller@gmx.de>,
+	Sebastian Reichel <sre@kernel.org>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Peter Xu <peterx@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Rik van Riel <riel@surriel.com>,
+	Harry Yoo <harry@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Oliver Upton <oupton@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Anup Patel <anup@brainfault.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Rakie Kim <rakie.kim@sk.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Chris Li <chrisl@kernel.org>,
+	Kairui Song <kasong@tencent.com>,
+	Kemeng Shi <shikemeng@huaweicloud.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Youngjun Park <youngjun.park@lge.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Qi Zheng <qi.zheng@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Yuanchu Xie <yuanchu@google.com>,
+	Wei Xu <weixugc@google.com>,
+	Xu Xin <xu.xin16@zte.com.cn>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Michal Hocko <mhocko@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	selinux@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	bpf@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 27/39] mm: rename is_vm_hugetlb_page() to vma_is_hugetlb()
+In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-27-dacf19cce22b@kernel.org>
+References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
+	<20260908-b4-mmap-prepare-vma-flag-sanify-v1-27-dacf19cce22b@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260903145952.848051-1-mika.kuoppala@linux.intel.com>
- <20260903145952.848051-5-mika.kuoppala@linux.intel.com> <20260903152224.AD48C1F00A3F@smtp.kernel.org>
- <178878748003.179185.16833574173741290547@jlahtine-mobl> <178894801687.37859.4186888279082797860@jlahtine-mobl>
- <aqEzHQMrI8p9XVcu@phenom.ffwll.local> <785085e8-c9db-4d84-ab55-3a8caf9f4a35@amd.com>
- <178895308548.62143.17472983986994555742@jlahtine-mobl>
-In-Reply-To: <178895308548.62143.17472983986994555742@jlahtine-mobl>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 9 Sep 2026 13:44:26 +0200
-X-Gm-Features: AcwNN1V9qQ9dKCqab0SB2yrcU61pfAYqyf8l3R94yNLcs1Mbssj6NoYvC5wSIfw
-Message-ID: <CAJfpegv_qh6u+GSFuPp8-PDXLoAqVWwz+kkwXv_zsxyL1PnkPA@mail.gmail.com>
-Subject: Re: FUSE deadlocks vs. copy_from_user() and locks (Was: Re: [PATCH
- v10 04/27] drm/xe/eudebug: Introduce discovery for resources)
-To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Bernd Schubert <bernd@bsbernd.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Amir Goldstein <amir73il@gmail.com>, 
-	intel-xe@lists.freedesktop.org, fuse-devel@lists.linux.dev, 
-	sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, 
-	Mika Kuoppala <mika.kuoppala@linux.intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Mike Rapoport <rppt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ljs@kernel.org, akpm@linux-foundation.org, liam@infradead.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de, david@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net, gregkh@linuxfoundation.org, dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca, leon@kernel.org, paul@paul-moore.com, stephen.smalley.work@gmail.com, perex@perex.cz, tiwai@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev, usama.arif@linux.dev, kas@kernel.org, dgilbert@interlog.com, James.Bottomley@HansenPartnership.com, mkp@kernel.org, jayalk@intworks.biz, simona@ffwll.ch, deller@gmx.de, sre@kernel.org, jhubbard@nvidia.com, peterx@redhat.com, mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen
+ @linux.intel.com, x86@kernel.org, acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, riel@surriel.com, harry@kernel.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, will@kernel.org, aneesh.kumar@kernel.org, npiggin@gmail.com, arnd@arndb.de, muchun.song@linux.dev, osalvador@suse.de, willy@infradead.org, jack@suse.cz, oupton@kernel.org, catalin.marinas@arm.com, maddy@linux.ibm.com, anup@brainfault.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, borntraeger@linux.ibm.com, frankja@linux.ibm.com, imbrenda@linux.ibm.com, agordeev@linux.ibm.com, gerald.schaefer@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com, davem@davemloft.net, andreas@gaisler.com, viro@zeniv.linux.org.uk, brauner@kernel.org, matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com, chrisl@kernel.
+ org, kasong@tencent.com, shikemeng@huaweicloud.com, nphamcs@gmail.com, baoquan.he@linux.dev, youngjun.park@lge.com, hannes@cmpxchg.org, qi.zheng@linux.dev, shakeel.butt@linux.dev, axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, xu.xin16@zte.com.cn, chengming.zhou@linux.dev, mhocko@kernel.org, miklos@szeredi.hu, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-d
+ evel@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Wed, 9 Sept 2026 at 13:24, Joonas Lahtinen
-<joonas.lahtinen@linux.intel.com> wrote:
+On Tue, 08 Sep 2026 21:01:31 +0100,
+"Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+> 
+> The is_vm_hugetlb_page() predicate is badly named - the mapping can span
+> more than a page and it is inconsistent with other VMA predicates that
+> typically are prefixed by vma_.
+> 
+> Rename to vma_is_hugetlb() for consistency, and while we're here update
+> some VM_BUG_ON_VMA() to VM_WARN_ON_ONCE_VMA() as to avoid unnecessary
+> oopses.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  arch/arm64/kvm/mmu.c                      |  4 ++--
+>  arch/powerpc/mm/book3s64/radix_tlb.c      |  6 +++---
+>  arch/powerpc/mm/nohash/e500_hugetlbpage.c |  2 +-
+>  arch/powerpc/mm/nohash/tlb.c              |  2 +-
+>  arch/riscv/kvm/mmu.c                      |  2 +-
+>  arch/riscv/mm/tlbflush.c                  |  2 +-
+>  arch/s390/mm/gmap_helpers.c               |  6 +++---
+>  arch/sparc/mm/init_64.c                   |  2 +-
+>  drivers/gpu/drm/drm_gpusvm.c              |  2 +-
+>  fs/coredump.c                             |  2 +-
+>  fs/hugetlbfs/inode.c                      |  2 +-
+>  fs/proc/task_mmu.c                        |  8 ++++----
+>  include/asm-generic/tlb.h                 |  2 +-
+>  include/linux/hugetlb.h                   |  4 ++--
+>  include/linux/mm.h                        | 19 ++++++++++++++++---
+>  include/linux/rmap.h                      |  2 +-
+>  kernel/events/core.c                      |  2 +-
+>  kernel/sched/fair.c                       |  2 +-
+>  mm/gup.c                                  |  4 ++--
+>  mm/huge_memory.c                          |  2 +-
+>  mm/hugetlb.c                              | 14 +++++++-------
+>  mm/internal.h                             |  2 +-
+>  mm/madvise.c                              |  4 ++--
+>  mm/memory.c                               | 12 ++++++------
+>  mm/mempolicy.c                            |  2 +-
+>  mm/migrate_device.c                       |  2 +-
+>  mm/mmap.c                                 |  2 +-
+>  mm/mmu_gather.c                           |  2 +-
+>  mm/mprotect.c                             |  2 +-
+>  mm/mremap.c                               |  6 +++---
+>  mm/page_vma_mapped.c                      |  4 ++--
+>  mm/pagewalk.c                             |  2 +-
+>  mm/swapfile.c                             |  2 +-
+>  mm/userfaultfd.c                          | 26 +++++++++++++-------------
+>  mm/vma.c                                  |  8 ++++----
+>  mm/vmscan.c                               |  2 +-
+>  tools/testing/vma/include/stubs.h         |  2 +-
+>  37 files changed, 92 insertions(+), 79 deletions(-)
+> 
+> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> index 9ba86450fe4a..a7968f8d24bf 100644
+> --- a/arch/arm64/kvm/mmu.c
+> +++ b/arch/arm64/kvm/mmu.c
+> @@ -1463,13 +1463,13 @@ static int get_vma_page_shift(struct vm_area_struct *vma, unsigned long hva)
+>  {
+>  	unsigned long pa;
+>  
+> -	if (is_vm_hugetlb_page(vma) && !(vma->vm_flags & VM_PFNMAP))
+> +	if (vma_is_hugetlb(vma) && !(vma->vm_flags & VM_PFNMAP))
+>  		return huge_page_shift(hstate_vma(vma));
+>  
+>  	if (!(vma->vm_flags & VM_PFNMAP))
+>  		return PAGE_SHIFT;
+>  
+> -	VM_BUG_ON(is_vm_hugetlb_page(vma));
+> +	VM_BUG_ON(vma_is_hugetlb(vma));
+>  
+>  	pa = (vma->vm_pgoff << PAGE_SHIFT) + (hva - vma->vm_start);
+>  
 
-> From my position, if userspace is injected to the dependency path for
-> resolving page-faults, with potentially unbounded execution times, the
-> timeouts would better be asserted at the FUSE/UFFD side and then simply
-> failing the operations with a bang if not met.
+Acked-by: Marc Zyngier <maz@kernel.org>
 
-It's possible to set request timeouts in fuse, but it's not going to
-be made universal.   There's just no good general timeout value.
-Whatever you choose it's going to be too short for one case and too
-long for another.
+	M.
 
-Thanks,
-Miklos
+-- 
+Without deviation from the norm, progress is not possible.
