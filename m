@@ -1,185 +1,148 @@
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA375867E2
-	for <fuse-devel@lists.linux.dev>; Thu, 10 Sep 2026 18:56:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1321839E9CB
+	for <fuse-devel@lists.linux.dev>; Thu, 10 Sep 2026 23:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789066578; cv=none; b=tj9iAOIJet7VlQisgxnOR6k4nYwc+77uSCskX/TpB9dhWk351ySYSBQgXEh3eaJH50LxaiGhwLxFy6hzXOd9PmIkHyicXtNTTM2QMGvesaxJ0ot7jnSzJ2TMaSaBihPjZitgKcNK8FDXG1/JdV640I5vR3NnPhMgRRywDjUmIsg=
+	t=1789084276; cv=none; b=bKADIGGavpZJzgSg0VUUzEgmvJI3HXrVbVB88MYzCCyw/YCM+AaRqBJAZPT6SuJGKp3E9k9xkDiA+qkWVlCMeD6zqMvp3FePHNHaXVvrkUR18eOtBD5ONgAY+wW9ewNRjRweiycj2BqfrkdeCcZpkKc/K0hJ0qPB9t+Y0BMp/hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789066578; c=relaxed/simple;
-	bh=ADY0E/FRYWRHk7Nt4TCtye/O+NyvQw/YCRQZj37EZz8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=bgIQRGxWEM9i7RClT7GCy/mdpGirx6wBXi5HQw7Yl3Ayoj7IAraPgtJS7kU/sURfyvGfxFe4b5xqnTcAsh3/2Q5yOfgGvDbFypEC/As2xiHYvGgqLWif6V4ZzHaUDiLoGAul/Td3V67yMB+vnzg3+veABl1zD3M9c5IhzzlWBss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--shayba.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=POiV/EF7; arc=none smtp.client-ip=209.85.216.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--shayba.bounces.google.com
+	s=arc-20240116; t=1789084276; c=relaxed/simple;
+	bh=+HaBGFIUyITYyskn9PZOlaHjJY051XZvXtogon38VX0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=asFiUkj8Sa5xTyYMw0w1eoPtoeWntl2UwhqMY2B/A/N+ALKmZnh2vFFo11IayiBczIDYOzr9a4tupXlyLNP6V3MdfNk4dKy+BGTgK12zVjcdacwt+YuvY3U7xhEjbaLgZT2ftNwy1qVGf/Tmu+9kjdJmY1owxqmP9ZNHC99uTKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=idC2uNCD; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="POiV/EF7"
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3823dcc1647so60654a91.3
-        for <fuse-devel@lists.linux.dev>; Thu, 10 Sep 2026 11:56:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="idC2uNCD"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2d560775ca2so2008225ad.1
+        for <fuse-devel@lists.linux.dev>; Thu, 10 Sep 2026 16:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789066576; x=1789671376; darn=lists.linux.dev;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fAhSPIEvBmS+PCKcxa/XH9lFSCc/+FANgNlh9nivbso=;
-        b=POiV/EF7DgWjsjQGQrbn2ahP5lyriqV395JHFGGdgu7dK90vGCh6PiI/KeONbQp2Sf
-         KQ5qEtsIRz+P4jhH9JlVXE24MtUp10J1GtZvg7tQFj+jPzLbHxaD5OZRRz9rW6G0RFm+
-         UAAALi8SEjggv0hvu+vuAmKptx4cIrZ+XUGIQ6WzaP95WX4s4ZPeidiCmHrjP2UbrM04
-         0J+Ga/2/UmfinCTQ7VVyElHRXcqdEwj+CD18F9DUZaFjO/uG0WE5ykYdEmCkCHianFkv
-         E+rJu7hNq7TI255ygNmFkvyxrsBT2TbeCupGKAxMGjma4bfmMshO2A01lv+Q10KPLQxd
-         GSPw==
+        d=asu.edu; s=google; t=1789084273; x=1789689073; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tJf7neT2i6yO923W0Lg09fbYqghzTKmlCOt7Ys5/ve0=;
+        b=idC2uNCD9fdYg7ZaNk4EhLcGj7+jw56aneP/ykCly5Iw7hsmEKYAhvGWDANTiUZD0c
+         7e2gy7lHhumJ+HEeMT/h207HjLzW8yK6J37p2V9O1g6IiAKyH/g/VfRZQXfY13HCs88T
+         Bd7uxzTWuYcU1LTGReyF+CradphtvLR/3iSMVVOdiajsaa1TZgJaGqIz5khXZbSIywwH
+         Kd0s6BIPWBlCF0p8x0IG8+uKHHJ6WNhp1abkI/qpgnZCiMNB+tYO2fxVJP6OflglbGeK
+         qAPhLl7GZEHql6IsQ2jg4RVTE2c3l5eZv7ebsZbMnsFg7rsMHl1/qxKsIJ9kar7JnhNP
+         Vh+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789066576; x=1789671376;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1789084273; x=1789689073;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fAhSPIEvBmS+PCKcxa/XH9lFSCc/+FANgNlh9nivbso=;
-        b=Rj97RM/eT/WOrT80Utj9+cVCu4MzQbgWl6i9MpdnpN0piprDisTCPl/jCVYwmdMCx3
-         O31+/n6vFmHT2lj2irMoYnb/KQWJr/8M8KPsVgTvbDiHfgQtoD2n1Xco9oCTUuO2uvev
-         pRUU+cePS2o1FK9eXNUyRg2+3Q0wJCzDqZCSZgJEWRFePaLGzmQ3VIiZ2lq7ca543ZAF
-         J7uGaSjcfBMGbWFMsNUQdOhWM7Q8uTGpXFabFI/AG6feaS0ppCdj47I3xUnCP0rRU24p
-         vM4LwtCUVZb/CaX91qGRhAbApOaZBSWs0D0jrZ4zI8M9n8WjRbN+d6KtGnxxhicBIotg
-         rhNg==
-X-Forwarded-Encrypted: i=1; AKwUvByojVrCVGRFz44g4qG/yn8fG6tcoq2a3pijvJFvJ3RpdTjnQJMctkbbQRvW0sNwaONq3sK8T12Ouryd@lists.linux.dev
-X-Gm-Message-State: AFuF++mzSkjnbPREvy5Z1MkbfQcqggpWFxoOKmxwxBtnMt7D8EoJdEpi
-	AmNDIEtVSUw1k//pfmnUmJb3Amh5sQKkXuNFDOzS32qz0jcQHkm63fCHB4tnQF5icAZ9H1mkA0i
-	RuTPvYg==
-X-Received: from dld34.prod.google.com ([2002:a05:7022:322:b0:142:e0f7:1a4d])
- (user=shayba job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:5287:b0:398:9bd5:490d
- with SMTP id 98e67ed59e1d1-39d9c22e224mr103903a91.20.1789066576318; Thu, 10
- Sep 2026 11:56:16 -0700 (PDT)
-Date: Thu, 10 Sep 2026 18:56:14 +0000
-In-Reply-To: <20260909232351.1533034-1-shayba@google.com>
+        bh=tJf7neT2i6yO923W0Lg09fbYqghzTKmlCOt7Ys5/ve0=;
+        b=GjEZYa3MVyVc6mv1eS+ZfxUK1gCPcJ+QJbkme15TbXJBtl14IE+7fWOub3CL03KJ5N
+         gEZ4ASsX+qJzhLeF+1tOKaosvcKy9rx+hy8Q4HOnhHCbmkH9p+mmeFFlM3XO3dkH0r42
+         Bx6koafyZjCFDUmpdfqDjHBh8Lbth91iub7MF1YoOh3wmGtapPKcSxOL1qYypl7DgqBn
+         EKVSOK9CsKCzBbCbg/OQVoL3T+VFV6p1N0EMPZWE+vGm1HHj1F0kAeZ3s9BgRYfk/adt
+         gEfpwl7JSuAYcmXMxaLvX3EAq909dj4Ne066m/q1lBULqanVodHXZOt6bm7gv8D14Kd0
+         DVfQ==
+X-Gm-Message-State: AFuF++lPTNzqFDX4dbgRd78a9IgEOzYr3RdRlhicaUnW4DeFECDkd8Fn
+	OVBgA9q08TFCLmSYafPobQs5slSsLzh3c/l86mPzxsINKjhI+67kDEVqHJltRk1sDA==
+X-Gm-Gg: AYBFou0dr4PskY0dy/rnigHUfA2iFficWhvBwk6NUrW3cGfGdv9D4avZ91p+MgpLU4Y
+	M3dRScbUEwyg6rWWHzu3oGP6L7X+7PYO2Pdi1RRepc93UQf+dEuyP1QRRaDRtLUw69eep68KdD1
+	8Jt0IfhxnZG5ELbU9qow9d6NxvQeJPImqrijiFWiaiddS8YSwZPH5F/R53cHCHiDQSgRIHaNVKq
+	57DLHkVUlvyEd/+MjPcL/mHX5DLw4hAOkGjOmN1fxnZGO28u300KUxl4NK/bClEHWW+Y0ZvkQRo
+	AJVDEdj6EgcEG2th9wB4yxsBYLznDpW51x74UIskg0p9U4XfgW41GuSAytmISbVP62E/zQ0sM5y
+	S8YQmjlZSU2FxX3YJUVy5FzcOxqgapRZ2nSU6pz+y2eoKbsPROgCpQ4bFYWx8BTYX+CTjhhqz4l
+	Ajm3IHUd31u1NRWb9yWkgR9R6+SF6kHSb5tG5RpXM4kmTyRvGk4XJnDRW7Pqeb5VbLekNHyXJt7
+	Q0FSwd3DPJljZcd2zp7Oo6pk9itJ9knvc6qlA==
+X-Received: by 2002:a17:90b:518f:b0:38e:97f0:aa4b with SMTP id 98e67ed59e1d1-39d9c1bef27mr2132199a91.13.1789084273337;
+        Thu, 10 Sep 2026 16:51:13 -0700 (PDT)
+Received: from p1.. (209-147-138-4.nat.asu.edu. [209.147.138.4])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b8f1f7sm1680718c88.11.2026.09.10.16.51.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 16:51:12 -0700 (PDT)
+From: Xiang Mei <xmei5@asu.edu>
+To: Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	Baokun Li <libaokun@linux.alibaba.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>
+Cc: fuse-devel@lists.linux.dev,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Luis Henriques <luis@igalia.com>,
+	Pavel Begunkov <asml.silence@gmail.com>,
+	bestswngs@gmail.com,
+	Xiang Mei <xmei5@asu.edu>
+Subject: [PATCH v8 1/2] fuse: don't BUG when the copy buffer is exhausted
+Date: Thu, 10 Sep 2026 16:51:09 -0700
+Message-ID: <20260910235110.3922068-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <20260909232351.1533034-1-shayba@google.com>
-X-Mailer: git-send-email 2.55.0.1007.g17ff1f9808-goog
-Message-ID: <20260910185614.262511-1-shayba@google.com>
-Subject: [PATCH v2] fuse: Forward vfs_fadvise to backing_file in passthrough mode
-From: Shai Barack <shayba@google.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Amir Goldstein <amir73il@gmail.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Sandeep Dhavale <dhavale@google.com>, Akilesh Kailash <akailash@google.com>, 
-	Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Shai Barack <shayba@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
-other fadvise advice on a FUSE passthrough file descriptor, the VFS
-currently only executes generic_fadvise() on the upper FUSE inode
-mapping.
+fuse_copy_fill() hits BUG_ON(!err) once the iterator backing the copy
+runs out of pages.  Over io-uring the amount copied is not bounded by the
+payload buffer the server registered, so an unprivileged user can drain
+the iterator and panic the host - mount a FUSE filesystem with small
+payload buffers, then setxattr() a larger value:
 
-Because FUSE passthrough does not forward fadvise operations to the
-underlying backing file, pages residing in the lower filesystem's
-pagecache remain resident in memory.
+  kernel BUG at fs/fuse/dev.c:1064!
+  Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
+  CPU: 1 UID: 0 PID: 148 Comm: exploit Not tainted 7.3.0-rc1 #2
+  RIP: 0010:fuse_copy_fill (fs/fuse/dev.c:1033)
+  Call Trace:
+   <TASK>
+   fuse_copy_args (fs/fuse/dev.c:1354 fs/fuse/dev.c:1380)
+   fuse_uring_args_to_ring (fs/fuse/dev_uring.c:891)
+   fuse_uring_prepare_send (fs/fuse/dev_uring.c:940 fs/fuse/dev_uring.c:1057)
+   fuse_uring_send_in_task (fs/fuse/dev_uring.c:1745)
+   tctx_task_work_run (io_uring/tw.c:96)
+   tctx_task_work (io_uring/tw.c:133)
+   task_work_run (kernel/task_work.c:233)
+   io_run_task_work (io_uring/tw.h:84)
+   io_cqring_wait (io_uring/wait.c:278)
+   __do_sys_io_uring_enter (io_uring/io_uring.c:2676)
+   do_syscall_64 (arch/x86/entry/syscall_64.c:61)
+   entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
 
-During media-heavy workloads (such as image thumbnail generation or
-streaming), single-access file data accumulates in the inactive pagecache
-of the lower filesystem. Under memory pressure, the kernel retains these
-stale media pages and instead evicts active executable pages from
-running processes, leading to severe direct reclaim latency spikes.
+The reply path can drain it the same way, via the server-supplied
+payload_sz in fuse_uring_copy_from_ring().
 
-Architecturally, Linux VFS supports filesystem-specific fadvise
-delegation via the .fadvise hook in struct file_operations. Implement
-fuse_file_fadvise() in fs/fuse/file.c and register it in
-fuse_file_operations. When passthrough is active on a fuse_file,
-fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
-backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
-to cleanly invalidate the physical backing filesystem pagecache.
+Return -EIO instead.  All three fuse_copy_fill() callers already
+propagate the error.
 
-Signed-off-by: Shai Barack <shayba@google.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Amir Goldstein <amir73il@gmail.com>
-Cc: Bernd Schubert <bschubert@ddn.com>
-Cc: Sandeep Dhavale <dhavale@google.com>
-Cc: Akilesh Kailash <akailash@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: fuse-devel@lists.linux.dev
-Cc: linux-fsdevel@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
+Cc: stable@vger.kernel.org
+Reported-by: Weiming Shi <bestswngs@gmail.com>
+Suggested-by: Joanne Koong <joannelkoong@gmail.com>
+Assisted-by: Claude:claude-opus-4-8
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Signed-off-by: Xiang Mei <xmei5@asu.edu>
 ---
-v2:
-- Remove redundant !backing_file check in fuse_passthrough_fadvise() (Amir Goldstein)
-- Remove unused fuse_passthrough_fadvise() stub under #ifndef CONFIG_FUSE_PASSTHROUGH (Amir Goldstein)
-- Reorder fuse_passthrough_fadvise() above fuse_passthrough_open() alongside other passthrough ops (Amir Goldstein)
-- Add fuse-devel@lists.linux.dev to CC list (Amir Goldstein, TJ Mercier)
+v7: fix the panic at its source, as Joanne suggested, instead of
+    bounding the copies
+v8: drop the "recoverable" claim from the changelog; add Reviewed-by
 
- fs/fuse/file.c        | 11 +++++++++++
- fs/fuse/fuse_i.h      |  1 +
- fs/fuse/passthrough.c | 13 +++++++++++++
- 3 files changed, 25 insertions(+)
+ fs/fuse/dev.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index a4d736945..81709ab82 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -3537,6 +3537,16 @@ static ssize_t fuse_copy_file_range(struct file *src_file, loff_t src_off,
- 	return ret;
- }
- 
-+static int fuse_file_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
-+{
-+	struct fuse_file *ff = file->private_data;
-+
-+	if (fuse_file_passthrough(ff))
-+		return fuse_passthrough_fadvise(ff, offset, len, advice);
-+
-+	return generic_fadvise(file, offset, len, advice);
-+}
-+
- static const struct file_operations fuse_file_operations = {
- 	.llseek		= fuse_file_llseek,
- 	.read_iter	= fuse_file_read_iter,
-@@ -3557,6 +3567,7 @@ static const struct file_operations fuse_file_operations = {
- 	.fallocate	= fuse_file_fallocate,
- 	.copy_file_range = fuse_copy_file_range,
- 	.fop_flags	= FOP_DONTCACHE,
-+	.fadvise	= fuse_file_fadvise,
- };
- 
- static const struct address_space_operations fuse_file_aops  = {
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 939553b34..6c60716e7 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -1581,6 +1581,7 @@ ssize_t fuse_passthrough_splice_write(struct pipe_inode_info *pipe,
- 				      struct file *out, loff_t *ppos,
- 				      size_t len, unsigned int flags);
- ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma);
-+int fuse_passthrough_fadvise(struct fuse_file *ff, loff_t offset, loff_t len, int advice);
- 
- /* backing.c */
- 
-diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-index 059e57969..8a8fa6b8c 100644
---- a/fs/fuse/passthrough.c
-+++ b/fs/fuse/passthrough.c
-@@ -160,6 +160,19 @@ ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma)
- 	return backing_file_mmap(backing_file, vma, &ctx);
- }
- 
-+int fuse_passthrough_fadvise(struct fuse_file *ff, loff_t offset, loff_t len, int advice)
-+{
-+	struct file *backing_file = fuse_file_passthrough(ff);
-+	const struct cred *old_cred;
-+	int ret;
-+
-+	old_cred = override_creds(ff->cred);
-+	ret = vfs_fadvise(backing_file, offset, len, advice);
-+	revert_creds(old_cred);
-+
-+	return ret;
-+}
-+
- struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
- {
- 	if (fb && refcount_inc_not_zero(&fb->count))
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 4fec31fc0b84..4148e4488d77 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1061,7 +1061,8 @@ static int fuse_copy_fill(struct fuse_copy_state *cs)
+ 		err = iov_iter_get_pages2(cs->iter, &page, PAGE_SIZE, 1, &off);
+ 		if (err < 0)
+ 			return err;
+-		BUG_ON(!err);
++		if (!err)
++			return -EIO;
+ 		cs->len = err;
+ 		cs->offset = off;
+ 		cs->pg = page;
 -- 
 2.43.0
+
