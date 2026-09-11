@@ -1,299 +1,201 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021D63E49D1;
-	Fri, 11 Sep 2026 11:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789124766; cv=none; b=gFUBeo+BRto4EDY6hyF8LMmTovcHWI0YoC9tXcoWYh/KxY3d8L6fsmi1lgSUrTeMWwf59UOZPevLOXQl93lCkB/eLHcEFjAzKV+AZELfsptcnnivZcrrsykJGAuetPbIa7T+xxl1o5TGDCNwAnHB2WaDcarMBqZf9JoCsCipnZw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789124766; c=relaxed/simple;
-	bh=JvrZmcfy2bFw4IXQVkv3bqKdNxJfP8Z2DTQ1f80pfug=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J9JP67F7T63TlUXZcaJjtn40d0jZzRoqVAAab0IvHBPmH9H4UdeXRTbSi6cZaMIGADUou7Ctd0YKh40Ae8JGbddL0AGQrgEPwJjD2pNv/FqAZKrcWDpavyEgVFK2Z7BXzlBSvYWpVUYq4CB5c7YZPxHsr+TDlZvkXTw/clB2rvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mwIigjyH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=b+7SUHz3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M6mKBOHb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bkf9+hFx; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1472C47CC67
+	for <fuse-devel@lists.linux.dev>; Fri, 11 Sep 2026 12:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789131421; cv=pass; b=E5JCrL9ovorAzkvWkCSPAR+JJ0+4lVB7NOKPZdd85F//1CSN8Hyhgvx+UUCNbxHmyAtj0BdksavXgJI726z85II0Pg8ydKCLzk0uo9TiU545qPRSTsmAbhQ6tyVtEtWo+QyrSigWOoNgQ0yS8fDyLweZBNWwTN/VF3waErzY9KM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789131421; c=relaxed/simple;
+	bh=FTjPJWgL7azmAVy/OhPs3LK4Og01sRmEWqKMEysRtLs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=B7xIzT+nJyHofKomm5rqTPYVkAHvOeXebQB18I5yIlh2BHmayJAzqEY9HbS1dz1hwL0wkQbMIaR8G4u3TondgbKpg1Id1HXxV8LdEdU/JAD6dQF5E6TSJpPp92e998kFb6hHii0ng0sG9nbjcIk6eNbYl3pA35pz2jyIM2p95f0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UQ+Rsb4A; arc=pass smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mwIigjyH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="b+7SUHz3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M6mKBOHb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bkf9+hFx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E75961F8BB;
-	Fri, 11 Sep 2026 11:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789124755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mCvWKSyOXghSRjrUIO25WhTluktNhI1ZIzrUisSCzog=;
-	b=mwIigjyH85mOyKyDVXiVISSPm5WD3X0MP0365zfajWOkcWSuPmB2ARy/C5YHIzZl3SzDbc
-	mexaobbpaHz9iWGcTvThfd3zMOtaWRmJiSjzZdg8xpZbcyM68ZMswW5SZPVvyxE5Mk7Slc
-	/YYukJn/1TLBc8A1dWlsFiL2rvGZo4E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789124755;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mCvWKSyOXghSRjrUIO25WhTluktNhI1ZIzrUisSCzog=;
-	b=b+7SUHz3bESEaqJoCQKVGmpl3KrUrunJsFD9TELjfIDfQGfJXAJcfCB1Y/yJszE2SdjUyI
-	hA5MPiO3ytWkRLDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1789124750; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mCvWKSyOXghSRjrUIO25WhTluktNhI1ZIzrUisSCzog=;
-	b=M6mKBOHbiTWHmrq4OaTeygTN+927bG8HXBCzz3Y4jYZpN6W2TIiMwt5mhZdYJylNuC/eiN
-	276E04tyvopmopDYC/DjhTeHmHxTFJuP6nRvia45UtqLQRXbvqIOWCXqMt6H3llZgBfxVy
-	F5cdouDM8VEETMkpv1vrbWcWH10Fe/o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1789124750;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mCvWKSyOXghSRjrUIO25WhTluktNhI1ZIzrUisSCzog=;
-	b=Bkf9+hFx/ERl6em/gPGKeoPFenHrChRVNOZRCzaiyvdKpzPFysgsyvTYq0CeN+eOGKeIpz
-	kWOLNVOPOZL3xYAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C59E132D3;
-	Fri, 11 Sep 2026 11:05:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Qc6PFovgo2rzKAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 11 Sep 2026 11:05:47 +0000
-Message-ID: <d8683667-55d5-4d77-9dcb-19e49b3dc3c6@suse.de>
-Date: Fri, 11 Sep 2026 13:05:46 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UQ+Rsb4A"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6a9983162dcso1224396a12.1
+        for <fuse-devel@lists.linux.dev>; Fri, 11 Sep 2026 05:56:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789131406; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bVXLfAS5Y4RIiuMcZImLSgWlOZW725oS0SfpYchb4a9KbDbCXhY8fxodsFb45JwLCi
+         RnbWK/suOJ1/92U5KP5GWVfM3EPh26wm/93JVM8GPkz7DJjJpm8b7tLFg8YTMUPV4cSZ
+         J2Dn3w9OCCwF3fEUYk94b5OQwLa0qbki+sT1xuFB01fEGoZj24X1tXI20dSPG4UfXHEh
+         V+DL85/mh8CUYL1J61uKM1ypAwWHL6xC+KuKcwkrZNDRx5uabOXpGj2cqoEKwc/N/qMJ
+         kfKP1znqqxh3/4+YLYgSsi4yABV0/S6wM5vuqjFBkr6FJ/ANSD61EOo1wZLzFPWUJpVO
+         u2Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FAN04AozBS+qD8ZJjFEC9wp5PTlWL5yGKkFxUyo/YfU=;
+        fh=r271R5s2pg7afxFnByDETpieHben1dr47Mxd2Vt/JG8=;
+        b=Rsb6LuTHDCC3SkD4MM2EkzvjugDTYJpqTwVcN/47qJkstnYN1oRYYz3MgjRV5Eb3vX
+         sZQd63y7jJfnPtcWd65BnRorP0r+Hi51nbQ+yaxvVSh3KU+oGA/5r9XYj/BgrIpl4dnk
+         yUxAtuxEl8NMK4s3AGlapXiDKBb8S6OCR9sBb6HUNV4/hmU0EFhDOjYozqn5hthfMyvV
+         q43rvL82RiJHJLEeAfk8OuQyfe6coL9qrPSmvfcrtKEsCLZD91wOJbPXJzwaAMQ9DPKk
+         kChHZLVjXafO3QE1qZ8J6JYQL2RtyKSozdY5mJBNNEadzQjxmf2BeUQIkWVF2Jt5RNi7
+         9chQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789131406; x=1789736206; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FAN04AozBS+qD8ZJjFEC9wp5PTlWL5yGKkFxUyo/YfU=;
+        b=UQ+Rsb4AwunOw2S7smcQX+nVnk43pffNqQxBec986odb5DYJWaGcfFDkC4si1lmdrx
+         OeIltJY4zO29YcCOiGKiFlMcJ0nbSqQQ7wBT7Y7mVwvPm4VGjhpV9fUCWfIOWOzrI1kj
+         h46jF3o+9LC7IMwh5Ps6eCOoZUQO6m62aQvm1hnf+ZYCuAeuCRyOChkgXCB+275OzpCb
+         o8Bp9/N3Cq1NA+7tSdNqh9ASC+UqhQJgGPzJWpWxyVlKADBdNqop8tKcj0kU5J4uQnl5
+         hkzfcihVn1e+XWg3uxuaTfqISMxxAnY2CQaqdFqq531VxqzN0XKN8wyN4hIJx+vbNL+G
+         fX0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789131406; x=1789736206;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FAN04AozBS+qD8ZJjFEC9wp5PTlWL5yGKkFxUyo/YfU=;
+        b=mD+BGssI5gI2dBJPjDoPJyeH+CVUyzkPX0wXppXfKT4tUjzpByjZD0xtd773Y4OVbg
+         dmPKzWfzIHfEnJYgRDnsSqcm4rWTC3tjsrMv0u1xYlHZfrmiaJ4ffOxoQvmEvJs2/2hG
+         smiQhP02ni1lJ4O9uRHNU20bFvypeb/EnYZTIRsqC6H8mxDt4Z/9i7R1/jxsG3POBewI
+         9Em1B1Hzbks2h/1+rCsnSYrK+JKSOXvm3Kcg9MPvx/39m/toqw7Dgv2OOMzxyNOAcZjw
+         azw/F+rsWLEIs2cQ9CEcwHllyX0Z0z+7y1SM4POknbp5omUjVIqh9mUjl1c5qbJ02aV6
+         bwzQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzOlaiaa/ayJJTyoCKmpK7TgDqNVUC1bBZEXGzkZDe8NF2Zho1IkCehBjw1TFORgYLYU7IpJJeSZItl@lists.linux.dev
+X-Gm-Message-State: AFuF++nMfs4odD6eI41bDRgqJ8D0R+S2vYun+vGLgrPiKnUoufcTmV4x
+	mxIrDeooE5cO0lRwBxQ2OTEIbQ/a3Zryj08zLwBxrbsTlsfGTD7rc81vWmz3XjhYp3gLn8jswLU
+	Vj+KzqCTlp2R6xUdAM2Vy6Btnn/0GsSQNOfkKHTE=
+X-Gm-Gg: AYBFou2r62f/X5+bygxqhZGYqf/Ec4nUFHbY5oo4SXv+VBOMeXloONw6C3f9vieJOvF
+	cZBMweqcvgVd+NnVd/dmG9PGS5xgk65ESJpaI6YGM4XDVqvqrAAXOyfGGhGkjADXHL8eHYebeAB
+	DuciljRbu9SCYxGkiwfhJa7ENcxkTl79SjBwhoG6N+TiheqreZ5AKavCSsJLMqmxdL/MjREH8ht
+	xLxfN9WOBU8BHs6WRhVpww2VOzh1KDsBzkNSfUV8UvxVRTMTwdgwKMgAhLsFwcx7Unxr2emlQqM
+	mlvRiQdekMNqvf/8iLJYBiZGZ1gwqMsWWlYQo9sTC8ohxaeOOalhCBwdSQ==
+X-Received: by 2002:a17:906:6a28:b0:c29:5a76:72be with SMTP id
+ a640c23a62f3a-c29667452e0mr193985066b.24.1789131405334; Fri, 11 Sep 2026
+ 05:56:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/39] fbdev: defio: assert FBINFO_VIRTFB, drop VM_IO, add
- VM_MIXEDMAP
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Xu Xin <xu.xin16@zte.com.cn>,
- Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>,
- Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev
-References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
- <20260908-b4-mmap-prepare-vma-flag-sanify-v1-18-dacf19cce22b@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-18-dacf19cce22b@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -0.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	FORGED_RECIPIENTS(2.00)[m:liam@infradead.org,m:jannh@google.com,m:pfalcato@suse.de,m:surenb@google.com,m:mhocko@suse.com,m:dennis.dalessandro@cornelisnetworks.com,m:jgg@ziepe.ca,m:stephen.smalley.work@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:daniel@iogearbox.net,m:eddyz87@gmail.com,m:memxor@gmail.com,m:ryan.roberts@arm.com,m:dev.jain@arm.com,m:dgilbert@interlog.com,m:James.Bottomley@HansenPartnership.com,m:jayalk@intworks.biz,m:simona@ffwll.ch,m:deller@gmx.de,m:peterx@redhat.com,m:oleg@redhat.com,m:peterz@infradead.org,m:mingo@redhat.com,m:bp@alien8.de,m:mark.rutland@arm.com,m:riel@surriel.com,m:juri.lelli@redhat.com,m:airlied@gmail.com,m:npiggin@gmail.com,m:arnd@arndb.de,m:osalvador@suse.de,m:willy@infradead.org,m:jack@suse.cz,m:catalin.marinas@arm.com,m:anup@brainfault.org,m:palmer@dabbelt.com,m:aou@eecs.berkeley.edu,m:davem@davemloft.net,m:andreas@gaisler.com,m:viro@zeniv.linux.org.uk,m:matthew.brost@intel.com,m:joshua.hahnjy@gmail.com,m:rakie.kim@sk.com,m:byungchul@sk.com,m
- :gourry@gourry.net,m:kasong@tencent.com,m:shikemeng@huaweicloud.com,m:nphamcs@gmail.com,s:linux-mm@kvack.org,s:youngjun.park@lge.com,s:chengming.zhou@linux.dev,s:qi.zheng@linux.dev,s:shakeel.butt@linux.dev,s:dri-devel@lists.freedesktop.org,s:kvm-riscv@lists.infradead.org,s:linux-arm-kernel@lists.infradead.org,s:linux-riscv@lists.infradead.org,s:fuse-devel@lists.linux.dev,s:kvmarm@lists.linux.dev,s:linuxppc-dev@lists.ozlabs.org];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.com:url,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linux-foundation.org,infradead.org,google.com,suse.de,suse.com,lwn.net,linuxfoundation.org,cornelisnetworks.com,ziepe.ca,paul-moore.com,gmail.com,perex.cz,iogearbox.net,nvidia.com,linux.alibaba.com,linux.dev,arm.com,interlog.com,HansenPartnership.com,intworks.biz,ffwll.ch,gmx.de,redhat.com,alien8.de,linux.intel.com,surriel.com,linaro.org,arndb.de,suse.cz,linux.ibm.com,brainfault.org,dabbelt.com,eecs.berkeley.edu,davemloft.net,gaisler.com,zeniv.linux.org.uk,intel.com,sk.com,gourry.net,tencent.com,huaweicloud.com,lge.com,cmpxchg.org,zte.com.cn,szeredi.hu];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL3ijnbkbqi8cy7pgpqkbn6f4y)];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[134];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
+References: <20260516004004.1455526-1-joannelkoong@gmail.com>
+In-Reply-To: <20260516004004.1455526-1-joannelkoong@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Fri, 11 Sep 2026 14:56:34 +0200
+X-Gm-Features: AcwNN1VmpaVZZkPEwLu7gA0px9cF_wj46GJyQgXpsE6qhM5m6PYwOOCkk6vrVRM
+Message-ID: <CAOQ4uxhbbfn7pnq3YNMKpYDAjyZXdZcJoBpnkzjJwOdeDw9jow@mail.gmail.com>
+Subject: Re: [PATCH v2 00/21] fuse: extend passthrough to inode operations
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
+	linux-unionfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-
-Am 08.09.26 um 22:01 schrieb Lorenzo Stoakes (ARM):
-> Currently all drivers which use defio allocate system memory. All of them
-> also set FBINFO_VIRTFB, other than ssd1307fb, however this driver allocates
-> system RAM, so simply failed to set this flag when it ought to.
+On Sat, May 16, 2026 at 2:51=E2=80=AFAM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
 >
-> This patch sets FBINFO_VIRTFB on ssd1307fb probe, then drops setting VM_IO
-> in fb_deferred_io_mmap() and instead requires FBINFO_VIRTFB to be set,
-> erroring out with a kernel warning if not.
+> This series extends fuse passthrough to support inode operations (getattr=
+ +
+> setattr) and directory readdir.
 >
-> The logic requires a page from the driver and since commit 1ecbc7dd2902
-> ("fbdev/deferred-io: Always call get_page() for framebuffer pages") has
-> always required it to be refcounted, so this was implicitly already the
-> case.
->
-> Finally this patch sets VM_MIXEDMAP, as the logic is mapping
-> kernel-allocated memory so this is appropriate.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   drivers/video/fbdev/core/fb_defio.c | 6 +++---
->   drivers/video/fbdev/ssd1307fb.c     | 2 ++
->   2 files changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/video/fbdev/core/fb_defio.c b/drivers/video/fbdev/core/fb_defio.c
-> index fd00b86e1ae6..fb359ecc3966 100644
-> --- a/drivers/video/fbdev/core/fb_defio.c
-> +++ b/drivers/video/fbdev/core/fb_defio.c
-> @@ -366,13 +366,13 @@ int fb_deferred_io_mmap(struct fb_info *info, struct vm_area_struct *vma)
->   {
->   	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
->   
-> +	if (WARN_ON_ONCE(!(info->flags & FBINFO_VIRTFB)))
-> +		return -EINVAL;
->   	if (!try_module_get(THIS_MODULE))
->   		return -EINVAL;
->   
->   	vma->vm_ops = &fb_deferred_io_vm_ops;
-> -	vm_flags_set(vma, VM_DONTEXPAND | VM_DONTDUMP);
-> -	if (!(info->flags & FBINFO_VIRTFB))
-> -		vm_flags_set(vma, VM_IO);
-> +	vm_flags_set(vma, VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTDUMP);
->   	vma->vm_private_data = info->fbdefio_state;
->   
->   	fb_deferred_io_state_get(info->fbdefio_state); /* released in vma->vm_ops->close() */
-> diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
-> index c4fdecafd856..958514a35433 100644
-> --- a/drivers/video/fbdev/ssd1307fb.c
-> +++ b/drivers/video/fbdev/ssd1307fb.c
-> @@ -763,6 +763,8 @@ static int ssd1307fb_probe(struct i2c_client *client)
->   	info->fix.smem_start = __pa(vmem);
->   	info->fix.smem_len = vmem_size;
->   
-> +	info->flags = FBINFO_VIRTFB;
-> +
->   	fb_deferred_io_init(info);
->   
->   	i2c_set_clientdata(client, info);
+> The existing FUSE_PASSTHROUGH mode attaches a backing file to a fuse inod=
+e
+> only when a passthrough file is open. This series introduces
+> FUSE_PASSTHROUGH_INO, a stricter mode requiring one-to-one inode number
+> mapping, which allows attaching a backing file for the lifetime of the fu=
+se
+> inode.
 >
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG Nürnberg)
+Hi Joanne!
 
+I wanted to see how we can unblock this patch set
+(did someone say conference driver development?)
 
+The main contention point for me on v2 was the fuse_entry2_out API.
+And the suggestion to do a composite LOOKUP+STATX defers this patch
+set to the unknown future of fusex.
+
+My favorite solution to a problem is to avert it.
+
+The question is how to include the backing_id with lookup/readdirplus
+reply. The answer is that there is no need to include it.
+
+I have already discussed with Miklos changing the UAPI to
+widen the backing_id to 64bit and to let the server choose the id [1].
+
+Considering the fact that FUSE_PASSTHROUGH_INO literally means
+one-to-one inode number mapping, it seems a bit idiotic that the backing
+id (should it be widened to 64bit) be anything other than nodeid.
+
+The new 64bit UAPI is something like:
+
+ struct fuse_backing_map_v1 {
+        int32_t         fd;
+        uint32_t        flags;
+        uint64_t        padding;
+ };
+
+ #define FUSE_BACKING_FLAG_INO_ATTACH
+
+ struct fuse_backing_map {
+        int32_t         fd;
+        uint32_t        flags;
+        uint64_t        nodeid;
+        uint64_t        ops_mask;
+ };
+
+ #define FUSE_DEV_IOC_BACKING_OPEN      _IOW(FUSE_DEV_IOC_MAGIC, 1, \
+                                             struct fuse_backing_map_v1)
+ #define FUSE_DEV_IOC_BACKING_CLOSE     _IOW(FUSE_DEV_IOC_MAGIC, 2, uint32_=
+t)
+ #define FUSE_DEV_IOC_BACKING_ADD         _IOW(FUSE_DEV_IOC_MAGIC, 3, \
+                                             struct fuse_backing_map)
+ #define FUSE_DEV_IOC_BACKING_DEL         _IOW(FUSE_DEV_IOC_MAGIC, 4, uint6=
+4_t)
+
+---
+
+- Server calls BACKING_ADD before open or before lookup
+- fuse_backing is stored in backing_map hash table instead of idr
+- With flag FUSE_BACKING_FLAG_INO_ATTACH:
+-- If fuse_inode of same the nodeid exists, fuse_inode_backing is attached
+-- On instantiate of new fure inode, if fuse_backing exists with this nodei=
+d,
+   it is auto attached the the fuse inode
+-- This attachment lives until inode is evicted (same as in this patch set)
+-- requires FUSE_PASSTHROUGH_INO
+- Without flag FUSE_BACKING_FLAG_INO_ATTACH, backing is attached
+  to inode on open as today and detached on last close
+- The server attached backing survives inode evict and it is up to the serv=
+er
+  to do BACKING_DEL on forget if it wants to
+- BACKING_DEL only removed from the backing_file hash table -
+  it does not detach fuse_backing from the inode (as today)
+- BACKING_ADD to already mapped backing or already attached inode fails
+
+FUSE_OPEN reply does not need to include an explicit backing_id.
+It's enough to set FOPEN_PASSTHROUGH because the backing file
+is already attached to the inode.
+
+Similarly FUSE_LOOKUP and readdirplus do not need to change at all -
+server just does ioctl BACKING_ADD before the reply.
+
+For backward compat, FUSE_PASSTHROUGH can use the old
+BACKING_OPEN/CLOSE with a naive 32bit id allocator.
+
+[1] https://lore.kernel.org/fuse-devel/CAJfpegve9GMTRwvoA5y7AzUSD4e_EDJFzsq=
+hCVN8xQ+RjQ=3D+Sw@mail.gmail.com/
+
+What do you think of this plan?
+
+If you are on board, do you want to take the lead or shall I try to allocat=
+e
+the time for it?
+
+Thanks,
+Amir.
