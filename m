@@ -1,192 +1,138 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D6B382F03
-	for <fuse-devel@lists.linux.dev>; Thu, 10 Sep 2026 23:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789084356; cv=pass; b=sTaq629g3oXMk2aIPwHZUxRcaECxUsmIFf+CMiNsSyh3h6DjRVnhegNzdF7mc2W0U36UNzG/Mdr7uERwqNONygZawklUuhl9ofssrDUQImu/VOoz9qqgwjfOlbETXh77BCnH0rrDzsAG3LuiTYQBEqoutgcF2KyIDkTKyj7Wv8o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789084356; c=relaxed/simple;
-	bh=gxd9FXzpjEE7MvIjrTJWMqmaXboQI1HI9LnM+PCmHvo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ea0Ll2MCW06XE9Q6OVC98fuMsFjkJiYyT3fjfYXakWIZWTgnCxPv3po+E7RP/rKUlShZlNNa983acnV1uCSgCKvNH84PfOMfXJBTW+Ny2ntUA6WWhPBfWKzxjJjBVUObppKeNCDAWMrOU9kYuuFidQZOpxhBMmc/nVGdmo9cQCw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=WD+8OxEj; arc=pass smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CE4414417;
+	Fri, 11 Sep 2026 10:13:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789121634; cv=none; b=Lg/zhN32hLkvTlALdtKpez/njgpNduhAfla3RCstdoYG3T4dWPc+5quojVFaA7hxx0Kzdx2nuEQqPe2YHiFhSKxie63OowvN58BMmEDzDtpxfuaRr4bLH40NvUfaerm4oRvjZZRPHl94b+m7as74Si4mAqTFO9q/zi8Ik23RiqY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789121634; c=relaxed/simple;
+	bh=AJ4osXGfnva+GsW9Xj6wSlPvmOYx8+Z4McGwoEWWU6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z/nz25oijYbnMnGJnkIP22Ji/priNezxuNzHqV/HGdcXC2YGF4/GGefAm901p7tRfiIpzS7mmp6x23O2UkT3x4gr26gTiMjXh5MniY6vJupw5sTv/ethNyNlA7hxgZVrwWIITjbJaY2GnZNuaqkXbKF1zQscN3PhvsB0YbWJXKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VXiIsYXG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="WD+8OxEj"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-86a31708876so243290b3a.2
-        for <fuse-devel@lists.linux.dev>; Thu, 10 Sep 2026 16:52:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789084352; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gRlzuwQjbAPMaJu0Hac07mqcY1DUornyilo7ceEe6aAsfmbsrkAyHmD0Hjw4cXTwfY
-         GEZfvoVlZ3IT9JJMGG/hv2QbIcwj0z6+JKt4qKE6DNTzainE3hTy0wd4UpFBdb8y6g5v
-         EZbiDgPlHbtg9UF6gPEA7+rgy5ZwLjeheQz6iagnh3CsaqhBowuupUW5GSDxIbVFetF4
-         oTNoNMmZaBAzRHxzatca5rYTeAwYvIZbJtglsMmDYdUklgtMSjf2/WgHpOXPqU8uOair
-         V/WBPTC/V0m+nK0v8eEenFoT2pvK2DwcKaz0wPepsZMPp1lS9rMjWUP8+WNBvAZWm2nJ
-         SkZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NdnRvtVpKeaWT0ZN4s5Z5A0W0nAd0cRp7qQ/CRHsFmE=;
-        fh=FhgkQB2tTTm5epeF7LNZOE8ah4fWo4AMe8TEYjaC3MI=;
-        b=N5n5kQcif9QtOSMyER0Zq1FYDeJ4Ebmxc9GBMGrryM3bSmYwm4zKFSChnV8G4Ckgg6
-         9zHAbOQe+ZyT+yQkkiKjNEAVXB/2dI/fc4M+9wCPFPoM6LSLs5tvszTIOVeJHIcw7wHL
-         qCa9/Jhwgfjuy1/xsugc5OlIYFZ5cQMMCFt5fuh0/kkBzdn3uTQDZPJ4OBqLb2bnj2cj
-         g07ZMF0K0rpSUO75DTxvztz6fbA3cK2OVAioD4Th/NDSt8pAU4xkwFXuXfou6FNsUiIY
-         y6ndhlghCKHUNTsS1uGT0sbcwpFS6P3GnTdC2/DBLPVgDFqkQsIqM+bLF5I1flLeb/Bd
-         oj8g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1789084352; x=1789689152; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=NdnRvtVpKeaWT0ZN4s5Z5A0W0nAd0cRp7qQ/CRHsFmE=;
-        b=WD+8OxEjb7eVNErpr/0hQQrvHuikfU/NOEyEAbssN4c/oGFwwNc4A1NYaW7S+z3Ybp
-         dx9DTcWmWtVZ7jqF22rnj3zDzEwOj9B4emtxp1eNZOeAvi+PYs4KT6gAHjbcEWtsWFf3
-         IFbvy5kAga2tl6AuJWGQAlxdqn2bE1NQ/4/B9DormoPgyCEKJV5NNVoDlHBxrbbtUTH6
-         JbyL40nJ30207x//f81hLeBvqiYgjS1idHTIXs3VgWxxkr4wKv0rVm0giOqp7k7yUzWR
-         lyQ8DQHuXf9rAABqzPdCaEe1fGtbeuFpv4Bqh4uS9QTnHRfRsj8Z8bSGzSDv9euRPuP+
-         Xp2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789084352; x=1789689152;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=NdnRvtVpKeaWT0ZN4s5Z5A0W0nAd0cRp7qQ/CRHsFmE=;
-        b=P838jWwNeQisHBVjlsoLGeG9vLsoCFvg/ZcaQ3HbGn1LFsGrCMUTUZ7KvMxfqPtjBx
-         tqXNrih+4NC96hL8cnYVKC5t8zzMVi8JiSAxyJg9yc8J1U5AGRsLy7/DOKAW0IRwhPAt
-         9eEhyStJ1IgzS9TwEnmQrdvRPY7gRL13kuXAOii2kk/WHo/+rtP6B1+fs0k0UbFsRbLZ
-         FkFd2lLv8Dl717DA1i4p2AAke/lmqig7kEahb3sAIA/WwcQD+D2uBuJzNLgIk0dWmCFk
-         Dap9KWAv/AffKdDM5SwLKqyaCejq8+9qItgd9/2FZMXGuHUMfy+iuiTrkM99KdoSbQnl
-         DyTg==
-X-Forwarded-Encrypted: i=1; AKwUvBwuTzXZiEMbm8AhgRVRVgLODxcXj5LYBY7l8xt7Xsi8SXLF4gfN7ERMm2U8ynqrnkCglibmHDRL7/Ff@lists.linux.dev
-X-Gm-Message-State: AFuF++nf0d6fwj25czfNtyA+qurfJKjY1C2nNRlKqcI+Z1My9MdJSqGt
-	gsld9JSImNYHwWf8SX0LW/hgPYkzdT0b3YP7EaTUJqVvxeIHkY+EkbDIUCGWAR8qvc0uBP5mC3n
-	/Ww4aWyD/qe4JsatHmnPZ/g1dDGIrhPiD5tv4FmKF
-X-Gm-Gg: AYBFou02BMtitl7aKx4brVkYsLunkNFx6KsNWbmsdK+rHc11idijzFndzcrXpuZqadP
-	bgcMjGykEAnahZGFJvPP5kfx8zYv/nBnCnFYfnfQhR362ZURZ0anqZCszLc/KQCROneKNRtj6Li
-	PEqj0LMD7Dr2IcZey09tzra3//7KTxv4ZEZt3kqHApXATmPu1GsT5WmGbXYgCPkWGHasax64x1D
-	GHWGcr3crmYmPELlZ26RfPkKIXHl63n0Lz+Om1S8paFVM6pox6pt1/M9dHwBryPk8l+XEhBCQvz
-	a1PyxHvc7iIcT3+dzwmfWnNpg283wBQhmutUt1sTVcqBMKfIdHLF8hu71jeX/cXOJUIc/0O6lws
-	sYYzipa4QxhLFPSuEO42NjA==
-X-Received: by 2002:a05:6a00:aa07:b0:85f:b00b:8760 with SMTP id
- d2e1a72fcca58-86b30f13aecmr2172804b3a.5.1789084351986; Thu, 10 Sep 2026
- 16:52:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VXiIsYXG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F4F1F000FF;
+	Fri, 11 Sep 2026 10:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789121626;
+	bh=AJ4osXGfnva+GsW9Xj6wSlPvmOYx8+Z4McGwoEWWU6k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VXiIsYXGW7V+CUC2hoUUxshBtk//170ahXby5qOmnHCTEG6nprU1IS50u25G/fRQk
+	 sf9ytH2Ce2iGqonEAUfAmBNxEiX0H5gDZvz851NX8EhIuDaWSIQBlPZWYHnVma0aGj
+	 blDmI4LY1KM28dzcRxXSp3rNd+ml+k1Jf5jXcr5BNdmFsP+f0lE+KyInKD5utrTv18
+	 j0kWa0ZAaMlc3Pw4wRDO2h4SoWYRal6ZvW3YmHkVxX6gQf6/JqWhQp1QSVXE2Kca+2
+	 BYYLTVktrg9Xqy9CLQ0dyOX4enXiqnPzEjwUfsC5vJviK7A/gYwNlJA1GGOz2i3bhy
+	 SIFHvCnClRnig==
+Date: Fri, 11 Sep 2026 11:13:15 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Jann Horn <jannh@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Xu Xin <xu.xin16@zte.com.cn>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH 11/39] selinux: reject writable opens of policy file,
+ drop mmap shared/write check
+Message-ID: <aqPS_UHU3MotlchR@gremlin>
+References: <20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org>
+ <20260908-b4-mmap-prepare-vma-flag-sanify-v1-11-dacf19cce22b@kernel.org>
+ <CAG48ez3Ucb8HyhjC1-fijFiYJsnWcTLYHvJjzMyU710mgegxnA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260910022442.3594649-1-xmei5@asu.edu> <CAJnrk1bVwezZwMFmOE-4T6KTa5SzQFapkATS2LVeo7+bMcjdbg@mail.gmail.com>
-In-Reply-To: <CAJnrk1bVwezZwMFmOE-4T6KTa5SzQFapkATS2LVeo7+bMcjdbg@mail.gmail.com>
-From: Xiang Mei <xmei5@asu.edu>
-Date: Thu, 10 Sep 2026 16:52:20 -0700
-X-Gm-Features: AcwNN1Wt4X8PS2HRrjI9CWe-1228S10-2EjcXULM81Hw8G_R71GCSrBJ2wPt8_A
-Message-ID: <CAPpSM+Qd=yEc=NsuK_fE12KHH+qnYvvHLFUs6fvcw0SsfP8tcQ@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] fuse: don't BUG when the copy buffer is exhausted
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Baokun Li <libaokun@linux.alibaba.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>, fuse-devel@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, Luis Henriques <luis@igalia.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, bestswngs@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAG48ez3Ucb8HyhjC1-fijFiYJsnWcTLYHvJjzMyU710mgegxnA@mail.gmail.com>
 
-On Thu, Sep 10, 2026 at 10:22=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
+On Tue, Sep 08, 2026 at 10:22:20PM +0200, Jann Horn wrote:
+> On Tue, Sep 8, 2026 at 10:07 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
+> > The policy file has no write method and is exposed read-only (S_IRUGO in
+> > selinux_files[]), yet sel_open_policy() performs no open mode check, so a
+> > CAP_DAC_OVERRIDE caller can open it O_RDWR. Reject FMODE_WRITE at open, as
+> > kernfs does.
+> >
+> > The file can then never be mapped with FMODE_WRITE, so do_mmap() always
+> > clears VM_MAYWRITE and VM_SHARED for MAP_SHARED mappings and the VM_SHARED
+> > check in sel_mmap_policy() cannot be reached. Remove it.
 >
-> On Wed, Sep 9, 2026 at 7:25=E2=80=AFPM Xiang Mei <xmei5@asu.edu> wrote:
-> >
-> > fuse_copy_fill() hits BUG_ON(!err) once the iterator backing the copy
-> > runs out of pages.  Over io-uring the amount copied is not bounded by t=
-he
-> > payload buffer the server registered, so an unprivileged user can drain
-> > the iterator and panic the host - mount a FUSE filesystem with small
-> > payload buffers, then setxattr() a larger value:
-> >
-> >   kernel BUG at fs/fuse/dev.c:1064!
-> >   Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-> >   CPU: 1 UID: 0 PID: 148 Comm: exploit Not tainted 7.3.0-rc1 #2
-> >   RIP: 0010:fuse_copy_fill (fs/fuse/dev.c:1033)
-> >   Call Trace:
-> >    <TASK>
-> >    fuse_copy_args (fs/fuse/dev.c:1354 fs/fuse/dev.c:1380)
-> >    fuse_uring_args_to_ring (fs/fuse/dev_uring.c:891)
-> >    fuse_uring_prepare_send (fs/fuse/dev_uring.c:940 fs/fuse/dev_uring.c=
-:1057)
-> >    fuse_uring_send_in_task (fs/fuse/dev_uring.c:1745)
-> >    tctx_task_work_run (io_uring/tw.c:96)
-> >    tctx_task_work (io_uring/tw.c:133)
-> >    task_work_run (kernel/task_work.c:233)
-> >    io_run_task_work (io_uring/tw.h:84)
-> >    io_cqring_wait (io_uring/wait.c:278)
-> >    __do_sys_io_uring_enter (io_uring/io_uring.c:2676)
-> >    do_syscall_64 (arch/x86/entry/syscall_64.c:61)
-> >    entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
-> >    </TASK>
-> >
-> > The reply path can drain it the same way, via the server-supplied
-> > payload_sz in fuse_uring_copy_from_ring().
-> >
-> > An exhausted iterator is recoverable, so return -EIO.  All three
->
-> super nit: imo, the reason for returning -EIO is unrelated to an
-> iterator being recoverable.
+> You should also be able to remove the sel_mmap_policy_ops.page_mkwrite
+> handler, which is only for shared-writable faults, right?
 
-You are right.  Also added the comment you suggested on the -EIO mapping.
-Both Reviewed-by tags are kept in v8:
+Yeah I think you're right, though I wonder if it's a bit out of scope for this
+change as it's focused on removing a VMA_MAYWRITE_BIT clearance for a
+non-kernel-owned VMA.
 
-https://lore.kernel.org/fuse-devel/20260910235110.3922068-1-xmei5@asu.edu/T=
-/#t
-
-Thanks for the reviews, and for steering this to a much simpler fix.
-Xiang
+So maybe one for a follow up?
 
 >
-> > fuse_copy_fill() callers already propagate the error.
+> > This also stops sel_mmap_policy() clearing VM_MAYWRITE on a mapping that is
+> > neither a PFN map nor a mixed map, ahead of the core enforcing that only
+> > such mappings may do so.
 > >
-> > Fixes: c090c8abae4b ("fuse: Add io-uring sqe commit and fetch support")
-> > Cc: stable@vger.kernel.org
-> > Reported-by: Weiming Shi <bestswngs@gmail.com>
-> > Suggested-by: Joanne Koong <joannelkoong@gmail.com>
-> > Assisted-by: Claude:claude-opus-4-8
-> > Signed-off-by: Xiang Mei <xmei5@asu.edu>
+> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 >
-> Thanks for your patience with iterating on this fix!
->
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
->
-> Thanks,
-> Joanne
->
-> > ---
-> >  fs/fuse/dev.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-> > index 4fec31fc0b84..4148e4488d77 100644
-> > --- a/fs/fuse/dev.c
-> > +++ b/fs/fuse/dev.c
-> > @@ -1061,7 +1061,8 @@ static int fuse_copy_fill(struct fuse_copy_state =
-*cs)
-> >                 err =3D iov_iter_get_pages2(cs->iter, &page, PAGE_SIZE,=
- 1, &off);
-> >                 if (err < 0)
-> >                         return err;
-> > -               BUG_ON(!err);
-> > +               if (!err)
-> > +                       return -EIO;
-> >                 cs->len =3D err;
-> >                 cs->offset =3D off;
-> >                 cs->pg =3D page;
-> > --
-> > 2.43.0
-> >
+> Reviewed-by: Jann Horn <jannh@google.com>
+
+Thanks!
+
+--
+Cheers, Lorenzo
