@@ -1,301 +1,188 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B006C381EAE
-	for <fuse-devel@lists.linux.dev>; Mon, 14 Sep 2026 19:20:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEC949B20B
+	for <fuse-devel@lists.linux.dev>; Mon, 14 Sep 2026 19:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789413626; cv=pass; b=aDvjMsD5b4byjJAypm12CO9u1rG+1rUp5zeb3hLHUgpzqvNQiVhm65vc0e3f76I1gYehUk1RHcac6+sIKy7JHwKp/b15Q8TA6Y1WwmxL3+J/GGU/GQvVCCcJaoviLz/Kfs6dpWRyCN9dyWoGvnUb/YnHv7mMai2QCQPdRAT9wus=
+	t=1789415866; cv=pass; b=tc0mpwjkaH5P4DAGLmCWmqs3K6+Z/awEkUT1L0Y43nmyoLknf0LoLUcOfOyjnxcddA3sgtfi5pJt+pzmPaNXBdWS7cSWWK0yQxhU/m9GkjcgWz3Dpz9/IIW6UOsTK2jR8iqBY/Exe3hvz3v3X5/PQM2FdSzgpQDpJ4FtJ0Hk30E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789413626; c=relaxed/simple;
-	bh=xakzeq5id78Z/Uqt2W5jU58Uyg9YaQypJq9wqXGUycM=;
+	s=arc-20240116; t=1789415866; c=relaxed/simple;
+	bh=rm+zdLu0LlzNfMP/vZrBYvi966p9ISS8d4XEb3JQ094=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YVUNj7+pUrN+TI7WA/wStYGBKv4j5ZTFPplvtMil19ADRR4SN1wyg7yOM0F4jInOvDcgEN8tnt+01abPE0kPryiBW9CoMAtoPE8PBNLyPjtxxTf/luzoJf2PMsZ2sbCAY65P1HR55XHsr5eiVBwPYvcVumwca06EinIr1Wt+JaM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gorg0Pmf; arc=pass smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=qJYxE+CeJ/lrnN9LmoH5JGuzOC6USakewcpubd5Sba+34NAcirxEHkiVWrOwrzH6CRE5A0uwidDQ2pOXZYTxOxZaJ7rwsYlXBGpOEo56n2xsdro2lO/0advitG/wedT8wQKEBV/DG1heAngk9JUJv4+63Ssqkth4lekC7lanDso=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=dAOCiPxl; arc=pass smtp.client-ip=74.125.228.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gorg0Pmf"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843172bff4so1179115f8f.0
-        for <fuse-devel@lists.linux.dev>; Mon, 14 Sep 2026 12:20:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789413621; cv=none;
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="dAOCiPxl"
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469e25400so1944912b3a.0
+        for <fuse-devel@lists.linux.dev>; Mon, 14 Sep 2026 12:57:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789415862; cv=none;
         d=google.com; s=arc-20260327;
-        b=MqUVP42lULshJ/QQ4o99v36m6m4HR4k5lT3RvVx7bDdw2sWkJgrqPWUdq6+EN9nIQu
-         v8CFhg9AdeibT7U5hTMrscrzXlM+Gtk33iytkVOISVQvAkmNCZFcdrYPSZkyK1AS+2oK
-         8ptHBFCfTUVXi0eYSLQcJdIX7BKG+FRLDi2zcjKcC0zV7N4TyjZYPlFVDDELsUPiw+vx
-         QHDgzztErM79MW2H6LMsoHY0bwuT96UjV9eWqqmm9cg36BMkeh8uLt+2jyCnK219Eg+G
-         d86iWoCztCPkn0QtLkxiRtXagNGcVaQBty75S3dNpZXAJF0x9XSc3MqbPkGjmDLi4WlA
-         u8Cg==
+        b=ScJO5utL/5yz0eqU+kc5++y+8JZasNVfetARr/hekj9cQuP5DaSIklIX934IWAJpq2
+         sZgvebKa2JYDY4rWpJvd9+Yfk6tNwScBTsv+0kQ8G1uwGObX1vhCf1M8Jdhr4DBKZ8KJ
+         bKFCkJwPkeK4bG9PlSjx5Qj9W/iDnxn9Cq7RJ8YLOGQWxyaVk9NYdSo3nITF5fpE1F1q
+         8Iy5h14J90uKCjsWFv0112RJNbbdFgdjAXTR0RwRpCp4XjGx7tTIo9qCs1ku6G13qoQA
+         TG4CeN4Zb+JS3haEDTUZBQsAKMrRVQU4KkMLMBW09rsRSJDuLFkPLd6ihzmAf1aojN8U
+         uB8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=RToJfpqTIYj+TSAl56wnkXn/Ktuv55iQLTBkVkQVxAQ=;
-        fh=IzKdYchEyTiJ26kL/BILSOG1IkkE56jJiHMs7fm6J98=;
-        b=J1HdeLU8V5rKKNqP46VgULH2N9XqvHqiFHTSlc6DN4vvZT76eaLL6ycslwUyEklc5s
-         7SzbIM6UoyZ4ZLG3HirDpNZKvaCXp3lHTe9nGq8wT+SOCdGOqUskH6NrFVi5S9y6XdNG
-         7roH/vnu9XJBr3+z0Z0mfiWkMmV1luQOqSCnRv+A5gIJaAJWDs2yxE/t9jLPGj5ZI6lK
-         fvzdhpmTVUD1lnU8Rz1TL+kJrIbB5hoU9VDaOX60kU/Jp75cqwFm7vrS3uRM1vjFCw33
-         cTfN0F7jNJy8bHAsP42XsTW9VBm3eiWdwMMwcjTPYZ26IRxGjK49/1A18pa5PFyqM7Ez
-         eV8Q==;
+        bh=iEa5EIpxI31VfZhRCWTdUVuFxMmPcLfnD5/j1cH2Le4=;
+        fh=uJ0kHB1+16e8FUyYnJsHOH2IwepmWbZUZOelcJwX/nE=;
+        b=gXvRc7kGvaLBSmbnI/W6ezEmgJlzDutjfsfMcS+NVcvmBFNEMacya8Un7966UBfrlg
+         ttvo+oijd1hvbIxA+HlevyjRE0008CfmMLBt2Z4hiHxm8qbUjnkO14kX9FgIimN+F65W
+         +/zN+7LN9njoocOQM8pOPDbpAG7ipAvNjkQIqCiad7e/kjuGu28emUxwBxikqNv/lZLr
+         gbe1JeKjs+fswpM2wDA/7SH8u+GEy3gY0m+iI1r6I1wNCMtvyM1JlQKZEK8w5cfzaHm/
+         PnyzTsBJ4kEFO6F/Crh+fuUM62IBtOZ7luNAK6rCsYWOkb50yRGS2FLJjMK2PdWEYkTC
+         7K5g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789413621; x=1790018421; darn=lists.linux.dev;
+        d=paul-moore.com; s=google; t=1789415862; x=1790020662; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=RToJfpqTIYj+TSAl56wnkXn/Ktuv55iQLTBkVkQVxAQ=;
-        b=Gorg0PmfHmrW6zbfb3AGWW6SDKjKRG86yUoToMn1QFHuRPHaTT5/M/gOikfRSXEPdj
-         iTpV0D/L8VV72DXfRsFtUYwLKop4gLdjHkV1/euKn/XF+Qbi2k0MrwVAB4moi7H+ksEU
-         zJGwKQNDzFF7PpkIXtTveaMT+Zim4O3fBHhqfZHY+jWHRvHPsY7XpRRpOL0EHFWM4irO
-         MR7wNVfw4Kc58XuakNKHFfkzqKbgM9FabNYFUnTpt1b4qEABUE5aUPgQESjWVQxtFYhp
-         9N9vOpy1ONfkLOgncEKhVB6jltPAjFRR0jGSVTxsfIvmXohiyncTTdSE3bAhsE30RzED
-         gkSQ==
+        bh=iEa5EIpxI31VfZhRCWTdUVuFxMmPcLfnD5/j1cH2Le4=;
+        b=dAOCiPxlOXx5TExOke4JVOmNQHVNiM4cNMNDkF5KkX3sss7Y3VaSPJtqBzBS7sijne
+         78FWJD8IdbZX1u6v7nty2UPI6gxqLAD5kzMn4wZPyG/4IUVbjX378n5IA6EqzAc0Msr/
+         E/hAWxf3vkwya2K/gFjdiH3bWogW/GZYqAK3tqzN2UehaYKaw1N3WXktCumLJ/3uNn4w
+         SWDFTz59ZASRuWwuB4cYai4LhlfK1LwcJz4YQVX32WQm2z8mwgDbK4c4Viwt7EgD3CdX
+         n4IB9WxDC4vjt0HRRhp/aM6DOlR3hf9ooGhsBsswi2YjjTS34yZUaYCe+iChfSEGXOXm
+         42Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789413621; x=1790018421;
+        d=1e100.net; s=20260707; t=1789415862; x=1790020662;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RToJfpqTIYj+TSAl56wnkXn/Ktuv55iQLTBkVkQVxAQ=;
-        b=CnYrPmXTaI7Vp0jrF5xtHVGmLyAPJbjxKlwmK34rc0czYSpSeaX/HZC7YqWHoBSKvW
-         J6jS5boH2Iw+v5e3+/P8CB0UkSSJWb352kU7rW74cAgc631jxAyItn+zvvYvDGecPibl
-         izryvnQmc47E0XK2AwGVeG89phFb6eTFJA+jho7pFoI/Ny2Wicu8XF0pogu47WcIBNaj
-         IdxhiqGmEWnWbAMqqDFOAdvvxnwPWaPgsDuvytNeKo9jN91LGR4SSTYXzhFMeDwKLSYI
-         tmN0wPIeuN4hMpzxh1fH5WZXo1eB8e2kb7P3C4jDfDiDOCcWrovDWaht6GB2idI7dyYh
-         5MmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzR+kFRTNhbqmM2MYMUA6bPqpGRPbkWZvHPS+26DqAL0q4f4VIz7y1JGb6oUn03wtyR0A6O0LdvlvDD@lists.linux.dev
-X-Gm-Message-State: AFuF++nFbuEezMNonthx90G2jhpmDkofTL+gaJf4H1ORNIAeAk5/7foi
-	OKp/yC9un+y3VDaxNXKistDKVSfYpITEDqISqcigVn/e/s2jf40ZbgixIXbWjZhc029+OA6pSim
-	x2vF2xMq6KC+iPla8LpyIv1plBVzoSIykzvZB
-X-Gm-Gg: AYBFou1R3oQyomOnsCKg3O5mDTKDkoEMJgXN1kXOrbuxIS6fxUnU3hinM9lGw5RwqVW
-	B0B1p2EAQfjIXkwu/8W/QKtPEGNKTmPRJAbmvtyFp6LgZhMttWJ9xj7xncGLLM74df0HvhPYGLk
-	uH45guUU0OsQKmJgt5CIaDO3tqc+lhSlrPXUboHEXxmJnpttJjCrNfqzNEJxt1GELqa5ZBLOiZQ
-	PCfgcX8CjOHiW3q7RheS7eI9pzRpMGTZ5/wyTRqLXIO3IZhUJ3g8NR5L9+X2AeVUcBH7JEl3gY1
-	xWvRdUUAiHSsQ4JH9YGEUmDpLQxkb/rHFAbJt3kaQ+wFJDQONi0nNvlSgYXkS0oGCzM0axhIryt
-	vjYfm0M0t2i+m+mCegMUWfCBL3CgG+AiajLlqm94=
-X-Received: by 2002:a05:6000:616:b0:487:4a8:e853 with SMTP id
- ffacd0b85a97d-48704a8e88amr2218941f8f.12.1789413621130; Mon, 14 Sep 2026
- 12:20:21 -0700 (PDT)
+        bh=iEa5EIpxI31VfZhRCWTdUVuFxMmPcLfnD5/j1cH2Le4=;
+        b=ML1mrUdxigKxUj4oFxoToiiCh1V6ffnlgcMlCspC8Im9Nzb4zuHJbhCPnNjBXNI/hr
+         8Ctz1g/15oThoajE8IyetsW0tm9NuaYqQx91W34i8P2bwTSLxGVlF33PqwsMix8s680k
+         2SRpqR7VWdnQLCs+rS+5vvciINrNGiLwEHXBOjL5Gog1urgmbXjtGhXFPmT9pRhVi3A0
+         +unS26MjmLPKLm916nJEbQd1GoxTLhGbjslyMhdL+6hCUzmAntxgKkSH6uKEPM37LLMI
+         yx2APbny5d9Z+DDzj+/XdaDBXYeUN8cG6Jvk/0zQLE2u2/j98TTpFlbjD4BG2VbgPJmC
+         PxTw==
+X-Forwarded-Encrypted: i=1; AKwUvBw+epd3BA8njNNttj+SKSg1BKA7jkuoeAiG5P++i2ptVchA/pNuFXfw65knUBeKhRjvEWlR5SSSG3tz@lists.linux.dev
+X-Gm-Message-State: AFuF++mVJem7TGAIHZ8tLtAs+ijCAG3sLTzwJHpbTio5gbxcbwz/8gbV
+	jMVQzowP0T+nhJ6kNlXGe24lawgYukyhFXG0sJFMa6XkYjvc4y5FmNmq8B954MHdnRBxcA+y5SD
+	3DNIu4Q/5SrNeSVabc2n6fpWVlOoHlAhdiyIQQGCK
+X-Gm-Gg: AYBFou3t730duu/+i3khoW/OD61UHgdQqJuTfBr9frl/ujKRqgI9qSf9SjJuQIUlhOS
+	4Y6uYlY7OpZvD8ccp8t2GePMStmWMrWnJ94WkFSehBrtb5/pDEpiZ88GYw6lXEbMcKKWLSAMwp6
+	YWjJYIn0yxAvkNdjiuGN8+g6pKvz6OaURu0Xbv8dx2jTUyCZJ3gkWUMmcfCbmOiGwWkxiZobz7C
+	wZU0QWgMPAj6yqJr7aNYchIDjmDZ2aTc3vDb6nes3q0EHsquz+UpEHmsBCsWR1yKeIOAwZUXHM/
+	8K+br+l4S6hbxJ8aKmwDnxj0duYFD8HihUOPKOAKV+fVvAsPwJJjmiQarKrTk2ttxr8gEaQQsHC
+	lsmcbysAIiyM=
+X-Received: by 2002:a05:6a00:18a9:b0:858:b809:6ec0 with SMTP id
+ d2e1a72fcca58-86f869a920dmr8896742b3a.23.1789415862342; Mon, 14 Sep 2026
+ 12:57:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260516004004.1455526-1-joannelkoong@gmail.com>
- <CAOQ4uxhbbfn7pnq3YNMKpYDAjyZXdZcJoBpnkzjJwOdeDw9jow@mail.gmail.com>
- <CAJnrk1aBBVOY_bi0s8-FZm9EST2NNePW7jkX3J7ygQ3vaer7Tw@mail.gmail.com> <CAOQ4uxi_bdgJV4P0sgWbvhoTEHjSOhSHS=NcSymHp5-bdC_tzQ@mail.gmail.com>
-In-Reply-To: <CAOQ4uxi_bdgJV4P0sgWbvhoTEHjSOhSHS=NcSymHp5-bdC_tzQ@mail.gmail.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 14 Sep 2026 12:20:09 -0700
-X-Gm-Features: AcwNN1VT4YJXomw_m6K_xFXbNQACsxT_M1yNqzMKI4PHHq0XbCPy_cX8UwU-MQQ
-Message-ID: <CAJnrk1apXOpHuB3GrUy7BPn+Z-d0UoB2wrpDjHJZzM-v+Amy1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/21] fuse: extend passthrough to inode operations
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	linux-unionfs@vger.kernel.org
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+ <20260914-b4-mmap-prepare-vma-flag-sanify-v2-12-7d9781ed5361@kernel.org>
+In-Reply-To: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-12-7d9781ed5361@kernel.org>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 14 Sep 2026 15:57:29 -0400
+X-Gm-Features: AcwNN1XaLRK0KaZAmfcRvdaBSkZOdh14LF1fb-xWULoFVhBfqyRklsdKoWBmLag
+Message-ID: <CAHC9VhQ3TwdGGH6YtVyMqJX4avJwsadcRvRhAoUhCvJEHk=i=g@mail.gmail.com>
+Subject: Re: [PATCH v2 12/40] selinux: reject writable opens of policy file,
+ drop mmap shared/write check
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
+	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
+	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
+	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
+	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 12, 2026 at 10:14=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
-> wrote:
+On Mon, Sep 14, 2026 at 11:05=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.=
+org> wrote:
 >
-> On Sat, Sep 12, 2026 at 12:37=E2=80=AFAM Joanne Koong <joannelkoong@gmail=
-.com> wrote:
-> >
-> > On Fri, Sep 11, 2026 at 5:56=E2=80=AFAM Amir Goldstein <amir73il@gmail.=
-com> wrote:
-> > >
-> > > On Sat, May 16, 2026 at 2:51=E2=80=AFAM Joanne Koong <joannelkoong@gm=
-ail.com> wrote:
-> > > >
-> > > > This series extends fuse passthrough to support inode operations (g=
-etattr +
-> > > > setattr) and directory readdir.
-> > > >
-> > > > The existing FUSE_PASSTHROUGH mode attaches a backing file to a fus=
-e inode
-> > > > only when a passthrough file is open. This series introduces
-> > > > FUSE_PASSTHROUGH_INO, a stricter mode requiring one-to-one inode nu=
-mber
-> > > > mapping, which allows attaching a backing file for the lifetime of =
-the fuse
-> > > > inode.
-> > > >
-> > >
-> > > Hi Joanne!
-> > >
-> > > I wanted to see how we can unblock this patch set
-> > > (did someone say conference driver development?)
-> > >
-> > > The main contention point for me on v2 was the fuse_entry2_out API.
-> > > And the suggestion to do a composite LOOKUP+STATX defers this patch
-> > > set to the unknown future of fusex.
-> > >
-> > > My favorite solution to a problem is to avert it.
-> > >
-> > > The question is how to include the backing_id with lookup/readdirplus
-> > > reply. The answer is that there is no need to include it.
-> > >
-> > > I have already discussed with Miklos changing the UAPI to
-> > > widen the backing_id to 64bit and to let the server choose the id [1]=
-.
-> > >
-> > > Considering the fact that FUSE_PASSTHROUGH_INO literally means
-> > > one-to-one inode number mapping, it seems a bit idiotic that the back=
-ing
-> > > id (should it be widened to 64bit) be anything other than nodeid.
-> > >
-> > > The new 64bit UAPI is something like:
-> > >
-> > >  struct fuse_backing_map_v1 {
-> > >         int32_t         fd;
-> > >         uint32_t        flags;
-> > >         uint64_t        padding;
-> > >  };
-> > >
-> > >  #define FUSE_BACKING_FLAG_INO_ATTACH
-> > >
-> > >  struct fuse_backing_map {
-> > >         int32_t         fd;
-> > >         uint32_t        flags;
-> > >         uint64_t        nodeid;
-> > >         uint64_t        ops_mask;
-> > >  };
-> > >
-> > >  #define FUSE_DEV_IOC_BACKING_OPEN      _IOW(FUSE_DEV_IOC_MAGIC, 1, \
-> > >                                              struct fuse_backing_map_=
-v1)
-> > >  #define FUSE_DEV_IOC_BACKING_CLOSE     _IOW(FUSE_DEV_IOC_MAGIC, 2, u=
-int32_t)
-> > >  #define FUSE_DEV_IOC_BACKING_ADD         _IOW(FUSE_DEV_IOC_MAGIC, 3,=
- \
-> > >                                              struct fuse_backing_map)
-> > >  #define FUSE_DEV_IOC_BACKING_DEL         _IOW(FUSE_DEV_IOC_MAGIC, 4,=
- uint64_t)
-> > >
-> > > ---
-> > >
-> > > - Server calls BACKING_ADD before open or before lookup
-> > > - fuse_backing is stored in backing_map hash table instead of idr
-> > > - With flag FUSE_BACKING_FLAG_INO_ATTACH:
-> > > -- If fuse_inode of same the nodeid exists, fuse_inode_backing is att=
-ached
-> > > -- On instantiate of new fure inode, if fuse_backing exists with this=
- nodeid,
-> > >    it is auto attached the the fuse inode
-> > > -- This attachment lives until inode is evicted (same as in this patc=
-h set)
-> > > -- requires FUSE_PASSTHROUGH_INO
-> > > - Without flag FUSE_BACKING_FLAG_INO_ATTACH, backing is attached
-> > >   to inode on open as today and detached on last close
-> > > - The server attached backing survives inode evict and it is up to th=
-e server
-> > >   to do BACKING_DEL on forget if it wants to
-> > > - BACKING_DEL only removed from the backing_file hash table -
-> > >   it does not detach fuse_backing from the inode (as today)
-> > > - BACKING_ADD to already mapped backing or already attached inode fai=
-ls
-> > >
-> > > FUSE_OPEN reply does not need to include an explicit backing_id.
-> > > It's enough to set FOPEN_PASSTHROUGH because the backing file
-> > > is already attached to the inode.
-> > >
-> > > Similarly FUSE_LOOKUP and readdirplus do not need to change at all -
-> > > server just does ioctl BACKING_ADD before the reply.
-> > >
-> > > For backward compat, FUSE_PASSTHROUGH can use the old
-> > > BACKING_OPEN/CLOSE with a naive 32bit id allocator.
-> > >
-> > > [1] https://lore.kernel.org/fuse-devel/CAJfpegve9GMTRwvoA5y7AzUSD4e_E=
-DJFzsqhCVN8xQ+RjQ=3D+Sw@mail.gmail.com/
-> > >
-> > > What do you think of this plan?
-> >
-> > Hi Amir!
-> >
-> > Thanks for your detailed email.
-> >
-> > I think this plan/idea is smart and it makes sense to me, but I'm
-> > confused what the plan is for fusex.
-> >
-> > If fusex is going to materialize, then in my opinion it would be
-> > cleanest for passthrough in fusex to work via either:
-> >
-> > a) fusex is fuse-over-io-uring first. All or almost all (excluding
-> > interrupts, notifications, etc) requests go through the io-uring
-> > protocol. For passthrough, since the reply is going through io-uring
-> > (which bypasses the setuid security problems Jann identified in [1]),
-> > the backing fd and ops mask can be passed directly as a reply to
-> > lookup (eg as a reply compounded to ENTRY + STATX replies), which
-> > allows dropping the idr/hashtable, a bunch of kernel-side logic(eg
-> > fuse_backing_id_{alloc(), free(), lookup()}, fuse_backing_{open(),
-> > close()}), and a bunch of uapi stuff (eg struct fuse_backign_map,
-> > FUSE_DEV_IOC_BACKING_{OPEN,CLOSE}). I think this also would nicely
-> > simplify things server-side (eg server doesn't have to maintain its
-> > own map to kernel backing ids and release them on FORGETs).
-> >
+> The policy file has no write method and is exposed read-only (S_IRUGO in
+> selinux_files[]), yet sel_open_policy() performs no open mode check, so a
+> CAP_DAC_OVERRIDE caller can open it O_RDWR. Reject FMODE_WRITE at open, a=
+s
+> kernfs does.
 >
-> That sounds good for FUSEX, but we still need to support
-> FUSE_DEV_IOC_BACKING_{OPEN,CLOSE} in FUSE so...
+> The file can then never be mapped with FMODE_WRITE, so do_mmap() always
+> clears VM_MAYWRITE and VM_SHARED for MAP_SHARED mappings and the VM_SHARE=
+D
+> check in sel_mmap_policy() cannot be reached. Remove it.
+>
+> This also stops sel_mmap_policy() clearing VM_MAYWRITE on a mapping that =
+is
+> neither a PFN map nor a mixed map, ahead of the core enforcing that only
+> such mappings may do so.
+>
+> Acked-by: Stephen Smalley <stephen.smalley.work@gmail.com>
+> Reviewed-by: Jann Horn <jannh@google.com>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  security/selinux/selinuxfs.c | 11 +++--------
+>  1 file changed, 3 insertions(+), 8 deletions(-)
 
-I was hoping after a certain deprecation time period, all of that
-could be dropped entirely. But maybe this is unrealistic of a plan
-given how widely used fuse is... I guess the deprecation time period
-would be like 10+ years.
+Acked-by: Paul Moore <paul@paul-moore.com>
 
->
-> > or
-> >
-> > b) if fusex is not fuse-over-io-uring first, then imo passthrough
-> > passing back the backing id in the lookup reply (in the new + expanded
-> > reply struct) seems cleanest to me. Then there wouldn't need to be two
-> > separate registration mechanisms and the extra kernel-side logic for
-> > supporting auto-attach, or solve weird edge cases that might arise (eg
-> > races between concurrent opens in iocache mode and
-> > FUSE_DEV_IOC_BACKING_ADDs).
->
-> Same problem.
-> We need to support FUSE_DEV_IOC_BACKING_{OPEN,CLOSE}),
-> so we cannot get rid of the backing_files and separate mechanism.
-> However, we can replace its implementation with a hash table.
->
-> w.r.t concerns about auto-attach and weird edge cases,
-> I understand your concern, but my feeling is that after seeing the
-> patches, it will be easier to determine how much of a risk this really is=
-.
-> So it is on me to show a POC.
->
-> >
-> >
-> > If fusex will be abandoned, it still seems like the entry reply will
-> > have to be expanded anyway (either with a v2 struct or by piggybacking
-> > off compound requests) for Luis's lookup handle work to land. If
-> > that's happening regardless, imo having inode passthrough reuse /
-> > piggyback off that infrastructure seems cleaner to me (but also
-> > unfortunately a lot longer of a timeline given the dependencies :()
-> > than adding the FUSE_DEV_IOC_BACKING_ADD registration mechanism /
-> > logic.
->
-> As you say, lookup handle and compound requests are a tall order.
-> As I wrote in my own review on v2, I'd rather wait for those over
-> v2 struct.
->
-> However, I still stand behind my claim that
-> FUSE_DEV_IOC_BACKING_ADD/DEL do not add much
-> complexity over the existing registration mechanism that we need to
-> support anyway. Moreover, Miklos suggested that we bite the bullet
-> and make this UAPI change.
->
-> >
-> > What are your thoughts on this? What is your preference?
-> >
->
-> Let me post a quick POC of FUSE_DEV_IOC_BACKING_ADD
-> and let's reassess our opinions based on these POC patches.
-
-Sounds great, looking forward to seeing the POC!
-
-Thanks,
-Joanne
+--=20
+paul-moore.com
