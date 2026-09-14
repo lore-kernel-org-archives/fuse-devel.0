@@ -1,284 +1,355 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFDD436B90A
-	for <fuse-devel@lists.linux.dev>; Sat, 12 Sep 2026 17:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789233298; cv=pass; b=ceEpKmua9aUIhRP31gxFA5KUUNfS4gSL2l/VxyU3t1fpXj0kztp9RyBg8c7WjgM4SJ9XkLl8wOb5hLozDHDNM56i/yN6hLrrK1nplt052vwY1cmIm6PhTmYY61A9wjd/r+oiB5dJjaxJ8AsIOwwtudC3IBFYCE1ZbpIRuJ1YiLU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789233298; c=relaxed/simple;
-	bh=+FW0pbG0OmhW4/8ZrhnzMMIRgqPmeD7bCWQclF0zYf0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JAeJ8/7OF6Fc/VwCAimw0MW425FnF/IoHrNN2GkXY0EL2J+if8JkxpFOza6Z/sTYye6gzYHJ9K6LFeoGfaEreEDHV63FHh3h6cY2wF1HD0MSwkAT6E2WOOkFwEIXaQdmEhHrJtCMR+Wi/5edroIbCYLdOasOylRE+qlf4wckdEE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BDQuOZPo; arc=pass smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 013E2481238;
+	Mon, 14 Sep 2026 14:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789397971; cv=none; b=cEHuAPqjh1ZGoiTsAFBTkc2ttOgIPtvjwwilZz5b1qx1IMqBF3exQBe68lcBC70YcsAHhfnYNvlwVC2KoxBcfxPTdjoXiGSN18h5xvXVPPg30wiVvAPmsN1mlB5XQlREA+RH6878ZOsVMf46cHIZxRwHyq7MEksQSITHOWOTsE4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789397971; c=relaxed/simple;
+	bh=/iHtXWh2MpE1FcqpEZH17raLB5B9Z+qJUnN+hdbqOgg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jsBn3a8tPpqIKd9idln2rXvdskipSiSSlVnyH+TQyHSDnXUeFxXlLIOrw/slZlajUM19U0qt9VKhld6Upgeu73zb++jA+Q27CqQykYKxpixR3JT01SFwAFmJvAqgUAAr506jC8iHDEU23BJQtnc+N73Shp25GAr6l29tN9Bq7FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HnW+2Aaz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDQuOZPo"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c2940d16190so279929166b.3
-        for <fuse-devel@lists.linux.dev>; Sat, 12 Sep 2026 10:14:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789233294; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kTkT3NMuduRxuW5835UtYMFXGb8iruDg3JGT1wA0L0iazbYFHiBQtCK3rnV2bJogFu
-         00QRe88DhE/PYd46c2xO0aKnut7i+UEsfWoIb+itvI6gI7tHIZLZ0NSINa6kLku2ojk4
-         fpVL3hx1zmlo6GRwHv6h2q2KqR5N7Ew6G8vuEjUCdLvuF724+ToqM9XoOewxaHFu3R3O
-         es/0SEhw3gO3NQMuU0yV+JGar1TsBoeuLYmYxtfgUTVwFIoXyttCQo99utzWKFfGGSbg
-         SDEuC9H3loCOMgzQDv6tOCNaovlVGhARyvzDLTLzy394eKKtvBB25uJMQUSDHvBiLNtC
-         pMwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KRAPNhTa/+jL5NE3IQve8IfPyvKe3Wz0oKp1H5EXtN4=;
-        fh=VLSwf/34+SpAdJ+CzHUYxociFcHStOkIavk/3/RyP1k=;
-        b=iuzikbkVaNF8YFoX95rlQXHoxxz+LGPf4ScuLyn/n1Y/rdXlogrgCGgiNhHdvZfK78
-         dpHlZL6FMpx+If5tR9ExY3mbFHWD+9DNoyPUrs1KYj0AUpTDrjfjmPtS1o3kCl4lQRL2
-         sKGw3CZ3eKub5Fsbkj68G8ze+NeRYd6co3ZrD1XTVcQHclzmTRA4qMFXdCf5sq72up8E
-         EBrHqJDD+OxQLZSlzTajUD2v7UV5vnL33BPpaN4VTjA0iVugRqc+HtUQ+aI0jYaOqV22
-         yE/ldAQCXOtnn2/3RGykLTjBVqmS3PJCJrh8XxVtiIvoNE10vXgJmchcvObWSIyB+z2/
-         EU9w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789233294; x=1789838094; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KRAPNhTa/+jL5NE3IQve8IfPyvKe3Wz0oKp1H5EXtN4=;
-        b=BDQuOZPokyG2+Iz6BSBV8nOmlykPHpxwwJg31j2OlJ+RqRVYhO8+3sgHPals2qp2iq
-         roOWm1MHH6PgwHAbnrmiFAZFfBpxoXJpgWWnMq5LWY01hAyPyaLD9DFKBDnpmbtq+N0T
-         jZpU2xM49cwjo3+coslGIdX3rJal86dN5Pu3apmkN3GcICBqJf8D+FdrzqifV3c6GLDx
-         CujdijEfNvucUC55ui+v7QsO8UFn4dg0QAZVB3yBqxAmfHFANxAHjNqq0raQQ/ktFBKv
-         Z4d42gg4nDVStQOP3/6ojOBQrrNbaFvKWj245gG8RG7poFrkMWsi/w1+7SH/jq0sBEO8
-         a3og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789233294; x=1789838094;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KRAPNhTa/+jL5NE3IQve8IfPyvKe3Wz0oKp1H5EXtN4=;
-        b=skbzmRGLMOB6gaUqC5/ZjpQTnWrD8qp3yrAQoGopsyebEGx+3jxuySObeUBtBe2eWY
-         YuecfdgY6oSx/j1A9AXrV6PDGc9kA6sYGKZlZjszg9l0SQXt2DcaqAOpXFXFYJVuaqNp
-         nv8qrqn0XtgK1I6QL44OqvCOZCcLMelb9B0OwcTVxwhMrEI5w8zIHlokB23mf4sltY3H
-         pgfwuYp6NZ0lBq+SVV3wap1iDzcatBv76DNOeJVqfklSEat6zLlpcXLlu8R2CVa/3FXb
-         xQH93xWVHh2z+yCABsxQv4DpwaLCMB4jhScOlQpWNI8tkqx04H6YbDA88ZdmqfE3brmP
-         sGjw==
-X-Forwarded-Encrypted: i=1; AKwUvBwzVk+X+l45JrGEs1EKIFbufgdg+qGiqFYa/TInhW7FeoHPBd2vslRRMlWsfFAnKBJWEQJvkRh4E0kx@lists.linux.dev
-X-Gm-Message-State: AFuF++mTZMwHO5ACxhdk9OkpLAlGy9+vbjwOKYSJwG6oaeK5dMw2peO4
-	WpMH9+qLgpZoo6PTTMY2bOFaUKc9H9v9H3nCFPty7uPS24ImCfGOoVSnU4g8DsjDH+NUCKFUZvV
-	XCCUtzWZZ8y9gyvIdNWAipbat+E65usQ=
-X-Gm-Gg: AYBFou3b79w3ESdmysbaGoFj7sIjlMJPVQgw78hXtlQCfBpJnDMI27eOJppaikOWOkE
-	7evD093JElPNYI3SPgb5d123y8WFoajC80PDCCzHRUTg3HXwWtZGmOiaPF9/qRxd84jJLEu19fD
-	qOSm6t9pP/dsLFU5SEBJsqxXzTtIOZFyvzlxVPBxUJcyox6BSZTOVXEtaVdfcPGPizJF0uFxx8Y
-	XFRam5pz/WbO391lDOwvGbOXiHIihpqumLjadFJUOZ/JHt+9PdXimMNkDh+JTvugBYTWe9egVlY
-	hYFIbvPiHZ/QMIrZ5ONJqkdbHCzEHfYJo/yhkydUuYM/N0Mp4atCqJPYb7f3Li6Sx9o=
-X-Received: by 2002:a17:907:8b91:b0:c26:19e3:e979 with SMTP id
- a640c23a62f3a-c29667467b6mr478184466b.25.1789233293638; Sat, 12 Sep 2026
- 10:14:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HnW+2Aaz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06AFC1F000FF;
+	Mon, 14 Sep 2026 14:59:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789397968;
+	bh=pZW21joDRBUaKxwzUQh3KFT5Y8Es/1y/2DJwB/njVeQ=;
+	h=From:Subject:Date:To:Cc;
+	b=HnW+2AazavyexVIo74Bg73UujoM3Z012DSayATOnNZjl3MfSJ9xBJTZPAKFmN3VMc
+	 th+xjTSVfkLbR67we5Uq6HLQ+xbzrQTuTNvW9vch0D5psiEOKLV4/GOvkp5NRH8/yV
+	 EEJvpi5ikwPDh6/KO06ZApgPjfDMDJmR8V86Y5C2DTCSLtZQiWt7CVOfK425a7xmGT
+	 0ci+yJUOLZm6UcvOrHB1KP1uQzos+nofIZogXA3/FIwFgWJ3bE14JuJSuMOyoFwg9T
+	 KvihyX7WrmnibVw2JjFcYJxMDk3El2hL8Vu1n/hEnnLut51kaxSRQrKXFS4Y0eV8M1
+	 SGBaiAfHmO3Cw==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Subject: [PATCH v2 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+Date: Mon, 14 Sep 2026 15:57:20 +0100
+Message-Id: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260516004004.1455526-1-joannelkoong@gmail.com>
- <CAOQ4uxhbbfn7pnq3YNMKpYDAjyZXdZcJoBpnkzjJwOdeDw9jow@mail.gmail.com> <CAJnrk1aBBVOY_bi0s8-FZm9EST2NNePW7jkX3J7ygQ3vaer7Tw@mail.gmail.com>
-In-Reply-To: <CAJnrk1aBBVOY_bi0s8-FZm9EST2NNePW7jkX3J7ygQ3vaer7Tw@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Sat, 12 Sep 2026 19:14:42 +0200
-X-Gm-Features: AcwNN1VyqcGoVQnwjkC7DVLNcJQhG2IGzH2-wJ2MfUq75vtopdqS3aPOVXQtpB4
-Message-ID: <CAOQ4uxi_bdgJV4P0sgWbvhoTEHjSOhSHS=NcSymHp5-bdC_tzQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/21] fuse: extend passthrough to inode operations
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	linux-unionfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOTQ6CMBBGr0K6dkw7ARVX3sOwGMoUqlBIi42Ec
+ Hf5OYDLl7x875tFYG85iHsyC8/RBtu7FfCUCN2QqxlstbJAiRd5RQVlCl1HAwyeB/IMsSMwLdU
+ QyFkzASopU8wqkxGJdWX1jP3uhWdxcPiUL9bjNrsZjQ1j76f9QlSbd9RyeftbiwokVKSNyrVmx
+ PLxZu+4Pfe+FsWyLD+cr45z4QAAAA==
+X-Change-ID: 20260721-b4-mmap-prepare-vma-flag-sanify-2100425df5aa
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+ David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+ Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
+ Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+ Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Janosch Frank <frankja@linux.ibm.com>, 
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Xu Xin <xu.xin@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+ fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+ Takashi Iwai <tiwai@suse.de>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=10931; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=/iHtXWh2MpE1FcqpEZH17raLB5B9Z+qJUnN+hdbqOgg=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLJWcK86yWWxTubsZhvd2UHr5/qWHZmV5jPttUBLdqzon
+ oVnMxae6yhlYRDjYpAVU2R5/kV8f5BI2LzOC/5uMHNYmUCGMHBxCsBEWNgYGR7uS1Wx895+UU0z
+ RnrFixMlzk93rt9zb7OVCveTfKGpd/kYGV6+S34fsYVN1nDZmqvtnt46LZzOacqfl/rWFWm8P+5
+ 6khEA
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-On Sat, Sep 12, 2026 at 12:37=E2=80=AFAM Joanne Koong <joannelkoong@gmail.c=
-om> wrote:
->
-> On Fri, Sep 11, 2026 at 5:56=E2=80=AFAM Amir Goldstein <amir73il@gmail.co=
-m> wrote:
-> >
-> > On Sat, May 16, 2026 at 2:51=E2=80=AFAM Joanne Koong <joannelkoong@gmai=
-l.com> wrote:
-> > >
-> > > This series extends fuse passthrough to support inode operations (get=
-attr +
-> > > setattr) and directory readdir.
-> > >
-> > > The existing FUSE_PASSTHROUGH mode attaches a backing file to a fuse =
-inode
-> > > only when a passthrough file is open. This series introduces
-> > > FUSE_PASSTHROUGH_INO, a stricter mode requiring one-to-one inode numb=
-er
-> > > mapping, which allows attaching a backing file for the lifetime of th=
-e fuse
-> > > inode.
-> > >
-> >
-> > Hi Joanne!
-> >
-> > I wanted to see how we can unblock this patch set
-> > (did someone say conference driver development?)
-> >
-> > The main contention point for me on v2 was the fuse_entry2_out API.
-> > And the suggestion to do a composite LOOKUP+STATX defers this patch
-> > set to the unknown future of fusex.
-> >
-> > My favorite solution to a problem is to avert it.
-> >
-> > The question is how to include the backing_id with lookup/readdirplus
-> > reply. The answer is that there is no need to include it.
-> >
-> > I have already discussed with Miklos changing the UAPI to
-> > widen the backing_id to 64bit and to let the server choose the id [1].
-> >
-> > Considering the fact that FUSE_PASSTHROUGH_INO literally means
-> > one-to-one inode number mapping, it seems a bit idiotic that the backin=
-g
-> > id (should it be widened to 64bit) be anything other than nodeid.
-> >
-> > The new 64bit UAPI is something like:
-> >
-> >  struct fuse_backing_map_v1 {
-> >         int32_t         fd;
-> >         uint32_t        flags;
-> >         uint64_t        padding;
-> >  };
-> >
-> >  #define FUSE_BACKING_FLAG_INO_ATTACH
-> >
-> >  struct fuse_backing_map {
-> >         int32_t         fd;
-> >         uint32_t        flags;
-> >         uint64_t        nodeid;
-> >         uint64_t        ops_mask;
-> >  };
-> >
-> >  #define FUSE_DEV_IOC_BACKING_OPEN      _IOW(FUSE_DEV_IOC_MAGIC, 1, \
-> >                                              struct fuse_backing_map_v1=
-)
-> >  #define FUSE_DEV_IOC_BACKING_CLOSE     _IOW(FUSE_DEV_IOC_MAGIC, 2, uin=
-t32_t)
-> >  #define FUSE_DEV_IOC_BACKING_ADD         _IOW(FUSE_DEV_IOC_MAGIC, 3, \
-> >                                              struct fuse_backing_map)
-> >  #define FUSE_DEV_IOC_BACKING_DEL         _IOW(FUSE_DEV_IOC_MAGIC, 4, u=
-int64_t)
-> >
-> > ---
-> >
-> > - Server calls BACKING_ADD before open or before lookup
-> > - fuse_backing is stored in backing_map hash table instead of idr
-> > - With flag FUSE_BACKING_FLAG_INO_ATTACH:
-> > -- If fuse_inode of same the nodeid exists, fuse_inode_backing is attac=
-hed
-> > -- On instantiate of new fure inode, if fuse_backing exists with this n=
-odeid,
-> >    it is auto attached the the fuse inode
-> > -- This attachment lives until inode is evicted (same as in this patch =
-set)
-> > -- requires FUSE_PASSTHROUGH_INO
-> > - Without flag FUSE_BACKING_FLAG_INO_ATTACH, backing is attached
-> >   to inode on open as today and detached on last close
-> > - The server attached backing survives inode evict and it is up to the =
-server
-> >   to do BACKING_DEL on forget if it wants to
-> > - BACKING_DEL only removed from the backing_file hash table -
-> >   it does not detach fuse_backing from the inode (as today)
-> > - BACKING_ADD to already mapped backing or already attached inode fails
-> >
-> > FUSE_OPEN reply does not need to include an explicit backing_id.
-> > It's enough to set FOPEN_PASSTHROUGH because the backing file
-> > is already attached to the inode.
-> >
-> > Similarly FUSE_LOOKUP and readdirplus do not need to change at all -
-> > server just does ioctl BACKING_ADD before the reply.
-> >
-> > For backward compat, FUSE_PASSTHROUGH can use the old
-> > BACKING_OPEN/CLOSE with a naive 32bit id allocator.
-> >
-> > [1] https://lore.kernel.org/fuse-devel/CAJfpegve9GMTRwvoA5y7AzUSD4e_EDJ=
-FzsqhCVN8xQ+RjQ=3D+Sw@mail.gmail.com/
-> >
-> > What do you think of this plan?
->
-> Hi Amir!
->
-> Thanks for your detailed email.
->
-> I think this plan/idea is smart and it makes sense to me, but I'm
-> confused what the plan is for fusex.
->
-> If fusex is going to materialize, then in my opinion it would be
-> cleanest for passthrough in fusex to work via either:
->
-> a) fusex is fuse-over-io-uring first. All or almost all (excluding
-> interrupts, notifications, etc) requests go through the io-uring
-> protocol. For passthrough, since the reply is going through io-uring
-> (which bypasses the setuid security problems Jann identified in [1]),
-> the backing fd and ops mask can be passed directly as a reply to
-> lookup (eg as a reply compounded to ENTRY + STATX replies), which
-> allows dropping the idr/hashtable, a bunch of kernel-side logic(eg
-> fuse_backing_id_{alloc(), free(), lookup()}, fuse_backing_{open(),
-> close()}), and a bunch of uapi stuff (eg struct fuse_backign_map,
-> FUSE_DEV_IOC_BACKING_{OPEN,CLOSE}). I think this also would nicely
-> simplify things server-side (eg server doesn't have to maintain its
-> own map to kernel backing ids and release them on FORGETs).
->
+The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
+properties:
 
-That sounds good for FUSEX, but we still need to support
-FUSE_DEV_IOC_BACKING_{OPEN,CLOSE} in FUSE so...
+* Is this kernel-owned, whether MMIO, kernel-allocated pages, or ordinary
+  pages a driver maps itself?
+* Can it be expanded or merged?
+* Is this a 'weird' case like mlock where migration might race and we
+  'have' to set invalid flags to notify?
+* Is it another 'weird' case where we just want to stop GUP from touching
+  it?
 
-> or
->
-> b) if fusex is not fuse-over-io-uring first, then imo passthrough
-> passing back the backing id in the lookup reply (in the new + expanded
-> reply struct) seems cleanest to me. Then there wouldn't need to be two
-> separate registration mechanisms and the extra kernel-side logic for
-> supporting auto-attach, or solve weird edge cases that might arise (eg
-> races between concurrent opens in iocache mode and
-> FUSE_DEV_IOC_BACKING_ADDs).
+Driver writers have often been confused about this, and who can blame them?
 
-Same problem.
-We need to support FUSE_DEV_IOC_BACKING_{OPEN,CLOSE}),
-so we cannot get rid of the backing_files and separate mechanism.
-However, we can replace its implementation with a hash table.
+It also interacts badly with the eternal edgecase known as hugetlb - which
+sets VMA_DONTEXPAND_BIT but doesn't also want to be treated like a
+'special' flag.
 
-w.r.t concerns about auto-attach and weird edge cases,
-I understand your concern, but my feeling is that after seeing the
-patches, it will be easier to determine how much of a risk this really is.
-So it is on me to show a POC.
+Another issue is that we cannot make sensible assumptions about flag
+use. It's not possible to assume VMA_IO_BIT means iommu because drivers
+abuse it and mlock abuses it.
 
->
->
-> If fusex will be abandoned, it still seems like the entry reply will
-> have to be expanded anyway (either with a v2 struct or by piggybacking
-> off compound requests) for Luis's lookup handle work to land. If
-> that's happening regardless, imo having inode passthrough reuse /
-> piggyback off that infrastructure seems cleaner to me (but also
-> unfortunately a lot longer of a timeline given the dependencies :()
-> than adding the FUSE_DEV_IOC_BACKING_ADD registration mechanism /
-> logic.
+Special is also an overloaded term in mm. VDSO and VVAR mappings are also
+called 'special' but they're special in a... special way.
 
-As you say, lookup handle and compound requests are a tall order.
-As I wrote in my own review on v2, I'd rather wait for those over
-v2 struct.
+Sometimes things are called special that are a subset of
+VMA_SPECIAL_FLAGS (VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT for instance when it
+comes to zapping or vm_normal_folio()).
 
-However, I still stand behind my claim that
-FUSE_DEV_IOC_BACKING_ADD/DEL do not add much
-complexity over the existing registration mechanism that we need to
-support anyway. Moreover, Miklos suggested that we bite the bullet
-and make this UAPI change.
+There's a specific kind of special for THP too, which considers
+PFN map, mixed map 'special' but DAX not.
 
->
-> What are your thoughts on this? What is your preference?
->
+It's all rather a mess.
 
-Let me post a quick POC of FUSE_DEV_IOC_BACKING_ADD
-and let's reassess our opinions based on these POC patches.
+This series brings some order to things by both limiting what drivers can
+do with VMA flags and switching to using predicates that describe
+behaviour, not arbitrary flags.
 
-Thanks,
-Amir.
+It establishes the invariant that only kernel-owned mappings may set
+VMA_IO_BIT or clear VMA_MAYWRITE_BIT in an mmap hook, enforcing this by
+validating VMA state after every mmap and mmap_prepare hook.
+
+It updates usbmon and sg to mmap_prepare in order to do so, adding a new
+mmap action for mapping discontiguous kernel pages, and has hfi1 and the
+ALSA PCM status page map their pages eagerly instead.
+
+It also establishes the invariant that VMA_MIXEDMAP_BIT be set when mapping
+kernel memory, something that is usually the case but happens not to be for
+some users - specifically defio, cmt_speech, uprobes and the bpf arena, all
+of which are updated to do the right thing.
+
+It replaces VM_SPECIAL and arbitrary flag tests with predicates that say
+what is actually being tested:
+
+   vma_is_kernel_owned()   Does a driver or kernel code manage a VMA's
+                           life cycle?
+
+  vma_is_fixed_mapping()   Is the VMA not permitted to be expanded or
+                           merged?
+
+     vma_is_persistent()   Do bytes written to the VMA stay written, and
+                           bytes read stay the same unless userland changes
+                           them?
+
+         vma_can_merge()   Can the VMA be merged with a compatible
+                           neighbour?
+
+           vma_can_gup()   Can GUP obtain pages from the VMA, i.e. is it
+                           neither a PFN map nor memory-mapped I/O?
+
+Remaining raw VMA_IO_BIT, VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT tests
+scattered across mm are also converted to predicates where it makes sense
+to do so.
+
+And also the opportunity is taken to eliminate THP's vma_is_special_huge()
+which was an existing source of confusion.
+
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+---
+v2:
+* Rebased on mm-unstable.
+* Introduced new patch to fix various mmap_prepare and file interactions
+  that weren't quite right as per Sashiko. None impact anything upstream
+  yet so it doesn't need to be a fix.
+* Restore vma->vm_start if an mmap hook has moved it before tearing the
+  VMA down, so we unmap the range we established rather than the one the
+  hook invented, as per Sashiko.
+* Reject a discontiguous kernel page batch of zero pages rather than
+  looping forever, and bound batches by the pages remaining in the VMA,
+  as per Sashiko.
+* Add the missing map_kernel_discontig member to the userland VMA tests'
+  copy of struct mmap_action as per Sashiko.
+* Set VM_DONTEXPAND on hfi1's RCV_HDRQ, RCV_EGRBUF and RTAIL mappings, as
+  dma_mmap_coherent() doesn't on the IOMMU-DMA path, as per Sashiko.
+* Recompute vma->vm_page_prot in snd_pcm_mmap_status() after clearing
+  VM_WRITE, as vm_insert_page() uses it immediately rather than at fault
+  time, as per Sashiko.
+* munlock_vma_folio() now tests VMA_LOCKED_MASK so an unmap racing the
+  mlock walk still munlocks folios the walk has already counted, as per
+  Sashiko.
+
+v1:
+https://lore.kernel.org/r/20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org
+
+---
+Lorenzo Stoakes (ARM) (40):
+      mm/vma: fix mmap_prepare file handling, remove file_doesnt_need_get
+      mm/vma: predicate setting mmap_prepare VMA fields on new vma alloc
+      mm/vma: introduce and use vma_[flags_]can_merge()
+      mm: consistently validate VMA state after mmap[_prepare] hooks
+      mm/vma: ensure mmap_prepare doesn't set actions on a mergeable vma
+      mm: make map_kernel_pages_[prepare,complete] internal and unexported
+      mm/vma: tidy up map kernel pages enum values
+      mm: add mmap action for discontiguous kernel page mapping
+      docs: filesystems: update mmap_prepare docs for discontig kernel pgs
+      drivers/usb/mon: update to use mmap_prepare + map kernel pages
+      infiniband: update hfi1 to use remap_vmalloc_range()
+      selinux: reject writable opens of policy file, drop mmap shared/write check
+      ALSA: pcm: use vm_insert_page() to map PCM status page
+      bpf: arena: mark arena_map_mmap() mappings VM_MIXEDMAP
+      mm/vma: add vma[_flags]_is_kernel_owned() predicates
+      mm/vma: only allow mmap to clear VMA_MAYWRITE_BIT if kernel-owned
+      mm/vma: add and use vma_[flags]_is_fixed_mapping
+      scsi: sg: convert mmap hook to mmap_prepare and rework
+      fbdev: defio: assert FBINFO_VIRTFB, drop VM_IO, add VM_MIXEDMAP
+      HSI: cmt_speech: convert mmap hook to mmap_prepare, refactor
+      mm/gup: error out early on !VMA_MAYREAD_BIT VMAs
+      uprobes: remove VM_IO, set VM_MIXEDMAP for mapped kernel pages
+      mm/mlock: clear VMA_LOCKED_MASK over mmap callback
+      mm/mlock: eliminate weird VMA_IO_BIT abuse and simplify
+      mm/vma: enforce that only kernel-owned mappings may set VMA_IO_BIT
+      mm: remove VMA_IO_BIT check in vma[_flags]_is_kernel_owned()
+      mm: remove hugetlb_inline.h
+      mm: rename is_vm_hugetlb_page() to vma_is_hugetlb()
+      mm: drop some redundant checks around hugetlb VMAs
+      mm/madvise: update is_valid_guard_vma() to use vma_can_merge()
+      mm/vma: introduce vma[_flags]_is_persistent()
+      mm/uffd: use predicates for userfaultfd checks
+      mm/madvise: use predicates for madvise(..., MADV_DOFORK)
+      mm: eliminate VMA_SPECIAL_FLAGS usage when hugetlb explicitly tested
+      mm: eliminate VMA_SPECIAL_FLAGS check in lru_gen_look_around()
+      mm: avoid use of VMA_SPECIAL_FLAGS in migrate_vma_setup()
+      mm: eliminate VM_SPECIAL, VMA_SPECIAL_FLAGS
+      fuse: dax: do not set VM_MIXEDMAP
+      mm/huge_memory: remove vma_is_special_huge()
+      mm/vma: introduce and use vma[_flags]_can_gup()
+
+ Documentation/filesystems/mmap_prepare.rst |  81 +++++++++
+ arch/arm64/kvm/mmu.c                       |   4 +-
+ arch/powerpc/mm/book3s64/radix_tlb.c       |   6 +-
+ arch/powerpc/mm/nohash/e500_hugetlbpage.c  |   2 +-
+ arch/powerpc/mm/nohash/tlb.c               |   2 +-
+ arch/riscv/kvm/mmu.c                       |   2 +-
+ arch/riscv/mm/tlbflush.c                   |   2 +-
+ arch/s390/mm/gmap_helpers.c                |   6 +-
+ arch/sparc/mm/init_64.c                    |   2 +-
+ arch/x86/kernel/uprobes.c                  |   2 +-
+ drivers/gpu/drm/drm_gpusvm.c               |   5 +-
+ drivers/hsi/clients/cmt_speech.c           |  33 +---
+ drivers/infiniband/hw/hfi1/file_ops.c      |  83 +++------
+ drivers/scsi/sg.c                          | 115 ++++++-------
+ drivers/usb/mon/mon_bin.c                  |  82 +++++----
+ drivers/video/fbdev/core/fb_defio.c        |   6 +-
+ drivers/video/fbdev/ssd1307fb.c            |   2 +
+ fs/coredump.c                              |   6 +-
+ fs/fuse/dax.c                              |   2 +-
+ fs/hugetlbfs/inode.c                       |   2 +-
+ fs/proc/task_mmu.c                         |   8 +-
+ include/asm-generic/tlb.h                  |   4 +-
+ include/linux/hugetlb.h                    |   5 +-
+ include/linux/hugetlb_inline.h             |  28 ---
+ include/linux/mm.h                         | 266 +++++++++++++++++++++++++++--
+ include/linux/mm_types.h                   |  50 +++++-
+ include/linux/pagemap.h                    |   1 -
+ include/linux/rmap.h                       |   2 +-
+ include/linux/userfaultfd_k.h              |   1 -
+ kernel/bpf/arena.c                         |   3 +-
+ kernel/events/core.c                       |   2 +-
+ kernel/events/uprobes.c                    |   4 +-
+ kernel/sched/fair.c                        |   3 +-
+ mm/folio.c                                 |   2 +-
+ mm/gup.c                                   |  15 +-
+ mm/hmm.c                                   |   3 +-
+ mm/huge_memory.c                           |  31 ++--
+ mm/hugetlb.c                               |  14 +-
+ mm/internal.h                              |  79 +++++----
+ mm/ksm.c                                   |   4 +-
+ mm/madvise.c                               |  28 +--
+ mm/memory.c                                | 142 ++++++++++++---
+ mm/mempolicy.c                             |   5 +-
+ mm/migrate_device.c                        |  12 +-
+ mm/mlock.c                                 |  51 +++---
+ mm/mmap.c                                  |   2 +-
+ mm/mmu_gather.c                            |   2 +-
+ mm/mprotect.c                              |   5 +-
+ mm/mremap.c                                |  11 +-
+ mm/page_vma_mapped.c                       |   4 +-
+ mm/pagewalk.c                              |   2 +-
+ mm/rmap.c                                  |   4 +-
+ mm/swapfile.c                              |   2 +-
+ mm/userfaultfd.c                           |  45 +++--
+ mm/util.c                                  |  29 +++-
+ mm/vma.c                                   | 254 +++++++++++++++++++--------
+ mm/vma.h                                   |  30 +++-
+ mm/vma_internal.h                          |   1 -
+ mm/vmscan.c                                |   9 +-
+ security/selinux/selinuxfs.c               |  11 +-
+ sound/core/pcm_native.c                    |  38 ++---
+ tools/testing/vma/include/dup.h            |  66 +++++--
+ tools/testing/vma/include/stubs.h          |   2 +-
+ tools/testing/vma/tests/merge.c            |  10 +-
+ 64 files changed, 1153 insertions(+), 582 deletions(-)
+---
+base-commit: 6b41451631cabf9ea3b384c2a099088e1598f963
+change-id: 20260721-b4-mmap-prepare-vma-flag-sanify-2100425df5aa
+
+Best regards,
+-- 
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
