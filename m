@@ -1,50 +1,70 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f39.google.com (mail-oo2-f39.google.com [74.125.231.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26F24AB3B9;
-	Wed, 16 Sep 2026 15:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5084D5994
+	for <fuse-devel@lists.linux.dev>; Wed, 16 Sep 2026 18:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789574178; cv=none; b=Q77uxxz/bgUG+qAd+HAVTXGYAMDAalacvFsBzF+mcXdwThbTFPvHLspEjaY240KMqGaa0CHxxY3IRL+pTfR67OcwVhP91c6T2GERcSfw8Z8e75upne/w/BqmTW4Rnnqb/ubm5+OaIXiPxV/YktOXRwCvtGYyKZyB0V9d0rHd974=
+	t=1789584302; cv=none; b=aFor1897hvp3GNJxP8mkpJfM9YrVfPb1DleleYvbe3+O+8O6CGOYg35Wfo5TwQn/4oLz+3l9kuNqgnXU+psJBsaHESKHdkNrmnO6POWDgGdT8kvU/ve9ia/Z7HZF/rlRo8fHAaUXyABQ+4PkndRBT8QTZyhld3hsWGP7m/k7+/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789574178; c=relaxed/simple;
-	bh=z3zjr0XsNuHaANYr0dL6PUWN/3yZajpQbLCKUWbd+ps=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pGJ5SO0H5QjHhDf6YpU0cPxQvKREfzoOcQFGI/jc7vXtCqJ2Km5MCjY0OMLKl1ynh+pXeVuniN5L0P5zuqJvxtDFlaYJjZQAXOESjDz0mqypmNA1NjhwkSFQ0sGVXiEScPyPn9+oaedVgIpHC0IQmOG6sPSGb2KTNYdYZ+xRoLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=OrBMENQc; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1789584302; c=relaxed/simple;
+	bh=Wi7pnoycbgxmDBtAe9zf848xA4iD3h65TyuHWYJ6Xk0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dBc7XP2F27vYOw1e2DpJsCJC+hWFoYmiWzs7Zge/xlNWHba9o/V3uzHB9YsEoKWz7o3RAPpXt+84rD2ug/m1sZEuox/Uh7MvJgti300ee237j4RmK3UQgNQ0JHW5E9FIkn3vGUlMtVtaFwOD/Lh9LvthyI+VsSda9+7Jaw6J+2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MQ3PLySZ; arc=none smtp.client-ip=74.125.231.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="OrBMENQc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:From:Reply-To; bh=rIMeXjQ7oism9g1OPJrivzQXheiMOSH8xcFeWnoY0Hc=; b=
-	OrBMENQc4cJDM938i7GRiUMHsuAhlCaH9K5zWWxpbu+2W4PL2SsUL5nEMGlRV73pGePUdis8NBN3U
-	yMkkh5us6/LYmYiK9lJF/odwM/oZIH+astpm9MHbffyvxfZg0JET73h6moIuLD9HI2VVQzbc7vy9t
-	rd/dOoJ+g3sDFzqL5K9zkIUVJ6oPhAzQMTOfnvGRQshubFpQFCuA4kBBB9HEZvaRYuWmhvNKTmXib
-	v18JNIxLp1ItnO1gCuQllgXqBD4ci+fddMwpsh/2RTKJYWmGxTTOTZK2yHeuBu5n+H9gkluRk631V
-	KTos77qpmqLU5bQZqVOs6mzzxxj1W829Ng==;
-Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1x6ryy-0031Jr-Dv; Wed, 16 Sep 2026 17:55:36 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Chen Linxuan <me@black-desk.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MQ3PLySZ"
+Received: by mail-oo2-f39.google.com with SMTP id 006d021491bc7-6b1ae736c63so1000390eaf.1
+        for <fuse-devel@lists.linux.dev>; Wed, 16 Sep 2026 11:44:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789584282; x=1790189082; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ezb4FvlUcLxSnlqMMsz3FPnCFFDMFmJDfUvMk49jk60=;
+        b=MQ3PLySZi7UyqzoLnNh+Li5Jo3IZWlfwZ8r4mX0O29rRSCKsFua8X2VshrnGB7wohw
+         7UsFHS9o+EC0WBt9HK71EUTps4hi7/wttYoSykfZSLspNMuDm+Jd1tUBmy2KNZ+n4X9B
+         R5ZUAAzwA771QDxhEn7jzS3RfG1eeRX188Ap/7Lxwof4gzh5gSTCwiLIkcUsgqQnDdPn
+         eajDmDeDUidfP1mpYM550CeWpfBwJC6adT1GxJ9rtbS7Vvm9Q81DNsc8OOgwgawCLbjV
+         DY31+WaTzTy4UgXPiWSGVqXV79UgZMwyiJRn+oN73OINqoAuQcWYR4pob16+GNA7u4Ce
+         IcPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789584282; x=1790189082;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ezb4FvlUcLxSnlqMMsz3FPnCFFDMFmJDfUvMk49jk60=;
+        b=PF3D99IeWRd5Us6eNLzmHdwS+z8h7sWuGNWnSfG7F7evxdZsgmKx+7variaNoHmuoa
+         dm4K+Fr8jbiy9u6ESF+9JZV6RD/cPMq314ZzfTaITHVyovnmMpAiYuDRlYdJ9ngCLXpH
+         Fza3DM1Z6C1lgPK7CYqlTUFK3isOtMLtkaXm1Dxk9JtJj9ClfCrZ858WFzwApeohqmw3
+         wK+ndhGg+kODOhOUgIJ7GWEeHIENts0Myfq6o93HV9JbbThw081NDqjMPxTYeDuGDhGO
+         EIdgnskOCsl8jxyp1utsSZPfwtO/DadK1vNvBeXGeNxmMc6eLN7iHFpYywe5wkBT8dFa
+         gdWQ==
+X-Gm-Message-State: AFuF++kwKgpVWnt/yihA+UCCLOnTxkr8wACdE/fb6NWVUMSO1BacEkEU
+	+9SYZVCG/lviuF09yGKKqATlXMKJ5AwxsS3KGqaBznUIiBLkHEJDkLvM
+X-Gm-Gg: AYBFou0bJ9C9/IEOlJaohm4xxt4XIZ7esNOqgVxGS1yPRpnqXmna8g6sflyHZAoZQJp
+	VxrhLdRmvHBym4xwWzjSdK5VkRHHIikJoluecj3xGVHZAJPdKmptqflOZ65Vzn6pdm80weLEUct
+	3XLEgiLV4N8N8GQkKt7LeOcPm0tubUwVS87Ms3EIJSOZ1xRlom3z5RJqU7Qp/Z1XGkUvuymg69H
+	HPFaUE8+zOPim8hdpmEsiNVc6iHQAAE41BPJl7rCIq562svW0Qg22IU9KO8cnNzOIFUVxb2ZBdd
+	nYF/1LzKnXtwffxHnZGV3TFPEBE4s1j0z0yy7D6VdrvYZmHOEj2X8SlbMHFrUa/nM/28MI8Qbs7
+	L9FGyZj2YserK+JTsnrooTgKUBH/N38vEnBaag8MXgHeeoo9kkmlBZn9mmhTrKvEF2IW9GrC9oj
+	aJXlQa18hxRVikM4bZ+gkJFQ3ye6CSZ4xpF5P/2gmanFgDrV7Hqf6MlTOr/0GQ9SIdR5HluIW6G
+	DaDB26dYMsm0/BggabZd/xuv9Sp8qxIsmLpZVuK5SQexZSFxuw=
+X-Received: by 2002:a05:6820:160a:b0:6b8:319b:9e1f with SMTP id 006d021491bc7-6c7d04f2cbdmr3798206eaf.5.1789584282146;
+        Wed, 16 Sep 2026 11:44:42 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:43::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6c8f3c81e40sm748665eaf.1.2026.09.16.11.44.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 11:44:40 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: miklos@szeredi.hu
 Cc: fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Matt Harvey <mharvey@jumptrading.com>,
-	kernel-dev@igalia.com,
-	Luis Henriques <luis@igalia.com>
-Subject: [RFC PATCH v4 6/8] selftests/fuse: add some extra ACL caching tests
-Date: Wed, 16 Sep 2026 16:56:27 +0100
-Message-ID: <20260916155629.32421-7-luis@igalia.com>
-In-Reply-To: <20260916155629.32421-1-luis@igalia.com>
-References: <20260916155629.32421-1-luis@igalia.com>
+	Horst Birthelmer <hbirthelmer@ddn.com>,
+	Jingbo Xu <jefflexu@linux.alibaba.com>
+Subject: [PATCH v2] fuse: enable large folios
+Date: Wed, 16 Sep 2026 11:44:24 -0700
+Message-ID: <20260916184424.2531648-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -53,297 +73,97 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds some extra tests to ACL caching:
-- Verify that reading ACLs results in the expected number of requests
-  being sent user-space, depending on whether cache is enabled or disabled
-- Verify caching behaviour on some caching invalidation scenarios
+Enable large folios, capping the max order at the largest request fuse
+can issue, so a folio always fits within a single request. The order
+range minimum is 0, so under memory pressure the allocator falls back to
+smaller folios.
 
-While there, add test binary to .gitignore.
+Benchmarks (libfuse passthrough_hp, buffered fio, single job, 4 GiB
+file, medians, NUMA-pinned, performance governor, strictlimiting on by
+default):
 
-Signed-off-by: Luis Henriques <luis@igalia.com>
+tmpfs backing (page-cache bound):
+  workload          bs      large folios off   on        delta
+  seq read,  cold,  128k    3110 MiB/s    4514 MiB/s     +45%
+  seq read,  cold,  1M      3079 MiB/s    5181 MiB/s     +68%
+  seq read,  warm,  128k    2438 MiB/s    4486 MiB/s     +84%
+  seq read,  warm,  1M      2403 MiB/s    5123 MiB/s    +113%
+  writeback write, seq,128k 1211 MiB/s    1699 MiB/s     +40%
+  writeback write, seq, 1M  1462 MiB/s    2208 MiB/s     +51%
+  writeback write, rand,128k 1101 MiB/s   1757 MiB/s     +60% +
+  writeback write, rand, 1M 1284 MiB/s    2228 MiB/s     +74% +
+
+xfs on NVMe backing (device bound for cold I/O):
+  workload          bs      large folios off   on        delta
+  seq read,  cold,  128k    2030 MiB/s    2172 MiB/s      +7% *
+  seq read,  cold,  1M      1999 MiB/s    2181 MiB/s      +9% *
+  seq read,  warm,  128k    2451 MiB/s    4939 MiB/s    +101%
+  seq read,  warm,  1M      2340 MiB/s    5639 MiB/s    +141%
+  writeback write, seq,128k  637 MiB/s     747 MiB/s     +17% *
+  writeback write, seq, 1M   694 MiB/s     833 MiB/s     +20% *
+  writeback write, rand,128k 1004 MiB/s   1648 MiB/s     +64% +
+  writeback write, rand, 1M 1171 MiB/s    2055 MiB/s     +75% +
+
+(*) device-bandwidth bound. Not much throughput gain but system cpu
+utilization was roughly halved
+(+) random write was tested as an overwrite of a hot region (under
+writeback, this is page-cache bound, so the gain comes from lower
+per-folio cpu overhead rather than higher backing-device throughput)
+
+Random reads (4k and 128k) and writethrough writes were neutral with
+no regression (no read-modify-write or read-amplification penalty from
+large folios)
+
+More information about the benchmark setup and results are in
+https://github.com/joannekoong/linux/commits/fuse_large_folios_benchmarks/
+
+Reviewed-By: Horst Birthelmer <hbirthelmer@ddn.com>
+Reviewed-by: Jingbo Xu <jefflexu@linux.alibaba.com>
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../filesystems/fuse/fuse_acl_cache_test.c    | 203 +++++++++++++++++-
- 2 files changed, 202 insertions(+), 2 deletions(-)
+This is targeting the 7.4 merge window. It has a dependency on these two
+patchsets:
+fuse iomap fixups: https://lore.kernel.org/fuse-devel/20260904045651.1442505-1-joannelkoong@gmail.com/T/#t
+prep patches: https://lore.kernel.org/fuse-devel/20260916010526.1318891-1-joannelkoong@gmail.com/T/#t
 
-diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
-index fb51603fe419..f7f3dd345a50 100644
---- a/tools/testing/selftests/filesystems/fuse/.gitignore
-+++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-@@ -2,3 +2,4 @@
- fuse_mnt
- fusectl_test
- write_extend_eof_test
-+fuse_acl_cache_test
-diff --git a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-index fb4e3554e3c9..173063efeee8 100644
---- a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-+++ b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-@@ -84,6 +84,9 @@ struct daemon_state {
- 	uint8_t		*acl;
- 	size_t          acl_size;
- 	int             getxattr_count;
-+	uid_t           uid;
-+	uid_t           gid;
-+	bool            cache;
- };
- 
- /*
-@@ -92,9 +95,17 @@ struct daemon_state {
-  */
- static struct daemon_state g_ds = {
- 	.lock = PTHREAD_MUTEX_INITIALIZER,
-+	.cache = false,
- };
- 
- /* ---- FUSE lowlevel callbacks -------------------------------------------- */
-+static void fs_init(void *userdata, struct fuse_conn_info *conn)
-+{
-+	pthread_mutex_lock(&g_ds.lock);
-+	if (g_ds.cache)
-+		fuse_set_feature_flag(conn, FUSE_CAP_POSIX_ACL);
-+	pthread_mutex_unlock(&g_ds.lock);
-+}
- 
- static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
+v1: https://lore.kernel.org/fuse-devel/20260624012132.1719941-1-joannelkoong@gmail.com/
+v1 -> v2:
+  * use min3() helper, add comment, rename var
+
+ fs/fuse/file.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 8083404f4cbc..cd1fc4f32c93 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -3140,6 +3140,7 @@ void fuse_init_file_inode(struct inode *inode, unsigned int flags)
  {
-@@ -116,6 +127,10 @@ static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
- 	e.attr.st_ino     = FILE_INO;
- 	e.attr.st_mode    = S_IFREG | 0644;
- 	e.attr.st_nlink   = 1;
-+	pthread_mutex_lock(&g_ds.lock);
-+	e.attr.st_uid = g_ds.uid;
-+	e.attr.st_gid = g_ds.gid;
-+	pthread_mutex_unlock(&g_ds.lock);
- 	fuse_reply_entry(req, &e);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
++	unsigned max_folio_pages;
+ 
+ 	inode->i_fop = &fuse_file_operations;
+ 	inode->i_data.a_ops = &fuse_file_aops;
+@@ -3155,4 +3156,18 @@ void fuse_init_file_inode(struct inode *inode, unsigned int flags)
+ 
+ 	if (IS_ENABLED(CONFIG_FUSE_DAX))
+ 		fuse_dax_inode_init(inode, flags);
++
++	if (FUSE_IS_DAX(inode))
++		return;
++
++	/*
++	 * A folio is never split across requests so cap the order so that one
++	 * always fits in a single request.
++	 */
++	max_folio_pages = min3(fc->max_write >> PAGE_SHIFT,
++			       fc->max_read >> PAGE_SHIFT, fc->max_pages);
++
++	if (max_folio_pages)
++		mapping_set_folio_order_range(inode->i_mapping, 0,
++					      ilog2(max_folio_pages));
  }
- 
-@@ -133,6 +148,10 @@ static void fs_getattr(fuse_req_t req, fuse_ino_t ino,
- 		st.st_ino   = FILE_INO;
- 		st.st_mode  = S_IFREG | 0644;
- 		st.st_nlink = 1;
-+		pthread_mutex_lock(&g_ds.lock);
-+		st.st_uid = g_ds.uid;
-+		st.st_gid = g_ds.gid;
-+		pthread_mutex_unlock(&g_ds.lock);
- 	} else {
- 		fuse_reply_err(req, ENOENT);
- 		return;
-@@ -161,12 +180,14 @@ static void fs_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
- 	}
- 	pthread_mutex_lock(&g_ds.lock);
- 	acl_size = g_ds.acl_size;
--	if (acl && (size >= acl_size))
-+	if (acl && acl_size && (size >= acl_size))
- 		memcpy(acl, g_ds.acl, acl_size);
- 	g_ds.getxattr_count++;
- 	pthread_mutex_unlock(&g_ds.lock);
- 
--	if (size == 0)
-+	if (acl_size == 0)
-+		fuse_reply_err(req, ENODATA);
-+	else if (size == 0)
- 		fuse_reply_xattr(req, acl_size);
- 	else if (size < acl_size)
- 		fuse_reply_err(req, ERANGE);
-@@ -176,10 +197,42 @@ static void fs_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
- 	free(acl);
- }
- 
-+static void fs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
-+			    const char *value, size_t size, int flags)
-+{
-+	int ret = 0;
-+	uint8_t *acl;
-+
-+	if (ino != FILE_INO) {
-+		ret = ENOENT;
-+		goto out;
-+	} else if (strcmp(name, "system.posix_acl_access") != 0) {
-+		ret = ENOTSUP;
-+		goto out;
-+	}
-+	acl = malloc(size);
-+	if (!acl) {
-+		ret = ENOMEM;
-+		goto out;
-+	}
-+	memcpy(acl, value, size);
-+	pthread_mutex_lock(&g_ds.lock);
-+	if (g_ds.acl)
-+		free(g_ds.acl);
-+	g_ds.acl = acl;
-+	g_ds.acl_size = size;
-+	pthread_mutex_unlock(&g_ds.lock);
-+
-+out:
-+	fuse_reply_err(req, ret);
-+}
-+
- static const struct fuse_lowlevel_ops fs_ops = {
-+	.init     = fs_init,
- 	.lookup   = fs_lookup,
- 	.getattr  = fs_getattr,
- 	.getxattr = fs_getxattr,
-+	.setxattr = fs_setxattr,
- };
- 
- /* ---- kselftest harness --------------------------------------------------- */
-@@ -198,6 +251,9 @@ FIXTURE_SETUP(acl_cache)
- 	ASSERT_NE(g_ds.acl, NULL);
- 	memcpy(g_ds.acl, acl_a, g_ds.acl_size);
- 	g_ds.getxattr_count = 0;
-+	g_ds.uid = getuid();
-+	g_ds.gid = getgid();
-+	g_ds.cache = false;
- 
- 	if (fs_setup(&fs_ops, &g_ds.ctx, err))
- 		SKIP(goto out, err);
-@@ -325,4 +381,147 @@ TEST_F(acl_cache, stale_after_force_sync)
- 	EXPECT_EQ(count, 4);
- }
- 
-+FIXTURE(acl_cache_onoff)
-+{
-+	char pathname[PATH_MAX];
-+};
-+
-+FIXTURE_VARIANT(acl_cache_onoff) { bool cache; };
-+FIXTURE_VARIANT_ADD(acl_cache_onoff, nocache) { .cache = false, };
-+FIXTURE_VARIANT_ADD(acl_cache_onoff, docache) { .cache = true, };
-+
-+FIXTURE_SETUP(acl_cache_onoff)
-+{
-+	char err[MAX_ERR_MSG];
-+
-+	pthread_mutex_lock(&g_ds.lock);
-+	g_ds.acl = NULL;
-+	g_ds.acl_size = 0;
-+	g_ds.getxattr_count = 0;
-+	g_ds.cache = variant->cache;
-+	g_ds.uid = getuid();
-+	g_ds.gid = getgid();
-+
-+	if (fs_setup(&fs_ops, &g_ds.ctx, err))
-+		SKIP(goto out, err);
-+
-+	snprintf(self->pathname, sizeof(self->pathname),
-+		 "%s/" FILE_NAME, g_ds.ctx.mountpoint);
-+out:
-+	pthread_mutex_unlock(&g_ds.lock);
-+}
-+
-+FIXTURE_TEARDOWN(acl_cache_onoff)
-+{
-+	pthread_mutex_lock(&g_ds.lock);
-+	fs_teardown(&g_ds.ctx);
-+	pthread_mutex_unlock(&g_ds.lock);
-+	free(g_ds.acl);
-+}
-+
-+/*
-+ * This is the most basic ACL caching test: verify that, when reading ACLs for
-+ * an inode, user-space is called:
-+ * - Only once if ACLs cache is enabled, or
-+ * - Once per access if cache i disabled.
-+ */
-+TEST_F(acl_cache_onoff, test_acl_cache_enable_disable)
-+{
-+	char buf[512];
-+	ssize_t sz;
-+	bool cache;
-+	int counter;
-+	int i;
-+
-+	ASSERT_EQ(lsetxattr(self->pathname, "system.posix_acl_access",
-+			    acl_a, sizeof(acl_a), 0), 0);
-+
-+	for (i = 0; i < 100; i++) {
-+		sz = lgetxattr(self->pathname, "system.posix_acl_access",
-+			       buf, sizeof(buf));
-+		ASSERT_EQ(sz, sizeof(acl_a));
-+		ASSERT_EQ(memcmp(buf, acl_a, sz), 0);
-+	}
-+
-+	pthread_mutex_lock(&g_ds.lock);
-+	counter = g_ds.getxattr_count;
-+	cache = g_ds.cache;
-+	pthread_mutex_unlock(&g_ds.lock);
-+
-+	if (cache) {
-+		ASSERT_EQ(counter, 1);
-+	} else {
-+		ASSERT_EQ(counter, 100);
-+	}
-+
-+	TH_LOG("User-space called %d time(s) with ACL caching %s",
-+	       counter, cache ? "enabled" : "disabled");
-+}
-+
-+/*
-+ * Test caching invalidation for several scenarios:
-+ * 1. When a new ACL is set
-+ * 2. When invalidating an inode (NOTIFY_INODE_INVAL)
-+ */
-+TEST_F(acl_cache_onoff, test_acl_cache_invalidation)
-+{
-+	char buf[512];
-+	ssize_t sz;
-+	int counter;
-+	bool cache;
-+	int i;
-+
-+	/* Set an ACL */
-+	ASSERT_EQ(lsetxattr(self->pathname, "system.posix_acl_access",
-+			    acl_a, sizeof(acl_a), 0), 0);
-+
-+	for (i = 0; i < 100; i++) {
-+		sz = lgetxattr(self->pathname, "system.posix_acl_access",
-+			       buf, sizeof(buf));
-+		ASSERT_EQ(sz, sizeof(acl_a));
-+		ASSERT_EQ(memcmp(buf, acl_a, sz), 0);
-+	}
-+
-+	/* 1. force cache invalidation by setting a new ACL */
-+	ASSERT_EQ(lsetxattr(self->pathname, "system.posix_acl_access",
-+			    acl_b, sizeof(acl_b), 0), 0);
-+
-+	sz = lgetxattr(self->pathname, "system.posix_acl_access",
-+		       buf, sizeof(buf));
-+	ASSERT_EQ(sz, sizeof(acl_b));
-+	ASSERT_EQ(memcmp(buf, acl_b, sz), 0);
-+
-+	pthread_mutex_lock(&g_ds.lock);
-+	counter = g_ds.getxattr_count;
-+	cache = g_ds.cache;
-+	pthread_mutex_unlock(&g_ds.lock);
-+
-+	if (cache) {
-+		ASSERT_EQ(counter, 2);
-+	} else {
-+		ASSERT_EQ(counter, 101);
-+	}
-+	TH_LOG("Invalidation by setting new ACL: OK");
-+
-+	/* 2. send FUSE_NOTIFY_INVAL_INODE */
-+	fuse_lowlevel_notify_inval_inode(g_ds.ctx.se, FILE_INO, 0, 0);
-+
-+	sz = lgetxattr(self->pathname, "system.posix_acl_access",
-+		       buf, sizeof(buf));
-+	ASSERT_EQ(sz, sizeof(acl_b));
-+	ASSERT_EQ(memcmp(buf, acl_b, sz), 0);
-+
-+	pthread_mutex_lock(&g_ds.lock);
-+	counter = g_ds.getxattr_count;
-+	cache = g_ds.cache;
-+	pthread_mutex_unlock(&g_ds.lock);
-+
-+	if (cache) {
-+		ASSERT_EQ(counter, 3);
-+	} else {
-+		ASSERT_EQ(counter, 102);
-+	}
-+	TH_LOG("Invalidation through FUSE_NOTIFY_INVAL_INODE: OK");
-+}
-+
- TEST_HARNESS_MAIN
+-- 
+2.52.0
+
