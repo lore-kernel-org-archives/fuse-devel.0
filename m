@@ -1,68 +1,67 @@
-Received: from mail-oo2-f42.google.com (mail-oo2-f42.google.com [74.125.231.170])
+Received: from mail-oo2-f41.google.com (mail-oo2-f41.google.com [74.125.231.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A9C3E3163
-	for <fuse-devel@lists.linux.dev>; Tue, 15 Sep 2026 23:53:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B16EC2C8
+	for <fuse-devel@lists.linux.dev>; Wed, 16 Sep 2026 01:05:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789516436; cv=none; b=ckO4lGXwX4wimhbfHGtdY6vFuBQNj/Un1Yue+rdyHepJA9NoXXkBTZVju2p4B8r8ZLXVrs2TB5w9PCZ0Dj1NSayLmPGsyaqhLmZRga/Oa7ocOAuJ1QRtkXg4pEclBPcJMLFT2NOlKkKHdi/ETegMFkLgYfEm+COSbTQTxVBCB58=
+	t=1789520738; cv=none; b=p9RP4OREHLew+3LNpPlrPyNNEUQnGr//hlgMd11xn3Guk2g5GPEjdh36O0fFsI8y7SsuCpB8BERXIl/HhWM73KoYegeVtEpRsqgSaLuyZZl9NdZ+Hj80Afw5z68qP1rDjAwDWAc9y8gmdtBxTuhYA7Z0tB6arGefSqMf0hp0SXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789516436; c=relaxed/simple;
-	bh=9YCR2jAyq8jwYN4sL1CNBLWNLklyjMJf+GSPFtbaEnw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cA5ezLH/OQTkYqZl/NlO5ySvHipVfGliCV/SpdCUxi2H1d5uDfcBhD0F4lhGFtALLvhpc3yeUNgnO89N5DUpd8yYs2OZAqI6Ktl3Cb9sKwYhq9ubVBHkZ9NuCrMg8kd/IDu9MXGh5ZhQL5WKGpWlf43lU9FAbgrCFGjdp/Nd47I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SsbY+sIc; arc=none smtp.client-ip=74.125.231.170
+	s=arc-20240116; t=1789520738; c=relaxed/simple;
+	bh=oqJxe01qiaXbDSlZB+aN4avughoiPvMSLCXWwzKIdc8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rHL96uhF1UYOomcuhvul+Pk5G+RdeWIFI/KMxWsZGx+5ogOlLhqf45jCZqAxTei2Q1rA4exJhxP+y/dZPnPdDfUMJzDuyORUeUpwy4EMm8nL8oCwTsIwoB4ar6PheStzHrCkVrgu3S4ZL/2DRaO9EGHeeQJRe+TUnSJxq0mZ5sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PKDKpNW3; arc=none smtp.client-ip=74.125.231.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SsbY+sIc"
-Received: by mail-oo2-f42.google.com with SMTP id 46e09a7af769-7fcb425fb68so190244a34.0
-        for <fuse-devel@lists.linux.dev>; Tue, 15 Sep 2026 16:53:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PKDKpNW3"
+Received: by mail-oo2-f41.google.com with SMTP id 006d021491bc7-6b1ae6b1b26so229750eaf.2
+        for <fuse-devel@lists.linux.dev>; Tue, 15 Sep 2026 18:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789516431; x=1790121231; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789520736; x=1790125536; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vDEJrVWlib24T1D7GSE0HjYSZrsnYM8lK5GMEYYnFBc=;
-        b=SsbY+sIcxd+YHTcBg9ZnFwQPf/FUWHU5ykBrbz3fXS3nU+cf5QfsCYY+exihQNfHG5
-         FtHOBUl/pJOSn61mvLM3Z3UJ6ZlCex1/dBlZzeAHoV4g3OlIc7cMuXp5U3auXqaVKsBk
-         +4Txq4tqkvxqlyFwTrl783Vvr320kqvfJ/V25IzlNPpzripjuPyaqO7qdbnhFiJciFdF
-         S51I7OjDOzW9vZJF0O+t+y0SJj6/4qvFDstKV0jDaTaT/fOj3IEKemLbPM2McIW5d//7
-         9ntLNt6yHY+rl1ktvvxqbFdZiGCsYIm0OIalYMCVGGTamICQjX7tyYRNPwMIJBx6ewIS
-         Hj6A==
+        bh=88dtHSa8WPH4NYU5i+1r9D6cUdt6GdeC9JPuIvkZu08=;
+        b=PKDKpNW3RllRcnw3VmvQ/wik+68BP7aMGiZD+++Dkp5adnDU+V5oFh0dmvUF9Z7CMr
+         yfGnL44AhKGd+ZGfr1g6x5Ie1cVM1u6b4uyJ7JItOOYGc1qU4f/NroxKHGqs/Ypd/ok2
+         sHbYrk0/kZWbknuSYZ10lQTCKr+GeieWThEEvAYD3qgdDnpMwLXMgyrGqC3omQcqRt74
+         c88ybjUz/J+gDznjd5z/zV9vb6WIwNQDEYu5NgPnaS1VJcOcPqaQwY2jCZb+lW5ZlOCo
+         oXrQ+FdukVkN7vaRCMqbyd3okkpNILBWlCy/Tweyavei1IqrkIEonaTvTDtCEog52Apt
+         jJKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789516431; x=1790121231;
+        d=1e100.net; s=20260707; t=1789520736; x=1790125536;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vDEJrVWlib24T1D7GSE0HjYSZrsnYM8lK5GMEYYnFBc=;
-        b=1dMwPQKB1SCDzPU49MPz+13KANkUGY5KTSUSF/pdU0FaAX47gkQ2g7meyTP9H5+ebe
-         IvYBKoxZq78Z2/VpZX63dI3PZjEejDF5MtEOCnDVwHtxFzZh4SXAe7TDVqPyOI5ZLa3k
-         AH4JncsI+nndqeuDwDHe5mpwocDWKMs1I1zS3nrIfl0EUI6TBN20rGJTxOFzfnGWd1Yj
-         PqlWaSX/NAcoN9ggEaYdj2xWk+rkfXRJWDL/jTbU3j9D1clzyzHbFdlsVoV9aPiLtG5f
-         iMsJrs2u7KbsukqfuXpsJO9F5tb06r8qADqQsyf5S3LNt2pW45VXYcCeyEklSP1dYICO
-         FZxg==
-X-Gm-Message-State: AFuF++mrp4o6VGGdhfnppnH64WSUesznl+J/a0GWYsdF9eAmphesK4bs
-	DARTo4UUqKKh1/NJantcU648xe21QTs6DQY1uNNFUfC2xTVvSgWinDRp
-X-Gm-Gg: AYBFou2M2OtypV94oh9QE4bbFc0CP1L/iqnDZr0mvmBzmobJsmwJugf3//21CfGmZ3W
-	KkQ5oKWn1s5nTi5NYZQD37yBy14bWe3/AoHeb6DTDdMepuQDkc0cEAz0fqhDtMo6UU/ZdMFtLm2
-	IVgqLMSuT+P2YClbiMlxprn518uZcGCGvaPxIeSJOzVNEN4GEiBfgA96+Inl5bYeAe+3pOemI4u
-	tRNk5+RHkqtCmS4pa11S/b0sOR6/PDqE+fSHpInL/vrzX/WTMS7BU7MmSlmlWMVWWiP4glDKaY7
-	JiY/8/44vd9oe+w5/c8U4wsjYJhdi7RF93nvytym9RDVOVxcA5+ZnSVTXPq8eLerndl399seV2S
-	3XXt345qIejtWu2UL9LPjcvCaj3Ru2IWzmb2lXgTLwMtbhBNwOhs8IciT1mHZO6LPS5hIB6BNxk
-	RF83ED3QxE7SW8PgAohTFe9oQjLffNaQlji73r1BJPpfmKQkOSZOPnM95ubYd7I0DayOlITnF+3
-	MN1I4sSXJjhEfjAtrhfikMR1Tzs+hHRZo8THV1dnij20OdiWFA=
-X-Received: by 2002:a05:6820:290a:b0:6b7:8415:d78c with SMTP id 006d021491bc7-6c7d32fdf98mr609849eaf.55.1789516431352;
-        Tue, 15 Sep 2026 16:53:51 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:73::])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6c7a061a054sm1420639eaf.0.2026.09.15.16.53.49
+        bh=88dtHSa8WPH4NYU5i+1r9D6cUdt6GdeC9JPuIvkZu08=;
+        b=nP3ff64KxiG2nmlr8A1O9go8M4flueR57qgFAA6F3m0H0IMp9r/SdtSgIPWu/0L7xB
+         HywNSjuR5pDCs/8ddAnxTrsfjEuswHEV8x+fb693v/htL8bFTydB0AiE/YpjPNoY5LZ1
+         WHFSQ1DlLp34bZ63MgcSYhFios+NCMnE+PJ/C6pdaHX1vUiqiz5dC23vA+9rqScwMiTN
+         3PFyYQ7w6aADO1uYKxFX/I49IyP6JzIqrjS5tdicQ5DwcYUEioE3gLSoWcv3IaG8nOHg
+         V0BoEfjt+6UIymsG4PqlDbB+k2p1RAliJu8xJ4dL1CgLVWLUZY7NC0sfJ1CdtnKICVJN
+         kDvg==
+X-Gm-Message-State: AFuF++mYFoRc1E3Yx2SDogaDIEXKkO2PUGqS+te30bfmAuO3nrhh/x4t
+	TE5CYtjNx/P7BN+u4QS9APkvYbL3mqevvXENkovu7SUGjQDefM64G3ba
+X-Gm-Gg: AYBFou3Tp6s1CfddbDpt7b63HXWqMUiRcq2TqacgSi5WzAuV4yDrkrx6NigJNUIabvF
+	4ShiOzBq2NWJ0kkX3S4/92SgBpJfbtXRiKHNMv6EXnUUpjGdSEHjbRHsiKSx8g9YWjb7MPh2ybG
+	JqayCWc4x3jAtK2iuf1in9g2xSJxAcs8YpWmQ7yCUleJtK7Sv7qoTRlu0Af+HIkdwRwNildzcld
+	dc+6juzvHsjjmLtwJAMsecIN9Ql0OWKqBrykxd4u+LkREka29Xvv5PuXlWzLyERs8fJka+3GMB/
+	RqN252y47VYhvg+COkSZIN5l9v+M9bjAFSCcvrPHgN4oXXnbKj0SjQMKOWDTJhY6w+iAIhO1/K1
+	vb3+poncQ4pdYaJrsvFx3elA9BCS7IAzGlRZ861YUjQgdN5X7IqFxrXpSLERZi2xPa7cuFJbJ9Z
+	/ITxiPHIfFVxRwxowgr0B5tHkA1wmGotVEesvo0fv4aHQm9rIOXfslkNa3DneJrORp94TO9FnbN
+	YVxWRG3xrW7pPQnXbwNeVSE72T8geP+DkuYGCxJiHI6NVNBQjU=
+X-Received: by 2002:a05:6820:222a:b0:6b1:89ff:8a1a with SMTP id 006d021491bc7-6c7d15cf2a7mr885754eaf.3.1789520736112;
+        Tue, 15 Sep 2026 18:05:36 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:47::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6c7a78ac1c6sm1445951eaf.13.2026.09.15.18.05.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 16:53:50 -0700 (PDT)
+        Tue, 15 Sep 2026 18:05:34 -0700 (PDT)
 From: Joanne Koong <joannelkoong@gmail.com>
 To: miklos@szeredi.hu
-Cc: fuse-devel@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] fuse: don't drop destination page cache on a zero byte copy reply
-Date: Tue, 15 Sep 2026 16:53:41 -0700
-Message-ID: <20260915235341.523416-1-joannelkoong@gmail.com>
+Cc: fuse-devel@lists.linux.dev
+Subject: [PATCH v1 0/3] fuse: prep patches before enabling large folios
+Date: Tue, 15 Sep 2026 18:05:23 -0700
+Message-ID: <20260916010526.1318891-1-joannelkoong@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
@@ -72,55 +71,37 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-__fuse_copy_file_range() clears the destination page cache after the
-server replies:
+These are the remaining places where fuse assumes a folio is a single page, or
+that a page aligned range is also folio aligned. None of them changes behavior
+today, so there are no Fixes tags. Each becomes reachable the moment fuse
+enables large folios.
 
-	truncate_inode_pages_range(inode_out->i_mapping,
-				   ALIGN_DOWN(pos_out, PAGE_SIZE),
-				   ALIGN(pos_out + bytes_copied, PAGE_SIZE) - 1);
+Patch 1 is the virtio-fs counterpart to "fuse: zero the correct range on
+a short read reply" [1]. That one is a fix because /dev/fuse serves fuseblk
+mounts, where the block size can already be smaller than the folio. virtio-fs
+is never block backed, so its block size is guaranteed to be PAGE_SIZE until
+large folios are enabled on fuse.
 
-A server may legitimately reply that it copied nothing, eg if the source
-file turns out to be shorter than the size the kernel has cached for it.
+This series is on top of "fuse: don't drop destination page cache on a zero
+byte copy reply" [2]. Patch 2 touches the same hunk and relies on the
+bytes_copied guard from it.
 
-If pos_out is 0 as well, the end of the range is ALIGN(0, PAGE_SIZE) - 1,
-which is -1. lend is a uoff_t and truncate_inode_pages_range() takes -1
-as its end of file sentinel, so rather than clearing nothing it drops
-every folio in the destination mapping.
+Thanks,
+Joanne
 
-That is not only a cache drop. truncate_cleanup_folio() calls
-folio_cancel_dirty(), and fuse_writeback_range() only wrote back
-[pos_out, pos_out + len - 1], so dirty data elsewhere in the destination
-file is discarded without ever reaching the server.
+[1] https://lore.kernel.org/fuse-devel/20260904045651.1442505-3-joannelkoong@gmail.com/
+[2] https://lore.kernel.org/fuse-devel/20260915235341.523416-1-joannelkoong@gmail.com/
 
-Skip the call when the server copied nothing, since there is nothing
-stale to clear in that case.
+Joanne Koong (3):
+  virtio_fs: zero the correct range on a short read reply
+  fuse: drop rather than zero the copied range in copy_file_range()
+  fuse: replace folio_test_highmem() with folio_test_partial_kmap()
 
-Fixes: 9b46418c40fe ("fuse: copy_file_range should truncate cache")
-Cc: stable@vger.kernel.org
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
----
- fs/fuse/file.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ fs/fuse/dev.c       |  3 ++-
+ fs/fuse/file.c      | 21 +++++++++++----------
+ fs/fuse/virtio_fs.c |  6 ++++--
+ 3 files changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 3bf7cb590538..2aa575a02e05 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -3062,9 +3062,11 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
- 		goto out;
- 	}
- 
--	truncate_inode_pages_range(inode_out->i_mapping,
--				   ALIGN_DOWN(pos_out, PAGE_SIZE),
--				   ALIGN(pos_out + bytes_copied, PAGE_SIZE) - 1);
-+	if (bytes_copied)
-+		truncate_inode_pages_range(inode_out->i_mapping,
-+					   ALIGN_DOWN(pos_out, PAGE_SIZE),
-+					   ALIGN(pos_out + bytes_copied,
-+						 PAGE_SIZE) - 1);
- 
- 	file_update_time(file_out);
- 	fuse_write_update_attr(inode_out, pos_out + bytes_copied, bytes_copied);
 -- 
 2.52.0
 
