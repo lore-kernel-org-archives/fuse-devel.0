@@ -1,353 +1,368 @@
-Received: from mail-ej2-f43.google.com (mail-ej2-f43.google.com [74.125.228.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE32345EC0
-	for <fuse-devel@lists.linux.dev>; Thu, 17 Sep 2026 15:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789660054; cv=pass; b=XIZx3iAfY4ooA+Muu2QjeEpMx7XO/KuGU5vSWH+dNE7Vp096pqx953FWnNEACvz+6Vg4wG0XcLzXxc4jKOZfi20rc40ryXeIMJrypyP5j7UNaKoRT/oc6xvzr6VaVVzN3uoS9GsfemRsnDByG1xUuq1sk7ghMZ/8mY7AE5PHYOM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789660054; c=relaxed/simple;
-	bh=y7iJTse76G4ucUZqi+M7vBGe+965ykVSunvIgxX0/3U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RPswhZPiURh1YPNjyPrQKRlx+WgWUJXZXXPpzsHEY67ER6TzO8sutmAigM/tSUr0eRWKj6pS+CoKcQx9Q0uamaTcrG287duz38h7c8fmV++7m63FkPPbC+E33A9UBsQ+65wcOLr3feN3GmEs0QyKDwoE10MqFX3aONwrlGPlT0Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xhhdijyk; arc=pass smtp.client-ip=74.125.228.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709E83845AC;
+	Thu, 17 Sep 2026 16:23:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789662182; cv=none; b=KWnnnMhL1fiZV3KvbjQldirouZD8FoFhstIbZX39yq4OIqqn/uE6qR3oANowrzKcN5eEZLlCmZ6visKRKXrsgDIUQ++U1QsyOoJpZQhQ6StmFVb2dWn5Kmikmy/x2VG2GuDlDPGCV2yqHXmCqxOzAEjImf+FkE8755dwd4FDqm8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789662182; c=relaxed/simple;
+	bh=YNjr0dSPuiW39zPd8bCRpyQ2Yk06eE4geGojrPPpuO4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EIhmFxpMmkZptcetXks5Xh8vVkZ/k5dMG8imtCl/TxI4DXyjwVY01pn8mbo3gurf3nuxJUFo1G8EThEmxebhj6z5/NrCnMcqOctJJhstjpA64+EwpAmdqaRuDQxHf1zyF5DgPFcRQXKKovQwLCFlpZT8BCpm4jbGuAWC2b1vkLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QG6IR++p; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xhhdijyk"
-Received: by mail-ej2-f43.google.com with SMTP id a640c23a62f3a-c254f9f0b20so173555466b.3
-        for <fuse-devel@lists.linux.dev>; Thu, 17 Sep 2026 08:47:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789660047; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eERdjrBkeLuG4t9wUm6Cc4TZ+LdUfv3d6e+UEG3IMFDjoeo8ht7G4/WR5kezQ09poV
-         29lHBsaI3lUTvP3SswOG62+L/Hszs4M9h+HT3O/a8pgzg3ZE+iEPyN2olMQmulrd2Cgd
-         Zg+w3u1uderTdKlPg8dzgKzyVIWioRG0j2faJpqxYIKla8fdM8682PVLYBAd6KNofXfr
-         6SPnNmIv1KfR49OAe5GD/Zd8qQ0wbyaXOgI960NSnEIeALPu98o4+ao2nyFrDO45YAPx
-         AROUxOBNzalzaLRf/oA91iJvN8H7uAbOO3v9xtSruMwhOpaaBYXAhoF3FUl4PL3QVssK
-         OAmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6x6xW2hYJmzX0BckreNr2G2CFmLyrZuvybTX8QaHySY=;
-        fh=Gg15tzqkFg22rXo10kQYf+boJX8QiSAiP/A8R1NrV2Y=;
-        b=bi2YPa/TZLPOgaJawh7ePZl9+i9vWNvF30G8OaOzCMMrSpYK09+Qw2MRYRHBw6o35Q
-         h9wP3Xm9MzZgnE1yY08Hbnkf0UWIlqYLeHfz4Wvr9Hpxk9V5zeub7SD4xHsIxXMvGa6l
-         rg9hZlkWb5e/m4PanuivPO0XVO4pbb+7keIZ7KuFnfJyDs5fnlL1OeZjKLCy+liblHYz
-         cWkQFaFqFXYNJuOchbaKY0Ecaf2Y5Q9AY5ZVLOczoykG7Nf135xFy4djkLdPSp8YMN9M
-         CdcbdB9RmWkyISi7WdTYI9UNX3fSvobo5KF3g4dTmmVL3N+6dLpa4MVrgWNBZAueRjbC
-         JP6A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789660047; x=1790264847; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6x6xW2hYJmzX0BckreNr2G2CFmLyrZuvybTX8QaHySY=;
-        b=XhhdijykGEGNQ+fgb3Of8AUtuGR0BtX+laL1OAKBS/Yd3dgM1G5hFP8/l4fcilE6Ck
-         Q+n76x1RGBSXMgGX4XIfAxNqluGHc1MbKgl4MhJidvHkAzdSZj97CYlvMEyjRIc6WC7l
-         e3xlN6egcmY6hjoRTYadFgX9m7R4MvXJXpyGKKSKbZUQUxWWFByv9SSkrhd9mXGI6B+i
-         oSctPKk+WtwfT4JWNIakB5N+Z+UXAJdTrP8KK0bkBYJY9kvkCo6fK5MAiVaoDJlsXfFo
-         4Vx3HjezYci3/KxSuVRrhuHZlh8m6rEFwwnZzhRm639HrvOFFnEBDeO0ONKtqW6XCOKU
-         G6zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789660047; x=1790264847;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6x6xW2hYJmzX0BckreNr2G2CFmLyrZuvybTX8QaHySY=;
-        b=JckUCDbp7fQvpJpDIo33BIVYHJe3l+a3ZgvYY/7A25GYnk6wRelbQxcG+3SJJAuQnO
-         UxEjlJr1DVelcEjUS6UArnm3d/ihhF1niKB2wjhl5xZ39E1byTEKRIXMU0rTs6qO1L3j
-         dKfOGrZIHGzMZMXIMOWSOLI/H2vaU6oQ1y/eBdTgSWP5+J9YK4KvQtasQiEol2Nk/QTC
-         s64/R6TrPRCv6OatDRqCwdpN4YpBxgojiRO6gEGaCV26kcgQKFrPY6E7jcqQrHERdoNX
-         EdJH5ioHZPqdo+aB8Kt54pgePVe2eHlWF4wPtqTpQd4Xc/lOq73ggACIjhNh7bZghOqb
-         IJ8w==
-X-Forwarded-Encrypted: i=1; AKwUvBzfVZ6GeIqRRYJHQ0Exb1XSwrqZpKXEAOHWlbRfCt0OJYGCuuwFW8s8vbzTMmziXm8Gutgmmkqq6YaD@lists.linux.dev
-X-Gm-Message-State: AFuF++mJu3rFmoCs+xEWRmaQQRnKFXvpX3hkeeo62bHybNTm9RIJEiID
-	Zs17wGKlZEAkToe7FLantuUbY08uT5sZ14wPQgbpBIleO43NAzk9dPFTgmDlp7HuCv5xfpsBc3T
-	mIgsRTz24DGwGHW/wmMJDbUBjhs8tkkg=
-X-Gm-Gg: AYBFou3Zrv96UqwoGAp57bhV66M3chdAtgo5n12C7lFFM72Hy6DhZh8JZyJT3LR0RMF
-	GrmPLfyveWDczN+9NrZKv5QtEbWmWlWzrE1ZoUJXRFEboh0s16EI+xDW2rQMX5fsYtVMPSvzPOQ
-	Q3qRRXLodoFrPOj0pvVE4qEuCc/alGaopENYA2X1ykp7AKC7BYOrORX4umtf/UTveDvt7PTYrsZ
-	YGtPczWGaEYSm+ikMQldJ32CZCTszNCYfDeJWfXlyecCtgXZdmDCx6X0e07AxKqi+pxjYepE9qP
-	hrTUNdQw2tcaKaJ1US4oD/TbE9gjU9sc6pbb8WKE+isg7xV9Ao1VYYvk
-X-Received: by 2002:a17:907:9343:b0:c29:4490:50c8 with SMTP id
- a640c23a62f3a-c29e51b2d0fmr670404266b.8.1789660046479; Thu, 17 Sep 2026
- 08:47:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QG6IR++p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5EEA1F00893;
+	Thu, 17 Sep 2026 16:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789662180;
+	bh=F4kEMmAg44kGI5Z/hj5D62xPoebkB5YfSHvmHRVRhVw=;
+	h=From:Subject:Date:To:Cc;
+	b=QG6IR++pHUedJ4hUhehmQ9Bd4OPmk0i80X2hhTOHD0yM4lq8ID96oSl6v1+zVT4zt
+	 08eTS4DYkoXao6VlCfVF54bnwA1qZoUY2AwpBVxsHNvUrPY8nZ1/twR7SCoIySEC5+
+	 VE6iZpCT8zpF++4vmMZJhAzx19Lrx2EvTn8lmxt7WYCmZfgEpQhjz5O9pN9wES62lD
+	 3U1pUwOJltggJ1jgZ37NwNXsBLgVO6pq6vhb/7JrI6laXqiqFTF6UaarlHD7x2K2kA
+	 A37PrYVnMLkOJ+9KvlkxAJXvhz0Tjw+WXd1UZVAD3Q7+8nMujPCTWbFhGBB0W5EwY5
+	 bWM8HgeunGWBw==
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Subject: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+Date: Thu, 17 Sep 2026 17:22:09 +0100
+Message-Id: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260916155629.32421-1-luis@igalia.com> <20260916155629.32421-2-luis@igalia.com>
-In-Reply-To: <20260916155629.32421-2-luis@igalia.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 17 Sep 2026 17:47:15 +0200
-X-Gm-Features: AcwNN1VotyV4kfW8TwYaGG-9pXTuMI1MGuctXsFZpheLcejQzMscYoicIU6JX-Q
-Message-ID: <CAOQ4uxipJkiiy8pURxRFdKYbruBM8wQxArd8uAiv2Dh=tPwNhA@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 1/8] Documentation: fuse: add document on caches
- being used by FUSE
-To: Luis Henriques <luis@igalia.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Chen Linxuan <me@black-desk.cn>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Matt Harvey <mharvey@jumptrading.com>, kernel-dev@igalia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOOw7CMBAFr4Jcs8heEkKouAei2NjrYCAf2WARR
+ bk7TmigohzpaeaNIrB3HMRhNQrP0QXXtQm265XQF2prBmcSC5S4kwUqqDJoGuqh99yTZ4gNgb1
+ TDYFaZwdAJWWGubE5kUiWtLPutRRO5w+HZ3Vl/Zi18+LiwqPzw3Ihqnn3qZVy/7cWFUgwpK0qt
+ WbE6nhj3/J90/lazLmIX0KV/RdiEhamLPaKTb7dqR/hNE1vCaV4STIBAAA=
+X-Change-ID: 20260721-b4-mmap-prepare-vma-flag-sanify-2100425df5aa
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+ David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+ Paul Moore <paul@paul-moore.com>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
+ "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+ Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
+ Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+ Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Juri Lelli <juri.lelli@redhat.com>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
+ Catalin Marinas <catalin.marinas@arm.com>, 
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Janosch Frank <frankja@linux.ibm.com>, 
+ Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Andreas Larsson <andreas@gaisler.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Xu Xin <xu.xin@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+ fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+ Takashi Iwai <tiwai@suse.de>, Emil Tsalapatis <emil@etsalapatis.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11656; i=ljs@kernel.org;
+ h=from:subject:message-id; bh=YNjr0dSPuiW39zPd8bCRpyQ2Yk06eE4geGojrPPpuO4=;
+ b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLLWCO+euVXoocmrxU83681y3RLp+yupiPdLvWLn/29La
+ uNY/G+rdJSyMIhxMciKKbI8/yK+P0gkbF7nBX83mDmsTCBDGLg4BWAiLSYM/5QSpH07fzvOcpB+
+ carukvfxuRs/Ldz++bqlY1HPj+w/JqsY/sfaHHGYKfd4Y9F2+eu3vQ8/3sHl3HBoRsyzDy86i3X
+ e+LIDAA==
+X-Developer-Key: i=ljs@kernel.org; a=openpgp;
+ fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-On Wed, Sep 16, 2026 at 5:55=E2=80=AFPM Luis Henriques <luis@igalia.com> wr=
-ote:
->
-> This new file aims at documenting the caches that are used by FUSE.  At
-> the moment only symlink, attributes, ACLs and readdir caches are describe=
-d.
->
-> Signed-off-by: Luis Henriques <luis@igalia.com>
-> ---
->  .../filesystems/fuse/fuse-caches.rst          | 148 ++++++++++++++++++
->  Documentation/filesystems/fuse/index.rst      |   1 +
->  2 files changed, 149 insertions(+)
->  create mode 100644 Documentation/filesystems/fuse/fuse-caches.rst
->
-> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentati=
-on/filesystems/fuse/fuse-caches.rst
-> new file mode 100644
-> index 000000000000..b133066429b1
-> --- /dev/null
-> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
-> @@ -0,0 +1,148 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +FUSE Caches
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Introduction
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +This document summarises the different types of caches used in FUSE. For=
- each
-> +cache type, it documents the rules to insert data into it. It also docum=
-ents the
-> +rules for validating and invalidating data in the cache.
-> +
-> +symlink caching
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Whenever there's a link resolution request for a FUSE filesystem, the VF=
-S will
-> +call into ``fuse_get_link()``, the ``->get_link()`` inode operation. Thi=
-s
-> +function will then send a ``FUSE_READLINK`` request to the user-space FU=
-SE
-> +server.
-> +
-> +The server can ask the kernel to cache all link resolutions by setting t=
-he
-> +``FUSE_CACHE_SYMLINKS`` flag during the ``FUSE_INIT`` negotiation. If th=
-is flag
-> +is set, when the VFS calls into the ``->get_link()`` operation, FUSE wil=
-l
-> +immediately call ``__page_get_link()``. The first time this is done for =
-a
-> +specific inode, it will result in sending the ``FUSE_READLINK`` request =
-to
-> +user-space. But the result returned from this request will then be added=
- into
-> +the page-cache. The next time this link needs to be resolved, it will us=
-e the
-> +link resolution already cached, and will only fallback to user-space if =
-the
-> +folio isn't up-to-date.
-> +
-> +Attributes caching
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Inode attributes may be obtained from user-space by different FUSE opera=
-tions.
-> +For example, ``FUSE_LOOKUP``, ``FUSE_GETATTR``, and also several other
-> +operations that create file system objects (e.g. ``FUSE_MKDIR``). These
-> +attributes obtained from user-space are cached by the kernel. They have,
-> +however, a timeout associated and once it expires, they are invalidated.=
- The
-> +next time the attributes are needed, a request (``FUSE_GETATTR``) will b=
-e sent
-> +to the FUSE server.
-> +
-> +The ``FUSE_GETATTR`` request can be sent to user-space in three differen=
-t
-> +scenarios:
-> +
-> +#. if the attributes for the inode aren't yet available in the kernel;
-> +#. if they are not valid any more (timed-out, or have been invalidated),=
- or
-> +#. if there is an explicit request for forcing the request to be sent (f=
-or
-> +   example, by using the ``AT_STATX_FORCE_SYNC`` flag in ``statx``).
-> +
-> +Regarding the attributes invalidation, they may happen in several occasi=
-ons. For
-> +example, upon a user-space request for invalidation, through
-> +``FUSE_NOTIFY_INVAL_INODE``, ``FUSE_NOTIFY_INVAL_ENTRY``, or
-> +``FUSE_NOTIFY_DELETE`` requests.
-> +
-> +FUSE uses fine-grained invalidation masks rather than invalidating all
-> +attributes at once. The principle is that each operation only invalidate=
-s the
-> +specific attributes that the operation could have changed on the server.=
- The
-> +masks used are:
-> +
-> +- ``STATX_ATIME`` - after reads and readlink, since the server may updat=
-e access
-> +  time
-> +- ``STATX_CTIME`` - after xattr changes (including ACL set/remove) and r=
-ename
-> +- ``STATX_BLOCKS`` - after a successful flush with writeback cache, sinc=
-e the
-> +  server's block count may differ from the local one
-> +- ``FUSE_STATX_MODIFY`` (``STATX_MTIME | STATX_CTIME | STATX_BLOCKS``) -=
- after
-> +  writeback completion (without writeback cache), since the server may h=
-ave
-> +  updated modification metadata
-> +- ``FUSE_STATX_MODSIZE`` (``FUSE_STATX_MODIFY | STATX_SIZE``) - after wr=
-ites,
-> +  truncate-on-open, and fallocate, since the server's size and modificat=
-ion
-> +  metadata may have changed
-> +- ``FUSE_STATX_MODDIR`` (``FUSE_STATX_MODSIZE | STATX_NLINK``) - after d=
-irectory
-> +  modifications (create, unlink, mkdir, rmdir, rename), since the server=
- may
-> +  have updated the directory's size, timestamps, and link count
-> +- ``STATX_BASIC_STATS`` - as a full invalidation, used for server-initia=
-ted
-> +  invalidation (FUSE\ :sub:`NOTIFY`\ \_INVAL\ :sub:`INODE`), interrupted
+The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
+properties:
 
-What is this odd subscript format and why? Please remove it.
+* Is this kernel-owned, whether MMIO, kernel-allocated pages, or ordinary
+  pages a driver maps itself?
+* Can it be expanded or merged?
+* Is this a 'weird' case like mlock where migration might race and we
+  'have' to set invalid flags to notify?
+* Is it another 'weird' case where we just want to stop GUP from touching
+  it?
 
-> +  setattr, and interrupted link
-> +
-> +The full set of invalidation points can be found by searching for
-> +``fuse_invalidate_attr_mask()`` in the FUSE source.
-> +
-> +ACL caching
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +FUSE has allowed the usage of POSIX Access Control Lists (ACLs) for a lo=
-ng time,
-> +as they can be set and accessed simply as extended attributes. However, =
-it was
-> +only with the introduction of the ``FUSE_POSIX_ACL`` flag that ACLs star=
-ted to
-> +be fully supported. Without this flag being set during the ``FUSE_INIT``
-> +negotiation, ACLs can still be set, but the VFS won't use them for perfo=
-rming
-> +permission checks - that would be the user-space server's responsibility=
-.
-> +
-> +Also, without setting ``FUSE_POSIX_ACL``, ACLs will not be cached by the=
- kernel.
+Driver writers have often been confused about this, and who can blame them?
 
-This Also, feels out of place and unneeded for the document flow.
+It also interacts badly with the eternal edgecase known as hugetlb - which
+sets VMA_DONTEXPAND_BIT but doesn't also want to be treated like a
+'special' flag.
 
-> +In this case, new inodes ``i_acl`` and ``i_default_acl`` fields will be =
-set to
-> +``ACL_DONT_CACHE``.
-> +
-> +On the other hand, if the ``FUSE_POSIX_ACL`` flag is set then, when an i=
-node ACL
+Another issue is that we cannot make sensible assumptions about flag
+use. It's not possible to assume VMA_IO_BIT means iommu because drivers
+abuse it and mlock abuses it.
 
-This OTOH, feels out of place and unneeded for the document flow.
+Special is also an overloaded term in mm. VDSO and VVAR mappings are also
+called 'special' but they're special in a... special way.
 
-> +is accessed, VFS will first check if it's already cached. If it is not, =
-FUSE
-> +``->get_acl()`` operation (``fuse_get_acl()``) is called, which will eve=
-ntually
-> +send a user-space request. Future accesses to this inode ACL will use th=
-e cached
-> +data.
-> +
-> +Setting an ACL in an inode will also result in sending a request to the =
-FUSE
-> +server for setting it. But this operation won't immediately cache the AC=
-L -- it
-> +will only be cached after it is accessed again and requested from user-s=
-pace.
-> +
-> +On the other hand, ACLs will be removed from the cache in the following
+Sometimes things are called special that are a subset of
+VMA_SPECIAL_FLAGS (VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT for instance when it
+comes to zapping or vm_normal_folio()).
 
-This OTOH, feels out of place and unneeded for the document flow.
-Which text is it referring to? Anyway, text seems better and clear without =
-it.
+There's a specific kind of special for THP too, which considers
+PFN map, mixed map 'special' but DAX not.
 
-> +situations:
-> +
-> +- When setting an ACL in an inode (and the ``FUSE_POSIX_ACL`` flag is se=
-t),
-> +  previously cached ACLs for this inode will be invalidated.
-> +- When invalidating an inode through the ``FUSE_NOTIFY_INVAL_INODE`` ope=
-ration.
-> +- After setting an inode attribute (i.e. operation ``FUSE_SETATTR`` is s=
-ent to
-> +  user-space), the user-space server may have also updated the ACLs. Thu=
-s, any
-> +  cached ACLs for this inode are also invalidated.
-> +- Whenever attributes are refreshed from the server. For example, when w=
-hile
+It's all rather a mess.
 
-stray while - please remove
+This series brings some order to things by both limiting what drivers can
+do with VMA flags and switching to using predicates that describe
+behaviour, not arbitrary flags.
 
-> +  revalidating a dentry (``->d_revalidate()``), or when updating a dentr=
-y during
-> +  while processing a ``FUSE_READDIRPLUS``.
+It establishes the invariant that only kernel-owned mappings may set
+VMA_IO_BIT or clear VMA_MAYWRITE_BIT in an mmap hook, enforcing this by
+validating VMA state after every mmap and mmap_prepare hook.
 
-stray while - please remove
+It updates usbmon and sg to mmap_prepare in order to do so, adding a new
+mmap action for mapping discontiguous kernel pages, and has hfi1 and the
+ALSA PCM status page map their pages eagerly instead.
 
-> +- In general, when there is the need to send a ``FUSE_STATX`` or
-> +  ``FUSE_GETATTR`` to user-space (e.g. when attributes expired).
-> +
-> +readdir caching
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +When opening a directory a ``FUSE_OPENDIR`` will be sent to the FUSE ser=
-ver, and
-> +server will be responsible for setting the open flags related with cachi=
-ng,
-> +namely ``FOPEN_KEEP_CACHE`` and ``FOPEN_CACHE_DIR``.
-> +
-> +If neither flags are set by the user-space FUSE server, then every ``rea=
-ddir``
-> +will result in a ``FUSE_READDIR`` (or ``FUSE_READDIRPLUS``) request bein=
-g sent.
-> +If ``FOPEN_CACHE_DIR`` is set by the server, then the result of a ``read=
-dir``
-> +will be cached by the kernel and reused for the current open.
+It also establishes the invariant that VMA_MIXEDMAP_BIT be set when mapping
+kernel memory, something that is usually the case but happens not to be for
+some users - specifically defio, cmt_speech, uprobes and the bpf arena, all
+of which are updated to do the right thing.
 
-I understand what you mean but it sounds confusing.
+It replaces VM_SPECIAL and arbitrary flag tests with predicates that say
+what is actually being tested:
 
-> +``FOPEN_KEEP_CACHE`` is about keeping the cache on **this** open, not on=
- some
-> +**next** open.
+   vma_is_kernel_owned()   Does a driver or kernel code manage a VMA's
+                           life cycle?
 
-Suggest:
+  vma_is_fixed_mapping()   Is the VMA not permitted to be expanded or
+                           merged?
 
-FOPEN_CACHE_DIR determines if readdir results of this open will be cached a=
-nd if
-readdir cache will be used to return readdir results during the current ope=
-n.
-If FOPEN_KEEP_CACHE is set, any readdir cache from previous opens is preser=
-ved
-when the directory is opened. Otherwise, the old readdir cache is
-invalidated on open.
+     vma_is_persistent()   Do bytes written to the VMA stay written, and
+                           bytes read stay the same unless userland changes
+                           them?
 
-If you accept this phrasing and fix the style nits above, feel free to add
+         vma_can_merge()   Can the VMA be merged with a compatible
+                           neighbour?
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+           vma_can_gup()   Can GUP obtain pages from the VMA, i.e. is it
+                           neither a PFN map nor memory-mapped I/O?
 
-Thanks,
-Amir.
+Remaining raw VMA_IO_BIT, VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT tests
+scattered across mm are also converted to predicates where it makes sense
+to do so.
+
+And also the opportunity is taken to eliminate THP's vma_is_special_huge()
+which was an existing source of confusion.
+
+Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+---
+v3:
+* Fixed up bug in patch 1 as reported by Mike - have to delay setting
+  map->vma_flags until after action prepare, though map->vm_file needs to
+  be set before for correct reference count management.
+* Updated 4/40 to add a symmetric vm_end check as well as vm_start in case
+  of a dangerously insane driver, as per Sashiko.
+* Updated 8/40 to check if a driver did something REALLY stupid like having
+  a NULL discontig_kernel_page_ops ptr, as per Sashiko.
+* Updated 15/40 to trivially synchronise userland test comments.
+* Updated 17/40 to correctly duplicate code to the userland VMA tests as
+  per Sashiko.
+
+v2:
+* Rebased on mm-unstable.
+* Introduced new patch to fix various mmap_prepare and file interactions
+  that weren't quite right as per Sashiko. None impact anything upstream
+  yet so it doesn't need to be a fix.
+* Restore vma->vm_start if an mmap hook has moved it before tearing the
+  VMA down, so we unmap the range we established rather than the one the
+  hook invented, as per Sashiko.
+* Reject a discontiguous kernel page batch of zero pages rather than
+  looping forever, and bound batches by the pages remaining in the VMA,
+  as per Sashiko.
+* Add the missing map_kernel_discontig member to the userland VMA tests'
+  copy of struct mmap_action as per Sashiko.
+* Set VM_DONTEXPAND on hfi1's RCV_HDRQ, RCV_EGRBUF and RTAIL mappings, as
+  dma_mmap_coherent() doesn't on the IOMMU-DMA path, as per Sashiko.
+* Recompute vma->vm_page_prot in snd_pcm_mmap_status() after clearing
+  VM_WRITE, as vm_insert_page() uses it immediately rather than at fault
+  time, as per Sashiko.
+* munlock_vma_folio() now tests VMA_LOCKED_MASK so an unmap racing the
+  mlock walk still munlocks folios the walk has already counted, as per
+  Sashiko.
+https://lore.kernel.org/r/20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org
+
+v1:
+https://lore.kernel.org/r/20260908-b4-mmap-prepare-vma-flag-sanify-v1-0-dacf19cce22b@kernel.org
+
+---
+Lorenzo Stoakes (ARM) (40):
+      mm/vma: fix mmap_prepare file handling, remove file_doesnt_need_get
+      mm/vma: predicate setting mmap_prepare VMA fields on new vma alloc
+      mm/vma: introduce and use vma_[flags_]can_merge()
+      mm: consistently validate VMA state after mmap[_prepare] hooks
+      mm/vma: ensure mmap_prepare doesn't set actions on a mergeable vma
+      mm: make map_kernel_pages_[prepare,complete] internal and unexported
+      mm/vma: tidy up map kernel pages enum values
+      mm: add mmap action for discontiguous kernel page mapping
+      docs: filesystems: update mmap_prepare docs for discontig kernel pgs
+      drivers/usb/mon: update to use mmap_prepare + map kernel pages
+      infiniband: update hfi1 to use remap_vmalloc_range()
+      selinux: reject writable opens of policy file, drop mmap shared/write check
+      ALSA: pcm: use vm_insert_page() to map PCM status page
+      bpf: arena: mark arena_map_mmap() mappings VM_MIXEDMAP
+      mm/vma: add vma[_flags]_is_kernel_owned() predicates
+      mm/vma: only allow mmap to clear VMA_MAYWRITE_BIT if kernel-owned
+      mm/vma: add and use vma_[flags]_is_fixed_mapping
+      scsi: sg: convert mmap hook to mmap_prepare and rework
+      fbdev: defio: assert FBINFO_VIRTFB, drop VM_IO, add VM_MIXEDMAP
+      HSI: cmt_speech: convert mmap hook to mmap_prepare, refactor
+      mm/gup: error out early on !VMA_MAYREAD_BIT VMAs
+      uprobes: remove VM_IO, set VM_MIXEDMAP for mapped kernel pages
+      mm/mlock: clear VMA_LOCKED_MASK over mmap callback
+      mm/mlock: eliminate weird VMA_IO_BIT abuse and simplify
+      mm/vma: enforce that only kernel-owned mappings may set VMA_IO_BIT
+      mm: remove VMA_IO_BIT check in vma[_flags]_is_kernel_owned()
+      mm: remove hugetlb_inline.h
+      mm: rename is_vm_hugetlb_page() to vma_is_hugetlb()
+      mm: drop some redundant checks around hugetlb VMAs
+      mm/madvise: update is_valid_guard_vma() to use vma_can_merge()
+      mm/vma: introduce vma[_flags]_is_persistent()
+      mm/uffd: use predicates for userfaultfd checks
+      mm/madvise: use predicates for madvise(..., MADV_DOFORK)
+      mm: eliminate VMA_SPECIAL_FLAGS usage when hugetlb explicitly tested
+      mm: eliminate VMA_SPECIAL_FLAGS check in lru_gen_look_around()
+      mm: avoid use of VMA_SPECIAL_FLAGS in migrate_vma_setup()
+      mm: eliminate VM_SPECIAL, VMA_SPECIAL_FLAGS
+      fuse: dax: do not set VM_MIXEDMAP
+      mm/huge_memory: remove vma_is_special_huge()
+      mm/vma: introduce and use vma[_flags]_can_gup()
+
+ Documentation/filesystems/mmap_prepare.rst |  81 +++++++++
+ arch/arm64/kvm/mmu.c                       |   4 +-
+ arch/powerpc/mm/book3s64/radix_tlb.c       |   6 +-
+ arch/powerpc/mm/nohash/e500_hugetlbpage.c  |   2 +-
+ arch/powerpc/mm/nohash/tlb.c               |   2 +-
+ arch/riscv/kvm/mmu.c                       |   2 +-
+ arch/riscv/mm/tlbflush.c                   |   2 +-
+ arch/s390/mm/gmap_helpers.c                |   6 +-
+ arch/sparc/mm/init_64.c                    |   2 +-
+ arch/x86/kernel/uprobes.c                  |   2 +-
+ drivers/gpu/drm/drm_gpusvm.c               |   5 +-
+ drivers/hsi/clients/cmt_speech.c           |  33 +---
+ drivers/infiniband/hw/hfi1/file_ops.c      |  83 +++------
+ drivers/scsi/sg.c                          | 115 ++++++-------
+ drivers/usb/mon/mon_bin.c                  |  82 +++++----
+ drivers/video/fbdev/core/fb_defio.c        |   6 +-
+ drivers/video/fbdev/ssd1307fb.c            |   2 +
+ fs/coredump.c                              |   6 +-
+ fs/fuse/dax.c                              |   2 +-
+ fs/hugetlbfs/inode.c                       |   2 +-
+ fs/proc/task_mmu.c                         |   8 +-
+ include/asm-generic/tlb.h                  |   4 +-
+ include/linux/hugetlb.h                    |   5 +-
+ include/linux/hugetlb_inline.h             |  28 ---
+ include/linux/mm.h                         | 266 +++++++++++++++++++++++++++--
+ include/linux/mm_types.h                   |  50 +++++-
+ include/linux/pagemap.h                    |   1 -
+ include/linux/rmap.h                       |   2 +-
+ include/linux/userfaultfd_k.h              |   1 -
+ kernel/bpf/arena.c                         |   3 +-
+ kernel/events/core.c                       |   2 +-
+ kernel/events/uprobes.c                    |   4 +-
+ kernel/sched/fair.c                        |   3 +-
+ mm/folio.c                                 |   2 +-
+ mm/gup.c                                   |  15 +-
+ mm/hmm.c                                   |   3 +-
+ mm/huge_memory.c                           |  31 ++--
+ mm/hugetlb.c                               |  14 +-
+ mm/internal.h                              |  81 +++++----
+ mm/ksm.c                                   |   4 +-
+ mm/madvise.c                               |  28 +--
+ mm/memory.c                                | 142 ++++++++++++---
+ mm/mempolicy.c                             |   5 +-
+ mm/migrate_device.c                        |  12 +-
+ mm/mlock.c                                 |  51 +++---
+ mm/mmap.c                                  |   2 +-
+ mm/mmu_gather.c                            |   2 +-
+ mm/mprotect.c                              |   5 +-
+ mm/mremap.c                                |  11 +-
+ mm/page_vma_mapped.c                       |   4 +-
+ mm/pagewalk.c                              |   2 +-
+ mm/rmap.c                                  |   4 +-
+ mm/swapfile.c                              |   2 +-
+ mm/userfaultfd.c                           |  45 +++--
+ mm/util.c                                  |  29 +++-
+ mm/vma.c                                   | 246 +++++++++++++++++++-------
+ mm/vma.h                                   |  31 +++-
+ mm/vma_internal.h                          |   1 -
+ mm/vmscan.c                                |   9 +-
+ security/selinux/selinuxfs.c               |  11 +-
+ sound/core/pcm_native.c                    |  38 ++---
+ tools/testing/vma/include/dup.h            |  80 +++++++--
+ tools/testing/vma/include/stubs.h          |   2 +-
+ tools/testing/vma/tests/merge.c            |  10 +-
+ 64 files changed, 1169 insertions(+), 575 deletions(-)
+---
+base-commit: 6b41451631cabf9ea3b384c2a099088e1598f963
+change-id: 20260721-b4-mmap-prepare-vma-flag-sanify-2100425df5aa
+
+Best regards,
+-- 
+Lorenzo Stoakes (ARM) <ljs@kernel.org>
+
