@@ -1,94 +1,94 @@
-Received: from mail-ed2-f40.google.com (mail-ed2-f40.google.com [74.125.228.104])
+Received: from mail-ej2-f31.google.com (mail-ej2-f31.google.com [74.125.228.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E1A4E322C
-	for <fuse-devel@lists.linux.dev>; Thu, 17 Sep 2026 15:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4ACA5A0AA4
+	for <fuse-devel@lists.linux.dev>; Thu, 17 Sep 2026 15:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.159
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789658084; cv=pass; b=VXoHa7AODCmg8lD/3DQAYGvANBwkiFkuodC7/jdHWz5yVdy5kWLL0InfiD9lfKEDIOOp2qZlmuE1Kf9GeiDGBDhbAePTecrunCGcnEYawYU0WJTXHeSv1y9yuWEP6oMSXlSr56TfNu/V121hJBL3mfhKxiLA83QuJFMhQ3ziBAo=
+	t=1789658366; cv=pass; b=Oedouv23ycs1Pu/Y1NCAkNwCAwRla8QrlOvxHTgT/mi99VShJqjMU57NiX3dtVJAfiP2Yqx5VXlvpHDNjFBsr8wux+oErkqzwh0EgwyWKzZwW88UMPAnpF+bIMCgD1wluBvuo8aVNzsSvoiHTEcBA62K9YiKP9/GkdkE68oJqvs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789658084; c=relaxed/simple;
-	bh=UFML2e457ZW3pIU5/pg+b/DC8XOfx2EOR7iCXso0RAw=;
+	s=arc-20240116; t=1789658366; c=relaxed/simple;
+	bh=wKBBpqxICSTSJH9KovkCmpB4Wf9jAq3IpKkz8RphBEo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r0mNo/AJ3JOK18c4JIEGkrF9sJiPSXY/bVeaDYpcgGUPqHtjFJqbcwSSVuBRKZQRLlnr5kfbpugTrOa2MpxLDBWDXdbSlq3f0xDRjuCs8UG3b18zNJCWtRDBQdTNSGQrr2NVM59tihzTZa81yi5IcrTr+a609MYU37sP3wjlh/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R1tCT87C; arc=pass smtp.client-ip=74.125.228.104
+	 To:Cc:Content-Type; b=rYK4pT6xk0WA+qLgV5sonvP09RS2NLSszvY62cDA1Xx2jBZMjSADo8qSUX7YJsCpS8tN1oPd1s3SuTlqcBGJ6CK6w8w5y2BAm/+Z3CGsFH6xBVQrSCADjifqmelaCmcid61XB/aqbDSzw9RZaoqSdeIqvioZaByt1Hl7r+N8sd4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjLk5U4u; arc=pass smtp.client-ip=74.125.228.159
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R1tCT87C"
-Received: by mail-ed2-f40.google.com with SMTP id 4fb4d7f45d1cf-6a60590a85cso2009682a12.0
-        for <fuse-devel@lists.linux.dev>; Thu, 17 Sep 2026 08:14:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789658074; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjLk5U4u"
+Received: by mail-ej2-f31.google.com with SMTP id a640c23a62f3a-c29703cb796so153232666b.2
+        for <fuse-devel@lists.linux.dev>; Thu, 17 Sep 2026 08:19:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789658336; cv=none;
         d=google.com; s=arc-20260327;
-        b=Dr1NCQeyeV/V1dV2n+9QHglByNba6Pqa5/Bqs0hnQG79mpYehYllmWQWaBK2U7dG+R
-         EeaZygi+2V1scENbrvD6mfbMhQpi3kWHBqUx2fmI2SyJ0bnAK4pUfanlXv5rc1mum5z6
-         jV02gMuUbG7q/d3jy75InvjfAv9HulOXsQxln5f/Bl59Iyo53dcbsBA8sM/lUNkQl3Ez
-         dWjvzCXHYg/hqFuFZCi5jW3SdwGSJriSGy+9ewo9W4Nw56uS26KCV5nA0x1F5sem7sN1
-         tQoLx0MQahPGa67YNBchhFMwxgQUHk8Rp64lYHSQ2ehl8cBPxNQdDJFd5erd6m2HNY+2
-         FX8w==
+        b=mPHMcgkAdvYO3aEPhGrXfLb8aDkZVjDq2eGLqTDtBxyb47BpSoO1cmiTEKlfQnczR4
+         zjcfqwz56xeOGYtukO+Bug/M2jf/MO8V8ccD7aEBuuK5DUDgI06/zlQ5NLjKDoohuE6q
+         GVyFZzCZadvL517kUDijeYHoY4XmeObvH0/PhwnZRPtnVaJX9SRVcb53/edU5y4DZsZ/
+         yXHw+22hGvGcC1KieP7WhwUV/e7DuHTe9JvBU1skJmfcXrFQH9qkZzmLBWlm2myJ0Hj0
+         3PcVLmFSGfQBmaplAfdmVNYBgkXZ5EYlIhqSZnXJy314yTj1KXZ+nByG57JlZGsuuUuG
+         LvHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=TCGGfYUyiWy8h8GhXDRfHIV8Kfgm9E+ThBdTgsBhNN0=;
-        fh=JNZ2XCXGrlJrGM9O3nQKjhYxtkG8/+mfpQOVBIgXZiE=;
-        b=s4+sDmJaVclVNa4v9z36NIydUiV3xWeunEz5mOqud+Vl/1+cDXaIufFsIuCocbprgR
-         TlzOJE9LOnGfAhoqJuuDYGSCbXvUiZvUxBiTSDTfwG58+VT+pIWB0kFl3y39XNwb0yqV
-         AYu561Uy9sc7ZizS1R8ZuxrEq3NoztIAU3zMw4eoob4tkt4ott9qAhwUQbUWVY1jfdo0
-         XehgZudkpjnewMX0PV1f2w1X7xRjzE6zUsCrRoXN57zssKu829aVingS70ttzH0QiiIo
-         wdfXz6Vxa3Nza8uh2FwViGz4OXY9j3s1I8VNnZXQFqSiINUvwzgi73+e/1iZVFPWHIFK
-         MkAQ==;
+        bh=TvBiRaBEozWOEdoyBMPd97Z2Iz6BQFRDi2IwFNwZ66g=;
+        fh=RgzJwyumSDjww7lS9Z1MZl/qko0nfQlwI3wMw2uwiiw=;
+        b=q+f8uAfElrSA2jDOJm95LXsMuS9RoytLMsYNNN+fkSjciNH1qbxTfTapp0f9ntPQQc
+         bYivySB1YMTiZJLJvkrcsniJd6Lc8ybjrFtkMglJNEhx5QfcdKdEG4UPyDePQISpOUfo
+         asqVQOMrP65bAAuDKDK2y55HbITboPBZJFZPzaNUn78X21ljuXHP2jlhswGnkZfnSP7Z
+         MkOzA2V+vsBvRPNJuMrmGtl3PEV/5i2Va0LkUlKXOnkH80jqEMh84UfFvkgRD/NPLdYt
+         FBBUGwa0swdt0S/Baldv478MCaXtqvTGlkJ4JmYxeXobgo1aPvLztJ9IPtKtCoO+BUvj
+         vLww==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789658074; x=1790262874; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789658336; x=1790263136; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=TCGGfYUyiWy8h8GhXDRfHIV8Kfgm9E+ThBdTgsBhNN0=;
-        b=R1tCT87C0k/RFggJlFQcScfogvcfZv/kqxNqkzb7zvn44Kx1Y5H6etRnjtQ97apWK7
-         pVZcI7edhiykUgBNTx5W6m1++ChHPNeJ9rmtE9m2Si+dlMcZ1jvT7JMq9frqLcdP4PIM
-         1UtjbPIgr8dTT20jBy4FUxwDuRoHBYIQNailuwJdSzddasSPKxys5uT3yZh6+WVuAyUz
-         8nDZ49ZKnehC6JS7s8HlUvJ8pMjdx/sKh2EKrT6k+VJlwP1waHoGUPR1+6bME5G78hC3
-         L9+goeBQrOUAbf7CwAZ1FFW4DyzCrihvwKlnqf5WyioMQUTRxdWpkgRMbS+sZp5JQSCr
-         xJvg==
+        bh=TvBiRaBEozWOEdoyBMPd97Z2Iz6BQFRDi2IwFNwZ66g=;
+        b=KjLk5U4ubioIyygGFyfG4C9iqqmU1RkBIIShrz4HdMs7zA2bWhzS+t8yuskGsJ+8+u
+         Wym+M84fY8D6gpMtiQfv9r4bQxHO6uDF7DQm+O9HHAtau36w7nIR492Q/mLzOxorhjpw
+         DaFqbPtwWkOhGFyyZ6LpQh2TsEewi3tyGExLw1BzSyrT/E132LOnsd53IvNfXT82N44g
+         xhIgtuE4qfqa1WZvPw59+hlP+49W4LZS6qUqafVnA9wDJkV5ml6dbi9nijv8iA+sTkyi
+         G5xSWQ5xfX0vGTI2hi8u1uzXv+yIPgPb65kWdLHA/KvQ2ttt9lu0i0uTeK/qu2r+hpDT
+         5SDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789658074; x=1790262874;
+        d=1e100.net; s=20260707; t=1789658336; x=1790263136;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=TCGGfYUyiWy8h8GhXDRfHIV8Kfgm9E+ThBdTgsBhNN0=;
-        b=lcEyHfnvXtKG6yxHGp7944BoznPk3uqYXcwsiUoVnxDKCIrMUd2mg6ETvKIRm3E/66
-         eEepGy/7lS0MdNCOLTsM6rVE/Fm5uu2aRYJPT8jFUdchkHZkPoJeM0yaYZVGqGsPWXja
-         Blo5GXpbZ3OkmfQVlNC43EGbddrwML9ngkqYR8Ye6gHqcwHTkptLFGH1ero8t+uOWM6r
-         370snwNgXw/Re7E3QMQ+nq42zt7vtDTbkfiuTjhvKb4X6jUp1WBCHIVtz/xMFp/A3Eue
-         ujlQR6LDapvl+MIgYpmd6Ap4o9U+UituzivyKb3LZrPxWcZ/R/s5n06isDNiLhyXbcqa
-         njXw==
-X-Forwarded-Encrypted: i=1; AKwUvBwPulXM8nOgqtAzE/6EyRJDq/PlBYe8gbFD0RCoEXEsJXho/23OdBgryoAXP5NjL0U1N0HR3YAP3scA@lists.linux.dev
-X-Gm-Message-State: AFuF++krj46dq+CqBhZuuO0xZMvKiZK2VQDl+FmSRutZO/QVvhUFIhgF
-	YPESmM9QezwRUhVBXpWbYIvT0EnM/bOk9ArV+vY5cNNThVwoHiqeANMjb1pjUTdMNLNqikHR5kU
-	uMeCmHzDhpaZHfB3rv6eUlXQ8H4W6LZQ=
-X-Gm-Gg: AYBFou0Y+twjnIHPaMevshg57UWa9V1185OHfYN4YYu3QNtErx0bqlvD1hv4BObNC+m
-	uc6qnCocSY7bdsyY8qE0GzI3+01ExmbOExEMU55B/BrC/43hWLKsy+OQHAXnHvDLmKrPOvN5mpf
-	WIhhz/JAzKgPr9aS0YW8DS1t7D3K0XGuB8fpWv7Djco0ow+cZz6IeS4MrL4IUz3uHj4RvFCCWfE
-	7CiQTWjDS66X/bU0Q2FgwcjAZ5wJB2y80CuKXUZiaYh8MQiWFO24pN0g2D+hZq6TvwNpGJX+dsl
-	0tDkit5fc1k4f+E0aI2wAdsYdQKkDrP+QRvdOUEiuLRXAI0wNY1Zkpkj
-X-Received: by 2002:a17:907:9606:b0:c21:1b58:fa96 with SMTP id
- a640c23a62f3a-c29e520cb4fmr486611366b.3.1789658074237; Thu, 17 Sep 2026
- 08:14:34 -0700 (PDT)
+        bh=TvBiRaBEozWOEdoyBMPd97Z2Iz6BQFRDi2IwFNwZ66g=;
+        b=mL9tfTycjfHtghgJUp0Ogt/VZtT3FJYcrj2I/ehawCGej9P+IPOqcCiam+Rz857kCD
+         EADfWtHDRatmLZrauqWmHsA7+q2r4jo1BxWz7HA+o8SuTaBFB4wVTGr709uVWTeBeOpO
+         bK3ybC/vOgFCQ0kCobiO1OFdmdpVSQfPvUAksx07fQ+ptthclqW4zqV+zBDk6JJUoqVn
+         aRWvuAxqlP0DZHNZiMrTjgFmaEIX57TmJQVLSeE+iaKyX89JTOjKQE6SB9wlvstNS1Gi
+         5fabO2lSDpLnZ5LFEtWgroJSPpCokuU8EyWDTalpOtvZI8hEPRcGjD+ur6rLo7KfJ66B
+         gJ9A==
+X-Forwarded-Encrypted: i=1; AKwUvBys8bK0gznraMgAVQsWaDXHvQfZnKIetocCYJOTa5DcATnhEtqSIWyuF5us4V63kee3+1Uo9Xgebwnc@lists.linux.dev
+X-Gm-Message-State: AFuF++lMi2wPq5UR7ARERK7ucD7rfdLj6UPcO4CL3ZXZ5iTry6LSO7p/
+	JlKOh+9MJv+qjQ3886zZW3/jQbb6vjLXFXb1UQpKOgmFB/rkd9V/8SiwXusZFSDs1HPr2AegC0K
+	81kAdaFBkurU5dlo+yY52Zo7cZMrmLxA=
+X-Gm-Gg: AYBFou1YIA8yCsG2ilk5KLFzHz4MNe52mQ0jaLEVanzgPT9FX4MYY0irtqU2e9M1r5H
+	MrZWTmUcIvJOx/rkhgXN2COUrbnUvDZlfQYVeLZLZND2jyGC841MDZGYjqF4BoIwK7hE7ijAlf3
+	Roi0ykjIC5QmewuUlJUfqfUMIBvptz0ksFXBLlkIgEEZH6VLZkKbOOvC8eh08riC60PjRITM3+H
+	g67WdbgE0f7dOXwtsjPFmYuCgUuVbShWpfe5kH9SAh98ag1dT+RpEW+bwpSmO7QnH4E12wWcuzH
+	6z4d8cNsGC8/F87u27EFmSjhGVzQ+eSyzsxeUVwVzzHeKS1qmZ6nyLAgeK77oFbr8tg=
+X-Received: by 2002:a17:907:3f17:b0:c29:dd71:7521 with SMTP id
+ a640c23a62f3a-c29e52094e2mr503882066b.13.1789658336185; Thu, 17 Sep 2026
+ 08:18:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260916155629.32421-1-luis@igalia.com> <20260916155629.32421-7-luis@igalia.com>
-In-Reply-To: <20260916155629.32421-7-luis@igalia.com>
+References: <20260916155629.32421-1-luis@igalia.com> <20260916155629.32421-8-luis@igalia.com>
+In-Reply-To: <20260916155629.32421-8-luis@igalia.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 17 Sep 2026 17:14:22 +0200
-X-Gm-Features: AcwNN1XrTA3dUrmLafi4P5dEpMrugxsYg13C0OFBhbE2Rz9-I-DuXWy9pmfwykk
-Message-ID: <CAOQ4uxhTBOH27USdM5KQ7fypp2-9ihGEmr6TJF21RVpZdsZz7w@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 6/8] selftests/fuse: add some extra ACL caching tests
+Date: Thu, 17 Sep 2026 17:18:44 +0200
+X-Gm-Features: AcwNN1Va1Hx-ENLvFA82HWE6oaHaqZG_YKBqIXvUfSNMOWmG1KlMF0bX0RUSInc
+Message-ID: <CAOQ4uxiSpFXtsfV8J+taEyCvsxcyp5dmMoOtSybK-3m4CUSu6A@mail.gmail.com>
+Subject: Re: [RFC PATCH v4 7/8] selftests/fuse: add fuse symlink caching test
 To: Luis Henriques <luis@igalia.com>
 Cc: Miklos Szeredi <miklos@szeredi.hu>, Chen Linxuan <me@black-desk.cn>, 
 	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, fuse-devel@lists.linux.dev, 
@@ -100,256 +100,208 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Sep 16, 2026 at 5:55=E2=80=AFPM Luis Henriques <luis@igalia.com> wr=
 ote:
 >
-> This adds some extra tests to ACL caching:
-> - Verify that reading ACLs results in the expected number of requests
->   being sent user-space, depending on whether cache is enabled or disable=
-d
-> - Verify caching behaviour on some caching invalidation scenarios
->
-> While there, add test binary to .gitignore.
+> This patch adds a simple test that allows to verify that, when resolving =
+a
+> symlink, user-space is called only the first time when caching is enabled
+> or, if caching is disabled, every time the symlink resolution is requeste=
+d.
 >
 > Signed-off-by: Luis Henriques <luis@igalia.com>
 > ---
 >  .../selftests/filesystems/fuse/.gitignore     |   1 +
->  .../filesystems/fuse/fuse_acl_cache_test.c    | 203 +++++++++++++++++-
->  2 files changed, 202 insertions(+), 2 deletions(-)
+>  .../selftests/filesystems/fuse/Makefile       |   2 +
+>  .../fuse/fuse_symlink_cache_test.c            | 163 ++++++++++++++++++
+>  3 files changed, 166 insertions(+)
+>  create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_symlink=
+_cache_test.c
 >
 > diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/=
 testing/selftests/filesystems/fuse/.gitignore
-> index fb51603fe419..f7f3dd345a50 100644
+> index f7f3dd345a50..ebfe7133d811 100644
 > --- a/tools/testing/selftests/filesystems/fuse/.gitignore
 > +++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-> @@ -2,3 +2,4 @@
->  fuse_mnt
+> @@ -3,3 +3,4 @@ fuse_mnt
 >  fusectl_test
 >  write_extend_eof_test
-> +fuse_acl_cache_test
-> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test=
-.c b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> index fb4e3554e3c9..173063efeee8 100644
-> --- a/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> +++ b/tools/testing/selftests/filesystems/fuse/fuse_acl_cache_test.c
-> @@ -84,6 +84,9 @@ struct daemon_state {
->         uint8_t         *acl;
->         size_t          acl_size;
->         int             getxattr_count;
-> +       uid_t           uid;
-> +       uid_t           gid;
-> +       bool            cache;
->  };
+>  fuse_acl_cache_test
+> +fuse_symlink_cache_test
+> diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/te=
+sting/selftests/filesystems/fuse/Makefile
+> index 7744f796eb06..3a5a557dde7a 100644
+> --- a/tools/testing/selftests/filesystems/fuse/Makefile
+> +++ b/tools/testing/selftests/filesystems/fuse/Makefile
+> @@ -5,6 +5,7 @@ CFLAGS +=3D -Wall -O2 -g $(KHDR_INCLUDES)
+>  TEST_GEN_PROGS :=3D fusectl_test
+>  TEST_GEN_PROGS +=3D write_extend_eof_test
+>  TEST_GEN_PROGS +=3D fuse_acl_cache_test
+> +TEST_GEN_PROGS +=3D fuse_symlink_cache_test
+>  TEST_GEN_FILES :=3D fuse_mnt
 >
->  /*
-> @@ -92,9 +95,17 @@ struct daemon_state {
->   */
->  static struct daemon_state g_ds =3D {
->         .lock =3D PTHREAD_MUTEX_INITIALIZER,
-> +       .cache =3D false,
->  };
+>  include ../../lib.mk
+> @@ -28,5 +29,6 @@ $(OUTPUT)/fuse_mnt: CFLAGS +=3D $(VAR_CFLAGS)
+>  $(OUTPUT)/fuse_mnt: LDLIBS +=3D $(VAR_LDLIBS)
 >
->  /* ---- FUSE lowlevel callbacks ----------------------------------------=
----- */
-> +static void fs_init(void *userdata, struct fuse_conn_info *conn)
-> +{
-> +       pthread_mutex_lock(&g_ds.lock);
-> +       if (g_ds.cache)
-> +               fuse_set_feature_flag(conn, FUSE_CAP_POSIX_ACL);
-> +       pthread_mutex_unlock(&g_ds.lock);
-> +}
+>  $(OUTPUT)/fuse_acl_cache_test: fuse_common.c fuse_acl_cache_test.c
+> +$(OUTPUT)/fuse_symlink_cache_test: fuse_common.c fuse_symlink_cache_test=
+.c
 >
->  static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
-e)
->  {
-> @@ -116,6 +127,10 @@ static void fs_lookup(fuse_req_t req, fuse_ino_t par=
-ent, const char *name)
->         e.attr.st_ino     =3D FILE_INO;
->         e.attr.st_mode    =3D S_IFREG | 0644;
->         e.attr.st_nlink   =3D 1;
-> +       pthread_mutex_lock(&g_ds.lock);
-> +       e.attr.st_uid =3D g_ds.uid;
-> +       e.attr.st_gid =3D g_ds.gid;
-> +       pthread_mutex_unlock(&g_ds.lock);
->         fuse_reply_entry(req, &e);
->  }
->
-> @@ -133,6 +148,10 @@ static void fs_getattr(fuse_req_t req, fuse_ino_t in=
-o,
->                 st.st_ino   =3D FILE_INO;
->                 st.st_mode  =3D S_IFREG | 0644;
->                 st.st_nlink =3D 1;
-> +               pthread_mutex_lock(&g_ds.lock);
-> +               st.st_uid =3D g_ds.uid;
-> +               st.st_gid =3D g_ds.gid;
-> +               pthread_mutex_unlock(&g_ds.lock);
->         } else {
->                 fuse_reply_err(req, ENOENT);
->                 return;
-> @@ -161,12 +180,14 @@ static void fs_getxattr(fuse_req_t req, fuse_ino_t =
-ino, const char *name,
->         }
->         pthread_mutex_lock(&g_ds.lock);
->         acl_size =3D g_ds.acl_size;
-> -       if (acl && (size >=3D acl_size))
-> +       if (acl && acl_size && (size >=3D acl_size))
->                 memcpy(acl, g_ds.acl, acl_size);
->         g_ds.getxattr_count++;
->         pthread_mutex_unlock(&g_ds.lock);
->
-> -       if (size =3D=3D 0)
-> +       if (acl_size =3D=3D 0)
-> +               fuse_reply_err(req, ENODATA);
-> +       else if (size =3D=3D 0)
->                 fuse_reply_xattr(req, acl_size);
->         else if (size < acl_size)
->                 fuse_reply_err(req, ERANGE);
-> @@ -176,10 +197,42 @@ static void fs_getxattr(fuse_req_t req, fuse_ino_t =
-ino, const char *name,
->         free(acl);
->  }
->
-> +static void fs_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name=
-,
-> +                           const char *value, size_t size, int flags)
-> +{
-> +       int ret =3D 0;
-> +       uint8_t *acl;
+>  EXTRA_CLEAN :=3D fuse_common.o
+> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_=
+test.c b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+> new file mode 100644
+> index 000000000000..dd001736ebca
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+> @@ -0,0 +1,163 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Simple filesystem to test FUSE symlink cache
+> + *
+> + * This is a simple FUSE filesystem that contains two objects: a file na=
+med
+> + * 'file' and a symlink to that file named 'link'.  If symlink caching i=
+s
+> + * disabled (i.e. FUSE_CAP_CACHE_SYMLINKS is reset during FUSE_INIT), wh=
+enever
+> + * the ->readlink() is executed to resolve 'link' a counter will be incr=
+emented.
+> + *
+> + * If symlink caching is enabled (i.e. FUSE_CAP_CACHE_SYMLINKS is set du=
+ring
+> + * FUSE_INIT), resolving a symlink will only call into user-space the fi=
+rst
+> + * time.
+> + */
 > +
-> +       if (ino !=3D FILE_INO) {
-> +               ret =3D ENOENT;
-> +               goto out;
-> +       } else if (strcmp(name, "system.posix_acl_access") !=3D 0) {
-> +               ret =3D ENOTSUP;
-> +               goto out;
-> +       }
-> +       acl =3D malloc(size);
-> +       if (!acl) {
-> +               ret =3D ENOMEM;
-> +               goto out;
-> +       }
-> +       memcpy(acl, value, size);
-> +       pthread_mutex_lock(&g_ds.lock);
-> +       if (g_ds.acl)
-> +               free(g_ds.acl);
-> +       g_ds.acl =3D acl;
-> +       g_ds.acl_size =3D size;
-> +       pthread_mutex_unlock(&g_ds.lock);
+> +#define FUSE_USE_VERSION 31
 > +
-> +out:
-> +       fuse_reply_err(req, ret);
-> +}
+> +#include <stdio.h>
+> +#include <fuse_lowlevel.h>
 > +
->  static const struct fuse_lowlevel_ops fs_ops =3D {
-> +       .init     =3D fs_init,
->         .lookup   =3D fs_lookup,
->         .getattr  =3D fs_getattr,
->         .getxattr =3D fs_getxattr,
-> +       .setxattr =3D fs_setxattr,
->  };
->
->  /* ---- kselftest harness ----------------------------------------------=
------ */
-> @@ -198,6 +251,9 @@ FIXTURE_SETUP(acl_cache)
->         ASSERT_NE(g_ds.acl, NULL);
->         memcpy(g_ds.acl, acl_a, g_ds.acl_size);
->         g_ds.getxattr_count =3D 0;
-> +       g_ds.uid =3D getuid();
-> +       g_ds.gid =3D getgid();
-> +       g_ds.cache =3D false;
->
->         if (fs_setup(&fs_ops, &g_ds.ctx, err))
->                 SKIP(goto out, err);
-> @@ -325,4 +381,147 @@ TEST_F(acl_cache, stale_after_force_sync)
->         EXPECT_EQ(count, 4);
->  }
->
-> +FIXTURE(acl_cache_onoff)
-> +{
-> +       char pathname[PATH_MAX];
+> +#include "kselftest_harness.h"
+> +
+> +#include "fuse_common.h"
+> +
+> +#define FILENAME "file"
+> +#define FILE_INO 42
+> +
+> +#define LINKNAME "link"
+> +#define LINK_INO 43
+> +
+> +#define TIMEOUT        86400.0f
+> +
+> +struct test_state {
+> +       pthread_mutex_t lock;
+> +       struct fuse_common_ctx ctx;
+> +       int readlink_counter;
+> +       bool cache;
+> +} test_state =3D {
+> +       .lock =3D PTHREAD_MUTEX_INITIALIZER,
 > +};
 > +
-> +FIXTURE_VARIANT(acl_cache_onoff) { bool cache; };
-> +FIXTURE_VARIANT_ADD(acl_cache_onoff, nocache) { .cache =3D false, };
-> +FIXTURE_VARIANT_ADD(acl_cache_onoff, docache) { .cache =3D true, };
+> +static void fs_init(void *userdata, struct fuse_conn_info *conn)
+> +{
+> +       pthread_mutex_lock(&test_state.lock);
+> +       if (test_state.cache)
+> +               fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
+> +       else
+> +               fuse_unset_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
+> +       pthread_mutex_unlock(&test_state.lock);
+> +}
 > +
-> +FIXTURE_SETUP(acl_cache_onoff)
+> +static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
+e)
+> +{
+> +       struct fuse_entry_param e =3D {};
+> +
+> +       if (parent !=3D FUSE_ROOT_ID ||
+> +           (strcmp(name, FILENAME) !=3D 0 && strcmp(name, LINKNAME) !=3D=
+ 0)) {
+> +               fuse_reply_err(req, ENOENT);
+> +               return;
+> +       }
+> +
+> +       if (!strcmp(name, FILENAME)) {
+> +               e.ino =3D FILE_INO;
+> +               e.attr.st_mode =3D S_IFREG | 0444;
+> +               e.attr.st_nlink =3D 2;
+> +       } else if (!strcmp(name, LINKNAME)) {
+> +               e.ino =3D LINK_INO;
+> +               e.attr.st_mode =3D S_IFLNK | 0444;
+> +               e.attr.st_nlink =3D 1;
+> +               e.attr.st_size =3D strlen(FILENAME);
+> +       }
+> +       e.attr_timeout =3D TIMEOUT;
+> +       e.entry_timeout =3D TIMEOUT;
+> +
+> +       fuse_reply_entry(req, &e);
+> +}
+> +
+> +static void fs_readlink(fuse_req_t req, fuse_ino_t ino)
+> +{
+> +       char buf[PATH_MAX];
+> +       size_t sz =3D strlen(FILENAME);
+> +
+> +       if (ino !=3D LINK_INO) {
+> +               fuse_reply_err(req, ENOENT);
+> +               return;
+> +       }
+> +
+> +       memcpy(buf, FILENAME, sz);
+> +       buf[sz] =3D '\0';
+> +       pthread_mutex_lock(&test_state.lock);
+> +       test_state.readlink_counter++;
+> +       pthread_mutex_unlock(&test_state.lock);
+> +
+> +       fuse_reply_readlink(req, buf);
+> +}
+> +
+> +static const struct fuse_lowlevel_ops fs_ops =3D {
+> +       .init           =3D fs_init,
+> +       .lookup         =3D fs_lookup,
+> +       .readlink       =3D fs_readlink,
+> +};
+> +
+> +FIXTURE(symlink_cache) {};
+> +FIXTURE_VARIANT(symlink_cache)
+> +{
+> +       const bool cache;
+> +};
+> +FIXTURE_VARIANT_ADD(symlink_cache, symlinks_nocache)
+> +{
+> +       /* Variant with symlink cache disabled */
+> +       .cache =3D false,
+> +};
+> +FIXTURE_VARIANT_ADD(symlink_cache, symlinks_cache)
+> +{
+> +       /* Variant with symlink cache enabled */
+> +       .cache =3D true,
+> +};
+> +
+> +FIXTURE_SETUP(symlink_cache)
 > +{
 > +       char err[MAX_ERR_MSG];
 > +
-> +       pthread_mutex_lock(&g_ds.lock);
-> +       g_ds.acl =3D NULL;
-> +       g_ds.acl_size =3D 0;
-> +       g_ds.getxattr_count =3D 0;
-> +       g_ds.cache =3D variant->cache;
-> +       g_ds.uid =3D getuid();
-> +       g_ds.gid =3D getgid();
+> +       pthread_mutex_lock(&test_state.lock);
+> +       test_state.readlink_counter =3D 0;
+> +       test_state.cache =3D variant->cache;
 > +
-> +       if (fs_setup(&fs_ops, &g_ds.ctx, err))
+> +       if (fs_setup(&fs_ops, &test_state.ctx, err))
 > +               SKIP(goto out, err);
-> +
-> +       snprintf(self->pathname, sizeof(self->pathname),
-> +                "%s/" FILE_NAME, g_ds.ctx.mountpoint);
 > +out:
-> +       pthread_mutex_unlock(&g_ds.lock);
+> +       pthread_mutex_unlock(&test_state.lock);
 > +}
 > +
-> +FIXTURE_TEARDOWN(acl_cache_onoff)
+> +FIXTURE_TEARDOWN(symlink_cache)
 > +{
-> +       pthread_mutex_lock(&g_ds.lock);
-> +       fs_teardown(&g_ds.ctx);
-> +       pthread_mutex_unlock(&g_ds.lock);
-> +       free(g_ds.acl);
+> +       pthread_mutex_lock(&test_state.lock);
+> +       fs_teardown(&test_state.ctx);
+> +       pthread_mutex_unlock(&test_state.lock);
 > +}
 > +
-> +/*
-> + * This is the most basic ACL caching test: verify that, when reading AC=
-Ls for
-> + * an inode, user-space is called:
-> + * - Only once if ACLs cache is enabled, or
-> + * - Once per access if cache i disabled.
 
-Typo "is disabled"
-
-> + */
-> +TEST_F(acl_cache_onoff, test_acl_cache_enable_disable)
-> +{
-> +       char buf[512];
-> +       ssize_t sz;
-> +       bool cache;
-> +       int counter;
-> +       int i;
-> +
-> +       ASSERT_EQ(lsetxattr(self->pathname, "system.posix_acl_access",
-> +                           acl_a, sizeof(acl_a), 0), 0);
-> +
-> +       for (i =3D 0; i < 100; i++) {
-> +               sz =3D lgetxattr(self->pathname, "system.posix_acl_access=
-",
-> +                              buf, sizeof(buf));
-> +               ASSERT_EQ(sz, sizeof(acl_a));
-> +               ASSERT_EQ(memcmp(buf, acl_a, sz), 0);
-> +       }
-> +
-> +       pthread_mutex_lock(&g_ds.lock);
-> +       counter =3D g_ds.getxattr_count;
-> +       cache =3D g_ds.cache;
-> +       pthread_mutex_unlock(&g_ds.lock);
-> +
-> +       if (cache) {
-> +               ASSERT_EQ(counter, 1);
-> +       } else {
-> +               ASSERT_EQ(counter, 100);
-> +       }
-> +
-> +       TH_LOG("User-space called %d time(s) with ACL caching %s",
-> +              counter, cache ? "enabled" : "disabled");
-> +}
-> +
-> +/*
-> + * Test caching invalidation for several scenarios:
-> + * 1. When a new ACL is set
-> + * 2. When invalidating an inode (NOTIFY_INODE_INVAL)
-
-Typo NOTIFY_INVAL_INODE
-
+Here too, unless you have a good reason not to,
+please put fuse_common_ctx in the test fixture object.
 
 With that fix, feel free to add
 
@@ -358,67 +310,28 @@ Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 Thanks,
 Amir.
 
-> + */
-> +TEST_F(acl_cache_onoff, test_acl_cache_invalidation)
+> +TEST_F(symlink_cache, test_symlink_cache)
 > +{
-> +       char buf[512];
+> +       char pathname[PATH_MAX];
+> +       char buf[PATH_MAX];
 > +       ssize_t sz;
 > +       int counter;
-> +       bool cache;
 > +       int i;
 > +
-> +       /* Set an ACL */
-> +       ASSERT_EQ(lsetxattr(self->pathname, "system.posix_acl_access",
-> +                           acl_a, sizeof(acl_a), 0), 0);
-> +
+> +       sprintf(pathname, "%s/%s", test_state.ctx.mountpoint, LINKNAME);
 > +       for (i =3D 0; i < 100; i++) {
-> +               sz =3D lgetxattr(self->pathname, "system.posix_acl_access=
-",
-> +                              buf, sizeof(buf));
-> +               ASSERT_EQ(sz, sizeof(acl_a));
-> +               ASSERT_EQ(memcmp(buf, acl_a, sz), 0);
+> +               sz =3D readlink(pathname, buf, PATH_MAX);
+> +               ASSERT_NE(sz, -1);
 > +       }
+> +       pthread_mutex_lock(&test_state.lock);
+> +       counter =3D test_state.readlink_counter;
+> +       pthread_mutex_unlock(&test_state.lock);
 > +
-> +       /* 1. force cache invalidation by setting a new ACL */
-> +       ASSERT_EQ(lsetxattr(self->pathname, "system.posix_acl_access",
-> +                           acl_b, sizeof(acl_b), 0), 0);
-> +
-> +       sz =3D lgetxattr(self->pathname, "system.posix_acl_access",
-> +                      buf, sizeof(buf));
-> +       ASSERT_EQ(sz, sizeof(acl_b));
-> +       ASSERT_EQ(memcmp(buf, acl_b, sz), 0);
-> +
-> +       pthread_mutex_lock(&g_ds.lock);
-> +       counter =3D g_ds.getxattr_count;
-> +       cache =3D g_ds.cache;
-> +       pthread_mutex_unlock(&g_ds.lock);
-> +
-> +       if (cache) {
-> +               ASSERT_EQ(counter, 2);
+> +       if (variant->cache) {
+> +               ASSERT_EQ(counter, 1);
 > +       } else {
-> +               ASSERT_EQ(counter, 101);
+> +               ASSERT_EQ(counter, 100);
 > +       }
-> +       TH_LOG("Invalidation by setting new ACL: OK");
-> +
-> +       /* 2. send FUSE_NOTIFY_INVAL_INODE */
-> +       fuse_lowlevel_notify_inval_inode(g_ds.ctx.se, FILE_INO, 0, 0);
-> +
-> +       sz =3D lgetxattr(self->pathname, "system.posix_acl_access",
-> +                      buf, sizeof(buf));
-> +       ASSERT_EQ(sz, sizeof(acl_b));
-> +       ASSERT_EQ(memcmp(buf, acl_b, sz), 0);
-> +
-> +       pthread_mutex_lock(&g_ds.lock);
-> +       counter =3D g_ds.getxattr_count;
-> +       cache =3D g_ds.cache;
-> +       pthread_mutex_unlock(&g_ds.lock);
-> +
-> +       if (cache) {
-> +               ASSERT_EQ(counter, 3);
-> +       } else {
-> +               ASSERT_EQ(counter, 102);
-> +       }
-> +       TH_LOG("Invalidation through FUSE_NOTIFY_INVAL_INODE: OK");
 > +}
 > +
->  TEST_HARNESS_MAIN
+> +TEST_HARNESS_MAIN
