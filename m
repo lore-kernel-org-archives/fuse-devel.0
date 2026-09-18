@@ -1,344 +1,322 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07AE372EE4;
-	Thu, 17 Sep 2026 21:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2443191D6;
+	Fri, 18 Sep 2026 09:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789680216; cv=none; b=g2bgpnAi/Vv5ixUWGSG0TYXrtqSobRkAou/zvGOIOf77JoZPMxRxAySaehDpgk/7M+OCOq7xFFpXobOZBgrOyj+j6S/nL/P+IHI6rx022qm2r7mTTzuan0Dxmhc5hEES8awYujd0+hzxA1iKvn1N7lqt7AOSJqZ3C5wTATAAd8w=
+	t=1789722943; cv=none; b=TZmp/B7a7umVvOpXoMDZY5GranjH5n1Y0G/v1DPzZTi17cGbuQkJqO6pZKYTHy3e8FDNpkQsKt5IyujcpulkAn4Zya8u6vEXGON8tju1Vvbt24i4O5OFU2fe0CUl52SSMea1OCayKs46JDr9jmwLqLyRp9SALodxVe0khvBIX+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789680216; c=relaxed/simple;
-	bh=A7lL4KAfhIJBbzpbVryrOoEGdPkviEAu9tdoSX0n4Ds=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=N40tQlDZP0IAp0gSzyUzDVp4y7zAOsnximH2X5/zqZunIP/f4p48s+2mp9LtyMP5xxoe5IOZOmRmsFVw6bjyda3UParxu5zf9KQ0MGPmGgWrFGy0saesl/w26ge+OU+eieRdAZoTEa76Y4tQXwqEvoEaAxacJqfxGhvXcJQzIJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=VUF866Xg; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789722943; c=relaxed/simple;
+	bh=A1h4kC1T7dfRaWVqhU0+2qj29ASuahdCobD58dIuLEo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dbROTdOa06kqG5aCGQaBpypyoNSnjXw2BDoFMrClrVgkfDfmIMQg0oYBU00dgR4smXeeHcAi3A4LWYDHSDFnE80t9W2FoCtLheg6kFOxneg9AJyk5OO719KBd1yBiYga2MssN/1jDuFkf1RPU20XHE0JPbmT9G5J2vUD/f4InlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=om1JOGOO; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="VUF866Xg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5062D1F000FF;
-	Thu, 17 Sep 2026 21:23:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1789680214;
-	bh=NUNrBmtamoGTZdnjr2/yL2y2w6DcpJMvTMICnOHXcqc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=VUF866Xg25rkEYuIAeRh8+Jby3Nsgi0QqQgf+tcoe0C7lFWZo2kW07wobdbQTXONa
-	 IrDTi0vtFdOje+nXofZ7qVIuq8UFrLKFeRBPgY0JvevdHLKjcg92+cAb0Z4/yQgheh
-	 XekOEPMPEkzPT/6xM5Mwlpf+y3YNL1+GloA5Mf1w=
-Date: Thu, 17 Sep 2026 14:23:29 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
- <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
- <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
- <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dennis Dalessandro
- <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov
- <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
- Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
- Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
- <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
- <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert
- <dgilbert@interlog.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter
- <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel
- <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
- <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov
- <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
- <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
- <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rik van Riel
- <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli
- <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann
- <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
- <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, Oliver Upton
- <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul
- Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda
- <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens
- <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller"
- <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Alexander
- Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
- <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
- <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Chris
- Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi
- <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
- <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, Johannes
- Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
- <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
- Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Chengming
- Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, Miklos
- Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
- selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>, Emil Tsalapatis
- <emil@etsalapatis.com>
-Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit,
- eliminate VM_SPECIAL
-Message-Id: <20260917142329.369cd6539261d590600ce7ec@linux-foundation.org>
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="om1JOGOO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=e0iblB/xd0bKyqJQCHwHSoDSJbGjYAfM5ex62TtVuKY=; b=om1JOGOOEPD+kovLlVVZHQuV01
+	btKeH0+/69t8mp1Wp6G6QUkRJNalDE+0r6X1VifWHI5jV2elmWBpVmAXQCfnQ3fiIu1vA09kb7Ew2
+	OzCDDT2cbeqouJMQDdsT/sRhET3GAgoLCiyj7pD14qpjKyLl08UPL6xUPeAQwFcS+6CKSoOwWxTxz
+	IUQXSClSbvVZDCbQkzvxs31cZvCmGTI8SrJVY9qKufThtAmz1GjDKReBA+CG9YqEnSN7goKKkonGe
+	Zuc3tvjr40jSnLruxqqcPmHHPpSml4CHu1sy04G3WJgNq76HlUhkOsQm6YBbwrAZ+m25aKyMnSkqj
+	XZSbbKbg==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1x7Ugq-003rMZ-BS; Fri, 18 Sep 2026 11:15:28 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,  Chen Linxuan <me@black-desk.cn>,
+  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  fuse-devel@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,  Matt
+ Harvey <mharvey@jumptrading.com>,  kernel-dev@igalia.com
+Subject: Re: [RFC PATCH v4 1/8] Documentation: fuse: add document on caches
+ being used by FUSE
+In-Reply-To: <CAOQ4uxipJkiiy8pURxRFdKYbruBM8wQxArd8uAiv2Dh=tPwNhA@mail.gmail.com>
+References: <20260916155629.32421-1-luis@igalia.com>
+	<20260916155629.32421-2-luis@igalia.com>
+	<CAOQ4uxipJkiiy8pURxRFdKYbruBM8wQxArd8uAiv2Dh=tPwNhA@mail.gmail.com>
+Date: Fri, 18 Sep 2026 10:16:26 +0100
+Message-ID: <87o6du6hsl.fsf@igalia.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 17 Sep 2026 17:22:09 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
+On Thu, Sep 17 2026, Amir Goldstein wrote:
 
-> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
-> properties:
-> 
-> * Is this kernel-owned, whether MMIO, kernel-allocated pages, or ordinary
->   pages a driver maps itself?
-> * Can it be expanded or merged?
-> * Is this a 'weird' case like mlock where migration might race and we
->   'have' to set invalid flags to notify?
-> * Is it another 'weird' case where we just want to stop GUP from touching
->   it?
-> 
-> ...
-> 
-> This series brings some order to things by both limiting what drivers can
-> do with VMA flags and switching to using predicates that describe
-> behaviour, not arbitrary flags.
+> On Wed, Sep 16, 2026 at 5:55=E2=80=AFPM Luis Henriques <luis@igalia.com> =
+wrote:
+>>
+>> This new file aims at documenting the caches that are used by FUSE.  At
+>> the moment only symlink, attributes, ACLs and readdir caches are describ=
+ed.
+>>
+>> Signed-off-by: Luis Henriques <luis@igalia.com>
+>> ---
+>>  .../filesystems/fuse/fuse-caches.rst          | 148 ++++++++++++++++++
+>>  Documentation/filesystems/fuse/index.rst      |   1 +
+>>  2 files changed, 149 insertions(+)
+>>  create mode 100644 Documentation/filesystems/fuse/fuse-caches.rst
+>>
+>> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentat=
+ion/filesystems/fuse/fuse-caches.rst
+>> new file mode 100644
+>> index 000000000000..b133066429b1
+>> --- /dev/null
+>> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
+>> @@ -0,0 +1,148 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +FUSE Caches
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +Introduction
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +This document summarises the different types of caches used in FUSE. Fo=
+r each
+>> +cache type, it documents the rules to insert data into it. It also docu=
+ments the
+>> +rules for validating and invalidating data in the cache.
+>> +
+>> +symlink caching
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +Whenever there's a link resolution request for a FUSE filesystem, the V=
+FS will
+>> +call into ``fuse_get_link()``, the ``->get_link()`` inode operation. Th=
+is
+>> +function will then send a ``FUSE_READLINK`` request to the user-space F=
+USE
+>> +server.
+>> +
+>> +The server can ask the kernel to cache all link resolutions by setting =
+the
+>> +``FUSE_CACHE_SYMLINKS`` flag during the ``FUSE_INIT`` negotiation. If t=
+his flag
+>> +is set, when the VFS calls into the ``->get_link()`` operation, FUSE wi=
+ll
+>> +immediately call ``__page_get_link()``. The first time this is done for=
+ a
+>> +specific inode, it will result in sending the ``FUSE_READLINK`` request=
+ to
+>> +user-space. But the result returned from this request will then be adde=
+d into
+>> +the page-cache. The next time this link needs to be resolved, it will u=
+se the
+>> +link resolution already cached, and will only fallback to user-space if=
+ the
+>> +folio isn't up-to-date.
+>> +
+>> +Attributes caching
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +Inode attributes may be obtained from user-space by different FUSE oper=
+ations.
+>> +For example, ``FUSE_LOOKUP``, ``FUSE_GETATTR``, and also several other
+>> +operations that create file system objects (e.g. ``FUSE_MKDIR``). These
+>> +attributes obtained from user-space are cached by the kernel. They have,
+>> +however, a timeout associated and once it expires, they are invalidated=
+. The
+>> +next time the attributes are needed, a request (``FUSE_GETATTR``) will =
+be sent
+>> +to the FUSE server.
+>> +
+>> +The ``FUSE_GETATTR`` request can be sent to user-space in three differe=
+nt
+>> +scenarios:
+>> +
+>> +#. if the attributes for the inode aren't yet available in the kernel;
+>> +#. if they are not valid any more (timed-out, or have been invalidated)=
+, or
+>> +#. if there is an explicit request for forcing the request to be sent (=
+for
+>> +   example, by using the ``AT_STATX_FORCE_SYNC`` flag in ``statx``).
+>> +
+>> +Regarding the attributes invalidation, they may happen in several occas=
+ions. For
+>> +example, upon a user-space request for invalidation, through
+>> +``FUSE_NOTIFY_INVAL_INODE``, ``FUSE_NOTIFY_INVAL_ENTRY``, or
+>> +``FUSE_NOTIFY_DELETE`` requests.
+>> +
+>> +FUSE uses fine-grained invalidation masks rather than invalidating all
+>> +attributes at once. The principle is that each operation only invalidat=
+es the
+>> +specific attributes that the operation could have changed on the server=
+. The
+>> +masks used are:
+>> +
+>> +- ``STATX_ATIME`` - after reads and readlink, since the server may upda=
+te access
+>> +  time
+>> +- ``STATX_CTIME`` - after xattr changes (including ACL set/remove) and =
+rename
+>> +- ``STATX_BLOCKS`` - after a successful flush with writeback cache, sin=
+ce the
+>> +  server's block count may differ from the local one
+>> +- ``FUSE_STATX_MODIFY`` (``STATX_MTIME | STATX_CTIME | STATX_BLOCKS``) =
+- after
+>> +  writeback completion (without writeback cache), since the server may =
+have
+>> +  updated modification metadata
+>> +- ``FUSE_STATX_MODSIZE`` (``FUSE_STATX_MODIFY | STATX_SIZE``) - after w=
+rites,
+>> +  truncate-on-open, and fallocate, since the server's size and modifica=
+tion
+>> +  metadata may have changed
+>> +- ``FUSE_STATX_MODDIR`` (``FUSE_STATX_MODSIZE | STATX_NLINK``) - after =
+directory
+>> +  modifications (create, unlink, mkdir, rmdir, rename), since the serve=
+r may
+>> +  have updated the directory's size, timestamps, and link count
+>> +- ``STATX_BASIC_STATS`` - as a full invalidation, used for server-initi=
+ated
+>> +  invalidation (FUSE\ :sub:`NOTIFY`\ \_INVAL\ :sub:`INODE`), interrupted
+>
+> What is this odd subscript format and why? Please remove it.
 
-Thanks, I've updated mm.git's mm-unstable branch to this version.
+Oops!  I use pandoc to convert the text into rst, and looks like it's
+misbehaving here.  I'll investigate what went wrong and fix this.  (And
+next time I'll re-read the doc in rst.)
 
-> v3:
-> * Fixed up bug in patch 1 as reported by Mike - have to delay setting
->   map->vma_flags until after action prepare, though map->vm_file needs to
->   be set before for correct reference count management.
-> * Updated 4/40 to add a symmetric vm_end check as well as vm_start in case
->   of a dangerously insane driver, as per Sashiko.
-> * Updated 8/40 to check if a driver did something REALLY stupid like having
->   a NULL discontig_kernel_page_ops ptr, as per Sashiko.
-> * Updated 15/40 to trivially synchronise userland test comments.
-> * Updated 17/40 to correctly duplicate code to the userland VMA tests as
->   per Sashiko.
+Thanks a lot for your feedback, I'll incorporate the suggestions below
+into v5.
 
-Here's how v3 altered mm.git:
+Cheers,
+--=20
+Lu=C3=ADs
 
-
- mm/internal.h                   |    4 ++-
- mm/memory.c                     |    2 -
- mm/vma.c                        |   34 +++++++++++++++++-------------
- mm/vma.h                        |    3 +-
- tools/testing/vma/include/dup.h |   24 ++++++++++++++++-----
- 5 files changed, 45 insertions(+), 22 deletions(-)
-
---- a/mm/internal.h~b
-+++ a/mm/internal.h
-@@ -244,6 +244,7 @@ static inline void vma_close(struct vm_a
- static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
- {
- 	const unsigned long prev_start = vma->vm_start;
-+	const unsigned long prev_end = vma->vm_end;
- 	const vma_flags_t prev_flags = vma->flags;
- 	int err;
- 
-@@ -263,9 +264,10 @@ static inline int mmap_file(struct file
- 	if (unlikely(err))
- 		return err;
- 
--	err = mmap_hook_validate(prev_start, &prev_flags, vma);
-+	err = mmap_hook_validate(prev_start, prev_end, &prev_flags, vma);
- 	if (unlikely(err)) {
- 		vma->vm_start = prev_start;
-+		vma->vm_end = prev_end;
- 		vma_close(vma);
- 	}
- 
---- a/mm/memory.c~b
-+++ a/mm/memory.c
-@@ -2653,7 +2653,7 @@ int map_discontig_kernel_pages_prepare(s
- 		action->map_kernel_discontig.ops;
- 
- 	/* At minimum need to be able to get pages. */
--	if (WARN_ON_ONCE(!ops->get))
-+	if (WARN_ON_ONCE(!ops || !ops->get))
- 		return -EINVAL;
- 
- 	__map_kernel_pages_prepare(desc);
---- a/mm/vma.c~b
-+++ a/mm/vma.c
-@@ -2797,15 +2797,15 @@ static int mmap_validate_vma_flags(const
- }
- 
- /* Check to ensure a driver hasn't done something crazy. */
--static int mmap_validate(unsigned long prev_start,
--			 unsigned long curr_start,
-+static int mmap_validate(unsigned long prev_start, unsigned long prev_end,
-+			 unsigned long curr_start, unsigned long curr_end,
- 			 const vma_flags_t *prev_flags,
- 			 const vma_flags_t *curr_flags)
- {
- 	bool was_maywrite, is_maywrite;
- 
--	/* Drivers cannot alter the address of the VMA. */
--	if (WARN_ON_ONCE(prev_start != curr_start))
-+	/* Drivers cannot alter the range of the VMA. */
-+	if (WARN_ON_ONCE(prev_start != curr_start || prev_end != curr_end))
- 		return -EINVAL;
- 
- 	was_maywrite = vma_flags_test(prev_flags, VMA_MAYWRITE_BIT);
-@@ -2843,7 +2843,8 @@ int mmap_prepare_validate(const struct v
- 	    WARN_ON_ONCE(desc->action.type != MMAP_NOTHING))
- 		return -EINVAL;
- 
--	return mmap_validate(prev_desc->start, desc->start,
-+	return mmap_validate(prev_desc->start, prev_desc->end,
-+			     desc->start, desc->end,
- 			     &prev_desc->vma_flags, &desc->vma_flags);
- }
- 
-@@ -2851,19 +2852,22 @@ int mmap_prepare_validate(const struct v
-  * mmap_hook_validate() - Ensure the driver hasn't violated invariants in
-  * its f_op->mmap hook.
-  * @prev_start: The start of the mapping prior to the mmap hook.
-+ * @prev_end: The end of the mapping prior to the mmap hook.
-  * @prev_flags: The VMA flags set for the VMA prior to the mmap hook.
-  * @vma: The VMA after the hook has been applied.
-  *
-  * Returns: 0 on success, otherwise an error.
-  */
--int mmap_hook_validate(unsigned long prev_start,
-+int mmap_hook_validate(unsigned long prev_start, unsigned long prev_end,
- 		       const vma_flags_t *prev_flags,
- 		       const struct vm_area_struct *vma)
- {
- 	const unsigned long start = vma->vm_start;
-+	const unsigned long end = vma->vm_end;
- 	const vma_flags_t *flags = &vma->flags;
- 
--	return mmap_validate(prev_start, start, prev_flags, flags);
-+	return mmap_validate(prev_start, prev_end, start, end, prev_flags,
-+			     flags);
- }
- 
- static int call_action_prepare(struct mmap_state *map,
-@@ -2900,15 +2904,9 @@ static int call_mmap_prepare(struct mmap
- 	if (err)
- 		return err;
- 
--	/* Update fields permitted to be changed. */
--	map->pgoff = desc->pgoff;
-+	/* Update first so file refcount tracked correctly. */
- 	if (desc->vm_file != map->vm_file)
- 		map->vm_file = desc->vm_file;
--	map->vma_flags = desc->vma_flags;
--	map->page_prot = desc->page_prot;
--	/* User-defined fields. */
--	map->vm_ops = desc->vm_ops;
--	map->vm_private_data = desc->private_data;
- 
- 	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
- 	if (!desc->vm_ops)
-@@ -2923,6 +2921,14 @@ static int call_mmap_prepare(struct mmap
- 	if (err)
- 		return err;
- 
-+	/* Update fields permitted to be changed. */
-+	map->pgoff = desc->pgoff;
-+	map->vma_flags = desc->vma_flags;
-+	map->page_prot = desc->page_prot;
-+	/* User-defined fields. */
-+	map->vm_ops = desc->vm_ops;
-+	map->vm_private_data = desc->private_data;
-+
- 	/*
- 	 * MAP_PRIVATE-/dev/zero mappings are an ancient way of getting
- 	 * anonymous mappings. Rather than allowing these mappings to be odd
---- a/mm/vma.h~b
-+++ a/mm/vma.h
-@@ -786,7 +786,7 @@ void vm_area_free(struct vm_area_struct
- int mmap_prepare_validate(const struct vm_area_desc *prev_desc,
- 			  const struct vm_area_desc *desc);
- 
--int mmap_hook_validate(unsigned long prev_start,
-+int mmap_hook_validate(unsigned long prev_start, unsigned long prev_end,
- 		       const vma_flags_t *prev_flags,
- 		       const struct vm_area_struct *vma);
- 
-@@ -851,6 +851,7 @@ static inline int mmap_prepare_validate(
- }
- 
- static inline int mmap_hook_validate(unsigned long prev_start,
-+				     unsigned long prev_end,
- 				     const vma_flags_t *prev_flags,
- 				     const struct vm_area_struct *vma)
- {
---- a/tools/testing/vma/include/dup.h~b
-+++ a/tools/testing/vma/include/dup.h
-@@ -1667,22 +1667,36 @@ static inline bool vma_is_kernel_owned(c
- 	return vma_flags_is_kernel_owned(&vma->flags);
- }
- 
-+static inline bool vma_flags_is_fixed_mapping(const vma_flags_t *flags)
-+{
-+	/*
-+	 * VMA_PFNMAP_BIT should imply VMA_DONTEXPAND_BIT, but some callers set
-+	 * only the former.
-+	 */
-+	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_DONTEXPAND_BIT);
-+}
-+
-+static inline bool vma_is_fixed_mapping(const struct vm_area_struct *vma)
-+{
-+	return vma_flags_is_fixed_mapping(&vma->flags);
-+}
-+
- static inline bool vma_flags_can_merge(const vma_flags_t *flags)
- {
- 	/*
--	 * VMA merging assumes that the properties of a VMA completely describe
--	 * the properties of that VMA.
-+	 * VMA merging assumes that a VMA's flags and fields completely describe
-+	 * its state.
- 	 *
- 	 * However, kernel-owned mappings may have established state upon mapping
- 	 * not embodied in any attribute of the VMA.
- 	 *
--	 * Additionally, PFN maps encode the source PFN of the range in
--	 * vma->vm_pgoff, which may otherwise cause spurious merges.
-+	 * Additionally, private (CoW) PFN maps encode the source PFN of the
-+	 * range in vma->vm_pgoff, which may otherwise cause spurious merges.
- 	 */
- 	if (vma_flags_is_kernel_owned(flags))
- 		return false;
- 	/* VMA explicitly marked as being unmergeable. */
--	if (vma_flags_test(flags, VMA_DONTEXPAND_BIT))
-+	if (vma_flags_is_fixed_mapping(flags))
- 		return false;
- 
- 	return true;
-_
+>> +  setattr, and interrupted link
+>> +
+>> +The full set of invalidation points can be found by searching for
+>> +``fuse_invalidate_attr_mask()`` in the FUSE source.
+>> +
+>> +ACL caching
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +FUSE has allowed the usage of POSIX Access Control Lists (ACLs) for a l=
+ong time,
+>> +as they can be set and accessed simply as extended attributes. However,=
+ it was
+>> +only with the introduction of the ``FUSE_POSIX_ACL`` flag that ACLs sta=
+rted to
+>> +be fully supported. Without this flag being set during the ``FUSE_INIT``
+>> +negotiation, ACLs can still be set, but the VFS won't use them for perf=
+orming
+>> +permission checks - that would be the user-space server's responsibilit=
+y.
+>> +
+>> +Also, without setting ``FUSE_POSIX_ACL``, ACLs will not be cached by th=
+e kernel.
+>
+> This Also, feels out of place and unneeded for the document flow.
+>
+>> +In this case, new inodes ``i_acl`` and ``i_default_acl`` fields will be=
+ set to
+>> +``ACL_DONT_CACHE``.
+>> +
+>> +On the other hand, if the ``FUSE_POSIX_ACL`` flag is set then, when an =
+inode ACL
+>
+> This OTOH, feels out of place and unneeded for the document flow.
+>
+>> +is accessed, VFS will first check if it's already cached. If it is not,=
+ FUSE
+>> +``->get_acl()`` operation (``fuse_get_acl()``) is called, which will ev=
+entually
+>> +send a user-space request. Future accesses to this inode ACL will use t=
+he cached
+>> +data.
+>> +
+>> +Setting an ACL in an inode will also result in sending a request to the=
+ FUSE
+>> +server for setting it. But this operation won't immediately cache the A=
+CL -- it
+>> +will only be cached after it is accessed again and requested from user-=
+space.
+>> +
+>> +On the other hand, ACLs will be removed from the cache in the following
+>
+> This OTOH, feels out of place and unneeded for the document flow.
+> Which text is it referring to? Anyway, text seems better and clear withou=
+t it.
+>
+>> +situations:
+>> +
+>> +- When setting an ACL in an inode (and the ``FUSE_POSIX_ACL`` flag is s=
+et),
+>> +  previously cached ACLs for this inode will be invalidated.
+>> +- When invalidating an inode through the ``FUSE_NOTIFY_INVAL_INODE`` op=
+eration.
+>> +- After setting an inode attribute (i.e. operation ``FUSE_SETATTR`` is =
+sent to
+>> +  user-space), the user-space server may have also updated the ACLs. Th=
+us, any
+>> +  cached ACLs for this inode are also invalidated.
+>> +- Whenever attributes are refreshed from the server. For example, when =
+while
+>
+> stray while - please remove
+>
+>> +  revalidating a dentry (``->d_revalidate()``), or when updating a dent=
+ry during
+>> +  while processing a ``FUSE_READDIRPLUS``.
+>
+> stray while - please remove
+>
+>> +- In general, when there is the need to send a ``FUSE_STATX`` or
+>> +  ``FUSE_GETATTR`` to user-space (e.g. when attributes expired).
+>> +
+>> +readdir caching
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +When opening a directory a ``FUSE_OPENDIR`` will be sent to the FUSE se=
+rver, and
+>> +server will be responsible for setting the open flags related with cach=
+ing,
+>> +namely ``FOPEN_KEEP_CACHE`` and ``FOPEN_CACHE_DIR``.
+>> +
+>> +If neither flags are set by the user-space FUSE server, then every ``re=
+addir``
+>> +will result in a ``FUSE_READDIR`` (or ``FUSE_READDIRPLUS``) request bei=
+ng sent.
+>> +If ``FOPEN_CACHE_DIR`` is set by the server, then the result of a ``rea=
+ddir``
+>> +will be cached by the kernel and reused for the current open.
+>
+> I understand what you mean but it sounds confusing.
+>
+>> +``FOPEN_KEEP_CACHE`` is about keeping the cache on **this** open, not o=
+n some
+>> +**next** open.
+>
+> Suggest:
+>
+> FOPEN_CACHE_DIR determines if readdir results of this open will be cached=
+ and if
+> readdir cache will be used to return readdir results during the current o=
+pen.
+> If FOPEN_KEEP_CACHE is set, any readdir cache from previous opens is pres=
+erved
+> when the directory is opened. Otherwise, the old readdir cache is
+> invalidated on open.
+>
+> If you accept this phrasing and fix the style nits above, feel free to add
+>
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+>
+> Thanks,
+> Amir.
 
