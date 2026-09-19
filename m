@@ -1,189 +1,102 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B95524B1E
-	for <fuse-devel@lists.linux.dev>; Fri, 18 Sep 2026 20:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789763502; cv=pass; b=Wcf9n/pqYwHops0OktiziLicNm8g7lRKjAW9j2Ah+zY6SWgtT3q2dAK3v/aLWq6BE+c8rqNAlRK6iyfv32C+UaaRqn2drNOjCIhIe8o4iGRf9wO1XVfVKivmQE+SqKc53/n5JIs/xYyBX+REwZBVEiga7b9xa2s5ctPOV51zRMU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789763502; c=relaxed/simple;
-	bh=B8p7ihCHzGvnzup/C6y6XYLlWrQRIq7YUbOlQS6xj3s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bRJP6ASIyaGwJt7u9mOUfiW81lYtsCE6GVaJEH1Ez2rvm2R1B/n67XfcHNLKdWSybiWJf0riyzcWUk406/xEwUAUKNfVjhXFhrt7Iufexc80JoawY20Z74mj1Do5Qlofb/DJZzx9vab+PUsv1y/4JDZBHC2wLejlOvpzAS5RYKs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bz1mitK+; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00230336884
+	for <fuse-devel@lists.linux.dev>; Sat, 19 Sep 2026 05:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789795265; cv=none; b=T86LMoDKrXdSlV46Mzne3sUp2TDOrhL97l0IOQkNWGeMh3H7tpNLeyGI36ioTfdJzcKlYezY7bSvC+pBwYVFWHTkXZF7E590CkSoSNw3D2NpjNmDJPVyCgkWTlDSGDZJtMn2B34k8aTA7OTUbGdcxFUL2RE9IkA8xeexXD3o28c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789795265; c=relaxed/simple;
+	bh=wbl/b1wY6W+ED0XWbMPTjA4NropJyaS+Z6oeRQIiRso=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rQCe+bhUwMbkRKbLgNKViG+kKgp7JzD+QGeJFoU6UpWixvpGJ3C10MZ8mzlBjXFiGPSqnu7Fn/GgYrsSedYTzPdCdEAW5eAR4q4x3rRt9KbwckX+7f3vJLQgl+yUaveGQI1Bs1a/yBH4BvyCEXKEpebaFCFztDSA61hi12sUSi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+4WWPG2; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bz1mitK+"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-530f6bcc301so55131cf.0
-        for <fuse-devel@lists.linux.dev>; Fri, 18 Sep 2026 13:31:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789763498; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OdNkscwDMGToRlMx0WH6DyllCmvAwORKYzQyacefvhSIehozWkdDelZEi+9Q8VPMKv
-         ou5keHtjYHhPM4FpbDGVqafu9848hVRMWULHRrXhSOlDxU6Gdw1PS+yhQML3QxA+cwQg
-         +EZLGffMpPZpknrRwqvU/RR/dvQ0qbk5fZx9/+fz7L4P4QAmai95Cs7YJChS4HCs/4FY
-         aprbFn/QYJoTsrVMG2xwYrgrQEB7tLEJ5CLhOlCofo4AZNJ1Mp8a0PSvLQxhtqXIXSQB
-         jmNqNmSGIcBLz8bzkO6dsqsFSkYW8ADHRheLwLPDZXPodbLPElzLLyAYtFDYAMnufrgs
-         0uPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rakr0DVeS6w19WPN+xiAqZEbcFGWWdpHaQBH8HXSGgc=;
-        fh=u2tbjTU4ClqMppsDdOFUhjWMXbac5I3tXpRCOkzjF3s=;
-        b=pqHbTq1oQN42PX6AVzysG0vcs8WvEDxt8C98BXYVRcOQQnu1gNlubDEB1aX0XA7C7e
-         4bZKUaQhPtM7X+1ighx+ql+ZVTXMDMHiKT1E3aIVKZhQOUbV/w5HYqtWsQB95V83KsPj
-         JnIocSSahZJmU3thWFM7NzNYPQeFQu3vPUajyrYe5TkmvIUBLZzgRf6TUI0t7AxqhMce
-         CENN+ufRZBrUof6JZXEre91f5thPBFDg6sa3a09RALOf8YUum++QVfywvm1UAlzzjwnf
-         bgW8kCqrTWO1SBr1WgbjqrrYHyGd2IQpYaoGf08rMuqdpgPVuO2IcPgV6Pgp6BLHI3XZ
-         Im/w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+4WWPG2"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccfd61ecaso12147655e9.3
+        for <fuse-devel@lists.linux.dev>; Fri, 18 Sep 2026 22:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1789763498; x=1790368298; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1789795262; x=1790400062; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=rakr0DVeS6w19WPN+xiAqZEbcFGWWdpHaQBH8HXSGgc=;
-        b=bz1mitK+///u37Q8SpzXauvMRdcQuhLD6KHJmS7xqUUPEyTVhmUYC/ERAc+UnBfQxQ
-         6S9RL3H8c602USCoEJtKDFwL4PmRTRmlLsAPB7eFZAj1zZGHyVcl7tswtMDH8TOkMDCA
-         DWNOUTTUT8wmBxPi3lrDcrA/QsSlPzwvJiirmEVaDHCHM2sZOrowKq2AlT2WvDWuynFq
-         EBPcafK0y6ayilQq0vQ75+JjGmboVWWVKlXCALBm8d7S9JL8K58BiYNv4QAa4fxC6OWN
-         qCKgAcCX7GF3+emqGYSvJD8qyJFOzMWwUZNOH48BB2NHPpI85ts4vmsj2fjoElUL3wkW
-         G9pA==
+        bh=j71MR9mSV+x9BS9VkLQyl8CosM5qjIOpfqaZrZTUdQ8=;
+        b=i+4WWPG2PmtupCHwFPOEPdWd+zEOfwiXbNVlHF968oYibo08osnXrJjXipJCiBtu85
+         8u+YZeKHavwt+0jTrhx8lO6n42DLL7dUt1qJzHCHdBTl8orCuUGP8CYPiHOJQos2PCse
+         PcQWRlthXYE7Jh3MXKPFXCUiUPtW9Y8MJYPamF/NMSxe42E65T/Ra1Ff+BHkvF4X2yEu
+         UieFI0f9PnM7giXEKAgPJnqjgWi4wd4unmdO2himVqH5gtESe4qa9wmVRR/2Ghvb2WvO
+         eP2uN1wgxhvHezIkS8jvu1l7SYVaylTJEM+ZPYRzij/921K3kgZMth0ndGM7kVkDDj1S
+         0ELA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789763498; x=1790368298;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1789795262; x=1790400062;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rakr0DVeS6w19WPN+xiAqZEbcFGWWdpHaQBH8HXSGgc=;
-        b=qw+wGnMcjSvlE1T4+wCrXXMFDwG/8nmJ74hyEP2XIB/EvYDDNPSs353rXrFP2ZqWI8
-         PKfgbZCvlk/ivF3ATYk/G1OYB8sD4uzj/ebT+vg1iIzucjj3rh6D3JEM1xiAUApLuwTM
-         nlgaj5XJaxpzXqMFu6fa7maJCykJLD4QwLRzKv5KbB8dk4yeOsui2nhejSP00+LZhLNW
-         TkTTVSjI4LkNWf386P4mw4yXEePDmxzh99rRcKchkyqUDPibS1lDZN5rG7WIDEj0iZhS
-         Jk5ccqSALTu+jvobT1h8V3UfiCFvCWJSXwvXKL7e/j6FyKOyRDVNDA1L9zMe3THtWjGb
-         Qw0w==
-X-Forwarded-Encrypted: i=1; AKwUvBwpJmBMe+eli+ZClzu1LJB/QymD9Kw2uxAznhWc4t6hwU+UD6HdM7TiOAc0mAoOJSozCw7irMVmZIo+@lists.linux.dev
-X-Gm-Message-State: AFuF++khbtErRN17alQSpShKt+FqBROoPEQ9L/X4sSTrSHRXvWhvcEWe
-	M6qsArs9zp71uLBY6Yowpcdx2a2YggMVSmHAt6R19oxjCPXpySLGp8Ow2M9530CyIvNfcG97D11
-	Q+Qk0sBXzN0pE6wst5p9zidcub5XpNnfvQPOM5s8V
-X-Gm-Gg: AYBFou0dIu2nbMtWU0nW8KqtuUMFoOm+YD345HUFwYETnmYFYs2ST14Ikyu2bOAP7zn
-	x1Ron5z8Ah6oyIWDpx/53T0B1k97aN5TDDQbN4UWb3RjkT5bw5zWxScIAduvNNMvcvlAtJWfxeO
-	G7BPfVmZ9FyDdGn+JpcakcEKuZiaBP9A6aluxGBaNUR/bcrP/CN5pwGrYSbnPJJWeN6V5vkZqEL
-	1p5x+sVeqMqQDP8iarVYPiROoENL8Z8zOc76A7zgC5xNlHpijGoD97QGg63plJ0YOFC9TE1jLbI
-	x4vF/ESu7NBO04ZhHx7l7YMLtculHHPv+zBnxzlGhEavvmQZD65Ztg==
-X-Received: by 2002:ac8:5d08:0:b0:530:2f98:cebb with SMTP id
- d75a77b69052e-532b099561dmr605641cf.11.1789763497212; Fri, 18 Sep 2026
- 13:31:37 -0700 (PDT)
+        bh=j71MR9mSV+x9BS9VkLQyl8CosM5qjIOpfqaZrZTUdQ8=;
+        b=p/Z7cV6hybL1g1tUK3bPefNGkxzcvloG12bFD6U/tvIT9tST3vOf9iCOu+r+lrGccx
+         z+plcAgHPU8YskQ6RUINWD1viy5q6GR2P7x8AHAJ9t3d0S23sN/wQp66ijruZxEh9ubB
+         96mVD2gf39LWpVPH3oWtrVXuEag83Gnqq+cFK+sDsJpkL+qus9BmvzTrNdn32cQ/FQ3k
+         Xrl420MUB/t9IRsAz/VxZez1F3nGoAjmH2e3UdGym/lgvM8YJTyhuVoKbmT8TpHxoG5f
+         P+YFglIIUhbku47ljorTCmKrom7CNA3QcOEpEge/sJ46NOjoRGoyAv7oFKINp+SW/Q5w
+         uPsA==
+X-Forwarded-Encrypted: i=1; AKwUvBxqTHMqJdfOHQrspjdwSEOgu5RdnrXaZnlalq7JWsDKwnAsajMPknYTa4ag7hCaxM9HDNILvE3+5s2Q@lists.linux.dev
+X-Gm-Message-State: AFuF++nbXvnzwDZYCSrKrVnv82QUig4Mc9NruXTGJUjCFA5Jjbec6mIc
+	d1qJC3lia6zdT99basX0BvehKYPhMT+XHzS0ZxBfkH8wJoZkYY644NEX
+X-Gm-Gg: AYBFou0F8RZf9lb1PX1yBfbTmn6K6v2hMeOIzb0KHkKP60j15y4yqlla1qy/d4b4geg
+	8aQlTn8Wqz9ug+jb0zxe15knucC/y7KIQkwB/OgDGuDflDWzTRpVSmmDD9JowGGhGv00x7bK/yf
+	GZzZPJpJLPZtjR4DLIU0dqGd4rIdpLHmxn+/vTnsvDU83lo3XU5MUiGmQl3GAciRoUGeqBLyNxW
+	ZTv+zL/wtBf7EVUQWAEPQNMA79p2EtIxmB/tsa7QdFqlmjHGVaUYXe0y8mBM9/PbgqgRI2v4qjZ
+	CfEJ1jjdyrG7Pm6h9xYtx2YFbrojWrjPn1697c8iO37CjIhq52sG8zmavQbV7wDz8uhiKcWC5wl
+	+E9UlwwVEJ1u9/QpswNLYfwOIV/F996+rvMwjqy37ICZ7FBNMI40+QXMI6KrFs6BLScm5BJYRbU
+	cFMkYja/8NKYNh9GqBO2wUf6qepVV1kOdBQrpO6jx7/rcvignz5RMdxfYz4bby9LUPqFTP6aWV6
+	SwDcKCegKjD39VVeLvt8q/b0AhNAX8YagxI1SFoVOmLwTrz4wrtG7/62PYE10a7W2H0ZseLrv97
+	m4L+DZSA7FL3jkO7gLa2wGws1W+oJ2gNGSccRt9Shg6Sknwtsl5I9ssikEDr2Y/LnTSWXlCw3t9
+	sRqsqsMAlZ0kBY5M=
+X-Received: by 2002:a05:6000:4b09:b0:485:8ee0:dfc8 with SMTP id ffacd0b85a97d-4871e26e3ffmr6296658f8f.41.1789795262086;
+        Fri, 18 Sep 2026 22:21:02 -0700 (PDT)
+Received: from MacBook-Pro-von-Karl.localdomain (dynamic-2a02-3100-a017-2b01-05fe-203b-7cd2-a640.310.pool.telefonica.de. [2a02:3100:a017:2b01:5fe:203b:7cd2:a640])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724460753sm4170213f8f.10.2026.09.18.22.21.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 22:21:01 -0700 (PDT)
+Date: Sat, 19 Sep 2026 07:21:00 +0200
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev
+Cc: Joanne Koong <joannelkoong@gmail.com>, 
+	Jingbo Xu <jefflexu@linux.alibaba.com>, "Darrick J. Wong" <djwong@kernel.org>, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] fuse: fix GCC 8 build with CONFIG_PROFILE_ALL_BRANCHES
+Message-ID: <aq4bhxra9UsLG56n@gmail.com>
+References: <20260811195733.38489-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
- <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org> <0b064fe6-ddb3-4f26-a1f2-2e9dd88d590f@kernel.org>
-In-Reply-To: <0b064fe6-ddb3-4f26-a1f2-2e9dd88d590f@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Fri, 18 Sep 2026 13:31:24 -0700
-X-Gm-Features: AcwNN1VqLTR47MatnNlBWbpWA8EMmoQNGykspJvqoxdaovPnF0EYfRCWZF-8zh0
-Message-ID: <CAJuCfpFBichJH4OcmSHTb1rOuQBT6k5pXeua9_KgpWjDBKvsYw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit, eliminate VM_SPECIAL
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260811195733.38489-1-kmehltretter@gmail.com>
 
-On Fri, Sep 18, 2026 at 1:21=E2=80=AFPM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/15/26 03:08, Andrew Morton wrote:
-> > On Mon, 14 Sep 2026 15:57:20 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.=
-org> wrote:
-> >
-> >> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
-> >> properties:
-> >>
-> >> ...
-> >>
-> >> It's all rather a mess.
-> >>
-> >> This series brings some order to things by both limiting what drivers =
-can
-> >> do with VMA flags and switching to using predicates that describe
-> >> behaviour, not arbitrary flags.
-> >
-> > That's a lot of patches.
-> >
-> > Review is thin and I expect this won't improve a lot.  Lots of "no
-> > functional changes" changes.
->
-> I'll expect to go through all of them. Might just take a bit ;)
+On Tue, Aug 11, 2026 at 09:57:33PM +0100, Karl Mehltretter wrote:
+> diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
+> index 29578104ae6cd..3370ae344f751 100644
+> --- a/fs/fuse/notify.c
+> +++ b/fs/fuse/notify.c
+> @@ -153,7 +153,7 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
+>  
+>  	nodeid = outarg.nodeid;
+>  	pos = outarg.offset;
+> -	num = min(outarg.size, MAX_LFS_FILESIZE - pos);
+> +	num = umin(outarg.size, MAX_LFS_FILESIZE - pos);
+>  
+>  	down_read(&fc->killsb);
+>  
 
-ditto
+Friendly ping on this build fix. Is anything else needed from my side?
 
->
-> --
-> Cheers,
->
-> David
+Thanks,
+Karl
