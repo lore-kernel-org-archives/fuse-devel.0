@@ -1,77 +1,159 @@
-Received: from sender6-of-o52.zoho.com (sender6-of-o52.zoho.com [165.173.180.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03F22FD69D
-	for <fuse-devel@lists.linux.dev>; Sun, 20 Sep 2026 19:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789930913; cv=pass; b=s0DrewhA4P63TNyxajFa9zL2NCXK+WxV0neaCAnPCiJL7NvSxacN6VngSkI90UOyeyD6Qq5rq3wlfMCVyfZZRMRJmdW0RCczv4Ri/GffSYsoCr7lnuGLBTdcgk57oayHB8gtHnaQbnBtT/K1Qr1Q+Hl9yKGCV7xpjSi+hlMIJec=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789930913; c=relaxed/simple;
-	bh=41PFLszBqaydflrBG/RZ45CFqLkwqd98Co1YGdq4Ve4=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=Xk3km981XMaYFozzAmg9XemZVuKCVDMqT6yJ21cIRgQDIUMvKbz9pUkNTLmua9GjQdWyFDzqYGsDJAB1OzkH6vPwNghZzIFigmBjBc9lhlc4mx7jm4BC1o+uou8kue/Ynn6lSpocQrdeb8ySHuYE1QoHHYaCZ8hZfVwLyH6e4zw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website; spf=pass smtp.mailfrom=soss.website; dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b=guA05N8B; arc=pass smtp.client-ip=165.173.180.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=soss.website
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soss.website
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C334377023
+	for <fuse-devel@lists.linux.dev>; Mon, 21 Sep 2026 19:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790018136; cv=none; b=Xu1I9qRqSPaIiXdeVhKxaWy4OghhK0qXR8QHWXL/uQDY+cGU3shI4idQpUE0npg78oXYgOxumDMobGNJ3/lMCqz9sqMk1wmzEEjUY1MN4Bu1FlBJEWM+dWRERT/rwYXwigsy2rGovXyLcQbmZ1DWPczIKPAzT6rtke1skGP7yVo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790018136; c=relaxed/simple;
+	bh=hmrg+XpJNYLDdfEEkchfSyVuGEd3NatTTVR60RLKvr0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c4Rq4auWNXiTtyS4+5eRK6l2soVKUD7iIZ1fbtpyM4w+nyxZYu3MBa+AZd30yg5b5vaPGWkx/e1mc5rUrh1zHqDT1choIA2Rq2qYjjB6+eBV57+ToGZ5tWOiFnByEpUeNMT8Jf0JUEshyUu5f4Dp25yeNOJE3O7obo1wszaqbAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ql+gJir5; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=soss.website header.i=skye@soss.website header.b="guA05N8B"
-ARC-Seal: i=1; a=rsa-sha256; t=1789930908; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=gVaz+88ey+3msbGL7YZb+LqFYShMsN62baP2FP+bjz2PhV0X1NaW2A/BKc2/yBz42BuiJ9KGHSnEI7LoOsW2VOW2D1/SWUVV//fBjfrujXc3dXhJYGAJIBiTGEQGAXyve7Mp7QspGzKSvr0tzcuqHLGHKam+n4+2SN9KvYtlzGw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1789930908; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=41PFLszBqaydflrBG/RZ45CFqLkwqd98Co1YGdq4Ve4=; 
-	b=YJayiQ1YnUsE/ZeMBRq52GBrpAYVRSObN5aC55eFt1d6AXwaAOwV7XmqoHvMg//qfcHv5LVNv6lENlCyscPtqr0lv5hEk1r9FOCyK1fQwCE5zDfisuT3peeJ3qRlPf7bVE9JfV0lgJ/gnbGK/7aVXCt2OATb8GBnMOnYfQy2UTI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=soss.website;
-	spf=pass  smtp.mailfrom=skye@soss.website;
-	dmarc=pass header.from=<skye@soss.website>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1789930908;
-	s=zmail; d=soss.website; i=skye@soss.website;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=41PFLszBqaydflrBG/RZ45CFqLkwqd98Co1YGdq4Ve4=;
-	b=guA05N8B8ND3ibVVkxFONbLNrA7MQy6U/AYBVyJnyzpzS0m8bgWq3Pb6VRcIafw1
-	j/yAo+1FnLWHIsIXN0aPTYVWOmEfYyk0zFDBFOWUBwWYzm8AVsdG0FcdL+nzOhp7/t7
-	w725QvSJW9FcNCyGt0L5hgbxdR2GBbtKqmv/YnNY=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1789930908871331.42960239501383; Sun, 20 Sep 2026 12:01:48 -0700 (PDT)
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1789930908161397.3540554594164; Sun, 20 Sep 2026 12:01:48 -0700 (PDT)
-Date: Sun, 20 Sep 2026 14:01:48 -0500
-From: Skye Soss <skye@soss.website>
-To: "fuse-devel" <fuse-devel@lists.linux.dev>
-Cc: "Darrick J. Wong" <djwong@kernel.org>
-Message-ID: <1a0c03229ed.1b908e3c391748.1531711527420340195@soss.website>
-In-Reply-To: 
-Subject: fuservicemount as a systemd storage provider
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ql+gJir5"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e7bcb94d3so23312315e9.2
+        for <fuse-devel@lists.linux.dev>; Mon, 21 Sep 2026 12:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790018133; x=1790622933; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wULW290f2x1A0UN781hUcJJzFUUq+lwGDJV+sTEYl00=;
+        b=Ql+gJir5Xc8qoN5oaKyWW4O3R+EmwJ2RcjpSgmTtPedXjF4nAtsFPD8k3nRnkP1CF4
+         qAgcU8PgPFDZTEL5OiDIXtrpWt102Mzsz1/vPJjs/uVWtj4oWPEhCirClAda6CPVyz9L
+         apJzQppOnLNgEYZsiETPxr28/bEbX0GTgeAhT/Bd1d0uQWeb3fhFawA0LmGNdIeQVB8v
+         kev+s/Ciq6XsFTedTVQ0/Zj0U8TFtr9aRfLd3+f5StbAEPUEIJIbyqIHld8Yg3K4L8xF
+         H9TDusf5+cKnh0Rz5Z29jAEZsqdyhBr/5HtTJBQqmerVwSKhpcNDX29sgrQPnsGGvCkN
+         p/uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790018133; x=1790622933;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wULW290f2x1A0UN781hUcJJzFUUq+lwGDJV+sTEYl00=;
+        b=gV1Dr9U+oGxs5JIBqoACIlFML4GmeaO4Gk4bDbxJvyq4jC9A/jTO6BWcMzdXe7zTmR
+         wIPRFrOxZyyRpqfhARm5HUU8h3zekKRG2beYXFsOL0hpSdyidoziXyaomvPMD/lCzBoR
+         FzQwdzbmxgMuSpBsb2ictF7BmPh9aushCsdX8QmQpnQeWbbOrq84DZFCk6HH0NqvwjR+
+         wVd9Nicg29QAodrM3MgQDmt6ognu6L6i+hZlV2hoB1iRlVuhSgJbhzzfU1cy+f4rnRJn
+         BC1K3g3POV7/dYPHd5Ra1oH81HW1qQk2Zi7hc04TsDTJiqbFSxEyKXbOe2JxQ1djNxvD
+         Szaw==
+X-Forwarded-Encrypted: i=1; AKwUvBxketzlnSxwp1I4y/kiyt8Qaeo7IU242ppgSIGmHhSJnoKbUCQggwUa6iDktGg1w/QXQfSIBFW+7Dpa@lists.linux.dev
+X-Gm-Message-State: AFuF++lsb+x+YGVLh5PEVKEAHY5l6SRqG/oNwkK7HCOteEUMykGQbwFF
+	JaNsf2HRIH0GT0ySOkWBfUqIQwOhGrdq+lUoBCo07MzXFE0qoVxuXi/s
+X-Gm-Gg: AYBFou1E6HpsxgVA+S0thrSHB0/V52MSFLwV8dDyDqglslLHe01dqGDCwhlnEK7NmCx
+	Rl7whHoreUfAHUVo6v+/UZ/P2CZpyWKHUQaP1iYzGZfsD1vOIgHGMB57RmSWJNth434+2aXb3dm
+	xryeVQlIIhxG0KN3gWtACADPrn9wuNb+jX7STrQyz1l5OPtSPBT3dN4BbGQuqlgzWTco2Uma0As
+	2XmeoPUJTcnwNUeMISJMDc+F29BPqRzOeEZOWFMiUPvngY74S3hz7Rq5raqY5z0FcERbk8ZrUXc
+	4iP+U797WltSNpCAPGl/q6BSqQ6yiK6Vcm9MktbFO4qNjDgqXtWkda5x1YB3fQrnyUeSi8ktreU
+	BuNeXYn/6fqhbnXtul8lLKDijCJg+Q2f4gyMeZ3Corgg2QipYFOyFqlVy8T3HpsPKhkMSPdQ4Yo
+	M/Vg+uyZvJMh8GubZL2QNMOoxClOitHV//VhJaDhY7erPbyysO7BqoDlmG0JpDKG5+ew==
+X-Received: by 2002:a05:600c:a410:b0:49f:d58f:1f8b with SMTP id 5b1f17b1804b1-49fd58f214fmr36767535e9.18.1790018133240;
+        Mon, 21 Sep 2026 12:15:33 -0700 (PDT)
+Received: from xxxxxx.net ([2a10:8012:d:183:329c:23ff:fe37:f855])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fd8cabe7fsm14988155e9.11.2026.09.21.12.15.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 12:15:32 -0700 (PDT)
+From: Shachar Sharon <synarete@gmail.com>
+To: linux-ext4@vger.kernel.org
+Cc: tytso@mit.edu,
+	fuse-devel@lists.linux.dev,
+	Shachar Sharon <synarete@gmail.com>
+Subject: [PATCH] lib/e2p: fix stack smashing on EXT2_IOC_GET/SETVERSION over FUSE
+Date: Mon, 21 Sep 2026 22:15:23 +0300
+Message-ID: <20260921191524.44198-1-synarete@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
 
-The fuservicemount infrastructure that's currently being developed in the libfuse repository allows an administrator to
-setup a service that can create sandboxed filesystem implementations on-demand.
+When using utilities like lsattr/chattr on a FUSE backing file-system,
+invoking the fgetversion or fsetversion functions can result in an
+abort crash due to "*** stack smashing detected ***".
 
-There is a very similar interface that's being developed in systemd (added in 261) called Storage Providers[1].
-The directory /run/systemd/io.systemd.StorageProvider/ contains Unix domain sockets, each of which is backed by a Varlink
-service. The interface (modulo metadata + options) is essentially:
+The underlying cause lies in a data structure mismatch between the
+variable allocation space in user-space and the ioctl encoding
+expectations defined by Linux: the ioctl command token incorporates the
+'long' primitive data size, so the kernel explicitly encodes a 64-bit
+target memory region pointer when deployed on x86_64. FUSE driver
+enforce the _IOR-decoded payload envelope, hence it uses 8-byte buffer
+to accommodate the incoming user-space daemon response. When finalizing
+the ioctl transaction back down to user space, it writes all 8-bytes
+directly into the 4-bytes memory reference provided by e2fsprogs.
 
-Acquire(name: string) -> (fileDescriptor: int)
+Reproduce: compile with '-fstack-protector-strong' and
+'-D_FORTIFY_SOURCE=3' (fedor44, 7.2.5-200.fc44.x86_64):
 
-systemd also provides a mount helper so that `mount -t storage` can transparently use the storage provider interface.
+  $ lsattr -v ./foo
+  *** stack smashing detected ***: terminated
+  Aborted                    (core dumped) lsattr -v ./foo
 
-This seems like a very similar kind of setup to fuservicemount + mount.fuse, and I'm curious if there's anything missing
-from the systemd interface that would stop fuservicemount from being implement in those terms.
-I believe that systemd-nspawn and systemd-vmspawn are going to be extended to create mounts from these interfaces, so
-compatibility would be useful.
+Solution: change ioctl arg to 'long' but use only lower 32-bits of
+result.
 
-[1]: https://www.freedesktop.org/software/systemd/man/latest/systemd-storage-fs@.service.html
+Signed-off-by: Shachar Sharon <synarete@gmail.com>
+---
+ lib/e2p/fgetversion.c | 4 ++--
+ lib/e2p/fsetversion.c | 7 ++++---
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/lib/e2p/fgetversion.c b/lib/e2p/fgetversion.c
+index f3a5b4cd..eaac46c6 100644
+--- a/lib/e2p/fgetversion.c
++++ b/lib/e2p/fgetversion.c
+@@ -45,7 +45,7 @@
+ 
+ int fgetversion(const char *name, unsigned long *version)
+ {
+-	unsigned int ver = -1;
++	long ver = 0;
+ 	int rc = -1;
+ #if HAVE_EXT2_IOCTLS
+ # if !APPLE_DARWIN
+@@ -68,7 +68,7 @@ int fgetversion(const char *name, unsigned long *version)
+ 	errno = EOPNOTSUPP;
+ #endif /* ! HAVE_EXT2_IOCTLS */
+ 	if (rc == 0)
+-		*version = ver;
++		*version = (unsigned long)ver & 0xffffffffUL;
+ 
+ 	return rc;
+ }
+diff --git a/lib/e2p/fsetversion.c b/lib/e2p/fsetversion.c
+index 5f844b55..9b599c19 100644
+--- a/lib/e2p/fsetversion.c
++++ b/lib/e2p/fsetversion.c
+@@ -47,12 +47,13 @@ int fsetversion (const char * name, unsigned long version)
+ {
+ #if HAVE_EXT2_IOCTLS
+ #if !APPLE_DARWIN
+-	int fd, r, ver, save_errno = 0;
++	int fd, r, save_errno = 0;
++	long ver;
+ 
+ 	fd = open (name, OPEN_FLAGS);
+ 	if (fd == -1)
+ 		return -1;
+-	ver = (int) version;
++	ver = (long) (version & 0xffffffffUL);
+ 	r = ioctl (fd, EXT2_IOC_SETVERSION, &ver);
+ 	if (r == -1)
+ 		save_errno = errno;
+@@ -61,7 +62,7 @@ int fsetversion (const char * name, unsigned long version)
+ 		errno = save_errno;
+ 	return r;
+ #else
+-   int ver = (int)version;
++	long ver = (long)(version & 0xffffffffUL);
+    return syscall(SYS_fsctl, name, EXT2_IOC_SETVERSION, &ver, 0);
+ #endif
+ #else /* ! HAVE_EXT2_IOCTLS */
+-- 
+2.55.0
 
