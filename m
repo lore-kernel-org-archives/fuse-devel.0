@@ -1,93 +1,93 @@
-Received: from mail-ej2-f20.google.com (mail-ej2-f20.google.com [74.125.228.148])
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4977F5349A5
-	for <fuse-devel@lists.linux.dev>; Tue, 22 Sep 2026 10:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F1343A809
+	for <fuse-devel@lists.linux.dev>; Tue, 22 Sep 2026 10:33:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790072981; cv=pass; b=JbN3V8LJtR3RDMR6Hf6O8hNkRZdw5yihjVb1Uspf74OydCcE/uPAAh5eDuXmTMBB3DyZZ1XjsdeujSEoXLn9dAlvBKTfoqrJ/Diw06LIR8gblnOLPdgx/gnfPCYWBLrsb17noHccy8OKQpb8pomJew5biMp+12vPlCgxh9eMPBQ=
+	t=1790073207; cv=pass; b=h0YMUlf9tIhPHNoUfapMtmnWS7ulLYbdV2Wu/0a0PRYTz5NGe2pLyG7oPaJvuwoDZ6DI5wj0y5chIhcuCAfVlN8+NNRMKulMiQg/paRFv0lPEAhASq/Y5Mg/gd0MjJOPwy6xT8w8WlJrQ7ERxQQ/FwA4zkIvqK3ChD0VDOurshk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790072981; c=relaxed/simple;
-	bh=UD18uYhH60fJU6GHgS+UlvpIDz8DNzsg3ljrmQlsV7g=;
+	s=arc-20240116; t=1790073207; c=relaxed/simple;
+	bh=lrVPj15oCoF6mMOjVI0Pfkdfk1GrxjN5CniPnVCdtCo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UOTaXyPTCfTu9abCL6FBN5iM+NhvAOzHaQK/CVdot031uqD/PNhRu0zLASce3iocToKv7V/6vSFg1sSvI2gfHXLHNRGzQIFps6+Ao00+gCb/4BvqApR25iJQOeBMLIjGiXP2WkZ+wOuzg+sU1plzuo/aZLQfWUeoB0/lWkzJWVM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ih3yVxTc; arc=pass smtp.client-ip=74.125.228.148
+	 To:Cc:Content-Type; b=st2jK0BC6qjQE3/pmMd9Af6Z3kG4uL0U18Bi8KpZrqULm0gCjn9g0BhpfbevhnHN1r2+ISfItJmxllqxeWEW+25VT7ab/+xWOnfi3OTbeBOay7YVfLGcoTiUOJWQgPLwat1spysgnzP5OkK5wec1fuOafILBZl3qlZW0E1v1opc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ndqd11v4; arc=pass smtp.client-ip=74.125.228.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ih3yVxTc"
-Received: by mail-ej2-f20.google.com with SMTP id a640c23a62f3a-c293c683202so581085366b.3
-        for <fuse-devel@lists.linux.dev>; Tue, 22 Sep 2026 03:29:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790072977; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ndqd11v4"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f6c7a56so469540666b.1
+        for <fuse-devel@lists.linux.dev>; Tue, 22 Sep 2026 03:33:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790073204; cv=none;
         d=google.com; s=arc-20260327;
-        b=O/I6MMotiAaz5dmddzDZNkVqjG0Wu3HMcn7YZnALWWLr/aiv3NM2bpr1GXop7ONFsk
-         F37Q/JQoLw1fnfs6ESAYkzx87zJogd7a5755fIQAr/n6maYKVVyu3nqlbscEyj033IU4
-         fThMujSFsouTl6Rldj1/OJOwq8gnEjGC+sjZz2BQG70RygO3R10shvLAnHZS63rFZ7ah
-         6gj2oaAICoRjRx4xOpkxoNZmpN6JGs/4umTa28tKaYIAUnjvmM11dlwGDg3CgCrOvPHC
-         gac/OXm94O2FFkBsi7QWtVkyQlIlPAsch20ZhYFlc9hh75LCuVlZOl7JAgvQxqPyIg0v
-         0dAw==
+        b=F7E+k7VZw7iPG9+NXA2T0MNcwpRhWh+zcMPZaCia0UCAxh0VLLdarlvwDY2IymJIAC
+         AHiaPo9vV5nDUsM3nKka9m69DQU6V/0+67W7LdAM0MSqdRItPQy/z3+BxkEN/xdHgxNo
+         /vdkxv27cEtnhyZIq0vNSrqGEEkMXcxYqaGLCekmvCPEqHlGkPBUR8dfaAEERh8dZAHF
+         QJo69iRkO0YUKl4zmOQo5hbTMaMRBDJ6/KL8+V/yMKVfksGkQWM/ygXj4rG/hONrsATs
+         XSlX1ENlOzbjR1JbwQCy9IZ62iAcxOvxQI3qsjVDmRJ5sXpnCCssjw3ZNMrINNFGpU0u
+         93jA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=AS3ZtXtMk7I3MENDezQyEze7xKWpyxyRkOUSop08srI=;
+        bh=u8EtloJm7gTWGodLgCcKEsZxwilYuiNUzs+DobqVmXA=;
         fh=LSGkIxL+7O1MPXHhjOsZelXZcZzf1zyb+22wAIOwAjQ=;
-        b=Jp7TNdEHctGCwrztyjmQVO7+O2SZT8ivZPn3gph1Z/BHTG1VLHxHFAeRjgWoXBXr6r
-         Xx5WqtDQ4P5Dsik6iglr2dCUlr5aNnTeBbCap2Ayl9e7JvuYmVcKwJJWs6+5ENkggkBd
-         IPJEI+mB6OEI9yfLAvB2dgaM6ojeYxCGJ7TxlMAH07gek/BerAG0yoj9xDgbi+3d0+8b
-         MiIQYtJsfLthBzQ1lq8vqqEwhHCYSki+zGBo5WmLLWS8jNHfXBmMRQYL5HN4MUhBksK7
-         MgRCF5d6u/creUg8Lwh83E6zs1Q8BE7EfriDa+UIms3Py8hc9XICotmfEAwYtmfaWOpl
-         aimQ==;
+        b=QkEj6kie1PTk/gYSfo1qosyNDUQfqPdCkw18v9KhtuWULpWB2NfZBxCA/iWdmZI7jJ
+         aXytHAHrxLjpWLAviJbkFBquLCmK9U5WL4mOiBUcikOSDj08J+nNaSLrvJjICXWcYUWe
+         ILeUWu818vsNwm2wufOxJ2ChnlOR4lG5912ebh3j7aDe41bJtoIkQOqC7oPTSolbaJur
+         7IbgMKQn/K4s18GzVnqDwT67RzQfXNCMbhAE/l8Ucy9vJtDbRmyHrMqliDkT/oqDK/zr
+         ATgswAAAwNq92fGkopkT0FWamfGxXk3VWwMtMCnLI4MDCZgi48dKFQlrtkSeOEUKPgDY
+         jccA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790072977; x=1790677777; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790073204; x=1790678004; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=AS3ZtXtMk7I3MENDezQyEze7xKWpyxyRkOUSop08srI=;
-        b=Ih3yVxTcKa2UUxhm6LFjpkhXoEh22iLvuRFCLvq50i+/r+hixkwcGC/lhOm7ilW7hn
-         1g6V2XUKg3WY+SUh28K8cj4mqqyJXBcXNyy9E97s21qs4VjV9px80mWSN7Poan6irDZ7
-         BH3f2a6Zf/noHQE2LhGTNPrL4+lIjeaLxNBO9JWQK+cFI8rjT4plsQfr+vL/2JfgUuOH
-         ArEUqz41iQ8YcZub1kwwH8gx+BDh9Vm1Jncr0G/dmSoyfKW1PjFKqOm/daa+gw1YqriQ
-         PnUVtjnVzd5lNkjF6K5bE/7JDj6luRwIzKN6D4dCcHhqliQ4SOui6MC9Cs72Ahlyq8F2
-         oZRA==
+        bh=u8EtloJm7gTWGodLgCcKEsZxwilYuiNUzs+DobqVmXA=;
+        b=Ndqd11v4C/LWE+5CkQpji4vHYhAcLG7Lqnneb3OVRh32X5gcVzU+/RKxyjZ4eouAxr
+         +u91W7dDRNq+UqWc5aeqKVSumIlfkh3ZLyW8KK9Ymegx3tW89KHfssipbDPtHIZL7T5z
+         DzI6fuvW+uSEVB/4EerETJyEJG/3g9+7+nXW8h1NbmwPYxR7M5hyTwLaIlWj9ta8VKRi
+         iZZnmX9dpwaz5+CkouLaeRPdgKNt6+KvcE/ShAJs55289849whiVLwyvdpNPQSkGAKC/
+         UiA9yL+gQeGCjA7GNJ/yx2mhQSz/g+ZsL9bJMsYHdHrmmHecdT+mCjqI8f0Hm7bZI+wU
+         iGew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790072977; x=1790677777;
+        d=1e100.net; s=20260707; t=1790073204; x=1790678004;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AS3ZtXtMk7I3MENDezQyEze7xKWpyxyRkOUSop08srI=;
-        b=FByanJSzfs9wxOoQCBWNn6iiHZh7V88BrdU8VY8kVKra+NDD0J1gxHzp8Xzn5dVY1g
-         2ix4pz7r7fLUE3yEBgcQKA81dBgIzXJCuhbtu4AIearDnd2mHBSySdC3jxY8jker+9Gf
-         Ca4sb3+sJrKSrsPiP2P+wt51juYsZeSBTqimcbRFEfxd+fSmZNrDq/2J3LTvrUXnYVJ/
-         fieuzbuC9h574RveE9izIxXioE/VOs5VRhfG0dVRSUxrEepUu5ZTFXtDiyHwDHSHxGLA
-         0OvMCgRQ9r4lZNDThdu29CqX5HbDpr+uUX9yRiKYmGxcasm0CZsvantnksQzVpTui9WU
-         kmTQ==
-X-Gm-Message-State: AFuF++lE6H/ABo9lBEmrX9+rfDMRilnLYvz61UP8JiOzlpQeSwf6hFoZ
-	x2y2bndWckOFYCYw+1kNZmocudyhXXfJDK5v1v4XQ8O+YfyAHXMHPdtoPHFYe8yZ84welAemaSA
-	H2f2Y2Z1fgMKyprULru7eLRLxJBB/BRk0DOr3jwk=
-X-Gm-Gg: AYBFou1LQ0BdUVH5L6whYOnMifQw8S4Crror8hrk+8bYDZn2EF8zQumtlFnxrrFtLF+
-	oIxzi/MU5n0DOHp8RJRvyyfkzFSawYyYw2VJsc/Pcqmjf6Relu7Bi2Pte/UaEUPBD1WObT0GLPJ
-	FQ1e4+R5HYs72c9WjMQxIHCOE3bLQDLMgnL7Ks7uRYUsiISMLgwhlIZpfDx63WKdcAvGM+OWyIt
-	39uL8qySP6YHlKCU319HKmjPHnJx86nCOshH5LPEt5fjHQp/e7aTh5KNGIZkQGXZsk9//DISRhL
-	vTEv6ZvDK+skg3qh10Olf2WWZBDUwcdEp+BWly79ufohL4zJSu6DqqDZvw==
-X-Received: by 2002:a17:907:9481:b0:c29:3c21:ee69 with SMTP id
- a640c23a62f3a-c2a15cdbee1mr1152600466b.23.1790072976990; Tue, 22 Sep 2026
- 03:29:36 -0700 (PDT)
+        bh=u8EtloJm7gTWGodLgCcKEsZxwilYuiNUzs+DobqVmXA=;
+        b=aneWfUQLcbZ9ZBvhs6nZjLZpBR3nlGGRFxIOzZUEHYSVb9Tom+sjZZWuLW9Hv882m2
+         m4njDHUp7MoWSwOhpbaYI7uq8jubrHt9DwCCEcw1HQx2L8nZY0J9XB5eNRFA128RShFj
+         BOemFGwtlh2c9DeQq7lYl5STQk9rlEi/uRuk37JUQsHH/X61HkOY/ICjhoAYIJulqt/o
+         Hal8FSqbKHfKhYQpEb+gLZeXMK9wz74G2EPQ4ie96R5o2/BIouTYaqp5nVDYtIGFb0ZC
+         T1WvIhuD2pkRjXPn/6IqSCW7TaQER9ETjexeO/Vh/OTJmLMhcmCjq3sfGHQsJGZO55xe
+         RqZg==
+X-Gm-Message-State: AFuF++ltYT0DKzO9I2xdXhp8dgfLwYghQ745jIR+YGh8jsUQ4dQ3ymre
+	3FbAMpHIkTkADQ5YRdudvnRxsuQHDcOC89ATDExIDfObPI1r56JMzsgrlAi9fJzBGiIRzSTUoIa
+	3jxG9hOdM7uIetjqymOlTN0Q3kVkOqGk=
+X-Gm-Gg: AYBFou0A/mQTYb5UJNuoskeZYz/78poPs0jvNN4G9xJfm6sCTJwOHioxxRlNTh7/QcF
+	rkhT7ZCLV0hDpofY653zzRiECfdxVMTYQRUXeATvRPYVHO22sSAJ5v48wSy0CibB6kNGOXXzL0a
+	txQv/QCQwnSr8PbMktzbw+sgRQsqvLiMMHXQTcHDTb8u2NL9udQ9gaL1+c7m2B/8B7ysO5GIIoP
+	iYjkrPbNB+2DXWNvqBS+yUuO17yol3upXjXdHDcRyzRIx4vrcYs0pvzVEmv6kUprHM7Bcv20tXW
+	aCWQbnJNn6D7pV8wzNjVcXx1U366z4gjTcY3KCsDFvhENX1uVLbWV3jS
+X-Received: by 2002:a17:907:9813:b0:c29:9691:ec9d with SMTP id
+ a640c23a62f3a-c2a1580e502mr1112847966b.22.1790073203933; Tue, 22 Sep 2026
+ 03:33:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260922061019.3320196-1-mszeredi@redhat.com> <20260922061019.3320196-7-mszeredi@redhat.com>
-In-Reply-To: <20260922061019.3320196-7-mszeredi@redhat.com>
+References: <20260922061019.3320196-1-mszeredi@redhat.com> <20260922061019.3320196-8-mszeredi@redhat.com>
+In-Reply-To: <20260922061019.3320196-8-mszeredi@redhat.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 22 Sep 2026 12:29:25 +0200
-X-Gm-Features: AcwNN1X5x-VbPUzN3XuBOpjc6l0CLw-zoH5WXzQ134I5Qh6gopIuLOkE3c3PNVk
-Message-ID: <CAOQ4uxjhfjmohwKV+spfy6+WmvpGSduB+1wE+htP-hgwtSJSNA@mail.gmail.com>
-Subject: Re: [PATCH 06/11] fuse: support 64 bit, server allocated backing ID
+Date: Tue, 22 Sep 2026 12:33:12 +0200
+X-Gm-Features: AcwNN1V1iGpfKcSmKB8cggKQagbiZanJ9NWxbqzylm22X_zbVoWMAyHer2_7vEw
+Message-ID: <CAOQ4uxhr+1vYaVNtPA824TLqXD0D0m9mQDxwVoUghs0R2JCYnQ@mail.gmail.com>
+Subject: Re: [PATCH 07/11] fuse: support opening 64 bit backing ID
 To: Miklos Szeredi <mszeredi@redhat.com>
 Cc: fuse-devel@lists.linux.dev, John Groves <john@groves.net>, 
 	"Darrick J . Wong" <djwong@kernel.org>
@@ -97,209 +97,200 @@ Content-Transfer-Encoding: quoted-printable
 On Tue, Sep 22, 2026 at 8:10=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
 > wrote:
 >
-> Add support for server allocated 64-bit backing IDs alongside the
-> existing kernel allocated 32-bit IDs.
+> Add backing_id_64 field to fuse_open_out to allow opening files with
+> 64-bit server-allocated backing IDs.
 >
-> Opened with FUSE_DEV_IOC_BACKING_OPEN, but the backing ID is sent via
-> fuse_backing_map.backing_id, with FUSE_BACKING_ID_64 being set in .flags.
+> When the server sets FUSE_BACKING_ID_64 in open_out.open_flags, the
+> kernel reads the backing ID from open_out.backing_id_64 instead of
+> open_out.backing_id.
 >
-
-As I wrote you off-list, I prefer that the new implementation is gated at i=
-nit
-time with FUSE_PASSTHOUGH_V2 and then we assert that all API is using
-either 32 or 64 bit.
-
-> Closed with FUSE_NOTIFY_BACKING_CLOSE.  Since close only provides the
-> backing ID, not the file descriptor, it doesn't have to be done with an
-> ioctl.
->
-> All 64 bit values are valid.
-
-I prefer that we reserve 0 backing_id for future use as we did with
-the 32bit id.
-Its intended purpose was for OPEN reply to mean "passthrough to the pre
-attached backing inode".
-
-Also, my plan is for a mode PASSTHROUGH_INO which has an
-identity backing_id =3D=3D nodeid (and probably also =3D=3D ino) so 0 value
-does not fit into this plan.
-
+> The open reply is now variable-length for backward compatibility with
+> servers that don't send the new backing_id_64 field.
 >
 > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 > ---
->  fs/fuse/backing.c         | 121 +++++++++++++++++++++++++-------------
->  fs/fuse/dev.c             |   2 +-
->  fs/fuse/dev.h             |   2 +-
->  fs/fuse/fuse_i.h          |  13 +++-
->  fs/fuse/notify.c          |  23 ++++++++
->  fs/fuse/passthrough.c     |   2 +-
->  include/uapi/linux/fuse.h |  19 +++++-
->  7 files changed, 133 insertions(+), 49 deletions(-)
+>  fs/fuse/dir.c             |  3 ++-
+>  fs/fuse/file.c            |  6 +++++-
+>  fs/fuse/fuse_i.h          |  4 ++--
+>  fs/fuse/iomode.c          | 11 ++++++++++-
+>  fs/fuse/passthrough.c     |  6 +++---
+>  include/uapi/linux/fuse.h |  4 ++++
+>  6 files changed, 26 insertions(+), 8 deletions(-)
 >
-> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-> index 433fa3098d71..58dbdd17c1ef 100644
-> --- a/fs/fuse/backing.c
-> +++ b/fs/fuse/backing.c
-> @@ -9,6 +9,7 @@
->  #include "fuse_i.h"
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index f48fafccce4b..874ec7cfffb1 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -876,6 +876,7 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
+struct inode *dir,
+>         args.out_args[0].value =3D &outentry;
+>         /* Store outarg for fuse_finish_open() */
+>         outopenp =3D &ff->args->open_outarg;
+> +       args.out_argvar =3D true; /* compat */
+>         args.out_args[1].size =3D sizeof(*outopenp);
+>         args.out_args[1].value =3D outopenp;
 >
->  #include <linux/file.h>
-> +#include <linux/rhashtable.h>
+> @@ -885,7 +886,7 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
+struct inode *dir,
 >
->  static struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
+>         err =3D fuse_simple_idmap_request(idmap, fm, &args);
+>         free_ext_value(&args);
+> -       if (err)
+> +       if (err < 0)
+>                 goto out_free_ff;
+>
+>         err =3D -EIO;
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index af26de78a199..8643d9a290ac 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -28,6 +28,7 @@ static int fuse_send_open(struct fuse_mount *fm, u64 no=
+deid,
 >  {
-> @@ -33,11 +34,6 @@ void fuse_backing_put(struct fuse_backing *fb)
->                 fuse_backing_free(fb);
->  }
+>         struct fuse_open_in inarg;
+>         FUSE_ARGS(args);
+> +       int res;
 >
-> -void fuse_backing_files_init(struct fuse_conn *fc)
-> -{
-> -       idr_init(&fc->backing_files_map);
-> -}
-> -
->  static int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backi=
-ng *fb)
->  {
->         int id;
-> @@ -53,38 +49,42 @@ static int fuse_backing_id_alloc(struct fuse_conn *fc=
-, struct fuse_backing *fb)
->         return id;
->  }
+>         memset(&inarg, 0, sizeof(inarg));
+>         inarg.flags =3D open_flags & ~(O_CREAT | O_EXCL | O_NOCTTY);
+> @@ -45,10 +46,13 @@ static int fuse_send_open(struct fuse_mount *fm, u64 =
+nodeid,
+>         args.in_args[0].size =3D sizeof(inarg);
+>         args.in_args[0].value =3D &inarg;
+>         args.out_numargs =3D 1;
+> +       args.out_argvar =3D true; /* compat */
+>         args.out_args[0].size =3D sizeof(*outargp);
+>         args.out_args[0].value =3D outargp;
 >
-> -static struct fuse_backing *fuse_backing_id_remove(struct fuse_conn *fc,
-> -                                                  int id)
-> -{
-> -       struct fuse_backing *fb;
-> +static const struct rhashtable_params fuse_backing_params =3D {
-> +       .head_offset =3D offsetof(struct fuse_backing, hash_node),
-> +       .key_offset =3D offsetof(struct fuse_backing, backing_id),
-> +       .key_len =3D sizeof_field(struct fuse_backing, backing_id),
-> +};
->
-> -       spin_lock(&fc->lock);
-> -       fb =3D idr_remove(&fc->backing_files_map, id);
-> -       spin_unlock(&fc->lock);
-> -
-> -       return fb;
-> +int fuse_backing_add_64(struct fuse_conn *fc, struct fuse_backing *fb)
-> +{
-> +       return rhashtable_insert_fast(&fc->backing_64_ht, &fb->hash_node,=
- fuse_backing_params);
->  }
->
-> -static int fuse_backing_id_free(int id, void *p, void *data)
-> +static struct fuse_backing *fuse_backing_id_remove(struct fuse_conn *fc,=
- u64 id, bool is_64bit)
->  {
-> -       struct fuse_backing *fb =3D p;
-> +       struct fuse_backing *fb;
-> +       int err;
->
-> -       WARN_ON_ONCE(refcount_read(&fb->count) !=3D 1);
-> -       fuse_backing_free(fb);
-> -       return 0;
-> -}
-> +       guard(spinlock)(&fc->lock);
-> +       if (!is_64bit)
-> +               return idr_remove(&fc->backing_files_map, id);
->
-> -void fuse_backing_files_free(struct fuse_conn *fc)
-> -{
-> -       idr_for_each(&fc->backing_files_map, fuse_backing_id_free, NULL);
-> -       idr_destroy(&fc->backing_files_map);
-> +       fb =3D rhashtable_lookup_fast(&fc->backing_64_ht, &id, fuse_backi=
-ng_params);
-> +       if (!fb)
-> +               return NULL;
+> -       return fuse_simple_request(fm, &args);
+> +       res =3D fuse_simple_request(fm, &args);
 > +
-> +       err =3D rhashtable_remove_fast(&fc->backing_64_ht, &fb->hash_node=
-, fuse_backing_params);
-> +       WARN_ON(err);
-> +
-> +       return fb;
+> +       return res < 0 ? res : 0;
 >  }
 >
->  int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map=
-)
->  {
->         struct file *file;
->         struct super_block *backing_sb;
-> -       struct fuse_backing *fb =3D NULL;
-> +       struct fuse_backing *fb;
-> +       bool is_64bit =3D map->flags & FUSE_BACKING_ID_64;
->         int res;
->
->         pr_debug("%s: fd=3D%d flags=3D0x%x\n", __func__, map->fd, map->fl=
-ags);
-> @@ -95,7 +95,10 @@ int fuse_backing_open(struct fuse_conn *fc, struct fus=
-e_backing_map *map)
->                 goto out;
->
->         res =3D -EINVAL;
-> -       if (map->flags || map->padding)
-> +       if (map->flags & ~FUSE_BACKING_ID_64)
-> +               goto out;
-> +
-> +       if (!is_64bit && map->backing_id !=3D 0)
->                 goto out;
->
->         file =3D fget_raw(map->fd);
-> @@ -120,9 +123,13 @@ int fuse_backing_open(struct fuse_conn *fc, struct f=
-use_backing_map *map)
->
->         fb->file =3D file;
->         fb->cred =3D get_current_cred();
-> +       fb->backing_id =3D map->backing_id;
->         refcount_set(&fb->count, 1);
->
-> -       res =3D fuse_backing_id_alloc(fc, fb);
-> +       if (is_64bit)
-> +               res =3D fuse_backing_add_64(fc, fb);
-> +       else
-> +               res =3D fuse_backing_id_alloc(fc, fb);
->         if (res < 0) {
->                 fuse_backing_free(fb);
->                 fb =3D NULL;
-> @@ -138,24 +145,19 @@ int fuse_backing_open(struct fuse_conn *fc, struct =
-fuse_backing_map *map)
->         goto out;
+>  struct fuse_file *fuse_file_alloc(struct fuse_mount *fm, bool release)
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 75c7997098c1..d36459487bee 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -28,7 +28,7 @@
+>  #include <linux/backing-dev.h>
+>  #include <linux/mutex.h>
+>  #include <linux/rwsem.h>
+> -#include <linux/rbtree_types.h>
+> +#include <linux/rbtree.h>
+>  #include <linux/poll.h>
+>  #include <linux/workqueue.h>
+>  #include <linux/kref.h>
+> @@ -1312,7 +1312,7 @@ static inline struct fuse_backing *fuse_inode_backi=
+ng_set(struct fuse_inode *fi,
+>  #endif
 >  }
 >
-> -int fuse_backing_close(struct fuse_conn *fc, int backing_id)
-> +int fuse_backing_close(struct fuse_conn *fc, u64 backing_id, bool is_64b=
-it)
->  {
->         struct fuse_backing *fb =3D NULL;
+> -struct fuse_backing *fuse_passthrough_open(struct file *file, int backin=
+g_id);
+> +struct fuse_backing *fuse_passthrough_open(struct file *file, u64 backin=
+g_id, bool is_64bit);
+>  void fuse_passthrough_release(struct fuse_file *ff, struct fuse_backing =
+*fb);
+>
+>  static inline bool fuse_is_passthrough(struct fuse_file *ff)
+> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+> index c25ac580c811..53b0c2a32ed9 100644
+> --- a/fs/fuse/iomode.c
+> +++ b/fs/fuse/iomode.c
+> @@ -170,8 +170,12 @@ static int fuse_file_passthrough_open(struct inode *=
+inode, struct file *file)
+>         struct fuse_file *ff =3D file->private_data;
+>         struct fuse_conn *fc =3D get_fuse_conn(inode);
+>         struct fuse_backing *fb;
+> +       u64 backing_id;
+> +       bool is_64bit =3D ff->open_flags & FUSE_BACKING_ID_64;
 >         int err;
 >
-> -       pr_debug("%s: backing_id=3D%d\n", __func__, backing_id);
-> -
-> -       /* TODO: relax CAP_SYS_ADMIN once backing files are visible to ls=
-of */
-> -       err =3D -EPERM;
-> -       if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
-> -               goto out;
-> +       pr_debug("%s: backing_id=3D%lld\n", __func__, backing_id);
-
-%llu
-
+> +       ff->open_flags &=3D ~FUSE_BACKING_ID_64;
+> +
+>         /* Check allowed conditions for file open in passthrough mode */
+>         if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) || !fc->passthrough)
+>                 return fuse_EIO("passthrough not enabled");
+> @@ -179,7 +183,12 @@ static int fuse_file_passthrough_open(struct inode *=
+inode, struct file *file)
+>         if (ff->open_flags & ~FOPEN_PASSTHROUGH_MASK)
+>                 return fuse_EIO("conflicting open flags");
 >
->         err =3D -EINVAL;
+> -       fb =3D fuse_passthrough_open(file, ff->args->open_outarg.backing_=
+id);
+> +       if (!is_64bit)
+> +               backing_id =3D ff->args->open_outarg.backing_id;
+> +       else
+> +               backing_id =3D ff->args->open_outarg.backing_id_64;
+> +
+> +       fb =3D fuse_passthrough_open(file, backing_id, is_64bit);
+>         if (IS_ERR(fb))
+>                 return PTR_ERR(fb);
+>
+> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+> index 56314dea0b5f..49cae366180d 100644
+> --- a/fs/fuse/passthrough.c
+> +++ b/fs/fuse/passthrough.c
+> @@ -153,17 +153,17 @@ ssize_t fuse_passthrough_mmap(struct file *file, st=
+ruct vm_area_struct *vma)
+>   *
+>   * Returns an fb object with elevated refcount to be stored in fuse inod=
+e.
+>   */
+> -struct fuse_backing *fuse_passthrough_open(struct file *file, int backin=
+g_id)
+> +struct fuse_backing *fuse_passthrough_open(struct file *file, u64 backin=
+g_id, bool is_64bit)
+>  {
+>         struct fuse_file *ff =3D file->private_data;
+>         struct fuse_conn *fc =3D ff->fm->fc;
+>         struct fuse_backing *fb =3D NULL;
+>         struct file *backing_file;
+>
 > -       if (backing_id <=3D 0)
 > +       if (!is_64bit && (backing_id =3D=3D 0 || backing_id > INT_MAX))
->                 goto out;
+>                 return fuse_ptr_EIO("invalid backing_id");
 >
->         err =3D -ENOENT;
-> -       fb =3D fuse_backing_id_remove(fc, backing_id);
-> +       fb =3D fuse_backing_id_remove(fc, backing_id, is_64bit);
+> -       fb =3D fuse_backing_lookup(fc, backing_id, false);
+> +       fb =3D fuse_backing_lookup(fc, backing_id, is_64bit);
 >         if (!fb)
->                 goto out;
+>                 return fuse_ptr_EIO("backing not found");
 >
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index f271faa60424..30ec8c124c74 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -253,6 +253,7 @@
+>   *  - add FUSE_HAS_SYNCFS opt-in flag for privileged userspace servers
+>   *  - add FUSE_NOTIFY_BACKING_CLOSE
+>   *  - add struct fuse_notify_backing_close_out
+> + *  - add backing_id_64 to fuse_open_out
+>   *  - add backing_id to fuse_backing_map
+>   *  - add FUSE_BACKING_ID_64 (multiple structs)
+>   */
+> @@ -404,6 +405,7 @@ struct fuse_file_lock {
+>   *                           (FUSE_URING_ZERO_COPY) and the request carr=
+ies page
+>   *                           payload. Otherwise reads/writes fall back t=
+o
+>   *                           copying.
+> + * FUSE_BACKING_ID_64: backing ID is server allocated, stored in open_ou=
+t.backing_id_64
+>   */
+>  #define FOPEN_DIRECT_IO                (1 << 0)
+>  #define FOPEN_KEEP_CACHE       (1 << 1)
+> @@ -414,6 +416,7 @@ struct fuse_file_lock {
+>  #define FOPEN_PARALLEL_DIRECT_WRITES   (1 << 6)
+>  #define FOPEN_PASSTHROUGH      (1 << 7)
+>  #define FOPEN_IO_URING_ZERO_COPY (1 << 8)
+> +#define FUSE_BACKING_ID_64     (1 << 30) /* used in multiple structs */
 
-       fb->backing_id =3D 0; // mark orphan fb
+This is weird. Why not FOPEN_BACKING_ID_64?
 
-Because ff->passthrough may still refer to this fb and tracing/debug
-may be printing this backing_id which can now be reassigned.
+But I would much rather choose a mode at init time for backing ids and then
+this flag will not be needed at all.
 
 Thanks,
 Amir.
