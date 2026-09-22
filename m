@@ -1,159 +1,147 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C334377023
-	for <fuse-devel@lists.linux.dev>; Mon, 21 Sep 2026 19:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6754A204F
+	for <fuse-devel@lists.linux.dev>; Tue, 22 Sep 2026 06:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790018136; cv=none; b=Xu1I9qRqSPaIiXdeVhKxaWy4OghhK0qXR8QHWXL/uQDY+cGU3shI4idQpUE0npg78oXYgOxumDMobGNJ3/lMCqz9sqMk1wmzEEjUY1MN4Bu1FlBJEWM+dWRERT/rwYXwigsy2rGovXyLcQbmZ1DWPczIKPAzT6rtke1skGP7yVo=
+	t=1790057430; cv=none; b=rvfb9ur0Al5BeAdmMfhlhnpTVhOG9T/0mg9jYE/oLNDBUtJPtfmv8XVRnTVbNO6l3fJ3dDTApcINZzCBJtDWfADHDBpSP7NUSYqqCqjZQz6bJy4tgrgI7EwQkzl16BG3uU2brg1B2pVn3NtyF+vDyfe8T3mO4nUcLT+mMT7IlYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790018136; c=relaxed/simple;
-	bh=hmrg+XpJNYLDdfEEkchfSyVuGEd3NatTTVR60RLKvr0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c4Rq4auWNXiTtyS4+5eRK6l2soVKUD7iIZ1fbtpyM4w+nyxZYu3MBa+AZd30yg5b5vaPGWkx/e1mc5rUrh1zHqDT1choIA2Rq2qYjjB6+eBV57+ToGZ5tWOiFnByEpUeNMT8Jf0JUEshyUu5f4Dp25yeNOJE3O7obo1wszaqbAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ql+gJir5; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790057430; c=relaxed/simple;
+	bh=rQRqWRVqzReq4tw4qd4U0+PYRiHLJUgZ8L7av/J6Yvo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=qs0DrANaPBbsz6Qs/Pv8nwsMgnGbbJZt/kjZZBPHKglMiynmkOUECVOfM4/IAxGvTlzZpeRsiaLxRtMUeGj+Y1eMVP6TDsY5dRdv7Jt81PAv0vfRWeMZCb9t3pElFjbyXIarfHOPzIXds8R6Nh1rWulN4ST6Uugdbrob/jlUsxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DTsSnIwE; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ql+gJir5"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e7bcb94d3so23312315e9.2
-        for <fuse-devel@lists.linux.dev>; Mon, 21 Sep 2026 12:15:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790018133; x=1790622933; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wULW290f2x1A0UN781hUcJJzFUUq+lwGDJV+sTEYl00=;
-        b=Ql+gJir5Xc8qoN5oaKyWW4O3R+EmwJ2RcjpSgmTtPedXjF4nAtsFPD8k3nRnkP1CF4
-         qAgcU8PgPFDZTEL5OiDIXtrpWt102Mzsz1/vPJjs/uVWtj4oWPEhCirClAda6CPVyz9L
-         apJzQppOnLNgEYZsiETPxr28/bEbX0GTgeAhT/Bd1d0uQWeb3fhFawA0LmGNdIeQVB8v
-         kev+s/Ciq6XsFTedTVQ0/Zj0U8TFtr9aRfLd3+f5StbAEPUEIJIbyqIHld8Yg3K4L8xF
-         H9TDusf5+cKnh0Rz5Z29jAEZsqdyhBr/5HtTJBQqmerVwSKhpcNDX29sgrQPnsGGvCkN
-         p/uA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DTsSnIwE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790057426;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Sqqqr0++Is0YbjZ0mSjor3AEOREDnH3S2hx2nC56sZA=;
+	b=DTsSnIwE9DhSLNGEJzfHKJC6fQLtfrWuazyKdiK2UQ+dSZj6UuXWrifThIfSH41mCESVTJ
+	YvKHuUeoXv0Qgk0LIaoj9b4byUrIYeyDfQJyJBlZ135BPdoaR8vP+QLRDudJQH3BFmmJni
+	4nhTxRNPpAO6fAHBGSKPHA5+YnLbvlQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-582-vY_iEL7bMTeqt6MRAW8E8g-1; Tue, 22 Sep 2026 02:10:24 -0400
+X-MC-Unique: vY_iEL7bMTeqt6MRAW8E8g-1
+X-Mimecast-MFC-AGG-ID: vY_iEL7bMTeqt6MRAW8E8g_1790057423
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-6aa5d0921fcso4372939a12.3
+        for <fuse-devel@lists.linux.dev>; Mon, 21 Sep 2026 23:10:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790018133; x=1790622933;
+        d=1e100.net; s=20260707; t=1790057423; x=1790662223;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wULW290f2x1A0UN781hUcJJzFUUq+lwGDJV+sTEYl00=;
-        b=gV1Dr9U+oGxs5JIBqoACIlFML4GmeaO4Gk4bDbxJvyq4jC9A/jTO6BWcMzdXe7zTmR
-         wIPRFrOxZyyRpqfhARm5HUU8h3zekKRG2beYXFsOL0hpSdyidoziXyaomvPMD/lCzBoR
-         FzQwdzbmxgMuSpBsb2ictF7BmPh9aushCsdX8QmQpnQeWbbOrq84DZFCk6HH0NqvwjR+
-         wVd9Nicg29QAodrM3MgQDmt6ognu6L6i+hZlV2hoB1iRlVuhSgJbhzzfU1cy+f4rnRJn
-         BC1K3g3POV7/dYPHd5Ra1oH81HW1qQk2Zi7hc04TsDTJiqbFSxEyKXbOe2JxQ1djNxvD
-         Szaw==
-X-Forwarded-Encrypted: i=1; AKwUvBxketzlnSxwp1I4y/kiyt8Qaeo7IU242ppgSIGmHhSJnoKbUCQggwUa6iDktGg1w/QXQfSIBFW+7Dpa@lists.linux.dev
-X-Gm-Message-State: AFuF++lsb+x+YGVLh5PEVKEAHY5l6SRqG/oNwkK7HCOteEUMykGQbwFF
-	JaNsf2HRIH0GT0ySOkWBfUqIQwOhGrdq+lUoBCo07MzXFE0qoVxuXi/s
-X-Gm-Gg: AYBFou1E6HpsxgVA+S0thrSHB0/V52MSFLwV8dDyDqglslLHe01dqGDCwhlnEK7NmCx
-	Rl7whHoreUfAHUVo6v+/UZ/P2CZpyWKHUQaP1iYzGZfsD1vOIgHGMB57RmSWJNth434+2aXb3dm
-	xryeVQlIIhxG0KN3gWtACADPrn9wuNb+jX7STrQyz1l5OPtSPBT3dN4BbGQuqlgzWTco2Uma0As
-	2XmeoPUJTcnwNUeMISJMDc+F29BPqRzOeEZOWFMiUPvngY74S3hz7Rq5raqY5z0FcERbk8ZrUXc
-	4iP+U797WltSNpCAPGl/q6BSqQ6yiK6Vcm9MktbFO4qNjDgqXtWkda5x1YB3fQrnyUeSi8ktreU
-	BuNeXYn/6fqhbnXtul8lLKDijCJg+Q2f4gyMeZ3Corgg2QipYFOyFqlVy8T3HpsPKhkMSPdQ4Yo
-	M/Vg+uyZvJMh8GubZL2QNMOoxClOitHV//VhJaDhY7erPbyysO7BqoDlmG0JpDKG5+ew==
-X-Received: by 2002:a05:600c:a410:b0:49f:d58f:1f8b with SMTP id 5b1f17b1804b1-49fd58f214fmr36767535e9.18.1790018133240;
-        Mon, 21 Sep 2026 12:15:33 -0700 (PDT)
-Received: from xxxxxx.net ([2a10:8012:d:183:329c:23ff:fe37:f855])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fd8cabe7fsm14988155e9.11.2026.09.21.12.15.31
+        bh=Sqqqr0++Is0YbjZ0mSjor3AEOREDnH3S2hx2nC56sZA=;
+        b=KCDzx+B9RVX/G//GCYPliTBxitT1/gX312G7bpT7H29jpxA/6vTvUXQuaL2g8QaxoZ
+         56JKg5Wkju9OfJ7Vt3uVrEhuoLcesLhaVj0itUe5McQFCTdHus0zEta+W/WPsKOThy+q
+         TAylioKySZUpBv5L8JDszC6MxcnwnUSEYtFB2lPPGtpwCp3PTN5KzMKn6sSBdYCu1VcS
+         XqK1oI6mKp9IT3EvokMxBehGaugg9+SGjhnYNSzPIG6QRfXaYou6EQckdoEBJMm1FMYa
+         XeXBuSdpnpozFujEDvlLhVFNxtNVcBXdfY18Pif+v74SueCwNKqof4gXZeGkXvfrvmSh
+         JlBA==
+X-Gm-Message-State: AFuF++nwIqdEF2onnchyMPCdNpKwLjUMt86G3/eBPwfr4TIBnWj9r2Bt
+	aiowCGXUJUoIo/+p/taygWq70kKDthNYBMkb2d4EM2cRjDkjfTTurDNmBaklFpzPZmVxtOggB/u
+	geVRV30+FnrSNs5Y8YLc3+bbzti8prPqidgkAyC/+wd7fIaz1tRa3MvvLbOrggGbqpEDvqXJc4O
+	JOht20D83Taf2UeE6sJVMuu8RVRyQjmzawkaQHzWUgbj+INbk=
+X-Gm-Gg: AYBFou1gYNimZTgSiBglZF0qbFJLWwxpBhWQT/wn/aSyGJ24A2nJkRC9zdeXUFTwOh4
+	pf8PUByMa/U29zg+Zs1mMSYpUePk7u0pDGiCow1uVBv/wpNh8K5/FJN9n519PRo9H9ROp4QQOir
+	F648wIXcDVO3ss2fEUepCaPvHHhxnMVsIyCdrF+b2+4v5hMW4aQNhPzAHSU8uSGFM0wy5ivyUSt
+	KyvuYfXMnACOcgP+g2ltShC7XoyIFiPpPqAgTXmp/KZPa704t9uH7jLuVMMliDNVeVyr/buNEcZ
+	m8BCxvpCKy3DoU3qgLbg3pWgtm3lGMfQWXNnmwS6UFbUlF8UFtlFAVxFAPcgAFanyApyKOoJs+e
+	zaXyoEKxxLRi0dSVlv9zmzppK9Q/Sv18lyaWJ1NGR72YlH1YzghOD
+X-Received: by 2002:a05:6402:4018:b0:6a9:9cab:ff16 with SMTP id 4fb4d7f45d1cf-6aa54ca6052mr10924034a12.0.1790057422917;
+        Mon, 21 Sep 2026 23:10:22 -0700 (PDT)
+X-Received: by 2002:a05:6402:4018:b0:6a9:9cab:ff16 with SMTP id 4fb4d7f45d1cf-6aa54ca6052mr10924012a12.0.1790057422481;
+        Mon, 21 Sep 2026 23:10:22 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (85-66-37-111.pool.digikabel.hu. [85.66.37.111])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aaa440df9asm449826a12.4.2026.09.21.23.10.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 12:15:32 -0700 (PDT)
-From: Shachar Sharon <synarete@gmail.com>
-To: linux-ext4@vger.kernel.org
-Cc: tytso@mit.edu,
-	fuse-devel@lists.linux.dev,
-	Shachar Sharon <synarete@gmail.com>
-Subject: [PATCH] lib/e2p: fix stack smashing on EXT2_IOC_GET/SETVERSION over FUSE
-Date: Mon, 21 Sep 2026 22:15:23 +0300
-Message-ID: <20260921191524.44198-1-synarete@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Mon, 21 Sep 2026 23:10:21 -0700 (PDT)
+From: Miklos Szeredi <mszeredi@redhat.com>
+To: fuse-devel@lists.linux.dev
+Cc: John Groves <john@groves.net>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"Darrick J . Wong" <djwong@kernel.org>
+Subject: [PATCH 00/11] fuse: DAX device based extent maps (famfs)
+Date: Tue, 22 Sep 2026 08:10:00 +0200
+Message-ID: <20260922061019.3320196-1-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: EmGZNUL1fBQqYHscVAnUfIFny_O8eJ-67hChQfXvP4E_1790057423
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-When using utilities like lsattr/chattr on a FUSE backing file-system,
-invoking the fgetversion or fsetversion functions can result in an
-abort crash due to "*** stack smashing detected ***".
+This is the FUSIfication of the famfs-fuse patchset.
 
-The underlying cause lies in a data structure mismatch between the
-variable allocation space in user-space and the ioctl encoding
-expectations defined by Linux: the ioctl command token incorporates the
-'long' primitive data size, so the kernel explicitly encodes a 64-bit
-target memory region pointer when deployed on x86_64. FUSE driver
-enforce the _IOR-decoded payload envelope, hence it uses 8-byte buffer
-to accommodate the incoming user-space daemon response. When finalizing
-the ioctl transaction back down to user space, it writes all 8-bytes
-directly into the 4-bytes memory reference provided by e2fsprogs.
+ - extent maps are assigned to a backing ID
 
-Reproduce: compile with '-fstack-protector-strong' and
-'-D_FORTIFY_SOURCE=3' (fedor44, 7.2.5-200.fc44.x86_64):
+ - 64 bit backing ID's managed by server
 
-  $ lsattr -v ./foo
-  *** stack smashing detected ***: terminated
-  Aborted                    (core dumped) lsattr -v ./foo
+ - maps can be linear or cyclic (striped)
 
-Solution: change ioctl arg to 'long' but use only lower 32-bits of
-result.
+ - API supports nesting, but not implemented yet (i.e. multiple striped
+   extents per inode, a-la famfs)
 
-Signed-off-by: Shachar Sharon <synarete@gmail.com>
+libfuse/famfs trees for testing:
+
+ https://github.com/szmi/libfuse.git#extent-map
+ https://github.com/szmi/famfs.git#extent-map
+
+Passes famfs smoke test on emulated dax device.
+
+Comments are welcome.
+
+Thanks,
+Miklos
+
 ---
- lib/e2p/fgetversion.c | 4 ++--
- lib/e2p/fsetversion.c | 7 ++++---
- 2 files changed, 6 insertions(+), 5 deletions(-)
+John Groves (1):
+  dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
 
-diff --git a/lib/e2p/fgetversion.c b/lib/e2p/fgetversion.c
-index f3a5b4cd..eaac46c6 100644
---- a/lib/e2p/fgetversion.c
-+++ b/lib/e2p/fgetversion.c
-@@ -45,7 +45,7 @@
- 
- int fgetversion(const char *name, unsigned long *version)
- {
--	unsigned int ver = -1;
-+	long ver = 0;
- 	int rc = -1;
- #if HAVE_EXT2_IOCTLS
- # if !APPLE_DARWIN
-@@ -68,7 +68,7 @@ int fgetversion(const char *name, unsigned long *version)
- 	errno = EOPNOTSUPP;
- #endif /* ! HAVE_EXT2_IOCTLS */
- 	if (rc == 0)
--		*version = ver;
-+		*version = (unsigned long)ver & 0xffffffffUL;
- 
- 	return rc;
- }
-diff --git a/lib/e2p/fsetversion.c b/lib/e2p/fsetversion.c
-index 5f844b55..9b599c19 100644
---- a/lib/e2p/fsetversion.c
-+++ b/lib/e2p/fsetversion.c
-@@ -47,12 +47,13 @@ int fsetversion (const char * name, unsigned long version)
- {
- #if HAVE_EXT2_IOCTLS
- #if !APPLE_DARWIN
--	int fd, r, ver, save_errno = 0;
-+	int fd, r, save_errno = 0;
-+	long ver;
- 
- 	fd = open (name, OPEN_FLAGS);
- 	if (fd == -1)
- 		return -1;
--	ver = (int) version;
-+	ver = (long) (version & 0xffffffffUL);
- 	r = ioctl (fd, EXT2_IOC_SETVERSION, &ver);
- 	if (r == -1)
- 		save_errno = errno;
-@@ -61,7 +62,7 @@ int fsetversion (const char * name, unsigned long version)
- 		errno = save_errno;
- 	return r;
- #else
--   int ver = (int)version;
-+	long ver = (long)(version & 0xffffffffUL);
-    return syscall(SYS_fsctl, name, EXT2_IOC_SETVERSION, &ver, 0);
- #endif
- #else /* ! HAVE_EXT2_IOCTLS */
+Miklos Szeredi (10):
+  fuse: use "vdax" naming for virtiofs DAX
+  fuse: don't assume ff->passthrough is set for FOPEN_PASSTHROUGH
+  fuse: make fuse_backing_get() static
+  fuse: add helpers for EIO return value with kernel message
+  fuse: support 64 bit, server allocated backing ID
+  fuse: support opening 64 bit backing ID
+  fuse: add support for opening dax device as backing
+  fuse: add extent map data structure
+  fuse: add extent map I/O support
+  fuse: add support for striped backing
+
+ drivers/dax/super.c       |  38 ++++-
+ fs/fuse/Makefile          |   2 +-
+ fs/fuse/backing.c         | 270 +++++++++++++++++++++++++----------
+ fs/fuse/dax.c             | 214 ++++++++++++++--------------
+ fs/fuse/dev.c             |   2 +-
+ fs/fuse/dev.h             |   2 +-
+ fs/fuse/dir.c             |   7 +-
+ fs/fuse/ext_map.c         | 288 ++++++++++++++++++++++++++++++++++++++
+ fs/fuse/file.c            |  56 ++++----
+ fs/fuse/fuse_i.h          | 145 +++++++++++--------
+ fs/fuse/inode.c           |  47 ++++---
+ fs/fuse/iomode.c          |  41 +++---
+ fs/fuse/notify.c          |  64 +++++++++
+ fs/fuse/passthrough.c     |  70 ++++++---
+ fs/fuse/virtio_fs.c       |  18 +--
+ include/linux/dax.h       |   6 +-
+ include/uapi/linux/fuse.h |  56 +++++++-
+ 17 files changed, 984 insertions(+), 342 deletions(-)
+ create mode 100644 fs/fuse/ext_map.c
+
 -- 
-2.55.0
+2.54.0
 
