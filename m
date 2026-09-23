@@ -1,256 +1,218 @@
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63021439F7E
-	for <fuse-devel@lists.linux.dev>; Wed, 23 Sep 2026 05:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA7F4137BF
+	for <fuse-devel@lists.linux.dev>; Wed, 23 Sep 2026 07:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790142077; cv=pass; b=FdsglRhViz7mNNA+BEh7gP7yodThqRucYukPEar+TGH5AFDr4sjGrxAERBpL1fA38MhCCSKHEdSbtKSrwQ11XFTOVDfrJcEXxqUnRFufJaxv9HXZm7XXxgXxa5jvVe6rscXZVQv2Ytf7ySkWlMZrnJovCcTBZEISkYhj8llHZbc=
+	t=1790147321; cv=pass; b=n5CmT2hs0A1gUI4N/ROL8AsBK65l87mNU0MbxDU9ahYzuiNhDNujPYb4btwI0OuDil3FQJVaWFmUCuS+dvvCrcAOE+keR4AETSejSsKCc+jjS4P+ZXGLGcdJrl0B26QVo5yHzSTJiO5I6Sd656bYPMWrcETpPhN8iiNo+rM62GM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790142077; c=relaxed/simple;
-	bh=6NayoGht7N7oi+9XCgntqp3ykFEWf36bhXF3FqokMH4=;
+	s=arc-20240116; t=1790147321; c=relaxed/simple;
+	bh=44SnmvbWdneUeO++9D5+pWsDCjiK1AEGhUtPLshqW1Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RGmqdxiyD2FLC/LbNSOU/IFpCeKZQNCM8P4bhf2wcZNgLublxaI/NhW2DUqzvLrA5c4jU++i/Uzp7VybJpJm2BsDCV6qFhfkO7VFyuWhvPF5O+Y5DNrL5bMZ7GCgvu6LUhmWAJPCNmxWz+NZHJqJvw8aUemRo4UfbOxU+rR2mkI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EsEPT15q; arc=pass smtp.client-ip=74.125.228.76
+	 To:Cc:Content-Type; b=qiPTlx9qrRMJ4Dca9+JKPfYy8Ffcse6v1EJq3sPqH95DjCKG6Bh0D/wpNO29cqIDUftRDqPqUo/jbfgBZtJZ94ov4EsQcJt6ypydKpidUvPZOd5Q5D8M77DMjz7S5B4T3GjTT0r6rOa6j6tWAFgW0AoebwLBrT6YK57dtEyiZ5s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WTVMkoff; arc=pass smtp.client-ip=74.125.228.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EsEPT15q"
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a6056ac81fso1045477a12.2
-        for <fuse-devel@lists.linux.dev>; Tue, 22 Sep 2026 22:41:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790142073; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WTVMkoff"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254fa4c24cso82233366b.2
+        for <fuse-devel@lists.linux.dev>; Wed, 23 Sep 2026 00:08:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790147318; cv=none;
         d=google.com; s=arc-20260327;
-        b=paHcrRQiZBLiunu2D9OcTBTR8xddLJS+a19U2abz7ckVBar6pgawDBuNsWcbWwzy8Y
-         sPBWlaBHzIlJF5v9mRr9O1Yio3vEtWDKMbi/8e4x5FhpMPS55a11PGbGIccBDYvdum9A
-         Lc2Yb3X127fEQ3/PYzFWjjkZgYoIa6nK/8jN1XoWEtZ5eBGiLKdWAGxf5HypEH9p7XIw
-         g/ZsUKSaDWe5fN5CcJmCZ81vtLQjBhQusN06QE3fDmeCugbn2OUIodEiOO+SEs4m+52E
-         kK2ybNOzX7Btxv/macQ4S76n+Q8MGZblARSrw6VgfiYH5JYcFUU6GCCI7viIVLvVYQHX
-         UPqQ==
+        b=kCEbRcpHxeVr8qV+MNqIKY/fu1/xaFYgVzRCR20YZpvAzbKz9GAldYNbydai6VdFEp
+         F5DH7x4jfllOCagkjIhmKz3zVfFYOfQtdzcBXkYZjaSguPN3TjOR8adTwlKYz4pJgD8G
+         mNRUjRUSyCzoaJHuUxNffeX3Xjq2VwIYsszYCRZXOiloxtcnijqPlYjhNnr90AHmzmli
+         IcOcH6XjAuVQaTt/IbkpxHo3i7mwqk6PYXqrHVovg6wHEwDleURoQl2lKUB4SqxQCLN1
+         lWhUBKJBE9NtDjPFBveINuNJjgGmweB0uHXThE6kPXw+9GHRg+vspI/Y7MX12oJQZgWn
+         WqvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=bcSIVAHCndhjWZKH9mIm00dcM1whQDZA38Fiu4ms+Xk=;
-        fh=LSGkIxL+7O1MPXHhjOsZelXZcZzf1zyb+22wAIOwAjQ=;
-        b=p6/qcI0+gn786iwXGENqtJqKpMN1Vy5aYLLoibxVinpyBENyOFDhyJZesha6WttmpI
-         v/FlrpHEjD6phrDvJmbMCeyyYbd09nj18YLVOejPSziewYRUbvpUbcoOg3bNcFbx1uKv
-         goqKMknFiNWnyvJEEoZexUq4I7U2X8GkVF5zl2Fqv2JfHEWHzGJHkSQWBJWRvvMwEHTO
-         t1/pOj/Uh/Saj/aBrvXiu9KkihV9QhyIOOdAVRqNWXw1EUAuTaEv3UOmBtqGOPyHnoU9
-         imdittR0huseKphg5xclYIxbu6+LzJdzQIzucpPGB+TT6pLczUF1hccFLYMtaGc7NT12
-         s+LQ==;
+        bh=yINQveyc6NUU9iJf7U4XoMbvxiWrtauc2EsgJCKe3+4=;
+        fh=/TSH+giuxvuaKz1YyT9tpaUYB8P7iFbOQGE+bj1mcSs=;
+        b=p6jmLyNSTwcBeNoJ2xxnlynWGmMVhOGzelggniIf8K8Qw2rv1Fu5IzWOASQEVAOofr
+         WZpd0MqjKzwHbGLaG81iO4Tiw26HdZaKVNqoIKoF22sQVcptI3XyL6+/6lEhLnM02UH2
+         KbItA7s2P41hhtgIib0T3aBD2OMMnZhHEqe9iW1PqijBWTOrClgNxLddV5d3SmLhrjeE
+         c4JzKnHNEPjWZzEhwFtPhWDYOZ+iE97MP+8SY+f4p7vDx06Yw8Jr1aOm+meM0rOtXqij
+         Pz2lUUfpFKaeH6oJemcmNNVoeDpLR0YeqB5hq5ww2sJwBEi7p2aVw3fp4gZVCVm/38bO
+         +A1Q==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790142073; x=1790746873; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790147318; x=1790752118; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=bcSIVAHCndhjWZKH9mIm00dcM1whQDZA38Fiu4ms+Xk=;
-        b=EsEPT15qsiDMNQcG5b7oFgJGPXzASQwNrr6GX1/Cl47so0wwA03JmIBaeWuLIx/NjW
-         GcGS8kNONFG4iyewbMrFHRaZmFqIkpOk9pPr9EdPwDhPWhjqp0IwMh6xgApO9kS41NXx
-         CliB1y10k0BD87L8mSZ3bDZpEmHjT7AV3pcGc59ETMU9K2vR3RK1pitfrutwOYvn8vdl
-         chBphSYVEyPOf/ZzzFjQ7LDExf7HxSURm1lVlLfbdPMStkxoP8CeLCfeOciMIAC0CN5n
-         NssS5mH9vQa0HTHit8Bisu+SIurEy7q+U52PIcVERpOnktD2bFWUbEnV83wtfn69oK1C
-         WEBw==
+        bh=yINQveyc6NUU9iJf7U4XoMbvxiWrtauc2EsgJCKe3+4=;
+        b=WTVMkoffhEqd60LUNjWukZJGZe6hPEwtXkbbrZ6jJQj79AhLdiG1PfQ+uTOLIEcRae
+         K8wK2q2aArbQN0bb9m3Qzh5UXHvgnsZZDCsjuyNqEgBOfQORQjogzfdD+x0NDYBEFx9C
+         w3IC+5yaKRksjWXKhivamXtZ8HQht4tW8zVZs1dBjufpg5kf+eRu3c9B/yM9rzSKG6Cj
+         LQOY//SCobk3635WIEiJx31T7WKa+QWjgZaNCeVCUp+fYIDzLW8VJ2+UMX6JAQx+rVgU
+         2pwlKtDbYFUYvXZDROtCRAIYAWNV/gEcRsf3DraXZt/CQdghETmfFi/LG0+wMsXbDG7/
+         301g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790142073; x=1790746873;
+        d=1e100.net; s=20260707; t=1790147318; x=1790752118;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=bcSIVAHCndhjWZKH9mIm00dcM1whQDZA38Fiu4ms+Xk=;
-        b=AO0GhXEr3BIA8rf+vosnUxvyOMc/0m6LhLC+1LIETCLkoFeM0JHPhutyNgT1ukxbFa
-         l/+55ksUF8mHSEA4yh9GdAtWwJP7QgLTIQMOJ9PWC4tN9BHi7slptibs7s1VcA+PtG2I
-         8o43xHOsNRkL4AmuLrCvu+L595YwgAOgLajNNsC+yaDEsvextSTFSylTgjo+TcmTN0X0
-         vR4Ietx9lTeQ959jpnBXxC/b5stY62gt/IUZZUC0yjIxjsg4MXkmIObzzvNGFIF3crwN
-         RMdiBcsRKRsQZ38FtN0i6ViHl9kBmfgIh4gQuEH1knqTc4xuKDMhIbTLiuerAcExp/my
-         zj4w==
-X-Gm-Message-State: AFuF++keT66kuP30tVEAuKAimR2xLu/KMkyRhL7oNGGZ4/1mTWtSxMQ6
-	6gVbp7HIfJOOXncnkaujGXAdsNFouLReiR6sMzN83ynTHUqn3jedKlelg2Z/gvcQUcb3B1W0O0A
-	+07oBKd4x510wSOa35prEBK+D9VeRqIc=
-X-Gm-Gg: AYBFou0THSDLfYXjGCZt/Kdfb4P0o3S9peqfL//8D78iJmvqFWqfTWtOWUl9PAQzZZp
-	AJuz7afXqJznXYYCXfW17RwwD7vpEu2yKMo9dOkchQkG4J8sbKu/D2M6stv0w5yMAPyr2bdQFY5
-	AGU1odYRNyMBorDBiu3Lwx7qGb/nakQmgNyCI/kQhHH7ivA36MZdnOhBB6/Fj1nZEA9Z6++j+/F
-	+zZbhakyL1xn0J7zluxx9OepHElJZi69PGMmTp8c8vSC09N4dDchhhS14eYNBY3vUVc4NkXZD5S
-	8IAIbQbhWpQznAACqhIDp0mpYBd89s9QUkzLwUzgOm9V648sv1D1YN2/
-X-Received: by 2002:a05:6402:4510:b0:6a1:4458:7f2d with SMTP id
- 4fb4d7f45d1cf-6aab3b0073bmr1196309a12.5.1790142073002; Tue, 22 Sep 2026
- 22:41:13 -0700 (PDT)
+        bh=yINQveyc6NUU9iJf7U4XoMbvxiWrtauc2EsgJCKe3+4=;
+        b=ioez7nUP17usC0qtzPPbIo134dmsmAp6qWufhEP1OoSMqWEDDXWeZpkdJMp5jc8ifb
+         520KEiBVYSNabCdb6hD3tKgpPMUQv27DdVsphGGVJ6TjBCedTQZqaRe5D1OPeJsA11a7
+         k06fkDPnleHIoaAcLa0i+0SNWHMyIUMxdk0qxm4ym5usNZbtwKJ+rdeCdsvs7ZY3tzqj
+         pW7vWZ/cWT2dZcXRMY+AP2Ud+QRZEO/EgQ6n2gPqeiDQDwE2yuOxmok4voKWQg0V6tHq
+         QMlHIq/nZJEpyr2BLyhTnP5iooR5JecWV/wnnkRAGr0T0/GlPnii9u94OevmOJiS85sI
+         j6oA==
+X-Gm-Message-State: AFuF++nuhDDCS6asfz3S9YdAAFXdCM3fsB2YO81RHoHU1eK7QW8vAni+
+	0847V1l051ChdV92fBZpfgbllFlZRG1tVUaD0L/A5+n+Rpo7eaUGLfR41tXWp+uDq8lkHPMJVqV
+	DdlXaWbdWhL5xymNhZ69I64GXRv4LB88=
+X-Gm-Gg: AYBFou1enHBSWYsk+lBzV4Lrqqw1J/SHrXra9HFyXEr0/8jiicMO9DEBQYoAhbR5SEC
+	9ImdJzB0ztqF0wChr9/j0zfor/JKoD8D0kRF71qbygiiHu96yjz2rbF0zZRJAR/RE3J8B/rz+Cf
+	i8nX74MQYjwBu33gfJjJ64TLpEf5c8W/Gwm2mQWMUGS2t3NvaLohMVqPVK9CgSV2xhHPn72rSHa
+	BBaeL4of4zg8ZcXN0q4iiyVMtDCjtbnR8JNoUL1wUHkSf1luXQLmGxVU7paU5u7cZXfrB5ir1c0
+	lSy7aozp4NNGhxX3GvTmtVxUfNFVnEdHjXZbmsEuOvlu2VpOaCFzWVXaa9BkU5kZokrodVUxvpU
+	fmw==
+X-Received: by 2002:a17:907:720f:b0:c29:386c:58f2 with SMTP id
+ a640c23a62f3a-c2aae0e4644mr121282566b.38.1790147317726; Wed, 23 Sep 2026
+ 00:08:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260922061019.3320196-1-mszeredi@redhat.com> <20260922061019.3320196-12-mszeredi@redhat.com>
-In-Reply-To: <20260922061019.3320196-12-mszeredi@redhat.com>
+References: <20260922061019.3320196-1-mszeredi@redhat.com> <20260922061019.3320196-7-mszeredi@redhat.com>
+In-Reply-To: <20260922061019.3320196-7-mszeredi@redhat.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 23 Sep 2026 07:41:01 +0200
-X-Gm-Features: AclHuK-t6T8Em-oFketu00OCApd1FACMondLpe47NyGIr8bLxL5heC6XV34GjS8
-Message-ID: <CAOQ4uxiP74OjL2tG15YrYQK8xnvRoshVdC9iJ+xs=xGcM-Ux_A@mail.gmail.com>
-Subject: Re: [PATCH 11/11] fuse: add support for striped backing
+Date: Wed, 23 Sep 2026 09:08:26 +0200
+X-Gm-Features: AclHuK-zjNqCDDgIjFI3VvqMYBNrF0XupUAAWqCLukL2L8hrJp-tjAxSZ42Cfjs
+Message-ID: <CAOQ4uxgfEM3CiBCCu53MDJnHDiYOmmMB5zZ1pqABUPiFag67-g@mail.gmail.com>
+Subject: Re: [PATCH 06/11] fuse: support 64 bit, server allocated backing ID
 To: Miklos Szeredi <mszeredi@redhat.com>
 Cc: fuse-devel@lists.linux.dev, John Groves <john@groves.net>, 
-	"Darrick J . Wong" <djwong@kernel.org>
+	"Darrick J . Wong" <djwong@kernel.org>, Joanne Koong <joannelkoong@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Tue, Sep 22, 2026 at 8:10=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.com=
 > wrote:
 >
-> Add the FUSE_MAP_CYCLIC flag for FUSE_NOTIFY_MAP notifications to enable
-> creating striped maps.
+> Add support for server allocated 64-bit backing IDs alongside the
+> existing kernel allocated 32-bit IDs.
 >
-> This is just a set of regular extents that repeats after the end of the
-> last extent using a striping pattern (i.e. on the target backings the
-> stripes have a contiguous footprint).
+> Opened with FUSE_DEV_IOC_BACKING_OPEN, but the backing ID is sent via
+> fuse_backing_map.backing_id, with FUSE_BACKING_ID_64 being set in .flags.
 >
-> Two additional limits apply compared to non-cyclic extent map population:
+> Closed with FUSE_NOTIFY_BACKING_CLOSE.  Since close only provides the
+> backing ID, not the file descriptor, it doesn't have to be done with an
+> ioctl.
 >
->  - the size of the extents (chunk size) must be equal
->
->  - the extents must start from zero offset and follow the previous withou=
-t
->    one with a gap.
-
-some mixup here -
-follow the previous one without a gap
-I presume
-
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-
+> All 64 bit values are valid.
 >
 > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 > ---
->  fs/fuse/ext_map.c         | 27 ++++++++++++++++++++++++---
->  fs/fuse/fuse_i.h          |  1 +
->  fs/fuse/notify.c          |  2 +-
->  include/uapi/linux/fuse.h |  4 +++-
->  4 files changed, 29 insertions(+), 5 deletions(-)
->
-> diff --git a/fs/fuse/ext_map.c b/fs/fuse/ext_map.c
-> index c752b6ef0686..52f3fb0bb571 100644
-> --- a/fs/fuse/ext_map.c
-> +++ b/fs/fuse/ext_map.c
-> @@ -101,12 +101,18 @@ static int fuse_ext_map_iomap_begin(struct inode *i=
-node, loff_t offset, loff_t l
->  {
->         struct fuse_backing *fb =3D fuse_inode_backing(get_fuse_inode(ino=
-de));
->         struct fuse_iext *fie;
-> +       u64 ncycle =3D 0, seq_off =3D 0, addr, tmp;
->         loff_t ext_len;
->
->         if (!fb || fb->type !=3D FUSE_BACKING_EXTMAP)
->                 return fuse_EIO("missing or wrong type backing");
->
-> -       fie =3D fuse_find_extent(&fb->extents, offset);
-> +       if (fb->cycle_length) {
-> +               ncycle =3D offset / fb->cycle_length;
-> +               seq_off =3D ncycle * fb->cycle_length;
-> +       }
-> +
-> +       fie =3D fuse_find_extent(&fb->extents, offset - seq_off);
->         if (!fie)
->                 return fuse_EIO("missing mapping");
->
-> @@ -119,9 +125,12 @@ static int fuse_ext_map_iomap_begin(struct inode *in=
-ode, loff_t offset, loff_t l
->         }
->
->         ext_len =3D fie->end - fie->start;
-> +       addr =3D fie->backing_offset;
-> +       if (check_mul_overflow(ncycle, ext_len, &tmp) || check_add_overfl=
-ow(addr, tmp, &addr))
-> +               return fuse_EIO("extent address overflow");
->
-> -       iomap->offset =3D fie->start;
-> -       iomap->addr =3D fie->backing_offset;
-> +       iomap->offset =3D fie->start + seq_off;
-> +       iomap->addr =3D addr;
->         iomap->length =3D ext_len;
->         iomap->dax_dev =3D fie->backing->dax_dev;
->         iomap->type =3D IOMAP_MAPPED;
-> @@ -231,6 +240,7 @@ int fuse_ext_map_populate(struct fuse_conn *fc, struc=
-t fuse_notify_map_out *arg,
->         struct fuse_backing *fb;
->         unsigned int i;
->         int err;
-> +       u64 chunk_size =3D 0;
->
->         if (!arg->num_extents)
->                 return fuse_EIO("no extents");
-> @@ -248,7 +258,18 @@ int fuse_ext_map_populate(struct fuse_conn *fc, stru=
-ct fuse_notify_map_out *arg,
->                 return -EINVAL;
->         }
->
-> +       if (arg->flags & FUSE_MAP_CYCLIC) {
-> +               chunk_size =3D ext[0].length;
-> +               err =3D -EINVAL;
-> +               if (check_mul_overflow(chunk_size, arg->num_extents, &fb-=
->cycle_length))
-> +                       goto err_put;
-> +       }
-> +
->         for (i =3D 0; i < arg->num_extents; i++) {
-> +               err =3D -EINVAL;
-> +               if (chunk_size && (ext[i].offset !=3D chunk_size * i || e=
-xt[i].length !=3D chunk_size))
-> +                       goto err_put;
-> +
->                 err =3D fuse_add_extent(fc, &fb->extents, &ext[i]);
->                 if (err)
->                         goto err_put;
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 50b61e16a15f..a34db4ad4bc4 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -114,6 +114,7 @@ struct fuse_backing {
->                 };
->                 struct {
->                         struct rb_root extents;
-> +                       u64 cycle_length;
->                 };
->         };
->         u64 backing_id;
-> diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
-> index ce6d85834ea5..cbaa953e9db5 100644
-> --- a/fs/fuse/notify.c
-> +++ b/fs/fuse/notify.c
-> @@ -453,7 +453,7 @@ static int fuse_notify_map(struct fuse_conn *fc, unsi=
-gned int size,
->         if (outarg.reserved[0] !=3D 0 || outarg.reserved[1] !=3D 0)
->                 return -EINVAL;
->
-> -       if (outarg.flags & ~FUSE_MAP_BACKING_CREATE)
-> +       if (outarg.flags & ~(FUSE_MAP_BACKING_CREATE | FUSE_MAP_CYCLIC))
->                 return -EINVAL;
->
->         ext =3D kvmalloc_objs(*ext, outarg.num_extents);
+[...]
+
 > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 5368889710c7..c100e6d78f7e 100644
+> index 10a7f31c4bdf..f271faa60424 100644
 > --- a/include/uapi/linux/fuse.h
 > +++ b/include/uapi/linux/fuse.h
-> @@ -259,7 +259,7 @@
->   *  - add backing_id to fuse_backing_map
->   *  - add FUSE_BACKING_IS_DEV (fuse_backing_map.flags)
->   *  - add FUSE_BACKING_ID_64 (multiple structs)
-> - *  - add FUSE_MAP_BACKING_CREATE (fuse_notify_map_out.flags)
-> + *  - add FUSE_MAP_CYCLIC, FUSE_MAP_BACKING_CREATE (fuse_map_out.flags)
+> @@ -251,6 +251,10 @@
+>   *
+>   *  7.47
+>   *  - add FUSE_HAS_SYNCFS opt-in flag for privileged userspace servers
+> + *  - add FUSE_NOTIFY_BACKING_CLOSE
+> + *  - add struct fuse_notify_backing_close_out
+> + *  - add backing_id to fuse_backing_map
+> + *  - add FUSE_BACKING_ID_64 (multiple structs)
 >   */
 >
 >  #ifndef _LINUX_FUSE_H
-> @@ -1225,8 +1225,10 @@ struct fuse_notify_backing_close_out {
->   * notify_map flags
->   *
->   * FUSE_MAP_BACKING_CREATE:    create backing with the supplied ID
-> + * FUSE_MAP_CYCLIC:            map repeats after last extent
->   */
->  #define FUSE_MAP_BACKING_CREATE        (1 << 0)
-> +#define FUSE_MAP_CYCLIC                (1 << 1)
+> @@ -709,6 +713,7 @@ enum fuse_notify_code {
+>         FUSE_NOTIFY_RESEND =3D 7,
+>         FUSE_NOTIFY_INC_EPOCH =3D 8,
+>         FUSE_NOTIFY_PRUNE =3D 9,
+> +       FUSE_NOTIFY_BACKING_CLOSE =3D 10,
+>  };
 >
->  struct fuse_notify_map_out {
->         uint64_t        backing_id;
-> --
-> 2.54.0
+>  /* The read buffer is required to be at least 8k, but may be much larger=
+ */
+> @@ -1153,10 +1158,17 @@ struct fuse_notify_prune_out {
+>         uint64_t        spare;
+>  };
 >
+> +/**
+> + * flags for fuse_backing_map
+> + *
+> + * FUSE_BACKING_ID_64: backing ID is server allocated, stored in @backin=
+g_id
+> + */
+> +#define FUSE_BACKING_ID_64     (1 << 30) /* used in multiple structs */
+> +
+>  struct fuse_backing_map {
+>         int32_t         fd;
+>         uint32_t        flags;
+> -       uint64_t        padding;
+> +       uint64_t        backing_id;
+>  };
+>
+>  /* Device ioctls: */
+> @@ -1193,6 +1205,11 @@ struct fuse_copy_file_range_out {
+>         uint64_t        bytes_copied;
+>  };
+>
+> +struct fuse_notify_backing_close_out {
+> +       uint64_t        backing_id;
+> +       uint64_t        reserved;
+> +};
+> +
+
+On second look at this uAPI and after failing to retrofit ops_mask into
+fuse_backing_map, I think it would be better, along with init flag
+FUSE_PASSTHROUGH_V2, to decommission both old ioctls
+and use new ioctl with consistent verbs for the new notify's:
+
+/**
+ * flags for fuse_backing_map
+ *
+ * FUSE_BACKING_IS_DEV: @fd refers to a device file
+ */
+#define FUSE_BACKING_IS_DEV     (1 << 0)
+
+struct fuse_backing_map_v1 {
+        int32_t         fd;
+        uint32_t        flags;
+        uint64_t        padding;
+};
+
+struct fuse_backing_map {
+        int32_t         fd;
+        uint32_t        flags;
+        uint64_t        backing_id;
+        uint64_t        reserved[2]; // for ops_mask etc
+};
+
+...
+
+#define FUSE_DEV_IOC_BACKING_OPEN       _IOW(FUSE_DEV_IOC_MAGIC, 1, \
+                                             struct fuse_backing_map_v1)
+#define FUSE_DEV_IOC_BACKING_CLOSE      _IOW(FUSE_DEV_IOC_MAGIC, 2, uint32_=
+t)
+...
+
+#define FUSE_DEV_IOC_BACKING_MAP        _IOW(FUSE_DEV_IOC_MAGIC, 4, \
+                                             struct fuse_backing_map)
+...
+        FUSE_NOTIFY_BACKING_MAP =3D 10,
+        FUSE_NOTIFY_BACKING_UNMAP =3D 11,
+
+This way the backing unmap notify verb matches the ioctl and notify
+backing map verbs and FUSE_NOTIFY_MAP is disambiguated from
+the non-backing FUSE_SETUPMAPPING.
+
+And we don't really need FUSE_BACKING_ID_64 flag in this API,
+whose meaning is not very descriptive of its API overloading nature.
+
+Thanks,
+Amir.
