@@ -1,225 +1,341 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011049.outbound.protection.outlook.com [40.107.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED1A54281F
-	for <fuse-devel@lists.linux.dev>; Wed, 23 Sep 2026 22:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A379B3D1716;
+	Thu, 24 Sep 2026 02:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790201646; cv=pass; b=ubKKDFE4EdriZ+oSucttnBFPxEFHCxejoM605wMnNrZqJICKxrEIX3BUEFic3ZkuuUHI6w0yWSUQ8W+l+33rgr2l/YrdBW5BewR/xavpG5hz+xl6KavmnSsBlw+Z4cNjbwT7+mOOPji6CK12WF405pyheHOUrpICLovhobsuAt8=
+	t=1790216458; cv=fail; b=O8wX8HPf38fB42WnOvAB4kGCOdVkVjGernuTmmhT9S1YIwBrM8kPKSgsZ4VyM7byOJM+2vitgHWDaqc2zHGOUWRrvjCxkcn8Rp8a+/5eAPuiLWu1aPiYVsbthqJz2kW5pGcxms5Ul90kmHGinI0NPqrqUQgnkA4wbwqWLW1oM+Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790201646; c=relaxed/simple;
-	bh=VEnChpsmZnLnP1dBy4G4iI9kzuFlgR20LU2PM96Q9xk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NbztChVyhIfsa/Qb7V305aBsZ/3reb/2Wyk7AjmjUCAoa5+Sj9KxdHXyJ3LkuPMvqMMCdNA40Ic1/ox4SkRSG4+zCpu0tf1ovC87ak7jKAmQ9CRX7uvAExKic97b47XwfbXmYtLUI2pwiuS7UeatrZsYSm2ESh4G3liotRrcacI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pnuTPPD3; arc=pass smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790216458; c=relaxed/simple;
+	bh=P250yCszL/82JvQ1GMiCjb5W3ozIsIiGbVtA86XQaho=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=IkFuRjNbupDa9pLu0RhyORv0MuF+eHl4ua5a7Rsya71F3Td9tjNJZBMuo/Yu/Z9U72R8Ur9u+J0dBx/9b5sJXRrHsF9XJXrAZ2nRmDkawwVwcL2F+6rtg6sbWuFNvUQw2PbpCioL/8MG8GQQ+BcdqK1DkSsuPXe0j3sQWlYjRHE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Os7y4AZy; arc=fail smtp.client-ip=40.107.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pnuTPPD3"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b91369d18so9770435e9.0
-        for <fuse-devel@lists.linux.dev>; Wed, 23 Sep 2026 15:14:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790201643; cv=none;
-        d=google.com; s=arc-20260327;
-        b=E2J+XTPzSKawTkakQYYZpocRAhrvV/ZeIbEeD/oCM18x1uqY8GCqi0Zj6tFxAfEhXb
-         IBVb0UdHuR1K4oo1p1wCx2S8uyadQJSMORZGbIWMcJgl4w2pSlMW3PP0wpdYw556I7ve
-         C0m5bPSRXVO+e4EBQbuyRZXysVIsOdaDolhw8NpU/YZmuqtUOKy5iyqlp96pWtMpyE45
-         130nYoqj8v+o1JNJnfXbm9riOMRr5kD18r20qXBcj3lZ6CbfmkYOPeArW5KJugHYh7cc
-         FgLVrNabwsr5RRl3XjzbDiSinkl3kwwMn6fGKZfWOfagUlACWqxu6fUgP8xs9m6te8Yn
-         IjyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KGLEeue3o5yKWeja6+zG4Xk78pYqVNcln7LIJb2Z8i4=;
-        fh=wLNRtZlZ0yVCjrQIOKyzS75/AFO5LwCFEiMDe/kGcCg=;
-        b=Y6pciptGEu3xcjMsSO3SIGTFAJf+UH4bNPwdoGVafYPGIVdXBs7hv9iOCVmH4dWsH3
-         63jUbN9YJc5a6d67IB6YMIsfE+86UlN2vpSG9DNipcKatAlc5uE48RuZaj4YLLhG9ALh
-         Ay6riOb+Q2vyodQvdz5UfAj6Xwv5RqGdW1wGW5tuBnh38dMv2WG4HSj+bHbc8X6Z+Byv
-         wF3p4c454bPaCsVCGj9WFCsX/DQbR9rY4caAiEwRchv8oMLYeR9TGzEKnu5+pBhx4rWB
-         lEJ7XGY4H1Q3VvirXLyZhDmQz0T1vhKWsorl9vYFSehVMW8HeTNaqRwS/zmbF7HO3Lll
-         qMOA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790201643; x=1790806443; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KGLEeue3o5yKWeja6+zG4Xk78pYqVNcln7LIJb2Z8i4=;
-        b=pnuTPPD35MwteXCScA8OFClZED5yvGwmVxyi8+aoONtzeHPpueEOhKx6wB28p9Nr4L
-         QG9AWy/bWcaafMxFJepRyUZkl3crRqdsoRGVAs0WnGkKqfpIfUTBZcicWFtUcp6kAPEW
-         ED5sobpj9jTrux+6XRhgMDiglx4mpRG9P6dA2b5Qy5niIWMI9LZr5rZYG4g7dOxDmhFY
-         ZoTCQI3rG8C2kjPsyA59CoFRL0Ye1xDTnM3h5IoMKHXdUQJcZ9CDUPD0hmgpYvb3nz9v
-         njxGWeBnNowGHiQzA+OtI9lgVTBtfYZqGR3MMGOzS2YhKY0AeXlHVmNUwZf7IDF2iTkL
-         isUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790201643; x=1790806443;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KGLEeue3o5yKWeja6+zG4Xk78pYqVNcln7LIJb2Z8i4=;
-        b=p+SJhUp944MWABLu+ou1hCcYDGAHTkU3ojNvL8i751BvperssM7n4zBo5j17tL1rJW
-         OJN+odo39x99+K8gR5P1lnP+4rHev+fiYGuPM/Y9In5miSFRyMxr6qan66+JYmqp0TGv
-         G49EHBgktQizC3nb+iRBj86MDgPDjy5YCz55zkPcxQMXqtL9O0tb1NZux93kRkxKfi2q
-         PgXVGeEwd3sXZxna6USFU42tgAMGcWyB4Zmtd9FKrx2m9cu4O5lV1J2NyA2lN/+Xdlbu
-         2T6tm1D0DRZJ8+AmElW/1UsMQLKjrJuI63WCFwwvkWbgtEBsi+2Ys44eDtKiNcFZJEm6
-         ybJg==
-X-Forwarded-Encrypted: i=1; AKwUvBzMgY4tqh1tcnXBan7ZR2LPSTCx1JVF0zbtG3jM9sdennLGn8ar7yEYONkd7RNHUln4+8ExwV/5AUDb@lists.linux.dev
-X-Gm-Message-State: AFuF++lalyeiVOaVt41vnEQJFjvK4XZlOtP3q2EiFuN7YnRrhaV+iJl7
-	HInmYZHBAnQO4ONV9gXhHGhvsL6K1Wr+58TB8ErzdpZ4dPhx2DPJvcQdor+PabNlpyghaZXSm2F
-	fLbe23fmZ8pZd0mboHkvUkWmI+iPOYEs=
-X-Gm-Gg: AYBFou0RvPsSPF5F80/SJXSd0kDcWJBRaNCua/Z4+pkbdPWIfB50LV9qUCCJl2Xw83m
-	9gdtJ9IyvOgcI0nrSJFeZEFAXYc8tmynD+YDTptgRP+5fvUbLY4z2xV1FwvlzmjfLf3P7BLG8a/
-	qiSPQtDtgWvZLsii7JNWSULDz3E89J6GfBaYnK2IcEsAz7dNiyWweMmD+L0zLbEz01xaHxPBQeh
-	Hi6Bif83YdIrk9MC/IvnwVCfC+6jVDl5xFB0NNjBz5pBRRsQA70mKiGVVuYi91kXXgTME5TZVLY
-	mjS9E0fWVB4MrNJiMYmL36gzJfp+TtjHDKxmD3GIq6pXeQH47ilYJN+h
-X-Received: by 2002:a05:600c:6092:b0:49e:7c4b:1753 with SMTP id
- 5b1f17b1804b1-49fe66c6365mr7426965e9.12.1790201642420; Wed, 23 Sep 2026
- 15:14:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Os7y4AZy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FEW8NXvNN7Ip1AMDoH/NDr10ZP/j0MD++ZTreI9Y8fvmDEmCahI/USddG4Bd+0uLHze+Vfqw2VsyOBrqBOhsaOoBo+4Jm+cIpNjbPZd4XpCv979BXO0F45I5QqZbYsUP4CupmPrEWvAhxxvz+80HtYgOH7/pUrwsaxhEjRdAvxaRqz43b9iNuu2rUOLu2eudZuhmRh9qos8eI9djOT4U7wDA2wgvV8fEGctFMdbvY4fMYvauhrLoR+ut0m+h9T+DtILpdiBBMoJkj2nhvCinAvATNNKt2T1+KN2C3xyvI5mUxdLBqKYvBHQsnqSkN37R67+1AsWth/1tXeLB9WZWiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e3+f00+7OE+5/QGLyNup2ZjMtqagdnIsAWYHKTCo4rM=;
+ b=EPldav/v6eXctrUXtVxtv/+1RM7EIoIOyzNB/W/Ju29wIqjgdZ+8kjWW7WVF8jlP6PSV6eEV07FO/D9n44bLKuawxX3UGHHWbbtRYyS+vYayWXMLIWLtoRCnc9p90cZOY6g8koVGVm7CCWuEwtPFpcJOfO7r2WnB5H+Szi1I6U/L4RY0611ftlxlPCKkxFijucw50d/wP1vCbwl96wlLQnlAc+f2BILenGjIf1H3CldzzeYMQGMszzr0gyjZTFnS92oF0eQCi7wTQn6XYOM2do+1rHvCyrO/rtht+QWHarcXmdNl0r5btvn7ZjuZYbUh55hxY59rwZjsm6angf/dLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e3+f00+7OE+5/QGLyNup2ZjMtqagdnIsAWYHKTCo4rM=;
+ b=Os7y4AZygLP9mAZXIrqyEXUU3/QQMgwFCOFFLhP71NnUy8Ft7xIZS3EKcwS1i6L/FK1Lrf/7PdWBai7Gz6ZJwqhRB9czYqVq2FJKVc0nWlJXNVcYJMCwVGb2m8ZaXZNNEhFsuVElQkcBHPCI1+rsnRKmKlpsHdooIuntR61pXDA5a9lhH28tB5kwGlyV+BMWsy9LZz6uFuubudiB+/K+0F/J+PAis/TUe3ItrWbCgrK+atteghn6vF5/GYTs80YCEZbgce355DS2MUygx+/9yq1OtZbVBH0WBL5W/yLQdIYawmnyI8KLy0d08mJkQGdwNBgZl+oW4NiFBVtVLx0hyw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by PH7PR12MB9150.namprd12.prod.outlook.com (2603:10b6:510:2eb::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
+ 2026 02:20:49 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
+ 02:20:48 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+ Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Date: Wed, 23 Sep 2026 22:20:43 -0400
+X-Mailer: MailMate (3.0r7032)
+Message-ID: <26EB9785-2909-4D49-A755-09A72BA94BD0@nvidia.com>
+In-Reply-To:
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-1-4583d8a23bca@kernel.org>
+References:
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-1-4583d8a23bca@kernel.org>
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
+X-MS-Reactions: disallow
+X-ClientProxiedBy: BN9PR03CA0946.namprd03.prod.outlook.com
+ (2603:10b6:408:108::21) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAKLmikMHpPdXmyPMPhad=wc_HerzCv3wEtp4s-E+NrjvuHj3pA@mail.gmail.com>
-In-Reply-To: <CAKLmikMHpPdXmyPMPhad=wc_HerzCv3wEtp4s-E+NrjvuHj3pA@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 24 Sep 2026 00:13:50 +0200
-X-Gm-Features: AclHuK9uQV0YZ64bMUIZGVpEnfZ0aF3hCogiPdo_WisrICJyffPdznMyA0u7a6M
-Message-ID: <CAOQ4uxhx=bhNQ1G_fzUTtJexUpZANP1yBu5rK1Q0u4fk53umMw@mail.gmail.com>
-Subject: Re: [RFC] fuse: temporarily detaching a passthrough backing file
-To: Mitar <mmitar@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|PH7PR12MB9150:EE_
+X-MS-Office365-Filtering-Correlation-Id: d756cd66-f5e7-4f68-4938-08df19e27286
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|10067099003|4143699003|56012099006|5023799004|11063799006|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	vAF891Uu3yvreEx2UHQuX6W8IEX/mlPqs3+Smof8FvsPNmQScSoDs2+FB3x3k2uo19SVOuCIXnoy9MTEEbZIu1gRy/CtimvSKSN9rskBe221z5ehDUtRP6nVu9iIGODbzbMefZ4TWyNY5el+DkXzcJr0R1IRygulCqZyWT5QiHT2Ct4rc9B1yNkzMva3/s1blmVxF7XABRHByA+Pt8HHYfp4kObzMhotCFZgidIrmL9icQcXAZq4dndy2+igaco2x0rG+2bk+beqGHM407OOa/Ra5MlI19WI2U1Ij0DM/G2D/llIDRjvbNTbYsbXcmvL5HvN6KKqrP7BceSPmSqJ4mg1WFnp+E+xpNLTT33/KUh0xFAJBVTdsDyjWL9OsbU70hgnUGVBwPY+k3cCuVoWM/eL/zR8R/7jXTCyCYTzUHbzG8ehTuDT4/bPFnXC5mVNQngIeUvY0Bmw1kT2B777w/jkQdz3YhaBEMMNSMQaAa+PWyrrq8SmZRDXEgiFDfobCOchSvLQdY5pcCKbf+QckqMLlSgHKipl2+GAJtbIHgpnydo6rBQpwbEeBzt1XJGPY+l+ALxei0ObL+uKYu+6KpIzfWEKIilf39mTynQRlQCMvf3pfLhT3FvMy9o4xDa/hyZdt2kh20vdftLnEjSLlHH/cbNrOT+9Smse0z4QCkw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(10067099003)(4143699003)(56012099006)(5023799004)(11063799006)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xh9+5RAafXZuRSQI4trYeDWrakKa8YzB2EWrmma0gz9ppwIRDb06jzYHyZqp?=
+ =?us-ascii?Q?u8/RHkZZwTL5ZBLXTTm9H9lOnW1K9p56dt+2CThYqPSAX6ya4BI/vDAnt5NZ?=
+ =?us-ascii?Q?RFVAZK54FbBskogNUtvlOTl2QyjJcVhLT++eFs8+1fh2K6bqtgzdvId5Kdo6?=
+ =?us-ascii?Q?xUP4HmCLvXcz8MQnAIOQCc99ySTvYMQZ+oRBMWj9Ky6irHLJyGPMxhMnu3ke?=
+ =?us-ascii?Q?Iry/L167hUUgO6Ctf5XLaaQWRKwUTybgURTgWSoomwogACAc8pDEuOd8bG6k?=
+ =?us-ascii?Q?mlXzbsq7mYhJWFKj3uUOgf/P5LXbbQbNj00xu/kX9gGegRwPEk6euEMvJd+g?=
+ =?us-ascii?Q?A5SpAYqSXLvVaiW66c73h1fjSi+oCH9bZ+cF9+HwVOfwKACr2y6RDHxaJOsi?=
+ =?us-ascii?Q?Gcb3G9KI/b/o/VaAGOV7c6AGIhFssDV4uzrVubsGurTWaZOMsxK7M/d6WST7?=
+ =?us-ascii?Q?ITvOCYYQ5+A94DNE1PtR6MhBM3KBONyVh9xrBbywBwS7fkeA2P0HZYgViKSp?=
+ =?us-ascii?Q?jlcZdE/msUaQS6oemeaBS5UZxJYudGWqKtstdnt/Ez+YisvpScg4eDXHyf96?=
+ =?us-ascii?Q?eU0i6nfR464z8JVs9qEMkK+kNpVy8HMx4pPHbcNgfwfyEhGegNSc8EUFt/wV?=
+ =?us-ascii?Q?y5tFdqOtmoI1nr2NMTGMDqrDeT/G+oMqXebVARSlqPEQ86MmSbFzI8E64+3C?=
+ =?us-ascii?Q?25b4Gs9i2s5yILNWsXKEIidNaewLODMlJWawHRkdgUkt+OhHY3s3O9kf0Hsi?=
+ =?us-ascii?Q?+EmgriPx9z6Cwg1mT/pr8884lJnS2iY5JiL7kAlgXWR0oLc49xFCUD4PIvRc?=
+ =?us-ascii?Q?+cVStPKeojSdIxUmOLeBN0L2nqJGKAeZSgRlLDdYsgQ7U11nP9+CMK0N+v2G?=
+ =?us-ascii?Q?YshkYrCoF49A0g3B4QWhzU/syMA4wa5QaZ/rMn8FBsq1BWVr2qgMcySnY7c/?=
+ =?us-ascii?Q?4byNwN3j9Admm4UpXmr4qbKpxRYb+cjOVfe0IyJMnZMzwtq25HH3mO4DPKQl?=
+ =?us-ascii?Q?KjPcLqay6p1HXC5i21PqdfATgGW9e4HHHLVlDDLpysdqMh/jQEEmOTiiMckM?=
+ =?us-ascii?Q?nfA2OB7resXhmLRoIlJLl2LWnJ6CqVq818PvlwxiVylzBDFUDlZxfdreTGRW?=
+ =?us-ascii?Q?hhLj+R1aO4pXK2cCXLi7RUNjiwKWUo5/as0aXPHJMQHeLa9GtNyyIEb7qRop?=
+ =?us-ascii?Q?JqomsCxbuc+6T95HoH0XXtozR20hqbvkN5q7qvJ44JE1fCgLIrkI3c0ZZ/I2?=
+ =?us-ascii?Q?5kBNupIwy+T9vP1AkSBs/fhhuZxvCLbd1a28H7ErdfR88AoZCVzLPFet9POB?=
+ =?us-ascii?Q?ZhXQux02XLAitI+S3gRaSY0C6mOK7fb6c7dD15dG2B1/5pPytOj79s+ExALB?=
+ =?us-ascii?Q?fq2DQr63c7yI5Z1RWyRkbIJm+HKgdL8ieevnZ9M4E0IjDfgAzZ3CTWDu8H8G?=
+ =?us-ascii?Q?gvgEjfdS9y3eVY25A0RMep6sDjPhNQsDLFaHH3T98410rIhHNreRbHDF5Imo?=
+ =?us-ascii?Q?gZg8ljPQUmAAyW8gUwlSCo3SDG4RL/4Q+8Mlb8DpjBb/ssp5rAfcCp+jXM2z?=
+ =?us-ascii?Q?Hvw4Bg/Miyby5KHxG9D9JQHlsjE37CbMAzwvfov1Aa9F1NaoL6jSJtSxxqTY?=
+ =?us-ascii?Q?V1VOYwDdQsY6tOcktVdAIDJz3EF3hiN8DGryokehm6qSH1TSqu/Rc0S2TOqI?=
+ =?us-ascii?Q?tQaa6WgxvbLi4yFfwaUug0GRPQ4yeyQNIrAcsEVMSJbAb9bM?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d756cd66-f5e7-4f68-4938-08df19e27286
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 02:20:48.6665
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZI+lxUdi2FGrBf75OaraOZjkam5K29+pXlxtyhA+lzIAkyF+iRrKsxWnomUYCtj7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9150
 
-On Wed, Sep 23, 2026 at 11:23=E2=80=AFAM Mitar <mmitar@gmail.com> wrote:
->
-> Hi!
->
-> I am writing a FUSE filesystem which stages what a command writes in
-> layers, so that the changes can be reviewed before they land on disk,
-> and I have been looking at whether FUSE_PASSTHROUGH can serve its data
-> path.  It cannot, and the reason seems general enough to ask about
-> here rather than work around locally.
->
-> Once FOPEN_PASSTHROUGH has been granted for an open file, the server
-> cannot take it back.  FUSE_DEV_IOC_BACKING_CLOSE removes the id from
-> fc->backing_files_map and drops one reference (fuse_backing_close() in
-> fs/fuse/backing.c), while each open file keeps the reference it took
-> in fuse_passthrough_open(), released only when the file is closed.
-> None of the FUSE_NOTIFY_* messages reach it.  Granting passthrough is
-> therefore a promise that the backing file stays the correct target for
-> the entire life of every descriptor which gets it.
->
-> There are two situations where a server cannot make that promise.
->
-> 1) Quiescing, to make a consistent copy.  A server which snapshots,
-> backs up, or tiers the files it serves needs, at an instant of its
-> choosing, to stop writes reaching the backing file so that it can copy
-> it, and then let them continue.  With passthrough the server is not in
-> the write path, so its copy is torn; fsync does not help, since it
-> flushes rather than stops writers, and the only remaining option is to
-> freeze the whole workload from outside the filesystem, with the cgroup
-> freezer or similar.
+On 17 Sep 2026, at 12:22, Lorenzo Stoakes (ARM) wrote:
 
-How does one make a consistent copy of a file in FUSE server
-regardless of FUSE passthrough?
-
-What counts as a torn write?
-FUSE server can gets part of the write while other are still in-flight.
-I think you'd have to at least have fsfreeze support in FUSE, or something
-like this to even begin discussing this use case.
-
+> The map->file_doesnt_need_get flag is confusing and the existing
+> implementation has holes.
 >
-> 2) Re-targeting.  The file which ought to receive writes changes while
-> descriptors are open: a cache evicting or promoting a file, or a
-> stacking filesystem redirecting writes to a new layer.
+> Drivers are permitted to change the owning file of a mapping. If they d=
+o
+> so, they are required to take a reference on that file.
 >
-
-I acknowledge the need, but as you write this is complicated.
-
-> Of the two, (1) seems the more general, and it is the one which does
-> not depend on any particular stacking design.
+> The mmap() operation which ultimately invokes __mmap_region() is guaran=
+teed
+> to drop the refcount for the original file the mapping was made under, =
+but
+> this is not true for the replaced file.
 >
-> What both would need is a way for the server to detach the backing
-> from the open files holding it, letting io fall back to ordinary
-> requests, and later to attach a backing again, either the same id or
-> another one.
+> This has been addressed so far by tracking map->file_doesnt_need_get, w=
+hich
+> is rather poorly named and unfortunately fails to correctly track wheth=
+er
+> or not an additional put were needed in a number of cases.
 >
-> The io path looks mechanically simple, because it re-dispatches on
-> every call: fuse_file_write_iter() reads ff->passthrough per write, so
-> clearing it would send the next write through the connection.  What I
-
-Certainly doable but I wouldn't call it simple,
-It also brings odd semantics that the same open file (same inode number)
-can read two different contents - not sane semantics).
-
-> cannot judge is the rest.  fuse_file_passthrough() is a plain read of
-> ff->passthrough, so a detach would need something to serialise against
-> io already in flight, and the io mode transitions in fs/fuse/iomode.c
-> would have to be driven in both directions: out of uncached io mode on
-> detach, and back into it on attach, with the page cache invalidated in
-> between.  The kernel does already perform one such transition at
-> runtime by itself, when the first mmap of a FOPEN_DIRECT_IO file
-> enters caching io mode.
+> Make life easier by removing this flag, and instead drop the reference =
+for
+> both mmap_prepare and the deprecated mmap callback in a new function
+> put_map().
 >
-> mmap is the part I expect to be contentious.  A mapping is bound once:
-> backing_file_mmap() sets the vma's file and then runs the backing
-> filesystem's own ->mmap, so the vma ends up with that filesystem's
-> vm_ops and page tables into its address space, and nothing in the
-> fault
-> or writeback path consults the fuse file again.  A detach which
-> covered only the io path would therefore leave existing mappings
-> writing to the backing file.
+> Track whether this needs to be done by aligning mmap_state with
+> vm_area_desc and store the original file in the map->file field, keepin=
+g
+> the updated file in map->vm_file.
 >
-> For (1) that is a bounded loss: only a process which mapped that file
-> MAP_SHARED for writing can still store into it during the copy, so the
-> copy of that one file may be inconsistent while every other file gets
-> a clean cut.  overlayfs documents a comparable deviation, in
-> "Non-standard
-> behavior" (b) of Documentation/filesystems/overlayfs.rst, where a
-> lower-layer file mapped MAP_SHARED does not see later changes.  For
-> (2) it is worse, since the mapping goes on writing to a file which
-> nothing resolves to any more.
+> In order to have the same behaviour for both types of hooks, only drop =
+the
+> reference __mmap_new_file_vma() itself took in its error path, deferrin=
+g
+> the replaced file's reference to put_map().
 >
-> So my questions are:
+> To make this work correctly, map->vm_file has to be updated before any
+> error handling, so update __mmap_new_file_vma() and call_mmap_prepare()=
+ to
+> set this field first.
 >
->  - Is an interface of this kind of interest at all, or is "a backing
-> is forever" meant to be part of the contract, in which case it would
-> be worth saying so in fuse-passthrough.rst?
-
-It's like that because it's too complicated to deal with the consequences.
-Unless you prove otherwise...
+> Also when mmap_prepare() changes the file and is then merged, the refer=
+ence
+> count also must be decremented, so update the logic to call put_map() i=
+n
+> this case too.
+>
+> Also update __compat_vma_mmap() to manually perform this step for stack=
+ed
+> file systems using the compatibility layer, and update
+> compat_set_vma_from_desc() to replace vma_set_file() with a correct
+> refcount/file update.
+>
+> No in-tree driver is impacted by the incorrect implementation of this
+> currently (no driver that does this is mergeable for one), so this does=
+ not
+> need to be a fix.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  mm/internal.h |  1 +
+>  mm/util.c     |  5 +++-
+>  mm/vma.c      | 83 +++++++++++++++++++++++++++++++++++----------------=
+--------
+>  mm/vma.h      |  6 +++--
+>  4 files changed, 59 insertions(+), 36 deletions(-)
+>
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 0dca33db068f..fe576d468af4 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -7,6 +7,7 @@
+>  #ifndef __MM_INTERNAL_H
+>  #define __MM_INTERNAL_H
+>
+> +#include <linux/file.h>
+>  #include <linux/fs.h>
+>  #include <linux/khugepaged.h>
+>  #include <linux/mm.h>
+> diff --git a/mm/util.c b/mm/util.c
+> index bf0513d1d3d0..016932780925 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -1228,8 +1228,11 @@ int __compat_vma_mmap(struct vm_area_desc *desc,=
 
 >
->  - If it is of interest, would a detach which explicitly does not
-> affect existing mappings be acceptable, documented the way overlayfs
-> documents its deviation?  Or would mappings have to be handled, by
-> walking the backing inode's i_mmap, zapping and re-pointing the vmas,
-> for such an interface to be considered at all?
+>  	/* Perform any preparatory tasks for mmap action. */
+>  	err =3D mmap_action_prepare(desc);
+> -	if (err)
+> +	if (err) {
+> +		if (desc->vm_file !=3D vma->vm_file)
+> +			fput(desc->vm_file);
+>  		return err;
+> +	}
+>  	/* Update the VMA from the descriptor. */
+>  	compat_set_vma_from_desc(vma, desc);
+>  	/* Complete any specified mmap actions. */
+> diff --git a/mm/vma.c b/mm/vma.c
+> index 55917d097933..fa784f069da4 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -24,7 +24,8 @@ struct mmap_state {
+>  		vm_flags_t vm_flags;
+>  		vma_flags_t vma_flags;
+>  	};
+> -	struct file *file;
+> +	struct file *file;	/* mmap()-specified file. */
 
-No, I don't think we want to go there.
-and asI wrote, even the semantics without mmap can produce
-undesired no-standard behavior.
+IIUC, file is never assigned other than MMAP_STATE() and should not
+change after mmap(). Could it be made const to prevent any change?
+I assume mmap_state will not need to handle the nesting issue like
+vm_area_desc, so file can be const.
 
+> +	struct file *vm_file;	/* May be updated by mmap_prepare. */
+>  	pgprot_t page_prot;
 >
->  - What shape would be preferred: an ioctl beside
-> FUSE_DEV_IOC_BACKING_OPEN and _CLOSE taking a backing_id, a
-> FUSE_NOTIFY_* message on the connection, or something keyed by nodeid
-> rather than by backing_id?
-
-notify would have been enough if you managed to make the
-detach safe for races.
-
+>  	/* User-defined fields, perhaps updated by .mmap_prepare(). */
+> @@ -43,8 +44,6 @@ struct mmap_state {
 >
->  - Is there an existing way to get either of the two behaviours which
-> I have missed?
+>  	/* Determine if we can check KSM flags early in mmap() logic. */
+>  	bool check_ksm_early :1;
+> -	/* If .mmap_prepare changed the file, we don't need to pin. */
+> -	bool file_doesnt_need_get :1;
+>  };
+>
+>  #define MMAP_STATE(name, mm_, vmi_, addr_, len_, pgoff_, anon_pgoff_, =
+vma_flags_, file_) \
+> @@ -58,6 +57,7 @@ struct mmap_state {
+>  		.pglen =3D PHYS_PFN(len_),				\
+>  		.vma_flags =3D vma_flags_,				\
+>  		.file =3D file_,						\
+> +		.vm_file =3D file_,					\
+>  		.page_prot =3D vma_flags_to_page_prot(vma_flags_),	\
+>  	}
 >
 
-Not that I know of.
 
-Thanks,
-Amir.
+Best Regards,
+Yan, Zi
