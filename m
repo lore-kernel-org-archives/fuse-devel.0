@@ -1,131 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49765470E84;
-	Fri, 25 Sep 2026 12:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790340679; cv=none; b=cbxUAt+Bj52HXNmqJdDpnNAZRsjj5Dgd/O161WRAo+DMTGbQdVXlm8ejnc2WCCOLb4Gapqz4iG/ciFfmYUzH3Fb6yyHLPlRKR4mLVMmSNvjuKwgfA7TJfhpfmucvwIfQFGEHOxwGkHf1IfITQQUtKPLI/jwraTzFblbmRySvdxY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790340679; c=relaxed/simple;
-	bh=KO2TEy9loU8QK2IS8vmNyCcNin1HMfXr4zTewREYrSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=na5ry8jNWA+1ZLoi1PtEmAHCFLXpUmeM9lbYdrEhjxGX2OMefczwPmCcKo4Fg/FErgUc9yy27ZLUMGenMb6leAUGwCQ45L2mdjgn34/0FLQS58ub8XJ49V55pFXdiCPQknizWltOxPMGh53WPKJfH1lYSckFVWoQphxnrWQKeFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y53djdWl; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02454B2CC8
+	for <fuse-devel@lists.linux.dev>; Fri, 25 Sep 2026 14:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.234
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790348046; cv=pass; b=m0TYK+ZDnxAP8WTxtL5dh7luUGWB7RmVe5upxyGgNFmNXoo+ib6sb1hvQKh6569Zi1AKBdXW9FdF3xqJR9cWKgdiiiQOdJb02NQ8IFvvhsmzKyXIMplQWn6SnvDH2rCmPGWMV6HXzKhFwu7+WDzIBf79ACkOXsSGwLyEtlIPIY8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790348046; c=relaxed/simple;
+	bh=yHL0CAdeerLFe5cy4qGAUOLlVrYC7JfQrJGUa79zxjE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=adWUHv+Wc+uLb8AzRPTMjC4AjqEsgnp7UqEYp7TZJbEJqTzJsHeEvhT+Y7eRmb9poWa1QBPe/pU79Vp1mpA6VTzAqScG53MobErFoBMCvvslc5aW8ZWSJ2JZxiceO0bAc38KbaF4FVGBseniUyZhv1t2uVxcCBj4uZpFG0fo4nM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=oIKEQwXm; arc=pass smtp.client-ip=74.125.230.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y53djdWl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E621F00898;
-	Fri, 25 Sep 2026 12:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790340678;
-	bh=D3elFlAcGaZH0VbYl18NIe5+45MZxJu3tV5JyNgmc1k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y53djdWlLd4diT/AvrOcXi2GrVkUMfZOD6dmk5wrBuqGrapZjitCvRDfrBfg9d5x0
-	 BnTKh4bxCfiX0tMKCdrW8JtFurhbBTQYO3LW88thuG01Cb/ZYE7hw59evarzLYTO38
-	 7wZU6lEFZdgk6ZZ7hHn/Dp2Lao89/ocNv/c66cAQXdIQWZDLRciBbhbYw+b5WFshwd
-	 SgfnG/v9weC791zQC+pDBEFG7GNZuzILu4ouO1eex0u514XgRGL7lU1F1WRmmHIXhs
-	 yqzMlC0qHyJaHLn+n3KPUNM1XrW75NKKVif7jm3AOyuuULaCC+82pdP6bc1SuqvtsJ
-	 b7HBLAWBmeiCg==
-Date: Fri, 25 Sep 2026 13:51:09 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 04/40] mm: consistently validate VMA state after
- mmap[_prepare] hooks
-Message-ID: <arZriK1tyOC7DjBw@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-4-4583d8a23bca@kernel.org>
- <arVW5i8pvySq6Co2@gourry-fedora-PF4VCD3F>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="oIKEQwXm"
+Received: by mail-qk2-f42.google.com with SMTP id d75a77b69052e-52fb767cc97so11130661cf.3
+        for <fuse-devel@lists.linux.dev>; Fri, 25 Sep 2026 07:53:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790348030; cv=none;
+        d=google.com; s=arc-20260327;
+        b=K4Pl62pdo+d11xzMqJ15BdhZKzt8ZWx79id87CaL0nTrgkult4vyq0yxFgCI/5kdL1
+         XzpFfQbAkEts5X4QyfKCrSiFBsdc3WJFrQ9bPXsPuvdEPMUV9zsDI1aEK79zIEoXaA09
+         t+k+bte7hysm5c4gA5HXwnsGaf/PykIf3rHZ2g9kX8FjRhB1v6qoZGWmv5v7w5ubewmu
+         FnixN5w+a2KBnuzrZdY3hQTLF9FXcrkdFOqDWe0Bm4UwivBoY9WPc0XsjndygI2xs17w
+         8tAg/qAvyuVRPEUcAvbS2vbLA1SHHbXYhYJor8ZEZ2SoEZ6JsXqWB8PZSt2hQOpExBIX
+         PODA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=yHL0CAdeerLFe5cy4qGAUOLlVrYC7JfQrJGUa79zxjE=;
+        fh=J4on75Op76QO48P1568yO5XfmEXPQAxGPUNAZmPn/UQ=;
+        b=Rf5G2TVlnIWrkaP+UR0FRdIKGuK3lM107Ta5e+U4+Wy/sCqw7TFMluLwYwtlULsZ2X
+         gm3ac9WXRsnfXEJwdV2x9CvY+nb+MM7p0sJGd3LMJrl5q9rpYMdszISpkcN/JkGv8AIO
+         pgs+3IrwtQr3WSICkIbUG3rfIpq6NvQAWnxkE34BA8uUjhMGBBagct0wZOlmQPFx8nhJ
+         IenEmIGC69QS91ZeZTBSrU8dHkyBqk0GSG6qwuuVG19869m5NFWmURt5rV6NNUjjz4fx
+         RZ9wVNwY4oTtC01bkB4AkHjFHTiwzBxwUuLJraVYN4vgSxJ+W77IY2j70M++hBt3GlTt
+         DedQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1790348030; x=1790952830; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yHL0CAdeerLFe5cy4qGAUOLlVrYC7JfQrJGUa79zxjE=;
+        b=oIKEQwXmB0T7ynyF/wT6Yj7NYnex3K268P7cOHGJ6UQiC2n2Y36gWRTrwi2LC+2qme
+         q4J9egjKp9xKRQqxFodVfGkGCp3HNHxIF60DSWnxVSHXEZnKPZPdObL5+Wvo3YLCVLgc
+         c6g1EfvNDws4hJdlBHrSFKBs9oGoFAsRfG0z0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790348030; x=1790952830;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=yHL0CAdeerLFe5cy4qGAUOLlVrYC7JfQrJGUa79zxjE=;
+        b=fQtkly2FpTZDE86i73H/dWgn8EcY0SM6i4QvpXFZSXKm+akE9+t8cpEdmSyfh4oT3L
+         5IKb5Vz+Pv/BAyWX20Gb4/e2/qD3tUOj+8mLJ59cCjX+xriOkA822brwBG1neJHHrGlU
+         1MOAREf66qQTvfzoaso1w2mh2N8uGIadpKMY5bGRjP6tH4iLZgHFsW9DncMZcEESgJQq
+         jGOu/xIhz+hiKi9gsCEwyIJU9tVeCipSKDxsU5DEWH6TlLdLAnS3unS2bNxulrNekk/Q
+         8baNK1PSwjVCHWMaJbNpJIZLjFBGfFzAjztlYQtCsYRGHUVYXaDh7gvz+Qo0Jo9/CCWy
+         c/Mg==
+X-Gm-Message-State: AFuF++ngSapiwXSyBbKBIomKUfg9vpLPOzOa5yaz9ZAKNncthYzCkWmh
+	+95B1fzIe9Tm5m/Zi5l8zUZrWwrxOn8HkLIdD24WZbWI5DqfF6egVeOPt8Rk3Qi12+TWjiOX1cV
+	Zc9wnYoqayo8xNRknxZXUio+2VtOXnwabRrWxZMLnBg==
+X-Gm-Gg: AYBFou32P1rHKTzGZ01U575Zp+nxGjp5y4PDEqgPGsEhGCoJBD47wbM3qVGs34ITJ/b
+	3RhsplH/dZ/Zv8BaFaAdrNTK6Q2Xtj55M+ZDfWXIupTuC2fh8e/+RqrQw24/WHCK9vXRNo5HUa0
+	w0ZzVhDNd+BmR9MhoKq/hymKlXzWqvbhCFkKdITVY3igmCj5o6fUHtb5zX3Qud/EGW719KUdTkZ
+	ksvCKS5zgqI/pYxJ1M6JFFmozCnDf8rlwHjVBNM2KwJOABaumOvF0qT4bAszni/mjcAYVmBmWW+
+	yiEWGsbNAEdHZ2Y2O6UJD9lcbjoIWwXrrG0f9cnkm363cj71CrzJUHRpgpA7UEKqDul/itOIMaE
+	PVNniGuJkwg==
+X-Received: by 2002:ac8:58c6:0:b0:530:db0e:e098 with SMTP id
+ d75a77b69052e-5330b5d9c9emr46988551cf.23.1790348030249; Fri, 25 Sep 2026
+ 07:53:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <arVW5i8pvySq6Co2@gourry-fedora-PF4VCD3F>
+References: <20260916184424.2531648-1-joannelkoong@gmail.com>
+In-Reply-To: <20260916184424.2531648-1-joannelkoong@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 25 Sep 2026 16:53:38 +0200
+X-Gm-Features: AclHuK_C5JWjHh0trNJfDATUnUcWCyazzlPAuW0_HkYHNW4FEVG99fOPS6Ut_xI
+Message-ID: <CAJfpegu0SXBg29sKQqz2fYbY77OdTba=S9X2h4U+_aKfPZxMmA@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: enable large folios
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: fuse-devel@lists.linux.dev, Horst Birthelmer <hbirthelmer@ddn.com>, 
+	Jingbo Xu <jefflexu@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Sep 24, 2026 at 01:17:28PM -0400, Gregory Price wrote:
-> On Thu, Sep 17, 2026 at 05:22:13PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >  static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
-> >  {
-> ...
-> > +	err = mmap_hook_validate(prev_start, prev_end, &prev_flags, vma);
-> > +	if (unlikely(err)) {
-> > +		vma->vm_start = prev_start;
-> > +		vma->vm_end = prev_end;
-> > +		vma_close(vma);
-> >  	}
-> > +
-> > +	return err;
-> >  }
-> >
+On Wed, 16 Sept 2026 at 20:44, Joanne Koong <joannelkoong@gmail.com> wrote:
 >
-> I indepdeantly validated the sashiko report on this chunk.  Seems like
-> close() should be deferred until after __map_new_file_vma() calls
-> unmap_region().
+> Enable large folios, capping the max order at the largest request fuse
+> can issue, so a folio always fits within a single request. The order
+> range minimum is 0, so under memory pressure the allocator falls back to
+> smaller folios.
 
-Ack perhaps too quickly dismissed that one...!
+Applied with all prep patches.
 
->
-> suggested fix is to drop vma_close() from mmap_file()  and update the
-> cleanup in __mmap_new_file_vma()
->
-> if (error) {
-> 	UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
-> 		    map->prev, map->next);
-> 	vma_iter_set(vmi, vma->vm_end);
-> 	unmap_region(&unmap);
->
-> 	/* Release driver state only after its mappings are gone. */
-> 	vma_close(vma);
->
-> 	if (map_same_file(map))
-> 		fput(map->vm_file);
-> 	vma->vm_file = NULL;
->
-> 	return error;
-> }
->
-> Example race:
->
->   Thread A                              Thread B
->
->   mmap(MAP_FIXED, address A)
->     driver remap_pfn_range(A, page P)
->                                          load/store at known address A
->                                          hardware finds the new present PTE
->     validation fails
->     ->close() frees page P
->                                          UAF
->     unmap_region()
->     TLB shootdown
->
-> With that fix
-
-Ack, yeah. It's kind of a situation that should never happen, but if validation
-is supposed to actually be run against things then we should keep the kernel
-stable when we do it :)
-
-Will apply for the respin.
-
->
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-
-Thanks!
-
->
-> ~Gregory
->
-
---
-Cheers, Lorenzo
+Thanks,
+Miklos
