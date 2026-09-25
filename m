@@ -1,204 +1,227 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-b8-smtp.messagingengine.com (flow-b8-smtp.messagingengine.com [202.12.124.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE3C33655E0
-	for <fuse-devel@lists.linux.dev>; Fri, 25 Sep 2026 22:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B244FECF8;
+	Fri, 25 Sep 2026 22:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790373911; cv=none; b=V/brRljn7O/qoqOL4RRfBfoabq0uqbksYYbIerNHlIsisTIqjLCR8AUXJ/NQIIj8tia6cidEWBQ3vOpE6Rr2dYoa1PNuYatz1crzsvh+X0FohZT2A8UfwHTrczDLpDDuS1iIRZl0su8kJR59dQT0+/6dyRIdF94MPk0irqvznmU=
+	t=1790374022; cv=none; b=shFgiUeL5At25hcNDaHbuEh+KzUP94papKda/B5mwkvYVG9KXPWsJ18FNwCF+pc82gx2+mEmUhdiVE8K41vtrMDzhfqfOrvWJAT6dr9gN9496q9QVohKZrh0hLaXS3N5WEgUZG94Ppui9kEYRugS6uZDTX5hdExhhww/t95CgXc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790373911; c=relaxed/simple;
-	bh=/57GVAASS67LyetMM+yDKSq0CGh9hSYDOI5z2f2wc2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rGUc/moX9+aC1IycQvWSOGn9dmkTFLN66Ym1B/FpDgeE+yIeoLAhEu2LhX1xgWIPBX2G8dxn/PqziR3jwoITgUtaaoJBTyTAyaSd5sA4lYQDCINIw6PVXOn1jidYwnM/gi4CGNNSGor/Iri5WNEDlHBQdAe18SFgvc/wUex47kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FU+aknBS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790374022; c=relaxed/simple;
+	bh=lS1TxV0OL5XbjJoEVVQOxIs/WZv/eAgyubI3NbbQssI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bNUYC7yTOPsZze2+tLUA5DpUj3ukb9j+0K672GMoN0Pcpu8InDi5F6pv2NVPeZVvOlBhtXywO0l/QAxUIQ7yaRiHbNOPl44cOs++ONzLl+5ZjzFeaFM4LAqLAG3W6pN3Wq5BQVo7eS2ZmSz989bRDx4fasNIQaYpvZEgMTmBsuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Zlmr4DHG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=X/5NAWLy; arc=none smtp.client-ip=202.12.124.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FU+aknBS"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 344611F000FF;
-	Fri, 25 Sep 2026 22:05:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790373909;
-	bh=jcVGcqlUrbKpXzF+2a00m8rDAA4MEhykt9nKvMIzv2o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FU+aknBS/v06uAJIj7JWS7/WKG1mFM6HxaSO9DlZdCvzRYCHiGK8lwqhpvin9cc9t
-	 FogMcWbblu/fi/0a8DAr2qI/XXMF/iskL12GTTqRTo+eWi8v09ECZPQfXoDGuwAqY4
-	 NNMjfJDTD0HQ40yzI0vAdWenMzj1XN2M+58NBQgTLpoF4oxYPiOsuaDJMTkaj78VcI
-	 orwBg4xfEIXURKb8ttv1jL/8U3sknpjjfvOQnRSNee4pGEZNa3AaZz9i7ErK3AdurL
-	 +vCwjlkFEQ3P0XLsnodfnITKq1sHRHevJraMpNbbXfylv1YLDz1ZSeZG/4SeFiICQO
-	 rUhV4aRbY+BNw==
-Date: Fri, 25 Sep 2026 15:05:08 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 02/10] mount_service: open only paths named on the
- command line
-Message-ID: <20260925220508.GR6253@frogsfrogsfrogs>
-References: <20260925-mount-service-bound-open-v1-0-bbf1a84c7995@bsbernd.com>
- <20260925-mount-service-bound-open-v1-2-bbf1a84c7995@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Zlmr4DHG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="X/5NAWLy"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailflow.stl.internal (Postfix) with ESMTP id 66524130051B;
+	Fri, 25 Sep 2026 18:06:54 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Fri, 25 Sep 2026 18:06:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1790374013;
+	 x=1790381213; bh=JrMmm48wWb5nfElfLTql9tnPeB0+8MEVeYNyAgGoaQE=; b=
+	Zlmr4DHGQ8VOFDbBpL4C63f0nX7MHZG2nG3ayIMRnmI96rYz/AL0gq1drAqD488p
+	nRXyZrQmC6x+9EmXhbOrO4tVieILNRX1OrF85tC3SpyFYFTooOPtwQhsomsyVFnR
+	/JL/wUDCwIAvzqukPUYWFpnmPjA9tkQKzm3sN8CtP4Er/blf9iMJ5E1RbL9dQr5Q
+	azNWuCqNQFI/RtcVKlzqmiwqBdEB7hxNNBcJHZRuQOUlpbLsER9WMTIqh7fR0cbO
+	0rqOTpCQJBH/fMc3/cSkpsYg3m2x/XVeiwXfI/fIE3VkuK0tu6kmIxRtGMjmZ5Tm
+	0bGA+qPzrmWnT/PmDeHu3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790374013; x=
+	1790381213; bh=JrMmm48wWb5nfElfLTql9tnPeB0+8MEVeYNyAgGoaQE=; b=X
+	/5NAWLyg3YZFuUWu8ra4DQtcMMYuSCQ8ppRoARSsvykmth6tIbYB1DV/SBkKaBqy
+	ucuqfLFSv1a5QY3O0fGJBFNvVgU8ch42KbnuYXIespMpXGzMotkKHyFDIfMWLRl9
+	F7nM74RkfKRQS9hC/5ei1xuCfo5nmfjaqdTQnN8R0e7Hlj1lgy0J+W0FR4BAU+A4
+	NQLC+nBh6bH7jAdVJkhAAdtNuTA3rfYfCtwlx0hw1TN0+AzlI/wyWDtTfY49272U
+	L3RJ4biROW6jLSXjRZNZVlLfRNuZn/iiVPFefw8RdPr0K7bp3w4jlh5vyZVoO4CE
+	5wC6Ljxr7feU/E4rReomA==
+X-ME-Sender: <xms:cvC2aleooIz-s5Od9uinMQe3cwAY8eDmch1kynf_fy3H821eqXhoEA>
+    <xme:cvC2auCqaLVPfE6ov_bEa6-wP_ue3HT7urx6Pkp8OHuNw8Gx-YmbQwreoPICZC_C8
+    wqzDaLNP2F-QCveEeF9wWmMIoLPnYMKvncpwz86IJJPrk1J4H72akC->
+X-ME-Proxy-Cause: dmFkZTFzcTdzGevjqjoCPQwS3cDuhZoK8oU2gJZJEJ9nm6Ezy4rCsybvSQH5LWRQQ5BGYD
+    rWE8GcLh/SD0OK93rHMHb+nN85ZiQLBNNWUMv4/GBdRWEXKSGbwbYWQ2GwGJmZ2CLvUIP3
+    2eF1fY0CpcwTbnziypIg5cFo5xsUnavn7wLuBNDJE6AclU/QJrEq8x08d8JZw195pkMut9
+    +XQ7lzPYEQZohK59KW7gHFp7WnISiwDCkylL1SuAn0RKCSSdlhmRMt9w65C8xyi3rDiCVv
+    vE+hQgASzBzLzKVc3I9ppRL7f57uPiViyuwADs8Yu19vaS3Qfxg9r9IrzC4Mkgk2ustKRO
+    F4m05rRdOeE5QpPp6vbIW6kxmuTWTAckzKlnyd8YSIxkWZv6i9nfm513vFD+0eTgA4SdTt
+    qri3VNnnch9OdxrqaSSzsWZHizOYpxImHRcvk6QGv1bq1UhMgkHFzBOBPavWiMeiwky2KB
+    3YkeHFQE/+K4iWbdjOEFO4OTzP/2wAcq7DiAjSIWoqjXvFqai5/eBWEZwYXzH24T2Jqilr
+    EgQhDSmS5E2SAJVWg3UyPZsK5j9sRZkoeQSL0VVjyCIZZx+DN7PLGivuCQsWF/VP5s+ABk
+    01aGDOM3El01HuVwMy0P/rO2I5SQxMqxGjZSe1srADQ0PhIRJpx21/0+EvLA
+X-ME-Proxy: <xmx:ePC2ai0cNfYHa_hu2mUjpUBcw5imDXjczzuFVtK8vQhMU-jtziGkzg>
+    <xmx:ePC2ajmX_hgY984FYsQ00EH6M5K0sfyeHvF1qv2R1IvPjts0GUTCKw>
+    <xmx:ePC2alvAPzoDWLruQB6z3Ygd2kq3A2wm1GlTlHlWYalN8zlbryTlaA>
+    <xmx:ePC2aqA0UTfKSyeeZg0dB6TK75dxPCAzmPZFuC_nBWalRYa9mhRkLQ>
+    <xmx:ffC2alqlaLQVHV7jBfKQ7aBbho8OdZx_4GIw9IJBalNr09Mw03UhyI4W>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 548BB32A0087; Fri, 25 Sep 2026 18:06:42 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260925-mount-service-bound-open-v1-2-bbf1a84c7995@bsbernd.com>
+X-ThreadId: AJwEWD5WPnhk
+Date: Sat, 26 Sep 2026 00:06:22 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Lorenzo Stoakes" <ljs@kernel.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+ "Jann Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "Mike Rapoport" <rppt@kernel.org>,
+ "Suren Baghdasaryan" <surenb@google.com>,
+ "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>,
+ "Paul Moore" <paul@paul-moore.com>,
+ "Stephen Smalley" <stephen.smalley.work@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrii Nakryiko" <andrii@kernel.org>,
+ "Eduard Zingerman" <eddyz87@gmail.com>,
+ "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Zi Yan" <ziy@nvidia.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Nico Pache" <nico.pache@linux.dev>,
+ "Ryan Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>,
+ "Barry Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>,
+ "Usama Arif" <usama.arif@linux.dev>,
+ "Kirill A. Shutemov" <kas@kernel.org>,
+ "Doug Gilbert" <dgilbert@interlog.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>,
+ "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter" <simona@ffwll.ch>,
+ "Helge Deller" <deller@gmx.de>, "Sebastian Reichel" <sre@kernel.org>,
+ "John Hubbard" <jhubbard@nvidia.com>, peterx <peterx@redhat.com>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Oleg Nesterov" <oleg@redhat.com>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "Arnaldo Carvalho de Melo" <acme@kernel.org>,
+ "Namhyung Kim" <namhyung@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>,
+ "Harry Yoo" <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>,
+ "Vincent Guittot" <vincent.guittot@linaro.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Dave Airlie" <airlied@gmail.com>, "Will Deacon" <will@kernel.org>,
+ "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Muchun Song" <muchun.song@linux.dev>,
+ "Oscar Salvador" <osalvador@suse.de>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Marc Zyngier" <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>,
+ "Janosch Frank" <frankja@linux.ibm.com>,
+ "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ "Gerald Schaefer" <gerald.schaefer@linux.ibm.com>,
+ "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>,
+ "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>,
+ "Byungchul Park" <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>,
+ "Ying Huang" <ying.huang@linux.alibaba.com>,
+ "Alistair Popple" <apopple@nvidia.com>, "Chris Li" <chrisl@kernel.org>,
+ "Kairui Song" <kasong@tencent.com>,
+ "Kemeng Shi" <shikemeng@huaweicloud.com>,
+ "Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>,
+ "Youngjun Park" <youngjun.park@lge.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>,
+ "Axel Rasmussen" <axelrasmussen@google.com>,
+ "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>,
+ "Chengming Zhou" <chengming.zhou@linux.dev>,
+ "Michal Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Xu Xin" <xu.xin@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, "Takashi Iwai" <tiwai@suse.de>,
+ "Emil Tsalapatis" <emil@etsalapatis.com>
+Message-Id: <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
+In-Reply-To: 
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+References: 
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 25, 2026 at 12:23:30AM +0200, Bernd Schubert via B4 Relay wrote:
-> From: Bernd Schubert <bernd@bsbernd.com>
-> 
-> In a service mount, the fuse server runs as a systemd service in a
-> sandbox that has no access to the user's files. The user runs mount,
-> which starts fuservicemount3, a setuid-root helper. The fuse server
-> sends requests to the helper over a socket. With an OPEN request, the
-> server asks the helper to open its backing file, for example the disk
-> image named on the mount command line. The helper opens the file with
-> the user's credentials and passes the file descriptor to the server.
-> fusermount3 opens nothing for the fuse server except /dev/fuse; the
-> server runs as the user and opens its own files.
-> 
-> The helper opened any path the server sent. An attacker who controlled
-> the server could use this to read every file the user can read, for
-> example ~/.ssh/id_ed25519, and the sandbox did not prevent it. The
-> helper now compares the requested path with the arguments it was
-> started with. For "mount -t fuse.service_ll /srv/disk.img /mnt", these
-> include "/srv/disk.img" and "/mnt". The helper opens the path only if
-> the string is equal to one of these arguments, so the server can open
-> only a file that the user named when mounting. The helper already made
-> the same check for the mount point.
+On Thu, Sep 17, 2026, at 18:22, Lorenzo Stoakes (ARM) wrote:
+>
+>  mm/vma.c                                   | 246 +++++++++++++++++++-------
 
-Hmm.  In general I think it's a good idea not to let the fuse server
-open anything in the mount helper's filesystem namespace that wasn't
-explicitly mentioned in the CLI arguments.  However, the simple strcmp
-check will exclude too much for fuse servers that receive paths via
-mount options.  For instance,
+Hi Lorenzo,
 
-$ mount -t fuse.ext4 /dev/sda1 /mnt -o journal_dev=/dev/sdb1,ro
+I see that in linux-next there is a new build failure in some
+configurations in code that you are changing here:
 
-Here the user mentions /dev/sdb1, but arg_in_cmdline() will never find
-it because it's a substring of the last argv[].
+mm/vma.c: In function '__mmap_region':
+mm/vma.c:3083:1: error: the frame size of 1552 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
 
---D
+I don't immediately see anything that you did that would have introduced
+something bad that wasn't already there, so it's likely just gone from
+just below the limit I was using for my testing to just above. The 1536
+byte limit is what I use on 64-bit builds with KASAN and otherwise
+still has a clean build (with a small number of local fixup patches).
 
-> Assisted-by: LLM
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-> ---
->  doc/fuservicemount3.8  |  4 ++++
->  include/fuse_service.h |  5 ++++-
->  util/mount_service.c   | 29 ++++++++++++++++++++++-------
->  3 files changed, 30 insertions(+), 8 deletions(-)
-> 
-> diff --git a/doc/fuservicemount3.8 b/doc/fuservicemount3.8
-> index aa2167cb4872..06755d7c3c4e 100644
-> --- a/doc/fuservicemount3.8
-> +++ b/doc/fuservicemount3.8
-> @@ -19,6 +19,10 @@ Mount a filesystem using a FUSE server that runs as a socket service.
->  These servers can be contained using the platform's service management
->  framework.
->  
-> +The FUSE server may ask fuservicemount3 to open files on its behalf.
-> +fuservicemount3 opens only paths that appear verbatim on its command line
-> +and refuses any other request with EPERM.
-> +
->  The second form checks if there is a FUSE service available for the given
->  filesystem type.
->  .SH "AUTHORS"
-> diff --git a/include/fuse_service.h b/include/fuse_service.h
-> index d6aedea8f0f8..3954f62aa2b8 100644
-> --- a/include/fuse_service.h
-> +++ b/include/fuse_service.h
-> @@ -139,6 +139,8 @@ int fuse_service_parse_cmdline_opts(struct fuse_args *args,
->  
->  /**
->   * Ask the mount.service helper to open a file on behalf of the fuse server.
-> + * The helper refuses a path that is not verbatim on the mount command line;
-> + * fuse_service_receive_file() then reports -EPERM.
->   *
->   * @param sf service context
->   * @param path the path to file
-> @@ -153,7 +155,8 @@ int fuse_service_request_file(const struct fuse_service *sf, const char *path,
->  
->  /**
->   * Ask the mount.service helper to open a block device on behalf of the fuse
-> - * server.
-> + * server.  The path must be verbatim on the mount command line, as for a
-> + * file request.
->   *
->   * @param sf service context
->   * @param path the path to file
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index 7549e0b5024f..835d3d94aa4a 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -772,7 +772,8 @@ static bool arg_in_cmdline(int argc, const char * const argv[],
->  
->  static int mount_service_open_path(const struct mount_service *mo,
->  				   mode_t expected_fmt,
-> -				   struct fuse_service_packet *p, size_t psz)
-> +				   struct fuse_service_packet *p, size_t psz,
-> +				   int argc, const char * const argv[])
->  {
->  	const struct fuse_service_open_command *oc =
->  			container_of(p, struct fuse_service_open_command, p);
-> @@ -800,6 +801,16 @@ static int mount_service_open_path(const struct mount_service *mo,
->  		return mount_service_send_file_error(mo, EINVAL, oc->path);
->  	}
->  
-> +	/*
-> +	 * The file is opened outside the service sandbox, so only hand out
-> +	 * what the user named.
-> +	 */
-> +	if (!arg_in_cmdline(argc, argv, oc->path)) {
-> +		fprintf(stderr, "%s: %s: file must be in command line arguments\n",
-> +			mo->msgtag, oc->path);
-> +		return mount_service_send_file_error(mo, EPERM, oc->path);
-> +	}
-> +
->  	open_flags = ntohl(oc->open_flags) | O_CLOEXEC;
->  	drop_privs();
->  	fd = open(oc->path, open_flags, ntohl(oc->create_mode));
-> @@ -834,16 +845,18 @@ static int mount_service_open_path(const struct mount_service *mo,
->  
->  static int mount_service_handle_open_cmd(const struct mount_service *mo,
->  					 struct fuse_service_packet *p,
-> -					 size_t psz)
-> +					 size_t psz, int argc,
-> +					 const char * const argv[])
->  {
-> -	return mount_service_open_path(mo, 0, p, psz);
-> +	return mount_service_open_path(mo, 0, p, psz, argc, argv);
->  }
->  
->  static int mount_service_handle_open_bdev_cmd(const struct mount_service *mo,
->  					      struct fuse_service_packet *p,
-> -					      size_t psz)
-> +					      size_t psz, int argc,
-> +					      const char * const argv[])
->  {
-> -	return mount_service_open_path(mo, S_IFBLK, p, psz);
-> +	return mount_service_open_path(mo, S_IFBLK, p, psz, argc, argv);
->  }
->  
->  #ifdef HAVE_NEW_MOUNT_API
-> @@ -1838,10 +1851,12 @@ int mount_service_main(int argc, char *argv[])
->  
->  		switch (ntohl(p->magic)) {
->  		case FUSE_SERVICE_OPEN_CMD:
-> -			ret = mount_service_handle_open_cmd(&mo, p, sz);
-> +			ret = mount_service_handle_open_cmd(&mo, p, sz,
-> +					argc, (const char * const *)argv);
->  			break;
->  		case FUSE_SERVICE_OPEN_BDEV_CMD:
-> -			ret = mount_service_handle_open_bdev_cmd(&mo, p, sz);
-> +			ret = mount_service_handle_open_bdev_cmd(&mo, p, sz,
-> +					argc, (const char * const *)argv);
->  			break;
->  		case FUSE_SERVICE_FSOPEN_CMD:
->  			ret = mount_service_handle_fsopen_cmd(&mo, p, sz);
-> 
-> -- 
-> 2.53.0
-> 
-> 
-> 
+What I see is that this function has multiple structures on the
+stack that have nontrivial sizes:
+
+        VMA_ITERATOR(vmi, mm, addr); /* 104 bytes */
+        MMAP_STATE(map, mm, &vmi, addr, len,...); /* 384 bytes */
+        struct vm_area_desc desc; /* 128 bytes */
+
+The config that caused this is https://pastebin.com/raw/5M95qHy5,
+which is an x86-64 build with CONFIG_KASAN_STACK enabled, and likely
+a few other configuration options that made it a little worse.
+KASAN_STACK tends to double the stack size used by structures
+in order to catch out-of-bounds accesses.
+
+If I sprinkle some 'noinline_for_stack' annotations on functions
+called by __mmap_region(), I can get the size down to 1144 in this
+config, but that doesn't sound like a great workaround.
+
+The large stack usage is potentially harmful if this ends up
+in call chains that have additional large stack usage (e.g.
+kmalloc() leading to reclaim). Any ideas for how to reduce it here?
+
+     Arnd
