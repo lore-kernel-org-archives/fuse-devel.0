@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F408046D55C
-	for <fuse-devel@lists.linux.dev>; Fri, 25 Sep 2026 22:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDFF23EA8B
+	for <fuse-devel@lists.linux.dev>; Fri, 25 Sep 2026 22:10:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790374153; cv=none; b=ZGAkuppOYmjjmoYSTpdvto1p5o6zC/LOBwvGBDosvaT5i1BqzVCd67AanXw2oUJNkzX1jAidUCYLo2hJ1+JHRTdsM5KZf5xTiqQiN59Y9Egwsx51Xy3+E1PN+H32BF9tetuA8FfdGaJth3RZzFHLlwTq6m3Rn9Gemj0B6/GcSGI=
+	t=1790374216; cv=none; b=cjz9vs7cWTWYzthhcaGkiVmRM9VyAQvmuuJDhJqUcCBrU4Z6oehTa0ZJ6MbGEioQpqgK2FOoSzJVZPXnmp+wk48lhTRyGYDX3bWlkU0h6izZ7UGdIy4fhPFJ+vz3Gd0pLWFDbZI84wR3GVqPAB+1yhJltsxLRjHHbpzmOhjhEm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790374153; c=relaxed/simple;
-	bh=wm8Dkb88Z60GmhpWJYRMeUsGB+x1VxL0gaLuLPBHC4c=;
+	s=arc-20240116; t=1790374216; c=relaxed/simple;
+	bh=FBfWA5e4mFigXGrZH61hzTtIv2O9W6iS3PAdg8pT+9M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tNPOgF7BglWPcvM7zDVI7MlmkYjeoMIxTVHY6ZJ0L0MBGRwfUYuk7GSSvX2eIxDCcpkmFonnaDbiTF8JJ/CyiMQBvAVP7q0k0MiZW3p0s9j1YFCeux/r04I8hFD6y2Saop3C7BGk/jsUtYoFulmJ99RAS5Fqjr0e9Gpq7tn+Evc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5bATtw4; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=bZclsNcNdcjo3sUtlHhy75+CAENRCWUIuFqVwYglF+dYaiqApE37T/KPq5sBy83y0V0GLbCYUcPriSVrvTqo/0b2CCtLH63+psggTNfGTya+aX6rgTASiXmo19w2yVDLTFsVSCnO0TzU9iLzKC46nDMjE8H2u++B9VScBh4EbnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GHfOzJiA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5bATtw4"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id CBE6C1F000FF;
-	Fri, 25 Sep 2026 22:09:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GHfOzJiA"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 660A91F000FF;
+	Fri, 25 Sep 2026 22:10:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790374151;
-	bh=WkTmThyQezLlpBV3CRjtU5DQ1qPqtYh2DLjQZ4tr/vY=;
+	s=k20260515; t=1790374214;
+	bh=9Va0L+IY3qXMBqIB9ERDXEE7qcQBf/SF7ozaCc4sAXk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Q5bATtw4Co14yW3ZHeSHIo/yrREGrJtDLObmSgDh/jvllG/X58HVdp8idfRaka3sl
-	 TtTLTO+W7ncorxju3ut5giW4Ou/1RdDzqTYjCzTL1zWUM6jo+SpwIS8Qjh5GdFi7Sd
-	 v1tGFzqJe0MNkCvBx0llODrsDMVdrm6vAs7Leigc/geE4rWQ3OYWnFtVK7ItVfNkQ+
-	 pMR8skV7SyW1wM62Cs7xsnBp2ddmtfPWC5J+XsHH5KNT2Si/A1ko+V4m+H2jGS1dVD
-	 a4KP/P0RBKFBJdS6+1bAZ8KURnSF6pDqutVWFv+kxNthC8HO0GAiAutpblKsmAkLTy
-	 zHvpH5R/GAGmw==
-Date: Fri, 25 Sep 2026 15:09:11 -0700
+	b=GHfOzJiAm2GnwC+TmC344v880IPjqe8fs/fUQYptM6GZDLL6dWKFQrVR5Mw7ZNIak
+	 bpr2qUkGYaB6EFqIS6etmpelGRhM/4OYBZ7dp4hTohNNyQzc5zdcr0MCIWj/XcZtxE
+	 aG99EMDcMGwvwdL0YPpAr8aENPqAbfMDuMxFqdTmHUb5Z/wNfQ6sowLshQO6BYJyMK
+	 m/KjdS2LRXSZFDo2ewmoyKc4BppxbcVDE3e5RVlFXA52y5UyOwWPWQCpRfU6RI3n0N
+	 iNXzJ90uDyqBOQ9hMo95ArJTSjQ/r1C+2CLvz9GTtEBEjKRvQ4/TJLBwhgol24+6Ul
+	 NpKcCRCxwG2KQ==
+Date: Fri, 25 Sep 2026 15:10:13 -0700
 From: "Darrick J. Wong" <djwong@kernel.org>
 To: bernd@bsbernd.com
 Cc: fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 04/10] util: give fuservicemount3 an absolute build-tree
- runpath
-Message-ID: <20260925220911.GT6253@frogsfrogsfrogs>
+Subject: Re: [PATCH 05/10] mount.fuse: free the options on the service mount
+ return path
+Message-ID: <20260925221013.GU6253@frogsfrogsfrogs>
 References: <20260925-mount-service-bound-open-v1-0-bbf1a84c7995@bsbernd.com>
- <20260925-mount-service-bound-open-v1-4-bbf1a84c7995@bsbernd.com>
+ <20260925-mount-service-bound-open-v1-5-bbf1a84c7995@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -43,43 +43,117 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260925-mount-service-bound-open-v1-4-bbf1a84c7995@bsbernd.com>
+In-Reply-To: <20260925-mount-service-bound-open-v1-5-bbf1a84c7995@bsbernd.com>
 
-On Fri, Sep 25, 2026 at 12:23:32AM +0200, Bernd Schubert via B4 Relay wrote:
+On Fri, Sep 25, 2026 at 12:23:33AM +0200, Bernd Schubert via B4 Relay wrote:
 > From: Bernd Schubert <bernd@bsbernd.com>
 > 
-> The dynamic loader ignores $ORIGIN runpaths and LD_LIBRARY_PATH for a
-> setuid program. A build-tree fuservicemount3 made setuid, for example by
-> "run-tests.py --setuid-helpers", then failed with "libfuse3.so.4: cannot
-> open shared object file", or loaded the libfuse3.so.4 of the system.
-> meson removes build_rpath on install, so installed binaries do not change.
-
-That's a clever trick, I will have to use that. :)
-
+> These leaks were detected by the new tests.
+> 
 > Assisted-by: LLM
 > Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 
+Looks fine, though those leaks won't live for long...
 Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
 --D
 
 > ---
->  util/meson.build | 2 ++
->  1 file changed, 2 insertions(+)
+>  util/mount.fuse.c | 42 ++++++++++++++++++++++++++----------------
+>  1 file changed, 26 insertions(+), 16 deletions(-)
 > 
-> diff --git a/util/meson.build b/util/meson.build
-> index 28052a65536f..bc266776e153 100644
-> --- a/util/meson.build
-> +++ b/util/meson.build
-> @@ -22,6 +22,8 @@ if private_cfg.get('HAVE_SERVICEMOUNT', false)
->               link_with: [ libfuse ],
->               install: true,
->               install_dir: get_option('sbindir'),
-> +             # A setuid run ignores the $ORIGIN runpath meson sets
-> +             build_rpath: join_paths(meson.project_build_root(), 'lib'),
->               c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
->  endif
+> diff --git a/util/mount.fuse.c b/util/mount.fuse.c
+> index c67a0c2b7f2f..1414265fd274 100644
+> --- a/util/mount.fuse.c
+> +++ b/util/mount.fuse.c
+> @@ -56,9 +56,7 @@
+>  #endif
 >  
+>  #include "fuse.h"
+> -#ifdef HAVE_SERVICEMOUNT
+> -# include "mount_service.h"
+> -#endif
+> +#include "mount_service.h"
+>  
+>  static char *progname;
+>  
+> @@ -396,6 +394,18 @@ out:
+>  	fuse_opt_free_args(&args);
+>  	return ret;
+>  }
+> +#else
+> +static int try_service_main(const char *argv0, const char *fstype,
+> +			    const char *source, const char *mountpoint,
+> +			    const char *options)
+> +{
+> +	(void)argv0;
+> +	(void)fstype;
+> +	(void)source;
+> +	(void)mountpoint;
+> +	(void)options;
+> +	return MOUNT_SERVICE_FALLBACK_NEEDED;
+> +}
+>  #endif
+>  
+>  int main(int argc, char *argv[])
+> @@ -415,6 +425,7 @@ int main(int argc, char *argv[])
+>  	int fuse_fd = 0;
+>  	int drop_privileges = 0;
+>  	char *dev_fd_mountpoint = NULL;
+> +	int ret;
+>  
+>  	progname = argv[0];
+>  	basename = strrchr(argv[0], '/');
+> @@ -608,19 +619,17 @@ int main(int argc, char *argv[])
+>  	}
+>  #endif
+>  
+> -#ifdef HAVE_SERVICEMOUNT
+>  	/*
+>  	 * Now that we know the desired filesystem type, see if we can find
+>  	 * a socket service implementing that, if we haven't selected any weird
+>  	 * options that would prevent that.
+>  	 */
+>  	if (!pass_fuse_fd && !(setuid_name && setuid_name[0])) {
+> -		int ret = try_service_main(argv[0], type, source, mountpoint,
+> -					   options);
+> +		ret = try_service_main(argv[0], type, source, mountpoint,
+> +				       options);
+>  		if (ret != MOUNT_SERVICE_FALLBACK_NEEDED)
+> -			return ret;
+> +			goto out;
+>  	}
+> -#endif
+>  
+>  	add_arg(&command, type);
+>  	if (source)
+> @@ -631,17 +640,18 @@ int main(int argc, char *argv[])
+>  		add_arg(&command, options);
+>  	}
+>  
+> +	execl("/bin/sh", "/bin/sh", "-c", command, NULL);
+> +	fprintf(stderr, "%s: failed to execute /bin/sh: %s\n", progname,
+> +		strerror(errno));
+> +	ret = 1;
+> +
+> +out:
+> +	if (pass_fuse_fd)
+> +		close(fuse_fd);
+>  	free(options);
+>  	free(dev_fd_mountpoint);
+>  	free(dup_source);
+>  	free(setuid_name);
+> -
+> -	execl("/bin/sh", "/bin/sh", "-c", command, NULL);
+> -	fprintf(stderr, "%s: failed to execute /bin/sh: %s\n", progname,
+> -		strerror(errno));
+> -	
+> -	if (pass_fuse_fd)
+> -		close(fuse_fd);
+>  	free(command);
+> -	return 1;
+> +	return ret;
+>  }
 > 
 > -- 
 > 2.53.0
