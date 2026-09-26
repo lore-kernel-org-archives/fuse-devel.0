@@ -1,227 +1,248 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011034.outbound.protection.outlook.com [40.107.208.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68463AB28D
-	for <fuse-devel@lists.linux.dev>; Fri, 25 Sep 2026 22:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790375273; cv=none; b=ZpanOZq2/eOBVEQ2wUyDzefDK2KwVKt/Msc41pKz69DC+cqmMj4axK1AGyNpT+M6rVONnjxhnO1nhYNS94UzhcZVax8Qo1aMfl2MFWrIyFGwYmSnDi6PotNba7qd4U0HV+BL644MK/uN4wU0LqscGeGg1ivh4Rp8KRUE7LKTif8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790375273; c=relaxed/simple;
-	bh=jDl3T48jLRT0A9VsxLhD1GvamqI9gTSKAyo+KEAZ/ac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Edph7+n3TchoFWQ4jn8Ha4FY4FYWBTMmpo1DVtUWZ82k9halQanebJ2e3uVinh7FJeeSth8ty2ARl2Fg+HVNC0jSMwPTLgY9Bi5Kwia6lCbzbrIc05GcmDNPFYo9jSl8aGYS6HND7xRfJ2JBmBHfgVdweN4KZ6ZfC0rnBlNK3wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QqJDnAv7; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1924F3033DE;
+	Sat, 26 Sep 2026 01:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790386696; cv=fail; b=f4n0MVmmNHrqf3pyxiFycgTBkti0cMt9mMu4/rHxgabu2Mm+zB9Y+TFUdxjuJKl+baeIIWq3RH/GjN3RM//NVVJfs0bj352hQDa6KHrzMTUVFjAN4Ncq3wbun3EIZu45IG1PBoB9lduGXyK4uVg74ZG54uOQsgB4JVfYXiDLCuo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790386696; c=relaxed/simple;
+	bh=hhnMCREZn0wq22a1StCnKPL4mhTvb6SRHqhHvgtkBBA=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=nAO3i9YyRLXxjydEFzxa8ZAgPBqcMjP715M4HLkQbXrlrunTj5zlQjTjtAaxybAdIAmveN+qArbl0jK+FDlKiq3BQ9Pzi4j8TXpbZj+NJH9RNH7lobQnFlvSDHQGTtRsUilUcl8RiD8Oy31WgyckUZGzHN0Hq2YpgzPKNY+g3zY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IlgmnWC0; arc=fail smtp.client-ip=40.107.208.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QqJDnAv7"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5965D1F000FF;
-	Fri, 25 Sep 2026 22:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790375271;
-	bh=Pw7m9W6gtJYzFGBZ1rpgufYBaW7IqxQFpfQnubBSHGY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QqJDnAv7zyr9Wxm+fDfTqZ+RMEdj2siMxvNp8Xl/E1CzUB6V8RHKDXwzod9gzXTAm
-	 TpBF1jUyBafJ72oua6YlZXyYSVKW40RnF/zGv1UKshYgwHOmt1syOaB2DeVYoaze0g
-	 iVFyXc5mfo7XJYpsSX1+/5kPI3vpKP3pZMl5NIJRgEW0P0DN6Ln9aJbcYQPQtMJyE1
-	 UGdMQtDCEW4gUrtJfcRPr6ibb9FvYL703somHIyY1YHbveZND1TTnImUkzfj+7/DKb
-	 7h3lnHln3JwnY6HjuuDGzI6FeeHt1CtyyquvoqjXtL1/5RThYlEtwln7hSYQtUw8gT
-	 bxWVYsW6+RN6A==
-Date: Fri, 25 Sep 2026 15:27:50 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: fuse-devel@lists.linux.dev
-Subject: Re: [PATCH 10/10] test: run mkfs.ext4 through the service examples
-Message-ID: <20260925222750.GX6253@frogsfrogsfrogs>
-References: <20260925-mount-service-bound-open-v1-0-bbf1a84c7995@bsbernd.com>
- <20260925-mount-service-bound-open-v1-10-bbf1a84c7995@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IlgmnWC0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nvoe+6KAlh9q4MhGIK0UDQg/EYvSIh2qF+dvQtLnaboA6F7xJf45zMPl4q4fHZU0OJUh8HSsJVmE+3Q/i7meFV3A0zxihk9GcXjL1IjsQaOdboX6Dce+eIlFc93YkfHXHKVo/5MYa5stBSjMCAOYLKpsLk0h2f2BGedQT6MezOF4pwePlBRHceI1sEvTRj8IEEdxP3T+E9mzhrZXnAAaMLLAJt3k/I/F4LJqcizZCxxqSYDh9f9k2Z8xDhPcNfvQT57QkUg5W1kZFE/Rlme4J8WpMIW/KloP5mHk3NKbHTA/DzZ3yz2c8vscKf+Ye47u1tRQaB8nC1isIjJKWEsOfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JREHSo7U9IfHqKqetOS7hWZc9sDxByVpwPxnE1Mw09Q=;
+ b=Lyfs+cJXBtFi26dK2WzE1vLfJgTzu0rLEXIprhcRJEtkHEGB3btLmSrHNXF1N7sLQkC89iKPaiDFCn9ujAwXqTHa7ispVK3tEGbXSd3Gt8wHeSCFOG5CP1bA+YIcNg/PFVKw8jh6RynlifufJ18AbHnUwzqAqQJkKRCn3as50kXFz1ABQ4bKZtJ2CcWRc4SF7sAFHEW7993Q7bZ1ilUhGY0vcAfIvthpSWq5gM988ct10JOJGI5YIGfCLU7t+TfdYgntcgjU3rTxMACfI1oaEXlZyJ9Q2yQZxDfyVgrKts1cbtImiXfZIO4zayZKI0WjHAaC/nv7zSsb6vbdMbP1lA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JREHSo7U9IfHqKqetOS7hWZc9sDxByVpwPxnE1Mw09Q=;
+ b=IlgmnWC0rE/hjKPkhzRPb5WBKdrd91VzGb7XPPYpP5meQ00MvavGEh4qjtsyoZP47yfHwesFTsYgyv6rAG7Fg9yAlaLmNQ59TqwjXR29YNzE1THb2BQVwxIHHaCS1hst/i0F4Wguk99xqh/n/K/6xO6icloPdsORyojdNMRxFcd33r4WTjqlHzIC6nA14gkuVNw0pLzhwGdW7DKvTw/lAYVAt0m+xNx8qyfIb30szdMOvYVHyEWp24RWz9knmUEGcWlvd3SwsOlVULHF/7bGWxqtZIugT12i4CjvfOdhDo9P6efBbf2kyfzXQU+9DyJxtO03gsFhkEm1AdMqLvqRXQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by DM4PR12MB7502.namprd12.prod.outlook.com (2603:10b6:8:112::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.19; Sat, 26 Sep
+ 2026 01:37:58 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.014; Sat, 26 Sep 2026
+ 01:37:58 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 25 Sep 2026 21:37:54 -0400
+Message-Id: <DLOV3VTNOBPL.193R3V124JURK@nvidia.com>
+Subject: Re: [PATCH v3 15/40] mm/vma: add vma[_flags]_is_kernel_owned()
+ predicates
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, <selinux@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-scsi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-perf-users@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <kvmarm@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+ <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
+ <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, <fuse-devel@lists.linux.dev>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka" <vbabka@kernel.org>, "Jann Horn" <jannh@google.com>,
+ "Pedro Falcato" <pfalcato@suse.de>, "David Hildenbrand" <david@kernel.org>,
+ "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
+ <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>, "Paul
+ Moore" <paul@paul-moore.com>, "Stephen Smalley"
+ <stephen.smalley.work@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>, "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
+ <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
+ Kartikeya Dwivedi" <memxor@gmail.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
+ Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
+ Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>, "Doug
+ Gilbert" <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter"
+ <simona@ffwll.ch>, "Helge Deller" <deller@gmx.de>, "Sebastian Reichel"
+ <sre@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu"
+ <peterx@redhat.com>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Oleg
+ Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "Arnaldo Carvalho de Melo"
+ <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland"
+ <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
+ <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>, "Vincent Guittot"
+ <vincent.guittot@linaro.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Will Deacon" <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, "Nick Piggin" <npiggin@gmail.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, "Muchun Song" <muchun.song@linux.dev>, "Oscar
+ Salvador" <osalvador@suse.de>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Marc Zyngier"
+ <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>, "Catalin Marinas"
+ <catalin.marinas@arm.com>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Janosch Frank"
+ <frankja@linux.ibm.com>, "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>, "Gerald Schaefer"
+ <gerald.schaefer@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, "Andreas Larsson" <andreas@gaisler.com>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
+ <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Kemeng
+ Shi" <shikemeng@huaweicloud.com>, "Nhat Pham" <nphamcs@gmail.com>, "Baoquan
+ He" <baoquan.he@linux.dev>, "Youngjun Park" <youngjun.park@lge.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>, "Axel Rasmussen"
+ <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
+ <weixugc@google.com>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Michal
+ Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, "Xu Xin"
+ <xu.xin@linux.dev>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.22.0
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org> <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
+X-ClientProxiedBy: IA1P220CA0010.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:208:461::7) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260925-mount-service-bound-open-v1-10-bbf1a84c7995@bsbernd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DM4PR12MB7502:EE_
+X-MS-Office365-Filtering-Correlation-Id: 545be6ab-443e-42d1-8b0e-08df1b6ecb54
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|376014|7416014|1800799024|921020|6133799003|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	eHTozzARUAPxautQc1g9RpS1Mb919g7GvHX3YmPnOtBZeaoLZ2ADMz+gWYvXqcBVfq/FUJK8gjMMH2y0ELwdrLt+g3ZaKBBKL2Aq6L91xZ/b8Z/T5lDVyXK1dpD2Pov8FrLNOeXQs+GYiqCX6OSOY6YCwg5dXXvudw7uPOkLjf8dCh/p6nKZ3dvvozUzcnGsoxrdd1dpdYuTc93yE/y+N5+D6RztFnm/J8jQw2FjjIrAd7FzboO6ea8fUMUExYKd2zdrcq/q6rXQ0vNqbK+BDfGXXojKaFHMZ/Ht64s1CmfYNlDHGgKumfO1ZmvrGqlTyme2BOsPiH4uksM1oDVZOgx69LGbUAZb/kmF0utEFkbjFBOl+uwUelfb54j+xpHwJbyaq5hE8fymtnL5lovlenfoRpXFqj6R7A6Zjjz5aUeC4uUVHjOFBWErnsUaX8QUj78oVnPDlb2FWFZaRY2oxlTG0Vt2r9czLLJip6jcjS9uLAONOZDvyJp79gbotv1T7g4nMpVCZNvu5Xc+OripRjMiQpS6kAI7rioDX/nvLESDj4jSXBmjy8hVDtFp1c477E/59qTwUfyMxhPPCdpTDFUCrfWUYFh3HNdaAfDnmZM0GSzhnOvIKXg4QhY7XRl87YD4E0Gf7XudDGBaDjOJLN61JB85VYqgNqTj8gVDEWrzjYP0XgbOOxT8KgOMnBUdiYItMPnw0O5m5YcY/q7eqA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(7416014)(1800799024)(921020)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eXZjcnl1QlloWUJQWStML09WWWNZSG9pWHFXZ0lOR3lSUERERUVJZlk1SzVu?=
+ =?utf-8?B?VTZDQ0dOaFJpL3BYWWNKc3FtT1RvS0kxcDdrdWpRTFZta2pxZTRJZ3R6RHhT?=
+ =?utf-8?B?T29ZU1lvSEZpdFh3VGtFN1padUphVEZsZS85SS9SZS9TaTJMd2JHS3FvNDYx?=
+ =?utf-8?B?TnVyQy95SFlnYytwb1ZZZFdXTm1mMitoUmNVYmNNcWpHZUt3NUlFMEZuVGJk?=
+ =?utf-8?B?Q0VqMHNSa3JndVYrbGNUL2NrYjdkelV2d3U2bVBxR1RrbC9QWWtITnR6RGd3?=
+ =?utf-8?B?UTk3K2N5azEwYUx5NytSU0poUnV2cys1NnJaUm1Bclkwd2kzcFBVbnRPVmNU?=
+ =?utf-8?B?R291b2pVYzVEYVdsdUhVSmVVa3F3OXhrMm1yd0lXMFNKTzM3T0lZMmlnd2xE?=
+ =?utf-8?B?RUY0K05IZVlkK3V1cStDdFJOU012RDNBSERJUDdQdmo5cVJnMlFMalJmYUY0?=
+ =?utf-8?B?N29ockJXVWZLRkcwTVlNMXZzZlJwSmdJYWJrcFk2Uk9mWTdITGRmalRFYllw?=
+ =?utf-8?B?dkRObXFCcHI3SGVpcm1Xd3hJb01xYXY3MjZTTVRPV0hyYlJDK2hGZzd5VC9r?=
+ =?utf-8?B?aUR3OStZN1lIckdZaVk2aVRBTE5EZlVpcGFqRENPeHBVS0VPZmNiVUFra29n?=
+ =?utf-8?B?ajRtaTYzb2sraUs2ek5KM2NvTktDOGt2NmY3Tnp4bGZSQ2lDRnEzbUkzRkYw?=
+ =?utf-8?B?S0VBa3dnOEZYT0tQNzNRb2wwSGVYY3hTa083YkhsRmYrdlFiZjhhTmxTc2ho?=
+ =?utf-8?B?SXU1UCswTWs5VDlEVTJjNHZpTy91Q2FUT3dnQ0l1Z2E1RWVpYUxOdjRUa1dN?=
+ =?utf-8?B?R3FaeGNoM01xTFh0NVdvTVZiSXpEcUhmbEUrdXpJNUZTTmFDeit3Y3pQd3ox?=
+ =?utf-8?B?VUtoZjVtcGN6MmN4ZlowcFFCaTlvVmtIWDA0YzlrUmpxQ2RXckxEdzJGanV4?=
+ =?utf-8?B?Y1JMaUtqS0FKUFlwMWRSZkZhcVBJYWV6YTFXZ05HcnRWOStieWQvYkZmdXlx?=
+ =?utf-8?B?dmhwL0ZUS2ZkdnRZcjNhb0M2cENFUzYvV005R2JqbUFXZWlwUmcyRFU0YnJJ?=
+ =?utf-8?B?ZVl2LytselRKOUVCQS9IYUNCeDJ3aURTWEpnRW1kaktsdXluWmREc3JVYW04?=
+ =?utf-8?B?cjlnM3FwK3d6cnkwa1YwMVFUbHF0VS94VVJNMytQNkkrSk5QQXhGZ1J6WWVi?=
+ =?utf-8?B?eC9UUjhtaFpEbUJzVUx1SGJhMVR6aVZyVWJvQ3YvMXlaZW9IVW9JQ2pJUUZp?=
+ =?utf-8?B?N3NYU0xCLzNiMkpxSDc1SndpLzlNenJnTVlCTGNPWXJzdnYrdGk0b2lxRENs?=
+ =?utf-8?B?ZzM0NUQ4UEU0MFJoaDBxSVhjWmRkSW5oYmpEYldISzJRRXRHWmUrV05Fb1du?=
+ =?utf-8?B?c3lCU1FqdXhIbkpWaDhMeFBNTm5WMnRHbXJhY1lwb3hIVktkMWhyUnZjRjhM?=
+ =?utf-8?B?N2JWRWtPbXRjQWo1SVpwRzBSTldzREN3WFZSTDRJUlE1Wi9pNVhwcWRlVEd1?=
+ =?utf-8?B?N1YwY0FNWmMrZjcxR0ZmWEVHbTNVeWs5R3NkNktYemRDL1ZVWUpqdmtLd3Ew?=
+ =?utf-8?B?Mno2ekFjWEdpcmJHME4renB5cFFRMDlPa2VDbUNIdW50VUUvelJ1ZTY5UlB5?=
+ =?utf-8?B?NGNOR3RZck9HWEh1YndsVTEzaVNaOURzUFFJVmY4RmRjRmx3ZXNpL2hTNUpq?=
+ =?utf-8?B?MFltV2hJeXNDOVlWaEY5WTBhc2ZPd3dZd0l6UXdreTdNLytsZ2ZxZlRMbzhQ?=
+ =?utf-8?B?UUlCUGVUYktwVzMyOGFwVlJKVlJlN1NKUy9zeFM5cDNvdG5aSUVReWxXVHFm?=
+ =?utf-8?B?a0Y4OFMyUEVmVFQ5Tk0yeDQxeXQvQmFZaFN0U2ZObnRlMXlxNmJZdG12WldI?=
+ =?utf-8?B?aWh6TlNFb0RsNjdlbmVjdVpXK3RTWnhtVTR2YUVLWHE0VFB4aldNS3dYWVBn?=
+ =?utf-8?B?b0J3MlpTVUVzTFFNR3EzL25Ga1B3MzdFZlNoeWRGWTcyZ0N4SS9BSm05SFJV?=
+ =?utf-8?B?YXUrSDNNTHFQbGJEQ2d5TFpKaVIwSVJPeWM2eGY4QlRxaEVXYTNUc0VOSDRO?=
+ =?utf-8?B?Qk02djV0blVQOWJvWENoK21JYVRwUEI0UURKQ3BCTktaNFpxa3FFNDJ5RXU2?=
+ =?utf-8?B?N1VwSVM2MDIxMzhhUE1xSC9wbU1vRTR2YVBRdDc5SGtFYTlRNHhwWUFqZWha?=
+ =?utf-8?B?a21xTU8xaHF5Q0h2UnZ5cDBMN0cyUkpUS1lNYzlkVVJ0MUdiUGpvOFJEUXNv?=
+ =?utf-8?B?dFVKckJMb3ZEeUlxcFNCRk1zeVpSMzdtb01lMERLSHVaWlBoMnBJbDF1aDZR?=
+ =?utf-8?Q?8VYEs3y2DAyj0D4u5q?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 545be6ab-443e-42d1-8b0e-08df1b6ecb54
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2026 01:37:58.3051
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iG06bl6AsetwrGy8rU0jwt7ivW5xr1TeQD552YR9eamAkcxdA76zYOCom8MtghrX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7502
 
-On Fri, Sep 25, 2026 at 12:23:38AM +0200, Bernd Schubert via B4 Relay wrote:
-> From: Bernd Schubert <bernd@bsbernd.com>
-> 
-> The byte comparison in the service example tests does not show that a
-> real filesystem tool works on the file service_ll and service_hl serve.
-> mkfs.ext4 writes a filesystem through the mount, and e2fsck checks the
-> image after umount.
-
-Ooh, a file IO path test too!
-
-> Assisted-by: LLM
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+> Rather than referring to VMA flags with uncertain meaning, add a new
+> predicate that explicitly describes what possession of the VMA_PFNMAP_BIT
+> or VMA_MIXEDMAP_BIT flags mean, and then refer to that function for
+> determining VMA mergeability.
+>
+> Either flag means the contents of the mapping are owned by the kernel,
+> usually a driver, rather than by the core mm: the memory may be MMIO,
+> kernel-allocated pages or even ordinary pages the driver maps itself, but
+> the core must not populate, reclaim, migrate, copy-on-write or merge the
+> range on its own initiative.
+>
+> We initially also include VMA_IO_BIT here, as by implication, these must =
+be
+> kernel-owned. (mlock() also sets VMA_IO_BIT transiently on ordinary VMAs
+> while locking them, which is addressed later in this series.)
+>
+> However the intent is to in future remove this, as no mapping should be
+> marked as an I/O mapping without also being marked with VMA_PFNMAP_BIT.
+>
+> This forms the basis of further work intended to improve how we express V=
+MA
+> properties such as this.
+>
+> Also update the VMA userland tests to reflect the change.
+>
+> No functional change intended.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
->  example/service_ll.c                |  5 ++++
->  test/cases/lib/service-example.sh   | 54 ++++++++++++++++++++++++++++++-------
->  test/cases/mount/service-hl-mkfs.sh |  8 ++++++
->  test/cases/mount/service-ll-mkfs.sh |  8 ++++++
->  4 files changed, 66 insertions(+), 9 deletions(-)
-> 
-> diff --git a/example/service_ll.c b/example/service_ll.c
-> index fd43c40fc15b..7baf47905a33 100644
-> --- a/example/service_ll.c
-> +++ b/example/service_ll.c
-> @@ -43,6 +43,11 @@
->   *
->   *     mount -t fuse.service_ll /dev/sda /mnt
->   *
-> + * /mnt/single_file then holds the bytes of /dev/sda, so a filesystem can be
-> + * created on it:
-> + *
-> + *     mkfs.ext4 /mnt/single_file
-> + *
->   * ## Source code ##
->   * \include service_ll.c
->   * \include service_ll.socket
-> diff --git a/test/cases/lib/service-example.sh b/test/cases/lib/service-example.sh
-> index 878b379b8b16..4d7e0b27f3b9 100644
-> --- a/test/cases/lib/service-example.sh
-> +++ b/test/cases/lib/service-example.sh
-> @@ -1,15 +1,19 @@
->  # lib/service-example.sh - body for the service_ll / service_hl cases.
->  #
-> -# Caller sets FS_NAME and LAUNCH before sourcing:
-> +# Caller sets FS_NAME and LAUNCH, and optionally CHECK, before sourcing:
->  #   FS_NAME   service_ll | service_hl
->  #   LAUNCH    fuservicemount3 | mount_fuse
-> +#   CHECK     bytes (default) | mkfs
->  #
-> -# The file the example serves has to read back as the image, and what is
-> -# written through the mount has to reach the image.
-> +# bytes: the file the example serves has to read back as the image, and what
-> +# is written through the mount has to reach the image.
-> +# mkfs: mkfs.ext4 on that file has to leave an image e2fsck accepts.
->  
->  _fuse_no_mount_needed=1
->  . "$TEST_LIB/common.sh"
->  
-> +CHECK=${CHECK:-bytes}
-> +
->  # Before the gates: a misspelled FS_NAME would otherwise skip as "not built"
->  case ${FS_NAME:-} in
->  service_ll | service_hl) ;;
-> @@ -19,6 +23,10 @@ case ${LAUNCH:-} in
->  fuservicemount3 | mount_fuse) ;;
->  *) _fail "unknown LAUNCH '${LAUNCH:-}'" ;;
->  esac
-> +case $CHECK in
-> +bytes | mkfs) ;;
-> +*) _fail "unknown CHECK '$CHECK'" ;;
-> +esac
->  
->  _require_linux "fuservicemount3"
->  _require_root
-> @@ -26,6 +34,10 @@ _require_fuse_device
->  _require_binary util/fuservicemount3
->  _require_binary "example/$FS_NAME"
->  [ "$LAUNCH" != mount_fuse ] || _require_binary util/mount.fuse3
-> +if [ "$CHECK" = mkfs ]; then
-> +	_require_prog mkfs.ext4
-> +	_require_prog e2fsck
-> +fi
->  
->  . "$TEST_LIB/service.sh"
->  
-> @@ -35,9 +47,16 @@ old=$TEST_TMP/old
->  new=$TEST_TMP/new
->  
->  # The size has to be a multiple of the page size
-> -head -c 1048576 /dev/urandom >"$old"
-> -head -c 1048576 /dev/urandom >"$new"
-> -cp "$old" "$img"
-> +case $CHECK in
-> +bytes)
-> +	head -c 1048576 /dev/urandom >"$old"
-> +	head -c 1048576 /dev/urandom >"$new"
-> +	cp "$old" "$img"
-> +	;;
-> +mkfs)
-> +	truncate -s 64M "$img"
-> +	;;
-> +esac
->  
->  service_start "$TEST_LOGDIR/fs-$FS_NAME.out" "$FUSE_EXAMPLE_DIR/$FS_NAME"
->  case $LAUNCH in
-> @@ -53,10 +72,27 @@ mount_fuse)
->  esac
->  
->  _assert_fstype "$TEST_MNT" "fuse.$service_subtype" fuse
-> -_assert_file_eq "$TEST_MNT/single_file" "$old"
-> -dd if="$new" of="$TEST_MNT/single_file" bs=64k conv=notrunc,fsync status=none
-> +case $CHECK in
-> +bytes)
-> +	_assert_file_eq "$TEST_MNT/single_file" "$old"
-> +	dd if="$new" of="$TEST_MNT/single_file" bs=64k conv=notrunc,fsync \
-> +		status=none
-> +	;;
-> +mkfs)
-> +	# -F: single_file is a regular file, not a block device
-> +	mkfs.ext4 -F -q "$TEST_MNT/single_file" ||
-> +		_fail "mkfs.ext4 through $FS_NAME failed"
+>  include/linux/mm.h              | 56 +++++++++++++++++++++++++++++++++++=
++++++-
+>  tools/testing/vma/include/dup.h | 29 ++++++++++++++++++++-
+>  2 files changed, 83 insertions(+), 2 deletions(-)
+>
 
-You might consider adding a -D <path> argument to mkfs.ext4 so that it
-will copy a directory tree into the filesystem image.  That way you're
-testing block overwrites.
+LGTM.
 
-That said, if you're satisified with writing just the superblock and
-log, that's fine with me too.
+Reviewed-by: Zi Yan <ziy@nvidia.com>
 
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
---D
+--=20
+Best Regards,
+Yan, Zi
 
-> +	;;
-> +esac
->  
->  umount "$TEST_MNT"
->  service_wait_exit
->  _assert_eq "$service_rc" 0 "$FS_NAME exit status"
-> -_assert_file_eq "$img" "$new"
-> +case $CHECK in
-> +bytes)
-> +	_assert_file_eq "$img" "$new"
-> +	;;
-> +mkfs)
-> +	e2fsck -fn "$img" || _fail "e2fsck found errors in $img"
-> +	;;
-> +esac
-> diff --git a/test/cases/mount/service-hl-mkfs.sh b/test/cases/mount/service-hl-mkfs.sh
-> new file mode 100755
-> index 000000000000..af552818cd90
-> --- /dev/null
-> +++ b/test/cases/mount/service-hl-mkfs.sh
-> @@ -0,0 +1,8 @@
-> +#!/usr/bin/env bash
-> +# GROUP: mount
-> +
-> +FS_NAME=service_hl
-> +LAUNCH=fuservicemount3
-> +CHECK=mkfs
-> +
-> +. "$TEST_LIB/service-example.sh"
-> diff --git a/test/cases/mount/service-ll-mkfs.sh b/test/cases/mount/service-ll-mkfs.sh
-> new file mode 100755
-> index 000000000000..9908937010de
-> --- /dev/null
-> +++ b/test/cases/mount/service-ll-mkfs.sh
-> @@ -0,0 +1,8 @@
-> +#!/usr/bin/env bash
-> +# GROUP: mount
-> +
-> +FS_NAME=service_ll
-> +LAUNCH=fuservicemount3
-> +CHECK=mkfs
-> +
-> +. "$TEST_LIB/service-example.sh"
-> 
-> -- 
-> 2.53.0
-> 
-> 
-> 
