@@ -1,237 +1,129 @@
-Received: from flow-a3-smtp.messagingengine.com (flow-a3-smtp.messagingengine.com [103.168.172.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2720D38657D;
-	Sat, 26 Sep 2026 17:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1A13C10BB
+	for <fuse-devel@lists.linux.dev>; Sun, 27 Sep 2026 08:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790442893; cv=none; b=idFkI/CVc3ycxvDfNOBFhaQ2tpDYR3YoD5nn+CHkJvyF0qx/icBdE3Aw49iKrOdD7Wmr07RJI9ur+/gduPgIG/5lcSsg9zvugGl8bJhfasodGbXHjRraUHWBi1xpSnCzCZwA+p3O1CyKpHoLZbh3e+iXCjPupLFqHQIg6pVHwxI=
+	t=1790496747; cv=none; b=Rmx20Db0KRrBVbASv24kSODNslUcSxUQQ4XAn7D4JIEnMitpJ+Ceml8qdZCGs4WW4XOyEUt4czux8i8wyoCZ8wRUBfzlhPHGRCXf4YiyQqueYJdCXOi7avOgucNKxvOUVOreBTd+c6zyNtPgkxTZOdlyiCK7cLj7+roFcK21KZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790442893; c=relaxed/simple;
-	bh=gojmdYDsD3StNnB/hDyqo1gXIHc8O8nZybk73It5oqU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=F2q26YzU3oaINIbbzBFePri8N28TFCe0sd248jYo8gOAWhJe92gR5SJmYJ3kmpGtjCqh7Zw8gg8FkRsyNxtFvhvRokesweu11m5qsWa9rsIc8UFa4su6bPWb4FvtE5/Doiy4fjjIj54M6f4ygun31K5Rtv030XnrtgJUusJCyMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=dE1RFAps; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LFqYjy/y; arc=none smtp.client-ip=103.168.172.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="dE1RFAps";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LFqYjy/y"
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailflow.phl.internal (Postfix) with ESMTP id 178B413800C5;
-	Sat, 26 Sep 2026 13:14:47 -0400 (EDT)
-Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Sat, 26 Sep 2026 13:14:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1790442886;
-	 x=1790450086; bh=tGTq2YiYGuZgWk5ZY7JZMyWu45IuuL1ykMMcgPEJafg=; b=
-	dE1RFApslPrSXAIEUR7zYCnrfR6vWyYxLHf2mps7m16cLN5ynFqwRrqagDCdLt5m
-	YGRbmWqMeuJZtlHPeeOXNw4YOCr4WJ6Mx0NBGForSSyaTMKmirJa1d3T2lnduVHI
-	rsG6gUbympIQqV0TgHZcoaLCS4Np+hjwdRsk5xnTjJWQAspIaZDsh56Wd+ZL1Q9P
-	guB+47QlTtdPYoLG8jeKzxdNJlNY8FOh1EE+3+tKu9V2DYSkeblqIQPL6x4FiFqi
-	37BVGgjvon0RgSlw4AbAROwgO5Lo55li4rPUTLQ9IBrXkmPCZHI9T0Ji1alFsVXg
-	+dWgvw0N90MVm2Z635R8Zg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790442886; x=
-	1790450086; bh=tGTq2YiYGuZgWk5ZY7JZMyWu45IuuL1ykMMcgPEJafg=; b=L
-	FqYjy/yVFlEv/wmLmbEHRnoCYINCfyu+CrEq8Z1fyh4tz9qIiMya3S3yY3OFrTAj
-	kbwJ1H7p0hlPQkLTIbo3q91ouu2AqnlXl5AXAUacs9gWfltmW1YlpP2JQRX6xaDG
-	BIlnaq23mgNxIHZvkc5sn32cnf0vgx81JvFvLJXh30/EkXzOIDF2jBGju20aWRpQ
-	r+U4sr/EsBDJPkf1NNPApHB0wtpHKJnfgD68NUX259cKVa0+Te+WR7YSLWz3+AYG
-	NY5HM9amaFG4UKU2VWfYypsTDrNO67ys7nqOEDOLSOI0kUSbd6LrrDfi5G6ZeLOj
-	guHR/v4b83Xt/fUVhxgQg==
-X-ME-Sender: <xms:ev23aqEfCNjet-2YbYWWzRXflqtzqi8hwMuw-sOV-SpumEa7LG2shg>
-    <xme:ev23amLx2unnBtPfhChzlb1fRZ2Od9LfU9yDqP0ez7conwhJcOBcipgwHXcNic6Vd
-    ihyMWwi_TyPeTUyTmoikaAeCIv-aWaHbyLCC6Ub4m_6V1cork6IqRQ>
-X-ME-Proxy-Cause: dmFkZTE6NCtyMLNoS8hrfLFpEVvHnZq+KuaY8H+9LmihRjQuIS2tAlukOayEfreBF4n2zt
-    VM1Xb2o3pLojfbA1Q3K/syWPA1rTM+rS4TL1sKcoS7DFAfYGpLW2jXD87OlXNKqEST0xN/
-    cCB9d0v2iX9PJOBVVmY1Q/2SAi/Mg+fUIg3v4HzozejY4wwxdLDProktJHZEibcEbdkK9A
-    DsbLRqLfari181EQsuwTU6q2VoX8ASbKad+pD4D4x5fnBcBEsLw1S0g0DqkX98pTL00H96
-    s7WDOTgZX/sRdKZFzHVYGuDUWUJen+c2yA8PP101rXcEkHHLoEMw3Y2mH/kj+PJ6Jg4phW
-    ZPtHSWVzfsMi/uo7wINTVSLDSLjRI4Nrcb+iIceGEJgwfznIyowU/XB7wjZK1vQwvmWNfh
-    Xsf2CcydvUcV328L0LwSnRsCbh10PhtfXwxt1AdrlAnXwA/tpDhQGwkJwWPe8a1uDDSIgR
-    FuRPcva3YSO3dMEwljCPu2EQ9gdo7QVG5vdPgtLNw84R0kUyuYuZE3uKBRMlgr4529/DqD
-    DjCSn1ux1tr4q9apeaHlutLLSq0hzxv+TC86iyQ80tvVgpfvwCR7R2k16RICYFops8dGKe
-    orvK37Cs5fQgJyBNeJVlwb2UjdrY+qi1eBLaiX0vwatLO6jmf2NBuSQeeCRg
-X-ME-Proxy: <xmx:gP23aluqnoTw4Kp_p7Myy76Cg9h3zOKmotAVHEwJf7Xg8wiaBQaRtA>
-    <xmx:gP23atVx8P31dhvH6TSVp8JBe56LI4k3auajT3v0qFyKlytMy_bmLA>
-    <xmx:gP23apJheLHk8ePOwgYDLSw0f2H4aAcZiX3L2QUNgpYltbdfKVe22A>
-    <xmx:gP23ahPAx3Etc-AdLxQIy0Ipz5Y_4EKVj1jjlEnECLU6wC7z8PJW4Q>
-    <xmx:hv23aunjCQ20lqB8ZAJCIhTa2AfrZr7JcwsQqJyvJGCpuVigaepn1ADv>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 7CCAA32A0087; Sat, 26 Sep 2026 13:14:34 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1790496747; c=relaxed/simple;
+	bh=lLMJealxkAdXTURrDg7UpeKv4UMlYxrVStomrTmBkek=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=fjJBGIPgVnbuDWP8ZclIPWBxvltKTVfSNJj8dCZ7y2BVwSxfPu/ORJtjHN8P7qO5Kt3cszS9oZtJMti5nd23XNjzmmk+lN+RM5eN2AP7wZKi3TP+QMK99Tx7U43B5b9HuUg4XtQyWyvnd4UwC+0aaalUbZNJeU96xFVeQoUmgRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4e937c5bd4fso147990b6e.2
+        for <fuse-devel@lists.linux.dev>; Sun, 27 Sep 2026 01:12:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790496744; x=1791101544;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=K9X8BY6U+YIcepRPV0MZIBm8qRqdDSo7Q6FIIDDCDBA=;
+        b=oXEyxw4PUY2mfHwHFxQkuZAQyT4Uou7es0P6tI/ODcuwai7HVmlIC2AmJWDnGZUR3p
+         il0hrbs7tmR9QuVtXbClZa7V8XvgGZkCytK584j/+BHGwQ8N52yDkRXWY0iYPNVELCrw
+         U1Fl/pSUijFhoUIku3+eKCoODXrNP1Kx7gAu1tNorjAYVkhUiG63r/49GFUsevUWioAG
+         LJ+id/6Xca5/2y9xJd4QjcLdyNJu2fsMUTrg92fZYv0bpLnXM6irAQ5DAo8bxrBkixrX
+         X2GaClpIOt4yI+nPc6Og3rwF+eMKHtz5gF+pI//cK4i5cX4y51I0Q2db1J0PJaepo5Yz
+         UMSw==
+X-Gm-Message-State: AFuF++ljRHO7EWCVXXIdppaQm+OUZUqm+3Khsc1P5EZ+ZbgicXfZW57V
+	IhyfOb9S0e0+aLrtWu9E2yQDp5IMYyB+WWiVzXEW121N5aJvleo6cAJL3BuEkOZzstmfL0DklhN
+	I5cGj/gZyPdIyUH5Nob6I8umnD1z6YtXXUuUXBjreMKNzbuTyrtq/qaeRSJc=
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AJwEWD5WPnhk
-Date: Sat, 26 Sep 2026 19:14:14 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Lorenzo Stoakes" <ljs@kernel.org>
-Cc: "Andrew Morton" <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>,
- "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
- "Jann Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>,
- "David Hildenbrand (Red Hat)" <david@kernel.org>,
- "Mike Rapoport" <rppt@kernel.org>,
- "Suren Baghdasaryan" <surenb@google.com>,
- "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>,
- "Jason Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>,
- "Paul Moore" <paul@paul-moore.com>,
- "Stephen Smalley" <stephen.smalley.work@gmail.com>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>,
- "Andrii Nakryiko" <andrii@kernel.org>,
- "Eduard Zingerman" <eddyz87@gmail.com>,
- "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Zi Yan" <ziy@nvidia.com>,
- "Baolin Wang" <baolin.wang@linux.alibaba.com>,
- "Nico Pache" <nico.pache@linux.dev>,
- "Ryan Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>,
- "Barry Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>,
- "Usama Arif" <usama.arif@linux.dev>,
- "Kirill A. Shutemov" <kas@kernel.org>,
- "Doug Gilbert" <dgilbert@interlog.com>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>,
- "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter" <simona@ffwll.ch>,
- "Helge Deller" <deller@gmx.de>, "Sebastian Reichel" <sre@kernel.org>,
- "John Hubbard" <jhubbard@nvidia.com>, peterx <peterx@redhat.com>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Oleg Nesterov" <oleg@redhat.com>,
- "Peter Zijlstra" <peterz@infradead.org>,
- "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "Arnaldo Carvalho de Melo" <acme@kernel.org>,
- "Namhyung Kim" <namhyung@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>,
- "Harry Yoo" <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>,
- "Vincent Guittot" <vincent.guittot@linaro.org>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Dave Airlie" <airlied@gmail.com>, "Will Deacon" <will@kernel.org>,
- "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Muchun Song" <muchun.song@linux.dev>,
- "Oscar Salvador" <osalvador@suse.de>,
- "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
- "Marc Zyngier" <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Madhavan Srinivasan" <maddy@linux.ibm.com>,
- "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>,
- "Albert Ou" <aou@eecs.berkeley.edu>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>,
- "Janosch Frank" <frankja@linux.ibm.com>,
- "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>,
- "Gerald Schaefer" <gerald.schaefer@linux.ibm.com>,
- "Heiko Carstens" <hca@linux.ibm.com>,
- "Vasily Gorbik" <gor@linux.ibm.com>,
- "David S . Miller" <davem@davemloft.net>,
- "Andreas Larsson" <andreas@gaisler.com>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>,
- "Matthew Brost" <matthew.brost@intel.com>,
- "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>,
- "Byungchul Park" <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>,
- "Ying Huang" <ying.huang@linux.alibaba.com>,
- "Alistair Popple" <apopple@nvidia.com>, "Chris Li" <chrisl@kernel.org>,
- "Kairui Song" <kasong@tencent.com>,
- "Kemeng Shi" <shikemeng@huaweicloud.com>,
- "Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>,
- "Youngjun Park" <youngjun.park@lge.com>,
- "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
- "Shakeel Butt" <shakeel.butt@linux.dev>,
- "Axel Rasmussen" <axelrasmussen@google.com>,
- "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>,
- "Chengming Zhou" <chengming.zhou@linux.dev>,
- "Michal Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>,
- "Xu Xin" <xu.xin@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
- selinux@vger.kernel.org, linux-sound@vger.kernel.org,
- bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- Linux-Arch <linux-arch@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev, "Takashi Iwai" <tiwai@suse.de>,
- "Emil Tsalapatis" <emil@etsalapatis.com>
-Message-Id: <4a3a089c-3ade-494d-8f83-f9cb710e9ad1@app.fastmail.com>
-In-Reply-To: <arfGmNiEngnO3JKm@gremlin>
-References: 
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
- <areSEI5pWBadkqIe@gremlin>
- <408aef6e-5b0a-482f-8ba8-f8c20ee870e5@app.fastmail.com>
- <arfGmNiEngnO3JKm@gremlin>
-Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
- VM_SPECIAL
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6808:10c6:b0:4d3:6be7:c64a with SMTP id
+ 5614622812f47-4dc478167f9mr6530733b6e.0.1790496744441; Sun, 27 Sep 2026
+ 01:12:24 -0700 (PDT)
+Date: Sun, 27 Sep 2026 01:12:24 -0700
+In-Reply-To: <6ab7dca9.80e1c6cc.1e8e5f.0046.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ab8cfe8.dc2998a4.2261f5.0062.GAE@google.com>
+Subject: Re: [syzbot] [fuse?] WARNING in fuse_iomap_writeback_range
+From: syzbot <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com>
+To: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Sep 26, 2026, at 15:22, Lorenzo Stoakes (ARM) wrote:
-> On Sat, Sep 26, 2026 at 03:06:33PM +0200, Arnd Bergmann wrote:
->>
->> It's a Kconfig setting upstream, but the way I'm doing it is to have
->> patch that calculates a sensible default based on other options that
->> is a little smaller than the default (currently 2048 bytes) on x86-64
->> to catch more cases where something sticks out.
->
-> So this is an early warning more or less :)
+syzbot has found a reproducer for the following issue on:
 
-Yes, a surprising number of these just point to stupid mistakes
-where the developer had no they were adding a large object to
-the stack. This instance here is unfortunately not an obvious
-case.
+HEAD commit:    fd179f8a05be Merge tag 'ata-7.3-rc5' of git://git.kernel.o..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=13490605580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=9d4242cb1c54cdf7
+dashboard link: https://syzkaller.appspot.com/bug?extid=e8200299b0556976e13c
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1523f2c9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14385315580000
 
->> There are many ways the call chain can go of course, but the actual
->> stack overflows do tend to follow this pattern where you are at a
->> function with high stack usage and call kmalloc() during low memory
->> condition and that ends up waiting for a block I/O down the line.
->> (you normally don't go through swap and nfs, I was just looking
->> for the worst case I could easily see in the code)
->
-> You certainly found quite the example haha.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c4cebd01ff3c/disk-fd179f8a.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9fd8641fa35c/vmlinux-fd179f8a.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c6e8e6332600/bzImage-fd179f8a.xz
 
-I have previously toyed around with using VMALLOC_STACK on a reduced
-stack size and syzcaller, so I knew roughly where the worst offenders
-lie, but the list was from looking through the code just today.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
 
->> > If I can do it as a follow-up that'd be ideal!
->>
->> What I was hoping for is that as you are already deep into the
->> exact code that caused the warning and you can already see something
->> in there that may help.
->>
->> I don't think it's urgent, I just don't want it to be forgotten.
->
-> It won't be, it's now on my TODO and I see it as a relatively high priority
-> thing to follow up with.
->
-> Will likely send a patch for it next cycle (this is about the worst cycle I've
-> seen workload-size for mm so I don't really want to send anything more this time
-> around).
+------------[ cut here ]------------
+!ff
+WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043 [inline], CPU#0: syz-executor122/5774
+WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227, CPU#0: syz-executor122/5774
+Modules linked in:
+CPU: 0 UID: 0 PID: 5774 Comm: syz-executor122 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+RIP: 0010:fuse_write_file_get fs/fuse/file.c:2043 [inline]
+RIP: 0010:fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
+Code: fe 48 83 3b 00 74 5b e8 e6 f0 6c fe 4c 8b 3c 24 e9 08 0b 00 00 e8 d8 f0 6c fe eb 5c e8 d1 f0 6c fe 4c 89 f7 e8 39 63 8e 08 90 <0f> 0b 90 48 b8 00 00 00 00 00 fc ff df 48 8b 4c 24 58 80 3c 01 00
+RSP: 0018:ffffc90003e172b8 EFLAGS: 00010286
+RAX: 8000000000000000 RBX: ffff88806e4ea880 RCX: ffffffff9a9ec501
+RDX: 0000000000000001 RSI: 0000000000000004 RDI: 00000000ffffffff
+RBP: 0000000000001000 R08: ffff88806e4eae63 R09: 1ffff1100dc9d5cc
+R10: dffffc0000000000 R11: ffffed100dc9d5cd R12: ffff88806e4ead08
+R13: 0000000000001000 R14: ffff88806e4eae60 R15: ffff88806e4ead08
+FS:  00007f6a3f53e6c0(0000) GS:ffff888124cc8000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000020000000b000 CR3: 0000000078090000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ iomap_writeback_range fs/iomap/buffered-io.c:1896 [inline]
+ iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
+ fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
+ folio_launder mm/truncate.c:612 [inline]
+ folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
+ invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
+ fuse_open+0x5a6/0x770 fs/fuse/file.c:297
+ do_dentry_open+0x816/0x1380 fs/open.c:996
+ vfs_open+0x3b/0x340 fs/open.c:1101
+ do_open fs/namei.c:4837 [inline]
+ path_openat+0x1443/0x1d60 fs/namei.c:5000
+ do_file_open+0x23e/0x4a0 fs/namei.c:5029
+ do_sys_openat2+0x115/0x200 fs/open.c:1417
+ do_sys_open fs/open.c:1423 [inline]
+ __do_sys_openat fs/open.c:1439 [inline]
+ __se_sys_openat fs/open.c:1434 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1434
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6a3f58fae9
+Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6a3f53e1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f6a3f644b98 RCX: 00007f6a3f58fae9
+RDX: 0000000000000040 RSI: 000020000000c380 RDI: 00000000ffffff9c
+RBP: 00007f6a3f644b90 R08: 31203a6b63617473 R09: 31203a6b63617473
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6a3f6117f4
+R13: 000020000000e3c0 R14: 00002000000062c0 R15: 00007ffe0b2d2af8
+ </TASK>
 
-Sounds good, I'll keep the local hack to mark functions as noinline for the
-moment then. Thanks,
 
-      Arnd
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
