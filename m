@@ -1,75 +1,75 @@
 Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA03D36F901
-	for <fuse-devel@lists.linux.dev>; Mon, 28 Sep 2026 09:19:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEC748E0DC
+	for <fuse-devel@lists.linux.dev>; Mon, 28 Sep 2026 09:21:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790587179; cv=none; b=hozKML92ekOu9IiHP8TqlfGt0nhtp+pKgR6yBZ97ErpupznkNnxJ+g7RLN049/f08iuIthXkPuCXkZeMEaKjQJ1qsLyHNHmLfb29VeTHcVX3diDDZF27uPTvO0vIB7Zx1oirMZ3RPwfMvN4aDCo/RfF87Gc1iExNeGBZKrvOTC8=
+	t=1790587275; cv=none; b=S0/1l8g64JU3dgTM3JWd5Lc3/MHhYjXV6VVwpZHNeF7j2an7ORiFPvhGj8Ng8dce+Jc2arvPrv4Hc7GcsocO94ueA9yqP8NcZjlUoy4Cae9W/5NRbMJGTz8xFuAFfPEF2QJhoBOfq8fAviWkyXkz8DhGckWG0PaB7ywEcb7LzwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790587179; c=relaxed/simple;
-	bh=cyKTj7roclfOeH3Mac4a4jqRaIVI3UYO1vNLBKnGZ2E=;
+	s=arc-20240116; t=1790587275; c=relaxed/simple;
+	bh=lrpKJmyYO7FaGdkLOIK9mPLobSUY9kuJIOgEfc1iSPU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KeVB9QJGEteeq7jOQmxdU2OQM/F9IJ+SpRgGVxnGWiR5RpKJLXoE/8C0iwShR/F0Wp4jB1t7Dl/u1hb7C7GwCYLVjv9c0m+h1GvAGTRMOm8tYl79XLUSC2/UyH7AOyojOnieXFW34ws2KI+0lyVIBhIvm+JHMPvKbMR3st+WHgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=bpN9BQBD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mqJE42ww; arc=none smtp.client-ip=103.168.172.158
+	 In-Reply-To:Content-Type; b=VgoEOLoECarhCht3QmhqFCEYqrvHLCctzgbqJn4PLC8s/lGF3qMwTD1ytu5RUptjuigPB2PLizQZ+Adw5SrTLz8CmGppY2m5n9U7/tBGmLDi424VFn7OGtaoOeW3pVTw1yHG0Up+tpyqiBceBzde16NGT7WOGALD8s1KkKjW5qU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=d1I5KkbY; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ohTsY7Nw; arc=none smtp.client-ip=103.168.172.158
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="bpN9BQBD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mqJE42ww"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 923A8140008E;
-	Mon, 28 Sep 2026 05:19:36 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="d1I5KkbY";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ohTsY7Nw"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id DDCE3140008E;
+	Mon, 28 Sep 2026 05:21:12 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 28 Sep 2026 05:19:36 -0400
+  by phl-compute-02.internal (MEProxy); Mon, 28 Sep 2026 05:21:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1790587176;
-	 x=1790673576; bh=4/n14dzpwFiDcI5IgN/vsDUft/HZfcU7hMG9gugcLko=; b=
-	bpN9BQBDD98CSvYqzSNIdSsovJSt3wAgYFhaRm/lK16ieijdHiHXinHAUUHX4P1g
-	c3MNUNng7BG/34XF6BbEhPnI1OcUxZzs8Lt90cHUQqOqiSN27BkDAxnpqRxPCJ1k
-	2GDeL2QmG6/TJrpzsyJgSsijxmbE9b5NYJCSKSaM5+n36/WeFt9DH5WZnXjmbedq
-	JxsbJs9qDl+8P6Ym9W7aSZAOjbDxUEUPwvKNTOTYNGIPzc4PmNWvPAeiQH/GbTLb
-	1wZeGd+frS0Sz+YCundJMMq0xb+CYGeOPjN+OhdOMl9hlL+b/+ZdbxC6/p/wmgt5
-	goOuKA9rgtIjzb5sHqL0Bg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1790587272;
+	 x=1790673672; bh=hRNnTKcHGzYe4uOR2bjRls7+MPkO9HBfP28GZfIEfKg=; b=
+	d1I5KkbYdIG1WoAWdff868ZdVcxbenGgo+7lOOYfNLMKXz36A+cW48Gzbyz6PwK8
+	aNtDbvtYLx7U3nsNBLp2iV1BG4e9JEA1YhzOO17Ks3BrZCofGSIqkl3gO7tQpfZ7
+	9Cm1Im30iik0JHdJjq6zsUqiYrfOj4f7ySBixPJkoxs5KL+1W6X7nFURdCR/xdLK
+	DgUvwUV7pQNBUu3CXmCIoTNdmWKkOqU63qt5Lvq1NSk73NAl2cOzpbsjWDa/EowS
+	OJ2S/HM+uD3IKxqB46ixqIiu4j8I78K+KhZYvqrp7Mfh/6i3nJb19kapOA19gKbD
+	l0/WfAS1PcFHpB2H2sQjNA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790587176; x=
-	1790673576; bh=4/n14dzpwFiDcI5IgN/vsDUft/HZfcU7hMG9gugcLko=; b=m
-	qJE42wwryhNt6j9W94AY7hsjlnhy4ZyHAQkOHPT8h/icTO7/MLLk4fUwvFMmwMhI
-	JEcr4fGsEpf6N0sINWoelPkt88lz8CXUP4HPyZ1QHpZLFIpwtJRxHDmGzoqc/D3x
-	bdqH9UPLb5fu/5g/keZmOEVHXu48tfJCFZGkEigjmnH2HDe3zj2656TSpktijC/W
-	wFdWCuBMPBugRQxR4EZq9xIx0Vd7EBJkUzs3otTESOx29BFuoOu/rCfcBWtXQQLv
-	qWiGnMjdvt02/vhA5pOaHvv7cyRPQR1OA3P3/Tp7Ca1HeV5MTcbQ8BnHdG1wb29r
-	8OssAOEFPvo7AmVX86BaQ==
-X-ME-Sender: <xms:KDG6asql0L1pn5A8iTcxE_JBzOUlaLQisqH_R95eDKS7NnR9t7-J8Q>
-    <xme:KDG6aoqylSGwevQPJ3V0ZuvrNmCYFePi6q2clno2CI_oRYy_Y6Gup-jTUUTSIeO2B
-    oqkWUC0reGmhxkD6lU8YkjMp-L42uwH3FV2yXzlEFc9d7HgQhb7>
-X-ME-Received: <xmr:KDG6au32pUI36aV_P71etfk0Kzzdb0uKx6Hp0SsHP0t11dUeBg9RPJyd4nKEhE7IRhgeMi2w4xIyu1WHwPlSCB2F2sZRCfk0L7ExXScEtfIVgZs4pQ>
-X-ME-Proxy-Cause: dmFkZTGjTxxejuXNxXBpdA3Cjq03yu5PK6LODZIyeNUZfUHDkzc1edTgUlZn4ha4nuvFgy
-    jNhdWnwhB0XF/8Jp1QF+o8XoI2MmG2LJgbOtzjEaakE87LNSkjTMJU0b7wt8rPWjhXRkLk
-    EIpOsOwoIiHaAvGmjrPM4dSJ6TQ8omwbFRQE9Zigm4QpVB4xlnrk+o8bN9UM+1/5QpNyaP
-    lMnEVJ0DuY+vc1BT57OJxKoRli5bWntKOb5F7cAbosEJ+WhRLB8e3BBr7jVjf3/v7zsgEg
-    un0aZCj6GVcgjkvdDbg+1/Uk+qTcyIwHXREEj0Cw8hX7ckF3H82bSsxyJOct9iguvGSDC6
-    Pd9XVdETieSIkPTAWpqDLxEvdBFzDnk21KL5VcmLrkUq0LuOaQDceTpoImw7cSV8bRNCo1
-    oyPPYQQQgAOEiZPwlx2iqjtUT1ROAnUZzmj4yzWpZ7KXoWrwsRjrEoRsLhdQOuLWFGTuG0
-    V9WadR/NDX/QAd3783wPteWLFyOfK8wqZWGLpvx/Cov3ES3gt4LQkowC7BuJt14iP+vrFe
-    uKJljEpz4gCCeVoZu1XE7VfNqYUbLA7cHMC1vAlYS7UaUsLdKXgvgkegrmiorlHlBT/KZy
-    ejqma47lN/Qz/l9aiKEMPwIbD33wa1eOjGLAk5fidCJ/heFAE+QPStETCbgg
-X-ME-Proxy: <xmx:KDG6avBZ2cznwxNEqS3v3-0cvDNGLBhiB85bnGBMRXtwhm_71ORMBw>
-    <xmx:KDG6audoX3IpxgnGA2vZkEZtJTmNzOqOLfJ1VIp8g9tkJUC7Ty_kkg>
-    <xmx:KDG6asgfaw8HHln4Dkd_eUAxGT2rYYIG3OR4QhXxCIcDRcigj1mnbA>
-    <xmx:KDG6aurqHmfhNNwRAl-ypyMp18n8nKY1K7tAN93Un2iX0vE_c0m0cA>
-    <xmx:KDG6agcVjqEapPVwwvWd3fF0V7j1i71yBOBtAJ9RG5_2wzfRdEdQIGIp>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790587272; x=
+	1790673672; bh=hRNnTKcHGzYe4uOR2bjRls7+MPkO9HBfP28GZfIEfKg=; b=o
+	hTsY7NwrJxRF8QKhcbLxjAzWEEB05Uo0gqbSjVRVtXPQ6bZnomhj8sSW0Kpjr2ao
+	hcaBL3XYzA2pJ+ugsy3lml2KB6/q/mcBuoA8wzQQASvpUQg/PhI4uAzzXqdiE6ud
+	EGvLdfE9sCIe593+B3i6DZKEmTG18iZfND7ivF2XTq/iYTKf8cdhWb2u57jDYnv7
+	kCeuJ3E5ZgbZFOe3ZNNfLtLcms+6+MXc9MBmp5AzvTFT/J/oNGZ4Xg1or3NRkUbA
+	wwBcje6EtVMlvfhfAfeGb0CGbfbM0jbNADhHY/q9CndJIxGI0CHrUf0quqbVIZ/0
+	vuFvONVRHmFgfYnZOjLgQ==
+X-ME-Sender: <xms:iDG6aqAnrN7wDes2Sp0Gl5MjQI8weeL7LERjxzJspz3tOhD2r1Hdzg>
+    <xme:iDG6aqg--pqDOaVmlflv07PXcAcbNx-6DE_ZUMkhOSK8T7_Jsm_10oTvLANNZ2J6k
+    _44L7kx-xOAZBA6ngLpS7bss_XtwEQ_Xlt9WC7OwGS-cgeiwoHeDQ>
+X-ME-Received: <xmr:iDG6arOTAHio_YkGux1olRgnkaj85lKI2uPtSSNLUx035ap9yXqAUkPsNBL66jkaCypQMZ-9saf-wEzDd7vWUvQDRNRrz_dyNEsj2qpCgviqTaQvFQ>
+X-ME-Proxy-Cause: dmFkZTE9CYFLyHR6UCphSxQ+Rj/CC3u3hyvQWy7H8LYyAkjG+IUCZuRpI4B28H/qbBTWmy
+    kmDuI8M/srD+l2ADEf3FVjNqAyYblHJVL4XNmv27wkHtny7jq2Uo/8NCFxIF9gtzFK+e7M
+    KwbXlR/8U4gXCpPuZOneV1zVMhA/B0YfCzZpRH/+dqsjEHQzypG+5wzLQtEZCE5WSO0hkP
+    SsFCsd3g9cWmr0VsELgu/smBcgd4HUNhNrzOdWAysbz/4sZ5N8+sxptd1RKDY+klYDt5lm
+    UduC0W/6XT+ku6yuYBYf/FAh3ITVce5vb8QQh0JZf6EUqFc6OP5bM+UIcW0mppvl9d5uA4
+    Jf9a1CEHrdAzXDvunPyGW62myE+64zpBVdaATmUE8iP3YpUOOucO5J66ccBVZ9W6NcJjQM
+    m0h2X4U6+TRFAKXDJMioPDUp07AfKemHVUVMRzy8TdwCTlhYrV54nSFUSJMC05/1h379H0
+    scub0sAIoRhTY14RuGQTMn5cj38nrkOzAQE1WR6Kc4zhwIbFU4r1bHy7x400oySp7GqI81
+    VqmNxjOivdp5dhJTlmEnFs5XP6Fs2lNI54xsEvQhgglfCDg0yGP7HZBOBHlsYeCWNk50Rb
+    p9I0H16a44RGPn7zIzY2Ntu3OO90YCoXPwbCvgYtUlSNF7yfrxxHFPaRajLA
+X-ME-Proxy: <xmx:iDG6aj7-zyfhXEVpln2FvxpJ5myS3PDuc8ilSo8BedyONSBghTDNmQ>
+    <xmx:iDG6ah1y6eD38tJh4cUerWD2-cTChNYBcbxuwLzZzlgl5o7BxQEvug>
+    <xmx:iDG6asaPP3aF5fYd0JlMtojBeX3y0fk4Q0GF3nTNS_DBUP9-uIq6vA>
+    <xmx:iDG6ahDOWI6Z0bwFDgliqhyyT5Sxfbgb0BEEi0GNs_B99HoSCidQ4g>
+    <xmx:iDG6ai2DpjFcVrxf-76ZyFcZjc6sm3aUUc43K7tXe8d2XEr70_uXXz1d>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Sep 2026 05:19:35 -0400 (EDT)
-Message-ID: <c45e9cd1-5e15-4403-8016-5ce936c29268@bsbernd.com>
-Date: Mon, 28 Sep 2026 11:19:34 +0200
+ 28 Sep 2026 05:21:12 -0400 (EDT)
+Message-ID: <479220fa-ad50-4ab8-af10-fe3cb947a07e@bsbernd.com>
+Date: Mon, 28 Sep 2026 11:21:11 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -77,61 +77,43 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/10] mount_service: open only paths named on the command
- line
+Subject: Re: [PATCH 03/10] mount_service: refuse OPEN after the MNTPT request
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: fuse-devel@lists.linux.dev
 References: <20260925-mount-service-bound-open-v1-0-bbf1a84c7995@bsbernd.com>
- <20260925-mount-service-bound-open-v1-2-bbf1a84c7995@bsbernd.com>
- <20260925220508.GR6253@frogsfrogsfrogs>
+ <20260925-mount-service-bound-open-v1-3-bbf1a84c7995@bsbernd.com>
+ <20260925220714.GS6253@frogsfrogsfrogs>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20260925220508.GR6253@frogsfrogsfrogs>
+In-Reply-To: <20260925220714.GS6253@frogsfrogsfrogs>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 9/26/26 00:05, Darrick J. Wong wrote:
-> On Fri, Sep 25, 2026 at 12:23:30AM +0200, Bernd Schubert via B4 Relay wrote:
+On 9/26/26 00:07, Darrick J. Wong wrote:
+> On Fri, Sep 25, 2026 at 12:23:31AM +0200, Bernd Schubert via B4 Relay wrote:
 >> From: Bernd Schubert <bernd@bsbernd.com>
 >>
->> In a service mount, the fuse server runs as a systemd service in a
->> sandbox that has no access to the user's files. The user runs mount,
->> which starts fuservicemount3, a setuid-root helper. The fuse server
->> sends requests to the helper over a socket. With an OPEN request, the
->> server asks the helper to open its backing file, for example the disk
->> image named on the mount command line. The helper opens the file with
->> the user's credentials and passes the file descriptor to the server.
->> fusermount3 opens nothing for the fuse server except /dev/fuse; the
->> server runs as the user and opens its own files.
+>> The fuse server sends fuservicemount3 a series of requests: OPEN for
+>> its backing file, MNTPT to name the mount point, then MOUNT. The server
+>> chooses the order. For a directory mount point, attach_to_mountpoint()
+>> changes the working directory of the helper to the mount point. The
+>> helper then mounts on ".", so a rename of the path cannot redirect the
+>> mount.
 >>
->> The helper opened any path the server sent. An attacker who controlled
->> the server could use this to read every file the user can read, for
->> example ~/.ssh/id_ed25519, and the sandbox did not prevent it. The
->> helper now compares the requested path with the arguments it was
->> started with. For "mount -t fuse.service_ll /srv/disk.img /mnt", these
->> include "/srv/disk.img" and "/mnt". The helper opens the path only if
->> the string is equal to one of these arguments, so the server can open
->> only a file that the user named when mounting. The helper already made
->> the same check for the mount point.
+>> A relative path in an OPEN request after MNTPT resolved inside the
+>> mount point. For "fuservicemount3 disk.img /mnt -t fuse.service_ll",
+>> an OPEN of "disk.img" matched the command line argument, but the helper
+>> opened /mnt/disk.img, not disk.img in the user's working directory. The
+>> helper now refuses OPEN once the mount point is set. No in-tree server
+>> sends OPEN after MNTPT.
 > 
-> Hmm.  In general I think it's a good idea not to let the fuse server
-> open anything in the mount helper's filesystem namespace that wasn't
-> explicitly mentioned in the CLI arguments.  However, the simple strcmp
-> check will exclude too much for fuse servers that receive paths via
-> mount options.  For instance,
-> 
-> $ mount -t fuse.ext4 /dev/sda1 /mnt -o journal_dev=/dev/sdb1,ro
-> 
-> Here the user mentions /dev/sdb1, but arg_in_cmdline() will never find
-> it because it's a substring of the last argv[].
+> How about absolute paths?  The resolution of those remain the same after
+> the cwd changes.
 
-Thank you! Next version adds more logic and an admin config option in
-case the logic failed.
+Next version switches to openat and should handle all of that.
 
 
 Thanks,
 Bernd
-
-
