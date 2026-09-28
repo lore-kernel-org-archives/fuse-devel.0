@@ -1,584 +1,451 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-dy2-f9.google.com (mail-dy2-f9.google.com [74.125.229.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08CF3C5DBA
-	for <fuse-devel@lists.linux.dev>; Sun, 27 Sep 2026 21:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790545476; cv=pass; b=Jm2Tse5uV/kfkr6pxS1ye3uGWYIVA0jTusihPoe0rf6fNvIGZqoeqrDsg7zhB/Q7WHxNyNtjhs6R2BgrgeEBDlWrBTZleeHXc3GcGiZJjMlBOCItSVSsdqTamwW/+NLIO/895CTj0URNkf2NaYpRSSuoKsg+RdM81hHrwyewaZE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790545476; c=relaxed/simple;
-	bh=FAEI8WA8cSRyBC82ESn9Wgc0lJuxeWzrumO8pwMuOCw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=msF3eZEG+WqKGJ+RpDWjJIhc+n07uPc6UliX4DCRXUmHAh3P/K5NgspJwJuHe1BI/hSFMAaOCol+okl7rp4ChVSMQjwt741qkR08KFxtZ2Y4FZ+h/l3cd6pjN4yPctCM4YzhkqL8vTT2NjY1zzY6WruoiLgPFSvWRT5mrij/J5U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v2Jmhw/+; arc=pass smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1ACC36167B
+	for <fuse-devel@lists.linux.dev>; Mon, 28 Sep 2026 01:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790559864; cv=none; b=QViaUIfwD2/JUheKVNJnuNOMZ4GhbQ0ICYC7x+DF0CTYGy7vmXTDG9D4yTUpmKEWfnBwq8JTDyR+r4yskVk3jVEpVRiQ1+YOMJvcTEPG2Cn3IZiuYZx7PF18ozWOjosY7MetctIObygySLYQTYLo3WB8paTZsZvs1iVBEgS+hOY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790559864; c=relaxed/simple;
+	bh=ipsvNDo3zwgmiIFaSah+i1GAWaEG1zxT09E2gBNhPv4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DbeltrVXyHzz7JX80+aEVGCad8jhUe7r8aJxfkHTpibUTk8uL/rKJR19SYM4I1Nhalu8rFCO7RX3Phf3iAYoNpm6KFwg0SRYA2ZvtG50KoSIyh3nREyxQmr8npYPL9wPs0ieeP17dGFZ2QjkQtLSX2D7MXkez6rkPt5FQT24X3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=har.mn; spf=pass smtp.mailfrom=har.mn; dkim=pass (2048-bit key) header.d=har.mn header.i=@har.mn header.b=IwJfCJTk; arc=none smtp.client-ip=74.125.229.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=har.mn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=har.mn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v2Jmhw/+"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-533202fe429so279701cf.0
-        for <fuse-devel@lists.linux.dev>; Sun, 27 Sep 2026 14:44:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790545471; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DvcACHijV0tKc9Dd8YrXqGxNDzvMeWgWG649rZvdqDEeUMQRCEpWTEBDGzTU+H+Gh6
-         Vr1nn7ac3u+fVouv/OK5LRfr1JszO7iWbpwUXs82Bbk9EKfMV0PErRXFtJFUc0HheYF+
-         B8a3fBt/NU2GBKSvpoOMqC2yBXszJLW505YFsaPNyroVtQ+++Vs+wcJoMIpTVC/CEmeU
-         RNGAs+h5lJGszik6PWd1SLmASMC58AqHe/qKxZy7RzFzSuiGSrEZMqfp9f/E6oGdD5R8
-         VkUiWa3gA1Lczih/H50nN6LZJYqVy9O26BJAEcrBTCB2IzsSziTIf2PQD7BRaAmDkKd6
-         hfJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=y119z7sdl3qfjHiuF1t57ekDKg+i4BGISMvCcdxAaw0=;
-        fh=rqkFul8iSlFrs+nmwHiGzZveNcA4Cnkz9pLmuuOA0Fc=;
-        b=p9L/8FBT6M0gDx8SKSOo/9ktryEmw+HYWOikZa16YhyY0Zl2EDJROHr5ZROYm68YM4
-         2JPgPiyDYdFuWUjkdVO2A8nfBpO7721Y9azYti6cqYM5e1cyouqUlO+sASp3dymo+gGO
-         h6tbtN4HPCDIOu1psBB8biY/a533Wh//dfQhNbPBi8yW5pnAaX0kGXHCgkcfM8U932c7
-         Ii5vxcXFiPNJbYMEQWT+hY99pBDikUyJB95FzN6U5QOSww/Kc8Lx08m3Ax3lxvxcFkGP
-         Rt1CsC7JqesKfoyQ+qa2Ts0D8mKbKWFUPfxTU3pmf+0EzAzDBjOk5zTop+z3zUFgvtz6
-         oi9w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=har.mn header.i=@har.mn header.b="IwJfCJTk"
+Received: by mail-dy2-f9.google.com with SMTP id 5a478bee46e88-343f0de0450so352323eec.1
+        for <fuse-devel@lists.linux.dev>; Sun, 27 Sep 2026 18:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790545471; x=1791150271; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y119z7sdl3qfjHiuF1t57ekDKg+i4BGISMvCcdxAaw0=;
-        b=v2Jmhw/+Xl8rZGgAYBk0qGyzgWAKQR9MbvaPahhifAht77HUw5a75JpKLbolqxmVHs
-         ENLQWmWaQNjpTdFHrIqkooDvyv2lzEnKkUMsHP2X+TKbPWhnHbf6U2PAJQFcgPVNp+l2
-         3lW/pLpedguZij31KUH2NipV2EFtfBiAvp9x52J5hnflpwzA+AWImEglM/4XJVQjlIv9
-         Z+97poFk/GFKdQ8AVI1QLDw3IXoD9jUoGH2AWgIr4ughDdlzp0ooMRJncZzI91xTHprA
-         Ua3QgyuUop5yTijzHPhuWjK7sERSS1eUs8tBBur4jFrrl/ENOzSuoO8jh5/8iO1KpWHs
-         KUSA==
+        d=har.mn; s=google; t=1790559861; x=1791164661; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GGYKAuC+XGJ3GzFJm39Bbz01pRXmWtj9U+4AA2zMEo4=;
+        b=IwJfCJTkjA3OhhJkHqkB1hhctE+DJn8S5ipFG4+FZWyXpmE+1dqZ2buVHJSn5A73i2
+         28w0pjk1C12eD+L6UQQdZ7Jgo+nOdflh0r1b9sgkkGWOEI2WDbiCfVonJMtNsN/pcUwd
+         QQ/dRFIB7RS2e2r7uafztVyryYcOs54J36Xvt8a5sGiLztI5mHMbIPgULi2U2r6JN7s4
+         RrL9ncx6PRGRBb2vlUIq2Q470V9EPmyypvwctuWjOSMyyyGUNtc5MG+5rwv7B8QJKri1
+         TA3FxU7YLNxHrYEotft+1Us2TH4hciEqIvGjCtWcYYUqtDG1taBf6bDD7RR5/impqF6V
+         FXUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790545471; x=1791150271;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y119z7sdl3qfjHiuF1t57ekDKg+i4BGISMvCcdxAaw0=;
-        b=GcCr85I71HrZvSPjFTtvHljeFwzc8xZhCAImjKFOKsj7KzfMzvGv7zOEcqBskaUt8O
-         qZvXo6EZ0HS1/Mn1x4P2QNH6KZx/P30TGjVpYW5P34zTUCxK5MZu+FqgYP94cJrCadF0
-         LD7k0OYxtRgUiTC9wlQ1RfCpjM48EZCnjPIy/HD/QznzHXMzaotg5sJJCja0WALHANki
-         pIgoLgeL/RDQdqY7FjXR0FwDJa9lWS8ViX+ATiDrakCWmf6FTTpJEikBg2NSk7QeWLwL
-         p0DhzybDcNzUVSMwcJygrhQ+F/qMxtQtNTMpmmNnL4Jt/klwWEJlG1vcXMJqQIzowbwj
-         +i4A==
-X-Forwarded-Encrypted: i=1; AKwUvBx+M9+pbqSbMTpaiPTZ44LYNGSWQxpf2jHlrPlHyAksj8kIEJboxDUktFLkdztIOvFLwlk5zgkMr4T8@lists.linux.dev
-X-Gm-Message-State: AFuF++nLT6YOeKysMS4WAYt7Y7R9sn5+hByblpwjnHiSF0nkkqMCO6Hz
-	KJZyG/PtW3iTZHW8wyx16/4yIIyv2olLpzYKoXrDbFATDBQRTtSD/V8cv4UaoDJEFlOje3cAQCQ
-	BkvvlDHZ7qTFajTRwFk8KttJxt515dFXbspfFjA5H
-X-Gm-Gg: AYBFou1mq+bn5xD56VtYblFYly9RVFjeSAze0vDB85mZtphhcglUz9gbr2VJ+qF65NK
-	s9mAuT0HGeplftkC7pWBx0J3VBS8MNrG0/HCtb5HIjrpbJq1BdN5mmW8e0CNeS3Y4GxxluUUhXD
-	UhduU7FqR7iJyn7oEJ/auCfyfB6EGMqJANdKgcigLO3Cpuyl6WzW9XVhdy/3Ynjz/JwIPbg5UdU
-	kDPdkiaAvfQGCdZPYTv+CWHu0FHyO0fmzKkkn4enxaW3b7XOVIcwIi4haj37q830tclcgPNu1KI
-	LxsQAZEnPDiPoPFyQJcTDAbco90jIQcMGvBM7JBsIL6wvvDN0FdvTg==
-X-Received: by 2002:ac8:6104:0:b0:530:e00f:7768 with SMTP id
- d75a77b69052e-5331fed98dfmr23915841cf.0.1790545469472; Sun, 27 Sep 2026
- 14:44:29 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790559861; x=1791164661;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GGYKAuC+XGJ3GzFJm39Bbz01pRXmWtj9U+4AA2zMEo4=;
+        b=XDV//upRsCEOlZph+4ciiQ6jR6COxAj9bzKfOZ7rx7OpCVRMJkJJZwhL5ktU/lvfZu
+         zR4qG/aMWcdf0ZfhDJMjauCuCLfvFXP7CJzDAt713dAm4nlIaP7ubGkgdVyxogr8ED+W
+         GrCh/UpMlFDG93aB9gN1Bw6yS+weVuBVk507674AJ0Ppd8ioEubkTs2RtkUgUZt8ub4c
+         SspcPoaYve2p2L40bsmzAG53nYTO12xdkh2BuUa7fP3S2zB93NkZJgd/wIG8LdpB98XJ
+         THBvMF4gEOD1zx+0njj3xGOsdbcnOMTvC7RRZQtnVQ7I1yaml7gX3YdfiFvCg1lBQnwQ
+         Jqkg==
+X-Forwarded-Encrypted: i=1; AKwUvBzDHkebnAA9vFSAeFXccqwu9PHnJOymKOmPRZ9zEi8kwl9T2D5y/s3GTlxkebbBee/BJo5Cvp4a9kQa@lists.linux.dev
+X-Gm-Message-State: AFq9FYI/ErDMIhJTz1cWNjlxL1ELUBhegNPhdktHlKVp4zw4h9p8r9zF
+	V1niG4d9eawNxToEq1XI/zqjY3JH3aRTW4XBVa1KXVBMxc5SFGIQSvr9AHbOdNTDYw==
+X-Gm-Gg: AYBFou22VjqAxJgRVoFoVMuegB996NyVoSC9B5MTWl+ZRj40pTFQZVQfx7C6NylhhUS
+	fIVXG5RG8YMYg92ShZGLAIQnSF6SdIoBooHZjikhv7C8oG+83a4bvDEvuHRT7yvUaTvkoP6dEXq
+	dbopPEbsRYXLuCHBPHyQ2JNlWysoc4m8oGfXZrkrTsYz4GnOtS/I5cITYcDfxR7PNabdC1CMQy0
+	Y4wdLK8BPO548lu5Ik85bK0Qog7O+cnoI2qemYbCRMZb5VN4k533l18XLH7kUvNOkMGPnxzUgX1
+	yJD/RryF89wLzNtBWl0qG53X+dFhBJGJlR5Jn2NPCxGLTissVq9WOCl/teoCNjxDSRtxGGRtGj9
+	yYSic6JSWVq82KhlJ7HIx714JfQNDPPczb5eY9h+C6Usq7f/a6qei0Nc1QKGdU6ENX2baxPslJ3
+	JKCZaSynYNGEelcmV745pFFfnIQ/+he25pclJocRpe4lArivRYo612LXmfvGFL9gbx3ZOrF8Ylp
+	x+ijL+9rWkUfI4ofKf7Ff8Gbg==
+X-Received: by 2002:a05:7301:fc0b:b0:341:cada:34d5 with SMTP id 5a478bee46e88-342711ab268mr7258851eec.1.1790559859236;
+        Sun, 27 Sep 2026 18:44:19 -0700 (PDT)
+Received: from zeniba.local (c-76-132-108-20.hsd1.ca.comcast.net. [76.132.108.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3413fc2413dsm24076139eec.0.2026.09.27.18.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Sep 2026 18:44:18 -0700 (PDT)
+From: Russell Harmon <russ@har.mn>
+To: miklos@szeredi.hu
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	fuse-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Russell Harmon <russ@har.mn>
+Subject: [PATCH v2] fuse: add inode generation number support
+Date: Sun, 27 Sep 2026 18:43:57 -0700
+Message-ID: <20260928014357.2285448-1-russ@har.mn>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260927141437.1432584-1-russ@har.mn>
+References: <20260927141437.1432584-1-russ@har.mn>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-8-4583d8a23bca@kernel.org>
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-8-4583d8a23bca@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 27 Sep 2026 14:44:18 -0700
-X-Gm-Features: AclHuK-2F2ckU1C-yxhObu0QhsQKrsVKTug_h-Hi9fsC16ALl2HO1fuDhZLvMkI
-Message-ID: <CAJuCfpEawD2NUO9EoqKnR6YR59XMdYrtUrj8KEwJVwO8AOk8Lw@mail.gmail.com>
-Subject: Re: [PATCH v3 08/40] mm: add mmap action for discontiguous kernel
- page mapping
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 17, 2026 at 9:27=E2=80=AFAM Lorenzo Stoakes (ARM) <ljs@kernel.o=
-rg> wrote:
->
-> The existing kernel page mapping mmap actions allow for partial and full
-> mapping of an array of struct page pointers.
->
-> However some drivers require the mapping of discontiguous ranges. Permit
-> this by providing discontig_kernel_page_ops which allows a driver to
-> specify how the operation should begin and how batches of pages should be
-> retrieved.
->
-> It uses the minimum exposed interface to do so, providing address, page
-> offset and both vm_private_data state and a local private state object.
->
-> ops->init can establish state for the operation, and ops->get outputs the
-> pages to map and their count. Should an error arise the core unmaps the
-> VMA, invoking vm_ops->close, which is therefore where any state establish=
-ed
-> by ops->init is released.
->
-> Batches may not exceed the VMA, but may map less than its full range in
-> case the driver wishes to allow the user to map an area larger than the
-> available data.
->
-> To use it, users invoke mmap_action_map_discontig_kernel_pages() with
-> initial local private state and a set of operations.
->
-> Users can then use one of the provided helper functions to perform an
-> action:
->
-> * discontig_kernel_map_abort() - Abort and leave the mapping as it has
->   been accumulated so far.
-> * discontig_kernel_map_page() - Map a single page, or a compound page giv=
-en
->   its head page.
-> * discontig_kernel_map_page_range() - Maps a struct page ** array of a
->   specified count.
->
-> The userland VMA tests are updated accordingly.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> ---
->  include/linux/mm.h              |  45 +++++++++++++++++
->  include/linux/mm_types.h        |  44 +++++++++++++++-
->  mm/internal.h                   |   3 ++
->  mm/memory.c                     | 108 ++++++++++++++++++++++++++++++++++=
-++++--
->  mm/util.c                       |   7 +++
->  tools/testing/vma/include/dup.h |  11 +++-
->  6 files changed, 209 insertions(+), 9 deletions(-)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index a1f2d375cf7d..2a92193ac6a5 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -4647,10 +4647,55 @@ static inline void mmap_action_map_kernel_pages_f=
-ull(struct vm_area_desc *desc,
->                                      vma_desc_pages(desc));
->  }
->
-> +static inline
-> +void mmap_action_map_discontig_kernel_pages(struct vm_area_desc *desc,
-> +               void *init_private, const struct discontig_kernel_page_op=
-s *ops)
-> +{
-> +       struct mmap_action *action =3D &desc->action;
-> +
-> +       action->type =3D MMAP_DISCONTIG_KERNEL_PAGES;
-> +       action->map_kernel_discontig.init_private =3D init_private;
-> +       action->map_kernel_discontig.ops =3D ops;
-> +}
-> +
->  int mmap_action_prepare(struct vm_area_desc *desc);
->  int mmap_action_complete(struct vm_area_struct *vma,
->                          struct mmap_action *action, bool is_compat);
->
-> +static inline void
-> +discontig_kernel_map_abort(struct discontig_kernel_page_state *state)
-> +{
-> +       state->action =3D DISCONTIG_KERNEL_PAGE_ABORT;
-> +}
-> +
-> +static inline void
-> +discontig_kernel_map_page(struct discontig_kernel_page_state *state,
-> +                         struct page *page)
-> +{
-> +       struct folio *folio =3D page_folio(page);
-> +
-> +       if (folio_test_large(folio)) {
-> +               VM_WARN_ON_ONCE(page !=3D folio_page(folio, 0));
-> +               state->action =3D DISCONTIG_KERNEL_PAGE_MAP_COMPOUND_PAGE=
-;
-> +               state->__folio =3D folio;
-> +               state->__nr_pages =3D min(state->nr_pages_remain,
-> +                                       folio_nr_pages(folio));
-> +       } else {
-> +               state->action =3D DISCONTIG_KERNEL_PAGE_MAP_PAGE;
-> +               state->__page =3D page;
-> +               state->__nr_pages =3D 1;
-> +       }
-> +}
-> +
-> +static inline void
-> +discontig_kernel_map_page_range(struct discontig_kernel_page_state *stat=
-e,
-> +                               struct page **page_arr, unsigned long nr_=
-pages)
-> +{
-> +       state->action =3D DISCONTIG_KERNEL_PAGE_MAP_PAGE_RANGE;
-> +       state->__page_arr =3D page_arr;
-> +       state->__nr_pages =3D nr_pages;
+This patch adds support for propagating the inode generation number from
+the FUSE server to the kernel. This is useful for exporting FUSE
+filesystems over NFS, where the generation number is used to detect
+stale file handles (ESTALE) when inodes are recycled.
 
-Shouldn't we cap state->__nr_pages at state->nr_pages_remain like you
-do in discontig_kernel_map_page()?
+Key changes:
+- Bump FUSE protocol version to 7.47.
+- Repurpose the unused `dummy` field in `struct fuse_attr_out` as
+  `generation`.
+- Add a `FUSE_ATTR_GENERATION` INIT flag with which the filesystem opts
+  into the kernel consuming that field. Gating on the protocol minor
+  version alone would break existing filesystems: the minor version only
+  reflects the library, not whether the individual filesystem fills the
+  field, and a zero there would look like a generation change for any
+  filesystem that reports nonzero generations in LOOKUP.
+- Update `fuse_change_attributes` and related functions to accept and set
+  `inode->i_generation`.
+- Populate `i_generation` from `LOOKUP`, `GETATTR`, and `READDIRPLUS`
+  responses.
+- Detect nodeid recycling on `GETATTR` and `SETATTR` responses via
+  `fuse_stale_inode()`, the same check already used by the `LOOKUP` and
+  `READDIRPLUS` paths, and mark the inode bad (EIO) instead of merging
+  the recycled file's attributes into the existing, possibly still-open,
+  inode.
+- Update `fuse_get_dentry` to validate the generation number against the
+  file handle, returning ESTALE on mismatch.
+- Maintain backward compatibility: without `FUSE_ATTR_GENERATION` the
+  generation field in attr replies is ignored.
 
-> +}
-> +
->  /* Look up the first VMA which exactly match the interval vm_start ... v=
-m_end */
->  static inline struct vm_area_struct *find_exact_vma(struct mm_struct *mm=
-,
->                                 unsigned long vm_start, unsigned long vm_=
-end)
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 9ca2ea3664bc..0cb4f9603956 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -818,8 +818,44 @@ enum mmap_action_type {
->         MMAP_NOTHING,
->         MMAP_REMAP_PFN,
->         MMAP_IO_REMAP_PFN,
-> -       MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
-> -       MMAP_KERNEL_PAGES,      /* Map kernel page range from array. */
-> +       MMAP_SIMPLE_IO_REMAP,           /* I/O remap with guardrails. */
-> +       MMAP_KERNEL_PAGES,              /* Map kernel page range from arr=
-ay. */
-> +       MMAP_DISCONTIG_KERNEL_PAGES,    /* Map kernel discontig page rang=
-e. */
-> +};
-> +
-> +enum discontig_kernel_page_action {
-> +       DISCONTIG_KERNEL_PAGE_ABORT,
-> +       DISCONTIG_KERNEL_PAGE_MAP_PAGE,
-> +       DISCONTIG_KERNEL_PAGE_MAP_COMPOUND_PAGE,
-> +       DISCONTIG_KERNEL_PAGE_MAP_PAGE_RANGE,
-> +};
-> +
-> +struct discontig_kernel_page_state {
-> +       /* Map state. */
-> +       const unsigned long start;      /* Start address of VMA. */
-> +       const unsigned long end;        /* End address of VMA. */
-> +       unsigned long addr;             /* The current address to be mapp=
-ed. */
-> +       pgoff_t pgoff;                  /* The current pgoff to be mapped=
-. */
-> +       unsigned long nr_pages_mapped;  /* The number of pages mapped. */
-> +       unsigned long nr_pages_remain;  /* The number of pages remaining.=
- */
-> +
-> +       /* User-defined state. */
-> +       void *vm_private_data;          /* VMA private data. */
-> +       void *private;                  /* Mapping private data. */
-> +
-> +       /* Users should not touch these, use discontig_kernel_map_*() hel=
-pers. */
-> +       enum discontig_kernel_page_action action;
-> +       union {
-> +               struct page *__page;
-> +               struct folio *__folio;
-> +               struct page **__page_arr;
-> +       };
-> +       unsigned long __nr_pages;
-> +};
-> +
-> +struct discontig_kernel_page_ops {
-> +       int (*init)(void *vm_private_data, void **private);
-> +       int (*get)(struct discontig_kernel_page_state *state);
->  };
->
->  /*
-> @@ -844,6 +880,10 @@ struct mmap_action {
->                         unsigned long nr_pages;
->                         pgoff_t pgoff;
->                 } map_kernel;
-> +               struct {
-> +                       void *init_private;
-> +                       const struct discontig_kernel_page_ops *ops;
-> +               } map_kernel_discontig;
->         };
->         enum mmap_action_type type;
->
-> diff --git a/mm/internal.h b/mm/internal.h
-> index c767007c2187..b81fce5fe510 100644
-> --- a/mm/internal.h
-> +++ b/mm/internal.h
-> @@ -1516,6 +1516,9 @@ int simple_ioremap_prepare(struct vm_area_desc *des=
-c);
->  int map_kernel_pages_prepare(struct vm_area_desc *desc);
->  int map_kernel_pages_complete(struct vm_area_struct *vma,
->                               struct mmap_action *action);
-> +int map_discontig_kernel_pages_prepare(struct vm_area_desc *desc);
-> +int map_discontig_kernel_pages_complete(struct vm_area_struct *vma,
-> +                                       struct mmap_action *action);
->
->  static inline int io_remap_pfn_range_prepare(struct vm_area_desc *desc)
->  {
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 448342883e9d..45b21bb04a18 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -2609,17 +2609,23 @@ int vm_insert_pages(struct vm_area_struct *vma, u=
-nsigned long addr,
->  }
->  EXPORT_SYMBOL(vm_insert_pages);
->
-> +static void __map_kernel_pages_prepare(struct vm_area_desc *desc)
-> +{
-> +       if (vma_desc_test(desc, VMA_MIXEDMAP_BIT))
-> +               return;
-> +
-> +       VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
-> +       VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
-> +       vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
-> +}
-> +
->  int map_kernel_pages_prepare(struct vm_area_desc *desc)
->  {
->         const struct mmap_action *action =3D &desc->action;
->         const unsigned long addr =3D action->map_kernel.start;
->         unsigned long nr_pages, end;
->
-> -       if (!vma_desc_test(desc, VMA_MIXEDMAP_BIT)) {
-> -               VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
-> -               VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
-> -               vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
-> -       }
-> +       __map_kernel_pages_prepare(desc);
->
->         nr_pages =3D action->map_kernel.nr_pages;
->         end =3D addr + PAGE_SIZE * nr_pages;
-> @@ -2640,6 +2646,98 @@ int map_kernel_pages_complete(struct vm_area_struc=
-t *vma,
->                             &nr_pages, vma->vm_page_prot);
->  }
->
-> +int map_discontig_kernel_pages_prepare(struct vm_area_desc *desc)
-> +{
-> +       const struct mmap_action *action =3D &desc->action;
-> +       const struct discontig_kernel_page_ops *ops =3D
-> +               action->map_kernel_discontig.ops;
-> +
-> +       /* At minimum need to be able to get pages. */
-> +       if (WARN_ON_ONCE(!ops || !ops->get))
-> +               return -EINVAL;
-> +
-> +       __map_kernel_pages_prepare(desc);
-> +       return 0;
-> +}
-> +
-> +static int apply_discontig_action(struct vm_area_struct *vma,
-> +                                 struct discontig_kernel_page_state *sta=
-te)
-> +{
-> +       unsigned long nr_pages =3D state->__nr_pages;
-> +       unsigned long addr =3D state->addr;
-> +       unsigned long i;
-> +
-> +       if (state->action =3D=3D DISCONTIG_KERNEL_PAGE_MAP_PAGE)
-> +               return insert_page(vma, addr, state->__page,
-> +                                  vma->vm_page_prot, /*mkwrite=3D*/false=
-);
-> +       if (state->action =3D=3D DISCONTIG_KERNEL_PAGE_MAP_PAGE_RANGE)
-> +               return insert_pages(vma, addr, state->__page_arr,
-> +                                   &nr_pages, vma->vm_page_prot);
-> +
-> +       /* Compound folio - have to iterate through each page. */
-> +       for (i =3D 0; i < nr_pages; i++, addr +=3D PAGE_SIZE) {
-> +               struct page *page =3D folio_page(state->__folio, i);
-> +               int err;
-> +
-> +               err =3D insert_page(vma, addr, page, vma->vm_page_prot,
-> +                                 /*mkwrite=3D*/false);
-> +               if (err)
-> +                       return err;
-> +       }
-> +       return 0;
-> +}
-> +
-> +int map_discontig_kernel_pages_complete(struct vm_area_struct *vma,
-> +                                       struct mmap_action *action)
-> +{
-> +       const struct discontig_kernel_page_ops *ops =3D
-> +               action->map_kernel_discontig.ops;
-> +       struct discontig_kernel_page_state state =3D {
-> +               .start =3D vma->vm_start,
-> +               .end =3D vma->vm_end,
-> +               .addr =3D vma->vm_start,
-> +               .pgoff =3D vma->vm_pgoff,
-> +               .nr_pages_mapped =3D 0,
-> +               .nr_pages_remain =3D vma_pages(vma),
-> +               .vm_private_data =3D vma->vm_private_data,
-> +               .private =3D action->map_kernel_discontig.init_private,
-> +       };
-> +       int err =3D 0;
-> +
-> +       if (ops->init)
-> +               err =3D ops->init(vma->vm_private_data, &state.private);
-> +       if (err)
-> +               return err;
-> +
-> +       do {
-> +               unsigned long end, pgoff_end;
-> +               unsigned long nr_pages;
-> +
-> +               /* Default to abort. */
-> +               state.action =3D DISCONTIG_KERNEL_PAGE_ABORT;
-> +               err =3D ops->get(&state);
-> +               if (err || state.action =3D=3D DISCONTIG_KERNEL_PAGE_ABOR=
-T)
-> +                       return err;
-> +               nr_pages =3D state.__nr_pages;
-> +
-> +               if (!nr_pages || nr_pages > state.nr_pages_remain)
-> +                       return -EINVAL;
-> +               end =3D state.addr + PAGE_SIZE * nr_pages;
-> +               pgoff_end =3D state.pgoff + nr_pages;
-> +
-> +               err =3D apply_discontig_action(vma, &state);
-> +               if (err)
-> +                       return err;
-> +
-> +               state.addr =3D end;
-> +               state.pgoff =3D pgoff_end;
-> +               state.nr_pages_mapped +=3D nr_pages;
-> +               state.nr_pages_remain -=3D nr_pages;
-> +       } while (state.addr < vma->vm_end);
-> +
-> +       return 0;
-> +}
-> +
->  /**
->   * vm_insert_page - insert single page into user vma
->   * @vma: user vma to map to
-> diff --git a/mm/util.c b/mm/util.c
-> index 438170490e7f..c5ee52aede1e 100644
-> --- a/mm/util.c
-> +++ b/mm/util.c
-> @@ -1469,6 +1469,8 @@ int mmap_action_prepare(struct vm_area_desc *desc)
->                 return simple_ioremap_prepare(desc);
->         case MMAP_KERNEL_PAGES:
->                 return map_kernel_pages_prepare(desc);
-> +       case MMAP_DISCONTIG_KERNEL_PAGES:
-> +               return map_discontig_kernel_pages_prepare(desc);
->         }
->
->         WARN_ON_ONCE(1);
-> @@ -1501,6 +1503,9 @@ int mmap_action_complete(struct vm_area_struct *vma=
-,
->         case MMAP_KERNEL_PAGES:
->                 err =3D map_kernel_pages_complete(vma, action);
->                 break;
-> +       case MMAP_DISCONTIG_KERNEL_PAGES:
-> +               err =3D map_discontig_kernel_pages_complete(vma, action);
-> +               break;
->         case MMAP_IO_REMAP_PFN:
->         case MMAP_SIMPLE_IO_REMAP:
->                 /* Should have been delegated. */
-> @@ -1522,6 +1527,7 @@ int mmap_action_prepare(struct vm_area_desc *desc)
->         case MMAP_IO_REMAP_PFN:
->         case MMAP_SIMPLE_IO_REMAP:
->         case MMAP_KERNEL_PAGES:
-> +       case MMAP_DISCONTIG_KERNEL_PAGES:
->                 WARN_ON_ONCE(1); /* nommu cannot handle these. */
->                 break;
->         }
-> @@ -1543,6 +1549,7 @@ int mmap_action_complete(struct vm_area_struct *vma=
-,
->         case MMAP_IO_REMAP_PFN:
->         case MMAP_SIMPLE_IO_REMAP:
->         case MMAP_KERNEL_PAGES:
-> +       case MMAP_DISCONTIG_KERNEL_PAGES:
->                 WARN_ON_ONCE(1); /* nommu cannot handle this. */
->
->                 err =3D -EINVAL;
-> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
-dup.h
-> index 1098655a5f4a..1d5f6b3cbd21 100644
-> --- a/tools/testing/vma/include/dup.h
-> +++ b/tools/testing/vma/include/dup.h
-> @@ -457,14 +457,17 @@ enum mmap_action_type {
->         MMAP_NOTHING,
->         MMAP_REMAP_PFN,
->         MMAP_IO_REMAP_PFN,
-> -       MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
-> -       MMAP_KERNEL_PAGES,      /* Map kernel page range from array. */
-> +       MMAP_SIMPLE_IO_REMAP,           /* I/O remap with guardrails. */
-> +       MMAP_KERNEL_PAGES,              /* Map kernel page range from arr=
-ay. */
-> +       MMAP_DISCONTIG_KERNEL_PAGES,    /* Map kernel discontig page rang=
-e. */
->  };
->
->  /*
->   * Describes an action an mmap_prepare hook can instruct to be taken to =
-complete
->   * the mapping of a VMA. Specified in vm_area_desc.
->   */
-> +struct discontig_kernel_page_ops;
-> +
->  struct mmap_action {
->         union {
->                 struct {
-> @@ -483,6 +486,10 @@ struct mmap_action {
->                         unsigned long nr_pages;
->                         pgoff_t pgoff;
->                 } map_kernel;
-> +               struct {
-> +                       void *init_private;
-> +                       const struct discontig_kernel_page_ops *ops;
-> +               } map_kernel_discontig;
->         };
->         enum mmap_action_type type;
->
->
-> --
-> 2.55.0
->
+Verification:
+Tested with a QEMU harness in fuse-generation-qemu against a patched
+libfuse (FUSE_CAP_ATTR_GENERATION, fuse_reply_attr_with_generation) and
+its passthrough_ll example reporting real backing-filesystem generation
+numbers. The suite verifies that:
+1.  The generation from `LOOKUP` reaches `name_to_handle_at()` file
+    handles and matches the backing filesystem's FS_IOC_GETVERSION.
+2.  `open_by_handle_at()` succeeds for a valid handle and fails with
+    ESTALE for a handle whose generation does not match, both while the
+    inode is cached and after cache eviction.
+3.  When a `GETATTR` reply reports a new generation for a cached inode
+    (inode recycling), the kernel marks the inode bad: fstat() on an
+    open fd fails with EIO, while a fresh path lookup recovers and
+    pre-recycling file handles fail with ESTALE.
+
+Signed-off-by: Russell Harmon <russ@har.mn>
+Assisted-by: Gemini:gemini-3.1
+---
+v2:
+- Bump FUSE_KERNEL_MINOR_VERSION to 47 to match the new 7.47 changelog
+  entry (v1 added the entry but left the minor at 46).
+
+v1: https://lore.kernel.org/all/20260927141437.1432584-1-russ@har.mn/
+
+ Documentation/filesystems/fuse/fuse.rst | 32 +++++++++++++++++++++++++
+ fs/fuse/dir.c                           | 21 +++++++++++-----
+ fs/fuse/fuse_i.h                        | 10 ++++++--
+ fs/fuse/inode.c                         | 23 ++++++++++++------
+ fs/fuse/readdir.c                       |  2 +-
+ include/uapi/linux/fuse.h               | 11 +++++++--
+ 6 files changed, 81 insertions(+), 18 deletions(-)
+
+diff --git a/Documentation/filesystems/fuse/fuse.rst b/Documentation/filesystems/fuse/fuse.rst
+index 0fbd5a03fdc9..f67bc9fc6316 100644
+--- a/Documentation/filesystems/fuse/fuse.rst
++++ b/Documentation/filesystems/fuse/fuse.rst
+@@ -49,6 +49,38 @@ using the sftp protocol.
+ The userspace library and utilities are available from the
+ `FUSE homepage: <https://github.com/libfuse/>`_
+ 
++NFS export support
++==================
++
++FUSE filesystems can be exported via NFS if the filesystem daemon supports it.
++For reliable NFS export, the filesystem should provide a unique inode
++generation number for each inode. This generation number is used by the
++NFS server to distinguish between different file instances that may
++share the same inode number (e.g. after an inode number is reused).
++
++The inode generation number is provided by the filesystem daemon in the
++following messages:
++
++- `FUSE_LOOKUP`
++- `FUSE_GETATTR` (see below)
++- `FUSE_SETATTR` (see below)
++- `FUSE_READDIRPLUS`
++- `FUSE_CREATE` / `FUSE_TMPFILE` / `FUSE_MKNOD` / `FUSE_MKDIR` / `FUSE_SYMLINK` / `FUSE_LINK`
++
++A daemon that keeps the generation number in its `FUSE_GETATTR` and
++`FUSE_SETATTR` replies (the `generation` field of `fuse_attr_out`,
++protocol 7.46) must announce this by setting `FUSE_ATTR_GENERATION` in
++its `FUSE_INIT` reply flags. When the flag is negotiated, the kernel
++compares the generation in every getattr/setattr reply against the
++cached inode: a mismatch means the daemon has reused the node ID for a
++different file, and the cached inode is marked bad (subsequent
++operations on it fail with EIO). Without the flag, the field is ignored
++and the generation is only taken from lookup-type replies, preserving
++the behavior of existing filesystems.
++
++If the filesystem daemon does not provide a generation number, the kernel
++will use a default value of 0.
++
+ Filesystem type
+ ===============
+ 
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index e49b4e874b15..8f0822847337 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -456,7 +456,7 @@ static int fuse_dentry_revalidate(struct inode *dir, const struct qstr *name,
+ 		forget_all_cached_acls(inode);
+ 		fuse_change_attributes(inode, &outarg.attr, NULL,
+ 				       ATTR_TIMEOUT(&outarg),
+-				       attr_version);
++				       attr_version, outarg.generation);
+ 		fuse_change_entry_timeout(entry, &outarg);
+ 	} else if (inode) {
+ 		fi = get_fuse_inode(inode);
+@@ -1476,7 +1476,8 @@ static int fuse_do_statx(struct mnt_idmap *idmap, struct inode *inode,
+ 	fuse_statx_to_attr(&outarg.stat, &attr);
+ 	if ((sx->mask & STATX_BASIC_STATS) == STATX_BASIC_STATS) {
+ 		fuse_change_attributes(inode, &attr, &outarg.stat,
+-				       ATTR_TIMEOUT(&outarg), attr_version);
++				       ATTR_TIMEOUT(&outarg), attr_version,
++				       inode->i_generation);
+ 	}
+ 
+ 	if (stat) {
+@@ -1521,14 +1522,17 @@ static int fuse_do_getattr(struct mnt_idmap *idmap, struct inode *inode,
+ 	args.out_args[0].value = &outarg;
+ 	err = fuse_simple_request(fm, &args);
+ 	if (!err) {
++		u64 generation = fm->fc->attr_generation ?
++				  outarg.generation : inode->i_generation;
++
+ 		if (fuse_invalid_attr(&outarg.attr) ||
+-		    inode_wrong_type(inode, outarg.attr.mode)) {
++		    fuse_stale_inode(inode, generation, &outarg.attr)) {
+ 			fuse_make_bad(inode);
+ 			err = -EIO;
+ 		} else {
+ 			fuse_change_attributes(inode, &outarg.attr, NULL,
+ 					       ATTR_TIMEOUT(&outarg),
+-					       attr_version);
++					       attr_version, generation);
+ 			if (stat)
+ 				fuse_fillattr(idmap, inode, &outarg.attr, stat);
+ 		}
+@@ -2160,6 +2164,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	bool trust_local_cmtime = is_wb;
+ 	bool fault_blocked = false;
+ 	u64 attr_version;
++	u64 generation;
+ 
+ 	if (!fc->default_permissions)
+ 		attr->ia_valid |= ATTR_FORCE;
+@@ -2252,8 +2257,11 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 		goto error;
+ 	}
+ 
++	generation = fc->attr_generation ? outarg.generation :
++					   inode->i_generation;
++
+ 	if (fuse_invalid_attr(&outarg.attr) ||
+-	    inode_wrong_type(inode, outarg.attr.mode)) {
++	    fuse_stale_inode(inode, generation, &outarg.attr)) {
+ 		fuse_make_bad(inode);
+ 		err = -EIO;
+ 		goto error;
+@@ -2279,7 +2287,8 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 
+ 	fuse_change_attributes_common(inode, &outarg.attr, NULL,
+ 				      ATTR_TIMEOUT(&outarg),
+-				      fuse_get_cache_mask(inode), 0);
++				      fuse_get_cache_mask(inode), 0,
++				      generation);
+ 	oldsize = inode->i_size;
+ 	/* see the comment in fuse_change_attributes() */
+ 	if (!is_wb || is_truncate)
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index c8d4c5f3af7e..cfeb98c217a2 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -514,6 +514,12 @@ struct fuse_conn {
+ 	 */
+ 	unsigned export_support:1;
+ 
++	/**
++	 * @attr_generation: Filesystem fills the generation field of
++	 * fuse_attr_out in GETATTR and SETATTR replies. Only set in INIT
++	 */
++	unsigned attr_generation:1;
++
+ 	/** @writeback_cache: write-back cache policy (default is write-through) */
+ 	unsigned writeback_cache:1;
+ 
+@@ -988,12 +994,12 @@ void fuse_init_symlink(struct inode *inode);
+  */
+ void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
+ 			    struct fuse_statx *sx,
+-			    u64 attr_valid, u64 attr_version);
++			    u64 attr_valid, u64 attr_version, u64 generation);
+ 
+ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 				   struct fuse_statx *sx,
+ 				   u64 attr_valid, u32 cache_mask,
+-				   u64 evict_ctr);
++				   u64 evict_ctr, u64 generation);
+ 
+ u32 fuse_get_cache_mask(struct inode *inode);
+ 
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index e9552be3637b..584dce2b21fd 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -210,7 +210,7 @@ static ino_t fuse_squash_ino(u64 ino64)
+ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 				   struct fuse_statx *sx,
+ 				   u64 attr_valid, u32 cache_mask,
+-				   u64 evict_ctr)
++				   u64 evict_ctr, u64 generation)
+ {
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+@@ -240,6 +240,7 @@ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 	inode->i_uid     = make_kuid(fc->user_ns, attr->uid);
+ 	inode->i_gid     = make_kgid(fc->user_ns, attr->gid);
+ 	inode->i_blocks  = attr->blocks;
++	inode->i_generation = generation;
+ 
+ 	/* Sanitize nsecs */
+ 	attr->atimensec = min_t(u32, attr->atimensec, NSEC_PER_SEC - 1);
+@@ -313,7 +314,8 @@ u32 fuse_get_cache_mask(struct inode *inode)
+ 
+ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr,
+ 				     struct fuse_statx *sx, u64 attr_valid,
+-				     u64 attr_version, u64 evict_ctr)
++				     u64 attr_version, u64 evict_ctr,
++				     u64 generation)
+ {
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+@@ -348,7 +350,7 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
+ 
+ 	old_mtime = inode_get_mtime(inode);
+ 	fuse_change_attributes_common(inode, attr, sx, attr_valid, cache_mask,
+-				      evict_ctr);
++				      evict_ctr, generation);
+ 
+ 	oldsize = inode->i_size;
+ 	/*
+@@ -391,9 +393,10 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
+ 
+ void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
+ 			    struct fuse_statx *sx, u64 attr_valid,
+-			    u64 attr_version)
++			    u64 attr_version, u64 generation)
+ {
+-	fuse_change_attributes_i(inode, attr, sx, attr_valid, attr_version, 0);
++	fuse_change_attributes_i(inode, attr, sx, attr_valid, attr_version, 0,
++				 generation);
+ }
+ 
+ static void fuse_init_submount_lookup(struct fuse_submount_lookup *sl,
+@@ -514,7 +517,7 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+ 	spin_unlock(&fi->lock);
+ done:
+ 	fuse_change_attributes_i(inode, attr, NULL, attr_valid, attr_version,
+-				 evict_ctr);
++				 evict_ctr, generation);
+ 	if (is_new_inode)
+ 		unlock_new_inode(inode);
+ 	return inode;
+@@ -1063,6 +1066,10 @@ static struct dentry *fuse_get_dentry(struct super_block *sb,
+ 		goto out_err;
+ 
+ 	inode = ilookup5(sb, handle->nodeid, fuse_inode_eq, &handle->nodeid);
++	if (inode && inode->i_generation != handle->generation) {
++		iput(inode);
++		inode = NULL;
++	}
+ 	if (!inode) {
+ 		struct fuse_entry_out outarg;
+ 
+@@ -1399,6 +1406,8 @@ static void process_init_reply(struct fuse_args *args, int error)
+ 			}
+ 			if (flags & FUSE_NO_EXPORT_SUPPORT)
+ 				fm->sb->s_export_op = &fuse_export_fid_operations;
++			if (flags & FUSE_ATTR_GENERATION)
++				fc->attr_generation = 1;
+ 			if (flags & FUSE_ALLOW_IDMAP) {
+ 				if (fc->default_permissions)
+ 					fm->sb->s_iflags &= ~SB_I_NOIDMAP;
+@@ -1468,7 +1477,7 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
+ 		FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
+ 		FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
+ 		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP |
+-		FUSE_REQUEST_TIMEOUT;
++		FUSE_REQUEST_TIMEOUT | FUSE_ATTR_GENERATION;
+ #ifdef CONFIG_FUSE_DAX
+ 	if (fm->fc->dax)
+ 		flags |= FUSE_MAP_ALIGNMENT;
+diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+index d2599043f7ec..40781f365fc5 100644
+--- a/fs/fuse/readdir.c
++++ b/fs/fuse/readdir.c
+@@ -229,7 +229,7 @@ static int fuse_direntplus_link(struct file *file,
+ 		forget_all_cached_acls(inode);
+ 		fuse_change_attributes(inode, &o->attr, NULL,
+ 				       ATTR_TIMEOUT(o),
+-				       attr_version);
++				       attr_version, o->generation);
+ 		/*
+ 		 * The other branch comes via fuse_iget()
+ 		 * which bumps nlookup inside
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index 7435e09c87fe..a7da139e2897 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -248,6 +248,10 @@
+  *  - add bufpool offset field to fuse_uring_ent_in_out struct
+  *  - add FUSE_URING_ZERO_COPY, FUSE_URING_ENT_ZERO_COPY, and
+  *    FOPEN_IO_URING_ZERO_COPY flag
++ *
++ *  7.47
++ *  - add generation to fuse_attr_out
++ *  - add FUSE_ATTR_GENERATION
+  */
+ 
+ #ifndef _LINUX_FUSE_H
+@@ -283,7 +287,7 @@
+ #define FUSE_KERNEL_VERSION 7
+ 
+ /** Minor version number of this interface */
+-#define FUSE_KERNEL_MINOR_VERSION 46
++#define FUSE_KERNEL_MINOR_VERSION 47
+ 
+ /** The node ID of the root inode */
+ #define FUSE_ROOT_ID 1
+@@ -464,6 +468,8 @@ struct fuse_file_lock {
+  * FUSE_REQUEST_TIMEOUT: kernel supports timing out requests.
+  *			 init_out.request_timeout contains the timeout (in secs)
+  * FUSE_HAS_IO_URING_BUFPOOL: kernel supports io-uring buffer pools
++ * FUSE_ATTR_GENERATION: filesystem fills the generation field of
++ *			 fuse_attr_out in GETATTR and SETATTR replies
+  */
+ #define FUSE_ASYNC_READ		(1 << 0)
+ #define FUSE_POSIX_LOCKS	(1 << 1)
+@@ -512,6 +518,7 @@ struct fuse_file_lock {
+ #define FUSE_OVER_IO_URING	(1ULL << 41)
+ #define FUSE_REQUEST_TIMEOUT	(1ULL << 42)
+ #define FUSE_HAS_IO_URING_BUFPOOL (1ULL << 43)
++#define FUSE_ATTR_GENERATION	(1ULL << 44)
+ 
+ /**
+  * CUSE INIT request/reply flags
+@@ -742,7 +749,7 @@ struct fuse_getattr_in {
+ struct fuse_attr_out {
+ 	uint64_t	attr_valid;	/* Cache timeout for the attributes */
+ 	uint32_t	attr_valid_nsec;
+-	uint32_t	dummy;
++	uint32_t	generation;
+ 	struct fuse_attr attr;
+ };
+ 
+-- 
+2.43.0
+
