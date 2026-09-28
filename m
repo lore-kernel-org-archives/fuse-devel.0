@@ -1,126 +1,158 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF51649A3CC
-	for <fuse-devel@lists.linux.dev>; Mon, 28 Sep 2026 10:57:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790593038; cv=pass; b=o1P2DbSKihjz2evjc1XUKEI2FJ6Jw03OA16TPRU4ZdN4mBtYUTMmDeOAvQyf4j9bDzCp6PD734SU0iR3Wn2J8kJuAFkEyISY8pBwgUGZatjHGpio0wTWEjxwRX1bOoWjyr0zIEo5H32B+qa3BhaRpeUQ/KgXxeSjyHIc7J/FDfw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790593038; c=relaxed/simple;
-	bh=wBo0p0y7TBsCMfAM7c54lxbawcAJ1FYPL9ngEz3uRJg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BgcTQZf9E+pwQpIapZnqVW5aJw4M4LQBRBBSNXsmRRBLBjUwagyOAtq0pEjMnjxW9NmYXfRERI/6Sl7GKzZdGXE83gNlZSArZA6JqkRxPtRalq83BqvNsxpEKSKEGyVqmc25GAaB2hXIH2kFq278iFoboSJ+uNVYTaAyX8PK+3Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=lb+2wyAr; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624D849EC5B
+	for <fuse-devel@lists.linux.dev>; Mon, 28 Sep 2026 11:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790593350; cv=none; b=W2lHVBOesPeItjF6t4mgHMsuYwDz0/vufXVd3NuL0WmK6tSUXamZHA+88UiVinNHZf/4Siq4Egmb6tEGqrnJ++qr8ecBLUmFf166Hcqe1yuFrwjJ8M8rzfz4wp8Tgdffj/iTsTFXQPV+fQiVvZXMmfBy3hpInONnIpYITmEX8pM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790593350; c=relaxed/simple;
+	bh=ckHVGJEFaGVJTiLCGSLa28EbEN474uZYgSizuxnSUwk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RpeBWfaDsbNuYFqH6Yyimu6Fcb0FqWZdyxQU6oOh6H69U3SCweo/OF/mHo6TKeqaAQ9RLikvxliPDvVEg7t40a/ZxXvN6wVN0lIrOcDt+PGu9mvWF4uqTExAfAZwbElGjVhT3l3WeiqjK0nFvkeQNT9EJ5+ceUX273tnQCNLYkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=upRkTKNy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="lb+2wyAr"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-530d0d5ae11so35646201cf.0
-        for <fuse-devel@lists.linux.dev>; Mon, 28 Sep 2026 03:57:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790593035; cv=none;
-        d=google.com; s=arc-20260327;
-        b=S0LMV4xnDEGU/HF3pcVZda7om3cURzTj51GseeA/6ZnXUqU9KdFQMOd3vvHjqEDvhe
-         VXbMB7gDsF8hbPLBHfjoIyATUnuLsHnSzxdM0A4/KUJLQsKfRzElYAdDJxQk9tb3NMoe
-         wHPq2Saac4HuTEGgKXliqqEdbcfV2nOPJLDcMxGNhnKIayAEcTQ279Yooh7bgr0HYYE0
-         /XGKyqzzToSq9qyPeKzDaoPmjzNM6uYTprpCoVXl8+GX6JRt8KiU3Jh5pD0HMZDU8/fl
-         Mzl7fPcbhxrSDckLA1pmoMpeDLIgb/9vBoOAiUrrm/+gJ03zJ4qGpGoFuQ2JyL7qpNCf
-         ODDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Oc+8vWuJmp/tN9qq+8ZPBR+03C638Q7lrG+r32i3EIU=;
-        fh=CTgdzXQW6Do+VwmYfDn3BG6fPeFKe0nsJ79LI+62ss4=;
-        b=Pfb6go92T2VA5kVl4C91QF7BakN6gXq2URO7EjLfFbb99Gj9QluL7BkGE2pU96CPAb
-         6vZlBMQ0ODv1G5tBXTjWH4gkLpzzTW7xt/IUtdjlFGzn777iqDHMHt0sjtSHa3awSONR
-         bWGd+DYKGdRjr/e4NS6CEla97PxYCaY/4p1CsLWJZzWfO7TROfnswshlZja1NH2//fqt
-         atLMqAGEVXJGTRWqF746lJxUt15klHf1GYd2zANutfwlgy+AEL/sqY09wleCwK+8U9Jk
-         NzDe7yx5OmBlzmxEt+m3tVgFLF+Is592FG0TmRwPZbNQ/TD4qcdrYav7YVWgMEE7COYC
-         QpMg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1790593035; x=1791197835; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Oc+8vWuJmp/tN9qq+8ZPBR+03C638Q7lrG+r32i3EIU=;
-        b=lb+2wyArrgVIVoHzj4X8vkXvTOPBOMWIA3pHLwpm2gziJRyy1Mdafvcd8dq2deLb8G
-         DdhUopFD4XE09l1GPCBXdIycruSzpm065XH6IiNchZ/vhAahRuKiO/0I5uatn2N5Vjyv
-         nxB+5jZZnV40zodGn5ufXD1QELp4gSaUv1Xpc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790593035; x=1791197835;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Oc+8vWuJmp/tN9qq+8ZPBR+03C638Q7lrG+r32i3EIU=;
-        b=Z1NMlawaZ0csYOsrV6uKJn/Vut2Y1n+Q63LS/ixkpfvgUMaNi/ikROnIgK/f9M+y8B
-         xsYJIIl2a2topLAsfEY5HB60mtRe0DR1WWvA8Dt0hXg+k53bSKm7XKeB52UC3TqN2oLA
-         yNULTRnV1TR+FVvwWbcrjR4oC5Li6A67zNBZMynEMrD+8wKu3LjZSYFEQJx9yVayBpob
-         yB2c0MJV9P8TqJE890A0yvXiAmqRzf/rQPkPVIT1vAofMMRe5+Ev5oZPGDpeqw9SZ8vc
-         2C/XU2fKH57XvgI2mSPOzDrfyQduiG8DD1YuWyoZkGIKbfWnKAXYna9MqCZnvkYu16Et
-         TyGA==
-X-Forwarded-Encrypted: i=1; AKwUvByga9LtEw0LpW/7BxwH1s/rZo4jgp+nPUYwmFwnW7jOEdcHzGbehqLqJ6W7gesz8Zmxz/DvNomHeljB@lists.linux.dev
-X-Gm-Message-State: AFuF++mDK3gDzHupTEyVGpquoVY5MCCdsPsPYHLJOlqOIUUdVUYmrrUt
-	SpBmPATlObZTHpWVzy2dsmDI5YufNHmWbixulNZnLmLjkpLwuPs1ACfMtWM4IpVV5++DfxxnmPY
-	bfsGxvkgSXMEDxbnySGENkjNv9Hz0+M/sEtKBziPaoQ==
-X-Gm-Gg: AYBFou23V8hcXqAbHXWRtsZ/vZl04BuuqH9hdTMrRHLiXVwy4GfBzcNgQ48JwNHYleq
-	GARCGFx3qQxjbLuJxC5NIavvermB8DyrgPlzvoMlUWjNbX2Q5RJk7ttQwKLe0BGcLb1VqkgHL0p
-	SlP1boRHouUAx1zDJi8dxbq5k9Xi6orhfvpFU47RteMiD7RE8JhTFfiXxs3xq0XHLR3dZGzrIr7
-	4BeNbdA5m2xBUmGktmOWHRW9DTZ7FVw2F9qX7oWr6qeAsoWTTBfRKhRntQeS+gk26OgBOcdrXcf
-	pOQT2rSl9/lpU3IM0H0gKllrLXEO4foDT8DnTkxwvrl2DAS5k9yFIuLjdGzfZLIZkR4dbSU9Qal
-	VuaA941Fn2RTiEA==
-X-Received: by 2002:a05:622a:4805:b0:532:aac4:7c5 with SMTP id
- d75a77b69052e-5330b590eadmr214282931cf.16.1790593035680; Mon, 28 Sep 2026
- 03:57:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="upRkTKNy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F0714C2BCB3;
+	Mon, 28 Sep 2026 11:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790593350;
+	bh=ckHVGJEFaGVJTiLCGSLa28EbEN474uZYgSizuxnSUwk=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=upRkTKNyCfitXILnjNg1z3P6C1te1ZD5smGH3UufgdNAPOnNbUt8k4U+eA2mFI2Cl
+	 6WYdLP965wpHxFqiUQYAKVxhWEKS4IzffXoLAdYNqOH7MYNSoOSDmVXLx6Oag4uZXw
+	 Cu6NjjrNhwSJ2I8nEER1EbTfqHGrvZrqJsSBIL778S9iwjlFtfo2Ab1/pnow5WdMV0
+	 x4pRjrXu9f/LZk8WxSP1cifYg3LIOaAOf2V0lk5WitbO/FENXvmrK98RPQy8LxdVB1
+	 RZgA43Rs4W8FZFnBlTNZdrBoeiUfi2+js1xeJCmFGKkZPt+O37vOjhDKEXJ6681M3A
+	 qvXiJc8X7KP3A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD380C9832F;
+	Mon, 28 Sep 2026 11:02:29 +0000 (UTC)
+From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
+Subject: [PATCH v2 00/14] libfuse: Add mount service safety checks and
+ tests
+Date: Mon, 28 Sep 2026 13:02:02 +0200
+Message-Id: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260922061019.3320196-1-mszeredi@redhat.com> <20260922061019.3320196-6-mszeredi@redhat.com>
- <CAOQ4uxjv1rm+_5rbj0vv3nNSXZxN8TVY8=90qNY4-_25OfDYGg@mail.gmail.com>
-In-Reply-To: <CAOQ4uxjv1rm+_5rbj0vv3nNSXZxN8TVY8=90qNY4-_25OfDYGg@mail.gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Mon, 28 Sep 2026 12:57:04 +0200
-X-Gm-Features: AclHuK_arG7ENpqvtiiHbXj7on2Km48xJvyTcNMJxQSSSX167iQ7pH9VvtXZR9Y
-Message-ID: <CAJfpegtdYfJ0waADMaw4g+o+1WpBESbHPxWsBa8P5rFXuayoRg@mail.gmail.com>
-Subject: Re: [PATCH 05/11] fuse: add helpers for EIO return value with kernel message
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	John Groves <john@groves.net>, "Darrick J . Wong" <djwong@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNyw6CMBBFf4V07RhaXtaV/2FYMGWQmtCStjQaw
+ r9bMC5dnuTec1bmyWny7JqtzFHUXluTQJwypsbOPAh0n5iJXNS5FCVMdjEB0itqRYCJerAzGWg
+ KibwWRY1Dx9J9djTo16G+t1/2Cz5Jhd23L0btg3Xvox35vvtlqv+ZyCEHxIF3l1I1UlY39EjO9
+ GdlJ9Zu2/YBzCy/1tQAAAA=
+X-Change-ID: 20260924-mount-service-bound-open-739b16236bfa
+To: fuse-devel@lists.linux.dev
+Cc: "Darrick J. Wong" <djwong@kernel.org>, neal@gompa.dev, 
+ Bernd Schubert <bernd@bsbernd.com>, 
+ Keerthana KT <keerthana@labs.digiscrypt.com>
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4201; i=bernd@bsbernd.com;
+ h=from:subject:message-id;
+ bh=ckHVGJEFaGVJTiLCGSLa28EbEN474uZYgSizuxnSUwk=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJ2eVptfHy2/qv1cQ71Bceib5//0Z5TUPbC8rX1tjexL
+ H4XWqcZd5SyMIhxMMiKKbJ0SeyxnfKPT1bt6/rrMHNYmUCGMHBxCsBEtB8xMrybJni9Z4nuOxGH
+ ZGnTIv5VZrMe8nM0hGyZxjdT8X/1QWVGhllnQ2pXLnz48+28PyX7XoXqMyhIK9XKifeffB3Ke+k
+ fNw8A
+X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
+ fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
+X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
+ auth_id=772
+X-Original-From: Bernd Schubert <bernd@bsbernd.com>
+Reply-To: bernd@bsbernd.com
 
-On Tue, 22 Sept 2026 at 11:59, Amir Goldstein <amir73il@gmail.com> wrote:
+That was noticed by AI on comparison to systemd storage provider
+and fuse service mount tests were missing as well.
 
-> > -fail:
-> > -       pr_debug("failed to open file in requested io mode (open_flags=0x%x, err=%i).\n",
-> > -                ff->open_flags, err);
-> > -       /*
-> > -        * The file open mode determines the inode io mode.
-> > -        * Using incorrect open mode is a server mistake, which results in
-> > -        * user visible failure of open() with EIO error.
-> > -        */
-> > -       return -EIO;
->
-> The reason for EIO is not immediately apparent so suggest to move this
-> comment up and remove moot err = -EINVAL;
+To: fuse-devel@lists.linux.dev
+Cc: Darrick J. Wong <djwong@kernel.org>
+Cc: neal@gompa.dev
 
-Makes sense.
+Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+---
+Changes in v2:
+- Add more parsing logic to detect files to open from the command
+  line and add admin overrides if the logic failed
+- Allow open after mount, but use openat(), which avoids that
+  files from the mount point are taken
+- Add in '-d path' for mkfs.ext4 to copy in files for improved
+  testing
+- Add another sanity commit to limit max arg comand size
+  (previously https://github.com/libfuse/libfuse/pull/1552)
+- Change path to /run/fuse
+- Add the documention patch
+  (previously https://github.com/libfuse/libfuse/pull/1530)
+- libfuse PR: https://github.com/libfuse/libfuse/pull/1638
+- Link to v1: https://patch.msgid.link/20260925-mount-service-bound-open-v1-0-bbf1a84c7995@bsbernd.com
 
-> > -out:
-> > -       pr_debug("%s: backing_id=%d, fb=0x%p, backing_file=0x%p, err=%i\n", __func__,
-> > -                backing_id, fb, ff->passthrough, err);
->
-> Why remove this pr_debug of the success branch?
-> it is used as a debugging trace for the lifetime and usage of backing files.
+---
+Bernd Schubert (13):
+      mount_service: move the command line check into arg_in_cmdline()
+      mount_service: warn about paths not named on the command line
+      mount_service: refuse paths the user did not name
+      mount_service: use openat to OPEN paths
+      util: give fuservicemount3 an absolute build-tree runpath
+      mount.fuse: free the options on the service mount return path
+      example/single_file: take no sector size from a regular backing file
+      test: check which files fuservicemount3 opens for the server
+      test: check what fuservicemount3 refuses
+      test: mount the service examples through fuservicemount3
+      test: run mkfs.ext4 through the service examples
+      build: move the default service socket directory to /run/fuse
+      Improve documentation for fuse service mount
 
-Restored.
+Keerthana KT (1):
+      fuse_service: bound argc and arg len read from the args memfd
 
-I'm generally not a fan of inline tracing code, as it can be
-detrimental to readability.   But I agree that such ad-hoc removal is
-not the way to go.
+ .gitignore                              |   1 +
+ doc/README.service-mount                | 312 ++++++++++++++++++++++
+ doc/README.service-mount-dev            | 456 ++++++++++++++++++++++++++++++++
+ doc/README.service-mount-flow           | 201 ++++++++++++++
+ doc/fuservicemount3.8                   | 164 +++++++++++-
+ doc/mainpage.dox                        |  13 +
+ doc/mount.fuse3.8                       |  25 ++
+ example/service_ll.c                    |   5 +
+ example/single_file.c                   |   3 +-
+ include/fuse_service.h                  |   4 +-
+ include/fuse_service_priv.h             |  10 +
+ lib/fuse_service.c                      |  43 +++
+ meson.build                             |   2 +-
+ meson_options.txt                       |   2 +-
+ test/cases/lib/service-example.sh       | 112 ++++++++
+ test/cases/lib/service.sh               |  95 +++++++
+ test/cases/lib/socket_activate.py       |  42 +++
+ test/cases/mount/service-caps.sh        |  20 ++
+ test/cases/mount/service-check.sh       |  38 +++
+ test/cases/mount/service-hl-mkfs.sh     |   8 +
+ test/cases/mount/service-hl.sh          |   7 +
+ test/cases/mount/service-ll-mkfs.sh     |   8 +
+ test/cases/mount/service-ll.sh          |   7 +
+ test/cases/mount/service-mount-fuse.sh  |  31 +++
+ test/cases/mount/service-mountpoint.sh  |  36 +++
+ test/cases/mount/service-nonroot.sh     |  54 ++++
+ test/cases/mount/service-null.sh        |  33 +++
+ test/cases/mount/service-open-bound.sh  |  61 +++++
+ test/cases/mount/service-server-exit.sh |  22 ++
+ test/meson.build                        |   6 +
+ test/test_fuser_conf.c                  |  55 ++++
+ test/test_service.c                     | 232 ++++++++++++++++
+ util/fuse.conf                          |  11 +
+ util/fuser_conf.c                       |  99 +++++++
+ util/fuser_conf.h                       |   3 +
+ util/meson.build                        |   2 +
+ util/mount.fuse.c                       |  42 +--
+ util/mount_service.c                    | 128 +++++++--
+ 38 files changed, 2351 insertions(+), 42 deletions(-)
+---
+base-commit: e001ea32a977933236bcd928692c2c022594a41d
+change-id: 20260924-mount-service-bound-open-739b16236bfa
 
-Thanks,
-Miklos
+Best regards,
+--  
+Bernd Schubert <bernd@bsbernd.com>
+
+
