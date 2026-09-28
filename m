@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C9949EC7A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD72E49EC7B
 	for <fuse-devel@lists.linux.dev>; Mon, 28 Sep 2026 11:02:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790593350; cv=none; b=qs64GGboiSgL1cfrZjGOwtrrVot/eTHId+ELjQJeaqqvfukxxh0FblW9IFa7iXQz6dfGU//PfqzpCIbkPh6PFAzgrQQghwVx5tbt8xf3qntS+yC38rVyOtag3Th6UpfvxTxqsEnd3S+w0mXLAES8YFjVCwUIDMwtReII0WLxl/o=
+	t=1790593350; cv=none; b=pIZpU65UZWZdTG8Tdq931wd8DviLJwwrQdyRJfm9nkAC45N6drYhIR01Bk9Mo63Yp9APrbNkd56inp11BNGW6gqc0xTN91XGASqGf6Lzpo1G06ITTvUlIgVc0upUaIbuY6b6wjQFmKBQtTfp37QSEBIOHoP9uu8S1pa1UAa+MLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790593350; c=relaxed/simple;
-	bh=5qJlYzoijrcAZ4+Lvlza+pdbsRw5TzeLqsh6wmZJZoU=;
+	bh=8w/vuyxZm6geJ/OgKryrL9M9wIkUh+MtiyMEzSz2h7w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mG48SKILS7zqKbz23aflUx1haf8nOTFoi3BhNs2nXM8l+QJ7P3HVK9KAmKznQ1V2ZxYLbCLPT5yGCNeBDzDpjjfTR2k4BloI/fmpCgb3DUj4/T/JEZZSJ7shRK78wJ0jxoJ6AKQIZnsLsAN6Qq057Rtc+PUiUX3baPa8rV0SnJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jiB4UB3V; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=ImS5byb6zITo3CdLURDYzZ7baTsmtPvVL3Hag8QD4ZW+M+MMw0cXdMkRR5F/ukBnCQGBwYvc9mnebYX3xegI1ocmP0kDogJ4sjpnvJVGjkF8wdkChGDPobgvcAaqladv+PTKtyY4B+mXZlM7nhssRYjT+QlnA3PIBunyusV6RmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OpCtKa1K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jiB4UB3V"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4D41EC4AF1D;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OpCtKa1K"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B23CDC4AF18;
 	Mon, 28 Sep 2026 11:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790593350;
-	bh=5qJlYzoijrcAZ4+Lvlza+pdbsRw5TzeLqsh6wmZJZoU=;
+	bh=8w/vuyxZm6geJ/OgKryrL9M9wIkUh+MtiyMEzSz2h7w=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=jiB4UB3VtWHS9jP3jYbPE5fGnlSlzNmx3Fba5qA/IuIu1laB8dVGAxsWlnMPjbDtS
-	 ZZhbSOHDmLbpQgG31NKxYlR5rT7mJyKreljRI1ffmq4ViHxKYcVQ3hrkMp33Lhv6rQ
-	 6wFFJltylRVtmniesVD9zMhZ/bNtVkNB+mmyDkqTok06A9Rbh8KcnqUmMM7jS6o4c3
-	 RNpP1CUqmieFIi0ggOdWxsybenMQmvyY4SJM1XrNWm0yEAY6wGzaeNakyV9JhbwNRa
-	 AqWIFyC3jgTcgS1fyT0q1Ee8+i48H7/QyUZ1Xiu0R5919oBdYj53fQ1rBLxVlwYhp0
-	 031KNjxsgBHNw==
+	b=OpCtKa1KdMkRCrgunrGNfw4mXmJQ3Rfupjl27dqlXg6M3KymP6rCyemot0+KNM7CW
+	 MwQKi5yl1JcUN46oqJwNqppI6/SK52RGbydYnY6rrGvhep4265yMP8CwbM57UPshoc
+	 MQBvLSVHWjnrCCQO421MCws5YOK9SkyylxyT9/zFrn2eRK1ro0TDVCRBJ+0sJ9gkI0
+	 4fzUxkBrWt6meXTsamNERs1wpwNYngXYw8di2rv1Ao6UaxPYGLVmu5bp1TKssfBKl3
+	 vms6PZivLWDgD6SbIq5JkH3QP6ZjDMSV7wkMoKHb5ylnUHRrx2+HuDf048PThGupHr
+	 0EtSDQXN9x3SQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B2BDCA5FA7;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A27B2CA5FA2;
 	Mon, 28 Sep 2026 11:02:30 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Mon, 28 Sep 2026 13:02:07 +0200
-Subject: [PATCH v2 05/14] util: give fuservicemount3 an absolute build-tree
- runpath
+Date: Mon, 28 Sep 2026 13:02:12 +0200
+Subject: [PATCH v2 10/14] test: mount the service examples through
+ fuservicemount3
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,20 +41,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260928-mount-service-bound-open-v2-5-0f9f501d05ce@bsbernd.com>
+Message-Id: <20260928-mount-service-bound-open-v2-10-0f9f501d05ce@bsbernd.com>
 References: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
 In-Reply-To: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
 To: fuse-devel@lists.linux.dev
 Cc: "Darrick J. Wong" <djwong@kernel.org>, neal@gompa.dev, 
  Bernd Schubert <bernd@bsbernd.com>
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1124; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5754; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=cHv54HitSu2anlu/930tbqWeXtXeZVKdqR+lf4lHv5k=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJ2eTpUsdUpaP87nbriK/cD3bMqOv/ZNk3kNjUPu54+4
- 0rUoklPOkpZGMQ4GGTFFFm6JPbYTvnHJ6v2df11mDmsTCBDGLg4BWAiqV8ZGR5b/98yoenpjg0n
- diYfqfTli551qniXLLuTWHakcor01RJGhlk/mM86PApgFZfYquN7/JMpM8uWpD1f84xXPqp4XVV
- qwwIA
+ bh=D4SGnnMgixZ5gDSiT8KlqOolnXMBtxOdFijQnjKbFcI=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJ2eTq5yO91Y/iul8R65dbxta8czsjKf4sUFS99e9Ygr
+ 1voOMedjlIWBjEOBlkxRZYuiT22U/7xyap9XX8dZg4rE8gQBi5OAZhIljjDP3Ojj/y6VisPCDz5
+ mXttv/Alw/rc5nPiLXcSNypzyfbHODD8U9jRuKVCXrjywRff9jLtBzwspiuWKyzjvXFGOv3wAaV
+ fDAA=
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -64,32 +64,191 @@ Reply-To: bernd@bsbernd.com
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-The dynamic loader ignores $ORIGIN runpaths and LD_LIBRARY_PATH for a
-setuid program. A build-tree fuservicemount3 made setuid, for example by
-"run-tests.py --setuid-helpers", then failed with "libfuse3.so.4: cannot
-open shared object file", or loaded the libfuse3.so.4 of the system.
-meson removes build_rpath on install, so installed binaries do not change.
+No test ran service_ll, service_hl or null in service mode. No test
+checked that mount.fuse3 mounts through a listening service socket, and
+runs the filesystem program when the socket refuses the connection.
 
 Assisted-by: LLM
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- util/meson.build | 2 ++
- 1 file changed, 2 insertions(+)
+ test/cases/lib/service-example.sh      | 62 ++++++++++++++++++++++++++++++++++
+ test/cases/mount/service-hl.sh         |  7 ++++
+ test/cases/mount/service-ll.sh         |  7 ++++
+ test/cases/mount/service-mount-fuse.sh | 31 +++++++++++++++++
+ test/cases/mount/service-null.sh       | 33 ++++++++++++++++++
+ 5 files changed, 140 insertions(+)
 
-diff --git a/util/meson.build b/util/meson.build
-index 28052a65536f..bc266776e153 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -22,6 +22,8 @@ if private_cfg.get('HAVE_SERVICEMOUNT', false)
-              link_with: [ libfuse ],
-              install: true,
-              install_dir: get_option('sbindir'),
-+             # A setuid run ignores the $ORIGIN runpath meson sets
-+             build_rpath: join_paths(meson.project_build_root(), 'lib'),
-              c_args: ['-DFUSE_USE_VERSION=319'] + mount_service_cflags)
- endif
- 
+diff --git a/test/cases/lib/service-example.sh b/test/cases/lib/service-example.sh
+new file mode 100644
+index 000000000000..878b379b8b16
+--- /dev/null
++++ b/test/cases/lib/service-example.sh
+@@ -0,0 +1,62 @@
++# lib/service-example.sh - body for the service_ll / service_hl cases.
++#
++# Caller sets FS_NAME and LAUNCH before sourcing:
++#   FS_NAME   service_ll | service_hl
++#   LAUNCH    fuservicemount3 | mount_fuse
++#
++# The file the example serves has to read back as the image, and what is
++# written through the mount has to reach the image.
++
++_fuse_no_mount_needed=1
++. "$TEST_LIB/common.sh"
++
++# Before the gates: a misspelled FS_NAME would otherwise skip as "not built"
++case ${FS_NAME:-} in
++service_ll | service_hl) ;;
++*) _fail "unknown FS_NAME '${FS_NAME:-}'" ;;
++esac
++case ${LAUNCH:-} in
++fuservicemount3 | mount_fuse) ;;
++*) _fail "unknown LAUNCH '${LAUNCH:-}'" ;;
++esac
++
++_require_linux "fuservicemount3"
++_require_root
++_require_fuse_device
++_require_binary util/fuservicemount3
++_require_binary "example/$FS_NAME"
++[ "$LAUNCH" != mount_fuse ] || _require_binary util/mount.fuse3
++
++. "$TEST_LIB/service.sh"
++
++service_setup "test-$FS_NAME-$$"
++img=$TEST_SRC/img
++old=$TEST_TMP/old
++new=$TEST_TMP/new
++
++# The size has to be a multiple of the page size
++head -c 1048576 /dev/urandom >"$old"
++head -c 1048576 /dev/urandom >"$new"
++cp "$old" "$img"
++
++service_start "$TEST_LOGDIR/fs-$FS_NAME.out" "$FUSE_EXAMPLE_DIR/$FS_NAME"
++case $LAUNCH in
++fuservicemount3)
++	"$FUSE_UTIL_DIR/fuservicemount3" "$img" "$TEST_MNT" \
++		-t "fuse.$service_subtype" ||
++		_fail "fuservicemount3 did not mount $FS_NAME"
++	;;
++mount_fuse)
++	"$FUSE_UTIL_DIR/mount.fuse3" "$service_subtype#$img" "$TEST_MNT" ||
++		_fail "mount.fuse3 did not mount $FS_NAME"
++	;;
++esac
++
++_assert_fstype "$TEST_MNT" "fuse.$service_subtype" fuse
++_assert_file_eq "$TEST_MNT/single_file" "$old"
++dd if="$new" of="$TEST_MNT/single_file" bs=64k conv=notrunc,fsync status=none
++
++umount "$TEST_MNT"
++service_wait_exit
++_assert_eq "$service_rc" 0 "$FS_NAME exit status"
++_assert_file_eq "$img" "$new"
+diff --git a/test/cases/mount/service-hl.sh b/test/cases/mount/service-hl.sh
+new file mode 100755
+index 000000000000..6db3add3a5d1
+--- /dev/null
++++ b/test/cases/mount/service-hl.sh
+@@ -0,0 +1,7 @@
++#!/usr/bin/env bash
++# GROUP: mount
++
++FS_NAME=service_hl
++LAUNCH=fuservicemount3
++
++. "$TEST_LIB/service-example.sh"
+diff --git a/test/cases/mount/service-ll.sh b/test/cases/mount/service-ll.sh
+new file mode 100755
+index 000000000000..036553889f7a
+--- /dev/null
++++ b/test/cases/mount/service-ll.sh
+@@ -0,0 +1,7 @@
++#!/usr/bin/env bash
++# GROUP: mount
++
++FS_NAME=service_ll
++LAUNCH=fuservicemount3
++
++. "$TEST_LIB/service-example.sh"
+diff --git a/test/cases/mount/service-mount-fuse.sh b/test/cases/mount/service-mount-fuse.sh
+new file mode 100755
+index 000000000000..6bc95240c772
+--- /dev/null
++++ b/test/cases/mount/service-mount-fuse.sh
+@@ -0,0 +1,31 @@
++#!/usr/bin/env bash
++# GROUP: mount
++#
++# mount.fuse3 mounts through the service when its socket listens, and execs a
++# program named after the type when the socket refuses the connection.
++
++_fuse_no_mount_needed=1
++. "$TEST_LIB/common.sh"
++
++_require_binary example/hello
++
++FS_NAME=service_ll
++LAUNCH=mount_fuse
++
++. "$TEST_LIB/service-example.sh"
++
++fallback=test-fallback-$$
++service_setup "$fallback"
++
++# Bound but never listening, so connect() gets ECONNREFUSED
++python3 -c 'import socket, sys
++socket.socket(socket.AF_UNIX, socket.SOCK_SEQPACKET).bind(sys.argv[1])' \
++	"$service_sock"
++
++mkdir "$TEST_TMP/bin"
++ln -s "$FUSE_EXAMPLE_DIR/hello" "$TEST_TMP/bin/$fallback"
++export PATH="$TEST_TMP/bin:$PATH"
++
++fuse_mount_helper "$fallback" >/dev/null
++_assert_listdir "$TEST_MNT" hello
++fuse_umount
+diff --git a/test/cases/mount/service-null.sh b/test/cases/mount/service-null.sh
+new file mode 100755
+index 000000000000..b89107ae3a40
+--- /dev/null
++++ b/test/cases/mount/service-null.sh
+@@ -0,0 +1,33 @@
++#!/usr/bin/env bash
++# GROUP: mount
++#
++# The null example mounts through fuservicemount3 on a regular file.
++# null has no backing file and mounts on a regular file, so it does not use
++# lib/service-example.sh.
++
++_fuse_no_mount_needed=1
++. "$TEST_LIB/common.sh"
++
++_require_linux "fuservicemount3"
++_require_root
++_require_fuse_device
++_require_binary util/fuservicemount3
++_require_binary example/null
++
++. "$TEST_LIB/service.sh"
++
++service_setup "test-null-$$"
++mnt_file=$TEST_TMP/file
++_at_exit "umount -l '$mnt_file' 2>/dev/null"
++printf 'dummy' >"$mnt_file"
++
++service_start "$TEST_LOGDIR/fs-null.out" "$FUSE_EXAMPLE_DIR/null"
++# null takes no source, only the mount point
++"$FUSE_UTIL_DIR/fuservicemount3" "$mnt_file" -t "fuse.$service_subtype" ||
++	_fail "fuservicemount3 did not mount null"
++
++_check fuse_test_null_roundtrip "$mnt_file"
++
++umount "$mnt_file"
++service_wait_exit
++_assert_eq "$service_rc" 0 "null exit status"
 
 -- 
 2.53.0
