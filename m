@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002BE415F08
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0965949F101
 	for <fuse-devel@lists.linux.dev>; Mon, 28 Sep 2026 11:02:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790593351; cv=none; b=bRZM7W3Pt0ovmH74vJ+F4Z9DGPVatGgLwMCN1NT4pMcD3undDRS6f8aJATL64TuFi/J+BUTKvYmcINukeDbhnoNGa79jR++brPfsQV9lkx07TrFyJAeffo5DfgsoVY7zG7+Dow2fBsvWjij3hBoZaKtFUp9ReOSAKLYTQou72LA=
+	t=1790593351; cv=none; b=RxIQhw50/uoIt9Y0RlVEgaztzDgywNRKNQMELa0wzSylYpfXjpbNOtVX8Gmk0AV8r1CLIXoCeZVEyFMdirGVygoIM4ivYHxXZ6HZYBVbuZBz6eHW6byFo5rOxamzG++iNR7xz+jN5f7E3sdtZu8c66dr6P48crkOr//GTLJ8aRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790593351; c=relaxed/simple;
-	bh=5bXLBRJw/3+rfRSZ9Zr89bN4L3htNNcAY9643d87+Ps=;
+	bh=n6NdWFgxaxfJXkYAAykDBehcf8l6So3v+U+nTpeK7JM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=q64+u0i2jwdTb3sBBgsvlPoG8mmRK4swVX59blitYeZIKMi/BKjblN+cF/Ayu0skG/RKgcczHoQLW0J5pQ7XzPmmtOh4ts+4qzXHEMxKQT9d9UCuHMlIPEtDHgMRRlxsSQjEs/slFb0Oxs28pRtjhsyWTJnpcAta0neB7O2A9aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dnIx8c9F; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=SOiFtrBV1aqyprrQYx+YyvTd3sZEOUBTLHqHhg0U+ZJNGkjKfcaaIZgXH9Z1XxW+fqq1jTE879YQXXhDaQCAclEjsG/c/2Nn9FzQEeBVoNBONZjUTQ2/Js2OFF+GXSKjm/L+fFtYi3yRmVXRmKbPwEAn6frBsCx2KIQw9iVmHbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uyXaO+0e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dnIx8c9F"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D8E4AC4AF13;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uyXaO+0e"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A0AEBC2BCB3;
 	Mon, 28 Sep 2026 11:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790593350;
-	bh=5bXLBRJw/3+rfRSZ9Zr89bN4L3htNNcAY9643d87+Ps=;
+	bh=n6NdWFgxaxfJXkYAAykDBehcf8l6So3v+U+nTpeK7JM=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=dnIx8c9FhVsF9aNv0CmRjAY9RBBvwGqcZfEvJJUIc9ELVMQCtAwWFY2HgDgFDcpkV
-	 m7WUCZ3t/lCss13yihYZ9nvH+yAMF90Nliass5zhiT9MeJlTvfcjvaN71YBCRoCZA7
-	 i3bU9LrfwLoYAuKm21lvLebb9ELSk7Mj4+1fDT08p1HKh0wwRoZM1u5hBIt8hNXrzP
-	 3bQp+uBER/oRBXRBxeUE9URcuY7yBus1c0b4UJZOPIzdt8+mPo5VdRf3cYjGJmc9mV
-	 UZAGr5JVDi9fp4xOgMNHvtl1HjuIDLlmB92ap8PXJChioa7UrZnWjLuuSUJShPC/j8
-	 ELTyZqovDTg7w==
+	b=uyXaO+0eFMJyBrXqTH78yEskZhO8WZHRxjslewIt0uVzgDWF9kJ/JkWmtFHn4ncFJ
+	 uBJbDQW1M37Lzjnisnfpd2SsyUmpiZZnvQWd1fCTDB6YulbD3xiuloqnO8DHvRomZ6
+	 ErN83FaMCQCR4zu7t+npLkU7liFTkGyro1AXNL8CbNmt5/8YSmbmkuftrXKu3hYAUK
+	 PBWmiJC+i3J/OxhQEviYpJkORfrxAlv6mj+WWc+Jht/r/yN/NxV9gD13l+1oAHxP0Y
+	 Jwkvr1U7L2Kp1+yIWW502O2BZelkIDpVLp4MKyHqnzmn4yB0XbEfANcRtsmnq13Q+Y
+	 c6Uko2MVKxiuA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C892FCA5FA2;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FA9FC9833F;
 	Mon, 28 Sep 2026 11:02:30 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Mon, 28 Sep 2026 13:02:14 +0200
-Subject: [PATCH v2 12/14] fuse_service: bound argc and arg len read from
- the args memfd
+Date: Mon, 28 Sep 2026 13:02:11 +0200
+Subject: [PATCH v2 09/14] test: check what fuservicemount3 refuses
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,21 +40,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260928-mount-service-bound-open-v2-12-0f9f501d05ce@bsbernd.com>
+Message-Id: <20260928-mount-service-bound-open-v2-9-0f9f501d05ce@bsbernd.com>
 References: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
 In-Reply-To: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
 To: fuse-devel@lists.linux.dev
 Cc: "Darrick J. Wong" <djwong@kernel.org>, neal@gompa.dev, 
- Bernd Schubert <bernd@bsbernd.com>, 
- Keerthana KT <keerthana@labs.digiscrypt.com>
+ Bernd Schubert <bernd@bsbernd.com>
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5499; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14147; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=Il1VStJ5kaJe8vPK9fkPI+0bmgf3UqosoJLMfOVG8SA=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJ2eTp/O5eoMfnT/v6qC/u3FR5j5VkaX3T40KlrMnEBy
- zkPh/Of6ShlYRDjYJAVU2TpkthjO+Ufn6za1/XXYeawMoEMYeDiFICJLJNm+Mmov/6GzMp9b0yE
- LPZLbA/+7KFU7p0nUDGbae6b3IKran6MDItYny61KJC8JLTOzugR+6z++ce8jjbslFIuW//+m7n
- 2d1YA
+ bh=J28oFqxAx19x4Xd6kevwqYagVtOGRd1RiF5aQd+Cr7w=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJ2eTq+Wr+gy+vWpZoNBn+s46b3Tjr+/+nXtxPOx7kuv
+ XtzVqrLso5SFgYxDgZZMUWWLok9tlP+8cmqfV1/HWYOKxPIEAYuTgGYiIQNw3/fcxpKs66KWCzU
+ W7nA9SzX63DOGp8YgdapR23Ycv5PenOMkeHamSd83oabkhxOn//LtPhmQ2n0s8MT+LKCw+bWdy7
+ bq80MAA==
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -63,146 +61,451 @@ X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
 X-Original-From: Bernd Schubert <bernd@bsbernd.com>
 Reply-To: bernd@bsbernd.com
 
-From: Keerthana KT <keerthana@labs.digiscrypt.com>
+From: Bernd Schubert <bernd@bsbernd.com>
 
-fuse_service_append_args() takes the argument count and each argument
-length straight from the args memfd, which this file already treats as
-untrusted (see the SO_PASSRIGHTS guard against a malicious mount
-helper). Both fields are uint32_t and feed allocation math with no
-bound: calloc(memfd_args.argc + existing_args->argc, ...) wraps in
-unsigned arithmetic and undersizes the argv array, while
-calloc(1, memfd_arg.len + 1) wraps to a zero-size buffer when len is
-UINT32_MAX, which the following pread() then overflows.
+fuservicemount3 runs setuid root and acts on requests from a fuse
+server it does not trust. No test covered its checks on the subtype,
+the mount point and its file type, fuseblk for a user who is not root,
+or a server that exits before its goodbye.
 
-Nothing bounded the memfd itself, so cap it on both sides with a new
-FUSE_SERVICE_MAX_ARGV_SIZE. The mount helper refuses to write a string
-that would push the file past the cap, and the server fstat()s the file
-and refuses to parse one larger than it. The file size then bounds the
-rest: argc cannot exceed the number of iovecs that fit between the
-header and the strings, and no string can be longer than the file
-holding it. An argc of zero is rejected as well, because only the first
-loop iteration assigns argv[0].
-
-Signed-off-by: Keerthana KT <keerthana@labs.digiscrypt.com>
+Assisted-by: LLM
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 ---
- include/fuse_service_priv.h | 10 ++++++++++
- lib/fuse_service.c          | 43 +++++++++++++++++++++++++++++++++++++++++++
- util/mount_service.c        | 10 ++++++++++
- 3 files changed, 63 insertions(+)
+ test/cases/lib/service.sh               |  20 ++++--
+ test/cases/mount/service-caps.sh        |  20 ++++++
+ test/cases/mount/service-check.sh       |  38 ++++++++++++
+ test/cases/mount/service-mountpoint.sh  |  36 +++++++++++
+ test/cases/mount/service-nonroot.sh     |  54 +++++++++++++++++
+ test/cases/mount/service-server-exit.sh |  22 +++++++
+ test/test_service.c                     | 104 ++++++++++++++++++++++++--------
+ 7 files changed, 266 insertions(+), 28 deletions(-)
 
-diff --git a/include/fuse_service_priv.h b/include/fuse_service_priv.h
-index 988f7c9251c8..5b1edce4b7a8 100644
---- a/include/fuse_service_priv.h
-+++ b/include/fuse_service_priv.h
-@@ -23,6 +23,16 @@ struct fuse_service_memfd_argv {
- 
- #define FUSE_SERVICE_MAX_CMD_SIZE	(65536)
- 
-+/*
-+ * Upper bound on the whole argv memfd, as opposed to FUSE_SERVICE_MAX_CMD_SIZE
-+ * which bounds one socket command.  Both sides check it: the mount helper
-+ * refuses to write past it, and the fuse server refuses to parse a file larger
-+ * than it.  Generous next to any real mount(8) invocation, but small enough
-+ * that the counts and lengths the server reads out of the file cannot overflow
-+ * the allocation math they feed.
-+ */
-+#define FUSE_SERVICE_MAX_ARGV_SIZE	(1048576)
+diff --git a/test/cases/lib/service.sh b/test/cases/lib/service.sh
+index d0a0fa0183d0..60c6c72820ef 100644
+--- a/test/cases/lib/service.sh
++++ b/test/cases/lib/service.sh
+@@ -10,6 +10,8 @@ service_setup()
+ {
+ 	service_subtype=$1
+ 	service_runs=0
++	# A case may prefix it, to run the helper as another user
++	service_helper=("$FUSE_UTIL_DIR/fuservicemount3")
+ 	# A case may set it, to add arguments to the helper command line
+ 	service_helper_args=()
+ 	service_sock=$("$FUSE_TEST_BIN_DIR/test_service" socket-path "$1")
+@@ -33,6 +35,16 @@ service_start()
+ 	service_pid=$!
+ 	_wait_for 10 "grep -q '^listening' '$log'" ||
+ 		_fail "$service_sock never listened"
++	# connect() needs write permission, and a case may run as another user
++	chmod 0666 "$service_sock"
++}
 +
- #define FUSE_SERVICE_ARGS_MAGIC		0x41524753	/* ARGS */
++# service_stop
++# Kill an activator that no helper connected to.
++service_stop()
++{
++	kill "$service_pid" 2>/dev/null || true
++	wait "$service_pid" 2>/dev/null || true
+ }
  
- /* mount.service sends a hello to the server and it replies */
-diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-index 0a05b3fbc1f2..3991f92f09cb 100644
---- a/lib/fuse_service.c
-+++ b/lib/fuse_service.c
-@@ -629,8 +629,10 @@ int fuse_service_append_args(struct fuse_service *sf,
- 	struct fuse_args new_args = {
- 		.allocated = 1,
- 	};
-+	struct stat statbuf;
- 	char *str = NULL;
- 	off_t memfd_pos = 0;
-+	off_t max_argc;
- 	ssize_t received;
- 	unsigned int i;
- 	int ret;
-@@ -656,6 +658,34 @@ int fuse_service_append_args(struct fuse_service *sf,
- 	memfd_args.argc = htonl(memfd_args.argc);
- 	memfd_pos += sizeof(memfd_args);
+ # service_wait_exit
+@@ -50,7 +62,7 @@ service_wait_exit()
  
-+	ret = fstat(sf->argvfd, &statbuf);
-+	if (ret) {
-+		int error = errno;
+ # service_mount <source> <mountpoint> <case> [args...]
+ # Run fuservicemount3 once against test_service <case> [args...] and reap the
+-# server. Sets service_log.
++# server. Sets service_log and service_helper_rc.
+ service_mount()
+ {
+ 	local source=$1 mnt=$2; shift 2
+@@ -59,9 +71,9 @@ service_mount()
+ 	service_runs=$((service_runs + 1))
+ 	service_start "$service_log" "$FUSE_TEST_BIN_DIR/test_service" "$@"
+ 
+-	# Its exit status depends on the case; the server's line is the verdict.
+-	"$FUSE_UTIL_DIR/fuservicemount3" "$source" "$mnt" \
+-		-t "fuse.$service_subtype" "${service_helper_args[@]}" || true
++	service_helper_rc=0
++	"${service_helper[@]}" "$source" "$mnt" -t "fuse.$service_subtype" \
++		"${service_helper_args[@]}" || service_helper_rc=$?
+ 
+ 	service_wait_exit
+ }
+diff --git a/test/cases/mount/service-caps.sh b/test/cases/mount/service-caps.sh
+new file mode 100755
+index 000000000000..69bc2bdbef8d
+--- /dev/null
++++ b/test/cases/mount/service-caps.sh
+@@ -0,0 +1,20 @@
++#!/usr/bin/env bash
++# GROUP: mount
++#
++# fuservicemount3 run by root offers the fuse server allow_other and fuseblk.
 +
-+		fuse_log(FUSE_LOG_ERR, "fuse: service args file stat: %s\n",
-+			 strerror(error));
-+		return -error;
++_fuse_no_mount_needed=1
++. "$TEST_LIB/common.sh"
++
++_require_linux "fuservicemount3"
++_require_root
++_require_fuse_device
++_require_binary util/fuservicemount3
++_require_binary test/test_service
++
++. "$TEST_LIB/service.sh"
++
++service_setup "test-caps-$$"
++
++service_mount "$service_subtype" "$TEST_MNT" caps
++_assert_eq "$(service_result caps)" "allow_other=1 fuseblk=1" "caps as root"
+diff --git a/test/cases/mount/service-check.sh b/test/cases/mount/service-check.sh
+new file mode 100755
+index 000000000000..ec30031d039e
+--- /dev/null
++++ b/test/cases/mount/service-check.sh
+@@ -0,0 +1,38 @@
++#!/usr/bin/env bash
++# GROUP: mount
++#
++# fuservicemount3 --check succeeds only for a socket named after the subtype,
++# and never for a subtype that is a path.
++
++_fuse_no_mount_needed=1
++. "$TEST_LIB/common.sh"
++
++_require_linux "fuservicemount3"
++_require_root
++_require_binary util/fuservicemount3
++_require_binary test/test_service
++
++. "$TEST_LIB/service.sh"
++
++subtype=test-check-$$
++service_setup "$subtype"
++
++# check_rc <fstype>
++check_rc()
++{
++	local rc=0
++
++	"$FUSE_UTIL_DIR/fuservicemount3" -t "$1" --check || rc=$?
++	echo "$rc"
++}
++
++_assert_eq "$(check_rc "fuse.$subtype")" 1 "no socket"
++
++touch "$service_sock"
++_assert_eq "$(check_rc "fuse.$subtype")" 1 "regular file"
++
++service_start "$TEST_LOGDIR/fs-check.out" "$FUSE_TEST_BIN_DIR/test_service" caps
++_assert_eq "$(check_rc "fuse.$subtype")" 0 "listening socket"
++# The same socket, named through a path
++_assert_eq "$(check_rc "fuse../$subtype")" 1 "subtype ./$subtype"
++service_stop
+diff --git a/test/cases/mount/service-mountpoint.sh b/test/cases/mount/service-mountpoint.sh
+new file mode 100755
+index 000000000000..0df4733389e0
+--- /dev/null
++++ b/test/cases/mount/service-mountpoint.sh
+@@ -0,0 +1,36 @@
++#!/usr/bin/env bash
++# GROUP: mount
++#
++# The fuse server names the mount point, so fuservicemount3 has to refuse one
++# that is not on its command line, and one of the wrong file type.
++
++_fuse_no_mount_needed=1
++. "$TEST_LIB/common.sh"
++
++_require_linux "fuservicemount3"
++_require_root
++_require_fuse_device
++_require_binary util/fuservicemount3
++_require_binary test/test_service
++
++. "$TEST_LIB/service.sh"
++
++file=$TEST_SRC/file
++
++touch "$file"
++service_setup "test-mntpt-$$"
++
++service_mount "$service_subtype" "$TEST_MNT" mount dir
++_assert_eq "$(service_result mount)" 0 "mount dir on a directory"
++_assert_fstype "$TEST_MNT" "fuse.$service_subtype" fuse
++umount "$TEST_MNT"
++
++service_mount "$service_subtype" "$TEST_MNT" mount-elsewhere "$TEST_SRC"
++_assert_eq "$(service_result mount)" EINVAL \
++	"mount point not on the command line"
++
++service_mount "$service_subtype" "$TEST_MNT" mount file
++_assert_eq "$(service_result mount)" EISDIR "mount file on a directory"
++
++service_mount "$service_subtype" "$file" mount dir
++_assert_eq "$(service_result mount)" ENOTDIR "mount dir on a regular file"
+diff --git a/test/cases/mount/service-nonroot.sh b/test/cases/mount/service-nonroot.sh
+new file mode 100755
+index 000000000000..0c211d0a9965
+--- /dev/null
++++ b/test/cases/mount/service-nonroot.sh
+@@ -0,0 +1,54 @@
++#!/usr/bin/env bash
++# GROUP: mount
++#
++# fuservicemount3 installed setuid and run by an unprivileged user mounts only
++# on a directory that user can write, and never offers fuseblk.
++
++_fuse_no_mount_needed=1
++. "$TEST_LIB/common.sh"
++
++_require_linux "fuservicemount3"
++# Root installs the setuid copy and the socket
++_require_root
++_require_fuse_device
++_require_binary util/fuservicemount3
++_require_binary test/test_service
++_require_prog setpriv
++_require_prog findmnt
++
++user=nobody
++uid=$(id -u "$user") || _notrun "no user $user"
++gid=$(id -g "$user")
++run_as=(setpriv --reuid="$uid" --regid="$gid" --clear-groups)
++
++helper=$TEST_WORKDIR/fuservicemount3
++case ",$(findmnt -n -o OPTIONS -T "$TEST_WORKDIR")," in
++*,nosuid,*) _notrun "$TEST_WORKDIR is on a nosuid mount" ;;
++esac
++cp "$FUSE_UTIL_DIR/fuservicemount3" "$helper"
++_at_exit "rm -f '$helper'"
++chmod 4755 "$helper"
++"${run_as[@]}" test -x "$helper" || _notrun "$user cannot reach $helper"
++
++. "$TEST_LIB/service.sh"
++
++service_setup "test-nonroot-$$"
++service_helper=("${run_as[@]}" "$helper")
++root_dir=$TEST_WORKDIR/root-mnt
++mkdir -m 0755 "$root_dir"
++
++chown "$uid" "$TEST_MNT"
++service_mount "$service_subtype" "$TEST_MNT" mount dir
++_assert_eq "$(service_result mount)" 0 "mount on a directory $user owns"
++umount "$TEST_MNT"
++
++service_mount "$service_subtype" "$root_dir" mount dir
++_assert_eq "$(service_result mount)" EPERM \
++	"mount on a directory owned by root"
++
++# allow_other depends on user_allow_other in the system fuse.conf
++service_mount "$service_subtype" "$TEST_MNT" caps
++case $(service_result caps) in
++*" fuseblk=0") ;;
++*) _fail "caps as $user: $(service_result caps)" ;;
++esac
+diff --git a/test/cases/mount/service-server-exit.sh b/test/cases/mount/service-server-exit.sh
+new file mode 100755
+index 000000000000..6304f20ff2cb
+--- /dev/null
++++ b/test/cases/mount/service-server-exit.sh
+@@ -0,0 +1,22 @@
++#!/usr/bin/env bash
++# GROUP: mount
++#
++# A fuse server that exits without a goodbye makes fuservicemount3 fail, and
++# leaves nothing mounted.
++
++_fuse_no_mount_needed=1
++. "$TEST_LIB/common.sh"
++
++_require_linux "fuservicemount3"
++_require_root
++_require_fuse_device
++_require_binary util/fuservicemount3
++_require_binary test/test_service
++
++. "$TEST_LIB/service.sh"
++
++service_setup "test-exit-$$"
++
++service_mount "$service_subtype" "$TEST_MNT" exit-early
++_assert_ne "$service_helper_rc" 0 "fuservicemount3 exit status"
++_assert_eq "$(mountinfo_field "$TEST_MNT" fstype)" "" "$TEST_MNT mounted"
+diff --git a/test/test_service.c b/test/test_service.c
+index 0d54df3427a9..7bbd14e2650d 100644
+--- a/test/test_service.c
++++ b/test/test_service.c
+@@ -12,6 +12,10 @@
+  *   test_service open <path>
+  *   test_service open-bdev <path>
+  *   test_service open-after-mount <path>
++ *   test_service mount dir|file
++ *   test_service mount-elsewhere <mountpoint>
++ *   test_service caps
++ *   test_service exit-early
+  */
+ 
+ #define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 19)
+@@ -62,18 +66,25 @@ static int skip_source(void *data, const char *arg, int key,
+ }
+ 
+ /*
+- * Mount through the helper so that it has a mount point when the file is
+- * requested.
++ * Mount through the helper. On success *sep is the mounted session, which
++ * keeps /dev/fuse open until it is destroyed.
+  *
+- * @return the mounted session, or NULL on failure
++ * @param fmt         mount point type the helper has to find
++ * @param mountpoint  sent in place of the one on the command line, or NULL
++ * @return 0 when the result was printed, -1 otherwise
+  */
+-static struct fuse_session *session_mounted(struct fuse_service *service,
+-					    const char *argv0)
++static int mount_printed(struct fuse_service *service, const char *argv0,
++			 mode_t fmt, const char *mountpoint,
++			 struct fuse_session **sep)
+ {
+ 	struct fuse_args args = FUSE_ARGS_INIT(0, NULL);
+ 	struct fuse_cmdline_opts opts = { };
+-	struct fuse_session *se = NULL;
++	struct fuse_session *se;
+ 	bool source_seen = false;
++	int printed = -1;
++	int ret;
++
++	*sep = NULL;
+ 
+ 	if (fuse_opt_add_arg(&args, argv0) ||
+ 	    fuse_service_append_args(service, &args) ||
+@@ -81,20 +92,30 @@ static struct fuse_session *session_mounted(struct fuse_service *service,
+ 	    fuse_service_parse_cmdline_opts(&args, &opts))
+ 		goto out;
+ 
++	if (mountpoint) {
++		free(opts.mountpoint);
++		opts.mountpoint = strdup(mountpoint);
++		if (!opts.mountpoint)
++			goto out;
 +	}
-+	if (statbuf.st_size > FUSE_SERVICE_MAX_ARGV_SIZE) {
-+		fuse_log(FUSE_LOG_ERR, "fuse: service args file too large\n");
-+		return -EBADMSG;
-+	}
 +
-+	/*
-+	 * The array of argv iovecs sits between the header and the strings, so
-+	 * the file size bounds argc.  Reject a count the file cannot hold: the
-+	 * sum below is computed in unsigned arithmetic and would otherwise wrap
-+	 * and undersize the array.  argc 0 is rejected as well, because only
-+	 * the first loop iteration fills argv[0].
-+	 */
-+	max_argc = (statbuf.st_size - (off_t)sizeof(memfd_args)) /
-+		   (off_t)sizeof(struct fuse_service_memfd_arg);
-+	if (memfd_args.argc == 0 || memfd_args.argc > max_argc) {
-+		fuse_log(FUSE_LOG_ERR, "fuse: service args file argc %u invalid\n",
-+			 memfd_args.argc);
-+		return -EBADMSG;
-+	}
-+
- 	/* Allocate a new array of argv string pointers */
- 	new_args.argv = calloc(memfd_args.argc + existing_args->argc,
- 			       sizeof(char *));
-@@ -722,6 +752,19 @@ int fuse_service_append_args(struct fuse_service *sf,
- 		memfd_arg.len = htonl(memfd_arg.len);
- 		memfd_pos += sizeof(memfd_arg);
+ 	se = fuse_session_new(&args, &test_service_oper,
+ 			      sizeof(test_service_oper), NULL);
+ 	if (!se)
+ 		goto out;
  
-+		/*
-+		 * A string cannot be longer than the file holding it.  len
-+		 * UINT32_MAX would make len + 1 wrap to zero below, handing
-+		 * calloc() a zero-size buffer for the pread() to overflow.
-+		 */
-+		if (memfd_arg.len >= statbuf.st_size) {
-+			fuse_log(FUSE_LOG_ERR,
-+				 "fuse: service args file argv[%u] len %u too large\n",
-+				 i, memfd_arg.len);
-+			ret = -EBADMSG;
-+			goto out_new_args;
-+		}
-+
- 		/* read arg string from file */
- 		str = calloc(1, memfd_arg.len + 1);
- 		if (!str) {
-diff --git a/util/mount_service.c b/util/mount_service.c
-index 84e9d831ce03..c715729b2162 100644
---- a/util/mount_service.c
-+++ b/util/mount_service.c
-@@ -442,6 +442,16 @@ static int mount_service_capture_arg(const struct mount_service *mo,
- 	};
- 	ssize_t written;
+-	if (fuse_service_session_mount(service, se, S_IFDIR, &opts)) {
++	ret = fuse_service_session_mount(service, se, fmt, &opts);
++	if (ret)
+ 		fuse_session_destroy(se);
+-		se = NULL;
+-	}
++	else
++		*sep = se;
  
-+	/*
-+	 * string_pos already covers the header and the whole array, so this
-+	 * bounds the entire memfd.  The server rejects anything larger.
-+	 */
-+	if (*string_pos + (off_t)string_len > FUSE_SERVICE_MAX_ARGV_SIZE) {
-+		fprintf(stderr, "%s: memfd argv[%u] exceeds %d byte limit\n",
-+			mo->msgtag, args->argc, FUSE_SERVICE_MAX_ARGV_SIZE);
-+		return -1;
-+	}
++	printf("mount result: %s\n", errno_name(-ret));
++	printed = 0;
+ out:
+ 	free(opts.mountpoint);
+ 	fuse_opt_free_args(&args);
+-	return se;
++	return printed;
+ }
+ 
+ /* @return 0 when the result was printed, negative errno otherwise */
+@@ -127,22 +148,40 @@ static int request_printed(const struct fuse_service *service,
+ 	return 0;
+ }
+ 
++/* @return S_IFDIR or S_IFREG, 0 for an unknown name */
++static mode_t mount_format(const char *name)
++{
++	if (!strcmp(name, "dir"))
++		return S_IFDIR;
++	if (!strcmp(name, "file"))
++		return S_IFREG;
++	return 0;
++}
 +
- 	written = pwrite(mo->argvfd, string, string_len, *string_pos);
- 	if (written < 0) {
- 		fprintf(stderr, "%s: memfd argv write: %s\n",
+ int main(int argc, char *argv[])
+ {
+ 	struct fuse_service *service = NULL;
+ 	struct fuse_session *se = NULL;
+-	bool blockdev = false;
++	const char *mode;
++	const char *arg;
+ 	int ret = 1;
+ 
+-	if (argc != 3) {
++	if (argc != 2 && argc != 3) {
+ 		fprintf(stderr, "usage: %s socket-path <subtype>\n", argv[0]);
+ 		fprintf(stderr, "       %s open|open-bdev|open-after-mount <path>\n",
+ 			argv[0]);
++		fprintf(stderr, "       %s mount dir|file\n", argv[0]);
++		fprintf(stderr, "       %s mount-elsewhere <mountpoint>\n",
++			argv[0]);
++		fprintf(stderr, "       %s caps|exit-early\n", argv[0]);
+ 		return 1;
+ 	}
++	mode = argv[1];
++	/* argv[argc] is NULL */
++	arg = argv[2];
+ 
+-	if (!strcmp(argv[1], "socket-path")) {
+-		printf("%s/%s\n", FUSE_SERVICE_SOCKET_DIR, argv[2]);
++	if (!strcmp(mode, "socket-path") && arg) {
++		printf("%s/%s\n", FUSE_SERVICE_SOCKET_DIR, arg);
+ 		return 0;
+ 	}
+ 
+@@ -151,19 +190,36 @@ int main(int argc, char *argv[])
+ 		return 1;
+ 	}
+ 
+-	if (!strcmp(argv[1], "open-after-mount")) {
+-		se = session_mounted(service, argv[0]);
+-		if (!se)
+-			goto out;
+-	} else if (!strcmp(argv[1], "open-bdev")) {
+-		blockdev = true;
+-	} else if (strcmp(argv[1], "open")) {
+-		fprintf(stderr, "%s: unknown case %s\n", argv[0], argv[1]);
+-		goto out;
++	if (!strcmp(mode, "exit-early")) {
++		/* No goodbye, the helper only sees the connection close */
++		fuse_service_destroy(&service);
++		return 0;
+ 	}
+ 
+-	if (request_printed(service, argv[2], blockdev))
++	if (!strcmp(mode, "caps")) {
++		printf("caps result: allow_other=%d fuseblk=%d\n",
++		       fuse_service_can_allow_other(service),
++		       fuse_service_can_fuseblk(service));
++	} else if (!strcmp(mode, "mount") && arg && mount_format(arg)) {
++		if (mount_printed(service, argv[0], mount_format(arg), NULL,
++				  &se))
++			goto out;
++	} else if (!strcmp(mode, "mount-elsewhere") && arg) {
++		if (mount_printed(service, argv[0], S_IFDIR, arg, &se))
++			goto out;
++	} else if (!strcmp(mode, "open-after-mount") && arg) {
++		if (mount_printed(service, argv[0], S_IFDIR, NULL, &se) || !se)
++			goto out;
++		if (request_printed(service, arg, false))
++			goto out;
++	} else if ((!strcmp(mode, "open") || !strcmp(mode, "open-bdev")) &&
++		   arg) {
++		if (request_printed(service, arg, !strcmp(mode, "open-bdev")))
++			goto out;
++	} else {
++		fprintf(stderr, "%s: unknown case %s\n", argv[0], mode);
+ 		goto out;
++	}
+ 
+ 	ret = 0;
+ out:
 
 -- 
 2.53.0
