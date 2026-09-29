@@ -1,39 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666FA2DEA68
-	for <fuse-devel@lists.linux.dev>; Tue, 29 Sep 2026 03:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD8B383984;
+	Tue, 29 Sep 2026 05:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790654119; cv=none; b=cs7YAZ42qyDQZepS9BokAGt49Q9q1E3HYvqjTMGdrjIpMyRyYZNFgim2C9a5BQ2ziM1tMXX0bDL8akeRnAAbjMQ5sw6GJkFJdiqK3Rk1ama4CMoWaN/VZC3Xol+uoF6zolDEGvU8bp/CrXBzIFXYhID5cqaTSmql+hMYqDjrK5M=
+	t=1790658479; cv=none; b=pKOWwEG1jRtYXkz7OSiKFFwlTm5gCUxbbUgkN1OaRqxJYZrJ+kHov2xZgf1M+znNjjDDlFYg8v/YLnS8m7pnhf6yL5VK9q9GaLyOB/7JlxnS/JK/KSSJyAZB4BBS5RE0GPFiDp7888gQRTLjuU+rLCKbS0dHyoU1+BmlemQwKwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790654119; c=relaxed/simple;
-	bh=qrLjo/fiCwGe5b8MWLTEU4+SN7mLa0l/6rU1gZ5+36k=;
+	s=arc-20240116; t=1790658479; c=relaxed/simple;
+	bh=zVdfo8ZneJrRJ94k14YIO1Y9VXCvy8Lfs7ITB4fmUcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SKaEU8EIkaXYTzoU11wk4VIRl6SVZEGu4M4iprUkKs33p60usSwi+EskYeWtqojDlw63Y4GggNxHfWbFGSecwRNXYhTz2xwXEDrEEZ5z3BPXaeuinWbCjW6tMWqxulM6wCkBgsDgJ6E/OL1YjpIGVN44Wxgae9TjqFiy5PkMdQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=coKiN8q0; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZ8B9IGRQWtXgrN/vuWVGoO0nrV+6Ybyx27OY4oxs1opuCBTfmEOrj649CwEJfTyj+kzVcsl1ZyzG8XLdqymgB9Z/NTzry2STdJdmsPfjylnq2UEYtk5VxKqURuCcDJ0NWAd95EDWcHf0JayJe3x84+EQRGNCkQKIiEI7+eCkns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=Vt8Wl6v9; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="coKiN8q0"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id F1F5C1F000FF;
-	Tue, 29 Sep 2026 03:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790654117;
-	bh=HtRoIp9/ez9DizZi0RA20X1OVlnc626aH/N0L4ejoLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=coKiN8q0SIfPQ8gc9oysq62c7HzbZhXexadVeqk5xN+hPT4fr/cYUZZE07oxbRz4A
-	 WOb76Vz0WFgy0LAuE5H7O+6dnbf19/8wh8ZskreY3KbKjBy2OBG1qeQa5om8R71j7o
-	 dh10RPxHWiObumGc1/JYsKwnqw00ZpkR4PwSDEGaUjwXrhMPzWpgD1ISlCbAWW8ctn
-	 QpHctueXrFnDpbXfgMx34j4zgkR1C9tu7AfWgkHHRCo00is6RHxzXhTz4PNA8C/HmM
-	 nIZFNSb1lNrEE0Vf54Gg3hUI7/foNW+8o11dFxUS10tsyUFynAB4+tTC5iV3PRJN0k
-	 WsBL76YmUY9xQ==
-Date: Mon, 28 Sep 2026 20:55:16 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: fuse-devel@lists.linux.dev, neal@gompa.dev
-Subject: Re: [PATCH v2 09/14] test: check what fuservicemount3 refuses
-Message-ID: <20260929035516.GI6253@frogsfrogsfrogs>
-References: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
- <20260928-mount-service-bound-open-v2-9-0f9f501d05ce@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="Vt8Wl6v9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Ql48WTI1DDC42vkQ5aONYMMkjcdFwpalboLPZ35vz1E=; b=Vt8Wl6v9GXqlPdcfnYCxm8QiYp
+	IjYDbFvkRSA9EwCbUBHheJvuYZdpImQ8ElWTyxGfzBNWSOW2pO6W+4J4Y1tks26kT+/1ZOyOUbTV2
+	LxknNqO7/ieWoGqNfhU/6OiIm+u03J7GX8QRDAzb//I2WHU4oI0/7on5fhJYoFcx/TY3YdWmGFgOj
+	4/WzgK4OYYFLnJJZ1H6/D8CD8OvFCYz5m/CT5EO8CcQq6t3LkWaAWZ3HXS+H7Eiz8dY3BcMEfr7b2
+	xJxllWNFBc/BuTHZelPBr7MOyE8q5XDulXQDCXIxkADODbw48afqLDdAfkvjLTsbKv4uPDjyQv6ee
+	sAjeP0QA==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xBQ43-00000002j2z-3GyS;
+	Tue, 29 Sep 2026 05:07:40 +0000
+Date: Tue, 29 Sep 2026 06:07:39 +0100
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: NeilBrown <neil@brown.name>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	Joel Granados <joel.granados@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Breno Leitao <leitao@debian.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>, Carlos Maiolino <cem@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-unionfs@vger.kernel.org,
+	linux-um@lists.infradead.org, codalist@coda.cs.cmu.edu,
+	coda@cs.cmu.edu, linux-mm@kvack.org, ntfs@lists.linux.dev,
+	linux-xfs@vger.kernel.org
+Subject: Re: [PATCH 4/7] configfs: remove d_add() calls before
+ configfs_attach_group()
+Message-ID: <20260929050739.GB3909609@ZenIV>
+References: <20260929034158.1455429-1-neilb@ownmail.net>
+ <20260929034158.1455429-5-neilb@ownmail.net>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -42,463 +64,25 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260928-mount-service-bound-open-v2-9-0f9f501d05ce@bsbernd.com>
+In-Reply-To: <20260929034158.1455429-5-neilb@ownmail.net>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-On Mon, Sep 28, 2026 at 01:02:11PM +0200, Bernd Schubert via B4 Relay wrote:
-> From: Bernd Schubert <bernd@bsbernd.com>
+On Tue, Sep 29, 2026 at 01:36:04PM +1000, NeilBrown wrote:
+> From: NeilBrown <neil@brown.name>
 > 
-> fuservicemount3 runs setuid root and acts on requests from a fuse
-> server it does not trust. No test covered its checks on the subtype,
-> the mount point and its file type, fuseblk for a user who is not root,
-> or a server that exits before its goodbye.
+> These d_add() calls cannot be necessary.  The inode given is NULL so all
+> they do is attach the dentry to the hash table.
 > 
-> Assisted-by: LLM
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+> If configfs_attach_group() fails, then d_drop() is called so the dentry
+> will be detached.
+> If configfs_attach_group() succeeds, then
+>  configfs_attach_group -> configfs_attach_item ->configfs_create_dir
+> must have succeeded, so d_instantiate() will have been called and the
+> dentry hashed there.
 
-Seems reasonable to me,
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Neither in mainline, nor in -next...
 
---D
-
-> ---
->  test/cases/lib/service.sh               |  20 ++++--
->  test/cases/mount/service-caps.sh        |  20 ++++++
->  test/cases/mount/service-check.sh       |  38 ++++++++++++
->  test/cases/mount/service-mountpoint.sh  |  36 +++++++++++
->  test/cases/mount/service-nonroot.sh     |  54 +++++++++++++++++
->  test/cases/mount/service-server-exit.sh |  22 +++++++
->  test/test_service.c                     | 104 ++++++++++++++++++++++++--------
->  7 files changed, 266 insertions(+), 28 deletions(-)
-> 
-> diff --git a/test/cases/lib/service.sh b/test/cases/lib/service.sh
-> index d0a0fa0183d0..60c6c72820ef 100644
-> --- a/test/cases/lib/service.sh
-> +++ b/test/cases/lib/service.sh
-> @@ -10,6 +10,8 @@ service_setup()
->  {
->  	service_subtype=$1
->  	service_runs=0
-> +	# A case may prefix it, to run the helper as another user
-> +	service_helper=("$FUSE_UTIL_DIR/fuservicemount3")
->  	# A case may set it, to add arguments to the helper command line
->  	service_helper_args=()
->  	service_sock=$("$FUSE_TEST_BIN_DIR/test_service" socket-path "$1")
-> @@ -33,6 +35,16 @@ service_start()
->  	service_pid=$!
->  	_wait_for 10 "grep -q '^listening' '$log'" ||
->  		_fail "$service_sock never listened"
-> +	# connect() needs write permission, and a case may run as another user
-> +	chmod 0666 "$service_sock"
-> +}
-> +
-> +# service_stop
-> +# Kill an activator that no helper connected to.
-> +service_stop()
-> +{
-> +	kill "$service_pid" 2>/dev/null || true
-> +	wait "$service_pid" 2>/dev/null || true
->  }
->  
->  # service_wait_exit
-> @@ -50,7 +62,7 @@ service_wait_exit()
->  
->  # service_mount <source> <mountpoint> <case> [args...]
->  # Run fuservicemount3 once against test_service <case> [args...] and reap the
-> -# server. Sets service_log.
-> +# server. Sets service_log and service_helper_rc.
->  service_mount()
->  {
->  	local source=$1 mnt=$2; shift 2
-> @@ -59,9 +71,9 @@ service_mount()
->  	service_runs=$((service_runs + 1))
->  	service_start "$service_log" "$FUSE_TEST_BIN_DIR/test_service" "$@"
->  
-> -	# Its exit status depends on the case; the server's line is the verdict.
-> -	"$FUSE_UTIL_DIR/fuservicemount3" "$source" "$mnt" \
-> -		-t "fuse.$service_subtype" "${service_helper_args[@]}" || true
-> +	service_helper_rc=0
-> +	"${service_helper[@]}" "$source" "$mnt" -t "fuse.$service_subtype" \
-> +		"${service_helper_args[@]}" || service_helper_rc=$?
->  
->  	service_wait_exit
->  }
-> diff --git a/test/cases/mount/service-caps.sh b/test/cases/mount/service-caps.sh
-> new file mode 100755
-> index 000000000000..69bc2bdbef8d
-> --- /dev/null
-> +++ b/test/cases/mount/service-caps.sh
-> @@ -0,0 +1,20 @@
-> +#!/usr/bin/env bash
-> +# GROUP: mount
-> +#
-> +# fuservicemount3 run by root offers the fuse server allow_other and fuseblk.
-> +
-> +_fuse_no_mount_needed=1
-> +. "$TEST_LIB/common.sh"
-> +
-> +_require_linux "fuservicemount3"
-> +_require_root
-> +_require_fuse_device
-> +_require_binary util/fuservicemount3
-> +_require_binary test/test_service
-> +
-> +. "$TEST_LIB/service.sh"
-> +
-> +service_setup "test-caps-$$"
-> +
-> +service_mount "$service_subtype" "$TEST_MNT" caps
-> +_assert_eq "$(service_result caps)" "allow_other=1 fuseblk=1" "caps as root"
-> diff --git a/test/cases/mount/service-check.sh b/test/cases/mount/service-check.sh
-> new file mode 100755
-> index 000000000000..ec30031d039e
-> --- /dev/null
-> +++ b/test/cases/mount/service-check.sh
-> @@ -0,0 +1,38 @@
-> +#!/usr/bin/env bash
-> +# GROUP: mount
-> +#
-> +# fuservicemount3 --check succeeds only for a socket named after the subtype,
-> +# and never for a subtype that is a path.
-> +
-> +_fuse_no_mount_needed=1
-> +. "$TEST_LIB/common.sh"
-> +
-> +_require_linux "fuservicemount3"
-> +_require_root
-> +_require_binary util/fuservicemount3
-> +_require_binary test/test_service
-> +
-> +. "$TEST_LIB/service.sh"
-> +
-> +subtype=test-check-$$
-> +service_setup "$subtype"
-> +
-> +# check_rc <fstype>
-> +check_rc()
-> +{
-> +	local rc=0
-> +
-> +	"$FUSE_UTIL_DIR/fuservicemount3" -t "$1" --check || rc=$?
-> +	echo "$rc"
-> +}
-> +
-> +_assert_eq "$(check_rc "fuse.$subtype")" 1 "no socket"
-> +
-> +touch "$service_sock"
-> +_assert_eq "$(check_rc "fuse.$subtype")" 1 "regular file"
-> +
-> +service_start "$TEST_LOGDIR/fs-check.out" "$FUSE_TEST_BIN_DIR/test_service" caps
-> +_assert_eq "$(check_rc "fuse.$subtype")" 0 "listening socket"
-> +# The same socket, named through a path
-> +_assert_eq "$(check_rc "fuse../$subtype")" 1 "subtype ./$subtype"
-> +service_stop
-> diff --git a/test/cases/mount/service-mountpoint.sh b/test/cases/mount/service-mountpoint.sh
-> new file mode 100755
-> index 000000000000..0df4733389e0
-> --- /dev/null
-> +++ b/test/cases/mount/service-mountpoint.sh
-> @@ -0,0 +1,36 @@
-> +#!/usr/bin/env bash
-> +# GROUP: mount
-> +#
-> +# The fuse server names the mount point, so fuservicemount3 has to refuse one
-> +# that is not on its command line, and one of the wrong file type.
-> +
-> +_fuse_no_mount_needed=1
-> +. "$TEST_LIB/common.sh"
-> +
-> +_require_linux "fuservicemount3"
-> +_require_root
-> +_require_fuse_device
-> +_require_binary util/fuservicemount3
-> +_require_binary test/test_service
-> +
-> +. "$TEST_LIB/service.sh"
-> +
-> +file=$TEST_SRC/file
-> +
-> +touch "$file"
-> +service_setup "test-mntpt-$$"
-> +
-> +service_mount "$service_subtype" "$TEST_MNT" mount dir
-> +_assert_eq "$(service_result mount)" 0 "mount dir on a directory"
-> +_assert_fstype "$TEST_MNT" "fuse.$service_subtype" fuse
-> +umount "$TEST_MNT"
-> +
-> +service_mount "$service_subtype" "$TEST_MNT" mount-elsewhere "$TEST_SRC"
-> +_assert_eq "$(service_result mount)" EINVAL \
-> +	"mount point not on the command line"
-> +
-> +service_mount "$service_subtype" "$TEST_MNT" mount file
-> +_assert_eq "$(service_result mount)" EISDIR "mount file on a directory"
-> +
-> +service_mount "$service_subtype" "$file" mount dir
-> +_assert_eq "$(service_result mount)" ENOTDIR "mount dir on a regular file"
-> diff --git a/test/cases/mount/service-nonroot.sh b/test/cases/mount/service-nonroot.sh
-> new file mode 100755
-> index 000000000000..0c211d0a9965
-> --- /dev/null
-> +++ b/test/cases/mount/service-nonroot.sh
-> @@ -0,0 +1,54 @@
-> +#!/usr/bin/env bash
-> +# GROUP: mount
-> +#
-> +# fuservicemount3 installed setuid and run by an unprivileged user mounts only
-> +# on a directory that user can write, and never offers fuseblk.
-> +
-> +_fuse_no_mount_needed=1
-> +. "$TEST_LIB/common.sh"
-> +
-> +_require_linux "fuservicemount3"
-> +# Root installs the setuid copy and the socket
-> +_require_root
-> +_require_fuse_device
-> +_require_binary util/fuservicemount3
-> +_require_binary test/test_service
-> +_require_prog setpriv
-> +_require_prog findmnt
-> +
-> +user=nobody
-> +uid=$(id -u "$user") || _notrun "no user $user"
-> +gid=$(id -g "$user")
-> +run_as=(setpriv --reuid="$uid" --regid="$gid" --clear-groups)
-> +
-> +helper=$TEST_WORKDIR/fuservicemount3
-> +case ",$(findmnt -n -o OPTIONS -T "$TEST_WORKDIR")," in
-> +*,nosuid,*) _notrun "$TEST_WORKDIR is on a nosuid mount" ;;
-> +esac
-> +cp "$FUSE_UTIL_DIR/fuservicemount3" "$helper"
-> +_at_exit "rm -f '$helper'"
-> +chmod 4755 "$helper"
-> +"${run_as[@]}" test -x "$helper" || _notrun "$user cannot reach $helper"
-> +
-> +. "$TEST_LIB/service.sh"
-> +
-> +service_setup "test-nonroot-$$"
-> +service_helper=("${run_as[@]}" "$helper")
-> +root_dir=$TEST_WORKDIR/root-mnt
-> +mkdir -m 0755 "$root_dir"
-> +
-> +chown "$uid" "$TEST_MNT"
-> +service_mount "$service_subtype" "$TEST_MNT" mount dir
-> +_assert_eq "$(service_result mount)" 0 "mount on a directory $user owns"
-> +umount "$TEST_MNT"
-> +
-> +service_mount "$service_subtype" "$root_dir" mount dir
-> +_assert_eq "$(service_result mount)" EPERM \
-> +	"mount on a directory owned by root"
-> +
-> +# allow_other depends on user_allow_other in the system fuse.conf
-> +service_mount "$service_subtype" "$TEST_MNT" caps
-> +case $(service_result caps) in
-> +*" fuseblk=0") ;;
-> +*) _fail "caps as $user: $(service_result caps)" ;;
-> +esac
-> diff --git a/test/cases/mount/service-server-exit.sh b/test/cases/mount/service-server-exit.sh
-> new file mode 100755
-> index 000000000000..6304f20ff2cb
-> --- /dev/null
-> +++ b/test/cases/mount/service-server-exit.sh
-> @@ -0,0 +1,22 @@
-> +#!/usr/bin/env bash
-> +# GROUP: mount
-> +#
-> +# A fuse server that exits without a goodbye makes fuservicemount3 fail, and
-> +# leaves nothing mounted.
-> +
-> +_fuse_no_mount_needed=1
-> +. "$TEST_LIB/common.sh"
-> +
-> +_require_linux "fuservicemount3"
-> +_require_root
-> +_require_fuse_device
-> +_require_binary util/fuservicemount3
-> +_require_binary test/test_service
-> +
-> +. "$TEST_LIB/service.sh"
-> +
-> +service_setup "test-exit-$$"
-> +
-> +service_mount "$service_subtype" "$TEST_MNT" exit-early
-> +_assert_ne "$service_helper_rc" 0 "fuservicemount3 exit status"
-> +_assert_eq "$(mountinfo_field "$TEST_MNT" fstype)" "" "$TEST_MNT mounted"
-> diff --git a/test/test_service.c b/test/test_service.c
-> index 0d54df3427a9..7bbd14e2650d 100644
-> --- a/test/test_service.c
-> +++ b/test/test_service.c
-> @@ -12,6 +12,10 @@
->   *   test_service open <path>
->   *   test_service open-bdev <path>
->   *   test_service open-after-mount <path>
-> + *   test_service mount dir|file
-> + *   test_service mount-elsewhere <mountpoint>
-> + *   test_service caps
-> + *   test_service exit-early
->   */
->  
->  #define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 19)
-> @@ -62,18 +66,25 @@ static int skip_source(void *data, const char *arg, int key,
->  }
->  
->  /*
-> - * Mount through the helper so that it has a mount point when the file is
-> - * requested.
-> + * Mount through the helper. On success *sep is the mounted session, which
-> + * keeps /dev/fuse open until it is destroyed.
->   *
-> - * @return the mounted session, or NULL on failure
-> + * @param fmt         mount point type the helper has to find
-> + * @param mountpoint  sent in place of the one on the command line, or NULL
-> + * @return 0 when the result was printed, -1 otherwise
->   */
-> -static struct fuse_session *session_mounted(struct fuse_service *service,
-> -					    const char *argv0)
-> +static int mount_printed(struct fuse_service *service, const char *argv0,
-> +			 mode_t fmt, const char *mountpoint,
-> +			 struct fuse_session **sep)
->  {
->  	struct fuse_args args = FUSE_ARGS_INIT(0, NULL);
->  	struct fuse_cmdline_opts opts = { };
-> -	struct fuse_session *se = NULL;
-> +	struct fuse_session *se;
->  	bool source_seen = false;
-> +	int printed = -1;
-> +	int ret;
-> +
-> +	*sep = NULL;
->  
->  	if (fuse_opt_add_arg(&args, argv0) ||
->  	    fuse_service_append_args(service, &args) ||
-> @@ -81,20 +92,30 @@ static struct fuse_session *session_mounted(struct fuse_service *service,
->  	    fuse_service_parse_cmdline_opts(&args, &opts))
->  		goto out;
->  
-> +	if (mountpoint) {
-> +		free(opts.mountpoint);
-> +		opts.mountpoint = strdup(mountpoint);
-> +		if (!opts.mountpoint)
-> +			goto out;
-> +	}
-> +
->  	se = fuse_session_new(&args, &test_service_oper,
->  			      sizeof(test_service_oper), NULL);
->  	if (!se)
->  		goto out;
->  
-> -	if (fuse_service_session_mount(service, se, S_IFDIR, &opts)) {
-> +	ret = fuse_service_session_mount(service, se, fmt, &opts);
-> +	if (ret)
->  		fuse_session_destroy(se);
-> -		se = NULL;
-> -	}
-> +	else
-> +		*sep = se;
->  
-> +	printf("mount result: %s\n", errno_name(-ret));
-> +	printed = 0;
->  out:
->  	free(opts.mountpoint);
->  	fuse_opt_free_args(&args);
-> -	return se;
-> +	return printed;
->  }
->  
->  /* @return 0 when the result was printed, negative errno otherwise */
-> @@ -127,22 +148,40 @@ static int request_printed(const struct fuse_service *service,
->  	return 0;
->  }
->  
-> +/* @return S_IFDIR or S_IFREG, 0 for an unknown name */
-> +static mode_t mount_format(const char *name)
-> +{
-> +	if (!strcmp(name, "dir"))
-> +		return S_IFDIR;
-> +	if (!strcmp(name, "file"))
-> +		return S_IFREG;
-> +	return 0;
-> +}
-> +
->  int main(int argc, char *argv[])
->  {
->  	struct fuse_service *service = NULL;
->  	struct fuse_session *se = NULL;
-> -	bool blockdev = false;
-> +	const char *mode;
-> +	const char *arg;
->  	int ret = 1;
->  
-> -	if (argc != 3) {
-> +	if (argc != 2 && argc != 3) {
->  		fprintf(stderr, "usage: %s socket-path <subtype>\n", argv[0]);
->  		fprintf(stderr, "       %s open|open-bdev|open-after-mount <path>\n",
->  			argv[0]);
-> +		fprintf(stderr, "       %s mount dir|file\n", argv[0]);
-> +		fprintf(stderr, "       %s mount-elsewhere <mountpoint>\n",
-> +			argv[0]);
-> +		fprintf(stderr, "       %s caps|exit-early\n", argv[0]);
->  		return 1;
->  	}
-> +	mode = argv[1];
-> +	/* argv[argc] is NULL */
-> +	arg = argv[2];
->  
-> -	if (!strcmp(argv[1], "socket-path")) {
-> -		printf("%s/%s\n", FUSE_SERVICE_SOCKET_DIR, argv[2]);
-> +	if (!strcmp(mode, "socket-path") && arg) {
-> +		printf("%s/%s\n", FUSE_SERVICE_SOCKET_DIR, arg);
->  		return 0;
->  	}
->  
-> @@ -151,19 +190,36 @@ int main(int argc, char *argv[])
->  		return 1;
->  	}
->  
-> -	if (!strcmp(argv[1], "open-after-mount")) {
-> -		se = session_mounted(service, argv[0]);
-> -		if (!se)
-> -			goto out;
-> -	} else if (!strcmp(argv[1], "open-bdev")) {
-> -		blockdev = true;
-> -	} else if (strcmp(argv[1], "open")) {
-> -		fprintf(stderr, "%s: unknown case %s\n", argv[0], argv[1]);
-> -		goto out;
-> +	if (!strcmp(mode, "exit-early")) {
-> +		/* No goodbye, the helper only sees the connection close */
-> +		fuse_service_destroy(&service);
-> +		return 0;
->  	}
->  
-> -	if (request_printed(service, argv[2], blockdev))
-> +	if (!strcmp(mode, "caps")) {
-> +		printf("caps result: allow_other=%d fuseblk=%d\n",
-> +		       fuse_service_can_allow_other(service),
-> +		       fuse_service_can_fuseblk(service));
-> +	} else if (!strcmp(mode, "mount") && arg && mount_format(arg)) {
-> +		if (mount_printed(service, argv[0], mount_format(arg), NULL,
-> +				  &se))
-> +			goto out;
-> +	} else if (!strcmp(mode, "mount-elsewhere") && arg) {
-> +		if (mount_printed(service, argv[0], S_IFDIR, arg, &se))
-> +			goto out;
-> +	} else if (!strcmp(mode, "open-after-mount") && arg) {
-> +		if (mount_printed(service, argv[0], S_IFDIR, NULL, &se) || !se)
-> +			goto out;
-> +		if (request_printed(service, arg, false))
-> +			goto out;
-> +	} else if ((!strcmp(mode, "open") || !strcmp(mode, "open-bdev")) &&
-> +		   arg) {
-> +		if (request_printed(service, arg, !strcmp(mode, "open-bdev")))
-> +			goto out;
-> +	} else {
-> +		fprintf(stderr, "%s: unknown case %s\n", argv[0], mode);
->  		goto out;
-> +	}
->  
->  	ret = 0;
->  out:
-> 
-> -- 
-> 2.53.0
-> 
-> 
-> 
+d_add() _is_ wrong there, but this is not the right solution.  What
+we really ought to do is build the subtree first, then either dissolve
+it (without any pathname resolution having ever seen it) or move it
+in place once we are sure that everything worked.
