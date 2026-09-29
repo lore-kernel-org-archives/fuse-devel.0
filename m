@@ -1,267 +1,449 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010062.outbound.protection.outlook.com [52.101.201.62])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F0B231832;
-	Tue, 29 Sep 2026 02:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790648092; cv=fail; b=hn2m5uhw383BhujW1y0FbIPd76n/EFSA7gcvdgzaRH98Or03oJf7l+K2nrwC+AKFFEqVxw2rbzmjC2INN1OWFwFPLDmRkc9zRw9LWJOir8Tom7ZIgUUqasHMQYNqoNqq538oV3mxrqMpDdwMs/gCEp8m/Dy4Ywv2WNdSiUmoToc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790648092; c=relaxed/simple;
-	bh=DmPPZWkGwy0FQ4AFgshtWA+AF1LRSnFHljxDDLbFAgw=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
-	 In-Reply-To:MIME-Version; b=fs2n5sjKS3321RUAlYw/TO2ifHrxXellyG+n3qxJjt24Gvv7tKoahbPmvYcipfLC0Mp4s9Sj8BN5IZ0VMfmBlOIPrM86DnomDb87RsIRD5IK6Hb9xK0AfnB5TtHgj+qCFEgj/T8KF20LUuUQlxyrlzjvyZ4s9b8aAWMxpXFX+iU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qahxTxx4; arc=fail smtp.client-ip=52.101.201.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CB12D77F5
+	for <fuse-devel@lists.linux.dev>; Tue, 29 Sep 2026 02:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790648798; cv=none; b=CpHDT032JGNVd3HF//wxFVS/B5U/5DMJlJ0Pv9ueBzjbM07Kirjph//qwUmhOVdt+PBAy7Y7m/ifjS5bq8GN7HqVTio9bwIVc3GE+Zv/V4OruxdYaRHdSinM18RcakYffkt2Mu7m+6jwHAHWLOx6ZpM0Z7+EwQNKVWxRu+SiVdo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790648798; c=relaxed/simple;
+	bh=7xOtWHSpnQegbKoX+yHTMfWAcXAYXMpVw3JaIBXgllQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UqosR+54WvYc/poTeVhfou6ZTg2CByqlOgLDk6Gw72yCkcxm+LY1xmw23WUWXXdhytfzqv5DQCczwGl9MN+r+8zaoAInZKzEoYf9m/RDIYhwOuO+UIk3wSTgeK9wUDazG5ZnYgCRcMXcW4vmAb/C+ibJkin8EbSNVj8ONABReUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RSD8gEjY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qahxTxx4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r0ghaqXaAJ3lJ3MwBVGNCpEQ2YJcGvJOt9PfalpFPjVlKmMbzoot8iTPWV/ft+X15ptiyCCqlvbqyMFnbGrROfA7YR79zZEXq5CqWNHzuEoWsOubnk3zuxFTIz7pPMaDSAY3gSRnlY8MLcShO7k+dmqr8NDp3QCfjsgKDwjxY/n56vxLaXBr9nAuMObF74I1YTCh7loyLO+PBoF5nyk3wrRacT32f0/9cmAsNK/KgzMjZhRuh7h6dLOnqcY3MVjdxs1K+DTT5kshkyiLr6I/XTVXGqCheE3Nb1GILIYa1cndWQZ8L2SB2eRZ128YqujCbz838lE2aSijxfsxgz+vTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7axsDLzgMX171I6HFpbp6eD+lUjpFcqXXeMKrn5ML2c=;
- b=QpLYc84M/TE6OXg4rv5i6jzFmWcIQ6/vesp/l9ERvMtYNZKgM0xCrYkvOtj3K9e9TSuGQEH1k2py5PhzIR4Uc/Hi9qfarFm+ZvYR0j7Z6cVELMg0wLf0Jy5VF/7yiUlSUCE4/KzkIImuuec5UHvdI2zQpuuJcuvsi5Sqjlx9xN20YbKBuY/qZYggQwqrOrFqtnQIKz4RrhefsMjCR//Kl3uX8vDkYVHHjcjHk3I07WaSAe0Ropy9da2vNVY29PKlxEOMUP9NaCMxzHdZ7u+WNlIb9JFxTE7FL/WNj0vs3cEJnoC3z/SA9v8F2RQ67UBIcC6FvGTHX41YEXLBslJsGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7axsDLzgMX171I6HFpbp6eD+lUjpFcqXXeMKrn5ML2c=;
- b=qahxTxx4Y9sVw12ZcxEhP6kgeXM9CkOzfLULAQWDhEK/1iHwZpUNBsQvIaCOSaLxG4b0XUqFZ4LDe4ndcN9xKgBaL2LHACmQg7eYKioaYRUqK0DFV1ogNOAAzihzWm6HBT3waRcfzA9XfAmSasz+6Ljy1/ctzE7uDRmjih51N4T0UTrZycSzF4B/+8dP6280TGnLm3UmU3pdl065O9tqucIttsvIai1d3Zm2gSM2IHMPYfMpOhcWJrXaZJfrOIkQ3zNlQxXvXeSZYtIdShDkHxN0ILrk4xI/5IKuyAFF4W+NYhTflZUEGOx9w146FH8bLxt6Ni/wVEHVdoGlHFLH1A==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
- by DS0PR12MB7769.namprd12.prod.outlook.com (2603:10b6:8:138::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Tue, 29 Sep
- 2026 02:14:29 +0000
-Received: from IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
- ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.022; Tue, 29 Sep 2026
- 02:14:29 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 28 Sep 2026 22:14:26 -0400
-Message-Id: <DLRFRHANY5WU.3PTO2OUJSFR1W@nvidia.com>
-Subject: Re: [PATCH v3 28/40] mm: rename is_vm_hugetlb_page() to
- vma_is_hugetlb()
-Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <linux-rdma@vger.kernel.org>, <selinux@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <bpf@vger.kernel.org>,
- <linux-scsi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-trace-kernel@vger.kernel.org>,
- <linux-perf-users@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-fsdevel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <kvmarm@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
- <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
- <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
- <sparclinux@vger.kernel.org>, <fuse-devel@lists.linux.dev>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>,
- "Vlastimil Babka" <vbabka@kernel.org>, "Jann Horn" <jannh@google.com>,
- "Pedro Falcato" <pfalcato@suse.de>, "David Hildenbrand" <david@kernel.org>,
- "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
- <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet"
- <corbet@lwn.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>, "Jason
- Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>, "Paul
- Moore" <paul@paul-moore.com>, "Stephen Smalley"
- <stephen.smalley.work@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, "Alexei Starovoitov" <ast@kernel.org>,
- "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
- <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
- Kartikeya Dwivedi" <memxor@gmail.com>, "Baolin Wang"
- <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
- Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
- Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
- Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>, "Doug
- Gilbert" <dgilbert@interlog.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <mkp@kernel.org>, "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter"
- <simona@ffwll.ch>, "Helge Deller" <deller@gmx.de>, "Sebastian Reichel"
- <sre@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu"
- <peterx@redhat.com>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Oleg
- Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>,
- "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
- <dave.hansen@linux.intel.com>, <x86@kernel.org>, "Arnaldo Carvalho de Melo"
- <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland"
- <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
- <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>, "Vincent Guittot"
- <vincent.guittot@linaro.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Will Deacon" <will@kernel.org>, "Aneesh Kumar K.V"
- <aneesh.kumar@kernel.org>, "Nick Piggin" <npiggin@gmail.com>, "Arnd
- Bergmann" <arnd@arndb.de>, "Muchun Song" <muchun.song@linux.dev>, "Oscar
- Salvador" <osalvador@suse.de>, "Matthew Wilcox (Oracle)"
- <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Marc Zyngier"
- <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>, "Catalin Marinas"
- <catalin.marinas@arm.com>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
- "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Janosch Frank"
- <frankja@linux.ibm.com>, "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>, "Gerald Schaefer"
- <gerald.schaefer@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>,
- "Vasily Gorbik" <gor@linux.ibm.com>, "David S. Miller"
- <davem@davemloft.net>, "Andreas Larsson" <andreas@gaisler.com>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
- "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
- <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
- <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
- <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Kemeng
- Shi" <shikemeng@huaweicloud.com>, "Nhat Pham" <nphamcs@gmail.com>, "Baoquan
- He" <baoquan.he@linux.dev>, "Youngjun Park" <youngjun.park@lge.com>,
- "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
- "Shakeel Butt" <shakeel.butt@linux.dev>, "Axel Rasmussen"
- <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
- <weixugc@google.com>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Michal
- Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, "Xu Xin"
- <xu.xin@linux.dev>
-From: "Zi Yan" <ziy@nvidia.com>
-X-Mailer: aerc 0.22.0
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org> <20260917-b4-mmap-prepare-vma-flag-sanify-v3-28-4583d8a23bca@kernel.org>
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-28-4583d8a23bca@kernel.org>
-X-ClientProxiedBy: MN2PR07CA0010.namprd07.prod.outlook.com
- (2603:10b6:208:1a0::20) To IA0PR12MB8374.namprd12.prod.outlook.com
- (2603:10b6:208:40e::7)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RSD8gEjY"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C52F81F000FF;
+	Tue, 29 Sep 2026 02:26:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790648796;
+	bh=UOdkU+zy3+rGsiwqD0rS36uEoitRStlunJoYDzqA1a0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RSD8gEjYB5J6qso21MfrdLg9PaOtqv9uFC5zym2ZsMylHjlEvsFv6DHFhCPLgF8IJ
+	 BH1AGqN2m1n4woBSq78BuJy8OmpsXqT9FccdGU+ADnoUH8Yj5UttIOoCPnJs6CIpK8
+	 9OuV9gfYQbkZMy1XIaBEaiMctwLP7919ewMx6ywd1YEYIy7JmkqxUZ6Ai1vMbt73yQ
+	 XZSaMG+0bAGYEcRmCnIM5aMHEfPP41PR5mMF5PDk/FZhmubD7bUT992NvZZ2NGS8IY
+	 403/VfUAokHYuvOr9RkhSR4lCNefa1sbLpXSxfKGKVF69UqOaRsUQnTyLEU7xFILfY
+	 hhz7B4Ewia8pA==
+Date: Mon, 28 Sep 2026 19:26:36 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: bernd@bsbernd.com
+Cc: fuse-devel@lists.linux.dev, neal@gompa.dev
+Subject: Re: [PATCH v2 03/14] mount_service: refuse paths the user did not
+ name
+Message-ID: <20260929022636.GC6253@frogsfrogsfrogs>
+References: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
+ <20260928-mount-service-bound-open-v2-3-0f9f501d05ce@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|DS0PR12MB7769:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1f1f10e1-8987-46cf-6300-08df1dcf6468
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|7416014|921020|4143699003|11063799006|56012099006|10067099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	5qNFZMHTc8a4tZ/nOPkKiKSYwkHhKrJ0hZ4GmPVqyeIG2rK169YhvI9LzK89tDbs74gUtz0RTwo8A3RArLAs45d7NA6X6EUavDhF6cjiC08cl4KOGvjQFgKCH4hylQ3c3ei8SZ1vmZPf7juG7TumY+/fOJzPs8cx2sshNf4txmhhxXd4/sld5kuFl5HppkqblSTfnjqymwz9PQEa0Tm+FUrb+CFL9VkWP5X+8/LbClDPVrk+WkciXYBYib4l+I+FGxdUBNR4H81cJXPBPuu5wKq9l1TjykymyGuUCFvzQYoM/hbWTAHO/rbVqvVce4aAKe5XaCkOljg1R8Zueh2Z1pKxtIJINE8VZTzrzooTQFK9WBnxQSmGvywa4AYyRn7qofxqcfdPdECPMONd5UZF6bLELKh8p1du7pwtCNgfZbzY4jgPQFB9sLlMbRprPevu9PJ6j1iJnWTixaj1RqJQK65HzmBH66DYApC5TAdRKSG8MPtXR0GuHB5qtTP8zoW3UnzmFcx7KEn+1HmpDdsc2Phpy1ouEVtNNQBwLKFjhlXNARQbO/wY6SJ2PJN7zwNja8rC3/TtIS7cGZC2yxMBgbgmKhw/lJrFqQTroPbyX/TC4Kfbkl75cFK0kxCD8lx1386zZX/vlr5BWPJ6hmJyYyUKi0AQTvpBBKp92bVaprZ1w/7uHDuIvKKR13jvOOPHdwGbhLcoPpkXMW4scrQO1A==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(7416014)(921020)(4143699003)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SzNma1picGxqK0RRN2hXb2RyVTBjUHBrc2MzWXhZS1NjVlo4YkIyWVhNVGZw?=
- =?utf-8?B?bHNMcUl0ellOQU1ydkJpM2tZQXVpYmRxMVFvc1hkREYyWU05aHJiczlnMXZD?=
- =?utf-8?B?MW96T1RCckZwVEd6T1FJRDlCLzg1SFcyckdZa1JYRzdxelBXMVIzdXgza05I?=
- =?utf-8?B?RVFGaFVVU3h2UFdnQzd6VkhUNDNCNXRacDRqUXN0azN3Ynd1bHhqNVhKMzhh?=
- =?utf-8?B?ZHNaUVlMS0pqOVB0aFdxTjRDT21jWDF5NFFwY1g0QzdPQkcvWStWK0VCOC9i?=
- =?utf-8?B?SG5Yb0xpbFJVcG4vbmF3cGpIOG1uTVRBTVNLcUZnRmx1bE9RbjJ1NCtZczJB?=
- =?utf-8?B?REZycU4vYnBDOTd1L3ErK3ZlYXl6RWVkL3V0TURuN1I3bjcvSXI1UlNqQjlX?=
- =?utf-8?B?SFZTRDY0enFWdndiNXdTc0Y5aEk1NFdMMGhIcitwa05nelhaQXU1ZHlteXUr?=
- =?utf-8?B?c3dIa1Izb3NMbHlqZ0JILzJHenlWaExveHZESTBuWnlsSUNFZ1REZUdEdWhJ?=
- =?utf-8?B?MVhBVVoxcndBR2Fjb1haeUJvVml4SjRlMkhSV0JnbFFFbjR6SHU1Ri9sOEx3?=
- =?utf-8?B?SmsyUkZoMkhRWXpQNEhaT1NkSnpMUXQrUWJ1cW5McUQyVmFPNmY4SEJpdFBH?=
- =?utf-8?B?NlhVQ0pQY2hRTFE0d0xMS2hOanI2WEllQzQwcmdSdU9pOERWajBBWCtDRzgy?=
- =?utf-8?B?R3hFWVhDMzdnZG84YmlCb0U1bi9qS1c1cTRCL3l4RUtiZis5YnQxOUJPaUJV?=
- =?utf-8?B?cnBsaThOQmM0TW1jQTI3NmFIOWVpbzZlZjFYYVovUkZRNkVhd0lQTklPekdF?=
- =?utf-8?B?c0o5dlE1bnZUbzRvOHlEaWY5UUllN1JReGNjcGk5VytiZFdrdWtqaDQ2NXhC?=
- =?utf-8?B?TGpzbE1kK2Q1UEtxZkNqTVZnV3ZpU2kweVhhUU12RlRpTHpPQXFwSEQ3NFJ3?=
- =?utf-8?B?ckJycGk5bWY0bHBVMkU3NTkzSXczZDRjWVhmaDNmQ3JlZjNVMXVadE1wWno5?=
- =?utf-8?B?dUxhTUV0bG56bDlUaW1CL0lDMTF5Y1kxNjQ5aEpnVDIyTXBBOU1rSjBURUpR?=
- =?utf-8?B?dVR5dHk4ZERLcW54bWJkM21nTmRra3VuYk9NbW9uVGJFSHZJcklyVWs4M0tu?=
- =?utf-8?B?a3orSTh0Qjc1aE1NakE4Q1NHU1graVZqb0V5ajVucEliL2NDREorcExUSmI0?=
- =?utf-8?B?aEFVL3lhNHN0dlVIRWFLSWJTSVM0MGFXb0p3RW1NUFpaUmUrNW85UEZuRmtF?=
- =?utf-8?B?b2tPTk95cU1KdklNZkE5U01Vd0h2ZDVjN2lXVHhUZndKVEc0bjdMRFNrYVpR?=
- =?utf-8?B?TkZRc2RKUEFCNGl6T1N0SjdlNGdxNjMzcEZvSy9VTkYyRmQwSmw5WlA1ZE5P?=
- =?utf-8?B?UlFDSEJ4WUpLYUVWVkx4TVczcnRqQVlwNExVM1VPeDhJV2FkRGUxWlB2bUlQ?=
- =?utf-8?B?ZnJPVSsyMTRRRkp1Njl0WE4xVElrcis3WGJna254MVU5N2p6QnpWM0RGR0Rh?=
- =?utf-8?B?ZVQzZVc3OVRiTU43K0lxVEZpZVVoRklaSXNFVDBMQzR6TVkvZnVFWE04L202?=
- =?utf-8?B?N0VudzArcmp6ckFKVlhPamtmVURyeEZIcFE1NkJEdVpKdnRRV0ZrcXVuZEM2?=
- =?utf-8?B?Y0c5OWovRnBQVjdGdkhLVm5ueWdrQi9VVE9SZ3hVZGowZkh4WTJMYk9uK0RC?=
- =?utf-8?B?OW1mcWtVQ1BiUXZ2SWFLQlJTNnQ0MGdIN1FESzZxYVRIcEJlT0I3ZXdGeXpY?=
- =?utf-8?B?azZRdWFDeUF6R3VMTkJESUpOY3V1VVpyMkUvN2dSdXF1Vm9jdzFHTFdxUXpz?=
- =?utf-8?B?S2t4MElIQ012MGhaZWY5dEZMbDg3aXRhb1VBU0gwOTNuTDZHU25UMnJScEFl?=
- =?utf-8?B?QTBaenBLejFDajN5ZTNiSWJ5eXViRnlHR3IxWTNKRXZEREFCY2JLdkdRWUc3?=
- =?utf-8?B?RkQwM3ZjT0hsWE9DOEt3cVNNc2JudGJ0dzVwYTZLR3hpd0hwV1RnVXBOUTlP?=
- =?utf-8?B?dnNBQldub0FXcEk4L2ZhSXVzOUZneGxIdFFHNkxtcVE5QnJNb0RZVE9ITWMr?=
- =?utf-8?B?NEgwSzBRNitaZDRieVArMDZNNGtFTGpLTWJ0clpxVTlQV2pvbVZ1VloyRVE3?=
- =?utf-8?B?SjQ1VFYvWDBHMzczeitYWTk0T1ZDeTdHN09YNzBWU1RmL21hRmFseGlCR3g2?=
- =?utf-8?B?RTFObGhuUHdYTXFWaTQzY3VaZDlvL05MeFBkVVlUYzlCNEZPczVtTUl0RVFZ?=
- =?utf-8?B?RzFaRHQ3R2lsZHJZSkh0dExEdTdacll1bkZGU2NkZmV6UENhelRsQy9ZVW5O?=
- =?utf-8?Q?EZtb+TmBnzDQSqadlO?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1f1f10e1-8987-46cf-6300-08df1dcf6468
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 02:14:29.1054
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FqVJvlCUkQm1Y6qUscik0P4w1NSUabjgvguGmfya6HQzIK0rw82EYvzy/YEzTYZl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7769
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260928-mount-service-bound-open-v2-3-0f9f501d05ce@bsbernd.com>
 
-On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> The is_vm_hugetlb_page() predicate is badly named - the mapping can span
-> more than a page and it is inconsistent with other VMA predicates that
-> typically are prefixed by vma_.
->
-> Rename to vma_is_hugetlb() for consistency, and while we're here update
-> some VM_BUG_ON_VMA() to VM_WARN_ON_ONCE_VMA() as to avoid unnecessary
-> oopses.
->
-> No functional change intended.
->
-> Acked-by: Marc Zyngier <maz@kernel.org>
-> Acked-by: Claudio Imbrenda <imbrenda@linux.ibm.com>
-> Acked-by: Anup Patel <anup@brainfault.org>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+On Mon, Sep 28, 2026 at 01:02:05PM +0200, Bernd Schubert via B4 Relay wrote:
+> From: Bernd Schubert <bernd@bsbernd.com>
+> 
+> fuservicemount3 warns about a path that the user did not name on the
+> command line, but still opens it. A server can take a path in a form
+> that the helper cannot split, for example "-journal/dev/sdb1" or its
+> own option syntax. The administrator can now list such paths in
+> /etc/fuse.conf, per filesystem type:
+> 
+>     service_open_path = ext4 /dev/sd*
+> 
+> The pattern is matched with fnmatch() and FNM_PATHNAME, so "*" does not
+> match "/". A requested path with a "." or ".." component never matches,
+> because "*" matches "..", and "/dev/*" would then open "/". The helper
+> now refuses any other path with EPERM.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 > ---
->  arch/arm64/kvm/mmu.c                      |  4 ++--
->  arch/powerpc/mm/book3s64/radix_tlb.c      |  6 +++---
->  arch/powerpc/mm/nohash/e500_hugetlbpage.c |  2 +-
->  arch/powerpc/mm/nohash/tlb.c              |  2 +-
->  arch/riscv/kvm/mmu.c                      |  2 +-
->  arch/riscv/mm/tlbflush.c                  |  2 +-
->  arch/s390/mm/gmap_helpers.c               |  6 +++---
->  arch/sparc/mm/init_64.c                   |  2 +-
->  drivers/gpu/drm/drm_gpusvm.c              |  2 +-
->  fs/coredump.c                             |  2 +-
->  fs/hugetlbfs/inode.c                      |  2 +-
->  fs/proc/task_mmu.c                        |  8 ++++----
->  include/asm-generic/tlb.h                 |  2 +-
->  include/linux/hugetlb.h                   |  4 ++--
->  include/linux/mm.h                        | 19 ++++++++++++++++---
->  include/linux/rmap.h                      |  2 +-
->  kernel/events/core.c                      |  2 +-
->  kernel/sched/fair.c                       |  2 +-
->  mm/gup.c                                  |  4 ++--
->  mm/huge_memory.c                          |  2 +-
->  mm/hugetlb.c                              | 14 +++++++-------
->  mm/internal.h                             |  2 +-
->  mm/madvise.c                              |  4 ++--
->  mm/memory.c                               | 12 ++++++------
->  mm/mempolicy.c                            |  2 +-
->  mm/migrate_device.c                       |  2 +-
->  mm/mmap.c                                 |  2 +-
->  mm/mmu_gather.c                           |  2 +-
->  mm/mprotect.c                             |  2 +-
->  mm/mremap.c                               |  6 +++---
->  mm/page_vma_mapped.c                      |  4 ++--
->  mm/pagewalk.c                             |  2 +-
->  mm/swapfile.c                             |  2 +-
->  mm/userfaultfd.c                          | 26 +++++++++++++------------=
--
->  mm/vma.c                                  |  8 ++++----
->  mm/vmscan.c                               |  2 +-
->  tools/testing/vma/include/stubs.h         |  2 +-
->  37 files changed, 92 insertions(+), 79 deletions(-)
->
-Makes sense
+>  doc/fuservicemount3.8  | 16 ++++++++
+>  doc/mount.fuse3.8      |  7 ++++
+>  include/fuse_service.h |  4 +-
+>  test/test_fuser_conf.c | 55 ++++++++++++++++++++++++++++
+>  util/fuse.conf         | 11 ++++++
+>  util/fuser_conf.c      | 99 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  util/fuser_conf.h      |  3 ++
+>  util/mount_service.c   | 13 ++++---
+>  8 files changed, 202 insertions(+), 6 deletions(-)
+> 
+> diff --git a/doc/fuservicemount3.8 b/doc/fuservicemount3.8
+> index aa2167cb4872..18e285c1ab29 100644
+> --- a/doc/fuservicemount3.8
+> +++ b/doc/fuservicemount3.8
+> @@ -19,6 +19,22 @@ Mount a filesystem using a FUSE server that runs as a socket service.
+>  These servers can be contained using the platform's service management
+>  framework.
+>  
+> +The FUSE server may ask fuservicemount3 to open files on its behalf.
+> +fuservicemount3 opens a path only in these cases:
+> +.IP \- 2
+> +The path is a command line argument, for example /srv/disk.img.
+> +.IP \- 2
+> +The path is the value in a key=value option, for example /dev/sdb1 in
+> +"-o journal_dev=/dev/sdb1".
+> +.IP \- 2
+> +The path directly follows a short option, for example /dev/sdb1 in
+> +"-J/dev/sdb1".
+> +.IP \- 2
+> +A service_open_path line in /etc/fuse.conf lists the path for the filesystem
+> +type.
+> +.PP
+> +It refuses any other request with EPERM.
+> +
+>  The second form checks if there is a FUSE service available for the given
+>  filesystem type.
+>  .SH "AUTHORS"
+> diff --git a/doc/mount.fuse3.8 b/doc/mount.fuse3.8
+> index 2e587458a06e..d55c96139d9f 100644
+> --- a/doc/mount.fuse3.8
+> +++ b/doc/mount.fuse3.8
+> @@ -38,6 +38,13 @@ Allow non-root users to specify the \fBallow_other\fP or
+>  \fBallow_root\fP mount options (see below).
+>  .TP
+>  These limits are enforced by the \fBfusermount3\fP helper, so they can be avoided by filesystems that run as root.
+> +.TP
+> +\fBservice_open_path = SUBTYPE PATTERN\fP
+> +Allow \fBfuservicemount3\fP(8) to open paths that match \fIPATTERN\fP for the
+> +server of a service mount of type \fBfuse.\fISUBTYPE\fR, in addition to the
+> +paths on the mount command line. \fIPATTERN\fP is an absolute path in which "*"
+> +does not match "/". A pattern that matches a directory gives the server every
+> +file below it. The line can be repeated.
+>  .SH OPTIONS
+>  Most of the generic mount options described in \fBmount\fP are
+>  supported (\fBro\fP, \fBrw\fP, \fBsuid\fP, \fBnosuid\fP, \fBdev\fP,
+> diff --git a/include/fuse_service.h b/include/fuse_service.h
+> index d6aedea8f0f8..2114e7772bf5 100644
+> --- a/include/fuse_service.h
+> +++ b/include/fuse_service.h
+> @@ -139,6 +139,8 @@ int fuse_service_parse_cmdline_opts(struct fuse_args *args,
+>  
+>  /**
+>   * Ask the mount.service helper to open a file on behalf of the fuse server.
+> + * The helper refuses a path that the mount command line does not name and
+> + * fuse.conf does not list; fuse_service_receive_file() then reports -EPERM.
+>   *
+>   * @param sf service context
+>   * @param path the path to file
+> @@ -153,7 +155,7 @@ int fuse_service_request_file(const struct fuse_service *sf, const char *path,
+>  
+>  /**
+>   * Ask the mount.service helper to open a block device on behalf of the fuse
+> - * server.
+> + * server.  The helper refuses the same paths as for a file request.
+>   *
+>   * @param sf service context
+>   * @param path the path to file
+> diff --git a/test/test_fuser_conf.c b/test/test_fuser_conf.c
+> index 4d974931cf58..6d95fe932039 100644
+> --- a/test/test_fuser_conf.c
+> +++ b/test/test_fuser_conf.c
+> @@ -105,6 +105,59 @@ static int test_trimmed_options(void)
+>  	return 0;
+>  }
+>  
+> +static int test_service_open_path(void)
+> +{
+> +	const char *test = "service_open_path";
+> +
+> +	if (write_conf("service_open_path = ext4 /dev/sd*\n"
+> +		       "service_open_path = ext4 /dev/nvme*\n"
+> +		       "service_open_path = ext4 relative/path\n"
+> +		       "service_open_path = xfs\t/srv/xfs.img\n"
+> +		       "service_open_path = xfs /srv/img/*\n"
+> +		       " \tservice_open_path = ext4 /srv/indented.img\n"
+> +		       "service_open_path =\x20\n"
+> +		       "service_open_path = ext4\n") == -1)
+> +		return fail(test, "could not write the config file");
+> +
+> +	read_conf(progname);
+> +
+> +	if (!service_open_path_listed("ext4", "/dev/sda"))
+> +		return fail(test, "/dev/sd* did not match /dev/sda");
+> +	if (!service_open_path_listed("ext4", "/dev/nvme0n1"))
+> +		return fail(test, "a second ext4 line was not recognised");
+> +	if (!service_open_path_listed("ext4", "/srv/indented.img"))
+> +		return fail(test, "an indented line was not recognised");
+> +	if (service_open_path_listed("ext4", "/dev/sda/x"))
+> +		return fail(test, "* matched a /");
+> +	if (service_open_path_listed("xfs", "/dev/sda"))
+> +		return fail(test, "an ext4 line matched for xfs");
+> +	if (service_open_path_listed("ext4", "relative/path"))
+> +		return fail(test, "a relative pattern was accepted");
+> +	if (!service_open_path_listed("xfs", "/srv/xfs.img"))
+> +		return fail(test, "a tab-separated line was not recognised");
+> +	if (!service_open_path_listed("xfs", "/srv/img/a.img"))
+> +		return fail(test, "/srv/img/* did not match /srv/img/a.img");
+> +	if (service_open_path_listed("xfs", "/srv/img/..") ||
+> +	    service_open_path_listed("xfs", "/srv/img/."))
+> +		return fail(test, "a . or .. component was accepted");
+> +	/* Either line, if stored, would match the empty path */
+> +	if (service_open_path_listed("", ""))
+> +		return fail(test, "a line without a subtype was accepted");
+> +	if (service_open_path_listed("ext4", ""))
+> +		return fail(test, "a line without a pattern was accepted");
+> +
+> +	if (write_conf("\n") == -1)
+> +		return fail(test, "could not write the config file");
+> +
+> +	read_conf(progname);
+> +
+> +	if (service_open_path_listed("ext4", "/dev/sda"))
+> +		return fail(test, "a line survived re-reading the config");
+> +
+> +	printf("PASS: %s\n", test);
+> +	return 0;
+> +}
+> +
+>  int main(void)
+>  {
+>  	char tempdir[] = "/tmp/test_fuser_conf.XXXXXX";
+> @@ -123,6 +176,8 @@ int main(void)
+>  		goto out_unlink;
+>  	if (test_trimmed_options())
+>  		goto out_unlink;
+> +	if (test_service_open_path())
+> +		goto out_unlink;
+>  
+>  	printf("All fuse.conf parser tests passed\n");
+>  	result = 0;
+> diff --git a/util/fuse.conf b/util/fuse.conf
+> index ab048e0347b2..2c182ffa9d6a 100644
+> --- a/util/fuse.conf
+> +++ b/util/fuse.conf
+> @@ -15,3 +15,14 @@
+>  # equals sign).
+>  
+>  #mount_max = 1000
+> +
+> +
+> +# service_open_path = <subtype> <pattern> - a FUSE server that runs as a socket
+> +# service may ask fuservicemount3 to open paths that match <pattern>, in
+> +# addition to the paths on the mount command line. <subtype> is the filesystem
+> +# type after "fuse.", <pattern> an absolute path in which "*" does not match
+> +# "/". The line can be repeated to allow different patterns and subtypes.
+> +# A pattern that matches a directory gives the server every file below it.
+> +
+> +#service_open_path = ext4 /dev/sd*
+> +#service_open_path = ext4 /dev/nvme*
+> diff --git a/util/fuser_conf.c b/util/fuser_conf.c
+> index 12688f6c42b7..5ec9d263ac2f 100644
+> --- a/util/fuser_conf.c
+> +++ b/util/fuser_conf.c
+> @@ -18,6 +18,7 @@
+>  #include <stdio.h>
+>  #include <stdlib.h>
+>  #include <errno.h>
+> +#include <fnmatch.h>
+>  #include <mntent.h>
+>  #include <unistd.h>
+>  #include <sys/fsuid.h>
+> @@ -35,6 +36,14 @@ int mount_max = 1000;
+>  static uid_t oldfsuid;
+>  static gid_t oldfsgid;
+>  
+> +struct service_open_path {
+> +	struct service_open_path *next;
+> +	char *subtype;
+> +	char *pattern;
+> +};
+> +
+> +static struct service_open_path *service_open_paths;
+> +
+>  // Older versions of musl libc don't unescape entries in /etc/mtab
+>  
+>  // unescapes octal sequences like \040 in-place
+> @@ -192,12 +201,100 @@ static void strip_line(char *line)
+>  		memmove(line, s, strlen(s)+1);
+>  }
+>  
+> +/*
+> + * Store one service_open_path line. For the line
+> + * "service_open_path = ext4 /dev/sd*", str is "ext4 /dev/sd*".
+> + */
+> +static void parse_service_open_path(const char *str, int linenum,
+> +				    const char *progname)
+> +{
+> +	/* <subtype> ends at the first blank */
+> +	const size_t subtype_len = strcspn(str, " \t");
+> +	const char *pattern = str + subtype_len;
+> +	struct service_open_path *entry;
+> +
+> +	/* The rest of the line is <pattern>, blanks inside it included */
+> +	pattern += strspn(pattern, " \t");
+> +	/* A relative pattern would depend on each user's working directory */
+> +	if (!subtype_len || pattern[0] != '/') {
+> +		fprintf(stderr,
+> +			"%s: invalid service_open_path in %s at line %i\n",
+> +			progname, FUSE_CONF, linenum);
+> +		return;
+> +	}
+> +
+> +	entry = calloc(1, sizeof(*entry));
+> +	if (entry) {
+> +		entry->subtype = strndup(str, subtype_len);
+> +		entry->pattern = strdup(pattern);
+> +	}
+> +	/* Going on without the line would refuse paths the admin allowed */
+> +	if (!entry || !entry->subtype || !entry->pattern) {
+> +		fprintf(stderr, "%s: failed to allocate memory\n", progname);
+> +		exit(1);
+> +	}
+> +
+> +	/* Order does not matter, the lookup checks every entry */
+> +	entry->next = service_open_paths;
+> +	service_open_paths = entry;
+> +}
+> +
+> +/* The config can be read more than once; drop the lines of the last read */
+> +static void free_service_open_paths(void)
+> +{
+> +	while (service_open_paths) {
+> +		struct service_open_path *entry = service_open_paths;
+> +
+> +		service_open_paths = entry->next;
+> +		free(entry->subtype);
+> +		free(entry->pattern);
+> +		free(entry);
+> +	}
 
-Acked-by: Zi Yan <ziy@nvidia.com>
+Might want to null out service_open_paths here to avoid a UAF in case
+this function ever gets used anywhere other than exit.
 
---=20
-Best Regards,
-Yan, Zi
+> +}
+> +
+> +/* @return true if a path component is "." or "..", as in "/srv/img/.." */
+> +static bool has_dot_component(const char *path)
+> +{
+> +	const char *comp = path;
+> +
+> +	for (;;) {
+> +		const size_t len = strcspn(comp, "/");
+> +
+> +		if ((len == 1 && comp[0] == '.') ||
+> +		    (len == 2 && comp[0] == '.' && comp[1] == '.'))
+> +			return true;
+> +		if (!comp[len])
+> +			return false;
+> +		comp += len + 1;
+> +	}
+> +}
+> +
+> +bool service_open_path_listed(const char *subtype, const char *path)
+> +{
+> +	const struct service_open_path *entry;
+> +
+> +	/* "*" also matches "..", which reaches the parent directory */
+> +	if (has_dot_component(path))
+> +		return false;
+> +
+> +	for (entry = service_open_paths; entry; entry = entry->next)
+> +		if (!strcmp(entry->subtype, subtype) &&
 
+Would you consider allowing "*" for the subtype in the config file?
+
+e.g.
+
+service_open_path = * /proc/cpuinfo
+
+So that we could (say) allowlist things like /proc/pressure that would
+allow a fuse server to monitor memory stalls in the calling process'
+namespaces and perhaps drop its caches?
+
+(I don't know if PSI info is really useful for anyone, it's just a
+thought I had while reading this patch.)
+
+The code changes look good to me, modulo that question above. :)
+
+Thanks for expanding this!
+
+--D
+
+> +		    !fnmatch(entry->pattern, path, FNM_PATHNAME))
+> +			return true;
+> +
+> +	return false;
+> +}
+> +
+>  static void parse_line(const char *line, int linenum, const char *progname)
+>  {
+>  	int tmp;
+> +	int value_pos = -1;
+>  
+>  	if (strcmp(line, "user_allow_other") == 0)
+>  		user_allow_other = 1;
+> +	else if (sscanf(line, "service_open_path = %n", &value_pos) == 0 &&
+> +		 value_pos >= 0)
+> +		parse_service_open_path(line + value_pos, linenum, progname);
+>  	else if (sscanf(line, "mount_max = %i", &tmp) == 1) {
+>  		if (tmp < -1)
+>  			fprintf(stderr,
+> @@ -216,6 +313,8 @@ void read_conf(const char *progname)
+>  {
+>  	FILE *fp = fopen(FUSE_CONF, "r");
+>  
+> +	free_service_open_paths();
+> +
+>  	if (fp != NULL) {
+>  		int linenum = 1;
+>  		char line[256];
+> diff --git a/util/fuser_conf.h b/util/fuser_conf.h
+> index ea58537cc4c2..ccfc58877100 100644
+> --- a/util/fuser_conf.h
+> +++ b/util/fuser_conf.h
+> @@ -8,6 +8,7 @@
+>  #ifndef FUSER_CONF_H_
+>  #define FUSER_CONF_H_
+>  
+> +#include <stdbool.h>
+>  #include <sys/vfs.h>
+>  #include <sys/stat.h>
+>  
+> @@ -40,6 +41,8 @@ int count_fuse_fs(const char *progname);
+>  
+>  void read_conf(const char *progname);
+>  
+> +bool service_open_path_listed(const char *subtype, const char *path);
+> +
+>  void drop_privs(void);
+>  void restore_privs(void);
+>  
+> diff --git a/util/mount_service.c b/util/mount_service.c
+> index 446f37f61916..b4081d53273e 100644
+> --- a/util/mount_service.c
+> +++ b/util/mount_service.c
+> @@ -847,13 +847,16 @@ static int mount_service_open_path(const struct mount_service *mo,
+>  	}
+>  
+>  	/*
+> -	 * The file is opened outside the service sandbox, so report a path
+> -	 * the user did not name.
+> +	 * The file is opened outside the service sandbox, so only hand out
+> +	 * what the user named or fuse.conf lists.
+>  	 */
+>  	if (!arg_in_cmdline(argc, argv, oc->path) &&
+> -	    !option_value_in_cmdline(argc, argv, oc->path))
+> -		fprintf(stderr, "%s: %s: warning: file not in command line arguments\n",
+> -			mo->msgtag, oc->path);
+> +	    !option_value_in_cmdline(argc, argv, oc->path) &&
+> +	    !service_open_path_listed(mo->subtype, oc->path)) {
+> +		fprintf(stderr, "%s: %s: file must be in command line arguments or in %s\n",
+> +			mo->msgtag, oc->path, FUSE_CONF);
+> +		return mount_service_send_file_error(mo, EPERM, oc->path);
+> +	}
+>  
+>  	open_flags = ntohl(oc->open_flags) | O_CLOEXEC;
+>  	drop_privs();
+> 
+> -- 
+> 2.53.0
+> 
+> 
+> 
