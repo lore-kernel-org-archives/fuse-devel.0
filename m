@@ -1,212 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012016.outbound.protection.outlook.com [40.93.195.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 713961DED5C
-	for <fuse-devel@lists.linux.dev>; Tue, 29 Sep 2026 02:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790647829; cv=none; b=Nv1ByR0z4LzTMj/2Gdgu4GOlgX3kqP81ojP4qWnI/2uJAsFsH2NqcQZbyC/z/0/vGvHi34BQ1rJrBLOLSp7yIWz19jJ4M4Z5nP0LAYsl6v3aNtO+4wJFNNqe3ETwSWOEc44UxxETYWHO+d601JYGvuDKT/uY4/UkjCsjVzdFqlQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790647829; c=relaxed/simple;
-	bh=h7Ih35Ph/4/XP76T76jze2YIgofmjZvmqTtgzBmQXF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FjR25Vp8mR/OoeJp7fNM661V/TB8YbJP/R2XvOUm0uVNrqLikXR6T/os2RtNp3Qf6Isf5L03o44XN/VTlhx/2zWp8auw1QFeiKD3Fh0ntKgfLPhbktXOp9+ow8qHFCTi+KuVruy2YTMKMsvhPZOh48q8o3OtZucePQ2jluvvm94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nbaNF1Uq; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346C038CFEF;
+	Tue, 29 Sep 2026 02:12:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790647941; cv=fail; b=GrmYMUNfwNc+7Bo0O1yDzNZYnV5C3yO+4td+dThYDKUimUewuRNiLh91pJTTKXEgtl1Z5+pyNPyBTlSUba7u1V2AYQR0E3KR/xWiJm3mLqgpKL8q8DAvIMFxCy0hx6ChOIRSmMp9Po3FKEk9rtEbkfvM1eHODhGqnLhNbUBw6oU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790647941; c=relaxed/simple;
+	bh=AzYIu37u22pHqb/M50reRigPIq7ehHO+XHRnK1k83kc=;
+	h=Content-Type:Date:Message-Id:To:From:Subject:Cc:References:
+	 In-Reply-To:MIME-Version; b=ReAYvP+jiLgGvUjRpDVqr5Az3n/3f5grKXV+RnzxoW7HA8dBhILQLeWEwd0THBRGZeXR3eLrfJ7DGZN3pWK5p2E0r0i78SuJeyYXd6nBWyy6DvbJqvSWaWdt55zEliKK/sXh0GZ+Jc4YQBTBjDs4Bg/PWP97kZGujjDsWYw37/s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nbSi06Xg; arc=fail smtp.client-ip=40.93.195.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nbaNF1Uq"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id F320E1F000FF;
-	Tue, 29 Sep 2026 02:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790647828;
-	bh=k78nVqsQUlU2dNY/Qh/cFFvjkcqyJbeQcsLyxNGCatY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nbaNF1UqJwAyy/ITk2Nx2BRLIeOeP+5mK7alMYeT6oNH4TL0e2CMCgzxyn/YfMvdt
-	 VaV+kSKsl+5KWCtKSMyq26NIrxJ6pNjq3WIuvQkraEbQhuLOAwOm/3vQ0Q3oO6l/oN
-	 pYnmV1VHXW6Ymm282JVue3Mw1AwAigtYWqdmGsy5MD6dzsq2PqwWZx35elJVyStaH3
-	 hj9E3J7nZgdnbgajA1Nr9VHQkZi2NHu1We+OFsq/jkCUyOQEogJO7KhP0J2HpaW2Hr
-	 J8sc/p/8oUEWKvvGoFOuZrchzYSt9SGjnIB+YW2Kt8FNPnm5l84WPgssUTIafFBYDC
-	 o2IWwxNWKaJVA==
-Date: Mon, 28 Sep 2026 19:10:27 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: bernd@bsbernd.com
-Cc: fuse-devel@lists.linux.dev, neal@gompa.dev
-Subject: Re: [PATCH v2 02/14] mount_service: warn about paths not named on
- the command line
-Message-ID: <20260929021027.GB6253@frogsfrogsfrogs>
-References: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
- <20260928-mount-service-bound-open-v2-2-0f9f501d05ce@bsbernd.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nbSi06Xg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=leeJ8nG6kj+Isq6S32I/3jiDio4VD8pSbkms/J2QD/IoX8aLjHdso07oB/5c35shMYDpTwrel4o7mU4I1FWDN1AFAmeR/3R/NWNSVOl8pcMqS6kOgC5pT9tYA8/Ofn+tXn7rhqOudPS9JUhFuMNxboeOVhrACy5P6LkekpgZv3i5dw80SaSNAGPAMLPxZtg2+iT2IQxUpebjAPr9T0CIrXgCYf8Dqe0eh0+kNpenBcJ9k3zaXNia9AT/8Ieewx7u1VGQb19YkesBEYCMdnAf9p6qVUTkQHMWowi+2t9pL8nWE5ZUz5brT9TpM4o4VOzL/uCBGqII4umw7zkax/LubA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Rvbe69xBIpzGsOrw6VbYQRORSyH1zSp/rLtFmlWZcCQ=;
+ b=BrZGvAynJ4ponUIVOC/cXDvrF1+Etamv2w8qVqOlmhTL8aiE49f6Fr+pOZGCxpsZ8U5TWZJeYCRTF0JCQRuPP55AJVZuwoRVfyelTWQbndJxpUDeg27fFcjsLvOWUBI2Lppn2TBIn+kkt+PdquLDl+M2IX9quoD3CNvn6dG+bzbCQcY8jNjTrlvky7Kvf2JnQ3oXOrvRgEnO3TC7qBz+Li/Di6Uy5qjKJrHOPmtgB+xJpTRvLbcJxCi2zqCf+Oif/79m+P6CKx8IGZcMsnRlxfrvt6nscsBQs4/yY6DxAyUtoYbi9lMgkjHr5wnZKQfQr9weeVUnEx3FaP0LAf7nfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rvbe69xBIpzGsOrw6VbYQRORSyH1zSp/rLtFmlWZcCQ=;
+ b=nbSi06XgCR12RiFIHX53tm05VV6tvR8/+VLSfACKpV0nx74Nc/5S3tSezV1wqhbi0cq7fG5akeV+5ugVQEXZx8Ie72mN77tyNZKtIUXyfDpSyG/LqGOli/zt8QYC6byGtv4stGz12SOqQoiRkvlmC5mA4TMRiAQjpdyH1OJDE8LjQT4riv3BdU3C10yuHgc7649NY12R+CP4T1Tx1zYNsnEdcUpL0LVGqJ3HBYH4wwX1QmohJ86A9KA7M9mf/oIfEsTLcjSvbAqkkynzOcQySH2+tGANArdLXGiXQ1vmHAEC4/c4SlOl4OsmwIK78JCfEw4GrAkf2wlBAgXZBE6c6Q==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by SA1PR12MB8161.namprd12.prod.outlook.com (2603:10b6:806:330::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Tue, 29 Sep
+ 2026 02:12:09 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.022; Tue, 29 Sep 2026
+ 02:12:09 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 28 Sep 2026 22:12:02 -0400
+Message-Id: <DLRFPN5JH235.34HHA5QDQGSBT@nvidia.com>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka" <vbabka@kernel.org>, "Jann Horn" <jannh@google.com>,
+ "Pedro Falcato" <pfalcato@suse.de>, "David Hildenbrand" <david@kernel.org>,
+ "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
+ <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>, "Paul
+ Moore" <paul@paul-moore.com>, "Stephen Smalley"
+ <stephen.smalley.work@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>, "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
+ <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
+ Kartikeya Dwivedi" <memxor@gmail.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
+ Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
+ Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>, "Doug
+ Gilbert" <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter"
+ <simona@ffwll.ch>, "Helge Deller" <deller@gmx.de>, "Sebastian Reichel"
+ <sre@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu"
+ <peterx@redhat.com>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Oleg
+ Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "Arnaldo Carvalho de Melo"
+ <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland"
+ <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
+ <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>, "Vincent Guittot"
+ <vincent.guittot@linaro.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Will Deacon" <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, "Nick Piggin" <npiggin@gmail.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, "Muchun Song" <muchun.song@linux.dev>, "Oscar
+ Salvador" <osalvador@suse.de>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Marc Zyngier"
+ <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>, "Catalin Marinas"
+ <catalin.marinas@arm.com>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Janosch Frank"
+ <frankja@linux.ibm.com>, "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>, "Gerald Schaefer"
+ <gerald.schaefer@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, "Andreas Larsson" <andreas@gaisler.com>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
+ <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Kemeng
+ Shi" <shikemeng@huaweicloud.com>, "Nhat Pham" <nphamcs@gmail.com>, "Baoquan
+ He" <baoquan.he@linux.dev>, "Youngjun Park" <youngjun.park@lge.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>, "Axel Rasmussen"
+ <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
+ <weixugc@google.com>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Michal
+ Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, "Xu Xin"
+ <xu.xin@linux.dev>
+From: "Zi Yan" <ziy@nvidia.com>
+Subject: Re: [PATCH v3 25/40] mm/vma: enforce that only kernel-owned
+ mappings may set VMA_IO_BIT
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, <selinux@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-scsi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-perf-users@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <kvmarm@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+ <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
+ <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, <fuse-devel@lists.linux.dev>
+X-Mailer: aerc 0.22.0
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org> <20260917-b4-mmap-prepare-vma-flag-sanify-v3-25-4583d8a23bca@kernel.org>
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-25-4583d8a23bca@kernel.org>
+X-ClientProxiedBy: YQBPR0101CA0340.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6b::17) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260928-mount-service-bound-open-v2-2-0f9f501d05ce@bsbernd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SA1PR12MB8161:EE_
+X-MS-Office365-Filtering-Correlation-Id: 929b79cd-7fd3-4fe7-b0ea-08df1dcf10e1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|7416014|921020|10067099003|4143699003|11063799006|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	55V5jLLqnKa+bap2rTDpyXvJ3MS2KeCN1v66hI6BgDtw24iIHyBtnFcsj40HGTzEsTDv6VVOvLjR+3RKHA13ORaZjm94lG+Mm6zU/Gi5YMuUYQVpJFkYr14j9O2JEahCemsUkSAvCXrpWSlLjvgVYmWUWb2pMyw+ENNOeNu9ib40HzVvAlZ1hnYPKjBOGJmIhdSQahYFF2kBaQUuxI+GQ4Ggj6FQYrR3/VE+qJZJpfwcECIAFB4twVQa+hLHa0Ve0J3DSJT24HEHLYU4q4AkQdTVE/lEl/AIeXhgOUupKjHD9yu256BAbRce7VT6kw5gebvfaLB6PeRavLv8twn1I6OdyXfs2CsChLXJoeTSySz6laOIKou7jk9lJDIHvpn2NJ5j7FFWDYru8bNGIOYxS1D+oJOd1no8EYCKcS4FoVqOMZu8SxD6nI5W5LesieW6vo4Z8G5btadzb3CVLJi4YBw3XHQLNI+VkzVKhIJ3Kfq7hEkvvjn5jzX89cxCQekRNonJwLSUjc/eR/gZhHhBjnF7/pvLR4MhCfy5mos6X7sd77iTwY9mB+IEyGRt4oEGSOqPdlvWFtngelGgsZMcvRpKdOIJw9eZjxzu9+i3vf8mLI9h8wzHVv4jGxA0NzZEI8IofRgVaKEHJFZm2obMyU03kiQn9zErw/yXQeNHOCl8QWdt64j6Ft1G9PwSg+AhwwMh3EGQOYEH+UNFKOBvCw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(7416014)(921020)(10067099003)(4143699003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZmpGRzdZTUhYUEpidGovM2ltbThTWDBuQlNLbW1uZHRGTXl4Y05XRWxVcDVz?=
+ =?utf-8?B?YXh6OFhPd3JhNTdtSytoMm91Yi9lVlp0NWJueS9wM3RRMW80QURYV29RUWg1?=
+ =?utf-8?B?dnlVRWpVN1pMS2lkZlFOb0U1UGtzeVNkZjFUdFdXcEZTOEVGcWdzcU5zdlpv?=
+ =?utf-8?B?QnJnL0JXQjBDVHVsNWt1SFB6LzZGWjlzRWdXTVYvNC9EVFJBTVlSRE9iQUJh?=
+ =?utf-8?B?b3cvcWV6NTZXT2dOS1VmVUk2NHBHeE5NbGlYdithNC9VUHV4c1FMcnM3MXpX?=
+ =?utf-8?B?cExGellJTFBXOU4xUlpwWkNnSTM1dzU0WkpRTytlNTQydUw2WGtTbHdJSEc4?=
+ =?utf-8?B?M0dudWh6d2JMQUVKWWlZajhGMGhHZU9DWUNYckVUWG1YWDA2TFU0SEliL0RN?=
+ =?utf-8?B?dERYNHEvQVJzWkNma3hSVndMVCtoc3o1MGhWdVNET3F1MGRjQUxPQmdaRmZC?=
+ =?utf-8?B?Nzc5WFhkbVRkcldBdmVvZjF2T2tKVG1iRXdqWGVmdzYxaS80N0U0RWczNkpC?=
+ =?utf-8?B?OWFjamVLOVBsVTNJR0U4V2lWVFRxSDJVSGZFZkhrY3BPTmRKei9YbXFuZ21L?=
+ =?utf-8?B?UGx4R2VkM0sxMnZhd0RsejdGbTEzcUUxdmRyY2J3Ry9DWXc3Q2lVSHozbng3?=
+ =?utf-8?B?c3hQMEJpWWdPdFpqZ3dybUxabmdOK1JQSE5UM0RyOGxRSVBwQzVneXF5UzRi?=
+ =?utf-8?B?bEhJM3NMcjNiK1Evd2Y1eFNVRHQ3WnQ3c2RJNTNPZWwzM1dBTDN0RzZZQU1D?=
+ =?utf-8?B?QWw2SDNwbCtsa010aEd2aVZoYnBXN1BKd3NxeW42WCtLUmFtdnRzVnkwbVlR?=
+ =?utf-8?B?OWxkL1RQNlUrSTBkRTBsZ04zbG9iUy9jYTdqRjVudmg5RDlmWkhwNDRQUFlp?=
+ =?utf-8?B?a2l0ZkFOdStOL1V4OVIzbDRFVFB6TWViQVc3OWRUZDducUlDMTZBZTNMcmVD?=
+ =?utf-8?B?Ry90emRCTHd3NnQxZWFxelZDM2ttY2xrMklDd3M4dXJwV0Y3b2hhd0lnQnlr?=
+ =?utf-8?B?bXlyOWt1NkNJZXc0VjNHLzFFT0NsQ1hwLzgwUzZKQ1VsNkk5eU5rR3F0cWRH?=
+ =?utf-8?B?T3Zkc2Q4ZHh0cWhMbkwvQ3JCc0J0OWtuaTRVa1RFbnFBT1BQckJkS1FGN1ZV?=
+ =?utf-8?B?QzM3Q2JSVzBzUzFJQWNZN3dOSEErZ2Q2dVl3WEk5dnBFRmxTc0RLWHFtNUZa?=
+ =?utf-8?B?V01xWTI0R2hEbnp6d1RiekZGL0wwUzdkVjZ2RFVhTFU1OU5qZ1J2SXZQL05t?=
+ =?utf-8?B?SzZSRzRiWWtDZ3MrL1FEVnVNUE1TZzh4UnV4a2w5R2RiQktjdmhWMEo5Y1Yz?=
+ =?utf-8?B?YXoyYUQxd2J4WUo5Q0d1TUw0YVBDbUxjbEQwbEZpQStPZjVOQmZTakdTdVkw?=
+ =?utf-8?B?elU2ZkZod2JERHpXek94UUJDTFZMVjF1Rnd5bVNTSUJ5bUVQRlpCamtCWkdq?=
+ =?utf-8?B?bVJLbG1JS1BCS1dhQ0hMUTJNc3A5UFliOTkrWmdhMzFjbTh6OXZyMk9sa1p4?=
+ =?utf-8?B?R2pyelhlU1BMZDg2VFN4SW5XbGdrWmQwOWdHV0l1ejBKS0hzK1AvMmJjRW5q?=
+ =?utf-8?B?clh4cjhkb3VNdDA5T3pVNTc4dUFCUEJ2ZzZiSjlhY0pYRmF5Y1RDU1F3OVkw?=
+ =?utf-8?B?VG1SdDdFTFRKU2FFL241cnhWNEFKWnRHdW15OXhaTUp2UjF0TnpiMUt4REdE?=
+ =?utf-8?B?T01ETHRmdHRXcmpBcThpUE9ocFgrK2huT2N6bElBNWc2MkVEL2YvdHR1Z1M0?=
+ =?utf-8?B?UXBkdTc0cVdjWEw4Sld2RHlFUkJnellpaUR5ZGUxNnIwRGJIa0RxY2pGWkFa?=
+ =?utf-8?B?aGphNUFOL3c5dG1Lb0w5Y29DampLbGNIbHg4OThUY2NCRG1FTHdxaFg2OG0w?=
+ =?utf-8?B?MkoyanMyY3BTVUl6dUZmcjF0MmZLNFZNSGpKY0w0NGtsVWYwOWJZbk9Xb2sy?=
+ =?utf-8?B?NTE1Z2ZWZDZjMFVFdnZ5VUJmVmRyV1JDN1ErZFBwZ1E2VlJGQUYrck1WRzRa?=
+ =?utf-8?B?aVROVjZRMW5mb1lWY1lZSlh3aVVzeEpWNmp3NGw2RG5oczIrS1YrUTlIYXNX?=
+ =?utf-8?B?Zk9XRWt2VFVYc211ZVR4dUwzendWSkg3WWRKYkljWk5pUFNTcGxFMDd6UXE1?=
+ =?utf-8?B?WmNHcVJlR1ZSYmRNWHFHdzVyeGJGQ1pRVVQyanhJUmpvUjRNb2dId1k3TDAr?=
+ =?utf-8?B?T29MU2QrYTEyMWhudFFBN2FGQTd2ekZDMnJ4c2pubzBOdk9kcTBxSVFRSnJi?=
+ =?utf-8?B?K3Y2QWJVRVZ4YmZHbGhFazFSdDdadkp2cEUyMmVQRUdMdzNVaENVd2hFUmxC?=
+ =?utf-8?Q?nxE//RYebAqK4lZhk9?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 929b79cd-7fd3-4fe7-b0ea-08df1dcf10e1
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 02:12:09.0376
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iGPiS2Ywd+V6AhZ66j60qQ5UQnjbvbizvRjnGHh57Z10grwgY/ZHiviWZgnay2r+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8161
 
-On Mon, Sep 28, 2026 at 01:02:04PM +0200, Bernd Schubert via B4 Relay wrote:
-> From: Bernd Schubert <bernd@bsbernd.com>
-> 
-> In a service mount, the fuse server runs as a systemd service in a
-> sandbox that has no access to the user's files. The user runs mount,
-> which starts fuservicemount3, a setuid-root helper. The fuse server
-> sends requests to the helper over a socket. With an OPEN request, the
-> server asks the helper to open its backing file, for example the disk
-> image named on the mount command line. The helper opens the file with
-> the user's credentials and passes the file descriptor to the server.
-> fusermount3 opens nothing for the fuse server except /dev/fuse; the
-> server runs as the user and opens its own files.
-> 
-> The helper opens any path the server sends. An attacker who controlled
-> the server could use this to read every file the user can read, for
-> example ~/.ssh/id_ed25519, and the sandbox does not prevent it. The
-> helper now prints a warning if the user did not name the path when
-> mounting: as a whole argument, as the value of a name=value option, or
-> glued to a short option as in "-J/dev/sdb1". The helper splits the
-> options with fuse_opt_parse(), as the fuse server does, so both see the
-> same option values. The helper still opens the path, because a server
-> can take a path in a form that none of these checks recognizes.
-> 
-> Enforced permissions follow up in the next commit.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-
-I wonder if there are any fuse servers out there that take parameters
-like:
-
--o bdevs=/dev/sda:/dev/sdb,otheroption=whatever
-
-but ... let's let them come out of the woodwork?
-
-I think this is a good addition :)
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-
---D
-
+On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+> It makes no sense for a mapping whose contents the kernel does not own to
+> specify that the range is MMIO.
+>
+> Prior to this patch, all in-tree drivers which did so have been updated
+> such that they are marked as kernel-owned. The check WARNs and fails the
+> mmap for any out-of-tree driver that still sets VMA_IO_BIT without a kern=
+el
+> mapping.
+>
+> No functional change intended for in-tree code.
+>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 > ---
->  util/mount_service.c | 73 +++++++++++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 66 insertions(+), 7 deletions(-)
-> 
-> diff --git a/util/mount_service.c b/util/mount_service.c
-> index 7549e0b5024f..446f37f61916 100644
-> --- a/util/mount_service.c
-> +++ b/util/mount_service.c
-> @@ -770,9 +770,55 @@ static bool arg_in_cmdline(int argc, const char * const argv[],
->  	return false;
->  }
->  
-> +struct option_value_match {
-> +	const char *path;
-> +	bool found;
-> +};
-> +
-> +/* fuse_opt_parse() callback: set match->found if the path is this option's value */
-> +static int match_option_value(void *data, const char *arg, int key,
-> +			      struct fuse_args *outargs)
-> +{
-> +	struct option_value_match *match = data;
-> +	const char *value = strchr(arg, '=');
-> +
-> +	(void) outargs;
-> +
-> +	if (key != FUSE_OPT_KEY_OPT)
-> +		return 0;
-> +
-> +	if (value && !strcmp(value + 1, match->path))
-> +		match->found = true;
-> +
-> +	/* Short option with its value glued on, as in "-J/dev/sdb1" */
-> +	if (arg[0] == '-' && arg[1] && arg[1] != '-' &&
-> +	    !strcmp(arg + 2, match->path))
-> +		match->found = true;
-> +
-> +	return 0;
-> +}
-> +
-> +/* @return true for the path in "-o name=path", "--name=path" or "-Xpath" */
-> +static bool option_value_in_cmdline(int argc, const char * const argv[],
-> +				    const char *path)
-> +{
-> +	struct option_value_match match = {
-> +		.path = path,
-> +	};
-> +	struct fuse_args args = FUSE_ARGS_INIT(argc, (char **)argv);
-> +	int ret;
-> +
-> +	/* Parse like the fuse server does, so both see the same values */
-> +	ret = fuse_opt_parse(&args, &match, NULL, match_option_value);
-> +	fuse_opt_free_args(&args);
-> +
-> +	return !ret && match.found;
-> +}
-> +
->  static int mount_service_open_path(const struct mount_service *mo,
->  				   mode_t expected_fmt,
-> -				   struct fuse_service_packet *p, size_t psz)
-> +				   struct fuse_service_packet *p, size_t psz,
-> +				   int argc, const char * const argv[])
->  {
->  	const struct fuse_service_open_command *oc =
->  			container_of(p, struct fuse_service_open_command, p);
-> @@ -800,6 +846,15 @@ static int mount_service_open_path(const struct mount_service *mo,
->  		return mount_service_send_file_error(mo, EINVAL, oc->path);
->  	}
->  
-> +	/*
-> +	 * The file is opened outside the service sandbox, so report a path
-> +	 * the user did not name.
-> +	 */
-> +	if (!arg_in_cmdline(argc, argv, oc->path) &&
-> +	    !option_value_in_cmdline(argc, argv, oc->path))
-> +		fprintf(stderr, "%s: %s: warning: file not in command line arguments\n",
-> +			mo->msgtag, oc->path);
-> +
->  	open_flags = ntohl(oc->open_flags) | O_CLOEXEC;
->  	drop_privs();
->  	fd = open(oc->path, open_flags, ntohl(oc->create_mode));
-> @@ -834,16 +889,18 @@ static int mount_service_open_path(const struct mount_service *mo,
->  
->  static int mount_service_handle_open_cmd(const struct mount_service *mo,
->  					 struct fuse_service_packet *p,
-> -					 size_t psz)
-> +					 size_t psz, int argc,
-> +					 const char * const argv[])
->  {
-> -	return mount_service_open_path(mo, 0, p, psz);
-> +	return mount_service_open_path(mo, 0, p, psz, argc, argv);
->  }
->  
->  static int mount_service_handle_open_bdev_cmd(const struct mount_service *mo,
->  					      struct fuse_service_packet *p,
-> -					      size_t psz)
-> +					      size_t psz, int argc,
-> +					      const char * const argv[])
->  {
-> -	return mount_service_open_path(mo, S_IFBLK, p, psz);
-> +	return mount_service_open_path(mo, S_IFBLK, p, psz, argc, argv);
->  }
->  
->  #ifdef HAVE_NEW_MOUNT_API
-> @@ -1838,10 +1895,12 @@ int mount_service_main(int argc, char *argv[])
->  
->  		switch (ntohl(p->magic)) {
->  		case FUSE_SERVICE_OPEN_CMD:
-> -			ret = mount_service_handle_open_cmd(&mo, p, sz);
-> +			ret = mount_service_handle_open_cmd(&mo, p, sz,
-> +					argc, (const char * const *)argv);
->  			break;
->  		case FUSE_SERVICE_OPEN_BDEV_CMD:
-> -			ret = mount_service_handle_open_bdev_cmd(&mo, p, sz);
-> +			ret = mount_service_handle_open_bdev_cmd(&mo, p, sz,
-> +					argc, (const char * const *)argv);
->  			break;
->  		case FUSE_SERVICE_FSOPEN_CMD:
->  			ret = mount_service_handle_fsopen_cmd(&mo, p, sz);
-> 
-> -- 
-> 2.53.0
-> 
-> 
-> 
+>  mm/vma.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/mm/vma.c b/mm/vma.c
+> index 1db8b218fe64..56a0cd154419 100644
+> --- a/mm/vma.c
+> +++ b/mm/vma.c
+> @@ -2787,6 +2787,12 @@ static int mmap_validate_vma_flags(const vma_flags=
+_t *flags)
+>  		return -EINVAL;
+>  #endif
+> =20
+> +	if (!vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT)) {
+
+I thought why not just using vma_flags_is_kernel_owned(), then realize
+that function is still checking VMA_IO_BIT. And you convert it in the
+next patch.
+
+LGTM.
+
+Reviewed-by: Zi Yan <ziy@nvidia.com>
+
+
+
+--=20
+Best Regards,
+Yan, Zi
+
