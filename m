@@ -1,216 +1,493 @@
-Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1883A9D95;
-	Tue, 29 Sep 2026 03:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40743612DB
+	for <fuse-devel@lists.linux.dev>; Tue, 29 Sep 2026 03:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790653424; cv=none; b=PGknBllsu+IgKpFpmyejy1snPBnc2xrGE8XDldAeubf4eRlhcxrQBt/+1ufyJCan1aIc7+zhgBIAlxnWdUQyhkPQlXwj6jCS3SD97VwbuxxAg/R5X2fUEKak4eeBGO1zhtxLvcsNVDJhw0C4VfSy86ixKmks0c+S/5e/HYYHZa0=
+	t=1790653962; cv=none; b=PEKvyAbIUSlh9a/t7L6jRWMd86PNWwvkfz6Oc447v7gXe2Q2qwpRJfWOLQg1+iiL3KCYrsu/rtnT6TvphdU0CqDkSTlqMOfpwnxmqMvP7CvJ1fH/dy4x09dH/D0y8hrk+pTIuzreD8U4Q2a7WilloJSwPPr2rxQ1X8oIIOX1HmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790653424; c=relaxed/simple;
-	bh=f8w3SErdLZoqKSpgTvGjysbRqiIsz6+aTtn2pHqlj/Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uoz5poN6xrBX9PDGXwvrpDse+58H+8Z9+PCxHQc7CS3NYJWfaXOQ2uSa8+6wKHCD58BdGQ+Sp/ST5vjGLkSgQEK/nuhG8TTHGddVMakPAUE6rAghep4y49YkpmdRPai3MHiKpw7QXoT8VPdLtnTipKnVXE2JRjIdME6CsV8ScAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=ENz0LQ8U; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MBqEHp1D; arc=none smtp.client-ip=202.12.124.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	s=arc-20240116; t=1790653962; c=relaxed/simple;
+	bh=i4GK5jx45xQelnLngSo8zrMNYs8laSjkSTR9AcSPLOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wnzy7P3pjNTCqZc6ztjtZMC7oSwEU/LK1MPZaIAh78fyCkpln6pbgAbRc0VyW59wYcIuQdPbhEWhtzzjp5Ucdla7ylorGSbfJZidyZZcCeEkLtSjm2XQCPM3WRSVPvw/LcU3H+JwFWPtM+gjEvD/oIiQ3VB+ddmspwemsVSD6eE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ro+izE+2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="ENz0LQ8U";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MBqEHp1D"
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailflow.stl.internal (Postfix) with ESMTP id CE76D1301955;
-	Mon, 28 Sep 2026 23:43:40 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Mon, 28 Sep 2026 23:43:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to; s=fm1; t=1790653420;
-	 x=1790660620; bh=i1h0p2e7++gwnGP3KptyQMr+okjQyilzEhg1TYCoO3w=; b=
-	ENz0LQ8UiLytL9lxt2KLIu/JNlkCZgQg5KbWdIfShIfvXN4eiMi1oOV6uaWVsSaw
-	7q0g0qWVASWqp4Yp/KTNwfQSA3h0cOHcxTz7RyjwNqlGWiUDJS1GAgPSrb/wBHGr
-	mTqKik/rvyE6Hjkq8mF3ayKb86dVK9xrmyD0R3lcUVEx5T3eBsinJANz3c0kf7Rb
-	FSliw6iT0xXXrPOMxToToJmFmN4706WbEaG6FbJoRwBeO4d5eFLKGG1WwVcsgyOS
-	uN4pfVfZnL76h+QN3GdfFkhZ/+BiUmW21ulm2Lh/C18UpTMU6B+8wnp1O1BdwZai
-	Sb735Bd6K7Se9wZQuV5xMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1790653420; x=1790660620; bh=i
-	1h0p2e7++gwnGP3KptyQMr+okjQyilzEhg1TYCoO3w=; b=MBqEHp1DGEc92QRHP
-	mEyLf8MBy8u3uSRt3Wmm+6ljMc7tpYqKju8ufrZIGS+2Px2FyF4z7y26rzlGHscV
-	k1/VNf13ydunNphWNAmABkXMi/SNk4WObEZ+b00Sz30BCH1klrtbI0tD9soHaXmf
-	8Czb81FkK/uNcQC8GR8QPkP312sJ1JeV/UF5em3yLmpuDlcY+0MdGgU1Wm1PBnKg
-	mGEnrOmWrDJnPCmGZs/NJzu3btV7Fpm3Vobj5ZhQTNxmtdHKGfcD5GXjiSsju0ie
-	OQ/x1gn/JgFiqHKD5OciQ+DhV9qQ8etMRbmzDxv5adBXTzdTzjjWm+m5SRlMIrI+
-	Hfwgg==
-X-ME-Sender: <xms:7DO7ahHAZEi-pepqf3MJNQOw2CubXU7pOlpQaONtAIRVr5bea8Npmw>
-    <xme:7DO7apQrIjW9l1JqUMAmP4g9Y8kLQs7y-vdFmmvloyjV-UnJgi6cTnBnO7URAFUxB
-    sW_usVk5FHdbcnZEx04GtjLwvPqVhCNteVThQ9rPC68opAJTKQ>
-X-ME-Received: <xmr:7DO7arXa6zMudk8WwOv8NgR-Aex29IvcHdFyOdbT5GB-bBril_20BQ2vFUchRBLOxBhxGFpWyjVlIUzWrSl0qLeRmzglQi0>
-X-ME-Proxy-Cause: dmFkZTGoJB+17Zq7ThrEPjmxn4ZGYu519RzWwVi/88aejzKjstMboztaed73ef7D6avpE+
-    +4ud1a3y7i3orjwLfnXoctNyz4isc8MlqqkCj9w/LgYTxltRiENCW6GCIqrBIGfd6BoOtn
-    3U4T9DnMQq0t334tHmkLT0tBGbfhvTaaBwaOBKtxwtl6WpY46qwankbHLMumQlIvXZxJZX
-    MK4M+NdZABlSsm1lFGpu8Zoavf0+po6/QQ3FmqOSdXOPNwreWLw4U6EONlQdAFPuoTNGlS
-    rFYPmLdcGE1rV4M0fAMpJKofG+st3+8PfQ+b7I9sMwGW86B3jq8HWH1QNmIbUmtd6GqsrP
-    W5DEzAjl8MzRdbpR2RjUySxpkFifkTYA4HtUzAozr33P7xxEhulDMO4Vuyht7+pxV2ybSP
-    JYC5qfcc1bajC548ieTni/xNlOrLA0ulGdRzvMr5I5O/80no2OBjM2tO72eJ0ppQFNY3p4
-    y223n3aGNuk7lcg29mHuvCm2DT0nk5zQvihiqGq72NwvikkdPZQzPIiU9sISkq+KAFQj1O
-    lB1vaJ+/hD0gmX6ZdXcK6c+jU9+h7ARfmJ6jVckDlNQ3ui+02FwkiVqCHeucbEWrG2Slvb
-    e+pvTNkLQO/+XqNqxqB4VQ6dsAUSeRjqoL7T48qDuKx9jFLdUe5vfDp/fA4A
-X-ME-Proxy: <xmx:7DO7al5hwDNCW7TEj4z_Vz0XIzH8IWkZERl08e0c63_0yjxko1P89g>
-    <xmx:7DO7amFG30MoCf0PW1RMMg0W51xjdLOvLLXN8GPq2Y5urMY1AQ-ckw>
-    <xmx:7DO7ajQz5ffRarsm-qSyfp-XWWeOgNGZKKvgGnc3q9qMPPNq6WPNnw>
-    <xmx:7DO7ajOiGGIJBon54IWtCwW3CvWFM9QSCs7GsV16xX5GDG8lKCIBFg>
-    <xmx:7DO7amehbzF3LBUlRg2h5TxJyigFtAfQ2KW-F6-2xRNbYijnrA_WpSCk>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Sep 2026 23:43:32 -0400 (EDT)
-From: NeilBrown <neilb@ownmail.net>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Breno Leitao <leitao@debian.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Jan Harkes <jaharkes@cs.cmu.edu>,
-	Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-unionfs@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	codalist@coda.cs.cmu.edu,
-	coda@cs.cmu.edu,
-	linux-mm@kvack.org,
-	ntfs@lists.linux.dev,
-	linux-xfs@vger.kernel.org
-Subject: [PATCH 7/7] ovl: stop using lookup_one() in ovl_iterate().
-Date: Tue, 29 Sep 2026 13:36:07 +1000
-Message-ID: <20260929034158.1455429-8-neilb@ownmail.net>
-X-Mailer: git-send-email 2.50.0.107.gf914562f5916.dirty
-In-Reply-To: <20260929034158.1455429-1-neilb@ownmail.net>
-References: <20260929034158.1455429-1-neilb@ownmail.net>
-Reply-To: NeilBrown <neil@brown.name>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ro+izE+2"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 41ACA1F000FF;
+	Tue, 29 Sep 2026 03:52:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790653960;
+	bh=0lnHwktMHUD8RO15YOCV+e8Tzt3GZXQbJBH++6//nEI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ro+izE+2sigquv1RPhwtXomLRXi0qh1R9Jz3Y7cXGwwhCAp3ODs0UoYM+7V3wkN4a
+	 b2vZvlOSMP1/y6K9HHIcZHb3OYYuGH7bsi1eEBG/+LoSsswYKQeQ27d1abWny4L7pw
+	 0I3pQQ7Khk2dXQ8uHHKMxa4toLKQWhsDELevJgWPeA0IL9KE6FozaKAfM4QIySTh6J
+	 /gjgl1MAxCvvu7PlO8hWUUaVAtSNJwNw6hpETjUMx3d7SIBMpPyGEvgplCCPazZGQm
+	 x/zToaU0nwwgEwG9Aov4CP49I7Z6Yp6+0Wj7R9sy888wQU0RSaguhsNfbOPzdnhwyJ
+	 3N4IcGCs7O/cw==
+Date: Mon, 28 Sep 2026 20:52:39 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: bernd@bsbernd.com
+Cc: fuse-devel@lists.linux.dev, neal@gompa.dev
+Subject: Re: [PATCH v2 08/14] test: check which files fuservicemount3 opens
+ for the server
+Message-ID: <20260929035239.GH6253@frogsfrogsfrogs>
+References: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
+ <20260928-mount-service-bound-open-v2-8-0f9f501d05ce@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260928-mount-service-bound-open-v2-8-0f9f501d05ce@bsbernd.com>
 
-From: NeilBrown <neil@brown.name>
+On Mon, Sep 28, 2026 at 01:02:10PM +0200, Bernd Schubert via B4 Relay wrote:
+> From: Bernd Schubert <bernd@bsbernd.com>
+> 
+> No test covered the OPEN and OPEN_BDEV commands of fuservicemount3.
+> test_service is a fuse server that sends one request and prints the
+> errno it got back. socket_activate.py starts it the way a systemd
+> socket unit does, so the tests do not depend on systemd.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 
-lookup_one() is expected to be removed as it does not fit well with
-proposed changes to directory locking.
-Specifically d_alloc_parallel() will be ordered outside of i_rwsem
-and as iterate_shared() is called with i_rwsem held it is not safe
-to call d_alloc_parallel().
+Good basic test of the file opening capabilities :)
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-We can instead call d_alloc_trylock() and then call the ->lookup, but
-that can fail if there is a lookup attempt concurrent with the
-readdir().
+--D
 
-ovl cannot afford for the lookup to fail as that could produce incorrect
-results, and it cannot safely drop i_rwsem temporarily as that could
-introduce races with handling of the directory cache.
-
-Instead we rely on the fact that ovl_iterate() has an exclusive lock on
-the directory, so any concurrent lookup will wait for the ovl_iterate()
-call to complete.  We allocate a separate dentry and if the lookup is
-successful, it is hashed with the result.
-
-When the concurrent lookup gets i_rwsem it mustn't do its own lookup -
-it must use the existing dentry.  This is found, if it exists, using
-try_lookup_noperm().
-
-Signed-off-by: NeilBrown <neil@brown.name>
----
- fs/overlayfs/namei.c   | 12 ++++++++++++
- fs/overlayfs/readdir.c | 26 ++++++++++++++++++++++++--
- 2 files changed, 36 insertions(+), 2 deletions(-)
-
-diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-index ca899fdfaafd..f56e33fd4d6b 100644
---- a/fs/overlayfs/namei.c
-+++ b/fs/overlayfs/namei.c
-@@ -1385,6 +1385,7 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
- 	struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
- 	struct ovl_entry *poe = OVL_E(dentry->d_parent);
- 	bool check_redirect = (ovl_redirect_follow(ofs) || ofs->numdatalayer);
-+	struct dentry *alias;
- 	int err;
- 	struct ovl_lookup_ctx ctx = {
- 		.dentry = dentry,
-@@ -1399,6 +1400,17 @@ struct dentry *ovl_lookup(struct inode *dir, struct dentry *dentry,
- 	if (dentry->d_name.len > ofs->namelen)
- 		return ERR_PTR(-ENAMETOOLONG);
- 
-+	/*
-+	 * The existence of this in-lookup dentry might have forced
-+	 * readdir to do the lookup with a new dentry.  If so we must
-+	 * return that one.
-+	 */
-+	alias = try_lookup_noperm(&QSTR_LEN(dentry->d_name.name,
-+					    dentry->d_name.len),
-+				  dentry->d_parent);
-+	if (alias && !IS_ERR(alias))
-+		return alias;
-+
- 	with_ovl_creds(dentry->d_sb)
- 		err = ovl_lookup_layers(&ctx, &d);
- 
-diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-index e7fe29cb6028..bc41da4bace8 100644
---- a/fs/overlayfs/readdir.c
-+++ b/fs/overlayfs/readdir.c
-@@ -574,8 +574,30 @@ static int ovl_cache_update(const struct path *path, struct ovl_cache_entry *p,
- 		}
- 	}
- 	/* This checks also for xwhiteouts */
--	this = lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, p->len), dir);
--	if (IS_ERR_OR_NULL(this) || !this->d_inode) {
-+	this = d_alloc_trylock(dir, &QSTR_LEN(p->name, p->len));
-+	if (this == ERR_PTR(-EWOULDBLOCK)) {
-+		/*
-+		 * Some other thread is looking up this name and will
-+		 * block on i_rwsem before it can complete the lookup.
-+		 * We will do the lookup in a new dentry and when that
-+		 * lookup gets a turn it will find and return this
-+		 * dentry.
-+		 */
-+		this = d_alloc_name(dir, p->name);
-+		if (!this)
-+			this = ERR_PTR(-ENOMEM);
-+	}
-+	if (!IS_ERR(this) && d_unhashed(this)) {
-+		/* Either we got an in-lookup or we made our own unhashed */
-+		struct dentry *alias = ovl_lookup(dir->d_inode, this, 0);
-+
-+		d_lookup_done(this);
-+		if (alias) {
-+			dput(this);
-+			this = alias;
-+		}
-+	}
-+	if (IS_ERR(this) || !this->d_inode) {
- 		/* Mark a stale entry */
- 		p->is_whiteout = true;
- 		if (IS_ERR(this)) {
--- 
-2.50.0.107.gf914562f5916.dirty
-
+> ---
+>  .gitignore                             |   1 +
+>  test/cases/lib/service.sh              |  83 ++++++++++++++++
+>  test/cases/lib/socket_activate.py      |  42 ++++++++
+>  test/cases/mount/service-open-bound.sh |  61 ++++++++++++
+>  test/meson.build                       |   6 ++
+>  test/test_service.c                    | 176 +++++++++++++++++++++++++++++++++
+>  6 files changed, 369 insertions(+)
+> 
+> diff --git a/.gitignore b/.gitignore
+> index 877c2fe2ba87..ebf9b7cdae47 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -42,6 +42,7 @@ TAGS
+>  /test/test_setattr
+>  /test/test_api_30
+>  /test/test_fuser_conf
+> +/test/test_service
+>  /build/
+>  # run-tests.py output, when pointed at the source tree with --run-dir
+>  /fuse-tests/
+> diff --git a/test/cases/lib/service.sh b/test/cases/lib/service.sh
+> new file mode 100644
+> index 000000000000..d0a0fa0183d0
+> --- /dev/null
+> +++ b/test/cases/lib/service.sh
+> @@ -0,0 +1,83 @@
+> +# lib/service.sh - start a fuse service server the way a systemd socket unit
+> +# does, for the fuservicemount3 cases.
+> +#
+> +# Sourced after common.sh. The socket has to be in the build-time socket
+> +# directory, so every caller runs as root.
+> +
+> +# service_setup <subtype>
+> +# Set service_sock. At exit remove the socket and any mount on $TEST_MNT.
+> +service_setup()
+> +{
+> +	service_subtype=$1
+> +	service_runs=0
+> +	# A case may set it, to add arguments to the helper command line
+> +	service_helper_args=()
+> +	service_sock=$("$FUSE_TEST_BIN_DIR/test_service" socket-path "$1")
+> +	# Every service script binds its own socket here; removing the
+> +	# directory would break another script's bind()
+> +	mkdir -p "$(dirname "$service_sock")"
+> +	_at_exit "rm -f '$service_sock'"
+> +	_at_exit "umount -l '$TEST_MNT' 2>/dev/null"
+> +}
+> +
+> +# service_start <log> <program> [args...]
+> +# Listen on service_sock and run <program> for the first connection, with its
+> +# output in <log>. Sets service_pid.
+> +service_start()
+> +{
+> +	local log=$1; shift
+> +
+> +	rm -f "$service_sock"
+> +	python3 "$TEST_LIB/socket_activate.py" "$service_sock" "$@" \
+> +		>"$log" 2>&1 &
+> +	service_pid=$!
+> +	_wait_for 10 "grep -q '^listening' '$log'" ||
+> +		_fail "$service_sock never listened"
+> +}
+> +
+> +# service_wait_exit
+> +# Reap the server and set service_rc to its exit status. A helper that never
+> +# connected leaves the activator in accept(), which is a failure.
+> +service_wait_exit()
+> +{
+> +	_wait_for 10 "! kill -0 $service_pid 2>/dev/null" || {
+> +		kill "$service_pid" 2>/dev/null || true
+> +		_fail "server (pid $service_pid) did not exit"
+> +	}
+> +	service_rc=0
+> +	wait "$service_pid" || service_rc=$?
+> +}
+> +
+> +# service_mount <source> <mountpoint> <case> [args...]
+> +# Run fuservicemount3 once against test_service <case> [args...] and reap the
+> +# server. Sets service_log.
+> +service_mount()
+> +{
+> +	local source=$1 mnt=$2; shift 2
+> +
+> +	service_log=$TEST_LOGDIR/fs-$service_runs-$1.out
+> +	service_runs=$((service_runs + 1))
+> +	service_start "$service_log" "$FUSE_TEST_BIN_DIR/test_service" "$@"
+> +
+> +	# Its exit status depends on the case; the server's line is the verdict.
+> +	"$FUSE_UTIL_DIR/fuservicemount3" "$source" "$mnt" \
+> +		-t "fuse.$service_subtype" "${service_helper_args[@]}" || true
+> +
+> +	service_wait_exit
+> +}
+> +
+> +# service_result <what>
+> +# The last server prints one "<what> result: <value>" line, for example
+> +# "request result: EPERM". Echo <value>; fail on no such line or several.
+> +service_result()
+> +{
+> +	local count
+> +
+> +	count=$(grep -c "^$1 result: " "$service_log") || true
+> +	if [ "$count" != 1 ]; then
+> +		cat "$service_log" >&2
+> +		_fail "$service_log: $count \"$1 result:\" lines, want 1"
+> +	fi
+> +	# -n and p: print only the line the substitution matched
+> +	sed -n "s/^$1 result: //p" "$service_log"
+> +}
+> diff --git a/test/cases/lib/socket_activate.py b/test/cases/lib/socket_activate.py
+> new file mode 100755
+> index 000000000000..c33ca3a61ff2
+> --- /dev/null
+> +++ b/test/cases/lib/socket_activate.py
+> @@ -0,0 +1,42 @@
+> +#!/usr/bin/env python3
+> +"""socket_activate.py <socket-path> <program> [args...]
+> +
+> +Listen on a SOCK_SEQPACKET socket, accept one connection and exec <program>
+> +with it, the way systemd starts a socket unit with Accept=yes: the connection
+> +is fd 3, LISTEN_FDS=1 and LISTEN_PID is the pid that runs <program>.
+> +
+> +Prints "listening" once a connect() can succeed.
+> +"""
+> +
+> +import os
+> +import socket
+> +import sys
+> +
+> +SD_LISTEN_FDS_START = 3
+> +
+> +
+> +def main():
+> +    if len(sys.argv) < 3:
+> +        sys.exit(__doc__)
+> +    path = sys.argv[1]
+> +    program = sys.argv[2:]
+> +
+> +    listener = socket.socket(socket.AF_UNIX, socket.SOCK_SEQPACKET)
+> +    listener.bind(path)
+> +    listener.listen(1)
+> +    print('listening', flush=True)
+> +
+> +    conn, _ = listener.accept()
+> +    listener.close()
+> +
+> +    # conn itself is close-on-exec and goes away with the exec
+> +    os.dup2(conn.fileno(), SD_LISTEN_FDS_START)
+> +    os.set_inheritable(SD_LISTEN_FDS_START, True)
+> +    os.environ['LISTEN_FDS'] = '1'
+> +    # exec keeps the pid
+> +    os.environ['LISTEN_PID'] = str(os.getpid())
+> +    os.execv(program[0], program)
+> +
+> +
+> +if __name__ == '__main__':
+> +    main()
+> diff --git a/test/cases/mount/service-open-bound.sh b/test/cases/mount/service-open-bound.sh
+> new file mode 100755
+> index 000000000000..3ef3690a42e9
+> --- /dev/null
+> +++ b/test/cases/mount/service-open-bound.sh
+> @@ -0,0 +1,61 @@
+> +#!/usr/bin/env bash
+> +# GROUP: mount
+> +#
+> +# fuservicemount3 opens a file for the fuse server only if the path is on its
+> +# command line.
+> +
+> +_fuse_no_mount_needed=1
+> +. "$TEST_LIB/common.sh"
+> +
+> +_require_linux "fuservicemount3"
+> +_require_root
+> +_require_fuse_device
+> +_require_binary util/fuservicemount3
+> +_require_binary test/test_service
+> +
+> +. "$TEST_LIB/service.sh"
+> +
+> +# One socket per run, so a parallel run does not connect to this one
+> +subtype=test-open-$$
+> +img=$TEST_SRC/img
+> +
+> +touch "$img"
+> +service_setup "$subtype"
+> +
+> +# service_open_request <case> <path> <expected errno name, or 0>
+> +# Mount $img through fuservicemount3 with the server started for <case>.
+> +service_open_request()
+> +{
+> +	local case=$1 path=$2 expected=$3
+> +
+> +	service_mount "$img" "$TEST_MNT" "$case" "$path"
+> +	_assert_eq "$(service_result request)" "$expected" "$case $path"
+> +}
+> +
+> +# $img is on the command line
+> +service_open_request open "$img" 0
+> +# Root can read /etc/passwd, so EPERM comes from the command line check
+> +service_open_request open /etc/passwd EPERM
+> +# Passes the command line check, fails the block device check
+> +service_open_request open-bdev "$img" ENOTBLK
+> +# Not ENOTBLK: OPEN_BDEV gets the command line check first
+> +service_open_request open-bdev /etc/passwd EPERM
+> +
+> +# A path in an option value, as the server's option parser splits it
+> +journal=$TEST_SRC/journal,img
+> +touch "$journal"
+> +service_helper_args=(-o "ro,journal_dev=${journal//,/\\,}")
+> +service_open_request open "$journal" 0
+> +# The directory of an option value is not a path the user named
+> +service_open_request open "$TEST_SRC" EPERM
+> +service_helper_args=("-J$journal")
+> +service_open_request open "$journal" 0
+> +service_helper_args=()
+> +
+> +# After MNTPT the helper runs inside $TEST_MNT. A relative path must still
+> +# resolve in the directory the helper started in.
+> +cd "$TEST_SRC"
+> +service_mount img "$TEST_MNT" open-after-mount img
+> +cd "$OLDPWD"
+> +_assert_eq "$(service_result request)" 0 "open-after-mount img"
+> +umount "$TEST_MNT"
+> diff --git a/test/meson.build b/test/meson.build
+> index 68e083f7885c..ec48dab44a61 100644
+> --- a/test/meson.build
+> +++ b/test/meson.build
+> @@ -54,6 +54,12 @@ if build_utils
+>                     c_args: '-DFUSE_CONF="fuse.conf"',
+>                     install: false)
+>  endif
+> +if private_cfg.get('HAVE_SERVICEMOUNT', false)
+> +  td += executable('test_service', 'test_service.c',
+> +                   include_directories: include_dirs,
+> +                   link_with: [ libfuse ],
+> +                   install: false)
+> +endif
+>  
+>  if meson.is_subproject()
+>  	# Skipped rather than run: the tests mount filesystems, which is not
+> diff --git a/test/test_service.c b/test/test_service.c
+> new file mode 100644
+> index 000000000000..0d54df3427a9
+> --- /dev/null
+> +++ b/test/test_service.c
+> @@ -0,0 +1,176 @@
+> +/*
+> + * FUSE: Filesystem in Userspace
+> + *
+> + * This program can be distributed under the terms of the GNU GPLv2.
+> + * See the file GPL2.txt.
+> + *
+> + * A fuse service server for the service mount tests. Each mode takes one
+> + * step against fuservicemount3 and prints the name of the errno that came
+> + * back, 0 for success.
+> + *
+> + *   test_service socket-path <subtype>
+> + *   test_service open <path>
+> + *   test_service open-bdev <path>
+> + *   test_service open-after-mount <path>
+> + */
+> +
+> +#define FUSE_USE_VERSION FUSE_MAKE_VERSION(3, 19)
+> +
+> +/* strerrorname_np() */
+> +#ifndef _GNU_SOURCE
+> +#define _GNU_SOURCE
+> +#endif
+> +
+> +#include "fuse_config.h"
+> +#include <fuse_lowlevel.h>
+> +#include <fuse_service.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <fcntl.h>
+> +#include <unistd.h>
+> +#include <sys/stat.h>
+> +
+> +static const struct fuse_lowlevel_ops test_service_oper = { };
+> +
+> +/* @return "EPERM" and so on, "0" for no error */
+> +static const char *errno_name(int error)
+> +{
+> +	const char *name;
+> +
+> +	if (!error)
+> +		return "0";
+> +
+> +	name = strerrorname_np(error);
+> +	return name ? name : "unknown errno";
+> +}
+> +
+> +/* The first non-option argument is the mount source, not the mountpoint */
+> +static int skip_source(void *data, const char *arg, int key,
+> +		       struct fuse_args *outargs)
+> +{
+> +	bool *source_seen = data;
+> +
+> +	(void)arg;
+> +	(void)outargs;
+> +
+> +	if (key == FUSE_OPT_KEY_NONOPT && !*source_seen) {
+> +		*source_seen = true;
+> +		return 0;
+> +	}
+> +	return 1;
+> +}
+> +
+> +/*
+> + * Mount through the helper so that it has a mount point when the file is
+> + * requested.
+> + *
+> + * @return the mounted session, or NULL on failure
+> + */
+> +static struct fuse_session *session_mounted(struct fuse_service *service,
+> +					    const char *argv0)
+> +{
+> +	struct fuse_args args = FUSE_ARGS_INIT(0, NULL);
+> +	struct fuse_cmdline_opts opts = { };
+> +	struct fuse_session *se = NULL;
+> +	bool source_seen = false;
+> +
+> +	if (fuse_opt_add_arg(&args, argv0) ||
+> +	    fuse_service_append_args(service, &args) ||
+> +	    fuse_opt_parse(&args, &source_seen, NULL, skip_source) ||
+> +	    fuse_service_parse_cmdline_opts(&args, &opts))
+> +		goto out;
+> +
+> +	se = fuse_session_new(&args, &test_service_oper,
+> +			      sizeof(test_service_oper), NULL);
+> +	if (!se)
+> +		goto out;
+> +
+> +	if (fuse_service_session_mount(service, se, S_IFDIR, &opts)) {
+> +		fuse_session_destroy(se);
+> +		se = NULL;
+> +	}
+> +
+> +out:
+> +	free(opts.mountpoint);
+> +	fuse_opt_free_args(&args);
+> +	return se;
+> +}
+> +
+> +/* @return 0 when the result was printed, negative errno otherwise */
+> +static int request_printed(const struct fuse_service *service,
+> +			   const char *path, bool blockdev)
+> +{
+> +	int fd;
+> +	int ret;
+> +
+> +	if (blockdev)
+> +		ret = fuse_service_request_blockdev(service, path, O_RDONLY,
+> +						    0, 0, 0);
+> +	else
+> +		ret = fuse_service_request_file(service, path, O_RDONLY, 0, 0);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* A refusal by the helper is a success return, with -errno in fd */
+> +	ret = fuse_service_receive_file(service, path, &fd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (fd >= 0) {
+> +		close(fd);
+> +		printf("request result: 0\n");
+> +	} else {
+> +		printf("request result: %s\n", errno_name(-fd));
+> +	}
+> +	fflush(stdout);
+> +	return 0;
+> +}
+> +
+> +int main(int argc, char *argv[])
+> +{
+> +	struct fuse_service *service = NULL;
+> +	struct fuse_session *se = NULL;
+> +	bool blockdev = false;
+> +	int ret = 1;
+> +
+> +	if (argc != 3) {
+> +		fprintf(stderr, "usage: %s socket-path <subtype>\n", argv[0]);
+> +		fprintf(stderr, "       %s open|open-bdev|open-after-mount <path>\n",
+> +			argv[0]);
+> +		return 1;
+> +	}
+> +
+> +	if (!strcmp(argv[1], "socket-path")) {
+> +		printf("%s/%s\n", FUSE_SERVICE_SOCKET_DIR, argv[2]);
+> +		return 0;
+> +	}
+> +
+> +	if (fuse_service_accept(&service) || !fuse_service_accepted(service)) {
+> +		fprintf(stderr, "%s: not started as a fuse service\n", argv[0]);
+> +		return 1;
+> +	}
+> +
+> +	if (!strcmp(argv[1], "open-after-mount")) {
+> +		se = session_mounted(service, argv[0]);
+> +		if (!se)
+> +			goto out;
+> +	} else if (!strcmp(argv[1], "open-bdev")) {
+> +		blockdev = true;
+> +	} else if (strcmp(argv[1], "open")) {
+> +		fprintf(stderr, "%s: unknown case %s\n", argv[0], argv[1]);
+> +		goto out;
+> +	}
+> +
+> +	if (request_printed(service, argv[2], blockdev))
+> +		goto out;
+> +
+> +	ret = 0;
+> +out:
+> +	fuse_service_send_goodbye(service, ret);
+> +	fuse_service_destroy(&service);
+> +	/* Closes /dev/fuse; the test script unmounts */
+> +	if (se)
+> +		fuse_session_destroy(se);
+> +	return ret;
+> +}
+> 
+> -- 
+> 2.53.0
+> 
+> 
+> 
