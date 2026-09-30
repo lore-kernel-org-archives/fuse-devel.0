@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28C54F3923
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D5F4F4028
 	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:44:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790775888; cv=none; b=d86jHbSRAnRMq9I4jgVj5BOPUjmesBjEeBw0eVoqxHHW+cIwXFS95I+LHLrwujvY0AzcrREi88yCmD7isk5PoSK9IZmzUcd0yATZBu9PJwK7s8mVKsgXKRWG6YbKXomxNFZN/r/2gVVo7o17MtriEC5qJdr8XkW4ON4PZRSqU7I=
+	t=1790775888; cv=none; b=cAXimBn+wEkaZq7wpIkfOE2F1aSpuH1nDR+F0T+ARO46d7EqAOFGxlEesZqzkrMG2gP89Atpx1cejFoQyAdc1A8z8SZAp23ge2WSWcObTKwFmRptCEd6QK+qpXft8iZKwru2dDJpm9GZpqYKxfbgnld+GeK4aWAM94uWznNcXvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790775888; c=relaxed/simple;
-	bh=P9RC4PMsdxtELej1bpbBAZ9X5LlnXNmloGOGPLJyv+s=;
+	bh=tsgO0MmhUMtXVQinmxuOHFm0zSXKy9LN99Ek+8lUpVo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Go6QXEYynvFvGclSJA3lDkCq+sThAch3pp8M/Et6SwIvaHCcfg8iJ5DIy0Xvr4JacRaQaqlgHA5v/2ZjgZ3WC0GwV4HvjzN+rE3KoU78OeQsYsxzoIiaZIRDzeXgY9Lpxjd4ZCGvEJndmD9TxMDHjhSUkosisb68eav++YvDuRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EidfvkFO; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=YOqH6PHWDPiMNwXt1HBBF+42ZN0geLJHIR6mGv229son028bCHANwaSQnIaeSc2mDp9N9TP8XrtZiZDDuXhhT5Cfr29+tDNqEjeC9kX4PcrCVh88pUmPHOyC14c5lwB9CpY/9nS7/cjbEnb9tgoqQqTXEAnh/f6T9TU7yBZwiw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CP9iIr+T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EidfvkFO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 68AC4C4AF14;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CP9iIr+T"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8DBD0C4AF1B;
 	Wed, 30 Sep 2026 13:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790775887;
-	bh=P9RC4PMsdxtELej1bpbBAZ9X5LlnXNmloGOGPLJyv+s=;
+	bh=tsgO0MmhUMtXVQinmxuOHFm0zSXKy9LN99Ek+8lUpVo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=EidfvkFOvlXVEwspSmuXtcy/pqtwHuHmto9r+r88l1lQWz/u6KTO7lO29473rbnhy
-	 Fwfvp7+F7vEgIGSnfZrhLSygu+DDtxzvsjdE73HuDLCa3o7MoSH76iS49w7u/kKzUQ
-	 N38D2SAdBgHRPKKP+GBiluYEvD/wpNPsAcXwweox3yBDDBYwMgxiMd73c9wNHxL1iJ
-	 2CHqfZHQTimHge3Phwzy4g7yw9OlbVtDYk7ewpekDNJbYfJ3d4/grHqt0W9BXe1GPZ
-	 lK1grbXULD5lTYSCsRrimiN1m3VKrzrLYuBLzId2cbs3TzYLja7lBqOLFmkwAIo4O5
-	 /r5fnUJyIPD6A==
+	b=CP9iIr+TiZczJ6AMKFcoq3bpsOpBOvEkKHqP9pjQIBWeyFlQjJqC8vgcOw9P6X7+s
+	 1VJ23b2IgmzonSb0OuWrgvdF2xNzQnFuFBhQgB635KQ8whtOjM9IAF/SK5y0EagD9E
+	 pej9jp/FM7OTOmRJbi81nuLZQtjOSWu7fbzXC9LLwroQrrWXPqQYZMLEJ9dPRPNWuk
+	 a7iRYCFwBv1ISyZVbc2vaaTyu1mK5sNGg2f7rrN0Y/eMA/ZHCKZxD9BxRzej5wReK1
+	 /2kN0Yc9eWESX0eLDsoacdS64nkOdUnhs33sr0PgDsJgJXtsxKfcFiUkMFfFZ8y1DW
+	 MzHryKC8tH3bg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 491EECA5FC5;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CCB7CA5FCD;
 	Wed, 30 Sep 2026 13:44:47 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Wed, 30 Sep 2026 15:44:33 +0200
-Subject: [PATCH 1/4] mount_fsmount: split superblock creation and
- move_mount into a helper
+Date: Wed, 30 Sep 2026 15:44:36 +0200
+Subject: [PATCH 4/4] mount/fuse_service: share the service socket helpers
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,20 +40,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-mount-service-use-mount-fsmount-v1-1-d585598896ee@bsbernd.com>
+Message-Id: <20260930-mount-service-use-mount-fsmount-v1-4-d585598896ee@bsbernd.com>
 References: <20260930-mount-service-use-mount-fsmount-v1-0-d585598896ee@bsbernd.com>
 In-Reply-To: <20260930-mount-service-use-mount-fsmount-v1-0-d585598896ee@bsbernd.com>
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: neal@gompa.dev, fuse-devel@lists.linux.dev, 
  Bernd Schubert <bernd@bsbernd.com>
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5634; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13124; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=xzRxuwa63Vh0hWGAVlL/J9Afa2FZo54hNpLnXTUqna0=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2Cvnw/1Ps434x0aYkw/iARm5WYZLw8qWFMeZ/Nb6k/
- Qsp2xPfUcrCIMbBICumyNIlscd2yj8+WbWv66/DzGFlAhnCwMUpABNRM2T4p7PF75REwgvpp3H5
- D+8/YshneikcK9+X7hYmz3jxUnvhG4a/cvfkNWNkLV8qzFp91aD14ZV0RXcRhi9Keqr8T1XzvJL
- ZAQ==
+ bh=3VmP4v0xJgVk/cNYnIWidFMEmx+d6QwJgfmYICYgnz4=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2Cvn+CKni+GRx5KTD+2dmPBtmB3ufWrxbO2WVWMXKK
+ Tu2HzqU11HKwiDGwSArpsjSJbHHdso/Plm1r+uvw8xhZQIZwsDFKQATUbNhZDj+veDNnbNf60oz
+ GH3Kkm7xHrh75M4Swe2dC9+xaiofe6bAyHC/sddzevf7WdMqJKfN+eKZpy976/4Lc6Pt96wsrky
+ o9mcEAA==
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -64,176 +63,407 @@ Reply-To: bernd@bsbernd.com
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-This is a preparation patch. fuse_kern_fsmount() ran fsconfig
-CREATE, fsmount() and move_mount() inline. A later commit will make
-mount_service.c call the same three calls after it has run FSOPEN,
-SOURCE and MNTOPTS itself, so this moves them into
-fuse_fsmount_create_and_move(). The fsopen fd stays owned by the
-caller, because mount_service.c will close mo->fsopenfd itself
-later.
+lib/fuse_service.c and util/mount_service.c each had their own sendmsg()
+and recvmsg() for the same packets, repeating MSG_EOR|MSG_NOSIGNAL and
+MSG_TRUNC, plus their own SO_SNDBUF check. Every change to how a packet
+travels had to be made twice.
 
-fuse_kern_fsmount() now converts MS_* flags before calling the
-helper, so unsupported flags are caught before the superblock is
-created, not after.
+fuse_service_send_packet(), fuse_service_recv_packet() and
+fuse_service_sendbuf_too_small() move to include/fuse_service_priv.h,
+which both files already include for the packet layout. The error
+messages differ per file and stay in the callers.
 
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 ---
- lib/mount_fsmount.c | 86 +++++++++++++++++++++++++++++++----------------------
- lib/mount_i_linux.h | 18 +++++++++++
- 2 files changed, 69 insertions(+), 35 deletions(-)
+ include/fuse_service_priv.h | 59 +++++++++++++++++++++++++++++++++++++
+ lib/fuse_service.c          | 72 ++++++++++-----------------------------------
+ util/mount_service.c        | 59 ++++++-------------------------------
+ 3 files changed, 83 insertions(+), 107 deletions(-)
 
-diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
-index b2d0453e5c93..0b1fd4300d2d 100644
---- a/lib/mount_fsmount.c
-+++ b/lib/mount_fsmount.c
-@@ -489,6 +489,53 @@ void fuse_kern_umount_mountfd(int mountfd)
- 	}
- }
+diff --git a/include/fuse_service_priv.h b/include/fuse_service_priv.h
+index 988f7c9251c8..951694faaaba 100644
+--- a/include/fuse_service_priv.h
++++ b/include/fuse_service_priv.h
+@@ -9,6 +9,9 @@
+ #ifndef FUSE_SERVICE_PRIV_H_
+ #define FUSE_SERVICE_PRIV_H_
  
-+int fuse_fsmount_create_and_move(int fsfd, unsigned int mount_attrs,
-+				 int dest_mnt_fd, const char *dest_path,
-+				 int *mountfd_out)
++#include <sys/socket.h>
++#include <limits.h>
++
+ /* All numeric fields are network order (big-endian) when going across the socket */
+ 
+ struct fuse_service_memfd_arg {
+@@ -48,6 +51,36 @@ struct fuse_service_packet {
+ 	uint32_t magic;			/* FUSE_SERVICE_*_{CMD,REPLY} */
+ };
+ 
++static inline ssize_t fuse_service_send_packet(int sockfd, void *ptr,
++					       size_t len)
 +{
-+	int mountfd;
-+	int res;
++	struct iovec iov = {
++		.iov_base = ptr,
++		.iov_len = len,
++	};
++	struct msghdr msg = {
++		.msg_iov = &iov,
++		.msg_iovlen = 1,
++	};
 +
-+	res = fuse_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
-+	if (res == -1) {
-+		int save_errno = errno;
-+
-+		log_fsconfig_kmsg(fsfd);
-+		fuse_log(FUSE_LOG_ERR, "fuse: fsconfig CREATE failed: %s\n",
-+			 strerror(save_errno));
-+		return -save_errno;
-+	}
-+
-+	mountfd = fuse_fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs);
-+	if (mountfd == -1) {
-+		int save_errno = errno;
-+
-+		log_fsconfig_kmsg(fsfd);
-+		fuse_log(FUSE_LOG_ERR, "fuse: fsmount failed: %s\n",
-+			 strerror(save_errno));
-+		return -save_errno;
-+	}
-+
-+	if (dest_mnt_fd >= 0)
-+		res = fuse_move_mount(mountfd, "", dest_mnt_fd, "",
-+				      MOVE_MOUNT_F_EMPTY_PATH |
-+					      MOVE_MOUNT_T_EMPTY_PATH);
-+	else
-+		res = fuse_move_mount(mountfd, "", AT_FDCWD, dest_path,
-+				      MOVE_MOUNT_F_EMPTY_PATH);
-+	if (res == -1) {
-+		int save_errno = errno;
-+
-+		fuse_log(FUSE_LOG_ERR, "fuse: move_mount failed: %s\n",
-+			 strerror(save_errno));
-+		close(mountfd);
-+		return -save_errno;
-+	}
-+
-+	*mountfd_out = mountfd;
-+	return 0;
++	return sendmsg(sockfd, &msg, MSG_EOR | MSG_NOSIGNAL);
 +}
 +
- int fuse_kern_fsmount(const char *mnt, int dest_mnt_fd, unsigned long flags,
- 		      int blkdev, const char *fsname, const char *subtype,
- 		      const char *source_dev, const char *kernel_opts,
-@@ -584,16 +631,6 @@ int fuse_kern_fsmount(const char *mnt, int dest_mnt_fd, unsigned long flags,
- 		goto out_free;
- 	}
- 
--	/* Create the filesystem instance */
--	res = fuse_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
--	if (res == -1) {
--		err = -errno;
--		log_fsconfig_kmsg(fsfd);
--		fuse_log(FUSE_LOG_ERR, "fuse: fsconfig CREATE failed: %s\n",
--			 strerror(errno));
--		goto out_free;
--	}
--
- 	/* Convert MS_* flags to MOUNT_ATTR_* for fsmount() */
- 	flags = ms_flags_to_mount_attrs(flags, &mount_attrs);
- 	if (flags != 0) {
-@@ -602,33 +639,14 @@ int fuse_kern_fsmount(const char *mnt, int dest_mnt_fd, unsigned long flags,
- 		goto out_free;
- 	}
- 
--	/* Create mount object with mount attributes */
--	mountfd = fuse_fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs);
--	if (mountfd == -1) {
--		err = -errno;
--		log_fsconfig_kmsg(fsfd);
--		fuse_log(FUSE_LOG_ERR, "fuse: fsmount failed: %s\n",
--			 strerror(errno));
-+	err = fuse_fsmount_create_and_move(fsfd, mount_attrs, dest_mnt_fd, mnt,
-+					   &mountfd);
-+	if (err)
- 		goto out_free;
--	}
- 
- 	close(fsfd);
- 	fsfd = -1;
- 
--	if (dest_mnt_fd >= 0)
--		res = fuse_move_mount(mountfd, "", dest_mnt_fd, "",
--				 MOVE_MOUNT_F_EMPTY_PATH |
--					 MOVE_MOUNT_T_EMPTY_PATH);
--	else
--		res = fuse_move_mount(mountfd, "", AT_FDCWD, mnt,
--				 MOVE_MOUNT_F_EMPTY_PATH);
--	if (res == -1) {
--		err = -errno;
--		fuse_log(FUSE_LOG_ERR, "fuse: move_mount failed: %s\n",
--			 strerror(errno));
--		goto out_close_mntfd;
--	}
--
- 	res = fuse_mnt_add_mount_helper(mnt, source, type, mtab_opts);
- 	if (res == -1) {
- 		err = -EIO;
-@@ -645,9 +663,7 @@ int fuse_kern_fsmount(const char *mnt, int dest_mnt_fd, unsigned long flags,
- 
- out_umount:
- 	fuse_kern_umount_mountfd(mountfd);
--out_close_mntfd:
--	if (mountfd != -1)
--		close(mountfd);
-+	close(mountfd);
- out_free:
- 	free(source);
- 	free(type);
-diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
-index 8cf7ff4532c6..35bb54c82236 100644
---- a/lib/mount_i_linux.h
-+++ b/lib/mount_i_linux.h
-@@ -86,6 +86,24 @@ int fuse_kern_fsmount(const char *mnt, int mnt_fd, unsigned long flags,
- int fuse_kern_fsmount_mo(const char *mnt, const struct mount_opts *mo,
- 			 const char *mtab_opts, int *mountfd_out);
- 
-+/**
-+ * Create the superblock and attach the resulting mount to a destination.
-+ *
-+ * The fsopen fd stays owned by the caller - a caller that keeps it in
-+ * long-lived state must not be left with a descriptor closed behind its back.
-+ *
-+ * @fsfd fsopen fd, fully configured
-+ * @mount_attrs MOUNT_ATTR_* flags, from ms_flags_to_mount_attrs()
-+ * @dest_mnt_fd pre-resolved destination fd, or -1 to use @dest_path
-+ * @dest_path destination path, used only when @dest_mnt_fd is -1
-+ * @mountfd_out on success receives the fsmount() fd, to be closed by the
-+ *              caller and usable for fuse_kern_umount_mountfd()
-+ * @return 0 on success, negative error code on failure
-+ */
-+int fuse_fsmount_create_and_move(int fsfd, unsigned int mount_attrs,
-+				 int dest_mnt_fd, const char *dest_path,
-+				 int *mountfd_out);
++static inline ssize_t fuse_service_recv_packet(int sockfd, void *ptr,
++					       size_t len)
++{
++	struct iovec iov = {
++		.iov_base = ptr,
++		.iov_len = len,
++	};
++	struct msghdr msg = {
++		.msg_iov = &iov,
++		.msg_iovlen = 1,
++	};
 +
- /**
-  * Unmount (lazily) the mount @mountfd was created for, without a path lookup.
-  *
++	return recvmsg(sockfd, &msg, MSG_TRUNC);
++}
++
+ #define FUSE_SERVICE_PROTO	(1)
+ #define FUSE_SERVICE_MIN_PROTO	(1)
+ #define FUSE_SERVICE_MAX_PROTO	(1)
+@@ -117,6 +150,32 @@ static inline size_t sizeof_fuse_service_open_command(size_t pathlen)
+ 	return sizeof(struct fuse_service_open_command) + pathlen + 1;
+ }
+ 
++/*
++ * A send buffer that cannot hold the largest open command makes the sendmsg
++ * fail later on; report the size so the caller can say so in its own words.
++ * A buffer we cannot query is not an error - most likely we won't be sending
++ * huge open commands, and if we do, the sendmsg will fail there too.
++ *
++ * @sendbuf_sizep set to the offending size when the buffer is too small
++ * @return true if the send buffer is too small
++ */
++static inline bool fuse_service_sendbuf_too_small(int sockfd,
++						  int *sendbuf_sizep)
++{
++	int sendbuf_size = -1;
++	socklen_t optlen = sizeof(sendbuf_size);
++
++	if (getsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sendbuf_size, &optlen) ||
++	    sendbuf_size < 0)
++		return false;
++
++	if ((size_t)sendbuf_size >= sizeof_fuse_service_open_command(PATH_MAX))
++		return false;
++
++	*sendbuf_sizep = sendbuf_size;
++	return true;
++}
++
+ struct fuse_service_string_command {
+ 	struct fuse_service_packet p;
+ 	char value[];
+diff --git a/lib/fuse_service.c b/lib/fuse_service.c
+index 0a05b3fbc1f2..1f3fc1be0888 100644
+--- a/lib/fuse_service.c
++++ b/lib/fuse_service.c
+@@ -135,36 +135,6 @@ static int __recv_fd(const struct fuse_service *sf,
+ 	return 0;
+ }
+ 
+-static ssize_t __send_packet(const struct fuse_service *sf, void *ptr,
+-			     size_t len)
+-{
+-	struct iovec iov = {
+-		.iov_base = ptr,
+-		.iov_len = len,
+-	};
+-	struct msghdr msg = {
+-		.msg_iov = &iov,
+-		.msg_iovlen = 1,
+-	};
+-
+-	return sendmsg(sf->sockfd, &msg, MSG_EOR | MSG_NOSIGNAL);
+-}
+-
+-static ssize_t __recv_packet(const struct fuse_service *sf, void *ptr,
+-			     size_t len)
+-{
+-	struct iovec iov = {
+-		.iov_base = ptr,
+-		.iov_len = len,
+-	};
+-	struct msghdr msg = {
+-		.msg_iov = &iov,
+-		.msg_iovlen = 1,
+-	};
+-
+-	return recvmsg(sf->sockfd, &msg, MSG_TRUNC);
+-}
+-
+ int fuse_service_receive_file(const struct fuse_service *sf, const char *path,
+ 			      int *fdp)
+ {
+@@ -266,7 +236,7 @@ static int fuse_service_request_path(const struct fuse_service *sf,
+ 	cmd->request_flags = htonl(rqflags);
+ 	memcpy(cmd->path, path, pathlen + 1);
+ 
+-	size = __send_packet(sf, cmd, cmdsz);
++	size = fuse_service_send_packet(sf->sockfd, cmd, cmdsz);
+ 	if (size < 0) {
+ 		int error = errno;
+ 
+@@ -313,7 +283,7 @@ int fuse_service_send_goodbye(struct fuse_service *sf, int exitcode)
+ 	if (sf->sockfd < 0)
+ 		return 0;
+ 
+-	size = __send_packet(sf, &c, sizeof(c));
++	size = fuse_service_send_packet(sf->sockfd, &c, sizeof(c));
+ 	if (size < 0) {
+ 		int error = errno;
+ 
+@@ -367,25 +337,13 @@ static int count_listen_fds(void)
+ 
+ static int check_sendbuf_size(int sockfd)
+ {
+-	const size_t min_size = sizeof_fuse_service_open_command(PATH_MAX);
+-	int sendbuf_size = -1;
+-	socklen_t optlen = sizeof(sendbuf_size);
+-	int ret;
++	int sendbuf_size;
+ 
+-	/*
+-	 * If we can't query the maximum send buffer length, just keep going.
+-	 * Most likely we won't be sending huge open commands, and if we do,
+-	 * the sendmsg will fail there too.
+-	 */
+-	ret = getsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sendbuf_size, &optlen);
+-	if (ret || sendbuf_size < 0)
+-		return 0;
+-
+-	if (sendbuf_size >= min_size)
++	if (!fuse_service_sendbuf_too_small(sockfd, &sendbuf_size))
+ 		return 0;
+ 
+ 	fuse_log(FUSE_LOG_ERR, "max socket send buffer is %d, need at least %zu.\n",
+-		 sendbuf_size, min_size);
++		 sendbuf_size, sizeof_fuse_service_open_command(PATH_MAX));
+ 	return -ENOBUFS;
+ }
+ 
+@@ -456,7 +414,7 @@ static int negotiate_hello(struct fuse_service *sf)
+ 	uint32_t flags;
+ 	ssize_t size;
+ 
+-	size = __recv_packet(sf, &hello, sizeof(hello));
++	size = fuse_service_recv_packet(sf->sockfd, &hello, sizeof(hello));
+ 	if (size < 0) {
+ 		int error = errno;
+ 
+@@ -511,7 +469,7 @@ static int negotiate_hello(struct fuse_service *sf)
+ 	if (flags & FUSE_SERVICE_FLAG_FUSEBLK)
+ 		sf->can_fuseblk = true;
+ 
+-	size = __send_packet(sf, &reply, sizeof(reply));
++	size = fuse_service_send_packet(sf->sockfd, &reply, sizeof(reply));
+ 	if (size < 0) {
+ 		int error = errno;
+ 
+@@ -821,7 +779,7 @@ static int send_fsopen(const struct fuse_service *sf, const char *fstype,
+ 	if (!strncmp(fstype, "fuseblk", 7))
+ 		c.fsopen_flags |= htonl(FUSE_SERVICE_FSOPEN_FUSEBLK);
+ 
+-	size = __send_packet(sf, &c, sizeof(c));
++	size = fuse_service_send_packet(sf->sockfd, &c, sizeof(c));
+ 	if (size < 0) {
+ 		int error = errno;
+ 
+@@ -830,7 +788,7 @@ static int send_fsopen(const struct fuse_service *sf, const char *fstype,
+ 		return -error;
+ 	}
+ 
+-	size = __recv_packet(sf, &reply, sizeof(reply));
++	size = fuse_service_recv_packet(sf->sockfd, &reply, sizeof(reply));
+ 	if (size < 0) {
+ 		int error = errno;
+ 
+@@ -873,7 +831,7 @@ static int send_string(const struct fuse_service *sf, uint32_t command,
+ 	cmd->p.magic = htonl(command);
+ 	memcpy(cmd->value, value, valuelen + 1);
+ 
+-	size = __send_packet(sf, cmd, cmdsz);
++	size = fuse_service_send_packet(sf->sockfd, cmd, cmdsz);
+ 	if (size < 0) {
+ 		err = -errno;
+ 		fuse_log(FUSE_LOG_ERR, "fuse: send service string: %s\n",
+@@ -881,7 +839,7 @@ static int send_string(const struct fuse_service *sf, uint32_t command,
+ 		goto out;
+ 	}
+ 
+-	size = __recv_packet(sf, &reply, sizeof(reply));
++	size = fuse_service_recv_packet(sf->sockfd, &reply, sizeof(reply));
+ 	if (size < 0) {
+ 		err = -errno;
+ 		fuse_log(FUSE_LOG_ERR, "fuse: service string reply: %s\n",
+@@ -929,7 +887,7 @@ static int send_mountpoint(const struct fuse_service *sf, mode_t expected_fmt,
+ 	cmd->expected_fmt = htons(expected_fmt);
+ 	memcpy(cmd->value, value, valuelen + 1);
+ 
+-	size = __send_packet(sf, cmd, cmdsz);
++	size = fuse_service_send_packet(sf->sockfd, cmd, cmdsz);
+ 	if (size < 0) {
+ 		err = -errno;
+ 		fuse_log(FUSE_LOG_ERR, "fuse: send service mountpoint: %s\n",
+@@ -937,7 +895,7 @@ static int send_mountpoint(const struct fuse_service *sf, mode_t expected_fmt,
+ 		goto out;
+ 	}
+ 
+-	size = __recv_packet(sf, &reply, sizeof(reply));
++	size = fuse_service_recv_packet(sf->sockfd, &reply, sizeof(reply));
+ 	if (size < 0) {
+ 		err = -errno;
+ 		fuse_log(FUSE_LOG_ERR, "fuse: service mountpoint reply: %s\n",
+@@ -975,7 +933,7 @@ static int send_mount(const struct fuse_service *sf, unsigned int ms_flags,
+ 	};
+ 	ssize_t size;
+ 
+-	size = __send_packet(sf, &c, sizeof(c));
++	size = fuse_service_send_packet(sf->sockfd, &c, sizeof(c));
+ 	if (size < 0) {
+ 		int error = errno;
+ 
+@@ -984,7 +942,7 @@ static int send_mount(const struct fuse_service *sf, unsigned int ms_flags,
+ 		return -error;
+ 	}
+ 
+-	size = __recv_packet(sf, &reply, sizeof(reply));
++	size = fuse_service_recv_packet(sf->sockfd, &reply, sizeof(reply));
+ 	if (size < 0) {
+ 		int error = errno;
+ 
+diff --git a/util/mount_service.c b/util/mount_service.c
+index dcdc26df1db4..47cc2d43d2a0 100644
+--- a/util/mount_service.c
++++ b/util/mount_service.c
+@@ -139,21 +139,6 @@ static ssize_t __send_fd(const struct mount_service *mo,
+ 	return sendmsg(mo->sockfd, &msg, MSG_EOR | MSG_NOSIGNAL);
+ }
+ 
+-static ssize_t __send_packet(const struct mount_service *mo, void *ptr,
+-			     size_t len)
+-{
+-	struct iovec iov = {
+-		.iov_base = ptr,
+-		.iov_len = len,
+-	};
+-	struct msghdr msg = {
+-		.msg_iov = &iov,
+-		.msg_iovlen = 1,
+-	};
+-
+-	return sendmsg(mo->sockfd, &msg, MSG_EOR | MSG_NOSIGNAL);
+-}
+-
+ static ssize_t __recv_packet_size(const struct mount_service *mo)
+ {
+ 	struct iovec iov = { };
+@@ -164,21 +149,6 @@ static ssize_t __recv_packet_size(const struct mount_service *mo)
+ 	return recvmsg(mo->sockfd, &msg, MSG_PEEK | MSG_TRUNC);
+ }
+ 
+-static ssize_t __recv_packet(const struct mount_service *mo, void *ptr,
+-			     size_t len)
+-{
+-	struct iovec iov = {
+-		.iov_base = ptr,
+-		.iov_len = len,
+-	};
+-	struct msghdr msg = {
+-		.msg_iov = &iov,
+-		.msg_iovlen = 1,
+-	};
+-
+-	return recvmsg(mo->sockfd, &msg, MSG_TRUNC);
+-}
+-
+ /*
+  * Filter out the subtype of the filesystem (e.g. fuse.Y[.Z] -> Y[.Z]).  The
+  * fuse server determines if it's appropriate to set the "blockdev" mount
+@@ -271,25 +241,14 @@ static int try_drop_passrights(const struct mount_service *mo, int sockfd)
+ 
+ static int check_sendbuf_size(const struct mount_service *mo, int sockfd)
+ {
+-	const size_t min_size = sizeof_fuse_service_open_command(PATH_MAX);
+-	int sendbuf_size = -1;
+-	socklen_t optlen = sizeof(sendbuf_size);
+-	int ret;
++	int sendbuf_size;
+ 
+-	/*
+-	 * If we can't query the maximum send buffer length, just keep going.
+-	 * Most likely we won't be sending huge open commands, and if we do,
+-	 * the sendmsg will fail there too.
+-	 */
+-	ret = getsockopt(sockfd, SOL_SOCKET, SO_SNDBUF, &sendbuf_size, &optlen);
+-	if (ret || sendbuf_size < 0)
+-		return 0;
+-
+-	if (sendbuf_size >= min_size)
++	if (!fuse_service_sendbuf_too_small(sockfd, &sendbuf_size))
+ 		return 0;
+ 
+ 	fprintf(stderr, "%s: max socket send buffer is %d, need at least %zu.\n",
+-		mo->msgtag, sendbuf_size, min_size);
++		mo->msgtag, sendbuf_size,
++		sizeof_fuse_service_open_command(PATH_MAX));
+ 	return MOUNT_SERVICE_FALLBACK_NEEDED;
+ }
+ 
+@@ -369,14 +328,14 @@ static int mount_service_send_hello(const struct mount_service *mo)
+ 	else if (user_allow_other)
+ 		hello.flags |= htonl(FUSE_SERVICE_FLAG_ALLOW_OTHER);
+ 
+-	size = __send_packet(mo, &hello, sizeof(hello));
++	size = fuse_service_send_packet(mo->sockfd, &hello, sizeof(hello));
+ 	if (size < 0) {
+ 		fprintf(stderr, "%s: send hello: %s\n",
+ 			mo->msgtag, strerror(errno));
+ 		return -1;
+ 	}
+ 
+-	size = __recv_packet(mo, &reply, sizeof(reply));
++	size = fuse_service_recv_packet(mo->sockfd, &reply, sizeof(reply));
+ 	if (size < 0) {
+ 		fprintf(stderr, "%s: hello reply: %s\n",
+ 			mo->msgtag, strerror(errno));
+@@ -581,7 +540,7 @@ static int mount_service_send_file_error(const struct mount_service *mo,
+ 	req->error = htonl(error);
+ 	memcpy(req->path, path, path_len + 1);
+ 
+-	written = __send_packet(mo, req, req_sz);
++	written = fuse_service_send_packet(mo->sockfd, req, req_sz);
+ 	if (written < 0) {
+ 		fprintf(stderr, "%s: send file error: %s\n",
+ 			mo->msgtag, strerror(errno));
+@@ -671,7 +630,7 @@ static int mount_service_receive_command(const struct mount_service *mo,
+ 		return -1;
+ 	}
+ 
+-	size = __recv_packet(mo, command, alleged_size);
++	size = fuse_service_recv_packet(mo->sockfd, command, alleged_size);
+ 	if (size < 0) {
+ 		fprintf(stderr, "%s: receive service command: %s\n",
+ 			mo->msgtag, strerror(errno));
+@@ -698,7 +657,7 @@ static int mount_service_send_reply(const struct mount_service *mo, int error)
+ 	};
+ 	ssize_t size;
+ 
+-	size = __send_packet(mo, &reply, sizeof(reply));
++	size = fuse_service_send_packet(mo->sockfd, &reply, sizeof(reply));
+ 	if (size < 0) {
+ 		fprintf(stderr, "%s: send service reply: %s\n",
+ 			mo->msgtag, strerror(errno));
 
 -- 
 2.53.0
