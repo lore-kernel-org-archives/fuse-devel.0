@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194113A8744
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1953B4D98F9
 	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:44:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790775890; cv=none; b=MJVs09RfuYuQgkIK/F3mQDN41eoLDCFr1kAXS51N7TrB5Kfq+naCRWa9u+TTnR72kq3GM91yvjIEkPmRCV+RB3qisJbNt3FnwEHA9KslkVY20zQODcn6O+4Z1h0T5AiKzaxHDzTWvrKnh9rToIazxBg6B368nfdtFedJk04AbuQ=
+	t=1790775890; cv=none; b=TM+cf4DHCRPvi3zbLcTm/TnBq4o46VIwmDPpuGxxqOaPkKyHYuj9OZuTJoKv9lIHJ1S4qYG+F/0lrljdH+ceiYOxqeYlBemTtRWItuixhjEz1XSNXAihZxtu3Spett0lBGQycnuJlyYF5rlr6Fbo3oTcwx2lXZFWP/SA2Zf18BE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790775890; c=relaxed/simple;
-	bh=FoKeABlrnxNMqnupjnPgDHLgTm9Dj38U9KCV32zruhs=;
+	bh=5zgItYW4e0eFCaaAxO0NVI4FxV76ehRMY2n90IdFoG4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sBraxEiq86nWhp08xmshlHvOWEc5EpteJXkS4BUIc5H3JiU0mxszWf1rNh7l7N0ZLiZHNt91man1a5+5UxTI0R+ZMfXOgrmnQu2AojZd2L3r2EAZe0VLs3Y3KPDB63CBk08CcYm0noO/5kBV/LYjE8wz/TVDm5P4Fp5FxqVDlAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TwdZFq8g; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=ecHwacihj6lxCCuBnuKVmT5NCA2Q48g7lpSIVmUtAVsHCt6V35b+8KTBT6D7sFtIp01Yf5p7hWEtji1I8uMmpKxC0TPFR+0wL/zmeVgh26Ppim0FzdLftS23dlwDIhTmnZcLNO3oNb8T1rh79EL97Fzs3nTIfx60soN8/9rfdxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GgY+ZIF3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TwdZFq8g"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 852F2C4AF18;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GgY+ZIF3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 79794C4AF0B;
 	Wed, 30 Sep 2026 13:44:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790775887;
-	bh=FoKeABlrnxNMqnupjnPgDHLgTm9Dj38U9KCV32zruhs=;
+	bh=5zgItYW4e0eFCaaAxO0NVI4FxV76ehRMY2n90IdFoG4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=TwdZFq8grVMib+vdQwmL6cfxVAL+4HiguioRI7G8iHm7jLS0kaOGv5C30DV7w8g+v
-	 e2KkX+pf6Gn0jajWkkhZjvi8vLw45MB/yWKDXdVZO+/LP1zxz3DN7IBoWQKaZ+jKEm
-	 WnKAk5W0Y3bXkS8LLG5oZNavnhU/Vgqa5NWYp1FyeS3nK4fSSNsGK9ZOok72RpeU9g
-	 T5doqSP8MGpjMyJlyImkTMgD2QfE33VY/ZKMgQgFGaNJ6CqlsKi6LVRXOzowKbXCMU
-	 KXMCnq6+v7hhpAGAxGX2X5ZCfZKn5aNuzUIEPZXUJaok+OnP1r/4sXyJNuSPUgm3O+
-	 rl0czAcePTE9w==
+	b=GgY+ZIF32B8EeWe3Yutur9cjeDM9+KyK2MVmL7qaYFZboHQMPJj53EOh49O7bve+a
+	 aCSdf4PkYkb8VY5gUMM/kCv4bfahoebj3aO6PRv+mcUeTHINtFVIb2kpX6TZWkSSqa
+	 ziBk0WdQmjMoqg0Wox7P38CJMsZOq2pTTYCPdfmp66MJxRj61X/AzKunXK2QkQro3t
+	 N39Kebqr/vV4hdAIRF3Nbq+DCpxpm1M6pwtlvtW6likyafet42wm1X4GfCFdcB4dKR
+	 j2nkfxUkzAZKik11Bhya51sA1eTTFIArWiiAYEukbOEaV6aLeUToPOYKKymMrX5dDH
+	 DVOMcUVBmV85Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A683CA5FCB;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A65FCA5FAC;
 	Wed, 30 Sep 2026 13:44:47 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Wed, 30 Sep 2026 15:44:35 +0200
-Subject: [PATCH 3/4] mount_util: share the mtab flag-option builder
+Date: Wed, 30 Sep 2026 15:44:34 +0200
+Subject: [PATCH 2/4] mount_service: mount via the shared fsmount helper
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -40,20 +40,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-mount-service-use-mount-fsmount-v1-3-d585598896ee@bsbernd.com>
+Message-Id: <20260930-mount-service-use-mount-fsmount-v1-2-d585598896ee@bsbernd.com>
 References: <20260930-mount-service-use-mount-fsmount-v1-0-d585598896ee@bsbernd.com>
 In-Reply-To: <20260930-mount-service-use-mount-fsmount-v1-0-d585598896ee@bsbernd.com>
 To: "Darrick J. Wong" <djwong@kernel.org>
 Cc: neal@gompa.dev, fuse-devel@lists.linux.dev, 
  Bernd Schubert <bernd@bsbernd.com>
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7867; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3629; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=8TzYlSGEYUJKA/CCBOdfydnc+sGJK5un+feFswTHomk=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2CvlytXw9yHl9oem3J1n+h34KcUQ+n2uncqegxn9Pm
- 708l3t9RykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAEzEYCUjw9Lgx+zbnx93cElc
- 58jtdcZNXkHobJid8x+LJer8W3Qd9RkZzk+y9bmTL5wy+8rxT7z8d+zWdGVVO27+WvZFRlB1YqI
- kMwA=
+ bh=gfyNbXvKRw52UA8okVviA6cTtinT36ncLu1xhr7uXT0=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2CvlsZ/j0fD6j+OtS3lYp8Tcuv//vXbTMdV3Q5stxD
+ KLfRXuTOkpZGMQ4GGTFFFm6JPbYTvnHJ6v2df11mDmsTCBDGLg4BWAi7wUYGe4UrsheJuRppa9q
+ qM3drT5lyn7r3L2s39cWeKwJPsHCV8LwP+7KrVOnL92Tkw9V2pWamDQ9ZV1srNPWdfWXmLdc3Za
+ XzwQA
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -63,225 +63,126 @@ Reply-To: bernd@bsbernd.com
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-The loop over mount_flags[] that builds the rw/nosuid/nodev mirrors of
-an mtab record existed twice, in lib/mount.c and util/fusermount.c;
-both feed the same record, so a change to one silently diverges.
-fusermount3 does not link libfuse and cannot call fuse_opt_add_opt(),
-so fuse_mnt_add_opt() moves to lib/mount_util.c next to mount_flags[].
+util/mount_service.c issued FSCONFIG_CMD_CREATE, fsmount() and
+move_mount() itself, with the same FSMOUNT_CLOEXEC and
+MOVE_MOUNT_*_EMPTY_PATH flags as lib/mount_fsmount.c. Both mount the
+same filesystem, so a flag changed in one copy silently diverges.
 
-fuse_mnt_add_opt() now has one realloc and one snprintf, because
-realloc(NULL) is the malloc. The empty-list path reserves expand as
-well, which strdup could not do. No caller pairs an empty list with a
-non-zero expand, so nothing changes today.
+mount_service.c also called the libc names fsconfig(), fsmount() and
+move_mount() directly. HAVE_NEW_MOUNT_API only checks that the headers
+declare these functions, not that libc exports them. On a system where
+NEED_NEW_MOUNT_API_SYSCALL_WRAPPERS is also set (glibc older than
+2.36), lib/mount_fsmount.c works around the missing symbols through
+its fuse_-prefixed static inline wrappers, which mount_service.c had
+no access to; calling the bare libc names left it with a declaration
+to compile against but no symbol to link against.
 
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 ---
- lib/mount.c         | 21 +--------------------
- lib/mount_fsmount.c | 12 ++----------
- lib/mount_util.c    | 33 +++++++++++++++++++++++++++++++++
- lib/mount_util.h    | 20 ++++++++++++++++++++
- util/fusermount.c   | 33 +++------------------------------
- 5 files changed, 59 insertions(+), 60 deletions(-)
+ util/mount_service.c | 49 ++++++++++++-------------------------------------
+ 1 file changed, 12 insertions(+), 37 deletions(-)
 
-diff --git a/lib/mount.c b/lib/mount.c
-index a6dd5013ea80..4d03ef4b848f 100644
---- a/lib/mount.c
-+++ b/lib/mount.c
-@@ -995,25 +995,6 @@ static int fuse_mount_sys(const char *mnt, struct mount_opts *mo,
- 	return fd;
- }
+diff --git a/util/mount_service.c b/util/mount_service.c
+index 0b3266309a8a..dcdc26df1db4 100644
+--- a/util/mount_service.c
++++ b/util/mount_service.c
+@@ -28,11 +28,6 @@
+ #include <sys/ioctl.h>
+ #include <linux/fs.h>
  
--/*
-- * Append the flag-mirror prefix (rw/nosuid/nodev/...) of the mtab record
-- * to @mtab_optsp, derived from the MS_* bitmask in @flags.
-- */
--static int get_mtab_flag_opts(char **mtab_optsp, int flags)
--{
--	int i;
+-#ifdef HAVE_NEW_MOUNT_API
+-#include <sys/mount.h>
+-#include <linux/mount.h>
+-#endif
 -
--	if (!(flags & MS_RDONLY) && fuse_opt_add_opt(mtab_optsp, "rw") == -1)
--		return -1;
--
--	for (i = 0; mount_flags[i].opt != NULL; i++) {
--		if (mount_flags[i].on && (flags & mount_flags[i].flag) &&
--		    fuse_opt_add_opt(mtab_optsp, mount_flags[i].opt) == -1)
--			return -1;
--	}
--	return 0;
--}
--
- struct mount_opts *parse_mount_opts(struct fuse_args *args)
- {
- 	struct mount_opts *mo;
-@@ -1057,7 +1038,7 @@ void destroy_mount_opts(struct mount_opts *mo)
- int fuse_kern_mount_get_base_mtab_opts(const struct mount_opts *mo,
- 				       char **mtab_optsp)
- {
--	if (get_mtab_flag_opts(mtab_optsp, mo->flags) == -1)
-+	if (fuse_mnt_get_mtab_flag_opts(mtab_optsp, mo->flags) == -1)
- 		return -1;
- 	if (mo->kernel_opts && fuse_opt_add_opt(mtab_optsp, mo->kernel_opts) == -1)
- 		return -1;
-diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
-index 0b1fd4300d2d..730071206fc7 100644
---- a/lib/mount_fsmount.c
-+++ b/lib/mount_fsmount.c
-@@ -446,16 +446,8 @@ int apply_fsconfig_mount_opts(int fsfd, const char *opts)
- 			continue;
- 		/*
- 		 * Skip mount attributes, they're handled by fsmount()
--		 * not fsconfig().
--		 *
--		 * These string options (nosuid, nodev, etc.) are reconstructed
--		 * from MS_* flags by get_mtab_flag_opts() in lib/mount.c and
--		 * get_mtab_opts() in util/fusermount.c. Both the library path
--		 * (via fuse_kern_mount_get_base_mtab_opts) and fusermount3 path
--		 * rebuild these strings from the flags bitmask and pass them in
--		 * mtab_opts. They must be filtered here because they are mount
--		 * attributes (passed to fsmount via MOUNT_ATTR_*), not
--		 * filesystem parameters (which would be passed to fsconfig).
-+		 * not fsconfig(). Callers rebuild them as strings from the
-+		 * MS_* bitmask for the mtab record, so they do show up here.
- 		 *
- 		 * Also skip mtab-only options - they're for /run/mount/utab, not kernel
- 		 */
-diff --git a/lib/mount_util.c b/lib/mount_util.c
-index 2f763fe1218e..72ed17c93f47 100644
---- a/lib/mount_util.c
-+++ b/lib/mount_util.c
-@@ -140,6 +140,39 @@ const struct mount_flags mount_flags[] = {
- {NULL,           0,                0,  0,    0,        0}
- };
+ #include "mount_util.h"
+ #include "util.h"
+ #include "fuse_i.h"
+@@ -1439,63 +1434,45 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
+ 			return FUSE_MOUNT_FALLBACK_NEEDED;
  
-+int fuse_mnt_add_opt(char **optsp, const char *opt, unsigned int expand)
-+{
-+	/* an empty list gets no separator, and realloc(NULL) is the malloc */
-+	const char *sep = *optsp ? "," : "";
-+	size_t oldsize = *optsp ? strlen(*optsp) : 0;
-+	size_t newsize = oldsize + strlen(sep) + strlen(opt) + expand + 1;
-+	char *newopts = (char *) realloc(*optsp, newsize);
-+
-+	if (newopts == NULL) {
-+		fuse_log(FUSE_LOG_ERR, "fuse: failed to allocate memory\n");
-+		return -1;
-+	}
-+
-+	snprintf(newopts + oldsize, newsize - oldsize, "%s%s", sep, opt);
-+	*optsp = newopts;
-+	return 0;
-+}
-+
-+int fuse_mnt_get_mtab_flag_opts(char **mtab_optsp, int flags)
-+{
-+	int i;
-+
-+	if (!(flags & MS_RDONLY) && fuse_mnt_add_opt(mtab_optsp, "rw", 0) == -1)
-+		return -1;
-+
-+	for (i = 0; mount_flags[i].opt != NULL; i++) {
-+		if (mount_flags[i].on && (flags & mount_flags[i].flag) &&
-+		    fuse_mnt_add_opt(mtab_optsp, mount_flags[i].opt, 0) == -1)
-+			return -1;
-+	}
-+	return 0;
-+}
-+
- #ifdef IGNORE_MTAB
- #define mtab_needs_update(mnt) 0
- #else
-diff --git a/lib/mount_util.h b/lib/mount_util.h
-index b20a428d99c7..4485d8a29f93 100644
---- a/lib/mount_util.h
-+++ b/lib/mount_util.h
-@@ -24,6 +24,26 @@ struct mount_flags {
- };
- extern const struct mount_flags mount_flags[];
- 
-+/**
-+ * @brief Append @opt to the comma-separated option list @optsp.
-+ *
-+ * @param[in,out] optsp   list to extend, NULL for an empty list.
-+ * @param[in]     opt     option to append.
-+ * @param[in]     expand  extra bytes to reserve for a value the caller
-+ *                        appends itself.
-+ * @return 0 on success, -1 on failure.
-+ */
-+int fuse_mnt_add_opt(char **optsp, const char *opt, unsigned int expand);
-+
-+/**
-+ * @brief Append the flag-mirror part of an mtab record (rw/nosuid/nodev/...).
-+ *
-+ * @param[in,out] mtab_optsp  option list to extend.
-+ * @param[in]     flags       MS_* bitmask the mirrors are derived from.
-+ * @return 0 on success, -1 on failure.
-+ */
-+int fuse_mnt_get_mtab_flag_opts(char **mtab_optsp, int flags);
-+
- int fuse_mnt_add_mount(const char *progname, const char *fsname,
- 		       const char *mnt, const char *type, const char *opts);
- int fuse_mnt_remove_mount(const char *progname, const char *mnt);
-diff --git a/util/fusermount.c b/util/fusermount.c
-index 3031b282a7a6..c7de86f4b12e 100644
---- a/util/fusermount.c
-+++ b/util/fusermount.c
-@@ -556,26 +556,6 @@ static int find_mount_flag(const char *s, unsigned len, int *on, int *flag)
- 	return 0;
- }
- 
--static int add_option(char **optsp, const char *opt, unsigned expand)
--{
--	char *newopts;
--	if (*optsp == NULL)
--		newopts = strdup(opt);
--	else {
--		unsigned oldsize = strlen(*optsp);
--		unsigned newsize = oldsize + 1 + strlen(opt) + expand + 1;
--		newopts = (char *) realloc(*optsp, newsize);
--		if (newopts)
--			sprintf(newopts + oldsize, ",%s", opt);
--	}
--	if (newopts == NULL) {
--		fprintf(stderr, "%s: failed to allocate memory\n", progname);
--		return -1;
--	}
--	*optsp = newopts;
--	return 0;
--}
--
- /*
-  * Build the mtab/utab record string for this mount: flag-mirrors of MS_*
-  * (rw/nosuid/nodev/...) + the kernel-bound -o options + "user=<n>" when
-@@ -585,19 +565,12 @@ static int add_option(char **optsp, const char *opt, unsigned expand)
-  */
- static int get_mtab_opts(int flags, const char *opts, char **mtab_optsp)
- {
--	int i;
- 	int l;
- 
--	if (!(flags & MS_RDONLY) && add_option(mtab_optsp, "rw", 0) == -1)
-+	if (fuse_mnt_get_mtab_flag_opts(mtab_optsp, flags) == -1)
- 		return -1;
- 
--	for (i = 0; mount_flags[i].opt != NULL; i++) {
--		if (mount_flags[i].on && (flags & mount_flags[i].flag) &&
--		    add_option(mtab_optsp, mount_flags[i].opt, 0) == -1)
--			return -1;
--	}
--
--	if (add_option(mtab_optsp, opts, 0) == -1)
-+	if (fuse_mnt_add_opt(mtab_optsp, opts, 0) == -1)
- 		return -1;
- 	/* remove comma from end of opts*/
- 	l = strlen(*mtab_optsp);
-@@ -608,7 +581,7 @@ static int get_mtab_opts(int flags, const char *opts, char **mtab_optsp)
- 		if (user == NULL)
- 			return -1;
- 
--		if (add_option(mtab_optsp, "user=", strlen(user)) == -1)
-+		if (fuse_mnt_add_opt(mtab_optsp, "user=", strlen(user)) == -1)
- 			return -1;
- 		strcat(*mtab_optsp, user);
+ 		error = -ret;
+-		goto fail_fsconfig;
++		goto fail_mount;
  	}
+ 
+ 	snprintf(tmp, sizeof(tmp), "%i", mo->fusedevfd);
+ 	ret = apply_fsconfig_opt_fd(mo->fsopenfd, tmp);
+ 	if (ret < 0) {
+ 		error = -ret;
+-		goto fail_fsconfig;
++		goto fail_mount;
+ 	}
+ 
+ 	snprintf(tmp, sizeof(tmp), "%o", stbuf->st_mode & S_IFMT);
+ 	ret = apply_fsconfig_opt_string(mo->fsopenfd, "rootmode", tmp);
+ 	if (ret < 0) {
+ 		error = -ret;
+-		goto fail_fsconfig;
++		goto fail_mount;
+ 	}
+ 
+ 	snprintf(tmp, sizeof(tmp), "%u", getuid());
+ 	ret = apply_fsconfig_opt_string(mo->fsopenfd, "user_id", tmp);
+ 	if (ret < 0) {
+ 		error = -ret;
+-		goto fail_fsconfig;
++		goto fail_mount;
+ 	}
+ 
+ 	snprintf(tmp, sizeof(tmp), "%u", getgid());
+ 	ret = apply_fsconfig_opt_string(mo->fsopenfd, "group_id", tmp);
+ 	if (ret < 0) {
+ 		error = -ret;
+-		goto fail_fsconfig;
+-	}
+-
+-	ret = fsconfig(mo->fsopenfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
+-	if (ret) {
+-		error = errno;
+-		fprintf(stderr, "%s: creating filesystem: %s\n",
+-			mo->msgtag, strerror(error));
+-		goto fail_fsconfig;
+-	}
+-
+-	mfd = fsmount(mo->fsopenfd, FSMOUNT_CLOEXEC, attr_flags);
+-	if (mfd < 0) {
+-		error = errno;
+-		fprintf(stderr, "%s: fsmount: %s\n",
+-			mo->msgtag, strerror(error));
+-		goto fail_fsconfig;
+-	}
+-
+-	ret = move_mount(mfd, "", mo->mountfd, "",
+-			 MOVE_MOUNT_F_EMPTY_PATH | MOVE_MOUNT_T_EMPTY_PATH);
+-	close(mfd);
+-	if (ret) {
+-		error = errno;
+-		fprintf(stderr, "%s: move_mount: %s\n",
+-			mo->msgtag, strerror(error));
+ 		goto fail_mount;
+ 	}
+ 
++	ret = fuse_fsmount_create_and_move(mo->fsopenfd, attr_flags,
++					   mo->mountfd, NULL, &mfd);
++	if (ret < 0) {
++		error = -ret;
++		goto fail_mount;
++	}
++	close(mfd);
++
+ 	/*
+ 	 * The mount succeeded, so we send a positive reply even if the mtab
+ 	 * update fails.
+@@ -1515,8 +1492,6 @@ static int mount_service_fsopen_mount(struct mount_service *mo,
+ 	mo->mounted = true;
+ 	return mount_service_send_reply(mo, 0);
+ 
+-fail_fsconfig:
+-	log_fsconfig_kmsg(mo->fsopenfd);
+ fail_mount:
+ 	return mount_service_send_reply(mo, error);
+ }
 
 -- 
 2.53.0
