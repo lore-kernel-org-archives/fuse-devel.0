@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570C04E0211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5786B4EE86F
 	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790773876; cv=none; b=c95LBFs53tG23uXDZlp0YYRVTICiHDICaJxlv+6xJrOR9hbF2Tf6l6yTa+9sUKtUsnX6QPmgUDz5lGwv1Be2P2jK0KnWCLyrvv25tguLSG2Ebgmlmj5CS8g2zkK0blJtbTZ5hI4lK9dtaYb/N7dYz3YKfjMaDLM5ki0MmVr+Tw4=
+	t=1790773876; cv=none; b=JRCvLgWIT+2oT4u5QCh78kq//bxfigFtpgzD/J68k/oZ3+CYFuMcF86Z/qyf3Kelg5jtS42sxVwQ1mLcujiSJPSZsDzzLxq8p7TvjR8voNccqNd+FgvxgUaHv/Rtzi0ERMBp5jRmhCbMdzVrgDd7LSQyF+iubrdlxhlrt/SBzMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790773876; c=relaxed/simple;
-	bh=t3LyF6inLnxiBaXewvXQMb/zuC7jlBcg+ihHrWElzn8=;
+	bh=RzmVmyGrWeTmw4MS0ag18rfWarKpOMJ9LVyjqMdtaHs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RaK6aL23c4qQiPoJNOLL+N+6YJvut7RqG+5NbocDXoquGMqsnYb87St2zKwCxsOqH3G09gLE5lfmyLGPAUCXtHDN7bLsrywjq/p/hwo2LQLiOEueBoNQvVczoylLWg9zHbTOgOd/H+DNjzT9v2/QZ1ls/3nCJ8HOeCCUVlHIo98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFv7yPKp; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=opPyfL82tUQte7U6rescdmeYVbShPjZY2uSkZx98Lkz/ZrgUh4gj/OomAUBW57//7Tlite1vKbvOGQN8/d4vhHb1Ub+dRJQ0lfca1vkAC0yC8LCiv3oJEtNMjnQmiIlc0PWS2g7Zz+yq4y/HfHavClHrgrZ3Es0JWi8MHczGn00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vOP7agQ1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFv7yPKp"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4F2D6C4AF1C;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vOP7agQ1"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 072C7C4AF48;
 	Wed, 30 Sep 2026 13:11:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790773874;
-	bh=t3LyF6inLnxiBaXewvXQMb/zuC7jlBcg+ihHrWElzn8=;
+	bh=RzmVmyGrWeTmw4MS0ag18rfWarKpOMJ9LVyjqMdtaHs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=PFv7yPKpQeyMzFUT/E5Xo0k8HWhxtVsUM85StsINiEzaU09FsD/Spb7QLTiPa3fhN
-	 ek5gc98xGljK343Tl10XscT2FCCEgL8GuLmW4MozVNsRve8la+5je0qmWSi0EruREC
-	 cm/J3oDaHcQITUB3SRpr5c4TgAc2mepx1iI99J0X2pzMH3x0vZHkdydNQk3vZwMTiy
-	 o5+NykMqWVuSm75kF2lUneV3ser2lxw6VsMIpeWsIMlJ9O66iW/Io1BS+RVEXNWJFf
-	 neczLTPnZDAFYHoeGyJfDNDsRY9jk0klyWIeDkFnj6AEqYdrbs/senZAizH/lnQav6
-	 s/emJfe4PuTQg==
+	b=vOP7agQ1QcoNm3I8e2o011Choz4LkqjciRDvoA/EeBmw9EldUr4GVmxTwP0G0XfpF
+	 ANQOag/D82Wa1s10hyrSqu38Afm2AcgjKlExHyws5O2yX3rsksQsZlWZdDAcuKV13W
+	 edy02eqPRRFd4zz924bDRIeUZEQmrq3LRAnBEuVRBuad3jV2MTBRSl65wu15kZ/3dq
+	 J9R2Rn2qfcOU+xcnwuiaIGleOFhR/2BkpSlRLyTBDmQd94WvELZFPuDwgBGZtveD16
+	 nbA17EALCPBZOwFXzskYn9HLf2NwZESSH6i5y670bj4vEf/6eKXaaOf2hGXUP1h/Fd
+	 gLu0Ve9biwtzA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2EBCA5FC7;
-	Wed, 30 Sep 2026 13:11:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB677CA5FC7;
+	Wed, 30 Sep 2026 13:11:13 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Wed, 30 Sep 2026 15:11:06 +0200
-Subject: [PATCH v3 12/15] fuse_service: bound argc and arg len read from
- the args memfd
+Date: Wed, 30 Sep 2026 15:11:01 +0200
+Subject: [PATCH v3 07/15] example/single_file: take no sector size from a
+ regular backing file
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,21 +41,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-mount-service-bound-open-v3-12-e26c5e4eca4c@bsbernd.com>
+Message-Id: <20260930-mount-service-bound-open-v3-7-e26c5e4eca4c@bsbernd.com>
 References: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
 In-Reply-To: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
 To: fuse-devel@lists.linux.dev
 Cc: "Darrick J. Wong" <djwong@kernel.org>, neal@gompa.dev, 
- Bernd Schubert <bernd@bsbernd.com>, 
- Keerthana KT <keerthana@labs.digiscrypt.com>
+ Bernd Schubert <bernd@bsbernd.com>
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5445; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1161; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=BxeU1pQss/wAAqpeFuAmS/Sxo0Zdk2KcQbKBpKS15kM=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2cuWdr9ieJqnGsqNk2UVWxdg/mqldywNqXdnXKOw4r
- yDfkhLeUcrCIMbBICumyNIlscd2yj8+WbWv66/DzGFlAhnCwMUpABN5+Jbhv8cRsceGzhcb6x/O
- 8nf6kLbx4sYWB02bIs1VOqGXJoXWL2D4Z/zGel1knovD1Ic1if11LjuniDE/flex8/NFrTPb9+2
- exwUA
+ bh=EaHgkvpPQR5rqjfDXehncXfjfUOjcvESPDPi9Xn4UQY=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2cuXcqG8Tzg7rPLfs7rdkdtbJayvef+G/d7/BP26za
+ onzuVPhHaUsDGIcDLJiiixdEntsp/zjk1X7uv46zBxWJpAhDFycAjARgTmMDJffHvu4afncaxqF
+ oRYBC+f0mbxj/xO+Nkzh5loP3Z7zd24y/C9oyfjBtP+Jx81r+nMOXS0zNl4201/jstQ1e/+rDoE
+ 5m5kA
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -63,143 +62,36 @@ X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
 X-Original-From: Bernd Schubert <bernd@bsbernd.com>
 Reply-To: bernd@bsbernd.com
 
-From: Keerthana KT <keerthana@labs.digiscrypt.com>
+From: Bernd Schubert <bernd@bsbernd.com>
 
-fuse_service_append_args() takes the argument count and each argument
-length straight from the args memfd, which this file already treats as
-untrusted (see the SO_PASSRIGHTS guard against a malicious mount
-helper). Both fields are uint32_t and feed allocation math with no
-bound: calloc(memfd_args.argc + existing_args->argc, ...) wraps in
-unsigned arithmetic and undersizes the argv array, while
-calloc(1, memfd_arg.len + 1) wraps to a zero-size buffer when len is
-UINT32_MAX, which the following pread() then overflows.
+single_file_configure() took the sector size of a regular backing file
+from st_blksize, and refused to start when it was larger than the page
+size. For a regular file st_blksize is only a preferred I/O size, and
+the file is not opened with O_DIRECT, so any offset works. NFS reports
+1 MiB there, so service_ll and service_hl failed on an image on NFS
+with "lba size 1048576 smaller than blocksize 4096".
 
-Nothing bounded the memfd itself, so cap it on both sides with a new
-FUSE_SERVICE_MAX_ARGV_SIZE. The mount helper refuses to write a string
-that would push the file past the cap, and the server fstat()s the file
-and refuses to parse one larger than it. The file size then bounds the
-rest: argc cannot exceed the number of iovecs that fit between the
-header and the strings, and no string can be longer than the file
-holding it. An argc of zero is rejected as well, because only the first
-loop iteration assigns argv[0].
-
-Signed-off-by: Keerthana KT <keerthana@labs.digiscrypt.com>
+Assisted-by: LLM
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- include/fuse_service_priv.h | 10 ++++++++++
- lib/fuse_service.c          | 40 ++++++++++++++++++++++++++++++++++++++++
- util/mount_service.c        | 10 ++++++++++
- 3 files changed, 60 insertions(+)
+ example/single_file.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/fuse_service_priv.h b/include/fuse_service_priv.h
-index 988f7c9251c8..84e6948d771c 100644
---- a/include/fuse_service_priv.h
-+++ b/include/fuse_service_priv.h
-@@ -23,6 +23,16 @@ struct fuse_service_memfd_argv {
+diff --git a/example/single_file.c b/example/single_file.c
+index 59dbc6bbac5e..4260ecf3c5f5 100644
+--- a/example/single_file.c
++++ b/example/single_file.c
+@@ -887,7 +887,8 @@ int single_file_configure(const char *device, const char *filename)
+ 		perror(device);
+ 		return -1;
+ 	}
+-	lbasize = stbuf.st_blksize;
++	/* A regular file takes any offset; its st_blksize is only an I/O hint */
++	lbasize = S_ISBLK(stbuf.st_mode) ? stbuf.st_blksize : 1;
+ 	backing_size = stbuf.st_size;
  
- #define FUSE_SERVICE_MAX_CMD_SIZE	(65536)
- 
-+/*
-+ * Upper bound on the whole argv memfd, as opposed to FUSE_SERVICE_MAX_CMD_SIZE
-+ * which bounds one socket command.  Both sides check it: the mount helper
-+ * refuses to write past it, and the fuse server refuses to parse a file larger
-+ * than it.  Generous next to any real mount(8) invocation, but small enough
-+ * that the counts and lengths the server reads out of the file cannot overflow
-+ * the allocation math they feed.
-+ */
-+#define FUSE_SERVICE_MAX_ARGV_SIZE	(sysconf(_SC_ARG_MAX))
-+
- #define FUSE_SERVICE_ARGS_MAGIC		0x41524753	/* ARGS */
- 
- /* mount.service sends a hello to the server and it replies */
-diff --git a/lib/fuse_service.c b/lib/fuse_service.c
-index 0a05b3fbc1f2..af08e919eebb 100644
---- a/lib/fuse_service.c
-+++ b/lib/fuse_service.c
-@@ -629,8 +629,10 @@ int fuse_service_append_args(struct fuse_service *sf,
- 	struct fuse_args new_args = {
- 		.allocated = 1,
- 	};
-+	struct stat statbuf;
- 	char *str = NULL;
- 	off_t memfd_pos = 0;
-+	off_t max_argc;
- 	ssize_t received;
- 	unsigned int i;
- 	int ret;
-@@ -656,6 +658,34 @@ int fuse_service_append_args(struct fuse_service *sf,
- 	memfd_args.argc = htonl(memfd_args.argc);
- 	memfd_pos += sizeof(memfd_args);
- 
-+	ret = fstat(sf->argvfd, &statbuf);
-+	if (ret) {
-+		int error = errno;
-+
-+		fuse_log(FUSE_LOG_ERR, "fuse: service args file stat: %s\n",
-+			 strerror(error));
-+		return -error;
-+	}
-+	if (statbuf.st_size > FUSE_SERVICE_MAX_ARGV_SIZE) {
-+		fuse_log(FUSE_LOG_ERR, "fuse: service args file too large\n");
-+		return -EBADMSG;
-+	}
-+
-+	/*
-+	 * The array of argv iovecs sits between the header and the strings, so
-+	 * the file size bounds argc.  Reject a count the file cannot hold: the
-+	 * sum below is computed in unsigned arithmetic and would otherwise wrap
-+	 * and undersize the array.  argc 0 is rejected as well, because only
-+	 * the first loop iteration fills argv[0].
-+	 */
-+	max_argc = (statbuf.st_size - (off_t)sizeof(memfd_args)) /
-+		   (off_t)sizeof(struct fuse_service_memfd_arg);
-+	if (memfd_args.argc == 0 || memfd_args.argc > max_argc) {
-+		fuse_log(FUSE_LOG_ERR, "fuse: service args file argc %u invalid\n",
-+			 memfd_args.argc);
-+		return -EBADMSG;
-+	}
-+
- 	/* Allocate a new array of argv string pointers */
- 	new_args.argv = calloc(memfd_args.argc + existing_args->argc,
- 			       sizeof(char *));
-@@ -722,6 +752,16 @@ int fuse_service_append_args(struct fuse_service *sf,
- 		memfd_arg.len = htonl(memfd_arg.len);
- 		memfd_pos += sizeof(memfd_arg);
- 
-+		/* memfd_arg sanity check */
-+		if (memfd_arg.pos > (uint64_t)statbuf.st_size ||
-+		    memfd_arg.len >= (uint64_t)statbuf.st_size - memfd_arg.pos) {
-+			fuse_log(FUSE_LOG_ERR,
-+				 "fuse: service args file argv[%u] pos %u len %u out of range\n",
-+				 i, memfd_arg.pos, memfd_arg.len);
-+			ret = -EBADMSG;
-+			goto out_new_args;
-+		}
-+
- 		/* read arg string from file */
- 		str = calloc(1, memfd_arg.len + 1);
- 		if (!str) {
-diff --git a/util/mount_service.c b/util/mount_service.c
-index 84e9d831ce03..18e0481a07d2 100644
---- a/util/mount_service.c
-+++ b/util/mount_service.c
-@@ -442,6 +442,16 @@ static int mount_service_capture_arg(const struct mount_service *mo,
- 	};
- 	ssize_t written;
- 
-+	/*
-+	 * string_pos already covers the header and the whole array, so this
-+	 * bounds the entire memfd.  The server rejects anything larger.
-+	 */
-+	if (*string_pos + (off_t)string_len > FUSE_SERVICE_MAX_ARGV_SIZE) {
-+		fprintf(stderr, "%s: memfd argv[%u] exceeds %ld byte limit\n",
-+			mo->msgtag, args->argc, (long)FUSE_SERVICE_MAX_ARGV_SIZE);
-+		return -1;
-+	}
-+
- 	written = pwrite(mo->argvfd, string, string_len, *string_pos);
- 	if (written < 0) {
- 		fprintf(stderr, "%s: memfd argv write: %s\n",
+ 	if (S_ISBLK(stbuf.st_mode)) {
 
 -- 
 2.53.0
