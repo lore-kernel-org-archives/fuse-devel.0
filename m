@@ -1,437 +1,252 @@
-Received: from mail-lr2-f34.google.com (mail-lr2-f34.google.com [74.125.230.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012019.outbound.protection.outlook.com [40.107.209.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 735373A5E9F
-	for <fuse-devel@lists.linux.dev>; Tue, 29 Sep 2026 20:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.98
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790715356; cv=none; b=hzfyzKCbrF3Yh49PVDfMvv5Lcv6JbqtzJjM8fPgfKi/vDySd/2pBOsYt252EGq4Z5S96Mki5ZCak2LLEf+89DsZe8Xq9LkROOzaoGr1XHMSA3N88CLKdP3zlL8lClccRr932VcSlyeY1fZm6qNtQqtdTD4iEu2G7e9UhpV6lbfw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790715356; c=relaxed/simple;
-	bh=fmjR5znDuXAP+eGjxPWNBzmgAiD4HsAGBUk7tghgSfE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=POhxsKLB5usuRGaNb7sus0SLf1nX9T65MchTBmUSh9syDxSzZzwCvQne/tXJG4qepKtLapowHOzW39Yoobb/419kv/ZirYrb6cN71MjX0TK9T5NJ1ojhuSucFXrg2Ypcztv5vRxqbm3Ej7OA1EZcQ7tzOARq97WCkyGNze5cYsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=har.mn; spf=pass smtp.mailfrom=har.mn; dkim=pass (2048-bit key) header.d=har.mn header.i=@har.mn header.b=clQBa9tt; arc=none smtp.client-ip=74.125.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=har.mn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=har.mn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94963331202;
+	Wed, 30 Sep 2026 02:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790733637; cv=fail; b=gvRddusQ8nvJwrwRTULR6F3EMCVVDygADI9mcOOIwjraEBP6xMiQaNnVjJGDuetY495hKNCwpSzugOK59TuD9EgKk45ye4gmclBB49XMmw2kof8sC0Kb79GDo/o+tRHfbGmkTQ151qey73nBu7361sJ7eOmNAb3OqFeo7TxGVjA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790733637; c=relaxed/simple;
+	bh=oJrmVOClybU2YYMvn0vf4Rvy4dJwI1YObVYdFE8bJEc=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:References:
+	 In-Reply-To:MIME-Version; b=Rb6SZBLIhKPmTypUn2br6c8hGLVelEDwWcIccCIsHz2d75wfj27jWxzx0PLvNf89mDieJueidMJPv5bkNnZyzl8rYat/RN36KGmCTCuDwyYQAW4i4Spjb/MWa5J9v51m2chP5JfR1xes9XkMFtx9YetkFLuI1ES+QOpiltP0jLI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ct+So3rJ; arc=fail smtp.client-ip=40.107.209.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=har.mn header.i=@har.mn header.b="clQBa9tt"
-Received: by mail-lr2-f34.google.com with SMTP id 38308e7fff4ca-3a772de44c5so999531fa.1
-        for <fuse-devel@lists.linux.dev>; Tue, 29 Sep 2026 13:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=har.mn; s=google; t=1790715352; x=1791320152; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2jHb5XJ9mbC6EVlnTfZ+WcK6KQ0TTrHYytvslAEWIq0=;
-        b=clQBa9ttUAUX5Uj9DQopIhRwT9kXtg2nrype2zdP0YTIScOm49zmv2E/roFZWtH9J6
-         pvnj3PAymc7URm0i+Il3uckpb2COX82VPPwOeHJscYNGprZVY3by//u8k4tBN+RBWIma
-         0Hd8HrTRdXjQo3FgBrpQdnfUTP+88nBzJlqHq3S8Gn7ACABtRykEeiIuId96cq9go1Lr
-         URA1b/rn/x7+TOP9v7XT7z88n6WXGYejqDYOqkYrQXw24Iq8rzqndMu49vKUhNkOJ237
-         KgS2LPHNIPYev8sYHB4rMudpHwo+1yofyNMIWjbDqvmI+/BVbDg7UI2hh57OgZbNC2RI
-         SUgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790715352; x=1791320152;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2jHb5XJ9mbC6EVlnTfZ+WcK6KQ0TTrHYytvslAEWIq0=;
-        b=YbvQ46bdmmzwE+EGtXhQWrwjpes5OJXzxXbGa+ykSJJ5fmEHG7r8WSJcsdQhDmuD1l
-         sd76WmU4FpeMNc+EPRAxDz7bqfQ6Jz1aCvrMYEfPBQtxalSfpfLZC7po/RuPqItXfxgc
-         QM1jzIlEZj0pORoKdhImIfizG0PDKI8bHcNgutWSG1x/XhQBX5IPGln8ZR1ic7fN7y/8
-         6VGf3reIvpbGGx0Ca4hE87j6bltnFo0FT5//ED+FtkB3GDffeZpWEQfDRNG++AQnHQsy
-         pR/0pGN2oc+VBXhhZdkem6Xvt6ues7qfnPJ8G6S+twhKDNtpEhX0sVA5xv3om4rrTLXr
-         6qbA==
-X-Forwarded-Encrypted: i=1; AKwUvBwZTBzQePZ/y4D6m3NqXtLsLLKSMg4nLPWdoMJ4gZZWu1YTFe+p9m68iImyf8WWM4ZCfM30YxJoVPJC@lists.linux.dev
-X-Gm-Message-State: AFq9FYIRJc9kwZWWEwPcDFcuZgsyLS67P5zPyqUPDl05qLMe5xiionGx
-	1M4+rEeNDdAPJV7FQFI8Gvkl/82E+7lbK0qOJ42W7BAh2UdukMEmzxnoVT9IzYOTyDRtPbsiUva
-	5hEF0cXsA
-X-Gm-Gg: AYBFou1afX7SRydTTaDPBMOsZ4UMXfCizRsgPanri0eeOOMqYut5ADFFzeLxjv9unLZ
-	tJjmDeXmCj8lCchH0x5PYIRW3Fm/t1Mj90UCY6DXbSu37zupqzABmGPQhj+G12e6MoLeOucCoo7
-	4GIa8skpO7MinI/7JkPYaP+x7uJ+PkyZxgcY8OR6n2QdTYzwkKmdVRLCFpK/T7x1ur+tz5la7Vd
-	UaBvJHIXnsQPTNAuAQI3pjeQ0qpXeTZMU0z4pa7MT2RK3PKIZE0awVnjPK9imemoDXo7bca/Tpl
-	0Rt6IhCTJT8RdWDD6T9PrkujfFmS3by4ykan4LWCYJXM68YOEVZj5MsiA/+uGIlXv1pk3a6/zvY
-	3jOslYKnCPUrk7BHyVk5u+WJKhY1ZLHhHyit/4m9ImRJoHZMIuusFc1u9MlhuijMfXM8Si/Y7mB
-	OkBqCLTYBey077yrtde4crLy9rf/NZ9WiXW+YScXHzdL61sZmxpRSMK860OjZsvQNHDOaYihexA
-	B/jFDbL9ZAraU48APsXb0Y38T6fK4RI8vE=
-X-Received: by 2002:a05:651c:a103:20b0:3a5:b6af:2973 with SMTP id 38308e7fff4ca-3a77177f22emr1159181fa.5.1790715352350;
-        Tue, 29 Sep 2026 13:55:52 -0700 (PDT)
-Received: from mail-lr2-f34.google.com (mail-lr2-f34.google.com. [74.125.230.98])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a771934cdbsm1693581fa.31.2026.09.29.13.55.50
-        for <fuse-devel@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2026 13:55:51 -0700 (PDT)
-Received: by mail-lr2-f34.google.com with SMTP id 38308e7fff4ca-3a772de44c5so999281fa.1
-        for <fuse-devel@lists.linux.dev>; Tue, 29 Sep 2026 13:55:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxY/KFmTpVhOMfzybDpt1ZG3TaHQO8jWDDaGA27KdmMdMnBEp76IOn59boEmeEZ6cIgI3fpNkqdFJWk@lists.linux.dev
-X-Received: by 2002:a05:651c:4214:b0:3a6:566a:5ca1 with SMTP id
- 38308e7fff4ca-3a77191a593mr1463641fa.21.1790715350365; Tue, 29 Sep 2026
- 13:55:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ct+So3rJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mz6bMDrTSsJCjw/YJlCnePVsGUPyTiy5egoH0kWPIaDhHi17m/ATFQ23D7kRYcUCKJbtwdrPNPj3XWmRndxsGKFhA9t4kxyq4zx4yadkNWH2MWogGB+MAJhtur0NAKxkQfHhKGTMa0eEQEDZvXq85p2LAMyWV30ahiXu21AuByV2ypBPcdZDxrz+Q92mp6ml4NXpykQRyZdwW6LWaxEVay3jq6gCYL3U8eexulHkNr3an3EH3UkIQyC6sdKZbYYfUnD5r4bRwsTUnDBL/4e3605GJc30D0ssfmlIpwMkyWB4sIoAmg0zjWJ2d7J+I8a6VzZujffgIiqVsMIsdfTaTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C8C4go8E0RZzT+lyzfFvWXB7B6s98fohaHidZDOAA/w=;
+ b=KZOxlmM7yRSQuDtwKavGG8SSC0VqL76FM7Tl1Ys41bq5pHnQHiMGCOhjowLeLj5rtlVkCGKidFUm4vaRxxcvAVQCUuVPQOsMTGcpZ/BkKvwm7JkSIjg+GS0IM9xoXd1hMc4mfu0l6F8hR/Xl3EQjNQs1SqBsjCWWJkkV14oZfkE8cbK3Z4rqd64PRc07EOU0HbrBClQf1ZbRO7Icap5kWoJVTUCfzPuh5/P6nAPCbMxJvHRg4ukurqtX9gJXTFj1MSghtGSkTz+rAmKBbj4s/8TvpmIVLeszWQTH4RDkNAXh7rUdqpVgIiOmoVWJhv06FxTn2zGz3Y1F4Ih6RwX3+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C8C4go8E0RZzT+lyzfFvWXB7B6s98fohaHidZDOAA/w=;
+ b=ct+So3rJDkU0SqKtyNlsQMApkkYbhC0FnHr+dREN+i0KQimHQqPVPgrigWHJjBk+V9T757jAFM6eq8gnpjdhrc2WJpznUlvQ7wrS/u0VwNKOaSdytReGI44osgbms04GLAAlSXmykaPFpvhDp6/S1Ly4nBQfZ+NKEk1Qfq61jUypan+0Jognlk6YsGGTwJbu9LSE0uTwtO1ioHtzAidk1pE2iwp8MYzqWO/RV9s7X5A/JWZnP5OFqlagnuwMvmv0vyKefROu/mMFwxIeZB8FtdLjeiQAMroqSXqFhdjJDWK9xsD1Ua5XfrYD+2KCHMFoFIT1X4SNmx5m1yVAPc2SjQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com (2603:10b6:208:40e::7)
+ by SJ0PR12MB6968.namprd12.prod.outlook.com (2603:10b6:a03:47b::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Wed, 30 Sep
+ 2026 02:00:25 +0000
+Received: from IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16]) by IA0PR12MB8374.namprd12.prod.outlook.com
+ ([fe80::d85f:4c87:ae84:3f16%6]) with mapi id 15.21.0451.022; Wed, 30 Sep 2026
+ 02:00:25 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 29 Sep 2026 22:00:20 -0400
+Message-Id: <DLSA38L0GZRA.3J8T0HX37HNQX@nvidia.com>
+Subject: Re: [PATCH v3 31/40] mm/vma: introduce vma[_flags]_is_persistent()
+Cc: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, <selinux@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-scsi@vger.kernel.org>, <linux-fbdev@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-trace-kernel@vger.kernel.org>,
+ <linux-perf-users@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-fsdevel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <kvmarm@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+ <kvm@vger.kernel.org>, <kvm-riscv@lists.infradead.org>,
+ <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, <fuse-devel@lists.linux.dev>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka" <vbabka@kernel.org>, "Jann Horn" <jannh@google.com>,
+ "Pedro Falcato" <pfalcato@suse.de>, "David Hildenbrand" <david@kernel.org>,
+ "Mike Rapoport" <rppt@kernel.org>, "Suren Baghdasaryan"
+ <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>, "Jason
+ Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>, "Paul
+ Moore" <paul@paul-moore.com>, "Stephen Smalley"
+ <stephen.smalley.work@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>, "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>, "Andrii Nakryiko"
+ <andrii@kernel.org>, "Eduard Zingerman" <eddyz87@gmail.com>, "Kumar
+ Kartikeya Dwivedi" <memxor@gmail.com>, "Baolin Wang"
+ <baolin.wang@linux.alibaba.com>, "Nico Pache" <nico.pache@linux.dev>, "Ryan
+ Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>, "Barry
+ Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>, "Usama
+ Arif" <usama.arif@linux.dev>, "Kiryl Shutsemau" <kas@kernel.org>, "Doug
+ Gilbert" <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter"
+ <simona@ffwll.ch>, "Helge Deller" <deller@gmx.de>, "Sebastian Reichel"
+ <sre@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Peter Xu"
+ <peterx@redhat.com>, "Masami Hiramatsu" <mhiramat@kernel.org>, "Oleg
+ Nesterov" <oleg@redhat.com>, "Peter Zijlstra" <peterz@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "Arnaldo Carvalho de Melo"
+ <acme@kernel.org>, "Namhyung Kim" <namhyung@kernel.org>, "Mark Rutland"
+ <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>, "Harry Yoo"
+ <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>, "Vincent Guittot"
+ <vincent.guittot@linaro.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Will Deacon" <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, "Nick Piggin" <npiggin@gmail.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, "Muchun Song" <muchun.song@linux.dev>, "Oscar
+ Salvador" <osalvador@suse.de>, "Matthew Wilcox (Oracle)"
+ <willy@infradead.org>, "Jan Kara" <jack@suse.cz>, "Marc Zyngier"
+ <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>, "Catalin Marinas"
+ <catalin.marinas@arm.com>, "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>, "Janosch Frank"
+ <frankja@linux.ibm.com>, "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>, "Gerald Schaefer"
+ <gerald.schaefer@linux.ibm.com>, "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, "Andreas Larsson" <andreas@gaisler.com>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, "Christian Brauner" <brauner@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, "Joshua Hahn"
+ <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>, "Byungchul Park"
+ <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>, "Ying Huang"
+ <ying.huang@linux.alibaba.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Chris Li" <chrisl@kernel.org>, "Kairui Song" <kasong@tencent.com>, "Kemeng
+ Shi" <shikemeng@huaweicloud.com>, "Nhat Pham" <nphamcs@gmail.com>, "Baoquan
+ He" <baoquan.he@linux.dev>, "Youngjun Park" <youngjun.park@lge.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>, "Axel Rasmussen"
+ <axelrasmussen@google.com>, "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu"
+ <weixugc@google.com>, "Chengming Zhou" <chengming.zhou@linux.dev>, "Michal
+ Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>, "Xu Xin"
+ <xu.xin@linux.dev>
+From: "Zi Yan" <ziy@nvidia.com>
+X-Mailer: aerc 0.22.0
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org> <20260917-b4-mmap-prepare-vma-flag-sanify-v3-31-4583d8a23bca@kernel.org>
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-31-4583d8a23bca@kernel.org>
+X-ClientProxiedBy: BN0PR03CA0057.namprd03.prod.outlook.com
+ (2603:10b6:408:e7::32) To IA0PR12MB8374.namprd12.prod.outlook.com
+ (2603:10b6:208:40e::7)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260927141437.1432584-1-russ@har.mn> <20260928014357.2285448-1-russ@har.mn>
- <CAOQ4uxiD9ofGEG+CkjszGaHygPWH7S4nob03XRNXUCrze5n91w@mail.gmail.com>
- <CA+zrezRqjY3_V1cDRpTVsXY-d_2CEVkhPqjWiztuKH1CG63jUQ@mail.gmail.com> <CAOQ4uxj4xQ9Z=9JH=U21iHnfLBQLboz5dsivigKicWS22M+zgQ@mail.gmail.com>
-In-Reply-To: <CAOQ4uxj4xQ9Z=9JH=U21iHnfLBQLboz5dsivigKicWS22M+zgQ@mail.gmail.com>
-From: Russell Harmon <russ@har.mn>
-Date: Tue, 29 Sep 2026 16:55:23 -0400
-X-Gmail-Original-Message-ID: <CA+zrezR3vZOH4-DJbu7kRu=qXF4RSWUxz3BjpnOou_vy6eDcwQ@mail.gmail.com>
-X-Gm-Features: AclHuK_-sxgW41FSNSTiQINVXT69kVMm9iJRYozv6Nn2_kkXLQhD03LnrOFFrWg
-Message-ID: <CA+zrezR3vZOH4-DJbu7kRu=qXF4RSWUxz3BjpnOou_vy6eDcwQ@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: add inode generation number support
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: miklos@szeredi.hu, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, fuse-devel@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Bernd Schubert <bernd@bsbernd.com>, 
-	Luis Henriques <luis@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PR12MB8374:EE_|SJ0PR12MB6968:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf8ca4dd-8368-4532-03e0-08df1e9697c2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|6133799003|921020|4143699003|11063799006|10067099003|56012099006|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	9UETUuqxC6BxW+AaorBBKCVEMTd2k9V9YibvYTnUVINMFcXVpJ/rYiWoXlLMJbE3TkiXa431HZI5MgF508iEqHgpNayB+mPCIFDBXsYUSBC4D3y1jXo9MJOwQ1usPWLG1Da5iCEXLNLu+Bihu7hkyBABUQcBLEdlWpqCNLc9EaVT+YfxH7U8IE9nFSw3IzrhcqZvqrgRaoeso5lpQfJapKliwaJXBR48CcjcOYNLubWfqJ1efgFYj4SHPSaR+BIpR2FlXKq+NbZ8iuVZKcaNQh1Nd4/Rkzd8JyD9QF/EJK/XstJY8zb94bJIiWYmJFpKWkKN5ateZBj6gj+VtP3oSeWEUaHA5LjPcWk03OXaBW2lzP/CTyw1N/WlthRVf+2Uaqq0r1pC1PRKlyURBcs1s6gLHA/gW5mbuTtDKX9gEPc+vf0M7WABgkUZy2kd9fFNjJGItWRB4HXlP+8H/bDyBX8j9n0Mn7wL3CVO6aDI2O0Av84JLvxtcsvHR08XMleNDopfzfXISTygNgu3botbE+76rh2SEYB59vqlDbJfTXZnFs9PsmTASogutcfYYIssKMXE+2rS4M2LKebEmyEjvBQ91xaCD+Kox+9w7SF+RzG4NjcYPzGMpW1qJSDYVHCypsWAL4Mzjk95y04SY4YTI/ElC2tLctNvH4VulxA2Ef9eR1RBx7L+bvPq5V/7GHAN5WHtOLBRqoyDBMhmsk4sLA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR12MB8374.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(6133799003)(921020)(4143699003)(11063799006)(10067099003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UHVLZ3A2R2J1Z2ZHYkg2NHhiWmhjaHZ5UXRLRU1JQlpWVmFac04va3c1bjJM?=
+ =?utf-8?B?bVRjVldMTXdKSjUzMXlwK2VkWHpmTEVvaDhnUVdISG56MXdkQ1ZmNVNXU01C?=
+ =?utf-8?B?Znk3NXg4cFZWcVoyNStmbnRka3hVZVJCd3VCeC9laDE5MFRJcVMvREdQL1RG?=
+ =?utf-8?B?amE2THd1a24yWFczaGc4akE5eHFkZlo4R0pWQTFma24wWnh3bHUwT3lNMHNC?=
+ =?utf-8?B?MS81ZHZscHJNVUtGdVpCaVI0N1JHVC8welRHc0dtTWlZUkZYb0JuY0NobFln?=
+ =?utf-8?B?UlBxNElseFdzZG8rdGJwdzJ5bGJiS2gxSDF0SGJUd1kxa2pjbG5XcG56U0p4?=
+ =?utf-8?B?V1ZNRi94M0thNTR1NGE0SXhRYXpYcjliM1dzeE1TM1UydTNyU3c1R3NHR1Mv?=
+ =?utf-8?B?aEthNzNsb3BXZG1wNGdXL3JUZ1NpWVZZN01DcDFXUVFlM3BuSFhIYlI2ZzB3?=
+ =?utf-8?B?ai9qc2tqNXlyazZkbFVZOHVMZ25kQVhJQzZyRnkvSk5qaS90VmsxTjZjWmhN?=
+ =?utf-8?B?NFg4Nk9vVXZYcmgxNXdobHBTSnlJV3VDK0hnZm1JS0dxeUZWcW9ENzRKRDh4?=
+ =?utf-8?B?eEVMUVpkTFRzYlRJNUg5dVY2RTFpS1k5SHJKS01UZUYybW1jcFdGM2p4MTdP?=
+ =?utf-8?B?OFkzaGt2VFRjOVVyQlNSQzFYZWptaEcwbU9vdy9OaVc0UzJtQ0RMRm5QM3I2?=
+ =?utf-8?B?dDFWMUswZU9PVjN0R01HenFiM2xOMzk3a0hzY0w4elJxcEFVdjBLaW1OaEdp?=
+ =?utf-8?B?Vkx0dGZ0TFNXOW14cldGd2EzMm1UWVR5aVo0L1h5ZGFEY29VdWVCUXM0Znkx?=
+ =?utf-8?B?NWgzUGcrNWFjVVY0WEhGWG1vbWltS3M5V1ZrejlwVFVyM2p6eVcwTUxRZi9L?=
+ =?utf-8?B?MWJLQ0I4bUM2VE96UEhJOGpvTEh5Q1JMdVp1S1VUbUEzalprT1RUZzQza3ZP?=
+ =?utf-8?B?RXhBRWREZGZ0amhlRVEzbzhwaGpMOUt5U0d1aU5Vc3RncHNLUXB4ZTBYcVRS?=
+ =?utf-8?B?d1ZyVXVCRU1RR0NIbzVUSWY0dGhFU3lza0hsNHY2TzByTktjSmRST3FMTUk2?=
+ =?utf-8?B?WE1Jc1p3T0d0SFhydVEyd012SGhLczgybTQvSW9NTlQ3VHRhWUdtd1pZU1BO?=
+ =?utf-8?B?ZktxUURiOSsyT3Nwem1lYmx0NWZXalBVU3NjdFBTQWdVaDVQcFdJZlBPN09n?=
+ =?utf-8?B?bUZ4N2RFK1RzNkxjUHlkWnFOVzYxNVJ2VVluWmFpdHNQeGN6YmR3cElzOFkw?=
+ =?utf-8?B?SFIvQ0lodCtyWDc3K0Z4OTAzSnlVUnFYQTlsemRhckFPQm5lWGNEMkZMd2x5?=
+ =?utf-8?B?dUNoaStJWXgxS3kyTm13eDRXOUFubUFJTnF0ZzdDNjVEZkMrTjNQVjVucEhO?=
+ =?utf-8?B?eEQ2M2xKNG5VUFhHNlk5akpxbDBoWmpVYXduZFJ3Z1hSbmpWVzNJbXVWc2hP?=
+ =?utf-8?B?WDdubThRdEFVb1J6dGhJZWFpT3RlUVVkWFQ5YU8zUVJLaW5CbkNWL2pibUxS?=
+ =?utf-8?B?UGp3ckYvd0JuTHRsYmRBeTBmSElyWFVrNS85UTlqd3lKdXZsaERmaDN6QUVy?=
+ =?utf-8?B?a0UzT3ZEMk12RytzM09wekhDNmVjK2RzK1pJTDlqc0VuMXgrS3pxT0N3eUxW?=
+ =?utf-8?B?ZU9YZGVqVXduQUtvMmFmZzJ1RFE1QitSS3N6bHFWM1JXNzZsdjZZc0pyZUtG?=
+ =?utf-8?B?VloxTDZRMnU4RXpubTArQ2QyOUdSVjR0bzZuVTRDWGN1YjRrdURIejM4YUpN?=
+ =?utf-8?B?SERYVkx5SFNHYlhZUEFIeEZweUlBa2k2WnFXQlF5WFU0eUd1VDFUVGNSRGxC?=
+ =?utf-8?B?UFVVMEJZQVAzWjZQSEVNMUVtcWtLK1JDbnovQng3OHRwUFM2RjV5dzN2T1gz?=
+ =?utf-8?B?U3pIaEZ3S3hPdWszRXdBMGZHWUdEVlVobU40eHU5MGpPdnQ5b2J5M0huMFoy?=
+ =?utf-8?B?dlRzUWtTUXpOTHhBYUxnOVFIcFJNdk91a1g3cm51UjAzRkh0K3Zzc3ZHaHE2?=
+ =?utf-8?B?MW9TREFzMzVXZXBJZElVaUI4Ni9WRlJ2WGtDNWxiSUZTOENxS0hINnUrTGN5?=
+ =?utf-8?B?R0NQNGJHeCtSWHlmQmNHRTlKNE5SRExJUVJYa0ZKUlh2cUhtQS9tUzFmZ3p5?=
+ =?utf-8?B?c0hHMjFFQnlZNExwRlpqclRTbGk1RWVNOEFncVFScEJXY29SL2JqMFhKb1NH?=
+ =?utf-8?B?NXFWUnczdVJ4S1RRZTNsSjQ4RXN2OUwzV3RoTFhreUtyUG9HdHhROXY2STVz?=
+ =?utf-8?B?VCt1djFlRXlDRmRTWnN2SldrZEJIRE9ncVovMFNoRlVieTcySDMxdUNUN1BU?=
+ =?utf-8?Q?0z6NrChSeGdg8Lhdr7?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf8ca4dd-8368-4532-03e0-08df1e9697c2
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR12MB8374.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 02:00:25.1595
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XpgzFGRK+a8ufYfR4cKWq2uXAP5cOmiWR/+CojWNyW7YTQ5GV3Qk1KgEKWMsZ2cl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6968
 
-On Mon, Sep 28, 2026 at 9:54=E2=80=AFAM Amir Goldstein <amir73il@gmail.com>=
- wrote:
+On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+> Introduce vma[_flags]_is_persistent() for the purposes of identifying
+> mappings that are persistent in the sense that bytes to the mapping stay
+> there, and bytes read from the mapping are the same unless changed by
+> actions taken by userland.
 >
-> On Mon, Sep 28, 2026 at 6:04=E2=80=AFPM Russell Harmon <russ@har.mn> wrot=
-e:
-> >
-> > (re-sending in plaintext)
-> >
-> > Thanks for the review! Comments inline.
-> >
-> > On Mon, Sep 28, 2026 at 2:38=E2=80=AFAM Amir Goldstein <amir73il@gmail.=
-com> wrote:
-> > >
-> > > On Mon, Sep 28, 2026 at 3:44=E2=80=AFAM Russell Harmon <russ@har.mn> =
-wrote:
-> > > >
-> > > > This patch adds support for propagating the inode generation number=
- from
-> > > > the FUSE server to the kernel.
-> > >
-> > > Incomplete statement.
-> > > Without the mention of GETATTR/SETATTR this is a misleading statement=
-.
-> > >
-> > > > This is useful for exporting FUSE
-> > > > filesystems over NFS, where the generation number is used to detect
-> > > > stale file handles (ESTALE) when inodes are recycled.
-> > >
-> > > How exactly does it help?
-> > > I am not trying to troll you, I am really curious. how?
-> > >
-> > > Context: I have been trying to improve FUSE NFS export support for a =
-while
-> > > I have built a library that provides reliable NFS export for FUSE pas=
-sthrough fs
-> > > for specific backing file system types [1].
-> > >
-> > > [1] https://github.com/amir73il/libfuse/tree/libfuse_passthrough/pass=
-through
-> > >
-> > > It is broadly understood that real NFS export support requires extend=
-ing the
-> > > FUSE protocol to identify objects using file handles and Luis has
-> > > already started
-> > > with this work [2]
-> > >
-> > > [2] https://lore.kernel.org/linux-fsdevel/20260225112439.27276-1-luis=
-@igalia.com/
-> > >
-> > > So my question is, what does adding generation id to GETATTR/SETATTR
-> > > improve for FUSE filesystem writers that wish to export their filesys=
-tem to NFS?
-> >
-> > Long answer is https://russ.har.mn/blog/2026-04-09/fuse-loopback-is-inc=
-omplete
-> >
-> > Short answer is that inode on its own doesn't uniquely identify a
-> > file. The unique identifier is inode + generation. Reason being that a
-> > user can delete a file and create a new one, and the filesystem is
-> > allowed to reuse the inode (but if it does it must use a different
-> > generation).
+> Kernel-owned mappings do not fall into this category, as their owner may
+> change the contents without the user having initiated it, and nor of cour=
+se
+> does memory-mapped I/O.
 >
-> This is obvious. That's the reason LOOKUP already returns a generation.
+> We exclude fixed mappings as these are singled out as being unmergeable a=
+nd
+> so cannot be guaranteed to persist user data.
 >
-> >
-> > As for why it needs to be a part of GETATTR/SETATTR, consider that,
-> > given the above, without a generation number such calls are actually
-> > ambiguous. They don't uniquely identify a filesystem object. e.g.
-> > "what are you asked to GETATTR/SETATTR _on_?"
-> >
+> hugetlb mappings are fixed mappings, but their contents are entirely the
+> user's, so they are explicitly carved out as persistent, as the MADV_DODU=
+MP
+> check already does.
 >
-> You phrased the question correctly, but the same question
-> applies to any other command, i.e.
-> "What are you asked to OPEN/TRUNCATE _on_?"
+> It excludes droppable mappings, which by their nature are ephemeral.
 >
-> So you see, what's needed is to change the input argument
-> of ALL the fuse requests from nodeid to nodeid+generation, or
-> in the more generic form of NFS handles, a variable size object id blob.
-
-Yes, fair, we'll need to change all the fuse requests.
-
-> This is from the latest proposal for FUSEX protocol [3]
->
-> struct fusex_id {
->     u64 nodeid;
->     /* will extend with file handle */
-> };
->
-> [3] https://lore.kernel.org/fuse-devel/20260429102058.1362965-1-mszeredi@=
-redhat.com/
->
-> > > >
-> > > > Key changes:
-> > > > - Bump FUSE protocol version to 7.47.
-> > > > - Repurpose the unused `dummy` field in `struct fuse_attr_out` as
-> > > >   `generation`.
-> > > > - Add a `FUSE_ATTR_GENERATION` INIT flag with which the filesystem =
-opts
-> > > >   into the kernel consuming that field. Gating on the protocol mino=
+> Use this functionality to update the madvise MADV_DODUMP check to test fo=
 r
-> > > >   version alone would break existing filesystems: the minor version=
- only
-> > > >   reflects the library, not whether the individual filesystem fills=
- the
-> > > >   field, and a zero there would look like a generation change for a=
-ny
-> > > >   filesystem that reports nonzero generations in LOOKUP.
-> > > > - Update `fuse_change_attributes` and related functions to accept a=
-nd set
-> > > >   `inode->i_generation`.
-> > > > - Populate `i_generation` from `LOOKUP`, `GETATTR`, and `READDIRPLU=
-S`
-> > > >   responses.
-> > > > - Detect nodeid recycling on `GETATTR` and `SETATTR` responses via
-> > > >   `fuse_stale_inode()`, the same check already used by the `LOOKUP`=
- and
-> > > >   `READDIRPLUS` paths, and mark the inode bad (EIO) instead of merg=
-ing
-> > > >   the recycled file's attributes into the existing, possibly still-=
-open,
-> > > >   inode.
-> > > > - Update `fuse_get_dentry` to validate the generation number agains=
-t the
-> > > >   file handle, returning ESTALE on mismatch.
-> > > > - Maintain backward compatibility: without `FUSE_ATTR_GENERATION` t=
-he
-> > > >   generation field in attr replies is ignored.
-> > > >
-> > > > Verification:
-> > > > Tested with a QEMU harness in fuse-generation-qemu against a patche=
-d
-> > > > libfuse (FUSE_CAP_ATTR_GENERATION, fuse_reply_attr_with_generation)=
- and
-> > > > its passthrough_ll example reporting real backing-filesystem genera=
-tion
-> > > > numbers. The suite verifies that:
-> > > > 1.  The generation from `LOOKUP` reaches `name_to_handle_at()` file
-> > > >     handles and matches the backing filesystem's FS_IOC_GETVERSION.
-> > > > 2.  `open_by_handle_at()` succeeds for a valid handle and fails wit=
-h
-> > > >     ESTALE for a handle whose generation does not match, both while=
- the
-> > > >     inode is cached and after cache eviction.
-> > >
-> > > 1 and 2 should work on upstream FUSE right?
-> > > This is something worth mentioning.
-> > >
-> > > > 3.  When a `GETATTR` reply reports a new generation for a cached in=
-ode
-> > > >     (inode recycling), the kernel marks the inode bad: fstat() on a=
-n
-> > > >     open fd fails with EIO, while a fresh path lookup recovers and
-> > > >     pre-recycling file handles fail with ESTALE.
-> > >
-> > > How did the inode recycle happen with passtrhough_ll which keeps
-> > > open fds for fuse inodes?
-> > > Something is missing from this test report.
-> > > If you just used a mock filesystem which makes no sense in the real w=
-orld
-> > > then the value of this change is questionable.
-> >
-> > Ack, I'll dig more into this. Sending responses to your other
-> > questions now and will reply again once I've got an answer.
-> >
-> >
-> > > > Signed-off-by: Russell Harmon <russ@har.mn>
-> > > > Assisted-by: Gemini:gemini-3.1
-> > > > ---
-> > > > v2:
-> > > > - Bump FUSE_KERNEL_MINOR_VERSION to 47 to match the new 7.47 change=
-log
-> > > >   entry (v1 added the entry but left the minor at 46).
-> > > >
-> > > > v1: https://lore.kernel.org/all/20260927141437.1432584-1-russ@har.m=
-n/
-> > > >
-> > > >  Documentation/filesystems/fuse/fuse.rst | 32 +++++++++++++++++++++=
-++++
-> > > >  fs/fuse/dir.c                           | 21 +++++++++++-----
-> > > >  fs/fuse/fuse_i.h                        | 10 ++++++--
-> > > >  fs/fuse/inode.c                         | 23 ++++++++++++------
-> > > >  fs/fuse/readdir.c                       |  2 +-
-> > > >  include/uapi/linux/fuse.h               | 11 +++++++--
-> > > >  6 files changed, 81 insertions(+), 18 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/filesystems/fuse/fuse.rst b/Documentatio=
-n/filesystems/fuse/fuse.rst
-> > > > index 0fbd5a03fdc9..f67bc9fc6316 100644
-> > > > --- a/Documentation/filesystems/fuse/fuse.rst
-> > > > +++ b/Documentation/filesystems/fuse/fuse.rst
-> > > > @@ -49,6 +49,38 @@ using the sftp protocol.
-> > > >  The userspace library and utilities are available from the
-> > > >  `FUSE homepage: <https://github.com/libfuse/>`_
-> > > >
-> > > > +NFS export support
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +
-> > > > +FUSE filesystems can be exported via NFS if the filesystem daemon =
-supports it.
-> > > > +For reliable NFS export, the filesystem should provide a unique in=
-ode
-> > > > +generation number for each inode. This generation number is used b=
-y the
-> > > > +NFS server to distinguish between different file instances that ma=
-y
-> > > > +share the same inode number (e.g. after an inode number is reused)=
-.
-> > > > +
-> > > > +The inode generation number is provided by the filesystem daemon i=
-n the
-> > > > +following messages:
-> > > > +
-> > > > +- `FUSE_LOOKUP`
-> > > > +- `FUSE_GETATTR` (see below)
-> > > > +- `FUSE_SETATTR` (see below)
-> > > > +- `FUSE_READDIRPLUS`
-> > > > +- `FUSE_CREATE` / `FUSE_TMPFILE` / `FUSE_MKNOD` / `FUSE_MKDIR` / `=
-FUSE_SYMLINK` / `FUSE_LINK`
-> > > > +
-> > > > +A daemon that keeps the generation number in its `FUSE_GETATTR` an=
-d
-> > > > +`FUSE_SETATTR` replies (the `generation` field of `fuse_attr_out`,
-> > > > +protocol 7.46) must announce this by setting `FUSE_ATTR_GENERATION=
-` in
-> > > > +its `FUSE_INIT` reply flags. When the flag is negotiated, the kern=
-el
-> > > > +compares the generation in every getattr/setattr reply against the
-> > > > +cached inode: a mismatch means the daemon has reused the node ID f=
-or a
-> > > > +different file, and the cached inode is marked bad (subsequent
-> > > > +operations on it fail with EIO). Without the flag, the field is ig=
-nored
-> > > > +and the generation is only taken from lookup-type replies, preserv=
-ing
-> > > > +the behavior of existing filesystems.
-> > > > +
-> > > > +If the filesystem daemon does not provide a generation number, the=
- kernel
-> > > > +will use a default value of 0.
-> > > > +
-> > >
-> > > On the one hand, I still need to understand the value of reporting ge=
-neration
-> > > in GETATTR/SETATTR.
-> > >
-> > > On the other hand, I do see the value in the server negotiating at in=
-it time the
-> > > fact that "Generation values are reliable".
-> > >
-> > > What happens today is that NFS exporting is allowed for all FUSE file=
-systems
-> > > regardless of the reliability of generation id, so after inode evict
-> > > and recycle,
-> > > an NFSv3 client  that had access to inode X.Y may get access to a com=
-pletely
-> > > different file or even a directory with inode X.Y, where X is the rec=
-ycle nodeid
-> > > and Y is an unreliable generation provided by the server.
-> > >
-> > > The problem is that FUSE does not require opt-in for NFS export, it o=
-nly
-> > > allows servers to opt-out of NFS export (FUSE_NO_EXPORT_SUPPORT).
-> > >
-> > > So what can be done given a declaration of the server that generation
-> > > is reliable?
-> > >
-> > > One option is to set a non-zero uuid/fsid to the fuse filesystem.
-> > > This will allow exporting the fuse filesystem without the opt-in uuid=
-/fsid=3D
-> > > in /etc/exports.
-> > > This will also allow setting fanotify FAN_MARK_FILESYSTEM watches
-> > > on this fuse filesystem, whose file handles could be trusted to be a =
-genuine
-> > > unique identity of the filesystem objects.
-> > >
-> > > But if we take this route, it is better to take it one step further
-> > > and allow the
-> > > server to determine the filesystem uuid/fsid during negotiation.
-> > >
-> > > In any case, I am not convinced there is value in doing all this
-> > > without extending
-> > > the protocol with LOOKUP_HANDLE/LOOKUPX lookup by file handle, so if =
-you
-> > > have compelling use cases, please spell them out.
-> >
-> > I'm trying to implement a caching filesystem which uses a sqlite
-> > database (stored on an SSD) to cache all file and directory metadata,
-> > ultimately to avoid HDD spinups (and the associated electricity cost)
-> > for operations other than file reads. I'm also exporting this
-> > filesystem over NFS, hence the need for NFS support.
+> persistence rather than open-coding this.
 >
-> OK, so you are implementing a passthrough filesystem (to HDD)
-> with a fast caching layer, I assume to cache results of GETATTR/
-> LOOKUP/READDIR/READDIRPLUS? Anything else?
-> Are you caching a specific type of backing filesystem?
+> This replaces the VM_SPECIAL check which means it no longer checks for
+> VMA_IO_BIT, however this is safe as we have established the invariant tha=
+t
+> only kernel-owned mappings may set VMA_IO_BIT, so we implicitly include
+> these.
 >
-> I advise you to look at libfuse_passthrough [1].
-> You can either see if it fits you or learn from my experience with NFS
-> export of a fuse passthrough filesystem.
-> I am giving a talk on the subject in Linux Plumbers next week [4].
+> No functional change intended.
 >
-> >
-> > If I remember correctly, name_to_handle_at on a FUSE filesystem
-> > contains just the inode+generation, and open_by_handle_at results in a
-> > LOOKUP of that inode (and now inode+generation). But I'll
-> > double-check. Assuming my memory is correct, I think that's
-> > sufficient, assuming that we consider inode+generation as a unique
-> > file object identifier.
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  include/linux/mm.h | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>  mm/madvise.c       |  4 ++--
+>  2 files changed, 46 insertions(+), 2 deletions(-)
 >
-> The problem is, that what you assume is not an API definition, this is
-> a specific
-> filesystem implementation, which happens to be correct for some commonly
-> used filesystems (e.g. ext4, xfs), but is not true in general.
-> In general the API {name_to,open_by}_handle_at() the file handle is an
-> opaque blob.
 
-Maybe I'm thinking about this backwards, but we're not talking about
-"any" filesystem here. We're talking about the FUSE filesystem where
-the definition of a handle _is_ inode+generation. All I'm proposing we
-do is to expose that fact to the FUSE userspace daemon. That daemon
-can then turn around and call open on another filesystem, or make a
-network call to AWS or whatever. In my case I want to
-open_by_handle_at on an underlying filesystem, but I can solve that by
-storing a mapping from fuse_ino+fuse_generation_num to
-underlying_fs_file_handle in my database.
+LGTM.
+
+Acked-by: Zi Yan <ziy@nvidia.com>
 
 
-> The way that libfuse_passthrough gates against recycled inode numbers
-> is that the file handle is stored in the server's inode table at lookup t=
-ime
-> (generation is recorded) and all the commands that follow, lookup in the
-> server's inode table (could be in sqlite in your case) and use
-> open_by_handle_at() with the recorded file handle from lookup time
-> to get an O_PATH fd to the object on the backing filesystem (on HDD).
->
-> This is called InodeRef in libfuse_passthrough and any request will retur=
-n
-> ESTALE to the kernel if it cannot get an InodeRef.
->
-> Thanks,
-> Amir.
->
-> [4] https://lpc.events/event/20/contributions/2367
+--=20
+Best Regards,
+Yan, Zi
+
