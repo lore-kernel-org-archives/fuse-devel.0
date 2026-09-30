@@ -1,212 +1,211 @@
-Received: from mail-yx2-f41.google.com (mail-yx2-f41.google.com [74.125.224.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FFB4EC666
-	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:01:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790773301; cv=pass; b=ktI951WACa3NBG4zw8/g2t2XgFfpWEGpAQ1ohF6PWr6lhl9Vc8yKF6IP0PjYeQWTCr54ae054RDQ9/9WMxvtOLmjKMQare1VTajeQ9loXlf3IyKHGDN71PbA9XjjnhZghJKq3THvxmUGc3+1/1TrCoatk6MRy+UWyffHknM4b1M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790773301; c=relaxed/simple;
-	bh=rXhD9d5fVao5sI7KtDb02mbwZKbJQRUDL1y/fHhh3rE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z/CDGKpXBXhlRg7NUcWgo6Q4l+krY14u97SDuNLa3J8eQ0qb2pXR4m+FUgf+MSgEWQzngb0bbISonUhUiUxZCVX3pp8Wb+afPQ6kgFAFlc8iSwT2zwaUDyj62EjFJ5eDR3Rr+hsRIKpWEJXKtNab7Ar2/UtzaN+wB/PflDI49MA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZZR/xc5; arc=pass smtp.client-ip=74.125.224.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B3C4E5348
+	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790773777; cv=none; b=Z+wHSACghJYKJnv97wdbw7wYIv82fXFTUQx0WMxEMOaPbMOv3/3Oz1RyOaQe3Yd8oAi+eLRGP5l4j9bnSTqcLRUUL/fIkUDiH0NnIcNory044fC2qvwEuBjIA2aVjyk7rhm+5aS8fe5Z8MFHe9l35jxjGj4wlnn2nUI2tpliTgw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790773777; c=relaxed/simple;
+	bh=JrIZ+TgStjFlSu4lCM2Ckt6wHFXaNecf4xaX7JdNQIs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U7924o81lPw9jzxtejAT2HE4+6A4GuqP8JrE3tVeiEomAJcNvBDV+XPQq/4jzovPktVxCaKw4W1wszDWzALdN1Sh8hbfoIF7Uev58i+RsQ62MPerj2k2fpbRBdclrX0ZoT2ScpGPkSmrgfZVFzmFWJpvdutvfhtKd7vvl+Y1HkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=SoPm1rJQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jVP1Xall; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZZR/xc5"
-Received: by mail-yx2-f41.google.com with SMTP id 00721157ae682-8a8288165fbso51433137b3.0
-        for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 06:01:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790773292; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VDpEOG+CGHzvol6YvOxN7DviE6RvaxC/F5I9aSK+MkW0zUlDcVvIjGqjqv26sx9h5c
-         bbBXtPJ3HyjpRJNyyPThKtE2h/aNZ2m7Lmvt+M4vgUHH7Mzo/yi3gluTiDNC3L4/6eaC
-         tTZi6HQeqIf4IgZXOZHb6UYfM4hDBd/+r2Lxe1PEENob5ZRW0vZy/YWozRVNzBg2U1T9
-         OHRXg04By8mgJxyO7vLW5Q3TqTlPfhFyPRhcHwm6iWtG0l6Dhiw4UxYRbH/ai/uV66nr
-         w9Zh9tJTenYpS0RTKV6NluQeVA477XKak79z/ck3kf6q0R0ysWPpvWZwKCp0xh2w8szj
-         sJ+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hEs0MrU+9UYEDaK1O0qQqAVkGiu5ndS/FUHo0S0MNoo=;
-        fh=+4uZKzps4VG+lxArjeUciaqw8iyw52lH/7he5o8wbhM=;
-        b=UTwy7ardJx80gkob9EqYVdvMuy3aOQiAoW7JCto6qsVQ8osfj1kplWwyEfKdlCvAUA
-         zLqw8F3q3cQm1Z2Z3n2avNoUNsjCbAcSVuKHLmtOo1wAf/WEVOGsbmlhUMdqciUPembH
-         P5a4U7f2fFbctWIaRJF6e+J4pZtVjEZcEblj4Ww5QJSa3Yf4+M32ryBsQDOWG6RNXLwh
-         8JGcYBTLnwysSBPEUIa3gcqO9iUVDZT6WZmJb26FRIA9M3ha0+4GmHXy0UW2UcH0dHVK
-         mrsdvAEgtmrfS4D0DCA3AImV676UTYgwXt1xSZ5r1CY1WOIAXM98Q8DPI1vt6SSIgBDX
-         ODeA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790773292; x=1791378092; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hEs0MrU+9UYEDaK1O0qQqAVkGiu5ndS/FUHo0S0MNoo=;
-        b=RZZR/xc5jPubBIsOXPDYmpS3i4iaG22gpe8jU4bXb1al00csX2hZxMXSxKa3ikYFdt
-         WwJhB+MLNNWrRTssGpCnL/6pjyFt5d/jAcfAmSRBlciIvIOj9GNO0LANDo6JZ0NbbyTq
-         EQ5RgihDw0gWYZ14VGWhMUmHELvZ9PP7eOsLwA4grhcU0HLyEfk+jUMXKsRlf7bEHW94
-         3MIQrHO3g3UTlHMLUayyMkXhTHpl5t4Fz2BAuuQIuflb77nYt86edG7fDV9eSe65boAm
-         60/Mk3LJjZZGRIWiBHPlhoIacNvUvTBNs20DE7mqJn1TnNGsGVbT1sOGwiqtVLeON/US
-         22vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790773292; x=1791378092;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hEs0MrU+9UYEDaK1O0qQqAVkGiu5ndS/FUHo0S0MNoo=;
-        b=x5AHbGdMU2t5nHVJ23AqHOlkxUNewJh/yFCKvu2COJSCKx/fTO5Ho5fuJMX4gnC/vS
-         IRKPiGBWLHUKA1dcbYrKzTbkMoY4KGX2r34AGVFTD6tEmGFJ5vka5AQ1nrTCSa2SFG3g
-         HRoUFANe5W0V1XVtJkMhsaCXhPIrfKRrV5Cr7ZLeWwKOZQM3yPAbwKzSYG1irxc5yqiA
-         c0C4gDUXCVTqE8XmoGeHToParGFyQcJJG6tsZzUUVT70VZRklQZ1aqV3rsSVJ4+ErVnD
-         a/k+z2y1Jw4A9oSPxRBxpKTozAl+gbLkFxof1NyIuxHAQI3IawLbCMtGS0KpJVSpmVOe
-         0knw==
-X-Gm-Message-State: AFq9FYL2oCmUV6YZg2f16kTC69yUY3YYwaEYrzsUoDL4ae8sCHWa8nkX
-	0OxwB1CAuLpztOZNjCsp4ULPA6KOaQCuIpxsSWiyu0EAiHC15w5z0lXIyNZf6LJAj3L0syPtxgX
-	Usx3qX/HBRAKU8WLFffuJALAswSAcsms=
-X-Gm-Gg: AYBFou0qJbC7dOYMbMRqDFkdxDjPn7RzyEjkEdmhruUTAuIGJpClqqmPsnXk6XQJ++Y
-	dbJDVAXlRPoCEL1vez+QqwWULsk6yBw6Ar7bCyjq4G9o9CJBVnYCJLZIWprkB1D2CWZcLv1EkMF
-	cyj+DZ4O/+slE+IhPpy9fmpQml4BkT8N/4DGmbut8Kzw5v35uVHcPELtBXvE7AWHDwzlSODrbZ9
-	2mopPrCGWM0R0Sv6dyT3aZx6E1Oj5e5qJEzFyOGBjTKLehnQQ4jTxqq8LpWuzfyt00ojiGZADp4
-	t08sP6ckJnL9wq7pWs+01VrmGDVwVbNB8Vs16NIkP4BmRgVypOkTeF3TaJO8mKswWe0zcvaL0is
-	dhPym1lTTexhJkfjDEnFvZ/XBKyG3DRLdFChhXxBYxCc/vWpsVe/A
-X-Received: by 2002:a05:690c:6610:b0:8a4:b228:26bb with SMTP id
- 00721157ae682-8ac906e7b27mr4595127b3.8.1790773291529; Wed, 30 Sep 2026
- 06:01:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="SoPm1rJQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jVP1Xall"
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id 2D003EC0313;
+	Wed, 30 Sep 2026 09:09:24 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Wed, 30 Sep 2026 09:09:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1790773764;
+	 x=1790860164; bh=m75JHLH2GYdRlat5FNcwA1/voEefSae/nYmXvkii2Yc=; b=
+	SoPm1rJQ1LsCqeAVoh2h8yZkpVjUch9B5I5ZMIHNfgo2DYJFyVdeegMPiU1u4cbC
+	mv9yFkmW5Izc3iym3x0hl1S/W7sC7LnkFQ722QxOPF17/i+ek1Dvnxyr4kQg41lU
+	X7KWkP1WTXV3UV8Xq2O4sBITSmufDR4Cz0M+v6HB2SsufslKFS1aLR/APRHFEvla
+	mDc1M94KvDf9zrXWN3vzv2rwoPw9jLpCDtW/rb+b5+PhhG/x1zZHpr3bdj2yCAG2
+	S2gybZMEWKvConQ03scI5bG7aa1GuyOx2bNbN71YWTkGlYm8Fo+d4NgeBZaL6etq
+	/iUEkWZwIPHABTIyrdK+EA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790773764; x=
+	1790860164; bh=m75JHLH2GYdRlat5FNcwA1/voEefSae/nYmXvkii2Yc=; b=j
+	VP1XallvjJZa1sDVzfrrcu+0B4Gzky3SgY5AtIHsVtnOck2StOFgSyGXHikgz3Ga
+	2STL/IARpWHQbJPElQNWa5qhC4YNiTO6whQbJC1FY50YbhQMK38zvVTGz7HyBnvU
+	pvQ0QNDJp3GEj4WMUzJ5blngw/5+PmB45zFK8oDOLWfdT2OsoWYbVPn0hL2vykfn
+	Z5i+2z7CRb04fDDR2PIHc0hJ/dt4oFI1Tkscs7DYfvc6ZId7DOyECz711e9HP4CQ
+	CKTl+DRD5LEBJFXvOvJP4ONPw8b1UT+q6Hgrk2YjJaADp+6Jj7aJDgyaaZhidX9G
+	oZmuwb3JHcnGpwoFbAalg==
+X-ME-Sender: <xms:Awq9avNeglneUi9keK86f2O-mr7qU_DrCM5b_a7RiswF0fyDxQ-0Mg>
+    <xme:Awq9aha3pjEPQaUiE6xG4zQsF1wMVLjks7VQoF_UO9lNMR9UoTMO7MgBYPdqVUQy8
+    N1A2MJn07pzUbb_-5dRKwn4aL7vcgr3BOClnhn1pgRWF6L00hc0>
+X-ME-Received: <xmr:Awq9arrAP_3FpY7uwW1wDvAuWGqA3sVmS2dTsfJed8bVdvmr31mdl8cNneEGAuVS>
+X-ME-Proxy-Cause: dmFkZTEQ9CuNyS/GSgvSPtrzVG4mYniy9tFqEBZKixu7Qw3z7fxEqubswKmFocOf75P/RY
+    6w4qkcEXNCAIHoJBmuGn4uSYcdPhS4NCoUmRiLo2i7OTb6X5k4w4C83dADQGiPDi+WKTvl
+    OFxdFAxyoMBuG463oiIk5PgD+nYQ6mlpMHQy1xAFPkU02Okf02KjWwunA7NMDRpqbP+gEQ
+    gOBqHUXwevm5Q4ufpWN+lKvXVFPyvRatcNhQQxegJezkg35CHxidC6oOwdv/UVOCPaeS6C
+    ZfZypwuDP7W2dXtb65l5sdizAknqUc3sNYLDWwxhXqRwlvvWlE2mZG9k9rv73u+XsnECnX
+    gjC1xtVOKRWkceSEiuGk2P3W/A8M6FfEzRlb6eFuSaJqEo6hDFgmsNZsOOkrMXdx3lUHz3
+    WqSvlCrrr5tSZCPUuoZemzdp0NoXx0lW2iT5xM0SL9I7HRwap7l7Gnm5lVVqGlrTlyQIjE
+    HvrHfWIG9Mwy/99tihVPCyyvFAQ0jcOXNnmik1ySPoFrTece/VfbPpUwCE83I76psKMZrA
+    OX5YfvkFL7AhromDSmHOttcU/ZTeRebfYNE7kXKLbUdVzQ4ug0pV9dCgP7InR10yOP4BbS
+    1QlCq+OKkTbKqO0R47N0c0v3NddBQSulUWPEWMa2ZNeYGGfzLiBgnKyvAvPQ
+X-ME-Proxy: <xmx:Awq9ataujvt8ppZy9ltrGeg30I9XQchHwn7etZCEf9yLUkimpts-2w>
+    <xmx:Awq9arQwfnib-zOLi-CFvcvwPV7-IgXSTwJD5gU3XqpcuDJghU42Zw>
+    <xmx:Awq9as71_bUrfg1Rp81ggdfp9pj9P3RTFhRpNQm5mb5HrcmgdSZ2Vg>
+    <xmx:Awq9aozGs1NwrInacMAwQVUNS64ALP1mHw2FygYB_1g6WJtRVcb0aw>
+    <xmx:BAq9ar2QwcUCVm2CX7UPOBPqx9P1TIzrD3lr1vW1sJhCwhWTbJPvxcEI>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 30 Sep 2026 09:09:22 -0400 (EDT)
+Message-ID: <723b3f96-58bd-4620-9dfa-5e7779cafa87@bsbernd.com>
+Date: Wed, 30 Sep 2026 15:09:20 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <6ab7dca9.80e1c6cc.1e8e5f.0046.GAE@google.com> <6ab8cfe8.dc2998a4.2261f5.0062.GAE@google.com>
-In-Reply-To: <6ab8cfe8.dc2998a4.2261f5.0062.GAE@google.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 30 Sep 2026 14:01:15 +0100
-X-Gm-Features: AclHuK8YO05yVKyNEjULn_BdKlGqv33H53JQVXMS1TyfeE6y-zBSpShkWdCLRKE
-Message-ID: <CAJnrk1Y8+P5W-6ETYuVDb2xk=GkP5o0XoDyDtvEPw+sC3GA-fQ@mail.gmail.com>
-Subject: Re: [syzbot] [fuse?] WARNING in fuse_iomap_writeback_range
-To: syzbot <syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, miklos@szeredi.hu, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 14/14] Improve documentation for fuse service mount
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: fuse-devel@lists.linux.dev, neal@gompa.dev
+References: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
+ <20260928-mount-service-bound-open-v2-14-0f9f501d05ce@bsbernd.com>
+ <20260929024303.GG6253@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260929024303.GG6253@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Sep 27, 2026 at 9:15=E2=80=AFAM syzbot
-<syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com> wrote:
->
-> syzbot has found a reproducer for the following issue on:
->
-> HEAD commit:    fd179f8a05be Merge tag 'ata-7.3-rc5' of git://git.kernel.=
-o..
-> git tree:       upstream
-> console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D1349060558000=
-0
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3D9d4242cb1c54c=
-df7
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3De8200299b055697=
-6e13c
-> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e25=
-5-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D1523f2c9580=
-000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D1438531558000=
-0
->
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/c4cebd01ff3c/dis=
-k-fd179f8a.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/9fd8641fa35c/vmlinu=
-x-fd179f8a.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/c6e8e6332600/b=
-zImage-fd179f8a.xz
->
-> IMPORTANT: if you fix the issue, please add the following tag to the comm=
-it:
-> Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
->
-> ------------[ cut here ]------------
-> !ff
-> WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043 [=
-inline], CPU#0: syz-executor122/5774
-> WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0 f=
-s/fuse/file.c:2227, CPU#0: syz-executor122/5774
-> Modules linked in:
-> CPU: 0 UID: 0 PID: 5774 Comm: syz-executor122 Not tainted syzkaller #0 PR=
-EEMPT(full)
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS G=
-oogle 07/24/2026
-> RIP: 0010:fuse_write_file_get fs/fuse/file.c:2043 [inline]
-> RIP: 0010:fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
-> Code: fe 48 83 3b 00 74 5b e8 e6 f0 6c fe 4c 8b 3c 24 e9 08 0b 00 00 e8 d=
-8 f0 6c fe eb 5c e8 d1 f0 6c fe 4c 89 f7 e8 39 63 8e 08 90 <0f> 0b 90 48 b8=
- 00 00 00 00 00 fc ff df 48 8b 4c 24 58 80 3c 01 00
-> RSP: 0018:ffffc90003e172b8 EFLAGS: 00010286
-> RAX: 8000000000000000 RBX: ffff88806e4ea880 RCX: ffffffff9a9ec501
-> RDX: 0000000000000001 RSI: 0000000000000004 RDI: 00000000ffffffff
-> RBP: 0000000000001000 R08: ffff88806e4eae63 R09: 1ffff1100dc9d5cc
-> R10: dffffc0000000000 R11: ffffed100dc9d5cd R12: ffff88806e4ead08
-> R13: 0000000000001000 R14: ffff88806e4eae60 R15: ffff88806e4ead08
-> FS:  00007f6a3f53e6c0(0000) GS:ffff888124cc8000(0000) knlGS:0000000000000=
-000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 000020000000b000 CR3: 0000000078090000 CR4: 00000000003526f0
-> Call Trace:
->  <TASK>
->  iomap_writeback_range fs/iomap/buffered-io.c:1896 [inline]
->  iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
->  fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
->  folio_launder mm/truncate.c:612 [inline]
->  folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
->  invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
->  fuse_open+0x5a6/0x770 fs/fuse/file.c:297
->  do_dentry_open+0x816/0x1380 fs/open.c:996
->  vfs_open+0x3b/0x340 fs/open.c:1101
->  do_open fs/namei.c:4837 [inline]
->  path_openat+0x1443/0x1d60 fs/namei.c:5000
->  do_file_open+0x23e/0x4a0 fs/namei.c:5029
->  do_sys_openat2+0x115/0x200 fs/open.c:1417
->  do_sys_open fs/open.c:1423 [inline]
->  __do_sys_openat fs/open.c:1439 [inline]
->  __se_sys_openat fs/open.c:1434 [inline]
->  __x64_sys_openat+0x138/0x170 fs/open.c:1434
->  do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
->  do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f6a3f58fae9
-> Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f=
-7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff=
- ff 73 01 c3 48 c7 c1 d0 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f6a3f53e1d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-> RAX: ffffffffffffffda RBX: 00007f6a3f644b98 RCX: 00007f6a3f58fae9
-> RDX: 0000000000000040 RSI: 000020000000c380 RDI: 00000000ffffff9c
-> RBP: 00007f6a3f644b90 R08: 31203a6b63617473 R09: 31203a6b63617473
-> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f6a3f6117f4
-> R13: 000020000000e3c0 R14: 00002000000062c0 R15: 00007ffe0b2d2af8
->  </TASK>
->
->
-> ---
-> If you want syzbot to run the reproducer, reply with:
-> #syz test: git://repo/address.git branch-or-commit-hash
-> If you attach or paste a git patch, syzbot will apply it before testing.
->
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 6d707f2b3bff..0ef46f6e0267 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
-                .wb_ctx =3D &data,
-        };
 
-+       if (fuse_is_bad(wpc.inode))
-+               return -EIO;
-+
-        if (folio_clear_dirty_for_io(folio)) {
-                err =3D iomap_writeback_folio(&wpc, folio);
-                err =3D fuse_iomap_writeback_submit(&wpc, err);
+On 9/29/26 04:43, Darrick J. Wong wrote:
+> On Mon, Sep 28, 2026 at 01:02:16PM +0200, Bernd Schubert via B4 Relay wrote:
+>> From: Bernd Schubert <bernd@bsbernd.com>
+>>
+>> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+>> ---
+>>  doc/README.service-mount      | 312 +++++++++++++++++++++++++++++
+>>  doc/README.service-mount-dev  | 456 ++++++++++++++++++++++++++++++++++++++++++
+>>  doc/README.service-mount-flow | 201 +++++++++++++++++++
+>>  doc/fuservicemount3.8         | 150 +++++++++++++-
+>>  doc/mainpage.dox              |  13 ++
+>>  doc/mount.fuse3.8             |  18 ++
+>>  6 files changed, 1144 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/doc/README.service-mount b/doc/README.service-mount
+>> new file mode 100644
+>> index 000000000000..859db863f3da
+>> --- /dev/null
+>> +++ b/doc/README.service-mount
+>> @@ -0,0 +1,312 @@
+>> +Mounting FUSE filesystems that run as a socket service
+>> +======================================================
+>> +
+>> +This document is for administrators and end users who want to mount a FUSE
+>> +filesystem whose server runs as a sandboxed systemd socket service, rather
+>> +than as a process in the mount caller's own context.
+>> +
+>> +Developers who want to make their FUSE server runnable this way should read
+>> +README.service-mount-dev instead.
+>> +
+>> +
+>> +What a service mount is
+>> +-----------------------
+>> +
+>> +A traditional FUSE filesystem runs as a child of whoever mounts it: it
+>> +inherits that environment, needs mount permission, and can see the caller's
+>> +files. A *service mount* instead keeps the FUSE server running as an
+>> +independent systemd service. When someone mounts the filesystem, a small
+>> +privileged helper (fuservicemount3) connects to the service over a UNIX
+>> +socket, hands it the /dev/fuse device and any backing files it needs, and
+>> +performs the mount on its behalf.
+>> +
+>> +The benefit is isolation. The server can run:
+>> +
+>> +  - as a separate, unprivileged uid/gid (systemd DynamicUser),
+>> +  - with no capabilities at all,
+>> +  - in private mount, network, and pid namespaces,
+>> +  - with a restricted system-call filter,
+>> +
+>> +while still being mountable by an ordinary user. The server never gains mount
+>> +permission and never runs in the caller's environment; the privileged work is
+>> +confined to the fuservicemount3 helper. See example/service_ll@.service for a
+>> +fully locked-down unit.
+>> +
+>> +
+>> +Do I need this?
+>> +---------------
+>> +
+>> +This feature exists for one specific goal: running a FUSE server with strong
+>> +privilege separation, where the server itself is fully unprivileged and
+>> +sandboxed while a separate setuid helper performs the mount. Getting that
+>> +requires the server to be written to the fuse_service_* API (see
+>> +README.service-mount-dev). An existing FUSE program that simply calls
+>> +fuse_main() cannot be mounted this way unmodified: it opens /dev/fuse and
+>> +performs the mount itself, which the sandbox does not allow.
+>> +
+>> +If all you want is to manage an ordinary FUSE filesystem with systemd --
+>> +start/stop, journald logging, cgroup resource limits --
+>> +you do NOT need this feature. Run the filesystem under a plain systemd service
+>> +unit instead, launching it in the foreground so systemd can track it:
+>> +
+>> +    # myfs.service
+>> +    [Service]
+>> +    ExecStart=/usr/bin/myfs ... -f <mountpoint>
+>> +
+>> +systemd-run(1) starts the same thing as a transient unit, without a unit
+>> +file. It passes the command line on as typed, so the filesystem can get any
+>> +number of arguments. A unit file fixes them in its ExecStart= line, and a
+>> +template unit (myfs@.service) takes only one parameter, the instance name.
+>> +Set unit directives with -p:
+>> +
+>> +    sudo systemd-run -p MemoryMax=1G myfs <args> -f <mountpoint>
+>> +
+>> +This also works in the user's own service manager, as long as fusermount3 is
+>> +installed setuid root:
+>> +
+>> +    systemd-run --user -p MemoryMax=1G myfs <args> -f <mountpoint>
+>> +
+>> +That filesystem still mounts the traditional way (through fusermount3) and
+>> +runs in the service's own context; it is not isolated from the mount the way a
+>> +service mount is.
+>> +
+>> +Use a service mount when you specifically want:
+>> +
+>> +  - the filesystem server to run as a separate, unprivileged uid with no
+>> +    mount permission of its own,
+>> +  - it confined to private mount/network/pid namespaces with no capabilities,
+>> +  - the privileged mount work isolated in the fuservicemount3 helper,
+>> +  - on-demand, socket-activated startup.
+>> +
+>> +In short: a plain systemd unit gives you lifecycle management; a service mount
+>> +gives you lifecycle management AND isolation, at the cost of the fuse server
+>> +author adapting the server to the service API.
+> 
+> "...the fuse server author needing to adapt..."
+> 
+> Everything below here looked ok to me, though I admit that there's a lot
+> of documentation so I may have missed some fine details.
+
+
+Sorry about about the verbose documentation, just painful to remember
+all the details a few years later without it. And I also wanted to
+explain to users why it is helpful.
+Thanks again for looking it!
+
+
+Cheers,
+Bernd
