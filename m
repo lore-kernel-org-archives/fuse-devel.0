@@ -1,172 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1A44FD291
-	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790773876; cv=none; b=I/tdkkuvsoGYzaiORseXF6Dxsx2WPXnQQTv2/kpkmr43nt460k90gt56kfYCDUCHyyYOt3WP/xJTcIwkqdTKd1XFA8NAK1EcXu4GylM11r4ogKb+k7sTA5m/TLQnLc5wkgPB/H+iJi+4E2tCw8yNfjZiLbKoQro5Sj0t8ThZvxM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790773876; c=relaxed/simple;
-	bh=zHppEWtsSpLN3mmu9QdTVfahNm3w9zAdWFwYr9e1TFQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oDUzXmO6czmNbo+qvJQRupRT4W15s+6pN8FCZp2ayF6fu62evTrc0rXlFTzT7lylFCFEdNs/U9xDACVpvrYvNm3jokPVDRl/QvE5KGMki49PM4kTYy0dl4XUj4uquE8/x1XZM/7GZtvu04xwIMu7U+EiExIaHHkB/lnrXT4mWWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YE2+XRjD; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D33D65192
+	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:36:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790775377; cv=pass; b=S9QfaGFYJ4CkSkfIhJNkobc0qNlgyT1Luv8GvL3jeLV8Qv2NaxARAtyfzQCJ7dqnV0s6WgO6Xm6Ynmib1bzyBgqyf7uX77hp1NLALfAy0hsZV6pPMcG+BY9Md+hq+EpWK1gtxdLEPVzYwS63EIrG1c48RX2GJ0uwYQtzbbOpIQY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790775377; c=relaxed/simple;
+	bh=SXhpmvBhQ+TXtxniHLWeCSa452bmcr1rqYYurbJuz+I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bpf9l1uXtrgByw99Aq8dH4oHgcmkIxA0CuJWAGnKikWum+t+3pqHX3x2PsRq9vTZ/l3youOKwSXSYfrMgc9KCBnT6hWIxmyT6bBQdbI6MZ4WbcJEW5SEhSU7qKPR4XueIYJwmFh9gKolNNlXZ7uKzGVtUuNJIo9rCOQ/mkQXh48=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qeuqde8I; arc=pass smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YE2+XRjD"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EC27BC4AF1B;
-	Wed, 30 Sep 2026 13:11:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790773874;
-	bh=zHppEWtsSpLN3mmu9QdTVfahNm3w9zAdWFwYr9e1TFQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=YE2+XRjDlWX70k+jYCVqN7IJMgSXp6ZDe/AWL/GWx5A/8BzOVQLYhme3YTwQCK25r
-	 n2m3AVkZqyhDxrA0K+rNTa3KOs452tdY3VSPgC/6oKH4NEuZ64bSAlRybb8KfxdDoK
-	 sR5bfuVrfmz57BPOhdNcFpKiVDIHE8rCj6aPLFtnTgOtZHfBcXLcwfWMPR47Sxl/Jm
-	 IlYfDvh8JaADgLgW2O4BDlbvfPMmUJen6lSxZmWYQVVuSE936pxeNK/VbqLwmIKIAO
-	 jtegJeCDAtHQl0MiBHThDu139F4CxGXw2kJpXapuDOIcoMvwkRt3ME9Ch9thmzWekv
-	 2YpKrFFCMj1bA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC0B3CA5FBA;
-	Wed, 30 Sep 2026 13:11:13 +0000 (UTC)
-From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Wed, 30 Sep 2026 15:11:00 +0200
-Subject: [PATCH v3 06/15] mount.fuse: free the options on the service mount
- return path
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qeuqde8I"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6ae185cc40fso633507a12.1
+        for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 06:36:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790775357; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jBGZEnUqyCNxDwMS4OcNFEvbYqBnsdHXBk+fmAS6IW1GemXaAy3rqIfY5xU1ARW3bk
+         NoPjMlEk8eX1mFYqLp9ahn31HJc+TTeRZTNcN/uO/FwjlolTsQdpzC3sqqOyZojhPEyS
+         3RRJCVqy0Jf8nGpY67WQ7Oj97+w6lPGpnondGWMJ6LORHNTo/e3U9/3/4mcCEjsRHg2D
+         u49gsg+niTScVEsBve1q2XQmbrVvq12kf9rJDM4dPV+wt4W9s0WKfC8ng3IjTYU4uiOJ
+         i3gDP9HbjKOPTX/p1tbdKPgYnIcb3UN0vBTz5Zc6LrRnMR4DkiqEs6ELSrA41KF+/KL8
+         MJtQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4QchkhwI1w5bSASLXqcxUjuWuiosjQacZxJlQZryO/o=;
+        fh=C2hvFbqtxCCQlLXtYuG++dZvZg3/X9npOaJpSiKOfHY=;
+        b=Z2uglnhb1LuQPs9IGVN9yFhaManN5hetmz0M2GQ+UbBxt4CYmfqYkpaMP+U5eVSQWD
+         3q5EhTesOFgQvJRHmCkC5vunRGEkhU0r/xyenF659CliBqBmrfW7VwR6bx0sNaKfUT5Q
+         09LQmFxoOCUQu91eD0oEfp9r2/XyqOYDQHkwECooORkrxJDIEI5dJqoq0XEMRQRsNUDl
+         4UVfjH04QXwE2Zp75oKi6Xm0T7VeS4p36RGRVP/IqKMiKiJ0Bm8ltZlcsw/Z6UHPV99K
+         aNuaGoXL3Yoznh7XcOOAOEQyGWde4RYe3CcQpaZHELPMrWxmEB5bYcI8u9X8polfw25k
+         DVpQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790775357; x=1791380157; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=4QchkhwI1w5bSASLXqcxUjuWuiosjQacZxJlQZryO/o=;
+        b=Qeuqde8IhgmE6WzROaBH0z+GgJ1MR6IONk3nLHZy+at/ZhZ6JOP7ySLCGrSU2uJY4q
+         elUqWcVtxWKW2oN0+I4pYC3ag8JdD1igz3/b/KJRdLCDdlvI+Q/dKSteEwvUakEcMQh1
+         9RoMLE4jO+TC5lFOZB+7ZQHnqMZUxW6BeiwE2ilZeVjJVCGOrb33QTDLRJNb8/vk9zgw
+         S0Scl8+IkKk4cOZzpmi1OCtKdYKBwrWc5u7q7wUaaw7jYvK3Hb5Ez7b34MwbjiCpKqfW
+         mvW5d/DLnJ65GrXlxzaxeF03xhBqTcM/UPP/BojgCNUvyv3zGJoSqSlIpAppK4U//vh4
+         4rpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790775357; x=1791380157;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4QchkhwI1w5bSASLXqcxUjuWuiosjQacZxJlQZryO/o=;
+        b=UA+eDwNAyvT6cL3gj2gjYOev03yNvt/RxrebL1ipP2bZwuMrVpBC21FL2m+YF+iyWw
+         biVNvDg2b7FPI9zze8zIWIZDFSyF0Pnb8wW8XrvS6f7AQ5Rs8InSsgr+mNLBVE4/VhLf
+         XVTtuGBbDUmdm5VimNuPIufY3jx8ZW+c4x12/Flsd78/TUtn1jNjrIvFGTjhsYyGrITk
+         MH/UqNHUB6eFlGmGWmPNVqKbHKvHvpigdemdfDlUGL1yIreaBL6pVX7jVRy6744ZGhxk
+         ENTCehQ2SVqwbllYV5NPXgW5AFL/tPjZZehb/lJw3J5SqIRkGlEK3Kotwt4jhjG13D18
+         N46g==
+X-Forwarded-Encrypted: i=1; AKwUvBxx/eNcRqBRjU5j1sCoQE4rWURQGjUGfsDWDGm1keNycu3CiHuMbo3hSkwshIJhOd83fMX9FkalcDV+@lists.linux.dev
+X-Gm-Message-State: AFuF++kJacD5ctPTCwtkTI9RpjcUdAd1dA4WHyCDb8NnDMFnGdlQSWHr
+	dZkUxaXNfDbbfHSPnEKxh5jrljX2GBo8WoQN/wD/xybXI2Jaj/F7cLGg12rzh4gQ5ObZPEp2TqK
+	ERg3UmESHDR42eqqDVsY6iSTq1Tg++Qk=
+X-Gm-Gg: AYBFou1TlMaj1rrD3n7JmxAY0GKwYuAEW8NfgRTczR8lDJpKedbu4w9YpJaShqwsRra
+	3sphm68OrjMUgUOD2K4tGFxKm3HwYCNhh7O8VvpwoQO0UYVJJ06WRsOiqAKnwRiIFsdjxxmoW0/
+	xPUeN1kI1o9wag1VmudSOcW+poEkS+SHqb4JR9m9jgTmiIEnkxyLQH4WbEn6OLsna/licgEQeZ9
+	ckZ3i3Iqh9wF4jQ08sba0SWjO1HjRMZAkD/SpA5HUvSfiuOe12YFrs7zQ6ea9a8KsXssToyBzrR
+	f6aWr8MOHQanLvu2PenCecF67yAe5eWG7VaC9rTfVQF6Bu91e1GUeJkBJzzc2uMGdLOK
+X-Received: by 2002:a17:906:6a05:b0:c2d:b9b4:f4de with SMTP id
+ a640c23a62f3a-c2e23d9207amr125564266b.18.1790775356627; Wed, 30 Sep 2026
+ 06:35:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-mount-service-bound-open-v3-6-e26c5e4eca4c@bsbernd.com>
-References: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
-In-Reply-To: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
-To: fuse-devel@lists.linux.dev
-Cc: "Darrick J. Wong" <djwong@kernel.org>, neal@gompa.dev, 
- Bernd Schubert <bernd@bsbernd.com>
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2562; i=bernd@bsbernd.com;
- h=from:subject:message-id;
- bh=gDoDSgMI9gAOrS8CuaxP8AOtiQE/Nkp1TOfH7s24Z0I=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2cmV/qM0X5MpxXNhWb2Y1K0l94s9QJcWPRUddi8Rv3
- 3RlUuvqKGVhEONgkBVTZOmS2GM75R+frNrX9ddh5rAygQxh4OIUgIk0vmH4w79V8922bsaJ4mx7
- lka0nbxX80D8+FbFte7vZnwv8l7wezojw8k3j0+vOBkXmpopFWHzZlE55+kZ7syHxRvf/U7tD0g
- 35gYA
-X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
- fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
-X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
- auth_id=772
-X-Original-From: Bernd Schubert <bernd@bsbernd.com>
-Reply-To: bernd@bsbernd.com
+References: <20260929034158.1455429-1-neilb@ownmail.net> <20260929034158.1455429-8-neilb@ownmail.net>
+In-Reply-To: <20260929034158.1455429-8-neilb@ownmail.net>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 30 Sep 2026 15:35:45 +0200
+X-Gm-Features: AclHuK-7IYZDCVZREHuHZMSP_wgME-NMrM9tsJnpybGevda7U-xOXfVzEqygZdo
+Message-ID: <CAOQ4uxjv3Ziqy+CjbCO7noAPse+a0066UO7pkFhStnnW9FFSPg@mail.gmail.com>
+Subject: Re: [PATCH 7/7] ovl: stop using lookup_one() in ovl_iterate().
+To: NeilBrown <neil@brown.name>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Kees Cook <kees@kernel.org>, 
+	Joel Granados <joel.granados@kernel.org>, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Breno Leitao <leitao@debian.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Namjae Jeon <linkinjeon@kernel.org>, 
+	Hyunchul Lee <hyc.lee@gmail.com>, Carlos Maiolino <cem@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-unionfs@vger.kernel.org, linux-um@lists.infradead.org, 
+	codalist@coda.cs.cmu.edu, coda@cs.cmu.edu, linux-mm@kvack.org, 
+	ntfs@lists.linux.dev, linux-xfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Bernd Schubert <bernd@bsbernd.com>
+On Tue, Sep 29, 2026 at 5:43=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrote=
+:
+>
+> From: NeilBrown <neil@brown.name>
+>
+> lookup_one() is expected to be removed as it does not fit well with
+> proposed changes to directory locking.
+> Specifically d_alloc_parallel() will be ordered outside of i_rwsem
+> and as iterate_shared() is called with i_rwsem held it is not safe
+> to call d_alloc_parallel().
+>
+> We can instead call d_alloc_trylock() and then call the ->lookup, but
+> that can fail if there is a lookup attempt concurrent with the
+> readdir().
+>
+> ovl cannot afford for the lookup to fail as that could produce incorrect
+> results, and it cannot safely drop i_rwsem temporarily as that could
+> introduce races with handling of the directory cache.
+>
+> Instead we rely on the fact that ovl_iterate() has an exclusive lock on
+> the directory, so any concurrent lookup will wait for the ovl_iterate()
+> call to complete.  We allocate a separate dentry and if the lookup is
+> successful, it is hashed with the result.
 
-These leaks were detected by the new tests.
+Please document this assumption with:
 
-Assisted-by: LLM
-Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
----
- util/mount.fuse.c | 42 ++++++++++++++++++++++++++----------------
- 1 file changed, 26 insertions(+), 16 deletions(-)
+rwsem_assert_held_write(&dir->d_inode->i_rwsem);
 
-diff --git a/util/mount.fuse.c b/util/mount.fuse.c
-index c67a0c2b7f2f..1414265fd274 100644
---- a/util/mount.fuse.c
-+++ b/util/mount.fuse.c
-@@ -56,9 +56,7 @@
- #endif
- 
- #include "fuse.h"
--#ifdef HAVE_SERVICEMOUNT
--# include "mount_service.h"
--#endif
-+#include "mount_service.h"
- 
- static char *progname;
- 
-@@ -396,6 +394,18 @@ out:
- 	fuse_opt_free_args(&args);
- 	return ret;
- }
-+#else
-+static int try_service_main(const char *argv0, const char *fstype,
-+			    const char *source, const char *mountpoint,
-+			    const char *options)
-+{
-+	(void)argv0;
-+	(void)fstype;
-+	(void)source;
-+	(void)mountpoint;
-+	(void)options;
-+	return MOUNT_SERVICE_FALLBACK_NEEDED;
-+}
- #endif
- 
- int main(int argc, char *argv[])
-@@ -415,6 +425,7 @@ int main(int argc, char *argv[])
- 	int fuse_fd = 0;
- 	int drop_privileges = 0;
- 	char *dev_fd_mountpoint = NULL;
-+	int ret;
- 
- 	progname = argv[0];
- 	basename = strrchr(argv[0], '/');
-@@ -608,19 +619,17 @@ int main(int argc, char *argv[])
- 	}
- #endif
- 
--#ifdef HAVE_SERVICEMOUNT
- 	/*
- 	 * Now that we know the desired filesystem type, see if we can find
- 	 * a socket service implementing that, if we haven't selected any weird
- 	 * options that would prevent that.
- 	 */
- 	if (!pass_fuse_fd && !(setuid_name && setuid_name[0])) {
--		int ret = try_service_main(argv[0], type, source, mountpoint,
--					   options);
-+		ret = try_service_main(argv[0], type, source, mountpoint,
-+				       options);
- 		if (ret != MOUNT_SERVICE_FALLBACK_NEEDED)
--			return ret;
-+			goto out;
- 	}
--#endif
- 
- 	add_arg(&command, type);
- 	if (source)
-@@ -631,17 +640,18 @@ int main(int argc, char *argv[])
- 		add_arg(&command, options);
- 	}
- 
-+	execl("/bin/sh", "/bin/sh", "-c", command, NULL);
-+	fprintf(stderr, "%s: failed to execute /bin/sh: %s\n", progname,
-+		strerror(errno));
-+	ret = 1;
-+
-+out:
-+	if (pass_fuse_fd)
-+		close(fuse_fd);
- 	free(options);
- 	free(dev_fd_mountpoint);
- 	free(dup_source);
- 	free(setuid_name);
--
--	execl("/bin/sh", "/bin/sh", "-c", command, NULL);
--	fprintf(stderr, "%s: failed to execute /bin/sh: %s\n", progname,
--		strerror(errno));
--	
--	if (pass_fuse_fd)
--		close(fuse_fd);
- 	free(command);
--	return 1;
-+	return ret;
- }
+and comment in the code. Having it in the git commit message is not
+enough for future code reviewers.
 
--- 
-2.53.0
+Other than that, I have no further comments, but I would like
+to have a review from Miklos before this patch lands, because
+I don't remember him reviewing any of the revisions and this is subtle.
+I am a bit concerned that we have no test coverage for this subtle code.
 
+>
+> When the concurrent lookup gets i_rwsem it mustn't do its own lookup -
+> it must use the existing dentry.  This is found, if it exists, using
+> try_lookup_noperm().
+>
+> Signed-off-by: NeilBrown <neil@brown.name>
+> ---
+>  fs/overlayfs/namei.c   | 12 ++++++++++++
+>  fs/overlayfs/readdir.c | 26 ++++++++++++++++++++++++--
+>  2 files changed, 36 insertions(+), 2 deletions(-)
+>
+> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
+> index ca899fdfaafd..f56e33fd4d6b 100644
+> --- a/fs/overlayfs/namei.c
+> +++ b/fs/overlayfs/namei.c
+> @@ -1385,6 +1385,7 @@ struct dentry *ovl_lookup(struct inode *dir, struct=
+ dentry *dentry,
+>         struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
+>         struct ovl_entry *poe =3D OVL_E(dentry->d_parent);
+>         bool check_redirect =3D (ovl_redirect_follow(ofs) || ofs->numdata=
+layer);
+> +       struct dentry *alias;
+>         int err;
+>         struct ovl_lookup_ctx ctx =3D {
+>                 .dentry =3D dentry,
+> @@ -1399,6 +1400,17 @@ struct dentry *ovl_lookup(struct inode *dir, struc=
+t dentry *dentry,
+>         if (dentry->d_name.len > ofs->namelen)
+>                 return ERR_PTR(-ENAMETOOLONG);
+>
+> +       /*
+> +        * The existence of this in-lookup dentry might have forced
+> +        * readdir to do the lookup with a new dentry.  If so we must
+> +        * return that one.
+> +        */
+> +       alias =3D try_lookup_noperm(&QSTR_LEN(dentry->d_name.name,
+> +                                           dentry->d_name.len),
+> +                                 dentry->d_parent);
+> +       if (alias && !IS_ERR(alias))
+> +               return alias;
+> +
+>         with_ovl_creds(dentry->d_sb)
+>                 err =3D ovl_lookup_layers(&ctx, &d);
+>
+> diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
+> index e7fe29cb6028..bc41da4bace8 100644
+> --- a/fs/overlayfs/readdir.c
+> +++ b/fs/overlayfs/readdir.c
+> @@ -574,8 +574,30 @@ static int ovl_cache_update(const struct path *path,=
+ struct ovl_cache_entry *p,
+>                 }
+>         }
+>         /* This checks also for xwhiteouts */
+> -       this =3D lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, p->l=
+en), dir);
+> -       if (IS_ERR_OR_NULL(this) || !this->d_inode) {
+> +       this =3D d_alloc_trylock(dir, &QSTR_LEN(p->name, p->len));
+> +       if (this =3D=3D ERR_PTR(-EWOULDBLOCK)) {
+> +               /*
+> +                * Some other thread is looking up this name and will
+> +                * block on i_rwsem before it can complete the lookup.
+> +                * We will do the lookup in a new dentry and when that
+> +                * lookup gets a turn it will find and return this
+> +                * dentry.
+> +                */
+> +               this =3D d_alloc_name(dir, p->name);
+> +               if (!this)
+> +                       this =3D ERR_PTR(-ENOMEM);
+> +       }
+> +       if (!IS_ERR(this) && d_unhashed(this)) {
+> +               /* Either we got an in-lookup or we made our own unhashed=
+ */
+> +               struct dentry *alias =3D ovl_lookup(dir->d_inode, this, 0=
+);
+> +
+> +               d_lookup_done(this);
+> +               if (alias) {
+> +                       dput(this);
+> +                       this =3D alias;
+> +               }
+> +       }
+> +       if (IS_ERR(this) || !this->d_inode) {
+>                 /* Mark a stale entry */
+>                 p->is_whiteout =3D true;
+>                 if (IS_ERR(this)) {
 
+How do you test your patch set? Do you have tests that exercise
+parallel create/lookup/readdir?
+
+It would be irresponsible to merge code without showing that the `alias`
+branches have been exercised. Do you have an idea how to do that?
+
+Thanks,
+Amir.
