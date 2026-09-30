@@ -1,154 +1,142 @@
-Received: from mail-ed2-f34.google.com (mail-ed2-f34.google.com [74.125.228.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042DC4A1DFB
-	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 10:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.98
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790765318; cv=pass; b=kniy38LSINT+1Ua1wX1z8VOjrx7dLsOx7Gpiym4WCCpA8WE5+QVQBe9EPreCbFNBstM+FpPKO5AN9R84P1AmLYQJYnhMvHRViGtoCNEFFHFOQdhLofYA/Xe2WeyADP9Y90QXOeWIn4XFKNtSziuDF1fra7XPIqou1tnkdp9M4Lo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790765318; c=relaxed/simple;
-	bh=RNRpFiUamIkA8BAFj3jCSMm9Ff3c2qxylU7LhlkhyxI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RnkxoPUeVKZUT3F9C9qMGjS7xO98cdK0YuIuG1A4Pu2uPUs6c3OjVNl7WJ7WyXhmSKexesabpDhIqSQUAsNOM/B8BeuTicX0YH9ZyaTadijbNCS2qWF8HNiDCHBNbXATocWRXoPTI4hvzqq6Egkg/ebD9UgnhsPN4KOAywbrnEM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NVYSQpGy; arc=pass smtp.client-ip=74.125.228.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C58F463B73
+	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 11:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790766425; cv=none; b=Lrj2FxeyypyZS/Jhimatn2aShNzmLEy3aLh7jQyGfNdrX0W+S0cBVPHnWr90eU5lAwzLDxiOMEJd2UbY33zL2PaeVP6VMLZSrv8ddlhVKwSt5ytqpjy/4vg73oWd91Yz5UDN6KQYNdM4P8IAIaxMZMhxwF7oCZx0ARfx0nrprlM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790766425; c=relaxed/simple;
+	bh=luN+P2BZ7K93xS5In+CEQjy3ole/FvL1iZ4ane8hJqw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j3pGuowJ6ktLHagvHvAsUvnI7WJpgk1KcNOSyOKWiSdTy7KqRObPg+BVXgnyYdn/mkY7mEEFz00pnu8xRFUFOq4bfrRPTkclaKzV9dJNVCGU5DD0iYCigTHZf1W/GB+FwMBXNXEDc4l9HH/wVWOyxDTYLBLUugzEefiOWq33bJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=mnstPiNq; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kcPc4Xrj; arc=none smtp.client-ip=202.12.124.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NVYSQpGy"
-Received: by mail-ed2-f34.google.com with SMTP id 4fb4d7f45d1cf-6aae1f2cedfso6768877a12.3
-        for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 03:48:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790765306; cv=none;
-        d=google.com; s=arc-20260327;
-        b=osCBWTj08F3b0+hrcXl7ucduzDC+yPvLmsyKNUvMRvksyX/8FRFTlm0Ta3wKOIKRvF
-         O2eEuaUZOh3xTnM7F0bF0VQogNpkrYCQfdt52B+02ezVBJlXdbeCdpaRmJ4Z5LX0OVaw
-         Sw0TW8ftohbU1KyeT6oPSSrSMKMB6F2BiRmiouiuiqATFiG2yPg4eVG0UtOSGW9GCqOx
-         137XKwCyUCtSMeLWFqPfwJEAlJ1jUvEBP2C9/lJABIbKvwyvGK8ls/fSv9FcyoopIKkE
-         ti3zb5lA5bfX23roPtSfqOnlxRP1PON/K3rX+2CQwetboIysSPMsJDY1JKExDV4Y2nVw
-         GQnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=L6WRkvlPa7sw2NEEZZhaZzuA+bxHBxPihqU3EKBl72A=;
-        fh=qJjdePgJuTEH5jSr29Fu9PkZEfiD1rRP5PP9opC1vDs=;
-        b=OFivVNgecd5AllfftVBrlS84zqjiCv1u6Fhyoxm4eDyvzwUOzSruyxGoWK/p7RJBmQ
-         REgLxjO3xe98kwQNYeLP5YVWAXz8haKz7MdoCiAOKwkIcgDSClX3Yq67smLGHwfD9WSu
-         T54UhFU6SZKWMPcy10jzvYTu48RzzUf42ZbiEJR6y2LHLkS/c+SL3suOPPL2XjlbK0Hw
-         8TBVndOFL0R3ho9udpmDLDPJakz8RcozMn1gamy72CIdOo7kFa7xN+fjw4P13AHvwaMy
-         WNemuJtMwy01JKPALRJunYoOaE68nZ8xP2c8BsATnMfV7c+Z0PTC/MEOMbM4SZip03vY
-         toDg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790765306; x=1791370106; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=L6WRkvlPa7sw2NEEZZhaZzuA+bxHBxPihqU3EKBl72A=;
-        b=NVYSQpGy/fyV3x7+PbtF+jxUarqnKh6xCiFj6Z37Qi/kkprGvr48qb9RVileTkV2HG
-         2c0fEj3cS4oS1XQziw6AawI87mooJh21kQ0XZ/nBCKwkY852gudF7D7bF9emVMh3N6NS
-         8RprlWYxpc48ziT2n1YiqVRixpVKqSRrFpobIbkPzsRJq9V4ocugXMr7O85aug1XkZjn
-         I1U3lrHdCrY1x7t1L+DWWXRlwCG6sMVU82Xb+eSA5iV2okqnYKlvLKzI/2VfqT5CDXrP
-         4Vy4otjeTk4DjynFlEVQBOjTlWWn1FXNTg421TbKYJDkysz/sOhiOSEy2k7acrRXlDI5
-         /czQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790765306; x=1791370106;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L6WRkvlPa7sw2NEEZZhaZzuA+bxHBxPihqU3EKBl72A=;
-        b=mU6JpJcazVRIt2BTk9tFAfqAjkUivI7OhQzmAA0qq0I+UfAb45Ba31Lj2yP3sQBrn/
-         JFSYYH1KtmB8DiOnfbcG8MFT5KAH26HbwH2Kc6pS6BGPZAJ+ipsESW6yjwZ1R4RfmNLX
-         ggcHbBI6c0GFBhA1vZIQk7n+S5TjQFxdF/sG81VerzOSqbNFQ7yvlaxMy3WSFoRLWxPc
-         DFqW+hxNgbmKVeB/lk17yNaXtad4onUWICulbNAnTQVQq2BORnJAYFRcfnIeVNgPf86u
-         IkEDewMSxtL+Z09hLkKeKZG47mx5fynd5XjwY6akj4jVuFF1/I6VFpBXS/jmo1NWE16Z
-         tICQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy/YIKgVE5kkQkNYPZ9qkugBzTHcSPfkDLsueZr/MHtx0eoQqgWf/SYIn3AkhRuj1JGW3IwaAb1gotO@lists.linux.dev
-X-Gm-Message-State: AFq9FYLj4XVV80X0kr93oMiT30wKJpHTSJXeK5kFYo9ag61EimcSHQ6m
-	GtObdM+N91w8BePt9xPnWrAaU7o+/3Ljimb4KuUagP5LkmZNiF6wVbJYu8k+8VSNMKVHivFgxYb
-	9gl3ePO63fWURoMUwmIRgRLdjC1TirYM=
-X-Gm-Gg: AYBFou3bcTs/4RCDrRtKqTN9vbIIHXzHXLfXGD8j1LdSSj7OZ+mJUGQpbBcl+tbGhHr
-	odErrMZTo2nNqM5HYvIfB3WViVkULgDw1wuKXEZQCG/8x9sDfAr3sD7HH9vVCK+aND9riRkN73M
-	NREgMl58IScLHex8QqTu0n5Fknb6KchS2ySldGvpK9IXC4MQ0X3aHrw6YsB4gR+QnSHJl7dtUyR
-	TkERY/aeLk3a0xWFuPCeecwrfb6E9Fe5V6aYFb5e73erjnNGu8TEJHBLxxE05iiMroSjbzHdkEM
-	D2DOWusbVfkYr9ero0IlGw31V3OrSQZFnqEwJ8bPFLdQ3QTcJnCyifxA
-X-Received: by 2002:a05:6402:a0c5:b0:6ac:77c2:c418 with SMTP id
- 4fb4d7f45d1cf-6ae1985d094mr556763a12.1.1790765305275; Wed, 30 Sep 2026
- 03:48:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="mnstPiNq";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kcPc4Xrj"
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfout.stl.internal (Postfix) with ESMTP id 642161D00697;
+	Wed, 30 Sep 2026 07:06:59 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Wed, 30 Sep 2026 07:06:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1790766419;
+	 x=1790852819; bh=ktpIqoHH+++dSqgdzXknCcTCuL1r9edxE95TlR/aXo8=; b=
+	mnstPiNqWjGDRc24IYRBS7mucKDE6CDCECXIeFTTeKS+DmIr17HO6w+SEUqvwe55
+	0j76yQQ9v8hXBCOIfC/UHSPyPpf93cvNp8aiAy3sFHUAUyC5nNRVEE0XRjLOFT/e
+	1VS17641wje7M0Fd7vic0RI/rFqf3llGzU7/pw/sZhGt3dyUACIFNepm0THBL7u6
+	swnqNYEiJ1ilzhavgEdzvAA2jOkbzWNl003V+Zq8yMJxRzoAIrJ26TlqIhyvq/WY
+	Nyx52DCMiSvptZQXLu5CWqO8yds2HC01uYrRwMo16O+R5ps/cltN4FPoxRjB9Sh7
+	75d8f5372MXwafNNh4B5eQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790766419; x=
+	1790852819; bh=ktpIqoHH+++dSqgdzXknCcTCuL1r9edxE95TlR/aXo8=; b=k
+	cPc4XrjY9Q0mKZx7rGiXSOLlP123QgB2JYog2F4ryV8BY4Xm2XVu0uA2yQweOAQV
+	e9IUkectfm61OfL6cRBAO+8GhBqJlcB8I46OZ70WBJTjaWYj5c4nn5Hxa/2PQKBu
+	mWi20u12MnQZKeoTcpK9fqSuV2Z3aj4t7f4/AFJbmdjsuMw81y6U3H50uM01caj1
+	lnCWb7h7B2lIZLYIkTrdZKFVThMoPSNPqGJ/1xce8guenp5G5CXu5F7Kxf1lk9lA
+	9uF8W6knh1yuwamctqBQgRMK06wPT/CzEjBRYYSK3yjBbs8Bo9pRUyUGpyUPlI5S
+	+thdAOkVJAP7Z1higjoAA==
+X-ME-Sender: <xms:Uu28ak7Jfy5EJwsT3pPR7wvJx1RkVHHu8519xAsHprUWVyomvvEA7w>
+    <xme:Uu28atXB_oS2BScV-zhkfYwHnKo-ZoBeMKJqGIfEuDiL8ebZFXKfSzcPKGPpKZYJ0
+    vDd30f7eRGg15VmKa-hdNFMwHlFXv5rJCbjq223LL8GpwnCoA8>
+X-ME-Received: <xmr:Uu28ag3udx3RvuWp_xdSgbQN8lltG2KI_fUwfF0yOrmKB_svnjyJXc2SFO0L5k3x>
+X-ME-Proxy-Cause: dmFkZTFAzArztNkmQKb4zzJa0x69VV4GpMxYR06dytMuBOYOHC8dr7oitGwolAEbqSzkCL
+    QcbFOSZfGCZ4qjWOLHz6AcKFbtZgiBcuGNiaPOWxwq+zQLYRDg1oE3yCMTmW9JtaPK81bb
+    CV/THgq88VyuuPaLsXqnhP9GhzARgQf+6ph/uXv7j7+FiG5mwqUvmDOMo6rdP0u+prN3W0
+    fuWMvyF/tfGZvTOXG3FLxtHfhxanNfuaxqgCLW1/V6vNrA/3ydyLmpG0HueZeb460xKvVu
+    rl4RQFg4nx6bUOgYwxu2oFCOmtscASk98MK2f6Ppa5omHU8pJCH6GszSQx2t/mjLS5MDkF
+    AbUrmgknblvo8O8Vr+EuvPV7EaxMYKb+8/ce34o16W6KL7iTsWZsMTfH621TtgZoAWaJld
+    w9CCKMfZWbXRQgOWXi/zVdnDLQwbkVNdQHuJe68t/buUGOM8jarMcF+ZY+tmp6P+tRDqm9
+    wi9t2NS4zOaLzbkgXnE1geHUYNeubCvUpxnHsQUV1wFQ/92V+pmsuenmA+MD2uUB5Nq/ha
+    SOW2PIPp0mtA75b/AN+vY1ChT/yZa7m5nuZHD9BqsHKkSfuJOtC9dpWXMj0nQUmxNqwu0u
+    cnL+62SLdUqD5R8HAW9rEyXQEanGvfG2Srufyf6Mm44GewZ+KTJEFDptLTWg
+X-ME-Proxy: <xmx:Uu28ai2Ntu5HMU_5I7KTS3iaQG_8r9_U1yZmKwHcHX41L0hvz-pZfg>
+    <xmx:Uu28ar8FbjxnCBgS1lfxebesz73kdpAKSs0ckA3H33yyxz1n4imSGA>
+    <xmx:Uu28an2Np4watgwrWHyCn0Uir0urX-143ifNawUDO4p-4hfU51sRKA>
+    <xmx:Uu28ag-WhK_L9GtSRhQSazdzgwiqcXyR-S5anJvZ8T1Dt6Arv5jQXg>
+    <xmx:U-28amzvw4eFT7S83zxiRxBvsvBQAuDqGLhiRrVoKYxa_pOtjBJH6ZZT>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 30 Sep 2026 07:06:57 -0400 (EDT)
+Message-ID: <d0538147-d06c-4a28-9805-06417d9e2451@bsbernd.com>
+Date: Wed, 30 Sep 2026 13:06:55 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260922061019.3320196-1-mszeredi@redhat.com> <20260922061019.3320196-7-mszeredi@redhat.com>
- <CAOQ4uxgfEM3CiBCCu53MDJnHDiYOmmMB5zZ1pqABUPiFag67-g@mail.gmail.com> <CAJfpegupC6qG3GcziSeqzNUz7OjWcaxPV2TydBBO7hShm02CHg@mail.gmail.com>
-In-Reply-To: <CAJfpegupC6qG3GcziSeqzNUz7OjWcaxPV2TydBBO7hShm02CHg@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 30 Sep 2026 12:48:13 +0200
-X-Gm-Features: AclHuK9iBukJS84onYStzKo9w6RS2o1y0ddrTAn2bG-zejZLWr95R8m6LjRRWME
-Message-ID: <CAOQ4uxj6gDqmZ9Vct9fcYj84K1hN2npfhvgFp6fV6Omj-rsHgg@mail.gmail.com>
-Subject: Re: [PATCH 06/11] fuse: support 64 bit, server allocated backing ID
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	John Groves <john@groves.net>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Joanne Koong <joannelkoong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/14] mount_service: warn about paths not named on the
+ command line
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: fuse-devel@lists.linux.dev, neal@gompa.dev
+References: <20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com>
+ <20260928-mount-service-bound-open-v2-2-0f9f501d05ce@bsbernd.com>
+ <20260929021027.GB6253@frogsfrogsfrogs>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20260929021027.GB6253@frogsfrogsfrogs>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 30, 2026 at 12:15=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
->
-> On Wed, 23 Sept 2026 at 09:09, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> > On second look at this uAPI and after failing to retrofit ops_mask into
-> > fuse_backing_map, I think it would be better, along with init flag
-> > FUSE_PASSTHROUGH_V2, to decommission both old ioctls
-> > and use new ioctl with consistent verbs for the new notify's:
->
-> Yes, unfortunately the "map" verb is overloaded:
->
->  - map from backing_id to realfile
->  - extent map
->
-> Would be nice to find something better for the backing_id mapping to
-> avoid confusion.
->
-> How about:
->
->   FUSE_DEV_IOC_BACKING_CREATE/struct fuse_backing_create_in
->   FUSE_NOTIFY_BACKING_REMOVE/struct fuse_backing_remove_out
->
-> ?
 
-Sounds good to me.
 
->
-> I'm not opposed to FUSE_NOTIFY_BACKING_MAP, as that tells us it's
-> operating on a backing.
+On 9/29/26 04:10, Darrick J. Wong wrote:
+> On Mon, Sep 28, 2026 at 01:02:04PM +0200, Bernd Schubert via B4 Relay wrote:
+>> From: Bernd Schubert <bernd@bsbernd.com>
+>>
+>> In a service mount, the fuse server runs as a systemd service in a
+>> sandbox that has no access to the user's files. The user runs mount,
+>> which starts fuservicemount3, a setuid-root helper. The fuse server
+>> sends requests to the helper over a socket. With an OPEN request, the
+>> server asks the helper to open its backing file, for example the disk
+>> image named on the mount command line. The helper opens the file with
+>> the user's credentials and passes the file descriptor to the server.
+>> fusermount3 opens nothing for the fuse server except /dev/fuse; the
+>> server runs as the user and opens its own files.
+>>
+>> The helper opens any path the server sends. An attacker who controlled
+>> the server could use this to read every file the user can read, for
+>> example ~/.ssh/id_ed25519, and the sandbox does not prevent it. The
+>> helper now prints a warning if the user did not name the path when
+>> mounting: as a whole argument, as the value of a name=value option, or
+>> glued to a short option as in "-J/dev/sdb1". The helper splits the
+>> options with fuse_opt_parse(), as the fuse server does, so both see the
+>> same option values. The helper still opens the path, because a server
+>> can take a path in a form that none of these checks recognizes.
+>>
+>> Enforced permissions follow up in the next commit.
+>>
+>> Assisted-by: LLM
+>> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+> 
+> I wonder if there are any fuse servers out there that take parameters
+> like:
+> 
+> -o bdevs=/dev/sda:/dev/sdb,otheroption=whatever
+> 
+> but ... let's let them come out of the woodwork?
 
-OK, flags namespace check:
+Yeah, I think we can handle that later on based on needs.
 
-/**
- * flags for fuse_backing_create_in
- *
- * FUSE_BACKING_CREATE_ID_64: not needed
- * FUSE_BACKING_CREATE_INO_ATTACH: for illustration
- */
+> 
+> I think this is a good addition :)
+> Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-struct fuse_backing_create_in {
+Thanks a lot for your reviews!
 
-/**
- * notify_backing_map flags
- *
- * FUSE_BACKING_MAP_CREATE:    create backing with the supplied ID
- * FUSE_BACKING_MAP_CYCLIC:            map repeats after last extent
- */
-
-struct fuse_notify_backing_map_out {
-
-FUSE_BACKING_MAP_CREATE is somewhat awkward, but still works IMO.
 
 Thanks,
-Amir.
+Bernd
+
