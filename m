@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 030404B8287
-	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC084F30D1
+	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790773875; cv=none; b=L0K+x5+OHvRF7l+9vYWryD+EiRqBLpDFSpsi4kOR0KoTWNTfcoj2D3YfTufwIVk7F4X1PRr5D3qdjhLDS4znfISg2bdA+3drJ8oVS9jlEm2MW3l3rvUv46FK5oiNhDwDvsPdXZXZmWqqJuSVGhscf4akpYXJU9tsIZijxKg8BdE=
+	t=1790773876; cv=none; b=RnrpMt4dums9Qhw9fOfMF0K6Ex9s2YDAGKRpkBCk1EWgCOqvQEdiehYHlkKDXxvVBQ7yekpZ4G2loQ3GOtV1Sbxrrm+Ir5PG90vR4qCCrZ+QAOXglNSfL2D73T9+oBCOwDt5IcDE0jF0h42L4OOZmB2eMCnJxPQYEyM6C+iUg3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790773875; c=relaxed/simple;
-	bh=iggcczq8z2uly+ILa37Q1CYIYtXrHGs7+2hu90MrAv8=;
+	s=arc-20240116; t=1790773876; c=relaxed/simple;
+	bh=xLkZwBOyh7CeWC3R0ikoQ1whft2wA6DEr7bKrbaj3Rs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=t2005qSmCByK2cKMfGt50UgWrJKhtrrE5a/hZhs5wK99hqpXraqxF/dzbmbQRuW8tzVLM4YBWXiqb1VylU1K78iwRIQPllgWvmV6B6/1ZFcUjEPuqT8f0WLpclhK7k7avxU8PNL1ALWmV8OEcMtel3qWTGgC8Vmdbaga/YdKne0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pvW+ps5b; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=PWDxrTooPXpFB7e/rmhdZ9yZVfrYIDRJdoNrdNIM+06zo521BXO0fKP/wOQ9TEq9kf6a9j+6W6xz2L9XMaV9sfxXZotomx/XA1V63TVW4QONHDO3A5h7SCKSBmz4AiH3isza4AznJPgeSBM95sDEeX57qkTY+fq7j+4J2iUef9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XKsuq8xG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pvW+ps5b"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C07F2C4AF16;
-	Wed, 30 Sep 2026 13:11:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XKsuq8xG"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 79991C4AF1D;
+	Wed, 30 Sep 2026 13:11:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790773873;
-	bh=iggcczq8z2uly+ILa37Q1CYIYtXrHGs7+2hu90MrAv8=;
+	s=k20201202; t=1790773874;
+	bh=xLkZwBOyh7CeWC3R0ikoQ1whft2wA6DEr7bKrbaj3Rs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=pvW+ps5bQJLCjHJuOh4S+vJDK4aH5NN4nm6nH5EG0c2urAZAOQ2yfW8TCImXqaqxV
-	 dmJ74BrbdWVfqG18dV++OAkAGhvIKYGOf3U6pUBN0MGb2esmjmp1IKTv0jptQhSE57
-	 YYzS2R/ZwPM1xZdH+2v9Rshq+Gp2bmueXGuGhi2DyCyjAxlPvZsHl/EmB62inItgvp
-	 fqpQfjyaSDyb/iRpzcYE2et4EMLPk3CAiR901GtFLu5aSswmptZy/jppJjf4XytPNE
-	 YYvBfOhDosMXphx/vqAgu5tvsgupuC5VV+Pu6XjbOYr6zSSoAv/C/+NtJLqGZQCyWC
-	 PPZoirafSGdTg==
+	b=XKsuq8xGQoFTUvclNkP1544bvhgUcirUB91aUxyaOAbur+r7d0SZ2+BOoNchNAKdY
+	 bRjnk9pPXmq44+1dNwJu7SlsMVZsHe76WSADPJdBTMrRexiGhv+/7z5QFqPi24rKeL
+	 6JlIfV1kQqzTbvFE5jdIgH5iRn5Cl1IhDPPZHViR/VHkYSGjA56+75qjjRXc4SyGq1
+	 kMRtoNcSS5n469GKsRFcroTHJ4dlixCfqYReM0jnjCqNv6rZ9XebG5iIIvACJXuUET
+	 N2vvkd9+wwm6wk78F2qBfdakHZg0Ea2PbVz4i8GDJAh/n0W6PTXoNAN+RyHZJ0/Kcr
+	 U2gHhCuUAa9ag==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A367DCA5FBE;
-	Wed, 30 Sep 2026 13:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 695FFCA5FC8;
+	Wed, 30 Sep 2026 13:11:14 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Wed, 30 Sep 2026 15:10:56 +0200
-Subject: [PATCH v3 02/15] mount_service: warn about paths not named on the
- command line
+Date: Wed, 30 Sep 2026 15:11:09 +0200
+Subject: [PATCH v3 15/15] move fuse_service_priv.h from include/ to lib/
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,20 +40,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-mount-service-bound-open-v3-2-e26c5e4eca4c@bsbernd.com>
+Message-Id: <20260930-mount-service-bound-open-v3-15-e26c5e4eca4c@bsbernd.com>
 References: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
 In-Reply-To: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
 To: fuse-devel@lists.linux.dev
 Cc: "Darrick J. Wong" <djwong@kernel.org>, neal@gompa.dev, 
  Bernd Schubert <bernd@bsbernd.com>
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5454; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=463; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=tlW2RGmk9z+wyqd6HpA1AWICCh0mEz5JcRuPuaBgsBQ=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2cmXxmO/dt/ZU865Y7dl1WxfdKmS53M5ddCTwwLYT7
- KHZs3YKd5SyMIhxMMiKKbJ0SeyxnfKPT1bt6/rrMHNYmUCGMHBxCsBEdjMz/FM2+Tv9xmmRpKU7
- dz68Lbm611moa7PMxVuCIROFrhy8um4fw18J76X8QhsNu1lWrtzSyxglprEkaTqL4Vq3vUtE237
- V/mUBAA==
+ bh=lMeyN6pYndX7o4W14bp1z1NpA5fft5V2+Wv9PrgunkE=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2cuVfkss0jlRJX22TwnOJddLtS4XsItf3Cypr8AT4H
+ tU/ufpxRykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAEykU46RYdGd/JrbGq2+z/z6
+ a15f+bu69pddvSaj3/yaPw25WjrbzjAyNPnd1ta5rau/+RFP4fLJc7X6vZ9s/8fCscDHkXv3w0+
+ S7AA=
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -64,150 +63,18 @@ Reply-To: bernd@bsbernd.com
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-In a service mount, the fuse server runs as a systemd service in a
-sandbox that has no access to the user's files. The user runs mount,
-which starts fuservicemount3, a setuid-root helper. The fuse server
-sends requests to the helper over a socket. With an OPEN request, the
-server asks the helper to open its backing file, for example the disk
-image named on the mount command line. The helper opens the file with
-the user's credentials and passes the file descriptor to the server.
-fusermount3 opens nothing for the fuse server except /dev/fuse; the
-server runs as the user and opens its own files.
+That had slipped through during review, libfuse convention is to
+have include/ reserved for headers included by applications.
 
-The helper opens any path the server sends. An attacker who controlled
-the server could use this to read every file the user can read, for
-example ~/.ssh/id_ed25519, and the sandbox does not prevent it. The
-helper now prints a warning if the user did not name the path when
-mounting: as a whole argument, as the value of a name=value option, or
-glued to a short option as in "-J/dev/sdb1". The helper splits the
-options with fuse_opt_parse(), as the fuse server does, so both see the
-same option values. The helper still opens the path, because a server
-can take a path in a form that none of these checks recognizes.
-
-Enforced permissions follow up in the next commit.
-
-Assisted-by: LLM
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
- util/mount_service.c | 73 +++++++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 66 insertions(+), 7 deletions(-)
+ {include => lib}/fuse_service_priv.h | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
 
-diff --git a/util/mount_service.c b/util/mount_service.c
-index 7549e0b5024f..446f37f61916 100644
---- a/util/mount_service.c
-+++ b/util/mount_service.c
-@@ -770,9 +770,55 @@ static bool arg_in_cmdline(int argc, const char * const argv[],
- 	return false;
- }
- 
-+struct option_value_match {
-+	const char *path;
-+	bool found;
-+};
-+
-+/* fuse_opt_parse() callback: set match->found if the path is this option's value */
-+static int match_option_value(void *data, const char *arg, int key,
-+			      struct fuse_args *outargs)
-+{
-+	struct option_value_match *match = data;
-+	const char *value = strchr(arg, '=');
-+
-+	(void) outargs;
-+
-+	if (key != FUSE_OPT_KEY_OPT)
-+		return 0;
-+
-+	if (value && !strcmp(value + 1, match->path))
-+		match->found = true;
-+
-+	/* Short option with its value glued on, as in "-J/dev/sdb1" */
-+	if (arg[0] == '-' && arg[1] && arg[1] != '-' &&
-+	    !strcmp(arg + 2, match->path))
-+		match->found = true;
-+
-+	return 0;
-+}
-+
-+/* @return true for the path in "-o name=path", "--name=path" or "-Xpath" */
-+static bool option_value_in_cmdline(int argc, const char * const argv[],
-+				    const char *path)
-+{
-+	struct option_value_match match = {
-+		.path = path,
-+	};
-+	struct fuse_args args = FUSE_ARGS_INIT(argc, (char **)argv);
-+	int ret;
-+
-+	/* Parse like the fuse server does, so both see the same values */
-+	ret = fuse_opt_parse(&args, &match, NULL, match_option_value);
-+	fuse_opt_free_args(&args);
-+
-+	return !ret && match.found;
-+}
-+
- static int mount_service_open_path(const struct mount_service *mo,
- 				   mode_t expected_fmt,
--				   struct fuse_service_packet *p, size_t psz)
-+				   struct fuse_service_packet *p, size_t psz,
-+				   int argc, const char * const argv[])
- {
- 	const struct fuse_service_open_command *oc =
- 			container_of(p, struct fuse_service_open_command, p);
-@@ -800,6 +846,15 @@ static int mount_service_open_path(const struct mount_service *mo,
- 		return mount_service_send_file_error(mo, EINVAL, oc->path);
- 	}
- 
-+	/*
-+	 * The file is opened outside the service sandbox, so report a path
-+	 * the user did not name.
-+	 */
-+	if (!arg_in_cmdline(argc, argv, oc->path) &&
-+	    !option_value_in_cmdline(argc, argv, oc->path))
-+		fprintf(stderr, "%s: %s: warning: file not in command line arguments\n",
-+			mo->msgtag, oc->path);
-+
- 	open_flags = ntohl(oc->open_flags) | O_CLOEXEC;
- 	drop_privs();
- 	fd = open(oc->path, open_flags, ntohl(oc->create_mode));
-@@ -834,16 +889,18 @@ static int mount_service_open_path(const struct mount_service *mo,
- 
- static int mount_service_handle_open_cmd(const struct mount_service *mo,
- 					 struct fuse_service_packet *p,
--					 size_t psz)
-+					 size_t psz, int argc,
-+					 const char * const argv[])
- {
--	return mount_service_open_path(mo, 0, p, psz);
-+	return mount_service_open_path(mo, 0, p, psz, argc, argv);
- }
- 
- static int mount_service_handle_open_bdev_cmd(const struct mount_service *mo,
- 					      struct fuse_service_packet *p,
--					      size_t psz)
-+					      size_t psz, int argc,
-+					      const char * const argv[])
- {
--	return mount_service_open_path(mo, S_IFBLK, p, psz);
-+	return mount_service_open_path(mo, S_IFBLK, p, psz, argc, argv);
- }
- 
- #ifdef HAVE_NEW_MOUNT_API
-@@ -1838,10 +1895,12 @@ int mount_service_main(int argc, char *argv[])
- 
- 		switch (ntohl(p->magic)) {
- 		case FUSE_SERVICE_OPEN_CMD:
--			ret = mount_service_handle_open_cmd(&mo, p, sz);
-+			ret = mount_service_handle_open_cmd(&mo, p, sz,
-+					argc, (const char * const *)argv);
- 			break;
- 		case FUSE_SERVICE_OPEN_BDEV_CMD:
--			ret = mount_service_handle_open_bdev_cmd(&mo, p, sz);
-+			ret = mount_service_handle_open_bdev_cmd(&mo, p, sz,
-+					argc, (const char * const *)argv);
- 			break;
- 		case FUSE_SERVICE_FSOPEN_CMD:
- 			ret = mount_service_handle_fsopen_cmd(&mo, p, sz);
+diff --git a/include/fuse_service_priv.h b/lib/fuse_service_priv.h
+similarity index 100%
+rename from include/fuse_service_priv.h
+rename to lib/fuse_service_priv.h
 
 -- 
 2.53.0
