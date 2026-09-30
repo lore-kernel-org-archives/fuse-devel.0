@@ -1,186 +1,443 @@
-Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F604FD7AC
-	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 14:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.235
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790778595; cv=pass; b=QbfgsVuzdQc7TXKkUMIOg4va+iWZ0/JsQ+6NNo9tiS0MNDQrTRnveGg6osFlLpgMVrmbe8IUwNTco1RuZ53BN57XiNetpzh9A4wxHMEz9lW6S9bYNF6oJONx6Wn9y2lEhGu+57d88PPtBip+95xBOnODP4Z2G50hg6Rp4GlzOH8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790778595; c=relaxed/simple;
-	bh=Jv5f1g0f3qDS45IX1yQFN/XI/1HiyQaIpDbEOG1DCc4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Wr7a20VT0CRqlZnGWVAq3lZR3oJqv0IUbAHdzasVXgFEeEnRQIrRn8eU7lg/BwJwTdJWKq8ZdABeJWbV2x/1TnD6YFOzyokQ5v7+9SeEJHu/7oXw6MUaXSh1TPj7CArcC23jFMihsNOHw7OsFkgDV8vu4fEOtjMtfjSJKUEd34w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=alFWgbX7; arc=pass smtp.client-ip=74.125.230.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B62114DE725
+	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 15:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790780895; cv=none; b=rcEDAJcQgI7oivulLA83r6/IuIdlC62ZUgxsiwQt6ps1o7jXlb7bqXy0rUjyQlW6tILtKVSRWc4t5yW0qk74HPn3aqgeh41Nio2INJu6FdM3Z3w6o+MBda/+ihjnQ3BPu9HuJTfkH+0t2r2SRSSGFZbmsfFyTLN9rQaZHayjHjs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790780895; c=relaxed/simple;
+	bh=F2oUZhtDcJ56iQInGqme9xub9Hagy8T93UakotMoj2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fbPmhmi8KK3UeC7tSnqwfoYBGNYk9c5c2zHzG8WGXScK2oAJoNwoQiaKXs540K/MavGDz44BMFiiUUQOk8zBykhlquLWeJa+xuX58V2eFMRLI5N5gxWMmDgThnheYrnJYN6jKNG8JQrwTrA8UFwJkGbD9Ry2HxpHCbrt6kv/nVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H90Apmff; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="alFWgbX7"
-Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-532db7db0c6so50023311cf.2
-        for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 07:29:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790778585; cv=none;
-        d=google.com; s=arc-20260327;
-        b=InEDYhInhBOMTok1bI1XYineYGVOPhMmi6QeQpmlUyvQgyr5T4saYGFo4UG9W5IAoC
-         aO08juNE4q/bROkzbDTvjO/+by0yGResET9xlvSkxLX6rxpgTKwyfLUx6XWG2P6lag/4
-         eWrLlaTFnvRdJzGeeDCFXSXB4M6myxa+TAISLoRSjqK11X9jmN6Ak50UwbFJbC4Nb6f4
-         vNuXteQR+G3pIJVWO9I0VrMjdm+1IGZVa2T1Zc0aQL3P1XAoRw6/bxh7UkR815+0DyVn
-         2WB4evX2bpPrSDWptSe/rdVpWti7zyoD4H2F2D7hOeTRzwOv9Q10kI6wblIgWgWsdOel
-         nAbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=bFcOr5qvsPCgBjFZ4BWLUmj9QlCgJD693TK70ZfQ/Lc=;
-        fh=RdhYxw3WNprI8C7jm6iVbPto+aX5foBn46Nsr1Lhdps=;
-        b=POGW7K90ZHCbK2bxDs6Eb6KxdbCxC0WftCr89CKfnGPWEhIkeqtxu9BNryyepOtUIZ
-         gHFq+Y/c9HcUHc9IMnL1WI5YYzOFbGhUMHYbmCaaUa67GsQpn+ydoqfCYqZ6YuMuqSSF
-         cuLrNudKEeXnbRRYFLEmzyNK/reqZBusI0EbkPMW7WuHTfWm+ZMnFFZe/IpseNYpzU1L
-         dpD++SfYA5Xy2q/bA2zvYNShbClqEHw42nGngWKlU2O6iUsZLGaMeaBrnZNFzgr4Ojjs
-         xB/q9loSDjsWQXlyjIQDWOj9j8a6eGCKFVRwjV8tgvJwoc8ueAlP9vi8dXaZV380V2fW
-         BBrQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1790778585; x=1791383385; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bFcOr5qvsPCgBjFZ4BWLUmj9QlCgJD693TK70ZfQ/Lc=;
-        b=alFWgbX7pccMXsmZjsw5DXuqREEPQaa+uIwTxCwzn8WKIAF8uTm0EMXtYKStmIvMkB
-         Y3xexy/O6iks1IMDNwNFx7mJMShEBw1dO+tK2lrUwD8ruGMPF69ruZpmAoxoR/N8IzXi
-         eSug9pYhQjWQEeX7H0Nl5m4gQN7XmbtHrooTM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790778585; x=1791383385;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=bFcOr5qvsPCgBjFZ4BWLUmj9QlCgJD693TK70ZfQ/Lc=;
-        b=P86EKHZISZbGoiN7gq/sPl3tfBmHKJ2nsN/rz3ZdHVifcmeYbcsmyAh4SggnsmqUMv
-         S6L0Rs4pP22t4IjBEP7wqj/ev4+l1DiOTfG1ZhLFG8Izx9hDSLtaULz+bqHYgttJXUuR
-         hgRVCl6l1qnQdAq0Yuz1RFbo03m50x95EjFLEVTa/Ev7kkYSFKmBscQOX4OzwRk2mCBd
-         QI94PVzhXCLeyZVkVMK1gVy0FECWFes4bY+O4B5XxQHfwH2ET7UIxdrgURb8peiq2Uf+
-         3/jl9+gotuQ2ExpZkbgWegqYFcxn9mVmjgNAPXpcgVwSZMJf83VCHiQQyRvPEt5kUdHR
-         KuYQ==
-X-Gm-Message-State: AFuF++kyz5TsV5wxC/lT2lDffm77/Ffz4ugY+Js4Uhr1aLmyJd97kF+e
-	R/9DGb32lQWEw40vXjgVvY47V7+qnRVwd+RVYreR5RB/DZ4dvTGRrW78Y4p38IWKNMYvNo3kdGd
-	1e4mrl0gnqmppd0/+e7bzvi2TQ1pJzSK2MjKHSpfisg==
-X-Gm-Gg: AYBFou0lkZ+mDk0nE4IOcXl+h3ztYgzXnlS717WdFZrdv82aJW5RfNCvWlLqHMJ/ZJU
-	I6Tk0mMhscfL6EEKI6mgShUtKyP0J60OrAR8F4QcgWgwFUyKloWCn1/CY5ijdFATVdbeKzqNI6O
-	2dlP5HHu/FWz1iLhRiK1fSbSH4dJowx7HhnS9O7FIAnJc9LL24bjrAtJdCyuPzFcTd2WLZbh2/v
-	b9a2mxtGH8jK/qr7FqdWPFiUA/HG5ysT/9knR2vBsXgWnuj1FG7BiMFGsjAQsbqZQbaVacdFWrg
-	4T3PAkGvhSt2MYvlWQFuCr9f8ug48Clb3IEwN0MwfKIh44BCzrzCogxY6xIKgHYzSvI1PhiK31Y
-	pqUKk9ailpItlFA==
-X-Received: by 2002:a05:622a:258f:b0:533:32f3:1db0 with SMTP id
- d75a77b69052e-533742bb8cbmr29673951cf.6.1790778584578; Wed, 30 Sep 2026
- 07:29:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H90Apmff"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6F45B1F000FF;
+	Wed, 30 Sep 2026 15:07:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790780878;
+	bh=DJxvgsIVZEDAbQ5Zh9dc2mGvQr6XLIjGJMgwFnoLR9g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H90ApmffztCZxx/MogNKyjYQvJHjodce9N024Ui7ZLaZYndBFXfGRQ82wrb6/8uPu
+	 NU2mxM9rPus0j/SYdXYA7Dk6LdhEBWi3f+LijqbbtapJcvB7GIVVUKEZgY8jEfUsd9
+	 At8P5U5n99v0vMD5Ne1TOpe1avRa72l06yC8ONkpzDlJeV4cLWxNhg34HCPRoVyyOM
+	 1H8BqJ8QanilqXqDUbabjQ2Eo5iqhN65Hb5ljhLEJC30SWatkm5EIYOMFo0kKrLRnA
+	 /swAW5tuUIVgafsJJl7fG2eRJVLGTmslcpLWTNormsU5mdfkDMZ/LXWUIwcEVxk6Fi
+	 sXtNw/EkZ+J1A==
+Date: Wed, 30 Sep 2026 08:07:57 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: bernd@bsbernd.com
+Cc: fuse-devel@lists.linux.dev, neal@gompa.dev
+Subject: Re: [PATCH v3 03/15] mount_service: refuse paths the user did not
+ name
+Message-ID: <20260930150757.GJ6253@frogsfrogsfrogs>
+References: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
+ <20260930-mount-service-bound-open-v3-3-e26c5e4eca4c@bsbernd.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 30 Sep 2026 16:29:33 +0200
-X-Gm-Features: AclHuK8GeOe_W3mvOTyMrVDZeZ25RiRcVppHiB0syijS4_yNrxLEymVmpXQKS-M
-Message-ID: <CAJfpeguyOXGQO4Q8rSAc8GxExTJU0G2o19fxRnh_93GvAoNcRg@mail.gmail.com>
-Subject: fs_put_dax() vs. dax_holder_notify_failure() race
-To: Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org
-Cc: fuse-devel <fuse-devel@lists.linux.dev>, Carlos Maiolino <cem@kernel.org>, 
-	linux-xfs <linux-xfs@vger.kernel.org>, linux-kernel@vger.kernel.org, 
-	John Groves <John@groves.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260930-mount-service-bound-open-v3-3-e26c5e4eca4c@bsbernd.com>
 
-During ->notify_failure() callback will dereference holder.  It may be
-NULL at this point, resulting in an Oops, or it may be non-NULL but be
-freed during that call, resulting in UAF.
+On Wed, Sep 30, 2026 at 03:10:57PM +0200, Bernd Schubert via B4 Relay wrote:
+> From: Bernd Schubert <bernd@bsbernd.com>
+> 
+> fuservicemount3 warns about a path that the user did not name on the
+> command line, but still opens it. A server can take a path in a form
+> that the helper cannot split, for example "-journal/dev/sdb1" or its
+> own option syntax. The administrator can now list such paths in
+> /etc/fuse.conf, per filesystem type:
+> 
+>     service_open_path = ext4 /dev/sd*
+> 
+> The pattern is matched with fnmatch() and FNM_PATHNAME, so "*" does not
+> match "/". A requested path with a "." or ".." component never matches,
+> because "*" matches "..", and "/dev/*" would then open "/". The helper
+> now refuses any other path with EPERM.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 
-This affects xfs at this point, but the fuse extent map patchset[1]
-also adds dax failure handling and is affected by this issue.
+This is a solid security improvement, thanks for making this!
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 
-I think this should be fixed in drivers/dax/super.c, since this will
-be a problem in each user.
+--D
 
-Thanks,
-Miklos
-
-[1] Report from sashiko (select Patch 8):
-
-https://sashiko.dev/#/patchset/20260922061019.3320196-1-mszeredi%40redhat.com
-
-Or here it is inline:
-
-commit 1580a2f8ad3f103a20b6280aa39a01f8b0be2d3f
-Author: Miklos Szeredi <mszeredi@redhat.com>
-
-fuse: add support for opening dax device as backing
-
-Add FUSE_BACKING_IS_DEV flag that allows opening a character device
-(dax device) as a backing, in addition to regular files. Mark the
-inode with S_DAX if FUSE_LOOKUP returns with FUSE_ATTR_DAX set.
-
-> diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-> index 58dbdd17c1ef4..aa558a0c2e647 100644
-> --- a/fs/fuse/backing.c
-> +++ b/fs/fuse/backing.c
-[ ... ]
-> @@ -22,9 +23,16 @@ static void fuse_backing_free(struct fuse_backing *fb)
->  {
->   pr_debug("%s: fb=0x%p\n", __func__, fb);
->
-> - if (fb->file)
-> - fput(fb->file);
-> - put_cred(fb->cred);
-> + switch (fb->type) {
-> + case FUSE_BACKING_PATH:
-> + path_put(&fb->path);
-> + put_cred(fb->cred);
-> + break;
+> ---
+>  doc/fuservicemount3.8  |  16 ++++++++
+>  doc/mount.fuse3.8      |   7 ++++
+>  include/fuse_service.h |   4 +-
+>  test/test_fuser_conf.c |  59 +++++++++++++++++++++++++++
+>  util/fuse.conf         |  12 ++++++
+>  util/fuser_conf.c      | 106 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  util/fuser_conf.h      |   3 ++
+>  util/mount_service.c   |  13 +++---
+>  8 files changed, 214 insertions(+), 6 deletions(-)
+> 
+> diff --git a/doc/fuservicemount3.8 b/doc/fuservicemount3.8
+> index aa2167cb4872..18e285c1ab29 100644
+> --- a/doc/fuservicemount3.8
+> +++ b/doc/fuservicemount3.8
+> @@ -19,6 +19,22 @@ Mount a filesystem using a FUSE server that runs as a socket service.
+>  These servers can be contained using the platform's service management
+>  framework.
+>  
+> +The FUSE server may ask fuservicemount3 to open files on its behalf.
+> +fuservicemount3 opens a path only in these cases:
+> +.IP \- 2
+> +The path is a command line argument, for example /srv/disk.img.
+> +.IP \- 2
+> +The path is the value in a key=value option, for example /dev/sdb1 in
+> +"-o journal_dev=/dev/sdb1".
+> +.IP \- 2
+> +The path directly follows a short option, for example /dev/sdb1 in
+> +"-J/dev/sdb1".
+> +.IP \- 2
+> +A service_open_path line in /etc/fuse.conf lists the path for the filesystem
+> +type.
+> +.PP
+> +It refuses any other request with EPERM.
 > +
-> + case FUSE_BACKING_DAXDEV:
-> + fs_put_dax(fb->dax_dev, fb);
-> + break;
-> + }
->   kfree_rcu(fb, rcu);
-
-Does this code introduce a use-after-free race with a concurrent hardware
-memory failure?
-
-When a DAX-backed FUSE backing file is closed, fuse_backing_free() drops the
-DAX device holder by calling fs_put_dax() and frees the backing object using
-normal RCU via kfree_rcu().
-
-Concurrently, a hardware memory failure can trigger dax_holder_notify_failure(),
-which protects its read-side critical section with SRCU using dax_read_lock().
-
-If dax_holder_notify_failure() reads dax_dev->holder_ops and checks for NULL,
-and is preempted here, fs_put_dax() can run to completion. This would set
-dax_dev->holder_ops and dax_dev->holder_data to NULL, and eventually free fb
-after a normal RCU grace period.
-
-Because kfree_rcu() does not wait for SRCU readers, the memory could be freed
-while dax_holder_notify_failure() is still running.
-
-[ ... ]
-> @@ -79,23 +87,88 @@ static struct fuse_backing *fuse_backing_id_remove(struct fuse_conn *fc, u64 id,
->   return fb;
+>  The second form checks if there is a FUSE service available for the given
+>  filesystem type.
+>  .SH "AUTHORS"
+> diff --git a/doc/mount.fuse3.8 b/doc/mount.fuse3.8
+> index 2e587458a06e..d55c96139d9f 100644
+> --- a/doc/mount.fuse3.8
+> +++ b/doc/mount.fuse3.8
+> @@ -38,6 +38,13 @@ Allow non-root users to specify the \fBallow_other\fP or
+>  \fBallow_root\fP mount options (see below).
+>  .TP
+>  These limits are enforced by the \fBfusermount3\fP helper, so they can be avoided by filesystems that run as root.
+> +.TP
+> +\fBservice_open_path = SUBTYPE PATTERN\fP
+> +Allow \fBfuservicemount3\fP(8) to open paths that match \fIPATTERN\fP for the
+> +server of a service mount of type \fBfuse.\fISUBTYPE\fR, in addition to the
+> +paths on the mount command line. \fIPATTERN\fP is an absolute path in which "*"
+> +does not match "/". A pattern that matches a directory gives the server every
+> +file below it. The line can be repeated.
+>  .SH OPTIONS
+>  Most of the generic mount options described in \fBmount\fP are
+>  supported (\fBro\fP, \fBrw\fP, \fBsuid\fP, \fBnosuid\fP, \fBdev\fP,
+> diff --git a/include/fuse_service.h b/include/fuse_service.h
+> index d6aedea8f0f8..2114e7772bf5 100644
+> --- a/include/fuse_service.h
+> +++ b/include/fuse_service.h
+> @@ -139,6 +139,8 @@ int fuse_service_parse_cmdline_opts(struct fuse_args *args,
+>  
+>  /**
+>   * Ask the mount.service helper to open a file on behalf of the fuse server.
+> + * The helper refuses a path that the mount command line does not name and
+> + * fuse.conf does not list; fuse_service_receive_file() then reports -EPERM.
+>   *
+>   * @param sf service context
+>   * @param path the path to file
+> @@ -153,7 +155,7 @@ int fuse_service_request_file(const struct fuse_service *sf, const char *path,
+>  
+>  /**
+>   * Ask the mount.service helper to open a block device on behalf of the fuse
+> - * server.
+> + * server.  The helper refuses the same paths as for a file request.
+>   *
+>   * @param sf service context
+>   * @param path the path to file
+> diff --git a/test/test_fuser_conf.c b/test/test_fuser_conf.c
+> index 4d974931cf58..5f714d5c2561 100644
+> --- a/test/test_fuser_conf.c
+> +++ b/test/test_fuser_conf.c
+> @@ -105,6 +105,63 @@ static int test_trimmed_options(void)
+>  	return 0;
 >  }
->
-> +static int fuse_dax_notify_failure(struct dax_device *daxdev, u64 offset, u64 len, int mf_flags)
+>  
+> +static int test_service_open_path(void)
 > +{
-> + struct fuse_backing *fb = dax_holder(daxdev);
+> +	const char *test = "service_open_path";
 > +
-> + fb->dax_error = true;
-
-Can this code cause a NULL pointer dereference or use-after-free when racing
-with fuse_backing_free()?
-
-When dax_holder_notify_failure() resumes after the race described in
-fuse_backing_free(), it blindly calls ops->notify_failure() which is this
-function.
-
-Because fs_put_dax() may have already cleared dax_dev->holder_data,
-dax_holder() might return NULL causing a NULL pointer dereference here.
-Depending on the timing, it could also return a stale pointer to the freed
-fb object, resulting in a use-after-free.
-
+> +	if (write_conf("service_open_path = ext4 /dev/sd*\n"
+> +		       "service_open_path = ext4 /dev/nvme*\n"
+> +		       "service_open_path = ext4 relative/path\n"
+> +		       "service_open_path = xfs\t/srv/xfs.img\n"
+> +		       "service_open_path = xfs /srv/img/*\n"
+> +		       " \tservice_open_path = ext4 /srv/indented.img\n"
+> +		       "service_open_path = * /proc/pressure\n"
+> +		       "service_open_path =\x20\n"
+> +		       "service_open_path = ext4\n") == -1)
+> +		return fail(test, "could not write the config file");
 > +
-> + return 0;
+> +	read_conf(progname);
+> +
+> +	if (!service_open_path_listed("ext4", "/dev/sda"))
+> +		return fail(test, "/dev/sd* did not match /dev/sda");
+> +	if (!service_open_path_listed("ext4", "/dev/nvme0n1"))
+> +		return fail(test, "a second ext4 line was not recognised");
+> +	if (!service_open_path_listed("ext4", "/srv/indented.img"))
+> +		return fail(test, "an indented line was not recognised");
+> +	if (service_open_path_listed("ext4", "/dev/sda/x"))
+> +		return fail(test, "* matched a /");
+> +	if (service_open_path_listed("xfs", "/dev/sda"))
+> +		return fail(test, "an ext4 line matched for xfs");
+> +	if (!service_open_path_listed("ext4", "/proc/pressure") ||
+> +	    !service_open_path_listed("xfs", "/proc/pressure"))
+> +		return fail(test, "a \"*\" subtype did not match every subtype");
+> +	if (service_open_path_listed("ext4", "relative/path"))
+> +		return fail(test, "a relative pattern was accepted");
+> +	if (!service_open_path_listed("xfs", "/srv/xfs.img"))
+> +		return fail(test, "a tab-separated line was not recognised");
+> +	if (!service_open_path_listed("xfs", "/srv/img/a.img"))
+> +		return fail(test, "/srv/img/* did not match /srv/img/a.img");
+> +	if (service_open_path_listed("xfs", "/srv/img/..") ||
+> +	    service_open_path_listed("xfs", "/srv/img/."))
+> +		return fail(test, "a . or .. component was accepted");
+> +	/* Either line, if stored, would match the empty path */
+> +	if (service_open_path_listed("", ""))
+> +		return fail(test, "a line without a subtype was accepted");
+> +	if (service_open_path_listed("ext4", ""))
+> +		return fail(test, "a line without a pattern was accepted");
+> +
+> +	if (write_conf("\n") == -1)
+> +		return fail(test, "could not write the config file");
+> +
+> +	read_conf(progname);
+> +
+> +	if (service_open_path_listed("ext4", "/dev/sda"))
+> +		return fail(test, "a line survived re-reading the config");
+> +
+> +	printf("PASS: %s\n", test);
+> +	return 0;
 > +}
+> +
+>  int main(void)
+>  {
+>  	char tempdir[] = "/tmp/test_fuser_conf.XXXXXX";
+> @@ -123,6 +180,8 @@ int main(void)
+>  		goto out_unlink;
+>  	if (test_trimmed_options())
+>  		goto out_unlink;
+> +	if (test_service_open_path())
+> +		goto out_unlink;
+>  
+>  	printf("All fuse.conf parser tests passed\n");
+>  	result = 0;
+> diff --git a/util/fuse.conf b/util/fuse.conf
+> index ab048e0347b2..fb9ac5ff84e2 100644
+> --- a/util/fuse.conf
+> +++ b/util/fuse.conf
+> @@ -15,3 +15,15 @@
+>  # equals sign).
+>  
+>  #mount_max = 1000
+> +
+> +
+> +# service_open_path = <subtype> <pattern> - a FUSE server that runs as a socket
+> +# service may ask fuservicemount3 to open paths that match <pattern>, in
+> +# addition to the paths on the mount command line. <subtype> is the filesystem
+> +# type after "fuse.", or "*" to match every subtype. <pattern> an absolute
+> +# path in which "*" does not match "/". The line can be repeated to allow
+> +# different patterns and subtypes.
+> +# A pattern that matches a directory gives the server every file below it.
+> +
+> +#service_open_path = ext4 /dev/sd*
+> +#service_open_path = ext4 /dev/nvme*
+> diff --git a/util/fuser_conf.c b/util/fuser_conf.c
+> index 12688f6c42b7..35e4bb561db4 100644
+> --- a/util/fuser_conf.c
+> +++ b/util/fuser_conf.c
+> @@ -18,6 +18,7 @@
+>  #include <stdio.h>
+>  #include <stdlib.h>
+>  #include <errno.h>
+> +#include <fnmatch.h>
+>  #include <mntent.h>
+>  #include <unistd.h>
+>  #include <sys/fsuid.h>
+> @@ -35,6 +36,14 @@ int mount_max = 1000;
+>  static uid_t oldfsuid;
+>  static gid_t oldfsgid;
+>  
+> +struct service_open_path {
+> +	struct service_open_path *next;
+> +	char *subtype;
+> +	char *pattern;
+> +};
+> +
+> +static struct service_open_path *service_open_paths;
+> +
+>  // Older versions of musl libc don't unescape entries in /etc/mtab
+>  
+>  // unescapes octal sequences like \040 in-place
+> @@ -192,12 +201,107 @@ static void strip_line(char *line)
+>  		memmove(line, s, strlen(s)+1);
+>  }
+>  
+> +/*
+> + * Store one service_open_path line. For the line
+> + * "service_open_path = ext4 /dev/sd*", str is "ext4 /dev/sd*".
+> + */
+> +static void parse_service_open_path(const char *str, int linenum,
+> +				    const char *progname)
+> +{
+> +	/* <subtype> ends at the first blank */
+> +	const size_t subtype_len = strcspn(str, " \t");
+> +	const char *pattern = str + subtype_len;
+> +	struct service_open_path *entry;
+> +
+> +	/* The rest of the line is <pattern>, blanks inside it included */
+> +	pattern += strspn(pattern, " \t");
+> +	/* A relative pattern would depend on each user's working directory */
+> +	if (!subtype_len || pattern[0] != '/') {
+> +		fprintf(stderr,
+> +			"%s: invalid service_open_path in %s at line %i\n",
+> +			progname, FUSE_CONF, linenum);
+> +		return;
+> +	}
+> +
+> +	entry = calloc(1, sizeof(*entry));
+> +	if (entry) {
+> +		entry->subtype = strndup(str, subtype_len);
+> +		entry->pattern = strdup(pattern);
+> +	}
+> +	/* Going on without the line would refuse paths the admin allowed */
+> +	if (!entry || !entry->subtype || !entry->pattern) {
+> +		fprintf(stderr, "%s: failed to allocate memory\n", progname);
+> +		exit(1);
+> +	}
+> +
+> +	/* Order does not matter, the lookup checks every entry */
+> +	entry->next = service_open_paths;
+> +	service_open_paths = entry;
+> +}
+> +
+> +/* The config can be read more than once; drop the lines of the last read */
+> +static void free_service_open_paths(void)
+> +{
+> +	while (service_open_paths) {
+> +		struct service_open_path *entry = service_open_paths;
+> +
+> +		service_open_paths = entry->next;
+> +		free(entry->subtype);
+> +		free(entry->pattern);
+> +		free(entry);
+> +	}
+> +}
+> +
+> +/* @return true if a path component is "." or "..", as in "/srv/img/.." */
+> +static bool has_dot_component(const char *path)
+> +{
+> +	const char *comp = path;
+> +
+> +	for (;;) {
+> +		const size_t len = strcspn(comp, "/");
+> +
+> +		if ((len == 1 && comp[0] == '.') ||
+> +		    (len == 2 && comp[0] == '.' && comp[1] == '.'))
+> +			return true;
+> +		if (!comp[len])
+> +			return false;
+> +		comp += len + 1;
+> +	}
+> +}
+> +
+> +bool service_open_path_listed(const char *subtype, const char *path)
+> +{
+> +	const struct service_open_path *entry;
+> +
+> +	/* "*" also matches "..", which reaches the parent directory */
+> +	if (has_dot_component(path))
+> +		return false;
+> +
+> +	/*
+> +	 * subtype is whatever the untrusted client passed to fuservicemount
+> +	 * -t; it is never checked against the actual filesystem, so "*"
+> +	 * grants nothing a client could not already get by naming a subtype
+> +	 * that has its own allow-list entry.
+> +	 */
+> +	for (entry = service_open_paths; entry; entry = entry->next)
+> +		if ((!strcmp(entry->subtype, "*") ||
+> +		     !strcmp(entry->subtype, subtype)) &&
+> +		    !fnmatch(entry->pattern, path, FNM_PATHNAME))
+> +			return true;
+> +
+> +	return false;
+> +}
+> +
+>  static void parse_line(const char *line, int linenum, const char *progname)
+>  {
+>  	int tmp;
+> +	int value_pos = -1;
+>  
+>  	if (strcmp(line, "user_allow_other") == 0)
+>  		user_allow_other = 1;
+> +	else if (sscanf(line, "service_open_path = %n", &value_pos) == 0 &&
+> +		 value_pos >= 0)
+> +		parse_service_open_path(line + value_pos, linenum, progname);
+>  	else if (sscanf(line, "mount_max = %i", &tmp) == 1) {
+>  		if (tmp < -1)
+>  			fprintf(stderr,
+> @@ -216,6 +320,8 @@ void read_conf(const char *progname)
+>  {
+>  	FILE *fp = fopen(FUSE_CONF, "r");
+>  
+> +	free_service_open_paths();
+> +
+>  	if (fp != NULL) {
+>  		int linenum = 1;
+>  		char line[256];
+> diff --git a/util/fuser_conf.h b/util/fuser_conf.h
+> index ea58537cc4c2..ccfc58877100 100644
+> --- a/util/fuser_conf.h
+> +++ b/util/fuser_conf.h
+> @@ -8,6 +8,7 @@
+>  #ifndef FUSER_CONF_H_
+>  #define FUSER_CONF_H_
+>  
+> +#include <stdbool.h>
+>  #include <sys/vfs.h>
+>  #include <sys/stat.h>
+>  
+> @@ -40,6 +41,8 @@ int count_fuse_fs(const char *progname);
+>  
+>  void read_conf(const char *progname);
+>  
+> +bool service_open_path_listed(const char *subtype, const char *path);
+> +
+>  void drop_privs(void);
+>  void restore_privs(void);
+>  
+> diff --git a/util/mount_service.c b/util/mount_service.c
+> index 446f37f61916..b4081d53273e 100644
+> --- a/util/mount_service.c
+> +++ b/util/mount_service.c
+> @@ -847,13 +847,16 @@ static int mount_service_open_path(const struct mount_service *mo,
+>  	}
+>  
+>  	/*
+> -	 * The file is opened outside the service sandbox, so report a path
+> -	 * the user did not name.
+> +	 * The file is opened outside the service sandbox, so only hand out
+> +	 * what the user named or fuse.conf lists.
+>  	 */
+>  	if (!arg_in_cmdline(argc, argv, oc->path) &&
+> -	    !option_value_in_cmdline(argc, argv, oc->path))
+> -		fprintf(stderr, "%s: %s: warning: file not in command line arguments\n",
+> -			mo->msgtag, oc->path);
+> +	    !option_value_in_cmdline(argc, argv, oc->path) &&
+> +	    !service_open_path_listed(mo->subtype, oc->path)) {
+> +		fprintf(stderr, "%s: %s: file must be in command line arguments or in %s\n",
+> +			mo->msgtag, oc->path, FUSE_CONF);
+> +		return mount_service_send_file_error(mo, EPERM, oc->path);
+> +	}
+>  
+>  	open_flags = ntohl(oc->open_flags) | O_CLOEXEC;
+>  	drop_privs();
+> 
+> -- 
+> 2.53.0
+> 
+> 
+> 
