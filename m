@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04BA14DD6DB
-	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577414E36D0
+	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:11:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790773875; cv=none; b=uJaPZNBBLP/TSfXyJ1W4EqRACDDdGgTyZh7sibvKP+hiALxoTX6/1WeySnNqdTQncc7mqsWs01gaIENiF+BEeJn7lqxqv9sjWWwt25Gj2brKh6W77bqgNIMzy2jfxZfGp49xOokGTp4LSdimwuVvE7cFlfXXlqPk2Z7psR/KqsM=
+	t=1790773876; cv=none; b=iN52Mgri9MPNvLveiwIUszJaexjkkvBsebEhusUh5cAuY2n9aX1t85moPup/b426ValYeUrO1IjlXt02DiFKvPXhNlGLMSqk8rpi9vI+e6FHO1OlgleiQNgkep20FYV2He1lCoRrz0oyOOwpHVG9UO2bU+4OrXsNDoxq80mblAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790773875; c=relaxed/simple;
-	bh=FoXEEtMhDrRmY6HlpOqpQDGSeYoe5RzNo2MwXJ4eHMc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nf3P1uHuaA420Hu6tqTJ/MLpalIqGApHtogQnVQQSThXpijU3Qterzef8Tej3fzoZL0+LZsKYkutbu/TK+GHJYFSoFaI3Cl4vEFTXgldmpyQLxzZfuIEzAllNZQ9p1CYtAwQnDUg6icchylDULjyo8FUr1eIjK4IP8niCm3E69E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QSslLqhQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790773876; c=relaxed/simple;
+	bh=rjevgJ/h/cyjgKleeo7cLrfBUklZzst5YrwaxBHr0HQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=igyEWF/ODPGnR4odgEuQNSRWRO/byVyBT6J0bNCSw1PZ/H8bzFEpZHMvzlR81OJheO4KeaMqbf+4IAgBZwapkYit6S8SfbBnWNq+IrLbQIdy5uA0bW/AzPDLv58QEtYVVC1M1ye2v7EoC3e/KoWqKkzGR1jmkv8mtgP+b6cp1Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLoVy7VV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSslLqhQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 99824C2BCF4;
-	Wed, 30 Sep 2026 13:11:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLoVy7VV"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 43B0DC4AF19;
+	Wed, 30 Sep 2026 13:11:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790773873;
-	bh=FoXEEtMhDrRmY6HlpOqpQDGSeYoe5RzNo2MwXJ4eHMc=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=QSslLqhQPUfXk+O1wcAUnEn3VyVr9sMt6A9NI2Hjh8woNiNCZZvpf+YIVoYntM3JE
-	 SB7MakrVN0MzbP9wnBWOHDWh2AckfAsgB3l4nx1c8YC9XscDNvWBRgudJ+LW6zVqGP
-	 NsMhkqyBOovqlKF+pVFIu3mFTyoJL8pahdeSwIOH2H637pObQ5jtIjpp3KTG6heZDS
-	 uZ60asWMMpyEIdGFVuxttDEUmJKKUJ8ibhM7mHkoMBGcw05AR/JKjtFVOXbzn+zM2G
-	 9pq11zkrDeCAEr5ASAJO8rH1WNYhGKK8/jcpXEWbmfiFRSoncIjRvWJ6djAf+pe2bK
-	 ll4s8Z8jNvWGQ==
+	s=k20201202; t=1790773874;
+	bh=rjevgJ/h/cyjgKleeo7cLrfBUklZzst5YrwaxBHr0HQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=aLoVy7VVoxPhGi2vrJcSIFzQISz++Bv69YAw2CFZb7vaY1z9ADo0UImXEioQWbARw
+	 5YZAQ6Py1evFav849Ug9EuqsOdAmgSpAbA4gbVsGoRRep/rIQ09SALBZzST0HIQlqJ
+	 qx+fds6MIJQbO6UPVuFZ7GQ9acfbNaTKYC5OBgJMEO8Jao171hgCvDgf7BH9+EcxWa
+	 INdTDw3Dkkd5rPBYmkq6Tk1zwCrM4jw0ND8/CGBmg6uk1FA9ALelr4jAa19lSL4x+s
+	 q8SlVoqldYnXNJbE1PoBFM48bdwN0U+Q9Rkw7CQo91+qNRAL0AyJATWqztAbWpZ9A2
+	 02xirQJw8UefQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8536ECA5FBA;
-	Wed, 30 Sep 2026 13:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32336CA5FC8;
+	Wed, 30 Sep 2026 13:11:14 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Subject: [PATCH v3 00/15] libfuse: Add mount service safety checks and
- tests
-Date: Wed, 30 Sep 2026 15:10:54 +0200
-Message-Id: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
+Date: Wed, 30 Sep 2026 15:11:05 +0200
+Subject: [PATCH v3 11/15] test: run mkfs.ext4 through the service examples
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -41,23 +40,20 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32N0Q6CIBhGX6VxHQ1QVLrqPVoXgj9Jm+BAWc357
- oGtrS7q8mzfd86CAngDAR13C/IQTTDOJij2O6T61l4Bmy4xYoRVRLASD262E06vaBRgmajDbgS
- L60JIWrGikrpF6T560Oa+qc+XF4dZ3kBN2ZcXvQmT84+tHWnevTP8dyZSTLCUmrZNqWoh+EkGC
- d52B+UGlEORfaqaPyqWVEQLzQntCFfwrVrX9Qm40cf/HwEAAA==
-X-Change-ID: 20260924-mount-service-bound-open-739b16236bfa
+Message-Id: <20260930-mount-service-bound-open-v3-11-e26c5e4eca4c@bsbernd.com>
+References: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
+In-Reply-To: <20260930-mount-service-bound-open-v3-0-e26c5e4eca4c@bsbernd.com>
 To: fuse-devel@lists.linux.dev
 Cc: "Darrick J. Wong" <djwong@kernel.org>, neal@gompa.dev, 
- Bernd Schubert <bernd@bsbernd.com>, 
- Keerthana KT <keerthana@labs.digiscrypt.com>
+ Bernd Schubert <bernd@bsbernd.com>
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4665; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5522; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=FoXEEtMhDrRmY6HlpOqpQDGSeYoe5RzNo2MwXJ4eHMc=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2ciXuM3fP4SlXs9hVFq9zYYrO3PK45ki/yanvfnZHs
- 6QwXXrWUcrCIMbBICumyNIlscd2yj8+WbWv66/DzGFlAhnCwMUpABP5FMrI8H/PTnU3TvV9YR/N
- daReP7OxuLFAtHL/quOPPyR9nbZn93uGf/b+9U85NFu/HjyW2r2Zj++bmfJuWfHPwa/DE1IcjuR
- uZgQA
+ bh=c2pP9xuM/Ddoz+3tXD3ARDn8QDCIT3tA+o4idGir2CU=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2cuWu0mlbYJMo6Wg+8U3Jsi9Nztt/a9dVlDz+0zH5l
+ 7EvryRHRykLgxgHg6yYIkuXxB7bKf/4ZNW+rr8OM4eVCWQIAxenAEzkbS4jQ9+Su21KYU2CyZsK
+ J91KnbKOcUlt91meFqPmFjbjY7lPEhkZNv9lDr8bfKFw7j0GEYFXJw7oRHjNC938WJ4j5N+dV+V
+ azAA=
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -65,104 +61,186 @@ X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
 X-Original-From: Bernd Schubert <bernd@bsbernd.com>
 Reply-To: bernd@bsbernd.com
 
-That was noticed by AI on comparison to systemd storage provider
-and fuse service mount tests were missing as well.
+From: Bernd Schubert <bernd@bsbernd.com>
 
-To: fuse-devel@lists.linux.dev
-Cc: Darrick J. Wong <djwong@kernel.org>
-Cc: neal@gompa.dev
+The byte comparison in the service example tests does not show that a
+real filesystem tool works on the file service_ll and service_hl serve.
+mkfs.ext4 -d writes a filesystem through the mount and copies in files
+of different sizes. After umount, e2fsck checks the image and debugfs
+reads the files back for comparison.
 
+Assisted-by: LLM
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
 ---
-Changes in v3:
-- Address all Darricks review comments
-	- Allow "*" as subtype for service_open_path config option
-	- Use sysconf(_SC_ARG_MAX)
-	- Also check that pos + len do not exceed memdfd file size
-	- Slight documentation wording improvement
-- Move fuse_service_priv.h from include/ to lib/
-- Link to v2: https://patch.msgid.link/20260928-mount-service-bound-open-v2-0-0f9f501d05ce@bsbernd.com
+ example/service_ll.c                |  5 +++
+ test/cases/lib/service-example.sh   | 68 ++++++++++++++++++++++++++++++++-----
+ test/cases/mount/service-hl-mkfs.sh |  8 +++++
+ test/cases/mount/service-ll-mkfs.sh |  8 +++++
+ 4 files changed, 80 insertions(+), 9 deletions(-)
 
-Changes in v2:
-- Add more parsing logic to detect files to open from the command
-  line and add admin overrides if the logic failed
-- Allow open after mount, but use openat(), which avoids that
-  files from the mount point are taken
-- Add in '-d path' for mkfs.ext4 to copy in files for improved
-  testing
-- Add another sanity commit to limit max arg comand size
-  (previously https://github.com/libfuse/libfuse/pull/1552)
-- Change path to /run/fuse
-- Add the documention patch
-  (previously https://github.com/libfuse/libfuse/pull/1530)
-- libfuse PR: https://github.com/libfuse/libfuse/pull/1638
-- Link to v1: https://patch.msgid.link/20260925-mount-service-bound-open-v1-0-bbf1a84c7995@bsbernd.com
+diff --git a/example/service_ll.c b/example/service_ll.c
+index fd43c40fc15b..7baf47905a33 100644
+--- a/example/service_ll.c
++++ b/example/service_ll.c
+@@ -43,6 +43,11 @@
+  *
+  *     mount -t fuse.service_ll /dev/sda /mnt
+  *
++ * /mnt/single_file then holds the bytes of /dev/sda, so a filesystem can be
++ * created on it:
++ *
++ *     mkfs.ext4 /mnt/single_file
++ *
+  * ## Source code ##
+  * \include service_ll.c
+  * \include service_ll.socket
+diff --git a/test/cases/lib/service-example.sh b/test/cases/lib/service-example.sh
+index 878b379b8b16..c45718aeef20 100644
+--- a/test/cases/lib/service-example.sh
++++ b/test/cases/lib/service-example.sh
+@@ -1,15 +1,20 @@
+ # lib/service-example.sh - body for the service_ll / service_hl cases.
+ #
+-# Caller sets FS_NAME and LAUNCH before sourcing:
++# Caller sets FS_NAME and LAUNCH, and optionally CHECK, before sourcing:
+ #   FS_NAME   service_ll | service_hl
+ #   LAUNCH    fuservicemount3 | mount_fuse
++#   CHECK     bytes (default) | mkfs
+ #
+-# The file the example serves has to read back as the image, and what is
+-# written through the mount has to reach the image.
++# bytes: the file the example serves has to read back as the image, and what
++# is written through the mount has to reach the image.
++# mkfs: mkfs.ext4 -d on that file has to leave an image e2fsck accepts. The
++# files it copied in have to read back unchanged from the image.
+ 
+ _fuse_no_mount_needed=1
+ . "$TEST_LIB/common.sh"
+ 
++CHECK=${CHECK:-bytes}
++
+ # Before the gates: a misspelled FS_NAME would otherwise skip as "not built"
+ case ${FS_NAME:-} in
+ service_ll | service_hl) ;;
+@@ -19,6 +24,10 @@ case ${LAUNCH:-} in
+ fuservicemount3 | mount_fuse) ;;
+ *) _fail "unknown LAUNCH '${LAUNCH:-}'" ;;
+ esac
++case $CHECK in
++bytes | mkfs) ;;
++*) _fail "unknown CHECK '$CHECK'" ;;
++esac
+ 
+ _require_linux "fuservicemount3"
+ _require_root
+@@ -26,6 +35,11 @@ _require_fuse_device
+ _require_binary util/fuservicemount3
+ _require_binary "example/$FS_NAME"
+ [ "$LAUNCH" != mount_fuse ] || _require_binary util/mount.fuse3
++if [ "$CHECK" = mkfs ]; then
++	_require_prog mkfs.ext4
++	_require_prog e2fsck
++	_require_prog debugfs
++fi
+ 
+ . "$TEST_LIB/service.sh"
+ 
+@@ -33,11 +47,25 @@ service_setup "test-$FS_NAME-$$"
+ img=$TEST_SRC/img
+ old=$TEST_TMP/old
+ new=$TEST_TMP/new
++files=$TEST_TMP/files
++dump=$TEST_TMP/dump
+ 
+ # The size has to be a multiple of the page size
+-head -c 1048576 /dev/urandom >"$old"
+-head -c 1048576 /dev/urandom >"$new"
+-cp "$old" "$img"
++case $CHECK in
++bytes)
++	head -c 1048576 /dev/urandom >"$old"
++	head -c 1048576 /dev/urandom >"$new"
++	cp "$old" "$img"
++	;;
++mkfs)
++	truncate -s 64M "$img"
++	mkdir -p "$files/sub"
++	for size in 0 1 4095 4096 4097 65537 1048576; do
++		head -c "$size" /dev/urandom >"$files/f$size"
++	done
++	echo hello >"$files/sub/small"
++	;;
++esac
+ 
+ service_start "$TEST_LOGDIR/fs-$FS_NAME.out" "$FUSE_EXAMPLE_DIR/$FS_NAME"
+ case $LAUNCH in
+@@ -53,10 +81,32 @@ mount_fuse)
+ esac
+ 
+ _assert_fstype "$TEST_MNT" "fuse.$service_subtype" fuse
+-_assert_file_eq "$TEST_MNT/single_file" "$old"
+-dd if="$new" of="$TEST_MNT/single_file" bs=64k conv=notrunc,fsync status=none
++case $CHECK in
++bytes)
++	_assert_file_eq "$TEST_MNT/single_file" "$old"
++	dd if="$new" of="$TEST_MNT/single_file" bs=64k conv=notrunc,fsync \
++		status=none
++	;;
++mkfs)
++	# -F: single_file is a regular file, not a block device
++	mkfs.ext4 -F -q -d "$files" "$TEST_MNT/single_file" ||
++		_fail "mkfs.ext4 through $FS_NAME failed"
++	;;
++esac
+ 
+ umount "$TEST_MNT"
+ service_wait_exit
+ _assert_eq "$service_rc" 0 "$FS_NAME exit status"
+-_assert_file_eq "$img" "$new"
++case $CHECK in
++bytes)
++	_assert_file_eq "$img" "$new"
++	;;
++mkfs)
++	e2fsck -fn "$img" || _fail "e2fsck found errors in $img"
++	# debugfs exits 0 even when rdump fails, so diff is the check
++	mkdir "$dump"
++	debugfs -R "rdump / $dump" "$img"
++	diff -r -x lost+found "$files" "$dump" ||
++		_fail "files in $img differ from $files"
++	;;
++esac
+diff --git a/test/cases/mount/service-hl-mkfs.sh b/test/cases/mount/service-hl-mkfs.sh
+new file mode 100755
+index 000000000000..af552818cd90
+--- /dev/null
++++ b/test/cases/mount/service-hl-mkfs.sh
+@@ -0,0 +1,8 @@
++#!/usr/bin/env bash
++# GROUP: mount
++
++FS_NAME=service_hl
++LAUNCH=fuservicemount3
++CHECK=mkfs
++
++. "$TEST_LIB/service-example.sh"
+diff --git a/test/cases/mount/service-ll-mkfs.sh b/test/cases/mount/service-ll-mkfs.sh
+new file mode 100755
+index 000000000000..9908937010de
+--- /dev/null
++++ b/test/cases/mount/service-ll-mkfs.sh
+@@ -0,0 +1,8 @@
++#!/usr/bin/env bash
++# GROUP: mount
++
++FS_NAME=service_ll
++LAUNCH=fuservicemount3
++CHECK=mkfs
++
++. "$TEST_LIB/service-example.sh"
 
----
-Bernd Schubert (14):
-      mount_service: move the command line check into arg_in_cmdline()
-      mount_service: warn about paths not named on the command line
-      mount_service: refuse paths the user did not name
-      mount_service: use openat to OPEN paths
-      util: give fuservicemount3 an absolute build-tree runpath
-      mount.fuse: free the options on the service mount return path
-      example/single_file: take no sector size from a regular backing file
-      test: check which files fuservicemount3 opens for the server
-      test: check what fuservicemount3 refuses
-      test: mount the service examples through fuservicemount3
-      test: run mkfs.ext4 through the service examples
-      build: move the default service socket directory to /run/fuse
-      Improve documentation for fuse service mount
-      move fuse_service_priv.h from include/ to lib/
-
-Keerthana KT (1):
-      fuse_service: bound argc and arg len read from the args memfd
-
- .gitignore                              |   1 +
- doc/README.service-mount                | 312 ++++++++++++++++++++++
- doc/README.service-mount-dev            | 456 ++++++++++++++++++++++++++++++++
- doc/README.service-mount-flow           | 201 ++++++++++++++
- doc/fuservicemount3.8                   | 164 +++++++++++-
- doc/mainpage.dox                        |  13 +
- doc/mount.fuse3.8                       |  25 ++
- example/service_ll.c                    |   5 +
- example/single_file.c                   |   3 +-
- include/fuse_service.h                  |   4 +-
- lib/fuse_service.c                      |  40 +++
- {include => lib}/fuse_service_priv.h    |  10 +
- meson.build                             |   2 +-
- meson_options.txt                       |   2 +-
- test/cases/lib/service-example.sh       | 112 ++++++++
- test/cases/lib/service.sh               |  95 +++++++
- test/cases/lib/socket_activate.py       |  42 +++
- test/cases/mount/service-caps.sh        |  20 ++
- test/cases/mount/service-check.sh       |  38 +++
- test/cases/mount/service-hl-mkfs.sh     |   8 +
- test/cases/mount/service-hl.sh          |   7 +
- test/cases/mount/service-ll-mkfs.sh     |   8 +
- test/cases/mount/service-ll.sh          |   7 +
- test/cases/mount/service-mount-fuse.sh  |  31 +++
- test/cases/mount/service-mountpoint.sh  |  36 +++
- test/cases/mount/service-nonroot.sh     |  54 ++++
- test/cases/mount/service-null.sh        |  33 +++
- test/cases/mount/service-open-bound.sh  |  61 +++++
- test/cases/mount/service-server-exit.sh |  22 ++
- test/meson.build                        |   6 +
- test/test_fuser_conf.c                  |  59 +++++
- test/test_service.c                     | 232 ++++++++++++++++
- util/fuse.conf                          |  12 +
- util/fuser_conf.c                       | 106 ++++++++
- util/fuser_conf.h                       |   3 +
- util/meson.build                        |   2 +
- util/mount.fuse.c                       |  42 +--
- util/mount_service.c                    | 128 +++++++--
- 38 files changed, 2360 insertions(+), 42 deletions(-)
----
-base-commit: bf4fdf9df8e2d33393894d0789f89e17520944f0
-change-id: 20260924-mount-service-bound-open-739b16236bfa
-
-Best regards,
---  
-Bernd Schubert <bernd@bsbernd.com>
+-- 
+2.53.0
 
 
