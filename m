@@ -1,238 +1,241 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D33D65192
-	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790775377; cv=pass; b=S9QfaGFYJ4CkSkfIhJNkobc0qNlgyT1Luv8GvL3jeLV8Qv2NaxARAtyfzQCJ7dqnV0s6WgO6Xm6Ynmib1bzyBgqyf7uX77hp1NLALfAy0hsZV6pPMcG+BY9Md+hq+EpWK1gtxdLEPVzYwS63EIrG1c48RX2GJ0uwYQtzbbOpIQY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790775377; c=relaxed/simple;
-	bh=SXhpmvBhQ+TXtxniHLWeCSa452bmcr1rqYYurbJuz+I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bpf9l1uXtrgByw99Aq8dH4oHgcmkIxA0CuJWAGnKikWum+t+3pqHX3x2PsRq9vTZ/l3youOKwSXSYfrMgc9KCBnT6hWIxmyT6bBQdbI6MZ4WbcJEW5SEhSU7qKPR4XueIYJwmFh9gKolNNlXZ7uKzGVtUuNJIo9rCOQ/mkQXh48=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qeuqde8I; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28C54F3923
+	for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 13:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790775888; cv=none; b=d86jHbSRAnRMq9I4jgVj5BOPUjmesBjEeBw0eVoqxHHW+cIwXFS95I+LHLrwujvY0AzcrREi88yCmD7isk5PoSK9IZmzUcd0yATZBu9PJwK7s8mVKsgXKRWG6YbKXomxNFZN/r/2gVVo7o17MtriEC5qJdr8XkW4ON4PZRSqU7I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790775888; c=relaxed/simple;
+	bh=P9RC4PMsdxtELej1bpbBAZ9X5LlnXNmloGOGPLJyv+s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Go6QXEYynvFvGclSJA3lDkCq+sThAch3pp8M/Et6SwIvaHCcfg8iJ5DIy0Xvr4JacRaQaqlgHA5v/2ZjgZ3WC0GwV4HvjzN+rE3KoU78OeQsYsxzoIiaZIRDzeXgY9Lpxjd4ZCGvEJndmD9TxMDHjhSUkosisb68eav++YvDuRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EidfvkFO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qeuqde8I"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-6ae185cc40fso633507a12.1
-        for <fuse-devel@lists.linux.dev>; Wed, 30 Sep 2026 06:36:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790775357; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jBGZEnUqyCNxDwMS4OcNFEvbYqBnsdHXBk+fmAS6IW1GemXaAy3rqIfY5xU1ARW3bk
-         NoPjMlEk8eX1mFYqLp9ahn31HJc+TTeRZTNcN/uO/FwjlolTsQdpzC3sqqOyZojhPEyS
-         3RRJCVqy0Jf8nGpY67WQ7Oj97+w6lPGpnondGWMJ6LORHNTo/e3U9/3/4mcCEjsRHg2D
-         u49gsg+niTScVEsBve1q2XQmbrVvq12kf9rJDM4dPV+wt4W9s0WKfC8ng3IjTYU4uiOJ
-         i3gDP9HbjKOPTX/p1tbdKPgYnIcb3UN0vBTz5Zc6LrRnMR4DkiqEs6ELSrA41KF+/KL8
-         MJtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4QchkhwI1w5bSASLXqcxUjuWuiosjQacZxJlQZryO/o=;
-        fh=C2hvFbqtxCCQlLXtYuG++dZvZg3/X9npOaJpSiKOfHY=;
-        b=Z2uglnhb1LuQPs9IGVN9yFhaManN5hetmz0M2GQ+UbBxt4CYmfqYkpaMP+U5eVSQWD
-         3q5EhTesOFgQvJRHmCkC5vunRGEkhU0r/xyenF659CliBqBmrfW7VwR6bx0sNaKfUT5Q
-         09LQmFxoOCUQu91eD0oEfp9r2/XyqOYDQHkwECooORkrxJDIEI5dJqoq0XEMRQRsNUDl
-         4UVfjH04QXwE2Zp75oKi6Xm0T7VeS4p36RGRVP/IqKMiKiJ0Bm8ltZlcsw/Z6UHPV99K
-         aNuaGoXL3Yoznh7XcOOAOEQyGWde4RYe3CcQpaZHELPMrWxmEB5bYcI8u9X8polfw25k
-         DVpQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790775357; x=1791380157; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=4QchkhwI1w5bSASLXqcxUjuWuiosjQacZxJlQZryO/o=;
-        b=Qeuqde8IhgmE6WzROaBH0z+GgJ1MR6IONk3nLHZy+at/ZhZ6JOP7ySLCGrSU2uJY4q
-         elUqWcVtxWKW2oN0+I4pYC3ag8JdD1igz3/b/KJRdLCDdlvI+Q/dKSteEwvUakEcMQh1
-         9RoMLE4jO+TC5lFOZB+7ZQHnqMZUxW6BeiwE2ilZeVjJVCGOrb33QTDLRJNb8/vk9zgw
-         S0Scl8+IkKk4cOZzpmi1OCtKdYKBwrWc5u7q7wUaaw7jYvK3Hb5Ez7b34MwbjiCpKqfW
-         mvW5d/DLnJ65GrXlxzaxeF03xhBqTcM/UPP/BojgCNUvyv3zGJoSqSlIpAppK4U//vh4
-         4rpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790775357; x=1791380157;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4QchkhwI1w5bSASLXqcxUjuWuiosjQacZxJlQZryO/o=;
-        b=UA+eDwNAyvT6cL3gj2gjYOev03yNvt/RxrebL1ipP2bZwuMrVpBC21FL2m+YF+iyWw
-         biVNvDg2b7FPI9zze8zIWIZDFSyF0Pnb8wW8XrvS6f7AQ5Rs8InSsgr+mNLBVE4/VhLf
-         XVTtuGBbDUmdm5VimNuPIufY3jx8ZW+c4x12/Flsd78/TUtn1jNjrIvFGTjhsYyGrITk
-         MH/UqNHUB6eFlGmGWmPNVqKbHKvHvpigdemdfDlUGL1yIreaBL6pVX7jVRy6744ZGhxk
-         ENTCehQ2SVqwbllYV5NPXgW5AFL/tPjZZehb/lJw3J5SqIRkGlEK3Kotwt4jhjG13D18
-         N46g==
-X-Forwarded-Encrypted: i=1; AKwUvBxx/eNcRqBRjU5j1sCoQE4rWURQGjUGfsDWDGm1keNycu3CiHuMbo3hSkwshIJhOd83fMX9FkalcDV+@lists.linux.dev
-X-Gm-Message-State: AFuF++kJacD5ctPTCwtkTI9RpjcUdAd1dA4WHyCDb8NnDMFnGdlQSWHr
-	dZkUxaXNfDbbfHSPnEKxh5jrljX2GBo8WoQN/wD/xybXI2Jaj/F7cLGg12rzh4gQ5ObZPEp2TqK
-	ERg3UmESHDR42eqqDVsY6iSTq1Tg++Qk=
-X-Gm-Gg: AYBFou1TlMaj1rrD3n7JmxAY0GKwYuAEW8NfgRTczR8lDJpKedbu4w9YpJaShqwsRra
-	3sphm68OrjMUgUOD2K4tGFxKm3HwYCNhh7O8VvpwoQO0UYVJJ06WRsOiqAKnwRiIFsdjxxmoW0/
-	xPUeN1kI1o9wag1VmudSOcW+poEkS+SHqb4JR9m9jgTmiIEnkxyLQH4WbEn6OLsna/licgEQeZ9
-	ckZ3i3Iqh9wF4jQ08sba0SWjO1HjRMZAkD/SpA5HUvSfiuOe12YFrs7zQ6ea9a8KsXssToyBzrR
-	f6aWr8MOHQanLvu2PenCecF67yAe5eWG7VaC9rTfVQF6Bu91e1GUeJkBJzzc2uMGdLOK
-X-Received: by 2002:a17:906:6a05:b0:c2d:b9b4:f4de with SMTP id
- a640c23a62f3a-c2e23d9207amr125564266b.18.1790775356627; Wed, 30 Sep 2026
- 06:35:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EidfvkFO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 68AC4C4AF14;
+	Wed, 30 Sep 2026 13:44:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790775887;
+	bh=P9RC4PMsdxtELej1bpbBAZ9X5LlnXNmloGOGPLJyv+s=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=EidfvkFOvlXVEwspSmuXtcy/pqtwHuHmto9r+r88l1lQWz/u6KTO7lO29473rbnhy
+	 Fwfvp7+F7vEgIGSnfZrhLSygu+DDtxzvsjdE73HuDLCa3o7MoSH76iS49w7u/kKzUQ
+	 N38D2SAdBgHRPKKP+GBiluYEvD/wpNPsAcXwweox3yBDDBYwMgxiMd73c9wNHxL1iJ
+	 2CHqfZHQTimHge3Phwzy4g7yw9OlbVtDYk7ewpekDNJbYfJ3d4/grHqt0W9BXe1GPZ
+	 lK1grbXULD5lTYSCsRrimiN1m3VKrzrLYuBLzId2cbs3TzYLja7lBqOLFmkwAIo4O5
+	 /r5fnUJyIPD6A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 491EECA5FC5;
+	Wed, 30 Sep 2026 13:44:47 +0000 (UTC)
+From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
+Date: Wed, 30 Sep 2026 15:44:33 +0200
+Subject: [PATCH 1/4] mount_fsmount: split superblock creation and
+ move_mount into a helper
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260929034158.1455429-1-neilb@ownmail.net> <20260929034158.1455429-8-neilb@ownmail.net>
-In-Reply-To: <20260929034158.1455429-8-neilb@ownmail.net>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 30 Sep 2026 15:35:45 +0200
-X-Gm-Features: AclHuK-7IYZDCVZREHuHZMSP_wgME-NMrM9tsJnpybGevda7U-xOXfVzEqygZdo
-Message-ID: <CAOQ4uxjv3Ziqy+CjbCO7noAPse+a0066UO7pkFhStnnW9FFSPg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] ovl: stop using lookup_one() in ovl_iterate().
-To: NeilBrown <neil@brown.name>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Kees Cook <kees@kernel.org>, 
-	Joel Granados <joel.granados@kernel.org>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Breno Leitao <leitao@debian.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Hyunchul Lee <hyc.lee@gmail.com>, Carlos Maiolino <cem@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, linux-fsdevel@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-um@lists.infradead.org, 
-	codalist@coda.cs.cmu.edu, coda@cs.cmu.edu, linux-mm@kvack.org, 
-	ntfs@lists.linux.dev, linux-xfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260930-mount-service-use-mount-fsmount-v1-1-d585598896ee@bsbernd.com>
+References: <20260930-mount-service-use-mount-fsmount-v1-0-d585598896ee@bsbernd.com>
+In-Reply-To: <20260930-mount-service-use-mount-fsmount-v1-0-d585598896ee@bsbernd.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: neal@gompa.dev, fuse-devel@lists.linux.dev, 
+ Bernd Schubert <bernd@bsbernd.com>
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5634; i=bernd@bsbernd.com;
+ h=from:subject:message-id;
+ bh=xzRxuwa63Vh0hWGAVlL/J9Afa2FZo54hNpLnXTUqna0=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLL2Cvnw/1Ps434x0aYkw/iARm5WYZLw8qWFMeZ/Nb6k/
+ Qsp2xPfUcrCIMbBICumyNIlscd2yj8+WbWv66/DzGFlAhnCwMUpABNRM2T4p7PF75REwgvpp3H5
+ D+8/YshneikcK9+X7hYmz3jxUnvhG4a/cvfkNWNkLV8qzFp91aD14ZV0RXcRhi9Keqr8T1XzvJL
+ ZAQ==
+X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
+ fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
+X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
+ auth_id=772
+X-Original-From: Bernd Schubert <bernd@bsbernd.com>
+Reply-To: bernd@bsbernd.com
 
-On Tue, Sep 29, 2026 at 5:43=E2=80=AFAM NeilBrown <neilb@ownmail.net> wrote=
-:
->
-> From: NeilBrown <neil@brown.name>
->
-> lookup_one() is expected to be removed as it does not fit well with
-> proposed changes to directory locking.
-> Specifically d_alloc_parallel() will be ordered outside of i_rwsem
-> and as iterate_shared() is called with i_rwsem held it is not safe
-> to call d_alloc_parallel().
->
-> We can instead call d_alloc_trylock() and then call the ->lookup, but
-> that can fail if there is a lookup attempt concurrent with the
-> readdir().
->
-> ovl cannot afford for the lookup to fail as that could produce incorrect
-> results, and it cannot safely drop i_rwsem temporarily as that could
-> introduce races with handling of the directory cache.
->
-> Instead we rely on the fact that ovl_iterate() has an exclusive lock on
-> the directory, so any concurrent lookup will wait for the ovl_iterate()
-> call to complete.  We allocate a separate dentry and if the lookup is
-> successful, it is hashed with the result.
+From: Bernd Schubert <bernd@bsbernd.com>
 
-Please document this assumption with:
+This is a preparation patch. fuse_kern_fsmount() ran fsconfig
+CREATE, fsmount() and move_mount() inline. A later commit will make
+mount_service.c call the same three calls after it has run FSOPEN,
+SOURCE and MNTOPTS itself, so this moves them into
+fuse_fsmount_create_and_move(). The fsopen fd stays owned by the
+caller, because mount_service.c will close mo->fsopenfd itself
+later.
 
-rwsem_assert_held_write(&dir->d_inode->i_rwsem);
+fuse_kern_fsmount() now converts MS_* flags before calling the
+helper, so unsupported flags are caught before the superblock is
+created, not after.
 
-and comment in the code. Having it in the git commit message is not
-enough for future code reviewers.
+Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+---
+ lib/mount_fsmount.c | 86 +++++++++++++++++++++++++++++++----------------------
+ lib/mount_i_linux.h | 18 +++++++++++
+ 2 files changed, 69 insertions(+), 35 deletions(-)
 
-Other than that, I have no further comments, but I would like
-to have a review from Miklos before this patch lands, because
-I don't remember him reviewing any of the revisions and this is subtle.
-I am a bit concerned that we have no test coverage for this subtle code.
+diff --git a/lib/mount_fsmount.c b/lib/mount_fsmount.c
+index b2d0453e5c93..0b1fd4300d2d 100644
+--- a/lib/mount_fsmount.c
++++ b/lib/mount_fsmount.c
+@@ -489,6 +489,53 @@ void fuse_kern_umount_mountfd(int mountfd)
+ 	}
+ }
+ 
++int fuse_fsmount_create_and_move(int fsfd, unsigned int mount_attrs,
++				 int dest_mnt_fd, const char *dest_path,
++				 int *mountfd_out)
++{
++	int mountfd;
++	int res;
++
++	res = fuse_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
++	if (res == -1) {
++		int save_errno = errno;
++
++		log_fsconfig_kmsg(fsfd);
++		fuse_log(FUSE_LOG_ERR, "fuse: fsconfig CREATE failed: %s\n",
++			 strerror(save_errno));
++		return -save_errno;
++	}
++
++	mountfd = fuse_fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs);
++	if (mountfd == -1) {
++		int save_errno = errno;
++
++		log_fsconfig_kmsg(fsfd);
++		fuse_log(FUSE_LOG_ERR, "fuse: fsmount failed: %s\n",
++			 strerror(save_errno));
++		return -save_errno;
++	}
++
++	if (dest_mnt_fd >= 0)
++		res = fuse_move_mount(mountfd, "", dest_mnt_fd, "",
++				      MOVE_MOUNT_F_EMPTY_PATH |
++					      MOVE_MOUNT_T_EMPTY_PATH);
++	else
++		res = fuse_move_mount(mountfd, "", AT_FDCWD, dest_path,
++				      MOVE_MOUNT_F_EMPTY_PATH);
++	if (res == -1) {
++		int save_errno = errno;
++
++		fuse_log(FUSE_LOG_ERR, "fuse: move_mount failed: %s\n",
++			 strerror(save_errno));
++		close(mountfd);
++		return -save_errno;
++	}
++
++	*mountfd_out = mountfd;
++	return 0;
++}
++
+ int fuse_kern_fsmount(const char *mnt, int dest_mnt_fd, unsigned long flags,
+ 		      int blkdev, const char *fsname, const char *subtype,
+ 		      const char *source_dev, const char *kernel_opts,
+@@ -584,16 +631,6 @@ int fuse_kern_fsmount(const char *mnt, int dest_mnt_fd, unsigned long flags,
+ 		goto out_free;
+ 	}
+ 
+-	/* Create the filesystem instance */
+-	res = fuse_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL, 0);
+-	if (res == -1) {
+-		err = -errno;
+-		log_fsconfig_kmsg(fsfd);
+-		fuse_log(FUSE_LOG_ERR, "fuse: fsconfig CREATE failed: %s\n",
+-			 strerror(errno));
+-		goto out_free;
+-	}
+-
+ 	/* Convert MS_* flags to MOUNT_ATTR_* for fsmount() */
+ 	flags = ms_flags_to_mount_attrs(flags, &mount_attrs);
+ 	if (flags != 0) {
+@@ -602,33 +639,14 @@ int fuse_kern_fsmount(const char *mnt, int dest_mnt_fd, unsigned long flags,
+ 		goto out_free;
+ 	}
+ 
+-	/* Create mount object with mount attributes */
+-	mountfd = fuse_fsmount(fsfd, FSMOUNT_CLOEXEC, mount_attrs);
+-	if (mountfd == -1) {
+-		err = -errno;
+-		log_fsconfig_kmsg(fsfd);
+-		fuse_log(FUSE_LOG_ERR, "fuse: fsmount failed: %s\n",
+-			 strerror(errno));
++	err = fuse_fsmount_create_and_move(fsfd, mount_attrs, dest_mnt_fd, mnt,
++					   &mountfd);
++	if (err)
+ 		goto out_free;
+-	}
+ 
+ 	close(fsfd);
+ 	fsfd = -1;
+ 
+-	if (dest_mnt_fd >= 0)
+-		res = fuse_move_mount(mountfd, "", dest_mnt_fd, "",
+-				 MOVE_MOUNT_F_EMPTY_PATH |
+-					 MOVE_MOUNT_T_EMPTY_PATH);
+-	else
+-		res = fuse_move_mount(mountfd, "", AT_FDCWD, mnt,
+-				 MOVE_MOUNT_F_EMPTY_PATH);
+-	if (res == -1) {
+-		err = -errno;
+-		fuse_log(FUSE_LOG_ERR, "fuse: move_mount failed: %s\n",
+-			 strerror(errno));
+-		goto out_close_mntfd;
+-	}
+-
+ 	res = fuse_mnt_add_mount_helper(mnt, source, type, mtab_opts);
+ 	if (res == -1) {
+ 		err = -EIO;
+@@ -645,9 +663,7 @@ int fuse_kern_fsmount(const char *mnt, int dest_mnt_fd, unsigned long flags,
+ 
+ out_umount:
+ 	fuse_kern_umount_mountfd(mountfd);
+-out_close_mntfd:
+-	if (mountfd != -1)
+-		close(mountfd);
++	close(mountfd);
+ out_free:
+ 	free(source);
+ 	free(type);
+diff --git a/lib/mount_i_linux.h b/lib/mount_i_linux.h
+index 8cf7ff4532c6..35bb54c82236 100644
+--- a/lib/mount_i_linux.h
++++ b/lib/mount_i_linux.h
+@@ -86,6 +86,24 @@ int fuse_kern_fsmount(const char *mnt, int mnt_fd, unsigned long flags,
+ int fuse_kern_fsmount_mo(const char *mnt, const struct mount_opts *mo,
+ 			 const char *mtab_opts, int *mountfd_out);
+ 
++/**
++ * Create the superblock and attach the resulting mount to a destination.
++ *
++ * The fsopen fd stays owned by the caller - a caller that keeps it in
++ * long-lived state must not be left with a descriptor closed behind its back.
++ *
++ * @fsfd fsopen fd, fully configured
++ * @mount_attrs MOUNT_ATTR_* flags, from ms_flags_to_mount_attrs()
++ * @dest_mnt_fd pre-resolved destination fd, or -1 to use @dest_path
++ * @dest_path destination path, used only when @dest_mnt_fd is -1
++ * @mountfd_out on success receives the fsmount() fd, to be closed by the
++ *              caller and usable for fuse_kern_umount_mountfd()
++ * @return 0 on success, negative error code on failure
++ */
++int fuse_fsmount_create_and_move(int fsfd, unsigned int mount_attrs,
++				 int dest_mnt_fd, const char *dest_path,
++				 int *mountfd_out);
++
+ /**
+  * Unmount (lazily) the mount @mountfd was created for, without a path lookup.
+  *
 
->
-> When the concurrent lookup gets i_rwsem it mustn't do its own lookup -
-> it must use the existing dentry.  This is found, if it exists, using
-> try_lookup_noperm().
->
-> Signed-off-by: NeilBrown <neil@brown.name>
-> ---
->  fs/overlayfs/namei.c   | 12 ++++++++++++
->  fs/overlayfs/readdir.c | 26 ++++++++++++++++++++++++--
->  2 files changed, 36 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/overlayfs/namei.c b/fs/overlayfs/namei.c
-> index ca899fdfaafd..f56e33fd4d6b 100644
-> --- a/fs/overlayfs/namei.c
-> +++ b/fs/overlayfs/namei.c
-> @@ -1385,6 +1385,7 @@ struct dentry *ovl_lookup(struct inode *dir, struct=
- dentry *dentry,
->         struct ovl_fs *ofs =3D OVL_FS(dentry->d_sb);
->         struct ovl_entry *poe =3D OVL_E(dentry->d_parent);
->         bool check_redirect =3D (ovl_redirect_follow(ofs) || ofs->numdata=
-layer);
-> +       struct dentry *alias;
->         int err;
->         struct ovl_lookup_ctx ctx =3D {
->                 .dentry =3D dentry,
-> @@ -1399,6 +1400,17 @@ struct dentry *ovl_lookup(struct inode *dir, struc=
-t dentry *dentry,
->         if (dentry->d_name.len > ofs->namelen)
->                 return ERR_PTR(-ENAMETOOLONG);
->
-> +       /*
-> +        * The existence of this in-lookup dentry might have forced
-> +        * readdir to do the lookup with a new dentry.  If so we must
-> +        * return that one.
-> +        */
-> +       alias =3D try_lookup_noperm(&QSTR_LEN(dentry->d_name.name,
-> +                                           dentry->d_name.len),
-> +                                 dentry->d_parent);
-> +       if (alias && !IS_ERR(alias))
-> +               return alias;
-> +
->         with_ovl_creds(dentry->d_sb)
->                 err =3D ovl_lookup_layers(&ctx, &d);
->
-> diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-> index e7fe29cb6028..bc41da4bace8 100644
-> --- a/fs/overlayfs/readdir.c
-> +++ b/fs/overlayfs/readdir.c
-> @@ -574,8 +574,30 @@ static int ovl_cache_update(const struct path *path,=
- struct ovl_cache_entry *p,
->                 }
->         }
->         /* This checks also for xwhiteouts */
-> -       this =3D lookup_one(mnt_idmap(path->mnt), &QSTR_LEN(p->name, p->l=
-en), dir);
-> -       if (IS_ERR_OR_NULL(this) || !this->d_inode) {
-> +       this =3D d_alloc_trylock(dir, &QSTR_LEN(p->name, p->len));
-> +       if (this =3D=3D ERR_PTR(-EWOULDBLOCK)) {
-> +               /*
-> +                * Some other thread is looking up this name and will
-> +                * block on i_rwsem before it can complete the lookup.
-> +                * We will do the lookup in a new dentry and when that
-> +                * lookup gets a turn it will find and return this
-> +                * dentry.
-> +                */
-> +               this =3D d_alloc_name(dir, p->name);
-> +               if (!this)
-> +                       this =3D ERR_PTR(-ENOMEM);
-> +       }
-> +       if (!IS_ERR(this) && d_unhashed(this)) {
-> +               /* Either we got an in-lookup or we made our own unhashed=
- */
-> +               struct dentry *alias =3D ovl_lookup(dir->d_inode, this, 0=
-);
-> +
-> +               d_lookup_done(this);
-> +               if (alias) {
-> +                       dput(this);
-> +                       this =3D alias;
-> +               }
-> +       }
-> +       if (IS_ERR(this) || !this->d_inode) {
->                 /* Mark a stale entry */
->                 p->is_whiteout =3D true;
->                 if (IS_ERR(this)) {
+-- 
+2.53.0
 
-How do you test your patch set? Do you have tests that exercise
-parallel create/lookup/readdir?
 
-It would be irresponsible to merge code without showing that the `alias`
-branches have been exercised. Do you have an idea how to do that?
-
-Thanks,
-Amir.
