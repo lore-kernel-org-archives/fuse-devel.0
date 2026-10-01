@@ -1,143 +1,265 @@
-Received: from mail-ed2-f22.google.com (mail-ed2-f22.google.com [74.125.228.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEFA4A8438
-	for <fuse-devel@lists.linux.dev>; Thu,  1 Oct 2026 13:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.86
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790860719; cv=pass; b=r7Bd+Uoxj8otnKwbC4vTAJCShEEo/Yf/spF/5tNrzhpZQA43LdgAp4QbiwVQV8ekIin+tu+jTESA8KfXitA/7OpvZjTa6FND5NMGm+1xpXSRHgtjbRhCqef1LFRZ0Fprq8x+vGY3DbGVbERV2dLbTM2C/vgeH12Kx1Zj6XXcbQU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790860719; c=relaxed/simple;
-	bh=Uw1uWeqMHarO4Xj7t9eCDMHbGz2jo2Udkzg4EDz90cM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N2TDk1v/NUF5YpyrghyZrU/SKvtz2bMaO5lTmsBopID3sBBZfBOk9wrOUdAgfm4s741HtX7wzZffNwaW1Rkxz5je2k4BOBacXMwwFINV7Y4wZB7Jvb2pJq8QgSmxhojC3thrrGdVHvcbE5qKV/f+Ec/NZGZxH9R2K0N3/Zc07Mk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eS1IQgwz; arc=pass smtp.client-ip=74.125.228.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4572547044;
+	Thu,  1 Oct 2026 13:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790860721; cv=none; b=uGFbyisuqXKAI7o9CBKSb/XNW81H2SVhdtG32zJ30/vWj9TriZi3ySosXwGcKWzs7AmJ3B+4YDitHQlJhocOzjgzDF9aWzFZNQ9f+L6ZtgwxrnvMfl9sQqNgTycEOAxlgRw0phunuoJalYzHDObhg8C82vzpan7o/8dKl0phm28=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790860721; c=relaxed/simple;
+	bh=JkI7VZ4A2uC+/dn/L/W5qEz5CiiPheGQnlanGKaUISA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ETcJ1NcbHqBgpF6IYf+BqSLH5Q39PI3LRPFC36l+haeIC9pjh4HHzbN8cuH5IYH29UnW8LP8d5t2qlMWfZjNhUTSuVyDMnrlTD4BwkMAAhYhSWlkAk9kSFUq671GPknSMJW1mDMx/OvoiwBXoAimx14GHxEdmJKErvSOqw4nbOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=agBhyH+b; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eS1IQgwz"
-Received: by mail-ed2-f22.google.com with SMTP id 4fb4d7f45d1cf-6af7d702c76so985926a12.1
-        for <fuse-devel@lists.linux.dev>; Thu, 01 Oct 2026 06:18:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790860714; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VNU0nd0+c0qFSUVFHf7s5IBq6AE6N9G4+gEupe7uPsh1rVzqqOW/8FeGj2u0ZXP54R
-         wq1IwVIUGh5zRVQEcWLFdxUYnI3vTG+1Q2bdiwbYSC5d59uJVEHWu7IP8tHkDQSb2EPb
-         iFq4JQNuV+GzFOo7bHV1Uh3n7qwadLfk3ePPsyT+cufBKXypCJcbsql1+mkbx7IpkJ7C
-         yxjEa1lCj2nQSQpJtXimflGoLJswyhz8vg1uTSQwArMPgcj/FYPJospdcpwdrQQ98VC9
-         knmOsPQoMb8gE5Jw5Ao3X8dpIfDr+lgxipMtmtjFvZyDq217cQPFI9xtVJd20wFHHL2p
-         jaJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SiNBphf5YHU7Nuf/MPPVETdhHRDDrC1sqyyTUXzM7q0=;
-        fh=2sNa+NvHECDxh80dIYOrl2sTeezdpdabNDnwSvRQ130=;
-        b=GLdrycJtW+fKR6PZk1Fs50Kg0m5q4+IEjiBIl6O9T9T/F8+Ug+PCRcEb2XypXsdPXe
-         TJv5kBpuah1WBA+ySYqgLVI4Kqc//EmwypmjIQ8a46Q1OqZ1nA1J9vqMU1OshKFUZCqc
-         rq2OAm99Y0LCbhnOf+2osDPXaL7cbnN68cVKIgas6pc6xyOo6LVF46b/aDZyZeOsUwR9
-         kCYI9tjXK2kwCm/iGK90ggrq5l1IVE1oK5pKoJfSiIUa8/2vZeJfSdkDaI7ov1d/kM2T
-         NjU5848uIK0X8HMPjD7t6nEh1VFXjA3+6rh84kxByYvlX7+8hTNmSSnt/habCBw4Sx3J
-         tpYw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790860714; x=1791465514; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SiNBphf5YHU7Nuf/MPPVETdhHRDDrC1sqyyTUXzM7q0=;
-        b=eS1IQgwzZ0alX2/uSzrC5ra1U8dW1NJkBIXigCov88pLQzLmHQMu6gJyDj8Qsbk+/F
-         0j2ZC5peL9WwkjJ4FX76JI2ozRopbwujNifrSORjyzgSplWUsspvhVEDuF9OmREVL+vw
-         V3aUfsKecBOByFFoJ1gYuyKp/zPH0BOWVNJOkB1VhDwqDGekF5Gcwrfw9CAC7Csx0ZBh
-         ayzGCB6u9jNuDxpCtin+42GFWBZRqpdVKMR7e4Vi2XXH8D2TmaXg/lc+4E9+tHx/qXos
-         ni3jb3azrqm8gHY+AdTBtVuOkbMrPbh8EaVc0GN/QUpIrwPLXsx88niaBXf68g86gORT
-         H0+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790860714; x=1791465514;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SiNBphf5YHU7Nuf/MPPVETdhHRDDrC1sqyyTUXzM7q0=;
-        b=U14dbMNGZx852tdrcbzajgBz46hZEc37tcClm1IxAZV36yVCKKz88IDannjtxwk7Er
-         iQdGqPaDa0z2Yb68GSEi8rvEsVOQaQY8tJF/6YNaTGq5o/G8V2CP8/aDAjAYwjc6sWS0
-         cIcrxhG0iofmJrWNnP5+S7aLxjDxPii9AYPVOHpXI683jQsfduJXGpLDYMYzHnwGzzvf
-         TJIcQhGGGfxtc3ver/cgUEmFd6oa3P0wx1ww8/tyl7jNPU9CxcQQbN0J0MWnlDqZb1qT
-         cUy+BQ04izknLvw5wHXuWyWAfOiBwAVx8Kie7mT8Jb1n8aRJHa8rmEtK4iTevvvAAEe9
-         oSPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxbDA2QXz4MC0424go+svE0DbgK7XsZbxW85w1N8+chY2df+x68PVE1dFBkKei3l5etHVikseyqd/XO@lists.linux.dev
-X-Gm-Message-State: AFq9FYIxQt3a8OVPdGFBSz29iWzeBdrqzRzJ+1Trd1XEJSI0ImmP8XMS
-	jrb5TfmM1BTTXw0UYa1QyjFGTaxGy4ysYLcptpU++qpVm3nhDuuKHFacpwee8iUGw0uxVlJSNA4
-	E8htNhAor8CWb2taclBxJNI87MXF6pcM=
-X-Gm-Gg: AYBFou3KUqQ1DLBEDYJCNivtk+3XrawEP9FxeOEwVSM2SV1CgH8z4l6RYoOSvTlYcs3
-	5SAaM+RKL6kAccBJGeBiNPEpuhVdQJZA4bZyYDIRIZS9ejyiNa+47Ggtdw+ZyRijygp/PZ0/2SA
-	R1pBAXj/pdRWpNzsccoMa/XZHBsrxZStpgLnIJ67RgZGkVguwOEgU5qRjx0bhXAgK44BHz7FDX+
-	mi8PyNkQjeJBDMe/c1a65Cjqca69ZRCqwgKIAZQAQTBpcbLvcTfkaH/ObTQ3AALjMedo1QzDSwa
-	NBJrSl1cs1/Zb+dWZ/STIanb3Td73Ro2zSRfxKNOd4loLQra5WsnISAGP9J7FQR5Ddc=
-X-Received: by 2002:a05:6402:1e94:b0:6af:8a4b:7aad with SMTP id
- 4fb4d7f45d1cf-6af8a4b7ef7mr391988a12.28.1790860713706; Thu, 01 Oct 2026
- 06:18:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="agBhyH+b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628371F000FF;
+	Thu,  1 Oct 2026 13:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790860718;
+	bh=UxjpaonxC/3VDFbLXavStYHgpCVIO4MBlBHvzTk6YXI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=agBhyH+bFmKD1JiAnoEtz/5qMdv8Ap+ND3x/3N77sLFcXCZ3bcDlajbZP+2ap44sx
+	 KPIQ+CdPX8Cd2RQc2lWaQ+6tuTQVHD2pYQlPNxdOxQthGqM2hpE/FWfeBE+JBoOiSg
+	 aTHw3Pfaa+usXhHmYbPmjg6Em6hcDF+IY/Dz4XEOgO3LkcfaH27mJOMvaKWNKyUSaV
+	 dIgxHpJeU+ZOW+vHFYouo/WQFX/mh6XCActsubBMgSttDFWHcozj2biVdd0OlH5rHg
+	 SjqdUVy0SHAv0dkWibepFp4IukMLRAR7jxSvh/uVcF78zQKMLBluxXYPcqcH563yw/
+	 oK2yZa6XGh3Fg==
+Message-ID: <0623ee06-00e5-421e-a24a-ed605abb559b@kernel.org>
+Date: Thu, 1 Oct 2026 14:36:40 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260922061019.3320196-1-mszeredi@redhat.com> <20260922061019.3320196-3-mszeredi@redhat.com>
- <CAOQ4uxhKweRcDVK9da5KDCHjrdmpAh5bgKGbL=o0YPoedCx8nw@mail.gmail.com> <CAJfpegs6yKUnFuiN29hRWCBRnnZ5C4YyD7_JoUrhYmLJMR8rxg@mail.gmail.com>
-In-Reply-To: <CAJfpegs6yKUnFuiN29hRWCBRnnZ5C4YyD7_JoUrhYmLJMR8rxg@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 1 Oct 2026 15:18:22 +0200
-X-Gm-Features: AclHuK-XP1T5WOO5FxbY96rLZ7YrmRwxarxGXgxh_DJaZ-Gr_yCKW5qyBByjy8c
-Message-ID: <CAOQ4uxhAvKCrDxWLEnJY+m2pmxanayLGqoTMwYMMFnBr1Xes-w@mail.gmail.com>
-Subject: Re: [PATCH 02/11] fuse: use "vdax" naming for virtiofs DAX
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	John Groves <john@groves.net>, "Darrick J . Wong" <djwong@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 15/40] mm/vma: add vma[_flags]_is_kernel_owned()
+ predicates
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
+ Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
+ Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
+ Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
+ Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Xu Xin <xu.xin@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 28, 2026 at 12:39=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
- wrote:
->
-> On Tue, 22 Sept 2026 at 10:47, Amir Goldstein <amir73il@gmail.com> wrote:
-> >
-> > On Tue, Sep 22, 2026 at 8:10=E2=80=AFAM Miklos Szeredi <mszeredi@redhat=
-.com> wrote:
-> > >
-> > > We are introducing DAX functionality largely unrelated to the virtiof=
-s
-> > > code.  Rename dax -> vdax for the virtiofs case for clarity.
-> > >
-> > > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> >
-> > I am sure it has crossed your mind that leaving CONFIG_FUSE_DAX
-> > all over the place is ugly and just as confusing.
-> >
-> > You may want to create an alias in Kconfig and rename the checks
-> > in the code to FUSE_VDAX:
-> >
-> > config FUSE_VDAX
-> >         def_bool FUSE_DAX
->
-> But then the .config file will contain redundant info and be confusing.
->
-> There's a fix for that:
->
-> config FUSE_DAX
->     bool
->     transitional
->
-> with the only drawback that now FUSE_VDAX will have "no" as the
-> default value if old .config had neither FUSE_VDAX nor FUSE_DAX.
-> AFAICS that's not fixable with current config engine.
->
-> Anyway, that's a very minor issue, so I'm going this route.
->
+On 9/17/26 18:22, Lorenzo Stoakes (ARM) wrote:
+> Rather than referring to VMA flags with uncertain meaning, add a new
+> predicate that explicitly describes what possession of the VMA_PFNMAP_BIT
+> or VMA_MIXEDMAP_BIT flags mean, and then refer to that function for
+> determining VMA mergeability.
+> 
+> Either flag means the contents of the mapping are owned by the kernel,
+> usually a driver, rather than by the core mm: the memory may be MMIO,
+> kernel-allocated pages or even ordinary pages the driver maps itself, but
+> the core must not populate, reclaim, migrate, copy-on-write or merge the
+> range on its own initiative.
+> 
+> We initially also include VMA_IO_BIT here, as by implication, these must be
+> kernel-owned. (mlock() also sets VMA_IO_BIT transiently on ordinary VMAs
+> while locking them, which is addressed later in this series.)
+> 
+> However the intent is to in future remove this, as no mapping should be
+> marked as an I/O mapping without also being marked with VMA_PFNMAP_BIT.
+> 
+> This forms the basis of further work intended to improve how we express VMA
+> properties such as this.
+> 
+> Also update the VMA userland tests to reflect the change.
+> 
+> No functional change intended.
 
-Nice trick.
+Of course I have to bitch about the naming :)
 
-Minor nit. I see that commit 77613eff2d02e on for-next has
-spaces instead of tab indentation for the FUSE_DAX config entry.
+Intuitively: kernel owned vs ... user owned?
 
-Thanks,
-Amir.
+No, it's kernel owned vs core-mm owned.
+
+Which implies core-mm is not part of the kernel?
+
+Yes, this is confusing. ;)
+
+I assume you're coming from "map_kernel_pages*", but that's rather "kernel
+memory" and not "kernel owned".
+
+Usually we say "driver owned" when not talking about pagecache/anon. Or user vs.
+kernel memory.
+
+So is it really all about "is this (excluding CoW) no ordinary user memory that
+we would track through the rmap" ?
+
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> ---
+>  include/linux/mm.h              | 56 ++++++++++++++++++++++++++++++++++++++++-
+>  tools/testing/vma/include/dup.h | 29 ++++++++++++++++++++-
+>  2 files changed, 83 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 2a92193ac6a5..cab29d6e15c1 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -1612,6 +1612,44 @@ static inline bool vma_is_shared_maywrite(const struct vm_area_struct *vma)
+>  	return is_shared_maywrite(&vma->flags);
+>  }
+>  
+> +/**
+> + * vma_flags_is_kernel_owned() - Do the specified VMA flags indicate that the
+> + * contents of the VMA are owned by the kernel rather than the core mm?
+> + * @flags: The VMA flags to test.
+> + *
+> + * A kernel-owned mapping is one whose contents are established and controlled
+> + * by the kernel, typically a driver, rather than by the core mm's fault and
+> + * rmap machinery.
+> + *
+> + * The mapping may be memory-mapped I/O, kernel-allocated pages or ordinary
+> + * pages the owner has chosen to map itself (shmem via a PFN map, for instance).
+> + *
+> + * In all cases the core mm must not populate, reclaim, migrate, copy-on-write
+> + * or merge it of its own accord.
+> + *
+> + * Pages mapped this way are not necessarily reference counted or map counted.
+> + *
+> + * Returns: true if the flags indicate a kernel-owned mapping.
+> + */
+> +static inline bool vma_flags_is_kernel_owned(const vma_flags_t *flags)
+> +{
+> +	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
+> +				  VMA_IO_BIT);
+
+I thought we have cases where we drivers insert pages and neither set
+VMA_PFNMAP_BIT nor VMA_MIXEDMAP_BIT.
+
+I assume vmf_insert_page_mkwrite() is fine because it is DAX doing it (should we
+limit this interface to DAX?).
+
+-- 
+Cheers,
+
+David
