@@ -1,69 +1,69 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9136451B178
-	for <fuse-devel@lists.linux.dev>; Thu,  1 Oct 2026 15:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4F951DAEA
+	for <fuse-devel@lists.linux.dev>; Thu,  1 Oct 2026 15:09:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790867396; cv=none; b=XF3KjoNAcb+gsWCqPagDhXyEMt/eLtoo7WxEWD8YWADvLklYjjhTxXnNcwJc1hZNgVEqWLzNtwQa0y3MTuYlMunt2CJWZJRXs2pdoUHNCQDf4oI2Zhjcae7/bopHUuHBzFj9C+Eua8vOE8hGPMDK2n17HO7q2bA4uo1locZNsqs=
+	t=1790867398; cv=none; b=m0T+xba4oSgO2liDOZPAM3MdjqxEDuKpROZq+uFHUcqH2WgHy52ZHTgaRCvlNWx39C5PxFAS4Dh57t7VyLdsFFcOWI+H8IN5WYnSbWGZ5W8IJEEu/FN3WM3K5Bel5KcXMMQFVCLoMjgA3DCg4IGjj8Nmk/acRAx50T8ZZnMeiy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790867396; c=relaxed/simple;
-	bh=4t+dzNrtjemQGlMoDAOQMGwhr0/nPe0u34D53vlue/g=;
+	s=arc-20240116; t=1790867398; c=relaxed/simple;
+	bh=a7NX8i8cnRw/BwgIOLymP2xVFIiwQVZrzam3KVQw7ks=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=VBGjaK0wbqQJwhbqDcvW6slnqe4eDJDK62ggYnGrHerOhUYmgBYgUTbUXEBnudn4FzqZUm0vvoiOxD4iOycm/ALW06gACSL72oLT/Pwp87t9uBxyV4sUrFvImEKd2OFH5Zsa4mmVM1tkW6Ndq+tjNftkREyt6kmPNa2VGcoJ83E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X9JwY0Mv; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:content-type; b=ixPjrn1BfxUg09NxqYQyw6iZ7LBZD7O/tb4AimKWh34g7FHi1A6AbXLPxhgyFMMn7GweYhxdrDjQrbbHO/skR9J81yfE19bp7JJDN6AEeIotNu/cHhQRSy4mt1Nz4zZQWUgsTC0Jrwa+hbwUl8xhFknGKByDrLQKpGhZ1XQ+8UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PRLiO+sa; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X9JwY0Mv"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PRLiO+sa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790867393;
+	s=mimecast20190719; t=1790867395;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4UTi131uedzHFa6VgoW5E2PrCq8nqSEd2jZ2PJZfVoM=;
-	b=X9JwY0MvgY725DCGVDkE/oucPlm3yJ11PfpqK6H7LUpc8oUR6Yt/ahB/wQWfzmrErxDcW4
-	oJdfNY9dJvMQyfwg8eq6nQKpIiW2kA32ykKwfHGsB+AJ/MgYuNitMWo+fJHfa3tJc7xM+c
-	iFK1OTlE8DW5+NiqbOPi/j9a2+TvUjU=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=ub7kJ1kOji3/4j8cpaMtCaCLuZXodtNfr3Sh+GMfOWk=;
+	b=PRLiO+sacejmvd0xABcaJ4toSoGMuiugDmemMQp55iSxtVpDm1g27jW/JmxhR468Jpuklp
+	pEMimM2XM5D+1ZZ1ODDAFKQs7MTA8+G/Qz/7rj5xk6pLKB78OfY5JhfOivWhDjUgBHhzX1
+	1E12bFX1qTN2m86YJDlXoZ/WSqOQJFk=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-170-pvnDFbDtO9qWrBcfRHQ84A-1; Thu, 01 Oct 2026 11:09:50 -0400
-X-MC-Unique: pvnDFbDtO9qWrBcfRHQ84A-1
-X-Mimecast-MFC-AGG-ID: pvnDFbDtO9qWrBcfRHQ84A_1790867389
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c293e604f0eso652551766b.3
-        for <fuse-devel@lists.linux.dev>; Thu, 01 Oct 2026 08:09:50 -0700 (PDT)
+ us-mta-648-RFfc0lgtMSqGbBRCpydDcg-1; Thu, 01 Oct 2026 11:09:53 -0400
+X-MC-Unique: RFfc0lgtMSqGbBRCpydDcg-1
+X-Mimecast-MFC-AGG-ID: RFfc0lgtMSqGbBRCpydDcg_1790867392
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c11f2b9f62fso464692166b.2
+        for <fuse-devel@lists.linux.dev>; Thu, 01 Oct 2026 08:09:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790867389; x=1791472189;
+        d=1e100.net; s=20260707; t=1790867392; x=1791472192;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4UTi131uedzHFa6VgoW5E2PrCq8nqSEd2jZ2PJZfVoM=;
-        b=1I4eIlMb4T9sA4l7VT1wcOXPu7h2V9sPeTHkzFQyc+eAh3H8640uBZmgR0cKbuFqDx
-         id+2/jrRPo+VL8YhlRm0Q6Xj2zi87xUTPSm97jihNTih4plDEoYEsczwQNrQMhJ0XvwW
-         JsqbPgRp5D3+WGZC4Fc1TfR6C/d6/IbNObmoxujKv1OOx57nHP77vnaWO06osdon9Poj
-         39W8ebtYuPhRfXUnix0oAxNaD5m2DO9R4vwIUEoNTu415DIZvoTIu6ZPFkMKgfTgJOg9
-         aa4Cu7cA+cuktp+nppUQTd6YBcbAzkuqaEclnliawzyI5qA7QJgO4rwFjr9EysPVzD4r
-         Ff9g==
-X-Gm-Message-State: AFuF++kt/RuKQi5Txw79R2v/t0RQEY93z01CFFlzG9E6lptTDA1S3dmH
-	qgT0CQYlDyNX7ZF6T50IbGRFXhlAu5bSLc2KwHLApxUdn5Ms+G3ET2x5CZOQhWyX5SxMj6JJQgS
-	l9X1T2hvOeYSawETrCC42GjMw3+Um3LKKDQnpsO4onm64OgpOoJ+WhmeH2xn/kZYhJP8TpTpJRV
-	Tp2bcq4xUW+hVc5fNomJjQG84M8w+gBaBMtcSxKTm09PhHW3M=
-X-Gm-Gg: AYBFou0kkBE7c/eAoiNSD+zz2F7cQDLlxINq2D1of7iXneg8336O8DwzdRxUS1DV1S8
-	2sNQhT08ZjqQLkjBp5K7z2vOkzB9qoJc3GSmB+aLyh5YFKDgPbGbcyc08yzdtht+Q/KdN34mgr+
-	KVcg6aoNAPYICXiWNms4qG+n1kjqkeQqIpClnn5BqWUXuJUorwtG1Y4XI8zFhNTSjoezh36L3o2
-	dacy93r04rS9yjKKZbga1hlzx30IxBN+hnegQJN05rPOgKGtSVHGLpFZ8nCARVl5xoWt+wc7oWP
-	nvt/gtSUET/cc05/AEiy7lTNuxmEQ+7MhdziX43VZXlPX+GaDgMNqwcVCWqfy01wW/OqUEwNEwk
-	AteVmPnB1LT0fbhUJ9ynon9yRXO3UDAfKE1QZOEcrUtyKkfhPr6kR1kZERCU=
-X-Received: by 2002:a17:906:7308:b0:c29:566f:531c with SMTP id a640c23a62f3a-c2e23d64e23mr453730366b.31.1790867389329;
-        Thu, 01 Oct 2026 08:09:49 -0700 (PDT)
-X-Received: by 2002:a17:906:7308:b0:c29:566f:531c with SMTP id a640c23a62f3a-c2e23d64e23mr453725966b.31.1790867388725;
-        Thu, 01 Oct 2026 08:09:48 -0700 (PDT)
+        bh=ub7kJ1kOji3/4j8cpaMtCaCLuZXodtNfr3Sh+GMfOWk=;
+        b=abR7nZuVI9bBQtaq8IP8x7VtEpKS+cPlVF9m8PJYloEMMk7H+Q+VsBrF2QVfq+6R+J
+         4HhYySIwCFZzqVoA3kBKWK1BDZRqR12lfnXFtps4eVdktZWMWCWsUgznFLFGQYpCa/I+
+         XI9rGQNKC3CmGzqeBSwjrWZhNBb7PciW2/UKku6QVp/un6A/+BichRJrj7EkhRpChri3
+         xOH08b24QTggZvfuhTXlLqNalZ9/IORJYb7HV84iXXqI2D8IoGm2I8QyU3fjX+mqPpot
+         bm4JrQrdIC0iED+NSerU62FGPMbdp47vglCk73DaF5V8WgbzlWUAM9X5TvpKXYGuXj34
+         FcdA==
+X-Gm-Message-State: AFuF++nRSUkBf8vrmGt0Ladq7bL82awVdKkzvGevn8yylS7FraPqMqo6
+	MatRnU/4uV13n/XzZPoRM9VRrd629RdPELTnOag81ODLLId+s0KoSlbTjqy0HyMo0A6XEvnqf3b
+	CyENkeX2hZh1tc4IKyMr9cmu6wNQxrnpcAzS/HSvAzjBYF/aDGmRrlRm0VTLY4HLJwo/xhVi1XR
+	lAiYfidim0tH2SuDhdfDSjbkLhPYt5bovG6BadvO8+cEwWpsI=
+X-Gm-Gg: AYBFou1HMDbC5jFLQOzo+2872N89Fa1LnUw0MI41HTFRW7fAsCqHV6WJVGsa4E8CzHV
+	/k2AuEybhRS1W806xfDbIr3MeRA4khM0IHnydoOFAQWbrbc7v9xpOW51gxjHrgEOq/VgrcDK9ij
+	Q2xliQ/JNOR4qkgm8xF9gq6meOj1LWdnelZE6XWlob/hzQKOixBtdnLMkfUzujpfqC8BwYMbjkV
+	1X+YBElQnTNjxsl4G/ioFJe39dQd9t2V9z8Y/GtKShR6wwkRB+mAn3uopFkinP+tx867zz3+Jbb
+	65wKxFVImleM/AyGTfuKegkXYBYqZW/B/yqjNw2ED5+0gC0qgvOMA6EROEex6vuyq11D7kxc3MB
+	LSCwjlviA5D4ozgt36b2kbuGQ6XxX0WwEHSn5Lk+9+wVGphRbBtkaUMzCS1M=
+X-Received: by 2002:a17:907:6095:b0:c25:2c70:50ed with SMTP id a640c23a62f3a-c2e23751e12mr416249266b.5.1790867392331;
+        Thu, 01 Oct 2026 08:09:52 -0700 (PDT)
+X-Received: by 2002:a17:907:6095:b0:c25:2c70:50ed with SMTP id a640c23a62f3a-c2e23751e12mr416246666b.5.1790867391825;
+        Thu, 01 Oct 2026 08:09:51 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (193-226-245-188.pool.digikabel.hu. [193.226.245.188])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e31d86372sm177735166b.56.2026.10.01.08.09.47
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e31d86372sm177735166b.56.2026.10.01.08.09.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 08:09:47 -0700 (PDT)
+        Thu, 01 Oct 2026 08:09:51 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev
 Cc: John Groves <john@groves.net>,
@@ -74,9 +74,9 @@ Cc: John Groves <john@groves.net>,
 	Alison Schofield <alison.schofield@intel.com>,
 	nvdimm@lists.linux.dev,
 	linux-cxl@vger.kernel.org
-Subject: [PATCH v2 5/8] fuse: add support for opening dax device as backing
-Date: Thu,  1 Oct 2026 17:07:23 +0200
-Message-ID: <20261001150935.655979-6-mszeredi@redhat.com>
+Subject: [PATCH v2 7/8] fuse: add extent map I/O support
+Date: Thu,  1 Oct 2026 17:07:25 +0200
+Message-ID: <20261001150935.655979-8-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261001150935.655979-1-mszeredi@redhat.com>
 References: <20261001150935.655979-1-mszeredi@redhat.com>
@@ -87,312 +87,349 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: l90ydydqyyyhllMNTZg5a7xsalVJCFJj9ufrdfGdo9E_1790867389
+X-Mimecast-MFC-PROC-ID: O0vOwBzzyySU7aH69WSkrlEw08soz0DjM_9JyoLcYLk_1790867392
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-This is only possible with FUSE_PASSTHROUGH_V2 enabled.
+Wire up read, write, splice and mmap operations for extent-mapped
+files through the iomap/DAX infrastructure.
 
-Mark the inode with S_DAX if FUSE_LOOKUP returns with FUSE_ATTR_DAX set.
+When a passthrough file is opened with an EXTMAP backing, I/O is
+dispatched to the dax devices referenced by the extent map.
 
-This patch does not yet provide a way actually use the dax dev backing:
-when such a backing ID is provided in reply to FUSE_OPEN with
-FOPEN_PASSTHROUGH flag set, an error will be returned.
+If an address is not mapped, EIO is returned on the I/O operation.
 
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/backing.c     | 121 ++++++++++++++++++++++++++++++------------
- fs/fuse/file.c        |   2 +-
- fs/fuse/fuse_i.h      |  28 ++++++++--
- fs/fuse/inode.c       |  11 +++-
- fs/fuse/passthrough.c |   6 ++-
- 5 files changed, 126 insertions(+), 42 deletions(-)
+ fs/fuse/backing.c     |  15 +++++
+ fs/fuse/ext_map.c     | 149 ++++++++++++++++++++++++++++++++++++++++++
+ fs/fuse/fuse_i.h      |   4 ++
+ fs/fuse/notify.c      |   3 +
+ fs/fuse/passthrough.c |  29 ++++++--
+ 5 files changed, 194 insertions(+), 6 deletions(-)
 
 diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-index 3c879df7989c..c852f0498961 100644
+index e954391d696d..2708f140b94f 100644
 --- a/fs/fuse/backing.c
 +++ b/fs/fuse/backing.c
-@@ -9,6 +9,7 @@
- #include "fuse_i.h"
- 
- #include <linux/file.h>
-+#include <linux/dax.h>
- #include <linux/rhashtable.h>
- 
- static struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
-@@ -22,9 +23,16 @@ static void fuse_backing_free(struct fuse_backing *fb)
- {
- 	pr_debug("%s: fb=0x%p\n", __func__, fb);
- 
--	if (fb->file)
--		fput(fb->file);
--	put_cred(fb->cred);
-+	switch (fb->type) {
-+	case FUSE_BACKING_PATH:
-+		path_put(&fb->path);
-+		put_cred(fb->cred);
-+		break;
-+
-+	case FUSE_BACKING_DAXDEV:
-+		fs_put_dax(fb->dax_dev, fb);
-+		break;
-+	}
- 	kfree_rcu(fb, rcu);
+@@ -278,6 +278,21 @@ int fuse_backing_close(struct fuse_conn *fc, int backing_id)
+ 	return err;
  }
  
-@@ -103,39 +111,83 @@ int fuse_backing_close_64(struct fuse_conn *fc, u64 backing_id)
++bool fuse_backing_is_dax(struct fuse_backing *fb)
++{
++	switch (fb->type) {
++	case FUSE_BACKING_PATH:
++		return false;
++	case FUSE_BACKING_DAXDEV:
++		return true;
++	case FUSE_BACKING_EXTMAP:
++		return fuse_ext_map_is_dax(fb);
++	default:
++		WARN_ON(1);
++		return false;
++	}
++}
++
+ struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, u64 backing_id)
+ {
+ 	struct fuse_backing *fb;
+diff --git a/fs/fuse/ext_map.c b/fs/fuse/ext_map.c
+index ab01d678d08e..61cb22e821b6 100644
+--- a/fs/fuse/ext_map.c
++++ b/fs/fuse/ext_map.c
+@@ -3,6 +3,8 @@
+ #include "fuse_i.h"
+ #include <linux/rbtree.h>
+ #include <linux/pagemap.h>
++#include <linux/iomap.h>
++#include <linux/dax.h>
+ 
+ struct fuse_iext {
+ 	struct rb_node rb;
+@@ -22,6 +24,24 @@ void fuse_ext_map_destroy(struct rb_root *extents)
+ 	}
+ }
+ 
++static struct fuse_iext *fuse_find_extent(struct rb_root *extents, u64 offset)
++{
++	struct rb_node *node = extents->rb_node;
++
++	while (node) {
++		struct fuse_iext *fie = rb_entry(node, typeof(*fie), rb);
++
++		if (offset < fie->start)
++			node = node->rb_left;
++		else if (offset >= fie->end)
++			node = node->rb_right;
++		else
++			return fie;
++	}
++
++	return NULL;
++}
++
+ static int fuse_add_extent(struct fuse_conn *fc, struct rb_root *extents,
+ 			   struct fuse_extent *ext)
+ {
+@@ -76,6 +96,135 @@ static int fuse_add_extent(struct fuse_conn *fc, struct rb_root *extents,
  	return 0;
  }
  
--static struct fuse_backing *fuse_backing_new(struct fuse_conn *fc, int fd)
-+static int fuse_dax_notify_failure(struct dax_device *daxdev, u64 offset, u64 len, int mf_flags)
- {
--	struct fuse_backing *fb;
--	struct super_block *backing_sb;
--	struct file *file;
-+	struct fuse_backing *fb = dax_holder(daxdev);
- 
--	/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
--	if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
--		return ERR_PTR(-EPERM);
-+	fb->dax_error = true;
- 
--	CLASS(fd_raw, f)(fd);
--	if (fd_empty(f))
--		return ERR_PTR(-EBADF);
++static int fuse_ext_map_iomap_begin(struct inode *inode, loff_t offset, loff_t length,
++				    unsigned int flags, struct iomap *iomap, struct iomap *srcmap)
++{
++	struct fuse_backing *fb = fuse_inode_backing(get_fuse_inode(inode));
++	struct fuse_iext *fie;
++	loff_t ext_len;
++
++	if (!fb || fb->type != FUSE_BACKING_EXTMAP)
++		return fuse_EIO("missing or wrong type backing");
++
++	fie = fuse_find_extent(&fb->extents, offset);
++	if (!fie)
++		return fuse_EIO("missing mapping");
++
++	if (WARN_ON(fie->backing->type != FUSE_BACKING_DAXDEV))
++		return fuse_EIO("wrong type backing for extent");
++
++	if (fie->backing->dax_error) {
++		fuse_make_bad(inode);
++		return fuse_EIO("dax error");
++	}
++
++	ext_len = fie->end - fie->start;
++
++	iomap->offset = fie->start;
++	iomap->addr = fie->backing_offset;
++	iomap->length = ext_len;
++	iomap->dax_dev = fie->backing->dax_dev;
++	iomap->type = IOMAP_MAPPED;
++	iomap->flags = 0;
++
 +	return 0;
 +}
- 
--	file = fd_file(f);
-+static const struct dax_holder_operations fuse_dax_holder_ops = {
-+	.notify_failure		= fuse_dax_notify_failure,
++
++static const struct iomap_ops fuse_ext_map_iomap_ops = {
++	.iomap_begin		= fuse_ext_map_iomap_begin,
 +};
 +
-+static int fuse_backing_open_file(struct fuse_conn *fc, struct fuse_backing *fb, struct file *file)
++static vm_fault_t fuse_ext_map_huge_fault(struct vm_fault *vmf, unsigned int order)
 +{
-+	struct inode *inode = file_inode(file);
-+	struct dax_device *daxdev;
-+	int err;
- 
--	/* read/write/splice/mmap passthrough only relevant for regular files */
--	if (!d_is_reg(file->f_path.dentry))
--		return d_is_dir(file->f_path.dentry) ? ERR_PTR(-EISDIR) : ERR_PTR(-EINVAL);
-+	switch (inode->i_mode & S_IFMT) {
-+	case S_IFREG:
-+		/* TODO: relax CAP_SYS_ADMIN once backing files are visible to lsof */
-+		if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
-+			return -EPERM;
++	struct inode *inode = file_inode(vmf->vma->vm_file);
++	bool write_fault = (vmf->flags & FAULT_FLAG_WRITE) && (vmf->vma->vm_flags & VM_SHARED);
++	vm_fault_t ret;
++	unsigned long pfn;
 +
-+		if (inode->i_sb->s_stack_depth >= fc->max_stack_depth)
-+			return -ELOOP;
++	if (WARN_ON_ONCE(!IS_DAX(inode)))
++		return VM_FAULT_SIGBUS;
 +
-+		fb->type = FUSE_BACKING_PATH;
-+		fb->path = file->f_path;
-+		path_get(&fb->path);
-+		fb->cred = get_current_cred();
++	if (write_fault) {
++		sb_start_pagefault(inode->i_sb);
++		file_update_time(vmf->vma->vm_file);
++	}
++
++	filemap_invalidate_lock_shared(inode->i_mapping);
++
++	ret = dax_iomap_fault(vmf, order, &pfn, NULL, &fuse_ext_map_iomap_ops);
++	if (ret & VM_FAULT_NEEDDSYNC)
++		ret = dax_finish_sync_fault(vmf, order, pfn);
++
++	filemap_invalidate_unlock_shared(inode->i_mapping);
++
++	if (write_fault)
++		sb_end_pagefault(inode->i_sb);
++
++	return ret;
++}
++
++static vm_fault_t fuse_ext_map_fault(struct vm_fault *vmf)
++{
++	return fuse_ext_map_huge_fault(vmf, 0);
++}
++
++static const struct vm_operations_struct fuse_ext_map_vm_ops = {
++	.fault		= fuse_ext_map_fault,
++	.huge_fault	= fuse_ext_map_huge_fault,
++	.page_mkwrite	= fuse_ext_map_fault,
++	.pfn_mkwrite	= fuse_ext_map_fault,
++};
++
++static void fuse_rw_clamp(struct kiocb *iocb, struct iov_iter *ubuf)
++{
++	struct inode *inode = iocb->ki_filp->f_mapping->host;
++	loff_t i_size = i_size_read(inode);
++	loff_t max_count = iocb->ki_pos >= i_size ? 0 : i_size - iocb->ki_pos;
++
++	if (iov_iter_count(ubuf) > max_count)
++		iov_iter_truncate(ubuf, max_count);
++}
++
++ssize_t fuse_ext_map_read_iter(struct kiocb *iocb, struct iov_iter *to)
++{
++	ssize_t res;
++
++	fuse_rw_clamp(iocb, to);
++
++	if (!iov_iter_count(to))
 +		return 0;
 +
-+	case S_IFCHR:
-+		daxdev = dax_dev_find(inode->i_rdev);
-+		if (!daxdev)
-+			return -EINVAL;
++	res = dax_iomap_rw(iocb, to, &fuse_ext_map_iomap_ops);
 +
-+		err = -EPERM;
-+		if (capable(CAP_SYS_RAWIO)) {
-+			err = fs_dax_get(daxdev, fb, &fuse_dax_holder_ops);
-+			if (!err) {
-+				fb->type = FUSE_BACKING_DAXDEV;
-+				fb->dax_dev = daxdev;
-+			}
-+		}
-+		put_dax(daxdev);
-+		return err;
- 
--	backing_sb = file_inode(file)->i_sb;
--	if (backing_sb->s_stack_depth >= fc->max_stack_depth)
--		return ERR_PTR(-ELOOP);
-+	case S_IFDIR:
-+		return -EISDIR;
-+
-+	default:
-+		return -EINVAL;
-+	}
++	file_accessed(iocb->ki_filp);
++	return res;
 +}
 +
-+static struct fuse_backing *fuse_backing_new(struct fuse_conn *fc, int fd)
++ssize_t fuse_ext_map_write_iter(struct kiocb *iocb, struct iov_iter *from)
 +{
-+	struct fuse_backing *fb __free(kfree) = kmalloc_obj(*fb);
-+	int err;
- 
--	fb = kmalloc_obj(struct fuse_backing);
- 	if (!fb)
- 		return ERR_PTR(-ENOMEM);
- 
--	fb->file = get_file(file);
--	fb->cred = get_current_cred();
-+	CLASS(fd_raw, f)(fd);
-+	if (fd_empty(f))
-+		return ERR_PTR(-EBADF);
++	ssize_t res;
 +
-+	err = fuse_backing_open_file(fc, fb, fd_file(f));
-+	if (err)
-+		return ERR_PTR(err);
++	fuse_rw_clamp(iocb, from);
 +
- 	refcount_set(&fb->count, 1);
- 
--	return fb;
-+	return_ptr(fb);
- }
- 
- int fuse_backing_open_64(struct fuse_conn *fc, struct fuse_backing_create_in *map)
-@@ -143,22 +195,21 @@ int fuse_backing_open_64(struct fuse_conn *fc, struct fuse_backing_create_in *ma
- 	struct fuse_backing *fb;
- 	int res;
- 
--	res = -EINVAL;
- 	if (map->padding || map->spare[0] || map->spare[1])
--		goto out;
-+		return -EINVAL;
- 
- 	if (!fc->backing_id_64)
--		goto out;
-+		return -EINVAL;
- 
- 	fb = fuse_backing_new(fc, map->fd);
--	res = PTR_ERR(fb);
--	if (!IS_ERR(fb)) {
--		fb->backing_id = map->backing_id;
--		res = fuse_backing_add_64(fc, fb);
--		if (res < 0)
--			fuse_backing_free(fb);
--	}
--out:
-+	if (IS_ERR(fb))
-+		return PTR_ERR(fb);
++	res = generic_write_checks(iocb, from);
++	if (res <= 0)
++		return res;
 +
-+	fb->backing_id = map->backing_id;
-+	res = fuse_backing_add_64(fc, fb);
-+	if (res < 0)
-+		fuse_backing_free(fb);
++	res = kiocb_modified(iocb);
++	if (res)
++		return res;
 +
- 	return res;
- }
- 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 1036c06fe35a..fb8e0a9fa4f6 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -297,7 +297,7 @@ static int fuse_open(struct inode *inode, struct file *file)
- 	if (!err) {
- 		if (is_truncate)
- 			truncate_pagecache(inode, 0);
--		else if (!(ff->open_flags & FOPEN_KEEP_CACHE))
-+		else if (!(ff->open_flags & FOPEN_KEEP_CACHE) && !IS_DAX(inode))
- 			invalidate_inode_pages2(inode->i_mapping);
- 	}
- out_unlock:
++	return dax_iomap_rw(iocb, from, &fuse_ext_map_iomap_ops);
++}
++
++int fuse_ext_map_mmap(struct file *file, struct vm_area_struct *vma)
++{
++	file_accessed(file);
++	vma->vm_ops = &fuse_ext_map_vm_ops;
++	vm_flags_set(vma, VM_HUGEPAGE);
++	return 0;
++}
++
+ bool fuse_ext_map_is_dax(struct fuse_backing *fb)
+ {
+ 	struct fuse_iext *fie;
 diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 59afebc3dd2b..3e7ffb9bb2c3 100644
+index 5a20f3863ee2..7248588b45c4 100644
 --- a/fs/fuse/fuse_i.h
 +++ b/fs/fuse/fuse_i.h
-@@ -89,10 +89,25 @@ struct fuse_submount_lookup {
- 	struct fuse_forget_link *forget;
- };
+@@ -1316,6 +1316,7 @@ static inline void fuse_backing_put(struct fuse_backing *fb)
  
-+enum fuse_backing_type {
-+	FUSE_BACKING_PATH,
-+	FUSE_BACKING_DAXDEV,
-+};
+ struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, u64 backing_id);
+ int fuse_backing_add_64(struct fuse_conn *fc, struct fuse_backing *fb);
++bool fuse_backing_is_dax(struct fuse_backing *fb);
+ void fuse_backing_files_init(struct fuse_conn *fc);
+ void fuse_backing_files_init_64(struct fuse_conn *fc);
+ void fuse_backing_files_free(struct fuse_conn *fc);
+@@ -1369,6 +1370,9 @@ extern void fuse_sysctl_unregister(void);
+ /* ext_map.c */
+ 
+ void fuse_ext_map_destroy(struct rb_root *extents);
++ssize_t fuse_ext_map_write_iter(struct kiocb *iocb, struct iov_iter *from);
++ssize_t fuse_ext_map_read_iter(struct kiocb *iocb, struct iov_iter *to);
++int fuse_ext_map_mmap(struct file *file, struct vm_area_struct *vma);
+ bool fuse_ext_map_is_dax(struct fuse_backing *fb);
+ int fuse_ext_map_populate(struct fuse_conn *fc, struct fuse_notify_backing_map_out *arg,
+ 			  struct fuse_extent *ext);
+diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
+index 7c427f88bbc5..3bfedd0cdbdd 100644
+--- a/fs/fuse/notify.c
++++ b/fs/fuse/notify.c
+@@ -448,6 +448,9 @@ static int fuse_notify_map(struct fuse_conn *fc, unsigned int size,
+ 	if (err)
+ 		return err;
+ 
++	if (!fc->backing_id_64)
++		return -EINVAL;
 +
- /* Container for data related to mapping to backing file */
- struct fuse_backing {
--	struct file *file;
--	const struct cred *cred;
-+	enum fuse_backing_type type;
-+
-+	union {
-+		struct {
-+			struct path path;
-+			const struct cred *cred;
-+		};
-+		struct {
-+			struct dax_device *dax_dev;
-+			bool dax_error;
-+		};
-+	};
- 	u64 backing_id;
- 	struct rhash_head hash_node;
- 	/* refcount */
-@@ -1239,7 +1254,14 @@ void fuse_free_conn(struct fuse_conn *fc);
+ 	if (outarg.num_extents > FUSE_MAX_EXTENTS)
+ 		return -EINVAL;
  
- /* dax.c */
- 
--#define FUSE_IS_VDAX(inode) (IS_ENABLED(CONFIG_FUSE_VDAX) && IS_DAX(inode))
-+static inline bool FUSE_IS_VDAX(struct inode *inode)
-+{
-+#ifdef CONFIG_FUSE_VDAX
-+	return get_fuse_inode(inode)->vdax && IS_DAX(inode);
-+#else
-+	return false;
-+#endif
-+}
- 
- ssize_t fuse_vdax_read_iter(struct kiocb *iocb, struct iov_iter *to);
- ssize_t fuse_vdax_write_iter(struct kiocb *iocb, struct iov_iter *from);
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index bb76bddfc241..d42c824fd6af 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -148,7 +148,7 @@ static void fuse_evict_inode(struct inode *inode)
- 	/* Will write inode on close/munmap and in all other dirtiers */
- 	WARN_ON(inode_state_read_once(inode) & I_DIRTY_INODE);
- 
--	if (FUSE_IS_VDAX(inode))
-+	if (IS_DAX(inode))
- 		dax_break_layout_final(inode);
- 
- 	truncate_inode_pages_final(&inode->i_data);
-@@ -403,6 +403,10 @@ static void fuse_init_submount_lookup(struct fuse_submount_lookup *sl,
- 	refcount_set(&sl->count, 1);
- }
- 
-+static const struct address_space_operations fuse_dax_aops = {
-+	.dirty_folio	= noop_dirty_folio,
-+};
-+
- static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
- 			    struct fuse_conn *fc)
- {
-@@ -430,6 +434,11 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
- 	 */
- 	if (!fc->posix_acl)
- 		inode->i_acl = inode->i_default_acl = ACL_DONT_CACHE;
-+
-+	if ((attr->flags & FUSE_ATTR_DAX) && !fc->vdax) {
-+		inode->i_flags |= S_DAX;
-+		inode->i_data.a_ops = &fuse_dax_aops;
-+	}
- }
- 
- static int fuse_inode_eq(struct inode *inode, void *_nodeidp)
 diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-index 4894842ad6d0..e9ab1aea34e2 100644
+index e9ab1aea34e2..040817ad76e9 100644
 --- a/fs/fuse/passthrough.c
 +++ b/fs/fuse/passthrough.c
-@@ -156,9 +156,11 @@ int fuse_passthrough_open(struct file *file, struct fuse_backing *fb)
+@@ -35,7 +35,6 @@ ssize_t fuse_passthrough_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	struct fuse_file *ff = file->private_data;
+ 	struct file *backing_file = fuse_file_passthrough(ff);
+ 	size_t count = iov_iter_count(iter);
+-	ssize_t ret;
+ 	struct backing_file_ctx ctx = {
+ 		.cred = ff->cred,
+ 		.accessed = fuse_file_accessed,
+@@ -48,10 +47,10 @@ ssize_t fuse_passthrough_read_iter(struct kiocb *iocb, struct iov_iter *iter)
+ 	if (!count)
+ 		return 0;
+ 
+-	ret = backing_file_read_iter(backing_file, iter, iocb, iocb->ki_flags,
+-				     &ctx);
++	if (!backing_file)
++		return fuse_ext_map_read_iter(iocb, iter);
+ 
+-	return ret;
++	return backing_file_read_iter(backing_file, iter, iocb, iocb->ki_flags, &ctx);
+ }
+ 
+ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
+@@ -74,10 +73,13 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *iocb,
+ 	if (!count)
+ 		return 0;
+ 
+-	inode_lock(inode);
++	guard(rwsem_write)(&inode->i_rwsem);
++
++	if (!backing_file)
++		return fuse_ext_map_write_iter(iocb, iter);
++
+ 	ret = backing_file_write_iter(backing_file, iter, iocb, iocb->ki_flags,
+ 				      &ctx);
+-	inode_unlock(inode);
+ 
+ 	return ret;
+ }
+@@ -98,6 +100,9 @@ ssize_t fuse_passthrough_splice_read(struct file *in, loff_t *ppos,
+ 	pr_debug("%s: backing_file=0x%p, pos=%lld, len=%zu, flags=0x%x\n", __func__,
+ 		 backing_file, *ppos, len, flags);
+ 
++	if (!backing_file)
++		return copy_splice_read(in, ppos, pipe, len, flags);
++
+ 	init_sync_kiocb(&iocb, in);
+ 	iocb.ki_pos = *ppos;
+ 	ret = backing_file_splice_read(backing_file, &iocb, pipe, len, flags, &ctx);
+@@ -123,6 +128,9 @@ ssize_t fuse_passthrough_splice_write(struct pipe_inode_info *pipe,
+ 	pr_debug("%s: backing_file=0x%p, pos=%lld, len=%zu, flags=0x%x\n", __func__,
+ 		 backing_file, *ppos, len, flags);
+ 
++	if (!backing_file)
++		return iter_file_splice_write(pipe, out, ppos, len, flags);
++
+ 	inode_lock(inode);
+ 	init_sync_kiocb(&iocb, out);
+ 	iocb.ki_pos = *ppos;
+@@ -145,6 +153,9 @@ ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma)
+ 	pr_debug("%s: backing_file=0x%p, start=%lu, end=%lu\n", __func__,
+ 		 backing_file, vma->vm_start, vma->vm_end);
+ 
++	if (!backing_file)
++		return fuse_ext_map_mmap(file, vma);
++
+ 	return backing_file_mmap(backing_file, vma, &ctx);
+ }
+ 
+@@ -156,6 +167,12 @@ int fuse_passthrough_open(struct file *file, struct fuse_backing *fb)
  	struct fuse_file *ff = file->private_data;
  	struct file *backing_file;
  
-+	if (fb->type != FUSE_BACKING_PATH)
-+		return fuse_EIO("invalid backing type");
++	if (fb->type == FUSE_BACKING_EXTMAP) {
++		if (fuse_backing_is_dax(fb) != !!IS_DAX(file_inode(file)))
++			return fuse_EIO("dax mode mismatch");
++		return 0;
++	}
 +
- 	/* Allocate backing file per fuse file to store fuse path */
--	backing_file = backing_file_open(file, file->f_flags,
--					 &fb->file->f_path, fb->cred);
-+	backing_file = backing_file_open(file, file->f_flags, &fb->path, fb->cred);
- 	if (IS_ERR(backing_file))
- 		return fuse_EIO("failed to open backing file (%ld)", PTR_ERR(backing_file));
+ 	if (fb->type != FUSE_BACKING_PATH)
+ 		return fuse_EIO("invalid backing type");
  
 -- 
 2.54.0
