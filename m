@@ -1,236 +1,219 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B9651AFEF
-	for <fuse-devel@lists.linux.dev>; Thu,  1 Oct 2026 15:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790867232; cv=pass; b=aZoyZpbiUUL5d9st0i1pnKrFmz8M676ij6OFfJTuW0AjeIRck2PXuE0CYKZZWBcoVcQWcL6wOYCNND+BCejqzewwamaTvlR1O7F5/BBn/F9XFY3Io0MbisspZM2iB9vSBpzBePxOBhUo17LvOleHY0/9SNyl2M0NaPTZKrZqL9Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790867232; c=relaxed/simple;
-	bh=2XJvp9X+m4CiGXhNX+5zaF0kRGaL62FZuuhf5RCAPmQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NFDHT0EKgTCFgJzvjJbijxelfQbN2MawN6zs4wf/wTUbqHleRx9NpQVFeUbFnsDotYCC9Xhbnjx+z0GvjKQkYMVMsMLaCv+uQ+47HHxKMgEnD9C/zx2hsJ+r7pvVwi3bYGN5EbI6HCeZVwEeSgP9KfJxsGKE3FAAYy6PRc17BAY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahziU2ll; arc=pass smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F81351AFEF
+	for <fuse-devel@lists.linux.dev>; Thu,  1 Oct 2026 15:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790867388; cv=none; b=QyODZU+ChHosVs3xSKMtj5k0jsJHEMhXa639YLmV9X2JY66lbWf69lR01irP9gzdd9SpSNSMQtaskxLK3eiefihe1eJXsnrCvPUCnRPX3twT8P+582Klgnp1RmN6pgxm3xYN59sXnjofHJ4U2xp60d5ItFEB8C+SF67p7pTb6lg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790867388; c=relaxed/simple;
+	bh=QqGsxUZuEtLO/SWJKab8EXCQqECv/GPyBy+79b3jBMQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:content-type; b=rof58Ai0IfdyX2G3daUHz83QrC+4tSH6gH7LHDwCgmljIYVceD2iiOR7Ibbci1Xkv5zydNSZEKqisGYpToypRX6Z6XNeXePupdUdhwBRradfHl3RsQE9Kt7AaAKv5oG3lojqqzmn6weovGrYMMrw8hhHdogfMKKqozIe7bdfkRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YoQGHLAC; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahziU2ll"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6aeba456592so887361a12.0
-        for <fuse-devel@lists.linux.dev>; Thu, 01 Oct 2026 08:07:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790867229; cv=none;
-        d=google.com; s=arc-20260327;
-        b=K77WNLT0fi+hK1Fzbwa3i8o0BCrimIyzuZDit6wMTh+6lUXADv7FjCu/Bs5cKVE3HN
-         NMuhw5rIz5DgnqGPFUEJ1JU7qt7D+V7xxB+4hXzUaxdy2p2Hz/dkApUjOsMLlMjQiPK/
-         KXk5ev4vZvru31AssstcopK6ksu2AZVLB+ruKUUgaPAbovcED8uPa5VMtik3bOewXg5p
-         MJJhHMkqlHpb5YcIwJzK5gx6+vA+0Cm4HJ2xg7fa532qBVWyk1nESnSnydJWOptep9BI
-         kFWlY9uVuDQFHK+nIHu1EJTtAQQoP89yeEpJu9T5iyvUy4UZ4C+Bd5GMwGQAn0i1G+4j
-         rigA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W9LnT/LgLRgRZdpDuS6mnLvWG55h36jtUAaXmFR+4Ok=;
-        fh=LSGkIxL+7O1MPXHhjOsZelXZcZzf1zyb+22wAIOwAjQ=;
-        b=KgyDhJas1xG0cQ2kIQQA/c7xJNxgcJkkSGhKj1EJnQRGAxr1hnYqGMO6/MujJ/V54k
-         dE5n0+nlxp98rCoR9Wd+gq8UwX+Jgmzc2VH+kqwvrlY4jyTwryDTZEP422pr81YdeLEz
-         TvQjbQb9UwvYPBYqA03rsp2/+w2Y56HWRMyBap8WcW4XQ3jX7FIWxR2DwLXsWX0pcQJ2
-         +HJBlxz+SVjsLbMlpFNg7g6+fRGPswCh9yuD0QNyDjyLc59AUhhSN2ZOrxLSkBByWQtw
-         nWHPmLokAWUBynzgDlq/REwaARmLJvxR9uWKKF658uL/jQJq//yetWRRDii9IQuD0vq+
-         OZ4A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790867229; x=1791472029; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=W9LnT/LgLRgRZdpDuS6mnLvWG55h36jtUAaXmFR+4Ok=;
-        b=ahziU2llQ8SAqR9AnTTEIK3W4t0sfmIl0MzBovq6ghxuKxTAaJ/sv1HiAV0pMkO4DU
-         fg2TVecrpfwZ1nzYtrQyORVFMLBFtSxofQVsALoI/Zp+seXlD4hvS//hZBrMnf+pKqv3
-         NpFQnglYICc2Ix2POrp3QAmvrRIcWpGk/J23njT0NmSPviiK6FupouyJXp9dINw8WUpJ
-         Q6GuE/BSz/bBmSWd/BcqvrWSAU9rbmKpOoCDF3CTk3Sf5/tLygLSkZYY6Md8Zxj/YtX/
-         Sq58RA5mxS2a+7RfB+LFVxITu0f2zrZRapuJUaPdWP3AQmP9723/2VNRJS64uOhdjPaL
-         dcDw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YoQGHLAC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790867384;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wUOje82dfH+H4WczVQo1AOkLQDRbkjxsMyPdE9CHREA=;
+	b=YoQGHLACTliSShMZaaVi9MtPMjtFWdecjt0tqoa4d5Fl/EGwtBiZHEQ0+d0wYePgW0H0VL
+	zbW7Zgt2zWT9p/BnKntq0wsKKlF1nN2tmMlScDnnp8s7vNEZcOovkMu1D6lqAKnApVNtaX
+	KPUMcYvhqzzl/usLMRFJENqPoyixipk=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-10-XL3s9SVYNx-SWmQZPtWsnA-1; Thu, 01 Oct 2026 11:09:42 -0400
+X-MC-Unique: XL3s9SVYNx-SWmQZPtWsnA-1
+X-Mimecast-MFC-AGG-ID: XL3s9SVYNx-SWmQZPtWsnA_1790867381
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c29680b34b5so274078866b.0
+        for <fuse-devel@lists.linux.dev>; Thu, 01 Oct 2026 08:09:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790867229; x=1791472029;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=W9LnT/LgLRgRZdpDuS6mnLvWG55h36jtUAaXmFR+4Ok=;
-        b=RuErO1ZpdDquXa1Z6gEb83s54YSQ+F10yzv3x7syTyJaonbHnqabJGwqWuH5H0RSfN
-         nAr9wxbyriOA+BlXLSD3P8dJUZXSDW1qxXSeIBstsss+68TQ18VUVXfuEHSulqJ8/nWL
-         ASpHyFJ68jl5YuI9k0TaMrbhgMK/Tg48j5PM+ElsfXNXRCn4PoIfTLE1OOj/y0OMjIDw
-         NzEfd+195J7O69T+yo/Wm24hdzbKn5PMSkFayJZUkzzajjFmes2joQyyqyq2RJZgIX5A
-         y5/kk3Q2++UmVfauoD11q8Ga3w5gIJBo8o12kRjrVDRo7Ieh3EkuL9HeWUAl+BoVT07m
-         xRWw==
-X-Gm-Message-State: AFuF++kRqPlfQbjLsYsuT008K1oxDJ3IARBaEuX3PWogvG2FaiygM7yr
-	Zy45vGoRyU8IySq93fh/wV66I8ITGSuXfJyXfhskznFtOYH7ebzs/b4ilPTIPapEU2ntBQg6QMb
-	gfSK0Or7wQHb0JnIjpktedsfiwn9MCko=
-X-Gm-Gg: AYBFou170LeW8odx9eF7d/VvAmuLq5P7Z2k6vAnjNlnbmeCFnVkG0EKt0gOpVgchjaF
-	+ASjCnF/fUn0nF2DUR5BenxjzV2onzsJbb3FyjMKr3hMiwfXoJYLoeI2DDDL3oBO5pJy1ULVAra
-	CtX4Z1JHPJnd4heQLCKf9/dD5shE0fxASrUVcY/CkfExKmkN3wzDb4dZesyStaLS47DID6CEiPw
-	AT39JbaeH0ZzypQ5Nv4FfssARGE32y6s5W0BZBSq7iP59ms/rVJ0gxOyv3qWp+DJBHKXxnd1/nS
-	J97s5K+ddWvkelUNPqNBFEFCvDAKh4KWx8agVvaI6mLE12cobY32nSFF
-X-Received: by 2002:a17:907:3da6:b0:c2e:3342:40a5 with SMTP id
- a640c23a62f3a-c2e33ef17e6mr292780966b.9.1790867228561; Thu, 01 Oct 2026
- 08:07:08 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790867381; x=1791472181;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wUOje82dfH+H4WczVQo1AOkLQDRbkjxsMyPdE9CHREA=;
+        b=gWPui8FRsAN2jho7KXLFwT/4r605/uPJPcjEMUKt79TLMbXkqZQ/luw6peDF/YqrbF
+         vnVcCEsUIbt0slerJ/qfRyGj7GaraFRAWIQOrfSOJbw1MHNy+wxmqoDtY5M8SJdJHVtz
+         GaGQuz1HX3f2tzsZQ1CySrFSkPoyYEvgViUVz+8hU7rO4EH/EjEhZRVNOToeS3O0ffni
+         0Lq25A6UeqgkHCpnFMjy7cqFL3LCSVP6Ow/A38BQi660UXqBWyEjqvHedrdbRph7ENEa
+         aWhqgZju377oNTI2FSx3dtzj85sfYIOjuuZczmE6UJXXmirKcFs6Y0K63mC69SpNE7aI
+         Sq7Q==
+X-Gm-Message-State: AFuF++lTNAR1jxeA14LuSAWbsBAjf0kGWv0Oyn7meddlxztJAdhzt5uG
+	9Gw9yL0ncN1S5bfjVW4ZOEm18BHP8VYfKGpdbJKIzyjADYCkS+cL9lvvugBItQwxjCtxb6fJMYe
+	LLftLZ8MEkqXnVnsg7+Aasnxm9idx8cDUj2nHt7o3VlXWilz9leAL/w/ruZvEsPVFWLfQtOMmF2
+	n4urOHyJaPHjdBJu0hdWhktVnFVqVvVG7081SJbnXEliXmna8=
+X-Gm-Gg: AYBFou3srsk6gi1iEipwp8v9U8uh1KiCGh7aI6fg0uYC2TqWAORLPZk9nxtC4IHyTXb
+	4iKlmiAZv9AipS8t+wBtJefqtFyJO20n391HpD6h95Ni51cBwr/jbxeskeEjzQhHD+3piKuR05W
+	vfhLNwWNW8E33eEp8v++T6BUle/8JvgJP5BkdylSzHTKvO+YYQ6fXynBU64qnr3UJzEHOCgF4hj
+	eGX2W7XBOTscM0xgal9Nq2oe+Nh+iHz7KUDBaPxPHndewnBgNfjDtKykrmI3OIvdabPLq5cg4B3
+	sJrQQcv6/NKzsPLInXrYQeflAOjficwtfET9I+/FMDZAt8wIJeD1pIfHhPWiEvwjmmpC7uo2OMt
+	0APvzCirWc1HEPEFg0uTMjXA388kJYkg7BsIJ2yMFWDSaZYtIir76ItuIbUs=
+X-Received: by 2002:a17:907:9691:b0:c2a:86d8:66bb with SMTP id a640c23a62f3a-c2e33d39b2amr286839066b.10.1790867381425;
+        Thu, 01 Oct 2026 08:09:41 -0700 (PDT)
+X-Received: by 2002:a17:907:9691:b0:c2a:86d8:66bb with SMTP id a640c23a62f3a-c2e33d39b2amr286836066b.10.1790867380994;
+        Thu, 01 Oct 2026 08:09:40 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (193-226-245-188.pool.digikabel.hu. [193.226.245.188])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2e31d86372sm177735166b.56.2026.10.01.08.09.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2026 08:09:39 -0700 (PDT)
+From: Miklos Szeredi <mszeredi@redhat.com>
+To: fuse-devel@lists.linux.dev
+Cc: John Groves <John@Groves.net>,
+	John Groves <john@groves.net>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org
+Subject: [PATCH v2 1/8] dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
+Date: Thu,  1 Oct 2026 17:07:19 +0200
+Message-ID: <20261001150935.655979-2-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261001150935.655979-1-mszeredi@redhat.com>
+References: <20261001150935.655979-1-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260922061019.3320196-1-mszeredi@redhat.com> <20260922061019.3320196-9-mszeredi@redhat.com>
- <CAOQ4uxj8hVvShust-TkAQUgTJCVvNsWjDiqayeUjVifUBotH7g@mail.gmail.com>
-In-Reply-To: <CAOQ4uxj8hVvShust-TkAQUgTJCVvNsWjDiqayeUjVifUBotH7g@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 1 Oct 2026 17:06:56 +0200
-X-Gm-Features: AclHuK_4jDSnDAEGTwQujuUm612JOuLiCrswr2OZyJJHD_GZ0KOQ6v4s6oHpou0
-Message-ID: <CAOQ4uxgo7ZR=AK=7nc8Yxb1WpFn+bjEF-9HKYvyfvNDAV0Er0Q@mail.gmail.com>
-Subject: Re: [PATCH 08/11] fuse: add support for opening dax device as backing
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, John Groves <john@groves.net>, 
-	"Darrick J . Wong" <djwong@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: u4HV9VBhd2xWcEjACihaoPmGgtVdh9hjnJFVncDA9sw_1790867381
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Tue, Sep 22, 2026 at 1:00=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
- wrote:
->
-> On Tue, Sep 22, 2026 at 8:10=E2=80=AFAM Miklos Szeredi <mszeredi@redhat.c=
-om> wrote:
-> >
-> > Add FUSE_BACKING_IS_DEV flag that allows opening a character device
-> > (dax device) as a backing, in addition to regular files.
-> >
-> > Mark the inode with S_DAX if FUSE_LOOKUP returns with FUSE_ATTR_DAX set=
-.
-> >
-> > This patch does not yet provide a way actually use the dax dev backing:
-> > when such a backing ID is provided in reply to FUSE_OPEN with
-> > FOPEN_PASSTHROUGH flag set, an error will be returned.
-> >
-> > Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> > ---
-> >  fs/fuse/backing.c         | 131 ++++++++++++++++++++++++++------------
-> >  fs/fuse/file.c            |   2 +-
-> >  fs/fuse/fuse_i.h          |  28 +++++++-
-> >  fs/fuse/inode.c           |  11 +++-
-> >  fs/fuse/passthrough.c     |   8 ++-
-> >  include/uapi/linux/fuse.h |   3 +
-> >  6 files changed, 136 insertions(+), 47 deletions(-)
-> >
-> > diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-> > index 58dbdd17c1ef..aa558a0c2e64 100644
-> > --- a/fs/fuse/backing.c
-> > +++ b/fs/fuse/backing.c
-> > @@ -9,6 +9,7 @@
-> >  #include "fuse_i.h"
-> >
-> >  #include <linux/file.h>
-> > +#include <linux/dax.h>
-> >  #include <linux/rhashtable.h>
-> >
-> >  static struct fuse_backing *fuse_backing_get(struct fuse_backing *fb)
-> > @@ -22,9 +23,16 @@ static void fuse_backing_free(struct fuse_backing *f=
-b)
-> >  {
-> >         pr_debug("%s: fb=3D0x%p\n", __func__, fb);
-> >
-> > -       if (fb->file)
-> > -               fput(fb->file);
-> > -       put_cred(fb->cred);
-> > +       switch (fb->type) {
-> > +       case FUSE_BACKING_PATH:
-> > +               path_put(&fb->path);
-> > +               put_cred(fb->cred);
-> > +               break;
-> > +
-> > +       case FUSE_BACKING_DAXDEV:
-> > +               fs_put_dax(fb->dax_dev, fb);
-> > +               break;
-> > +       }
-> >         kfree_rcu(fb, rcu);
-> >  }
-> >
-> > @@ -79,23 +87,88 @@ static struct fuse_backing *fuse_backing_id_remove(=
-struct fuse_conn *fc, u64 id,
-> >         return fb;
-> >  }
-> >
-> > +static int fuse_dax_notify_failure(struct dax_device *daxdev, u64 offs=
-et, u64 len, int mf_flags)
-> > +{
-> > +       struct fuse_backing *fb =3D dax_holder(daxdev);
-> > +
-> > +       fb->dax_error =3D true;
-> > +
-> > +       return 0;
-> > +}
-> > +
-> > +static const struct dax_holder_operations fuse_dax_holder_ops =3D {
-> > +       .notify_failure         =3D fuse_dax_notify_failure,
-> > +};
-> > +
-> > +static int fuse_backing_open_file(struct fuse_conn *fc, struct fuse_ba=
-cking *fb, struct file *file,
-> > +                                 bool is_dev)
-> > +{
-> > +       struct inode *inode =3D file_inode(file);
-> > +       struct dax_device *daxdev;
-> > +       int err;
-> > +
-> > +       switch (inode->i_mode & S_IFMT) {
-> > +       case S_IFREG:
-> > +               if (is_dev)
-> > +                       return -EINVAL;
-> > +               /* TODO: relax CAP_SYS_ADMIN once backing files are vis=
-ible to lsof */
-> > +               if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
-> > +                       return -EPERM;
-> > +
-> > +               if (inode->i_sb->s_stack_depth >=3D fc->max_stack_depth=
-)
-> > +                       return -ELOOP;
-> > +
-> > +               fb->type =3D FUSE_BACKING_PATH;
-> > +               fb->path =3D file->f_path;
-> > +               path_get(&fb->path);
-> > +               fb->cred =3D get_current_cred();
-> > +               return 0;
-> > +
-> > +       case S_IFCHR:
-> > +               if (!is_dev)
-> > +                       return -EINVAL;
-> > +               daxdev =3D dax_dev_find(inode->i_rdev);
-> > +               if (!daxdev)
-> > +                       return -EINVAL;
-> > +
-> > +               err =3D -EPERM;
-> > +               if (capable(CAP_SYS_RAWIO)) {
-> > +                       err =3D fs_dax_get(daxdev, fb, &fuse_dax_holder=
-_ops);
-> > +                       if (!err) {
-> > +                               fb->type =3D FUSE_BACKING_DAXDEV;
-> > +                               fb->dax_dev =3D daxdev;
-> > +                       }
-> > +               }
-> > +               put_dax(daxdev);
-> > +               return err;
-> > +
+From: John Groves <John@Groves.net>
 
-I am looking ahead at passthrough inode ops which need work on all file typ=
-es
-so this is_dev is confusing.
+This fix is in response to a Sashiko review, and some subsequent
+analysis.
 
-Therefore I prefer to call the flag
-FUSE_BACKING_IS_DEV/FUSE_BACKING_IS_DAXDEV
-and variable is_daxdev
+dax_dev_get() uses iget5_locked() which creates a new inode if no
+matching one exists. This is correct for the internal caller
+(alloc_dax), but dangerous for external callers that look up devices
+from user-supplied or metadata-supplied dev_t values:
 
-Because this is what it actually means.
+1. A new inode is created with DAXDEV_ALIVE set but no backing driver,
+   no ops, and no IDA-allocated minor number.
 
-This flag would not be allowed in the PASSTHROUG_INO mode.
+2. On teardown, dax_destroy_inode() warns because kill_dax() was never
+   called, and dax_free_inode() calls ida_free() for a minor that was
+   never ida_alloc'd -- potentially freeing the minor of a real device.
 
-Thanks,
-Amir.
+Add dax_dev_find() which uses ilookup5() for lookup-only semantics:
+it returns an existing dax_device with an elevated inode reference, or
+NULL if no device with the given dev_t exists. It never creates inodes.
+A dax_alive() check under dax_read_lock() guards against returning a
+device that is concurrently being torn down by kill_dax().
+
+Make dax_dev_get() static again (internal to super.c for alloc_dax),
+export dax_dev_find() instead.  Also add the missing CONFIG_DAX=n stub.
+
+About the 'fixes' tag: this removes the export of dax_dev_get(),
+which was flawed, and replaces is with dax_dev_find(). It feels like
+the fixes tag makes sense for correcting an ABI error.
+
+Fixes: 2ae624d5a555d ("dax: export dax_dev_get()")
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+Reviewed-by: Alison Schofield <alison.schofield@intel.com>
+Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
+Signed-off-by: John Groves <john@groves.net>
+Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+---
+ drivers/dax/super.c | 38 ++++++++++++++++++++++++++++++++++++--
+ include/linux/dax.h |  6 +++++-
+ 2 files changed, 41 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+index 45f84b0eb909..824e1f6df378 100644
+--- a/drivers/dax/super.c
++++ b/drivers/dax/super.c
+@@ -565,7 +565,7 @@ static int dax_set(struct inode *inode, void *data)
+ 	return 0;
+ }
+ 
+-struct dax_device *dax_dev_get(dev_t devt)
++static struct dax_device *dax_dev_get(dev_t devt)
+ {
+ 	struct dax_device *dax_dev;
+ 	struct inode *inode;
+@@ -588,7 +588,41 @@ struct dax_device *dax_dev_get(dev_t devt)
+ 
+ 	return dax_dev;
+ }
+-EXPORT_SYMBOL_GPL(dax_dev_get);
++
++/**
++ * dax_dev_find - look up an existing dax_device by dev_t
++ * @devt: the device number to find
++ *
++ * Returns a dax_device with an elevated inode reference, or NULL if no
++ * device with the given dev_t exists. Unlike dax_dev_get(), this never
++ * allocates a new inode -- it is safe for external callers that are looking
++ * up devices from user-supplied or metadata-supplied dev_t values.
++ *
++ * Caller must put_dax() the returned device when done.
++ */
++struct dax_device *dax_dev_find(dev_t devt)
++{
++	struct dax_device *dax_dev;
++	struct inode *inode;
++	int id;
++
++	inode = ilookup5(dax_superblock, hash_32(devt + DAXFS_MAGIC, 31),
++			 dax_test, &devt);
++	if (!inode)
++		return NULL;
++
++	dax_dev = to_dax_dev(inode);
++	id = dax_read_lock();
++	if (!dax_alive(dax_dev)) {
++		dax_read_unlock(id);
++		iput(inode);
++		return NULL;
++	}
++	dax_read_unlock(id);
++
++	return dax_dev;
++}
++EXPORT_SYMBOL_GPL(dax_dev_find);
+ 
+ struct dax_device *alloc_dax(void *private, const struct dax_operations *ops)
+ {
+diff --git a/include/linux/dax.h b/include/linux/dax.h
+index fe6c3ded1b50..29113eb95e72 100644
+--- a/include/linux/dax.h
++++ b/include/linux/dax.h
+@@ -54,7 +54,7 @@ struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+ void *dax_holder(struct dax_device *dax_dev);
+ void put_dax(struct dax_device *dax_dev);
+ void kill_dax(struct dax_device *dax_dev);
+-struct dax_device *dax_dev_get(dev_t devt);
++struct dax_device *dax_dev_find(dev_t devt);
+ void dax_write_cache(struct dax_device *dax_dev, bool wc);
+ bool dax_write_cache_enabled(struct dax_device *dax_dev);
+ bool dax_synchronous(struct dax_device *dax_dev);
+@@ -92,6 +92,10 @@ static inline void put_dax(struct dax_device *dax_dev)
+ static inline void kill_dax(struct dax_device *dax_dev)
+ {
+ }
++static inline struct dax_device *dax_dev_find(dev_t devt)
++{
++	return NULL;
++}
+ static inline void dax_write_cache(struct dax_device *dax_dev, bool wc)
+ {
+ }
+-- 
+2.54.0
+
