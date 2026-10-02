@@ -1,339 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BA6361DD0;
-	Fri,  2 Oct 2026 21:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790976015; cv=none; b=I43vSK3yJK7COGxKWYdAH+L2CEUfZ8Luxb+aGHwkAg/hWPnEHrgYKkHNff4n2n6heQtW4Y1FJaL5qYjai61PdaXu23sJ4EGijC/G5b8lKQS3GGX73uKiCDGl2jt2JE6KqbFfUU5Ik73ChVJesPOl/p4MieYlTiaqwqnFsbMrSUw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790976015; c=relaxed/simple;
-	bh=gjMR6beaf47rqyf+59d7Z+WV3uMtl8LTVKm2Znj0X8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ldTebf29bx22htGtlC227/pPXGekURP5BT/9g0M3R2u14lXv8uQfOfT8AqRybWPdDGSygfec8FDlJJvwFUybdByXctiwCo61RPqju2Sn/GD7J082bxXLEDADUPyaTUxebC9agD6GTxqAWgib2K/InYsR4aDy4dRD27ORZybC2Z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cpvjpYU4; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A0E3C942B
+	for <fuse-devel@lists.linux.dev>; Fri,  2 Oct 2026 21:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.99
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790976764; cv=pass; b=siVGwrSV9bXXwq7EJcwCd9u2bbQ2UO7NA8cmgvcjCw2EKzIg/RxBjoYodSigmXw78cqt1giYIyL8erlPoHZEVjLy7k4k7W9Xs/YaCs+AK+5AAzVXxgWG2QXHYnZPUxcFFwvrBMWcay59/OgFIAitPZw/TYdn2rabpDZpalj6Ogw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790976764; c=relaxed/simple;
+	bh=Rw7p5hrp7jSiFBU+jhLnPwozbRKpQWTMWnDkk688+e4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GYdtVGI4bjPeNibkiZkSpL7pa/+95utQO0gHnmSrm/PPD2/fADI7Cfrn/e5yy73wErR8nuy4ly5tYZe5lHSiqanF6haAlWZDXaCMUQLUcPnS9lE27nRseNoULTMW2h51BV1vSdn/UWvpd/uHuS/4eOp9gnA+La1hAy0e46H+ujg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jglqjvvn; arc=pass smtp.client-ip=74.125.228.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cpvjpYU4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDB781F000FF;
-	Fri,  2 Oct 2026 21:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790976013;
-	bh=6ArV7W8I0LsjTzEAaR1K9jy25JeP2SRH+A96kVSZ90A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=cpvjpYU4u7Gff3gvv+3rEhR5eck+vcIRcWyb1Q+dHkN+MSeRORuVtha97iRPXHZ4O
-	 yTDf1hshmkL2uTTLhiDAtOgt3yqg0tyP1YkMh0cjJG2sPfJmCAYYaO3A8NPCrBCetX
-	 kqA9sl0eq3V1GTT9pUwiQSB6aOj923fkGHl2U4UFSSQ1td0kLJkaMLyiFlav0GFQSi
-	 Otf2qD0/FwFUyC1d6asohtioQF6OYgL36unFXzH67FlHCcr1DrF13KgliXj0YG8Gjs
-	 ad70ETZiFPkGz7LnrN7cr9ICaDAtQarsVZuTam8h5Kar59rQHHdHn6vvxNCqptSlwa
-	 63ZT6YTJ6FBvw==
-Message-ID: <83bf4650-7339-4fc9-89a6-378a327f4f6e@kernel.org>
-Date: Fri, 2 Oct 2026 23:19:32 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jglqjvvn"
+Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6a605c198fdso531488a12.2
+        for <fuse-devel@lists.linux.dev>; Fri, 02 Oct 2026 14:32:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790976760; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aHGD8LTLNEpp9vaZwB9pMSOAcY7pFMwFuldTdJJMWzk+XWFDoyYqbxkQZS6l2iU9Tb
+         sesA58FXUoSsCnO2mq4txsVtzAWSprUPi4aEc0BSyBDK75qkmcGkbxpE5jgGZkNQrEWA
+         VUnG7T7xZq13l7SMAqagWfhF4ojiktXExkmlh6zdpixivYcSgUeHVXQSkShxBbNox4mX
+         3Wch2PkavYO4aZN+fpGsxeCErhhNoZ1tdk6Qek1B2WST3C2bF79dbd4emHow8ySbToUF
+         TtzKY5yZIzHOeKaruZ/r+Efp57VOG/T5kO/6YEGWIjWlrye1j/qlM1TAK9+htxOVOpaU
+         0nNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AR8vK2FFVl3T+EWEuf785UBXdKYtqcyiMVEsfOCIyKA=;
+        fh=o97bDLny2TCXquWepfQ4P3lcrixQU/LRaraHgEfceXg=;
+        b=EfFYi3wkEM+XFO9XyIvdAi1hDEVZriFB6IZMIEfRPgQRW3j8hzAvCmWNhSp/cGio56
+         wxdm17wgmWPfZyiHY1Dyx0FCAMuNDxjku05xAy/+zKPQlToO2hGcpSfXlYiQNdk5ZZId
+         3mOdtuQpv6p5Ko8luvHd05y8oa8xDteZz0WqNdUGtGEVrtYFgJxKRl6SRdK2QaWRQjRg
+         kbZeTMFdRDbmBKA2P5AWrq76cy/kk3EYPWtUOGxjuA2I+KzUyFkOSdOSrm96pI7EYapl
+         vN5Be1nY6B1SiWS2mPcasiE1ElhfkG5ToM5QXbACv+Mjywu8uzX6CMQmMP5ixARWFv0e
+         OTHw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790976760; x=1791581560; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AR8vK2FFVl3T+EWEuf785UBXdKYtqcyiMVEsfOCIyKA=;
+        b=JglqjvvnJ7gFQZtLvZEodUbkevdzMEOXlj6q+Vf17Bx4IrIEffpMOrEFRR8lMEcW6h
+         OD7h0BICgBNDBdncb4b1bvd/NLtOg85gq0Ugmxs8lbGB/0P1FhNHXerZu/7L3erjjFlf
+         ft64dLUxN/I1cTafc6k7ku+jBkLpDigEyFm3H1N8lMF+W/67XYRa5/Sp6YnSd2lfI9G9
+         m8wcYPlBawqO9wBJA3XWajyiN7lvHeJ/XyHsaNSiXPx5e1zOeIF2b+1vXO8l7IyhDvG5
+         G/ckpd2NHYOcEBFa6IvplIaF9XooUZQTXwQh3NWSMFmt2ZvLxX7hQquwRUKd+9JJYAKo
+         GOaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790976760; x=1791581560;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AR8vK2FFVl3T+EWEuf785UBXdKYtqcyiMVEsfOCIyKA=;
+        b=sJPHvBybXgBrGEzTihwfPPw/trl7FguuyJjFNVkX9ev7i8FMFDXGC/bSp1ReAgsqKs
+         ug/h0UCQRc/SM44n4w9Gyw1D0HMB1qmRt4ZbkK9GccakMQ/9U7uPFytOAI+2a6VHjsgP
+         UYT82dVV1wBU0HA3g5frA/JrX6GofTm5CONB8mFB2eJfHdk8DyyVVJE0RYzg03JSqTXL
+         odhXfmS0KgPt943er2zCQ3E9vHotNzyhATJ0ZkSAnefJpfwh1z9EdgFNtWqe64+iydnR
+         9AFUhVz+XIpfWHnxr/RhOcxly3DuEXudiRTt2KywTnuYRScIg5V2gk9OxvBIgzfIAqXO
+         b3WQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxOpk9ZW3jPzwPI6sjGlbPqHq7vyXwwP+7CgDf2ZKC3PKUy2Deh7lNeOD15FafHf6xhDQRFW8RXADHc@lists.linux.dev
+X-Gm-Message-State: AFq9FYI5Eg26PfPqZ94U/w0qoqBQDT1RLin62eZ5oZhsXWyvzm7dzjwL
+	KVQjKQ/Q7dzAf6Q9oodBvbiaGiP03GuD6DjoxH8lqi8EWc7VMa+pQvK/CXoloYqlpA/nfLjop8E
+	2Ve75E9yyZIWCJdDMT80TyMSMU5nfckw=
+X-Gm-Gg: AYBFou1R8xldlCm90LFfIbI0QTjtO7h90o+HPnY+CnAE4cCUNvospDkFNxKXPsXoh2S
+	uuvZHjeqPyAQFYyUuDSCbqGwv/vnMu9QNLAgqCQ77dRdtfR4nVoeXsytEEcKvD292DjM08+urAl
+	X4J5qbBx/+n+oFE4WSqUrpuhrSpDD1afRKtbS2dAPDqHaRQN/cmI6aBJBGQs2uCQ9rr1Tj9npHx
+	PUtt8Z9YlxdgqE1TApno+k++oWgMCupXAzmX+dYLQTR5U13PcO9PmZgoRlkIpFBvFWlzTTIhYT+
+	BkqR84T/ZcK6Ol91fd4qnII7RBAiy5whGje5v8wplX7XrrZtWRLTXU0=
+X-Received: by 2002:a05:6402:46d1:b0:6ac:70f2:9205 with SMTP id
+ 4fb4d7f45d1cf-6af9e386d01mr2467536a12.43.1790976760359; Fri, 02 Oct 2026
+ 14:32:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 15/40] mm/vma: add vma[_flags]_is_kernel_owned()
- predicates
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
- <0623ee06-00e5-421e-a24a-ed605abb559b@kernel.org> <ar_CYfkR5Pfb7J9b@gremlin>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <ar_CYfkR5Pfb7J9b@gremlin>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAKLmikMhOYpGEw6uCqX_Bm0JPEg-4FhdJMNa9+tgtw3-Kf+eZg@mail.gmail.com>
+ <e75cf549-07a6-4095-bbf8-8caff7a3338b@bsbernd.com>
+In-Reply-To: <e75cf549-07a6-4095-bbf8-8caff7a3338b@bsbernd.com>
+From: Mitar <mmitar@gmail.com>
+Date: Fri, 2 Oct 2026 23:32:29 +0200
+X-Gm-Features: AclHuK_SMxUC5ptg7waR4khxz9du87Zel1clvodF34USzNqE3fzoU6-rh2TvexA
+Message-ID: <CAKLmikN9Aod9Va=FsqkRmF20=69sdgdDOoV_bUuGh6wTykVcBQ@mail.gmail.com>
+Subject: Re: fuse: HANDLE_KILLPRIV_V2 does not kill suid/sgid on fallocate()
+ and copy_file_range()
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->> Of course I have to bitch about the naming :)
-> 
-> Yup :)
-> 
->>
->> Intuitively: kernel owned vs ... user owned?
->>
->> No, it's kernel owned vs core-mm owned.
-> 
-> I would say somebody who does:
-> 
-> 	ptr = malloc(4096);
-> 
-> Would think of that memory as 'owned' by them in the sense that they
-> control the lifetime, they established its attributes, etc.
-> 
-> So indeed, vs. user-owned.
+Hi!
 
-Right, I read "contents of the VMA are owned by the kernel rather than the core
-mm?" and that confused me, because the opposite of the kernel is to me not core-mm.
-
-Maybe it would be clearer to focus on the opposite direction, then we wouldn't
-have to find a word to describe "not core-mm".
-
-> 
->>
->> Which implies core-mm is not part of the kernel?
->>
->> Yes, this is confusing. ;)
-> 
-> I think what you're missing here is what _creates_ or _establishes_ the mapping.
-> 
-> Intuitively, if I do:
-> 
-> 	ptr = kmalloc(GFP_KERNEL);
-> 
-> I, whether I am in the core kernel, or a driver, or whatever own it in any
-> meaningful sense of the word.
-> 
-> I think the issue here is you're confusing this with other things like the
-> rmap and refcounting, etc.
-
-I think it all weirdly interacts.
-
-In !vma_is_kernel_owned(), would we only expect ordinary folios
-(anon/pagecache/hugetlb/dax, maybe shared zero folio)?
-
-That's my best guess looking at
-
-	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
-				  VMA_IO_BIT);
-
-So one option would be to focus instead on that aspect (folios that are managed
-by core-mm vs. random other stuff not managed by core-mm). But thinking about
-it, I'd prefer if we can leave the "folio" bits out, because COW mappings also
-map (some) folios. See below.
-
-> 
-> 
->>
->> I assume you're coming from "map_kernel_pages*", but that's rather "kernel
->> memory" and not "kernel owned".
->>
->> Usually we say "driver owned" when not talking about pagecache/anon. Or user vs.
->> kernel memory.
-> 
-> I think it would only add confusion:
-> 
-> VDSO/VVAR, perf ring buffers, shmem mapped via PFN map, uprobes, etc. are
-> all in this category and I doubt people would consider those driver-owned.
-
-Agreed. They are all special things and won't be folios in the future. (shmem
-mapped through PFN tells us to ignore its folio background and treat it just as
-some PFN range).
-
-> 
->>
->> So is it really all about "is this (excluding CoW) no ordinary user memory that
->> we would track through the rmap" ?
-> 
-> VMA_MIXEDMAP_BIT mappings can be refcounted and rmapped so that's not a
-> correct description.
-> 
-> The distinction is - who put them there and who's allowed to change them
-> and who owns the lifecycle.
-
-Lol, I asked AI for better names and it told me "vma_is_special_mapping()".
-Thanks, I guess.
-
-I assume for the reverse, we really just want to say "just an ordinary core-mm
-vma that you would get from a simple mmap() as long as no weird non-mm drivers
-or subsystems are involved. Core MM fully manages this thing.".
-
-* vma_is_mm_managed()
-* vma_is_mm_controlled()
+Awesome! I looked at the patch and this is all probably above my head,
+but I think the patch should also include some protocol text
+describing the flag-only SETATTR, because this is now a new behavior,
+no? And probably we should also do a minor version bump so servers can
+tell that they can rely on this behavior and decide to request
+CAP_HANDLE_KILLPRIV_V2. For example, in our case, we do not request
+CAP_HANDLE_KILLPRIV_V2 now because we are aware of this issue with
+fallocate() and
+copy_file_range().
 
 
->>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->>> ---
->>>  include/linux/mm.h              | 56 ++++++++++++++++++++++++++++++++++++++++-
->>>  tools/testing/vma/include/dup.h | 29 ++++++++++++++++++++-
->>>  2 files changed, 83 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/include/linux/mm.h b/include/linux/mm.h
->>> index 2a92193ac6a5..cab29d6e15c1 100644
->>> --- a/include/linux/mm.h
->>> +++ b/include/linux/mm.h
->>> @@ -1612,6 +1612,44 @@ static inline bool vma_is_shared_maywrite(const struct vm_area_struct *vma)
->>>  	return is_shared_maywrite(&vma->flags);
->>>  }
->>>
->>> +/**
->>> + * vma_flags_is_kernel_owned() - Do the specified VMA flags indicate that the
->>> + * contents of the VMA are owned by the kernel rather than the core mm?
->>> + * @flags: The VMA flags to test.
->>> + *
->>> + * A kernel-owned mapping is one whose contents are established and controlled
->>> + * by the kernel, typically a driver, rather than by the core mm's fault and
->>> + * rmap machinery.
->>> + *
->>> + * The mapping may be memory-mapped I/O, kernel-allocated pages or ordinary
->>> + * pages the owner has chosen to map itself (shmem via a PFN map, for instance).
->>> + *
->>> + * In all cases the core mm must not populate, reclaim, migrate, copy-on-write
->>> + * or merge it of its own accord.
->>> + *
->>> + * Pages mapped this way are not necessarily reference counted or map counted.
->>> + *
->>> + * Returns: true if the flags indicate a kernel-owned mapping.
->>> + */
->>> +static inline bool vma_flags_is_kernel_owned(const vma_flags_t *flags)
->>> +{
->>> +	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
->>> +				  VMA_IO_BIT);
->>
->> I thought we have cases where we drivers insert pages and neither set
->> VMA_PFNMAP_BIT nor VMA_MIXEDMAP_BIT.
-> 
-> There were 4 - defio, cmt_speech, uprobes and the bpf arena, and I fixed
-> all of them :)
+Mitar
 
-Great, that helps to identify these things. I didn't look at all patches yet,
-but we should definitely document that.
+On Thu, Oct 1, 2026 at 12:57=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
+>
+>
+>
+> On 9/30/26 23:45, Mitar wrote:
+> > Hi!
+> >
+> > While adding FUSE_HANDLE_KILLPRIV_V2 support to a go-fuse based
+> > server, I noticed that with it negotiated, fallocate() and
+> > copy_file_range() by a caller without CAP_FSETID no longer clear the
+> > setuid and setgid bits of the file they modify, and that the server
+> > has no way to learn that it should clear them itself.
+> >
+> > The kernel makes the decision, but drops it on the way.
+> > fuse_file_fallocate() and __fuse_copy_file_range() both call
+> > file_modified() before sending the request, which ends in
+> > fuse_setattr() with ATTR_KILL_SUID and ATTR_KILL_SGID. Since commit
+> > 8981bdfda744 ("fuse: don't send ATTR_MODE to kill suid/sgid for
+> > handle_killpriv_v2"), fuse_setattr() drops those when
+> > fc->handle_killpriv_v2 is set, expecting the server to kill the bits
+> > when the WRITE which follows arrives. But no WRITE follows
+> > FUSE_FALLOCATE or FUSE_COPY_FILE_RANGE, and neither carries such a
+> > flag. All the server sees is an empty SETATTR before the request,
+> > which it cannot tell apart from the one it gets when only
+> > ATTR_KILL_PRIV was asked for.
+> >
+> > For "fallocate -l 8192 f" run by an unprivileged user, on a file with
+> > mode 06777 which they may write to, the server receives:
+> >
+> >   GETXATTR  "security.capability" -> ENODATA
+> >   SETATTR   valid=3D0
+> >   FALLOCATE offset=3D0 length=3D8192 mode=3D0
+> >
+> > and the file keeps mode 06777. Without FUSE_HANDLE_KILLPRIV_V2, the
+> > same command clears both bits, since fuse_setattr() then turns the
+> > request into a SETATTR of the mode. I verified the fallocate() case.
+> > The copy_file_range() case is from reading the code, as the server I
+> > tested does not implement FUSE_COPY_FILE_RANGE.
+> >
+> > This matters beyond the mode looking wrong: fallocate() with
+> > FALLOC_FL_ZERO_RANGE or FALLOC_FL_PUNCH_HOLE, and copy_file_range()
+> > even more so, change what the file holds. So somebody who may write to
+> > a setuid file can replace its contents and keep the setuid bit, which
+> > is what killing the bits is there to prevent.
+> >
+> > It looks like an interaction between changes rather than a choice.
+> > Commit fe0da9c09b2d ("fuse: copy_file_range needs to strip setuid bits
+> > and update timestamps") made copy_file_range() kill the bits in 2019,
+> > which stopped working on FUSE_HANDLE_KILLPRIV_V2 connections with
+> > 8981bdfda744 in 2020. Commit 4a6f278d4827 ("fuse: add file_modified()
+> > to fallocate") added the same to fallocate() in 2022, which takes
+> > effect only without FUSE_HANDLE_KILLPRIV_V2. As far as I can tell from
+> > its source, virtiofsd with --killpriv-v2 has the same gap: it drops
+> > CAP_FSETID for write, open and setattr when asked to, and calls
+> > fallocate() and copy_file_range() as they are.
+> >
+> > I think we should pass the decision with the request, as for WRITE and
+> > OPEN. For FUSE_FALLOCATE, a new FUSE_FALLOCATE_KILL_SUIDGID could go
+> > into the currently unused fuse_fallocate_in.padding. For
+> > FUSE_COPY_FILE_RANGE, it would need a new field, or a bit in
+> > fuse_copy_file_range_in.flags behind a new INIT flag: servers pass
+> > .flags on to copy_file_range(2) as it is (virtiofsd does), which fails
+> > with EINVAL on any bit, so a new bit there cannot be sent to a server
+> > which did not ask for it.
+> >
+> > What do you think?
+> >
+>
+> I had actually noticed this with recent test additions in libfuse and
+> had to add workarounds (on the day exactly one month ago).
+> Unfortunately had been too busy to post the kernel patch yet.
+>
+> libfuse commits
+> daa6cb7f6996 =E2=80=94 "test: check the KILLPRIV_V2 kill-suidgid flags re=
+ach the filesystem"
+>
+> and
+>
+> 60ab8c0c35de ("test: check a write through passthrough_hp clears suid/sgi=
+d")
+>
+> When testing the latter commit I had noticed the issue.
+>
+> Could you try the attached patch? Right now totally untested,
+> I can test and send it out earliest during the weekend.
+>
+>
+> Thanks,
+> Bernd
+>
 
-> 
-> Other than the DAX-only case below of course.
 
-Right, as DAX uses real folios.
-
->>
->> I assume vmf_insert_page_mkwrite() is fine because it is DAX doing it (should we
->> limit this interface to DAX?).
-> 
-> That is a DAX-only thing and DAX is precisely a case that should not be
-> kernel-owned (and isn't!)
-> 
-> This series actually fixes the FUSE case too, restricting this interface to
-> DAX only seems like a sensible follow up as well.
-> 
-> I could also add a patch to this series to do that too if you wanted?
-
-We can do a follow up. Not giving others the chance to abuse these interfaces
-would be great.
-
--- 
-Cheers,
-
-David
+--=20
+https://mitar.tnode.com/
+https://noc.social/@mitar
+https://bsky.app/profile/mitar.bsky.social
