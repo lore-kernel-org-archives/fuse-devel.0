@@ -1,39 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DE84156F0;
-	Sun,  4 Oct 2026 12:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4A5440644
+	for <fuse-devel@lists.linux.dev>; Sun,  4 Oct 2026 13:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791118566; cv=none; b=LXvJIuUSj1zbz+B66D+uaZL9a0XSJAuGPJ+WokueTtHqL1INn3xwCfkE6SWsA1rSQTJu03eWoMUQDRJas1Vp493G9zH5PaA7fO+6Auf/VxXms22YPo+YCEGYjQpohAGMQQtHGALA1Mui/V/fUUThl8c7Ed/pIbzUDFck8qW20Ks=
+	t=1791119066; cv=none; b=hFqzWmhX8xhPVqclTIUweH8lHPhqDTHqkQWKqaoggrNLPquc+/0uYirRQCxSBcxGxDeAzhYwWUy6UvCwHYmMu7Yj5z3SLsgPWJwQSIsHpv9ELgjwhAPHyUNsPA5rgq93zuWuCQ7okej3Xu1Ejf+NOJSxF7BE4s0QSk7qAPowtBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791118566; c=relaxed/simple;
-	bh=a7fEkya+eiLiIllDm+mhWmrv3McI5X/eL0cHkPiNtyw=;
+	s=arc-20240116; t=1791119066; c=relaxed/simple;
+	bh=7anAYD/6TRMXLRUH246n3DaplZOuPGwjq6Ld4ohe3W0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yd1WD4vL8XEHK70Gj4LDsJA3istKsSDTC8XKdxzpEWa1kI3W6xryg8RGvhFE4s1307UYy6Rq/dlc+DuEq9aSCLY9kREGT50zklIWoNWufnlRa8x0WnQ1s2d+z13/pk1gDpkvrzF3A/wPIu1JKdQBo9mBMobPdKOHi8RixBaKWIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yshBgo+i; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type:Content-Disposition; b=hUP/0yE6CQ/Pzngo1oRb7RkLQdUVSYbZEYJK6kqyLkBYk7vJYfQvhWuhsjUQoD+wvE250BcvcetPMkfadHZPCBoIUe5iCwXCI9cR5XizXWa7ApEmLrZrsgdwUnYLOwAfufcilEKDgfm8W4PwKaUJ3DvDuvosz6R7LKF4YCSX31Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A0rzJtEI; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yshBgo+i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF7871F000FF;
-	Sun,  4 Oct 2026 12:56:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791118564;
-	bh=+zyDIlut7TP1j+n//D3AqYQMcrNu+Ijij1LbJXSVLPI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=yshBgo+i7fF7Shqs12G8SVVUGuFA0fiV1ORRHZWol+yLghFe+eEKrWR1jHQBAbZx5
-	 0IXkME2pCN9M1ylMuwoI+Jge97xNtEsp7cbgPLkBIeJWRkRN2n8tEOsm8kknusl5PJ
-	 PKdD0KLV9Kyk0v4r/cgujjMK3/hDbeT1dm5w5Qis=
-Date: Sun, 4 Oct 2026 14:56:00 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A0rzJtEI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791119063;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=b81/l0OmO6iEtzu5AbsolvHlUCUYYBliPDEbzdU8/ic=;
+	b=A0rzJtEI52cIs3rR7eovJU8Z2wWrJEOJ2zM9DD6a0FqYT2iAaohRc5eiRJQmluPJT/STXw
+	L+YSRvrq5kuLDMHoaU1+JnmGbC0tQd4fZmJeVEqqU0HgBKhm3TP3k7xVb39xloDhGtKUBq
+	PjbYqVUgzoshaNOXz56Hi0w9Yq3x+3w=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-139-csAtBqcZPA-Oh4Wne4gpRA-1; Sun, 04 Oct 2026 09:04:22 -0400
+X-MC-Unique: csAtBqcZPA-Oh4Wne4gpRA-1
+X-Mimecast-MFC-AGG-ID: csAtBqcZPA-Oh4Wne4gpRA_1791119061
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a0284121c6so7273115e9.3
+        for <fuse-devel@lists.linux.dev>; Sun, 04 Oct 2026 06:04:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791119061; x=1791723861;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=b81/l0OmO6iEtzu5AbsolvHlUCUYYBliPDEbzdU8/ic=;
+        b=PY9jZvyp3WG1hrX0GLOARe3LGRKpjmehoKjSBJ7kksfaJHoNrqRnv6xziCuRSwyaZq
+         NnIXHPbWYTmLL+SOg5NM01N68wl/rRimHsUUG3eJF3L3TuPXzLGbHr+2Ht8gmy/z6Oin
+         JlCtIEdrnPmbISqq58qIaAgqCQQhc5s1RCa3jRbbyjzowful6dCk5vsnbYWHjjJVmXkB
+         1XnnzuoQ6mp4c9sLWTOSeEZiEegugqEGnQKWnkTIrMlfbYS4VyfYaRG4lMleOxeSiDN9
+         6rAXqaHoQNNXdmoEb1JIThcyhZ+PiTo/wTo477oUjxRQzRecR5ev/cYTGq/EUpEfPkiV
+         ESyg==
+X-Forwarded-Encrypted: i=1; AKwUvByDdVeoLuNFfeosT3P1HQDbdK8O3J8iYzOLqTJxdCJWnIJv4ClOhEBV8WRWc7TXQlFGrhRA5aHjtilQ@lists.linux.dev
+X-Gm-Message-State: AFuF++lQcFmjcXIeObk5R+2R/Ww4+oD+KNKPALyfFD3iSd3nxLx8KLr8
+	2TokW3492MGfxiHI+UfzzrqPQfcOB5iclaP5czSSBR0z7vQnkiMqM0Tu22ZXjO1M6ZbzlMu2Q9o
+	xh9rW/Usc1by56j6aeYPGIgu6ngHNU63Y8yS3gs6Tc3iB6idhILYQT9WHtpPihtc=
+X-Gm-Gg: AYBFou19fUZDTzBklWYthI1VAS/dYRBf4AkjLAl3/opuo0xgnnUOjZaw0vi5ZBlLsOs
+	ZMwi2xYhnYsvn8qlghuA3X21eIjpNPPqVOCoW+3Wj/oBiQFbAYanE+Y3H8jZoAmrqtlW+YVDNOy
+	UDwsDNxgAKAtht1m7z89virVO3PdoADWCzluYSpA2ec7SilJ4Del/5XZ/0hlRmaRJv219KrY+u/
+	hg2DGT9JZ4fDLph/C8AYMD7P3zwnOskTxM5dxqD45NdUlkqaLqVCmsaujV3Mu7nrnvxkrmluynA
+	LncUnMMVRUKAG9aYZw6UYUKB8/ACDe1MQzqmIUcnjzZk6w8dnAUT7KKd4wS4UAJEjd7KiDQm
+X-Received: by 2002:a05:600d:3:b0:4a0:25db:4591 with SMTP id 5b1f17b1804b1-4a1680f7aefmr63834695e9.23.1791119060792;
+        Sun, 04 Oct 2026 06:04:20 -0700 (PDT)
+X-Received: by 2002:a05:600d:3:b0:4a0:25db:4591 with SMTP id 5b1f17b1804b1-4a1680f7aefmr63834285e9.23.1791119060264;
+        Sun, 04 Oct 2026 06:04:20 -0700 (PDT)
+Received: from redhat.com ([2a06:c701:73fb:d100:601d:d7d4:d03f:527b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0276f92d9sm240649945e9.4.2026.10.04.06.04.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 06:04:19 -0700 (PDT)
+Date: Sun, 4 Oct 2026 09:04:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: sungbyeongchan <tjdqudcks0424@naver.com>
 Cc: German Maglione <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
 	Stefan Hajnoczi <stefanha@redhat.com>,
 	Miklos Szeredi <miklos@szeredi.hu>,
 	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
 	virtualization@lists.linux.dev, fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Subject: Re: [PATCH] virtiofs: validate fixed-output response length
-Message-ID: <2026100445-cataract-anthem-8edb@gregkh>
+Message-ID: <20261004085805-mutt-send-email-mst@kernel.org>
 References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
@@ -41,9 +82,12 @@ List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20261004123405.586168-1-tjdqudcks0424@naver.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: hXDEW0RJUy3Scezm0LdqF1E1VmTQYuBYCK5KtT5UhfE_1791119061
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261004123405.586168-1-tjdqudcks0424@naver.com>
 
 On Sun, Oct 04, 2026 at 09:34:05PM +0900, sungbyeongchan wrote:
 > A short successful virtiofs response can leave the fixed-output
@@ -68,39 +112,74 @@ On Sun, Oct 04, 2026 at 09:34:05PM +0900, sungbyeongchan wrote:
 >  fs/fuse/virtio_fs.c | 26 ++++++++++++++++++++++++++
 >  1 file changed, 26 insertions(+)
 > 
+> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+> index f15e516ebcb5c..288848f23e7ec 100644
+> --- a/fs/fuse/virtio_fs.c
+> +++ b/fs/fuse/virtio_fs.c
+> @@ -730,6 +730,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+>  	unsigned int num_out;
+>  	unsigned int i;
+>  
+> +	/* Error replies contain only the output header. */
+> +	if (req->out.h.error)
+> +		goto out;
+> +
+>  	remaining = req->out.h.len - sizeof(req->out.h);
+>  	num_in = args->in_numargs - args->in_pages;
+>  	num_out = args->out_numargs - args->out_pages;
+> @@ -755,6 +759,7 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+>  	if (args->out_argvar)
+>  		args->out_args[args->out_numargs - 1].size = remaining;
+>  
+> +out:
+>  	kfree(req->argbuf);
+>  	req->argbuf = NULL;
+>  }
+> @@ -762,7 +767,9 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+>  /* Verify that the server properly follows the FUSE protocol */
+>  static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+>  {
+> +	struct fuse_args *args = req->args;
+>  	struct fuse_out_header *oh = &req->out.h;
+> +	unsigned int expected;
+>  
+>  	if (len < sizeof(*oh)) {
+>  		pr_warn("virtio-fs: response too short (%u)\n", len);
+> @@ -777,6 +784,25 @@ static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+>  			oh->unique, req->in.h.unique);
+>  		return false;
+>  	}
+> +
+> +	if (oh->error) {
+> +		if (len != sizeof(*oh)) {
+> +			pr_warn("virtio-fs: error response too long (%u)\n", len);
+> +			return false;
+> +		}
+> +		return true;
+> +	}
 
-Hi,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+What if oh->error > 0?  Won't we still have the uninitialized problem
+then if callers treat it as success? E.g. the ioctl path seems to do
+this... Maybe reject that? Or oh->error <= -512 for that matter, as
+fuse_send_ioctl does?
 
-You are receiving this message because of the following common error(s)
-as indicated below:
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
+> +
+> +	expected = sizeof(*oh) +
+> +		   fuse_len_args(args->out_numargs, args->out_args);
+> +	if (len > expected ||
+> +	    (len < expected &&
+> +	     (!args->out_argvar ||
+> +	      expected - len > args->out_args[args->out_numargs - 1].size))) {
+> +		pr_warn("virtio-fs: invalid response length (%u, expected %u)\n",
+> +			len, expected);
+> +		return false;
+> +	}
+>  	return true;
+>  }
+>  
+> -- 
+> 2.43.0
+> 
 
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
