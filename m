@@ -1,225 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016D620B80B
-	for <fuse-devel@lists.linux.dev>; Mon,  5 Oct 2026 20:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABBD43B6C1;
+	Mon,  5 Oct 2026 23:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791233150; cv=none; b=hlRCByt34Rr5q0HD1OLnF+fMWDlKM672fY4KH6qf5lXN54JrG8LLJ3DTtREj9CvYXEkCsvOo+GQAZ0PjTeabHIBYovmC+EX+jaYD8P82bhPkdbQSVWut3GEZpdWkXr2jLIGqwzlEJwnKj/zEo9TvwZV5pT/CJhWKfbOAZlHb+eU=
+	t=1791243477; cv=none; b=jP/yM9E9nCl4ifOQbKIPiTkn0cG7FYnZA9FD2B7Bpi98O4VeohBoFt97KE6IQF1+wrt/qoZ1+c/EdmoqfNqhfl/EyJ/mNxh/b6kNgqO2JNjbNQJA6hWxLyoGLW4mi0CNGZ9aC58+4P+YpF40G+JU/ftuGqUI+mQIIGRVOUZfyGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791233150; c=relaxed/simple;
-	bh=EifykRt2LKQ6kZJvwfPakJmr6DCGWMMbbwpMw2ZAXpA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NkgoTzyGTmsc05VPGSwhYS81v1D3qSCCbqRdTzc6yhdm/mAmRE+c3d07ei3R9UOx8OIdXGu0OD5AE25Z1hn91RisNuQUa241wDAGoTRh72kRSCOIuxLuHS9VFgaQvgCo0JL4f8Z5tKIqUpvLBnZWFrnwFDTxFJvpWEATy2jzq60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nnuELlo/; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nnuELlo/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BA971F0089B
-	for <fuse-devel@lists.linux.dev>; Mon,  5 Oct 2026 20:45:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791233148;
-	bh=NLFOoYWWtnRY6Ceo7GoZb6AHkD3ORrSQ4V9OneUN+Ow=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=nnuELlo/mACSEwSUq3E6UHbBvwkqiJor4R5vdiUQ0PQ9PYoN3BmVH2v7zEKWsUfvs
-	 PKPYRDW0hNp3HncNPCbgpu0D0BmbQlnqnBslDQdPWv+n7uSy+SXYSkKvbDZ/v7u6o2
-	 otWP6/qYKlVDx3yKhcet53nAFnf12R4Qd2OVI/mP02xVfjMGN4eXYqStxf/liS5Hpq
-	 0d6eQRLyA2QknqU+u4te6ymfN3uZCQzfbSHqxfmon8GYiUn04s9wRsAMPg/zofaDUB
-	 vlqUqVdk8QAG0xQOt82im8ryWm1q3/QFQraLFWaqNiL3mzC49m/qFB+fA4bzfMPfCK
-	 riRUoA1EOIxMQ==
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c29703cb470so385805666b.0
-        for <fuse-devel@lists.linux.dev>; Mon, 05 Oct 2026 13:45:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwULVdWl6xl07upPAxZhtqSM8bhRbqYahtFoChxjiHiEAho7Hw6VflWtxcKO585ZGTFmRm0mnLb1M1b@lists.linux.dev
-X-Gm-Message-State: AFuF++nl/eQ4ZwithgnJesJg0OoQxIjN4ErZSJeTHeI3QG95tVL9VR3N
-	4gxFWUAcbUJ/ep4xg7+QYt3QG7SKkhfXNJccfJSearAIWwog36wtrX4VCu/eB8+9ltc8bwCX8qO
-	vumZZ6EBNob9twTdjReCz4WYfQggnFLg=
-X-Received: by 2002:a17:906:f594:b0:c29:53ba:a4cd with SMTP id
- a640c23a62f3a-c2e4ad13e7amr997364966b.11.1791233147408; Mon, 05 Oct 2026
- 13:45:47 -0700 (PDT)
+	s=arc-20240116; t=1791243477; c=relaxed/simple;
+	bh=9II7e20rC3YRtMC9ZN9hnzcEONlfjBuITelQhDbx2AE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JP90Lq2Rz8l2P2Ry6i9bbReGC0sevBqE1fgX/9F5Sej+w69Dlciz6BSOezcJNV/NQ5zQfxtPTY6B2heUy5txHo1nrWEFAEw9HR9y09wEREhiFKRzxBNTvq6Z8fPKDfdQet3g/WJkb0lU67qwFn4wYmkbEGrQWGuRO+l7sdGFt/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id 3F3E9A04C8;
+	Mon,  5 Oct 2026 23:27:47 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf17.hostedemail.com (Postfix) with ESMTPA id 7FE9F18;
+	Mon,  5 Oct 2026 23:27:44 +0000 (UTC)
+Date: Mon, 5 Oct 2026 18:27:43 -0500
+From: John Groves <john@groves.net>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	david@kernel.org, willy@infradead.org, brauner@kernel.org
+Subject: Re: [PATCH v2 0/8] fuse: DAX device based extent maps (famfs)
+Message-ID: <asQcBebepPb9CXzS@groves.net>
+References: <20261001150935.655979-1-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
- <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
- <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
- <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
- <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
- <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
- <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com>
- <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com> <CAJnrk1aHdBm4CofvKfx7B3H-uF2xRXZUQs47J_4xeRmRZ4hcZg@mail.gmail.com>
-In-Reply-To: <CAJnrk1aHdBm4CofvKfx7B3H-uF2xRXZUQs47J_4xeRmRZ4hcZg@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Mon, 5 Oct 2026 13:45:33 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
-X-Gm-Features: AclHuK9bsxnzrNzCEGYxM5xbrCEvC4kIDgtRMWmkPhx27BYSlzrkiZ8zssPr8fA
-Message-ID: <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
-To: Joanne Koong <joannelkoong@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>
-Cc: James Houghton <jthoughton@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
-	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261001150935.655979-1-mszeredi@redhat.com>
+X-Rspamd-Server: rspamout06
+X-Stat-Signature: uo6wdaohey8iduce9nknm48zq973gpe6
+X-Rspamd-Queue-Id: 7FE9F18
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/8NysK9/Gsulo4cuV+NGDnPd91igPQ7DI=
+X-HE-Tag: 1791242864-711983
+X-HE-Meta: U2FsdGVkX1+6uSTZIM+DeWgPC6Kyumy1z9XWtSk2yK1zL1dea3ycghq9QlZAKH+fZaqbZ9E41aYkRCAS16OC3LeULd2i9Yc5Jkr079BLSvFn11qev6T42egEtUcgc6MgVpfgcTB94L6Ak1oPOdAkQQPeX7Mn2eQUhzIc4A4gOaqlt5ZOBe6yZQyEJjZ1VU2pkgJHTQh0bcScVuTUNJZfLBRztfS8yaH03b5ljVq5HXurmtV8GY3NEocGTzXgzIuv7iKlvA0mkPokdwk74M2jHlI0ObQNza3n4HGmlZFoDmG3BrmqsI08QD3kx8gWN6ojIR6TpBLoncu7b3nj2Z3YuCXCx6ur9DrBrFwkckna72eEqOZaov1DUQ==
 
-> I added some instrumentation to prepare_scan_control() and have been
-> seeing that the OOM gets triggered in this pathway:
-> a) the memcg is created with memory.max set to unlimited. 512 M gets
-> faulted in. The new anon folios get put on the inactive list. Nothing
-> reclaims them yet
-> b) userspace then sets memory.max to half of memory.current (~271M
-> from ~542 M currently used). This causes memory_max_write() to trigger
-> reclaim logic
-> c) the folios have already moved to the active list (my
-> instrumentation shows 122684 active vs. 179 inactive) when reclaim
-> does the scanning, which means the only way for pages to be reclaimed
-> is for pages to get deactivated from the active list back to the
-> inactive list.
-> d) prepare_scan_control() (which decides if the pages get deactivated)
-> reads the LRU sizes from rstat. This memcg hasn't been flushed yet
-> (the 2s flusher hasn't yet triggered since when the memcg was
-> created), so the NR_INACTIVE_ANON and NR_ACTIVE_ANON stats are all
-> still zero. The real values are all still sitting in per-cpu buffers
-> that haven't yet been flushed. My instrumentation shows:
->         inactive_anon       rstat: 0    actual: 179
->         active_anon          rstat: 0    actual: 122684  (~479 MB)
-> e) the deactivation logic in prepare_scan_control() is:
->
->                 refaults = lruvec_page_state(target_lruvec,
->                                 WORKINGSET_ACTIVATE_ANON);
->                 if (refaults != target_lruvec->refaults[WORKINGSET_ANON] ||
->                         inactive_is_low(target_lruvec, LRU_INACTIVE_ANON))
->                         sc->may_deactivate |= DEACTIVATE_ANON;
->                 else
->                         sc->may_deactivate &= ~DEACTIVATE_ANON;
->
-> The if check fails:
->      refaults != prev refaults: 0 != 0      (false)
->      inactive_is_low(): both LRU inactive and active values are 0: 0 *
-> inactive_ratio < 0     ( false)
->
-> DEACTIVATE_ANON gets cleared
->
-> f) pages don't get moved from the active list to the inactive list, so
-> reclaim ends up freeing nothing. memory_max_write() goes through all
-> MAX_RECLAIM_RETRIES and OOMs, even though there's 479 MB reclaimable
-> (but it's all on the active list).
->
-> I saw that the skipped_deactivate retry did fire (on 858 of 4264
-> scans), but not enough to get the memory.current back under the halved
-> memory.max, so memory_max_write() still exhausted MAX_RECLAIM_RETRIES
-> and OOMed.
->
->
-> imo I think the best fix would be
-> a) for non-root memcgs, revert back to the non-ratelimited version
-> (mem_cgroup_flush_stats())
-> b) for root-memcgs (which if flushed will flush every cgroup on the
-> machine), don't use rstat at all and use the existing node counters
-> instead (which is what the non-memcg case already uses).
-> mod_lruvec_state() always updates the node vmstat and the memcg lruvec
-> stat in the same call. For the root lruvec, the node counter reflects
-> the same value and doesn't need any flushing. It has an error bound of
-> 125 pages/cpu at most, but this is tighter than what we currently have
-> with the ratelimited version.
+On 26/10/01 05:07PM, Miklos Szeredi wrote:
+> This is the FUSIfication of the famfs-fuse patchset.
 
-This seems like the right thing to do. If we have global stats, we
-should avoid a rstat flush. I actually wonder if we should start
-systematically eliminating root flushes, and if that ends up being
-good enough to keep everything else as-is for in-kernel flushers. The
-flush in zswap_shrinker_count() is also a good candidate, we already
-use global stats when memcg is disabled there as well.
+This series (v1) was sent on the day I left on a vacation from which I
+returned at the end of last week.
 
->
-> commit 90a6f2a8f442 ("memcg: use ratelimited stats flush in the
-> reclaim") was what switched vmscan to using ratelimited flushing. The
-> reason for this was to fix the stalls from concurrent reclaimers
-> contending on the rstat lock. For the Cloudflare case, kswapd threads
-> were contending on the rstat lock on 8 numa-node machines. That's the
-> global path (eg sc->target_mem_cgroup is NULL,
-> mem_cgroup_flush_stats() turns it into root, so this flush essentially
-> ends up flushing every cgroup on the machine), which gets addressed by
-> adding the fix in b), which takes kswapd and global direct reclaim off
-> rstat entirely. For the non-root memcg case, the flushing is bounded
-> by the MEMCG_CHARGE_BATCH * num_online_cpus() threshold (a non-root
-> memcg's stats_updates only accumulates its own subtree's updates, so
-> it takes a lot longer for it to be exceeded than the root's does).
->
-> I ran some benchmarks to get a rough idea of what a) costs. I set up a
-> workload that allocates 512M of anon memory in a memcg with memory.max
-> set to half of that to trigger reclaim continuously. I varied the
-> number of threads touching the memory, so that N of them hit
-> memory.max and enter direct reclaim on the same memcg at once. I used
-> bpftrace to measure the time spent inside css_rstat_flush() and
-> shrink_node() and used those two numbers to get a percentage for how
-> much of reclaim is spent in flushing. These are the numbers I saw:
->
-> # threads      flush as % of shrink_node()
-> 1                ratelimited: 1.10%       non-ratelimited: 2.22%
-> 16              ratelimited: 0.36%       non-ratelimited: 2.87%
-> 64              ratelimited: 0.16%       non-ratelimited: 2.52%
->
-> Between the ratelimited and the non-ratelimited runs, walltime and
-> pgsteal were pretty much indistinguishable (42.7s vs 43.6s at 16
-> threads and 41.7 s vs 42.4s at 64, with the ranges overlapping, and
-> pgsteal within 0.2%).
->
-> I also measured the lock contention. At 16 and 64 threads, 15-20% of
-> __css_rstat_lock() acquisitions hit a contended trylock with the
-> non-ratelimited version. At 16 threads, the mean flush time rises
-> about 8% and at 64 it roughly triples from the single-thread case
-> (26us at 1 thread, 42 us at 16, 87us at 64)  but I didn't see any
-> effect of this on wall time or pgsteal between the non-ratelimited and
-> the ratelimited version, and the percentage of reclaim time spent
-> flushing stayed at 2-3%. I think that's because css_rstat_flush()
-> takes and drops the lock once per cpu rather than holding it across
-> the walk.
->
-> I also ran it with 32 actively churning sub-cgroups under the reclaim
-> target, since css_rstat_flush() walks the descendants that have
-> pending updates. I saw that per-flush cost rises slightly (~24 us to
-> 27 us) but the share of reclaim time spent flushing went down rather
-> than up (4.1% to 3.2%), because reclaim gets more expensive faster
-> than flushing does. I don't have a ratelimited baseline at 32 children
-> though, because with the ratelimited version, all the runs I tried
-> OOMed. I think this is an alternative repro to the OOM issue but
-> doesn't need/have KVM dependencies, so if this would be useful to
-> clean up and send as a standalone C repro, please let me know.
+I feel I should acknowledge this and assure everybody that I'm working
+through it. This really runs my famfs/fuse patches through a 
+chipper/shredder, and it is gonna take me some time to review it, 
+understand it and test it.
 
-It might be useful if it can be added as a selftest or similar, so
-that such regressions can be caught more easily in the future?
+A few comments below, and specific patch comments should start trickling out.
 
->
-> (Also btw (this is a bit tangential to this OOM issue, but somewhat
-> semi-related), I don't think the WORKINGSET_ACTIVATE_{ANON,FILE} stats
-> checking really does anything in practice. On my benchmark runs, the
-> "refaults != prev_refaults" check evaluates to false in pretty much
-> every scan. Even with flushing working properly, it didn't trigger on
-> 1673718 of 1674912 samples, even though the cgroup was thrashing the
-> whole time (a separate run of the same workload counted 6371860 anon
-> refaults vs 6523 activations). I think it's because reclaim is
-> scanning faster than the refaults counter advances, so it'll almost
-> always see no change. I'm not sure how much this matters in practice,
-> but I think effectively in that check above in prepare_scan_control(),
-> deactivation relies entirely on the inactive_is_low() check.)
+One very high level quip though: If you're comfortable with this, go ahead 
+and merge it. We can fix bugs and performance problems, if any, in due 
+course. I'm serious about that.
 
-I am also not sure about this one. I am not sure if reclaim moving
-faster than refaults is something universal, it seems like it would be
-workload-specific. Johannes is the person that comes to mind when I
-think about these heuristics, so maybe he has an opinion about this?
-:)
+> 
+>  - extent maps are assigned to a backing ID
+> 
+>  - 64 bit backing ID's managed by server
 
->
-> What do you all think about adding a) and b) as the fix for this issue?
+I thought we agreed you weren't gonna do these two, but if it does no harm,
+whatever.
 
-I generally agree. Doesn't really matter much, but I think we should
-do (b) then (a) to avoid reintroducing the regression temporarily?
+> 
+>  - maps can be linear or cyclic (striped)
 
->
+Please correct me if any of my analysis below is wrong...
+
+Here what you've done is remove my explicitly interleaved extent lists,
+which have a header containing a chunk size and a set of strip extents (which
+are basically fully self-describing), and replace is with just simple extent 
+lists that have an optional CYCLIC flag in the header. If the flag is set on 
+an extent list, (and let's say the strip extents need to be 1GiB and the 
+chunk size is 2MiB), each CYCLIC extent gets its size set to the chunk size 
+and the kernel trusts that the actual size allocated per stirp is actually 
+sufficient that i_size will not cycle past the end of the *actually* 
+allocated size of each strip extent.
+
+This resembles an idea I considered, to try to make the metadata *look* 
+simpler while still carrying the info that needs to be conveyed. But this 
+implementation feels pretty janky to me, and it should at least be 
+meticulously documented. Better might be to put the chunk_size in the header,
+and then you arguably don't need the CYCLIC flag, since non-zero chunk_size
+means the same thing. But actually, you can accept multiple CYCLIC strip
+lists if you set chunk_size and then set the CYCLIC flag on the first of
+each strip set.
+
+I see the kernel-side rejects these s/size/chunk_size/ strip extents if they
+are not all the same size. Why not put the chunk size in the header and let
+the extents honestly describe the offset and range that they cover? 
+The current design can't test for sufficient strip extent sizes, although 
+it replaces code that did verify this.
+
+> 
+>  - API supports nesting, but not implemented yet (i.e. multiple striped
+>    extents per inode, a-la famfs)
+> 
+> libfuse/famfs trees for testing:
+> 
+>  https://github.com/szmi/libfuse.git#extent-map-v2
+>  https://github.com/szmi/famfs.git#extent-map-v2
+> 
+> This patchset:
+> 
+>  git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#extent-map-v2
+> 
+> Passes famfs smoke test on emulated dax device.
+
+Thank you for doing that. Prior to this there have been many strong opinions
+but none of the holders of said opinions built or tested famfs.
+
+However, the smoke tests passing isn't fully legit, because the patch to the
+famfs fuse server passes the entire strip size on CYCLIC mappings, meaning
+it just produces a concatenation of ranges - which does not achieve the 
+interleaving goal at all. That case degenerates to simple extents.
+
+If this is the new design for passing cycling maps into the kernel, a test
+will be added to catch this - but it's brand new and didn't get a test added,
+so it wasn't caught automatically.
+
+> 
+> Comments are welcome.
+
+One more... This patch inserts an rbtree lookup into the fault path via the
+very-performance-critical fuse_ext_map_iomap_begin() path. This is 
+performance-critical because it handles TLB/PTE/PMD faults when the memory
+is never sparse (no I/O to amortize over). The code you replaced did several
+things to avoid this sort of chasing:
+
+- With interleaved extent lists, strip and strip-offset can be calculated
+  in order 1 (and then strip overflow can be checked and avoided)
+- Simple extent lists were checked for constant extent sizes; if constant,
+  we can just index into the list (also order 1)
+
+Why do I want to avoid an rbtree lookup or the bpf nonsense in the fault path?
+"Because this is memory and it must run at memory speeds" --yours truly
+
+To be specific: each chase/dereference that results in an L3 cache miss adds
+a stall of (1 * MEMORY_LATENCY) to the fault time. This is the good reason 
+why I didn't do any chasing in the fault path of the famfs code that you're
+replacing.
+
+OK, one more. You're using the rbtree for indexing by file offset, which is
+a zero-based non-sparse range in this case. If this could not be avoided 
+(which I think it can) you should use an xarray or radix tree for that...
+right?
+
+> 
 > Thanks,
-> Joanne
->
+> Miklos
+> 
+> ---
+> Changes since v1:
+> 
+>  - moved 3 prep patches to fuse.git#for-next
+>  - introduce FUSE_PASSTHROUGH_V2 (Amir)
+>  - lots of small fixes and cleanups (Amir, Sashiko)
+> 
+> ---
+> John Groves (1):
+>   dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
+
+Golly, it seems like there's more than 1 patch worth of content from me here,
+but the chipper/shredder might meet the letter of copyright law in some 
+jurisdictions...
+
+> 
+> Miklos Szeredi (7):
+>   fuse: add helpers for EIO return value with kernel message
+>   fuse: support 64 bit, server allocated backing ID
+>   fuse: support opening 64 bit backing ID
+>   fuse: add support for opening dax device as backing
+>   fuse: add extent map data structure
+>   fuse: add extent map I/O support
+>   fuse: add support for striped backing
+> 
+>  drivers/dax/super.c       |  38 ++++-
+>  fs/fuse/Makefile          |   2 +-
+>  fs/fuse/backing.c         | 292 ++++++++++++++++++++++++++++++-------
+>  fs/fuse/dev.c             |  21 +++
+>  fs/fuse/dev.h             |   3 +
+>  fs/fuse/dir.c             |   3 +-
+>  fs/fuse/ext_map.c         | 299 ++++++++++++++++++++++++++++++++++++++
+>  fs/fuse/file.c            |  16 +-
+>  fs/fuse/fuse_i.h          |  72 +++++++--
+>  fs/fuse/inode.c           |  17 ++-
+>  fs/fuse/iomode.c          | 108 +++++++-------
+>  fs/fuse/notify.c          |  75 ++++++++++
+>  fs/fuse/passthrough.c     |  63 ++++----
+>  include/linux/dax.h       |   6 +-
+>  include/uapi/linux/fuse.h |  53 ++++++-
+>  15 files changed, 904 insertions(+), 164 deletions(-)
+>  create mode 100644 fs/fuse/ext_map.c
+> 
+> -- 
+> 2.54.0
+> 
+
+John
+
