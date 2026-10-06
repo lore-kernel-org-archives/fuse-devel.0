@@ -1,240 +1,194 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from cvsmtppost38.nm.naver.com (cvsmtppost38.nm.naver.com [114.111.35.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2DD370AFD
-	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 18:01:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1068379EEF
+	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 18:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791309703; cv=none; b=Y86kQ4HAdCmGq5OV/2P2DoUBtPtzorK39p1Y1angXg2nuPivPmHAYSgVQR66rGxkMUJOXYcOOuquS4Imzv6i35RRmD0OINOKmZG2E/GYM5BJpl/0Z84SbB/SKW4zIo2coHEUli2w9OzqPQ/YdBCtWDWMkySoccoj7/IDuPbCUAg=
+	t=1791311067; cv=none; b=Doct/2IOaiNTmaqDHMc+0aiEP4G6E0YQrngv/ber463erZ3F9TuEiWzgyzFkebVNJtkTA9IxQrHThOcq4qw6c0z1ozNM3+Gox64t8I/BFZbHTQlg5CyPVoFeJT04bJYdRCXtvpDigf9x6MZnlu6llI74bRNtgRn/584lYg5KtUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791309703; c=relaxed/simple;
-	bh=DjhcPylcHhCqjFXAuyirPeUa+NH5Ei9QeLolft6Argk=;
+	s=arc-20240116; t=1791311067; c=relaxed/simple;
+	bh=wqqL1PwifQP6F0DbX5AnTlT3bL5yGbWuuRMWRY1NtHs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=OBoo/vhKbNITgd05eoUMgmqmEmKNimd08dBGFc5cd0jTytd5xJlR0iqo7AIF9fp4NHSgN9qJvtpu91W24x+VdWaoSApzu7MJ+VewQw7MRxlnX9mpcmTzJ4ii4j5U6mxtb1aymJn3S6c7jpRM0O7wJTzQmQqXZ7Gd/h1IGOKGlwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hAwYz+PP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 MIME-Version; b=DVhCJ/nivpXw/muWCysBLawPSl/Zs93mDZR2mwNV+qr2B01hVmb/KEiWsqCluoFZPoBoEj9JMj2n8pz6HzHq83+BWijhYbIV4q528RGlDCz/8zZS0GQ5KsIppJXFG4uVndiRIA/OQqd545CSLfYkBI+U65gcokcIPetExjy22HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=VlRE/gsI; arc=none smtp.client-ip=114.111.35.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hAwYz+PP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791309700;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+EleZpynb4+a3XFu5iGO0EyTuAjdCIAH6pPcLUR432s=;
-	b=hAwYz+PPY1wn/LFUj91peohJlT1u6QGOLNepBhyPH7ZR87TPXBkRGjwDLhoIa6gYpfDfD1
-	WAeckSqCbKpYJXR6sTRw4ZAb+AeiadBMpEVoXQoxrRwRFvyD7UhOhn+kvK6w39zik/ZkIn
-	j12I116NSbI/eccNhHQ1m2vO4Mru1kY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-124-Lg9WEH2hOneDbBJ0tDrGrQ-1; Tue, 06 Oct 2026 14:01:38 -0400
-X-MC-Unique: Lg9WEH2hOneDbBJ0tDrGrQ-1
-X-Mimecast-MFC-AGG-ID: Lg9WEH2hOneDbBJ0tDrGrQ_1791309697
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c2e6df274e4so193610666b.2
-        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 11:01:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791309697; x=1791914497;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+EleZpynb4+a3XFu5iGO0EyTuAjdCIAH6pPcLUR432s=;
-        b=2eM6OvTdhRh2MIUPKz/VIlIHa+HNeqYJ6BY3kBQsQfJlq4LxhezIik/806vCMj74Hz
-         9ycgIUJJ399+EFbIUtD/SwgJmFkVQWbpn8sOfhlVjzm6en2EEWRqwwSREau+rZLDmPdR
-         NtnAPR4YyDzR3l3N93je5zhcLYrfbwCSEQ6kWoUgxvXDUqs20oYIOzXP04u/WhMugBQS
-         FcLnzByBWca7O0dq7zktRojwCD/7s4nxJqeWrehldAJR0rKU1wuaU7v41HLclaW8JegH
-         rvD318bj2twSA5y5ZpJ5To9yGfPlfx/Ser8EGxZXlggEEZ6F9Q1HRDIRN4edkHovPRQZ
-         ND0A==
-X-Gm-Message-State: AFuF++md3a/GoqZbuB8+M62T79PqJoN+pIkuArJO+OUCtQgEf8WXnGIK
-	AAxt63dis/mBx3vIiL+cGmRU+MBg66QO5goFTjvTCZ/ndgkbSsVobCyLyNfHx9ZdG+TE54zMbQI
-	4yzwKOqhw0eFpO4UQAzkn4UQyirSwsdDOUUdIfw/lhHBSFE8jvSD8ZyLzOudj0DlTo2dDTbeD9I
-	v9dX09JWmVFjX72qYREHjnIKsmF3Zqff3MrpXYBg/1VPK/ST8=
-X-Gm-Gg: AYBFou0ZEyrWjHwy/qA4TmlSgICnVA7A+wgV45cFp03ys/xSv9MyH1k3AZk3ErpTGHp
-	IBTxTSqHStz3QlQwdwmgabnlJjVYgQK+XE7Y6EAhBPLL6axPSD0joMsN/oo8R6ztIduObwqgVSJ
-	cgGUXHDdl86g81eSRm0LuscKpPJNI3jpSEuNHnTRFUxtlosQ1qIF5jK7AZ24AmNivex+rFO84At
-	B9vxFboMeMvA4mD48/jHc2ADChU7/me7w9zL1H+hAOhZLi5QuHGmBjVNqXXmSn4LnUo4+tEjabB
-	rAzH3ygI0UZlOrrgKkc/JzaH/GZGhpJv5fvG0Scyw+WMJldhXifH/FLn9RebsJiRoNhzEmygTe6
-	I0Il9nI93oF2v9oHIB1nO0CoYGZMsEb7LYoIR14J7JvjLnaC7kBu6p2t7
-X-Received: by 2002:a17:907:3e07:b0:c2b:4142:2db1 with SMTP id a640c23a62f3a-c316a0c01b1mr244832166b.40.1791309697158;
-        Tue, 06 Oct 2026 11:01:37 -0700 (PDT)
-X-Received: by 2002:a17:907:3e07:b0:c2b:4142:2db1 with SMTP id a640c23a62f3a-c316a0c01b1mr244829266b.40.1791309696784;
-        Tue, 06 Oct 2026 11:01:36 -0700 (PDT)
-Received: from maszat.piliscsaba.szeredi.hu (188-142-152-55.pool.digikabel.hu. [188.142.152.55])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6afb01e5942sm5056684a12.9.2026.10.06.11.01.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 11:01:36 -0700 (PDT)
-From: Miklos Szeredi <mszeredi@redhat.com>
-To: fuse-devel@lists.linux.dev
-Cc: John Groves <john@groves.net>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org
-Subject: [PATCH v3 9/9] fuse: add support for striped backing
-Date: Tue,  6 Oct 2026 20:01:14 +0200
-Message-ID: <20261006180115.1425232-10-mszeredi@redhat.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261006180115.1425232-1-mszeredi@redhat.com>
-References: <20261006180115.1425232-1-mszeredi@redhat.com>
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="VlRE/gsI"
+Received: from cvsendbo017.nm ([10.112.18.57])
+  by cvsmtppost38.nm.naver.com with ESMTP id aVDp16gvT6ypHMyZCS8h2w
+  for <fuse-devel@lists.linux.dev>;
+  Tue, 06 Oct 2026 18:24:17 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1791311057; bh=wqqL1PwifQP6F0DbX5AnTlT3bL5yGbWuuRMWRY1NtHs=;
+	h=From:To:Subject:Date:Message-ID:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=VlRE/gsItxVY+Zl0tiaw4+9lc5xtFuPyqW0WbiwTtUQep+Ac5hUDiTmmOV0o9QnPd
+	 hUAyRP0Y30Zoqg7DQHhUfw/S0xQAHWx95rVG89huoe7dkoUIZv4qkn3TWlR6KxNghk
+	 m72ggszf21dYaJh6pZoMKPfXv2BXvFA07Q0otBfl/dvPF01eHA8Fg6A+he3PcXBCK4
+	 fx+vDzYnHgrWGcyHEoNBxTThd7cAlVYdm99LB8o3LIkkqOUnN90Uu9Nfk3YgjIQZRQ
+	 FiWi29MsGQJRqgapxrKtcgNo5T6TKOcOJDluDqyZWSX5rdnrhYuWlvFFkZDPNMwHEp
+	 brOf/Li2JpGBQ==
+X-Session-ID: 4ca3zSTOSIW6-bXMuvuUsw
+X-Works-Send-Opt: O9ewpzGdjHmdKHFOMr39Ko3YKHmwKNmwFAbrFxKrKqEmjJkaBd9YKBmm
+X-Works-Smtp-Source: s9nXKoulFqJZ+HmXFxM/+6E=
+Received: from localhost.localdomain ([115.136.205.4])
+  by cvnsmtp006.nm.naver.com with ESMTP id 4ca3zSTOSIW6-bXMuvuUsw
+  for <multiple recipients>
+  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+  Tue, 06 Oct 2026 18:24:17 -0000
+From: sungbyeongchan <tjdqudcks0424@naver.com>
+To: German Maglione <gmaglione@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Miklos Szeredi <miklos@szeredi.hu>
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	virtualization@lists.linux.dev,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2] virtiofs: validate fixed-output response length
+Date: Wed,  7 Oct 2026 03:24:08 +0900
+Message-ID: <20261006182408.1301152-1-tjdqudcks0424@naver.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261004123405.586168-1-tjdqudcks0424@naver.com>
+References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: -PL14Ip4U4Y-SRy8OLtOsBmDxnleXcgfvdVGQKIV8T8_1791309697
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Add the FUSE_BACKING_MAP_CYCLIC flag for FUSE_NOTIFY_BACKING_MAP
-notifications to enable creating striped maps.
+A short successful virtiofs response can leave the fixed-output
+portion of the request argument buffer unwritten. The completion path
+nevertheless copies the full declared output to the request destination,
+allowing stale allocator contents to reach callers such as
+fuse_statfs().
 
-This is just a set of regular extents that repeats after the end of the
-last extent using a striping pattern (i.e. on the target backings the
-stripes have a contiguous footprint).
+Require successful fixed-output responses to contain their complete
+declared output. Continue to permit a shorter final argument only for
+out_argvar requests. Reject positive and internal restart error values,
+require valid error replies to be header-only, and do not copy output
+arguments from error replies.
 
-Two additional limits apply compared to non-cyclic extent map population:
+A header-only FUSE_STATFS success returned stale fields in nine of
+nine calls across three boots. The fixed kernel rejected the short
+response and preserved complete replies, valid error replies, and
+variable-output controls.
 
- - the size of the extents (chunk size) must be equal
-
- - the extents must start from zero offset and follow each other without
-   gaps.
-
-Originally-by: John Groves <john@groves.net>
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
 ---
- fs/fuse/ext_map.c         | 30 +++++++++++++++++++++++++++---
- fs/fuse/fuse_i.h          |  1 +
- fs/fuse/notify.c          |  2 +-
- include/uapi/linux/fuse.h |  5 ++++-
- 4 files changed, 33 insertions(+), 5 deletions(-)
+Changes in v2:
+- Reject positive and internal restart error values.
+- Require error replies to be header-only.
+- Rate-limit malformed-response warnings.
+- Rely on the existing FUSE pr_fmt prefix.
+- Add Cc: stable@vger.kernel.org.
+- Use the reporter identity consistently.
 
-diff --git a/fs/fuse/ext_map.c b/fs/fuse/ext_map.c
-index 4f418185c0b7..049e0b4514bc 100644
---- a/fs/fuse/ext_map.c
-+++ b/fs/fuse/ext_map.c
-@@ -109,12 +109,18 @@ static int fuse_ext_map_iomap_begin(struct inode *inode, loff_t offset, loff_t l
- {
- 	struct fuse_backing *fb = fuse_inode_backing(get_fuse_inode(inode));
- 	struct fuse_iext *fie;
-+	u64 ncycle = 0, seq_off = 0, addr, tmp;
- 	loff_t ext_len;
+ fs/fuse/virtio_fs.c | 43 ++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 38 insertions(+), 5 deletions(-)
+
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index f15e516ebcb5c..fffbe08d9114a 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -4,6 +4,8 @@
+  * Copyright (C) 2018 Red Hat, Inc.
+  */
  
- 	if (!fb || fb->type != FUSE_BACKING_EXTMAP)
- 		return fuse_EIO("missing or wrong type backing");
- 
--	fie = fuse_find_extent(&fb->extents, offset);
-+	if (fb->cycle_length) {
-+		ncycle = div64_u64(offset, fb->cycle_length);
-+		seq_off = ncycle * fb->cycle_length;
-+	}
++#include "fuse_i.h"
 +
-+	fie = fuse_find_extent(&fb->extents, offset - seq_off);
- 	if (!fie)
- 		return fuse_EIO("missing mapping");
+ #include <linux/fs.h>
+ #include <linux/dax.h>
+ #include <linux/pci.h>
+@@ -20,7 +22,6 @@
+ #include <linux/cleanup.h>
+ #include <linux/uio.h>
+ #include "dev.h"
+-#include "fuse_i.h"
+ #include "fuse_dev_i.h"
  
-@@ -127,9 +133,15 @@ static int fuse_ext_map_iomap_begin(struct inode *inode, loff_t offset, loff_t l
- 	}
- 
- 	ext_len = fie->end - fie->start;
-+	addr = fie->backing_offset;
-+	if (check_mul_overflow(ncycle, ext_len, &tmp) || check_add_overflow(addr, tmp, &addr))
-+		return fuse_EIO("extent address overflow");
- 
--	iomap->offset = fie->start;
--	iomap->addr = fie->backing_offset;
-+	if (check_add_overflow(addr, ext_len, &tmp))
-+		return fuse_EIO("extent end overflow");
-+
-+	iomap->offset = fie->start + seq_off;
-+	iomap->addr = addr;
- 	iomap->length = ext_len;
- 	iomap->dax_dev = fie->backing->dax_dev;
- 	iomap->type = IOMAP_MAPPED;
-@@ -256,6 +268,7 @@ int fuse_ext_map_populate(struct fuse_conn *fc, struct fuse_notify_backing_map_o
- 	struct fuse_backing *fb;
+ /* Used to help calculate the FUSE connection's max_pages limit for a request's
+@@ -730,6 +731,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ 	unsigned int num_out;
  	unsigned int i;
- 	int err;
-+	u64 chunk_size = 0;
  
- 	if (!arg->num_extents)
- 		return fuse_EIO("no extents");
-@@ -273,7 +286,18 @@ int fuse_ext_map_populate(struct fuse_conn *fc, struct fuse_notify_backing_map_o
- 		return -EINVAL;
++	/* Error replies contain only the output header. */
++	if (req->out.h.error)
++		goto out;
++
+ 	remaining = req->out.h.len - sizeof(req->out.h);
+ 	num_in = args->in_numargs - args->in_pages;
+ 	num_out = args->out_numargs - args->out_pages;
+@@ -755,6 +760,7 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ 	if (args->out_argvar)
+ 		args->out_args[args->out_numargs - 1].size = remaining;
+ 
++out:
+ 	kfree(req->argbuf);
+ 	req->argbuf = NULL;
+ }
+@@ -762,19 +768,46 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+ /* Verify that the server properly follows the FUSE protocol */
+ static bool virtio_fs_verify_response(struct fuse_req *req, unsigned int len)
+ {
++	struct fuse_args *args = req->args;
+ 	struct fuse_out_header *oh = &req->out.h;
++	unsigned int expected;
+ 
+ 	if (len < sizeof(*oh)) {
+-		pr_warn("virtio-fs: response too short (%u)\n", len);
++		pr_warn_ratelimited("response too short (%u)\n", len);
+ 		return false;
  	}
- 
-+	if (arg->flags & FUSE_BACKING_MAP_CYCLIC) {
-+		chunk_size = ext[0].length;
-+		err = -EINVAL;
-+		if (check_mul_overflow(chunk_size, arg->num_extents, &fb->cycle_length))
-+			goto err_put;
+ 	if (oh->len != len) {
+-		pr_warn("virtio-fs: oh.len mismatch (%u != %u)\n", oh->len, len);
++		pr_warn_ratelimited("oh.len mismatch (%u != %u)\n",
++				    oh->len, len);
+ 		return false;
+ 	}
+ 	if (oh->unique != req->in.h.unique) {
+-		pr_warn("virtio-fs: oh.unique mismatch (%llu != %llu)\n",
+-			oh->unique, req->in.h.unique);
++		pr_warn_ratelimited("oh.unique mismatch (%llu != %llu)\n",
++				    oh->unique, req->in.h.unique);
++		return false;
++	}
++	if (oh->error <= -ERESTARTSYS || oh->error > 0) {
++		pr_warn_ratelimited("invalid error value (%d)\n", oh->error);
++		return false;
 +	}
 +
- 	for (i = 0; i < arg->num_extents; i++) {
-+		err = -EINVAL;
-+		if (chunk_size && (ext[i].offset != chunk_size * i || ext[i].length != chunk_size))
-+			goto err_put;
++	if (oh->error) {
++		if (len != sizeof(*oh)) {
++			pr_warn_ratelimited("error response too long (%u)\n",
++					    len);
++			return false;
++		}
++		return true;
++	}
 +
- 		err = fuse_add_extent(fc, &fb->extents, &ext[i]);
- 		if (err)
- 			goto err_put;
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 5d38dc1b6f0c..cd10156e09d4 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -110,6 +110,7 @@ struct fuse_backing {
- 		};
- 		struct {
- 			struct rb_root extents;
-+			u64 cycle_length;
- 		};
- 	};
- 	u64 backing_id;
-diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
-index 3bfedd0cdbdd..31172de72477 100644
---- a/fs/fuse/notify.c
-+++ b/fs/fuse/notify.c
-@@ -461,7 +461,7 @@ static int fuse_notify_map(struct fuse_conn *fc, unsigned int size,
- 	if (outarg.reserved[0] != 0 || outarg.reserved[1] != 0)
- 		return -EINVAL;
- 
--	if (outarg.flags & ~FUSE_BACKING_MAP_CREATE)
-+	if (outarg.flags & ~(FUSE_BACKING_MAP_CREATE | FUSE_BACKING_MAP_CYCLIC))
- 		return -EINVAL;
- 
- 	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index 60060da98e8d..6b2fe68b4ab5 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -255,7 +255,8 @@
-  *  - add FUSE_DEV_IOC_BACKING_CREATE, struct fuse_backing_create_in
-  *  - add FUSE_NOTIFY_BACKING_REMOVE, struct fuse_notify_backing_remove_out
-  *  - add backing_id_64 to fuse_open_out
-- *  - add FUSE_NOTIFY_BACKING_MAP, fuse_notify_backing_map_out, fuse_extent, FUSE_BACKING_MAP_CREATE
-+ *  - add FUSE_NOTIFY_BACKING_MAP, fuse_notify_backing_map_out, fuse_extent
-+ *  - add FUSE_BACKING_MAP_CREATE, FUSE_BACKING_MAP_CYCLIC
-  */
- 
- #ifndef _LINUX_FUSE_H
-@@ -1219,8 +1220,10 @@ struct fuse_notify_backing_remove_out {
-  * notify_map flags
-  *
-  * FUSE_BACKING_MAP_CREATE:	create backing with the supplied ID
-+ * FUSE_BACKING_MAP_CYCLIC:	map repeats after last extent
-  */
- #define FUSE_BACKING_MAP_CREATE	(1 << 0)
-+#define FUSE_BACKING_MAP_CYCLIC	(1 << 1)
- 
- struct fuse_notify_backing_map_out {
- 	uint64_t	backing_id;
++	expected = sizeof(*oh) +
++		   fuse_len_args(args->out_numargs, args->out_args);
++	if (len > expected ||
++	    (len < expected &&
++	     (!args->out_argvar ||
++	      expected - len > args->out_args[args->out_numargs - 1].size))) {
++		pr_warn_ratelimited("invalid response length (%u, expected %u)\n",
++				    len, expected);
+ 		return false;
+ 	}
+ 	return true;
 -- 
-2.54.0
+2.43.0
 
