@@ -1,198 +1,133 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D733D953F
-	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 09:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791280116; cv=pass; b=pigQ2wLIqyp/zF0aHJHnuQIhK2BEz46XUQdPdX0e+kVagmTowRyXCxdM+Yfa/l7PPBs7uxnA3LyJ0AFfXu1RbR5DBnZz1MwrZ/0ohikU0ZbrDwdkv35j4SHmS8pO2gMy/jJLVN1ufCp3MTit4GfLb8oy8IMohQe7ZuOjJoJ0I/M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791280116; c=relaxed/simple;
-	bh=z8C5llEeSas+wDevoi5ayKBoOPvXKhtMoOZYxs8J+Dc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XQqCtkB/j3Pnxm78mPv/Jy44EhIoAX4ld9Fdk04NZyJbc3zaW7ufG5fWrNZT9iA62nmpyrx2LlPyF1cyqYsNXmkqXuTwYrKJcoXuPPFySPISgADvByjUueAY59iG6D1JNu1NWmMVLPyCo6nGCLyKIKdKzbqSfW+2p1SY7ZQKb7E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=mSYp4mDV; arc=pass smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041D83BE174
+	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 10:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791283913; cv=none; b=flE6UhDbHewC02Q8LvcrLWjw3nqZH9CH6dqHwoK9/L+A29lTGgJc0GL69Cwa0T2Mzmi0baCw4UcYfwF8h9ltmZc66pj2qz+sxv7uKzT/NBrESjflhiAhjyqZpC5yqwSOEfVXZ+ZfJkIGyiq2ExdUZZUker+FHTo+SVqCol3oZYk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791283913; c=relaxed/simple;
+	bh=LuyziXPlCFJ01VbiESW95qg1GoVoMAU4nqajgXgVaO0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dh+rfpfTeoM8dmu9T68DF+hit4prvjz4PVWf5GAK778A26eGUU4iCm/6CaY77ghPYr6loh++8gVRbEg+t/LahfKiEcvuL80yhVBFsLwD3dWpmrG8jdzBs6S8it3PhudaNmZ4xcwRkYCNj2uxEXkdiZL/+29X0QuamjDmaKJfLwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QakpjoP+; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="mSYp4mDV"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5338f65913dso30619981cf.2
-        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 02:48:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791280112; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QyY5sa8x1bMiCRnyrVZBwJ/8rqtsoCJgM1wL4Y72zZIgmpI34tKfFBQshJUYOtd8tK
-         SiU4F2F6T0RZ/r2jiLlSoHloBbvDMkiaHfE/xwSCmaooxIsvqavcohQqX0GfJdvlfVzD
-         b66/Kb8a2bvIu1iWgTduH7jpLsN8+QWg1J7FY2a6wil1XgyibVur1+D37yeCatyvV8EH
-         oUCYt0ArrLpmKzp3lxk+XeQOvovcZC0nogQpJu3SpFYsdHawM9821WjE3NdHpsV8FxU9
-         rMg4DuWiAcSpsQX9nPsco0LPuKGmQoQ5OGJnaojSJn8pJ+y+U339l/UZ1Oz4T5F6jAsq
-         K9Bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=/5ZFcmaqybTJP5VKzEwaO+zhe9+eXiIc/pJbQP9+B04=;
-        fh=9Q+XLupmzOxn5W1AzyHu4/oKK0fja5RS7D2zMFRS0Mo=;
-        b=Li/RdIh2f5ZT81L4+l083AhymBa30qJsuI0qGMNAtHdVMx0Mr6bj9GQOjsjA9FjaQn
-         Vr6DchPBr2PzjQw/WLN8qSwADzrKVMDsejRs2OWP1CgP0l8z0Aq5K65Y/LJFTFKkq0GM
-         6idZ1uAkOuVeSBAgglNZ0uAxIj+lyJAYE1NNEZExuKtVG+JtO5TZIh9ByZh6s80LGTzA
-         NpQwS9ymnDlrmFwWXtnE00bu8lnX+rrKsZnEimXriiMoHgqSayPGXB4MTfz6fL51ciDz
-         lOpj26NguV4+2YGdTyZAfaIfL3jv++oGG4ku+cqDuD9/E9i0rkCq4T5b7ndrIjHW5M1K
-         fybA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QakpjoP+"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-82395ae2ea8so2635101a34.1
+        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 03:51:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1791280112; x=1791884912; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/5ZFcmaqybTJP5VKzEwaO+zhe9+eXiIc/pJbQP9+B04=;
-        b=mSYp4mDVTrzyFnRgWwxkEzQb+gh8YEVPz1yKaz8mjUtI8OhoHTi8ghbTOuuCWB39M0
-         xJO43T0bROvW+PfhvaQwoFlsScGZjlzL7SaGdtTwfZAXWoqzyqz5rh+rigJvG1ZqkcRo
-         M3ex6cN4fEK+c8KPNHhTHsvXvDV3QRQyzD3/0=
+        d=gmail.com; s=20251104; t=1791283911; x=1791888711; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SCTv/ndgRDuXwjW+M6LtHiJwH/r3XSV8PS/58Df+I+8=;
+        b=QakpjoP+dx1evm1F2VOPTdQ7EeKlnkIJ6zpOHVSIG7u2A/SSTBm+8yDLq+RYq2Dsh/
+         Ub97izxOQsSf2DvQV/KC8yP0bSYgRVKWFl0s73yzFDq3nv+S+jBNorsveOqHNwK5hR41
+         CYk9egUgQM4c8QkOd3/en4ZzpIQ99vWz/ESl9YxszlvNEqFc4p1f+wFVV/LUMmgC1da3
+         gmaZ5YUBsEGXifI2Xov6Z0PLcifO86xXqxpCxYDjtEbFHZuW03QlAUtGUrisjzhCWoz5
+         7Pkpt8JcR1maH9boE1KvGu7Zr7dF/tucl8RkelDmi7MqZ1oorv/rqCxImVtrUupjRn3b
+         5vTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791280112; x=1791884912;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/5ZFcmaqybTJP5VKzEwaO+zhe9+eXiIc/pJbQP9+B04=;
-        b=1eJQCkiyYYP1DoOeTfvRfJWz+AAkLLTDL7EOCkS8/p8hb0cwF0iibjk7xJUZnm+/dn
-         2OfzApmagYKGNDqHEGcBtIJtCjJ6/4l8Q3bRIFCT+v5BMxJv9hGTF5LKXH6zXUx3fM2E
-         Ag0eE+cT5B/ERN6xXt3gj3x+kiKD8u8g7YMkBBdQjQoNMMY8FJeZx5Ge8dJIKSxTph4Z
-         VBcCAMyn2GgLz6pvQrN1+oz6dCuUs//TOmSOEZI8KZeTlowNUS0OGvR/7dXpFStOMkdN
-         l6h8Ik5m99LyEL7UhPlWJIjiLgreaqRf8ZmJIrOFVtsPQYaInQzLwpddtz75Cpzbu7ge
-         w4Fg==
-X-Forwarded-Encrypted: i=1; AKwUvBxN0qU63jRGEoz0Yt7exVUkDAADjk4IpS1/0PA3NSgwsZadAFahN1koxtzXppwehJlHiEDIKba40eaD@lists.linux.dev
-X-Gm-Message-State: AFuF++mf0e+byR17QHwHQVJQYdLphwTlNWZHNZ+x5xLaMhrLuYLYYZ2h
-	N/8SQlkSI7e0+/2kHq247bWGEnuMYlsjNzGRLQqhGC2U3rh4PR5RdNKWik7YrzXJoZRLrG85PoH
-	z1wFD18Ap4MgRkBQBG/oVmW7Y2cQ6bKpmZ32c3Z99lA==
-X-Gm-Gg: AYBFou3kooNEHch2XwNj56dt3tZp5Y1Yx0GlbokliZ+bIrge1Ha//OQQabLfIvGZMKT
-	+qq14Mqh0jLgg9Hzb572pIeoY0y8N5XUY429Rpg17sQkCyd7606SkciqDEd24p6ePprSy1z/PcQ
-	BUwUUxTxo5Bc0lj+ESLnmx7+/jM+yPYm45s6w9L3KvjAQaqiu9uKVk9iu1x4INyPZ9xA91OPnvj
-	cUIqJGmWhYnGZyGP/9uj/4mEpmELYWjF+RkD2d7ARypE/IhbbxQrKWAgOTKue4776Y7ya8ULPRG
-	iRYG0lmRA+LmAU7F5ZlJL4tANc+MZMDHXNyifLlT/oD4UpcOjQ0PgeMGLeJX/EPVOFT7RXWm4NB
-	ESdzyaLcFt50z
-X-Received: by 2002:a05:622a:1911:b0:530:f77a:b162 with SMTP id
- d75a77b69052e-53511e4f3f3mr177910411cf.27.1791280112604; Tue, 06 Oct 2026
- 02:48:32 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791283911; x=1791888711;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SCTv/ndgRDuXwjW+M6LtHiJwH/r3XSV8PS/58Df+I+8=;
+        b=p/hX6TymBZKbYxEDG/R9bW2T1KwtstUWGU8QX3jy1gGg5CqaRFwEJ9poECuCKVDUR3
+         F4JK5fVTa/AAKvtvM5KFDulcGLFdDrVGo+uurGkhZV+4t+FOlwiADVLHthCaMKI3dOC3
+         fV6NIPu9o/r5YX5llWcCmR/E1vwuBwj0uL+5XYfqbvXb/ht3v1veFCvhrrZbblkecK6j
+         CQcUaBPts5C5yXRaJofTj2QWH43i602RU7JnDevZW2hiphrporOWXtXnkZcfIfN8Gb1D
+         s7OkX7BEo8xjRvAR/qQ/eqXXJSfCBp2T5CRwCQryGWObCIfn93gdZI2Xb3zDNW7nUMBo
+         8TQQ==
+X-Gm-Message-State: AFuF++mSXHNX9QjiTpJy2iZpR+VwQYftGm7v8f6APGthCFFVIxYGjoYs
+	g4PKh5PI0wfP5l4LwcYIUYWcdQUMUpz7bErpPg8uKGnjLfmEv4aunmRkNgGsq27+T9E=
+X-Gm-Gg: AYBFou1AhbgQaP086uFovvkApo+ow5/X5KeOlaHmucA3JGBqvQV5sREkpxoeBrqo4eQ
+	YsXmPOhr3Cc3SMzFaz1NlgwcrM0u8juIL8xY/KT5/32Gdkk5wlfB3GCSTHiYZD+eoypfGfDRTz+
+	DQkVb6IYb/TuJP4rlTzVhUkn9Nvzk0Q/eBlMhozy07wQ5/O+CAW/xW8Cb4OxZzKGc0tc03vNKAB
+	U5/IVXxOOTGizHwNfjalHwKv+10qyB1XrVFPQDk6yZ0TifW88kCdV233bpZdfyYb2wSNXL7PscE
+	l6i1eDClZKdxCp5AYCuSEytBcbe0yAPvbVggTE9D/tXoSOnfkYJ1c9ylLAu/xhPWxiR0hykC4VK
+	Cq97IAOVEGvE40aLKqADUiduno2FdHs82pb8PxNuHJQJyp3kVZIs0KEZc1kBaDmD92MNWiGJ6Be
+	GAg6eZ1nszM/yiF4ftUCWm/nqbFYkY30EOyTFUCKQHXQH/dHfrCa7EGawqtW6k4xmQqN61MgVwp
+	UyakadSrf5nI+JrOiWFtTQGsiw2yjyOXLEG1D1Ia11hlek30Y4=
+X-Received: by 2002:a05:6830:6a14:b0:7f6:bca0:3a7d with SMTP id 46e09a7af769-823fc4405b6mr12174646a34.9.1791283910545;
+        Tue, 06 Oct 2026 03:51:50 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:47::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8281fcce238sm2157269a34.6.2026.10.06.03.51.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 03:51:49 -0700 (PDT)
+From: Joanne Koong <joannelkoong@gmail.com>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH v1] fuse: don't launder folios of a bad inode
+Date: Tue,  6 Oct 2026 03:51:36 -0700
+Message-ID: <20261006105136.3751196-1-joannelkoong@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261001150935.655979-1-mszeredi@redhat.com> <asQcBebepPb9CXzS@groves.net>
-In-Reply-To: <asQcBebepPb9CXzS@groves.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 6 Oct 2026 11:48:20 +0200
-X-Gm-Features: AclHuK80ssbUcTC90bN8pi5U0qILib7vm2yX0MtoI7xgqfk-YgE_-OE-vHSlWAI
-Message-ID: <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] fuse: DAX device based extent maps (famfs)
-To: John Groves <john@groves.net>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	Amir Goldstein <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, david@kernel.org, 
-	willy@infradead.org, brauner@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 6 Oct 2026 at 01:37, John Groves <john@groves.net> wrote:
+fuse_flush() and fuse_writepages() reject writing back dirty data for
+any inode that has been marked bad, but fuse_launder_folio() doesn't.
 
-> I see the kernel-side rejects these s/size/chunk_size/ strip extents if they
-> are not all the same size. Why not put the chunk size in the header and let
-> the extents honestly describe the offset and range that they cover?
-> The current design can't test for sufficient strip extent sizes, although
-> it replaces code that did verify this.
+This can cause the following warning in fuse_write_file_get() to
+trigger, as reported by syzbot:
 
-Not adding chunk size to the header is intentional to keep the API as
-simple as possible.
+WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043 [inline]
+WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
+Call Trace:
+    iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
+    fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
+    folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
+    invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
+    fuse_open+0x5a6/0x770 fs/fuse/file.c:297
 
-> However, the smoke tests passing isn't fully legit, because the patch to the
-> famfs fuse server passes the entire strip size on CYCLIC mappings, meaning
-> it just produces a concatenation of ranges - which does not achieve the
-> interleaving goal at all. That case degenerates to simple extents.
+This can be hit on a writeback cache mount:
+1) a writeable file is open and a buffered write dirties some pages
+2) another thread opens the same file read-only. fuse_open() passes the
+   bad inode check and sends OPEN to the server.
+3) a SETATTR reply with the wrong file type marks the inode bad
+4) the writeable file is closed. Flush and release skip writeback
+   because the inode is bad. The pages stay dirty but the file gets
+   removed from write_files.
+5) server replies to the OPEN. The reply has no FOPEN_KEEP_CACHE, so
+   fuse_open() calls invalidate_inode_pages2().
+6) the invalidation finds the dirty pages and calls
+   fuse_launder_folio(), which finds no wriable file and hits the
+   WARN_ON in fuse_write_file_get().
 
-Are you talking about the case where there are multiple simple extents
-each with a different striped mapping?
+Instead of trying to write back dirty data for the bad inode,
+fuse_launder_folio() should return -EIO.
 
-That case is supported by the API, but not the implementation (since
-there was not test case).  If you do a test case, I'll add the
-implementation.
+Fixes: 5d069dbe8aaf ("fuse: fix bad inode")
+Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=e8200299b0556976e13c
+Cc: stable@vger.kernel.org
+Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+---
+ fs/fuse/file.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> To be specific: each chase/dereference that results in an L3 cache miss adds
-> a stall of (1 * MEMORY_LATENCY) to the fault time. This is the good reason
-> why I didn't do any chasing in the fault path of the famfs code that you're
-> replacing.
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 6d707f2b3bff..0ef46f6e0267 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
+ 		.wb_ctx	= &data,
+ 	};
+ 
++	if (fuse_is_bad(wpc.inode))
++		return -EIO;
++
+ 	if (folio_clear_dirty_for_io(folio)) {
+ 		err = iomap_writeback_folio(&wpc, folio);
+ 		err = fuse_iomap_writeback_submit(&wpc, err);
+-- 
+2.52.0
 
-Please benchmark against the in-kernel implementation.  If there's
-significant (meaning it may have a real effect on a real-life
-workload) performance hit from using the rb-tree, then we can add an
-optimization.  I don't want to add complexity without actually being
-able to measure the gain.
-
-> OK, one more. You're using the rbtree for indexing by file offset, which is
-> a zero-based non-sparse range in this case. If this could not be avoided
-> (which I think it can) you should use an xarray or radix tree for that...
-> right?
-
-Unlike xarray, the rb_tree API is one I'm familiar with. But nothing
-prevents switching to xarray if that's a better choice.
-
-Thanks,
-Miklos
-
-
->
-> >
-> > Thanks,
-> > Miklos
-> >
-> > ---
-> > Changes since v1:
-> >
-> >  - moved 3 prep patches to fuse.git#for-next
-> >  - introduce FUSE_PASSTHROUGH_V2 (Amir)
-> >  - lots of small fixes and cleanups (Amir, Sashiko)
-> >
-> > ---
-> > John Groves (1):
-> >   dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
->
-> Golly, it seems like there's more than 1 patch worth of content from me here,
-> but the chipper/shredder might meet the letter of copyright law in some
-> jurisdictions...
->
-> >
-> > Miklos Szeredi (7):
-> >   fuse: add helpers for EIO return value with kernel message
-> >   fuse: support 64 bit, server allocated backing ID
-> >   fuse: support opening 64 bit backing ID
-> >   fuse: add support for opening dax device as backing
-> >   fuse: add extent map data structure
-> >   fuse: add extent map I/O support
-> >   fuse: add support for striped backing
-> >
-> >  drivers/dax/super.c       |  38 ++++-
-> >  fs/fuse/Makefile          |   2 +-
-> >  fs/fuse/backing.c         | 292 ++++++++++++++++++++++++++++++-------
-> >  fs/fuse/dev.c             |  21 +++
-> >  fs/fuse/dev.h             |   3 +
-> >  fs/fuse/dir.c             |   3 +-
-> >  fs/fuse/ext_map.c         | 299 ++++++++++++++++++++++++++++++++++++++
-> >  fs/fuse/file.c            |  16 +-
-> >  fs/fuse/fuse_i.h          |  72 +++++++--
-> >  fs/fuse/inode.c           |  17 ++-
-> >  fs/fuse/iomode.c          | 108 +++++++-------
-> >  fs/fuse/notify.c          |  75 ++++++++++
-> >  fs/fuse/passthrough.c     |  63 ++++----
-> >  include/linux/dax.h       |   6 +-
-> >  include/uapi/linux/fuse.h |  53 ++++++-
-> >  15 files changed, 904 insertions(+), 164 deletions(-)
-> >  create mode 100644 fs/fuse/ext_map.c
-> >
-> > --
-> > 2.54.0
-> >
->
-> John
->
->
