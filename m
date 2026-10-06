@@ -1,182 +1,183 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3F0429CEE
-	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 21:27:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791322062; cv=none; b=rHjKDBkllDpllWJwhju4X1Jp0fuJyCrkMaS5eSuzpeDjF4zzwKWdchXK4LZtjus3B8nLn2ntJTw98vuDd4uZ3A8+l7GQL8+ETluqnV1Q2VBvWRyVb1XPg+0L9mefoceyfShpOWNUYXuT79G+EUwUPARgm8Jo3RRgoxgA62zmeJA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791322062; c=relaxed/simple;
-	bh=J518TeBei26VEQXbPGvt3y4HnC5DH/HWj48vtTb4u5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=L/FT1DkBR0XdEq3FVsksaYsoJnQ9xxT4Ox5aGcPs6sEr0t3T/k7AoWimJDb8iYIGYaKWENo2HybETnKnKrRSS3FcCq4gZbW5eFUbFFDPni/6s58/vJenIFVhlEBhzXdnQ19lZDR3lfgRSGzCewP+hFNS5SOi9c3QmiGAnFB4r+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SBjFjB8z; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E011720B80B
+	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 22:09:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791324542; cv=pass; b=ReosANMDIy+cTl/X9psrVnKVB3ZehovGubiFh9gtrpkzcKiJzUUBHPDwo0NOKslX3VB5/FoS1sKD2Vb7+u2iV78hoI4JviCnGu71GIK7cQjhsjtvv7gouC8nol03B12fghIFXVhHqsFj7INMF26N1K9v9K+IIpf8yY/t87ZN1a4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791324542; c=relaxed/simple;
+	bh=FVulpAnYmlaz6ZGBqEF0kXcLNEDT1/mgk/OAXn/LvVk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ec0wdi2LqkOttH8eGHrMk/o30XLF/t8ALrOE13lpL/rufiNbev12+Ulwk10Ty8mjiVpHwbFVPR1JJJlB3IVZI1p7VbbBx2aIqHsTYUqQ11VzBBDp6nGyJL2zasIeLWTpYx/zElEqndSLIfwXJdHz62lmsIvu+hRvz+otcXJVb2o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aCAKsNoE; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SBjFjB8z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791322060;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLYqLTXYL+33FHGPoAQIFrwweKpAyRzDOJvC/lVBZus=;
-	b=SBjFjB8zRaUK6rnaA5lL4NhDGpE5ucRECXRg/YFOqoQVkI0PwmCYyoqDP/qq3fOQ9qBR0q
-	PtXFw9XBQPzLI6yI7lO+SRWTO6UYp3feDCGCwJWnp4kXCmr9MPVhDTRHG7vXVvdvWNdYop
-	iFV6ks+0lvvZEehnJq7bzl6EczS411A=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-652-RnCORhC5PXilnYNY9DaJIA-1; Tue, 06 Oct 2026 17:27:36 -0400
-X-MC-Unique: RnCORhC5PXilnYNY9DaJIA-1
-X-Mimecast-MFC-AGG-ID: RnCORhC5PXilnYNY9DaJIA_1791322056
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a020cf06c3so20229695e9.3
-        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 14:27:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aCAKsNoE"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6ab006eb282so4979583a12.0
+        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 15:09:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791324539; cv=none;
+        d=google.com; s=arc-20260327;
+        b=McOqU05hNxAyZiSR/kdxB0nboaKJ6NL5K4Ti3yst6YXoxztI/sX5E07aRHa6zUqi4u
+         4CM5WihZsSjx6c1gPdonST+5XQzt70NUJeEODsrEIsMP4RUjHGRVSD0K/ZA7E0uHYgJQ
+         7a4tz7d4iEgYLKjG8JXaqKp9gvdZ9oAbltqKDn0I5n8EcMk8Jja/jMiRnqZ+9+55Cw6e
+         2n9SBny8hd4U5zfBd3BZuquOF6e9Bp7pSEh6xhwIl1ag6fJlHAM/XDne5sWk3imr/bdG
+         HSCxL9AaaaLmcKUIaVzsZgKrTgfdRq2q2rGqHHr/ZfXhCJ3IRe3eH8tAaGvW54Z+U8U6
+         GekA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1Vo8bv/Mw9ldCtrjaA+pK24JIKyIXZlS7hf38pMZ204=;
+        fh=yraj4v+bqSXmxjjMpn1/atBIsHsRegvA+ny3Ua/6dVc=;
+        b=A7TqxhqS6B4+LKS/cO2qcB1gAHrexRaUXPnb87PU1he6owhOPA07kIe8ayFmEa+KAm
+         yyX1TOlaWSKepWKsstI14xrsbSaQcbMKVBWSvuLDPt5ACaAvsro5kiVFcsB9XRC5Vxvo
+         KuHnhNWo/9w66z2Af25+zHuuefQlmZtQq2matoL9OafQoRmoIdinL6so80gp08m3VRIq
+         aeeFmBpqS8KiB9P4FonIdeC3JOS9HCF0BvMMDaWVmXly9oJWp60y4B29tpERpvRioCpt
+         sSOtUVPfpY8s1B+y/Ibr/DcfVgTjQPLYbXeU5SkT0ApFBZZF3a2TKZ9PTw9Rtmj2/xZz
+         PjFA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791324539; x=1791929339; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1Vo8bv/Mw9ldCtrjaA+pK24JIKyIXZlS7hf38pMZ204=;
+        b=aCAKsNoEkJ3jN4oRHf14V6igtFlUpMczxJRXeUBBwi4rg+77HVvQEjxMr0EYA9fG0z
+         oy3+UQnQS4U4MP2/D/tWgtRHMVzncNSgZXFD+/Q2DHMGErR1Q5cguLBkosRP2K1MRG7l
+         vOgjCtGeDfuYU7DgWZ5K+KaexkWj1MLFHYCddy46dEQ0UXoThL7DJM2KkhoLq+PctxbV
+         V/lnoJsHvP/lJyDCwONuCm9u1cqtTPixp++gc1wbNJOwOQHGyPK9ypbgBt9B3yzEOrSW
+         zJ8igvoxreGkgPU0pUBoaxVaU2C/WbUFl5KkG7Xe2rVZ5VAI7VgUEDOhDQkXSM9nFyRj
+         ZQnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791322055; x=1791926855;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1791324539; x=1791929339;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZLYqLTXYL+33FHGPoAQIFrwweKpAyRzDOJvC/lVBZus=;
-        b=LNoz0lteVWHOlO8oMOYwTGvTG1eTjFy0C63kILIBNkUHoAIjr2cQ5MGpp2o5USweTI
-         Skp/i82s5Jup0tG1H003OCUvl4O7l7b2gCp3Y/pwunk6FRGmGwXiGuYxRx02wSMpFA4n
-         ejLxYLoJNyg9HFQ6fn+VEjldiCEhc3VBbCna8KyKv7qPl+zkAWNOejygGDW+j/A5H/y9
-         UiyFlN9kWzALmJ5B1OhQ3IClCT7l+0jL6TkwPeaug8TxZJjWQ0g82Das6/1vNN5n8UqT
-         eQWZ9uDrit9EZGsaXR43EpL20W3y4YffGHEXxcWpwuEHPeiWPfH0TVc9W+LRNhKlLlyA
-         KWIQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy6vFAtS7W82RazK0k3ZWSY5rfeivAgE8YgNyIDbtOrgkW7nEsRS1lJc5O90eBRr8ikIvamJ/fOQ7Tb@lists.linux.dev
-X-Gm-Message-State: AFuF++kVBll2yIRcyu1/WezKMZ/szLFS5+9B6ILQgW0VpIQ8AnDYIENU
-	j1UyqjRmpzi47jJDVUSKMMaxQfUXEV2jAj9M3i1xplzdH8/+uYsDOftUPz/WswZwRe6YJ770BGU
-	+L8wzuoShBXYNYsXeUldYDWTwhv7/iYhSsE+snhFFj5iulHnqwsX9yCqJm6xe2JU=
-X-Gm-Gg: AYBFou1JYSIsGKfb+yQ0V5BUDNxxStIfVdx9L97TWPS0Ud5sYf9hI+o7lrzdrBpjgd6
-	Gara6FptfjRbuoPqfzyitei/kAiYv1VhGWiXZX1bJXH5P5rZt7wxJlhC/iVSi6M+jqV7BlJlXiU
-	XYUTL8psUtnHwp2+WACVNzTp5alHXZQkWByhJOoPq9bnLuQ0l3gnskweN0GQR6+hmLkI9jpitaL
-	i9aeenHClBuqq8TdJCaZ4vFlqsQorkkHNHUn8MDu535NRARAeZD0kiewF3IM18dfqy0P66njlMI
-	kMkYpl6zZTnT29tPip4LBN1h/1Q7oAZusBMoeOTD9lYkS+7FGzZJoyI/+hwbidtdItMfuS0=
-X-Received: by 2002:a05:600c:468f:b0:49f:ce78:356d with SMTP id 5b1f17b1804b1-4a1806508edmr1608065e9.30.1791322055557;
-        Tue, 06 Oct 2026 14:27:35 -0700 (PDT)
-X-Received: by 2002:a05:600c:468f:b0:49f:ce78:356d with SMTP id 5b1f17b1804b1-4a1806508edmr1607885e9.30.1791322055050;
-        Tue, 06 Oct 2026 14:27:35 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:3fd7:5300:3d6b:52a4:a23f:9d0b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17f51beffsm14516105e9.2.2026.10.06.14.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 14:27:34 -0700 (PDT)
-Date: Tue, 6 Oct 2026 17:27:31 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: sungbyeongchan <tjdqudcks0424@naver.com>,
-	German Maglione <gmaglione@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	virtualization@lists.linux.dev, fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] virtiofs: validate fixed-output response length
-Message-ID: <20261006172721-mutt-send-email-mst@kernel.org>
-References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
- <20261006182408.1301152-1-tjdqudcks0424@naver.com>
- <2026100633-roping-stardust-a6ab@gregkh>
+        bh=1Vo8bv/Mw9ldCtrjaA+pK24JIKyIXZlS7hf38pMZ204=;
+        b=K8RYUCWKHZkR4fUsbTCHxxCprCUc12LyDIlUiU/cM/zd9VeADjGM8ahGv/B8eIvtO6
+         H3z+RCYDOhFzkF3qGFAyq1V3JOiNyUHmkWINL3OgjkJ8mcicIYpWORH2KjuoPTJ4qvr/
+         53Mliapp8frorpfQpB2jTC0LjwoJJtrfDPMaVCKS7DYQrH9N1jUl53g6/AKSg3rwUxTl
+         hakTbcZS+EtSjl3zX8OCMJFpXpxbMhvugr/MCjFtkYzcgrqsR8xsc2MQi1R5ImbR1R0S
+         b6R5tDNNounMlaLpX3BurT8bFML5dV7eIUlAu0AsU3Ez8RbG5ZdLLlUK1+RZOpdnJENE
+         9k/w==
+X-Gm-Message-State: AFq9FYJYp2Z9EiQ+oR0UCWaEFr6UEmO9P6KUr2kjf+Qn4WENuoFQTysm
+	giOBfU578JZHW7eA7si0xHtOBopHy+IP0IGnHDXnS/TXVQdQ1PxPtKAX5pUyP7o9YI9kRlJKlM1
+	2+2FD4z2E3Jz8Td/cp/OrEASiYIfAFWg=
+X-Gm-Gg: AYBFou2MYutmIUPVtWE9JQTdl1W5c5T8FSvLegh4EpMAymtvyYC05GIHzRW3ShnrWic
+	dvrpydFrgHAv0O4MLWIb5YJYXShkqs8Nv8ou4YBQelwLZTvftsUdQdBT5HDtglYjct1kbk/U19k
+	9tKilzZSai0Ksv11xupPpk/SY002mCK5SjRyatMSNbpcphL896DV5cwgsGmhICu/wjThhktWahY
+	Xv6gbU4pyXY4m6+gAIFxku/j8anm/SDSGxa8DcD1/H0NXEcocp2jiyvCSpnASx7OxYHHvFWC3+3
+	B6HJWGk8fYWAMP7L6KdeET0O4VO3KQyiHT/fjUefISgxosF6Iv/UC1FYZ7PbpO9rr5qS+m0zWSl
+	uii90zly63vE=
+X-Received: by 2002:a05:6402:51ce:b0:6af:bd48:4b2c with SMTP id
+ 4fb4d7f45d1cf-6aff2daf769mr405047a12.5.1791324538890; Tue, 06 Oct 2026
+ 15:08:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <2026100633-roping-stardust-a6ab@gregkh>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: BUcIV9_lXadzEa2hJ85Mc10OjY7kuAMWbrFDnfCsNSo_1791322056
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20261006180115.1425232-1-mszeredi@redhat.com> <20261006180115.1425232-5-mszeredi@redhat.com>
+In-Reply-To: <20261006180115.1425232-5-mszeredi@redhat.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 7 Oct 2026 00:08:46 +0200
+X-Gm-Features: AclHuK-kNEGr89TsaMC-r6qkBAXhNslF5fmkkNhAIDRFq3AWhso05mVTqiKMWVw
+Message-ID: <CAOQ4uxjRAgNKEKOj3yrh0fp_uBdQ-G=5C55G6M8vyjWgp2zvoA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/9] fuse: support 64 bit, server allocated backing ID
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev, John Groves <john@groves.net>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 06, 2026 at 11:11:14PM +0200, Greg Kroah-Hartman wrote:
-> On Wed, Oct 07, 2026 at 03:24:08AM +0900, sungbyeongchan wrote:
-> > A short successful virtiofs response can leave the fixed-output
-> > portion of the request argument buffer unwritten. The completion path
-> > nevertheless copies the full declared output to the request destination,
-> > allowing stale allocator contents to reach callers such as
-> > fuse_statfs().
-> > 
-> > Require successful fixed-output responses to contain their complete
-> > declared output. Continue to permit a shorter final argument only for
-> > out_argvar requests. Reject positive and internal restart error values,
-> > require valid error replies to be header-only, and do not copy output
-> > arguments from error replies.
-> > 
-> > A header-only FUSE_STATFS success returned stale fields in nine of
-> > nine calls across three boots. The fixed kernel rejected the short
-> > response and preserved complete replies, valid error replies, and
-> > variable-output controls.
-> > 
-> > Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-> > Cc: stable@vger.kernel.org
-> > Assisted-by: LLM
-> > Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
-> 
-> Real name please.
+On Tue, Oct 6, 2026 at 8:01=E2=80=AFPM Miklos Szeredi <mszeredi@redhat.com>=
+ wrote:
+>
+> Add support for server allocated 64-bit backing IDs alongside the
+> existing kernel allocated 32-bit IDs.
+>
+> Opened with FUSE_DEV_IOC_BACKING_CREATE, the backing ID sent via
+> fuse_backing_create_in.backing_id.
+>
+> Closed with FUSE_NOTIFY_BACKING_REMOVE.  Since close only provides the
+> backing ID, not the file descriptor, it doesn't have to be done with an
+> ioctl.
+>
+> Backing ID can take any 64 bit value other than zero.
+>
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  fs/fuse/backing.c         | 179 ++++++++++++++++++++++++++++----------
+>  fs/fuse/dev.c             |  24 +++++
+>  fs/fuse/dev.h             |   3 +
+>  fs/fuse/fuse_i.h          |  24 ++++-
+>  fs/fuse/inode.c           |  15 +++-
+>  fs/fuse/notify.c          |  28 ++++++
+>  fs/fuse/passthrough.c     |   3 +
+>  include/uapi/linux/fuse.h |  22 ++++-
+[...]
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index cbb10e19e7e8..b5b51865d59f 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1408,13 +1408,24 @@ static void process_init_reply(struct fuse_args *=
+args, int error)
+>                          * them together.
+>                          */
+>                         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) &&
+> -                           (flags & FUSE_PASSTHROUGH) &&
+> +                           (flags & (FUSE_PASSTHROUGH | FUSE_PASSTHROUGH=
+_V2)) &&
+>                             arg->max_stack_depth > 0 &&
+>                             arg->max_stack_depth <=3D FILESYSTEM_MAX_STAC=
+K_DEPTH &&
+>                             !(flags & FUSE_WRITEBACK_CACHE))  {
+>                                 fc->passthrough =3D 1;
+>                                 fc->max_stack_depth =3D arg->max_stack_de=
+pth;
+>                                 fm->sb->s_stack_depth =3D arg->max_stack_=
+depth;
+> +                               if (flags & FUSE_PASSTHROUGH_V2) {
 
-a missing space I guess?
+Since I was contemplating myself on whether I should also add an init flag
+FUSE_PASSTHROUGH_INO, it occured to me that arg->max_stack_depth
+has plenty of spare bits to host FUSE_PASSTHROUGH_* feature flags.
 
-> > ---
-> > Changes in v2:
-> > - Reject positive and internal restart error values.
-> > - Require error replies to be header-only.
-> > - Rate-limit malformed-response warnings.
-> > - Rely on the existing FUSE pr_fmt prefix.
-> > - Add Cc: stable@vger.kernel.org.
-> > - Use the reporter identity consistently.
-> > 
-> >  fs/fuse/virtio_fs.c | 43 ++++++++++++++++++++++++++++++++++++++-----
-> >  1 file changed, 38 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> > index f15e516ebcb5c..fffbe08d9114a 100644
-> > --- a/fs/fuse/virtio_fs.c
-> > +++ b/fs/fuse/virtio_fs.c
-> > @@ -4,6 +4,8 @@
-> >   * Copyright (C) 2018 Red Hat, Inc.
-> >   */
-> >  
-> > +#include "fuse_i.h"
-> > +
-> 
-> Why is this moved?
-> 
-> 
-> 
-> >  #include <linux/fs.h>
-> >  #include <linux/dax.h>
-> >  #include <linux/pci.h>
-> > @@ -20,7 +22,6 @@
-> >  #include <linux/cleanup.h>
-> >  #include <linux/uio.h>
-> >  #include "dev.h"
-> > -#include "fuse_i.h"
-> >  #include "fuse_dev_i.h"
-> >  
-> >  /* Used to help calculate the FUSE connection's max_pages limit for a request's
-> > @@ -730,6 +731,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
-> >  	unsigned int num_out;
-> >  	unsigned int i;
-> >  
-> > +	/* Error replies contain only the output header. */
-> > +	if (req->out.h.error)
-> > +		goto out;
-> 
-> But no error is returned?
-> 
-> >  	if (len < sizeof(*oh)) {
-> > -		pr_warn("virtio-fs: response too short (%u)\n", len);
-> > +		pr_warn_ratelimited("response too short (%u)\n", len);
-> 
-> Isn't these ratelimited() changes separate from the original issue here?
-> That should be a separate patch.
-> 
-> thanks,
-> 
-> greg k-h
+So if we rebrand it as arg->passthrough_params
 
+#define FUSE_PASSTROUGH_PARAMS(max_backing_stack_depth, flags) \
+             ((max_backing_stack_depth & 0xff) + 1) | ((flags & 0xff) << 8)
+
+We could use a feature flag  FUSE_PASSTROUGH_SERVER_ID_64
+instead of wasting another init flag
+It also avoid the unneeded questions/documentation/awkwardness
+regarding FUSE_PASSTHROUGH_V2 with/out FUSE_PASSTHROUGH
+
+But mostly, it leaves room for more extensions.
+
+> +                                       /* Prevent race with fuse_backing=
+_open() */
+> +                                       scoped_guard(spinlock, &fc->lock)=
+ {
+> +                                               if (fc->backing_id_32)
+> +                                                       ok =3D false;
+> +                                               else
+> +                                                       fc->backing_id_64=
+ =3D true;
+> +                                       }
+> +                                       if (ok)
+> +                                               fuse_backing_files_init_6=
+4(fc);
+> +                               }
+
+See my comments on backing_id_32 gating on the v2 patch.
+
+Thanks,
+Amir.
