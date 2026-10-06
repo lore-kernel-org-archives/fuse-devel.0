@@ -1,211 +1,198 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ABBD43B6C1;
-	Mon,  5 Oct 2026 23:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791243477; cv=none; b=jP/yM9E9nCl4ifOQbKIPiTkn0cG7FYnZA9FD2B7Bpi98O4VeohBoFt97KE6IQF1+wrt/qoZ1+c/EdmoqfNqhfl/EyJ/mNxh/b6kNgqO2JNjbNQJA6hWxLyoGLW4mi0CNGZ9aC58+4P+YpF40G+JU/ftuGqUI+mQIIGRVOUZfyGE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791243477; c=relaxed/simple;
-	bh=9II7e20rC3YRtMC9ZN9hnzcEONlfjBuITelQhDbx2AE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JP90Lq2Rz8l2P2Ry6i9bbReGC0sevBqE1fgX/9F5Sej+w69Dlciz6BSOezcJNV/NQ5zQfxtPTY6B2heUy5txHo1nrWEFAEw9HR9y09wEREhiFKRzxBNTvq6Z8fPKDfdQet3g/WJkb0lU67qwFn4wYmkbEGrQWGuRO+l7sdGFt/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf17.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 3F3E9A04C8;
-	Mon,  5 Oct 2026 23:27:47 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf17.hostedemail.com (Postfix) with ESMTPA id 7FE9F18;
-	Mon,  5 Oct 2026 23:27:44 +0000 (UTC)
-Date: Mon, 5 Oct 2026 18:27:43 -0500
-From: John Groves <john@groves.net>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, Amir Goldstein <amir73il@gmail.com>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	david@kernel.org, willy@infradead.org, brauner@kernel.org
-Subject: Re: [PATCH v2 0/8] fuse: DAX device based extent maps (famfs)
-Message-ID: <asQcBebepPb9CXzS@groves.net>
-References: <20261001150935.655979-1-mszeredi@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01D733D953F
+	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 09:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791280116; cv=pass; b=pigQ2wLIqyp/zF0aHJHnuQIhK2BEz46XUQdPdX0e+kVagmTowRyXCxdM+Yfa/l7PPBs7uxnA3LyJ0AFfXu1RbR5DBnZz1MwrZ/0ohikU0ZbrDwdkv35j4SHmS8pO2gMy/jJLVN1ufCp3MTit4GfLb8oy8IMohQe7ZuOjJoJ0I/M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791280116; c=relaxed/simple;
+	bh=z8C5llEeSas+wDevoi5ayKBoOPvXKhtMoOZYxs8J+Dc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XQqCtkB/j3Pnxm78mPv/Jy44EhIoAX4ld9Fdk04NZyJbc3zaW7ufG5fWrNZT9iA62nmpyrx2LlPyF1cyqYsNXmkqXuTwYrKJcoXuPPFySPISgADvByjUueAY59iG6D1JNu1NWmMVLPyCo6nGCLyKIKdKzbqSfW+2p1SY7ZQKb7E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=mSYp4mDV; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="mSYp4mDV"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5338f65913dso30619981cf.2
+        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 02:48:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791280112; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QyY5sa8x1bMiCRnyrVZBwJ/8rqtsoCJgM1wL4Y72zZIgmpI34tKfFBQshJUYOtd8tK
+         SiU4F2F6T0RZ/r2jiLlSoHloBbvDMkiaHfE/xwSCmaooxIsvqavcohQqX0GfJdvlfVzD
+         b66/Kb8a2bvIu1iWgTduH7jpLsN8+QWg1J7FY2a6wil1XgyibVur1+D37yeCatyvV8EH
+         oUCYt0ArrLpmKzp3lxk+XeQOvovcZC0nogQpJu3SpFYsdHawM9821WjE3NdHpsV8FxU9
+         rMg4DuWiAcSpsQX9nPsco0LPuKGmQoQ5OGJnaojSJn8pJ+y+U339l/UZ1Oz4T5F6jAsq
+         K9Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/5ZFcmaqybTJP5VKzEwaO+zhe9+eXiIc/pJbQP9+B04=;
+        fh=9Q+XLupmzOxn5W1AzyHu4/oKK0fja5RS7D2zMFRS0Mo=;
+        b=Li/RdIh2f5ZT81L4+l083AhymBa30qJsuI0qGMNAtHdVMx0Mr6bj9GQOjsjA9FjaQn
+         Vr6DchPBr2PzjQw/WLN8qSwADzrKVMDsejRs2OWP1CgP0l8z0Aq5K65Y/LJFTFKkq0GM
+         6idZ1uAkOuVeSBAgglNZ0uAxIj+lyJAYE1NNEZExuKtVG+JtO5TZIh9ByZh6s80LGTzA
+         NpQwS9ymnDlrmFwWXtnE00bu8lnX+rrKsZnEimXriiMoHgqSayPGXB4MTfz6fL51ciDz
+         lOpj26NguV4+2YGdTyZAfaIfL3jv++oGG4ku+cqDuD9/E9i0rkCq4T5b7ndrIjHW5M1K
+         fybA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1791280112; x=1791884912; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/5ZFcmaqybTJP5VKzEwaO+zhe9+eXiIc/pJbQP9+B04=;
+        b=mSYp4mDVTrzyFnRgWwxkEzQb+gh8YEVPz1yKaz8mjUtI8OhoHTi8ghbTOuuCWB39M0
+         xJO43T0bROvW+PfhvaQwoFlsScGZjlzL7SaGdtTwfZAXWoqzyqz5rh+rigJvG1ZqkcRo
+         M3ex6cN4fEK+c8KPNHhTHsvXvDV3QRQyzD3/0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791280112; x=1791884912;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/5ZFcmaqybTJP5VKzEwaO+zhe9+eXiIc/pJbQP9+B04=;
+        b=1eJQCkiyYYP1DoOeTfvRfJWz+AAkLLTDL7EOCkS8/p8hb0cwF0iibjk7xJUZnm+/dn
+         2OfzApmagYKGNDqHEGcBtIJtCjJ6/4l8Q3bRIFCT+v5BMxJv9hGTF5LKXH6zXUx3fM2E
+         Ag0eE+cT5B/ERN6xXt3gj3x+kiKD8u8g7YMkBBdQjQoNMMY8FJeZx5Ge8dJIKSxTph4Z
+         VBcCAMyn2GgLz6pvQrN1+oz6dCuUs//TOmSOEZI8KZeTlowNUS0OGvR/7dXpFStOMkdN
+         l6h8Ik5m99LyEL7UhPlWJIjiLgreaqRf8ZmJIrOFVtsPQYaInQzLwpddtz75Cpzbu7ge
+         w4Fg==
+X-Forwarded-Encrypted: i=1; AKwUvBxN0qU63jRGEoz0Yt7exVUkDAADjk4IpS1/0PA3NSgwsZadAFahN1koxtzXppwehJlHiEDIKba40eaD@lists.linux.dev
+X-Gm-Message-State: AFuF++mf0e+byR17QHwHQVJQYdLphwTlNWZHNZ+x5xLaMhrLuYLYYZ2h
+	N/8SQlkSI7e0+/2kHq247bWGEnuMYlsjNzGRLQqhGC2U3rh4PR5RdNKWik7YrzXJoZRLrG85PoH
+	z1wFD18Ap4MgRkBQBG/oVmW7Y2cQ6bKpmZ32c3Z99lA==
+X-Gm-Gg: AYBFou3kooNEHch2XwNj56dt3tZp5Y1Yx0GlbokliZ+bIrge1Ha//OQQabLfIvGZMKT
+	+qq14Mqh0jLgg9Hzb572pIeoY0y8N5XUY429Rpg17sQkCyd7606SkciqDEd24p6ePprSy1z/PcQ
+	BUwUUxTxo5Bc0lj+ESLnmx7+/jM+yPYm45s6w9L3KvjAQaqiu9uKVk9iu1x4INyPZ9xA91OPnvj
+	cUIqJGmWhYnGZyGP/9uj/4mEpmELYWjF+RkD2d7ARypE/IhbbxQrKWAgOTKue4776Y7ya8ULPRG
+	iRYG0lmRA+LmAU7F5ZlJL4tANc+MZMDHXNyifLlT/oD4UpcOjQ0PgeMGLeJX/EPVOFT7RXWm4NB
+	ESdzyaLcFt50z
+X-Received: by 2002:a05:622a:1911:b0:530:f77a:b162 with SMTP id
+ d75a77b69052e-53511e4f3f3mr177910411cf.27.1791280112604; Tue, 06 Oct 2026
+ 02:48:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261001150935.655979-1-mszeredi@redhat.com>
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: uo6wdaohey8iduce9nknm48zq973gpe6
-X-Rspamd-Queue-Id: 7FE9F18
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1/8NysK9/Gsulo4cuV+NGDnPd91igPQ7DI=
-X-HE-Tag: 1791242864-711983
-X-HE-Meta: U2FsdGVkX1+6uSTZIM+DeWgPC6Kyumy1z9XWtSk2yK1zL1dea3ycghq9QlZAKH+fZaqbZ9E41aYkRCAS16OC3LeULd2i9Yc5Jkr079BLSvFn11qev6T42egEtUcgc6MgVpfgcTB94L6Ak1oPOdAkQQPeX7Mn2eQUhzIc4A4gOaqlt5ZOBe6yZQyEJjZ1VU2pkgJHTQh0bcScVuTUNJZfLBRztfS8yaH03b5ljVq5HXurmtV8GY3NEocGTzXgzIuv7iKlvA0mkPokdwk74M2jHlI0ObQNza3n4HGmlZFoDmG3BrmqsI08QD3kx8gWN6ojIR6TpBLoncu7b3nj2Z3YuCXCx6ur9DrBrFwkckna72eEqOZaov1DUQ==
+References: <20261001150935.655979-1-mszeredi@redhat.com> <asQcBebepPb9CXzS@groves.net>
+In-Reply-To: <asQcBebepPb9CXzS@groves.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 6 Oct 2026 11:48:20 +0200
+X-Gm-Features: AclHuK80ssbUcTC90bN8pi5U0qILib7vm2yX0MtoI7xgqfk-YgE_-OE-vHSlWAI
+Message-ID: <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] fuse: DAX device based extent maps (famfs)
+To: John Groves <john@groves.net>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	Amir Goldstein <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, david@kernel.org, 
+	willy@infradead.org, brauner@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 26/10/01 05:07PM, Miklos Szeredi wrote:
-> This is the FUSIfication of the famfs-fuse patchset.
+On Tue, 6 Oct 2026 at 01:37, John Groves <john@groves.net> wrote:
 
-This series (v1) was sent on the day I left on a vacation from which I
-returned at the end of last week.
+> I see the kernel-side rejects these s/size/chunk_size/ strip extents if they
+> are not all the same size. Why not put the chunk size in the header and let
+> the extents honestly describe the offset and range that they cover?
+> The current design can't test for sufficient strip extent sizes, although
+> it replaces code that did verify this.
 
-I feel I should acknowledge this and assure everybody that I'm working
-through it. This really runs my famfs/fuse patches through a 
-chipper/shredder, and it is gonna take me some time to review it, 
-understand it and test it.
+Not adding chunk size to the header is intentional to keep the API as
+simple as possible.
 
-A few comments below, and specific patch comments should start trickling out.
+> However, the smoke tests passing isn't fully legit, because the patch to the
+> famfs fuse server passes the entire strip size on CYCLIC mappings, meaning
+> it just produces a concatenation of ranges - which does not achieve the
+> interleaving goal at all. That case degenerates to simple extents.
 
-One very high level quip though: If you're comfortable with this, go ahead 
-and merge it. We can fix bugs and performance problems, if any, in due 
-course. I'm serious about that.
+Are you talking about the case where there are multiple simple extents
+each with a different striped mapping?
 
-> 
->  - extent maps are assigned to a backing ID
-> 
->  - 64 bit backing ID's managed by server
+That case is supported by the API, but not the implementation (since
+there was not test case).  If you do a test case, I'll add the
+implementation.
 
-I thought we agreed you weren't gonna do these two, but if it does no harm,
-whatever.
+> To be specific: each chase/dereference that results in an L3 cache miss adds
+> a stall of (1 * MEMORY_LATENCY) to the fault time. This is the good reason
+> why I didn't do any chasing in the fault path of the famfs code that you're
+> replacing.
 
-> 
->  - maps can be linear or cyclic (striped)
+Please benchmark against the in-kernel implementation.  If there's
+significant (meaning it may have a real effect on a real-life
+workload) performance hit from using the rb-tree, then we can add an
+optimization.  I don't want to add complexity without actually being
+able to measure the gain.
 
-Please correct me if any of my analysis below is wrong...
+> OK, one more. You're using the rbtree for indexing by file offset, which is
+> a zero-based non-sparse range in this case. If this could not be avoided
+> (which I think it can) you should use an xarray or radix tree for that...
+> right?
 
-Here what you've done is remove my explicitly interleaved extent lists,
-which have a header containing a chunk size and a set of strip extents (which
-are basically fully self-describing), and replace is with just simple extent 
-lists that have an optional CYCLIC flag in the header. If the flag is set on 
-an extent list, (and let's say the strip extents need to be 1GiB and the 
-chunk size is 2MiB), each CYCLIC extent gets its size set to the chunk size 
-and the kernel trusts that the actual size allocated per stirp is actually 
-sufficient that i_size will not cycle past the end of the *actually* 
-allocated size of each strip extent.
+Unlike xarray, the rb_tree API is one I'm familiar with. But nothing
+prevents switching to xarray if that's a better choice.
 
-This resembles an idea I considered, to try to make the metadata *look* 
-simpler while still carrying the info that needs to be conveyed. But this 
-implementation feels pretty janky to me, and it should at least be 
-meticulously documented. Better might be to put the chunk_size in the header,
-and then you arguably don't need the CYCLIC flag, since non-zero chunk_size
-means the same thing. But actually, you can accept multiple CYCLIC strip
-lists if you set chunk_size and then set the CYCLIC flag on the first of
-each strip set.
+Thanks,
+Miklos
 
-I see the kernel-side rejects these s/size/chunk_size/ strip extents if they
-are not all the same size. Why not put the chunk size in the header and let
-the extents honestly describe the offset and range that they cover? 
-The current design can't test for sufficient strip extent sizes, although 
-it replaces code that did verify this.
 
-> 
->  - API supports nesting, but not implemented yet (i.e. multiple striped
->    extents per inode, a-la famfs)
-> 
-> libfuse/famfs trees for testing:
-> 
->  https://github.com/szmi/libfuse.git#extent-map-v2
->  https://github.com/szmi/famfs.git#extent-map-v2
-> 
-> This patchset:
-> 
->  git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#extent-map-v2
-> 
-> Passes famfs smoke test on emulated dax device.
-
-Thank you for doing that. Prior to this there have been many strong opinions
-but none of the holders of said opinions built or tested famfs.
-
-However, the smoke tests passing isn't fully legit, because the patch to the
-famfs fuse server passes the entire strip size on CYCLIC mappings, meaning
-it just produces a concatenation of ranges - which does not achieve the 
-interleaving goal at all. That case degenerates to simple extents.
-
-If this is the new design for passing cycling maps into the kernel, a test
-will be added to catch this - but it's brand new and didn't get a test added,
-so it wasn't caught automatically.
-
-> 
-> Comments are welcome.
-
-One more... This patch inserts an rbtree lookup into the fault path via the
-very-performance-critical fuse_ext_map_iomap_begin() path. This is 
-performance-critical because it handles TLB/PTE/PMD faults when the memory
-is never sparse (no I/O to amortize over). The code you replaced did several
-things to avoid this sort of chasing:
-
-- With interleaved extent lists, strip and strip-offset can be calculated
-  in order 1 (and then strip overflow can be checked and avoided)
-- Simple extent lists were checked for constant extent sizes; if constant,
-  we can just index into the list (also order 1)
-
-Why do I want to avoid an rbtree lookup or the bpf nonsense in the fault path?
-"Because this is memory and it must run at memory speeds" --yours truly
-
-To be specific: each chase/dereference that results in an L3 cache miss adds
-a stall of (1 * MEMORY_LATENCY) to the fault time. This is the good reason 
-why I didn't do any chasing in the fault path of the famfs code that you're
-replacing.
-
-OK, one more. You're using the rbtree for indexing by file offset, which is
-a zero-based non-sparse range in this case. If this could not be avoided 
-(which I think it can) you should use an xarray or radix tree for that...
-right?
-
-> 
-> Thanks,
-> Miklos
-> 
-> ---
-> Changes since v1:
-> 
->  - moved 3 prep patches to fuse.git#for-next
->  - introduce FUSE_PASSTHROUGH_V2 (Amir)
->  - lots of small fixes and cleanups (Amir, Sashiko)
-> 
-> ---
-> John Groves (1):
->   dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
-
-Golly, it seems like there's more than 1 patch worth of content from me here,
-but the chipper/shredder might meet the letter of copyright law in some 
-jurisdictions...
-
-> 
-> Miklos Szeredi (7):
->   fuse: add helpers for EIO return value with kernel message
->   fuse: support 64 bit, server allocated backing ID
->   fuse: support opening 64 bit backing ID
->   fuse: add support for opening dax device as backing
->   fuse: add extent map data structure
->   fuse: add extent map I/O support
->   fuse: add support for striped backing
-> 
->  drivers/dax/super.c       |  38 ++++-
->  fs/fuse/Makefile          |   2 +-
->  fs/fuse/backing.c         | 292 ++++++++++++++++++++++++++++++-------
->  fs/fuse/dev.c             |  21 +++
->  fs/fuse/dev.h             |   3 +
->  fs/fuse/dir.c             |   3 +-
->  fs/fuse/ext_map.c         | 299 ++++++++++++++++++++++++++++++++++++++
->  fs/fuse/file.c            |  16 +-
->  fs/fuse/fuse_i.h          |  72 +++++++--
->  fs/fuse/inode.c           |  17 ++-
->  fs/fuse/iomode.c          | 108 +++++++-------
->  fs/fuse/notify.c          |  75 ++++++++++
->  fs/fuse/passthrough.c     |  63 ++++----
->  include/linux/dax.h       |   6 +-
->  include/uapi/linux/fuse.h |  53 ++++++-
->  15 files changed, 904 insertions(+), 164 deletions(-)
->  create mode 100644 fs/fuse/ext_map.c
-> 
-> -- 
-> 2.54.0
-> 
-
-John
-
+>
+> >
+> > Thanks,
+> > Miklos
+> >
+> > ---
+> > Changes since v1:
+> >
+> >  - moved 3 prep patches to fuse.git#for-next
+> >  - introduce FUSE_PASSTHROUGH_V2 (Amir)
+> >  - lots of small fixes and cleanups (Amir, Sashiko)
+> >
+> > ---
+> > John Groves (1):
+> >   dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
+>
+> Golly, it seems like there's more than 1 patch worth of content from me here,
+> but the chipper/shredder might meet the letter of copyright law in some
+> jurisdictions...
+>
+> >
+> > Miklos Szeredi (7):
+> >   fuse: add helpers for EIO return value with kernel message
+> >   fuse: support 64 bit, server allocated backing ID
+> >   fuse: support opening 64 bit backing ID
+> >   fuse: add support for opening dax device as backing
+> >   fuse: add extent map data structure
+> >   fuse: add extent map I/O support
+> >   fuse: add support for striped backing
+> >
+> >  drivers/dax/super.c       |  38 ++++-
+> >  fs/fuse/Makefile          |   2 +-
+> >  fs/fuse/backing.c         | 292 ++++++++++++++++++++++++++++++-------
+> >  fs/fuse/dev.c             |  21 +++
+> >  fs/fuse/dev.h             |   3 +
+> >  fs/fuse/dir.c             |   3 +-
+> >  fs/fuse/ext_map.c         | 299 ++++++++++++++++++++++++++++++++++++++
+> >  fs/fuse/file.c            |  16 +-
+> >  fs/fuse/fuse_i.h          |  72 +++++++--
+> >  fs/fuse/inode.c           |  17 ++-
+> >  fs/fuse/iomode.c          | 108 +++++++-------
+> >  fs/fuse/notify.c          |  75 ++++++++++
+> >  fs/fuse/passthrough.c     |  63 ++++----
+> >  include/linux/dax.h       |   6 +-
+> >  include/uapi/linux/fuse.h |  53 ++++++-
+> >  15 files changed, 904 insertions(+), 164 deletions(-)
+> >  create mode 100644 fs/fuse/ext_map.c
+> >
+> > --
+> > 2.54.0
+> >
+>
+> John
+>
+>
