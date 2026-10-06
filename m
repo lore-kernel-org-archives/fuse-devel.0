@@ -1,133 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE4B3CB557;
-	Tue,  6 Oct 2026 21:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791321080; cv=none; b=nbjxRoKeraeBqaL2GpnCu3E6WseOFmJzR2cTiJCtcTWI63AtbbyExvLBLMZe7uk1OummsVEf2cAhgLhfVH28SLGpR4DmFqQ7+v+LR4CG5zBsFOtBtYybu4MvQ1QI4T3/oPvTiqBfyxzck54zwgTYeGYjk+2DaXveRLFDMDq/pY8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791321080; c=relaxed/simple;
-	bh=eJqOm82J5R97HC3hp/za/6cr1vYqL7mkBxRsrF7MZYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NlLxoROw5C9YGAr6kPcZimm2vpSSHA6jMeSa5vBa3YtbNZnFCe4vN6AtzypA6uoof2NnH6pyBET7QQO42sGDjwhbR3HV9m5uIb4e7+YEVdpwgSM1sj9wLMJxepWJK2io0o47B+2ldfxw6iGjwjQYqAxHQi6TKUj3nA2iJjz9txM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WFY9ILpc; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72093CA4BF
+	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 21:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791321877; cv=pass; b=KrFXPQGSTwCHKTXrRGfvjoRqjdbBQ5hvPTtS0X9sVjOUn0W2JADl8KA6Zfy4IXaW7pyi8Wtv1niuQAvGkCphthw3jkqq9VqXAPXIqix1Nr5pZhGN4lWC1G9Pm6DfIkBV6JkX9xVEFPGzJDG+vB7g3BH40vqu08pAC/YBQqW+Ins=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791321877; c=relaxed/simple;
+	bh=j1Wh4CfTGvYBOyAROOZOXrtCRg+GLe0bKN/CGF567eM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gvYtZnx9VVfc2Y1TjAF7zAiAlSLcQW9Xsxt1l1DOwktbLBj9JbNEtfEwoBPLbs7u/ra8Jl/bTcgxH8ISutc9wWGivWTtTc+vwG8YkNDDWduF29XNC6HnJ1iNSZs4kFzuP2nhwLDFm7iEEVwzFwEivdLW2RIhHTxUcJkcSyavyZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQ1/i3QG; arc=pass smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WFY9ILpc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E0E1F0089B;
-	Tue,  6 Oct 2026 21:11:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791321078;
-	bh=s67wcmLdvo6Va5riA42IT5CjgvqjWz2QO0DX2E+Vc6I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WFY9ILpcu8vuCmq1IJ7t1QwNcC+ULQTEEUJwfMx8idPGp3hYtsaAzaxVjHnVIr1gQ
-	 nTyAZD+nOMdbQ1Nop+D+FBqdvvfVGNXAE52ckG1ANs772zaWoRM4MEb52ldaXY0XOn
-	 gfI+jV8IDmDa1ASaQGfBjaX9oVUHsc5eW1JTotlM=
-Date: Tue, 6 Oct 2026 23:11:14 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: sungbyeongchan <tjdqudcks0424@naver.com>
-Cc: German Maglione <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	virtualization@lists.linux.dev, fuse-devel@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] virtiofs: validate fixed-output response length
-Message-ID: <2026100633-roping-stardust-a6ab@gregkh>
-References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
- <20261006182408.1301152-1-tjdqudcks0424@naver.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQ1/i3QG"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6aa97edc48cso2014518a12.3
+        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 14:24:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791321874; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sKBi4bTZIFW0jzXQbs6+Er0mVR9wgdb3mMkObs9ZMjdcvSIvpGRz4HOyhtqNKdF5x2
+         TjiE66Q2eK0rUNhDqCE5e3oqfznWrIywhcBO2TbUDq/GGlkQ0UKMFuclxLlMZnArLFod
+         AxEcvAqvPwbxzQC9jBVf6onDkYLo2peCZNL2SZ+uQQB7a14epLnoxpnU+MQM16UcsODK
+         D7wehXzM71nl3udfkpPxVQgNKDpuydI1EvEQIrGbDl3OC2SsqVt2gJJkZlyHxOtTowK0
+         dfaONwZ9NiPpFTFSDyitO7OOw7f/IrX0yxkpjDxPuydTPT08cEinqzcWxb0cmhCjDvn5
+         50pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SYwc8JI6t2v5/H4JTTRJtWLrWEc8ZG38ZE/5tQf+csw=;
+        fh=sfpUt7XT4fO2Um4g4uBLaGQR4iPxCKQQO1ygJx7J0CM=;
+        b=qvZKM5KarIf+M91ND6xqgr/2dT7cASwQEkDwWAM39obx2CKHoX3Sghs96zO+e3/Jcf
+         5wcmRqt1qEERXLnX1xRn548zFrgEliuHL5n6o0SnJ+pODBmwZvSAl7UjfUVYSic+9w5k
+         mrwzxwraX4OdwEvMigeT/3XGISmw4DFS7vVi7+WshcavVcn9hJb1CQJU99zJQfeP/mWD
+         PEVZXl5PKb6yNdOa/Ofk+7kwEHPjbCTt1I7ZyleJUX9cUu2t0Z2qJKzh0vOIx2SiOfsD
+         6iKL/wZ08u2O2H3JFDWSKM6Sz2dG1PXA/0B+uWIyjVuKpG3E6BqdU94642ITiSefBEMy
+         evtQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791321874; x=1791926674; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=SYwc8JI6t2v5/H4JTTRJtWLrWEc8ZG38ZE/5tQf+csw=;
+        b=SQ1/i3QGFbsatvE7AfyR3yBWL94OmmtW8i7SlpEWxwwFVD5MILjZaHNIGDPWmAuSTq
+         hjaaPdRQomlIYEEgKlo1kB/Ro9DPWyDKH+UHy/9KZ78aUCzjXlwWl7RYyISvw5ICx60o
+         OCJKOT3wVgiEtK4VC/gfWEg5XYOwDgSE/4NURCtWQCFch41INa1qwS/0857hkc846DNX
+         V4UBIceXHoe7yiFyJI8jnKmUn6oQlv5XoGKRbjlVLoK+HK19V5zI7ymb1wr1Yd2MybRp
+         EULYVu8jeu1PlTy/c9VF1kp1BWsseyy/GRyev3N8vsS33M64aAI+90EVsBLAuJ1iXQeb
+         OK2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791321874; x=1791926674;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SYwc8JI6t2v5/H4JTTRJtWLrWEc8ZG38ZE/5tQf+csw=;
+        b=GxvEs8Rdz+bWWiA94TMfjDV7cDLxXIM38YF33ZM74OJpiP7YGx11O+xZdFcOMP7RTZ
+         1j58aAgr/OZLt67smqa9GhagDosJ9WFJoGqn9cF/epAN/pdkgMt77PsZn0sc+NWeuTld
+         5Dlgl0XC3HA4IDJFQy5wHKD7EENWPMjOtIJAhFXEWF0flVvsrAWgD/Sfwv69nNs0tkFj
+         QqX2Z6xCelJTfqKAF5JsWi6P7GXhdtEx257C+WeWcn0A3cB5mzHFFuYpZdmqDAUNc9az
+         mzInTGrHcBi1T0t9yVdhQw2c79tCyuKue1aXRCZC8XtGj7lYVznwi88ujGdW5zAngheH
+         /Q+g==
+X-Forwarded-Encrypted: i=1; AKwUvBxZAmCm6aLSa6ak4i5H5225+ErfvpQYeV/vqsDdeOIzhCshfWeuglkWxzQgiRdxgEdQqphf51bW42lm@lists.linux.dev
+X-Gm-Message-State: AFq9FYLrJGNoI+VO/7ECyeKtPAwx11hUtsRykBdweRjgzYIsk80+ExBM
+	7Qh7vOaRYLrR3oUdQ6QTTJDzWkwcOyaiZIUXkZp63T81dTWC9fFCROQ8RO5qqAaOSyN7NIuMw3v
+	vroCSx6OZtzDUrqfGwb7GKQH8K/s7SN4=
+X-Gm-Gg: AYBFou0LiQp3jaycteAvfKec3B3qRk5iUmm8q15TTyqnDlQ2bEV3wqUfO8FaI4WFMhP
+	aakCPY4qhb5ebxaynTFCcxqqIGTV6ezXa/HMOcP0ywi8C+MHWnGMRbP8sQOm37kwvLLODVw1/Po
+	IAx6h5TAWtp3mIK86A/Ur/Cq0FT50lT2OchlDWVXKKjAiYR/RKf4gvmmGW37w9k+3t3p3ZDk3pM
+	eMcMLxbnpahEUR7U1mc0x4WnA/St4nQPRn8kQymz7m+xm1+Zybn4BYVXTfcBAqz3AsLPld0kleO
+	u7l4WMfdXmPJ8v43+swjQZpfmA2PI0eEyxRQoPPSN7HCPzhAOlFeGyvGHTfynsGFdCMQeDS4+LF
+	/+Hv/845bq0o=
+X-Received: by 2002:a05:6402:21d7:b0:6ab:7700:9371 with SMTP id
+ 4fb4d7f45d1cf-6aff47b52d7mr243717a12.25.1791321873525; Tue, 06 Oct 2026
+ 14:24:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261006182408.1301152-1-tjdqudcks0424@naver.com>
+References: <20261001150935.655979-1-mszeredi@redhat.com> <20261001150935.655979-4-mszeredi@redhat.com>
+ <CAOQ4uxjWCRs59Qpc4t+2=i67rdJkHt=+rH07ZXv7ZzAvTjTm-A@mail.gmail.com>
+ <CAOQ4uxi1+WgHJdnRKMD3tp24EOyx7iPByzSKLn_siTVY3_sRDQ@mail.gmail.com> <CAJfpegttAHQAGhE61t-VZqfQv9Z==ovbyLY6qp3KOK_CvjBciA@mail.gmail.com>
+In-Reply-To: <CAJfpegttAHQAGhE61t-VZqfQv9Z==ovbyLY6qp3KOK_CvjBciA@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Tue, 6 Oct 2026 23:24:17 +0200
+X-Gm-Features: AclHuK_VeO0DSevIgJfwzhinVGoS4FTfS8bmWH03wQQ5EUrXtEm_7IyCpO31gUM
+Message-ID: <CAOQ4uxj76PJiumvXLHoJUKx_=FAueg3WQjYd64=B_TXo581POg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/8] fuse: support 64 bit, server allocated backing ID
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	John Groves <john@groves.net>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 07, 2026 at 03:24:08AM +0900, sungbyeongchan wrote:
-> A short successful virtiofs response can leave the fixed-output
-> portion of the request argument buffer unwritten. The completion path
-> nevertheless copies the full declared output to the request destination,
-> allowing stale allocator contents to reach callers such as
-> fuse_statfs().
-> 
-> Require successful fixed-output responses to contain their complete
-> declared output. Continue to permit a shorter final argument only for
-> out_argvar requests. Reject positive and internal restart error values,
-> require valid error replies to be header-only, and do not copy output
-> arguments from error replies.
-> 
-> A header-only FUSE_STATFS success returned stale fields in nine of
-> nine calls across three boots. The fixed kernel rejected the short
-> response and preserved complete replies, valid error replies, and
-> variable-output controls.
-> 
-> Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
+On Mon, Oct 5, 2026 at 3:33=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> w=
+rote:
 
-Real name please.
+> > > It would feel a little less hacky if we do:
+> > >     else
+> > >           fuse_backing_files_init_32(fc);
+> > >
+> > > and set
+> > >          fc->passthrough =3D 1;
+> > >
+> > > inside both of them to gate against fuse_backing_files_free()
+> > > called without processing init response,
+> > > or without either FUSE_PASSTHROUGH in the init response.
+>
+> Bigger problem is that IOC_BACKING_OPEN can be done before or during
+> INIT.  So we need to take care of that case and the race as well.
+> Fixed by:
+>
+>  - leaving the idr initialization fuse_conn_init()
+>
+>  - adding fc->backing_id_32 flag which is set by fuse_backing_open()
+> after chekcking that fc->backing_id_64 is not set.  All under fc->lock
+>
+>  - in process_init_reply() checking fc->backing_id_32 before setting
+> fc->backing_id_64 and failing the connection if so.  Also under
+> fc->lock
+>
+>  - in fuse_dev_ioctl_backing_create() if fch->initialized is not set
+> return ENOTCONN
+>
 
-> ---
-> Changes in v2:
-> - Reject positive and internal restart error values.
-> - Require error replies to be header-only.
-> - Rate-limit malformed-response warnings.
-> - Rely on the existing FUSE pr_fmt prefix.
-> - Add Cc: stable@vger.kernel.org.
-> - Use the reporter identity consistently.
-> 
->  fs/fuse/virtio_fs.c | 43 ++++++++++++++++++++++++++++++++++++++-----
->  1 file changed, 38 insertions(+), 5 deletions(-)
-> 
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index f15e516ebcb5c..fffbe08d9114a 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> @@ -4,6 +4,8 @@
->   * Copyright (C) 2018 Red Hat, Inc.
->   */
->  
-> +#include "fuse_i.h"
-> +
+I guess that works, but why the asymmetry between the two modes?
 
-Why is this moved?
+We could check fch->initialized in both _open() and _create()
+and then no need for the backing_id_32 flag?
 
+Unless we gate _open() with fch->initialized, then it could fail on
+either one of these cases:
 
+                if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+                        return -EPERM;
 
->  #include <linux/fs.h>
->  #include <linux/dax.h>
->  #include <linux/pci.h>
-> @@ -20,7 +22,6 @@
->  #include <linux/cleanup.h>
->  #include <linux/uio.h>
->  #include "dev.h"
-> -#include "fuse_i.h"
->  #include "fuse_dev_i.h"
->  
->  /* Used to help calculate the FUSE connection's max_pages limit for a request's
-> @@ -730,6 +731,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
->  	unsigned int num_out;
->  	unsigned int i;
->  
-> +	/* Error replies contain only the output header. */
-> +	if (req->out.h.error)
-> +		goto out;
+                if (inode->i_sb->s_stack_depth >=3D fc->max_stack_depth)
+                        return -ELOOP;
 
-But no error is returned?
+Quite randomly.
 
->  	if (len < sizeof(*oh)) {
-> -		pr_warn("virtio-fs: response too short (%u)\n", len);
-> +		pr_warn_ratelimited("response too short (%u)\n", len);
+Maybe I am missing something.
 
-Isn't these ratelimited() changes separate from the original issue here?
-That should be a separate patch.
-
-thanks,
-
-greg k-h
+Thanks,
+Amir.
