@@ -1,109 +1,166 @@
-Received: from smtp05-ext.udag.de (smtp05-ext.udag.de [62.146.106.75])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84FD49E14D
-	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 16:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.106.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E09E45BE3
+	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 18:01:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791302458; cv=none; b=n174B56T2JpN0LDKuIlLIx9kq0ctAiwC5c4rj2wntrjCBkNLJUewCIJY90xYJ0PUmqyN/eXDDVdVNo8dURWkIHVPEuvJt6RuTAA16dCeJ/Xjoc0Ibg9aQalXovYRbVrJzbl7EZbGQZjzDNoNZS0wPS429JOzb9oygw2mrVVprNk=
+	t=1791309687; cv=none; b=onlsLEtEuG2gUeLjBBxYOpituUPg7z3C/zV5LrkJNpL/KBA2m4voQ26AEy+reQ90uV+tE/v/S/IANHE4hAIuJrnf1nCmpFHWoIdWCnW6qExLbrT43We6BOJ9lJhjMH8nYADPPNn8vBYWkDp+7D+AGpFwOH08tS1aoZ/jPbVKSIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791302458; c=relaxed/simple;
-	bh=CwtCgc7GmHfPCHrSkhc+aX8cJgCS9OW2ZiU43jG8zec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MOzii8NXiN5idXRaNhf13F3OpbMv4Fs2W+FfoAowZ7I2jTJcjNlqmeAQJRM8BWVO7UbL9Y+qFpNaBLJAM0QzDMTDn4yiz12GNtceUFnB+TyAHhdJAh2x0NZH9UBbr44e7V4OOdNRF47qwoEN5M55MdiMF8J+dQaPJQm7lcv6Jxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de; spf=pass smtp.mailfrom=birthelmer.de; arc=none smtp.client-ip=62.146.106.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=birthelmer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birthelmer.de
-Received: from localhost (043-134-067-156.ip-addr.inexio.net [156.67.134.43])
-	by smtp05-ext.udag.de (Postfix) with ESMTPA id 39C59E01A6;
-	Tue,  6 Oct 2026 17:55:31 +0200 (CEST)
-Authentication-Results: smtp05-ext.udag.de;
-	auth=pass smtp.auth=birthelmercom-0001 smtp.mailfrom=horst@birthelmer.de
-Date: Tue, 6 Oct 2026 17:55:30 +0200
-From: Horst Birthelmer <horst@birthelmer.de>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com, stable@vger.kernel.org
-Subject: Re: [PATCH v1] fuse: don't launder folios of a bad inode
-Message-ID: <asUZLV-0YeC5BTvz@fedora.fritz.box>
-References: <20261006105136.3751196-1-joannelkoong@gmail.com>
+	s=arc-20240116; t=1791309687; c=relaxed/simple;
+	bh=khjQoA76ImVEwNZsVeK3BoShKiZnAqrp47XzOo+pGQQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=dmJtCmO2YV3InQPmril5hwVQq4gKDUuuFe38wWeCRWuzx+O848rlXDxxQkBGknUOmTGw6oZXpSyBknfHU1NrgMTDz+W8oWXVpB+dOOtlWt37a97BJvSLCRPwbZdrvBEd04vboKKbgnJeWxAdNo4K6NMvHk1cK8Uk0kZy7l2Msb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jRvRsNY/; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jRvRsNY/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791309685;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7MTZcSt4JfCHhin1MairClvPsblFEaazbyiSbWW2Ywg=;
+	b=jRvRsNY/pVLexsu/q4dU8qPyyaq7JS1PcAl1gb2ijWefaKNn4OWaIsLNLgonIB563TdAmN
+	2VCjnhFubFfdMKDkN/oqeaCqCWHxFf7MSwy5Pt8sE7g1TiAKyf7Bu542rBRGYMplKKOFSf
+	95nCoY1fvDiN6lZET/ND4dNmDV9Pogo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-615-J8uvRmf1P-q8pAVlrvSBdw-1; Tue, 06 Oct 2026 14:01:21 -0400
+X-MC-Unique: J8uvRmf1P-q8pAVlrvSBdw-1
+X-Mimecast-MFC-AGG-ID: J8uvRmf1P-q8pAVlrvSBdw_1791309681
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-6ab0162426fso3604003a12.3
+        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 11:01:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791309680; x=1791914480;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7MTZcSt4JfCHhin1MairClvPsblFEaazbyiSbWW2Ywg=;
+        b=PXKfNCXPeB1Ggc9keMxucnxCrR1Os9Vnz53MnlnPp/Yb0uMnJuYjGxUcivl6WLqLo2
+         AB92/UWt+q0cqIQe1EwyeqPvYES73SUCTQVF6lHB8FGLRk/9AGZPJHkO9N31WgE65T/8
+         YKvdhA1QX4uNlxwRJe96UcThEv4UgGR2E0dMXEU75VmI58OGMg9K+mJEEN85Iel4j8K7
+         8QTJhB/GzN20wdvfHl+2dGgVXzV3Ih/0r5tC0uUzLpTsHqeRRZ8G4bOC4RYR/smyDhNn
+         kN45DviH+HnzrseICvMvqbTZ8LhfWq9J3V102Gm9XbP3hJ+KDV1Xy1rGzr6stto9+0Pg
+         tlpA==
+X-Gm-Message-State: AFq9FYIerIJFcfsrtM5DkKBFkwPBFncFpn79EY+iH3+oRaNe9YQKC/Dm
+	583nrfZjpQ1VNg8k8hWYEAStI/+psLJGmrP7XTsV7Lo7VHFTUWm0Ezd3XIMDr9BsQUHAz9uz17L
+	IWphzS6xaN7HWbbIZxmeF3hFy+sgeGFmhnOKrTjtziScvzlBicO3p6RKbJktkIww0UJCMRUH1Ta
+	uwRiYowlHa+vOiKu+Rr5XI77KTGWAIGid+pP1nCsgJhixwGcE=
+X-Gm-Gg: AYBFou2zihGPkKfIXAnzyYoYcZ4pE17whgJeq0zPd+KPAvUssmmwFE5C0r5yU08ANdI
+	RvYlyzyugyR1NfOWO6NrI9n7HX9V+yE6ASSWHHU4o17oDKeAS764UBXKZovVulEYL7GzJnm8SIG
+	TCgI/+IsoZn+pcNrjonceE0SSgT897pqCtmOi5xE5NcqQggf4fdulQcF1Q6J2ipfo8RGUXwRHTi
+	CRF5Xy8IfZYG8DTvzk/u+3X9b9e2FT73OZHyWXTxj/5YJQcWxc0Y9TMHS1y7Z1FRyAciloDmZTf
+	5JXkIFP7wn0WJR/42nt8G0oicfFglVLLUEkTcPchmyJrt7h3GyviLeSnm1RywlwFYpMqn1PAWoo
+	j4384FVyC2whtjz7oxXO/5vhGI8ukMWmYRr2r5xTjbo58xRz+56sWaVMU
+X-Received: by 2002:a05:6402:13ce:b0:6aa:f7f4:24b3 with SMTP id 4fb4d7f45d1cf-6afe29de45cmr2370966a12.35.1791309680586;
+        Tue, 06 Oct 2026 11:01:20 -0700 (PDT)
+X-Received: by 2002:a05:6402:13ce:b0:6aa:f7f4:24b3 with SMTP id 4fb4d7f45d1cf-6afe29de45cmr2370926a12.35.1791309680029;
+        Tue, 06 Oct 2026 11:01:20 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (188-142-152-55.pool.digikabel.hu. [188.142.152.55])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6afb01e5942sm5056684a12.9.2026.10.06.11.01.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 11:01:17 -0700 (PDT)
+From: Miklos Szeredi <mszeredi@redhat.com>
+To: fuse-devel@lists.linux.dev
+Cc: John Groves <john@groves.net>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org
+Subject: [PATCH v3 0/9] fuse: DAX device based extent maps (famfs)
+Date: Tue,  6 Oct 2026 20:01:05 +0200
+Message-ID: <20261006180115.1425232-1-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261006105136.3751196-1-joannelkoong@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: aWi6LDXIH7gL7RlTYIMWy0SUdopuEayeTUT1srEvtQg_1791309681
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Tue, Oct 06, 2026 at 03:51:36AM -0700, Joanne Koong wrote:
-> fuse_flush() and fuse_writepages() reject writing back dirty data for
-> any inode that has been marked bad, but fuse_launder_folio() doesn't.
-> 
-> This can cause the following warning in fuse_write_file_get() to
-> trigger, as reported by syzbot:
-> 
-> WARNING: fs/fuse/file.c:2043 at fuse_write_file_get fs/fuse/file.c:2043 [inline]
-> WARNING: fs/fuse/file.c:2043 at fuse_iomap_writeback_range+0x7c8/0x18f0 fs/fuse/file.c:2227
-> Call Trace:
->     iomap_writeback_folio+0x1526/0x2490 fs/iomap/buffered-io.c:2022
->     fuse_launder_folio+0x17b/0x240 fs/fuse/file.c:2331
->     folio_unmap_invalidate+0x4cd/0x830 mm/truncate.c:634
->     invalidate_inode_pages2_range+0x629/0xb30 mm/truncate.c:726
->     fuse_open+0x5a6/0x770 fs/fuse/file.c:297
-> 
-> This can be hit on a writeback cache mount:
-> 1) a writeable file is open and a buffered write dirties some pages
-> 2) another thread opens the same file read-only. fuse_open() passes the
->    bad inode check and sends OPEN to the server.
-> 3) a SETATTR reply with the wrong file type marks the inode bad
-> 4) the writeable file is closed. Flush and release skip writeback
->    because the inode is bad. The pages stay dirty but the file gets
->    removed from write_files.
-> 5) server replies to the OPEN. The reply has no FOPEN_KEEP_CACHE, so
->    fuse_open() calls invalidate_inode_pages2().
-> 6) the invalidation finds the dirty pages and calls
->    fuse_launder_folio(), which finds no wriable file and hits the
->    WARN_ON in fuse_write_file_get().
-> 
-> Instead of trying to write back dirty data for the bad inode,
-> fuse_launder_folio() should return -EIO.
-> 
-> Fixes: 5d069dbe8aaf ("fuse: fix bad inode")
-> Reported-by: syzbot+e8200299b0556976e13c@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=e8200299b0556976e13c
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
-> ---
->  fs/fuse/file.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 6d707f2b3bff..0ef46f6e0267 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -2351,6 +2351,9 @@ static int fuse_launder_folio(struct folio *folio)
->  		.wb_ctx	= &data,
->  	};
->  
-> +	if (fuse_is_bad(wpc.inode))
-> +		return -EIO;
-> +
->  	if (folio_clear_dirty_for_io(folio)) {
->  		err = iomap_writeback_folio(&wpc, folio);
->  		err = fuse_iomap_writeback_submit(&wpc, err);
-> -- 
-> 2.52.0
-> 
-> 
+This is the FUSIfication of the famfs-fuse patchset.
 
-Hi Joanne,
+ - extent maps are assigned to a backing ID
 
-I have tested a lot of notification invalidation lately.
-Did not hit this one yet.
+ - 64 bit backing ID's managed by server
 
-LGTM!
+ - maps can be linear or cyclic (striped)
 
-Feel free to add
-Reviewed-by: Horst Birthelmer <hbirthelmer@ddn.com>
+ - API supports nesting, but not implemented yet (i.e. multiple striped
+   extents per inode, a-la famfs)
+
+libfuse/famfs trees for testing:
+
+ https://github.com/szmi/libfuse.git#extent-map-v3
+ https://github.com/szmi/famfs.git#extent-map-v3
+
+This patchset:
+
+ git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#extent-map-v3
+
+Passes famfs smoke test on emulated dax device.
+
+Comments are welcome.
+
+Thanks,
+Miklos
+
+---
+Changes since v2:
+
+ - add a trivial prep patch modifying drivers/dax/super.c
+ - reserve zero value for 64 bit backing ID (Amir)
+ - add Originally-by: tag to acknowledge John's work 
+ - more fixes and cleanups (Amir, Sashiko)
+
+Changes since v1:
+
+ - moved 3 prep patches to fuse.git#for-next
+ - introduce FUSE_PASSTHROUGH_V2 (Amir)
+ - lots of small fixes and cleanups (Amir, Sashiko)
+
+
+John Groves (1):
+  dax: replace exported dax_dev_get() with non-allocating dax_dev_find()
+
+Miklos Szeredi (8):
+  dax: use READ_ONCE() in dax_holder()
+  fuse: add helpers for EIO return value with kernel message
+  fuse: support 64 bit, server allocated backing ID
+  fuse: support opening 64 bit backing ID
+  fuse: add support for opening dax device as backing
+  fuse: add extent map data structure
+  fuse: add extent map I/O support
+  fuse: add support for striped backing
+
+ drivers/dax/super.c       |  40 ++++-
+ fs/fuse/Makefile          |   2 +-
+ fs/fuse/backing.c         | 305 +++++++++++++++++++++++++++++-------
+ fs/fuse/dev.c             |  24 +++
+ fs/fuse/dev.h             |   3 +
+ fs/fuse/dir.c             |   3 +-
+ fs/fuse/ext_map.c         | 316 ++++++++++++++++++++++++++++++++++++++
+ fs/fuse/file.c            |  18 ++-
+ fs/fuse/fuse_i.h          |  78 ++++++++--
+ fs/fuse/inode.c           |  26 +++-
+ fs/fuse/iomode.c          | 116 ++++++++------
+ fs/fuse/notify.c          |  75 +++++++++
+ fs/fuse/passthrough.c     |  63 ++++----
+ include/linux/dax.h       |   6 +-
+ include/uapi/linux/fuse.h |  53 ++++++-
+ 15 files changed, 965 insertions(+), 163 deletions(-)
+ create mode 100644 fs/fuse/ext_map.c
+
+-- 
+2.54.0
+
