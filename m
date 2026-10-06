@@ -1,69 +1,69 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F77945BE3
-	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 18:01:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDC5391E6D
+	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 18:01:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791309691; cv=none; b=e51qzJ6jmwECktWC61w6t2zv+khbjWH/UgtNBpU3Gkng7Zjuns/7qV+xifjnDmTAL0qhHhYE0f2zoTWkj2ETgureL8DDmo8CqLIt1BTSjkJlCZDgWXXtFk9aEewPJ5HnoUjh/oXrlc3OQE3wIsApYtCYSQv0egk2or7Ai/T0UkM=
+	t=1791309692; cv=none; b=HxhRzhle6ItcubGj4N8dUUBRHW+jXWAzONbvEtMb1emtT2jjwJPm+MIXRvolAmGc11fDLFd8wxNkLjSGALFieP7gwP2cHPG8PckNRnZiOia8MQn+S56r/Gtt7CsC+BLgPRjqCcnzokJm8IWHwETu42UUsP+MZs+QQmTnX2TCKIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791309691; c=relaxed/simple;
-	bh=fgSnuoTru0M1RdnWdJ3W+h1U533c9s6oWqTxjipvO2g=;
+	s=arc-20240116; t=1791309692; c=relaxed/simple;
+	bh=YFk2FdU53n8yGNypKqQC8q9TwgACbOPYBnswpawC9QY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=igz/OK1v8HizTHdJshsbAh/qy+LIbHYrkEyykNciBEjv9dv+rhpS8fT33XXy8SxgPKvKZbSLMQ0y7ilxTJAg3Wn1GD0jQRWX0ItUzP7U7eNayFYrdKLxpZPUEHlCeC0mjI5GGhcRDbOBZBrwkOUJ01JDWhYovAzT7IkPM66MdDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CzKWICa1; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version:content-type; b=T1Rbm0EN3PGFn+RW6XJUE92addfw3R+pgTLyfCcEKZ1aucOYQYbVnKBgro3gIFFeMFiAIr2w/cFmq72NRQ7lDY7LkUg42FPst04pNa/SpXHarKNZGoEO+6GvAIkL5irZFX7Bpoc1vnjpktw6oGcUfgZGJLo4EnOgSyiHVBZ+BwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JEoBc0rO; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CzKWICa1"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JEoBc0rO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791309687;
+	s=mimecast20190719; t=1791309689;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yukm86LJzzz9J8hnEhUh3B7rrcrjSUe6dcN4L+kFZ5U=;
-	b=CzKWICa1XP+uwMYpqnLeDCPrILTHueDudBBDm3qTnzzI0LVwlSe41we23fu9QoYaI9HJJ1
-	xosUEMqPF7BbXXfTZ4b/rLskRb/f17PMFYIseK3PeA2PER4rHj4Ds0Lox76luwUcXBhXWr
-	rVtxTzvQsMWQtcQP4GdXlcc3zsoS9q8=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=9J47ghvIEANGG3pvfOhMVihYJupd63H8mER0lCDnD5M=;
+	b=JEoBc0rOyTIDI69ajud+KK1dGFv+Y7lFC0rAFfptDsbqTDmvYMmErArRK6le5JU5y47fr1
+	DGU8NJyQuGpcMnakMGa8CHUDJykKGwp63rRDhpw50feGctAAH1O6Oe7yXvXw3fdvVaNeZf
+	UeWBkHd9nlIbRJaNEhpIHcpciSUoJNg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-215-MkybUQa9OL6ltPKEL_Nvag-1; Tue, 06 Oct 2026 14:01:26 -0400
-X-MC-Unique: MkybUQa9OL6ltPKEL_Nvag-1
-X-Mimecast-MFC-AGG-ID: MkybUQa9OL6ltPKEL_Nvag_1791309685
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c2e4d39c795so360565966b.1
-        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 11:01:26 -0700 (PDT)
+ us-mta-664-S8FCAC6GPRiZWEWnVQSyzQ-1; Tue, 06 Oct 2026 14:01:28 -0400
+X-MC-Unique: S8FCAC6GPRiZWEWnVQSyzQ-1
+X-Mimecast-MFC-AGG-ID: S8FCAC6GPRiZWEWnVQSyzQ_1791309687
+Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-6a5d57a8d51so4182014a12.1
+        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 11:01:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791309685; x=1791914485;
+        d=1e100.net; s=20260707; t=1791309686; x=1791914486;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yukm86LJzzz9J8hnEhUh3B7rrcrjSUe6dcN4L+kFZ5U=;
-        b=gE97eIyGNSZ7E0ewVL/LqbshMImdENAs/sCg5/i4EaIJc5BMwL9ihCSBO9HQ35Vr5Z
-         wY7nEwSH5To/YEi+/73hc6CifhPdB83w486moR3dCe9eeRUUrXX9uRDANo/AT4rTxe+F
-         +i8xWuhXDhOHSZY0tB8faOE3Cvjwh8a0k1MVx1EU/ydyx99w4vG5NGV2J/kwtdm+mvYw
-         1xFlc+a7FkPwaSWnIS8Jh52yx+BlgT9zvmOBCAKstAshXx01nyvVHmhrkugXx2nzCX+6
-         xtYHrFn/hkhftC4/y+lQLlnNEvBia014ICpu6hQhRrXqPDFtsf90uSDKSUhYPwSf0W2h
-         qa2Q==
-X-Gm-Message-State: AFq9FYJO4kiJIWaflkF+8ow01WGJkGLyAnDaWz5vD3Elo6BTivRvHYVj
-	spmwYvIvg2X6+DQEA2Sb3EaNfVL5RH1RL/uPaWEoy4PcDNkWLj4Wtu9tiVxCbCJUZAJNtRAoHlO
-	Cw83xmOzl2zWZps/hGbzMIGs+kxZowxzVaEQAmysh9AfF77mnQYTIyp0FjgbcqMzaYYpA/oNIrY
-	emOIdflg9F6FZlU2EGNvHkCGvj5HMbaeEtemA0QYAWPE87v0o=
-X-Gm-Gg: AYBFou0pQMOACiFZrscu+VITh/+z3GaselmdFYSrmrl9jzJJ5pI6n0g0EafIO1Ma83m
-	A6u/d41Pr/6lC+2lSExgxUnE7u45okB5IcTyOZIWEMiEvOS6XE9W75YHl2rEBwPvwMEOd64x1Zk
-	VjpacduvnComYrmtWbMam6nMaLrVihq9pz/OAny4Ue/lEmfYvrKuNkaCh0J3cK4egHb4CFiqvDh
-	MmjeXlPMojdkS81xU2CmTwdPfdeuB2wJrdRpFJKgzYjLeTU2pX03UbH9GJxNQnUHGRiT+yZJl6X
-	LmW3xG4CUrzIGsojFg/m6XyU6w6zEAR7fv+9qeca9UuWfkwnb6S0SqpDpCVBKmmc0RK9Yn5kYz4
-	lK4ajwkkgjdtQR9zu6eM35A9zhqFcizf65ShpsbK12gQMYvFpWaUDzrhK
-X-Received: by 2002:a05:6402:1ed6:b0:6aa:e3f3:c9df with SMTP id 4fb4d7f45d1cf-6afe29d4fbbmr2351544a12.20.1791309685044;
+        bh=9J47ghvIEANGG3pvfOhMVihYJupd63H8mER0lCDnD5M=;
+        b=0qnt5jgPsJTWhCTqjUygm4N922RytLlMwRBpRD0WMa9TkFqhU8CTh8JxF8CjomvE6J
+         JqPoxNDCrSek3FCQSCBL4KwK5jNpUSTNLacuUdFWzA+uLp0AqwkMcTqmXvqa3kfYCszm
+         GhQQJ3KmIhMgLBoFXtrhRjsNIaUbnNfahjiX0tHymmaY/TUKq9Ha++SZBOae8IYM7bqI
+         cFk0t/TrfvZouSjQdPj9ex3YHQKeKR9BNxlweFZiBD3p8TVMHnlRQTJbOj7bTQb3gHwO
+         WmpCmRij7Pi8I8CppMod4/JavxFgQiYDe0gvTvQcqqIPHFqub8n99uRFRpw0gT19zfTw
+         UksQ==
+X-Gm-Message-State: AFq9FYLC4ZnkFOp7pmj5DTB7JJwkX06qS9Uj9bqY2U9qBM9jUlb+UqEA
+	DilI33yJmfw7wBAtlJknF4rbNK0BiL0xi+gRC5u3O6oq25jfrYZlJsEkCGrPdqTUQlEDKXK5oIE
+	97uHcOY9cyQoVrQA86sBan2XRBO9bbH6HhOLsEghch2KWxQjrRn9MbwAokl2+hDf81JiCL6Pt5G
+	/jJiZDE5o/F9ymlYTwkdFTTdGFhjbrB/GTJnUpiobVTc5OcA0=
+X-Gm-Gg: AYBFou2SzaT3Hk5bIREIdH/QM29Tpw5DKvPY7YCwxO6uDzGIGza8SsRoVS24ICLqJdO
+	Hqxx2wIAKXmxUoZDdPcdJQsMrOUYj5Jb3fpUVZ4xwwGmAH9nMP7n4/GGGBFBskxJiscmDUJ1N08
+	8wWEnANIhP/cDNOGanrDr0IowHx9BiCe5E0PiIvTl9fSGf+ECXe0C1YFXqslS4c4IUW12jq8l2k
+	cysn3qIu7LK3bOnCp0xY4aoV9m7GF2k38x+WlCtP97EmWuokqGGr7g0+HfW4yKs3zPnXiXwSES+
+	ntvdiRKlsVHKBx2lJYmdu6HQEhkgR7T8dSHPt+DmFds1GDNWPHWZpCnGdi2vTfIR/CVtaxVEcmL
+	Hv7r8w/6Mwjgd4bi1lU3XoSaoFpFqPxETh25QyWPNFXw6NDpRYFN8inp/
+X-Received: by 2002:a05:6402:23d3:b0:6aa:665:830 with SMTP id 4fb4d7f45d1cf-6afe2978889mr1872436a12.15.1791309686529;
+        Tue, 06 Oct 2026 11:01:26 -0700 (PDT)
+X-Received: by 2002:a05:6402:23d3:b0:6aa:665:830 with SMTP id 4fb4d7f45d1cf-6afe2978889mr1872407a12.15.1791309685983;
         Tue, 06 Oct 2026 11:01:25 -0700 (PDT)
-X-Received: by 2002:a05:6402:1ed6:b0:6aa:e3f3:c9df with SMTP id 4fb4d7f45d1cf-6afe29d4fbbmr2351504a12.20.1791309684437;
-        Tue, 06 Oct 2026 11:01:24 -0700 (PDT)
 Received: from maszat.piliscsaba.szeredi.hu (188-142-152-55.pool.digikabel.hu. [188.142.152.55])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6afb01e5942sm5056684a12.9.2026.10.06.11.01.22
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6afb01e5942sm5056684a12.9.2026.10.06.11.01.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2026 11:01:23 -0700 (PDT)
+        Tue, 06 Oct 2026 11:01:25 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev
 Cc: John Groves <john@groves.net>,
@@ -74,9 +74,9 @@ Cc: John Groves <john@groves.net>,
 	Alison Schofield <alison.schofield@intel.com>,
 	nvdimm@lists.linux.dev,
 	linux-cxl@vger.kernel.org
-Subject: [PATCH v3 2/9] dax: use READ_ONCE() in dax_holder()
-Date: Tue,  6 Oct 2026 20:01:07 +0200
-Message-ID: <20261006180115.1425232-3-mszeredi@redhat.com>
+Subject: [PATCH v3 3/9] fuse: add helpers for EIO return value with kernel message
+Date: Tue,  6 Oct 2026 20:01:08 +0200
+Message-ID: <20261006180115.1425232-4-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261006180115.1425232-1-mszeredi@redhat.com>
 References: <20261006180115.1425232-1-mszeredi@redhat.com>
@@ -87,32 +87,297 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: l2HVXlUmjgE1LHMllHpw_EtwDin_NoNjUJGfnmaWnmM_1791309685
+X-Mimecast-MFC-PROC-ID: cOKjnie7s464Fg6c06jCYEh3LcIMuxL9RTlVCf3IfgI_1791309687
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Make sure that a non-NULL check in callers remains valid even when racing
-with fs_put_dax().
+Conditions are triggered by a buggy fuse server will result in -EIO which
+is hard to interpret without any context.
+
+Add helpers that print a short message to the kernel log as well as
+returning the error value.  This serves a dual purpose:
+
+ - documents the error condition inside the code
+
+ - allows the implementor of the fuse server to get the context for the
+   error
+
+Some debug messages are removed in favor of this.
+
+This also changes the mmap return value from -ETXTBSY to -ENODEV if a
+passthrough open raced with the prior check.  This makes both cases return
+-ENODEV if the file is in passthrough mode.
+
+Additionally change the return value of fuse_file_cached_io_open() from an
+error value to a bool (true on success) as the error value is translated
+anyway.
+
+Currently these use the pr_notice_once() variant.  Possibly should be
+changed to a ratelimit of e.g. once per minute.
 
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- drivers/dax/super.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ fs/fuse/file.c        |  6 ++--
+ fs/fuse/fuse_i.h      |  4 ++-
+ fs/fuse/iomode.c      | 75 ++++++++++++++++++-------------------------
+ fs/fuse/passthrough.c | 19 ++++-------
+ 4 files changed, 43 insertions(+), 61 deletions(-)
 
-diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-index 824e1f6df378..0a440f8b42e4 100644
---- a/drivers/dax/super.c
-+++ b/drivers/dax/super.c
-@@ -677,7 +677,7 @@ EXPORT_SYMBOL_GPL(put_dax);
-  */
- void *dax_holder(struct dax_device *dax_dev)
- {
--	return dax_dev->holder_data;
-+	return READ_ONCE(dax_dev->holder_data);
- }
- EXPORT_SYMBOL_GPL(dax_holder);
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 6d707f2b3bff..bde07948d1f0 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -2415,7 +2415,6 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
+ 	struct fuse_file *ff = file->private_data;
+ 	struct fuse_conn *fc = ff->fm->fc;
+ 	struct inode *inode = file_inode(file);
+-	int rc;
  
+ 	/* DAX mmap is superior to direct_io mmap */
+ 	if (FUSE_IS_VDAX(inode))
+@@ -2457,9 +2456,8 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
+ 		 * After first mmap, the inode stays in caching io mode until
+ 		 * the direct_io file release.
+ 		 */
+-		rc = fuse_file_cached_io_open(inode, ff);
+-		if (rc)
+-			return rc;
++		if (!fuse_file_cached_io_open(inode, ff))
++			return -ENODEV;
+ 	}
+ 
+ 	if ((vma->vm_flags & VM_SHARED) && (vma->vm_flags & VM_MAYWRITE))
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 8546855386b5..d9ec88028d7b 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -11,6 +11,8 @@
+ # define pr_fmt(fmt) "fuse: " fmt
+ #endif
+ 
++#define fuse_EIO(fmt, ...) (pr_notice_once("%s: " fmt "\n", __func__, ##__VA_ARGS__), -EIO)
++
+ #include "args.h"
+ #include <linux/fuse.h>
+ #include <linux/fs.h>
+@@ -1251,7 +1253,7 @@ int fuse_fileattr_set(struct mnt_idmap *idmap,
+ 		      struct dentry *dentry, struct file_kattr *fa);
+ 
+ /* iomode.c */
+-int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff);
++bool fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff);
+ int fuse_inode_uncached_io_start(struct fuse_inode *fi,
+ 				 struct fuse_backing *fb);
+ void fuse_inode_uncached_io_end(struct fuse_inode *fi);
+diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+index 79637c09e883..1b8b267d0c0d 100644
+--- a/fs/fuse/iomode.c
++++ b/fs/fuse/iomode.c
+@@ -27,15 +27,15 @@ static inline bool fuse_is_io_cache_wait(struct fuse_inode *fi)
+  * Blocks new parallel dio writes and waits for the in-progress parallel dio
+  * writes to complete.
+  */
+-int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
++bool fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
+ {
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+ 
+ 	/* There are no io modes if server does not implement open */
+ 	if (!ff->args)
+-		return 0;
++		return true;
+ 
+-	spin_lock(&fi->lock);
++	guard(spinlock)(&fi->lock);
+ 	/*
+ 	 * Setting the bit advises new direct-io writes to use an exclusive
+ 	 * lock - without it the wait below might be forever.
+@@ -53,8 +53,7 @@ int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
+ 	 */
+ 	if (fuse_inode_backing(fi)) {
+ 		clear_bit(FUSE_I_CACHE_IO_MODE, &fi->state);
+-		spin_unlock(&fi->lock);
+-		return -ETXTBSY;
++		return false;
+ 	}
+ 
+ 	WARN_ON(ff->iomode == IOM_UNCACHED);
+@@ -64,8 +63,7 @@ int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
+ 			set_bit(FUSE_I_CACHE_IO_MODE, &fi->state);
+ 		fi->iocachectr++;
+ 	}
+-	spin_unlock(&fi->lock);
+-	return 0;
++	return true;
+ }
+ 
+ static void fuse_file_cached_io_release(struct fuse_file *ff,
+@@ -85,19 +83,16 @@ static void fuse_file_cached_io_release(struct fuse_file *ff,
+ int fuse_inode_uncached_io_start(struct fuse_inode *fi, struct fuse_backing *fb)
+ {
+ 	struct fuse_backing *oldfb;
+-	int err = 0;
+ 
+-	spin_lock(&fi->lock);
++	guard(spinlock)(&fi->lock);
+ 	/* deny conflicting backing files on same fuse inode */
+ 	oldfb = fuse_inode_backing(fi);
+-	if (fb && oldfb && oldfb != fb) {
+-		err = -EBUSY;
+-		goto unlock;
+-	}
+-	if (fi->iocachectr > 0) {
+-		err = -ETXTBSY;
+-		goto unlock;
+-	}
++	if (fb && oldfb && oldfb != fb)
++		return -EBUSY;
++
++	if (fi->iocachectr > 0)
++		return -ETXTBSY;
++
+ 	fi->iocachectr--;
+ 
+ 	/* fuse inode holds a single refcount of backing file */
+@@ -107,9 +102,7 @@ int fuse_inode_uncached_io_start(struct fuse_inode *fi, struct fuse_backing *fb)
+ 	} else {
+ 		fuse_backing_put(fb);
+ 	}
+-unlock:
+-	spin_unlock(&fi->lock);
+-	return err;
++	return 0;
+ }
+ 
+ /* Takes uncached_io inode mode reference to be dropped on file release */
+@@ -121,8 +114,11 @@ static int fuse_file_uncached_io_open(struct inode *inode,
+ 	int err;
+ 
+ 	err = fuse_inode_uncached_io_start(fi, fb);
+-	if (err)
+-		return err;
++	if (err) {
++		if (err == -EBUSY)
++			return fuse_EIO("mismatched backing");
++		return fuse_EIO("conflicting caching mode");
++	}
+ 
+ 	WARN_ON(ff->iomode != IOM_NONE);
+ 	ff->iomode = IOM_UNCACHED;
+@@ -173,9 +169,11 @@ static int fuse_file_passthrough_open(struct inode *inode, struct file *file)
+ 	int err;
+ 
+ 	/* Check allowed conditions for file open in passthrough mode */
+-	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) || !fc->passthrough ||
+-	    (ff->open_flags & ~FOPEN_PASSTHROUGH_MASK))
+-		return -EINVAL;
++	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) || !fc->passthrough)
++		return fuse_EIO("passthrough not enabled");
++
++	if (ff->open_flags & ~FOPEN_PASSTHROUGH_MASK)
++		return fuse_EIO("conflicting open flags");
+ 
+ 	fb = fuse_passthrough_open(file, ff->args->open_outarg.backing_id);
+ 	if (IS_ERR(fb))
+@@ -197,7 +195,6 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+ {
+ 	struct fuse_file *ff = file->private_data;
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+-	int err;
+ 
+ 	/*
+ 	 * io modes are not relevant with virtiofs DAX and with server that does not
+@@ -208,11 +205,12 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+ 
+ 	/*
+ 	 * Server is expected to use FOPEN_PASSTHROUGH for all opens of an inode
+-	 * which is already open for passthrough.
++	 * which is already open for passthrough.  Using incorrect open mode is
++	 * a server mistake, which results in user visible failure of open()
++	 * with EIO error.
+ 	 */
+-	err = -EINVAL;
+ 	if (fuse_inode_backing(fi) && !(ff->open_flags & FOPEN_PASSTHROUGH))
+-		goto fail;
++		return fuse_EIO("FOPEN_PASSTHROUGH expected");
+ 
+ 	/*
+ 	 * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO.
+@@ -233,23 +231,12 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+ 		return 0;
+ 
+ 	if (ff->open_flags & FOPEN_PASSTHROUGH)
+-		err = fuse_file_passthrough_open(inode, file);
+-	else
+-		err = fuse_file_cached_io_open(inode, ff);
+-	if (err)
+-		goto fail;
++		return fuse_file_passthrough_open(inode, file);
+ 
+-	return 0;
++	if (!fuse_file_cached_io_open(inode, ff))
++		return fuse_EIO("conflicting passthrough open");
+ 
+-fail:
+-	pr_debug("failed to open file in requested io mode (open_flags=0x%x, err=%i).\n",
+-		 ff->open_flags, err);
+-	/*
+-	 * The file open mode determines the inode io mode.
+-	 * Using incorrect open mode is a server mistake, which results in
+-	 * user visible failure of open() with EIO error.
+-	 */
+-	return -EIO;
++	return 0;
+ }
+ 
+ /* No more pending io and no new io possible to inode via open/mmapped file */
+diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+index b43d3e0f7081..489838462d1e 100644
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -159,34 +159,29 @@ struct fuse_backing *fuse_passthrough_open(struct file *file, int backing_id)
+ 	struct fuse_conn *fc = ff->fm->fc;
+ 	struct fuse_backing *fb = NULL;
+ 	struct file *backing_file;
+-	int err;
+ 
+-	err = -EINVAL;
+ 	if (backing_id <= 0)
+-		goto out;
++		return ERR_PTR(fuse_EIO("invalid backing_id"));
+ 
+-	err = -ENOENT;
+ 	fb = fuse_backing_lookup(fc, backing_id);
+ 	if (!fb)
+-		goto out;
++		return ERR_PTR(fuse_EIO("backing not found"));
+ 
+ 	/* Allocate backing file per fuse file to store fuse path */
+ 	backing_file = backing_file_open(file, file->f_flags,
+ 					 &fb->file->f_path, fb->cred);
+-	err = PTR_ERR(backing_file);
+ 	if (IS_ERR(backing_file)) {
+ 		fuse_backing_put(fb);
+-		goto out;
++		return ERR_PTR(fuse_EIO("failed to open backing file (%ld)", PTR_ERR(backing_file)));
+ 	}
+ 
+-	err = 0;
+ 	ff->passthrough = backing_file;
+ 	ff->cred = get_cred(fb->cred);
+-out:
+-	pr_debug("%s: backing_id=%d, fb=0x%p, backing_file=0x%p, err=%i\n", __func__,
+-		 backing_id, fb, ff->passthrough, err);
+ 
+-	return err ? ERR_PTR(err) : fb;
++	pr_debug("%s: backing_id=%d, fb=0x%p, backing_file=0x%p\n", __func__,
++		 backing_id, fb, ff->passthrough);
++
++	return fb;
+ }
+ 
+ void fuse_passthrough_release(struct fuse_file *ff, struct fuse_backing *fb)
 -- 
 2.54.0
 
