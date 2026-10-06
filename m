@@ -1,428 +1,133 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7767437FF67
-	for <fuse-devel@lists.linux.dev>; Tue,  6 Oct 2026 21:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791320628; cv=pass; b=Ik6mkfXco2ZlaGY9xG8R+mk089uCdxux0XvXlsetyO/Rr7/YEGsDqhTv0QKAZHbSA4b540gCRlXWO/7oxcVKzKJTWnPSBBvrZjuFPpaWJt0BmhygMQ2XuQA0FBJauTVKTuPoR8q36pSGguB7QpO2zcgCvpoqrwi5/jbWeSVuARM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791320628; c=relaxed/simple;
-	bh=b2W34P/urqYsA5joKgQX5pjyd0oiOSmqRBrDn5op+bM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J4wC2tQ+FIgUPR/ZAHpbGy85lPHgO2PSNcMl6UQ63gLApNRcxZn+vX2i5YdezHZ8MQfBpfG+FovHNtVSIle2Ciz8gZVnhth4hcdHMQU0GTg07FAy1no9vtL4LIp/yi3OA1UtmQFWSO7eOuAM0EEP9ATLUua5J3nE2saBqWXYWE4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EE2dKVFr; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE4B3CB557;
+	Tue,  6 Oct 2026 21:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791321080; cv=none; b=nbjxRoKeraeBqaL2GpnCu3E6WseOFmJzR2cTiJCtcTWI63AtbbyExvLBLMZe7uk1OummsVEf2cAhgLhfVH28SLGpR4DmFqQ7+v+LR4CG5zBsFOtBtYybu4MvQ1QI4T3/oPvTiqBfyxzck54zwgTYeGYjk+2DaXveRLFDMDq/pY8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791321080; c=relaxed/simple;
+	bh=eJqOm82J5R97HC3hp/za/6cr1vYqL7mkBxRsrF7MZYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NlLxoROw5C9YGAr6kPcZimm2vpSSHA6jMeSa5vBa3YtbNZnFCe4vN6AtzypA6uoof2NnH6pyBET7QQO42sGDjwhbR3HV9m5uIb4e7+YEVdpwgSM1sj9wLMJxepWJK2io0o47B+2ldfxw6iGjwjQYqAxHQi6TKUj3nA2iJjz9txM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WFY9ILpc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EE2dKVFr"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6afa651700eso1965210a12.2
-        for <fuse-devel@lists.linux.dev>; Tue, 06 Oct 2026 14:03:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791320625; cv=none;
-        d=google.com; s=arc-20260327;
-        b=iuRma9pwThWPG79aiVl6J6oV3yM+pdsIwStUO5GVxI3HMgU2CEFEoebqkIsKXU7p26
-         D7qwrhv/ENCJ5OBuHhCD6HwcK9KFr8ELMvBtE9o55S7UQdW6e+W4+2Em6khGQijT76Vi
-         L0ByryJbs3hwVHCbe8aVvzEen+z0nJTfrKaUDOL1yrS6gpzOoMgHBnWpQAvAFmaxQ0KF
-         ewxnWMH5qV3S+7qGkPABriKzbuemr8xhnXSwrHd7vjDUEHNpDZN3YALtuJk9aSpfO7a8
-         YO/+Ctig9XEDjfzljAKvNHcdM/pz3HFdETJmE4RXwHLRLueN5LXeMU/Of4YyxWcBsVI7
-         K+Yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dLRok0n9UnxaSR+lfr4s0WqVEVY4M/HLtc9+zuOT7oA=;
-        fh=yraj4v+bqSXmxjjMpn1/atBIsHsRegvA+ny3Ua/6dVc=;
-        b=j2jKMg875Zb9/S4alyYAu+RfZhtAPnrvthIzhICB1R6Qb5eIsUVzFm+VPadDi21bJf
-         zXBR4U3ElX1h6ZRSF4corw2qo9O9wSd1juDsDLDlPtagyrAi93GE7+o+COJx7GZDKNcl
-         TojZToJZWPwiDGiWwynqZ0kszVpXdWLTdGYM6AiYBLDIKdlUDPN73BMEU0LQ806dGudY
-         5qkxZloEPwkbb7ihx+neDs3lO9oukYjhJgD5ReiJKlQN6lMhXerc15Rr5vyIAxC7J1Wk
-         iwgdyb61fHWHNKD11otwcH0G1JhObiKJy62OVOc/WpO8BjKR++/V+Yk0gPPG9EIRaUgW
-         QIFg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791320625; x=1791925425; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dLRok0n9UnxaSR+lfr4s0WqVEVY4M/HLtc9+zuOT7oA=;
-        b=EE2dKVFrFqe97nYdGsF1QCKMfxAKbZQsr8x8LPJiuCUsAwBIJ7C7iJqoGGfLXHDCnx
-         sotOOWX0ruE6jkcnxkx1z+kUJeHDhpl6btmhhcNWOKnnNYcdhNQg3rijsVbpGwVDXp3b
-         aTCqeV8rnoXBV8NH5BJ78JEDTBYiNOyx79KHO4JYfFIKmdAMGMXO1jhPaEErOKfJ5sGn
-         6vAXeCihPejTx8HDyzkVwgTs8kuXFTHpiei+fk0hAklkg1C0udk6ksUlzt4ZvBigZ+KE
-         DBZxmarxESKX5x2cIVDYXXV3aO/yovgskoF8tocGj8zhUiUYcLxIyL7OOusJXLQHoD2+
-         CXbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791320625; x=1791925425;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dLRok0n9UnxaSR+lfr4s0WqVEVY4M/HLtc9+zuOT7oA=;
-        b=U6iToA1eRK0BQwTViHFMzuW1nWaiydKNRbL8LxB8NDswScLFQUfyzlgW/H1ySOx7Gf
-         UoA1qzVCfJZH0H/jnn4yBhTy91QBltU6SQa2qScrvug09YUzP2ugzFCydfeijc4KGFz5
-         RHQf6LB4kGsMSpeZZmJiiw7dKWffeqnTJc4jigWoVI5IFthjPadce+88NytNyRj1hlBs
-         tfv0bEdFweqgzabN3HcxUeOz6ZNwymuHGlED/wxL/tfnYZyWx4DQLhqTzPDWj63HPPlj
-         pn1gnsIzUVn8cN7F+Hb9DqDYnyBxXtjLgfWHIlNcknqN0CJpIC4RetuljjQLj3AJ+cbg
-         +hoA==
-X-Gm-Message-State: AFq9FYK0gisrczw0PVKNt/hwRiRktoKSBsQ3goQEU4AIJ+Iz/APLN7EG
-	if7cLoIXeyYHX6naYHYjpcCuRVLXnOW6Mk2zN6guYkNxaM1bjo+Nq0qmgR5t9cdzm6/hAYaxJvL
-	s2goDCjEfKten2utP8oRbKkX9NJRDL1s=
-X-Gm-Gg: AYBFou0Ca03eUT7bQEXnMckldqow1fFvO8t9CHYW6E2lY3ibsKMl8pYy2B77xFKsOyk
-	kUZuqCNMSKMkaOOdT3LazYRslxcSyekPU0+nBWdPOeW73l80btyqxAgbKsNPJTaqQG8DIX7aIHY
-	6WckxPEDDcxLO6YL38a9biZskazW3XPfGjX2LBbcEn4tbHr62RtfTt7tV40e5Pu6lVejIkpCXth
-	CmBXWeJUs7/rf23oZ1lUj0FEIcGFll4iCpegy+qEEUJPypR3eS2O7f+DrkOPpmL5LtZnAJYE83N
-	inYimXI5nyvHYo4huknYTI9zCzhay7l3HgtIlH7wgt8QXHE8+SXDOrzpFftlAP6WkfEyc+AhWB3
-	oDs8Jggvfhes=
-X-Received: by 2002:a05:6402:52d9:b0:6ab:6e:a8e4 with SMTP id
- 4fb4d7f45d1cf-6aff45977b7mr186880a12.44.1791320624200; Tue, 06 Oct 2026
- 14:03:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WFY9ILpc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39E0E1F0089B;
+	Tue,  6 Oct 2026 21:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791321078;
+	bh=s67wcmLdvo6Va5riA42IT5CjgvqjWz2QO0DX2E+Vc6I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WFY9ILpcu8vuCmq1IJ7t1QwNcC+ULQTEEUJwfMx8idPGp3hYtsaAzaxVjHnVIr1gQ
+	 nTyAZD+nOMdbQ1Nop+D+FBqdvvfVGNXAE52ckG1ANs772zaWoRM4MEb52ldaXY0XOn
+	 gfI+jV8IDmDa1ASaQGfBjaX9oVUHsc5eW1JTotlM=
+Date: Tue, 6 Oct 2026 23:11:14 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: sungbyeongchan <tjdqudcks0424@naver.com>
+Cc: German Maglione <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	virtualization@lists.linux.dev, fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] virtiofs: validate fixed-output response length
+Message-ID: <2026100633-roping-stardust-a6ab@gregkh>
+References: <20261004123405.586168-1-tjdqudcks0424@naver.com>
+ <20261006182408.1301152-1-tjdqudcks0424@naver.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261006180115.1425232-1-mszeredi@redhat.com> <20261006180115.1425232-4-mszeredi@redhat.com>
-In-Reply-To: <20261006180115.1425232-4-mszeredi@redhat.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 6 Oct 2026 23:03:32 +0200
-X-Gm-Features: AclHuK8PYGjthWGD-uqyqrq3itYp173voPWzpkl2f7Ec_jhlpbwglDyFnI7Ntw0
-Message-ID: <CAOQ4uxg4gC0BB0UZz3bOhWm0-qXhoHDLbrQc3gC3WL+05=4Cwg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/9] fuse: add helpers for EIO return value with kernel message
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, John Groves <john@groves.net>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261006182408.1301152-1-tjdqudcks0424@naver.com>
 
-On Tue, Oct 6, 2026 at 8:01=E2=80=AFPM Miklos Szeredi <mszeredi@redhat.com>=
- wrote:
->
-> Conditions are triggered by a buggy fuse server will result in -EIO which
-> is hard to interpret without any context.
->
-> Add helpers that print a short message to the kernel log as well as
-> returning the error value.  This serves a dual purpose:
->
->  - documents the error condition inside the code
->
->  - allows the implementor of the fuse server to get the context for the
->    error
->
-> Some debug messages are removed in favor of this.
->
-> This also changes the mmap return value from -ETXTBSY to -ENODEV if a
-> passthrough open raced with the prior check.  This makes both cases retur=
-n
-> -ENODEV if the file is in passthrough mode.
->
-> Additionally change the return value of fuse_file_cached_io_open() from a=
-n
-> error value to a bool (true on success) as the error value is translated
-> anyway.
->
-> Currently these use the pr_notice_once() variant.  Possibly should be
-> changed to a ratelimit of e.g. once per minute.
->
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+On Wed, Oct 07, 2026 at 03:24:08AM +0900, sungbyeongchan wrote:
+> A short successful virtiofs response can leave the fixed-output
+> portion of the request argument buffer unwritten. The completion path
+> nevertheless copies the full declared output to the request destination,
+> allowing stale allocator contents to reach callers such as
+> fuse_statfs().
+> 
+> Require successful fixed-output responses to contain their complete
+> declared output. Continue to permit a shorter final argument only for
+> out_argvar requests. Reject positive and internal restart error values,
+> require valid error replies to be header-only, and do not copy output
+> arguments from error replies.
+> 
+> A header-only FUSE_STATFS success returned stale fields in nine of
+> nine calls across three boots. The fixed kernel rejected the short
+> response and preserved complete replies, valid error replies, and
+> variable-output controls.
+> 
+> Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: sungbyeongchan <tjdqudcks0424@naver.com>
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Real name please.
+
 > ---
->  fs/fuse/file.c        |  6 ++--
->  fs/fuse/fuse_i.h      |  4 ++-
->  fs/fuse/iomode.c      | 75 ++++++++++++++++++-------------------------
->  fs/fuse/passthrough.c | 19 ++++-------
->  4 files changed, 43 insertions(+), 61 deletions(-)
->
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 6d707f2b3bff..bde07948d1f0 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -2415,7 +2415,6 @@ static int fuse_file_mmap(struct file *file, struct=
- vm_area_struct *vma)
->         struct fuse_file *ff =3D file->private_data;
->         struct fuse_conn *fc =3D ff->fm->fc;
->         struct inode *inode =3D file_inode(file);
-> -       int rc;
->
->         /* DAX mmap is superior to direct_io mmap */
->         if (FUSE_IS_VDAX(inode))
-> @@ -2457,9 +2456,8 @@ static int fuse_file_mmap(struct file *file, struct=
- vm_area_struct *vma)
->                  * After first mmap, the inode stays in caching io mode u=
-ntil
->                  * the direct_io file release.
->                  */
-> -               rc =3D fuse_file_cached_io_open(inode, ff);
-> -               if (rc)
-> -                       return rc;
-> +               if (!fuse_file_cached_io_open(inode, ff))
-> +                       return -ENODEV;
->         }
->
->         if ((vma->vm_flags & VM_SHARED) && (vma->vm_flags & VM_MAYWRITE))
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 8546855386b5..d9ec88028d7b 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -11,6 +11,8 @@
->  # define pr_fmt(fmt) "fuse: " fmt
->  #endif
->
-> +#define fuse_EIO(fmt, ...) (pr_notice_once("%s: " fmt "\n", __func__, ##=
-__VA_ARGS__), -EIO)
-> +
->  #include "args.h"
->  #include <linux/fuse.h>
->  #include <linux/fs.h>
-> @@ -1251,7 +1253,7 @@ int fuse_fileattr_set(struct mnt_idmap *idmap,
->                       struct dentry *dentry, struct file_kattr *fa);
->
->  /* iomode.c */
-> -int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff);
-> +bool fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)=
-;
->  int fuse_inode_uncached_io_start(struct fuse_inode *fi,
->                                  struct fuse_backing *fb);
->  void fuse_inode_uncached_io_end(struct fuse_inode *fi);
-> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-> index 79637c09e883..1b8b267d0c0d 100644
-> --- a/fs/fuse/iomode.c
-> +++ b/fs/fuse/iomode.c
-> @@ -27,15 +27,15 @@ static inline bool fuse_is_io_cache_wait(struct fuse_=
-inode *fi)
->   * Blocks new parallel dio writes and waits for the in-progress parallel=
- dio
->   * writes to complete.
+> Changes in v2:
+> - Reject positive and internal restart error values.
+> - Require error replies to be header-only.
+> - Rate-limit malformed-response warnings.
+> - Rely on the existing FUSE pr_fmt prefix.
+> - Add Cc: stable@vger.kernel.org.
+> - Use the reporter identity consistently.
+> 
+>  fs/fuse/virtio_fs.c | 43 ++++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 38 insertions(+), 5 deletions(-)
+> 
+> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+> index f15e516ebcb5c..fffbe08d9114a 100644
+> --- a/fs/fuse/virtio_fs.c
+> +++ b/fs/fuse/virtio_fs.c
+> @@ -4,6 +4,8 @@
+>   * Copyright (C) 2018 Red Hat, Inc.
 >   */
-> -int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
-> +bool fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
->  {
->         struct fuse_inode *fi =3D get_fuse_inode(inode);
->
->         /* There are no io modes if server does not implement open */
->         if (!ff->args)
-> -               return 0;
-> +               return true;
->
-> -       spin_lock(&fi->lock);
-> +       guard(spinlock)(&fi->lock);
->         /*
->          * Setting the bit advises new direct-io writes to use an exclusi=
-ve
->          * lock - without it the wait below might be forever.
-> @@ -53,8 +53,7 @@ int fuse_file_cached_io_open(struct inode *inode, struc=
-t fuse_file *ff)
->          */
->         if (fuse_inode_backing(fi)) {
->                 clear_bit(FUSE_I_CACHE_IO_MODE, &fi->state);
-> -               spin_unlock(&fi->lock);
-> -               return -ETXTBSY;
-> +               return false;
->         }
->
->         WARN_ON(ff->iomode =3D=3D IOM_UNCACHED);
-> @@ -64,8 +63,7 @@ int fuse_file_cached_io_open(struct inode *inode, struc=
-t fuse_file *ff)
->                         set_bit(FUSE_I_CACHE_IO_MODE, &fi->state);
->                 fi->iocachectr++;
->         }
-> -       spin_unlock(&fi->lock);
-> -       return 0;
-> +       return true;
->  }
->
->  static void fuse_file_cached_io_release(struct fuse_file *ff,
-> @@ -85,19 +83,16 @@ static void fuse_file_cached_io_release(struct fuse_f=
-ile *ff,
->  int fuse_inode_uncached_io_start(struct fuse_inode *fi, struct fuse_back=
-ing *fb)
->  {
->         struct fuse_backing *oldfb;
-> -       int err =3D 0;
->
-> -       spin_lock(&fi->lock);
-> +       guard(spinlock)(&fi->lock);
->         /* deny conflicting backing files on same fuse inode */
->         oldfb =3D fuse_inode_backing(fi);
-> -       if (fb && oldfb && oldfb !=3D fb) {
-> -               err =3D -EBUSY;
-> -               goto unlock;
-> -       }
-> -       if (fi->iocachectr > 0) {
-> -               err =3D -ETXTBSY;
-> -               goto unlock;
-> -       }
-> +       if (fb && oldfb && oldfb !=3D fb)
-> +               return -EBUSY;
+>  
+> +#include "fuse_i.h"
 > +
-> +       if (fi->iocachectr > 0)
-> +               return -ETXTBSY;
-> +
->         fi->iocachectr--;
->
->         /* fuse inode holds a single refcount of backing file */
-> @@ -107,9 +102,7 @@ int fuse_inode_uncached_io_start(struct fuse_inode *f=
-i, struct fuse_backing *fb)
->         } else {
->                 fuse_backing_put(fb);
->         }
-> -unlock:
-> -       spin_unlock(&fi->lock);
-> -       return err;
-> +       return 0;
->  }
->
->  /* Takes uncached_io inode mode reference to be dropped on file release =
-*/
-> @@ -121,8 +114,11 @@ static int fuse_file_uncached_io_open(struct inode *=
-inode,
->         int err;
->
->         err =3D fuse_inode_uncached_io_start(fi, fb);
-> -       if (err)
-> -               return err;
-> +       if (err) {
-> +               if (err =3D=3D -EBUSY)
-> +                       return fuse_EIO("mismatched backing");
-> +               return fuse_EIO("conflicting caching mode");
-> +       }
->
->         WARN_ON(ff->iomode !=3D IOM_NONE);
->         ff->iomode =3D IOM_UNCACHED;
-> @@ -173,9 +169,11 @@ static int fuse_file_passthrough_open(struct inode *=
-inode, struct file *file)
->         int err;
->
->         /* Check allowed conditions for file open in passthrough mode */
-> -       if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) || !fc->passthrough ||
-> -           (ff->open_flags & ~FOPEN_PASSTHROUGH_MASK))
-> -               return -EINVAL;
-> +       if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) || !fc->passthrough)
-> +               return fuse_EIO("passthrough not enabled");
-> +
-> +       if (ff->open_flags & ~FOPEN_PASSTHROUGH_MASK)
-> +               return fuse_EIO("conflicting open flags");
->
->         fb =3D fuse_passthrough_open(file, ff->args->open_outarg.backing_=
-id);
->         if (IS_ERR(fb))
-> @@ -197,7 +195,6 @@ int fuse_file_io_open(struct file *file, struct inode=
- *inode)
->  {
->         struct fuse_file *ff =3D file->private_data;
->         struct fuse_inode *fi =3D get_fuse_inode(inode);
-> -       int err;
->
->         /*
->          * io modes are not relevant with virtiofs DAX and with server th=
-at does not
-> @@ -208,11 +205,12 @@ int fuse_file_io_open(struct file *file, struct ino=
-de *inode)
->
->         /*
->          * Server is expected to use FOPEN_PASSTHROUGH for all opens of a=
-n inode
-> -        * which is already open for passthrough.
-> +        * which is already open for passthrough.  Using incorrect open m=
-ode is
-> +        * a server mistake, which results in user visible failure of ope=
-n()
-> +        * with EIO error.
->          */
-> -       err =3D -EINVAL;
->         if (fuse_inode_backing(fi) && !(ff->open_flags & FOPEN_PASSTHROUG=
-H))
-> -               goto fail;
-> +               return fuse_EIO("FOPEN_PASSTHROUGH expected");
->
->         /*
->          * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO.
-> @@ -233,23 +231,12 @@ int fuse_file_io_open(struct file *file, struct ino=
-de *inode)
->                 return 0;
->
->         if (ff->open_flags & FOPEN_PASSTHROUGH)
-> -               err =3D fuse_file_passthrough_open(inode, file);
-> -       else
-> -               err =3D fuse_file_cached_io_open(inode, ff);
-> -       if (err)
-> -               goto fail;
-> +               return fuse_file_passthrough_open(inode, file);
->
-> -       return 0;
-> +       if (!fuse_file_cached_io_open(inode, ff))
-> +               return fuse_EIO("conflicting passthrough open");
->
-> -fail:
-> -       pr_debug("failed to open file in requested io mode (open_flags=3D=
-0x%x, err=3D%i).\n",
-> -                ff->open_flags, err);
-> -       /*
-> -        * The file open mode determines the inode io mode.
-> -        * Using incorrect open mode is a server mistake, which results i=
-n
-> -        * user visible failure of open() with EIO error.
-> -        */
-> -       return -EIO;
-> +       return 0;
->  }
->
->  /* No more pending io and no new io possible to inode via open/mmapped f=
-ile */
-> diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-> index b43d3e0f7081..489838462d1e 100644
-> --- a/fs/fuse/passthrough.c
-> +++ b/fs/fuse/passthrough.c
-> @@ -159,34 +159,29 @@ struct fuse_backing *fuse_passthrough_open(struct f=
-ile *file, int backing_id)
->         struct fuse_conn *fc =3D ff->fm->fc;
->         struct fuse_backing *fb =3D NULL;
->         struct file *backing_file;
-> -       int err;
->
-> -       err =3D -EINVAL;
->         if (backing_id <=3D 0)
-> -               goto out;
-> +               return ERR_PTR(fuse_EIO("invalid backing_id"));
->
-> -       err =3D -ENOENT;
->         fb =3D fuse_backing_lookup(fc, backing_id);
->         if (!fb)
-> -               goto out;
-> +               return ERR_PTR(fuse_EIO("backing not found"));
->
->         /* Allocate backing file per fuse file to store fuse path */
->         backing_file =3D backing_file_open(file, file->f_flags,
->                                          &fb->file->f_path, fb->cred);
-> -       err =3D PTR_ERR(backing_file);
->         if (IS_ERR(backing_file)) {
->                 fuse_backing_put(fb);
-> -               goto out;
-> +               return ERR_PTR(fuse_EIO("failed to open backing file (%ld=
-)", PTR_ERR(backing_file)));
->         }
->
-> -       err =3D 0;
->         ff->passthrough =3D backing_file;
->         ff->cred =3D get_cred(fb->cred);
-> -out:
-> -       pr_debug("%s: backing_id=3D%d, fb=3D0x%p, backing_file=3D0x%p, er=
-r=3D%i\n", __func__,
-> -                backing_id, fb, ff->passthrough, err);
->
-> -       return err ? ERR_PTR(err) : fb;
-> +       pr_debug("%s: backing_id=3D%d, fb=3D0x%p, backing_file=3D0x%p\n",=
- __func__,
-> +                backing_id, fb, ff->passthrough);
-> +
-> +       return fb;
->  }
->
->  void fuse_passthrough_release(struct fuse_file *ff, struct fuse_backing =
-*fb)
-> --
-> 2.54.0
->
+
+Why is this moved?
+
+
+
+>  #include <linux/fs.h>
+>  #include <linux/dax.h>
+>  #include <linux/pci.h>
+> @@ -20,7 +22,6 @@
+>  #include <linux/cleanup.h>
+>  #include <linux/uio.h>
+>  #include "dev.h"
+> -#include "fuse_i.h"
+>  #include "fuse_dev_i.h"
+>  
+>  /* Used to help calculate the FUSE connection's max_pages limit for a request's
+> @@ -730,6 +731,10 @@ static void copy_args_from_argbuf(struct fuse_args *args, struct fuse_req *req)
+>  	unsigned int num_out;
+>  	unsigned int i;
+>  
+> +	/* Error replies contain only the output header. */
+> +	if (req->out.h.error)
+> +		goto out;
+
+But no error is returned?
+
+>  	if (len < sizeof(*oh)) {
+> -		pr_warn("virtio-fs: response too short (%u)\n", len);
+> +		pr_warn_ratelimited("response too short (%u)\n", len);
+
+Isn't these ratelimited() changes separate from the original issue here?
+That should be a separate patch.
+
+thanks,
+
+greg k-h
