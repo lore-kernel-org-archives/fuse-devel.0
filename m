@@ -1,106 +1,142 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C503CF952;
-	Wed,  7 Oct 2026 19:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA55A3E7630
+	for <fuse-devel@lists.linux.dev>; Wed,  7 Oct 2026 23:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791403174; cv=none; b=DgBfimKR7TcVtap/I5bD4Q5HIxGhm80JfJRdnwZaXHMKCSWUkd77ByvooUmzfX/7QZBYBXBLEW7KURSPPOwdZN2708HxQJbD1IeerrVecPdKqDyKu/MoYqgbd0mOs0myfP4j8nvDO9RGhs5cL8w7IzJkU8Ukt4otKPOjoVTIsRU=
+	t=1791414894; cv=none; b=XKGT5gLW/hKdrMT0iHfUUNrfZv3BBCVezTjuAC7IEyMxZjo/ckZlDijL1w5ii1SCTeJ20uTVd9ZsN3CE2jLbdjVaCJL7/J83MyZCuloygINVbna6SaM4ur8rUGBIt01FdMJ2GZ5iVePAWOKj0rtVRCM6fHMyIzQWxnlMpCPhcbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791403174; c=relaxed/simple;
-	bh=umFjFOpgWzcg8yfYffyeeeTNKpvrcD4z7idrM5x6cuU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=P4VLe1zYa7jZgcC6CGX4avPRioIWiZEn3EmDsf9NGGGU+qa6vevgHP6qxuAwasYotcC0jOiMHCfdj3LtRTtOAUlPhPfEVaO5F0h2WHNl0kJr1gE0B+qawfv1+wOtHM3OiNe1aX8gnazeG2RHJfOj1iEoljUx809jjMlO8R0QYjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf16.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id D5221A72F1;
-	Wed,  7 Oct 2026 19:50:01 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf16.hostedemail.com (Postfix) with ESMTPA id AC2E420018;
-	Wed,  7 Oct 2026 19:49:59 +0000 (UTC)
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 33731F40066;
-	Wed,  7 Oct 2026 15:49:59 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-09.internal (MEProxy); Wed, 07 Oct 2026 15:49:59 -0400
-X-ME-Sender: <xms:Z6LGasKFXyToOsO4bjD9S6jkP0kqYK3NoN8nclp2548e3l8fs7faIg>
-    <xme:Z6LGam8TP7UVNmqUzZc7UwK0toDtnpxx1b1VOHxG7SB6Iq_IKlfmuNpWh4LBol8j-
-    toVkNUAtjpSYvdHT0oDh2fUXVDm3urbgsgndiGQ7ZeDg2rH5CLkwsQ>
-X-ME-Proxy-Cause: dmFkZTF5whV9yx0Fc4W4jHKRgoi2fIeukpPmUZ6fG3nVx1vxaSr9EdrAFx4tpIp+7xxsGO
-    JhTiGGfrw/MRK7JtNumUbXLbrOkNuycKDJVqAGp5/ZhKq4q6L9FUPkLdsBP7UQKcAv+Q4z
-    +pyxPiRC4JJInLtOpGt719l4wFStqXSGcY4Rkjjes0mj0vHq1Udy1IppNURdhnFIrANxB0
-    WbNvkQDD986qGxHm5Y8Dri1SptpCSfUyuMzFyE7YuYf7aln8YEqz/+Meh/UZyfoqb/nJxH
-    aC2uslS/lqpqWeSMur0WDlj4kueg55yvZpZKLOwOaTyB+svmNwO3g0D9JbWDoRHlt0TqVf
-    pA7ndR8Lq3brifJKetNyZgqdylp6DcpTWXtswSkxDHtANAXI7sQWKj5+YBfI8Y8STAN7vc
-    RgaQkAzFdRWrDIL4Lze4kgr7PGnHLf1zlwXvBebAqJSfk0LUV+CcLDdhgMC0+WdFhsxz6z
-    UbF5tIIKXNqjg/5k3aoeM+AvlZq0b3APAcAPWYnONlxYFxUxcelBTgtnV78etGvM9ADM5h
-    wHt9bcx7W44O0MUryJU7MKNHUklJ30BcIPuNY4QcZgGzERxEL5Z3fcr3ilhrlTsBjPJ9pL
-    kTXDffNLG1QZJKgKDptNk8k98EAyEVhBqXrBKNulaQktxVgSLEReihtw+GjQ
-X-ME-Proxy: <xmx:Z6LGattKnLd2dn3Cxmlv_fXhoGjfnuO460ksIOcZGmZf7-1_1ETouw>
-    <xmx:Z6LGaiV0lXub33a4YnCaKt1w_5cdbFkOR5KAKjDxUT12AtImn3JOPg>
-    <xmx:Z6LGatzM4tyEgRL4xtSJJE-8fn-e8NnaVbBVTvq9fmcMqCRH4pFp3w>
-    <xmx:Z6LGapFMoDB0vIQZNBA9Wag9nQjk6z5xZHmxG-vwLP3A5zFwcraZ0g>
-    <xmx:Z6LGaisZCNWcxGtaCIxJHJbKhlOwfFnPaJ76JCFm9eYuBTOPbJMY47pO>
-Feedback-ID: i3a164872:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 155F1700065; Wed,  7 Oct 2026 15:49:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1791414894; c=relaxed/simple;
+	bh=5114g4GwAMLsvBYWWh4v6Uv/o65R2Ivnng+bjyX/hb0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=XomFF7ZMCLwK0f1/jRGdaWltuAiKCgmmxo0sKD4J2Y+YJ1F/yiAhyooaZJG+GIXRwfYQcPOdhIoIrzAn9JwWMFq0cqVAHROBPR5NESoLroK7fsJzHYhf0H8f3ZMAlKKe8OLSurszRh6Rbv0D5ut28mMna24n9t8KI5+kO7pqCE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mK5TBGz2; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mK5TBGz2"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2db18e5cb56so20153755ad.0
+        for <fuse-devel@lists.linux.dev>; Wed, 07 Oct 2026 16:14:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791414892; x=1792019692; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=3X41AIkS/dsp/EHn6K3Ci0TU6cqt5IO83pSbJ3jRHLw=;
+        b=mK5TBGz2Y3lfnxuPI+6tD9n12ZXbeQ/xcfQIIDzGlIsz0r/7nNs3e7A3BvRr4nQn3P
+         ct5c8B31MxgkRa4tJZXGvkykSVY4oW71HKp/Ce1k0Fjy+jGnrVRA3qknkR8dnB4BxM+2
+         a4jTiXkACkqcy81zzdI1u59gvyD++VHfrQcMbICjeViLX04euzHWGGZTX7qKROTx65oa
+         ez01B0FEk93Al5Oh9xqbY983lKD8F3cGwYD1T0r4p1424RcuIlk71/tZ93fx7awqvXN4
+         zOU0CSuWPLlnkHLELILVU4Rc3hbaeXVRuZhldljjfRov77bmca3cwdBJK0K5gPPIr6lB
+         O7gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791414892; x=1792019692;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3X41AIkS/dsp/EHn6K3Ci0TU6cqt5IO83pSbJ3jRHLw=;
+        b=JlHJLUFYFmVWoivbNxBsjBoGsh3kVpZ6DOQd+3eYLqhBGVMR4PFGhPi7oo0+O3p2F2
+         PabaGhQhAsZexk3icIeCTmpztScnUGzwhz30sef3hu/C4k2KFlpWsSQ+9pqICXfTNgFx
+         g74GQuEU6KpAdrLiH4Gw5RZyipnZAgO2TW23jJ4m8cvAfeAyMj5vd8H/NPdoKKLwBOYj
+         t5TmUDkIniItIkn2vz032Px+niD8tPLPhnIdGIBIpZc2mnIOENcJy/DjRmkxTCMGRLAg
+         IR3oaI89Q+GLZlhLyRhP4z6bOfW4V50bWRjlagbu2vpFuNEk23k5v8GVlGI8JLkh4TZZ
+         5B+g==
+X-Forwarded-Encrypted: i=1; AKwUvBx4CF5TSQCk5TcC+Jc48Wdp8oK+PAyk+DIEMhMLmaE8MzwM1K8FTJvrSqVzeJad6kiROTA6J468cmyx@lists.linux.dev
+X-Gm-Message-State: AFq9FYKz5kLMr3eSzyNnnuWPPIP4zVi2qZi8i7Ky2VhHgkZxqYoMpI3i
+	AEEH/ZGEYsHBAElKXkNQsKsCYzLV4CXbRFJZFRbPzpFjfw74Bw5rj4m0
+X-Gm-Gg: AYBFou0dtfwPd7Xzjt1bHNgjFPMWlqd7CyGLVBdH0xl05zoDqzpasjSabPyI7x/s8gE
+	Zr+8XSwSadLB2hCIJGnjDrQGrWrjvmbVDMJfyns6ohliCtnhRLA0DU8Pjiex1OsG/0yIswDZ4TJ
+	hRwyTmJzHnPiHApO59vgvUIapxfDbhmCRCtJ6JOILh+vEKGx5e03C29Eq6nhk5LBQugNHIHofk1
+	cwRhJ7KIgbnKRPyaOEg9dVOl2M1yy8WjbKVc5a3ZlbtuNw5kgOSZz8BV6KZtWdnPALF9GkZ6Lnw
+	sVDRqfp6pjqczPIcCkj+8XczGp1xovIy/+Dra/cKJN4EyNolBXQLZxopORjF/uHZhkDHeUxZX4o
+	fUSKcrN7Vbmf0KB3t7PvnQPVpFFyWVp/2n3AcRw21Sn21uFqUTt8yaQ0bhRO5/ZIjd0rpaSYkyN
+	rvmUWsE7Fy5JCLKzoUByT+94aiEpX/y65EQZtCggJiFx0cFDJ9h+tvA0GVCvPrb/waOgzuCVXmV
+	d+NmSZTmEMwFAMcCA==
+X-Received: by 2002:a17:90b:3ec9:b0:3a2:b4bb:91ca with SMTP id 98e67ed59e1d1-3a8a072a99cmr3054120a91.1.1791414892110;
+        Wed, 07 Oct 2026 16:14:52 -0700 (PDT)
+Received: from [192.168.0.160] ([76.135.114.51])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a9ff7ff13esm1356270a91.7.2026.10.07.16.14.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 16:14:51 -0700 (PDT)
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+Subject: [PATCH 0/2] fuse: support per-inode open and release suppression
+Date: Wed, 07 Oct 2026 16:14:33 -0700
+Message-Id: <20261007-fuse-per-inode-no-open-v1-0-be5229fe89f5@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 07 Oct 2026 14:49:38 -0500
-From: "John Groves" <john@groves.net>
-To: "Miklos Szeredi" <miklos@szeredi.hu>,
- "Vishal Verma" <vishal.l.verma@intel.com>,
- "Dave Jiang" <dave.jiang@intel.com>,
- "Alison Schofield" <alison.schofield@intel.com>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>
-Cc: "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>,
- "Carlos Maiolino" <cem@kernel.org>, linux-xfs <linux-xfs@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Message-Id: <d23cb148-85b4-471d-9e6a-d9236ca7c03b@app.fastmail.com>
-In-Reply-To: 
- <CAJfpeguyOXGQO4Q8rSAc8GxExTJU0G2o19fxRnh_93GvAoNcRg@mail.gmail.com>
-References: 
- <CAJfpeguyOXGQO4Q8rSAc8GxExTJU0G2o19fxRnh_93GvAoNcRg@mail.gmail.com>
-Subject: Re: fs_put_dax() vs. dax_holder_notify_failure() race
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Stat-Signature: yzerca3i1py6mksruia6jktc9o7fgqm1
-X-Rspamd-Server: rspamout04
-X-Rspamd-Queue-Id: AC2E420018
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX194ACm1O50BK2wZR58jRvCq1GkjUS9hdpQ=
-X-HE-Tag: 1791402599-523858
-X-HE-Meta: U2FsdGVkX19/PjMHISUe5fosXxRaP4AkvwYpg+D0wk4ct3aHEulJ/W9TwIXI++8AtI9Aj0N+A7wftuZpdqx5rq0Gyuwl6hLmGBnG3SCzJIhfdM3JsEfU1D1ZT4acpUeW15fOTyJ8v3DQWLfNhXKkWuZudFGzGqVH8IdHeyONIf41dwOimliN+BbKuWjPjl+oy0HBWrj/ToFJjzahnacPV+dyFySBIjIP6T1Z/6AUIwRaqdCLr8BPaMw7vyJ5wCAlgl6vfPhM24FlSL07UX3PDM/6Vj5FLfsZK95Mf205C5bJ6JbDpKlhowichWaZ2kHG
+X-B4-Tracking: v=1; b=H4sIAFnSxmoC/x3MMQqFMBBF0a3I1A7EICpu5WORmKdOMwkJXwRx7
+ wbLU9x7U0EWFJqbmzJOKRK1omsbWg+nO1hCNVljh86Ykbd/ASdkFo0BrJFjgnLoDazvnfeToxq
+ njE2ub/xbnucFOvqUbmgAAAA=
+To: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
+Cc: Robert Byrnes <byrnes@wildpumpkin.net>, fuse-devel@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, 
+ Stanislav Kinsburskii <skinsburskii@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791414890; l=2541;
+ i=skinsburskii@gmail.com; s=20260722; h=from:subject:message-id;
+ bh=5114g4GwAMLsvBYWWh4v6Uv/o65R2Ivnng+bjyX/hb0=;
+ b=n05G5uQcf4QRi9Y5MPe2UuJul9ToeFOPrxf6HhNrLuiiBDsT85iYVRHQq4oZwrzVkgMGPWViP
+ KcIj0Mvlx9mAv88eV+oqCwhzN/z4xKkgIo6zas3O5Llrp7e6TX8+vRc
+X-Developer-Key: i=skinsburskii@gmail.com; a=ed25519;
+ pk=bDpriHBYgeTdkIDweZDCemxsU93neJBOCn3YLIuJpnE=
 
+For FUSE filesystems serving immutable data, warm-cache workloads can
+still spend much of their time sending OPEN/OPENDIR and RELEASE/RELEASEDIR
+requests. Data, attributes, lookups and directory entries may already be
+cached, but opening each object still requires a userspace round trip.
 
+The existing connection-wide no-open support cannot distinguish these
+objects from control files that need the server's open and release
+callbacks.
 
-On Wed, Sep 30, 2026, at 9:29 AM, Miklos Szeredi wrote:
-> During ->notify_failure() callback will dereference holder.  It may be
-> NULL at this point, resulting in an Oops, or it may be non-NULL but be
-> freed during that call, resulting in UAF.
-> 
-> This affects xfs at this point, but the fuse extent map patchset[1]
-> also adds dax failure handling and is affected by this issue.
-> 
-> I think this should be fixed in drivers/dax/super.c, since this will
-> be a problem in each user.
-> 
-> Thanks,
-> Miklos
+This series adds negotiated per-inode suppression. A server negotiates
+FUSE_PER_INODE_NO_OPEN during INIT and marks eligible inodes with
+FUSE_ATTR_NO_OPEN in their attribute replies. The kernel then handles
+opens locally for those inodes, using a zero file handle and the existing
+no-open cache defaults. Subsequent requests identify the object by nodeid.
 
-I've seen a bunch of variants of this from Sashiko; will give it a proper
-review and fix, but some things are higher on my triage pile (e.g. validating
-that file ext_maps work as they should, and offering an improved 
-fault/begin handler.
+Release suppression follows how each handle was opened, so changing the
+inode's hint does not create an unmatched release or lose the release of
+a server-opened handle. Atomic O_TRUNC still sends OPEN to the server,
+and CREATE retains its existing open and release lifecycle.
 
-All of that and more is coming asap...
+The second patch adds a raw /dev/fuse selftest without requiring libfuse
+support for the new protocol flags. It covers capability negotiation,
+files and directories, LOOKUP and READDIRPLUS attributes, hint changes
+through GETATTR, hint preservation across STATX, atomic truncation and
+CREATE. The cases also run with writeback caching enabled.
 
-Thanks,
-John
+Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
+---
+Stanislav Kinsburskii (2):
+      fuse: add negotiated per-inode open and release suppression
+      selftests: fuse: test per-inode open suppression
+
+ Documentation/filesystems/fuse/fuse-no-open.rst    |  39 ++
+ Documentation/filesystems/fuse/index.rst           |   1 +
+ fs/fuse/file.c                                     |  26 +-
+ fs/fuse/fuse_i.h                                   |  17 +-
+ fs/fuse/inode.c                                    |   9 +
+ fs/fuse/ioctl.c                                    |   3 +-
+ include/uapi/linux/fuse.h                          |  11 +-
+ .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/fuse/Makefile  |   2 +
+ .../selftests/filesystems/fuse/no_open_test.c      | 511 +++++++++++++++++++++
+ 10 files changed, 612 insertions(+), 8 deletions(-)
+---
+base-commit: b018686719706a781c45a874ed51374a2dc4b767
+change-id: 20261007-fuse-per-inode-no-open-d40e2b4abb8a
+
+Best regards,
+-- 
+Stanislav Kinsburskii <skinsburskii@gmail.com>
+
