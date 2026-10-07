@@ -1,222 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D69395AF2;
-	Wed,  7 Oct 2026 09:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791366455; cv=none; b=iCIDHicquUs99RUO9C0JXwRgA9OVwCTY8696IsoS6j50Z/hhJkWKM0QzpuBDsHIYW19ylEHABJiUus8mDVeun3YMmLZVmZT31rqF8poT00QsTLFg2WD6AWiHZXGujLO5CnyrxQ/p3seGB4V2p0eYYtw/sQhsJFvT8Ob0SgFncBk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791366455; c=relaxed/simple;
-	bh=MI7nzD7itjW5CD3PEi3m4rfppLLIWuVo4w29NRTu5Ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A18ab7BdFaOa564DGv291VEFXPODLEO2EM2b9m9r9OPoKKAsl3f1jRZ2FBZy9LwKKPhgXjGLAZoWB/8XaenK9piJYVVxQCmD5bqG8f6H7CPAgFtfcPxWXshxi9bYE5C6NQkpLk1aOlstuJv73dbZQ6VSmw559UxagRVRstsof7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fai2JdxQ; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0153F4908BF
+	for <fuse-devel@lists.linux.dev>; Wed,  7 Oct 2026 12:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791377203; cv=pass; b=f+UUH3P3ohbesmGCorzdTyU1JXlqThgJ60949vgnMoLpeie6GGuxIb2cj9v2Qw03JwcLaiHu7ho9K5Fw8GeP/UszuYn5ltVMjK9CKrYyRSerkmqf+1rLqKvnmuCtxBZQ4SRveen8y12d61bp9sMs8UAzq5SKFvJ6UcoKXmyvfNA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791377203; c=relaxed/simple;
+	bh=DQ66qo2LBVsMUtYcU8ALmcwIh6GNxRlKIPrYYWjh+QQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qWG15Eus+6uiiwp4s5crG9eIP1ad3LQvRxv41p4TSi0QLY4NSnla4DjuzUl741YKSMoIezI8MG49ITFJNx+HoXFPAkIJW0rrVS3XKopVA1VdE3L6wQnVeV8EgPWg24sRNQHFoIBgru4eob17Dtl8FMfTP3XxI3Y3hRtoyp5tQKE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=nnAYqY7e; arc=pass smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fai2JdxQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEB331F0089B;
-	Wed,  7 Oct 2026 09:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791366444;
-	bh=WKfTrq8VHIA+znChlNb3NuZ60B46dqCeKbF4f81115I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fai2JdxQg2GTZDr/VvQZVCO9hLiWsjmsp3kCspc8fuKK4Idhvb8afxieuvkYwQyYm
-	 EROdJ2PNOewRKi2TlzftYwYAKyOzWDZOqcN/uIKMcnbgV4RmoSWKvkrrjXqOH103u4
-	 pkW/zLZZoKah5esAFQs3D/dVu6u2y5mvWBDTVdUYX8sUlAMw/6TGZqWNoZl9+0sMb5
-	 XRIYEsb8pFZMI07mxgwGXu32WJ+4ExSOAeE3Q6diCbSoyE+fYRs6OFJ8RwEG+2QP6M
-	 t5VGgOEOdwhnOdt+AfIzlhYUJpGyLhxBjp3rfpsYz8tJfVVrUI3imhuR0jMSWv7pUP
-	 MBSrx6oIQcWWw==
-Date: Wed, 7 Oct 2026 11:47:09 +0200
-From: Carlos Maiolino <cem@kernel.org>
-To: NeilBrown <neil@brown.name>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Amir Goldstein <amir73il@gmail.com>, Kees Cook <kees@kernel.org>, 
-	Joel Granados <joel.granados@kernel.org>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Breno Leitao <leitao@debian.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Jan Harkes <jaharkes@cs.cmu.edu>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Namjae Jeon <linkinjeon@kernel.org>, 
-	Hyunchul Lee <hyc.lee@gmail.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jeff Layton <jlayton@kernel.org>, Jan Kara <jack@suse.cz>, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-unionfs@vger.kernel.org, linux-um@lists.infradead.org, codalist@coda.cs.cmu.edu, 
-	coda@cs.cmu.edu, linux-mm@kvack.org, ntfs@lists.linux.dev, 
-	linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 1/7] VFS/xfs/ntfs: drop parent lock across
- d_alloc_parallel() in d_add_ci()
-Message-ID: <asYVApB1jdBYj9tN@cronus.toxiclabs.cc>
-References: <20260929034158.1455429-1-neilb@ownmail.net>
- <20260929034158.1455429-2-neilb@ownmail.net>
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="nnAYqY7e"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-917a7c03eb8so31269996d6.3
+        for <fuse-devel@lists.linux.dev>; Wed, 07 Oct 2026 05:46:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791377193; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YoL2kzESdQvKCjoD+cJw5qgwDQ2hzzfI+PJncQ3bTTZuRPtx1qIfdZpXE/ajJqtrPZ
+         A+OfSr6Q9Mgde+ApNdC1vnImRWO9ndKEwOA3uuGMDKmJobUEaCGzM3edXn8FDQcEM21D
+         c22u8OpsnY1sZa8Ycmao78asBr1RaH4/HzrnZW07pBw5No5Z2VCseaksOsxuerTpPOhV
+         A1Ag+ked9D0QfGBEmBaBT3Kqc1+394bPMbaBvv4dzdN9cOH8YVqeMOCzh2TQ7qOyMc0Q
+         OYG+VSQCCSNplzTYmh/8ubVUk+cGopyMT+jA2cWeooLHBYmySDBT41CtgdqjbeGzS8PW
+         9sLQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dUNhGKEa9s44b6qdRqUnNpXSObQsUXKjp/BQgjN+C1k=;
+        fh=k+1PeRX7skRVHNDdAz5bbzd7CA1HYPTdzyJO5i7Sndo=;
+        b=DauNiSs4T3kSD7CokE8mDcmitdlIonJFH9bj9C/YfFHBkKmrsgwfhlQ0eQB2DNUqBc
+         dHIJjIb+O8arK54wh9P72vtAFeyufKFKVejv8YqTibeHuVSGE0VQs6vcrjcajsroPpiv
+         LfdeESyz9NlaZsdtCc041zPKQjYKvqSeiegC12bkdiZ+/EGk7SUqTvQLVOwaxnNZG/o2
+         5+acZdThy02FOzLsx1eyLE3RXQI/YEK8fHo8Al0aC4wm0oEZzu0cLGg2/oXaXfx9g0VJ
+         5k6E204KRqB8XidN+2w01Co9f4nsgvhj5d7aGHMN9Y89NlX67We68r3ChStv5vJfioiN
+         xaUA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1791377193; x=1791981993; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dUNhGKEa9s44b6qdRqUnNpXSObQsUXKjp/BQgjN+C1k=;
+        b=nnAYqY7e7g2xpmsNmoLx1SyiS++scdYqd270N1eE1c+BYvhkRuARMUG8HXrNw9GeS+
+         NlxhtB+HDZ2itjqVJm5bpv2LTtwTFS8D9QTuv9FGSrfU3k4LnBit0Dte80jkRXqfF33D
+         6+EcqMAbAlM+aKpTg+Q1SNnRwgGM39S+2B2KU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791377193; x=1791981993;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=dUNhGKEa9s44b6qdRqUnNpXSObQsUXKjp/BQgjN+C1k=;
+        b=L+9cymH9s/HCtzSHn8F06oHG7LyECMllO7NzN0/KjnF+PcL77axFghjzEn2sdISBvM
+         5jbKeTcPlFXNCHkhwC+0sEQJZUWZwucJX0eSGW2RB8q2F521A22g/z/XOIa+C1g5D0SD
+         9JulWj2D/IsnnxES1nA3DqDpCgU/UdRPY72GY6mAVcA5EcFYGBZFEDxR8i6B0MhWOggB
+         bpGO53s8uwD06nMJXo8U1xVrJyhC81Fqrkk0QeD0UUOecc8hAVEyckk5H9YUAq5V929v
+         XPIK79EbsnKZNuCwxkdH0nL23mVA40FbOpn1Vu56ORx4RKPd2YkQCZrkiQcn1sjt0Mxo
+         PgQQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw6boe5c+ZYClRZ117HG54HG2BHaJxubNIbj6e8XQKvE22vO9oVhWiz+Vu0CPW2OHpDvUJ33qhdvWwh@lists.linux.dev
+X-Gm-Message-State: AFuF++np7LSOcebak2a/AIDdxPxk18SkwvbmnCVS0bVFzsJY/HHwgEDJ
+	WOFXBnbKOEQuLez10muAwz3jwd04Kzv7NBc2Tam+ctR3/Y+E2ZKYHXb4WBB+gV4GLd/gyBQUAGu
+	geH8XN1s5r/Gd974Z/JqoXHUNmabfJi6KzZb4Tz3VNA==
+X-Gm-Gg: AYBFou0/6ovjXz23s8MpJS8+hb9NxGzs2ve7GMaBJcmcDLkx3Ml7rFKHl4tTwfFjPDU
+	ct/Pn5D1ODuwMDI4zx06wBJqf7Tr3EOf6OOuHLVpm/f9Jn64c8GrpuDeuHAfza7YhpE5qVVWJa4
+	PJPtopqzYw9iuv41oQCrbg+KvV4+T3flkHp1OqfWakgdP7gxVQkykJgrBruiDyEd0wV9R37eTsd
+	Psm/gpqSTMHC0qjh37mhWSEMwDO99owc6sUtGDZ8VFrFV+1Xhcj3nr6kEE/OsfraOfUQEzXTwTg
+	HQ3ajrtemVy5ZgnUO2SCQRtz4P300fQlsLe5NOOgRSPYHsTEBbQlwnUndtUM7Qn9rafdIwEAaNS
+	cLdXp/1rSrQ5k
+X-Received: by 2002:a05:6214:5992:b0:912:5f4c:ad3b with SMTP id
+ 6a1803df08f44-919977eb9c7mr39837396d6.16.1791377193347; Wed, 07 Oct 2026
+ 05:46:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260929034158.1455429-2-neilb@ownmail.net>
+References: <20261001150935.655979-1-mszeredi@redhat.com> <20261001150935.655979-4-mszeredi@redhat.com>
+ <CAOQ4uxjWCRs59Qpc4t+2=i67rdJkHt=+rH07ZXv7ZzAvTjTm-A@mail.gmail.com>
+ <CAOQ4uxi1+WgHJdnRKMD3tp24EOyx7iPByzSKLn_siTVY3_sRDQ@mail.gmail.com>
+ <CAJfpegttAHQAGhE61t-VZqfQv9Z==ovbyLY6qp3KOK_CvjBciA@mail.gmail.com> <CAOQ4uxj76PJiumvXLHoJUKx_=FAueg3WQjYd64=B_TXo581POg@mail.gmail.com>
+In-Reply-To: <CAOQ4uxj76PJiumvXLHoJUKx_=FAueg3WQjYd64=B_TXo581POg@mail.gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 7 Oct 2026 14:46:21 +0200
+X-Gm-Features: AclHuK_kiKb8PFtEuseEkzlQkRsY4kgMloE-Yk2LCuIBBYBmhlknL6iE41fdO20
+Message-ID: <CAJfpegsKRX-sumEA5bjvfNwpkXp35HM_QPd8taMPooR0gHpKaA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/8] fuse: support 64 bit, server allocated backing ID
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	John Groves <john@groves.net>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 29, 2026 at 01:36:01PM +1000, NeilBrown wrote:
-> From: NeilBrown <neil@brown.name>
-> 
-> A proposed change will invert the lock ordering between
-> d_alloc_parallel() and inode_lock() on the parent.
-> When that happens it will not be safe to call d_alloc_parallel() while
-> holding the parent lock - even shared.
-> 
-> We don't need to keep the parent lock held when d_add_ci() is run - the
-> VFS doesn't need it as dentry is exclusively held due to
-> DCACHE_PAR_LOOKUP and the filesystem has finished its work.
-> 
-> So drop and reclaim the lock (shared or exclusive as determined by
-> LOOKUP_SHARED) to avoid future deadlock.
-> 
-> Signed-off-by: NeilBrown <neil@brown.name>
-> ---
+On Tue, 6 Oct 2026 at 23:24, Amir Goldstein <amir73il@gmail.com> wrote:
 
-XFS bits are really small, but anyway, if needed, feel free to add:
+> Unless we gate _open() with fch->initialized, then it could fail on
+> either one of these cases:
+>
+>                 if (!fc->passthrough || !capable(CAP_SYS_ADMIN))
+>                         return -EPERM;
+>
+>                 if (inode->i_sb->s_stack_depth >= fc->max_stack_depth)
+>                         return -ELOOP;
+>
+> Quite randomly.
+>
+> Maybe I am missing something.
 
-Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
+No, you are right.
 
->  Documentation/filesystems/porting.rst |  7 ++++++
->  fs/dcache.c                           | 32 +++++++++++++++++++++++----
->  fs/ntfs/namei.c                       |  2 +-
->  fs/xfs/xfs_iops.c                     |  2 +-
->  include/linux/dcache.h                |  3 ++-
->  5 files changed, 39 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
-> index 4e015f1bf1f8..f6a38bd9c68e 100644
-> --- a/Documentation/filesystems/porting.rst
-> +++ b/Documentation/filesystems/porting.rst
-> @@ -1409,3 +1409,10 @@ use only if you have no alternative.
->  The .create inode_operation no longer receives the 'excl' arg.  It must
->  always assume the file does not already exist.  If the filesystem needs
->  to be involved in non-exclusive create, it should provide atomic_open.
-> +
-> +---
-> +
-> +**mandatory**
-> +
-> +d_add_ci() must now be passed the flags arguemnt that was given to ->lookup
-> +
-> diff --git a/fs/dcache.c b/fs/dcache.c
-> index 83790c7a4dee..61e0896dc077 100644
-> --- a/fs/dcache.c
-> +++ b/fs/dcache.c
-> @@ -2383,6 +2383,7 @@ EXPORT_SYMBOL(d_obtain_root);
->   * @dentry: the negative dentry that was passed to the parent's lookup func
->   * @inode:  the inode case-insensitive lookup has found
->   * @name:   the case-exact name to be associated with the returned dentry
-> + * @lookup_flags: flags passed to ->lookup
->   *
->   * This is to avoid filling the dcache with case-insensitive names to the
->   * same inode, only the actual correct case is stored in the dcache for
-> @@ -2395,9 +2396,10 @@ EXPORT_SYMBOL(d_obtain_root);
->   * the exact case, and return the spliced entry.
->   */
->  struct dentry *d_add_ci(struct dentry *dentry, struct inode *inode,
-> -			struct qstr *name)
-> +			struct qstr *name, unsigned int lookup_flags)
->  {
->  	struct dentry *found, *res;
-> +	bool must_unlock = false;
->  
->  	/*
->  	 * First check if a dentry matching the name already exists,
-> @@ -2409,24 +2411,46 @@ struct dentry *d_add_ci(struct dentry *dentry, struct inode *inode,
->  		return found;
->  	}
->  	if (d_in_lookup(dentry)) {
-> +		/*
-> +		 * We are holding parent lock and so don't want to wait
-> +		 * for a d_in_lookup() dentry.  We can safely drop the
-> +		 * parent lock and reclaim it as we have exclusive
-> +		 * access to dentry as it is d_in_lookup() (so
-> +		 * ->d_parent is stable) and we are near the end
-> +		 * ->lookup() and will shortly drop the lock anyway.
-> +		 * We cannot retake the lock while the new dentry is in-lookup
-> +		 */
-> +		if (lookup_flags & LOOKUP_SHARED)
-> +			inode_unlock_shared(d_inode(dentry->d_parent));
-> +		else
-> +			inode_unlock(d_inode(dentry->d_parent));
-> +		must_unlock = true;
->  		found = d_alloc_parallel(dentry->d_parent, name);
->  		if (IS_ERR(found) || !d_in_lookup(found)) {
->  			iput(inode);
-> -			return found;
-> +			goto out_unlock;
->  		}
->  	} else {
->  		found = d_alloc(dentry->d_parent, name);
->  		if (!found) {
->  			iput(inode);
->  			return ERR_PTR(-ENOMEM);
-> -		} 
-> +		}
->  	}
->  	res = d_splice_alias(inode, found);
->  	if (res) {
->  		d_lookup_done(found);
->  		dput(found);
-> -		return res;
-> +		found = res;
->  	}
-> +	if (!must_unlock)
-> +		return found;
-> +out_unlock:
-> +	d_lookup_done(dentry);
-> +	if (lookup_flags & LOOKUP_SHARED)
-> +		inode_lock_shared(d_inode(dentry->d_parent));
-> +	else
-> +		inode_lock_nested(d_inode(dentry->d_parent), I_MUTEX_PARENT);
->  	return found;
->  }
->  EXPORT_SYMBOL(d_add_ci);
-> diff --git a/fs/ntfs/namei.c b/fs/ntfs/namei.c
-> index 7091b2496fac..61cfa4e16586 100644
-> --- a/fs/ntfs/namei.c
-> +++ b/fs/ntfs/namei.c
-> @@ -309,7 +309,7 @@ static struct dentry *ntfs_lookup(struct inode *dir_ino, struct dentry *dent,
->  		}
->  		nls_name.hash = full_name_hash(dent, nls_name.name, nls_name.len);
->  
-> -		dent = d_add_ci(dent, dent_inode, &nls_name);
-> +		dent = d_add_ci(dent, dent_inode, &nls_name, flags);
->  		kfree(nls_name.name);
->  		return dent;
->  
-> diff --git a/fs/xfs/xfs_iops.c b/fs/xfs/xfs_iops.c
-> index 4a3299abf774..fd480c0e4147 100644
-> --- a/fs/xfs/xfs_iops.c
-> +++ b/fs/xfs/xfs_iops.c
-> @@ -368,7 +368,7 @@ xfs_vn_ci_lookup(
->  	/* else case-insensitive match... */
->  	dname.name = ci_name.name;
->  	dname.len = ci_name.len;
-> -	dentry = d_add_ci(dentry, VFS_I(ip), &dname);
-> +	dentry = d_add_ci(dentry, VFS_I(ip), &dname, flags);
->  	kfree(ci_name.name);
->  	return dentry;
->  }
-> diff --git a/include/linux/dcache.h b/include/linux/dcache.h
-> index adf239f8205f..97d11f5e6a7b 100644
-> --- a/include/linux/dcache.h
-> +++ b/include/linux/dcache.h
-> @@ -267,7 +267,8 @@ struct dentry *d_duplicate(struct dentry *dentry);
->  /* weird procfs mess; *NOT* exported */
->  extern struct dentry * d_splice_alias_ops(struct inode *, struct dentry *,
->  					  const struct dentry_operations *);
-> -extern struct dentry * d_add_ci(struct dentry *, struct inode *, struct qstr *);
-> +extern struct dentry * d_add_ci(struct dentry *, struct inode *, struct qstr *,
-> +				unsigned int);
->  extern bool d_same_name(const struct dentry *dentry, const struct dentry *parent,
->  			const struct qstr *name);
->  extern struct dentry *d_find_any_alias(struct inode *inode);
-> 
-> base-commit: 3879f51857325da9bf3cfb073280257cd16ae067
-> -- 
-> 2.50.0.107.gf914562f5916.dirty
-> 
+Thanks,
+Miklos
