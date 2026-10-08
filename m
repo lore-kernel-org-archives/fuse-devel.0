@@ -1,171 +1,162 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B0848424D
-	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 14:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3BC4B5CD2
+	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 18:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791468558; cv=none; b=s5V6B+8E/nxAzVcnoxhSzpJ9UbhzPFg8rhFB43lfXspOXJGT1X27AALKmJp2rNdZ/rNOQaRVRqLQ3dqFeZ6/MS/zhQVH+2rSIJti5mqMNPEvd/GsaVIczEcTZrgE9CQphOnsXOH/gRHQ+rHUMlwoKHCZUF5zfae4BwoO46dIrsM=
+	t=1791482845; cv=none; b=OW7lNkZ4Rhzjf8E4FTzIWfJrGDqS81D4UYzo2za5jSjmyAYILrhrR6NwgFyptsk3TxOJUhGxLKj979UV6ynKLcgRDwiP5dwNwHWkltQmkyaQNgF6RzcUB0YCzcv6HhRdb50TvN+uoDHCaFpUKvacPXaWVmCUJVHIAWsgoZzUhvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791468558; c=relaxed/simple;
-	bh=6BEIHJjolflX6+Gzn6XCCPW64FuT3A8Y0aHv6pxFkJ8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=JX2OO9HhHXqbYfQ674pDE/7tIjWJDju75f2ZD3wzY3IrYJ07zXj1YRmS4+6TtKKUg/exx5Sk9CVSgaDL+RKrZaoYjIYioR1om6HEg24ie+R1P+x6HqZGTUwk/5DSWmPyLfRjj9gCTynpX+YE1jpibxea3TyTc9f4cR7/w5EPCI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DlInKjcv; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1791482845; c=relaxed/simple;
+	bh=VRTrMnRCtIFbD2EyB6N5w6LrzMeEzaYWJ1e5rAtXRnk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=lkcROFEV4Uor67P2xlb8swjQ2Ysfu5vcV0xIvkE9+M7aG0nbg5i6G8DVU/azJsJHWmyxYfDSVTgH+IZeLanYyQLpHosPciL1Rz48jxnh/ehM8E1vtNJViHndhqSgWkLz0G1tRWKYn5pWM+MMBo41m2RxO+35wl3c+lP0YNYnjng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mACFr505; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DlInKjcv"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3964dfb5b9aso3018110a91.1
-        for <fuse-devel@lists.linux.dev>; Thu, 08 Oct 2026 07:09:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mACFr505"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cc1d57602e8so1563845a12.3
+        for <fuse-devel@lists.linux.dev>; Thu, 08 Oct 2026 11:07:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791468556; x=1792073356; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tSANG6S8NSGoFygyPtolE8Kx6+g//31lIkZsaSMWHdo=;
-        b=DlInKjcvJyfVXU1uXXJD6x+sbRL6MEUA8dZm0+lau2sRrhkj3CgBDrrr/35oPsJ4bG
-         9Z1KHQYVz3zZ94EpKjqq4ZhHa5MetzgkRrN7kVK9ET9oKGnkyA3EyDQvZz+N2Euc/SgD
-         HUR0+ob6jn0U2Yo6IqcHScYSu/8f8lSn8rUzHgAVqPWDaGplWnEYJX+pzdtl5iQmskGf
-         T4VZZYteME1SOUd2H8HIWwKX5rUTZ8bj8JvjWyIilK0JHIYixItdFQ40a/96/S6LYirt
-         h8fLpjY+ws6lG7Ox9Sm8jEeAh8gQ6OpVEjzNJUVZ0NhCn423rhsMSl4gib57z/XxvTy6
-         t+DQ==
+        d=gmail.com; s=20251104; t=1791482843; x=1792087643; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=vx1hsDBsieq23jav84qc39RHrlNeTK4K/qIOXf26Ahg=;
+        b=mACFr505E6aYvS1ndNZAwbWlpXoGQVaH8BAYVEiEdKLUUOjyW/fZxI3tQr9um0j37i
+         yWCmvGWqXjDZ0GOZsBT3PNmoc8jXjQExsCKOrcQAZv5gMMWbdE6RHXx+UUXRVN+TWA4G
+         UXNTuHtkhKTcUtsNAtZjuOO6vFRYjXOgmrm3ueEtMkFhdwW/CoyEsTHUZ8D2Daw5Cc2M
+         kKcmLVDEITG94BQ7yAibuxbAndiA/vteecmUWgtlbRtXkEQ1rvjczacwMp3hVKiExa1Z
+         gUzG1Gj208j4JteeuBs+vQlfJ4MDPSzsIGW6XZ7Vy3slsA78rY5XPPb4j7kvwqLuqlA4
+         aTOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791468556; x=1792073356;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tSANG6S8NSGoFygyPtolE8Kx6+g//31lIkZsaSMWHdo=;
-        b=fY794gbouwTifKFHCTPs5N0izAQ7Hty4JC8Qfj9rpoHwj/dGcRzt8n+Wy08jJjBqBd
-         twMELMxPsGfRIMV2j1XQukXBDnUKM4nan29SqayQeXF24GYCOfmBL7dFuy9cxR8oWpuh
-         UzdyYxvOeO0AResBWeIdAhT3CTSWoAt0XmMnl8JmP1qLR8OWFwRD4ee85VN2pkxf4uHt
-         Gnvq3xxw4eo+/T7kBhUHtRAj/RqbyERJW0Bng+rMXH4lDy4kQ4OmfWgUep265rOOJOW7
-         A5C4iz0y3l/liWfxmGghXhSAog4y+SwfJ08lxv7MVJnAOfwUmDvq7+HYf06v8NzjKIpp
-         SRvg==
-X-Gm-Message-State: AFq9FYLlcXlo0gJqUkelvkrEMYPNmx5fc9NSLX858dHI7PwKN7bb6T6m
-	crE2mbSxkMEPTNAd0Z6RpcHev7nkoRMf/ADYGN3sFukqWnOkUH51n4o0
-X-Gm-Gg: AYBFou3d3oOZS0V5bLu1/JeT6DIif3lsCr3MuXOzd8VMbiEeW/x/yJ0lboQTeKx3qbm
-	vLlA6oqYgm7/ZcuTzfFpj2I9adxF+3THE4RPL1T4sbG56QpiFEpXo8r19XAX4vV6Y1zrT/3W0fQ
-	DuSaSw9/8k86Lczlvn7VRbL4F1ma+xwEqqONeblf3FAPpmkC7+i6PyeEwEeFLHqt2uTEZsXPdmu
-	3lz1c4sADYT8MEq+63lwiMMyPT6KFwI2Hn6bcP4Al3LqAkwdY3+FuE+d2mq3TaKId865soqKoGh
-	XCDazvaKR4Wh73YW9MiQlbLVLDJ1KF6R4HeBi8FdzHPcH+GCYK6B8MGo7BK7zGj33o35togo8D4
-	zpC7MUKCnG3uTIf3c5HTDULUfl1LFWE2Ls3Nyii1980o7JpoBcEdu6xQT2mUNZFZq7kOgSLshUt
-	TRMQDtX4fh7vz8nNXJ/ts/SXuSYw11KM//hW0S9QYRcrESsfFEF9WMGonZKzuvm4+w7w==
-X-Received: by 2002:a17:90b:2751:b0:3a0:9640:8039 with SMTP id 98e67ed59e1d1-3a8a0ba984cmr5074558a91.30.1791468551666;
-        Thu, 08 Oct 2026 07:09:11 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd35715bfdesm53008a12.20.2026.10.08.07.09.05
+        d=1e100.net; s=20260707; t=1791482843; x=1792087643;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=vx1hsDBsieq23jav84qc39RHrlNeTK4K/qIOXf26Ahg=;
+        b=BEBZC5YKjM34ykC2D3YnH7t4j5BLWMYPuuoDgSqWVq1huIZpAB9etBLk+8bE3cMpa/
+         Hnuc8VnMtHwz1o5CkfS24TkwmDvto4OlXbNZHGSNiZ6awpXFYNIWF2nvBHH6IylQousr
+         3H1z+BixI/FDATEW9LoGpLabTcQTKYR3Ls7GcKmVWZsLkK2vsnSjItpDd+gjLnl0y3YL
+         azgrJQ82qlMR2mhEDOfa0Ikj2ADToyewKRvTalOt0N3PRk3NZL9bqsE0hWb02Csze1PQ
+         I4y/25P2LCtxdixllB5FjWfzSR7bU/x0+ouBcIXKrmsDW+Vv+icMxiT28EbLk1V7zc8Y
+         /YJQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxX9tc314djvNFZP2XPG+oQQUArcqb4Xae8itrXViqWURb6bgvdNcHVvxA3aW0F6tbLW03UBLs7Mq9o@lists.linux.dev
+X-Gm-Message-State: AFq9FYKBJuwP3CUYBDzX02P36tJc8Bjm18MJZXaeh6sED2L+d87Lh/SB
+	AtSlQEkTXV8owCIdHM297gSb0er2yYqcN3xL4+AXgtYKJVgl9nA/sNJF
+X-Gm-Gg: AYBFou20ADQ6GoIFZr1+H3JlHA+VhC+sq7CSmyijEqw1yq6LSiH8b0WFn86kJNzeqsw
+	lBOAGmvcYAokYx16/DyTNBEgs3Bs4G2qKwMtMj7h2gl9ZsvGyZuT+NFIH2R432aimGrzh13cZck
+	EENlfLQt9F3CaOiSSQIBQ1t+Dh5zOZdOwCG/tEK55wV2WKyJQBcU++mcMx5qhb241/h24OBq0CP
+	zwu0EGjddN8e9htMs1juVVv+doN7dLQ/7xJVKvyDl+M5jjaUXDZj3UEB6R4UAAe+ulzh5OdyUf7
+	bHSQPFfBHg69nGuB8jSrNBO27DXXMuck7hiOpOEGvXsKXur2DyRN+8QJazvOANYK2fpSo3Nj2mU
+	47DxD9hPm23LH0zplctEt3rwrs1QHifbKKJksVqoTGkdErQk1r0ob5rKbB2dS3oAAoHNHKucOHy
+	8e1j9aVvJ+2ks04w59cQWR+VTrRLBZ4zKoqqGY5rVXx1pMf+MZT+u1TOKvGygoRsjMT1Fa/A91t
+	LoymuYl/IxI3Xej
+X-Received: by 2002:a17:90b:2243:b0:39e:6c69:34da with SMTP id 98e67ed59e1d1-3a8a1cea2c5mr5582516a91.62.1791482842628;
+        Thu, 08 Oct 2026 11:07:22 -0700 (PDT)
+Received: from [192.168.0.160] ([76.135.114.51])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab31fccd1dsm268530a91.2.2026.10.08.11.07.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 07:09:08 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: miklos@szeredi.hu,
-	bo.liu@linux.alibaba.com,
-	vgoyal@redhat.com
-Cc: fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	jjzuming@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH v2] fuse: dax: Clear stale mapping when inline reclaim lookup misses
-Date: Thu,  8 Oct 2026 22:09:02 +0800
-Message-Id: <pm-fuse-full-objects-candidate-0016-v4-87d8eabc59be23301791@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 08 Oct 2026 11:07:21 -0700 (PDT)
+From: Stanislav Kinsburskii <skinsburskii@gmail.com>
+Subject: [PATCH v2 0/2] fuse: support per-inode open and release
+ suppression
+Date: Thu, 08 Oct 2026 11:06:43 -0700
+Message-Id: <20261008-fuse-per-inode-no-open-v2-0-39c60fe97728@gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALPbx2oC/4WNQQ6CMBBFr0Jm7ZjSgIIr7mFYtHQKk0jbtEo0p
+ He3cgGX7yX//R0SRaYEt2qHSBsn9q6APFUwLcrNhGwKgxTyUgtxRftKhIEisvOG0Hn0gRyaRpD
+ UjdK6U1DGIZLl9xG+j4UXTk8fP8fPVv/s3+RWo0BNrZS9pa637TCvih/nya8w5py/lZaIQ7wAA
+ AA=
+To: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
+Cc: Robert Byrnes <byrnes@wildpumpkin.net>, fuse-devel@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, 
+ Stanislav Kinsburskii <skinsburskii@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791482840; l=3230;
+ i=skinsburskii@gmail.com; s=20260722; h=from:subject:message-id;
+ bh=VRTrMnRCtIFbD2EyB6N5w6LrzMeEzaYWJ1e5rAtXRnk=;
+ b=4xlDZOqYR1DmUGgZwSQ7y/+HVBLKUTM/oO7OPIm1JRzOuAmiQzYTKCrh2oAARzLuSEoBW4sN4
+ NuVzaOuGKGYBhcyA57F1mp4GqOnJ+RqxRAR03KPNMfZE4W2vhMcuESB
+X-Developer-Key: i=skinsburskii@gmail.com; a=ed25519;
+ pk=bDpriHBYgeTdkIDweZDCemxsU93neJBOCn3YLIuJpnE=
 
-A mapping returned by inline reclaim must be detached from its inode
-and the connection's busy list before it can be reused. However,
-inode_inline_reclaim_one_dmap() leaves dmap unchanged when its second
-tree lookup misses. It sets retry but returns the old pointer, and
-alloc_dax_mapping_reclaim() accepts a non-NULL result before checking
-retry.
+For FUSE filesystems serving immutable data, warm-cache workloads can
+still spend much of their time sending OPEN/OPENDIR and RELEASE/RELEASEDIR
+requests. Data, attributes, lookups and directory entries may already be
+cached, but opening each object still requires a userspace round trip.
 
-With DAX enabled, an exhausted free pool sends a file read or a
-non-extending write into inline reclaim. A pinned DAX page can make
-fuse_dax_break_layouts() wait. The inode tree semaphore is already
-released, and fuse_wait_dax_page() drops the inode's invalidate_lock
-while scheduling. This permits the following ordering:
+The existing connection-wide no-open support cannot distinguish these
+objects from control files that need the server's open and release
+callbacks.
 
-  1. Inline reclaim on inode I selects mapping D and copies its index
-     under fi->dax->sem, then releases the semaphore and waits with
-     invalidate_lock dropped.
-  2. After the page is unpinned, the reclaim worker acquires I's
-     invalidate_lock before the inline caller resumes. It relooks up
-     the index under fi->dax->sem, removes D and returns it to the free
-     pool under fcd->lock.
-  3. Mapping setup on inode J takes D from the free pool and publishes
-     it in J's tree and the busy list. J has separate inode locks.
-  4. Inline reclaim reacquires I's invalidate_lock and fi->dax->sem.
-     Its lookup misses, but it returns D. Setup on I then reuses D
-     while J still owns it.
+This series adds negotiated per-inode suppression. A server negotiates
+FUSE_PER_INODE_NO_OPEN during INIT and marks eligible inodes with
+FUSE_ATTR_NO_OPEN in their attribute replies. The kernel then handles
+opens locally for those inodes, using a zero file handle and the existing
+no-open cache defaults. Subsequent requests identify the object by nodeid.
 
-Successful stale setup remaps the same DAX window and reinserts the
-embedded tree and list nodes, allowing accesses to reach another
-file's data and corrupting the mapping structures. A setup error or
-an existing mapping on I instead puts the active slot on the free
-list. Later reclaim can encounter a cleared inode pointer in the
-corrupted busy list.
+Release suppression follows how each handle was opened, so changing the
+inode's hint does not create an unmatched release or lose the release of
+a server-opened handle. Atomic O_TRUNC still sends OPEN to the server,
+and CREATE retains its existing open and release lifecycle.
 
-Clear dmap on the missing-node branch, as in the adjacent branch for
-a mapping still in use. Returning NULL with retry set makes the
-allocator retry through the existing pool and tree lookups after
-releasing both inode locks, rather than reuse an unreserved slot.
+The second patch adds a raw /dev/fuse selftest without requiring libfuse
+support for the new protocol flags. It covers capability negotiation,
+files and directories, LOOKUP and READDIRPLUS attributes, hint changes
+through GETATTR, hint preservation across STATX, atomic truncation and
+CREATE. The cases also run with writeback caching enabled.
 
-The failing worker produced the following KASAN report:
-
-    BUG: KASAN: null-ptr-deref in igrab+0x2d/0x260
-    Write of size 4 at addr 00000000000001e8 by task kworker/u16:0/12
-
-    Workqueue: events_dfl_long fuse_dax_free_mem_worker
-    Call Trace:
-      <TASK>
-      dump_stack_lvl+0x93/0xd0
-      kasan_report+0xe0/0x110
-      ? igrab+0x2d/0x260
-      kasan_check_range+0x105/0x1b0
-      igrab+0x2d/0x260
-      fuse_dax_free_mem_worker+0x172/0x9e0
-      process_one_work+0x908/0x19c0
-      ? __pfx_process_one_work+0x10/0x10
-      ? srso_alias_return_thunk+0x5/0xfbef5
-      ? lock_is_held_type+0x8f/0x100
-      ? srso_alias_return_thunk+0x5/0xfbef5
-      worker_thread+0x65c/0xe40
-      ? __pfx_worker_thread+0x10/0x10
-      kthread+0x34f/0x460
-      ? srso_alias_return_thunk+0x5/0xfbef5
-      ? __pfx_kthread+0x10/0x10
-      ret_from_fork+0x659/0x940
-      ? __pfx_ret_from_fork+0x10/0x10
-      ? srso_alias_return_thunk+0x5/0xfbef5
-      ? __switch_to+0x74f/0xf80
-      ? __pfx_kthread+0x10/0x10
-      ret_from_fork_asm+0x1a/0x30
-      </TASK>
-
-Fixes: 9a752d18c85ae ("virtiofs: add logic to free up a memory range")
-Assisted-by: LLM
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
 ---
 Changes in v2:
-- Drop the duplicate Oops report and format the KASAN trace.
 
-Link to v1: https://lore.kernel.org/r/pm-fuse-full-objects-candidate-0016-v2-f3854498f12705839ecb@gmail.com
+- Preserve RELEASE after successful remote flock operations, including when
+  OPEN was suppressed, to retain server-side lock cleanup.
 
-diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
-index 85cdf0199bc0b8fb121324ffaf8046a054cbfadf..361538bc41e5a44d01da11b76070f8af0e783b2b 100644
---- a/fs/fuse/dax.c
-+++ b/fs/fuse/dax.c
-@@ -951,6 +951,7 @@ inode_inline_reclaim_one_dmap(struct fuse_conn_dax *fcd, struct inode *inode,
- 	node = interval_tree_iter_first(&fi->dax->tree, start_idx, start_idx);
- 	/* Range already got reclaimed by somebody else */
- 	if (!node) {
-+		dmap = NULL;
- 		if (retry)
- 			*retry = true;
- 		goto out_write_dmap_sem;
+- Document the flock exception and the requirement to accept RELEASE with
+  a zero file handle and no preceding OPEN.
+
+- Synchronize test-server requests before unmount to avoid racing with
+  asynchronous RELEASE replies.
+
+- Extend selftest coverage to 68 tests, including flock cleanup after
+  SIGKILL, duplicated descriptors, hint updates, CREATE reopen, ioctl
+  handles, and connection-wide ENOSYS precedence.
+
+- Link to v1: https://lore.kernel.org/r/20261007-fuse-per-inode-no-open-v1-0-be5229fe89f5@gmail.com
+
+---
+Stanislav Kinsburskii (2):
+      fuse: add negotiated per-inode open and release suppression
+      selftests: fuse: test per-inode open suppression
+
+ Documentation/filesystems/fuse/fuse-no-open.rst    |  49 ++
+ Documentation/filesystems/fuse/index.rst           |   1 +
+ fs/fuse/file.c                                     |  26 +-
+ fs/fuse/fuse_i.h                                   |  17 +-
+ fs/fuse/inode.c                                    |   9 +
+ fs/fuse/ioctl.c                                    |   3 +-
+ include/uapi/linux/fuse.h                          |  13 +-
+ .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
+ tools/testing/selftests/filesystems/fuse/Makefile  |   2 +
+ .../selftests/filesystems/fuse/no_open_test.c      | 859 +++++++++++++++++++++
+ 10 files changed, 972 insertions(+), 8 deletions(-)
+---
+base-commit: b018686719706a781c45a874ed51374a2dc4b767
+change-id: 20261007-fuse-per-inode-no-open-d40e2b4abb8a
+
+Best regards,
+-- 
+Stanislav Kinsburskii <skinsburskii@gmail.com>
+
