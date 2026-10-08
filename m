@@ -1,240 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0153793DC
-	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 11:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B308483BF9
+	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 13:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791458430; cv=none; b=uX7al45N6eCcp0VXJeSWwz+0MuthFF0FnbkXIgR777gN6DP5BSmRXNy4z7TtiOhE7myo6Q++T/z5VrfRuG1xxbR45I4SGXEy92k3X4dU4EZ6aGhF91xtnIaTR2NvU8XOeCr2UF4IZMSM/PFFcFp94D4/ISaY1ee9SgTPEUxM6yY=
+	t=1791465631; cv=none; b=OzJlU9FCiyXb0I7pOXjR9GPRqFSt6jajirc7QNQ0tdhla19XTBto4SJf8LROhlI56/uIB0cHrHb0V/cidlq7rQx6QHfGe9pWJXxoATSPgfMEPn26dEI9Om7q16df4K5jH190ny3S2y3A7zMrkzksS6bx5+18ipbxLgn9HLOAHNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791458430; c=relaxed/simple;
-	bh=MqhzvNDfqsSrSBD+GceG/Rs+U+1iQfvUWNLT5oRibME=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=pj5xMNr2XPy7J9bwE2l1txNvXLHWXEBaNWTmkcru8NQNpyPrVuKYirFUXkT2Zi6yniN+YnbauOTvNy/y2bBVenWVhhCpjjPIdUBAfDCGc30Aw+YtkUAqxstztFIMRUjZ6sw7q6IixZ+XjK5/MBP1D9wrQcberliFxn2uJNxB4V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JCWzGwvT; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1791465631; c=relaxed/simple;
+	bh=3Wr9/2480/aki5bGWFAs7IixSJIK8jk6h7T+74lKaK0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MNcAmuHlD0E3GOmCbDutUqHW0ZRa/mfCOwNTCsHVLdkLk0Mgg7BeITZkgyrz3FCzrCsFpU52Nl05NfRORX+r86/apRFpnPw3SWmwBeYBovi3Qpx1u8sjlwUy18YkvlSwkzBWmapwgK57LOdUOYVOLUBn7FDfgHouhkjkN0z0zwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XcN9r6CX; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JCWzGwvT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1791458428;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SoFG2gSIXYxGFdtALtVK/HXR2T0jRaX8RE4fu9oIH2M=;
-	b=JCWzGwvTBeTcY1+bsWnvWFJxdJx7DlCw2mcFbFUHDykxzRVo4reuVvkIiL0tf6Ha6JUBPl
-	DZroJgtgAxbsS4l85f9cJiQXPEAdBqtM4U+3fRs54Zl83nwfKOgGtCG3YRwkLTQztZjJ9Z
-	ANvv2eAfiPk/CpeF7C2J7oxvCpkinyY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-600-R-uSbvEcMReEUbfAFoO2-Q-1; Thu, 08 Oct 2026 07:20:27 -0400
-X-MC-Unique: R-uSbvEcMReEUbfAFoO2-Q-1
-X-Mimecast-MFC-AGG-ID: R-uSbvEcMReEUbfAFoO2-Q_1791458426
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c2e6ed5bac9so431069166b.0
-        for <fuse-devel@lists.linux.dev>; Thu, 08 Oct 2026 04:20:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XcN9r6CX"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48c4649b35bso5138401f8f.3
+        for <fuse-devel@lists.linux.dev>; Thu, 08 Oct 2026 06:20:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1791465628; x=1792070428; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DXt6zdr1dNJCoSR8LDi80DpeRm3wu09nw9+6kVlpfZs=;
+        b=XcN9r6CXyjKwQe6R1sA6SgYrsjAteP6HtQvYHYmbsY55i2x2STPNJF7+dsB8xEvsj1
+         r6/SrMbj70foC7rGGaOJegJUyQEU21lFhlmHMS/E7VCjKog1k1bh6fYqqhbY1ixg1STe
+         YFW33rGT8AFwsfZllt15RTDzhC4XZPpYg4kiYZL13UG12pti3yTqqpWnJiNVBkRiZwnK
+         MAC6eySFfTakvpZ+19Nyx30/B0qJr9yNQLwM1y35Ut8+W7HhnX1ptHfNoFUqRp+vKvEm
+         G9NaBF+7oOd7JYjJhenn9SOi4NLIrHFjRfKC0iccznMcLcc2RqJhLJQMcFnHuibNak2l
+         VzTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791458426; x=1792063226;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SoFG2gSIXYxGFdtALtVK/HXR2T0jRaX8RE4fu9oIH2M=;
-        b=inCEXUplHdT6FXe8qaK3Pd5LzVhOQDnQ3y+uxjnMhGQUl12Y/Gp4yqaS0V3me8QBkF
-         nBK8s3XknY++9ucK2voB+91YNRqJ6g94+7PKeNxi0b3i96a2hqUarVF8FudGX6dCstGr
-         bWAXTcgk0xID+M7HQ2H2PN1OkL6N23NnZSEqXBdNA2Unejk8VCd41UWubgmz8g+dQ3Sh
-         1yzSfsXxDLwqxcWF0Jyg31mio4rUKNZZnmy2i5YUTNZW2fCyt2jOv9goVdHQ/vPMb4wA
-         8wp2JfN5MSGcMTHsivp8Fkqogw8/3HMXkFPFJkIP9NqAa5l+OLpGp6KfOM3xvs6TAJXt
-         gBzw==
-X-Gm-Message-State: AFuF++lMgH30N/V1j7JI9566tnoB9r8L5AQ+Ogcm2eckPyncVg29wxX/
-	YX8XPzrNye2Wj/t+jiIFB2ygeyHX1ybYxMvFzDk9FVbb8G8g5Fe0Qt23mvxi4fRCjBUqkiTsUoj
-	5KmEKn6lPbslTFJ4JP73XVsKRWLeQ4LTemzbDA5Tmpbj7uhAy6+GuDgWGmXdqSct/xhR1VoVrut
-	V/S0IEuwqF53+FszBRae1IX9tITgu79vRZdD14CGfmzhC36Zk=
-X-Gm-Gg: AYBFou2MUKMFZoom6P12AHxopf4ZcVr8arYEKofnvNMpLZBUEmofIxmvOkyrTAPbH53
-	a1cD+PzR5Dzk8DXYZ17dULWWZoGQSB9EiC0lN55M7HUDDsbWo6hudN5cg26c9MGrgjQIr7rJ805
-	J1ihC3bqJAEKdAtUOhS6ZGqXa/C2TG5WQoKmRcQzcWOgXo9BFoKN86fsEebyeEOgZQb/bpRJy9Y
-	ZTGt9hH0JffbHitFGdzyeJg/MN2JGhWbAFNaB1fDcUVJ/OuZw+w1SBTS80zv3OKnHOfYoH65Q90
-	TETePmCRAUTyJcbUdYg+B6p/RwsMcy4KSaeqp8dpzNZLpLFRHjKOZysg46sVggwBnqWdFGdU1Bq
-	JjVGoD3ggWVOePcGFQV7gD8AJ1IuwH70OwD+qBGUFAU8v9BQe1bLFodCF
-X-Received: by 2002:a17:906:f586:b0:c29:4b79:e41a with SMTP id a640c23a62f3a-c317be010f6mr482485666b.20.1791458426318;
-        Thu, 08 Oct 2026 04:20:26 -0700 (PDT)
-X-Received: by 2002:a17:906:f586:b0:c29:4b79:e41a with SMTP id a640c23a62f3a-c317be010f6mr482482166b.20.1791458425763;
-        Thu, 08 Oct 2026 04:20:25 -0700 (PDT)
-Received: from maszat.piliscsaba.szeredi.hu (188-142-152-55.pool.digikabel.hu. [188.142.152.55])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c317c2fae53sm204251866b.49.2026.10.08.04.20.24
+        d=1e100.net; s=20260707; t=1791465628; x=1792070428;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DXt6zdr1dNJCoSR8LDi80DpeRm3wu09nw9+6kVlpfZs=;
+        b=QVhCj5PoYyENWuQkS9fjJk5VDUpUfwAbJu5/FWpdV4V+Uqqybc0sBx8nCPloLhLFK5
+         sY9Xoy/KG+C7A5Av+4h+JcwyQbb717uwOq3nooGyVWS+egiRLfsrn0eQNLyRU8gCW7mh
+         ELXDA0TIWD96HbyABW6BmTeLwrbpArjFVYqhaXvLiZ1X9Uc7flJv55xheHEZv5RRayn3
+         bN2ba2/dAaPg0mtt84wUY0YS1l9rSV9c3eEXJ7NDnVy0gvoeMQRgn0cYCD+GF83+REoc
+         3DIATBQFUebwCS+AK0zzu5ts2Hp4C4DnDlOUG6glkkNhWCP96dFSsPwSJhkJUAgWAeJN
+         dqTQ==
+X-Gm-Message-State: AFq9FYIudqVQLoW63D6pYeDEqGFANMQFvwEQiQNpYRSQhXoz6bsdEfHo
+	odQKIQgMEJUT5OkuKraTGUGFdKxkG9AYfSF1YrcfL/eOf1aru0Rg5uNcdf0nJ8sujGE=
+X-Gm-Gg: AYBFou1hsMlklBtHmTfy6HQPv0KoG5GXEdmrV4wTVCjrev1VaokuwZIHGmpezBxlCNE
+	r1DW3pYAkvW3itZlswtZhJaAd6Tt9UpgV6M/9cbN2oHPlCWrQUYvgujfjgQuEJYHZVbNkhv27FO
+	Cc1AXqpFMvkkjh4yhJjbF2XcN0ob570NihBUBSAlANKoenBs1eXpstUYi42AFSEEn+HbYLq+Xo7
+	I3vUTd75pAsM3fyRo1R1znMF0MsROvE0LuEonObXBrvjNyvOW0E60a4nCWr7lK6/Zuh/mvFsJV6
+	kx8AWfgKhpspME1XTV7BPb8a9+qn4ylcSuTBkE1jpOxwj9qReZM10lcOXNmZHYv9bY5TIS1T9Sv
+	4vwyuM3KeYNZVBHgTsvCUOfJ3eYi6JdIwfIuf6sMW5Q9ekHoviQSwsuA+SbX1hnhnmML33xrsGA
+	Rrm4v01QXxOnI1G6U83xfOR57HsG+K78GtOMxDjy+OdxgAg/hXXaHEx8xlT7NhgjEd7nGvvATDF
+	3RqlB7jqgo=
+X-Received: by 2002:a05:6000:470d:b0:487:c99:9020 with SMTP id ffacd0b85a97d-48c7272887fmr8760021f8f.2.1791465628326;
+        Thu, 08 Oct 2026 06:20:28 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F ([185.194.184.20])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d31767sm11753893f8f.51.2026.10.08.06.20.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 04:20:25 -0700 (PDT)
-From: Miklos Szeredi <mszeredi@redhat.com>
-To: fuse-devel@lists.linux.dev
-Cc: John Groves <john@groves.net>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	nvdimm@lists.linux.dev,
-	linux-cxl@vger.kernel.org
-Subject: [PATCH v4 9/9] fuse: add support for striped backing
-Date: Thu,  8 Oct 2026 13:20:00 +0200
-Message-ID: <20261008112004.1899560-10-mszeredi@redhat.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261008112004.1899560-1-mszeredi@redhat.com>
+        Thu, 08 Oct 2026 06:20:27 -0700 (PDT)
+Date: Thu, 8 Oct 2026 09:20:23 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Cc: fuse-devel@lists.linux.dev, John Groves <john@groves.net>, 
+	Amir Goldstein <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org
+Subject: Re: [PATCH v4 2/9] dax: use READ_ONCE() in dax_holder()
+Message-ID: <aseYiJO0cgEamazq@gourry-fedora-PF4VCD3F>
 References: <20261008112004.1899560-1-mszeredi@redhat.com>
+ <20261008112004.1899560-3-mszeredi@redhat.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 123OHiqy1W3KOVnDhJIxy81tGIeeSTmO_T2yrb9X5NA_1791458426
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261008112004.1899560-3-mszeredi@redhat.com>
 
-Add the FUSE_BACKING_MAP_CYCLIC flag for FUSE_NOTIFY_BACKING_MAP
-notifications to enable creating striped maps.
+On Thu, Oct 08, 2026 at 01:19:53PM +0200, Miklos Szeredi wrote:
+> A future fuse patch will utilize dax_holder() in RCU context to make sure
+> that the holder can't be freed by a racing fs_put_dax.
+> 
+> This patch just makes sure that dax_holder() works properly in such a
+> context by adding READ_ONCE() (equivalent to rcu_dereference minus sanity
+> checks).
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 
-This is just a set of regular extents that repeats after the end of the
-last extent using a striping pattern (i.e. on the target backings the
-stripes have a contiguous footprint).
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
-Two additional limits apply compared to non-cyclic extent map population:
-
- - the size of the extents (chunk size) must be equal
-
- - the extents must start from zero offset and follow each other without
-   gaps.
-
-Originally-by: John Groves <john@groves.net>
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
----
- fs/fuse/ext_map.c         | 30 +++++++++++++++++++++++++++---
- fs/fuse/fuse_i.h          |  1 +
- fs/fuse/notify.c          |  2 +-
- include/uapi/linux/fuse.h |  5 ++++-
- 4 files changed, 33 insertions(+), 5 deletions(-)
-
-diff --git a/fs/fuse/ext_map.c b/fs/fuse/ext_map.c
-index 744940cbf36e..7adb78cf552d 100644
---- a/fs/fuse/ext_map.c
-+++ b/fs/fuse/ext_map.c
-@@ -103,12 +103,18 @@ static int fuse_ext_map_iomap_begin(struct inode *inode, loff_t offset, loff_t l
- {
- 	struct fuse_backing *fb = fuse_inode_backing(get_fuse_inode(inode));
- 	struct fuse_iext *fie;
-+	u64 ncycle = 0, seq_off = 0, addr, tmp;
- 	loff_t ext_len;
- 
- 	if (!fb || fb->type != FUSE_BACKING_EXTMAP)
- 		return fuse_EIO("missing or wrong type backing");
- 
--	fie = fuse_find_extent(&fb->extents, offset);
-+	if (fb->cycle_length) {
-+		ncycle = div64_u64(offset, fb->cycle_length);
-+		seq_off = ncycle * fb->cycle_length;
-+	}
-+
-+	fie = fuse_find_extent(&fb->extents, offset - seq_off);
- 	if (!fie)
- 		return fuse_EIO("missing mapping");
- 
-@@ -121,9 +127,15 @@ static int fuse_ext_map_iomap_begin(struct inode *inode, loff_t offset, loff_t l
- 	}
- 
- 	ext_len = fie->end - fie->start;
-+	addr = fie->backing_offset;
-+	if (check_mul_overflow(ncycle, ext_len, &tmp) || check_add_overflow(addr, tmp, &addr))
-+		return fuse_EIO("extent address overflow");
- 
--	iomap->offset = fie->start;
--	iomap->addr = fie->backing_offset;
-+	if (check_add_overflow(addr, ext_len, &tmp))
-+		return fuse_EIO("extent end overflow");
-+
-+	iomap->offset = fie->start + seq_off;
-+	iomap->addr = addr;
- 	iomap->length = ext_len;
- 	iomap->dax_dev = fie->backing->dax_dev;
- 	iomap->type = IOMAP_MAPPED;
-@@ -259,6 +271,7 @@ int fuse_ext_map_populate(struct fuse_conn *fc, struct fuse_notify_backing_map_o
- 	struct fuse_backing *fb;
- 	unsigned int i;
- 	int err;
-+	u64 chunk_size = 0;
- 
- 	if (!arg->num_extents)
- 		return fuse_EIO("no extents");
-@@ -276,7 +289,18 @@ int fuse_ext_map_populate(struct fuse_conn *fc, struct fuse_notify_backing_map_o
- 		return -EINVAL;
- 	}
- 
-+	if (arg->flags & FUSE_BACKING_MAP_CYCLIC) {
-+		chunk_size = ext[0].length;
-+		err = -EINVAL;
-+		if (check_mul_overflow(chunk_size, arg->num_extents, &fb->cycle_length))
-+			goto err_put;
-+	}
-+
- 	for (i = 0; i < arg->num_extents; i++) {
-+		err = -EINVAL;
-+		if (chunk_size && (ext[i].offset != chunk_size * i || ext[i].length != chunk_size))
-+			goto err_put;
-+
- 		err = fuse_add_extent(fc, &fb->extents, &ext[i]);
- 		if (err)
- 			goto err_put;
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 8a9961c4c924..064fed459b93 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -110,6 +110,7 @@ struct fuse_backing {
- 		};
- 		struct {
- 			struct rb_root extents;
-+			u64 cycle_length;
- 		};
- 	};
- 	u64 backing_id;
-diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
-index 90d1f5c053e6..984e4945e3e3 100644
---- a/fs/fuse/notify.c
-+++ b/fs/fuse/notify.c
-@@ -461,7 +461,7 @@ static int fuse_notify_map(struct fuse_conn *fc, unsigned int size,
- 	if (outarg.reserved[0] != 0 || outarg.reserved[1] != 0)
- 		return -EINVAL;
- 
--	if (outarg.flags & ~FUSE_BACKING_MAP_CREATE)
-+	if (outarg.flags & ~(FUSE_BACKING_MAP_CREATE | FUSE_BACKING_MAP_CYCLIC))
- 		return -EINVAL;
- 
- 	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index 60060da98e8d..6b2fe68b4ab5 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -255,7 +255,8 @@
-  *  - add FUSE_DEV_IOC_BACKING_CREATE, struct fuse_backing_create_in
-  *  - add FUSE_NOTIFY_BACKING_REMOVE, struct fuse_notify_backing_remove_out
-  *  - add backing_id_64 to fuse_open_out
-- *  - add FUSE_NOTIFY_BACKING_MAP, fuse_notify_backing_map_out, fuse_extent, FUSE_BACKING_MAP_CREATE
-+ *  - add FUSE_NOTIFY_BACKING_MAP, fuse_notify_backing_map_out, fuse_extent
-+ *  - add FUSE_BACKING_MAP_CREATE, FUSE_BACKING_MAP_CYCLIC
-  */
- 
- #ifndef _LINUX_FUSE_H
-@@ -1219,8 +1220,10 @@ struct fuse_notify_backing_remove_out {
-  * notify_map flags
-  *
-  * FUSE_BACKING_MAP_CREATE:	create backing with the supplied ID
-+ * FUSE_BACKING_MAP_CYCLIC:	map repeats after last extent
-  */
- #define FUSE_BACKING_MAP_CREATE	(1 << 0)
-+#define FUSE_BACKING_MAP_CYCLIC	(1 << 1)
- 
- struct fuse_notify_backing_map_out {
- 	uint64_t	backing_id;
--- 
-2.54.0
-
+> ---
+>  drivers/dax/super.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> index 25836f389bde..76e8d3654629 100644
+> --- a/drivers/dax/super.c
+> +++ b/drivers/dax/super.c
+> @@ -642,7 +642,7 @@ EXPORT_SYMBOL_GPL(put_dax);
+>   */
+>  void *dax_holder(struct dax_device *dax_dev)
+>  {
+> -	return dax_dev->holder_data;
+> +	return READ_ONCE(dax_dev->holder_data);
+>  }
+>  EXPORT_SYMBOL_GPL(dax_holder);
+>  
+> -- 
+> 2.54.0
+> 
