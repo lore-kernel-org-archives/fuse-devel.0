@@ -1,667 +1,201 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54604B7A3E
-	for <fuse-devel@lists.linux.dev>; Wed,  7 Oct 2026 23:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791414898; cv=none; b=GCAQM9K8Kt8Y+dGDfefNIuXfGkaOmEqmp6G/gs2Mdt1KtFUBeBTXFm2C7HpyOOkm52tOrtLOF3CAS9FV8wiiklA/O2GLOSTWB3iemMfVONXrjV5FNHdhBqWd+gwN6Wb6Puc8BItKvu/b430KIGc7mkODMRNKGvazrB8DAOKSKqY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791414898; c=relaxed/simple;
-	bh=STXrYHLXEh5sR1ZldvOJqbL4TMifpgj24LBW3510hqQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KWoO9cgj4Vn2YNG5W2Ml5W/KCFpwtKIJjd5xC1txoDcHvm1G/ct7DM7S3q2do7Bw/CyLDZmTxCIiYphQ6cGumFNX6j5YJzMCwcAeJw4SmpblQbKPMYIFZ9AFESe8A1grNkGbdVDmHBHoryNtiD0dFL0WpB5rcfWVQzC/+wUz5Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ijttq7io; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A4C2BEC52;
+	Thu,  8 Oct 2026 01:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791421380; cv=fail; b=SAsCJGeHqtoIC/iSBjx1mTzBpaHJtE3Ltzn70kL+Uii3uEkcws/acD6sFwS/yT8cebMu6NiMCtvrvzoR1blMaYJEBbDZKl4Vatj4bQ4+vzHk6vq8R/9eTp+YkiXR4YDAkU1MUZvfjDOntLt9vGTb7o1Qu9n4WOOKtozeXYmMmN0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791421380; c=relaxed/simple;
+	bh=asj8SWNmeFIrmxYrq9h8JPHF4uZCCUs+Eka5tYTkrSU=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=D/1jF72aSD8bonhypZrk08Vo7bUQvLdiEARz7FChk10gM9aBt5GqIGAJtTnbM222RmBZITHBmqdzlzWMmQz4i8Ec/bUv/Ilm97KzIW97FKMSTm4B1CL5VdGyQlnePs+6OESvgOrTnt+13GnzedFfuYM4ClIL8JMQ2DZhp5auJrc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Enw6GI2/; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ijttq7io"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3a6cf104827so1499000a91.3
-        for <fuse-devel@lists.linux.dev>; Wed, 07 Oct 2026 16:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791414896; x=1792019696; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XWFRSjDzEne61Ym+hfFjmLxkYw4IdsRdD630mJbxa3c=;
-        b=ijttq7iolUMsIivkA6tWx7G6GCAmF8bDvIdBEoHQ+pJzmohD2r64A77S6FHmBG4QQy
-         YqlzBXVnn4dQO826eLkA2fHVziwAQg6gm2Tv3fd2ZON5/Jcd5ydpIXaAmjLDME+F6BdQ
-         2aVLKCsAxhvXeNvNFvKtGxWbP3I6lASeJFkEX5qIFW1+l0H1Fku1EEb2BfTYQqF8/nav
-         Dj/1WwbeOob1VfPW7zo5tGzCtXS5DYXEM8syXbnIOEfQ+D34obL4e1+MRF0OpWyoVPir
-         wkftkxPUJRKyGYuZWHAvsAxNTTvwRQYR1MSNXsa5F+eZru2+kVZaX76WFk/NFVsyv2Vc
-         1SFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791414896; x=1792019696;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XWFRSjDzEne61Ym+hfFjmLxkYw4IdsRdD630mJbxa3c=;
-        b=NbNtdsuQZNxjRthbOn6Ytwn0QvkAcRihLfQY9E7DuFg/9FMCv8ACZL+OaOXv1Jsq60
-         v3j60g1kPs1lZhPzLYBbbOXq4Y++B20buIklqvRcUrEmhA6VPgxa6SqO8+COJ1WCsSn+
-         6bg8LwTW4SU5zEPRA5s7jUSZxruPH4EJSkAPe11hrdnAr30PnmfBYwydo1kzvl/IkAQI
-         THugNMhAvrAih7ctWwomMHdvjhOz7Z0pyNO6Thb7ZOUMgAOD2ZIGYCc7iBTWP8iwS8+Z
-         0WcsjF3BpdkTFOxsXBaxt72HAjB7hIJd3cjIOB1FhEtz/TAgeI8eLZtogx/5lCUzSF6n
-         uiKg==
-X-Forwarded-Encrypted: i=1; AKwUvBztiGkqUqNo/NHEmBzohWAguslZtveJd7F8HoL8Un61WB20FQSUoEST6p+4WkqcgBrMMgmhj+5Y2AjT@lists.linux.dev
-X-Gm-Message-State: AFq9FYI0EPm8hJkRO5Y7DRp0PdJAT+WApRxjHvW+oU5fL2ikp/MYz4oU
-	Hzxw9NlxkfjJ4SRTd/yPgsprb8VA6f1yyNrUEzn+jf5fSy6YTfQuiyQ4
-X-Gm-Gg: AYBFou0DGlqvSciQXjVsdBylbw/qRRDrUTOnnkG7zKzqf5fCH9Iw5xs6cmuwyMgGdxH
-	lE9AB2HHFGO9fJRq+92zW+R1M5cIfq/0AWKYD5tNiSz2MMJi2SWkKRLQEgMubhaDpUjFjiWdDic
-	Ukir+pETx+wg+/WbavIyembgYwRcZrirAE8sERrFmZ8bv//cI5alCC+ObYEB4D79QQn4m5XxrjG
-	A6CvYXSDeU6pJjIZHv5oKd5sFsr/k/oHR2gsM7jbRhKvO0rhDaj2/0UDg0TUF6KQFVwS/wEPN0o
-	sPmyM3NLm6XeHhreLLweRX0ctS/4FPRVyKThHaNR/+/k3igxp8gE+Z1q/4IQJsblx+vHsSULSMV
-	b3qv7rTNYp6V518zC1Dpe5Hl/YW3/wFn7hgN5sCB5eUQoBG/FN6q4YLB0ta0eaS0YQOBxfg+LnQ
-	kGgKEDWwDw9lJ+KT/L7j4J9PlpWdAbrb0wTi7WFdPAZApbGe1KgIRLzuaYEdU0k3QzShkhwGCk5
-	0uqO0o=
-X-Received: by 2002:a17:90b:28c8:b0:39e:6a81:c923 with SMTP id 98e67ed59e1d1-3a8a0a921bfmr2438093a91.22.1791414895859;
-        Wed, 07 Oct 2026 16:14:55 -0700 (PDT)
-Received: from [192.168.0.160] ([76.135.114.51])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a9ff7ff13esm1356270a91.7.2026.10.07.16.14.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 16:14:53 -0700 (PDT)
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-Date: Wed, 07 Oct 2026 16:14:35 -0700
-Subject: [PATCH 2/2] selftests: fuse: test per-inode open suppression
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Enw6GI2/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791421376; x=1822957376;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=asj8SWNmeFIrmxYrq9h8JPHF4uZCCUs+Eka5tYTkrSU=;
+  b=Enw6GI2/pQvPXk9ANcHWrjRK/bh7VdgZXuZFZLxGmEDdgIlJpBrzL4pJ
+   34hzj5pvZ4RbgNdI1Ol82pJUoZopPDfYKrMN0++bs+jXh1aMUpUHoAw/q
+   8oM4FpTzujNl3NYdVguE5e8EiRdq7IpEYy1Ysw2c9iTIcEQJlwzJfmsOR
+   lwu01loidAXfybNHdxGDSwb7AVPWn6FccmXPumWK4n+xeAOthY4/c74L8
+   SN0GrKo6xP5lCSnsn3jV62jRdQ8Wt99UFBDgSUKEmvqQp6cL8L10HeF8k
+   No5aGzxkq9BZqgx80HQQtcW2X4QVr+cCyM7OLAy8lZOX6PO7lCuvqAgG9
+   Q==;
+X-CSE-ConnectionGUID: DTgdTD95TLmBarEBV1ABVg==
+X-CSE-MsgGUID: yisXbNAuQ2Smjsq0MTE/qQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11928"; a="189422"
+X-IronPort-AV: E=Sophos;i="6.27,145,1787036400"; 
+   d="scan'208";a="189422"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 18:02:45 -0700
+X-CSE-ConnectionGUID: IAzJ/LAmR2esxcX2uS754g==
+X-CSE-MsgGUID: ytjRqTFQQUmJQRkbr0rMvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,145,1787036400"; 
+   d="scan'208";a="213172"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 18:02:44 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 7 Oct 2026 18:02:44 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49 via Frontend Transport; Wed, 7 Oct 2026 18:02:44 -0700
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.15)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Wed, 7 Oct 2026 18:02:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YaIvtEvj9GElNfDGqRX1nBZrEMW5ZTJhOFxFP6cD5Fdy15Yw52DVyd0qfMLlwW1HgZgCF8Q+TlCxuajVbLjdA9M2UAFAFVCFDEBieCV3wWE0pyaQrDHc3AGfhBeY18njryYsH+sZQO48x2TyfTwFaCdUY1Xdj/6U2EjoeikszmkOXg7YUzUVzELT6pp7Bj7MtRlxWZZ88wNn8rNJU+wiTc2rqoqzQkrrx6RETO4mMBOlFzNOU7W5hRySV97vXgJGPdmiL5hXleXSJCDXxxMmbYkcF+cD/khqQMYZIuDIl6ypWn1y9m1FvJwxpodJkz57suUkYmnBX28L4On3x+/x8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Rsz/Ahc+WbOBYMDM3dnFP9lakVm+YBO7v8bpEsID1WI=;
+ b=evkQqsXF0P4l66W5Ae6KSvL6e/ww2rirodG2lssBfzRukgkDGTM88tGoSjqP+Qhp14oDBfAZeA5esl7Akgs8eYvJ7eHV8xlXQ++CvBEL0zr/HP8TPltepYmbJ2gbT5zoOynGTpzRuHAnUmk/FVKriaugz5jaEFt9stKSEI+k7cASMvxJAqOK3L47cqMhej4cJ7eV5KgapN5Sa052FCBXddGMmcQ+GKDnFyMB1fOB8kxE+ApMK+sVWM25OMD4iOs1sGhpx7GsgY0ZBo/yPYYf3fbWlHCQgnGuApfH4N9ju8JI8IW1U4sjNO1k5eyf2969yA0ZfEQZSgUURL91GapKdg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from IA4PR11MB8891.namprd11.prod.outlook.com (2603:10b6:208:56d::20)
+ by SA3PR11MB629882.namprd11.prod.outlook.com (2603:10b6:806:58b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Thu, 8 Oct
+ 2026 01:02:42 +0000
+Received: from IA4PR11MB8891.namprd11.prod.outlook.com
+ ([fe80::1128:c90e:54:e8f1]) by IA4PR11MB8891.namprd11.prod.outlook.com
+ ([fe80::1128:c90e:54:e8f1%4]) with mapi id 15.21.0496.015; Thu, 8 Oct 2026
+ 01:02:42 +0000
+Date: Wed, 7 Oct 2026 18:02:38 -0700
+From: Alison Schofield <alison.schofield@intel.com>
+To: Miklos Szeredi <mszeredi@redhat.com>
+CC: <fuse-devel@lists.linux.dev>, John Groves <john@groves.net>, "Amir
+ Goldstein" <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>
+Subject: Re: [PATCH v3 2/9] dax: use READ_ONCE() in dax_holder()
+Message-ID: <asbrrhh0BrBDDOkj@aschofie-mobl2.lan>
+References: <20261006180115.1425232-1-mszeredi@redhat.com>
+ <20261006180115.1425232-3-mszeredi@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20261006180115.1425232-3-mszeredi@redhat.com>
+X-ClientProxiedBy: BY1P220CA0023.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:5c3::11) To IA4PR11MB8891.namprd11.prod.outlook.com
+ (2603:10b6:208:56d::20)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261007-fuse-per-inode-no-open-v1-2-be5229fe89f5@gmail.com>
-References: <20261007-fuse-per-inode-no-open-v1-0-be5229fe89f5@gmail.com>
-In-Reply-To: <20261007-fuse-per-inode-no-open-v1-0-be5229fe89f5@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: Robert Byrnes <byrnes@wildpumpkin.net>, fuse-devel@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, 
- Stanislav Kinsburskii <skinsburskii@gmail.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791414890; l=17133;
- i=skinsburskii@gmail.com; s=20260722; h=from:subject:message-id;
- bh=STXrYHLXEh5sR1ZldvOJqbL4TMifpgj24LBW3510hqQ=;
- b=L/uX88NY954ggxY7kOAkKFSqiee2S+LoNJ6pQcYnTzaPDzeKe6eWkooQJmXIgTTfYCBYpEG15
- wONy8Jl3H3CCJZ8JRcKfsO1IoRSrZ3uKfTiWnuq6WuO365Ay/lS3Jcg
-X-Developer-Key: i=skinsburskii@gmail.com; a=ed25519;
- pk=bDpriHBYgeTdkIDweZDCemxsU93neJBOCn3YLIuJpnE=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA4PR11MB8891:EE_|SA3PR11MB629882:EE_
+X-MS-Office365-Filtering-Correlation-Id: 585c68c3-cf08-4cf7-b9a0-08df24d7dadd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|18002099003|22082099003|10067099003|56012099006|4143699003|11063799006;
+X-Microsoft-Antispam-Message-Info: 8NH4zYXurOOfkHOjtuueA2TtZjLrbxG/wHiToh7Amvc+ZZC+WUlX5V5TdDsld28z8jEcwnE4bcxYdXmajmciLjGqZHZaiBzAUl/70YAtz7p3re2eJROwhY2hTcmiUMw/a6KtdGXjie+iH5n1J1L1g3HbCCcfOSwMwBFUoS1HevU4dvPGiTTppgzlSKUUQhQqvhxBGiDwYzdFzSmBL1Vz6nI4XY2hEFZTaImqswUY4Z+Vf4rAkO9HONQCUsUzup8ONhI8bxPal+JEyExhjb7v629SsQeENx7ELp0Fpq6v2HI+3dY9ediieW5IVIeqD7xYmDNNJQKi1XER3uLBUnkaMRlmVYWPu+UuiZ85Y3u0trZ3ZwhAsY/6xeLMIwmTdAeVy43xIlSOTxFg+e5dqJCZ6SAzNpY3YqXOS/RlS9iRK+oDe9TcAgsu76oh+nKtRYQnYDncuNfzsVuCy8Hlvmt76kMA6rjPP22zMDNmsy6JgpKhd0ekQwkNve3XK1AFjTqPzlD845C6GqugbuVZf+c8PMcDBr3nB0BrRv60Q6chUUpVIqdHbnqV+iXD6aOOpgiOikrUJhEPf3m9twjrLLLUr6SJnECfiFhX4xD4hElBrNqdvf2d8szGqqXjGmjCeq5L0zr2718VJEK2xEx70yj6D57kJ2j1UT4W7OzC42zqCYA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA4PR11MB8891.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(18002099003)(22082099003)(10067099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5Q+NIh4qUDO73DwPle1kK4c+7upUFx4T0RPHUmWxrMnPd27YLMajOn4voYsx?=
+ =?us-ascii?Q?VSRDsGTvTIs11lSlxmZYR0+LUZj+kv7gFqAOLEdY/Rka8f7Ofrh+Qd0OfIVD?=
+ =?us-ascii?Q?/gp+dKWjOLRDgHtohrRMk/TP5+FQYGVC7NysIhrjiIJ5YFhv5kyMoWBX4oZX?=
+ =?us-ascii?Q?Lrm8dzj808TCOyI3obLjYzqsTs3iOVStRjGFwE2u/jAruJdLIoQSWEAMsaL5?=
+ =?us-ascii?Q?ytEta1Jm3LoD4W9u7ruHmK7+RWmf2gp9h60HN64yHimOodQjDy+59/jYIs/1?=
+ =?us-ascii?Q?GyrZ3+vo5C7XA88yA85h+H3gVXF4r602n/LR5XOVFy4qMSPBiCDGpiO6L++Q?=
+ =?us-ascii?Q?WElYk8M7RQn4ESyvJkvdAnG7e8BBmCm7hlF5cbEoyHqh873aObAPQkpBnXEM?=
+ =?us-ascii?Q?ssSWpf0k0CnoEYJ1t09979+N/Z+d5JDx3nRWGUMU3KgmyV6Tv6TxIe5lEyw/?=
+ =?us-ascii?Q?i9XHqOdO+1nBdqDKt8aHk2hY5DNAt5mCH5lVKVdgdkS0K9G5TgCEYyYofeP/?=
+ =?us-ascii?Q?p/Gu7pbNA/XZyb8zv6k3dOooeK/4ScKdDjaLNpoaFjXdxRFo+G0tyEVTa6ET?=
+ =?us-ascii?Q?pJ0utGCeavTVpMtMaLJF7qyF8oI+xZwa5QCjvmelH7A23zCFOAybfqI8Ad/Q?=
+ =?us-ascii?Q?jNvFWn7r9vGl30Rx5y/zMLsI73PInPHRdEQZa7xuxiXX+oPHwbEhXcy/08h/?=
+ =?us-ascii?Q?qukvSRDI9EehRGu/xRYdeRrIeE7/FI6i5EBF0kvMiHATa08F87t0+5FjYVND?=
+ =?us-ascii?Q?rQwLXNLLddSKEniLax8aHO1YlJxYWFdym6txvp+y7/oBwJSQUwYg3M+JMVqT?=
+ =?us-ascii?Q?ssiBytXIR2Tk7SkWlNOPqKNQAslg1XV2SXgctmPKqovkJ1Fqw9wafE31B5rB?=
+ =?us-ascii?Q?d98p+L08moV6ocDUbwpJMpaHWOK2B7Eap4OW4eoQ5Vfc0yv6YED6z+flHf7n?=
+ =?us-ascii?Q?LGYHPBLo6k/6zfl8GCKUAPeWsxGVpIYqmziUp3/R534T5aiDv9Sia9S/lAOw?=
+ =?us-ascii?Q?SXoshyoOnhY8RDGk1E28ShBfB5rJhL7oKhtiPZzmp8nmR6/4IEZteZHi7+IP?=
+ =?us-ascii?Q?hET20Jz7G2hxQwuFbE/bFInB5w4PVIdHztWamXY+4SzHDj/4I0Pj9vB9cilk?=
+ =?us-ascii?Q?51kg7UE4VU++bm/5eTIFfx5WLZWRkn4R8wxjt/KN5det3cA6+M7ptuUSpMji?=
+ =?us-ascii?Q?s3sk0EOkWnT5cceAwqn7V9rLIJpt4hUOkgI/o8JskhJ/lsBJGqe0uDJ63M6J?=
+ =?us-ascii?Q?7amYoT+K8Yb9Kkj901YnsiqJyOtbFhmiOtXIXT8nIm38A2gLgOFSYwaOerYk?=
+ =?us-ascii?Q?PvVxNF00NTaoJ+qVlgiaGoFgcgw8r+SG7/lBo3qinTfr2cE8kUSucIPm9Cpf?=
+ =?us-ascii?Q?zZ4Ci01MXlplLhyaCpBIVo0YQwzs4nXdVn0z9UqpXIWs53fEgaKobbXIkupi?=
+ =?us-ascii?Q?BLDvR1a9J9yr+9TXKtTVMrYviJ4c08D1IO+tt8mqW2Ri+EOisNizTmPiiucJ?=
+ =?us-ascii?Q?fFsUS1oSN7poqL7KYhJo0tlIU6KOQOp9zOWivNXVgjRk1LmS9j5A3A+HBFkO?=
+ =?us-ascii?Q?REGTa88Qv1TH+PcpzRTot9Z6WVaT/AB4RPnOqCLMwuMAK12qEeHcF0HqNF9c?=
+ =?us-ascii?Q?LPOh509RD7vwkNBBY/VcektUXjpGH6PXaTNFMwd9TxdO9YiEfX65ccsAAGyb?=
+ =?us-ascii?Q?yMVluJPGMTAt0Dk7xn7XrbHeR/jAgB3YRVe5qhkAOHhQBuxx+Klzegz44F67?=
+ =?us-ascii?Q?IHD6o5rBze6dWX64YJPbnZaRuHXM1MA=3D?=
+X-Exchange-RoutingPolicyChecked: c0suWeQ4KE1rdPi8ixDiaedTnq0YzfPGoLsrAX4s7kI2+IGpG/B5ir+gaIYRItWZTa2VnCGKl9/vur1tw9RgS/j3CgvHr+7LcVOzmCKbhsd4Lrnwdt0/r6Yj8FfcnmJjP8r/IwTQgYONtOG8pMIx0noojTJaHjOccg6vvFi4Yd6zacAQNbiSz6Y5FF3n25oZ/c3L5jUdlPweOv0szQzFgR+RF9ITKKrZ287MtJHpkZGQe72j7svQ8mddtn6PYu5iUq8Fs7KCeE21mPOiUbnrj7D0loOyteQDV+ooREZ98dCH8nsTM+493pbcqUsgyZFdbGPiwpC4K8aBAzq4a1o1MA==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 585c68c3-cf08-4cf7-b9a0-08df24d7dadd
+X-MS-Exchange-CrossTenant-AuthSource: IA4PR11MB8891.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 01:02:42.4045
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aGSZSVYnIHWe21VPm7P064bh0shtRYMI4XPBtzmnD0ndSph3ePHV10JslnaoMG4/44NVQSglZysHLrRHJ622/4mDKGQagR/XZ/zRbT8ldaY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB629882
+X-OriginatorOrg: intel.com
 
-Add a raw /dev/fuse server and tests for FUSE_PER_INODE_NO_OPEN, without
-requiring libfuse to support the new capability or attribute flag.
+On Tue, Oct 06, 2026 at 08:01:07PM +0200, Miklos Szeredi wrote:
+> Make sure that a non-NULL check in callers remains valid even when racing
+> with fs_put_dax().
 
-Check files and directories marked by LOOKUP and READDIRPLUS, unmarked
-control files, zero file handles on reads, and hint changes through
-GETATTR while handles remain open. Verify that STATX preserves the hint,
-atomic O_TRUNC reaches the server, and CREATE retains its release.
-Return an unknown OPEN reply flag to check that wire flags cannot
-suppress release of server-opened handles.
 
-Run each case with the capability disabled, enabled, enabled with atomic
-truncation, and enabled with atomic truncation and writeback caching.
-Unmount and join the server before checking request counts so asynchronous
-RELEASE requests are accounted for. Skip when mounting is unavailable or
-the kernel does not advertise the requested capability.
+Hi Miklos,
 
-The test needs permission to create a mount namespace and mount FUSE.
+I understand this is in preparation for the new FUSE DAX backing support, yet it
+does need a changelog that stands on its own.
 
-Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
----
- .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
- tools/testing/selftests/filesystems/fuse/Makefile  |   2 +
- .../selftests/filesystems/fuse/no_open_test.c      | 511 +++++++++++++++++++++
- 3 files changed, 514 insertions(+)
+As written, it suggests that READ_ONCE() makes a non-NULL result safe against
+concurrent fs_put_dax(). However, READ_ONCE() only controls the pointer load, but
+IIUC it does not protect the lifetime of the returned holder.
 
-diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
-index b5b03db1118c..a4cb079c4bc6 100644
---- a/tools/testing/selftests/filesystems/fuse/.gitignore
-+++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-@@ -3,3 +3,4 @@ fuse_mnt
- fusectl_test
- test_syncfs
- write_extend_eof_test
-+no_open_test
-diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
-index c2de8d225447..b9682e7a2aef 100644
---- a/tools/testing/selftests/filesystems/fuse/Makefile
-+++ b/tools/testing/selftests/filesystems/fuse/Makefile
-@@ -4,6 +4,7 @@ CFLAGS += -Wall -O2 -g $(KHDR_INCLUDES)
- 
- TEST_GEN_PROGS := fusectl_test test_syncfs
- TEST_GEN_PROGS += write_extend_eof_test
-+TEST_GEN_PROGS += no_open_test
- TEST_GEN_FILES := fuse_mnt
- 
- # fuse_acl_cache_test requires libfuse3; add it only when the library is present.
-@@ -16,6 +17,7 @@ endif
- include ../../lib.mk
- 
- $(OUTPUT)/write_extend_eof_test: LDLIBS += -lpthread
-+$(OUTPUT)/no_open_test: LDLIBS += -lpthread
- 
- VAR_CFLAGS := $(shell pkg-config fuse --cflags 2>/dev/null)
- ifeq ($(VAR_CFLAGS),)
-diff --git a/tools/testing/selftests/filesystems/fuse/no_open_test.c b/tools/testing/selftests/filesystems/fuse/no_open_test.c
-new file mode 100644
-index 000000000000..fd36dc96bb98
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/no_open_test.c
-@@ -0,0 +1,511 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Exercise the wire protocol without requiring new libfuse interfaces. */
-+#define _GNU_SOURCE
-+#include <dirent.h>
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <linux/fuse.h>
-+#include <pthread.h>
-+#include <sched.h>
-+#include <stdatomic.h>
-+#include <stdint.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/uio.h>
-+#include <unistd.h>
-+
-+#include "../../kselftest_harness.h"
-+
-+enum { FILE_ID = 2, DIR_ID, CONTROL_ID, CREATE_ID, NR_INODES };
-+
-+struct server {
-+	int fd;
-+	bool negotiate;
-+	bool atomic_trunc;
-+	bool writeback;
-+	atomic_bool supported;
-+	atomic_uint attr_flags;
-+	unsigned int opens[NR_INODES];
-+	unsigned int releases[NR_INODES];
-+	unsigned int zero_reads;
-+	unsigned int zero_readdirs;
-+	unsigned int statx_count;
-+	unsigned int lookup_count;
-+	unsigned int plus_count;
-+	unsigned int truncates;
-+	unsigned int size;
-+	bool created;
-+	int error;
-+};
-+
-+static void reply(struct server *s, uint64_t unique, int error,
-+		  void *data, size_t len)
-+{
-+	struct fuse_out_header out = {
-+		.len = sizeof(out) + len,
-+		.error = error,
-+		.unique = unique,
-+	};
-+	struct iovec iov[] = { { &out, sizeof(out) }, { data, len } };
-+
-+	if (writev(s->fd, iov, len ? 2 : 1) != out.len)
-+		s->error = errno ?: EIO;
-+}
-+
-+static void fill_attr(struct server *s, struct fuse_attr *attr, uint64_t id)
-+{
-+	bool isdir = id == FUSE_ROOT_ID || id == DIR_ID;
-+
-+	attr->ino = id;
-+	attr->mode = (isdir ? S_IFDIR : S_IFREG) | 0755;
-+	attr->nlink = isdir ? 2 : 1;
-+	attr->size = isdir ? 0 : s->size;
-+	attr->blksize = 4096;
-+	if (id != FUSE_ROOT_ID && id != CONTROL_ID)
-+		attr->flags = atomic_load(&s->attr_flags);
-+}
-+
-+static void fill_entry(struct server *s, struct fuse_entry_out *out, uint64_t id)
-+{
-+	out->nodeid = id;
-+	out->generation = 1;
-+	out->entry_valid = 3600;
-+	out->attr_valid = 3600;
-+	fill_attr(s, &out->attr, id);
-+}
-+
-+static void *serve(void *arg)
-+{
-+	struct server *s = arg;
-+	union {
-+		struct fuse_in_header header;
-+		char bytes[16384];
-+	} buf;
-+
-+	for (;;) {
-+		struct fuse_in_header *in = &buf.header;
-+		void *payload = in + 1;
-+		ssize_t len = read(s->fd, &buf, sizeof(buf));
-+		uint64_t id;
-+
-+		if (len < 0 && errno == EINTR)
-+			continue;
-+		if (len < 0 && errno == ENODEV)
-+			return NULL;
-+		if (len < (ssize_t)sizeof(*in)) {
-+			s->error = EIO;
-+			return NULL;
-+		}
-+		id = in->nodeid;
-+		if (id >= NR_INODES) {
-+			s->error = EINVAL;
-+			reply(s, in->unique, -EINVAL, NULL, 0);
-+			continue;
-+		}
-+		switch (in->opcode) {
-+		case FUSE_INIT: {
-+			struct fuse_init_in *init = payload;
-+			struct fuse_init_out out = {
-+				.major = FUSE_KERNEL_VERSION,
-+				.minor = FUSE_KERNEL_MINOR_VERSION,
-+				.max_write = 4096,
-+				.flags = FUSE_INIT_EXT | FUSE_DO_READDIRPLUS,
-+			};
-+			uint64_t flags = init->flags;
-+
-+			if (init->flags & FUSE_INIT_EXT)
-+				flags |= (uint64_t)init->flags2 << 32;
-+			atomic_store(&s->supported, flags & FUSE_PER_INODE_NO_OPEN);
-+			if (out.minor > init->minor)
-+				out.minor = init->minor;
-+			if (s->negotiate)
-+				out.flags2 = (flags & FUSE_PER_INODE_NO_OPEN) >> 32;
-+			if (s->atomic_trunc)
-+				out.flags |= FUSE_ATOMIC_O_TRUNC;
-+			if (s->writeback)
-+				out.flags |= FUSE_WRITEBACK_CACHE;
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_LOOKUP: {
-+			struct fuse_entry_out out = {};
-+			const char *name = payload;
-+
-+			s->lookup_count++;
-+			if (!strcmp(name, "file")) {
-+				id = FILE_ID;
-+			} else if (!strcmp(name, "dir")) {
-+				id = DIR_ID;
-+			} else if (!strcmp(name, "control")) {
-+				id = CONTROL_ID;
-+			} else if (!strcmp(name, "created") && s->created) {
-+				id = CREATE_ID;
-+			} else {
-+				reply(s, in->unique, -ENOENT, NULL, 0);
-+				break;
-+			}
-+			fill_entry(s, &out, id);
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_GETATTR:
-+		case FUSE_SETATTR: {
-+			struct fuse_attr_out out = { .attr_valid = 3600 };
-+
-+			if (in->opcode == FUSE_SETATTR) {
-+				struct fuse_setattr_in *attr = payload;
-+
-+				if (attr->valid & FATTR_SIZE) {
-+					s->size = attr->size;
-+					s->truncates++;
-+				}
-+			}
-+			fill_attr(s, &out.attr, id);
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_STATX: {
-+			struct fuse_statx_out out = { .attr_valid = 3600 };
-+			struct fuse_attr attr = {};
-+
-+			s->statx_count++;
-+			fill_attr(s, &attr, id);
-+			out.stat.mask = STATX_BASIC_STATS | STATX_BTIME;
-+			out.stat.ino = attr.ino;
-+			out.stat.mode = attr.mode;
-+			out.stat.nlink = attr.nlink;
-+			out.stat.size = attr.size;
-+			out.stat.blksize = attr.blksize;
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_OPEN:
-+		case FUSE_OPENDIR: {
-+			struct fuse_open_in *open = payload;
-+			struct fuse_open_out out = {
-+				.fh = 100 + id,
-+				.open_flags = FOPEN_KEEP_CACHE,
-+			};
-+
-+			s->opens[id]++;
-+			/* Unknown wire bits must not act as private release flags. */
-+			out.open_flags |= 1U << 30;
-+			if (open->flags & O_TRUNC) {
-+				s->size = 0;
-+				s->truncates++;
-+			}
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_CREATE: {
-+			struct {
-+				struct fuse_entry_out entry;
-+				struct fuse_open_out open;
-+			} out = {};
-+
-+			s->created = true;
-+			fill_entry(s, &out.entry, CREATE_ID);
-+			out.open.fh = 100 + CREATE_ID;
-+			out.open.open_flags = FOPEN_KEEP_CACHE;
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_READ: {
-+			struct fuse_read_in *read = payload;
-+			char data = 'x';
-+
-+			if (!read->fh)
-+				s->zero_reads++;
-+			reply(s, in->unique, 0, &data,
-+			      read->offset < s->size && read->size ? 1 : 0);
-+			break;
-+		}
-+		case FUSE_READDIR:
-+		case FUSE_READDIRPLUS: {
-+			struct fuse_read_in *read = payload;
-+			union {
-+				struct fuse_direntplus entry;
-+				char data[FUSE_DIRENT_ALIGN(FUSE_NAME_OFFSET_DIRENTPLUS + 4)];
-+			} out = {};
-+			struct fuse_direntplus *entry = &out.entry;
-+
-+			if (!read->fh)
-+				s->zero_readdirs++;
-+			if (id != FUSE_ROOT_ID || read->offset ||
-+			    in->opcode != FUSE_READDIRPLUS) {
-+				reply(s, in->unique, 0, NULL, 0);
-+				break;
-+			}
-+			s->plus_count++;
-+			fill_entry(s, &entry->entry_out, FILE_ID);
-+			entry->dirent.ino = FILE_ID;
-+			entry->dirent.off = 1;
-+			entry->dirent.namelen = 4;
-+			entry->dirent.type = DT_REG;
-+			memcpy(entry->dirent.name, "file", 4);
-+			reply(s, in->unique, 0, &out, sizeof(out));
-+			break;
-+		}
-+		case FUSE_RELEASE:
-+		case FUSE_RELEASEDIR: {
-+			struct fuse_release_in *release = payload;
-+
-+			s->releases[id]++;
-+			if (release->fh != 100 + id)
-+				s->error = EINVAL;
-+			reply(s, in->unique, 0, NULL, 0);
-+			break;
-+		}
-+		case FUSE_FLUSH:
-+		case FUSE_FSYNC:
-+		case FUSE_ACCESS:
-+		case FUSE_DESTROY:
-+			reply(s, in->unique, 0, NULL, 0);
-+			break;
-+		case FUSE_FORGET:
-+		case FUSE_BATCH_FORGET:
-+			break;
-+		default:
-+			reply(s, in->unique, -ENOSYS, NULL, 0);
-+		}
-+	}
-+}
-+
-+FIXTURE(no_open) {
-+	struct server server;
-+	pthread_t thread;
-+	bool running;
-+	bool mounted;
-+	char dir[64];
-+	int root;
-+};
-+
-+FIXTURE_VARIANT(no_open) {
-+	bool negotiate;
-+	bool atomic_trunc;
-+	bool writeback;
-+};
-+
-+FIXTURE_VARIANT_ADD(no_open, unnegotiated) {};
-+
-+FIXTURE_VARIANT_ADD(no_open, negotiated) { .negotiate = true };
-+
-+FIXTURE_VARIANT_ADD(no_open, atomic_trunc) {
-+	.negotiate = true, .atomic_trunc = true,
-+};
-+
-+FIXTURE_VARIANT_ADD(no_open, writeback) {
-+	.negotiate = true, .atomic_trunc = true, .writeback = true,
-+};
-+
-+static void cleanup(FIXTURE_DATA(no_open) * self)
-+{
-+	if (self->root >= 0)
-+		close(self->root);
-+	if (self->mounted)
-+		umount2(self->dir, MNT_DETACH);
-+	if (self->running) {
-+		pthread_cancel(self->thread);
-+		pthread_join(self->thread, NULL);
-+	}
-+	if (self->server.fd >= 0)
-+		close(self->server.fd);
-+	if (self->dir[0])
-+		rmdir(self->dir);
-+}
-+
-+FIXTURE_SETUP(no_open)
-+{
-+	struct server *s = &self->server;
-+	struct stat st;
-+	char opts[128];
-+	int err;
-+
-+	self->root = -1;
-+	s->fd = -1;
-+	if (unshare(CLONE_NEWNS))
-+		SKIP(return, "need a mount namespace: %s", strerror(errno));
-+	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
-+	s->fd = open("/dev/fuse", O_RDWR | O_CLOEXEC);
-+	if (s->fd < 0)
-+		SKIP(return, "cannot open /dev/fuse: %s", strerror(errno));
-+	strcpy(self->dir, "/tmp/fuse_no_open_XXXXXX");
-+	ASSERT_NE(mkdtemp(self->dir), NULL);
-+	snprintf(opts, sizeof(opts),
-+		 "fd=%d,rootmode=40000,user_id=%u,group_id=%u,default_permissions",
-+		 s->fd, getuid(), getgid());
-+	if (mount("fuse", self->dir, "fuse", MS_NOSUID | MS_NODEV, opts)) {
-+		err = errno;
-+		cleanup(self);
-+		SKIP(return, "cannot mount FUSE: %s", strerror(err));
-+	}
-+	self->mounted = true;
-+	s->negotiate = variant->negotiate;
-+	s->atomic_trunc = variant->atomic_trunc;
-+	s->writeback = variant->writeback;
-+	s->size = 1;
-+	atomic_init(&s->attr_flags, FUSE_ATTR_NO_OPEN);
-+	atomic_init(&s->supported, false);
-+	err = pthread_create(&self->thread, NULL, serve, s);
-+	if (err) {
-+		cleanup(self);
-+		ASSERT_EQ(err, 0);
-+	}
-+	self->running = true;
-+	ASSERT_EQ(stat(self->dir, &st), 0);
-+	if (variant->negotiate && !atomic_load(&s->supported)) {
-+		cleanup(self);
-+		SKIP(return, "kernel lacks FUSE_PER_INODE_NO_OPEN");
-+	}
-+	self->root = open(self->dir, O_PATH | O_DIRECTORY);
-+	ASSERT_GE(self->root, 0);
-+}
-+
-+FIXTURE_TEARDOWN(no_open)
-+{
-+	cleanup(self);
-+}
-+
-+/* Drain asynchronous releases before checking both presence and absence. */
-+static void finish(struct __test_metadata *_metadata, FIXTURE_DATA(no_open) * self)
-+{
-+	ASSERT_EQ(close(self->root), 0);
-+	self->root = -1;
-+	ASSERT_EQ(umount(self->dir), 0);
-+	self->mounted = false;
-+	ASSERT_EQ(pthread_join(self->thread, NULL), 0);
-+	self->running = false;
-+	ASSERT_EQ(self->server.error, 0);
-+}
-+
-+static void refresh_attr(struct __test_metadata *_metadata,
-+			 FIXTURE_DATA(no_open) * self, unsigned int mask)
-+{
-+	struct statx st;
-+
-+	ASSERT_EQ(statx(self->root, "file", AT_STATX_FORCE_SYNC, mask, &st), 0);
-+}
-+
-+TEST_F(no_open, files_and_directories)
-+{
-+	int fd = openat(self->root, "file", O_RDONLY);
-+	DIR *dir;
-+	char data;
-+
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(read(fd, &data, 1), 1);
-+	EXPECT_EQ(data, 'x');
-+	ASSERT_EQ(close(fd), 0);
-+	fd = openat(self->root, "dir", O_RDONLY | O_DIRECTORY);
-+	ASSERT_GE(fd, 0);
-+	dir = fdopendir(fd);
-+	ASSERT_NE(dir, NULL);
-+	errno = 0;
-+	ASSERT_EQ(readdir(dir), NULL);
-+	ASSERT_EQ(errno, 0);
-+	ASSERT_EQ(closedir(dir), 0);
-+	fd = openat(self->root, "control", O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.opens[FILE_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.releases[FILE_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.opens[DIR_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.releases[DIR_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.opens[CONTROL_ID], 1);
-+	EXPECT_EQ(self->server.releases[CONTROL_ID], 1);
-+	EXPECT_EQ(self->server.zero_reads, variant->negotiate);
-+	EXPECT_EQ(self->server.zero_readdirs, variant->negotiate);
-+}
-+
-+TEST_F(no_open, hint_changes_with_open_handles)
-+{
-+	int local, remote, local_again;
-+
-+	local = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(local, 0);
-+	atomic_store(&self->server.attr_flags, 0);
-+	refresh_attr(_metadata, self, STATX_BASIC_STATS);
-+	remote = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(remote, 0);
-+	/* Clearing the hint must not cause a RELEASE for the first handle. */
-+	ASSERT_EQ(close(local), 0);
-+	atomic_store(&self->server.attr_flags, FUSE_ATTR_NO_OPEN);
-+	refresh_attr(_metadata, self, STATX_BASIC_STATS);
-+	local_again = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(local_again, 0);
-+	/* Setting the hint must not lose the server's existing handle. */
-+	ASSERT_EQ(close(remote), 0);
-+	ASSERT_EQ(close(local_again), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.opens[FILE_ID], variant->negotiate ? 1 : 3);
-+	EXPECT_EQ(self->server.releases[FILE_ID], variant->negotiate ? 1 : 3);
-+}
-+
-+TEST_F(no_open, statx_preserves_hint)
-+{
-+	int fd;
-+
-+	refresh_attr(_metadata, self, STATX_BASIC_STATS | STATX_BTIME);
-+	fd = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.statx_count, 1);
-+	EXPECT_EQ(self->server.opens[FILE_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.releases[FILE_ID], !variant->negotiate);
-+}
-+
-+TEST_F(no_open, truncate)
-+{
-+	int fd = openat(self->root, "file", O_WRONLY | O_TRUNC);
-+	bool server_open = !variant->negotiate || variant->atomic_trunc;
-+	struct stat st;
-+
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(fstat(fd, &st), 0);
-+	EXPECT_EQ(st.st_size, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.size, 0);
-+	EXPECT_EQ(self->server.truncates, 1);
-+	EXPECT_EQ(self->server.opens[FILE_ID], server_open);
-+	EXPECT_EQ(self->server.releases[FILE_ID], server_open);
-+}
-+
-+TEST_F(no_open, create_releases_handle)
-+{
-+	int fd = openat(self->root, "created", O_CREAT | O_EXCL | O_RDWR, 0600);
-+
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_TRUE(self->server.created);
-+	EXPECT_EQ(self->server.opens[CREATE_ID], 0);
-+	EXPECT_EQ(self->server.releases[CREATE_ID], 1);
-+}
-+
-+TEST_F(no_open, readdirplus_populates_hint)
-+{
-+	int fd = openat(self->root, ".", O_RDONLY | O_DIRECTORY);
-+	struct dirent *entry;
-+	DIR *dir;
-+
-+	ASSERT_GE(fd, 0);
-+	dir = fdopendir(fd);
-+	ASSERT_NE(dir, NULL);
-+	entry = readdir(dir);
-+	ASSERT_NE(entry, NULL);
-+	ASSERT_STREQ(entry->d_name, "file");
-+	ASSERT_EQ(closedir(dir), 0);
-+	fd = openat(self->root, "file", O_RDONLY);
-+	ASSERT_GE(fd, 0);
-+	ASSERT_EQ(close(fd), 0);
-+	finish(_metadata, self);
-+	EXPECT_EQ(self->server.plus_count, 1);
-+	EXPECT_EQ(self->server.lookup_count, 0);
-+	EXPECT_EQ(self->server.opens[FILE_ID], !variant->negotiate);
-+	EXPECT_EQ(self->server.releases[FILE_ID], !variant->negotiate);
-+}
-+
-+TEST_HARNESS_MAIN
+Could the changelog explain what READ_ONCE() provides and describe the intended
+RCU-protected access? Include what guarantees that the holder remains valid
+while it is being used.
 
--- 
-2.43.0
+Also, is this RCU-based lifetime handling specific to the new FUSE implementation,
+or is it intended to establish a general requirement for DAX holders and callers
+of dax_holder()?
 
+-- Alison
+
+
+> 
+> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
+> ---
+>  drivers/dax/super.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> index 824e1f6df378..0a440f8b42e4 100644
+> --- a/drivers/dax/super.c
+> +++ b/drivers/dax/super.c
+> @@ -677,7 +677,7 @@ EXPORT_SYMBOL_GPL(put_dax);
+>   */
+>  void *dax_holder(struct dax_device *dax_dev)
+>  {
+> -	return dax_dev->holder_data;
+> +	return READ_ONCE(dax_dev->holder_data);
+>  }
+>  EXPORT_SYMBOL_GPL(dax_holder);
+>  
+> -- 
+> 2.54.0
+> 
+> 
