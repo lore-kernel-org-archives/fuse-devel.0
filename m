@@ -1,80 +1,37 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDB93CB2F6
-	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 19:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE11318C008;
+	Thu,  8 Oct 2026 23:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791487315; cv=none; b=MvVJNs0xrCIuuqz3W0Xi35rW88mLFnUpoQyvc8xe9h+VdMo4lXw3cYvOmsarayGb1jCeSM97AoZekPyhOgkBerliu6LalrgSf8shyekyipNEx9ZBaf3NdtaBMjvvQYum/mO+Aak8nKAmNShz1lyuop7mw7WVWqLRSllmwBuQfQg=
+	t=1791500423; cv=none; b=mlogPH4UVkaEJtM4/+cvIvrX1Ir3V1FtS636y5OVh/QxhpOCYKmUyO4kU7VND0cEG20Or0BxzYX5u5HETCmR3gW+HBRBsaU8smxe3gPEJwh8wxFYLUrgFKEnMcOoWtmxMQRiD9PdIvLd1TplOI78mjgYT5JHN42Z+2hsDjk55jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791487315; c=relaxed/simple;
-	bh=VpekPW+lER9wN5l4mPLLCT96aosom/Cgc2osOvqOym0=;
+	s=arc-20240116; t=1791500423; c=relaxed/simple;
+	bh=Ja8do/4D5F7vuAAxmZtna8Ilm34MfuHphBldFbW3Cbw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V8Cf93pl3rkwotqbLfEznPM4N+jeoYg/K5BbU3VRsUM0+/ewEAcwDyTclO5fUkWKThu6L21Rvt28JWBeHqIblupUo4UdHhi8gBfCsPjJWyMQwyjwLKPgmDWacpnBoXLoB2eBpX5YLutc/BJIDPF0BKiOdHdk6P3mZA7ypcRdZaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XZCKYFCQ; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XZCKYFCQ"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ab27c7e68aso287287a91.3
-        for <fuse-devel@lists.linux.dev>; Thu, 08 Oct 2026 12:21:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791487314; x=1792092114; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hyWGN8x92BFhClfZ4tQgIWkJPd/YlyiaqFtPEUdqMkg=;
-        b=XZCKYFCQ8xOCwCXVq1ZmSyZa+xmK+klbUnK55gBFb+Hwlv0e2H/qPD0dEAMMkKOs8j
-         dDIPtdw4Vwunzmr9iu74jVnpO99BN8xJfW6uiwiD5lT7oACsWf+luNgejziTVOHEW6oz
-         MX7WYvubZ7ZpUZElGZnm+0qjFNDgvb8jp+Ycd6LK3AOicPmx8euoV9qAQEba+BMMpXZH
-         RUCwto2TVUmyJhyTLxaqVrz0YkVYWVuKh4a7BH0jQKxbPCDJnFe3p1MWzJ7Wa/h6kaYr
-         JoabWcWPRb+ZoH99uqgYFZsXOFHsf4wnbluCPCe0tgPhhQvGgKTcXAsIpUgAkB0jp/G7
-         0x0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791487314; x=1792092114;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hyWGN8x92BFhClfZ4tQgIWkJPd/YlyiaqFtPEUdqMkg=;
-        b=w+o7RIWc4l9jSK4jdT1UTQ2ciFWv4/82U5uSqesFs8Lw48u7OuHF/vnlttcxnCunXi
-         eprMO0XjEMcMDfA1H3MFSWBNaYgSuvp2Cv9j74t8jD6RxDjR14ic27LgD12c0qTEyEH4
-         b6Lasj5pl6NhsCeswvuxIXm3XXerpOy4qNizQKY72J4O7dRAp0ptRT3HPCofNAsbzIkK
-         11A0/1tLS7cLlDJHnK5uRHQYMKpkY/XIobJsGcpB+2JLTCQfAghatbVs0we/yatzQx8p
-         Mu6DOocPAokvou4aBIrfez7byvoqJZpoDaKsgD/a5Eqx4YAjLcFE7NEBq9Q+30gbiH4w
-         UqEw==
-X-Forwarded-Encrypted: i=1; AKwUvBypby7OdEpvbNQ2BFTfch01MeXev+FCUJRJwCxCtw8/eeBP4/yzOejpI1GKxqjlF9GlqXuTBmT+JVj0@lists.linux.dev
-X-Gm-Message-State: AFq9FYJsGIU22XEcxUXecQ4ypeB7vunqCY4YR/6R2wetnqPQJ6mu7B44
-	jRteCDwmHI+lhmU09z/AkwS4BlYctEeSQqEdVo2EGI/xVQvAcHzE+QbG
-X-Gm-Gg: AYBFou1v7tVP1VCi+xjrvB1YarjJ1z2SpG+NVlposTFb3he1xbmnlzoWTRxotoQGl7n
-	14de884DalQ8z4RAHOPgps8GCAGVRfmTzLBjMmBnrjUUa85RxeVHJtvC8R/uhDRQEjoR9iJcT6/
-	uVH8NkKByTb+Bq7q2OT9sC0qAiYCPnCTYPS/0CtE99oPQ1Dp8+xONrbBmnze2FbL0lYbsPMWEwq
-	xS+WyG13iP/4tGffMzCZDmaE0tz4/sYXSmOldaF+fC305DE6lNdlgtfve8HXonJWodOzp/NW4O3
-	72fGacnCJZOwiX+zkTpzuOdtzn29S6XdD3JQza5wJMHwoAttCNznz1tsTqoBp10Wmm25PMrGpSv
-	kX/2H6yPbr6K7AoJHWYNHGMSvD8AgQbAtckmYV8z2yA6D5eRHdPxN/Tr5LJpwncJYXJccsLJa5x
-	EQHum7EFiRZM1cRWfL5lhucHAV63EWeC8zCJRGbAfmfTJ3qpU5PIIgCWjwSURknoFSEo/zZlvol
-	g==
-X-Received: by 2002:a17:90b:3bc7:b0:3ab:22fe:b142 with SMTP id 98e67ed59e1d1-3ab22fecf9fmr1055731a91.1.1791487313011;
-        Thu, 08 Oct 2026 12:21:53 -0700 (PDT)
-Received: from skinsburskii ([76.135.114.51])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab36ed053csm74973a91.4.2026.10.08.12.21.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 12:21:52 -0700 (PDT)
-Date: Thu, 8 Oct 2026 12:21:50 -0700
-From: Stanislav Kinsburskii <skinsburskii@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Robert Byrnes <byrnes@wildpumpkin.net>, fuse-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] fuse: add negotiated per-inode open and release
- suppression
-Message-ID: <asftTiSldKhdNEYA@skinsburskii>
-References: <20261008-fuse-per-inode-no-open-v2-0-39c60fe97728@gmail.com>
- <20261008-fuse-per-inode-no-open-v2-1-39c60fe97728@gmail.com>
- <2621089d-f087-4b0d-89bf-3cd1218b5f66@infradead.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=SyeiQev9mFnbaAxtGEhAuKxxezCckprTTQSV0Npc1YWpKYB0Q1n4zkiAJPKrLJqmfC71CiF4mNvpM0ZIxQVzg74bXbzX6D7XLZNMebkJ3NFOgxKUlhMX2Hpw5yys7fBvFM64zzFczs9/R0GLCnSzeIbsIkSG38HeYUfsWbzsEuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf15.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id CE50C16015E;
+	Thu,  8 Oct 2026 23:00:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf15.hostedemail.com (Postfix) with ESMTPA id B3DD318;
+	Thu,  8 Oct 2026 23:00:10 +0000 (UTC)
+Date: Thu, 8 Oct 2026 18:00:09 -0500
+From: John Groves <john@groves.net>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	Amir Goldstein <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, david@kernel.org, willy@infradead.org, brauner@kernel.org
+Subject: Re: [PATCH v2 0/8] fuse: DAX device based extent maps (famfs)
+Message-ID: <asZcsPT-Q8qga0SU@groves.net>
+References: <20261001150935.655979-1-mszeredi@redhat.com>
+ <asQcBebepPb9CXzS@groves.net>
+ <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -83,125 +40,119 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2621089d-f087-4b0d-89bf-3cd1218b5f66@infradead.org>
+In-Reply-To: <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com>
+X-Stat-Signature: uggu67ce7tkzo5rn37wytz5yem7y363y
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: B3DD318
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+d2FLPXecql2qrUG0JgwtNhkdj6Arpje4=
+X-HE-Tag: 1791500410-415219
+X-HE-Meta: U2FsdGVkX19dU2svEPZ26FkYYvu54m7Y44DruVzPevwz9YLyqixNrWhyyF98aOMWUUMw+tVkwgzadfWEMq/ELmvWu1xmK5doh4qtvY0bg+RpPlFzVtfJEGKd7lmSH964idwHL2cX4bj9R4U0MquvZSho5/8c+azgNGLQp3LgyFs8kR0Wwko1gs6S1vCR/H4oHPnBBIII4On6rq9Pgs97h1gkI2iSqEfYp3tScMjc1XMiWmJkfzBNf9Uijj171voTUuv14T73PGjRDXrmEVzPRKJDTAuh41ZJTu8VIiq6atOB4QC2QOUb6FhH6BI4Wd+UAzoIHrXccTr0YNqgm60KESNukHYCmIRqumoxpCZ4tE34tMq3UmNDJTlrFLQii7kL
 
-On Thu, Oct 08, 2026 at 11:17:46AM -0700, Randy Dunlap wrote:
-> Hi,
+On 26/10/06 11:48AM, Miklos Szeredi wrote:
+> On Tue, 6 Oct 2026 at 01:37, John Groves <john@groves.net> wrote:
 > 
-> On 10/8/26 11:06 AM, Stanislav Kinsburskii wrote:
-> > Filesystems serving cached content may not need per-open state for most
-> > inodes, while still relying on OPEN for control files. The connection-wide
-> > no-open behavior selected by ENOSYS cannot express this distinction.
-> > 
-> > Add FUSE_PER_INODE_NO_OPEN to INIT negotiation and FUSE_ATTR_NO_OPEN to
-> > inode attributes. For marked inodes, use the existing zero-handle defaults
-> > and normally omit OPEN/OPENDIR and the corresponding RELEASE/RELEASEDIR.
-> > Remember whether each handle was opened locally, so later attribute updates
-> > do not determine the release behavior of existing handles.
-> > 
-> > Retain RELEASE after a successful remote flock operation, even when OPEN
-> > was skipped, so FUSE_RELEASE_FLOCK_UNLOCK can clean up server-side locks.
-> > Servers negotiating remote flock must accept this RELEASE with a zero file
-> > handle and no preceding OPEN, including after an explicit unlock.
-> > 
-> > Keep the release argument allocation for regular files, which pins the
-> > inode while asynchronous I/O completes. Honor the hint for internal opens
-> > used by file-attribute ioctls as well. The capability check excludes CUSE
-> > before accessing its non-FUSE inode as a fuse_inode.
-> > 
-> > The per-inode hint does not suppress OPEN for atomic O_TRUNC, since the
-> > server must perform the truncation. CREATE retains its existing handle
-> > lifecycle. Connection-wide no-open/no-opendir behavior selected by ENOSYS
-> > continues to take precedence.
-> > 
-> > Update the cached hint from LOOKUP, GETATTR, SETATTR and READDIRPLUS
-> > attributes. Preserve it across STATX replies, which do not carry
-> > fuse_attr.flags.
-> > 
-> > Document negotiation, cache and handle semantics, and the server's
-> > responsibilities. No additional access-time or open-reference accounting
-> > is introduced.
-> > 
-> > Signed-off-by: Stanislav Kinsburskii <skinsburskii@gmail.com>
-> > ---
-> >  Documentation/filesystems/fuse/fuse-no-open.rst | 49 +++++++++++++++++++++++++
-> >  Documentation/filesystems/fuse/index.rst        |  1 +
-> >  fs/fuse/file.c                                  | 26 ++++++++++---
-> >  fs/fuse/fuse_i.h                                | 17 ++++++++-
-> >  fs/fuse/inode.c                                 |  9 +++++
-> >  fs/fuse/ioctl.c                                 |  3 +-
-> >  include/uapi/linux/fuse.h                       | 13 ++++++-
-> >  7 files changed, 110 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/Documentation/filesystems/fuse/fuse-no-open.rst b/Documentation/filesystems/fuse/fuse-no-open.rst
-> > new file mode 100644
-> > index 000000000000..4526512d358c
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/fuse/fuse-no-open.rst
-> > @@ -0,0 +1,49 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Per-inode open suppression
-> > +=========================
+> > I see the kernel-side rejects these s/size/chunk_size/ strip extents if they
+> > are not all the same size. Why not put the chunk size in the header and let
+> > the extents honestly describe the offset and range that they cover?
+> > The current design can't test for sufficient strip extent sizes, although
+> > it replaces code that did verify this.
 > 
-> Documentation/filesystems/fuse/fuse-no-open.rst:4: WARNING: Title underline too short.
-> 
-> Per-inode open suppression
-> ========================= [docutils]
-> 
+> Not adding chunk size to the header is intentional to keep the API as
+> simple as possible.
 
-Addresed in v3.
+Fewer fields is nice, but it's on the honor system that the server allocated
+large enough strips - since strips carry the chunk_size rather than their
+actual size when CYCLIC is set. IMO it would be an improvement to add the
+chunk_size to the header; then the strip sizes could be validated.
 
-Thank you,
-Stanislav
+But it's your call, and I won't argue further about this unless something
+changes.
 
-> > +
-> > +A filesystem can avoid OPEN and RELEASE requests for individual inodes by
-> > +negotiating FUSE_PER_INODE_NO_OPEN in INIT and setting FUSE_ATTR_NO_OPEN in
-> > +``fuse_attr.flags``.  For directories, the flag suppresses OPENDIR and
-> > +RELEASEDIR instead.  This allows, for example, cached content files to avoid
-> > +open round trips while control files on the same connection retain their
-> > +open handlers.  Without the negotiated capability the attribute is ignored.
-> > +
-> > +The kernel updates the hint when it accepts attributes in replies such as
-> > +LOOKUP, GETATTR, SETATTR and READDIRPLUS.  STATX replies do not carry
-> > +``fuse_attr.flags`` and leave the hint unchanged.  The hint is cached inode
-> > +state; it is not independently revalidated on every open.  A server changing
-> > +the hint must arrange for fresh attributes to reach the kernel and tolerate
-> > +concurrent opens using the previous value.
-> > +
-> > +For an open served locally, the file handle is zero, FOPEN_KEEP_CACHE is
-> > +set, and directories also have FOPEN_CACHE_DIR set.  Subsequent requests
-> > +identify the object by the node ID and may carry a zero file handle.  The
-> > +server must support these requests without per-open state.  Whether OPEN was
-> > +sent is recorded for each handle and is not changed by later attribute
-> > +updates.  An existing server-opened handle still receives its matching
-> > +RELEASE if the inode hint subsequently becomes set.
-> > +
-> > +Remote flock locking is an exception to RELEASE suppression.  When
-> > +FUSE_FLOCK_LOCKS is negotiated and a handle has successfully performed a
-> > +server-side flock operation, its final close sends RELEASE with
-> > +FUSE_RELEASE_FLOCK_UNLOCK and the lock owner, even if OPEN was suppressed.
-> > +The server must accept this RELEASE with a zero file handle and no preceding
-> > +OPEN, and use the node ID and lock owner to remove any remaining flock locks.
-> > +This also applies after an explicit unlock, since the kernel records whether
-> > +a flock operation succeeded rather than tracking the server's current locks.
-> > +
-> > +When FUSE_ATOMIC_O_TRUNC is negotiated, an open with O_TRUNC still sends
-> > +OPEN and receives a matching RELEASE, so the server can perform truncation.
-> > +CREATE also retains its usual open and release semantics.  Connection-wide
-> > +no-open behavior selected by an ENOSYS response continues to take precedence.
-> > +
-> > +The hint does not make an inode immutable, grant permissions, or suppress
-> > +other operations such as FLUSH, FSYNC, locking or data I/O.  Servers supporting
-> > +remote flock must implement the RELEASE cleanup described above.  A server must
-> > +only set it when its access policy and file semantics permit the default
-> > +open behavior described above.  Servers needing per-open authorization,
-> > +nonzero handles, direct I/O, passthrough or other OPEN reply flags must keep
-> > +handling OPEN for those inodes.  No additional access-time or open-reference
-> > +accounting is performed by this feature.
 > 
+> > However, the smoke tests passing isn't fully legit, because the patch to the
+> > famfs fuse server passes the entire strip size on CYCLIC mappings, meaning
+> > it just produces a concatenation of ranges - which does not achieve the
+> > interleaving goal at all. That case degenerates to simple extents.
 > 
-> -- 
-> ~Randy
+> Are you talking about the case where there are multiple simple extents
+> each with a different striped mapping?
+
+No
+
+I'm saying your patch to the famfs user space, when famfs sends interleaved
+file maps, sets CYCLIC but sets strip extent sizes to the actual strip size,
+not the chunk_size. So chunking is at the size of the entire strip, which is
+to say: the net is a multi-extent file that is not interleaved.
+
+So that's a bug. I've fixed it locally and will share that in the next day
+or two. I also needed to refactor your patch the famfs user space because
+it disabled ABI compatibility with some older versions of the famfs kernel
+that I'm still supporting users with. If you can wait to patch that further
+until I share an update, it will be cleaner on my end.
+
 > 
+> That case is supported by the API, but not the implementation (since
+> there was not test case).  If you do a test case, I'll add the
+> implementation.
+> 
+> > To be specific: each chase/dereference that results in an L3 cache miss adds
+> > a stall of (1 * MEMORY_LATENCY) to the fault time. This is the good reason
+> > why I didn't do any chasing in the fault path of the famfs code that you're
+> > replacing.
+> 
+> Please benchmark against the in-kernel implementation.  If there's
+> significant (meaning it may have a real effect on a real-life
+> workload) performance hit from using the rb-tree, then we can add an
+> optimization.  I don't want to add complexity without actually being
+> able to measure the gain.
+
+I will do that, but it's not a small undertaking. Back to that in a moment.
+
+I have an idea for how to make fault handling order-1 in the normal famfs
+cases but fall back to order log-n if necessary (e.g. if not all extents are 
+the same size). I'm testing that now and will share it soon if I don't run 
+into any significant problems.
+
+I think we can probably agree than things otherwise being equal, order-1
+fault handling (or order-1 falling back to order-n if necessary) is 
+preferable to order-log-n. If you or anybody doesn't agree with that, I 
+hope we can discuss it.
+
+As for benchmarking to "prove" that the rbtree is a problem, I'm sure there
+are use cases where it is not a problem (like small virtual daxdevs on
+workstations or laptops). What Micron worries about is huge working sets on 
+many terabyte disaggregated memory. If the memory is 45TB (the biggest 
+system I have "access" to), the data sets exceed the processor cache by a 
+substantially higher factor than even in a maxed out server. That means
+more L3 cache misses. I'm trying to avoid an approach with built-in chasing
+on performance paths, because Micron's experience is that pointer chasing 
+becomes L3-cache-miss bound.
+
+Anyway, one workload (and working-set size) that doesn't exhibit significant 
+L3 cache miss performance hit does not prove that others won't be negatively
+impacted. Proving a negative, etc...
+
+Having said all that, this topic seems to recur and be contentious - we are
+working on tests that can demonstrate bottlenecks - but my current ask is
+that if I can offer an alternative approach to rbtree that is better on 
+paper, can we please use it?
+
+> 
+> > OK, one more. You're using the rbtree for indexing by file offset, which is
+> > a zero-based non-sparse range in this case. If this could not be avoided
+> > (which I think it can) you should use an xarray or radix tree for that...
+> > right?
+> 
+> Unlike xarray, the rb_tree API is one I'm familiar with. But nothing
+> prevents switching to xarray if that's a better choice.
+
+That's fair. And I withdraw the xarray suggestion because I have a better
+idea - will share that in a day or two, before Monday almost certainly.
+Need to run it through all of my CI...
+
+Thanks,
+John
+
+<snip>
+
