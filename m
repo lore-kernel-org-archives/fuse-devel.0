@@ -1,114 +1,173 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5B73CF200
-	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 06:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791442749; cv=pass; b=szJs9Xlsg4p4YMJ4Sq2D0ZRQ3lhtSi/jTerbcb1RKpTVfl5t5roj1UNUu1ig28WZCu6n/22ooZHyg8UJmK8b6MuejX4f2sCFTfkMli26vyPmduSp+8Y+25bpEEF2HET0U6IFrc2bV7rlo0UqaRlqvSb19BDt1EygUrvxhhrlQtQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791442749; c=relaxed/simple;
-	bh=1W5Sxy12Ogp8A7y6gf9ny6a0gyAw1CRnfeolqgDZBYM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s9pHZTMzl4x8Rd+BZsFu4FNVKIMKkqzEPmzOs3n5lVLDqbeDQZ0s/ieFp1MtJzwyj9F6tVnT57J1cXgk3g+NJVQaFLVxMviqXg8XRj94ufvBl72u28hBbdV4trODDuSf+WiXRRu3fwtk4dSsmd3V1aipMqzKrLoheUPdxqFh/gQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=FXzwa5lL; arc=pass smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C43D435535
+	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 11:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791458414; cv=none; b=m/Ue0JOvYtBLZQzmpmkv+1x+mksrZVCz0AwCVU0e9jtN64sN3C5S1UNSIQjR2Mznf01anzKNm2z9v9h7Fzaa+fDd6WI/vppD8EyDSn33k+xfi1gLOU/zYAMibdWaTj/UAjZwoxQvTM/lRrSwCORpWlN0vKKmziyTDCh9GD6/K/c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791458414; c=relaxed/simple;
+	bh=eKqk5TpASnodNyqjN7Xpdbgw/li/RvFAwZ7jMFr5HYE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:content-type; b=A8RzffYfsYuRk+Vy/8sSKGpwCFtmqw2zkPZtGG97+0OXUgcnk0j4/Jc2xfUz/eh5tW6TZ5RbZl8orDOWapZbWhkOvP5Jyiwqx5sbS9YORWyh2+mznTtKSUWeuuzEnWY4h0JjVU6lWfHmIxlUYIx0Aj9yda2AwA++Mnx0INN/iyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eQ5bTMQD; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="FXzwa5lL"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-534e6545939so39692261cf.3
-        for <fuse-devel@lists.linux.dev>; Wed, 07 Oct 2026 23:59:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791442746; cv=none;
-        d=google.com; s=arc-20260327;
-        b=bNIvv+dgqdfVUrhwpUgyRulhALoQlC3YwIOm/CPxJv73siR7Ad4E1gcMX7spxmkPYd
-         48ZCQ4opNIwxa2EJVSnxgdqOLXKWBeQQCxeCcIJmHyVbxbe6xw+YK6qGAfumJexz2LGn
-         yql7p43+cQk+CzpY4PNEkZZ6RjQuZxJ84fS6DWnvJt87W81fVX7HNsogoC7YSED4cFnh
-         DXsEoN7F746mRVfzPBH2PZ84JcztUaa43jMh27FQTpVlclRVWPxAJl/uxSva9hRu6X2T
-         FTpKzrhXvivPneZ9A6W8j5c3lFfuwNUHONX5adTGqnryCbWFEjeZXgbXjVKQkl4el8SS
-         3JjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=L3hU4nbWl8LrfKz8yVK4ZzMdYbOShSdSRkPWsTycbt8=;
-        fh=kvleYM7Se4ovZGusiIvMf8g0rMtWvc5crpQiewFZrzs=;
-        b=QOtRbRh/fHjNPlviWK5s5AzJQp2hszLTPWzWrIjdWQt85bMDqBIIzm+ypi1yzilRBH
-         bXDo1/0DtBvED4m0Z1P62HP9TSSnWuvc+aNYhVtRXZOSkB2jgVgd7Xn9zuIxQRCBSz69
-         1LNZcHX1Xn+9FVz9j3c/wVQK6oUF3axqLk6nCZnEIyAhOMdoCngEF/z7KiewUMAy3l/u
-         wRsF3wMqPei8KwhwrxwQEsOnwJ7Fh84aHXhho4TO0CtsgWjUh/WwAYTXJn03tT3UO077
-         fhb6S8WQiXwLgcBvVpwkeVckNOwQy68OtGvVoweM/gVafgQNOmItFf9FQywNFmtZR+mL
-         kkFQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1791442746; x=1792047546; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=L3hU4nbWl8LrfKz8yVK4ZzMdYbOShSdSRkPWsTycbt8=;
-        b=FXzwa5lLEkNycZjsH7gal961nKdA5A81m9PXGayTSLPv+kUgH1PrUuqNTjzQVoypiI
-         3sRC8zwehJLr1JJuUECiLm5mHDbDr8qisDu/BSKQkAiX4q0AKhSTlqlo2RVhqP9ooMPJ
-         2KCkg2XPjYqAFywdQkOj/OZ916ytVLsGQjv50=
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eQ5bTMQD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791458410;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=o5M+l3eYF5+1BrspbqKZlSFj3dX2QU6FqGOUNjFSg00=;
+	b=eQ5bTMQDkbDQk6hEFdpiDUaT1pOrXGA6t1Er/lHmHRGF8zFlrcSSqIqt3td0PQBvUF1k1W
+	g91U54KRT7LhqjOPA8h8cdrFKTN3pZ5Mgf9tuFJ7S4zvw0Jn1kwfLzCyfKuhIbrH4vYciK
+	ylPgoNoTYS6OnrO0p9YL3OiF4DLpX+k=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-173-MOUchZE5PgGNgPNl-88hcw-1; Thu, 8 Oct 2026 11:20:09 +0000
+X-MC-Unique: MOUchZE5PgGNgPNl-88hcw-1
+X-Mimecast-MFC-AGG-ID: MOUchZE5PgGNgPNl-88hcw_1791458408
+Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c2dd399f761so559803966b.3
+        for <fuse-devel@lists.linux.dev>; Thu, 08 Oct 2026 04:20:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791442746; x=1792047546;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=L3hU4nbWl8LrfKz8yVK4ZzMdYbOShSdSRkPWsTycbt8=;
-        b=L39UJ011SS73UYHmlH3wcOeU6j2bofT7g0woz/h8R05P7YBuU9FlSmtuMMqnHxqFGZ
-         27uqgfpkmXU39+pPnv2P33S/jOOKwS5meL5b0BEh3tBGcxXQq9cDHAgqnLfUevCKjOP7
-         jF7A+fvfyVyxiIOFLnSjui4FZuJJwl9Jjhd1Ey69Qqp0u98KbxkWVtT+5kvlJiE4kYBK
-         Uc8UPg0pQRTSBhnQ/ngVZU6Wi7bOzfY0/57GmIGu24fNqSMrOA2NPZa+iBAasIry99w2
-         wd9GR9IDRb29GSnsTPBgM0fzA4pyh+TfVn82fC8GF10NWFP5Yr0KD7X15qBKrRaJumca
-         gBIA==
-X-Forwarded-Encrypted: i=1; AKwUvBz7J29qda+Ee3NR6Q2nvakz5nx8m8ciYSl85sFceOum4afs2mdt4C0Oa18/DIDX39TvPfHDewM6v3Wk@lists.linux.dev
-X-Gm-Message-State: AFuF++nz7Hb/FfJkay8cV+LyZ/nxdB/aJdsABmBaopg+75aRoCGnVjrg
-	JhjncXJV8A4tBNF8/IzUXfcBmioLdx9/L5+sTj7fitsQVt/vsEPgidQ6ZV04s6ungHMNykPAyrC
-	epcAjUXlIaqqx2MX3hyNDz1xCFIuf6Lf4Eyhgw9wHmA==
-X-Gm-Gg: AYBFou1+wxDuFV4Swl45ecjjnr6s80T2P2nRZYhCliA+IAFFgcAalT0zvRoFYBLnZNj
-	GExKLlCatEjvssXB+eO8JquGY14sD7TUeiqBpBPIkoapTqKVACJ1CgwUuyjXfNGbowhtllwPWGe
-	gwvPqIAYpqUXZ2xwYtzt7xo+IrlGSfqOyGcmFvC4wkAcZIZBYMNVgrk52Xkgh11z5JJzg0wN8tP
-	ZXyo9oW751hd5z179gE0NCmiFFesT5qDG2dYBWLAIXcxvwKC7GMVGI7ApVQKDbmRJZkk/BFFH2D
-	eo7JSdua/maEbvtIChZPWePsPmQzWwEm1jq62ZLmptyzqLj8s4Mp6ahW5WFTg6pk1khnfrB9Kxu
-	zOZLcoGyM/7+oQgtmwpdk62k=
-X-Received: by 2002:ac8:5a49:0:b0:535:10be:7d5e with SMTP id
- d75a77b69052e-53575545a1cmr89724491cf.46.1791442746044; Wed, 07 Oct 2026
- 23:59:06 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791458408; x=1792063208;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=o5M+l3eYF5+1BrspbqKZlSFj3dX2QU6FqGOUNjFSg00=;
+        b=BTODc0AfYtn0UDE9IaQjdlzl/K79HXFB5zYP3os6AHNYpo4tWW7Hez2QyIzbHaA+by
+         qjxFNdqzeMYJDofkkfnxqTYAJVChPZDIdUtyZY/9tdVivXQaS/CRpYxYjSLTwDoTax7u
+         gcM2wa8khaSp3/XaECxMCOgme1KZxuivKm2vuSvNdQGCp8ShyzQUVvmFSjUCJ8g4WRx0
+         Mu9KcqLkiaWV6SPLVGHd1u0yQHYgxBzAYa0n+wMX55MXH5yPzCjJYiC2R5lKaPxl4fWt
+         f+jWTg4igzCixc1i0l6/fbRXNPD3uTE0JGq83VS8oGmRRt5IqDHsBl0Qac6yFrfzo2d3
+         n3tA==
+X-Gm-Message-State: AFuF++kslN7NQ5wxJ/WNQOUrMGrTvtbiRg4ODsRDoVa0U8VXuToYvV1D
+	4E4L8Y6acecAWChBv/FUJqLx62KTBdL5bZ3mgKZ/nuPhPeSZdZ91WNaoKZGISXlioUTbOblB1wA
+	Bw3F4fLHlh6IpISYtHKqTRt2Zty+pgiWc6lnadlFCP2wuFQxnnAdCIqOaMN6Z2ePw3mUghQLoXk
+	OEPGh6R3I5nUvw7nyPQwkZB6CECsv0QJ1ZIS5bNjg862peSw0=
+X-Gm-Gg: AYBFou05Za7puEFIESyg9mOZMeCN2K1mju4FqEv07cBdChDVbtfq4e425xWRZYtbZ7e
+	Unt6W+Rei3n1ZRCgtbdk9007upYt4zSZfKbjKMGUDSniLyVWL970MeHROIREitbFDx2z8OK9uim
+	H9vTKhxRk3PQbTEIn7C7yDYsYBQFZFy9fvqE2K5tWQYt5qXhDlDw47th74e1G+PNRHBYPRyjVyP
+	K71PA4U0dEhPSycHSh5nT/WxezBkhNcrJWYolq7sSWIq3x4EYktuKJKJo7HKY7oKK0IgmocD5gC
+	+HsWj0Ic3dvRy5Y+mCF4loqogGqpxdc+bWBRwap07RRNDddK/HlA7qqlpeGGfh7vMVAeiWiozVQ
+	tfDUJwcrpcpCjqhg4y+g/fFMUo3T3aeUDWN73Xr6gnWxaQIqPvpaQkEff
+X-Received: by 2002:a17:906:c14c:b0:c2a:8d00:f8d0 with SMTP id a640c23a62f3a-c317bb373a6mr550083766b.4.1791458407918;
+        Thu, 08 Oct 2026 04:20:07 -0700 (PDT)
+X-Received: by 2002:a17:906:c14c:b0:c2a:8d00:f8d0 with SMTP id a640c23a62f3a-c317bb373a6mr550080066b.4.1791458407407;
+        Thu, 08 Oct 2026 04:20:07 -0700 (PDT)
+Received: from maszat.piliscsaba.szeredi.hu (188-142-152-55.pool.digikabel.hu. [188.142.152.55])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c317c2fae53sm204251866b.49.2026.10.08.04.20.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2026 04:20:06 -0700 (PDT)
+From: Miklos Szeredi <mszeredi@redhat.com>
+To: fuse-devel@lists.linux.dev
+Cc: John Groves <john@groves.net>,
+	Amir Goldstein <amir73il@gmail.com>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	nvdimm@lists.linux.dev,
+	linux-cxl@vger.kernel.org
+Subject: [PATCH v4 0/9] fuse: DAX device based extent maps (famfs)
+Date: Thu,  8 Oct 2026 13:19:51 +0200
+Message-ID: <20261008112004.1899560-1-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261006180115.1425232-1-mszeredi@redhat.com> <20261006180115.1425232-3-mszeredi@redhat.com>
- <asbrrhh0BrBDDOkj@aschofie-mobl2.lan>
-In-Reply-To: <asbrrhh0BrBDDOkj@aschofie-mobl2.lan>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Thu, 8 Oct 2026 08:58:54 +0200
-X-Gm-Features: AclHuK9mcs0U3g8nRj25-jK3khFgy-18rAJm04RUxSKhCvNJcpCBMTzwyQNv4BE
-Message-ID: <CAJfpeguxsc2ehKK9cDWx4r8Mk-VNQHGU9Soag=-qzowVkoosxA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/9] dax: use READ_ONCE() in dax_holder()
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	John Groves <john@groves.net>, Amir Goldstein <amir73il@gmail.com>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ATdiA-NutsqigNrnoEhi34Dd9eZ443OXl5UmOA9rj2o_1791458408
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Thu, 8 Oct 2026 at 03:03, Alison Schofield
-<alison.schofield@intel.com> wrote:
-> As written, it suggests that READ_ONCE() makes a non-NULL result safe against
-> concurrent fs_put_dax(). However, READ_ONCE() only controls the pointer load, but
-> IIUC it does not protect the lifetime of the returned holder.
+This is the FUSIfication of the famfs-fuse patchset.
 
-Right, the changelog was a bit hurried.  Will fix.
+ - extent maps are assigned to a backing ID
 
-> Also, is this RCU-based lifetime handling specific to the new FUSE implementation,
-> or is it intended to establish a general requirement for DAX holders and callers
-> of dax_holder()?
+ - 64 bit backing ID's managed by server
 
-I haven't looked.  The RCU based fix only works as long as the memory
-failure handler doesn't need to sleep.   I cannot make a comment on
-the xfs code.
+ - maps can be linear or cyclic (striped)
+
+ - API supports nesting, but not implemented yet (i.e. multiple striped
+   extents per inode, a-la famfs)
+
+libfuse/famfs trees for testing:
+
+ https://github.com/szmi/libfuse.git#extent-map-v3
+ https://github.com/szmi/famfs.git#extent-map-v3
+
+This patchset:
+
+ git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git#extent-map-v4
+
+Passes famfs smoke test on emulated dax device.
+
+Comments are welcome.
 
 Thanks,
 Miklos
+
+---
+Changes since v3:
+
+ - redid the first patch (prompted by sashiko: passing dev_t is racy)
+ - more fixes (John, Amir Sashiko)
+
+Changes since v2:
+
+ - add a trivial prep patch modifying drivers/dax/super.c
+ - reserve zero value for 64 bit backing ID (Amir)
+ - add Originally-by: tag to acknowledge John's work 
+ - more fixes and cleanups (Amir, Sashiko)
+
+Changes since v1:
+
+ - moved 3 prep patches to fuse.git#for-next
+ - introduce FUSE_PASSTHROUGH_V2 (Amir)
+ - lots of small fixes and cleanups (Amir, Sashiko)
+
+---
+John Groves (1):
+  dax: add fsdev_dax_from_file()
+
+Miklos Szeredi (8):
+  dax: use READ_ONCE() in dax_holder()
+  fuse: add helpers for EIO return value with kernel message
+  fuse: support 64 bit, server allocated backing ID
+  fuse: support opening 64 bit backing ID
+  fuse: add support for opening dax device as backing
+  fuse: add extent map data structure
+  fuse: add extent map I/O support
+  fuse: add support for striped backing
+
+ drivers/dax/fsdev.c       |  24 +++
+ drivers/dax/super.c       |   5 +-
+ fs/file.c                 |   1 +
+ fs/fuse/Makefile          |   2 +-
+ fs/fuse/backing.c         | 303 +++++++++++++++++++++++++++++-------
+ fs/fuse/dev.c             |  54 +++++--
+ fs/fuse/dev.h             |   3 +
+ fs/fuse/dir.c             |   3 +-
+ fs/fuse/ext_map.c         | 319 ++++++++++++++++++++++++++++++++++++++
+ fs/fuse/file.c            |  25 ++-
+ fs/fuse/fuse_i.h          |  75 +++++++--
+ fs/fuse/inode.c           |  25 ++-
+ fs/fuse/iomode.c          | 116 ++++++++------
+ fs/fuse/notify.c          |  75 +++++++++
+ fs/fuse/passthrough.c     |  63 ++++----
+ include/linux/dax.h       |   3 +-
+ include/uapi/linux/fuse.h |  53 ++++++-
+ 17 files changed, 971 insertions(+), 178 deletions(-)
+ create mode 100644 fs/fuse/ext_map.c
+
+-- 
+2.54.0
+
