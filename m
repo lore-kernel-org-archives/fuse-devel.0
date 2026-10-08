@@ -1,138 +1,198 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808AE3806C4
-	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 04:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791432880; cv=pass; b=ZLOtYCyppmqR201HyFQQrBqPRjnr7u9qR4wkTzSteLNVuLVNXUPZBmVq1xWQXd9vjn65WiaJMCMROJl06eqAVjYLaxgeZtzDiygh0AarWRN3ki1sOmjZrCizlk7PqCMIn+3/ii15pt2fVk8bCGHiOfxnVr4byzLgRkF8u5Ekyds=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791432880; c=relaxed/simple;
-	bh=D/PG0O7im4ffUb/epjeq+lDDmxyUxbAM6aLOuJ0HsLE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DuMN9Sg1dybEzhbxwLIPp4EYJ1FK/e1+hdn7Pi92GH9dwVY+Wh21U30Pka9vwK0Elz6QQmH3ms3VE/zTWeHMGwacuJyf250Uv8r6egygZP0TuB+zAvAukg8pRQeaMEPQDj8IDcbOC4Gvv2zAFAdcA/UuKkaKGxDGyhCKXILVvBE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IEiKrJro; arc=pass smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74733C3F70
+	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 06:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791440954; cv=none; b=OoPcUsljKHlV/jGekcVNjep5zTenXvxfBXrs2BhCYTvQrKPjGrMSgQwJpaJlV12e9RySoia7VtE1LGE/1gVmDe/1NAHsvrxuwZF0cDNx9LzI/J3gaa6+EaKGTDYEmER3222eCNbN7qt/218Ywi9Kd6vlwM/0uiSExPJ/f/ehE6c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791440954; c=relaxed/simple;
+	bh=Jvpan4dWi71lxbGY7TiGmaQM4y+M5f9WlxOyl/ZFFzo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=YwAJE+kQ2Tk5ryU/31P8fIi96pL7MhaPoRZ7Dqzmsw79SyQXjcV6utT08BMfnZ7aLvK43Ce1DcFehV0Z7X7bDM6hIxoWsB9DBhNgr3DzyEbd6OlUkkDUBnA3wm5mq+pDLpxletYZ12kPnX70zz1SXbPR9aQAzEIHcbw2tcLM0JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qRLvjvZy; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IEiKrJro"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c2e36c3478aso708472766b.0
-        for <fuse-devel@lists.linux.dev>; Wed, 07 Oct 2026 21:14:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791432878; cv=none;
-        d=google.com; s=arc-20260327;
-        b=eEePzeNKs6s5e9Eopwo+DHKtG+kji94Ik1m5mWkQmlTc7pzrCfq2OyEJnlW7LVGbwW
-         9V6KRzbe8HP5b6JbTz+cIN+nYNgGAmPwMXqUu7A5Qu0U7Uq6jlO9ABZhTrE7zUAArm8X
-         vP7WxAbElvMbBlK7bpUPNEOdTNCxtOw5f0mNI3IjLFJVgLbz314PpBGwMdiaSGS38Eaw
-         NiWoiWPJCk2bTUUBrPISPShfDHXqJBQfqj7KORP0s8Ag7jJK0JEcvwiCiT7qdIbGQBSR
-         jhp6zLnhE3m0t1Tgzuh89fWggHT6p2agWzPAbeWLmTJGCDUIo+BPkZAGMmBj0siq8iqC
-         T3Qg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=D/PG0O7im4ffUb/epjeq+lDDmxyUxbAM6aLOuJ0HsLE=;
-        fh=HNFz9MtAvubqxxu/iZFdHnGiFQ3WddbcWDmcFA8aRcM=;
-        b=X8I8Xt/n+Iz9Itsb85o+J0bv321UmBZ51cyna1xuRwv+t+a3DF2XozkI8KMyAvxIRX
-         OsZMt1fAfyBfECXmpMeInyz+munFF5d7CvhI5VX4jsMFEsOZCEFnNg3U+ZBIhc2thS3h
-         85/5ymHZZ7f+aQtlxk3DhmPN4YL1i6+VqMwWH2BYjHSBJCVFU2vcPHzDgu3+mJZLsjA+
-         VfNw9Fyo3YaivzMWzv9qii5/gagGsrlBkeTY3MiV7oUPxrxsywFPSJ/+uTJMQYmjHFiX
-         +j5JaLlwTLCjvRMl/SBAf5UdL3H5Zz09Ij8IVmzFw/9TuZlxw0NVPW4A2v0zK/+i5xVi
-         BKjw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qRLvjvZy"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3964dfb5b9aso2687513a91.1
+        for <fuse-devel@lists.linux.dev>; Wed, 07 Oct 2026 23:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791432878; x=1792037678; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1791440951; x=1792045751; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=D/PG0O7im4ffUb/epjeq+lDDmxyUxbAM6aLOuJ0HsLE=;
-        b=IEiKrJroTEJcsihX9pIckgxyRHl3JX2vh5mB8Cbx1WoK7uFKd7jIgVHGUomaJEicN/
-         58uqRnCl68IxVHAqe1C4faYsB1jCbYze9iht0x17vUcN7r2zlJpm0NIyNC1yku3hbD4U
-         jC2sRaWkw0AV4fkArdF0UlEF9vaj2daJzX8hdX0+ml/sqMzfMU0H1uRl4xL7Q64JMQnG
-         T23Clcb0OW6bMqSbfFyZeqM00+3V0gjsLGlYeYG8WAZsMi3pyln82Pbg+HaYgfTdDaRJ
-         6XweMzKO6x4TqiwxBArhDObWNLomJvLJLU+aRnyXqjRtIUrm5Hra1/XMs4sQugwATHa0
-         52dA==
+        bh=ErIg12kw9nT+LPeqjyXQhVml7IYT+IyJFoWMvc7q7ZQ=;
+        b=qRLvjvZyvoC/AGa/7eeYzPNqRe79FcvGEaZKcqCXUYc0lZs1CWTeTNA2r0T6AEk5rU
+         BdSg0HvvtuByGr35YxktvRehO/8KasBG9u8INb8QvBT/otaYW9azaZjvgA0xCEGlx+5x
+         lexVxBOdOY7hiw4Hv3myqukC/NAn91x/sl39bN4VA0Sn/T8bOsdmSL+XFNTayjpI6aV3
+         mKFt6aciXVejdWo8km+QPfhhuwskzj/iOgOfgBaTTnCpHAxb/Qwh9nfZzdo2dRR6kYKl
+         L1tfCPGATA3ntz56qHF4sNKxJynpnF0pKIt3VT9qPaZFTxWAi4N2Ah5z3K/ahHnPR4Tt
+         akjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791432878; x=1792037678;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=D/PG0O7im4ffUb/epjeq+lDDmxyUxbAM6aLOuJ0HsLE=;
-        b=ybEm6IoV1n6Ed0u895a/Mw+RuVHqRbNrbPmYyMFufTmBWBhFjiqWgl7CFskpwKsjww
-         D+HlvWQls050fJXHvSim8Qz+C5cIwM2mURer+TVhDO+pi+VlX5j3bu6VzFbpjnlNo5k4
-         i477un4GEuoDWjF4eKyBQKeyH9Re4njoc+Ruh7AqOFjkuQf8vqxgw3bMivHcWs7WJLqw
-         yB5lezgQvp2MW1xhf7CVfUwxs6hIca5faFb4QCEhnuDcg0+KKRXJDRfiPdfp2oLRDlgd
-         OAs8+lFlf+Dffbx/lW2aiNvC+SUUNqTPmytGbYDhDvRumdqcnvn3LRPv0mfYzOTRmkv7
-         t/Sg==
-X-Forwarded-Encrypted: i=1; AKwUvBy0ydWe4JCzmBPTMFVNskQJXMf2PObTUbFBYv83NQxyhD07LSwHcbbz/nRsI0lRgfXitISzoEVcUJKZ@lists.linux.dev
-X-Gm-Message-State: AFq9FYK57tzyCZXGvHsINULrX8Eg4B4a11PgPtBCvGjn7s+B0N0uBAZM
-	2BmYt8xqjHHVchcQZFwaRIPlyvPLbLA/leR2n4siP2N9ZfUskzTXJ7+4SJKVbGZsCbbGdcDDY1I
-	hF8r2GbrAKWgbpm9QB/qQx0DBKe60bSUvAlkw/GyE
-X-Gm-Gg: AYBFou3HV0rEkAOLUqPTjC/Bv5HucuTKxzIJKlr9brBnK2xXYVJB1+rDwXxzUNGJ6ho
-	cpRTZzX7da7xiWCYq+xLAr+JjR+WaW8YDi5kfaIvY36cNr2d8krje5LxcbPA6KGiPau4T01PlUo
-	rpDEze1vJXohROVD9n0o2WiD++hcAnPcBV/LqQjKXTBX7t4BL8pkWgvu79Vhb7ejyC0MvMYi/oR
-	4Oj5j3nLmbv5N+Vv04jL/rMdrt+ovbwVtgMBZZI7cD3a6jVRf8aDus8XHHZ05XTMc2s85sbAyRy
-	jdZHe0C9UX9vVnv0hc7QWdD+EIjLHZhqhDTvI4seCwvv5i/wLYTucia+P9Tv1cEQkM2WO+Kg2D5
-	VaGbGZ0Pzguwj07wGVtefHLwnncr4RIbNkY1a
-X-Received: by 2002:a17:907:2da9:b0:c2d:c8be:4e71 with SMTP id
- a640c23a62f3a-c317bdbd04dmr375584066b.19.1791432877158; Wed, 07 Oct 2026
- 21:14:37 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791440951; x=1792045751;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ErIg12kw9nT+LPeqjyXQhVml7IYT+IyJFoWMvc7q7ZQ=;
+        b=RIU/KzqDZ8BO1FtIMsnZ16Gx3sGUdWwDVTXV+WgbWBJnv58KiHhGVrTFd9MK6cgkRb
+         KYeXQm/weVnUYfeComSnT9R6/ds7C1I95fApKoby8MHLHsQ+nb4es8zfiAIKVGMJyL7j
+         mUL7xCq0bV8P/T5BAZQXC2G1fZbso6JSfpZggA+4u1QptTTRqADyMJ5/FWUQCLDTcbaM
+         3O8uA12uqJliovbKp9QDMVzRr3IDkpJQwuSSpQBY6Rf05XCQVFiNl0MJiOUfCMxprOOi
+         cAoXPl/kZFnxVh9wDTxE/Bb2fPNGAaFMmpxKov93G1qBRLcaG36+sJg16Q/k9RUP3JAa
+         hx9Q==
+X-Gm-Message-State: AFq9FYKGOYH6xp8sII3HIwkdQkaHrU2+IosNWT5Pi5JyI1OpNl/rFPzS
+	k1GiRxxlpbSTJHNwN1DVwe+NkkWyiyAhfXyz6opIrlXQ8GpMGwQD0mUY
+X-Gm-Gg: AYBFou1+mOnRcQC/FW6X2bp0Nf4QDbnMEWSP5gsYIyntbxDyqdhQK23wfGIMFma4crm
+	LmlsqESFcul+T4E3jbBd+cvngpxXzdR7iahDOh4KNDUxW1YfZBdPRvAy4pAYxU99JjNkmaItGxi
+	+ppsZ1qwQDPaE6wa44ajc+Iv0jOf7z2MiQduEJRHZrslCIYCBb3oDS6deRJJ76BooFYpmoSx0i5
+	LQjAbHw+vMNyykBMwMBEeWui73y1QkxU0dcJBNY5z52xnbP59iftYBAKy3EQ6sGXWsyv75pKPDP
+	vvGmu2+w6f6+SspYTu0lNjJ3or7KA6d3FuE5ly/6LY3/VoJKiCtMz3SLlnaKSG/PMdbCCewT10/
+	eoJGaNhpfCVZ6toN2NPANz95iZUU40oYYf+EztuePLoZFVZje+HH/6BpEoXoCT/3Iia6BQIhsiM
+	npahP860LJOMD0fc+vAaOoTWgteiIBxP9JqOa94D5OgJiNShKR31EXZ/soraQ9jBNCDA==
+X-Received: by 2002:a17:90b:3b48:b0:3a4:97ea:f0d8 with SMTP id 98e67ed59e1d1-3a8a1187f01mr4513444a91.51.1791440950814;
+        Wed, 07 Oct 2026 23:29:10 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a8a5f778fasm3546331a91.3.2026.10.07.23.29.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 23:29:10 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	jjzuming@gmail.com,
+	zzzccc427@gmail.com
+Subject: [PATCH] fuse: serialize processing table installation with I/O
+Date: Thu,  8 Oct 2026 14:29:05 +0800
+Message-Id: <pm-fuse-full-objects-candidate-0002-v2-17d6013e5066de33396c@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260909232351.1533034-1-shayba@google.com> <20260910184424.156341-1-shayba@google.com>
- <CABdmKX0B7zVfLY9Rov37U+gOTEXYSCMUe6=xFddOrKDVneiBGA@mail.gmail.com>
-In-Reply-To: <CABdmKX0B7zVfLY9Rov37U+gOTEXYSCMUe6=xFddOrKDVneiBGA@mail.gmail.com>
-From: Shai Barack <shayba@google.com>
-Date: Wed, 7 Oct 2026 21:14:23 -0700
-X-Gm-Features: AclHuK-Lj8Qjx6iM6hIILhXX7x1mxm-dHonA0g9RenLn6IaehjKV4XivMAFo11E
-Message-ID: <CAK0PkCGgq=jP5h3uOGRaoKzwkXewbq5Lzmj=vTk58CeqM0h35g@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: Forward vfs_fadvise to backing_file in
- passthrough mode
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Amir Goldstein <amir73il@gmail.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Sandeep Dhavale <dhavale@google.com>, 
-	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Miklos,
+The processing table of a /dev/fuse endpoint must be initialized before
+I/O can use it. fuse_dev_open() leaves pq.processing NULL, and
+fuse_dev_install_with_pq() publishes fud->chan before assigning the
+table. fuse_get_dev() accepts the published channel without taking
+fch->lock, so the installer's channel lock does not protect the reader.
 
-Gentle ping on this v2 patch when you have a chance. It has
-Reviewed-by tags from Amir and T.J.
+On SMP, a daemon can issue FUSE_DEV_IOC_CLONE and read concurrently on
+the same fresh endpoint. If the source channel has a reply-requiring
+request pending and the read copies it successfully, the following
+order is possible:
 
-Cheers!
+  Clone ioctl                         Daemon read
+  -----------                         -----------
+  fuse_dev_install_with_pq()
+    lock fch->lock
+    publish fud->chan
+                                      fuse_get_dev() sees fud->chan
+                                      fuse_dev_do_read()
+                                        dequeue request under fiq->lock
+                                        lock fpq->lock
+                                        add request to fpq->io
+                                        unlock fpq->lock
+                                        copy request to userspace
+                                        lock fpq->lock
+                                        list_move_tail() to
+                                          fpq->processing[hash]
+    set fud->pq.processing
 
+The list operation accesses a NULL-derived list head and can fault
+before the installer stores the table.
 
-On Thu, Sep 24, 2026 at 5:01 AM T.J. Mercier <tjmercier@google.com> wrote:
->
-> On Thu, Sep 10, 2026 at 11:45 AM Shai Barack <shayba@google.com> wrote:
-> >
-> > When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
-> > other fadvise advice on a FUSE passthrough file descriptor, the VFS
-> > currently only executes generic_fadvise() on the upper FUSE inode
-> > mapping.
-> >
-> > Because FUSE passthrough does not forward fadvise operations to the
-> > underlying backing file, pages residing in the lower filesystem's
-> > pagecache remain resident in memory.
-> >
-> > During media-heavy workloads (such as image thumbnail generation or
-> > streaming), single-access file data accumulates in the inactive pagecache
-> > of the lower filesystem. Under memory pressure, the kernel retains these
-> > stale media pages and instead evicts active executable pages from
-> > running processes, leading to severe direct reclaim latency spikes.
-> >
-> > Architecturally, Linux VFS supports filesystem-specific fadvise
-> > delegation via the .fadvise hook in struct file_operations. Implement
-> > fuse_file_fadvise() in fs/fuse/file.c and register it in
-> > fuse_file_operations. When passthrough is active on a fuse_file,
-> > fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
-> > backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
-> > to cleanly invalidate the physical backing filesystem pagecache.
-> >
-> > Signed-off-by: Shai Barack <shayba@google.com>
->
-> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Take fud->pq.lock before publishing the channel and hold it until
+installation finishes. The reader then waits at its existing queue
+lock until the table is initialized. This follows the fch->lock then
+fpq->lock order already used by abort, resend and device release, and
+preserves the handling of unsuccessful installation.
+
+KASAN report as below:
+
+    Oops: general protection fault, probably for non-canonical address 0xdffffc0000000039: 0000 [#1] SMP KASAN NOPTI
+    KASAN: null-ptr-deref in range [0x00000000000001c8-0x00000000000001cf]
+    CPU: 1 UID: 0 PID: 500 Comm: fuse-clone-race Not tainted 7.2.0-rc5-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
+    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+    RIP: 0010:fuse_dev_do_read+0x1693/0x2480
+    Code: c1 ea 03 80 3c 02 00 0f 85 b9 0b 00 00 4d 89 27 e8 42 07 2c ff 4c 8d 7b 08 48 b8 00 00 00 00 00 fc ff df 4c 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 7f 0a 00 00 4c 8b 63 08 48 89 da 4c 89 ef 4c 89
+    RSP: 0018:ffff888118ecfab0 EFLAGS: 00010216
+    RAX: dffffc0000000000 RBX: 00000000000001c0 RCX: ffffffff8258e60e
+    RDX: 0000000000000039 RSI: 0000000000000000 RDI: ffff8881066f9768
+    RBP: ffff888112b6d7a8 R08: 0000000000000001 R09: 0000000000000001
+    R10: ffffffff893dbc57 R11: ffff888108fbd700 R12: ffff8881066f9760
+    R13: ffff888112b6d7a0 R14: 0000000000000050 R15: 00000000000001c8
+    FS:  00007feb22c636c0(0000) GS:ffff8881fd82c000(0000) knlGS:0000000000000000
+    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    CR2: 00007feb22c62f38 CR3: 0000000107252004 CR4: 0000000000770ef0
+    PKRU: 55555554
+    Call Trace:
+     <TASK>
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __pfx_fuse_dev_do_read+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? pmbd_probe_hit_cookie+0xee/0x1c0
+     ? __pfx_pmbd_probe_hit_cookie+0x10/0x10
+     fuse_dev_read+0x19d/0x250
+     ? __pfx_fuse_dev_read+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? security_file_permission+0x26/0x80
+     vfs_read+0x7d2/0xc20
+     ? __pfx_vfs_read+0x10/0x10
+     ksys_read+0x111/0x200
+     ? __pfx_ksys_read+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? restore_fpregs_from_fpstate+0x55/0x100
+     do_syscall_64+0x115/0x6a0
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+    RIP: 0033:0x7feb23d039ee
+    Code: 08 0f 85 f5 4b ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 80 00 00 00 00 48 83 ec 08
+    RSP: 002b:00007feb22c62df8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+    RAX: ffffffffffffffda RBX: 00007feb22c636c0 RCX: 00007feb23d039ee
+    RDX: 0000000000010000 RSI: 000055615dac9114 RDI: 0000000000000005
+    RBP: 0000000000000004 R08: 0000000000000000 R09: 0000000000000000
+    R10: 0000000000000000 R11: 0000000000000246 R12: 000055615dac9114
+    R13: 000055615dac9070 R14: ffffffff00000000 R15: 0000000000000001
+     </TASK>
+    Modules linked in:
+    ---[ end trace 0000000000000000 ]---
+    RIP: 0010:fuse_dev_do_read+0x1693/0x2480
+    Code: c1 ea 03 80 3c 02 00 0f 85 b9 0b 00 00 4d 89 27 e8 42 07 2c ff 4c 8d 7b 08 48 b8 00 00 00 00 00 fc ff df 4c 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 7f 0a 00 00 4c 8b 63 08 48 89 da 4c 89 ef 4c 89
+    RSP: 0018:ffff888118ecfab0 EFLAGS: 00010216
+    RAX: dffffc0000000000 RBX: 00000000000001c0 RCX: ffffffff8258e60e
+    RDX: 0000000000000039 RSI: 0000000000000000 RDI: ffff8881066f9768
+    RBP: ffff888112b6d7a8 R08: 0000000000000001 R09: 0000000000000001
+    R10: ffffffff893dbc57 R11: ffff888108fbd700 R12: ffff8881066f9760
+    R13: ffff888112b6d7a0 R14: 0000000000000050 R15: 00000000000001c8
+    FS:  00007feb22c636c0(0000) GS:ffff8881fd82c000(0000) knlGS:0000000000000000
+    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+    CR2: 00007feb22c62f38 CR3: 0000000107252004 CR4: 0000000000770ef0
+    PKRU: 55555554
+    Kernel panic - not syncing: Fatal exception
+    Kernel Offset: disabled
+    Rebooting in 1 seconds..
+
+Fixes: 48649c0603bd ("fuse: alloc pqueue before installing fch in fuse_dev")
+Assisted-by: LLM
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+---
+
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 4fec31fc0b845008ae037472065284e8f8dea87e..106daf2d10b34886fa5cda3c641121a08181adb4 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -466,6 +466,8 @@ static bool fuse_dev_install_with_pq(struct fuse_dev *fud, struct fuse_chan *fch
+ 	struct fuse_chan *old_fch;
+ 
+ 	guard(spinlock)(&fch->lock);
++	/* Serialize processing table setup with I/O. */
++	guard(spinlock)(&fud->pq.lock);
+ 	/*
+ 	 * Pairs with:
+ 	 *  - xchg() in fuse_dev_release()
