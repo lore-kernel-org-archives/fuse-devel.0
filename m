@@ -1,71 +1,74 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74733C3F70
-	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 06:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA543AEF22
+	for <fuse-devel@lists.linux.dev>; Thu,  8 Oct 2026 06:32:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791440954; cv=none; b=OoPcUsljKHlV/jGekcVNjep5zTenXvxfBXrs2BhCYTvQrKPjGrMSgQwJpaJlV12e9RySoia7VtE1LGE/1gVmDe/1NAHsvrxuwZF0cDNx9LzI/J3gaa6+EaKGTDYEmER3222eCNbN7qt/218Ywi9Kd6vlwM/0uiSExPJ/f/ehE6c=
+	t=1791441179; cv=none; b=cs+M401bU3rhNrCunLTSK9bewkFmSb3x12jZYXuOq5LEYDVq2NoGuu6A+NRfw0uEr4LwE7ZQX+d+almyMc4CQkkxgMbLiLuOC3toUtCs4j3ZcWLuzYbivK/HxyVkAmy7u2MtsOK1MjwsWCpS1KSqrtRyPZ3uyTeEImFeLdQUsdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791440954; c=relaxed/simple;
-	bh=Jvpan4dWi71lxbGY7TiGmaQM4y+M5f9WlxOyl/ZFFzo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=YwAJE+kQ2Tk5ryU/31P8fIi96pL7MhaPoRZ7Dqzmsw79SyQXjcV6utT08BMfnZ7aLvK43Ce1DcFehV0Z7X7bDM6hIxoWsB9DBhNgr3DzyEbd6OlUkkDUBnA3wm5mq+pDLpxletYZ12kPnX70zz1SXbPR9aQAzEIHcbw2tcLM0JU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qRLvjvZy; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1791441179; c=relaxed/simple;
+	bh=aIwAUAWsiODGxZ224eOITcUPvbEFhGe0KOPRy13kkHo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Tm6U/SiVmk1XL94381Y0YqPa3EaNc60P3gCAdkX27V3Tsb8p799HbfKXsBbirlcjImM0KpsVesqRLZiILCAajiDlMu8OyjBYrSN9Y5NvVscEUG53GRDFJAXe70uDPJ3aJZjwiHEif3rrlAinnc1FJIGOwzWpjT/hHTS4jawA7O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jDTApO10; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qRLvjvZy"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3964dfb5b9aso2687513a91.1
-        for <fuse-devel@lists.linux.dev>; Wed, 07 Oct 2026 23:29:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jDTApO10"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3a7cfe8f761so220786a91.1
+        for <fuse-devel@lists.linux.dev>; Wed, 07 Oct 2026 23:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791440951; x=1792045751; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791441177; x=1792045977; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ErIg12kw9nT+LPeqjyXQhVml7IYT+IyJFoWMvc7q7ZQ=;
-        b=qRLvjvZyvoC/AGa/7eeYzPNqRe79FcvGEaZKcqCXUYc0lZs1CWTeTNA2r0T6AEk5rU
-         BdSg0HvvtuByGr35YxktvRehO/8KasBG9u8INb8QvBT/otaYW9azaZjvgA0xCEGlx+5x
-         lexVxBOdOY7hiw4Hv3myqukC/NAn91x/sl39bN4VA0Sn/T8bOsdmSL+XFNTayjpI6aV3
-         mKFt6aciXVejdWo8km+QPfhhuwskzj/iOgOfgBaTTnCpHAxb/Qwh9nfZzdo2dRR6kYKl
-         L1tfCPGATA3ntz56qHF4sNKxJynpnF0pKIt3VT9qPaZFTxWAi4N2Ah5z3K/ahHnPR4Tt
-         akjg==
+        bh=dmdCkCPZNwQQ7ZHzl51SdYDb62VPGEqmXUOyx3/kjWI=;
+        b=jDTApO10qge49lWj/LSWzmQeWJIsfFXbf3KtGthcyKyiFfa8EmaBFB6uJcOnrHoExX
+         BV+cMcEwnGL/zSMzC/3gEayqr3HPN7wdiUqZLaPEFWYb9NU5TIjg1PWsEnApGuRO7V4P
+         uxpEsIJedop7pmRrqwaARvuupsdIihoFJJdsTwKnqwUWLrKcnn7D0u7hAuLe9nuVz764
+         OLNIkuqiisGqhSzWbj6C7psiXD6fs1iNNBlNgy6FV9SRGu2Qy2/tDhWJXIFvgJXsqAuG
+         DScp/BvBsugcgntWAzN9gwGb5199q+V3zbjXuowwK6h8P2o1/0BT1liKk5vn12sAtqFL
+         6zHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791440951; x=1792045751;
+        d=1e100.net; s=20260707; t=1791441177; x=1792045977;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ErIg12kw9nT+LPeqjyXQhVml7IYT+IyJFoWMvc7q7ZQ=;
-        b=RIU/KzqDZ8BO1FtIMsnZ16Gx3sGUdWwDVTXV+WgbWBJnv58KiHhGVrTFd9MK6cgkRb
-         KYeXQm/weVnUYfeComSnT9R6/ds7C1I95fApKoby8MHLHsQ+nb4es8zfiAIKVGMJyL7j
-         mUL7xCq0bV8P/T5BAZQXC2G1fZbso6JSfpZggA+4u1QptTTRqADyMJ5/FWUQCLDTcbaM
-         3O8uA12uqJliovbKp9QDMVzRr3IDkpJQwuSSpQBY6Rf05XCQVFiNl0MJiOUfCMxprOOi
-         cAoXPl/kZFnxVh9wDTxE/Bb2fPNGAaFMmpxKov93G1qBRLcaG36+sJg16Q/k9RUP3JAa
-         hx9Q==
-X-Gm-Message-State: AFq9FYKGOYH6xp8sII3HIwkdQkaHrU2+IosNWT5Pi5JyI1OpNl/rFPzS
-	k1GiRxxlpbSTJHNwN1DVwe+NkkWyiyAhfXyz6opIrlXQ8GpMGwQD0mUY
-X-Gm-Gg: AYBFou1+mOnRcQC/FW6X2bp0Nf4QDbnMEWSP5gsYIyntbxDyqdhQK23wfGIMFma4crm
-	LmlsqESFcul+T4E3jbBd+cvngpxXzdR7iahDOh4KNDUxW1YfZBdPRvAy4pAYxU99JjNkmaItGxi
-	+ppsZ1qwQDPaE6wa44ajc+Iv0jOf7z2MiQduEJRHZrslCIYCBb3oDS6deRJJ76BooFYpmoSx0i5
-	LQjAbHw+vMNyykBMwMBEeWui73y1QkxU0dcJBNY5z52xnbP59iftYBAKy3EQ6sGXWsyv75pKPDP
-	vvGmu2+w6f6+SspYTu0lNjJ3or7KA6d3FuE5ly/6LY3/VoJKiCtMz3SLlnaKSG/PMdbCCewT10/
-	eoJGaNhpfCVZ6toN2NPANz95iZUU40oYYf+EztuePLoZFVZje+HH/6BpEoXoCT/3Iia6BQIhsiM
-	npahP860LJOMD0fc+vAaOoTWgteiIBxP9JqOa94D5OgJiNShKR31EXZ/soraQ9jBNCDA==
-X-Received: by 2002:a17:90b:3b48:b0:3a4:97ea:f0d8 with SMTP id 98e67ed59e1d1-3a8a1187f01mr4513444a91.51.1791440950814;
-        Wed, 07 Oct 2026 23:29:10 -0700 (PDT)
+        bh=dmdCkCPZNwQQ7ZHzl51SdYDb62VPGEqmXUOyx3/kjWI=;
+        b=bRaDtvBiFgb47no4NB0H4T2haZ/lCKN6ISx9ewI7B58EreupikQOxgkOn1wgZ68KfY
+         r/0IVItAzMkMrekF906t9bkB0TulqjsFOqA03e2Q+oJ+bcQPSmEcgaSzZ2YJamRRU9rE
+         7Jl7uqDa/nKlLhBwErzz8pWI9jN/INv6kXJosb7+0ALV9hLG51hoDq0UTm8SMoHVqxTF
+         Gw8JPl3RSu48KgxYfdqg0ZgW7LWOnAndsuRY4UN9CsokA0L1TQOYeUBYqqXjU4wrpYrl
+         NCvGEZ3ETWGQeUpXx2kXzi7GakS3934+Md1hZA5IZ2PAVm04Hc0S2LMq/sG1Vw5i6TRz
+         B28g==
+X-Gm-Message-State: AFq9FYJkP6Mj72d2jWQmlFTOzctTYfWpUJs7Ba/9iohz36Djvmk4wLey
+	76R2FAVuo4tl6dVo3upkScFrarGSoIH5nsR+6N99qqyJZktXnnQ8vG64
+X-Gm-Gg: AYBFou0kdij/wqRRA/i9rrKRq17RmWFpeRbP8n7MVcxzfek1Em/gq2Q7lMzlofjCC6a
+	JBxUPrn4NoEIiyD1Ft9r1EfJ1WplfE+jny9Afsik4RGQRs+R4EMoeUZwI7C52gJE2x1nWLLLmM7
+	qYkyEdrhFCNBFtGp8oDG/WF7vQOZkKsRUKzPolWeTjHHHkBLhpHNY67qxtkMlol1Tic58B05nGs
+	JcOO6oGqTg6npk8m/+e79VmFYSJPUYO6pwjxoDsImIpz3pFqEpqJb0xVK6YFzYXuoA6JIwj1wbx
+	J3TnK2ZK1lxSNiHevNhJhheQSl5ljdf8D8jxJOm00MJNv3RDsmKeOmwxdgFb6PD/a37hFAHNWdu
+	at2MM4yYaP3Wvkg28aKh+2OyncLKfjP5jmlypA+4QmvYfGLjcF+25MeUmSeyDiFdGOa5zoGhtC6
+	Kq1Ig4WeKzaYhoLp0vBTpRCymDdqDYJMOwJKa9Rln1DR5BXUOz3yR7gWDp3nh93Zwzkjs3Bg7MB
+	JGA9w==
+X-Received: by 2002:a17:90b:4f90:b0:3a6:f1d2:57e7 with SMTP id 98e67ed59e1d1-3aadffb032cmr865522a91.11.1791441177046;
+        Wed, 07 Oct 2026 23:32:57 -0700 (PDT)
 Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a8a5f778fasm3546331a91.3.2026.10.07.23.29.08
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a9f1a7e9e4sm2882285a91.7.2026.10.07.23.32.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 23:29:10 -0700 (PDT)
+        Wed, 07 Oct 2026 23:32:56 -0700 (PDT)
 From: Cen Zhang <zzzccc427@gmail.com>
-To: miklos@szeredi.hu
+To: miklos@szeredi.hu,
+	bo.liu@linux.alibaba.com,
+	vgoyal@redhat.com
 Cc: fuse-devel@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	baijiaju1990@gmail.com,
 	jjzuming@gmail.com,
 	zzzccc427@gmail.com
-Subject: [PATCH] fuse: serialize processing table installation with I/O
-Date: Thu,  8 Oct 2026 14:29:05 +0800
-Message-Id: <pm-fuse-full-objects-candidate-0002-v2-17d6013e5066de33396c@gmail.com>
+Subject: [PATCH] fuse: dax: Clear stale mapping when inline reclaim lookup misses
+Date: Thu,  8 Oct 2026 14:32:51 +0800
+Message-Id: <pm-fuse-full-objects-candidate-0016-v2-f3854498f12705839ecb@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
@@ -76,123 +79,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The processing table of a /dev/fuse endpoint must be initialized before
-I/O can use it. fuse_dev_open() leaves pq.processing NULL, and
-fuse_dev_install_with_pq() publishes fud->chan before assigning the
-table. fuse_get_dev() accepts the published channel without taking
-fch->lock, so the installer's channel lock does not protect the reader.
+A mapping returned by inline reclaim must be detached from its inode
+and the connection's busy list before it can be reused. However,
+inode_inline_reclaim_one_dmap() leaves dmap unchanged when its second
+tree lookup misses. It sets retry but returns the old pointer, and
+alloc_dax_mapping_reclaim() accepts a non-NULL result before checking
+retry.
 
-On SMP, a daemon can issue FUSE_DEV_IOC_CLONE and read concurrently on
-the same fresh endpoint. If the source channel has a reply-requiring
-request pending and the read copies it successfully, the following
-order is possible:
+With DAX enabled, an exhausted free pool sends a file read or a
+non-extending write into inline reclaim. A pinned DAX page can make
+fuse_dax_break_layouts() wait. The inode tree semaphore is already
+released, and fuse_wait_dax_page() drops the inode's invalidate_lock
+while scheduling. This permits the following ordering:
 
-  Clone ioctl                         Daemon read
-  -----------                         -----------
-  fuse_dev_install_with_pq()
-    lock fch->lock
-    publish fud->chan
-                                      fuse_get_dev() sees fud->chan
-                                      fuse_dev_do_read()
-                                        dequeue request under fiq->lock
-                                        lock fpq->lock
-                                        add request to fpq->io
-                                        unlock fpq->lock
-                                        copy request to userspace
-                                        lock fpq->lock
-                                        list_move_tail() to
-                                          fpq->processing[hash]
-    set fud->pq.processing
+  1. Inline reclaim on inode I selects mapping D and copies its index
+     under fi->dax->sem, then releases the semaphore and waits with
+     invalidate_lock dropped.
+  2. After the page is unpinned, the reclaim worker acquires I's
+     invalidate_lock before the inline caller resumes. It relooks up
+     the index under fi->dax->sem, removes D and returns it to the free
+     pool under fcd->lock.
+  3. Mapping setup on inode J takes D from the free pool and publishes
+     it in J's tree and the busy list. J has separate inode locks.
+  4. Inline reclaim reacquires I's invalidate_lock and fi->dax->sem.
+     Its lookup misses, but it returns D. Setup on I then reuses D
+     while J still owns it.
 
-The list operation accesses a NULL-derived list head and can fault
-before the installer stores the table.
+Successful stale setup remaps the same DAX window and reinserts the
+embedded tree and list nodes, allowing accesses to reach another
+file's data and corrupting the mapping structures. A setup error or
+an existing mapping on I instead puts the active slot on the free
+list. Later reclaim can encounter a cleared inode pointer in the
+corrupted busy list.
 
-Take fud->pq.lock before publishing the channel and hold it until
-installation finishes. The reader then waits at its existing queue
-lock until the table is initialized. This follows the fch->lock then
-fpq->lock order already used by abort, resend and device release, and
-preserves the handling of unsuccessful installation.
+Clear dmap on the missing-node branch, as in the adjacent branch for
+a mapping still in use. Returning NULL with retry set makes the
+allocator retry through the existing pool and tree lookups after
+releasing both inode locks, rather than reuse an unreserved slot.
 
 KASAN report as below:
 
-    Oops: general protection fault, probably for non-canonical address 0xdffffc0000000039: 0000 [#1] SMP KASAN NOPTI
-    KASAN: null-ptr-deref in range [0x00000000000001c8-0x00000000000001cf]
-    CPU: 1 UID: 0 PID: 500 Comm: fuse-clone-race Not tainted 7.2.0-rc5-pmb-bt-functional-v1+ #1 PREEMPT(lazy)
-    Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-    RIP: 0010:fuse_dev_do_read+0x1693/0x2480
-    Code: c1 ea 03 80 3c 02 00 0f 85 b9 0b 00 00 4d 89 27 e8 42 07 2c ff 4c 8d 7b 08 48 b8 00 00 00 00 00 fc ff df 4c 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 7f 0a 00 00 4c 8b 63 08 48 89 da 4c 89 ef 4c 89
-    RSP: 0018:ffff888118ecfab0 EFLAGS: 00010216
-    RAX: dffffc0000000000 RBX: 00000000000001c0 RCX: ffffffff8258e60e
-    RDX: 0000000000000039 RSI: 0000000000000000 RDI: ffff8881066f9768
-    RBP: ffff888112b6d7a8 R08: 0000000000000001 R09: 0000000000000001
-    R10: ffffffff893dbc57 R11: ffff888108fbd700 R12: ffff8881066f9760
-    R13: ffff888112b6d7a0 R14: 0000000000000050 R15: 00000000000001c8
-    FS:  00007feb22c636c0(0000) GS:ffff8881fd82c000(0000) knlGS:0000000000000000
+    BUG: KASAN: null-ptr-deref in igrab+0x2d/0x260
+    Write of size 4 at addr 00000000000001e8 by task kworker/u16:0/12
+
+    CPU: 0 UID: 0 PID: 12 Comm: kworker/u16:0 Tainted: G        W           7.2.0-rc5-pmb-fuse-functional-v2+ #1 PREEMPT(lazy)
+    Tainted: [W]=WARN
+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+    Workqueue: events_dfl_long fuse_dax_free_mem_worker
+    Call Trace:
+     <TASK>
+     dump_stack_lvl+0x93/0xd0
+     kasan_report+0xe0/0x110
+     ? igrab+0x2d/0x260
+     kasan_check_range+0x105/0x1b0
+     igrab+0x2d/0x260
+     fuse_dax_free_mem_worker+0x172/0x9e0
+     process_one_work+0x908/0x19c0
+     ? __pfx_process_one_work+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? lock_is_held_type+0x8f/0x100
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     worker_thread+0x65c/0xe40
+     ? __pfx_worker_thread+0x10/0x10
+     kthread+0x34f/0x460
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __pfx_kthread+0x10/0x10
+     ret_from_fork+0x659/0x940
+     ? __pfx_ret_from_fork+0x10/0x10
+     ? srso_alias_return_thunk+0x5/0xfbef5
+     ? __switch_to+0x74f/0xf80
+     ? __pfx_kthread+0x10/0x10
+     ret_from_fork_asm+0x1a/0x30
+     </TASK>
+    ==================================================================
+
+Oops report as below:
+
+    Oops: general protection fault, probably for non-canonical address 0xdffffc000000003d: 0000 [#1] SMP KASAN NOPTI
+    KASAN: null-ptr-deref in range [0x00000000000001e8-0x00000000000001ef]
+    CPU: 0 UID: 0 PID: 12 Comm: kworker/u16:0 Tainted: G    B   W           7.2.0-rc5-pmb-fuse-functional-v2+ #1 PREEMPT(lazy)
+    Tainted: [B]=BAD_PAGE, [W]=WARN
+    Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+    Workqueue: events_dfl_long fuse_dax_free_mem_worker
+    RIP: 0010:igrab+0x3e/0x260
+    Code: 4c 8d a5 e8 01 00 00 e8 d0 82 92 ff be 04 00 00 00 4c 89 e7 e8 63 91 f3 ff 4c 89 e2 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <0f> b6 14 02 4c 89 e0 83 e0 07 83 c0 03 38 d0 7c 08 84 d2 0f 85 c5
+    RSP: 0018:ffff8881009dfbb0 EFLAGS: 00010212
+    RAX: dffffc0000000000 RBX: dffffc0000000000 RCX: ffffffff81e63d2b
+    RDX: 000000000000003d RSI: 0000000000000008 RDI: ffffffff8af59680
+    RBP: 0000000000000000 R08: 0000000000000001 R09: fffffbfff15eb2d0
+    R10: ffffffff8af59687 R11: 6e696c6261736944 R12: 00000000000001e8
+    R13: ffff888113c90100 R14: ffff888113c90148 R15: ffff888113c90100
+    FS:  0000000000000000(0000) GS:ffff8881fd71a000(0000) knlGS:0000000000000000
     CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 00007feb22c62f38 CR3: 0000000107252004 CR4: 0000000000770ef0
+    CR2: 00007f2c45b15000 CR3: 00000001129f3002 CR4: 0000000000770ef0
     PKRU: 55555554
     Call Trace:
      <TASK>
+     fuse_dax_free_mem_worker+0x172/0x9e0
+     process_one_work+0x908/0x19c0
+     ? __pfx_process_one_work+0x10/0x10
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? __pfx_fuse_dev_do_read+0x10/0x10
+     ? lock_is_held_type+0x8f/0x100
      ? srso_alias_return_thunk+0x5/0xfbef5
+     worker_thread+0x65c/0xe40
+     ? __pfx_worker_thread+0x10/0x10
+     kthread+0x34f/0x460
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? pmbd_probe_hit_cookie+0xee/0x1c0
-     ? __pfx_pmbd_probe_hit_cookie+0x10/0x10
-     fuse_dev_read+0x19d/0x250
-     ? __pfx_fuse_dev_read+0x10/0x10
+     ? __pfx_kthread+0x10/0x10
+     ret_from_fork+0x659/0x940
+     ? __pfx_ret_from_fork+0x10/0x10
      ? srso_alias_return_thunk+0x5/0xfbef5
-     ? security_file_permission+0x26/0x80
-     vfs_read+0x7d2/0xc20
-     ? __pfx_vfs_read+0x10/0x10
-     ksys_read+0x111/0x200
-     ? __pfx_ksys_read+0x10/0x10
-     ? srso_alias_return_thunk+0x5/0xfbef5
-     ? restore_fpregs_from_fpstate+0x55/0x100
-     do_syscall_64+0x115/0x6a0
-     entry_SYSCALL_64_after_hwframe+0x77/0x7f
-    RIP: 0033:0x7feb23d039ee
-    Code: 08 0f 85 f5 4b ff ff 49 89 fb 48 89 f0 48 89 d7 48 89 ce 4c 89 c2 4d 89 ca 4c 8b 44 24 08 4c 8b 4c 24 10 4c 89 5c 24 08 0f 05 <c3> 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 80 00 00 00 00 48 83 ec 08
-    RSP: 002b:00007feb22c62df8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-    RAX: ffffffffffffffda RBX: 00007feb22c636c0 RCX: 00007feb23d039ee
-    RDX: 0000000000010000 RSI: 000055615dac9114 RDI: 0000000000000005
-    RBP: 0000000000000004 R08: 0000000000000000 R09: 0000000000000000
-    R10: 0000000000000000 R11: 0000000000000246 R12: 000055615dac9114
-    R13: 000055615dac9070 R14: ffffffff00000000 R15: 0000000000000001
+     ? __switch_to+0x74f/0xf80
+     ? __pfx_kthread+0x10/0x10
+     ret_from_fork_asm+0x1a/0x30
      </TASK>
     Modules linked in:
+    clocksource: Marking clocksource tsc unstable due to frequency skew
+    clocksource: Watchdog               kvm-clock interval:            22712ns
+    clocksource: Clocksource                  tsc interval:            22542ns
+    tsc: Marking TSC unstable due to clocksource watchdog
     ---[ end trace 0000000000000000 ]---
-    RIP: 0010:fuse_dev_do_read+0x1693/0x2480
-    Code: c1 ea 03 80 3c 02 00 0f 85 b9 0b 00 00 4d 89 27 e8 42 07 2c ff 4c 8d 7b 08 48 b8 00 00 00 00 00 fc ff df 4c 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 7f 0a 00 00 4c 8b 63 08 48 89 da 4c 89 ef 4c 89
-    RSP: 0018:ffff888118ecfab0 EFLAGS: 00010216
-    RAX: dffffc0000000000 RBX: 00000000000001c0 RCX: ffffffff8258e60e
-    RDX: 0000000000000039 RSI: 0000000000000000 RDI: ffff8881066f9768
-    RBP: ffff888112b6d7a8 R08: 0000000000000001 R09: 0000000000000001
-    R10: ffffffff893dbc57 R11: ffff888108fbd700 R12: ffff8881066f9760
-    R13: ffff888112b6d7a0 R14: 0000000000000050 R15: 00000000000001c8
-    FS:  00007feb22c636c0(0000) GS:ffff8881fd82c000(0000) knlGS:0000000000000000
-    CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-    CR2: 00007feb22c62f38 CR3: 0000000107252004 CR4: 0000000000770ef0
-    PKRU: 55555554
-    Kernel panic - not syncing: Fatal exception
-    Kernel Offset: disabled
-    Rebooting in 1 seconds..
 
-Fixes: 48649c0603bd ("fuse: alloc pqueue before installing fch in fuse_dev")
+Fixes: 9a752d18c85ae ("virtiofs: add logic to free up a memory range")
 Assisted-by: LLM
 Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
 ---
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 4fec31fc0b845008ae037472065284e8f8dea87e..106daf2d10b34886fa5cda3c641121a08181adb4 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -466,6 +466,8 @@ static bool fuse_dev_install_with_pq(struct fuse_dev *fud, struct fuse_chan *fch
- 	struct fuse_chan *old_fch;
- 
- 	guard(spinlock)(&fch->lock);
-+	/* Serialize processing table setup with I/O. */
-+	guard(spinlock)(&fud->pq.lock);
- 	/*
- 	 * Pairs with:
- 	 *  - xchg() in fuse_dev_release()
+diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
+index 85cdf0199bc0b8fb121324ffaf8046a054cbfadf..361538bc41e5a44d01da11b76070f8af0e783b2b 100644
+--- a/fs/fuse/dax.c
++++ b/fs/fuse/dax.c
+@@ -951,6 +951,7 @@ inode_inline_reclaim_one_dmap(struct fuse_conn_dax *fcd, struct inode *inode,
+ 	node = interval_tree_iter_first(&fi->dax->tree, start_idx, start_idx);
+ 	/* Range already got reclaimed by somebody else */
+ 	if (!node) {
++		dmap = NULL;
+ 		if (retry)
+ 			*retry = true;
+ 		goto out_write_dmap_sem;
