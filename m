@@ -1,127 +1,131 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDCD498912
-	for <fuse-devel@lists.linux.dev>; Fri,  9 Oct 2026 09:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791538273; cv=none; b=qS+cJ2TV0cGrtS5GQjwOmG6IplwcE+vJbfJyBcbtTxNMUoF0eelrrJe/434VQlEC27sdidbwviHztdGI3Ub3J0bnZYOUbKTAkJyPjPYRPzqMxyPvC/bcDM4m5cK824HHKdGhy1f4Cf/F6AY+/pUjLWrPfvfLdczb5TE9GukI5LI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791538273; c=relaxed/simple;
-	bh=89BAXVNQF0A/AzKzesUFqgrSSWUm+8bkvaeS70yMo/w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A4/CCotfLBViqVp/Aa6lUi3btunqemkUpBeCoGRyo3N7IjJLLHrWCsVRaeHMe1UMWIGKR8cFG2VUKfgG3430l+zTZoLeF4hTCJ9Y1LCps/heXdFyUOjn3P105ugbt41Nm1vNj959ifkYBaVmfwWEXaUa5d1l1M+j4Db4+wMeu8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ij7gXQi6; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205AD4A8A1B
+	for <fuse-devel@lists.linux.dev>; Fri,  9 Oct 2026 10:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791542415; cv=pass; b=T9eDoxDzeg4aQ480eIoQd9ldeclM190644M/ssQ3mn/LbPm1ffF0jAWA4XnqRq/WVMJY2BBi+v8KRKEhIsHm34DGO/0ZX63zbjjzF4MnL9bApuz4YKxYkcKmWUYCKt38XPJvDCujnX8iWE90+3ZubjlLMoCYtKiYtUlLibXmdK4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791542415; c=relaxed/simple;
+	bh=TdmxEYfYtkSXgsQopCBGSZ8pT5p6msP1oRfZOE4Yi+A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fHV7CxLzqdLnpO4MyCLSwUuM5xCIKdhXnYQK5xm3z67zJ7RYHCgw2wQJwD3mAx1+P6GM1wpQWiMBVHOXKzOQy/NIePfm4586Q3OzB3lnu4/c/0BDGZOdDiBpcIGeov2MouI9S8wQ/IBNvc2Ug82Pr6+AjbQYy66xGh3Py49oD34=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=RCUR+Mc0; arc=pass smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ij7gXQi6"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1791538266; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=YqxcDo6m/WNZJ3jpgr8Nt/al3OYR/iHxLaLIqE45gOA=;
-	b=ij7gXQi60fXYkzAhKLwvEjcGqvBUsmjwrijiPWNVrRKV3NaQe3IftcP/Bmxh8lwKy47zG+tur6n8KMqoZ9DhaA+/XFXHiE+HPHSO8EK/6RLYnnXNww/zLcm9lNNsEFBhk+eLN0eU4/fwjSKH0ucD2VKw19GCRXsjSt1cukV2+RY=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R221e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0XCT.GBP_1791538265;
-Received: from 30.221.129.234(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0XCT.GBP_1791538265 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 09 Oct 2026 17:31:06 +0800
-Message-ID: <e4922458-9c88-43d5-a521-d96ee7b5d0d1@linux.alibaba.com>
-Date: Fri, 9 Oct 2026 17:31:05 +0800
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="RCUR+Mc0"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-533797e72e8so37064691cf.2
+        for <fuse-devel@lists.linux.dev>; Fri, 09 Oct 2026 03:40:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791542412; cv=none;
+        d=google.com; s=arc-20260327;
+        b=anDXzc6IIBnsgEFSHvvE5jacJNyTIYMVha6RwLT1uAolbEeCzgp3rAjEbhxbOqCMR2
+         y8IbmweeQcgJr2tFSS8+BQHvV/Q2SLPbpv6lWGGXFDf0P/didjX93x2jWW4M0r1eIlm/
+         D4pNfOyygwnXoQpwpe0HmJwqVVapsovjNREO62JonfeH+8VaEYkVMkmdqPooardLB93U
+         xbcX9uHXTExW8vMTdxmQtHr98NkxGnQOqdLD+7Ne4B+g7tA9C85xfRyk4sZlCQuiTkX0
+         8IlNs40+c6em53S8DbsJg/WHcVrdih+8qkxnQNnZzWZdISVT2ExxUMpR3qfTnHv6BiBM
+         Ip0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Dj6hvZEw0Eh9ZS8EwZEyRVpYOqz/OSg7EGiwmx0le9o=;
+        fh=WIu+dDTQKh8qNIHWhGISAsnLjxdMAfJ0T9Ez7lKSqJo=;
+        b=V4tcZFvWIkoPyPKzu42QNUyTQAUPwbIuSEOqMyP875TNTDnOGc5K9dJZ/xg1gpkfM7
+         CMlGPOY+EG+m9UYHOYEIGOQuJU1DTT/SydVda+8szE7orgZeswWI9CTGFBVw/YlJRInL
+         547fE92JJ4ThcrMXPMIuUPL1rdjqJnV08enluaGRh1R6Ti9WLoag4+IJIF4fYtR/seX9
+         QLkjR1ANSBT7rQZeN/EWZBYrnDKVxbsQe/Uuqcoybn/Jz/WlvprIa8VpZYf10jr9qDS+
+         1C/gq5V6SjvS86eM6gm9QCM6ZsJjeiIZdn8BrulDwqiSTsnvUCHZ7IpFHZLG5RYvYqHn
+         2/yg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1791542412; x=1792147212; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Dj6hvZEw0Eh9ZS8EwZEyRVpYOqz/OSg7EGiwmx0le9o=;
+        b=RCUR+Mc06oiX9lCu1sHvZ2vZftCHr7fw60m2uDmzLYEe95/EY3lJW0LC6a/+yY7upb
+         2zo/UkA1muXGRXJenVZ/Ha5FBcD9migzSzFgTJXrKR/q2asuACr1ULUYa3cKKyDtBpR2
+         hfGNmQ4rgRDmwFSL2RbpOb5cNRmx3UrPyckxY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791542412; x=1792147212;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Dj6hvZEw0Eh9ZS8EwZEyRVpYOqz/OSg7EGiwmx0le9o=;
+        b=Ilu5QVNUea5OOofbtHutYZwG4lW/0rghhLrzPgoo6LA9UKhvgYTpl2L/XO77FYPwt8
+         z6a3NUEnFwFn1qp7FPaR+XkuwHKsLBTv1IqRQbUYP9SdPQnbfF1YoILhFMhPDOxXez2I
+         y2WAAtPW0BRgFPGdRV0zmAYBN2m1kvOfprVCIjScnSEv82i5sNePRiu/W+wWnL7BkqI0
+         d8kEOA+eyVFfBctqai1NonXPWxNxARnXQ4ip6mTxDJScGWU5oqPsryxe0IjuxGHoH1HG
+         Qv0wkYVDc6qHNVmzkVKam6jdwLed43OthvnUbexU1BspEFiCbJ0b6eAp0a45U6DhNgV0
+         xZ4g==
+X-Forwarded-Encrypted: i=1; AKwUvBwGSobaclhhbs16Il8AduCoiczPAO7rwT+A/AFjVzqa09IsEhnIByprPkylRZHhg5JUlyk6AuFmn8DJ@lists.linux.dev
+X-Gm-Message-State: AFuF++m8QJSA8N4Bb+c4/0AdZTrkV2mJpYI4pyu5mfNzYhsmcryVjj1r
+	eyQhbOUxOG6NnVHmxRz8KboJugXn3a54Ur/4Hy44Aex090TIzy8hEjV0ee0IvZRNlI/aupYilW+
+	B2XLe/Qwmd4Pa065qgaAaPKz9lZJqV4piSg3n7KOIUw==
+X-Gm-Gg: AYBFou04QXiCfHJFSQk7fI5MELwdNxWLMkJ0LG0C/kOVzWpu28KdtwTt1iTjYhSNx9P
+	aSt5FiRo/G5hwM6OIwf9Yjwrjwp8MXDB3un4dkY4seZOXyt4/56eA+bWBsdQXbWBefIkgBJbcM9
+	rAr3olyowDspM4DUN7npVHFNeZoRiq48+KkCrRBw8RjNBa4SnSOBMWMx5utmuzBD53fIEvxfJP9
+	K+a8dDZqlr1uxaXWfcpop488gZPjET9zJrdhj4nMTDSNDFWe9uJdqV9FXVSvA6cHfahtOEtdR8+
+	VUnEmLzkyNQyKRgPbBz8K5q/m7E2Q55cpc6N2tvRLW78vi2m4aEBKxuboBn0NPNrw++FJ2ikpjH
+	YuLf5e/bj+Ilv
+X-Received: by 2002:a05:622a:54b:b0:533:6f90:9e7e with SMTP id
+ d75a77b69052e-5359fa918b1mr20240541cf.27.1791542411710; Fri, 09 Oct 2026
+ 03:40:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] test: exercise FUSE_NOTIFY_RESEND
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: fuse-devel@lists.linux.dev, miklos@szeredi.hu,
- Luis Henriques <luis@igalia.com>
-References: <20261009075417.2521879-1-libaokun@linux.alibaba.com>
- <20261009075417.2521879-3-libaokun@linux.alibaba.com>
- <d11dc230-0e80-4520-bb25-d25809762726@bsbernd.com>
-Content-Language: en-US
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <d11dc230-0e80-4520-bb25-d25809762726@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20261001150935.655979-1-mszeredi@redhat.com> <asQcBebepPb9CXzS@groves.net>
+ <CAJfpeguEUTYk9m7g2gZTMui0yFDYWSGL1SZ9PvoYiCqjDmHp9A@mail.gmail.com> <asZcsPT-Q8qga0SU@groves.net>
+In-Reply-To: <asZcsPT-Q8qga0SU@groves.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 9 Oct 2026 12:39:58 +0200
+X-Gm-Features: AclHuK9bZ1vBizXVx85EODvHCHAG09uRctj1VxFiQmSS5BJHJIYfB0DeoAwYH60
+Message-ID: <CAJfpegtZvQsu6gD1-zXvmELcu1-93ZKKEdKHMXqHzChgd_TXKg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] fuse: DAX device based extent maps (famfs)
+To: John Groves <john@groves.net>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+	Amir Goldstein <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, david@kernel.org, 
+	willy@infradead.org, brauner@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Bernd,
+On Fri, 9 Oct 2026 at 01:00, John Groves <john@groves.net> wrote:
 
-On 2026/10/9 16:19, Bernd Schubert wrote:
-> Hi Baokun,
->
-> On 10/9/26 09:54, Baokun Li wrote:
->> test_notify_resend drops the first GETATTR of a file and asks the
->> kernel to resend pending requests via fuse_lowlevel_notify_resend().
->> The kernel redelivers the request with the FUSE_UNIQUE_RESEND bit set;
->> the daemon detects it with fuse_req_is_resend(), answers it, and the
->> client's stat() completes.
-> to be honest, this is one the features that I have no clue about what it
-> exists for. Why would a daemon drop requests? 
+> Fewer fields is nice, but it's on the honor system that the server allocated
+> large enough strips - since strips carry the chunk_size rather than their
+> actual size when CYCLIC is set. IMO it would be an improvement to add the
+> chunk_size to the header; then the strip sizes could be validated.
 
-The daemon does not drop them on purpose - they are lost because it
-dies with the requests in flight.  This is the failover scenario the
-feature was added for: the old daemon has already read a request from
-/dev/fuse, but panics before replying to it.
+Cyclic maps could easily be generalized to not require a fixed chunk
+size.  Giving a different meaning to extent length (strip length)
+would break that, it would no longer be a CYCLIC map.  It's an
+un-generalization that has dubious value, since the strip length is
+implicit in either the file size or the parent extent length.
 
-Meanwhile the file descriptor of the connection is preserved - by
-another daemon, or simply by the service manager: systemd's file
-descriptor store keeps the /dev/fuse fd across a daemon restart
-(FDSTORE=1, retrieved again with sd_listen_fds()).
+In other words: make the server validate the strip size, and all will
+be good.  The kernel really doesn't need this information.
 
-A newly started daemon then takes the fd over and keeps serving
-new requests; the requests the old daemon had already read can be
-recovered with FUSE_NOTIFY_RESEND (760eac73f9f6, "fuse: Introduce a
-new notification type for resend pending requests").
+> So that's a bug. I've fixed it locally and will share that in the next day
+> or two. I also needed to refactor your patch the famfs user space because
+> it disabled ABI compatibility with some older versions of the famfs kernel
+> that I'm still supporting users with. If you can wait to patch that further
+> until I share an update, it will be cleaner on my end.
 
-> The use-case I have in my mind is a daemon upgrade, 
+Yeah, thanks.
 
-Yes, a daemon upgrade is indeed one of the scenarios.  It is the same
-flow as the failover case above, only planned: the old daemon hands
-the fd over to the new daemon instead of dying with it.
+> Having said all that, this topic seems to recur and be contentious - we are
+> working on tests that can demonstrate bottlenecks - but my current ask is
+> that if I can offer an alternative approach to rbtree that is better on
+> paper, can we please use it?
 
-> but that would mean that either kernel needs
-> to send a re-lookup of all inodes or that daemon needs to store lookup
-> objects (I personally see these as counter part of kernel inodes). Now,
-> besides not being implemented at all, kernel will have a hard time to
-> send re-lookup requests, unless fuse-server supports lookup by 64 bit
-> node-id.
-
-You're right that the new daemon can only answer the resent
-requests if it can still map their node IDs (and other state) to
-its own objects - that is the "daemon stores lookup objects" side
-you mention, and it is deliberately left to the daemon.
-
-FUSE_NOTIFY_RESEND does not attempt to solve state preservation -
-it only guarantees delivery of the requests that would otherwise
-be unreachable forever, no matter how much state the daemon kept.
-
-> I.e. in my personal opinion the prerequisite of FUSE_NOTIFY_RESEND is
-> missing (which could be LOOKUP_HANDLE and then using that to re-lookup
-> inodes after a daemon termination).
-
-Something like LOOKUP_HANDLE, where the kernel and the daemon pass
-file handles directly so no node ID mapping is needed, would be
-ideal.  However, I think a persistent node ID mapping on the daemon
-side would also work.
-
-> The example below also just does a simple exercise of
-> FUSE_NOTIFY_RESEND, without revealing what it would be useful for - that
-> is the part I would like to see fulfilled by an example.
->
-
-Yes, it only checks that the API works.  It has no fd preservation
-mechanism and no persistent node ID mapping either.
-
-A full takeover setup needs the fd and state handover, which is daemon
-specific and not something a libfuse test can realistically contain,
-so I think explaining the model in the test and the commit message is
-the right scope.  Let me know if you would prefer something different.
-
+If it's not adding complexity, then sure.
 
 Thanks,
-Baokun
-
-
+Miklos
