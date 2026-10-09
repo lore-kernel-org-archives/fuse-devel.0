@@ -1,46 +1,96 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356992BE7CD
-	for <fuse-devel@lists.linux.dev>; Fri,  9 Oct 2026 14:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7532A2D8378;
+	Fri,  9 Oct 2026 16:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791556326; cv=none; b=PZnZRc5FjPF8mDEi6PhHHDyLJqPg+KdSWK94M4K5sH8AYFSUY+6xc2Y7yTHjzsRJNEWTlffH5HRNBjipgKCSlbNn6f0BNZeqbG94LA2DYesP64L6Uy41t9adt5PueGglcftFuqDqqkk7/Kjd+AxKEuEZQU7DYPGt9nvCHJudQsE=
+	t=1791564992; cv=none; b=elEOgTtEHsPhwjmcjbQep2msLS/L+KTzU4uVeWecuz+Tk7AQU+E93GTQoGXA2kxAzKKaXIRA/afUyQlA/o9NrXFYpDsz3lesUcs/X9hNHR+XQ+RQyY3WwIXHDpoI3OsgutVqDFWaZ6SDVXBQTlTHW4RFvGYejBq0bDnkL+12WJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791556326; c=relaxed/simple;
-	bh=Cqs6/00QiJn/iYDxx3BdR/TYbbCSCwU+OgM7GRWCrSA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=K4GQ8JLoVXT6QPjmpacc3nyNsOJZAXXrj5mSl7yc6PmBKBnTOsxS3rNnZw8h3dwPL8m/COi+uvhnxatkaNTl5ZUN/he++UskatCoqa1mJ9rUXgxFzUpkDK7PjXo/8Y3S8ARusaHLy20GIqRUX7QdB4o0PxfUYn2y+9LpqMgkeLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=UbEA4bOu; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1791564992; c=relaxed/simple;
+	bh=Gsc13vUDcqHhR9WqLn+uEOJ3bL2AXkQlfX0gpVkBRts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MkvG/1pLRqmKNPgkDjWOd+M2g2fz3TDtk49oOlUHUdVn96aty4ScJ6PblUBstN+NcMwmtEoa0RfWT9hpXFio6RF0m7tWe5JTU1O2J0NJII8pn0waq0LXE0axgTItNb+SkByVBBnslwEb28h/8Nenj6UzPP8um5c4a0lx/WhTP7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUsl9XnU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="UbEA4bOu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=6yk2sg/bNpOP5KaeEASwE0JjDjP1dKGmNDd0qNhFqrM=; b=UbEA4bOuiddVI+gU78VbFZr/UL
-	fbkK4Xlis+Z8BDiLfo8FZZGDlY1e+uOuzwbOqbWi/uU+IxdnQVE9Cu1zJmC+6JVXy9W31S8VjZC2v
-	XsiFMsPllceWXN8dB/0uYl5OYnSI2bQaklT2EyZImAExN8sQvQ3qGjVVE+SARokC+oxkXkxa2ooqZ
-	UWgt/x7FF11ELBR8r7U/ZhoJBgaJE9tQ/9/uEWZpnTdqsUrzxYJIILoBYnqN+QCtRId/558WTv054
-	s8zHImP8xs45sed7T2IN3qZWxzIpbPjzzoMp51FzXtFZj4PeoeMu+yXji+MGxq9AyjcZG5Qaz1MyM
-	uuvWNdEA==;
-Received: from 138-125.internet-praha-1.cz ([185.176.138.125] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xFAzg-00EyDV-N9; Fri, 09 Oct 2026 15:50:40 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>,  fuse-devel@lists.linux.dev,
-  miklos@szeredi.hu
-Subject: Re: [PATCH 2/2] test: exercise FUSE_NOTIFY_RESEND
-In-Reply-To: <e4922458-9c88-43d5-a521-d96ee7b5d0d1@linux.alibaba.com>
-References: <20261009075417.2521879-1-libaokun@linux.alibaba.com>
-	<20261009075417.2521879-3-libaokun@linux.alibaba.com>
-	<d11dc230-0e80-4520-bb25-d25809762726@bsbernd.com>
-	<e4922458-9c88-43d5-a521-d96ee7b5d0d1@linux.alibaba.com>
-Date: Fri, 09 Oct 2026 14:51:48 +0100
-Message-ID: <87h5ivugln.fsf@igalia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUsl9XnU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA2421F000FF;
+	Fri,  9 Oct 2026 16:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791564991;
+	bh=fE0OAfD+VvZZQlsp7SZETT3KsGTWZ99jT3uHHIgYDkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RUsl9XnUQdex4hYDI/nvqZumtgOTjlWiX0N56fVGal9ZXTElbzreII28hFeRkApJB
+	 NHo6FTkv1s0R1SKHMxFh2yoyGgEj94FI2YTZ5R2m7lwDx9O3N5/dtVzHCZ7rRFHg+b
+	 AtSEfYi+n++t5xP6H8VImwwnXKYhoLn2R1W0Koa99MOWI+o8HHqK2kIurxPlAU0Yri
+	 ygANXuDjupNkgl+uor72EiN8FZ3fmo02D0/KSu5wQ2x84hwaNSlHgKIyyR/PugD/c9
+	 1rQuaM8k2AyO9mDtnEOKbWctVlZ0WY0IhSQdg1dl1SdQIKXtdsg79DgnHAMkLcGLF5
+	 UTDY8ujTUNlMg==
+Date: Fri, 9 Oct 2026 17:56:08 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v4 07/38] mm: add mmap action for discontiguous kernel
+ page mapping
+Message-ID: <askajMD6aWnRZzwK@gremlin>
+References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
+ <20261003-b4-mmap-prepare-vma-flag-sanify-v4-7-a1f052500fd7@kernel.org>
+ <CAJuCfpGj2Q092+zB=Z-d1iAOD6n1_HXVZQAL+YM6x_CeUEMpcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -48,99 +98,31 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpGj2Q092+zB=Z-d1iAOD6n1_HXVZQAL+YM6x_CeUEMpcw@mail.gmail.com>
 
-Hi!
+On Sun, Oct 04, 2026 at 10:11:18AM -0700, Suren Baghdasaryan wrote:
+> On Sat, Oct 3, 2026 at 6:35 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
 
-On Fri, Oct 09 2026, Baokun Li wrote:
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index 448342883e9d..45b21bb04a18 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
 
-> Hi=C2=A0Bernd,
+> > +static void __map_kernel_pages_prepare(struct vm_area_desc *desc)
+> > +{
+> > +       if (vma_desc_test(desc, VMA_MIXEDMAP_BIT))
+> > +               return;
+> > +
+> > +       VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
 >
-> On 2026/10/9 16:19, Bernd Schubert wrote:
->> Hi Baokun,
->>
->> On 10/9/26 09:54, Baokun Li wrote:
->>> test_notify_resend drops the first GETATTR of a file and asks the
->>> kernel to resend pending requests via fuse_lowlevel_notify_resend().
->>> The kernel redelivers the request with the FUSE_UNIQUE_RESEND bit set;
->>> the daemon detects it with fuse_req_is_resend(), answers it, and the
->>> client's stat() completes.
->> to be honest, this is one the features that I have no clue about what it
->> exists for. Why would a daemon drop requests?=20
->
-> The daemon does not drop them on purpose - they are lost because it
-> dies with the requests in flight.=C2=A0 This is the failover scenario the
-> feature was added for: the old daemon has already read a request from
-> /dev/fuse, but panics before replying to it.
->
-> Meanwhile the file descriptor of the connection is preserved - by
-> another daemon, or simply by the service manager: systemd's file
-> descriptor store keeps the /dev/fuse fd across a daemon restart
-> (FDSTORE=3D1, retrieved again with sd_listen_fds()).
->
-> A newly started daemon then takes the fd over and keeps serving
-> new requests; the requests the old daemon had already read can be
-> recovered with FUSE_NOTIFY_RESEND (760eac73f9f6, "fuse: Introduce a
-> new notification type for resend pending requests").
->
->> The use-case I have in my mind is a daemon upgrade,=20
->
-> Yes, a daemon upgrade is indeed one of the scenarios.=C2=A0 It is the same
-> flow as the failover case above, only planned: the old daemon hands
-> the fd over to the new daemon instead of dying with it.
->
->> but that would mean that either kernel needs
->> to send a re-lookup of all inodes or that daemon needs to store lookup
->> objects (I personally see these as counter part of kernel inodes). Now,
->> besides not being implemented at all, kernel will have a hard time to
->> send re-lookup requests, unless fuse-server supports lookup by 64 bit
->> node-id.
->
-> You're right that the new daemon can only answer the resent
-> requests if it can still map their node IDs (and other state) to
-> its own objects - that is the "daemon stores lookup objects" side
-> you mention, and it is deliberately left to the daemon.
->
-> FUSE_NOTIFY_RESEND does not attempt to solve state preservation -
-> it only guarantees delivery of the requests that would otherwise
-> be unreachable forever, no matter how much state the daemon kept.
->
->> I.e. in my personal opinion the prerequisite of FUSE_NOTIFY_RESEND is
->> missing (which could be LOOKUP_HANDLE and then using that to re-lookup
->> inodes after a daemon termination).
->
-> Something like LOOKUP_HANDLE, where the kernel and the daemon pass
-> file handles directly so no node ID mapping is needed, would be
-> ideal.=C2=A0 However, I think a persistent node ID mapping on the daemon
-> side would also work.
->
->> The example below also just does a simple exercise of
->> FUSE_NOTIFY_RESEND, without revealing what it would be useful for - that
->> is the part I would like to see fulfilled by an example.
->>
->
-> Yes, it only checks that the API works.=C2=A0 It has no fd preservation
-> mechanism and no persistent node ID mapping either.
->
-> A full takeover setup needs the fd and state handover, which is daemon
-> specific and not something a libfuse test can realistically contain,
-> so I think explaining the model in the test and the commit message is
-> the right scope.=C2=A0 Let me know if you would prefer something differen=
-t.
+> Sorry I missed this before and it is pre-existing code but is this a
+> weird way of asserting that mmap_lock is write-locked? If so, why not
+> just use mmap_assert_write_locked()?
 
-Thank you, Baokun, for the above description (and Bernd for explicitly
-CC'ing me to a patchset that I could have missed!).
+Ah yeah, this weirdness is duplicated from the existing code. Will fix up on
+resin!
 
-I had a PR [1] created long time ago that included something similar to
-your first patch in this set.  The difference was that I also tried to
-solve yet another problem: setting the fd back into libfuse-specific data
-structures (i.e. re-initialise libfuse itself).
-
-This was an RFC, which later made me start looking into the LOOKUP_HANDLE.
-Which is currently stale, but hopefully to resume soon.
-
-[1] https://github.com/libfuse/libfuse/pull/1219
-
-Cheers,
---=20
-Lu=C3=ADs
+--
+Cheers, Lorenzo
