@@ -1,338 +1,95 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19647476058
-	for <fuse-devel@lists.linux.dev>; Fri,  9 Oct 2026 07:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791531422; cv=pass; b=EK5ciEzw1VIFxnGVp2cHVI9VfypEEFnNtH9BhAtSJiZi4rR5njUXda5kIxRMQhQLuo+YJhy/UJqlXgeCCmilhltgKX6P7bhpvvmOuYE24DqF5mWV0t0uvuyFWIGX7CFrt+MXzVQ2SlMEZyMQzeUB6EkeqUJQ5xLNX7Y9adVUF30=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791531422; c=relaxed/simple;
-	bh=YMfKNylBb9GzxVIsFKNLxFRCTRDskPy0v9kUA3JZ0Rw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a0VENs/eSHn4TrRwjSTonXTVahzzmfxGjt+pzfi1q46QBW6xXRwn8qHO/SAEkORKCg2F9Z3wuzEWBug7Keymx/p/zksyQUFnPWdYMCAJiOc84Gk5xUYbaamWT2guhz4NuySY/zwR/s8cvTphjXW/BxeHOy04f4CZLyIvTOR7hVY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iWa3rHM2; arc=pass smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F9247C107
+	for <fuse-devel@lists.linux.dev>; Fri,  9 Oct 2026 07:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791532536; cv=none; b=u1X2STkB8muIv1BG9s9zvPSgrja/goiMdnhMSnfirZmuJNCTcYnS2diNx6zLEYrq/+ohZ3MexHlD23gmsvvdVh4fZyenqHxt2daNX778RAM0dWmM3DRSg5nejWvoc1dbmn4i4FTXx2gUSx6RPJsTfKQO3xVhxZi+mP8w18zdiZ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791532536; c=relaxed/simple;
+	bh=PGnXbkWnqgiSvUPXvLuvw04ujDR77ppnXsgjwMpNud0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L0TekX7eIg1m9q0uUh4YYQz5onBXWc2wKAeFhAy3dmLft21GNdo63ZKnIyDSVKUkut5RcsP09TykLuGnG2tSfMMZWtOyfolY6bWt5yK3QI1UFNnwn9l2ly6pUoia/uGZdPVJOtIFW8uY98/sHk4sWjCBtWsYvgoEI8qOEK9O4gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=RIonWdgz; arc=none smtp.client-ip=115.124.30.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iWa3rHM2"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6aa8d04fcddso3779052a12.0
-        for <fuse-devel@lists.linux.dev>; Fri, 09 Oct 2026 00:36:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791531418; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kfdI0waivrKn6tq8lc8ZAawcyU2ID1AbqDfafpjQOC7jBW+0wiZ7R2cRhaMEc/ftBK
-         u7Ewzgz4Jw0mErzpQcUpbNRGc7GTVwdy/oWvwxLvm1+Tmej01rcgsoea5UvxXilP8Gv4
-         zDVuz1XASq4GqS9RbB+0Z4O6Xkt8n2+gwyaJ2vnT5RyQ0maEGTPUIg+hu/ZYoFU5iVA3
-         3rT+EtT7+FnzvYKCu6wI3pDlZjnyzJtYMp9Y6PUSJ6kmnlaVSFyqki988vVmFjVBzpPD
-         kJ5zhk9F/laKmjCDsqzulnDf9ANeZvsjc3Vg1uGhb3tlZ+T25IlTTQQu54OmDGyZuRVS
-         kXyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DhSjNxqbm4HcT9hh0RRIJr4WnJT+XPSewhpuWWrAjrI=;
-        fh=yraj4v+bqSXmxjjMpn1/atBIsHsRegvA+ny3Ua/6dVc=;
-        b=NqHUagO3td077s2FWy3oeoho02qDxVJxtq7voaLqj1v+mxmcrh/e2ZrYLmB46FyhHx
-         QECvKsPOuIk5y46dxgI21ggufsWnAVN7DYWYBXRc5cRbtOlhcvZ202zM4nGid8ykPXRJ
-         Wu0ZS5h/KbYxnM8QGUH7kEdPEBtJ5Ej0XyArseZFvWn79rxo1C0S0Oqmzl2kAl2uKsLm
-         pt5kAxC744QqeSScJ1mZi9RQ/vBkgh8vDaBzDjn11ExlMQ025JznsWfDVjnH95XfYHSv
-         0PaiPM/bEEEBY9dDV8cEPMRsIX4KqIeuDHopqabI8q+vhLDtiO+SH3sd5T6PRBxP14Ze
-         xonA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791531418; x=1792136218; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DhSjNxqbm4HcT9hh0RRIJr4WnJT+XPSewhpuWWrAjrI=;
-        b=iWa3rHM2a1NtGLJb9ZzRczEoG8FrEUn0HrdKhkHwP08QeMIrwvIBKUA5MzIJZ/dUmw
-         4IcxntnFbGzoBvBHYzmhs5HgoW9M65ChZ7raKHXn15THmmtaYHhWw+o4WPKJE8gz9C3l
-         mxht/qCqG3NH6tr2hkcM1pImjtNhhVRpHR9NXYoOrfGNtboUxNkXTXAC5JqkcXR4CgWD
-         VEUEyxz+RjzrQiULMvL4c0UwRFElHIITGFNk42+Ynkbfw7GDnwivAFNGttur5lqqdiy6
-         pczv8V7WprJWPQRpEvQOSeqCbl/QOTxQI2neAp4yGAUnB6gJS6tISZx07Oc2uXc6fPr+
-         pKjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791531418; x=1792136218;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DhSjNxqbm4HcT9hh0RRIJr4WnJT+XPSewhpuWWrAjrI=;
-        b=GQnllW9Bw8bTjv433mAA9gXfkKTXIgiR8CAfPp32OvuGj03AhWsZQTEQFXP8LpZiP+
-         P+mn/gPhC9/yJdOmY/MlzcEbvM/BOkF2EmqtNtch9stjtw4SJnAQaCzE7Q2lSVWAOPEZ
-         e5/IARkS43oK+OY5NX1jRkC2WSDyc34nht8Z7Cmb8MoAjobk/EDCVJSVoOxVicFfcqKG
-         /fnSL7tdFDFRizR2ZsbvsZhImpcDOlrCiZ95gaNrpR34PVbbwZbCEM50yk1hVpJQ0a8W
-         6NDzi4X1UyWln6o5p+NbysC0DgMo1zCNMeBseOoawMZZ4w9QPIjSOy1c0BoaLBoNHEto
-         SheA==
-X-Gm-Message-State: AFq9FYLlspTlC8Iqw0d9GcbzW1dSgrYy97iXkwh4UhYvtR9GwnccGXdQ
-	30lfY9iaKfmNQZNqIqZdG1ZKxt1tfH7bgh7YHoicMII/e5gkitFCh2yD4ueorltGsvaxxZkWgka
-	jEps8pZiot3QansGfoL0qMhlhA41wxg4=
-X-Gm-Gg: AYBFou0Np3160fo3V42kSV2VtNuqoH1kDOK0+BjvmlOvu/+DRg04fXJKEz+yXawMwNe
-	qGJ0XhI5ixVM7oXdehB8zWm7rLexK7t2cIkaxmgBvYDrM4wpEtuuhPKTKPGMaoUGOFcnW6Cmwlg
-	9WH+6gPrDueJx0G80TmUZLWfx9ZeYWOBTjt/4hWC2x2sHtpurFzGYrfLGffzyDMf17AT7n8L6/H
-	QxfaiGqDens5G5/4dlB57uzTaG7VAfxv3M7xiFThvUMEIj1timRt4mgzUtVlgvCkJ2hJbnhFROY
-	ugRe0a59tCcYhYVOUAzmNORIsF3rFxsxXKgaQCPyrLbJ6sW+1xVvIlUC
-X-Received: by 2002:a05:6402:5c8:b0:6ac:62aa:e3bc with SMTP id
- 4fb4d7f45d1cf-6b17c2942a5mr781703a12.9.1791531417888; Fri, 09 Oct 2026
- 00:36:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="RIonWdgz"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1791532527; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=FlL+KZiK40wut8JLPaAVO6fRQ3vm2gUy0mBBVHvZQDc=;
+	b=RIonWdgzNnGUTAUOaPey1pD6G9B9zBKy33lXQwoVRds2JWM3KALQuqsXhhuL7sF3AxTizETm0mn3CcIR+PslzVcGlNcBGdjIdfbPVA9alNW6+vf2dO93In0iX7qd6NiS+PlA6vos34keXhdzwrGB6JSoZjPmZbs4C5I6Tuv8YLE=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R711e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0XCSmIly_1791532457;
+Received: from x31h02109.sqa.na131.tbsite.net(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0XCSmIly_1791532457 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 09 Oct 2026 15:55:26 +0800
+From: Baokun Li <libaokun@linux.alibaba.com>
+To: fuse-devel@lists.linux.dev
+Cc: bernd@bsbernd.com,
+	miklos@szeredi.hu
+Subject: [PATCH 0/2] libfuse: add support for FUSE_NOTIFY_RESEND
+Date: Fri,  9 Oct 2026 15:54:14 +0800
+Message-ID: <20261009075417.2521879-1-libaokun@linux.alibaba.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261008112004.1899560-1-mszeredi@redhat.com> <20261008112004.1899560-5-mszeredi@redhat.com>
-In-Reply-To: <20261008112004.1899560-5-mszeredi@redhat.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 9 Oct 2026 09:36:45 +0200
-X-Gm-Features: AclHuK_71_unbNtN5QAuP7E5DNG3AQphRS8x1gOfZa03ukUeAASAlNMwd4zqZhQ
-Message-ID: <CAOQ4uxi5gLR5xUjmg5v_byPF1SUhzCv=iWT1xzNok3GTy09tZw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/9] fuse: support 64 bit, server allocated backing ID
-To: Miklos Szeredi <mszeredi@redhat.com>
-Cc: fuse-devel@lists.linux.dev, John Groves <john@groves.net>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Alison Schofield <alison.schofield@intel.com>, 
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 8, 2026 at 1:20=E2=80=AFPM Miklos Szeredi <mszeredi@redhat.com>=
- wrote:
->
-> Add support for server allocated 64-bit backing IDs alongside the
-> existing kernel allocated 32-bit IDs.
->
-> Opened with FUSE_DEV_IOC_BACKING_CREATE, the backing ID sent via
-> fuse_backing_create_in.backing_id.
->
-> Closed with FUSE_NOTIFY_BACKING_REMOVE.  Since close only provides the
-> backing ID, not the file descriptor, it doesn't have to be done with an
-> ioctl.
->
-> Backing ID can take any 64 bit value other than zero.
->
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
->  fs/file.c                 |   1 +
->  fs/fuse/backing.c         | 178 ++++++++++++++++++++++++++++----------
->  fs/fuse/dev.c             |  54 +++++++++---
->  fs/fuse/dev.h             |   3 +
->  fs/fuse/fuse_i.h          |  21 ++++-
->  fs/fuse/inode.c           |   8 +-
->  fs/fuse/notify.c          |  28 ++++++
->  fs/fuse/passthrough.c     |   3 +
->  include/uapi/linux/fuse.h |  22 ++++-
->  9 files changed, 252 insertions(+), 66 deletions(-)
->
-[...]
+Hi all,
 
->  int fuse_backing_open(struct fuse_conn *fc, struct fuse_backing_map *map=
-);
->  int fuse_backing_close(struct fuse_conn *fc, int backing_id);
-> +int fuse_backing_open_64(struct fuse_conn *fc, struct fuse_backing_creat=
-e_in *map);
-> +int fuse_backing_close_64(struct fuse_conn *fc, u64 backing_id);
->
->  int fuse_copy_one(struct fuse_copy_state *cs, void *val, unsigned size);
->  int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index d9ec88028d7b..b1e450f096f6 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -32,6 +32,7 @@
->  #include <linux/pid_namespace.h>
->  #include <linux/refcount.h>
->  #include <linux/user_namespace.h>
-> +#include <linux/rhashtable-types.h>
->
->  /** Default max number of pages that can be used in a single read reques=
-t */
->  #define FUSE_DEFAULT_MAX_PAGES_PER_REQ 32
-> @@ -92,7 +93,8 @@ struct fuse_submount_lookup {
->  struct fuse_backing {
->         struct file *file;
->         const struct cred *cred;
-> -
-> +       u64 backing_id;
-> +       struct rhash_head hash_node;
->         /* refcount */
->         refcount_t count;
->         struct rcu_head rcu;
-> @@ -713,6 +715,9 @@ struct fuse_conn {
->         /** @passthrough: Passthrough support for read/write IO */
->         unsigned int passthrough:1;
->
-> +       /** @backing_id_64: Backing ID is 64 bit and allocated by the ser=
-ver */
-> +       bool backing_id_64:1;
-> +
->         /** @use_pages_for_kvec_io: Use pages instead of pointer for kern=
-el I/O */
->         unsigned int use_pages_for_kvec_io:1;
->
-> @@ -770,8 +775,14 @@ struct fuse_conn {
->         struct fuse_sync_bucket __rcu *curr_bucket;
->
->  #ifdef CONFIG_FUSE_PASSTHROUGH
-> -       /** @backing_files_map: IDR for backing files ids */
-> -       struct idr backing_files_map;
-> +       /* Selected by backing_id_64 */
-> +       union {
-> +               /** @backing_files_map: IDR for backing files ids */
-> +               struct idr backing_files_map;
-> +
-> +               /** @backing_64_ht: 64 bit ID lookup hash table */
-> +               struct rhashtable backing_64_ht;
-> +       };
->  #endif
->  };
->
-> @@ -1270,7 +1281,7 @@ void fuse_file_release(struct inode *inode, struct =
-fuse_file *ff,
->  /* backing.c */
->  #ifdef CONFIG_FUSE_PASSTHROUGH
->  void fuse_backing_put(struct fuse_backing *fb);
-> -struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, int backi=
-ng_id);
-> +
->  #else
->
->  static inline void fuse_backing_put(struct fuse_backing *fb)
-> @@ -1278,7 +1289,9 @@ static inline void fuse_backing_put(struct fuse_bac=
-king *fb)
->  }
->  #endif
->
-> +struct fuse_backing *fuse_backing_lookup(struct fuse_conn *fc, u64 backi=
-ng_id);
->  void fuse_backing_files_init(struct fuse_conn *fc);
-> +void fuse_backing_files_init_64(struct fuse_conn *fc);
->  void fuse_backing_files_free(struct fuse_conn *fc);
->
->  /* passthrough.c */
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index cbb10e19e7e8..b69c95ebb1ad 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -1408,13 +1408,17 @@ static void process_init_reply(struct fuse_args *=
-args, int error)
->                          * them together.
->                          */
->                         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) &&
-> -                           (flags & FUSE_PASSTHROUGH) &&
-> +                           (flags & (FUSE_PASSTHROUGH | FUSE_PASSTHROUGH=
-_V2)) &&
->                             arg->max_stack_depth > 0 &&
->                             arg->max_stack_depth <=3D FILESYSTEM_MAX_STAC=
-K_DEPTH &&
->                             !(flags & FUSE_WRITEBACK_CACHE))  {
->                                 fc->passthrough =3D 1;
->                                 fc->max_stack_depth =3D arg->max_stack_de=
-pth;
->                                 fm->sb->s_stack_depth =3D arg->max_stack_=
-depth;
-> +                               if (flags & FUSE_PASSTHROUGH_V2) {
-> +                                       fc->backing_id_64 =3D true;
-> +                                       fuse_backing_files_init_64(fc);
-> +                               }
->                         }
->                         if (flags & FUSE_NO_EXPORT_SUPPORT)
->                                 fm->sb->s_export_op =3D &fuse_export_fid_=
-operations;
+The FUSE kernel driver supports re-queuing requests that were already
+sent to a daemon but never answered, e.g. to recover in-flight requests
+after a daemon takeover.  The kernel side was added in Linux 6.9,
+protocol 7.40 (FUSE_NOTIFY_RESEND / FUSE_HAS_RESEND), but libfuse has
+no way to use it yet.
 
-Much better, but I still think it is somewhat ugly to call
-fuse_backing_files_init_64()
-after fuse_backing_files_init() for an init of a union.
+Patch 1 adds fuse_lowlevel_notify_resend() to send the notification,
+exposes kernel support through the new FUSE_CAP_HAS_RESEND capability
+and adds fuse_req_is_resend() so that file systems can detect resent
+requests via the FUSE_UNIQUE_RESEND bit in the request ID and handle
+them idempotently.
 
-Don't you think this is cleaner?
+Patch 2 adds a self-contained regression test: the daemon drops the
+first GETATTR of a file, triggers a resend and expects the request to
+come back with FUSE_UNIQUE_RESEND set before answering it.
+
+Testing
+=======
+
+The new test passes on Linux 7.3-rc3 (protocol 7.46).  It skips on
+kernels without FUSE_HAS_RESEND support and over the io-uring
+transport, which recovers requests on its own.
+
+Comments and questions are, as always, welcome.
 
 Thanks,
-Amir.
+Baokun
 
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 330655af3bd0f..9abf6b1afef5d 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -996,9 +996,6 @@ void fuse_conn_init(struct fuse_conn *fc, struct
-fuse_mount *fm,
-        fc->max_pages_limit =3D fuse_max_pages_limit;
-        fc->name_max =3D FUSE_NAME_LOW_MAX;
+Baokun Li (2):
+  fuse_lowlevel: add support for FUSE_NOTIFY_RESEND
+  test: exercise FUSE_NOTIFY_RESEND
 
--       if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
--               fuse_backing_files_init(fc);
--
-        INIT_LIST_HEAD(&fc->mounts);
-        list_add(&fm->fc_entry, &fc->mounts);
-        fm->fc =3D fc;
-@@ -1424,10 +1421,8 @@ static void process_init_reply(struct fuse_args
-*args, int error)
-                                fc->passthrough =3D 1;
-                                fc->max_stack_depth =3D arg->max_stack_dept=
-h;
-                                fm->sb->s_stack_depth =3D arg->max_stack_de=
-pth;
--                               if (flags & FUSE_PASSTHROUGH_V2) {
--                                       fc->backing_id_64 =3D true;
--                                       fuse_backing_files_init_64(fc);
--                               }
-+                               fc->backing_id_64 =3D !!(flags &
-FUSE_PASSTHROUGH_V2);
-+                               fuse_backing_files_init(fc);
-                        }
-                        if (flags & FUSE_NO_EXPORT_SUPPORT)
-                                fm->sb->s_export_op =3D
-&fuse_export_fid_operations;
-diff --git a/fs/fuse/backing.c b/fs/fuse/backing.c
-index c93e4a45dd6f6..6157a18b5d554 100644
---- a/fs/fuse/backing.c
-+++ b/fs/fuse/backing.c
-@@ -46,11 +46,6 @@ void fuse_backing_put(struct fuse_backing *fb)
-                fuse_backing_free(fb);
- }
+ ChangeLog.rst                      |   7 +
+ doc/README.notifications           |   2 +-
+ include/fuse_common.h              |  13 ++
+ include/fuse_lowlevel.h            |  28 ++++
+ lib/fuse_cap_names_i.h             |   1 +
+ lib/fuse_lowlevel.c                |  23 +++
+ lib/fuse_versionscript             |   2 +
+ test/cases/ctests/notify-resend.sh |  18 +++
+ test/meson.build                   |   3 +
+ test/test_notify_resend.c          | 216 +++++++++++++++++++++++++++++
+ 10 files changed, 312 insertions(+), 1 deletion(-)
+ create mode 100755 test/cases/ctests/notify-resend.sh
+ create mode 100644 test/test_notify_resend.c
 
--void fuse_backing_files_init(struct fuse_conn *fc)
--{
--       idr_init(&fc->backing_files_map);
--}
--
- static int fuse_backing_id_alloc(struct fuse_conn *fc, struct fuse_backing=
- *fb)
- {
-        int id;
-@@ -338,6 +333,9 @@ void fuse_backing_files_free(struct fuse_conn *fc)
-        struct rhashtable_iter iter;
-        struct fuse_backing *fb;
 
-+       if (!fc->passthrough)
-+               return;
-+
-        if (!fc->backing_id_64) {
-                idr_for_each(&fc->backing_files_map,
-fuse_backing_idr_free, NULL);
-                idr_destroy(&fc->backing_files_map);
-@@ -369,7 +367,12 @@ void fuse_backing_files_free(struct fuse_conn *fc)
-        rhashtable_free_and_destroy(&fc->backing_64_ht,
-fuse_backing_rht_free, NULL);
- }
+base-commit: cb2e761c763559f40e41090aabf008f665f27889
+-- 
+2.43.7
 
--void fuse_backing_files_init_64(struct fuse_conn *fc)
-+void fuse_backing_files_init(struct fuse_conn *fc)
- {
-+       if (!fc->backing_id_64) {
-+               idr_init(&fc->backing_files_map);
-+               return;
-+       }
-+
-        rhashtable_init(&fc->backing_64_ht, &fuse_backing_prm);
- }
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index 064fed459b93c..4235b8fc669b0 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -1324,7 +1324,6 @@ struct fuse_backing *fuse_backing_lookup(struct
-fuse_conn *fc, u64 backing_id);
- int fuse_backing_add_64(struct fuse_conn *fc, struct fuse_backing *fb);
- bool fuse_backing_is_dax(struct fuse_backing *fb);
- void fuse_backing_files_init(struct fuse_conn *fc);
--void fuse_backing_files_init_64(struct fuse_conn *fc);
- void fuse_backing_files_free(struct fuse_conn *fc);
