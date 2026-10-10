@@ -1,164 +1,269 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CD02877E8
-	for <fuse-devel@lists.linux.dev>; Sat, 10 Oct 2026 02:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DD91A683D;
+	Sat, 10 Oct 2026 22:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791599594; cv=none; b=oMKVIl5onDAn/FqzXBFugNaAUaAzFE8vweQktaMSn9qqOg4EahRLZZlbbt3fqBORQVqR2fGlZFraMjlus53j7c+WhnFgcMFjgRp7mjHACQKoKm6P0EEbSiK3EowRy2SdiEFymKxP4p/aL5IOzNn7sivbCBmqju9B/6LRUCWndvA=
+	t=1791669627; cv=none; b=pvoSx4+58RJt/pZ3LW/aDh8aVfcXnvuIsCVf4SMHeUqU03UIF60qOlHr2fBnANy53S5xaYPwrwCaK9vVXDrbYfWO5AZ3riFu3LwKYe/ymIgpa8AJsQtPAcajJPMkUj30jqmLPhKLkSP4AthoXZGWHZoifKuhq5mOzXwjoAht/Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791599594; c=relaxed/simple;
-	bh=0ZlCJTqEkmkMxcwwYOEkNp0jPfvrzrJeVkRfcrMQnew=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NVmeX9iB2APKZ8ak9RIdAfbYL4Chl0DsYUTnKKMgfhuva8Edh1hgFQzsgyHPnQlSBAqt/OSJ01nO+4U3jlBudZDULXm2vpV5Oah4HVqCqsfRWyY3ifUQtkqVdYeRdVX9/KGyphGyELBsn43znRJ2ohyYGlXMlBRlHe23GGtpRn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=wK1vW8Jh; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1791669627; c=relaxed/simple;
+	bh=uTIIgXvNGRKidYtT9y9d/j9O/uWBWM1pGuwQpiO4cmw=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=LxMbN4FMd8LTIFjiPea+nzZKCbl9pWue4MSjHuNEHXw8edbBTn5aa++6NGrRpEtSCEfwX13SoWeZ2wNQ3RrWp5xUIhhJ+2XPHi7ITvpMZa1z5TZgNagyttUk0wpBrTgKFuexBZfsUQWi2ziBmDZ6ZWxse3V+cxAJqVpfdWWVHLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ffP+TPLt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="wK1vW8Jh"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1791599589; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=NC06WOR2C8v0ZhMzGHy4Kz/zcdx2X92R8kCNa6V0LoQ=;
-	b=wK1vW8Jh81snX2aFurTR9seC9ORSKr6f9LIR2FXhHlGi70kXXCV713r7WeE0r3z1TsknG1m9vt/jCLjMkSjtSXd2BzDl/2wCuzW7aB0lS1hLQJJmwHxf6lZlfFyEFVfxjlqVQCvsxtiAJdnRgNxLlLjuwMVZIbPYUCramt6xxfw=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=libaokun@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0XCUn.-j_1791599588;
-Received: from 30.221.130.114(mailfrom:libaokun@linux.alibaba.com fp:SMTPD_---0XCUn.-j_1791599588 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Sat, 10 Oct 2026 10:33:09 +0800
-Message-ID: <a36fd07e-3721-4362-9b81-5c8569faeef8@linux.alibaba.com>
-Date: Sat, 10 Oct 2026 10:33:08 +0800
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ffP+TPLt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AADC1F000FF;
+	Sat, 10 Oct 2026 22:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1791669625;
+	bh=N2jYfqmPt2es1xuCkTol8NOahRHgRnTcTOUiwhGzkTU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ffP+TPLt1hBG2zdntJGpA4a6eo1Kktyl63gUdmTPWoDV5PB8j6QZDH7O5pu6DND18
+	 83jrFOWryJ2h63yrCPBw+Uh9wavAQ633twrY1q8Eu4fcsINr1B1dFygd9ev9/B+B/N
+	 PiED0VbjIV4o5yPrrgsINTWJg6/2ZfXlko4ls4sM=
+Date: Sat, 10 Oct 2026 15:00:20 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dennis Dalessandro
+ <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
+ <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
+ Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
+ Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
+ <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert
+ <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller
+ <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard
+ <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo
+ <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, Mark Rutland
+ <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo
+ <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+ <vincent.guittot@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
+ <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+ <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda
+ <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+ <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
+ <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Chris
+ Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi
+ <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
+ <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, Johannes
+ Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
+ <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Chengming
+ Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, Miklos
+ Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+ selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>, Bert
+ Karwatzki <spasswolf@web.de>, Takashi Iwai <tiwai@suse.de>, Emil Tsalapatis
+ <emil@etsalapatis.com>
+Subject: Re: [PATCH v5 00/38] mm: make VMA flag semantics explicit,
+ eliminate VM_SPECIAL
+Message-Id: <20261010150020.cbd6ce3038e3b6d72e2c92c9@linux-foundation.org>
+In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
+References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] test: exercise FUSE_NOTIFY_RESEND
-To: Luis Henriques <luis@igalia.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev,
- miklos@szeredi.hu
-References: <20261009075417.2521879-1-libaokun@linux.alibaba.com>
- <20261009075417.2521879-3-libaokun@linux.alibaba.com>
- <d11dc230-0e80-4520-bb25-d25809762726@bsbernd.com>
- <e4922458-9c88-43d5-a521-d96ee7b5d0d1@linux.alibaba.com>
- <87h5ivugln.fsf@igalia.com>
-Content-Language: en-US
-From: Baokun Li <libaokun@linux.alibaba.com>
-In-Reply-To: <87h5ivugln.fsf@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Luís,
+On Fri, 09 Oct 2026 19:03:54 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
 
-On 2026/10/9 21:51, Luis Henriques wrote:
-> Hi!
->
-> On Fri, Oct 09 2026, Baokun Li wrote:
->
->> Hi Bernd,
->>
->> On 2026/10/9 16:19, Bernd Schubert wrote:
->>> Hi Baokun,
->>>
->>> On 10/9/26 09:54, Baokun Li wrote:
->>>> test_notify_resend drops the first GETATTR of a file and asks the
->>>> kernel to resend pending requests via fuse_lowlevel_notify_resend().
->>>> The kernel redelivers the request with the FUSE_UNIQUE_RESEND bit set;
->>>> the daemon detects it with fuse_req_is_resend(), answers it, and the
->>>> client's stat() completes.
->>> to be honest, this is one the features that I have no clue about what it
->>> exists for. Why would a daemon drop requests? 
->> The daemon does not drop them on purpose - they are lost because it
->> dies with the requests in flight.  This is the failover scenario the
->> feature was added for: the old daemon has already read a request from
->> /dev/fuse, but panics before replying to it.
->>
->> Meanwhile the file descriptor of the connection is preserved - by
->> another daemon, or simply by the service manager: systemd's file
->> descriptor store keeps the /dev/fuse fd across a daemon restart
->> (FDSTORE=1, retrieved again with sd_listen_fds()).
->>
->> A newly started daemon then takes the fd over and keeps serving
->> new requests; the requests the old daemon had already read can be
->> recovered with FUSE_NOTIFY_RESEND (760eac73f9f6, "fuse: Introduce a
->> new notification type for resend pending requests").
->>
->>> The use-case I have in my mind is a daemon upgrade, 
->> Yes, a daemon upgrade is indeed one of the scenarios.  It is the same
->> flow as the failover case above, only planned: the old daemon hands
->> the fd over to the new daemon instead of dying with it.
->>
->>> but that would mean that either kernel needs
->>> to send a re-lookup of all inodes or that daemon needs to store lookup
->>> objects (I personally see these as counter part of kernel inodes). Now,
->>> besides not being implemented at all, kernel will have a hard time to
->>> send re-lookup requests, unless fuse-server supports lookup by 64 bit
->>> node-id.
->> You're right that the new daemon can only answer the resent
->> requests if it can still map their node IDs (and other state) to
->> its own objects - that is the "daemon stores lookup objects" side
->> you mention, and it is deliberately left to the daemon.
->>
->> FUSE_NOTIFY_RESEND does not attempt to solve state preservation -
->> it only guarantees delivery of the requests that would otherwise
->> be unreachable forever, no matter how much state the daemon kept.
->>
->>> I.e. in my personal opinion the prerequisite of FUSE_NOTIFY_RESEND is
->>> missing (which could be LOOKUP_HANDLE and then using that to re-lookup
->>> inodes after a daemon termination).
->> Something like LOOKUP_HANDLE, where the kernel and the daemon pass
->> file handles directly so no node ID mapping is needed, would be
->> ideal.  However, I think a persistent node ID mapping on the daemon
->> side would also work.
->>
->>> The example below also just does a simple exercise of
->>> FUSE_NOTIFY_RESEND, without revealing what it would be useful for - that
->>> is the part I would like to see fulfilled by an example.
->>>
->> Yes, it only checks that the API works.  It has no fd preservation
->> mechanism and no persistent node ID mapping either.
->>
->> A full takeover setup needs the fd and state handover, which is daemon
->> specific and not something a libfuse test can realistically contain,
->> so I think explaining the model in the test and the commit message is
->> the right scope.  Let me know if you would prefer something different.
-> Thank you, Baokun, for the above description (and Bernd for explicitly
-> CC'ing me to a patchset that I could have missed!).
->
-> I had a PR [1] created long time ago that included something similar to
-> your first patch in this set.  
+> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
+> properties:
+> 
+> * Is this managed by core mm, or by a driver mapping MMIO, kernel-allocated
+>   pages, or even ordinary pages itself?
+> * Can it be expanded or merged?
+> * Is this a 'weird' case like mlock where migration might race and we
+>   'have' to set invalid flags to notify?
+> * Is it another 'weird' case where we just want to stop GUP from touching
+>   it?
+> 
+> Driver writers have often been confused about this, and who can blame them?
+> 
+> It also interacts badly with the eternal edgecase known as hugetlb - which
+> sets VMA_DONTEXPAND_BIT but doesn't also want to be treated like a
+> 'special' flag.
+> 
+> Another issue is that we cannot make sensible assumptions about flag
+> use. It's not possible to assume VMA_IO_BIT means iommu because drivers
+> abuse it and mlock abuses it.
+> 
+> Special is also an overloaded term in mm. VDSO and VVAR mappings are also
+> called 'special' but they're special in a... special way.
+> 
+> Sometimes things are called special that are a subset of
+> VMA_SPECIAL_FLAGS (VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT for instance when it
+> comes to zapping or vm_normal_folio()).
+> 
+> There's a specific kind of special for THP too, which considers
+> PFN map, mixed map 'special' but DAX not.
+> 
+> It's all rather a mess.
+> 
+> This series brings some order to things by both limiting what drivers can
+> do with VMA flags and switching to using predicates that describe
+> behaviour, not arbitrary flags.
 
-Sorry for missing your PR #1219.  We had been using resend through
-the early sysfs based scheme all along; only recently, when moving
-to a newer kernel and preparing the switch to the notify based one,
-did we find that libfuse had no API for it - hence this patch.
+Thanks, I've updated mm-unstable to this version.
 
-> The difference was that I also tried to
-> solve yet another problem: setting the fd back into libfuse-specific data
-> structures (i.e. re-initialise libfuse itself).
+For some reason, new versions of this series aren't applying when I
+drop the new series in place of the old.  I made the same old bunch of
+reject-fixups, so the below interdiff will show if I messed any of them up.
 
-The RFC looks good to me.  I did not implement
-fuse_session_reinitialize, because our daemon restores the session in
-a hacky way, so we had no need for the interface - but adding it would
-clearly be better.
+> v5:
+> * Applied tags (thanks everybody!)
+> * Updated 3/38 to fix a bug in __mmap_new_file_vma() by zapping + closing
+>   the VMA before setting vma->vm_file NULL to avoid an i_mmap_writable
+>   imbalance. A repro was tested before/after and confirmed fixed.
+> * Updated 7/38 to make __map_kernel_pages_prepare() use
+>   mmap_assert_write_locked() rather than the weird
+>   assert-on-mmap_read_trylock() pattern, as per Suren.
+> * Also update vm_insert_page(), vm_insert_pages() to fix the same pattern
+>   and to use the new VMA API, and converted a BUG_ON to a
+>   VM_WARN_ON_ONCE().
 
-> This was an RFC, which later made me start looking into the LOOKUP_HANDLE.
-> Which is currently stale, but hopefully to resume soon.
->
-> [1] https://github.com/libfuse/libfuse/pull/1219
->
-> Cheers,
+Here's how v5 altered mm.git:
 
-Note that resend is not strongly tied to LOOKUP_HANDLE: we have been
-using it without LOOKUP_HANDLE for several years, with the daemon
-keeping its own state across restarts.
+ mm/memory.c                       |   20 +++++++++++---------
+ mm/vma.c                          |   16 ++++++++--------
+ tools/testing/vma/include/stubs.h |    4 ++++
+ 3 files changed, 23 insertions(+), 17 deletions(-)
 
-That said, LOOKUP_HANDLE is indeed valuable - we have a similar
-mechanism on our side as well.
-
-
-Cheers,
-Baokun
-
+--- a/mm/memory.c~b
++++ a/mm/memory.c
+@@ -2611,10 +2611,11 @@ int vm_insert_pages(struct vm_area_struc
+ 
+ 	if (!range_in_vma(vma, addr, end))
+ 		return -EFAULT;
+-	if (!(vma->vm_flags & VM_MIXEDMAP)) {
+-		VM_WARN_ON_ONCE(mmap_read_trylock(vma->vm_mm));
+-		VM_WARN_ON_ONCE(vma->vm_flags & VM_PFNMAP);
+-		vm_flags_set(vma, VM_MIXEDMAP);
++	if (!vma_test(vma, VMA_MIXEDMAP_BIT)) {
++		mmap_assert_write_locked(vma->vm_mm);
++		VM_WARN_ON_ONCE(vma_test(vma, VMA_PFNMAP_BIT));
++		vma_start_write(vma);
++		vma_set_flags(vma, VMA_MIXEDMAP_BIT);
+ 	}
+ 	/* Defer page refcount checking till we're about to map that page. */
+ 	return insert_pages(vma, addr, pages, num, vma->vm_page_prot);
+@@ -2626,7 +2627,7 @@ static void __map_kernel_pages_prepare(s
+ 	if (vma_desc_test(desc, VMA_MIXEDMAP_BIT))
+ 		return;
+ 
+-	VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
++	mmap_assert_write_locked(desc->mm);
+ 	VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
+ 	vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
+ }
+@@ -2785,10 +2786,11 @@ int vm_insert_page(struct vm_area_struct
+ {
+ 	if (addr < vma->vm_start || addr >= vma->vm_end)
+ 		return -EFAULT;
+-	if (!(vma->vm_flags & VM_MIXEDMAP)) {
+-		BUG_ON(mmap_read_trylock(vma->vm_mm));
+-		BUG_ON(vma->vm_flags & VM_PFNMAP);
+-		vm_flags_set(vma, VM_MIXEDMAP);
++	if (!vma_test(vma, VMA_MIXEDMAP_BIT)) {
++		mmap_assert_write_locked(vma->vm_mm);
++		VM_WARN_ON_ONCE(vma_test(vma, VMA_PFNMAP_BIT));
++		vma_start_write(vma);
++		vma_set_flags(vma, VMA_MIXEDMAP_BIT);
+ 	}
+ 	return insert_page(vma, addr, page, vma->vm_page_prot, false);
+ }
+--- a/mm/vma.c~b
++++ a/mm/vma.c
+@@ -2631,21 +2631,21 @@ static int __mmap_new_file_vma(struct mm
+ 	map->vm_file = vma->vm_file;
+ 
+ 	if (error) {
+-		struct file *file = vma->vm_file;
+ 		UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
+ 			    map->prev, map->next);
+ 
++		if (vma->vm_ops->close) {
++			zap_vma(vma);
++			/* Safe, because VMA zapped. */
++			vma_close(vma);
++		}
++		if (map_same_file(map))
++			fput(map->vm_file);
++
+ 		vma->vm_file = NULL;
+ 		vma_iter_set(vmi, vma->vm_end);
+ 		/* Undo any partial mapping done by a device driver. */
+ 		unmap_region(&unmap);
+-		vma->vm_file = file;
+-		/* Only safe once unmapped. */
+-		vma_close(vma);
+-
+-		if (map_same_file(map))
+-			fput(map->vm_file);
+-		vma->vm_file = NULL;
+ 		return error;
+ 	}
+ 
+--- a/tools/testing/vma/include/stubs.h~b
++++ a/tools/testing/vma/include/stubs.h
+@@ -329,6 +329,10 @@ static inline void vma_close(struct vm_a
+ {
+ }
+ 
++static inline void zap_vma(struct vm_area_struct *vma)
++{
++}
++
+ static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
+ {
+ 	return 0;
+_
 
