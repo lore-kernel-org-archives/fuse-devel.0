@@ -1,457 +1,438 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1B63603E8;
-	Mon, 12 Oct 2026 13:15:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9908649481E;
+	Mon, 12 Oct 2026 15:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791810934; cv=none; b=LO4+uQQg1jpyp6PR5Rwf8XMqIyOnS1cuw/nGfGPMZKF+MDxRR9vl8Hd6RT5cSco1gkHyccr+ul+PwjrdACfilKt/RfBGVGMxGzYe7cDNydrUH3xAp5lwYjhHAAETxcrFWUKIxdy4VlaEp2Q1Cg6BZauNz67uvFSvDEXruPnLfZ8=
+	t=1791817420; cv=none; b=tQBQ+7ZVGq9YUzQl31A+ITW4LH/xdNPZ+WPP5rVNTc4WwCvXwaewvirEqJ4pDoaLiCIhOkX3BWj3vDEadyfvUZPodI6pHqHNW1NiyH8GebShCppjUEofQO2Cy/zCD9mtd8sj67jH01D/6s7Z+RaGdjr+DQXUBL0PurqzB147xIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791810934; c=relaxed/simple;
-	bh=CcsDddioQEspoUqWl6ekwEF4GxlCj9HtGKe+tQ11q8w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j7U1T/ZvPsfNjTcmhgigRfqnxcIzuQl2vVKum2d7u0V8vNqhFIgV4Odyfi9nIdgIk77HeoeL6fuPiDd0ckwB5y6oq50jkSBo3YOIxzL56NeZR49keVC+B+gT2EltR3chcBqtcFyvKg5ESkG3Cv9caL52thlJ60TMqMHGF5MqUik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lj1W/RV/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791817420; c=relaxed/simple;
+	bh=aHQw7jLC9yoNpf42E094akGseItqG9rcuu4btcy5hHk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rj/8BDut0S/Octh+FG4rsO6AmBiOe5zkLjZp7KvLIs6ly3ETOLBdO8LRBfyGfzNXRt/vJpYCDSjPDtQub20FNC2ljSNRqHXtQyWFjDQesc36kNIjaFlHpuhxNEkWScXzZmxh3hQiVp6TRX9+fztd6KWiWb68sUg0gTaEOmDYCKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqQnzUmK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lj1W/RV/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30C8F1F0089D;
-	Mon, 12 Oct 2026 13:15:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqQnzUmK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE88D1F0089B;
+	Mon, 12 Oct 2026 15:03:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791810933;
-	bh=vzdZwBY53hgOXufimVWyYl9byiw4CQca0m0JtaFNqTg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=Lj1W/RV/DovL8ktpchp6gvv12J54qNMjUKkqTmm37779XjXZRq/jdudhFGLZA//Av
-	 TZEQ/OELwv5DwYRoMLmO2SWBjJCTa79fwpgjl7i8qSjbmyHQ6DgycCcNCFFDegIrZN
-	 0ecmZjZHv121BBAGM8F8YiBC150fo7FU7reqUyZhdDlS2n+cwV+LIbwSZzI3m0bSF0
-	 EYW038FWyFWHkg4FOXXEer8fpat1tWJs6exURCvS//CjRDjaXPsztopiM4tkv4nQI1
-	 S+t5STVavpd7y/T/IG2JKG+GedTpdRkLsSXOJw49xxwCqNL96o4ce2pBO/NPJ6+cVS
-	 ociPFYl375liQ==
-From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 12 Oct 2026 15:15:18 +0200
-Subject: [PATCH 4/4] namei: don't follow a symlink that lost its mounts
+	s=k20260515; t=1791817418;
+	bh=TUxOJIoEwWGSOtnlIj5KDXixurt7xGhOIGc9/JpBlPw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=KqQnzUmKbn/q8oL6O0MmGCPP5O+Y6m2jAfrhciRJULIkfNkMEFSgUq3BTPaW+lXQx
+	 GIwV4tZup+P4INDs4Gn6nMeTOyRttCGB24ku/aRmE4h4WcBzlEyPvcWIHvQsluvDPe
+	 ljJQY7vjnwKB4kDQMjmJr95y6KkjQ1QY4GJ0jzz1aEiI5jrcTnKctyGRt+DiJUzcVl
+	 47GeIw3nxp9Q1Ghh3zHPmCdVZscbz0DjbAe1gvPifzTBpsYgdm/5vuHzgvbF8sqMDn
+	 r1xUZgUlhap/cdcEC7S+qkylXJ9w9p9Qhm4cMonxJ4hpaAzFFcuPOeDysNEgt9wr+t
+	 bj7khxv0wkoSQ==
+Message-ID: <56cc2787-134b-48f0-a9e2-840f57b28607@kernel.org>
+Date: Mon, 12 Oct 2026 17:03:02 +0200
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 07/38] mm: add mmap action for discontiguous kernel
+ page mapping
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
+ "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
+ <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Andreas Larsson <andreas@gaisler.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
+ Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
+ Ying Huang <ying.huang@linux.alibaba.com>,
+ Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
+ Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
+ Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+ Xu Xin <xu.xin@linux.dev>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ Bert Karwatzki <spasswolf@web.de>
+References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
+ <20261009-b4-mmap-prepare-vma-flag-sanify-v5-7-923b70125b1e@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-7-923b70125b1e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261012-work-namei-reval-v1-4-515664de33b5@kernel.org>
-References: <20261012-work-namei-reval-v1-0-515664de33b5@kernel.org>
-In-Reply-To: <20261012-work-namei-reval-v1-0-515664de33b5@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Chris Mason <mason@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, Neil Brown <neil@brown.name>, 
- Jan Kara <jack@suse.cz>, fuse-devel@lists.linux.dev, 
- linux-kselftest@vger.kernel.org, stable@vger.kernel.org, 
- "Christian Brauner (Amutable)" <brauner@kernel.org>
-X-Mailer: b4 0.17-dev-3d1b8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=11838; i=brauner@kernel.org;
- h=from:subject:message-id; bh=CcsDddioQEspoUqWl6ekwEF4GxlCj9HtGKe+tQ11q8w=;
- b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWSduZvea6Erlr/T7q2dYk3AEY6Tafo5748YKkdcSlv/z
- Kln0fPkjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgInMOMnI0J5Up3LylTDDWlee
- a5+cJ/ZUud6ddtZ24uE+6U0s76ROfWNkONaQtGvK5jCHy+3vfOYcX3ng1Y78FSlGBSZtx7uyeZt
- +sgAA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp;
- fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 
-unlink_may_reveal() is only called for a dentry that the walk steps
-onto. A symlink that the walk follows goes to pick_link() without that
-check. But a symlink can be a mountpoint like any other non-directory.
-move_mount() without MOVE_MOUNT_T_SYMLINKS doesn't follow the target
-path, so the mount lands on the symlink itself, and graft_tree() only
-checks that the root of the mount isn't a directory either.
+On 10/9/26 20:04, Lorenzo Stoakes (ARM) wrote:
+> The existing kernel page mapping mmap actions allow for partial and full
+> mapping of an array of struct page pointers.
+> 
+> However some drivers require the mapping of discontiguous ranges. Permit
+> this by providing discontig_kernel_page_ops which allows a driver to
+> specify how the operation should begin and how batches of pages should be
+> retrieved.
+> 
+> It uses the minimum exposed interface to do so, providing address, page
+> offset and both vm_private_data state and a local private state object.
+> 
+> ops->init can establish state for the operation, and ops->get outputs the
+> pages to map and their count. Should an error arise the core unmaps the
+> VMA, invoking vm_ops->close, which is therefore where any state established
+> by ops->init is released.
+> 
+> Also update the compatibility layer to do this too via
+> compat_mmap_action_abort().
+> 
+> Batches may not exceed the VMA, but may map less than its full range in
+> case the driver wishes to allow the user to map an area larger than the
+> available data.
+> 
+> To use it, users invoke mmap_action_map_discontig_kernel_pages() with
+> initial local private state and a set of operations.
+> 
+> Users can then use one of the provided helper functions to perform an
+> action:
+> 
+> * discontig_kernel_map_abort() - Abort and leave the mapping as it has
+>   been accumulated so far.
+> * discontig_kernel_map_page() - Map a single page, or a compound page given
+>   its head page.
+> * discontig_kernel_map_page_range() - Maps a struct page ** array of a
+>   specified count, mapping only those pages which fit in the VMA.
+> 
+> While here, update vm_insert_page() and vm_insert_pages() to assert the
+> mmap write lock is held rather than the bizarre assert !mmap_read_trylock()
+> and use the new VMA API so all code paths are consistent.
+> 
+> Also convert a BUG_ON() to a VM_WARN_ON_ONCE() in vm_insert_page().
+> 
+> The userland VMA tests are updated accordingly.
+> 
+> Acked-by: Zi Yan <ziy@nvidia.com>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-So the race that commit 8189ab688f5a ("namei: don't reveal overmounted
-entries in refwalk") closed for files and directories is still open for
-symlinks. A refwalk finds the symlink while it is covered, its name is
-unlinked and the mounts are detached, and when the walk looks at the
-mounts they are gone. Instead of refusing the dentry the walk reads the
-link and goes on with whatever it points to.
 
-So make the check right after handle_mounts(), before the walk decides
-whether it follows a symlink. The rcuwalk early return moves into
-unlink_may_reveal() with it. Nothing changes for a dentry that isn't a
-symlink.
+Finally finding time to go over this. In the future I want to have more time to
+review such massive series, as it causes severe stress to be forced to review
+this last minute before it goes upstream.
 
-The appended reproducer mounts the tmpfs file MARK on the symlink
-F'/lnk of an open_tree() copy of a raw fuse mount and opens F'/lnk
-while the fuse server unlinks F/lnk before it answers the revalidation
-of lnk. On 7.3.0-rc6 with the previous patches applied the walker read
-UNDER, the file the symlink points to, in 20 of 20 rounds. With this
-patch open() fails with ENOENT in all of them.
+So if I push back in order to give me some more room to breathe in the future
+it's nothing personal, I just have to keep my sanity somehow.
 
-  // SPDX-License-Identifier: GPL-2.0
-  /*
-   * unlink_symlink: follow a symlink that lost its mount under the walk.
-   *
-   * F is a fuse mount with the file f1 (UNDER) and the symlink lnk -> f1.
-   * F' is an open_tree() copy of F with the tmpfs file MARK mounted on the
-   * symlink F'/lnk itself. A walker opens F'/lnk. The server answers the
-   * revalidation of lnk only after it has unlinked F/lnk, which detaches
-   * MARK. Reading UNDER is a hit: the walk followed the unlinked symlink.
-   *
-   * usage: unlink_symlink [-n rounds]
-   */
-  #define _GNU_SOURCE
-  #include <errno.h>
-  #include <fcntl.h>
-  #include <pthread.h>
-  #include <stdatomic.h>
-  #include <stdint.h>
-  #include <stdio.h>
-  #include <stdlib.h>
-  #include <string.h>
-  #include <sys/mount.h>
-  #include <sys/stat.h>
-  #include <sys/syscall.h>
-  #include <sys/uio.h>
-  #include <sys/wait.h>
-  #include <unistd.h>
-  #include <linux/fuse.h>
+I hate being forced to review because we pick up stuff way to early. There is
+just way too much other stuff going on.
 
-  #ifndef OPEN_TREE_CLONE
-  #define OPEN_TREE_CLONE		1
-  #endif
-  #ifndef MOVE_MOUNT_F_EMPTY_PATH
-  #define MOVE_MOUNT_F_EMPTY_PATH	0x00000004
-  #endif
+I'm planning on picking up most stuff I maintain in the next cycle. For
+cross-component stuff (esp. VMA) I expect Andrew to pick stuff up until we
+tackle this once cycle later.
 
-  enum { ROOT_ID = FUSE_ROOT_ID, F1_ID, LNK_ID };
 
-  static int ffd = -1;
-  static char fmnt[64];
-  static atomic_int lnk_present;
-  static atomic_int walker;	/* unlink lnk in this pid's lookup of it */
+> +static inline
+> +void mmap_action_map_discontig_kernel_pages(struct vm_area_desc *desc,
+> +		void *init_private, const struct discontig_kernel_page_ops *ops)
+> +{
+> +	struct mmap_action *action = &desc->action;
+> +
+> +	action->type = MMAP_DISCONTIG_KERNEL_PAGES;
+> +	action->map_kernel_discontig.init_private = init_private;
+> +	action->map_kernel_discontig.ops = ops;
+> +}
+> +
+>  int mmap_action_prepare(struct vm_area_desc *desc);
+>  int mmap_action_complete(struct vm_area_struct *vma,
+>  			 struct mmap_action *action, bool is_compat);
 
-  static void die(const char *what)
-  {
-  	fprintf(stderr, "%s: %s\n", what, strerror(errno));
-  	exit(2);
-  }
+There is a mixture of two tab vs. different in your changes.
 
-  static void reply(uint64_t unique, int error, const void *data,
-  		  size_t len)
-  {
-  	struct fuse_out_header oh = {
-  		.len = sizeof(oh) + (error ? 0 : len),
-  		.error = error,
-  		.unique = unique,
-  	};
-  	struct iovec iov[2] = { { &oh, sizeof(oh) }, { (void *)data, len } };
+>  
+> +static inline void
+> +discontig_kernel_map_abort(struct discontig_kernel_page_state *state)
+> +{
+> +	state->action = DISCONTIG_KERNEL_PAGE_ABORT;
+> +}
+> +
+> +static inline void
+> +discontig_kernel_map_page(struct discontig_kernel_page_state *state,
+> +			  struct page *page)
+> +{
+> +	struct folio *folio = page_folio(page);
+> +
+> +	if (folio_test_large(folio)) {
+> +		VM_WARN_ON_ONCE(page != folio_page(folio, 0));
+> +		state->action = DISCONTIG_KERNEL_PAGE_MAP_COMPOUND_PAGE;
+> +		state->__folio = folio;
+> +		state->__nr_pages = min(state->nr_pages_remain,
+> +					folio_nr_pages(folio));
+> +	} else {
+> +		state->action = DISCONTIG_KERNEL_PAGE_MAP_PAGE;
+> +		state->__page = page;
+> +		state->__nr_pages = 1;
+> +	}
 
-  	if (writev(ffd, iov, (error || !len) ? 1 : 2) < 0)
-  		return;
-  }
+Why are both separate? Isn't it sufficient to represent that through _page +
+_nr_pages > 1 ? See below.
 
-  static void fill_attr(struct fuse_attr *a, uint64_t id)
-  {
-  	memset(a, 0, sizeof(*a));
-  	a->ino = id;
-  	a->nlink = 1;
-  	a->blksize = 4096;
-  	if (id == ROOT_ID) {
-  		a->mode = S_IFDIR | 0755;
-  		a->nlink = 2;
-  	} else if (id == LNK_ID) {
-  		a->mode = S_IFLNK | 0777;
-  		a->size = 2;
-  	} else {
-  		a->mode = S_IFREG | 0644;
-  		a->size = 5;
-  	}
-  }
+> +}
+> +
+> +static inline void
+> +discontig_kernel_map_page_range(struct discontig_kernel_page_state *state,
+> +				struct page **page_arr, unsigned long nr_pages)
 
-  /* entry_valid 0: every refwalk revalidates the name */
-  static void reply_entry(uint64_t unique, uint64_t id)
-  {
-  	struct fuse_entry_out e = {
-  		.nodeid = id,
-  		.generation = 1,
-  		.attr_valid = 3600,
-  	};
+Is this actually "map_pages"? A range is rather a number of consectuive pages
+part of the same folio/compound page, no?
 
-  	fill_attr(&e.attr, id);
-  	reply(unique, 0, &e, sizeof(e));
-  }
+(we call insert_pages() later ... )
 
-  static void *unlinker(void *arg)
-  {
-  	char path[80];
+> +{
+> +	state->action = DISCONTIG_KERNEL_PAGE_MAP_PAGE_RANGE;
+> +	state->__page_arr = page_arr;
+> +	state->__nr_pages = min(nr_pages, state->nr_pages_remain);
 
-  	snprintf(path, sizeof(path), "%s/lnk", fmnt);
-  	if (unlink(path))
-  		die("unlink lnk");
-  	return NULL;
-  }
+So we expect all of them to be non-compound?
 
-  static void lookup(struct fuse_in_header *ih, const char *name)
-  {
-  	int w = atomic_load(&walker);
 
-  	if (ih->nodeid != ROOT_ID) {
-  		reply(ih->unique, -ENOENT, NULL, 0);
-  	} else if (!strcmp(name, "f1")) {
-  		reply_entry(ih->unique, F1_ID);
-  	} else if (!strcmp(name, "lnk")) {
-  		/* the walker revalidates lnk: unlink it, then answer */
-  		if (w && (int)ih->pid == w &&
-  		    atomic_compare_exchange_strong(&walker, &w, 0)) {
-  			pthread_t t;
+[...]
 
-  			if (pthread_create(&t, NULL, unlinker, NULL))
-  				die("pthread_create");
-  			pthread_join(t, NULL);
-  		} else if (!atomic_load(&lnk_present)) {
-  			reply(ih->unique, -ENOENT, NULL, 0);
-  			return;
-  		}
-  		reply_entry(ih->unique, LNK_ID);
-  	} else {
-  		reply(ih->unique, -ENOENT, NULL, 0);
-  	}
-  }
+> diff --git a/mm/internal.h b/mm/internal.h
+> index fc4e249e2343..557e629db8c5 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -1515,6 +1515,9 @@ int simple_ioremap_prepare(struct vm_area_desc *desc);
+>  int map_kernel_pages_prepare(struct vm_area_desc *desc);
+>  int map_kernel_pages_complete(struct vm_area_struct *vma,
+>  			      struct mmap_action *action);
+> +int map_discontig_kernel_pages_prepare(struct vm_area_desc *desc);
+> +int map_discontig_kernel_pages_complete(struct vm_area_struct *vma,
+> +					struct mmap_action *action);
+>  
+>  static inline int io_remap_pfn_range_prepare(struct vm_area_desc *desc)
+>  {
+> diff --git a/mm/memory.c b/mm/memory.c
+> index 448342883e9d..e5c1d1c35bc7 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -2599,27 +2599,34 @@ int vm_insert_pages(struct vm_area_struct *vma, unsigned long addr,
+>  
+>  	if (!range_in_vma(vma, addr, end))
+>  		return -EFAULT;
+> -	if (!(vma->vm_flags & VM_MIXEDMAP)) {
+> -		VM_WARN_ON_ONCE(mmap_read_trylock(vma->vm_mm));
+> -		VM_WARN_ON_ONCE(vma->vm_flags & VM_PFNMAP);
+> -		vm_flags_set(vma, VM_MIXEDMAP);
+> +	if (!vma_test(vma, VMA_MIXEDMAP_BIT)) {
+> +		mmap_assert_write_locked(vma->vm_mm);
+> +		VM_WARN_ON_ONCE(vma_test(vma, VMA_PFNMAP_BIT));
 
-  static void *server(void *arg)
-  {
-  	size_t size = FUSE_MIN_READ_BUFFER + 65536;
-  	char *buf = malloc(size);
-  	struct fuse_in_header *ih = (void *)buf;
-  	void *in = buf + sizeof(*ih);
+I would prefer to have these changes in a separate patch. Or is it strictly
+required to have this in this very patch?
 
-  	if (!buf)
-  		die("malloc");
-  	for (;;) {
-  		ssize_t n = read(ffd, buf, size);
 
-  		if (n < 0 && (errno == EINTR || errno == EAGAIN))
-  			continue;
-  		if (n < (ssize_t)sizeof(*ih))
-  			return NULL;
-  		switch (ih->opcode) {
-  		case FUSE_INIT: {
-  			struct fuse_init_out o = {
-  				.major = FUSE_KERNEL_VERSION,
-  				.minor = FUSE_KERNEL_MINOR_VERSION,
-  				.max_readahead = 65536,
-  				.max_write = 65536,
-  			};
+> +		vma_start_write(vma);
+> +		vma_set_flags(vma, VMA_MIXEDMAP_BIT);
+>  	}
+>  	/* Defer page refcount checking till we're about to map that page. */
+>  	return insert_pages(vma, addr, pages, num, vma->vm_page_prot);
+>  }
+>  EXPORT_SYMBOL(vm_insert_pages);
+>  
+> +static void __map_kernel_pages_prepare(struct vm_area_desc *desc)
+> +{
+> +	if (vma_desc_test(desc, VMA_MIXEDMAP_BIT))
+> +		return;
+> +
+> +	mmap_assert_write_locked(desc->mm);
+> +	VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
+> +	vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
+> +}
+> +
+>  int map_kernel_pages_prepare(struct vm_area_desc *desc)
+>  {
+>  	const struct mmap_action *action = &desc->action;
+>  	const unsigned long addr = action->map_kernel.start;
+>  	unsigned long nr_pages, end;
+>  
+> -	if (!vma_desc_test(desc, VMA_MIXEDMAP_BIT)) {
+> -		VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
+> -		VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
+> -		vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
+> -	}
+> +	__map_kernel_pages_prepare(desc);
+>  
+>  	nr_pages = action->map_kernel.nr_pages;
+>  	end = addr + PAGE_SIZE * nr_pages;
+> @@ -2640,6 +2647,98 @@ int map_kernel_pages_complete(struct vm_area_struct *vma,
+>  			    &nr_pages, vma->vm_page_prot);
+>  }
+>  
+> +int map_discontig_kernel_pages_prepare(struct vm_area_desc *desc)
+> +{
+> +	const struct mmap_action *action = &desc->action;
+> +	const struct discontig_kernel_page_ops *ops =
+> +		action->map_kernel_discontig.ops;
+> +
+> +	/* At minimum need to be able to get pages. */
+> +	if (WARN_ON_ONCE(!ops || !ops->get))
+> +		return -EINVAL;
+> +
+> +	__map_kernel_pages_prepare(desc);
+> +	return 0;
+> +}
+> +
+> +static int apply_discontig_action(struct vm_area_struct *vma,
+> +				  struct discontig_kernel_page_state *state)
+> +{
+> +	unsigned long nr_pages = state->__nr_pages;
+> +	unsigned long addr = state->addr;
+> +	unsigned long i;
+> +
+> +	if (state->action == DISCONTIG_KERNEL_PAGE_MAP_PAGE)
+> +		return insert_page(vma, addr, state->__page,
+> +				   vma->vm_page_prot, /*mkwrite=*/false);
+> +	if (state->action == DISCONTIG_KERNEL_PAGE_MAP_PAGE_RANGE)
+> +		return insert_pages(vma, addr, state->__page_arr,
+> +				    &nr_pages, vma->vm_page_prot);
+> +
+> +	/* Compound folio - have to iterate through each page. */
+> +	for (i = 0; i < nr_pages; i++, addr += PAGE_SIZE) {
+> +		struct page *page = folio_page(state->__folio, i);
+> +		int err;
+> +
+> +		err = insert_page(vma, addr, page, vma->vm_page_prot,
+> +				  /*mkwrite=*/false);
+> +		if (err)
+> +			return err;
+> +	}
 
-  			reply(ih->unique, 0, &o, sizeof(o));
-  			break;
-  		}
-  		case FUSE_LOOKUP:
-  			lookup(ih, in);
-  			break;
-  		case FUSE_GETATTR: {
-  			struct fuse_attr_out o = { .attr_valid = 3600 };
+Summarizing some of my comments below, I wonder if this could be:
 
-  			fill_attr(&o.attr, ih->nodeid);
-  			reply(ih->unique, 0, &o, sizeof(o));
-  			break;
-  		}
-  		case FUSE_READLINK:
-  			reply(ih->unique, 0, "f1", 2);
-  			break;
-  		case FUSE_OPEN: {
-  			struct fuse_open_out o = { .open_flags = FOPEN_DIRECT_IO };
+DISCONTIG_KERNEL_PAGE_MAP_PAGES - array of individual apges
+DISCONTIG_KERNEL_PAGE_MAP_CONTIG_PAGES - 1..N contiguous pages
 
-  			reply(ih->unique, 0, &o, sizeof(o));
-  			break;
-  		}
-  		case FUSE_READ: {
-  			struct fuse_read_in *ri = in;
 
-  			if (ri->offset >= 5)
-  				reply(ih->unique, 0, NULL, 0);
-  			else
-  				reply(ih->unique, 0, "UNDER" + ri->offset,
-  				      5 - ri->offset);
-  			break;
-  		}
-  		case FUSE_UNLINK:
-  			if (ih->nodeid == ROOT_ID && !strcmp(in, "lnk"))
-  				atomic_store(&lnk_present, 0);
-  			reply(ih->unique, 0, NULL, 0);
-  			break;
-  		case FUSE_FLUSH:
-  		case FUSE_RELEASE:
-  		case FUSE_ACCESS:
-  			reply(ih->unique, 0, NULL, 0);
-  			break;
-  		case FUSE_FORGET:
-  		case FUSE_BATCH_FORGET:
-  		case FUSE_INTERRUPT:
-  			break;
-  		default:
-  			reply(ih->unique, -ENOSYS, NULL, 0);
-  			break;
-  		}
-  	}
-  }
+if (state->action == DISCONTIG_KERNEL_PAGE_MAP_PAGES)
+	return insert_pages(vma, addr, state->__page_arr,
+			    &nr_pages, vma->vm_page_prot);
 
-  /* a child opens F'/lnk once the parent has told the server its pid */
-  static int walk(int tfd, int *err, char *buf)
-  {
-  	struct { int err; char buf[8]; } r;
-  	int go[2], res[2];
-  	pid_t pid;
+VM_WARN_ON_ONCE(state->action != DISCONTIG_KERNEL_PAGE_MAP_CONTIG_PAGES)
+for (i = 0; i < nr_pages; i++, addr += PAGE_SIZE) {
+	struct page *page = state->__page + i;
+	int err;
 
-  	if (pipe(go) || pipe(res))
-  		die("pipe");
-  	pid = fork();
-  	if (pid < 0)
-  		die("fork");
-  	if (!pid) {
-  		char c;
-  		int fd;
-
-  		memset(&r, 0, sizeof(r));
-  		if (read(go[0], &c, 1) != 1)
-  			_exit(1);
-  		fd = openat(tfd, "lnk", O_RDONLY);
-  		if (fd < 0)
-  			r.err = errno;
-  		else if (read(fd, r.buf, sizeof(r.buf) - 1) < 0)
-  			r.err = errno;
-  		_exit(write(res[1], &r, sizeof(r)) != sizeof(r));
-  	}
-  	atomic_store(&walker, pid);
-  	if (write(go[1], "", 1) != 1)
-  		die("go");
-  	if (read(res[0], &r, sizeof(r)) != sizeof(r))
-  		die("walker");
-  	waitpid(pid, NULL, 0);
-  	close(go[0]);
-  	close(go[1]);
-  	close(res[0]);
-  	close(res[1]);
-  	*err = r.err;
-  	memcpy(buf, r.buf, sizeof(r.buf));
-  	return atomic_load(&walker) ? -1 : 0;
-  }
-
-  int main(int argc, char **argv)
-  {
-  	char dir[] = "/tmp/unlink_symlink_XXXXXX", mark[80], opts[64];
-  	int rounds = 20, hits = 0, fd, c;
-
-  	while ((c = getopt(argc, argv, "n:")) != -1) {
-  		if (c != 'n')
-  			return 2;
-  		rounds = atoi(optarg);
-  	}
-  	alarm(120);
-  	if (unshare(CLONE_NEWNS) ||
-  	    mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
-  		die("unshare");
-  	if (!mkdtemp(dir) || mount("tmpfs", dir, "tmpfs", 0, "size=1M"))
-  		die("tmpfs");
-  	snprintf(fmnt, sizeof(fmnt), "%s/F", dir);
-  	snprintf(mark, sizeof(mark), "%s/mark", dir);
-  	fd = open(mark, O_CREAT | O_WRONLY, 0644);
-  	if (fd < 0 || write(fd, "MARK", 4) != 4 || close(fd) ||
-  	    mkdir(fmnt, 0755))
-  		die("mark");
-  	ffd = open("/dev/fuse", O_RDWR);
-  	if (ffd < 0)
-  		die("/dev/fuse");
-  	snprintf(opts, sizeof(opts),
-  		 "fd=%d,rootmode=40000,user_id=0,group_id=0", ffd);
-  	if (mount("fuse", fmnt, "fuse", 0, opts))
-  		die("mount fuse");
-  	for (int i = 0; i < 4; i++) {
-  		pthread_t t;
-
-  		if (pthread_create(&t, NULL, server, NULL))
-  			die("pthread_create");
-  	}
-
-  	for (int i = 0; i < rounds; i++) {
-  		char buf[8] = "";
-  		int tfd, mfd, err;
-
-  		atomic_store(&lnk_present, 1);
-  		tfd = syscall(SYS_open_tree, AT_FDCWD, fmnt, OPEN_TREE_CLONE);
-  		mfd = syscall(SYS_open_tree, AT_FDCWD, mark, OPEN_TREE_CLONE);
-  		if (tfd < 0 || mfd < 0)
-  			die("open_tree");
-  		/* no MOVE_MOUNT_T_SYMLINKS: MARK goes onto the symlink itself */
-  		if (syscall(SYS_move_mount, mfd, "", tfd, "lnk",
-  			    MOVE_MOUNT_F_EMPTY_PATH))
-  			die("move_mount");
-  		close(mfd);
-  		fd = openat(tfd, "lnk", O_RDONLY);
-  		if (fd < 0 || read(fd, buf, sizeof(buf) - 1) < 0)
-  			die("open F'/lnk");
-  		close(fd);
-  		if (strcmp(buf, "MARK")) {
-  			fprintf(stderr, "MARK is not mounted on lnk: read \"%s\"\n",
-  				buf);
-  			return 2;
-  		}
-
-  		if (walk(tfd, &err, buf)) {
-  			fprintf(stderr, "lnk was not revalidated\n");
-  			return 2;
-  		}
-  		if (!err && !strcmp(buf, "UNDER")) {
-  			if (!hits++)
-  				printf("round %d: read \"%s\" through the unlinked lnk\n",
-  				       i, buf);
-  		} else if (err != ENOENT) {
-  			printf("round %d: %s\n", i, err ? strerror(err) : buf);
-  		}
-  		close(tfd);
-  	}
-  	printf("unlink_symlink: %d rounds, %d followed the unlinked symlink\n",
-  	       rounds, hits);
-  	return hits ? 1 : 0;
-  }
-
-Fixes: 8189ab688f5a ("namei: don't reveal overmounted entries in refwalk")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- fs/namei.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/fs/namei.c b/fs/namei.c
-index 63c3648b363a..9487f3d8567f 100644
---- a/fs/namei.c
-+++ b/fs/namei.c
-@@ -2104,6 +2104,9 @@ static noinline const char *pick_link(struct nameidata *nd, struct path *link,
- static int unlink_may_reveal(struct nameidata *nd, int flags,
- 			     struct path *path, struct dentry *dentry)
- {
-+	/* rcuwalk catches this via d_seq */
-+	if (nd->flags & LOOKUP_RCU)
-+		return 0;
- 	/* ".." and LOOKUP_DOWN may land on an unhashed directory */
- 	if (flags & WALK_NOFOLLOW)
- 		return 0;
-@@ -2137,6 +2140,9 @@ static noinline const char *step_into_slowpath(struct nameidata *nd, int flags,
- 	err = handle_mounts(nd, dentry, &path);
- 	if (unlikely(err < 0))
- 		return ERR_PTR(err);
-+	err = unlink_may_reveal(nd, flags, &path, dentry);
-+	if (unlikely(err))
-+		return ERR_PTR(err);
- 	inode = path.dentry->d_inode;
- 	if (likely(!d_is_symlink(path.dentry)) ||
- 	   ((flags & WALK_TRAILING) && !(nd->flags & LOOKUP_FOLLOW)) ||
-@@ -2148,9 +2154,6 @@ static noinline const char *step_into_slowpath(struct nameidata *nd, int flags,
- 			if (unlikely(!inode))
- 				return ERR_PTR(-ENOENT);
- 		} else {
--			err = unlink_may_reveal(nd, flags, &path, dentry);
--			if (unlikely(err))
--				return ERR_PTR(err);
- 			dput(nd->path.dentry);
- 			if (nd->path.mnt != path.mnt)
- 				mntput(nd->path.mnt);
+	err = insert_page(vma, addr, page, vma->vm_page_prot,
+			  /*mkwrite=*/false);
+	if (err)
+		return err;
+}
+...
 
 -- 
-2.53.0
+Cheers,
 
+David
