@@ -1,182 +1,149 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584EB3B14C7
-	for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 08:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90C138F64E
+	for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 09:04:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791880270; cv=none; b=M1d5TB0yH5ki/kbVhrhbnZZHGeYlKFlsiq0o+gvr0QTMdHf5SvH2OHiq0Cl+1qFzk25azjqftXkYwAMw8/kOiECW9h0hj3aRVT737gKE6aXvEM6UxLPFJrha7ajK7Y9xfE6aqbtcd7tPa9m2wZIGkC78pl6xzGZETe9cx17GthI=
+	t=1791882296; cv=none; b=aJrkYEYr/hkCV26CCJpYePWyFk+LMEtd7jb3jxO8ajaSG64TQGwUxplJtYMQCMSJhe4P9XFxAWvJTUKp9VDYntiDriCOS8nEvyenykOeiVikj7Nk3rHTH5BzbpABWkIGNva1NydQyOXMOFk4kJZ3ZMziHERi+lb0O9ANqbdjv7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791880270; c=relaxed/simple;
-	bh=JcZPzrB9Dd9a9OfWi12HzIC3fK4a6Mr3og+EUDlw9eM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=iKKSZTUYuUZjFJpMgwh96MaU2fqrTPJhR/MTvGf1K0tcm20eFIt4mOvasAWrAITfRlco4GuRoasgsh/3mZAF4ESL7JIMFeJq5ftJPWvtTM79TIkYJ0qfQ1L6yEUgI3Kv/jCfv0RQzsvWWRteODuoxjmMCzUTHOAK+zZ4bapwVIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=LxdG08FD; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1791882296; c=relaxed/simple;
+	bh=GEyscDG3hRct4i5PqeupCLPTXDZZMD3LI88vgtxk/oI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GHeFCcWhQEisSD4FPhiNHXtNNS9/cAPJPaNr9fOeGQ5szFh1rQpycWpewAGLG4Zqeozpsn42j6HMvbiaqwp+LRvPX8w3F3j9mKCTJ+GDJEcXAwhts8YW/+SRT7K89t2G4a8Tu6Y4R4X0VIfdjsUlKN90B1vsDsOW//Dt4FvMVOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sABG/+OW; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="LxdG08FD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=inlBZjECS9IA+4kifyZk1C6e6UzMNrkwX7p/wPFT3o8=; b=LxdG08FDA7e96rFfCW1xPOky5E
-	1KysO+QfrIJCorVE2NwMjv4wmuCx0lRQZH5Paa8ydOXlRxMJY7SmPXy3I6yxroUBKFMIQ399xxAtK
-	iY1ShgFW8zOi30BIjvbHDT5Bdal7CUzzwUU52S8c0bmbxKAqPR8TuXWEuRgVERtagbK9G4sHcaGzt
-	WdXGYrwq5kVURf9NebmYPvL5L9oVyBVHWeZh9Rmp5wlgnNzKVmF58D8MP+sKKZacVQ0235F4bLO7L
-	URsMmslOQ+5WiRYNqBITvDc5ASDOO5+uBDuY/RVkgtKG9j17wnHbLfqT60JiX6ESGwh1Du2G14r5j
-	UjPJFr4w==;
-Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xGXuP-00GxdY-H1; Tue, 13 Oct 2026 10:30:53 +0200
-From: Luis Henriques <luis@igalia.com>
-To: Baokun Li <libaokun@linux.alibaba.com>
-Cc: Bernd Schubert <bernd@bsbernd.com>,  fuse-devel@lists.linux.dev,
-  miklos@szeredi.hu
-Subject: Re: [PATCH 2/2] test: exercise FUSE_NOTIFY_RESEND
-In-Reply-To: <a36fd07e-3721-4362-9b81-5c8569faeef8@linux.alibaba.com>
-References: <20261009075417.2521879-1-libaokun@linux.alibaba.com>
-	<20261009075417.2521879-3-libaokun@linux.alibaba.com>
-	<d11dc230-0e80-4520-bb25-d25809762726@bsbernd.com>
-	<e4922458-9c88-43d5-a521-d96ee7b5d0d1@linux.alibaba.com>
-	<87h5ivugln.fsf@igalia.com>
-	<a36fd07e-3721-4362-9b81-5c8569faeef8@linux.alibaba.com>
-Date: Tue, 13 Oct 2026 09:32:10 +0100
-Message-ID: <877bjmngqd.fsf@igalia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sABG/+OW"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-313bab9cfe7so292959eec.3
+        for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 02:04:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791882294; x=1792487094; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dxhG2H1+Sm23DRdhBURFp45TF5bOWuOpjOESI+s8Fjw=;
+        b=sABG/+OW4x2mmcETyJwe9PdS3it3WEaQUBVnkrTvVk8AsEoRXBgUeX1x2sBUyEcrD5
+         /rninVvx4gDfhO9CfpMjqrDhM3d8+Osm1GQXsFSOigvvaUqTKzsJJEYNOE4NcqQDOqxJ
+         H27xiulAYTkL6D5SScXchsIKcIdxbKhTBfr+kJdML2YA/DhfrRjN9VRTID1J5b+x8cO4
+         EJl16mpYIsojq1cGiV5jiYib9reuLCERuz80lUT1mKUVy5oDWml1JRbGD+i7IyvNYgEm
+         hoXcmVhTFb0/bXkaHpvGtWXWrITrZX1m5oX+TIjfpU52uJ+2jUTTWvosyix9ClfV9hQ2
+         eVSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791882294; x=1792487094;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dxhG2H1+Sm23DRdhBURFp45TF5bOWuOpjOESI+s8Fjw=;
+        b=mx8p0S9AQwDIEjC2Zx70rO2Jioc7pMH/pUzsDdYVOqGTKnF7tweW6d1g2Fck4lCGp5
+         pncEt9lPbQB7CDll8gxEAFpJLTxbkk9ChNADkRP7iVCzyxEXi6ZDAXa8ZHwiBtzgeZ54
+         AyR82cosxbRTiUbF4pih5VYO6WRYC0Kg/d1r9hRT3tCCe7lupYpcShCtgXab62oHV3CU
+         DnGCFhhh8qXJ8Zyav8/nWx52zP/MtXYe/jFvKgFWZsZbBrE/I/xnhyQ+6qtF64PQhLrd
+         UmoZHoHN8K9LhlQ4vbTnLWHlz42pjRZq6U+vaInZxPQUq/OVzq+RDN6UhzuYv5Ka934b
+         /+QQ==
+X-Gm-Message-State: AFq9FYIBe7gfYMsJY6TZVOQCt6o1k7fBe5AtAuXFtbLL4atOt6wXlY78
+	BgXtcEJOAjxKP15PgnY7z+nt2E/u2ch8lBfe+wTrrs3GWM2o6HlVo+Zq
+X-Gm-Gg: AYBFou3U+qqpeHYjPrODsFOF/BbZplmKhrE6SigqUfT2Sl9DJjqPjWWrV1zImF2reMG
+	PHXnGr0YEjaCLkX6axDwLp+j+Mps2zqPDmtI9cEEluDi2gaTV+pWNYF1nw3pp1/x0tMK1Cs9yGh
+	ll6CW1lPkYaDIlUUmUAt7FBvTVSUFNUmR4BZyFY7HVZG0yKkdn4vuqpNCauu1t8PndBIJgc8PAm
+	WC7YSg1HZRTi4bQ1JxTnkMTgMGGnTBbAskw1xs7+FvblK7ODmW2+EcRsqXVicIJi7VK0mM1nCbm
+	qEnw4Ukz+ibpM2Q9kpke0SsI7BGPMk7JtYMANpHHuVXqRpN8Hs8LSyqx0KQLlEYUJE0pGEOvvZM
+	HOInbWopeSy9FW+Azo3Bg/uxmIhXCQHOYgVSeERV06axNDwRVOKJaVOO8vyTg9YJsxh0f7GpfHK
+	oS+dKNkNFTAhCgC6raiazPtARFeoSdEl8r5Sv4xwWSvedNd3+k5E07EuPU09I90G5mo+jae1b+P
+	0p54S3nAdvN/ABPzpXE6KWZYOxkLgJQSYt773p7No6vCRWEVpKBXEjC+/dmi8Xg
+X-Received: by 2002:a05:701b:21ce:b0:149:c766:2965 with SMTP id a92af1059eb24-17a0d84a29amr2902969c88.2.1791882293581;
+        Tue, 13 Oct 2026 02:04:53 -0700 (PDT)
+Received: from localhost.localdomain (45.78.65.84.16clouds.com. [45.78.65.84])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a2d2db98sm35211947c88.10.2026.10.13.02.04.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Oct 2026 02:04:52 -0700 (PDT)
+From: Chengfeng Ye <nicoyip.dev@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chengfeng Ye <nicoyip.dev@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] fuse: fix copy_file_range reply handling race
+Date: Tue, 13 Oct 2026 17:04:47 +0800
+Message-ID: <20261013090447.1180121-1-nicoyip.dev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 10 2026, Baokun Li wrote:
+__fuse_copy_file_range() selects its request opcode and output buffer
+using fc->no_copy_file_range_64, then reads the flag again to handle the
+reply. Copies to different destination inodes can run concurrently on
+the same connection, so the flag may change while a request is pending.
 
-> Hi Lu=C3=ADs,
->
-> On 2026/10/9 21:51, Luis Henriques wrote:
->> Hi!
->>
->> On Fri, Oct 09 2026, Baokun Li wrote:
->>
->>> Hi=C2=A0Bernd,
->>>
->>> On 2026/10/9 16:19, Bernd Schubert wrote:
->>>> Hi Baokun,
->>>>
->>>> On 10/9/26 09:54, Baokun Li wrote:
->>>>> test_notify_resend drops the first GETATTR of a file and asks the
->>>>> kernel to resend pending requests via fuse_lowlevel_notify_resend().
->>>>> The kernel redelivers the request with the FUSE_UNIQUE_RESEND bit set;
->>>>> the daemon detects it with fuse_req_is_resend(), answers it, and the
->>>>> client's stat() completes.
->>>> to be honest, this is one the features that I have no clue about what =
-it
->>>> exists for. Why would a daemon drop requests?=20
->>> The daemon does not drop them on purpose - they are lost because it
->>> dies with the requests in flight.=C2=A0 This is the failover scenario t=
-he
->>> feature was added for: the old daemon has already read a request from
->>> /dev/fuse, but panics before replying to it.
->>>
->>> Meanwhile the file descriptor of the connection is preserved - by
->>> another daemon, or simply by the service manager: systemd's file
->>> descriptor store keeps the /dev/fuse fd across a daemon restart
->>> (FDSTORE=3D1, retrieved again with sd_listen_fds()).
->>>
->>> A newly started daemon then takes the fd over and keeps serving
->>> new requests; the requests the old daemon had already read can be
->>> recovered with FUSE_NOTIFY_RESEND (760eac73f9f6, "fuse: Introduce a
->>> new notification type for resend pending requests").
->>>
->>>> The use-case I have in my mind is a daemon upgrade,=20
->>> Yes, a daemon upgrade is indeed one of the scenarios.=C2=A0 It is the s=
-ame
->>> flow as the failover case above, only planned: the old daemon hands
->>> the fd over to the new daemon instead of dying with it.
->>>
->>>> but that would mean that either kernel needs
->>>> to send a re-lookup of all inodes or that daemon needs to store lookup
->>>> objects (I personally see these as counter part of kernel inodes). Now,
->>>> besides not being implemented at all, kernel will have a hard time to
->>>> send re-lookup requests, unless fuse-server supports lookup by 64 bit
->>>> node-id.
->>> You're right that the new daemon can only answer the resent
->>> requests if it can still map their node IDs (and other state) to
->>> its own objects - that is the "daemon stores lookup objects" side
->>> you mention, and it is deliberately left to the daemon.
->>>
->>> FUSE_NOTIFY_RESEND does not attempt to solve state preservation -
->>> it only guarantees delivery of the requests that would otherwise
->>> be unreachable forever, no matter how much state the daemon kept.
->>>
->>>> I.e. in my personal opinion the prerequisite of FUSE_NOTIFY_RESEND is
->>>> missing (which could be LOOKUP_HANDLE and then using that to re-lookup
->>>> inodes after a daemon termination).
->>> Something like LOOKUP_HANDLE, where the kernel and the daemon pass
->>> file handles directly so no node ID mapping is needed, would be
->>> ideal.=C2=A0 However, I think a persistent node ID mapping on the daemon
->>> side would also work.
->>>
->>>> The example below also just does a simple exercise of
->>>> FUSE_NOTIFY_RESEND, without revealing what it would be useful for - th=
-at
->>>> is the part I would like to see fulfilled by an example.
->>>>
->>> Yes, it only checks that the API works.=C2=A0 It has no fd preservation
->>> mechanism and no persistent node ID mapping either.
->>>
->>> A full takeover setup needs the fd and state handover, which is daemon
->>> specific and not something a libfuse test can realistically contain,
->>> so I think explaining the model in the test and the commit message is
->>> the right scope.=C2=A0 Let me know if you would prefer something differ=
-ent.
->> Thank you, Baokun, for the above description (and Bernd for explicitly
->> CC'ing me to a patchset that I could have missed!).
->>
->> I had a PR [1] created long time ago that included something similar to
->> your first patch in this set.=20=20
->
-> Sorry for missing your PR #1219.=C2=A0 We had been using resend through
-> the early sysfs based scheme all along; only recently, when moving
-> to a newer kernel and preparing the switch to the notify based one,
-> did we find that libfuse had no API for it - hence this patch.
+For example, task A submits FUSE_COPY_FILE_RANGE_64 and waits for its
+reply. Task B submits the same opcode, receives -ENOSYS and sets
+no_copy_file_range_64. When A receives a successful reply, it reads the
+uninitialized outarg.size instead of outarg_64.bytes_copied. This can
+produce an incorrect return value, page cache invalidation range and
+inode size update, and disclose stack contents if automatic stack
+initialization is disabled.
 
-Sure, no problem.  That PR has been stale, and I'm fine with your patch.
-Feel free to add my 'Acked-by:'.
+If A also receives -ENOSYS, it instead mistakes that reply for rejection
+of the legacy opcode and sets no_copy_file_range, skipping the legacy
+fallback and unnecessarily disabling copy offload for the connection.
 
->> The difference was that I also tried to
->> solve yet another problem: setting the fd back into libfuse-specific data
->> structures (i.e. re-initialise libfuse itself).
->
-> The RFC looks good to me.=C2=A0 I did not implement
-> fuse_session_reinitialize, because our daemon restores the session in
-> a hacky way, so we had no need for the interface - but adding it would
-> clearly be better.
->
->> This was an RFC, which later made me start looking into the LOOKUP_HANDL=
-E.
->> Which is currently stale, but hopefully to resume soon.
->>
->> [1] https://github.com/libfuse/libfuse/pull/1219
->>
->> Cheers,
->
-> Note that resend is not strongly tied to LOOKUP_HANDLE: we have been
-> using it without LOOKUP_HANDLE for several years, with the daemon
-> keeping its own state across restarts.
+KCSAN reported the conflicting accesses:
 
-Yes, absolutely.  If you keep the state on user-space and if nodeids are
-always unique and not reused, then LOOKUP_HANDLE is not really required.
+  BUG: KCSAN: data-race in __fuse_copy_file_range / __fuse_copy_file_range
 
-> That said, LOOKUP_HANDLE is indeed valuable - we have a similar
-> mechanism on our side as well.
+  read to 0xffff8881014a4d4d of 1 bytes by task 123 on cpu 4:
+   __fuse_copy_file_range+0x1a7/0x6e0
+   fuse_copy_file_range+0x54/0xd0
+   vfs_copy_file_range+0x290/0x9d0
+   __do_sys_copy_file_range+0x10f/0x2f0
 
-Yeah, this will make it easier for new servers to support a restart
-without extra complexities.
+  write to 0xffff8881014a4d4d of 8 bytes by task 119 on cpu 0:
+   __fuse_copy_file_range+0x633/0x6e0
+   fuse_copy_file_range+0x54/0xd0
+   vfs_copy_file_range+0x290/0x9d0
+   __do_sys_copy_file_range+0x10f/0x2f0
 
-Cheers,
---=20
-Lu=C3=ADs
+The bug can lead to leak kernel base address for KASLR bypass, the 
+corresponding reproducer can be provided per request.
+
+Use args.opcode for both -ENOSYS handling and output buffer selection.
+It records the opcode actually sent and is updated on fallback, keeping
+each reply tied to its request regardless of concurrent flag updates.
+
+Fixes: 7a37f55af7af ("fuse: add COPY_FILE_RANGE_64 that allows large copies")
+Cc: stable@vger.kernel.org
+Assisted-by: GPT-6 Astra
+Signed-off-by: Chengfeng Ye <nicoyip.dev@gmail.com>
+---
+ fs/fuse/file.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 9a36d0329e221..939391b48cc9b 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -3019,7 +3019,7 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+ 	}
+ 	err = fuse_simple_request(fm, &args);
+ 	if (err == -ENOSYS) {
+-		if (fc->no_copy_file_range_64) {
++		if (args.opcode == FUSE_COPY_FILE_RANGE) {
+ 			fc->no_copy_file_range = 1;
+ 			err = -EOPNOTSUPP;
+ 		} else {
+@@ -3030,7 +3030,7 @@ static ssize_t __fuse_copy_file_range(struct file *file_in, loff_t pos_in,
+ 	if (err)
+ 		goto out;
+ 
+-	bytes_copied = fc->no_copy_file_range_64 ?
++	bytes_copied = args.opcode == FUSE_COPY_FILE_RANGE ?
+ 		outarg.size : outarg_64.bytes_copied;
+ 
+ 	if (bytes_copied > len) {
+-- 
+2.43.0
+
