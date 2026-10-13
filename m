@@ -1,177 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905904D37B3;
-	Mon, 12 Oct 2026 19:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584EB3B14C7
+	for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 08:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791832324; cv=none; b=SmJ4/klyXVJvnXRNACJv51OPrSHbPxyo7xhvDCPIUcO2n+CJbw/hEWpgAGm2xzkk+UtFFVcEggOh+JfjVW0kxbFFi0ANADDJi4Hvu80Wht6C6fc2wqJD8cFJr4t8pHSJn5GPxZcd0h1jopEa/h7BHOhISv0PYM+vAW34dhFkk0s=
+	t=1791880270; cv=none; b=M1d5TB0yH5ki/kbVhrhbnZZHGeYlKFlsiq0o+gvr0QTMdHf5SvH2OHiq0Cl+1qFzk25azjqftXkYwAMw8/kOiECW9h0hj3aRVT737gKE6aXvEM6UxLPFJrha7ajK7Y9xfE6aqbtcd7tPa9m2wZIGkC78pl6xzGZETe9cx17GthI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791832324; c=relaxed/simple;
-	bh=FdkP+D43EN+xQd/ndnjr780pUFvJoTrEDYoQqVAKW9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l0UQiJo/+lDQDa5CJ9dKoqj/m51mCTrh3Sx6jpn1CoJKCwTk1aBgCJTTPutRND9ZIt/o43Oc4InVsPyeofAztQJZD8ih39/qeGtvXFKngLN2FM19E10q0DeZ4N/KuJegboSEoC0SZnFkvlhTGVPQ7ZqQ19zsS8yKEjO5T9yEnv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BEu0ArYB; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791880270; c=relaxed/simple;
+	bh=JcZPzrB9Dd9a9OfWi12HzIC3fK4a6Mr3og+EUDlw9eM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iKKSZTUYuUZjFJpMgwh96MaU2fqrTPJhR/MTvGf1K0tcm20eFIt4mOvasAWrAITfRlco4GuRoasgsh/3mZAF4ESL7JIMFeJq5ftJPWvtTM79TIkYJ0qfQ1L6yEUgI3Kv/jCfv0RQzsvWWRteODuoxjmMCzUTHOAK+zZ4bapwVIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=LxdG08FD; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BEu0ArYB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58B361F0089B;
-	Mon, 12 Oct 2026 19:11:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791832322;
-	bh=t5mO4SpyqVviWjSaaEv8n4NUJ8+LaAHDu09XG7kSbFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BEu0ArYB5XZKL/22X+idpyNhILy00Ml5Fj2jTZ7Fk/4tKlvNrtbcuHyIbatS1i6+H
-	 EgraXbynE/kQHml4oxd8zg6gA+C0hu9dN4/bgco2QE++oQB5bH8DxThhNACrQfpLo5
-	 XjczelQ46llI8hh5qdyeZlOGyGOojXJ0MYtBFM6yqvzpX+4jdT2meUTVQWDtflbCXM
-	 6iF5pmWBFtkh91Se1FhzLeFVS17tfaVz+ddcjoVeEnKq4qW/b4a4Az4vnWO1vg7GEy
-	 PxJnHj6TKtLcX2c2xZZNIY6SbIQi0/ch6peXKK7YGg1Kjv6Q5wlicS2sXtSXi+SohG
-	 UEkXkdb5KImtQ==
-Date: Mon, 12 Oct 2026 20:11:27 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Bert Karwatzki <spasswolf@web.de>, 
-	Emil Tsalapatis <emil@etsalapatis.com>
-Subject: Re: [PATCH v5 13/38] bpf: arena: mark arena_map_mmap() mappings
- VM_MIXEDMAP
-Message-ID: <as0uGOcxjg74Xw7_@gremlin>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
- <20261009-b4-mmap-prepare-vma-flag-sanify-v5-13-923b70125b1e@kernel.org>
- <5b8ef0ce-7429-4d74-b4da-a0561c59b1e2@kernel.org>
- <as0Buhi_-VCC7xLZ@gremlin>
- <4124106e-c51e-4476-bd67-63e4641bf14a@kernel.org>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="LxdG08FD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=inlBZjECS9IA+4kifyZk1C6e6UzMNrkwX7p/wPFT3o8=; b=LxdG08FDA7e96rFfCW1xPOky5E
+	1KysO+QfrIJCorVE2NwMjv4wmuCx0lRQZH5Paa8ydOXlRxMJY7SmPXy3I6yxroUBKFMIQ399xxAtK
+	iY1ShgFW8zOi30BIjvbHDT5Bdal7CUzzwUU52S8c0bmbxKAqPR8TuXWEuRgVERtagbK9G4sHcaGzt
+	WdXGYrwq5kVURf9NebmYPvL5L9oVyBVHWeZh9Rmp5wlgnNzKVmF58D8MP+sKKZacVQ0235F4bLO7L
+	URsMmslOQ+5WiRYNqBITvDc5ASDOO5+uBDuY/RVkgtKG9j17wnHbLfqT60JiX6ESGwh1Du2G14r5j
+	UjPJFr4w==;
+Received: from bl21-120-122.dsl.telepac.pt ([2.82.120.122] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1xGXuP-00GxdY-H1; Tue, 13 Oct 2026 10:30:53 +0200
+From: Luis Henriques <luis@igalia.com>
+To: Baokun Li <libaokun@linux.alibaba.com>
+Cc: Bernd Schubert <bernd@bsbernd.com>,  fuse-devel@lists.linux.dev,
+  miklos@szeredi.hu
+Subject: Re: [PATCH 2/2] test: exercise FUSE_NOTIFY_RESEND
+In-Reply-To: <a36fd07e-3721-4362-9b81-5c8569faeef8@linux.alibaba.com>
+References: <20261009075417.2521879-1-libaokun@linux.alibaba.com>
+	<20261009075417.2521879-3-libaokun@linux.alibaba.com>
+	<d11dc230-0e80-4520-bb25-d25809762726@bsbernd.com>
+	<e4922458-9c88-43d5-a521-d96ee7b5d0d1@linux.alibaba.com>
+	<87h5ivugln.fsf@igalia.com>
+	<a36fd07e-3721-4362-9b81-5c8569faeef8@linux.alibaba.com>
+Date: Tue, 13 Oct 2026 09:32:10 +0100
+Message-ID: <877bjmngqd.fsf@igalia.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4124106e-c51e-4476-bd67-63e4641bf14a@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 12, 2026 at 08:56:23PM +0200, David Hildenbrand (Arm) wrote:
-> On 10/12/26 17:55, Lorenzo Stoakes (ARM) wrote:
-> > On Mon, Oct 12, 2026 at 05:08:09PM +0200, David Hildenbrand (Arm) wrote:
-> >> On 10/9/26 20:04, Lorenzo Stoakes (ARM) wrote:
-> >
-> >>> diff --git a/kernel/bpf/arena.c b/kernel/bpf/arena.c
-> >>> index 7b6847200b43..b69fe5e34339 100644
-> >>> --- a/kernel/bpf/arena.c
-> >>> +++ b/kernel/bpf/arena.c
-> >>> @@ -620,8 +620,9 @@ static int arena_map_mmap(struct bpf_map *map, struct vm_area_struct *vma)
-> >>>  	 * clears VM_MAYEXEC. Set VM_DONTEXPAND to avoid potential change
-> >>>  	 * of user_vm_start. Set VM_DONTCOPY to prevent arena VMA from
-> >>>  	 * being copied into the child process on fork.
-> >>> +	 * This is a kernel page so set VM_MIXEDMAP.
-> >>>  	 */
-> >>> -	vm_flags_set(vma, VM_DONTEXPAND | VM_DONTCOPY);
-> >>> +	vm_flags_set(vma, VM_MIXEDMAP | VM_DONTEXPAND | VM_DONTCOPY);
-> >>>  	vma->vm_ops = &arena_vm_ops;
-> >>>  	return 0;
-> >>>  }
-> >>>
-> >>
-> >> Historically, VM_MIXEDMAP really just means: can contain refcounted and
-> >> non-refcounted things. Everything with a struct page is refcounted.
-> >>
-> >> I think we are now changing the semantics to mean "maps kernel pages". I think
-> >
-> > Yes.
-> >
-> > It was sort of implicit before given insert_page() etc. but still really meaning
-> > that it _might_ be both.
+On Sat, Oct 10 2026, Baokun Li wrote:
+
+> Hi Lu=C3=ADs,
 >
-> Yeah, it's in the name. Mixed: pfn and/or ordinary.
-
-Well the name is confusing as a great many users never mix anything, and it's
-far from obvious you need to set one.
-
-Anyway, one for later. Maybe a mask like VMA_NON_MM_MANAGED_MASK or something
-better than that...
-
+> On 2026/10/9 21:51, Luis Henriques wrote:
+>> Hi!
+>>
+>> On Fri, Oct 09 2026, Baokun Li wrote:
+>>
+>>> Hi=C2=A0Bernd,
+>>>
+>>> On 2026/10/9 16:19, Bernd Schubert wrote:
+>>>> Hi Baokun,
+>>>>
+>>>> On 10/9/26 09:54, Baokun Li wrote:
+>>>>> test_notify_resend drops the first GETATTR of a file and asks the
+>>>>> kernel to resend pending requests via fuse_lowlevel_notify_resend().
+>>>>> The kernel redelivers the request with the FUSE_UNIQUE_RESEND bit set;
+>>>>> the daemon detects it with fuse_req_is_resend(), answers it, and the
+>>>>> client's stat() completes.
+>>>> to be honest, this is one the features that I have no clue about what =
+it
+>>>> exists for. Why would a daemon drop requests?=20
+>>> The daemon does not drop them on purpose - they are lost because it
+>>> dies with the requests in flight.=C2=A0 This is the failover scenario t=
+he
+>>> feature was added for: the old daemon has already read a request from
+>>> /dev/fuse, but panics before replying to it.
+>>>
+>>> Meanwhile the file descriptor of the connection is preserved - by
+>>> another daemon, or simply by the service manager: systemd's file
+>>> descriptor store keeps the /dev/fuse fd across a daemon restart
+>>> (FDSTORE=3D1, retrieved again with sd_listen_fds()).
+>>>
+>>> A newly started daemon then takes the fd over and keeps serving
+>>> new requests; the requests the old daemon had already read can be
+>>> recovered with FUSE_NOTIFY_RESEND (760eac73f9f6, "fuse: Introduce a
+>>> new notification type for resend pending requests").
+>>>
+>>>> The use-case I have in my mind is a daemon upgrade,=20
+>>> Yes, a daemon upgrade is indeed one of the scenarios.=C2=A0 It is the s=
+ame
+>>> flow as the failover case above, only planned: the old daemon hands
+>>> the fd over to the new daemon instead of dying with it.
+>>>
+>>>> but that would mean that either kernel needs
+>>>> to send a re-lookup of all inodes or that daemon needs to store lookup
+>>>> objects (I personally see these as counter part of kernel inodes). Now,
+>>>> besides not being implemented at all, kernel will have a hard time to
+>>>> send re-lookup requests, unless fuse-server supports lookup by 64 bit
+>>>> node-id.
+>>> You're right that the new daemon can only answer the resent
+>>> requests if it can still map their node IDs (and other state) to
+>>> its own objects - that is the "daemon stores lookup objects" side
+>>> you mention, and it is deliberately left to the daemon.
+>>>
+>>> FUSE_NOTIFY_RESEND does not attempt to solve state preservation -
+>>> it only guarantees delivery of the requests that would otherwise
+>>> be unreachable forever, no matter how much state the daemon kept.
+>>>
+>>>> I.e. in my personal opinion the prerequisite of FUSE_NOTIFY_RESEND is
+>>>> missing (which could be LOOKUP_HANDLE and then using that to re-lookup
+>>>> inodes after a daemon termination).
+>>> Something like LOOKUP_HANDLE, where the kernel and the daemon pass
+>>> file handles directly so no node ID mapping is needed, would be
+>>> ideal.=C2=A0 However, I think a persistent node ID mapping on the daemon
+>>> side would also work.
+>>>
+>>>> The example below also just does a simple exercise of
+>>>> FUSE_NOTIFY_RESEND, without revealing what it would be useful for - th=
+at
+>>>> is the part I would like to see fulfilled by an example.
+>>>>
+>>> Yes, it only checks that the API works.=C2=A0 It has no fd preservation
+>>> mechanism and no persistent node ID mapping either.
+>>>
+>>> A full takeover setup needs the fd and state handover, which is daemon
+>>> specific and not something a libfuse test can realistically contain,
+>>> so I think explaining the model in the test and the commit message is
+>>> the right scope.=C2=A0 Let me know if you would prefer something differ=
+ent.
+>> Thank you, Baokun, for the above description (and Bernd for explicitly
+>> CC'ing me to a patchset that I could have missed!).
+>>
+>> I had a PR [1] created long time ago that included something similar to
+>> your first patch in this set.=20=20
 >
-> >
-> >> this is fine, but we really have to update the documentation (and possibly
-> >> rename this thing to something more expressive?)
-> >
-> > Yeah I completely agree.
-> >
-> > I will rename it, but I think that's best for 7.5 obviously! :)
+> Sorry for missing your PR #1219.=C2=A0 We had been using resend through
+> the early sysfs based scheme all along; only recently, when moving
+> to a newer kernel and preparing the switch to the notify based one,
+> did we find that libfuse had no API for it - hence this patch.
+
+Sure, no problem.  That PR has been stale, and I'm fine with your patch.
+Feel free to add my 'Acked-by:'.
+
+>> The difference was that I also tried to
+>> solve yet another problem: setting the fd back into libfuse-specific data
+>> structures (i.e. re-initialise libfuse itself).
 >
-> Yes.
+> The RFC looks good to me.=C2=A0 I did not implement
+> fuse_session_reinitialize, because our daemon restores the session in
+> a hacky way, so we had no need for the interface - but adding it would
+> clearly be better.
 >
-> VM_PFNMAP / VM_MIXEDMAP - These contain kernel-mapped data which cannot be
-> 			  reasonably reconstructed on page fault.
+>> This was an RFC, which later made me start looking into the LOOKUP_HANDL=
+E.
+>> Which is currently stale, but hopefully to resume soon.
+>>
+>> [1] https://github.com/libfuse/libfuse/pull/1219
+>>
+>> Cheers,
 >
-> the description is already pretty clear. just not that kernel-mapped pages
-> *must* use one of these.
+> Note that resend is not strongly tied to LOOKUP_HANDLE: we have been
+> using it without LOOKUP_HANDLE for several years, with the daemon
+> keeping its own state across restarts.
 
-I think mixed map could do with a rename because it implies it _is_ mixed rather
-than could be.
+Yes, absolutely.  If you keep the state on user-space and if nodeids are
+always unique and not reused, then LOOKUP_HANDLE is not really required.
 
-But again one for the future!
+> That said, LOOKUP_HANDLE is indeed valuable - we have a similar
+> mechanism on our side as well.
 
->
-> (again, the ->fault thing returning allcoated kernel memory is nasty)
+Yeah, this will make it easier for new servers to support a restart
+without extra complexities.
 
-Yeah added to my todo to fix that. Hateful.
-
---
-Cheers, Lorenzo
+Cheers,
+--=20
+Lu=C3=ADs
