@@ -1,194 +1,151 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356D644B68D
-	for <fuse-devel@lists.linux.dev>; Wed, 14 Oct 2026 06:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791960196; cv=pass; b=GohNWPJU0GHJfjPdWq7FSDEBb70ClTNy5QiyUiqlcP6r2H3y6pADMsa6Hv0ydyzxKX69wlb/Xc57HOgafVB7G0s+3McOxfCfHRkAnpzFgLsUIMLMlW0k6XObwYwt/rod5coKxJkNtwKyHu38larGR0GMUfMNDYLqf4vQqi0P/WQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791960196; c=relaxed/simple;
-	bh=kF9c+8KKO+ipWwSE4hjYVCkfFFSKZ4K0zjQHaC5WzaA=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07E54D4868
+	for <fuse-devel@lists.linux.dev>; Wed, 14 Oct 2026 09:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791970005; cv=none; b=Hcx76FLh15SUccNFwypMsizk+PHPR1Qj9d4/5XAx4/vbQU1kvDSGc9ddqfjo7hrD1edCzv9bteWbqB8HJl1GZw/C4yoneLOTGfBPQrKulLLmxrkq66DNI77CVrL3Ni7lnXRCv5ZUqQiZo6wevPyYA4DdrOOX4jvwJwS9SCzf8wE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791970005; c=relaxed/simple;
+	bh=42HZk7Eqx7sOIWk8sWRefK14hjH25QPd21VNFE4YkZs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AUVrHB79Sg5ejZkOulnZWCpgGkfrxlhMQTBvd19zvcMrpSLyka7kEGcpJf5IBSO+g5gAcqLGz816l5dyMisSJNBszFYNWnVy3GgFjbmvuZ4gcDYjwRGC1nIaXZUYbZmsg4SDLs1yhj6sjC/W2zSCY+3rhgbbB8ZPjVvYTGR7ZJ0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KIqQW+zg; arc=pass smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=SPTbOs4UqMHb/J58uhkUIUNc0kGbB+gLCTLIYSnSXVkspd8OUKn5U6z/bXk6RwGnDKW4PGL5jNhVqa0LwIl3qsX+dCMw9yHGD5rgS2Pp+KneKcnXNPvpdtp1K+J1qUMpzklp24Ma+GSFoP+P/4X+MgMBkVVYiFtgUvo60wataW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G1bwBU7k; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KIqQW+zg"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3a75f960be3so8506871fa.2
-        for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 23:43:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791960192; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ogf1v4T16HEsGXvb049bB1rHzu/u9DI77yXC1vB8646LguJIDwRkrQrxkyq1/AGM/t
-         pF3rjgp3TMj70eSaxQJjaL4Rxql1sFwEYw502Qj5/Rlb6ChmrmDeUgGcaAdqkviC67Xd
-         Rb9C01UkCopB93QQ2iZ3eb6ZZhLL9cZf7iEa+Z/MyNBy22L3sWWwu54/bo7/pmBMKuee
-         qY8pfMsE9bzD5aKZQZYktJp0lhD6Izox7YtIV+3rfylyUMOHgOEnel/m9YfN+Bs8bmC5
-         ArcVOc1shaO1iaAd7jX7hCyBc/ryT236ZItjomYLEhXErzV+Vp5KVfdvAeMtH5Wz0O6Y
-         B3NQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZwsjYHPheqBa+JzSbow2ZB78X+lBjsll/uWCTK8ljxY=;
-        fh=l6koKpgM+cRgHpH/LDmdJpCKtB/RrYmdH7I3zQR3kQ0=;
-        b=mAYOp80BmAeMBE28dM0mQ+vq20hYrZoS16297kjvtpKmRxqmpemxCTKh964gpl33Lm
-         /gh+1tacRce/ezHNJcpk2aJpcozLLmQ/0/Zk1SGCBAL5DTMSuOEvA0VfZExqMLwyc/Da
-         ZYCDHtYX/MfSz7Xbse9jdUEdcHIV21id7C5j0MW7VZnA9IjHipY1XZImpfY5HTqoBlqQ
-         8eB4gNyiA7ZA/XM+64qgLMeHw8OsG5OF3PgbToPu0e6+lC68dwZk+3o8GCbX4Zc4eH4I
-         PhBsgEgWgAfV9zCoW4PojptPN7xeuqqwluUrJqrxZ+5W2H4oQFg5Z00dFe5iRm4gxXHd
-         CnYA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791960192; x=1792564992; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZwsjYHPheqBa+JzSbow2ZB78X+lBjsll/uWCTK8ljxY=;
-        b=KIqQW+zgiavOxE74N14wX/IuzAbQ1p8peGUb0O3L3NSKcxh2Nk7Mn2xmYNtiPA2AiC
-         bnMKyUpNsY+uX0hCq8sjX6Ed4jBgvSfTWfnINnXwQjGQdeTbBcU8TkzOqE3mzgwxZt8u
-         QlT03cHpH3A/TUzxgrEJtxfmsAUU0zxPR62LB/V/D4aHgukBhcDZRUo9t8NXIQ3rCAQs
-         4GEj6rm8ntqv77A9Qz05X3/7nVxVw0tkxIjoJ9qejdXgiTQi2o0Xgn/E705qO6kvg3rN
-         AWtVQDCCAxoYm5O3B+E2QXayNLTC8lERwePtD4R6fqgOogt2HWUrYPlTwgkWbZ8Vz6Ge
-         DDmA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G1bwBU7k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1791969999;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jRwUw3pnIFIx4Z4YHezup2l4Uf0vq02fpJ9Jm9KmqLw=;
+	b=G1bwBU7kBR1icyV6CIZ1ZEycVgAAHQwQv1T2DO8+7gUJgK0UgtqBTgl799qla9gakxFe6x
+	15RotWObwDO9VZUhqyjgyaaYfmbQK+VHB/NXxYWTcstGk1oDJmIAIVjZnY+hm2jsGHXe2V
+	31Ef868PNr81HJmvzUzpnCrwnbNSNIw=
+Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
+ [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-443-alczOnXdN3-krBWhaoJWhA-1; Wed, 14 Oct 2026 09:26:38 +0000
+X-MC-Unique: alczOnXdN3-krBWhaoJWhA-1
+X-Mimecast-MFC-AGG-ID: alczOnXdN3-krBWhaoJWhA_1791969998
+Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-66cdb701595so5272094d50.1
+        for <fuse-devel@lists.linux.dev>; Wed, 14 Oct 2026 02:26:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791960192; x=1792564992;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZwsjYHPheqBa+JzSbow2ZB78X+lBjsll/uWCTK8ljxY=;
-        b=RzC/bCO57OE7CyZ3rqpdd8e3fJVYc1YlOVACJowsD+f0dWxzHirThywrZ5A5G/xhWi
-         h4HxUhIPh++TzEXP6+T1bObRuTvHVCP1iY5TaduT+cbrdPwPeGBkEJ/Zt+s9aCCapAT9
-         w4+Q4NsAaQCcrEoMMAEq8DHeg4t886UzaA6iSOL4psaqtAY6oiwKJwehn/1ea9pG8tGr
-         AmkOEvy7RjWLaDCbB1ZVFdcJPVkFJiociDlZ0d05atOQU8mokdSng/onFURQmKI/qH53
-         eBGt9i6BQgqqbIuaYFHeGAcbzoMxekpa1FvQ9rPHvWPPnZufQL3XKCRmAOYomvcRsSXV
-         lgGA==
-X-Gm-Message-State: AFq9FYIZTd5nz60b3keQdX36gA3GS44fNhAwYxYmYGsrwKTBUQEi7Ahs
-	xarE8DaHJ+tVMStyHg5bifQB25u28jZoUSIgfZxLjY34/z1luU3LDECa+bYVDSZmQkAKWa2yIry
-	3IlzJDwQv9tgtuBaDvcJ49fDifrDTZCY=
-X-Gm-Gg: AYBFou2Mj+bH3MSKWgxPkRth+iIHK2NvC+/YXjWx1ipp89evRfGsAGJST/EVCTRJdxG
-	zPMJ2AoC5p0zdJ74Y2MA/6UUIf4xEP/o/x95nXEA1GXewIYmPN/WEmV1VyUxuHxIBHshpHnQmIE
-	lpHq+czvzh9lSGDmxnRpfjIxeUclSF8jGuxav/iCrbZp6oVw0B57dEZa5w+sFeJ+Uvur8RdVJAp
-	NIlPwFMoX9J7pgL0NCTZMmTU6ti+gJgzJ+1Mlcq/3SyJjQux9q3rheMVk47LIFiwGm/PZ6Z4kR8
-	leZ+9bAOsx2jhZs6lEpoRf5i0UP5PRy7YuAxm/lGNr//jNnOhFmdEwV4CaCG/HYUoTrZ04ypBg5
-	oXReJM7bqeXTtdZIiWpWbZmYQGPiq3BWxmdSn3KlzTm3qHeBhb38EkJboJ1knUTmumthXrV8dUA
-	==
-X-Received: by 2002:a2e:b888:0:b0:3a9:82c2:ec1e with SMTP id
- 38308e7fff4ca-3a9c537ed07mr33111191fa.15.1791960191931; Tue, 13 Oct 2026
- 23:43:11 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791969998; x=1792574798;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jRwUw3pnIFIx4Z4YHezup2l4Uf0vq02fpJ9Jm9KmqLw=;
+        b=2q8tthW+ivlai89gq3LRWsRGZO72X8Zw5Q19oU97YwTDtkXo+vrb0eVMf3rYjQzhP6
+         Rle+t4BgXNWD9XWDJrYkRWIwCQSYBfyLoGbygYB1WvB8qBYnsJPR1wqxA2X0soLxLvaU
+         hdHAEgzbrPwdvSicv/efjIO2wE4aFU3o8mFobPclKYfm7XNpxCjEqPZt1oPt0T05DrKH
+         Yqul0trYY852OIYlg+4PQBaf3Rosuh2jmS794NiBxYCcLiPuOo52+32WHo5JKv6Dwzq8
+         hzRNBMAwlO+2QYUHoPHUTjuuUgYiR8iatRKJFJcLcVa5X0IGNhOh/YJRz6efhnAqffdu
+         R5Mg==
+X-Gm-Message-State: AFq9FYJ4gyvqscVqlJhTZLDy4NH07MzWIAld47zEb+MlpG1U5KMcvAhp
+	ZOEcNVN/zfQK5ew3mgGkmTKmsIwGOxMJxKUh9JxLWUQoMKw+OJ/RNm/jChFBJSZhwRYY/29fj2K
+	71NFxPVsNIPA5DNcZY/exURhIIGDe8Zf7PC0I58yU64yoGgun4385u7bPOWCHDIpV+gWINPgMWX
+	klF0gmNhKVLmsI57MZs/f+UBK4IXjcVju+8xNkbA==
+X-Gm-Gg: AYBFou15t6JR5JSSfW6/g+FtZ7l6Ar5GebEPNs+SR30PlYMrqOWNQDB/9rP8Nut7c3O
+	qDfEecc2eA92XtsnkZ/GZ/fvLYlyLTvLQFHG6pW1RMyoelio1SBwoj4mOkVuZLVn24m1ZwnV+t/
+	EUr01IBCmg4ojC6ejtzU81v1bwpbPFPJFeLBR4yfAhNMlbXkb2WT66
+X-Received: by 2002:a05:690e:bc5:b0:679:8da6:28cf with SMTP id 956f58d0204a3-6798da62973mr409269d50.98.1791969997673;
+        Wed, 14 Oct 2026 02:26:37 -0700 (PDT)
+X-Received: by 2002:a05:690e:bc5:b0:679:8da6:28cf with SMTP id
+ 956f58d0204a3-6798da62973mr409254d50.98.1791969997182; Wed, 14 Oct 2026
+ 02:26:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260929094812.93374-1-tkhandelwal32@gmail.com> <CAPwBhz_ow3BFEns2WL69Gj2BmOHGiFOEzP7U-=FfzSvoH=DZSA@mail.gmail.com>
-In-Reply-To: <CAPwBhz_ow3BFEns2WL69Gj2BmOHGiFOEzP7U-=FfzSvoH=DZSA@mail.gmail.com>
-From: Tarun Khandelwal <tkhandelwal32@gmail.com>
-Date: Wed, 14 Oct 2026 12:12:34 +0530
-X-Gm-Features: AclHuK_roABVrEaRhuHK5p8P-AhgVeh6e8Rm4bmNzCFIfTidAX3p_1c6lDNfvkM
-Message-ID: <CAPwBhz-yAXeZTca0iFT=9fVhD8k7rUQBtjNKCw_FKPFzYFC2gw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: propagate SB_POSIXACL to submounts
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	virtualization@lists.linux.dev, German Maglione <gmaglione@redhat.com>, 
-	Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	linux-kernel@vger.kernel.org, Tarun Khandelwal <tarun@supabase.io>
+References: <20261008112004.1899560-1-mszeredi@redhat.com> <20261008112004.1899560-9-mszeredi@redhat.com>
+ <sashiko-outbox-164097@kernel.org>
+In-Reply-To: <sashiko-outbox-164097@kernel.org>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Wed, 14 Oct 2026 11:26:23 +0200
+X-Gm-Features: AclHuK9abSLUZzeKyaaWw37ep03femUMbxNrvpPPWXy4b5nrfVP7AH_KbA-fZNQ
+Message-ID: <CAOssrKeEOMUHz_Esfi6L0tu0rbd+aMbb9+fi9fzFYu5NWczOZA@mail.gmail.com>
+Subject: Re: [PATCH v4 8/9] fuse: add extent map I/O support
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: fuse-devel@lists.linux.dev, John Groves <john@groves.net>, 
+	sashiko-reviews@lists.linux.dev, "Darrick J . Wong" <djwong@kernel.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Alison Schofield <alison.schofield@intel.com>, linux-cxl@vger.kernel.org, 
+	nvdimm@lists.linux.dev
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: -6VidDq2ArtdTfp8An60yNyA_0TQy7IU40icelo7790_1791969998
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(Resending as plain text, the lists bounced the previous copy.)
+[Restored Cc list]
 
-Hi Miklos,
+On Thu, Oct 8, 2026 at 1:36=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
 
-Gentle ping on this one.
+> > diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+> > index e9ab1aea34e27..040817ad76e94 100644
+> > --- a/fs/fuse/passthrough.c
+> > +++ b/fs/fuse/passthrough.c
+> [ ... ]
+> > @@ -74,10 +73,13 @@ ssize_t fuse_passthrough_write_iter(struct kiocb *i=
+ocb,
+> >       if (!count)
+> >               return 0;
+> >
+> > -     inode_lock(inode);
+> > +     guard(rwsem_write)(&inode->i_rwsem);
+> > +
+> > +     if (!backing_file)
+> > +             return fuse_ext_map_write_iter(iocb, iter);
+>
+> [Severity: High]
+> Does this introduce an ABBA deadlock between pipe_lock and the inode lock=
+?
+>
+> For normal passthrough, fuse_passthrough_splice_write() acquires the inod=
+e
+> lock first, and then calls backing_file_splice_write(), which ultimately
+> acquires pipe_lock() via the backing file's splice_write callback.
+>
+> However, the EXTMAP DAX path added below for splice_write() directly call=
+s
+> iter_file_splice_write(), which acquires pipe_lock() first. That function=
+ then
+> invokes fuse_passthrough_write_iter() where the inode lock is acquired he=
+re
+> via guard(rwsem_write).
 
-It fixes POSIX ACLs being unusable (and not enforced) on virtiofs
-submounts, so it may be a candidate for fixes. If leaving SB_POSIXACL
-off submounts was intentional, I'm happy to rework or drop it.
+Brute force fix would be to prevent mixing plain and ext-map
+passthrough.   Might be a good idea anyway.
+
+However I'm thinking about why fuse_passthrough_splice_write() needs
+to lock the fuse inode.
+
+Tracing back through git history that inode lock really originates
+from commit 2a92e07edc5e ("ovl: add ovl_write_iter()"), which added
+stacked writes.  That was copied into ovl_splice_write() by commit
+9b91b6b019fd ("ovl: fix deadlock in splice write").   Which was then
+added to fuse_passthrough_splice_write() by commit 5ca73468612d
+("fuse: implement splice read/write passthrough").
+
+Even for the original ovl code, I don't see an explanation for the
+inode lock, but I'm probably missing something.
+
+Amir, any thoughts about why that inode_lock() could be necessary?
+
+Getting rid of it would restore the pipe lock/inode lock order to
+what's normal (pipe lock being the outer one) in fuse and overlayfs.
 
 Thanks,
-Tarun
+Miklos
 
-On Wed, 14 Oct 2026 at 11:22, Tarun Khandelwal <tkhandelwal32@gmail.com> wrote:
->
-> Hi Miklos,
->
-> Gentle ping on this one.
->
-> It fixes POSIX ACLs being unusable (and not enforced) on virtiofs
-> submounts, so it may be a candidate for fixes. If leaving SB_POSIXACL
-> off submounts was intentional, I'm happy to rework or drop it.
->
-> Thanks,
-> Tarun
->
-> On Tue, 29 Sept 2026 at 15:18, Tarun Khandelwal <tkhandelwal32@gmail.com> wrote:
->>
->> From: Tarun Khandelwal <tarun@supabase.io>
->>
->> fuse_fill_super_common() always sets SB_POSIXACL on the superblock, but
->> fuse_fill_super_submount() never does. Submount superblocks are created
->> from an fs_context with no sb_flags, so the superblock of an automounted
->> FUSE_ATTR_SUBMOUNT directory (e.g. a virtiofs export containing another
->> host mount) lacks SB_POSIXACL, even though it shares the fuse_conn, and
->> thus fc->posix_acl, with its parent.
->>
->> Since IS_POSIXACL() is false on such a submount, the VFS:
->>
->>  - fails setting POSIX ACLs with -EOPNOTSUPP and hides existing ACLs,
->>    without sending any request to the server;
->>  - applies the umask itself on create, so default ACLs on the server are
->>    not honoured for new files;
->>  - skips ACL checks in acl_permission_check(), so with
->>    default_permissions (implied by FUSE_POSIX_ACL) access is decided by
->>    the mode bits alone and restrictive ACL entries are not enforced.
->>
->> Copy SB_POSIXACL from the parent superblock, as is already done for the
->> other superblock fields inherited from it. It cannot be set in
->> fuse_sb_defaults(), because fuse_fill_super_common() checks whether the
->> flag was passed at mount time to decide fc->dont_mask before setting it.
->>
->> Reproducer, with virtiofsd 1.10.0 started with --posix-acl and an export
->> containing a nested mount:
->>
->>   host# mount -t tmpfs none /srv/share
->>   host# mkdir /srv/share/child
->>   host# mount -t tmpfs none /srv/share/child
->>   host# touch /srv/share/rootfile /srv/share/child/childfile
->>   guest# mount -t virtiofs <tag> /mnt
->>   guest# setfacl -m u:12345:rw /mnt/rootfile           # works
->>   guest# setfacl -m u:12345:rw /mnt/child/childfile
->>   setfacl: /mnt/child/childfile: Operation not supported
->>
->> With this patch the second setfacl succeeds, ACLs set on the host are
->> reported by getfacl on the submount, and default ACLs and ACL-based
->> access checks behave the same as on the root mount. Tested on v7.3-rc5
->> in a QEMU guest.
->>
->> Signed-off-by: Tarun Khandelwal <tarun@supabase.io>
->> ---
->> I wasn't sure whether leaving SB_POSIXACL off submount superblocks was
->> intentional. I would have opened an issue first, but since the fix is a
->> one-liner I'm sending the patch directly. If there is a reason for the
->> current behaviour, I'm happy to rework this or drop it.
->>
->>  fs/fuse/inode.c | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
->> index e9552be36..ef3c7fac4 100644
->> --- a/fs/fuse/inode.c
->> +++ b/fs/fuse/inode.c
->> @@ -1629,6 +1629,8 @@ static int fuse_fill_super_submount(struct super_block *sb,
->>         WARN_ON(sb->s_bdi != &noop_backing_dev_info);
->>         sb->s_bdi = bdi_get(parent_sb->s_bdi);
->>
->> +       sb->s_flags |= parent_sb->s_flags & SB_POSIXACL;
->> +
->>         sb->s_xattr = parent_sb->s_xattr;
->>         sb->s_export_op = parent_sb->s_export_op;
->>         sb->s_time_gran = parent_sb->s_time_gran;
->> --
->> 2.43.0
->>
+Thanks,
+Miklos
+
