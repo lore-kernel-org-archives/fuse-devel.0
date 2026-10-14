@@ -1,110 +1,109 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D81AD4DF4AC
-	for <fuse-devel@lists.linux.dev>; Wed, 14 Oct 2026 09:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791970850; cv=pass; b=aULqvkwmdhDe5V03rcduQDqbkUEsFzwZm+d/VweVi+iM/EjAdWHg2gxlSUC/fpESBN/51oWN6bKiAr1DFZxwnwaziSPfpSW4awtsNyxH4dF1FO+w2buC5oF3jFtG3jDAUhh7oq0CC0a1nDLroa1h4D/nAvs7jAw/OVTY7jxTA+s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791970850; c=relaxed/simple;
-	bh=9/reRJ/j1yO6b6rjpq4fLoYRPvxibxm3mLaZMWghcMU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B3xfK9c4X5CvTv0u/gcsGU2PHbMZKfMzbvtKkMR0c5dB84A2Xk2aR1It5Dg3uggC+VIqBR7JvbFsVTu8JG9VSOoynJjlgaIbLnwdRYDvlLCAnU5TLpvB/SzePyajlFrNUyn+2jCDXkBHw5VUkGgz+zBc2U/vqMCz/hfMk1U9EWw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=cDjmFgQl; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="cDjmFgQl"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-53394bffe0fso9015341cf.1
-        for <fuse-devel@lists.linux.dev>; Wed, 14 Oct 2026 02:40:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791970847; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EXd4oTMp4BMxbenMMIcJGp4NVOfQapC9D7L2MNixIWF+8jzSo+uJowmW2nu0iOhsPL
-         Un70aFI5fcvYV5Nct+hui0C7FWJltd2GabmVMmJjugexhbiyPrNZdWLmr1yrmoq5EZtM
-         W4ILe45OgZK+jUxCNMQYUs9bEYYUIK8+d95msMcQg3XGgdvlggcemreHuXepAdVDvhOQ
-         cisT2YHkqzoiRZ4skzgtLJwXMPNgBgoVK/8sL2YdrZTeBxNZZWFfDn1KfU+1ygk/cmPA
-         fTkM+UXLEnldAi3twhYEuoAGjk4zPYxH0uHc/Vpxb88b/ilStaQDbpM9goQEZQKAbl44
-         662w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=83H04bxF6YUdzZlLQRh4TGz7SNPkoIlEwePAKgXPMOI=;
-        fh=k+QErD4K7cwqMKdJfO/eUaUpsleVqXAmqqyVqQdmuJw=;
-        b=XeAD7RJVslyqNT4JBnrx7+oTNKJ4JrP+556E5OqN0hSnjjshI9Bv0TXxW21yg4ZRV5
-         TPDb/4mcQmNyo6NHyawBxTxdTXLI45dz+MZKBaadRjbXa931vC6zNCITOJWkJuSwE/uk
-         UNGm+inm+d8W87LTt4+ZhSBJD/UOT0puqE/4p4aYtet13fiMUSO8MOlfBc/Zd6gESJxD
-         2EmdDEjX+cFG8uY3q0g1C0AXDHrBB/YASxKfOHuM39+g3Lh2FBbEAASIE/tgNFdLCokC
-         8yOq4y9MEFpJSKooSfPRAPQlK8D1yNvJkt8i7B4DL1sxpAyVQEZsTtgY/+C1dYvs/CeA
-         bl4w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1791970847; x=1792575647; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=83H04bxF6YUdzZlLQRh4TGz7SNPkoIlEwePAKgXPMOI=;
-        b=cDjmFgQlMljB1thiwDLfsvb0Jn5WJHHkwY535jaC4wY3oMIdQvOvVwULzfPFL4Spfw
-         poCtT3cJGFZtTpkiml6lPHdHOZlebxASGGfdNYJ4BdYLgXRwXkq1pNM4QaoraXTOzyV7
-         C6JIwqzTkH8Sy9qLoxjtnpJ8Su6TJSS2X/AQU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791970847; x=1792575647;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=83H04bxF6YUdzZlLQRh4TGz7SNPkoIlEwePAKgXPMOI=;
-        b=KcqIoCccBUnwsbbeAUhdYnNT08pUKmdhVNR6Kw6ZZAb/kDxqT660LnONoHG2HXGo3J
-         5b8d36HBg1J37rNmEharQXpe90nXcMYtc0rX1b0NALgjBWFKsGHGW1YrrHCgdawOI3Zw
-         ybwYKi/v+WKfiAnSwJKYZqzVsOnFKDlQtokoSCDLViXvwgTQJqKuAEjxzdANm/emNJe2
-         tsyZ5JqcUvKQzkuHa14mh82GTqpjyXLD9GxhmhLZiCBV4/tKHRgcwzzJ/Ctj8ibnGSwV
-         Fx76PYdFyeQxoOB9i9v+pYTGX9JMNKi/0aoub8QArwj0fr30pgk7WhCtp/a29C7RL6Lw
-         cUQg==
-X-Forwarded-Encrypted: i=1; AKwUvByvTALuTBUTSwbXNY+uDH3OYXy5lAOKli4+fdFX6kx0qdBFZEg7lqtab6LrPRy25H1uKX83G1Q60XdM@lists.linux.dev
-X-Gm-Message-State: AFq9FYLcmshtzAGmH0OhHUzO1vGpxpk6z5HqcRONueiRHDqbxP3mfn4R
-	OWwrPmSL/IDRbz8F9fnUIOwfgCk1xFepYc2IgGJmY0GXxJJ/TZbIUONsJq84pYlBXDnsM2O2cUp
-	os61Z0CEScsQv8oCIPu5cI7KePBXed73g1x7bvf4PNQ==
-X-Gm-Gg: AYBFou0g0JSUC7CTBRBkQrBxt2EXm2wP0LjDJBrKn0XXVqkem+GZEfR5QL9K2OLwcqc
-	++eE3f2iDR5OZ1qVFsO4458R6+Zsexk2PiBMgfuzxLk+le1mfzEiJ4fnw4z99EHy6nw+Or6f2iE
-	V54PffSEfIsNYHIC3AZsBZFRIzsk88IR7VBZlzjD0VC1/bmCb9bHwE8WuXNiL61PGtYNSZl6/aF
-	K2kfd4rwBsilTB8vvpSl0xV3ssxpGzzBpHmk3uZb5oQ634wwGUrhecy+GvvIHNYVnCBFl6NgV/2
-	8bs/W8Cp5VK/7vs6c9AnhQ/HeWyBLvm2jEnmOozXBWakraazmbcX/I31ZYb72KK0izXoEjUWEjM
-	RWSvHhb4heD9Q9VPYWw==
-X-Received: by 2002:a05:622a:305:b0:535:f20:a051 with SMTP id
- d75a77b69052e-535a62041b3mr204309621cf.26.1791970847591; Wed, 14 Oct 2026
- 02:40:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7375E52CCC1;
+	Wed, 14 Oct 2026 14:15:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791987321; cv=none; b=g0/3+w0KKv8OKhPTwAl0p9AdRgDS2na50Aubu7DVO5+BBPZHK8brfK8ejTvgXDZERHbbFwh7xgAQSVPnwnV0iPDPZrmaZyNxmOqARPDcC5VJM2XVxxVL+x63NoGUfTtRh3AtFN5Xtk+f1hcRhm4WIGZiBJpVirx0u3m+maf53og=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791987321; c=relaxed/simple;
+	bh=UU3mFXTLy83MYf/mMEoPutZdlb7NNRuCLxuZHFSIijs=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=vDrfSCpLP10RJ//re/XNB/mqax5sioUUpi+LTS45/TLeACX0issifY1gj2B2G4WUe/EJJECFuiets7wYfhyKcYD4zysMLg/E+ss6nSb7hCNjY9c+lGiTSW3tzmEcLa11UXFI/kYz1sqZCe6pMtORz8XDgFp88857dRoN/f/kMGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf13.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 27AC340599;
+	Wed, 14 Oct 2026 14:15:17 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf13.hostedemail.com (Postfix) with ESMTPA id 054AE2000E;
+	Wed, 14 Oct 2026 14:15:14 +0000 (UTC)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 66C5CF40066;
+	Wed, 14 Oct 2026 10:15:14 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-09.internal (MEProxy); Wed, 14 Oct 2026 10:15:14 -0400
+X-ME-Sender: <xms:co7PalV1fpGDZFSURc_CRtHZJZpihKCG-a-v2Y8qKAjA5M41m2vCvg>
+    <xme:co7PagYnLUz6PByAUo4K_tbhh4Knkgjn6Rnda2zYlkpPaJtwfozvQMQhgt8xBFfT5
+    3nmQ5R0wnJFFDZhSgCbe-kE0q5_o1c1YV6GiVoPg36axSmSSoeKoA>
+X-ME-Proxy-Cause: dmFkZTEd/BP7YPzQpwVymWCLCz5d7z8cPfoYJOKlkSu6IDfRIYKsXnldzG2Zj7V4cHGGaC
+    19beiY+SNOekCX4W9Yc3R6rfa+Z9aOeARhjQo65W5BR03tEOuwoXCSCqBJDgdwEO4mB6qz
+    JoZ8MnGQpveO0a7prAFr1Yk82SUnjkGW786yQSg0655Umc8gVSiLioddv6pK5rKbM7e6VW
+    aXp0CUBbmajRjaTYeoZe1KyWdwCo/EVprduIxftKjZauwiQONAPRRjQeGqk8tihqW/6akH
+    NseT1HnlGiF8F7uTGNFBS6J0vL6DmHEllHvlJ7lk5ZZHThxLG9zXdNVctbsdJgNq2bojfQ
+    vy/U/N07ATXIN1p6Uo+BcjZrU2RK9PKXn1b3uWxb4QkUmZI2YW3BQJvJpx3tiOXWVwZV/z
+    eZZoWBBdmcyPm0vBDe4acrhMicUBS9P7SjUNs3uc+wwnvWuLf+7xA7w/Swo+W3DC6B1atq
+    BKgqf3E4ZWHkHFcLXRxhZdhnx6/9Zss111JykP9LoowAvZhsqV5B9AAnG7/pl6TCkhj2do
+    cnewAxBUAZIc5JVkP+Q2c2WGpoMLXjTjn2tpf0fVuMVpsXYdbbe8tsklqClgm2PkAESnYu
+    YiOMEWQjR4YtU2DnOFtoU3opN8RHaN7iQRoUhOhppVoTsuReOJ0DS2u//WfQ
+X-ME-Proxy: <xmx:co7Pat7CR7wKr05wTgZT6JJB0iDvAjiUgxUm_VZSiAedXCg0WUGdbg>
+    <xmx:co7PajF9u45HMNAPAOQTUosBTZ2F6zmd7EOKq9EuiS0rpt2W75iAbQ>
+    <xmx:co7PagAW9ajh0ecp8pLZW5tgFdiAW3G8fJWavhNuuiAIfxYdiuIRlQ>
+    <xmx:co7PagzklsxtlCKQt72lTFqh4nYWXSu5ic0DbMn2sXMn0fsuhJe_Dw>
+    <xmx:co7Pas4kgEdsQYOD_K0BNkQ-eDZ0u_LBTjFfZh0C8DxcxYSIzRxxXRK2>
+Feedback-ID: i3a164872:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3A34A700065; Wed, 14 Oct 2026 10:15:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261008112004.1899560-1-mszeredi@redhat.com> <aswN-UprZHx9wU9y@groves.net>
-In-Reply-To: <aswN-UprZHx9wU9y@groves.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 14 Oct 2026 11:40:35 +0200
-X-Gm-Features: AclHuK-4wYzbPDth2dwaMOE-UcJ9Mlv56Q3DJCgmQBZqmD9Im9s183TZ-SA1hxA
-Message-ID: <CAJfpegvDbGaoH5Er78M=XYwA6a7zj6DRqY0+F0cgiD7TfRK_Mg@mail.gmail.com>
+Date: Wed, 14 Oct 2026 09:14:54 -0500
+From: "John Groves" <john@groves.net>
+To: "Miklos Szeredi" <miklos@szeredi.hu>
+Cc: "Miklos Szeredi" <mszeredi@redhat.com>,
+ "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>,
+ "Amir Goldstein" <amir73il@gmail.com>,
+ "Darrick J . Wong" <djwong@kernel.org>,
+ "Vishal Verma" <vishal.l.verma@intel.com>,
+ "Dave Jiang" <dave.jiang@intel.com>,
+ "Alison Schofield" <alison.schofield@intel.com>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>
+Message-Id: <f9bdb2ef-33d7-4601-87fc-354a9e753141@app.fastmail.com>
+In-Reply-To: 
+ <CAJfpegvDbGaoH5Er78M=XYwA6a7zj6DRqY0+F0cgiD7TfRK_Mg@mail.gmail.com>
+References: <20261008112004.1899560-1-mszeredi@redhat.com>
+ <aswN-UprZHx9wU9y@groves.net>
+ <CAJfpegvDbGaoH5Er78M=XYwA6a7zj6DRqY0+F0cgiD7TfRK_Mg@mail.gmail.com>
 Subject: Re: [PATCH v4 0/9] fuse: resolve extent maps in O(1) when possible
-To: John Groves <john@groves.net>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
-	Amir Goldstein <amir73il@gmail.com>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alison Schofield <alison.schofield@intel.com>, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 054AE2000E
+X-Stat-Signature: 1n6ppyhqociuseudaatqnbcpe44p8ice
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18/oRjGa/Rn4DQEBtZlEm+EmmatrJ+ZgvU=
+X-HE-Tag: 1791987314-722773
+X-HE-Meta: U2FsdGVkX1+5aVdf5QXr+1pa4v9ZvbCJDt2JPLBRCFmYLCSA2UHI5PaCp8iduF3lYe8EVjodyZNeOvNtjHKFiy873Ov6zosHDlAczBdHbQgQA1ME+uCggeiLP/GuLqMXclyETSGodR9bR9gtSTfRPN04PP6QqxMmhmez/OGcigoFFJVc+AsK89DJUeeI1UDFw1+ns8jSGXML1tll0gH1lLbI2gqJ0LH688kmwdTi9NvmfNTjPFnj80L3ykvF7ANEH9D7lhmR8FtDBVw+nRD2+oEvNdyBeUMMyR8w5RvW6xHX0F1C7eVQvEsUw3OctImmkMZx2pf+h6QjIkFKGNGCJynkyhFbdh2ArAlPv6LqzdfCJU7qxqnP04KHB4e8+WoU
 
-On Mon, 12 Oct 2026 at 00:33, John Groves <john@groves.net> wrote:
 
-> With this patch on top of v4 the famfs test suite passes; that tree is
-> at [2].  The famfs userspace master branch [1] now works with v4.  If
-> the next revision needs further userspace changes, please base them on
-> that branch or send them my way so the two don't diverge.
 
-Applied, thanks.
+On Wed, Oct 14, 2026, at 4:40 AM, Miklos Szeredi wrote:
+> On Mon, 12 Oct 2026 at 00:33, John Groves <john@groves.net> wrote:
+> 
+> > With this patch on top of v4 the famfs test suite passes; that tree is
+> > at [2].  The famfs userspace master branch [1] now works with v4.  If
+> > the next revision needs further userspace changes, please base them on
+> > that branch or send them my way so the two don't diverge.
+> 
+> Applied, thanks.
 
-Please next time use a new mail thread, because linking to the old one
-confuses b4.
+Thank you!
 
-Thanks,
-Miklos
+> 
+> Please next time use a new mail thread, because linking to the old one
+> confuses b4.
+
+Will do, thanks
+
+> 
+> Thanks,
+> Miklos
+> 
+
+John
