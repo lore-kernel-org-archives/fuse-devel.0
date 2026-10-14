@@ -1,178 +1,315 @@
-Received: from mx0a-00364e01.pphosted.com (mx0a-00364e01.pphosted.com [148.163.135.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA80553E31A
-	for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 19:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.74
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791919229; cv=none; b=YPkUK3+JY9uwVS1LTYqi3RU623kznaZMRoQOGL8gBbQ/+HnM1GswB/Ekfy9sU2DnXc1DuR3kfBPXnN15p/tKE4Ynk7Xsdf2dTrCBo98Erpi0J8j85vtv0zNzP/3pPMZInYag2CePW8lE/b5rRQzN5qKt72SraU+O9mWDG1S5zpo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791919229; c=relaxed/simple;
-	bh=AUDK8Y3S5b9VCZ22Lr+29ZFcW7M8NjLkTLsKMDrju+k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=npQfry5DiuYCgHfS+hgEdDZywAofRpVa1qPXEBI6xQwt0SIz2V7HVoQczxQ6cNPlLb2sxEgjys6LVt2mEOctkxLo/gwtTi7GArhEZE2VSzlhs6+UoWGiuWjkzoIdZg8edlLS+lS+y+IGkuw7SYyy1B8kEzPNXI82pcZbLSy5AWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu; spf=pass smtp.mailfrom=columbia.edu; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=dapDPWWa; dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b=Gufvy00q; arc=none smtp.client-ip=148.163.135.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAA135975
+	for <fuse-devel@lists.linux.dev>; Wed, 14 Oct 2026 00:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791936348; cv=pass; b=WZpv4YQ3lwaNDMmdzVL2WTJx2K++QmGh9J4PFN/893mDyD14OJ2infdgeZPc38EtyS6jn2sWTKzbbJ/jpSrW4YEJsu3ppXhbZjE3ahBSfk/GBoBXbhOEOZ7g5/QEYvj2XIYp7EIeGuRu0k01h9WfiDxXVcCleRQH+LAP1adFsIU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791936348; c=relaxed/simple;
+	bh=JiIkoDrG8B/K/e0G126rXH/WHg3dZTUEry5fG6BL75M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GbIcZ2Lw5n+zTG0jYOpySMn38xQmu7vZampYCt73qaEWK9uLFgFIT8RrCG3gh+MGm56YZPHKlNxQouKtOZJBiLj4h/JPz6+9boVZaaMMsUq6OB1FPW1u/vHRTvqczeYJZoUD0KIpRlK+aWSRC3utlMxpyt7Q838i3FK8zXUVGnI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i5MDr+Da; arc=pass smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="dapDPWWa";
-	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.b="Gufvy00q"
-Received: from pps.filterd (m0167070.ppops.net [127.0.0.1])
-	by mx0a-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69DIYb4w222770
-	for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 15:20:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pps01; bh=Oal4
-	PEpE1X4d2ote/KPkfgier4z3jZGSc5iK+zXC/VQ=; b=dapDPWWaADp4agqu9Bor
-	uRVHOnSJlz9kUFbCNCjPM6ZIjGZuHtHBHcXyhxz23oNsQI5BvTrMAg46m1khIuif
-	Il0a3ZgF6RkEVAbrCgztsVHK05dCkAkY/nlNqbAAHaVZQh1WW027fpGB6Dd9arOb
-	AKstDJlECWJunHYi9UzgJGKn1qrEUWTsv3InKc6pvbDzB1GVVLzB04Td48jMH103
-	3Hi95kz17S+zOJnjIak9cXm886tvTRko4Gk12XhcIFETAoGqErblo10dGdjOecrE
-	dNX1BkGf10Eg/advHqRwZCcRhBysTgcM2l8ksb7DVa8jQhB5DRB/cnsuw4aonDv/
-	zg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-00364e01.pphosted.com (PPS) with ESMTPS id 4h9macpbyj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 15:20:26 -0400 (EDT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-5347732a495so5583341cf.1
-        for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 12:20:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i5MDr+Da"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48de72fc832so453424f8f.1
+        for <fuse-devel@lists.linux.dev>; Tue, 13 Oct 2026 17:05:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791936344; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Pe2AZlDqihi2FGQchRDAvnHqgoIJ1obbunlXFtVUEOLc3lco0CDlvJAcz2fb7xA7a1
+         fgku71vn8xyP86OJoJN48RuoLAZEU/u57XKsXCwnrUxX6Xdj5Lo1si05xolOxfVkJkpR
+         iFeH8CKR2BbpvRgH+lj90sIh0SRK4M3WBzcWYN/gj781z857AaQGtiLEWZ+NGGDkpeVZ
+         pLVbFlt5BvDhreXgnEzxZ8w3l8P88rq6MMQlhpKpecdmyiVebvCiJ3ChXovdc688cqIw
+         65OwPMPyJb3NWTPsPmdAvwmbWO2WpIKjCXh9DN2/zLxSmFwulbbnM3Nw2cNLrvHF0zUG
+         nD1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0Y1oo8EWenBlY3BpHQDLYrrC9DTOm+pseWLNNQG3q3Q=;
+        fh=h2aNtkGy3/wSMRPubnzX7+sN8JDORSUJmng+H8ofB4Y=;
+        b=ncbaOwg2Cq8+iTCrUsy5k1+MzsQyJgHQfnk1PW3Op5/uf1KeZALhQLd5iGA+TZY+J6
+         LK63ZGlgF/vPB2FcI8UeLFj0igQi30eiqbsPoxwPfijgqQ4ZNKKxAn6fe/tmLTzRTU7G
+         g32V32EgjFEqtQnUfJ+ADKYtrYY5iNyOUGzor64hR0Wte8k9OhE/tetyIDk++hp//H6q
+         /szpEbD4YJtaS19gJIyheDUlalZYV0QC4jgS0VWA8ZhgLJYKcycwjZJ2Sbv1U+ZONKbV
+         PAxgDd+7ylNkdxRpSoTOa8M7Ax0oTYEOaVtds2JQzrTzIeq+xpEqsHcmRMTzNPJZhQe8
+         eYPQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=columbia.edu; s=lionmail; t=1791919226; x=1792524026; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Oal4PEpE1X4d2ote/KPkfgier4z3jZGSc5iK+zXC/VQ=;
-        b=Gufvy00q2WvzDlTjhzUI9Bv7D8GAezzFzK6llJRJVg7+/5pNdYIaPvTqOSqD8hwj9o
-         HCcpIwpT2vzOI2Jj4+FT070NqpC/Q6B7q+lcSwvsEPu11YKLnsdFXj6SQaUU3UIglz+X
-         dG3ZWg4XQoJURgnJFfUyzQGqF3dfo3RNJj6jm+tSC463U2AoAfxQBTTvYIciN7o68D+G
-         2bcXM099DsiGymXxESKW8K7JxS0UsGFumF7a1u5HhdvrYy3URcdovPmS+qEZBu35hizb
-         z4BojaEosXPdGgE8cZ2u9NXsAdY3pQ1bfrd9s4V9bghCQmjAZ4ZjA0pceuEEOeI13MDA
-         KL7Q==
+        d=gmail.com; s=20251104; t=1791936344; x=1792541144; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0Y1oo8EWenBlY3BpHQDLYrrC9DTOm+pseWLNNQG3q3Q=;
+        b=i5MDr+Das8FIgw0XZA8yt7J/Ex2OedRLCr1zHOLbHejWQ3iY+bPhFRTJcOlq6cMayM
+         cIhfO4eY1p0o2K6K+FlbLdDPIAJukh5gYNixowOZmSQuZr0hgB4zgnhdkGzQO40IBwuY
+         u9V60sIQfRh+W8v/XzYMmk9s8KOGgo3gmHmOFcc59BlRg6Gm7PZleO1XVhPkdP9UCiR5
+         ZRaiNrqM1efRDUlObJfZ8K9F6U5mWY1k+dMzqHpirOTejXE+ci2yfBrGZ7NnkksttQP3
+         x5cm9wQhxuVf2jvJpQWeQo5Pp9QSLF+SJ20EywROjuk88JmP9IS8X73VUfHxiuGsq9fb
+         fjog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791919226; x=1792524026;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Oal4PEpE1X4d2ote/KPkfgier4z3jZGSc5iK+zXC/VQ=;
-        b=YVNBQuwDcdgfzt2NiUCQnYuErq+2TJPhxU+PVPXcj6hX84s/Vmui002dN8dsYB8ZEA
-         yQr64Q/xT7+usA0tzN/ea9YbPUBWr4Bb2M+N7AQ/BHSNL+zymPR7SHPqEQ83MP4A/wOb
-         DKn8ldMAD5px0DDvoY7AF8FcvqkdJA2KFgr/Dd8IIHuexiMjDpl/MyW5YRQLI7VqdtsW
-         qcGTl+JKGNOp1NcGWvgJF4pd7I6V8vClmccJjgCuQf2Psi+cKTaVT4jeQ6TCqffqc1nc
-         vtJNu8JbCWu9MqCVH9pSPeaGoFAyx2mW4m6acb8Y9qHWLzBGeHKhpXxfd2pq//rL3fda
-         T47g==
-X-Forwarded-Encrypted: i=1; AKwUvBy8JAVnHG5tMa/t5lRJtlNrLTdPHf+9y1iSO1yOdkK66in3uzNADSmZN6er5+WlVzlRJW2IxXUsaju9@lists.linux.dev
-X-Gm-Message-State: AFq9FYIhnuyx4GBK8nodFLu17ojzbKoTKjPhWWAuStP8X9KEQa57ZxPc
-	d8Zk6R0qGtYBs0Ee6KbUeptzYP1XMiknBQsAaw3rcsGKOrKLL1LOwjoYig+md5tjLMLt0cdd09p
-	rUKCsn6dzyn1g7oTM7bDjb1DIVxaHl5ngmJcY4u+vDHjqGdUOj6eZzI6Iync=
-X-Gm-Gg: AYBFou22gSrvKWMLRRjdGxMo2Ci0uTzqw6nZq3RJm1+DNeMw43RS5TEBkNe0RHzMwjl
-	6HkdtYpfp3QO9tHXUP5pUPMDrPrmt7r3z3sefu2d0YmgTMhk6/IUGC7UKaTIBvhpT2wzD3lkDcr
-	kQuU28iFKQyz1s8mZYgYsH4Mqgl308TCfU4KF9SL8TPOTEguBaYj2Sxrf4dMuTkQWTwyfLJNdX+
-	eJLf39fSd7ZuYinH6QBq3xsIAb6txJYpjvos9wiP1cDJ1kVlqxlvuXIY4ATTPbwjh+quzrZQl9S
-	Z9axxDdTnbnYsxp83PchKW+42njTEa7DMSpjOc+t/LVdEjTaLQS8XmpVQV/dAIze0d6zgMXugW7
-	OAhaSW0pmRaoaUtGjXbpwn5RGbES5E7Vv41wuMsvSR2r4kA==
-X-Received: by 2002:a05:622a:a0b:b0:535:f8b3:a84a with SMTP id d75a77b69052e-535f8b3f361mr26044181cf.1.1791919225769;
-        Tue, 13 Oct 2026 12:20:25 -0700 (PDT)
-X-Received: by 2002:a05:622a:a0b:b0:535:f8b3:a84a with SMTP id d75a77b69052e-535f8b3f361mr26043721cf.1.1791919225113;
-        Tue, 13 Oct 2026 12:20:25 -0700 (PDT)
-Received: from [10.207.9.0] (nat-128-59-177-43.net.columbia.edu. [128.59.177.43])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ba684f404sm10027916d6.31.2026.10.13.12.20.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 12:20:24 -0700 (PDT)
-Message-ID: <81e07de2-ec8d-4ffb-bffd-44391ce9a2e3@columbia.edu>
-Date: Tue, 13 Oct 2026 15:20:23 -0400
+        d=1e100.net; s=20260707; t=1791936344; x=1792541144;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0Y1oo8EWenBlY3BpHQDLYrrC9DTOm+pseWLNNQG3q3Q=;
+        b=iPw1pMpR2vUHOf2aQitOJUR+rCvog0J9LwS/iJ1J9E/u+1MlwuewMDWghEYIxFeSCZ
+         5fZGEOecgafnjETn2hwaumsD9RdHnH428RWuWLxWL4CcS36g0WbqoQrIptEf+VPCfKYI
+         lcXWMrdZ+0Qb3hwkwd2sTLvZo3Z9MXuen8Su6UK/jtn+KwKQBjbHFpW110G7QMwL+hst
+         /qBghyyJXTxJCkbsSU0xsZiJLtIJVFBRWSReal0tRiwNgVnJYaBHjnus6otScM3EdVUv
+         fGrzeQuBlf068F1X7smtNtsNodwBAFZFUG55eZJIO4z8dc7axf6tjNul3zhXgQjc2zGz
+         WLaA==
+X-Forwarded-Encrypted: i=1; AKwUvBwk6YLSFn1k98njDcwYYRh4Sq8lk4tZJ88dDPkb0haZnz1QcCe9Vro8XSqitBA/sW1pz4l9bjlqpwtJ@lists.linux.dev
+X-Gm-Message-State: AFq9FYL06OH+4mNZXdHjrah82oIppJeo9RKmrU/jyQNdGtxIgsKg4wgF
+	WlZMMIJe/Bz4xeRGiqmcH8VZNECXW3cbiCXY5lDWdyP8/anzweuFr8aVRKx82qchjeA3dwY7ujK
+	0Ny81MBU6x8yACv9ctKs3pBgErukdumY=
+X-Gm-Gg: AYBFou3dvm2UVCa6OuCSEClCUjlcDdBXIgfnAtOkT9DAEf96kOq18DG04NmVIlP0mcp
+	kBydqzKCVH4KtC3VwCTCoWSCLUNIaP2roG9G9EV4H/TEBDrsF0GtITxA4RDHoP8BYQFJvzxe02/
+	Yu1GNGP2Wm6m8wKWRK/QPGlvj57a/RPmD86CeX7T8W0Ooha+N0De9GiZcvVJu2LlRQkyzCE7QqR
+	YAEZ95GzFEMaZSlkF2GqDGGaMsV6X+GwKKmRIMOt2nzzY0TfFhKQVauFhwDwvUE66oYF1RODGDp
+	bGfqo/GvbBrAAVpYsNFXekwQG/BzpdvmkiU30lNf89m/A5adzw8R5zaPTluv/IYPL3QBiVEUIzE
+	Jr9AFYu2eiGC4U4DBFYlo7l+tUnP3/q30oZk35hks4acOGzhepIkv
+X-Received: by 2002:a05:6000:491c:b0:485:1bcc:67f8 with SMTP id
+ ffacd0b85a97d-48dbaadb2d5mr26190862f8f.13.1791936344413; Tue, 13 Oct 2026
+ 17:05:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] fuse: convert the readdir cache to use folios
-To: Bernd Schubert <bernd@bsbernd.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Joanne Koong <joannelkoong@gmail.com>
-References: <20260924-fuse-readdir-folio-v1-0-8dd97e71c1cc@columbia.edu>
- <3dfb90b9-e1d6-4a0d-899f-5db3160cb31b@columbia.edu>
- <c298c696-d10e-494b-b048-186cdd3f360d@bsbernd.com>
- <5ff63ccc-3aba-4c4a-a289-48620f1ceffa@columbia.edu>
- <3b7a2fea-3fb9-42b6-aef2-d9770e3562d9@bsbernd.com>
-Content-Language: en-US
-From: Tal Zussman <tz2294@columbia.edu>
-In-Reply-To: <3b7a2fea-3fb9-42b6-aef2-d9770e3562d9@bsbernd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDA3NyBTYWx0ZWRfX0QGja0Bj5p4R
- wZJv98g7AJDrXSqRdfT/PhzO5J1aprv8lrXmm0DWUcjSgWCCgKMzq66dkt6F4Dbf6+DHL4dan95
- FZ+CBb41hJYSFLGZ39ZnSxm0cVCYL595zwUDWispjIQAF0w4a1s76TWxh+/KoGMQI/PBSnSvsc7
- dcFOXy+Kidmwymmn2AFaDMNpUutL27fdatTTpFEBuOcFxxjBKqGhpVY74WxeRt3Uc0nrhxz0PPJ
- 1Q0L2W9nyur0uMc4sqglFWTyuzc4SQRCzwhdSm6kidNrfry/kruJWFvccWoYvpx2IQTa0l+Tmgw
- MRPVrYuJG60uHPc1faGw+z4QUjbD2PxBIy7UWnSFppUypcGOjcrBz3kgae4O9QQ5EJ4VY/sg0C6
- qf8B1xEeZ3OhofwzcKoN/Z6gq36Fn+VPhoy5mT8ci+Lsc2khfPb4uUg9nrgLsp7mD4hVRHo1sAy
- ejOwDBW9RWNBbZ9tWew==
-X-Authority-Analysis: v=2.4 cv=TIrQ2Fla c=1 sm=1 tr=0 ts=6ace847a cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=lXeS3XHMKYhu4Q0xF1pUDQ==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=svvvyxlR1OQQkelhaPoB:22
- a=uWY_cRABlmrOhBJZ42EA:9 a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-GUID: jea2pyeYpfw2-UJ6ca_aS2wFe1IotGeS
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDA3NyBTYWx0ZWRfXxnpRu+YhLRA0
- H23kiHx9h/3G5CkooB0886zQ7JsmJRxMMdcqzjng5TujZxQjkP55dcK7gGN+YdAVHGgAIPkwBMQ
- Q5tHRqa9M3uGJSv9JMg/tgzfFwgeOtNYO/10jX+7wYPtXomeRLXE
-X-Proofpoint-ORIG-GUID: jea2pyeYpfw2-UJ6ca_aS2wFe1IotGeS
-X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11934
- signatures=596817
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=10 phishscore=0 malwarescore=0 clxscore=1015
- priorityscore=1501 impostorscore=10 bulkscore=10 adultscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610130077
+References: <CAJnrk1bk66ZhRAS7mojSnD5RBfFS+0ChAPymE3ObRWr0C_udWg@mail.gmail.com>
+ <CAO9r8zPpe6fWOSXtRUjFB8WNMroeBqvLT+2QtAU4E27AtLUXMQ@mail.gmail.com>
+ <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
+ <anpsLy_pCanocgS1@google.com> <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
+ <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
+ <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
+ <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com>
+ <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
+ <CAJnrk1aHdBm4CofvKfx7B3H-uF2xRXZUQs47J_4xeRmRZ4hcZg@mail.gmail.com> <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
+In-Reply-To: <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 13 Oct 2026 17:05:32 -0700
+X-Gm-Features: AclHuK8WhcrCOTeK0kKrzzEhohmXHWs0Un0onHQb7Xyw4WEMp2HD0VK19I_-6P8
+Message-ID: <CAJnrk1ayOhrFY8LOMYxqEMYZvhK10zjTTyOK93VzMgxpV5W5sA@mail.gmail.com>
+Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi strictlimiting")
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, James Houghton <jthoughton@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Miklos Szeredi <miklos@szeredi.hu>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, 
+	fuse-devel <fuse-devel@lists.linux.dev>, Jingbo Xu <jefflexu@linux.alibaba.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm <linux-mm@kvack.org>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/13/26 2:13 PM, Bernd Schubert wrote:
-> On 10/13/26 19:49, Tal Zussman wrote:
->> On 10/13/26 1:38 PM, Bernd Schubert wrote:
->>> On 10/13/26 18:48, Tal Zussman wrote:
->>>> On 9/24/26 7:42 PM, Tal Zussman wrote:
->>>>> Convert the readdir cache lookups in fs/fuse/readdir.c to folios. This
->>>>> removes the last caller of find_get_page_flags() and one of the last
->>>>> callers of find_lock_page().
->>>>>
->>>>> Based on fuse/for-next.
->>>>>
->>>>
->>>> Hi,
->>>>
->>>> Following up on this. It'd be great to get this in as it would allow us
->>>> to remove find_get_page_flags() and find_lock_page() next cycle.
->>>
->>>
->>> fuse has large folios enabled now - the patches need to handle that.
->>> Even if it would not be enabled yet, Joanne had spend quite some effort
->>> to enable large folios, any change that tried to rely on behavior would
->>> have just increased her burden...
->>>
->> Hi Bernd,
->> 
->> As far as I can see, Joanne's patches enable large folios for regular files.
->> Here we operate on directories, which are initialized through fuse_init_dir()
->> and so do not use large folios. In any case, these patches switch to using
->> the relevant folio helpers, which would get us closer to using large folios
->> in the readdir cache if that's eventually desired.
-> 
-> Hi Tal,
-> 
-> oops, sorry, I was bailing out when I read it as "this introduces
-> another stop gap for large folios". I quickly scanned over it, but don't
-> have much time right now - will review tomorrow morning.
-> 
-> 
-> Sorry again,
-> Bernd
-> 
+Hi Yosry,
 
-No problem, thanks!
+On Mon, Oct 5, 2026 at 1:45=E2=80=AFPM Yosry Ahmed <yosry@kernel.org> wrote=
+:
+>
+> > I added some instrumentation to prepare_scan_control() and have been
+> > seeing that the OOM gets triggered in this pathway:
+> > a) the memcg is created with memory.max set to unlimited. 512 M gets
+> > faulted in. The new anon folios get put on the inactive list. Nothing
+> > reclaims them yet
+> > b) userspace then sets memory.max to half of memory.current (~271M
+> > from ~542 M currently used). This causes memory_max_write() to trigger
+> > reclaim logic
+> > c) the folios have already moved to the active list (my
+> > instrumentation shows 122684 active vs. 179 inactive) when reclaim
+> > does the scanning, which means the only way for pages to be reclaimed
+> > is for pages to get deactivated from the active list back to the
+> > inactive list.
+> > d) prepare_scan_control() (which decides if the pages get deactivated)
+> > reads the LRU sizes from rstat. This memcg hasn't been flushed yet
+> > (the 2s flusher hasn't yet triggered since when the memcg was
+> > created), so the NR_INACTIVE_ANON and NR_ACTIVE_ANON stats are all
+> > still zero. The real values are all still sitting in per-cpu buffers
+> > that haven't yet been flushed. My instrumentation shows:
+> >         inactive_anon       rstat: 0    actual: 179
+> >         active_anon          rstat: 0    actual: 122684  (~479 MB)
+> > e) the deactivation logic in prepare_scan_control() is:
+> >
+> >                 refaults =3D lruvec_page_state(target_lruvec,
+> >                                 WORKINGSET_ACTIVATE_ANON);
+> >                 if (refaults !=3D target_lruvec->refaults[WORKINGSET_AN=
+ON] ||
+> >                         inactive_is_low(target_lruvec, LRU_INACTIVE_ANO=
+N))
+> >                         sc->may_deactivate |=3D DEACTIVATE_ANON;
+> >                 else
+> >                         sc->may_deactivate &=3D ~DEACTIVATE_ANON;
+> >
+> > The if check fails:
+> >      refaults !=3D prev refaults: 0 !=3D 0      (false)
+> >      inactive_is_low(): both LRU inactive and active values are 0: 0 *
+> > inactive_ratio < 0     ( false)
+> >
+> > DEACTIVATE_ANON gets cleared
+> >
+> > f) pages don't get moved from the active list to the inactive list, so
+> > reclaim ends up freeing nothing. memory_max_write() goes through all
+> > MAX_RECLAIM_RETRIES and OOMs, even though there's 479 MB reclaimable
+> > (but it's all on the active list).
+> >
+> > I saw that the skipped_deactivate retry did fire (on 858 of 4264
+> > scans), but not enough to get the memory.current back under the halved
+> > memory.max, so memory_max_write() still exhausted MAX_RECLAIM_RETRIES
+> > and OOMed.
+> >
+> >
+> > imo I think the best fix would be
+> > a) for non-root memcgs, revert back to the non-ratelimited version
+> > (mem_cgroup_flush_stats())
+> > b) for root-memcgs (which if flushed will flush every cgroup on the
+> > machine), don't use rstat at all and use the existing node counters
+> > instead (which is what the non-memcg case already uses).
+> > mod_lruvec_state() always updates the node vmstat and the memcg lruvec
+> > stat in the same call. For the root lruvec, the node counter reflects
+> > the same value and doesn't need any flushing. It has an error bound of
+> > 125 pages/cpu at most, but this is tighter than what we currently have
+> > with the ratelimited version.
+>
+> This seems like the right thing to do. If we have global stats, we
+> should avoid a rstat flush. I actually wonder if we should start
+> systematically eliminating root flushes, and if that ends up being
+> good enough to keep everything else as-is for in-kernel flushers. The
+> flush in zswap_shrinker_count() is also a good candidate, we already
+> use global stats when memcg is disabled there as well.
 
+I agree, I think we should replace all root flushes with reading the
+node counter values. I'll submit some patches for that.
 
+>
+> >
+> > commit 90a6f2a8f442 ("memcg: use ratelimited stats flush in the
+> > reclaim") was what switched vmscan to using ratelimited flushing. The
+> > reason for this was to fix the stalls from concurrent reclaimers
+> > contending on the rstat lock. For the Cloudflare case, kswapd threads
+> > were contending on the rstat lock on 8 numa-node machines. That's the
+> > global path (eg sc->target_mem_cgroup is NULL,
+> > mem_cgroup_flush_stats() turns it into root, so this flush essentially
+> > ends up flushing every cgroup on the machine), which gets addressed by
+> > adding the fix in b), which takes kswapd and global direct reclaim off
+> > rstat entirely. For the non-root memcg case, the flushing is bounded
+> > by the MEMCG_CHARGE_BATCH * num_online_cpus() threshold (a non-root
+> > memcg's stats_updates only accumulates its own subtree's updates, so
+> > it takes a lot longer for it to be exceeded than the root's does).
+> >
+> > I ran some benchmarks to get a rough idea of what a) costs. I set up a
+> > workload that allocates 512M of anon memory in a memcg with memory.max
+> > set to half of that to trigger reclaim continuously. I varied the
+> > number of threads touching the memory, so that N of them hit
+> > memory.max and enter direct reclaim on the same memcg at once. I used
+> > bpftrace to measure the time spent inside css_rstat_flush() and
+> > shrink_node() and used those two numbers to get a percentage for how
+> > much of reclaim is spent in flushing. These are the numbers I saw:
+> >
+> > # threads      flush as % of shrink_node()
+> > 1                ratelimited: 1.10%       non-ratelimited: 2.22%
+> > 16              ratelimited: 0.36%       non-ratelimited: 2.87%
+> > 64              ratelimited: 0.16%       non-ratelimited: 2.52%
+> >
+> > Between the ratelimited and the non-ratelimited runs, walltime and
+> > pgsteal were pretty much indistinguishable (42.7s vs 43.6s at 16
+> > threads and 41.7 s vs 42.4s at 64, with the ranges overlapping, and
+> > pgsteal within 0.2%).
+> >
+> > I also measured the lock contention. At 16 and 64 threads, 15-20% of
+> > __css_rstat_lock() acquisitions hit a contended trylock with the
+> > non-ratelimited version. At 16 threads, the mean flush time rises
+> > about 8% and at 64 it roughly triples from the single-thread case
+> > (26us at 1 thread, 42 us at 16, 87us at 64)  but I didn't see any
+> > effect of this on wall time or pgsteal between the non-ratelimited and
+> > the ratelimited version, and the percentage of reclaim time spent
+> > flushing stayed at 2-3%. I think that's because css_rstat_flush()
+> > takes and drops the lock once per cpu rather than holding it across
+> > the walk.
+> >
+> > I also ran it with 32 actively churning sub-cgroups under the reclaim
+> > target, since css_rstat_flush() walks the descendants that have
+> > pending updates. I saw that per-flush cost rises slightly (~24 us to
+> > 27 us) but the share of reclaim time spent flushing went down rather
+> > than up (4.1% to 3.2%), because reclaim gets more expensive faster
+> > than flushing does. I don't have a ratelimited baseline at 32 children
+> > though, because with the ratelimited version, all the runs I tried
+> > OOMed. I think this is an alternative repro to the OOM issue but
+> > doesn't need/have KVM dependencies, so if this would be useful to
+> > clean up and send as a standalone C repro, please let me know.
+>
+> It might be useful if it can be added as a selftest or similar, so
+> that such regressions can be caught more easily in the future?
+>
+> >
+> > (Also btw (this is a bit tangential to this OOM issue, but somewhat
+> > semi-related), I don't think the WORKINGSET_ACTIVATE_{ANON,FILE} stats
+> > checking really does anything in practice. On my benchmark runs, the
+> > "refaults !=3D prev_refaults" check evaluates to false in pretty much
+> > every scan. Even with flushing working properly, it didn't trigger on
+> > 1673718 of 1674912 samples, even though the cgroup was thrashing the
+> > whole time (a separate run of the same workload counted 6371860 anon
+> > refaults vs 6523 activations). I think it's because reclaim is
+> > scanning faster than the refaults counter advances, so it'll almost
+> > always see no change. I'm not sure how much this matters in practice,
+> > but I think effectively in that check above in prepare_scan_control(),
+> > deactivation relies entirely on the inactive_is_low() check.)
+>
+> I am also not sure about this one. I am not sure if reclaim moving
+> faster than refaults is something universal, it seems like it would be
+> workload-specific. Johannes is the person that comes to mind when I
+> think about these heuristics, so maybe he has an opinion about this?
+> :)
+>
+> >
+> > What do you all think about adding a) and b) as the fix for this issue?
+>
+> I generally agree. Doesn't really matter much, but I think we should
+> do (b) then (a) to avoid reintroducing the regression temporarily?
+
+I'll send out the patch for (b) and then (a).
+
+Thinking some more about how stats are used... I think there's two
+categories the stats fall into: a) hot in-kernel ones (eg LRU sizes,
+workingset counters, dirty/writeback, zswap) which are read very
+frequently from the reclaim, refault, writeback and zswap paths and b)
+userspace-only ones (everything else) that are read through
+memory.stat / bpf / etc and much less often. The hot in-kernel ones
+are a small subset (~20 of ~80). Most of the stats fall into category
+b). However right now, a flush always aggregates *all* of these stats,
+even when the caller only needs / cares about the hot in-kernel ones.
+Flushing does all the work for the stats in category b), which the
+in-kernel flushers don't need. With the per-node lruvec copies, a
+flush goes through 100+ counters per cgroup per CPU vs ~30 for just
+the hot in-kernel ones (on a single-node machine).
+
+What do you think about splitting the stats into two rstat trees, one
+for each category? In-kernel flushers would then only flush the hot
+tree (~30 counters). memory.stat would still flush both (eg userspace
+would see the same thing as it sees today). Each tree would have its
+own lock and its own stats_updates threshold. I can run some
+benchmarks but I think this would make flushes a lot cheaper, and
+since flushes would hold the lock for less time, it should also reduce
+the contention we see between concurrent flushers right now. Together
+with using node counters for root readers, hopefully this will make
+the non-ratelimited flush cheap enough for all non-root in-kernel
+readers and ideally let us get rid of the ratelimiting variant
+altogether.
+
+Do you think something like this makes sense?
+
+Separate from this but also kind of semi-related, I noticed
+css_rstat_flush() takes the rstat lock for every possible cpu, even
+cpus that have nothing to flush for the subtree. Maybe another
+improvement is to just first check locklessly whether there's any
+updates and then just skip the cpu if there aren't any. I can send a
+patch out for this.
+
+Thanks,
+Joanne
