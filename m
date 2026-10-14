@@ -1,132 +1,200 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43965551998;
-	Wed, 14 Oct 2026 15:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85DAB30EF8F
+	for <fuse-devel@lists.linux.dev>; Wed, 14 Oct 2026 19:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791992068; cv=none; b=aNjmV1S97OfE80s6BAqSv8WuloyoQ9DMh8Zn/iuWP4nftXZBH+uih6bZ7pEeIpBvJkTKHwSHVa+D4Gdo8xMdX3MBMTcgLDgb8yIH5S94Q5KaMF52nNMBfXX6Y35x+7JNCUTXgOCDMHLsOgaf7V5iGQL9MFhxJVEq5MBG03e6ns0=
+	t=1792005619; cv=none; b=iSqCrbACbI697CiBy+wll+pbyoQQYKMqq49mESftZugrTOJqFM9cBvCr0+VKWYkYmEd/yYJ29YpcmCimv34IlN5YLKuZY/wjEQmHPDwAjeePW0fcNLOIl2XgX1Q0x31bzWccemWxU1X2JqI3BnlTDEpsj09W+S5brKoRDL+0Skk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791992068; c=relaxed/simple;
-	bh=E3b5bGuxXiDmeXSWjXU/z/lrNdQ2up0OPotyR0w5mGQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UDX5Gc6xuwqWrYprWZaE6zpkMZ3ozCevsqyqiNzjvIa0lMO3p8FCU7D289HWw0ONiANpeErC2+wa2/1ymfwIvBydrrXk9W0KmonbcgbtqJfgGFdP3MQ9zqU1jWI56p50OpprVhaSGETFWri9Jll3q8XVH95kegUQeCskAKhKSG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oXwsjiim; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792005619; c=relaxed/simple;
+	bh=ewchwNOJSoKlJ9JagQs/kTQULWbRvWajLmzGwT+tl6M=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=F/n2+PO/EMCsBBFgRCmgaMtpYx145GcNrQyU7ue1LYyzBPfPcz1gNa+5HCfUnhv/SB4kHF+rzLgKTn6dsvyEFxFYtLZZAzHl9gzbx/b9VZmQpUkLqs8prNYy84Ymb34sSiBJJmDYXeUkB8wdBU+uxGtrM7SQyyvhh1eFb7rKFco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--shayba.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=h6d7Rjal; arc=none smtp.client-ip=74.125.82.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--shayba.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oXwsjiim"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ADD91F000C4;
-	Wed, 14 Oct 2026 15:34:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791992065;
-	bh=4PFOX9yalEabkXcpKYf0K7UJ8iSUGtpn9nhdGgjblA8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oXwsjiimljBkk3klGNvt2oGaICpvgZfYfSRo10UiYzT15XrWeCYt6KEOlmy6ogSP3
-	 lvrU+RAONvfAw+EO/TwZA6uxO0ktnG4cQofibjrwCwnK5x37vHTvg0G9kufqPAqiEm
-	 PHOVyF6jRrNvealKCeNKw1ZQE4eJtZ0tfoPeyt1W2ZLD7tv361JizIZMAhQf5HQLrV
-	 435ZB8BCdRo12/DcFdO+x6EuaApq26T0noVRE9AIwbjec6e3CQeblCsaTouSHBYRgE
-	 12I3RDGLcnHbknrkK6HM+70+HlA3PYB+TIvAZsUxBg97UMqA+Ind7CkAj5afjetywj
-	 UnslMDXYih0yQ==
-Date: Wed, 14 Oct 2026 15:34:23 +0000
-From: Yosry Ahmed <yosry@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, 
-	James Houghton <jthoughton@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, Tejun Heo <tj@kernel.org>, 
-	Jan Kara <jack@suse.cz>, Miklos Szeredi <miklos@szeredi.hu>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, kernel-team@meta.com, fuse-devel <fuse-devel@lists.linux.dev>, 
-	Jingbo Xu <jefflexu@linux.alibaba.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	linux-mm <linux-mm@kvack.org>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Yunzhao Li <yunzhao@cloudflare.com>, Song Hu <husong@kylinos.cn>
-Subject: Re: memcg stats flushing (WAS "Re: [PATCH] fuse: disable default bdi
- strictlimiting")
-Message-ID: <as-fG4VB_4xnAI8n@google.com>
-References: <CAJnrk1YifN22mA5PFRVrh3m_ygxax6x4_8nraG2hPqCzyzBj7A@mail.gmail.com>
- <anpsLy_pCanocgS1@google.com>
- <CAJnrk1Yoj7fqbzurmHkbA-vegpQu3cf-_dfvKor_VxuNhPR-AA@mail.gmail.com>
- <CAO9r8zPLipVW6bvyDK1ypSawbo=LHKvmLqWH0xA6WMR9GYNJpg@mail.gmail.com>
- <CAJnrk1ai-TqcudPoK-qFRYAJnUjBmg1kVa6Vxg3eDm5w5ivqSA@mail.gmail.com>
- <CAO9r8zNJ=Fpc0pZExrttVTDCM3yzSmLPCAU=+RS0k5Pm+hY96w@mail.gmail.com>
- <CADrL8HV7_f68qfd6hG=xCTqzupPqr77ynbwdz8jm0hzjdgDVeg@mail.gmail.com>
- <CAJnrk1aHdBm4CofvKfx7B3H-uF2xRXZUQs47J_4xeRmRZ4hcZg@mail.gmail.com>
- <CAO9r8zOkBVgxdb3pCyHs-ZQTxhwBmA1_+aH0snV7dzbVaVsPsg@mail.gmail.com>
- <CAJnrk1ayOhrFY8LOMYxqEMYZvhK10zjTTyOK93VzMgxpV5W5sA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h6d7Rjal"
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-151ba226e1bso5040173c88.0
+        for <fuse-devel@lists.linux.dev>; Wed, 14 Oct 2026 12:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792005616; x=1792610416; darn=lists.linux.dev;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aECaE+DbTs0zA1//hmy17ogzl4KfVyvhPwgQUxqIw5k=;
+        b=h6d7Rjal13uitGrKP16K77S1Z2G90ndkzzJF3AXPsvj1ABm6XI48bWcoOH1Inq/MC8
+         sRmUN+Ellr1fC9POQUReA82R4WKc0GMLCj7sgJPqP6/qS5hHBT3Xza/9cS+70CWu/NxA
+         J+2X5OAelPYCO79nANtc8sMemSuWrhTGsMaOQYXeQB+rXKSOpUPsBUkTs01h4fvNMhZS
+         efmBZhgPbbS1lKpTRIiPYuFDsO/G45NY3yA1rpR5aMxbXU0917/si+2aDy68YvSibBJ6
+         WFs9GHVAxZL64RgvGEgtxwHGs/RC1Lc5gQF/lvlx+9ROJVoOoReay9N/abH2i3dUtQQQ
+         MFmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792005616; x=1792610416;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aECaE+DbTs0zA1//hmy17ogzl4KfVyvhPwgQUxqIw5k=;
+        b=Ti9Cjny8xHGqY0E0rDIcShRxle/X1bNiCfeQnCoTnmNtx/NcGIqTdPcPa6698fFoqq
+         W9OegckNa1+Nz2I/JN718OPnpxQbP8/8NQZ8oDwcqQYdL0NXOn3WOSO/rBJfbdssYMab
+         zgyXH9c7mGBoTxcFM1qB4+ptMa38bWo82pf97JKrm4RX8QKVTW4lS+seAf9MUyKg8bvF
+         vHxcUmIBD1VS8KJwRHmRq7duh8ShQzkTm9GfBKfh9srB/8tHEmKZiq7XEe8T0CaQY+AV
+         KqQGjPQOXDVYtaOCSGgtoEAoGhgfgna1mSpYhzIBn0kH9D0wCSOfJEGvE432da4yp9o5
+         KI/Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxkfT+SydbxoGFdL85e+f2YUNGrnaNUw9yXEkdyPoz35y6ufjC96wjhKQepw5HKlmpNj8h79hQA80Js@lists.linux.dev
+X-Gm-Message-State: AFq9FYKq426FxXu58QVImNxn2Im6eCQ46n/DXrGCWi8+umnUOzndOir9
+	O3dKB6+kz4B80UFgXRa9ccWOcQ0Fp8bxUrOaLJi/xlWiUmY9x3dWpwXz5HDFdltF4o/SaiuIOmd
+	rR7TV6Q==
+X-Received: from dldyr18-n2.prod.google.com ([2002:a05:701b:4512:20b0:168:3bc7:9e8])
+ (user=shayba job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:5f14:b0:168:6ad8:e89f
+ with SMTP id a92af1059eb24-16a56c9dd9dmr21867195c88.3.1792005615123; Wed, 14
+ Oct 2026 12:20:15 -0700 (PDT)
+Date: Wed, 14 Oct 2026 19:20:14 +0000
+In-Reply-To: <20260910184424.156341-1-shayba@google.com>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJnrk1ayOhrFY8LOMYxqEMYZvhK10zjTTyOK93VzMgxpV5W5sA@mail.gmail.com>
+Mime-Version: 1.0
+References: <20260910184424.156341-1-shayba@google.com>
+X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
+Message-ID: <20261014192014.3373048-1-shayba@google.com>
+Subject: [PATCH v3] fuse: Forward vfs_fadvise to backing_file in passthrough mode
+From: Shai Barack <shayba@google.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>, Bernd Schubert <bschubert@ddn.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Akilesh Kailash <akailash@google.com>, Suren Baghdasaryan <surenb@google.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Shai Barack <shayba@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-> Thinking some more about how stats are used... I think there's two
-> categories the stats fall into: a) hot in-kernel ones (eg LRU sizes,
-> workingset counters, dirty/writeback, zswap) which are read very
-> frequently from the reclaim, refault, writeback and zswap paths and b)
-> userspace-only ones (everything else) that are read through
-> memory.stat / bpf / etc and much less often. The hot in-kernel ones
-> are a small subset (~20 of ~80). Most of the stats fall into category
-> b). However right now, a flush always aggregates *all* of these stats,
-> even when the caller only needs / cares about the hot in-kernel ones.
-> Flushing does all the work for the stats in category b), which the
-> in-kernel flushers don't need. With the per-node lruvec copies, a
-> flush goes through 100+ counters per cgroup per CPU vs ~30 for just
-> the hot in-kernel ones (on a single-node machine).
+When an application invokes posix_fadvise(..., POSIX_FADV_DONTNEED) or
+other fadvise advice on a FUSE passthrough file descriptor, the VFS
+currently only executes generic_fadvise() on the upper FUSE inode
+mapping.
 
-I didn't measure this before, but I did tree adding a bitmask to check
-which stats have updates and that actually made flushing more expensive.
-It could have been the case that hot stats were distributed enough that
-all the cachelines were being fetched anyway and the bitmask was just
-added overhead.
+Because FUSE passthrough does not forward fadvise operations to the
+underlying backing file, pages residing in the lower filesystem's
+pagecache remain resident in memory.
 
-I think you should do a simple experiment first about how much flushing
-gets faster if you skip the stats not used by the kernel. It may or may
-not matter, depends on prefetching (conversely, I wonder if explicitly
-prefetching the entire stats array on each CPU would help).
+During media-heavy workloads (such as image thumbnail generation or
+streaming), single-access file data accumulates in the inactive pagecache
+of the lower filesystem. Under memory pressure, the kernel retains these
+stale media pages and instead evicts active executable pages from
+running processes, leading to severe direct reclaim latency spikes.
 
-I think it would matter less if we manage to completely get rid of root
-flushes (except for userspace stat reads).
+Architecturally, Linux VFS supports filesystem-specific fadvise
+delegation via the .fadvise hook in struct file_operations. Implement
+fuse_file_fadvise() in fs/fuse/file.c and register it in
+fuse_file_operations. When passthrough is active on a fuse_file,
+fuse_file_fadvise() forwards the vfs_fadvise() call to the lower
+backing_file under the opened credentials, allowing POSIX_FADV_DONTNEED
+to cleanly invalidate the physical backing filesystem pagecache.
 
-> 
-> What do you think about splitting the stats into two rstat trees, one
-> for each category? In-kernel flushers would then only flush the hot
-> tree (~30 counters). memory.stat would still flush both (eg userspace
-> would see the same thing as it sees today). Each tree would have its
-> own lock and its own stats_updates threshold.  I can run some
-> benchmarks but I think this would make flushes a lot cheaper, and
-> since flushes would hold the lock for less time, it should also reduce
-> the contention we see between concurrent flushers right now. Together
-> with using node counters for root readers, hopefully this will make
-> the non-ratelimited flush cheap enough for all non-root in-kernel
-> readers and ideally let us get rid of the ratelimiting variant
-> altogether.
-> 
-> Do you think something like this makes sense?
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Reviewed-by: T.J. Mercier <tjmercier@google.com>
+Signed-off-by: Shai Barack <shayba@google.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Amir Goldstein <amir73il@gmail.com>
+Cc: Bernd Schubert <bschubert@ddn.com>
+Cc: T.J. Mercier <tjmercier@google.com>
+Cc: Sandeep Dhavale <dhavale@google.com>
+Cc: Akilesh Kailash <akailash@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: fuse-devel@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+v3:
+- Rebase onto fuse.git for-next (commit bbe2d73a8231 "fuse: don't assume
+  ff->passthrough is set for FOPEN_PASSTHROUGH"): use fuse_is_passthrough()
+  in fuse_file_fadvise(), take struct file * in fuse_passthrough_fadvise(),
+  and fall back to generic_fadvise() when backing_file is NULL (T.J. Mercier)
+- Collect Reviewed-by tags from Amir Goldstein and T.J. Mercier
 
-We have to consider the update side of things as well. How many code
-paths will need to update both trees? That could be a problem.
+v2:
+- Remove redundant !backing_file check in fuse_passthrough_fadvise() (Amir Goldstein)
+- Remove unused fuse_passthrough_fadvise() stub under #ifndef CONFIG_FUSE_PASSTHROUGH (Amir Goldstein)
+- Reorder fuse_passthrough_fadvise() above fuse_passthrough_open() alongside other passthrough ops (Amir Goldstein)
+- Add fuse-devel@lists.linux.dev to CC list (Amir Goldstein, T.J. Mercier)
 
-From a code perspective, it would also be a bit annoying to maintain. I
-would check if we can eliminate root flushes first tbh, then check any
-other potential optimizations on top. Subtrees should me a lot smaller
-than the entire tree.
+ fs/fuse/file.c        | 11 +++++++++++
+ fs/fuse/fuse_i.h      |  1 +
+ fs/fuse/passthrough.c | 17 +++++++++++++++++
+ 3 files changed, 29 insertions(+)
 
-> Separate from this but also kind of semi-related, I noticed
-> css_rstat_flush() takes the rstat lock for every possible cpu, even
-> cpus that have nothing to flush for the subtree. Maybe another
-> improvement is to just first check locklessly whether there's any
-> updates and then just skip the cpu if there aren't any. I can send a
-> patch out for this.
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 6d707f2..6e6136e 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -3100,6 +3100,16 @@ static ssize_t fuse_copy_file_range(struct file *src_file, loff_t src_off,
+ 	return ret;
+ }
+ 
++static int fuse_file_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
++{
++	struct fuse_file *ff = file->private_data;
++
++	if (fuse_is_passthrough(ff))
++		return fuse_passthrough_fadvise(file, offset, len, advice);
++
++	return generic_fadvise(file, offset, len, advice);
++}
++
+ static const struct file_operations fuse_file_operations = {
+ 	.llseek		= fuse_file_llseek,
+ 	.read_iter	= fuse_file_read_iter,
+@@ -3120,6 +3130,7 @@ static const struct file_operations fuse_file_operations = {
+ 	.fallocate	= fuse_file_fallocate,
+ 	.copy_file_range = fuse_copy_file_range,
+ 	.setlease	= generic_setlease,
++	.fadvise	= fuse_file_fadvise,
+ };
+ 
+ static const struct address_space_operations fuse_file_aops  = {
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 8546855..49b3101 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1316,6 +1316,7 @@ ssize_t fuse_passthrough_splice_write(struct pipe_inode_info *pipe,
+ 				      struct file *out, loff_t *ppos,
+ 				      size_t len, unsigned int flags);
+ ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma);
++int fuse_passthrough_fadvise(struct file *file, loff_t offset, loff_t len, int advice);
+ 
+ #ifdef CONFIG_SYSCTL
+ extern int fuse_sysctl_register(void);
+diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
+index b43d3e0..2d29ff6 100644
+--- a/fs/fuse/passthrough.c
++++ b/fs/fuse/passthrough.c
+@@ -148,6 +148,23 @@ ssize_t fuse_passthrough_mmap(struct file *file, struct vm_area_struct *vma)
+ 	return backing_file_mmap(backing_file, vma, &ctx);
+ }
+ 
++int fuse_passthrough_fadvise(struct file *file, loff_t offset, loff_t len, int advice)
++{
++	struct fuse_file *ff = file->private_data;
++	struct file *backing_file = fuse_file_passthrough(ff);
++	const struct cred *old_cred;
++	int ret;
++
++	if (!backing_file)
++		return generic_fadvise(file, offset, len, advice);
++
++	old_cred = override_creds(ff->cred);
++	ret = vfs_fadvise(backing_file, offset, len, advice);
++	revert_creds(old_cred);
++
++	return ret;
++}
++
+ /*
+  * Setup passthrough to a backing file.
+  *
+-- 
+2.56.0.385.gd3acb90ef8-goog
 
-Only the updated cgroups are on the update tree, not their ancestors,
-not until the flush time. We used to put the ancestors on the tree on
-the update side, but we don't anymore.
-
-So we can only check the if the per-subsystem list is empty, not the
-subtree specifically, right? Can we walk the per-subsystem list without
-holding the lock or deleting first?
-
-> 
-> Thanks,
-> Joanne
