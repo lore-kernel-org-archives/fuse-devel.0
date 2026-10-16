@@ -1,150 +1,101 @@
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32504BD37C
-	for <fuse-devel@lists.linux.dev>; Fri, 16 Oct 2026 13:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792156524; cv=none; b=syEf2cCZGFowhoGVQEkGs/D13ADI0s19wn0eyX7YJZW/ORhPJmQt4i9DeCP5NuWDvr8fl+i5l2WpYQxR81L0S37CPo+kF5H9/anp0MLKXmkgHcx8ApXs+0cOJTeEHNgATykjrY7Up0d8NVZwSVkexxPKYH33gtGKCUTxCo3Esh0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792156524; c=relaxed/simple;
-	bh=Hw5nQV6Q4UYlAlqPfOnI97faI3jJpbsMYn14A7teF7Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ibKCZf4hoFVkG+5Pu89NfSA8ZrHjSrH+BhhaRaHA6mH2zeKWhYsIErpjkm/Y2ZVpifHS95iG7fS6gES2Ad17C0MU5TZFMq512bwENyqDTUjVohQnE0VmYzjw2eIn0j6myp60z3SNS4HY/AW5QNhyGSWCz2VYwP4o0DF0zkU3U3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=Wiv15Vsz; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=hdjxrs/l; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD8D47F2ED
+	for <fuse-devel@lists.linux.dev>; Fri, 16 Oct 2026 13:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792157401; cv=pass; b=tHNBJDtWIZeqiabOyQN33XPquwAjVQ9BE9ySsitP5cRIVFX+70r1wb/DCZZUEjNql5EP9XUQbrR6CklEzw0rqIlHl3v3ZVvN3WG/xMIxTDi/f9o3KSKoW+/hJJ9ON/PvQR/i8jS1SQ/unElkmZi9wZU3W54QdCRxVBYWdBjCZrQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792157401; c=relaxed/simple;
+	bh=ghSQBNQLHFKFmZCfz5WoBGUzvoX8ZbfSdQ88iO2t5e4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lzRwDVPWk/k3SDExCoMcgpCI4PgX1rx1l4HBYtsTY4g+xbnOWknrjs/rdCp9OvFfBRF1iM8WFVbmfNTkkNo//4Y+Jz4wpt6S64YYBPUEpRQN0thpL9lOLL2FN6Vrf02RI6s4/sVMBQe8AeDTyTbUI917m7jEDsjgSBn6iGFqgHI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=MaNo5LLZ; arc=pass smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="Wiv15Vsz";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="hdjxrs/l"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3980F7A012A
-	for <fuse-devel@lists.linux.dev>; Fri, 16 Oct 2026 09:15:22 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Fri, 16 Oct 2026 09:15:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1792156521;
-	 x=1792242921; bh=MhTDU96b+YiEL9LjxtQD/BgMUBUrJjRuoQ5GQDKicbc=; b=
-	Wiv15Vsz0ObShirb7HW0sOdD5yyYH58MW31Mpu5aq2iaIqbfqNAFggRgt87tD9eV
-	GQZCqjwcQ7XIbv/5IQvemcxjwNRD7xXbRcJvd670Fe+BwBzL2enZkaK1mic4yCIm
-	IWeQSj5e3YS6z9A4pd8+ZD9/9xG6x8d+YbXbOz925aaPJRCbYT4u73L1PtqiLkx0
-	oF2bXx6UlWgaq3hlieyPYDOXgBPH16LtYqN2U2KuEBR7v+LG8mD1VtUqH16zmENX
-	egcmbEsXG/s5EtHZhev//v7zU1UzoB2dnz3RYBzCT32tbq6P3yvzoTQrdMG16vjt
-	a1dh+vZmEZbKTmXWaxqe2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1792156521; x=1792242921; bh=M
-	hTDU96b+YiEL9LjxtQD/BgMUBUrJjRuoQ5GQDKicbc=; b=hdjxrs/liMfoKUXQI
-	w3zhlAA59ZJVmfodoF19teO1abO+uyATdtHq8qW8puuQdFYAtqIbSQeuW6HkrdiT
-	CQha+lKcNd6uqeTH6Rqkd5/1vqYgCGs5hNz/DvaqnWBHJdHbqg58KgWbx1WHZFb7
-	58QYItXsU5ETaJUX+o93ESjIc8s0BJqlMzewnXMDn1ok6EjCfCS6/9ERUX6QAOyg
-	lrABqeCi7qyCp7ODXxwwtAXgXNONlaCKIrfrC0voLirr/uuiaM83U4bpRbvI2ubd
-	NH0HODpGmxVexl+7I8UOZQkVeYguW1L4SmlxeYna/V0dWvgGy8rhqrZWiOmMKMEM
-	I/baA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=sign d=bsbernd.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792156521; d=bsbernd.com;
-	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
-	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm1:rsa-sha256:QQCyzV8/OziL2BYakicxR+F38e438D1M69a4irrV/4Bd2rj
-	UCtWfBXB72qxLJn49+vwE8PgCvFEoQoQ1HRTbuprJZ2+gyZ/eVPsl/q1xNEHqXzH
-	bNJxPK5a1+lPYyvinRaod1zcwiIojI6m+ax7Cir3yUTEistXpwlkkiIw0qFgmziY
-	lpicaAyhFIqwKgy5brt7Aer6cOskE2pV0AgwPAy5zDwiQc1AJu2q6BUBy9v2qE5r
-	1f9u9gNI06Rc58/+DFkqeKjIF3Fca9r3iwhSOItvA8LJ+jNEtHnKcePTVHAJZqY8
-	Y5Ty1Q1x149ABxwBczCpTCnkITV0FQ1iECu5HPg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-10-08; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=content-language,content-transfer-encoding,content-type,date,
-	feedback-id,from,in-reply-to,message-id,mime-version,references,
-	subject,to,user-agent;
-Message-Instance: m=1; h=sha256:GH27R14/7FlAZ3JEo81uCVxj5C3jT7v3efOdqs1x6d8=:Hw5nQV6Q4UYlAlqPfOnI97faI3jJpbsMYn14A7teF7Q=;
-X-ME-Sender: <xms:aSPSaueCNTwH4oyxv6w62Z6sXJsa8bOQtAakQIwTkI9CA7YGFQ8vTw>
-    <xme:aSPSav_JIp4tJu3qNEBdha0P-w8DJhWZfG9hjmVikZzTo3-Hz5Qag2bZlhfx_v3G9
-    Ms5s4d2Xrhpe5AutDioHue2F5Xo5QVIXqmVfRFH8TXzI2ur1N3s>
-X-ME-Received: <xmr:aSPSaimXwFlcX2sMmUeu9Fk_7B_YLm35kieQoMH33zq8MLOciqDC1l2O5ULQtRrXG-ktTmobrqIPWpJvNBQPxCnKm5LxLTPHAJNihliyAXa2e7RcHA>
-X-ME-Proxy-Cause: dmFkZTFHwD02cN12GNR78nRR6AfalXm1GrrGO6kIDibUgVdxBFr917PbDjPr1p0sEbqt+D
-    e7/2367Xeky910JV9dErQhlcPGw1LM+EkHDbl5kBR+FSZXWj1cO7uJWPb8L6ekV++sn7qk
-    L71g2pmWVCsH41HyrG3xqHaw84yye4M8w2PIjw80lO7VHfagB8nrZA7gPcqgKMzaE8cDZj
-    Ux6TtQ/vmi/FDToel+0Gycm6KMwl/gBI79sh7OEs8KG1d5pqfrLYftZHXNAJUsGpvUTxRz
-    9tilgA1mLtqH1JGdCps5FQek3QBdtO2tIjyE/ojzAzs3Yq4m+bypcdfZdBUpXpAXZrhhU8
-    6GMMnedCUQJu3Z8cVvsv9u1okHcCEhIZLGzsgONrKJroSVaY7ZpQaY/Z1Uw4gCq985lOP8
-    rQmAzcMd/j66ih5ONOuLOe2bsUXmtD/S1anqMuksjCdgDy/8Q3HKnhcCuFxB9sxhaFqRLQ
-    2FjCAxicN287tDEk+42LLiJnxoRALFKJIyEQ+TxCQSqf9mXIkQ3/YtcVSsp6y3sHOsOpbF
-    lpE3ISkRBu82xDrFRVi9bFtkqKayH4LYdzFqT79hNKbGhtw2mR1bVHUKcvAjBy9b6Nl+X7
-    XmZPpdZIewrZaD7G0wfoSngp8+bbIGpglj1TZM7TACyJGLMvzLYMioVAlUUQ
-X-ME-Proxy: <xmx:aSPSap-zLDFdxLNGWVSpALFlKOECM8XhW-OqMCBvzcn1Re-2bM6LGQ>
-    <xmx:aSPSaole0P8exGM718pEdvxTg-XZ0aCuvbnsZCGGJTv8UEdj0r8tug>
-    <xmx:aSPSau0WInjxmdnzuSCFpN1rljk-gjLUaBLW7DD0klMf9HiJFhCqXA>
-    <xmx:aSPSarq-gt2LL-ejZLZznoi1vKIfaJKmSlegiRwQ9XkUKD27pe19vA>
-    <xmx:aSPSautYSWiuLZDdpIlSwluK10aaMgqraLUYGTu9JNqaQSgshFNS5zP->
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 16 Oct 2026 09:15:20 -0400 (EDT)
-Message-ID: <c9771db2-5619-4979-b734-bb204ff07b2c@bsbernd.com>
-Date: Fri, 16 Oct 2026 15:15:19 +0200
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="MaNo5LLZ"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-533797e72e8so16152261cf.2
+        for <fuse-devel@lists.linux.dev>; Fri, 16 Oct 2026 06:30:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792157399; cv=none;
+        d=google.com; s=arc-20260327;
+        b=pf9Kon6V4Of0DNWsKDUdXd6uxbm6rRPjy0/e7N8ysJteWzp5hGM6m0dYiGPVi67+h2
+         TwNo9E5Sm6jdj7DF1ZYU2OQrrSRzuzpZDQGmxsV1x1NDAsOZKT1xP5/Wzing7aVcY9Ty
+         r37AeOwazDb7FFExBsgp9Zu/gkQ/n/ECsxjfWTRJ1BoSICZCl7RaNx8145wd4iLkqChK
+         n7ATKT3RNOanU7zUxv881QRN4EkKvUsIejfBtD5M8HfjJpttBxQe0kRrNMRmS8iC+YfJ
+         igt9msc9Racts3qEnDNzFK7bpxqzXGhBeqezjpyc/R0u7QRflmALwLRMZ5NKwVXqYEpv
+         lvKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ghSQBNQLHFKFmZCfz5WoBGUzvoX8ZbfSdQ88iO2t5e4=;
+        fh=aDG7T4Ci310z1yhMH8+jB8r8qMw0GK4YZnYEF4CxCrw=;
+        b=Rnm7J4kL6TNpXjzHfpCrr8YhIpH9huna/mU3zdIS9G4L+twISBwTRYOXXS2/4g3FKX
+         YTcPTfvFILgn18JwaANyMcLbd6bFSsK3b5pP8+xBGfF6yToWLe49SxzNQkVPmmwqfxk3
+         IPYlAnGJqsgLjUC0SpVeh+xTymvJGgSJb4pCxNhw7tIwoMPl6fUIvFQCS9z2vF6hVqt+
+         4o1k2HrB2xEUFPVwgBWrbSeUXdlETln4GncLKc1gYdf/wrGLFEmiceEFaeKH+cCrZRJh
+         Z8nh0jNHSHFH5ip4Kj5cNmRsfwPi3gvZ+Q9qCfzzu4X8wPfbaLfHVoPQFkEOhTLHLTRu
+         sSbg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1792157399; x=1792762199; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ghSQBNQLHFKFmZCfz5WoBGUzvoX8ZbfSdQ88iO2t5e4=;
+        b=MaNo5LLZ+2WstvhWfOvF4FHzYMv3VVWayWXMFVR6tDZ47W5gqceNZcXLfoklW7oUOx
+         p0yFKWVamC0ZIkQ/SI5j5tNbxB7lgVAOkLx4YPRwGFtwcPxwEbZlCiyiKyNwe0+AWuTA
+         dVJ8Pd2ANu4HzNrC2TlUbToeQjFDWRM+NtMPw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792157399; x=1792762199;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ghSQBNQLHFKFmZCfz5WoBGUzvoX8ZbfSdQ88iO2t5e4=;
+        b=o/eo6Es0h6FeStrLgAUL5poJT9wjFii3iMmFeu9g2vfhajOCE0cFtlXXRQH+LBdGKD
+         t4ltDO9rpFgvX0nkGQOyFYxi4Cmd1et4zMDOHIXkeyQ9MgrCwZ10t4/pdPTL7R0UQWH0
+         8IkI5bcZUj/eIajxL9zccVR1t20YgGeXRlqHBI+WFXljIZ9fnz88rZqJ1Au2BkCk+mkR
+         tTPjuK+oZfX0dQSxiOI6GfxkQRS+CuxMpsraxrNG5a5anxKDe0JfwZacQ8w5qYEd8XjP
+         IAVDWzLShBbT+zCIg+ViNiA6zDEel+1pFhTn81x36HG7boGX/jzpj1B5a/6Pc7p9JvF1
+         1+vw==
+X-Gm-Message-State: AFq9FYKdrzmcYjlo/Je5tB6wRPZ8kkBQWpXGmnmngObqS8qYo32ZOV1l
+	k4hcQHh7FA13mZO9Gqu47viMEtS4X9hxfQr2QjqHAJs0kGt6gn3JshETNdwATQJzjfDSiAuSRfM
+	KGSkDdSmPy3+yTkgTF1sLJKImUb0Gbo1QwXPylyffgA==
+X-Gm-Gg: AYBFou1NWNqDt6u8R8y3Yyg6DrqJve0MP+iBVS7Kp1itsou8AEHhh+j4aX9ahDV/iMF
+	MrNW63wQk2djOLGIuUUpzbDlPkVEwFAt8VEuSkmtTZn7VduQ9VSCs8RwxHQcMStP2MTjJCbGwIO
+	wM+qrvoFJ1g4cmLBjwKgMWCVoW8+EauAOasws0aYgDRQFE9+myAuHRVlNfHORFaP+KJ/nLNUkFM
+	FWpaRz2U7SUYPRpJ/713sDX5Z7sKMISbPdvOV56rqqz8sWjqOCiQwH1DHQc/c3N5ssjNh3C4KEB
+	c5uL4XGmcutdWRlDwuA4VUxAV6uZaxaqgEsSjb1zns20xwEPPYNIvm0lr47CqaN5sASnBK0YKk1
+	3NIyaZYOR
+X-Received: by 2002:a05:620a:84c8:b0:93e:48fc:aa88 with SMTP id
+ af79cd13be357-93ebd24d0b6mr3718433185a.44.1792157399220; Fri, 16 Oct 2026
+ 06:29:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/1] fuse: per-queue background request accounting for
- io-uring
-To: Aleksander Trofimowicz <trof@n90.eu>, fuse-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20261016124820.316741-1-trof@n90.eu>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20261016124820.316741-1-trof@n90.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261013090447.1180121-1-nicoyip.dev@gmail.com>
+In-Reply-To: <20261013090447.1180121-1-nicoyip.dev@gmail.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 16 Oct 2026 15:29:47 +0200
+X-Gm-Features: AclHuK-Q2nn0oOoNYqpQrR-8kWZpjdvKCpaqHxulvcgHMV-HyAEfr1ZNOIxPAaI
+Message-ID: <CAJfpegupo+nAz_ELWYPezK5QsSEQ4-iuiXWrsme+yHvXrj0t0w@mail.gmail.com>
+Subject: Re: [PATCH] fuse: fix copy_file_range reply handling race
+To: Chengfeng Ye <nicoyip.dev@gmail.com>
+Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Alexsander,
+On Tue, 13 Oct 2026 at 11:04, Chengfeng Ye <nicoyip.dev@gmail.com> wrote:
 
-On 10/16/26 14:48, Aleksander Trofimowicz wrote:
-> fuse: per-queue background request accounting for io-uring
-> 
-> This RFC proposes an opt-in path to replace the connection-wide
-> background request accounting in fuse io-uring with per-queue
-> budgeting.
-> 
-> AFAIR the concept has already floated on the list, but nothing has
-> come to fruition. Nonetheless the problem is obvious: the existing
-> implementation relies on a single connection-wide spinlock
-> (fch->bg_lock) that is taken twice while servicing background
-> requests. That severely hampers the scalability of fuse io-uring for
-> certain types of workload (e.g. direct async I/O). Suffice it to say,
-> with this patch applied I can easily cross the 1M 4k random read IOPS
-> barrier, while the baseline gives a mere 600k IOPS (caeteris paribus).
-> 
-> I envision this enhancement being negotiated with a daemon, but for
-> your convenience the feature can currently be activated
-> unconditionally via the uring_max_bg_per_queue_force parameter. Mind
-> that the value of uring_max_bg_per_queue must also be increased to
-> obtain any meaningful results.
-> 
-> I am looking forward to your feedback. Thanks in advance.
+> Use args.opcode for both -ENOSYS handling and output buffer selection.
+> It records the opcode actually sent and is updated on fallback, keeping
+> each reply tied to its request regardless of concurrent flag updates.
 
-I wasn't doing this yet, because I see it dependent on the reduced
-queue feature, which also allows to distribute requests to another
-queue, when a queue already got too many requests. I.e. if a queue
-is over its own bg-limit, it should check if other queues are
-available.
+Applied, thanks.
 
-I plan to send out next version of reduced queues over the weekend.
-
-
-Thanks,
-Bernd
-
-
-
-
+Miklos
