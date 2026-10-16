@@ -1,72 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777A73546E9
-	for <fuse-devel@lists.linux.dev>; Fri, 16 Oct 2026 15:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820404D9549
+	for <fuse-devel@lists.linux.dev>; Fri, 16 Oct 2026 15:17:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792163852; cv=none; b=dUNtKJP7txA/LWeIaYZ9FFtheceFvbS0ilL1bRAQdESQaJmk6/QcNLbj/a2xeJAa6E3/MQi5hIVsXAnEYGFJNpkaedCxOIJyrgUlneEAD+XeMc5BCMDP7rNPGWkaEmbjgb0UCbXUrBpLm2vHSxUmo2qrQ634D5Cjm9u2Ba5Z57o=
+	t=1792163853; cv=none; b=QaH/Cr61CrRXZIofs0ljjhqU68DToGrVs3GUHpX4fDhX2QdDFWwUcyXP8syd7djM6GEgAtHSdbooZWdvQmcK5y569gX/Gt/skBweSqqpc8i1/F+y+Re51EaZft/I8lVPo5oxIIlFZMUcuDZ3QvovtKuKtp/YAjRKWsLXdHNeOuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792163852; c=relaxed/simple;
-	bh=SNEbIkmqMRgdOsSg9KH5QVEk1C1VAe1U4QKbZuBRQdM=;
+	s=arc-20240116; t=1792163853; c=relaxed/simple;
+	bh=YUkw+dai85UeClnTY/cNJI38d36WxPxX1F8i1DhNk+o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:content-type; b=FVE9QLb7XonL61r2GFTd8QhRpxd9GIY5Mpun843Xhlfomn2/06zYt0U1sYLVAbT3nnTlwkjkA2S6xUy3IhPpzbAO36OlnUqApjL1XhyvDCEqdsKSZmzPg8+Il4ardaWQVMtPhkwjLXtXlZ034jVNXK916e33LAGR3hdNJp0ICHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZzLRPGoa; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:content-type; b=G620F8o0xnWDnjgOJp6ro45/UudGj214wz6Hre3aK1AjLoyF+XzmR0V3wsxMHIPfNQmpeP1G0fmVzkwrohisXQ0uQewG4Hf4EqJzYuolmNcvUdlEMY+Wt1Gx/6fPtQrUI6gphob3OKBuf+MwWEuhlT9QcZz9KCNGNA9HauQgI3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YgJIOWgu; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZzLRPGoa"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YgJIOWgu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1792163848;
+	s=mimecast20190719; t=1792163847;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Pc3Xwl9t+j5CR2CMehADcG779mgFhsG3eyow0h9w7X0=;
-	b=ZzLRPGoahhOhNw1mQFlM2Afesdx8OvJ8tWs08ikIkaDOkqb7hH5fAt+xOTrE1o3TkZ92r+
-	K9d7Rc9u9gcPZYWFiPqiKc8e3tDxbVZP+TXYXi2zK9IXAo4T2MYAzErig1Lslncg3O/mSk
-	EQbYEWzC3tH6ji9y5ZEV5HO8Htf8Ceg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=+TROMxDl8UrJYxG0M+aHIDtSYaFMtjE8ArsPy1R4PO0=;
+	b=YgJIOWguC/0Tg9Arzi/aW7+90nVakWbSAOL1iHHiDTIe9MvaXBgXm/Fli731jf/rM7/bGz
+	TG3hhQfWmhiCLSqwRfv4IAziXy0DQxC/3yreI5pNCuDnxOKU0zkvzVkraO+/aer1ISRgbT
+	6WwWGilcPl2U27QjXnlNxUZHtHD8V64=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-284-pYmKBsOsO9SfY5hcnGA_Qw-1; Fri, 16 Oct 2026 15:17:26 +0000
-X-MC-Unique: pYmKBsOsO9SfY5hcnGA_Qw-1
-X-Mimecast-MFC-AGG-ID: pYmKBsOsO9SfY5hcnGA_Qw_1792163846
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4a1612c4b80so636145e9.0
-        for <fuse-devel@lists.linux.dev>; Fri, 16 Oct 2026 08:17:26 -0700 (PDT)
+ us-mta-196-hgcxXC1QN7-2ZRcuDZ9yTw-1; Fri, 16 Oct 2026 15:17:24 +0000
+X-MC-Unique: hgcxXC1QN7-2ZRcuDZ9yTw-1
+X-Mimecast-MFC-AGG-ID: hgcxXC1QN7-2ZRcuDZ9yTw_1792163843
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a019d53f46so489785e9.3
+        for <fuse-devel@lists.linux.dev>; Fri, 16 Oct 2026 08:17:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792163845; x=1792768645;
+        d=1e100.net; s=20260707; t=1792163843; x=1792768643;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pc3Xwl9t+j5CR2CMehADcG779mgFhsG3eyow0h9w7X0=;
-        b=nNwfknDFlyULKrOKaT5gtDhyhfDbKfj5x1+eM6W3rtyrybu8K57AcEN01bqcgcthir
-         d0NQcQNFxSvF1+wjJV/IWhw2Q2rwL98vNc7pu30bNjkN9iMbZd+uVApi9nBn4PczSmuh
-         9LTzPtB+pFOYRLyFZY1tPWZ/NqGnYpTI/PuafpbF2xMS0B7svW18qwSc/4T6mYkn9TB4
-         eGuFkojCBvhgUyC66Hf/kNp+SxJZCmqcO/dgTJkohGO3TgzKfgYfDqYGtSHy6dOBZ+qZ
-         qV04ahcZoqyelQ76p6iD97r9CShA/StkhUzP41eZnRCaCKz0DCEO4CSqep5lDOxoP9V0
-         55dA==
-X-Gm-Message-State: AFq9FYJ8043lZ0+QRq/z5Nd58j6hPqM92+fnedpUAbdsoXcompwrafr7
-	fLNUCb1s8bLtFQg/WGXmJhC7vuMg20NUpJ48++5hI3miTj5riC5j7p3doR02S2W49KwCH1lJgsQ
-	mKF75VUGlhIjkq1hjGGo6k6iSlLd52E8ccOZWz7HpV20g/T/zNDnHSmJEqXhBYNZjbiuJMqWMot
-	R9B4CW5g64AopUzqa9CmWaazIUd95q7hCxhPGSpRKrP+bDHgk=
-X-Gm-Gg: AYBFou1oP7zrMKIDCZ+9UwSH7hTRr7NbV1hV4xx3jTMOlrSOwyrV8KnbWCl9KEwM5rM
-	IPf9AzIXadwK43lNGVNfInR8ZuK3RcGkhnzUcYzvTl48pC7S1lhjTYWmyC6Ollj002vWcM9ToO0
-	kSe4KnQXgyJP+gaT8XfkcKWjvHZhYe6Xg41lz6ZnngSwkQAzApoo8WqFwFcPMgnIGfzZeqS9hSM
-	MDd7apMYPNu/8oHbPbCLZTjJHcokIWT7D+W1XTfDzAAQJjRv3vFsO63Pqv27izfDXf9KKDe/SQu
-	qH0l1qfX7nO+BwZaVJHcXtOp1dqqw7hM7PTC7YQU66qjj+ZpXIKGkR5nY62kuadP6hzcJTR98h9
-	sNTs7HN4Co5EjE6930rgSAg==
-X-Received: by 2002:a05:600c:3513:b0:4a1:d05d:2af7 with SMTP id 5b1f17b1804b1-4a1d7607497mr2488275e9.10.1792163845454;
-        Fri, 16 Oct 2026 08:17:25 -0700 (PDT)
-X-Received: by 2002:a05:600c:3513:b0:4a1:d05d:2af7 with SMTP id 5b1f17b1804b1-4a1d7607497mr2487545e9.10.1792163844944;
-        Fri, 16 Oct 2026 08:17:24 -0700 (PDT)
+        bh=+TROMxDl8UrJYxG0M+aHIDtSYaFMtjE8ArsPy1R4PO0=;
+        b=eDTdnQ1ZIBqtSj6XEPCK1PHn0vKXG23XO3YvpF9BfNur2jIWkqlK3/pXyyh91MEhrF
+         tzjUIv6m8z7YsSoeLJShfSX2U3z9MQ0Ko4AWvwvyf8oN7UNpHMOiSERCdNGCyQ+gD7u8
+         wlYSsro/adBx2RsW7afaJp/HAsk+Nha1ISgqjLrSQIggvc/U4QYC5VC7azn06nt5yhPz
+         QeEs1ek3611lrd0TxbhkvlmdGHXibFMUeXYVoQps5b5lpNRfc03LVMABoR1PHIptd/XL
+         HHkF4aBESEEmNtOllNlE1wfm0Kj1u0QcWVO85OgNqC6lUl68Z7QCp5Cf5/g4A7ze6gqR
+         lqVQ==
+X-Gm-Message-State: AFq9FYILCDjv7Zck+Fo5e5UC9Imql/VmglJkbLRklkBOZlhRxnBLCevx
+	g4RF0wmQMhmZc3kHxf06g9+rXU7IpzKuQ6Ccek8cD5Jqu4ujBO9F1lEzCAKoX7iDlWldIxXAXfa
+	nDDOyCQcoVx0wYKIwTiPBF6lN/Hf54WdcNFP4pRUjAC3PoE+cTgNzcQZQU+YEsa1UzJOO7SElFm
+	rC09WI+PaUdxvE1BjeBSA/jd4rN30CEfPj5qnrbr3DfQtFhA0=
+X-Gm-Gg: AYBFou04n0b2Q2ON8U9x/vQgoBiqkLhFKDMF56WVucfk+oQBvcRaHNcbKbiTlZUpLns
+	0xqGbKc0DFym7NHx5fVSWSFLJT+9+cUSCmlwSVUQ5XIdSPlGwPCiMZk7muuz0EJQ0vdHDV0akZH
+	vQMRnO3NhYh946Vp+VKYur1qgVT+vRuqcPjA06E4nyjEM2gqYe+QpGJz4yzqpnv0071MCTyVle1
+	a+iBw0Lr7moO3cOKIm4LnwFMuevS0RqKkWDLIpBvqOyxkMtnGLwsz3k1txT0wKT01YjsA/3cgva
+	1DjuRDlG/TLrHpDpLQ3wYrRi2UcpHF17hTFUTyQVINX/iLPZ8Hv0u6XbHGiNrG4R9kQM/0iMtlm
+	Ky6fBoXU4Og7BIpLPLtChrw==
+X-Received: by 2002:a05:600c:1393:b0:4a1:d248:25b5 with SMTP id 5b1f17b1804b1-4a1d760e327mr2401255e9.24.1792163842882;
+        Fri, 16 Oct 2026 08:17:22 -0700 (PDT)
+X-Received: by 2002:a05:600c:1393:b0:4a1:d248:25b5 with SMTP id 5b1f17b1804b1-4a1d760e327mr2399225e9.24.1792163841216;
+        Fri, 16 Oct 2026 08:17:21 -0700 (PDT)
 Received: from maszat.com (85-67-2-18.pool.digikabel.hu. [85.67.2.18])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c8de7230sm64621665e9.14.2026.10.16.08.17.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c8de7230sm64621665e9.14.2026.10.16.08.17.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 08:17:24 -0700 (PDT)
+        Fri, 16 Oct 2026 08:17:20 -0700 (PDT)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev
-Cc: John Groves <john@groves.net>,
+Cc: John Groves <John@Groves.net>,
+	John Groves <john@groves.net>,
 	Amir Goldstein <amir73il@gmail.com>,
 	"Darrick J . Wong" <djwong@kernel.org>,
 	Vishal Verma <vishal.l.verma@intel.com>,
@@ -74,9 +75,9 @@ Cc: John Groves <john@groves.net>,
 	Alison Schofield <alison.schofield@intel.com>,
 	nvdimm@lists.linux.dev,
 	linux-cxl@vger.kernel.org
-Subject: [PATCH v5 03/10] fuse: add helpers for EIO return value with kernel message
-Date: Fri, 16 Oct 2026 17:16:30 +0200
-Message-ID: <20261016151638.2962413-4-mszeredi@redhat.com>
+Subject: [PATCH v5 01/10] dax: add fsdev_dax_from_file()
+Date: Fri, 16 Oct 2026 17:16:28 +0200
+Message-ID: <20261016151638.2962413-2-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261016151638.2962413-1-mszeredi@redhat.com>
 References: <20261016151638.2962413-1-mszeredi@redhat.com>
@@ -87,298 +88,107 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5oOrOr0CF0ZoDOxrh_cP5WxWdP__ovHVdWuoJzN9sF8_1792163846
+X-Mimecast-MFC-PROC-ID: -Xsjwf2gGmWF3CX6UHSxcx3AAPBDAX6nSyqitrhjwGI_1792163843
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-Conditions are triggered by a buggy fuse server will result in -EIO which
-is hard to interpret without any context.
+From: John Groves <John@Groves.net>
 
-Add helpers that print a short message to the kernel log as well as
-returning the error value.  This serves a dual purpose:
+If the file is a fsdev_dax open, take the dax_dev from the device inode's
+i_cdev.  Return with a reference grabbed on the private dax inode.
 
- - documents the error condition inside the code
+Make dax_dev_get() static again (internal to super.c for alloc_dax), export
+fsdev_dax_from_file() instead.
 
- - allows the implementor of the fuse server to get the context for the
-   error
+This fix is in response to a Sashiko review, and some subsequent analysis.
 
-Some debug messages are removed in favor of this.
+About the 'fixes' tag: this removes the export of dax_dev_get(), which was
+flawed, and replaces it with fsdev_dax_from_file(). It feels like the fixes
+tag makes sense for correcting an ABI error.
 
-This also changes the mmap return value from -ETXTBSY to -ENODEV if a
-passthrough open raced with the prior check.  This makes both cases return
--ENODEV if the file is in passthrough mode.
-
-Additionally change the return value of fuse_file_cached_io_open() from an
-error value to a bool (true on success) as the error value is translated
-anyway.
-
-Currently these use the pr_notice_once() variant.  Possibly should be
-changed to a ratelimit of e.g. once per minute.
-
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+Fixes: 2ae624d5a555d ("dax: export dax_dev_get()")
+Originally-by: John Groves <john@groves.net>
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/file.c        |  6 ++--
- fs/fuse/fuse_i.h      |  4 ++-
- fs/fuse/iomode.c      | 75 ++++++++++++++++++-------------------------
- fs/fuse/passthrough.c | 19 ++++-------
- 4 files changed, 43 insertions(+), 61 deletions(-)
+ drivers/dax/fsdev.c | 23 +++++++++++++++++++++++
+ drivers/dax/super.c |  3 +--
+ include/linux/dax.h |  3 ++-
+ 3 files changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index d88fc2173c1f..eb04f08ac907 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -2418,7 +2418,6 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
- 	struct fuse_file *ff = file->private_data;
- 	struct fuse_conn *fc = ff->fm->fc;
- 	struct inode *inode = file_inode(file);
--	int rc;
+diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+index 598604bf5ac5..910665c1f492 100644
+--- a/drivers/dax/fsdev.c
++++ b/drivers/dax/fsdev.c
+@@ -234,6 +234,29 @@ static const struct file_operations fsdev_fops = {
+ 	.release = fsdev_release,
+ };
  
- 	/* DAX mmap is superior to direct_io mmap */
- 	if (FUSE_IS_VDAX(inode))
-@@ -2460,9 +2459,8 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
- 		 * After first mmap, the inode stays in caching io mode until
- 		 * the direct_io file release.
- 		 */
--		rc = fuse_file_cached_io_open(inode, ff);
--		if (rc)
--			return rc;
-+		if (!fuse_file_cached_io_open(inode, ff))
-+			return -ENODEV;
- 	}
++/**
++ * fsdev_dax_from_file - get dax_device from an open file
++ * @file: open device file
++ *
++ * Returns a dax_device pointer if @file refers to a fsdev_dax device.
++ * Otherwise return NULL.
++ *
++ * Caller must put_dax() the returned device when done.
++ */
++struct dax_device *fsdev_dax_from_file(struct file *file)
++{
++	struct dax_device *dax_dev;
++
++	if (file->f_op != &fsdev_fops)
++		return NULL;
++
++	dax_dev = inode_dax(file_inode(file));
++	ihold(dax_inode(dax_dev));
++
++	return dax_dev;
++}
++EXPORT_SYMBOL_GPL(fsdev_dax_from_file);
++
+ /*
+  * Acquire the dev_pagemap for probe: the static (pre-populated) one if
+  * present, or a devm-allocated one for the dynamic case. Note that
+diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+index 45f84b0eb909..25836f389bde 100644
+--- a/drivers/dax/super.c
++++ b/drivers/dax/super.c
+@@ -565,7 +565,7 @@ static int dax_set(struct inode *inode, void *data)
+ 	return 0;
+ }
  
- 	if ((vma->vm_flags & VM_SHARED) && (vma->vm_flags & VM_MAYWRITE))
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index c917b1a7d695..950242b59709 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -11,6 +11,8 @@
- # define pr_fmt(fmt) "fuse: " fmt
+-struct dax_device *dax_dev_get(dev_t devt)
++static struct dax_device *dax_dev_get(dev_t devt)
+ {
+ 	struct dax_device *dax_dev;
+ 	struct inode *inode;
+@@ -588,7 +588,6 @@ struct dax_device *dax_dev_get(dev_t devt)
+ 
+ 	return dax_dev;
+ }
+-EXPORT_SYMBOL_GPL(dax_dev_get);
+ 
+ struct dax_device *alloc_dax(void *private, const struct dax_operations *ops)
+ {
+diff --git a/include/linux/dax.h b/include/linux/dax.h
+index fe6c3ded1b50..2c9fc81f031b 100644
+--- a/include/linux/dax.h
++++ b/include/linux/dax.h
+@@ -54,7 +54,6 @@ struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+ void *dax_holder(struct dax_device *dax_dev);
+ void put_dax(struct dax_device *dax_dev);
+ void kill_dax(struct dax_device *dax_dev);
+-struct dax_device *dax_dev_get(dev_t devt);
+ void dax_write_cache(struct dax_device *dax_dev, bool wc);
+ bool dax_write_cache_enabled(struct dax_device *dax_dev);
+ bool dax_synchronous(struct dax_device *dax_dev);
+@@ -323,3 +322,5 @@ typedef int (*walk_hmem_fn)(struct device *dev, int target_nid,
+ 			    const struct resource *res);
+ int walk_hmem_resources(struct device *dev, walk_hmem_fn fn);
  #endif
- 
-+#define fuse_EIO(fmt, ...) (pr_notice_once("%s: " fmt "\n", __func__, ##__VA_ARGS__), -EIO)
 +
- #include "args.h"
- #include <linux/fuse.h>
- #include <linux/fs.h>
-@@ -1251,7 +1253,7 @@ int fuse_fileattr_set(struct mnt_idmap *idmap,
- 		      struct dentry *dentry, struct file_kattr *fa);
- 
- /* iomode.c */
--int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff);
-+bool fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff);
- int fuse_inode_uncached_io_start(struct fuse_inode *fi,
- 				 struct fuse_backing *fb);
- void fuse_inode_uncached_io_end(struct fuse_inode *fi);
-diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-index 79637c09e883..1b8b267d0c0d 100644
---- a/fs/fuse/iomode.c
-+++ b/fs/fuse/iomode.c
-@@ -27,15 +27,15 @@ static inline bool fuse_is_io_cache_wait(struct fuse_inode *fi)
-  * Blocks new parallel dio writes and waits for the in-progress parallel dio
-  * writes to complete.
-  */
--int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
-+bool fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
- {
- 	struct fuse_inode *fi = get_fuse_inode(inode);
- 
- 	/* There are no io modes if server does not implement open */
- 	if (!ff->args)
--		return 0;
-+		return true;
- 
--	spin_lock(&fi->lock);
-+	guard(spinlock)(&fi->lock);
- 	/*
- 	 * Setting the bit advises new direct-io writes to use an exclusive
- 	 * lock - without it the wait below might be forever.
-@@ -53,8 +53,7 @@ int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
- 	 */
- 	if (fuse_inode_backing(fi)) {
- 		clear_bit(FUSE_I_CACHE_IO_MODE, &fi->state);
--		spin_unlock(&fi->lock);
--		return -ETXTBSY;
-+		return false;
- 	}
- 
- 	WARN_ON(ff->iomode == IOM_UNCACHED);
-@@ -64,8 +63,7 @@ int fuse_file_cached_io_open(struct inode *inode, struct fuse_file *ff)
- 			set_bit(FUSE_I_CACHE_IO_MODE, &fi->state);
- 		fi->iocachectr++;
- 	}
--	spin_unlock(&fi->lock);
--	return 0;
-+	return true;
- }
- 
- static void fuse_file_cached_io_release(struct fuse_file *ff,
-@@ -85,19 +83,16 @@ static void fuse_file_cached_io_release(struct fuse_file *ff,
- int fuse_inode_uncached_io_start(struct fuse_inode *fi, struct fuse_backing *fb)
- {
- 	struct fuse_backing *oldfb;
--	int err = 0;
- 
--	spin_lock(&fi->lock);
-+	guard(spinlock)(&fi->lock);
- 	/* deny conflicting backing files on same fuse inode */
- 	oldfb = fuse_inode_backing(fi);
--	if (fb && oldfb && oldfb != fb) {
--		err = -EBUSY;
--		goto unlock;
--	}
--	if (fi->iocachectr > 0) {
--		err = -ETXTBSY;
--		goto unlock;
--	}
-+	if (fb && oldfb && oldfb != fb)
-+		return -EBUSY;
-+
-+	if (fi->iocachectr > 0)
-+		return -ETXTBSY;
-+
- 	fi->iocachectr--;
- 
- 	/* fuse inode holds a single refcount of backing file */
-@@ -107,9 +102,7 @@ int fuse_inode_uncached_io_start(struct fuse_inode *fi, struct fuse_backing *fb)
- 	} else {
- 		fuse_backing_put(fb);
- 	}
--unlock:
--	spin_unlock(&fi->lock);
--	return err;
-+	return 0;
- }
- 
- /* Takes uncached_io inode mode reference to be dropped on file release */
-@@ -121,8 +114,11 @@ static int fuse_file_uncached_io_open(struct inode *inode,
- 	int err;
- 
- 	err = fuse_inode_uncached_io_start(fi, fb);
--	if (err)
--		return err;
-+	if (err) {
-+		if (err == -EBUSY)
-+			return fuse_EIO("mismatched backing");
-+		return fuse_EIO("conflicting caching mode");
-+	}
- 
- 	WARN_ON(ff->iomode != IOM_NONE);
- 	ff->iomode = IOM_UNCACHED;
-@@ -173,9 +169,11 @@ static int fuse_file_passthrough_open(struct inode *inode, struct file *file)
- 	int err;
- 
- 	/* Check allowed conditions for file open in passthrough mode */
--	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) || !fc->passthrough ||
--	    (ff->open_flags & ~FOPEN_PASSTHROUGH_MASK))
--		return -EINVAL;
-+	if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) || !fc->passthrough)
-+		return fuse_EIO("passthrough not enabled");
-+
-+	if (ff->open_flags & ~FOPEN_PASSTHROUGH_MASK)
-+		return fuse_EIO("conflicting open flags");
- 
- 	fb = fuse_passthrough_open(file, ff->args->open_outarg.backing_id);
- 	if (IS_ERR(fb))
-@@ -197,7 +195,6 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
- {
- 	struct fuse_file *ff = file->private_data;
- 	struct fuse_inode *fi = get_fuse_inode(inode);
--	int err;
- 
- 	/*
- 	 * io modes are not relevant with virtiofs DAX and with server that does not
-@@ -208,11 +205,12 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
- 
- 	/*
- 	 * Server is expected to use FOPEN_PASSTHROUGH for all opens of an inode
--	 * which is already open for passthrough.
-+	 * which is already open for passthrough.  Using incorrect open mode is
-+	 * a server mistake, which results in user visible failure of open()
-+	 * with EIO error.
- 	 */
--	err = -EINVAL;
- 	if (fuse_inode_backing(fi) && !(ff->open_flags & FOPEN_PASSTHROUGH))
--		goto fail;
-+		return fuse_EIO("FOPEN_PASSTHROUGH expected");
- 
- 	/*
- 	 * FOPEN_PARALLEL_DIRECT_WRITES requires FOPEN_DIRECT_IO.
-@@ -233,23 +231,12 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
- 		return 0;
- 
- 	if (ff->open_flags & FOPEN_PASSTHROUGH)
--		err = fuse_file_passthrough_open(inode, file);
--	else
--		err = fuse_file_cached_io_open(inode, ff);
--	if (err)
--		goto fail;
-+		return fuse_file_passthrough_open(inode, file);
- 
--	return 0;
-+	if (!fuse_file_cached_io_open(inode, ff))
-+		return fuse_EIO("conflicting passthrough open");
- 
--fail:
--	pr_debug("failed to open file in requested io mode (open_flags=0x%x, err=%i).\n",
--		 ff->open_flags, err);
--	/*
--	 * The file open mode determines the inode io mode.
--	 * Using incorrect open mode is a server mistake, which results in
--	 * user visible failure of open() with EIO error.
--	 */
--	return -EIO;
-+	return 0;
- }
- 
- /* No more pending io and no new io possible to inode via open/mmapped file */
-diff --git a/fs/fuse/passthrough.c b/fs/fuse/passthrough.c
-index 12aaaf0a2bbb..a0eb52d1b743 100644
---- a/fs/fuse/passthrough.c
-+++ b/fs/fuse/passthrough.c
-@@ -172,34 +172,29 @@ struct fuse_backing *fuse_passthrough_open(struct file *file, int backing_id)
- 	struct fuse_conn *fc = ff->fm->fc;
- 	struct fuse_backing *fb = NULL;
- 	struct file *backing_file;
--	int err;
- 
--	err = -EINVAL;
- 	if (backing_id <= 0)
--		goto out;
-+		return ERR_PTR(fuse_EIO("invalid backing_id"));
- 
--	err = -ENOENT;
- 	fb = fuse_backing_lookup(fc, backing_id);
- 	if (!fb)
--		goto out;
-+		return ERR_PTR(fuse_EIO("backing not found"));
- 
- 	/* Allocate backing file per fuse file to store fuse path */
- 	backing_file = backing_file_open(file, file->f_flags,
- 					 &fb->file->f_path, fb->cred);
--	err = PTR_ERR(backing_file);
- 	if (IS_ERR(backing_file)) {
- 		fuse_backing_put(fb);
--		goto out;
-+		return ERR_PTR(fuse_EIO("failed to open backing file (%ld)", PTR_ERR(backing_file)));
- 	}
- 
--	err = 0;
- 	ff->passthrough = backing_file;
- 	ff->cred = get_cred(fb->cred);
--out:
--	pr_debug("%s: backing_id=%d, fb=0x%p, backing_file=0x%p, err=%i\n", __func__,
--		 backing_id, fb, ff->passthrough, err);
- 
--	return err ? ERR_PTR(err) : fb;
-+	pr_debug("%s: backing_id=%d, fb=0x%p, backing_file=0x%p\n", __func__,
-+		 backing_id, fb, ff->passthrough);
-+
-+	return fb;
- }
- 
- void fuse_passthrough_release(struct fuse_file *ff, struct fuse_backing *fb)
++struct dax_device *fsdev_dax_from_file(struct file *file);
 -- 
 2.54.0
 
