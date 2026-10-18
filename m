@@ -1,48 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A90447F3C0;
-	Sat, 17 Oct 2026 13:47:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9442ECD32;
+	Sun, 18 Oct 2026 16:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792244840; cv=none; b=JlPmI1DswMLvlfU4MhgsbtR2yoxMKfJYsAOZbn/7jWhFxWPIFaXGwVI7kW9ZNF9JxxO2HZWY/aEW0Vts5CFOuMca8jIVe1if/S+cqD3rWY1PRQLBaK27Lv66f4ANQXhpWfgL6KiZKSdgRxBK+Kp0vBFbocLERWz2gsn2wwR2m4g=
+	t=1792342458; cv=none; b=NaDs4fmbmzPHJUwCP3lzpa0vtGmyOKVqR49i7TWTqxcPRh6Aj9ElJxdhK3pSrgw8rzCoMXsO2uB8NFqw+SYHlh+jV88o+ktxZt9ELMZz14gK+soiptuiggWtyn7iSkg/ohsJWd2ePYX7dJMZLnFruQ53kQRSL5kdjv71MTKlNDs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792244840; c=relaxed/simple;
-	bh=Jb2jnlzlw0/3e/ETRTrKH3iCG8qWDXvdy4fwPw2FSaQ=;
+	s=arc-20240116; t=1792342458; c=relaxed/simple;
+	bh=4qLbczrQ8ECFoYsQQUuI+Bo0Osvq2lOXDHVkoYmJZ3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nx5e8HkKqoI/KEJiFUkltksTUShiC0Y0SDVnpM/gaXy83Qd3dLpX4NFESrmvH/7L2kCS9fCMauzancS+MSbrHcoStq1M4cFZq7KSTg9Fchnso7qmzC3JEIlwH5EH+V0T8ywG/v+c0hOo96XQCrN9xqDrhHfY1iQy5hrOBcDBlpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EdC2xZWi; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hY5Gcfzm005f+u6wBPIwyivm6twQwq2pU+f4rKFgMNW2WtZKsLq/I1pm+SpJAMySjHlR8jpIga97NaPTN+2FVxl0CS7luVn9cpPOGnMxsfmYq4CTW2JsQKAbcyydQgHWX/5s96VNGzI92JkTYpgRfXJ+g3mX2PwOP1ZKdvMrKng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HTCttBtd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdC2xZWi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FE9A1F000C4;
-	Sat, 17 Oct 2026 13:47:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HTCttBtd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FAB1F000C5;
+	Sun, 18 Oct 2026 16:54:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792244838;
-	bh=bNDFgbptJ1RS3GazIg1IlNsjwjcWhKHYe43l36AnwNA=;
+	s=k20260515; t=1792342457;
+	bh=4qLbczrQ8ECFoYsQQUuI+Bo0Osvq2lOXDHVkoYmJZ3c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EdC2xZWiqoX0P+wY2sxggGgZRf2yAT1qT0deVEgfqooaLvAGgjXI9BROZSdZ+SIE6
-	 B4AHC0seSJ6SuThF+eJXLKkXQHrhIsHLsVAb0dV02VJMHeVIXL0OUNjbQ6AMJcY0pN
-	 chPpgwx1UEgdBE5kcqXWhPlN0Isoz8UH7Zp3W2pYDeUnlHIRljM14OwNQfvX3azcvo
-	 66JKbC0ZJuNMKvTGnObIpdDKeS8gM9ZDqiT0pUZjWsAWM7dek34J9PQ8J2PaJgg2c2
-	 HhIM5hT1gHxGefBbCKGKgqmHnyBxyWL8hKVZisYd3QdnawHuE0n3RR7ij5nXaH/e+U
-	 4xSfkhn/MRcxw==
-Date: Sat, 17 Oct 2026 15:47:13 +0200
-From: Gao Xiang <xiang@kernel.org>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: xfs <linux-xfs@vger.kernel.org>,
-	linux-ext4 <linux-ext4@vger.kernel.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	fuse-devel <fuse-devel@lists.linux.dev>,
-	fstests <fstests@vger.kernel.org>
-Subject: Re: Farewell!
-Message-ID: <atN8YUvYy0VyvFBm@MacBookPro>
-Mail-Followup-To: "Darrick J. Wong" <djwong@kernel.org>,
-	xfs <linux-xfs@vger.kernel.org>,
-	linux-ext4 <linux-ext4@vger.kernel.org>,
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-	fuse-devel <fuse-devel@lists.linux.dev>,
-	fstests <fstests@vger.kernel.org>
-References: <20261016160037.GA107919@frogsfrogsfrogs>
+	b=HTCttBtd8x8SdZRYFlvRmM17jhS8ReOxGAUY2fVav0C/NjPajimZ2o2MUevagcTGY
+	 WOhuOOYZBPsbAeRtzLc+vjkwgxzwAsJs9mHmKQj16+nC2OqWHGfIifgVzHT457IIym
+	 d/SJG/1mjVzkcG6ny9g4fX83aPOY3F66bR3HnPZLrqK0DQToxQFAG0lZVefhebuO85
+	 udTBb5L1JD1FXWm5qWQ0k5C67m/KKUnyBFWoM9/vtBfxifn7N9mS1i51ErMsjE3hhO
+	 65MHG7QE06//b2R3XShzTMXVsoPgyyp4XVNvIbXCDosUoMpbLpo3GuLKoL30AzOWR5
+	 ZMSXYX027UndQ==
+Date: Sun, 18 Oct 2026 18:54:12 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Chris Mason <mason@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Neil Brown <neil@brown.name>, Jan Kara <jack@suse.cz>, 
+	fuse-devel@lists.linux.dev, linux-kselftest@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 0/4] namei: check for names that lost their mounts in
+ every refwalk
+Message-ID: <20261018-matschen-sinnkrise-dissonanz-3c5ad668e18e@brauner>
+References: <20261012-work-namei-reval-v1-0-515664de33b5@kernel.org>
 Precedence: bulk
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -51,31 +44,11 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261016160037.GA107919@frogsfrogsfrogs>
+In-Reply-To: <20261012-work-namei-reval-v1-0-515664de33b5@kernel.org>
 
-On Fri, Oct 16, 2026 at 09:00:37AM -0700, Darrick J. Wong wrote:
-> Hi everyone,
-> 
-> After 14 years at Oracle and 23 years working on Linux, I've decided to
-> take an extended break.  Today, October 16th, 2026, is my last day.
-> 
-> I don't have any immediate plans to drop the djwong@kernel.org
-> forwarding, though ultimately that's up to the sysadmins to decide.
-> 
-> I have very much enjoyed working with you all, and I'm proud of what
-> we've accomplished together.  Good luck!
-> 
-> --Darrick
+Discard this series. This is a whole class of bugs and I hope to have
+something we can discuss soon. So please don't anyone waste time on
+this.
 
-Hi Darrick,
-
-It is still a bit of a surprise for me to hear this news, although
-things seem to be changing so quickly these days.
-
-Thank you for all the chats online over the years. I've always enjoyed
-them. I wish we'd had a chance to meet in person.
-
-I hope you have a great and well-deserved break.
-
-Best Regards,
-Gao Xiang
+I'm back from vacation on the upcoming Wednesday so give me a few more
+days to keep pretending that I've never learned about this bug class.
