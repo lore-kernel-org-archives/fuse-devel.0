@@ -1,73 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792425012;
-	b=qNV+ce3txgMer8WFgVfLVmK1A99S1rdjrhsiTGjSLEDyVRUDbzAwF/o05fozHnb8mOgV
-	 EakCnJrKxb3+abzDcIXEMuk9UBcY68wiHtkjRrl5J033fN2zuc1t1bRRk0JFZwCM76FJK
-	 QKDIt/XXklr8pZxbXhJ9e0Y/Zr+COxqpAUVCAxS52UPG70oPkrdNX1+EZHLnt/ge1Pg2l
-	 odeam9hgCOOnHQbhCoIXKGMlC+ZaOZ+DNrPsabQRb0bpDTPX/2EySxzmJGNT9JaQlB7ZK
-	 qEDtHuP86v/Py0qG2eb/YN/Q73jpxo5ZVUYuppvVlwF088KJe+mwmqV6FWGR8XJ+ipA==
+	t=1792425019;
+	b=MdAppc35DIVMvHEGLNDZmSenIey2Cf7VjA1zeJqat/V+/6KAeEwgwZNZmpXJqWp506OL
+	 NsVRXZX/cntRuoOdcNBXd0d9WS1hbcYoVHVmvq9l8HSYdl0ZVf8KQ1VxOOK9lYjw7+WAN
+	 qwx521fB5/jyPpQ4lbI3S9RO8clIQEpYA8/F7nfMQxdd8tRd3M1NzLGQcab49zZ0RT4fs
+	 mPIQrTcRsD3aC7CzKshoi/4xikSqOoHdrXyHGKVCtccvRGSH2/VH92IZ863vfpomlYSUG
+	 LePVaIO4FsajC0VBWtYRDrW/AuncjRhx+YuPe+zCleaifhbA7tU4a86ipZJloZjUw+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792425012;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792425019;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=JIYW0lKY8r5WbgU97oH0sqdYNOmLWzVfRBL2C79VgiY=;
-	b=4aK+OlqFL6x4G+w1BdsIhbwi5QBMtCReeJb5ORIhYo1ve0bxHxtBWrhzC/4uuwXK2WNh
-	 N/2mFTR/gpO5KLJnGbZEQEFoX8FAnXTX1B0+XkogiIX767dVppLJlUaXow5vF2q6Lz0z0
-	 hzl6xLI0sKhgG238LGQHF+ENTAtHdJXD+3+kRh6S4QSOs7P/znGEN3U0pAWBedlg17H72
-	 2Uwxs7pUFuALeplRhhK4JZvcXGs65ZiFs5tMRnqXtzp0ek1NkE5Un0ic8utY+6X5O53Z0
-	 8xB/2tFjoJMX2so6yLqmQRASIqqaPmNPFYmJX2qCQfl1Bbb9OEIKbaY2eFt1ggAmOQA==
+	bh=PMTfPTsjqmbKCxNwaWHz1dgOx+TTOWHrc04S/ITwtbQ=;
+	b=HsQ0ofBSttPBK7KaXI7GjucIkc/BP9vpF/HPfluGn/+i1fb6JyAG8+JtHh7iJ2s5eBHG
+	 ZhQsVlWlSOrCtIuHrHafUnZ73Zx9FL5MULlaCGYZMBR+iwDLkAG0yXqbO5nbYd35GoQqI
+	 YmzwNtTHf8etD2iROSW+wPwloTgBEKlpn7XuFXpAJWXn3BIuaRVWCLY790+qF2SpEg73z
+	 idEVbFvneOEQT5evp1z8nTrJhopSEAuqE+9LShCOec5tQLhdn828HfJEyLfbM7uahkB0u
+	 3pyRpl4gGpf1XkJKG7w4uXWtjKLboQ3T2zDwXOmV2QsmB2+zVjdGiDiwnTwnKwzk+TQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jx1HNWF1;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hImCGeam;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353A1609A56D;
-	Mon, 19 Oct 2026 15:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 100A360A2628;
+	Mon, 19 Oct 2026 15:50:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jx1HNWF1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 860E81F000C5;
-	Mon, 19 Oct 2026 15:50:09 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hImCGeam
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3A301F000CA;
+	Mon, 19 Oct 2026 15:50:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792425012;
-	bh=JIYW0lKY8r5WbgU97oH0sqdYNOmLWzVfRBL2C79VgiY=;
+	s=k20260515; t=1792425018;
+	bh=PMTfPTsjqmbKCxNwaWHz1dgOx+TTOWHrc04S/ITwtbQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jx1HNWF1oMMxGluyBqqBqzTdscsUv1oSirtCGJkaATrjma4oNhzoT90r5ghtoiksK
-	 ghN/z3t+IdFfZX06aCJrUJCYkvd0i7zCC7Hxz8gr4MnmCJ6XR6nlmel4YxRm9lCgD9
-	 RJ29h4hwQY67AdSs9nyAJC0pkiilVZ71hT12Xap7t3AdX1jA1buleN7UQXeOH5mgma
-	 KFLYBNKWr3E1OxsRxSWdwJ9m3Udh/yVN/mJtG0HslcMMrbtjqEKikp7Jne7jX2tbTt
-	 zcMizsJ2euZ7i2lZrT3iOkyY2zuLlLhcDhxLzZuRA6GIQ2Qcs62/RZ3hv9ok2dFJgb
-	 MeM0pkGGFn3Ig==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 5C68E1980047;
-	Mon, 19 Oct 2026 11:50:04 -0400 (EDT)
+	b=hImCGeamAmp+FYmHCgjT0+aC2HP0OJhG9IfHgF2YTc+c/Lg1JCdqfhZsR48XBx/EK
+	 g3218Ry6T4ZZJTTcb04LT7FE0brELiShRrpFIUFsUjvL5LWlhY5eRutVseYHR4uQim
+	 /1X7v5Yq2742O208tEu+CX/t9ehB8m3QfcjOO32lSugvlWN1qsOOKEp1WoJSBK6VCy
+	 udNboFaQbCEaKpzrZxbQ40MR0luvhb8si/ivsMBy9ofJ7g7IOjCDWnW+3SAOceChHh
+	 9cSsYkLERtYijtq+YdBCF4584X657Nl6PaGOoH8k+rQek3DNxzhqYyH+xBdCJ44VcS
+	 hCsk8uz+r0voQ==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.ams.internal (Postfix) with ESMTP id BFEF3198003A;
+	Mon, 19 Oct 2026 11:50:10 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Mon, 19 Oct 2026 11:50:08 -0400
-X-ME-Sender: <xms:KzzWaq2lTI6dLRfP62uXpQXMn8_acHRa54NMXdgTD-WoThywbrSZng>
-    <xme:KzzWaiUM1eukMYRUhELWiDlsX76CyWwwqpiBCcQzGIeO5cTVXpuFqHmy9BV8vsR0C
-    WMowq0G623oHJIwuahUxFyUtOd-kqIwYkCr7JlcDCcYlkEbQJOVHQNp>
-X-ME-Received: <xmr:KzzWali5Bz8kXGXrP0nbvODy2zgeQyZ6Baw6DyzchOg375U0aFlZ9XHLdjA>
+  by phl-compute-01.internal (MEProxy); Mon, 19 Oct 2026 11:50:14 -0400
+X-ME-Sender: <xms:MjzWaqk20WrAqHU7BWHXSIbeFWNU0KwfpFa7LosxR-uHCi6LzHBMAQ>
+    <xme:MjzWaoxrSIiA58OTdCL5J-YXqxeNMGt7scVysQso_9eJSVPwOMnseTr_f7smvLVYp
+    CmYWo5-uc4Jlc_S9TAuqU-IHgPF2mWBIlHYA2OY5RscVujFus_dP5d9>
+X-ME-Received: <xmr:MjzWatyuTGbpQEsZRkT2D7pUnoeJk6tql9SNTEoObpborfq4zLpiqnIG09M>
 X-ME-Proxy-Cause: dmFkZTFpjrG+2jfVBfklNRE95oThC60xlhUtv5sioyJrfpDDHbEB/2cXkTI411oJriXTLs
     N7RLfOUdBbmoibSFu4zT/f1BKPPyxkEYUp5eDeafGhPQjcnfJv/29ZtYwE6q77Fr7A6zQu
     C94bEu3EPqJJ50fLC5xP9PtYZOq3sS+jMfKkgkZFNUAdZxkDiyHArLijwBk9MwzijLWdvR
     4raSXvkSyIGvp9XYd2doZUGuEANzDQejgJzzg3ARZCjBL2yZfXIvLZCg0AMujDeTHEemYv
-    cvWt94P7AS+P1mtikHZvyS9eAaK3Fy2/TwDlvaPXULPDsZK9f0sj0aca+uCBBoNs4d3uh7
-    RoQzewG/TY6u0dk9M/RDUi+4K1yv+yK67j7jmtVzymHX894+Uihg0lcvs6emCinqbM6wyi
-    +gUxb773pqkq1jVVcdmSvAhK/XxD/KPCg7Hxilx6E+9oYQ5WMSaJWUvVlcniwS0w+KhrFB
-    aoikZIMYd0Nt7GpLtgtIaE3vQKln+pJStVB0vtonatrWvsHTRAgHwTcxLdOTPe/K6HQPJR
-    iuTIfSH64MefXniZjMOLCO5Col3kGmDlFai90qTMVtRjt8vCPwHCFc3lid8qi/aWvaM4wi
-    UDelk5nM3XO9TE5wjafiWBoWVJEtmtWZsXCTxgC48VOvrEqJLpl2xs9xf8yA
-X-ME-Proxy: <xmx:KzzWargWtrUdbQgWlyLvDyj2Sh9WS2ythi6pZMOd2Wsvz6_ZhGhiIg>
-    <xmx:KzzWatuKqS1ChJwAImpgrQb5jS0sXRsqBayf8up18aNXoL3EpLm9UA>
-    <xmx:KzzWasTzLfXJWgsa7vWNhOzbf8t3G4NQleJe7kFJZjBlXivczFykRg>
-    <xmx:KzzWamEcw6XHsPbckM2mv5_oUhFq5uFaBjpv_Uw7xLhjwfQtNPdSeg>
-    <xmx:KzzWauiA2en7YXSRag6_TQGTMYyPKCsLXaQw5TAYPN6_31Ex2FRtRRgv>
+    cvWt94P7AS+P1mtikHZvyS9eAaK3Fy2/TwDlvaPXULPDsZK9f0sj0aca+uCBBoNs4d3uHs
+    jMUJ1Iozqk5UdmIvSWusRKiLxZJibibQQ4io5vi2zZE/MO/E51//OOpVWfhv0zTt87YwNC
+    iT4vrAPyd6Zw38/TgZPAZuDM5MOQ5uy92jrk9+kPwi9FArfqH5nSplQoca7j1ODXWJuKjo
+    Dzl3htmBf/kiSZk95GYec6x/otNAVITvtIg8Nf+oD+dUiJA4EkTHkc1Gpwfmk27qWoZJfQ
+    yFrAjVY2J4RzUnQGa94QZsGOXiqq3U5awoY8NMbMgVRjboeQ00T7MEBaY6re66zsU4Ec9D
+    0R4U/ITBWynGFo5znxlH1QA0ft/B0hdJAgXaFWzh6VKsSmugq2I9X73PmpLw
+X-ME-Proxy: <xmx:MjzWai-qqCOJpGJhRbQV4nXeaainxxPUu5R9TpfLw5p8v-YvAMAIGQ>
+    <xmx:MjzWaojCY6I4q2rujQLWLvRQJjOsEVPcpkCiCGXwBGqdMdyaw0Du_Q>
+    <xmx:MjzWatU9IFKq5no1medm5OSxy82CGnApGBkARZ9zPJx5kPLb2uA3DQ>
+    <xmx:MjzWakz3fmhsJGVzIS0Qv7-erXcB1GyLj21qXl1v3ISN0yaIUJUNvw>
+    <xmx:MjzWatyJrBoAPWcxh0-1FEhlmxpkyQIR-0xbar9-2i-RsXPINpStpUzG>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Oct 2026 11:50:02 -0400 (EDT)
+ 19 Oct 2026 11:50:09 -0400 (EDT)
 From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>,
@@ -116,9 +116,9 @@ Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
 	kernel-team@meta.com
-Subject: [RFC PATCH 07/18] mm: free the pages waiting for a grace period before isolation fails
-Date: Mon, 19 Oct 2026 16:49:00 +0100
-Message-ID: <20261019154913.1765974-8-kas@kernel.org>
+Subject: [RFC PATCH 08/18] mm/memory-failure: handle folios with PG_rcu_free
+Date: Mon, 19 Oct 2026 16:49:01 +0100
+Message-ID: <20261019154913.1765974-9-kas@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20261019154913.1765974-1-kas@kernel.org>
 References: <20261019154913.1765974-1-kas@kernel.org>
@@ -133,125 +133,94 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-alloc_contig_range() and offline_pages() migrate the folios out of a
-range and then check with test_pages_isolated() that every page is free.
-A migrated folio that had PG_rcu_free waits for a grace period after its
-free, so the check fails.  alloc_contig_range() returns -EBUSY, and a
-CMA or gigantic page allocation can fail; offline_pages() retries until
-the grace period ends.
+A page whose free waits for an RCU grace period has refcount 0 and is
+neither on the LRU nor in the buddy allocator.  memory_failure() and
+soft_offline_page() cannot handle such a page: get_any_page() retries a
+few times and gives up.  Soft offline of the page fails, and a hard
+error is ignored.  If the page is part of a large folio, the folio is
+later freed with the poisoned page in it, and that page can be handed
+out again.
 
-When the check fails and the zone has pages waiting, free them first.
-alloc_contig_range() then finds the start of the free range again, as
-the freed folio can merge with a free buddy below it.
-offline_pages() does so only after a pass that migrated folios: an
-offline stuck on a busy page would otherwise start an expedited grace
-period on every retry.
+Free the waiting pages first when the page looks like one of them.
+memory_failure() has to do it before it sets PG_hwpoison.  The free of a
+poisoned order-0 page drops the page instead of returning it to the
+buddy allocator, so a later drain would still leave the error ignored.
+
+A folio with PG_rcu_free that is still in use may be copied by a reader
+that holds no reference.  When memory_failure() succeeds, its caller can
+unmap the page from the direct map under such a reader.  Wait for a
+grace period before returning success.  By then the page has left the
+page cache, or is an order-0 folio with PG_hwpoison, which a reader that
+starts after the grace period has to check.
+
+Wait at the end, not right after setting PG_hwpoison.  A large folio is
+split later, and until the new folios are in the page cache, a reader
+can still copy the poisoned page as part of the large one.
+
+Both callers hold mf_mutex and can wait for the grace period.
 
 Assisted-by: LLM
 Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
 ---
- mm/memory_hotplug.c |  7 +++++++
- mm/page_alloc.c     | 28 +++++++++++++++++++++++++++-
- mm/page_alloc.h     |  1 +
- 3 files changed, 35 insertions(+), 1 deletion(-)
+ mm/memory-failure.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
-index 226ab9cb078a..a8f0c95627ee 100644
---- a/mm/memory_hotplug.c
-+++ b/mm/memory_hotplug.c
-@@ -1967,6 +1967,7 @@ int offline_pages(unsigned long start_pfn, unsigned long nr_pages,
- 		.nid = NUMA_NO_NODE,
- 	};
- 	unsigned long flags;
-+	bool migrated;
- 	char *reason;
- 	int ret;
- 	unsigned long normal_pages = 0;
-@@ -2050,6 +2051,7 @@ int offline_pages(unsigned long start_pfn, unsigned long nr_pages,
- 
- 	do {
- 		pfn = start_pfn;
-+		migrated = false;
- 		do {
- 			/*
- 			 * Historically we always checked for any signal and
-@@ -2071,6 +2073,7 @@ int offline_pages(unsigned long start_pfn, unsigned long nr_pages,
- 				 * out
- 				 */
- 				do_migrate_range(pfn, end_pfn);
-+				migrated = true;
- 			}
- 		} while (!ret);
- 
-@@ -2092,6 +2095,10 @@ int offline_pages(unsigned long start_pfn, unsigned long nr_pages,
- 
- 		ret = test_pages_isolated(start_pfn, end_pfn,
- 					  PB_ISOLATE_MODE_MEM_OFFLINE);
-+		/* What this pass migrated can wait for a grace period */
-+		if (ret && migrated &&
-+		    zone_page_state_snapshot(zone, NR_FREE_RCU_PAGES))
-+			rcu_free_sync();
- 
- 	} while (ret);
- 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index bec9128d80db..e63628e64cbb 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -1468,6 +1468,23 @@ static void rcu_free_drain(void)
- 	mutex_unlock(&lock);
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index 7dde7c3c9a0c..dc66cac05b1f 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -1565,6 +1565,21 @@ static int get_hwpoison_page(struct page *p, unsigned long flags)
+ 	return ret;
  }
  
-+/* Free every waiting folio, including those a work took off the lists */
-+void rcu_free_sync(void)
++/* A page waiting for a grace period is not in the buddy yet: free it */
++static void mf_free_rcu_pages(struct page *p)
 +{
-+	int cpu;
-+
 +	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
 +		return;
++	if (page_count(p))
++		return;
++	if (!zone_page_state_snapshot(page_zone(p), NR_FREE_RCU_PAGES))
++		return;
++	if (is_free_buddy_page(p))
++		return;
 +
-+	rcu_free_drain();
-+	for_each_possible_cpu(cpu) {
-+		struct rcu_free_pcpu *r = per_cpu_ptr(&rcu_free_pcpu, cpu);
-+
-+		flush_work(&r->rwork.work);
-+		flush_work(&r->expedite);
-+	}
++	rcu_free_sync();
 +}
 +
- static void __init rcu_free_init(void)
- {
- 	int cpu;
-@@ -7632,7 +7649,16 @@ int alloc_contig_frozen_range_noprof(unsigned long start, unsigned long end,
- 	outer_start = find_large_buddy(start);
+ /*
+  * The caller must guarantee the folio isn't large folio, except hugetlb.
+  * try_to_unmap() can't handle it.
+@@ -2440,6 +2455,7 @@ int memory_failure(unsigned long pfn, int flags)
+ 	if (res != -ENOENT)
+ 		goto unlock_mutex;
  
- 	/* Make sure the range is really isolated. */
--	if (test_pages_isolated(outer_start, end, mode)) {
-+	ret = test_pages_isolated(outer_start, end, mode);
-+	if (ret && zone_page_state_snapshot(cc.zone, NR_FREE_RCU_PAGES)) {
-+		rcu_free_sync();
-+
-+		/* A freed folio can merge with a free buddy below start */
-+		outer_start = find_large_buddy(start);
-+		ret = test_pages_isolated(outer_start, end, mode);
-+	}
-+
-+	if (ret) {
- 		ret = -EBUSY;
- 		goto done;
- 	}
-diff --git a/mm/page_alloc.h b/mm/page_alloc.h
-index b9259deddb59..f9e200581e2f 100644
---- a/mm/page_alloc.h
-+++ b/mm/page_alloc.h
-@@ -235,6 +235,7 @@ struct page *__alloc_frozen_pages_noprof(gfp_t gfp, unsigned int order, int nid,
- 	alloc_hooks(__alloc_frozen_pages_noprof(__VA_ARGS__))
- void free_frozen_pages(struct page *page, unsigned int order);
- void free_unref_folios(struct folio_batch *fbatch);
-+void rcu_free_sync(void);
++	mf_free_rcu_pages(p);
+ 	if (TestSetPageHWPoison(p)) {
+ 		res = -EHWPOISON;
+ 		if (flags & MF_ACTION_REQUIRED)
+@@ -2612,6 +2628,13 @@ int memory_failure(unsigned long pfn, int flags)
  
- #ifdef CONFIG_NUMA
- struct page *alloc_frozen_pages_noprof(gfp_t, unsigned int order);
+ identify_page_state:
+ 	res = identify_page_state(pfn, p, page_flags);
++	/*
++	 * The caller may unmap the page once this returns 0.  Lockless
++	 * readers that started before the page got PG_hwpoison, or before a
++	 * split left it in a folio of its own, may still be copying it.
++	 */
++	if (!res && folio_test_rcu_free(folio))
++		synchronize_rcu();
+ 	mutex_unlock(&mf_mutex);
+ 	return res;
+ unlock_page:
+@@ -3003,6 +3026,7 @@ int soft_offline_page(unsigned long pfn, int flags)
+ 
+ retry:
+ 	get_online_mems();
++	mf_free_rcu_pages(page);
+ 	ret = get_hwpoison_page(page, flags | MF_SOFT_OFFLINE);
+ 	put_online_mems();
+ 
 -- 
 2.54.0
 
