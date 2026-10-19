@@ -1,126 +1,70 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792425084;
-	b=xzUTsROxU07CjdKCgVe/zb1eKnopPk+/4411o90CTBWCKorQ4JSfaT9+z8Parmfh/0it
-	 pP4FgDaVqoRWh4f0h55qw6QUCGEYlPDOlBYcvGpL3UGLr1+osW79/yjudqpIbdTPHV9+M
-	 ixKOR6gUGXmls03y2DyqDDCdLje5zuEq2yeolb43T9zcF/KCe9tb44UtCUOEWYSf6g5BQ
-	 1/s3+Si063iOObrO+CRI4QUzKe9t7LXnF2kg3Pz3qXIP8qkDeJXzMLOcxk/gwpBj0fwOJ
-	 fYKBXQSO01v7uGcMnPW3ZZ1Mtf6SYntWqpZ6kTEsV8XvnhqrNcNeHv3nrFh4AmQ1alQ==
+	t=1792444854;
+	b=IVnaWEPF0OZNLu+Dr+1458LIiwPHgOSm1XE7IeEi8+LpohnG+YFuPKt4S6AoViO/ZwPd
+	 UzhG0NY0bOmybP8E1dLZzfPbhuEGRN/aWqpZ9UHIwPNOLFC+MXY2sRY6kvKtfIykemuCo
+	 fCyTNdC2fuXAto76NbLfMRQEZ2Z5FnBiCTe6PMM7MDBCHcSLLvvdfUQAJ5pRjkg3Zj225
+	 Y98eo/yC3+PmBd0Fhfiw5CDxRXINEDupNgqjlqVtpa7MMBFo8GqVjHSA7ynXlSYS4bwjN
+	 1ajrwiN0E+NH0cHkgNBYt13icunyyrQmvNmbNMdwSCJMuR1llmilDnBFytE+5S2s1PQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792425084;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=V7LU7B522G/Nt7R0FiWPQqjn9CdYZiUxBthyqwKOD9Q=;
-	b=zR0xf54xb0PDp4cxP3yBXpuacUG6mlKEnKouPok/uMx81kv6sz08Z9UtvgeM7uZTiu9h
-	 RJ1N/WXsfz12Y1l0fTWNwuie5jNLiAgMR0oFaEshOGXnqDZAJJyehvrRENsnFoQ5/yFAF
-	 U7oQfBMX/djXowQ2zie4hp1i/JjwYQ4o8wG71cB/tAj89e0Kjcgv09D7+rmZI046u0jIx
-	 1czLhU63Br5KuduVdR8lDJEHkB9JlLUttC+s4P72z/eDpf2XGxdh1SSqgJxFAB6tgPYJ8
-	 X2FroIzTcJkf2H2bw9IFb9dX532WHJbf1PT08Hc/2LgbZfKiDWv68Dviu7GI3CNrE+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792444854;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ptUqxl+FSgqXww7qutPBzfxssS1laHZAufEmAd4CAbg=;
+	b=ejVJVDZ8AJ5pHlA+qtzP677kdCj0/DYXGYdUBa/AcOI+vzklboibYTHKmrPVJCg7FwGA
+	 GvRL5gXt5h/Z1x72WQrCrvGnc1ZSU54vR5gxza0ewBUte9tm1hPzIbYbvtQHJjaLI+Ia7
+	 MJS6ZofkQ9PWHFkDgJ+GzY5u6Rkatcr1leSGXqfkf5unjuF5n37K8iyLWEaDjnp4CW486
+	 nqnrc3BbudEuugagci/94yLIpPbbvDmKErVWwBU3JlUgHM5BvrqRnH/KWEqtntDR6YbsL
+	 SC8O4FEbz9wwNiV1HyN3t4DWOJQSIckoCL+Dl9QkBfApHcLlWHwA126yXcA+/f/MM7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P5De88P4;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZO1g0dwR;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE64C606AFAF
-	for <fuse-devel@lists.linux.dev>; Mon, 19 Oct 2026 15:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F19B606A31A;
+	Mon, 19 Oct 2026 21:20:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P5De88P4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0EFD1F000C8;
-	Mon, 19 Oct 2026 15:51:21 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZO1g0dwR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B5FC1F000C4;
+	Mon, 19 Oct 2026 21:20:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792425083;
-	bh=V7LU7B522G/Nt7R0FiWPQqjn9CdYZiUxBthyqwKOD9Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=P5De88P4FpvlaJcDtasw/nbGRMQY+HDtwv3F9sdECQSI3TwBZcWKdnWS1/MSOBPAo
-	 +T/wcNAnPygUQGJ+vsA/uB7qzmlsM2qTSk/8Nm3rcB3P+6Hf8bCP0AjohxJVfBTKvT
-	 cWSnEpMdPx1fRVrpvAmaHQeE5IFomPGIdl1Q/cEeiunxJN/bbG9bO59FmejMJKqgfB
-	 4gNgVvVnUoavjWuzgJBkOg6hCris8dZQAlUEFFdN5hveFivqmOcEJRmd4Lxu1g9J9q
-	 GDLcY3GsVZcHez+Ri+XPdcopzmdtf0E1PyaMWhG7ZfYmzvMMg1nh6tdOn+hezaHiSA
-	 3F/rf7dZVqtVA==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.ams.internal (Postfix) with ESMTP id A1B74198003A;
-	Mon, 19 Oct 2026 11:51:16 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Mon, 19 Oct 2026 11:51:20 -0400
-X-ME-Sender: <xms:dDzWau9M3FbVzylKyeuMuTbSvRi5IhIiOm5vggdDvmx2WLA7P_-HbQ>
-    <xme:dDzWaj-PHM48Ndlhrsp1ztoB7LRirKXS6TUWSubRL-nmTgJ5xnjPzKegBHPYb6Apa
-    lWzc8x9JYUVJwFZoc-_UAzZlg-D1yIhQhkrMadsKkA2-juVj8DIWp6B>
-X-ME-Received: <xmr:dDzWamrnOz-IYgpENDf9AHxZdMqOzb7vuLX2QCJm9BzNQsb3vG9t-cpq8-4>
-X-ME-Proxy-Cause: dmFkZTETM5HXVFLzPUxauAkBxER+Z+lTRQkwgIjXhOFN5THGlO0HVgKRB8Wd4BSXaHA5Bq
-    7Hki4AkN29JlsW7Oz4whntE9FU2sRh3n5MV6IVyinOcMZqrY6k/BF1c/BxQBvNlfSnbHPl
-    QW/SZQekiA5aLb3GJIUgrXyjACrHk/syVIVjTZfD7jaDpyMg1O/dYDf4I6wLOAEwx8xESw
-    vWlPZzevy9W/Bx8Vy1OTZuF/dkabbhGDCVd6eGxAa35wXpSJUVy0LPc7oPWN1fg8RR92+D
-    ECpc3fgxZvfIHD4VEls/NZQ+K0gffqxM1pWJS3eaXhIg/AZa9YCFosiagiRdAJgbrCIzoM
-    o7gldHTvIc7eDhtIlvlXL3C53Ed6FccoFxHkqxXLx6DesQwcRIq2OCKsz71WAjXT1lm5TM
-    Kg1S+IlqYIxSJe9HD2GKza9Xs/DT9IRo/iXi4/lAIHvx7zS5svU1pmtsJwFoiXOifXFOJS
-    c8+Oeh3NCwMTZdMLywvQlmAwW/Y7WDCES6B0jmV7pMkS4HcOooYUKfO5TR9lAZ5VoW9a8r
-    /Sd6cK2NtDUvPD7I9Une5gCLCi06S4ZQdRtRBV9yijBm9YZ31pf3G36MsRdGWua/hTa0oz
-    IXvg1wkV9fllJ5EjieDzrGee0JsCZ2XwYMKjT3W5rPPzBpPVPhNKsKgec/1w
-X-ME-Proxy: <xmx:dDzWamLg6cF_WAVSMmPrj6q7Spq9p4LSEZCHn9AirSi8MJz72J-B9g>
-    <xmx:dDzWaj0knTs9fAMwlRv2eWSSw3MmAJ-GD7Ro5x3412yILKFqsCQDGA>
-    <xmx:dDzWan5ODCRnQyiDwSCOgnm3bWqisXfjJ722uVIweErdBv-sNprqtg>
-    <xmx:dDzWapPZak97h7nUxuzK1D5s1DiIbQa1A6wNNRF5GxQLRsE0MFuLKQ>
-    <xmx:dDzWajL7V6ATZJcx30Qa3GWHT7z1tZ55WDYLNjnvd5l-RPejyxFAhMfr>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Oct 2026 11:51:15 -0400 (EDT)
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Hugh Dickins <hughd@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Kairui Song <kasong@tencent.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Harry Yoo <harry@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Ilya Gladyshev <ilya.gladyshev@linux.dev>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	kernel-team@meta.com
-Subject: [RFC PATCH 18/18] mm/filemap: add a debugfs switch for lockless page cache reads
-Date: Mon, 19 Oct 2026 16:49:11 +0100
-Message-ID: <20261019154913.1765974-19-kas@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261019154913.1765974-1-kas@kernel.org>
+	s=k20260515; t=1792444854;
+	bh=ptUqxl+FSgqXww7qutPBzfxssS1laHZAufEmAd4CAbg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZO1g0dwR2An6DWTYT1MnRSMy0VDM3lT2LPQ4okidvUTthZv9inrUnniecU775G5v/
+	 IwLDeAYpkFiHXGIcKPYk+00oVgSlARzg/q3CRw/dtv/UQpMJ/CuvQkD9RLKURTc1ts
+	 0Mo2k0XFL8Db7+9a7nN7ptrIDTBUtHafTOMp5f2222OHcFxmcMHkSShXVldqgwjS2t
+	 6ofKlh6RWERZAUhWbI+YcbuIDpkSKgMCXyxVc35VBndwRXW3whm/Q0c2suU1n1LSL7
+	 JcQJj0Lve42/9/rgOTFsFnIetEg27twNWpp7hgoYhxXqU3HA0TE/cB4MyORyZ+iuM1
+	 z4JDvU6goV5wQ==
+Date: Mon, 19 Oct 2026 22:20:52 +0100
+From: Harry Yoo <harry@kernel.org>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	"Paul E . McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
+Subject: Re: [RFC PATCH 00/18] mm: read the page cache without folio
+ references
+Message-ID: <atZurH8mp-yW3Upg@thinkstation>
 References: <20261019154913.1765974-1-kas@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -131,126 +75,81 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261019154913.1765974-1-kas@kernel.org>
 
-Reading hot folios without a reference defers the free of their memory
-by an RCU grace period.  A workload that loses on that trade, or a bug
-in the lockless read, has no way to turn it off: CONFIG_PAGE_RCU_FREE is
-on in every 64-bit kernel.
+On Mon, Oct 19, 2026 at 04:48:53PM +0100, Kiryl Shutsemau (Meta) wrote:
+> Small reads of one file from many CPUs all take and drop a reference on
+> the same folio, and its refcount bounces between the CPUs.  This series
+> lets filemap_read() and shmem copy from the page cache without taking a
+> reference.  It is Linus' RFC [1], reworked: a folio that such a reader
+> may copy from is freed only after an RCU grace period.
+>
+> Only the folios that reads keep coming back to get the flag,
+> PG_rcu_free: those that folio_mark_accessed() finds as accessed as the
+> LRU records.  Streaming reads and data that never gets hot are not
+> deferred, so the memory held back stays small and most frees are not
+> touched.
 
-Add lockless_page_cache_read to debugfs.  Writing 0 stops filemap_read()
-and shmem_file_read_iter() from setting PG_rcu_free and from copying
-without a reference.  A static key keeps the test off the read path.
-debugfs, not a sysctl: the switch is not ABI and can go once the reads
-have proven themselves.
+By applying this to hot folios only, small reads would benefit only when
+they contend on the refcount. That further narrows down the scope of
+workload that would benefit from this. Random or sequential small reads
+still perform the atomics on the refcount.
 
-Folios that have the flag keep it, and their free stays deferred: a read
-that tested the key before the switch may still be copying from them.
+Looking at what Linus mentioned as "Willy reported real users having
+scalability issues in that area a couple of years ago in a discussion
+about buffereed IO scalability limits:
 
-Assisted-by: LLM
-Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
----
- mm/Kconfig   |  3 +++
- mm/filemap.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 51 insertions(+), 3 deletions(-)
+  https://lore.kernel.org/all/Zds8T9O4AYAmdS9d@casper.infradead.org/
+"
 
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 5af00db23f90..1ad1cb7969e7 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -730,6 +730,9 @@ config PAGE_RCU_FREE
- 	  64-bit only: it takes a page flag, and those are scarce on
- 	  32-bit.
- 
-+	  Writing 0 to lockless_page_cache_read in debugfs turns these
-+	  reads off.
-+
- config PHYS_ADDR_T_64BIT
- 	def_bool 64BIT
- 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index cde7bc68b32d..7021ed2ab6c9 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -48,6 +48,7 @@
- #include <linux/rcupdate_wait.h>
- #include <linux/sched/mm.h>
- #include <linux/sysctl.h>
-+#include <linux/debugfs.h>
- #include <linux/pgalloc.h>
- 
- #include <asm/tlbflush.h>
-@@ -2765,6 +2766,50 @@ static inline bool pos_same_folio(loff_t pos1, loff_t pos2, struct folio *folio)
- 	return (pos1 >> shift == pos2 >> shift);
- }
- 
-+#ifdef CONFIG_PAGE_RCU_FREE
-+/* Writing 0 to lockless_page_cache_read in debugfs turns the reads off */
-+static DEFINE_STATIC_KEY_TRUE(lockless_read_key);
-+
-+static bool lockless_read_enabled(void)
-+{
-+	return static_branch_likely(&lockless_read_key);
-+}
-+
-+#ifdef CONFIG_DEBUG_FS
-+static int lockless_read_get(void *data, u64 *val)
-+{
-+	*val = static_key_enabled(&lockless_read_key);
-+	return 0;
-+}
-+
-+static int lockless_read_set(void *data, u64 val)
-+{
-+	if (val > 1)
-+		return -EINVAL;
-+	if (val)
-+		static_branch_enable(&lockless_read_key);
-+	else
-+		static_branch_disable(&lockless_read_key);
-+	return 0;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(lockless_read_fops, lockless_read_get,
-+			 lockless_read_set, "%llu\n");
-+
-+static int __init lockless_read_debugfs_init(void)
-+{
-+	debugfs_create_file_unsafe("lockless_page_cache_read", 0644, NULL, NULL,
-+				   &lockless_read_fops);
-+	return 0;
-+}
-+late_initcall(lockless_read_debugfs_init);
-+#endif
-+#else
-+static bool lockless_read_enabled(void)
-+{
-+	return false;
-+}
-+#endif
-+
- /*
-  * Reads keep coming back to @folio: free it only after an RCU grace period
-  * from now on.  Not if its next read needs a reference anyway.  Not if it
-@@ -2775,7 +2820,7 @@ static void filemap_mark_hot(struct folio *folio)
- {
- 	struct address_space *mapping;
- 
--	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
-+	if (!lockless_read_enabled())
- 		return;
- 	if (folio_test_rcu_free(folio) || !folio_test_uptodate(folio) ||
- 	    folio_test_dropbehind(folio) || folio_test_unevictable(folio))
-@@ -3025,8 +3070,8 @@ size_t filemap_read_rcu(struct kiocb *iocb, struct iov_iter *iter,
- 	pgoff_t last_index = (last_pos - 1) >> PAGE_SHIFT;
- 	size_t copied = 0;
- 
--	/* Not on an inode that never had a folio flagged */
--	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE) ||
-+	/* Not when switched off, or on an inode that never had a folio flagged */
-+	if (!lockless_read_enabled() ||
- 	    !mapping_rcu_read(iocb->ki_filp->f_mapping))
- 		return 0;
- 
+On that thread, from Willy:
+> Not artificial; this was a real customer with a real workload.  I don't
+> know how much about it I can discuss publically, but my memory of it was a
+> system writing a log with 64 byte entries, millions of entries per second.
+> Occasionally the system would have to go back and look at an entry in the
+> last few seconds worth of data (so it would still be in the page cache).
+> 
+> This customer was quite savvy, so they actually implemented and tested
+> the lookup-copy-lookup-again algorithm in their custom kernel, and saw
+> a speedup from it.
+
+https://lore.kernel.org/all/Zdz9p_Kn0puI1KEL@casper.infradead.org
+
+Again from willy, from the same thread:
+> On Mon, Feb 26, 2024 at 09:17:33AM -0800, Linus Torvalds wrote:
+> > Willy - tangential side note: I looked closer at the issue that you
+> > reported (indirectly) with the small reads during heavy write
+> > activity.
+> > 
+> > Our _reading_ side is very optimized and has none of the write-side
+> > oddities that I can see, and we just have
+> > 
+> >   filemap_read ->
+> >     filemap_get_pages ->
+> >         filemap_get_read_batch ->
+> >           folio_try_get_rcu()
+> > 
+> > and there is no page locking or other locking involved (assuming the
+> > page is cached and marked uptodate etc, of course).
+> > 
+> > So afaik, it really is just that *one* atomic access (and the matching
+> > page ref decrement afterwards).
+>  
+> Yep, that was what the customer reported on their ancient kernel, and
+> we at least didn't make that worse ...
+
+https://lore.kernel.org/all/Zduto30LUEqIHg4h@casper.infradead.org
+
+From the discussion I'm not sure if the scenario above would benefit
+from this.
+
+Maybe we should try to either 1) find a better heuristic to mark
+which folios should have PG_rcu_free to make it beneficial for wider
+range of workloads or 2) identify workload that heavly contends on the
+refcount of a small set of folios...
+
 -- 
-2.54.0
-
+Cheers,
+Harry / Hyeonggon
