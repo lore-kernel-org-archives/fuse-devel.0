@@ -1,70 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.12.53.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=50.112.246.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792505822;
-	b=z06PHtx0iIp/fMFuZ6vlliXJvBHjry2QPWpo3gYa8Nk7oatOfFfJCLa6uDyU9bOqvpjE
-	 +sjHDu4nYAJTC9laKR0GexOVwWpBaHj5oiYndUN9DFH1uaPDiXlW3lPMrOjqXTPAjbTrK
-	 vFroe/dvxcUrYvEAB04MlE1EHakKVwPzZ1P93NgVxR1Si6ZLU8c7f40SjRgAE6B4mkWYZ
-	 q++5yZWotVErFpqB7razD3TqHKgs6GWbANRLt/v7mYmQrRPXYqsq0ADHT07fS/QG7IHUj
-	 fbUJXZ2gFG2YViC3imd2zrWeau9N52cx/4GhhYhtLQI9/Ovikn4XKzSxSpPYIk+oLag==
+	t=1792505851;
+	b=mWE5TlBsWltNuW+iiOChLV9ZUyFgw+p/f2UhhspCXs5r+BkBsmLMT+q1Fs0w4p9rqXwQ
+	 Dsl/GOusAs94qL87TgEZh7bHQkeWXNiy7r7uyVzyVFvGgLZlrp4yJz3zLRVD5wqZCZ8t/
+	 moC+xYyjRl1xZhc5j68BRuG0BE4P5Y8kdgbLXXtFDQTpV0DNSi9SBvTjEbzI+AFzwK2bS
+	 uWrvkMKLMRWrSy75ZwjeEZ3RIMugk/r6rwC8K2Q8yFJKv+JBrRxcTD3kCG6LjdBGQ9rbT
+	 pdFYlAFuflQrsqvxzWDKnp+sl3BNzSTwhzxvOqqLQr+z1AWBziJS+kSlugXNouXvqzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792505822;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792505851;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=1/j36Ns/xac6BrGBytJDMDA9qFd8s+VQODaLnVagTk8=;
-	b=KWZ9uXbGGymYgxVzu5J1kVdsmQS8/KJKoV2g7kfrEc3uNWynyR7RB85RqgVGimeVZ/Sw
-	 RKaWDVUJKqeUNEVVdSmvWoMdBrGzP1k1bzApL3zt6+M7lCkUf+4q5AHAvzwtMfGeZmaAw
-	 j68Mzp+KMXEIvEw5NrrX+C+GLENkXAF3KuoPlFlJerDigJ/b74ndlBcANSnvDL+Nk0m7S
-	 tiXn11QQVFRRFSorrYQmQOADIRvbvriBzAv9tLTAFSKU39hIhYlYtH9BTYE0Toe8iAsV/
-	 9fwv5hiJaqO8Gp897wLuLtmlQs2hIR6VPv6iygJIvBBT6YmkBRnvc9dt3JehMVazxKA==
+	bh=jY3euqs1gFgfmF9g9mBbXny89Z02VELSyxvLVpXXjI0=;
+	b=FXFogygzucwiOpF3PDfNUkJDYbXJbnfs2mt+fq8ScVhoDeQqigC/4MUG0uO+dq48xhn+
+	 /nqYTizkAY1pTArUICo+YpcXEr/jE9Jyb4AXkNwy91Oq+hagTc3/baYOgNRgim7gcASr1
+	 Sihxu2yoYEpYQo9QQ6Gc1VlMDs34d7DuWKFl8CCj4jvJ/pML11rTQHuZ0DRArVsJxHfyH
+	 oSLojcRjBwS2uxpoin3uYrW51YlkVW3B78TF6mfu3aAaA5pS//ST8VmxJb/+nvsjEuMJ4
+	 uHbxGc1bcp62DzexkJdlLep2jW9PnlF6JaGR4JjICsmjIWUOcc2M1+F2sjmMSlKi2lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=amazon.com;
 	spf=pass smtp.mailfrom=amazon.com;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=nT9lBKWR;
-	arc=none smtp.remote-ip=52.12.53.23
-Received: from pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.12.53.23])
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=EFINs3yN;
+	arc=none smtp.remote-ip=50.112.246.219
+Received: from pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com [50.112.246.219])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0756606AA08
-	for <fuse-devel@lists.linux.dev>; Tue, 20 Oct 2026 14:17:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0756606AA08
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5854A60A4ACE
+	for <fuse-devel@lists.linux.dev>; Tue, 20 Oct 2026 14:17:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5854A60A4ACE
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=nT9lBKWR
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=EFINs3yN
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1792505821; x=1824041821;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1/j36Ns/xac6BrGBytJDMDA9qFd8s+VQODaLnVagTk8=;
-  b=nT9lBKWRl6P2rvpvmzbXiz+wLalB3QIOssHtR1Q8kJq2wvoAFF1qbm/L
-   xvNeYrwMv7ByK3stKAPMLvtOSYwnsgMCKGE+K2VL+4FTYcAPoVeXyacIo
-   e1ko/NPQUssf84Nv/ZC7M62BcX3S39RRT9sP5FH2ZVC6tydCHG5fuSEf4
-   Fzinyrke1PvCjIFgDcb3l7sB3OIAQHQZM5McqegegTxuvJu5YWM2+aDCr
-   mdhmjykKd1CvsiNbsDRC4C/g2kq5ExiyUmIlARbbw/NDZKOs4LfZr8L+b
-   9fAEv3vYxKyDjc+bthor9MZUMBvfqyuBL8DpbiWotNndLE/zSApZ0D05V
-   A==;
-X-CSE-ConnectionGUID: 3jHFcu75S9Sw7ct6Y+lgsg==
-X-CSE-MsgGUID: TTft6wITQVK3lyoFD3fkGA==
+  t=1792505851; x=1824041851;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=jY3euqs1gFgfmF9g9mBbXny89Z02VELSyxvLVpXXjI0=;
+  b=EFINs3yNWqGS+Kxt6I6rzbgccrKXP5CQxSZpQ/z3TvL7Vvh/YMOLlZrD
+   7bCvuKUwlhXjcEuMG7DArTMFuIfgsvKdvJTYDrbmTy7BQLlwTAwrqh/BV
+   OLCsPgoi6XfzAqLcfveoa44HHGfDEUhu+u/t9/OYKxzHkq0qLlahKwwZD
+   +OObleBCd5f/vwmrMo5rak8/iGYeAAcgu+8tuawqYsyad9/v/Q3ErwWHT
+   T3nnjHod5xq3YDCrRsJ+sVKS4a4I1209CeJ5gocU4Kb7T3nVlAzJ+t0Yc
+   xOKrAM40Zv+faZRhNebsKOwtcAN5I0IGp+IuYKWwpgXKDaptZxFZD9toy
+   Q==;
+X-CSE-ConnectionGUID: 1Jt/lIfoRSiwI6OXQBnaMA==
+X-CSE-MsgGUID: A8JloJxsTVamRCwin87YVw==
 X-IronPort-AV: E=Sophos;i="6.27,168,1787011200"; 
-   d="scan'208";a="31620176"
+   d="scan'208";a="31523493"
 Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-010.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 14:17:01 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:23039]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.19.38:2525] with esmtp (Farcaster)
- id c73c3737-0fb0-4e2b-8039-b70441fecfb3; Tue, 20 Oct 2026 14:17:01 +0000 (UTC)
-X-Farcaster-Flow-ID: c73c3737-0fb0-4e2b-8039-b70441fecfb3
+  by internal-pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2026 14:17:30 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:2124]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.154:2525] with esmtp (Farcaster)
+ id 7035ec4c-3e7b-4b51-9ed7-f85f50fdf656; Tue, 20 Oct 2026 14:17:30 +0000 (UTC)
+X-Farcaster-Flow-ID: 7035ec4c-3e7b-4b51-9ed7-f85f50fdf656
 Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.49;
- Tue, 20 Oct 2026 14:17:00 +0000
+ Tue, 20 Oct 2026 14:17:30 +0000
 Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
  by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.53;
- Tue, 20 Oct 2026 14:16:59 +0000
+ Tue, 20 Oct 2026 14:17:29 +0000
 From: jamz <jamz@amazon.com>
 To: Miklos Szeredi <miklos@szeredi.hu>
 CC: Jimmy Zuber <jamz@amazon.com>, <fuse-devel@lists.linux.dev>,
@@ -72,10 +72,12 @@ CC: Jimmy Zuber <jamz@amazon.com>, <fuse-devel@lists.linux.dev>,
  Schubert" <bernd@bsbernd.com>, Jim Harris <jiharris@nvidia.com>, "Horst
  Birthelmer" <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>,
 	NeilBrown <neil@brown.name>
-Subject: [PATCH 0/3] fuse: atomic open
-Date: Tue, 20 Oct 2026 14:16:44 +0000
-Message-ID: <20261020141647.3271341-1-jamz@amazon.com>
+Subject: [PATCH 1/3] fuse: add FUSE_OPEN_ATOMIC
+Date: Tue, 20 Oct 2026 14:16:45 +0000
+Message-ID: <20261020141647.3271341-2-jamz@amazon.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261020141647.3271341-1-jamz@amazon.com>
+References: <20261020141647.3271341-1-jamz@amazon.com>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -87,7 +89,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC001.ant.amazon.com (10.13.139.241) To
+X-ClientProxiedBy: EX19D031UWA001.ant.amazon.com (10.13.139.88) To
  EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
 From: Jimmy Zuber <jamz@amazon.com>
@@ -96,37 +98,258 @@ Add FUSE_OPEN_ATOMIC, allowing the kernel to skip LOOKUP to improve
 performance. A server implementing FUSE_OPEN_ATOMIC will look up
 the name, create it if O_CREAT is supplied, and open it in one request.
 
-The reply says whether the file was created, as Miklos suggested in [1].
-The overall pattern follows his sketch in [2]. For a cached
-name, the kernel compares the returned nodeid with the cached one and
-looks the name up again on a mismatch.
+The server replies with the entry and the open file. If the file was
+created, the server returns FOPEN_CREATED, or just the entry if it
+was not created. If the name does not exist, the server returns a
+zero nodeid, cacheable like a negative LOOKUP. An existing file
+opened with O_TRUNC is returned unopened, so that truncation can be
+performed after permissions are checked.
 
-A server without FUSE_OPEN_ATOMIC replies -ENOSYS and keeps today's
-behaviour.
+FMODE_CREATED is set only when the server reports that it created the
+file. Therefore a file created by someone else between LOOKUP and
+CREATE is no longer opened without a permission check.
 
-Tested with a new selftest under UML and KVM.
+A server without the request replies -ENOSYS, and the kernel falls back to
+FUSE_LOOKUP, keeping backwards compatibility.
 
-[1] https://lore.kernel.org/all/CAJfpeguEK4JsFo60=yHkpLL6XkDGS7cQ5GOhiFL379KsYk0TsQ@mail.gmail.com/
-[2] https://lore.kernel.org/all/CAJfpegvXtXY=Pbxv+dMGFR8mvWN0DUwhSo6NwaVexk6Y6sao+w@mail.gmail.com/
+Assisted-by: Claude:claude-opus-5-5 [Claude-Code]
+Signed-off-by: Jimmy Zuber <jamz@amazon.com>
+---
+ fs/fuse/dir.c             | 112 +++++++++++++++++++++++++++++++++++---
+ fs/fuse/fuse_i.h          |   3 +
+ include/uapi/linux/fuse.h |   8 ++-
+ 3 files changed, 113 insertions(+), 10 deletions(-)
 
-
-Jimmy Zuber (3):
-  fuse: add FUSE_OPEN_ATOMIC
-  fuse: open cached files with FUSE_OPEN_ATOMIC
-  selftests/fuse: add test for FUSE_OPEN_ATOMIC
-
- fs/fuse/dir.c                                 | 359 +++++++++++--
- fs/fuse/file.c                                |   4 +-
- fs/fuse/fuse_i.h                              |   4 +
- include/uapi/linux/fuse.h                     |   8 +-
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../selftests/filesystems/fuse/Makefile       |   3 +-
- .../filesystems/fuse/atomic_open_test.c       | 473 ++++++++++++++++++
- 7 files changed, 797 insertions(+), 55 deletions(-)
- create mode 100644 tools/testing/selftests/filesystems/fuse/atomic_open_test.c
-
-
-base-commit: b776cbe24cc1b79c7f5101762b0069b3f48b6a4b
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index f48fafccce4b..34d2271eb248 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -815,7 +815,47 @@ static void free_ext_value(struct fuse_args *args)
+ }
+ 
+ /*
+- * Atomic create+open operation
++ * FUSE_OPEN_ATOMIC found an existing name and left the open to the VFS.  A
++ * zero nodeid means the name does not exist.
++ */
++static int fuse_open_atomic_found(struct inode *dir, struct dentry *entry,
++				  struct file *file,
++				  struct fuse_entry_out *outarg,
++				  struct fuse_forget_link *forget, int epoch,
++				  u64 attr_version, u64 evict_ctr)
++{
++	struct fuse_conn *fc = get_fuse_conn(dir);
++	struct inode *inode = NULL;
++	struct dentry *res;
++
++	if (outarg->nodeid) {
++		inode = fuse_iget(dir->i_sb, outarg->nodeid, outarg->generation,
++				  &outarg->attr, ATTR_TIMEOUT(outarg),
++				  attr_version, evict_ctr);
++		if (!inode) {
++			fuse_chan_queue_forget(fc->chan, forget,
++					       outarg->nodeid, 1);
++			return -ENOMEM;
++		}
++	}
++	kfree(forget);
++	if (inode && get_node_id(inode) == FUSE_ROOT_ID) {
++		iput(inode);
++		return -EIO;
++	}
++
++	d_drop(entry);
++	res = d_splice_alias(inode, entry);
++	if (!IS_ERR(res)) {
++		fuse_dentry_set_epoch(res ?: entry, epoch);
++		fuse_change_entry_timeout(res ?: entry, outarg);
++	}
++	return finish_no_open(file, res);
++}
++
++/*
++ * Atomic create+open operation, or lookup with optional create and open for
++ * FUSE_OPEN_ATOMIC
+  *
+  * If the filesystem doesn't support this, then fall back to separate
+  * 'mknod' + 'open' requests.
+@@ -833,8 +873,12 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
+ 	struct fuse_entry_out outentry;
+ 	struct fuse_inode *fi;
+ 	struct fuse_file *ff;
++	u64 attr_version, evict_ctr;
+ 	int epoch, err;
+ 	bool trunc = flags & O_TRUNC;
++	bool atomic = opcode == FUSE_OPEN_ATOMIC;
++	bool create = !atomic || (flags & O_CREAT);
++	bool locked, created;
+ 
+ 	/* Userspace expects S_IFREG in create mode */
+ 	BUG_ON((mode & S_IFMT) != S_IFREG);
+@@ -878,26 +922,62 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
+ 	outopenp = &ff->args->open_outarg;
+ 	args.out_args[1].size = sizeof(*outopenp);
+ 	args.out_args[1].value = outopenp;
++	/* FUSE_OPEN_ATOMIC leaves out fuse_open_out if it did not open */
++	args.out_argvar = atomic;
+ 
+-	err = get_create_ext(idmap, &args, dir, entry, mode);
+-	if (err)
+-		goto out_free_ff;
++	if (create) {
++		err = get_create_ext(idmap, &args, dir, entry, mode);
++		if (err)
++			goto out_free_ff;
++	} else {
++		idmap = &invalid_mnt_idmap;
++	}
+ 
++	attr_version = fuse_get_attr_version(fm->fc);
++	evict_ctr = fuse_get_evict_ctr(fm->fc);
++
++	/* Without O_CREAT the parent is locked shared, as for a lookup */
++	locked = !create && fuse_lock_inode(dir);
+ 	err = fuse_simple_idmap_request(idmap, fm, &args);
++	fuse_unlock_inode(dir, locked);
+ 	free_ext_value(&args);
+-	if (err)
++	if (err < 0)
+ 		goto out_free_ff;
+ 
+ 	err = -EIO;
++	if (atomic && !args.out_args[1].size) {
++		/* A zero nodeid: the name does not exist and was not created */
++		if (!outentry.nodeid && create)
++			goto out_free_ff;
++		if (outentry.nodeid && (invalid_nodeid(outentry.nodeid) ||
++					fuse_invalid_attr(&outentry.attr)))
++			goto out_free_ff;
++		fuse_file_free(ff);
++		return fuse_open_atomic_found(dir, entry, file, &outentry,
++					      forget, epoch, attr_version,
++					      evict_ctr);
++	}
++
+ 	if (!S_ISREG(outentry.attr.mode) || invalid_nodeid(outentry.nodeid) ||
+-	    fuse_invalid_attr(&outentry.attr))
++	    fuse_invalid_attr(&outentry.attr) ||
++	    args.out_args[1].size != sizeof(*outopenp))
+ 		goto out_free_ff;
+ 
++	created = !atomic || (outopenp->open_flags & FOPEN_CREATED);
++	if (atomic) {
++		/* Only O_CREAT creates; O_TRUNC opens are left to the VFS */
++		if ((created && !create) || (!created && trunc))
++			goto out_free_ff;
++		if (created)
++			file->f_mode |= FMODE_CREATED;
++	}
++
+ 	ff->fh = outopenp->fh;
+ 	ff->nodeid = outentry.nodeid;
+ 	ff->open_flags = outopenp->open_flags;
+ 	inode = fuse_iget(dir->i_sb, outentry.nodeid, outentry.generation,
+-			  &outentry.attr, ATTR_TIMEOUT(&outentry), 0, 0);
++			  &outentry.attr, ATTR_TIMEOUT(&outentry),
++			  created ? 0 : attr_version, created ? 0 : evict_ctr);
+ 	if (!inode) {
+ 		flags &= ~(O_CREAT | O_EXCL | O_TRUNC);
+ 		fuse_sync_release(NULL, ff, flags);
+@@ -906,10 +986,14 @@ static int fuse_create_open(struct mnt_idmap *idmap, struct inode *dir,
+ 		goto out_err;
+ 	}
+ 	kfree(forget);
+-	d_instantiate(entry, inode);
++	if (d_in_lookup(entry))
++		d_splice_alias(inode, entry);
++	else
++		d_instantiate(entry, inode);
+ 	fuse_dentry_set_epoch(entry, epoch);
+ 	fuse_change_entry_timeout(entry, &outentry);
+-	fuse_dir_changed(dir);
++	if (created)
++		fuse_dir_changed(dir);
+ 	err = generic_file_open(inode, file);
+ 	if (!err) {
+ 		file->private_data = ff;
+@@ -947,6 +1031,16 @@ static int fuse_atomic_open(struct inode *dir, struct dentry *entry,
+ 	if (fuse_is_bad(dir))
+ 		return -EIO;
+ 
++	if (!fc->no_open_atomic && (d_in_lookup(entry) || (flags & O_CREAT))) {
++		err = fuse_create_open(idmap, dir, entry, file, flags,
++				       mode | S_IFREG, FUSE_OPEN_ATOMIC);
++		if (err == -EEXIST)
++			fuse_invalidate_entry(entry);
++		if (err != -ENOSYS)
++			return err;
++		fc->no_open_atomic = 1;
++	}
++
+ 	if (d_in_lookup(entry)) {
+ 		struct dentry *res = fuse_lookup(dir, entry, 0);
+ 		if (res || d_really_is_positive(entry))
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index 8546855386b5..ba6dc4c43a1f 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -589,6 +589,9 @@ struct fuse_conn {
+ 	/** @no_create: Is create not implemented by fs? */
+ 	unsigned no_create:1;
+ 
++	/** @no_open_atomic: Is open atomic not implemented by fs? */
++	unsigned no_open_atomic:1;
++
+ 	/** @no_bmap: Is bmap not implemented by fs? */
+ 	unsigned no_bmap:1;
+ 
+diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+index 10a7f31c4bdf..745b686c468f 100644
+--- a/include/uapi/linux/fuse.h
++++ b/include/uapi/linux/fuse.h
+@@ -251,6 +251,9 @@
+  *
+  *  7.47
+  *  - add FUSE_HAS_SYNCFS opt-in flag for privileged userspace servers
++ *
++ *  7.48
++ *  - add FUSE_OPEN_ATOMIC and FOPEN_CREATED
+  */
+ 
+ #ifndef _LINUX_FUSE_H
+@@ -286,7 +289,7 @@
+ #define FUSE_KERNEL_VERSION 7
+ 
+ /** Minor version number of this interface */
+-#define FUSE_KERNEL_MINOR_VERSION 47
++#define FUSE_KERNEL_MINOR_VERSION 48
+ 
+ /** The node ID of the root inode */
+ #define FUSE_ROOT_ID 1
+@@ -400,6 +403,7 @@ struct fuse_file_lock {
+  *                           (FUSE_URING_ZERO_COPY) and the request carries page
+  *                           payload. Otherwise reads/writes fall back to
+  *                           copying.
++ * FOPEN_CREATED: FUSE_OPEN_ATOMIC created the file
+  */
+ #define FOPEN_DIRECT_IO		(1 << 0)
+ #define FOPEN_KEEP_CACHE	(1 << 1)
+@@ -410,6 +414,7 @@ struct fuse_file_lock {
+ #define FOPEN_PARALLEL_DIRECT_WRITES	(1 << 6)
+ #define FOPEN_PASSTHROUGH	(1 << 7)
+ #define FOPEN_IO_URING_ZERO_COPY (1 << 8)
++#define FOPEN_CREATED		(1 << 9)
+ 
+ /**
+  * INIT request/reply flags
+@@ -690,6 +695,7 @@ enum fuse_opcode {
+ 	FUSE_TMPFILE		= 51,
+ 	FUSE_STATX		= 52,
+ 	FUSE_COPY_FILE_RANGE_64	= 53,
++	FUSE_OPEN_ATOMIC	= 54,
+ 
+ 	/* CUSE specific operations */
+ 	CUSE_INIT		= 4096,
 -- 
 2.50.1
 
