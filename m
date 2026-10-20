@@ -1,65 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792517267;
-	b=e8DWaYC+7GOjXgxCqv4p+1ggM3uXVZeic3Hyyp5qWUQuKlBuwVFZwSMsak4QHwjqt0o1
-	 kmHCxqkUFI4RJhMC5ogcmn6BbyPCMKnclV36wtGtMFeHMdzvrn2iz76tXAR4//S8UwiX5
-	 Fi6mS4FgmX8PyEKs996EE3QabVf1h1FTlcn444qQNVseG5PuHlJ1X0fMV6ALN+rDkhemF
-	 QHV6BYxXRECF+3OE0gvnj1kZbNVA4QV47J9Y5jWsMAGUtmzuQgVerodCB9Hj+YLWaH6Gf
-	 4nQs//RUZwqSz/UkjGt+E+CdcmW2vF6CWk8bZTZraPy5rjQv+PP2KJXwQoZ6Dn5L5hA==
+	t=1792531224;
+	b=w3p6BpfTWfcG25e3wWk/Gi3RpE09BuWDtCna2crWjFKMBPEu64WT2PnRIdIcNuBPVF2a
+	 8JHB7JSwkedd6fWjJTuRNjmn93U3fGt5WSJ1jEJXUq2VKJC+e7U+gv3O8P+HcNBzXoH4A
+	 CHWHTKeO+GDVxYRwfYFGz05HpKZnEiLgy/JbBfF5IUwkiuyc2dt2wY52ZErJnfdhFqM/3
+	 XKD+CpdieOhLZefCjVIUx31jf/SKtqp6zkx3oDFBEDtCDqdL1Hwxr97a1R+jZmRK0CxdD
+	 WI+cW+I3+ku6K9rVFG91JOgwpMDgIVyE/XiWeObg8yueUCv8wYC6eQikHIu5NUfZ84A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792517267;
-	h=Received:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=yU04/QpgFe3hGyqIUoTM6z5+gKHxPwBv/6QVAeU2r6Y=;
-	b=sHKUiC1k2oeWwzaGMYwpzFHFYgQ88LqTm3nf6Gx4MzPUhwcQxl+Ursx2RJFZTprP/18N
-	 7uij4NmvezIWU9c65Jv3aLNbiLqjifQMiXeMpgmIuL24mYOK3CxrNXsJca8tlNQl1J3uA
-	 vdaLRi/Qpr9ChBwMTiQ3WD81Nj8YKfRP+nD1tBqFTGGkiU3v+wcSaBrhXZkFBjOlxUvlQ
-	 1gcHwNcB6Rlp60R0igQXSpvk31hTYVUA8H0HuP4dEzNHceYbBBFYoiGCLI4C7szvaWWKg
-	 EjSK0/d3G/lqL6J9HEtZoU/A2bhRZIhtMZLwCDdb8hdDf7JSdn9cKFbz7RVq0y/Lihw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792531224;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=chw8LHvkOCiuA9Bl9ETjtRb0/vjR44eNojF89t5j3yU=;
+	b=BMs8QvYjD3tgrqyHFufo8ByoADHgQe1rQF1SvNKusI1BszfWmLWy4UPsOLsOJQo3KQfV
+	 ddEu1fl2ucjzp3Ej25c0cE8t8H4hjvxiaihnhrZtXnTPH+hRJt4gUY1vE/DaIc82Nctcp
+	 E3/xv5evFiHdzX9HIakSZ1cLmcvnRGBrP8Ze44PZYKwRfgTrSyskkzx7AviGnw0A8YDrJ
+	 Lt/mbTzdtSAHKRMmiOUzF7z7r7YPe3UNAxSBdmtnhVYOkrgk+k6szbEXF1Sb5MgCxj4g6
+	 03lUDPHCvlOPqE9bYbq0mxBwsR9BIEMtQ7iNsluzZetJxlA0Op/65FWLD8xkihmHbng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=cZRioPXF;
+	arc=none smtp.remote-ip=209.85.218.51
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D586606A31B;
-	Tue, 20 Oct 2026 17:27:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB3A1F000C9;
-	Tue, 20 Oct 2026 17:27:44 +0000 (UTC)
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.ams.internal (Postfix) with ESMTP id DE3A0198003A;
-	Tue, 20 Oct 2026 13:27:18 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Tue, 20 Oct 2026 13:27:26 -0400
-X-ME-Sender: <xms:dqTXajhhAkytqTNlgANjRk-o93Rtlpoi-Ezo2eNr-yvrypWxigvkoA>
-    <xme:dqTXap3VaCSp2pOEbBYe1ZkKPW8sbSwgHzYOcqxs-uQ4aDw1JhDGZ2W6MMl0KiX5F
-    n6cbzk1SsrVVgNEt_agSPV4sFIcUGKYnktw3qqF8zk_vl6240UCdrI6>
-X-ME-Received: <xmr:dqTXamw4BWbJQ3vzYTcY1e0ey3jevieyfoMrSuzq0XSJ26cqwC1_BnfN5_k>
-X-ME-Proxy-Cause: dmFkZTGzP+F9vGPOZyaAazPtUwGQnMUL7fv9cbbx9r1tOaZQdDv97soC3NeH5tlEJqA6MA
-    8AB1mvW+ert6FpnONSEWAGkFPR+x/6nRW2wqDxG/x8xhzSPhANNTFTZd8rW1kL2SaYnlii
-    9CI3mhrsxtoq1xY4vpBJF2vYlEEH0XnB8T5gYNVsrEhr2hHVW9SAl6G+hpF9cS/72KRnf7
-    fX8wTM61liLZyYgaGEdx2EdbDIPJx0z5cvtRj60sqAXPKKMWkjnpExa4OE7h4TrxEplFja
-    gINIRlbgECBRkQGX0Y+PF8v3BMTWO8ODfE4TdaqEy7j/P6a++XwxGK7gWEuEvV58vHXkWg
-    WOptSd0fB6Ww8rvbb1gSU7DkB+If5hEwJrAAF94suydCEtNuR68UWN7C18EE9EBmf7vpTF
-    DVZwc4RymnasVGbQFGCY0HDcvIk8ASkm8W4hyO2amxhWiWEg/ItJJoQ22r4YQs+iaV0nrf
-    YxI5i3jEm7+V4W88aFGO3OjJf9X0g0VikjKzXcF/VABnLpgxgh2c55aD7z1uLzqqhrE0Un
-    L7UjVXQhOuSZh6QuXmTr5pRCs28i6LGHt1HXz8ISWHDlSYVzyrNKfw/r3zNUG58zDm+fPw
-    MpWHZg0Pmo8unfVtRtd10UaJA3WTyjHukRe0nCFdaaJMNHrjLQz2ivfer5jA
-X-ME-Proxy: <xmx:dqTXarMZAHnl-2VfPFpCVLhSbIyQ8eiCVvp8RDdJTT7SdGmmdBNKrg>
-    <xmx:dqTXasuSLTcjkFNVxoGGymoNkeMRJ4TmCNlACvbvralnp8AeSs0OXw>
-    <xmx:dqTXahw8P6Ddpi2XRDE8N8zFmRAaAflhBcRy-Fefac_t226a92ea5w>
-    <xmx:dqTXat5joCdsDY05-ygPYgGmt6bbzdoYQlnK8jCHFK_SS14gocQfoA>
-    <xmx:dqTXasUj_G7FDmOs-kp4WRZ1iUv4_A1bbyHE3n5OYDJmSq9S0lNvc__p>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 20 Oct 2026 13:27:17 -0400 (EDT)
-Date: Tue, 20 Oct 2026 18:27:16 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Harry Yoo <harry@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F0F606A33E
+	for <fuse-devel@lists.linux.dev>; Tue, 20 Oct 2026 21:20:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5F0F606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=cZRioPXF
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c3f04e0e65fso509353766b.2
+        for <fuse-devel@lists.linux.dev>; Tue, 20 Oct 2026 14:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1792531217; x=1793136017; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=chw8LHvkOCiuA9Bl9ETjtRb0/vjR44eNojF89t5j3yU=;
+        b=cZRioPXFXGKtqq1WI+RO+KirJ2iDGS0UfxLmce9uYqeAe5UOJKWm74JC70m19/qdhu
+         +jgM2+eZ5PdnUQSikURvFFnge59ZMRZjhdI6IHjOSFW2rvJAVYUH4FBwN6FU1/Y3fL6w
+         DPf43lZfvITpADXQOwS6byN0MLnykaSuNxNgE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792531217; x=1793136017;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=chw8LHvkOCiuA9Bl9ETjtRb0/vjR44eNojF89t5j3yU=;
+        b=K7WeDYF8b0/ehxskqaOTCtr3W0kFgOYKjIl1ZZvf++YV8u9dvHJARzLNPLswt+Ug+/
+         2MExygmHqLgF/EJU4hVpheUPk4FlzsE1uiAvArbYhFOZT5UE90vlNAgbGjT+V6D7wXqZ
+         f98s3buZJNntzMlhf4vQLszyPdCXUIIyuz7ZuZ7nl2ZJayK/BT54shR+66N3Re8hpge3
+         qkscEVkr/kDUIZOKyBYFDtth7yQRibOUqZeJdZe/fLUAVnf4/OhhiKYhxjUmlfJcmEwV
+         fbc+ICPMe3jfSqh6ZmbSlZm73v2u1BdpmGjL8I0MCzqCpo2DQFOwoGBLBqH+zQ4lj+L7
+         JJMQ==
+X-Forwarded-Encrypted: i=1; AKwUvByNzrtbyeQ03ev7DMgKBLZoBBzFX2PSTZwxWwmF2xPOev/cfPmgkXZFPeroQmZTPtLpy2SwcocTdH2j@lists.linux.dev
+X-Gm-Message-State: AFq9FYIgo7JO/q2mqN6TGJLj9z+ECg7EUXgsp8PnpSuiseznWchJ5y38
+	2Zl/wawpkzLfmFzlovUagl825n9QAo37FzzIKWLC6lNyArZT+xH3nJenUfxPWFbAf9/rhWoVWwZ
+	U/gBqF8c5pg==
+X-Gm-Gg: AYBFou0ROVJNo8Hm1GuY8b974n1DuMIBJYrW9vaRrIWnJtMB8QZf/3Vf/H1rS4ilSxW
+	RcJ+dlDJ/B8TmgKSLg+ET1wYnDY5Ackwxm8NhmLxOLafqLgSlBKqxiJkRnV5MVP5LL3sHnWbt3P
+	7mTKoiJ6vlLeHg5tV4qYTyY2YK2sLO5sU6xkCOCTXcrW3kE5tzmRzF5dkMXnAvf+nqEOjEuUhPk
+	6O2wZAJlbTVfRbNlAnbtThI9RhiKp4s594VpwrSyAsHVgWpYUXpCRpW+aTY/M+0NP/70888tUU5
+	QWkBAD5YMXMS5gHkJtIFdVIxTqtVFf9b5cyAQeX9b8Qe0mnYXvxMuo7/iP/thoSIpLTG8JMHNhL
+	WlNTg3R8fGdBXs/MRQpnLZpTpG8WLQn13baE8SRJ+9V5I1d/mAI8ytMP96PTA6e4twLOCg/Arpz
+	AG7P9rG9J+k2EgF82WGrDRuLQZyxlzFCl7xlHVQW/O/IeJFcpDrJcQQEluPZbUiPtnQLx9wZmRI
+	ZYo7I/12CVUnrh1mpxCJIK50BMNyy17GAYDAGEroKiaMGDh
+X-Received: by 2002:a17:906:9fcc:b0:c42:2d07:4c38 with SMTP id a640c23a62f3a-c467960d895mr31343966b.26.1792531217004;
+        Tue, 20 Oct 2026 14:20:17 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b403130703sm109898a12.24.2026.10.20.14.20.16
+        for <fuse-devel@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Oct 2026 14:20:16 -0700 (PDT)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so463946766b.3
+        for <fuse-devel@lists.linux.dev>; Tue, 20 Oct 2026 14:20:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzHF3YuB6j9IFl4tOQTajZ3x7HT2Ksq4Rrp7b34Suwj3mYGnhie+aoJDph3Y6NhwYdnI88OruDYPHmI@lists.linux.dev
+X-Received: by 2002:a17:906:99ca:b0:c3e:cb50:b7c8 with SMTP id
+ a640c23a62f3a-c467959382dmr29830166b.12.1792531216713; Tue, 20 Oct 2026
+ 14:20:16 -0700 (PDT)
+X-Mailing-List: fuse-devel@lists.linux.dev
+List-Id: <fuse-devel.lists.linux.dev>
+List-Post: <mailto:fuse-devel@lists.linux.dev>
+List-Help: <mailto:fuse-devel+help@lists.linux.dev>
+List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
+List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
+Precedence: list
+MIME-Version: 1.0
+References: <20261019154913.1765974-1-kas@kernel.org> <20261019154913.1765974-14-kas@kernel.org>
+In-Reply-To: <20261019154913.1765974-14-kas@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 20 Oct 2026 11:20:00 -1000
+X-Gmail-Original-Message-ID: <CAHk-=wjJpuLXt5BHieXV1qBE-uoWDXKugcfGgR+DiVGVZQ8RvA@mail.gmail.com>
+X-Gm-Features: AclHuK9tJ1qytK1OXr-yTM9eIoQeaSqd6mgYmdK2yrKkOU8FofcfrEV39uaS5Ds
+Message-ID: <CAHk-=wjJpuLXt5BHieXV1qBE-uoWDXKugcfGgR+DiVGVZQ8RvA@mail.gmail.com>
+Subject: Re: [RFC PATCH 13/18] mm/filemap: store the end of a read in f_ra
+ only when it changes
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
 	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
 	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -73,71 +116,25 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
 	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
 	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	"Paul E . McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, Harry Yoo <harry@kernel.org>, 
 	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
 	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
-Subject: Re: [RFC PATCH 00/18] mm: read the page cache without folio
- references
-Message-ID: <atejY_iL7U29bV4Q@thinkstation>
-References: <20261019154913.1765974-1-kas@kernel.org>
- <atZurH8mp-yW3Upg@thinkstation>
-X-Mailing-List: fuse-devel@lists.linux.dev
-List-Id: <fuse-devel.lists.linux.dev>
-List-Post: <mailto:fuse-devel@lists.linux.dev>
-List-Help: <mailto:fuse-devel+help@lists.linux.dev>
-List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
-List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
-Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <atZurH8mp-yW3Upg@thinkstation>
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 19, 2026 at 10:20:52PM +0100, Harry Yoo wrote:
-> On Mon, Oct 19, 2026 at 04:48:53PM +0100, Kiryl Shutsemau (Meta) wrote:
-> > Small reads of one file from many CPUs all take and drop a reference on
-> > the same folio, and its refcount bounces between the CPUs.  This series
-> > lets filemap_read() and shmem copy from the page cache without taking a
-> > reference.  It is Linus' RFC [1], reworked: a folio that such a reader
-> > may copy from is freed only after an RCU grace period.
-> >
-> > Only the folios that reads keep coming back to get the flag,
-> > PG_rcu_free: those that folio_mark_accessed() finds as accessed as the
-> > LRU records.  Streaming reads and data that never gets hot are not
-> > deferred, so the memory held back stays small and most frees are not
-> > touched.
-> 
-> By applying this to hot folios only, small reads would benefit only when
-> they contend on the refcount. That further narrows down the scope of
-> workload that would benefit from this. Random or sequential small reads
-> still perform the atomics on the refcount.
+On Mon, 19 Oct 2026 at 05:50, Kiryl Shutsemau (Meta) <kas@kernel.org> wrote:
+>
+> filemap_read() writes the end of every read to file->f_ra.prev_pos.
+> Threads that read through one open file all write that cache line, on
+> every read.  The value often stays the same, as for reads that start at
+> the same offset each time.
 
-They do, but an atomic on a cache line the CPU already owns is cheap.
-The cost is the line bouncing between CPUs, and that takes many reads of
-the same folio, which is what the hot marking looks for.
+This seems silly. That "often stays the same" is only true for the
+pointless benchmark, no?
 
-Single thread, 16-byte pread() of one page, mitigations=off: base does
-7.4-7.7M reads/s, the series 7.7-8.0M.  Dropping the reference saves a
-few percent when nothing contends.  With 64 threads on the same page,
-base falls to 17M reads/s in total and the series does 220M.
+I don't think it's ever true in any real load.
 
-> Maybe we should try to either 1) find a better heuristic to mark
-> which folios should have PG_rcu_free to make it beneficial for wider
-> range of workloads or 2) identify workload that heavly contends on the
-> refcount of a small set of folios...
-
-Marking more is not free either.
-
-A flagged folio goes back to the page allocator only after a grace
-period, so what reclaim and compaction free is not usable right away,
-and they have to work harder to keep up.
-
-I am all for finding a better heuristic. But it is hard balance.
-
-I will get back with data from real workloads.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+            Linus
