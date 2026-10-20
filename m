@@ -1,71 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792444854;
-	b=IVnaWEPF0OZNLu+Dr+1458LIiwPHgOSm1XE7IeEi8+LpohnG+YFuPKt4S6AoViO/ZwPd
-	 UzhG0NY0bOmybP8E1dLZzfPbhuEGRN/aWqpZ9UHIwPNOLFC+MXY2sRY6kvKtfIykemuCo
-	 fCyTNdC2fuXAto76NbLfMRQEZ2Z5FnBiCTe6PMM7MDBCHcSLLvvdfUQAJ5pRjkg3Zj225
-	 Y98eo/yC3+PmBd0Fhfiw5CDxRXINEDupNgqjlqVtpa7MMBFo8GqVjHSA7ynXlSYS4bwjN
-	 1ajrwiN0E+NH0cHkgNBYt13icunyyrQmvNmbNMdwSCJMuR1llmilDnBFytE+5S2s1PQ==
+	t=1792456485;
+	b=BI+Pi/1HxzHd56yiZtstQW/ONiCUYAa77Ogp89yrG7quV6VWOgFZbXbitvla0kbM1zsF
+	 +OEvsuY2mB2SP0TdafvbTr0ajYJzCLQG7eJUGOEUs9jmCf4+aOhCJeYu/7w70LAsXlvAe
+	 Yi/BGp/vTjnSy5dpP0VEHxWtfizrG/gpbZo548twK5yPuvq+z6/BPKPROFNb8STT9EErA
+	 4Qoq4vGjoBz8dm69zeDI5gGAQLty8U0IP8T0wUBaWGhrzbzwXXnhPc44SYCrcERoipbos
+	 f0ga5Th1ES+3Od52kRSSD9zZRRaBQ0Cxd0uHyiI0usZE1ONFINztVBpKvOxyO9RuSSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792444854;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ptUqxl+FSgqXww7qutPBzfxssS1laHZAufEmAd4CAbg=;
-	b=ejVJVDZ8AJ5pHlA+qtzP677kdCj0/DYXGYdUBa/AcOI+vzklboibYTHKmrPVJCg7FwGA
-	 GvRL5gXt5h/Z1x72WQrCrvGnc1ZSU54vR5gxza0ewBUte9tm1hPzIbYbvtQHJjaLI+Ia7
-	 MJS6ZofkQ9PWHFkDgJ+GzY5u6Rkatcr1leSGXqfkf5unjuF5n37K8iyLWEaDjnp4CW486
-	 nqnrc3BbudEuugagci/94yLIpPbbvDmKErVWwBU3JlUgHM5BvrqRnH/KWEqtntDR6YbsL
-	 SC8O4FEbz9wwNiV1HyN3t4DWOJQSIckoCL+Dl9QkBfApHcLlWHwA126yXcA+/f/MM7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792456485;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=OBz0ZWTSJo6VaFHPQJeL7weuIDpkBIRGsLQFEK0yJPs=;
+	b=21kBeEOmUdbVmbwQrDvf/n4P83U2Z4BDKrd6dMKvME1HVrsjFVRlI0HuDHNS5wrixuMt
+	 dxn2YVVC9teq/JgQjf6jNnwo3yXANms7ynP/Ts9PjDRWB9vZME1M1xVcfxku4sAt72voz
+	 +rbHwYe59zZRnO0wgSO1+2bzOiby6nlCzbbTN2XZXIyvBoa+LIMvrEk5sJXUl3TnGaB26
+	 q8/QrMO4pUKmnlfnpqNOwQbER8WDHd9W+TU7emumpG22Ccy7I05moGKo+BeX9j8v3KcIT
+	 h13W6nWR+NS1YDs4lSBuogx/IlzZod2cTltXF17fQh+Cl1uSDI2VFO4xFmcydQpqsbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZO1g0dwR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=V6e5n5Zk;
+	arc=none smtp.remote-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F19B606A31A;
-	Mon, 19 Oct 2026 21:20:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F7E606A319
+	for <fuse-devel@lists.linux.dev>; Tue, 20 Oct 2026 00:34:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7F7E606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZO1g0dwR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B5FC1F000C4;
-	Mon, 19 Oct 2026 21:20:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792444854;
-	bh=ptUqxl+FSgqXww7qutPBzfxssS1laHZAufEmAd4CAbg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZO1g0dwR2An6DWTYT1MnRSMy0VDM3lT2LPQ4okidvUTthZv9inrUnniecU775G5v/
-	 IwLDeAYpkFiHXGIcKPYk+00oVgSlARzg/q3CRw/dtv/UQpMJ/CuvQkD9RLKURTc1ts
-	 0Mo2k0XFL8Db7+9a7nN7ptrIDTBUtHafTOMp5f2222OHcFxmcMHkSShXVldqgwjS2t
-	 6ofKlh6RWERZAUhWbI+YcbuIDpkSKgMCXyxVc35VBndwRXW3whm/Q0c2suU1n1LSL7
-	 JcQJj0Lve42/9/rgOTFsFnIetEg27twNWpp7hgoYhxXqU3HA0TE/cB4MyORyZ+iuM1
-	 z4JDvU6goV5wQ==
-Date: Mon, 19 Oct 2026 22:20:52 +0100
-From: Harry Yoo <harry@kernel.org>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
-	"Liam R . Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	"Paul E . McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
-Subject: Re: [RFC PATCH 00/18] mm: read the page cache without folio
- references
-Message-ID: <atZurH8mp-yW3Upg@thinkstation>
-References: <20261019154913.1765974-1-kas@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=V6e5n5Zk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=OB
+	z0ZWTSJo6VaFHPQJeL7weuIDpkBIRGsLQFEK0yJPs=; b=V6e5n5Zkei/cx90LVf
+	sR4bFWeAr0uywpDF48XmJHX5VUscxSqd86tTNSX0aQK5AVjjTnVy2vxGgcih+7/N
+	lcywyLiIZyKpKOHa0GJ7HsoheotF9LkdJgBI6XRbE0hjrgMUSf6G1S4GmmE15xw9
+	zERT/9DLyAMZ0ZkGGA9w1GC8g=
+Received: from shaos.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wDn92YVt9ZqVYMqBA--.11309S2;
+	Tue, 20 Oct 2026 08:34:30 +0800 (CST)
+From: shaos <shawnq1@163.com>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [BUG] fuse: copy_file_range exposes stale EOF data when extending a file
+Date: Tue, 20 Oct 2026 00:34:29 +0000
+Message-Id: <20261020003429.1009226-1-shawnq1@163.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -75,81 +59,45 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261019154913.1765974-1-kas@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDn92YVt9ZqVYMqBA--.11309S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7trW7XF47JF43tr1kAryrWFg_yoW8tF1Upr
+	WqqFWftr1vqr47tF93CFW8Xr10gws7Aa13JFyqq3yxuws8Jw17tFWak3yj9a48JFn3WryI
+	vw4jga4xXws8XaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Upv3nUUUUU=
+X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbC8RZDUWrWtxY7wQAA3S
 
-On Mon, Oct 19, 2026 at 04:48:53PM +0100, Kiryl Shutsemau (Meta) wrote:
-> Small reads of one file from many CPUs all take and drop a reference on
-> the same folio, and its refcount bounces between the CPUs.  This series
-> lets filemap_read() and shmem copy from the page cache without taking a
-> reference.  It is Linus' RFC [1], reworked: a folio that such a reader
-> may copy from is freed only after an RCU grace period.
->
-> Only the folios that reads keep coming back to get the flag,
-> PG_rcu_free: those that folio_mark_accessed() finds as accessed as the
-> LRU records.  Streaming reads and data that never gets hot are not
-> deferred, so the memory held back stays small and most frees are not
-> touched.
+Hello,
 
-By applying this to hot folios only, small reads would benefit only when
-they contend on the refcount. That further narrows down the scope of
-workload that would benefit from this. Random or sequential small reads
-still perform the atomics on the refcount.
+On a cached non-writeback FUSE mount, __fuse_copy_file_range() truncates cache pages covered by the copy, then publishes the larger file size.  If the destination had a partial old EOF page and the copy starts beyond that page, bytes dirtied past the old EOF remain in cache and become readable after extension.
 
-Looking at what Linus mentioned as "Willy reported real users having
-scalability issues in that area a couple of years ago in a discussion
-about buffereed IO scalability limits:
+HEAD commit:    fe2ec83746e501645709761605c2464a44fd2929
+git tree:       upstream Linux checkout, local branch master
+source version: Linux 7.3.0-rc4-70-gfe2ec83746e50
+compiler:       gcc 11.4.0, GNU ld 2.38 (from the kernel build banner)
 
-  https://lore.kernel.org/all/Zds8T9O4AYAmdS9d@casper.infradead.org/
-"
+console output:
+https://gist.githubusercontent.com/shaos26/b7d8226d784c14ce316263de1779bd94/raw/59a9f0c87769dae27cff05ace7e808daa10ad2f5/console-output.txt
+kernel config:
+https://gist.githubusercontent.com/shaos26/b7d8226d784c14ce316263de1779bd94/raw/441739e20934d6b36aabbbbfe5153d11b70dfd34/kernel-config.txt
+reproducer:
+https://gist.githubusercontent.com/shaos26/b7d8226d784c14ce316263de1779bd94/raw/6ffd0112d0654714a15618f2877d9ddd1a9723f1/poc.c
 
-On that thread, from Willy:
-> Not artificial; this was a real customer with a real workload.  I don't
-> know how much about it I can discuss publically, but my memory of it was a
-> system writing a log with 64 byte entries, millions of entries per second.
-> Occasionally the system would have to go back and look at an entry in the
-> last few seconds worth of data (so it would still be in the page cache).
-> 
-> This customer was quite savvy, so they actually implemented and tested
-> the lookup-copy-lookup-again algorithm in their custom kernel, and saw
-> a speedup from it.
+Build the standalone PoC and run it on a host or guest where FUSE mounts are allowed:
 
-https://lore.kernel.org/all/Zdz9p_Kn0puI1KEL@casper.infradead.org
+    cc -static -O2 -Wall -pthread -o fuse_eof_copy poc.c
+    ./fuse_eof_copy --mode=copy
 
-Again from willy, from the same thread:
-> On Mon, Feb 26, 2024 at 09:17:33AM -0800, Linus Torvalds wrote:
-> > Willy - tangential side note: I looked closer at the issue that you
-> > reported (indirectly) with the small reads during heavy write
-> > activity.
-> > 
-> > Our _reading_ side is very optimized and has none of the write-side
-> > oddities that I can see, and we just have
-> > 
-> >   filemap_read ->
-> >     filemap_get_pages ->
-> >         filemap_get_read_batch ->
-> >           folio_try_get_rcu()
-> > 
-> > and there is no page locking or other locking involved (assuming the
-> > page is cached and marked uptodate etc, of course).
-> > 
-> > So afaik, it really is just that *one* atomic access (and the matching
-> > page ref decrement afterwards).
->  
-> Yep, that was what the customer reported on their ancient kernel, and
-> we at least didn't make that worse ...
+The program creates its own cached non-writeback FUSE server and client mount, dirties the old EOF page tail, performs copy_file_range() to extend the destination, then reads the newly in-range bytes and checks server writeback.  The retained QEMU run used the same PoC in the copy-mode initramfs.
 
-https://lore.kernel.org/all/Zduto30LUEqIHg4h@casper.infradead.org
+Three fresh QEMU boots read back 3072 bytes of 0xee from the newly in-range old EOF tail and recorded a server-side stale write.  A same-path no-pollution control and a write-based extension control returned zeroed bytes.
 
-From the discussion I'm not sure if the scenario above would benefit
-from this.
+Impact and prerequisites:
+This is a data-integrity and stale page-cache exposure bug for cached non-writeback FUSE files.  The demonstrated read is within the same process's file; no cross-process leak, memory corruption, or privilege escalation is claimed.
 
-Maybe we should try to either 1) find a better heuristic to mark
-which folios should have PG_rcu_free to make it beneficial for wider
-range of workloads or 2) identify workload that heavly contends on the
-refcount of a small set of folios...
+Validation: Three fresh positive boots exposed the stale tail.  The same-path no-pollution and write-extension controls returned zeroed bytes.
 
--- 
-Cheers,
-Harry / Hyeonggon
+Thanks,
+
+shaos
+
