@@ -1,114 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.145
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792647062;
-	b=nf/z75Sk/paoh4ryYCspyfUpvaWkrNgjaEFVFBL/5TmTf5I7ZrU3pSJxOgyhKcfLvnsm
-	 mOLh0qlcTWK4plUIpzKG0jxfHvanRoo6sLMs1ZASsKNRe0m+gomRGCsQfWnutE7Ti6l6M
-	 6Q+GSavRJxTbMF2qcOHX6ES4AT0Dr9QRSZLGd2MqV1OOtUsDU2Eu2FtXRpxcJG0ivglGU
-	 6+FouaYILKOWjpTyUm8/iwjYOZIJpTD2orf8QuzVAHunS5Fz/yiGDtYppMhzzj4fudsc7
-	 aZCuSWNz7mybW0wTd1VNnHoxnhbmNFKvTYRUF5kzrJ9KUkpFvTAAlaUYzTPUeJr4+lg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792647062;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
-	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=KrNmVxfHiLZER1bGGXBgc0X6S0B/+VSvffOFdu+/g74=;
-	b=z/os6pVdR/2htrwl9Omwk05tgtRC0Uy/74z4+egNe3Uj3uEYpomMp0mQXkITRYwrzvId
-	 hK8pmS0irhXqmut8beEeMTtqm9rBv6yh3rfwxh5KeVzCLZPYCW8OqXwx3e8nsGh8DoJwa
-	 OMLhc9qq/riU5xWciSY6B/xm+f9a/nr2wdq1fZMeaTe+7pQ/yNBbs8XMoxqReSKxqqvmJ
-	 P651wm2yDbxELtX16VZukMmGn5rcGrgONlEE7BcxFmfl4RqF1VMCVxiCy7KrPxwtpVfNw
-	 dowA3Lqcw1Bw8rtfWHyjdTffGjkKnKWbuLZ6iF5tUggqSBEXxQS9AUaiSdPg27OIv4w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b="CV4WjF/H";
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=X07PoCFG;
-	arc=none smtp.remote-ip=103.168.172.145
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.170
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792672468;
+	b=yF77D0HdNVGWEMDxq2o3mHiThCl9wB/paUS0kG26EYdS8zOVB1paeSlXIIqQfy+2bNx2
+	 zvYUSoKwDf6xXu6vIxPFmJgmDSPfFofCHKl0unaBZsVETTpArhSRLg0DpoXR73mmF7QmO
+	 iba/2iLkrLqYUIFpd1RgkpzJygF4o45t9ZJIIcUSvvd6A5CawFnrxJ12g64HolANzPfZ7
+	 va4NYHWBJrHnXSskci+G476WS8lkoHslXzL1MSg8M9ukKcpSKBO0rkHxTwdohORqwlCnp
+	 +oU61dGvhzC9JmGHj7TTxGvVpdpViL/we1lOtiwbmVRsncU/la5FTWUqtif1bB05H+w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792672468;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=8pzSegMbtnY6/1RKLihO/SOAWvLnSjFljrtKv6aZvIk=;
+	b=KwxCxWqRiDJNl2FpLhjJcOD3xCUPCNRMmwmdytj6SolFAbNz1tX0OBCo0yGfTfmclUTL
+	 65y+a2JG3HNf5hRKTllkGu/bB+Js2gUQ60iZXyV55q6h9BXnSzrUPcFofcQd1opkA/xEe
+	 XFPfenfUzo13y78WvBYp/0vn8Jv5kqrB06yo6HsvnBdH1gWFh+OH6B5Q04rzfzBboBV5W
+	 05lP1AK32BT7YEZOdk/+RwserFK9tu9k/b/3B0HZtefdPUgqLjgXwz5QsMPgcz/7tduZH
+	 37fb70dw8+NIowfrTymcV/lGhWMl6l8QSd35ax3ZgMSANh98vlM960lsDG1DF9ok/MA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=szeredi.hu;
+	spf=pass smtp.mailfrom=szeredi.hu;
+	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=i96VS051;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.170
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF3A606A31B
-	for <fuse-devel@lists.linux.dev>; Thu, 22 Oct 2026 05:31:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FF3A606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47802606A31F
+	for <fuse-devel@lists.linux.dev>; Thu, 22 Oct 2026 12:34:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47802606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=CV4WjF/H;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=X07PoCFG
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3C95BEC024C
-	for <fuse-devel@lists.linux.dev>; Thu, 22 Oct 2026 01:31:01 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 22 Oct 2026 01:31:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1792647061; x=1792733461; bh=KrNmVxfHiLZER1bGGXBgc0X6S0B/+VSvffO
-	Fdu+/g74=; b=CV4WjF/HRaaNwt9D6WgBMCE5JOFMgRAHDLGZcjuwv/kTY2cQt/9
-	Ob3us0V223FFoWfj6K5wxiO6YKfNFwk4MEOAPIhfcQB1fRwr9BievhPD/46uY+ui
-	yI35byNZwJ/vmRDR6Tu8k8ZJaGKlcdVvkGZ7MaCyZBS+cnWXr4bpN7RftgoDPkpZ
-	1AqKiEB+Xg8uYdVwDmr59lXC6CbtrpTq150MRWe0JdXcuWo3Q3x5h+orens85T+H
-	xC5Ong6Drk7JXZik7BCjRTY+hJyGsnSRP1MrsaEIcEj4e+iHVs1RnDnbHv5gSCy6
-	BsYVyrGxhFAEE4eNbwOOk3FdiEgR7TKGiZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792647061; x=
-	1792733461; bh=KrNmVxfHiLZER1bGGXBgc0X6S0B/+VSvffOFdu+/g74=; b=X
-	07PoCFGbh3M5GtmTrXC5vuV997EeO78pqTlLJHNlDLi4NatBSqiwRdvjxDsx5iVG
-	qBtH8PtZzKVtyta21oBAzXG71EhqE4lYG8M/IOVfa6ltr+gVBjQES2MMPvSYubaR
-	R6JPGCKt9ZS3Vszdlg0duunb2RmiHpRKpJZZqo+s6+5wZNXtzP10XKzrfvx0TILV
-	fjR0t1+PApOpdaHeb1l7oqlvwAYOyVWPfXtOPnc+dSPWf2ZZ57ShPqVSnxgDxncN
-	vOypgEvsiNpWwUwCzsouVBUyd4S2pZRoyBrj+62XIz1pYeY2RyTyeNQWxgrkrVeG
-	yMxxNGWLq3EtHf663cWjA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1792647061; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:G0tBKaw7kGJjpr5JrtTzeW3NbJi4Djxs8PpErkIE/gqDzZS
-	KFoUHhm/bvG0vGLPnszg79FOBl0sHj20dZOS2q+kXyAVu8Rv9hVYkThXL9Y3Yhum
-	ZDmjvAhYRRviKoq6btaTzRxpvScGczRF/W8x7zRqPfP0C6piS1bS8dchoxU6E3oI
-	LxzawrXt70OWVbJmDh3mLtFNcfrSFRfDglgIBNMGVxEuxERIFMSB6xaaYnQIcX6e
-	USmKBB6clUq8cWPJWMjU8leQFxG9jiUzaqcBiBYhnbyUXpkPTf5wWPrnBVuo9BGe
-	ohujwLUekY8k+tE1v4G/y9te/NpxAciv5Qasj/A==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,reply-to,
-	subject,to;
-Message-Instance: m=1; h=sha256:oNhBPwopspZEN21OlEVLUUPEYyFDMXF8LcHEllyUSEU=:wvMvlHlj4ARsyMnSqAupzr4AUXxAIlYZXgcU2LMwmIA=;
-X-ME-Sender: <xms:lJ_ZauD3QXRsHzrZBwyKzr4Eh0cnOrvOeA-tr3msfSNhH1dPTKRvtQ>
-    <xme:lJ_Zatd_1pR1deyHH2ihZXj4DQZHNBc9_sO0SMSdMS9_8zmIxaHfu-oEd2thJlXZ7
-    N1WxsU45t0l88FF0TqMsU0ImQjtEhJFPDSSkM9TuwOEEwf7q-U>
-X-ME-Received: <xmr:lJ_Zal3I4-Na183wrFHSb8XDcLOnrEmzs-YKCZempYTMtq3Ezlu_4R-oGyBai_r27qPS9J9rgk0ctw8hI5l67KlxDDGd49E>
-X-ME-Proxy-Cause: dmFkZTGfr19GTLDstmTgVBMe9esov4ItGM/J3Ym6yR/wkC2LWgH4c15+lbE//5JiqxYmse
-    LsP+WczeufQ4M6DBvXw07DEfpbRPXpGEDCWkzuO9vqS4BLkbkcYM+ZBvS3KYQWsKx6gprp
-    MlKTk8tNSOZ50wwODp2tUQYeUR0HNTAWdh5mBiAIrfMV0eldQenZIVbIqIqm3gSEmtRR6k
-    9gQKNLnu79ATwBefQsww7ATKRoi6oVGPg9k5UXd9dOcc7P1ijsr5DzlwVVSlUR9NZDTElm
-    SG/4KdehPUnZcBLXD5anaKP5euJZVUJvX1sZEYVn/8R2ctu7RZo+7ueia8rv5aXtp3WRVW
-    WX2RZCkYbxx4d0pKyXUUihRVRWxf+iqDlZjOMweEnI+wdeNtGY0MQvEM7oJOiRSOOpe3yS
-    whjaofxLaIYEmRTW2+NpWoe1dt4+PbwHzN4jUTm54qWDeFrtTRbsfojujxeAB/R5a7XObR
-    MjAu0YaLdmCyKZgAuEwYGMlW/z6LdluXIV76Aj8aQTlUfhQSBseJGKnUoyQT3eusXTbBVt
-    fap8g1mlqeDesNvB2tr10Eqco0Fi4BdgcL6MT8C2uQfEr9d8hoAENYfDjZpJmkDxuWOM9z
-    jdIoNWshcO6h1YdZ/0Ck1EdgDgni5t+tN0NKLmAlS3GfxNBfkAe54ryTjfSg
-X-ME-Proxy: <xmx:lJ_ZasiTXRvJP77MLBwiQlQj14mt-A2hN9l3054Ugn7JXA7xSvOf5A>
-    <xmx:lJ_ZammYBC8nAuKOIIZAku8Irm-3mfWoZ4jy8Wpj2x3UiH8B4gQjWA>
-    <xmx:lJ_ZaqYheyyOqMS8Ol0fDC6PZ3LKPIHJ4Oyo_j6xjUtSqMkR-zwvNg>
-    <xmx:lJ_ZapGwVv3zloPvRG3AyMQRnKVvy9ySWKC2LWgVNNbBBAqV8tgegw>
-    <xmx:lZ_ZanH2FhMH5-3WiMc8AD_cibdEfG2vh_JPxPmTn-hJmi9fcUTA2t6_>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Oct 2026 01:30:57 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key, unprotected) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=i96VS051
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-53634b8328eso14525931cf.0
+        for <fuse-devel@lists.linux.dev>; Thu, 22 Oct 2026 05:34:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792672466; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AhAyVf2pH6TQc/cK0cvTmfXYCK8bIwKsJirJyKAvA4uxJAQ1KW+gj5uGtssdSn+SYb
+         5b12r6B220/Oop+mC1cmBSpXrTSc7IOdxg2G2LQ1Seac0j7gTbOIgE49NyHN7ptck52j
+         P+zsL93CsDwrbQGXRSOZObCug1b0isVEZazxks+PyYB46s2OvgFgEXdj6OYNRf0Pgd1F
+         1WPr6ZnwAF0z9i7rKL31V63kbCTNpweXMXO6B4DGVLlsIJXDqjt9PP2BEf2+ZzWojv9z
+         p08orpBC/xja7Wg97zrQxFx8OaHFR2AlvjpVJBpb4VCz7RQNSTC9jV+hTbDsWtfRAB0T
+         ETzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=8pzSegMbtnY6/1RKLihO/SOAWvLnSjFljrtKv6aZvIk=;
+        fh=tDd7DMm4gjtV/P0N5z51ul32RpkTCz5frqqoHn9/RN8=;
+        b=BghxNReMpRFXA6wDvjGtghv6GOtwlFFOXi+k2rWCHYdhsDpm6VhgZvwTLjX5jAC7S4
+         hyXrcd6XVCQ4U94mdTU3MyNiS6g4uO27K3ACs0vVPkpjeFou7XQvNs9hIopFltCWTcU6
+         4I4icod6jvBx1OgXF4uNodgkokIU56mTg37YN32EefkYyNb57w6NfEY703UOKZMCdHde
+         /SE2zQkEDq4k/P4xyj48fr24+I0bSgrWNpDPUwvMnFu3RtIK/UXSy3Uv6lzesSPrgDA3
+         a2/XxxZinh609AeBZevPwyidvOUPY/ActND19JGWI1XE1p225rO2aUPplBaSCB3P4MYJ
+         xzJg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1792672466; x=1793277266; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8pzSegMbtnY6/1RKLihO/SOAWvLnSjFljrtKv6aZvIk=;
+        b=i96VS051B/OCytKQJPCJ6w/SwCIf/eDCKqnc/lIIk/t5iNTsvNHJ5Pu+m8ldQMVRwX
+         vXu2Vb83pNgi/G8h6WWGVuBdqGn5BglN5l7+5zlBPNFDWsnR8I/vCgQCXz4EaAUwZsMI
+         Nt4Y6dJI94FPPo0Mm58OsbNBE+grzaY+m9HJk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792672466; x=1793277266;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=8pzSegMbtnY6/1RKLihO/SOAWvLnSjFljrtKv6aZvIk=;
+        b=NC9LfLSEizVaEH8VffjxYcP4YhehoWFGBOyLXVR2Jnzn3GvhEPFeay+0/zL0gU3IEH
+         azbwsLM4Ekcq5FHI3/7xJSujfxkz+iKrw8oLjdQOO+e27hXYyUKT2KEfu/AA73r6gbnA
+         +Zyp7gziyWOJS2A/Ezs8cKu0kVJW6MevziPLB0KdnaHjRpQT5srZVIk6OMXOK4o9BrBt
+         o7ZNSd8AfZVliwDUZILRG8kWPt480paTXXxpMj1esMaEPrluvoLd0DAbyeAeyDtsGbYP
+         XaLSqH1w7jAHA2LgpnAFqylD0DaZfJY45c5CmrhW+NCwuSuRl7ll718nlmyKTD+R3Pee
+         57jg==
+X-Gm-Message-State: AFq9FYJoW8uckX4b+iH9RzXMw8aThDVpiT6R4IEDDnHN6cn15T9LmgUH
+	tAYws28edJeIWVnVMe8iDzXDnittJOVnE79Fq5gNSjyFkyPJlwGDb9i31KFD5NRU1pMZAc4jMhE
+	2SL3fEbRcgovRu0oibCX3crtFDweUMhxrnimIeGWijA==
+X-Gm-Gg: AYBFou2y9jW9tVRysGKa4XeYmqYnXoKlBD5I56Bd3PLIhBCB0Al3BzFGBJikpupspkG
+	5oFdXnvhFG4S3w9UQAiOa9WLKYZzZ25/l+8rMv4Z/Uae+WxC0FJB+L+l/oaXZ3IocjAqABV1HcY
+	rtVLPym8Jc3q9/2k8zQe70YA3T2CnbES7w778Luc8WeN/A9QeGNkye5Cj8pFk8HwMFqh8k3zIPK
+	fQcSyTbT7Fh+GpRjvBgUWwjkU+LiXldeKuytUfaA2Nd79WBmcpcbhKrzpLZCeX60q2Jpqq+NSd7
+	Hf4hZ3N9xk5BiAwxRLabdtrpy0Q25a2Kqc2ZLbEGlpCCA3fmCKxAS8b4MUKVv9gPH/KocsMgZSV
+	+iHASrBDaDQwz0PSwAoTMWll8no8ClbLhlJq8J2i3LDPcgTM7q0SJVf1vutquoL+/zsHJyhc=
+X-Received: by 2002:a05:622a:13c9:b0:533:8c7e:c6ec with SMTP id
+ d75a77b69052e-5369b670ed3mr78883331cf.36.1792672465914; Thu, 22 Oct 2026
+ 05:34:25 -0700 (PDT)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -118,65 +99,22 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jimmy Zuber" <jamz@amazon.com>
-Cc: "Miklos Szeredi" <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
- linux-kselftest@vger.kernel.org, "Shuah Khan" <shuah@kernel.org>,
- "Bernd Schubert" <bernd@bsbernd.com>, "Jim Harris" <jiharris@nvidia.com>,
- "Horst Birthelmer" <horst@birthelmer.de>, "Luis Henriques" <luis@igalia.com>
-Subject: Re: [PATCH 0/3] fuse: atomic open
-In-reply-to: <20261022014616.2503204-1-jamz@amazon.com>
-References: <20261020141647.3271341-1-jamz@amazon.com>
-  <179253922666.1724252.16392934420146585044@noble.neil.brown.name>
-  <20261022014616.2503204-1-jamz@amazon.com>
-Date: Thu, 22 Oct 2026 16:30:56 +1100
-Message-id: <179264705605.1724252.2909888897996466348@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <179257301723.1724252.3370267307562330639@noble.neil.brown.name>
+In-Reply-To: <179257301723.1724252.3370267307562330639@noble.neil.brown.name>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Thu, 22 Oct 2026 14:34:14 +0200
+X-Gm-Features: AclHuK8wYVTF-WVMtvNev9UD11LxspoRkURzBWZKuI2NSZS2QVtqcYoSSaSJhBQ
+Message-ID: <CAJfpegt4wYoLQDgsw=gpEW+xSnGhCV3CqB0aLaeecLXwL-XwQQ@mail.gmail.com>
+Subject: Re: [PATCH v2] fuse: Use d_alloc_trylock() in fuse_direntplus_link()
+To: NeilBrown <neil@brown.name>
+Cc: fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 22 Oct 2026, Jimmy Zuber wrote:
-> On Wed, 21 Oct 2026, NeilBrown wrote:
-> > This all looks like a reasonably sensible design. As permission checking
-> > happens in the client, not on the server, it is appropriate that
-> > FUSE_OPEN_ATOMIC only opens the file if it actually created it.
-> > So it doesn't make sense to implement O_TRUNC.
-> >
-> > However the code seems to suggest that the server might open the file if
-> > it was found to already exist.  In that case, were does the permission
-> > check happen...
-> >
-> > Maybe I need a more explicit statement of what FUSE_OPEN_ATOMIC is meant
-> > to do in the various cases.  Or maybe I just don't know enough about
-> > fuse.
->=20
-> FUSE_OPEN_ATOMIC will open an existing regular file unless O_TRUNC is
-> specified. If the server opens an existing file, the kernel will perform a
-> permission check after the reply (do_open() calls may_open()). If that
-> permission check fails, we will release the file. This matches other file
-> systems that support atomic_open(), such as ceph, where a file can be opened
-> before a kernel check is performed. Servers that don't want this should just
-> return the entry only to have the kernel check permissions and open. I'll t=
-ry
-> to make the expected behavior of FUSE_OPEN_ATOMIC implementations more clear
-> in v2.
+On Wed, 21 Oct 2026 at 10:57, NeilBrown <neilb@ownmail.net> wrote:
 
-It seems a little odd performing the "open" before any permission check,
-but I can see how it might work, and as you say the server an refuse if
-it has reason too.
+> So change to use d_alloc_trylock(), which doesn't require full_name_hash
+> and d_lookup to be called first.
 
-Thanks for the clarification.
+Applied, thanks.
 
-NeilBrown
-
-
->=20
-> > There is work underway to support O_CREAT|O_DIRECTORY so that a
-> > directory can be created and opened in a single operation.  Would it
-> > make sense to include this in FUSE_OPEN_ATOMIC ??
->=20
-> Oh thanks for the heads up. This would be a nice fit. If that series is
-> accepted I can update this one accordingly. That said, even with that series
-> it might be nice to have an init flag in case implementations want to
-> selectively support atomic file but not directory open/create (ENOSYS is too
-> coarse grained).
->=20
-
+Miklos
