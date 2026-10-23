@@ -1,79 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.175
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792787336;
-	b=Yr3xW4Qm4TCN7/Pl8h9A4qXMATgvM3KpTOGDeZapFJ5IlBP6eVnTBC5yyQoWP3IbzBf8
-	 YzkprIgtipXAf9KQ2nZl+s6+7V4Pee3aG7KM32fvQ3K4tgwEJ15b29008c1470vi0CY31
-	 rT6xtq9D1YbvqqQYT/URiHXoPIlon1Ol8vp9dFxJ74flM4C8inCtxeauOWECTf6ovJIgE
-	 QVOXPbBxplD+FXJKTAIWFKlMLPwuE6u0QdVCFUNubM+gOqLFvnhZq5t3PCy1wS+XlPCOd
-	 ZNIX+VZObzQnkJPvLnwuP3LIeg6MGQXF/OHwWe6H/NPhTGRFkdWShMVGf+NqNzAuWIQ==
+	t=1792789088;
+	b=FZl8aSLWyk/ZCT3o2pjdCwuVLZvDm53teHH+M3E1x/f4FwpYKzq6CEi03oMppFJEqDaj
+	 HWbjLca7/AahdhXaYQ4XxOfSAcg2wueKLU+ZT2zPMjzv+eE55lig0QdrTfrO7161neQ10
+	 h+s17jfazcfLcc0IU67vkz1x1COhWRSI+5Jzr+6I97LGX+JgHEMQ02fIgIUvI9C6vgnZO
+	 sD6/B9UaNq1Kn6YAiukW6Fx1VTKUSLlVEKfYdt5Xc649KvevHFPhTe6KwOLLat4VEyO5n
+	 SlsIMyEQrFUy7voWhNcrs65E77Dy7pO2Ct58gUdxsoN12bZslgBkFmMWrWW2dOVQb3A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792787336;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xefAS/uJZviZ8Z4o6s3O/rsmqG9Y12pNIioL0esQc7I=;
-	b=5cS+K0+78QXyea4jQpi2qkMS021R7ZIyE8G9hFYuEMyOvnXzarRYw69qHJFfB5bHSpwu
-	 ldfKTdBDZOkfBV2ZUmkPykwQITJpXoIk/5Iap269i/Bnr6HiqGy9ipCIF700y0TFqkCIi
-	 3lO563lgriqTB2i0SQuM+Xx/96czl4n6aBF3EFNSeEoKiepKWejS2FN7rbWPsACPjCAHr
-	 aou0VI7QoHdVZoxYwcduS079xlrMUiv4CABc99Vx8dX2KpsLK1Vz7JtyCsK4DgD34TKwv
-	 DRlnXpDNS0bi2XdpgxYy0EA/EN+3nUGljtwbYUQr/vBBflsbICJO4FXW+lEtAKq2E4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792789088;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=nhm0dehbcsFsPmqbJAMad8C0NuNnGI0kqJ2sTQ044bU=;
+	b=V6YqEUroKzUtGXsWDC0BiBG+13poWHv8vMYPGDlvSQvNav5HcLsvgfDDVvp9TgmA/VLJ
+	 jMP3UJ3N+5G38zmV/oSxF1fAjecl/+/5VSm6asC9bG7ZXUXu2vVcwT52EYc004UDdo2e2
+	 koXdLAqr0kB1KNqhMaC6BZd7NMZ3vmV76bm4pPYWZUEY15lm5JcOl5Z1cVoFoGgXsvwxC
+	 ThU3CDoeM+zANr4hQnUeVbXzWGoI3mC1qW8OdixZkop0lWx8YW4NZfS6O/rUWWXOa0sdf
+	 juePekmzcI6VPtDljj122nI7Cc0Kmn/EFyWqfUPiuOhBsacEkn5BFg4ihkufjTywSjA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RhIGpr9C;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6D7606A322
-	for <fuse-devel@lists.linux.dev>; Fri, 23 Oct 2026 20:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RhIGpr9C
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792787335;
-	b=PvescqcnKKaChQRYtNvfDdYlhh0gdf1oBqmJUxeCrJCh4TvXNBe1xFhNiShw1AZX360g
-	 xGJt4fyUl118XPr2i3ZNe7xNBd2JUaVRZW6+iseuiSa+Milabhjuj7FJZvluYsgc7WgpB
-	 I4SETRZ/yEqXrRkSiZNso6QhfnYtH1AOSR0ZZRWIEvjKxx/DwJ4dbGRwe6v3pHpJ3OIcf
-	 RbKqHig6iphD2B0OfmdlmZYWlTd/y58QB1OtfSHA+Q6G62ejONI1Dw3c0RwCqR4KyGJ5T
-	 hD2AZTSq+EKFdy8359CI7q9GdmcWKtbYEbq1QDrxO/p0TCqgwvIjBjEXZ0atosIwlag==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792787335;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=xefAS/uJZviZ8Z4o6s3O/rsmqG9Y12pNIioL0esQc7I=;
-	b=IDCdGurBm0KuqT6HuZXlwoTD4+XK9DBKsgl486BUSbYST68DRptSTebxU22RbazpmH+Y
-	 R5mCzkegr9niI8TuNo8aZjaIhtCDNzW3CkZrhTR0UVQRDWXXq6B2fbhmw5iB6bgDonJ3J
-	 t7D9hcbIfrsI3qcBgS+b5XwezI2e57bkbl3TZHJ0MRqc+wv1wmI67bhwv7zauCFVH15iJ
-	 ZJWuBIgFPpXp5z42w3hY9PGlM5dvratu9wriCUSbXNEyF9/g7aZT0ALgBV2WqQSinPwlQ
-	 lwGf7JzWPs2XxBugvpOKDhJiU8n58yGlLgPsRjQ7K7xWRLy6jTpY6bHPAD3+qxWN/qA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=szeredi.hu;
+	spf=pass smtp.mailfrom=szeredi.hu;
+	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=gQ29Kq7w;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.175
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 421A31F031E3;
-	Fri, 23 Oct 2026 20:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792787335;
-	bh=xefAS/uJZviZ8Z4o6s3O/rsmqG9Y12pNIioL0esQc7I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=RhIGpr9CdlLI4/IFjgLrLGqpx27HYyloGo8fNCPA6g3uHzmjYgkyzBBOKVAeM8ElI
-	 kFEKzfd4CAA8UK70vGZYuDFSsuET8SDau6ufuDJr8vYCScpIiZNBx8Z1EbuBAcDLUB
-	 BQdl3X3d4pPC8acw2nW0kya7scm6r7ZWx6CFe49AJeqq4gvDgHl9UObiyHQKJKD1nt
-	 u5rMIzel8XaXqSlR8vGlCYgsT1Frq5NJltGa2F8gxrmHcCtd0XT9drbQXlpKtsoWPj
-	 mGwIXvOL8uIP403s35/CLd7aUe6jEg0785174s4yWPwdBgNzQfIUi0vBrQuGClypGW
-	 g1q/DudoG5HmQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id C3F7644616;
-	Fri, 23 Oct 2026 20:28:52 +0000 (UTC)
-From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 23 Oct 2026 22:28:48 +0200
-Subject: [PATCH v6 6/8] fuse: {io-uring} Queue background requests on a
- different core
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1996B606A31B
+	for <fuse-devel@lists.linux.dev>; Fri, 23 Oct 2026 20:58:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1996B606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=gQ29Kq7w
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5365f9bef55so21712831cf.0
+        for <fuse-devel@lists.linux.dev>; Fri, 23 Oct 2026 13:58:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792789086; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qoSNg3uh5yMXaCJHtHqL3fM7RHbECStsEssuwJxMDQWLwLcurI9SwT7jsTwqmn4pND
+         oP5uf5FmzOdY8jXidxPBYmB8+GoctnJQJg/lfPdYRnbSxBTq+rqMJkqhYAcht7DVAM5n
+         HtSjeDSD8/AitHnfQ9GSoSxO5bN8g7Im2Yt/pz5zYC/3kvIB+xl1eR4XvR487zSoUhEr
+         mmxC+BvKruentdJ/CVRkSAsdRc13KMMVp9GQmHZB0Yt21moZezClnHULEvuk+EKMMTT0
+         IxE0TwoTXOy9D0WDBxoC49i/EUkv0DitNkrIzXUnG4G9bIawdejbesy/JQqR0nvdk7bk
+         v89g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=nhm0dehbcsFsPmqbJAMad8C0NuNnGI0kqJ2sTQ044bU=;
+        fh=jGGbhzDhaT0Fjz8yAShgRgVw7U1yQARTHFG/9oIXKWM=;
+        b=B/j+bxHzq7I+70O1yjsQ8gXjA2/EbR98rppQCFkr3MhgdUeawRWrLELLXFGGUD8BzW
+         6FHtV6vs+2xqlgyhFTtKk/9diuCmrjarT4PY9NrvT8BWa/pe+DfFx1WahRhILtVJMs5s
+         V6xjn/xUGWJOw1TRWUh+jadW9XTWM3p/jEcBkcqsuH9zxE8y21Vur8Huiw/HWSHA5fB0
+         KFiP6mmksxB4UywVDP22qrVweEX7vHwmbAK1x49ttYwjjehDu2hmNuXESyWrniLZgO4M
+         BDK0tOILLoiXvsZ0vHHRSZx3wsuOUlhM2OEsovR1WOo3jU1oaRfsAVLe/WKY/2jmjx8n
+         POFA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1792789086; x=1793393886; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nhm0dehbcsFsPmqbJAMad8C0NuNnGI0kqJ2sTQ044bU=;
+        b=gQ29Kq7wb6f6wD2M2zjCMK7usdfAS+k94PJA9IbeH4e/izxlh2o5uE8DE75ekqydXp
+         0pfdY0oFOgW7NpU0OJE++fx8XJJNtRQ106w/ypZkffq1S+rWBn2V9PjYEAR4+iAr+a+E
+         qeb/gcVrOfMMyBz4ific+MBXuSeI0xkFbC9VM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792789086; x=1793393886;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=nhm0dehbcsFsPmqbJAMad8C0NuNnGI0kqJ2sTQ044bU=;
+        b=pZTNOCOzDB3oRMsHzUmM2jdVCPpImDaWEfusFib8ZR4CbE7alBsOG6vxW62Vk9Lv/2
+         Sw7UIXodANO0heAqFhkCThsbznoY7yJi++dpjJKZyJxlxWTeWY+ITwCK2FibgGow8GTi
+         JjyiQ9nJkTtt1ImFrEt/JJkFon8wj/oN075/BhLBJ5qiMR/doz3UjGOMP4NO7yB48B9m
+         R0POisYINEiMxECCkO7+TbHrxUs4Jt/ngRdBYENF3iylzYcyVf+w9/1OweVnBTHxi0DD
+         jD5e8RrblttIGaVgcRAXfgSHv6L/2X7hH21OHFdSc6Xhhi5/1CWoAWZxSlVbsf8pQsvd
+         BvVw==
+X-Forwarded-Encrypted: i=1; AKwUvBzAo46EvGu048AXLThoJA+oBqR/7e23f0Iq0sTpDunDN8Mbk/ZMB+FzXDZcEDxgl38+c7ekLMg5BcTK@lists.linux.dev
+X-Gm-Message-State: AFq9FYI+RiIDiPzvfFNixP8VNLtxcC62IyOB0ZiTl/mls/Y3Z1VNeU0P
+	6tUasDxl7GTuW5WGIiaOpUcDQJW56S3pe2jdOloF03+0hbHfobaFVr9rcHvQn8Kv+yq0IGIknGB
+	QMRyILQP+c2Kp2OxED/GtRm7iLGdURtB4fr+UkZbhFw==
+X-Gm-Gg: AYBFou1JjxvWkYPoSROd9J3W+uqFidjwYpG4o05jFTMpOhUMOdSwQobNJ1xyAwY2Xta
+	XNQq8TIMkhgNvgYSvr1L9e3Nk/hcPyrE0xBtYyFURjyyp3UrVBxstzflNnj/NK3xeNeIi6xsIkU
+	EHcqz/CIcQdm26ea9m/sbXEFdKs3/lIvOfAIltoa76ze9CLUJB9xDKwO/4b154gbzmTi6enP5Za
+	COBbJ+QsVr4fTDUvLFwsvqvBwixpaUlGAO+CK+H+qE3y3+Zp6uS+wY2nLwwjm4O/CtekUvGDUvW
+	j9uirIkzocGTsuiwn/1wdO93IhFuqjou8xfP+gJ3H+R5HKakxWObbK5eKgWSJZGna4Vwq0WvaxA
+	VhBUGDUlou8KSiq94CIAeZGLc8XBrh+1Jyle3amcpxYzGTtgyziXNcbnJFtNCPgamnpdadrAlzZ
+	sUqojgEZ2hblkq75gG
+X-Received: by 2002:a05:622a:5b9a:b0:537:636d:2f2f with SMTP id
+ d75a77b69052e-5383bb192a9mr156221cf.29.1792789085714; Fri, 23 Oct 2026
+ 13:58:05 -0700 (PDT)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -83,158 +101,26 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261023-reduced-nr-ring-queues_3-v6-6-658235c9b9bd@bsbernd.com>
-References: <20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com>
-In-Reply-To: <20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com>
-To: Joanne Koong <joannelkoong@gmail.com>, 
- Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4021; i=bernd@bsbernd.com;
- h=from:subject:message-id;
- bh=8MeKPCFTmCl0gpq+o5smzXXdVYG5SfMu4GgpY26S2OI=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuH26adef1noWCDK8aQo6d1k89mGIxYWpp78lnHLfnP
- uo0XMeX3lHKwiDGwSArpsjSJbHHdso/Plm1r+uvw8xhZQIZwsDFKQAT4Z7AyHA3d8fB8gnbjyYx
- SL246R9mNzlM6fvmhdXnWkvbH8+e9U2XkeE6p1W15DT2c4u5Ni7om7NhYWt/wp2r7X+PtgcGX9u
- 1xpwbAA==
-X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
- fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
-X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
- auth_id=772
-X-Original-From: Bernd Schubert <bernd@bsbernd.com>
-Reply-To: bernd@bsbernd.com
-Content-Transfer-Encoding: 7bit
+References: <atqdWUCzGxs3wwXw@groves.net>
+In-Reply-To: <atqdWUCzGxs3wwXw@groves.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 23 Oct 2026 22:57:54 +0200
+X-Gm-Features: AclHuK_KkNk2plVzgFzI4sjd7Ztsti_roGPlFUeDExwL151cFclpP2FgDKprhXY
+Message-ID: <CAJfpegvx9qi9ZcicxdLdmcwqnS0Z4sKQTdNo-OH7=6i=iYmKxg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: handle extent map files in fuse_passthrough_fadvise()
+To: John Groves <john@groves.net>
+Cc: Amir Goldstein <amir73il@gmail.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Shai Barack <shayba@google.com>, fuse-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Aravind Ramesh <arramesh@micron.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Bernd Schubert <bernd@bsbernd.com>
+On Fri, 23 Oct 2026 at 01:47, John Groves <john@groves.net> wrote:
 
-Running background IO on a different core makes quite a difference.
+> Fall back to generic_fadvise() when there is no backing file, as the
+> other passthrough helpers fall back to their extent map or generic
+> implementations.  generic_fadvise() already ignores advice on DAX
+> inodes while keeping the EINVAL and ESPIPE checks.
 
-fio --directory=/tmp/dest --name=iops.\$jobnum --rw=randread \
---bs=4k --size=1G --numjobs=1 --iodepth=4 --time_based\
---runtime=30s --group_reporting --ioengine=io_uring\
- --direct=1
+Applied, thanks.
 
-unpatched
-   READ: bw=272MiB/s (285MB/s) ...
-patched
-   READ: bw=650MiB/s (682MB/s)
-
-Reason is easily visible, the fio process is migrating between CPUs
-when requests are submitted on the queue for the same core.
-
-With --iodepth=8
-
-unpatched
-   READ: bw=466MiB/s (489MB/s)
-patched
-   READ: bw=641MiB/s (672MB/s)
-
-Without io-uring (--iodepth=8)
-   READ: bw=729MiB/s (764MB/s)
-
-Without fuse (--iodepth=8)
-   READ: bw=2199MiB/s (2306MB/s)
-
-(Test were done with
-<libfuse>/example/passthrough_hp -o allow_other --nopassthrough  \
-[-o io_uring] /tmp/source /tmp/dest
-)
-
-Additional notes:
-
-With FURING_NEXT_QUEUE_RETRIES=0 (--iodepth=8)
-   READ: bw=903MiB/s (946MB/s)
-
-With just a random qid (--iodepth=8)
-   READ: bw=429MiB/s (450MB/s)
-
-With --iodepth=1
-unpatched
-   READ: bw=195MiB/s (204MB/s)
-patched
-   READ: bw=232MiB/s (243MB/s)
-
-With --iodepth=1 --numjobs=2
-unpatched
-   READ: bw=366MiB/s (384MB/s)
-patched
-   READ: bw=472MiB/s (495MB/s)
-
-With --iodepth=1 --numjobs=8
-unpatched
-   READ: bw=1437MiB/s (1507MB/s)
-patched
-   READ: bw=1529MiB/s (1603MB/s)
-fuse without io-uring
-   READ: bw=1314MiB/s (1378MB/s), 1314MiB/s-1314MiB/s ...
-no-fuse
-   READ: bw=2566MiB/s (2690MB/s), 2566MiB/s-2566MiB/s ...
-
-In summary, for async requests the core doing application IO is busy
-sending requests and processing IOs should be done on a different core.
-Spreading the load on random cores is also not desirable, as the core
-might be frequency scaled down and/or in C1 sleep states. Not shown here,
-but differnces are much smaller when the system uses performance govenor
-instead of schedutil (ubuntu default). Obviously at the cost of higher
-system power consumption for performance govenor - not desirable either.
-
-Results without io-uring (which uses fixed libfuse threads per queue)
-heavily depend on the current number of active threads. Libfuse uses
-default of max 10 threads, but actual nr max threads is a parameter.
-Also, no-fuse-io-uring results heavily depend on, if there was already
-running another workload before, as libfuse starts these threads
-dynamically - i.e. the more threads are active, the worse the
-performance.
-
-Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
----
- fs/fuse/dev_uring.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index d5d83506ae5a..87c8ea35d2c9 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -1955,7 +1955,8 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
- 	}
- }
- 
--static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
-+static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
-+						       bool background)
- {
- 	struct fuse_queue_maps *maps;
- 	struct fuse_queue_map *q_map;
-@@ -1976,6 +1977,8 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
- 	if (!q_map->nr_queues)
- 		q_map = &maps->global;
- 	qid = q_map->cpu_to_qid[cpu];
-+	if (qid == cpu && background)
-+		qid = cpumask_next_wrap(qid, q_map->registered_q_mask);
- 	if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
- 		goto out;
- 
-@@ -2003,7 +2006,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
- 	int err;
- 
- 	err = -EINVAL;
--	queue = fuse_uring_select_queue(ring);
-+	queue = fuse_uring_select_queue(ring, false);
- 	if (!queue)
- 		goto err;
- 
-@@ -2046,7 +2049,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
- 	struct fuse_ring_queue *queue;
- 	struct fuse_ring_ent *ent = NULL;
- 
--	queue = fuse_uring_select_queue(ring);
-+	queue = fuse_uring_select_queue(ring, true);
- 	if (!queue)
- 		return false;
- 
-
--- 
-2.55.0
-
-
+Miklos
