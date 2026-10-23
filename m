@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1792787334;
-	b=P0wj1bNgSycxd/tDguX5q0t2nCzytu2Y768Q8eI8/E9yiAm7HUnkJAhobxiHj7rDYcwY
-	 JeI+pp5XqOI41NVPZXjuEMll2A6vgO0oFW+ldnMCbtCAK9D5auzKfnI83N+T8c1leYJ1D
-	 L4lu0rlZWJKvTgSbczbsd4LtiJWW1FHoG77ILXgpJDohwX6Bk9afXEsbgdVPmGPf/8TBS
-	 iZdCO5SfjLWev9CU0EcC7aWegCo1tTMU1HlMeiT2PpYE1n6cc7fkcEhY/ug/CuGeD9fV3
-	 wuIjyXSTMuZiVMdFsby9lHPouCDYKYhf5mG2NeUD/Hrxl59e60FLjxRCQPwH08XJWtA==
+	b=IMxxMKG22vm8LlIBq3fBeNMvlUuxl/GUs7EFFVKFkChzOHslvX6g64IqcgukzkfluBE9
+	 MoneE6qLnzEhPbluzicFwmr4tKWaTkp7E5rQ0KSM7+KOGhaumyJY3ehDqFb+945JiZUzK
+	 Bt5FufIq0appHM7PDDtD7f43gioTYJSkQaOy0fpb88ORO3wEm+b7j5uzUe1kT3fxzWx7E
+	 z8MKyntUDR6uj6oq5HAKpIzxNJ7Wh20iccmxaVzlUGd9gHVLghx6qWlnrsgGuMBGUaZZg
+	 t+/oI2vCNW78i+KCBA9Nb9+eDZWtGWYHLddrUszm69UIrWbFbv3bIOtdXzujnYKt1OA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792787334;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=na0q2E34TuiPOPsNsx7clTKcBzeXZO7wjs7O48XqMJ0=;
-	b=CLCgnen2f9Dq2Cv6xFTqQna2piSPQIAXhtT4za6ZYsJfMT1yvcy9QrJwkRzotB2NqFyk
-	 TwmB3WaceRuYX622Hi9R43+HFNsDnsJKMCiP2tRIbMTOmBXFpVvXmgyd5P6q+gJpNbCsh
-	 knOd6y5jr/ptJy+2Ca6d2tXllmkkCDT3r2sW+wNB8h1U5iFQ+z+3pfkHfFNywOj5ccdAn
-	 B1xS9wUn754Esra8ojvJPAhSEOaY6KGXU2+X0SQXdYtJZD8qYwiWLxfmkx2hEUFaADh0M
-	 /LrclGa8HBUiqG+96QWEUL/wDradkgSmL9pMb7M24uIIpqOfgS3UXRS6ZY4gC6al12A==
+	bh=+m5nDxkiax04ILsqg5kV/Rug8tAT45BKs+0mxi1hhwU=;
+	b=BAuh5GKyDkHvKoKmysQQQEsu3glqDUuajGifqioaYHjg2tIoLXcAKm9Z3a0Pjt9+UJUR
+	 9fW/mAELpowt3PqCydOXPA3q7H4DS0CYvkNDxN5cF1ne1G5PcLf4suv9gFy8HdfwA+711
+	 Npq8zAmAxQ14PEjz0FkOrsgCZO5VJGsiAxU/+QlXZqmXn0CYll1Qbp6ZTTa1lHA6iVQNh
+	 XZUEbu6so1zEv7M6HaI2NMnaQIWOtLAalEpwBDrNvsfs+rBYw7/YyOBVuBWFxtBjs8GaN
+	 1Qeopa4E9mOoM9UAV66lxvN2wseMDQ9Xqjs82FqGDk3C680cFHCbbSihb+SktJcad0Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DeWmb80V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QtM0mjHB;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A92606A31E
-	for <fuse-devel@lists.linux.dev>; Fri, 23 Oct 2026 20:28:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92512606A31D
+	for <fuse-devel@lists.linux.dev>; Fri, 23 Oct 2026 20:28:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DeWmb80V
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QtM0mjHB
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792787333;
-	b=B+oKt1zJov1g0iCZKZPVl3raip9FDEsUQOFG+/luq/ZVDsTola+Iz1BNFU8rqH8Zg8i0
-	 bsPW/vOJgoPy9/ZJE5nfz0HqZ8kaWFPKGNmJ6BYHhyQWxGt3cQVmEJUJzmZD/1ajYPEVV
-	 KsrdqgRT+iuFrMVrxINMEqRs3gLwUYY0ESnZun/TjHTV/1iDl1vNjbH1F2AHxz+aJOFk4
-	 z2YRf0NWzizWmcbpZbIMs+aeFGPlTQ/g1G1sq6nLf0PdkbfAslt/ND0futUwBEA/GiRAn
-	 XoBgXPD7Q5JNtZA7LgD9YL5HWDpZTvx5QdVyG2XaNM+siOjUNMIIyJ0mAvUHJV0GWiQ==
+	t=1792787334;
+	b=Z/5+nrMPkqsuamyDFFycOqzUSiWphs5oiOC8IEvPuWba0cKe9DYyWSyeiLAxHXD2rhCU
+	 PRtvtKQPjcHMj8fmNejSW6Oq0Wx8RDgt0p2Kll5Kq2uusnXaxm+h9b3opZBGQZFiC7baz
+	 3639nh14xV0Ueq3IbLihgGTNagbS92JQ3aEnvdnUNi7lPhDGnjqRsoKhiWQ0AIleOmWZh
+	 SEIOmMV/pMByeoc+FCP30VJMGBWFlmOC5kg8DC701UupCO41KWnGL+1ykYAd6b8b33iZf
+	 L8Ns4yLgzECHpZYLKw2bQVOzfA7wzKEech+UVN/bSTg+1FlpS9Xk3mjxPQqh9gOSVAQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792787333;
+	c=relaxed/relaxed; t=1792787334;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=na0q2E34TuiPOPsNsx7clTKcBzeXZO7wjs7O48XqMJ0=;
-	b=f8izhEU44nMgpL4vtcQVJAhQQrATB4Wbd+VnZhOT2lwbnplYzbvktG6D+1LTudiDyeFv
-	 qkyBdv4z6SJfpbyVtexzd4rL4bZbextoI1png+QvqN0ze53jwdtwGEQUCvrq9iswVqwiG
-	 djLrxymmsf0ml4GrTiWsXCyQCkpah1YpAcBvWpgEyHQAxeweZGPXDQ+0JT8g9//zgdYxv
-	 nmsMiKUt7trY6lbBLxt72Zzb7CYjI3o4oG4vYF5vKuRQGJr5oko4pzyusnLl+yTBZTy9s
-	 U0PhMnRa+6WUpcCZhoodp4jj8pkNf9bBG0bmdPC6ObnZ6iHFpSjWzH3mlcimwZn2FOg==
+	bh=+m5nDxkiax04ILsqg5kV/Rug8tAT45BKs+0mxi1hhwU=;
+	b=WIjEEaczwSzKUfs+c0EXnbn8qdttKOAsLzd8lLFKup3iB1ciBOXSd50dpYSEwS8TQsmH
+	 09mrg7+VE3/BSxLykJeWMUWuc4byVs46miI5kX9Xdvc/Jt4XCUbW1gSFQaoIDsGFiFnEP
+	 VmX5GIq08vDFgs9LitXBJi/ZVafq5LHeaMqvWpR3PqBgHTdbOQu6otJ2GpzebhLnXZCrn
+	 nIn9zxFOhXSVJ5xw1siG3dzcFI/gwsSRAEKp/qRI5CYvw+XN0HMJX2mWGfwql+BwDfQgR
+	 Du3YbbVUNakN+PWHtEJmcu7ALZEMoLXE/Unl798ofyLq/Vin0gNEKHeNRcd9RJyeZqw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 314341F01829;
+	by smtp.kernel.org (Postfix) with ESMTPS id 316BA1F031E0;
 	Fri, 23 Oct 2026 20:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792787333;
-	bh=na0q2E34TuiPOPsNsx7clTKcBzeXZO7wjs7O48XqMJ0=;
+	s=k20260515; t=1792787334;
+	bh=+m5nDxkiax04ILsqg5kV/Rug8tAT45BKs+0mxi1hhwU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=DeWmb80VqILdsCsavdB0NyZskn4RNhEAiKM6bpO6YkzYma00jPxOSTEh37fCAMADT
-	 qdpY90ygVqjraUsDN3MsVCm+6vikiPCLuGEqoOQZbZ/vfkYIiEHrPZwTjEC90tCwR9
-	 ag/0L7OWmhkRUtrqYhUf6dhxlf956w1MnmHRvgP4kBMSjEDxFgmaPJNPzFCXUtDVA5
-	 Mik8zhQ9JPtsZgUYjYDXdgeObZN4J8uJ5wv6hHo94X6ZdsR1CjrIJ2IEa2JAYJveX3
-	 4Q9Dl9spLmod1wWSLGdGAwP1NrvmUfJCfrOaNdtjdsj/PNNbAdITYgC+ctCkXWZ4eb
-	 swXRvltjydx8A==
+	b=QtM0mjHBTWGyo1cWKi1b99j6y3h8ExJsgxoMMm+Po5c5J4Y4Fhqj/ikgNNmRGSCmn
+	 trZFZf+JwsUNxZvWN/1it5bTncSCTYnn4Sd+MdGbd4DQknfvCLIfk9BqmUkqMxhtlO
+	 nqqPXldzQH5IdKXQy74YmpMpWz5L4KD4nXgHHKir5CehFJgiddoRf866yO+DnRiwBH
+	 DdG3AbRx2dQih+3QWdsc3y6jyTmFgD9OJj+cEZA2WfoQd60H+Jmsg1yTMpc/iprKK6
+	 VXu3v4VgV0j9XXkYE7JVo+8tNfKkDR6LtgxrxpMMvdeHxK/Lkk491A/r9iJJaNKvK8
+	 4cvTxfnR66czg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9FBFD44603;
+	by lkml.kernel.org (Postfix) with ESMTP id B52364460E;
 	Fri, 23 Oct 2026 20:28:52 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 23 Oct 2026 22:28:43 +0200
-Subject: [PATCH v6 1/8] fuse: {io-uring} Add queue length counters
+Date: Fri, 23 Oct 2026 22:28:46 +0200
+Subject: [PATCH v6 4/8] fuse: {io-uring} Select the queue through the CPU
+ to queue maps
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -83,20 +84,20 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261023-reduced-nr-ring-queues_3-v6-1-658235c9b9bd@bsbernd.com>
+Message-Id: <20261023-reduced-nr-ring-queues_3-v6-4-658235c9b9bd@bsbernd.com>
 References: <20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com>
 In-Reply-To: <20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com>
 To: Joanne Koong <joannelkoong@gmail.com>, 
  Miklos Szeredi <miklos@szeredi.hu>
 Cc: Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3112; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2398; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=ew8Loht7/s/v9+CJ7lFhSnfg10fFKeD1z4veh1XOTUw=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuH24ocLj76i7z/D0Rh986JHuz7F8kHXHU8MjPXu7u8
- zqvfc7odJSyMIhxMMiKKbJ0SeyxnfKPT1bt6/rrMHNYmUCGMHBxCsBErA0Z/odKHJcy2K2y1lFs
- eiDP1Bxt7zXyb/S2LPlzpH2ZF5vdjHkM/7RYGmTNVj962dshLqd+m/9ujs5lhZ31xudCg5b6bbF
- wZQMA
+ bh=0bSOn8HFfQToLCRbRk/6dBwfmGzXgifFo7XsyJ2NPnA=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuH26sOyHzzfeE854VBaELhF/8O8Fau6L3wg3pr8U/Z
+ z/fElcY31HKwiDGwSArpsjSJbHHdso/Plm1r+uvw8xhZQIZwsDFKQAT0U1hZHh1S5Mx7lmddib/
+ 35a1laciH2pzevcbLVxi3rn1bPJENi+G//GWc4zK2xmKp00P/N+0Ynb381OKv428bh2VP1jnVf/
+ qIi8A
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -107,92 +108,76 @@ Content-Transfer-Encoding: 7bit
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-This is another preparation and will be used for decision
-which queue to add a request to.
+This is a preparation for a follow up commit that lets a server register
+fewer queues than CPUs. The queue of a request then cannot be the queue
+of the CPU that issued the request.
+
+fuse_uring_select_queue() picks the queue through the NUMA node map of
+the issuing CPU, or through the global map when that node has no queue.
+No change in behaviour, every CPU still maps to its own queue.
+
+A CPU id at or above the number of queues wraps around now. Before, the
+request went to queue 0 with a warning.
 
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dev_uring.c   | 15 +++++++++++++--
- fs/fuse/dev_uring_i.h |  3 +++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ fs/fuse/dev_uring.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 460776cd69cd..1aca6ce906f0 100644
+index e24cca4c3df4..b683fefe5cf6 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -159,6 +159,7 @@ static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
- 	spin_lock(&queue->lock);
- 	ent->fuse_req = NULL;
- 	list_del_init(&req->list);
-+	queue->nr_reqs--;
- 	if (test_bit(FR_BACKGROUND, &req->flags)) {
- 		queue->active_background--;
- 		spin_lock(&fch->bg_lock);
-@@ -166,7 +167,6 @@ static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
- 		fuse_uring_flush_bg(queue);
- 		spin_unlock(&fch->bg_lock);
+@@ -1888,17 +1888,24 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
  	}
--
- 	spin_unlock(&queue->lock);
- 
- 	zero_copy_unregister(ent->cmd, ent, issue_flags);
-@@ -188,6 +188,7 @@ static void fuse_uring_abort_end_queue_requests(struct fuse_ring_queue *queue)
- 	list_for_each_entry(req, &queue->fuse_req_queue, list)
- 		clear_bit(FR_PENDING, &req->flags);
- 	list_splice_init(&queue->fuse_req_queue, &req_list);
-+	queue->nr_reqs = 0;
- 	spin_unlock(&queue->lock);
- 
- 	/* must not hold queue lock to avoid order issues with fi->lock */
-@@ -1823,6 +1824,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
- 	req->ring_queue = queue;
- 	ent = list_first_entry_or_null(&queue->ent_avail_queue,
- 				       struct fuse_ring_ent, list);
-+	queue->nr_reqs++;
- 
- 	if (!ent || fuse_uring_prep_buffer(ent, req)) {
- 		list_add_tail(&req->list, &queue->fuse_req_queue);
-@@ -1863,6 +1865,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
- 	set_bit(FR_URING, &req->flags);
- 	req->ring_queue = queue;
- 	list_add_tail(&req->list, &queue->fuse_req_bg_queue);
-+	queue->nr_reqs++;
- 
- 	ent = list_first_entry_or_null(&queue->ent_avail_queue,
- 				       struct fuse_ring_ent, list);
-@@ -1894,8 +1897,16 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
- bool fuse_uring_remove_pending_req(struct fuse_req *req)
- {
- 	struct fuse_ring_queue *queue = req->ring_queue;
-+	bool removed = fuse_remove_pending_req(req, &queue->lock);
- 
--	return fuse_remove_pending_req(req, &queue->lock);
-+	if (removed) {
-+		/* Update counters after successful removal */
-+		spin_lock(&queue->lock);
-+		queue->nr_reqs--;
-+		spin_unlock(&queue->lock);
-+	}
-+
-+	return removed;
  }
  
- static const struct fuse_iqueue_ops fuse_io_uring_ops = {
-diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-index 263d0f8b9714..77f87075f62d 100644
---- a/fs/fuse/dev_uring_i.h
-+++ b/fs/fuse/dev_uring_i.h
-@@ -135,6 +135,9 @@ struct fuse_ring_queue {
- 	/* background fuse requests */
- 	struct list_head fuse_req_bg_queue;
+-static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
++static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
+ {
+-	unsigned int qid;
++	struct fuse_queue_maps *maps = ring->q_maps;
++	struct fuse_queue_map *q_map;
+ 	struct fuse_ring_queue *queue;
++	unsigned int cpu = task_cpu(current);
++	unsigned int qid;
++	int node;
  
-+	/* number of requests queued or in userspace */
-+	unsigned int nr_reqs;
-+
- 	struct fuse_pqueue fpq;
+-	qid = task_cpu(current);
++	cpu = cpu % ring->max_nr_queues;
++	node = fuse_uring_cpu_to_node(cpu);
  
- 	unsigned int active_background;
+-	if (WARN_ONCE(qid >= ring->max_nr_queues,
+-		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
+-		      ring->max_nr_queues))
+-		qid = 0;
++	q_map = &maps->numa[node];
++	if (!q_map->nr_queues)
++		q_map = &maps->global;
++	qid = q_map->cpu_to_qid[cpu];
++	if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
++		return NULL;
+ 
+ 	queue = READ_ONCE(ring->queues[qid]);
+ 	WARN_ONCE(!queue, "Missing queue for qid %d\n", qid);
+@@ -1923,7 +1930,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
+ 	int err;
+ 
+ 	err = -EINVAL;
+-	queue = fuse_uring_task_to_queue(ring);
++	queue = fuse_uring_select_queue(ring);
+ 	if (!queue)
+ 		goto err;
+ 
+@@ -1966,7 +1973,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
+ 	struct fuse_ring_queue *queue;
+ 	struct fuse_ring_ent *ent = NULL;
+ 
+-	queue = fuse_uring_task_to_queue(ring);
++	queue = fuse_uring_select_queue(ring);
+ 	if (!queue)
+ 		return false;
+ 
 
 -- 
 2.55.0
