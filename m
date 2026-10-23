@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1792787336;
-	b=UEH/a5985TroHQWgI80QrDp09iDuskP+SOWAMe1QXhEYxvnRs7Xd+zTtsd1pyzJwkUd8
-	 4a2P5MTZfWTWn00TDlaixfKsJCZcLIx5aeBZcp5LuBQfRxgpnjO0v4NiRee5QvhCIbBzu
-	 lzegWx+80VlJ/nGCIsIFvaGq8C+y4WhRRMCpbYOyFuK+LqBXyR8WdLPPyXTXsV4Zhi8m6
-	 9ngcmfvF7EUV0Pm/t1DamvVPLG92pruDvsYZfM73abyEBiM8F8KTxgsMmM5S1+5wAwUd7
-	 PlAhjIMBYqPcO5T4ay3u44CqMQW5wc74HjfZ0C/XFfwoPlN3JC/FZAxAZtAQRZcbQzQ==
+	b=Yr3xW4Qm4TCN7/Pl8h9A4qXMATgvM3KpTOGDeZapFJ5IlBP6eVnTBC5yyQoWP3IbzBf8
+	 YzkprIgtipXAf9KQ2nZl+s6+7V4Pee3aG7KM32fvQ3K4tgwEJ15b29008c1470vi0CY31
+	 rT6xtq9D1YbvqqQYT/URiHXoPIlon1Ol8vp9dFxJ74flM4C8inCtxeauOWECTf6ovJIgE
+	 QVOXPbBxplD+FXJKTAIWFKlMLPwuE6u0QdVCFUNubM+gOqLFvnhZq5t3PCy1wS+XlPCOd
+	 ZNIX+VZObzQnkJPvLnwuP3LIeg6MGQXF/OHwWe6H/NPhTGRFkdWShMVGf+NqNzAuWIQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792787336;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=bTfWGJZuzfksDNUkTxdrTjBg+vJNgP7ZmOsx+b+A8c4=;
-	b=GgPY1l7mAM26q2jThw2vSgsrRlnB94jBGfzZSm9GQA1b6kwHIw5hqu7bS9z11i09QDuo
-	 IhH22AMyYrI4ii1lLfeHCVQ1OJAPHZs1dFYgb4BBVpzlk9QSi5PDqpec5fk1cFK1V7uEz
-	 eMmbgPCpnuoUShRs3DO5c2jbYWvbz5mFiDRDfiDEcddwNDEWa2i99ui0TtZe3HgVF7oyM
-	 gCYnRbDPPZzLUq6z2BSiO9obtCgD6wc+lmZVDmuLkJchbEDXiaFeGZ/YSYYhKjE7Iiclg
-	 GljXI27vSggIKkMXKsVlUB9ucZ9lPFInma39ZuAYAAkiHM2X3B8KdD3NUIjP/797O4w==
+	bh=xefAS/uJZviZ8Z4o6s3O/rsmqG9Y12pNIioL0esQc7I=;
+	b=5cS+K0+78QXyea4jQpi2qkMS021R7ZIyE8G9hFYuEMyOvnXzarRYw69qHJFfB5bHSpwu
+	 ldfKTdBDZOkfBV2ZUmkPykwQITJpXoIk/5Iap269i/Bnr6HiqGy9ipCIF700y0TFqkCIi
+	 3lO563lgriqTB2i0SQuM+Xx/96czl4n6aBF3EFNSeEoKiepKWejS2FN7rbWPsACPjCAHr
+	 aou0VI7QoHdVZoxYwcduS079xlrMUiv4CABc99Vx8dX2KpsLK1Vz7JtyCsK4DgD34TKwv
+	 DRlnXpDNS0bi2XdpgxYy0EA/EN+3nUGljtwbYUQr/vBBflsbICJO4FXW+lEtAKq2E4w==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N+gwQ97F;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RhIGpr9C;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C579606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6D7606A322
 	for <fuse-devel@lists.linux.dev>; Fri, 23 Oct 2026 20:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N+gwQ97F
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RhIGpr9C
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1792787335;
-	b=lMd5rPe51GAwpak0o840pBy1cM5OYgfAtDcXhY591aiBHKxnbdlYLrMSouHzp86bcuKo
-	 tbeBlMYasdy1iB+M0QdEEjPwkycHxwgee7v/4RvLyWW7RQhVLClnsI7Ii5STbuN95JP25
-	 nZtCQuw+t7B2xZIjjGQNF/Y2NU71lGNXx8f1AVKbcHEj7AGcCpugqqeXA3w7cY3m2DKKH
-	 5UVTjJwQQ9ITtH9ie3YfjltHmZ+0dujuLStZ5YDR8hoJcrPKhYs4aZcvimFlAHqYztJv/
-	 il2Y859M/89O+QjGhCvNKV2Tqa4khdvYjAcwv64/2jYIFOvRdh66oC0P2mt7xaPVoOg==
+	b=PvescqcnKKaChQRYtNvfDdYlhh0gdf1oBqmJUxeCrJCh4TvXNBe1xFhNiShw1AZX360g
+	 xGJt4fyUl118XPr2i3ZNe7xNBd2JUaVRZW6+iseuiSa+Milabhjuj7FJZvluYsgc7WgpB
+	 I4SETRZ/yEqXrRkSiZNso6QhfnYtH1AOSR0ZZRWIEvjKxx/DwJ4dbGRwe6v3pHpJ3OIcf
+	 RbKqHig6iphD2B0OfmdlmZYWlTd/y58QB1OtfSHA+Q6G62ejONI1Dw3c0RwCqR4KyGJ5T
+	 hD2AZTSq+EKFdy8359CI7q9GdmcWKtbYEbq1QDrxO/p0TCqgwvIjBjEXZ0atosIwlag==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1792787335;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=bTfWGJZuzfksDNUkTxdrTjBg+vJNgP7ZmOsx+b+A8c4=;
-	b=rNaibisURNXOgPoMfdbab00GMoeL2GJoJNgEP8QaB2jvLz2e3tCjLYlg5/mkH2smIDIr
-	 h4QnNhBb4zYFFeEuVpPDaBCvSwlr6ZDOHfEwZptv7V0AYv/J0ETAK9EcGt0ILd2pNvMsp
-	 GPTY8C9OLjF2P3oGG3XpKuD/qbFPMGwUIuMM5bsgLxaqKcSIZND3zKON7zeER/12kf4o0
-	 qkfQ93isj2BttscAyqgsX2Uf0a1UOUKx4jL1gCtxXiTQ+XBC8hJT4kRMfEtgYXKW38k1A
-	 BtTFGd19a6mHObOq4gA0I31WInmf9YWlTTWyGky/a9CwEs4xGjT3miki2O7vha8Gs5w==
+	bh=xefAS/uJZviZ8Z4o6s3O/rsmqG9Y12pNIioL0esQc7I=;
+	b=IDCdGurBm0KuqT6HuZXlwoTD4+XK9DBKsgl486BUSbYST68DRptSTebxU22RbazpmH+Y
+	 R5mCzkegr9niI8TuNo8aZjaIhtCDNzW3CkZrhTR0UVQRDWXXq6B2fbhmw5iB6bgDonJ3J
+	 t7D9hcbIfrsI3qcBgS+b5XwezI2e57bkbl3TZHJ0MRqc+wv1wmI67bhwv7zauCFVH15iJ
+	 ZJWuBIgFPpXp5z42w3hY9PGlM5dvratu9wriCUSbXNEyF9/g7aZT0ALgBV2WqQSinPwlQ
+	 lwGf7JzWPs2XxBugvpOKDhJiU8n58yGlLgPsRjQ7K7xWRLy6jTpY6bHPAD3+qxWN/qA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 55C431F031E5;
+	by smtp.kernel.org (Postfix) with ESMTPS id 421A31F031E3;
 	Fri, 23 Oct 2026 20:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1792787335;
-	bh=bTfWGJZuzfksDNUkTxdrTjBg+vJNgP7ZmOsx+b+A8c4=;
+	bh=xefAS/uJZviZ8Z4o6s3O/rsmqG9Y12pNIioL0esQc7I=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=N+gwQ97FTZss+b+1rA9XMrTUzExeuPr064oS6+HnYgOqgm8PPIwgyMZQmxyZ4z1gr
-	 oxFuSyuTUfhdKQN1leXDwecNUevvo8cFXb4ivyQEywlGY+2vdxJemSdlWsEXwGzoND
-	 Wa/ZgoAQ8I7EW1gU4B5BplIAaQ85Ex8cVuDMtI4Eb0ZhE3//gKjhMDxCx4m3VZ/pJe
-	 dQTyKZEqc3qgK/PweNvgeY74XVpJzGmWWciAwbKvEsqvE/ilrIQm+vF/uCAgSvlL99
-	 MzR/QCOYJcXrM1nNH0Bw3tCsJtcFPHYZ6ubZlkmLZ+VGMqNOa11A63aXCbGLYFduT3
-	 81QJnWS16jC5w==
+	b=RhIGpr9CdlLI4/IFjgLrLGqpx27HYyloGo8fNCPA6g3uHzmjYgkyzBBOKVAeM8ElI
+	 kFEKzfd4CAA8UK70vGZYuDFSsuET8SDau6ufuDJr8vYCScpIiZNBx8Z1EbuBAcDLUB
+	 BQdl3X3d4pPC8acw2nW0kya7scm6r7ZWx6CFe49AJeqq4gvDgHl9UObiyHQKJKD1nt
+	 u5rMIzel8XaXqSlR8vGlCYgsT1Frq5NJltGa2F8gxrmHcCtd0XT9drbQXlpKtsoWPj
+	 mGwIXvOL8uIP403s35/CLd7aUe6jEg0785174s4yWPwdBgNzQfIUi0vBrQuGClypGW
+	 g1q/DudoG5HmQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id D14C44461E;
+	by lkml.kernel.org (Postfix) with ESMTP id C3F7644616;
 	Fri, 23 Oct 2026 20:28:52 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 23 Oct 2026 22:28:50 +0200
-Subject: [PATCH v6 8/8] fuse: {io-uring} Prefer the current core over
- mapping
+Date: Fri, 23 Oct 2026 22:28:48 +0200
+Subject: [PATCH v6 6/8] fuse: {io-uring} Queue background requests on a
+ different core
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -84,20 +84,20 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261023-reduced-nr-ring-queues_3-v6-8-658235c9b9bd@bsbernd.com>
+Message-Id: <20261023-reduced-nr-ring-queues_3-v6-6-658235c9b9bd@bsbernd.com>
 References: <20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com>
 In-Reply-To: <20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com>
 To: Joanne Koong <joannelkoong@gmail.com>, 
  Miklos Szeredi <miklos@szeredi.hu>
 Cc: Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1434; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4021; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=TYayZW4DyqkyyR4xW/jHVS1Rx9iUTnXzfoY92cYi9tg=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuH25eyyM085ni2Y9lk28nKUrO3MAi0cRyJ6H/fOMWZ
- /72tTvcOkpZGMQ4GGTFFFm6JPbYTvnHJ6v2df11mDmsTCBDGLg4BWAiVXMYGdZueysk1bg+sOfS
- uXTt4Jn7fiyMLF4342VLgP22E7/f6H9n+F/DtPGuX/fk65ypezRKK2YnJm+JrbDUfxWavmJeJdf
- neSwA
+ bh=8MeKPCFTmCl0gpq+o5smzXXdVYG5SfMu4GgpY26S2OI=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuH26adef1noWCDK8aQo6d1k89mGIxYWpp78lnHLfnP
+ uo0XMeX3lHKwiDGwSArpsjSJbHHdso/Plm1r+uvw8xhZQIZwsDFKQAT4Z7AyHA3d8fB8gnbjyYx
+ SL246R9mNzlM6fvmhdXnWkvbH8+e9U2XkeE6p1W15DT2c4u5Ni7om7NhYWt/wp2r7X+PtgcGX9u
+ 1xpwbAA==
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -108,47 +108,131 @@ Content-Transfer-Encoding: 7bit
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-Update the mapping to prefer queues that belong to the
-current cpu. If no queue is registered for the current cpu,
-fall back is to the existing round robin logic.
+Running background IO on a different core makes quite a difference.
 
-Example (with core binding)
+fio --directory=/tmp/dest --name=iops.\$jobnum --rw=randread \
+--bs=4k --size=1G --numjobs=1 --iodepth=4 --time_based\
+--runtime=30s --group_reporting --ioengine=io_uring\
+ --direct=1
 
-unpatched WRITE: bw=841MiB/s
-patched   WRITE: bw=1363MiB/s
+unpatched
+   READ: bw=272MiB/s (285MB/s) ...
+patched
+   READ: bw=650MiB/s (682MB/s)
 
-With
-fio --name=test --ioengine=psync --direct=1 \
-    --rw=write --bs=1M --iodepth=1 --numjobs=1 \
-    --filename_format=/redfs/testfile.\$jobnum --size=100G \
-    --thread --create_on_open=1 --runtime=30s --cpus_allowed=1
+Reason is easily visible, the fio process is migrating between CPUs
+when requests are submitted on the queue for the same core.
 
-In order to get the good number `--cpus_allowed=1` is needed.
-This could be improved by a future change that avoids
-cpu migration in fuse_request_end() on wake_up() call.
+With --iodepth=8
+
+unpatched
+   READ: bw=466MiB/s (489MB/s)
+patched
+   READ: bw=641MiB/s (672MB/s)
+
+Without io-uring (--iodepth=8)
+   READ: bw=729MiB/s (764MB/s)
+
+Without fuse (--iodepth=8)
+   READ: bw=2199MiB/s (2306MB/s)
+
+(Test were done with
+<libfuse>/example/passthrough_hp -o allow_other --nopassthrough  \
+[-o io_uring] /tmp/source /tmp/dest
+)
+
+Additional notes:
+
+With FURING_NEXT_QUEUE_RETRIES=0 (--iodepth=8)
+   READ: bw=903MiB/s (946MB/s)
+
+With just a random qid (--iodepth=8)
+   READ: bw=429MiB/s (450MB/s)
+
+With --iodepth=1
+unpatched
+   READ: bw=195MiB/s (204MB/s)
+patched
+   READ: bw=232MiB/s (243MB/s)
+
+With --iodepth=1 --numjobs=2
+unpatched
+   READ: bw=366MiB/s (384MB/s)
+patched
+   READ: bw=472MiB/s (495MB/s)
+
+With --iodepth=1 --numjobs=8
+unpatched
+   READ: bw=1437MiB/s (1507MB/s)
+patched
+   READ: bw=1529MiB/s (1603MB/s)
+fuse without io-uring
+   READ: bw=1314MiB/s (1378MB/s), 1314MiB/s-1314MiB/s ...
+no-fuse
+   READ: bw=2566MiB/s (2690MB/s), 2566MiB/s-2566MiB/s ...
+
+In summary, for async requests the core doing application IO is busy
+sending requests and processing IOs should be done on a different core.
+Spreading the load on random cores is also not desirable, as the core
+might be frequency scaled down and/or in C1 sleep states. Not shown here,
+but differnces are much smaller when the system uses performance govenor
+instead of schedutil (ubuntu default). Obviously at the cost of higher
+system power consumption for performance govenor - not desirable either.
+
+Results without io-uring (which uses fixed libfuse threads per queue)
+heavily depend on the current number of active threads. Libfuse uses
+default of max 10 threads, but actual nr max threads is a parameter.
+Also, no-fuse-io-uring results heavily depend on, if there was already
+running another workload before, as libfuse starts these threads
+dynamically - i.e. the more threads are active, the worse the
+performance.
 
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 ---
- fs/fuse/dev_uring.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ fs/fuse/dev_uring.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index c4c0230d02fc..cd2ba52d106f 100644
+index d5d83506ae5a..87c8ea35d2c9 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -391,6 +391,12 @@ static void fuse_uring_cpu_qid_mapping(struct fuse_ring *ring,
- 		if (node != -1 && fuse_uring_cpu_to_node(cpu) != node)
- 			continue;
+@@ -1955,7 +1955,8 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
+ 	}
+ }
  
-+		/* Prefer the queue belonging to the current cpu */
-+		if (cpumask_test_cpu(cpu, q_map->registered_q_mask)) {
-+			q_map->cpu_to_qid[cpu] = cpu;
-+			continue;
-+		}
-+
- 		qid_idx = mapping_count % q_map->nr_queues;
- 		q_map->cpu_to_qid[cpu] = cpumask_nth(qid_idx,
- 						     q_map->registered_q_mask);
+-static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
++static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
++						       bool background)
+ {
+ 	struct fuse_queue_maps *maps;
+ 	struct fuse_queue_map *q_map;
+@@ -1976,6 +1977,8 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
+ 	if (!q_map->nr_queues)
+ 		q_map = &maps->global;
+ 	qid = q_map->cpu_to_qid[cpu];
++	if (qid == cpu && background)
++		qid = cpumask_next_wrap(qid, q_map->registered_q_mask);
+ 	if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
+ 		goto out;
+ 
+@@ -2003,7 +2006,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
+ 	int err;
+ 
+ 	err = -EINVAL;
+-	queue = fuse_uring_select_queue(ring);
++	queue = fuse_uring_select_queue(ring, false);
+ 	if (!queue)
+ 		goto err;
+ 
+@@ -2046,7 +2049,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
+ 	struct fuse_ring_queue *queue;
+ 	struct fuse_ring_ent *ent = NULL;
+ 
+-	queue = fuse_uring_select_queue(ring);
++	queue = fuse_uring_select_queue(ring, true);
+ 	if (!queue)
+ 		return false;
+ 
 
 -- 
 2.55.0
