@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1792787336;
-	b=1NwNxAcB8AXF88H13I+555Xh7nVjB9cRj7fb7W5WbT44yAtmQn+dC38qNTBqK519MMpi
-	 4v0uSIypApZsS4ooM0+F1DH4BV0zlLpcFIudHtfylebRMJh/saNTPYI10mgCTRbmwLwHs
-	 m6eaP8uw3DG2kqAJLYZhInGABtHxSoXTiZTekSYjx4bjFXhWWA9X3rTIeQm1Uw5TxOtLA
-	 zaPFuDE74U+afspYTu8DnDY58ntuLSGi8fr9Xygj2VZ7vUVozgTr6TXNtFj4bK6dyprMF
-	 yvZYoncXtyIeqyA/wQoB5eujyDe2pyNyZdmxh3MhLhXpb9P6yQiqe/zOaxG8IM3WF3Q==
+	b=D57xZdynRnkFpnVst2QL32hskHBbSR5Q3fpjmRjNoXjaLbCkkIPqitpU8RRYqYMawnUG
+	 pqsoYdb2xOnudGzcMaaJRQkcMgtVWaJe0kZLGUYC1ZTv5HmEo+1owrWSOQY6eWx0VU50O
+	 jAuGEmpHpWQ/I8J0wwMLj//NCc0E7ZkwdXvNCkwEs5AkG2S3vGV2k0epoLZtI/ocChZ3/
+	 Bf04wJN/kQ31oWtQCbAEcX7FSO7JDenrVX/sYFWfV7CAF/299dP/cCazDSal0vye1ZHRh
+	 JfWUWfaIpY7rUQNbMkTox4HTdDUa1SO5n2bWqiJluZ8oTBuWyeBGb19E5swJ2ueN+fg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792787336;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=y1UDhVJvlr9ab03gcIG+KR1Thm2V1YNSjxRBlRkApY0=;
-	b=ayD8cb7KW6LWja5blfjSMeB2obacvCHDZ6dWlt2wfajM6FYMJz9stRPdYj9UTcAB3c24
-	 HQDC+ShOg8Es4u/tHYXoxyG/74Qaujxeno8lYqF9O8C+npBdc4PmwCS+hPR/d8NkYYyC2
-	 ZncrAh/xskUSTuja/ZDom0lzCHpp+U261Ama6yhiDtLbXMJYvLMQx0eCQXmm2yR0QvOC8
-	 ZK+HaSXX/75lr5eq1blCZuE4S2edTXLGGcC1nIYrdbp+6u5RC0G8IXxjVlDFfCrbjuhMd
-	 3L7BXsnpVLogAzEoJgsnv7w7lT7atsSNqw2KOgB2YlScryTmNZITjRxoORMuyMy6owg==
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
+	b=AZF96+j/wcvUME3pZ2qE4dsNb2xMC1f/al5r1L2hv9owR1W9WguokPhx++lc4l1kqpmK
+	 Ye6nxzynhJuV+nYd3ClD1iHd5LHvkzcRHMNUFIoTteGf/bOWW5dOluh8bXtwfJNlhbKSU
+	 SvJprKp6FTFRthoNzYev8t/iqyUMDIfynTFc2sjv38ylJ+z0/u59AJIxOjpW61Dc1cDrk
+	 tu4DQvVc6ogBVHvCZSYjZpb1cMU6HljBSvvHegQsB+AbswZMLWJ0zowUhUFYVzdb2wGQO
+	 j/bzQlWuaqTgyF4ktugpOWDIEmSdQ9jnqRSxKBqIBiCwNyHPRbhUx0O+2jAtPfL21fg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K5yCfI2S;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AudDahz0;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7266606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CD1606A323
 	for <fuse-devel@lists.linux.dev>; Fri, 23 Oct 2026 20:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K5yCfI2S
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AudDahz0
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1792787335;
-	b=dVKP852sLjvw8oFvFIsv6d3UT6naXMyaLuBB1/fNEn+rh2rtCosYyJkqi/i9dRWHPHYC
-	 x6ED46oSJsCb6fuYFTKFa4Gh9KuFtpZhq01rWQ9FhmCauVsC2FeH9QGBmYZAHTk7oldbE
-	 lLETiKFJShkdN065T08jApDpfAabB6kDCMpo5ZRIHBsd5LLymevG3d9l0nu8uIStZY5tL
-	 iNS/BVNR8bdi8JwOws+lGUp7S75YPWX64PcOjRzONEW+49EMETojQOkRRIEogTPwr46G/
-	 8fcMaXd66NW4I5/csfrzZ/ISp9yGUdWWWqJjaEzpozYk/V2n79Q2NESazkty6kW2JDw==
+	b=EDtBYMttaQQ8bEiPRfXMFQ//HtN50C3oAk7l8fb9gDghVE8WaI4g2mOs6g8hi9WFPD+k
+	 /P985+dbbsSa9Yp4PlFMYuXbKwf5XEx4ndjtqAg4khp3q4iduDS6nFVafsPXDx2H9RXOR
+	 3oDy/gAELCPcSbF6iH2tuROqD37YlIy4l227sj9XwCCBUAWM5owRjL5zw9JjZ1sW0xfDK
+	 zBfg8RCjENErpEHBR7xl0qO7KOJgpxakMjhNTBIYzFNzTpn8Cci9exX7Zq0y6/D/2VvRE
+	 bfiudX5HnkSmBmXHHyf3TRD/3OU4xIqUxqD7fGyhrR8WAHUm0Xa1PCw+jsoEj8AjKPA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1792787335;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=y1UDhVJvlr9ab03gcIG+KR1Thm2V1YNSjxRBlRkApY0=;
-	b=yjpBKacV3jn3x12X/Zd9sstJqZyM7ZlrTkQNqL18RdZzfTbd8cVGnLi9eOP8CvMpZetq
-	 or4/TSLHCeh+b472Vm3OI2e0MXdNGimicj4HwY9XyBVwySjoFJOZpQXk6yskQds6qdt91
-	 0Lb4LRSO42AnuLTcSbB0w3USXMK87wCrTRwzmosoB3xnCimYFgjTloSsQyWgLrQVByIXp
-	 OcU76QhNadC60EJpFpEWHaLl4v4YC6HAdAywZadlG9fFkG8ey1ylQOUJCjLaSPGUTIZgB
-	 WrFAknTCcMBfDFGp0usKgTsEZn18MavbMPCceRTYrL7EbF1TbRKzFxWYgIBDOqUmxGw==
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
+	b=IDMfVuvSO0pQgAzVeS15AKftSE4HYQWKM2CtjaozhVSi2Sb5vBvFUFobriP/XLLm/eNU
+	 P393XxzieidHNCsoEEQThN9fdGpR14INnhLKtewHJSnbrboVAJCA6lAN6KEbvrSAU6Dc+
+	 +4J6C1EGF9JNoeiVPvaKhumyo/iLJhJCQhngBgv7o2c6jUw1d6MDvpot5Pkf6wJqsxlIX
+	 rP6iVSEkYzqK71fY60z2vS2RwuY49Vh5Vx8+5sAbGg0NYtqGOTBHQn4siYYXIqA1iyW1v
+	 stnbGdcsJwR3WJu9NbZa5hXgS7IgHi8IEJxXgvG2nExlZtJxvVYlOz8o1b8fsteOqsA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3F7D51F031E2;
-	Fri, 23 Oct 2026 20:28:54 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 31FB11F031E1;
+	Fri, 23 Oct 2026 20:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1792787335;
-	bh=y1UDhVJvlr9ab03gcIG+KR1Thm2V1YNSjxRBlRkApY0=;
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=K5yCfI2S8d62hAb4Jyr/f3gtkntNYs29twiNxc8JfS2bdqx5jjCJonO6JbSyTvrvo
-	 09TvzhL1av5EYlkKVYUvH9fxy1G4f/f+AN8vFFmiXCAQhH7tMAohb2dzY+228eiV0Q
-	 XTV9hEhz852fDlPkPceYdjIpeLGzyE91YEtyiDeW8fpMAfPE4lllHF0xy2NSiiK4bq
-	 pvx70CCuqxDa/ND24UDqBFemqwu4DkLBc7z67QpOLSRdVFo29nmY1Wl9oAvtP8TLs5
-	 ZvBCjfpEt1vy8s/FyKJrpmd/bnIHkOMuoVDT8F2cfK1B0GaToWNBPYPUM6HGROmxe8
-	 JUHQAOJvsJzCg==
+	b=AudDahz0xWgzK8Riwzlks7YB5JfesVdXy37KV4GeFN5a+mYZYM0p42Yow1Nzy4m36
+	 oQY9A1MTIXGO7GO2iCsm1p4nx+QFZMSE3S760/XF8+oyw4HKMXUJajujYksvCUclnU
+	 MWu+yN+elSL4tMA+/PshOcq7aUJqIRMt3761wbzNjCwNMb6g6zXAYn5ccevikQiHqk
+	 bcnGd7N1/R6kCd4dn1AcPNH/c/iUyZrsA+Byd9+15dreIfY4AURiTE1Eyt2Mk5aKFf
+	 7Asgnd94dwx1818M+wiN0vpHWan7RWpZa23LMn7UV4PE3/ib38A7mZYNeh3ZOc49jg
+	 EkJ+Ye2xi7dsg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id BCC7244612;
+	by lkml.kernel.org (Postfix) with ESMTP id A6C4744606;
 	Fri, 23 Oct 2026 20:28:52 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Fri, 23 Oct 2026 22:28:47 +0200
-Subject: [PATCH v6 5/8] fuse: {io-uring} Allow reduced queues through INIT
- negotiation
+Date: Fri, 23 Oct 2026 22:28:44 +0200
+Subject: [PATCH v6 2/8] fuse: {io-uring} Rename ring->nr_queues to
+ max_nr_queues
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -84,20 +84,20 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261023-reduced-nr-ring-queues_3-v6-5-658235c9b9bd@bsbernd.com>
+Message-Id: <20261023-reduced-nr-ring-queues_3-v6-2-658235c9b9bd@bsbernd.com>
 References: <20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com>
 In-Reply-To: <20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com>
 To: Joanne Koong <joannelkoong@gmail.com>, 
  Miklos Szeredi <miklos@szeredi.hu>
 Cc: Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=14862; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4621; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=PP3p6G+bWKbVQabDdlT4x7dQYJY46NTBRhv+FvFa7Ew=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuH276wX1RYoOOQ1KxtszUb7NWT1BaJajytGvtk2nTf
- p7oqtjS1FHKwiDGwSArpsjSJbHHdso/Plm1r+uvw8xhZQIZwsDFKQATUb7FyLCZTVC2pP8Ld9iS
- olsH7bPWRZ1hnvM67O8RFn3DY2KVnfFAFWdy5ZZ6JNsuyV67RUJ238K8QpnCE/O1uab6Ldl8hOk
- CAwA=
+ bh=zahWFXAlAGLUS/1774IaoMuoQhlkxGF5zpMuxg/js4Y=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuH27Yc3y6sNmpzB8cM0pe6MsyJ53eP4uf30E4wG2d1
+ LlLnb5+HaUsDGIcDLJiiixdEntsp/zjk1X7uv46zBxWJpAhDFycAjCR+DZGhn/JvLN4DwjNl9xd
+ qDuT96l/go7Jqqj2RwcVf2TnZtbKTWL4w9GUkyVz4Upq2r9DgdU963IS40QuhOm/tDXR1Ur2mBP
+ JBwA=
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -108,448 +108,144 @@ Content-Transfer-Encoding: 7bit
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-Main reson to reduce queues is that a system with many cores
-might run out of memory if queue-per-cpu is used.
+This is preparation for follow up commits that allow to run with a
+reduced number of queues.
 
-A new INIT reply flag FUSE_URING_REDUCED_Q is introduced, that
-activates this feature and also expects that each queue is created
-with FUSE_IO_URING_CMD_ADD_QUEUE. Without the flag, nothing changes.
-
-ADD_QUEUE adds the queue to the CPU to queue maps. A request mapped to
-the new queue is delayed until the server registers the first entry
-of that queue, usually shortly after ADD_QUEUE.
-
-Race free protection with spin-lock and rcu:
-
-- fch->lock protects against multiple ADD_QUEUE calls at the same time,
-so that new q-maps per q-create are serialized in publishing. It also
-ensures ring->ready is not set before a q-map is published.
-- queue is stored before map publishing, so that a sender always finds
-ring->queues[qid] set for a qid in the maps.
-- rcu_assign_pointer() ensures a sender sees the new pointer after
-  cpu_to_qid[] is filled.
-- rcu_read_lock() ensures that old maps (in the sense of new queues)
-  are not freed while the map is still used
-
-It also includes slight refactoring in fuse_uring_create_queue to
-avoid freeing in the middle. Also dropped is "kfree(queue->bufpool)"
-in that function, it is always NULL.
-
-Assisted-by: Claude Opus 5.5
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dev.c             |   2 +-
- fs/fuse/dev.h             |   1 +
- fs/fuse/dev_uring.c       | 129 ++++++++++++++++++++++++++++++++++++----------
- fs/fuse/dev_uring_i.h     |  13 +++--
- fs/fuse/inode.c           |   8 ++-
- include/uapi/linux/fuse.h |   4 ++
- 6 files changed, 122 insertions(+), 35 deletions(-)
+ fs/fuse/dev_uring.c   | 26 +++++++++++++-------------
+ fs/fuse/dev_uring_i.h |  2 +-
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
-index 1a40b60afb98..47a67aef0f1d 100644
---- a/fs/fuse/dev.c
-+++ b/fs/fuse/dev.c
-@@ -77,7 +77,7 @@ void fuse_chan_set_initialized(struct fuse_chan *fch, struct fuse_chan_param *pa
- 		fch->max_pages = param->max_pages;
- 
- 		if (param->io_uring_enabled)
--			fuse_uring_conn_init(fch);
-+			fuse_uring_conn_init(fch, param->uring_reduced_q);
- 	}
- 
- 	/* Pairs with smp_load_acquire() readers of fch->initialized */
-diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
-index dbffd5bed2f5..9222e3c27d9a 100644
---- a/fs/fuse/dev.h
-+++ b/fs/fuse/dev.h
-@@ -24,6 +24,7 @@ struct fuse_chan_param {
- 	unsigned int max_write;
- 	unsigned int max_pages;
- 	bool io_uring_enabled;
-+	bool uring_reduced_q;
- };
- 
- struct fuse_chan *fuse_chan_new(void);
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index b683fefe5cf6..d5d83506ae5a 100644
+index 1aca6ce906f0..c9a78c2bee99 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -279,6 +279,14 @@ static void fuse_uring_free_q_maps(struct fuse_queue_maps *maps)
- 	kfree(maps);
- }
+@@ -201,7 +201,7 @@ void fuse_uring_abort_end_requests(struct fuse_ring *ring)
+ 	struct fuse_ring_queue *queue;
+ 	struct fuse_chan *fch = ring->chan;
  
-+static void fuse_uring_free_q_maps_rcu(struct rcu_head *rcu)
-+{
-+	struct fuse_queue_maps *maps =
-+		container_of(rcu, struct fuse_queue_maps, rcu);
-+
-+	fuse_uring_free_q_maps(maps);
-+}
-+
- void fuse_uring_destruct(struct fuse_chan *fch)
- {
- 	struct fuse_ring *ring = fch->ring;
-@@ -311,7 +319,7 @@ void fuse_uring_destruct(struct fuse_chan *fch)
- 		WRITE_ONCE(ring->queues[qid], NULL);
- 	}
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		queue = READ_ONCE(ring->queues[qid]);
+ 		if (!queue)
+ 			continue;
+@@ -241,7 +241,7 @@ bool fuse_uring_request_expired(struct fuse_chan *fch)
+ 	if (!ring)
+ 		return false;
  
--	fuse_uring_free_q_maps(ring->q_maps);
-+	fuse_uring_free_q_maps(rcu_access_pointer(ring->q_maps));
- 	kfree(ring->queues);
- 	kfree(ring);
- 	fch->ring = NULL;
-@@ -401,12 +409,32 @@ static void fuse_uring_build_q_maps(struct fuse_ring *ring,
- 		fuse_uring_cpu_qid_mapping(ring, &maps->numa[node], node);
- }
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		queue = READ_ONCE(ring->queues[qid]);
+ 		if (!queue)
+ 			continue;
+@@ -268,7 +268,7 @@ void fuse_uring_destruct(struct fuse_chan *fch)
+ 	if (!ring)
+ 		return;
  
-+/* Returns the replaced maps, to be freed after an RCU grace period */
-+static struct fuse_queue_maps *
-+fuse_uring_replace_q_maps(struct fuse_ring *ring, struct fuse_queue_maps *maps,
-+			  int qid)
-+{
-+	struct fuse_queue_maps *old;
-+
-+	old = rcu_dereference_protected(ring->q_maps,
-+					lockdep_is_held(&ring->chan->lock));
-+	if (old)
-+		cpumask_copy(maps->global.registered_q_mask,
-+			     old->global.registered_q_mask);
-+	cpumask_set_cpu(qid, maps->global.registered_q_mask);
-+	fuse_uring_build_q_maps(ring, maps);
-+	rcu_assign_pointer(ring->q_maps, maps);
-+
-+	return old;
-+}
-+
- /*
-  * Basic ring setup for this connection based on the provided configuration
-  */
--static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
-+static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch, bool reduced_q)
- {
- 	struct fuse_ring *ring;
-+	struct fuse_queue_maps *maps = NULL;
- 	size_t nr_queues = num_possible_cpus();
- 	size_t max_payload_size;
- 	int qid;
-@@ -421,13 +449,16 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
- 		goto out_err;
- 	ring->max_nr_queues = nr_queues;
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 		struct fuse_ring_ent *ent, *next;
  
--	/* Legacy behavior by default, one queue per cpu */
--	ring->q_maps = fuse_uring_alloc_q_maps();
--	if (!ring->q_maps)
--		goto out_err;
--	for (qid = 0; qid < nr_queues; qid++)
--		cpumask_set_cpu(qid, ring->q_maps->global.registered_q_mask);
--	fuse_uring_build_q_maps(ring, ring->q_maps);
-+	/* With reduced_q, FUSE_IO_URING_CMD_ADD_QUEUE builds the maps */
-+	if (!reduced_q) {
-+		/* Legacy behavior, one queue per cpu */
-+		maps = fuse_uring_alloc_q_maps();
-+		if (!maps)
-+			goto out_err;
-+		for (qid = 0; qid < nr_queues; qid++)
-+			cpumask_set_cpu(qid, maps->global.registered_q_mask);
-+		fuse_uring_build_q_maps(ring, maps);
-+	}
+@@ -326,7 +326,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
  
- 	max_payload_size = max(FUSE_MIN_READ_BUFFER, fch->max_write);
- 	max_payload_size = max(max_payload_size, fch->max_pages * PAGE_SIZE);
-@@ -442,21 +473,23 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
+ 	init_waitqueue_head(&ring->stop_waitq);
  
+-	ring->nr_queues = nr_queues;
++	ring->max_nr_queues = nr_queues;
  	ring->chan = fch;
  	ring->max_payload_sz = max_payload_size;
-+	ring->reduced_q = reduced_q;
-+	RCU_INIT_POINTER(ring->q_maps, maps);
  	smp_store_release(&fch->ring, ring);
- 
- 	spin_unlock(&fch->lock);
- 	return ring;
- 
- out_err:
--	fuse_uring_free_q_maps(ring->q_maps);
-+	fuse_uring_free_q_maps(maps);
- 	kfree(ring->queues);
- 	kfree(ring);
- 	return NULL;
- }
- 
--void fuse_uring_conn_init(struct fuse_chan *fch)
-+void fuse_uring_conn_init(struct fuse_chan *fch, bool reduced_q)
- {
--	if (fuse_uring_create(fch))
-+	if (fuse_uring_create(fch, reduced_q))
- 		fch->io_uring = 1;
- }
- 
-@@ -465,16 +498,24 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
- 						       bool fail_if_exists)
- {
- 	struct fuse_chan *fch = ring->chan;
--	struct fuse_ring_queue *queue;
-+	struct fuse_queue_maps *new_maps = NULL, *old_maps = NULL;
-+	struct fuse_ring_queue *queue, *result = ERR_PTR(-ENOMEM);
- 	struct list_head *pq;
- 
- 	queue = kzalloc_obj(*queue, GFP_KERNEL_ACCOUNT);
- 	if (!queue)
- 		return ERR_PTR(-ENOMEM);
- 	pq = fuse_pqueue_alloc();
--	if (!pq) {
--		kfree(queue);
--		return ERR_PTR(-ENOMEM);
-+	if (!pq)
-+		goto out_free;
-+	if (ring->reduced_q) {
-+		/*
-+		 * Every queue addition creates a new map to make reading the
-+		 * old map race free
-+		 */
-+		new_maps = fuse_uring_alloc_q_maps();
-+		if (!new_maps)
-+			goto out_free;
- 	}
- 
- 	queue->qid = qid;
-@@ -495,11 +536,16 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
- 
- 	spin_lock(&fch->lock);
- 	if (ring->queues[qid]) {
--		spin_unlock(&fch->lock);
--		kfree(queue->fpq.processing);
--		kfree(queue->bufpool);
--		kfree(queue);
--		return fail_if_exists ? ERR_PTR(-EEXIST) : ring->queues[qid];
-+		result = fail_if_exists ? ERR_PTR(-EEXIST) : ring->queues[qid];
-+		goto out_unlock;
-+	}
-+	/*
-+	 * Reduced queues can be added after ring->ready. Connection abort
-+	 * stops only queues it finds, so a queue is added only while connected.
-+	 */
-+	if (ring->reduced_q && !fch->connected) {
-+		result = ERR_PTR(-ENOTCONN);
-+		goto out_unlock;
- 	}
- 
- 	/*
-@@ -508,9 +554,24 @@ static struct fuse_ring_queue *fuse_uring_create_queue(struct fuse_ring *ring,
- 	 * fully initialized queue after &ring->queues[qid] is set
- 	 */
- 	smp_store_release(&ring->queues[qid], queue);
-+
-+	/* Update maps so that requests can be scheduled via the new queue */
-+	if (new_maps)
-+		old_maps = fuse_uring_replace_q_maps(ring, new_maps, qid);
- 	spin_unlock(&fch->lock);
- 
-+	if (old_maps)
-+		call_rcu(&old_maps->rcu, fuse_uring_free_q_maps_rcu);
-+
- 	return queue;
-+
-+out_unlock:
-+	spin_unlock(&fch->lock);
-+out_free:
-+	fuse_uring_free_q_maps(new_maps);
-+	kfree(pq);
-+	kfree(queue);
-+	return result;
- }
- 
- static void fuse_uring_stop_fuse_req_end(struct fuse_req *req)
-@@ -1447,7 +1508,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
- 	return 0;
- }
- 
--static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
-+static bool all_queues_have_entries(struct fuse_ring *ring, int current_qid)
+@@ -485,7 +485,7 @@ static void fuse_uring_teardown_all_queues(struct fuse_ring *ring)
  {
  	int qid;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 
+ 		if (!queue)
+@@ -503,7 +503,7 @@ static void fuse_uring_log_ent_state(struct fuse_ring *ring)
+ 	int qid;
+ 	struct fuse_ring_ent *ent;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 
+ 		if (!queue)
+@@ -1256,7 +1256,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
+ 	if (!ring)
+ 		return err;
+ 
+-	if (qid >= ring->nr_queues)
++	if (qid >= ring->max_nr_queues)
+ 		return -EINVAL;
+ 
+ 	queue = READ_ONCE(ring->queues[qid]);
+@@ -1339,7 +1339,7 @@ static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
  	struct fuse_ring_queue *queue;
-@@ -1499,11 +1560,15 @@ static int fuse_uring_do_register(struct fuse_ring_ent *ent,
+ 	bool ready = true;
  
- 	spin_lock(&queue->lock);
- 	ent->cmd = cmd;
--	fuse_uring_ent_avail(ent, queue);
- 	spin_unlock(&queue->lock);
+-	for (qid = 0; qid < ring->nr_queues && ready; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues && ready; qid++) {
+ 		if (current_qid == qid)
+ 			continue;
  
-+	/* Requests wait on a queue that ADD_QUEUE added before its first entry */
-+	if (fuse_uring_get_next_fuse_req(ent, queue, issue_flags))
-+		fuse_uring_send(ent, cmd, 0, issue_flags);
-+
- 	if (!READ_ONCE(ring->ready)) {
--		bool ready = is_ring_ready(ring, queue->qid);
-+		bool ready = ring->reduced_q ||
-+			     all_queues_have_entries(ring, queue->qid);
+@@ -1517,7 +1517,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+ 	if (!ring)
+ 		return -EINVAL;
  
- 		if (ready) {
- 			WRITE_ONCE(fiq->ops, &fuse_io_uring_ops);
-@@ -1638,6 +1703,8 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+-	if (qid >= ring->nr_queues) {
++	if (qid >= ring->max_nr_queues) {
+ 		pr_info_ratelimited("fuse: Invalid ring qid %u\n", qid);
+ 		return -EINVAL;
+ 	}
+@@ -1554,7 +1554,7 @@ static int fuse_uring_add_queue(struct io_uring_cmd *cmd, struct fuse_chan *fch)
+ 	if (!ring)
+ 		return -EINVAL;
  
- 	queue = READ_ONCE(ring->queues[qid]);
- 	if (!queue) {
-+		if (ring->reduced_q)
-+			return -EINVAL;
- 		queue = fuse_uring_create_queue(ring, qid, false, false);
- 		if (IS_ERR(queue))
- 			return PTR_ERR(queue);
-@@ -1890,9 +1957,9 @@ static void fuse_uring_send_in_task(struct io_tw_req tw_req, io_tw_token_t tw)
+-	if (qid >= ring->nr_queues) {
++	if (qid >= ring->max_nr_queues) {
+ 		pr_info_ratelimited("fuse: Invalid ring qid %u\n", qid);
+ 		return -EINVAL;
+ 	}
+@@ -1588,7 +1588,7 @@ static int fuse_uring_add_bufpool(struct io_uring_cmd *cmd,
+ 	size_t pool_size, buf_size;
+ 	bool registered = cmd->flags & IORING_URING_CMD_FIXED;
  
- static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
- {
--	struct fuse_queue_maps *maps = ring->q_maps;
-+	struct fuse_queue_maps *maps;
- 	struct fuse_queue_map *q_map;
--	struct fuse_ring_queue *queue;
-+	struct fuse_ring_queue *queue = NULL;
- 	unsigned int cpu = task_cpu(current);
- 	unsigned int qid;
- 	int node;
-@@ -1900,16 +1967,22 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring)
- 	cpu = cpu % ring->max_nr_queues;
- 	node = fuse_uring_cpu_to_node(cpu);
+-	if (!ring || qid >= ring->nr_queues || flags)
++	if (!ring || qid >= ring->max_nr_queues || flags)
+ 		return -EINVAL;
  
-+	rcu_read_lock();
-+	maps = rcu_dereference(ring->q_maps);
-+	if (!maps)
-+		goto out;
-+
- 	q_map = &maps->numa[node];
- 	if (!q_map->nr_queues)
- 		q_map = &maps->global;
- 	qid = q_map->cpu_to_qid[cpu];
- 	if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
--		return NULL;
-+		goto out;
+ 	/* reserved for future use, must be zero */
+@@ -1781,9 +1781,9 @@ static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
+ 
+ 	qid = task_cpu(current);
+ 
+-	if (WARN_ONCE(qid >= ring->nr_queues,
++	if (WARN_ONCE(qid >= ring->max_nr_queues,
+ 		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
+-		      ring->nr_queues))
++		      ring->max_nr_queues))
+ 		qid = 0;
  
  	queue = READ_ONCE(ring->queues[qid]);
- 	WARN_ONCE(!queue, "Missing queue for qid %d\n", qid);
--
-+out:
-+	rcu_read_unlock();
- 	return queue;
- }
- 
 diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-index 268570e1477c..3e6683f5d9d8 100644
+index 77f87075f62d..10e3936814cc 100644
 --- a/fs/fuse/dev_uring_i.h
 +++ b/fs/fuse/dev_uring_i.h
-@@ -163,6 +163,7 @@ struct fuse_queue_map {
- };
+@@ -162,7 +162,7 @@ struct fuse_ring {
+ 	struct fuse_chan *chan;
  
- struct fuse_queue_maps {
-+	struct rcu_head rcu;
- 	struct fuse_queue_map global;
- 	struct fuse_queue_map numa[];
- };
-@@ -188,8 +189,11 @@ struct fuse_ring {
- 	 */
- 	unsigned int stop_debug_log : 1;
+ 	/* number of ring queues */
+-	size_t nr_queues;
++	size_t max_nr_queues;
  
--	/* static CPU to queue mapping which queue a fuse request goes to */
--	struct fuse_queue_maps *q_maps;
-+	/*
-+	 * CPU to queue mapping which queue a fuse request goes to. Static
-+	 * without reduced_q, else replaced on each ADD_QUEUE.
-+	 */
-+	struct fuse_queue_maps __rcu *q_maps;
- 
- 	wait_queue_head_t stop_waitq;
- 
-@@ -202,9 +206,10 @@ struct fuse_ring {
- 	atomic_t queue_refs;
- 
- 	bool ready;
-+	bool reduced_q;
- };
- 
--void fuse_uring_conn_init(struct fuse_chan *fch);
-+void fuse_uring_conn_init(struct fuse_chan *fch, bool reduced_q);
- void fuse_uring_stop_queues(struct fuse_ring *ring);
- void fuse_uring_abort_end_requests(struct fuse_ring *ring);
- int fuse_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags);
-@@ -244,7 +249,7 @@ static inline bool fuse_uring_ready(struct fuse_chan *fch)
- 
- #else /* CONFIG_FUSE_IO_URING */
- 
--static inline void fuse_uring_conn_init(struct fuse_chan *fch)
-+static inline void fuse_uring_conn_init(struct fuse_chan *fch, bool reduced_q)
- {
- }
- 
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 1341b681d0ed..2d017897f038 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -1304,6 +1304,7 @@ static void process_init_reply(struct fuse_args *args, int error)
- 	struct fuse_conn *fc = fm->fc;
- 	struct fuse_init_out *arg = &ia->out;
- 	bool io_uring_enabled = false;
-+	bool uring_reduced_q = false;
- 	bool ok = true;
- 
- 	if (error || arg->major != FUSE_KERNEL_VERSION)
-@@ -1437,8 +1438,10 @@ static void process_init_reply(struct fuse_args *args, int error)
- 				else
- 					ok = false;
- 			}
--			if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled())
-+			if (flags & FUSE_OVER_IO_URING && fuse_uring_enabled()) {
- 				io_uring_enabled = true;
-+				uring_reduced_q = flags & FUSE_URING_REDUCED_Q;
-+			}
- 
- 			if (flags & FUSE_REQUEST_TIMEOUT)
- 				timeout = arg->request_timeout;
-@@ -1473,6 +1476,7 @@ static void process_init_reply(struct fuse_args *args, int error)
- 			.max_write = fc->max_write,
- 			.max_pages = fc->max_pages,
- 			.io_uring_enabled = io_uring_enabled,
-+			.uring_reduced_q = uring_reduced_q,
- 		};
- 		fuse_chan_set_initialized(fc->chan, &cp);
- 	}
-@@ -1503,7 +1507,7 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
- 		FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
- 		FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
- 		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP |
--		FUSE_REQUEST_TIMEOUT;
-+		FUSE_REQUEST_TIMEOUT | FUSE_URING_REDUCED_Q;
- #ifdef CONFIG_FUSE_VDAX
- 	if (fm->fc->vdax)
- 		flags |= FUSE_MAP_ALIGNMENT;
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index 616430a2973c..d8cb1764e2ca 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -257,6 +257,7 @@
-  *  - add backing_id_64 to fuse_open_out
-  *  - add FUSE_NOTIFY_BACKING_MAP, fuse_notify_backing_map_out, fuse_extent
-  *  - add FUSE_BACKING_MAP_CREATE, FUSE_BACKING_MAP_CYCLIC
-+ *  - add FUSE_URING_REDUCED_Q
-  */
- 
- #ifndef _LINUX_FUSE_H
-@@ -480,6 +481,8 @@ struct fuse_file_lock {
-  *		privilege that mounting virtiofs or fuseblk requires).
-  *		Insufficiently privileged servers ignore it.
-  * FUSE_PASSTHROUGH_V2: use 64 bit server allocated backing ID
-+ * FUSE_URING_REDUCED_Q: INIT reply opt-in to 1..nr-cpus queues, each created
-+ *		with FUSE_IO_URING_CMD_ADD_QUEUE; serving starts at the first entry.
-  */
- #define FUSE_ASYNC_READ		(1 << 0)
- #define FUSE_POSIX_LOCKS	(1 << 1)
-@@ -530,6 +533,7 @@ struct fuse_file_lock {
- #define FUSE_HAS_IO_URING_BUFPOOL (1ULL << 43)
- #define FUSE_HAS_SYNCFS		(1ULL << 44)
- #define FUSE_PASSTHROUGH_V2	(1ULL << 45)
-+#define FUSE_URING_REDUCED_Q	(1ULL << 46)
- 
- /*
-  * CUSE INIT request/reply flags
+ 	/* maximum payload/arg size */
+ 	size_t max_payload_sz;
 
 -- 
 2.55.0
