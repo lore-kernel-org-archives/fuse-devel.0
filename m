@@ -1,80 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1792795840;
-	b=MQDj9JbcgUplP0dHTDOjT43zsiTHMOB4vFEgEfYC7rn5PyMY4ThypTwXot3WgwaJUzKB
-	 B+Anxmob2NgNcYYXJIeumvy4SDQCDH4b1a7UdHIXKa9UL4pPWKTeU/Vhe7iWTX326N+G9
-	 AEkM0gsI9UyAg4zYMnE1jdpi7Ww9tRpaHFQMg9+uUt030NwBIwm+doSz+UPq1W6zUHMwI
-	 3obQusVoArnx3n1asfFinjZgNDWKM35YopBoG63KoiyW2sxVgbVfeHjFVOiJRNBQGAatg
-	 X96brnDjyU3S0mrijInQysQJc6siD5Ffu9Ctufxw3u5iwrNVrhfPIqeUmRaKxLsRYqQ==
+	b=Kt/xu0cg6csnASH9egDnz7bb9H3IZxP+6fHHqmtNZSo+5u1yUBD3DscXKlLzXLAQNQRg
+	 xbFZEn1QYiOjbSzMWkIewrmf/qyOxTUWHwmKL2rfSwNTIS9vjXGVsL7ha2qa7+zs5lOf8
+	 Jn5968knijv5VuTeAOv8+eDgtadeXWAJJzWSdnCg6WzKCrjwtiZw4POVRnyQWDzL8Gr10
+	 rmWaZgnhebQoWO5PQJusAGf/rW4NG77JI2c/prIAxdP5FHjETJJudtdf9V3fCb+vwEM1N
+	 FHSGajskHzSW0PV2FveIQ12KePBaKATzVAyc80UbztxrkEoekPeM90hSqOH6nfh/ZPA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792795840;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=8NH056vNFU9CRX9Y/yMizEUsBIG3cwLPGuxRMd+3Axs=;
-	b=x70qfx+/cPdbhv28p0Hk6uuZxsu1L8A2c3zmpmDQ4xaWEVsmdVv1ChtBWfdhygmjh5Gi
-	 NDjiqX1AyRfPyWVmu/2xBwcV57IToZ5WZPSSyqOsuPDjQ8k5kFy4Tze3cQF07Yp/G/6um
-	 rfdtgYsZhBrhf96rCZxhtlRHcvBpqZ6qE4JwVGQD/+purmuE7pbzYZi1mOrjBkFToJEH2
-	 30XFmTrOkavkszdze6rKY/jknd4t0Tm2zgF/Vfpv4C/rEUZGPv0GJtrANJg/48IF7EKdo
-	 t/62TOhmfHkixNJVTipBjioRK8TSKe0ocKrbIFKakq1elmO5EkbA03YOT/imTojb6Tw==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
+	b=KzSPuUvUJPGfhl/EyVrGY5gTpylC16ufNUxIbSNsqdL0Mm0oOOStZMMMkqT+2An1HZzX
+	 NrTX1vQfHoYOZSh6RRukvvUGz//oDXIIqVkOyNwRKb7uGJzrWy446rxG5n+25qKCf4v8G
+	 sgx8OvNrnvVxJE4JyTj1CVwp3mQnrEgEGdEmpSI57u+bAAaQm0gwoQkPFpSG2mHPLyQ6Z
+	 aQ+yEPlYsi6Wi7tQyE5WMO+J32Hp7Qe5RMDqqKAoJCbxCOpMJCI+mQX5SzIrQf4uxZ+zp
+	 aKO87v/BVColTv9Wfo4PnLDU1fIiL4wIddFQ8E4V3q3rmkYO+WGjTDMfujLPhANuCHA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N3ZvXWi3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T7oXf5WU;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AD2606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A90B606A31B
 	for <fuse-devel@lists.linux.dev>; Fri, 23 Oct 2026 22:50:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N3ZvXWi3
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T7oXf5WU
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792795839;
-	b=pIpDFnJ2cKa2sxE7V5+VqRwhP9eSMxBVb47Zo0O4wnALsAGtLcI3A/pqyayy91iV9gph
-	 SXfO4y6YaFzUjvGqPgIvc35WasAUGmXpw/Lumk0A6cSt5CnVypXEJc2DOoCLNRMrP8ULS
-	 k0lPiicAami/MfUWmad0mpNYHAlwEntHYBjpm0CMTjHDB/MVkTWAKycpYE1HVfPm3maJd
-	 3XXce0TdSvdKRbDsRWaUmgx3SM35SapA5PkG2/fmSRBMeC9yHqzbQdc7jX5rd0eZl3Zwi
-	 Su2TUhRXbDf1hEADza/Y0erflIpvTWOgSGcrqPMP1UjwvJZyiNbzRVyi8xBh0D+QLUA==
+	t=1792795840;
+	b=N+QmYaLnO0IWTBg6rtLnogyyybbLdVXvqXWOrRftz97j5gTdp5DgtePfRRktjv9PQ3/M
+	 iHpEXYB7OFGN76osEGYtGps1UBoioNlU+6+/b9fVc4ROBPgxU5S9i4tB4yBXOfM6ZM+vu
+	 tedagkfr86xmYVk7BrOrXzsJKmVK9Y/RPx12anN6vzJNqYVxer0geIukTtzIqNfiAC56J
+	 Pc9nuIOI+NtE3pp1tHp0FY3E2vN2Yu9nOr7vQ368jgan0CCovflvyt9AyzKGLtZj7SVVU
+	 O6+pRZ4zT9coSkh6WEBn+nGuPMhRHX17u4d94aTPfGFJLiZaRC7KhMwFeIT1jy/R05w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792795839;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=8NH056vNFU9CRX9Y/yMizEUsBIG3cwLPGuxRMd+3Axs=;
-	b=oJl27VlR8E1UQCQUzfQdMWV5ZcBWL8AS/32dUbFsiYb9G0tmQ4C1LQ/vA16b25DVjhxj
-	 OayvG4JXW61lZqRA2nbBJzNji1jOd+I8yBRfIp5PirfRFvvQWC9yROQVJ6p6qZy5ZyP+F
-	 WYo3kq5wxqq2KmS5qo9CLu56kBnYExw/NQgX9g2AV7MDV0ZEjKXYiamrWB47UD03tnYp3
-	 4UQWpbBgviva9YZ4KGZGuD84V7mtqQn6gJWLSqShMSfaaY+H6H2drDxjLxs47sK0XQNU/
-	 /W+H1zx6ac1sg118O8VyBQCeeb84ZoYofI9mVeT8DY6jDijxJj+GvLA2+b0xjWGme1Q==
+	c=relaxed/relaxed; t=1792795840;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
+	b=q3i/pffNgdJaVZrNN4ZYmHrobY9QCPYGkuzd2z/jNzSS+CpNPmfWluuEXLrO1us74AXv
+	 F6lLIE5uSx9YtrxW6EicvAWqARg6veYiWOHFYdFjpBGG8li5/oU3PU7CrJlqdC7fiqtCQ
+	 QEPpryCBXSeplOPou/xiFeLdTaV+UALGysH3uUKfi06mWFtd7oqLVE8I96P6ixDvf2XSC
+	 gl8Unus0twd30HEqNfrLRQNP9aQlqsFY2lfPsS6JWNMiCFlHnS7nxj4tDOTi542nGC+YP
+	 iYFXdxu4uEVJ/rALf8eRcHjiAmJuweIx0AqQPXuZ7j7W5ZyNxc/AQhzmCkfm2J48Suw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 59A741F01825;
+	by smtp.kernel.org (Postfix) with ESMTPS id 6D90D1F01829;
 	Fri, 23 Oct 2026 22:50:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792795839;
-	bh=8NH056vNFU9CRX9Y/yMizEUsBIG3cwLPGuxRMd+3Axs=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=N3ZvXWi3K5VZbUbvYbXs19ywHJEBWBSrvTazEq4umpVqpWtO2fMq+KDZLtEAM1bnK
-	 01GIkz8ZAmM3zD4uqvNIaPaW3HBBacywgbnBGk4o+2rKNwvLX+cCMlasLwouRjhGh3
-	 KjXhKxBbIYBG8uUu1YPbAIYioV4n1vkJ5Uwb/O9HzzAdhEpKZ7clgmM1kmASpJvNbx
-	 75iQS0YLmcXl9a/A8R2QJlZSnwuMCWAZJ3gi/j3hicdz7KlPLGaSih7BAmeRD4y9ME
-	 FWkqmOkbmn4uoX6gsLd0Sbo93Ai1Hn+VjeoyLFcS6fuGY+PkPnVAhq8iXsfZhJdNGM
-	 I60Y5lBwit2xg==
+	s=k20260515; t=1792795840;
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=T7oXf5WUSf/Z3Wwni2PkVRJke05e/vyIrwPAXXUxI1N51QcHgIvEqOUwK0M04Goa+
+	 SbA7EIItW369Tl9wPlJ21ABrauDN739kj6TKoDD87ijEWD1rx4KL/U1VzAWpqvVEWd
+	 Hk0kDfsLhyuLYrEwAmAXJEPNkfvGo8jGhdBcPGmcXp9scno54uv3RnsUSfl+4dOApe
+	 E5uYpsb08kwpYZcPHPhHekThxmx+IV/FBHNLJsY5dsI4uk8CM9Mf5olhG4enkaD/bj
+	 0kZ68Ti+g4PAfnNHVOa0pDrPzMajrgzLATJ0GyZpMgNoyzsfBGET4816ZmRzM28+XL
+	 CROABspThAKJQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id DC1C44466D;
+	by lkml.kernel.org (Postfix) with ESMTP id F042A44671;
 	Fri, 23 Oct 2026 22:50:38 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Subject: [PATCH v7 0/8] fuse: {io-uring} Allow to reduce the number of
- queues and request distribution
-Date: Sat, 24 Oct 2026 00:50:29 +0200
-Message-Id: <20261024-reduced-nr-ring-queues_3-v7-0-4e77e284fd48@bsbernd.com>
+Date: Sat, 24 Oct 2026 00:50:31 +0200
+Subject: [PATCH v7 2/8] fuse: {io-uring} Rename ring->nr_queues to
+ max_nr_queues
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -85,96 +84,170 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43Ny27CMBCF4VdBXtfIF+JLV7xHhaqxZwJe1KF2E
- 1GhvDsOqFXZRF3+R5pvrqxSSVTZ6+bKCk2ppiG3sC8bFk+Qj8QTtmZKqE5YpXghHCMhz4WXlI/
- 8c6SR6rvmBmKwHgG9daydnwv16XKn3w6tT6l+DeX7/mmSy/oPdJJccABH2gJ5S2aPmLdx+GALO
- alfRgqhVxjVGLtTfS/B9bFzz4z+w8g1RjfGoLPRAWgJ9MyYH8ZIodYYszCdU7qLPviA+1ADlYw
- Pap7nGyUqXIWXAQAA
-X-Change-ID: 20250722-reduced-nr-ring-queues_3-6acb79dad978
+Message-Id: <20261024-reduced-nr-ring-queues_3-v7-2-4e77e284fd48@bsbernd.com>
+References: <20261024-reduced-nr-ring-queues_3-v7-0-4e77e284fd48@bsbernd.com>
+In-Reply-To: <20261024-reduced-nr-ring-queues_3-v7-0-4e77e284fd48@bsbernd.com>
 To: Joanne Koong <joannelkoong@gmail.com>, 
  Miklos Szeredi <miklos@szeredi.hu>
 Cc: Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2897; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4621; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=439drljPCtun3e95Ug86Q73VP6NEzeD2ZKEwJOGShkM=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuP9nltXxJ2YtfQZWlcpNcOk/du3Mm9M3N6E1pk6+Kc
- WeJG83Z11HKwiDGwSArpsjSJbHHdso/Plm1r+uvw8xhZQIZwsDFKQATmXyMkeFUdWae1+Vrex0a
- TRtW5S1sePP3t/qeBTv3a97cL5/PE/yJ4Q/3N6aVrUKTHwjEfJm0bmrY/1f+WVvCz3RGdEXtrnT
- M7+QHAA==
+ bh=zahWFXAlAGLUS/1774IaoMuoQhlkxGF5zpMuxg/js4Y=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLJuP9n9bqdUTYp475Hbz8+rviuw2Bsw9e2e19mLqxdxy
+ Z95GPVxTkcpC4MYB4OsmCJLl8Qe2yn/+GTVvq6/DjOHlQlkCAMXpwBM5OI3hr+yN0tluOvbcx8p
+ tukv3rXG7eN9a9/QWZrHi76n6ydIhj5jZFj0aelrntaM5lecxemCuwNSztZk3Nwf7LixuPBHUHz
+ PO1YA
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
  auth_id=772
 X-Original-From: Bernd Schubert <bernd@bsbernd.com>
 Reply-To: bernd@bsbernd.com
+Content-Transfer-Encoding: 7bit
 
-Allow a server to negotiate fewer io-uring queues than CPUs through
-FUSE_URING_REDUCED_Q in its INIT reply. Reduced mode requires ADD_QUEUE
-and starts serving at the first entry. Legacy mode waits for every queue.
-RCU-published CPU maps retain NUMA affinity, background queue selection
-and limited retries of busy queues.
+From: Bernd Schubert <bernd@bsbernd.com>
 
-Libfuse PR: https://github.com/libfuse/libfuse/pull/1659
+This is preparation for follow up commits that allow to run with a
+reduced number of queues.
 
-Assisted-by: <various-ai-models>
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 ---
-Changes in v7:
-- Address a Sashiko review about possible holes in the system cpu map,
-  iterating about all CPUs might have caused issues. 
-  We use for_each_possible_cpu() as iterate now and also check 
-  with cpu_possible() .
-- Link to v6: https://patch.msgid.link/20261023-reduced-nr-ring-queues_3-v6-0-658235c9b9bd@bsbernd.com
+ fs/fuse/dev_uring.c   | 26 +++++++++++++-------------
+ fs/fuse/dev_uring_i.h |  2 +-
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
-Changes in v6:
-- Rebase onto ADD_QUEUE and bufpool support.
-- Require FUSE_URING_REDUCED_Q in the INIT reply for reduced mode (Joanne).
-- Publish CPU-to-queue maps through RCU (Joanne).
+diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+index 1aca6ce906f0..c9a78c2bee99 100644
+--- a/fs/fuse/dev_uring.c
++++ b/fs/fuse/dev_uring.c
+@@ -201,7 +201,7 @@ void fuse_uring_abort_end_requests(struct fuse_ring *ring)
+ 	struct fuse_ring_queue *queue;
+ 	struct fuse_chan *fch = ring->chan;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		queue = READ_ONCE(ring->queues[qid]);
+ 		if (!queue)
+ 			continue;
+@@ -241,7 +241,7 @@ bool fuse_uring_request_expired(struct fuse_chan *fch)
+ 	if (!ring)
+ 		return false;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		queue = READ_ONCE(ring->queues[qid]);
+ 		if (!queue)
+ 			continue;
+@@ -268,7 +268,7 @@ void fuse_uring_destruct(struct fuse_chan *fch)
+ 	if (!ring)
+ 		return;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 		struct fuse_ring_ent *ent, *next;
+ 
+@@ -326,7 +326,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
+ 
+ 	init_waitqueue_head(&ring->stop_waitq);
+ 
+-	ring->nr_queues = nr_queues;
++	ring->max_nr_queues = nr_queues;
+ 	ring->chan = fch;
+ 	ring->max_payload_sz = max_payload_size;
+ 	smp_store_release(&fch->ring, ring);
+@@ -485,7 +485,7 @@ static void fuse_uring_teardown_all_queues(struct fuse_ring *ring)
+ {
+ 	int qid;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 
+ 		if (!queue)
+@@ -503,7 +503,7 @@ static void fuse_uring_log_ent_state(struct fuse_ring *ring)
+ 	int qid;
+ 	struct fuse_ring_ent *ent;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 
+ 		if (!queue)
+@@ -1256,7 +1256,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
+ 	if (!ring)
+ 		return err;
+ 
+-	if (qid >= ring->nr_queues)
++	if (qid >= ring->max_nr_queues)
+ 		return -EINVAL;
+ 
+ 	queue = READ_ONCE(ring->queues[qid]);
+@@ -1339,7 +1339,7 @@ static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
+ 	struct fuse_ring_queue *queue;
+ 	bool ready = true;
+ 
+-	for (qid = 0; qid < ring->nr_queues && ready; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues && ready; qid++) {
+ 		if (current_qid == qid)
+ 			continue;
+ 
+@@ -1517,7 +1517,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+ 	if (!ring)
+ 		return -EINVAL;
+ 
+-	if (qid >= ring->nr_queues) {
++	if (qid >= ring->max_nr_queues) {
+ 		pr_info_ratelimited("fuse: Invalid ring qid %u\n", qid);
+ 		return -EINVAL;
+ 	}
+@@ -1554,7 +1554,7 @@ static int fuse_uring_add_queue(struct io_uring_cmd *cmd, struct fuse_chan *fch)
+ 	if (!ring)
+ 		return -EINVAL;
+ 
+-	if (qid >= ring->nr_queues) {
++	if (qid >= ring->max_nr_queues) {
+ 		pr_info_ratelimited("fuse: Invalid ring qid %u\n", qid);
+ 		return -EINVAL;
+ 	}
+@@ -1588,7 +1588,7 @@ static int fuse_uring_add_bufpool(struct io_uring_cmd *cmd,
+ 	size_t pool_size, buf_size;
+ 	bool registered = cmd->flags & IORING_URING_CMD_FIXED;
+ 
+-	if (!ring || qid >= ring->nr_queues || flags)
++	if (!ring || qid >= ring->max_nr_queues || flags)
+ 		return -EINVAL;
+ 
+ 	/* reserved for future use, must be zero */
+@@ -1781,9 +1781,9 @@ static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
+ 
+ 	qid = task_cpu(current);
+ 
+-	if (WARN_ONCE(qid >= ring->nr_queues,
++	if (WARN_ONCE(qid >= ring->max_nr_queues,
+ 		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
+-		      ring->nr_queues))
++		      ring->max_nr_queues))
+ 		qid = 0;
+ 
+ 	queue = READ_ONCE(ring->queues[qid]);
+diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
+index 77f87075f62d..10e3936814cc 100644
+--- a/fs/fuse/dev_uring_i.h
++++ b/fs/fuse/dev_uring_i.h
+@@ -162,7 +162,7 @@ struct fuse_ring {
+ 	struct fuse_chan *chan;
+ 
+ 	/* number of ring queues */
+-	size_t nr_queues;
++	size_t max_nr_queues;
+ 
+ 	/* maximum payload/arg size */
+ 	size_t max_payload_sz;
 
-Changes in v5
-- Rebased to miklos-for-next (Linux 7.2 base).
-- Folded "Fetch a queued fuse request on command registration" into
-  "Allow reduced number of ring queues", inlining fuse_uring_do_register()
-  into fuse_uring_register().
-  - Fixed retry logic in "Add retry attempts for numa local queues":
-    replaced cpu++ with cpumask_next_wrap(qid, mask) so each retry
-    advances to a genuinely different registered queue (Joanne)-
-  - Simplified "Prefer the current core over mapping" (Joanne).
-  - Folded READ_ONCE() annotation for ring->ready into "Allow reduced
-    number of ring queues" to match WRITE_ONCE() on the writer side and
-    suppress a KCSAN data-race warning.
-
-To: Bernd Schubert <bernd@bsbernd.com>
-To: Joanne Koong <joannelkoong@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev
-
----
-Bernd Schubert (8):
-      fuse: {io-uring} Add queue length counters
-      fuse: {io-uring} Rename ring->nr_queues to max_nr_queues
-      fuse: {io-uring} Add CPU to queue maps
-      fuse: {io-uring} Select the queue through the CPU to queue maps
-      fuse: {io-uring} Allow reduced queues through INIT negotiation
-      fuse: {io-uring} Queue background requests on a different core
-      fuse: Add retry attempts for numa local queues for load distribution
-      fuse: {io-uring} Prefer the current core over mapping
-
- fs/fuse/dev.c             |   2 +-
- fs/fuse/dev.h             |   1 +
- fs/fuse/dev_uring.c       | 324 ++++++++++++++++++++++++++++++++++++++++------
- fs/fuse/dev_uring_i.h     |  31 ++++-
- fs/fuse/inode.c           |   8 +-
- include/uapi/linux/fuse.h |   4 +
- 6 files changed, 324 insertions(+), 46 deletions(-)
----
-base-commit: 1d8630946017ead740c4126395d4763371f0107c
-change-id: 20250722-reduced-nr-ring-queues_3-6acb79dad978
-
-Best regards,
---  
-Bernd Schubert <bernd@bsbernd.com>
+-- 
+2.55.0
 
 
