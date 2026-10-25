@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792967364;
-	b=vVltbcWh0TsmaufzZmnYblVIPKFlkant+VkF7frM4reqFHZnv9Zl38Yl5BQClRjhUGLS
-	 XjSqKPQlI+4PJAL8iA3cWBHKXDSGo9b2Egk7iiOlB1Ps4jXsGMsg0BsUbToNqJgeF+sI7
-	 zCGPHV2Maxl2XX9x5r8sYUYTEiXuohfUFYTaTeXh8yfu10QpzL/MBGlulYxKVwFEY7LvU
-	 x6lmPCS5Vq5HNJiNQgr6Niy6utOza+oUMtG5m7jH0AscYB7brDThUqP1o9dUMcSB0ife+
-	 gamKsH7pIJRFDWqJXvgcbIhPkgbM6kjwc/OEEQ9yN+8B9JZihuYKRkfRwDpuSTvC1eQ==
+	t=1792967365;
+	b=VI8lNht1knUjcFXC2dKvWKYX4aAc4WgcxoVS1zGoBRxbju9bhmav20DOtmTJF1CEc5Xb
+	 flgcJWnVF78qbIwNkzlzFNdY07yl755s2msa88XMe/BFzCT9us1I8F1R+t5y6H1d5pcpA
+	 XFGWKuq7ASB7k40Hmoa/yp+kphaFRs13flvACMy2YZMDeXX0hTiqD4sB5U48qH6F0yenY
+	 Zf6nrSVxv9YKYgK5wcZxR0Wkc+ev0At0X1QnPjmRDURvHxFTHTm63Py9F63D+BKoVpAyG
+	 xeLfJq5wkpQiUAliPsEQSOLJov0YZFmfMSKVIZb26I4rst3UATdXWI0AXuwJPAt/6/w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792967364;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792967365;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=na0q2E34TuiPOPsNsx7clTKcBzeXZO7wjs7O48XqMJ0=;
-	b=qL1eqVEOETCLhnzvq4DprYvBpm69MwahQgzougaqvynNRR3GbOPcTTttb3fHhZH9SaEQ
-	 Z9IWs+YlrNH+z06vHCUC8gxgJ4GnogDNOM2gepE6bZipH+6xIjzQYOxLDQPHIol5HvF6s
-	 aLeqgcp2nHxapwxnrpJYYCGp8VyD5lZwHgaq6mUCWSnsiSytMFi6AW9dTNFKA5StOrKht
-	 8GDa5+gf6zd6FBzlPalaCFYo/ihHdLECJcjXPNf1ZSQu4RNYhXHognnhcijd6qlnJtOua
-	 KC4ErF++ZQpEu4pmmsPFGTKletgnNStTAkBbZelBXY9ynO2JbjpNc0m3uovNzauabOg==
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
+	b=bARAvyhOzdA1hZPU54DG/w3aAz00C1e8rKnNo/7MT7HLRHQ+QjbSE8nu857/vsOuFkuz
+	 ZXL3Hez4OlYXmYP+1Mj5ZPF8+vvykdMfQNtMOQIjnA0JcIGIIQIQq9ZlT1sY97+WJyTgm
+	 IfHfxWicINQ6Ur3uZ3DQsapO6Zsqg8lJP5kg3b4c2BDu1Qf4kgjcWJDJFYh6DngpIYG6L
+	 JnQw+85AAvri/Bvf+h6AoGZWP4+V/ZdHARt1rkuaRgOPX03w7qFPzH1e1ON64W8AHOOBg
+	 NDr0soPcIf2K7Q42vxXVJ8idojq8kU5u44xRO7MIKfI/aREyzITw6OAHNYTyFMh9AEw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gPSakMrw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jUGkJBfM;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDCE606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AF4606A31D
 	for <fuse-devel@lists.linux.dev>; Sun, 25 Oct 2026 22:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gPSakMrw
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jUGkJBfM
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1792967364;
-	b=w7P8QVFdVun0XwbXpGuieqqZsz7tuWlb8xSveMGfraqD0EkQyfyoVnpNFPSPfKacPs2k
-	 OujsB+pNdh9Z7Uxtmt1CLcLbI6/EUcxwZMOJNCAOxlL89N+3vWJBSn3JhTMC7lvEMir0+
-	 2ALFbBe9FFDmBukMp/mz4DS82nYy/+yXVllS3PKRKTIjplWzStqO8QoOnMEAb6OO/QjA6
-	 VsPhuuhZxwW4VrS7P1WU29hNeYTNeBujwaRCGtkBCVMgXYg8u5FVwAvT0X5dAnR6hsc/9
-	 p/Y0XufJY/KVdgv+XozZVO0xKX1MTpPuICFobGlVu96vCb8nZWmYsFUAFez9DAqKrwQ==
+	b=urjigljy5veqSX+fnou3tSidQyUNxe5NYp0hsCCsF9VkpvtIDpp7Hmlbb4ZO2I3JHyuc
+	 LsBuW3DuUi3cwesKepz/poYAEgFpbyyM/VT8NyOqhRhid52cfBt8LUGszSgWSJR/LQONG
+	 cOh8q22gFjkLNmf54bW22hnqb0cL20Rm7JxDdJwt09BFTD9dVA04GNDj4DoAUST1ywNa9
+	 uvYfYGz/qb4a+o04kkQ5Yns5jOl29t3jDT3GKw7uUhOkBLvgKG3i/UT3uQHiheHy9JGWV
+	 ET1AamhSG7g53XBfnMfUA+vI49mcmk8ne61wGIxTzEcswhPsMEeqzbCXA7g8CcgIGsQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1792967364;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=na0q2E34TuiPOPsNsx7clTKcBzeXZO7wjs7O48XqMJ0=;
-	b=mjFeUMDxRlE7nsBucRzpNS+YSOh8u3hQC/wLdfYO/D90in+bqf8r7hhO557c/e9/jzp/
-	 VDv7piReSCRpCUDK9aUkdxqroIySYvuOOUQ00tzqZQOF5Lv4B5K8jtCm+uwMcz2BFG3xu
-	 eCTp9GC8SNeVsLP8cCFmFIkDLUMQiQ75jrbvBxIZEFg34VxXmgcyaDTvLEeyArGkvkQQi
-	 l9eszrwuG03+Jn+qfc7tWsKoZ41uzYZiBNvRzzL7Lp5sugfOqwgTjG0MGeavAlAcYuCWn
-	 8bvw1d8ENtbqWuP2/9ZYAvknybjnvwBxPR/9hRRyYVhurxdRwubJ0nHcBZrjK5WbuMg==
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
+	b=XevLutKpvflSx2YhpdVVqD681INwSC88HEl6UFuvbEGMEJj22E0D3MoGS3pMDJcUyBFz
+	 y+XyUOm3UCHY/sjxdYnIz78lPYyhXxL6pa6hGARmbRWD8uUhYGn6gXGq8KxoRfdA0rkeJ
+	 q+2nZrSv3CtcRww74PQIGb0qvMWfhYLNZs8P8NSUvZ9+7gs65LvriTcMf0dfY2J+/cPqT
+	 eOxXm4fqNwAIMEI/+Kq4ZWGddBFb3ONSMj6agDEk9mhFTRRJqnyGdPGmQnTTN2IVvBwZ0
+	 O+Pe8xjqwZ4ReRiDeC6j733Y0xc0iWKCiMQv9Zj33EylHgZKBlopuzmPVB2RFoLccew==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id E16411F01828;
+	by smtp.kernel.org (Postfix) with ESMTPS id EA8621F01829;
 	Sun, 25 Oct 2026 22:29:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1792967364;
-	bh=na0q2E34TuiPOPsNsx7clTKcBzeXZO7wjs7O48XqMJ0=;
+	bh=l1HVtPlEC/RbPtIFHaPAftS/uPqpaSW1SlpP88CuvIQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=gPSakMrwidGCuT6LZDE7x1SEbqrPFyM3kpeKAV+SiS9A7fVJuCMdrYptV8gtg2WRr
-	 pMLcG9BqaDV1THEPAJhww2lcDOHxZSbxYM2Z4dbe1UzKk56IzocLfCKjFN+u6As6is
-	 EQ0a9fj7k1NKfy6j6VuCgQo1oECCAfFbhZmliLcUkBFlOFNEza4srVMIrtutZ2E4an
-	 azmlffxFCxdVe9Bl5M09nF4kVNcVNimDWbSI+cmCed/lujgAjwZUFZ6SpQHO/GTNQj
-	 VeKy1/O++C+uSr3HD87v8v/lrQYoXp2LsQEaCxjPBypg2Na0JjFkLfDO67KGGzh796
-	 rlh9sJCQsq6Ew==
+	b=jUGkJBfMwqPJExMgqq3sTf2C3gAIJSPOKStSk6uLMTafVcbi25wj5posWNH1zFj7j
+	 MlHd8/NBRaFbPGO8kKaY8k9b843tgqEKss7ufGEJ5Q2cazU8zf8I67G503qN6UzDYw
+	 KXpfehf1TN9VIdTcW9NUxDo5mBW4fwI3TM1jzaufAR1yMYp3ZnPA3GnK7KWa4BMp/P
+	 OufQ5oSLzqyLKS93JJdm7MpL2y/B40WbO+R78Qha1wb9q5n1VCXVkYaWqqomYKkJSO
+	 cjcVTBAdkxvRkvFlpELHYoipaq+iJOQRMZSZ7iiiWk4XfZXGPr/9zQbWvusLW5amem
+	 a+7p5UQ2lASQg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 6926344AE6;
+	by lkml.kernel.org (Postfix) with ESMTP id 740A744AEA;
 	Sun, 25 Oct 2026 22:29:22 +0000 (UTC)
 From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Sun, 25 Oct 2026 23:29:09 +0100
-Subject: [PATCH v8 1/8] fuse: {io-uring} Add queue length counters
+Date: Sun, 25 Oct 2026 23:29:10 +0100
+Subject: [PATCH v8 2/8] fuse: {io-uring} Rename ring->nr_queues to
+ max_nr_queues
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -83,20 +84,20 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261025-reduced-nr-ring-queues_3-v8-1-8a2570e8d2a4@bsbernd.com>
+Message-Id: <20261025-reduced-nr-ring-queues_3-v8-2-8a2570e8d2a4@bsbernd.com>
 References: <20261025-reduced-nr-ring-queues_3-v8-0-8a2570e8d2a4@bsbernd.com>
 In-Reply-To: <20261025-reduced-nr-ring-queues_3-v8-0-8a2570e8d2a4@bsbernd.com>
 To: Joanne Koong <joannelkoong@gmail.com>, 
  Miklos Szeredi <miklos@szeredi.hu>
 Cc: Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev
 X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3112; i=bernd@bsbernd.com;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4621; i=bernd@bsbernd.com;
  h=from:subject:message-id;
- bh=ew8Loht7/s/v9+CJ7lFhSnfg10fFKeD1z4veh1XOTUw=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLLuNe3z4k/9s75099KKyZGPvpUk3Y9n7BK+kGY9U89v/
- 4QvZwOKOkpZGMQ4GGTFFFm6JPbYTvnHJ6v2df11mDmsTCBDGLg4BWAibIaMDIuEjA+V/52/0u9p
- FNezq1/XzXhRIR/QV8P1rD/+7OXH0ccZGY67KYjbS1ypsF69aPXzCTeeK+xxfCqw99o2dxH54/w
- dlxkA
+ bh=zahWFXAlAGLUS/1774IaoMuoQhlkxGF5zpMuxg/js4Y=;
+ b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLLuNe3buklY99rjrbX2iy9NrvV51VixIf2QUfmN650Td
+ QQvHuaZ3VHKwiDGwSArpsjSJbHHdso/Plm1r+uvw8xhZQIZwsDFKQAT0exlZPiss0jt5W5Zk2el
+ 22Terv0Zf/OLedWzIynH7tu5THq3gu8UI8OpJZ8FhfPc40r/a8YHJH6LVpdQ4AhweliwRNZUYyt
+ TPx8A
 X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
  fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
 X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
@@ -107,92 +108,144 @@ Content-Transfer-Encoding: 7bit
 
 From: Bernd Schubert <bernd@bsbernd.com>
 
-This is another preparation and will be used for decision
-which queue to add a request to.
+This is preparation for follow up commits that allow to run with a
+reduced number of queues.
 
 Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
 Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
 ---
- fs/fuse/dev_uring.c   | 15 +++++++++++++--
- fs/fuse/dev_uring_i.h |  3 +++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+ fs/fuse/dev_uring.c   | 26 +++++++++++++-------------
+ fs/fuse/dev_uring_i.h |  2 +-
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index 460776cd69cd..1aca6ce906f0 100644
+index 1aca6ce906f0..c9a78c2bee99 100644
 --- a/fs/fuse/dev_uring.c
 +++ b/fs/fuse/dev_uring.c
-@@ -159,6 +159,7 @@ static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
- 	spin_lock(&queue->lock);
- 	ent->fuse_req = NULL;
- 	list_del_init(&req->list);
-+	queue->nr_reqs--;
- 	if (test_bit(FR_BACKGROUND, &req->flags)) {
- 		queue->active_background--;
- 		spin_lock(&fch->bg_lock);
-@@ -166,7 +167,6 @@ static void fuse_uring_req_end(struct fuse_ring_ent *ent, struct fuse_req *req,
- 		fuse_uring_flush_bg(queue);
- 		spin_unlock(&fch->bg_lock);
- 	}
--
- 	spin_unlock(&queue->lock);
+@@ -201,7 +201,7 @@ void fuse_uring_abort_end_requests(struct fuse_ring *ring)
+ 	struct fuse_ring_queue *queue;
+ 	struct fuse_chan *fch = ring->chan;
  
- 	zero_copy_unregister(ent->cmd, ent, issue_flags);
-@@ -188,6 +188,7 @@ static void fuse_uring_abort_end_queue_requests(struct fuse_ring_queue *queue)
- 	list_for_each_entry(req, &queue->fuse_req_queue, list)
- 		clear_bit(FR_PENDING, &req->flags);
- 	list_splice_init(&queue->fuse_req_queue, &req_list);
-+	queue->nr_reqs = 0;
- 	spin_unlock(&queue->lock);
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		queue = READ_ONCE(ring->queues[qid]);
+ 		if (!queue)
+ 			continue;
+@@ -241,7 +241,7 @@ bool fuse_uring_request_expired(struct fuse_chan *fch)
+ 	if (!ring)
+ 		return false;
  
- 	/* must not hold queue lock to avoid order issues with fi->lock */
-@@ -1823,6 +1824,7 @@ void fuse_uring_queue_fuse_req(struct fuse_iqueue *fiq, struct fuse_req *req)
- 	req->ring_queue = queue;
- 	ent = list_first_entry_or_null(&queue->ent_avail_queue,
- 				       struct fuse_ring_ent, list);
-+	queue->nr_reqs++;
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		queue = READ_ONCE(ring->queues[qid]);
+ 		if (!queue)
+ 			continue;
+@@ -268,7 +268,7 @@ void fuse_uring_destruct(struct fuse_chan *fch)
+ 	if (!ring)
+ 		return;
  
- 	if (!ent || fuse_uring_prep_buffer(ent, req)) {
- 		list_add_tail(&req->list, &queue->fuse_req_queue);
-@@ -1863,6 +1865,7 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
- 	set_bit(FR_URING, &req->flags);
- 	req->ring_queue = queue;
- 	list_add_tail(&req->list, &queue->fuse_req_bg_queue);
-+	queue->nr_reqs++;
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 		struct fuse_ring_ent *ent, *next;
  
- 	ent = list_first_entry_or_null(&queue->ent_avail_queue,
- 				       struct fuse_ring_ent, list);
-@@ -1894,8 +1897,16 @@ bool fuse_uring_queue_bq_req(struct fuse_req *req)
- bool fuse_uring_remove_pending_req(struct fuse_req *req)
+@@ -326,7 +326,7 @@ static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
+ 
+ 	init_waitqueue_head(&ring->stop_waitq);
+ 
+-	ring->nr_queues = nr_queues;
++	ring->max_nr_queues = nr_queues;
+ 	ring->chan = fch;
+ 	ring->max_payload_sz = max_payload_size;
+ 	smp_store_release(&fch->ring, ring);
+@@ -485,7 +485,7 @@ static void fuse_uring_teardown_all_queues(struct fuse_ring *ring)
  {
- 	struct fuse_ring_queue *queue = req->ring_queue;
-+	bool removed = fuse_remove_pending_req(req, &queue->lock);
+ 	int qid;
  
--	return fuse_remove_pending_req(req, &queue->lock);
-+	if (removed) {
-+		/* Update counters after successful removal */
-+		spin_lock(&queue->lock);
-+		queue->nr_reqs--;
-+		spin_unlock(&queue->lock);
-+	}
-+
-+	return removed;
- }
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
  
- static const struct fuse_iqueue_ops fuse_io_uring_ops = {
+ 		if (!queue)
+@@ -503,7 +503,7 @@ static void fuse_uring_log_ent_state(struct fuse_ring *ring)
+ 	int qid;
+ 	struct fuse_ring_ent *ent;
+ 
+-	for (qid = 0; qid < ring->nr_queues; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues; qid++) {
+ 		struct fuse_ring_queue *queue = READ_ONCE(ring->queues[qid]);
+ 
+ 		if (!queue)
+@@ -1256,7 +1256,7 @@ static int fuse_uring_commit_fetch(struct io_uring_cmd *cmd, int issue_flags,
+ 	if (!ring)
+ 		return err;
+ 
+-	if (qid >= ring->nr_queues)
++	if (qid >= ring->max_nr_queues)
+ 		return -EINVAL;
+ 
+ 	queue = READ_ONCE(ring->queues[qid]);
+@@ -1339,7 +1339,7 @@ static bool is_ring_ready(struct fuse_ring *ring, int current_qid)
+ 	struct fuse_ring_queue *queue;
+ 	bool ready = true;
+ 
+-	for (qid = 0; qid < ring->nr_queues && ready; qid++) {
++	for (qid = 0; qid < ring->max_nr_queues && ready; qid++) {
+ 		if (current_qid == qid)
+ 			continue;
+ 
+@@ -1517,7 +1517,7 @@ static int fuse_uring_register(struct io_uring_cmd *cmd,
+ 	if (!ring)
+ 		return -EINVAL;
+ 
+-	if (qid >= ring->nr_queues) {
++	if (qid >= ring->max_nr_queues) {
+ 		pr_info_ratelimited("fuse: Invalid ring qid %u\n", qid);
+ 		return -EINVAL;
+ 	}
+@@ -1554,7 +1554,7 @@ static int fuse_uring_add_queue(struct io_uring_cmd *cmd, struct fuse_chan *fch)
+ 	if (!ring)
+ 		return -EINVAL;
+ 
+-	if (qid >= ring->nr_queues) {
++	if (qid >= ring->max_nr_queues) {
+ 		pr_info_ratelimited("fuse: Invalid ring qid %u\n", qid);
+ 		return -EINVAL;
+ 	}
+@@ -1588,7 +1588,7 @@ static int fuse_uring_add_bufpool(struct io_uring_cmd *cmd,
+ 	size_t pool_size, buf_size;
+ 	bool registered = cmd->flags & IORING_URING_CMD_FIXED;
+ 
+-	if (!ring || qid >= ring->nr_queues || flags)
++	if (!ring || qid >= ring->max_nr_queues || flags)
+ 		return -EINVAL;
+ 
+ 	/* reserved for future use, must be zero */
+@@ -1781,9 +1781,9 @@ static struct fuse_ring_queue *fuse_uring_task_to_queue(struct fuse_ring *ring)
+ 
+ 	qid = task_cpu(current);
+ 
+-	if (WARN_ONCE(qid >= ring->nr_queues,
++	if (WARN_ONCE(qid >= ring->max_nr_queues,
+ 		      "Core number (%u) exceeds nr queues (%zu)\n", qid,
+-		      ring->nr_queues))
++		      ring->max_nr_queues))
+ 		qid = 0;
+ 
+ 	queue = READ_ONCE(ring->queues[qid]);
 diff --git a/fs/fuse/dev_uring_i.h b/fs/fuse/dev_uring_i.h
-index 263d0f8b9714..77f87075f62d 100644
+index 77f87075f62d..10e3936814cc 100644
 --- a/fs/fuse/dev_uring_i.h
 +++ b/fs/fuse/dev_uring_i.h
-@@ -135,6 +135,9 @@ struct fuse_ring_queue {
- 	/* background fuse requests */
- 	struct list_head fuse_req_bg_queue;
+@@ -162,7 +162,7 @@ struct fuse_ring {
+ 	struct fuse_chan *chan;
  
-+	/* number of requests queued or in userspace */
-+	unsigned int nr_reqs;
-+
- 	struct fuse_pqueue fpq;
+ 	/* number of ring queues */
+-	size_t nr_queues;
++	size_t max_nr_queues;
  
- 	unsigned int active_background;
+ 	/* maximum payload/arg size */
+ 	size_t max_payload_sz;
 
 -- 
 2.55.0
