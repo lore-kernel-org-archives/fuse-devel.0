@@ -1,79 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792967366;
-	b=XXX6isyArCyy5hHgnPKGLum2jCymzlODER1335wbRCiHeLxwZ/t7EAtjfZQGKnWZnhsw
-	 6wb0Otj3qJt8J3O6CeCOcrw8xy92uRJofJSsS5Cd3i/Zk3mVQoJlvDdRMt+sdfkSlyz3f
-	 lM6AggWmycYTcf86e1xRhGReaUdLkeIT6t+vgfDDfhj7Kvgzu1xzB8Aw4Y1fving10bLQ
-	 1r8IGDXQ8n2LqpOm3wpmzWDpk8Rkb4dsCU3u05PVsxRCKA2r8eqG8RjUmDRq+uRXVHf+u
-	 GrjplHiGUD5rxD2YXn+mcm34kj/3ZigaZD8NxM1z6GW9lnyCQBD2DrN+oU96xdwCm6A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792967366;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=althFKxZqFDq5PoXufz8maronvNQk8/T5x1zQnC1soE=;
-	b=OsrMZH9tNrrILJra1g7p93QKcSnk8PzTVMXKsJUNdE4AzYBJniYAZr22mspCR48hPIRM
-	 o5+sWeCdCSy7LBiOVtHWsR3kj/ZkNa+o3qhqkXqnuczbWBQDHi6ry/r7jxxKw3aO3DeEa
-	 oiOhUjqsQuIqHesVviFVrbaPp35qryysq0z8BzOgR/X4kiG2vaC8pRrYWOwSir8hJ2qXf
-	 nfgqmWkUfNio1aK8j31wrN/zUtI3NVJC9SuQryNMNmJzuAVSpd7dbnLK3c66y1PuNNWF9
-	 5HDTPCgnKrXQC3oaG1gkZztsUCO+9zaBgTkx4E/Of4Mw8BXJFOFvx5UQMKm2UkuQSKg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ss8F4z4s;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.83.148.184
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793027923;
+	b=IqP60rhgz6zAGZQsQEYUVGZ3w4S2U7wQNt5jQca8R3Hvi4JYpDZyxS346jsJYjfNPjRa
+	 B0XhCzPQFWdfAIyKK+p1GLwqHQJSG+oXseqOsyOw5azhHLAGpw1ToOztLaKJDPIGngekq
+	 vcHvVXfYY+x6klGRPWOW0wAv3QULsa9uROqdS1xZXe2CzfwrN9hoaXiEssqG0FS+YVz+5
+	 OHk8EETAivsOgJ+LoHdsN/RZq5PosISzB3wo+tR89vHqdfTIdKf6QFrErrVTkWaTh8tKE
+	 OU4dW0LJx2oObbtgN0aL57qjwG7346+8PU1OcPuEVQ3cyi+XD0vC2Ob8kk6LGQzcZyw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793027923;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=ubItXXW0qI6D4IQ7nqsodkQ2CGCn1wdJNp8fz+VSQDo=;
+	b=Ry8f5VdYXIFGVCbxM/Er1js68Rb/HfcUQxktG2WTIdkVpGXRPRPD7luji0L4uEKmHJNU
+	 FblcnFUHnK8oOkM6pD6ZxLOjfROYI6GQJqnt2Fa9RemSVKjU5akcTfuaCBM9eKXU51hTT
+	 e4lvE4zjleA4dn7N5VEJ2IGw4YpYj2jzFKI0Fldw+ZFGM9r5P8sWW8kVCGg35I0lRVHZC
+	 i+mXoLlO51ooxedA///IUKclulw5uK1YYGcx19IQXE1Q0nBPJPQZ/VAoCMitQbq/FflZg
+	 GI+Bea/HiFl2uF40A1VaBuEgqaLKggNJQPlb75djXErDswov6dm7zduw1Aa8NJdv7wQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=J8qJsshO;
+	arc=none smtp.remote-ip=35.83.148.184
+Received: from pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.83.148.184])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0578606A31B
-	for <fuse-devel@lists.linux.dev>; Sun, 25 Oct 2026 22:29:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C01606A31E
+	for <fuse-devel@lists.linux.dev>; Mon, 26 Oct 2026 15:18:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98C01606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ss8F4z4s
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792967365;
-	b=yuElEBJkDG3a1UEmlwsoueDkNnKp5EFIsvpEIAlul6A5D7yi8NhfkAHwaRHuQnr6Mg31
-	 p9S5yuujjqVG+HW6uvpVQoVSl8zDFt52I0A/N6Xl9KFUUgiZ/0dPRl5k/jiZ0qj5P1C9x
-	 qw2P4Vo3xc4RBi6GdxPkERW8N7fipq0SOMatdLqDiibL/2YYnOZlff10lQM4gtJ8KRgvv
-	 LHoUQfoXO9gaRM/twd6oSLz2yhv4o7FMEwKVyAWM2ev3dgS33P2XRt7/iaPsZPLBhLxSH
-	 smd29krj/+D18KV+jUKVD46j0/GhAlD5niqy8J3Fnfgq6eAjLnCSSOEBItoxYUNzwAg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792967365;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=althFKxZqFDq5PoXufz8maronvNQk8/T5x1zQnC1soE=;
-	b=xqFl+0XYzhRSK8pFxBiOfT0fs1ytkqKxWJ++N3blJNqzlImFBCNsG96dsxX0aeD3rVrk
-	 dlpKRQIOtk/qiejTDK2OgqrlPZSJtXuVKSJZ4avgN2UGyw6k94qPoPWeDIAwbIfvHbarE
-	 WvYGkpQ++ntlQIhSG8zy4Y5Oqd/6+ts0zQ9AorxJMiCQoDgBlUuJ1DtDGfXWfaeRXs+/x
-	 dozu/Bp7UoCzImzSjUNhc2E9+5grIu3sj8hYidBpF6P1lHRMnLX6QreaZjdQ9feP4JIQe
-	 zRbxPU4ZzC073mX/uoxDK+6o03oEbbaQAxr/3B0RLu2o4IFGMiKezzRZDvCHC8HgTiw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 89CF11F01825;
-	Sun, 25 Oct 2026 22:29:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792967365;
-	bh=althFKxZqFDq5PoXufz8maronvNQk8/T5x1zQnC1soE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Ss8F4z4sliKyc06PG1vpRrUm5JWn9yy/dNZRoG76wlBNRDNGQak3Ga5NTX2M+Uf84
-	 3zE3x1JWQ5j7RfucuqdjtU9aSMWBZOmu4+WuiMx2hhRCFtia2qZqhuFlU/J2ceNg25
-	 ra/nadAwOTxs2Z5SVuEmyCM+EjypttPho8PElbgvkJlaarbjBB5mtOvxchZYvtW5T4
-	 DorEbQoAhpH9QJDbCkwPFxlOTFFFH/GQpy3yD5QWy0kFgU33IBXKhvm5KYB/QDAGac
-	 fO4uMwoS5QfPqIVVB+D7rRAIb53ymPuwGsN8D7XgUuU0bGQq/6ROA6zqmv91TbU4DU
-	 3leUwOz6DdSUQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id A400044AFE;
-	Sun, 25 Oct 2026 22:29:22 +0000 (UTC)
-From: Bernd Schubert via B4 Relay <devnull+bernd.bsbernd.com@kernel.org>
-Date: Sun, 25 Oct 2026 23:29:15 +0100
-Subject: [PATCH v8 7/8] fuse: Add retry attempts for numa local queues for
- load distribution
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=J8qJsshO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1793027922; x=1824563922;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ubItXXW0qI6D4IQ7nqsodkQ2CGCn1wdJNp8fz+VSQDo=;
+  b=J8qJsshOC0DnYk1BhaspfhB9ndCwoo6DC/NBS7pc7qngEnjg3rymQkeb
+   +QyVFwKsZppdOOrMT6I1vRhCSQ8Km4ZLbrbkSu3PEyt4+2j3u2Fu+IQcw
+   zFly6Jk7NH7vHzxWRcx+3t7wQciqySg5p6Mogw3yG0OIF0VUoLpsCTPpc
+   MVuF+TEzctswwSfnR2wcKm66M1A1AsBy8+/tNp9FWnA085/W3dQyqXsKt
+   bR/Qer5Bpj2iqoV7lWg7niWnAzfSCuF9YR/9g+VJMRJQ563sJ12Rj7924
+   +EuwZ+rYUYVMWQYGuhXy7YWPSx7DIoaW/MuqEM8Ra7CkhswTwgxNORhKy
+   g==;
+X-CSE-ConnectionGUID: eqSKTsLxRe+BioamPe3wJw==
+X-CSE-MsgGUID: jXU7HtC1TuKzWIEp73Zggg==
+X-IronPort-AV: E=Sophos;i="6.27,179,1787011200"; 
+   d="scan'208";a="32058671"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 15:18:42 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:21316]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.51.230:2525] with esmtp (Farcaster)
+ id 25c73dc3-2c15-4c29-b832-1bfaa49daec3; Mon, 26 Oct 2026 15:18:41 +0000 (UTC)
+X-Farcaster-Flow-ID: 25c73dc3-2c15-4c29-b832-1bfaa49daec3
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Mon, 26 Oct 2026 15:18:41 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Mon, 26 Oct 2026 15:18:40 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: jamz <jamz@amazon.com>, <fuse-devel@lists.linux.dev>,
+	<linux-kselftest@vger.kernel.org>, Shuah Khan <shuah@kernel.org>, "Bernd
+ Schubert" <bernd@bsbernd.com>, Jim Harris <jiharris@nvidia.com>, "Horst
+ Birthelmer" <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>,
+	NeilBrown <neil@brown.name>
+Subject: [PATCH v2 0/3] fuse: atomic open
+Date: Mon, 26 Oct 2026 15:18:25 +0000
+Message-ID: <20261026151828.562870-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -83,130 +85,63 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261025-reduced-nr-ring-queues_3-v8-7-8a2570e8d2a4@bsbernd.com>
-References: <20261025-reduced-nr-ring-queues_3-v8-0-8a2570e8d2a4@bsbernd.com>
-In-Reply-To: <20261025-reduced-nr-ring-queues_3-v8-0-8a2570e8d2a4@bsbernd.com>
-To: Joanne Koong <joannelkoong@gmail.com>, 
- Miklos Szeredi <miklos@szeredi.hu>
-Cc: Bernd Schubert <bernd@bsbernd.com>, fuse-devel@lists.linux.dev
-X-Mailer: b4 0.16-dev-d5d98
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2856; i=bernd@bsbernd.com;
- h=from:subject:message-id;
- bh=adBEJ1BmwJtbJvMferBwXqU975gjTI5Gx8GJUfvKlOo=;
- b=owGbwMvMwCFm9Dnz3fRepz+Mp9WSGLLuNR2o6HGr3/ojcsZRaTbu31p9eW3aDrYRi972txzb8
- faOluGLjlIWBjEOBlkxRZYuiT22U/7xyap9XX8dZg4rE8gQBi5OAZiIz22GvxISyp7rNr53XGAR
- 7puzM521I3ACxwQ770JmzZdX3p341cDI8CxmZuz8vjVXLwpu/saqZ3N+tuGmZmb2zczcie92qa/
- w4QQA
-X-Developer-Key: i=bernd@bsbernd.com; a=openpgp;
- fpr=8A18BC3D94FE0E1D26F5AFD732F369EE978D42FC
-X-Endpoint-Received: by B4 Relay for bernd@bsbernd.com/default with
- auth_id=772
-X-Original-From: Bernd Schubert <bernd@bsbernd.com>
-Reply-To: bernd@bsbernd.com
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWA002.ant.amazon.com (10.13.139.96) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-From: Bernd Schubert <bernd@bsbernd.com>
+From: jamz <jamz@amazon.com>
 
-This is to further improve performance.
+Add FUSE_OPEN_ATOMIC, allowing the kernel to skip LOOKUP to improve
+performance. A server implementing FUSE_OPEN_ATOMIC will look up
+the name, create it if O_CREAT is supplied, and open it in one request.
 
-fio --directory=/tmp/dest --name=iops.\$jobnum --rw=randread \
---bs=4k --size=1G --numjobs=1 --iodepth=4 --time_based\
---runtime=30s --group_reporting --ioengine=io_uring\
---direct=1
+The reply says whether the file was created, as Miklos suggested in [1].
+The overall pattern follows his sketch in [2]. For a cached
+name, the kernel compares the returned nodeid with the cached one and
+looks the name up again on a mismatch.
 
-unpatched
-   READ: bw=650MiB/s (682MB/s)
-patched:
-   READ: bw=995MiB/s (1043MB/s)
+A server without FUSE_OPEN_ATOMIC replies -ENOSYS and keeps today's
+behaviour.
 
-with --iodepth=8
+Tested with a new selftest under UML and KVM.
 
-unpatched
-   READ: bw=641MiB/s (672MB/s)
-patched
-   READ: bw=966MiB/s (1012MB/s)
+Changes in v2:
+- Drop the d_drop() before d_splice_alias() for an entry-only reply, and
+  use d_splice_alias() for FUSE_CREATE and FUSE_OPEN_ATOMIC replies.
+  FUSE_TMPFILE keeps d_instantiate(), as its dentry stays unhashed
+  (NeilBrown).
+- Describe what the server does and when the kernel checks permission
+  in each case (NeilBrown).
+- Check in the selftest that an O_TMPFILE file has no name in its
+  directory.
+- Rebase onto fuse for-next, which has f1ac607f786f ("VFS: enhance
+  d_splice_alias() to handle hashed dentries"). Accept a fuse_open_out
+  without backing_id_64, as FUSE_CREATE and FUSE_OPEN now do, and test
+  it.
 
-Reason is that with --iodepth=x (x > 1) fio submits multiple async
-requests and a single queue might become CPU limited. I.e. spreading
-the load helps.
+v1: https://lore.kernel.org/fuse-devel/20261020141647.3271341-1-jamz@amazon.com/
 
-Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
----
- fs/fuse/dev_uring.c | 41 +++++++++++++++++++++++++++++++++++------
- 1 file changed, 35 insertions(+), 6 deletions(-)
+[1] https://lore.kernel.org/all/CAJfpeguEK4JsFo60=yHkpLL6XkDGS7cQ5GOhiFL379KsYk0TsQ@mail.gmail.com/
+[2] https://lore.kernel.org/all/CAJfpegvXtXY=Pbxv+dMGFR8mvWN0DUwhSo6NwaVexk6Y6sao+w@mail.gmail.com/
 
-diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-index f22a1b5fc7fb..ca82965fdee1 100644
---- a/fs/fuse/dev_uring.c
-+++ b/fs/fuse/dev_uring.c
-@@ -24,6 +24,11 @@ MODULE_PARM_DESC(enable_uring,
- 
- #define FUSE_URING_ADD_QUEUE_FLAGS	(FUSE_URING_ZERO_COPY)
- 
-+/* Number of requests in the queue until another queue is checked */
-+#define FUSE_URING_Q_THRESHOLD 2
-+
-+#define FUSE_URING_Q_RETRIES 2 /* number of retries for a better queue */
-+
- bool fuse_uring_enabled(void)
- {
- 	return enable_uring;
-@@ -1964,10 +1969,11 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
- {
- 	struct fuse_queue_maps *maps;
- 	struct fuse_queue_map *q_map;
--	struct fuse_ring_queue *queue = NULL;
-+	struct fuse_ring_queue *queue = NULL, *primary_queue = NULL;
- 	unsigned int cpu = task_cpu(current);
- 	unsigned int qid;
- 	int node = fuse_uring_cpu_to_node(cpu);
-+	int retries = 0;
- 
- 	rcu_read_lock();
- 	maps = rcu_dereference(ring->q_maps);
-@@ -1975,11 +1981,34 @@ static struct fuse_ring_queue *fuse_uring_select_queue(struct fuse_ring *ring,
- 		goto out;
- 
- 	q_map = &maps->numa[node];
--	if (!q_map->nr_queues)
--		q_map = &maps->global;
--	qid = q_map->cpu_to_qid[cpu];
--	if (qid == cpu && background)
--		qid = cpumask_next_wrap(qid, q_map->registered_q_mask);
-+	if (q_map->nr_queues) {
-+		qid = q_map->cpu_to_qid[cpu];
-+		if (qid == cpu && background)
-+			qid = cpumask_next_wrap(qid, q_map->registered_q_mask);
-+retry:
-+		if (WARN_ON_ONCE(qid >= ring->max_nr_queues)) {
-+			queue = NULL;
-+			goto out;
-+		}
-+		queue = READ_ONCE(ring->queues[qid]);
-+		if (unlikely(!queue))
-+			goto out;
-+
-+		if (READ_ONCE(queue->nr_reqs) < FUSE_URING_Q_THRESHOLD)
-+			goto out;
-+
-+		if (retries < FUSE_URING_Q_RETRIES) {
-+			if (!retries)
-+				primary_queue = queue;
-+			qid = cpumask_next_wrap(qid, q_map->registered_q_mask);
-+			retries++;
-+			goto retry;
-+		}
-+		queue = primary_queue;
-+		goto out;
-+	}
-+
-+	qid = maps->global.cpu_to_qid[cpu];
- 	if (WARN_ON_ONCE(qid >= ring->max_nr_queues))
- 		goto out;
- 
+Jimmy Zuber (3):
+  fuse: add FUSE_OPEN_ATOMIC
+  fuse: open cached files with FUSE_OPEN_ATOMIC
+  selftests/fuse: add test for FUSE_OPEN_ATOMIC
 
+ fs/fuse/dir.c                                 | 354 ++++++++++--
+ fs/fuse/file.c                                |   4 +-
+ fs/fuse/fuse_i.h                              |   7 +
+ include/uapi/linux/fuse.h                     |   8 +-
+ .../selftests/filesystems/fuse/.gitignore     |   1 +
+ .../selftests/filesystems/fuse/Makefile       |   3 +-
+ .../filesystems/fuse/atomic_open_test.c       | 518 ++++++++++++++++++
+ 7 files changed, 841 insertions(+), 54 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/atomic_open_test.c
+
+
+base-commit: 9b1da7b4a4e197072e630c3b85d4100a399752ff
 -- 
-2.55.0
-
+2.50.1
 
