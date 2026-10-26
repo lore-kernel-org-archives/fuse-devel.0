@@ -1,82 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=50.112.246.219
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793043439;
-	b=no7LYoPMBDzTAphgxQhXKcCmsU/D784VS27GfswlhTIxpUmqfrJAMeQIVhBnUmJc3CY4
-	 1miKzmXDriopatzxRJVIyE7Dtl1pDwZ7wEEVBYfL0LvQq8ksxkqwEPJbdOoULhVsyPB1y
-	 XRbnu/etVB4vVlIXlkBiKfTvmDLdEA6rIn9BopXLtMpvZDScclBoZP0+hYkahu/K4V7kV
-	 FEFk60sHfnC4qkAte24yGELTXYgZlnDrotTFUTPXDCDYLIWWPbeYxY4zKON8/j6fIm2//
-	 HmnphkCXKm9eEvTBvM4GsoxGRUdgQ3TFSQo0A3Y4N0uvJRhovQEsMIfKKHorGbYc+Lg==
+	t=1793043611;
+	b=qzKoEqzuz9CIXmtBuFAA9USz1PlxIEuulzBEeBcgkkyxMFLGxRTcIwFB/2Xsat0RGe6n
+	 Ee1XIyKEaa9dTU0iqkJVYrkIeF8mHHZgeSR/uOv06+0WbGyBNOanYryDexzasEMIx7eDp
+	 /0Hu2o1/oOD5T3warOcHRaixncQpuxMdnKkp9b++KDKpZSPoTSM4RZQUNEygv0a3Y3GRs
+	 E3lqBnvEcPVC7IMe7ZJiS7tMVAZTJzVagwF0+M0HlzjArm2pKEcLdzQSt46CyecDDB6wl
+	 j9wUI7RjmSHOwbl3+kIKalH2NCbP5YM2I41vsYLW6W3IYc1YnJ0ku96wp2wXUQtJt9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793043439;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=uH9+rYAAqPQiJuFrT+WBrpO1LgkYx3Jka6HX8hIzNrQ=;
-	b=NIfRP8V0hLbtgFmPlheKAMMf3l9bpHrQPtlebkJ1wlAi64Wq0gzt7nM+aEfXjE5uuMIz
-	 lvUOlfRilFoTGBS11gFNRhd61YbWgkSmq3h4pxN8BZm/MK2Q5d/dIfD0KE6Q6LGqeHufQ
-	 Hksy6YN0B15rHH9ZnyqaQ80kM/g0brwuKxO+mumTlGMnI8n7S9KWu4EJzQ15LmG/1pASS
-	 jYs21ld4PIS7pYnDgdl6648JaiZbZwcF0FWN8bvvM3pBiyTZL11Ta1/7bw0gbKAreIk/v
-	 JMCx2YczAs5t8FVi9NqKqXK4+fIbiDkuJRv2WRwfXft6wkgxo3E4P6QqyYt4i7YQOcg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793043611;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=ffTkvk1rfJfkBRMi2MyNyvy85ELVUN80pjUBdv6nFjQ=;
+	b=q0Q8ON1tH5WDuP6ztHIg8wMCgb3O37oPsyTIGc4o3di5n3bH9KSfoFTdPQ2SwgCVP6E3
+	 WDvRAqxoTK55kPvyy5poraXx4PLoZIMp5JSSKDAAHKNlQREYsky0aOVBFArs/7WSnYJRh
+	 0nMV4bJmCIwU/nb6jpogiBE0fs5PuDSAyGe7vdNu8oP84XsR15AzV6A5p3x0Z4OxbI0NQ
+	 UgPpWwL0pxthB5wLQbl708JdJ7h48TR6Qi76D37GngTZDC2/B8ksiug/6r1PXcJK+zCRZ
+	 46ZJz7RqHsY7zHiLvadBqhDed3MC82bjqV+7F4vs32hGuNmOpdyVi4I8SHBPtTbaOsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.com;
-	spf=pass smtp.mailfrom=amazon.com;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b="l4O/Gp2X";
-	arc=none smtp.remote-ip=50.112.246.219
-Received: from pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com [50.112.246.219])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XgaP1jU+;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EB6606A31D
-	for <fuse-devel@lists.linux.dev>; Mon, 26 Oct 2026 19:37:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62EB6606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802B7606A31A;
+	Mon, 26 Oct 2026 19:40:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=l4O/Gp2X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1793043434; x=1824579434;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=uH9+rYAAqPQiJuFrT+WBrpO1LgkYx3Jka6HX8hIzNrQ=;
-  b=l4O/Gp2XuxIHNvtoh8HI+X6GvZo+Z7kjLcfPBQXimZaB4rI0hj92eOHL
-   M0TxdFX8rN08sruxmjkz4GxUJKJh9vB6F/8Lx93zmPh/V4l9h7t4KzI0j
-   1xWDAAzfoTFr9By/vw7G0HCUkH+ToMaUvJc7RSAW1Um9G7hzjPDIkrU6i
-   04O0S+OX7hSzzPCJW2H9W60F1mxx8jY7ph/b1nQztAJCjjN6+wAlPrrPm
-   s0aIxwmVG9mGdTMsgmnBo6xY3IfiD42xY983EVyC6l//pavSke7IDLzhb
-   2jsye2BYl+b/QJkT2Kf/gigxljgS509UHGtTy9bn7fu01jSMyuwpgwYYT
-   A==;
-X-CSE-ConnectionGUID: cB3i5KkzQZG0C4euPCX6gg==
-X-CSE-MsgGUID: qVbeLyasTsCSskDFEJPeJg==
-X-IronPort-AV: E=Sophos;i="6.27,180,1787011200"; 
-   d="scan'208";a="32065322"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 19:37:13 +0000
-Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:25760]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.188:2525] with esmtp (Farcaster)
- id 0cd77dc4-7152-42ca-8b01-ed50c7578bcf; Mon, 26 Oct 2026 19:37:13 +0000 (UTC)
-X-Farcaster-Flow-ID: 0cd77dc4-7152-42ca-8b01-ed50c7578bcf
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Mon, 26 Oct 2026 19:37:13 +0000
-Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Mon, 26 Oct 2026 19:37:11 +0000
-From: Jimmy Zuber <jamz@amazon.com>
-To: Bernd Schubert <bernd@bsbernd.com>
-CC: Miklos Szeredi <miklos@szeredi.hu>, <fuse-devel@lists.linux.dev>,
-	<linux-kselftest@vger.kernel.org>, Shuah Khan <shuah@kernel.org>, Jim Harris
-	<jiharris@nvidia.com>, Horst Birthelmer <horst@birthelmer.de>, Luis Henriques
-	<luis@igalia.com>, NeilBrown <neil@brown.name>
-Subject: Re: [PATCH v2 0/3] fuse: atomic open
-Date: Mon, 26 Oct 2026 19:36:57 +0000
-Message-ID: <20261026193657.2715998-1-jamz@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <1c71c9a2-e3dd-4edc-a467-36b389b02d92@bsbernd.com>
-References: <20261026151828.562870-1-jamz@amazon.com> <1c71c9a2-e3dd-4edc-a467-36b389b02d92@bsbernd.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XgaP1jU+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20A871F01825;
+	Mon, 26 Oct 2026 19:40:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793043611;
+	bh=ffTkvk1rfJfkBRMi2MyNyvy85ELVUN80pjUBdv6nFjQ=;
+	h=From:To:Cc:Subject:Date;
+	b=XgaP1jU+fEN5sj227lCA0SM9/qpJGUvQKwKiGM3vBlDlz+4CpL3cY1yrj077URtNj
+	 KXhYyjqSQJychUZoMfLqhca1sze7H8ryzKN8mWOFQbdTCRzEUcUG2tAuSGiRioWmPl
+	 UNwjjnjMLuhh6+JI/9zY4kbkIzrLIioAihjS4SOPMNnLquYfPMZ6tMNbo7D+w/Qdpc
+	 Y7uUUz+SDsKcRxTluzAlwFW/Fy3NEui+vf+4qXwgscaf4ef0Jl8ZhMhwFPKPUAfafQ
+	 0Qv8+TsieREg7fX41hB1unf2am5U5TnkepZG3fLzGXWW9zyduaCv/fdtTcsmJHibQ5
+	 T6el0LjF7+ixw==
+From: Sasha Levin <sashal@kernel.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Luis Henriques <luis@igalia.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] selftests/fuse: add the missing symlink caching test
+Date: Mon, 26 Oct 2026 15:40:08 -0400
+Message-ID: <20261026194008.274349-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -87,14 +63,205 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On 10/26/26 17:04, Bernd Schubert wrote:
-> Hi Jimmy, I will try to review today or tomorrow. Did you see the
-> Sashiko reports?
+Commit 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
+registered fuse_symlink_cache_test in the fuse selftest Makefile and
+.gitignore, but the test source was not part of the applied commit, so
+building the fuse selftests fails:
 
-Thank you for the pointer to Sashiko - I've addressed its feedback in v3:
+  make[1]: *** No rule to make target 'fuse_symlink_cache_test.c', needed by '.../fuse_symlink_cache_test'.
 
-https://lore.kernel.org/fuse-devel/20261026190747.2373775-1-jamz@amazon.com/
+Add fuse_symlink_cache_test.c as posted in Luis Henriques's v5
+submission. The test serves a file and a symlink to it from a libfuse
+low-level filesystem, resolves the symlink 100 times, and counts the
+readlink requests that reach the server: one when FUSE_CAP_CACHE_SYMLINKS
+is set during FUSE_INIT, and all 100 when it is not.
+
+Fixes: 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/r/202610170822.oEJ1Autq-lkp@intel.com/
+Link: https://lore.kernel.org/r/20261001164916.15311-8-luis@igalia.com
+Originally-by: Luis Henriques <luis@igalia.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+As with e64a46aefc01 ("selftests/fuse: add the missing FUSE_HAS_SYNCFS
+privilege test"), the new file in the posted patch is not in the applied
+commit; the other files did land.
+
+ .../fuse/fuse_symlink_cache_test.c            | 162 ++++++++++++++++++
+ 1 file changed, 162 insertions(+)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+
+diff --git a/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+new file mode 100644
+index 0000000000000..7b53734995736
+--- /dev/null
++++ b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
+@@ -0,0 +1,162 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Simple filesystem to test FUSE symlink cache
++ *
++ * This is a simple FUSE filesystem that contains two objects: a file named
++ * 'file' and a symlink to that file named 'link'.  If symlink caching is
++ * disabled (i.e. FUSE_CAP_CACHE_SYMLINKS is reset during FUSE_INIT), whenever
++ * the ->readlink() is executed to resolve 'link' a counter will be incremented.
++ *
++ * If symlink caching is enabled (i.e. FUSE_CAP_CACHE_SYMLINKS is set during
++ * FUSE_INIT), resolving a symlink will only call into user-space the first
++ * time.
++ */
++
++#define FUSE_USE_VERSION 31
++
++#include <stdio.h>
++#include <fuse_lowlevel.h>
++
++#include "kselftest_harness.h"
++
++#include "fuse_common.h"
++
++#define FILENAME "file"
++#define FILE_INO 42
++
++#define LINKNAME "link"
++#define LINK_INO 43
++
++#define TIMEOUT	86400.0f
++
++struct test_state {
++	pthread_mutex_t lock;
++	int readlink_counter;
++	bool cache;
++} test_state = {
++	.lock = PTHREAD_MUTEX_INITIALIZER,
++};
++
++static void fs_init(void *userdata, struct fuse_conn_info *conn)
++{
++	pthread_mutex_lock(&test_state.lock);
++	if (test_state.cache)
++		fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
++	else
++		fuse_unset_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
++	pthread_mutex_unlock(&test_state.lock);
++}
++
++static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
++{
++	struct fuse_entry_param e = {};
++
++	if (parent != FUSE_ROOT_ID ||
++	    (strcmp(name, FILENAME) != 0 && strcmp(name, LINKNAME) != 0)) {
++		fuse_reply_err(req, ENOENT);
++		return;
++	}
++
++	if (!strcmp(name, FILENAME)) {
++		e.ino = FILE_INO;
++		e.attr.st_mode = S_IFREG | 0444;
++		e.attr.st_nlink = 2;
++	} else if (!strcmp(name, LINKNAME)) {
++		e.ino = LINK_INO;
++		e.attr.st_mode = S_IFLNK | 0444;
++		e.attr.st_nlink = 1;
++		e.attr.st_size = strlen(FILENAME);
++	}
++	e.attr_timeout = TIMEOUT;
++	e.entry_timeout = TIMEOUT;
++
++	fuse_reply_entry(req, &e);
++}
++
++static void fs_readlink(fuse_req_t req, fuse_ino_t ino)
++{
++	char buf[PATH_MAX];
++	size_t sz = strlen(FILENAME);
++
++	if (ino != LINK_INO) {
++		fuse_reply_err(req, ENOENT);
++		return;
++	}
++
++	memcpy(buf, FILENAME, sz);
++	buf[sz] = '\0';
++	pthread_mutex_lock(&test_state.lock);
++	test_state.readlink_counter++;
++	pthread_mutex_unlock(&test_state.lock);
++
++	fuse_reply_readlink(req, buf);
++}
++
++static const struct fuse_lowlevel_ops fs_ops = {
++	.init           = fs_init,
++	.lookup		= fs_lookup,
++	.readlink	= fs_readlink,
++};
++
++FIXTURE(symlink_cache)
++{
++	struct fuse_common_ctx ctx;
++};
++FIXTURE_VARIANT(symlink_cache)
++{
++	const bool cache;
++};
++FIXTURE_VARIANT_ADD(symlink_cache, symlinks_nocache)
++{
++	/* Variant with symlink cache disabled */
++	.cache = false,
++};
++FIXTURE_VARIANT_ADD(symlink_cache, symlinks_cache)
++{
++	/* Variant with symlink cache enabled */
++	.cache = true,
++};
++
++FIXTURE_SETUP(symlink_cache)
++{
++	char err[MAX_ERR_MSG];
++
++	pthread_mutex_lock(&test_state.lock);
++	test_state.readlink_counter = 0;
++	test_state.cache = variant->cache;
++	pthread_mutex_unlock(&test_state.lock);
++
++	if (fs_setup(&fs_ops, &self->ctx, err))
++		SKIP(return, err);
++}
++
++FIXTURE_TEARDOWN(symlink_cache)
++{
++	fs_teardown(&self->ctx);
++}
++
++TEST_F(symlink_cache, test_symlink_cache)
++{
++	char pathname[PATH_MAX];
++	char buf[PATH_MAX];
++	ssize_t sz;
++	int counter;
++	int i;
++
++	sprintf(pathname, "%s/%s", self->ctx.mountpoint, LINKNAME);
++	for (i = 0; i < 100; i++) {
++		sz = readlink(pathname, buf, PATH_MAX);
++		ASSERT_NE(sz, -1);
++	}
++	pthread_mutex_lock(&test_state.lock);
++	counter = test_state.readlink_counter;
++	pthread_mutex_unlock(&test_state.lock);
++
++	if (variant->cache) {
++		ASSERT_EQ(counter, 1);
++	} else {
++		ASSERT_EQ(counter, 100);
++	}
++}
++
++TEST_HARNESS_MAIN
+
+base-commit: 9b1da7b4a4e197072e630c3b85d4100a399752ff
+-- 
+2.53.0
+
