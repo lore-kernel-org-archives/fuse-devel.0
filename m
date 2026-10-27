@@ -1,120 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793138327;
-	b=bTNoeVFoRIGqvFvHErKHVFTYjZ6Kxy55pQpY0+onGjWohSU3GyVrXXAf2kjmAv6xx2+U
-	 zeYLxe+l0r03DwYme3P2iHqsM20mcvguDYKGhbjN7sZqNvaNgUNMsUY8t+aZHiPdyrJZq
-	 RCeNjgBdSUsKbxsVrS9AnE4HAaE4eY5eLF0TQjrjgoyY1rSjvE5osjA3FU54LsG+wFC1t
-	 jv/w67JzbBBL76kqTOWIZcLYX1kkzqr5pbHFWExxrUutIYfpzJX1gLkNTlNPK9wLEoBqU
-	 V94j9gTsgaUY84vcW0ijuejEzBHhoMuTc/UxWqKNolWzfxvZRkrvYq28HukNqri00OQ==
+	t=1793142654;
+	b=DU0g+Byj93ts5xnvjP7uOTlXSXzYtL4YZvdLVKSgdRu6+PjTUcICbiCzutZzz+kSzEr0
+	 pX1gYW+S1H1egr0TwhEJW5O9I2ZGLKAnA6POvfhJwRNShaXhIEacNmgV2Qnj3VncMFIUr
+	 X1y1J0T5W/A0UBcnZ1HaQvtrcADCkP2Nl5pJGoTAXiiEb2Tews1XXw9SXryS0pGB5tpfQ
+	 ubb5XxSFhm0aDWatsjWTLo7duLOkjzDfCRax1w/qMTOvQULzXLPdCbcRw6BUQqPBIcqHm
+	 Vz5E6JaPbw3/H2mszyv3y6K/N4SOPpxQOQfDCUaUrOGpYwyCBOzwW88zwjkX1YuD+mQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793138327;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=e12N8ZX0Lkx8DYQBw3EDvB2XZn5mBgH3gy7qGfPn8tk=;
-	b=bP3GLzKi/I7NmlwLnHEwCl6OTc/YQLhj+FPDjMxKS1L1md03RENK811B8YPoi6dI6f8K
-	 75zYo3EiInq5oH9q2rK7MZ+a9slDVg+cD2yoqQbVZIQBAJ4PlDV7gIKHNv77nV5W56xJK
-	 ebQueeyvH15mPEhSpqaOH4hPoKPNlS4Tn4bYJ3CFC1B42pmr7KnOyPu/jLqi1SDvdAOCc
-	 v6UmE467yuiURGVCa0LlE+6MlXgvEb9vVHBql6WTrXCc77m9QLU5rpJQ3bD6yGBk2PGgV
-	 NDbe+cukwXspaMA6xaQ3tFYgS+ERwIheEwrAvY2CrxLGFUVa0tddf6v1yn7ibpIe/8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793142654;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Cc:Content-Type;
+	bh=A3E77K8iCCovhISJvCAtXH/UuMVbqTit6GWjoYdyLWE=;
+	b=Ol/XLSg6lbYvFOHwq4mPdSABTvcAWgzuA1c/AVvlpwXMNpSX/2fI9g79Sa5zhvF27gxz
+	 QEvX2Dxj2qomttB/5RI87Z9IcnSr9pxUliXCfktZHiBd1sZc0id9FIXEyMg3cpRBTq1tR
+	 VZAr4CMPg4aRjbIpzIK+6sf8cYm3OFK0KDtdfm2jQWvieVECYMZjn2LBgvMbg+7sqc7fD
+	 xg99oitUZPpNjihrJO0Ms9V5SKZIIIwnBPf3tztLc1Bl+ZHfXG4g9+VVfUCALOxFwSzky
+	 n14cVk22ASNNE0XOhVS88c0j1S6uAfQSTYIefPS/l4JjSsWMULIID8X4tZGvxD7AgeQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nWgejVfM;
-	arc=none smtp.remote-ip=209.85.128.169
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.71
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5BF606A33B
-	for <fuse-devel@lists.linux.dev>; Tue, 27 Oct 2026 21:58:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB5BF606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nWgejVfM
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b10ac6ab7bso2868517b3.1
-        for <fuse-devel@lists.linux.dev>; Tue, 27 Oct 2026 14:58:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793138326; x=1793743126; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=e12N8ZX0Lkx8DYQBw3EDvB2XZn5mBgH3gy7qGfPn8tk=;
-        b=nWgejVfMCcwnvweRQqZFX56yTYh3JoBInCFgWKEs5I7MfkOk0vHRXNs3O3jTob0m12
-         FXqWODSBXd+cLGH4PV49NpwpTSDIKqbM1C+MheS/ZMeBBf9SIu6jRpTSvel+yo8o3/S1
-         bVFQHoe8Hdik7GA+0GoBr41squ+c+F6NqEy/nRpMu3GWCQ1LBF3/r+q3Bl/gvqyGFimc
-         zfJhnor0c+uvno5aPE42RvZ66CSx8t6rbfKOsYYKUDMUsirDyrhDhRrkmi4igZUi6D8m
-         WeDZ0sRR5qxFRpqrEIPOy5wCf2BTqJ/7PNX6LRcRAoKIh4dIPg6PdhR4ZlDEPs/FpDpD
-         sNRA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0CB606A320
+	for <fuse-devel@lists.linux.dev>; Tue, 27 Oct 2026 23:10:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE0CB606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-84fe2593525so604275a34.3
+        for <fuse-devel@lists.linux.dev>; Tue, 27 Oct 2026 16:10:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793138326; x=1793743126;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=e12N8ZX0Lkx8DYQBw3EDvB2XZn5mBgH3gy7qGfPn8tk=;
-        b=i3xMBiAniIZuS4+2dt2jM1BWks+l8Lf34Za0mZUuSVDMHph0wo+D7mYAp1SGVABHN+
-         G+YK8BvuY9vR+Q1tP/O2LCQQf4M/hOUYZfVZsgnmLUuAZauEfmSzqycJE8ajgr7x5ZVE
-         8X/NXbwD0exA335DTHb4AvzJ2cmD3R1hjtMyA/2sO/K2SB0m4Tog7G/yRW23hWeMRzKR
-         PQBY7R5m+TgQtriVpuZXIb5PcQfseJZEgnFx6IEebc5x8vbLXDHqqjJp8vnV1o15N4mZ
-         VnBBlMHeFw+J18sxKyGLqneZdsnsUYcEnn1PMWdg1D2WK9w6WuAnFyK6SJT0RuLLnz69
-         I+Bw==
-X-Forwarded-Encrypted: i=1; AKwUvBzR0wqCSnqjkGcjiDHSx/a+F2sRH0q1w+iv1ljZ1w8e/ZowacUUg1el5c6m2214SSsNZB6gW8ERa9cs@lists.linux.dev
-X-Gm-Message-State: AFq9FYJrk3NuLdu2RfPpKgX27dyj6PwHrht6TBNeMDCBQ7BEGgnNcuYe
-	LEdwi6nXqGfAq/0oK6z00ePBaSzIqQrrbCA+4MDipbjPyCKIfEgpOSxT
-X-Gm-Gg: AYBFou3FY5mBNUlrs95jJL23AKyYm3KU2OG02VPMeeBHS8vYefwGX30qsynlHYy7BtX
-	RPiFAIyFdvRiWTit+96xwLedl64gD7406DZ99xTBYL4OAuWX1CdYjWLwVcreZAVaNI775ZZqAc1
-	sOAvvW0916cNtTOv/cKax5HxFgJ4G0qWd7eAkyh5XHUyxMv4IV1qdkvrk7FWCFLcqerM0zfhVpU
-	xLKuzH6CDona3W5kpZxJc8/RMVD84XvncOqfIM9f9XXCYJd7RR+Zd4IqPpBXt46zcKfED7P9RIZ
-	2Ev7Xi9oE/zzoyMY0xoEEkBS1UD+Qpt3Q/4TahmSN62dvBBbwHsr5fZeluc6RmzeDbikYQwTXhv
-	Q3W2rLYFh5oGTnylz1280n/Zt+yx+NFUpPFoxWq9Vd9sJp2eqU9ayq32Mu49DQHFK8LIA7+V3j9
-	+HekTb2sFH7qbEdgV4AhRt2ZmZIJ7URDDbH/GRZEfimexadtVfet2UOfB24zDhSyhAUp0CcKFAF
-	d1lcTCVM9N87Riv/jU2b/FqYHEEA5m+xcxvmL6Yywe/5uHTfLI6C9rI++yawxrlqIOMs7CN+fBq
-	EjAT5SWHe00oIfCP5kxEk4a06hKBPrw=
-X-Received: by 2002:a05:690c:3484:b0:873:5c6b:a305 with SMTP id 00721157ae682-8b1b5d1ab22mr1935707b3.51.1793138325796;
-        Tue, 27 Oct 2026 14:58:45 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:7::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b19e5a30bfsm18804397b3.24.2026.10.27.14.58.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 14:58:45 -0700 (PDT)
-From: Joanne Koong <joannelkoong@gmail.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>,
-	"Darrick J . Wong" <djwong@kernel.org>,
-	changfengnan@bytedance.com,
-	kbusch@kernel.org,
-	Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	David Sterba <dsterba@suse.com>,
-	Gao Xiang <xiang@kernel.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	Theodore Ts'o <tytso@mit.edu>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-	Hyunchul Lee <hyc.lee@gmail.com>,
-	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-	Carlos Maiolino <cem@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	libaokun@linux.alibaba.com,
-	bfoster@redhat.com,
-	linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	linux-nilfs@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	Zhang Yi <yi.zhang@huawei.com>
-Subject: [PATCH 5/5] Documentation: iomap: update docs to reflect iomap_iter_next model
-Date: Tue, 27 Oct 2026 14:53:26 -0700
-Message-ID: <20261027215326.2693300-6-joannelkoong@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20261027215326.2693300-1-joannelkoong@gmail.com>
-References: <20261027215326.2693300-1-joannelkoong@gmail.com>
+        d=1e100.net; s=20260707; t=1793142653; x=1793747453;
+        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=A3E77K8iCCovhISJvCAtXH/UuMVbqTit6GWjoYdyLWE=;
+        b=SnLQJ85BpqO3q7lxdCrZIjjihJk/SWGeet3TfAiVu1w78Jl9HaqMZ14F9tfdJixBgL
+         Kh3onEciEvYtrbO7c+gx40GtnRGwpd6fvGnQG1gyPPleCOX4Gy2575u4xu6He/wEhKsc
+         7FV9+mYRzMkCzRjJj/yIMIsll2/hd8zmHzCUPELHUTLoAI622wEmOXLYDfnjWN94GMst
+         y7Kl2i9iX+FvnxbC8r1v6O1mNsZzx+yYUsklkcSFRCXbgtBjhh/E8nCLP8eh2THn8QVX
+         9KuoSXVNqU/9gG5Yazv9cWXyBajR7a1x3YsiXaeiYgKbXOHu1qlPJqYCW5CgyIs4E3vl
+         AVSA==
+X-Forwarded-Encrypted: i=1; AKwUvBx6UBA3Z926BMjqFYC+Zdmfd0AbXAK24MhmS0zY3o6eBcc7PzNTgaWDO93tKBSgfSarWVQaL0dBJ6iY@lists.linux.dev
+X-Gm-Message-State: AFq9FYJiSVZOtD7TeR5xv5An5jMQasyA29n1HQtIC0tQAjutB64FG6wS
+	bCsm0wYjdEeo/7+KV62fCUGI5u27qEY2PriPJ8Ngp3HZGVMU4t79xLxoQB248ePZS49le10Y90N
+	pqoOtw2zHjo1dqo0+2gM2MtdnsWD6xf8nhs1hG417nnSXvMLqv5zn7KjCbDA=
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -124,543 +58,437 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:c1f4:b0:55c:836:597e with SMTP id
+ 5614622812f47-56383e9013amr518556b6e.31.1793142652810; Tue, 27 Oct 2026
+ 16:10:52 -0700 (PDT)
+Date: Tue, 27 Oct 2026 16:10:52 -0700
+In-Reply-To: <20261027112702.3747009-1-dipiets@amazon.it>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ae12f7c.768774f5.3237ab.002d.GAE@google.com>
+Subject: [syzbot ci] Re: mm, iomap: account dirty at page granularity for
+ per-block dirty folios
+From: syzbot ci <syzbot+ci96d4e003e13d8147@syzkaller.appspotmail.com>
+To: abuehaze@amazon.com, agruenba@redhat.com, akpm@linux-foundation.org, 
+	alisaidi@amazon.com, almaz.alexandrovich@paragon-software.com, 
+	apopple@nvidia.com, blakgeof@amazon.com, brauner@kernel.org, byungchul@sk.com, 
+	cem@kernel.org, david@kernel.org, dipietro.salvatore@gmail.com, 
+	dipiets@amazon.it, djwong@kernel.org, dlemoal@kernel.org, 
+	exfat@lists.linux.dev, fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, 
+	gourry@gourry.net, hyc.lee@gmail.com, jack@suse.cz, joshua.hahnjy@gmail.com, 
+	jth@kernel.org, liam@infradead.org, linkinjeon@kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-xfs@vger.kernel.org, ljs@kernel.org, 
+	matthew.brost@intel.com, mhocko@suse.com, miklos@szeredi.hu, 
+	naohiro.aota@wdc.com, ntfs3@lists.linux.dev, ntfs@lists.linux.dev, 
+	rakie.kim@sk.com, ritesh.list@gmail.com, rppt@kernel.org, rvvandan@amazon.com, 
+	ryan.roberts@arm.com, sj1557.seo@samsung.com, stable@vger.kernel.org, 
+	surenb@google.com, vbabka@kernel.org, viro@zeniv.linux.org.uk, 
+	willy@infradead.org, ying.huang@linux.alibaba.com, yuezhang.mo@sony.com, 
+	ziy@nvidia.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Filesystems no longer pass a struct iomap_ops with separate
-->iomap_begin() and ->iomap_end() callbacks. Instead, every iomap
-operation takes a single iomap_iter_next() callback directly.
-iomap_iter_next() finishes the previous mapping (if any) and produces
-the next one. Most filesystems build it from begin and end helpers via
-the iomap_iter_next() helper.
+syzbot ci has tested the following series
 
-Update the iomap documentation to match this change.
+[v1] mm, iomap: account dirty at page granularity for per-block dirty folios
+https://lore.kernel.org/all/20261027112702.3747009-1-dipiets@amazon.it
+* [PATCH 1/2] mm: add infrastructure for per-dirty-page accounting
+* [PATCH 2/2] mm, iomap: account dirty at page granularity for per-block dirty folios
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: "Darrick J. Wong" <djwong@kernel.org>
-Signed-off-by: Joanne Koong <joannelkoong@gmail.com>
+and found the following issues:
+* KASAN: slab-out-of-bounds Read in folio_accounted_dirty_pages
+* KASAN: slab-use-after-free Read in folio_accounted_dirty_pages
+
+Full report is available here:
+https://ci.syzbot.org/series/05041e6c-d357-4fc5-9bbe-6aae1760d639
+
+***
+
+KASAN: slab-out-of-bounds Read in folio_accounted_dirty_pages
+
+tree:      axboe
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
+base:      24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/9865cf75-69fb-4fbd-b5fe-d0be9cd03802/config
+syz repro: https://ci.syzbot.org/findings/98cdf846-0b4c-4f94-8430-3b7db9efe057/syz_repro
+
+==================================================================
+BUG: KASAN: slab-out-of-bounds in instrument_atomic_read include/linux/instrumented.h:82 [inline]
+BUG: KASAN: slab-out-of-bounds in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+BUG: KASAN: slab-out-of-bounds in mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+BUG: KASAN: slab-out-of-bounds in folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+Read of size 8 at addr ffff888168669f89 by task syz.1.47/5860
+
+CPU: 0 UID: 0 PID: 5860 Comm: syz.1.47 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+ mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+ folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+ __folio_migrate_mapping+0x3d0/0x2830 mm/migrate.c:624
+ __migrate_folio mm/migrate.c:893 [inline]
+ migrate_folio+0x10a/0x1a0 mm/migrate.c:920
+ move_to_new_folio+0x1ed/0x460 mm/migrate.c:1135
+ migrate_folio_move mm/migrate.c:1401 [inline]
+ migrate_folios_move mm/migrate.c:1758 [inline]
+ migrate_pages_batch+0x30b3/0x4f50 mm/migrate.c:2014
+ migrate_pages_sync mm/migrate.c:2044 [inline]
+ migrate_pages+0x1b9f/0x2920 mm/migrate.c:2153
+ migrate_to_node mm/mempolicy.c:1322 [inline]
+ do_migrate_pages+0x656/0x8b0 mm/mempolicy.c:1421
+ kernel_migrate_pages mm/mempolicy.c:1935 [inline]
+ __do_sys_migrate_pages mm/mempolicy.c:1953 [inline]
+ __se_sys_migrate_pages+0xaa2/0xc90 mm/mempolicy.c:1949
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f04fcf9f559
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f04fc5fe028 EFLAGS: 00000246 ORIG_RAX: 0000000000000100
+RAX: ffffffffffffffda RBX: 00007f04fd225fa0 RCX: 00007f04fcf9f559
+RDX: 0000200000000040 RSI: 0000000000000009 RDI: 0000000000000000
+RBP: 00007f04fd036b20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000200000000380 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f04fd226038 R14: 00007f04fd225fa0 R15: 00007ffc667db8b8
+ </TASK>
+
+Allocated by task 5729:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:351 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ anon_vma_fork+0x88/0x540 mm/rmap.c:395
+ dup_mmap+0x954/0x1dc0 mm/mmap.c:1781
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x115/0x480 kernel/fork.c:1595
+ copy_process+0x1e79/0x4400 kernel/fork.c:2311
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2771
+ __do_sys_clone kernel/fork.c:2913 [inline]
+ __se_sys_clone kernel/fork.c:2897 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2897
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888168669e70
+ which belongs to the cache anon_vma of size 200
+The buggy address is located 81 bytes to the right of
+ allocated 200-byte region [ffff888168669e70, ffff888168669f38)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888168669108 pfn:0x168669
+memcg:ffff88816db0e201
+flags: 0x57ff00000000200(workingset|node=1|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 057ff00000000200 ffff888101687140 ffff88816040c7c8 ffffea0005b62950
+raw: ffff888168669108 00000002000f000b 00000000f5000000 ffff88816db0e201
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5535, tgid 5535 (rm), ts 43255388535
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab+0x7d/0x620 mm/slub.c:3462
+ new_slab mm/slub.c:3513 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7418
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ kmem_cache_alloc_noprof+0x399/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ __anon_vma_prepare+0x10e/0x4d0 mm/rmap.c:201
+ __vmf_anon_prepare mm/memory.c:3961 [inline]
+ vmf_anon_prepare mm/internal.h:572 [inline]
+ do_anonymous_page mm/memory.c:5478 [inline]
+ do_pte_missing+0x2f18/0x34b0 mm/memory.c:4698
+ handle_pte_fault mm/memory.c:6558 [inline]
+ __handle_mm_fault mm/memory.c:6707 [inline]
+ handle_mm_fault+0x1a53/0x3750 mm/memory.c:6876
+ do_user_addr_fault+0xa4f/0x1340 arch/x86/mm/fault.c:1343
+ handle_page_fault arch/x86/mm/fault.c:1483 [inline]
+ exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+page last free pid 5049 tgid 5049 ts 18476194117 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
+ __slab_free+0x274/0x2c0 mm/slub.c:5823
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_node_noprof+0x354/0x610 mm/slub.c:5068
+ __alloc_skb+0x1db/0x7a0 net/core/skbuff.c:704
+ alloc_skb include/linux/skbuff.h:1384 [inline]
+ alloc_skb_with_frags+0xc6/0x760 net/core/skbuff.c:6803
+ sock_alloc_send_pskb+0x878/0x990 net/core/sock.c:3022
+ unix_dgram_sendmsg+0x4da/0x17b0 net/unix/af_unix.c:2144
+ sock_sendmsg_nosec+0x13a/0x180 net/socket.c:800
+ __sock_sendmsg net/socket.c:815 [inline]
+ sock_write_iter+0x2de/0x3e0 net/socket.c:1266
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Memory state around the buggy address:
+ ffff888168669e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888168669f00: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
+>ffff888168669f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                      ^
+ ffff88816866a000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff88816866a080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc
+==================================================================
+
+
+***
+
+KASAN: slab-use-after-free Read in folio_accounted_dirty_pages
+
+tree:      axboe
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
+base:      24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
+arch:      amd64
+compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+config:    https://ci.syzbot.org/builds/9865cf75-69fb-4fbd-b5fe-d0be9cd03802/config
+syz repro: https://ci.syzbot.org/findings/f9e47a91-9c37-465b-b43c-7404e404cbfd/syz_repro
+
+==================================================================
+BUG: KASAN: slab-use-after-free in instrument_atomic_read include/linux/instrumented.h:82 [inline]
+BUG: KASAN: slab-use-after-free in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+BUG: KASAN: slab-use-after-free in mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+BUG: KASAN: slab-use-after-free in folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+Read of size 8 at addr ffff888111a3d539 by task syz.0.17/5870
+
+CPU: 0 UID: 0 PID: 5870 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TAS
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ instrument_atomic_read include/linux/instrumented.h:82 [inline]
+ _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
+ mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
+ folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
+ __folio_migrate_mapping+0x3d0/0x2830 mm/migrate.c:624
+ __migrate_folio mm/migrate.c:893 [inline]
+ migrate_folio+0x10a/0x1a0 mm/migrate.c:920
+ move_to_new_folio+0x1ed/0x460 mm/migrate.c:1135
+ migrate_folio_move mm/migrate.c:1401 [inline]
+ migrate_folios_move mm/migrate.c:1758 [inline]
+ migrate_pages_batch+0x30b3/0x4f50 mm/migrate.c:2014
+ migrate_pages_sync mm/migrate.c:2044 [inline]
+ migrate_pages+0x1b9f/0x2920 mm/migrate.c:2153
+ migrate_to_node mm/mempolicy.c:1322 [inline]
+ do_migrate_pages+0x656/0x8b0 mm/mempolicy.c:1421
+ kernel_migrate_pages mm/mempolicy.c:1935 [inline]
+ __do_sys_migrate_pages mm/mempolicy.c:1953 [inline]
+ __se_sys_migrate_pages+0xaa2/0xc90 mm/mempolicy.c:1949
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f600f39f559
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6010302028 EFLAGS: 00000246 ORIG_RAX: 0000000000000100
+RAX: ffffffffffffffda RBX: 00007f600f625fa0 RCX: 00007f600f39f559
+RDX: 0000200000000040 RSI: 0000000000000009 RDI: 0000000000000000
+RBP: 00007f600f436b20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000200000000380 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f600f626038 R14: 00007f600f625fa0 R15: 00007ffcbfa14028
+ </TASK>
+
+Allocated by task 5645:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:351 [inline]
+ __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ __anon_vma_prepare+0x10e/0x4d0 mm/rmap.c:201
+ __vmf_anon_prepare mm/memory.c:3961 [inline]
+ vmf_anon_prepare mm/internal.h:572 [inline]
+ do_anonymous_page mm/memory.c:5478 [inline]
+ do_pte_missing+0x2f18/0x34b0 mm/memory.c:4698
+ handle_pte_fault mm/memory.c:6558 [inline]
+ __handle_mm_fault mm/memory.c:6707 [inline]
+ handle_mm_fault+0x1a53/0x3750 mm/memory.c:6876
+ do_user_addr_fault+0xa4f/0x1340 arch/x86/mm/fault.c:1343
+ handle_page_fault arch/x86/mm/fault.c:1483 [inline]
+ exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
+ asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+
+Freed by task 5646:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:264 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free_after_rcu_debug+0x12a/0x220 mm/slub.c:6571
+ rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+ rcu_core+0x926/0x1260 kernel/rcu/tree.c:2919
+ handle_softirqs+0x226/0x860 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+
+Last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ slab_free_hook mm/slub.c:2709 [inline]
+ slab_free mm/slub.c:6509 [inline]
+ kmem_cache_free+0x45e/0x650 mm/slub.c:6636
+ anon_vma_free mm/rmap.c:137 [inline]
+ __put_anon_vma+0x12b/0x2d0 mm/rmap.c:2974
+ put_anon_vma mm/internal.h:293 [inline]
+ unlink_anon_vmas+0x544/0x720 mm/rmap.c:540
+ free_pgtables+0x663/0xb70 mm/memory.c:401
+ unmap_region+0x29d/0x330 mm/vma.c:534
+ vms_clear_ptes mm/vma.c:1383 [inline]
+ vms_complete_munmap_vmas+0x427/0xbe0 mm/vma.c:1425
+ do_vmi_align_munmap+0x3b7/0x4b0 mm/vma.c:1684
+ do_vmi_munmap+0x252/0x2d0 mm/vma.c:1732
+ __vm_munmap+0x241/0x3e0 mm/vma.c:3415
+ __do_sys_munmap mm/mmap.c:1094 [inline]
+ __se_sys_munmap mm/mmap.c:1091 [inline]
+ __x64_sys_munmap+0x60/0x70 mm/mmap.c:1091
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888111a3d528
+ which belongs to the cache anon_vma of size 200
+The buggy address is located 17 bytes inside of
+ freed 200-byte region [ffff888111a3d528, ffff888111a3d5f0)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888111a3d528 pfn:0x111a3d
+memcg:ffff888111a3df79
+flags: 0x17ff00000000200(workingset|node=0|zone=2|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 017ff00000000200 ffff888101688140 ffff8881006957c8 ffffea00047d6bd0
+raw: ffff888111a3d528 00000002000f0009 00000000f5000000 ffff888111a3df79
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5634, tgid 5634 (syz-executor), ts 59634551582
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab+0x7d/0x620 mm/slub.c:3462
+ new_slab mm/slub.c:3513 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7418
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ kmem_cache_alloc_noprof+0x399/0x600 mm/slub.c:5010
+ anon_vma_alloc mm/rmap.c:94 [inline]
+ anon_vma_fork+0x88/0x540 mm/rmap.c:395
+ dup_mmap+0x954/0x1dc0 mm/mmap.c:1781
+ dup_mm kernel/fork.c:1543 [inline]
+ copy_mm+0x115/0x480 kernel/fork.c:1595
+ copy_process+0x1e79/0x4400 kernel/fork.c:2311
+ kernel_clone+0x2d7/0x940 kernel/fork.c:2771
+ __do_sys_clone kernel/fork.c:2913 [inline]
+ __se_sys_clone kernel/fork.c:2897 [inline]
+ __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2897
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 805 tgid 805 ts 42732995302 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
+ __slab_free+0x274/0x2c0 mm/slub.c:5823
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4683 [inline]
+ slab_alloc_node mm/slub.c:4996 [inline]
+ __kmalloc_cache_noprof+0x29f/0x600 mm/slub.c:5559
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ drm_atomic_commit_alloc+0xa9/0x100 drivers/gpu/drm/drm_atomic.c:258
+ drm_atomic_helper_dirtyfb+0x129/0xfd0 drivers/gpu/drm/drm_damage_helper.c:128
+ drm_fbdev_shmem_helper_fb_dirty+0x160/0x310 drivers/gpu/drm/drm_fbdev_shmem.c:117
+ drm_fb_helper_fb_dirty drivers/gpu/drm/drm_fb_helper.c:339 [inline]
+ drm_fb_helper_damage_work+0x84c/0xf20 drivers/gpu/drm/drm_fb_helper.c:365
+ process_one_work kernel/workqueue.c:3396 [inline]
+ process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
+ kthread+0x38b/0x480 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Memory state around the buggy address:
+ ffff888111a3d400: fc fc fc fc 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff888111a3d480: 00 00 00 00 00 00 00 00 00 00 00 00 00 fc fc fc
+>ffff888111a3d500: fc fc fc fc fc fa fb fb fb fb fb fb fb fb fb fb
+                                        ^
+ ffff888111a3d580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc
+ ffff888111a3d600: fc fc fc fc fc fc fa fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
 ---
- Documentation/filesystems/iomap/design.rst    | 140 +++++++++++++-----
- .../filesystems/iomap/operations.rst          |  68 ++++-----
- Documentation/filesystems/iomap/porting.rst   |  16 +-
- 3 files changed, 151 insertions(+), 73 deletions(-)
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/Documentation/filesystems/iomap/design.rst b/Documentation/filesystems/iomap/design.rst
-index 681e0cbb6944..508e63ce205c 100644
---- a/Documentation/filesystems/iomap/design.rst
-+++ b/Documentation/filesystems/iomap/design.rst
-@@ -75,7 +75,10 @@ At a high level, an iomap operation `looks like this
- 
- 1. For each byte in the operation range...
- 
--   1. Obtain a space mapping via ``->iomap_begin``
-+   1. Obtain the next space mapping via the ``iomap_iter_next_fn`` callback.
-+      From the second iteration onwards this same callback first finishes
-+      the previous mapping (committing or unreserving space as needed)
-+      and then produces the next one.
- 
-    2. For each sub-unit of work...
- 
-@@ -86,7 +89,13 @@ At a high level, an iomap operation `looks like this
- 
-    3. Increment operation cursor
- 
--   4. Release the mapping via ``->iomap_end``, if necessary
-+iomap repeats this until the range is fully consumed.  The ``iomap_iter_next_fn``
-+callback returns ``1`` while there is more of the range left to process,
-+``0`` once it is fully consumed, or a negative errno on error.
-+Filesystems rarely implement this callback by hand. The ``iomap_iter_next``
-+helper implements the finish-then-produce sequence in terms of two smaller
-+callbacks, ``begin`` and ``end``. See `The Mapping Callback`_ below for more
-+info.
- 
- Each iomap operation will be covered in more detail below.
- This library was covered previously by an `LWN article
-@@ -189,7 +198,7 @@ The fields are as follows:
-    * **IOMAP_DELALLOC**: A promise to allocate space at a later time
-      ("delayed allocation").
-      If the filesystem returns IOMAP_F_NEW here and the write fails, the
--     ``->iomap_end`` function must delete the reservation.
-+     ``end`` function must delete the reservation.
-      The ``addr`` field must be set to ``IOMAP_NULL_ADDR``.
- 
-    * **IOMAP_MAPPED**: The file range maps to specific space on the
-@@ -208,12 +217,11 @@ The fields are as follows:
- 
-    * **IOMAP_INLINE**: The file range maps to the memory buffer
-      specified by ``inline_data``.
--     For write operation, the ``->iomap_end`` function presumably
--     handles persisting the data.
-+     For write operation, the ``end`` function must persist the data.
-      The ``addr`` field must be set to ``IOMAP_NULL_ADDR``.
- 
-  * ``flags`` describe the status of the space mapping.
--   These flags should be set by the filesystem in ``->iomap_begin``:
-+   These flags should be set by the filesystem in ``begin``:
- 
-    * **IOMAP_F_NEW**: The space under the mapping is newly allocated.
-      Areas that will not be written to must be zeroed.
-@@ -262,15 +270,15 @@ The fields are as follows:
-      update.
- 
-    These flags can be set by iomap itself during file operations.
--   The filesystem should supply an ``->iomap_end`` function if it needs
-+   The filesystem should supply an ``end`` function if it needs
-    to observe these flags:
- 
-    * **IOMAP_F_SIZE_CHANGED**: The file size has changed as a result of
-      using this mapping.
- 
-    * **IOMAP_F_STALE**: The mapping was found to be stale.
--     iomap will call ``->iomap_end`` on this mapping and then
--     ``->iomap_begin`` to obtain a new mapping.
-+     iomap will call ``end`` on this mapping and then ``begin`` to obtain a
-+     new mapping.
- 
-    Currently, these flags are only set by pagecache operations.
- 
-@@ -289,41 +297,103 @@ The fields are as follows:
- 
-  * ``private`` is a pointer to `filesystem-private information
-    <https://lore.kernel.org/all/20180619164137.13720-7-hch@lst.de/>`_.
--   This value will be passed unchanged to ``->iomap_end``.
-+   This value will be passed unchanged to ``end``.
- 
-  * ``validity_cookie`` is a magic freshness value set by the filesystem
-    that should be used to detect stale mappings.
-    For pagecache operations this is critical for correct operation
-    because page faults can occur, which implies that filesystem locks
--   should not be held between ``->iomap_begin`` and ``->iomap_end``.
-+   should not be held between ``begin`` and ``end``.
-    Filesystems with completely static mappings need not set this value.
-    Only pagecache operations revalidate mappings; see the section about
-    ``iomap_valid`` for details.
- 
--``struct iomap_ops``
-+The Mapping Callback
- --------------------
- 
--Every iomap function requires the filesystem to pass an operations
--structure to obtain a mapping and (optionally) to release the mapping:
-+Every iomap operation takes an ``iomap_iter_next_fn`` callback from the
-+filesystem. iomap calls it once per iteration of the file range:
- 
- .. code-block:: c
- 
-- struct iomap_ops {
--     int (*iomap_begin)(struct inode *inode, loff_t pos, loff_t length,
--                        unsigned flags, struct iomap *iomap,
--                        struct iomap *srcmap);
-+ typedef int (*iomap_iter_next_fn)(const struct iomap_iter *iter,
-+                              struct iomap *iomap, struct iomap *srcmap);
- 
--     int (*iomap_end)(struct inode *inode, loff_t pos, loff_t length,
--                      ssize_t written, unsigned flags,
--                      struct iomap *iomap);
-- };
-+``iomap_iter_next_fn``
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+This must finish the previous mapping, if any, and then produce the next
-+mapping for the current iteration position described by ``iter``.
-+The mapping is returned through ``iomap`` (and through ``srcmap`` for
-+operations that read from one mapping while writing to another; see
-+``begin`` below).
-+
-+The callback returns ``1`` to continue iterating, ``0`` once the file
-+range has been fully consumed, or a negative errno on error.
-+
-+Most filesystems are not expected to implement all of these behaviors
-+in this callback themselves.  They should instead call ``iomap_iter_next`` as
-+described below.
-+
-+``iomap_iter_next``
-+~~~~~~~~~~~~~~~~~~~
-+
-+Filesystems rarely need a hand-written ``iomap_iter_next_fn`` callback.  The
-+``iomap_iter_next`` helper implements the finish-then-produce sequence in
-+terms of two smaller callbacks, ``begin`` and ``end``, so most
-+``iomap_iter_next_fn`` implementations are simply:
-+
-+.. code-block:: c
-+
-+ static int my_iomap_next(const struct iomap_iter *iter,
-+                          struct iomap *iomap, struct iomap *srcmap)
-+ {
-+         return iomap_iter_next(iter, iomap, srcmap,
-+                                my_iomap_begin, my_iomap_end);
-+ }
-+
-+This boilerplate is normally generated with the ``DEFINE_IOMAP_ITER_NEXT()``
-+and ``DEFINE_IOMAP_ITER_NEXT_END()`` macros rather than written by hand.  Use
-+``DEFINE_IOMAP_ITER_NEXT()`` for the common case with no ``end`` callback, and
-+``DEFINE_IOMAP_ITER_NEXT_END()`` when an ``end`` callback is needed:
-+
-+.. code-block:: c
-+
-+ /* no end() callback */
-+ static DEFINE_IOMAP_ITER_NEXT(my_iomap_next, my_iomap_begin);
-+
-+ /* with an end() callback */
-+ static DEFINE_IOMAP_ITER_NEXT_END(my_iomap_next, my_iomap_begin,
-+                                   my_iomap_end);
-+
-+The macro generates a function with external linkage.  Prefix the invocation
-+with ``static`` for a file-local callback, or leave it non-``static`` and add
-+a matching declaration to a header when the callback is referenced from
-+another file.
-+
-+``end`` may be ``NULL`` when the filesystem has nothing to finish.
-+The two callbacks have these prototypes:
-+
-+.. code-block:: c
-+
-+ typedef int (*iomap_begin_fn)(struct inode *inode, loff_t pos,
-+                               loff_t length, unsigned flags,
-+                               struct iomap *iomap, struct iomap *srcmap);
-+
-+ typedef int (*iomap_end_fn)(struct inode *inode, loff_t pos,
-+                             loff_t length, ssize_t written,
-+                             unsigned flags, struct iomap *iomap);
-+
-+``iomap_iter_next`` is an inline helper, so when it is called with fixed
-+``begin`` and ``end`` functions the compiler can inline both into the
-+filesystem's ``iomap_iter_next_fn`` callback, keeping indirect calls out of the
-+iteration hot path.  The two callbacks are described next.
- 
--``->iomap_begin``
--~~~~~~~~~~~~~~~~~
-+``begin``
-+~~~~~~~~~
- 
--iomap operations call ``->iomap_begin`` to obtain one file mapping for
--the range of bytes specified by ``pos`` and ``length`` for the file
--``inode``.
-+The ``begin`` callback obtains one file mapping for the range of bytes
-+specified by ``pos`` and ``length`` for the file ``inode``.
- This mapping should be returned through the ``iomap`` pointer.
- The mapping must cover at least the first byte of the supplied file
- range, but it does not need to cover the entire requested range.
-@@ -377,18 +447,18 @@ information via ``srcmap``.
- Only pagecache and fsdax operations support reading from one mapping and
- writing to another.
- 
--``->iomap_end``
--~~~~~~~~~~~~~~~
-+``end``
-+~~~~~~~
- 
--After the operation completes, the ``->iomap_end`` function, if present,
--is called to signal that iomap is finished with a mapping.
-+After the operation completes, the ``end`` callback, if present, is called to
-+signal that iomap is finished with a mapping.
- Typically, implementations will use this function to tear down any
--context that were set up in ``->iomap_begin``.
-+context that was set up in ``begin``.
- For example, a write might wish to commit the reservations for the bytes
- that were operated upon and unreserve any space that was not operated
- upon.
- ``written`` might be zero if no bytes were touched.
--``flags`` will contain the same value passed to ``->iomap_begin``.
-+``flags`` will contain the same value passed to ``begin``.
- iomap ops for reads are not likely to need to supply this function.
- 
- Both functions should return a negative errno code on error, or zero on
-@@ -421,8 +491,8 @@ iomap is concerned:
-    accessing the folio until writeback is underway.
- 
-    * The **lower** level primitive is taken by the filesystem in the
--     ``->iomap_begin`` and ``->iomap_end`` functions to coordinate
--     access to the file space mapping information.
-+     ``begin`` and ``end`` functions to coordinate access to the file space
-+     mapping information.
-      The fields of the iomap object should be filled out while holding
-      this primitive.
-      The upper level synchronization primitive, if any, remains held
-diff --git a/Documentation/filesystems/iomap/operations.rst b/Documentation/filesystems/iomap/operations.rst
-index da982ca7e413..a5784dee0850 100644
---- a/Documentation/filesystems/iomap/operations.rst
-+++ b/Documentation/filesystems/iomap/operations.rst
-@@ -17,6 +17,12 @@ Supported File Operations
- Below are a discussion of the high level file operations that iomap
- implements.
- 
-+Each operation takes an ``iomap_iter_next_fn`` callback that supplies the file
-+mappings, as described in the iomap design document.  The per-operation
-+``flags`` documented below are passed to that callback; references to
-+``begin`` and ``end`` name the two steps a typical callback is built from
-+via ``iomap_iter_next``.
-+
- Buffered I/O
- ============
- 
-@@ -90,10 +96,10 @@ iomap calls these functions:
-     <https://lore.kernel.org/all/20180619164137.13720-6-hch@lst.de/>`_
-     that was set up by ``->get_folio``.
- 
--  - ``iomap_valid``: The filesystem may not hold locks between
--    ``->iomap_begin`` and ``->iomap_end`` because pagecache operations
--    can take folio locks, fault on userspace pages, initiate writeback
--    for memory reclamation, or engage in other time-consuming actions.
-+  - ``iomap_valid``: The filesystem may not hold locks between ``begin`` and
-+    ``end`` because pagecache operations can take folio locks, fault on
-+    userspace pages, initiate writeback for memory reclamation, or engage in
-+    other time-consuming actions.
-     If a file's space mapping data are mutable, it is possible that the
-     mapping for a particular pagecache folio can `change in the time it
-     takes
-@@ -114,12 +120,12 @@ iomap calls these functions:
-     If the mapping is not valid, the mapping will be sampled again.
- 
-     To support making the validity decision, the filesystem's
--    ``->iomap_begin`` function may set ``struct iomap::validity_cookie``
-+    ``begin`` function may set ``struct iomap::validity_cookie``
-     at the same time that it populates the other iomap fields.
-     A simple validation cookie implementation is a sequence counter.
-     If the filesystem bumps the sequence counter every time it modifies
-     the inode's extent map, it can be placed in the ``struct
--    iomap::validity_cookie`` during ``->iomap_begin``.
-+    iomap::validity_cookie`` during ``begin``.
-     If the value in the cookie is found to be different to the value
-     the filesystem holds when the mapping is passed back to
-     ``->iomap_valid``, then the iomap should considered stale and the
-@@ -199,7 +205,7 @@ Buffered Readahead and Reads
- The ``iomap_readahead`` function initiates readahead to the pagecache.
- The ``iomap_read_folio`` function reads one folio's worth of data into
- the pagecache.
--The ``flags`` argument to ``->iomap_begin`` will be set to zero.
-+The ``flags`` argument to ``begin`` will be set to zero.
- The pagecache takes whatever locks it needs before calling the
- filesystem.
- 
-@@ -231,7 +237,7 @@ Buffered Writes
- The ``iomap_file_buffered_write`` function writes an ``iocb`` to the
- pagecache.
- ``IOMAP_WRITE`` or ``IOMAP_WRITE`` | ``IOMAP_NOWAIT`` will be passed as
--the ``flags`` argument to ``->iomap_begin``.
-+the ``flags`` argument to ``begin``.
- Callers commonly take ``i_rwsem`` in either shared or exclusive mode
- before calling this function.
- 
-@@ -241,7 +247,7 @@ mmap Write Faults
- The ``iomap_page_mkwrite`` function handles a write fault to a folio in
- the pagecache.
- ``IOMAP_WRITE | IOMAP_FAULT`` will be passed as the ``flags`` argument
--to ``->iomap_begin``.
-+to ``begin``.
- Callers commonly take the mmap ``invalidate_lock`` in shared or
- exclusive mode before calling this function.
- 
-@@ -256,7 +262,7 @@ such `reservations
- <https://lore.kernel.org/linux-xfs/20220817093627.GZ3600936@dread.disaster.area/>`_
- because writeback will not consume the reservation.
- The ``iomap_write_delalloc_release`` can be called from a
--``->iomap_end`` function to find all the clean areas of the folios
-+``end`` function to find all the clean areas of the folios
- caching a fresh (``IOMAP_F_NEW``) delalloc mapping.
- It takes the ``invalidate_lock``.
- 
-@@ -274,7 +280,7 @@ Filesystems can call ``iomap_zero_range`` to perform zeroing of the
- pagecache for non-truncation file operations that are not aligned to
- the fsblock size.
- ``IOMAP_ZERO`` will be passed as the ``flags`` argument to
--``->iomap_begin``.
-+``begin``.
- Callers typically hold ``i_rwsem`` and ``invalidate_lock`` in exclusive
- mode before calling this function.
- 
-@@ -285,7 +291,7 @@ Filesystems can call ``iomap_file_unshare`` to force a file sharing
- storage with another file to preemptively copy the shared data to newly
- allocate storage.
- ``IOMAP_WRITE | IOMAP_UNSHARE`` will be passed as the ``flags`` argument
--to ``->iomap_begin``.
-+to ``begin``.
- Callers typically hold ``i_rwsem`` and ``invalidate_lock`` in exclusive
- mode before calling this function.
- 
-@@ -298,7 +304,7 @@ operation.
- ``truncate_setsize`` or ``truncate_pagecache`` will take care of
- everything after the EOF block.
- ``IOMAP_ZERO`` will be passed as the ``flags`` argument to
--``->iomap_begin``.
-+``begin``.
- Callers typically hold ``i_rwsem`` and ``invalidate_lock`` in exclusive
- mode before calling this function.
- 
-@@ -341,8 +347,8 @@ The fields are as follows:
-     though it will `reuse mappings
-     <https://lore.kernel.org/all/20231207072710.176093-15-hch@lst.de/>`_
-     for runs of contiguous dirty fsblocks within a folio.
--    Do not return ``IOMAP_INLINE`` mappings here; the ``->iomap_end``
--    function must deal with persisting written data.
-+    Do not return ``IOMAP_INLINE`` mappings here; the ``end`` function must
-+    deal with persisting written data.
-     Do not return ``IOMAP_DELALLOC`` mappings here; iomap currently
-     requires mapping to allocated space.
-     Filesystems can skip a potentially expensive mapping lookup if the
-@@ -428,7 +434,7 @@ writes for files.
- .. code-block:: c
- 
-  ssize_t iomap_dio_rw(struct kiocb *iocb, struct iov_iter *iter,
--                      const struct iomap_ops *ops,
-+                      iomap_iter_next_fn iomap_next,
-                       const struct iomap_dio_ops *dops,
-                       unsigned int dio_flags, void *private,
-                       size_t done_before);
-@@ -511,7 +517,7 @@ Return Values
-  * ``-ENOTBLK``: Fall back to buffered I/O.
-    iomap itself will return this value if it cannot invalidate the page
-    cache before issuing the I/O to storage.
--   The ``->iomap_begin`` or ``->iomap_end`` functions may also return
-+   The ``begin`` or ``end`` functions may also return
-    this value.
- 
-  * ``-EIOCBQUEUED``: The asynchronous direct I/O request has been
-@@ -526,7 +532,7 @@ A direct I/O read initiates a read I/O from the storage device to the
- caller's buffer.
- Dirty parts of the pagecache are flushed to storage before initiating
- the read io.
--The ``flags`` value for ``->iomap_begin`` will be ``IOMAP_DIRECT`` with
-+The ``flags`` value for ``begin`` will be ``IOMAP_DIRECT`` with
- any combination of the following enhancements:
- 
-  * ``IOMAP_NOWAIT``, as defined previously.
-@@ -542,7 +548,7 @@ caller's buffer.
- Dirty parts of the pagecache are flushed to storage before initiating
- the write io.
- The pagecache is invalidated both before and after the write io.
--The ``flags`` value for ``->iomap_begin`` will be ``IOMAP_DIRECT |
-+The ``flags`` value for ``begin`` will be ``IOMAP_DIRECT |
- IOMAP_WRITE`` with any combination of the following enhancements:
- 
-  * ``IOMAP_NOWAIT``, as defined previously.
-@@ -644,7 +650,7 @@ fsdax Reads
- 
- A fsdax read performs a memcpy from storage device to the caller's
- buffer.
--The ``flags`` value for ``->iomap_begin`` will be ``IOMAP_DAX`` with any
-+The ``flags`` value for ``begin`` will be ``IOMAP_DAX`` with any
- combination of the following enhancements:
- 
-  * ``IOMAP_NOWAIT``, as defined previously.
-@@ -657,7 +663,7 @@ fsdax Writes
- 
- A fsdax write initiates a memcpy to the storage device from the caller's
- buffer.
--The ``flags`` value for ``->iomap_begin`` will be ``IOMAP_DAX |
-+The ``flags`` value for ``begin`` will be ``IOMAP_DAX |
- IOMAP_WRITE`` with any combination of the following enhancements:
- 
-  * ``IOMAP_NOWAIT``, as defined previously.
-@@ -680,9 +686,9 @@ fsdax mmap Faults
- The ``dax_iomap_fault`` function handles read and write faults to fsdax
- storage.
- For a read fault, ``IOMAP_DAX | IOMAP_FAULT`` will be passed as the
--``flags`` argument to ``->iomap_begin``.
-+``flags`` argument to ``begin``.
- For a write fault, ``IOMAP_DAX | IOMAP_FAULT | IOMAP_WRITE`` will be
--passed as the ``flags`` argument to ``->iomap_begin``.
-+passed as the ``flags`` argument to ``begin``.
- 
- Callers commonly hold the same locks as they do to call their iomap
- pagecache counterparts.
-@@ -692,8 +698,8 @@ fsdax Truncation, fallocate, and Unsharing
- 
- For fsdax files, the following functions are provided to replace their
- iomap pagecache I/O counterparts.
--The ``flags`` argument to ``->iomap_begin`` are the same as the
--pagecache counterparts, with ``IOMAP_DAX`` added.
-+The ``flags`` argument to ``begin`` are the same as the pagecache counterparts,
-+with ``IOMAP_DAX`` added.
- 
-  * ``dax_file_unshare``
-  * ``dax_zero_range``
-@@ -719,8 +725,7 @@ SEEK_DATA
- 
- The ``iomap_seek_data`` function implements the SEEK_DATA "whence" value
- for llseek.
--``IOMAP_REPORT`` will be passed as the ``flags`` argument to
--``->iomap_begin``.
-+``IOMAP_REPORT`` will be passed as the ``flags`` argument to ``begin``.
- 
- For unwritten mappings, the pagecache will be searched.
- Regions of the pagecache with a folio mapped and uptodate fsblocks
-@@ -734,8 +739,7 @@ SEEK_HOLE
- 
- The ``iomap_seek_hole`` function implements the SEEK_HOLE "whence" value
- for llseek.
--``IOMAP_REPORT`` will be passed as the ``flags`` argument to
--``->iomap_begin``.
-+``IOMAP_REPORT`` will be passed as the ``flags`` argument to ``begin``.
- 
- For unwritten mappings, the pagecache will be searched.
- Regions of the pagecache with no folio mapped, or a !uptodate fsblock
-@@ -750,8 +754,7 @@ Swap File Activation
- The ``iomap_swapfile_activate`` function finds all the base-page aligned
- regions in a file and sets them up as swap space.
- The file will be ``fsync()``'d before activation.
--``IOMAP_REPORT`` will be passed as the ``flags`` argument to
--``->iomap_begin``.
-+``IOMAP_REPORT`` will be passed as the ``flags`` argument to ``begin``.
- All mappings must be mapped or unwritten; cannot be dirty or shared, and
- cannot span multiple block devices.
- Callers must hold ``i_rwsem`` in exclusive mode; this is already
-@@ -767,8 +770,7 @@ FS_IOC_FIEMAP
- 
- The ``iomap_fiemap`` function exports file extent mappings to userspace
- in the format specified by the ``FS_IOC_FIEMAP`` ioctl.
--``IOMAP_REPORT`` will be passed as the ``flags`` argument to
--``->iomap_begin``.
-+``IOMAP_REPORT`` will be passed as the ``flags`` argument to ``begin``.
- Callers commonly hold ``i_rwsem`` in shared mode before calling this
- function.
- 
-diff --git a/Documentation/filesystems/iomap/porting.rst b/Documentation/filesystems/iomap/porting.rst
-index 3d49a32c0fff..b995f426808a 100644
---- a/Documentation/filesystems/iomap/porting.rst
-+++ b/Documentation/filesystems/iomap/porting.rst
-@@ -50,8 +50,14 @@ Build the kernel, run fstests with the ``-g all`` option across a wide
- variety of your filesystem's supported configurations to build a
- baseline of which tests pass and which ones fail.
- 
--The recommended approach is first to implement ``->iomap_begin`` (and
--``->iomap_end`` if necessary) to allow iomap to obtain a read-only
-+Every iomap operation is driven by an ``iomap_iter_next_fn`` callback.
-+Filesystems normally do not write one by hand: implement ``begin``
-+(and ``end`` if necessary) and generate the callback with the
-+``DEFINE_IOMAP_ITER_NEXT()`` macro, or ``DEFINE_IOMAP_ITER_NEXT_END()`` if an
-+``end`` callback is needed.
-+
-+The recommended approach is first to implement ``begin`` (and
-+``end`` if necessary) to allow iomap to obtain a read-only
- mapping of a file range.
- In most cases, this is a relatively trivial conversion of the existing
- ``get_block()`` function for read-only mappings.
-@@ -62,7 +68,7 @@ If FIEMAP is returning the correct information, it's a good sign that
- other read-only mapping operations will do the right thing.
- 
- Next, modify the filesystem's ``get_block(create = false)``
--implementation to use the new ``->iomap_begin`` implementation to map
-+implementation to use the new ``begin`` implementation to map
- file space for selected read operations.
- Hide behind a debugging knob the ability to switch on the iomap mapping
- functions for selected call paths.
-@@ -82,14 +88,14 @@ I/O path because of bufferheads.
- The buffered read I/O paths doesn't need to be converted yet, though the
- direct I/O read path should be converted in this phase.
- 
--At this point, you should look over your ``->iomap_begin`` function.
-+At this point, you should look over your ``begin`` function.
- If it switches between large blocks of code based on dispatching of the
- ``flags`` argument, you should consider breaking it up into
- per-operation iomap ops with smaller, more cohesive functions.
- XFS is a good example of this.
- 
- The next thing to do is implement ``get_blocks(create == true)``
--functionality in the ``->iomap_begin``/``->iomap_end`` methods.
-+functionality in the ``begin``/``end`` methods.
- It is strongly recommended to create separate mapping functions and
- iomap ops for write operations.
- Then convert the direct I/O write path to iomap, and start running fsx
--- 
-2.52.0
+To test a fix for this bug, please reply with `#syz test`
+(on a separate line) and attach the patch to the email.
 
+Notes:
+- The patch will be applied on top of the tested series (as an
+  incremental fix).
+- To test a new version of the whole series, please send it directly
+  to syzbot@lists.linux.dev.
+- Arguments like custom git repos and branches are not supported.
