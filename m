@@ -1,69 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793224778;
-	b=4a7WyEeC/CXFaycOjHtwmAw3bpxRxdkupsobEa5szR2kN5qx+aylbCSUMbDuO8dRMc1V
-	 5Bmkb5IQ4iSKkoeYxMy4VGdbKw20RTFV46JXrbotO/Rs1qhP5d3uVBMBnRaXiwrX3FNW6
-	 lRYIHv2G6L5o5BWRTpHL1T3Hg8xFk599jK4C1hGYaNUygo3v6ySzlnumN2t6ZuTeJK+2Y
-	 X67rbWlA8ADu6mtbgmnobdSfFpeTHFTHArx6xWF05aQv2S0r81qeiEx2ldWcjDBofDOrZ
-	 lNZJ0qnDAlpN7TJVAMpcMh6HVvkrILvLFHIQ5ZWe32WGjcxDzEcfvRmm5HyhLo6zXsg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793224778;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=KN0FgIJMajTdk9Ymv64LA7EQejo37NTwYsXl8rzrDcw=;
-	b=fo9inZ7VJsv9/W6lLZfxb/eKhwbQeBnuaBTV4905NK8eMRLCDth6/9tsZa5xP909KJ5E
-	 g3MaN1JD+Cit1GuQGE/LDDD6gUtgUSgIyezgKFJ0/wovqZ9Sz463ZLBZih6XtuoMP3DjT
-	 vGqS77mbgkr2gmivJQ77muw/LM90ia2jTxwp+e8Izb22weYgz/L2yNBiFla06wE4WdQ7i
-	 TXDotrItejKZdgCCX+XYB3i0Jus4KKI1PGY3mChJdNLzsIaqu+GZgV2Wbb8DDSo1ldlJe
-	 GMMijEqydnNxCRzY+h5OhjFDrYZ4Tne0lO38+UP09KbEhpYVTiW2KW+5kk6X/JjqAoA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a3RA0sBt;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.48
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793227974;
+	b=buKmbuC5Nf0vsQ/wDLkW7p7WRYHtEfO3PlaSHqmz9XdNNu/wZ+iZJu2B3VSwSxSwvocV
+	 UpUFeNrIAniFcOn+/yArH8FMmEDQaZYocHuB/vCgqUwMgGLq/hZcbOFY/4szNmLt/ozTj
+	 DB/vBX3PwyYnjrF0mSPW6wpNbqyjycmrni4697D+ncW/Mo3eSFl9Astn1+Blh9MbEQQuZ
+	 IRTqJQpvUtXni+gkOrQJbu39HaFdR6lh0ZPE4jf7iyBUguuBgSPc2o/H3fiL7yDi7DbMO
+	 nchole8D6uHy7rnr64bLvGE8N2ucW57DuWZkp81du2JUBtaJWO+BNKhVB9IaOOc+B1w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793227974;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=uFCeqxNpE0NTPJiv/TZU+OjzBcwND2MGSgKaTCt1k14=;
+	b=13oWI7a6Jb6swa5LqOBwCq7uav35DoMKlIuQX4SvY0PnHWpczYB7l2SAfWSDgcUWMz4K
+	 LJ14D42jUeanq+ub9Wv7P7KOyXnC6swImWBD8ARWd6VQ7tlAHezM1VUUdPeUUi2W/llNc
+	 /DmV83YXxBRnpeHFZciIhVYAJqWjZiX1miIa//UwIkPrb6hFFdaYNpcf3ec4FqHLtwTY0
+	 Lb7WP+fSBhTdVf8V61QgdQPASVyX9d+yi5T4O4mswEAo0EAlZ9CFls0x0PJM4G15cs5xh
+	 iTy50dbXsr6KWd20o8Z2n3mBMaSIfCqeQQNP/1DHUwdAVwUAKqOddz92yZiZlX0h64A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TlpVec8m;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC24606A334;
-	Wed, 28 Oct 2026 21:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C2A606A31A
+	for <fuse-devel@lists.linux.dev>; Wed, 28 Oct 2026 22:52:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48C2A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=a3RA0sBt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 735ED1F01825;
-	Wed, 28 Oct 2026 21:59:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793224777;
-	bh=KN0FgIJMajTdk9Ymv64LA7EQejo37NTwYsXl8rzrDcw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=a3RA0sBt4j+5IOAxEQxpVDoeAzK+P2lBLhl6gq2sX+rpplyk7XL+xEh8DUFIe7llV
-	 7Xwjeho+6cJzY+Al3GxT+KpIrqYT4GruKZzBB1gefgy9Gm6mRgcxx4CtoAIwqa9gCk
-	 ZOb2MydTxzI70JvhNAi/zd7B3b/0uyaMJCy5gjs666f5X12czMgE5UGdw6HEM9/HmT
-	 roFeNjsFe73Sd1FC9UdXdQNt04xT8PcR2DZKB6YITl5USRXo3YWmrLpEotk9nHElM9
-	 23qPe0bvRd63mi3/Y0Yk+bs/cjlLa1pNzQg1YCqRV+kfADzUNXig3J22jjQPaJ76zt
-	 b5A4bYdaO7/sw==
-Date: Thu, 29 Oct 2026 08:59:20 +1100
-From: Dave Chinner <dgc@kernel.org>
-To: Salvatore Dipietro <dipiets@amazon.it>
-Cc: akpm@linux-foundation.org, linux-mm@kvack.org, ryan.roberts@arm.com,
-	abuehaze@amazon.com, alisaidi@amazon.com, blakgeof@amazon.com,
-	dipietro.salvatore@gmail.com, rvvandan@amazon.com,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz,
-	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com,
-	miklos@szeredi.hu, agruenba@redhat.com, djwong@kernel.org,
-	hyc.lee@gmail.com, almaz.alexandrovich@paragon-software.com,
-	cem@kernel.org, dlemoal@kernel.org, naohiro.aota@wdc.com,
-	jth@kernel.org, willy@infradead.org, david@kernel.org,
-	ljs@kernel.org, liam@infradead.org, vbabka@kernel.org,
-	rppt@kernel.org, surenb@google.com, mhocko@suse.com, ziy@nvidia.com,
-	matthew.brost@intel.com, joshua.hahnjy@gmail.com, rakie.kim@sk.com,
-	byungchul@sk.com, gourry@gourry.net, ying.huang@linux.alibaba.com,
-	apopple@nvidia.com, ritesh.list@gmail.com,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	exfat@lists.linux.dev, fuse-devel@lists.linux.dev,
-	gfs2@lists.linux.dev, linux-xfs@vger.kernel.org,
-	ntfs@lists.linux.dev, ntfs3@lists.linux.dev
-Subject: Re: [PATCH 0/2] mm, iomap: account dirty at page granularity for
- per-block dirty folios
-Message-ID: <auJwOJ-dQCHLAvMq@dread>
-References: <20261027112702.3747009-1-dipiets@amazon.it>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TlpVec8m
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48e00eee27dso1136121f8f.0
+        for <fuse-devel@lists.linux.dev>; Wed, 28 Oct 2026 15:52:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793227972; cv=none;
+        d=google.com; s=arc-20260327;
+        b=II2yLg0xI6HrgNXE16bfmYLbQfS4d53NnpUu/RBVPYpEa7Pb8efDE2RPxBgmXoevT3
+         qLLd8OkyMh/86iMi8Bcu9Kfww1UNx+gjEHLcb7qu/L+Rjv1pyCf0MkrrNGtj/am+9APZ
+         s0qsqyAw2h8MGafi7QCVtppV+1bo8v4fcg0YH6F1VSptrZBMTVhSIK5q7g9iuHF4yXY5
+         B4WOOpNffvojUH0sbGRw/A+23lSYV0vK7hoI9BaznGgvK0xs9N2SHuBub+n9grfWaKau
+         oSXRNGlrT+lIRFYy0FbHq89h9z/y/UzBdTyt/nobjMIrEvDKk6NYZHWSZlZ8WRGWy5vU
+         YKfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uFCeqxNpE0NTPJiv/TZU+OjzBcwND2MGSgKaTCt1k14=;
+        fh=Hx5MduouKYQkpt8kNzM3w3DcOqPvgF+8oAOjVEWag7A=;
+        b=I4L9vS77yCTA8QP2F73GfKz6XnEIFLryOlI+mYcIjzHPsH6KrZ+ET7vizydHcu3A3R
+         ZcNku/a8pZ98Fh07wh6zCGXHK+TSk6m3ALi2r+OOf9i/9WiFg/f0ckrLmeonYARpfzQQ
+         /8kklZgKQdk/OQ/mCbzj2Y86ZBz9n19gluDenVNu3kIasmdwIcs1fH5YXIoPW2R2iJ8o
+         fui+mprzs/QkfxpogBkfrry0ZbeVwcm+khhAqhKbK5dQd2HA3qolMhgw6kiMegy8aHNe
+         CBMv94W7NY2h5pSADtSMbn79nVX01rvwFaPFaTi2YDxkDh0g7NmcaMY3X/BZlZaifUZa
+         lOHQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793227972; x=1793832772; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=uFCeqxNpE0NTPJiv/TZU+OjzBcwND2MGSgKaTCt1k14=;
+        b=TlpVec8mYJz0WfieeaRxk3LHsSpFccsEMhIOe7voMMtc63SrCQBcnqzN5oj/beVlPe
+         PSi8Gm9hYcKMOjfIe7iU3vAOh9Vy2cc9WYyPynVduhno75McC15LIs5ge5cv5F2AWEuD
+         GZFiO8kl6j7AZlu3WQk6RquDO8xq9LGcS6gpcXT7jC0fmIEFk213618T3N//qFRVw1+T
+         Hq4x7/nXvs3XgcUMr8SIZEuzpR88bsM5Xk47/3KBYs87IRHfIfpuipjGAiRdmCpB9ty1
+         GZualQz5RJnkcIde0MluO6CXeQKuaNRVKBq4i6cdEREzkpRreSYCR8Y7yOD+ymvruGHJ
+         k9GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793227972; x=1793832772;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uFCeqxNpE0NTPJiv/TZU+OjzBcwND2MGSgKaTCt1k14=;
+        b=nTUHo4cjmvkL6z4Je5UqpQvf9kU6k7UThASyMRbCGwDQfD3+aEAbNH8VfUhLqOrQiZ
+         kzJDPfFkdrqOYj6BNuWPiDSda3zfijd2EFeiGk2HEPj6w0O0KSpSJ/uHAuQfdik5/JaM
+         Aas3356yyOR9EEY+xXg7xpIrzZS/MkPrlhG18x535XiDaHmh99GJZhUtnYPk/0aEnUpQ
+         b5iS8zSCgYV+qvji0JRlvw12PpE+krOyj1gftmOq6u3KSRDReaijetqMfpAKZuHoxFv0
+         MZ/2mpJ1+09Eb/MFfIuuPg7b9pLMHoCNArsZ/jdewPlUJpFpW9/DZ7jbpg4WHW5/N6qN
+         6/iw==
+X-Forwarded-Encrypted: i=1; AKwUvBywE46ilZzKP+DB2l/2ajmqcgM8i+oYiJx2beLC4k9wMQvA3sPu31MLVntJgMY7WnhYo4ynAIvQwcQU@lists.linux.dev
+X-Gm-Message-State: AFq9FYJn8IX+tSp8dmI3LIQPlISi9FPJtaI6bsjuitpyyXVNjj5HctUj
+	vhM7rT5mAWGtoimNAKL0eeLuFTiosULj8yIMtrrJcPZcMvxk1SGnzURi6n9WnsV+DXvwRoAqQYx
+	OQqXWyM4sJymZ0St+Oscr6/xihJhQYVtvjC1pQ6g=
+X-Gm-Gg: AYBFou1LFTtUbkD1TjCHvVMr/HsnIqX2pQpzuJLQCrUSalMZPQW0p6FAsjRgS9QzCne
+	EUIHCRolty8gEjCogYzhfndkxaHeAmeYKLUiJGGTqO4oLTP3mNm/7axc04P/zNmR3aPyAJAbRY7
+	FAQCUXFyGgJSYJ9NL8upz2xfzqEpi8FGgFwZgN2H6CBCBUjHSo/B5ZDor55iEGycA1xmZc+m8O3
+	DkUO0wju8+xDJtOiSiQzBbmsXB6iAJqrRgeYMN3OFPs6JJve1XePoLK9fJF7SV7eMQthl8W1Lp8
+	P3ifU9W+2ci3K6SwdneZS9IiEekFk1Ph4vAz0iHZemLvWkFGDFx8UmklI6EtmnX1ezn7qY/vj7+
+	bnMEpCozGh+rwOYDd6AG2R7zj2gJ0ZA0lppwEMPg/FKbSSv1h0K8x/OuuDoHfrRq0C14ocyDCbm
+	5TBou3y0d0GTWBUj1lXw==
+X-Received: by 2002:a05:6000:2388:b0:48d:ee59:3a30 with SMTP id
+ ffacd0b85a97d-48e5d5c6fd9mr7615421f8f.22.1793227972434; Wed, 28 Oct 2026
+ 15:52:52 -0700 (PDT)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -73,144 +105,157 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027112702.3747009-1-dipiets@amazon.it>
+References: <20261025-reduced-nr-ring-queues_3-v8-0-8a2570e8d2a4@bsbernd.com>
+ <20261025-reduced-nr-ring-queues_3-v8-5-8a2570e8d2a4@bsbernd.com>
+ <CAJnrk1b7B+FLrazs5eEAr3dEU4a+EueeQog6eGAVraEx-OhYgA@mail.gmail.com> <f1342ec5-014f-4125-a35c-15df91da04d5@bsbernd.com>
+In-Reply-To: <f1342ec5-014f-4125-a35c-15df91da04d5@bsbernd.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 28 Oct 2026 15:52:39 -0700
+X-Gm-Features: AclHuK8YtVQsNdPpmtd9H4rlWNeoLs0sHwdXEmhxFBtA7LZq3tYsTpP434s5UBY
+Message-ID: <CAJnrk1a-UTRtzgq5L9uyyM=0KhW9pBBjJ0UT6nkZWNJyYVp5kg@mail.gmail.com>
+Subject: Re: [PATCH v8 5/8] fuse: {io-uring} Allow reduced queues through INIT negotiation
+To: Bernd Schubert <bernd@bsbernd.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2026 at 11:27:00AM +0000, Salvatore Dipietro wrote:
-> Since iomap gained per-block dirty tracking, a large folio can be
-> partially dirty: struct iomap_folio_state records exactly which
-> blocks are dirty, and writeback only writes those ranges.  The mm
-> dirty accounting, however, still charges the whole folio even if a
-> single block is dirty (up to 512x over-accounting for a 2 MB folio
-> over 4 KB blocks).
-> 
-> balance_dirty_pages() then throttles writers against a number that
-> is unrelated to how much data actually needs writing back.  On
-> workloads that repeatedly dirty small ranges of large folios --
-> e.g. PostgreSQL, which writes mostly 8/16 KB pages -- dirty_thresh
-> is crossed and writers are throttled long before the real dirty data
-> justifies it.  On the benchmark below, run on v7.3-rc7, the
-> unpatched kernel charges ~159 TB of dirtied pages while writing
-> ~6 TB to the array, a factor of 27; with this series the dirtied
-> pages charged match the data actually written.
-> 
-> This series makes iomap charge and discharge the mm dirty counters
-> per dirty page for folios that carry per-block dirty state, so a
-> partially dirty large folio is accounted for the dirty part only:
-> 
->   - Patch 1 adds the mm infrastructure: an AS_DIRTY_PER_BLOCK
->     mapping flag, an @accounted argument to __folio_mark_dirty()
->     and __filemap_dirty_folio() to skip the generic per-folio
->     charge, and an address_space_operations::accounted_dirty_pages()
->     callback used by the discharge and migration paths instead of
->     folio_nr_pages().  No filesystem opts in, so it is a no-op on
->     its own.
-> 
->   - Patch 2 makes iomap charge per dirty page from the per-block
->     dirty bitmap and wires iomap_accounted_dirty_pages() into every
->     iomap-based filesystem.
+On Wed, Oct 28, 2026 at 2:38=E2=80=AFPM Bernd Schubert <bernd@bsbernd.com> =
+wrote:
+>
+>
+>
+> On 10/28/26 22:06, Joanne Koong wrote:
+> > On Sun, Oct 25, 2026 at 3:29=E2=80=AFPM Bernd Schubert via B4 Relay
+> > <devnull+bernd.bsbernd.com@kernel.org> wrote:
+> >>
+> >> From: Bernd Schubert <bernd@bsbernd.com>
+> >>
+> >> Main reson to reduce queues is that a system with many cores
+> >> might run out of memory if queue-per-cpu is used.
+> >>
+> >> A new INIT reply flag FUSE_URING_REDUCED_Q is introduced, that
+> >> activates this feature and also expects that each queue is created
+> >> with FUSE_IO_URING_CMD_ADD_QUEUE. Without the flag, nothing changes.
+> >>
+> >> ADD_QUEUE adds the queue to the CPU to queue maps. A request mapped to
+> >> the new queue is delayed until the server registers the first entry
+> >> of that queue, usually shortly after ADD_QUEUE.
+> >>
+> >> Race free protection with spin-lock and rcu:
+> >>
+> >> - fch->lock protects against multiple ADD_QUEUE calls at the same time=
+,
+> >> so that new q-maps per q-create are serialized in publishing. It also
+> >> ensures ring->ready is not set before a q-map is published.
+> >> - queue is stored before map publishing, so that a sender always finds
+> >> ring->queues[qid] set for a qid in the maps.
+> >> - rcu_assign_pointer() ensures a sender sees the new pointer after
+> >>   cpu_to_qid[] is filled.
+> >> - rcu_read_lock() ensures that old maps (in the sense of new queues)
+> >>   are not freed while the map is still used
+> >>
+> >> It also includes slight refactoring in fuse_uring_create_queue to
+> >> avoid freeing in the middle. Also dropped is "kfree(queue->bufpool)"
+> >> in that function, it is always NULL.
+> >>
+> >> Assisted-by: Claude Opus 5.5
+> >> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+> >> ---
+> >>  fs/fuse/dev.c             |   2 +-
+> >>  fs/fuse/dev.h             |   1 +
+> >>  fs/fuse/dev_uring.c       | 127 ++++++++++++++++++++++++++++++++++++-=
+---------
+> >>  fs/fuse/dev_uring_i.h     |  13 +++--
+> >>  fs/fuse/inode.c           |   9 +++-
+> >>  include/uapi/linux/fuse.h |   4 ++
+> >>  6 files changed, 122 insertions(+), 34 deletions(-)
+> >>
+> >> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+> >> index d243e124cb4c..cff8a06e6d68 100644
+> >> --- a/fs/fuse/dev_uring.c
+> >> +++ b/fs/fuse/dev_uring.c
+> >>
+> >> @@ -512,9 +558,24 @@ static struct fuse_ring_queue *fuse_uring_create_=
+queue(struct fuse_ring *ring,
+> >>          * fully initialized queue after &ring->queues[qid] is set
+> >>          */
+> >>         smp_store_release(&ring->queues[qid], queue);
+> >> +
+> >> +       /* Update maps so that requests can be scheduled via the new q=
+ueue */
+> >> +       if (new_maps)
+> >> +               old_maps =3D fuse_uring_replace_q_maps(ring, new_maps,=
+ qid);
+> >>         spin_unlock(&fch->lock);
+> >>
+> >> +       if (old_maps)
+> >> +               call_rcu(&old_maps->rcu, fuse_uring_free_q_maps_rcu);
+> >> +
+> >>         return queue;
+> >
+> > Could we consolidate the mapping logic for the legacy vs dynamic paths
+> > into one general flow? I'm finding it a bit confusing to follow
+> > otherwise with too many pieces. Right now, from what I see, the flow
+> > between the two is this:
+> >
+> > Legacy:
+> > - Map gets created in fuse_uring_create() at FUSE_INIT time
+> > - Map is built from cpu_possible_mask
+> > - Map is set before the ring is published (smp_store_release() of fch->=
+ring)
+> >
+> > Dynamic queue:
+> > - Map gets created in fuse_uring_create_queue() at ADD_QUEUE time
+> > - Map is built from global.registered_q_mask (qids added so far, but
+> > none of them may have had an entry registeredd yet)
+> > - Map is published through RCU swap
+> >
+> >
+> > What about this one consolidated flow?:
+> > - Map gets updated on the first REGISTER for a queue (allocated in
+> > fuse_uring_register() before the entry is created,then built and
+> > published in fuse_uring_do_register())
+> > - Map is built from global.registered_q_mask (qids registered so far)
+> > - Map is published through RCU swap
+> >
+> > A queue can only start actually servicing requests once >=3D 1 entry ha=
+s
+> > been registered, so imo it makes sense for the queue to be set in the
+> > mapping only once an entry in it has been registered. This also fixes
+> > the issue where if there ends up being some failure between when a
+> > queue has finished being added but before any entry for it has been
+> > registered, no requests mapped to that queue get lost (otherwise they
+> > will sit forever in fuse_req_queue). For the legacy path, the map
+> > could just be published once in this consolidated flow when the last
+> > queue gets its first entry, since nothing routes through the maps
+> > until the ring is ready.
+> >
+> > WDYT?
+>
+> Why do we need ADD_QUEUE for this feature then? Didn't you especially
+> ask to use ADD_QUEUE for dynamic queues? I was basically holding back
+> any updates on this series until ADD_QUEUE was implemented in kernel and
+> libfuse and now we go the other way around. Without the request to do it
+> through ADD_QUEUE this series would have been ready a few months back...
 
-This feels to me like a pretty gross layering violation.
+The consolidated path wouldn't drop ADD_QUEUE, that part would stay
+exactly as it is (eg it creates the queue with its config (zero copy,
+bufpool needs the queue to exist, etc.) and REGISTER still requires it
+in reduced mode. The only part that gets changed / consolidated is how
+the mappings get set.
 
-iomap is tracking dirty filesystem block state, for the purposes of
-efficiently writing back dirty blocks.
+Feel free to defer this. I can send out a patch for this after your
+series lands, if that makes things easier.
 
-iomap was designed to keep filesystem state entirely separate from
-the page cache, including the tracking of sub-page dirty filesystem
-state.  One of the underlying design principles of iomap (all those
-years ago) was to avoid needing the page cache to know anything
-about filesystem block sizes at all. having the page cache track
-anything at filesystem block granularity was inefficient, wasteful
-in terms of memory needed to track each block, had coherency
-problems with filesystem state vs cached mm/pagecache state, etc.
+>
+> Personally I see that the current way makes registering new queues
+> rather expensive from fuse-server, because we first add a queue and then
+> need to wait for the entry, which
+>
 
-iomap tracks block dirty state per folio for writeback efficiency,
-not for pagecache drity tracking optimisation. Large folios are a
-pagecache optimisation, and they were really only made possible by
-the isolation iomap provides between filesystem state and page cache
-state.
+Any servers that want advanced io-uring features (zero copy, bufpools)
+will already need to go through ADD_QUEUE. imo it doesn't make sense
+to also add compatibility for reduced queues to the legacy interface.
 
-Pushing the mm dirty folio accounting implementations directly into
-iomap breaks that isolation - it once again tightly couples the
-filesystem dirty block tracking to mm pagecache accounting and
-accounting. Hence I think this approach is a non-starter - nothing
-should bleed across the filemap interfaces in either direction....
-
-> This was benchmarked with PostgreSQL using the pgbench simple-update
-> workload on v7.3-rc7.  Average throughput rises 46.8% (139.8k ->
-> 205.2k tps) and run-to-run variability drops from a 23.60% to a
-> 3.98% coefficient of variation: the worst iteration improves from
-> 97.9k to 191.5k tps, while the best gains 8%, 199.4k -> 215.9k.
-
-If postgresql is only doing 8/16kb writes, then how is it getting
-the page cache populated with large folios? That's the underlying
-fundamental problem here, yes?
-
-I ask, because iomap caps the folio size to the write() IO length,
-so for 8/16kB writes it will only be asking for 8-16kB folios and so
-there won't be huge 2MB folios in the page cache to cause
-issues. Hence there must be something else populating the cache
-first....
-
-> Ten iterations per kernel, same database and workload (tps):
-> 
->   Kernel                     Avg     Min     Max      CV   iters   iters
->                                                              1-5    6-10
->   ______________________  ______  ______  ______  ______  ______  ______
->   v7.3-rc7                139.8k   97.9k  199.4k  23.60%  164.4k  115.2k
->   v7.3-rc7 + this series  205.2k  191.5k  215.9k   3.98%  200.1k  210.2k
-> 
-> On unpatched v7.3-rc7 the worst iteration lands ~51% below the best,
-> and throughput decays as the run progresses: iterations 6-10 average
-> 30% below iterations 1-5.  With this series the decay is gone -- the
-> second half is similar to the first -- and the coefficient of
-> variation stays at 3.98%.
-> 
-> The over-accounting has existed since commit 4ce02c679722 ("iomap: Add
-> per-block dirty state tracking to improve performance"), merged in
-> v6.6, where the ifs bitmap started recording partial dirty state while
-> the mm counters kept charging whole folios.
-> 
-> The throughput collapse bisects to the v6.17 readahead series, first
-> bad commit c4602f9fa77f ("mm/readahead: store folio order in struct
-> file_ra_state"), which lets readahead stay at the largest folio order
-> once it has ramped up, so a single dirty block charges far more than
-> is written.
-
-.... and that implies there is a sequential read portion of the
-benchmark that is first populating the page cache with large folios.
-
-Do you get the same sort of improvement if you make postgres use
-POSIX_FADV_RANDOM on these files? This will cap the size of folios
-in the cache to whatever the postgresql read() IO size is. Yes, it
-will slow down whatever the sequential read portion of the benchmark
-is, but I don't care about that right now.
-
-What I want to know is if the application preventing readahead from
-populating large folios gets you back all the write performance
-without needing to modify any kernel code at all.  i.e. if we make a
-different choice for initial folio sizes in readahead, then does the
-write performance improve?
-
-Alternatively, if there is distinct sequential read vs random write
-phases to postgres behaviour, then does issuing POSIX_FADV_DONTNEED
-between them restore the random write performance?
-
-If choosing smaller folios for readhaead makes the problem go away,
-then the answer may be to add FADV_RANDOM_WRITE which allows full
-readahead but caps page cache folio size to, say, 64kB.  That would
-allow sequential buffered reads to run at full speed, prevent the
-worst of the issues with PAGE_SIZE folios in the page cache, but
-also not perform terribly for random 8-16kB writes....
-
-Indeed, we could use the fadvise64(count) parameter for something
-like FADV_RANDOM_WRITE to provide an IO size hint that would be used
-to derive the folio size we use for that file during readahead....
-
-Cheers,
-
-Dave.
--- 
-Dave Chinner
-dgc@kernel.org
+Thanks,
+Joanne
