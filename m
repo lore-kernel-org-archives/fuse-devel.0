@@ -1,115 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793147033;
-	b=zbfgbdMX2I4emywqFMHqeXNWe1AJXpIFMt+NgjAUT540Mzu0CTlDMHHW8e6SJyIpqSYh
-	 P9tS8naKQWA3uxbCNWRu+J1jMi0dERJMtMwMgXA5VSVvYxqKFtPgXRH5FjGXG18HR8jyb
-	 WDNHC9njq5mulFad/0IMQpIuRLGa7+gbaj9ka7dnfFSlE/sVzIRitWpIDTztfHpqIyOfH
-	 6v3hHYt4VqGDZF28ZzHgYGsqxjZYg9spZj1WzoRcgwXa12Ol1ViWfVyZc0ydwIqjvTD2a
-	 vFb4DBH2OLTcoYg2o3OFfQ5kAGpiKwDcNYoFC2JWtLENZT3oKyWSeNdXQ+uS8um53jQ==
+	t=1793178760;
+	b=Pn5O8H+FMDfPudqm6oESVwZdmlBxR5/5MSMLvYgjDy1Ns2R68epal3JmraExNqDP/yzn
+	 x7ycvEXsEAJdjAfQzLQHCh1FbYyZjEoK8g3Ni5jfOxoMLHjxwqBtLVCTLpLO0Nhgv+HzP
+	 Fb9W9eUE5tNUBQU4AkKV7jD1e4iUsm6jVxANxQVdcHD/hiH3AaExPbs67yj6rJFCuu9I5
+	 OojQ/4SOMT69Y+lXFufKUnPS817e2IPcAUjEtF6EhAXntypOZSpT1txY/GM43IWjf6Ef6
+	 Ok4/vaSXifD9ZeFryMClsrA0MVNYKfFH7NlXoyDCkGr2mGFcfzmFGz3CIQFXHmNE1/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793147033;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=DIl8SmJv//wOK5AiPhoMDO1eUErgFDLyP1rfgdQqcWI=;
-	b=DT+Ap99xZk2MM760pBngeUG2/Tv3doe/wcWvuobDKad5+iHpp4SS/HNFcDHjys4MrsKO
-	 UGazgBaVXZ3cWYHd5fx7VMFayN2S/8otzt1bmtwfXkjIqXxFXn0RGfupegxTeELPOs4ol
-	 0WEmOeoBLLeLnOsMwG54+QrTuQQGnmbHD5GFjSVDsrIxMiGDNS3d7YRf6QHOpQ6fgfUkW
-	 OTOWWJ9568rq5HahJ/oMXi9cI0hzQq2YSeLEkgnnvyQrKWJ+Gb418/ufeyH1VKtLM4plS
-	 jAcobzTePWkiXrgu+wUB8PuuUTDjVDvJhUq2/SbwknBibcTnHHB0ILJlZzE20M4iwbQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793178760;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=A9OJwUcxnXtgHuBv1JNQDTqJALEL8APpF2x+EYn8rt4=;
+	b=rjMT1q8HuYhjF/0MuyChB13IYbcYZ2lGpNmW0DeFA72mgeHtv6ZbmyqFfoBdYTikvOLo
+	 m6N82ZVEJzu/YyzIxzTk0xjsUkv+no5HYjaKG+XYW43m1gb1V2rVLjWSD/UsBoaGjHiFs
+	 3HO/Yrz1gCOTtp9AIN5tLVVotKJL1ZstY8BJV6V8uFJTk+dgyYFIpG1jUWLJBXvrksgZ3
+	 ugBaqNXa3YZm9q0DC6pYZoojPmzndRnPc7Wkj9MaDE/ZmtYiq9jUQdYpiC0++g8k4KP8P
+	 Pazkl836fWJnZjCsyDFarpEEXGz4mI8TrPkXZ4c4EyPm7BaP15VeTbHK7nmgeIrOvbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bsbernd.com;
-	spf=pass smtp.mailfrom=bsbernd.com;
-	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm1 header.b=NasvZ5OR;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=TTEtPpTE;
-	arc=none smtp.remote-ip=103.168.172.156
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n3nGEU16;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6EF606A31A
-	for <fuse-devel@lists.linux.dev>; Wed, 28 Oct 2026 00:23:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF6EF606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB63606A31A
+	for <fuse-devel@lists.linux.dev>; Wed, 28 Oct 2026 09:12:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FB63606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm1 header.b=NasvZ5OR;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=TTEtPpTE
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id F28601400107
-	for <fuse-devel@lists.linux.dev>; Tue, 27 Oct 2026 20:23:51 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Tue, 27 Oct 2026 20:23:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1793147031;
-	 x=1793233431; bh=DIl8SmJv//wOK5AiPhoMDO1eUErgFDLyP1rfgdQqcWI=; b=
-	NasvZ5ORFUUzn8oLq44PwkCHv5TdefrqEU9gf1g+enMFLuY44x/ayX4ba1MXIMB3
-	x8zG7Rl09MVvUfU7xMaLjvIHut9hkN5F2txkf0V92HE7N2vID99Liw3L1H7XxyoA
-	5znhmbOn7O+wbuo0AyLW+QyUuI8P35FllBc3R+cbQjQZJc2Ar1rwkD47GHPH1HnT
-	RU1QHpvTh4rzmwr8cPliRTRtdUqSGJ9UiIWbic2jbEu1R3pNytz98SIfOGdxr+dh
-	9IZ3QZK32mhvOUVyhH+Jz2mCS3dU19A1D+TpLZneTw/2O73K+zUtRX0b5N3c1oXE
-	TWUkwKZFPbIszeW3ax9+Qw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793147031; x=
-	1793233431; bh=DIl8SmJv//wOK5AiPhoMDO1eUErgFDLyP1rfgdQqcWI=; b=T
-	TEtPpTEofogUIGLMrVCgUMRSmL+GaosIhUm1dV1ACGXk2cHlxRe0PoRKQt0Kysjz
-	qBMkFGvrvEemsISVsC7TtCx63jFUFmBAoFdWwfSaZ8ngw7LflblAvnbg/CInKGAA
-	l02+DP/piB9G8Voz4JhcVhTL7rCuP886Pg9BH2GMJOccC/zPvczbM3+w1LATu2ry
-	rZIJQ47l8Z3lWR91kIVy1FWs7Unqobx1vXRpcWamRhgoQiIPSak/BoS21W+J4iUu
-	0aesmS74nIZKCqdURGUCeP0EdpQnTh3umIwZbLwZKrQaIBp1X/8dPHTwas1UW7uQ
-	bRHNeaJV8LC3+WYkTXE1A==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=bsbernd.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793147031; d=bsbernd.com;
-	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
-	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm1:rsa-sha256:ngi1EkZa+XIE5Tqm8+SaIpKtbPqBFevj0PgEvkGjh+TGxOO
-	T71gG8zx0YyAiz83VBrm/GaLRwQoNgFid/+fe7Sa0y+NyMDUO+l1OHs6CRd8/SIb
-	vDjj8Yu4kyeddL/ZL6sh5ikiEbT2+yCvseisZeOFm2p0pk/KmLpETo9VnCRptuaA
-	D+wZlRUMdJW2aE+B8dOHS2IwXeDBClbQLCecnQjNFuthVNqJsETxUGtZRYNHC/HL
-	ceaJcklgpx9b7dat7LnpT+6FIXkm19TAIPqtg2aKz7CDpzkKBVDjp+PMqedEpQNS
-	B64KehMMtu1u2gKUGsYK8Ctbgs03ksUKe3ZwdSA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=14;
-	hn=cc,content-language,content-transfer-encoding,content-type,
-	date,feedback-id,from,in-reply-to,message-id,mime-version,
-	references,subject,to,user-agent;
-Message-Instance: m=1; h=sha256:veXLoSzj85TXYPUkySTEnF2GMf0wnm1vRL4N5ML35pU=:eRl8FdmkC3wAOyM4cLXObOt2IT9t1180aYm9nrstEQE=;
-X-ME-Sender: <xms:l0Dhapj2tahey8i6clCqRYdCQtK1FMK1bJSoBO3hUYoCN4KDW2JWDw>
-    <xme:l0DhaleG-CZJYFx89xt914WRdWFFIzpTDpq2dUAR8bJ-BbP3ueHx9l0PcJNSzWOql
-    vmfOoKlFmJlpHNvByPAJiuYxjL_g_6e4UxZg9RcfYFgNa1gGCI>
-X-ME-Received: <xmr:l0DhamdlNV8rTUiaQ_bQuEt6n6MHFHZV1pXqK-CzJ_80WE3PGT7Sz7F0Fxxc5QDsYK8Wv9fNCin0Ik-ERjuci1jFRaT2qL1DwIXOxNlYDzX_Nwehtg>
-X-ME-Proxy-Cause: dmFkZTFYFCdmNch7opP3t2JlMGgMnQ86EDRz1DX5kHwCUofaJiX1K0J+rbVe6YAOEc/qL7
-    shJckLvHfOB27+nFmIph0GDTumuOi0/KRILz2miTi6cGFUd8oaAS8ndO6xJkI2rb/awXM0
-    l4U3sIBCSnveTUIVDq0e/V/eiMKCY0F1vtdleZb+5SmCccx0xn4GixCArsGXqQ9E8yyH0N
-    jF7lXtrRKswWBSBmex7Qfw+fSUVcyr0fQpq8YaRi5WIY4os7D0S7qohgBwGH4YKYgyilQ/
-    1F+YHHwdy53BcRurzHRT0mYx74yZsbpuvUIOv++YpeqCMEHnUl6wa0EBt9X9xUVEuip8II
-    zXrl3MdUFLjAPlBg9AGE4Z4Qaks9oa8Uh3i+015QsJzpQynqxQH6H0c9nYnBDlSzLE7wYo
-    s6zk93F0/S/b3lKAy03FahJBNG/JlyBZaL9xUDNuS9EhAcU6s7k8c6AaH45PpZyhWxyPU0
-    YPX5CxfLQwpGQu3ad/2YwEPhXZOA6sPLd3zbjVx1bRbzS3MW9j0+YRcVSpFVZfxub4RaQv
-    ME+u9iNsBNDNfaKDx2q7Nyfc0BkYNE3M4kzsUHUxEWCfy2vXmJt4WHx5fpl+23OVb+A8jx
-    v0Wfak2Xymn+CWpTfIoh/IYQJ++j5I27Ttqs6e2r1LrD9Z3fcuFdB3B6OQQg
-X-ME-Proxy: <xmx:l0Dhan86lTiDo9X8HDjImzIgftgjeQz6s2uRNIdbY6BRqNxjeALNyg>
-    <xmx:l0Dhaql9jaOLB7OCtJbY0Qi5XuRTLcFaGXJEkZk5AHQvS1WTC88nig>
-    <xmx:l0Dhah_YgTJn7gZw3XHMiTldZSw79oxvfjxNmUA1wu3a6QEst8HCNA>
-    <xmx:l0Dhagnp27WCHRNFGKBRNB2krq-Jg-7RCr2zPj8OIwaT9J5VcWvN7A>
-    <xmx:l0Dhaktx40iji2o31DN3QxbcHHpF-2GFcQ5D5L6dD4DK1bgB6m7cV8uh>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Oct 2026 20:23:50 -0400 (EDT)
-Message-ID: <29b936b3-759f-48f4-9605-974a7cde9b37@bsbernd.com>
-Date: Wed, 28 Oct 2026 01:23:48 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=n3nGEU16
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a7992e2f7dso5971225e9.3
+        for <fuse-devel@lists.linux.dev>; Wed, 28 Oct 2026 02:12:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793178759; x=1793783559; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=A9OJwUcxnXtgHuBv1JNQDTqJALEL8APpF2x+EYn8rt4=;
+        b=n3nGEU16PC66UfUSJTI4LxUENbpuvyTrj5wpD7StXwJcxSk/4VpOnM/uEvhthdzwVD
+         HFR62veBKU8eQ8Q4Gn7bIDlKLYUgrmKP+emFfXDjUamZg61u0eu6myZgTAA60ENFOcBm
+         3iApQXBySdZFUUzrgw6jhX6AonEmsU0XSj1lLw/mdAWUV6sZI/Z8Xt+3pLX1dIuxVqve
+         Lp20TqVIeC+WACUEXhkYU1pq+6hd+mBfq5VP+LrivXodH5stmvgMqmnfTZ8ok4LSvJQf
+         4J4ZMTnaV1X6Uocnv1v+Fn+obbUnNRUywc8dmg4fsrZB9lV+WUwpNLxeDLE0SLe7I97B
+         MQFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793178759; x=1793783559;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=A9OJwUcxnXtgHuBv1JNQDTqJALEL8APpF2x+EYn8rt4=;
+        b=OhwPVc0fHYZPRMBw1iVY4zNn1q6aLe7pU+Rg8f2kdpn5WXi8ytSRmnaKuWJLn2Cudb
+         Hbe5tHpZ9HyUUgqdz3bOFUk+pdj/kGgff7YL5tchnNtR6brffyeu1sby/aUyEMD5l1Cm
+         UvekIw1AVY5JdaQtuAoGjinWW3achUq3J2OHaVC89xukOFZHbpfwgUHIS2xPlI4Q6tvn
+         HZE3hWf80JhQVeRSM38bnqk9aibI7R6d4FkEqZGpR+c4VbU530kqOwKjUL0ZZzzR+zG5
+         KqafJvWgaQFA+qhqaAfSB+dBChrVdC+xD3EMLY6Xld/VDTRzRXykKP6ynvPENqBxnq8m
+         wZIg==
+X-Gm-Message-State: AFq9FYK5qZNDOJ/himXFLA1+5lORDIbPNx0f7P0wIUqNXYYS4MpzN06g
+	Jm+KrWUxfpedC4S58DTcdWLDnfz6giL0j9Ca6NNtX/6k8mUcGDzrR5XylURnBfZX
+X-Gm-Gg: AYBFou3uLad0pnWPogr2f9IQUkJx57m97Lz+bLyTmOgdyYwGKHcghG1DDSCQqNg17D8
+	XCztlmL87zjaNg+nNc+6vSMj99xz7bYJx8PokWGKW1KVQEopuKN7MmtY7k72LmUOmabgTratg5V
+	uJGRn66GW1b48i83oBIA/OOh2KZYDqXxZj1SL3tAHR0qkC2F+XdtylIphxpcHO1wEBDgCKgKfQ9
+	aB7dQxzruDjhpNCFETVqp+vkXBHs4oDtkL3VqIyCPuZr/TFAgF1skwEehd3yKpbPo56NOBKeXZm
+	WrCL6MFJLO3yb28HwN9AiZMjuvbTxlV8Gz6GMmku7Uzu8Lg27IE4hYdV58vCrUCkJXpz6S0L1L1
+	XNJhBB8soifHfo1PTKGEuxYfS4SbALm6kmh786TKzQ0vGhxy3ZjsK0PEjXOzA75PJzZsUu/mYAr
+	UUiT1NZULgV4AHQq8bZ8AnJCweVwKlkW8G9w3hWTTFAVxCEPNpx40M5mtFXGgRGBEw5X150TDnw
+	YShSv89jzDgQfmGURMLnlml+IQ3/B9FlvfljfuYaDnE/39K2vKPBskP8ml9Dli7nGoPst+re12i
+	KBpy8qGkhJOPDcjeu5JetNI5vNe0X2lNVlZY0Uvpzf/UiMvJnmlOT3v17IEB4JQ=
+X-Received: by 2002:a05:600d:11:b0:4a0:b6:4619 with SMTP id 5b1f17b1804b1-4a974528f91mr24264035e9.0.1793178758341;
+        Wed, 28 Oct 2026 02:12:38 -0700 (PDT)
+Received: from t480.fritz.box ([2001:a61:3a4e:c601:fc75:724e:6b78:3649])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a97c42b3c1sm33507215e9.6.2026.10.28.02.12.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 02:12:37 -0700 (PDT)
+From: Han-Wen Nienhuys <hanwenn@gmail.com>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	Han-Wen Nienhuys <hanwenn@gmail.com>
+Subject: [PATCH 0/7] fuse: use readdir result to shortcut negative lookups
+Date: Wed, 28 Oct 2026 10:12:08 +0100
+Message-ID: <20261028091215.914885-1-hanwenn@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -119,239 +92,193 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 3/8] fuse: {io-uring} Add CPU to queue maps
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev
-References: <20261025-reduced-nr-ring-queues_3-v8-0-8a2570e8d2a4@bsbernd.com>
- <20261025-reduced-nr-ring-queues_3-v8-3-8a2570e8d2a4@bsbernd.com>
- <CAJnrk1bndy_31eJvGDg_84HxV4XDqcypbkVbkFGLL3=EJ-_6zw@mail.gmail.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <CAJnrk1bndy_31eJvGDg_84HxV4XDqcypbkVbkFGLL3=EJ-_6zw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+FUSE servers can respond to LOOKUP requests with {OK, nodeID=0} to
+indicate an entry is not present, and the negative entry can be cached
+for a specified interval. This helps reduce the number of LOOKUP
+calls, but it is still problematic: each negative dentry still costs a
+roundtrip. Since the universe of non-existing files is unlimited, in
+practice we must still do many roundtrips.
+
+We can do better: once the kernel has read directory contents (through
+READDIRPLUS), the server has specified which positive dentries
+exist. In most file systems, this means that all other lookups in
+the directory should yield negative results, and we can spare
+ourselves the roundtrips.
+
+In this patch series, we collect filename hashes from directory reads,
+and use them to populate a Bloom filter once the read is
+finished. Then, on lookup, if we don't find the name in the Bloom
+filter, we skip the roundtrip and return a negative result
+immediately.
+
+The Bloom filter is space efficient, while still allowing efficient
+updates when entries are added through MKDIR/CREATE/LINK operations.
+
+The TTL of the Bloom filter is derived from the entry TTL of the "."
+entry, if specified, or the minimum TTL of the positive entries. We
+use READDIRPLUS rather than READDIR, because the latter has no channel
+to signal a TTL.
+
+Once the filter is in place, the server should rarely get lookups in
+the directory. If the server does get lookups, this can mean two
+things:
+
+1) the filter has expired
+2) it was a false positive from the Bloom filter
+
+To address case 1), the server should be able to trigger repopulating
+the filter, but because of 2), issuing a normal readdir
+unconditionally is expensive, and the server may not have access to
+the mountpoint anyway.
+
+To solve this, we add a new notify method, which can return EALREADY
+(the filter is still valid; no further side effect) or OK (there is no
+filter; trigger a new READDIRPLUS to populate the filter again). The
+notify does not wait for the server, so it can be sent from the LOOKUP
+handler itself.
+
+The kernel reads the directory from a work item, with synchronous
+OPENDIR, READDIRPLUS and RELEASEDIR requests made on behalf of no
+process. The work items run on a workqueue per connection, so a server
+that does not reply only holds up its own reads, and at most 8 run per
+connection; further notifications fail with EBUSY.
+
+The notification also lets a server preemptively load a directory:
+READDIRPLUS is attractive because a single roundtrip can load many
+entries, reducing overhead, but many programs (eg. GCC) only cause
+single file lookups, and never issue readdir.
+
+Unfortunately, virtiofs currently does not support notifications in
+general, so the latter benefits are not available for virtiofs.
+
+The series is organized as follows:
+* patch 1 fixes lookup references leaked on READDIRPLUS errors. It is
+  independent of the rest.
+* patch 2 adds the Bloom filter machinery
+* patch 3 populates the filter from READDIRPLUS results
+  (FOPEN_COMPLETE_DIR)
+* patches 4-6 prepare for reading a directory from a work item, without
+  functional change: readdir without a struct file, requests on behalf
+  of no process, and opening and releasing a file for the kernel itself
+* patch 7 adds the notify method.
+
+To support this feature in userspace, the server only needs to reply
+with FOPEN_COMPLETE_DIR flag for the OPENDIR opcode. I did this in
+Go-FUSE, and added tests and benchmarks for the feature. Tests ran
+against a kernel with debug/paranoia settings. Benchmark against a
+kernel with production settings.[1]
+
+An i5-8350U pinned at 2 GHz yields the following performance numbers,
+in median ns/op over 11 runs:
+
+    ReadDirEntCompleteDir (per entry)      2,281
+    ReaddirplusHint (per entry)            1,801
+    NegStatUncached (LOOKUP round trip)   22,192
+    NegStatCached (dcache hit)               797
+    NegStatUncachedDir (Bloom filter)      1,587
+
+This was a synthetic, in-memory file system serving a directory with
+500 entries, using the Go-FUSE high-level API running against
+/dev/fuse, measured with single threaded access to the mountpoint, and
+GOMAXPROCS=2. ReaddirplusHint drops the filter with
+FUSE_NOTIFY_INVAL_INODE and has the kernel read the directory again
+with the new notification; it is cheaper per entry than getdents(), as
+no entries are copied to userspace.
+
+The bloom filter is sized to 10 bits per entry, but then rounded to a
+power of 2. For 500 entries, this yields 8192 (16.4 bits per entry),
+with an expected false positive rate of 0.0006/op; the benchmark sees
+0.0004/op.
+
+So, the Bloom filter yields a 14x speed up on uncached negative
+lookups, at the cost of a full directory read. This pays off if
+
+   size-of-dir < (cost_LOOKUP - cost_BLOOM)/cost_DIRENT * unique-negative-lookups
+   	       = 9 * unique-negative-lookups
+
+As a practical one-point sample: one of my open source C++ projects
+(lilypond) shows that a single G++ invocation gets ENOENT for 145
+unique names under /usr/include/libpng16, a directory with 3 entries,
+so scenarios where this is a win are easy to find.
+
+This code was written and reviewed with Claude Opus 5.5. The plan is
+included in [1].
+
+It may be interesting to lift the Bloom filter into the VFS, for two
+reasons:
+
+- other filesystems could benefit from this performance optimization,
+  if the negative lookup is expensive.  In particular: NFS, CephFS and
+  overlayfs.
+
+- the Bloom filter uses little memory, and makes negative dentries
+  cheap to recreate.  This could justify a more aggressive reclaim
+  policy for them.
+
+However, unlike the FUSE case, there is no way for a server to
+request a readdir, so it would need kernel-side heuristics to guess
+when this pays off.
+
+Open questions:
+
+- Where should the filter TTL come from? The entry timeout of "." is
+  convenient because of backward compatibility, but it feels like a
+  hack.  Alternatively, we could extend fuse_open_out (or repurpose
+  the space for backing_id in case of directories).  This has the
+  added advantage that we could populate the negative filter from
+  READDIR as well. Then again, READDIRPLUS is better overall because it also
+  loads positive entries with little overhead.
+
+- Should filters be reclaimed under memory pressure, and if so, how?
+  The filter costs ~2 bytes per file name, which seems little, but can
+  grow to 512kb for a large directory.
+
+- Should filter use be tracked? A referenced bit (set on the first
+  negative answer) would let a shrinker drop unused filters first,
+  and would tell whether re-listing a directory paid off. Hit
+  counters per filter would contend between parallel lookups, so
+  observability may be better served by tracepoints, or per-cpu
+  counters per connection in fusectl.
+
+- For the background read, can we use a kernel thread and leave it and
+  its buffer unaccounted for? An earlier version used a background
+  request, scheduling follow-on requests from the end callbacks, but
+  it looked more complicated.
+
+- what level of self-tests is appropriate for this change? The
+  simplest test I can think of is a file system that runs the notify,
+  waits for the readdir, and then checks that stat() calls don't
+  trigger LOOKUP.
+
+[1] https://github.com/hanwen/go-fuse/tree/complete-dir
 
 
-On 10/27/26 06:58, Joanne Koong wrote:
-> On Sun, Oct 25, 2026 at 3:29 PM Bernd Schubert via B4 Relay
-> <devnull+bernd.bsbernd.com@kernel.org> wrote:
->>
->> From: Bernd Schubert <bernd@bsbernd.com>
->>
->> This is a preparation for a follow up commit that lets a server register
->> fewer queues than CPUs. A request issued on a CPU without its own queue
->> then needs another queue, preferably on the same NUMA node.
->>
->> fuse_uring_create() builds a global and a per NUMA node CPU to queue
->> map. Every CPU maps to its own queue, and the maps do not change after
->> fuse_uring_create(). The next commit selects queues through the maps.
->>
->> The possible CPUs can have gaps in their numbering. num_possible_cpus()
->> sized the queue array, so a request from a CPU at or above that count
->> went to queue 0 with a warning. The queue array and the maps now cover
->> every CPU number below nr_cpu_ids.
->>
->> Userspace might not know that a CPU is not possible, or might not care,
->> and register a qid for it. The maps put such a queue on node 0.
-> 
-> Where does this happen? The qid / queue can be registered but it
-> doesn't end up in the maps, no? AFAICT from this patch the map is
-> built from cpu_possible_mask before any queue gets registered. I'm not
-> seeing the logic that would place such a qid/queue in the maps. Maybe
-> just remove this paragraph? Or am I missing something in this patch?
+Han-Wen Nienhuys (7):
+  fuse: forget READDIRPLUS entries that were not linked
+  fuse: add a negative lookup cache for directories
+  fuse: fill the negative lookup cache from complete READDIRPLUS passes
+  fuse: split readdir requests from struct file
+  fuse: allow requests on behalf of no process
+  fuse: open and release files for the kernel itself
+  fuse: let the server ask for a directory to be read in the background
 
-This tries to address a Sashiko report in v6, Sashiko pointed out that
-there is no guarantee that CPUs are consecutively set in the global cpu
-map.
+ fs/fuse/Makefile          |   2 +-
+ fs/fuse/args.h            |   2 +
+ fs/fuse/dir.c             |  35 ++-
+ fs/fuse/dir_names.c       | 274 +++++++++++++++++
+ fs/fuse/file.c            |  48 ++-
+ fs/fuse/fuse_i.h          |  66 ++++
+ fs/fuse/inode.c           |  18 +-
+ fs/fuse/notify.c          |  23 ++
+ fs/fuse/readdir.c         | 613 ++++++++++++++++++++++++++++++++++----
+ fs/fuse/req.c             |   7 +
+ fs/fuse/virtio_fs.c       |   1 +
+ include/uapi/linux/fuse.h |  45 ++-
+ 12 files changed, 1054 insertions(+), 80 deletions(-)
+ create mode 100644 fs/fuse/dir_names.c
 
-Thanks for review, I have a new branch that should address your comments
-(reduced-nr-ring-queues_v9-linux-7.4), it will go out tomorrow.
+-- 
+2.56.0
 
-> 
->>
->> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
->> ---
->>  fs/fuse/dev_uring.c   | 124 ++++++++++++++++++++++++++++++++++++++++++++++++--
->>  fs/fuse/dev_uring_i.h |  17 +++++++
->>  2 files changed, 138 insertions(+), 3 deletions(-)
->>
->> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
->> index c9a78c2bee99..32c8e2db26b7 100644
->> --- a/fs/fuse/dev_uring.c
->> +++ b/fs/fuse/dev_uring.c
->> @@ -260,6 +260,25 @@ bool fuse_uring_request_expired(struct fuse_chan *fch)
->>         return false;
->>  }
->>
->> +static void fuse_uring_free_q_map(struct fuse_queue_map *q_map)
->> +{
->> +       free_cpumask_var(q_map->registered_q_mask);
->> +       kfree(q_map->cpu_to_qid);
->> +}
->> +
->> +static void fuse_uring_free_q_maps(struct fuse_queue_maps *maps)
->> +{
->> +       int node;
->> +
->> +       if (!maps)
->> +               return;
->> +
->> +       fuse_uring_free_q_map(&maps->global);
->> +       for (node = 0; node < nr_node_ids; node++)
->> +               fuse_uring_free_q_map(&maps->numa[node]);
->> +       kfree(maps);
->> +}
->> +
->>  void fuse_uring_destruct(struct fuse_chan *fch)
->>  {
->>         struct fuse_ring *ring = fch->ring;
->> @@ -292,18 +311,109 @@ void fuse_uring_destruct(struct fuse_chan *fch)
->>                 WRITE_ONCE(ring->queues[qid], NULL);
->>         }
->>
->> +       fuse_uring_free_q_maps(ring->q_maps);
->>         kfree(ring->queues);
->>         kfree(ring);
->>         fch->ring = NULL;
->>  }
->>
->> +static int fuse_uring_alloc_q_map(struct fuse_queue_map *q_map)
->> +{
->> +       if (!zalloc_cpumask_var(&q_map->registered_q_mask, GFP_KERNEL_ACCOUNT))
->> +               return -ENOMEM;
->> +
->> +       q_map->cpu_to_qid = kzalloc_objs(*q_map->cpu_to_qid, nr_cpu_ids,
->> +                                        GFP_KERNEL_ACCOUNT);
->> +       if (!q_map->cpu_to_qid)
->> +               return -ENOMEM;
->> +
->> +       return 0;
->> +}
->> +
->> +static struct fuse_queue_maps *fuse_uring_alloc_q_maps(void)
->> +{
->> +       struct fuse_queue_maps *maps, *result = NULL;
->> +       int node;
->> +
->> +       maps = kzalloc(struct_size(maps, numa, nr_node_ids),
->> +                      GFP_KERNEL_ACCOUNT);
-> 
-> nit: maybe kzalloc_flex() here instead?
-> 
->> +       if (!maps)
->> +               goto out;
->> +
->> +       if (fuse_uring_alloc_q_map(&maps->global))
->> +               goto out;
->> +
->> +       for (node = 0; node < nr_node_ids; node++) {
->> +               if (fuse_uring_alloc_q_map(&maps->numa[node]))
->> +                       goto out;
-> 
-> This is more of a deferrable follow-up optimization, but since every
-> CPU is only ever on one node, I don't think we need a
-> cpu_to_qid[nr_cpu_ids] for every node. The nodes could instead just
-> share one array indexed by CPU #, where each slot holds the qid picked
-> from that CPU's node.
-
-Good idea, that might better fit into CPU caches. I added it as another
-commit at the end of the series. It is rather small, actually.
-
-> 
->> +       }
->> +       result = maps;
-> 
-> What about just "return maps;" here instead?
-> 
->> +       maps = NULL;
->> +out:
->> +       fuse_uring_free_q_maps(maps);
->> +       return result;
->> +}
->> +
->> +static int fuse_uring_cpu_to_node(int cpu)
->> +{
->> +       int node = 0;
->> +
->> +       /*
->> +        * Userspace might not know that a CPU is not possible, or might not
->> +        * care, and register a qid for it. cpu_to_node() is only defined for
->> +        * possible CPUs, so such a queue goes to node 0.
->> +        */
->> +       if (cpu_possible(cpu))
->> +               node = cpu_to_node(cpu);
->> +
->> +       /* a possible CPU that is not present can have no node */
->> +       if (node == NUMA_NO_NODE)
->> +               node = 0;
->> +
->> +       return node;
->> +}
->> +
->> +static void fuse_uring_cpu_qid_mapping(struct fuse_queue_map *q_map, int node)
->> +{
->> +       int cpu, qid_idx, mapping_count = 0;
->> +
->> +       q_map->nr_queues = cpumask_weight(q_map->registered_q_mask);
->> +       if (!q_map->nr_queues)
->> +               return;
->> +
->> +       for_each_possible_cpu(cpu) {
->> +               if (node != -1 && fuse_uring_cpu_to_node(cpu) != node)
-> 
-> nit: NUMA_NO_NODE instead of -1?
-> 
->> +                       continue;
->> +
->> +               qid_idx = mapping_count % q_map->nr_queues;
->> +               q_map->cpu_to_qid[cpu] = cpumask_nth(qid_idx,
->> +                                                    q_map->registered_q_mask);
->> +               mapping_count++;
->> +       }
->> +}
->> +
->> +static void fuse_uring_build_q_maps(struct fuse_queue_maps *maps)
->> +{
->> +       int node, registered_qid;
->> +
->> +       for_each_cpu(registered_qid, maps->global.registered_q_mask) {
->> +               node = fuse_uring_cpu_to_node(registered_qid);
->> +               cpumask_set_cpu(registered_qid,
->> +                               maps->numa[node].registered_q_mask);
->> +       }
->> +
->> +       fuse_uring_cpu_qid_mapping(&maps->global, -1);
-> 
-> nit: NUMA_NO_NODE instead of -1?
-> 
->> +       for (node = 0; node < nr_node_ids; node++)
->> +               fuse_uring_cpu_qid_mapping(&maps->numa[node], node);
->> +}
->> +
->>  /*
->>   * Basic ring setup for this connection based on the provided configuration
->>   */
->>  static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
->>  {
->>         struct fuse_ring *ring;
->> -       size_t nr_queues = num_possible_cpus();
->> +       size_t nr_queues = nr_cpu_ids;
-> 
-> I think this will break backwards compatibility. is_ring_ready() logic
-> waits for every possible qid below ring->max_nr_queues, so if this is
-> now nr_cpu_ids, a server that registers qids 0..num_possible_cpus() -
-> 1 (which works today) will never become ready if the cpu ids are
-> non-contiguous. Maybe best addressed by having the ready check just
-> count the number of queues with entries and checking that against
-> num_possible_cpus()? I think ideally we would reject any queue
-> registration that passes a qid that doesn't map to a possible cpu, but
-> I think it's too late to change/enforce this now.
-
-Yeah, in my hurry to fix the Sashiko report I had missed on Saturday
-night that it might break fuse-server. Maps still have to be allocated
-with the size of nr_cpu_ids. The new branch should handle it.
-
-Thanks,
-Bernd
