@@ -1,54 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.156
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793142654;
-	b=DU0g+Byj93ts5xnvjP7uOTlXSXzYtL4YZvdLVKSgdRu6+PjTUcICbiCzutZzz+kSzEr0
-	 pX1gYW+S1H1egr0TwhEJW5O9I2ZGLKAnA6POvfhJwRNShaXhIEacNmgV2Qnj3VncMFIUr
-	 X1y1J0T5W/A0UBcnZ1HaQvtrcADCkP2Nl5pJGoTAXiiEb2Tews1XXw9SXryS0pGB5tpfQ
-	 ubb5XxSFhm0aDWatsjWTLo7duLOkjzDfCRax1w/qMTOvQULzXLPdCbcRw6BUQqPBIcqHm
-	 Vz5E6JaPbw3/H2mszyv3y6K/N4SOPpxQOQfDCUaUrOGpYwyCBOzwW88zwjkX1YuD+mQ==
+	t=1793147033;
+	b=zbfgbdMX2I4emywqFMHqeXNWe1AJXpIFMt+NgjAUT540Mzu0CTlDMHHW8e6SJyIpqSYh
+	 P9tS8naKQWA3uxbCNWRu+J1jMi0dERJMtMwMgXA5VSVvYxqKFtPgXRH5FjGXG18HR8jyb
+	 WDNHC9njq5mulFad/0IMQpIuRLGa7+gbaj9ka7dnfFSlE/sVzIRitWpIDTztfHpqIyOfH
+	 6v3hHYt4VqGDZF28ZzHgYGsqxjZYg9spZj1WzoRcgwXa12Ol1ViWfVyZc0ydwIqjvTD2a
+	 vFb4DBH2OLTcoYg2o3OFfQ5kAGpiKwDcNYoFC2JWtLENZT3oKyWSeNdXQ+uS8um53jQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793142654;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Cc:Content-Type;
-	bh=A3E77K8iCCovhISJvCAtXH/UuMVbqTit6GWjoYdyLWE=;
-	b=Ol/XLSg6lbYvFOHwq4mPdSABTvcAWgzuA1c/AVvlpwXMNpSX/2fI9g79Sa5zhvF27gxz
-	 QEvX2Dxj2qomttB/5RI87Z9IcnSr9pxUliXCfktZHiBd1sZc0id9FIXEyMg3cpRBTq1tR
-	 VZAr4CMPg4aRjbIpzIK+6sf8cYm3OFK0KDtdfm2jQWvieVECYMZjn2LBgvMbg+7sqc7fD
-	 xg99oitUZPpNjihrJO0Ms9V5SKZIIIwnBPf3tztLc1Bl+ZHfXG4g9+VVfUCALOxFwSzky
-	 n14cVk22ASNNE0XOhVS88c0j1S6uAfQSTYIefPS/l4JjSsWMULIID8X4tZGvxD7AgeQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793147033;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=DIl8SmJv//wOK5AiPhoMDO1eUErgFDLyP1rfgdQqcWI=;
+	b=DT+Ap99xZk2MM760pBngeUG2/Tv3doe/wcWvuobDKad5+iHpp4SS/HNFcDHjys4MrsKO
+	 UGazgBaVXZ3cWYHd5fx7VMFayN2S/8otzt1bmtwfXkjIqXxFXn0RGfupegxTeELPOs4ol
+	 0WEmOeoBLLeLnOsMwG54+QrTuQQGnmbHD5GFjSVDsrIxMiGDNS3d7YRf6QHOpQ6fgfUkW
+	 OTOWWJ9568rq5HahJ/oMXi9cI0hzQq2YSeLEkgnnvyQrKWJ+Gb418/ufeyH1VKtLM4plS
+	 jAcobzTePWkiXrgu+wUB8PuuUTDjVDvJhUq2/SbwknBibcTnHHB0ILJlZzE20M4iwbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.210.71
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=bsbernd.com;
+	spf=pass smtp.mailfrom=bsbernd.com;
+	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm1 header.b=NasvZ5OR;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=TTEtPpTE;
+	arc=none smtp.remote-ip=103.168.172.156
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0CB606A320
-	for <fuse-devel@lists.linux.dev>; Tue, 27 Oct 2026 23:10:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BE0CB606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-84fe2593525so604275a34.3
-        for <fuse-devel@lists.linux.dev>; Tue, 27 Oct 2026 16:10:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793142653; x=1793747453;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=A3E77K8iCCovhISJvCAtXH/UuMVbqTit6GWjoYdyLWE=;
-        b=SnLQJ85BpqO3q7lxdCrZIjjihJk/SWGeet3TfAiVu1w78Jl9HaqMZ14F9tfdJixBgL
-         Kh3onEciEvYtrbO7c+gx40GtnRGwpd6fvGnQG1gyPPleCOX4Gy2575u4xu6He/wEhKsc
-         7FV9+mYRzMkCzRjJj/yIMIsll2/hd8zmHzCUPELHUTLoAI622wEmOXLYDfnjWN94GMst
-         y7Kl2i9iX+FvnxbC8r1v6O1mNsZzx+yYUsklkcSFRCXbgtBjhh/E8nCLP8eh2THn8QVX
-         9KuoSXVNqU/9gG5Yazv9cWXyBajR7a1x3YsiXaeiYgKbXOHu1qlPJqYCW5CgyIs4E3vl
-         AVSA==
-X-Forwarded-Encrypted: i=1; AKwUvBx6UBA3Z926BMjqFYC+Zdmfd0AbXAK24MhmS0zY3o6eBcc7PzNTgaWDO93tKBSgfSarWVQaL0dBJ6iY@lists.linux.dev
-X-Gm-Message-State: AFq9FYJiSVZOtD7TeR5xv5An5jMQasyA29n1HQtIC0tQAjutB64FG6wS
-	bCsm0wYjdEeo/7+KV62fCUGI5u27qEY2PriPJ8Ngp3HZGVMU4t79xLxoQB248ePZS49le10Y90N
-	pqoOtw2zHjo1dqo0+2gM2MtdnsWD6xf8nhs1hG417nnSXvMLqv5zn7KjCbDA=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6EF606A31A
+	for <fuse-devel@lists.linux.dev>; Wed, 28 Oct 2026 00:23:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF6EF606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm1 header.b=NasvZ5OR;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=TTEtPpTE
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id F28601400107
+	for <fuse-devel@lists.linux.dev>; Tue, 27 Oct 2026 20:23:51 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 27 Oct 2026 20:23:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793147031;
+	 x=1793233431; bh=DIl8SmJv//wOK5AiPhoMDO1eUErgFDLyP1rfgdQqcWI=; b=
+	NasvZ5ORFUUzn8oLq44PwkCHv5TdefrqEU9gf1g+enMFLuY44x/ayX4ba1MXIMB3
+	x8zG7Rl09MVvUfU7xMaLjvIHut9hkN5F2txkf0V92HE7N2vID99Liw3L1H7XxyoA
+	5znhmbOn7O+wbuo0AyLW+QyUuI8P35FllBc3R+cbQjQZJc2Ar1rwkD47GHPH1HnT
+	RU1QHpvTh4rzmwr8cPliRTRtdUqSGJ9UiIWbic2jbEu1R3pNytz98SIfOGdxr+dh
+	9IZ3QZK32mhvOUVyhH+Jz2mCS3dU19A1D+TpLZneTw/2O73K+zUtRX0b5N3c1oXE
+	TWUkwKZFPbIszeW3ax9+Qw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793147031; x=
+	1793233431; bh=DIl8SmJv//wOK5AiPhoMDO1eUErgFDLyP1rfgdQqcWI=; b=T
+	TEtPpTEofogUIGLMrVCgUMRSmL+GaosIhUm1dV1ACGXk2cHlxRe0PoRKQt0Kysjz
+	qBMkFGvrvEemsISVsC7TtCx63jFUFmBAoFdWwfSaZ8ngw7LflblAvnbg/CInKGAA
+	l02+DP/piB9G8Voz4JhcVhTL7rCuP886Pg9BH2GMJOccC/zPvczbM3+w1LATu2ry
+	rZIJQ47l8Z3lWR91kIVy1FWs7Unqobx1vXRpcWamRhgoQiIPSak/BoS21W+J4iUu
+	0aesmS74nIZKCqdURGUCeP0EdpQnTh3umIwZbLwZKrQaIBp1X/8dPHTwas1UW7uQ
+	bRHNeaJV8LC3+WYkTXE1A==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=bsbernd.com a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793147031; d=bsbernd.com;
+	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
+	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm1:rsa-sha256:ngi1EkZa+XIE5Tqm8+SaIpKtbPqBFevj0PgEvkGjh+TGxOO
+	T71gG8zx0YyAiz83VBrm/GaLRwQoNgFid/+fe7Sa0y+NyMDUO+l1OHs6CRd8/SIb
+	vDjj8Yu4kyeddL/ZL6sh5ikiEbT2+yCvseisZeOFm2p0pk/KmLpETo9VnCRptuaA
+	D+wZlRUMdJW2aE+B8dOHS2IwXeDBClbQLCecnQjNFuthVNqJsETxUGtZRYNHC/HL
+	ceaJcklgpx9b7dat7LnpT+6FIXkm19TAIPqtg2aKz7CDpzkKBVDjp+PMqedEpQNS
+	B64KehMMtu1u2gKUGsYK8Ctbgs03ksUKe3ZwdSA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=14;
+	hn=cc,content-language,content-transfer-encoding,content-type,
+	date,feedback-id,from,in-reply-to,message-id,mime-version,
+	references,subject,to,user-agent;
+Message-Instance: m=1; h=sha256:veXLoSzj85TXYPUkySTEnF2GMf0wnm1vRL4N5ML35pU=:eRl8FdmkC3wAOyM4cLXObOt2IT9t1180aYm9nrstEQE=;
+X-ME-Sender: <xms:l0Dhapj2tahey8i6clCqRYdCQtK1FMK1bJSoBO3hUYoCN4KDW2JWDw>
+    <xme:l0DhaleG-CZJYFx89xt914WRdWFFIzpTDpq2dUAR8bJ-BbP3ueHx9l0PcJNSzWOql
+    vmfOoKlFmJlpHNvByPAJiuYxjL_g_6e4UxZg9RcfYFgNa1gGCI>
+X-ME-Received: <xmr:l0DhamdlNV8rTUiaQ_bQuEt6n6MHFHZV1pXqK-CzJ_80WE3PGT7Sz7F0Fxxc5QDsYK8Wv9fNCin0Ik-ERjuci1jFRaT2qL1DwIXOxNlYDzX_Nwehtg>
+X-ME-Proxy-Cause: dmFkZTFYFCdmNch7opP3t2JlMGgMnQ86EDRz1DX5kHwCUofaJiX1K0J+rbVe6YAOEc/qL7
+    shJckLvHfOB27+nFmIph0GDTumuOi0/KRILz2miTi6cGFUd8oaAS8ndO6xJkI2rb/awXM0
+    l4U3sIBCSnveTUIVDq0e/V/eiMKCY0F1vtdleZb+5SmCccx0xn4GixCArsGXqQ9E8yyH0N
+    jF7lXtrRKswWBSBmex7Qfw+fSUVcyr0fQpq8YaRi5WIY4os7D0S7qohgBwGH4YKYgyilQ/
+    1F+YHHwdy53BcRurzHRT0mYx74yZsbpuvUIOv++YpeqCMEHnUl6wa0EBt9X9xUVEuip8II
+    zXrl3MdUFLjAPlBg9AGE4Z4Qaks9oa8Uh3i+015QsJzpQynqxQH6H0c9nYnBDlSzLE7wYo
+    s6zk93F0/S/b3lKAy03FahJBNG/JlyBZaL9xUDNuS9EhAcU6s7k8c6AaH45PpZyhWxyPU0
+    YPX5CxfLQwpGQu3ad/2YwEPhXZOA6sPLd3zbjVx1bRbzS3MW9j0+YRcVSpFVZfxub4RaQv
+    ME+u9iNsBNDNfaKDx2q7Nyfc0BkYNE3M4kzsUHUxEWCfy2vXmJt4WHx5fpl+23OVb+A8jx
+    v0Wfak2Xymn+CWpTfIoh/IYQJ++j5I27Ttqs6e2r1LrD9Z3fcuFdB3B6OQQg
+X-ME-Proxy: <xmx:l0Dhan86lTiDo9X8HDjImzIgftgjeQz6s2uRNIdbY6BRqNxjeALNyg>
+    <xmx:l0Dhaql9jaOLB7OCtJbY0Qi5XuRTLcFaGXJEkZk5AHQvS1WTC88nig>
+    <xmx:l0Dhah_YgTJn7gZw3XHMiTldZSw79oxvfjxNmUA1wu3a6QEst8HCNA>
+    <xmx:l0Dhagnp27WCHRNFGKBRNB2krq-Jg-7RCr2zPj8OIwaT9J5VcWvN7A>
+    <xmx:l0Dhaktx40iji2o31DN3QxbcHHpF-2GFcQ5D5L6dD4DK1bgB6m7cV8uh>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 27 Oct 2026 20:23:50 -0400 (EDT)
+Message-ID: <29b936b3-759f-48f4-9605-974a7cde9b37@bsbernd.com>
+Date: Wed, 28 Oct 2026 01:23:48 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -58,437 +119,239 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:c1f4:b0:55c:836:597e with SMTP id
- 5614622812f47-56383e9013amr518556b6e.31.1793142652810; Tue, 27 Oct 2026
- 16:10:52 -0700 (PDT)
-Date: Tue, 27 Oct 2026 16:10:52 -0700
-In-Reply-To: <20261027112702.3747009-1-dipiets@amazon.it>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ae12f7c.768774f5.3237ab.002d.GAE@google.com>
-Subject: [syzbot ci] Re: mm, iomap: account dirty at page granularity for
- per-block dirty folios
-From: syzbot ci <syzbot+ci96d4e003e13d8147@syzkaller.appspotmail.com>
-To: abuehaze@amazon.com, agruenba@redhat.com, akpm@linux-foundation.org, 
-	alisaidi@amazon.com, almaz.alexandrovich@paragon-software.com, 
-	apopple@nvidia.com, blakgeof@amazon.com, brauner@kernel.org, byungchul@sk.com, 
-	cem@kernel.org, david@kernel.org, dipietro.salvatore@gmail.com, 
-	dipiets@amazon.it, djwong@kernel.org, dlemoal@kernel.org, 
-	exfat@lists.linux.dev, fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, 
-	gourry@gourry.net, hyc.lee@gmail.com, jack@suse.cz, joshua.hahnjy@gmail.com, 
-	jth@kernel.org, liam@infradead.org, linkinjeon@kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-xfs@vger.kernel.org, ljs@kernel.org, 
-	matthew.brost@intel.com, mhocko@suse.com, miklos@szeredi.hu, 
-	naohiro.aota@wdc.com, ntfs3@lists.linux.dev, ntfs@lists.linux.dev, 
-	rakie.kim@sk.com, ritesh.list@gmail.com, rppt@kernel.org, rvvandan@amazon.com, 
-	ryan.roberts@arm.com, sj1557.seo@samsung.com, stable@vger.kernel.org, 
-	surenb@google.com, vbabka@kernel.org, viro@zeniv.linux.org.uk, 
-	willy@infradead.org, ying.huang@linux.alibaba.com, yuezhang.mo@sony.com, 
-	ziy@nvidia.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-syzbot ci has tested the following series
-
-[v1] mm, iomap: account dirty at page granularity for per-block dirty folios
-https://lore.kernel.org/all/20261027112702.3747009-1-dipiets@amazon.it
-* [PATCH 1/2] mm: add infrastructure for per-dirty-page accounting
-* [PATCH 2/2] mm, iomap: account dirty at page granularity for per-block dirty folios
-
-and found the following issues:
-* KASAN: slab-out-of-bounds Read in folio_accounted_dirty_pages
-* KASAN: slab-use-after-free Read in folio_accounted_dirty_pages
-
-Full report is available here:
-https://ci.syzbot.org/series/05041e6c-d357-4fc5-9bbe-6aae1760d639
-
-***
-
-KASAN: slab-out-of-bounds Read in folio_accounted_dirty_pages
-
-tree:      axboe
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
-base:      24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/9865cf75-69fb-4fbd-b5fe-d0be9cd03802/config
-syz repro: https://ci.syzbot.org/findings/98cdf846-0b4c-4f94-8430-3b7db9efe057/syz_repro
-
-==================================================================
-BUG: KASAN: slab-out-of-bounds in instrument_atomic_read include/linux/instrumented.h:82 [inline]
-BUG: KASAN: slab-out-of-bounds in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
-BUG: KASAN: slab-out-of-bounds in mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
-BUG: KASAN: slab-out-of-bounds in folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
-Read of size 8 at addr ffff888168669f89 by task syz.1.47/5860
-
-CPU: 0 UID: 0 PID: 5860 Comm: syz.1.47 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
- instrument_atomic_read include/linux/instrumented.h:82 [inline]
- _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
- mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
- folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
- __folio_migrate_mapping+0x3d0/0x2830 mm/migrate.c:624
- __migrate_folio mm/migrate.c:893 [inline]
- migrate_folio+0x10a/0x1a0 mm/migrate.c:920
- move_to_new_folio+0x1ed/0x460 mm/migrate.c:1135
- migrate_folio_move mm/migrate.c:1401 [inline]
- migrate_folios_move mm/migrate.c:1758 [inline]
- migrate_pages_batch+0x30b3/0x4f50 mm/migrate.c:2014
- migrate_pages_sync mm/migrate.c:2044 [inline]
- migrate_pages+0x1b9f/0x2920 mm/migrate.c:2153
- migrate_to_node mm/mempolicy.c:1322 [inline]
- do_migrate_pages+0x656/0x8b0 mm/mempolicy.c:1421
- kernel_migrate_pages mm/mempolicy.c:1935 [inline]
- __do_sys_migrate_pages mm/mempolicy.c:1953 [inline]
- __se_sys_migrate_pages+0xaa2/0xc90 mm/mempolicy.c:1949
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f04fcf9f559
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f04fc5fe028 EFLAGS: 00000246 ORIG_RAX: 0000000000000100
-RAX: ffffffffffffffda RBX: 00007f04fd225fa0 RCX: 00007f04fcf9f559
-RDX: 0000200000000040 RSI: 0000000000000009 RDI: 0000000000000000
-RBP: 00007f04fd036b20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000200000000380 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f04fd226038 R14: 00007f04fd225fa0 R15: 00007ffc667db8b8
- </TASK>
-
-Allocated by task 5729:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- unpoison_slab_object mm/kasan/common.c:351 [inline]
- __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4683 [inline]
- slab_alloc_node mm/slub.c:4996 [inline]
- kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
- anon_vma_alloc mm/rmap.c:94 [inline]
- anon_vma_fork+0x88/0x540 mm/rmap.c:395
- dup_mmap+0x954/0x1dc0 mm/mmap.c:1781
- dup_mm kernel/fork.c:1543 [inline]
- copy_mm+0x115/0x480 kernel/fork.c:1595
- copy_process+0x1e79/0x4400 kernel/fork.c:2311
- kernel_clone+0x2d7/0x940 kernel/fork.c:2771
- __do_sys_clone kernel/fork.c:2913 [inline]
- __se_sys_clone kernel/fork.c:2897 [inline]
- __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2897
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff888168669e70
- which belongs to the cache anon_vma of size 200
-The buggy address is located 81 bytes to the right of
- allocated 200-byte region [ffff888168669e70, ffff888168669f38)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888168669108 pfn:0x168669
-memcg:ffff88816db0e201
-flags: 0x57ff00000000200(workingset|node=1|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 057ff00000000200 ffff888101687140 ffff88816040c7c8 ffffea0005b62950
-raw: ffff888168669108 00000002000f000b 00000000f5000000 ffff88816db0e201
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5535, tgid 5535 (rm), ts 43255388535
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
- prep_new_page mm/page_alloc.c:1879 [inline]
- get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
- __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
- alloc_slab_page mm/slub.c:3347 [inline]
- allocate_slab+0x7d/0x620 mm/slub.c:3462
- new_slab mm/slub.c:3513 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7418
- refill_sheaf mm/slub.c:2885 [inline]
- __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
- alloc_from_pcs mm/slub.c:4850 [inline]
- slab_alloc_node mm/slub.c:4984 [inline]
- kmem_cache_alloc_noprof+0x399/0x600 mm/slub.c:5010
- anon_vma_alloc mm/rmap.c:94 [inline]
- __anon_vma_prepare+0x10e/0x4d0 mm/rmap.c:201
- __vmf_anon_prepare mm/memory.c:3961 [inline]
- vmf_anon_prepare mm/internal.h:572 [inline]
- do_anonymous_page mm/memory.c:5478 [inline]
- do_pte_missing+0x2f18/0x34b0 mm/memory.c:4698
- handle_pte_fault mm/memory.c:6558 [inline]
- __handle_mm_fault mm/memory.c:6707 [inline]
- handle_mm_fault+0x1a53/0x3750 mm/memory.c:6876
- do_user_addr_fault+0xa4f/0x1340 arch/x86/mm/fault.c:1343
- handle_page_fault arch/x86/mm/fault.c:1483 [inline]
- exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
- asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
-page last free pid 5049 tgid 5049 ts 18476194117 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1418 [inline]
- __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
- __slab_free+0x274/0x2c0 mm/slub.c:5823
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4683 [inline]
- slab_alloc_node mm/slub.c:4996 [inline]
- kmem_cache_alloc_node_noprof+0x354/0x610 mm/slub.c:5068
- __alloc_skb+0x1db/0x7a0 net/core/skbuff.c:704
- alloc_skb include/linux/skbuff.h:1384 [inline]
- alloc_skb_with_frags+0xc6/0x760 net/core/skbuff.c:6803
- sock_alloc_send_pskb+0x878/0x990 net/core/sock.c:3022
- unix_dgram_sendmsg+0x4da/0x17b0 net/unix/af_unix.c:2144
- sock_sendmsg_nosec+0x13a/0x180 net/socket.c:800
- __sock_sendmsg net/socket.c:815 [inline]
- sock_write_iter+0x2de/0x3e0 net/socket.c:1266
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Memory state around the buggy address:
- ffff888168669e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffff888168669f00: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
->ffff888168669f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-                      ^
- ffff88816866a000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88816866a080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc
-==================================================================
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 3/8] fuse: {io-uring} Add CPU to queue maps
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev
+References: <20261025-reduced-nr-ring-queues_3-v8-0-8a2570e8d2a4@bsbernd.com>
+ <20261025-reduced-nr-ring-queues_3-v8-3-8a2570e8d2a4@bsbernd.com>
+ <CAJnrk1bndy_31eJvGDg_84HxV4XDqcypbkVbkFGLL3=EJ-_6zw@mail.gmail.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <CAJnrk1bndy_31eJvGDg_84HxV4XDqcypbkVbkFGLL3=EJ-_6zw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
-***
 
-KASAN: slab-use-after-free Read in folio_accounted_dirty_pages
+On 10/27/26 06:58, Joanne Koong wrote:
+> On Sun, Oct 25, 2026 at 3:29 PM Bernd Schubert via B4 Relay
+> <devnull+bernd.bsbernd.com@kernel.org> wrote:
+>>
+>> From: Bernd Schubert <bernd@bsbernd.com>
+>>
+>> This is a preparation for a follow up commit that lets a server register
+>> fewer queues than CPUs. A request issued on a CPU without its own queue
+>> then needs another queue, preferably on the same NUMA node.
+>>
+>> fuse_uring_create() builds a global and a per NUMA node CPU to queue
+>> map. Every CPU maps to its own queue, and the maps do not change after
+>> fuse_uring_create(). The next commit selects queues through the maps.
+>>
+>> The possible CPUs can have gaps in their numbering. num_possible_cpus()
+>> sized the queue array, so a request from a CPU at or above that count
+>> went to queue 0 with a warning. The queue array and the maps now cover
+>> every CPU number below nr_cpu_ids.
+>>
+>> Userspace might not know that a CPU is not possible, or might not care,
+>> and register a qid for it. The maps put such a queue on node 0.
+> 
+> Where does this happen? The qid / queue can be registered but it
+> doesn't end up in the maps, no? AFAICT from this patch the map is
+> built from cpu_possible_mask before any queue gets registered. I'm not
+> seeing the logic that would place such a qid/queue in the maps. Maybe
+> just remove this paragraph? Or am I missing something in this patch?
 
-tree:      axboe
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux.git
-base:      24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/9865cf75-69fb-4fbd-b5fe-d0be9cd03802/config
-syz repro: https://ci.syzbot.org/findings/f9e47a91-9c37-465b-b43c-7404e404cbfd/syz_repro
+This tries to address a Sashiko report in v6, Sashiko pointed out that
+there is no guarantee that CPUs are consecutively set in the global cpu
+map.
 
-==================================================================
-BUG: KASAN: slab-use-after-free in instrument_atomic_read include/linux/instrumented.h:82 [inline]
-BUG: KASAN: slab-use-after-free in _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
-BUG: KASAN: slab-use-after-free in mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
-BUG: KASAN: slab-use-after-free in folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
-Read of size 8 at addr ffff888111a3d539 by task syz.0.17/5870
+Thanks for review, I have a new branch that should address your comments
+(reduced-nr-ring-queues_v9-linux-7.4), it will go out tomorrow.
 
-CPU: 0 UID: 0 PID: 5870 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Call Trace:
- <TAS
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
- instrument_atomic_read include/linux/instrumented.h:82 [inline]
- _test_bit include/asm-generic/bitops/instrumented-non-atomic.h:141 [inline]
- mapping_dirty_per_block include/linux/pagemap.h:319 [inline]
- folio_accounted_dirty_pages+0x53/0x1f0 mm/page-writeback.c:2654
- __folio_migrate_mapping+0x3d0/0x2830 mm/migrate.c:624
- __migrate_folio mm/migrate.c:893 [inline]
- migrate_folio+0x10a/0x1a0 mm/migrate.c:920
- move_to_new_folio+0x1ed/0x460 mm/migrate.c:1135
- migrate_folio_move mm/migrate.c:1401 [inline]
- migrate_folios_move mm/migrate.c:1758 [inline]
- migrate_pages_batch+0x30b3/0x4f50 mm/migrate.c:2014
- migrate_pages_sync mm/migrate.c:2044 [inline]
- migrate_pages+0x1b9f/0x2920 mm/migrate.c:2153
- migrate_to_node mm/mempolicy.c:1322 [inline]
- do_migrate_pages+0x656/0x8b0 mm/mempolicy.c:1421
- kernel_migrate_pages mm/mempolicy.c:1935 [inline]
- __do_sys_migrate_pages mm/mempolicy.c:1953 [inline]
- __se_sys_migrate_pages+0xaa2/0xc90 mm/mempolicy.c:1949
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f600f39f559
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f6010302028 EFLAGS: 00000246 ORIG_RAX: 0000000000000100
-RAX: ffffffffffffffda RBX: 00007f600f625fa0 RCX: 00007f600f39f559
-RDX: 0000200000000040 RSI: 0000000000000009 RDI: 0000000000000000
-RBP: 00007f600f436b20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000200000000380 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f600f626038 R14: 00007f600f625fa0 R15: 00007ffcbfa14028
- </TASK>
+> 
+>>
+>> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
+>> ---
+>>  fs/fuse/dev_uring.c   | 124 ++++++++++++++++++++++++++++++++++++++++++++++++--
+>>  fs/fuse/dev_uring_i.h |  17 +++++++
+>>  2 files changed, 138 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
+>> index c9a78c2bee99..32c8e2db26b7 100644
+>> --- a/fs/fuse/dev_uring.c
+>> +++ b/fs/fuse/dev_uring.c
+>> @@ -260,6 +260,25 @@ bool fuse_uring_request_expired(struct fuse_chan *fch)
+>>         return false;
+>>  }
+>>
+>> +static void fuse_uring_free_q_map(struct fuse_queue_map *q_map)
+>> +{
+>> +       free_cpumask_var(q_map->registered_q_mask);
+>> +       kfree(q_map->cpu_to_qid);
+>> +}
+>> +
+>> +static void fuse_uring_free_q_maps(struct fuse_queue_maps *maps)
+>> +{
+>> +       int node;
+>> +
+>> +       if (!maps)
+>> +               return;
+>> +
+>> +       fuse_uring_free_q_map(&maps->global);
+>> +       for (node = 0; node < nr_node_ids; node++)
+>> +               fuse_uring_free_q_map(&maps->numa[node]);
+>> +       kfree(maps);
+>> +}
+>> +
+>>  void fuse_uring_destruct(struct fuse_chan *fch)
+>>  {
+>>         struct fuse_ring *ring = fch->ring;
+>> @@ -292,18 +311,109 @@ void fuse_uring_destruct(struct fuse_chan *fch)
+>>                 WRITE_ONCE(ring->queues[qid], NULL);
+>>         }
+>>
+>> +       fuse_uring_free_q_maps(ring->q_maps);
+>>         kfree(ring->queues);
+>>         kfree(ring);
+>>         fch->ring = NULL;
+>>  }
+>>
+>> +static int fuse_uring_alloc_q_map(struct fuse_queue_map *q_map)
+>> +{
+>> +       if (!zalloc_cpumask_var(&q_map->registered_q_mask, GFP_KERNEL_ACCOUNT))
+>> +               return -ENOMEM;
+>> +
+>> +       q_map->cpu_to_qid = kzalloc_objs(*q_map->cpu_to_qid, nr_cpu_ids,
+>> +                                        GFP_KERNEL_ACCOUNT);
+>> +       if (!q_map->cpu_to_qid)
+>> +               return -ENOMEM;
+>> +
+>> +       return 0;
+>> +}
+>> +
+>> +static struct fuse_queue_maps *fuse_uring_alloc_q_maps(void)
+>> +{
+>> +       struct fuse_queue_maps *maps, *result = NULL;
+>> +       int node;
+>> +
+>> +       maps = kzalloc(struct_size(maps, numa, nr_node_ids),
+>> +                      GFP_KERNEL_ACCOUNT);
+> 
+> nit: maybe kzalloc_flex() here instead?
+> 
+>> +       if (!maps)
+>> +               goto out;
+>> +
+>> +       if (fuse_uring_alloc_q_map(&maps->global))
+>> +               goto out;
+>> +
+>> +       for (node = 0; node < nr_node_ids; node++) {
+>> +               if (fuse_uring_alloc_q_map(&maps->numa[node]))
+>> +                       goto out;
+> 
+> This is more of a deferrable follow-up optimization, but since every
+> CPU is only ever on one node, I don't think we need a
+> cpu_to_qid[nr_cpu_ids] for every node. The nodes could instead just
+> share one array indexed by CPU #, where each slot holds the qid picked
+> from that CPU's node.
 
-Allocated by task 5645:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- unpoison_slab_object mm/kasan/common.c:351 [inline]
- __kasan_slab_alloc+0x6c/0x80 mm/kasan/common.c:377
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4683 [inline]
- slab_alloc_node mm/slub.c:4996 [inline]
- kmem_cache_alloc_noprof+0x2b9/0x600 mm/slub.c:5010
- anon_vma_alloc mm/rmap.c:94 [inline]
- __anon_vma_prepare+0x10e/0x4d0 mm/rmap.c:201
- __vmf_anon_prepare mm/memory.c:3961 [inline]
- vmf_anon_prepare mm/internal.h:572 [inline]
- do_anonymous_page mm/memory.c:5478 [inline]
- do_pte_missing+0x2f18/0x34b0 mm/memory.c:4698
- handle_pte_fault mm/memory.c:6558 [inline]
- __handle_mm_fault mm/memory.c:6707 [inline]
- handle_mm_fault+0x1a53/0x3750 mm/memory.c:6876
- do_user_addr_fault+0xa4f/0x1340 arch/x86/mm/fault.c:1343
- handle_page_fault arch/x86/mm/fault.c:1483 [inline]
- exc_page_fault+0x6a/0xc0 arch/x86/mm/fault.c:1536
- asm_exc_page_fault+0x26/0x30 arch/x86/include/asm/idtentry.h:595
+Good idea, that might better fit into CPU caches. I added it as another
+commit at the end of the series. It is rather small, actually.
 
-Freed by task 5646:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free_after_rcu_debug+0x12a/0x220 mm/slub.c:6571
- rcu_do_batch kernel/rcu/tree.c:2650 [inline]
- rcu_core+0x926/0x1260 kernel/rcu/tree.c:2919
- handle_softirqs+0x226/0x860 kernel/softirq.c:645
- __do_softirq kernel/softirq.c:679 [inline]
- invoke_softirq kernel/softirq.c:519 [inline]
- __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+> 
+>> +       }
+>> +       result = maps;
+> 
+> What about just "return maps;" here instead?
+> 
+>> +       maps = NULL;
+>> +out:
+>> +       fuse_uring_free_q_maps(maps);
+>> +       return result;
+>> +}
+>> +
+>> +static int fuse_uring_cpu_to_node(int cpu)
+>> +{
+>> +       int node = 0;
+>> +
+>> +       /*
+>> +        * Userspace might not know that a CPU is not possible, or might not
+>> +        * care, and register a qid for it. cpu_to_node() is only defined for
+>> +        * possible CPUs, so such a queue goes to node 0.
+>> +        */
+>> +       if (cpu_possible(cpu))
+>> +               node = cpu_to_node(cpu);
+>> +
+>> +       /* a possible CPU that is not present can have no node */
+>> +       if (node == NUMA_NO_NODE)
+>> +               node = 0;
+>> +
+>> +       return node;
+>> +}
+>> +
+>> +static void fuse_uring_cpu_qid_mapping(struct fuse_queue_map *q_map, int node)
+>> +{
+>> +       int cpu, qid_idx, mapping_count = 0;
+>> +
+>> +       q_map->nr_queues = cpumask_weight(q_map->registered_q_mask);
+>> +       if (!q_map->nr_queues)
+>> +               return;
+>> +
+>> +       for_each_possible_cpu(cpu) {
+>> +               if (node != -1 && fuse_uring_cpu_to_node(cpu) != node)
+> 
+> nit: NUMA_NO_NODE instead of -1?
+> 
+>> +                       continue;
+>> +
+>> +               qid_idx = mapping_count % q_map->nr_queues;
+>> +               q_map->cpu_to_qid[cpu] = cpumask_nth(qid_idx,
+>> +                                                    q_map->registered_q_mask);
+>> +               mapping_count++;
+>> +       }
+>> +}
+>> +
+>> +static void fuse_uring_build_q_maps(struct fuse_queue_maps *maps)
+>> +{
+>> +       int node, registered_qid;
+>> +
+>> +       for_each_cpu(registered_qid, maps->global.registered_q_mask) {
+>> +               node = fuse_uring_cpu_to_node(registered_qid);
+>> +               cpumask_set_cpu(registered_qid,
+>> +                               maps->numa[node].registered_q_mask);
+>> +       }
+>> +
+>> +       fuse_uring_cpu_qid_mapping(&maps->global, -1);
+> 
+> nit: NUMA_NO_NODE instead of -1?
+> 
+>> +       for (node = 0; node < nr_node_ids; node++)
+>> +               fuse_uring_cpu_qid_mapping(&maps->numa[node], node);
+>> +}
+>> +
+>>  /*
+>>   * Basic ring setup for this connection based on the provided configuration
+>>   */
+>>  static struct fuse_ring *fuse_uring_create(struct fuse_chan *fch)
+>>  {
+>>         struct fuse_ring *ring;
+>> -       size_t nr_queues = num_possible_cpus();
+>> +       size_t nr_queues = nr_cpu_ids;
+> 
+> I think this will break backwards compatibility. is_ring_ready() logic
+> waits for every possible qid below ring->max_nr_queues, so if this is
+> now nr_cpu_ids, a server that registers qids 0..num_possible_cpus() -
+> 1 (which works today) will never become ready if the cpu ids are
+> non-contiguous. Maybe best addressed by having the ready check just
+> count the number of queues with entries and checking that against
+> num_possible_cpus()? I think ideally we would reject any queue
+> registration that passes a qid that doesn't map to a possible cpu, but
+> I think it's too late to change/enforce this now.
 
-Last potentially related work creation:
- kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
- kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
- slab_free_hook mm/slub.c:2709 [inline]
- slab_free mm/slub.c:6509 [inline]
- kmem_cache_free+0x45e/0x650 mm/slub.c:6636
- anon_vma_free mm/rmap.c:137 [inline]
- __put_anon_vma+0x12b/0x2d0 mm/rmap.c:2974
- put_anon_vma mm/internal.h:293 [inline]
- unlink_anon_vmas+0x544/0x720 mm/rmap.c:540
- free_pgtables+0x663/0xb70 mm/memory.c:401
- unmap_region+0x29d/0x330 mm/vma.c:534
- vms_clear_ptes mm/vma.c:1383 [inline]
- vms_complete_munmap_vmas+0x427/0xbe0 mm/vma.c:1425
- do_vmi_align_munmap+0x3b7/0x4b0 mm/vma.c:1684
- do_vmi_munmap+0x252/0x2d0 mm/vma.c:1732
- __vm_munmap+0x241/0x3e0 mm/vma.c:3415
- __do_sys_munmap mm/mmap.c:1094 [inline]
- __se_sys_munmap mm/mmap.c:1091 [inline]
- __x64_sys_munmap+0x60/0x70 mm/mmap.c:1091
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Yeah, in my hurry to fix the Sashiko report I had missed on Saturday
+night that it might break fuse-server. Maps still have to be allocated
+with the size of nr_cpu_ids. The new branch should handle it.
 
-The buggy address belongs to the object at ffff888111a3d528
- which belongs to the cache anon_vma of size 200
-The buggy address is located 17 bytes inside of
- freed 200-byte region [ffff888111a3d528, ffff888111a3d5f0)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888111a3d528 pfn:0x111a3d
-memcg:ffff888111a3df79
-flags: 0x17ff00000000200(workingset|node=0|zone=2|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 017ff00000000200 ffff888101688140 ffff8881006957c8 ffffea00047d6bd0
-raw: ffff888111a3d528 00000002000f0009 00000000f5000000 ffff888111a3df79
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5634, tgid 5634 (syz-executor), ts 59634551582
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1871
- prep_new_page mm/page_alloc.c:1879 [inline]
- get_page_from_freelist+0x2209/0x2280 mm/page_alloc.c:3943
- __alloc_frozen_pages_noprof+0x217/0x5a0 mm/page_alloc.c:5436
- alloc_slab_page mm/slub.c:3347 [inline]
- allocate_slab+0x7d/0x620 mm/slub.c:3462
- new_slab mm/slub.c:3513 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7418
- refill_sheaf mm/slub.c:2885 [inline]
- __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4774
- alloc_from_pcs mm/slub.c:4850 [inline]
- slab_alloc_node mm/slub.c:4984 [inline]
- kmem_cache_alloc_noprof+0x399/0x600 mm/slub.c:5010
- anon_vma_alloc mm/rmap.c:94 [inline]
- anon_vma_fork+0x88/0x540 mm/rmap.c:395
- dup_mmap+0x954/0x1dc0 mm/mmap.c:1781
- dup_mm kernel/fork.c:1543 [inline]
- copy_mm+0x115/0x480 kernel/fork.c:1595
- copy_process+0x1e79/0x4400 kernel/fork.c:2311
- kernel_clone+0x2d7/0x940 kernel/fork.c:2771
- __do_sys_clone kernel/fork.c:2913 [inline]
- __se_sys_clone kernel/fork.c:2897 [inline]
- __x64_sys_clone+0x1b6/0x230 kernel/fork.c:2897
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page last free pid 805 tgid 805 ts 42732995302 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1418 [inline]
- __free_frozen_pages+0xc93/0xd90 mm/page_alloc.c:2962
- __slab_free+0x274/0x2c0 mm/slub.c:5823
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:361
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4683 [inline]
- slab_alloc_node mm/slub.c:4996 [inline]
- __kmalloc_cache_noprof+0x29f/0x600 mm/slub.c:5559
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- drm_atomic_commit_alloc+0xa9/0x100 drivers/gpu/drm/drm_atomic.c:258
- drm_atomic_helper_dirtyfb+0x129/0xfd0 drivers/gpu/drm/drm_damage_helper.c:128
- drm_fbdev_shmem_helper_fb_dirty+0x160/0x310 drivers/gpu/drm/drm_fbdev_shmem.c:117
- drm_fb_helper_fb_dirty drivers/gpu/drm/drm_fb_helper.c:339 [inline]
- drm_fb_helper_damage_work+0x84c/0xf20 drivers/gpu/drm/drm_fb_helper.c:365
- process_one_work kernel/workqueue.c:3396 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Memory state around the buggy address:
- ffff888111a3d400: fc fc fc fc 00 00 00 00 00 00 00 00 00 00 00 00
- ffff888111a3d480: 00 00 00 00 00 00 00 00 00 00 00 00 00 fc fc fc
->ffff888111a3d500: fc fc fc fc fc fa fb fb fb fb fb fb fb fb fb fb
-                                        ^
- ffff888111a3d580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc fc
- ffff888111a3d600: fc fc fc fc fc fc fa fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
----
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
-
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
-
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
+Thanks,
+Bernd
