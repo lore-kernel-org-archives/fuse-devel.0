@@ -1,63 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793180003;
-	b=dN3jzlmaBF3u6iMTEJ4ipo1+hQoiqA4qFrNJKnihFZi9WoTbCBmt1CdzLVpRAyH1ijgq
-	 /ZZANDO4gNJDHr2ZcNVx6DBOfZ3p8O+Y0LrLT1lpVhs4uVkAuoocJPiYw2BVIedcbS7lq
-	 Pl3xQIWdaMLmf1KnRccuD7HcpZvUuccTj+God840lnYFAwTs2LP6LHq3DtJW9I0Ir4ga/
-	 SLKqsTlnBIozeAFTALxuRQcL7yUVlDhohINVhnmfOc+X0OyRjY7en4firUv4sodW2Q3a/
-	 YDKqRi0P4v1+SkV27toISwTfsk36eGHPl/8KJDUhV8QhXqlVbQkEFAKxqjTFBCtysaQ==
+	t=1793189005;
+	b=gAiZbinf2aOfdIH13MFjzOMAlMIhEPNbNftm8dw6zbm6edpbfztunRByHpaEZQT+u0i2
+	 FdsPjyPsRnq5+W6a/PO/5XwlhDFJLjJ++6sNxzTqdLnoszbRMe3YsSOrZpk9zyDjCgnag
+	 IPZXDoUaIgs1RQ6nxYANV8L3DI7MORIN6PJDjR05sCx63BO29WeFLk2xlr09W2BdEP7pp
+	 //fD088LprZsA6FdgfP2bEexGQUCMZn9hI0+uew9yytWDxh2eMr78xzK/MuUyUFT1IBN7
+	 ncszahRj7eaYmxex2pL1a0fvfIQqAqmhNyqXe4LY7wRUsgyCZI9euDhKd2VqMsdTJlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793180003;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793189005;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
 	 References:Date:Message-ID:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=o48BxfVRKyt8VwocGYiaSs0bwuLsENkNmhgJ5mRhlcg=;
-	b=Prcr4JAf/TImxrnzVoTap/rc9J/iMUiAn84HGVIL4G8feLjVpST95VitwU55ulDILR59
-	 aRK1lI9wmxxmLwajXdj0U1vmujVWd3hcxtXgla5pMNPuQnBcKVBglzS+p8nOvpu1D3vnZ
-	 7jjmb/wo4Von350mlnTbpA/DA9oZxNMzKLUQKb6/PGOMwpnfb6HgETqoBNXcqIri90d9U
-	 xFGpsz43TOOXc89060By3s9s/Qd9seaFduZawhfSdtTmhQ6uJ5NjVvm4/caalZX4VWoSn
-	 hSUnWF8Ln4UJ24qUdzTq23+JJ9lPk+X7f9XSCEG6037gCWx9NXqu3XVGsHbnvU13ffw==
+	bh=78YrWNBjFPUJ/rfjtCJQ1848U05YgSyGICYPO5oye7Q=;
+	b=QySIF+CVxBD6KIrOoUUOZFa55vq6VqQPFbjNpE6kA355LQhHkgeKudhI82SR35+WQuAu
+	 MgXOg84jhiOlppx28NdcubJv5li/DsaG/bPgDZ4NoAeB3AZrgeXz5B6RdRfWV694lcpwF
+	 yNKCyZOywI0M0JINWA5VebjyLnoHrgcIrnTP8z2di+juesn5kpcjpmClmWqzhfSjMUt8g
+	 1b0pFNiTCXZpydXZpFO/1x2pZ/984roimjYTHQ9Qr7wTgb/kDVfDY5XvctPpmVc54Oss+
+	 rTeebbSSWPU6W2XOvTQdTdOaB8lVbtMWD4/fMOK25TMGKBgxN+DyOYnqQnLIjnMapAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=igalia.com;
 	spf=pass smtp.mailfrom=igalia.com;
-	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b="QkmyU/vW";
+	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=Yw4WBGmS;
 	arc=none smtp.remote-ip=213.97.179.56
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D936606A31C;
-	Wed, 28 Oct 2026 09:33:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D936606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909A6606A31A;
+	Wed, 28 Oct 2026 12:03:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 909A6606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=QkmyU/vW
+	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=Yw4WBGmS
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
 	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=o48BxfVRKyt8VwocGYiaSs0bwuLsENkNmhgJ5mRhlcg=; b=QkmyU/vWjCV60OWMBHN+43GJJq
-	T4cc9x79JCeL0TxvbjYQLZDzlgWaXu0VkmyYLUC0rHzkt8uUodCM7RIp/5o3yJ67y85h+vzpg7QwW
-	CxJtc6ubM4zs/ipN1Y+DX2uN7Zg6l1dIttfQM13IGlVU6Sl6EskwqqqoPBPDqC/5wQrzy5PTWlF0q
-	LogsmiaYO+FATLPXZ2bbYc/asQHc5cRQP79PQB0es9kDhkrAWZC/f3nsd4B49bO4yVIdTgQSRWAR0
-	A5YHqyOosp2BQQmpahoxT2JgkOFV8aVZ9qmPKKGQ+wJauWTgN9K/MFe79vAM27v+dCGzA1Y8QEl4Q
-	AePlXYSg==;
+	bh=78YrWNBjFPUJ/rfjtCJQ1848U05YgSyGICYPO5oye7Q=; b=Yw4WBGmS8DyjEYEgr1tyegbftO
+	EUsTQ1rIjPYYKr7UELpOnuGe29K12ZKyq9hZjlRJoHq0TVPYzpxUidFl3xpJJRsIGXATTtTWlWD/v
+	r6H9k+fUoDcbFNeFk9on0phxi8n4K3+40VS9OO+gVZzX4RpQB9GycBucgfqrRo3FCTTLrEsZo9ifO
+	2dGnkaIhn8XcKGL34auO4E2HaVeyrbnjBXlKn0yTFNVEf+0bdOktmiDMint8d8m45TOxQW8vrrSDJ
+	EQhUqhXOYILe1HJCutjc3XY/PuMmaEXkyd31CP97aqogl65dFcr5zIXTiOdMyoc1XYCHFil+FkL4o
+	DzPNrH8Q==;
 Received: from [188.250.79.109] (helo=localhost)
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xM020-00CisY-IC; Wed, 28 Oct 2026 10:33:16 +0100
+	id 1xM2NA-00Cq9K-DU; Wed, 28 Oct 2026 13:03:16 +0100
 From: Luis Henriques <luis@igalia.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  Amir Goldstein
- <amir73il@gmail.com>,  Shuah Khan <shuah@kernel.org>,
-  fuse-devel@lists.linux.dev,  linux-fsdevel@vger.kernel.org,
-  linux-kselftest@vger.kernel.org,  linux-kernel@vger.kernel.org,  kernel
- test robot <lkp@intel.com>
-Subject: Re: [PATCH] selftests/fuse: add the missing symlink caching test
-In-Reply-To: <20261026194008.274349-1-sashal@kernel.org>
-References: <20261026194008.274349-1-sashal@kernel.org>
-Date: Wed, 28 Oct 2026 09:34:44 +0000
-Message-ID: <87zevyi2x7.fsf@igalia.com>
+To: Leon Ming <leonming@meta.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,  <fuse-devel@lists.linux.dev>,
+  <linux-fsdevel@vger.kernel.org>,  <linux-kernel@vger.kernel.org>,  Joanne
+ Koong <joannelkoong@gmail.com>,  <stable@vger.kernel.org>
+Subject: Re: [PATCH] fuse: set dentry epoch before making the dentry visible
+In-Reply-To: <20261026201101.3915217-1-leonming@meta.com>
+References: <20261026201101.3915217-1-leonming@meta.com>
+Date: Wed, 28 Oct 2026 12:04:44 +0000
+Message-ID: <87se1qhvz7.fsf@igalia.com>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -70,227 +68,141 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 26 2026, Sasha Levin wrote:
+On Mon, Oct 26 2026, Leon Ming wrote:
 
-> Commit 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
-> registered fuse_symlink_cache_test in the fuse selftest Makefile and
-> .gitignore, but the test source was not part of the applied commit, so
-> building the fuse selftests fails:
+> fuse_lookup(), create_new_entry(), fuse_create_open() and
+> fuse_direntplus_link() all record the connection epoch in the new dentry
+> only after d_splice_alias() or d_instantiate() has published it.  A new
+> dentry starts with an epoch of zero (fuse_dentry_init()), and the
+> connection epoch starts at one, so in that window the dentry is hashed
+> but fails the epoch check in fuse_dentry_revalidate().
 >
->   make[1]: *** No rule to make target 'fuse_symlink_cache_test.c', needed=
- by '.../fuse_symlink_cache_test'.
+> d_splice_alias() hashes the dentry and wakes the lookups waiting on it
+> in d_alloc_parallel().  A waiter, or a concurrent lookup_fast() that
+> finds the dentry in the hash, calls ->d_revalidate(), gets 0 and
+> d_invalidate()s the dentry the original lookup is about to return.  The
+> caller still gets a valid dentry, but it is now unhashed.  One visible
+> result is that readlink() of /proc/self/fd/N for an O_PATH fd opened on
+> that path returns "<path> (deleted)" for a file that exists.
 >
-> Add fuse_symlink_cache_test.c as posted in Luis Henriques's v5
-> submission. The test serves a file and a symlink to it from a libfuse
-> low-level filesystem, resolves the symlink 100 times, and counts the
-> readlink requests that reach the server: one when FUSE_CAP_CACHE_SYMLINKS
-> is set during FUSE_INIT, and all 100 when it is not.
+> This shows up when many threads look up the same uncached path at once.
+> TypeScript's native compiler (tsgo) resolves real paths with
+> open(O_PATH) + readlink(/proc/self/fd/N), and when it type-checks a
+> project in a FUSE-backed checkout it intermittently caches the
+> "(deleted)" path and fails to resolve a package that is installed.
 >
-> Fixes: 3e14f079d7a0 ("selftests/fuse: add fuse symlink caching test")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/r/202610170822.oEJ1Autq-lkp@intel.com/
-> Link: https://lore.kernel.org/r/20261001164916.15311-8-luis@igalia.com
-> Originally-by: Luis Henriques <luis@igalia.com>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Before commit 5a6baf204610 ("fuse: fix uninit-value in
+> fuse_dentry_revalidate()") initialised the epoch to zero, it held
+> whatever the slab left there, so the check usually passed by accident.
+>
+> Set the epoch on the new dentry before it is published.  If
+> d_splice_alias() returns an existing alias, keep setting the epoch on
+> that dentry afterwards, as before.
+>
+> Reproducer: N processes start together and each run open(O_PATH) +
+> readlink(/proc/self/fd/N) over the same list of files in a freshly
+> mounted FUSE filesystem, counting results that end in " (deleted)".
+> On this tree under UML (16 CPUs, squashfuse_ll, 6000 files, 32
+> processes, a fresh mount per round):
+>
+>   before: 3519 of 10.75M lookups "(deleted)", in 51 of 56 rounds
+>   after:  0 of 10.75M lookups
+>
+> On v7.1-based production kernels with EdenFS the same test returned
+> "(deleted)" for 5.5% of lookups.
+>
+> Fixes: 2396356a945b ("fuse: add more control over cache invalidation beha=
+viour")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Leon Ming <leonming@meta.com>
 > ---
-> As with e64a46aefc01 ("selftests/fuse: add the missing FUSE_HAS_SYNCFS
-> privilege test"), the new file in the posted patch is not in the applied
-> commit; the other files did land.
+>  fs/fuse/dir.c     | 16 ++++++++++++----
+>  fs/fuse/readdir.c |  1 +
+>  2 files changed, 13 insertions(+), 4 deletions(-)
+>
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 28516a1760e..b7af3f5a3bb 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -644,13 +644,21 @@ static struct dentry *fuse_lookup(struct inode *dir=
+, struct dentry *entry,
+>  	if (inode && get_node_id(inode) =3D=3D FUSE_ROOT_ID)
+>  		goto out_iput;
+>=20=20
+> +	/*
+> +	 * Set the epoch before d_splice_alias() makes the dentry visible.
+> +	 * Otherwise a concurrent lookup can find it with an epoch of zero, fail
+> +	 * fuse_dentry_revalidate() and invalidate it under us.
+> +	 */
+> +	fuse_dentry_set_epoch(entry, epoch);
+>  	newent =3D d_splice_alias(inode, entry);
+>  	err =3D PTR_ERR(newent);
+>  	if (IS_ERR(newent))
+>  		goto out_err;
+>=20=20
+> -	entry =3D newent ? newent : entry;
+> -	fuse_dentry_set_epoch(entry, epoch);
+> +	if (newent) {
+> +		entry =3D newent;
+> +		fuse_dentry_set_epoch(entry, epoch);
+> +	}
 
-Oh, wow!  I wonder how that happen.  Anyway, thanks for noticing that and
-for fixing it, Sasha.  If it makes any sense (I wrote the test! :-) ) feel
-free to add my
+I believe this is very unlikely to cause problems, but we're slightly
+changing the behaviour here.  Before we were setting the epoch only in one
+of the dentries.  With this patch we're *always* setting the epoch in the
+dentry being looked up, *and* possibly in an alias returned by
+d_splice_alias().
 
-Reviewed-by: Luis Henriques <luis@igalia.com>
+Can you see any possible issues with this change?
+
+>  	if (outarg_valid)
+>  		fuse_change_entry_timeout(entry, &outarg);
+>  	else
+> @@ -907,8 +915,8 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
+struct inode *dir,
+>  		goto out_err;
+>  	}
+>  	kfree(forget);
+> -	d_instantiate(entry, inode);
+>  	fuse_dentry_set_epoch(entry, epoch);
+> +	d_instantiate(entry, inode);
+>  	fuse_change_entry_timeout(entry, &outentry);
+>  	fuse_dir_changed(dir);
+>  	err =3D generic_file_open(inode, file);
+> @@ -1030,6 +1038,7 @@ static struct dentry *create_new_entry(struct mnt_i=
+dmap *idmap, struct fuse_moun
+>  		fuse_chan_queue_forget(fm->fc->chan, forget, outarg.nodeid, 1);
+>  		return ERR_PTR(-ENOMEM);
+>  	}
+> +	fuse_dentry_set_epoch(entry, epoch);
+>  	kfree(forget);
+>=20=20
+>  	d =3D d_splice_alias(inode, entry);
+> @@ -1040,7 +1049,6 @@ static struct dentry *create_new_entry(struct mnt_i=
+dmap *idmap, struct fuse_moun
+>  		fuse_dentry_set_epoch(d, epoch);
+>  		fuse_change_entry_timeout(d, &outarg);
+>  	} else {
+> -		fuse_dentry_set_epoch(entry, epoch);
+>  		fuse_change_entry_timeout(entry, &outarg);
+>  	}
+>  	fuse_dir_changed(dir);
+> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
+> index 83a1cc46fe4..ffce4031892 100644
+> --- a/fs/fuse/readdir.c
+> +++ b/fs/fuse/readdir.c
+> @@ -239,6 +239,7 @@ static int fuse_direntplus_link(struct file *file,
+>  		if (!inode)
+>  			inode =3D ERR_PTR(-ENOMEM);
+>=20=20
+> +		fuse_dentry_set_epoch(dentry, epoch);
+>  		alias =3D d_splice_alias(inode, dentry);
+>  		d_lookup_done(dentry);
+>  		if (alias) {
+
+Personal preference: I'd move the other fuse_dentry_set_epoch() into the
+other branch ("if (!d_in_lookup(dentry) ... " ).
 
 Cheers,
 --=20
 Lu=C3=ADs
-
-
->  .../fuse/fuse_symlink_cache_test.c            | 162 ++++++++++++++++++
->  1 file changed, 162 insertions(+)
->  create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_symlink=
-_cache_test.c
->
-> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_=
-test.c b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
-> new file mode 100644
-> index 0000000000000..7b53734995736
-> --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/fuse/fuse_symlink_cache_test.c
-> @@ -0,0 +1,162 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Simple filesystem to test FUSE symlink cache
-> + *
-> + * This is a simple FUSE filesystem that contains two objects: a file na=
-med
-> + * 'file' and a symlink to that file named 'link'.  If symlink caching is
-> + * disabled (i.e. FUSE_CAP_CACHE_SYMLINKS is reset during FUSE_INIT), wh=
-enever
-> + * the ->readlink() is executed to resolve 'link' a counter will be incr=
-emented.
-> + *
-> + * If symlink caching is enabled (i.e. FUSE_CAP_CACHE_SYMLINKS is set du=
-ring
-> + * FUSE_INIT), resolving a symlink will only call into user-space the fi=
-rst
-> + * time.
-> + */
-> +
-> +#define FUSE_USE_VERSION 31
-> +
-> +#include <stdio.h>
-> +#include <fuse_lowlevel.h>
-> +
-> +#include "kselftest_harness.h"
-> +
-> +#include "fuse_common.h"
-> +
-> +#define FILENAME "file"
-> +#define FILE_INO 42
-> +
-> +#define LINKNAME "link"
-> +#define LINK_INO 43
-> +
-> +#define TIMEOUT	86400.0f
-> +
-> +struct test_state {
-> +	pthread_mutex_t lock;
-> +	int readlink_counter;
-> +	bool cache;
-> +} test_state =3D {
-> +	.lock =3D PTHREAD_MUTEX_INITIALIZER,
-> +};
-> +
-> +static void fs_init(void *userdata, struct fuse_conn_info *conn)
-> +{
-> +	pthread_mutex_lock(&test_state.lock);
-> +	if (test_state.cache)
-> +		fuse_set_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
-> +	else
-> +		fuse_unset_feature_flag(conn, FUSE_CAP_CACHE_SYMLINKS);
-> +	pthread_mutex_unlock(&test_state.lock);
-> +}
-> +
-> +static void fs_lookup(fuse_req_t req, fuse_ino_t parent, const char *nam=
-e)
-> +{
-> +	struct fuse_entry_param e =3D {};
-> +
-> +	if (parent !=3D FUSE_ROOT_ID ||
-> +	    (strcmp(name, FILENAME) !=3D 0 && strcmp(name, LINKNAME) !=3D 0)) {
-> +		fuse_reply_err(req, ENOENT);
-> +		return;
-> +	}
-> +
-> +	if (!strcmp(name, FILENAME)) {
-> +		e.ino =3D FILE_INO;
-> +		e.attr.st_mode =3D S_IFREG | 0444;
-> +		e.attr.st_nlink =3D 2;
-> +	} else if (!strcmp(name, LINKNAME)) {
-> +		e.ino =3D LINK_INO;
-> +		e.attr.st_mode =3D S_IFLNK | 0444;
-> +		e.attr.st_nlink =3D 1;
-> +		e.attr.st_size =3D strlen(FILENAME);
-> +	}
-> +	e.attr_timeout =3D TIMEOUT;
-> +	e.entry_timeout =3D TIMEOUT;
-> +
-> +	fuse_reply_entry(req, &e);
-> +}
-> +
-> +static void fs_readlink(fuse_req_t req, fuse_ino_t ino)
-> +{
-> +	char buf[PATH_MAX];
-> +	size_t sz =3D strlen(FILENAME);
-> +
-> +	if (ino !=3D LINK_INO) {
-> +		fuse_reply_err(req, ENOENT);
-> +		return;
-> +	}
-> +
-> +	memcpy(buf, FILENAME, sz);
-> +	buf[sz] =3D '\0';
-> +	pthread_mutex_lock(&test_state.lock);
-> +	test_state.readlink_counter++;
-> +	pthread_mutex_unlock(&test_state.lock);
-> +
-> +	fuse_reply_readlink(req, buf);
-> +}
-> +
-> +static const struct fuse_lowlevel_ops fs_ops =3D {
-> +	.init           =3D fs_init,
-> +	.lookup		=3D fs_lookup,
-> +	.readlink	=3D fs_readlink,
-> +};
-> +
-> +FIXTURE(symlink_cache)
-> +{
-> +	struct fuse_common_ctx ctx;
-> +};
-> +FIXTURE_VARIANT(symlink_cache)
-> +{
-> +	const bool cache;
-> +};
-> +FIXTURE_VARIANT_ADD(symlink_cache, symlinks_nocache)
-> +{
-> +	/* Variant with symlink cache disabled */
-> +	.cache =3D false,
-> +};
-> +FIXTURE_VARIANT_ADD(symlink_cache, symlinks_cache)
-> +{
-> +	/* Variant with symlink cache enabled */
-> +	.cache =3D true,
-> +};
-> +
-> +FIXTURE_SETUP(symlink_cache)
-> +{
-> +	char err[MAX_ERR_MSG];
-> +
-> +	pthread_mutex_lock(&test_state.lock);
-> +	test_state.readlink_counter =3D 0;
-> +	test_state.cache =3D variant->cache;
-> +	pthread_mutex_unlock(&test_state.lock);
-> +
-> +	if (fs_setup(&fs_ops, &self->ctx, err))
-> +		SKIP(return, err);
-> +}
-> +
-> +FIXTURE_TEARDOWN(symlink_cache)
-> +{
-> +	fs_teardown(&self->ctx);
-> +}
-> +
-> +TEST_F(symlink_cache, test_symlink_cache)
-> +{
-> +	char pathname[PATH_MAX];
-> +	char buf[PATH_MAX];
-> +	ssize_t sz;
-> +	int counter;
-> +	int i;
-> +
-> +	sprintf(pathname, "%s/%s", self->ctx.mountpoint, LINKNAME);
-> +	for (i =3D 0; i < 100; i++) {
-> +		sz =3D readlink(pathname, buf, PATH_MAX);
-> +		ASSERT_NE(sz, -1);
-> +	}
-> +	pthread_mutex_lock(&test_state.lock);
-> +	counter =3D test_state.readlink_counter;
-> +	pthread_mutex_unlock(&test_state.lock);
-> +
-> +	if (variant->cache) {
-> +		ASSERT_EQ(counter, 1);
-> +	} else {
-> +		ASSERT_EQ(counter, 100);
-> +	}
-> +}
-> +
-> +TEST_HARNESS_MAIN
->
-> base-commit: 9b1da7b4a4e197072e630c3b85d4100a399752ff
-> --=20
-> 2.53.0
->
-
