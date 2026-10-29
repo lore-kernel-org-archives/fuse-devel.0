@@ -1,74 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793245034;
-	b=WBqXWuXO5TlcWmBalwJm8j3kGWXMcGLBFSin7wSNV+tRt5Pl5QZzGjoJNDUNEaR7En+v
-	 MfNDzxdbZkPoB8xnEVCAkhTQxWk/D76A4G6zNBQImpLZWKyNg2/1UtNf0muy0PCdhlFjy
-	 6xys2CvQNXRzCDxNDP6QeMocPVqc1f8BvY70rDhWNraTyhQwZtOb7T0Vblq/LcJYrnbFt
-	 /utqJN2jGM4Xmbyy5GktmzvxbAYqKT4gZruboWnU+8ydAO8PusBGS3hfz3Wswgo8noyYC
-	 71lG/R0bApqYF4gsjZJr8wDEXJHSYBYjZnOTZrfKtwQn475ZfTDZzv/l4Pthhbh3v5A==
+	t=1793270357;
+	b=pkhBZqfYtWlmgS2BfqKZZTeNiSnpXjWYOb3Wj5oSIIzGR4V0sWm2tdo+VLCkpZGArpol
+	 BzbF47Lew829AXgfRbLRi6KL9qlDDlX/k7XO2Cx5Z0cmUNwGf42Q3bw+nmeHiTYY815gb
+	 Y3kt5aBuazMnuLvJk/rqgeZ5R0oHDS9NIVKx+bfHf4V7XzxzyFRujnv77/WO2RaAQif8T
+	 X4PmyYd0E7sswGacs4+tCAvex5p4mqKOaXrLuT4fUYHhNQVKUdeUjneZeWwSn9EQsfJRu
+	 e3Sse+3BE2khwTwSy/pkIy02EYQM2UquS4v4isoklew4JZGiEOl5IqO+sUSqzONxAKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793245034;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:From:
-	 To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-FB-Internal:Content-Type:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version;
-	bh=12GT4EhTbX39PzGGZFoO/AfGlalW+8tUPjKC4n+eba0=;
-	b=Zt/Q7g73TYoHkRJbrGLuiXoySkxT/Jr37AvnRTiR+5CGG2PbuorAQBlxFrIqIQBdDwvi
-	 N1KtYSw/rKrXVtThDpJ+b4r1ixVuNoyk54KIa8hyx5aEun6yJSOQDEBdGlHEVLYtZ96TF
-	 ailYl9kgHB29Ebws9i2jO9u7IAfxoaWgTG5ec3s/zZ4mZlmJPEKDUO7bdshbho4nlzdUv
-	 X+4W0RV4AUEt51g10psZGtgWdsoyvtCHD8Z49Y9fNzMEZsYqP3nl8Lgdo8VE40WRFLSRp
-	 q1SLAajU9Gpiy2WPTcJbSwvTfigtZ0DwRABuz2QGSGb3zPlO1WV3AEzwZFCLWX8YRZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793270357;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=JmwoDj3PG9XFrsBQzQoBbAJE6gd81sDGhucCNwLvdrc=;
+	b=guIgsnrkqHj0QCfiI81FglkPT6tixyVcP5k8T2lGG2B3nj0/zk4XSNwoh5dOlqXJU9lw
+	 MO6vxeVwQdVWH5j3uH4VqjT2cHxKwSazuv7a9+Zut/b66aqIWhm6fhvUJUC59AbLgb59e
+	 dsiqj5a8NhL+LSqRy1fs75M+MKla8TKzKbLAB1DEDWktun7vkKy9xEzUpD+dcrtEo55va
+	 u1vasGJTnyErsfLGCRbyhfxlf5rKfl140vmt5tmlVVrIHQMHpAk4/Rcz7boqd6Kvq05OT
+	 CbAwVj6h7D+ph2Fg/nKMl5Aod/89MklI09H5U1I30qDbwqKGAWYsBps6hnsrQ3dxFYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=meta.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=RPbN2Qno;
-	arc=none smtp.remote-ip=67.231.153.30
-Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zjsmw7yO;
+	arc=none smtp.remote-ip=209.85.208.46
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3F2606A324
-	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 03:37:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C3F2606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A2E606A320
+	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 10:39:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20A2E606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=RPbN2Qno
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69T39Vg13151667
-	for <fuse-devel@lists.linux.dev>; Wed, 28 Oct 2026 20:37:12 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=pps82601-s2048-2026-q3; bh=12GT4EhTb
-	X39PzGGZFoO/AfGlalW+8tUPjKC4n+eba0=; b=RPbN2Qno62lvcCeVcsG9k8YDC
-	nJsupb+ugKMaWQXA5RuKGXmI0hAmtZYIxT4o1va1hsQujO6T6g7EOx6SCInUXQc2
-	jj5N/DZWqeMkAtiX7TCj25A/IRl59DJDp1wyBU4tYx/PXIjA3LAlwyGZ7+87cl37
-	8qGw9ESUIMJm1Ur5o1HgVfp7sN7XrQOxac1FoCfbb8s58LCBNm3aHlmRHXHWzxC+
-	zkNZzjXKQ3KpCSFZowRVS4bubG9KHM1JDgF0tfo76kvX38f00b185bxXyVF0mIyM
-	uyr5XDlqtGxUSol6WGJx6pt3QBVXhaK4ELSba5c5Ow8V3LhL5DJjPDu15oTYQ==
-Received: from mail.thefacebook.com ([163.114.134.16])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hjxcawaxh-3
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <fuse-devel@lists.linux.dev>; Wed, 28 Oct 2026 20:37:12 -0700 (PDT)
-Received: from twshared13996.31.frc3.facebook.com (2620:10d:c085:208::7cb7) by
- mail.thefacebook.com (2620:10d:c08b:78::c78f) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.56; Thu, 29 Oct 2026 03:37:09 +0000
-Received: by devvm33008.atn0.facebook.com (Postfix, from userid 228142)
-	id 328B91323D9C4B; Wed, 28 Oct 2026 20:37:03 -0700 (PDT)
-From: Leon Ming <leonming@meta.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-CC: <fuse-devel@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Luis Henriques <luis@igalia.com>,
-        Joanne
- Koong <joannelkoong@gmail.com>, <leonming@meta.com>,
-        <stable@vger.kernel.org>
-Subject: [PATCH v2] fuse: set dentry epoch before making the dentry visible
-Date: Wed, 28 Oct 2026 20:37:00 -0700
-Message-ID: <20261029033700.273707-1-leonming@meta.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zjsmw7yO
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b4bd3d98bfso409446a12.1
+        for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 03:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793270355; x=1793875155; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JmwoDj3PG9XFrsBQzQoBbAJE6gd81sDGhucCNwLvdrc=;
+        b=zjsmw7yObAS2VR0XttH/C1E5ID8LImQKxCLLfWIlfFBtJiAZX8Yx6w3hw6iujeg+6E
+         ZnBU1ydI1gD0p5X8GDwANHsG3sQOj5I/OXYr9dQCf83mX011ChID/ylgg9uEpcdn8DGU
+         omiA+Cid5VJENvoUSTs/dSP3S5V690KUZ4v5qfPrRJ1w3h3Hyfc2CfhwpICQYdSGFIQu
+         NiBgz8XbOGi1jEziUIXwq5Bp1ZybI5jSblade8xM6ed6eRBL/THHjKrw14Ou77ioS2UJ
+         jdFan24wfV41eh14cfChQSxyD3ZMj7r/pPRNGqUT7rvwsTprf9DNgLw6eeJp2K0z5iSY
+         BaBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793270355; x=1793875155;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JmwoDj3PG9XFrsBQzQoBbAJE6gd81sDGhucCNwLvdrc=;
+        b=eA4Xrp8+dAgLtyH+fYywmPKQeYJuRvjixnOPUmbcsIv4UYTFTI0rVlDtTgwwryajb/
+         sZb/N70LkRvur6anjq3Xor7wBkjIZrQpvYC78rLfa2Yr2WQqm6zzvlgjRcdDZp8+man1
+         lplA/q1KIjzificdmq2An7hCFQCFAgSNLNca7KZYwllwChwmwE5OC22eDUt3Icz1Jwzo
+         J1PM8nfv7pjGFST4CkcV53DMrx1p3hFLqpUpOZ4qr1Zot1MyVI2lzU6HYuFW/j8kO+Of
+         aONKdwAX2SkwvqTsWHmDmBLDaFaxEcCMpzREfrpKSauydVkH0bZrfw+HgpuIBFOiH0Km
+         TTgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz+l6TL6cLvabYEmr8TW0AH3FrUvUh8pcp2n7dKMAA0CuhhV4K958wTGWEDVillQHjjweWUjrS9f3d5@lists.linux.dev
+X-Gm-Message-State: AFq9FYJMkyhmHy+4/suR0dhKUfoEYNoIKp0eobEOadDGym/UQXJ2IufN
+	pR97HRgAdNqkh3h7CdrQLv3EFFhdQaLagZ5iE4V1PRUsjABh0s2jyN18
+X-Gm-Gg: AYBFou1D5ByCjfty++7VCeD2IBBig7t7WhNNIWGZE9CfVQhxaW90fTYkSDLaDYePNQO
+	T6m7m4bqYL7cpPJdM7gIdr7furiPdqkoZiKJ3T9ve6wN1OjyC6WRSPYyMJR1wphwSrIAMaTaVDV
+	hGvyXIhM7qdU8FWg4yaytEkJhGMkLCgcoDkWcXnURV1/jTKJXG37Mc4Zw24TTl7pWA9L+R40xZe
+	uLMLXEF2p3vEqqh69pvsD26tObXB01BlL95ieD+V7+F2/qJZxYUCXjkVes0iKlJ3KGi02IgC94A
+	Wc+sS0blNbnDP3++XykyM1IPK4sd/lgp1KzHPdAbaAC7E8U387Vm+y5LYFUwezeKCblXkaykrRe
+	TJRKhs+DG3pn0/Ore7qTunVfM2sCiNPzqtRARM/RoLkLngMHSY1vh3sPUjLskVKmPRpcfGYP3wY
+	HLzum3srFMnV/0bYie496OzI3E1OGOHXzMbcs+RovOdY000WjBew6dnJfNnE2ZenkgOgVqnh+G+
+	a/cu+Mq7qASUwJO95TrUZ4jE4XaHJQZc3emNI9yjpZmFrjGI1zfzeE7Vmfu2mjZ+Lj6ePtKndGs
+	ffiT2Is6V36T7vcr49Uj4q+6HgLSmE09+kltvIviQzWCd6pmWbcbuz059WeRd8F1cNeBiYnUl4G
+	NuKx0miz+/5LNagyRj+nF8IPnYZaojDdy
+X-Received: by 2002:a17:906:99c1:b0:c29:22cf:b0f5 with SMTP id a640c23a62f3a-c49bdf39ecbmr404107366b.33.1793270355081;
+        Thu, 29 Oct 2026 03:39:15 -0700 (PDT)
+Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c49954c8ff1sm479288166b.78.2026.10.29.03.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 03:39:14 -0700 (PDT)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev
+Subject: [PATCH 00/16] Overlayfs fixes from Chris Mason (batch 1)
+Date: Thu, 29 Oct 2026 11:39:04 +0100
+Message-ID: <20261029103913.2785828-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -78,157 +96,77 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=I8/w19gg c=1 sm=1 tr=0 ts=6ae2bf68 cx=c_pps
- a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=JnKecZnUtZousrUlYMGU:22 a=VwQbUJbxAAAA:8 a=VabnemYjAAAA:8
- a=0TxM4ttc_5TPnjwGPAwA:9 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI5MDAxMiBTYWx0ZWRfXz+znuVVM0vOA
- VqpgPq5pFMleRVsGZxyuMrbQ/74YYr/YARST7OqPIxZz9DNrMnzJsiJwgtUvLKSYnLs9X16cz7p
- BOJNszaI6Qcw28T54jkbEaXFAUsfQSo=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI5MDAxMiBTYWx0ZWRfX6DME4my0mh7j
- BrAnjrBa5/psCQIPeesSGFWyKRHoEt2lp4cxMvfOor0GUv58+b3xWw3zF7xRrUz6UBVaGxbGecn
- VH/mIr24nxhys81qjDMbEQSFkwmsOuPq49n7QJX7HNW3vjkTzJKWQZXDfz7NBx++9gaqVRjPe7d
- 5MkNQ12zophW7PM+lomHbhrfkurdniEF5XiO5azj8JV1fmc7qtJ0DrLGp0NeMqTs1HCaGkeU2Qy
- TeuTNCShWQyshQTP+kcKm0WFD3LeD/eiKnsJHV4QWRFYuAdnyRaclcYtf2emWH6xVoLatbj28R/
- QsseTUHNGS67U9ipxC/xtb8LIKQpClPoSMoWaIt69fGzYEuytOxB3rmaMPa9la+ofhiwv3JYRsT
- b2i6Pu0mDzzo/60dL755VUJ6+cYnU5DxXATDJDfHA2WxoW14jA7Ss7LpgL4YX/Q0K3IF62sH+VR
- leH03mUmg2H8M5skYPw==
-X-Proofpoint-GUID: aMg850fF95SyXR5kU_F870y2UHwpA9Fw
-X-Proofpoint-ORIG-GUID: aMg850fF95SyXR5kU_F870y2UHwpA9Fw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-29_01,2026-10-21_02,2025-10-01_01
+Content-Transfer-Encoding: 8bit
 
-fuse_lookup(), create_new_entry(), fuse_create_open() and
-fuse_direntplus_link() set the dentry epoch only after d_splice_alias()
-or d_instantiate() has made the dentry visible.  A new dentry starts at
-epoch 0 and the connection at epoch 1, so in that window a concurrent
-lookup can find the dentry, fail fuse_dentry_revalidate() and
-d_invalidate() it.  The original lookup then returns an unhashed dentry,
-and readlink() of /proc/self/fd/N on an O_PATH fd for it says
-"<path> (deleted)" for a file that exists.
+Hi folks,
 
-Anything that resolves real paths with open(O_PATH) + readlink() can
-pick up the bogus path; TypeScript's native compiler (tsgo)
-intermittently fails to find installed packages this way.  It got much
-more common after commit 5a6baf204610 ("fuse: fix uninit-value in
-fuse_dentry_revalidate()") zeroed the initial epoch; before that, slab
-garbage usually passed the check.
+The following batch of patches is part of a collection of overlayfs bugs
+reported by Chris Mason.
 
-Set the epoch before the dentry is published, and keep setting it on
-any alias that d_splice_alias() returns; the dentry that loses to an
-alias is dropped without ever being visible, so setting it too is
-harmless.
+These bugs were found by Chris' AI code scanner (kres), but underwent
+extensive manual auditing and filtering by both Chris and Josef.
 
-With 32 processes making concurrent first lookups of 6000 files on a
-fresh squashfuse_ll mount (UML, 16 CPUs), 1652 of 10.75M lookups came
-back "(deleted)" before this patch and none after.
+I thank them both for handing me a reasonably sized pile of patches,
+most of them important, correct and ready to merge.
 
-Fixes: 2396356a945b ("fuse: add more control over cache invalidation beha=
-viour")
-Cc: stable@vger.kernel.org
-Signed-off-by: Leon Ming <leonming@meta.com>
----
-v2: in fuse_direntplus_link(), set the epoch in each branch instead of
-    once after both (Luis)
-v1: https://lore.kernel.org/r/20261026201101.3915217-1-leonming@meta.com
+The patches selected in this batch were either simple enough to merge
+without questions or important enough for me to invest the extra time.
 
- fs/fuse/dir.c     | 12 ++++++++----
- fs/fuse/readdir.c |  5 ++++-
- 2 files changed, 12 insertions(+), 5 deletions(-)
+Patches that I changed include a note [amir: ...] with my changes above
+my signature.
 
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 28516a1760..650bd13fd2 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -644,13 +644,17 @@ static struct dentry *fuse_lookup(struct inode *dir=
-, struct dentry *entry,
- 	if (inode && get_node_id(inode) =3D=3D FUSE_ROOT_ID)
- 		goto out_iput;
-=20
-+	/* Set before the dentry is visible, or a racing lookup invalidates it =
-*/
-+	fuse_dentry_set_epoch(entry, epoch);
- 	newent =3D d_splice_alias(inode, entry);
- 	err =3D PTR_ERR(newent);
- 	if (IS_ERR(newent))
- 		goto out_err;
-=20
--	entry =3D newent ? newent : entry;
--	fuse_dentry_set_epoch(entry, epoch);
-+	if (newent) {
-+		entry =3D newent;
-+		fuse_dentry_set_epoch(entry, epoch);
-+	}
- 	if (outarg_valid)
- 		fuse_change_entry_timeout(entry, &outarg);
- 	else
-@@ -907,8 +911,8 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
-struct inode *dir,
- 		goto out_err;
- 	}
- 	kfree(forget);
--	d_instantiate(entry, inode);
- 	fuse_dentry_set_epoch(entry, epoch);
-+	d_instantiate(entry, inode);
- 	fuse_change_entry_timeout(entry, &outentry);
- 	fuse_dir_changed(dir);
- 	err =3D generic_file_open(inode, file);
-@@ -1030,6 +1034,7 @@ static struct dentry *create_new_entry(struct mnt_i=
-dmap *idmap, struct fuse_moun
- 		fuse_chan_queue_forget(fm->fc->chan, forget, outarg.nodeid, 1);
- 		return ERR_PTR(-ENOMEM);
- 	}
-+	fuse_dentry_set_epoch(entry, epoch);
- 	kfree(forget);
-=20
- 	d =3D d_splice_alias(inode, entry);
-@@ -1040,7 +1045,6 @@ static struct dentry *create_new_entry(struct mnt_i=
-dmap *idmap, struct fuse_moun
- 		fuse_dentry_set_epoch(d, epoch);
- 		fuse_change_entry_timeout(d, &outarg);
- 	} else {
--		fuse_dentry_set_epoch(entry, epoch);
- 		fuse_change_entry_timeout(entry, &outarg);
- 	}
- 	fuse_dir_changed(dir);
-diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-index 83a1cc46fe..a3af5ad82a 100644
---- a/fs/fuse/readdir.c
-+++ b/fs/fuse/readdir.c
-@@ -228,6 +228,7 @@ static int fuse_direntplus_link(struct file *file,
- 		fuse_change_attributes(inode, &o->attr, NULL,
- 				       ATTR_TIMEOUT(o),
- 				       attr_version);
-+		fuse_dentry_set_epoch(dentry, epoch);
- 		/*
- 		 * The other branch comes via fuse_iget()
- 		 * which bumps nlookup inside
-@@ -239,6 +240,7 @@ static int fuse_direntplus_link(struct file *file,
- 		if (!inode)
- 			inode =3D ERR_PTR(-ENOMEM);
-=20
-+		fuse_dentry_set_epoch(dentry, epoch);
- 		alias =3D d_splice_alias(inode, dentry);
- 		d_lookup_done(dentry);
- 		if (alias) {
-@@ -255,10 +257,11 @@ static int fuse_direntplus_link(struct file *file,
- 			}
- 			return PTR_ERR(dentry);
- 		}
-+		if (alias)
-+			fuse_dentry_set_epoch(dentry, epoch);
- 	}
- 	if (fc->readdirplus_auto)
- 		set_bit(FUSE_I_INIT_RDPLUS, &get_fuse_inode(inode)->state);
--	fuse_dentry_set_epoch(dentry, epoch);
- 	fuse_change_entry_timeout(dentry, o);
-=20
- 	dput(dentry);
---=20
-2.53.0-Meta
+Notable changes from Chris' version:
+- Include "fortify ovl_copy_xattr()" and "assertions in dir cache"
+  patches already posted publicly for similar reported issues
+- Use LOOKUP_EXCL in "do not copy up a dentry that was removed"
+- Add vfs helper try_take_dentry_name_snapshot() instead of open
+  coding it in overlayfs code
+- Fix for empty security.capability from Josef adjusted and rebased
+  onto "fortify ovl_copy_xattr()" refactoring
+
+This pile applies cleanly and was tested on top of 7.3 and on top of
+master of the moment.
+
+Backports down to 6.1.y are either trivial or already prepared in
+my local tree. I will make those available to the stable maintainers
+after upstream merge.
+
+PR will follow soon.
+
+Thanks,
+Amir.
+
+Amir Goldstein (4):
+  ovl: fortify ovl_copy_xattr() against underlying layer modifications
+  ovl: add assertions in dir cache code
+  vfs: add try_take_dentry_name_snapshot()
+  ovl: skip copy up of empty security.capability
+
+Chris Mason (12):
+  ovl: do not copy up an xattr value that was never read
+  ovl: set OVL_WHITEOUTS before publishing the upper dir
+  ovl: check that the parents of volatile/dirty are dirs
+  ovl: take a snapshot of the name for copy up
+  ovl: do not take a name snapshot in RCU walk
+  ovl: use the pinned upper dir in ovl_fix_origin()
+  ovl: hold a reference on the parent in readdir
+  ovl: do not copy up a dentry that was removed
+  ovl: fix a torn path in ovl_get_redirect()
+  ovl: read the nlink xattr of every indexed non-dir
+  ovl: always encode the origin fh when index is enabled
+  ovl: set the revalidate flags after d_instantiate()
+
+ fs/dcache.c              |  29 +++++++++--
+ fs/overlayfs/copy_up.c   | 110 ++++++++++++++++++++++++---------------
+ fs/overlayfs/dir.c       |  22 +++++++-
+ fs/overlayfs/inode.c     |  14 +++--
+ fs/overlayfs/namei.c     |   8 +--
+ fs/overlayfs/overlayfs.h |   8 ++-
+ fs/overlayfs/readdir.c   |  61 ++++++++++++++++++----
+ fs/overlayfs/super.c     |  21 ++++++--
+ include/linux/dcache.h   |   1 +
+ 9 files changed, 203 insertions(+), 71 deletions(-)
+
+-- 
+2.55.0
 
