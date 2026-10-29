@@ -1,101 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793310260;
-	b=N3MRQluieu34/Y4AWPz1XXELmbYlROsHCsNtWqsvU3WCw1YorbR6Qk9DQC7vLANmcgQy
-	 Hay9ERZ8UQX4QU9VL6DbVBM51I68m0LeEwLtlI0g74/r8zIsJBGITFxJhDqemZLPTiIUR
-	 nTTbsfzXn7BLVz6Rygn7lELi/CeG97N3Cx6tsGW4ybOLLg6BYvGc+OZ9Q1tF0hAVmTX1u
-	 YfDjGAQtJUDWHGgBHbUCKCuHXP0hmUrop/k7jrHYzCChjLRaNyWnberslswe7oHa9ogdx
-	 iWoPk61myOBujkVP0hFldKftS0bcoc7gFNDEdW+KaD3LT9TuUzNYMZwvl16DUbAC6Mw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793310260;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Uss5qjPUHshFF1/aliCs7dyFsC7OnCaWV21o5/Wt4sw=;
-	b=LBTZmYv00V+8/6Qcnw/2GGwdj0ftBB1s1eA0WprJ3rrg0SHTPlhBs7YMOpheRWBzMpek
-	 +Ye1gW0lBuzi5s+xJHMJcdKQf+M2txzgZES1bzIcSjbzpiyswS5EoPwHMU4U6ZIiuE60p
-	 ocH4HraYJ24JHMilyUp72EdA3GIe3EeI9YWYRANozoRIm9APi3UIPY73lngoYEqWgSbl4
-	 UglEMoS+HkVGlygnxdMZ45f9QVTur0i8/O7S+8r8NmvTuDSkHiXEIjyIR+SKGveVRHK2k
-	 WQask0VFSQ2HpkOKM0wk5fyxAvoDn41zczG+CvtWxK2d/+sUwfVYC2RXd7rUEMQ37Lw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cAsSiz8R;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793313504;
+	b=w7UClrGGri5SyJx4/1eS1ZCSrHgUJ9xIg0GJPSQ8ag+C3Gs1Z75IxfacBReuKuz+KMSw
+	 CiNrNP4eM9qh0pNosss91besScSA3AP1rlCpfipp/KRbdT2HO3VqRNKApWmWCCK3/V2Xz
+	 /pa0s031oCvdjM5nMjD35M2PhawwqK4mwsMumdyp1nOm0TOTlIjzpbFb8ecQrdYrdtXZH
+	 SWV2gzfm/NzryKXjGSWghbALQXTJ/BQv58FFPqkcP6YdNMPRyVuAqx+Xo2g0cfj1c2+w3
+	 p6aNV1tMaOJ6Uzo63Fm1xScmFcCr7yr1fTqeEDYeqPUpcJqgOslXE2ThG2mHu9IFQ7A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793313504;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
+	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
+	bh=39dB8LcIZiFSE6DpD6XH0mtOgLinGSkIXMTWMCW2lVg=;
+	b=Ff+pyJMKiJMuMrxUMXUcwSD3GbjTkYVtNPF2AtnDEp7OoCsCMUkCllYlwmJTNOOqpW0N
+	 2yCDc0R9vdbHm3OJGLQPm58wdoR61RZvv2ScDTKCPOU4abfwg5PsBnsjvmNaxkt3uAWvr
+	 EXvfe+IiqJBePaDnHYzQdpycdnovhjl9HmpQOPO8Tsta0RyPKg1VZjflRG+Nu7+tT9J49
+	 YWCO+iYIRi9PAsJQMLtK+8WM/fsHRQ1JZBnCm65043F2BUGg01SHVjh0fyjOjjhtgr4pm
+	 qrajBpRSoI8Cax2UxFsLBjt9ow+ir9WJBzXylwjUGwdONb2G96m5ELTXo4Ub5f3WCeQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=ownmail.net;
+	spf=pass smtp.mailfrom=ownmail.net;
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=Et+VI9lN;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=WcHLJsqD;
+	arc=none smtp.remote-ip=202.12.124.153
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC86606A31A
-	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 21:44:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CC86606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB60606A31D
+	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 22:38:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BB60606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cAsSiz8R
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48e0d1da913so57818f8f.1
-        for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 14:44:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793310259; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JSDjmcgmDU3E3eyWFkrIfQQKnDAyxMkhphKM4D6KzKRfKITK8A073eIHT+GAVcHdw/
-         aZ7wwIS/XqijVpzDCOtOuAeYvtZmQYs4LgpVqEsCX3AM7z9uG/fDb7JZnViD3/nwr/ZR
-         UFbRWNSlENN7p+eUpo9LimeL49WrMh1YD2caE7cptqEGIMH1scIh9KRAikkhd20GSn0O
-         mNAnFMRcLx8JgpB6cAeodKal1mU5FhjcuvDKkexZTueV7llku80gB8bb6gJYN11SVHD3
-         exJyuZqGqMOqfK6ijpeHOT9Vjxj2rARUa7hyl9i5Yndb8CAe6UpJpMD7pE6zXHgKCi0p
-         ZBqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Uss5qjPUHshFF1/aliCs7dyFsC7OnCaWV21o5/Wt4sw=;
-        fh=7vxIoYwjXio+2SYkA4tGxnP10rRr8KoH4nuK+A45S8w=;
-        b=Szxr9o9aUbP6f48lLXEdZLtxIDEh8lYq158wsV6zyPRz8mqlu338lLO9sNxz+SwNRG
-         GFCj+kXrGKq33cSNieQZGmchYy7l83nmxax8u4uYJlrBtHmLnfRNUk4N7PcLsNY5jMKv
-         pyKrKx2JOCBQv4k2SagcbVGwBcsspiExTD8GLadTtHBao+HqOUreB93k1tGPpMrqysI1
-         rZ1zY9ggW2on69uTSDCDbUsZUclvWKFtnVxYMqPi/qRhWtyAyrrC+p8vgtZflLuiC82W
-         /d5kS/ARGS4vlUWq+rjN5RgHdm1MEeGXPWOtKm57ywzPPcaphqfJ+WQIdPlGqbrCY1wD
-         e3Wg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793310258; x=1793915058; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Uss5qjPUHshFF1/aliCs7dyFsC7OnCaWV21o5/Wt4sw=;
-        b=cAsSiz8REY1AfreAB9zrzhQ6d7of86w8rPBHMFsc7jzaC6yxUYdEGF2jsXIguheAQn
-         dyK3K0j2+w7kd/QNQui7GG7Jh/mvfhlxt/DU+icAT2qZjzDwaf1TwWZxWeUMkmdOf0if
-         84qc6fVuQRjMaSSvwGock7njEhzqAIsWkt+Mw9whk37rVcCin2d3qll1JmWobevcCP3Q
-         1Y6o9dtdRuxzAKtLV6jUmdiwfmpXRISA/Z5GH/PTwCg8wLv5rYoqWbeggs6/cnIiUvIc
-         u+iiymw8PptsZIhOEb5WxG6FjvVe0ti3q82as9aryAOftYfyEBMLxB1Q7FwVr8VLloqF
-         I9qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793310258; x=1793915058;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Uss5qjPUHshFF1/aliCs7dyFsC7OnCaWV21o5/Wt4sw=;
-        b=KP/YfwwS2U3yV1GkXDWwkB2mRJYcqDzvVi0q3KlJ+tfOHwMuh5u7ieb/wRaTpB4MEv
-         ttN7sbG8pXf9WU1hQC4DmCGQwF1m+jSv/Svw/gMoG0aQeK+Q3IeXHhVVerYcwGF6fDHI
-         b4xwD6Qm6GOmjM3vR6a3EsaRppsKvOthcEYQTbWpx7zczEe/kC9Sj0ui5UxOJv9e2C6A
-         CflirOCDlgJhoxiBwBVIbN8gwZ4qv8fNONG5fakWxDB+zuysBGNIsuRlKq24ZyUBvg7j
-         v486+blyYXBuedJS3K3Q1ic1xsq04Z/Cyl+uMc2BhivqtwtGObylL2yE5lmTrdpSqRhY
-         mQyg==
-X-Forwarded-Encrypted: i=1; AKwUvByI9gpd9vyURzZyw5POpN9+zDWXWwbcVXIyKAZt3VR5S7jcAcrGfcu4SGzbw8rA0pI/Zep46+011lTB@lists.linux.dev
-X-Gm-Message-State: AFq9FYK36dtBUFGH8BRzp2QvzzUyJCO9OsWwI+FaILdsas9qPdIzub3h
-	A47X9gMTVSdMV8HEM9Gd1iIF9KcLQhk39AuoXqyRLzMmGhEY5juZU+P0eNEI+r0DXRLHkyxa0at
-	ugOsRoFwvqRi5VI6cmbpIICSy+SbrLsk0eUH0gpg=
-X-Gm-Gg: AYBFou3JgkqcLZYGNQHqKSVzBTjv1kt9UtP21UbGFcIxnsp1emmGyeTgh06jIGjWsAv
-	3Y+AevRUE2uJ2pdR+T1tZmsAGNIlv9I1u2qT8CZa/LKB7mK06+E4dVhQJnmFx8MfeLTT0btcpx6
-	qGEAy29AZFZTx0doSLXzJUbjUIpYsKjPUmTfSV3xwWFfZSpiJl35RPs9x6vZKnco5/qCgnnYBPK
-	ieid3Kxdu1wN3CFamjJfvVIIEBJXOtiXsKJe6zF9I3IzvmmdL2cpp6Ib0dD3auQ1oK8cXpIRXmQ
-	MSoj1ncCqhclengTdjpQlejgWZfnjJfemkHheOF1CdWp1m3CDtMSrHDaYoThTjNb3JrNzs+jvEc
-	a6Bds/YT9i7KB0cKn3+vfZMTtP/5c9BLcS7zdb5SQhjq2GDmIweEpg8QYAgT8AEPUkgJn8mLv+y
-	SiyVWq1DFWcXdBQ1esq0335QRSPYp3FqGvUEpB5i0=
-X-Received: by 2002:a05:6000:71a:b0:48c:6756:dab3 with SMTP id
- ffacd0b85a97d-48e6e27ec0amr1584593f8f.3.1793310258453; Thu, 29 Oct 2026
- 14:44:18 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=Et+VI9lN;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=WcHLJsqD
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id AC2457A0114
+	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 18:38:23 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 29 Oct 2026 18:38:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
+	1793313503; x=1793399903; bh=39dB8LcIZiFSE6DpD6XH0mtOgLinGSkIXMT
+	WMCW2lVg=; b=Et+VI9lN8WTwl6YZW21uA14Ol7NFhpVTLKs0UtWiLHgnIJWwWFU
+	aX7NRjoYswsJK/2lwJgtOiPcSUdfxdzUrKBwbR6wZ6p9OKiXtPZ6MwpkQAQq+vpR
+	wC+tOWuxOW11YgTuNcXzDfnzJwTCHIbVe86mLcQfBPN3CVd0GN4l5FicqX5IHiGx
+	r3mMtpdwvRiAVbdWTKxcU8H14AzxpzATxmsV07DlTjqBdertQgT/5evG5NPpSB0i
+	SqLgCgdmBhpXGXb/peSGvvOg8CeSZjaxq35Bip+QsKZ4h6kdi3q5HbSndjv38IBu
+	qkx8ts8ifE50rGJdZC04fPLraer7nzsOOuQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793313503; x=
+	1793399903; bh=39dB8LcIZiFSE6DpD6XH0mtOgLinGSkIXMTWMCW2lVg=; b=W
+	cHLJsqDnv2pUg7LMU+8ZoZ+LCMFkXRgzE8X6eUKK9kujZyj/78el0oEkRbrg380p
+	q3HITi+DqkCku1PbgREDrGRoEcRftwRuvUQ7Vb+SQpEqb3wZ0NC7xemQ3Tdg1eCw
+	sJaZO0jQdZUmjne0eYbVLgBKXUwo8P0rOgvvaNLrAv/LWHr1N4QsVr8SHGeVCv1x
+	N9LoRJz9raRiZ7f0oOnJnetRNgMxH+8WxAHqgADusG7LUdG+T5cld8o0cjRVfdDG
+	ntFO92rX0a/kJ/irniLTuEif1BRmZHSCHX8soEiZeOVRmMOANt9RPGQFdI/Gu0Qz
+	ZtQ7NnwT65ZWKH8HE36iQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=ownmail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793313503; d=ownmail.net;
+	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
+	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm2:rsa-sha256:OEIPYqr7nOdPd6XLscIKlMtJ9pPMs61sE4CVoX4PcwDzWdn
+	cJ3f6UMcbfql3PXLpkyybs9/dFU+iW8AIyFM3otFAS6lPtc0urPZXOeCgoSYg6oV
+	DHAo9zAG1z3DLxd02kIrBdekm26xG98/OszlhOwtolKeRJ1bN1nn0k2uV7ZKDc2A
+	CkAeEdo0wVRDiERG2MOSZhYLvKQQIGnN4RJtMwNt8/BrJe0faz6I2A46K8tFyrKg
+	zXFnYGgU6GwA/GqBB3m00MkRvYu61RG5wLL7oP5Nx98IrXzr8FXRQ2EtZ6ur8R7a
+	r1OHmDjDpcp23zThLRjt20KYMPUyAQK5QEjVOeA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,reply-to,
+	subject,to;
+Message-Instance: m=1; h=sha256:YJTVjRO3KgeR1yC3zPShlEIEFX94Ek0eFafG0VD9Rdk=:HQnx1FvLy//Q8VAJrMpa83GqDNXduO9zCittHkseAJg=;
+X-ME-Sender: <xms:3srjamSg0GFLwas1K9kwljo4ITu2h3xpyCdX1QA94dVe9GJXI-121A>
+    <xme:3srjagvYqrdlovVCBj18YeDSXI6-5jTpb16ktty0khtIW35yA1IDjhGeGIPS-egY5
+    _L_bXGN_LMjVrlNhGSI6D8PNII7gQB_IW0w1Ok4NntfoLjuAoQ>
+X-ME-Received: <xmr:3srjaoEOfOcGgYBXg4uRh0vzqaGrspuy99u3uqi_qij4oM3Z7NyIf5Xzdu_oU4yXTA>
+X-ME-Proxy-Cause: dmFkZTF29A9pmUV+SyCH7e09WNzmLTMnv0etSxjKXw4+LvTknRxz5S9iRYd2PAErEWxy4V
+    ds7XprIor5LgVQQokg4NUvi3ROCbnNTHp+78ZLEARdPas/mwKvVJms1yVVM5GbgtJUkdRW
+    aJwhstWzvzTJ5Q++91hkQ0NevSmfR0xTE1OwWmrsCx1ovhqwJy/zSZNMstjkC10FbJuxX6
+    KYsvxBymb42+HNQbwJ+3xRcDjufT/uOQYhPvF/uyf5rWLZvM7BpfPpmnOxUsAMPs5FUJED
+    Fi93dM9gqjWYbq9ccoefyJU4KBmWtUQy6PfiXNdL/B7yX7jIMFKsPss8L24fqrRRcyc2o9
+    u8Y+wfJ8FRHYFrhIsLvAkJbYGvuC2xP0jH/9lpskMChDiL5gC1UnYgl2l1AhRjtKnnT+TA
+    2oTMXINVVCyOWKAnygl39VUNB8Rs3GY4EyKtv7/As/LsfVZMkUhUYPG5/dl22S5JzY9Bp/
+    n/njRaCgHZtmVzm50ubqXBb6VGV8i5FekoCx9Hdc5X3b7obyjza3beVPA8cCAgPV44EIKr
+    /+p3z75v4ez5bHmBPDtygSjdlL5HfQ913vjvQLFbrcU3vIb+CmCWay9tkDZ6P1TD9+WCw3
+    4DAmI+oZFZpM3fs5J4CCyZLCfqnL1+6fa/6kxt6gE76PUYikWLhUlR7lP8Pg
+X-ME-Proxy: <xmx:3srjahzJZ1OspWb4E-ccUEXxLbrZ5oO6v7knxEoYSViU4w7bLJyHhg>
+    <xmx:3srjai3FtjhK_RWq0RqdD6agOG7yUWq9cWEwTWssGkfLCIfpp3KRfw>
+    <xmx:3srjahpJQJ6wOMqj3VCcJsEUxRD8pPsVAlY9YFZgvBlL8UHtTGvKdQ>
+    <xmx:3srjavW0qobjVrEZW2_JDIHmvXV0OMg6jdmXrRXC8jpHcWlsMMvUDg>
+    <xmx:38rjauUK4I5-zTI8VWrHN6cAWV4UHJJ_0ZO8aOywIsIXc5jVULmOQNKe>
+Feedback-ID: i9d664b8f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 29 Oct 2026 18:38:19 -0400 (EDT)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -105,123 +118,41 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261025-reduced-nr-ring-queues_3-v8-0-8a2570e8d2a4@bsbernd.com> <20261025-reduced-nr-ring-queues_3-v8-7-8a2570e8d2a4@bsbernd.com>
-In-Reply-To: <20261025-reduced-nr-ring-queues_3-v8-7-8a2570e8d2a4@bsbernd.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 29 Oct 2026 14:44:06 -0700
-X-Gm-Features: AclHuK_WfHaGbEB64SD_DFag_WzH6l2qQZqBZE1srhHIw0Ppk_qM2H_ox65EjZo
-Message-ID: <CAJnrk1ZLgRKNRyctcbRG0J3tdwf_P3HG_1Z+cB7w=2k4O_ENpw@mail.gmail.com>
-Subject: Re: [PATCH v8 7/8] fuse: Add retry attempts for numa local queues for
- load distribution
-To: bernd@bsbernd.com
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: NeilBrown <neilb@ownmail.net>
+To: "Jimmy Zuber" <jamz@amazon.com>
+Cc: "Miklos Szeredi" <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, "Shuah Khan" <shuah@kernel.org>,
+ "Bernd Schubert" <bernd@bsbernd.com>, "Jim Harris" <jiharris@nvidia.com>,
+ "Horst Birthelmer" <horst@birthelmer.de>, "Luis Henriques" <luis@igalia.com>
+Subject: Re: [PATCH 1/3] fuse: add FUSE_OPEN_ATOMIC
+In-reply-to: <20261026170744.948701-1-jamz@amazon.com>
+References: <20261020141647.3271341-1-jamz@amazon.com>
+  <20261020141647.3271341-2-jamz@amazon.com>
+  <179253863737.1724252.12836488084615923712@noble.neil.brown.name>
+  <20261022014545.2495106-1-jamz@amazon.com>
+  <179264679002.1724252.4479504779598097455@noble.neil.brown.name>
+  <20261026170744.948701-1-jamz@amazon.com>
+Date: Fri, 30 Oct 2026 09:38:15 +1100
+Message-id: <179331349568.1157394.13124360154896615084@noble.neil.brown.name>
+Reply-To: NeilBrown <neil@brown.name>
 
-On Sun, Oct 25, 2026 at 3:29=E2=80=AFPM Bernd Schubert via B4 Relay
-<devnull+bernd.bsbernd.com@kernel.org> wrote:
->
-> From: Bernd Schubert <bernd@bsbernd.com>
->
-> This is to further improve performance.
->
-> fio --directory=3D/tmp/dest --name=3Diops.\$jobnum --rw=3Drandread \
-> --bs=3D4k --size=3D1G --numjobs=3D1 --iodepth=3D4 --time_based\
-> --runtime=3D30s --group_reporting --ioengine=3Dio_uring\
-> --direct=3D1
->
-> unpatched
->    READ: bw=3D650MiB/s (682MB/s)
-> patched:
->    READ: bw=3D995MiB/s (1043MB/s)
->
-> with --iodepth=3D8
->
-> unpatched
->    READ: bw=3D641MiB/s (672MB/s)
-> patched
->    READ: bw=3D966MiB/s (1012MB/s)
->
-> Reason is that with --iodepth=3Dx (x > 1) fio submits multiple async
-> requests and a single queue might become CPU limited. I.e. spreading
-> the load helps.
+On Tue, 27 Oct 2026, Jimmy Zuber wrote:
+> On Thu, 22 Oct 2026, NeilBrown wrote:
+> > Almost all other filesystems use d_tmpfile() for tmp-files (which calls
+> > d_instantiate). Is there a reason that fuse cannot use d_tmpfile()?
+> 
+> fuse_tmpfile() follows a slightly different pattern than d_tmpfile(). A
+> fuse tmpfile shows up in /proc as "<dir>// (deleted)", whereas d_tmpfile()
+> renames the dentry so that it shows up as "<dir>/#<ino> (deleted)". Also,
+> fuse gets nlink for the tmpfile from the server, while d_tmpfile()
+> decrements it. Reusing d_tmpfile() seems like it would be a behavior
+> change, which I'd like to avoid.
+> 
 
-Thinking about this some more, I wonder if queue balancing (this patch
-and the one before) should only be done for reduced queues or be on an
-opt-in basis. For servers that pin each queue's thread to its cpu and
-keep per-queue state, requests will no longer reliably arrive on the
-submitting CPU's queue. I could also see a situation where a server
-pins queues to give certain applications dedicated server threads, eg
-CPUs 0-3 for app A, 4-7 for app B, so that each app's FUSE work runs
-on its own cores and app's A I/O doesn't affect app B's latency. With
-the balancing, a retry from CPU 3 would move A's work onto queue 4.
-WDYT?
+The /proc different seems cosmetic and probably of no consequence.
+The nlink issue might be significant - I cannot say.
+It might be nice to include a comment where d_instantiate() is used,
+explaining why d_tmpfile() was avoided(?).
 
->
-> Signed-off-by: Bernd Schubert <bernd@bsbernd.com>
-> ---
->  fs/fuse/dev_uring.c | 41 +++++++++++++++++++++++++++++++++++------
->  1 file changed, 35 insertions(+), 6 deletions(-)
->
-> diff --git a/fs/fuse/dev_uring.c b/fs/fuse/dev_uring.c
-> index f22a1b5fc7fb..ca82965fdee1 100644
-> --- a/fs/fuse/dev_uring.c
-> +++ b/fs/fuse/dev_uring.c
-> @@ -24,6 +24,11 @@ MODULE_PARM_DESC(enable_uring,
->
->  #define FUSE_URING_ADD_QUEUE_FLAGS     (FUSE_URING_ZERO_COPY)
->
-> +/* Number of requests in the queue until another queue is checked */
-> +#define FUSE_URING_Q_THRESHOLD 2
-
-I'm not sure what the best heuristic here is. For servers that handle
-entries concurrently (eg several threads per queue or async i/o within
-a thread), a queue at the threshold can still activelyservice requests
-(eg if it has 8 ents registered to it and only 2 ents currently being
-serviced in userspace on separate threads), so 2 might be too low for
-those. I think your benchmark was on a server where one thread
-processes entries one at a time? It seems good to me for now.
-
-> +
-> +#define FUSE_URING_Q_RETRIES 2 /* number of retries for a better queue *=
-/
-
-> +
->  bool fuse_uring_enabled(void)
->  {
->         return enable_uring;
-> @@ -1964,10 +1969,11 @@ static struct fuse_ring_queue *fuse_uring_select_=
-queue(struct fuse_ring *ring,
->  {
->         struct fuse_queue_maps *maps;
->         struct fuse_queue_map *q_map;
-> -       struct fuse_ring_queue *queue =3D NULL;
-> +       struct fuse_ring_queue *queue =3D NULL, *primary_queue =3D NULL;
->         unsigned int cpu =3D task_cpu(current);
->         unsigned int qid;
->         int node =3D fuse_uring_cpu_to_node(cpu);
-> +       int retries =3D 0;
->
->         rcu_read_lock();
->         maps =3D rcu_dereference(ring->q_maps);
-> @@ -1975,11 +1981,34 @@ static struct fuse_ring_queue *fuse_uring_select_=
-queue(struct fuse_ring *ring,
->                 goto out;
->
->         q_map =3D &maps->numa[node];
-> -       if (!q_map->nr_queues)
-> -               q_map =3D &maps->global;
-> -       qid =3D q_map->cpu_to_qid[cpu];
-> -       if (qid =3D=3D cpu && background)
-> -               qid =3D cpumask_next_wrap(qid, q_map->registered_q_mask);
-> +       if (q_map->nr_queues) {
-
-Feel free to defer this to a separate future patchset, but I think
-this would ideally be done for the global map as well since CPUs on a
-node without queues will take the global path and with reduced queues,
-they're the ones sharing remote queues and would probably benefit the
-most from spreading the load. I think pretty much all the code you
-already have here could just be reused for the global maps.
-
-Thanks,
-Joanne
+Thank for the explanation,
+NeilBrown
