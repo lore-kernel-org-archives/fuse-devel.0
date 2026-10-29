@@ -1,90 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793270621;
-	b=xjrzniRllLwd+fRXYzel/hRj3Fa2SNUpz5FlXNdi8hDMWPgxSLmW4jY7i8N62JT3QGIs
-	 j7jDdhmMy9WQ0SHpAsTb9GaEGcw3dgf0/Ky0uGo/MCwJL+DVQ/SAB6FMeJG1mfIl36N+I
-	 yW3qM364q5o66E0mxqbe0BlzYMhsWGHW3eOcIOM0jui9Y9llcvlanF6oKxJQhnoc9RxC7
-	 8IESLFDKA+KpDWe5ScXFlJGDVvXrBBD8N5DjNS1pTLBRA7oadal4OKdm/CnXDBeDJ9E1h
-	 6McCETRUr5483FxmnLeR41r8NAtlHU8lmcK4j0jGwbRjhkd9Dul8CAf5NAHgVBuF8Eg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793270621;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793270951;
+	b=FNWV42nTU5/zBnpDSvQ0B75CcNStr0Yuu8b4JQ/R44vmYBCleDHWmTlKavVhXOUsbJyi
+	 TuhzXRynlAOpX45xBcr+3iE1c4MV4qKpc2rXWJFTGlpW2qKikxXDYgaRIf7xvwF7Un1a+
+	 lHQ5XXvkFhYSTK0XmPUtkP7wjenwiFiPni1+rrCD7nMxSPu6TqY6m1QAjbX36saUtfBRP
+	 NbUQR4mIJmLK39t1rP722buxp595hrMMRobn170odw4wo6Eeh9uw6JazSmSO1xLi1zfSb
+	 9A8qVn9zXZbRf1jXqvv2Zanqj8kPq0EizksYsawH2VVMjXtl4rZtoyHGAsiTuENaX0A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793270951;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=6XOKkfJsefWjpOEYol68Fomb3WNK9nIfoprYMh5LhYo=;
-	b=J5KTjdSpjo/4cTXMjseLkIt0ky+pQHRRwdcPalyKa4lu14Is9iJSCMN5HaG/zMgaLdPf
-	 rSqm0+izSMYXm0Oodcx2bzZ+ppyoSL5hlqZg9oIZgYZl9cOYM8yhSUQ2i8LW+WrOgso6c
-	 zGfKj2ztt8kp4bIVI/YIVQX9bCzI15AuVGPCf7WiimvrRN0n4AmsCkI8TKTJygU4F1W7z
-	 yrar0X0wn85IZexia/ZeAbHdcEvhHis58dT5/qJ0VIApIEp1LWNOW+ds/LLUz3kNRF4cC
-	 XPSwociYF9oL8nTYxG6J4JVlwi6HgZQQu2Sf3FnFYcSHdQV9u+NAmA0R40KGpjALfUA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=zbmLqSufNSTz7oFSlgljM7qVDxU566qZ/gshg+M3kMg=;
+	b=jns1dz7hB1lwVMqzMD6QhhJtOz4lRjTOiiv/cE4CSRskaq1+XNBCAQPHso793p5as1/Y
+	 G7ELNiDSBgKaFxJ4va3JhRgTKKow3JuNTchuQo2MEKgeOAslEKevWMGx/jyM0x3HgCCqV
+	 G0mVqedeItS0uz6FuPxSEGnXC7y4rOY7G8j6zp9955gmhHxPBy7Xcqw7Osf2CffxApc9u
+	 FRkGUC7NNypwyDpUXsDOq3IH9x6UZNsTU+g9lvaeT5aJgAE6Z6cHqeQezACsdg2MxlpAW
+	 Ku7mDNZFvB9OeE5/4o6tfyzC0tHD8oGdaBwTW8TxS6lcuILQ5xBWXA/8Puk0zTWfhkQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BJiqOgDL;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=afP7ptuc;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5E0606A31E
-	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 10:43:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E5E0606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A715606A31D
+	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 10:49:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A715606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BJiqOgDL
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so17489915e9.2
-        for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 03:43:40 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=afP7ptuc
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b408f2d936so2925295a12.1
+        for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 03:49:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793270949; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RpWHbhfeoa45sdhg5EIe5mPhlC9mEIcSpS/wgf1LH4r/I6efEY88anaLh1o+huF6K4
+         fGnIxL1scvEAqLyF+k/3kQdIu/V8Rh0JZ2wXmPz7DGVm1flCJMGbzSjYfPcSC16o/KYX
+         ejM3MZONus4KaDzGVfmEDS1VaK3W2PPy6Jnb37RcXF6pk8LIhiHn2629ZKufAU4evjAl
+         MsWN5ZM48+9Up1ZwR5jlXFz0LZ/G8r0h2n+di//DeRNFiky9n8/b6hmFVARoTfoLdvSA
+         JzU1Bn9kYEWlFXe3l+c4jfuoZL80ZCRwugqDu0OhPDQ5J8ZfAdw2mCZfjdt57tbBdZmk
+         fl9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zbmLqSufNSTz7oFSlgljM7qVDxU566qZ/gshg+M3kMg=;
+        fh=yuJRSIMuTsLn1S36Di7ENKnoeaMAlYPF+6uN/3Ht760=;
+        b=OdLO4fg1q1Zpi4pn0/7XIzVVRFWK6bRz2iSNDJh1H1eHrBZsgORFnfDGdEl9ZuwKor
+         CPDc5FnUquoEFrhlteZ4y750gW9zKRtqdlhADdIfeptwIWD7dwje5cZgbM90w4wZVpNo
+         Yxb4Bqi5IpJ2rMRlKxt2uuzh645tilkelpa1f8ntvGVIL4MIVdm5y+A11o3hGF5CG1Fr
+         c4/gbJf5iLil2aNWlE9IDTSGGxYhIBbWzSBCd3cmYuRj5iJIVRIdlW5TqOnsvGsVl5Ji
+         iQLJFcm2Gm/Jm+oLz5D+wiTQw41N5YzG72o0fW44qU66tATUkuJiuYfv89zgLsLqMtPK
+         tsXQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793270619; x=1793875419; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6XOKkfJsefWjpOEYol68Fomb3WNK9nIfoprYMh5LhYo=;
-        b=BJiqOgDLM8zpD0flWrBVvrsG1V0LjhU64ieg1UPgxB2ksLKfTvjNBwhVsmNt9A4Xn7
-         v+q8fNbeYAIxElcIslIJoRwMZGqqmY5xRhZo9+0CD6s2lYjsTjdfq/OgDw1QEGXaU7Nt
-         3ODBCFVCxSnzvLZiiuhU+voUVS6QNRoNbvb2TTKxgFES0tnhChjoqQeITCkqSHEMb7ip
-         YHtPk8oed+rIDsX28gSQqwfW4fJ5PNSYVCIvEyqtDzR5DuiENnSNa98EAFFc1surUeFa
-         BUm+iHgjo9UgHhDhgV/qyGOlewMoFjZNh9Cy7OVsuhlbGfhETOIPFOIDgTBev8ocSAAS
-         GdZw==
+        d=gmail.com; s=20260707; t=1793270949; x=1793875749; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zbmLqSufNSTz7oFSlgljM7qVDxU566qZ/gshg+M3kMg=;
+        b=afP7ptucM2/gqzteciuWP/WRcMcNgcHkYSa+lfcMD/NJVidAL3ZQCoQWKd92u3GWNm
+         ia8/pDj1cliU4yiXqbr+zysC7YRuPl5jMtDWkC5yEJtPbSqpd6hT+0Eeop0yaSlZSWxJ
+         x+ph20ZZcd/bYduAdQVL32rwvD+s34KEutncETz3Pd+i4PdcueETguY+WjHJ1+Y9pzzE
+         WjWJSoPF+54IiSf8WHXOtcrqb73APJPCrQBDsAcAXiSB9w0CufsYAGQ9qi8kJlxGSvDt
+         c7ffBDLN+cwfzzbOvekydPvMhL7b3VYfvDKe4jpbzkov/+qH1lneZQL12ph9nHwKs8od
+         KGaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793270619; x=1793875419;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6XOKkfJsefWjpOEYol68Fomb3WNK9nIfoprYMh5LhYo=;
-        b=Zjb83zPegKzxGpp1rT98zbRJ868NwmbggodA1z2+8hg9LHyRh6jHcivt7AHqnRPQ11
-         eBSAkdsH4Xa/RcxLCd2IibuLtsWKgpSpk0uuyvf45mD+PH+QbGSVv6KZe5PHsD/J8Jkn
-         gEEd13XHvdohn8EFGk3KFpDl/clecD55ps7C+yw6J9JmRT9foaMnJYX7y9dACOFHTY7I
-         PbQKP6dpz3kJLvbp19vqctM5q1t5cXUfF2i1OZ94iqp+pLXyZHlRQ6gD89a1pB7FRa1E
-         bEys06XOpqYEqjPp0+Tq8jtlvnWOtldXQki9OGfWTcCJrX3SQfAyY5IaEUScIZmCJMua
-         8kXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxzVggjIAc2w32ZH32Wrixa6esQvAZ7ysCnHIVZL+A4o86WSEl/aEXyMWza6t9Dw+yDKdRLjRXTBud/@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ+uhTH0kByTtSsmEs+PUItBNp0uTNLlVBTXaDxzyCVDe1eFsQZ
-	zkM015CG/PmhMb1Gt7yOflmgMEVZqZzgUF3/gI8rh0EDS3plsEN+0wmx
-X-Gm-Gg: AYBFou0pqjgzsj/Pd2lvj3d5zyunqA8S8mNGQFO+FgPGGryDG04XLMNgMq3AYBh7gas
-	7sjcZjGSpf/B4WVpr2D6ygBL9MkvpilnD7D5IEM8mgly3dO2FbOprgelXvEe6zYUGUzAr3ORm7h
-	jAeeLpQwlpXJa102/XrMuOUy1BtKfmws5zCIuMps4W9SmFIzi9TrZey48rqsuM9WYHW9tq07nCQ
-	0X/3H97ufDiBu3RWqgcRaBxDjc413+nu/1wTQBNECwuPU+TGdWd7uEfCUi9QK9sbDEc1cu9hFdy
-	Bf2T9BgP4v6FfxNmhDvbB6q/SK2UIoF1n5HY6s0ohcOItRbVgO4HF4cyHm4ya3444CjkZ+0oRzF
-	1RhBHLi52sCgYEaPnQKPJrdg/JwYFWtiD7Q98x/1HB2LTFasbZ64057lf/hNohPl6+uqBJQ6pxB
-	e4/LSuLE6acB2IvGlKaREyd1b4274ZRXgMmuGP520i/opNy2CFyfAoCxIbasQTmQ/Sq/GWdv4i5
-	4QLPEYywDQwCFDBeIEw55z0XAyKPvGBQv8tGEGX7EYSb+aiP1Kg9Xp6Nv0PmlR5FKKdQ7XbDZoT
-	HOyuSlxMqGw71b8wh8tKIdOYv8Hel7yOeKHeJjuFAHEbTzXtcGpVwO5T+GVOHJyFGCZoOkUP+Sf
-	kXRxCv6Tp21pqJIgVUo7EAmlvuBwMutJbSq28fH6l96Uj7lnDFf5uRkYM1EVocPIVir+QoQcNzp
-	ScDw==
-X-Received: by 2002:a05:600c:34cc:b0:4a1:fa33:441a with SMTP id 5b1f17b1804b1-4a963ffc267mr124682955e9.2.1793270618838;
-        Thu, 29 Oct 2026 03:43:38 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a94f629d5fsm47165475e9.3.2026.10.29.03.43.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 03:43:38 -0700 (PDT)
-Message-ID: <e6b98a2e-a9da-406e-8969-3eb73b6d71b5@gmail.com>
-Date: Thu, 29 Oct 2026 10:43:39 +0000
+        d=1e100.net; s=20260707; t=1793270949; x=1793875749;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zbmLqSufNSTz7oFSlgljM7qVDxU566qZ/gshg+M3kMg=;
+        b=TxZ31nlPDJBkaqvVAV6FtUACUcKg0DIclo9YPD0HtfC4IuyAOUgMuHyCI+3Vhu0sdQ
+         x6diyIV0nAjXmfAcho5mBUYuQvIKb7qjALhR2CWytMGE+3qQt/qaVhfeYpT0gn8SAzs8
+         vrQdioFrKjfHrOPMLtVPOHN563Q4ayNqivsBt4vwX1lXxBEbSsE5T+1NR4y+E/MgeEqN
+         geJ5mFfbsqoRnsZyjIkd3KRHAevzSxGxH+LD6W1YfV8B9cEUFRjIQov5Syr4dqeKyNPx
+         a1IRvp87djGA8HB1jiuGxo7G2J5ZLZppTKV2KFI5XX+4n7pTVF/vimfOyU57aZaqxyBV
+         6Yqw==
+X-Forwarded-Encrypted: i=1; AKwUvBzvEQE6KM0g5Mz6rA0/AbepaDowbPo2oMYMHIKCO3XEwDRtwFiboI3R+UMVjASC0uiJpJNeYnnFzCnD@lists.linux.dev
+X-Gm-Message-State: AFq9FYK3aZNGBgZQmyb45hss3sKKd8P0O6mBVUX9oeIIEn3cWNc+uXaO
+	f/ZCT2j7DBU98PHsNXn9PIs3q2bASXAI7VDYNCjjzM2WlvWi6XMtxQ2e3GCjxgOJ+xen+3wmQap
+	tgk3PZ5qnV8nzH/HB6CiZ3A66DqcmbGE=
+X-Gm-Gg: AYBFou2vLi9Mq5lfH/J5Up0iNGZY1CBJqTBPcq+uiSew8a41t4g0ASdTxOz6fpz3g0Z
+	GG1uj3Kus+LTJvahx1pMFqAO+sPRPSAr0JD0iYSQopR6kbv2LgsIGlVa+8EjzTmIIuoJfzXmKGx
+	kLp5u2tn6e5moEjKI3EmsILdcDIuqTBPKezUdVORP7SIAiQrXdftH07OcrY8wELIR4E+qdIynok
+	XLPJImucNn4118k/azyJB8lXKpcjelBSl8QuUkmGQHOaBD08ldnMFbKRrfK2knzeqx6M4SSLTFl
+	Jt7mCysFNMFBUF5EjeSt87bKgQZ0pUVFrVf0iLDH49B9rGUQXS0Wd7MrEZnYIC1hNFZhFc0ydgw
+	hsFBJ1ZzXnrfSl8kV9tq3eVMAlch1BRqSU8sx3cBHC5I8+YQ4+HFdTLeTBAzA4jMyZFSqnKvlDT
+	0Crz2uHHxQS4i/HHQ=
+X-Received: by 2002:a17:906:eec8:b0:c46:723d:600 with SMTP id
+ a640c23a62f3a-c49bdfcdd65mr457878766b.41.1793270949125; Thu, 29 Oct 2026
+ 03:49:09 -0700 (PDT)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -94,34 +105,100 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] io_uring/uring_cmd: add import flags to
- io_uring_cmd_import_fixed()
-To: Anuj Gupta <anuj1072538@gmail.com>, axboe@kernel.dk, kbusch@kernel.org,
- hch@lst.de, sagi@grimberg.me, James.Bottomley@HansenPartnership.com,
- mkp@kernel.org, bernd@bsbernd.com, joannelkoong@gmail.com, miklos@szeredi.hu
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
- linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
- fuse-devel@lists.linux.dev, joshi.k@samsung.com, anuj20.g@samsung.com
-References: <20261022144501.2478417-1-anuj1072538@gmail.com>
- <20261022144501.2478417-3-anuj1072538@gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20261022144501.2478417-3-anuj1072538@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261029103913.2785828-1-amir73il@gmail.com>
+In-Reply-To: <20261029103913.2785828-1-amir73il@gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Thu, 29 Oct 2026 11:48:56 +0100
+X-Gm-Features: AclHuK8r166-yi4e5XCpY2GFgL3aAI1tQ9q3Pix1qn3NFJ5gY5SUbe4Q2pHlDUw
+Message-ID: <CAOQ4uxjDJPo5ectRdOh9T3oRCL=JP+n8KvvS4O4CssSMH8uCWw@mail.gmail.com>
+Subject: Re: [PATCH 00/16] Overlayfs fixes from Chris Mason (batch 1)
+To: Christian Brauner <brauner@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	overlayfs <linux-unionfs@vger.kernel.org>, Chris Mason <mason@kernel.org>, 
+	Josef Bacik <josef@toxicpanda.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/22/26 15:44, Anuj Gupta wrote:
-> From: Anuj Gupta <anuj20.g@samsung.com>
-> 
-> Add an import flags argument to io_uring_cmd_import_fixed(), so callers
-> can opt in to buffer types they support. No flags are defined yet, and
-> all callers pass 0.
-> 
-> No functional change.
+On Thu, Oct 29, 2026 at 11:39=E2=80=AFAM Amir Goldstein <amir73il@gmail.com=
+> wrote:
+>
+> Hi folks,
+>
+> The following batch of patches is part of a collection of overlayfs bugs
+> reported by Chris Mason.
+>
+> These bugs were found by Chris' AI code scanner (kres), but underwent
+> extensive manual auditing and filtering by both Chris and Josef.
 
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+Sorry guys, I meant to CC you on this cover letter but missed.
 
--- 
-Pavel Begunkov
+Also apologies to the fuse list for spamming them with these overlayfs
+patches by mistake.
 
+Amir.
+
+>
+> I thank them both for handing me a reasonably sized pile of patches,
+> most of them important, correct and ready to merge.
+>
+> The patches selected in this batch were either simple enough to merge
+> without questions or important enough for me to invest the extra time.
+>
+> Patches that I changed include a note [amir: ...] with my changes above
+> my signature.
+>
+> Notable changes from Chris' version:
+> - Include "fortify ovl_copy_xattr()" and "assertions in dir cache"
+>   patches already posted publicly for similar reported issues
+> - Use LOOKUP_EXCL in "do not copy up a dentry that was removed"
+> - Add vfs helper try_take_dentry_name_snapshot() instead of open
+>   coding it in overlayfs code
+> - Fix for empty security.capability from Josef adjusted and rebased
+>   onto "fortify ovl_copy_xattr()" refactoring
+>
+> This pile applies cleanly and was tested on top of 7.3 and on top of
+> master of the moment.
+>
+> Backports down to 6.1.y are either trivial or already prepared in
+> my local tree. I will make those available to the stable maintainers
+> after upstream merge.
+>
+> PR will follow soon.
+>
+> Thanks,
+> Amir.
+>
+> Amir Goldstein (4):
+>   ovl: fortify ovl_copy_xattr() against underlying layer modifications
+>   ovl: add assertions in dir cache code
+>   vfs: add try_take_dentry_name_snapshot()
+>   ovl: skip copy up of empty security.capability
+>
+> Chris Mason (12):
+>   ovl: do not copy up an xattr value that was never read
+>   ovl: set OVL_WHITEOUTS before publishing the upper dir
+>   ovl: check that the parents of volatile/dirty are dirs
+>   ovl: take a snapshot of the name for copy up
+>   ovl: do not take a name snapshot in RCU walk
+>   ovl: use the pinned upper dir in ovl_fix_origin()
+>   ovl: hold a reference on the parent in readdir
+>   ovl: do not copy up a dentry that was removed
+>   ovl: fix a torn path in ovl_get_redirect()
+>   ovl: read the nlink xattr of every indexed non-dir
+>   ovl: always encode the origin fh when index is enabled
+>   ovl: set the revalidate flags after d_instantiate()
+>
+>  fs/dcache.c              |  29 +++++++++--
+>  fs/overlayfs/copy_up.c   | 110 ++++++++++++++++++++++++---------------
+>  fs/overlayfs/dir.c       |  22 +++++++-
+>  fs/overlayfs/inode.c     |  14 +++--
+>  fs/overlayfs/namei.c     |   8 +--
+>  fs/overlayfs/overlayfs.h |   8 ++-
+>  fs/overlayfs/readdir.c   |  61 ++++++++++++++++++----
+>  fs/overlayfs/super.c     |  21 ++++++--
+>  include/linux/dcache.h   |   1 +
+>  9 files changed, 203 insertions(+), 71 deletions(-)
+>
+> --
+> 2.55.0
+>
