@@ -1,95 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793270364;
-	b=5W92kFjfhQnLwG4VbZ0vXz2pzPuHEqWQPpqtPy01LpHoVa4siGGt/XqkgWnlGhaGLdrq
-	 dMlFL+DoIiwwaNT4Q3zrktUDY4/0Wb3+1E9BKGsnpLBj2O1+WfsJaTGRkmqMpVNRewQcH
-	 RYGuMArJBmQflazNa2RQZ4zhuzijpLAKRwWAqi6cTGxs/HCS7VVv9b7CnBg/COl4+2zLz
-	 r4XUSwF70gIQjHMFkpSG13+pOeNIfqeuaaVN0mLevY3gMhjsVJ6Gkkexj1Fu8rQ5ndmUI
-	 B2aPByPpUmb6yufwSIlEH3BFh9bPsHMwy0IsalYsxT//+lV22FMk5wvk4HEOMSNzDGg==
+	t=1793270366;
+	b=M0t4yyrRRTWCTfMjQqCJrDQkNr3rf7BlGlSPSkjzHPIynXFrai4Hsbods67VPjEc//b3
+	 m6sCIaOJ3qTpzCfXqc1099H3XRqMKnN3vjKKIHDAY92tL3UKYoqOHtO0Uhy1lFpNF6kDT
+	 XOS0gt5QJDsfnm2NqMBa2uQ4kE2RsSwmGGOqngyuLsKzBPhK5vsqMaH3Hsk9vfLKrfmzK
+	 wg5Ldt65b0rzpXT0sdBJOtVxaqB66f+MmTyrFRy/dt4FaKau90IcYO9/tmIsiPxD2+KGD
+	 xFjNO6P+y1xGQ147oFPhJMzLQ33h6bIzwRLVbVR8Bu9PUuZ5e5sc0SHJYoTrVnyss9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793270364;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793270366;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Qi1ti4izdBvA4FPvYxDV0dCh2GnisjK7L+m92EFw0NM=;
-	b=gN8Pf5ejxeuR9LMze7R5QFN+X8zuMbbLXd3J7V8WGdip7qUtMzWIhj77SU75O5+PTdOO
-	 hD2A1ZMXsEuCWHSoSZeJ/dURDIqu+zC4DSimCZ7Zst7Ulg0738uMS0wnPIhhHy6HEnYyo
-	 +zuY3G6oWgQWdDAcJWUeF/Ri+51VY6zMt8PDywo5kSUXxSeih906niR9k75MS1tXEDx5C
-	 wrd3xLIvFQnTE5KVmsEv3kQo8+INFfeYi4q2uDOF4zUvH2K7bMcK5qJTWXGlU+1JeEotv
-	 Q2WiB4lgG3KrMjonulu6lNQnMOgxPpSu7y9neeLkZhh1ajgJl77kFBZs++QcOCulUiw==
+	bh=IOabLZqit7N24WihDjnsU07Wy6C2IdsvojlsD2HIpZ0=;
+	b=SswxNppK00MULPCAl3CWp/Le66HyBuq0fHi7MaRC9ryWZt7hJ8RTH2JTZnf7bWc9swzV
+	 aQwcEXylogkHXGPbSDMknGt1PABDvyWLCqCf/LKDxEanZde4VgmaHDfh2mjq8XKl9zXZx
+	 04QH0hnQYdxcb7RmiYZkn4XEat35BY0XrIxVi/xrAy/A57vGlKVChdJSLYqYlKf7YcO5o
+	 tSCeVge3oGylA35aq5Yx5hvec+gUDyrArJkXtGPOecYme0ESOb4PU5usFIzh6t2GpxRkI
+	 TyIeUL80KoOkNfo0T+FvU+eIBmyAgWbwH4bltWNMT/Hx0vP65alBFF3YOZB60gtPZrw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=waUgyR7U;
-	arc=none smtp.remote-ip=209.85.208.51
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="pqP0/bK1";
+	arc=none smtp.remote-ip=209.85.218.41
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EEB0606A33A
-	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 10:39:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EEB0606A33A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5CC60A2618
+	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 10:39:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A5CC60A2618
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=waUgyR7U
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6b1f31c63ebso938398a12.0
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pqP0/bK1
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so303965866b.3
         for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 03:39:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20260707; t=1793270363; x=1793875163; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Qi1ti4izdBvA4FPvYxDV0dCh2GnisjK7L+m92EFw0NM=;
-        b=waUgyR7UFuB0ncWT33BjqnDWRS9yiV2YMoYIZ67Cu1l901ZpP0AZSyPlHtcl8QNsw2
-         Kl2wYWTtrGzlRhB2ci8CqqdWopsqMA6PH1scmsbelouVQv+wsk+y0ui+fUWJiaHKv5e/
-         PVOPzOPjFte0xFn/9dzB7yc009+Opl19RYYthd0BaoE5+xWJdJwyJ94cXxsDRJKhVYKM
-         94tv6WRk9eI62Gq8cClLL1m3LT1/0pcB9+g48CF0lFhQH82ls8qRmIW5hCoCg6kCKfxL
-         +4VePUISlBJmBxOO8ZQCpMETJT3Y68PpZD4ll2BWioSLy8CjSfX7vQ8D3j7TyaKVDAnX
-         +oGg==
+        bh=IOabLZqit7N24WihDjnsU07Wy6C2IdsvojlsD2HIpZ0=;
+        b=pqP0/bK1SNHB8mz0h5X0slPyg9MSy59l/xOUe78zFI7IEdm19ow6J8grPY2bF4aIQB
+         ZIoNRUJF6FAk9vLn2hC5tjH2+gGLIU2KagxpITHJV1E4tnJqRatQT1OzKTt/vGRfAv98
+         4VDr3fpJWp7lHk1WpHgJn8n7PtnVQ5KE+Yq4C8NSHBuHbr2WkWX887M71wRR2FEKMDZP
+         Zl3X5A/vmJXwn6Zc1wMjYT1CnAk0n+rzLuY63jrIiJcHoB5JI/4+gWe9BqgWqXyThUvK
+         TEmkSJeY3/aSyvbhhweGZO+BhBvjFR58yO8LJZtHFuMwehHGvRunlf6Lw/zEX8EQ23JO
+         7s6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1793270363; x=1793875163;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Qi1ti4izdBvA4FPvYxDV0dCh2GnisjK7L+m92EFw0NM=;
-        b=DhHvulyE9A9GUZOU2iGLRwy16KUfA1zmc+P/FENTsSeUYGsFxu1H1Rjxd/fobfd8tb
-         Mls9Gq5DJrMkPFfpHlWJoZB5747N47NJoJcbPOAYmd/2xyR25QuK2zT2FhgNF1c5Vh+e
-         h4yExXs5gzZFPF13x8chDAHUdxQkjPlr0EfHTNL9ik+lJ7xVv81okWdg3YwMHF6UI31T
-         Wlkm9nKnjdgDzHkGrPVH/1bqgqZJ44PM8D+ZDxlOOKO28iVGvhaHRt4A4TuRwNQmnsow
-         b/YUH7fkrKzDoAtTO5NEJGrTCGCLRnDqWInuZXfSeoDB1EM7w9RHSA2qDooke+bHFTyp
-         rpvA==
-X-Forwarded-Encrypted: i=1; AKwUvByVhqwPa2GHWT5T6MpfTwLFg9pyAaLFpbpnyyW5jl2QC1MtBDLkMc9//xLpeXW7h0H/wMfohiXifVTz@lists.linux.dev
-X-Gm-Message-State: AFq9FYIUOumcUzaof5iNmvuQUBryrfhlsAlaro/XLMvmJ69E9/9ivzFk
-	AQ15Ads6DZ1ADuF1zxJYiG+/rA+B9ipQdvpkod8jjPsUGiz1qL01TWQT
-X-Gm-Gg: AYBFou3wlbpaOuN6MRf2bY2FKn1ixmYt84YHBnaeut6r3eMYjlK8uQjRmbkxJXs1fS0
-	KdtIegz/OSo55UGxAshFo5lv6H69MuJXUs0JQYl0PTXt/3nGnIbzOJ8OZU9MaJ8ly/qXmXJEMCQ
-	tsnFPZMaq1c9LqUGWJ5APbq3MU4bFnbTuFs1onzs8/OKSCyx+lpI/bFx14t94q3KperC93Gfllx
-	WTB+SPqLQCd/FRqea9HjZKnfOZvtA2+pgP3kjLDAYG9pr4Viil4ZzC1mLdEV+1tizkQQn2shwXb
-	Cjf/MhF32k9G9wvF4owC0CyeH3amR3xKZWea4FTAxppYOWaF37u52hz4DVSuhVNEGfkq/gHRt96
-	kksLQWpFPNtJbYgG51vORavwjmLQyYTOmf89fb7SiPS89KwV9rV2YzeTrf2QgLu23eoeYwki7IC
-	Ila5kBsrxKsXagvLnEvEtseaRRgWafekhEHbfqXvMT/f+XnmRPhQnNPgoTTt8YXmFHYnwErbMjQ
-	IhUCvunCFSvLP+GoL/QdsMl0hUYMxpuho6qktEojk+NuGrQYGnaA9sJjtNOV4q4tv+Kozy+0lDJ
-	xsPj8wfvEOS2Z+WciH4rb8lZmgcx4um0qoG6WHNsWhZEOFCNCbyZNB6VsksuxtahKMLeqiJ+3El
-	pWhdmO/KdKZfZ
-X-Received: by 2002:a17:907:7294:b0:c42:4557:4532 with SMTP id a640c23a62f3a-c49d128171emr173949666b.5.1793270362388;
-        Thu, 29 Oct 2026 03:39:22 -0700 (PDT)
+        bh=IOabLZqit7N24WihDjnsU07Wy6C2IdsvojlsD2HIpZ0=;
+        b=jqnYnOX5bISGU8haoYcxXV7cnO8irR/u2LiUeyrqVnL2HQk8FoZTuSfsKGk6O7jRR7
+         5TRIH2uEnREoHR7GpwpaOY15raJxm5sA9eMsSZ6FaEH9kjNN60Bc0XbDBIXlyi1a8c0G
+         Fin1g02W2K81cQUO3YatVaPUOf8cd0ndJrE+1mvBE7XBEFjmBFh6hfbLqh6xMWIZbqp8
+         a6+zs/DuGbqf0We0il+V5k09haWU18+YNNG+L0J/MQIfzbanyiEkWcbtHwu7H9ttTQ71
+         UI59MKbXGw2eSWsjeL7ZEBGHQx6+goXwh6PZrOUTxDxbfM4usxg8Lri83GPsBZ3Loy44
+         WbeQ==
+X-Forwarded-Encrypted: i=1; AKwUvBww0FUaobXEXoNsW07gnEPZkf0y7qt9UgCoP7NLSn8R9lUCDRZ3G5Tcdc/nPV1li1vYBoVhSWJyOJoA@lists.linux.dev
+X-Gm-Message-State: AFq9FYIOPceb96KFZvQ86fSg/LRBrvWQkg/yXkfOVD3PI/uwGOkGUles
+	Gu5dUkbRO0WTHA7lFzOgiSyjUAtxGBlZScO2yCdOMf973X4RncJH/KT/
+X-Gm-Gg: AYBFou0I7wD3KlW7I19qbfjUxwHlUthsRix2HtrUGR+l5lTV8tehNkM2IUmd+PROUCt
+	ZODIBZ9G2ikws2mh+YC1hR+ZVJcVtbFSZ3jcguJCW/ZmIZT2lLQcrjTmXgBveUCPRRALREd6tAi
+	FFyMtIS7zespJ2gJQms5DYT4sn/Sr2/3nL0Ed6ACYuFPwLbRxSjc/DuwIOgKnEsfH5DI5k/0CJW
+	Pt6VV7hQ/FMkqIabNjklLo1CBIIhNrpZ+cDHRb3iiQvOMZlFW7iTECP3D/B5sQPVbHHG5fSCNUQ
+	Ur914Rv4Q6U+WscC90OWQ8/iVkb4zpOcRkMaNzg1BPVwehH4wuij2hiNEGnL7dwPwTuO5XzZnNa
+	awejTs3Rgdo8Yn0lxvGI0G++IPw+AkvGbwYz9Y/Ce/v1rCsRuLPmZvvV0LSMDgGGs+lGibOvX68
+	qVmqHlJzzogQfa3eOxgs8TVJOq8WJSnnequssJ7nZ1WsPUUQdyK7W08xfDu+ykOGR7MUuOLQFAh
+	ArUyrXHZosKrnpsevW230InFS59EEkiWKDXgbzFu0lXL+wp5KINw+b+boV4pU5oWJaOdbqkwuCZ
+	Gq7PH4XM8xz22+m2JU/w0KynR73Wxt2CZdDs01TO/bsn+ZPD1LBgt5yz6RUgZvlbhECbW1+Xzg=
+	=
+X-Received: by 2002:a17:907:980c:b0:c2e:2baa:a642 with SMTP id a640c23a62f3a-c49bdfb1ecemr433472266b.30.1793270363333;
+        Thu, 29 Oct 2026 03:39:23 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd7abf6asm708508566b.81.2026.10.29.03.39.21
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd4e89e6sm719465866b.20.2026.10.29.03.39.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 03:39:21 -0700 (PDT)
+        Thu, 29 Oct 2026 03:39:23 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	Miklos Szeredi <miklos@szeredi.hu>
 Cc: linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	Chris Mason <mason@kernel.org>,
-	stable@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: [PATCH 06/16] ovl: take a snapshot of the name for copy up
-Date: Thu, 29 Oct 2026 11:39:10 +0100
-Message-ID: <20261029103913.2785828-7-amir73il@gmail.com>
+	fuse-devel@lists.linux.dev
+Subject: [PATCH 07/16] vfs: add try_take_dentry_name_snapshot()
+Date: Thu, 29 Oct 2026 11:39:11 +0100
+Message-ID: <20261029103913.2785828-8-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261029103913.2785828-1-amir73il@gmail.com>
 References: <20261029103913.2785828-1-amir73il@gmail.com>
@@ -104,85 +101,90 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chris Mason <mason@kernel.org>
+take_dentry_name_snapshot() requires the caller to keep the dentry
+alive. The external name of a dead dentry has a zero refcount that
+never changes, so atomic_inc_not_zero() fails on every retry and the
+function never returns.
 
-The copy up of a directory reads a freed dentry name when a lookup
-moves the directory at the same time.
+A caller in RCU walk holds no reference on the dentry. Add a variant
+that fails instead of retrying when it cannot get a reference on the
+external name, so such a caller can return -ECHILD.
 
-A pointer to the name of a dentry is only valid while something stops
-a move of the dentry. ovl_do_copy_up() keeps a plain copy of
-c->dentry->d_name in c->destname, and ovl_copy_up_start() only keeps
-ovl_rename() away. When a lookup finds the same directory under another
-name after a change to the lower layer, d_splice_alias() moves the
-dentry and frees its external name.
-
-With a delay in ovl_do_copy_up(), a chmod of a lower-only directory with
-a 60 byte name raced with a rename of that directory in the lower layer
-and a stat of the new name, and KASAN reported a use-after-free in
-lookup_noperm_common().
-
-Fix this by using take_dentry_name_snapshot() for c->destname.
-
-Fixes: 829c28be9bb9 ("ovl: use d_splice_alias() in place of d_add() in lookup")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/overlayfs/copy_up.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ fs/dcache.c            | 29 ++++++++++++++++++++++++++---
+ include/linux/dcache.h |  1 +
+ 2 files changed, 27 insertions(+), 3 deletions(-)
 
-diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-index 92b3d08a02349..12000e45fefc4 100644
---- a/fs/overlayfs/copy_up.c
-+++ b/fs/overlayfs/copy_up.c
-@@ -920,6 +920,7 @@ static int ovl_do_copy_up(struct ovl_copy_up_ctx *c)
- 	struct ovl_fs *ofs = OVL_FS(c->dentry->d_sb);
- 	struct dentry *origin = c->lowerpath.dentry;
- 	struct ovl_fh *fh = NULL;
-+	struct name_snapshot name;
- 	bool to_index = false;
+diff --git a/fs/dcache.c b/fs/dcache.c
+index f44c7b39c3b38..21ac036b31675 100644
+--- a/fs/dcache.c
++++ b/fs/dcache.c
+@@ -358,7 +358,8 @@ static inline int dname_external(const struct dentry *dentry)
+ 	return dentry->d_name.name != dentry->d_shortname.string;
+ }
  
- 	/*
-@@ -957,12 +958,15 @@ static int ovl_do_copy_up(struct ovl_copy_up_ctx *c)
- 		goto out_free_fh;
- 	} else {
- 		/*
--		 * c->dentry->d_name is stabilzed by ovl_copy_up_start(),
--		 * because if we got here, it means that c->dentry has no upper
--		 * alias and changing ->d_name means going through ovl_rename()
--		 * that will call ovl_copy_up() on source and target dentry.
-+		 * ovl_copy_up_start() keeps ovl_rename() away from c->dentry,
-+		 * because ovl_rename() calls ovl_copy_up() on source and target
-+		 * dentry.  It does not stop d_splice_alias() from moving a
-+		 * directory that a lookup found under another name after a
-+		 * change to the lower layer.  That move frees an external name,
-+		 * so take a snapshot.
- 		 */
--		c->destname = c->dentry->d_name;
-+		take_dentry_name_snapshot(&name, c->dentry);
-+		c->destname = name.name;
- 		/*
- 		 * Mark parent "impure" because it may now contain non-pure
- 		 * upper
-@@ -971,7 +975,7 @@ static int ovl_do_copy_up(struct ovl_copy_up_ctx *c)
- 		err = ovl_set_impure(c->parent, c->destdir);
- 		ovl_end_write(c->dentry);
- 		if (err)
--			goto out_free_fh;
-+			goto out;
+-void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry)
++static bool __take_dentry_name_snapshot(struct name_snapshot *name,
++					struct dentry *dentry, bool retry)
+ {
+ 	unsigned seq;
+ 	const unsigned char *s;
+@@ -375,8 +376,12 @@ void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry
+ 		struct external_name *p;
+ 		p = container_of(s, struct external_name, name[0]);
+ 		// get a valid reference
+-		if (unlikely(!atomic_inc_not_zero(&p->count)))
+-			goto retry;
++		if (unlikely(!atomic_inc_not_zero(&p->count))) {
++			if (retry)
++				goto retry;
++			rcu_read_unlock();
++			return false;
++		}
+ 		name->name.name = s;
  	}
+ 	if (read_seqcount_retry(&dentry->d_seq, seq)) {
+@@ -384,9 +389,27 @@ void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry
+ 		goto retry;
+ 	}
+ 	rcu_read_unlock();
++	return true;
++}
++
++void take_dentry_name_snapshot(struct name_snapshot *name, struct dentry *dentry)
++{
++	__take_dentry_name_snapshot(name, dentry, true);
+ }
+ EXPORT_SYMBOL(take_dentry_name_snapshot);
  
- 	/* Should we copyup with O_TMPFILE or with workdir? */
-@@ -1005,6 +1009,8 @@ static int ovl_do_copy_up(struct ovl_copy_up_ctx *c)
- out:
- 	if (to_index)
- 		kfree(c->destname.name);
-+	else
-+		release_dentry_name_snapshot(&name);
- out_free_fh:
- 	kfree(fh);
- 	return err;
++/*
++ * For a caller that holds no reference on @dentry, e.g. in RCU walk.
++ * The external name of a dead dentry has a zero refcount forever, so
++ * take_dentry_name_snapshot() would retry without end.  Fail instead.
++ */
++bool try_take_dentry_name_snapshot(struct name_snapshot *name,
++				   struct dentry *dentry)
++{
++	return __take_dentry_name_snapshot(name, dentry, false);
++}
++EXPORT_SYMBOL(try_take_dentry_name_snapshot);
++
+ void release_dentry_name_snapshot(struct name_snapshot *name)
+ {
+ 	if (unlikely(name->name.name != name->inline_name.string)) {
+diff --git a/include/linux/dcache.h b/include/linux/dcache.h
+index 4b1ff99608e01..a4be11ca2df18 100644
+--- a/include/linux/dcache.h
++++ b/include/linux/dcache.h
+@@ -629,6 +629,7 @@ struct name_snapshot {
+ 	union shortname_store inline_name;
+ };
+ void take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
++bool try_take_dentry_name_snapshot(struct name_snapshot *, struct dentry *);
+ void release_dentry_name_snapshot(struct name_snapshot *);
+ 
+ static inline struct dentry *d_first_child(const struct dentry *dentry)
 -- 
 2.55.0
 
