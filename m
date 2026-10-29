@@ -1,95 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793270361;
-	b=BTQ4+x4Z5N7uvOlXU2F+arGbtqj6DndMjwZmQgW2czdt20weab69KXj3YqSMbNPdNmLV
-	 wimgXvigjfwS5GwCxJ6E8Ri91otqxtnDIzjyg7UBAM225xQrxO62mv8+uoQU2HLZO2NX/
-	 fQXIWiryNyRgn6882fxlOk7jlVvA3YTZKKxFJ4PTahZctRvTCy4EsgjSQ2mJJlerwif4L
-	 oEUOaZG3EkoBDqddZcZX9RGwVJhpkrG7B5HexAQvOw1cVFbbOTn+rMxirGLlLZb1E1ZyP
-	 PwxbLg7vI2FpDU9z8fSIwktWzaTVI+mWnFZ/wAr9fiPzn9Vpfp4xd1OL30Ss5CQh9dQ==
+	t=1793270362;
+	b=Uxry9J0KQxqRAkQae1t+4lJOZGNdTPf4BR1F6ln5tieukZMSSAWxLOSrxOSbyV5IXnYJ
+	 /NucfERpz/DbuZCNOzlP/yLGpr1Nd172DN2cgD5l2z3Cu+tDV+35ndomJUwL7tuWF2vAM
+	 mrGCgBQ+0FjM3VgSvtgO6HIFNdnF87N1T6M3oqrvLpCK4tOpDWgW8YupGBzr/or0osFfh
+	 krF47r+MPn0J5kJ8ij+lEbeDwp824PB6g3j89dKGDfK6VNBd2SxtrMDC1ZnOAs9tD65+X
+	 xSvmqDJB9W0WzJ7amhvByllvo+d+TBTPSiPwp9inzRiec60UHo+FQB3seRCh6jVPwaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793270361;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793270362;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=8WMI3X3PoRyAlOMTKdphRDblFY375paDpMOGs5Gmny8=;
-	b=nBgsKIjGAY1EILQ16aHXle9SsMqAwDVTY3SoJcxG+RivIVkFhyBNo2JoO04CHsV7ZhB7
-	 lAlpWmArVbk+H9wczsDm7L83MKS5TCs9lByjDxUsPEvKyyIDspUPgCWHroWQ7U69mAkLc
-	 YX+8L9oXyZ/17xc5pY5cPOsa7Ugjz5TfAs6l69e6Klwa7esQN18IpsbcD8M2SaSOOpJtA
-	 jRjtCmMstEQD/B+56238lMhVgv8ny3CtDjWhRI2MgjfBnHBXU9udBBFy+0HOZ3qI13Zvz
-	 T6VKGg2xNAQYMOXODH/g/wfeM2nAFXWHLpsY/JR9/AmkLJTQGj/vrAXlp/2SMDFST8Q==
+	bh=cmIhezlVC3rHCXHI7CWbXYAAsMg4SBr1TxpHu1OVCHI=;
+	b=hh+OTHAKY3uWBdrK7CGtyCNBOMHByuVWLLb5FFfDVAvWXFP7ozOVll2ZTCE+cE21mSLF
+	 EyUTpuDq4V8W5OC42/pDasGaeODb8EeC7yKxeEhnHQglabDApQcSnucClzTkQi5LimUh3
+	 C6fdls/qn9SGR+ln89F360cLMCZZjrYs1azK5VDYYEiRsNdNABTUC2II35aChUWfdL2w+
+	 6LeoKqb7ks5nHZiJ6g3E71hZAm8tJzuduAGYtLGMZ6sKoLHt+dxyfTbPdWlxP7Qa0zy1g
+	 MPg6MYlKcwNp3gs2K2qWGQH9ExoWDJw2a2H7EkHjI9oih8+uDo6/1pg9N3GyZWsP1dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jlRBc+EZ;
-	arc=none smtp.remote-ip=209.85.208.54
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XkWcwOMY;
+	arc=none smtp.remote-ip=209.85.208.50
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188CD606A320
-	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 10:39:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 188CD606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF40F606A320
+	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 10:39:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF40F606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jlRBc+EZ
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6b488586facso2547214a12.2
-        for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 03:39:20 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XkWcwOMY
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6b4bd3d98bfso409536a12.1
+        for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 03:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793270359; x=1793875159; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793270360; x=1793875160; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8WMI3X3PoRyAlOMTKdphRDblFY375paDpMOGs5Gmny8=;
-        b=jlRBc+EZ/PRr8eeTMOlNZZQO4VhJJBrIDiR36is74JlMD90n97/ymje7EvlyfK+7z0
-         6jS6z8uN/pu8MqdchVWvX8Kt2AbcRlcKUQnOzXFYiE2xLsvTWiCE4WRX3J0CPtcuLACO
-         OPX5Ye+NbOMP+o/1+YdAQekO+ZZgn51w+jaLSPvXhJrVCSUP5xipBGcc3fp84oOgd1QS
-         vvvxvOufO0PKqkk2i38Yn8UOTEdEdUXA0Oys2liP+G634P4PepF9DR6qMsZzVZAo76ha
-         SYKc/EY1L/Afp+8uIrlHnw7NwPQulDi3H62zrW/t6cM5XQNY+6H1Q24MsSxrh258vEEU
-         SoxQ==
+        bh=cmIhezlVC3rHCXHI7CWbXYAAsMg4SBr1TxpHu1OVCHI=;
+        b=XkWcwOMYFvE75gdAhhS4CPMapUmBsRg5a2N1NzaA+42QBqasyjIHEbdSZPCiUvvl4t
+         tJFFtDKYligtU/R+/G/hwfaGpTHdJUeQ9j73nGe0nf6HJ9lu/zQIlREAr9Sb1ee3oPr9
+         LuQi2CNlIysUgCijB3gf20Tch5+FLfzFCxQPyGtWnpLDYyYIGhYL8I11fhwa3YOTL7HN
+         FJrAoXfhVIsRXnvWN2ebBAJcJzIua9wr2OGIyac9YB6D+lwiPFgUusGwBYgclCSP9j1H
+         BXbvABGIhEWKpjel5w41Bu/9RlB2ZbpDHBqoZa3bO9WPqSkNaxkjmA/S714p7WE7ZjBf
+         lOXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793270359; x=1793875159;
+        d=1e100.net; s=20260707; t=1793270360; x=1793875160;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8WMI3X3PoRyAlOMTKdphRDblFY375paDpMOGs5Gmny8=;
-        b=u1W4Ce2a+E5tckd8BFnF+I0gg+wZXrmlxejU+5F9uZdGGZYC2GVt93Vwg9W2HOe4ld
-         sOKQpDXDio0nMvBxn+89iQjVTWeNCHNa1enZE2Qgxd6X6RB7//Xdh8aicNfw5MNAc3kg
-         dA+HR17rrFvJtUCEjqoI272Y9sSKDtPAjjHLxa0WpbmfERhHHIw2aONqLvhdtZcc+nnY
-         /X5UKKpY+uniJAt8npT/cRVc7TD7RA5+rOa5N9dK7DIUzTQWbeeykwPuS1Gv7r4ADxM2
-         xvW8kseyqYBTvBcL+4PlRmEuYBtf8FxUSr3BPLwNSa68G8PqcaHt87EwXFh7vKA6rh0K
-         glew==
-X-Forwarded-Encrypted: i=1; AKwUvBwMtiuqNydKSgtUGBTQjxUHqS+ppPu5ryxWaWKPio7BggkvTS96eIVYr/rS3IkGPR9nSiR8d4X569el@lists.linux.dev
-X-Gm-Message-State: AFq9FYI4jvG203yeqYcInCSh5MzJEDCftUZGDBPult6es3lH+0Ibw06e
-	W78aKzILKQlvp4o57M23o63jxpQ+3r5WrxL0BXRsvS8tVjt75zRtR6xw
-X-Gm-Gg: AYBFou0D2flop1pDNeCCAYsqs+EvMX12bFciglJpsynRuxNAbhZyJm4S5eu5DTCWJV5
-	ogdX7RAIjzKfqEz4LVfCXgNdZuk2G1NyEH2wiqrN7cPHmKDngnTZQ0Jd40IlxgemI9Q2fIjWXMI
-	zrsvgAE8MdlM531/ZA98sF3QxmH6QWKEfJ+TzGKSb/S6oqD9Uc2j4CvV+IAGzc37EM9psUgSzgI
-	JPp+0BUb6QY1sO2fr14dG3Wo46645ixigX9FRxC2WmN9UZhn6zWP4RWxDU36bRH9uJ4TvV1DmoI
-	T0s2JvyRhD/kobZDAHYuMAAMVgVVHgea2SKs1urPz7W4f9HNfeKGUb2EQqQmPrFnDaZYgOtegGu
-	tDQUpgR14bq6ppNcbsA6OgRt/uF4An/0Whoi0P/K1szDts8wogg8QMOnK+3/Lx8Z4yMK6JFznrx
-	zloRvbVKPTLZzX6wY4SV3oCXqmG6qMdNnTid1tgBmlwLD7XFyIUHJOh98zeZcNSa//k2YwrxM27
-	DTPHRa0RNJXtfF/YiUz4hT2IQTCAynMg2uEY/6mH1+lqn4V4wCQKohTu1Qxj6j8f3KGsyUEs0Zb
-	iSECVOtSSO4uZ6fZ8jbOtW8mYZ66gFXN/CYxM1eMjP0Wpv+FqBZzciFWbVvqht0sCxuhAOxgy08
-	+1syiifcSJKCtY4Fud9KB6ScggDOUuhmHdg==
-X-Received: by 2002:aa7:d0c5:0:b0:6b1:b611:a2af with SMTP id 4fb4d7f45d1cf-6b49cbe2658mr2513298a12.20.1793270359169;
-        Thu, 29 Oct 2026 03:39:19 -0700 (PDT)
+        bh=cmIhezlVC3rHCXHI7CWbXYAAsMg4SBr1TxpHu1OVCHI=;
+        b=mNCmm/8C/H7WMqtrUzWVwfqRM/gO5+AQFKkK5KLwK+4jYvCS3tilH5dACu200wWpY5
+         fby6F4akPhFXWOFSK585wEGM50ceL4i/dFZQHpD5aAWHqVp0wKbh5wJEiKw3GvzfSHLI
+         3MzplZrMVGRH5HB2p38Y+DRwYd2AwS/XzLU3jPzYCcHnA5JgFy4LZHTSeWYhbvmW+vls
+         B+0pQEumOeYFrpokXU3mJh760Bb3LZ8WPgX85P3aL12NlBAeLY5fJ/5PoL4StQDkOkjC
+         e7iOENU2+oNFnykDw7MoX5v1YwyQBzI8WWLO+F5+oVvAYItsxCB4WFgOR/Q5pWRJosL2
+         2Ehg==
+X-Forwarded-Encrypted: i=1; AKwUvBwc6TZPrSMt5PGtmlIETO9tUN0NZ7Z0qs0ydvdlbx2n3ahvHy2b19uuYwikJGCWzqOzB2pzkJhZ32rS@lists.linux.dev
+X-Gm-Message-State: AFq9FYJ+XnAtpScREx+JjS6o+412nrpbP74CVomUIgmJeZp+nnt6rZOv
+	tx6htyU1bqQZecMU8qyzyf8nZB9eDcTXVREl6YdRn3vt12PiOrXjSIYD
+X-Gm-Gg: AYBFou0UCEN+i9UDMydxrlnWDTLSMm2EnVAA3gKo7p6DVKnLBU2p96j8UQ44A+FnOSm
+	epA/y7LOphNXuMNo2ZOywsPpzY5FRiWXHhU/k7+vzYGHsBRuhqwK1QZoTeGRgAyVlnlTjW1+/Y6
+	cQWQdFRlNT7V4k9GhJdTwzJU1Sv7yhp9uCLAd5smHzlkg8Q1t4mr6EJefCWb2b6TRsBfVRUTwWu
+	lNEVq+2TEmcyeOJyknMu7a3rRtjCdUB2OxBCy5OtHL6lHNdaW2SK5XrQpNJkICFc717zRbRYMJz
+	2Ib4G8jVcpMXqgc4QF5qMZjuEUnGtKDktOPR38UhGd0eRgLQ55krIpjNGjRnjt6dLWBvywujj9j
+	cMs029MDsmNpua6+p4hPgVuciobOTW8HdpbRtUAOnD2T9xxBDmGLc9J6fXErfMJAKV8gY75ovW0
+	OdVOysBPc4iMUZAi2f7h70dFsEircA0GM+mFRBS3AOalo+5S3CZbnkErU7mukG6Pxt80tZPRV5p
+	U9HI7p8VUmfa/SDnlhky7SV+r/LqeZIgUlqjmx25t5I4JRobYfg2MHIJ+DZy3hepCk2ph2Q9P5I
+	P8ZBUyI+RA+m4SXyGJvw57DI8R7ev2RhKYRd0iEXLG9/MawC+fhAa0bCiXc6vD1jJZVWiui27do
+	WGcaZzvJN9oCz
+X-Received: by 2002:aa7:c957:0:b0:6b4:746a:1dcf with SMTP id 4fb4d7f45d1cf-6b49cc2044fmr2623076a12.43.1793270360146;
+        Thu, 29 Oct 2026 03:39:20 -0700 (PDT)
 Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b496435babsm2437817a12.28.2026.10.29.03.39.18
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b49602346esm2535097a12.7.2026.10.29.03.39.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 03:39:18 -0700 (PDT)
+        Thu, 29 Oct 2026 03:39:19 -0700 (PDT)
 From: Amir Goldstein <amir73il@gmail.com>
 To: Christian Brauner <brauner@kernel.org>,
 	Miklos Szeredi <miklos@szeredi.hu>
 Cc: linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
-	Chris Mason <mason@kernel.org>,
-	stable@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>
-Subject: [PATCH 03/16] ovl: set OVL_WHITEOUTS before publishing the upper dir
-Date: Thu, 29 Oct 2026 11:39:07 +0100
-Message-ID: <20261029103913.2785828-4-amir73il@gmail.com>
+	Nirmoy Das <nirmoyd@nvidia.com>
+Subject: [PATCH 04/16] ovl: add assertions in dir cache code
+Date: Thu, 29 Oct 2026 11:39:08 +0100
+Message-ID: <20261029103913.2785828-5-amir73il@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261029103913.2785828-1-amir73il@gmail.com>
 References: <20261029103913.2785828-1-amir73il@gmail.com>
@@ -104,70 +102,97 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chris Mason <mason@kernel.org>
+Overlayfs may keep two different types of directory cache
+merged (refcounted) and impure (not refcounted) in the inode.
 
-Listing a directory while it is copied up causes a use-after-free of
-the readdir cache.
+They are mutually exclusive and an overlayfs directory is never
+expected to switch between merged and impure modes.
 
-A merge directory must never be iterated as a real upper directory:
-that mode frees the cache in OVL_I(inode)->cache without looking at
-its refcount, while files opened in merged mode still use it.
-ovl_copy_up_workdir() publishes the upper dentry before it sets
-OVL_WHITEOUTS, and ovl_dir_open() samples both without a lock, so an
-open between the two stores finds the upper directory and takes it
-for a real one.
+Nevertheless it is hard to prove that races in the code are not
+possible, so add assertions to fortify the code accessing the
+directory cache to make sure it does not free the unexpected
+cache type.
 
-With a delay between the two stores, an unprivileged process that
-listed a directory during its copy-up saw only "." and "..", and its
-next getdents freed the readdir cache of another descriptor.
+If an assertion fires the code may leak dir cache memory
+but it will not access freed cache memory.
 
-Fix this by setting OVL_WHITEOUTS before ovl_inode_update(), so that
-ovl_dir_reset() agrees with ovl_dir_open(), and by testing
-OVL_TYPE_MERGE() of the path type in ovl_dir_open(), so that an open
-that observes the upper dentry never iterates a merge dir as a real
-dir, regardless of the order in which it observes the flag.
-
-Fixes: b79e05aaa166 ("ovl: no direct iteration for dir with origin xattr")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-[amir: test OVL_TYPE_MERGE() instead of smp_rmb() in ovl_dir_open()]
-Link: https://lore.kernel.org/linux-unionfs/CAOQ4uxh-1J2OBjnDVbrrrjy1puSOW0kABvghN85ih6dtKUBTyA@mail.gmail.com/
+Suggested-by: Nirmoy Das <nirmoyd@nvidia.com>
+Link: https://lore.kernel.org/r/20260511062057.2365769-1-nirmoyd@nvidia.com/
 Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
- fs/overlayfs/copy_up.c | 2 +-
- fs/overlayfs/readdir.c | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ fs/overlayfs/readdir.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/fs/overlayfs/copy_up.c b/fs/overlayfs/copy_up.c
-index eee22581b14f1..92b3d08a02349 100644
---- a/fs/overlayfs/copy_up.c
-+++ b/fs/overlayfs/copy_up.c
-@@ -819,9 +819,9 @@ static int ovl_copy_up_workdir(struct ovl_copy_up_ctx *c)
- 
- 	if (!c->metacopy)
- 		ovl_set_upperdata(inode);
--	ovl_inode_update(inode, temp);
- 	if (S_ISDIR(inode->i_mode))
- 		ovl_set_flag(OVL_WHITEOUTS, inode);
-+	ovl_inode_update(inode, temp);
- out:
- 	ovl_end_write(c->dentry);
- 
 diff --git a/fs/overlayfs/readdir.c b/fs/overlayfs/readdir.c
-index 7d6f7f6022ebe..ba542a1920127 100644
+index ba542a1920127..b875332107d31 100644
 --- a/fs/overlayfs/readdir.c
 +++ b/fs/overlayfs/readdir.c
-@@ -1055,7 +1055,8 @@ static int ovl_dir_open(struct inode *inode, struct file *file)
- 		return PTR_ERR(realfile);
- 	}
- 	od->realfile = realfile;
--	od->is_real = ovl_dir_is_real(inode);
-+	od->is_real = !OVL_TYPE_MERGE(type) &&
-+		      !ovl_test_flag(OVL_WHITEOUTS, inode);
- 	od->is_upper = OVL_TYPE_UPPER(type);
- 	file->private_data = od;
+@@ -36,6 +36,7 @@ struct ovl_cache_entry {
+ struct ovl_dir_cache {
+ 	long refcount;
+ 	u64 version;
++	bool is_refcounted;
+ 	struct list_head entries;
+ 	struct rb_root root;
+ };
+@@ -479,13 +480,31 @@ static void ovl_seek_cursor(struct ovl_dir_file *od, loff_t pos)
+ 	od->cursor = p;
+ }
  
++/*
++ * Merged (refcounted) and impure (not refcounted) caches are never
++ * expected to be mixed. On mismatch, detach the cache from the inode
++ * and leak it rather than misuse it. A merged cache is still freed by
++ * its last ovl_cache_put().
++ */
++static struct ovl_dir_cache *ovl_dir_cache_check(struct inode *inode,
++						 bool is_refcounted)
++{
++	struct ovl_dir_cache *cache = ovl_dir_cache(inode);
++
++	if (cache && WARN_ON(cache->is_refcounted != is_refcounted)) {
++		ovl_set_dir_cache(inode, NULL);
++		return NULL;
++	}
++	return cache;
++}
++
+ static struct ovl_dir_cache *ovl_cache_get(struct dentry *dentry)
+ {
+ 	int res;
+ 	struct ovl_dir_cache *cache;
+ 	struct inode *inode = d_inode(dentry);
+ 
+-	cache = ovl_dir_cache(inode);
++	cache = ovl_dir_cache_check(inode, true);
+ 	if (cache && ovl_inode_version_get(inode) == cache->version) {
+ 		WARN_ON(!cache->refcount);
+ 		cache->refcount++;
+@@ -498,6 +517,7 @@ static struct ovl_dir_cache *ovl_cache_get(struct dentry *dentry)
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	cache->refcount = 1;
++	cache->is_refcounted = true;
+ 	INIT_LIST_HEAD(&cache->entries);
+ 	cache->root = RB_ROOT;
+ 
+@@ -698,7 +718,7 @@ static struct ovl_dir_cache *ovl_cache_get_impure(const struct path *path)
+ 	struct ovl_fs *ofs = OVL_FS(dentry->d_sb);
+ 	struct ovl_dir_cache *cache;
+ 
+-	cache = ovl_dir_cache(inode);
++	cache = ovl_dir_cache_check(inode, false);
+ 	if (cache && ovl_inode_version_get(inode) == cache->version)
+ 		return cache;
+ 
+@@ -710,6 +730,7 @@ static struct ovl_dir_cache *ovl_cache_get_impure(const struct path *path)
+ 	if (!cache)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	cache->is_refcounted = false;
+ 	res = ovl_dir_read_impure(path, &cache->entries, &cache->root);
+ 	if (res) {
+ 		ovl_cache_free(&cache->entries);
 -- 
 2.55.0
 
