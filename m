@@ -1,100 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.177
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793380753;
-	b=vCYrm8aAkveja4SWCW8PCfmF6mjRsEOtINSPoxMv4DTf6Jo/EBEwjhmV0HwBuhNh67jK
-	 yhBdeNpk2cBk7oecvnhgpDV+Ih1xmVygRnqVm9BXZlR+W/6qLh69XoM5ZDlWhki4YfN6p
-	 PrYKJ6rCwA4HT/iVk99puC46ttt6svm1ATilCeCV29/lWDsz69y7GZsTpo1x7SlOi5SuM
-	 jtO/7ywNW71gYkcUgM2bdXy+JluGj78lNFFrIG8rxWMsb6iYNoA8o5pc3pAIHMlutRJNw
-	 UPQr1IY3qhZ7ymJcNO6LAVCeC7ZASKCqn5Kx5qtAo+qwA8p8+X3rNtCYremWdKHf3Mw==
+	t=1793381800;
+	b=btmUWw4lIsulh7ogolDSLBUHMJr7mkhJTPwDdEZD5M1ZZjXyd5j8f6G84twMaaq9dj8+
+	 kTWzB8xmzq9GAZR6dPVDvIaXAtfXM6FRyYjiMbm/A/LKqLVbxT+axczE6YV2tj0VjTM2v
+	 1GJJ/0CAij+fBc/YdfEJaFy8lyJGwWkuDnWhlUM906fiCYQ4n3UWgHJGr4a4SfpDxFW6Z
+	 W26lF4b6FSkhUCoTWXsElViGkySrl6V7nYL2ZfJXT7obOn5XYJWS7DYZeCAMV7bVMOr6+
+	 WGrSgNzEG8gRAA3p5y2PB3Weg5SEI/uTY0RiGr9B6olykbZU1d+rA2PHHa5p9OBKRNw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793380753;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793381800;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=KmKG7M7f5HzFXvhjPiMlLhJhRLhSYMi7m6GZM6Rw3ds=;
-	b=tHapAbXlxIOFRU0W154SdBznl9SlYWL4pGnwmI4MFFchNAlvb2Zd2oFBdODCuay6CaWu
-	 u5RTMse0Qd8OpJu4FT+pF8KYGyYgCjGfLF1eXJMTC+oa0MdIR/lM8CDaqB86zp1fLPYpS
-	 lqitCIz+djKNVf8qHudWHy6SJrTcGofcReNmp2p1FwKxDfw4RgT5FRpnnmTe+CSkFqpke
-	 S3BqCfFgZZu9TxHUlBLAkQEPIqTeAl/PUGIhZxt/VGzsfeYLf9H3u7KAwYZwVkx/g7NKj
-	 4oOcGmFeOm3IvJVB+FkULBe0nD5sXlEMz9P2CEA3fVtIIwLLFz1/Dnovnet9u/Hn6Wg==
+	bh=BNpaUt6aBdzMCdF+Tz78AVxhWV6Ncmv7N4A1Kh6UWes=;
+	b=W49G5PWMTnOYV2DpKL7MFra/OGF3MyZL80vOf3wWpiBeJDVWStE7OK8XniEn17Xo+AgA
+	 KBrydRFjuaxRGHoazimwfBo9Q55Gxm9bB/Iw+Pd3zaVxpqHa43Gcpet9XIq7RZCGyZ9vw
+	 KkcDc/EzhzsmkMNpJ5miHK1KfQo7klMzXQISCP9qsID/IVkC5pKjWT3Gs+j2/B/6X1sZT
+	 ZOUPmlQUsdFdasU0002LSgOWGXEy42mxU2vePaMRMrgFDPUi/TwkLo7gcC1YQVCJDjsK2
+	 08umWp3xoD+JSTmJ3EdcAfi0d0dt6z6N/ydw7mtlkPZFy48Vj4sbh0ZQMi3Qg0m7Hhg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DbsoBKwn;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.51
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pQSi9UB8;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.177
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FDC606A31F
-	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 17:19:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 08FDC606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7161606A31C
+	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 17:36:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7161606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DbsoBKwn
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c4395d31228so142324466b.1
-        for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 10:19:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793380751; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pQSi9UB8
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2e7e742a2c7so7338985ad.0
+        for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 10:36:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793381799; cv=none;
         d=google.com; s=arc-20260327;
-        b=FNf1LwJNMXyMyOqm5lftcfWEFSOuWYWF+T4efFsdZ1Y90FHsUokldusMVZmCXDYX0I
-         B6jljVR3xu0g2hfYhGo6sBAI8zVJmK99n+tFDwYbHAaOWqPfAn6tTuzParqc98Ib+eB5
-         ZnBDGrN0BCJmWOjt2V0I3gVu16oIHTRq7xGTN5eGCDcaJgJOjZvjTgHS6aKEidf2o9Bj
-         qT+jVP+vV7wXikSFDMa4L5NVnoX5a7Kj0uDWXyKCrfgnMrvkUScIxlt5M69hiih0/zA5
-         hPW7XwacbyW5i8ZjuFyyqtYFyzjzuLDKiDCyUSC+Tkd44AFxwaM3W0uRcmxv8yLhwiKo
-         XXjA==
+        b=a/R/GE2n4Q7ruWBmgW6ECOD1bjIn+innM114Mkb9R1/8YDyrHmSrUTrCKlHoGj1FVh
+         P/CANL5oiVRSkjwRR1JBt3Bcyb4wqdBLm2/4umjfJ7G7KduhaodQ1UuPkriku49vxqvm
+         xLVVMxcQ7FjlX0OK/dYzlwPUkNMuCyMmOxb5vFSmuhc7wz4JBtqFsqegGhZYbC4pBUaL
+         rWOeX7jIye+Yu2Lio1iOq98UT2is1+bdT1Z7BQ2yC5qKHfwGYPcsjhRiX8lf17Yc2z8o
+         Vyw0dDl/wxFvXyO6Q9Mbk3/GZBxjDsG1itfq59xKHX7UvG8Fin1ZoQ8SUTluf7H//1Ic
+         khcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=KmKG7M7f5HzFXvhjPiMlLhJhRLhSYMi7m6GZM6Rw3ds=;
-        fh=nwBQUGq+ZF5mHX+lq2YwmfG2cOfAZ5qkBRABBFq0iFI=;
-        b=hN6/myny/8dgwHBBMndHmQE+gtHyvEKyRFW6z9MTSTHvMf4DIZ4rMNhbHXD5s0AA45
-         3jxFrGfVCfxEKXtO94DpN13594+BzjOh5s9AE9gF1i/GPihNe+lu2Jcar2xLKkIIUqte
-         cfdCOFsu56rAXLvLFr1U24EklukkKOdMCaKa0/NoKsx4ImjDCToA3Ybh8YL+rU+BmUqz
-         r7rAXB0oHEykumlAe2e76UiwQdYxcqjX6zl4GjlbZfIClCyNk3N4k3Fac+oVl2fS340E
-         KfaGslP8jk3Ytwx3hhf2DJRWGh3pK2TI3b/OxrptXCcy9ZFEvKxJEtXZ72rwRnIaQM2v
-         NiXw==;
+        bh=BNpaUt6aBdzMCdF+Tz78AVxhWV6Ncmv7N4A1Kh6UWes=;
+        fh=/Nf02iXW97Tz4f+O2eV079um1IcKHez2FSmOw5Cunz4=;
+        b=dCPVr0pPtYcSshH5x3X32elODJU6cEqinGaQSkuhYfbpF8xcwbQJ2oW19y+kzR1rqR
+         XnaHRnO101p4Tq4Qp75/krWr5XCa4SGsHqD6RyQDec9Kxjg0MusIP065Beeuj2+PL/mw
+         rxwNckGvpUFJ4zyMb6gPv1ejhzL+4tYVC0Dn47gauwtyUC6PA4VWYfU0u7zqSIqSmA50
+         4403/t2W1rseBezWhrSiUx+09iTF6N0l6OUxdXuFBt7ujod/aIEPwjteumvRNnFKkxVL
+         GsmbXL/9P3e9w2jXAuyLWksO9TDKYLIlMHaAaFd6Fv1INkdU8N4xCS1vsATwKXTdGLO5
+         ANUg==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793380751; x=1793985551; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793381799; x=1793986599; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=KmKG7M7f5HzFXvhjPiMlLhJhRLhSYMi7m6GZM6Rw3ds=;
-        b=DbsoBKwnYrMlY04WA2Owjxvt0yGJZgGblBJrak/ctQT2/lFjNfa9zdPsro8popMRSO
-         YYLnE4i1jbOkgEeVFo39hRGpHCqjYdLsGUaGXkv/NAsnU0Rou+Ut877DqaLFDHC3l1hQ
-         w7KQ4ss6RB4y2HUxSWSHhzXbJHhu3Li7Oo/PG80YEF835pzVUK49FDS86gBCn31gubGU
-         DSgDszaqIozuSqJ53GPSI2pTgpz0/TEStDvjpKkolpyrU95kiEDrDrjDiinGmnMKzDci
-         /RrbwGc/Is8//AJRPcbcb6uN0W3n7VV5FgyhxKPgx42cHx40/G80uUYoyyS1QfmwFv/5
-         +4AA==
+        bh=BNpaUt6aBdzMCdF+Tz78AVxhWV6Ncmv7N4A1Kh6UWes=;
+        b=pQSi9UB8wXiPPOvbEuSDNX5gYJqdnCe2aIzcv3eWJDS0P8rtarub5tJI5ZG1IAMpNw
+         1+kCgUp2etziVB+PNFZhIZNlUQ00ZxUc2jsAJPvePdL1QuelZ7ls7a7Jlw+1EISbrfFG
+         7pm2nF3a32z+PeFDxm97UVINCrzVK/CN1skJCoOz/d3bUyj0yIjZ5naLsTp1gt2JTqEp
+         bwh4Y/EHPnqQs42DCkD5eiZe0lPIomhhS1ZoNNGS337gXqDlnx3SrarWufvt/pNcZXVV
+         T4N0E69SB2A+e+HojmVjlR/YyRnVZ9MX2V8QfxnYS+iLNiwu+pOMrFvSHjRGW683ZHcc
+         J9Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793380751; x=1793985551;
+        d=1e100.net; s=20260707; t=1793381799; x=1793986599;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KmKG7M7f5HzFXvhjPiMlLhJhRLhSYMi7m6GZM6Rw3ds=;
-        b=duHJX0DSOT4hwpCpvqDiX2n3BYMP9+MMUrEfo1d2JtIPPAwsA3RtybHKYB+vjF8CtT
-         /Meu/9Rmi+03bAKaRVFUvdmHNoz1TT+DOsFdJnexE7QUgEJkRU4u8zUJ9lW+pO5kDfOx
-         J9zYkAL97DLk2ug9p+IfI+VgUHY2CuyIY25XPqswHvvQRITphKfUdmAx7hb0dhQqFzwB
-         ItyAXTQJf8474zZNwCef8Zn8CB60X0sSxk12lCrXXRHU4x6FJV1X0lku5QAU6Z6T2MPc
-         XHYIzAzNKC3YpPZr5flFTLXjHT+TSdOI4W9459ew0JjxzdLiYTgYvRywGmSjTVeVaBwu
-         TMcQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzkF9EfR7eVr2NlWz/ACZWYPWHcqwjD2W76vUF5ebxyFvCFocop4MftbGjDGhMJXq87sZ2kWXfOKS4W@lists.linux.dev
-X-Gm-Message-State: AFq9FYLPa9OWWFg/6eP/5ZuLizRA+M4OWjunechQi3jkGsfec0uGfwRy
-	BECOoq35Yt9ure8hGgQ0SsBJujvhFuZizFhb5/ysRG05yzYgJRazNhZEvIoL2erG72DusyhawU7
-	pQ4op0Tw+KYk+cLSawGThpwNw1yXILEfQpmkl
-X-Gm-Gg: AYBFou1WBbBhVm/Rc114P9Y/EijHHhM9GLhQzfzL9H1B+jNStHv1yCJpcI3xsyxS4PY
-	1NPOahEH3B0+ZwRlDkLIgk6nQq9Utw70EbiHgr777p38xpPnMU75mxEB7wMZQikU9P/Ud6t8nil
-	9STa/x9xEHEl+lcdNUN+MblZhrtcSksqTIH9oB8Dc7gHdXPkX0CIisEpQfMNLdO4C+WsVDtjVy+
-	dwUx7n56xVfJGjnzElTUCPde7ycdo0DbU7ypzzNCmsNXBZYDhZt+hC0yY5mlnOLyfTZ6dV9b0Sn
-	rC30PTyB2vsjVxg+68QQvHlpwLxyLD8itSOkGFOzV3WeQsFlPVkETODRVdQHjng78GolM531ZfL
-	PwKUbglCmrSipmmU7yV4y28QbLjjB4THRdtY1HblOQJio5+V5Kj7yPB4DaZZfG0YE4zOilg==
-X-Received: by 2002:a17:907:7253:b0:c46:7de7:e432 with SMTP id
- a640c23a62f3a-c4ca7ab116dmr280137166b.42.1793380750799; Fri, 30 Oct 2026
- 10:19:10 -0700 (PDT)
+        bh=BNpaUt6aBdzMCdF+Tz78AVxhWV6Ncmv7N4A1Kh6UWes=;
+        b=hMcAetg/uzwwhbJLEx63up61YyJW0kuNtw7/vJQSMixq+9Qz1mqR+4DElIsF5yTCs7
+         FqU1PvQx6E1W5oJ2Gn37B6/pmwYuVvh80sZxuFCMACy9sMVNjEPoDJM3F2kz4UQQEeTe
+         uQhwCsY8JDvgONOtlQ1P9bAEZGT5VgXWSuhWtDv4RHJtvBVPDVefH/uC63i0g0UPHWbu
+         sPbtHlP/4R0/ycPkYl8dr03BAPr4Xt8LB0iyYaeEEaDAoDxorYFt4xhNHzT5h4HBW29G
+         mMfb2i/+hTD7D9HxeyGU/1bBcfB03PIjKjzaIlllx3e4lTtIBQtAbJmYqsbgphFZ/yl1
+         +R5Q==
+X-Forwarded-Encrypted: i=1; AKwUvByPxvzPEBzi+gVIwTcOgktNH8Q0MtI3TzM8Xx2TysgA94Cau7H85BaY5+CTRqdYrcuLrHvBNpXVCEOq@lists.linux.dev
+X-Gm-Message-State: AFq9FYIby5wKXFHBuoOELvNdwtNSOo5NVXQXgBlWp5+zAokqxKMtO1lZ
+	tZUaRzn6cp3YCuel/Ffx51zG6sEZzNCS+k5XrWVnoQteij9/VxVNmVcGLBepbM4Wa4Cj7ImNaIG
+	xAQEnzLOh+erw6ULPAae0V7NpeHK24rA=
+X-Gm-Gg: AYBFou1g7kbvsibPimlXhgjR8pED9cMDbr4XIWgSuu4DgDJVXZ+Qasaj/SJB1+lCMm9
+	nAo1TiT7KZbeQ4cEs5vTgiU4+xuNFuzK8oSx5esZ30B7/K+2YmKmK9s4H7NVU4uWJPhYdCrLif/
+	2289ac8lYbenZJDiNEVrRV1BdtiAlhcKZ0lWHV5WifInFoMhNhICifMidy0Q7nG6GS3a4X72OKK
+	Lv9mHtHz7ctJViUUNculf28YNJnwbSnPp28yQ/MSu6Z1TJ1L71Bn6DQB1yeUsZpT4f0fZq59Jj5
+	mGLFWW5KaMO3o6ghcl/vhBbYMmz8we5EDLQ7dmYdAiOq+o3jqd1PmCCqAopE0EQhs1nw+zb4Bv3
+	lKt/niEyrIPm8uQ4rtCT+9qcS+ZTTwjaQAKkjefHlcc63uUvgiroDny+XfeSIL+eHtqsdYac8js
+	fheg3uhzCbPPKqPL6i1hI0m5lbEA==
+X-Received: by 2002:a17:902:da8b:b0:2e5:ff87:57f3 with SMTP id
+ d9443c01a7336-2eb1ac94b8amr43961805ad.32.1793381799063; Fri, 30 Oct 2026
+ 10:36:39 -0700 (PDT)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -104,56 +105,34 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261028091215.914885-1-hanwenn@gmail.com> <20261028091215.914885-4-hanwenn@gmail.com>
- <CAOQ4uxifRX0mnMXXCwVEy57_ecqjEHF6w7pE9sqvMr341ixCxg@mail.gmail.com> <CAOw_e7b5T=9hyEYLQAY=2ybkZx1UA85_FGzfK7R03GYhZgYbyg@mail.gmail.com>
-In-Reply-To: <CAOw_e7b5T=9hyEYLQAY=2ybkZx1UA85_FGzfK7R03GYhZgYbyg@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 30 Oct 2026 18:18:59 +0100
-X-Gm-Features: AclHuK-Y2zRDbyhy-OKNOKdZR-vKwZ0nBlHMqPHm7RIKUW67MFFIe7aP7bvKvns
-Message-ID: <CAOQ4uxg4pFVmjoLDwghVj_S=9VbPKBBwBrZZQXhx+WDM7ifo7w@mail.gmail.com>
-Subject: Re: [PATCH 3/7] fuse: fill the negative lookup cache from complete
- READDIRPLUS passes
-To: Han-Wen Nienhuys <hanwenn@gmail.com>
+References: <20261028091215.914885-1-hanwenn@gmail.com> <CAOQ4uxiQcyZv8B50MKM+Gn==JcoAVbgbCGBneXJhXUwR5X8ppA@mail.gmail.com>
+In-Reply-To: <CAOQ4uxiQcyZv8B50MKM+Gn==JcoAVbgbCGBneXJhXUwR5X8ppA@mail.gmail.com>
+From: Han-Wen Nienhuys <hanwenn@gmail.com>
+Date: Fri, 30 Oct 2026 18:36:27 +0100
+X-Gm-Features: AclHuK92kvtxtdSN2UFSaBxan_VjKVntbjB9PhuV6gf7_cAEWJ8uwqSMCtx4Qy4
+Message-ID: <CAOw_e7ari1kQTz+qKKg9wZ5dCsv5sZY-KNM-bwkietEmrjHZ-g@mail.gmail.com>
+Subject: Re: [PATCH 0/7] fuse: use readdir result to shortcut negative lookups
+To: Amir Goldstein <amir73il@gmail.com>
 Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 30, 2026 at 5:39=E2=80=AFPM Han-Wen Nienhuys <hanwenn@gmail.com=
-> wrote:
->
-> thanks for your review!
->
-> On Fri, Oct 30, 2026 at 4:04=E2=80=AFPM Amir Goldstein <amir73il@gmail.co=
-m> wrote:
-> > > Names are collected per struct fuse_file, as hashes in a temporary
-> > > array, since their number is only known at EOF. The collection is
-> >
-> > Since the server is communicating TTL in "." entry, how about letting i=
-t
-> > communicate the expected collection size in st_size or st_blocks of dir=
-ectory?
-> >
-> > This is generally what directory size means and many filesystems
-> > can have this number ready to publish without a full readdir.
-> > Not sure if the contract of FOPEN_COMPLETE_DIR should include this or n=
-ot.
->
-> We could add this, but I think we'd have to do something sensible if
-> the size isn't set, so it doesn't save complexity. The memory savings
-> are transient (while the dir is open) and not that large (54 bits per
-> entry). Also, what happens if the server sets the size incorrectly
-> (ie. too small)? Do we just accept filling a bloom filter that is
-> useless? How would the server know they made a mistake?
->
-> altogether, I think we'd better size the filter automatically.
+On Fri, Oct 30, 2026 at 4:27=E2=80=AFPM Amir Goldstein <amir73il@gmail.com>=
+ wrote:
 
-Yes we need to support a dynamically sized directory, but if the server kno=
-ws
-the number of entries in advance and could communicate them reliably
-to the kernel that could save all the intermediate building of the list
-and could be a lot more efficient, especially with very large directories.
+> Thinking out loud.
+>
+> Is  it really important to support FOPEN_COMPLETE_DIR without
+> FOPEN_CACHE_DIR? The two feature seems to have correlated
+> use cases.
+>
+> Bloom filter is built at EOF, so it could be built at the end offset of t=
+he
+> readdir cache buffer.
 
-But it's an optimization so no need to do it now.
+Isn't the readdir cache dropped as soon as there is a namespace
+operation in the directory? That would severely limit the usefulness
+of the bloom filter in writable directories.
 
-Thanks,
-Amir.
+--=20
+Han-Wen Nienhuys - hanwenn@gmail.com - http://www.xs4all.nl/~hanwen
