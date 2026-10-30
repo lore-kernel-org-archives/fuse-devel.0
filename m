@@ -1,114 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793313504;
-	b=w7UClrGGri5SyJx4/1eS1ZCSrHgUJ9xIg0GJPSQ8ag+C3Gs1Z75IxfacBReuKuz+KMSw
-	 CiNrNP4eM9qh0pNosss91besScSA3AP1rlCpfipp/KRbdT2HO3VqRNKApWmWCCK3/V2Xz
-	 /pa0s031oCvdjM5nMjD35M2PhawwqK4mwsMumdyp1nOm0TOTlIjzpbFb8ecQrdYrdtXZH
-	 SWV2gzfm/NzryKXjGSWghbALQXTJ/BQv58FFPqkcP6YdNMPRyVuAqx+Xo2g0cfj1c2+w3
-	 p6aNV1tMaOJ6Uzo63Fm1xScmFcCr7yr1fTqeEDYeqPUpcJqgOslXE2ThG2mHu9IFQ7A==
+	t=1793324385;
+	b=FJ9kxP6HNx7/5w0K4/Ce34BRA3CgaX9002OcgHvDMIZ5nf331uhnuNWz9Znby1J2o9sL
+	 pzOHVtHqiwvR6DNn6pkw0VWHRSE1XeWwc0oI7L2D4UkPvNKkMQPoVHaq+5MZsqqm2/uTB
+	 ga6Ez+jh8gpFVmDDLKNCpllAiL/0hovnwh+eBpI2xjtJNdO9+HFG7TGJq7xD3nMe9QIIW
+	 SNrCa01JXwvlLLh/d6lIp7nbMdELHHF/uXX2ZBB3gcPtSdck4MYuTdKj/yZQgVBPES//5
+	 c+WcSNYkqLb8Xam9GY++BIUNAS5fTNGecUaneDC2y5mCgXgGNAtVIrRkKWloc2bsbzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793313504;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793324385;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
 	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
 	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
 	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
 	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=39dB8LcIZiFSE6DpD6XH0mtOgLinGSkIXMTWMCW2lVg=;
-	b=Ff+pyJMKiJMuMrxUMXUcwSD3GbjTkYVtNPF2AtnDEp7OoCsCMUkCllYlwmJTNOOqpW0N
-	 2yCDc0R9vdbHm3OJGLQPm58wdoR61RZvv2ScDTKCPOU4abfwg5PsBnsjvmNaxkt3uAWvr
-	 EXvfe+IiqJBePaDnHYzQdpycdnovhjl9HmpQOPO8Tsta0RyPKg1VZjflRG+Nu7+tT9J49
-	 YWCO+iYIRi9PAsJQMLtK+8WM/fsHRQ1JZBnCm65043F2BUGg01SHVjh0fyjOjjhtgr4pm
-	 qrajBpRSoI8Cax2UxFsLBjt9ow+ir9WJBzXylwjUGwdONb2G96m5ELTXo4Ub5f3WCeQ==
+	bh=wQV6hKwuFgiTM0haeZ8VIQuyAs/x1uTfCdWmXgdPkls=;
+	b=eI26th9Ey7KJ6Gy28n1SuT2VQl3Na6WKEOcutuStaYY9O17PsPIee2pgoFpvc+P5GaHv
+	 iCFL1ELxo9etLulX9XEDtnqbAF5DUTm2po3OWhGUpCDB0c/qTnSS89dgB8PLlFWUis6a3
+	 NqWs9NFpq4aQw+L+uNCkBiStRdW2Ii4+GLEw1znLcdzWrssIHx9tgzdB2UfUhzyIP575Z
+	 4c9DEI3/B34K6tn0dxpxI5ue3T+AUYYkq3Hab1AxYXm/Gc1HVvd/5uzuNhP/J+CgqItoC
+	 b6fJO95F4K9Kbe9+kL8nimHCmxVyY5UY7hbMynOLFuKBQPNUy4z1Kdza/Uahvsi6VdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=ownmail.net;
 	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=Et+VI9lN;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=WcHLJsqD;
-	arc=none smtp.remote-ip=202.12.124.153
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=EZ1HyjW7;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ZizBHv2R;
+	arc=none smtp.remote-ip=103.168.172.153
+Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB60606A31D
-	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 22:38:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BB60606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCCD606A31D
+	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 01:39:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBCCD606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=Et+VI9lN;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=WcHLJsqD
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id AC2457A0114
-	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 18:38:23 -0400 (EDT)
+	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=EZ1HyjW7;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ZizBHv2R
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 12E96140013F
+	for <fuse-devel@lists.linux.dev>; Thu, 29 Oct 2026 21:39:43 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Thu, 29 Oct 2026 18:38:23 -0400
+  by phl-compute-04.internal (MEProxy); Thu, 29 Oct 2026 21:39:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1793313503; x=1793399903; bh=39dB8LcIZiFSE6DpD6XH0mtOgLinGSkIXMT
-	WMCW2lVg=; b=Et+VI9lN8WTwl6YZW21uA14Ol7NFhpVTLKs0UtWiLHgnIJWwWFU
-	aX7NRjoYswsJK/2lwJgtOiPcSUdfxdzUrKBwbR6wZ6p9OKiXtPZ6MwpkQAQq+vpR
-	wC+tOWuxOW11YgTuNcXzDfnzJwTCHIbVe86mLcQfBPN3CVd0GN4l5FicqX5IHiGx
-	r3mMtpdwvRiAVbdWTKxcU8H14AzxpzATxmsV07DlTjqBdertQgT/5evG5NPpSB0i
-	SqLgCgdmBhpXGXb/peSGvvOg8CeSZjaxq35Bip+QsKZ4h6kdi3q5HbSndjv38IBu
-	qkx8ts8ifE50rGJdZC04fPLraer7nzsOOuQ==
+	1793324383; x=1793410783; bh=wQV6hKwuFgiTM0haeZ8VIQuyAs/x1uTfCdW
+	mXgdPkls=; b=EZ1HyjW7wL+4fy2+7b62aQpj9gQK1N0kGigjU+To3j4cWGXbsB+
+	OYyyzI63vIrYrN8TQlP9WUO4k7qUdBCclRPrgO7uhRho4OuorTpFwcPOiLus8A6C
+	ag1IPyhEeDA2qIfP1BGpeHhMwiL00fCqMd9+n5aHe7+LIltyf+8ehnPFGhL08stg
+	uBebcrL5OtmiimGV10c8lOlDuzHs/HTTOyjuQrmAe+a5LP5cw/w2JhnHJkc/rxSY
+	b6tbX2JNTl4h/U3V7gfF+OzkDKYngdap1ymNuC59YXnkMbTSa35B0XEVYh7HOGwz
+	aINUi5vjOuhykAVh/q3c+06deRtf8uNv3bQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793313503; x=
-	1793399903; bh=39dB8LcIZiFSE6DpD6XH0mtOgLinGSkIXMTWMCW2lVg=; b=W
-	cHLJsqDnv2pUg7LMU+8ZoZ+LCMFkXRgzE8X6eUKK9kujZyj/78el0oEkRbrg380p
-	q3HITi+DqkCku1PbgREDrGRoEcRftwRuvUQ7Vb+SQpEqb3wZ0NC7xemQ3Tdg1eCw
-	sJaZO0jQdZUmjne0eYbVLgBKXUwo8P0rOgvvaNLrAv/LWHr1N4QsVr8SHGeVCv1x
-	N9LoRJz9raRiZ7f0oOnJnetRNgMxH+8WxAHqgADusG7LUdG+T5cld8o0cjRVfdDG
-	ntFO92rX0a/kJ/irniLTuEif1BRmZHSCHX8soEiZeOVRmMOANt9RPGQFdI/Gu0Qz
-	ZtQ7NnwT65ZWKH8HE36iQ==
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793324383; x=
+	1793410783; bh=wQV6hKwuFgiTM0haeZ8VIQuyAs/x1uTfCdWmXgdPkls=; b=Z
+	izBHv2Rk4wZWT40HRMw/iaGzadhvQlV1FRJES/tIGjB2US0ncaB1AWqMafqHBIiu
+	qdkPgFUUFyfQcgHfOkozEFrMtuSk3QqzKqxnDDB+geGl7nHgrAOOSx5b1NPbAEol
+	pOpbdF+PVEee6GOevu06R841p9Pp4nxzP3Fv+/xseUOn9PTuV2leFBy3Yev1u6rb
+	AluT8+U5Ymo/gn5wG6yPXMcPg+o9JnDNxU+7d/wKnq5Qp392G+lIy1Oa7S6Tbt7f
+	zUYA89oKR/au5Wj3clAq1XOSWqZiVabcpA9bFxbE6Rc9XlTgiBI51RfLyvnTXwTg
+	4uUq6TRj1pzztWLZ6mIIw==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793313503; d=ownmail.net;
+DKIM2-Signature: i=1; m=1; t=1793324383; d=ownmail.net;
 	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
 	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:OEIPYqr7nOdPd6XLscIKlMtJ9pPMs61sE4CVoX4PcwDzWdn
-	cJ3f6UMcbfql3PXLpkyybs9/dFU+iW8AIyFM3otFAS6lPtc0urPZXOeCgoSYg6oV
-	DHAo9zAG1z3DLxd02kIrBdekm26xG98/OszlhOwtolKeRJ1bN1nn0k2uV7ZKDc2A
-	CkAeEdo0wVRDiERG2MOSZhYLvKQQIGnN4RJtMwNt8/BrJe0faz6I2A46K8tFyrKg
-	zXFnYGgU6GwA/GqBB3m00MkRvYu61RG5wLL7oP5Nx98IrXzr8FXRQ2EtZ6ur8R7a
-	r1OHmDjDpcp23zThLRjt20KYMPUyAQK5QEjVOeA==;
+	s=fm2:rsa-sha256:Ae1yAhzt2PCXYMFfHKQK06yIyRDuJKK+0aiORdvxQhXZNU3
+	ra9LfD50Ys45xgnk4J8dZiLJBqFcci+sk5VWDJH/CQ32UTVgQWn28s7IA3RXa1Rr
+	h4oy0rvvGp8sOyye4AAO2ri72ECFzNQ4xYU4Wetb913LdSNTIac376qUVmZMaxcn
+	UaIGYseWfMJzRhPm0a23f5Av8xKNz2FRfXgFOB8a5EBJs4WwV+U3x7uEZ5FT0dDP
+	cgI5Dnv2ceyyetvk1s0oMNSeuDp7/YVrvmi00aAjaHzgNazKe+yr3e3w337S7s3v
+	JjebP162hw/UiVdQ1QUQqZhXDrh1ET23Of69l5A==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
 	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
 	action=mi-m=1; hc=13;
 	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
 	from,in-reply-to,message-id,mime-version,references,reply-to,
 	subject,to;
-Message-Instance: m=1; h=sha256:YJTVjRO3KgeR1yC3zPShlEIEFX94Ek0eFafG0VD9Rdk=:HQnx1FvLy//Q8VAJrMpa83GqDNXduO9zCittHkseAJg=;
-X-ME-Sender: <xms:3srjamSg0GFLwas1K9kwljo4ITu2h3xpyCdX1QA94dVe9GJXI-121A>
-    <xme:3srjagvYqrdlovVCBj18YeDSXI6-5jTpb16ktty0khtIW35yA1IDjhGeGIPS-egY5
-    _L_bXGN_LMjVrlNhGSI6D8PNII7gQB_IW0w1Ok4NntfoLjuAoQ>
-X-ME-Received: <xmr:3srjaoEOfOcGgYBXg4uRh0vzqaGrspuy99u3uqi_qij4oM3Z7NyIf5Xzdu_oU4yXTA>
-X-ME-Proxy-Cause: dmFkZTF29A9pmUV+SyCH7e09WNzmLTMnv0etSxjKXw4+LvTknRxz5S9iRYd2PAErEWxy4V
-    ds7XprIor5LgVQQokg4NUvi3ROCbnNTHp+78ZLEARdPas/mwKvVJms1yVVM5GbgtJUkdRW
-    aJwhstWzvzTJ5Q++91hkQ0NevSmfR0xTE1OwWmrsCx1ovhqwJy/zSZNMstjkC10FbJuxX6
-    KYsvxBymb42+HNQbwJ+3xRcDjufT/uOQYhPvF/uyf5rWLZvM7BpfPpmnOxUsAMPs5FUJED
-    Fi93dM9gqjWYbq9ccoefyJU4KBmWtUQy6PfiXNdL/B7yX7jIMFKsPss8L24fqrRRcyc2o9
-    u8Y+wfJ8FRHYFrhIsLvAkJbYGvuC2xP0jH/9lpskMChDiL5gC1UnYgl2l1AhRjtKnnT+TA
-    2oTMXINVVCyOWKAnygl39VUNB8Rs3GY4EyKtv7/As/LsfVZMkUhUYPG5/dl22S5JzY9Bp/
-    n/njRaCgHZtmVzm50ubqXBb6VGV8i5FekoCx9Hdc5X3b7obyjza3beVPA8cCAgPV44EIKr
-    /+p3z75v4ez5bHmBPDtygSjdlL5HfQ913vjvQLFbrcU3vIb+CmCWay9tkDZ6P1TD9+WCw3
-    4DAmI+oZFZpM3fs5J4CCyZLCfqnL1+6fa/6kxt6gE76PUYikWLhUlR7lP8Pg
-X-ME-Proxy: <xmx:3srjahzJZ1OspWb4E-ccUEXxLbrZ5oO6v7knxEoYSViU4w7bLJyHhg>
-    <xmx:3srjai3FtjhK_RWq0RqdD6agOG7yUWq9cWEwTWssGkfLCIfpp3KRfw>
-    <xmx:3srjahpJQJ6wOMqj3VCcJsEUxRD8pPsVAlY9YFZgvBlL8UHtTGvKdQ>
-    <xmx:3srjavW0qobjVrEZW2_JDIHmvXV0OMg6jdmXrRXC8jpHcWlsMMvUDg>
-    <xmx:38rjauUK4I5-zTI8VWrHN6cAWV4UHJJ_0ZO8aOywIsIXc5jVULmOQNKe>
+Message-Instance: m=1; h=sha256:Lyy+pQ2SvW0eWOGrDSCnoNOfovVkhI2cOnbAvca5JZU=:gZivCHvJ9ZTuqPkjWconFKXjonrZHzCaQBkQ9cvaOGw=;
+X-ME-Sender: <xms:XvXjaqtSqSDj0O4Y_2ZmGWLQjnjMHbhEg5oYXYua6vGCkecHtdQcEg>
+    <xme:XvXjakaKjpWL64y7BCkgNluu_KWMsQpYu_R0_LkmzEtsMXh5iS8f3HvRe3vNJtjQZ
+    zH2O5VZccEZvHgACCqcDAIC9pZ6idZHKEF2ecc590rsmkjQAd0e>
+X-ME-Received: <xmr:XvXjaqDz82sjPRfrmVsrS8Qn5mUQDJDKL6w9LL2dnpt5KcJEJJpwhoZ5ozvYfFVY4005TfV4SXl_e59HIpOx6yDx22tPJK4>
+X-ME-Proxy-Cause: dmFkZTF/9DbQFoKPlgWwTkrJpVfBOt/hpIkrlW4693hGs8y51ZjQ1kfiJuq66ZHvmGVgsL
+    jOyw3m5pPhklHHsyfzhZsGPD6Hj7ykqrrY8D0hrPrjgx6J5GI3Iov9ioPO/hvwNShV9aev
+    0EboEq8B1W3B8Np0cCSqZApcr6AdsVAbLJciTqgeQbAG0uaMjPIFpZ42Udqeub3JT/iwdO
+    3zG/C65XLdsfFpX4f7WIL5gGG++YR+V3sdw4EUNIhbhmftrDw9PoCQavXWgHgNOlUuXQTP
+    PpNTi98HeYKgNmbho3AEN23OtmVtD6GMwnhj3aW+tcfDLY8JnTx7w1skqMIl1z3BKh0Efi
+    s6JB1uEQaH7+vYG3ZKkJgOdINQIGthJuPFhjeXhswq0NCWrBQn0TWnoPYfGlvR2KAe356H
+    cZjkbZeXHF+KaQYJ/aZ4BIx7cQwrb4MGP8/cZCN94m5pi1PmrNL/bwyWVKsTTP4huvCsui
+    Tl47Hr2PNBAN95xDfrr/xTIH4t4LU1iC0GjmdfOXXT1h1QUL4FMdP1bCegxc4ZPONMaUa0
+    vcq3Gj8Ukle9irYYVnuGB9X3Xxi0nbT9PNK45uW2FYdpq7Atq2v5yIlWYLFt9yX1shyVSe
+    Nnf889+53H9mfFlmRzD671kdZB8plLD2VqXRfrDnfhCxpWjI8hIjYngXTr+g
+X-ME-Proxy: <xmx:XvXjak8x4oxdoigJ71mB4W_r0PdYnLI80Ir4kY9azZuchhjfacy8_Q>
+    <xmx:XvXjauT0dvR9c1zOEB3dGqmRd1Ky0aeESJP3-zwxnFgXWeLS_-zCvg>
+    <xmx:XvXjagUEp-hEvia9OViOV0YwCxth-ihiIzll3JBEQJCPh-Ytuj3rUg>
+    <xmx:XvXjagRt-5qHfzsJWEZ_vH6OxscFy0o40rEQ8zWJKEyhA5jYqcla9Q>
+    <xmx:X_XjapCcqMZ3o7Poks6G6ly5TsVzXVu2sEVR_zeeAZz8yHK_tz0pg4z_>
 Feedback-ID: i9d664b8f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 29 Oct 2026 18:38:19 -0400 (EDT)
+ 29 Oct 2026 21:39:38 -0400 (EDT)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -124,35 +124,379 @@ Cc: "Miklos Szeredi" <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
  linux-kselftest@vger.kernel.org, "Shuah Khan" <shuah@kernel.org>,
  "Bernd Schubert" <bernd@bsbernd.com>, "Jim Harris" <jiharris@nvidia.com>,
  "Horst Birthelmer" <horst@birthelmer.de>, "Luis Henriques" <luis@igalia.com>
-Subject: Re: [PATCH 1/3] fuse: add FUSE_OPEN_ATOMIC
-In-reply-to: <20261026170744.948701-1-jamz@amazon.com>
-References: <20261020141647.3271341-1-jamz@amazon.com>
-  <20261020141647.3271341-2-jamz@amazon.com>
-  <179253863737.1724252.12836488084615923712@noble.neil.brown.name>
-  <20261022014545.2495106-1-jamz@amazon.com>
-  <179264679002.1724252.4479504779598097455@noble.neil.brown.name>
-  <20261026170744.948701-1-jamz@amazon.com>
-Date: Fri, 30 Oct 2026 09:38:15 +1100
-Message-id: <179331349568.1157394.13124360154896615084@noble.neil.brown.name>
+Subject: Re: [PATCH v6 1/2] fuse: add FUSE_OPEN_ATOMIC
+In-reply-to: <20261029130758.818617-2-jamz@amazon.com>
+References: <20261029130758.818617-1-jamz@amazon.com>
+  <20261029130758.818617-2-jamz@amazon.com>
+Date: Fri, 30 Oct 2026 12:39:34 +1100
+Message-id: <179332437497.269288.7305999595462479305@noble.neil.brown.name>
 Reply-To: NeilBrown <neil@brown.name>
 
-On Tue, 27 Oct 2026, Jimmy Zuber wrote:
-> On Thu, 22 Oct 2026, NeilBrown wrote:
-> > Almost all other filesystems use d_tmpfile() for tmp-files (which calls
-> > d_instantiate). Is there a reason that fuse cannot use d_tmpfile()?
-> 
-> fuse_tmpfile() follows a slightly different pattern than d_tmpfile(). A
-> fuse tmpfile shows up in /proc as "<dir>// (deleted)", whereas d_tmpfile()
-> renames the dentry so that it shows up as "<dir>/#<ino> (deleted)". Also,
-> fuse gets nlink for the tmpfile from the server, while d_tmpfile()
-> decrements it. Reusing d_tmpfile() seems like it would be a behavior
-> change, which I'd like to avoid.
-> 
+On Fri, 30 Oct 2026, Jimmy Zuber wrote:
+> Add FUSE_OPEN_ATOMIC, which looks up a name, creates it for O_CREAT, and
+> opens it in one request, so that ->atomic_open() needs no FUSE_LOOKUP
+> before FUSE_OPEN or FUSE_CREATE. After a -ENOSYS reply the kernel sends
+> FUSE_LOOKUP, as it does for FUSE_CREATE.
+>=20
+> The request carries fuse_create_in and the name. The server replies with
+> the entry and, if it opened the file, fuse_open_out:
+>=20
+> - an existing regular file: the server opens it;
+> - a new name with O_CREAT: the server creates and opens it, and sets
+>   FOPEN_CREATED;
+> - any other file: the server returns the entry only, and the VFS opens
+>   it;
 
-The /proc different seems cosmetic and probably of no consequence.
-The nlink issue might be significant - I cannot say.
-It might be nice to include a comment where d_instantiate() is used,
-explaining why d_tmpfile() was avoided(?).
+Why is this a requirement?  I understand that the server *may* choose to
+not open the file, so that the open doesn't happen until after the
+permission check.  But shouldn't be up to the server to decide.
 
-Thank for the explanation,
+> - a missing name without O_CREAT: the server returns a zero nodeid,
+>   cached like a negative LOOKUP.
+>=20
+> The VFS checks the open after the reply, as for other ->atomic_open()
+> filesystems, and the kernel releases the file if the check fails.
+> FMODE_CREATED is set only when the server reports FOPEN_CREATED.
+
+The above para seems to suggest that the server might open a file that
+wasn't created.
+
+???
+
+Thanks,
 NeilBrown
+
+
+>=20
+> The request carries the open flags without O_TRUNC: the VFS truncates
+> the opened file with SETATTR after its checks. With FUSE_ATOMIC_O_TRUNC,
+> where FUSE_OPEN truncates, an O_TRUNC open keeps FUSE_LOOKUP. When the
+> VFS may not create the file, it drops O_CREAT and keeps O_EXCL; that
+> open keeps FUSE_LOOKUP, so an existing name gives -EEXIST.
+>=20
+> Assisted-by: Claude:claude-opus-5-5 [Claude-Code]
+> Signed-off-by: Jimmy Zuber <jamz@amazon.com>
+> ---
+>  fs/fuse/dir.c             | 193 ++++++++++++++++++++++++++++++++++++++
+>  fs/fuse/fuse_i.h          |   6 ++
+>  fs/fuse/fuse_trace.h      |   1 +
+>  include/uapi/linux/fuse.h |  20 +++-
+>  4 files changed, 219 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 4c64a4f812395..5820582ada650 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -938,6 +938,185 @@ static int fuse_create_open(struct mnt_idmap *idmap, =
+struct inode *dir,
+>  	return err;
+>  }
+> =20
+> +/* Release the file the server opened for a reply the kernel rejects */
+> +static void fuse_open_atomic_release(struct fuse_file *ff, u64 nodeid,
+> +				     unsigned int open_size,
+> +				     unsigned int flags)
+> +{
+> +	if (open_size >=3D FUSE_COMPAT_OPEN_OUT_SIZE && !invalid_nodeid(nodeid)) {
+> +		ff->fh =3D ff->args->open_outarg.fh;
+> +		ff->nodeid =3D nodeid;
+> +		fuse_sync_release(NULL, ff, flags & ~(O_CREAT | O_EXCL));
+> +	} else {
+> +		fuse_file_free(ff);
+> +	}
+> +}
+> +
+> +/*
+> + * Look the name up, create it for O_CREAT, and open it in one request.  T=
+he
+> + * server opens an existing regular file, returns only the entry of other
+> + * files, and returns a zero nodeid for a missing name.  The VFS checks the
+> + * open afterwards.  Returns 1 if the server replies -ENOSYS.
+> + */
+> +static int fuse_open_atomic(struct mnt_idmap *idmap, struct inode *dir,
+> +			    struct dentry *entry, struct file *file,
+> +			    unsigned int flags, umode_t mode)
+> +{
+> +	struct fuse_mount *fm =3D get_fuse_mount(dir);
+> +	struct fuse_conn *fc =3D fm->fc;
+> +	FUSE_ARGS(args);
+> +	struct fuse_forget_link *forget;
+> +	struct fuse_create_in inarg;
+> +	struct fuse_open_out *outopen;
+> +	struct fuse_entry_out outentry;
+> +	struct inode *inode =3D NULL;
+> +	unsigned int open_size;
+> +	u64 attr_version, evict_ctr;
+> +	struct fuse_file *ff;
+> +	struct dentry *res;
+> +	bool locked =3D false;
+> +	int epoch, err;
+> +
+> +	if (entry->d_name.len > fc->name_max)
+> +		return -ENAMETOOLONG;
+> +	forget =3D fuse_alloc_forget();
+> +	ff =3D fuse_file_alloc(fm, true);
+> +	if (!forget || !ff) {
+> +		kfree(forget);
+> +		if (ff)
+> +			fuse_file_free(ff);
+> +		return -ENOMEM;
+> +	}
+> +	outopen =3D &ff->args->open_outarg;
+> +	if (!fc->dont_mask)
+> +		mode &=3D ~current_umask();
+> +
+> +	/* The VFS truncates the file after its checks */
+> +	memset(&inarg, 0, sizeof(inarg));
+> +	memset(&outentry, 0, sizeof(outentry));
+> +	inarg.flags =3D flags & ~(O_NOCTTY | O_TRUNC);
+> +	inarg.mode =3D mode;
+> +	inarg.umask =3D current_umask();
+> +	args.opcode =3D FUSE_OPEN_ATOMIC;
+> +	args.nodeid =3D get_node_id(dir);
+> +	args.in_numargs =3D 2;
+> +	args.in_args[0].size =3D sizeof(inarg);
+> +	args.in_args[0].value =3D &inarg;
+> +	args.in_args[1].size =3D entry->d_name.len + 1;
+> +	args.in_args[1].value =3D entry->d_name.name;
+> +	args.out_numargs =3D 2;
+> +	args.out_args[0].size =3D sizeof(outentry);
+> +	args.out_args[0].value =3D &outentry;
+> +	args.out_argvar =3D true;
+> +	args.out_args[1].size =3D sizeof(*outopen);
+> +	args.out_args[1].value =3D outopen;
+> +
+> +	if (flags & O_CREAT) {
+> +		err =3D get_create_ext(idmap, &args, dir, entry, mode);
+> +		if (err)
+> +			goto out_free;
+> +	} else {
+> +		/* Locked as for a lookup */
+> +		idmap =3D &invalid_mnt_idmap;
+> +		locked =3D fuse_lock_inode(dir);
+> +	}
+> +	epoch =3D atomic_read(&fc->epoch);
+> +	attr_version =3D fuse_get_attr_version(fc);
+> +	evict_ctr =3D fuse_get_evict_ctr(fc);
+> +	err =3D fuse_simple_idmap_request(idmap, fm, &args);
+> +	fuse_unlock_inode(dir, locked);
+> +	free_ext_value(&args);
+> +	if (err < 0) {
+> +		if (err =3D=3D -ENOSYS) {
+> +			fc->no_open_atomic =3D 1;
+> +			err =3D 1;
+> +		} else if (err =3D=3D -EEXIST) {
+> +			fuse_invalidate_entry(entry);
+> +		}
+> +		goto out_free;
+> +	}
+> +
+> +	open_size =3D args.out_args[1].size;
+> +	if (open_size && (outopen->open_flags & FOPEN_CREATED))
+> +		fuse_dir_changed(dir);
+> +	err =3D -EIO;
+> +	if (outentry.nodeid && (invalid_nodeid(outentry.nodeid) ||
+> +				fuse_invalid_attr(&outentry.attr)))
+> +		goto out_reject;
+> +	/* A zero nodeid: the name does not exist and nothing was opened */
+> +	if (!outentry.nodeid && (open_size || (flags & O_CREAT)))
+> +		goto out_reject;
+> +	/* Only a regular file is opened */
+> +	if (open_size && (open_size < FUSE_COMPAT_OPEN_OUT_SIZE ||
+> +			  !S_ISREG(outentry.attr.mode)))
+> +		goto out_reject;
+> +	if (outentry.nodeid) {
+> +		inode =3D fuse_iget(dir->i_sb, outentry.nodeid,
+> +				  outentry.generation, &outentry.attr,
+> +				  ATTR_TIMEOUT(&outentry), attr_version,
+> +				  evict_ctr);
+> +		err =3D -ENOMEM;
+> +		if (!inode)
+> +			goto out_reject;
+> +		fuse_advise_use_readdirplus(dir);
+> +	}
+> +	kfree(forget);
+> +
+> +	if (!open_size) {
+> +		fuse_file_free(ff);
+> +		res =3D d_splice_alias(inode, entry);
+> +		if (!IS_ERR(res)) {
+> +			fuse_dentry_set_epoch(res ?: entry, epoch);
+> +			fuse_change_entry_timeout(res ?: entry, &outentry);
+> +		}
+> +		return finish_no_open(file, res);
+> +	}
+> +
+> +	if (fuse_is_bad(inode)) {
+> +		fuse_open_atomic_release(ff, outentry.nodeid, open_size,
+> +					 inarg.flags);
+> +		iput(inode);
+> +		return -EIO;
+> +	}
+> +	if ((flags & O_CREAT) && (outopen->open_flags & FOPEN_CREATED))
+> +		file->f_mode |=3D FMODE_CREATED;
+> +	ff->fh =3D outopen->fh;
+> +	ff->nodeid =3D outentry.nodeid;
+> +	ff->open_flags =3D outopen->open_flags & ~FOPEN_CREATED;
+> +	d_splice_alias(inode, entry);
+> +	fuse_dentry_set_epoch(entry, epoch);
+> +	fuse_change_entry_timeout(entry, &outentry);
+> +
+> +	err =3D generic_file_open(inode, file);
+> +	if (!err) {
+> +		file->private_data =3D ff;
+> +		err =3D finish_open(file, entry, fuse_finish_open);
+> +	}
+> +	if (err) {
+> +		/* fput() releases a file that finish_open() opened */
+> +		if (!(file->f_mode & FMODE_OPENED))
+> +			fuse_sync_release(get_fuse_inode(inode), ff,
+> +					  inarg.flags & ~(O_CREAT | O_EXCL));
+> +	} else if (!(ff->open_flags & FOPEN_KEEP_CACHE) && !IS_DAX(inode)) {
+> +		invalidate_inode_pages2(inode->i_mapping);
+> +	}
+> +	return err;
+> +
+> +out_reject:
+> +	fuse_open_atomic_release(ff, outentry.nodeid, open_size,
+> +				 inarg.flags);
+> +	if (!invalid_nodeid(outentry.nodeid))
+> +		fuse_chan_queue_forget(fc->chan, forget, outentry.nodeid, 1);
+> +	else
+> +		kfree(forget);
+> +	return err;
+> +
+> +out_free:
+> +	fuse_file_free(ff);
+> +	kfree(forget);
+> +	return err;
+> +}
+> +
+>  static int fuse_mknod(struct mnt_idmap *, struct inode *, struct dentry *,
+>  		      umode_t, dev_t);
+>  static int fuse_atomic_open(struct inode *dir, struct dentry *entry,
+> @@ -951,6 +1130,20 @@ static int fuse_atomic_open(struct inode *dir, struct=
+ dentry *entry,
+>  	if (fuse_is_bad(dir))
+>  		return -EIO;
+> =20
+> +	/*
+> +	 * With atomic_o_trunc, FUSE_OPEN truncates after a FUSE_LOOKUP.  O_EXCL
+> +	 * without O_CREAT, where the VFS may not create the file, needs the
+> +	 * FUSE_LOOKUP so that do_open() reports -EEXIST for an existing name.
+> +	 */
+> +	if (!fc->no_open_atomic &&
+> +	    !((file->f_flags & O_TRUNC) && fc->atomic_o_trunc) &&
+> +	    ((flags & O_CREAT) || (d_in_lookup(entry) && !(flags & O_EXCL)))) {
+> +		err =3D fuse_open_atomic(idmap, dir, entry, file, flags,
+> +				       mode | S_IFREG);
+> +		if (err <=3D 0)
+> +			return err;
+> +	}
+> +
+>  	if (d_in_lookup(entry)) {
+>  		struct dentry *res =3D fuse_lookup(dir, entry, 0);
+>  		if (res || d_really_is_positive(entry))
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index c91af283aef20..c680e106bf77a 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -50,6 +50,9 @@
+>  /** Number of dentries for each connection in the control filesystem */
+>  #define FUSE_CTL_NUM_DENTRIES 5
+> =20
+> +/** Size of fuse_open_out without backing_id_64 */
+> +#define FUSE_COMPAT_OPEN_OUT_SIZE offsetofend(struct fuse_open_out, backin=
+g_id)
+> +
+>  /*
+>   * Dentries invalidation workqueue period, in seconds.  The value of this
+>   * parameter shall be >=3D FUSE_DENTRY_INVAL_FREQ_MIN seconds, or 0 (zero)=
+, in
+> @@ -617,6 +620,9 @@ struct fuse_conn {
+>  	/** @no_create: Is create not implemented by fs? */
+>  	unsigned no_create:1;
+> =20
+> +	/** @no_open_atomic: Is FUSE_OPEN_ATOMIC not implemented by fs? */
+> +	unsigned no_open_atomic:1;
+> +
+>  	/** @no_bmap: Is bmap not implemented by fs? */
+>  	unsigned no_bmap:1;
+> =20
+> diff --git a/fs/fuse/fuse_trace.h b/fs/fuse/fuse_trace.h
+> index 60baa10bbcb99..54d7a1891c382 100644
+> --- a/fs/fuse/fuse_trace.h
+> +++ b/fs/fuse/fuse_trace.h
+> @@ -58,6 +58,7 @@
+>  	EM( FUSE_SYNCFS,		"FUSE_SYNCFS")		\
+>  	EM( FUSE_TMPFILE,		"FUSE_TMPFILE")		\
+>  	EM( FUSE_STATX,			"FUSE_STATX")		\
+> +	EM( FUSE_OPEN_ATOMIC,		"FUSE_OPEN_ATOMIC")	\
+>  	EMe(CUSE_INIT,			"CUSE_INIT")
+> =20
+>  /*
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index 616430a2973c6..2986b247db615 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -257,6 +257,9 @@
+>   *  - add backing_id_64 to fuse_open_out
+>   *  - add FUSE_NOTIFY_BACKING_MAP, fuse_notify_backing_map_out, fuse_extent
+>   *  - add FUSE_BACKING_MAP_CREATE, FUSE_BACKING_MAP_CYCLIC
+> + *
+> + *  7.48
+> + *  - add FUSE_OPEN_ATOMIC and FOPEN_CREATED
+>   */
+> =20
+>  #ifndef _LINUX_FUSE_H
+> @@ -292,7 +295,7 @@
+>  #define FUSE_KERNEL_VERSION 7
+> =20
+>  /** Minor version number of this interface */
+> -#define FUSE_KERNEL_MINOR_VERSION 47
+> +#define FUSE_KERNEL_MINOR_VERSION 48
+> =20
+>  /** The node ID of the root inode */
+>  #define FUSE_ROOT_ID 1
+> @@ -406,6 +409,7 @@ struct fuse_file_lock {
+>   *                           (FUSE_URING_ZERO_COPY) and the request carrie=
+s page
+>   *                           payload. Otherwise reads/writes fall back to
+>   *                           copying.
+> + * FOPEN_CREATED: FUSE_OPEN_ATOMIC created the file
+>   */
+>  #define FOPEN_DIRECT_IO		(1 << 0)
+>  #define FOPEN_KEEP_CACHE	(1 << 1)
+> @@ -416,6 +420,7 @@ struct fuse_file_lock {
+>  #define FOPEN_PARALLEL_DIRECT_WRITES	(1 << 6)
+>  #define FOPEN_PASSTHROUGH	(1 << 7)
+>  #define FOPEN_IO_URING_ZERO_COPY (1 << 8)
+> +#define FOPEN_CREATED		(1 << 9)
+> =20
+>  /*
+>   * INIT request/reply flags
+> @@ -699,6 +704,19 @@ enum fuse_opcode {
+>  	FUSE_STATX		=3D 52,
+>  	FUSE_COPY_FILE_RANGE_64	=3D 53,
+> =20
+> +	/*
+> +	 * FUSE_OPEN_ATOMIC looks up a name, creates it for O_CREAT, and opens
+> +	 * it. The request carries fuse_create_in, without O_TRUNC, and the
+> +	 * name. The reply is fuse_entry_out, followed by fuse_open_out if the
+> +	 * server opened the file, with FOPEN_CREATED if it created it. The
+> +	 * server opens an existing regular file, and returns the entry only
+> +	 * for other files, -EEXIST for an existing name with O_CREAT | O_EXCL,
+> +	 * and a zero nodeid for a missing name without O_CREAT. The kernel
+> +	 * checks the open after the reply and releases the file if the check
+> +	 * fails. After a -ENOSYS reply the kernel sends FUSE_LOOKUP instead.
+> +	 */
+> +	FUSE_OPEN_ATOMIC	=3D 54,
+> +
+>  	/* CUSE specific operations */
+>  	CUSE_INIT		=3D 4096,
+> =20
+> --=20
+> 2.50.1
+>=20
+>=20
+
