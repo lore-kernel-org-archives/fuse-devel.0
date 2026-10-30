@@ -1,82 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.35.192.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.145
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793385403;
-	b=4la1RP+jPtL4Sz39FGh6u/A5hotwb4W5htLTbXAWri2hllAMXL4KBF7+j+0IRi0/S8Br
-	 JrPxiHs77dm7RIcKFJ8Fnjdpjc9SOLHsfJcE6HkQFIR5zpEA0L+2Cbvx36GcnXKUHAeXU
-	 k+csj57xhlr4gdbgkeMDjdbIxyKtcZlZBB15EPW/4QwEcJo9JVFsPvLVosV8vvlEmBzhy
-	 Rjwh47iIJwBmA7Bv442qD3YwulLVwJNz/zVh7XVCN+hgtkNUWRkAmwWqQU2wlo2XMSOH+
-	 ywNGKWwrgEAT0xMoC3qxwnKOAGm/fRxg225f+sY8Q6NppfvB4X9nqr41ekCpVrguxDQ==
+	t=1793387045;
+	b=1S7HXURFUV+arAUKRia1WGskWcKox4jJAPzR/mEocjInpt9CxxQsLVdZ5Yg4CLUKlVbY
+	 SiPLMNOqmSZqOexNUTUMqSlc5ehVK4rv0wo1T2Z6kkEBFyw628nFY605XESEOhhxjNy+4
+	 iXtfDMdJCvs/G0KPoUlogKYRTTo534N5IV3UlpxGESnaCGZu82NKNW5UWHYftRC60P97S
+	 w0xecTI2F8WX/RK2qTpS4AIRMshUm5Qzu3caoGVYyMJNMK8bMxxu79KgUOE9YiVHYQ5SV
+	 A/Zc/VNa9y23Z7vSeb594/p29pBj2uR81Xpb/9QUAJe66NOch1XixEaew5lFarT0y3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793385403;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=1t9+4vkPL/biYXGFrfoKrzKJULEQM0zn032UNq7ifM4=;
-	b=J64UaHt7K5ch5Mc7gFfuEDPzoEMGs77JTk7IfMoasI3VoysKLtJAvtphK3FmtevQc/9c
-	 eB54niXU+ImIJMdc/SBJq5TFfG03PxRMrvfrrsmJWKzCpVR2rjefz69ujgZVHsmIfV+DL
-	 a8YK412TEYH/5KGoapCw+fwW/mI6E1wO8o31qYNP6dVYSe9LfHX46Nt1GoUbfmLfkfT6T
-	 Rg5bbHtb3ob21x7ptOecfCkVtb1YZ/xrFScxQHoEH1bNsU3sA+MOWUKLL7/jMpzlv4dX0
-	 iu9vjL4US4oyLEM/SiMYHA3WQRWLBSIIwEAHUSM7s/1WAYSoXQVrTHHOrQZMjGP60aw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793387045;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=cYVDAfGu21tw8B4SsY7KTa+EHXRT8hV/QKN7JLK9TAU=;
+	b=k+nOazNV4NcOPbYL3MeHdgbAYjzoylUOm2cmwFXYOCyStYma752ta5V3WRI5HTcdYdEf
+	 2WqsjKfY/vb1uGQxXs3AN+IaS/8FmgWIc9rFUhNWGrCyX6Qs5y7n6lYWuIrCDZUI4GnYE
+	 h9PUJ1b9DgBbz7yhIl9JtsiVZGBid/cr76n+KT6r5UXb26m9q6xDeTuWkpyLRfi+IeeqZ
+	 Jqu5kWFUgku4wzk9z0Z9tst5Kqg5R/7SwXsK/N5yvrNE/QtNqdkE7xCmMOzTmVeXogglz
+	 DXxiszTO5g+Im2EsBj04ZKkCLh0MX7NX9e0zDnQcDUB5l3h67AsAMxYeeW2fh87nIsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.com;
-	spf=pass smtp.mailfrom=amazon.com;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=Li0DWd72;
-	arc=none smtp.remote-ip=52.35.192.45
-Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=bsbernd.com;
+	spf=pass smtp.mailfrom=bsbernd.com;
+	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm1 header.b=V5d6RUpT;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ceY2zdYE;
+	arc=none smtp.remote-ip=103.168.172.145
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A75606A31D
-	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 18:36:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58A75606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A541D606A31A
+	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 19:04:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A541D606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=Li0DWd72
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1793385403; x=1824921403;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1t9+4vkPL/biYXGFrfoKrzKJULEQM0zn032UNq7ifM4=;
-  b=Li0DWd72Rbzmy6m4qRsZWOWkFwlHWpcdAOv9NmLovjkCiLbQ9pXlnB8k
-   up3Er7irBTtrfHMAXKsrAKiVwGAWdc6O5jEOuRl0H+xAP+fL2EvJbYZeH
-   FUuUFk5zr4VMYH984o+y2XiAYxUXz7Oj23nWFzgcqRuyzvsn1Rwqk2IaN
-   ZmOM0WRmvvucGl+h4w+kfAdpOFTQ0PQxqGFdL47HtundTVfAlhpHc4em5
-   WfT5Xd9zbT/6XXQucMo/+Bn2TQLNcDlS0o4bGyAUPLyk4VO73ppPtnF6D
-   W/zN/uWlK+zOsxpBU84yKBmDCcIIiO8bvxwqFuh7ToFRWykL0ohZPs62Q
-   Q==;
-X-CSE-ConnectionGUID: VQFaTsuISZ+CYRqnY39gfg==
-X-CSE-MsgGUID: /FcxKp5jS9+Zy7uHCcSSKQ==
-X-IronPort-AV: E=Sophos;i="6.27,186,1787011200"; 
-   d="scan'208";a="32463827"
-Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
-  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 18:36:43 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:6113]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.15.208:2525] with esmtp (Farcaster)
- id 8eaf1e5d-ca57-4525-a596-d9afe06312d5; Fri, 30 Oct 2026 18:36:42 +0000 (UTC)
-X-Farcaster-Flow-ID: 8eaf1e5d-ca57-4525-a596-d9afe06312d5
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Fri, 30 Oct 2026 18:36:42 +0000
-Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Fri, 30 Oct 2026 18:36:41 +0000
-From: Jimmy Zuber <jamz@amazon.com>
-To: NeilBrown <neilb@ownmail.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, <fuse-devel@lists.linux.dev>,
-	<linux-kselftest@vger.kernel.org>, Shuah Khan <shuah@kernel.org>, "Bernd
- Schubert" <bernd@bsbernd.com>, Jim Harris <jiharris@nvidia.com>, "Horst
- Birthelmer" <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
-Subject: Re: [PATCH 1/3] fuse: add FUSE_OPEN_ATOMIC
-Date: Fri, 30 Oct 2026 18:36:31 +0000
-Message-ID: <20261030183631.2126171-1-jamz@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <179331349568.1157394.13124360154896615084@noble.neil.brown.name>
-References: <179331349568.1157394.13124360154896615084@noble.neil.brown.name>
+	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm1 header.b=V5d6RUpT;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ceY2zdYE
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 78130EC058F
+	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 15:04:03 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Fri, 30 Oct 2026 15:04:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1793387043;
+	 x=1793473443; bh=cYVDAfGu21tw8B4SsY7KTa+EHXRT8hV/QKN7JLK9TAU=; b=
+	V5d6RUpTicfIhe0AxolL4QxYG21F0bNNbESm/QvyT+gvHGLlf7WGbhEnpT82TDQh
+	473dLcaoP+Hcxnusw0COqVMbzWg2LxGu0TySeSxogcKN7YEUit2vHXBybyiUi7ij
+	TAlMJvNQ5k2EFNrz0USqC84mTzE0P5qt1FIJ2qvyHkZpEyBvBCjIYwVAsTBSNi5+
+	frN+JVkbN1qIj98x6S2eQmyDzYpvlEydcFPEw0wQrN+kz4ThD8vClNTvbVro3ctk
+	vXO+YF0yDCrHrQlF0Uuk9EyphtPGpNAezqFyDu2W/H1jelWZuvdKS7LqPtyCCtbE
+	ObV0Lj7fK4l42Mqm+C2i/w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793387043; x=
+	1793473443; bh=cYVDAfGu21tw8B4SsY7KTa+EHXRT8hV/QKN7JLK9TAU=; b=c
+	eY2zdYEg1BV2iKEB8nZGiC3B1aDTAHfWTqNmyW7k96rO6IazFkOnaondXrsde59U
+	CMvhFSROsnpsregFHRLRDJa1nTSxI1xnpXumROi1FbnKCs3FAZwu24i5jNdyb9jU
+	cUvr1oH4k+LvWmoEJsXqmZzyOvjBBft5JGL56HluWeZaMX79yeygDiqn095doJDT
+	1xWSRpnGP3Jch9fhtf11lrBbVo2FT3CdZF0O4owrnM1EbAbtBVxZ+G77tXJcOnTM
+	hoOu1onPnc+ooBV9RI2RPpj+tIwFIUjMXRS7gP/n0Wh1yDhfDL2J0cJPQdZ5dD28
+	Vrop7K/masqbMOaBhkFrA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=bsbernd.com a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793387043; d=bsbernd.com;
+	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
+	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm1:rsa-sha256:EcaUOy+AWJJNoL/P4RSeOlv4TRBAXlseURkIf8PIrTxX145
+	Aa0rT1ElhM+p5DmM3mxxuzmbdDTN5Ck++bdoJPsKNXOg76Yj/56kmgOY4l8uujb/
+	ck39NzQhBcLqEydqEzbdCSfzC+O9AcdlymESkYhb4CeQ2DrJGSzgB6tn16B90m2f
+	OVu/TgYk8zuudo+/92WC5nmP/5bwKsYOO57z29iXFbtZ4eSgGpdl2YHKV1OrsrbV
+	v/B84RCbBWC9iiwwCIR4VkKzq3tNUoTaU9kEapbyzu8RwXENdMmFihdnFkaJLax7
+	Z/nlnCfbuaI2c4wEUqyQinjDLVCMVVhqc2M/d1A==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=14;
+	hn=cc,content-language,content-transfer-encoding,content-type,
+	date,feedback-id,from,in-reply-to,message-id,mime-version,
+	references,subject,to,user-agent;
+Message-Instance: m=1; h=sha256:GJ9fIEhAAWVvEm6l7nB65LDWNZcyynBlOQf87Xosm3w=:SG1zBtFmdbw8Pqs1ZYzjFw/IGozPKTzhO0Fpu10JQx4=;
+X-ME-Sender: <xms:IurkatfI8cTL2WhXNzRCkIF_orTOKowPbrR14WGcjSIWuuM8dGCWzA>
+    <xme:IurkagJjJLvTfYcLIJnDquiGZue88E_lLFI-FbEfNsVw8EJYZo5N_5efYYEq__mGW
+    s6NWp-z3mimYkfTXPt6oIEPh6ry4I9D4Vh3ZqWcv9eb8ANoTcR2>
+X-ME-Received: <xmr:IurkaqwjyuKSHsPvddcumzQ2OVWhUn0MoGZ6iyj8LBK2U2cVldtQvg7SU6UlQA1o9CRm3lrOvgNgNhjvIWllke6TT6mBBoDEoi6vwepigZL4EK1msg>
+X-ME-Proxy-Cause: dmFkZTEO+OiwYsZGLYiEqeEWlniUSUgrfOSvhBiT6vjhnKa9rY71lnQBvzv6vOmKSLeSvt
+    j7S0Deu0nXp7TuIZJPE9OXCw9qvCV4bwyR567dyr4/zW81P27qFLEwYzpmXV5CxRGIKyQT
+    nqc4kdC7LChm4De6LRWWR388VVNtUxxPwYVRL1exE8pO5GMMm0BhxIL7udWpluiw99Sk+z
+    FH7Sk1npvSPetmU1IXxatbTEeXIAWEkyqnwy2CNYIewfKTuPF2chh+nIBZWxLrcryoQhdV
+    4FlqXF3FaOsncC/UitXWE3bdmNvIKl85DCLFSRzR4C9RhbwenPfAr1fVh4RWuguVIpn3S2
+    cOOgpfqJXW1k+HtKTPb5hEzUk5b/nBs6IOr3RL9tfhlmvvOgzaSGLI1c5OT2mQmwDbnS9G
+    zDy8tuDjCY8pkLkYND12FXycRhphqq6cF2hsPSBEe65UsZJ1DgmiA2lmSEWnoVtfJHbwuq
+    17ie0UklBh8g0RyNJMvwG+W2r1fUUv9ZZgASIrZSQvjv6ehskmAiV/6cjdXwq/0WpSNsVW
+    fgzEegIb9kW7TZ5inMXiHH0bQt2FLy/S371s9S6j1SYmIakwkoOtDgn2Jk++InB4r+PziX
+    GnrGSesbKcmmOKhUaJmvlLwIiEZ8J0e1MHXcDjv3ytrQvavThwe8bYTCdOtg
+X-ME-Proxy: <xmx:IurkamtuT0jpX_8cY1jck4SpdXlZ154loJk5SUpgas4GtIiAOP8wGA>
+    <xmx:IurkatAhsYQz1QVPjFqF_Hzo74qr08nEnolKYy2glY-XuF1Jw9qcCw>
+    <xmx:IurkaoEsWKeDd00VLHQBm0QvHKBrbLvrYkvXDZWqni9DYlDG6bYs7Q>
+    <xmx:IurkatARGdEXcKHnvNRgJRsNLwVycPbn3wWL8_C0pA1Ew-XAi3kixA>
+    <xmx:I-rkagyUhBGaWhPeEsfakV4m8Eqa5PhVQqhXLOMd_s72ijJoADN_hd4O>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 30 Oct 2026 15:04:01 -0400 (EDT)
+Message-ID: <6bb36b51-cbf7-432d-b837-29ab4f7ef789@bsbernd.com>
+Date: Fri, 30 Oct 2026 20:03:58 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -86,25 +119,60 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWA003.ant.amazon.com (10.13.139.47) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] fuse: add FUSE_OPEN_ATOMIC
+To: Jimmy Zuber <jamz@amazon.com>, NeilBrown <neilb@ownmail.net>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+ Jim Harris <jiharris@nvidia.com>, Horst Birthelmer <horst@birthelmer.de>,
+ Luis Henriques <luis@igalia.com>
+References: <179331349568.1157394.13124360154896615084@noble.neil.brown.name>
+ <20261030183631.2126171-1-jamz@amazon.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <20261030183631.2126171-1-jamz@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 30 Oct 2026, NeilBrown wrote:
-> The /proc different seems cosmetic and probably of no consequence.
-> The nlink issue might be significant - I cannot say.
-> It might be nice to include a comment where d_instantiate() is used,
-> explaining why d_tmpfile() was avoided(?).
 
-I dug into this a bit more. I couldn't find a FUSE server that actually
-implements FUSE_TMPFILE, besides the example servers in some FUSE
-libraries. However, switching to d_tmpfile() is a behavior change that's
-unrelated to the core of the atomic open series. I'd be happy to cut a
-separate patch series for it if you think it's an important improvement,
-but I want to keep things decoupled. In v7 of the atomic open series
-I'll make the "why" of d_instantiate() clear, i.e. that it is uniform
-with the rest of the fuse kernel module.
 
-Thanks!
-Jimmy
+On 10/30/26 19:36, Jimmy Zuber wrote:
+> On Fri, 30 Oct 2026, NeilBrown wrote:
+>> The /proc different seems cosmetic and probably of no consequence.
+>> The nlink issue might be significant - I cannot say.
+>> It might be nice to include a comment where d_instantiate() is used,
+>> explaining why d_tmpfile() was avoided(?).
+> 
+> I dug into this a bit more. I couldn't find a FUSE server that actually
+> implements FUSE_TMPFILE, besides the example servers in some FUSE
+> libraries. However, switching to d_tmpfile() is a behavior change that's
+> unrelated to the core of the atomic open series. I'd be happy to cut a
+> separate patch series for it if you think it's an important improvement,
+> but I want to keep things decoupled. In v7 of the atomic open series
+> I'll make the "why" of d_instantiate() clear, i.e. that it is uniform
+> with the rest of the fuse kernel module.
+
+
+It took me a while to find the link.
+
+
+
+https://lore.kernel.org/all/20220922084442.2401223-1-mszeredi@redhat.com/
+
+In [PATCH v4 09/10] vfs: open inside ->tmpfile()
+
+<quote>
+This is in preparation for adding tmpfile support to fuse, which requires
+that the tmpfile creation and opening are done as a single operation.
+
+Replace the 'struct dentry *' argument of i_op->tmpfile with
+'struct file *'.
+
+Call finish_open_simple() as the last thing in ->tmpfile() instances (may
+be omitted in the error case).
+
+Change d_tmpfile() argument to 'struct file *' as well to make callers more
+readable.
+</quote>
+
+
