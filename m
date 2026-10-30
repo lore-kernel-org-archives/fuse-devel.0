@@ -1,82 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.155.198.111
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793388254;
-	b=MPGSWd6QhLAqHBeBw3q5h9iYvMHIUh67qwrrZvJS4a4tpMiw5hxd0Q94uxUzJp1LlxAb
-	 oB3km6S9WNAq63QU2YK0uKA9oOgmGwi1xbB1oLRh6si5YCbfz0Fs20rFr+21Zf4ApUVPd
-	 F7nkg+2RTiOG+Qz8QbN+AC0BOhN3ngBSDUN3vbFXlzvgP7eRfXbANwc+oYVP+uu3iBGK0
-	 U17mVe9bHroae/pd41lRPgjWNU6J/XPaRuczSmvPAH7S8qwvQeHf7zBxopv5FWlRFP0Ee
-	 0kDn81+M/ES+Npy+oubMy8McgQipdGHssMLMG5G0zIV4ae0IsllhGfKDDHPXPxC+SbA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793388254;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=pkezIO5EgOZugo4H5IpRr29h/eZHVxjAk1pOcW+pZUg=;
-	b=h3xoMjV97/Kzf88jByq8bFJqZ+HsILn1hwRDKc87dyL7ru0PNSqpbrrWCD5TXkFO2Sbm
-	 4oS8Xoq2BBz9j4ZtdcoYUHmSO3ZPGAOqnsg/47mhse7bYgJmGqcAcmT845jbXTxp+Q0r2
-	 rLVw9NjE26jSHe6nyAQFImglXFlQ12S0xJSp7HImB0ZmYIKxfvwuTxCaI9f9xfiFQYkK7
-	 /fntebztrSVYayVfnuz2KKPlLabTjiBcYhM0bBs0xw2QFWtnTsxy+PH6+7okDrIgxXHz9
-	 lmEWOQkDldPw5bnwTSwbHYNivCmV7M+O8wpbWDFYd4U6CoJdOYyabdNDTVAXn7f8sdw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.com;
-	spf=pass smtp.mailfrom=amazon.com;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=O8VaaUTb;
-	arc=none smtp.remote-ip=35.155.198.111
-Received: from pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.155.198.111])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.221.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793389710;
+	b=ojkikigR3YUERFwQ833YkcvJn59PxOVIvtayxSHDrvZBDO5ZpD2KfL0Z36egBlWahg7C
+	 imyc8KE1lydmufdxGYLp4lwDVVhw05cELHuK2HuWxom1J7vhZ/vrQ4ORAv37Bl04Itxjd
+	 3H/akLYRlL61DMGcTOQIDsltnBroMiKaO7N+cOwPetgdvq2+9sk34QfQT9zGVFvPqUJBI
+	 hsIFhD85FQu1pFDnuQrGMZlwgAchkBe8HO2hpOHHHXw8kAFj+sFd5XqL3ay9nheCJquxs
+	 sOahv88ipGg5h84N2URVyMBe6AOhH5rU+bQz6t2s4xn1Q42HsGngR4ZTz55npsEh/MQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793389710;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=B3QeQKv83CCubBRhLwLfDBWq4r5yqUeetrN4Gz6lflQ=;
+	b=SLLOAbvyVBU+EJ/5MJslISG0oCwoe8MYKhnyfUBgQZE049Yg2Sw9ODNjTttVv0pg3xP1
+	 LKOxlzVaK957DLg3GHoy+NTDPstZ7Gk4HoyGI1BFGs97OTUwQI7/PLXM4J6JFfsiimwyv
+	 z7HUvJKcewDVHiN0kwJK3ZnIMaM6TJcGO8hMLvxiqhjnH/Nwiwpc3NAe31Fk0koFGtR9P
+	 hbnDKRJlJAd4l6TDMRvgrB2jawBTirD8ZhBREk4OSjaJfzH0akk0oG4uu3bQreZYsUKHr
+	 plrZ0aIkMgPTL+U5g0wDufEsjJy2CDTL43cNZt36TZgmb0pqwo3pBWM9xRcf9FtWubg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XDS+MOjx;
+	arc=fail smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B910606A321
-	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 19:24:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B910606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6528606A31F
+	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 19:48:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6528606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=O8VaaUTb
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XDS+MOjx
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48e00eee27dso644698f8f.0
+        for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 12:48:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793389708; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Nd+nmyia1McIr6YCJ0Y5HxQM1iidreRm6K2d5q25ilZkUpGayuIa64ZDuMf8/dBRYl
+         BcHuWmTJLqgfrNipf75ImmxKfcUr2TEQvXszoD6XdLO68QkHTN3Tvn2cv9HAhQ2hgOUb
+         sYRcx1b5nqvIbov3P9AWP8pCO8ZtGYgGWCEybneYhMx/DN3/thpEUbnm7ESiLlGFZAeP
+         gTGpcrosfobDH+3sSheJyNVXzwtJvkobjJClN5VntbqULwW+83oLYSlH3tsoPT8/9Yy1
+         mCKjIt4UWH9T5eVUA1BzvrbRlcgXaOfPzRJaKh8wuTasugMkUOkaejRPWDbYuMGCT7Gs
+         mmHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=B3QeQKv83CCubBRhLwLfDBWq4r5yqUeetrN4Gz6lflQ=;
+        fh=KSsDjf3TjzMsGMkz4036cFjJj1yFm1ediiZviz9xrxM=;
+        b=D66eNM63NGDg9iCWrv+A2PyVv/SAS89NJ17Kwgkh/oRLAqEvtiI/qP7k2xGuEi11UA
+         amtzJr0E/RI/84C0Oq0PZ02SwJgK4jYewz0cu1e4DfuPDstPpW3CXiWISpMaXTDyRHjg
+         NAdB2z1nsbzn3b3gtiqjZRuY29a4PqU80/vccd8UnOUKHz8iqlMSsmf4JzX1mGVaXv7I
+         dsfXbvqELkFIe53IT7h13kP02Z9O5bqwjPuGrM1YUkWi8v44HdFDvuaKfuh37VcfsiMA
+         nllvVosYarmbpm3PhdUI6rAdLHRRl4k9g6wVENM4BYhGpctAAApu7rxKTna9NFcK7fB0
+         dKgg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1793388249; x=1824924249;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=pkezIO5EgOZugo4H5IpRr29h/eZHVxjAk1pOcW+pZUg=;
-  b=O8VaaUTb2Y1VstjwYeiKAddvhIeQQLA+yprdVdPkNLhYMS2wO0X5V5nI
-   Rn+eNxuqvJzIq005F4aE2O1v5TLsK4MvyDr2VQOTTsk4+5e+36BeF2i/K
-   nN9dUG2xNFauylwajJ2sPrFuX2kgLVC9YVAPT52FkExUoCaR800WxjGaI
-   thIP2F+/G7LsNVgkyPrQno0pjGTcULPCB4K0Dm15MtMNWJShV57Nzankj
-   0W2TfxVyL9vXMeIsMkM3bsw3j2i2BfLv9uO6Yg4lbh6BGucLDJ5A5zObZ
-   JFUzaavnywY2wSQm0nZmPJXn58MKmOpUalflN/e4VMBS/KVlI+q02Tsns
-   Q==;
-X-CSE-ConnectionGUID: XW7VraI7QoerkK5AUENd8A==
-X-CSE-MsgGUID: ER1+0G/GSyOnJbhMTZgHJQ==
-X-IronPort-AV: E=Sophos;i="6.27,186,1787011200"; 
-   d="scan'208";a="32602116"
-Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
-  by internal-pdx-out-009.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 19:24:08 +0000
-Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:24377]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.63.21:2525] with esmtp (Farcaster)
- id 7f75e6f1-28f2-4c6d-bf2e-bec889c1f73e; Fri, 30 Oct 2026 19:24:08 +0000 (UTC)
-X-Farcaster-Flow-ID: 7f75e6f1-28f2-4c6d-bf2e-bec889c1f73e
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Fri, 30 Oct 2026 19:24:08 +0000
-Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Fri, 30 Oct 2026 19:24:07 +0000
-From: Jimmy Zuber <jamz@amazon.com>
-To: NeilBrown <neilb@ownmail.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, <fuse-devel@lists.linux.dev>,
-	<linux-kselftest@vger.kernel.org>, Shuah Khan <shuah@kernel.org>, "Bernd
- Schubert" <bernd@bsbernd.com>, Jim Harris <jiharris@nvidia.com>, "Horst
- Birthelmer" <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
-Subject: Re: [PATCH v6 1/2] fuse: add FUSE_OPEN_ATOMIC
-Date: Fri, 30 Oct 2026 19:24:01 +0000
-Message-ID: <20261030192401.2543699-1-jamz@amazon.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <179332437497.269288.7305999595462479305@noble.neil.brown.name>
-References: <179332437497.269288.7305999595462479305@noble.neil.brown.name>
+        d=gmail.com; s=20260707; t=1793389708; x=1793994508; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=B3QeQKv83CCubBRhLwLfDBWq4r5yqUeetrN4Gz6lflQ=;
+        b=XDS+MOjxaGufsGaFWE+cD6ZwSmF8nrMloa/6xTG8n+t/lJ6ELO2dDVwiWYs3SWGp0j
+         n3pZrBwy8YdwKfaMNzdAmupyxlKtl3yGxuSFa8wfIMdlk6viULwG3+IRcA5ZPEDgcRat
+         1ebGyVt6b+wrJMA+6b01ICYBAw/SslTocIUp+AEHZasB5Ky3FcEPsSXlRjw5hJOUwowa
+         NQfETsHV3kjEEjWIsmD266z5aPxyY+/FCN3jAHkl0iR6D1hfqlMbohRQ7XusKm27UVeA
+         RqOxsDR6IxIVkd8h0cx1eNhKGy7ulYYtVpC60BUzTyzVUN7uG+wfbrrdPDoHaLRbhj++
+         sIoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793389708; x=1793994508;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=B3QeQKv83CCubBRhLwLfDBWq4r5yqUeetrN4Gz6lflQ=;
+        b=TDmAJYFBMpTxHdUuyYRodm/akW5R+2xqTO6ZBjYwym/q2HAgGlMEMFotp7OIRTbbjX
+         tZpV5ykDFivkn0w3a9jTLRq/FbpgIusJVxTTj5kknczLQrqSwHrpyCbEXpWlAfWbBaF4
+         JwBcmshWJkHeU/z42DbCQlZPx1Q07tjaNiB8muHzSkTloLFjfqvnD0EAb8bG9XypRUDU
+         ToE7A7h0zX1FM322xZdDVlZ23uwF+gsmOZeMiC/pcjGY4YdD805dWjUjLTx0l5mBBdKf
+         lxFHthRSS8XarDlKmwuzDPtgVGAsFnyYvvQwLfR8asRx+F0e4aGz4RjJR/T0cSfk8+nI
+         XTFg==
+X-Forwarded-Encrypted: i=1; AKwUvBxNSxKDyy4jUMa7A/01xp93hi02whlmukYqFpjsG9+5CJgRS1C08nJSOITRVAaV48QaFfwRJ0PQOgMS@lists.linux.dev
+X-Gm-Message-State: AFq9FYJPoHOoLvM8IPr0JZ0YfaGMkKnNdOvv01R6Pol6dwQNGWsL2ikq
+	CIYMmo+gj46l4NqOUoW1P7m1fQu6R1KEklzIQFAogY9FUFtnddmN6b8Kt4JBnyihyAQeV9BNJIY
+	le9v1kmcfGQH1AgmAALf1EezVObqh2Gc=
+X-Gm-Gg: AYBFou2T0QpZbSryKL1CEc/jEoJCT8BBNNccF8ZMQmQaoOD0K/BYQuabBlKWIwz18ot
+	wQ7I4rTPzcVImx+1qTo4n1I1470FB064tRvfD8DxFlf4kZDpzeOpuFHf8/bQyn6rAg/XSrZdUsG
+	0EVAZn/rwOvG4OBLa2hftT/0Kks8M5AQyvmWf4tSFbeQ5WM1s53y70EYV3yDGtIIhBqmA7pTs9O
+	/fgjumH8gZfxQilzZXQXM5XByiM/HNImFkU8BtqXezwhlARXwSEOKv/35o5RfHcUO7rjs5Cmi2w
+	/YW8dHbwUZuuFN14cQmD+BRR9UtNhlIjqbLPUSAS7wa1j/n/AMarJm8yOxtQXAh4yFBBruAA+Uk
+	fazpOlV4/jBRw7ctftBrETVrgeiX2BbsOihjho+Vnsia6vXMoEzG6dKXJqVoar2r+c2A9VYakjW
+	AIAOjbxAFzNJrXXZfnWg==
+X-Received: by 2002:a05:6000:40ca:b0:48c:5304:5e50 with SMTP id
+ ffacd0b85a97d-48e6e2620d8mr8708785f8f.0.1793389707952; Fri, 30 Oct 2026
+ 12:48:27 -0700 (PDT)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -86,36 +105,47 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+References: <20261027215326.2693300-1-joannelkoong@gmail.com>
+In-Reply-To: <20261027215326.2693300-1-joannelkoong@gmail.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Fri, 30 Oct 2026 12:48:15 -0700
+X-Gm-Features: AclHuK9oCK5VP76Wbek63tch4M8ewVUH28c6PHPAdmsJkgtv-kMhmrFiNwyHte4
+Message-ID: <CAJnrk1bqPCy8ryVjCsUWR2+4jkNE8rJJU2bUFsO3Q7nznsF7xA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] iomap: remaining patches for iomap_iter_next conversion
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+	"Darrick J . Wong" <djwong@kernel.org>, changfengnan@bytedance.com, kbusch@kernel.org, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+	David Sterba <dsterba@suse.com>, Gao Xiang <xiang@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>, 
+	"Theodore Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+	Hyunchul Lee <hyc.lee@gmail.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, Carlos Maiolino <cem@kernel.org>, 
+	Damien Le Moal <dlemoal@kernel.org>, libaokun@linux.alibaba.com, bfoster@redhat.com, 
+	linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+	linux-nilfs@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	Zhang Yi <yi.zhang@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 30 Oct 2026, NeilBrown wrote:
-> > - any other file: the server returns the entry only, and the VFS opens
-> >   it;
+On Tue, Oct 27, 2026 at 2:58=E2=80=AFPM Joanne Koong <joannelkoong@gmail.co=
+m> wrote:
 >
-> Why is this a requirement?  I understand that the server *may* choose to
-> not open the file, so that the open doesn't happen until after the
-> permission check.  But shouldn't be up to the server to decide.
-
-This doesn't have to be a requirement, for regular files the server can
-open if it chooses to. I'll reword. Are you also asking why this is just
-regular files and not directories too? I could look into that if you'd
-like? For what it's worth, special files should never get opened by the
-server on this path, the kernel opens them itself.
-
-> > The VFS checks the open after the reply, as for other ->atomic_open()
-> > filesystems, and the kernel releases the file if the check fails.
-> > FMODE_CREATED is set only when the server reports FOPEN_CREATED.
+> These patches are being sent out now in case anyone wants to look at the
+> preparatory patches or patch 4. This series applies cleanly to both curre=
+nt
+> mainline and next-20261027. If anything conflicts by the time you pick it=
+ up
+> at the end of the merge window, I'll rebase and resend.
 >
-> The above para seems to suggest that the server might open a file that
-> wasn't created.
 
-Yeah, atomic_open is a lookup+open on the FUSE server, and that open
-might be an open-create or just an open. Either way, the server might
-open a preexisting file. I'll try to make all of this clearer in the
-next rev, once I've gotten any feedback on directional changes here.
+I pulled in Linus's latest tree (commit abf8c33470f7) and the series
+still applies cleanly with no conflicts. It also applies cleanly on
+top of next-20261030, which includes the remaining btrfs, ntfs, exfat,
+ext2, and gfs2 changes that haven't been merged yet. There shouldn't
+be any conflicts between this series and anything else going in this
+window.
 
 Thanks,
-Jimmy
+Joanne
