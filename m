@@ -1,101 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793372654;
-	b=rj8DJuQnh73zANxX0PaRcnJWoy0WW3Ok9GtLzEhNHhMPK6We3J4xMz84L9j1yW0KnbNV
-	 9kCrlb4BzgUYg6xXcLVOB/TQCgOvOObzDu9teuJJ1CaB83tmSfOKtkFMLLq9F8EoVHuH2
-	 TksziuKFpOpTr3O78YHMSTWPKhkeP/qIbzS5cui1B6ytOm44WobnetZDcrmbJAlFmN+6r
-	 7yARXSWjGzq3njfbqZKts5NSXHqq8QEXwe7DytoJM6sI0BrLPld/DqeFXuuBXSQQ9N7uV
-	 kO/rmFmd7d1xq9PglqMHC2zAsk9FzQjvcCMJJSv+8qElUug79trjQenNgKM2NjwB/rA==
+	t=1793374063;
+	b=dbh/5nb6X8sJmHazlAK14BQfc8h3Yhey4DTGQXLVUlTQqd89s9Zy9E3rWD345wmgImtt
+	 fJJFw9nZbcsTUtMd2ZQlT6LDBQTd/qv1CgQ7xFCmLMcV5lYUyp0XdueY6XAvqyiTWUtW4
+	 d4buWGruL9EPXg0vooplWVYpnFEwqbAAh0xJ7HW+W5f7JK+i/npkGuOeAMmmhw4+WnP3I
+	 jgXJfsfvmlca8ZWEHIVm/LCXrCR8//hLGmVPPKXrSQ7ooV8U77990a5oORPQHu/kKGNWc
+	 tMNJyov6/M+QGgkxmFjcGflBXYKfTZu5nUyzlDI7o44fs1kVPs0BICbmQy9Jsv7kYIw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793372654;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793374063;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=I9NMB8N1J0onZAcfPN60V09FP0FPSVmH42zxst9UC/0=;
-	b=Vgl4djGjMvBvZqijQWgno1MqfzQpACNPf+miQaDbinJa4dRNGHRBIJuj+aEXZI7Pj9AX
-	 YP/Ej+ERGxDu4crmrfzQXTZ1VSpFe/qUQgKAblpX/i3gMpncdYgrWPlzXbl937a1kNuPe
-	 jt8suLiz6ojdVOiuVG3Wdq4viGR9skl2im6jSNGAHD5zRcGjzB6HKpt7CHkTbL6mYaHnU
-	 a3CML3NRDXDqTQEnPTK+tuHXjKz2/IUG5hP/1m5I96uDoE8FrFtykHz9OaLDihMxAtVPc
-	 /Ihru1Zc23NN/dEIvZOFBC6b2pCwxKWOo7GAYDvGz2CNfNJ0zOR/++g55R8GJPo7UVQ==
+	bh=gBnh0au+bqhOXvQQRGkJNLPo++sPE616YnlxDnGaF/g=;
+	b=cUGsGPVgHuA3kS7ojcx4C4Huq18fL639yFXCDxdASWDv/g1+hdZrxgIjQtv11BPZCCKD
+	 /nBw1IRtzDhrfrN2SWtmf3yp89MDJVJBmq1XTs+u0D5GAPmKAHrcrAvl+HRLCOx3cllCL
+	 gVNQ1WATsUQ0/Q+m47hXAC7GnvO2pn2F9gW2g63oGwAw8Jp/z8chCwg2l9QIQ6H6xFpGs
+	 ZvIFFtJocybJOfXvXuI3nMAFs0bJQRwVQJoQYNdC+N5Wz9mNQTzoes+IxHLL46mpSMr6X
+	 EW8+OqJpyICktcZSZP4MqKUzUWA5whq76p+iJ6MIaIVKX3PBrwV6VU8SaKMF5zMcVbA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZO10KomD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zeAnGE1l;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.52
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C348606A31C
-	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 15:04:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C348606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3B3606A320
+	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 15:27:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3C3B3606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZO10KomD
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b1afcd2d23so1054973a12.1
-        for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 08:04:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793372652; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zeAnGE1l
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b1aa2848d2so1233180a12.3
+        for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 08:27:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793374061; cv=none;
         d=google.com; s=arc-20260327;
-        b=HwyS2ic/5LtmmtJV8ek6lq58HfRKA+YhFDus1FnhmtYYBS9frVA8KTB9+x3WuiPKXO
-         9RLr6yVHNZHer09bhUEfD8JwFR1Hj7PROtw4MYAgY73rmCzPzN5n5Pu1NXPDO8zWLFPN
-         R2r3DUZXBpaPumg0GaIBMnUwfkMLidsmTDyHkhdzdbM5dB8KR+FJEXdhzzuGYgkca3sq
-         iZEngs/neht3SrYBQdtYaJrPw/p5csht2Mkxbmb0Uxx0J/bsZ0dtKMWPHh3sKFddB8gl
-         7ocTiT/YNmRNwDkmumluvzhJmXVQ2mLLuNuMYtIDhBhEWvQrYoiXbi+YNI0kYv7VsbuQ
-         c5/A==
+        b=K/IUr9gZWLVCYiAfHyNaqcLhybwup6FfhsQxTLrxq17IxwuS2VFSVLw066ZPiSOn2E
+         411dNuopDqgrusmyrP4sCBw7UQqKmLOqh46pJy0iRA9Rf8NyUS0Eyqc6L6grCENtcs69
+         nFq//L7xZBuuxjVzLuk9KcwqJdc06wQTtboJfQr9Ri584NsHU9YDxxBRSC2LxRdNLUcg
+         U69jgb6EKDPXhXXeJXavUIKmdp87GTU/dUSfX288VCOBcL5oENPTHmK1lAgPU++G6TiD
+         X5Tu7gl1VOf75rbfkGBdD0NVa3WI2EP4mSu/BbwzieFZmSZBPg3LE5RYs0dcX2aoqP7I
+         i/8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=I9NMB8N1J0onZAcfPN60V09FP0FPSVmH42zxst9UC/0=;
-        fh=WMJ11D7uBlgxyDcs1PurjbVvs5LhixO37KXO76yPL/E=;
-        b=lCFKan0HfzU4ICjDfKvMNKcG77KhdWcqkn7PlN2b7PRCIVUsA6WWC+tiM11C7BdOnf
-         cppLaUBooXzjnRr4n3GKBs3uoTLQDScCaSVt/Ddk1g0ayJgM33TzpHCLAv8FH+iPiu1f
-         XkdET2p4yy0nOE/9BmFg0CphuFG6IALRQ6KrzQ0aF9oGX0u+EmVUzra3vDEN9apNLbNx
-         sOHzomv66wO62Sx4DyvR2wyIo89hHymlStI9jgdm1IRaClVFK+hE2zsFfJsApcXbcNYa
-         z9HyABMeUl/HxLQI21WtLX+JSDdG7wNuhcAO7JpNI7yjFRYhF3vfhNJTEFc20Mb515BC
-         OiVg==;
+        bh=gBnh0au+bqhOXvQQRGkJNLPo++sPE616YnlxDnGaF/g=;
+        fh=ib3ZIgkILNt9j+kq/Iu9tTiNq6e/MboCZRcowPfHpVM=;
+        b=EKlBmchBNPDwqx2L7l+8e5iUImU4KKQVIusUbTMwkTejHTiULcIdiI1KJSPGFOg9ZX
+         gXqro5HAZ1cCH3EW9xmKNgbTUPKKiImALrX0k0SlopAe7D9Y17LACU/7rU8uvPs8JcTq
+         l51vQEp4NdTHzDbj3Jl2Syali2QvDX3gJ4c2XfCYYljKeAhXCCyCr/nDqrrTPDjAaOrw
+         rEdSMlAbvcbkdxqF9DGNBL2J1M321mwRx5Dn0LTK42x+rhmE+NOc/j3dwtFigEgyFNNd
+         AuNm6fCn4a9Zpue2we/xkhm90uF+4H4h3ly/J5USCDmqCWaVNK2sAhhnB8QBAcIrcO0C
+         yr0g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793372652; x=1793977452; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793374061; x=1793978861; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=I9NMB8N1J0onZAcfPN60V09FP0FPSVmH42zxst9UC/0=;
-        b=ZO10KomD7p/pEe1MJ60Q0VAixmf3+a1I9ilVkHeE4ICb1qvYDuY/dZeW729UPslBVU
-         2nM/tQZLVQPE+DHRBBT6edUyuO2jdkoibVry8cWtnA8Zhn9uos/zp3tZ/gRc4VTaoJUN
-         Dgsz1ky0ZnmC5lSdHaXUNu7qv/0x89NN+VG+Ym/luMMVpFIbBMuXy0GoKBbG6lq05Q14
-         2F44Zme6PB5Fzhj2U1viTyz1/2a1GwGMrD5jgYXYAorPuOYk3tyWxQEm4F+UmG6fReCE
-         iqjHd3a65icLybYwHz3whgMkByIkT3KmVWnp3QW2T70AyUZe3mdLwuj6qzKg5n8SD4oa
-         h34A==
+        bh=gBnh0au+bqhOXvQQRGkJNLPo++sPE616YnlxDnGaF/g=;
+        b=zeAnGE1lO/YFPQbeGUhT0A2jtaZYna3dC38zb/tYJIz4kggdLBnvSDZENhMHjJu++V
+         V78HIfU7MRI8i7ZVUhlDG7/puvE5KPD2ITAcLNIGXHsHPESE3IbzPxVL6D2CtLV98bgu
+         r7uQURlPS2QG2ifbzoQqD6pef4SXPinOjYUSGqCWUvSbLkxaCKEex/hLWsJMpLwFkPP5
+         WKjx5UJmmrPUSJyAfrAzExy6un2cvF+mOUuQK/9c3L0+8VFhxSh1aImy5TBx7yELXxm/
+         bjK/XW01+uVx5zKQC0aFlBIxylWLKZhd5BL6jQfCg+0+Je3pko7Ct0AQo5VU3MNi9GF8
+         pdFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793372652; x=1793977452;
+        d=1e100.net; s=20260707; t=1793374061; x=1793978861;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=I9NMB8N1J0onZAcfPN60V09FP0FPSVmH42zxst9UC/0=;
-        b=mV8yTmQysq9DHJkpW3qDZtdnFq0WqX/PYqY5ygcGBKa/gOzEdvAWoCCvAqUMY9VYHA
-         vKMJi7NsYMB4g6XseokyUW4neRznlT4knBZPaHMiO39BhkVvOYL6jX5j4AwAzkYieFBi
-         /zR6FtMY2xJlJz4jD4R2zHK5y19YbHX4tOzPwWBeA09p0yZ03PqrHz1NW5ny+qJVDpU1
-         tNrjBmpaR7dxp71xYcvtU0mHyUz/odidgw3Ms8mP6Iaq0X6jfxIj+2xA4ZPiVZYCBFCO
-         6qJ+tABDb5C0Lia95BAgdsrU1LHsBU/CWEKADCLpAbP81W0XvzS/olprPBxdOCbFLEOR
-         FjVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzP/gWucUU9DBbS+z0IrSiD+qAD8KzjyFv69Rs2rj/XcJy3OJtdD9npC9h5Vco7C97LySM0MZ1vZm5l@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ2T997A5wNZQ/r8ZscmUUyXBhX4U2MLX7P4sVyihv/HrFuFuZe
-	xFF/nUZd3H5Y0KYxV4q8V3beleEtMg/fNvzyhDbIfdxW/qrtaJJoQsM5zBfGonZIP6qBlD/Hn00
-	f/E4x9K4VdCTgx4iC8rn1r7RmEK3Lfg7vUXnp
-X-Gm-Gg: AYBFou1eZ4nxwrO+PS3meH73lc/4m1WuwmP/gaNHtmOt6mjVDRA8sy6+9C5n/nBiatS
-	YhbRKKCD7WYLEpUtMz5hoVifeQkfRn0r27ki4ZcL7x7wCgg02SNxe1Rq+Fv4RgzyQ10yJzuEN0C
-	aA90dtpXQQ1nGh21PlgUn+mosfgbAB70Qh0A3ojK42sBu/IJOTgpJl8354tNbU7MqnB05QR+Xqx
-	S9muUweesNKlc+MYBIqi85W7yuwhwXwtVW6nzyIM1B7heow9TAXMpQf8yFguur9CRbU8foqzr6s
-	Q2OU87GXMhS7ATg2L2p5h72Ra1TnMROzD9x3ajEp3bbyDb17l/NsJe2x26s/d5LIR5alL4ABXFB
-	uhkrmeIDH8jS32WUhNlzHDTmeigbgx7GBvKKYzdyMmrYaJqDFKSXg5beB6OmSAhKtjpwz98+hch
-	HR2Nte3PtQHP7xQbU=
-X-Received: by 2002:aa7:d3cc:0:b0:6b4:5f93:33cd with SMTP id
- 4fb4d7f45d1cf-6b4d438456emr1602645a12.8.1793372651388; Fri, 30 Oct 2026
- 08:04:11 -0700 (PDT)
+        bh=gBnh0au+bqhOXvQQRGkJNLPo++sPE616YnlxDnGaF/g=;
+        b=VViCtL+5Fsmy6fUCJ4+ZPwbsI88lEGny6xiMDqNlQPK9+lIul3Jp5L1tZSgXvkwYwf
+         B64BokE0z95NVtxX6LqF7jsHSxxLUc95KFe+SqQ+24HM5rKmZNe0vErhNhhqSme0XRHS
+         Y2041DIdXGNzvsqySbdcMbPq+x6G5EQ+76T3GX9vRAwBtiFEhLGhfZR983WapxSRwCCY
+         BW+XMe8RfJHfGZXXkj/xN1mQcnkdXbd2EAtRVM+KT8JmCVLBX12tK1499A5KRDmpXdck
+         iMYEvjz84r4FOH+QphrhqUQz3Iu0JDFlQcIYtQinhEj/2mQSQTqiBDM+aKlbX7s8NmKc
+         tucg==
+X-Forwarded-Encrypted: i=1; AKwUvBzHC/YMdJirBRuINgw/zKV4v8I6Ww8j3CazV6LIXn+za2YU5zGa+cCD5QWr77xr/b//adTqNPZUfirR@lists.linux.dev
+X-Gm-Message-State: AFq9FYIpEkFnrD9XePTpGS634qRh8IXcXZEDuY62Wq+MTc684Th8UuU2
+	1RkCiwyGMh4JDQ3HweZZOcJadp0KuzKBV4XwDc7f1XQFulDYjA3T558MEhVaIvzR5Sw09SKjHhY
+	RfMvQgilJSj41muOUIri5yftpRjZrwuT3Wq6CaIU=
+X-Gm-Gg: AYBFou1U8abQZPVak+PVg5HBOtNo/UxxHnm/xKawgf5/umTICzxhZdR12nPXmar1FEw
+	5fFytbqHLZVZLxyO0e/NHDGQu2wF+YQoZHOzHodoZMlnOM2nIsah1V72LhNDOIWQr+E9V91mFpJ
+	NreLdodjJMEUMKSGUaWx/3tqbYJOrRGQUjgFK9kDREoxu2HmlLVDsuW2Ou6/8xia/d7KZW1Ym7e
+	o3JlG+A/yu9GPbuKirQryZDIeon9WsXjes5y8FzIL0mvQWWgIOpgNqk4LSf7ipdnwmB+Ermll0z
+	NzSqsPwSehnjKHZzFB1F3Vq79b7u2SGhhX9EwmwlIXqwB1kYDCcK1aqS/L1hraGERaNMFRcdqQW
+	6QxDSkgazoGWCI8HMuqxtay3OKouESSxxRc+NX0uj6JXXDRemSMDbA4UujOYvHdJpiHcuAg==
+X-Received: by 2002:a05:6402:2750:b0:6b3:cc4e:7c50 with SMTP id
+ 4fb4d7f45d1cf-6b4d4d7df33mr2083278a12.32.1793374061204; Fri, 30 Oct 2026
+ 08:27:41 -0700 (PDT)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -105,401 +104,185 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261028091215.914885-1-hanwenn@gmail.com> <20261028091215.914885-4-hanwenn@gmail.com>
-In-Reply-To: <20261028091215.914885-4-hanwenn@gmail.com>
+References: <20261028091215.914885-1-hanwenn@gmail.com>
+In-Reply-To: <20261028091215.914885-1-hanwenn@gmail.com>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 30 Oct 2026 16:04:00 +0100
-X-Gm-Features: AclHuK-IBEPehMVNY1QUHPJ3wFZtW_RFTfS0jY0jVwZP3YE-Bf_3UJctkry6yVo
-Message-ID: <CAOQ4uxifRX0mnMXXCwVEy57_ecqjEHF6w7pE9sqvMr341ixCxg@mail.gmail.com>
-Subject: Re: [PATCH 3/7] fuse: fill the negative lookup cache from complete
- READDIRPLUS passes
+Date: Fri, 30 Oct 2026 16:27:29 +0100
+X-Gm-Features: AclHuK98Hkot19yNzs8o6P0CNkrnmjrZ6ce5PgyXlQTdkCXp8G1mQvsd0CU1TEA
+Message-ID: <CAOQ4uxiQcyZv8B50MKM+Gn==JcoAVbgbCGBneXJhXUwR5X8ppA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] fuse: use readdir result to shortcut negative lookups
 To: Han-Wen Nienhuys <hanwenn@gmail.com>
 Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 28, 2026 at 10:15=E2=80=AFAM Han-Wen Nienhuys <hanwenn@gmail.co=
+On Wed, Oct 28, 2026 at 10:12=E2=80=AFAM Han-Wen Nienhuys <hanwenn@gmail.co=
 m> wrote:
 >
-> Add FOPEN_COMPLETE_DIR, with which the server marks a directory at
-> OPENDIR, promising to announce remote additions with
-> FUSE_NOTIFY_INVAL_ENTRY. When such a directory is read with READDIRPLUS
-> from offset 0 to EOF, build its name filter from the returned names.
-> This needs no extra transfer. Readdir holds the directory lock only per
-> request, so local modifications in between are caught by the names
-> generation, sampled at offset 0. The flag is per OPENDIR, as READDIRPLUS
-> replies have no header to carry it.
+> FUSE servers can respond to LOOKUP requests with {OK, nodeID=3D0} to
+> indicate an entry is not present, and the negative entry can be cached
+> for a specified interval. This helps reduce the number of LOOKUP
+> calls, but it is still problematic: each negative dentry still costs a
+> roundtrip. Since the universe of non-existing files is unlimited, in
+> practice we must still do many roundtrips.
 >
-> The filter expires with the entry timeout of ".", which is otherwise
-> unused, so the server can choose it, also for an empty directory. If "."
-> has no nodeid, the smallest timeout of the other entries with a nodeid
-> is used, so that no negative answer outlives a positive one the server
-> handed out. Without any timeout, no filter is built.
+> We can do better: once the kernel has read directory contents (through
+> READDIRPLUS), the server has specified which positive dentries
+> exist. In most file systems, this means that all other lookups in
+> the directory should yield negative results, and we can spare
+> ourselves the roundtrips.
 >
-> Names are collected per struct fuse_file, as hashes in a temporary
-> array, since their number is only known at EOF. The collection is
+> In this patch series, we collect filename hashes from directory reads,
+> and use them to populate a Bloom filter once the read is
+> finished. Then, on lookup, if we don't find the name in the Bloom
+> filter, we skip the roundtrip and return a negative result
+> immediately.
+>
+> The Bloom filter is space efficient, while still allowing efficient
+> updates when entries are added through MKDIR/CREATE/LINK operations.
+>
+> The TTL of the Bloom filter is derived from the entry TTL of the "."
+> entry, if specified, or the minimum TTL of the positive entries. We
+> use READDIRPLUS rather than READDIR, because the latter has no channel
+> to signal a TTL.
+>
+> Once the filter is in place, the server should rarely get lookups in
+> the directory. If the server does get lookups, this can mean two
+> things:
+>
+> 1) the filter has expired
+> 2) it was a false positive from the Bloom filter
+>
+> To address case 1), the server should be able to trigger repopulating
+> the filter, but because of 2), issuing a normal readdir
+> unconditionally is expensive, and the server may not have access to
+> the mountpoint anyway.
+>
+> To solve this, we add a new notify method, which can return EALREADY
+> (the filter is still valid; no further side effect) or OK (there is no
+> filter; trigger a new READDIRPLUS to populate the filter again). The
+> notify does not wait for the server, so it can be sent from the LOOKUP
+> handler itself.
+>
+> The kernel reads the directory from a work item, with synchronous
+> OPENDIR, READDIRPLUS and RELEASEDIR requests made on behalf of no
+> process. The work items run on a workqueue per connection, so a server
+> that does not reply only holds up its own reads, and at most 8 run per
+> connection; further notifications fail with EBUSY.
+>
+> The notification also lets a server preemptively load a directory:
+> READDIRPLUS is attractive because a single roundtrip can load many
+> entries, reducing overhead, but many programs (eg. GCC) only cause
+> single file lookups, and never issue readdir.
+>
+> Unfortunately, virtiofs currently does not support notifications in
+> general, so the latter benefits are not available for virtiofs.
+>
+> The series is organized as follows:
+> * patch 1 fixes lookup references leaked on READDIRPLUS errors. It is
+>   independent of the rest.
+> * patch 2 adds the Bloom filter machinery
+> * patch 3 populates the filter from READDIRPLUS results
+>   (FOPEN_COMPLETE_DIR)
+> * patches 4-6 prepare for reading a directory from a work item, without
+>   functional change: readdir without a struct file, requests on behalf
+>   of no process, and opening and releasing a file for the kernel itself
+> * patch 7 adds the notify method.
+>
+> To support this feature in userspace, the server only needs to reply
+> with FOPEN_COMPLETE_DIR flag for the OPENDIR opcode. I did this in
+> Go-FUSE, and added tests and benchmarks for the feature. Tests ran
+> against a kernel with debug/paranoia settings. Benchmark against a
+> kernel with production settings.[1]
+>
+> An i5-8350U pinned at 2 GHz yields the following performance numbers,
+> in median ns/op over 11 runs:
+>
+>     ReadDirEntCompleteDir (per entry)      2,281
+>     ReaddirplusHint (per entry)            1,801
+>     NegStatUncached (LOOKUP round trip)   22,192
+>     NegStatCached (dcache hit)               797
+>     NegStatUncachedDir (Bloom filter)      1,587
+>
+> This was a synthetic, in-memory file system serving a directory with
+> 500 entries, using the Go-FUSE high-level API running against
+> /dev/fuse, measured with single threaded access to the mountpoint, and
+> GOMAXPROCS=3D2. ReaddirplusHint drops the filter with
+> FUSE_NOTIFY_INVAL_INODE and has the kernel read the directory again
+> with the new notification; it is cheaper per entry than getdents(), as
+> no entries are copied to userspace.
+>
+> The bloom filter is sized to 10 bits per entry, but then rounded to a
+> power of 2. For 500 entries, this yields 8192 (16.4 bits per entry),
+> with an expected false positive rate of 0.0006/op; the benchmark sees
+> 0.0004/op.
+>
+> So, the Bloom filter yields a 14x speed up on uncached negative
+> lookups, at the cost of a full directory read. This pays off if
+>
+>    size-of-dir < (cost_LOOKUP - cost_BLOOM)/cost_DIRENT * unique-negative=
+-lookups
+>                =3D 9 * unique-negative-lookups
+>
+> As a practical one-point sample: one of my open source C++ projects
+> (lilypond) shows that a single G++ invocation gets ENOENT for 145
+> unique names under /usr/include/libpng16, a directory with 3 entries,
+> so scenarios where this is a win are easy to find.
+>
+> This code was written and reviewed with Claude Opus 5.5. The plan is
+> included in [1].
+>
+> It may be interesting to lift the Bloom filter into the VFS, for two
+> reasons:
+>
+> - other filesystems could benefit from this performance optimization,
+>   if the negative lookup is expensive.  In particular: NFS, CephFS and
+>   overlayfs.
+>
+> - the Bloom filter uses little memory, and makes negative dentries
+>   cheap to recreate.  This could justify a more aggressive reclaim
+>   policy for them.
+>
+> However, unlike the FUSE case, there is no way for a server to
+> request a readdir, so it would need kernel-side heuristics to guess
+> when this pays off.
+>
+> Open questions:
+>
+> - Where should the filter TTL come from? The entry timeout of "." is
+>   convenient because of backward compatibility, but it feels like a
+>   hack.  Alternatively, we could extend fuse_open_out (or repurpose
+>   the space for backing_id in case of directories).  This has the
+>   added advantage that we could populate the negative filter from
+>   READDIR as well. Then again, READDIRPLUS is better overall because it a=
+lso
+>   loads positive entries with little overhead.
+>
+> - Should filters be reclaimed under memory pressure, and if so, how?
+>   The filter costs ~2 bytes per file name, which seems little, but can
+>   grow to 512kb for a large directory.
 
-Since the server is communicating TTL in "." entry, how about letting it
-communicate the expected collection size in st_size or st_blocks of directo=
-ry?
+Thinking out loud.
 
-This is generally what directory size means and many filesystems
-can have this number ready to publish without a full readdir.
-Not sure if the contract of FOPEN_COMPLETE_DIR should include this or not.
+Is  it really important to support FOPEN_COMPLETE_DIR without
+FOPEN_CACHE_DIR? The two feature seems to have correlated
+use cases.
 
+Bloom filter is built at EOF, so it could be built at the end offset of the
+readdir cache buffer.
 
-> abandoned on a seek, an error, or more than 2^18 names. While
-> collecting, READDIRPLUS is forced, as READDIR carries no timeouts. A
-> pass served from the readdir cache (FOPEN_CACHE_DIR) collects nothing,
-> so an expired filter is not rebuilt until the cache is.
->
-> Signed-off-by: Han-Wen Nienhuys <hanwenn@gmail.com>
-> Assisted-by: Claude:claude-opus-5-5
-> ---
->  fs/fuse/dir.c             |   1 +
->  fs/fuse/fuse_i.h          |   3 +
->  fs/fuse/inode.c           |   2 +-
->  fs/fuse/readdir.c         | 146 ++++++++++++++++++++++++++++++++++++--
->  include/uapi/linux/fuse.h |  16 ++++-
->  5 files changed, 162 insertions(+), 6 deletions(-)
->
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 10efd6d32c0c..07a3aab51704 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -1951,6 +1951,7 @@ static int fuse_dir_open(struct inode *inode, struc=
-t file *file)
->
->  static int fuse_dir_release(struct inode *inode, struct file *file)
->  {
-> +       fuse_readdir_names_release(file->private_data);
->         fuse_release_common(file, true);
->
->         return 0;
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 2a75c9597811..7306493f8a2a 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -343,6 +343,8 @@ struct fuse_file {
->                 /** @version: Version of cache we are reading */
->                 u64 version;
->
-> +               /** @names: listing being collected for FOPEN_COMPLETE_DI=
-R */
-> +               struct fuse_dir_names_builder *names;
->         } readdir;
->
->         /** @polled_node: RB node to be linked on fuse_conn->polled_files=
- */
-> @@ -1274,6 +1276,7 @@ int fuse_set_acl(struct mnt_idmap *, struct dentry =
-*dentry,
->
->  /* readdir.c */
->  int fuse_readdir(struct file *file, struct dir_context *ctx);
-> +void fuse_readdir_names_release(struct fuse_file *ff);
->
->  /* dir_names.c */
->
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index c5229eed363d..5647089eaa5a 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -1508,7 +1508,7 @@ static struct fuse_init_args *fuse_new_init(struct =
-fuse_mount *fm)
->                 FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
->                 FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
->                 FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDM=
-AP |
-> -               FUSE_REQUEST_TIMEOUT;
-> +               FUSE_REQUEST_TIMEOUT | FUSE_HAS_COMPLETE_DIR;
->  #ifdef CONFIG_FUSE_VDAX
->         if (fm->fc->vdax)
->                 flags |=3D FUSE_MAP_ALIGNMENT;
-> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-> index f719545d5f59..77fcfd1c7343 100644
-> --- a/fs/fuse/readdir.c
-> +++ b/fs/fuse/readdir.c
-> @@ -13,6 +13,125 @@
->  #include <linux/vmalloc.h>
->  #include <linux/namei.h>
->
-> +/*
-> + * Names of a listing that is being read with FOPEN_COMPLETE_DIR.  The n=
-umber of
-> + * names is only known at EOF, so the filter is built from these hashes =
-then.
-> + */
-> +struct fuse_dir_names_builder {
-> +       u64 *hash;
-> +       unsigned int count;
-> +       unsigned int size;
-> +       /* entry timeouts of ".", and the smallest of the others; or U64_=
-MAX */
-> +       u64 dot_expires;
-> +       u64 expires;
-> +       int epoch;
-> +       /* names generation when the listing was started */
-> +       u64 gen;
-> +       /* ctx->pos expected by the next getdents call */
-> +       loff_t pos;
-> +};
-> +
-> +void fuse_readdir_names_release(struct fuse_file *ff)
-> +{
-> +       struct fuse_dir_names_builder *nb =3D ff->readdir.names;
-> +
-> +       if (!nb)
-> +               return;
-> +       kvfree(nb->hash);
-> +       kfree(nb);
-> +       ff->readdir.names =3D NULL;
-> +}
-> +
-> +static void fuse_readdir_names_start(struct file *file)
-> +{
-> +       struct fuse_file *ff =3D file->private_data;
-> +       struct inode *inode =3D file_inode(file);
-> +       struct fuse_dir_names_builder *nb;
-> +
-> +       fuse_readdir_names_release(ff);
-> +
-> +       nb =3D kzalloc_obj(*nb, GFP_KERNEL_ACCOUNT);
-> +       if (!nb)
-> +               return;
-> +       nb->dot_expires =3D U64_MAX;
-> +       nb->expires =3D U64_MAX;
-> +       nb->epoch =3D atomic_read(&get_fuse_conn(inode)->epoch);
-> +       nb->gen =3D fuse_dir_names_gen(inode);
-> +       ff->readdir.names =3D nb;
-> +}
-> +
-> +static void fuse_readdir_names_collect(struct file *file,
-> +                                      struct fuse_direntplus *direntplus=
-)
-> +{
-> +       struct fuse_file *ff =3D file->private_data;
-> +       struct fuse_dir_names_builder *nb =3D ff->readdir.names;
-> +       struct fuse_conn *fc =3D get_fuse_conn(file_inode(file));
-> +       struct fuse_dirent *dirent =3D &direntplus->dirent;
-> +       struct fuse_entry_out *o =3D &direntplus->entry_out;
-> +
-> +       if (!nb)
-> +               return;
-> +
-> +       if (o->nodeid) {
-> +               u64 expires =3D fuse_time_to_jiffies(o->entry_valid,
-> +                                                  o->entry_valid_nsec);
-> +
-> +               if (dirent->namelen =3D=3D 1 && dirent->name[0] =3D=3D '.=
-')
-> +                       nb->dot_expires =3D expires;
-> +               else
-> +                       nb->expires =3D min(nb->expires, expires);
-> +       }
-> +
-> +       if (name_is_dot_dotdot(dirent->name, dirent->namelen))
-> +               return;
-> +
-> +       if (nb->count =3D=3D nb->size) {
-> +               unsigned int size =3D max(nb->size * 2, 64U);
-> +               u64 *hash;
-> +
-> +               if (size > FUSE_DIR_NAMES_MAX)
-> +                       goto abort;
-> +               hash =3D kvrealloc(nb->hash, size * sizeof(*hash),
-> +                                GFP_KERNEL_ACCOUNT);
-> +               if (!hash)
-> +                       goto abort;
-> +               nb->hash =3D hash;
-> +               nb->size =3D size;
-> +       }
-> +       nb->hash[nb->count++] =3D fuse_dir_name_hash(fc, dirent->name,
-> +                                                  dirent->namelen);
-> +       return;
-> +
-> +abort:
-> +       fuse_readdir_names_release(ff);
-> +}
-> +
-> +static void fuse_readdir_names_publish(struct file *file)
-> +{
-> +       struct fuse_file *ff =3D file->private_data;
-> +       struct fuse_dir_names_builder *nb =3D ff->readdir.names;
-> +       struct fuse_dir_names *names;
-> +       unsigned int i;
-> +       u64 expires;
-> +
-> +       if (!nb)
-> +               return;
-> +
-> +       /* "." is never looked up, so its timeout is for the listing */
-> +       expires =3D nb->dot_expires !=3D U64_MAX ? nb->dot_expires : nb->=
-expires;
-> +       if (expires =3D=3D U64_MAX)
-> +               goto out;
-> +
-> +       names =3D fuse_dir_names_alloc(nb->count, expires, nb->epoch);
-> +       if (!names)
-> +               goto out;
-> +       for (i =3D 0; i < nb->count; i++)
-> +               fuse_dir_names_insert(names, nb->hash[i]);
-> +       fuse_dir_names_publish(file_inode(file), names, nb->gen);
-> +out:
-> +       fuse_readdir_names_release(ff);
-> +}
-> +
->  static bool fuse_use_readdirplus(struct inode *dir, struct dir_context *=
-ctx)
->  {
->         struct fuse_conn *fc =3D get_fuse_conn(dir);
-> @@ -365,8 +484,14 @@ static int parse_dirplusfile(char *buf, size_t nbyte=
-s, struct file *file,
->                            which we did not link.
->                         */
->                         over =3D !fuse_emit(file, ctx, dirent);
-> -                       if (!over)
-> +                       if (!over) {
->                                 ctx->pos =3D dirent->off;
-> +                               /*
-> +                                * Only names the caller takes: the rest =
-of the
-> +                                * reply is sent again by the next reques=
-t.
-> +                                */
-> +                               fuse_readdir_names_collect(file, direntpl=
-us);
-> +                       }
->                 }
->
->                 buf +=3D reclen;
-> @@ -426,9 +551,12 @@ static int fuse_readdir_uncached(struct file *file, =
-struct dir_context *ctx)
->  {
->         int plus;
->         ssize_t res;
-> +       struct fuse_file *ff =3D file->private_data;
->         struct inode *inode =3D file_inode(file);
->         struct fuse_mount *fm =3D get_fuse_mount(inode);
->         struct fuse_conn *fc =3D fm->fc;
-> +       bool complete =3D fc->do_readdirplus &&
-> +                       (ff->open_flags & FOPEN_COMPLETE_DIR);
->         struct fuse_io_args ia =3D {};
->         struct fuse_args_pages *ap =3D &ia.ap;
->         void *buf;
-> @@ -441,7 +569,14 @@ static int fuse_readdir_uncached(struct file *file, =
-struct dir_context *ctx)
->         if (!pages)
->                 return -ENOMEM;
->
-> -       plus =3D fuse_use_readdirplus(inode, ctx);
-> +       if (complete && !ctx->pos)
-> +               fuse_readdir_names_start(file);
-> +       else if (ff->readdir.names && ff->readdir.names->pos !=3D ctx->po=
-s)
-> +               fuse_readdir_names_release(ff);
-> +
-> +       /* Collecting needs entry timeouts */
-> +       plus =3D (complete && ff->readdir.names) ||
-> +              fuse_use_readdirplus(inode, ctx);
->         if (plus) {
->                 attr_version =3D fuse_get_attr_version(fm->fc);
->                 evict_ctr =3D fuse_get_evict_ctr(fm->fc);
-> @@ -456,10 +591,9 @@ static int fuse_readdir_uncached(struct file *file, =
-struct dir_context *ctx)
->                 goto out;
->
->         if (!res) {
-> -               struct fuse_file *ff =3D file->private_data;
-> -
->                 if (ff->open_flags & FOPEN_CACHE_DIR)
->                         fuse_readdir_cache_end(file, ctx->pos);
-> +               fuse_readdir_names_publish(file);
->                 goto out;
->         }
->
-> @@ -479,7 +613,11 @@ static int fuse_readdir_uncached(struct file *file, =
-struct dir_context *ctx)
->         /* The server took lookup references also for entries not linked =
-*/
->         if (plus && res < 0)
->                 fuse_direntplus_forget(inode, pages, parsed, nbytes);
-> +       if (!res && ff->readdir.names)
-> +               ff->readdir.names->pos =3D ctx->pos;
->  out:
-> +       if (res < 0)
-> +               fuse_readdir_names_release(ff);
->         kfree(ap->folios);
->         release_pages(pages, ap->num_folios);
->         kfree(pages);
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 616430a2973c..32331c9b49b3 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -257,6 +257,9 @@
->   *  - add backing_id_64 to fuse_open_out
->   *  - add FUSE_NOTIFY_BACKING_MAP, fuse_notify_backing_map_out, fuse_ext=
-ent
->   *  - add FUSE_BACKING_MAP_CREATE, FUSE_BACKING_MAP_CYCLIC
-> + *
-> + *  7.48
-> + *  - add FOPEN_COMPLETE_DIR and FUSE_HAS_COMPLETE_DIR
->   */
->
->  #ifndef _LINUX_FUSE_H
-> @@ -292,7 +295,7 @@
->  #define FUSE_KERNEL_VERSION 7
->
->  /** Minor version number of this interface */
-> -#define FUSE_KERNEL_MINOR_VERSION 47
-> +#define FUSE_KERNEL_MINOR_VERSION 48
->
->  /** The node ID of the root inode */
->  #define FUSE_ROOT_ID 1
-> @@ -406,6 +409,14 @@ struct fuse_file_lock {
->   *                           (FUSE_URING_ZERO_COPY) and the request carr=
-ies page
->   *                           payload. Otherwise reads/writes fall back t=
-o
->   *                           copying.
-> + * FOPEN_COMPLETE_DIR: a complete READDIRPLUS listing of this directory =
-is
-> + *                     authoritative: names not in it are looked up as
-> + *                     negative without sending FUSE_LOOKUP.  This holds
-> + *                     until the entry timeout of "." expires, or if "."=
- has
-> + *                     nodeid 0, the smallest entry timeout of the entri=
-es
-> + *                     with a nonzero nodeid.  "." does not count as a
-> + *                     lookup.  LOOKUP must only resolve names in the
-> + *                     listing, byte for byte (eg. no case folding).
->   */
->  #define FOPEN_DIRECT_IO                (1 << 0)
->  #define FOPEN_KEEP_CACHE       (1 << 1)
-> @@ -416,6 +427,7 @@ struct fuse_file_lock {
->  #define FOPEN_PARALLEL_DIRECT_WRITES   (1 << 6)
->  #define FOPEN_PASSTHROUGH      (1 << 7)
->  #define FOPEN_IO_URING_ZERO_COPY (1 << 8)
-> +#define FOPEN_COMPLETE_DIR     (1 << 9)
->
->  /*
->   * INIT request/reply flags
-> @@ -480,6 +492,7 @@ struct fuse_file_lock {
->   *             privilege that mounting virtiofs or fuseblk requires).
->   *             Insufficiently privileged servers ignore it.
->   * FUSE_PASSTHROUGH_V2: use 64 bit server allocated backing ID
-> + * FUSE_HAS_COMPLETE_DIR: kernel supports FOPEN_COMPLETE_DIR
->   */
->  #define FUSE_ASYNC_READ                (1 << 0)
->  #define FUSE_POSIX_LOCKS       (1 << 1)
-> @@ -530,6 +543,7 @@ struct fuse_file_lock {
->  #define FUSE_HAS_IO_URING_BUFPOOL (1ULL << 43)
->  #define FUSE_HAS_SYNCFS                (1ULL << 44)
->  #define FUSE_PASSTHROUGH_V2    (1ULL << 45)
-> +#define FUSE_HAS_COMPLETE_DIR  (1ULL << 46)
->
->  /*
->   * CUSE INIT request/reply flags
-> --
-> 2.56.0
->
->
+I also think it may be worth having a mode that invalidates the bloom
+filter along with readdir cache on mtime change.
+
+This is a lower bar for servers that don't want to notify on all dir change=
+s.
+In this case, the lifetimes of the readdir and bloom filter are aligned
+and truncating the page cache gets rid of them both.
+
+Not having to deal with custom memory shrinkers seems like
+an advantage for the first release.
+
+Is this making any sense?
+
+Thanks,
+Amir.
