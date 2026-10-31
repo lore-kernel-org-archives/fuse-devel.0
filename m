@@ -1,114 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.152
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793400547;
-	b=oThwf5W3NjHKq4aaPy61ySaPM40SCpWOv9PIyhpcsxQpuRYOZX1D05Qa/VPqydwY8kfc
-	 osjGlMWtxTsyWI42EBlpWWFcVhHb1AYl82LTT4ais7tjZIoK/yrsgU71YakqhsKD4Nyp0
-	 MBK8H2ijFKdiyCD0K5+u/w9jpVnvU5TWxNh1NaAafHE/iPKJLFMhpPONx0snRIM/3keH9
-	 0d6IwOa09pQsM4LUxYufrBgBNNC9F6HkK4PIHvEWSQwwMUapzwTR2/rSUXNjHnWwST7TA
-	 W4lLJ18c+R91R/8TRhpmM8d4DZLPR/I3RJpc67IKM3Il6lkIOTl7YRfncls0wpsCz3A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793400547;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Content-Type:Content-Transfer-Encoding:MIME-Version:From:To:
-	 Cc:Subject:In-reply-to:References:Date:Message-id:Reply-To;
-	bh=fT+OQrSBFiPM7CM2+FPmKMpeUOAFK5ZNFYv+xxEStMQ=;
-	b=cTXCmgoA7A3w0kWoCAoaPInqL3AUVhWcGGlVdIpmfOFtB6Km8B6IYRA/Wtuzvz9kBAo/
-	 8G/N0LVFYDwZC/qhiaybQJjHYj5Yo9I3IfnZdmh9n1DPwnkRN/io8sy/YXfEJj6Chdx2u
-	 PjhXIiqA2n/915trxqa89R2N3HsMCmiz/4d6XI7jypv3Y/FgMtbdgpM8blOS3o4MJdTNd
-	 TtIq15Ocs8tMcz/bPfBVvFlj1ubUWUe86XFqH6t16Ozm7GjozZENzXH3kmVk/iMhxxSZK
-	 MvCNCeMLbTc/0AtXN2TcnXz8bPFBaEZXesRX1tg0Hy91KRccXFXhGe4qiwQ7+T4FQKg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ownmail.net;
-	spf=pass smtp.mailfrom=ownmail.net;
-	dkim=pass header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=PS9N+iyH;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b="fpd/+Nyg";
-	arc=none smtp.remote-ip=202.12.124.152
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793457653;
+	b=2sctdyGqniybp4/pM0cKJZ11af98md9++vPIaHvEpKtOfbdw6H5eHfUzAitonyRSYSp7
+	 0Enu9Hs014VAdts6whwUFR00gtTS0ZKVAQTLr1CWJyUeqjjlXGLEq5oNHWUiy8WPoccRR
+	 C/EPIPFuTmZrZK/0DOqT/hg97NRmZJxemBBaPpGD2QVxPm9RPbAh5cA5nZ1v30MWXR+qO
+	 dS4iCh49tuQZme2ntEOoDQ/nhay7C0J60qT3lXSQTjPQ3mpaY+8iP6UHcj3hhSE0x3QSk
+	 oFDgLUOxnhqQLSJbzAVDkBO1Z6oFAO/1DqDBWMxp23j6VsotxV9abjrFg623/Y2WBcw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793457653;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=YJ9qW9t1xQBiVaYVvO0c+cru51d6nXoaWQfa1b/mglo=;
+	b=WzvJNkqxzOBOGXB4eI50m03f/RgyDT26yL0+gZTMjQoZ19ihyjI8rEpPcEon40gsgfCg
+	 pMoiBxI6EMjKhBPFtGDkZk/Nvii9uxX1MNYMNPvhrxUiXicYqh79g2qnofRiEX6FWuPBq
+	 7Cdg09guU1Ij+EbDFKQ4z4TStDxif/0svt1dKz2z6DWTc5X+VpW3Wqnx7+ok3qlwf042t
+	 XKczMNxQ9olsDBgeOpaZ6PQ6xIKrUIaa7V7SmBqvTR05VK5TMUg4FGPjjhKqZFfs/Rnxq
+	 4RnfuAWK/DBl4ykwTEILhSFLRsQ7UDDFqMcO36iddfshEQNH+LdGgpw+urj5AiGKegQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GDzxJmVM;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.41
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC11606A31C
-	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 22:49:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CC11606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8410E606A31A
+	for <fuse-devel@lists.linux.dev>; Sat, 31 Oct 2026 14:40:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8410E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ownmail.net header.i=@ownmail.net header.a=rsa-sha256 header.s=fm2 header.b=PS9N+iyH;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=fpd/+Nyg
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C55157A0164
-	for <fuse-devel@lists.linux.dev>; Fri, 30 Oct 2026 18:49:06 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Fri, 30 Oct 2026 18:49:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1793400546; x=1793486946; bh=fT+OQrSBFiPM7CM2+FPmKMpeUOAFK5ZNFYv
-	+xxEStMQ=; b=PS9N+iyHnT4SMV+a/5c60a0KDAN+qLUOhwPxsPf8FvyRlReqeoM
-	ZKzC2gz10eGm6Xb+LCe7Uaf+VTnB5ez1QO4Ju1X8TC5WnUBoFBAQuKxrFPg1mwe+
-	19QiR+P2mq+MENxmsyM+n6auS8jyh07lASywIS4UrNIBUXI98D/CuGtz9Qwm4+EI
-	5oegIepvdq5bVQ35iC5BwDihY6D6mVtidHzw7vCHEGpT6eS+ffOuzORsYvvAlRYk
-	+hTj8LK6XXQhcpcPVrD1Dord/1vX7Nq08cK4pwiwXjKzlF4HJYyceh84Y7bd4RF2
-	vO+LbalL09KOClfxZh48T9NqHa1NU/EAAcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793400546; x=
-	1793486946; bh=fT+OQrSBFiPM7CM2+FPmKMpeUOAFK5ZNFYv+xxEStMQ=; b=f
-	pd/+Nygh3CC5o6XjAnJqNd7/+xlGjWygAWneG+6aeJhzHWQuZI7JACPn8LtKmZcP
-	b+rcRyP1XqQX7oeiJStxONo8vrHRd8sKvBw1u88TuDv2voTzddTN0VXKirciUsRS
-	/KEu16Fmjokp8aIXdsq0rAMGMeT+w/F1FFgR0PVVryOETCCz0IXfTFPBnntApis1
-	D6tcLnaSK4goaimJtLlcne8HMdqEUUiyubFF3XDjs7usEhDFM2l4dNIKC0yFrSlH
-	vXiYVO1MkhF1eEcp9NVzyJhm2nZvTHuX3KONiOOTq197oFFHsgFIMSk5Q4PNsBwc
-	Ur4enULKWw+8jDBG90Okg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=ownmail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793400546; d=ownmail.net;
-	mf=PG5laWxiQG93bm1haWwubmV0Pg==;
-	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:Fvrt6JJ+d0XTFlBQKs0ng0bzbwxk9zqw/2YLbAVkZpAuyBI
-	Xao2bY1IAcXHn8W0RbmjiB1KzNrXC0CkXGkvMH5xqZRHMWGQ5fPXrU6aHCejD6xX
-	e5m6I/xXFicZ+c0n6YJ/DhKJYkQ6Air2Ai3VUklRXe/WifUjEZFdLgC4s2gFj8gJ
-	YbrLmQpDXojR5qpSvEQ3CwfDUQdkzDYEYWFU60j7fJ2BVdzNMUaqPkzTG68E9LHk
-	aXqrXd3yOCNFuhbiLgskbWT5bKnKlyiecBWzvc+fYluPSGWOZA0LG0FCsjt8i3Rc
-	Dy6tHZozawctI/ZYzEVDqq1aySLsg+mddqd93jg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,reply-to,
-	subject,to;
-Message-Instance: m=1; h=sha256:qXyJA32715ys7VP3B1xOVzqg3w5XTTlw5JUhnW6+wj4=:vDPxt7fnzMYx869eXAmOq9q1872D0rg0gCFSZrL8AIc=;
-X-ME-Sender: <xms:4R7lat06Onejd_rg7tIjnRHPiiea8EouIsjq2brQvjJV6nTctbU8Qg>
-    <xme:4R7lapBT9gsEnrMHz1jmbPZgn2fTtvOvJgprKX_GdMxy0sgNRFM05Xk_PB7JjhStv
-    ogcyioeZt6BMgXDdQdnJRxSLl4JrSsHi3Q7MiKVE3qh64xGMAQ>
-X-ME-Received: <xmr:4R7laiIkNdElKXokxRcGLlZIkuuSCdToGA8Ra0uCkNjGWQ5mMT-X9-UWrEpm8gXNx0osEqg--QzVPtdMxCS502UNDwDnvhA>
-X-ME-Proxy-Cause: dmFkZTGx86ixzxqFr7DG5/S+744NrKiMWwWjcvwQgnQsFo0EefnYYiMCulkqJ66UugMNng
-    wBjrtDzZ9TVctwx69E6l9V6DCeOYO5IVpg0/LuX8q4d9e7MMEroZDzSAG+16bTxU4Cs4W/
-    qJYGJymIE57pCF1demnq8FKiwEwzYTZ+otHY6fNFhvZoPPh7ihGsD9OJOnpZggc5jK2Smh
-    Foc7k1wenTtcAkSuWiFJYkQL7w/61fGJVHGwTP4S7QDytK3Qpuf/Pjxl3s8wtxVOAoUJDh
-    Y2btYl4iyNxh6Gt2M/IwEQIAaZRkBpKc77GWwe3V7M4vJL0v1zYwbOcqmmv20+Kv/ZiCYF
-    8X2fMpcGjNemVu4DAdpXQQRkXJ41n9tWX9EgGONLKa3JJW6UhiF5DjydZGI/X5jzi5AmQQ
-    XhaHdiQbLZ0K7KlPNbBzFzWBNf+SKwmyrptTuf9B9gCV2feh2+uujl0h1fqwtNsqLHlgx/
-    t91zaNbcj959uefyoqOUfgz4SyuymeiQ11h1mvQ0wEckM9erqmptNBSUXBh9gJve2/Ak1V
-    0Wu2sv9TqKogMUGDJqsfEoGwCmevfA4Mtta5TZeC9n7jbAXIiF7nSGAh4EFMP97yax09X4
-    0I5J8HGSdK7lE4iFKjIZ/pYscqxIZzEZEkG9mq6XfElLOTl9w+7X9NnurVeQ
-X-ME-Proxy: <xmx:4R7laqmkEK8LRQbivM0TwxF9Ak7rr0X6vAgr1jeIYoTyJlFnGTK6NQ>
-    <xmx:4R7lajbu2KBRaJCwWD0Hk06wlXa5mdxw6VzIsMVuB6AMKdBiKdPtaA>
-    <xmx:4R7lau_X9Ue_K63IwrYA9xCTmqlpgDKAkbuAYrGFkM7q6Gss8sx1DA>
-    <xmx:4R7laqbjp0lKHVX3CJRzgCmeSz9zeCEBQznXBQuxEcqDLvg2nfg9LQ>
-    <xmx:4h7lavoy-TdniUV-G_sUPk_FrW_0IPsFOCJ412qdhJqQ7r3dt-bnZJNv>
-Feedback-ID: i9d664b8f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 30 Oct 2026 18:49:02 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GDzxJmVM
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c247f6687dcso286113266b.2
+        for <fuse-devel@lists.linux.dev>; Sat, 31 Oct 2026 07:40:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793457652; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TwDIDoUQazCjn2WJ7e6vkw1LO/67G+Hl4zWbPnriom4hzWU9ghL3gt9cwp7G4blOlk
+         cQ8CNUlYvf2SP7bl/rkVxdCOHdAw2zuMGvx9Pg0Op0dK6FEZ/d9wZciAoqkD7YpDnesp
+         erktXpRe/Jqlvy7gtXvPeXA9fYqTB2pvrVuSStUuPUAjx1EDmfsnPgbAajlHW/ZgCxdX
+         F9yWZjJ098OeoqdSnIIj7NLUTBTSONs/IVrPdIJmab4ng3imvPDSer1KA69z5eX1WJ40
+         W0hmIKhlAEIZ1IOUN5P+0S/Nuz0XirvFOZCdno4FGcNs+mtcFAfqcUhNaM9D2yRDbtDV
+         oSww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YJ9qW9t1xQBiVaYVvO0c+cru51d6nXoaWQfa1b/mglo=;
+        fh=i2wX4/Ud7fvPTQKpHeZCmYwQIO7t6mzcAZF2sRwoX3k=;
+        b=CKfFk29tom97vVrIjtCcsyLva0qimQGoMUFZ3Oxnta3QmxZHjqV/gDqA4F3Q4dw81G
+         Uza6M2svS7zzGboCioDx9/+409vpvRgFzETB7zWzBmg+rhRt9wvlXcCYzgcpokHqQ6S7
+         VGiXOeEX54jmLmN/VHyMzJlO4BR47/ovZOUGNmxv8CtH0jU8zhtEfJmI58K+Ugk5vMtz
+         ml4wmeBTS64GaYU8gbB6nmpdKthzgwokc858fkW0Osox2aUjxAtu1hp8b2YuYoMpwl6M
+         ZXvhilg2MEhQB+7nZLSb66rHSnJx4XMqVSg2C873Yc77tlMVvidKnLdyYpG15ftQBYEg
+         kJHw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793457652; x=1794062452; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YJ9qW9t1xQBiVaYVvO0c+cru51d6nXoaWQfa1b/mglo=;
+        b=GDzxJmVMwtGlTHMVeowasuio8zFbzVnhdqlGmUAczhLVSub+UladCvENG+J/yZ9vgu
+         /v8t2FLyVBRFSBH34+d7rVn5zxLwita+FTzbAiUS34gwhrnIbUJ3JC/Py4hJJGtNJbAm
+         84d5gWSra/wkAf2f5iBL2LE635RYelAMr37sNr7uoLInhuVbUG3VzcML0x0YfpP7NDGB
+         VfuUdDwtvE2osP2QJVMNhG74syOJ9wyyjVDLQjNM00Nfd7hGuaT4IwT/UUcSEUtZDGpM
+         YffM2c3JiJRNly9Y9xWVmntIOvsFnVqGmB5Qfcm+7wRcsfXSOxc0EX3j4l4Vw2o30SC0
+         MawQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793457652; x=1794062452;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YJ9qW9t1xQBiVaYVvO0c+cru51d6nXoaWQfa1b/mglo=;
+        b=IHsh7s4/HZf8gMcaj7IkeZuD17x/mCaDR/WH/5SMS153BTgwyNuTfSLdoEPVpnIJFg
+         oIQCnxvQYkOl6udvlV8GF3o2huIXnVDxdNoC5+AHmcpWYFGPgiYIBVTFCsqiaMzapXdG
+         6ljc/yXKODB4uw9ngU4B8vP5BNhknSzN4fS3ftepMJIrXBAfDs1U3w9Wh72FYFZzfgJp
+         sfMuC2HvSBLWGwvrH9Te64O1BzAuRkOO39EIKnFhQpTqjJpF0+F3qz0svWimp9j76A31
+         bowYtUxkEPdos0NgRmuV3OqWxq799tsN55Oo+7TQY6EeMXj9C9PHWp4DwOnCOpdy/FRX
+         XycA==
+X-Forwarded-Encrypted: i=1; AKwUvBwYqQsf5nUTYhhTdIWJ0wH/Wkybj50XzHnFRkhEHHkIWiknD/rcoOrZ4eIENlCiaqbcBhADKV5u/yZ/@lists.linux.dev
+X-Gm-Message-State: AFq9FYJj/VIKVz6jWpnGPix5LGXuYrPX/S3aSrGXls7SPhxsQikxcLh2
+	ZsF/1s1cVjCYdsuYee7drAOfQKN+Mz5339LgitDSdYKFIlI+LzXMxNm6FL4RmnJpdUDjHF0CrET
+	Yr4wqCOqxJ5oeiFr466dvgcWb7I0Hn9w=
+X-Gm-Gg: AYBFou19RcoCUEpfHIAAmqN1cONmQP/cmLeisUJCpA6d1rOo16IT+kWq26ZjEenmZYP
+	hJmNS61+ViFaGjt432P7GT9MK0SeS8xjBugci2A6OVpm6y5gm2r8yaFHrp9SRkkTxbMZqMr/P+Z
+	Som2jP0UL2WQZjMriga2da/AwG6vaEKXcYTt45Aml5K/r5ENbecDl36G+pzw25V7X4oa1/qkFUr
+	+B7BTp1EY/zU49YqM6NoNuLZ6RlmEmS/CGykScds76lh2Cxalg8wvLIy+gBD2Ae429V11Oy45Ho
+	ZKZAMdpEnmAqLYhwvn8TW8NL5IHfN5M/Z3FP0hiKUdHwC7K3CfA+CkoUrgZkI2n5RT5DHa2KACD
+	YrAiUEE+L1cM6+bSyhkL6ylbjkPbBzJjF2QhSGICBja9X8yb02qNbEGj2ZACFbY2nIict/w==
+X-Received: by 2002:a17:907:3f95:b0:c26:1648:a06b with SMTP id
+ a640c23a62f3a-c4ca7a96a37mr442170066b.38.1793457651868; Sat, 31 Oct 2026
+ 07:40:51 -0700 (PDT)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -118,60 +104,40 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Jimmy Zuber" <jamz@amazon.com>
-Cc: "Miklos Szeredi" <miklos@szeredi.hu>, fuse-devel@lists.linux.dev,
- linux-kselftest@vger.kernel.org, "Shuah Khan" <shuah@kernel.org>,
- "Bernd Schubert" <bernd@bsbernd.com>, "Jim Harris" <jiharris@nvidia.com>,
- "Horst Birthelmer" <horst@birthelmer.de>, "Luis Henriques" <luis@igalia.com>
-Subject: Re: [PATCH v6 1/2] fuse: add FUSE_OPEN_ATOMIC
-In-reply-to: <20261030192401.2543699-1-jamz@amazon.com>
-References: <179332437497.269288.7305999595462479305@noble.neil.brown.name>
-  <20261030192401.2543699-1-jamz@amazon.com>
-Date: Sat, 31 Oct 2026 09:49:00 +1100
-Message-id: <179340054030.269288.17605002354655480101@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+References: <20261028091215.914885-1-hanwenn@gmail.com> <CAOQ4uxiQcyZv8B50MKM+Gn==JcoAVbgbCGBneXJhXUwR5X8ppA@mail.gmail.com>
+ <CAOw_e7ari1kQTz+qKKg9wZ5dCsv5sZY-KNM-bwkietEmrjHZ-g@mail.gmail.com>
+In-Reply-To: <CAOw_e7ari1kQTz+qKKg9wZ5dCsv5sZY-KNM-bwkietEmrjHZ-g@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sat, 31 Oct 2026 15:40:39 +0100
+X-Gm-Features: AclHuK9GZKsttphyKFmA8nlQz72JGV4nqC_qUfbOUHG52H3Jnk5zp--rjDiWmx4
+Message-ID: <CAOQ4uxhPZi2vutSgwe3d0xUH23A7ydkDsG0CGs=_LCS3X6_eFw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] fuse: use readdir result to shortcut negative lookups
+To: Han-Wen Nienhuys <hanwenn@gmail.com>
+Cc: miklos@szeredi.hu, fuse-devel@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 31 Oct 2026, Jimmy Zuber wrote:
-> On Fri, 30 Oct 2026, NeilBrown wrote:
-> > > - any other file: the server returns the entry only, and the VFS opens
-> > >   it;
+On Fri, Oct 30, 2026 at 6:36=E2=80=AFPM Han-Wen Nienhuys <hanwenn@gmail.com=
+> wrote:
+>
+> On Fri, Oct 30, 2026 at 4:27=E2=80=AFPM Amir Goldstein <amir73il@gmail.co=
+m> wrote:
+>
+> > Thinking out loud.
 > >
-> > Why is this a requirement?  I understand that the server *may* choose to
-> > not open the file, so that the open doesn't happen until after the
-> > permission check.  But shouldn't be up to the server to decide.
-> 
-> This doesn't have to be a requirement, for regular files the server can
-> open if it chooses to. I'll reword. Are you also asking why this is just
-> regular files and not directories too? I could look into that if you'd
-> like? For what it's worth, special files should never get opened by the
-> server on this path, the kernel opens them itself.
-
-No, I wasn't asking about directories.  Opening directories this way
-might be interesting, but I don't think it is important.
-
-> 
-> > > The VFS checks the open after the reply, as for other ->atomic_open()
-> > > filesystems, and the kernel releases the file if the check fails.
-> > > FMODE_CREATED is set only when the server reports FOPEN_CREATED.
+> > Is  it really important to support FOPEN_COMPLETE_DIR without
+> > FOPEN_CACHE_DIR? The two feature seems to have correlated
+> > use cases.
 > >
-> > The above para seems to suggest that the server might open a file that
-> > wasn't created.
-> 
-> Yeah, atomic_open is a lookup+open on the FUSE server, and that open
-> might be an open-create or just an open. Either way, the server might
-> open a preexisting file. I'll try to make all of this clearer in the
-> next rev, once I've gotten any feedback on directional changes here.
+> > Bloom filter is built at EOF, so it could be built at the end offset of=
+ the
+> > readdir cache buffer.
+>
+> Isn't the readdir cache dropped as soon as there is a namespace
+> operation in the directory? That would severely limit the usefulness
+> of the bloom filter in writable directories.
 
-Thanks for clarifying.  My only problem with the patch was that I found
-the description confusing - everything looks OK from a VFS perspective.
+Good point.
 
 Thanks,
-NeilBrown
-
-
-> 
-> Thanks,
-> Jimmy
-> 
-
+Amir.
