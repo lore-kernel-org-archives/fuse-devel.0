@@ -1,95 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793461466;
-	b=PNd6bDbrLY1QjCn3/Ppwgi9/5W+1rNRiWQ3Z0v3VQJPrzIzEn3DVYsFuuMk7QyVH82ow
-	 Z++dhtMKWBA1AwaaaWsTbcEJX/j+p5nfSP+FpFOed4yQzdvph10l58xqeFk4C+70Zzs4x
-	 7SYP5yAW//LnVf9xN/QGci/++xbeZ29GiSnpQbvIb1Fk0Aw6L+82cOiYSLkPTBWIqZK7B
-	 Y6EFWAoga08IP7eD+mMi9N15jDyfgt8sPBBZYCC1Bt0mJbqGSEGauZ/Dr/01HwaU7HisK
-	 Iv2a1bLmtG6vOnGbtZZnl5ct9/lBdO7NGOzPLzQQ2fS6aAo8VJrPqTUBSBpbmWMUBog==
+	t=1793536483;
+	b=WKhgS+lQ7mkv6F6AaryjsYDCTGu4v9M+BPD8bPqoVlseAqopEJCVviju+uUnTOkQZdIj
+	 jUyhzrq8wr87L1nX5kXGaJoaw/n/mVWRUpvq2kLye9tjhqWOUSCOzeYdWafQGAngWKqp3
+	 Ph+jMY9ygfbA91itycC5oXSBGqMuG7ARHHZI8zuGF4AEPd9fvxjS+1Gstg5vCUg6kjaBE
+	 fDLktcFwqQ45qBmvz/64oy4IEYhlwa5RFVjFhyqP9aeu9kaHu2BTg6n8+0z7HtgJbxZv5
+	 FFwdJ5rvPyhpjFDW0H7Rmp/iBMUxcggcqLuZu1UU5mj7CiQLk1haW/4WwZp3oKBX3eg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793461466;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793536483;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=56Jp62HZwbl/bs25PK+pXtbwrUN07Joj+4AgiDDMgHU=;
-	b=gfcOfaX7HKxXHwrQBV0vBBG8cap2irkCInStjjoRp4nuaaFTAo1o0f+71kQaAX7FD3P/
-	 rl4yGbaXl5U2nxkS+n+laKVCDiVSIEIobUvHNNGVOEDoApv29HI32kc5QwYTRGsTnaktM
-	 8d8J4gYr0P7YYfAYGUyveGYfMlDibKdZ8ZcfaB5UBbHD4NVfsri7wbTvtV8b/kViBXcm7
-	 YWtYJWjwElFT9gZGRuECP0Y87EZTfp1fmET7SkMF6gLjF9fHS7gr56VYeacpfpvR9AXRt
-	 OcF0fBqSw2Mv4GBnnDtRicbkTQID/yHOl78tZYLfhpctmUVeCRuWSlfF91zSmgQmHFQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
+	b=UsLlhOLXehj6Mlu9xhYxID54smJUz/L3mBOumOjQHMltfG5hWA3GoFOhT85aV9lNN/IP
+	 k1V3SjR/sfUs92mYBrWRgdzxYt1iLgJCtMZt/a0kRQmxlOEEB35p6ngHjBnAPzBGK9lRS
+	 pjFCB0DH7udUO8dVXfYlSgdQVimT67e1nUUmLomzwNcmf2oFlKcOIHG8MrptrCOkBbyrt
+	 FG0RVaJBXxKzdU4k6eZ12Wp8nEkP5PiU6Xyq9jhN2IqJEC0cowzIowuwqXwVi35Q5RhOK
+	 NeZd3mSgerzJv3TOqOxI3tE+V96YDT8GwshxbZMMgMJjSziFFtwQnYb07intUn/hLDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Cj2ytKCQ;
-	arc=none smtp.remote-ip=209.85.221.174
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GCP2M3ER;
+	arc=none smtp.remote-ip=209.85.218.49
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FF8606A31C
-	for <fuse-devel@lists.linux.dev>; Sat, 31 Oct 2026 15:44:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0FF8606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFC9606A326
+	for <fuse-devel@lists.linux.dev>; Sun,  1 Nov 2026 12:34:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FFC9606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Cj2ytKCQ
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5eae1276409so537174e0c.3
-        for <fuse-devel@lists.linux.dev>; Sat, 31 Oct 2026 08:44:25 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GCP2M3ER
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c434376dbebso441711066b.1
+        for <fuse-devel@lists.linux.dev>; Sun, 01 Nov 2026 04:34:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793461465; x=1794066265; darn=lists.linux.dev;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=56Jp62HZwbl/bs25PK+pXtbwrUN07Joj+4AgiDDMgHU=;
-        b=Cj2ytKCQT/f1TaO8D8WM+8bv6WPv3R1b4i7F1TdWNBgMlDltlvNTNd+hRGV2Eer2ZP
-         bzzEsVUeaUjlyr3gtNFTu9BbpIA06pHOF78BNLRg+cPf3FtUDRSX55TSPWGde/nfuolI
-         nhxAOrrbYDyBOq2GVcjfow/Iz0WNnoN9+pNY0xh6mCd8NdMoE7VMwaEStcL/nsqkdZ8o
-         L6bg04lL7jH5H5jKME4B05EYKVASM+PezFzMGK+yWL4JuOxRqJnlqiLFfWqiDu+eJMPr
-         PPuDCq4sTWJBy+brRR6a954HX93XGUbAyl99Gnj0Ql+EtuQBLt6Ham73YVJzuuHhfR6q
-         ZVKw==
+        d=gmail.com; s=20260707; t=1793536482; x=1794141282; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
+        b=GCP2M3ERpkq+AY5Qi+4pxQhs8GlFs5V/Lz9SHs68Hin498vgfMhUFmi//k1AxW1i7i
+         XbRRSp51X/ztEHELCZwHR3mQSEskaAut5tUVplin+Rg8RP6r2wCAMt99uh+LHXUVk904
+         FVSghvHtZ+DgXRJK+NZHFoNxatIRQJDU8ib/3xRx4eg6sp4tHQAFMRpr3TfN2+xgzGHr
+         fdjoDH7T2gWObNopoW51mUYkYHfn5Or2hrX+drEqMIOgLocel4/e+XDZC4zEg8f+P/Ur
+         GkZ0K3w/G9Lq4Mf1uIJjGEN0iZW/YM/EVgVLKtH9rjAWydCiRL3QZsD6SH9c/t5euBjb
+         Eybg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793461465; x=1794066265;
-        h=mime-version:content-transfer-encoding:content-type:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=56Jp62HZwbl/bs25PK+pXtbwrUN07Joj+4AgiDDMgHU=;
-        b=ITTupGoBLsFDPKWWPY4fvanTQEy2n/JDKx8K7h+g4D8lMC3JZAlYSKBTPgi0Zvr/Ds
-         GgyVZAQKMhf714f8ejEXDAdZzUKDtGFbAZd5NGJyZlfN48Jr7lYUn6Or3eOWl7w0oTgm
-         1eN2UPBrK30UcF3+KwNAfduopYiP6aiVkWorENsNnh3xVoudF3Rxk/Vmc7WE7xiPLKPo
-         rd5HCEQcFnN+YhDpwZpntvaww4z5TE1KXP3Aw+eRcZ8KvIFGZ0LVN9vBY+5FqukON1DU
-         Q4UVpC733ESDslAmuiSiUnTC48ub0/hKYfeyQhphbCZ4w3i8oa+Jti907A1F9PhbFPGs
-         Wiww==
-X-Forwarded-Encrypted: i=1; AKwUvBwPrI777O6qaLGQ7mvxTDcP76WRaimVzwGJOZTU1uQuDkPU0uBzwKY5Q+XhNmyJ/ZVqyHLAxtAzR5pW@lists.linux.dev
-X-Gm-Message-State: AFq9FYKbWysxlx30QwSloemWyXpcinjNmAm3kkNBVf+TDB72Lwd1XRu5
-	lnUMWEZm7ChFD+V0U8aI+gPv8fgzkosBmdpbCIqSTrDr2Zoj0TXCprvp
-X-Gm-Gg: AYBFou3BjaHldbWKrD4sO15PRZdS0kAzbps6g0dwyOdDw1z+xo9eK3DgZssX7Etii6y
-	1wIntOuorztjRYQuVRLnnRWCJVa4DgBahvicz+7i9tQ608z7Bv+yJWKF6KyAzwca7DmPmu0BHIn
-	10KLjhuBA2m21bwbREeMfHV9Z1sgch501Nuzl+zdlT0HUqBSQm3DcRjgIxy1P4KanioFLfl7FUd
-	G8iua7n2fcFHPMSk9M9gAT5AMXyn31fxLDaJ/NQIkxMjyZmJw7A54r2uavLaoCbiaEoC9KU5O/y
-	mvr/3vIK36oTAqqZOn2KMtJrnK7NSMIsObqro8KrnvQUgredDvx5zPedqW+B7tz0CHWhYwOf8Yg
-	1A7BcyQYN1ZvTnzjeYPaGgpm6jMiSaCuKx0/JbzeDonAGPFk5Ccx0YdXIyLSd3mQgPdgK94LBJe
-	JDB2M2e938mebkNyrhKo69w01fm2OC30rd6LX8Id/taTupU6h1SvY9j+U0aCcN9uSIiBW3GOt69
-	EL2wWRg8de8mvZ3uJfuHylZd7eAAqvXQ6vpCuEXRi/4/H2Rzylbof3DEiz13VqWL41917dSuk8m
-	/aZDZI8Q+aeT7ASvlIB6sab7KfcnzkZP668gaBZf/syNF0wVynMmyU9n0EfU8rhsfkFxxytxCM2
-	vqUCRcJ82r0Aex5TncjC6ckE+Syb9gzEhZc5mr+it+xiT8Bd+meRCVQ5uVR9+r2fsjXBeO+ozPs
-	KLiuEXWhLbkUf8Pxw=
-X-Received: by 2002:a05:6102:3ec5:b0:7cc:2bb7:131d with SMTP id ada2fe7eead31-7d072baa484mr2303904137.9.1793461464434;
-        Sat, 31 Oct 2026 08:44:24 -0700 (PDT)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([2804:7f0:b101:c5e8:f804:4efd:32bc:71d3])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d077606b7asm5730837137.8.2026.10.31.08.44.21
+        d=1e100.net; s=20260707; t=1793536482; x=1794141282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
+        b=K120y3rfYRdK1rF6SFxbMG/aic4ZiKBEMLCxmV2gGDE2jdfVSKpFFrLh5tCjc91MWz
+         H35AbJu+G6W91hRr1EOgkSoa8hJW1MIh7xQovj/yE87+uPQ3IoFsZZHiRAbGr5Oathzz
+         LM6FXWCC1IzwNeg/iusP7eWBvBdciP8JV/YgvcX9gPLXjU2m+/u5tYydNFnMsEq2r5/5
+         b9GDcjTte8+oYyNl9bWHzEtC1aHXEjk0XaAFtQmFf5DDpUBEWhUG0eXpbZEpOaJwwo0g
+         Ph7/DEHliQ5TIELh0dATbM1eZTRYQVeoqDnbsTSfp0P3nSTysEMcwS6dn6NX7ZDmGeCV
+         q8mw==
+X-Forwarded-Encrypted: i=1; AKwUvByjq/DcctjGL+DK2U74sP+BHqxWYDpS1elInuPJwNJM2D02AOmhayXsZ9/qP//RknLxAawvtZmTPhb5@lists.linux.dev
+X-Gm-Message-State: AFq9FYL2GFwoG1Cme6f0u9jJqH6zOdN55nUZ5Phsi6mmm1ZvzWS532el
+	d3raLVW7TEc+hvzgKvO6//27oPUtXts/qnbNyNcKpA1uK5e2mGyfC+pB
+X-Gm-Gg: AYBFou1b6Jmwo4CdnBQYU0o+ctRBXUonuaSeyBki6UTr2ea/+4Vo+xQXcVccqsrcp2T
+	xsZ9LomQOSvDUdxIP4kyHhX+uHijlf7eu1Se3HFycDaP+wjR7KNdHqQQrVGhnx1usTlUBX+q8lo
+	6CSU+LbSPUcJ0E4MrRrmPIk1gk0HzKIJV3yndNQ+EYbyI9dRMYHjPlpNgPcXgZ8+HdzlQ7Wh7+1
+	TO4I08+ywsBLCXCV/UV8vJpLV9xyMBO+tjNYxivKrJz7Js/s6kQ2KKzzZMDzXiWiVrcrjYgCVXb
+	UyYwEJqWRXuv0YkyfTNK6R88sl3rmsfJpFJsPZ0xvyCyRLrbIMwIGjkMcfLMWrmJGf6u/2kHJbe
+	EbQmJMNLbLV9uZPEpHhWYc8NuY1chPKzY6dhveh6pkBTdfc2VQ9FGo61I0lK7wypXF/5hMMkFB2
+	h28LIY+WLizf/ZzxKkqUhurkE+zmsP8cffURcx+6UPFH+OZS/hAGzLkORZKZs2fX8/Q9lenYTXI
+	Ut3zteLgHYxbciKfbd05zp1zo3lIpn93QpTQ3nyDGGaqKRIyq33L/e/0K3umk+gTW/ahcjQGQs2
+	Y4IRarvGujudNFVrvJlXGTb/u2qju10sJWUh6Eo1WCQiURhiDfKxpSts4Yey6qDqWAr6O/S/cph
+	PPvZKd2BfA+E=
+X-Received: by 2002:a17:907:3f9c:b0:c42:fc8b:6c6a with SMTP id a640c23a62f3a-c4ca7a9ef71mr660488666b.14.1793536481629;
+        Sun, 01 Nov 2026 04:34:41 -0800 (PST)
+Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cabc18ec5sm275298666b.12.2026.11.01.04.34.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2026 08:44:24 -0700 (PDT)
-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Miklos Szeredi <mszeredi@redhat.com>, John Groves <john@groves.net>,
- fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] fuse: refuse FUSE_NOTIFY_STORE for DAX inodes
-Date: Sat, 31 Oct 2026 12:44:19 -0300
-Message-ID: <179346145958.61208.701521796030924197@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+        Sun, 01 Nov 2026 04:34:41 -0800 (PST)
+From: Amir Goldstein <amir73il@gmail.com>
+To: Christian Brauner <brauner@kernel.org>,
+	Miklos Szeredi <miklos@szeredi.hu>
+Cc: linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	linux-unionfs@vger.kernel.org,
+	Chris Mason <mason@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] backing-file: pass RWF_NOAPPEND to synchronous writes
+Date: Sun,  1 Nov 2026 13:34:40 +0100
+Message-ID: <20261101123440.3184069-1-amir73il@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -99,74 +99,86 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Since commit 2fbe4586cff3 ("fuse: add support for opening dax device as
-backing"), a regular file is marked S_DAX whenever the server sets
-FUSE_ATTR_DAX in the attributes. This does not depend on any INIT flag,
-so any FUSE server can do it, including an unprivileged one.
+From: Chris Mason <mason@kernel.org>
 
-fuse_notify_store() does not check for this. It adds ordinary page cache
-folios to the mapping of such an inode with filemap_grab_folio(), while
-the DAX code expects that mapping to hold only DAX entries. When the
-inode is evicted, fuse_evict_inode() calls dax_break_layout_final(), and
-dax_layout_busy_page_range() hits WARN_ON_ONCE(!xa_is_value(entry)):
+pwritev2() with RWF_NOAPPEND ignores the offset and appends the data on
+an overlayfs or FUSE passthrough file that was opened with O_APPEND, and
+the call still returns success. The flag must make the write go to the
+given offset even though the file is in append mode. Any user who can
+write to the file is affected, with the default mount options.
 
-  WARNING: fs/dax.c:825 at dax_layout_busy_page_range+0x394/0x4dc
-  CPU: 0 UID: 65534 PID: 93 Comm: fusedax
-  Call trace:
-   dax_layout_busy_page_range+0x394/0x4dc (P)
-   dax_break_layout_final+0x104/0x278
-   fuse_evict_inode+0x2cc/0x57c
-   evict+0x2b4/0x748
-   iput.part.0+0x51c/0x964
-   ...
-   fuse_kill_sb_anon+0x170/0x268
-   deactivate_locked_super+0x98/0x11c
+overlayfs and FUSE passthrough forward the reads and writes on their
+files to a backing file on an underlying filesystem, through the helpers
+in fs/backing-file.c.
 
-With panic_on_warn set, this lets an unprivileged FUSE server panic the
-machine.
+The flag works for the file that the user opened: kiocb_set_rw_flags()
+clears IOCB_APPEND in the write's kiocb. It also copies RWF_NOAPPEND
+into ki_flags, as it does with every RWF_ flag.
 
-DAX mappings do not hold page cache folios, so storing data into one has
-no use. Return -EINVAL, as is already done for files that are not
-regular. This also covers virtiofs DAX inodes.
+overlayfs and FUSE passthrough then pass the write on to the backing
+file. They opened it with the open flags of the user's file, so it is in
+append mode too.
 
-Reproduced on current mainline (arm64, CONFIG_FS_DAX=y) with a FUSE
-server running as uid 65534 in a new user and mount namespace, answering
-INIT with no flags, LOOKUP with FUSE_ATTR_DAX on a regular file, then
-sending FUSE_NOTIFY_STORE for it and unmounting. Before: the WARN above,
-and a panic with panic_on_warn=1. After: FUSE_NOTIFY_STORE fails with
-EINVAL and nothing is logged. FUSE_NOTIFY_STORE on a regular inode
-without FUSE_ATTR_DAX still works.
+For a synchronous write, do_backing_file_write_iter() calls
+vfs_iter_write(), which sets up a new kiocb for the backing file. That
+kiocb starts out with IOCB_APPEND set. vfs_iter_write() is only given
+the flags of the user's kiocb that are in BACKING_IOCB_MASK, and
+RWF_NOAPPEND is not one of them. So nothing clears IOCB_APPEND again,
+and the data goes to the end of the file while the call returns success.
 
-Found by code review of the DAX backing changes and confirmed with the
-reproducer above.
+An asynchronous write reuses the flags of the user's kiocb and is not
+affected.
 
-Fixes: 2fbe4586cff3 ("fuse: add support for opening dax device as backing")
-Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
+Reproduced by calling pwritev2() with RWF_NOAPPEND at offset 0, on an
+overlayfs file and on a FUSE passthrough file opened with O_APPEND: the
+data was at the end of the file afterwards.
+
+Fix this by adding RWF_NOAPPEND to BACKING_IOCB_MASK.
+
+Fixes: 73fa7547c70b ("vfs: add RWF_NOAPPEND flag for pwritev2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Chris Mason <mason@kernel.org>
+Signed-off-by: Amir Goldstein <amir73il@gmail.com>
 ---
-Tool-use note: the code review that found this and the reproducer were
-prepared with help from an LLM-based assistant; I reviewed the change
-and built and ran the tests myself. Reproducer available on request.
 
- fs/fuse/notify.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Christian,
 
-diff --git a/fs/fuse/notify.c b/fs/fuse/notify.c
-index 984e4945e..938440474 100644
---- a/fs/fuse/notify.c
-+++ b/fs/fuse/notify.c
-@@ -167,6 +167,11 @@ static int fuse_notify_store(struct fuse_conn *fc, unsigned int size,
- 		err = -EINVAL;
- 		goto out_iput;
- 	}
-+	/* DAX mappings do not hold page cache folios */
-+	if (IS_DAX(inode)) {
-+		err = -EINVAL;
-+		goto out_iput;
-+	}
+This is a followup to commit 19b18e01d0361 ("backing-file: enforce
+append-only and immutable backing inodes").
+
+It is NOT a security fix, but a correctness fix for both overlayfs and
+FUSE passthrough. It fixes RWF_NOAPPEND being ignored by sync writes.
+
+It had to go after "enforce append-only", otherwise sync writes could
+also overwrite append-only FUSE backing files, as async writes could.
+
+Thanks,
+Amir.
+
+ fs/backing-file.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/fs/backing-file.c b/fs/backing-file.c
+index 5780f60662d07..c601b27f0fd35 100644
+--- a/fs/backing-file.c
++++ b/fs/backing-file.c
+@@ -115,8 +115,13 @@ struct backing_aio {
  
- 	mapping = inode->i_mapping;
- 	file_size = i_size_read(inode);
+ static struct kmem_cache *backing_aio_cachep;
+ 
++/*
++ * RWF_NOAPPEND stays set in ki_flags.  Pass it on, because the backing file is
++ * in append mode as well and a new kiocb for it starts with IOCB_APPEND.
++ */
+ #define BACKING_IOCB_MASK \
+-	(IOCB_NOWAIT | IOCB_HIPRI | IOCB_DSYNC | IOCB_SYNC | IOCB_APPEND)
++	(IOCB_NOWAIT | IOCB_HIPRI | IOCB_DSYNC | IOCB_SYNC | IOCB_APPEND | \
++	 (__force int) RWF_NOAPPEND)
+ 
+ static rwf_t iocb_to_rw_flags(int flags)
+ {
 -- 
-2.43.0
+2.55.0
 
