@@ -1,95 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793536483;
-	b=WKhgS+lQ7mkv6F6AaryjsYDCTGu4v9M+BPD8bPqoVlseAqopEJCVviju+uUnTOkQZdIj
-	 jUyhzrq8wr87L1nX5kXGaJoaw/n/mVWRUpvq2kLye9tjhqWOUSCOzeYdWafQGAngWKqp3
-	 Ph+jMY9ygfbA91itycC5oXSBGqMuG7ARHHZI8zuGF4AEPd9fvxjS+1Gstg5vCUg6kjaBE
-	 fDLktcFwqQ45qBmvz/64oy4IEYhlwa5RFVjFhyqP9aeu9kaHu2BTg6n8+0z7HtgJbxZv5
-	 FFwdJ5rvPyhpjFDW0H7Rmp/iBMUxcggcqLuZu1UU5mj7CiQLk1haW/4WwZp3oKBX3eg==
+	t=1793571363;
+	b=wJi/h4rewJ8R5zLwgmMDs3xvTBGT/GcROnFDDnXQjy8CweG9npzSYYuRYedB9gsNHck6
+	 iG1oeimpjXYzsIVNSixprLDMSdZs7ObiBkstUX8+spYD5sXeuRXB4WDwFlJfdY2luImDH
+	 CywSbdZn2qtr1lh6DmQ5pNj5JKQszzdp8WX36G/hBqpS4uGVMMElnLl2qnwA7980ZDaqR
+	 j5fqOdcK0nL7loraQOC3UMM5vQ5nWO4X4yGfFS85BrHbQUVQIExBflC6jBjuZtA0DzJlu
+	 2SA8wtdP5ITwICiSwNIsaQfbzrzVyTaUYG3Rsi12rvYk5c26FRzPO6Lci8wzgqMoROQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793536483;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
-	b=UsLlhOLXehj6Mlu9xhYxID54smJUz/L3mBOumOjQHMltfG5hWA3GoFOhT85aV9lNN/IP
-	 k1V3SjR/sfUs92mYBrWRgdzxYt1iLgJCtMZt/a0kRQmxlOEEB35p6ngHjBnAPzBGK9lRS
-	 pjFCB0DH7udUO8dVXfYlSgdQVimT67e1nUUmLomzwNcmf2oFlKcOIHG8MrptrCOkBbyrt
-	 FG0RVaJBXxKzdU4k6eZ12Wp8nEkP5PiU6Xyq9jhN2IqJEC0cowzIowuwqXwVi35Q5RhOK
-	 NeZd3mSgerzJv3TOqOxI3tE+V96YDT8GwshxbZMMgMJjSziFFtwQnYb07intUn/hLDQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793571363;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=FTHI4iJKGW8nTdZJYWi2ZEsJRVp05NwkVgRYnkQTnQI=;
+	b=FLC5QatAjRXvYnSKyR9TBggNGcXxfgoHtXWOBZsVs4g0TgEApjydffc5xIVtMjlumt2i
+	 DAP76GvvKrrXtOySGTh4HdTi3YvitBNZU/GB/UZN0g48Flv20iL7X283Jm31E7cET9Czk
+	 sIBNU5K+/t8DXnvYkDEi0G1PQeZnH7zn2cugjO/VNdp94klNMfRc/N2x9kjSBwl9OLdCx
+	 M/bCcaYfzH5sQMsm7sFozJCnMDPF6ebQ5fpM6Ot/GHpo5TECq+qRmhHE5zJ8uwWlojlJ8
+	 6e3gnXIVatDPnN0tCn/7enO2+FWBCMcfAj0cyFmCB9gu86mc9W+Ttt83cUfbP+iHwtg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GCP2M3ER;
-	arc=none smtp.remote-ip=209.85.218.49
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kSuQm1gi;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FFC9606A326
-	for <fuse-devel@lists.linux.dev>; Sun,  1 Nov 2026 12:34:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FFC9606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2E5606A33B;
+	Sun,  1 Nov 2026 22:15:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GCP2M3ER
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c434376dbebso441711066b.1
-        for <fuse-devel@lists.linux.dev>; Sun, 01 Nov 2026 04:34:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793536482; x=1794141282; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
-        b=GCP2M3ERpkq+AY5Qi+4pxQhs8GlFs5V/Lz9SHs68Hin498vgfMhUFmi//k1AxW1i7i
-         XbRRSp51X/ztEHELCZwHR3mQSEskaAut5tUVplin+Rg8RP6r2wCAMt99uh+LHXUVk904
-         FVSghvHtZ+DgXRJK+NZHFoNxatIRQJDU8ib/3xRx4eg6sp4tHQAFMRpr3TfN2+xgzGHr
-         fdjoDH7T2gWObNopoW51mUYkYHfn5Or2hrX+drEqMIOgLocel4/e+XDZC4zEg8f+P/Ur
-         GkZ0K3w/G9Lq4Mf1uIJjGEN0iZW/YM/EVgVLKtH9rjAWydCiRL3QZsD6SH9c/t5euBjb
-         Eybg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793536482; x=1794141282;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/D/A9T2EJRYZY/+rdAawlrNFx7uSdrcye6ffwoxRa54=;
-        b=K120y3rfYRdK1rF6SFxbMG/aic4ZiKBEMLCxmV2gGDE2jdfVSKpFFrLh5tCjc91MWz
-         H35AbJu+G6W91hRr1EOgkSoa8hJW1MIh7xQovj/yE87+uPQ3IoFsZZHiRAbGr5Oathzz
-         LM6FXWCC1IzwNeg/iusP7eWBvBdciP8JV/YgvcX9gPLXjU2m+/u5tYydNFnMsEq2r5/5
-         b9GDcjTte8+oYyNl9bWHzEtC1aHXEjk0XaAFtQmFf5DDpUBEWhUG0eXpbZEpOaJwwo0g
-         Ph7/DEHliQ5TIELh0dATbM1eZTRYQVeoqDnbsTSfp0P3nSTysEMcwS6dn6NX7ZDmGeCV
-         q8mw==
-X-Forwarded-Encrypted: i=1; AKwUvByjq/DcctjGL+DK2U74sP+BHqxWYDpS1elInuPJwNJM2D02AOmhayXsZ9/qP//RknLxAawvtZmTPhb5@lists.linux.dev
-X-Gm-Message-State: AFq9FYL2GFwoG1Cme6f0u9jJqH6zOdN55nUZ5Phsi6mmm1ZvzWS532el
-	d3raLVW7TEc+hvzgKvO6//27oPUtXts/qnbNyNcKpA1uK5e2mGyfC+pB
-X-Gm-Gg: AYBFou1b6Jmwo4CdnBQYU0o+ctRBXUonuaSeyBki6UTr2ea/+4Vo+xQXcVccqsrcp2T
-	xsZ9LomQOSvDUdxIP4kyHhX+uHijlf7eu1Se3HFycDaP+wjR7KNdHqQQrVGhnx1usTlUBX+q8lo
-	6CSU+LbSPUcJ0E4MrRrmPIk1gk0HzKIJV3yndNQ+EYbyI9dRMYHjPlpNgPcXgZ8+HdzlQ7Wh7+1
-	TO4I08+ywsBLCXCV/UV8vJpLV9xyMBO+tjNYxivKrJz7Js/s6kQ2KKzzZMDzXiWiVrcrjYgCVXb
-	UyYwEJqWRXuv0YkyfTNK6R88sl3rmsfJpFJsPZ0xvyCyRLrbIMwIGjkMcfLMWrmJGf6u/2kHJbe
-	EbQmJMNLbLV9uZPEpHhWYc8NuY1chPKzY6dhveh6pkBTdfc2VQ9FGo61I0lK7wypXF/5hMMkFB2
-	h28LIY+WLizf/ZzxKkqUhurkE+zmsP8cffURcx+6UPFH+OZS/hAGzLkORZKZs2fX8/Q9lenYTXI
-	Ut3zteLgHYxbciKfbd05zp1zo3lIpn93QpTQ3nyDGGaqKRIyq33L/e/0K3umk+gTW/ahcjQGQs2
-	Y4IRarvGujudNFVrvJlXGTb/u2qju10sJWUh6Eo1WCQiURhiDfKxpSts4Yey6qDqWAr6O/S/cph
-	PPvZKd2BfA+E=
-X-Received: by 2002:a17:907:3f9c:b0:c42:fc8b:6c6a with SMTP id a640c23a62f3a-c4ca7a9ef71mr660488666b.14.1793536481629;
-        Sun, 01 Nov 2026 04:34:41 -0800 (PST)
-Received: from localhost (178-84-201-199.dynamic.upc.nl. [178.84.201.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4cabc18ec5sm275298666b.12.2026.11.01.04.34.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 04:34:41 -0800 (PST)
-From: Amir Goldstein <amir73il@gmail.com>
-To: Christian Brauner <brauner@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>
-Cc: linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	linux-unionfs@vger.kernel.org,
-	Chris Mason <mason@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH] backing-file: pass RWF_NOAPPEND to synchronous writes
-Date: Sun,  1 Nov 2026 13:34:40 +0100
-Message-ID: <20261101123440.3184069-1-amir73il@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kSuQm1gi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 155181F00A1F;
+	Sun,  1 Nov 2026 22:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793571353;
+	bh=FTHI4iJKGW8nTdZJYWi2ZEsJRVp05NwkVgRYnkQTnQI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=kSuQm1gig26F3a5hbFrlCEgTV6KZdAUm8pVgji64pGU9IHFtmj1+0lqa6FjFwtpwY
+	 RQDDMAWpx0nuTd442k2/dkXZmO3ak6/b0bODbLMMOiXHR7sqan7+OYTSomVvsVhatc
+	 5sO4YlxH84ZbDrCWiv6NIlf3enn6ckTlaSH0A2hbLwanZ7TAw2vRzqI9LjdgxD9mYw
+	 rVyzHjy74WbfzuCKilIc61p8YM/etpQQgk31aiPP5AoELP2cxYQDze2rDXYJz/8udp
+	 9mbnMTtDK0Vamho7QvOMgWKAobDTF7XMy60kwODafcPU8OakiOi1fCrlQV4kt03Hd9
+	 bPj8B6YTEsy3w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 032DA38003B8;
+	Sun,  1 Nov 2026 22:15:53 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -100,85 +54,167 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v6 00/39] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <179357135155.2624073.13862678489444424470.git-patchwork-notify@kernel.org>
+Date: Sun, 01 Nov 2026 22:15:51 +0000
+References: 
+ <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
+In-Reply-To: 
+ <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
+To: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Cc: linux-riscv@lists.infradead.org, akpm@linux-foundation.org,
+ liam@infradead.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de,
+ david@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ corbet@lwn.net, gregkh@linuxfoundation.org,
+ dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca, leon@kernel.org,
+ paul@paul-moore.com, stephen.smalley.work@gmail.com, perex@perex.cz,
+ tiwai@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ eddyz87@gmail.com, memxor@gmail.com, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com,
+ dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev,
+ usama.arif@linux.dev, kas@kernel.org, dgilbert@interlog.com,
+ James.Bottomley@HansenPartnership.com, mkp@kernel.org, simona@ffwll.ch,
+ deller@gmx.de, sre@kernel.org, jhubbard@nvidia.com, peterx@redhat.com,
+ mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org, tglx@kernel.org,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, riel@surriel.com,
+ harry@kernel.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, will@kernel.org, aneesh.kumar@kernel.org,
+ npiggin@gmail.com, arnd@arndb.de, muchun.song@linux.dev, osalvador@suse.de,
+ willy@infradead.org, jack@suse.cz, maz@kernel.org, oupton@kernel.org,
+ catalin.marinas@arm.com, maddy@linux.ibm.com, anup@brainfault.org,
+ pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ borntraeger@linux.ibm.com, frankja@linux.ibm.com, imbrenda@linux.ibm.com,
+ agordeev@linux.ibm.com, gerald.schaefer@linux.ibm.com, hca@linux.ibm.com,
+ gor@linux.ibm.com, davem@davemloft.net, andreas@gaisler.com,
+ viro@zeniv.linux.org.uk, brauner@kernel.org, matthew.brost@intel.com,
+ joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+ gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
+ chrisl@kernel.org, kasong@tencent.com, shikemeng@huaweicloud.com,
+ nphamcs@gmail.com, baoquan.he@linux.dev, youngjun.park@lge.com,
+ hannes@cmpxchg.org, qi.zheng@linux.dev, shakeel.butt@linux.dev,
+ axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
+ chengming.zhou@linux.dev, mhocko@kernel.org, miklos@szeredi.hu,
+ xu.xin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
+ linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev,
+ ihor.solodrai@linux.dev, spasswolf@web.de, tiwai@suse.de,
+ emil@etsalapatis.com
 
-From: Chris Mason <mason@kernel.org>
+Hello:
 
-pwritev2() with RWF_NOAPPEND ignores the offset and appends the data on
-an overlayfs or FUSE passthrough file that was opened with O_APPEND, and
-the call still returns success. The flag must make the write go to the
-given offset even though the file is in append mode. Any user who can
-write to the file is affected, with the default mount options.
+This series was applied to riscv/linux.git (fixes)
+by Andrew Morton <akpm@linux-foundation.org>:
 
-overlayfs and FUSE passthrough forward the reads and writes on their
-files to a backing file on an underlying filesystem, through the helpers
-in fs/backing-file.c.
+On Tue, 13 Oct 2026 16:04:40 +0100 you wrote:
+> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
+> properties:
+> 
+> * Is this managed by core mm, or by a driver mapping MMIO, kernel-allocated
+>   pages, or even ordinary pages itself?
+> * Can it be expanded or merged?
+> * Is this a 'weird' case like mlock where migration might race and we
+>   'have' to set invalid flags to notify?
+> * Is it another 'weird' case where we just want to stop GUP from touching
+>   it?
+> 
+> [...]
 
-The flag works for the file that the user opened: kiocb_set_rw_flags()
-clears IOCB_APPEND in the write's kiocb. It also copies RWF_NOAPPEND
-into ki_flags, as it does with every RWF_ flag.
+Here is the summary with links:
+  - [v6,01/39] mm/vma: fix mmap_prepare file handling, remove file_doesnt_need_get
+    (no matching commit)
+  - [v6,02/39] mm/vma: introduce and use vma_[flags_]can_merge()
+    https://git.kernel.org/riscv/c/86a779c53204
+  - [v6,03/39] mm: consistently validate VMA state after mmap[_prepare] hooks
+    https://git.kernel.org/riscv/c/9cae38dc11da
+  - [v6,04/39] mm/vma: ensure mmap_prepare doesn't set actions on a mergeable vma
+    https://git.kernel.org/riscv/c/6335c786299f
+  - [v6,05/39] mm: make map_kernel_pages_[prepare,complete] internal and unexported
+    https://git.kernel.org/riscv/c/2a234f79d416
+  - [v6,06/39] mm/vma: tidy up map kernel pages enum values
+    https://git.kernel.org/riscv/c/4852f3421456
+  - [v6,07/39] mm: assert mmap lock held, use new flags API in vm_insert_page[s]
+    https://git.kernel.org/riscv/c/dad8e88fcfce
+  - [v6,08/39] mm: add mmap action for discontiguous kernel page mapping
+    https://git.kernel.org/riscv/c/b7b4d8f37a4f
+  - [v6,09/39] docs: filesystems: update mmap_prepare docs for discontig kernel pgs
+    https://git.kernel.org/riscv/c/ae60723abb65
+  - [v6,10/39] drivers/usb/mon: update to use mmap_prepare + map kernel pages
+    https://git.kernel.org/riscv/c/5323bb5f6ef3
+  - [v6,11/39] infiniband: update hfi1 to use remap_vmalloc_range()
+    (no matching commit)
+  - [v6,12/39] selinux: reject writable opens of policy file, drop mmap shared/write check
+    https://git.kernel.org/riscv/c/c6ce4378f20a
+  - [v6,13/39] ALSA: pcm: use vm_insert_page() to map PCM status page
+    https://git.kernel.org/riscv/c/ceb0de27371f
+  - [v6,14/39] bpf: arena: mark arena_map_mmap() mappings VM_MIXEDMAP
+    https://git.kernel.org/riscv/c/0c2c9885c5e9
+  - [v6,15/39] mm/vma: add vma[_flags]_is_mm_managed() predicates
+    https://git.kernel.org/riscv/c/7fdbc26b69c0
+  - [v6,16/39] mm/vma: only allow mmap to clear VMA_MAYWRITE_BIT if not mm-managed
+    https://git.kernel.org/riscv/c/d99c4a302c5a
+  - [v6,17/39] mm/vma: add and use vma_[flags]_is_fixed_mapping
+    https://git.kernel.org/riscv/c/9201d0f5b9d5
+  - [v6,18/39] scsi: sg: convert mmap hook to mmap_prepare and rework
+    https://git.kernel.org/riscv/c/abdd54cef5fc
+  - [v6,19/39] fbdev: defio: assert FBINFO_VIRTFB, drop VM_IO, add VM_MIXEDMAP
+    https://git.kernel.org/riscv/c/19458d015fcc
+  - [v6,20/39] HSI: cmt_speech: convert mmap hook to mmap_prepare, refactor
+    https://git.kernel.org/riscv/c/5605c40895fc
+  - [v6,21/39] mm/gup: error out early on !VMA_MAYREAD_BIT VMAs
+    https://git.kernel.org/riscv/c/2d2b1c508f21
+  - [v6,22/39] uprobes: remove VM_IO, set VM_MIXEDMAP for mapped kernel pages
+    https://git.kernel.org/riscv/c/0d219bc3cb88
+  - [v6,23/39] mm/mlock: clear VMA_LOCKED_MASK over mmap callback
+    https://git.kernel.org/riscv/c/61e012ab9a1c
+  - [v6,24/39] mm/mlock: eliminate weird VMA_IO_BIT abuse and simplify
+    https://git.kernel.org/riscv/c/aea83f2694ed
+  - [v6,25/39] mm/vma: enforce that mm-managed mappings may not set VMA_IO_BIT
+    https://git.kernel.org/riscv/c/99fd6bf43d5d
+  - [v6,26/39] mm: remove VMA_IO_BIT check in vma[_flags]_is_mm_managed()
+    https://git.kernel.org/riscv/c/88d77002e1a1
+  - [v6,27/39] mm: remove hugetlb_inline.h
+    https://git.kernel.org/riscv/c/94c86564538e
+  - [v6,28/39] mm: rename is_vm_hugetlb_page() to vma_is_hugetlb()
+    (no matching commit)
+  - [v6,29/39] mm: drop some redundant checks around hugetlb VMAs
+    (no matching commit)
+  - [v6,30/39] mm/vma: introduce vma[_flags]_is_mm_backed()
+    https://git.kernel.org/riscv/c/44debd840ec9
+  - [v6,31/39] mm/madvise: update is_valid_guard_vma() to use vma_is_mm_backed()
+    https://git.kernel.org/riscv/c/fc95d1cf4a13
+  - [v6,32/39] mm/uffd: use predicates for userfaultfd checks
+    https://git.kernel.org/riscv/c/fb700342f506
+  - [v6,33/39] mm/madvise: use predicates for madvise(..., MADV_DOFORK)
+    https://git.kernel.org/riscv/c/1d1104fe6dc6
+  - [v6,34/39] mm: eliminate VMA_SPECIAL_FLAGS usage when hugetlb explicitly tested
+    https://git.kernel.org/riscv/c/531e56359ffb
+  - [v6,35/39] mm: eliminate VMA_SPECIAL_FLAGS check in lru_gen_look_around()
+    https://git.kernel.org/riscv/c/5997da57a09b
+  - [v6,36/39] mm: avoid use of VMA_SPECIAL_FLAGS in migrate_vma_setup()
+    https://git.kernel.org/riscv/c/8bf792b7afcb
+  - [v6,37/39] mm: eliminate VM_SPECIAL, VMA_SPECIAL_FLAGS
+    https://git.kernel.org/riscv/c/72a993449cb0
+  - [v6,38/39] fuse: dax: do not set VM_MIXEDMAP
+    https://git.kernel.org/riscv/c/b0d88bfa7515
+  - [v6,39/39] mm/huge_memory: remove vma_is_special_huge()
+    https://git.kernel.org/riscv/c/e2a1d080f510
 
-overlayfs and FUSE passthrough then pass the write on to the backing
-file. They opened it with the open flags of the user's file, so it is in
-append mode too.
-
-For a synchronous write, do_backing_file_write_iter() calls
-vfs_iter_write(), which sets up a new kiocb for the backing file. That
-kiocb starts out with IOCB_APPEND set. vfs_iter_write() is only given
-the flags of the user's kiocb that are in BACKING_IOCB_MASK, and
-RWF_NOAPPEND is not one of them. So nothing clears IOCB_APPEND again,
-and the data goes to the end of the file while the call returns success.
-
-An asynchronous write reuses the flags of the user's kiocb and is not
-affected.
-
-Reproduced by calling pwritev2() with RWF_NOAPPEND at offset 0, on an
-overlayfs file and on a FUSE passthrough file opened with O_APPEND: the
-data was at the end of the file afterwards.
-
-Fix this by adding RWF_NOAPPEND to BACKING_IOCB_MASK.
-
-Fixes: 73fa7547c70b ("vfs: add RWF_NOAPPEND flag for pwritev2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chris Mason <mason@kernel.org>
-Signed-off-by: Amir Goldstein <amir73il@gmail.com>
----
-
-Christian,
-
-This is a followup to commit 19b18e01d0361 ("backing-file: enforce
-append-only and immutable backing inodes").
-
-It is NOT a security fix, but a correctness fix for both overlayfs and
-FUSE passthrough. It fixes RWF_NOAPPEND being ignored by sync writes.
-
-It had to go after "enforce append-only", otherwise sync writes could
-also overwrite append-only FUSE backing files, as async writes could.
-
-Thanks,
-Amir.
-
- fs/backing-file.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/fs/backing-file.c b/fs/backing-file.c
-index 5780f60662d07..c601b27f0fd35 100644
---- a/fs/backing-file.c
-+++ b/fs/backing-file.c
-@@ -115,8 +115,13 @@ struct backing_aio {
- 
- static struct kmem_cache *backing_aio_cachep;
- 
-+/*
-+ * RWF_NOAPPEND stays set in ki_flags.  Pass it on, because the backing file is
-+ * in append mode as well and a new kiocb for it starts with IOCB_APPEND.
-+ */
- #define BACKING_IOCB_MASK \
--	(IOCB_NOWAIT | IOCB_HIPRI | IOCB_DSYNC | IOCB_SYNC | IOCB_APPEND)
-+	(IOCB_NOWAIT | IOCB_HIPRI | IOCB_DSYNC | IOCB_SYNC | IOCB_APPEND | \
-+	 (__force int) RWF_NOAPPEND)
- 
- static rwf_t iocb_to_rw_flags(int flags)
- {
+You are awesome, thank you!
 -- 
-2.55.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
