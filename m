@@ -1,67 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793612326;
-	b=Ukaqoch3sN5tFwD53dRIR2si2jzO1hJskAxwr1aKYT4+XQ7rVCxWJLljzBaQsqcBpU7/
-	 OcjVkkpFUqIWe/gdUfVC34ox4RW4hs0PVbvMtg6rGxwDApMQVKdlPyeXC2w/vBbVigmQh
-	 +vIP7CwGXXg9861PD38IscmKMX82XoYTVpTvY7lLTO69ob6wEz5Fmg8vp4NTree6ULxDi
-	 VtMkF39RZSiHS5HO4FYFmpdaekOZ9uRE0DXHVhKNBDqenCFJhYlkDPyB+KC9I99f6Wmir
-	 FgT0xhhXwjK8DF+QZNW8LK16PIg0Ij60T97FepAN6VbwEA75f/VgaNhdzYVSa88vDow==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793612326;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793624187;
+	b=dzCe6BNZbhWZEO8rPHmeuvvZ9l8YBhzUUrj4gydP/73NA+7qWZEc2EFj6/xoByPn5IQM
+	 LeggE47LkTcKu5RL0EP3BbGxixwZuEVPFv++z7oK6foU7NdWnG/PbTNRDiabbDgYc58q9
+	 +EVsFfuqGa/se6SLjX1URnsN2kxA+hSnIUtfzAZmVqQ2RHBwUbQcNashNh94Y6QFb6Qov
+	 Uf39GpUQ7bu2JzYb240bLpU2nO7NOt5gHfzNeBsokBmjqx13AUu1cAxBfUrMQFZY8Rt9E
+	 3qc/rKEqzjLeyTabgq1Uyv8nnKp1e9tKjZQhJ3XF0Y0WBMwh7n1acgymRv9m5YTFuUQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793624187;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=wY2lxSBOT5vrFfsC6nW4WFwo3U7fyupwQAGbfep51T8=;
+	b=B8j6rBsZ5jK5Og5qzF4uINoctoknKEjDfhZzztTekt9UwC430cnjtpXswkw1EKoEP59B
+	 v2s+SOSX/eyV9fYEGiSVgjjV3NVTNtIm1osWi2xaKjZGcuAMxPexD90bR2pUYUGB1Cv/O
+	 PstzY/yPGfqQCeeBZHM0K/g1n5d5h2ukdA9bSLZ7i1PO/FjfuJb8EWfDonTkQb/kjZTTE
+	 omo/6qLzNMFRsqa67oSLdouEzDAK9w8/SdZaITo6bDgMz+kMK2lTjqnaEXHuTPdN52JDp
+	 unYg6RulZlX29VDSY5T0iVez5B6R6pvNjWf8JYRzxWSNNlaqFa5KbockZyf6ilc72/w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DEkMkzSW;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771B5606A32C;
+	Mon,  2 Nov 2026 12:56:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DEkMkzSW
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793624186;
+	b=CQHqpHoV8sJsVZyjuTBbEdRxzkBTZIhJYcakFbaS4xSke5CSIzA3opxCDuxwRho9B0U/
+	 RhTFIDLdgczEej4Wd96tzJGMS4F627xdOfZ6Zm2gS8dLiIbK5TnFZBoVrb1oIe/iZafbV
+	 tIT3UmImS0floZ+vTKThAjIYFizTzqak3vuQM6cXzMAYNxV5Ge1Iune9aL+O5ev6ijJ0B
+	 UC6K5azNfz2B4B4o0IC7/bsh9xt71rgBrfeRA3xibEjKOMg1IcGMndBf0JlcgL2HUc0lr
+	 8wb4/JbtUefWWyHpMm07R9mdDfQAztmIKWiIwY9YWXeZzO0u9JkqDxehVlid+HTccNA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793624186;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key:X-Endpoint-Received:X-Original-From:Reply-To:
 	 Content-Transfer-Encoding;
-	bh=/gTJQbZWPXuukNhpxnhsiQoF377JbkV8BMf46VNa8zs=;
-	b=oScPTq25uLwNs3QphcRMSjbhRcULjIY/3RCUiHHnaArxh1Zi6ikz6LYhSlxxYq/D9BUL
-	 4o7W0JScNzBvC8vzHoHL6HDf7WuBJAtHlHWs/uEOa9S0ABXqyWXuZZnx1ENidlw0fwkAp
-	 uM0bJAc0WC65ZHJT8yGO3lfamGyA+D362s9QwhDSOjQfwl3p1YoQ0Dd5aY58t0XH0bFD5
-	 nbaudv5JCpwRe4C9/oreAopvsNcJN+n54bK+7V6n/hgHeRsKoV8pKfFGW2vXqIcjuQbhD
-	 ychUFiIssC+0MwfA0vjGI0qIqgwGw4LGBRQVR7Lu/m0n7/m1aNtc5wTvEeCxVXP2daQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	bh=wY2lxSBOT5vrFfsC6nW4WFwo3U7fyupwQAGbfep51T8=;
+	b=DXx/o/2dZ68+ui7fcmlI4cRwltQYMiV7UADxiJu/5iIH9mXTG4c96PR7kWcqwxVV9Z+J
+	 XZRUeOvou/ugBNsh30GJzVE4tq6F78jFDfLdDi7gBEHnagfHpkJCkmhVXW7e15a6fwIcn
+	 r2vqMGHteZRHjn5xCnUbqS5XAf3ba1whoqbM6JTfNAjqR+0mdkhrBdpuKvpUTnToGqHCG
+	 w1bkabICZv/rKulf+3D1U28Yvh11fz4vVg9j/X2y3TipyCoMoCulhvzVmqg7//oXEDWm8
+	 0qZuLSWZcz+99aZdXyrG22/AgpRizKtcT/hILC06JHn5TZ+bwvhGJj0N+UqxwnrIGVQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84DA606A327
-	for <fuse-devel@lists.linux.dev>; Mon,  2 Nov 2026 09:38:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C84DA606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2ad7dd0ad6a111f19a56ed5b684f684d-20261102
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:5187ac7a-33cd-413b-aec7-efaaa935b386,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:df488f2e91aaeb5c2279f1e5acd87788,BulkI
-	D:nil,BulkQuantity:0,SF:102|136|850|865|898,TC:nil,Content:0|15|50|99,EDM:
-	-3|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
-	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2ad7dd0ad6a111f19a56ed5b684f684d-20261102
-X-User: weilixiang@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <weilixiang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 910925608; Mon, 02 Nov 2026 17:38:32 +0800
-From: Wei Lixiang <weilixiang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	fuse-devel@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: fuse: fix spelling of 'successfully'
-Date: Mon,  2 Nov 2026 17:38:27 +0800
-Message-Id: <20261102093827.6-1-weilixiang@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.kernel.org (Postfix) with ESMTPS id BA2311F00A16;
+	Mon,  2 Nov 2026 12:56:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793624186;
+	bh=wY2lxSBOT5vrFfsC6nW4WFwo3U7fyupwQAGbfep51T8=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=DEkMkzSW52v5w57J3ryR8frfFUlO/titOAmyt+f3DJMs8BWJdqFL1VGzuntrSF1wA
+	 IsM4efMUFLGs9yTrJe48jZpzDAGavhbhbC5x98jKtMGVJStcyc23SPlC9tdZSnVIah
+	 8DdWmDudUMQk2VleCaHabjiwx7sOa97+Exn2wtA6nOD/+lIpB4wwvknNpiRqT0YkxG
+	 Pemxp9oyq40bd4vJiHyhvLlvjDw5Pk+NsqvoG6k0Ym4w9cix8OrAUCwQSWkDzoXipp
+	 m2e4kMr/niuDnFDGGpXZdpCPDh1eVhuEtn5WzvaflrUKlHkdjhj0/HxWLjuj5iEsi8
+	 d0bR8Wz1KiiHw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 1C91C464E1;
+	Mon,  2 Nov 2026 12:56:25 +0000 (UTC)
+From: Joas Antonio dos Santos via B4 Relay <devnull+joasantonio108.gmail.com@kernel.org>
+Date: Mon, 02 Nov 2026 12:56:25 +0000
+Subject: [PATCH] fuse: ignore FUSE_ATTR_DAX unless a dax backing is
+ possible
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -71,31 +83,110 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261102-fuse-attr-dax-v1-1-36f7b859b034@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAHiI6GoC/x3MTQqAIBBA4avErBvwD4OuEi1Ex5qNhVYE4t2Tl
+ t/ivQqFMlOBeaiQ6eHCR+qQ4wB+d2kj5NANSigrpVAY70LoritjcC96qe0UrNcmGujNmSny+/+
+ WtbUPrInlzF8AAAA=
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, 
+ Joas Antonio dos Santos <joasantonio108@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793624184; l=3369;
+ i=joasantonio108@gmail.com; s=20261031; h=from:subject:message-id;
+ bh=m4kc2zrIGru9miJ8HcufOYYEsonQia+fldC1h5teqrA=;
+ b=FUjn2InbGAOhJkic3l8cIBqSwFOfOIPtATzqgu8Nf6MdMv9gjJW02YiPtIvwEBnXee7S0p3l3
+ Sei5/UYz88zCfquXH7GRgA++ev+vPoczULuaOIg/0P2hPf7AAmJ0Jo9
+X-Developer-Key: i=joasantonio108@gmail.com; a=ed25519;
+ pk=ZxAznJT/FcPPdzLrDDFJQm4LLjjHVGBBqDSG3TXS23w=
+X-Endpoint-Received: by B4 Relay for joasantonio108@gmail.com/20261031 with
+ auth_id=1371
+X-Original-From: Joas Antonio dos Santos <joasantonio108@gmail.com>
+Reply-To: joasantonio108@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Fix two misspellings of 'successfully' in the FUSE dentry cache
-documentation. No functional change.
+From: Joas Antonio dos Santos <joasantonio108@gmail.com>
 
-Signed-off-by: Wei Lixiang <weilixiang@kylinos.cn>
+fuse_init_inode() trusts FUSE_ATTR_DAX from any server: it sets S_DAX and
+switches the mapping to fuse_dax_aops, which has no ->read_folio and no
+->readahead.  The open path only refuses such an inode without
+FOPEN_PASSTHROUGH through an IS_DAX() check in fuse_file_io_open().
+
+With CONFIG_FS_DAX=n, S_DAX is 0, so IS_DAX() is always false and that
+check compiles away.  The file is opened for normal cached I/O on a
+mapping without ->read_folio, and the first read() calls a NULL
+function pointer from read_pages():
+
+  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
+  pc : 0x0
+  lr : read_pages+0x5b4/0x830
+   page_cache_ra_order
+   page_cache_sync_ra
+   filemap_get_pages
+   filemap_read
+   generic_file_read_iter
+   fuse_file_read_iter
+
+Any server can do this, including an unprivileged one mounted through
+fusermount3 or in a user namespace: answer LOOKUP of a regular file with
+FUSE_ATTR_DAX set and a normal OPEN.  mmap() of the file reaches the same
+NULL ->read_folio through filemap_fault().
+
+As the commit adding it says, FUSE_ATTR_DAX is only meant to be used
+with FUSE_PASSTHROUGH_V2 and a dax device backing, which needs FS_DAX.
+Only honour it in that case.
+
+Fixes: 2fbe4586cff3 ("fuse: add support for opening dax device as backing")
+Signed-off-by: Joas Antonio dos Santos <joasantonio108@gmail.com>
 ---
- Documentation/filesystems/fuse/fuse-caches.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Found by reviewing the v7.4-rc1 fs/fuse changes with an LLM-based
+assistant, following up on the Sashiko review of the dax backing series
+that pointed out the missing ->read_folio; the IS_DAX() check added for
+it does not cover CONFIG_FS_DAX=n.
 
-diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentation/filesystems/fuse/fuse-caches.rst
-index 0778dd3d357f..de1a452fdd31 100644
---- a/Documentation/filesystems/fuse/fuse-caches.rst
-+++ b/Documentation/filesystems/fuse/fuse-caches.rst
-@@ -156,8 +156,8 @@ in several occasions:
+Tested on arm64 QEMU, v7.4-rc1 with CONFIG_FS_DAX=n and KASAN, with a
+FUSE server running as uid 65534 in a user namespace that replies
+INIT with no flags, LOOKUP with FUSE_ATTR_DAX and a plain OPEN:
+before, read() oopses as above; after, the read returns the file data
+and unmount is clean.  The FUSE_ATTR_DAX=0 control is unchanged.
+
+This also keeps an unprivileged server from getting S_DAX on
+CONFIG_FS_DAX=y kernels without FUSE_PASSTHROUGH_V2, which is where
+"fuse: refuse FUSE_NOTIFY_STORE for DAX inodes" (sent 2026-10-31)
+applies; that patch is still useful for servers that do negotiate
+FUSE_PASSTHROUGH_V2.
+---
+ fs/fuse/inode.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 1341b681d0ed..7195e4d0852c 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -418,7 +418,14 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
+ 		fuse_init_common(inode);
+ 		fuse_init_file_inode(inode, attr->flags);
  
- - When a new file system object is created (e.g. ``FUSE_CREATE``,
-   ``FUSE_MKDIR``, etc).
--- When a lookup is sucessfully performed.
--- When a dentry is sucessfully revalidated (``->d_revalidate()``).
-+- When a lookup is successfully performed.
-+- When a dentry is successfully revalidated (``->d_revalidate()``).
- 
- A dentry expiry time can be set to 0, indicating that it is stale. This means
- that a ``FUSE_LOOKUP`` will be sent to user-space then next time it needs to be
+-		if ((attr->flags & FUSE_ATTR_DAX) && !fuse_inode_vdax(inode)) {
++		/*
++		 * FUSE_ATTR_DAX is only meaningful for a dax device backing,
++		 * which needs FS_DAX and FUSE_PASSTHROUGH_V2.  Without FS_DAX
++		 * S_DAX is 0 and the inode would be left with fuse_dax_aops
++		 * on the page cache I/O paths.
++		 */
++		if (IS_ENABLED(CONFIG_FS_DAX) && fc->backing_id_64 &&
++		    (attr->flags & FUSE_ATTR_DAX) && !fuse_inode_vdax(inode)) {
+ 			inode->i_flags |= S_DAX;
+ 			inode->i_data.a_ops = &fuse_dax_aops;
+ 		}
+
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261102-fuse-attr-dax-c1367d6c34f4
+
+Best regards,
 -- 
-2.25.1
+Joas Antonio dos Santos <joasantonio108@gmail.com>
+
 
