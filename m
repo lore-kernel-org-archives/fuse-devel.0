@@ -1,122 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793706480;
-	b=tTfnX1YXYK4Ypq1KasVKtBZNi1zCPK8995lpJy+PiauTm0lViCKd0bud4FsLX+ts4xlr
-	 DAAkzwOQ3Caj7aHQpNQBr++o/7PUjOGAJuuadMK4coeJdZLq9ENlU13UhBasTSEcvfOrz
-	 mUgLQ+B8sNQPoAKNFCB2CbtC8+GbNen83wXzaBBqUqYzO8Mvpo5N8oz1RrySXrnoX6kxv
-	 Voz+uxEx0pRrktcbhNMlluxnJPzPCXc4QEZl8j1ImwYKX2i0NS+Ncm5RLWH4qlruhkv6W
-	 v0BJaTgEAhwFWE6vTyyNM130u3Q6YQm7KnqqfyxMCDafXe8yZBbTK7sfwELbMMmEoeg==
+	t=1793725363;
+	b=lT1dTw1IC8fUFDwiZLDsATqLcC24phVC3Kz2kUjoKfyA1M+lxJ6q2xuBwsS9yrPAcJbP
+	 q+ElU1tHUnM375fUcQCBiP9PL0k5jq9J2Mphfk99sIzedVPqKB82NsvFG19swqgh5T9d6
+	 3SagZq1DI3mO89SolZdaU3b4ENGt+QDaqYm3jiKeifoiTY/QrR1FhDRh5AbEhRnb3jshp
+	 eiogwyfZkgqZ5wURGGwS45oTIhgUh0KW8c2q1+gef2EEGXOofV9WDD0oaTmlVmfNb3bWy
+	 cdCfi6pTvcc9RBIDteg5EZvNZqjxhiUh3b28kQRdnxyMn0I7U9Hqcp2YMt7nMxySoew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793706480;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
-	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=gpNnj5q4z35v5NpxDoXWpLWIxpF/EVXKHOt/hVE3ktU=;
-	b=T01qyvfeIQghPWEXNNoo4lvfeQlIKDGWemEv65quIQdLlhxRzoJmnZOhRzp2qux/TBvX
-	 f9dzjPmWhdtvH8EQONwB2WqywQAApgtPH8Eud/PaMkd5czSZLkBMor17PgZRYQaaGoGNE
-	 roVLexcbwJFMRiqIt6s0+hSTTDqDCYZUPVgaXOQBAlCCnPDZrN25V3EnP+DfDnizmWhgA
-	 0Lw4tgWkMiOMNKADMoSLxgt7H0/yV9UB9lqo4oTZCdFbUyBJhKrr6kBy79SFDz+Fvgkwr
-	 Wcx9ckVpkQDb3Rd/rqByXUrLmK+kXtMeyweSvVT6BxuriWYVKbOP1mSrfzymtgP7jfQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793725363;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:
+	 X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=WIZAEgnBwMpqlYT+9Xa4DAWnPrz+dUZjemGDsnG2tlY=;
+	b=na28XpsrvFLQqv2boxY8smlHHgRYBO/3pmlWF2s6cT+E2EfuFmAYxG5+bWa7wwRvjysH
+	 K2huCFNiRqx7un9IMJ7t2+Q3VYF3WbIW223/LlWu//K1qa2HKKNf/CRtGtqWpF/ynZzal
+	 0wxClh3HxrXF8Gdjmk0449OnQxWJFirrt1gm7BTOwWL7sPLj+RG7BF/LBjkECgZ1vRFaG
+	 czovqWv53bwYY1d4LX8v4W0panLKIE1TPJy1vJLhjDWsT1ifr8Q4bLbsKFNvO8JRjJqXU
+	 J7AxudoWCvsp0Ps2JidKA6iYbaPdI3/rHrWXchiiUXi9LNVcx/Y5g2OBIhvdBEjyR/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Y4zBKWh3;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CHDXryvq;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Y4zBKWh3;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CHDXryvq;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Z7Ft1wZO;
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC5D606D811;
-	Tue,  3 Nov 2026 11:47:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BC5D606D811
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA083606A324
+	for <fuse-devel@lists.linux.dev>; Tue,  3 Nov 2026 17:02:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA083606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Y4zBKWh3;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CHDXryvq;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Y4zBKWh3;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=CHDXryvq
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 2FACE1F83B;
-	Tue,  3 Nov 2026 11:47:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793706478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gpNnj5q4z35v5NpxDoXWpLWIxpF/EVXKHOt/hVE3ktU=;
-	b=Y4zBKWh3jpv6KMan74hAIoPBOSLs6tZK+6I3oXqMSfIYnA8S5ywXTaZUj3pHgSrb7VT90k
-	329ZViAKBSeKUbGb8+5mzc2frx/+GV6reJ9nXvxCL4vReDMldn3E1PoxUzI1wb8UPaR2qV
-	R/wJmcymFrxhPjRxW0H5+f3xz5M+HuQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793706478;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gpNnj5q4z35v5NpxDoXWpLWIxpF/EVXKHOt/hVE3ktU=;
-	b=CHDXryvqgLheeosXz5cGd2sibnFQ1eIqkqKPm0R0TjOV2ia+1m/8RKNtWnzplPS6lEGySx
-	jwKpi9Hus6OsYyDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Y4zBKWh3;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=CHDXryvq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793706478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gpNnj5q4z35v5NpxDoXWpLWIxpF/EVXKHOt/hVE3ktU=;
-	b=Y4zBKWh3jpv6KMan74hAIoPBOSLs6tZK+6I3oXqMSfIYnA8S5ywXTaZUj3pHgSrb7VT90k
-	329ZViAKBSeKUbGb8+5mzc2frx/+GV6reJ9nXvxCL4vReDMldn3E1PoxUzI1wb8UPaR2qV
-	R/wJmcymFrxhPjRxW0H5+f3xz5M+HuQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793706478;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gpNnj5q4z35v5NpxDoXWpLWIxpF/EVXKHOt/hVE3ktU=;
-	b=CHDXryvqgLheeosXz5cGd2sibnFQ1eIqkqKPm0R0TjOV2ia+1m/8RKNtWnzplPS6lEGySx
-	jwKpi9Hus6OsYyDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B3A57134B8;
-	Tue,  3 Nov 2026 11:47:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LqoVIu3J6Wr7VgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 03 Nov 2026 11:47:57 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 31B58B23A; Tue, 03 Nov 2026 12:47:57 +0100 (CET)
-Date: Tue, 3 Nov 2026 12:47:57 +0100
-From: Jan Kara <jack@suse.cz>
-To: Pedro Falcato <pfalcato@suse.de>
-Cc: Salvatore Dipietro <dipiets@amazon.it>, akpm@linux-foundation.org, 
-	linux-mm@kvack.org, ryan.roberts@arm.com, abuehaze@amazon.com, alisaidi@amazon.com, 
-	blakgeof@amazon.com, dipietro.salvatore@gmail.com, rvvandan@amazon.com, 
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz, linkinjeon@kernel.org, 
-	sj1557.seo@samsung.com, yuezhang.mo@sony.com, miklos@szeredi.hu, agruenba@redhat.com, 
-	djwong@kernel.org, hyc.lee@gmail.com, almaz.alexandrovich@paragon-software.com, 
-	cem@kernel.org, dlemoal@kernel.org, naohiro.aota@wdc.com, jth@kernel.org, 
-	willy@infradead.org, david@kernel.org, ljs@kernel.org, liam@infradead.org, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	ziy@nvidia.com, matthew.brost@intel.com, joshua.hahnjy@gmail.com, 
-	rakie.kim@sk.com, byungchul@sk.com, gourry@gourry.net, 
-	ying.huang@linux.alibaba.com, apopple@nvidia.com, ritesh.list@gmail.com, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, exfat@lists.linux.dev, 
-	fuse-devel@lists.linux.dev, gfs2@lists.linux.dev, linux-xfs@vger.kernel.org, 
-	ntfs@lists.linux.dev, ntfs3@lists.linux.dev
-Subject: Re: [PATCH 0/2] mm, iomap: account dirty at page granularity for
- per-block dirty folios
-Message-ID: <mcskrz2zbav5r3xtlwqytyotgjcmmi3wapeibkqornuhb3qp5y@qk22j77kvkqx>
-References: <20261027112702.3747009-1-dipiets@amazon.it>
- <auCrqvae2tm4a8PV@pedro-suse.tail5790ac.ts.net>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Z7Ft1wZO
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36c9a93a1abso617578eec.1
+        for <fuse-devel@lists.linux.dev>; Tue, 03 Nov 2026 09:02:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793725362; x=1794330162; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WIZAEgnBwMpqlYT+9Xa4DAWnPrz+dUZjemGDsnG2tlY=;
+        b=Z7Ft1wZOtEELZs1RqCnkkTxBDKUadMxmGdPj3L3RD8UUEQKZN5N1hur91ouIDXYBmD
+         rkq0F1b9c+rrnmjNsGOsQdH/yxmaAPrzzpEFgmUQbR62sxqraMiy/bEvR28rnEOG1L7s
+         hWXt1Q4mPvEIGaC7XV+WhS6b1Na0Bqa71bJkGM04kzvdQe09ui/1bvlFW3cKn1G473cc
+         01St8Fw8ioZqW4lOpF0jOU3sNSWwnJoOWFcBKFUIcWZOtIcTcDqQcRdzh/NsaRuAZ6Vn
+         vqQKnHBtWJh4zNJDDLzLG/KUP4zZ6BfImYeuGe+POu8uXWz0k7NeKRstYgxxO2H9Z27g
+         bKug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793725362; x=1794330162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WIZAEgnBwMpqlYT+9Xa4DAWnPrz+dUZjemGDsnG2tlY=;
+        b=f8OqSR6pdP1Zvjaj5TyIuKrEFyuMI4L0cBj1MeVhmEuHLHZmFLK1FXY493tLtDJxtw
+         zIubORL3eNfbPy7BlZj+IUQjHbcmGKl0bJNrPuKPrCBKNr1DCg1L9KCvIv20KvT4AEeE
+         MNcqNz0F0Fi6WZWttyHPVPEbtC/mJ1kOpJD+DByFg2rKI6HLlR1ZHpeiR9slKVuc4ZMe
+         mG5JfL+6+fJTNVEkHZwGclysm86QrSX2cRbWcIcKh1Nv1jU0fNiWRjXonJfRaNN2KCtR
+         pdNe9IudHHiROPv1WaL43gTUYpCs3uYQrp02B3c1ZaXRlFZbWW4RaNjcspFGwHZ6uOvt
+         Yojw==
+X-Gm-Message-State: APuU4Z/HwLRzJJ/a2ceOocLXVB6pm81DI0cdqkp/aYsP/VVJ4uqJ9snt
+	OvQoD0xl0/ZOvtrhsFD1JdzYg3jXe28jRr78IOXGmMnIebVdhbd7dovF
+X-Gm-Gg: AYBFou3uB1FOJj7tBZvUpeSMxhIG+17uXvwQ6K2cRmYEL5YrjwKp6PlpPPC4tJrTlS3
+	xIEacklqqsC5UJs7iiWNFUW4n8AWhh9jh+4GtQt5/c7/c8Fg9w2w0fUctL5dhNcnRfNRBEkDm4S
+	mxUSSMP5wzFK4vvpK/bzEQsF3hco5NBLJxBJdAdAzqlRMkRELKxESYGAyXM+DOFPyzQwoXCNLNy
+	MGj6mSlSn5wnWGehiD0YUCPXr7+owgyJ9srcs8s587o13tV+yJkK408Xn9H6iIeAHNA5pBOK/8C
+	0exLiXXCNKRwZNNxycPBIUDk7e+gcDj+qzhU8y+QyblIgZx1EBzFwdmTWQ53RqzweKgh+IcR5tX
+	bF1NM7Jp1Q8LMQIoHUBqEHqWVRLMgD9Mz3mvwGM3afhSwpDycL9gzKmyFiAfhcjK2oUjL9Zk2pD
+	iOVulGL0nJajatbQ79FBCvjvvT7a5ongFrneQjbFRqNwUjDdcqWRiwWJqmbmZ8p7IILc4Rz8fDX
+	d2NImrcjkazMxhA3qy0W0Koo+XRn4aDIMwjitwxmCFZJxWmTU4+VA48X4VPwJpi2evOCCoNj9Sx
+	OU0JP2YoDJpmsnbEr9PujwpnQ4hdUjh79MESZWH4GBvxL2qELYlZkzg3q40EuhqrECGLYPU4DJr
+	b7chV
+X-Received: by 2002:a05:693c:80c5:b0:36c:a165:4d27 with SMTP id 5a478bee46e88-36ca165569cmr229531eec.18.1793725361698;
+        Tue, 03 Nov 2026 09:02:41 -0800 (PST)
+Received: from localhost ([59.176.91.49])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428af91bsm47809829eec.8.2026.11.03.09.02.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 09:02:40 -0800 (PST)
+From: Amal Rockz <amalrockz669@gmail.com>
+X-Google-Original-From: Amal Rockz <amalrockz568@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Amal Rockz <amalrockz568@gmail.com>
+Subject: [PATCH] fuse: don't install DAX state when CONFIG_FS_DAX is disabled
+Date: Tue,  3 Nov 2026 22:32:36 +0530
+Message-ID: <20261103170236.2100236-1-amalrockz568@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -126,85 +96,84 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auCrqvae2tm4a8PV@pedro-suse.tail5790ac.ts.net>
-X-Rspamd-Queue-Id: 2FACE1F83B
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[amazon.it,linux-foundation.org,kvack.org,arm.com,amazon.com,gmail.com,zeniv.linux.org.uk,kernel.org,suse.cz,samsung.com,sony.com,szeredi.hu,redhat.com,paragon-software.com,wdc.com,infradead.org,google.com,suse.com,nvidia.com,intel.com,sk.com,gourry.net,linux.alibaba.com,vger.kernel.org,lists.linux.dev];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCPT_COUNT_GT_50(0.00)[50];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLwajpstcpqr181tektcof4ecz)];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.cz:dkim,suse.com:email]
-X-Spam-Score: -11.51
+Content-Transfer-Encoding: 8bit
 
-On Tue 27-10-26 13:59:59, Pedro Falcato wrote:
-> On Tue, Oct 27, 2026 at 11:27:00AM +0000, Salvatore Dipietro wrote:
-> > Since iomap gained per-block dirty tracking, a large folio can be
-> > partially dirty: struct iomap_folio_state records exactly which
-> > blocks are dirty, and writeback only writes those ranges.  The mm
-> > dirty accounting, however, still charges the whole folio even if a
-> > single block is dirty (up to 512x over-accounting for a 2 MB folio
-> > over 4 KB blocks).
-> > 
-> > balance_dirty_pages() then throttles writers against a number that
-> > is unrelated to how much data actually needs writing back.  On
-> > workloads that repeatedly dirty small ranges of large folios --
-> > e.g. PostgreSQL, which writes mostly 8/16 KB pages -- dirty_thresh
-> > is crossed and writers are throttled long before the real dirty data
-> > justifies it.  On the benchmark below, run on v7.3-rc7, the
-> > unpatched kernel charges ~159 TB of dirtied pages while writing
-> > ~6 TB to the array, a factor of 27; with this series the dirtied
-> > pages charged match the data actually written.
-> > 
-> > This series makes iomap charge and discharge the mm dirty counters
-> > per dirty page for folios that carry per-block dirty state, so a
-> > partially dirty large folio is accounted for the dirty part only:
-> 
-> Why? This looks wrong. Yes, you may only have dirtied e.g 4K out of a 2MB
-> folio, but the whole 2MB folio is still effectively pinned by the VM, awaiting
-> cleaning + writeback. And that's precisely what we want to measure and
-> throttle in certain cases, so that e.g the VM system never finds itself
-> short of clean pages it can reclaim, and no easy way to start writeback
-> on them.
+fuse_init_inode() installs fuse_dax_aops whenever the server sets
+FUSE_ATTR_DAX in a LOOKUP reply:
 
-Fully agree on that. We have already discussed this with Joanne about one
-year ago [1]. There are some aspects of dirty accounting that could be made
-more finer grained but overall the whole folio is difficult to reclaim due
-to dirtiness so accounting it all is the correct approach.
+	if ((attr->flags & FUSE_ATTR_DAX) && !fuse_inode_vdax(inode)) {
+		inode->i_flags |= S_DAX;
+		inode->i_data.a_ops = &fuse_dax_aops;
+	}
 
-								Honza
+fuse_dax_aops only provides ->dirty_folio().  The rest of the workflow
+relies on IS_DAX() to keep such inodes away from the page cache:
+fuse_file_io_open() refuses to open a DAX inode unless it is opened in
+passthrough mode with a DAX backing, and the truncate, fallocate and
+fsync paths reject DAX inodes explicitly.
 
-[1] https://lore.kernel.org/all/20250829233942.3607248-1-joannelkoong@gmail.com
+Without CONFIG_FS_DAX both S_DAX and IS_DAX() are 0, so the assignment
+above still replaces the address space operations but the inode is never
+marked.  Every IS_DAX() check is then dead code, a DAX inode can be
+opened and read through the page cache, and the first read reaches
 
+	filemap_read() -> filemap_get_pages() -> do_page_cache_ra()
+	-> page_cache_ra_unbounded() -> read_pages()
+
+which calls the missing ->read_folio() and jumps to NULL:
+
+	BUG: kernel NULL pointer dereference, address: 0000000000000000
+	#PF: supervisor instruction fetch in kernel mode
+	RIP: 0010:0x0
+	Call Trace:
+	 read_pages
+	 page_cache_ra_unbounded
+	 do_page_cache_ra
+	 filemap_get_pages
+	 filemap_read
+	 vfs_read
+	 ksys_read
+
+FUSE_ATTR_DAX is a server-controlled protocol field that is not
+validated against any capability the kernel advertised, so an
+unprivileged FUSE mount can crash a kernel built without CONFIG_FS_DAX,
+such as x86_64 defconfig.  Reproduced as uid 1000 inside an unprivileged
+user namespace.
+
+Do not install the DAX state when DAX support is not compiled in.  The
+flag is then ignored and the inode keeps the regular address space
+operations.
+
+The bug was found and the fix prepared with the help of an AI coding
+assistant.  The reproducer was written and run against both the
+unpatched and patched kernels, with CONFIG_FS_DAX=n and with
+CONFIG_FS_DAX=y.
+
+Fixes: 2fbe4586cff3 ("fuse: add support for opening dax device as backing")
+Signed-off-by: Amal Rockz <amalrockz568@gmail.com>
+---
+ fs/fuse/inode.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 1341b681d0ed..cf5fefb83e20 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -418,7 +418,13 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
+ 		fuse_init_common(inode);
+ 		fuse_init_file_inode(inode, attr->flags);
+ 
+-		if ((attr->flags & FUSE_ATTR_DAX) && !fuse_inode_vdax(inode)) {
++		/*
++		 * S_DAX and IS_DAX() compile to 0 without CONFIG_FS_DAX, so
++		 * installing fuse_dax_aops there would only strip the regular
++		 * address space operations without marking the inode.
++		 */
++		if (IS_ENABLED(CONFIG_FS_DAX) &&
++		    (attr->flags & FUSE_ATTR_DAX) && !fuse_inode_vdax(inode)) {
+ 			inode->i_flags |= S_DAX;
+ 			inode->i_data.a_ops = &fuse_dax_aops;
+ 		}
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+2.56.0
+
