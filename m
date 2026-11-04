@@ -1,47 +1,144 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793808351;
-	b=4QmSx7xLZZMtqbed++EPlfyda2g9hWLqfNY8cqreHqzhVyP3CTIyx3K3t89JkXtHhUlU
-	 NBbGmPTbytGf7YyEjEEY8ZDbKJfbsHt9DAi0bhWD5AseoEbrPg9KvD70sOhMir5/VOxJp
-	 QvsQV1Kcsu3toZeRzXHFN5DkwhyPbcEZI6h0QpcOpYQt1ybcaQaz2t4/GQ27EQJ8fWenT
-	 vu5euIy95mKyYRPfUwCz2p1wq9MVSpdv0Sk7q0FZPeZKGelQinw5w5lCpJmZ4a2YeZ5kz
-	 U3T65uphvfRwL9HrYrQLH+DUPnC3iVyVKgOw6OMryZthP0gMFNbGuKr45VOgmweQHUg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793808351;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=KQOlEBXPj3aUpi/4be1OgcxwZwKCG7z2LEPq88kuQWI=;
-	b=LkDOmWZ+naMgeZlPo0PIM7mRvkBNUs08p7LZfhCVc1a7sOSnsQBtxM7NNFZ9T9U6fPHz
-	 p5LQxxbIZaYXz2z8tpbUwcrJ3OuQ1q5ZJNTKNfjpQiHy1yPADbnhYEN4zvjiotEGqpfMK
-	 wCmJ9/DVYlrOwbOwSxtRTXQJSw7tfGFkMHqKiGE1wEzDqmydlMJRpAMMphsP1Gt4NKjKx
-	 VAp6pLiYfeLe5tN6sUrIkjfcZi/I4lf8WBWywcIyuISotCPiInzxHx5EgPUFRShMlKE/y
-	 ZNpMfCzr/arfC2qKNHgU6IuM9PjzRfj4J1uOscvSJyj2vhEocsaP2/ZXio0Og1dhZ4w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XGBnkNLX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=52.101.167.121
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793811039;
+	b=T3xwy7czqLiMOk3Q69NDWX4lRzj9C0v76J5tMdnnusjS+R7i1BBlDsdZDejeFrYkbaMZ
+	 +ldIjiZN/dnZZ7iRPs3O0p5deS+61JXakhHkEALZ28jwrFqkHq07pPY5TbBnKWzhFcmsq
+	 trRP0R1zo/N0wV+gn55z9Q48pipbXa7MUjJJ/0CF+tskOcxHkCyJjmJoZ/NjUFduLb3Hx
+	 DGXCpOErk9dZtrr5Amk+p7BHYWCBwbWomHRonnO9GCd76c64jSiccCWamrr1vJjmasSVy
+	 xwyC/Ve3ctecJcq+qbufyBo66BuWhsvuPdvvlcKXn6pCIIC9aniXDyEddNJ3YSMd8CA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793811039;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
+	 Thread-Topic:Thread-Index:Date:Message-ID:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
+	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
+	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
+	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
+	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
+	 x-ms-exchange-antispam-messagedata-chunkcount:
+	 x-ms-exchange-antispam-messagedata-0:
+	 x-ms-exchange-antispam-messagedata-1:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-originalarrivaltime:
+	 X-MS-Exchange-CrossTenant-fromentityheader:
+	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+	 X-MS-Exchange-CrossTenant-userprincipalname:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=ycM/yr/WL0cl1t5ISoVpIG6YtRxCJWSjqzuUQE2SNpA=;
+	b=sXlbLzFtqV94hTLU+Tn2V5HZzJD8iFy1SNNur2Rgh9k2fyAjBe++GlxcsYnyOOGjre+I
+	 Nntl392+iW3SIhePWDE1PJTGJf0lmBAKJ3ejuou9RuKqQZ/ozBvJQ78vS65ZVaurg6twB
+	 s6UWT+2zkMzUYmD39GOJKXodwklzLMjNlfojLIbOqnvGk284tNSJ2hQlfBZZFgG2o+K8w
+	 Iu7URREoXNKQEynHgDIZYqwBSlI/ZJ+VDNfL3OrkoYPqbBXQ6M5RNgeoac8ecz3BRRU9x
+	 SXQI4uv48xYFBje8sN2XIW6ORfPmNd1FuF4BdYlvyet8r2F7Oef1xR+JC9XZ8E7omPg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=gehtz.com;
+	spf=pass smtp.mailfrom=gehtz.com;
+	dkim=pass header.d=gehtz.onmicrosoft.com header.i=@gehtz.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-gehtz-onmicrosoft-com header.b=WyxYyu+x;
+	arc=fail smtp.remote-ip=52.101.167.121
+Received: from PA5P264CU001.outbound.protection.outlook.com (mail-francecentralazon11020121.outbound.protection.outlook.com [52.101.167.121])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47819606A32C;
-	Wed,  4 Nov 2026 16:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D93D606D81C
+	for <fuse-devel@lists.linux.dev>; Wed,  4 Nov 2026 16:50:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D93D606D81C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gehtz.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gehtz.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XGBnkNLX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED3D11F00919;
-	Wed,  4 Nov 2026 16:05:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793808350;
-	bh=KQOlEBXPj3aUpi/4be1OgcxwZwKCG7z2LEPq88kuQWI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XGBnkNLXs0XuijqK3zM9ttmSgU1UTQ/rg+h8cBP8P4uqXYo4giEahBxrcuY3adchR
-	 Fzz7Kxc72wqhaVNQqSU9qwgaKTHR4jiazsTntiru7aBN8SpcxaCtNCfMoRM0qLRbM6
-	 FW6Ty/z8Pf+pWUCFsvGkMcVTffrWDJ+342v4yosfovPQ/IFAhRGraZqwVzgNsmhgIJ
-	 mSCwhQsqcG5n/DtSo/ELArgdQn8d62OS2gFbWIwmDsUMzNcEsKBCKIhxbVyWz0I/Yt
-	 x2jdFxCv0RjOk8EQ3HmNynII7gOiS5tnlHRd5mkZ/nBVMeSeLm5puPCpWiUBvL2fOk
-	 RJnav2hHIjLXw==
-Message-ID: <af2102a2-206d-4c5e-ba1d-1ef42b2b6338@kernel.org>
-Date: Wed, 4 Nov 2026 17:05:29 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gehtz.onmicrosoft.com header.i=@gehtz.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-gehtz-onmicrosoft-com header.b=WyxYyu+x
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gIdgOjx6zYL9Q878+5L8Fw5IcPMMpktn1L3Di6t9Mf8kL8xnTaREMsCzCbOzSKVUVZ8fGTJIZvUHi5735UZCDSxgmbXthXBJc4dIMLv67/TN2+kWUNbtZkpXiJIWvcGkMa9bGTFYsxoJQ0zd/xE0wzsqpYtU0f24DRp/Man+mzbrjTdxFezjgToP1feL+loL9TpbeQ3wKBMo77W4doAce37BAYdD5deZ41Hxo1jwPBuWCu1q31MHoCjqI8O5nAgkzVsHvXdXCiGbayInqOiZJOUNqGiqoRzPlOjqvY50J9mtwxekZm4CiCGaNTZaxW7wFveUPq4zJV8na3mAc0OM7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ycM/yr/WL0cl1t5ISoVpIG6YtRxCJWSjqzuUQE2SNpA=;
+ b=g6uX08+HwawsqHeeVrRvrHwkI2uhAmT7b+FW5t0VdBWkwjhu+vb5ck0GnepY43HBLQgWbE59v4tzPqBWJo6GxJ+/+Tboe+0n9hzOpqJqAS+oH5rmocIdbhrq2cAwgJ3KQnJ87fqK6EbaeFnc0XVlv4tckSyr31CZOC3lxDLOebDSPrfRih48KIyeYDTbVm2hQZA6SWWheCuQmd8mlZhTzIvpKKWFrHVZ+VNIH/ko3aR0ijNRum+j5SmMQJ4H4Nc5iw+H2j8ofmSpPLWj+WNsChtkOcURjECaMck8cHhDjKmvDAf+vA6UI8xyn9THG0yarr5QB2/Bm/2sBKKMRn1FoA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=gehtz.com; dmarc=pass action=none header.from=gehtz.com;
+ dkim=pass header.d=gehtz.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehtz.onmicrosoft.com;
+ s=selector1-gehtz-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ycM/yr/WL0cl1t5ISoVpIG6YtRxCJWSjqzuUQE2SNpA=;
+ b=WyxYyu+xXNAtgbqTwFiPZRe2lnbUUAPFCy/zr/bmUQg53t/RwKCev8CDeLz0H4+sDmN16itXERvTOEjLV4wdrOT9a3r4I2Hm/lQ9PfdR7cLyeDIAkLD5/SaE3H6KMDi63Pqje9BkpDipt1ADAsV/7K/gqUBAUeEzQKBma0hej3oWuB+6xH9M/UjpR5rDZFN5L6hA0XHcE1tMZGOOCzVr4AJf8nICuGoY+UuOmcPq/FqoXBDv1UBncr+eAmHJOU6pdlRvI3o2F0MJbFv5TJr8QXCPISQNAJVit0IH3y/vC6qDgixg77QTB18KwGk4E5WldsEWeQGpAA9WenE3EfU0fw==
+Received: from PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:543::12)
+ by PARP264MB4785.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:42d::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Wed, 4 Nov
+ 2026 16:50:34 +0000
+Received: from PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::1523:7b3f:c670:41d3]) by PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::1523:7b3f:c670:41d3%4]) with mapi id 15.21.0592.009; Wed, 4 Nov 2026
+ 16:50:34 +0000
+From: Geoffrey HARTZ <geoffrey.hartz@gehtz.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: "fuse-devel@lists.linux.dev" <fuse-devel@lists.linux.dev>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: [BUG] fuse: auto_inval_data drops a write-through write's folio
+ before its WRITE is answered, and a read caches the old bytes
+Thread-Topic: [BUG] fuse: auto_inval_data drops a write-through write's folio
+ before its WRITE is answered, and a read caches the old bytes
+Thread-Index: AQHdbHtgKInjkaVtCkW7zRUk31/OOQ==
+Date: Wed, 4 Nov 2026 16:50:34 +0000
+Message-ID:
+ <PAPP264MB7189832597866399467B911689682@PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=gehtz.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAPP264MB7189:EE_|PARP264MB4785:EE_
+x-ms-office365-filtering-correlation-id: 10ca3943-0b84-4c5f-8fe6-08df3a93be88
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|23010399003|376014|366016|10070799003|1800799024|6133799003|10067099003|18002099003|38070700021|261022105027099003|56012099006|5023799004|261102123227099003|261022115727099003|261028144727099003|261026121527099003|261026140227099003|261021121427099003|261009223027099003|261022075727099003;
+x-microsoft-antispam-message-info:
+ dNZBJTWqrWzocAr2z7JwfmvEk0XNqlGvfCBLcZ7G3bWClX9Bdt2tB/UfDjiMAZRkr1/4rzhfoTkzyKOUyHlpa09FzZRawNlKlZaaehNvdpImFLS9YrghD/AF9KBwe8osA+qjg2KGw1qT7VFE8R5fpgaoI5xrcN3qGMEPTcAO2HUTAVJSH8R1vfp4FRPqkgeyAgS5Q+G7yDaFRla4T/Xp9aDZnr7gx3U4lMuSl0c/8m/05ax/g8zq9ozgRNWNNQr0znKbDF56FfMwQhm0BF8LGb55H0L5lu+NjdfnlzAkURW5yjC8/GVBG7q9a2vngLPUiuNzJr0+bVpDDfxECrlbggoNjMOswz7tughR3iVpmPxAfcYlR7+39GB9Kpn+BT0C6toSoIeMAoPTvMPP4BuyOtZayCsznWIUN8O+0gxWqy9VBclnXdVsZK8QS3W/fCJRtCWozI5BEYYuD72dnHzzHnzuA2LuLHvt657S1Qp06hf3SNpZZQn7Kj+kAdKTdJrRKpURyiLYlod3ONoX6NnakdEwloE7msazTPPLnmSeZj8lk20qJ+Bk4Beq3Y99xwIikKH+KePrNiBpueHoOAPGYmMkKK71AnWR3SHx/5jyqDn3eNuppMd8QNb1r8O2FjJgmTExhUtI7JmZ8C/5DAPMHte3m5MkJVbJr95igTmxPdBx64q563zCrElz2SKErZU0wlMx8MAwrdvPt4uwp5gxJg2ON1oxuDDaNAzfHaZtTSM=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(10070799003)(1800799024)(6133799003)(10067099003)(18002099003)(38070700021)(261022105027099003)(56012099006)(5023799004)(261102123227099003)(261022115727099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021121427099003)(261009223027099003)(261022075727099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?zExkaDtSyjGoaxkhMGRVFwKMVf7r5sSI+Vlwblhw47MbFR0Afk5YJedZ9d?=
+ =?iso-8859-1?Q?IBqjq1X5MscMdbLBR5IN4SttSWOXXrIZR5R1V6RNoD2oGtAPvmfa/Xv0xc?=
+ =?iso-8859-1?Q?RVt+/0LkUb/nBahuWwBeZOR9CCEq2ADZcqqQBWh4KXMTRHEv20FYZpR3gf?=
+ =?iso-8859-1?Q?gVyv1KHAJI9A/JAjxd5vjDy70n4G5oB9huDe+kOYR/I4GKPtEg94nguU+v?=
+ =?iso-8859-1?Q?QEZ57MjinHppYU19CsB2NWoF9wzdGXWXf7MOhDxHS2UirhKJQSIIuFa8BA?=
+ =?iso-8859-1?Q?3DyFmVkS2n+4YhdYXfq1oAloJzmFBQxBIBfZiawKDoX8mlYuXAPUkqo5K/?=
+ =?iso-8859-1?Q?Q+KN6tG1cKKOyN3++PlXaAc1jvg5q5Q3QxQEzVpgMZAXD73zvcjxNyA8UF?=
+ =?iso-8859-1?Q?uGFynJ9b+rmJliS5TE8OeybcffV67nAOOuGELhVpzC4XJVfg8n542Uvf42?=
+ =?iso-8859-1?Q?Om8PQswOX2sYknoMcyTJE4IJDfqkORPQqqVFznWENQ+3MVl0Dj+4PSCH3v?=
+ =?iso-8859-1?Q?j6tFpEtugiJYLAjL1inZUv1o6aEb7H8YgJd7sOwFSeJSaAc9YnmzjYtFB5?=
+ =?iso-8859-1?Q?ocPz++rBHbek9XOJ1Z2h5NZkaFQZd3cLesMUydV0bjO7dUWNc5UZ2bK3GN?=
+ =?iso-8859-1?Q?sIwPuUnaqzza1x6mpGNCvxjayD7LO9QhpCDSpk6al6X1TV1+diRikv9C77?=
+ =?iso-8859-1?Q?+BeX35wkkSj463BH6Lek8UcMF+JN7yF3SG+a9VjvkgM7nKJtI0LoWXuLBz?=
+ =?iso-8859-1?Q?Z0dj/Fz0bASYv3wPq6d6SrRWrDN/nJmMe89MXSafBYend5kQER3iXMZ8IK?=
+ =?iso-8859-1?Q?gMIpyZgCz58BFyrQLFnZmxqQ8NA1yv5TuFQRET/Q9mwsGIOn9ixuEZtjpP?=
+ =?iso-8859-1?Q?+0jN7qhvG3XxcvFS6/SmD1CVDUxo4M2YA+awXgWntyBvJrUqSK8yb4ANul?=
+ =?iso-8859-1?Q?C9jl+r+xuXh7eqqp3zXgY4tupZFoHJkb6r3+s5P7mt60DaPb6SsY19cLjp?=
+ =?iso-8859-1?Q?FTOutFL1ONSSB6MMQ9fHRVetALqI+U+Ql1jrhm8cuKodie40XlXwsDyPT2?=
+ =?iso-8859-1?Q?ev7jonQHSsGvQdPKcrqYAhtjTY+3ydwBOqaYFPlALEeTUjQ/eqZpY9kolE?=
+ =?iso-8859-1?Q?KsJjjHQ1wRm8DJmvZaipsYMpLugJpIAA68lCohuAcX0Y32MaS4cH75MAFf?=
+ =?iso-8859-1?Q?d6UbzFEFiCVFxg5IXkH3/muRlh+gC8Jv5qyi8DMZojUXgjKV62TviUNjR7?=
+ =?iso-8859-1?Q?xn253SmpXao7+Uo2VvreQWZKb3g99IcfB0w3OJb7T3goU//LOXyilNPIlZ?=
+ =?iso-8859-1?Q?5//xUV7bdapv78MY6QCEE9gHrfYReFgi4Rx5Oegsqsr3v/DtDUjsCfWsr+?=
+ =?iso-8859-1?Q?K3egXqAsLQ2elkPNU0nFVarZvMpfMDjst18Oghk/cbMQ0rAmgvF8ZiBmBh?=
+ =?iso-8859-1?Q?d0cLPExG8UMYoeiWYz++7SY65Ec3/FMVFiITRwR7q+MtW/sQYyjhhUMoPs?=
+ =?iso-8859-1?Q?rSoOjFBUBHQjMQcVdrowWapx/gZpmSaTnwmNjCKq84IPr1E5I/rI3+jeo/?=
+ =?iso-8859-1?Q?nig3ZEQCPpeMBMKFKDuJgfXIT/76HESnc41hrdnmDaOznovW1nEFJxfdnW?=
+ =?iso-8859-1?Q?zCgpZh26nK1YKWnS0n++b9WiTw9a0fCcpudsySr7Ka3PoI5HthqbiiOQQZ?=
+ =?iso-8859-1?Q?LABvAk358pKYzP1/65zbnN0UKxTDc9lEV+WGiwhO+9Q+wd9TBC/eis2Q4m?=
+ =?iso-8859-1?Q?C+WR6wYzeRDZSkyWMuvz9unNC5d1e+aQOLdH1kvLVVtd6qqSVkqCR+2VWk?=
+ =?iso-8859-1?Q?iDVKFNEY4tiUYvY85PwziwlEp231wHk0U4tkKIyZvEhdAgNEerewbw+pY5?=
+ =?iso-8859-1?Q?ji?=
+x-ms-exchange-antispam-messagedata-1: zlrZPiw3XCuYcQ==
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -51,118 +148,109 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 02/18] splice: don't steal page cache folios
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
- Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
- <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
- "Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
- Luis Chamberlain <mcgrof@kernel.org>,
- Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- kernel-team@meta.com
-References: <20261104130118.2507513-1-kas@kernel.org>
- <20261104130118.2507513-3-kas@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261104130118.2507513-3-kas@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: gehtz.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAPP264MB7189.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10ca3943-0b84-4c5f-8fe6-08df3a93be88
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2026 16:50:34.0229
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 75a5ff28-5974-4bc2-8890-738005ef36cf
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zIQwOuYR80eBJP2iq3LAYg0JspyKFvW0wsihcm3yE/WeXomXYcIA/obbWIuPwTB/TKJ+v3Jk92kjQHalHhRBiVwaNod8Sxo55dLMyPMbUtU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PARP264MB4785
 
-On 11/4/26 14:00, Kiryl Shutsemau (Meta) wrote:
-> From: Linus Torvalds <torvalds@linux-foundation.org>
-> 
-> PG_rcu_free holds back the reuse of a folio's memory until a grace
-> period after the folio is freed.  A stolen page cache pipe buffer is
-> reused without being freed: remove_mapping() takes the folio out of the
-> page cache and the caller keeps it.  fuse_try_move_folio() puts it into
-> a fuse file, where writes change it under a reader that found it before
-> the steal.
-> 
-> Drop ->try_steal from page_cache_pipe_buf_ops.  fuse_try_move_folio()
-> and virtio_console's pipe_to_sg() then copy, as they already do when
-> stealing fails.  SPLICE_F_MOVE from the page cache into a fuse file or
-> a virtio console now copies.
-> 
-> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-> [kas: rewrote the changelog]
-> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> ---
->  fs/splice.c | 51 ---------------------------------------------------
-
-Removing code is always nice, even independent of the other changes :)
-
-The description doesn't really describe the impact of this change. I assume a
-slowdown of certain workloads (does anybody really care?), and temporary
-increased memory consumption (as we keep the pagecache page).
-
-No idea how often stealing actually succeeds ... a bit of history why it was
-added in the first place and why we no longer care now would be nice.
-
--- 
-Cheers,
-
-David
+Hello,=0A=
+=0A=
+On a FUSE mount with FOPEN_KEEP_CACHE, without writeback_cache, and with=0A=
+FUSE_AUTO_INVAL_DATA (libfuse's default), an in-place write(2) can leave th=
+e=0A=
+page cache holding the bytes from before the write. Reads keep returning th=
+e=0A=
+old bytes after write(2) returned and after the server stored the new ones.=
+=0A=
+In our case SQLite in WAL mode read back stale WAL frames, and a checkpoint=
+=0A=
+copied one of them over page 1 of a database (Plex's library).=0A=
+=0A=
+Reproduced on vanilla 7.4-rc1 (not tainted, in a KVM guest), on Debian's=0A=
+6.12.111 and on 7.2.11. The code involved is the same in 6.18.=0A=
+=0A=
+The sequence:=0A=
+=0A=
+1. Thread A calls write(2) over cached pages. fuse_perform_write() calls=0A=
+   fuse_fill_write_pages(), which copies the data into the folios. Folios=
+=0A=
+   that are uptodate are unlocked right away ("if (folio_test_uptodate(foli=
+o))=0A=
+   folio_unlock(folio)"). fuse_send_write_pages() then sends FUSE_WRITE and=
+=0A=
+   waits for the answer. FUSE_I_SIZE_UNSTABLE is set only for a write that=
+=0A=
+   extends the file.=0A=
+=0A=
+2. Thread B calls read(2). With auto_inval_data, fuse_cache_read_iter() cal=
+ls=0A=
+   fuse_update_attributes() on every read, and the attributes are stale=0A=
+   since the previous write's answer. The FUSE_GETATTR answer has a new=0A=
+   mtime: the server moved it, for example at an fsync of earlier writes.=
+=0A=
+   In fuse_change_attributes_i(), fi->attr_version has not moved yet (A's=
+=0A=
+   answer has not come), so the answer is applied. The mtime differs, so=0A=
+   invalidate_inode_pages2() runs. It removes the folio A just filled: the=
+=0A=
+   folio is unlocked and clean, and A's reference does not keep it in the=
+=0A=
+   mapping.=0A=
+=0A=
+3. B's read finds no folio and sends FUSE_READ. The server has not applied=
+=0A=
+   A's WRITE yet, so it returns the old bytes, and they are cached.=0A=
+=0A=
+4. A's WRITE is answered. Nothing drops the stale folio again: the mtime=0A=
+   does not move until the server's next change, so every read until then=
+=0A=
+   returns the old bytes. This includes A reading back what it wrote.=0A=
+=0A=
+writeback_cache avoids it (the folios are dirty, not invalidated). Without=
+=0A=
+auto_inval_data, only a size change invalidates, and with=0A=
+explicit_inval_data only truncate_pagecache() runs.=0A=
+=0A=
+Reproducer: a small go-fuse server with one 1 MiB file. It applies each=0A=
+WRITE 3 ms after it arrives, and moves the mtime every 20 ms when writes=0A=
+have landed since (a periodic sync, as our server does). Writers rewrite=0A=
+1048-byte records in place and read each one back after write(2) returns;=
+=0A=
+readers read the file in a loop. On vanilla 7.4-rc1 (16 vCPUs), in 15 s,=0A=
+441 to 461 of about 4,440 read-backs returned the previous record, in each=
+=0A=
+of 3 runs. With auto_inval_data off: 0 in 3 runs. SQLite in WAL mode=0A=
+(1 writer, 3 readers) over a loopback server built the same way (WRITEs=0A=
+held 3 ms, the mtime moved at fsync, close, setattr or every 30 s): 2 of 3=
+=0A=
+runs failed within 9 s ("database disk image is malformed", "file is not a=
+=0A=
+database"); with auto_inval_data off, 3 of 3 runs were clean. I can send=0A=
+the reproducer.=0A=
+=0A=
+Possible fixes:=0A=
+=0A=
+- Keep every folio of a write-through write locked until its FUSE_WRITE is=
+=0A=
+  answered, as is already done for a last folio that is not uptodate=0A=
+  (ia->write.folio_locked). invalidate_inode_pages2() then waits for the=0A=
+  write.=0A=
+- Or make fuse_change_attributes_i() discard an answer (as it does under=0A=
+  FUSE_I_SIZE_UNSTABLE) while a write-through write is in flight on the=0A=
+  inode, not only one that extends it.=0A=
+=0A=
+Our workaround in the server: turn auto_inval_data off, set=0A=
+explicit_inval_data, and invalidate a file's pages ourselves=0A=
+(FUSE_NOTIFY_INVAL_INODE, or an open without FOPEN_KEEP_CACHE) only when no=
+=0A=
+write open of the file exists on the mount.=0A=
+=0A=
+Thanks,=0A=
+Geoffrey Hartz=
