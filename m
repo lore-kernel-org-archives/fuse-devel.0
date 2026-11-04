@@ -1,127 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793797399;
-	b=qL1QvadDKD2p008iqKXBSuUDgvRjGmfhnve5D1XtC1D+CAGKMQ9OLVpZZOSVKYBh7Z6b
-	 JWPg/R/0zZilm+d1Ig2Z4FKs9N0RFrxrFvYkmzrnlk522C7TOFP7TktUfj1S6KV+dnuHT
-	 +cw2DXgdaBzmzpwo+dpLFwlaWkDssUkm9ddVSQIdC/6c/Gg9nnI6IY8ms1PVUcSQA/4tl
-	 574k9bmhPRV22NqFkjFoWok9bjZnn3o/sD6WDhiGMYEO4YJFt8bCTYmbpy+fDjoWCThSN
-	 R074fc7SYeE4/AsYe9ieucOcqyI6WtObSFzQRSRk8WAul80bUe0b6NYpzGFCCRJbJdg==
+	t=1793808351;
+	b=4QmSx7xLZZMtqbed++EPlfyda2g9hWLqfNY8cqreHqzhVyP3CTIyx3K3t89JkXtHhUlU
+	 NBbGmPTbytGf7YyEjEEY8ZDbKJfbsHt9DAi0bhWD5AseoEbrPg9KvD70sOhMir5/VOxJp
+	 QvsQV1Kcsu3toZeRzXHFN5DkwhyPbcEZI6h0QpcOpYQt1ybcaQaz2t4/GQ27EQJ8fWenT
+	 vu5euIy95mKyYRPfUwCz2p1wq9MVSpdv0Sk7q0FZPeZKGelQinw5w5lCpJmZ4a2YeZ5kz
+	 U3T65uphvfRwL9HrYrQLH+DUPnC3iVyVKgOw6OMryZthP0gMFNbGuKr45VOgmweQHUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793797399;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=n4Lerps2lD0Mw1JlyAS7XwS+swB42xH028WT2k07pwY=;
-	b=pCu40zhrt4psk/4YEHeBNCt8sm7S0sqEZe4/jijJMqKiIab2aiR98E1wG8YDyjwAFsmg
-	 YkRLz9+3RsOiDDXQYFpcUL8GCI++wCtJWlXXcJJL8LaVPnDcT70r9P7xxO2kSehue3I6W
-	 3FDM2rE/KpbLHxp4fUMBgTJRMVjZnmFhD+nmJhrHGx3HZRJLHmx90DqaCSEyjT6fMNiqT
-	 DJUD5tMd7phStIEmM8WFvJhpXzFyNtMEnL1mrfe1zqcz4VBOfgUl1afsLj5DmSRnj/Ikb
-	 zVyeOiSlmyYA1lmyrrvuRNItMh1wmRimjlBHFt7ZE60x9IJZXWogGGdEG54EZY8BYLw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793808351;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=KQOlEBXPj3aUpi/4be1OgcxwZwKCG7z2LEPq88kuQWI=;
+	b=LkDOmWZ+naMgeZlPo0PIM7mRvkBNUs08p7LZfhCVc1a7sOSnsQBtxM7NNFZ9T9U6fPHz
+	 p5LQxxbIZaYXz2z8tpbUwcrJ3OuQ1q5ZJNTKNfjpQiHy1yPADbnhYEN4zvjiotEGqpfMK
+	 wCmJ9/DVYlrOwbOwSxtRTXQJSw7tfGFkMHqKiGE1wEzDqmydlMJRpAMMphsP1Gt4NKjKx
+	 VAp6pLiYfeLe5tN6sUrIkjfcZi/I4lf8WBWywcIyuISotCPiInzxHx5EgPUFRShMlKE/y
+	 ZNpMfCzr/arfC2qKNHgU6IuM9PjzRfj4J1uOscvSJyj2vhEocsaP2/ZXio0Og1dhZ4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VcnEORRK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XGBnkNLX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F57F606D80C
-	for <fuse-devel@lists.linux.dev>; Wed,  4 Nov 2026 13:03:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47819606A32C;
+	Wed,  4 Nov 2026 16:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VcnEORRK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7123F1F000C1;
-	Wed,  4 Nov 2026 13:03:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XGBnkNLX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED3D11F00919;
+	Wed,  4 Nov 2026 16:05:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793797399;
-	bh=n4Lerps2lD0Mw1JlyAS7XwS+swB42xH028WT2k07pwY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=VcnEORRK0xRjjrKJZoF9rCkhES79//9BhLXvgZfyVbaQ/EkZiDFhlxYs8CzFWXCkq
-	 utDNldPdMaTBE20gG4Xm/rMeR+GLmg15cOin/lCfuivDbjMWSVdlL7K7TaUO4aBT9v
-	 TupWTvhcNV6J+VzdtJU6c08AwT2oIPBkckOUDrY4ynyH2Q8nw8MB1hVa80KZQ63lER
-	 oKYtC9vxtzulWvq4ptl0bcbegCdibjDzxR452M0F/8lzOUqCrWuOQ8uk5p+DRRlEmd
-	 SAQLAcOq1OWycgPFbdAAklk0PSQlHdadnXMKo3HgPo36hPxK0BlL4K5w2oKDJ1Y7gO
-	 HGR7X+lWMJZKA==
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 5718F1980052;
-	Wed,  4 Nov 2026 08:03:12 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Wed, 04 Nov 2026 08:03:16 -0500
-X-ME-Sender: <xms:Dy3rasvOZLRorb5Y7XVip4fp4u6VdMfGeH3EQ_kRQSi2pTaTi_RLVg>
-    <xme:Dy3rauuBt8SLKdmFox98xDaW_7D3C47nxk6XazFb-E4-bi4XXo2voh0KXBx3tjLjf
-    e2UFTdR3bXItk7AjYufdS1uS9LFOcbSumkWhYR_E8EtbIBA7o71yRCt>
-X-ME-Received: <xmr:Dy3raqbCy1NgIotKuM19qURDgk8WpBrPETTvs04pcj86_qP52HLNaXO8ll0>
-X-ME-Proxy-Cause: dmFkZTEMr2WhNOOY7faPMgOVA86T3X6FAd5Ao5Ndgx8HItBF0IoaqscGd+eHtrr6ZU+W1R
-    wMCQkezO/jqDpIXHtWbk1cX7511CWG9nytvgA72O7/GyWPbnFJH1/KoC1oU4eTzQz4uQU5
-    XlfKyFGwpRspKwzN+UK6QdrS6nHZaHNe/uNaFH4uocVUyYawgtQju2cVEawUWtGw6nseJ9
-    0L4J0ssTWIjAVgg3c4pDpTeUfzUmFwAMWTRVDjkJafKYOQzvk6rFVN4JhIZhnU3qcRTinO
-    hOXkX2soZGBKWYo9BWQOgOkNg7aqmmDYjwTnBv89mK8xPBsHNPD99ZxyAasIZtmzxuPIXi
-    47fzPLe+sdOALN2WIadaz+v0V41yPbH6g7q0GyrIjlQUEVJ6nKkgOeTR/rwyBciFRt7EHH
-    g58VksmLOzWMXLyL3a0htP1FPDOdEr9zZ6g+VxGgoaYryYqBgXtjhUqYvzTZHgcDeIC13f
-    6fQIJ3s9NDwRSOYZtqbqX4JtxvQ5tfpXi1KPsQ2ztE0Zdg6KdQdDxdSQvje5bS/vmKJaa+
-    1CuYd7Bzw9clj+ohoHK43v4Ya9rMycfJibPWMGaiyBlijmK0ODsTQlZWCdqtAldwiFxi5A
-    vR1D9ohmfAuKzdozzhI8WiCVONvLPeLa71yfmZjAYNtPitelHF6AMjM6W0Sg
-X-ME-Proxy: <xmx:Dy3rau4gcuXjmPqROjLhx61d3mx9ZM6ALSf-8-GgsAe8LAQ4yiQ2yQ>
-    <xmx:Dy3ratlnrq_yIUM4B22Y6ZEvT_aAVw1ihqtBIqK5rjKui9KuPcUgeQ>
-    <xmx:Dy3rauo_9K0Jvo6cJMTIlVUVkf2ukYGefcRyY_2y15fuU1AY4ozj_Q>
-    <xmx:Dy3rao-so6FzhzXTdMeiQilkuR46dbGPO5Gjavnvnclyv5K9V9OYhA>
-    <xmx:Dy3ran44aLjryARxqInszue3VlwsFclKt5yec3-daayw4gskEMXGDEAG>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 08:03:11 -0500 (EST)
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Hugh Dickins <hughd@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Harry Yoo <harry@kernel.org>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Nico Pache <nico.pache@linux.dev>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Usama Arif <usama.arif@linux.dev>,
-	Kairui Song <kasong@tencent.com>,
-	Qi Zheng <qi.zheng@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Yuanchu Xie <yuanchu@google.com>,
-	Wei Xu <weixugc@google.com>,
-	Baoquan He <baoquan.he@linux.dev>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Pedro Falcato <pfalcato@suse.de>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Ilya Gladyshev <ilya.gladyshev@linux.dev>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	fuse-devel@lists.linux.dev,
-	kernel-team@meta.com
-Subject: [RFC PATCH v2 18/18] mm/filemap: add a debugfs switch for lockless page cache reads
-Date: Wed,  4 Nov 2026 13:01:14 +0000
-Message-ID: <20261104130118.2507513-19-kas@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261104130118.2507513-1-kas@kernel.org>
-References: <20261104130118.2507513-1-kas@kernel.org>
+	s=k20260515; t=1793808350;
+	bh=KQOlEBXPj3aUpi/4be1OgcxwZwKCG7z2LEPq88kuQWI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XGBnkNLXs0XuijqK3zM9ttmSgU1UTQ/rg+h8cBP8P4uqXYo4giEahBxrcuY3adchR
+	 Fzz7Kxc72wqhaVNQqSU9qwgaKTHR4jiazsTntiru7aBN8SpcxaCtNCfMoRM0qLRbM6
+	 FW6Ty/z8Pf+pWUCFsvGkMcVTffrWDJ+342v4yosfovPQ/IFAhRGraZqwVzgNsmhgIJ
+	 mSCwhQsqcG5n/DtSo/ELArgdQn8d62OS2gFbWIwmDsUMzNcEsKBCKIhxbVyWz0I/Yt
+	 x2jdFxCv0RjOk8EQ3HmNynII7gOiS5tnlHRd5mkZ/nBVMeSeLm5puPCpWiUBvL2fOk
+	 RJnav2hHIjLXw==
+Message-ID: <af2102a2-206d-4c5e-ba1d-1ef42b2b6338@kernel.org>
+Date: Wed, 4 Nov 2026 17:05:29 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -131,125 +51,118 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 02/18] splice: don't steal page cache folios
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
+ <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ kernel-team@meta.com
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-3-kas@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
+ ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
+ AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
+ 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
+ g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
+ ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
+ 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
+ /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
+ jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
+ DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
+ HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
+ 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
+ LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
+ 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
+ VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
+ /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
+ iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
+ 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
+ zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
+ azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
+ FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
+ sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
+ 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
+ EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
+ IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
+ 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
+ Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
+ sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
+ yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
+ 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
+ r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
+ 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
+ CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
+ qIws/H2t
+In-Reply-To: <20261104130118.2507513-3-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Reading hot folios without a reference defers the free of their memory
-by an RCU grace period.  A workload that loses on that trade, or a bug
-in the lockless read, has no way to turn it off: CONFIG_PAGE_RCU_FREE is
-on in every 64-bit kernel.
+On 11/4/26 14:00, Kiryl Shutsemau (Meta) wrote:
+> From: Linus Torvalds <torvalds@linux-foundation.org>
+> 
+> PG_rcu_free holds back the reuse of a folio's memory until a grace
+> period after the folio is freed.  A stolen page cache pipe buffer is
+> reused without being freed: remove_mapping() takes the folio out of the
+> page cache and the caller keeps it.  fuse_try_move_folio() puts it into
+> a fuse file, where writes change it under a reader that found it before
+> the steal.
+> 
+> Drop ->try_steal from page_cache_pipe_buf_ops.  fuse_try_move_folio()
+> and virtio_console's pipe_to_sg() then copy, as they already do when
+> stealing fails.  SPLICE_F_MOVE from the page cache into a fuse file or
+> a virtio console now copies.
+> 
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> [kas: rewrote the changelog]
+> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> ---
+>  fs/splice.c | 51 ---------------------------------------------------
 
-Add lockless_page_cache_read to debugfs.  Writing 0 stops filemap_read()
-and shmem_file_read_iter() from setting PG_rcu_free and from copying
-without a reference.  A static key keeps the test off the read path.
-debugfs, not a sysctl: the switch is not ABI and can go once the reads
-have proven themselves.
+Removing code is always nice, even independent of the other changes :)
 
-Folios that have the flag keep it, and their free stays deferred: a read
-that tested the key before the switch may still be copying from them.
+The description doesn't really describe the impact of this change. I assume a
+slowdown of certain workloads (does anybody really care?), and temporary
+increased memory consumption (as we keep the pagecache page).
 
-Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
----
- mm/Kconfig   |  3 +++
- mm/filemap.c | 51 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 51 insertions(+), 3 deletions(-)
+No idea how often stealing actually succeeds ... a bit of history why it was
+added in the first place and why we no longer care now would be nice.
 
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 6e5341b0bf64..768873ebc71c 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -733,6 +733,9 @@ config PAGE_RCU_FREE
- 	  32-bit.  Not on PREEMPT_RT, where expedited grace periods are
- 	  normal ones, so freeing the waiting pages on demand would stall.
- 
-+	  Writing 0 to lockless_page_cache_read in debugfs turns these
-+	  reads off.
-+
- config PHYS_ADDR_T_64BIT
- 	def_bool 64BIT
- 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index e148490db4da..eff29d501f58 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -48,6 +48,7 @@
- #include <linux/rcupdate_wait.h>
- #include <linux/sched/mm.h>
- #include <linux/sysctl.h>
-+#include <linux/debugfs.h>
- #include <linux/pgalloc.h>
- 
- #include <asm/tlbflush.h>
-@@ -2759,6 +2760,50 @@ static inline bool pos_same_folio(loff_t pos1, loff_t pos2, struct folio *folio)
- 	return (pos1 >> shift == pos2 >> shift);
- }
- 
-+#ifdef CONFIG_PAGE_RCU_FREE
-+/* Writing 0 to lockless_page_cache_read in debugfs turns the reads off */
-+static DEFINE_STATIC_KEY_TRUE(lockless_read_key);
-+
-+static bool lockless_read_enabled(void)
-+{
-+	return static_branch_likely(&lockless_read_key);
-+}
-+
-+#ifdef CONFIG_DEBUG_FS
-+static int lockless_read_get(void *data, u64 *val)
-+{
-+	*val = static_key_enabled(&lockless_read_key);
-+	return 0;
-+}
-+
-+static int lockless_read_set(void *data, u64 val)
-+{
-+	if (val > 1)
-+		return -EINVAL;
-+	if (val)
-+		static_branch_enable(&lockless_read_key);
-+	else
-+		static_branch_disable(&lockless_read_key);
-+	return 0;
-+}
-+DEFINE_DEBUGFS_ATTRIBUTE(lockless_read_fops, lockless_read_get,
-+			 lockless_read_set, "%llu\n");
-+
-+static int __init lockless_read_debugfs_init(void)
-+{
-+	debugfs_create_file_unsafe("lockless_page_cache_read", 0644, NULL, NULL,
-+				   &lockless_read_fops);
-+	return 0;
-+}
-+late_initcall(lockless_read_debugfs_init);
-+#endif
-+#else
-+static bool lockless_read_enabled(void)
-+{
-+	return false;
-+}
-+#endif
-+
- /*
-  * Reads keep coming back to @folio: free it only after an RCU grace period
-  * from now on.  Not if its next read needs a reference anyway.  Not if it
-@@ -2769,7 +2814,7 @@ static void filemap_mark_hot(struct folio *folio)
- {
- 	struct address_space *mapping;
- 
--	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
-+	if (!lockless_read_enabled())
- 		return;
- 	if (folio_test_rcu_free(folio) || !folio_test_uptodate(folio) ||
- 	    folio_test_dropbehind(folio) || folio_test_unevictable(folio))
-@@ -3028,8 +3073,8 @@ size_t filemap_read_rcu(struct kiocb *iocb, struct iov_iter *iter,
- 	pgoff_t last_index = (last_pos - 1) >> PAGE_SHIFT;
- 	size_t copied = 0;
- 
--	/* Not on an inode that never had a folio flagged */
--	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE) ||
-+	/* Not when switched off, or on an inode that never had a folio flagged */
-+	if (!lockless_read_enabled() ||
- 	    !mapping_rcu_read(iocb->ki_filp->f_mapping))
- 		return 0;
- 
 -- 
-2.54.0
+Cheers,
 
+David
