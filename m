@@ -1,79 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793885022;
-	b=rDH8aod2YFfCif8opxzH69dezKSSV6dpccHXcu8r0dPATIjDEDtOJC3+AqO1WxiTsMqi
-	 qTFBfX6wudHcrRP+b2/z/pUh7GKF1NHy6gjqjbTgPggxpewEdl+xeBwHnzZAALvQCIjUF
-	 vWapz/eIoDY5zhX7KtvIpfpKgyx0FbmHHr9Kif5QsaMpTHiY8OHQxhvoLOIRLCFoTQXCR
-	 TUhYMbWja+rmVQJKEJWHdyxD5Akf0lwfrRa+BrxB7c8rIjO7QofWNb1xYbtj5Boz1azY7
-	 KOwVu6Rq45ciwIrrHDJw+T3OkuEdkJVLMYlTvuf7VV2+Av71DqU1Br+93OBdpkV7yxA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793885022;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=+VLJ9DCi18uNdmQrO4KxoMMbpxM69vcNMJhzFr24WoQ=;
-	b=optEWiCh8mQjLqHZpzWSy5TgM5wXs4jNi6ajRlOcEbyKxPzTJK+Ik7E8iiDSoOYYDaZo
-	 cXnU3i5NsirKPDue45h1uIuLq5mfzMXY9Y5qardNddq9KbJsciAlHc9nCLvMIuAVAKvu0
-	 jYXI0Z+G6ZBT2Q24B5t5dGOF2qrwHGnZKVVEHU8QIwWeKVWCQo6D0XbmTkT17NT/L3TId
-	 aGY1BaMbOau0AFI1tW/dWFORfDhdVnuSJlHOFvKiYSJKOG3LgkBLgpQ4MQm5XpNok59r1
-	 z8wORIewzZO7/WgIJEtHnblpKPzmi2Kx5+WXe+WTqZzf2d7SQO9rgM2ANwribQrl3tw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kQP6EKPg;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793890430;
+	b=yfz3EKgPFuaAIPO5SXbUF014SOVr3z2NY/PRn+EFTqt8ejR9mLDVY1gvcgjI+qZcGUkq
+	 DlXLIOK2WBrd7qr9cqUTjoT0ki+kEmabd9Vn68+fPenKGUi29tS1FonivW66Iw7zEqYsX
+	 dKPrYSVQu8FvtrQXyeb1KgdyGmG6kFMFZGcfp1uUwglOeP5232mJJnjw1q+IO6EidOtNA
+	 rXYQhVCbjvC3jzHAJAfytg8SXZ8qFl4qnior36BASQmwCqvmNya/gnco+D2wm0pM2W5BV
+	 uFCKFPx/M4RUS1OSDZ1N1lJVcu0Bk06gh5n3cPIXKNtxxbTA0MRtToa6P7y47Wppuow==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890430;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=wPbepQK0nXa3d+APg5PI/tkZrq+GYAAdAwwH4WGsWbY=;
+	b=Y9+CFhj/b9FpS8EFwqIkfFgVs2IS8hDWQM9YpoY0Z4ncz4HffuEPytODbAb6LEe8rG6k
+	 2igOMz2gN8SZ2+XkD9p5xLOJzkQYF4lhTH3dhlBqwNey9q3M9JhyQjN/IjlS1hPS3lnLF
+	 CJulxa93RyfFMkOuRh5UWmdXNxLzAdv2hs3o6XOqRdvR4ngU6IuMc7zL4IOzk0tgQrWPv
+	 +M8cT2gaPLybbYd683MKdFqzV/ZJxdTwhaaSiqIvqAt+UoU9XRwsVNkwQpLjZLdfwbk/Q
+	 10ATbX/sE0c+7O/Wtco2Czwf7vtf1qaXy/bDrPc6qo1rcZF5JGfq8QO9RObm5iYAzYA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ut5GHx1c;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B6B606D824;
-	Thu,  5 Nov 2026 13:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68478606A31B;
+	Thu,  5 Nov 2026 14:53:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kQP6EKPg
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793885022;
-	b=kCEA7K6C/TjjX12q1vDP043LgNGSUp1A0ftBiLqBlb9LNwVtVhrBOToA2FxHSFUrOG6Z
-	 eXTngNSQmU0KCYV4t3hc+oaHTO1E2rYQNP3+edLeoYcsYEZqIiAHvucALI9GFfCCqPHe1
-	 eyP8I9mAtDgL2yFQoWNi4L80uIMgKLXTQBfBh8sqUDDS7CUbEutnIMLYPLsuoK3t3HS6k
-	 Gs503WSLLWUPpG1kGZUna4ZqBUDwapnUslk66Vzp6BQ8kMvgd6rRmaqXb1tJ8Or/2CEAn
-	 5cq3l0aqb7JfabWtvOQe0eH3rS1xg2sQqABrQ7/1UACNVgBkVXCYg5ZtA3RjOtm9hJA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793885022;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=+VLJ9DCi18uNdmQrO4KxoMMbpxM69vcNMJhzFr24WoQ=;
-	b=UCMUTPLP9giLemfatTSFbaJmnp557OLgsjlE98ze38hNUfYJztGodEczUOF9/eGQx5XZ
-	 SVr7eXmUEg67YyWTwzOXQ2gCQwhAK0XmJrU6v8WPQndN4iBi5fjXVtb6wU3pR8p6L72oX
-	 IviS7ZbtjZkRHRX+md8AygX649Uva1KZKHqG9t/tqs6u/If4yTSsvpqFnP/CO+h+Gbilx
-	 GwZ11ipDYNnU9/VeY42nGa7oVRShWtH0mkNTLLBlj4wr7QtX2Q8BzbNeZe67ZSnCEfoT/
-	 Oq8uG71whCkTfs0KjBy6jSB0W48QqaGvzQg4MwPdPlZH3w8EkoJf3nRRq6OZ0kbTvFw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id AA64D1F000C1;
-	Thu,  5 Nov 2026 13:23:41 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ut5GHx1c
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D97821F000C1;
+	Thu,  5 Nov 2026 14:53:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793885022;
-	bh=+VLJ9DCi18uNdmQrO4KxoMMbpxM69vcNMJhzFr24WoQ=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=kQP6EKPgiFvR3DLBunpBfMF2PQ3JPRM0C+N1vuadI1mUIF49VpqL9El2q7hHuTUKi
-	 lqexFBgxA4qSEifwiuHbY2yOjCfm+6wBQ96wuCrw6ol8j4X/TEZtw99ywwmU2I1RpX
-	 b4jvMkDu7hi3fLB2rvEKawZxaLhESbNBN6lkaENuZ9Ki/wuwPZWvdO1VD9MsK+vLxd
-	 uJS+Y/lEF6nhZgqK3wZmWF3LpF7duSfMcT/GqCK5STZhJmQuCN9HMA1j5B31DVrbDE
-	 9p5dznWu8LxJJFH3AAg/DkW76UDewKAyJ5r6xDc9r2PhChZIGeYdAKrr9eq04fAjZs
-	 e9vf7+LlheUHA==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 3B61C47262;
-	Thu,  5 Nov 2026 13:23:41 +0000 (UTC)
-From: =?utf-8?q?Orkun_Emin_Sar=C4=B1_via_B4_Relay?= <devnull+sariorkunemin.gmail.com@kernel.org>
-Date: Thu, 05 Nov 2026 16:23:41 +0300
-Subject: [PATCH] fuse: don't pass a NULL inode to fuse_inode_backing() on
- release
+	s=k20260515; t=1793890430;
+	bh=wPbepQK0nXa3d+APg5PI/tkZrq+GYAAdAwwH4WGsWbY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Ut5GHx1crAV6ebP6MePvr8MXk/GyT0+FpLEitkajin2i4CdPw+Yrtsn4y98BfiUN1
+	 N5M8uMplNy3HVs3tsDHiskLMCirCzDYJLH1YChJ873MiyF54lHZDXJpdC921S8r6UY
+	 u3+OiCEt9QofdI3ELaU45FuLyS3AQsq9EKyKjBS49hNruPLkniq7Sn1gwN1Ijsp3ZE
+	 k3HoSzSpTSJjYII5amdBqdc518vEianS+2iHu1aqzoSAlTADTeS/jb2r7Ox+BW6Q76
+	 +A2NlXx48M50dddQdU7vSVLAFFZAmWxj3xeXuHK9T8tzNWep7+oKoJ4AB3z4vN9UXm
+	 Pyt/6mjIDSpWA==
+From: Christian Brauner <brauner@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
+ "Darrick J . Wong" <djwong@kernel.org>, changfengnan@bytedance.com, 
+ kbusch@kernel.org, Matthew Wilcox <willy@infradead.org>, 
+ Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
+ David Sterba <dsterba@suse.com>, Gao Xiang <xiang@kernel.org>, 
+ Namjae Jeon <linkinjeon@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
+ Jaegeuk Kim <jaegeuk@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Andreas Gruenbacher <agruenba@redhat.com>, 
+ Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>, 
+ Hyunchul Lee <hyc.lee@gmail.com>, 
+ Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+ Carlos Maiolino <cem@kernel.org>, Damien Le Moal <dlemoal@kernel.org>, 
+ libaokun@linux.alibaba.com, bfoster@redhat.com, linux-ext4@vger.kernel.org, 
+ linux-xfs@vger.kernel.org, Viacheslav Dubeyko <slava@dubeyko.com>, 
+ Ryusuke Konishi <konishi.ryusuke@gmail.com>, linux-nilfs@vger.kernel.org, 
+ fuse-devel@lists.linux.dev, Zhang Yi <yi.zhang@huawei.com>
+In-Reply-To: <20261027215326.2693300-1-joannelkoong@gmail.com>
+References: <20261027215326.2693300-1-joannelkoong@gmail.com>
+Subject: Re: [PATCH 0/5] iomap: remaining patches for iomap_iter_next
+ conversion
+Message-Id: <20261105-tiefbau-gesurft-apokalypse-d83b3a572db4@brauner>
+Date: Thu, 05 Nov 2026 15:53:41 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -84,72 +74,49 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261105-fuse-cuse-release-v1-1-8be1eec02c66@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMwQpAQBRFf0VvbcpMIX5FFmNcPAnNQ0r+3WBzb
- 2dxzkUCzxAqo4s8DhZe5gA6jsgNdu6huA1MJjGZ1kmqul2g3DseE2z4tsmL1NqsgHEUvNWj4/N
- rVvXPsjcj3PaG6L4fffXB23UAAAA=
-X-Change-ID: 20261105-fuse-cuse-release-db795aa69e2c
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Orkun_Emin_Sar=C4=B1?= <sariorkunemin@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793885020; l=1699;
- i=sariorkunemin@gmail.com; s=20261103; h=from:subject:message-id;
- bh=XgrvzfoNZJLMVh7JOSKQ9IdZU0PRskqYDZqGT15zz/w=;
- b=gbs3HQ72yYDqlKX7DMo75dpKLuTDfDO1J+2qiHIr4nDluBHTjdmRWaPOpizu0jKzK2XzTYiTa
- hkzztqUCQO0BkXO/ll2ZyKLdsCNX0p2Lh5bKH5Zwkjb/pdDG0p9SDZG
-X-Developer-Key: i=sariorkunemin@gmail.com; a=ed25519;
- pk=MJ3Y3somkGDQVAXOSR189QAqWOcfzYCRkL1cSQgJXnE=
-X-Endpoint-Received: by B4 Relay for sariorkunemin@gmail.com/20261103 with
- auth_id=1408
-X-Original-From: =?utf-8?q?Orkun_Emin_Sar=C4=B1?= <sariorkunemin@gmail.com>
-Reply-To: sariorkunemin@gmail.com
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.17-dev-ce4c1
 
-From: Orkun Emin Sarı <sariorkunemin@gmail.com>
+On Tue, 27 Oct 2026 14:53:21 -0700, Joanne Koong wrote:
+> This is a resend of the last 3 patches from the "iomap: convert to in-iter
+> iomap_next() model" patch series [1].
+> 
+> Those 3 patches are rebased on top of current mainline (commit 83f32c773255
+> ("Merge tag 'erofs-for-7.4-rc1-2' ...")) in Linus's tree. They require two new
+> preparatory patches (patches 1 and 2 in this series), which are trivial
+> ->iomap_next() conversions of the nilfs2 and fuse iomap code that was added
+> during this merge window. There were conflicts with "iomap: pass
+> iomap_iter_next_fn directly instead of struct iomap_ops" (patch 4 in this
+> series) during the rebase. These are resolved in the patch, which now also
+> converts the iomap users added this merge window (ext4 iomap buffered I/O,
+> exfat swap activation, nilfs2, and fuse ext_map). Jan's Acked-by and
+> Christoph's Reviewed-by on it predate these changes.
+> 
+> [...]
 
-cuse_release() and the error path of fuse_create_open() call
-fuse_prepare_release() with a NULL fuse_inode. Since commit bbe2d73a8231
-("fuse: don't assume ff->passthrough is set for FOPEN_PASSTHROUGH"),
-fuse_prepare_release() calls fuse_inode_backing(fi) whenever the open
-reply had FOPEN_PASSTHROUGH set, not only when ff->passthrough was set
-up. A CUSE server that sets FOPEN_PASSTHROUGH thus makes the kernel
-dereference a NULL pointer when the device is closed.
+Applied to the vfs.fixes branch of the vfs/vfs.git tree.
+Patches in the vfs.fixes branch should appear in linux-next soon.
 
-Pass a NULL backing when there is no inode. fuse_passthrough_release()
-only prints it.
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
 
-Found with AI-assisted code review (Claude Code).
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
 
-Fixes: bbe2d73a8231 ("fuse: don't assume ff->passthrough is set for FOPEN_PASSTHROUGH")
-Signed-off-by: Orkun Emin Sarı <sariorkunemin@gmail.com>
----
-No reproducer was run and the fix is not runtime-tested. Build-tested
-with LLVM=1 W=1 and FUSE_FS, CUSE and FUSE_PASSTHROUGH enabled.
----
- fs/fuse/file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index d5e1cb53d8..36144fdd69 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -320,7 +320,7 @@ static void fuse_prepare_release(struct fuse_inode *fi, struct fuse_file *ff,
- 	struct fuse_release_args *ra = &ff->args->release_args;
- 
- 	if (fuse_is_passthrough(ff))
--		fuse_passthrough_release(ff, fuse_inode_backing(fi));
-+		fuse_passthrough_release(ff, fi ? fuse_inode_backing(fi) : NULL);
- 
- 	/* Inode is NULL on error path of fuse_create_open() */
- 	if (likely(fi)) {
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.fixes
 
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261105-fuse-cuse-release-db795aa69e2c
-
-Best regards,
---  
-Orkun Emin Sarı <sariorkunemin@gmail.com>
-
+[1/5] nilfs2: convert iomap ops to ->iomap_next()
+      https://git.kernel.org/vfs/vfs/c/a210eb87cd3d
+[2/5] fuse: convert ext_map iomap ops to ->iomap_next()
+      https://git.kernel.org/vfs/vfs/c/f6c38b3d56c2
+[3/5] iomap: remove ->iomap_begin()/->iomap_end() legacy path
+      https://git.kernel.org/vfs/vfs/c/82f677376a90
+[4/5] iomap: pass iomap_iter_next_fn directly instead of struct iomap_ops
+      https://git.kernel.org/vfs/vfs/c/9e8fc16dc6b4
+[5/5] Documentation: iomap: update docs to reflect iomap_iter_next model
+      https://git.kernel.org/vfs/vfs/c/5612225809c7
 
