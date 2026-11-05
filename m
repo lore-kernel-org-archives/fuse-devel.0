@@ -1,101 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890523;
-	b=vr/jcxwMDOJchDULRr2SYRqNzV8MSrowrQeeroR29ULPgjkR9cfUUQkEgFFcIFo41wR+
-	 fPX7Z2s4SkxxwqF94Im2686ufiAUeiyyL/NLabB3dS8fFjCoZcLsofuhgTSMWNChji5wm
-	 CrJ+kStg7+/lB5R1v1252IN4B9ef6DiZSi+dEPw+RvAC2VNrLER1jdlCdbCKB5U7+Ekr4
-	 ON+EVV9axXfBPnQOTYTOUWaWZkavN6BiVcZWDBstAHj4bwZacgfu/JQkT+9M8s10nPLUk
-	 xTkXDjMXAFTRNcLASX6rAhkJPZbZWUq4pUXWLADaH/bHDjjPc8LHJy9lVwbVsHsbNZw==
+	t=1793891390;
+	b=4vO09SjZeiiiTkILDWcMDL59f7Mxgq76a8LvLTVDbdKkI/2rwIPbzpU/sRVh9Abts5mK
+	 zsS7PdBE7PvMgUU7VZ+a9S1FA6/g0iIE89hrGeV3ZH+JcELeB8XJNQnUsBN3FWq4F0to5
+	 U0JthQMl1mNa43QU8lqBMMQI3S0IH946yPz2U/B/V0dBhdZgyPhIGBsabh9cr4rLJzeiL
+	 RPBRP84H+nIv+J6ySgbEvlfAS2/hH/QX3UYgXXL/+rfzOnhq21xWufz2eitP89n3h/Eob
+	 /KpvWaBGaAAhE9anCZiuTTx0VsgF70Smv84xukf+xxxGrFi+y/ylhWwsTZpb0vTUbsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890523;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=nrSUhArM/zHEjchVrw9NyJq5VRSjmNtY2/0KcQpTHjQ=;
-	b=RLnhAEcaZstvSEV1EgV9YfVAO3KHu7ZoYk78m0bIgOcef2dF4dZDy3pGqP2jC5nKvCr9
-	 aRTnfHEBV+VkOpwX10+WrvD3bMM8z6OYlfCtnoxwHGgI3yFiQR4whIhg3ZcywOQwqtlUq
-	 YM/itJ4VueZxt3LXVw8tWrY6Tk2wbjHIqzy4tHJ0e6KoT4FoQeks7onE7z62wrs/bYDhL
-	 ni8BXHB7uJcM71HZJAnOVjoikg/s/nGg1HaFqR0e00SJCzqSnfRHFavqV5QSPL2Gl6CLl
-	 N9zLAdGz+6EiNXrHuDrq3GXdcdYrUzJlLEA9FDf/0OyiRViX0QwYdMvMVOH1bQHGT4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891390;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:X-Mimecast-Spam-Score:
+	 X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
+	 Content-Transfer-Encoding:content-type;
+	bh=6igLeCdyvx1mvf1ZSjuMUxGb5XzaqkxPYrbkgHbNZGI=;
+	b=c6NzxypipA3RrQIybi3dO1F2tcnxmP8d1nnk3zN5ALzOm67VVO83uE/U83Ex89scsrbi
+	 03Z0sQlHga80aBRmUW3RQA9txg+1TGvnoPSn8Mgy/wAivlBFj0QyWdGC4EGGCs9C3wnDk
+	 o9wipRg+CxbhWqLp7OU2T2fRQrjW4T3yoaGRPO28q6tnaZeQmJpdZwkxfaE512og+G/0r
+	 d5w1JQW8pHgPfGfi4HCINCxMDfluEQ62NgeAOC2HZe8UpAfkfdenWXUDGu0zwHcjTlEi8
+	 F9CDcH9jRXiQZ9xFDhWGqtsBtNHvwcFGU2xjBiC0wEnJPmjozOH+8teennghMdQg2UA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HnMpGD3e;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="Bf+reH0/";
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C332606A328
-	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 14:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8987A606D804
+	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 15:09:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8987A606D804
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HnMpGD3e
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B550D1F0093A;
-	Thu,  5 Nov 2026 14:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793890523;
-	bh=nrSUhArM/zHEjchVrw9NyJq5VRSjmNtY2/0KcQpTHjQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HnMpGD3enRBqaeLM0xOBVlGPC6ENy8qFZ/LxACoukGORjw+noHpWsUVwyyt3vKXEH
-	 By0v72rigo8lVnWymIOfs1QOwKv50FFAIAKxyKJL17MfWiPJ/Vy35JK8Ql+YfjL0FB
-	 Shg9UmeEPJMHdtI2ECL96FpIDq5r0/GDPdFdqFaSCnztQ9iQ3lkOtn8iY2Wd3JIT47
-	 P/h/C2EK3IVX+2AEWzGbxi4NkIV4TVRz/zEY+bQit8tS39LnBhFHwQ2XW3GWonJTDs
-	 rFfg66mdXs9uPiwJiexv+DKfyi6kHfQoAngU7MxqY8/lWUeV7xZVykWfFm0p22nuYI
-	 2i6PlwsonzI3Q==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.ams.internal (Postfix) with ESMTP id EF5311980047;
-	Thu,  5 Nov 2026 09:55:11 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 05 Nov 2026 09:55:19 -0500
-X-ME-Sender: <xms:z5jsatHDs0jNWwmLwh1eHUQzs5ENE53hTkhR5YncedsWz6WN4SAU4A>
-    <xme:z5jsarQxquV60pzGc1qwR66ozvTxn76QXXpZ1UCUQJCNDYR0LEzaq1GL3Nf2vFLUp
-    SaSst8kp_FQ5FecIOtJUchklOadeTPlvOY54HDB4x_i9c07O-FVGbJZBQ>
-X-ME-Received: <xmr:z5jsajixFkwCb1otqZx09UkN074IrZFBOKGXtb3saIoCTNKx9B1LRS9yeqM>
-X-ME-Proxy-Cause: dmFkZTEfNv8KAoa9rNZKyCWbiBmL2n4Bk7MXZQMFpHT3IZCghURgydMkmL8v4sTbbWh2OF
-    o7xxu2zDC7APT+fDNYq70qrN3HlCZ8JAIeVGogmdUAHgru+GtiC1OI8114Wu3Rk+xIjxxh
-    cVsRuecuAGBuzau6soxBesvdI5sFcias6CB1X9p6F/vSuFPNFtDwf4qra3lHUbKPTkqDGO
-    Y6rwt0KLp5W30A7QcwUEn/6koJCm0irKqEBq5nWqV+9FLrPejZigfr6eDzWWE5ydeQHXTY
-    ffqQhUaRv2p1f6YTvdhmsalDlTQXPfgvekWlclWqq/6/5rek0k1/utIJ/reiUQWczHw9HO
-    YRc2uvruhJNUSyM9Jnh/abZo9DaZ4YO/dkhnTu25kCEN7rKnZQM4/pxmgUBgZkmr0G0RIX
-    RzitBrGcFgbWWmosvzONvgf8fSQvmyfiio8a8d1SHYX+LnMt6U+l/HcrCHkGherw1UqYze
-    EK2r7hSXcoGoaNm09DFgsNz1kProsKnBQALlANmKd60rwQNrd0JH5doX8LtR9QFnLFGo7k
-    Jke/VX4B/ZNV/d8AV0kg2YcfIy5bA8sONZAh2Ng8L9iXuTvrQvtuh1xW1x45BCkWBiYNf2
-    5awshSKvvMDEj+81wsaHWQsdSlOzUEC74y/g8yhE8YC4nChbmdqe1XOfBt3w
-X-ME-Proxy: <xmx:z5jsaoUeU4tGCAFg7BPREqNNQC5ETkzv5QV364lTKDEA8dejX3C30g>
-    <xmx:z5jsapMgTuMdmmt4_iDbWJHZB_c6xMSRJwlrUGMQUj_x9SYjlsIAMA>
-    <xmx:z5jsatYaXFzeoCbneowS0FNTZxRKMHCwI9CwYmBB6ERrvqLmNBVxqA>
-    <xmx:z5jsajT4DjSW9tnGMYeVh0JMi1w9Ez918dF3gtLKD9CkX6rFIbu4mA>
-    <xmx:z5jsaqOr-VgrFiM_ZBe50Pjq3oUd5Oi436kgCg5c0wLu3EcL7Qv9Jpkq>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Nov 2026 09:55:10 -0500 (EST)
-Date: Thu, 5 Nov 2026 14:55:09 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
-Subject: Re: [RFC PATCH v2 02/18] splice: don't steal page cache folios
-Message-ID: <auyYdqQBxdnBuM0N@thinkstation>
-References: <20261104130118.2507513-1-kas@kernel.org>
- <20261104130118.2507513-3-kas@kernel.org>
- <af2102a2-206d-4c5e-ba1d-1ef42b2b6338@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Bf+reH0/
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793891388;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6igLeCdyvx1mvf1ZSjuMUxGb5XzaqkxPYrbkgHbNZGI=;
+	b=Bf+reH0/kYJaEnfgsb9fbRjOvZN5OkZvK/uI/Ff9AH87Ql5N/Rk3qqHoc9H+Er3Ptqpv59
+	Z2BUqbJ9clVHnWeKHQ2ljefSbKBBTSl1pM/APSuXo0sGuw7Vygt/77u0mvOpLGP2TsxLq9
+	7par2yZaWexJtY4UgZq6r0jvxYfGnis=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-425-7P-DZAyBNV6R6mGWICiDlg-1; Thu, 05 Nov 2026 10:09:47 -0500
+X-MC-Unique: 7P-DZAyBNV6R6mGWICiDlg-1
+X-Mimecast-MFC-AGG-ID: 7P-DZAyBNV6R6mGWICiDlg_1793891386
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a1d1f26a63so16185505e9.1
+        for <fuse-devel@lists.linux.dev>; Thu, 05 Nov 2026 07:09:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793891386; x=1794496186;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6igLeCdyvx1mvf1ZSjuMUxGb5XzaqkxPYrbkgHbNZGI=;
+        b=i4MhyeS9IaQVu1HfNoN8/5DZifVACnDEfIGUW6dt+xvg0qqnHGfqaON0Yw+uJG6UiS
+         Vb9exsVvUZG+FF03bUqAMSQNfS2MC64geqj1mBFW+69m7VTVA4V/+VmJNTt5zr51geJh
+         8q7voI9uBDLCzIcJ7Gs4UJ/srIkT2OZiLbkYtvU1YnVz61tNS4/4R5XON2JOxPijpkwl
+         KC7Dpgit8aVFQTTrTh0JS1MX0isE9K9hIajTSSlT230/0X0wOeblkYf/2ocllwS/SeT9
+         F0r2RFkQQiJ11uKp2ofokSNDF9NxaYdnqWuI+4otZQQl6ruqvxoaH2nOYwtP2HOaKzes
+         +hhA==
+X-Gm-Message-State: APuU4Z/EsSIBA7tHXrrbkJ5GQEarPwNW9YVTUE/iikUL1KYYXQk2p0vq
+	a5dWhRR5Rqs839yQayJQW11OYRpcxmgveBsMh6aaz1k4TARnr/mRFeZs+v688UlWBDrXejvXV29
+	4w/fsx8YTxYvPecLEbm1ShvDc6PP16BG+w3QTJ02RFAsvaWwor0jBg5DQqfRoEuGo2xxz6z1Cym
+	B/TPzvDef+Js2Naiq5niudrbtaf37/tnUicBB+8nsFFsBkt88=
+X-Gm-Gg: AYBFou1jOWMoTMzax6U0vympomJjkyKc8tj/STcqUh5v0zlY4WxTf9E89ngu1tqMdgm
+	+8u7G1u7XSvOA4/LkxzF7WL+KhGMRZFh/5cxmv3l+vXKaGR5AuiCn1TIWMBE6lO4bov6G/9PWR5
+	4YVHutnooa+uZmQcu8ASIKkwAJ9s8vSSyXy1w+5sLRJb5glkg4ko9f5fQVW+TXaIBepEJaPhTkT
+	a24ImdOMNJGm14abmISu3uh8xx049qY84MsaidCCeW0MVLPoQSfCWkCHcUuC5TQjrW9J47QipJa
+	RDLJe/xbguPxVzjto+EAxqMehvHzkfIRXdfIAcvrc1XN7qqJaMGxxp+P3zQDTDYDDB1Hg2GzNt/
+	Gzmt4bEqW3IInQtDVhVxxgSwCvkjAkMATkbgNvCFkL98dBUHHZN/kn+66P0Z9SULbu1NaomHRVY
+	gIKz37pflFH/e7OsIJXcJuFebqrp80qbXt1dyLyzgvY6A=
+X-Received: by 2002:a05:600c:674a:b0:4a1:fb23:68f0 with SMTP id 5b1f17b1804b1-4ac14ec788emr427673985e9.3.1793891386241;
+        Thu, 05 Nov 2026 07:09:46 -0800 (PST)
+X-Received: by 2002:a05:600c:674a:b0:4a1:fb23:68f0 with SMTP id 5b1f17b1804b1-4ac14ec788emr427673555e9.3.1793891385879;
+        Thu, 05 Nov 2026 07:09:45 -0800 (PST)
+Received: from mszeredi-thinkpadt14gen6.redhat.corp (188-142-154-142.pool.digikabel.hu. [188.142.154.142])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feda207d8sm9961340f8f.52.2026.11.05.07.09.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 07:09:44 -0800 (PST)
+From: Miklos Szeredi <mszeredi@redhat.com>
+To: fuse-devel@lists.linux.dev
+Cc: German Maglione <gmaglione@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	virtualization@lists.linux.dev
+Subject: [PATCH 0/3] virtiofs: fix sashiko reported bugs
+Date: Thu,  5 Nov 2026 16:09:39 +0100
+Message-ID: <20261105150943.86650-1-mszeredi@redhat.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -105,49 +103,23 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <af2102a2-206d-4c5e-ba1d-1ef42b2b6338@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: oqdrLRAbMgTamFjd6SSrJpfJs5U-X_smhfiLh6vMt6E_1793891386
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-On Wed, Nov 04, 2026 at 05:05:29PM +0100, David Hildenbrand (Arm) wrote:
-> On 11/4/26 14:00, Kiryl Shutsemau (Meta) wrote:
-> > From: Linus Torvalds <torvalds@linux-foundation.org>
-> > 
-> > PG_rcu_free holds back the reuse of a folio's memory until a grace
-> > period after the folio is freed.  A stolen page cache pipe buffer is
-> > reused without being freed: remove_mapping() takes the folio out of the
-> > page cache and the caller keeps it.  fuse_try_move_folio() puts it into
-> > a fuse file, where writes change it under a reader that found it before
-> > the steal.
-> > 
-> > Drop ->try_steal from page_cache_pipe_buf_ops.  fuse_try_move_folio()
-> > and virtio_console's pipe_to_sg() then copy, as they already do when
-> > stealing fails.  SPLICE_F_MOVE from the page cache into a fuse file or
-> > a virtio console now copies.
-> > 
-> > Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > [kas: rewrote the changelog]
-> > Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> > ---
-> >  fs/splice.c | 51 ---------------------------------------------------
-> 
-> Removing code is always nice, even independent of the other changes :)
-> 
-> The description doesn't really describe the impact of this change. I assume a
-> slowdown of certain workloads (does anybody really care?), and temporary
-> increased memory consumption (as we keep the pagecache page).
-> 
-> No idea how often stealing actually succeeds ... a bit of history why it was
-> added in the first place and why we no longer care now would be nice.
+---
+Miklos Szeredi (3):
+  virtiofs: fix use-after-free of fs->tag on device removal
+  virtiofs: disable request timeout
+  virtiofs: zero the reply region of the argument buffer
 
-SPLICE_F_MOVE has not moved page cache folios between files since 2007.
-See 485ddb4b9741 ("1/2 splice: dont steal").  The only users that still
-steal from a pipe are fuse, when a server splices into /dev/fuse with
-SPLICE_F_MOVE, and virtio_console's splice_write().  With this patch
-both copy, and the source file keeps its folio cached.
-
-Miklos, Bernd, Amit: do you know of users that depend on the move?  Would
-the copy hurt them?
+ fs/fuse/fuse_i.h    | 10 ++++++++++
+ fs/fuse/inode.c     |  9 ++++++---
+ fs/fuse/virtio_fs.c | 33 +++++++++++++++++++++++++++------
+ 3 files changed, 43 insertions(+), 9 deletions(-)
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.56.0
+
