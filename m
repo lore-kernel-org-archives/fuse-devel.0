@@ -1,96 +1,96 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890463;
-	b=FPSJW71YrQzVQzM2cLlzbpN2Ao2RNrYBL5bj/UyqyuqjoDmKBjlfgBOG3NrV/HHatkHs
-	 pVTt9BcQK/OKUE2q2R2jgOQASsJwFIuIMP+WOw1T3km4qBP+j9aU204JqJ6eVqAAUGp6t
-	 IYlfx2c5Wd15OSLlMlW9yW9j/TBtuOHskW3+HBAVQ+ZFvGmvXI9DVR4VZ246qDMcdjB/D
-	 DQjOtyOFF2HwjHYUy2qbenp5DqwXVHxRvDXi/EsN2MwHU4o5XAC5+ACFwesXAqsVizL/3
-	 976rozHjJab6BvV6e6haM6KGEq5GPBx9rxIKiDmHptn+6f2LNxIHDr7KHryJ3KSdSGg==
+	t=1793890464;
+	b=QbzYx9XBBIuDpudx5dVV9UwDu54V5kG4IaUFUxi39oKuVRFK4qVeF9yI/skj82VIfqtg
+	 X93pVUNnLOM53dff7YVG1QmbDopWwBOIOHNShCGid6vB5owTTFevPlivL1kOQdHAOY/cY
+	 tNIMTm/qCu7xbRYrNZygCG5uHi5CczLZHIuypYqpbF+wm81t+0hndYlySULItQvXzyumW
+	 m9QQe4tBbvWF0p5o5uN3XmVJB53h1ceCtYGLOHXnN5cXxSLGHudKCEg2cILRQ2uS3j1EA
+	 5XkjOZ35tbM5Hqb0Wgqp3g6RI247jCHxGm2qm4JD7fWi6V54UtlUPxXmMJkJEmsCieg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890463;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890464;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
 	 Content-Transfer-Encoding:content-type;
-	bh=LTQ0IkCaPw9/kDb96o3oDtuoLshjQLIoZ/FR6Hq8me0=;
-	b=5PZkDAsy3w1MCMJGdq28MwM5ueF5yO8XG77Z72D1srvwprsX9UUuUA6j4wtHszrS2NZs
-	 okPFr9lj4eTodBS5NoXhVbueQ+hhKXwOoHn9Aavxyx7Xof7UnUPPMqvzATCnVcxHtkd66
-	 Y6CEulfOATjezTKY+/A4zD6cghpbaKvno33oBS8vNyeLwEd096IuEoVMMW2b8pm2dRbHo
-	 hV4KOc8tKeSxFcMYNbWmu1ktfqv9wFVARPNN2oRHtD15xdfPod4tVGxSC8cHVlMrDkIaV
-	 6C+IlrWd/VlrI9vtxi4Ri8LrZns4UoYSozBcD8X11XJf6Nz2C5UzTEa34Mapi7i9cSw==
+	bh=1Gb0ovzsCrO9WAYNvMzw66S9UoQLmYtegApQAprK8VY=;
+	b=X1tUrixrt22aSpkLz9uGZ16RVph7jvtsum9Ltv5WalrQaJjIkAyGfWbspWty77OJtEV6
+	 aOh3U4Bf7Gl72wRmSbaGT4FWvHPxBPQHF9ADEA8MWxIciyn2LWRudmzwcnHbpzy3JMPim
+	 u1mqmPFpHCrc8qL2keo8E97aLqwE18HKS9DrPr64OU7jZQmwDq3LXOODZRRtz+1GTFtNv
+	 AzFW6GuwJ13aJYwNh2whGk+0prn3RTM0LSoT1VoV1pl3xjvdCsHAiJPMf2Ncod0tENt+8
+	 q56TtykkqMkqXTIisnClaX5bclpuJkAn8Bj1EG4LLxUKsbUYlKcPsDL1J7Ng5RJzKdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=d8rdRrC+;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=F80EhByJ;
 	arc=none smtp.remote-ip=170.10.133.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B468A606A32E
-	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 14:54:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B468A606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2ED606A31B
+	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 14:54:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D2ED606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=d8rdRrC+
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=F80EhByJ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793890461;
+	s=mimecast20190719; t=1793890463;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LTQ0IkCaPw9/kDb96o3oDtuoLshjQLIoZ/FR6Hq8me0=;
-	b=d8rdRrC+BSqE63lziLN2UDrA/jNxIml5d2RYA3KtH/j+6C4lX+g2eSsoKeHayhi9d5HGps
-	hK5iAD1v8tX/9S3idezKdN7gDdwcOSXaoGNaatLFxw+zk33p503YhcAWgTWZ9d54Psmoex
-	EdcUUTnzGrf6oUcqdmO6RUErBBLQ4tI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=1Gb0ovzsCrO9WAYNvMzw66S9UoQLmYtegApQAprK8VY=;
+	b=F80EhByJv7Y8k9ZSog9DOrOvGWSR15jtToCO2V0+Da63KLNpwUi+YNvwVlGTi2MlL1h8gk
+	Sd7IUC2ptbRaVoK0akI1mMBTkUZpepCu4HdkmXPB6vx6NccAjp3AL/al9Et21tKXsU3nv7
+	sLVNNpSDSDlcuxT0tnVOXKR/nUpNchE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-84-oyCGw5D0PpODDA3WedtIWQ-1; Thu, 05 Nov 2026 09:54:20 -0500
-X-MC-Unique: oyCGw5D0PpODDA3WedtIWQ-1
-X-Mimecast-MFC-AGG-ID: oyCGw5D0PpODDA3WedtIWQ_1793890459
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-490d2ac331bso1249223f8f.0
-        for <fuse-devel@lists.linux.dev>; Thu, 05 Nov 2026 06:54:20 -0800 (PST)
+ us-mta-332-VKovkd6bMEmJXJFxaztikw-1; Thu, 05 Nov 2026 09:54:19 -0500
+X-MC-Unique: VKovkd6bMEmJXJFxaztikw-1
+X-Mimecast-MFC-AGG-ID: VKovkd6bMEmJXJFxaztikw_1793890458
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-49187ad6a72so583366f8f.0
+        for <fuse-devel@lists.linux.dev>; Thu, 05 Nov 2026 06:54:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793890459; x=1794495259;
+        d=1e100.net; s=20260707; t=1793890458; x=1794495258;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=LTQ0IkCaPw9/kDb96o3oDtuoLshjQLIoZ/FR6Hq8me0=;
-        b=nCJ0TFKlYs4CVTFFIDM0gFPmV8OF/yPCo7oAv75k71GNu1+CSBdsy53ZxhJfWx1iJp
-         KaBd64OfH/1SixrMVjNER/tV+THV7fL2YlgvIGr0BCNiiP1j5Sb6rlCS0WEtjmkoffuS
-         09nrQ1YMBdvGskRaghiuguBBjPYP0PVHGJVzhIY+d0jk8pIz2Bg4ImcChepSxJsXJKFS
-         Lwm01ZXqQ28NCAEyQPM42A1CXmALIU1w7gr9zE6iZuUxhZ6ppx/rLlRqb0TTks3eqR/l
-         mO9+GDS20cnNNba+mMK331inUezCvR+50+kssjcbtB6wSZRy5WqluBPJWqNbYyyHjDRK
-         eGqw==
-X-Gm-Message-State: APuU4Z9c98M9JWwvbLy2lor50SrankP+GD5ow61+76EuVt5IdptF5Lt3
-	UysCsGRFgMur63hhljAiJ2M3udoqJlxvPAyiK2grfM6jqOPWJxMYzjgOaQKahA5xmTChnFxGJP+
-	W+dfTfQD3w3eDD2Sr0vPJBYaT7Vgy2sWRKulcJAqkqktttGImj0WPHb8955s7U82xohJ2xCcyWE
-	CSDbr5+N9gYPayeOMIu8St39grH6RP83fijuy/geT5wYSrhEE=
-X-Gm-Gg: AYBFou2uSf9+Hx60oCtjxEjeLmt8QCXjqwFU7PgIJOaMnBEf5FsxAEj2yB0NMXc3z+P
-	CUmO6H8fEstnoj4EL90vzv2ltY/etbrsEAWo8aqhxCgRU8O83HmgKZvAIlQs3BWMxUYdek1mZNM
-	YVXO67Wu2ceWBmxFZKQgxlSmxq6+37TW2EKNZnZqI2Vjif1SGOM0V7ck1W0ipYMI6f4+j3X3swv
-	KjS09m1rNDOUg+yYgsPRxrXEi8cZBtL57Z12Kv4im2ZwRsfwBj443YSjTJBGuAXf780p/Q3sn/n
-	YyDF7re5Y7B9rguruw7NjYurJ76uV1bpStYTaiM/opdIficwssyl4IRnn+crKhI1pIU7pHJ4CxP
-	hCogicTNxOfc3sE6Xh+W0tTVJWGyDD75BX1PlOOK1OVHL9z4pEle7oEEBKfebGFrEN4PzP44b5n
-	pwlQwvmZomtF3Ci/jgKWiXkNzNWSuq6XwvGrqW8BFHx0M=
-X-Received: by 2002:a5d:588a:0:b0:48e:932:af0b with SMTP id ffacd0b85a97d-48e6e4f6a88mr40840242f8f.32.1793890459262;
-        Thu, 05 Nov 2026 06:54:19 -0800 (PST)
-X-Received: by 2002:a5d:588a:0:b0:48e:932:af0b with SMTP id ffacd0b85a97d-48e6e4f6a88mr40840192f8f.32.1793890458687;
-        Thu, 05 Nov 2026 06:54:18 -0800 (PST)
+        bh=1Gb0ovzsCrO9WAYNvMzw66S9UoQLmYtegApQAprK8VY=;
+        b=m6IDAl1DmmGNGvaw6di8HJVa9LXe49RlJsBmDRS9UXa4mo46RulMacJ0Dpg0ukw9FE
+         YPdZ+8RGpEnYt5sxHHIWWnSE8sXg5TjQ+VDDUoQQUa/KZhDRR8rZ3sjFnP68Bqr9Ot82
+         PaCSb8NZ1B4d1PwZxLpxNgIYoT5A6L38qLFisYWx1yMJnnHpt7gWLrCjpj6aNKtJq9v7
+         LPiYpmt9Od5ATDn1RY7iI19EN+lxboGEWDVJqdwu9OsIC5FlwmKia++7B/5+81O/jhUP
+         EQehPVTVY12NPSevrhl96eJ4sYSYzn3GllBaFUHWt6j7e+VIPQNXJAxAtFflKJO0ZzHt
+         h/Zg==
+X-Gm-Message-State: APuU4Z+jmVejgpa/BQaBUzIVCp9uJeGQxbjQzo6rd6W1p0p6MwZLii2l
+	B21x9ay2AcauB07T59Li6r72x1fdA6vMGtxn/WTEDNRIIFZomfc4XPggURn2xeBjj9U0+Aw5k41
+	lCt00e1HX4tEvRDd5dEW/tdr1cZG5rAc5mYFmhHSzF2xV2Iliug24HGpFitu6Px2yr8g2KH0yHH
+	T6rpFnb43jgrzGXdac9cN906Lgp2pOiBlsbjcm3GV75uU1a2c=
+X-Gm-Gg: AYBFou0TAd0NAbUuaLh2uxDlb2L0e1JRrSPRvAIwGK3HmDbDOVWPWn6zEZReESFEMhI
+	aisW7izN8TzShMNK1vTDnNtMC0gExPJRLN7lLKyTdHbFtFmUOZ8hnyeD2+dA1jlm3TNEJUnaq5z
+	KwdGttfkC0uRsCZGscsBerst6jf+QsAnDSxx4FkU8thBxZd1N+jrG/XADjhr8hO3pxvqdjKU3v0
+	bh6h+p3LLALkup50PdThtvXL7cRnObrOizDSKG4plKu0OmZPz5muIJmEBdfhUk4WT8u2vY2SOBb
+	Iboc4pUualhPpSMtIJsM46zf/To/WGIAfTgauZRduU88dSInT+9Cl3ibpVeVSK87joSHi/YXJfK
+	f/thXtH+zLs3EmC4vatcedIZcYo3d2OizVapsPPb7OQfJONjJj3LOtA9PSyOKAfdwgmSnWnsOps
+	EbPYgxKEcPZTwCdQEg1iaRTUhEq+kxeyHp25Ls043lLnY=
+X-Received: by 2002:a5d:64e7:0:b0:48e:17d1:16c9 with SMTP id ffacd0b85a97d-48e6e4f5652mr41100643f8f.40.1793890457911;
+        Thu, 05 Nov 2026 06:54:17 -0800 (PST)
+X-Received: by 2002:a5d:64e7:0:b0:48e:17d1:16c9 with SMTP id ffacd0b85a97d-48e6e4f5652mr41100590f8f.40.1793890457453;
+        Thu, 05 Nov 2026 06:54:17 -0800 (PST)
 Received: from mszeredi-thinkpadt14gen6.redhat.corp (188-142-154-142.pool.digikabel.hu. [188.142.154.142])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed08536dsm9296429f8f.32.2026.11.05.06.54.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed08536dsm9296429f8f.32.2026.11.05.06.54.16
         for <fuse-devel@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 05 Nov 2026 06:54:17 -0800 (PST)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev
-Subject: [PATCH 6/6] fuse: derive short read EOF from the request offset
-Date: Thu,  5 Nov 2026 15:54:10 +0100
-Message-ID: <20261105145412.83058-6-mszeredi@redhat.com>
+Subject: [PATCH 5/6] fuse: reject unmovable folios before stealing them
+Date: Thu,  5 Nov 2026 15:54:09 +0100
+Message-ID: <20261105145412.83058-5-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261105145412.83058-1-mszeredi@redhat.com>
 References: <20261105145412.83058-1-mszeredi@redhat.com>
@@ -104,135 +104,67 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 866EACFX_rVqocmRgVsBXkqfwAjV5aLs-2NqbeV78e4_1793890459
+X-Mimecast-MFC-PROC-ID: iMz1Zbrf8lALPyJXofF6mAiAhuP-CpfUH8mVoeaQuL4_1793890458
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-fuse_short_read() computed the new file size as
+fuse_check_folio() rejects folios that can never be moved into the page
+cache, but it runs after pipe_buf_try_steal(), i.e. after the folio has
+already been removed from its mapping.  For the conditions that are
+already knowable before the steal (swap backed, anonymous, mapped) this
+is needlessly late.
 
-	folio_pos(ap->folios[0]) + num_read
+This is not a correctness problem.  page_cache_pipe_buf_try_steal() ends
+up in remove_mapping(), which refuses dirty folios, and a tmpfs folio
+holding data is dirty, so it is never stolen in the first place.  A
+swap backed folio that does get stolen is either zero filled (clean,
+reinstantiated on the next read) or already in the swap cache (the data
+is in swap), and shmem_recalc_inode() fixes up the block accounting.
+The fallback copy then reads the folio contents, which are unaffected by
+the cleared uptodate and mappedtodisk flags, and the pipe buffer still
+holds the only reference, so the folio is freed on release.
 
-which assumes that the read started at the beginning of the first folio.
-That is not true in general: fuse_do_readfolio() may be asked to read part
-of a folio only, in which case it passes the offset within the folio in
-descs[0].offset and correctly adds it to the position of the request.  If
-such a read came back short, the EOF derived from it would be
-descs[0].offset bytes too low and i_size would be truncated accordingly.
+It is wasteful though: a clean tmpfs folio is dropped from the source
+mapping for nothing, and each rejected folio produces an unratelimited
+dump_page() splat, which a fuse server splicing from tmpfs with
+SPLICE_F_MOVE can use to spam the kernel log.
 
-fuse_send_readpages() made the same assumption for the position of the
-read request itself, even though fuse_copy_folios() fills the first folio
-starting at descs[0].offset.
+Note that commit 15c20483d915 ("fuse: validate folio state before
+pipe_buf_try_steal() in fuse_try_move_folio()") claimed to do this, but
+its diff only moved the large folio check and the oldfolio WARN_ON()s.
 
-Neither is reachable today: sub-folio reads only originate from the iomap
-buffered write path, which requires fc->writeback_cache, and in that case
-fuse_short_read() does not update the size at all; readahead always starts
-on a folio boundary.  Don't rely on that, though.
+Test those three conditions before the steal.  The remaining
+fuse_check_folio() checks cannot be hoisted, since a folio that is still in
+a page cache legitimately has ->mapping set and PG_uptodate.
 
-Add fuse_folios_pos() to compute the position of the first byte covered by
-a folio array and use it for both read requests.  Make fuse_short_read()
-take the fuse_io_args and derive EOF from ia->read.in.offset, i.e. the
-offset the request was actually sent with, so that the two can no longer
-disagree.  fuse_do_readfolio() now keeps the attribute version in
-ia.read.attr_ver, as the readahead path already did.
-
-No functional change intended.
-
+Fixes: 15c20483d915 ("fuse: validate folio state before pipe_buf_try_steal() in fuse_try_move_folio()")
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/file.c | 35 +++++++++++++++++++++++++----------
- 1 file changed, 25 insertions(+), 10 deletions(-)
+ fs/fuse/dev.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index f09a0a348a1f..2242df3654bf 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -845,8 +845,19 @@ static void fuse_read_update_size(struct inode *inode, loff_t size,
- 	spin_unlock(&fi->lock);
- }
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 3641abb90d6b..e7d9c506afaa 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1156,6 +1156,16 @@ static int fuse_try_move_folio(struct fuse_copy_state *cs, struct folio **foliop
+ 	if (folio_test_large(newfolio))
+ 		goto out_fallback;
  
--static void fuse_short_read(struct inode *inode, u64 attr_ver, size_t num_read,
--			    struct fuse_args_pages *ap)
-+/*
-+ * Position of the first byte covered by the folios in @ap.
-+ *
-+ * The first folio may be read partially, so the descriptor offset is part of
-+ * the position.
-+ */
-+static loff_t fuse_folios_pos(struct fuse_args_pages *ap)
-+{
-+	return folio_pos(ap->folios[0]) + ap->descs[0].offset;
-+}
++	/*
++	 * A swap backed, anonymous or mapped folio can never be moved into the
++	 * page cache.  fuse_check_folio() would catch these below, but only
++	 * after the steal has already removed the folio from its mapping, so
++	 * check them here, while the answer is still meaningful.
++	 */
++	if (folio_test_swapbacked(newfolio) || folio_test_anon(newfolio) ||
++	    folio_mapped(newfolio))
++		goto out_fallback;
 +
-+static void fuse_short_read(struct inode *inode, struct fuse_io_args *ia,
-+			    size_t num_read)
- {
- 	struct fuse_conn *fc = get_fuse_conn(inode);
- 
-@@ -856,8 +867,13 @@ static void fuse_short_read(struct inode *inode, u64 attr_ver, size_t num_read,
- 	 * reached the client fs yet.  So the hole is not present there.
- 	 */
- 	if (!fc->writeback_cache) {
--		loff_t pos = folio_pos(ap->folios[0]) + num_read;
--		fuse_read_update_size(inode, pos, attr_ver);
-+		/*
-+		 * Derive EOF from the offset the request was sent with, which
-+		 * is not necessarily the start of the first folio.
-+		 */
-+		loff_t pos = ia->read.in.offset + num_read;
-+
-+		fuse_read_update_size(inode, pos, ia->read.attr_ver);
- 	}
- }
- 
-@@ -866,7 +882,6 @@ static int fuse_do_readfolio(struct file *file, struct folio *folio,
- {
- 	struct inode *inode = folio->mapping->host;
- 	struct fuse_mount *fm = get_fuse_mount(inode);
--	loff_t pos = folio_pos(folio) + off;
- 	struct fuse_folio_desc desc = {
- 		.offset = off,
- 		.length = len,
-@@ -878,10 +893,10 @@ static int fuse_do_readfolio(struct file *file, struct folio *folio,
- 		.ap.folios = &folio,
- 		.ap.descs = &desc,
- 	};
-+	loff_t pos = fuse_folios_pos(&ia.ap);
- 	ssize_t res;
--	u64 attr_ver;
- 
--	attr_ver = fuse_get_attr_version(fm->fc);
-+	ia.read.attr_ver = fuse_get_attr_version(fm->fc);
- 
  	/*
- 	 * Don't overflow end offset.
-@@ -906,7 +921,7 @@ static int fuse_do_readfolio(struct file *file, struct folio *folio,
- 	 * Short read means EOF.  If file size is larger, truncate it
- 	 */
- 	if (res < len)
--		fuse_short_read(inode, attr_ver, res, &ia.ap);
-+		fuse_short_read(inode, &ia, res);
- 
- 	return 0;
- }
-@@ -1069,7 +1084,7 @@ static void fuse_readpages_end(struct fuse_args *args, int err)
- 	 * Short read means EOF. If file size is larger, truncate it
- 	 */
- 	if (!err && num_read < count)
--		fuse_short_read(inode, ia->read.attr_ver, num_read, ap);
-+		fuse_short_read(inode, ia, num_read);
- 
- 	fuse_invalidate_atime(inode);
- 
-@@ -1090,7 +1105,7 @@ static void fuse_send_readpages(struct fuse_io_args *ia, struct file *file,
- 	struct fuse_file *ff = file->private_data;
- 	struct fuse_mount *fm = ff->fm;
- 	struct fuse_args_pages *ap = &ia->ap;
--	loff_t pos = folio_pos(ap->folios[0]);
-+	loff_t pos = fuse_folios_pos(ap);
- 	ssize_t res;
- 	int err;
- 
+ 	 * This is a new and locked page, it shouldn't be mapped or
+ 	 * have any special flags on it
 -- 
 2.56.0
 
