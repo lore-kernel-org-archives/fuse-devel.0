@@ -1,54 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793877044;
-	b=pEZIPYjwrmrFTOvj7OGTHx3sQD+YG3gRqYWKZQJ5Ux8loCWZ3BhGpTt9xwmLeskKU6Dk
-	 bg9gxfdioaFjKvrhRVW8YjOsZnoypRT+QNL72KL0reLh/7Ej6v3M1vCtT2fhBzsnzZHek
-	 KMdnxDZrBPkwB2YL5lBLfIKIUxdg/cxXih2sGhHWCVzCnsglLFUsDI0jqTWogcFSV2ydy
-	 XG7/MSCTW+aF9Sc8zw94KT77iBxPMXabmV7pyvtURQJtNKoAT6Aorh23rO6290vH1+oSS
-	 mRztmT/mOsG+3BG15HWgBkTcju9ilhhuDDO5WbqT2KKTpxGk1R9IZUfUz4kTLqDh+2w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793877044;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=+L1oAYLc4izPsxQ3ZlEqD/dH2fKKby+GXjbBwuzoShs=;
-	b=kvnkefvJkiBLQQ57afIjvnFSK103IR5TvVpVTuBpCVYbiwPKsGqhl4L8VpO4QuBY3dUr
-	 1KgI8koF/D8HNj1k4iQdEZ7sVQvTA8fejFw4KFL4Nm7XFiTT94k3hjDmO9qc2ULNlgJ0f
-	 f8JzuYH2vcWiwqJNn0d6RAv9ZC+7BRwHUslcJvZT2jThy1QcTbJcNeGVrJGnqx631JVKM
-	 dh/eIgrXGhyZRXzCyYGxYP2d7YZspwsK/38ZVkDy3I6kd1S+VfouVRkrcIswTvy6oweTl
-	 zL9wS1ezsKqlr22kwaeCGEJnCQWoW7oqSBjQup9R0MnvGx7dJSlj8VAXvMQbjnBGJGQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.198
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793885022;
+	b=rDH8aod2YFfCif8opxzH69dezKSSV6dpccHXcu8r0dPATIjDEDtOJC3+AqO1WxiTsMqi
+	 qTFBfX6wudHcrRP+b2/z/pUh7GKF1NHy6gjqjbTgPggxpewEdl+xeBwHnzZAALvQCIjUF
+	 vWapz/eIoDY5zhX7KtvIpfpKgyx0FbmHHr9Kif5QsaMpTHiY8OHQxhvoLOIRLCFoTQXCR
+	 TUhYMbWja+rmVQJKEJWHdyxD5Akf0lwfrRa+BrxB7c8rIjO7QofWNb1xYbtj5Boz1azY7
+	 KOwVu6Rq45ciwIrrHDJw+T3OkuEdkJVLMYlTvuf7VV2+Av71DqU1Br+93OBdpkV7yxA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793885022;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=+VLJ9DCi18uNdmQrO4KxoMMbpxM69vcNMJhzFr24WoQ=;
+	b=optEWiCh8mQjLqHZpzWSy5TgM5wXs4jNi6ajRlOcEbyKxPzTJK+Ik7E8iiDSoOYYDaZo
+	 cXnU3i5NsirKPDue45h1uIuLq5mfzMXY9Y5qardNddq9KbJsciAlHc9nCLvMIuAVAKvu0
+	 jYXI0Z+G6ZBT2Q24B5t5dGOF2qrwHGnZKVVEHU8QIwWeKVWCQo6D0XbmTkT17NT/L3TId
+	 aGY1BaMbOau0AFI1tW/dWFORfDhdVnuSJlHOFvKiYSJKOG3LgkBLgpQ4MQm5XpNok59r1
+	 z8wORIewzZO7/WgIJEtHnblpKPzmi2Kx5+WXe+WTqZzf2d7SQO9rgM2ANwribQrl3tw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kQP6EKPg;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B6B606D824;
+	Thu,  5 Nov 2026 13:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kQP6EKPg
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793885022;
+	b=kCEA7K6C/TjjX12q1vDP043LgNGSUp1A0ftBiLqBlb9LNwVtVhrBOToA2FxHSFUrOG6Z
+	 eXTngNSQmU0KCYV4t3hc+oaHTO1E2rYQNP3+edLeoYcsYEZqIiAHvucALI9GFfCCqPHe1
+	 eyP8I9mAtDgL2yFQoWNi4L80uIMgKLXTQBfBh8sqUDDS7CUbEutnIMLYPLsuoK3t3HS6k
+	 Gs503WSLLWUPpG1kGZUna4ZqBUDwapnUslk66Vzp6BQ8kMvgd6rRmaqXb1tJ8Or/2CEAn
+	 5cq3l0aqb7JfabWtvOQe0eH3rS1xg2sQqABrQ7/1UACNVgBkVXCYg5ZtA3RjOtm9hJA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793885022;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=+VLJ9DCi18uNdmQrO4KxoMMbpxM69vcNMJhzFr24WoQ=;
+	b=UCMUTPLP9giLemfatTSFbaJmnp557OLgsjlE98ze38hNUfYJztGodEczUOF9/eGQx5XZ
+	 SVr7eXmUEg67YyWTwzOXQ2gCQwhAK0XmJrU6v8WPQndN4iBi5fjXVtb6wU3pR8p6L72oX
+	 IviS7ZbtjZkRHRX+md8AygX649Uva1KZKHqG9t/tqs6u/If4yTSsvpqFnP/CO+h+Gbilx
+	 GwZ11ipDYNnU9/VeY42nGa7oVRShWtH0mkNTLLBlj4wr7QtX2Q8BzbNeZe67ZSnCEfoT/
+	 Oq8uG71whCkTfs0KjBy6jSB0W48QqaGvzQg4MwPdPlZH3w8EkoJf3nRRq6OZ0kbTvFw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF1B606A328
-	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 11:10:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AF1B606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4a45b3f0bdfso2684971b6e.1
-        for <fuse-devel@lists.linux.dev>; Thu, 05 Nov 2026 03:10:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793877043; x=1794481843;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+L1oAYLc4izPsxQ3ZlEqD/dH2fKKby+GXjbBwuzoShs=;
-        b=pLnl9DWATnrA4NlLuFdRMp63lEhRHEUUV7DpOTuGP4Ms9ghbm4jdbFQKu7lp24lLQJ
-         6WxZQtzld6W8PPk9aIBQPwKcANVmD3gdxUmd2huuzEvqp4IZibWdrHGoWmsOFUlnyqhL
-         blUVZkpAxHS5aKNRBDc6GMIAp52TcGCap1+XZGVuwZli0GrN5m31z8DXLEekWaOwRwI+
-         CUXtkWf365enZrNldeHHBjuD9sE7W1cwNGPquqqikNP/gF3G+cKMUjtk4C8N7mK1RMRC
-         qXye2MZ+ekTh8kX88LUG2hF8IgDjkMQBHUG49QB/GzMDtYASeBIElhPciggtUl6ALR+4
-         F7iA==
-X-Forwarded-Encrypted: i=1; AKwUvBzwi06yh35mLxZTK4M4a+GZB8Gwnsnf8Wbm6AJ/dIzsLs9iku9KpwlO7ZcWlsD3GM+NbRvpPX46A84o@lists.linux.dev
-X-Gm-Message-State: APuU4Z+IVdwRbmEv+Jn5weGPZW5oCl16Obmh7yGBaL8j3v6YoNHHZbGy
-	VqWaNA+3iiZZpFJgGKdTh8KjP3Kf1Jwc5xTUzK0/IpwoXRvpBKODF4FHbAKpO471jv2+pBINL3n
-	VV89EhvhqX6Xs5ZgHMRygw4ehXwd/CxBYzss0abG01Zb4hHmrwjZOSTcqQB8=
+	by smtp.kernel.org (Postfix) with ESMTPS id AA64D1F000C1;
+	Thu,  5 Nov 2026 13:23:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793885022;
+	bh=+VLJ9DCi18uNdmQrO4KxoMMbpxM69vcNMJhzFr24WoQ=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=kQP6EKPgiFvR3DLBunpBfMF2PQ3JPRM0C+N1vuadI1mUIF49VpqL9El2q7hHuTUKi
+	 lqexFBgxA4qSEifwiuHbY2yOjCfm+6wBQ96wuCrw6ol8j4X/TEZtw99ywwmU2I1RpX
+	 b4jvMkDu7hi3fLB2rvEKawZxaLhESbNBN6lkaENuZ9Ki/wuwPZWvdO1VD9MsK+vLxd
+	 uJS+Y/lEF6nhZgqK3wZmWF3LpF7duSfMcT/GqCK5STZhJmQuCN9HMA1j5B31DVrbDE
+	 9p5dznWu8LxJJFH3AAg/DkW76UDewKAyJ5r6xDc9r2PhChZIGeYdAKrr9eq04fAjZs
+	 e9vf7+LlheUHA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 3B61C47262;
+	Thu,  5 Nov 2026 13:23:41 +0000 (UTC)
+From: =?utf-8?q?Orkun_Emin_Sar=C4=B1_via_B4_Relay?= <devnull+sariorkunemin.gmail.com@kernel.org>
+Date: Thu, 05 Nov 2026 16:23:41 +0300
+Subject: [PATCH] fuse: don't pass a NULL inode to fuse_inode_backing() on
+ release
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -58,115 +83,73 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:148c:b0:4b9:e65b:8c36 with SMTP id
- 5614622812f47-5640dddd764mr13267830b6e.36.1793877043177; Thu, 05 Nov 2026
- 03:10:43 -0800 (PST)
-Date: Thu, 05 Nov 2026 03:10:43 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aec6433.0ce67c00.35143.0001.GAE@google.com>
-Subject: [syzbot] [mm?] [fuse?] WARNING in shmem_initxattrs
-From: syzbot <syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, baolin.wang@linux.alibaba.com, 
-	fuse-devel@lists.linux.dev, hughd@google.com, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261105-fuse-cuse-release-v1-1-8be1eec02c66@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMwQpAQBRFf0VvbcpMIX5FFmNcPAnNQ0r+3WBzb
+ 2dxzkUCzxAqo4s8DhZe5gA6jsgNdu6huA1MJjGZ1kmqul2g3DseE2z4tsmL1NqsgHEUvNWj4/N
+ rVvXPsjcj3PaG6L4fffXB23UAAAA=
+X-Change-ID: 20261105-fuse-cuse-release-db795aa69e2c
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Orkun_Emin_Sar=C4=B1?= <sariorkunemin@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793885020; l=1699;
+ i=sariorkunemin@gmail.com; s=20261103; h=from:subject:message-id;
+ bh=XgrvzfoNZJLMVh7JOSKQ9IdZU0PRskqYDZqGT15zz/w=;
+ b=gbs3HQ72yYDqlKX7DMo75dpKLuTDfDO1J+2qiHIr4nDluBHTjdmRWaPOpizu0jKzK2XzTYiTa
+ hkzztqUCQO0BkXO/ll2ZyKLdsCNX0p2Lh5bKH5Zwkjb/pdDG0p9SDZG
+X-Developer-Key: i=sariorkunemin@gmail.com; a=ed25519;
+ pk=MJ3Y3somkGDQVAXOSR189QAqWOcfzYCRkL1cSQgJXnE=
+X-Endpoint-Received: by B4 Relay for sariorkunemin@gmail.com/20261103 with
+ auth_id=1408
+X-Original-From: =?utf-8?q?Orkun_Emin_Sar=C4=B1?= <sariorkunemin@gmail.com>
+Reply-To: sariorkunemin@gmail.com
+Content-Transfer-Encoding: 8bit
 
-Hello,
+From: Orkun Emin Sarı <sariorkunemin@gmail.com>
 
-syzbot found the following issue on:
+cuse_release() and the error path of fuse_create_open() call
+fuse_prepare_release() with a NULL fuse_inode. Since commit bbe2d73a8231
+("fuse: don't assume ff->passthrough is set for FOPEN_PASSTHROUGH"),
+fuse_prepare_release() calls fuse_inode_backing(fi) whenever the open
+reply had FOPEN_PASSTHROUGH set, not only when ff->passthrough was set
+up. A CUSE server that sets FOPEN_PASSTHROUGH thus makes the kernel
+dereference a NULL pointer when the device is closed.
 
-HEAD commit:    05441d697f7f Merge tag 'cocci-7.4-rc1' of git://git.kernel..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17bcaca1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1cf189394a856f11
-dashboard link: https://syzkaller.appspot.com/bug?extid=4324f771847cecb27c54
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14423cbe580000
+Pass a NULL backing when there is no inode. fuse_passthrough_release()
+only prints it.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-05441d69.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0edd3964be19/vmlinux-05441d69.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/84d6d8dd5648/bzImage-05441d69.xz
+Found with AI-assisted code review (Claude Code).
 
-AI-generated root cause summary:
-In mm/shmem.c:shmem_initxattrs(), the initial reservation of inode xattr space
-(ispace) from sbinfo->free_ispace is gated by 'if (sbinfo->max_inodes)', and
-subsequent per-xattr subtraction from ispace is also gated by 'if
-(sbinfo->max_inodes)'. Because sbinfo->max_inodes is accessed locklessly and can
-be concurrently modified to 0 during a remount (shmem_reconfigure() with
-nr_inodes=0), ispace can be reserved when max_inodes is non-zero, but fail to be
-decremented when max_inodes becomes 0. Consequently, after all security xattrs
-are successfully allocated and added, ispace remains non-zero, tripping the
-WARN_ON(ispace) assertion.
+Fixes: bbe2d73a8231 ("fuse: don't assume ff->passthrough is set for FOPEN_PASSTHROUGH")
+Signed-off-by: Orkun Emin Sarı <sariorkunemin@gmail.com>
+---
+No reproducer was run and the fix is not runtime-tested. Build-tested
+with LLVM=1 W=1 and FUSE_FS, CUSE and FUSE_PASSTHROUGH enabled.
+---
+ fs/fuse/file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=4324f771847cecb27c54
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-ispace
-WARNING: mm/shmem.c:4451 at shmem_initxattrs+0x3f5/0x650 mm/shmem.c:4451, CPU#3: syz.1.18954/2882
-Modules linked in:
-CPU: 3 UID: 0 PID: 2882 Comm: syz.1.18954 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:shmem_initxattrs+0x3f5/0x650 mm/shmem.c:4451
-Code: 03 80 3c 02 00 0f 85 5d 02 00 00 48 83 3b 00 0f 85 fd fc ff ff e8 6b 3b ae ff 4c 89 ee 31 ff e8 01 36 ae ff e8 5c 3b ae ff 90 <0f> 0b 90 e9 dd fe ff ff e8 4e 3b ae ff 4d 8d 7e 78 4c 89 ff e8 52
-RSP: 0018:ffffc90007eefbb0 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff888032b8d818 RCX: 0000000000000000
-RDX: ffff888030c3cb00 RSI: ffffffff82602984 RDI: 0000000000000007
-RBP: ffff888023be9000 R08: 0000000000000000 R09: 0000000000000053
-R10: ffff888037378973 R11: 0000000000000000 R12: dffffc0000000000
-R13: 0000000000000053 R14: ffff888054123400 R15: ffff888023be9030
-FS:  00007f7a3de3d6c0(0000) GS:ffff8880d477c000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f7a3ddfaff8 CR3: 000000004e80f000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- security_inode_init_security+0x242/0x370 security/security.c:1384
- shmem_mknod+0x2ce/0x480 mm/shmem.c:4039
- shmem_mkdir+0x31/0x80 mm/shmem.c:4094
- vfs_mkdir+0x36d/0x8a0 fs/namei.c:5428
- filename_mkdirat+0x4c4/0x630 fs/namei.c:5461
- __do_sys_mkdirat fs/namei.c:5482 [inline]
- __se_sys_mkdirat fs/namei.c:5479 [inline]
- __x64_sys_mkdirat+0x89/0xc0 fs/namei.c:5479
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f7a3cf9fb19
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f7a3de3d028 EFLAGS: 00000246 ORIG_RAX: 0000000000000102
-RAX: ffffffffffffffda RBX: 00007f7a3d226270 RCX: 00007f7a3cf9fb19
-RDX: 00000000000001ff RSI: 0000200000000800 RDI: ffffffffffffff9c
-RBP: 00007f7a3d037b70 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f7a3d226308 R14: 00007f7a3d226270 R15: 00007ffe3809a618
- </TASK>
-
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index d5e1cb53d8..36144fdd69 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -320,7 +320,7 @@ static void fuse_prepare_release(struct fuse_inode *fi, struct fuse_file *ff,
+ 	struct fuse_release_args *ra = &ff->args->release_args;
+ 
+ 	if (fuse_is_passthrough(ff))
+-		fuse_passthrough_release(ff, fuse_inode_backing(fi));
++		fuse_passthrough_release(ff, fi ? fuse_inode_backing(fi) : NULL);
+ 
+ 	/* Inode is NULL on error path of fuse_create_open() */
+ 	if (likely(fi)) {
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261105-fuse-cuse-release-db795aa69e2c
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Best regards,
+--  
+Orkun Emin Sarı <sariorkunemin@gmail.com>
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
