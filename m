@@ -1,101 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793891393;
-	b=qxjMDdZWKBfurGOwLvGu6Wp3+OcqvtFqYKv+Tv08GJDo2SkQpCVqFT1ttu9kPZsLHGVy
-	 U08Fiz0cFRS+V/d7j30y2gOhdvqHyDwG4FyWSQizLiV2eywsGD8HQe/moqNieW3Ywi3Hr
-	 eRI1a4aMpZicK5gn+klIQkPXgLyi6NbJxooAoLNpmB+I5AlNAW3Uo7z9F+JwmBUNuS0j7
-	 kUlMHM3/SfO54my5aGyn/9bq3rZbi65B/4XKmJUYlXiPgZo5pw/seuk2+FFObpcpCzxN9
-	 RKG0pSaGpSoCG/mLO2bm3XOCEH8GcXGtknV5SgilVKwSqUp8QyhMlWxGAHj4wZY4Mkw==
+	t=1793891395;
+	b=t0fIWaAgYAmDl2QhR7C0KGGVk3mBMP/Xe5qQHed6rNtBUMyYUWLliA61Pk+nPzMu88lK
+	 P2Br4HvQE4Vjw2/1dWbniBHiMDdVdhLIyrpAsphO88JAITYwJH06FaLA6e53gm0gx3y3/
+	 ts6oScMpChnJTnBwpnqN/ejYuF8V/STYRzRt6oaDI7bTnRy4dRR8WzMg1Ei417AKWqWFp
+	 Xi6ginK6vnTyr51JgEdkN236xB79ILCNQi8SUcZL79DM96blvkwCb1jWrzWUtoumAvEVm
+	 4eSb7aE84yjW3DmHJovdGd0qTWSrduJUxwHmib0Jl77nZ9pTgF7UXGkfm09bIQfoxNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793891393;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793891395;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
 	 Content-Transfer-Encoding:content-type;
-	bh=4ggaaPWZDNxL0DAiqx5vNcK9rDHloEyp1DjKsZE36cA=;
-	b=43xHrYvbzkHsMSlcBDjGjgAyJGNKDwOUbukJDx8Pn1M6PqLw0abJJImeqCwcDalVGWR4
-	 lsVN1QaI6pFb4Ckc8pSkFrcRGchQLk+gInvLi7GciDdFzXctb2IuDSy2kNcu96wi8m/Pi
-	 LTeGzXiO01RAtPUfzYtK41M6Me+BQ6Cob/4/HV5UxLOfyhQ075Vy08Ocv0YU2pq6b9Vsp
-	 khACuuCWwaQM0G5DvypeE6df539CksX18LHjL5VcU9SkWrbfY/HLDohCL8hWgzebODbFe
-	 kuZ6xWuijyvc+N7xpXcCT5hIOrcef7JIUqZr8JUt9sgHRRlNq9X2UTGq8kh2K/3amlw==
+	bh=LOGmXt5dkQ9qYZQNInukOa3xIUze1p69S3CHfPjI8CI=;
+	b=YYNO72kT3tUUot2Fc5VvSF8hZ+UmwS1zh1GfZedATKz7cwZ0Kd0LVcxv5aIMtuF5AkZ0
+	 MIAxcAi7GgZIN7gx44XOq8xSge6r4R7LPEHCGwuFTS+9/ELYLJVpemPktnYla8PIQqYlr
+	 TdVGJ9D7FOsDg2I9k46ihUIGB/81AY2Toi3D0FGMbPpJRUEzAuOIWtbLEgJe9THVs7MTZ
+	 WYNvBDTz4TXdXzEVpoxop0BqZBG6kUI4MJE9/s2o1wGwCasIPrpT66/x4/UwL5ob3Ev6l
+	 NdVOQ0zKzEvySftQNrCyPcymgb3jzVFUSHoIN4bOKgOyEhfyHIFSO+hEbbSiWy0FHNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E9xlhRrY;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f+0WVLO0;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DB2606A337
-	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 15:09:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44DB2606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1DB606D814
+	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 15:09:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B1DB606D814
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E9xlhRrY
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=f+0WVLO0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793891392;
+	s=mimecast20190719; t=1793891394;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4ggaaPWZDNxL0DAiqx5vNcK9rDHloEyp1DjKsZE36cA=;
-	b=E9xlhRrYlKsb/Iw1SH10zh2oykAC5WHoFnOqx1cdAvU571FbXsbS3gFB2Mv9nl0IS3DWiO
-	4j/xS52X1NlITMaTbdSwVhogV66LaqjIYxkCZWumSr3n7EArq5k5HtJOZQtGzonzDo5mGN
-	ORrRKCHA6L/RnukT4370UJoRKP6HXi0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=LOGmXt5dkQ9qYZQNInukOa3xIUze1p69S3CHfPjI8CI=;
+	b=f+0WVLO06vyfT2EsKXhvgS8+mN0vOk8rWJKCVkVi2/Z04EBfnKe3+JXnaYpKSjCO0mOkLk
+	flKVEnDe4IhmNX0nHOzz3222Ex2HH5ZtQPIwTI1szq49QXRJDc3T0PHdgc6vUt3MtPj4Rg
+	/ziRLcK3vnMLpaHfylDzHzra64OoJ8o=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-646-sxMrsccxMLCFEWx60eLhlA-1; Thu, 05 Nov 2026 10:09:50 -0500
-X-MC-Unique: sxMrsccxMLCFEWx60eLhlA-1
-X-Mimecast-MFC-AGG-ID: sxMrsccxMLCFEWx60eLhlA_1793891388
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-48df02b91f9so493235f8f.1
-        for <fuse-devel@lists.linux.dev>; Thu, 05 Nov 2026 07:09:48 -0800 (PST)
+ us-mta-553-4ZuKWao2P3K8gMwye1g_8w-1; Thu, 05 Nov 2026 10:09:51 -0500
+X-MC-Unique: 4ZuKWao2P3K8gMwye1g_8w-1
+X-Mimecast-MFC-AGG-ID: 4ZuKWao2P3K8gMwye1g_8w_1793891390
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a204ac318aso12076485e9.2
+        for <fuse-devel@lists.linux.dev>; Thu, 05 Nov 2026 07:09:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793891388; x=1794496188;
+        d=1e100.net; s=20260707; t=1793891390; x=1794496190;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4ggaaPWZDNxL0DAiqx5vNcK9rDHloEyp1DjKsZE36cA=;
-        b=g6cYXN+G7lTSuu56M5hT7clp5lScDNmaeFoHpUIJA9tsvbi+b7PlwjMkAjEdFsQeHY
-         AazqumwBm8okoWjE/mT/bC1+9bdKUyVUBKDlAlERVBmIbI/LKm9cZDN/1jzjI6bcqpoi
-         jJ2MsKdyOyGXu2LIYXONu7SVxzxTCov9X488SLFNvB7Ti8dqRYocrU1f3zkU+Ye41B0b
-         QfU16kbZuP9TJntKgVZtfzmttj/JNDTyHszfb1FW85cbkDtuLS7WeYTHM+GZNNBUjYDc
-         n2ncSOfQeP/zJGSBVR9OeOD5lsUGBSHojxeT70SvVRXKVj5+ZYy0UoZzC+u5tmqWoic6
-         hbOg==
-X-Gm-Message-State: APuU4Z8jA/BHBrvwpDb2+tn240DumEHjnUO1OFaNBZSq4mwO4wzyzDdW
-	lKFY09VJ/fkdCKAt5jrG3ruJhgj4onVq6e6qN95nFzWZJ13VO4QKbIvFL0JJqZlr8Wg2Sr4jwHC
-	UmBqoxdPhwM68e0ZZDmWUKIcsNnPwBvZmgbMu++mAVy14nRIAiqcmYDKIZOGmVzlibZ8jVrr0v9
-	Ea1DewNJDCbRx3DAS+uID6YkIGvj2okZ1QEIwKiNyTK/LeE8Y=
-X-Gm-Gg: AYBFou0sxYNal3OWFBQ+ce1wjxnwgO22prmYimXMEcVz8IQOzX6+XrlFcPbXwtHz8eD
-	tft94DwcOwdOT78e/ulij0uxL6CXVf4pKK/oSBJNRcvIkvGGcHrs0UjswMx8Y/130EcR7J1d3Vn
-	lPD80QAhxCzNaoqtfmxZmwt3b/XT82xJdBvpVVz843LK8MIkUzAyT29uCKDVnRDdpXbmYMgwBeW
-	dEaBq07JHlq4iXyknLGJf6q6nYUJ7pgtCSrVxj4UWslaJ4R0/M0+CjARNdlEvjLyAaXK9pBt+s4
-	LcC/427iZl4/0434YqKC+pHrcg6RBCdRKsjktOb1niefkSkse8UckV+FV7gD9S9kb0snRCpeN+i
-	5VFucsDgORPDCvH2u5ihCTdFHLm6T9Le19wUJM/lTG+RY4yBbFviLobug6UurMGXdP8lDV1L4lq
-	PkBi98h2lDo/gYaxuRzrH1XwHdm+JXInP6DhZYcOEJUV8=
-X-Received: by 2002:a05:6000:4552:b0:48a:f4d4:e1f3 with SMTP id ffacd0b85a97d-49115c978eamr3205054f8f.13.1793891387786;
-        Thu, 05 Nov 2026 07:09:47 -0800 (PST)
-X-Received: by 2002:a05:6000:4552:b0:48a:f4d4:e1f3 with SMTP id ffacd0b85a97d-49115c978eamr3205007f8f.13.1793891387238;
-        Thu, 05 Nov 2026 07:09:47 -0800 (PST)
+        bh=LOGmXt5dkQ9qYZQNInukOa3xIUze1p69S3CHfPjI8CI=;
+        b=zZskZcq+TYQWjMKJx8geyudYu1+jjwCg6Tg91QG0Ib5G2qC/nhq6kv1uhceMqzvX8Q
+         ggGi0f9IHx/Kn1o+s1JgvEDBBXGtL/rpzxA383Kgu1UldZfpX3oIFn6TBN546K07WXto
+         oXBa0P2c+F+SwZqzqAJpX2hsQQhDsnJyRIbSqJZAB7039LFZZBjR0KB1fi9kkNjYnsh1
+         pDaAtK44ek+TnpNK9qexCK5oISWh/ZWpcYEJii28hsckymWX9p0t7XBMCsPTgQkK0VwG
+         Da/S7rWS0lv/hbigsDx/PdfpdDfPOGqmAZgJggD6hdwt8ggRllVvXt7GHXxkYo0vJiGU
+         MAsg==
+X-Gm-Message-State: APuU4Z8aQQVjRAL1WCtaxqjSB0vfKHUfCPi29CvDD20CsTBqnkXvRkEL
+	PxoML49Qw6+9agd0/x5pikyuSpO6t29NyX1ufwZG8H+VcrCdQp4mozI2MW1kF9U3nDBvnMx/YKT
+	SkEwzrb+ul3TcyhkNjJojDBpGLwvlj7kj1Ge7rxo3J8FhAPZpy+kwEp1Ckx1oed1J4dWMdK0/Vw
+	eix/EaZ0YnsZ1etJSxpt/CCj/KROpAL388ircA9k83SQTnYas=
+X-Gm-Gg: AYBFou3deUlwgebFs0drJMBDzna4SR9rYBYnvXiVABjOALtzJqU83ASRXCIgncsjJcj
+	O//0yQ7xY0zvyV++viBchKHlmizQaA/oi7PHxuE2F1v0ymesAZzsE1CtdoSCCPBDo/hFav9YzxL
+	wQgY0pWqyB3Ul7VqIMPVdsb+H6htoVl8Cii6afMwDnVqyZ2OQ1jG6uuHV2qmp9XvQdyNAkynIIe
+	8cDE/F15ayfxfSg1K5FtalO8fz/8b1MwndcysV0q+1/vEhQ9+NIQc2yUV2ljNDYEZ5GmKuWQ4CW
+	EI+VdJ7K4kTWbZ61KImdvaqFT5UAg5GgOyW3mgPvq1h+2jb4FgM9RALstVQ/hivxCdUh1hvPcon
+	/NujGdAu7SZwftwNRHJL5wng2eBlWAUHg+OSIPOW3ooACPXLD3NDHtcfbBMnw4JGkk7dUR9Q+/q
+	xAy9o7p3/I8pKTozeagMj9EK5VFdA/os2N2SzWqBMK4bI=
+X-Received: by 2002:a05:600c:541:b0:4b0:9803:dc8a with SMTP id 5b1f17b1804b1-4b09803dd63mr180693315e9.26.1793891389734;
+        Thu, 05 Nov 2026 07:09:49 -0800 (PST)
+X-Received: by 2002:a05:600c:541:b0:4b0:9803:dc8a with SMTP id 5b1f17b1804b1-4b09803dd63mr180692765e9.26.1793891389253;
+        Thu, 05 Nov 2026 07:09:49 -0800 (PST)
 Received: from mszeredi-thinkpadt14gen6.redhat.corp (188-142-154-142.pool.digikabel.hu. [188.142.154.142])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feda207d8sm9961340f8f.52.2026.11.05.07.09.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48feda207d8sm9961340f8f.52.2026.11.05.07.09.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 07:09:46 -0800 (PST)
+        Thu, 05 Nov 2026 07:09:48 -0800 (PST)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev
 Cc: German Maglione <gmaglione@redhat.com>,
 	Stefan Hajnoczi <stefanha@redhat.com>,
 	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
 	virtualization@lists.linux.dev,
-	stable@vger.kernel.org,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH 1/3] virtiofs: fix use-after-free of fs->tag on device removal
-Date: Thu,  5 Nov 2026 16:09:40 +0100
-Message-ID: <20261105150943.86650-2-mszeredi@redhat.com>
+Subject: [PATCH 2/3] virtiofs: disable request timeout
+Date: Thu,  5 Nov 2026 16:09:41 +0100
+Message-ID: <20261105150943.86650-3-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261105150943.86650-1-mszeredi@redhat.com>
 References: <20261105150943.86650-1-mszeredi@redhat.com>
@@ -109,96 +108,143 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: H6EVG0yYy_-aWGmMP_jvb_ykCnoL1n_BpT4KEfSSj04_1793891388
+X-Mimecast-MFC-PROC-ID: Le947AZJjmHaP9zO90vnfh4Rno5IsGxQultzRI96PHE_1793891390
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-The virtio_fs object is refcounted via its kobject, so a mount can keep it
-alive well beyond the lifetime of the virtio device binding.  The tag
-string, however, was allocated with devm_kmalloc() and is therefore freed
-by devres_release_all() as soon as the device is unbound, i.e. right after
-virtio_fs_remove() returns (see device_unbind_cleanup() in
-drivers/base/dd.c).
+The request timeout is implemented by aborting the connection:
+fuse_check_timeout() calls fuse_chan_abort(), which splices
+fpq->processing onto a local list and ends those requests.  Ending a
+request wakes the waiting caller, which then drops the last reference and
+frees it.
 
-virtio_fs_get_tree() looks up the instance, takes a kobject reference and
-then drops virtio_fs_mutex before doing the sleepable part of the mount
-(allocations, fuse_conn_init(), sget_fc()).  A concurrent device removal
-can complete in that window:
+That is safe for /dev/fuse, where the request has already been copied out
+to userspace and nothing outside the kernel retains a pointer to it.  It
+is not safe for virtiofs.  virtio_fs_enqueue_req() passes the bare req as
+the virtqueue token, and the scatterlists point at req->in.h, req->out.h,
+req->argbuf and the request's folios; the device still owns all of that
+after the abort.  When the device eventually completes the request,
+virtio_fs_requests_done_work() gets the freed req back from
+virtqueue_get_buf() and passes it to virtio_fs_verify_response() and
+virtio_fs_request_complete(), which dereference req->args - the caller's
+stack frame, long gone - and kfree() whatever req->argbuf now reads as.
+The device may also have written the reply into the freed request or into
+folios that have since been reused.
 
-  CPU 0 (mount)                         CPU 1 (remove)
-  -------------                         --------------
-  virtio_fs_get_tree()
-    virtio_fs_find_instance()
-    // reference taken, mutex dropped
-                                        virtio_fs_remove()
-                                          list_del_init(&fs->list);
-                                        // driver core unbinds device
-                                        // devres frees fs->tag
-  virtio_fs_fill_super()
-    mutex_lock(&virtio_fs_mutex);
-    if (list_empty(&fs->list))
-            pr_info(... fs->tag);   <-- use-after-free
+This is precisely why virtio_fs_conn_destroy() drains all queues down to
+in_flight == 0 before calling fuse_conn_destroy(): once buffers are in a
+virtqueue, the only ways to reclaim them are to wait for completion or to
+reset the device.  virtiofs already disables the other two paths that
+could abort a live connection, via ctx->no_control and
+ctx->no_force_umount; the timeout is the one that was left.
 
-The virtio_fs object itself is still valid here, only its tag has been
-freed behind its back.
+Timeouts make little sense for virtiofs in the first place.  A timeout is
+a guest-side reaction to a wedged host, and the guest has no recourse: it
+can neither take the buffers back nor make the host answer.
 
-Fix the lifetime mismatch at the source: allocate the tag with kmalloc()
-and free it from virtio_fs_ktype_release(), so that it lives exactly as
-long as the object embedding it.  All probe error paths already drop the
-final kobject reference, so they are covered.  Merely dropping the tag
-from the error message would paper over this instance while leaving a
-devres pointer embedded in an object that routinely outlives its device.
+So add fuse_conn::no_req_timeout for transports that cannot revoke a
+request once it has been handed to the server, set it from virtiofs, and
+use it to skip both fuse_init_server_timeout() and the
+FUSE_REQUEST_TIMEOUT negotiation flag.  Skipping the former matters on its
+own: without it the fs/fuse/default_request_timeout sysctl would arm the
+timer even though FUSE_REQUEST_TIMEOUT was never offered to the server.
 
-The other readers of fs->tag are unaffected: tag_show() is fenced off by
-the kobject_del() in virtio_fs_remove(), the automatic KOBJ_REMOVE uevent
-is emitted from __kobject_del() while the device is still bound, and both
-virtio_fs_add_instance() and virtio_fs_find_instance() only walk instances
-still on virtio_fs_instances.
+Note that this is not a security issue.  virtiofs inverts the usual fuse
+trust relationship - the server is the privileged, trusted side and the
+guest kernel is the untrusted one - so a server intent on corrupting guest
+memory has far more direct means at its disposal.
 
-Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-Cc: <stable@vger.kernel.org>
+Fixes: 0f6439f61a6e ("fuse: add kernel-enforced timeout option for requests")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/bug/linux-0328b3a1-043b-468e-8425-6a613d91b5ef
+Closes: https://sashiko.dev/#/bug/linux-8171ebf0-ef01-4ccd-943e-8633a8d54239
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/virtio_fs.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ fs/fuse/fuse_i.h    | 10 ++++++++++
+ fs/fuse/inode.c     |  9 ++++++---
+ fs/fuse/virtio_fs.c |  7 +++++++
+ 3 files changed, 23 insertions(+), 3 deletions(-)
 
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index ec5ccdf18a25..a033b0bc4576 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -418,6 +418,7 @@ struct fuse_fs_context {
+ 	bool destroy:1;
+ 	bool no_control:1;
+ 	bool no_force_umount:1;
++	bool no_req_timeout:1;
+ 	bool legacy_opts_show:1;
+ 	bool syncfs_capable:1;
+ 	enum fuse_vdax_mode vdax_mode;
+@@ -698,6 +699,15 @@ struct fuse_conn {
+ 	/** @no_force_umount: Do not allow MNT_FORCE umount */
+ 	unsigned int no_force_umount:1;
+ 
++	/**
++	 * @no_req_timeout: Do not enforce a request timeout
++	 *
++	 * Set by transports that cannot revoke a request once it has been
++	 * handed to the server, since the timeout is implemented by aborting
++	 * the connection.
++	 */
++	unsigned int no_req_timeout:1;
++
+ 	/** @auto_submounts: Auto-mount submounts announced by the server */
+ 	unsigned int auto_submounts:1;
+ 
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 1341b681d0ed..3c0a629cc2fe 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -1451,7 +1451,8 @@ static void process_init_reply(struct fuse_args *args, int error)
+ 			fc->no_flock = 1;
+ 		}
+ 
+-		fuse_init_server_timeout(fc->chan, timeout);
++		if (!fc->no_req_timeout)
++			fuse_init_server_timeout(fc->chan, timeout);
+ 
+ 		fm->sb->s_bdi->ra_pages =
+ 				min(fm->sb->s_bdi->ra_pages, ra_pages);
+@@ -1502,8 +1503,9 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
+ 		FUSE_HANDLE_KILLPRIV_V2 | FUSE_SETXATTR_EXT | FUSE_INIT_EXT |
+ 		FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
+ 		FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
+-		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP |
+-		FUSE_REQUEST_TIMEOUT;
++		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP;
++	if (!fm->fc->no_req_timeout)
++		flags |= FUSE_REQUEST_TIMEOUT;
+ #ifdef CONFIG_FUSE_VDAX
+ 	if (fm->fc->vdax)
+ 		flags |= FUSE_MAP_ALIGNMENT;
+@@ -1820,6 +1822,7 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
+ 	fc->destroy = ctx->destroy;
+ 	fc->no_control = ctx->no_control;
+ 	fc->no_force_umount = ctx->no_force_umount;
++	fc->no_req_timeout = ctx->no_req_timeout;
+ 
+ 	err = -ENOMEM;
+ 	root = fuse_get_root_inode(sb, ctx->rootmode);
 diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-index ba8d79c4bcac..ef58bedc3941 100644
+index ef58bedc3941..c824916f0a9b 100644
 --- a/fs/fuse/virtio_fs.c
 +++ b/fs/fuse/virtio_fs.c
-@@ -193,6 +193,7 @@ static void virtio_fs_ktype_release(struct kobject *kobj)
- {
- 	struct virtio_fs *vfs = container_of(kobj, struct virtio_fs, kobj);
- 
-+	kfree(vfs->tag);
- 	kfree(vfs->mq_map);
- 	kfree(vfs->vqs);
- 	kfree(vfs);
-@@ -489,7 +490,11 @@ static void virtio_fs_free_devs(struct virtio_fs *fs)
- 	}
+@@ -1592,6 +1592,13 @@ static inline void virtio_fs_ctx_set_defaults(struct fuse_fs_context *ctx)
+ 	ctx->destroy = true;
+ 	ctx->no_control = true;
+ 	ctx->no_force_umount = true;
++	/*
++	 * A request handed to the device stays referenced by the virtqueue
++	 * until the device completes it.  The request timeout works by
++	 * aborting the connection, which ends and frees such requests behind
++	 * the device's back, so it must not be enabled here.
++	 */
++	ctx->no_req_timeout = true;
  }
  
--/* Read filesystem name from virtio config into fs->tag (must kfree()). */
-+/*
-+ * Read filesystem name from virtio config into fs->tag.  Freed by
-+ * virtio_fs_ktype_release() so that it stays valid for as long as the
-+ * virtio_fs object itself, which may outlive the virtio device.
-+ */
- static int virtio_fs_read_tag(struct virtio_device *vdev, struct virtio_fs *fs)
- {
- 	char tag_buf[sizeof_field(struct virtio_fs_config, tag)];
-@@ -505,7 +510,7 @@ static int virtio_fs_read_tag(struct virtio_device *vdev, struct virtio_fs *fs)
- 		end = &tag_buf[sizeof(tag_buf)];
- 
- 	len = end - tag_buf;
--	fs->tag = devm_kmalloc(&vdev->dev, len + 1, GFP_KERNEL);
-+	fs->tag = kmalloc(len + 1, GFP_KERNEL);
- 	if (!fs->tag)
- 		return -ENOMEM;
- 	memcpy(fs->tag, tag_buf, len);
+ static int virtio_fs_fill_super(struct super_block *sb, struct fs_context *fsc)
 -- 
 2.56.0
 
