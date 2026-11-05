@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793896039;
-	b=106RPw/vBfLqrXIyUC0ScP/lTrE0NyaYtZ/5JLsn2fVHJ6Ial7vJz8w2dhUioG++g2mk
-	 0181dlkLMSH2ATkquE40xNl5jTQZGNn75gYe+vO0LUR7dbHkq2e+gkzPlGkoZhxm7kf+F
-	 ya3dJ7YhXj7YbwR/PLZyQBkpocEydZssJSzhS7YWVxgrH7JFzIkaa3H6QDfrR6bBfn+jU
-	 SoPLVktNjRctxUx265bf2TdhMszVUmVYFOv7ZGs9Q9zH8QNEtlRBGwWb4I1CCT5BDMU6/
-	 IA8rzwKZ+E9BCjGGdVqja1u3fvKrv+DHELN0O9eKAJZx7r/KfQUzRdJ/k6vJ7jMxmJg==
+	t=1793897224;
+	b=4MUdjDw550OWzpJViH0cNJza2WQyt0sZL3b4nKvoipsnTPZJi5/H8vvB9iC2QfapAXr5
+	 awmSN/S0KIjuLTEwGo37RmNs2SnMCO0P/vEVb3oR/J7WdW5fCMkYCHPArbj8iJGBertKQ
+	 syjGimfnKXqMOu1ZJlGC2LCY1c8W3RsncKDE+tdefTOorb55BQpHqLPU78SZPWz9AdmrX
+	 7iX2vg6B/1JfBqOdS9t3wLzRnUcWQtU8UZJlYSh+puZp1ZxGG0ZaB8SokF13GcNbEoiRr
+	 AnjMYCH3mCo6iK3wA5fwnIOEu+dqYnp9v2Mbdnu7tx18ScgnasvwbJLXhM5kLF5Ofkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793896039;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=yNEceuVF4+1dEHMso5FiTKoIIlIwJZWRYcUiC/JkgOo=;
-	b=cebh/x6nzjVojibMeW3rzGR/lerXj49rdy5v4rEFxBSAZPuM0DE7KXXB4asEhJmJXHKM
-	 krowNWQZJqvXSbRoSuu7J+nksSiSIqFvTqSsXtRqIv47uYeUgTRM40ZS7bMQV/6rT9oHA
-	 ZtRauPi39eNEGj4ajtPhn/FygCfVKgECK1ywPJKRkS8Rfx3C4/16yho7TjlP40k0fHGtI
-	 /xQ0u6YGWgnVuMPyp9z5DCZOuWeJBEh4t8qhCFTzL4JHdoVq9TJ2ZBwTEJhwd2SPq8wfU
-	 ykF2aRwLKdnQ1rS79yI/F+41B1X1AC9+RHU0d+MNpQhy31psPLnIwo+ePfeiYipZPUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793897224;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=hQVqdw1jZnyTvf6HuEzkfI/ea8a/7UEr6wdSrPO21uM=;
+	b=gmeMw3Ge70YMtcWCYQfrhscpBUjiCe/w5yM/O4Zm7XIKhI3u1GJxf+Dwzdx1pKfsullW
+	 FpJNCAZlwJjh9Rni3wolnIZYn/GEH+s/Kiyj5kjlOhpFJNhSLQ6a5EkFM3Vk9mwaqqLHv
+	 WKTsR18xz0pDEHAFxxNQ91V/W7/rapzZ7zK2b1b/pAZrp2GFqf/TBJ5MR3L6DMCTWrqeJ
+	 9cAZWmTDfSRKrUclgRZTJi/9Ql397dBUpqJ1VNMhEdWmGxyzg9hQjU+6p/gYtBSJKf838
+	 GMfuWrIPmYcEmsKCS8vjn0DIRpwbM7ZMkuEJF+4gka2JEVYXY/Ti7vEGVJZkpdizFxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=bCWtbtkE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.167.198
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929FB606A339;
-	Thu,  5 Nov 2026 16:27:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=bCWtbtkE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0156D1F000C1;
-	Thu,  5 Nov 2026 16:27:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1793896038;
-	bh=yNEceuVF4+1dEHMso5FiTKoIIlIwJZWRYcUiC/JkgOo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=bCWtbtkEDpyTUbwzvxe6MGZwVSKfAqoj503Jn568t34yc39Fe9sgjWVscGfykg1r0
-	 j1PwfEeAdKwqlS5XJPr/3Z8clpnlSYMJz97Zk4kZGpJ2xqQINseX9gnXJTMqQfLg2J
-	 MK+hifwQuNYe+Rc/y0DKuB01mvfolNPPjiLxAmr4=
-Date: Thu, 5 Nov 2026 08:27:17 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: syzbot <syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com>
-Cc: baolin.wang@linux.alibaba.com, fuse-devel@lists.linux.dev,
- hughd@google.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- syzkaller-bugs@googlegroups.com, syzkaller@googlegroups.com, Miklos Szeredi
- <mszeredi@redhat.com>, Christian Brauner <brauner@kernel.org>
-Subject: Re: [syzbot] [mm?] [fuse?] WARNING in shmem_initxattrs
-Message-Id: <20261105082717.c459bb33778fcf27e5675082@linux-foundation.org>
-In-Reply-To: <6aec6433.0ce67c00.35143.0001.GAE@google.com>
-References: <6aec6433.0ce67c00.35143.0001.GAE@google.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62490606A339
+	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 16:47:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62490606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-55bf11583d9so1086484b6e.1
+        for <fuse-devel@lists.linux.dev>; Thu, 05 Nov 2026 08:47:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793897223; x=1794502023;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=hQVqdw1jZnyTvf6HuEzkfI/ea8a/7UEr6wdSrPO21uM=;
+        b=sRowLtmHWjI20b0INBh9clQJm0TO+R9a9y42TL/KvHe1jsiN3poxWrGExzxqhehEL/
+         CmgyZDvQdEay58vJZ/3McXM/p9SyH0XS/b18yxIcm1s8iBgZQ535iVr51KmmDEdf/pSJ
+         5ma+Y4rmRnMp5d9rT0ykzG2nwbzXvBETq+fePdjAJeIvGl4S6tHQ71k+63XDcV2PF3vR
+         zAZarBLTnsWEvy0AvqidBhouGPETf0i3gNJIbxVpQvj/es7eETpXF7jgnzyrJ8vJAjhp
+         jGjx4agof8EhpgVXjqzUJOxami7mCcpQJRnkFzLP7HlAAiEaP7boetAGablkh6+1LO1v
+         uxWg==
+X-Forwarded-Encrypted: i=1; AKwUvBwsf3SPaigoBkmjbjW56KEwdFNE2NUogkM7r67j5LpGtjpoXLy+fnKZgaZbvBTgzq3xjyQ3KYaWW6II@lists.linux.dev
+X-Gm-Message-State: APuU4Z/LHY3N1u8qr5EoZ5/5NQxmcZaSQMD10X2fbw5TEz/4g9kmP1wt
+	SvI7aZT5tIP/idMD/AzZJo8/Ye4g6yR7GfYNDnCofGJzeIYhy2vBgz34o0pkomSFLpGmjWueUqV
+	JNmnVDDnG18eP1wAihZuckwe92Fv/QwkGsx4n/czzbRQ67iENIpSdcKg6koA=
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -57,134 +57,38 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:2f10:b0:495:f8a5:8797 with SMTP id
+ 5614622812f47-567bde98696mr1829687b6e.0.1793897223413; Thu, 05 Nov 2026
+ 08:47:03 -0800 (PST)
+Date: Thu, 05 Nov 2026 08:47:03 -0800
+In-Reply-To: <20261105082717.c459bb33778fcf27e5675082@linux-foundation.org>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aecb307.a24d9935.80af2.0019.GAE@google.com>
+Subject: Re: [syzbot] [mm?] [fuse?] WARNING in shmem_initxattrs
+From: syzbot <syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, baolin.wang@linux.alibaba.com, 
+	brauner@kernel.org, fuse-devel@lists.linux.dev, hughd@google.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, mszeredi@redhat.com, 
+	syzkaller-bugs@googlegroups.com, syzkaller@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 05 Nov 2026 03:10:43 -0800 syzbot <syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com> wrote:
+Hello,
 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    05441d697f7f Merge tag 'cocci-7.4-rc1' of git://git.kernel..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=17bcaca1580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=1cf189394a856f11
-> dashboard link: https://syzkaller.appspot.com/bug?extid=4324f771847cecb27c54
-> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14423cbe580000
-> 
-> Downloadable assets:
-> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-05441d69.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/0edd3964be19/vmlinux-05441d69.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/84d6d8dd5648/bzImage-05441d69.xz
-> 
-> AI-generated root cause summary:
-> In mm/shmem.c:shmem_initxattrs(), the initial reservation of inode xattr space
-> (ispace) from sbinfo->free_ispace is gated by 'if (sbinfo->max_inodes)', and
-> subsequent per-xattr subtraction from ispace is also gated by 'if
-> (sbinfo->max_inodes)'. Because sbinfo->max_inodes is accessed locklessly and can
-> be concurrently modified to 0 during a remount (shmem_reconfigure() with
-> nr_inodes=0), ispace can be reserved when max_inodes is non-zero, but fail to be
-> decremented when max_inodes becomes 0. Consequently, after all security xattrs
-> are successfully allocated and added, ispace remains non-zero, tripping the
-> WARN_ON(ispace) assertion.
-> 
-> full analysis:  https://syzkaller.appspot.com/x/ai_root_cause?x=4324f771847cecb27c54
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-Well that's convenient, thanks!  Two additional suggestions:
+Reported-by: syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com
+Tested-by: syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com
 
+Tested on:
 
-- The Subject "[mm?] [fuse?]" can be tightened.  I told my thing
+commit:         05441d69 Merge tag 'cocci-7.4-rc1' of git://git.kernel..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11953cbe580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1cf189394a856f11
+dashboard link: https://syzkaller.appspot.com/bug?extid=4324f771847cecb27c54
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=1624c98d580000
 
-      figure out a Subject for this bug report - identify
-      the kernel subsystem which is primarily affected
-
-  and it responded
-
-      Subject: [BUG] shmem: xattr accounting warning when remount disables inode limits
-
-
-- Use your LLM to figure out who to cc on the report:
-
-      figure out who should be cc'ed on this.  Use the
-      MAINTAINERS entries for the affected files.  Also use git to
-      figure out who has recently worked on the affected code.  Prefer
-      to choose developers who have recently shown significant
-      involvement in kernel work.
-
-   and it replied
-
-      Cc: Hugh Dickins <hughd@google.com>
-      Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-      Cc: Miklos Szeredi <mszeredi@redhat.com>
-      Cc: Christian Brauner <brauner@kernel.org>
-      Cc: linux-mm@kvack.org
-      Cc: linux-fsdevel@vger.kernel.org
-      Cc: linux-kernel@vger.kernel.org
-      Cc: syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com
-
-      Hugh and Baolin: the maintainer and reviewer listed under
-      TMPFS (SHMEM FILESYSTEM), which explicitly covers mm/shmem.c. 
-      Baolin also has recent shmem fixes and substantial review
-      activity.  
-
-      Miklos: the most directly relevant developer.  Git
-      identifies him as author of 076e5cef28e27, "simple_xattr: change
-      interface to pass struct simple_xattrs", from June 2026.
-
-      Christian: committed that change and authored the preceding
-      rhashtable-based shmem xattr conversion.  His involvement is
-      directly in this code, rather than merely elsewhere in
-      mm/shmem.c.  
-
-
-and, of course "fix the dang bug",  I'll test this later.
-
-
-#syz test
-
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: shmem: consume the reserved xattr space despite remount
-Date: Thu, 05 Nov 2026 08:08:06 -0800
-
-Creating a tmpfs inode can trigger WARN_ON(ispace) in shmem_initxattrs()
-when a concurrent remount sets nr_inodes=0.  With panic_on_warn enabled,
-this warning can panic the machine.
-
-shmem_initxattrs() reserves space for the security xattrs while inode
-limits are enabled.  It later tests max_inodes again before consuming that
-reservation for each installed xattr.  If remount disables the limit
-between those steps, successfully installed xattrs leave a nonzero
-reservation behind.
-
-Use the remaining reservation, rather than the current mount policy, to
-decide whether to subtract the installed xattr's space.  This also leaves
-the failure path with only the unconsumed reservation to refund.
-
-An initially unlimited filesystem cannot acquire an inode limit through
-remount: shmem_reconfigure() rejects that transition.
-
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Reported-by: <syzbot+4324f771847cecb27c54@syzkaller.appspotmail.com>
-Closes: https://syzkaller.appspot.com/bug?extid=4324f771847cecb27c54
----
-Test candidate against 05441d697f7f9a927264f4058cbbc6a03dfcac9d.
-Application checked; no kernel build or runtime reproduction performed.
-Fixes attribution and stable-backport scope have not yet been verified.
-
- mm/shmem.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/mm/shmem.c~shmem-consume-the-reserved-xattr-space-despite-remount
-+++ a/mm/shmem.c
-@@ -4451,7 +4451,7 @@ static int shmem_initxattrs(struct inode
- 		if (simple_xattr_add(&sbinfo->xa_cache, &info->xattrs, new_xattr))
- 			break;
- 
--		if (sbinfo->max_inodes)
-+		if (ispace)
- 			ispace -= simple_xattr_space(new_xattr->name, new_xattr->size);
- 		retain_and_null_ptr(new_xattr);
- 	}
-_
-
+Note: testing is done by a robot and is best-effort only.
