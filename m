@@ -1,97 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=74.125.224.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793908147;
-	b=Qv6ymcq+4BAGjWDOSM6ikB5WnV4D5fB9+NbBdAGCrUEU5Z8yTDxe7OTttNz/U1yPL+mG
-	 ABqgpATPNONPPahqO9WZXEE0pWZZ6fFxvTh4x29d84csO52wYwrvwMM1SjYS4DqKY4HYS
-	 SQsvBWN9wzUtTDBuRt+p4RSj/ujN7EzyCB3wASLRQmw6X9aL8SqWcsqmUEt7/8BA9FVBt
-	 2W79HMNOLZ9zj2U1h0BqhT/s/TKpCBkfyRR4v6SugovE4990JifUNOOmp3iINAY37wdM9
-	 4AFtXuUD01bq/KraJRihb0lQZcKkFb7Xf9scysj5QQTBDQU1h7WsJ/Hx4zA3rT4jYNA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793908147;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=N5scGhz5LxdwjNU1yVLwQJMho5xvAY73RNio+z9h7DA=;
-	b=VWFDgXPPs7NLGCk5x6pJq3tAPMhnq8ph0HNtmaWoDJyt04qZEYGdcCgAD6uMNsi4CxjS
-	 KettS3KkTed5AhklnlLkWRM7DD8dS4z2bkOQyNokBtdghc6Pk1ZX3rJwIdULfT5tZSAbJ
-	 W5dLf3mWbydVfMyiQufnMc9hEauv7LEim83YCLwGDwcWNKfKhgD4YzZgFzFGzuI695yfe
-	 B77aHG7Q+8xn2OZ5GP2G3awJl47B3DcLQs6sohN9BIbCw/qVmW5pHygk/K7Ztp5+ZFXMu
-	 YyL9O2QkKBEDfGWSCD+Zh1YKBS1m9Wzka9yCGpLPIy7LOWMH/rqLKwgOBU9OFtu/K5w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=databricks.com;
-	spf=pass smtp.mailfrom=databricks.com;
-	dkim=pass header.d=databricks.com header.i=@databricks.com header.a=rsa-sha256 header.s=google header.b=eReNVQbf;
-	arc=fail smtp.remote-ip=74.125.224.41
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793911080;
+	b=nwpDtfYQY2Kpv3T79hfpcbkGmPbKfQ+dnqVnSMqjjc4Fd7+oEF0RqrLMmFZCLz/1vfCw
+	 9JAEe0OClT1JxqUQw6jbpRjkz/UIPNPwMu4DYYxvNGRO8BFRADFEKF4F/gzJMds9K4J1v
+	 rYnxrqrsvC4Rxm4crWohz3LMCIogw/RMK6yDC6VpRjJpKh6d9uMBtHefLF9U+0S8YKvtS
+	 NKirPl+JBUfkfFafPDwh6xXOaoQqYQJNrhKKbmJ6fz3c/VXaomIA11075t9A2/B+qGUC4
+	 jd7NFIM/FfndJyKAFrajN2n+hF3mZtaCEt5jcB0N976k3/GWatYWb44PD2Qa+5x/lYQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793911080;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=kFERB1YnJZQ7J8N8Vjl6e8gBTQxfUW162xiJH7KJiMc=;
+	b=v0+Bas3f6G768kboArpjR6h+dnXxqCNC2iT7S0Y4fLt2p0mqWzz7+uM8W5cqe73sckfg
+	 4JVU6lMOCx/plw27AJ5m7cGql8V3x4qDDdwISiYb+TuP2Wtp+EsxvtQLvxu2sst7jIDA8
+	 sWvcu/qpXqgrPtayQt8GRQEH/rSeyhQnxninZXOQUkxynAKN9C8W4IdAR5kWw1IprV875
+	 PJnFYmeRUZYgeWo5YNVus6BZ7YDcNVgO6W0qyeTiIRP3RZlYp5h38MS3824aMivcB8Oa/
+	 /+5ZtnDMIaswDpWc6vV7E0c9Zt0J5uX71wKLEnJl6ifB2ZZl1zVQIC1xuQZm/H95nHQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dbEfWOqF;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E3D606E404
-	for <fuse-devel@lists.linux.dev>; Thu,  5 Nov 2026 19:49:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54E3D606E404
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=databricks.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=databricks.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54B3606A32F;
+	Thu,  5 Nov 2026 20:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=databricks.com header.i=@databricks.com header.a=rsa-sha256 header.s=google header.b=eReNVQbf
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-67c0ffaae1dso598442d50.1
-        for <fuse-devel@lists.linux.dev>; Thu, 05 Nov 2026 11:49:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793908146; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KwR4MLN6F7p+MSTV1U2tB2j/MTsjhoiovBNeIXtXGobmEZfJP+wgp57pI9+dh7P2ly
-         VOuNsiOyTYt0TMgzTz7AOijAdDNxsf7KHdT8Tgyx335qT3SR3MpT8PUeeS+QHAU41geo
-         r/XJZ/zRyjJwFruARXb5iyXvocdhrqnyr/xda2w/+LTL4BZ5PPsYMVPgkWHHN/qKEZzC
-         rWRQCFK3O8FU8rG6BEsi0FAzTXfxEESBl7lOw+zdREFXV6heN4vLtGvXwjfjT+OjoGQj
-         krqlRH8sDjDI45C0UdUifEDzhMjEbIq6fCbtbF42o2bZ1vsLyIVrLhQKWB+o/Je7rZiI
-         k0vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=N5scGhz5LxdwjNU1yVLwQJMho5xvAY73RNio+z9h7DA=;
-        fh=DjVsvvaEA9SP+2U8584+DUAt8JGkpRk7dkOJT9uxCOI=;
-        b=SaRmOOr93QZ3zSvgta+HlVHV2deNlrd93lqLQFi+5lodUSD3t9inSs60l5bULuxNwi
-         vjs/Wb6BjGPagi6F2cIqBuxvm49+ITW66JVjE/6W0t+0X1rYjCxWoMP0H187kv4+uxLS
-         2oW13IqhhSS/rz5ZfDlRQxUwZy1gngu1HXMmBc8zsQhT2waPHZUGyArka+mpcT1MqKY4
-         DFlevkl8tFO2JTUbcH8tqbpToR3mJm19traNz20ZjjnywKJuTP/E6lAWnQU21z1OiNST
-         Yo04T16NlLBXF6SgxG6AfK7/M3WLNc+F0m0qgbYWS2lg3e30OoBnjCJZo6MQGZAQhbrg
-         zBFw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=databricks.com; s=google; t=1793908146; x=1794512946; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=N5scGhz5LxdwjNU1yVLwQJMho5xvAY73RNio+z9h7DA=;
-        b=eReNVQbfylKPidokXel/uxx9TznMXa2Tn343OVMq5cAkeJbqE9Rytv4cmkCXeIEfId
-         co2u3p3mBJblknfbsYd8+BtNmf+N1cWhb1VI+vffhXn3NiF/plBDQe5ecG80IY0YBe6S
-         EagQqa6nGYPP+HzyuMBH3r4Ae92Rbua+knOB9ann5eUUnqoaclhg0GnvOz4mF3kU7Xnt
-         ZNogUbJwiWNLsYo7pKerL/NuGYpWHcAUWGAokgjJjbI6251sqFOpt9IEvf2Rsug8fKvS
-         M8TAjQcN3NSLlYle/6Gi2Gz4uVj+J4zq6kxd+IrxUskQVnTeHu6L0Qn3233uykDXc8xh
-         BTtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793908146; x=1794512946;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=N5scGhz5LxdwjNU1yVLwQJMho5xvAY73RNio+z9h7DA=;
-        b=cMDFpaMliTfC0K4Ni8DnhqT3LqMOk/ypIsUPMr7P1cna+TGSYw3kxeI3nzZDmsqf3f
-         ZzB0YXcHtBQk9FwZE8WDgxCUj5Md6JTlU7bxzgIiVS3hri5ONy3PPgpZFPiPXLhxXuw2
-         qCN15x1U0Md53zvoABmo+ngls1CQDuPCeAgs1BK31lgRFBpjnOk0uYahuvNVuph1kAQ7
-         sqCJeRur3+Mn9YEQpv7YF5VA/BdxDB9L0f468U1AybMVFp+sgkuu5K9MqEdTCeHXqjwE
-         qD6RnoRBBhaeRw+VNiBrpJjioZgAjmBzrO/9JEalQB2q+sJXbrcAPteUYLTYBml14qRU
-         F2lQ==
-X-Forwarded-Encrypted: i=1; AL+hErGM+ygmusR/Ujto5I01vRgu4h5lLN7ZbA3TFsNV983hEl2GzfMsGzeKs+bsbH3p8SRp70Df8lKK1ozT@lists.linux.dev
-X-Gm-Message-State: APuU4Z8Jfkhk0IP4ZMF8L3pJzsgfxIXLTQMU17dtDBvzYm4P2jrZ+9wY
-	veCDX91C1rfFYwDoSYBywvrJC6EHlLy+RxLzSM4JLHkExxAII8HUiBq6jpbD6SBtPH76vt8cCa1
-	q6oGGspbBR9/iR9GsZ7g6cq8NTP1GBhDT+I7DqCX6mpP3nPlZGlNWDKU=
-X-Gm-Gg: AYBFou38KOHiMtvEtnh1r++XGDMMPtle7mgxwukYv2iTqN4tZsTLpkvdcRt9S7wA8sX
-	YQjgjGX07S/X3hZbSeoIJJpBNT+cxsRHSgpSQSCLZzkoNtc3W6oT9SoxLkABjKp+75mP7Bcaiq1
-	hRCoT+mUMZtWOQqs1m85lDxRYFwiPKONEIb4WmdUBegwm7rPMl+QlbzeEvcxhiUoIGQx4EQ9aKo
-	EPE8o9SOfFOvMBxopwXLMdLAwOjHuDQz99wH22CFhP0HAI5Z2k99TzWUeOtnDf8+0xSRp9G+BJW
-	yzCiTOewxq5pzxxcdDN7yIH4VCD9q0hiBqohx78BHAnaS/VWn7JG1LaZL/6/upU4tNAXcmhycQ1
-	DVLknQj/3orra8ohNzjIHynnbj8gQ32sRQoY=
-X-Received: by 2002:a53:c045:0:10b0:673:e272:f3ec with SMTP id
- 956f58d0204a3-67c03574d3cmr1676191d50.16.1793908146013; Thu, 05 Nov 2026
- 11:49:06 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dbEfWOqF
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1EF1F0089F;
+	Thu,  5 Nov 2026 20:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793911079;
+	bh=kFERB1YnJZQ7J8N8Vjl6e8gBTQxfUW162xiJH7KJiMc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dbEfWOqF0nWBxai9vV12XaRkr44G6/iPt+1zOArNFr0MrunrJJ/lPqXPZVPT1Cocu
+	 HFOSUAQBJZhMxbfw4qlS9MYOmgsVzPYCPKBmSTM6LUjiVlItsHVRxuzD8L8eC9kz1K
+	 dh9QXfyrUO9/jw2rf0X8v2+rfI82HU6ytKwZypzygqtNqm/zad2U268KoihY3zXaCf
+	 YFpFYAoCV7ChoSdpQA9FYxGqFfl7KfvZbQ4Q6dByQRDU9SQlNeJM28yWZnuAQFUfsn
+	 X7+HLtWy/r/LRn8QEB8OIsw8hR5M20tlFLwVqOol2I73CX+to8jxXEeaSTsPYE5QO4
+	 d2CPJowac60Ng==
+Message-ID: <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org>
+Date: Thu, 5 Nov 2026 21:37:31 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -101,78 +51,406 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-From: Lakshita Jain <lakshita.jain@databricks.com>
-Date: Thu, 5 Nov 2026 11:48:53 -0800
-X-Gm-Features: AclHuK86O9Kk2D4NIGqxQ7jet_z__LeBB-Hzqe3C7yoJqWGYxhQHMmpa1pCI8qQ
-Message-ID: <CALE1rk6tGt_Pe7CpFL1NSTgugVpXLH_iguO2D9VsAVHn1p-02w@mail.gmail.com>
-Subject: [REGRESSION] fuse: non-owner POSIX ACL writes get EPERM before
- reaching daemons without default_permissions (since 6.2)
-To: brauner@kernel.org, miklos@szeredi.hu
-Cc: sforshee@kernel.org, linux-fsdevel@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
+ RCU grace period
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
+ <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ kernel-team@meta.com
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-2-kas@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261104130118.2507513-2-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Christian, Miklos,
+On 11/4/26 14:00, Kiryl Shutsemau (Meta) wrote:
+> From: Linus Torvalds <torvalds@linux-foundation.org>
+> 
+> Reading a page cache folio without taking a reference would keep CPUs
+> that read the same file from bouncing its refcount.  But without a
+> reference the folio can be freed, and its memory reused, while the
+> reader copies from it.
+> 
+> Add PG_rcu_free: the free of a folio with the flag waits for an RCU
+> grace period.  A reader that saw the flag under rcu_read_lock(), and
+> then still found the folio where it looked, can read it until
+> rcu_read_unlock().  A split copies the flag, as such a reader may still
+> be reading the new folios.
+> 
+> The folios wait on per-CPU lists, one grace period in flight per CPU:
+> call_rcu() per folio would queue a callback for every folio of a
+> truncated file.  A work, which can reschedule, frees each batch.
+> Reclaim depends on these frees, so the workqueue is WQ_MEM_RECLAIM.
+> 
+> The flag is 64-bit only (CONFIG_PAGE_RCU_FREE): page flags are scarce
+> on 32-bit, and the contention this avoids is a problem of large
+> machines.  It is off on PREEMPT_RT, where expedited grace periods are
+> normal ones, so the waiting pages cannot be freed quickly when memory
+> runs short.
+> 
+> pgfree_rcu in /proc/vmstat counts the deferred pages.  Nothing sets the
+> flag yet.
+> 
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> [kas: rework for flagging at read time, 64-bit only and not PREEMPT_RT,
+>  shorter comments and changelog]
+> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> ---
+>  include/linux/page-flags.h     |  21 +++++++
+>  include/linux/vm_event_item.h  |   1 +
+>  include/trace/events/mmflags.h |   7 +++
+>  mm/Kconfig                     |  15 +++++
+>  mm/huge_memory.c               |   1 +
+>  mm/memory-failure.c            |   4 ++
+>  mm/page_alloc.c                | 105 +++++++++++++++++++++++++++++++++
+>  mm/vmstat.c                    |   1 +
+>  8 files changed, 155 insertions(+)
+> 
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index 7a863572adce..a1e52a1f8a52 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -111,6 +111,9 @@ enum pageflags {
+>  	PG_swapbacked,		/* Page is backed by RAM/swap */
+>  	PG_unevictable,		/* Page is "unevictable"  */
+>  	PG_dropbehind,		/* drop pages on IO completion */
+> +#ifdef CONFIG_PAGE_RCU_FREE
+> +	PG_rcu_free,		/* free only after an RCU grace period */
+> +#endif
+>  #ifdef CONFIG_MMU
+>  	PG_mlocked,		/* Page is vma mlocked */
+>  #endif
+> @@ -602,6 +605,24 @@ FOLIO_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>  	FOLIO_TEST_CLEAR_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>  	__FOLIO_SET_FLAG(dropbehind, FOLIO_HEAD_PAGE)
+>  
+> +/*
+> + * A lockless lookup that sees PG_rcu_free and then still finds the folio
+> + * where it looked may read it until rcu_read_unlock().  Set under a
+> + * reference, cleared only by the free.  Not for hugetlb or
+> + * free_pages_nolock().
+> + */
+> +#ifdef CONFIG_PAGE_RCU_FREE
+> +FOLIO_TEST_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+> +	FOLIO_TEST_SET_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+> +	__FOLIO_CLEAR_FLAG(rcu_free, FOLIO_HEAD_PAGE)
+> +#define __PG_RCU_FREE (1UL << PG_rcu_free)
+> +#else
+> +FOLIO_TEST_FLAG_FALSE(rcu_free)
+> +	FOLIO_TEST_SET_FLAG_FALSE(rcu_free)
+> +	__FOLIO_CLEAR_FLAG_NOOP(rcu_free)
+> +#define __PG_RCU_FREE 0
+> +#endif
+> +
+>  #ifdef CONFIG_HIGHMEM
+>  /*
+>   * Must use a macro here due to header dependency issues. page_zone() is not
+> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
+> index 2628ccda076a..cbe849701653 100644
+> --- a/include/linux/vm_event_item.h
+> +++ b/include/linux/vm_event_item.h
+> @@ -36,6 +36,7 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+>  		FOR_ALL_ZONES(ALLOCSTALL)
+>  		FOR_ALL_ZONES(PGSCAN_SKIP)
+>  		PGFREE, PGACTIVATE, PGDEACTIVATE, PGLAZYFREE,
+> +		PGFREE_RCU,
+>  		PGFAULT, PGMAJFAULT,
+>  		PGLAZYFREED,
+>  		PGREUSE,
+> diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+> index 935893e5ea53..47c3411a75e8 100644
+> --- a/include/trace/events/mmflags.h
+> +++ b/include/trace/events/mmflags.h
+> @@ -117,6 +117,12 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+>  #define IF_HAVE_PG_IDLE(_name)
+>  #endif
+>  
+> +#ifdef CONFIG_PAGE_RCU_FREE
+> +#define IF_HAVE_PG_RCU_FREE(_name) ,{1UL << PG_##_name, __stringify(_name)}
+> +#else
+> +#define IF_HAVE_PG_RCU_FREE(_name)
+> +#endif
+> +
+>  #ifdef CONFIG_ARCH_USES_PG_ARCH_2
+>  #define IF_HAVE_PG_ARCH_2(_name) ,{1UL << PG_##_name, __stringify(_name)}
+>  #else
+> @@ -152,6 +158,7 @@ TRACE_DEFINE_ENUM(___GFP_LAST_BIT);
+>  	DEF_PAGEFLAG_NAME(swapbacked),					\
+>  	DEF_PAGEFLAG_NAME(unevictable),					\
+>  	DEF_PAGEFLAG_NAME(dropbehind)					\
+> +IF_HAVE_PG_RCU_FREE(rcu_free)						\
+>  IF_HAVE_PG_MLOCK(mlocked)						\
+>  IF_HAVE_PG_HWPOISON(hwpoison)						\
+>  IF_HAVE_PG_IDLE(idle)							\
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index 604c58199acb..6e5341b0bf64 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -718,6 +718,21 @@ config PCP_BATCH_SCALE_MAX
+>  	  latency.  This option sets the upper limit of scale factor to limit
+>  	  the maximum latency.
+>  
+> +config PAGE_RCU_FREE
 
-Since 6.2, a non-owner setting system.posix_acl_access on a
-host-mounted FUSE filesystem gets EPERM before the request reaches the
-daemon, when the daemon does not set FUSE_POSIX_ACL and is mounted
-without default_permissions. Before 6.2 the write was passed through
-and the daemon made the decision.
+I think we really want to focus this only on folios (like the current code does).
 
-User-visible effect: on a FUSE filesystem that reports files as owned
-by root and does its own permission checks, a non-root user running
-"sed -i" gets "preserving permissions for './sedXXXXXX': Operation not
-permitted", and "install -m 644" fails, even on files the user just
-created. chmod on the same files works.
+FOLIO_RCU_FREE ?
 
-The check that rejects it is in set_posix_acl(), reached from
-vfs_set_acl() since 318e66856dde ("xattr: use posix acl api"):
+> +	def_bool y
+> +	depends on 64BIT
+> +	depends on !PREEMPT_RT
+> +	help
+> +	  Reads from the page cache can copy from folios that are read
+> +	  again and again without taking a reference on them, so small
+> +	  reads of one file from many CPUs do not contend on the folio's
+> +	  reference count.  The cost is that memory freed from such
+> +	  folios becomes reusable only after an RCU grace period.
 
-    if (!inode_owner_or_capable(idmap, inode))
-            return -EPERM;
-    ...
-    return inode->i_op->set_acl(idmap, dentry, acl, type);
+While that description is helpful, that's not really what this patch, or rather
+the basic infrastructure in page_alloc, does.
 
-facd61053cff ("fuse: fixes after adapting to new posix acl api",
-https://lore.kernel.org/all/20230118-fs-fuse-acl-v1-1-a628a9bb55ef@kernel.org/)
-restored passing these ACLs through to daemons without FUSE_POSIX_ACL,
-but this owner check still runs first. In v6.1, the same write went
-through fuse_xattr_handler, and xattr_permission() places no VFS
-restriction on system.* xattrs, so the daemon saw it.
+I'd suggest to have a dedicated FOLIO_RCU_FREE config and maybe another one
+(that selects/depends on) FOLIO_RCU_FREE that actually enables the pagecache use
+and documents the details.
 
-For daemons without default_permissions, FUSE already leaves
-permission decisions to the daemon for attribute changes:
-fuse_setattr() sets ATTR_FORCE, so chmod/chown/utimes skip the VFS
-owner checks. Would it make sense to treat POSIX ACL writes the same
-way, i.e. not apply the owner check in set_posix_acl() for FUSE inodes
-without default_permissions, and let the daemon decide? Happy to test
-a patch.
+> +
+> +	  64-bit only: it takes a page flag, and those are scarce on
+> +	  32-bit.  Not on PREEMPT_RT, where expedited grace periods are
+> +	  normal ones, so freeing the waiting pages on demand would stall.
+> +
+>  config PHYS_ADDR_T_64BIT
+>  	def_bool 64BIT
+>  
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 1e5d68acf62a..25082949a4ca 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -3743,6 +3743,7 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+>  #endif
+>  				 (1L << PG_dirty) |
+>  				 (1L << PG_dropbehind) |
+> +				 __PG_RCU_FREE |
 
-Reproducer
+That looks a bit odd at first, as it's very different to the other once. But no
+easy way around assuming that the flag is not always around.
 
-libfuse's example/passthrough shows it, using libfuse's generic
-uid=/gid= option to report every file as owned by root. As an
-unprivileged user (mounted without default_permissions), in a
-directory that user owns:
+Maybe we should just have this be a const mask constructed somewhere using BIT()
+and __PG_RCU_FREE etc, instead of having this growing list in this user here.
 
-    $ ./passthrough -f -s -d -o uid=0,gid=0 /tmp/mnt 2>fuse.log &
-    $ cd /tmp/mnt$HOME && echo hello > f.txt
-    $ sed -i s/hello/hi/ f.txt
-    sed: preserving permissions for './sedtTZojI': Operation not permitted
-    $ install -m 644 f.txt g.txt
-    install: setting permissions for 'g.txt': Operation not permitted
-    $ echo $?
-    1
-    $ chmod 600 f.txt        # succeeds
+>  				 LRU_GEN_MASK | LRU_REFS_MASK));
+>  
+>  		new_folio->mapping = folio->mapping;
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index a8b03e2920ba..7dde7c3c9a0c 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -211,6 +211,10 @@ static bool page_handle_poison(struct page *page, bool hugepage_or_freepage, boo
+>  			return false;
+>  	}
+>  
+> +	/* The free of a hwpoisoned page is not deferred: wait for readers */
+> +	if (release && folio_test_rcu_free(page_folio(page)))
+> +		synchronize_rcu();
+> +
+>  	SetPageHWPoison(page);
+>  	if (release)
+>  		put_page(page);
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index 12fac9084c48..a371e92da273 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -1313,6 +1313,96 @@ static inline void pgalloc_tag_sub_pages(struct alloc_tag *tag, unsigned int nr)
+>  
+>  #endif /* CONFIG_MEM_ALLOC_PROFILING */
+>  
+> +/*
+> + * Each CPU has at most one grace period in flight (@queued), covering
+> + * @batch.  Folios freed meanwhile wait on @pending for the next one.
+> + */
+> +struct rcu_free_pcpu {
+> +	spinlock_t lock;
+> +	bool queued;
+> +	struct list_head pending;
+> +	struct list_head batch;
+> +	struct rcu_work rwork;
+> +};
+> +
+> +static DEFINE_PER_CPU(struct rcu_free_pcpu, rcu_free_pcpu);
+> +
+> +static struct workqueue_struct *rcu_free_wq __ro_after_init;
+> +
+> +static void rcu_free_start(struct rcu_free_pcpu *r)
+> +{
+> +	lockdep_assert_held(&r->lock);
+> +
+> +	if (r->queued || list_empty(&r->pending))
+> +		return;
+> +
+> +	list_splice_init(&r->pending, &r->batch);
+> +	r->queued = true;
+> +	WARN_ON_ONCE(!queue_rcu_work(rcu_free_wq, &r->rwork));
+> +}
+> +
+> +static void rcu_free_pages(struct list_head *list)
+> +{
+> +	struct folio_batch fbatch;
+> +	struct folio *folio, *next;
+> +
+> +	folio_batch_init(&fbatch);
+> +	list_for_each_entry_safe(folio, next, list, lru) {
+> +		if (!folio_batch_add(&fbatch, folio)) {
+> +			free_unref_folios(&fbatch);
+> +			cond_resched_tasks_rcu_qs();
+> +		}
+> +	}
+> +	if (folio_batch_count(&fbatch))
+> +		free_unref_folios(&fbatch);
+> +}
+> +
+> +static void rcu_free_workfn(struct work_struct *work)
+> +{
+> +	struct rcu_free_pcpu *r = container_of(to_rcu_work(work),
+> +					       struct rcu_free_pcpu, rwork);
+> +	LIST_HEAD(done);
+> +
+> +	spin_lock_irq(&r->lock);
+> +	list_splice_init(&r->batch, &done);
+> +	r->queued = false;
+> +	rcu_free_start(r);
+> +	spin_unlock_irq(&r->lock);
+> +
+> +	rcu_free_pages(&done);
+> +}
+> +
+> +static void rcu_free_defer(struct folio *folio)
+> +{
+> +	struct rcu_free_pcpu *r = raw_cpu_ptr(&rcu_free_pcpu);
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&r->lock, flags);
+> +	list_add_tail(&folio->lru, &r->pending);
+> +	rcu_free_start(r);
+> +	spin_unlock_irqrestore(&r->lock, flags);
+> +}
+> +
+> +static void __init rcu_free_init(void)
+> +{
+> +	int cpu;
+> +
+> +	if (!IS_ENABLED(CONFIG_PAGE_RCU_FREE))
+> +		return;
+> +
+> +	rcu_free_wq = alloc_workqueue("rcu_free",
+> +				      WQ_MEM_RECLAIM | WQ_PERCPU, 0);
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		struct rcu_free_pcpu *r = per_cpu_ptr(&rcu_free_pcpu, cpu);
+> +
+> +		spin_lock_init(&r->lock);
+> +		INIT_LIST_HEAD(&r->pending);
+> +		INIT_LIST_HEAD(&r->batch);
+> +		INIT_RCU_WORK(&r->rwork, rcu_free_workfn);
+> +	}
+> +}
+> +
+>  static __always_inline bool __free_pages_prepare(struct page *page,
+>  		unsigned int order, fpi_t fpi_flags)
+>  {
+> @@ -1327,6 +1417,19 @@ static __always_inline bool __free_pages_prepare(struct page *page,
+>  
+>  	VM_BUG_ON_PAGE(PageTail(page), page);
+>  
+> +	/*
+> +	 * Not for a hwpoisoned order-0 page: it never reaches the allocator,
+> +	 * and page_handle_poison() takes a reference right after this free.
+> +	 */
+> +	if (unlikely(folio_test_rcu_free(folio)) &&
+> +	    !(PageHWPoison(page) && !order)) {
+> +		VM_WARN_ON_ONCE(fpi_flags & FPI_NOLOCK);
+> +		__folio_clear_rcu_free(folio);
+> +		count_vm_events(PGFREE_RCU, 1 << order);
+> +		rcu_free_defer(folio);
+> +		return false;
+> +	}
+I'm wondering whether we want to intercept on the folio freeing path instead?
+That would be __folio_put(), before we go into free_frozen_pages() used by other
+machinery that does not apply (slab etc).
 
-fuse.log contains no SETXATTR request. Without -o uid=0,gid=0, both
-commands succeed and fuse.log shows two SETXATTR requests for
-system.posix_acl_access.
+So maybe this handling could be placed into mm/folio.c instead, just a quick
+thought ... reading about folio batches above I think that might be the right
+direction, we are mixing too much page vs. folio things here.
 
-Tested on 7.0 (Ubuntu 7.0.0-1014-aws, libfuse 3.14.0). We see the same
-failure on 6.8 hosts in production.
+-- 
+Cheers,
 
-Thanks,
-Lakshita Jain
-Databricks
+David
