@@ -1,60 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793960218;
-	b=TozrQS2zvMPbA1zEYPFRgjYFVku0wdsGYOPYjbY8ek4DHML2cmUrgpzxkbN2rQnr7zHY
-	 5ca5KoFPmytBoGSOomPyX/yigdMh1zAr1dZD02cmnyTVczmYc6I+S0+5biLh8utD2e5k3
-	 8mdXttiIGdfcabbBuFlz33u0h6ZJOY7n3EoEX/B4xo8t4RPc2IrlQKFCd8B+f6lE0kc5C
-	 bBtGcq6NaQeiKu/YU6uuUzG9VlQ7pzAk85CK3UyuHjy6sHnisP/mv5B+/0vhoQdO9ch9/
-	 gUTKrOlKazEl+fYaN41vgPC8I/1cvMDIF14PRuQez7pe2gVGX4NFvFlUL4ihhgUCf8A==
+	t=1793960617;
+	b=oLfKJcf+1PBD3c2ar8eoi4n7O5GQPLpGalEobj3C5HHFPo7nVIGPAaiwDk1oEK0SlXD0
+	 mNDY7W53w2BBxlGh26MNVr7juz+lTihZDej6U2nzTNbxMxd0dtzJt0UARkC6Ij60Cw7sw
+	 EBJO7XiU6kUOj1G5J35iWvEv5GJmF2BeSVRr3vJEIdNKPNdaQFJWRDEWYdfKYW84u0967
+	 lzpMSGPUHcGa3iEQ9d96XVrxO5v/4SOevTJKuPrmOu9e3lHtu5EGnMo9bqzyvzyQNbY6q
+	 OQ3h53xVRSNGX/a9P7Oib5/nbbggR0qviFf0cEW/hsPn/EDvNlrg2NvPeq8XaQ9tPJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793960218;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=8oRd22s00j3S8y/WVhMir3siqAHME1vEF2A6XeLZepc=;
-	b=MOyCUID9uG3ozu6SFXT9wf7H5TO0UfG1MYFrz7KtwLOGKY0HGQLpKfau0k65ytT+mHhW
-	 xY4HgZmKh+mEWRwGEA4TddhBvjszNBKBrX1OBWiL0M5tJpjWnWufWxMjBpHFNwmSCC8jo
-	 Ax0S/xWIu2uTPk/bq5DWuCB8IrmnE69gY5uMT6N7MSpcL/ksiKe0X+4yi0/tRTStVq44D
-	 jgCWc8QOf025XQUHMmsJHt+kUKbcbHGgDVVIc9OP0jmIreCah0q3d9tSbQ7N1uvFB2M+A
-	 9cNuqPUFL3t/FbGro7lXUiuPU4LESl6OxdgpNArnPGjC34JoI1bB8Cifz6GBkpduGmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793960617;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=vy/VYMt/UXkWhWK9aY9NDoivw8LVPTQza9JKJFj36SI=;
+	b=M7Xi5dpeIzm5+lt9V2tbz/0PcspriroWn9irofIAOxuQLSgoBYRJobJx9BrIdmj2H32K
+	 gqpTZcdWN1pj6/23UFWEkys8RvbGZBID9U5iTd9OyboV0NLAxCi1bTFEyaTetw9EHsCNK
+	 wG4CcUPG4JHZ2NLX3Qzn9i08W5rIT//H3OrvDdBTtZ0bBmBnkrgkJ7ISrJqoVL1PPzmlc
+	 86QFaA3V8gF+FAuIwLfUvXR/HtPDM+0DbxFi3zdvaDjTC+MLml0zDaOSkI4d+6ORHt0HP
+	 NMO14dTOmP2PqtS5Nb6uHgIVzWS33ySig/SIZ/sgjH9y5BCIT5XIdMgdQ7HlG/+QTOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=igalia.com;
-	spf=pass smtp.mailfrom=igalia.com;
-	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=GG0+1x8w;
-	arc=none smtp.remote-ip=213.97.179.56
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cO8m0qaR;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61399606A32E;
-	Fri,  6 Nov 2026 10:16:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61399606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8026D606A331
+	for <fuse-devel@lists.linux.dev>; Fri,  6 Nov 2026 10:23:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=GG0+1x8w
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:
-	From:Reply-To; bh=8oRd22s00j3S8y/WVhMir3siqAHME1vEF2A6XeLZepc=; t=1793960215;
-	x=2109320215; b=GG0+1x8w7O8QoScE2AcODMLwjedwY/J2ZKOa73jxL99jL691IA3V5MD3ZTnQN
-	u5aFwWJCBsyDLYujO2iXSPYzN6es4W/1WvPKbvTkXbFjI7DvuFlImEm+k8BWA7BT4XEjD4jsr3Nw8
-	VUwkJ5/huAUZtn8rkKYZ9jrzCFZqSbZXkRKzw2OD46yavMDgdBz/Q9QZ4LvfSoknG8qa1AHgosgHL
-	J151ai/14cxvjJrBZf4BurzN4/BHuuhsr+j0W4l9y6lX6QzDGhq9iS8m7vS1/DChaKa6wcTZadnxB
-	cqePH1rPr7Kt1AA1WIylx1nwx7e+GwCg/I1ofGYOgwXPZM9Ixw==;
-Received: from bl16-24-61.dsl.telepac.pt ([188.81.24.61] helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xPH06-004J48-Pq; Fri, 06 Nov 2026 11:16:50 +0100
-Date: Fri, 6 Nov 2026 10:18:27 +0000
-From: Luis Henriques <luis@igalia.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: mszeredi@redhat.com, fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Matt Harvey <mharvey@jumptrading.com>,
-	kernel-dev@igalia.com, stable@vger.kernel.org
-Subject: Re: [PATCH] fuse: fix 'inval_wq' parameter setting during module
- initialisation
-Message-ID: <au2pczAGgWeloIkw@igalia.com>
-References: <20261019125329.17932-1-luis@igalia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cO8m0qaR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B82F1F008A1;
+	Fri,  6 Nov 2026 10:23:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793960616;
+	bh=vy/VYMt/UXkWhWK9aY9NDoivw8LVPTQza9JKJFj36SI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=cO8m0qaR8c74YiS1bp0K16yutbZC6ABon6p5mfjEST+g9WBS0loF/pQwR7rh3GttF
+	 nsVQ413P/wD7/i1vlcMsT1Vm66pExVhdOw7VxX5nQNySm2aIHrDmyvlBk4wqfEZ7Yt
+	 CwAqzcCLkWYMsDAOfZ2Z946zekVZGpGbeaUw9ruqSYRR20dRO5dlWzbntgOb4igmz7
+	 5r6eHevEQ2khBsLPl+rc1jRVytiMM8G4p+QzO4BNKzUAHIKVqLJOZQwb49iKy2bAZb
+	 /zw9N3nl9nwl7x3MVLZlG2iqP4SXFvtYvnqvn4SLfXzK8vZdpUn3SzBlJ7Drw0DkmU
+	 tCQSkVk4s2bbg==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 41300198003A;
+	Fri,  6 Nov 2026 05:23:24 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Fri, 06 Nov 2026 05:23:31 -0500
+X-ME-Sender: <xms:m6rtagV6DTxgYgMjJkpJJ3fe2Gk0dD7_17-xk6IjR9tc6lO66SF8FQ>
+    <xme:m6rtauaSZvT20eM3fefx2fSCnk4vNOtiTOKmKKCCY9L6qlvOWDsZNbiTI8s9TmOc4
+    uctRZ6O79_sK3jU96X1lze5YEMHRYQw7MsCUzUS52MkvsJ0CQ6LnZnf>
+X-ME-Received: <xmr:m6rtaoFmaro46qwZY2gMR-FNRKY0Ex4ja7wtz_e6p0EkVEEkc5sg_DdMnzI>
+X-ME-Proxy-Cause: dmFkZTFzY3ecYn7vuV24DC+I/lHsHFuDPtZYKjZHnqxEoYklqFmEQEwJqTWHDS0drFDzQj
+    M8i1kXAUkC/HoF9Melp63kjZu+Ye/WAJoA+Or8wJFKINkR4JYLDV0m5AXg5+PhrkLWgu+S
+    0Ia/eUbDJelbWzRjOkPu+fh6wn2DK0fsTRoVS9gdaP0AMh+IaU+2CmJfHbzpfg+cj22fko
+    phv35FsrHJDkuHHBVG34BlfHnKbnUThOxZI0e8oKunIDBTg1XFqABAErX4TWs0BIwpn0MA
+    /2DDZt3b+UiBBXDQ0/C4G30ZlmJcVnZE+o240+X/5QpTzX9Fgc/5O4t4KiKiGfhlCGkLtc
+    aZu+DybrUbhcHn8ihVGbolZWbK7OXAn8yj5aIZH6/9QxlqyghZ1cwZt+Q7k+4+3pE3yr/Z
+    S9mAUVwg+8xacpnw0hs7EdzIU2gVRr8oswPU2m8ZHnZN1um7NeMxNOcFC6YAq7ghuhSsKO
+    x+DdMl4m5lneDLqRg+Zd6cwRMLGKUZLBhR7goF5cmEw/97Zz+fB4w37mUIYpN4Zo/b/wmA
+    sIqocmBwlroIcQfSQ9bs2b3HIj0/YFXYnfUw6OBkWsdfFOZBXmNVQVPBbBde7HTGIH/3WV
+    mRni2jLVpOd0kpPqs78f6ThEf2qOephUz5wkETJZeK3fYrjWxQdCTol/oCtQ
+X-ME-Proxy: <xmx:m6rtaqSW1wAd8Iae0W_HKsh_IjtZNO7TzbRc-KmCZMrdsnX8HOa_Mw>
+    <xmx:m6rtamhLWtQAWNYN27jCZjdZ5xH7Ga5m5TRL6darwOw_mdFZa-Ulwg>
+    <xmx:m6rtavXk4hDEbdrz_oRsRVvmE99uPgLXSwoTXLwDDtCC2H6yp4lxVQ>
+    <xmx:m6rtakM-Dv2ugzOcuHNa45x8DGEMB_W6rWCned3371Q5cVaCW0PIaA>
+    <xmx:m6rtasbeFOyX1cAJEAG6_8am3xXvsdbRMks2Tpvkue5Zcs5uI3Y9GCZY>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Nov 2026 05:23:23 -0500 (EST)
+Date: Fri, 6 Nov 2026 10:23:22 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
+Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
+ RCU grace period
+Message-ID: <au2lsbDkyWt-To0C@thinkstation>
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-2-kas@kernel.org>
+ <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -66,87 +108,171 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261019125329.17932-1-luis@igalia.com>
+In-Reply-To: <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org>
 
-On Mon, Oct 19, 2026 at 01:53:29PM +0100, Luis Henriques wrote:
-> If the fuse module is loaded with a 'inval_wq' parameter the inval_wq_set()
-> function will schedule work into dentry_tree_work.  However this worker is
-> not initialised at this point because fuse_dentry_tree_init() will not have
-> been executed yet.
+On Thu, Nov 05, 2026 at 09:37:31PM +0100, David Hildenbrand (Arm) wrote:
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 604c58199acb..6e5341b0bf64 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -718,6 +718,21 @@ config PCP_BATCH_SCALE_MAX
+> >  	  latency.  This option sets the upper limit of scale factor to limit
+> >  	  the maximum latency.
+> >  
+> > +config PAGE_RCU_FREE
 > 
-> This can be fixed by delaying the work scheduling until later if the module
-> is still being initialised.
+> I think we really want to focus this only on folios (like the current code does).
 > 
-> While there, also simplify the sched/cancel by using mod_delayed_work()
-> instead of schedule_delayed_work().  This will result in having the period
-> being changed immediately instead of waiting for the next reschedule.
-> 
-> Fixes: ab84ad597386 ("fuse: new work queue to periodically invalidate expired dentries")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Luis Henriques <luis@igalia.com>
-> ---
-> Hi!
-> 
-> My initial approach to fix this was to use DECLARE_DELAYED_WORK() to
-> initialise the wq statically.  But this would then move the problem to
-> fuse_dentry_tree_work(), as the worker could still be scheduled before
-> the module finishes initialisation.
+> FOLIO_RCU_FREE ?
 
-Ping.
+Sure.
 
-Any comments, or suggestion on a better way to fix this problem?
+> > +	def_bool y
+> > +	depends on 64BIT
+> > +	depends on !PREEMPT_RT
+> > +	help
+> > +	  Reads from the page cache can copy from folios that are read
+> > +	  again and again without taking a reference on them, so small
+> > +	  reads of one file from many CPUs do not contend on the folio's
+> > +	  reference count.  The cost is that memory freed from such
+> > +	  folios becomes reusable only after an RCU grace period.
+> 
+> While that description is helpful, that's not really what this patch, or rather
+> the basic infrastructure in page_alloc, does.
+> 
+> I'd suggest to have a dedicated FOLIO_RCU_FREE config and maybe another one
+> (that selects/depends on) FOLIO_RCU_FREE that actually enables the pagecache use
+> and documents the details.
 
-Cheers,
+I will make the help describe what this patch does.  The page cache is
+the only user, and both symbols would be def_bool without a prompt, so
+I would rather add the second one with a second user.
+
+Does that work for you?
+
+> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> > index 1e5d68acf62a..25082949a4ca 100644
+> > --- a/mm/huge_memory.c
+> > +++ b/mm/huge_memory.c
+> > @@ -3743,6 +3743,7 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+> >  #endif
+> >  				 (1L << PG_dirty) |
+> >  				 (1L << PG_dropbehind) |
+> > +				 __PG_RCU_FREE |
+> 
+> That looks a bit odd at first, as it's very different to the other once. But no
+> easy way around assuming that the flag is not always around.
+> 
+> Maybe we should just have this be a const mask constructed somewhere using BIT()
+> and __PG_RCU_FREE etc, instead of having this growing list in this user here.
+
+Makes sense.  Something like the diff below, on top of this patch.
+Introducing split_copy_flags would be a preparatory patch, and this one
+would only add __PG_RCU_FREE to it.
+
+> > @@ -1327,6 +1417,19 @@ static __always_inline bool __free_pages_prepare(struct page *page,
+> >  
+> >  	VM_BUG_ON_PAGE(PageTail(page), page);
+> >  
+> > +	/*
+> > +	 * Not for a hwpoisoned order-0 page: it never reaches the allocator,
+> > +	 * and page_handle_poison() takes a reference right after this free.
+> > +	 */
+> > +	if (unlikely(folio_test_rcu_free(folio)) &&
+> > +	    !(PageHWPoison(page) && !order)) {
+> > +		VM_WARN_ON_ONCE(fpi_flags & FPI_NOLOCK);
+> > +		__folio_clear_rcu_free(folio);
+> > +		count_vm_events(PGFREE_RCU, 1 << order);
+> > +		rcu_free_defer(folio);
+> > +		return false;
+> > +	}
+> I'm wondering whether we want to intercept on the folio freeing path instead?
+> That would be __folio_put(), before we go into free_frozen_pages() used by other
+> machinery that does not apply (slab etc).
+
+Not all page cache folios are freed through __folio_put().  Reclaim
+frees them with free_unref_folios() directly (shrink_folio_list(),
+move_folios_to_lru()), and so do folios_put_refs() and the LRU batches.
+__free_pages_prepare() is the one place they all pass.
+
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index a1e52a1f8a52..6d4e534c9ccc 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -1185,6 +1185,18 @@ static __always_inline void __ClearPageAnonExclusive(struct page *page)
+ #define __PG_MLOCKED		0
+ #endif
+ 
++#ifdef CONFIG_ARCH_USES_PG_ARCH_2
++#define __PG_ARCH_2		BIT(PG_arch_2)
++#else
++#define __PG_ARCH_2		0
++#endif
++
++#ifdef CONFIG_ARCH_USES_PG_ARCH_3
++#define __PG_ARCH_3		BIT(PG_arch_3)
++#else
++#define __PG_ARCH_3		0
++#endif
++
+ /*
+  * Flags checked when a page is freed.  Pages being freed should not have
+  * these flags set.  If they are, there is a problem.
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 25082949a4ca..44a1aaa3f834 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -3689,6 +3689,23 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+ 	const bool handle_hwpoison = folio_test_has_hwpoisoned(folio) && new_order;
+ 	long new_nr_pages = 1 << new_order;
+ 	long nr_pages = 1 << old_order;
++	const unsigned long split_copy_flags =
++		BIT(PG_referenced) |
++		BIT(PG_swapbacked) |
++		BIT(PG_swapcache) |
++		__PG_MLOCKED |
++		BIT(PG_uptodate) |
++		BIT(PG_active) |
++		BIT(PG_workingset) |
++		BIT(PG_locked) |
++		BIT(PG_unevictable) |
++		__PG_ARCH_2 |
++		__PG_ARCH_3 |
++		BIT(PG_dirty) |
++		BIT(PG_dropbehind) |
++		__PG_RCU_FREE |
++		LRU_GEN_MASK |
++		LRU_REFS_MASK;
+ 	long i;
+ 
+ 	folio_clear_has_hwpoisoned(folio);
+@@ -3725,26 +3742,7 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+ 		 * PG_anon_exclusive (-> PG_mappedtodisk) for these here.
+ 		 */
+ 		new_folio->flags.f &= ~PAGE_FLAGS_CHECK_AT_PREP;
+-		new_folio->flags.f |= (folio->flags.f &
+-				((1L << PG_referenced) |
+-				 (1L << PG_swapbacked) |
+-				 (1L << PG_swapcache) |
+-				 (1L << PG_mlocked) |
+-				 (1L << PG_uptodate) |
+-				 (1L << PG_active) |
+-				 (1L << PG_workingset) |
+-				 (1L << PG_locked) |
+-				 (1L << PG_unevictable) |
+-#ifdef CONFIG_ARCH_USES_PG_ARCH_2
+-				 (1L << PG_arch_2) |
+-#endif
+-#ifdef CONFIG_ARCH_USES_PG_ARCH_3
+-				 (1L << PG_arch_3) |
+-#endif
+-				 (1L << PG_dirty) |
+-				 (1L << PG_dropbehind) |
+-				 __PG_RCU_FREE |
+-				 LRU_GEN_MASK | LRU_REFS_MASK));
++		new_folio->flags.f |= folio->flags.f & split_copy_flags;
+ 
+ 		new_folio->mapping = folio->mapping;
+ 		new_folio->index = folio->index + i;
 -- 
-Luis
-
->  fs/fuse/dir.c | 22 ++++++++++++++++------
->  1 file changed, 16 insertions(+), 6 deletions(-)
-> 
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index e49b4e874b15..23c8259725c9 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -43,7 +43,6 @@ unsigned __read_mostly inval_wq;
->  static int inval_wq_set(const char *val, const struct kernel_param *kp)
->  {
->  	unsigned int num;
-> -	unsigned int old = inval_wq;
->  	int ret;
->  
->  	if (!val)
-> @@ -62,11 +61,14 @@ static int inval_wq_set(const char *val, const struct kernel_param *kp)
->  
->  	*((unsigned int *)kp->arg) = num;
->  
-> -	if (num && !old)
-> -		schedule_delayed_work(&dentry_tree_work,
-> -				      secs_to_jiffies(num));
-> -	else if (!num && old)
-> -		cancel_delayed_work_sync(&dentry_tree_work);
-> +	/* Only start/stop workqueue if we're past module initialisation */
-> +	if (!module_is_coming(kp->mod)) {
-> +		if (num)
-> +			mod_delayed_work(system_percpu_wq, &dentry_tree_work,
-> +					 secs_to_jiffies(num));
-> +		else
-> +			cancel_delayed_work_sync(&dentry_tree_work);
-> +	}
->  
->  	return 0;
->  }
-> @@ -224,6 +226,14 @@ void fuse_dentry_tree_init(void)
->  		dentry_hash[i].tree = RB_ROOT;
->  	}
->  	INIT_DELAYED_WORK(&dentry_tree_work, fuse_dentry_tree_work);
-> +
-> +	/*
-> +	 * Start workqueue immediately if the module was loaded with the
-> +	 * 'inval_wq' parameter set
-> +	 */
-> +	if (inval_wq)
-> +		schedule_delayed_work(&dentry_tree_work,
-> +				      secs_to_jiffies(inval_wq));
->  }
->  
->  void fuse_dentry_tree_cleanup(void)
+  Kiryl Shutsemau / Kirill A. Shutemov
