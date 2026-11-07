@@ -1,100 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794038327;
-	b=QhYBQahlwDk5OAdT9fkg4h1PoIEL7eAlNL6k6Pmtpu64qw9XEYevqiNws3Cgt2v1aIwy
-	 8WeBpKT0Wercp3Fw2ua3eMHzwqxXf59pQc7NctMs3xAk3eKWR6MVAAIAHn6J8WKbVBZb/
-	 V1bsopXp8fQjwKTmxDICD0TiySKpno8rBxkNxPZKnWppQlcmAYx6Kx1blT6jEC2V7fA1E
-	 x47uqVUEOHnfEnKYPjGlHlQZ3YJNaK6IJPBpapV6g0paU1Zeec9XGMZ0wB1wB6V6EI0lT
-	 /RCRSYY2NmmkHDgLHXIhRvR8E5ZXGCoIW2d7rNATF8b8Pqs0pWfUDnXbwbRoRTt499Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794038327;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=KVUTn3NefB2pYcpRgIbKLSS1BYXCOeKVEt1Rx8hpLqE=;
-	b=E7xkOfJDVu7CLBMnT6z8cZ3i/EIAab1THjevMu5TqJVsyQKYxrtYy9qxktkV9kcPVwn8
-	 9OSzJocfYEy+zo4Mduc4R3pXY/jlQFFFRQusA9R5m/7WDNKgXrASg/KJXNNCBWvrDy2zY
-	 RdRnF0hQ+fBtA8z+Ixigb0tVYB7ZxCjjsrooLNhj673Qg6R1QjvDEj8M/N96uAY3IuiZD
-	 pVtRRZfQDnTqF8g+bnKoAEEJXiB/dALN4gP3OBNJm5UceOQvkP0gaAL2rKYmTXexwlyv6
-	 9C9EIz2CClA3vq5dGDqhQcAVyOZ9/cqZgzrYFS2kM5L68Cp2CQTun+GQTFzs0IV0cAg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HQ0oaO38;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.45
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794090255;
+	b=DVP2WIOzh51LeVAFnNxPEOo9SVfm1f+mcTlZPWC43wBEwq9exXp4hH0HKyZCQOxPsBU+
+	 /KUjKqEmNjMaZvU0Eu6mvLaM1sbbp46SRZucqPwtHaXzkc2Sdvyo5VqmCffxbxPJybYqP
+	 a7cZzcA6Ec8cLPpev1uTjMUU4HBFyBgOCvtkZBtj91jCtd9kJhuzFg4yZ2Y2umzHaeuGN
+	 qjoD2Pd3r9CVfCdDMPTFs0uiBK6SXoOnRGn1doP+HXU2wVvhSYTxpxdcPtL3BC15JROvu
+	 8EJT7NgXz3jW7uI653kbFFmMDd7KJjGdValslb9cnoPOJerxbNne5o3ry7XWf5oXCgg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794090255;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=eg5b15u+rTVmwb11gnjCWgwIU3XL9azsyPKK5bBy5wk=;
+	b=f7GHR9iD/0fz4wfzRI74oZpg8Us3JqVCrJOw2hxICvHnA3wXOWiJk+L29vJwSIRIhdLV
+	 BE31Wrd4xVnU59dKnm5mElE0bW7I3FYb3YJo7Ncpy8q2U5JgPE1I7T8QK0zlZzM1HvGVz
+	 nRrc1FKQ1ngSrZGschjzLrPk6hhdbkGGNMNj+h9rj2X8hvyMOsP1uhmXMMW95vMkDSxQp
+	 gXOXaaHNKRZYzhXiWOoD7KIAKIY1PYLvBOLyYwAlipAFHHB02hYMReRF1vFqXguVU036w
+	 oJES+qD/tv6LUBZadL1G8VsdibealT0q9nBpiRkzIoGd/sd/MaUeXyJAWCLQa/9vddw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GWg5Gcle;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70156606A32C
-	for <fuse-devel@lists.linux.dev>; Sat,  7 Nov 2026 07:58:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70156606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18626606A32C;
+	Sat,  7 Nov 2026 22:24:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HQ0oaO38
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c445c95d553so178378266b.1
-        for <fuse-devel@lists.linux.dev>; Fri, 06 Nov 2026 23:58:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794038325; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MmUw4rEeXRkfGDsgVp1Yt6kQlONJD9JPoKOPucmVEHTdWubA+QimSFXkXs9kSv2gYl
-         PtzgpOhUnY19lv+HvKrkpKUhpjK9DceLHIaVi7QpLaLiuZx7R3QtKUa2qvk4ocrDud0c
-         dtnUiIbUPmIwpzJ17G+cL77WduyKbNU8pSn0GycrA5UllE3huR+gdPo2svq4X1/jXMxr
-         yBYKhooPPWCVH/XSVqizC4zSYjvI+Ip3gVV36xwOjOPd+Hct9XiCwaqkboaVS/8P6mz6
-         f3xT93cSAgIVcKZ+5NRPUdfBIStCx2AA6inEZ3zDgsS8owz5JNuHe0uCQDtjJSm7WLQR
-         jsGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KVUTn3NefB2pYcpRgIbKLSS1BYXCOeKVEt1Rx8hpLqE=;
-        fh=5jWtRONHHwAov/zCrZnJc5hFtwuskW7NPRXEeC4kc9s=;
-        b=U89A+lHilLwBVrkR/tvv7KfG35PYgQTGERPQlDaY4VIFXXD7IW79daAOEieXLvk7Gc
-         RvTyA+TfnWWY99nYxETYJYYPv578Lo8GAxuqC/peKc79CqVdXSFHw1L47PSq9bl/luc8
-         v8lbYaGGe8i5znqZIjFBWQHC+glTKe96GYWyQ0vmMnpmpkKC+ph/l59LM2BxTMgGVHcr
-         QTkgxBkEvBfNDCsVP8r1M9nexkAbLPD0LVtKGL0sw798bJhkd9Ej8IG1R0AlEPnpreBz
-         hjHm0YAwT7Q7w/cmPqU3VM2AbkoGoEgZ4I9+ifPYSf36RhjeMuTd9mNHdNuxoapRbFWs
-         8X8g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794038325; x=1794643125; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KVUTn3NefB2pYcpRgIbKLSS1BYXCOeKVEt1Rx8hpLqE=;
-        b=HQ0oaO388/g+ItrX4FYjZFj3JzcSS0dhuuIjaWjIQAvoCNPN72Sr59i2JcBQ5joW6Q
-         rD8a+bGdEtqm7ipfLJesFBTO1uS7998uTwMXGfNKmB4ZSG3UZepqI29sHHLjx3MADpg/
-         RIdq9UuPX3p1qZ/A6u5YZ1VcvbbGGqTVQq/SF7Ex0q5r/fP1irD5uhZ3NTYPc6i50EBc
-         9kCHwqmtdXI9vNFW23W7bRwSrSxxFYkLl+zqhTeemnDBlyS1y0FmD6jsDgI+/OtGwa3h
-         EcGv9E5pZO72wwv+MDVmnkZNGPi1Fy3zMp9+oVbFSb7yhqxHy6jK1A4dUFk7+mEQitnw
-         VAwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794038325; x=1794643125;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KVUTn3NefB2pYcpRgIbKLSS1BYXCOeKVEt1Rx8hpLqE=;
-        b=Dximk919CcG/zvVNfcuI3Q2y6S9OOFBZGWGbrHVzd+3qM5CpnNL0vXacWINmj40Q7f
-         x+qOlaamMoBPZ1o9mUSI8Fl+8Br3e27GrksBNQlzBAp4FbiV/JPtwfuThtRKOFUPREy3
-         RWbYv2VxTEZKeTDitlytRjXPriyL9P9GdDTSrpGZL06evd2/tyzOVa+f7EK+tFYA49oU
-         Ck2HFZsoyP2NbUC3MdMJosPqucxQsRsNPmx6OvGrXmtwbvdYEex0f/yxbAk1UyhkW1Es
-         dX+hiWs9WKVXNQwHOJFSHIE880zI0yxcd/6xjafypTn+XqJ0wrhMOHjHnXR6F/ro15gu
-         tndg==
-X-Forwarded-Encrypted: i=1; AL+hErFffs5hB4FDF6EQ5dfHSHEt0S9md8C5E2MSPcOnZ8fqpY557e+/RHdGe6WUbF0AW1QX29/3BQk+S+mD@lists.linux.dev
-X-Gm-Message-State: APuU4Z/MgOGQidt9/oY5jsXGLynF36W0G6LrhB+3k604iEDH0I/EfdKM
-	QpgpHDd7cw52prvWgCKIRK1zUBq/qsDpAzScRZr461F4qqB5a2r02HCZdBl0Q9zqHiuV4uMZH15
-	vpFMdafhNJr2ipjZE4zT/6cF91a8ZUXk=
-X-Gm-Gg: AYBFou2qzFwAB9bWyXJmPC55UwE+8l/sWO/Gwb9riIfJ3rSCOk7mhbmKwM6QJfBNm6z
-	yfotSh8N1W01MWjC3uA89Dl5XMeeUhQZTFsE86vjXSnmauFqcs+xtd5YKd8YvZvDs1254d5Yx6Q
-	qlqGNXAAw5PGeKts4IYgJteIfWdS3kPj0XlwsFIzPtPWP8vkpfomkKsHURzqvpWJWVJHC8pz+LJ
-	xYnAEo+s4kaVLK92BIN7eqsEhwt78IVu0qeOBHKCrpCxgNbvQAsr0avPTE1rabwjFc2urIzhoRr
-	nJN70Stmt7OTHoV67+iLt/zt1R+27o2BA9NDw9XlnU/PJRm2CHRBYCsC6cWRW3FbrPNdNrZnoWy
-	sXTR1SM5/ndcGvg/mSk6nd3Fx42EOR7GX3o9a
-X-Received: by 2002:a17:907:c0a:b0:c3f:7ab8:bef1 with SMTP id
- a640c23a62f3a-c4d34c5d8e4mr392839966b.34.1794038325410; Fri, 06 Nov 2026
- 23:58:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GWg5Gcle
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7C641F0089F;
+	Sat,  7 Nov 2026 22:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794090254;
+	bh=eg5b15u+rTVmwb11gnjCWgwIU3XL9azsyPKK5bBy5wk=;
+	h=From:Subject:Date:To:Cc;
+	b=GWg5GclejkN5ISovErIV30qR90Bi6M6LkEDCS66iT3mU4aWIxfBW6GdXWslhQ7KgU
+	 bK2z7C57+zrCBW1sTMdPz5zM7FsbRSYjesUJapWWIfNDcDrmzfUmIvmtu49TM1mwxv
+	 ja1zpWR8RkkSLTFEnixGVPpPY0u8Xgu8/gYQTOLGb0/w3HPLSLRNl56SVK2CUNW5pY
+	 JlunxVAYzoMCU+KA+V4Dtqk7hhaPNpIozWOFRDahW+dJZjvK1w1mq3LuA5OlkeEcCB
+	 G1EoKFs0B4WAyNe/gXvpNnVuxDikDZCpzZS8c+I6ZujIA9lxQT8fFBeby/7BqHJ+jn
+	 hfh70rDjAL5WA==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: [PATCH v2 0/5] mm: limit pagecache folio refcount
+Date: Sat, 07 Nov 2026 23:23:36 +0100
+Message-Id: <20261107-refcount_overflow_stable-v2-0-c38f6809b106@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -104,151 +53,213 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <CAKLmikMhOYpGEw6uCqX_Bm0JPEg-4FhdJMNa9+tgtw3-Kf+eZg@mail.gmail.com>
- <e75cf549-07a6-4095-bbf8-8caff7a3338b@bsbernd.com> <CAKLmikN9Aod9Va=FsqkRmF20=69sdgdDOoV_bUuGh6wTykVcBQ@mail.gmail.com>
-In-Reply-To: <CAKLmikN9Aod9Va=FsqkRmF20=69sdgdDOoV_bUuGh6wTykVcBQ@mail.gmail.com>
-From: Mitar <mmitar@gmail.com>
-Date: Sat, 7 Nov 2026 08:58:33 +0100
-X-Gm-Features: AclHuK8tSl2eC8RfsY2HLkZzpD_9Mv8udwoMRcvajXKX7YtJEXcVLoT4j91is5E
-Message-ID: <CAKLmikO5y916zgeX_UFqfGQ+BUmNC6uvHFR_bsizeTJu4AwxcQ@mail.gmail.com>
-Subject: Re: fuse: HANDLE_KILLPRIV_V2 does not kill suid/sgid on fallocate()
- and copy_file_range()
-To: Bernd Schubert <bernd@bsbernd.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NQQ6CMBBFr0JmbU1bKEZX3sMQAmWAKmnNtFQN4
+ e4WvIDLl7z//gIeyaCHS7YAYTTeOJtAHjLQY2MHZKZLDJLLUgiuGGGv3WxD7SJSP7lX7UPTTsh
+ UIZHLQuS8R0jzZzLNe0/fqh/7ub2jDltvM0bjg6PP/h3F5v1xEwXj7MTbsy6V6pocrw8ki9PR0
+ QDVuq5fdtdUVdMAAAA=
+X-Change-ID: 20261105-refcount_overflow_stable-542e024130fe
+To: Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, 
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+ Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+ Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+ Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+ Gregory Price <gourry@gourry.net>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+ Johannes Weiner <hannes@cmpxchg.org>, Song Liu <songliubraving@fb.com>, 
+ Rik van Riel <riel@surriel.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Hugh Dickins <hughd@google.com>, 
+ Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
+ Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
+ Robin Murphy <robin.murphy@arm.com>, 
+ Steve Sistare <steven.sistare@oracle.com>, 
+ John Hubbard <jhubbard@nvidia.com>, 
+ "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
+ Josef Bacik <josef@toxicpanda.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ fuse-devel@lists.linux.dev, linux-arch@vger.kernel.org, 
+ iommu@lists.linux.dev, Chris Mason <mason@kernel.org>, 
+ stable@vger.kernel.org, Jason Gunthorpe <jgg@ziepe.ca>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6873; i=david@kernel.org;
+ h=from:subject:message-id; bh=9KzEE59aveBB6sn+9WVX/Ykd3tcmn6ZAgwUHPEnyXys=;
+ b=owGbwMvMwCF2/OVpCdfQ3ZWMp9WSGLLeL/k3/57Hr8ubliccFjHQiduuuuG/ekXyhtzI5NMb9
+ Zdem5tq31HKwiDGwSArpsgSFHzf4OXLdbXVbnzMMHNYmUCGMHBxCsBE9hcw/C/1mMcyeUuf7K+r
+ rEYBB6allwjdUjOSUxbg4TJ88WqS3HtGhvl/6sWuuraz8F5ZxhSsye66MPqM5p6Gvzs/mLi+dWt
+ gZwMA
+X-Developer-Key: i=david@kernel.org; a=openpgp;
+ fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
 
-Hi!
+Users can create a lot of folio references to pagecache folios, making
+it possible to overflow the refcount of large folios.
 
-Not sure what the process is here, but how to get this patch further?
+While we knew that one could in theory overflow a folio's refcount, we
+mostly assumed that bad things would happen and it wouldn't go
+unnoticed.
 
+Not so sure if that is really always the case, and leaving that problem
+unsolved is irresponsible, so let's limit pagecache folio refcounts.
 
-Mitar
+This is really only relevant for large folios / thps in the page cache.
+With anon folios (including THPs), we should not be
+able to trigger folio refcount overflows (until we get PUD-sized ones ;) ).
 
-On Fri, Oct 2, 2026 at 11:32=E2=80=AFPM Mitar <mmitar@gmail.com> wrote:
->
-> Hi!
->
-> Awesome! I looked at the patch and this is all probably above my head,
-> but I think the patch should also include some protocol text
-> describing the flag-only SETATTR, because this is now a new behavior,
-> no? And probably we should also do a minor version bump so servers can
-> tell that they can rely on this behavior and decide to request
-> CAP_HANDLE_KILLPRIV_V2. For example, in our case, we do not request
-> CAP_HANDLE_KILLPRIV_V2 now because we are aware of this issue with
-> fallocate() and
-> copy_file_range().
->
->
-> Mitar
->
-> On Thu, Oct 1, 2026 at 12:57=E2=80=AFAM Bernd Schubert <bernd@bsbernd.com=
-> wrote:
-> >
-> >
-> >
-> > On 9/30/26 23:45, Mitar wrote:
-> > > Hi!
-> > >
-> > > While adding FUSE_HANDLE_KILLPRIV_V2 support to a go-fuse based
-> > > server, I noticed that with it negotiated, fallocate() and
-> > > copy_file_range() by a caller without CAP_FSETID no longer clear the
-> > > setuid and setgid bits of the file they modify, and that the server
-> > > has no way to learn that it should clear them itself.
-> > >
-> > > The kernel makes the decision, but drops it on the way.
-> > > fuse_file_fallocate() and __fuse_copy_file_range() both call
-> > > file_modified() before sending the request, which ends in
-> > > fuse_setattr() with ATTR_KILL_SUID and ATTR_KILL_SGID. Since commit
-> > > 8981bdfda744 ("fuse: don't send ATTR_MODE to kill suid/sgid for
-> > > handle_killpriv_v2"), fuse_setattr() drops those when
-> > > fc->handle_killpriv_v2 is set, expecting the server to kill the bits
-> > > when the WRITE which follows arrives. But no WRITE follows
-> > > FUSE_FALLOCATE or FUSE_COPY_FILE_RANGE, and neither carries such a
-> > > flag. All the server sees is an empty SETATTR before the request,
-> > > which it cannot tell apart from the one it gets when only
-> > > ATTR_KILL_PRIV was asked for.
-> > >
-> > > For "fallocate -l 8192 f" run by an unprivileged user, on a file with
-> > > mode 06777 which they may write to, the server receives:
-> > >
-> > >   GETXATTR  "security.capability" -> ENODATA
-> > >   SETATTR   valid=3D0
-> > >   FALLOCATE offset=3D0 length=3D8192 mode=3D0
-> > >
-> > > and the file keeps mode 06777. Without FUSE_HANDLE_KILLPRIV_V2, the
-> > > same command clears both bits, since fuse_setattr() then turns the
-> > > request into a SETATTR of the mode. I verified the fallocate() case.
-> > > The copy_file_range() case is from reading the code, as the server I
-> > > tested does not implement FUSE_COPY_FILE_RANGE.
-> > >
-> > > This matters beyond the mode looking wrong: fallocate() with
-> > > FALLOC_FL_ZERO_RANGE or FALLOC_FL_PUNCH_HOLE, and copy_file_range()
-> > > even more so, change what the file holds. So somebody who may write t=
-o
-> > > a setuid file can replace its contents and keep the setuid bit, which
-> > > is what killing the bits is there to prevent.
-> > >
-> > > It looks like an interaction between changes rather than a choice.
-> > > Commit fe0da9c09b2d ("fuse: copy_file_range needs to strip setuid bit=
-s
-> > > and update timestamps") made copy_file_range() kill the bits in 2019,
-> > > which stopped working on FUSE_HANDLE_KILLPRIV_V2 connections with
-> > > 8981bdfda744 in 2020. Commit 4a6f278d4827 ("fuse: add file_modified()
-> > > to fallocate") added the same to fallocate() in 2022, which takes
-> > > effect only without FUSE_HANDLE_KILLPRIV_V2. As far as I can tell fro=
-m
-> > > its source, virtiofsd with --killpriv-v2 has the same gap: it drops
-> > > CAP_FSETID for write, open and setattr when asked to, and calls
-> > > fallocate() and copy_file_range() as they are.
-> > >
-> > > I think we should pass the decision with the request, as for WRITE an=
-d
-> > > OPEN. For FUSE_FALLOCATE, a new FUSE_FALLOCATE_KILL_SUIDGID could go
-> > > into the currently unused fuse_fallocate_in.padding. For
-> > > FUSE_COPY_FILE_RANGE, it would need a new field, or a bit in
-> > > fuse_copy_file_range_in.flags behind a new INIT flag: servers pass
-> > > .flags on to copy_file_range(2) as it is (virtiofsd does), which fail=
-s
-> > > with EINVAL on any bit, so a new bit there cannot be sent to a server
-> > > which did not ask for it.
-> > >
-> > > What do you think?
-> > >
-> >
-> > I had actually noticed this with recent test additions in libfuse and
-> > had to add workarounds (on the day exactly one month ago).
-> > Unfortunately had been too busy to post the kernel patch yet.
-> >
-> > libfuse commits
-> > daa6cb7f6996 =E2=80=94 "test: check the KILLPRIV_V2 kill-suidgid flags =
-reach the filesystem"
-> >
-> > and
-> >
-> > 60ab8c0c35de ("test: check a write through passthrough_hp clears suid/s=
-gid")
-> >
-> > When testing the latter commit I had noticed the issue.
-> >
-> > Could you try the attached patch? Right now totally untested,
-> > I can test and send it out earliest during the weekend.
-> >
-> >
-> > Thanks,
-> > Bernd
-> >
->
->
-> --
-> https://mitar.tnode.com/
-> https://noc.social/@mitar
-> https://bsky.app/profile/mitar.bsky.social
+It was likely a problem for anon folios as well before we had a
+dedicated pincount.
 
+Let's limit the refcount before it turns negative, giving admin processes
+some extra reserves (to recover a problematic system). We still leave some
+headroom to allow for some slight limit overshooting, to make the
+implementation easier.
 
+Then, we also check when splicing pagecache folios to a pipe, and
+improve our existing checks in gup. We also have to take care of
+mmu_gather, to not hold too many references when zapping (whereby new
+page faults could remap pages concurrently).
 
---=20
-https://mitar.tnode.com/
-https://noc.social/@mitar
-https://bsky.app/profile/mitar.bsky.social
+This is only a temporary solution for upstream+stable, until we have
+something better.
+
+These fixes will be a bit challenging to backport to stable, but it will
+be much easier compared to the RFC series I have here were we do things
+properly by (what we discussed a couple of times earlier):
+
+ - Letting the mapcount of large folios be a long
+ - Holding a single refcount if the folio is mapped, across all mappings
+ - Reverting the limits introduced in this series
+
+I'll polish that up and send it once we merged something that can be
+backported to stable.
+
+Tested on x86-64 by lowering the folio refcount limits such that limits
+can easily be exceeded, to then test fault (SIGBUS), fork(), splice and GUP
+behavior briefly when we run into refcount limits on a shmem THP.
+
+Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+Changes in v2:
+- "mm: limit pagecache folio refcount when mapping pages"
+ - Try not to fail fork() by skipping the PTE/PUD instead. We still have
+   to fail in two scenarios.
+ - Split helper into fast and slow path. Slow path in mm/util.c,
+   exported for Fuse usage in patch #2.
+ - Check has_capability_noaudit(current, CAP_SYS_RESOURCE) instead of
+   capable(CAP_SYS_RESOURCE)
+ - Extended patch description and improved function documentation.
+ - Dropped RBs due to changes.
+- "mm: limit pagecache folio refcount when splicing into pipes"
+ - Return -EOVERFLOW from filemap_splice_read() and
+   shmem_file_splice_read(), and handle it in do_splice_read() by falling
+   back to a copy.
+ - Check in fuse_copy_folio() as well
+ - Updated patch description and updated+improved comments/doc
+ - Dropped RB due to changes
+- "mm/mmu_gather: flush pending references early before the folio limit"
+ - Adjust some comments
+ - Update Fixes:
+ - Extend patch description
+- "mm/gup: limit pagecache folio refcount when grabbing references"
+ - Keep all WARN_ON_ONCE() checks for negative/null refcounts
+ - Skip has_capability_noaudit(current, CAP_SYS_RESOURCE) with disabled
+   interrupts, skipping it for GUP-fast.
+ - Properly forward try_grab_folio() errors
+ - Adjust some comments
+- Link to v1: https://patch.msgid.link/20261105-refcount_overflow_stable-v1-0-70b9c655da3e@kernel.org
+
+To: David Hildenbrand <david@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>
+To: Vlastimil Babka <vbabka@kernel.org>
+To: Mike Rapoport <rppt@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+To: Michal Hocko <mhocko@suse.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Jan Kara <jack@suse.cz>
+To: Andrew Morton <akpm@linux-foundation.org>
+To: Zi Yan <ziy@nvidia.com>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+To: Nico Pache <nico.pache@linux.dev>
+To: Ryan Roberts <ryan.roberts@arm.com>
+To: Dev Jain <dev.jain@arm.com>
+To: Barry Song <baohua@kernel.org>
+To: Lance Yang <lance.yang@linux.dev>
+To: Usama Arif <usama.arif@linux.dev>
+To: Kiryl Shutsemau <kas@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>
+To: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: Byungchul Park <byungchul@sk.com>
+To: Gregory Price <gourry@gourry.net>
+To: Ying Huang <ying.huang@linux.alibaba.com>
+To: Alistair Popple <apopple@nvidia.com>
+To: Peter Xu <peterx@redhat.com>
+To: Johannes Weiner <hannes@cmpxchg.org>
+To: Song Liu <songliubraving@fb.com>
+To: Rik van Riel <riel@surriel.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+To: Alexander Viro <viro@zeniv.linux.org.uk>
+To: Christian Brauner <brauner@kernel.org>
+To: Hugh Dickins <hughd@google.com>
+To: Will Deacon <will@kernel.org>
+To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
+To: Nick Piggin <npiggin@gmail.com>
+To: Peter Zijlstra <peterz@infradead.org>
+To: Arnd Bergmann <arnd@arndb.de>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+To: Kevin Tian <kevin.tian@intel.com>
+To: "Joerg Roedel (AMD)" <joro@8bytes.org>
+To: Robin Murphy <robin.murphy@arm.com>
+To: Steve Sistare <steven.sistare@oracle.com>
+To: John Hubbard <jhubbard@nvidia.com>
+To: Jose A. Perez de Azpillaga <azpijr@gmail.com>
+To: Josef Bacik <josef@toxicpanda.com>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: fuse-devel@lists.linux.dev
+Cc: linux-arch@vger.kernel.org
+Cc: iommu@lists.linux.dev
+
+---
+David Hildenbrand (Arm) (5):
+      mm: limit pagecache folio refcount when mapping pages
+      mm: limit pagecache folio refcount when splicing into pipes
+      mm/mmu_gather: flush pending references early before the folio limit
+      iommufd: fix cleanup when adding memfd folio pins fails
+      mm/gup: limit pagecache folio refcount when grabbing references
+
+ drivers/iommu/iommufd/pages.c | 15 +++++++++----
+ fs/fuse/dev.c                 |  5 +++--
+ fs/splice.c                   |  8 ++++++-
+ include/asm-generic/tlb.h     |  4 ++--
+ include/linux/mm.h            | 51 +++++++++++++++++++++++++++++++++++--------
+ mm/filemap.c                  | 17 ++++++++++++---
+ mm/gup.c                      | 24 ++++++++++++--------
+ mm/huge_memory.c              | 29 ++++++++++++++++++++++--
+ mm/memory.c                   | 39 ++++++++++++++++++++++++++++-----
+ mm/migrate.c                  | 11 ++++++++++
+ mm/mmu_gather.c               | 10 +++++----
+ mm/shmem.c                    |  4 ++++
+ mm/userfaultfd.c              |  4 ++++
+ mm/util.c                     | 15 +++++++++++++
+ 14 files changed, 194 insertions(+), 42 deletions(-)
+---
+base-commit: df3c65887715e66e2cba69116924020c37996cd8
+change-id: 20261105-refcount_overflow_stable-542e024130fe
+
+Best regards,
+--  
+David Hildenbrand (Arm) <david@kernel.org>
+
