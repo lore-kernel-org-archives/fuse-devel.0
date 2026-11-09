@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794240284;
-	b=YZorWdKfIFjaq//HMn6JYShNoUXkYH1/zNG5l/vHo9A4nA3SqovEPS3Akl2GH5+/J+xf
-	 zhaPNM2PAv/Lo3fIq7n/6jLx4QRBenDI1RCZg0KRzCRIc56uiTEAODJA5zSqauTjJ0dgG
-	 33WjjThw8+6nM3cYAoN4HSUESFvZ/AZ5SiYv1eCT52ldeMd/BfkB+WtX6bNzEBBt4YH13
-	 2pPO4mncHLOM3Xrj5aH72IQcueM9BXvNvAO7bboPhnS3QJd/OrMLFsaZ4Vhui+r/m+TO8
-	 7OxRuFHflpKW9wTSZBIABHsJCb5FGjFy2g3dxUw4TmgepiHdNWa11BG4zWaUKlwPb7g==
+	t=1794242048;
+	b=F5li9fuWMfcBOGuWaNmULeoux4hfgKEqRtES54jPbHBlb67dW0PsnXug75wOv7//7v3U
+	 U4poW6cfiXzkQ/WAxlvf+PXuZfbq2Jt7047eO1YOUHzb3tAMB7UHyylZ1snQbMkAjwdCr
+	 Q8dk5SLX7V/0HmFePwHPpm0+ZkTVlVnTpqPUlxLDFEfbZcJrOZAxClfNKg0+yD5sow/Mv
+	 Wq9sFkl0JjXvPufOl71OcBZ2BTzsFeh1Xd5yodvRAADivSF7ucKMVAHpCn07zyx8qVXMm
+	 VmFpYnZInzfKUMhthN+tO6/kyzqPHKamupR+ANuEz9BePCzrsub89YhM86JmXojeMyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794240284;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794242048;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
 	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=MUbKECMWpbH5Hktz2WSMdey09BNdQaJCNvxGCw4T8OU=;
-	b=YElopgDToX44Pasi64aVKnPIFdjE4irHKhrA+A6jkXFgnUnUPQ3daPp/U8b7kFz5AiFt
-	 zDcxdTqiFn2ipZTvD2My0Vgk0624Imr/uoQi5SUgAeGQfIkYG44cFumGmLQhk4xZlRRRq
-	 9QSKxsY2RPv/2P/RFJSA2kxyZNzNF9Ra2Pfct6M/BPKL/fyG8GJHB/jdm4dTSoTgakwdc
-	 7btq15Zkj6StCd5vxcatGBOw42YhsCZ9ZI2YSCZvZqKKDRIrmoRq2nqEgYxw+a0bmafMc
-	 DyPRG3O3119KIHTZtr3WDBnyJVu8ZIcYxmvvxZmaNhBv3qx78GdpJT34WODAgRIEWmA==
+	bh=RXXU/zrEl8TcSV2xj8OBdFZs1lPljfbXu/prQveYVIU=;
+	b=x+gHdH+G3akJ4RIYk8U1Z5RhsaeLp0NhKoJp0mKe0V29Rq8mlCvGlNm5zax61sRGHfh6
+	 RNzfnGn9n8XJ9MnXJur0LNCuTdgEGdYndeelsRjFpLQQw8ljicgRh3VrbZQTUcv9CDTC4
+	 2DONak+6o9SULjRuOWHp8173r9cCfReKyMRVumFO4uRPXPHjNREYCzruR4QBIQttWUUxQ
+	 +HTFvp2r06zJ3TgIlcgH95gbWtd4hoNIx+hgNaVgGko3mS52tBJouT9eCo++2+GNkZIpU
+	 gndVm5tjmM6eeUQS7Q1EW496RSkv5FbaldW8Z69tcUvOc5AFFqxQE+HlF0bJ6L20viQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=linux-foundation.org;
 	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b="D1J/FkSq";
-	arc=none smtp.remote-ip=209.85.218.51
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=CZcDEnmu;
+	arc=none smtp.remote-ip=209.85.218.41
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FEF606A326
-	for <fuse-devel@lists.linux.dev>; Mon,  9 Nov 2026 16:04:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77FEF606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5F2606A31C
+	for <fuse-devel@lists.linux.dev>; Mon,  9 Nov 2026 16:34:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A5F2606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=D1J/FkSq
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c4550d8ab15so152776266b.2
-        for <fuse-devel@lists.linux.dev>; Mon, 09 Nov 2026 08:04:43 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=CZcDEnmu
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c4395d31228so146043966b.1
+        for <fuse-devel@lists.linux.dev>; Mon, 09 Nov 2026 08:34:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1794240282; x=1794845082; darn=lists.linux.dev;
+        d=linux-foundation.org; s=google; t=1794242045; x=1794846845; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=MUbKECMWpbH5Hktz2WSMdey09BNdQaJCNvxGCw4T8OU=;
-        b=D1J/FkSqAOPlbWEGa384lHjYXcI1c9U4w46s4hQ2zCjQ0506Pn9tm9cdoy8Rh3RD9f
-         VYIgqsh8kKnBb4LlWo3b+NS9j0ri0wNY8YsY9foIqf9sR1Yjz2OEhIRmEkbKMU3Itofg
-         YIf0gEQ+IPEIZKX/+BPLUl7NNopt04UUcbov4=
+        bh=RXXU/zrEl8TcSV2xj8OBdFZs1lPljfbXu/prQveYVIU=;
+        b=CZcDEnmuIZA69n9WBecSvFCDVYR/NrTVNuThL7ECVQJBQQPpbyp27/cUSKFEMr3d9K
+         vJ+Mg0S62nF8nuUBGr7zo6daAN0jwDRaqFQogNB+k99ioLK2tiKry5BAolnhilWZ8Wvk
+         Tmyo5+An2hNkJe8wYTEYYAqVvor5COlZ4e0jo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794240282; x=1794845082;
+        d=1e100.net; s=20260707; t=1794242045; x=1794846845;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=MUbKECMWpbH5Hktz2WSMdey09BNdQaJCNvxGCw4T8OU=;
-        b=Nql/VcO+cI2bJ1AIuQJyo+ZqBmvfE4vXw9ExVSL2CMh5nROyXck20P3+peByg8+QUF
-         0sAz+9rr8dGyGMsuFfkIbZ3qnewwf4mJJpkB68iPOwgBHiOqyGcangiZOoNNzu/v7/z1
-         nqmIjS9TymCtFM3W9KuEQV8qVD5+S1azjoT9LtdodzufqPJbr2/HAJay5sIQxkHaGLUN
-         vSXta+3wrUriXsIoaQsLnoB7zXjuwZZKFczJaro18lJrRiM3hp/PNDH0s56OnTaMMlRf
-         jHGBmmWL79bhEQcd37az0Ly9xqVaDkilsONQAkz9OKV7/VT3MEJEek4UcqR8DSLeiLpT
-         8Mzg==
-X-Forwarded-Encrypted: i=1; AL+hErGHAlgC/XmTQAvzfryLpsQSFIw0SCixGVLSFprVT4DU4pZMVa54fLCRmVz25sN89ioul/r8tJhDk/zL@lists.linux.dev
-X-Gm-Message-State: APuU4Z9KqG+tmz3vwezmDoimROW0qO0GzV0Zk7bxZUgiYQfl7+AmXZhW
-	0zlPhR+RZ4jnA6RZVvvFij9P3dMopWhHzMla0Qy/9ZVs4tSU/85f8EGlK2BolnyxLPcJCzj7IPs
-	ysXlMVqM=
-X-Gm-Gg: AYBFou0jwGFPY/4oluRnj4/QkZJijyD6c/bpWnlbfkTMzfVpzwO5rL2M2uHHyHRKRQt
-	cTv3fPI6BJ0v4kY1xB4a8Sy5Vj7UmK0uOt4QHu3zVFkR6CZIzx4eYtEsPT9PlNQKiePKD4UOKx8
-	4HL4bcBgnrOxvKU3mFDNVRQeqfP71P68a22HN2JAII4CwEAatIBDRMX+j0rR+JT/xTbtKNYoOnJ
-	No8cZG7vyECJDnvFALLtiuw8+yp05ENRte897P+x6jSc6B8P5JUhHOsu+7xGnlzIsassHzzEMrv
-	Jy1ccKJpfAdv2L7z3FOju5RR2QuGWqTpEvNMqbjB85Pxf5KjvzSWe7xSfUwg5vS/nK+45tMLt0+
-	DksHyNoqUD3fkmaFVd2bf9jr1BI4TxWQ31qkex4SeJxHCio29xetYSe9n7gkgOFdXpS4zQyWwju
-	KyEHzKydX6rHGE0gspbMS3OaJZHTdoM5eZeEOvaOPetBhQj1714kG6V6wX79Nd7J4bqSJ1p/STO
-	2tja81PywuZ98dZlmE02MQGSx4mzMkoS9y8oBMpWmxs0sPzaxBgyygYiEQXgAMwdfqOvCuG7r27
-	DyUT6lEai6Js7pzBLygVQLU1w16FJLc57TYAwsidTzqBm9HSSS5f0mE2OzNUvPln6/UPNrdKHzp
-	1RP+b5ZW8yitDfzekT/irrLg=
-X-Received: by 2002:a17:907:3d8d:b0:c2e:7da8:f54f with SMTP id a640c23a62f3a-c4d6d7ec20amr319670066b.38.1794240281733;
-        Mon, 09 Nov 2026 08:04:41 -0800 (PST)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d6a9d6867sm182192566b.84.2026.11.09.08.04.41
+        bh=RXXU/zrEl8TcSV2xj8OBdFZs1lPljfbXu/prQveYVIU=;
+        b=0dVQMQ2LWlf+SSGos52szFzq+wAdbJkHLcSzw0Tq6OJCKP4cHgWnob1dP7z54+nond
+         eq2jrSY+YD6T8f35hDCxKSIgH9uF8AeeKcGBdAH9i9XnNAA2lRC7yO8Vxw2/sB9T6Ozb
+         hu5TSDT5Es05MUIYr0O/g1ygzOGj0Kmcy262VmibTSh8BSkYqLEuvFa4MYetCsUpr/W8
+         LIN6PxiYhcYZ6cl3ExW34xlo+nDzMQ5RnuDYFz3Qx8lhcopthPjUWeiTmMVx3sVv/EL7
+         vjH5vSymRHV83AtI8dp9NbK1NK50Cg9u1Qqx91dJG9BA3a8qxsqdYzMwONM9WSf9wxx+
+         Ztqg==
+X-Forwarded-Encrypted: i=1; AL+hErF/BcuR61YiwBzBS633aY/MXjn9Mv1IJgtw0SEZof9ugIdunmf3Ge6dBeEP2JJydjPI/bH894b/zdfH@lists.linux.dev
+X-Gm-Message-State: APuU4Z/sQ6qo3csaf1vHnkrde6YlbhByHLwvstIOgRUKzj+LocL2dnUq
+	kRTL7Z6rF9AEBrchyQ8+Qc7a9JN4z0Q5wB5MfQn6lsFcyzQsOIjQ03zHr+jLhmqyQIN1NJw9hDj
+	7/6FNopY=
+X-Gm-Gg: AYBFou1i6AL/TiQuolPgLByRnLrd3mmfV5BDx1RRQkFU47JLmA0jIDQk210iBK9ywZq
+	eXyx4iCpS5Jv2MSxYGMvXXciKtxcqqPKO5MnMixgX7cId8Sr8HSpSOzTlKl91qosu5RL5Muc+zU
+	p2l3+dZdRt7Go/XH4puceRLZGzKs70wOVo/QXTmLQZs9hJVNCZHsFqhCYWJ4wMKU2g/u/rhu4nW
+	QbkxPiuPsJvL2ORRq9Ns8F0vEHABq3MCw5t0GPlgwpe7YXg9P8bcuc07Ujt9Eb4UviFWxbf3QGl
+	NnrlatLa+RJ5KxctYo85i2CMhxKeCH9PeMN6ivDNYkHaC3/WBNrYCL3EkhWESG61pvEGkRl5EFa
+	kogDFEsxgQxBa8Ne01Pa/g+k6OkRfLHtRCYKTUjKr+nTMgNwlVC2egJHzOnYJ54xcJaH5RfArCs
+	VFQRUsvP3jhjjIhbTSlNvrmUzH17ECO8058TBfMOq6o1v6Ikvd4ifZBVG/VX7ROA77/DNM1un/w
+	whE2lPa/zjpzajHqrW2AA+60vu3ImXbhLH8Cn9NEFwoMJLrcdKbc1aBsLddF3GmQbVIOLJTbwwc
+	D144OR2aUBPFOSQCIerB5Wq+o4luKiv9hB12q5tlz94OkO+Cticjn5BHX0ZmKVebDiQcPdEtBib
+	XSQ==
+X-Received: by 2002:a17:906:f5a0:b0:c35:babe:ab44 with SMTP id a640c23a62f3a-c4d6d7c1becmr383757166b.0.1794242044594;
+        Mon, 09 Nov 2026 08:34:04 -0800 (PST)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d68d54070sm188920766b.1.2026.11.09.08.34.04
         for <fuse-devel@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 08:04:41 -0800 (PST)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c4d28f75d62so139356966b.0
-        for <fuse-devel@lists.linux.dev>; Mon, 09 Nov 2026 08:04:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHISJUQoTtHOgolfqLn5h3F5qFwW2NvZBMGwHXiVzsM97fYRw7gq4DE1PH4gTOwbwVkW9XI62hQQVbo@lists.linux.dev
-X-Received: by 2002:a17:907:7f93:b0:c4d:18e2:e66c with SMTP id
- a640c23a62f3a-c4d6d4d1cf2mr342046766b.18.1794239795407; Mon, 09 Nov 2026
- 07:56:35 -0800 (PST)
+        Mon, 09 Nov 2026 08:34:04 -0800 (PST)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso2473086a12.0
+        for <fuse-devel@lists.linux.dev>; Mon, 09 Nov 2026 08:34:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGIG6SnHjQm3+YwiQeW2YbsKFOCNKwIQU/t3LjOmUdIknY1bUZMpPriJYnN0m7XXU9ja0Ovb0p1zXRP@lists.linux.dev
+X-Received: by 2002:a17:907:d23:b0:c4d:4ce1:e2b7 with SMTP id
+ a640c23a62f3a-c4d6db81591mr423916266b.34.1794241699892; Mon, 09 Nov 2026
+ 08:28:19 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -94,19 +94,18 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104130118.2507513-1-kas@kernel.org> <20261104130118.2507513-2-kas@kernel.org>
- <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org> <au2lsbDkyWt-To0C@thinkstation>
- <aa2a1e32-9b1d-4545-b2e0-03d213593023@kernel.org>
-In-Reply-To: <aa2a1e32-9b1d-4545-b2e0-03d213593023@kernel.org>
+References: <20261104130118.2507513-1-kas@kernel.org> <20261104130118.2507513-4-kas@kernel.org>
+ <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
+In-Reply-To: <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 9 Nov 2026 07:56:18 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whnH5qLJH3Wd3bOxv--Ei6674Jo4iifGD_MqzyJg2Jm4g@mail.gmail.com>
-X-Gm-Features: AclHuK_KlZ4s0u4OfgGD3UZtJodv62VcuanWvSl4PYVPZCnpCpWEdwdwFyjepNA
-Message-ID: <CAHk-=whnH5qLJH3Wd3bOxv--Ei6674Jo4iifGD_MqzyJg2Jm4g@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
- RCU grace period
+Date: Mon, 9 Nov 2026 08:28:03 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
+X-Gm-Features: AclHuK-PHrKxDKHmHgqeqU9KXvHFHYbJyk2lhNjfjS1J1daidL5w5IKJYicIRls
+Message-ID: <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
+ into a fuse file
 To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Kiryl Shutsemau <kas@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
 	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
 	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -128,27 +127,10 @@ Cc: Kiryl Shutsemau <kas@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
 	fuse-devel@lists.linux.dev, kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 9 Nov 2026 at 06:43, David Hildenbrand (Arm) <david@kernel.org> wrote:
+On Mon, 9 Nov 2026 at 06:46, David Hildenbrand (Arm) <david@kernel.org> wrote:
 >
-> Can we just rework that code first to have some clear folio freeing path, IOW
-> doing this in a folio-specific helper?
+> Could we get rid of fuse_try_move_folio() entirely?
 
-I think you're making things worse rather than better.
+Please. That would be great.
 
-The whole point was to hook into *one* place: the page freeing.
-
-Trying to make it specific to one special freeing path only makes it
-fragile and less obvious, and results in anybody who then uses some
-other freeing model to miss the RCU thing.
-
-It also means that suddenly nobody else can use the RCU path for their own uses.
-
-Look at all the kmalloc RCU freeing: it's used all over the place. RCU
-has basically taken over the kernel. Every single performance-critical
-lock-free area of the kernel wants RCU freeing.
-
-I think trying to corral it into some special case is the last thing
-we want to do. It only makes things less potentially useful and more
-fragile.
-
-                  Linus
+              Linus
