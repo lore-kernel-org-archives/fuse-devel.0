@@ -1,47 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794246535;
-	b=3lM2Sg1UiPYBojPufwhBzLNvfQVcuKNzMLRU4ioYHD1cePhu5P2lOUNsLQ3bexhLytDS
-	 7Nybflsvk0x9GoxMhkneY5cuqUWu9hrO1djjiRK66xdZ0x91vtmqxqxuBuWle6wBHMzIy
-	 UAAtgpnFay8Xrvbp9P4KcVrsf1207VmQzvgBsziafP/tCYabBwHB5Di0T8gzE5ukkQQ7J
-	 DbKdvPxX99EGVrLtdIINnZHoc82jmXZVAkDyjg00cwC6ERmQTeK4aCyN4c9El9+bElyJa
-	 7OKb63f3LdTquQpdkAPJHUofvqbTrU5WgeSbssaxQ6LfSyl97ktEB2Wiog054yW2xLg==
+	t=1794247651;
+	b=Rebx8QMcM30iJBdaKNc8H/pDZZ8UJyekTzYh3bCyYPxCfjbsE8sgZg+MIMUq/4LphMaL
+	 DazciJ1gqK+QpBfjPL5k05Lon65GVdh9U144U8ORoKl//YhSpdoIu/A4M2YyJlA/ARh/E
+	 LsI3Wg1/DfTYWUAqqxxDkyeaV3dfhQaJSENZobr85DYZ22A0nTAMRFOONwCoD5H6OcTXE
+	 pH/lbNutuL0aQMhF9nH5YUeHQPrNVU6kmV90vzAPp3N6RnuWmyaeKa2NVlGBa7AhFDPb6
+	 WBDv4xtCtyYfUxHGZ+i3R95g1ar7IXLavLW9eV/DuT4PAKK3piHrCA3/8DMMslJkw9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794246535;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=dHxEdjexbDAxhEaz003lOiCE3vg4apNJPfNwG6nSAow=;
-	b=132Cyn0SfW9OvHppl6JvApX8wsiRT+39KTDeotng7NuAbd82TQ6JVpxLHyByWXuKQdjD
-	 rkP6/Mdjhcx73Rbq6E0c3p9dU5QwlRHh79Q+AjSx15xCKdSZJq9V0IGL1eqGpo8iiw/Or
-	 YdNjKJy7U4raWwn0AatGYKHLpNsIEGkUJTIU5lrMuWbAAeQad8Dff6FyF7avvo3jkUFBO
-	 aLre8TaXW2dLZExcreeZ/S9SY2+b1S/BHhO6w+4BW/iWDZwt7T89C/GvZGQoh1ZXjsOvI
-	 S5pht/0qO13fhcvJ2gyq0SbC5LWGqzAj2l6BygP2gaOzzKiB/EgwDj3KA/UPHC/aHIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794247651;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=Gt4VMnvmrWa2nAQLESYVbnrfaPMYEizAsDM6TBhtRVk=;
+	b=qi69NCvkoud6nCBUkcRIMdsD6hOLUxzCNkiyStClhgLhJCXhEnOf4KpUMgD41LMC5qO/
+	 9/zDM7G7EJ4sjSpEUPnpEN+GSyQxP/CL+YoivUUE6WBXqSebuuGLz7hgG9yoGOc1KEFrH
+	 4dbuWJ35lL2zKN1OpbRo+g0B2mzVAshCb5AKiXyqR9DPNN9qnQD7AR+Zia08i57Vfi+7f
+	 H8MsNW43RR5KJ3gAR8PrKlXxVMRzfPHnut9NWJAS9JHVRkgCp79F/je1M+XxFYWVZQTF0
+	 4Zt822uTD+zoHIy7b/iQj9ATAmUyfbOXqMXjmz4JjKiXlVzKIKMufKtChEuVcwfwBTQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pek9s7zB;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b="gvVlx/vT";
+	arc=none smtp.remote-ip=209.85.218.53
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E44606A31C;
-	Mon,  9 Nov 2026 17:48:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162B1606A332
+	for <fuse-devel@lists.linux.dev>; Mon,  9 Nov 2026 18:07:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 162B1606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Pek9s7zB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE031F008A1;
-	Mon,  9 Nov 2026 17:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794246535;
-	bh=dHxEdjexbDAxhEaz003lOiCE3vg4apNJPfNwG6nSAow=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Pek9s7zBH0iPwsSpcUG005YFC1HK89pX4jsQNNeogHCzt4HyJI7X/6lZf5+7iMxvc
-	 rXQIj8PlSNmYODFFj3rXKyfHyW2qPFSVPc8dbbTFYccpGhJtNDSawBiSC5j9x9sxed
-	 Olr2iyiFE3ie6Jw2rtzed5xGk2A9JiOt0cbquzPkVQSveOB7CQC1IJKgHX/L/OPmUh
-	 PKo0zYmMFGSKAJXUMd9+fwEbQ4vNbukBOV5EsWL3wuja6tSb4TAKLpxGLu1BYHQ3TR
-	 kjxMEhHWj/i76fDu4ytgwvqaaqRAlhaIncCx2xVGCxVf0hHuEl+L/KVequLYiOHkh7
-	 aEHPTMDRdPT4Q==
-Message-ID: <befbf3e1-d25d-42fc-86df-e4b695b017a2@kernel.org>
-Date: Mon, 9 Nov 2026 18:48:39 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=gvVlx/vT
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c5049f267c9so3564366b.2
+        for <fuse-devel@lists.linux.dev>; Mon, 09 Nov 2026 10:07:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1794247648; x=1794852448; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Gt4VMnvmrWa2nAQLESYVbnrfaPMYEizAsDM6TBhtRVk=;
+        b=gvVlx/vTVwMcKKXMUOmx2fAcRomvzEsJzL0iz5Zf4oQjmioq8HqzyNbBvoA4dfIhWT
+         MzQdiiEgdjEO9Me+CDSiOHamOYiA2w9ZtTvGv8WyfraY9Wgqh7rKtEa+uY8uosxg1OZC
+         qb82ds0yBmS70FIHHEP9J5rcDqbhSH/hFMxg0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794247648; x=1794852448;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Gt4VMnvmrWa2nAQLESYVbnrfaPMYEizAsDM6TBhtRVk=;
+        b=BsJu5DoiNP/Q254o8KjQKkZeMr/591x4oYzUKEsP9L/0tSo4qS9WvLA/beeOzpTHw2
+         139bnx8o6x1tbR/jzM9O+bfM+YawnmpQxPWEpN6XluXKZK4wIahDcSW7AUUy5DNcEXCQ
+         p+OIgUaQhhqW/lo4Yv5Mda6/Ov7p+lQj59XWzD45fjORu9g0cwhLUPDpaow4cbxUhPCr
+         Mrifl8PumQU3jjPXWDa8o7/uRQlIfNDGdD0wQWWkzZHN63qfzabzOejJf9rtcZo3IJqH
+         v6zAm0FiKYJ4K70cOp4IwGuO3n1gbL2fczbdqsSg1q6hxoDwdXGqoqjUTDvbE35O2zny
+         UgNw==
+X-Forwarded-Encrypted: i=1; AL+hErGhj2zMaIBGz0/OWB6dsWzQQLlJ8GjGKHYb5jMAE/pvspnGki7cM6TpJxrblOOfmHl3WlQR9Hl9AlaO@lists.linux.dev
+X-Gm-Message-State: APuU4Z8iukHAWMTBDcjiGhrorbY82r3MplRdCl7P1G8oZeSHOBpNLN37
+	fi/lINQMXiLD55Bf8b4BM/LYg7UXZJaCxuZdt9ou4UIjc9U+NqE/St9RsEgAOLJFqo2iaboQ99y
+	5dbpO07HxZw==
+X-Gm-Gg: AYBFou2zNjkyeI4PVR/7U1j5waU3IT4j/4zk9CEuQJGmU/QwxkCreuVdUvf5a1asv71
+	mpXl/5Z6lGZzUzgke85BrE7ms4Kbu6/g9POWmPHVx4FMInxZDqcHvFq9zmAmSY5G05pJCsYDssb
+	c5x/g1M7vxjuE8hVefVXjigKik/z/HXqY+nEGKDfUUxBApBmjN1HJg7TcSZm+jSfhc1aAnR3yqv
+	T2lhDVMeLWNZ0Kdi2NmfCYo6KGzwc5vo74BBl7juBkmtGtMB66j5YIgcZ3Uo0nHFngUj6+AWjXa
+	dVRoiYW/dixWs4C95kMGgKsLKbSm+fXwzRXmun3QHXB9CSLZSXmWZDNX8ciNQvl/JrM6hQg63Rc
+	8v+FoF4aK5cyyKMFV2OvJ9CPMVTs0ZxgiWg88nKJfUkyD4cBLjQnk5Rq1lyFW7sG2AdfSiUN7Ga
+	SbgIzFtjIfTWPJyAI+V7gusaSqTWOLrMuHc5cP097pCeH7rXtnetgRCrCtsruVOigOmXXgipypx
+	XNyNu35QaDDvM5AilAM7mxepmS+Og3PfDAWEMm90FjqG8Ty4FO9Kg5d2IULRmwxvI2ZnGAA/hJ4
+	SuK/kbn8AdClNiiZL5aFLzjUBxBJuI/HowdG5ph61fOnqTyiP2tTOha2bmezie3PkEF6pHHAIyP
+	q/Q==
+X-Received: by 2002:a17:907:3f10:b0:c27:420b:7c79 with SMTP id a640c23a62f3a-c50497432ffmr8725766b.48.1794247648359;
+        Mon, 09 Nov 2026 10:07:28 -0800 (PST)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d6a999358sm195941066b.78.2026.11.09.10.07.28
+        for <fuse-devel@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2026 10:07:28 -0800 (PST)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c445c95d553so159402566b.1
+        for <fuse-devel@lists.linux.dev>; Mon, 09 Nov 2026 10:07:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErH+07tdz0QTJPW339hQZqEc6ONpLVNert2v13G+AuGiwTbGEJtq7xnfYXHBqaxYlJjvNYLMWg907uMf@lists.linux.dev
+X-Received: by 2002:a17:906:478c:b0:c41:b94c:4538 with SMTP id
+ a640c23a62f3a-c504973c481mr7202666b.47.1794247278274; Mon, 09 Nov 2026
+ 10:01:18 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -51,121 +94,103 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
- into a fuse file
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
- Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>,
- Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
- <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
- Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
- "Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
- Luis Chamberlain <mcgrof@kernel.org>,
- Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- kernel-team@meta.com
-References: <20261104130118.2507513-1-kas@kernel.org>
- <20261104130118.2507513-4-kas@kernel.org>
- <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
- <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
- <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261104130118.2507513-1-kas@kernel.org> <20261104130118.2507513-2-kas@kernel.org>
+ <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org> <au2lsbDkyWt-To0C@thinkstation>
+ <aa2a1e32-9b1d-4545-b2e0-03d213593023@kernel.org> <CAHk-=whnH5qLJH3Wd3bOxv--Ei6674Jo4iifGD_MqzyJg2Jm4g@mail.gmail.com>
+ <8504e28f-faeb-41e3-842e-0cb74d1a25ad@kernel.org>
+In-Reply-To: <8504e28f-faeb-41e3-842e-0cb74d1a25ad@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 9 Nov 2026 10:01:01 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wihE=ioLKrwzz=WQSJg6HhB-syu4hqZ2QFwgnwYmmLEgg@mail.gmail.com>
+X-Gm-Features: AclHuK-A_qW69_o6tagKDJ1G6Q8E_NGG5rYMm4wqMXtGYWO1MbLxTJtWgkQTGLI
+Message-ID: <CAHk-=wihE=ioLKrwzz=WQSJg6HhB-syu4hqZ2QFwgnwYmmLEgg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
+ RCU grace period
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Kiryl Shutsemau <kas@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, Hugh Dickins <hughd@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Harry Yoo <harry@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+	"Liam R. Howlett" <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Brendan Jackman <brendan.jackman@linux.dev>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Baoquan He <baoquan.he@linux.dev>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Pedro Falcato <pfalcato@suse.de>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 11/9/26 17:35, Linus Torvalds wrote:
-> On Mon, 9 Nov 2026 at 08:28, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->>
->> On Mon, 9 Nov 2026 at 06:46, David Hildenbrand (Arm) <david@kernel.org> wrote:
->>>
->>> Could we get rid of fuse_try_move_folio() entirely?
->>
->> Please. That would be great.
-> 
-> .. and in a similar vein, we should get rid of splice doing the same entirely.
-> 
-> Kirly's patch to just remove page_cache_pipe_buf_try_steal() entirely
-> (ok, it was originally mine, but Kiryl took ownership of that series:
-> "Tag, you're it") is worth doing, but I think worth doubling down on.
-> I think we sh ould just get rid of 'try_steal' entirely. I don't think
-> anybody really uses it. I think it exists in fuse and in the virtio
-> console, and neither is worth it.
-> 
-> Removing pipe_buf_try_steal() would basically remove all of
-> fuse_try_move_folio().
-> 
-> Conversely, removing fuse_try_move_folio() would make
-> pipe_buf_try_steal() even less useful than it is now.
-> 
-> Just remove them both. Good riddance.
+On Mon, 9 Nov 2026 at 09:24, David Hildenbrand (Arm) <david@kernel.org> wrote:
+> >
+> > I think trying to corral it into some special case is the last thing
+> > we want to do. It only makes things less potentially useful and more
+> > fragile.
+> Let me wrap my head around how this would look when we decouple pages from
+> folios, where pages might not have a ->lru anymore, or not even a refcount.
 
-Yes, that would be very nice.
+So for an example of a place that already does RCU freeing of pages -
+*not* folios - look at the TLB shootdown.
 
--- 
-Cheers,
+It's very round-about and hard to tell, but it's using
 
-David
+  tlb_remove_table_free
+    call_rcu(&batch->rcu, tlb_remove_table_rcu);
+
+and that then does
+
+  tlb_remove_table_rcu ->
+    __tlb_remove_table_free ->
+      __tlb_remove_table ->
+        pagetable_dtor_free ->
+          pagetable_free ->
+            __pagetable_free ->
+               __free_pages(page, compound_order(page))
+
+(and I might have messed this up - this really is a rats nest of
+nested inline functions).
+
+And in order to do this all, it sets up *another* page just to contain
+the batching (which is also RCU-free'd)
+
+Now, the batching is probably a very good thing in that context, so
+I'm not actually suggesting this should be converted to some common
+RCU-freeing thing.
+
+Rather, I'm pointing out that we have existing hacks in this area that
+have grown up over time and would have been a *lot* less hacky if we
+had had a proper RCU-freeing page allocator back when that whole TLB
+freeing code was written.
+
+So I'm not saying "we should unify this". But I *am* saying "look, RCU
+freeing of pages is _already_ a thing, and we have complicated hacky
+things in place for it".
+
+And they are complicated not because they necessarily should be
+complicated, but because we solved the TLB shootdown after we already
+had tons of complex architecture-specific code in place, and we
+basically ended up adding that RCU phase on top of that existing
+per-architecture complexity and abstraction.
+
+*NOW* it would be actually fairly painful to try to convert the TLB
+shootdown to a new order. But originally, it would have been very nice
+if we had just had a "Oh, mark this page for RCU freeing".
+
+(In all fairness, we also did it that way because some architectures
+don't need the RCU delay simply because they have some other hardware
+page walking infrastructure than the actual page tables the kernel
+builds up. Not that those architectures *matter* today, but some of
+that per-architecture inline function stuff is required to basically
+isolate these kinds of decisions from the MM code - that deep inline
+function indirection has a reason that is entirely independent of the
+freeing side).
+
+                    Linus
