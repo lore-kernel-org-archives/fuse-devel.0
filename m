@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794225195;
-	b=Q50J2dIddDzjDGdRyzC122VnNJIlFUJEKCyjgirJBK932tfXDv5aScwPjuweWpzthvqf
-	 vLIh7g9ad0ZXUUaoFTUUQzM2R63u4WZYLjZgbwXlyRlirrrL/OYNsEVCMerwd1cb03sMw
-	 rgYy+6NKJOWPhOZWeTl8K3IS8BW8Aub6S7VilJMJHNY0X9Iei0PPjodEPA7MRxzwT0Ms8
-	 GrfFCc/9kaqYW6wMkXr7UOBoiOb69pSU6XmWLXsxUdIMuJgB23aN7inoe8L8sDI2ygB7Y
-	 meSEN+tV0fsYNYuWwK1T885HVIsPybLQkpa+A2I07T0Ex+jdk8A73A/KV5JEt78iCQQ==
+	t=1794235391;
+	b=ynKmqU/03gZRJYWJQVFasa/Gvc6uXRTVOLNmi+eX4Ouy3fHeVRgw6wYo0psP3TegyoRE
+	 TdBP1tayy+HuF+FaRAdRdfqBY0d7yiHBtgiIxCyz+k46CCqgn1X/4rUuu5/ml58HmbLMA
+	 UlpcHolh5zW8VK2p4lQQpRhXXfjxlhB/s2OS4yDy36xg841uyRTZtjTbxZYFmfSbccQqO
+	 LK0VmbThf3pxjMWpCIKJX+ih9OXQrvPDVpnUnnYwEhxqXOYGOhY5Zl1GMGXM9qfKixSOx
+	 MI4t3n/W9yutIvIeT53TrNRAAbABHIJ5XvgHRjTES38B90qTWCBvtQaFxXwNyZM1gOA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794225195;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794235391;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=JoZ3JKHOn0R0njHxsO6/Qrtb22qc0xZhgECNmIgLvRg=;
-	b=235H4TeOFuT0J2oB97Doxw1ztksiQqLbJdrvHpL9QRymGKgCfeMUt6Y8SWvv2XluieEc
-	 vwb/G2Icxh/2qwG0s8tRPuX0x0I6EQNIEqWNdqBUVUmHBga7wirq+JORb9CWTb+UOMI+P
-	 aQaHcQsSfm3Snwz5g/trIr5hp/as3KtWQiAJCTVNmV0jHPL+WCSNAQZKbqP30js+zO1/E
-	 BlEwZPpnW9LSq1f+q5ixiIGvGzZVJ0qMZsZTF5gBkHRqe3a0tM/1NTC1xXYxfRHfgQ4L/
-	 Ej4MGWT53AUOMpErFst3Ubu6ZttAxQVIaovuaxny5w0/mrRsxoo227oZBrt68+rb6nw==
+	bh=8xp9qI2Ok6sylEAN+gwDtNeJcQqJMD2By0aR3Vam4ic=;
+	b=EYonIdh7RsTSdNj0sqZkjhb4/V74Njz3IBFqauGwEvuLYOH4vw8vEidccY8r1NR9C0ag
+	 zeJOF15n4ovNxu56DEFdaV9a99nmWnr+3WK/RjnxcugMdfnMkxlImRMnf2ZgOfzkwOIah
+	 iKF2evnZhZMQDNi3E21Px6uvKjuq5oG7SCUVydfoD7NcLhSwLGl99S/d7R6ZF+55S8JFm
+	 QSGVOj+56oOFVy/NQm3P2OKGikK+8R9J7CNcXfN+wo2yAi1GVDCt95oXn3yvfY2JBYVcx
+	 z3fq9OHLItISZl+npxXzCbdnwhDu5SOK/HCIF1c0lGVDBsevFFjOeswI8xNq0fXLq4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V7BzJ8S0;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fiRcdJU3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196BE606A31C;
-	Mon,  9 Nov 2026 11:53:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3FA606A331;
+	Mon,  9 Nov 2026 14:43:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=V7BzJ8S0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ACCB1F008A4;
-	Mon,  9 Nov 2026 11:53:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fiRcdJU3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B71801F0089F;
+	Mon,  9 Nov 2026 14:43:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794225194;
-	bh=JoZ3JKHOn0R0njHxsO6/Qrtb22qc0xZhgECNmIgLvRg=;
+	s=k20260515; t=1794235390;
+	bh=8xp9qI2Ok6sylEAN+gwDtNeJcQqJMD2By0aR3Vam4ic=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=V7BzJ8S07RSb3MVWSX5A3mbdbydBpHaRs75Gx8FoqdNI9rvRIUC/2Hhdy95BDtlLU
-	 6A90zI4LH+N8rPi52yQTMi9HirA5d/lkjGiWD92nXjl9V3/CLq2UgbCSWkQNpXZzuB
-	 Cunq+r5k1AYrwWV18+paxZbnuL4SpjKS07Hs9v/JQLeUbF2Ucgpr6CSp9RdbOwHM08
-	 WBF1Jjuz/y90oj6uKQvQUwCjhQ7BHkVaSU0rXqdI/CNNxlBFqwJ5jsjSsq0F4K1jIu
-	 eqFBvmGbIqxGkosJaV32QP2goyQtgAKf4lSlHEi9fkYzf9c46H2EaF3EwcNhI4pAW3
-	 5NR3fA883aOTQ==
-Message-ID: <66590b61-6538-4200-8de9-68b2e1d2c697@kernel.org>
-Date: Mon, 9 Nov 2026 12:52:58 +0100
+	b=fiRcdJU3ll1oX0GL0kFkxzsBFsMHgUWajfOKORb5n5LGR0Ijd/a/ZTZV+msRt+7AE
+	 izmHSZ0aw7NmYNXW2GLtEsOVZAVfpyTgNpWMg0tnkNJIiyc5/KCWAsOooJ2agALkvo
+	 xMx1r2vihgzi5AJitWcAdZVUonHMXvaKgl9UVq27SVx9gYsvdThm6KBH+43D8zNpIr
+	 FMQ7SsNDb6DxIz8AlwOC0mr0jutSYBOHsbEGL+VL9IRKLrnSaOy3QQQC3fefk2V1Bc
+	 NeugOO2gVdweOhasQ4WB+Fp70fov7x2MciIpscO2WdjUB0pXFmsgdSIiWUkB+DBpqF
+	 g6u1UllN9MC0w==
+Message-ID: <aa2a1e32-9b1d-4545-b2e0-03d213593023@kernel.org>
+Date: Mon, 9 Nov 2026 15:42:58 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -52,44 +52,39 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] mm: limit pagecache folio refcount when splicing
- into pipes
-To: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
+Subject: Re: [RFC PATCH v2 01/18] mm: free PG_rcu_free folios only after an
+ RCU grace period
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>,
+ Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>,
+ Miklos Szeredi <miklos@szeredi.hu>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>, Oscar Salvador
+ <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
  Baolin Wang <baolin.wang@linux.alibaba.com>,
  Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
  Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
  Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard
- <jhubbard@nvidia.com>, Josef Bacik <josef@toxicpanda.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>,
+ Shakeel Butt <shakeel.butt@linux.dev>,
+ Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
+ Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Ilya Gladyshev <ilya.gladyshev@linux.dev>, Jaegeuk Kim <jaegeuk@kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-arch@vger.kernel.org, iommu@lists.linux.dev, stable@vger.kernel.org
-References: <20261107-refcount_overflow_stable-v2-0-c38f6809b106@kernel.org>
- <20261107-refcount_overflow_stable-v2-2-c38f6809b106@kernel.org>
- <a9fb2d3c-d518-49d3-9479-a25fa2cfc5b3@gmail.com>
- <8d23b1eb-72aa-479d-9486-dbfd86d8414c@kernel.org>
- <43fc45ff-8636-4961-a80a-29844c15d7a1@kernel.org>
- <aa6ea9df-f767-4092-ad8f-f10305e27c3e@kernel.org>
- <ad09d3f5-986b-4337-9e32-1de4e5b18d71@gmail.com>
+ kernel-team@meta.com
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-2-kas@kernel.org>
+ <ecad7b3c-7244-425a-9413-04d49f221057@kernel.org>
+ <au2lsbDkyWt-To0C@thinkstation>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -136,174 +131,166 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <ad09d3f5-986b-4337-9e32-1de4e5b18d71@gmail.com>
+In-Reply-To: <au2lsbDkyWt-To0C@thinkstation>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/9/26 11:25, Jose A. Perez de Azpillaga wrote:
-> On 11/9/26 11:08 AM, David Hildenbrand (Arm) wrote:
->> On 11/9/26 10:49, David Hildenbrand (Arm) wrote:
->>>
->>> Double checked, claude managed to confuse itself.
->>>
->>> n_hdlc_tty_read() can indeed return -EOVERFLOW.
->>>
->>> I should just have let splice keep failing, dealing with copy fallback starts to
->>> get annoying.
->>>
->>> I guess switching to -ETOOMANYREFS should work (and might be a better fitting error)
+On 11/6/26 11:23, Kiryl Shutsemau wrote:
+> On Thu, Nov 05, 2026 at 09:37:31PM +0100, David Hildenbrand (Arm) wrote:
+>>> diff --git a/mm/Kconfig b/mm/Kconfig
+>>> index 604c58199acb..6e5341b0bf64 100644
+>>> --- a/mm/Kconfig
+>>> +++ b/mm/Kconfig
+>>> @@ -718,6 +718,21 @@ config PCP_BATCH_SCALE_MAX
+>>>  	  latency.  This option sets the upper limit of scale factor to limit
+>>>  	  the maximum latency.
+>>>  
+>>> +config PAGE_RCU_FREE
 >>
->> Yeah, the following should do I think, please double check:
+>> I think we really want to focus this only on folios (like the current code does).
 >>
->> From 7ce030711737e8c26fb5500f2705940e93da0d44 Mon Sep 17 00:00:00 2001
->> From: "David Hildenbrand (Arm)" <david@kernel.org>
->> Date: Wed, 4 Nov 2026 19:02:48 +0100
->> Subject: [PATCH] mm: limit pagecache folio refcount when splicing into pipes
->>
->> Similar to mapping pagecache folios into page tables, let's reject
->> additional references when splicing folios into a pipe if the refcount
->> is at its limit, similar to how we handle it during GUP.
->>
->> This will prevent more cases of possible folio refcount overflows with
->> large pagecache folios.
->>
->> Let's keep it simple and check in the two callers of
->> splice_folio_into_pipe(). Return -ETOOMANYREFS if the limit prevents any
->> progress, so do_splice_read() can fall back to copy_splice_read() when
->> read_iter is available. This keeps sendfile() and other splice users
->> working when ordinary reads would still succeed.
->>
->> Also fall back to copying in FUSE when taking another reference through
->> fuse_ref_folio() would exceed the limit.
->>
->> Also check in try_get_page() to cover pipe-buffer duplication by tee()
->> and partial pipe-to-pipe splicing.
->>
->> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
->> Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
->> Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->> ---
->>  fs/fuse/dev.c      |  5 +++--
->>  fs/splice.c        |  8 +++++++-
->>  include/linux/mm.h |  9 ++++++---
->>  mm/filemap.c       | 11 ++++++++---
->>  mm/shmem.c         |  4 ++++
->>  5 files changed, 28 insertions(+), 9 deletions(-)
->>
->> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
->> index 3641abb90d6bb..4f6b7b42bfd3e 100644
->> --- a/fs/fuse/dev.c
->> +++ b/fs/fuse/dev.c
->> @@ -1265,9 +1265,10 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
->>  		if (cs->write && cs->pipebufs && folio) {
->>  			/*
->>  			 * Can't control lifetime of pipe buffers, so always
->> -			 * copy user pages.
->> +			 * copy user pages. Also copy folios at their refcount limit.
->>  			 */
->> -			if (cs->req->args->user_pages) {
->> +			if (cs->req->args->user_pages ||
->> +			    unlikely(folio_ref_count_over_limit(folio))) {
->>  				err = fuse_copy_fill(cs);
->>  				if (err)
->>  					return err;
->> diff --git a/fs/splice.c b/fs/splice.c
->> index e6d43329ed3f0..2fc1279628af5 100644
->> --- a/fs/splice.c
->> +++ b/fs/splice.c
->> @@ -956,6 +956,7 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
->>  			      unsigned int flags)
->>  {
->>  	unsigned int p_space;
->> +	ssize_t ret;
->>  
->>  	if (unlikely(!(in->f_mode & FMODE_READ)))
->>  		return -EBADF;
->> @@ -977,7 +978,12 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
->>  	 */
->>  	if ((in->f_flags & O_DIRECT) || IS_DAX(in->f_mapping->host))
->>  		return copy_splice_read(in, ppos, pipe, len, flags);
->> -	return in->f_op->splice_read(in, ppos, pipe, len, flags);
->> +	ret = in->f_op->splice_read(in, ppos, pipe, len, flags);
->> +
->> +	/* Fallback to copying when hitting folio refcount limits. */
->> +	if (unlikely(ret == -ETOOMANYREFS) && in->f_op->read_iter)
->> +		ret = copy_splice_read(in, ppos, pipe, len, flags);
->> +	return ret;
->>  }
->>  
->>  /**
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index 3356f7a670d1e..dd50262a70758 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -2288,10 +2288,13 @@ static inline void get_page(struct page *page)
->>  
->>  static inline __must_check bool try_get_page(struct page *page)
->>  {
->> -	page = compound_head(page);
->> -	if (WARN_ON_ONCE(page_ref_count(page) <= 0))
->> +	struct folio *folio = page_folio(page);
->> +
->> +	if (WARN_ON_ONCE(folio_ref_count(folio) <= 0))
->>  		return false;
->> -	page_ref_inc(page);
->> +	if (unlikely(folio_ref_count_over_limit(folio)))
->> +		return false;
->> +	folio_ref_inc(folio);
->>  	return true;
->>  }
->>  
->> diff --git a/mm/filemap.c b/mm/filemap.c
->> index 920bbf86dfdff..44b23c51ea45f 100644
->> --- a/mm/filemap.c
->> +++ b/mm/filemap.c
->> @@ -3094,9 +3094,10 @@ size_t splice_folio_into_pipe(struct pipe_inode_info *pipe,
->>   * Return: On success, the number of bytes read will be returned and *@ppos
->>   * will be updated if appropriate; 0 will be returned if there is no more data
->>   * to be read; -EAGAIN will be returned if the pipe had no space, and some
->> - * other negative error code will be returned on error.  A short read may occur
->> - * if the pipe has insufficient space, we reach the end of the data or we hit a
->> - * hole.
->> + * other negative error code will be returned on error; -ETOOMANYREFS will be
->> + * returned if the folio's refcount is too high and the caller can fall back to
->> + * copying.  A short read may occur if the pipe has insufficient space, we reach
->> + * the end of the data or we hit a hole.
->>   */
->>  ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
->>  			    struct pipe_inode_info *pipe,
->> @@ -3168,6 +3169,10 @@ ssize_t filemap_splice_read(struct file *in, loff_t *ppos,
->>  			if (writably_mapped)
->>  				flush_dcache_folio(folio);
->>  
->> +			if (unlikely(folio_ref_count_over_limit(folio))) {
->> +				error = -ETOOMANYREFS;
->> +				goto out;
->> +			}
->>  			n = min_t(loff_t, len, isize - *ppos);
->>  			n = splice_folio_into_pipe(pipe, folio, *ppos, n);
->>  			if (!n)
->> diff --git a/mm/shmem.c b/mm/shmem.c
->> index be4ab228cf67c..0b30b1de81a7c 100644
->> --- a/mm/shmem.c
->> +++ b/mm/shmem.c
->> @@ -3830,6 +3830,10 @@ static ssize_t shmem_file_splice_read(struct file *in, loff_t *ppos,
->>  			 * Ok, we have the page, and it's up-to-date, so we can
->>  			 * now splice it into the pipe.
->>  			 */
->> +			if (unlikely(folio_ref_count_over_limit(folio))) {
->> +				error = -ETOOMANYREFS;
->> +				break;
->> +			}
->>  			n = splice_folio_into_pipe(pipe, folio, *ppos, part);
->>  			folio_put(folio);
->>  			folio = NULL;
+>> FOLIO_RCU_FREE ?
 > 
-> this LGTM :)
+> Sure.
+> 
+>>> +	def_bool y
+>>> +	depends on 64BIT
+>>> +	depends on !PREEMPT_RT
+>>> +	help
+>>> +	  Reads from the page cache can copy from folios that are read
+>>> +	  again and again without taking a reference on them, so small
+>>> +	  reads of one file from many CPUs do not contend on the folio's
+>>> +	  reference count.  The cost is that memory freed from such
+>>> +	  folios becomes reusable only after an RCU grace period.
+>>
+>> While that description is helpful, that's not really what this patch, or rather
+>> the basic infrastructure in page_alloc, does.
+>>
+>> I'd suggest to have a dedicated FOLIO_RCU_FREE config and maybe another one
+>> (that selects/depends on) FOLIO_RCU_FREE that actually enables the pagecache use
+>> and documents the details.
+> 
+> I will make the help describe what this patch does.  The page cache is
+> the only user, and both symbols would be def_bool without a prompt, so
+> I would rather add the second one with a second user.
+> 
+> Does that work for you?
+> 
+>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>>> index 1e5d68acf62a..25082949a4ca 100644
+>>> --- a/mm/huge_memory.c
+>>> +++ b/mm/huge_memory.c
+>>> @@ -3743,6 +3743,7 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+>>>  #endif
+>>>  				 (1L << PG_dirty) |
+>>>  				 (1L << PG_dropbehind) |
+>>> +				 __PG_RCU_FREE |
+>>
+>> That looks a bit odd at first, as it's very different to the other once. But no
+>> easy way around assuming that the flag is not always around.
+>>
+>> Maybe we should just have this be a const mask constructed somewhere using BIT()
+>> and __PG_RCU_FREE etc, instead of having this growing list in this user here.
+> 
+> Makes sense.  Something like the diff below, on top of this patch.
+> Introducing split_copy_flags would be a preparatory patch, and this one
+> would only add __PG_RCU_FREE to it.
+> 
+>>> @@ -1327,6 +1417,19 @@ static __always_inline bool __free_pages_prepare(struct page *page,
+>>>  
+>>>  	VM_BUG_ON_PAGE(PageTail(page), page);
+>>>  
+>>> +	/*
+>>> +	 * Not for a hwpoisoned order-0 page: it never reaches the allocator,
+>>> +	 * and page_handle_poison() takes a reference right after this free.
+>>> +	 */
+>>> +	if (unlikely(folio_test_rcu_free(folio)) &&
+>>> +	    !(PageHWPoison(page) && !order)) {
+>>> +		VM_WARN_ON_ONCE(fpi_flags & FPI_NOLOCK);
+>>> +		__folio_clear_rcu_free(folio);
+>>> +		count_vm_events(PGFREE_RCU, 1 << order);
+>>> +		rcu_free_defer(folio);
+>>> +		return false;
+>>> +	}
+>> I'm wondering whether we want to intercept on the folio freeing path instead?
+>> That would be __folio_put(), before we go into free_frozen_pages() used by other
+>> machinery that does not apply (slab etc).
+> 
+> Not all page cache folios are freed through __folio_put().  Reclaim
+> frees them with free_unref_folios() directly (shrink_folio_list(),
+> move_folios_to_lru()), and so do folios_put_refs() and the LRU batches.
+> __free_pages_prepare() is the one place they all pass.
 
-Thanks!
+Can we just rework that code first to have some clear folio freeing path, IOW
+doing this in a folio-specific helper?
+
+folios_put_refs() is just a specialized and batched variant of the __folio_put()
+freeing path in the end. So we can hook into these two easily.
+
+For free_unref_folios() would need another hook or a cleaner rework.
+
+
+> 
+> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+> index a1e52a1f8a52..6d4e534c9ccc 100644
+> --- a/include/linux/page-flags.h
+> +++ b/include/linux/page-flags.h
+> @@ -1185,6 +1185,18 @@ static __always_inline void __ClearPageAnonExclusive(struct page *page)
+>  #define __PG_MLOCKED		0
+>  #endif
+>  
+> +#ifdef CONFIG_ARCH_USES_PG_ARCH_2
+> +#define __PG_ARCH_2		BIT(PG_arch_2)
+> +#else
+> +#define __PG_ARCH_2		0
+> +#endif
+> +
+> +#ifdef CONFIG_ARCH_USES_PG_ARCH_3
+> +#define __PG_ARCH_3		BIT(PG_arch_3)
+> +#else
+> +#define __PG_ARCH_3		0
+> +#endif
+> +
+>  /*
+>   * Flags checked when a page is freed.  Pages being freed should not have
+>   * these flags set.  If they are, there is a problem.
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 25082949a4ca..44a1aaa3f834 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -3689,6 +3689,23 @@ static void __split_folio_to_order(struct folio *folio, int old_order,
+>  	const bool handle_hwpoison = folio_test_has_hwpoisoned(folio) && new_order;
+>  	long new_nr_pages = 1 << new_order;
+>  	long nr_pages = 1 << old_order;
+> +	const unsigned long split_copy_flags =
+> +		BIT(PG_referenced) |
+> +		BIT(PG_swapbacked) |
+> +		BIT(PG_swapcache) |
+> +		__PG_MLOCKED |
+> +		BIT(PG_uptodate) |
+> +		BIT(PG_active) |
+> +		BIT(PG_workingset) |
+> +		BIT(PG_locked) |
+> +		BIT(PG_unevictable) |
+> +		__PG_ARCH_2 |
+> +		__PG_ARCH_3 |
+> +		BIT(PG_dirty) |
+> +		BIT(PG_dropbehind) |
+> +		__PG_RCU_FREE |
+> +		LRU_GEN_MASK |
+> +		LRU_REFS_MASK;
+
+
+I was rather thinking of a
+
+
+#define FOLIO_SPLIT_FLAGS	BIT(PG_referenced) | BIT(PG_swapbacked) | \
+
+...
+
+To make this function actually shorter :)
+
+(ofc, you could also have a static const unsigned long, if that's what we want)
 
 -- 
 Cheers,
