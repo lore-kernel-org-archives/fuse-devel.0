@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794213330;
-	b=iFvJzaRGlqPTpcNvAHQ3MqQ6K2sYJfjbTNClG/XJf5Y2Rv1aE4f2aGDWOBFM11qTptK9
-	 50SeXYc73KjbuBTSZU6Zig8HlHWN3Z4HqTdSxUlgRDcwHwFutbCNcLKUFNVGY1s5nQyTD
-	 Yk4sjSwlkLHN6OxDa2C2nacJ8js9qBOlu4PeeuZ/uhumGbTte0Fxz+xs5M+cW4AoXkHWY
-	 R4HbBG4GtzLuQlzwRWoA6rMQ0LZWKEIRcXB1aBm2MAwKGjZDLndZvapsdlv96r7cmICeS
-	 l279KYyH7i4DCbMRwk5fON/OTMXoNBC5IXFLs8KwaJcK20uEEUIglHhtwSfxeofPcpg==
+	t=1794214668;
+	b=o5eF/trm2FbqRdqybn+aFnignJTOlJvAtOKz4YOQTVlQnJeUxaMimLr0eltq9nHHO3XE
+	 HbZU6SZmFZ0Lqi2r28g7pHn7CXoJSGyeirDG5KHT+iJWMkyW01qhqlZa+IEkOOB26RwRf
+	 38CRCo0WUQR5ATZoSEkHVlARNyg4xbI0bu4+RgzcCSFkh1BwI9l66vhCyLeWFFeBO7Dwz
+	 alurAizk9RdILisSCXmDiI8doFUtEoWduOfAlU8SkXcdcby9mle8b9Q9n9Qqbwjtb2Cbb
+	 GjgW1MBVxxcKpSStYNP3roCSE7AjyMAinXJRyAHBTcqqUGaOe5SBEJq98oTRLEpZHGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794213330;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794214668;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=6v/EUAzIuUZtunuZ0TzsEXeSSrt8us4QeYlPDnXiIyE=;
-	b=pKkebeIEhNOwg8U6NYVoH9Eq2rTTVcD5tRPX7LSWodhGqeJcBGA0P++lmh8EwOj6lKYj
-	 sNo3vtXND0urrH5eflVHlttt9jKTsNf6N7ZLi0mjeWkkhkKiOaG4PVjNHJv8eTl2/t7Rm
-	 XP+bKT0HCFdu7cifIyE/rEE7ju7fmSVr0YVu/O1yMJUOICUb2E4TH18hlz57ycKpL9oZv
-	 9a66xdKfc29RNN3ilOA+UPtBGnsvuJCu2xHc25xamX7GrD+SaChuK8nVuiWK0BcO9MRME
-	 Df8Nx2n45l8GtvbVcLLL5M0S21sLB8aRW3J5srXw8DQ+lRxQ8FeITYX7FjkLx9L0KxA==
+	bh=6gPNbhKnS4UiPYe9GkhcEdm+Vle3xI8UXMcC7kdMJ/8=;
+	b=l9D3aiMcG+g4bRZdLkMgrn6U6AragB92HdUEQHWEXj51XUuk+VvLr+twOb3k/uZN38qy
+	 eotlig0pKBOhhP1aTMakY/Q2hrNc8/KIiElvUhXsxb5hvAwcHqFFLHhS/b3+DLnPJ399m
+	 svcdoVYCGoMrWiREoAqTQ9cYRyXxN8MJYutKuB1JqXQgP5kSSAwA8a4sdM5jZNiqqPmyP
+	 SNNk9nXioT/4od5H565d+vhD8vxbQZGJhgVWiYp+WaD5n0lUFIBLS5bAU7fjWyetI5048
+	 9x5jH3exMF84ZJ5OgVNxluPukxbfahVNpGl6n1ic4+Nf3V0JyN9loUv4aS0oOMp0/1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=y+0kvxz9;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eJwNHGY2;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0870B606A31C
-	for <fuse-devel@lists.linux.dev>; Mon,  9 Nov 2026 08:35:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0870B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D501606A31C
+	for <fuse-devel@lists.linux.dev>; Mon,  9 Nov 2026 08:57:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D501606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=y+0kvxz9
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a215e64962so6475125e9.1
-        for <fuse-devel@lists.linux.dev>; Mon, 09 Nov 2026 00:35:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eJwNHGY2
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4afe2d546f9so9121075e9.3
+        for <fuse-devel@lists.linux.dev>; Mon, 09 Nov 2026 00:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794213328; x=1794818128; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794214667; x=1794819467; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6v/EUAzIuUZtunuZ0TzsEXeSSrt8us4QeYlPDnXiIyE=;
-        b=y+0kvxz9x46Bcqoz2uSg6mZS/8/+orJB6qaEw2HHdg2sn3ATqP5EPIaaD1ItDQ/Lov
-         ARWrfV957mbSfHNrlxx5F9b+8PO5Jk86XkuXzIzq4i+z5Zvf7xplKhPmarMUwOAcSY92
-         ebY676lvBg6UVmqOYbQvP4p2ja990ZdjcatyUyLYiYda2lU7Id3WvH2e2FHvMsA6pag9
-         V8SAawLkRqTakv5ciksSP+bnVDvaHvwJ887n9+YXd9eIqU3lSyvh4wYk16NHcUsZjZJ1
-         pJC9s6awlLbVIVtGHRJaRrMhpvfr8uVuWU8UQiDAZCjMsefZ/hyyNTg+/N9tI9e8E0CF
-         5YZw==
+        bh=6gPNbhKnS4UiPYe9GkhcEdm+Vle3xI8UXMcC7kdMJ/8=;
+        b=eJwNHGY2/8U6qs1wJ+YJFIUWPepYpz7p4XDO0qGe9HAHzrEVuAkH176VWzTnHmayVR
+         GwRUdaEOWwgCXjwj6iu71zDAYh+/LauN+rkrkRgY05TwLYGP1k3QQAMB8KRMu1WWHsAP
+         xy1zuXDYQ3L30nuUuI8Gs1SklW5d2dXJx7xK3IbVV7ixGbtbj7pfGyKX2CaSEbg/KG0o
+         qaDuUSDxYhe/13LozO0EWiT3+MNig/WRQjhkmckLI9X8wyl8hGVfpseLsAbt+mATklyv
+         hHF0Rvl6iv65yE5mYWs4i1d36/88rKjaUDfELcFQKZF6MLfrHSlUtegc0ONJn703Klc6
+         jz2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794213328; x=1794818128;
+        d=1e100.net; s=20260707; t=1794214667; x=1794819467;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6v/EUAzIuUZtunuZ0TzsEXeSSrt8us4QeYlPDnXiIyE=;
-        b=hVZj4fJZs+/olAX25QzyosT6JLIdXjEM4wPnux8nSoBIe3rdC0k3eTMZi93dQMZ0xZ
-         aIzJoQtJMNU5rTuUi4nX8+ZO7Cd3KKnmqyo7d4U77QhrcH3zuO4RqSCSTzZOOvVTtEAH
-         yiYZDCinA9gFzlLHaaB4kuN6INKV3qEBEMp8W3CmalIhuwfFsQ5jSszErnWpw75jADf+
-         PATXWP/tAb+HldRl2XhIh563uBTKcqDW80doi6YF/6BJ8EBeSSPiv+X/bO2MffhtXp+f
-         8ob8ngDz/g1ZQKWr9gMm/PSO7ijMmurslETb0M1rpae71rnlPhcckwAl9FT0lHGty77O
-         Ycjg==
-X-Forwarded-Encrypted: i=1; AL+hErEp9NKSbujFy4Qz1XO/grXbjxvf6uzdjNy/M9CEsUBjWn8wqpOFXqvft1+WQV/ThFG3oP8W01+SzvOE@lists.linux.dev
-X-Gm-Message-State: APuU4Z9MB3ITo+72LrHH6yMKc0Pj0yaue+gKM8W/ET6oajiIDFHXySEI
-	M/ZSN3XnYeudDP/4WN3Br+OBuM8t+tysFqfFPecAl72Z+mUHJ7mCFIfk
-X-Gm-Gg: AYBFou0bmSHCk40OMYVkSOCtbt+d5MUAsDpR3d3247FDzM76YfeVg/ICuBRHqoTavSy
-	giibN0V945IEnvBsvZOqjfvgYwuat2VpTM8dYbp3NvRMb6R/BiWP7WLE2S+pc+7bHFqlBmr+D0o
-	GYy2u0FAh+5gdeKVySZRpdHfyWiBF3WHupyOvE5htnfsmtOc14WDO40RhkUCB3PtjPj0wN3MnAS
-	mBGY2XjeQ1TzB6JvPznjCc/ITRGWiiNWhfJSIs2n63L0749UAENV2UcbZV9rNgH103mOvkYxHbP
-	C5eyP7jZe9+LNcw2CzcsOnnxvHwLsNuwjdilc5peemKvLQ0gFqRmbkGYjoUW9dRXtlNzh0r6RXF
-	zkMDIoMxcbgM0k/pjTkBP4HsnZ4Tmf4BgeNw9Ngsw+gUXru1bKo56gyUtSH+7q7BVYZvABaynJh
-	RoY2ps95k4nV7Ze8unLCJE7bHGJJ5I6TgVCrg9h2QlrtxbnnFRG+ouQJ2VpctUQckNfdi6MprBM
-	WWygM6t1om7G4UExjHnsxPEt2yS/PdbKTlaXV7g0Pk1N+AH4PlfQKI6OR/letfn/9VCgsQTzFMj
-	Mi9lUqZVvr2/dvzZUHpsVd+oEuoSuFByTCBg9HQo5sHa
-X-Received: by 2002:a05:600c:37c3:b0:4a3:5991:718 with SMTP id 5b1f17b1804b1-4b963c87b5cmr58185485e9.16.1794213328165;
-        Mon, 09 Nov 2026 00:35:28 -0800 (PST)
+        bh=6gPNbhKnS4UiPYe9GkhcEdm+Vle3xI8UXMcC7kdMJ/8=;
+        b=mBKk8/bCffheC0lh2NlQiLwnCtFVTUNeTlZOh1ZCUgNPY4Le5k/4V45JIxSRzzocro
+         98XyK3Fhi6s0lb8GPxSWeBZGAD+E0QuVst+DgsBVpbFR+xQtxdQiB4sdLsFhjMgJon7U
+         PnC5OzXESxYQbUQ2hcCyQB+rx4EF1NrD8mIvcEiy625djv8e2o3JCbu0SMyyKCo7NJyN
+         f2e5fwA20vZcEOw6i3+XWI/HMk4xlOrKtSAOiFDdx02NdgD9e77S8fyS/GQyXBaleFVI
+         s0ET9YlGvUYnl7YdYcq48bkjjU4qI3NBLZqnfMdmb8+9RNClH2SQCdyUTL0dM8Z5wAP3
+         q0mw==
+X-Forwarded-Encrypted: i=1; AL+hErFlMINQCHB8gaLA9TY9mGLjNF0oCUCp2x7gXBxX1k/6i07ExusP43h2RA/hh/SULaCsxTZfxBnORGFD@lists.linux.dev
+X-Gm-Message-State: APuU4Z+s+Q15W8hv9Mg/9yvk6hGJbr5B6xMaoSx6kv4yLR5LuiHuvPYc
+	Fa2bpJUoVkTUIIPf8/ZrqDdm9Gan+jYTyuWeH3P4yjBv9SvE7lFrzAxs
+X-Gm-Gg: AYBFou1ClQKaEibQ46aDP+qM6v0rj2SwbpuNkLzqtDaO8jGDVRlUZmDqaFO17yIRozQ
+	LbruThlvObXtQwNeaFEFIG0ZNmOCJWeBfPsbJ90/6jjLCXjz7foxZ91ULnIER2CsQ0WzkEwSRwc
+	YSAS5/704Kom8UmrWzb5a65OXK0nVhpc04Npn8QcSnK9Wf4MCKDV2F4pTmsZxgrf5bpgSjUz5JS
+	QL/eE4LA5HNC94rgMWT2rqD55DyGgItmPXKtwviR8Cup/V6Nc54XsRRdOh33EuKF6njE4mqkyIC
+	Mo0O4OUP1jiJ3fNu5vV61a2ZVOPpkEWeyqjZE9i4x1sxbfNIWs6ii20IpIPBwhHkIBGcsKFNRG1
+	wUbKko6MULwFBw329XlDAHMlpjJN60ICujf/bQz1teHiCc6slc4d5MNuu3tCkc8aljOfp7mYL06
+	yIReNLJ8+HYvho7K0ubPBowB2/okjHR/0zaW7l2o6NILOEs+UGO2tP7ExIDXIToEuAIrxDAdaCq
+	cZ1Ip1S7XeRw+NEy7hgvC3rD5dAPmKCoN3RvlV6U4xl32jHA0nL9BHGI0u+QEkslXkf0PnL/iHf
+	ohUWOcxc2ChVAglXYvI5bKM=
+X-Received: by 2002:a05:600c:4f86:b0:4a1:fa21:fd90 with SMTP id 5b1f17b1804b1-4b960d9b17dmr61969495e9.9.1794214666809;
+        Mon, 09 Nov 2026 00:57:46 -0800 (PST)
 Received: from [192.168.1.22] ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b90ee1ddc7sm170118285e9.4.2026.11.09.00.35.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b79501502asm149200295e9.2.2026.11.09.00.57.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 00:35:27 -0800 (PST)
-Message-ID: <4bae9936-02ca-480f-b754-c7048702c667@gmail.com>
-Date: Mon, 9 Nov 2026 09:35:24 +0100
+        Mon, 09 Nov 2026 00:57:46 -0800 (PST)
+Message-ID: <a9fb2d3c-d518-49d3-9479-a25fa2cfc5b3@gmail.com>
+Date: Mon, 9 Nov 2026 09:57:43 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -93,8 +93,8 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] mm: limit pagecache folio refcount when mapping
- pages
+Subject: Re: [PATCH v2 2/5] mm: limit pagecache folio refcount when splicing
+ into pipes
 To: "David Hildenbrand (Arm)" <david@kernel.org>,
  Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
  Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
@@ -123,80 +123,95 @@ To: "David Hildenbrand (Arm)" <david@kernel.org>,
  <jhubbard@nvidia.com>, Josef Bacik <josef@toxicpanda.com>
 Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
  linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-arch@vger.kernel.org, iommu@lists.linux.dev,
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org
+ linux-arch@vger.kernel.org, iommu@lists.linux.dev, stable@vger.kernel.org
 References: <20261107-refcount_overflow_stable-v2-0-c38f6809b106@kernel.org>
- <20261107-refcount_overflow_stable-v2-1-c38f6809b106@kernel.org>
+ <20261107-refcount_overflow_stable-v2-2-c38f6809b106@kernel.org>
 Content-Language: en-US
 From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-In-Reply-To: <20261107-refcount_overflow_stable-v2-1-c38f6809b106@kernel.org>
+In-Reply-To: <20261107-refcount_overflow_stable-v2-2-c38f6809b106@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/7/26 11:23 PM, David Hildenbrand (Arm) wrote:
-> With large file folios, overflowing the folio mapcount and refcount
-> became possible. For anon folios it is currently not really an issue:
-> each large anon folio can only be mapped once into a process; on 4k
-> kernels it would be more processes than usually allowed on a system, and
-> on 16k or 64k kernels the processes alone would consume hundreds of GiB.
-> Something to be sorted out at some point, but it's not as urgent.
+> Similar to mapping pagecache folios into page tables, let's reject
+> additional references when splicing folios into a pipe if the refcount
+> is at its limit, similar to how we handle it during GUP.
 > 
-> Being able to overflow the refcount is not really big news, but it's about
-> time that we do something about it because some modern technology might
-> find ways to abuse it :)
+> This will prevent more cases of possible folio refcount overflows with
+> large pagecache folios.
 > 
-> One of the enablers for that was commit ddc58f27f9ee ("mm: drop tail page
-> refcounting"), however, file thp support was added later.
+> Let's keep it simple and check in the two callers of
+> splice_folio_into_pipe(). Return -EOVERFLOW if the limit prevents any
+> progress, so do_splice_read() can fall back to copy_splice_read() when
+> read_iter is available. This keeps sendfile() and other splice users
+> working when ordinary reads would still succeed.
 > 
-> File folios can be mapped multiple times into the same process, allowing
-> for processes to hold many references to the same folio.
+> Also fall back to copying in FUSE when taking another reference through
+> fuse_ref_folio() would exceed the limit.
 > 
-> As a short-term solution, let's introduce two folio refcount limits:
-> one for ordinary consumers and one for admins. Leave some headroom
-> before the refcount goes negative, which we really don't want (having
-> the mapcount go negative is also not expected).
+> Also check in try_get_page() to cover pipe-buffer duplication by tee()
+> and partial pipe-to-pipe splicing.
 > 
-> Start reporting SIGBUS if we run into limits. When restoring mappings
-> from migration entries, instead zap the pte/pmd entry. We allow for
-> slightly exceeding the limit to keep things simpler.
-> 
-> During fork(), prefer not copying page table entries over failing fork.
-> Export __folio_ref_count_over_limit() right away as that will be needed
-> from fuse code next. Use has_capability_noaudit(current, CAP_SYS_RESOURCE),
-> so filesystem credential overrides do not affect access to the admin
-> reserve, and to not generate auditing messages simply because we access
-> optional reserves.
-> 
-> This is far from ideal, but better than all easy alternatives we can
-> backport comfortably. For now it fixes the big problem: letting
-> the refcount (+mapcount) go negative and cause trouble.
-> 
-> This is only a temporary fix, we'll follow up with something better.
-> 
-> Check order 0 folios as well for consistency: each
-> folio_add_file_rmap*() and folio_dup_file_rmap*() needs a prior check.
-> 
-> Also, just document -EHWPOISON for copy_present_ptes() while at it.
-> 
-> Note: When zapping file migration entries, uffd-wp is preserved using PTE
-> markers, but uffd-rwp protection is lost because there is no corresponding
-> marker. try_to_unmap() already has the same problem when unmapping file
-> folios, so we'll happily ignore it.
-> 
-> Note2: For now we don't let migration or PTE table collapse exceed any
-> limits. Admins can always refault, and if we are already operating in
-> admin reserves, something is already off.
-> 
-> Reported-by: Chris Mason <mason@kernel.org>
 > Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
 > Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
 > Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  fs/fuse/dev.c      |  5 +++--
+>  fs/splice.c        |  8 +++++++-
+>  include/linux/mm.h |  9 ++++++---
+>  mm/filemap.c       | 11 ++++++++---
+>  mm/shmem.c         |  4 ++++
+>  5 files changed, 28 insertions(+), 9 deletions(-)
+> 
+> diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+> index 3641abb90d6bb..4f6b7b42bfd3e 100644
+> --- a/fs/fuse/dev.c
+> +++ b/fs/fuse/dev.c
+> @@ -1265,9 +1265,10 @@ int fuse_copy_folio(struct fuse_copy_state *cs, struct folio **foliop,
+>  		if (cs->write && cs->pipebufs && folio) {
+>  			/*
+>  			 * Can't control lifetime of pipe buffers, so always
+> -			 * copy user pages.
+> +			 * copy user pages. Also copy folios at their refcount limit.
+>  			 */
+> -			if (cs->req->args->user_pages) {
+> +			if (cs->req->args->user_pages ||
+> +			    unlikely(folio_ref_count_over_limit(folio))) {
+>  				err = fuse_copy_fill(cs);
+>  				if (err)
+>  					return err;
+> diff --git a/fs/splice.c b/fs/splice.c
+> index e6d43329ed3f0..df73a4e65118b 100644
+> --- a/fs/splice.c
+> +++ b/fs/splice.c
+> @@ -956,6 +956,7 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
+>  			      unsigned int flags)
+>  {
+>  	unsigned int p_space;
+> +	ssize_t ret;
+>  
+>  	if (unlikely(!(in->f_mode & FMODE_READ)))
+>  		return -EBADF;
+> @@ -977,7 +978,12 @@ static ssize_t do_splice_read(struct file *in, loff_t *ppos,
+>  	 */
+>  	if ((in->f_flags & O_DIRECT) || IS_DAX(in->f_mapping->host))
+>  		return copy_splice_read(in, ppos, pipe, len, flags);
+> -	return in->f_op->splice_read(in, ppos, pipe, len, flags);
+> +	ret = in->f_op->splice_read(in, ppos, pipe, len, flags);
+> +
+> +	/* Fallback to copying when hitting folio refcount limits. */
+> +	if (unlikely(ret == -EOVERFLOW) && in->f_op->read_iter)
+> +		ret = copy_splice_read(in, ppos, pipe, len, flags);
 
-LGTM.
+here it can't tell where the -EOVERFLOW came from, if another file
+returns -EOVERFLOW (i.e. tty_fops uses copy_splice_read, and
+n_hdlc_tty_read() returns -EOVERFLOW after dropping the frame), it now
+gets a second read. also, the first read already lost data. so the data
+read returns different data, the dropped frame is never reported and
+returns the next frame instead.
 
-Reviewed-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
 
 -- 
 cheers,
