@@ -1,105 +1,105 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794319109;
-	b=i6gjOMvyl/Gm9ezhHuZptti+sPLdBhvvhmcljyvz+kgxe1GJABe49FUgn9XiAHuRA8QV
-	 7FrYZcQ+Tr8cbaGRO4KeMFRDsxAJnJuEH8cjscpBlU2UoC8ZH7Eomsmoyo5OajywJhjkG
-	 LKR5yCoSmpZfY0nFHzuTHJ919Xo+wC9+FlXhORADdZsJyWaAz+bZNSLF5sEuEm3ixo3d6
-	 +p8CNnQGeBxgQVQkCLAMunGnofnbOHQXRnEq3/hNlyz0yveob5OhEEVOiT+bndFvUFWBg
-	 bfakX1674/oCkmql40jHIeDEpyMa8Ot+ABAtLMWnhNEmqpQRG2dzjo1UCa6JnjTQTHw==
+	t=1794322371;
+	b=oj3LKglf12Hty0CYt1rwXtCygofxuKaguTx5kGYA3XIn0oHTeuugQ9WfS2joli+P2KKA
+	 949dkSILE3JU8JuPyP98CdHZr8hUNIemowFKw2WWf93FI1Jc1oyFmh5jDKoHbY17wiCE5
+	 I1NoCiD2Dfm4OGE/QZA9049Er0OOqr0DgP6NKoP1WtkLspXKdKt5JwSwyWU0czURuNUZb
+	 PF2VzMP6D+AYEMdJRF5itldiH5s9SZMrSsTh6VuhygIxNSBxtyenIJCNcZ+s+030H+Qvf
+	 KkAeVx4dlBpkOY39WPX6KWkEZ5JeB8XUrUFqRlWmrcmPAXH49nMBiJEMDuZp362Z00g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794319109;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794322371;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=orVp3ApNNefs+rNNkVjfyAq6zPjWdcnnxM9afsnR6Aw=;
-	b=ZuZsYsPhlBi2emObRThVlm78S6KoKUaMTGkZhbbczcUaGlpBZlgyvWTdN1qjJ9pkwXnq
-	 3t+a0+BKG9T/HEM4WLbtmysyT0W71Z6MDZBiFoD+U11FerlGU6t4JI60eKq0gP73YYhzY
-	 LudjNxd0uqxXPxz58XyrRHc+SFvGG9RROB2x9rP6M2RzhieHtr99kfRGcQVasKz0yiItV
-	 LzOvNNxE+A9yYkUgnPCmArX4KuZGlTLWxf0Pc3eAJ6OOGcMvaRltDZ0LN715JXXeE+9qR
-	 KDdQ87Hy1I2YDXoqYDoW1gPnt4L+63se8zH4v9XvtPQzWTxX6Aw4cabSAzTD2yH1KPw==
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=6N4yimoRtRyrI1TQXjE1WplbXHKcJsyASw66CLWCFAw=;
+	b=AF3qLY5S/bdx81pHvr/PJXpYLm0fmJL6pid09+MIXV+kCTkSpbmBPOsQ+J524Hs5O+8F
+	 S1E/gNFuAlqXkjExEUppOOKM3RPdNNbImTgRyOY0oef8E53ou7dWVzcSHMMAAE5DMJlHp
+	 ul2OmJtuwnc1/SSsuRR7ug+NlIaXXMF7r23cD6Ct0ss5651zLt63pWEZZwb+Ji0TdNG5k
+	 mnGwWfN0MeLiVn0IXQj//X3lqZJ5yZjWG+ik8CBEVZKgbjs//v8bLs2/mMIJCswwQeIvg
+	 NpWaLUiZmosBRLO5k3FLI0wPopAKlrVb2Q0rjSgikLQxvpVtg2evqBRL7Nt/qNFkjOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AA1vinJI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ggpvu9w/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6613E606A321;
-	Tue, 10 Nov 2026 13:58:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E087E606A33F;
+	Tue, 10 Nov 2026 14:52:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AA1vinJI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A381F00901;
-	Tue, 10 Nov 2026 13:58:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ggpvu9w/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 281AC1F008A1;
+	Tue, 10 Nov 2026 14:52:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794319109;
-	bh=orVp3ApNNefs+rNNkVjfyAq6zPjWdcnnxM9afsnR6Aw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AA1vinJIhvA/xD1ksnQDVsNbJR0/awVLE6PgYIUd8vQ7vR/oalJ2OIH+fmabHu72b
-	 OiTMjEKVxBWJvoU3jNTOFlETxe+OGUA2+aTEQITv2VR7ewDjOxFKCaKAwL0ucuKKkC
-	 08PdPzlGPM5YWQbojOAccf/WXkzKqhuxJ5k0BZ++oEUpSOdS+C+SoMzHotjwrdn/4J
-	 0dwpLnzAWICuZ4z6FXnOxvEENn1NuBHn2FBX0g8WVqjVpS+KHphJFX5ohApspeSju4
-	 7cvgEemo9Sa2SjmzeA/Ed6RmmPgzIukLLLKbUJIFvoIltXDXxmMeeiVxxmg/C1AnTz
-	 ZpKglsvUfFQHg==
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfauth.ams.internal (Postfix) with ESMTP id ACD30198004A;
-	Tue, 10 Nov 2026 08:58:16 -0500 (EST)
+	s=k20260515; t=1794322370;
+	bh=6N4yimoRtRyrI1TQXjE1WplbXHKcJsyASw66CLWCFAw=;
+	h=From:To:Cc:Subject:Date;
+	b=ggpvu9w/K6Vk1WvmYnVI0Uq0KhIYEbmQ4aoArPEh+SzrR7qa/+hmDIsPvuAXPHUDw
+	 /uif667CqhjMBKrR05NhTNtuq5x9jQoSGHUGnPIr+UbTdVUZ2CYwAKDe7HwF9AsjFZ
+	 g+ABJ6YtaOaJSE7/Epg0NejhDm2SY8+fISKQn6uIyEud4FdNcPvNP9M3Xbtsn5wIec
+	 z9uqdI2K0sm6pFIvvxXlM2j0+GvoZFegpt7UzK3vMOq7i/AD+hFEMYzdg+5dAKlrOJ
+	 /3xCmBBbYUxi2vBAwaT5fbkmiZd3ygKqxr6nZdWKy8U3H3061+efX6INmUVacx9ht+
+	 ePU/4xDjNviwg==
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 7194E198003A;
+	Tue, 10 Nov 2026 09:52:45 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Tue, 10 Nov 2026 08:58:23 -0500
-X-ME-Sender: <xms:-CLzagBeJARgeMLf_AG1ZJxLWV7pXJvKtEujKAeHF-qU0ZgZahvXDQ>
-    <xme:-CLzasUmXYyQI_4Kzu2urBoZSwhgaeUxAuYaxeZeMTPEPzj40JN7OENU70Yv1QZ9E
-    8eVRBGU7vognCqG-HCvaxvKp1snVIVpumK5-aRpazwewn8rv2HvP7Qj>
-X-ME-Received: <xmr:-CLzanS21aqSr3PrUHjqcZmw9HJRdMvrLz4f2ydWzqiPf8k28qSVd-UB7KU>
-X-ME-Proxy-Cause: dmFkZTFIrSr6WV+Dg7Z+NBxEpMfqoBwddCoGa3uKS9U+WaQ7VCSq3x3/qhdKUI4sicrwe5
-    XsU3w+Onhv/HvxlEPQ6YXBYZGU/VhK6rUbihfync9gvp/4ShlTVe0p1/zW8qoCPx3SKgGD
-    GO7S+eklzUpLBJRzZgMK34ExeR4OFEJyH2Lkiu8SUiXGft0HwZTGZqyjjpAOwIry/UgW/2
-    X2vosI4M9da4dCEEWVXBJisH+CEcZ6UbkZ6D6YgwHV11U1sou1O4FLAgEGApThR6gYJeq+
-    Q0RFnb+VFAKg4YMYrUPBpHEjPv+s3c4+bUEHZ3TGaeNYtoabjfi6jx6GFodIz3c+75K3lE
-    qb1lJ9VNKgt7KG2ZKMcaRendvZQArzUkKJwKZCR4BLncfR3dL80bH4DLJ92/qSIR78Wwm4
-    81Eerg8K/GV30+Iwpf3SgqqkzY21VRAqvxZOa+Q3mLfpfV8am3whC4LiHxE9LZVUGhO/21
-    sXQvl5MzPGXZByiEkjADH9y2y/qD/16/IsNVqlfmn0uNJYXFdDONwmbGY4xKumRGqAsXLO
-    qC9OAoAqPTQsWg2oRkklIsJtBmWyJ8bGO418N9R9e4aDkTSGyh2lXYNmYckvFaVtdEhGgS
-    BlE93cQTmCq+9u0F0PrUzsjQmARFZPyvxRqzL3gWYEiJsFfCIEb1mBbqw3Mg
-X-ME-Proxy: <xmx:-CLzahvzYDYfEADC-hvobgDBBptNxmlVWngJHh_7jWtk03nRkGUF5w>
-    <xmx:-CLzahOUnXioD5TC7srSG1JGTFybjRskA9JMVZlQgHkqrwLx2yrJ-Q>
-    <xmx:-CLzasR3drxSIli0gLY1vjsUTqHZnEirlNgoen0lRMtjEsO-AxnXXw>
-    <xmx:-CLzama6nXk8Sqakzv-yXPCIdkodjMzoRRZNqQfvLzq2NMHrC3EPjw>
-    <xmx:-CLzaq0r-Kg2fOCTwo5Xh0Dzxhtg0iMd4lJqiwyRQcdljsiHnTAUtDnM>
+  by phl-compute-04.internal (MEProxy); Tue, 10 Nov 2026 09:52:47 -0500
+X-ME-Sender: <xms:vC_zamIrxbPFlMqmqdH87bJ8oVb5OH4j-5QKaD2odtGRa378W4aMGw>
+    <xme:vC_zau7iG6U6GWcxc4P6mny-A7p4SJoQZrrZvLs_mDvoGLiGsjZdk7uYTCRpA3s_1
+    1pDVm15b8ig9mTHOvvB25nR04H1HdRS1wor-wiM5JgX1_RSKuuh0TDA>
+X-ME-Received: <xmr:vC_zaqiyHoZbN0j8GQiEZphmP5JdoK7rL96QJ0IeJMI6ShVZYYp7Y01GchU>
+X-ME-Proxy-Cause: dmFkZTGWr3Bol1il49kOQEDKgAYHsyZ47Yj7fzpOlw8TiM0gPuvQ5jH8a26arj7fWVWo8c
+    uYSQI4gF+J/q2fS951R4MAEK6NSyHihCKPc8gs/Smt0oEHe2/ZNkgA1wFpTMe1NCyEh3Js
+    2sOQFQl2u0oaCfgohyCrCmhrDmMmEdzNJMC3F6GAOQKLThCibPUBlYSTA6wtUNMKpaxtaj
+    dGOb/Rq6NmezBvNu+QpQUTiCikoSwAPnJ0sPDBsm+TwW/3NvGIqVnTQzL+rnl9P96FOaud
+    9QVmodzVH6f2pAiYKwBUmVjS32P99W7X/ARoxC9GGJiRXhxnK3ET71I2aLak1E7ScHgDGB
+    Br2DNeeEux/MRQtpQWpWckTmepF25FWbH2zpcxILcX3v8zdpDpYA0mKU3vXWDmGveVY8nP
+    Jm3J83mZ9Lzll07xzIjyxfcPXPgd0/Nl+jFRI2+Ps8w1WUGCVSC+Ut/B8cfsovYNhH4FfM
+    k/Da/LpZE9KdncQ/IkxzRgPzAfcg2vDaR6C/9iYGSWEekPdaxHtpQSOVK/9sa+vHbA7FJH
+    s4s9wxDy2pCNAajnA0e1t+EjuXIj13ZxLczwVQd1kW2RXOeKrM2qibYR+HQPyAAkmPdBjS
+    nHeTjt+6RUR2pf7R3gO/B/J8SGsz4FV0ldaAoXhphfAKjj/wvDFOSNFZBPAA
+X-ME-Proxy: <xmx:vC_zas-vjmx1sNJQtDUEDCM8_lWziIyZYE-z3yUvQdabh6AxgB9Tag>
+    <xmx:vC_zasfIDq80AsPowkfGGXRBwH16uZwrkWAbUbUZRtxhVWFNuI1ChA>
+    <xmx:vC_zagltlF42Dg5urBmLLPqDKIpm3LcoDVOkzIAZZ9nRyQsHR1qlxQ>
+    <xmx:vC_zamyEB-uOy-v3wawnd3EFx3P_SgwV_COkCOJlzzDK6HB-7NVFeg>
+    <xmx:vS_zalEVfRoL663tcZdP2A-__TD09DaIKUUbjs8zEKw0ZUSkCtuNvFAc>
 Feedback-ID: i10464835:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 10 Nov 2026 08:58:14 -0500 (EST)
-Date: Tue, 10 Nov 2026 13:58:13 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
-Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
- into a fuse file
-Message-ID: <avMi1E8a7uepqMW9@thinkstation>
-References: <20261104130118.2507513-1-kas@kernel.org>
- <20261104130118.2507513-4-kas@kernel.org>
- <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
- <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
- <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
- <befbf3e1-d25d-42fc-86df-e4b695b017a2@kernel.org>
+ 10 Nov 2026 09:52:44 -0500 (EST)
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+To: Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amit Shah <amit@kernel.org>
+Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	virtualization@lists.linux.dev,
+	netdev@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: [PATCH 0/4] splice: remove pipe buffer stealing
+Date: Tue, 10 Nov 2026 14:52:35 +0000
+Message-ID: <20261110145241.536019-1-kas@kernel.org>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -109,44 +109,75 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <befbf3e1-d25d-42fc-86df-e4b695b017a2@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 09, 2026 at 06:48:39PM +0100, David Hildenbrand (Arm) wrote:
-> On 11/9/26 17:35, Linus Torvalds wrote:
-> > On Mon, 9 Nov 2026 at 08:28, Linus Torvalds
-> > <torvalds@linux-foundation.org> wrote:
-> >>
-> >> On Mon, 9 Nov 2026 at 06:46, David Hildenbrand (Arm) <david@kernel.org> wrote:
-> >>>
-> >>> Could we get rid of fuse_try_move_folio() entirely?
-> >>
-> >> Please. That would be great.
-> > 
-> > .. and in a similar vein, we should get rid of splice doing the same entirely.
-> > 
-> > Kirly's patch to just remove page_cache_pipe_buf_try_steal() entirely
-> > (ok, it was originally mine, but Kiryl took ownership of that series:
-> > "Tag, you're it") is worth doing, but I think worth doubling down on.
-> > I think we sh ould just get rid of 'try_steal' entirely. I don't think
-> > anybody really uses it. I think it exists in fuse and in the virtio
-> > console, and neither is worth it.
-> > 
-> > Removing pipe_buf_try_steal() would basically remove all of
-> > fuse_try_move_folio().
-> > 
-> > Conversely, removing fuse_try_move_folio() would make
-> > pipe_buf_try_steal() even less useful than it is now.
-> > 
-> > Just remove them both. Good riddance.
-> 
-> Yes, that would be very nice.
+->try_steal() lets the consumer of a pipe buffer take its page instead
+of copying the data.  Two consumers use it:
 
-Agreed.  I will post a separate series that removes ->try_steal and its
-users (fuse_try_move_folio(), virtio_console's pipe_to_sg()), with
-SPLICE_F_MOVE, SPLICE_F_GIFT and FUSE_SPLICE_MOVE left as no-ops, and
-drop patches 2-3 from this series on top of it.
+  - fuse, when a server splices a read reply into /dev/fuse with
+    SPLICE_F_MOVE: the page goes into the fuse file's page cache;
+  - virtio_console, which passes the page to the host.
 
+The page can come from the page cache of another file, from a write()
+into the pipe, or from vmsplice(SPLICE_F_GIFT).  Stealing it takes page
+cache folios out of their files, and turns pages into page cache folios
+and back.  That gets in the way of reading the page cache without folio
+references [1] and of telling folios apart with a PG_folio flag.  It
+works only on pages that nothing else holds, for fuse only on clean,
+unmapped, order-0 ones, and it has needed fixes again and again:
+
+  32f98877c57b ("fuse: don't check refcount after stealing page")
+  b89ecd60d38e ("fuse: ignore PG_workingset after stealing")
+  712a951025c0 ("fuse: fix page stealing")
+  59ba47b6be9c ("fuse: Check for large folio with SPLICE_F_MOVE")
+  15c20483d915 ("fuse: validate folio state before pipe_buf_try_steal() in fuse_try_move_folio()")
+
+Linus and David suggested removing it [2].  Both consumers already copy
+when a steal fails; with this series they always do.  vmsplice() and
+splice() still accept SPLICE_F_GIFT and SPLICE_F_MOVE, and fuse still
+advertises FUSE_SPLICE_MOVE, so that servers which ask for it mount as
+before.
+
+Miklos, Amit: do you know of users of the fuse move, or of virtio_console
+splice, that depend on the copy being avoided?
+
+Without ->try_steal(), nosteal_pipe_buf_ops is the same as
+default_pipe_buf_ops, and the last patch keeps only the latter.
+
+Tested on x86_64 with a FUSE server that answers reads by splicing the
+page cache pages of a backing file into /dev/fuse with SPLICE_F_MOVE.  On
+v7.4-rc1 how much moves depends on folio sizes: with order-0 folios on
+both sides, one read of a 16M fuse file took 3968 of the backing file's
+4096 pages out of its page cache.  With the series nothing moves, and the
+data read through fuse is the same, also when the server reads its
+requests with splice().  A virtio-serial port fed by splice() from a pipe
+and from a file, and vmsplice(SPLICE_F_GIFT), SPLICE_F_MOVE, tee() and
+AF_UNIX socket splice checks also give the same data before and after.
+
+[1] https://lore.kernel.org/all/20261104130118.2507513-1-kas@kernel.org/
+[2] https://lore.kernel.org/all/CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com/
+
+Kiryl Shutsemau (Meta) (4):
+  virtio_console: copy pipe buffers in splice_write()
+  fuse: don't move pipe buffers into the page cache
+  splice: remove pipe buffer stealing
+  splice: replace nosteal_pipe_buf_ops with default_pipe_buf_ops
+
+ drivers/char/virtio_console.c |  39 ++++-----
+ fs/fuse/args.h                |   1 -
+ fs/fuse/dev.c                 | 146 +---------------------------------
+ fs/fuse/file.c                |   1 -
+ fs/fuse/fuse_dev_i.h          |   1 -
+ fs/pipe.c                     |  43 ----------
+ fs/splice.c                   | 104 ++----------------------
+ include/linux/pipe_fs_i.h     |  38 ---------
+ kernel/watch_queue.c          |   4 -
+ mm/shmem.c                    |   7 --
+ net/core/skbuff.c             |   2 +-
+ 11 files changed, 26 insertions(+), 360 deletions(-)
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.54.0
+
