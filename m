@@ -1,49 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.13.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794343160;
-	b=U0hgfeWYNMPYT0qqmQtHyYZB9KO4F8/ZHsGsk8jRox4ZZjTcGZRksak+fcoDLkdfBgb3
-	 Drj5AFVdJCDxjgHxJwoV/YCBxeLpscB14hqE75N9Nz6leqHjOx8tPN04kcc+dwxXDikVv
-	 ZRstP2fB3Kj2tuxRMmMzqzLiRT8qxhjOkfJg8p5S5ODbENX54ItXUd+FX9lZWakHaYY5V
-	 4CgcaDYdCs4uTWagoyZzsy8D1oUr6zEkqde2Ob+3rEg8bJkF/X6kBxaVeKYlCnkOc9AC6
-	 oh1xkIfOpVC0JfxUfk6kLRkpAF60R7x9he2sTKRH4n2NHstrOVBfbBbCUrsadD1qlKQ==
+	t=1794343473;
+	b=ctXWuOrkqlYzdvgOgRq70tKyBaZmYnvVdgDKMtR5rBK/kbQDRkmaVGM1KnkR8JD0rCsN
+	 A0rzgZx2KhLaO+srBW3HKeJhk+ovhync3btFEushO7wzgHT1VXc+FsV29xYCVTVI16lXA
+	 0WfSLT42dAtIHV9hgKHqi6VE5Z9qhPHC70gXUJ1khaOQ/bVIlXzdie+CJtKrMxo8lzjvp
+	 wpbZHSRdW1D6o0FbFR+Jrkcf0qYukfGpL2M67weNX6yBbTmOvtW5BxPlwyCkZfUe4eixU
+	 jeXOhO26VN9IpE9gA0rbX6xnDRNXOvXZLSsGA8yk0YgkwAiRIcCbqsEcFyAH9wZnmYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794343160;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=E4m8FHiFLO/x9oCUsb/0QhI25EqM9VOH8L9QKYaqiGI=;
-	b=kYIbHUwe+QdmuqCeEH068UZj+SrQd2Zz2uZforAbc7Gm33xo7oZB23utehtmr68gBsum
-	 lFWlQ/EXzyloVmXtX6RrBjTIvvIC0fu19g553YM8DDPUDadITcQgKCrjET1abn3Rx6N0+
-	 thbjh6jb9a/l6rOsLWXj6KDNOXqZDAEo2FXEtU2hFaBw+9F7UnfPtrA17g+yb5M0pLUA+
-	 0neLeXMisBCeEdapyGsXxn3kXcD3PxUOPHZ3YvTN/7NHCKdF+G2kzpXQ+gXeoDv8jfJUy
-	 UxeBgFEf7qW8lwmVfWpOG7HyXaC4mWKJS6KwYPHFybr/m2qLFFUbwO4VjmM0BPnMFWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794343473;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=Yr7AmTjhtaDuAyMokVe6PKeMqP8Y5YJ4ICeD0g2OcRo=;
+	b=SbBhSusfzXHtkr8Bl7IXGd+Vz4tta473i0yKlH1VL9R2FT2kCOAjVahEEpKSDsYMOLGr
+	 Fp+LGdUf7tOmrskLc77qup2mfkbcpiYwn24/OJZDgkPP0kN+BOAg4vnFDqCxmm69xoh9b
+	 tWVgWFkdRiuUu6TlZI5X0pJiid3OEzPWVmkYdeV+BAf7wMKRp4SfuLUyLhErNYMr68jhH
+	 2CFcOn5vfxs8Fzn19E9VDv1b7XqUIFH3Ew5plhUiMvk+MsNR1PukRSkKwh+XKKGbXIpb6
+	 E4N7ziEoaNW/KbwwPpNm/1jDC9v9r/l/MOMMao098ij/4RfQX+HiB/uzNiGs/iQH4Fg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XueGupk+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=dyLy07sf;
+	arc=none smtp.remote-ip=52.13.214.179
+Received: from pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.13.214.179])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772C2606A334;
-	Tue, 10 Nov 2026 20:39:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C0F606A325
+	for <fuse-devel@lists.linux.dev>; Tue, 10 Nov 2026 20:44:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36C0F606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XueGupk+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5717A1F008A3;
-	Tue, 10 Nov 2026 20:39:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794343160;
-	bh=E4m8FHiFLO/x9oCUsb/0QhI25EqM9VOH8L9QKYaqiGI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=XueGupk+w46vm31HshZ994aUeALrLRk8y8MBQ8Q9oq+/3qNVtObmjbbCMHw8J3+NE
-	 IvI7thyLKfeStaGvlSjWctdHhb4fdnxEQFPWM+b1LjsKP/9jgcEmVRJTvLLcEd0D7E
-	 XjrgMAN5nTFuaubozZWvYrPfomZG7p6gMlcYc3HjkmYCJdL6A9Ig6vhirsbJ0VWgVn
-	 bIoega0W4nIGhuK0FO4auZzSFv67DeTB3fxajcVatfrzqn+qSPNdJdElB/SYW+vHfq
-	 tBia6nwWwoY4N+86U3Qa4WTPqCXyC9f13xibpGmZRpWE0wBL3gt6w4nVVv5ZZCujvl
-	 kgdbgY75ITQPg==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Date: Tue, 10 Nov 2026 21:35:49 +0100
-Subject: [PATCH v3 9/9] RFC: net: limit folio refcount when splicing from
- sockets
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=dyLy07sf
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794343473; x=1825879473;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Yr7AmTjhtaDuAyMokVe6PKeMqP8Y5YJ4ICeD0g2OcRo=;
+  b=dyLy07sf7PIvCOKkuCcVc/okM/Z+jYLpfceJmIOmg/xUCSc6V70HnYoc
+   GDBVaRgmU/tsK8r8I2/xu/HRvf7CWomdmE1jCUABQEow2kcbJ4o+H+9mE
+   aNL45LsNz5dF9usYcHiB9CUAKY6NGaMDsUYl3mK02prYPv9TPggjuwXKE
+   8dQx4AYx1MW3w3P4cpQVh20nouwQuBoKYneVDKD9YCFbYH0mKbPGlcAKN
+   iWKtmgT4KpZ4Zr/LV2rTnQtXq39+pcA1ykUSGqqiLD9YHSd6taJJ7rAtk
+   OnTgAdXNFa2MS2sHvWfI62Y0Yjsoc/cSS41hu0I9bZPdPWjhanmQzuDL6
+   Q==;
+X-CSE-ConnectionGUID: ZSFckXSRQNeisxSB3+LUNg==
+X-CSE-MsgGUID: RWOS5BvES3KK3asnGgApjQ==
+X-IronPort-AV: E=Sophos;i="6.27,206,1787011200"; 
+   d="scan'208";a="33630797"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-005.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 20:44:32 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:29963]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.10.61:2525] with esmtp (Farcaster)
+ id b05dbcf9-5e5e-4b52-b2d8-099b6a4f9779; Tue, 10 Nov 2026 20:44:32 +0000 (UTC)
+X-Farcaster-Flow-ID: b05dbcf9-5e5e-4b52-b2d8-099b6a4f9779
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Tue, 10 Nov 2026 20:44:32 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Tue, 10 Nov 2026 20:44:31 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: <fuse-devel@lists.linux.dev>, <linux-kselftest@vger.kernel.org>, "Shuah
+ Khan" <shuah@kernel.org>, Bernd Schubert <bernd@bsbernd.com>, Jim Harris
+	<jiharris@nvidia.com>, Horst Birthelmer <horst@birthelmer.de>, Luis Henriques
+	<luis@igalia.com>, NeilBrown <neil@brown.name>
+Subject: [PATCH v8 0/2] fuse: atomic open
+Date: Tue, 10 Nov 2026 20:44:19 +0000
+Message-ID: <20261110204421.1251726-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -53,259 +84,103 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-refcount_overflow_stable-v3-9-318625d63a98@kernel.org>
-References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
-In-Reply-To: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
-To: Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
- Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Song Liu <songliubraving@fb.com>, 
- Rik van Riel <riel@surriel.com>, Miklos Szeredi <miklos@szeredi.hu>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Hugh Dickins <hughd@google.com>, 
- Will Deacon <will@kernel.org>, "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
- Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Steve Sistare <steven.sistare@oracle.com>, 
- John Hubbard <jhubbard@nvidia.com>, 
- "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
- Josef Bacik <josef@toxicpanda.com>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- fuse-devel@lists.linux.dev, linux-arch@vger.kernel.org, 
- iommu@lists.linux.dev, netdev@vger.kernel.org, stable@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7544; i=david@kernel.org;
- h=from:subject:message-id; bh=7U/DzXjI5miBDV0MKGmDg4W99Jxg9rPtkaZjscX+PzU=;
- b=kA0DAAgWwCT9yb1uzcsByyZiAGrzgFiiqTYoJ7KhL9HQt6QX1ehBy8uc7NZ/aOoBOxJXqkITc
- oh1BAAWCAAdFiEE1q5sZVOshUF2WjFGwCT9yb1uzcsFAmrzgFgACgkQwCT9yb1uzcuBYQEApbjm
- 98Lr+UljqcvxLAuMTM//qYqizwl8F+GZG8XeTMcBALNkfASxO4rGDKK5xo0XZjKq/lh46csayNB
- 1VebjCgYN
-X-Developer-Key: i=david@kernel.org; a=openpgp;
- fpr=1BD9CAAD735C4C3A460DFCCA4DDE10F700FF835A
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Various networking features support splicing data from sockets into
-pipes (TCP, AF_UNIX, KCM, kTLS), whereby spd_fill_page() takes an
-additional page reference for each fragment, while the skb keeps its own
-reference until it was fully consumed. This allows for exceeding folio
-refcount limits.
+Add FUSE_OPEN_ATOMIC. FUSE_OPEN_ATOMIC is FUSE_LOOKUP plus FUSE_OPEN or
+FUSE_CREATE in one request. With FUSE_OPEN_ATOMIC, the kernel opens a
+name that is not in the dcache with one request to the server. This
+greatly improves performance for file systems where the bottleneck is
+calls between the kernel and the server. Servers that don't support
+FUSE_OPEN_ATOMIC are handled gracefully.
 
-This is not specific to large pagecache folios, but with them it is a
-lot easier to reach the refcount limit, as page table mappings can cheaply
-create many references.
+The kernel sends FUSE_OPEN_ATOMIC from ->atomic_open(). For a name with
+a valid positive dentry, the kernel sends FUSE_OPEN. FUSE_OPEN_ATOMIC
+for that would need a VFS change.
 
-Let's use try_get_page() in spd_fill_page() and stop splicing with
--EFAULT if that fails. To propagate the error, let spd_fill_page(),
-__splice_segment() and __skb_splice_bits() return an int instead of a
-bool. If we could not splice anything, return the error from
-skb_splice_bits(): returning 0 would make the callers (TCP, AF_UNIX, KCM,
-kTLS) report EOF, although data is still queued. The callers already
-handle errors.
+If the server opens an existing file, the VFS checks permissions after
+the reply, as on other filesystems with ->atomic_open(). If open() fails
+after a valid reply with fuse_open_out, the kernel sends FUSE_RELEASE.
+The kernel clears O_TRUNC in FUSE_OPEN_ATOMIC, and follows up with a
+SETATTR, so it will never truncate files before permission checks.
 
-Use -EFAULT, consistent with splice_folio_into_pipe().
+Earlier series also proposed one request for lookup and open in FUSE
+[1][2]. This series covers only ->atomic_open(), with a single new
+request and no VFS change.
 
-Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
-Fixes: 793917d997df ("mm/readahead: Add large folio readahead")
-Cc: stable@vger.kernel.org
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
----
- net/core/skbuff.c | 90 +++++++++++++++++++++++++++++++------------------------
- 1 file changed, 51 insertions(+), 39 deletions(-)
+Note on tmpfile: FUSE_TMPFILE shares fuse_create_open() and its
+d_instantiate() with FUSE_CREATE [3], and this series changes
+only ->atomic_open() (NeilBrown's question [4]).
 
-diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-index 5e3f910eeea0b..a5965f8fa1b00 100644
---- a/net/core/skbuff.c
-+++ b/net/core/skbuff.c
-@@ -3150,11 +3150,13 @@ static bool spd_can_coalesce(const struct splice_pipe_desc *spd,
- }
- 
- /*
-- * Fill page/offset/length into spd, if it can hold more pages.
-+ * Fill page/offset/length into spd, if it can hold more pages and we can
-+ * take a page reference. Returns non-zero to stop, or a negative error
-+ * if we cannot take a page reference.
-  */
--static bool spd_fill_page(struct splice_pipe_desc *spd, struct page *page,
--			  unsigned int *len, unsigned int offset, bool linear,
--			  struct sock *sk)
-+static int spd_fill_page(struct splice_pipe_desc *spd, struct page *page,
-+			 unsigned int *len, unsigned int offset, bool linear,
-+			 struct sock *sk)
- {
- 	if (unlikely(spd->nr_pages == MAX_SKB_FRAGS))
- 		return true;
-@@ -3168,7 +3170,8 @@ static bool spd_fill_page(struct splice_pipe_desc *spd, struct page *page,
- 		spd->partial[spd->nr_pages - 1].len += *len;
- 		return false;
- 	}
--	get_page(page);
-+	if (!try_get_page(page))
-+		return -EFAULT;
- 	spd->pages[spd->nr_pages] = page;
- 	spd->partial[spd->nr_pages].len = *len;
- 	spd->partial[spd->nr_pages].offset = offset;
-@@ -3177,12 +3180,14 @@ static bool spd_fill_page(struct splice_pipe_desc *spd, struct page *page,
- 	return false;
- }
- 
--static bool __splice_segment(struct page *page, unsigned int poff,
--			     unsigned int plen, unsigned int *off,
--			     unsigned int *len,
--			     struct splice_pipe_desc *spd, bool linear,
--			     struct sock *sk)
-+static int __splice_segment(struct page *page, unsigned int poff,
-+			    unsigned int plen, unsigned int *off,
-+			    unsigned int *len,
-+			    struct splice_pipe_desc *spd, bool linear,
-+			    struct sock *sk)
- {
-+	int ret;
-+
- 	if (!*len)
- 		return true;
- 
-@@ -3200,8 +3205,9 @@ static bool __splice_segment(struct page *page, unsigned int poff,
- 	do {
- 		unsigned int flen = min(*len, plen);
- 
--		if (spd_fill_page(spd, page, &flen, poff, linear, sk))
--			return true;
-+		ret = spd_fill_page(spd, page, &flen, poff, linear, sk);
-+		if (ret)
-+			return ret;
- 		poff += flen;
- 		plen -= flen;
- 		*len -= flen;
-@@ -3213,28 +3219,30 @@ static bool __splice_segment(struct page *page, unsigned int poff,
- }
- 
- /*
-- * Map linear and fragment data from the skb to spd. It reports true if the
-- * pipe is full or if we already spliced the requested length.
-+ * Map linear and fragment data from the skb to spd. It returns non-zero to
-+ * stop: true if the pipe is full or if we already spliced the requested
-+ * length, or a negative error if we cannot take a page reference.
-  */
--static bool __skb_splice_bits(struct sk_buff *skb, struct pipe_inode_info *pipe,
--			      unsigned int *offset, unsigned int *len,
--			      struct splice_pipe_desc *spd, struct sock *sk)
-+static int __skb_splice_bits(struct sk_buff *skb, struct pipe_inode_info *pipe,
-+			     unsigned int *offset, unsigned int *len,
-+			     struct splice_pipe_desc *spd, struct sock *sk)
- {
- 	struct sk_buff *iter;
--	int seg;
-+	int seg, ret;
- 
- 	/* map the linear part :
- 	 * If skb->head_frag is set, this 'linear' part is backed by a
- 	 * fragment, and if the head is not shared with any clones then
- 	 * we can avoid a copy since we own the head portion of this page.
- 	 */
--	if (__splice_segment(virt_to_page(skb->data),
--			     (unsigned long) skb->data & (PAGE_SIZE - 1),
--			     skb_headlen(skb),
--			     offset, len, spd,
--			     skb_head_is_locked(skb),
--			     sk))
--		return true;
-+	ret = __splice_segment(virt_to_page(skb->data),
-+			       (unsigned long)skb->data & (PAGE_SIZE - 1),
-+			       skb_headlen(skb),
-+			       offset, len, spd,
-+			       skb_head_is_locked(skb),
-+			       sk);
-+	if (ret)
-+		return ret;
- 
- 	/*
- 	 * then map the fragments
-@@ -3248,10 +3256,11 @@ static bool __skb_splice_bits(struct sk_buff *skb, struct pipe_inode_info *pipe,
- 		if (WARN_ON_ONCE(!skb_frag_page(f)))
- 			return false;
- 
--		if (__splice_segment(skb_frag_page(f),
--				     skb_frag_off(f), skb_frag_size(f),
--				     offset, len, spd, false, sk))
--			return true;
-+		ret = __splice_segment(skb_frag_page(f),
-+				       skb_frag_off(f), skb_frag_size(f),
-+				       offset, len, spd, false, sk);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	skb_walk_frags(skb, iter) {
-@@ -3260,11 +3269,12 @@ static bool __skb_splice_bits(struct sk_buff *skb, struct pipe_inode_info *pipe,
- 			continue;
- 		}
- 		/* __skb_splice_bits() only fails if the output has no room
--		 * left, so no point in going over the frag_list for the error
--		 * case.
-+		 * left or on error, so no point in going over the frag_list
-+		 * for the error case.
- 		 */
--		if (__skb_splice_bits(iter, pipe, offset, len, spd, sk))
--			return true;
-+		ret = __skb_splice_bits(iter, pipe, offset, len, spd, sk);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	return false;
-@@ -3272,7 +3282,9 @@ static bool __skb_splice_bits(struct sk_buff *skb, struct pipe_inode_info *pipe,
- 
- /*
-  * Map data from the skb to a pipe. Should handle both the linear part,
-- * the fragments, and the frag list.
-+ * the fragments, and the frag list. Returns the number of bytes spliced,
-+ * or an error if we could not splice anything because we could not take
-+ * a page reference.
-  */
- int skb_splice_bits(struct sk_buff *skb, struct sock *sk, unsigned int offset,
- 		    struct pipe_inode_info *pipe, unsigned int tlen,
-@@ -3287,14 +3299,14 @@ int skb_splice_bits(struct sk_buff *skb, struct sock *sk, unsigned int offset,
- 		.ops = &nosteal_pipe_buf_ops,
- 		.spd_release = sock_spd_release,
- 	};
--	int ret = 0;
-+	int ret;
- 
--	__skb_splice_bits(skb, pipe, &offset, &tlen, &spd, sk);
-+	ret = __skb_splice_bits(skb, pipe, &offset, &tlen, &spd, sk);
- 
- 	if (spd.nr_pages)
--		ret = splice_to_pipe(pipe, &spd);
--
--	return ret;
-+		return splice_to_pipe(pipe, &spd);
-+	/* Returning 0 would make callers report EOF. */
-+	return ret < 0 ? ret : 0;
- }
- EXPORT_SYMBOL_GPL(skb_splice_bits);
- 
+This series applies on top of "fuse: fix use-after-free in
+fuse_create_open() error path" [5].
 
+I used Claude Code and Sashiko to help write and review the code.
+I reviewed and tested every change. Tested with a new selftest under
+UML and KVM.
+
+Changes in v8 (from the Sashiko review of v7 [8]):
+- Send FUSE_LOOKUP for open() with O_DIRECTORY. The server opens only
+  regular files, so FUSE_OPEN_ATOMIC saves no request for O_DIRECTORY.
+- Test open() with O_DIRECTORY.
+
+Changes in v7:
+- Reword the commit messages and comments after NeilBrown's review of
+  v6 [6]: the server can open an existing regular file or return only
+  fuse_entry_out, and it opens each file that it creates.
+- Test an existing regular file with a reply of only fuse_entry_out.
+- Rebase onto fuse for-next at 7.4-rc1.
+
+Changes in v6 (from the Sashiko review of v5 [7]):
+- Send FUSE_LOOKUP for O_EXCL without O_CREAT, so do_open() returns
+  -EEXIST for an existing name that the caller may not create.
+- With FUSE_ATOMIC_O_TRUNC, check O_TRUNC in file->f_flags. On a
+  read-only mount, the VFS clears O_TRUNC in the flags argument, and
+  file->f_flags contains O_TRUNC.
+- Before fuse_iget(), reject fuse_open_out for a file that is not a
+  regular file.
+- Test read-only mounts.
+
+Changes in v2-v5: see the earlier versions below.
+
+v7: https://lore.kernel.org/fuse-devel/20261110155219.2175318-1-jamz@amazon.com/
+v6: https://lore.kernel.org/fuse-devel/20261029130758.818617-1-jamz@amazon.com/
+v5: https://lore.kernel.org/fuse-devel/20261028200459.2922951-1-jamz@amazon.com/
+v4: https://lore.kernel.org/fuse-devel/20261026221639.628325-1-jamz@amazon.com/
+v3: https://lore.kernel.org/fuse-devel/20261026190747.2373775-1-jamz@amazon.com/
+v2: https://lore.kernel.org/fuse-devel/20261026151828.562870-1-jamz@amazon.com/
+v1: https://lore.kernel.org/fuse-devel/20261020141647.3271341-1-jamz@amazon.com/
+
+[1] Dharmendra Singh, "FUSE: Implement atomic lookup + open/create"
+    https://lore.kernel.org/all/20220517100744.26849-1-dharamhans87@gmail.com/
+[2] Bernd Schubert, "fuse: full atomic open and atomic-open-revalidate"
+    https://lore.kernel.org/all/20231023183035.11035-1-bschubert@ddn.com/
+[3] https://lore.kernel.org/all/20220922084442.2401223-11-mszeredi@redhat.com/
+[4] https://lore.kernel.org/fuse-devel/179264679002.1724252.4479504779598097455@noble.neil.brown.name/
+[5] https://lore.kernel.org/fuse-devel/20261026180649.1265825-1-jamz@amazon.com/
+[6] https://lore.kernel.org/fuse-devel/179332437497.269288.7305999595462479305@noble.neil.brown.name/
+[7] https://sashiko.dev/#/patchset/20261028200459.2922951-1-jamz@amazon.com
+[8] https://sashiko.dev/#/patchset/20261110155219.2175318-1-jamz@amazon.com
+
+Jimmy Zuber (2):
+  fuse: add FUSE_OPEN_ATOMIC
+  selftests/fuse: add test for FUSE_OPEN_ATOMIC
+
+ fs/fuse/dir.c                                 | 194 ++++++
+ fs/fuse/fuse_i.h                              |   6 +
+ fs/fuse/fuse_trace.h                          |   1 +
+ include/uapi/linux/fuse.h                     |  20 +-
+ .../selftests/filesystems/fuse/.gitignore     |   1 +
+ .../selftests/filesystems/fuse/Makefile       |   3 +-
+ .../filesystems/fuse/atomic_open_test.c       | 594 ++++++++++++++++++
+ 7 files changed, 817 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/filesystems/fuse/atomic_open_test.c
+
+
+base-commit: ab9787d7e66ac7e6e94fc975b37c5b56fff98ca9
+prerequisite-patch-id: 95a6559bc4490d7d82bc80ba961ac52e80429b34
 -- 
-2.56.0
+2.50.1
 
