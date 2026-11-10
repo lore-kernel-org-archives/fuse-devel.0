@@ -1,89 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=50.112.246.219
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794323278;
-	b=T5bDc4kAK77Ls9wifdgNnCDwUyMK6zfxVq831RIOHym+7h8QKzI1V2b8uyPUGaYBjp4E
-	 VwH1paj/uWmPjNOvRnyNWm32MXvQa/z1XDzhRI0ZZhdKwk5uFGSvR5VyO7zhbwLCF8yqp
-	 +K7qmVXYL3IQtpINrJx1El3+63P1yKHpYNiJ61VtG6YlNBLT922Q4AQfomiFSCjiXE1g+
-	 vqvl20S7S46kTPL38AG0XeT49UOBSKZjQvjgQ8C9/GEyjW4ZGM3H1E9UdZmfl2OeIVQ2l
-	 x2hSnfAqX6jj+98+K7d/+ZoAfZscB8HIp1yqsZOcwlUisAS/DYTjAWNT243FYTizNTQ==
+	t=1794325193;
+	b=sO9QXQOQtA81VSa4j0CXG55HfEkEq4zrtXe2l474WkHQOkt8FSaScTiDmJn7MIzW121/
+	 ltSADLfd82B6UMv1ndKThp24cxRB4KOcaPHZkt7+ZSjJpIZIiCCbm7Kjirns7V4UjfOkP
+	 k+TiNkXy6d99dp0APNzndq0Sm0A7hOuXf407VghlQgABHK5guN/SzLG63tMJ8/HTTmhr8
+	 OwnU6920n49l6MSts0FIUubZKcR7lvpH88vqZGOu5QAohJatKWSv5EW55Vge5LOTymfog
+	 vSVWgihoTFG8402CmAy+nF95LPxIGBLMYBYz2n1z/MYW7LO0afRox1rdfQ1YaD/xDDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794323278;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=JtM9UtzYhAWCxTCfoBKbcmHIR3U4Wq7tzdw7gboBY64=;
-	b=SVpjbhSIy1FKHy4lGTd+FL25IeDFwYmZnSgWzoN28wlUyLEEnahORaOuMAgdJpUydiLm
-	 tG8jS+iT5JPjVvgMBo2SMmVly+Du/jo0EmmoIyHADVCY6pjmYGwdDd9cTWXftwRL8EbUd
-	 O/KFT6GEOaXHmwR4VHpmWowNy1Wmfx4v0waiU9yiLLZZkWBtGIJgLOZ2il3CkaKc31U8O
-	 MXFNR+QTNcZl+UR6CgYDqOJKgkQbkOAIPQzOJE3lUGxJpFAW+Fvmm9QaYCVzBMwEMfG0j
-	 IvMioWHFgQoPX9G8SABntUmjYkn5G41pxKMb6YV6St2LXJyysn8kKzbOQLSLb8yEhzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794325193;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=PfgtpIZoIdAlp1HLQI/NSBmN1PwrPzNDFQFGGwCxfNo=;
+	b=0rnHTiP8FkcyY77wyKT6bwMbTSBQEgF43njhLZk51S/iG0PdrRNdKl4nOeKnTwNePika
+	 OATt7O8q8pvNt4LGuUwYDMiILrMN9PS82Wf/TtoVGX257zOrUweQw7ZT9wSAluGMd+zCt
+	 bqtKYiwqqXxYDQ6K6rIIVXTfEkZMc7qJJ8uUDbxyKxXZkp8iWYuzIeFeihesxe2wGfH9K
+	 FjUN56NPHZbqNDoNYxhx2Atam7DVTFyIUAwHmU5gCQljI92sfz7kWCk7aNyePJ4rlyz3s
+	 AEDSYIKBJ6Zc7oxZYL1ko7l0GkcLapD7UG/NHIPhNn1G1VmKavYItGgk7rI6Y27rDZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WY9WLqSe;
-	arc=none smtp.remote-ip=209.85.214.181
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=WGLQmesH;
+	arc=none smtp.remote-ip=50.112.246.219
+Received: from pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com [50.112.246.219])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9B560A261D
-	for <fuse-devel@lists.linux.dev>; Tue, 10 Nov 2026 15:07:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B9B560A261D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1493606A31C
+	for <fuse-devel@lists.linux.dev>; Tue, 10 Nov 2026 15:39:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1493606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WY9WLqSe
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ed2b4348fcso8360975ad.2
-        for <fuse-devel@lists.linux.dev>; Tue, 10 Nov 2026 07:07:58 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=WGLQmesH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794323277; x=1794928077; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JtM9UtzYhAWCxTCfoBKbcmHIR3U4Wq7tzdw7gboBY64=;
-        b=WY9WLqSex8zTA98AgsCgsvySnBnti3hsAcNXSCUIpk1n/rzXAG6GAfga+1NK/udSyr
-         SRI7l1rlipLhb5CeOOXpc51O5sUCOLc6scggxIDDDQxlMMulFmAggTt2iI5bmCpV5tLc
-         tBicqpnm6fO3bxU7QH56qQDFvqaJ+kouxYSkKpCUx+CS1dXZUsURXQqWDuISEKKB4QIv
-         myUAdiXOI9r5D6c+i7gIpsMSXWUpVEemJbNAfDlg7+hbhlTOIIj+bDq2oN7DGeDaQwWb
-         ryp22JkxxkpUNiwZ92Sp5yT/DqN93ABcFetLPDaVyN3X/LwmXxu60AId4gSK3V82dtU3
-         XDlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794323277; x=1794928077;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JtM9UtzYhAWCxTCfoBKbcmHIR3U4Wq7tzdw7gboBY64=;
-        b=nByPIXaFtorYGONW0ivukhM6dDEDvISSt3/q35mqX5Zf2QA9MUjW2BY9clppsizyHX
-         LwX90796nWQkfvfBAmwWFLV3oMxZJ+hn5T5TF4zbBw6JkXHM2RGDmUjha/BXzENaaBUs
-         63DxB/xCe4ZcE/+HsqCmMHTgE+Cg+Y3YyLrAXhJdBj9FK2BeyiAzI+lCTkCHtitjbGfB
-         iTnzDmfvMl3u8UT53YhwpBbR/+zTzIXQ1OKPwI70lyrpK4QsVTVSwYFT4yqLpnLy6r6d
-         iPcuHmr3CTNcrqcCHF1q9wp1WhoYsi7IKE4l88143471L60NwF0DaMTzH2045Qp2aQoX
-         3zJg==
-X-Forwarded-Encrypted: i=1; AL+hErHhNLH27t5kVM79HmMtSZqMFFsxQ8saptY8GGNDvYt+mdGu9LB1TrcQuuFCZGOqBoVVjhfO5iut/s0z@lists.linux.dev
-X-Gm-Message-State: APuU4Z/c78H25+rfTqTsHusRtreoqcNZkiDyxBs9LCrlJddglPk1uDRZ
-	Lee87N0wA/EfgtWu8skcXnEuigA0It+EnL7EwbVcgMDJtoUCsFewBgiw
-X-Gm-Gg: AYBFou0DM5P8UQ7CLN8MJbOi7xo2Oh5mZvtZkm08i7OoDvXzq3ITZc6Z+AXFJM0XF/h
-	SuRhNkBGjc7OK4TsvrbUBuiz+flFiqe7aFy8V+IAyRf0pwyfZl1X3jPa2S5lG0XVZJs/Sdp4CY6
-	u1W/rgXiL4K9FMP8ncEVRPmOdEkGy+mAEeie29Y9GBYic5CpHGC3mSmdtr8PkxSy+BiqaaFycuJ
-	rAqnb5dgh+IFOxX4JKcsLF2VJci/RoUHRTQaYnvEOFiTcTvgnVtPmjp95sgs8jYM/IjE5SSRG29
-	+ZpT6BHUV0Wx0lDWQ6gfwfprSWHv+BK62J1H+4L33JoooTPz1Hbv1scf6AkyPmC4unq325qxvDO
-	RhkPyi03IIZ1MqDd4o78v5vdYw2fr8kGGOJWZO5Mk5xI2hk9O5v409Nq7/3uFwQsvnPiWTqMHlL
-	aIKUvaeHrHMs0Lv3Wf9OEUt22vBKOG5O7sr9imNoOoDVswgqImwrYqg0M7czSrVGL6vWZOMsTfZ
-	hpDIHFf1om9e6uXBG8fM4UPQcmZuZMJdx+tvPUlzdTkf5RxEyMql6bVKcI1/NplM6gYS2iicvvR
-	1j9Vd7WIeVZzK1e7Oqld9dFp9XaqpQf+147NGDehy2cS4EwZpgJRKYkBN/I4jk1dN7qqCLbo60j
-	PgyLSYfZMm1E=
-X-Received: by 2002:a17:902:d481:b0:2ed:1ef3:9ec with SMTP id d9443c01a7336-2edb9172a2dmr26826345ad.14.1794323276968;
-        Tue, 10 Nov 2026 07:07:56 -0800 (PST)
-Received: from [192.168.2.6] ([27.75.101.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6d78dbcsm10397575ad.27.2026.11.10.07.07.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 07:07:56 -0800 (PST)
-Message-ID: <71f76e5e-ce24-4a71-863a-169ad262c510@gmail.com>
-Date: Tue, 10 Nov 2026 22:07:46 +0700
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794325192; x=1825861192;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=PfgtpIZoIdAlp1HLQI/NSBmN1PwrPzNDFQFGGwCxfNo=;
+  b=WGLQmesH7hWvEO36aj62AB5FnFK/GzlqmQx4YTJhVTmPMOWWuA5PKc5o
+   kuTZoJ7+oKC0tGijYsffsbpBgONTbUZkOo+C+btbBiun8y8BKtiiWPn7W
+   1ohZuVp+nFcSxYDjo4Zg04N0/sL/0k1YKeaylrp7jnUKf6OhHY/9gAWtc
+   SHy/O8AO+rocfZeZ3On4cyHRawRaKYWPCD69zl32WwB756jYFzpzmoth3
+   FmxdVl9NNrhVwOYEvmJlO0qRNviG2RIcBeOaHpmpvOVzCowWbFfbQBNdq
+   pduYyU5VFypuBEQppoi16rLFS2Az34ny5zHnNVd9sCubmRWCm5YnpYQdt
+   w==;
+X-CSE-ConnectionGUID: QQ7t0v39Q/+hxBL9/9+tVg==
+X-CSE-MsgGUID: ZcQ1j5oXSaKpM3AnqL1Lzg==
+X-IronPort-AV: E=Sophos;i="6.27,206,1787011200"; 
+   d="scan'208";a="33401723"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-015.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 15:39:52 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:27676]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.34.255:2525] with esmtp (Farcaster)
+ id b4ba0eff-45fb-458a-a6b0-dec04aa55a2b; Tue, 10 Nov 2026 15:39:52 +0000 (UTC)
+X-Farcaster-Flow-ID: b4ba0eff-45fb-458a-a6b0-dec04aa55a2b
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Tue, 10 Nov 2026 15:39:51 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Tue, 10 Nov 2026 15:39:51 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+CC: <fuse-devel@lists.linux.dev>
+Subject: Re: [PATCH] fuse: fix use-after-free in fuse_create_open() error path
+Date: Tue, 10 Nov 2026 15:39:38 +0000
+Message-ID: <20261110153938.3666368-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20261026180649.1265825-1-jamz@amazon.com>
+References: <20261026180649.1265825-1-jamz@amazon.com>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -93,66 +83,18 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 36/41] nvmet: refuse files on pseudo filesystems as
- namespace backing files
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>,
- Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org,
- linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
- apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-36-4c998976c6c7@kernel.org>
-Content-Language: en-US
-From: Bui Nguyen Nhu Quynh <kaylovefoss@gmail.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-36-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWA001.ant.amazon.com (10.13.139.88) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On 11/10/2026 4:14 PM, Christian Brauner wrote:
-> The file backend takes any path that isn't a block device. With
-> buffered_io=1 that includes files on procfs or sysfs which then get read
-> and written by a kernel worker on behalf of the host. Refuse files on
-> pseudo filesystems just like loop does.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
->  drivers/nvme/target/io-cmd-file.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/nvme/target/io-cmd-file.c b/drivers/nvme/target/io-cmd-file.c
-> index dfa8aa46188c..71c69bac5394 100644
-> --- a/drivers/nvme/target/io-cmd-file.c
-> +++ b/drivers/nvme/target/io-cmd-file.c
-> @@ -52,6 +52,11 @@ int nvmet_file_ns_enable(struct nvmet_ns *ns)
->  		goto err;
->  	}
->  
-> +	if (file_is_pseudo(ns->file)) {
-> +		ret = -EINVAL;
-> +		goto err;
-> +	}
-> +
->  	nvmet_file_ns_revalidate(ns);
->  
->  	/*
-> 
+Hi Miklos,
 
-I noticed patch 41/41 doesn't include a test for nvmet. Would it make
-sense to add one with buffered_io=1? The test would need a pseudo file
-that can be opened with O_RDWR and supports both read_iter and
-write_iter. Otherwise, it could pass without ever reaching the new
-file_is_pseudo() check.
+Gentle ping on this fix. The bug comes from commit 2fbe4586cff3 ("fuse:
+add support for opening dax device as backing"), which is in 7.4-rc1.
+The patch applies to fuse for-next at 7.4-rc1.
 
-Thanks.
+The FUSE_OPEN_ATOMIC series depends on this patch.
+
+Thanks,
+Jimmy
