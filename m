@@ -1,116 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794315802;
-	b=qPtDBFLQu1qnohRDz8dmi+DUjx358GFsXCia39T7QLsN3RJjQH875NNuaRKC98MZ/eD4
-	 tRSvo+Nlg37Foggk+Oo5uhxcUQmCgklPtxTr6H8YoMRBlj5UWkTQoZVTYzuOxHZc9fz4H
-	 i/qEhlHz+3sBt7sQEpvUxd3+YZgOWsjEK04qFR/XKtIroFIXgBcvwZ1Qgn1FJhuCkNNT6
-	 RcybX1wax4oKCT19TrM4I6LFwP8vSj1gmlDmvG/Vj6DQN3aQd4PHlzQsFC5gh8gOKmNfT
-	 EmG4tLdQ9T6Cthc4a/3gpNvA6SlhD8nvZtc8cLBM9N7Vk9v+V+rc/jD7WOaLD6Sa2xQ==
+	t=1794319109;
+	b=i6gjOMvyl/Gm9ezhHuZptti+sPLdBhvvhmcljyvz+kgxe1GJABe49FUgn9XiAHuRA8QV
+	 7FrYZcQ+Tr8cbaGRO4KeMFRDsxAJnJuEH8cjscpBlU2UoC8ZH7Eomsmoyo5OajywJhjkG
+	 LKR5yCoSmpZfY0nFHzuTHJ919Xo+wC9+FlXhORADdZsJyWaAz+bZNSLF5sEuEm3ixo3d6
+	 +p8CNnQGeBxgQVQkCLAMunGnofnbOHQXRnEq3/hNlyz0yveob5OhEEVOiT+bndFvUFWBg
+	 bfakX1674/oCkmql40jHIeDEpyMa8Ot+ABAtLMWnhNEmqpQRG2dzjo1UCa6JnjTQTHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794315802;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=l0P34w8QQvLO5YW5vCLMJ84QpfDMX9/Bu1FrRmyy2v8=;
-	b=Kc9lack4sqD9hrP3IafQXnjvgqUo0xHr1r8wfapCN9gxhccRgrC3CvX1H7M73eMt9X3g
-	 cFoONFo6Z54sl5MhrFjIzrz6ttv3hVsa79PArzeu1SlHAlYihltYyl7G492mp/xX5L3uR
-	 jougJIJsF1QxKr4gWqgvVEchRq5/vW1oN8WtyBuL/mRwLWKr0TGvkP9z4C0NGlHielmqj
-	 ASwrbGVFcMPQ39SZOYL+GK2SWzgmGRc4tsS/7ldl25fgV8GEpnPQ2MpdvfYfXqcMigEmt
-	 AsdryJ/ujYvuDTAyrAojbt4Xh8Npxw+TLlwakpaJJ0Xa3lb/aBM418lSfwcEdx6fcSg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794319109;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=orVp3ApNNefs+rNNkVjfyAq6zPjWdcnnxM9afsnR6Aw=;
+	b=ZuZsYsPhlBi2emObRThVlm78S6KoKUaMTGkZhbbczcUaGlpBZlgyvWTdN1qjJ9pkwXnq
+	 3t+a0+BKG9T/HEM4WLbtmysyT0W71Z6MDZBiFoD+U11FerlGU6t4JI60eKq0gP73YYhzY
+	 LudjNxd0uqxXPxz58XyrRHc+SFvGG9RROB2x9rP6M2RzhieHtr99kfRGcQVasKz0yiItV
+	 LzOvNNxE+A9yYkUgnPCmArX4KuZGlTLWxf0Pc3eAJ6OOGcMvaRltDZ0LN715JXXeE+9qR
+	 KDdQ87Hy1I2YDXoqYDoW1gPnt4L+63se8zH4v9XvtPQzWTxX6Aw4cabSAzTD2yH1KPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=nU4XxgAL;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Mnc4QrSZ;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=nU4XxgAL;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Mnc4QrSZ;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AA1vinJI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B6A606A76B;
-	Tue, 10 Nov 2026 13:03:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88B6A606A76B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6613E606A321;
+	Tue, 10 Nov 2026 13:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=nU4XxgAL;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Mnc4QrSZ;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=nU4XxgAL;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Mnc4QrSZ
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C0D9421F77;
-	Tue, 10 Nov 2026 13:03:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794315799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l0P34w8QQvLO5YW5vCLMJ84QpfDMX9/Bu1FrRmyy2v8=;
-	b=nU4XxgALhU6j4K3Mxr5ngQH1kaedGJkQyEqwlGUplEx9hMxQ3fo4McMmOwr1ERv3Mkpxw3
-	gLCfI+EWYKzq/l9mRzhXb6GJ0h3nlI+5tsg9MpjQ2PJDBC1XC/U5s6EqGl5dlEXIEKPAnz
-	BBcKQlac9Q1+gcOvfNs3dKHhhfnARxs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794315799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l0P34w8QQvLO5YW5vCLMJ84QpfDMX9/Bu1FrRmyy2v8=;
-	b=Mnc4QrSZrRmpafaJe4iOnLi1RuOTcqJe/GGSNdftVub9UNeD+cHjavH2Su/fUJ6PuunSLs
-	aVyAWefkY3MWbuCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1794315799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l0P34w8QQvLO5YW5vCLMJ84QpfDMX9/Bu1FrRmyy2v8=;
-	b=nU4XxgALhU6j4K3Mxr5ngQH1kaedGJkQyEqwlGUplEx9hMxQ3fo4McMmOwr1ERv3Mkpxw3
-	gLCfI+EWYKzq/l9mRzhXb6GJ0h3nlI+5tsg9MpjQ2PJDBC1XC/U5s6EqGl5dlEXIEKPAnz
-	BBcKQlac9Q1+gcOvfNs3dKHhhfnARxs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1794315799;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l0P34w8QQvLO5YW5vCLMJ84QpfDMX9/Bu1FrRmyy2v8=;
-	b=Mnc4QrSZrRmpafaJe4iOnLi1RuOTcqJe/GGSNdftVub9UNeD+cHjavH2Su/fUJ6PuunSLs
-	aVyAWefkY3MWbuCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 960C61339F;
-	Tue, 10 Nov 2026 13:03:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id e3rfGxcW82q6SgAAD6G6ig
-	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 13:03:19 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 35CB1224F7; Tue, 10 Nov 2026 14:03:15 +0100 (CET)
-Date: Tue, 10 Nov 2026 14:03:15 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
-	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
-	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
-	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 34/41] loop: refuse files on pseudo filesystems as
- backing files
-Message-ID: <xlql7gc5uyvehjvin4ls3okfnv32xxdj45bjvamf2vdkrakvjx@u4iwy4ydmphs>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-34-4c998976c6c7@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AA1vinJI
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75A381F00901;
+	Tue, 10 Nov 2026 13:58:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794319109;
+	bh=orVp3ApNNefs+rNNkVjfyAq6zPjWdcnnxM9afsnR6Aw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AA1vinJIhvA/xD1ksnQDVsNbJR0/awVLE6PgYIUd8vQ7vR/oalJ2OIH+fmabHu72b
+	 OiTMjEKVxBWJvoU3jNTOFlETxe+OGUA2+aTEQITv2VR7ewDjOxFKCaKAwL0ucuKKkC
+	 08PdPzlGPM5YWQbojOAccf/WXkzKqhuxJ5k0BZ++oEUpSOdS+C+SoMzHotjwrdn/4J
+	 0dwpLnzAWICuZ4z6FXnOxvEENn1NuBHn2FBX0g8WVqjVpS+KHphJFX5ohApspeSju4
+	 7cvgEemo9Sa2SjmzeA/Ed6RmmPgzIukLLLKbUJIFvoIltXDXxmMeeiVxxmg/C1AnTz
+	 ZpKglsvUfFQHg==
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfauth.ams.internal (Postfix) with ESMTP id ACD30198004A;
+	Tue, 10 Nov 2026 08:58:16 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Tue, 10 Nov 2026 08:58:23 -0500
+X-ME-Sender: <xms:-CLzagBeJARgeMLf_AG1ZJxLWV7pXJvKtEujKAeHF-qU0ZgZahvXDQ>
+    <xme:-CLzasUmXYyQI_4Kzu2urBoZSwhgaeUxAuYaxeZeMTPEPzj40JN7OENU70Yv1QZ9E
+    8eVRBGU7vognCqG-HCvaxvKp1snVIVpumK5-aRpazwewn8rv2HvP7Qj>
+X-ME-Received: <xmr:-CLzanS21aqSr3PrUHjqcZmw9HJRdMvrLz4f2ydWzqiPf8k28qSVd-UB7KU>
+X-ME-Proxy-Cause: dmFkZTFIrSr6WV+Dg7Z+NBxEpMfqoBwddCoGa3uKS9U+WaQ7VCSq3x3/qhdKUI4sicrwe5
+    XsU3w+Onhv/HvxlEPQ6YXBYZGU/VhK6rUbihfync9gvp/4ShlTVe0p1/zW8qoCPx3SKgGD
+    GO7S+eklzUpLBJRzZgMK34ExeR4OFEJyH2Lkiu8SUiXGft0HwZTGZqyjjpAOwIry/UgW/2
+    X2vosI4M9da4dCEEWVXBJisH+CEcZ6UbkZ6D6YgwHV11U1sou1O4FLAgEGApThR6gYJeq+
+    Q0RFnb+VFAKg4YMYrUPBpHEjPv+s3c4+bUEHZ3TGaeNYtoabjfi6jx6GFodIz3c+75K3lE
+    qb1lJ9VNKgt7KG2ZKMcaRendvZQArzUkKJwKZCR4BLncfR3dL80bH4DLJ92/qSIR78Wwm4
+    81Eerg8K/GV30+Iwpf3SgqqkzY21VRAqvxZOa+Q3mLfpfV8am3whC4LiHxE9LZVUGhO/21
+    sXQvl5MzPGXZByiEkjADH9y2y/qD/16/IsNVqlfmn0uNJYXFdDONwmbGY4xKumRGqAsXLO
+    qC9OAoAqPTQsWg2oRkklIsJtBmWyJ8bGO418N9R9e4aDkTSGyh2lXYNmYckvFaVtdEhGgS
+    BlE93cQTmCq+9u0F0PrUzsjQmARFZPyvxRqzL3gWYEiJsFfCIEb1mBbqw3Mg
+X-ME-Proxy: <xmx:-CLzahvzYDYfEADC-hvobgDBBptNxmlVWngJHh_7jWtk03nRkGUF5w>
+    <xmx:-CLzahOUnXioD5TC7srSG1JGTFybjRskA9JMVZlQgHkqrwLx2yrJ-Q>
+    <xmx:-CLzasR3drxSIli0gLY1vjsUTqHZnEirlNgoen0lRMtjEsO-AxnXXw>
+    <xmx:-CLzama6nXk8Sqakzv-yXPCIdkodjMzoRRZNqQfvLzq2NMHrC3EPjw>
+    <xmx:-CLzaq0r-Kg2fOCTwo5Xh0Dzxhtg0iMd4lJqiwyRQcdljsiHnTAUtDnM>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 10 Nov 2026 08:58:14 -0500 (EST)
+Date: Tue, 10 Nov 2026 13:58:13 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Matthew Wilcox <willy@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Hugh Dickins <hughd@google.com>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Harry Yoo <harry@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Oscar Salvador <osalvador@suse.de>, "Liam R. Howlett" <liam@infradead.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Brendan Jackman <brendan.jackman@linux.dev>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Pedro Falcato <pfalcato@suse.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Ilya Gladyshev <ilya.gladyshev@linux.dev>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, kernel-team@meta.com
+Subject: Re: [RFC PATCH v2 03/18] fuse: don't move a folio with PG_rcu_free
+ into a fuse file
+Message-ID: <avMi1E8a7uepqMW9@thinkstation>
+References: <20261104130118.2507513-1-kas@kernel.org>
+ <20261104130118.2507513-4-kas@kernel.org>
+ <f21433af-afc6-4a8f-8d2d-3a377cd3bd6e@kernel.org>
+ <CAHk-=whn=xc9J3qApHWRGTaBpwVRtGbvJ0LURGF=dqC9B3swUw@mail.gmail.com>
+ <CAHk-=whhp=Q8qR+wPoM9+mxYPQ_OXMOEoKmT7J0JZikFZusuqw@mail.gmail.com>
+ <befbf3e1-d25d-42fc-86df-e4b695b017a2@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -122,102 +111,42 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-work-loop-pseudo-v1-34-4c998976c6c7@kernel.org>
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-12.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,google.com,kernel.org,toxicpanda.com,lst.de,lists.infradead.org,zeniv.linux.org.uk,suse.cz,lists.linux.dev,kvack.org,lists.ubuntu.com,lists.xenproject.org,lists.ozlabs.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.80
+In-Reply-To: <befbf3e1-d25d-42fc-86df-e4b695b017a2@kernel.org>
 
-On Tue 10-11-26 10:14:50, Christian Brauner wrote:
-> Currently loop accepts any regular file that implements ->read_iter() as
-> a backing file and any that also implements ->write_iter() as a writable
-> one. That includes files on procfs, sysfs and other pseudo filesystems.
-> For example, /proc/kcore attaches read-only as a loop device the size of
-> the kernel's virtual address space, 64 PiB with 5-level paging. sysfs
-> attributes attach read-write as 4096 byte loop devices. Writing a block
-> to the loop device of /sys/kernel/mm/transparent_hugepage/enabled
-> changes the THP setting.
+On Mon, Nov 09, 2026 at 06:48:39PM +0100, David Hildenbrand (Arm) wrote:
+> On 11/9/26 17:35, Linus Torvalds wrote:
+> > On Mon, 9 Nov 2026 at 08:28, Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> >>
+> >> On Mon, 9 Nov 2026 at 06:46, David Hildenbrand (Arm) <david@kernel.org> wrote:
+> >>>
+> >>> Could we get rid of fuse_try_move_folio() entirely?
+> >>
+> >> Please. That would be great.
+> > 
+> > .. and in a similar vein, we should get rid of splice doing the same entirely.
+> > 
+> > Kirly's patch to just remove page_cache_pipe_buf_try_steal() entirely
+> > (ok, it was originally mine, but Kiryl took ownership of that series:
+> > "Tag, you're it") is worth doing, but I think worth doubling down on.
+> > I think we sh ould just get rid of 'try_steal' entirely. I don't think
+> > anybody really uses it. I think it exists in fuse and in the virtio
+> > console, and neither is worth it.
+> > 
+> > Removing pipe_buf_try_steal() would basically remove all of
+> > fuse_try_move_folio().
+> > 
+> > Conversely, removing fuse_try_move_folio() would make
+> > pipe_buf_try_steal() even less useful than it is now.
+> > 
+> > Just remove them both. Good riddance.
 > 
-> That's not just nonsensical, it can be abused. Loop calls ->read_iter()
-> and ->write_iter() of the backing file directly from its worker which
-> runs with kernel credentials. But pseudo files enforce part of their
-> access rules at read and write time against current. Dozens of sysfs
-> ->show() and ->store() methods call capable(). Behind a loop device all
-> of these checks are done against the loop worker instead of the task
-> that opened the file. And setting up a loop device requires no
-> capabilities, only access to the device nodes. So on v7.4-rc1:
-> 
-> - uid 0 without any capabilities can't write to /sys/kernel/reboot/mode
->   as mode_store() requires CAP_SYS_BOOT. Writing "warm" through a loop
->   device works.
-> 
-> - uid 0 without any capabilities can't read the files in
->   /sys/firmware/dmi/entries/*/ as dmi_sysfs_attr_show() requires
->   CAP_SYS_ADMIN. Reading them through a loop device works.
-> 
-> - An unprivileged container that was handed a loop device can't change
->   gro_flush_timeout of its own network devices as
->   gro_flush_timeout_store() requires CAP_NET_ADMIN in the initial user
->   namespace. Writing it through a loop device works.
-> 
-> The same goes for hard_offline_page, the md and sd attributes, rfkill
-> and others.
-> 
-> Refuse files on pseudo filesystems as loop backing files. Note that
-> file_is_pseudo() looks through overlayfs so stacking overlayfs on top of
-> sysfs doesn't get around this.
-> 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Yes, that would be very nice.
 
-Looks good. Feel free to add:
+Agreed.  I will post a separate series that removes ->try_steal and its
+users (fuse_try_move_folio(), virtio_console's pipe_to_sg()), with
+SPLICE_F_MOVE, SPLICE_F_GIFT and FUSE_SPLICE_MOVE left as no-ops, and
+drop patches 2-3 from this series on top of it.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  drivers/block/loop.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index c96e35c3ef42..1482580a1979 100644
-> --- a/drivers/block/loop.c
-> +++ b/drivers/block/loop.c
-> @@ -537,6 +537,9 @@ static int loop_check_backing_file(struct file *file)
->  	if ((file->f_mode & FMODE_WRITE) && !file->f_op->write_iter)
->  		return -EINVAL;
->  
-> +	if (file_is_pseudo(file))
-> +		return -EINVAL;
-> +
->  	return 0;
->  }
->  
-> 
-> -- 
-> 2.53.0
-> 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+  Kiryl Shutsemau / Kirill A. Shutemov
