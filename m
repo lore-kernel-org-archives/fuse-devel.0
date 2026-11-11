@@ -1,65 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794404573;
-	b=iKb8tVGtqOAzqng+SL93kjSt7ZXgrI4fZG8eZp7TS1Nuloo78/jInIEUqwrzuqXWiEdQ
-	 fwC+KUxbpUMG3DFQzFGMDI93XS2nHO1WcH95NbBqwcx97SwdIcAXRR4gqkNR8Dl9bxipP
-	 pYsVB/sDPrW5ZTWI05Rcj0weqTIoRE7Perm3xI8UzLhuX4QsZvQhBosO0ofSdU5oalAG6
-	 ZlVRJ3SiBpcGsTlFuyBHyqibv+xbjDCvERegq91t+p8aGTpgeib5gIVJNyo9ySQw0NXRm
-	 o5j+ZuIA7ZmJ1YNhIKcwOBpHfd1HT8kAseJSxiuzUqHqO7lXZBZgCyl5DSW7ueNtQPg==
+	t=1794405505;
+	b=IZ/ObkvzGqo2FLv8ahoA554+c+zK7EFH7rv5ZMnjhk2W/ZnBfgpwL26Ypn/YH2hSk+2i
+	 lfIAOVivMYZ61rvDRUDGvuQfFvdqvnk3XKTrJE1hdauvKUmInIhRBldR+vG/1TAIq39wr
+	 yfcmIIY06BNCC9+BmfaAZHCRkM6au4O3TMtXYa3wplyi+8gYfY7l0USSSeFwmcV0LQewG
+	 NXGwg7oMD1X6WWThXMivRZcyK/M1jV3i5NzRXf6jv1wmszzklMbxkPoKAa+3xDC/VmsZ6
+	 nsSV/VRjJG5wlxHqvBKkeqOVAZ4yZYd6lzSASjPlqfZH6hsq9D98LqF4FUnOffVyHgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794404573;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=r2uDapf2vLabhbDFIRRtIj4i5+V0KX58w12edhkpSZU=;
-	b=qePUMrYrdwdtOp6/IhFCq0d+UYDIjlXTXG9m7rj4Oapymmy3inzAgAYpmUD6uSJLFUA2
-	 HFy2VB7jun+hFTHynrR8meKo1pplZTxMAULEzNW+MXNzLwWR964VIP3PklsvXEDskmsRu
-	 W2RXu5RkiWqz1lx3jgHJdT8D24P4CH1U4T9XpkYvevBF2bbZBrhCdSN+z5DA4D/jAdBeo
-	 URp/nYhEUzgPxLSLQ0x2C3MEIp4ahsD2+LsT0jRKjV1lp+5VrcFx27MsGETEZJFptid6l
-	 Op9103l/w9g1fTSUp+P+RbwBr9nQj0K3Z99LPMHZtwWIx+tHNuAlr7N7e0gTkVRADFw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794405505;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Bq+DPKenrrA3UwT5KiiqalwoYc+RZBQDTV4Tm7GTzTU=;
+	b=0U4RWI8IysSArapf4WDDFnCSNd2D77/JPhrkg/GSi2x6csyr2HlwQy0FX3ihX6fB6uHM
+	 wDvvRslJDl/9fEfqISHk5H8x6COjP4mNOVjSXqChDl4fg3UnkrHGf4kb040j1GP3qyoBd
+	 4Xjh4hwSlWq68WERVYNmnGFGWn6e8ywAfx0O55EtSmm5DrdN/1ZbFl7bV39Cv514jWzJW
+	 Xglk+JHJIq5pidEvsrQ1NIRtVwVDMoP0JSimcuDoR/QhS1R7SLCmlHuM4y2gPM21+BRsa
+	 CgyN5YIcZ4Pmd6WJrVKnU0S3ywd8XT0bgyUENxARyhEeoOg7Err/V8o8CD8UDlycuWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N1FWFgdc;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=igalia.com;
+	spf=pass smtp.mailfrom=igalia.com;
+	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=VvHCNe9a;
+	arc=none smtp.remote-ip=213.97.179.56
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F06606A32E;
-	Wed, 11 Nov 2026 13:42:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BDC606A321;
+	Wed, 11 Nov 2026 13:58:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45BDC606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N1FWFgdc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48B351F00A06;
-	Wed, 11 Nov 2026 13:42:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794404573;
-	bh=r2uDapf2vLabhbDFIRRtIj4i5+V0KX58w12edhkpSZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=N1FWFgdc7n3FyJi4mWq7kE7aBBRtNzoz7OTcWnlRMydaapZ3nDIlCS4Okv1TVPC3m
-	 JL6rQ4hb45pb3iD/dM5aW7LzXLL/qyYUni1xL1rlyF6YBcPpru6XkKZzzFwowC9Y6y
-	 C7NiuCGH+vmHlWX+5tIej70Q1CIcqLl6FT43SjHcnbxrNC7mmiqAQmKBwWSoAD7GLd
-	 ArJzKTz6tCYzM+6Y3ek8ew3nEUuf+jxXUBKm3e9gdsw66SDyb8OUIR83eD2WnwijaO
-	 dPW/jiYjBeQgF5n7srNsN9thQlouIMfyRaahC/yQazXkj1+PCWlU+Bj+iM7D9axTAT
-	 G3hqLCcrRvQ3g==
-Date: Wed, 11 Nov 2026 14:42:44 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Cc: "Kiryl Shutsemau (Meta)" <kas@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>, Amit Shah <amit@kernel.org>, 
-	Jan Kara <jack@suse.cz>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Zi Yan <ziy@nvidia.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, virtualization@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
-Message-ID: <20261111-thunfisch-wirbt-waldrand-822275b2d3b1@brauner>
-References: <20261110145241.536019-1-kas@kernel.org>
- <20261110145241.536019-2-kas@kernel.org>
- <avNuQqLf9CG9dSsE@casper.infradead.org>
- <20261111-heimreisen-ungeziefer-empfunden-a892571f2c07@brauner>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=VvHCNe9a
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=Bq+DPKenrrA3UwT5KiiqalwoYc+RZBQDTV4Tm7GTzTU=; t=1794405503; x=2109765503; 
+	b=VvHCNe9az88hUK4BsX53T45O7ReJaFzbbmT8YwtjcQivqiQ9J3VqA6vdTjHXu4N4EPfO98KPjMP
+	rlBMf3jthFSo/R/ErXnC8rzm+p7bYo0Maq4C4czjnHmJcbYOcwi6p8/7jZJ+Z15IRCwQv+DQ/Z3i+
+	v9Xfa/b6I/VnznhsJ1plZKlAZrlSgwYek4a3yiSvTOPdaTm23d1Bwr4HF/dYjAsryk9/oop1VVyU2
+	pBPZlMnGgPFr5BhapQy9WZ18wQvsSi0QOF8iX/D02H/SrzeMR4m9/Z6MzNfNPxTxPphwmCAOsCK3Y
+	aKINqLKc2p2Li+ep/cLhMBdfLvFByrLDfl0A==;
+Received: from bl16-24-61.dsl.telepac.pt ([188.81.24.61] helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1xR8q6-008qkM-37; Wed, 11 Nov 2026 14:58:14 +0100
+From: Luis Henriques <luis@igalia.com>
+To: Sang-Heon Jeon <ekffu200098@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,  fuse-devel@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  Miklos Szeredi <mszeredi@redhat.com>,
+  stable@vger.kernel.org
+Subject: Re: [PATCH] fuse: defer dentry_tree_work until fuse_dentry_tree_init()
+In-Reply-To: <CABFDxMGJ+Uum7dde3AN5Ab+H4Gwb23Upj7r9=SO21NWCo+Mhow@mail.gmail.com>
+References: <20261110150250.71520-1-ekffu200098@gmail.com>
+	<87cxsbg1fs.fsf@igalia.com>
+	<CABFDxMHOy2JRYfCk0ovp3nzXWMjpXyiYsLGO3k3Up3e76Z-wXw@mail.gmail.com>
+	<CABFDxMGJ+Uum7dde3AN5Ab+H4Gwb23Upj7r9=SO21NWCo+Mhow@mail.gmail.com>
+Date: Wed, 11 Nov 2026 13:59:55 +0000
+Message-ID: <87mrrf8o4k.fsf@igalia.com>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -70,101 +69,179 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261111-heimreisen-ungeziefer-empfunden-a892571f2c07@brauner>
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 11, 2026 at 01:36:37PM +0100, Christian Brauner wrote:
-> So we need to copy per page which would fix both.
+On Wed, Nov 11 2026, Sang-Heon Jeon wrote:
 
-So the fix below is what we've done before for pipes and I think it's
-the right thing to do here too. I put the following on vfs.fixes:
+> 2026=EB=85=84 11=EC=9B=94 11=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 8:27=
+, Sang-Heon Jeon <ekffu200098@gmail.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
+=B1:
+>>
+>> Hi, Luis
+>>
+>> 2026=EB=85=84 11=EC=9B=94 11=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 6:2=
+8, Luis Henriques <luis@igalia.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>> >
+>> > On Wed, Nov 11 2026, Sang-Heon Jeon wrote:
+>> >
+>> > > inval_wq_set() schedules dentry_tree_work when inval_wq is enabled.
+>> > >
+>> > > But inval_wq_set() can be called at boot or module load before
+>> > > fuse_dentry_tree_init() initializes the work, so __queue_delayed_wor=
+k()
+>> > > warns and the work never starts.
+>> > >
+>> > > So defer scheduling the work until fuse_dentry_tree_init() sets it u=
+p.
+>> > >
+>> > > Fixes: ab84ad597386 ("fuse: new work queue to periodically invalidat=
+e expired dentries")
+>> > > Cc: stable@vger.kernel.org
+>> > > Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
+>> > > ---
+>> > > QEMU based test result
+>> > > - booted with "fuse.inval_wq=3D5"
+>> >
+>> > Thank you, Sang-Heon.  I've sent a fix for this already[1], but sashiko
+>> > still has some race complains which I haven't looked into yet.  But ma=
+ybe
+>> > Miklos is happier with your patch, in which case you can add my
+>>
+>> Sorry, I missed that thread.. sashiko also complains about the same
+>> race condition between init and sysfs setup. But I'm not sure it is a
+>> realistic scenario. So I want to hear other voices as well.
+>
+> I also checked the other sashiko's complaints from your patch, the one
+> about race between module cleanup and sysfs. It looks easier to
+> reproduce, but still I'm not sure this is a realistic problem. If it
+> is worth fixing, I will sent v2 with serialization between module
+> init, cleanup and inval_wq_set()
 
--- >8 --
-From: Christian Brauner <brauner@kernel.org>
-Subject: [PATCH] virtio_console: copy pipe buffers that span multiple pages
+I agree that the first race doesn't look realistic, though it could be
+fixed by adding an extra spinlock (which could protect both inval_wq and
+dentry_tree_is_initialised).
 
-pipe_to_sg() maps buf->page with kmap_local_page() and then copies up
-to a page worth of data starting at buf->offset. But kmap_local_page()
-only maps a single page and a pipe buffer can span multiple pages of a
-compound page with buf->offset pointing past the first one:
+The second race would be easier to fix by setting
+dentry_tree_is_initialised back to 'false' in fuse_dentry_tree_cleanup().
 
-- skb_splice_bits() for AF_UNIX and TCP sockets
-- tracing_buffers_splice_read() with sub-buffers larger than a page
-- fuse_dev_splice_read() which hands out the page cache folios of WRITE
-  requests. Those can be large folios since b46e09667411 ("fuse: enable
-  large folios").
+One thing I like with my version of the fix is that it replaces the usage
+of schedule_delayed_work() by mod_delayed_work().  But maybe that's out
+of the scope of this fix, and I should send that separately.
 
-Without HIGHMEM this happens to work because kmap_local_page() is just
-page_address() and a compound page is contiguous in the direct map.
-With HIGHMEM the copy reads past the mapping. A fuse server on a 32-bit
-HIGHMEM guest that splices a WRITE request into a virtio port crashes:
+Cheers,
+--=20
+Lu=C3=ADs
 
-  BUG: unable to handle page fault for address: fffab000
-  #PF: supervisor read access in kernel mode
-  #PF: error_code(0x0000) - not-present page
-  Oops: Oops: 0000 [#1] SMP
-  EIP: pipe_to_sg+0x158/0x1e0
-  Call Trace:
-   __splice_from_pipe+0xd6/0x1f0
-   port_fops_splice_write+0xf9/0x170
-   do_splice+0x2c1/0x810
-   __ia32_sys_splice+0x2e7/0x310
-   ia32_sys_call+0x1916/0x2510
-   __do_fast_syscall_32+0xd4/0x550
-   do_fast_syscall_32+0x32/0x70
-   do_SYSENTER_32+0x15/0x20
-   entry_SYSENTER_32+0xa6/0x115
 
-pipe_read() had the same problem and 08aa64796016 ("teach
-copy_page_to_iter() to handle compound pages") fixed it by mapping one
-subpage at a time. So copy the buffer with copy_page_to_iter() as well.
-
-Fixes: b46e09667411 ("fuse: enable large folios")
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- drivers/char/virtio_console.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/char/virtio_console.c b/drivers/char/virtio_console.c
-index b1b1aaf43e07e..b93a31b81cf4e 100644
---- a/drivers/char/virtio_console.c
-+++ b/drivers/char/virtio_console.c
-@@ -12,6 +12,7 @@
- #include <linux/freezer.h>
- #include <linux/fs.h>
- #include <linux/splice.h>
-+#include <linux/uio.h>
- #include <linux/pagemap.h>
- #include <linux/idr.h>
- #include <linux/init.h>
-@@ -891,8 +892,9 @@ static int pipe_to_sg(struct pipe_inode_info *pipe, struct pipe_buffer *buf,
- {
- 	struct sg_list *sgl = sd->u.data;
- 	unsigned int offset, len;
-+	struct iov_iter to;
- 	struct page *page;
--	char *src;
-+	struct kvec kv;
- 
- 	if (sgl->n == sgl->size)
- 		return 0;
-@@ -907,9 +909,14 @@ static int pipe_to_sg(struct pipe_inode_info *pipe, struct pipe_buffer *buf,
- 	if (len + offset > PAGE_SIZE)
- 		len = PAGE_SIZE - offset;
- 
--	src = kmap_local_page(buf->page);
--	memcpy(page_address(page) + offset, src + buf->offset, len);
--	kunmap_local(src);
-+	/* The buffer can span several pages of a compound page. */
-+	kv.iov_base = page_address(page) + offset;
-+	kv.iov_len = len;
-+	iov_iter_kvec(&to, ITER_DEST, &kv, 1, len);
-+	if (copy_page_to_iter(buf->page, buf->offset, len, &to) != len) {
-+		__free_page(page);
-+		return -EFAULT;
-+	}
- 
- 	sg_set_page(&sgl->sg[sgl->n], page, len, offset);
- 	sgl->n++;
-
--- 
+>> > Reviewed-by: Luis Henriques <luis@igalia.com>
+>>
+>> Thanks for your review :)
+>>
+>> > [1] https://lore.kernel.org/20261106155512.24801-1-luis%40igalia.com
+>> >
+>> > Cheers,
+>> > --
+>> > Lu=C3=ADs
+>> >
+>> > > 1) AS-IS (before fix)
+>> > > [    0.011073] Kernel command line: rootwait root=3D/dev/vda console=
+=3Dtty1 console=3DttyS0 nokaslr  fuse.inval_wq=3D5
+>> > > [    0.011114] ------------[ cut here ]------------
+>> > > [    0.011115] WARNING: kernel/workqueue.c:2704 at __queue_delayed_w=
+ork+0x11a/0x140, CPU#0: swapper/0
+>> > > [    0.011124] Modules linked in:
+>> > > [    0.011128] CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 7.4.0-=
+rc1-00010-gab9787d7e66a #1 PREEMPT(undef)
+>> > > [    0.011130] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)=
+, BIOS 1.17.0-debian-1.17.0-1ubuntu1 04/01/2014
+>> > > [    0.011131] RIP: 0010:__queue_delayed_work+0x11a/0x140
+>> > > [ 0.011133] Code: c4 08 48 89 df 5b e9 85 28 0a 00 90 0f 0b 90 4c 8b=
+ 42 08 48 8d
+>> > > 42 08 49 39 c0 0f 84 1c ff ff ff 90 0f 0b 90 e9 13 ff ff ff 90 <0f> =
+0b 90 e9 ec
+>> > > fe ff ff bff
+>> > > [    0.011134] RSP: 0000:ffffffff82e03e00 EFLAGS: 00010003 ORIG_RAX:=
+ 0000000000000000
+>> > > [    0.011135] RAX: 0000000000000000 RBX: 0000000000000040 RCX: 0000=
+000000001388
+>> > > [    0.011136] RDX: ffffffff83a3f320 RSI: 0000000000000000 RDI: 0000=
+000000000040
+>> > > [    0.011136] RBP: 0000000000000000 R08: 0000000000000082 R09: 0000=
+000000000001
+>> > > [    0.011136] R10: 000000000000000a R11: 000000000000000a R12: ffff=
+ffff82c09fd0
+>> > > [    0.011137] R13: ffff88807ffcfb89 R14: 0000000000000000 R15: 0000=
+000000001388
+>> > > [    0.011140] FS:  0000000000000000(0000) GS:ffff8880fa26e000(0000)=
+ knlGS:0000000000000000
+>> > > [    0.011141] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>> > > [    0.011141] CR2: ffff888003a67000 CR3: 0000000002e30000 CR4: 0000=
+0000000000b0
+>> > > [    0.011142] Call Trace:
+>> > > [    0.011143]  <TASK>
+>> > > [    0.011143]  queue_delayed_work_on+0x6a/0x80
+>> > > [    0.011145]  inval_wq_set+0xc4/0xe0
+>> > > [    0.011149]  parse_args+0x299/0x3c0
+>> > > [    0.011151]  ? __pfx_unknown_bootoption+0x10/0x10
+>> > > [    0.011154]  start_kernel+0x3b8/0x7c0
+>> > > [    0.011156]  ? __pfx_unknown_bootoption+0x10/0x10
+>> > > [    0.011157]  x86_64_start_reservations+0x24/0x30
+>> > > [    0.011160]  x86_64_start_kernel+0xd1/0xe0
+>> > > [    0.011162]  common_startup_64+0x13e/0x158
+>> > > [    0.011165]  </TASK>
+>> > > [    0.011166] ---[ end trace 0000000000000000 ]---
+>> > > [    0.011173] ------------[ cut here ]------------
+>> > >
+>> > > 2) TO-BE (after fix)
+>> > > - no error while booting, and also fuse_dentry_tree_work works well.
+>> > >
+>> > > ---
+>> > >  fs/fuse/dir.c | 10 ++++++++++
+>> > >  1 file changed, 10 insertions(+)
+>> > >
+>> > > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+>> > > index da23ccd8685c..6965a77a871f 100644
+>> > > --- a/fs/fuse/dir.c
+>> > > +++ b/fs/fuse/dir.c
+>> > > @@ -39,6 +39,7 @@ static struct delayed_work dentry_tree_work;
+>> > >  /* Minimum invalidation work queue frequency */
+>> > >  #define FUSE_DENTRY_INVAL_FREQ_MIN 5
+>> > >
+>> > > +static bool inval_wq_ready;
+>> > >  unsigned __read_mostly inval_wq;
+>> > >  static int inval_wq_set(const char *val, const struct kernel_param =
+*kp)
+>> > >  {
+>> > > @@ -62,6 +63,10 @@ static int inval_wq_set(const char *val, const st=
+ruct kernel_param *kp)
+>> > >
+>> > >       *((unsigned int *)kp->arg) =3D num;
+>> > >
+>> > > +     /* Defer the work until fuse_dentry_tree_init() sets it up. */
+>> > > +     if (!inval_wq_ready)
+>> > > +             return 0;
+>> > > +
+>> > >       if (num && !old)
+>> > >               schedule_delayed_work(&dentry_tree_work,
+>> > >                                     secs_to_jiffies(num));
+>> > > @@ -224,6 +229,11 @@ void fuse_dentry_tree_init(void)
+>> > >               dentry_hash[i].tree =3D RB_ROOT;
+>> > >       }
+>> > >       INIT_DELAYED_WORK(&dentry_tree_work, fuse_dentry_tree_work);
+>> > > +     inval_wq_ready =3D true;
+>> > > +
+>> > > +     if (inval_wq)
+>> > > +             schedule_delayed_work(&dentry_tree_work,
+>> > > +                                   secs_to_jiffies(inval_wq));
+>> > >  }
+>> > >
+>> > >  void fuse_dentry_tree_cleanup(void)
+>> > >
+>> > > base-commit: ab9787d7e66ac7e6e94fc975b37c5b56fff98ca9
+>> > > --
+>> > > 2.53.0
+>> > >
+>> >
+>>
+>> Best regards,
+>> Sang-Heon Jeon
