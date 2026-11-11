@@ -1,61 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794389335;
-	b=MPmn/HeA+wG1MPbLK5w8Sa0o/fZF0THImZS6IAnEgerqjJWzJI+RHx+R/E5iPqQDxOG8
-	 +jt/G1eMaZZXMpxIqYxgt+PnkfYtE1C95wG7uHDxj0JTYAbyOJ2S1wEV1vSGbdPdaq4dd
-	 Aof21pA+Oc58Q/mOLQdKpAUI2Cuwui48Zfgl2BhyG38vXRMODCZ1rY/gwl1OPf58n0AhZ
-	 k71eqL3aOW9jQMX1HVDMzf8AdQhai2ninPyKrIY8N5pQrSzBRDGkEyuG5JstfIFUm0rc5
-	 Z9aBFj9T/TDchlhIn2uX0CBcWZLty2AIfTEp0iqL196iiu0o6pI32A60niAUyjKtgCg==
+	t=1794390418;
+	b=Nhg17AHd9HIsgif4fVjmYtD/xKXR+uvPcs3IYUG3gJChisY2yxpIKMyBa6l0T1/NbsSq
+	 EYYJGywpl7EdxgBl8jYPljIws1lM368Pqk9GPcDVGGI67G44dCXiSZFGmgdVgWoShTCRP
+	 wIrtM6S0f/VLX+QQSIXgFVzoyeoglxgdJRyjtGFjGoZ1SG+Hrr9gjHPlRDNzktmrCt95J
+	 8bBRmZYy2HeXjR+QxNau+0VzK9STPFreHMv90uwyI7klW1CopIxlfUPgEViqIxj1EhRnH
+	 U94oxaU/dZIdfz4QWzSSg1O69Wt6cexCjRZFKveTyhZKPD+rxl+g/HPH8za6UmRWJqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794389335;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
-	 References:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=qlD+cGMr3wTaXsI1Ws5nhCy30FUV4lzPs8nNTVDf9yE=;
-	b=K5ELVmvvCddnAR7C7tHU7sWdeOw3a8lXxI0vHz8SLjTZUPIAAGweyVRD+7JHDr2Vp5K3
-	 VwELYB/mTbEEfJdAnm9ufMVLCsbgiPQsLdHbF1HM6hJ6a6CtyjoSihzXwcSvqeUac6/vg
-	 Y9IKjtv4CquW7HaiY4MfazNS1E/kF4zokK3Xi/GLf5IuoTev8bzCf6eKuG/CVzN74zgmo
-	 xa18E2lWSJej3XUprLRx6ctoxZcPI7ASlcOzfyFA9oxQzsOk+qKWtdJY/HydaLdGBpUD7
-	 b+owFnmLTDbWwax0K/4FywGZ5nN9cBFK+OR6KTG2Z0GGmBfor7Iyb9V4YdwSp2/DBfA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794390418;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=g4FJ8o8UQUtyD0eGI0sUCpicqPvdI4Vdc4LMM0bmn0w=;
+	b=Hswx4nOcAxEn2mYXM+ZJr7H/uWd6tZV0QzCT4hYr1fl+14rNU9s+/ViqQ9z1Ugna1oRS
+	 BFkTk1j+MqQiagMQvynOawuKEKyONjBiV18uaMTwiPLVAq7qzB8keqRfSSA42kc6ODfXz
+	 i1+GfJfXQwnp8403YtvM1/TYnjXvY21mSx2W/lDKVBjpVKjMcIfgQdOpTRQe1RmRd7ZaQ
+	 bXcnFeiSpsBlotq3RK0uh3T+hRiWbt4uovHA8I7iYaz1An7qvtsK2GXwM4oWNwVjWkjHF
+	 06u2vbn8KvnfDrbtUbRfIimbv4xggVXvUlwGDZG1XSbiMUrd1DLUsP0sDl3FiaimEdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=igalia.com;
-	spf=pass smtp.mailfrom=igalia.com;
-	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=KGvkreVk;
-	arc=none smtp.remote-ip=213.97.179.56
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=cmZW0raJ;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6195606A326;
-	Wed, 11 Nov 2026 09:28:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6195606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60BA606A332;
+	Wed, 11 Nov 2026 09:46:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A60BA606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=KGvkreVk
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:From:Reply-To;
-	bh=qlD+cGMr3wTaXsI1Ws5nhCy30FUV4lzPs8nNTVDf9yE=; t=1794389333; x=2109749333; 
-	b=KGvkreVk3y/NZQiHhQdKDUE4ak2av/Y/3wHv/idBGrh4r/T/GZrbV7C/93NskhTtqPk0HiaGKEp
-	B/XGT/k8YaSCxfxynDWEo/JP9NAsmcQWJJ9jQsVV/8K8Bqk8ssHApeFXt2Qa1+G/ebpWEfln2b3p9
-	FAMk2PuHgddWU1pqZS84lhU8n7t6LkJxT9yASGsJT1eZ98hcrCsHOQ7N+Ril7BRyV7pKJP4h27rTQ
-	2+rMf2gNSzDxVeC8UC2rJvLsdYQIBPMvSu1sau0zTCZGIQh6BnTgVbvI6OCJD84u8FGSum57l9kQa
-	ZfuoWf0FzJqXgnh3UomdWTwy9LRHjIc0vgNg==;
-Received: from [188.250.79.109] (helo=localhost)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1xR4dN-008h3G-CK; Wed, 11 Nov 2026 10:28:49 +0100
-From: Luis Henriques <luis@igalia.com>
-To: Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>,  fuse-devel@lists.linux.dev,
-  linux-kernel@vger.kernel.org,  Miklos Szeredi <mszeredi@redhat.com>,
-  stable@vger.kernel.org
-Subject: Re: [PATCH] fuse: defer dentry_tree_work until fuse_dentry_tree_init()
-In-Reply-To: <20261110150250.71520-1-ekffu200098@gmail.com>
-References: <20261110150250.71520-1-ekffu200098@gmail.com>
-Date: Wed, 11 Nov 2026 09:30:31 +0000
-Message-ID: <87cxsbg1fs.fsf@igalia.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=cmZW0raJ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=g4FJ8o8UQUtyD0eGI0sUCpicqPvdI4Vdc4LMM0bmn0w=; b=cmZW0raJpZImC504fK0B0kMd2h
+	XJQXfLj15TrbtRxuoXIll7+dYj88ZVAl2AayT9vhDBlAQ57+Eho/cFEk5It94wIbKS4EH4G+cdutI
+	0K9jgabrgunrLX95HA3KOWeYRz+hLh5iGe5EyD3w5xx8w9MzCtlstOcNUcfrAtIPd3RxiWEjnELaD
+	hbo41pU2e/eygmvhOngKp7971UVKKEY71/mIvuWf0WfaOur34IyUdpGFowB9/oVJFRm81ZxsZDxLw
+	5M54Kif6OKPedXxyOCO9YpK4/4uqCIxZE2p81NHj3kV9mf9cnMGZSmbBCsLntHmPvgWT1OTOymjci
+	CwvzesXA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xR4up-00D5nW-2D;
+	Wed, 11 Nov 2026 09:46:51 +0000
+Date: Wed, 11 Nov 2026 01:46:43 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
+	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, 
+	Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, apparmor@lists.ubuntu.com, 
+	linux-nfs@vger.kernel.org, netdev@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, ocfs2-devel@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-usb@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 16/41] configfs: use fc_init_pseudo()
+Message-ID: <avQ5dv0747H-XKmD@gmail.com>
+References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
+ <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -65,134 +76,16 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110-work-loop-pseudo-v1-16-4c998976c6c7@kernel.org>
+X-Debian-User: leitao
 
-On Wed, Nov 11 2026, Sang-Heon Jeon wrote:
+On Tue, Nov 10, 2026 at 10:14:32AM +0100, Christian Brauner wrote:
+> Initialize configfs as a pseudo filesystem. This raises SB_I_PSEUDO and
+> also SB_I_NOEXEC and SB_I_NODEV. configfs never holds executables or
+> device nodes.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-> inval_wq_set() schedules dentry_tree_work when inval_wq is enabled.
->
-> But inval_wq_set() can be called at boot or module load before
-> fuse_dentry_tree_init() initializes the work, so __queue_delayed_work()
-> warns and the work never starts.
->
-> So defer scheduling the work until fuse_dentry_tree_init() sets it up.
->
-> Fixes: ab84ad597386 ("fuse: new work queue to periodically invalidate exp=
-ired dentries")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
-> ---
-> QEMU based test result
-> - booted with "fuse.inval_wq=3D5"
-
-Thank you, Sang-Heon.  I've sent a fix for this already[1], but sashiko
-still has some race complains which I haven't looked into yet.  But maybe
-Miklos is happier with your patch, in which case you can add my
-
-Reviewed-by: Luis Henriques <luis@igalia.com>
-
-[1] https://lore.kernel.org/20261106155512.24801-1-luis%40igalia.com
-
-Cheers,
---=20
-Lu=C3=ADs
-
-> 1) AS-IS (before fix)
-> [    0.011073] Kernel command line: rootwait root=3D/dev/vda console=3Dtt=
-y1 console=3DttyS0 nokaslr  fuse.inval_wq=3D5
-> [    0.011114] ------------[ cut here ]------------
-> [    0.011115] WARNING: kernel/workqueue.c:2704 at __queue_delayed_work+0=
-x11a/0x140, CPU#0: swapper/0
-> [    0.011124] Modules linked in:
-> [    0.011128] CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 7.4.0-rc1-0=
-0010-gab9787d7e66a #1 PREEMPT(undef)=20
-> [    0.011130] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
-S 1.17.0-debian-1.17.0-1ubuntu1 04/01/2014
-> [    0.011131] RIP: 0010:__queue_delayed_work+0x11a/0x140
-> [ 0.011133] Code: c4 08 48 89 df 5b e9 85 28 0a 00 90 0f 0b 90 4c 8b 42 0=
-8 48 8d
-> 42 08 49 39 c0 0f 84 1c ff ff ff 90 0f 0b 90 e9 13 ff ff ff 90 <0f> 0b 90=
- e9 ec
-> fe ff ff bff
-> [    0.011134] RSP: 0000:ffffffff82e03e00 EFLAGS: 00010003 ORIG_RAX: 0000=
-000000000000
-> [    0.011135] RAX: 0000000000000000 RBX: 0000000000000040 RCX: 000000000=
-0001388
-> [    0.011136] RDX: ffffffff83a3f320 RSI: 0000000000000000 RDI: 000000000=
-0000040
-> [    0.011136] RBP: 0000000000000000 R08: 0000000000000082 R09: 000000000=
-0000001
-> [    0.011136] R10: 000000000000000a R11: 000000000000000a R12: ffffffff8=
-2c09fd0
-> [    0.011137] R13: ffff88807ffcfb89 R14: 0000000000000000 R15: 000000000=
-0001388
-> [    0.011140] FS:  0000000000000000(0000) GS:ffff8880fa26e000(0000) knlG=
-S:0000000000000000
-> [    0.011141] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    0.011141] CR2: ffff888003a67000 CR3: 0000000002e30000 CR4: 000000000=
-00000b0
-> [    0.011142] Call Trace:
-> [    0.011143]  <TASK>
-> [    0.011143]  queue_delayed_work_on+0x6a/0x80
-> [    0.011145]  inval_wq_set+0xc4/0xe0
-> [    0.011149]  parse_args+0x299/0x3c0
-> [    0.011151]  ? __pfx_unknown_bootoption+0x10/0x10
-> [    0.011154]  start_kernel+0x3b8/0x7c0
-> [    0.011156]  ? __pfx_unknown_bootoption+0x10/0x10
-> [    0.011157]  x86_64_start_reservations+0x24/0x30
-> [    0.011160]  x86_64_start_kernel+0xd1/0xe0
-> [    0.011162]  common_startup_64+0x13e/0x158
-> [    0.011165]  </TASK>
-> [    0.011166] ---[ end trace 0000000000000000 ]---
-> [    0.011173] ------------[ cut here ]------------
->
-> 2) TO-BE (after fix)
-> - no error while booting, and also fuse_dentry_tree_work works well.
->
-> ---
->  fs/fuse/dir.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index da23ccd8685c..6965a77a871f 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -39,6 +39,7 @@ static struct delayed_work dentry_tree_work;
->  /* Minimum invalidation work queue frequency */
->  #define FUSE_DENTRY_INVAL_FREQ_MIN 5
->=20=20
-> +static bool inval_wq_ready;
->  unsigned __read_mostly inval_wq;
->  static int inval_wq_set(const char *val, const struct kernel_param *kp)
->  {
-> @@ -62,6 +63,10 @@ static int inval_wq_set(const char *val, const struct =
-kernel_param *kp)
->=20=20
->  	*((unsigned int *)kp->arg) =3D num;
->=20=20
-> +	/* Defer the work until fuse_dentry_tree_init() sets it up. */
-> +	if (!inval_wq_ready)
-> +		return 0;
-> +
->  	if (num && !old)
->  		schedule_delayed_work(&dentry_tree_work,
->  				      secs_to_jiffies(num));
-> @@ -224,6 +229,11 @@ void fuse_dentry_tree_init(void)
->  		dentry_hash[i].tree =3D RB_ROOT;
->  	}
->  	INIT_DELAYED_WORK(&dentry_tree_work, fuse_dentry_tree_work);
-> +	inval_wq_ready =3D true;
-> +
-> +	if (inval_wq)
-> +		schedule_delayed_work(&dentry_tree_work,
-> +				      secs_to_jiffies(inval_wq));
->  }
->=20=20
->  void fuse_dentry_tree_cleanup(void)
->
-> base-commit: ab9787d7e66ac7e6e94fc975b37c5b56fff98ca9
-> --=20
-> 2.53.0
->
-
+Acked-by: Breno Leitao <leitao@debian.org>
