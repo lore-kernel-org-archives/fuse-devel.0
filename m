@@ -1,58 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794387016;
-	b=pJqJpUIC+V4aDQVtW3/pJ7N7bm9BVtaaV053100qYmhz9iQVcYwACPPQ1QjX+HtFqcf7
-	 VgzyHxq9q+WAer7n/4xZGRl+KWbPP28DS8E7raLjgBdutX4AXx1mHBX1DG91I9cQCuawG
-	 sjt1OBBn2FXtslrFEDqUIOQEidedADPECyk3ozTTh0S6sGrdVdIFJZzGEcnXTP9X0GmFI
-	 W9OYbPEoU4y3U+L0vKPRX2UGIVYdGeYImba4ypXWgs/mrXGFbTI2E2oUkejtIGMFcjgJo
-	 cifssE7owZPBkFMJ8TCPc9nQPTDu0rTgocrJhZtesKlkGrofrjlguXwOnU59MBLiIMw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794387016;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Dyi44XrPNZ+h4KSieqNDltLyYDUp+MK/l2iG04ch2ZY=;
-	b=qhW0UfQG7XFb5Qw8S6Wj1SMK1ptMEnZiPlD/JcQ0w2IJcLdvTVP9wdCoi8PKBYs0TjIV
-	 /3rFjvtPh9IQRIGWQVzPYIQ/CHoZWED/fdxcm+1x+vKTTGzuXKlKKDM3sFg9+YWKeDism
-	 u85sX4xR6GzylorB5TKIQK/CUetEGF6zbiapi1ZkUUsBwVylNsioTIaNofjPTxs6eJZo6
-	 XIWuKZJcdRBUkpRnu4/eQiA0jtk8rlAQbB8AH5ifg8wsotqEuFghoCPH1406v6eSTDqgd
-	 j7FSUSziErGbXBasKhLhzL+K7jCRqvRC1JsfTk/ZzktigVBVMZ3EKVV6GUJC5sWF5kA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794387748;
+	b=jk+mVxVkw6UXtxtlJfACOVIewmawOffw9GXGZ1ywuBjB6tLZF+U+gDsZ7T1bbCnnRSEs
+	 /WIW1OdzRC4fC5TTrbKlwcdYzaxst9nYsFzdJ1FcyZnRujFK/ILRcfsF0w0e6RtLktmy6
+	 KCgckIX1+F2IRyDD6LyHy054LfHcC0pIyMx2p/GKNVCpuuT59vyRS/Fb6zx3Bcqz0rcPa
+	 WXwRV2TqWM60DzN5uNnshpFlp2DFgD10bDMWTU6B96Nhh6LFQgZOFeDU8DedFqaG/OoXY
+	 ohzeBTiJho8nbv3xbCsA31k6Q6DHnOSSRdU67AnObC3sF82eibS8IrdiR88wlcupGNw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794387748;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
+	b=Qai7u2KEPiA2hvSZTGzNtWFm/0gK4Cm3F3UCLUkUnQ5YxLs6tfx6op8qV9zjT4s/nSSh
+	 EZ+GO5wZEoGXSjr14hgBSGljDdUQ1/QC6GRCgxyqXlz/qtsJ9rTKtQrLb+bVgaPwa8Rp6
+	 L0rzaiUfNS0jxVJ+1qccDbVM5ruocPhsCSvONxJbKACBoK+B7HtWqqXuiGOPv/xt89+nf
+	 HmJmLMfxF5leQnqDmtoQAaD9QQY56Qb/DcMkPbMeVWTiG1p5N9gHE+l3M57IyrvH4W7qG
+	 nRMHoSukYatOFuSv5wRJgcB2CDkVS8X6jVOPvg18r7Ylj3zIFFPobA5sCU/SzM0y/aA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=szeredi.hu;
+	spf=pass smtp.mailfrom=szeredi.hu;
+	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=PMP3hDb6;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2A3606A327;
-	Wed, 11 Nov 2026 08:50:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E2A3606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: e5d51c96ddac11f19a56ed5b684f684d-20261111
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:70de7592-74cc-407f-a7ce-20aa329763cf,IP:0,U
-	RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:1a2a5734b3bf66cc1711c3c22ae16d56,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|865|898,TC:nil,Content:0|15|50|99,
-	EDM:-3,IP:nil,URL:11|94|82|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: e5d51c96ddac11f19a56ed5b684f684d-20261111
-X-User: liwang@kylinos.cn
-Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1586439326; Wed, 11 Nov 2026 16:50:08 +0800
-Message-ID: <656d0e00-01a6-4e90-a924-4ad2329c3d74@kylinos.cn>
-Date: Wed, 11 Nov 2026 16:50:05 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70B7606A32D
+	for <fuse-devel@lists.linux.dev>; Wed, 11 Nov 2026 09:02:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A70B7606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=PMP3hDb6
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-54f873cbe2aso29821031cf.0
+        for <fuse-devel@lists.linux.dev>; Wed, 11 Nov 2026 01:02:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794387746; cv=none;
+        d=google.com; s=arc-20260327;
+        b=e/OueiHKEE30Hd2MpwRUe4QRezAI85OyTBUfaInqiV7CrseWHdULq0y4KDtd7znpTb
+         GIrBnktmAoVfD4gXTWiV+DHDyQMbJjXWKHDAjKLq2TZCZ4AFBAEQHjqv8O5VqDZEiJcr
+         4Hy6FpI1xQmw7fYAo21iBTp83qIjRhz39VnCU1H44aHJiDp5DO8XWtZbQdPH++XywTEe
+         DstLzlXltsgnMQ1rJyeJxkqqIxFZET+pwiyNs9YKMLvWP5tGFmhWFg3JVl6tjjdFDypV
+         p4UdxEQHFII1Oq6Dmxsi4BGKFl5JMICHzBuoQ9LIzKLuqsFiLyTSRd11jx1zAx8wW1cb
+         K4HQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
+        fh=+kFE1lVDF6o4UON60RBHFHsjscJl+lCZgJTihGIbQlE=;
+        b=WGooi6r2wYlLT81OXNlMRzedUE0HPg90A4JvWhtJCIouTkYS4yZ/w0iEeXImzuSa6d
+         p12nE8/EnuDQ6bHGWKpZYXcvJwrbpPTkHgM64ecZVmRGvqQgnKV952wX6C0TJ/dd3IbO
+         yolhls0B56k2YHB0U1CaSJMacalvePG2V1aWKpF+vGYPpUL1Yu10+PKHbKjsDzWSOW5z
+         8vnxKnmfWOvPlwXqqd9G+EQVf7hHEbkM7HQZ3KlZBDw+GR6vozoNhVhv9S7FVUWb+R2/
+         f0gfkue4/brSqoPSYladys1I1I33bJWOqm6dcPrihYjopr0Iu0kLLpLscmOQwZyKy0FY
+         ietg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1794387746; x=1794992546; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
+        b=PMP3hDb6K0ZCHB8aQ6gd8JYjmIlSYa3E4dVPX3CxEkxVBVxLTjjvPK3ZRjSFQyxfS1
+         laqa0N/t2JbbfLviY3DcqyvEZ2w5lrmjNnS+tQPbFxrxOg9eyV23NaImLy3DVPThs5aG
+         7p8bpfoQpDiY0qdoaLWR9/7NzeQWLY6QwB/jU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794387746; x=1794992546;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
+        b=yPw0IE2Fgz6RJ+mAZkhDe4fritNJV+X1Tx85MYfQsIz43QRmSVGglM49rDjA/y9/K5
+         HSSTkwT4bcYXaJyj3zHlJQL0lf6Ff2Oc/KFgZRCk3mJPW4pS2g1o7d6y3QeCXqm26G1o
+         gY03Q7aZ1tc44RewNR4wF8PEKooxkLWRbq+NOz3z+wUpcgl7rUSU1SV20B/Gp9D4fWct
+         +4r6cnZD9LVAsuICFgO0MTi8XAIcOjfyivMLUqoaUzvfEo/Urpj7eMUAP43eKZ+je+4n
+         TqZ9elRp6ly/PCWXpy+SvaAYqrW2TFvzaJyfFpWui/6COc4rz2bIOrH05KxJE185MqI4
+         T4Kw==
+X-Forwarded-Encrypted: i=1; AL+hErGYWLsVgKVFtbB6VX5LZCs8ImXGA5WCn8/L7BUljWtT10Fa/BRR2MJWr1jV9QXF4/q0cZTZRuCEio8w@lists.linux.dev
+X-Gm-Message-State: APuU4Z/zb0b/pFsR30QbmjnT4/waU8yce7agweJo6cYWzu3eeuTCO3eD
+	S9NTKD8Dlh+V6PUynlMTtO5qvng4heuN6YbwyjSLvA9gvfPKzglTHjLTL3EQdA9eps5AEBCY+JE
+	G4Si462EDIpFy8/7N6ahk34WOcHmTKh06SCEQjtG+VSk8w8qg0BrC6Nw=
+X-Gm-Gg: AYBFou2HxFSCY6Kxc1ncIV4tqJAD05SFul0HFDCEGjEh4XwvRnNFU6F2E490RwAxahB
+	GxbTzypiLryWV8/T7p+eKcK+CsbfCwclombDiKfU0gmbs4AOH7se505spcpwEwtQTsRvrXmQ+Lm
+	84Yw4k6pn8U+cTov2Vy/3GxPIdx831dsfPHFO1bO8TRVzrDb73c+0O/kZHN2iCPj09PmqfLnFkp
+	5s5wLNHBkbT4lIg9+t7Ez6y21aQ+yzicHUyYaIIuK6FO2ymtOxHEQNVxynAd2vLtdZcJBpnEUMy
+	ZnbcqrIRuBE2ttLKQ3eB48IFEaXtNVQIChC0YgpRs1BkDLHgIh6I9/MnxsL+4EWrshFmWBbB5tL
+	lnIlHuPs3uC0aP1tX+vtXZnjzjU4Qj3F7h08LuWS2lTcrgiriwJWCEcQoAg2YptSwDA==
+X-Received: by 2002:a05:622a:34d:b0:536:8f5a:64a with SMTP id
+ d75a77b69052e-556c222b82bmr24946931cf.63.1794387746372; Wed, 11 Nov 2026
+ 01:02:26 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -62,104 +100,42 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] virtiofs: fix use-after-free of fs->tag on device
- removal
-To: Miklos Szeredi <mszeredi@redhat.com>, fuse-devel@lists.linux.dev
-Cc: German Maglione <gmaglione@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, virtualization@lists.linux.dev,
- stable@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
-References: <20261105150943.86650-1-mszeredi@redhat.com>
- <20261105150943.86650-2-mszeredi@redhat.com>
-Content-Language: en-GB
-From: Li Wang <liwang@kylinos.cn>
-In-Reply-To: <20261105150943.86650-2-mszeredi@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261110145241.536019-1-kas@kernel.org> <20261110145241.536019-3-kas@kernel.org>
+In-Reply-To: <20261110145241.536019-3-kas@kernel.org>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 11 Nov 2026 10:02:15 +0100
+X-Gm-Features: AclHuK9XqiIqd0G6zWinytDup_EFg0rRz4_cn9sSXLX9jTiH3KRFdGlFPrXk02Q
+Message-ID: <CAJfpegvEeGN073FbaCRnhMeX8RHrckSxmFjkpdoyea2EuRf+zg@mail.gmail.com>
+Subject: Re: [PATCH 2/4] fuse: don't move pipe buffers into the page cache
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Amit Shah <amit@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
+	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Miklos,
+On Tue, 10 Nov 2026 at 15:53, Kiryl Shutsemau (Meta) <kas@kernel.org> wrote:
+>
+> A splice() into /dev/fuse with SPLICE_F_MOVE lets the reply to a read
+> request steal full pages from the pipe.  Each stolen page replaces, in
+> the fuse file's page cache, the folio that the request allocated.  The
+> page can be a page cache folio of another file, a page written into the
+> pipe, or a gifted user page.
+>
+> Always copy.  The server sees the same data, and the move was a hint
+> that splice() never promised to honour.
 
-On 05/11/2026 23:09, Miklos Szeredi wrote:
-> The virtio_fs object is refcounted via its kobject, so a mount can keep it
-> alive well beyond the lifetime of the virtio device binding.  The tag
-> string, however, was allocated with devm_kmalloc() and is therefore freed
-> by devres_release_all() as soon as the device is unbound, i.e. right after
-> virtio_fs_remove() returns (see device_unbind_cleanup() in
-> drivers/base/dd.c).
-> 
-> virtio_fs_get_tree() looks up the instance, takes a kobject reference and
-> then drops virtio_fs_mutex before doing the sleepable part of the mount
-> (allocations, fuse_conn_init(), sget_fc()).  A concurrent device removal
-> can complete in that window:
-> 
->   CPU 0 (mount)                         CPU 1 (remove)
->   -------------                         --------------
->   virtio_fs_get_tree()
->     virtio_fs_find_instance()
->     // reference taken, mutex dropped
->                                         virtio_fs_remove()
->                                           list_del_init(&fs->list);
->                                         // driver core unbinds device
->                                         // devres frees fs->tag
->   virtio_fs_fill_super()
->     mutex_lock(&virtio_fs_mutex);
->     if (list_empty(&fs->list))
->             pr_info(... fs->tag);   <-- use-after-free
-> 
-> The virtio_fs object itself is still valid here, only its tag has been
-> freed behind its back.
-> 
-> Fix the lifetime mismatch at the source: allocate the tag with kmalloc()
-> and free it from virtio_fs_ktype_release(), so that it lives exactly as
-> long as the object embedding it.  All probe error paths already drop the
-> final kobject reference, so they are covered.  Merely dropping the tag
-> from the error message would paper over this instance while leaving a
-> devres pointer embedded in an object that routinely outlives its device.
-> 
-> The other readers of fs->tag are unaffected: tag_show() is fenced off by
-> the kobject_del() in virtio_fs_remove(), the automatic KOBJ_REMOVE uevent
-> is emitted from __kobject_del() while the device is still bound, and both
-> virtio_fs_add_instance() and virtio_fs_find_instance() only walk instances
-> still on virtio_fs_instances.
-> 
-> Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
-> Cc: <stable@vger.kernel.org>
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://sashiko.dev/#/bug/linux-0328b3a1-043b-468e-8425-6a613d91b5ef
-> Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
-> ---
->  fs/fuse/virtio_fs.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index ba8d79c4bcac..ef58bedc3941 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> ...
-> -/* Read filesystem name from virtio config into fs->tag (must kfree()). */
-> +/*
-> + * Read filesystem name from virtio config into fs->tag.  Freed by
-> + * virtio_fs_ktype_release() so that it stays valid for as long as the
-> + * virtio_fs object itself, which may outlive the virtio device.
-> + */
->  static int virtio_fs_read_tag(struct virtio_device *vdev, struct virtio_fs *fs)
->  {
->  	char tag_buf[sizeof_field(struct virtio_fs_config, tag)];
-> @@ -505,7 +510,7 @@ static int virtio_fs_read_tag(struct virtio_device *vdev, struct virtio_fs *fs)
->  		end = &tag_buf[sizeof(tag_buf)];
->  
->  	len = end - tag_buf;
-> -	fs->tag = devm_kmalloc(&vdev->dev, len + 1, GFP_KERNEL);
-> +	fs->tag = kmalloc(len + 1, GFP_KERNEL);
+Did some research and looks like this feature is not used by any major project.
 
-The fix for the UAF issue regarding fs->tag looks good to me.
+Acked-by: Miklos Szeredi <mszeredi@redhat.com>
 
-However, while looking at this, I happened to notice another similar potential issue: when the DAX mode 
-is enabled for file read/write, the DAX window is mapped via devm_memremap_pages and unmapped when the device 
-is unbound. Although as far as I know, the corresponding QEMU changes for DAX mode don't seem to have landed 
-in QEMU upstream, fs->window_kaddr and other established page table mappings still point to this memory region.
-Perhaps we should also look into cleaning them up?
-
-Reviewed-by: Li Wang <liwang@kylinos.cn>
-
+Thanks,
+Miklos
