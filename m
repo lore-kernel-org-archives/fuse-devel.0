@@ -1,96 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794387748;
-	b=jk+mVxVkw6UXtxtlJfACOVIewmawOffw9GXGZ1ywuBjB6tLZF+U+gDsZ7T1bbCnnRSEs
-	 /WIW1OdzRC4fC5TTrbKlwcdYzaxst9nYsFzdJ1FcyZnRujFK/ILRcfsF0w0e6RtLktmy6
-	 KCgckIX1+F2IRyDD6LyHy054LfHcC0pIyMx2p/GKNVCpuuT59vyRS/Fb6zx3Bcqz0rcPa
-	 WXwRV2TqWM60DzN5uNnshpFlp2DFgD10bDMWTU6B96Nhh6LFQgZOFeDU8DedFqaG/OoXY
-	 ohzeBTiJho8nbv3xbCsA31k6Q6DHnOSSRdU67AnObC3sF82eibS8IrdiR88wlcupGNw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794387748;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
-	b=Qai7u2KEPiA2hvSZTGzNtWFm/0gK4Cm3F3UCLUkUnQ5YxLs6tfx6op8qV9zjT4s/nSSh
-	 EZ+GO5wZEoGXSjr14hgBSGljDdUQ1/QC6GRCgxyqXlz/qtsJ9rTKtQrLb+bVgaPwa8Rp6
-	 L0rzaiUfNS0jxVJ+1qccDbVM5ruocPhsCSvONxJbKACBoK+B7HtWqqXuiGOPv/xt89+nf
-	 HmJmLMfxF5leQnqDmtoQAaD9QQY56Qb/DcMkPbMeVWTiG1p5N9gHE+l3M57IyrvH4W7qG
-	 nRMHoSukYatOFuSv5wRJgcB2CDkVS8X6jVOPvg18r7Ylj3zIFFPobA5sCU/SzM0y/aA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=szeredi.hu;
-	spf=pass smtp.mailfrom=szeredi.hu;
-	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=PMP3hDb6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.97.179.56
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794389335;
+	b=MPmn/HeA+wG1MPbLK5w8Sa0o/fZF0THImZS6IAnEgerqjJWzJI+RHx+R/E5iPqQDxOG8
+	 +jt/G1eMaZZXMpxIqYxgt+PnkfYtE1C95wG7uHDxj0JTYAbyOJ2S1wEV1vSGbdPdaq4dd
+	 Aof21pA+Oc58Q/mOLQdKpAUI2Cuwui48Zfgl2BhyG38vXRMODCZ1rY/gwl1OPf58n0AhZ
+	 k71eqL3aOW9jQMX1HVDMzf8AdQhai2ninPyKrIY8N5pQrSzBRDGkEyuG5JstfIFUm0rc5
+	 Z9aBFj9T/TDchlhIn2uX0CBcWZLty2AIfTEp0iqL196iiu0o6pI32A60niAUyjKtgCg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389335;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=qlD+cGMr3wTaXsI1Ws5nhCy30FUV4lzPs8nNTVDf9yE=;
+	b=K5ELVmvvCddnAR7C7tHU7sWdeOw3a8lXxI0vHz8SLjTZUPIAAGweyVRD+7JHDr2Vp5K3
+	 VwELYB/mTbEEfJdAnm9ufMVLCsbgiPQsLdHbF1HM6hJ6a6CtyjoSihzXwcSvqeUac6/vg
+	 Y9IKjtv4CquW7HaiY4MfazNS1E/kF4zokK3Xi/GLf5IuoTev8bzCf6eKuG/CVzN74zgmo
+	 xa18E2lWSJej3XUprLRx6ctoxZcPI7ASlcOzfyFA9oxQzsOk+qKWtdJY/HydaLdGBpUD7
+	 b+owFnmLTDbWwax0K/4FywGZ5nN9cBFK+OR6KTG2Z0GGmBfor7Iyb9V4YdwSp2/DBfA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=igalia.com;
+	spf=pass smtp.mailfrom=igalia.com;
+	dkim=pass header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=KGvkreVk;
+	arc=none smtp.remote-ip=213.97.179.56
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70B7606A32D
-	for <fuse-devel@lists.linux.dev>; Wed, 11 Nov 2026 09:02:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A70B7606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6195606A326;
+	Wed, 11 Nov 2026 09:28:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6195606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=PMP3hDb6
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-54f873cbe2aso29821031cf.0
-        for <fuse-devel@lists.linux.dev>; Wed, 11 Nov 2026 01:02:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794387746; cv=none;
-        d=google.com; s=arc-20260327;
-        b=e/OueiHKEE30Hd2MpwRUe4QRezAI85OyTBUfaInqiV7CrseWHdULq0y4KDtd7znpTb
-         GIrBnktmAoVfD4gXTWiV+DHDyQMbJjXWKHDAjKLq2TZCZ4AFBAEQHjqv8O5VqDZEiJcr
-         4Hy6FpI1xQmw7fYAo21iBTp83qIjRhz39VnCU1H44aHJiDp5DO8XWtZbQdPH++XywTEe
-         DstLzlXltsgnMQ1rJyeJxkqqIxFZET+pwiyNs9YKMLvWP5tGFmhWFg3JVl6tjjdFDypV
-         p4UdxEQHFII1Oq6Dmxsi4BGKFl5JMICHzBuoQ9LIzKLuqsFiLyTSRd11jx1zAx8wW1cb
-         K4HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
-        fh=+kFE1lVDF6o4UON60RBHFHsjscJl+lCZgJTihGIbQlE=;
-        b=WGooi6r2wYlLT81OXNlMRzedUE0HPg90A4JvWhtJCIouTkYS4yZ/w0iEeXImzuSa6d
-         p12nE8/EnuDQ6bHGWKpZYXcvJwrbpPTkHgM64ecZVmRGvqQgnKV952wX6C0TJ/dd3IbO
-         yolhls0B56k2YHB0U1CaSJMacalvePG2V1aWKpF+vGYPpUL1Yu10+PKHbKjsDzWSOW5z
-         8vnxKnmfWOvPlwXqqd9G+EQVf7hHEbkM7HQZ3KlZBDw+GR6vozoNhVhv9S7FVUWb+R2/
-         f0gfkue4/brSqoPSYladys1I1I33bJWOqm6dcPrihYjopr0Iu0kLLpLscmOQwZyKy0FY
-         ietg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1794387746; x=1794992546; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
-        b=PMP3hDb6K0ZCHB8aQ6gd8JYjmIlSYa3E4dVPX3CxEkxVBVxLTjjvPK3ZRjSFQyxfS1
-         laqa0N/t2JbbfLviY3DcqyvEZ2w5lrmjNnS+tQPbFxrxOg9eyV23NaImLy3DVPThs5aG
-         7p8bpfoQpDiY0qdoaLWR9/7NzeQWLY6QwB/jU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794387746; x=1794992546;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=IjyYgf5Mt5Oaaa+hEYrZohiloVo+c5H01zKLrOs5Ypw=;
-        b=yPw0IE2Fgz6RJ+mAZkhDe4fritNJV+X1Tx85MYfQsIz43QRmSVGglM49rDjA/y9/K5
-         HSSTkwT4bcYXaJyj3zHlJQL0lf6Ff2Oc/KFgZRCk3mJPW4pS2g1o7d6y3QeCXqm26G1o
-         gY03Q7aZ1tc44RewNR4wF8PEKooxkLWRbq+NOz3z+wUpcgl7rUSU1SV20B/Gp9D4fWct
-         +4r6cnZD9LVAsuICFgO0MTi8XAIcOjfyivMLUqoaUzvfEo/Urpj7eMUAP43eKZ+je+4n
-         TqZ9elRp6ly/PCWXpy+SvaAYqrW2TFvzaJyfFpWui/6COc4rz2bIOrH05KxJE185MqI4
-         T4Kw==
-X-Forwarded-Encrypted: i=1; AL+hErGYWLsVgKVFtbB6VX5LZCs8ImXGA5WCn8/L7BUljWtT10Fa/BRR2MJWr1jV9QXF4/q0cZTZRuCEio8w@lists.linux.dev
-X-Gm-Message-State: APuU4Z/zb0b/pFsR30QbmjnT4/waU8yce7agweJo6cYWzu3eeuTCO3eD
-	S9NTKD8Dlh+V6PUynlMTtO5qvng4heuN6YbwyjSLvA9gvfPKzglTHjLTL3EQdA9eps5AEBCY+JE
-	G4Si462EDIpFy8/7N6ahk34WOcHmTKh06SCEQjtG+VSk8w8qg0BrC6Nw=
-X-Gm-Gg: AYBFou2HxFSCY6Kxc1ncIV4tqJAD05SFul0HFDCEGjEh4XwvRnNFU6F2E490RwAxahB
-	GxbTzypiLryWV8/T7p+eKcK+CsbfCwclombDiKfU0gmbs4AOH7se505spcpwEwtQTsRvrXmQ+Lm
-	84Yw4k6pn8U+cTov2Vy/3GxPIdx831dsfPHFO1bO8TRVzrDb73c+0O/kZHN2iCPj09PmqfLnFkp
-	5s5wLNHBkbT4lIg9+t7Ez6y21aQ+yzicHUyYaIIuK6FO2ymtOxHEQNVxynAd2vLtdZcJBpnEUMy
-	ZnbcqrIRuBE2ttLKQ3eB48IFEaXtNVQIChC0YgpRs1BkDLHgIh6I9/MnxsL+4EWrshFmWBbB5tL
-	lnIlHuPs3uC0aP1tX+vtXZnjzjU4Qj3F7h08LuWS2lTcrgiriwJWCEcQoAg2YptSwDA==
-X-Received: by 2002:a05:622a:34d:b0:536:8f5a:64a with SMTP id
- d75a77b69052e-556c222b82bmr24946931cf.63.1794387746372; Wed, 11 Nov 2026
- 01:02:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.a=rsa-sha256 header.s=20170329 header.b=KGvkreVk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+	Date:Subject:Cc:To:From:From:Reply-To;
+	bh=qlD+cGMr3wTaXsI1Ws5nhCy30FUV4lzPs8nNTVDf9yE=; t=1794389333; x=2109749333; 
+	b=KGvkreVk3y/NZQiHhQdKDUE4ak2av/Y/3wHv/idBGrh4r/T/GZrbV7C/93NskhTtqPk0HiaGKEp
+	B/XGT/k8YaSCxfxynDWEo/JP9NAsmcQWJJ9jQsVV/8K8Bqk8ssHApeFXt2Qa1+G/ebpWEfln2b3p9
+	FAMk2PuHgddWU1pqZS84lhU8n7t6LkJxT9yASGsJT1eZ98hcrCsHOQ7N+Ril7BRyV7pKJP4h27rTQ
+	2+rMf2gNSzDxVeC8UC2rJvLsdYQIBPMvSu1sau0zTCZGIQh6BnTgVbvI6OCJD84u8FGSum57l9kQa
+	ZfuoWf0FzJqXgnh3UomdWTwy9LRHjIc0vgNg==;
+Received: from [188.250.79.109] (helo=localhost)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1xR4dN-008h3G-CK; Wed, 11 Nov 2026 10:28:49 +0100
+From: Luis Henriques <luis@igalia.com>
+To: Sang-Heon Jeon <ekffu200098@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>,  fuse-devel@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  Miklos Szeredi <mszeredi@redhat.com>,
+  stable@vger.kernel.org
+Subject: Re: [PATCH] fuse: defer dentry_tree_work until fuse_dentry_tree_init()
+In-Reply-To: <20261110150250.71520-1-ekffu200098@gmail.com>
+References: <20261110150250.71520-1-ekffu200098@gmail.com>
+Date: Wed, 11 Nov 2026 09:30:31 +0000
+Message-ID: <87cxsbg1fs.fsf@igalia.com>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -100,42 +65,134 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110145241.536019-1-kas@kernel.org> <20261110145241.536019-3-kas@kernel.org>
-In-Reply-To: <20261110145241.536019-3-kas@kernel.org>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 11 Nov 2026 10:02:15 +0100
-X-Gm-Features: AclHuK9XqiIqd0G6zWinytDup_EFg0rRz4_cn9sSXLX9jTiH3KRFdGlFPrXk02Q
-Message-ID: <CAJfpegvEeGN073FbaCRnhMeX8RHrckSxmFjkpdoyea2EuRf+zg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] fuse: don't move pipe buffers into the page cache
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Amit Shah <amit@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Linus Torvalds <torvalds@linux-foundation.org>, 
-	"David Hildenbrand (Arm)" <david@kernel.org>, Matthew Wilcox <willy@infradead.org>, Zi Yan <ziy@nvidia.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Hugh Dickins <hughd@google.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Nov 2026 at 15:53, Kiryl Shutsemau (Meta) <kas@kernel.org> wrote:
+On Wed, Nov 11 2026, Sang-Heon Jeon wrote:
+
+> inval_wq_set() schedules dentry_tree_work when inval_wq is enabled.
 >
-> A splice() into /dev/fuse with SPLICE_F_MOVE lets the reply to a read
-> request steal full pages from the pipe.  Each stolen page replaces, in
-> the fuse file's page cache, the folio that the request allocated.  The
-> page can be a page cache folio of another file, a page written into the
-> pipe, or a gifted user page.
+> But inval_wq_set() can be called at boot or module load before
+> fuse_dentry_tree_init() initializes the work, so __queue_delayed_work()
+> warns and the work never starts.
 >
-> Always copy.  The server sees the same data, and the move was a hint
-> that splice() never promised to honour.
+> So defer scheduling the work until fuse_dentry_tree_init() sets it up.
+>
+> Fixes: ab84ad597386 ("fuse: new work queue to periodically invalidate exp=
+ired dentries")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
+> ---
+> QEMU based test result
+> - booted with "fuse.inval_wq=3D5"
 
-Did some research and looks like this feature is not used by any major project.
+Thank you, Sang-Heon.  I've sent a fix for this already[1], but sashiko
+still has some race complains which I haven't looked into yet.  But maybe
+Miklos is happier with your patch, in which case you can add my
 
-Acked-by: Miklos Szeredi <mszeredi@redhat.com>
+Reviewed-by: Luis Henriques <luis@igalia.com>
 
-Thanks,
-Miklos
+[1] https://lore.kernel.org/20261106155512.24801-1-luis%40igalia.com
+
+Cheers,
+--=20
+Lu=C3=ADs
+
+> 1) AS-IS (before fix)
+> [    0.011073] Kernel command line: rootwait root=3D/dev/vda console=3Dtt=
+y1 console=3DttyS0 nokaslr  fuse.inval_wq=3D5
+> [    0.011114] ------------[ cut here ]------------
+> [    0.011115] WARNING: kernel/workqueue.c:2704 at __queue_delayed_work+0=
+x11a/0x140, CPU#0: swapper/0
+> [    0.011124] Modules linked in:
+> [    0.011128] CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 7.4.0-rc1-0=
+0010-gab9787d7e66a #1 PREEMPT(undef)=20
+> [    0.011130] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S 1.17.0-debian-1.17.0-1ubuntu1 04/01/2014
+> [    0.011131] RIP: 0010:__queue_delayed_work+0x11a/0x140
+> [ 0.011133] Code: c4 08 48 89 df 5b e9 85 28 0a 00 90 0f 0b 90 4c 8b 42 0=
+8 48 8d
+> 42 08 49 39 c0 0f 84 1c ff ff ff 90 0f 0b 90 e9 13 ff ff ff 90 <0f> 0b 90=
+ e9 ec
+> fe ff ff bff
+> [    0.011134] RSP: 0000:ffffffff82e03e00 EFLAGS: 00010003 ORIG_RAX: 0000=
+000000000000
+> [    0.011135] RAX: 0000000000000000 RBX: 0000000000000040 RCX: 000000000=
+0001388
+> [    0.011136] RDX: ffffffff83a3f320 RSI: 0000000000000000 RDI: 000000000=
+0000040
+> [    0.011136] RBP: 0000000000000000 R08: 0000000000000082 R09: 000000000=
+0000001
+> [    0.011136] R10: 000000000000000a R11: 000000000000000a R12: ffffffff8=
+2c09fd0
+> [    0.011137] R13: ffff88807ffcfb89 R14: 0000000000000000 R15: 000000000=
+0001388
+> [    0.011140] FS:  0000000000000000(0000) GS:ffff8880fa26e000(0000) knlG=
+S:0000000000000000
+> [    0.011141] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    0.011141] CR2: ffff888003a67000 CR3: 0000000002e30000 CR4: 000000000=
+00000b0
+> [    0.011142] Call Trace:
+> [    0.011143]  <TASK>
+> [    0.011143]  queue_delayed_work_on+0x6a/0x80
+> [    0.011145]  inval_wq_set+0xc4/0xe0
+> [    0.011149]  parse_args+0x299/0x3c0
+> [    0.011151]  ? __pfx_unknown_bootoption+0x10/0x10
+> [    0.011154]  start_kernel+0x3b8/0x7c0
+> [    0.011156]  ? __pfx_unknown_bootoption+0x10/0x10
+> [    0.011157]  x86_64_start_reservations+0x24/0x30
+> [    0.011160]  x86_64_start_kernel+0xd1/0xe0
+> [    0.011162]  common_startup_64+0x13e/0x158
+> [    0.011165]  </TASK>
+> [    0.011166] ---[ end trace 0000000000000000 ]---
+> [    0.011173] ------------[ cut here ]------------
+>
+> 2) TO-BE (after fix)
+> - no error while booting, and also fuse_dentry_tree_work works well.
+>
+> ---
+>  fs/fuse/dir.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index da23ccd8685c..6965a77a871f 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -39,6 +39,7 @@ static struct delayed_work dentry_tree_work;
+>  /* Minimum invalidation work queue frequency */
+>  #define FUSE_DENTRY_INVAL_FREQ_MIN 5
+>=20=20
+> +static bool inval_wq_ready;
+>  unsigned __read_mostly inval_wq;
+>  static int inval_wq_set(const char *val, const struct kernel_param *kp)
+>  {
+> @@ -62,6 +63,10 @@ static int inval_wq_set(const char *val, const struct =
+kernel_param *kp)
+>=20=20
+>  	*((unsigned int *)kp->arg) =3D num;
+>=20=20
+> +	/* Defer the work until fuse_dentry_tree_init() sets it up. */
+> +	if (!inval_wq_ready)
+> +		return 0;
+> +
+>  	if (num && !old)
+>  		schedule_delayed_work(&dentry_tree_work,
+>  				      secs_to_jiffies(num));
+> @@ -224,6 +229,11 @@ void fuse_dentry_tree_init(void)
+>  		dentry_hash[i].tree =3D RB_ROOT;
+>  	}
+>  	INIT_DELAYED_WORK(&dentry_tree_work, fuse_dentry_tree_work);
+> +	inval_wq_ready =3D true;
+> +
+> +	if (inval_wq)
+> +		schedule_delayed_work(&dentry_tree_work,
+> +				      secs_to_jiffies(inval_wq));
+>  }
+>=20=20
+>  void fuse_dentry_tree_cleanup(void)
+>
+> base-commit: ab9787d7e66ac7e6e94fc975b37c5b56fff98ca9
+> --=20
+> 2.53.0
+>
+
