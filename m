@@ -1,80 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=66.163.188.212
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794448238;
-	b=ieefddIY4tHY2YUAu2vI1EUsMtA8oXdLavSx/JehyH17evxNQPnXy5l0VcPasA98cEq/
-	 1vjnkJYYfCtmO36AfzVF/OaQQbAcAbzhJjG0TXptGejuitga2TmUb28SH+pjiSQaGHk80
-	 mY0KBUZBvCLTDZ7nynp2vJWAdfagN4mnetUbpHUIcm7Gp2y3osivmDaMAHYvHK8yt8/Dj
-	 hQbjLvmOIOz2t6Re4r248vVGQ88qJ2lGPz0oWYBhJ4sEQ4+XrQEKzcbAMZwu0vO3ik37N
-	 ly4AgchxXsYV3dymfZRrdbzcgR8gGbmt2EREyPyhO5FNH0H/aqlwErC7rDpHZ9Oxr4A==
+	t=1794452972;
+	b=n5jrqroYOL6mr5aDY5ttjs4o6nyg9IYCeNq8MzIk/hJoWr6ENC9NI81+/KuTsYUF/iCE
+	 FwSKJEXSSaXOUSvmKHbJfU7d9X/+oyzJxtRreHOu44wd4oxVUXWaZQJX1hMMnz3BQp4Aa
+	 qatKnoIA0Z2hjQWF3X6cfIL5LBSevaVMnPGTh3eLUMPxtdbEA0jINMUeX3LIC346/XdZM
+	 DxJDtCSrjWV6Era2sfDfjTPEiDg0wmgoK/Ss/y3cxqNYAi+eXUutjfYPRYT8q3fWXZ2TR
+	 PqmqTAjZEHg1HTsgUgbpajT7okaDCBCWqsZdKxQf+5UvNAlkdBQEZUrfdgFClwfPzyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794448238;
-	h=DMARC-Filter:DKIM-Signature:X-SONIC-DKIM-SIGN:X-YMail-OSG:X-Sonic-MF:
-	 X-Sonic-ID:Received:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Mailer;
-	bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=;
-	b=xJtJ3GeLsHPwq977k+jMPwO/XuxmJaH1W2vn/A11eqsHW9MQalRBKWz4uYQwXodOGE+F
-	 z/aSCRYjdrMCWKxW9SDhLUTj1/qoSMzqBwWd9E4MAu5tkmVNkJ/PpBm84+sGBy40W6n99
-	 LcRdM6pt8iIdxOK8muyXKBDPeuwNAvRldYyy4uCVTESOYdcAFKycKR2vHew5Im6gi8mqw
-	 uIz6Dx59FD4+IowoJPZzXdRszkx4PESSSGTH5pT14m66fLEZuwFoodGCBpxLWGfBhwatm
-	 5acH/GYvpcvWrEUZ5hlbZgmGe1KxTaRrI6I6V39ATq4bja1ib9yILQ7OrMyKe3KFf/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794452972;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=qkinF/q9GCb+35gkYPPlegUGJ9Dwb0hvfw7/Lf59FvY=;
+	b=vySFngemtK2ln32Bo2G9EuOUWFBHtoqQ9czt0NvAwFQUU5xQaztlPhapEhDQi6K6xA8c
+	 nDJAPlNJg3FJuIid1nGEjACIWuDGywaR4flbbIGm7x92e3rRzP4dEYuu0qVNHAvPOhT4o
+	 uQ3TMghgekbcJrGI/uYS8LhpayDqNxFjopYe+hW0DxgIjwrV8Dm82M73/Ev95wDc09KNH
+	 V44H916lWHhQA0ygCH+PGwYkbF+ahxQH+q7zqvJK19P83CVS73HTIQfbtbs9wr0DyO1JH
+	 UMq0L8eSKDg3Bdtvn42p5ILtFeYU7AB/3jyjIswJXrgm1hX8P/LRM4TSZ6KR9IjSTgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=schaufler-ca.com;
-	spf=pass smtp.mailfrom=schaufler-ca.com;
-	dkim=pass header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx;
-	arc=none smtp.remote-ip=66.163.188.212
-Received: from sonic311-31.consmr.mail.ne1.yahoo.com (sonic311-31.consmr.mail.ne1.yahoo.com [66.163.188.212])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F63606A33F
-	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 01:50:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5F63606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.a=rsa-sha256 header.s=s2048 header.b=F+m434hx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=O8h9fybdyu+Al7CdWlfRBQ6LgqQutaBSF+Rc2HGjCVE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:Content-Type:From:Subject:Reply-To:Content-Type; b=F+m434hxnazo+znIsDN87b1q6q2BjDXrSK85l4sPO4/7/Nv6ouklEMGBpfrTHUnO8eGiNQoV5Bbw/uB3JZACliQBg8PtdTRYRP97HHZoegx3ArYwH69kAdVaUPkV7WcyNd89YKs91cZCwmWeziNsUM+FCRLahqzZW3a6Ku8pvIiJlMO/7XaKbdkzRicymfmmSk9XFsFNG+fkHI8UO70pZ1hFT9v2XQiwRrAslvpHUFbDR+3rpTT4Ikh/N/oSBL0qRMnhxDrBkdI0Mmku6tTsyJWpgcJjSTSvBuepznmh0kGiP8yElqSHRAm6ov8qvVTBbZJZj+71HtVfmpD+WAp7XA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1794448235; bh=cB6ms4YZu3OSr7Oj5Ktyy9vRYllWqlKKBSjCDtAOhd3=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=Wh5tO+A7k6l9RAB9CmF+7nFPpV+s7vwQOvHRCpB836zmpk+EmZdiT1obFQYb3eEYUV/ZZrDMNSGrpqiSFrVBvEAP1+BcX3bVXL8AkZe5aM0djERGyxVy+oivb40ItIA89tHRP/kW5BzO7GaPGZrOTfFkDQF1HHnKQVH/ifoH5PYTL/BXjLkbPViq5JKecTMlRIryhz3iU6NkOHkP1F3oliaijdeTD+Tk00HCA4w802Q1PFZvsZSndMk6hlb4A1wMRPh3z4tVeu12oZckS5JIJR1ywCFknBKWBE+hVxojbZ57Qr3RCaKJrua5vLBD1s/SnsdmRZ+/JLOhUlVDaAQyJw==
-X-YMail-OSG: zqmnDtkVM1n5t6ueog55b_vkFHSYM5E1qoECEJywzBr3UwiKAfUIVI_o6w7R9SH
- CQ1t93f4qyBpZEcVGjU2OBO9C0Of8.lRAD_UtcVdUMSf6_GiG98G7rNXb1ZhUGsyYLDyJE5oLG69
- MPpknxdoviNcfunvMa.q1ATsxUiRNZaaYFEtaSi7o3ARz3uzFbYwa4zXUFVTxVNR1M4yEm8E_vMu
- CX3lc6b1b0MWbnmh3DAeGebLmTpZwI12LuF9QH7MRRpV.Y7YkiPkkooycQl42qWPa_ZCsKSCVnTi
- cfYjzn7ZtEqmGYVjYEY1kEbVCA4JoS5GMMDKMoO39G5YhBugROnX2jrgGh0AwdwAby30.ZBxmd.l
- S62hS2hlPvIDoPxGhzS2whxCcIZrt8XbiUGRsBq2lfu8t9x.TIubZ4wIiRqzfDYoZIwioLDCjm6k
- .cljRFJEOnSix_ImX_sSyVP7eQAAEJ1GsHeUHb7atzAIHDlw0lV7YT_EQZaDbjuCghjYyGwMa7FJ
- LxdRDFOXlr05WMcbROqV0a4sd0J7UyT01rGVa2p8mqlfg_ZPSk1p0.zKLMJDr5A1o8n0sxe4LbiR
- qbREBgT6XAwECEJNbNHKO1YTM4iOmevp8GvnGDd6MDNapigfFoPwfu59SMy7zYd9LO3Z8_0VkIJt
- aPlGTgcyxBF.v1wQggIdb30_WaSmydGJlcGPdQ03irHq2wrwxiCoQO6IJUZEr0jypo3mUQnAGyDG
- k9vUUntKtCsyi.w0t_vFjR1T1M3Z6Xk5RLKDL9njS7LNW.CupQSEmNQ1GkX7kSwPFQP21HwmyMsp
- i9SdJowJ0s5y.bw2SrHxrP7sM6YbNToNL5ZVELMODpe5VuCBtDWl7VcCxYMmahr5455.ZE_hGmHs
- LrmFJx1uQ46OcZ2Ii956498sukETOy0INQsrtoq.ypS01I6QTO8GSI7rVFeq81ZNfcHhvUGJ06ME
- B8yJmeeVBase_8cBDx_Yk7y0xRppCWZz9S9bNwiHzQcmhSHJ99JaTf4E0zOIsgLWqU5tZh4wLZKp
- MnYneLIuBkBNwjBcYTuKXcpCwff8fTcsfan2g9ag6_HRqbKvb3lqTrnQRPIG.IGMBIXdu4D1HB2r
- Ygn65JHFmN1QF2ROBGshwilsGajQNSqHXHgx.co9RO5Evfjv8vx67t__1ew7rn3sc1C.7W_m4N4M
- cSR8SYdV43PcknGSee9yB1x8pWannWLYRUROzisZnoPLwDPX1S0a5pIeYojUo9jnHaAdfaOw5IJs
- bc0nB3tQZQ.0b782FrYX_n_pf05DxifKK1hrJ0OqXSo23BlRt.p63_4auT8X4tq9HTs9fxQLg0OA
- ydi2BtTIKopjFdQtWH0NOUC1U6_wILbgtZfZnlVsbVhHJ7Tk.UZGmAVff_vQl8b4id5D4T9jwtS9
- 8nKfk1Ghey2tqeZDF9SgVACRH_x6kJa81R1e4J_83TMyBY4Ays_MTt39YbFzXRfBMRqG0I92h9IS
- Xl4i4wMK_gUqmjpP0P_oaDsTzptxLp7NMOmOY3T81w3i60pQpmuYMvggEU3dv.ebRC4Brat.KcXq
- ZyjrZ4BouQUvapbNSNNP1Y253sBId7Ys37DryRT0fCsyFp6LIN0DYA1xElaICSH34S2v84muDGZe
- .CGRnjEo0Q2679LeUfRrG7eDmdHtGbtXa02kyQjntuOc7VrR9y8jRUHqkLiiITgSdxH1QGB5PWuQ
- ARpFP1xjX3OHKFGeQd7o8WX3xDhKeppcWAPJEhIosno79RY0IQ4.4JX7WCaXgDYbj6BL4okuPPnu
- 9CEiWKr_A1oRBHcXo_t2XyX1N2Jd1tPqjLAB1WY0vIGe1SVdGRdRloM6.RT24mU1pbFP4DjeRn1w
- _aXrAymHoztvd7BVNk78MI6f1URU2iBFJ6msmP6JgXQac5cfrtvlS9yn2eohnwEPfv__IKNy26n1
- mYs7i0yOvj6LH9jEvBJfejsFOAeuf8LBdL.MbTk8ZZiVorhzaxO81Zf4PRAQwZfM29CLtP5dAKbb
- klVicXy3HgsPrMZiM94qTb2yOlO2WSLEgrPS_2Vx31FNEHJNJpuKXHkfgTtKgjLPmpCr4Taq44yO
- KB8vbaoDybAHzNwFN22pWQG3NDp.x8aciLmMT8fUQgwMgW8NlLKb6ErL7ChYlwsHUhzhzMbUfvnT
- 2bA6QlHpoN4OcRsGeb2ygbIpUCMhvL1tqClAnkg41oGlCJa3crNRCKKeXXqZBarf9KzLHJa8i581
- 0YgHHROuHzbtZ8GRm6ggBoLbsrITMfTGKIshO9uwpGYYxl6nVscbC6LtZUsxlV5iP8t8XsYi.ga0
- EDsRWYHlK
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: 4e6572e0-628c-4102-8309-f6caa349ac8e
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.ne1.yahoo.com with HTTP; Thu, 12 Nov 2026 01:50:35 +0000
-Received: by hermes--production-gq1-fd7994565-9vhlr (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 15d81e1a8a6348ae9dcd84771e3b8196;
-          Thu, 12 Nov 2026 01:50:33 +0000 (UTC)
-Message-ID: <41617b0a-90d9-484e-a143-78e2a92e872c@schaufler-ca.com>
-Date: Wed, 11 Nov 2026 17:50:30 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ADF606A327;
+	Thu, 12 Nov 2026 03:09:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22ADF606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 75f5befede4611f19a56ed5b684f684d-20261112
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:037130f9-52f9-445f-b903-0fb7fdf7388f,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:9601ed369c3b6ffe06a276b458c22895,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|136|865|898,TC:nil,Content:0|15|50
+	|99,EDM:-3|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
+	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 75f5befede4611f19a56ed5b684f684d-20261112
+X-User: liwang@kylinos.cn
+Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <liwang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 475416175; Thu, 12 Nov 2026 11:09:23 +0800
+Message-ID: <98d41456-a6c4-48c2-8207-0d3fe32f8860@kylinos.cn>
+Date: Thu, 12 Nov 2026 11:09:20 +0800
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -85,67 +63,139 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [apparmor] [PATCH RFC 19/41] smack: use fc_init_pseudo() for
- smackfs
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: linux-efi@vger.kernel.org, Jan Kara <jack@suse.cz>,
- Amir Goldstein <amir73il@gmail.com>, linux-nvme@lists.infradead.org,
- fuse-devel@lists.linux.dev, linux-mm@kvack.org,
- target-devel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Chris Mason <mason@kernel.org>, Christoph Hellwig <hch@lst.de>,
- linux-s390@vger.kernel.org, linux-erofs@lists.ozlabs.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- driver-core@lists.linux.dev, Jann Horn <jannh@google.com>,
- selinux@vger.kernel.org, apparmor@lists.ubuntu.com,
- Josef Bacik <josef@toxicpanda.com>, linux-block@vger.kernel.org,
- ocfs2-devel@lists.linux.dev, Alexander Viro <viro@zeniv.linux.org.uk>,
- linux-nfs@vger.kernel.org, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Casey Schaufler <casey@schaufler-ca.com>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
- <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
-Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <20261110-work-loop-pseudo-v1-19-4c998976c6c7@kernel.org>
+Subject: Re: [PATCH v3] fuse: virtio-fs: stop new requests before draining
+ queues
+To: Qihang <q.h.hack.winter@gmail.com>, German Maglione
+ <gmaglione@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>
+Cc: Eugenio Perez <eperezma@redhat.com>, virtualization@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20261109023957.34500-1-q.h.hack.winter@gmail.com>
+Content-Language: en-GB
+From: Li Wang <liwang@kylinos.cn>
+In-Reply-To: <20261109023957.34500-1-q.h.hack.winter@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.26943 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On 11/10/2026 1:14 AM, Christian Brauner via AppArmor wrote:
-> Initialize smackfs as a pseudo filesystem. This raises SB_I_PSEUDO and
-> also SB_I_NOEXEC and SB_I_NODEV. smackfs never holds executables or
-> device nodes.
->
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+Hi Hang,
 
-Please include me at least as a CC on Smack patches.
-I ain't dead yet. Nonetheless,
-
-Acked-by: Casey Schaufler <casey@schaufler-ca.com>
-
+On 09/11/2026 10:39, Qihang wrote:
+> virtio_fs_conn_destroy() drains the virtqueues and then calls
+> fuse_conn_destroy(), which aborts the connection.  The abort ends every
+> request the fuse device still owns, and each ended request is freed as
+> soon as its waiter wakes up.
+> 
+> The drain only covers the requests that were already counted in
+> fsvq->in_flight when it started.  A request submitted after it returns is
+> not covered, but is still handed to the device before the abort runs:
+> 
+>   CPU 0 (umount)                     CPU 1
+>   ---------------------------------  --------------------------------
+>   virtio_fs_drain_all_queues()
+>     /* in_flight drops to 0 and
+>        the drain returns */
+>                                      virtio_fs_enqueue_req()
+>                                        virtqueue_add_sgs()
+>                                        inc_in_flight_req() -> 1
+>   fuse_conn_destroy()
+>     fuse_send_destroy()
+>     fuse_chan_abort()
+>       /* ends and frees the
+>          request above */
+>     fuse_chan_wait_aborted()
+>                                      /* the device still owns the
+>                                         virtqueue descriptors and
+>                                         DMA-writes into the freed
+>                                         request and its argbuf */
+> 
+> Stop admitting requests on each queue before draining begins.  The flag
+> is set per queue, but that is sufficient: request admission,
+> virtqueue_add_sgs() and, on the submission path, the in_flight
+> increment are serialized by the same fsvq->lock.  A request is
+> therefore either rejected before the device can see it, or already
+> counted in fsvq->in_flight and covered by the drain.  There is no
+> window in between.
+> 
+> Rejected requests use the existing -ENOTCONN error path and are ended by
+> virtio_fs_request_dispatch_work() through end_reqs, so no new request
+> completion or ownership state is introduced.  Nothing has to be
+> discarded in the completion path, and fsvq->in_flight remains the only
+> per-queue accounting state.
+> 
+> The -ENOSPC path needs the same admission check.  virtio_fs_enqueue_req()
+> drops fsvq->lock before returning -ENOSPC, and the caller queues the
+> request in a second critical section; teardown can finish in between and
+> leave the request stranded on queued_reqs, which nothing drains.
+> Re-check connected/aborting before queueing, in both the submission path
+> and the dispatch worker.  After aborting is set, no request can newly
+> enter queued_reqs or the virtqueue, except the explicitly permitted
+> FUSE_DESTROY path.
+> 
+> Rejected requests are ended by virtio_fs_request_dispatch_work().  If
+> their end callback may block (a DAX release), ending them inline can
+> deadlock: the callback may issue a synchronous request that needs the
+> same worker.  Offload those endings to a separate work item, like the
+> device completion path already does.
+> 
+> The new state is not folded into fsvq->connected because the request
+> queues have to stay usable: fuse_conn_destroy() sends FUSE_DESTROY
+> through them, with args.force set so that fuse_simple_request() waits
+> for the reply.  Clearing fsvq->connected would make that request fail
+> with -ENOTCONN and the server would never see the destroy.
+> 
+> FUSE_DESTROY is the sole exception while aborting is set.  It is sent
+> only after the first drain, and its completion is waited for before
+> fuse_chan_abort() can end requests, so the destroy is the only request
+> the device sees after the drain.  virtio-fs exposes no userspace
+> /dev/fuse fd (and no_control disables the fusectl interface), so
+> userspace cannot inject another request.
+> 
+> virtio_fs_start_all_queues() clears the flag, so a mount that follows an
+> unmount starts with admission enabled again.
+> 
+> Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Qihang <q.h.hack.winter@gmail.com>
 > ---
->  security/smack/smackfs.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/security/smack/smackfs.c b/security/smack/smackfs.c
-> index a72bc7fabea9..4a56bbeaeca3 100644
-> --- a/security/smack/smackfs.c
-> +++ b/security/smack/smackfs.c
-> @@ -25,6 +25,7 @@
->  #include <linux/magic.h>
->  #include <linux/mount.h>
->  #include <linux/fs_context.h>
-> +#include <linux/pseudo_fs.h>
->  #include "smack.h"
+> V2 -> V3:
+> - re-check admission before queueing on -ENOSPC, in virtio_fs_send_req()
+>   and in the dispatch worker, so teardown cannot strand a request on
+>   queued_reqs
+> - offload may_block request endings in the dispatch worker to avoid a
+>   self-deadlock through fuse_simple_request()
+> - add Fixes: and Cc: stable
+> V1 -> V2:
+> - prevent new requests from reaching the virtqueue at teardown time
+>   instead of skipping completions of aborted requests
+> - keep FUSE_DESTROY working: it is the teardown request and is waited
+>   for before fuse_chan_abort()
+> - drop the per-vq aborted flag and the completion-skip branch
+>  fs/fuse/virtio_fs.c | 104 +++++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 94 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+> index ba8d79c4bcac6..a46536c9fdc8e 100644
+> --- a/fs/fuse/virtio_fs.c
+> +++ b/fs/fuse/virtio_fs.c
+> @@ -55,6 +55,7 @@ struct virtio_fs_vq {
+>  	struct work_struct dispatch_work;
+>  	struct fuse_dev *fud;
+>  	bool connected;
+> +	bool aborting; /* reject new requests except FUSE_DESTROY */
+>  	long in_flight;
+>  	struct completion in_flight_zero; /* No inflight requests */
+>  	struct kobject *kobj;
+> @@ -97,6 +98,11 @@ struct virtio_fs_req_work {
+>  	struct work_struct done_work;
+>  };
 >  
->  #define BEBITS	(sizeof(__be32) * 8)
-> @@ -2880,6 +2881,7 @@ static const struct fs_context_operations smk_context_ops = {
->   */
->  static int smk_init_fs_context(struct fs_context *fc)
->  {
-> +	fc_init_pseudo(fc);
->  	fc->ops = &smk_context_ops;
->  	return 0;
->  }
->
+> +struct virtio_fs_end_work {
+> +	struct work_struct work;
+> +	struct fuse_req *req;
+> +};
+
+We can avoid introducing it and reuse virtio_fs_req_work instead.
+
+Thanks,
+Li Wang
