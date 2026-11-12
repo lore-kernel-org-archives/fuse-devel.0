@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794503553;
-	b=Uq/pZbYINxLHCu6RxFuHwjgumAtNTQBsehrrLZsYixQePPIXzfon7gK5/gfRg7paJVbj
-	 ogtT14+FjIVdq+r2WzgWQYooiBMzCItICjmF5sLK51D29pIkmNUiF54yjT9JBzDEryw20
-	 /nARpXg5bZpyveMBCQbYiJPzmFol7MGH6uTFeteGGzAQ/OYcGn61/pOIPgB31u1MBanhD
-	 pzGr4RQ7I6x6FvPRUxto1CliRrbJRM2AZvsDniyvjQhNOoRYemonbWOG6VhNumsyY8RIq
-	 vk+u2XnFFZi9AZybIG+wX89ZZcs2yhKbdAO9JJuzng9XPCWBFAtODUHAmpL5NYs6gwg==
+	t=1794504930;
+	b=aij1TZm1g1eYnnKi0xm6TxT/lQ6rBWRNneK09OWpElle+kG7qLODCABkHW9qR73kqYTV
+	 0RvkumeL6JTMeDrNu64pTg4VklPNOn51x+jl2HPCLRschpLMfL3jP49PkF2LfjT+cfRdH
+	 /KLfM4se83Tx9NNkRsMw3Xy0rqd9tiWwRIa8rtNQWJ5zmTNFB8+aulsvalNSuTsVVbWWJ
+	 RE+jJoNy1DVBHca+NDbteAGLEXRgLqe+8zZfcVu1kpv+8Kpvba4Zpy32XQkVq7s604WG0
+	 00ZB5esRHCOXjMTkmhJ4SPMwUy5oX+xz3GaqJo9wVJERTgr5yDWOvM+nEg4VOHQ4MMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794503553;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794504930;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
 	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=F6YTYLTty4ZhMoj9B/ri1dVEfYoUCO5Spihz/O49FOQ=;
-	b=S+5/inoIIuuc44TcLEqxfepIoIO3bXntjIY9J13mvi0u9uTHVx1ISktQmBEqK08iYEgi
-	 AbT4SkMpAFthroe61cq4G6Xa996nksAl4i6883/VP8hKs02MPiYQyfj1vKWXB1trPou1i
-	 K39hk7w+0gOht0WUxOdXUS02zaIzJAAR1rvUTiBt4XoA/urjOKaPUz8lbnM9+nvDvLQDi
-	 2e1qKJgjiJuYd5WpWAbg0e0d/mCiUF7u6Oou1XT+ElMuO/WNc1UHFNxRBB54SOloL39VX
-	 l8hHi4ipPRjdxUlDfJFxeUcK1HJMg+/AqsIAyNwYGiyL5afNinn9haAtsnkfF52iWcA==
+	bh=AVq19U8dsLUULl5Arm+uFElP0L4F8s4K16OEcmVJkjM=;
+	b=cuZr5+uSh1GY1e8hfbi3fx+XfsO9XFXZAh0vtdBSJ+NNnVn3U375GnkD+klvgw0ISbYY
+	 iIkAdHCpuKGt06xsU0gqxCuknA6qDkjbfRikPFWshfRutAICuZzyqqKfiCNAr4B+9pzMf
+	 xYsfrDFDGj6/RcMBQ0YMvbwTxktdyvBBwIFIUL2O9jPyT121b3dI3RzGJxb8p4J4wuoek
+	 UCigUl7aNdVUFLYYTclhL1MaZbVHzR8OFxBhngFJJz7fkoxtmyP2xr06pHvOWzACL+O2D
+	 wQ1XnNSwdUXrAOQCLNHq0o8mjjE79Bw06CNJTKGuQYeDai89GvrPpYol4TzzEr/GLrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=linux-foundation.org;
 	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=hmBx7hKr;
-	arc=none smtp.remote-ip=209.85.218.42
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=KjuYbpsf;
+	arc=none smtp.remote-ip=209.85.167.46
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB22606A327
-	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 17:12:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAB22606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C1D606C341
+	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 17:35:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72C1D606C341
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=hmBx7hKr
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c4395d31228so622400666b.1
-        for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 09:12:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=KjuYbpsf
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5bccecba199so77726e87.1
+        for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 09:35:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1794503551; x=1795108351; darn=lists.linux.dev;
+        d=linux-foundation.org; s=google; t=1794504928; x=1795109728; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=F6YTYLTty4ZhMoj9B/ri1dVEfYoUCO5Spihz/O49FOQ=;
-        b=hmBx7hKrH9Kne4Tlk0ZpqlAx3bTsGrCHjEGrybBNsNymVRScBK2QAWMjJNztYbr+OJ
-         QaCjuoa8ptJgT79d6yHohbgKEDz6xZMC0ZY+45siEd3s43rZazh2NCVt1zeyQ02ElQ1k
-         8U1Uye9+tJE5P6wR28crlPOoxNp5nNqQ2emUg=
+        bh=AVq19U8dsLUULl5Arm+uFElP0L4F8s4K16OEcmVJkjM=;
+        b=KjuYbpsfVohnX4xw0Fy51+FZjnIhRzo7b7YxQH5LBhDPsL4w2hYb4A6uxydHxIuPnZ
+         TzsfiddZjoSmC2loh/bc1fxwEO3OPaXNB39T2I6y8mSj2LEgZvEtsYLe7afn7+3wdjSs
+         wKIzmiJTNSZl0gqTmGNUAXRuWuNxjhWaiVXnI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794503551; x=1795108351;
+        d=1e100.net; s=20260707; t=1794504928; x=1795109728;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=F6YTYLTty4ZhMoj9B/ri1dVEfYoUCO5Spihz/O49FOQ=;
-        b=EYNYYVOg/i89NF3SBHQ04fIyBDYNEtf+Skx21VqXlYux8YSkxblXYqlG2fW10Ze721
-         +HBXzLsgHumHjCWEmBGAkckRWA00sgyHXgQRNn3dBvBSKaWtD2JxwBirqltqL/x/Rgru
-         lg+eUc/5+ZNL53hZLFarQr8qKQMUJLLO3aD4fdfamuo0t5HbYVw6sifYZowqw2Rep293
-         HsjhjKCh4eI1uk7XA/ESJuNF/vj3m1RDdgsH0mECiUJEMAHJ4czmNw3CCrLFb41VmTbk
-         6fs1mSCW4DUKsXZiMyrjH0ALiK5xV0kA+9VE+hOftC0oo5NH2sLPLDDJxZ8nq+xf4sir
-         w86g==
-X-Forwarded-Encrypted: i=1; AL+hErEg4CIJylhXwaPiaXZhAEOgKG1BaIc5XVKxsNHDdS6mt11AyA/CTFje6qRG8PG8gHP/2JbC/bh7v56l@lists.linux.dev
-X-Gm-Message-State: APuU4Z/iTsoZ6XSzAlbwYvUTOy0GXdsV/rJa3b0vu6Df6WllbwBDhE3m
-	hEgkjIKGrV4FQjOKfWU4V3iODr8/Ud2WRs7y98NCcSMeU0g4QJUK6sxHEY+LaI5F7aWbJbEl14d
-	/+PGEB1Dr6A==
-X-Gm-Gg: AYBFou3YBJHfXMrSyWDjTi9jOCOCHx2cPjivOLXF1Qlj40yD/eYyB5LL2D6dO7L1jk4
-	JOslf3LUvVZu72C5DxQ7E3t2Q2jlOhGbodewCccK7gbZBPx73XLc6nEgmrPWXzp1Kxm0RkeDk5X
-	1oJYE8qdGmoE89ggJ0aVCWNFs+v3azFynN6xAfr5k89soqYGvysFxN4rtccYTY2H8t3wvKjtNpN
-	yugmFQf7rGQjZXoOMikttCiK9hKy2xzX74dHhNZsokM9iuuwKXn2IgGKrLPYIgB8d+Bl3nLAS37
-	uUT2FuZjaDKSuErAMis9sRIpuPx+63eskOSFjFtF9gOATChNF3JyHY6X/mZcAESDGxCzBAXeOJt
-	MBwFbi12nB6erX34AETF+6cwheMZp0IDxSwT8fN/DwPH/0A/yi81vvCzVF4T0rlXnRi6LFcjn4E
-	Q/Rl7dawnGh/Uzymc7OSEVLZHom6K01J0ECb+CnPR9VLuGrfqbMyLsPZj5TZe1U7cLlv54vxFZZ
-	s82wEC+pZDM3gVkWGffcf0yTZbtHv9sYDTtVcq6inPHuJFivytS8iQACW92tTQ2/QCKv/lBfTel
-	Cx8q38kRracGR48RMEUVRA8gHr2J7AYwLbrICg3ZeDcDpZIsj6/3i0R6IWSSJUBjr1VP3V3pOPQ
-	Abgc=
-X-Received: by 2002:a17:906:c103:b0:c43:6d40:4f84 with SMTP id a640c23a62f3a-c5066949dcfmr661922666b.4.1794503551329;
-        Thu, 12 Nov 2026 09:12:31 -0800 (PST)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a63fb3fsm373731366b.61.2026.11.12.09.12.30
+        bh=AVq19U8dsLUULl5Arm+uFElP0L4F8s4K16OEcmVJkjM=;
+        b=LOVWnj21H3mkayHwLZfnb4Hl0cpBHZTfotifwgV31IBMY+xb5/TBrCSJUCUJuu335v
+         eyYdJA0/PFnyTW8F+twOc913KEAqYz0CgEM4vJIkB/23lMnNLRty9AirMCNdvZBdWUhz
+         0uGPzb4gOE6sEKBWiKuiONW1MboaOR2qCKbDlGInCp6FvoY2bMLI4n4MOFCEUTESk/7N
+         KWTi6XtFGMhlkUDK8AevoT3PaMjwLmyOgURZlO7pDq4MUE35GiwX1D882lfPwalQqLrj
+         8kIaXEWrQDxLPilXjRNM8ezFothbWOEPv5yJu2MneY3Q3flmDAtJ6zJ56EDp+58Zkzcp
+         fmgA==
+X-Forwarded-Encrypted: i=1; AL+hErFVSezYdJXISmIF/Nfk6etkCFN6fPAUrwPbfUsZ76YZNoxdDLTegIhDljqmTbNu5RR6vNpn0jKN1KNQ@lists.linux.dev
+X-Gm-Message-State: APuU4Z8N3GvxJYoYK4Eka0a1Edqx3StVp/aJhnQWZ2VhxBhkCP7dlGg/
+	wO34Ak3VGQTLxRCFjVOT0a5iHxF0z0tLmB+PIpx0B8t1Gad2XU84qBs6HwDasmToydxGNUKaeG6
+	wck//icvM4w==
+X-Gm-Gg: AYBFou3B5rFbzumoBejaKOnLPI5aHaAYuXoqYQCyxBCoFYjeWeaQaWBIET70MQddfke
+	sxMCewDdSS2U61Ss/xiOIumVgRA5CJ9SbFoqHsovtZg8Eo8KbbEbCtdkulwNqYc8OOwjxhN/O/t
+	fAStY5oQw7ZlYOiky5pPfSY9DcNypLi8a0Sy+Vf0g58U7mnBzOQNZk5i2g6vqtIXbwF1UvHORA6
+	BgXHP/yMj7UFp2Ca6PLuRdGJT5bbQMKyzMl4uj6nmMmx8KghOSa1Y11a55oe9Ss4xP2kTQ/tCRj
+	hVBYP0tvZXHKHEhfPvZAABa967kOr4xia9tgfmjFcy3R0RTpmc9uWrkLGzC/eFyiu6nto8dJu6S
+	yoTkPg+XFb/Fz5Y9Kyxhds//KqatQWzFm49PEepIdlToXPR9vRrAJehxIIYhO7GpfMWSw5xhrZO
+	Hg6gkqQSwCtsTz+ojujb7JMdVHMgDkqqpAehZSl9Qe7RVwVETn/psKht+dYwUKPFCTybhwwzWBg
+	2g6esRaEX8sBAAmPTJMtPaODY/VBFptDHeMwcdeRPsmaJ0ybs/pb1ToQB6eMkBdemZob0z2gqdx
+	hLckqgOexR9U9ohRWlA6sLKHAdOXsAWTvbzDGxBS4IYU4KacqErE9Y8Gej+a7S/qES/hZtdQt8G
+	KLieXLBqW1fEPMnvKCxxWXKNrYnls
+X-Received: by 2002:a05:6512:2343:b0:5c1:57ba:b477 with SMTP id 2adb3069b0e04-5c170a0b1dfmr23600e87.57.1794504927588;
+        Thu, 12 Nov 2026 09:35:27 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5c157bb75f7sm1783306e87.73.2026.11.12.09.35.27
         for <fuse-devel@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2026 09:12:30 -0800 (PST)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so721298666b.3
-        for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 09:12:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHuWMzL0GEzyA4Itqo0XtJx/I1eDFgEv4K/ktx/P3nzvVjPdz/eFiCSX4XDuR5IxELh3BSNhQGoOLqa@lists.linux.dev
-X-Received: by 2002:a17:907:dab:b0:c35:babe:ab44 with SMTP id
- a640c23a62f3a-c50665538e0mr626078766b.0.1794503550222; Thu, 12 Nov 2026
- 09:12:30 -0800 (PST)
+        Thu, 12 Nov 2026 09:35:27 -0800 (PST)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3adfe77d336so37755181fa.1
+        for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 09:35:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFrfOj4pfn8zpg1G9ejmMy1nTmf58dNQxOCN1UO1k7LS6TdjMxcoVqL+8m6MTQinhvqeyR238rPYLj7@lists.linux.dev
+X-Received: by 2002:a17:907:3ea7:b0:c4c:e344:ece7 with SMTP id
+ a640c23a62f3a-c5066afe5dbmr615605366b.10.1794504534261; Thu, 12 Nov 2026
+ 09:28:54 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -94,52 +94,71 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110145241.536019-1-kas@kernel.org> <20261110145241.536019-2-kas@kernel.org>
- <avNuQqLf9CG9dSsE@casper.infradead.org> <20261111-heimreisen-ungeziefer-empfunden-a892571f2c07@brauner>
- <20261111-thunfisch-wirbt-waldrand-822275b2d3b1@brauner> <CAHk-=wjPY=kfgnmtx4COEQjD5UzKx9m2-=KLGAZP4d=RKEH+pg@mail.gmail.com>
- <20261111-stumpf-montag-miterleben-c4e2feac8090@brauner> <CAHk-=wjGXBnme-N+HvbzHH40ftb7Suc=kZVT5cuintQWyMHJ7Q@mail.gmail.com>
- <e94bdf7c-eae6-4f64-bf93-0aeedca1a22e@app.fastmail.com> <32ad880e-5946-4703-9c6f-43ff59da39af@kernel.org>
- <3eb60948-8fc9-4682-87c2-c113e54e7d4e@app.fastmail.com> <4d6a3d68-3fc7-446e-9f59-f61d7475e22e@kernel.org>
- <bf186643-780c-40e0-bde6-f2af90404a18@app.fastmail.com> <b90d4bcb-b865-4a41-8496-78d751c03dfb@app.fastmail.com>
-In-Reply-To: <b90d4bcb-b865-4a41-8496-78d751c03dfb@app.fastmail.com>
+References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
+ <20261110-refcount_overflow_stable-v3-2-318625d63a98@kernel.org>
+ <avW3v-oLxcHXXNQD@pedro-suse.tail5790ac.ts.net> <4ae22b7a-c160-4003-a029-8a20381d196f@kernel.org>
+ <avXFlI_5fhUvFyct@pedro-suse.tail5790ac.ts.net> <42373222-8e37-4658-bebd-dd27230a1dfa@kernel.org>
+In-Reply-To: <42373222-8e37-4658-bebd-dd27230a1dfa@kernel.org>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Thu, 12 Nov 2026 09:12:13 -0800
-X-Gmail-Original-Message-ID: <CAHk-=whTG_hWYC=a2+uu_+SeN4E1ra0n=ytGqyk83Yr7tDuEJA@mail.gmail.com>
-X-Gm-Features: AclHuK8_5teM8idFuSWqym8O4N3OQPYF_Y6jfMJ_yh9uCx25qjwD1XBnjE0OwRA
-Message-ID: <CAHk-=whTG_hWYC=a2+uu_+SeN4E1ra0n=ytGqyk83Yr7tDuEJA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: "David Hildenbrand (Red Hat)" <david@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, "Kirill A. Shutemov" <kas@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Miklos Szeredi <miklos@szeredi.hu>, Amit Shah <amit@kernel.org>, 
-	Jan Kara <jack@suse.cz>, Zi Yan <ziy@nvidia.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+Date: Thu, 12 Nov 2026 09:28:37 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wh995y1B461rPAcgLagg26vsyXPoe=7JKgHowB+uHJJXA@mail.gmail.com>
+X-Gm-Features: AclHuK90rViBZMbITCUjh4KTAKhE7_4EYJcdTbdgYzXWPc1JsLWFSAsYMdn-r7I
+Message-ID: <CAHk-=wh995y1B461rPAcgLagg26vsyXPoe=7JKgHowB+uHJJXA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/9] mm: limit pagecache folio refcount when splicing
+ into pipes
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Pedro Falcato <pfalcato@suse.de>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Song Liu <songliubraving@fb.com>, 
+	Rik van Riel <riel@surriel.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Steve Sistare <steven.sistare@oracle.com>, 
+	John Hubbard <jhubbard@nvidia.com>, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	virtualization@lists.linux.dev, Netdev <netdev@vger.kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kernel-team@meta.com, 
-	Malin Jonsson <malin.jonsson@est.tech>, Richard Weinberger <richard@nod.at>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Nishanth Menon <nm@ti.com>, Frank Li <frank.li@nxp.com>
+	linux-arch@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 12 Nov 2026 at 03:35, Arnd Bergmann <arnd@arndb.de> wrote:
+On Thu, 12 Nov 2026 at 06:31, David Hildenbrand (Arm) <david@kernel.org> wrote:
 >
-> Posted with a somewhat shorter Cc list at
-> https://lore.kernel.org/linux-arm-kernel/20261112112528.1116405-1-arnd@kernel.org/T/#t
+> On 11/12/26 15:00, Pedro Falcato wrote:
+> >
+> > ETOOMANYREFS I think is good, also EBUSY, EMLINK (though this would be weird)
+> > or even a generic -EIO.
+>
+> So I used EFAULT because that's also what we currently return when
+> generic_pipe_buf_get() fails through pipe_buf_get() in splice_pipe_to_pipe() and
+> link_pipe().
 
-Lovely.
+Yes. It's not a very intuitive error code, I admit, but:
 
-I'd love to expand on this kind of early removal: anybody want to get
-brownie points by just removing the remaining users of the legacy
-'kmap()' interface entirely?
+ (a) it *is* the error code we already use
 
-I don't think we actually have that many of them. Almost all users
-have already been converted to 'kmap_local_page()' and friends.
+ (b) it is a fairly unique error code that isn't normal (ie EINVAL etc
+that can happen for multiple reasons)
 
-If we got rid of the legacy kmap() case, I think that would get rid of
-the whole "pkmap_page_table[]" mess and the PKMAP_BASE / PKMAP_END /
-PKMAP_ADDR games and only use the FIXMAP area.
+ (c) this is  something that nobody should EVER EVER test for anyway
 
-                   Linus
+IOW, the actual error code doesn't matter. Nobody sane will ever care.
+Some of them may be entirely unreachable due to resource allocation
+issues. And we already use EFAULT for random historical reasons.
+
+                Linus
