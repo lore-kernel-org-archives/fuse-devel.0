@@ -1,58 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.147
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794465930;
-	b=xKkXk6yS1neyzDvcUSsTICSDMv7bhc8AFCfik+jrskPVINgZVSTnxI/GNSgBM7S19xdi
-	 3FCevh7mjtmG565Bnrs8HtynmDlDZnfmNlXpfi40Cci4p1rdCjMXRabuxoD2udexqNY9d
-	 60ONbOXi9AXWow6LddRm9C5Hj4TFkSTf2UfdY9ietIXJPp/qJ7F2C7HenJl3L18vNk1Ql
-	 1wMXr9lpvzuw8zFdA0l4Cszg2edLPpNdIQMIkczpUbVR8MomxGVNRlLqTb+bQff9qZygO
-	 TELv2qc3X6obwzEWhO1mKZiSTsdUhnH+TtRfn2RseEeEhCzBlsWZrFGiM2NXpZAknXw==
+	t=1794473807;
+	b=rg62tYOZuUL4HmEwLbKRJf++GzxXriLopNPXk6R2pSDQdQeTPc+STaAvm0nx10dWECP0
+	 tPp0148kA2hHMCaLlGvzNxWDW8tQEbeS2qTbZ5pT23HzNdhmWRomCFmXLkO701aI+7sOW
+	 EJTXieyyZZRpeDJHwA+lkZcD8XlRbhSx9mxLc0bgexn7v2WstMsfXGds4Slrbx7JKdoN1
+	 0Coc304cMyO30iaftYBlVl87T/pEe/T8WUuwGP5yDuBuVBnuWtcpp2q08hdUzWrGb72M3
+	 nhjdSEYBBcb47Rbyy64jIjfmrmTbiyBrUAJK4JZWO5wF3Ao+8oF9u5g27DC51sm9Osw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794465930;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=9rH+QHGG1hI3dNzLf5B98rCFYXMdN76eY5FQVLDUIlw=;
-	b=eLzcS01Cd/1z/tBpNP8W6Q2xToHhdkRxKfk6t+dToXpjsw2Inq5fbYhm9EutXMFhAg1f
-	 T29BISOVqxt4arOp6rwxMDlC+3XPp19VZBNiPBgjPBHYUQSKjvDLdefcIznJGqHBC6tYQ
-	 vjaZxzuAJz2CI0lWCPPHeQ1qxLUoT1I9zl1a1lJjgHXb30TkyPeX8bvPDvDIbCq39I4Sz
-	 6KYghebKfD1oWQgHmA5RaXOXXQA/41ju/jNrDzoQT/xGiDCf8/SzUULHXFoG90ZdEfcV3
-	 CeVk9RRw8wfIu2MIRvYuopDJqqFe9aE4+S8/7E83MSYVyMK+IDys6mHi2AKIFqUFsWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794473807;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=rEDyzDvctiKMCWHEwGxzSSTUsEjyrAP4XO5pemqaf/w=;
+	b=Kqwot23FMr2ESwQJKqU/wpOhAZxEfMVDedcJSuBXn0esDTiWP5LZpYnTRsfPKOf4ozDw
+	 SPs3uN1jilGZ2xaaIY/E8G0SiLq6kSfH5MO5DYzFp3wWEF56l9CzYwgx8rd91PAhcfyhX
+	 sGt1DUQBkfrhrByBOSpiBEz3MAx2dXBc2D/S8QoDuX9k6M9Ef9BojSHNj1aSMXZz9GVpR
+	 2mr0Zw73E0MM5PR7WkTFm+pRJZorxGOW7broRWcfhut+dbSIIp6TxATcq/fSamB6C0l8m
+	 IMNuE5EYfb0noNNaNU7t9YdpF5qorgNPxdZG7UB4ZtLoXD1GCoZqnWy09vsZBdkNN5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=B3knZGFb;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=1UQSHGCM;
+	arc=none smtp.remote-ip=202.12.124.147
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9A606A88D;
-	Thu, 12 Nov 2026 06:45:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BB9A606A88D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: a09ee23ede6411f19a56ed5b684f684d-20261112
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:3e25d55a-35bc-44a9-a24c-fb5988da5f1e,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:ef66694e734ea29c88e66421930224fb,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|136|865|898,TC:nil,Content:0|15|50
-	|99,EDM:-3|-100,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0
-	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: a09ee23ede6411f19a56ed5b684f684d-20261112
-X-User: liwang@kylinos.cn
-Received: from [10.42.16.85] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1954828798; Thu, 12 Nov 2026 14:45:19 +0800
-Message-ID: <ce113884-82ae-4f3d-8f0e-c4499b8f1dfd@kylinos.cn>
-Date: Thu, 12 Nov 2026 14:45:17 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB28606A8A2
+	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 08:56:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AB28606A8A2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=B3knZGFb;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=1UQSHGCM
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.stl.internal (Postfix) with ESMTP id 8609F1D0023B
+	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 03:56:45 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Thu, 12 Nov 2026 03:56:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794473793;
+	 x=1794560193; bh=rEDyzDvctiKMCWHEwGxzSSTUsEjyrAP4XO5pemqaf/w=; b=
+	B3knZGFbJoyqxhvAjg5ey4pgvXQ0+dX+2yrqxypUpfmLl52FvtNsp7+AX8SbQ/eD
+	QB4o9/31f8xFXCXe56hraiMz96Up0KKZvOb2Y5C65VShVM0pPaDafBjDrSUg42VY
+	tu9bgejyvmqkt1Sc9Y32autzBDXmungVYOYMmKlWzY8ke9h7yX3aXbw7wQqSIKs3
+	owqqHduQlPeKvwCMeJG/2LJco0+TSA+EyuE40Mo+9A/AlkXjnBpb4ObaqIe0Doxc
+	7R11bWCv4vRYIh1QpCl5N1NsJgYyvfBQVk0IZtDm5jfVeuHETVudImiaPHrGdr9O
+	vc7/hsrU2ooBu9I+vxQIQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794473793; x=
+	1794560193; bh=rEDyzDvctiKMCWHEwGxzSSTUsEjyrAP4XO5pemqaf/w=; b=1
+	UQSHGCMZ2A3z8bSIkkWxeq6RnxTXCPrxpPWHAyytgP+bJFnjHFjyYHqv4hm0qCHi
+	QYj5WIQxDSWITpVoqdkvKqOQ6WfVb701r08hcNQLu5c31R4jKN1xLVhnaNofI2HX
+	7FdlCq7ohwLhQBbrPhAF/DBKK326jQC/kxRtegHB3eLgHLY3PWtxVOOFT5sBaYxH
+	iEXrIpL7ps7Vq4atKdHaQMjAWH1A1hydNB2gIjGap0JgIebeP6f+c/OshDqYw/Jr
+	vUJZRxhTpwPPzneK6Bk38wsyBQPOmtYPcLegI1AUZjxz+ntB7H/oAx/pXKxLSRwD
+	hopHAfS59cof80uyciXMg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794473793; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm2:rsa-sha256:ivHSWoJE9haVx7H9265AXqt8txEHFjeYW4bEGMY5EBgZntp
+	sAUf+/1SMAeOhIDVhxCKfZPR88kv5S2/qodhYpNnfhq+3Icoly6A5a3UUsyoN9W4
+	7+QzADIt4K8pj6XAn7gj6w5YYtQ/24E++uBSySCn15ou5h8RcWFoVlYr7iRsGBkf
+	158ukna4wCDyl75aMTkbb9K4GMqkaOtzk8PjwFrUz1t4xfNpx4j8FiuXLsEIcJBi
+	Kjz6xxSrCnzqL8Gsetgp4GG7dRAjAJqIRprRkx6oh684ojSRmrETTCI+ObdZJfrP
+	usYkVK4yc8s6pe3d0PClgOpLSPhyVWHyPPFnIEA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:bxT2HtsddpIKccxw7D1EmmeuIKfYJp+MJ2nSGobHrHU=:sEmA3MCn6JLrIUaQkRNBmsF7Hz02Y0iwntBVDLMI0ZY=;
+X-ME-Sender: <xms:NH_1asWKISFAZPfViYwtF0t1h1O_t_TUK-yUOcamOFfpOmsJjSP4yg>
+    <xme:NH_1arbnH92k8S1-bT0BlraQyd9qZk0y0Sn00uORJAF8vwlxDDfIbDO0bjykC8awK
+    bmkq2V7jpdyyeJMnsesd2PBlWQc6-IxQ5LTwSVYBMhTPwlK8kfbKFQb>
+X-ME-Proxy-Cause: dmFkZTE3ND7a5+W1Z07eormEvJEB+XP9yRNxmJWlhqo4nFZBM2kAyJQF7ZgJlr2V+yFcEa
+    l9MRmavypBJJ+1A3waVwnEHhrM4U0pZpCmMYKIXvfnZkXMGbKdecZtrxLKkn6LEq19o5fE
+    gPq8WxneDUi3v4xiFBdFxJqhhRjF9l4qFHfKxbM/8/kEKMzoow8MOCqc8EgLK/YGye/NOx
+    vJ+BeW0pJ1MEvAjPtKHXRRQgaz1GtmTJKeuhP2oScGxUjAxi6NvtA3CvTfeHnIQJVEo9ZV
+    dg2D6P1vG5wAmVpHBLy1jTDsA3jHwbynxf2/c8p8S1vmmHEGJ6xAPZTTV5Umrrj1UI3Khs
+    rJijqRdX01D2IUPunT3qBzgERFBVZ8jYBYw1H3yAWZItZ9j4airbtb5XjMvlG++YM1xjMj
+    nmYen9siqd5jtfWF+5rxuSCWu//0CHbbjZOuheK/lwuiWNnUidGYUvyWOFd9E2OfMRQyJo
+    NHUJLrgFmF/YLzCIRd6QgoB46bEjyL4va2ECLKod74mkfUM9Bt3nKjoMZsBw6FKGE9i6pb
+    kcdlCi+42mrcvNt9/oRYrgd7nZbADhLRxQvbPjTXfqJ8XvHIJ7OuVZ6HyNF9xugO4WyMQv
+    IHitba4dtlHe8UFBYfWm9s4Tizbuv07yoIS03Wj6UhMEjI5BgOKm5i1NzONA
+X-ME-Proxy: <xmx:OX_1atJeGP10qV3r_BB9LlbDWvzjzAT8IKY6g0XHpnMofHCEovQSTw>
+    <xmx:OX_1ajjzmcyTWNa03jroLuvYNjQrc-9N6_xxwGxAK_v1HHphOwD9Lg>
+    <xmx:OX_1ahRgitGd4zqX3yfmA8xLG4zFwqJjTP381SaWrv0nOrdNocAf6w>
+    <xmx:OX_1aoabTMJLtPTZZWDyERW41w-hFW-0kPrJfUFDo4kw2bxAwi0xvA>
+    <xmx:QX_1apsoJxByQcSYtOm475IyTqWu9-y7wuRQ59vqRM_Lw5w34HoWDLYb>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 1A43C32A0099; Thu, 12 Nov 2026 03:56:20 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -62,94 +115,113 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] fuse: Don't use request timeouts on virtiofs
-To: Yuho Choi <oss.patchbox@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Jeff Layton <jlayton@kernel.org>,
- Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- German Maglione <gmaglione@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, fuse-devel@lists.linux.dev,
- virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20261112052208.1248312-2-oss.patchbox@gmail.com>
-Content-Language: en-GB
-From: Li Wang <liwang@kylinos.cn>
-In-Reply-To: <20261112052208.1248312-2-oss.patchbox@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: AD8wiEBgakfZ
+Date: Thu, 12 Nov 2026 09:55:48 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Christian Brauner" <brauner@kernel.org>
+Cc: "Matthew Wilcox" <willy@infradead.org>,
+ "Kirill A. Shutemov" <kas@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Miklos Szeredi" <miklos@szeredi.hu>, "Amit Shah" <amit@kernel.org>,
+ "Jan Kara" <jack@suse.cz>, "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "Zi Yan" <ziy@nvidia.com>, "Bernd Schubert" <bschubert@ddn.com>,
+ "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
+ linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
+ virtualization@lists.linux.dev, Netdev <netdev@vger.kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com,
+ "Malin Jonsson" <malin.jonsson@est.tech>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>, "Nishanth Menon" <nm@ti.com>,
+ "Frank Li" <frank.li@nxp.com>
+Message-Id: <e94bdf7c-eae6-4f64-bf93-0aeedca1a22e@app.fastmail.com>
+In-Reply-To: 
+ <CAHk-=wjGXBnme-N+HvbzHH40ftb7Suc=kZVT5cuintQWyMHJ7Q@mail.gmail.com>
+References: <20261110145241.536019-1-kas@kernel.org>
+ <20261110145241.536019-2-kas@kernel.org>
+ <avNuQqLf9CG9dSsE@casper.infradead.org>
+ <20261111-heimreisen-ungeziefer-empfunden-a892571f2c07@brauner>
+ <20261111-thunfisch-wirbt-waldrand-822275b2d3b1@brauner>
+ <CAHk-=wjPY=kfgnmtx4COEQjD5UzKx9m2-=KLGAZP4d=RKEH+pg@mail.gmail.com>
+ <20261111-stumpf-montag-miterleben-c4e2feac8090@brauner>
+ <CAHk-=wjGXBnme-N+HvbzHH40ftb7Suc=kZVT5cuintQWyMHJ7Q@mail.gmail.com>
+Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-Hi Yuho,
+On Wed, Nov 11, 2026, at 20:26, Linus Torvalds wrote:
+> On Wed, 11 Nov 2026 at 10:53, Christian Brauner <brauner@kernel.org> wrote:
+>>
+>> If that's the official new stance than I'm very happy.
+>
+> I definitely want to remove HIGHMEM entirely in the not too distant
+> future. And before we remove it, we can most definitely document the
+> fact that we will not be worried about insane users.
+>
+> And things like security issues count as "insane user": if you use
+> HIGHMEM outside of controlled embedded setups or museum pieces you get
+> to keep both pieces when it breaks.
+>
+> IOW, it's legacy. We should aim to not introduce *new* bugs to it, but
+> if there are pre-existing bugs they very much count as "don't care",
+> this will be removed soon.
 
-On 12/11/2026 13:21, Yuho Choi wrote:
-> virtiofs cannot abort a request once it has been added to a virtqueue,
-> because the device owns its buffers until it returns them on the used
-> ring. This is why virtiofs sets no_control and no_force_umount; see
-> commit 15c8e72e88e0 ("fuse: allow skipping control interface and
-> forced unmount"), which says that "virtio-fs does not support aborting
-> requests which are being processed".
-> 
-> The request timeout added by commit 0f6439f61a6e ("fuse: add
-> kernel-enforced timeout option for requests") aborts them anyway. When
-> a request takes longer than the timeout, fuse_check_timeout() calls
-> fuse_chan_abort(), which moves the requests on each virtqueue's
-> fpq->processing list to its end list and ends them, so they are freed.
-> The device can then still write the reply into the freed request and
-> its pages, and virtio_fs_requests_done_work() later gets the freed
-> request back from virtqueue_get_buf().
-> 
-> The timeout is armed when the server sets FUSE_REQUEST_TIMEOUT in its
-> INIT reply, or when the fs.fuse.default_request_timeout or
-> fs.fuse.max_request_timeout sysctl is set, for example for other FUSE
-> mounts on the same system. A slow host is then enough to hit it.
-> 
-> Don't arm the request timeout, and don't offer FUSE_REQUEST_TIMEOUT, on
-> connections that set no_force_umount.
-> 
-> Fixes: 0f6439f61a6e ("fuse: add kernel-enforced timeout option for requests")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yuho Choi <oss.patchbox@gmail.com>
-> ...
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index 1341b681d0ed..f1aae9b5475c 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -1451,7 +1451,14 @@ static void process_init_reply(struct fuse_args *args, int error)
->  			fc->no_flock = 1;
->  		}
->  
-> -		fuse_init_server_timeout(fc->chan, timeout);
-> +		/*
-> +		 * A request timeout aborts the connection, which ends the
-> +		 * requests that are still in flight. A transport that cannot
-> +		 * take back requests it has handed to the device, such as
-> +		 * virtiofs, sets no_force_umount for the same reason.
-> +		 */
-> +		if (!fc->no_force_umount)
-> +			fuse_init_server_timeout(fc->chan, timeout);
->  
->  		fm->sb->s_bdi->ra_pages =
->  				min(fm->sb->s_bdi->ra_pages, ra_pages);
-> @@ -1502,8 +1509,10 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
->  		FUSE_HANDLE_KILLPRIV_V2 | FUSE_SETXATTR_EXT | FUSE_INIT_EXT |
->  		FUSE_SECURITY_CTX | FUSE_CREATE_SUPP_GROUP |
->  		FUSE_HAS_EXPIRE_ONLY | FUSE_DIRECT_IO_ALLOW_MMAP |
-> -		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP |
-> -		FUSE_REQUEST_TIMEOUT;
-> +		FUSE_NO_EXPORT_SUPPORT | FUSE_HAS_RESEND | FUSE_ALLOW_IDMAP;
-> +	/* See process_init_reply() */
-> +	if (!fm->fc->no_force_umount)
-> +		flags |= FUSE_REQUEST_TIMEOUT;
->  #ifdef CONFIG_FUSE_VDAX
->  	if (fm->fc->vdax)
->  		flags |= FUSE_MAP_ALIGNMENT;
+Agreed. There is also the option of adding Kconfig dependencies to
+mark things that are known broken with highmem when we either know
+that it is buggy, or we have a good reason to break something that
+none of those remaining users should be using.
 
-Miklos has already posted a patch addressing the same issue [1]. Personally, 
-I feel it would be better to introduce a separate parameter to avoid semantic 
-confusion with whether forced unmount is allowed.
+> I think the only reason it wasn't removed a couple of years ago
+> already is basically a few old 32-bit ARM platforms that still used
+> it.
+>
+> Those platforms still exist, and I predict that they'll still exist
+> next year, but if those users have to stay at the current LTS kernel,
+> that's fine.
 
-[1] https://lore.kernel.org/fuse-devel/16a0bf8f-8c30-415e-a35e-9551c78b8dcc@
-    kylinos.cn/T/#m34d62acd7887a86ec32e9091145e4b19fdbb3fc3
+I tried to push for what I thought was an aggressive timeline
+last year, but that would still keep the Arm bits for a couple more
+LTS releases and only gradually reduce the scope of highmem in the
+meantime, removing support from architectures, file systems, and
+drivers where possible. See https://lwn.net/Articles/1051010/
+for a summary of my talk in Tokyo, including the slides and
+a link to the video for anyone wanting more details.
 
-Thanks,
-Li Wang
+I also prepared a number of patches towards this, but have so
+far not been great at following up to get them merged, sorry
+about that.
+I definitely still want to revisit this soon, in particular the
+bits about defaulting to VMSPLIT_2G_OPT, and probably my patch
+to allow having (limited) discontiguous lowmem on Arm systems
+with a large MMIO hole.
 
+Scope-wise I think we absolutely need zsmalloc (zram/zswap)
+on arm32 to work with GFP_HIGHUSER, but enough people have told me
+that they still expect to need anonymous memory and ext4 page
+cache for a while, and probably powerpc32. The majority
+of __GFP_HIGHMEM allocations can probably just be converted
+to use lowmem, which would eliminate a good chunk of kmap()
+calls as well. In my attempts to do that, I came across two
+problems I'd have to solve though:
+
+ - Movable allocations (GFP_HIGHUSER_MOVABLE) imply highmem.
+   while I think only 64-bit architectures support movable
+   pages today, we cannot currently express an allocation
+   that should be movable on 64-bit but lowmem on 32-bit.
+
+ - Internal users of tmpfs (in particular DRM/GEM) usually
+   don't want highmem or movable pages, but actual tmpfs
+   does default to GFP_HIGHUSER_MOVABLE. Separating the two
+   is complicated.
+
+I added a few people to Cc here that I believe care about
+having several more LTS releases with some highmem support
+because of existing customer requirements.
+
+     Arnd
