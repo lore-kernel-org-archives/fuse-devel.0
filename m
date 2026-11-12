@@ -1,100 +1,100 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794499555;
-	b=gLDaPFSdZPMQmWyq6DVaGnbq8izWyT/RztqAMWpekhMoIZETEkQBTyymtNFoFs18zbwm
-	 uWD8vthDxrvcYyUtyLWPSYVaX7Y+X0nAJu+FngIUGPAhA7V1sZtUh/3YG2r5LU6twnsfK
-	 7JdayVp9DFPo2RIxf9leKpHPqnZjO8VwVXMqrBs2SzXiiS1dNA7nCeS/G2GPNZOfaCWof
-	 h+fgHB7OOCotgV+zgHxh+5VzwA11xbSVdKkZwVl3g/Txwpznr+WSigPMBUitXDTF/IxOm
-	 FJ+nrB0sR4PXVvR6rgeDQoNr2ZqFtTM9YbI11uD6Mg4MMp4jJk50kvJFA8ERpoz/oYw==
+	t=1794499716;
+	b=mPVkA46SP4gc3DTpBncN3b+08yCyXp/8irut7qES0oyRVHpXKgYqG1gyrCpMq4huQAUE
+	 rDovzSwxvmirdC2I31aC6NBHu9SboRuxYwNYQpTmFWfuscxY/1/vgJVgm/POWEI/G1ZgT
+	 Fo1nZDDvsvijPMt1H+M/0zo87D2Vwe8HRdzb5soK9IINEFqXnQetKuukpeONGweg0dWkY
+	 UkT7nGMtH2h//hT69wzyKUXqXkzaCjZWl+kAPjt8t7W/RZUNHSU84rqNvxehMdvivbJVb
+	 vNkVC+Hq13/My3S5R+BoBLlSgBSEMN0Y9PIdb/aFLiY6YCWjn0hFemU//42Ldk46mfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794499555;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794499716;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
 	 X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
 	 X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=YufnmZVNechLqcaL+12tnkQkHsQyEMDzCGtNkLwTnI0=;
-	b=Ny75uxHatEefvQhBVlhXV8UmySO0sl0LQAgH4fKJ3nsg/K0IZFeUotkiAvMpYMyVayN5
-	 3jrjdum/YkW5xPZ/LizYHUcc6Hz1n8FtG3KCbo+GFZtQdONdDaQ/Gnyra/Ow+a4o6R+fw
-	 jW9Cv/jwUSX3jsljo9NxovP/WE/DMUJoMmhK7wK5XHJ7dnZ3GRCioSB3ycVOb37+8qDTZ
-	 8/RLYKwlUbIiRPxt134x6otH8qK026pLjwbG6Far+b9WxEmZoF5YS6FSLtX0ZBmHCfkmU
-	 lo1F3QdguI8aMAcwPLxuoeGZYR9y6fzC7eCWoTsU/h+T8ggMcYJsKZpGzcnEv8wm6kw==
+	bh=+T3ab9ZuDlb9AtgbzYcZLqb0pcIRcAvo/vUSdxHxz0c=;
+	b=3DB/hJRebqYNb5Y+sQ7+iQiv2t+r8e9K8SD3GOBrldYw4molVniUbon8RCV3vLLPmMOU
+	 TTNJHwTe7BGQr38UYM8V39MD+81G0gpIHcpemIx7Mqf9wc5uXCtBWV+MqrgYtj7LJLfDs
+	 6qWGqNM9YlZRXStkMxQGb9sw+5gT6xGmt8aPAqMS5DoyjscByEk3kv8K8GZhCjfXCYC60
+	 7H1C+e1gyG0VJgCGIuBfTRqtop99b3YfbjUYU1uVOTL0uY1CvcrvBkYV+GTQ7cLfH/j80
+	 TKvLq05WHjyhkbnMSiKHuY+aKLHNw/DLYvHJxc59BbaJZqeWxyvozoDaxokAp2dSpHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1XqhTbRt;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=W8xNeInm;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="qJ/9tp20";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HJbtW+mO;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="KRUt/2rK";
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FSWB8QHv;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="KRUt/2rK";
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FSWB8QHv;
 	arc=none smtp.remote-ip=195.135.223.130
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A9A606A33D;
-	Thu, 12 Nov 2026 16:05:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2A9A606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2442B606A32A;
+	Thu, 12 Nov 2026 16:08:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2442B606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=1XqhTbRt;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=W8xNeInm;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=qJ/9tp20;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HJbtW+mO
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KRUt/2rK;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FSWB8QHv;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=KRUt/2rK;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=FSWB8QHv
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 93E3521CEE;
-	Thu, 12 Nov 2026 16:05:51 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0C62F21CEE;
+	Thu, 12 Nov 2026 16:08:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794499552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794499713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YufnmZVNechLqcaL+12tnkQkHsQyEMDzCGtNkLwTnI0=;
-	b=1XqhTbRtR2Ti2wMF/rvG2bh0JIBFEix+aS565q+brCOymeXkbIxqBQq2r6wsuvjiaO4+2w
-	7vfPm9DxdSKjxbS+lm1t4CLNcFuy/aDguieyK4iugLfLvVw7S9L1Jct/nMqrJprcCEIpD/
-	nkrRSyW3+pMrvBILTWn/2P65EZiNyIA=
+	bh=+T3ab9ZuDlb9AtgbzYcZLqb0pcIRcAvo/vUSdxHxz0c=;
+	b=KRUt/2rKwrPs3sMDIuJyMXommGdOYM0nzrPzs7Z3iopgik2l2//gV9DFuYm5GgLMQ4POe9
+	o2USyaY1VE9XW9/M5/A8VPOZA1t441CQHiZDgfKZ4TI9ZxQ8r27SR+L0NwmP16mYRWnMX+
+	Vvx0bkEnvdk6oRY91rFnc+cJWho8BZY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794499552;
+	s=susede2_ed25519; t=1794499713;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YufnmZVNechLqcaL+12tnkQkHsQyEMDzCGtNkLwTnI0=;
-	b=W8xNeInmb51XAqwMI01ZB6ZyLVoJIpxMF250ZX/5Jv8Zkh6KoO3jw58ZSy97gjEKKrw5ff
-	TY0JojlmtcRCm4Aw==
+	bh=+T3ab9ZuDlb9AtgbzYcZLqb0pcIRcAvo/vUSdxHxz0c=;
+	b=FSWB8QHvnGUEaCFhAnHsU04CKsBJVvy83XOZE+W934YlVKuXD+597aE4ihv+8p2f7APua7
+	+ceuqTju3GmkufDg==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="qJ/9tp20";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=HJbtW+mO
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="KRUt/2rK";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=FSWB8QHv
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794499551; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794499713; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YufnmZVNechLqcaL+12tnkQkHsQyEMDzCGtNkLwTnI0=;
-	b=qJ/9tp20/z5EPRCwjV3Ju3oZQSF63/UXEfbK0qWbglccebVbRVJ17Cow0WhCqK2fPx4oDA
-	1WXHs3iY8Axd+KkJKQ2VhoFG7bhXpndOn67Jt9IA4ZnjiV/fNLyjHE0RFjIFUqn7pPmRTu
-	uOkBoRbKv1DY3FYxsRkePWbviVKDar4=
+	bh=+T3ab9ZuDlb9AtgbzYcZLqb0pcIRcAvo/vUSdxHxz0c=;
+	b=KRUt/2rKwrPs3sMDIuJyMXommGdOYM0nzrPzs7Z3iopgik2l2//gV9DFuYm5GgLMQ4POe9
+	o2USyaY1VE9XW9/M5/A8VPOZA1t441CQHiZDgfKZ4TI9ZxQ8r27SR+L0NwmP16mYRWnMX+
+	Vvx0bkEnvdk6oRY91rFnc+cJWho8BZY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794499551;
+	s=susede2_ed25519; t=1794499713;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YufnmZVNechLqcaL+12tnkQkHsQyEMDzCGtNkLwTnI0=;
-	b=HJbtW+mODGRUVoEOZT6vq0WsF+o5SBwK9SwP09053w/gNrYQYHXjf1sVhXTvZ+CP7MMNSX
-	9U0u9mDp3bfE52Cg==
+	bh=+T3ab9ZuDlb9AtgbzYcZLqb0pcIRcAvo/vUSdxHxz0c=;
+	b=FSWB8QHvnGUEaCFhAnHsU04CKsBJVvy83XOZE+W934YlVKuXD+597aE4ihv+8p2f7APua7
+	+ceuqTju3GmkufDg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E26C13432;
-	Thu, 12 Nov 2026 16:05:46 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3101C13432;
+	Thu, 12 Nov 2026 16:08:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bcdNCNrj9WqGKQAAD6G6ig
-	(envelope-from <pfalcato@suse.de>); Thu, 12 Nov 2026 16:05:46 +0000
-Date: Thu, 12 Nov 2026 16:05:40 +0000
+	id xpkCK3rk9WrfKwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Thu, 12 Nov 2026 16:08:26 +0000
+Date: Thu, 12 Nov 2026 16:08:25 +0000
 From: Pedro Falcato <pfalcato@suse.de>
-To: David Hildenbrand <david@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
 Cc: Lorenzo Stoakes <ljs@kernel.org>, 
 	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
 	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
@@ -123,11 +123,11 @@ Cc: Lorenzo Stoakes <ljs@kernel.org>,
 	Linus Torvalds <torvalds@linux-foundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, linux-arch@vger.kernel.org, 
 	iommu@lists.linux.dev, netdev@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 6/9] RFC: net: limit folio refcount when copying skb
- frag references
-Message-ID: <avXi-z1MEb9S93Ii@pedro-suse.tail5790ac.ts.net>
+Subject: Re: [PATCH v3 7/9] RFC: net: limit folio refcount when rearranging
+ skb frags
+Message-ID: <avXkTuDG89QZgvOr@pedro-suse.tail5790ac.ts.net>
 References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
- <20261110-refcount_overflow_stable-v3-6-318625d63a98@kernel.org>
+ <20261110-refcount_overflow_stable-v3-7-318625d63a98@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -139,7 +139,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-refcount_overflow_stable-v3-6-318625d63a98@kernel.org>
+In-Reply-To: <20261110-refcount_overflow_stable-v3-7-318625d63a98@kernel.org>
 X-Spamd-Result: default: False [-12.01 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
@@ -168,29 +168,35 @@ X-Spamd-Result: default: False [-12.01 / 50.00];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
 X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Flag: NO
 X-Spam-Score: -12.01
 X-Spam-Level: 
-X-Rspamd-Queue-Id: 93E3521CEE
+X-Rspamd-Queue-Id: 0C62F21CEE
 
-On Tue, Nov 10, 2026 at 09:35:46PM +0100, David Hildenbrand (Arm) wrote:
-> Various networking features copy frag references of an skb, for example
-> when unsharing a cloned skb (AF_PACKET trimming a clone), when copying an
-> skb (nft dup) or when building NFQUEUE messages. This is an effective
-> way for multiplying folio references held by an skb, allowing for
-> exceeding folio refcount limits.
+On Tue, Nov 10, 2026 at 09:35:47PM +0100, David Hildenbrand (Arm) wrote:
+> Various networking features take additional references to frag pages
+> that are still referenced elsewhere when rearranging skb frags, for
+> example software GSO segmentation, TCP receive coalescing of clones, SACK
+> shifting and MTU probing. This is an effective way for multiplying folio
+> references held by an skb, allowing for exceeding folio refcount limits.
 > 
 > This is not specific to large pagecache folios, but with them it is a
 > lot easier to reach the refcount limit, as page table mappings can cheaply
 > create many references.
 > 
-> Let's introduce skb_frag_try_ref() and skb_frags_try_ref(), which use
-> try_get_page(), and use them in pskb_expand_head(), __pskb_copy_fclone(),
-> skb_zerocopy() and pskb_carve_inside_*(). All of these can already fail,
-> and their callers handle that.
+> Let's use skb_frag_try_ref() and skb_frags_try_ref() in skb_segment(),
+> skb_try_coalesce(), skb_shift() and tcp_clone_payload(). All of these can
+> already fail, and their callers handle that.
+> 
+> skb_split() can still add one reference when splitting a frag. But each
+> split also allocates a new skb that is charged to the socket, reaching
+> the refcount limit that way would require a lot of socket memory, and the
+> references go away once the data was acked, so it's not that relevant in
+> practice. Making skb_split() fail is more involved, so let's leave it alone
+> for now.
 > 
 > Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
 > Fixes: 99cb0dbd47a1 ("mm,thp: add read-only THP support for (non-shmem) FS")
@@ -198,13 +204,7 @@ On Tue, Nov 10, 2026 at 09:35:46PM +0100, David Hildenbrand (Arm) wrote:
 > Cc: stable@vger.kernel.org
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
-Acked-by: Pedro Falcato <pfalcato@suse.de>
-
-For what it's worth, I tried thinking up a way to avoid all of this stuff.
-I know there are severe recursion limits that (should) avoid a large copy
-chain, but the issue is that, say you have a copy chain limit of 8, you can
-still create 2^31/8 skbs (each with their own reference), then clone each 8
-times such that you get an overflow. Annoying.
+Acked-by: Pedro Falcato <pfalcato@suse.de> 
 
 -- 
 Pedro
