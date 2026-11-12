@@ -1,47 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.157
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794480192;
-	b=KqQ4ztSRCTBXd1aVULePEUP7Puiqz7o/PMqii3PSh9o2RcR1aFZt9V3PKW0VQNBjRHBs
-	 BTBWEqPGT+skW4O2KiumubLjNjLUPForeLgV8d0mI5o/MZL9nJ2rdtCqnUS0mZoXEP2vf
-	 WAxUl2JKcsoSxLu1mQsL2zqv32mt80kpwfH64fSFG8Is1tar/VlEJVie5vPY2DO/Nb/Sd
-	 5at/WKQScrHHCu4/9u4xmOOlE1AOhe8GEX6WDx2CwQXMI8b3f+DFIOqzKnGunUfx7lxKA
-	 KDRR924V91YNhgEZn7xLgJD6SIjsXUF7nGzlg3Khpo+LMOE1gvFYm3jDyjIzNK8AbMg==
+	t=1794481073;
+	b=cKPLPeZbSswcfDmkcutsXUGgGb3x8cunC9zQG6HvXJ68HIVRz0SbP7HL80D0ds/t/kBJ
+	 y3U3wgWIjuwkZj9gB/EVMw4pLRNLE/BwB5mSxNynuZbhjuQ0t8L2d4L9Rt2sqfFMI7OEB
+	 aLNDNKfYl3mvh/w7HIDC3ny7GU5xxxEsIgkuGdEIJB3xXWGMekXHMJzM2RK78ughj7Os7
+	 hZwEJaGskYLHeFZyhZUgpRPLcTqv+xp1U70dbaTimD7VKOGYD16MSdF6ysWs8Ye9+NbJy
+	 f2+KQwnD+WprE+ZQEqap+YFN1xUYD8dgjsvoyR+zqiLY0REgiGb834mJlCHuTtIXzmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794480192;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=dNp3udoHGBTm0oHVGK0tf8e5QbmrNR/x3XeLPS1gMFU=;
-	b=oE08mumgM8+2Hi7Tm4rfe9zJ6LXbi+43dah3b+NOInV/XUOCHW9FlJo1HiAKwjmJS0sv
-	 +7z016n/rmekHAm8v6TtVYUoZCsv4GB6D9uo8xSqGnx/tP/rqJYlBH1cN27RQBbAhIjc0
-	 aRUeBxXEl/fS/9urTeUmTllO+6p+7af5UWqugoq9gw2yIntXE48wgoFdHQ2IkbLjspxM1
-	 0qwVZPq2kFQr0cmzq+zUXFgYc3EpqWKw48CeGii/koIpjX4Gccfa/7/G7JxTDp5Mgrboj
-	 r+O3UkYMn1PGVaHP9lWIWRQ8SiPBM0men+F4I0rFU8Tbz813y2gXAlYQBxRQBswt2ow==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794481073;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=7Meslkpa8R+PBS0DyHZFPRgLYTJh3HuHkb0AOxumEFg=;
+	b=CErzbBQuz4MOwYmpqTg5v39jJCians79OJ1KZTyMLQWFrJUS1Sb9XG6NyhPEJd8bo60K
+	 1HzOblb4MDNGvGtbGVSKKyuNy2XPzhDVML8RbHllfRcFpnQVVtW0gGFhwy2mAX26Yp0br
+	 ooKYKbpIcdyRtcSmlJ6EKRgTvFt9LpXtAkiBalEu4+wCzKqsYSkmzfIHI/kY5gtoUdTqD
+	 6u00mvH9Bg9C92iyxXzk3MHn6IfMAy+fEouWHGSkyRCGcbgpyGhIucgEM+diQ9foleCnD
+	 G1mirgH4rXyYDlsmGUOh02rI7buhHHiZxQZC5k97M7+/uZzEuafhrEyjz6AP3OIhbdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I0TPDV43;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=Lx3oOVyr;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=5Tucp5Ch;
+	arc=none smtp.remote-ip=202.12.124.157
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6722F606A885;
-	Thu, 12 Nov 2026 10:43:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29005606A323
+	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 10:57:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29005606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I0TPDV43
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 677411F00A05;
-	Thu, 12 Nov 2026 10:42:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794480192;
-	bh=dNp3udoHGBTm0oHVGK0tf8e5QbmrNR/x3XeLPS1gMFU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=I0TPDV43709xds1YjFciabcX8qY1kutyiqT4lX2KKlYro1DwODMPjRG7nVRyeYq66
-	 vbZLurqiksVuDaoY1LkD/b5xi6IUC05VrWqzoS8cg3dmM9nvkWpd4OgnlddW53//yA
-	 122d/AkBmYZZwYRJlhvhMXsS8VBFwcTE316zNFd+ifJo08ZSFBQlXmz7faIhXQ/gQ+
-	 D5NSx6U8O4FZXgtjJm9Q3eL7+2hksA9jy6WSRf07SPq4o97j9rpTcs6rKAst/0vPMl
-	 zHVfGezyt9McTCfCB2BTmdo44x/6PrUKOMOUdEqC7pTDwmEKnIu/+nlrdqSywBLRqG
-	 moyZYmFfXgPEw==
-Message-ID: <f5a411f7-ea17-451d-9c43-26a68464c6d2@kernel.org>
-Date: Thu, 12 Nov 2026 11:42:55 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=Lx3oOVyr;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=5Tucp5Ch
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id EE5097A012D
+	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 05:57:51 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Thu, 12 Nov 2026 05:57:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794481059;
+	 x=1794567459; bh=7Meslkpa8R+PBS0DyHZFPRgLYTJh3HuHkb0AOxumEFg=; b=
+	Lx3oOVyr7xrldDhNotY/Y44ZUkWpUbS/Sw15HoBIt7zwVfFUJYzuhwJE6hHBi/f8
+	72PdLUrfif3QbiaqWlxNR28c8e/kBp2q3B8JS74VmKGEIA51P5NyNwQU9UU2U8DZ
+	5hOupRTbk/Bo1YRYVjiwE79692Z2HaOFkRbUqn04C0dAknhoZ/XF/BqXISN8djmK
+	nzQpQlDPCzLVKROdNaK/NAazeqQ5iP1EORfBNzaq7ok9xgR2qwyEFHaDlF4Y9AlF
+	XYa4+Lf5XVm+Qhxd+suZVmkwWbJXRviGrqHovHUmcPfLOq6ZV/oylQQuwfeVvML/
+	U7opSxQSF50d5vGuJszB5Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794481059; x=
+	1794567459; bh=7Meslkpa8R+PBS0DyHZFPRgLYTJh3HuHkb0AOxumEFg=; b=5
+	Tucp5ChVCBDjhl4dk5C7F5X3LVKTFsMP8gnn9x0MuH2+7jMPa4Nj+SIQT2DVG8uJ
+	u5wupJm5rdstAzMZZInODnyvvfpTJfSSXwspucG8yFOI18XQA+xNSYU8OspFIhSc
+	LO/T82B7R1uppnjALZIhacMzde9ZBYWKSQzN44nG7+0vSBMXLzlZpyo2vVWuFYH0
+	fE8J7L53cCmOZj5msmFb4hnFvbEATEFuLAZdCbui2G1dPgjuzrWnaKOAF5Kwkf9e
+	8FQ0yTD33WASXijjLCTz8CpmqYu/XHq6UATYTYTvybNI0UcKwDFTUQ2UkVbC+N6n
+	CdlnYUUoCZMBRuGIDFwhA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794481059; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm2:rsa-sha256:VZntrJAi0G9nuntyPPfiCREFjPRTEAvNECB3huDRPEgh9FG
+	o6ZYoeoUuueYoweTxj8qxYBkYwstAm/6gPZ2h5O74BhBpaQa0cppwJd36raCu1Zv
+	P0NwQzG/xPYU5tUC3leWYOJI7F2rlYxXwFKnIgwSHLOiOiu55UfoRGwzgFNmFFL3
+	um1Dk22BpllsE8/1Eog0yFn95zgMiIGCjwMeM4WyLc70iGCpyTInpI6kpqcsOMKS
+	w9djWX/4PVpuZkGVkbu422WVcf3gMtSFSfmexCPxNz4jMdqM2kMag6FWYg1Owv3V
+	zCGcRGLRkXhrMFKZ5H2xohLpAcx/6SxAobK6rMQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:QYGhyNrll/z2x43nzHbHMzcpokL6CuOf/GHVHHBnNG4=:9cBz8A60daXm+XxflR0ZEsASkUqul+qaMs0gX60bkz4=;
+X-ME-Sender: <xms:lZv1aulnwhqAVrU2ywlIhlQkx3jcr_mjJ1oOcF-oQALIJdbh9W2MSg>
+    <xme:lZv1agpofMLGq5k0IqsluYkWK-3JUTpfBoFK3L6DLiuUPYqcFGn2Enty4uF_-XQnJ
+    z94b6dWlBxsjyCv4Ip2kz_9V8gd6SZusy2huFR7jeXtsherYI7qUTdq>
+X-ME-Proxy-Cause: dmFkZTFPAb5ZVZzWlLcejKGx6E4VA3h8PqNfBXtLQtoFPOgpmgytfsUfOyDLCYXd2SSa4q
+    2EH8IJ2PPzcvWQUIF8rzpRv4eG4RNXvx0NBusK63EGFOtvbarh8wH0CGqL2blZX5LnwxGj
+    Bq7bb6BFYZpib28HfQC1ujCrw0Q8TBW7/48cz6euAfTCWQtTfGAuyvgN7GbpRZsmgRF2E4
+    TCaNzGWqT+dNqpflZRaBZXkZZtt4lBXqOUPXc/rjd4+dtSMM8lEb+r/hClV3R/o7Q+s5sd
+    1lcFl3GcCnNdnbplqVUVqfvmlm5/4bt3TMMk6ZNCk1/IOqRAfS2+h81eYDNbQMld/1X+lI
+    8+vvCIKZ1a4bZphSYeDPjCLmrTmXj+ipxN85OGTScj/sl7+Ut3TC/P8rMkVApR+7BygKid
+    SkK0hxv5G+rH+sog2zIEng3jqw0sOhQu7dCKfMZsvhYS/RJDLdeoB3JlbIKQ1Ys7dHJw2w
+    E1GTp+3yFqf73WGe3gAJZsZogHWBjRGFo1jLw+xcZHLP9MN34ZbJcYdMqQYR6DX3zmMqyt
+    U2s5m3k8BcCtol6aY9t+57PktWJnKsaEvlPS7qbnA2Qi397OHuVQYt2HBnl4g4gG0zdN1t
+    W74OFEbJGA5QHDn0M9LErHNZjmr7Zm0RyUqswJebH+zD/PZn3cfiGvgMm5gg
+X-ME-Proxy: <xmx:m5v1apYfRm6Zt7Y0f2U2u3xCBkE7OANuu7_SI_WuQKzpEBsoK_gakw>
+    <xmx:m5v1aqwe9cSnJzJz-zCoa-M5X9VKgGBOT0Z-GKILMaQBtdU6hxleOg>
+    <xmx:m5v1angYViALKmj2ClSkaSfBGAsOhh0oZTdF0LOqTWdiA7YmSiqtnA>
+    <xmx:m5v1ahr24wqldhEb8CE5VCD_MYmhCuogL16D5SqQjqcPObg2XEt3og>
+    <xmx:o5v1ag_90SnSwFh8o9nRP0b3a1tEHU8n2Te6e-_AnmGGK-27gNICHabi>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 82A8332A009E; Thu, 12 Nov 2026 05:57:25 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -51,110 +115,82 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/9] mm: limit pagecache folio refcount when mapping
- pages
-To: Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Andrew Morton <akpm@linux-foundation.org>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Byungchul Park <byungchul@sk.com>,
- Gregory Price <gourry@gourry.net>, Ying Huang
- <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Song Liu <songliubraving@fb.com>, Rik van Riel <riel@surriel.com>,
- Miklos Szeredi <miklos@szeredi.hu>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Hugh Dickins <hughd@google.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Jason Gunthorpe <jgg@ziepe.ca>,
- Kevin Tian <kevin.tian@intel.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Steve Sistare <steven.sistare@oracle.com>, John Hubbard
- <jhubbard@nvidia.com>, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- Josef Bacik <josef@toxicpanda.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+X-ThreadId: AD8wiEBgakfZ
+Date: Thu, 12 Nov 2026 11:56:55 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Christian Brauner" <brauner@kernel.org>
+Cc: "Matthew Wilcox" <willy@infradead.org>,
+ "Kirill A. Shutemov" <kas@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Miklos Szeredi" <miklos@szeredi.hu>, "Amit Shah" <amit@kernel.org>,
+ "Jan Kara" <jack@suse.cz>, "Zi Yan" <ziy@nvidia.com>,
+ "Bernd Schubert" <bschubert@ddn.com>, "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Eric Dumazet" <edumazet@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
  linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev,
- linux-arch@vger.kernel.org, iommu@lists.linux.dev, netdev@vger.kernel.org,
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org
-References: <20261110-refcount_overflow_stable-v3-0-318625d63a98@kernel.org>
- <20261110-refcount_overflow_stable-v3-1-318625d63a98@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261110-refcount_overflow_stable-v3-1-318625d63a98@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+ virtualization@lists.linux.dev, Netdev <netdev@vger.kernel.org>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com,
+ "Malin Jonsson" <malin.jonsson@est.tech>,
+ "Richard Weinberger" <richard@nod.at>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>, "Nishanth Menon" <nm@ti.com>,
+ "Frank Li" <frank.li@nxp.com>
+Message-Id: <bf186643-780c-40e0-bde6-f2af90404a18@app.fastmail.com>
+In-Reply-To: <4d6a3d68-3fc7-446e-9f59-f61d7475e22e@kernel.org>
+References: <20261110145241.536019-1-kas@kernel.org>
+ <20261110145241.536019-2-kas@kernel.org>
+ <avNuQqLf9CG9dSsE@casper.infradead.org>
+ <20261111-heimreisen-ungeziefer-empfunden-a892571f2c07@brauner>
+ <20261111-thunfisch-wirbt-waldrand-822275b2d3b1@brauner>
+ <CAHk-=wjPY=kfgnmtx4COEQjD5UzKx9m2-=KLGAZP4d=RKEH+pg@mail.gmail.com>
+ <20261111-stumpf-montag-miterleben-c4e2feac8090@brauner>
+ <CAHk-=wjGXBnme-N+HvbzHH40ftb7Suc=kZVT5cuintQWyMHJ7Q@mail.gmail.com>
+ <e94bdf7c-eae6-4f64-bf93-0aeedca1a22e@app.fastmail.com>
+ <32ad880e-5946-4703-9c6f-43ff59da39af@kernel.org>
+ <3eb60948-8fc9-4682-87c2-c113e54e7d4e@app.fastmail.com>
+ <4d6a3d68-3fc7-446e-9f59-f61d7475e22e@kernel.org>
+Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
->  
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index 9871b4f32a916..0f6d57432a7e5 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -3968,6 +3968,11 @@ vm_fault_t filemap_map_pages(struct vm_fault *vmf,
->  		unsigned long end;
->  		vm_fault_t map_ret;
->  
-> +		if (unlikely(folio_ref_count_over_limit(folio))) {
-> +			folio_ref_dec(folio);
+On Thu, Nov 12, 2026, at 10:28, David Hildenbrand (Arm) wrote:
+> On 11/12/26 10:25, Arnd Bergmann wrote:
+>> On Thu, Nov 12, 2026, at 10:09, David Hildenbrand (Arm) wrote:
+>>> On 11/12/26 09:55, Arnd Bergmann wrote:
+>>>>
+>>>> I tried to push for what I thought was an aggressive timeline
+>>>> last year, but that would still keep the Arm bits for a couple more
+>>>> LTS releases and only gradually reduce the scope of highmem in the
+>>>> meantime, removing support from architectures, file systems, and
+>>>> drivers where possible. See https://lwn.net/Articles/1051010/
+>>>> for a summary of my talk in Tokyo, including the slides and
+>>>> a link to the video for anyone wanting more details.
+>>>>
+>>>> I also prepared a number of patches towards this, but have so
+>>>> far not been great at following up to get them merged, sorry
+>>>> about that.
+>>>
+>>> I think we can already start at removing CONFIG_HIGHPTE now, right?
+>> 
+>> Yes, I think my patch from two years ago still applies, see
+>> 
+>> https://lore.kernel.org/all/20241210160556.2341497-4-arnd@kernel.org/
+>> https://lore.kernel.org/all/20241210160556.2341497-5-arnd@kernel.org/
+>> 
+>> If not, I can send you an updated version.
+>
+> yes, please, that also brings it up to reviewer's attention :)
 
-Going over this once more, I'll just use folio_put() here for consistency.
+Ok, I have rebased my old patches to 7.4-rc2 now and pushed them to
 
--- 
-Cheers,
+https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=highmem-7.4
 
-David
+I'll do some more build testing on this version before I post
+them to the list.
+
+    Arnd
