@@ -1,110 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.157
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794481073;
-	b=cKPLPeZbSswcfDmkcutsXUGgGb3x8cunC9zQG6HvXJ68HIVRz0SbP7HL80D0ds/t/kBJ
-	 y3U3wgWIjuwkZj9gB/EVMw4pLRNLE/BwB5mSxNynuZbhjuQ0t8L2d4L9Rt2sqfFMI7OEB
-	 aLNDNKfYl3mvh/w7HIDC3ny7GU5xxxEsIgkuGdEIJB3xXWGMekXHMJzM2RK78ughj7Os7
-	 hZwEJaGskYLHeFZyhZUgpRPLcTqv+xp1U70dbaTimD7VKOGYD16MSdF6ysWs8Ye9+NbJy
-	 f2+KQwnD+WprE+ZQEqap+YFN1xUYD8dgjsvoyR+zqiLY0REgiGb834mJlCHuTtIXzmg==
+	t=1794483309;
+	b=WGWkG8Lf4T+TDR4wZaDBtpldaOVeZTfnv2XG528FDiBpzZPzuP3IlB+iR8nVz/XdETfV
+	 35xqenBI3VYxSqA7UYUAH1NOG9ejAiRIiSz08CpH4jpzlgyyx7g49xXlpW9BJ3uc5xXkv
+	 FaLZDSqWozEzFs/d+RLbVY0J8ekP10+6c+zhKOQZWC1j/YaRl7Uyd0h2Wuwf98YLKuj6L
+	 ei1JqizlQGkHtJ52qdfM/ae56oqbDCmG7qLQX9G4CXasn+yvyS1Kv+Hw0xVCYPOyCkJ1m
+	 oNmdWulkOBNiin2GcNnpITGU1tPc0YjP7xui6nrF2giRiYzkHgSRuCqq8PNE0XwcWjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794481073;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794483309;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
 	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
 	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
 	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
 	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=7Meslkpa8R+PBS0DyHZFPRgLYTJh3HuHkb0AOxumEFg=;
-	b=CErzbBQuz4MOwYmpqTg5v39jJCians79OJ1KZTyMLQWFrJUS1Sb9XG6NyhPEJd8bo60K
-	 1HzOblb4MDNGvGtbGVSKKyuNy2XPzhDVML8RbHllfRcFpnQVVtW0gGFhwy2mAX26Yp0br
-	 ooKYKbpIcdyRtcSmlJ6EKRgTvFt9LpXtAkiBalEu4+wCzKqsYSkmzfIHI/kY5gtoUdTqD
-	 6u00mvH9Bg9C92iyxXzk3MHn6IfMAy+fEouWHGSkyRCGcbgpyGhIucgEM+diQ9foleCnD
-	 G1mirgH4rXyYDlsmGUOh02rI7buhHHiZxQZC5k97M7+/uZzEuafhrEyjz6AP3OIhbdw==
+	bh=FpibZxpHOkegx/nWCVPd2wzoEHQ0LrdmDgeGw81ilYs=;
+	b=sr+EJuf/TgEPHmOQY3C4xgqIVdUSaes2eDGp/6kgNRQUiPUHyVBCRepp4ZgJvTj3uQCP
+	 hPE3QPMOmVzU0ZKRCOCjUwWAifA16MQI6jFholSTZYeuMyjlX4XXDVms6gAKfmBE+DLUv
+	 vsq+w96dfm4lKwFXPRfdENTZVeGBs44K2rYRphZ1qI03g4gLS1/BJEL0vAVIaxG/6VLK9
+	 hJhukp9Olw+ynvKtwJQ5RS/RgDp577XOMKOenwIZKpXEPmGnxEyvSCdbjMZYxFcR/LJum
+	 hrZTQ3O759V0JJSdD5tOQHyVmTzpo7kiT9a5i30H2P4QjW3D2V6qUx5UMARkkw/FUKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arndb.de;
 	spf=pass smtp.mailfrom=arndb.de;
-	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=Lx3oOVyr;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=5Tucp5Ch;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=YnjyECYZ;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=EoYAqh2K;
 	arc=none smtp.remote-ip=202.12.124.157
 Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29005606A323
-	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 10:57:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29005606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A30606A31C
+	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 11:35:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64A30606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=Lx3oOVyr;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=5Tucp5Ch
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=YnjyECYZ;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=EoYAqh2K
 Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id EE5097A012D
-	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 05:57:51 -0500 (EST)
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 430217A0151
+	for <fuse-devel@lists.linux.dev>; Thu, 12 Nov 2026 06:35:08 -0500 (EST)
 Received: from ams-imap-03 ([10.64.2.23])
-  by ams-compute-02.internal (MEProxy); Thu, 12 Nov 2026 05:57:52 -0500
+  by ams-compute-02.internal (MEProxy); Thu, 12 Nov 2026 06:35:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1794481059;
-	 x=1794567459; bh=7Meslkpa8R+PBS0DyHZFPRgLYTJh3HuHkb0AOxumEFg=; b=
-	Lx3oOVyr7xrldDhNotY/Y44ZUkWpUbS/Sw15HoBIt7zwVfFUJYzuhwJE6hHBi/f8
-	72PdLUrfif3QbiaqWlxNR28c8e/kBp2q3B8JS74VmKGEIA51P5NyNwQU9UU2U8DZ
-	5hOupRTbk/Bo1YRYVjiwE79692Z2HaOFkRbUqn04C0dAknhoZ/XF/BqXISN8djmK
-	nzQpQlDPCzLVKROdNaK/NAazeqQ5iP1EORfBNzaq7ok9xgR2qwyEFHaDlF4Y9AlF
-	XYa4+Lf5XVm+Qhxd+suZVmkwWbJXRviGrqHovHUmcPfLOq6ZV/oylQQuwfeVvML/
-	U7opSxQSF50d5vGuJszB5Q==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794483296;
+	 x=1794569696; bh=FpibZxpHOkegx/nWCVPd2wzoEHQ0LrdmDgeGw81ilYs=; b=
+	YnjyECYZ5KqjOOxhuESWXFBKhCb+g4+aQMsE/ayy4dx7HTII8DY5qC6L8N5Oq4B9
+	aFFXcVADNerTxuZ4qxGAhtHAqG7Ds9FiWH14HZS5/r8aFrj90hogyx0r63B7GN4c
+	HTIWiMrRFywAvU3cu6PSxo2mEo2wHUJDFH+hYNAWajiu/5LbHOW97cdZvILz0fXn
+	zhXASZyR+cnTWGJUeUnrDTYmxAotShzqzAc1UE0CnIEEVgGEdHO51b+oEE2B2vkk
+	EwZnIwY5apX3sJ8oP4as/cbvF9EiHf3aJu6JQzQ//ouQdy8tS+4ndhErxFr8A4/6
+	Tmv0hIqSBbeHpYbwFYmXBQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794481059; x=
-	1794567459; bh=7Meslkpa8R+PBS0DyHZFPRgLYTJh3HuHkb0AOxumEFg=; b=5
-	Tucp5ChVCBDjhl4dk5C7F5X3LVKTFsMP8gnn9x0MuH2+7jMPa4Nj+SIQT2DVG8uJ
-	u5wupJm5rdstAzMZZInODnyvvfpTJfSSXwspucG8yFOI18XQA+xNSYU8OspFIhSc
-	LO/T82B7R1uppnjALZIhacMzde9ZBYWKSQzN44nG7+0vSBMXLzlZpyo2vVWuFYH0
-	fE8J7L53cCmOZj5msmFb4hnFvbEATEFuLAZdCbui2G1dPgjuzrWnaKOAF5Kwkf9e
-	8FQ0yTD33WASXijjLCTz8CpmqYu/XHq6UATYTYTvybNI0UcKwDFTUQ2UkVbC+N6n
-	CdlnYUUoCZMBRuGIDFwhA==
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794483296; x=
+	1794569696; bh=FpibZxpHOkegx/nWCVPd2wzoEHQ0LrdmDgeGw81ilYs=; b=E
+	oYAqh2Knmf/M2+WL/lYcoYF9Ubw58FO6mJetTaHFy5/LP16KrM7LNtkQamogUqAp
+	X7qOCs4RlUds7Dc8mnpN9h2grKnPJ044gBRfEW1iMn2iEBAFLPpMj9oeDvbhgMLq
+	b6uWz+Nbru7IoqVwpNkOKvRNUjKULEjAX6ea+yAVxCmTyRnMRXeVafaghHJ5HyIS
+	1ULFS78SN1e76eEVZlzBDFGTJ05IuWbSK4eaq6hnSXhgZHneGIY0notj7lBz74rL
+	uL+9I12v2l4s1bQvCH1OtwBpPFca9Z1PmeL2NX+n5X1QzfSwPjyPMXPwQxPltDzp
+	cspv0AX5xv2pYGnj9IjMw==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=sign d=arndb.de a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794481059; d=arndb.de;
+DKIM2-Signature: i=1; m=1; t=1794483296; d=arndb.de;
 	mf=PGFybmRAYXJuZGIuZGU+;
 	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:VZntrJAi0G9nuntyPPfiCREFjPRTEAvNECB3huDRPEgh9FG
-	o6ZYoeoUuueYoweTxj8qxYBkYwstAm/6gPZ2h5O74BhBpaQa0cppwJd36raCu1Zv
-	P0NwQzG/xPYU5tUC3leWYOJI7F2rlYxXwFKnIgwSHLOiOiu55UfoRGwzgFNmFFL3
-	um1Dk22BpllsE8/1Eog0yFn95zgMiIGCjwMeM4WyLc70iGCpyTInpI6kpqcsOMKS
-	w9djWX/4PVpuZkGVkbu422WVcf3gMtSFSfmexCPxNz4jMdqM2kMag6FWYg1Owv3V
-	zCGcRGLRkXhrMFKZ5H2xohLpAcx/6SxAobK6rMQ==;
+	s=fm2:rsa-sha256:QVC690r1hfs3CHQQR6ZqNyu+aBh8ZiwtqZ+XAgJeUnJ85g5
+	rBtZdO+MLC1hdINxmH3n4fH9BHsigJ02u/D/nCxhPxNhcESMSUWnB2a6QYb4rKOh
+	59FNyk9PMfnKB3JsAwCGe/sf0spa2f2OjqZJgihcG/2bvguCMqEOqxjslbCDTb/E
+	AhB0TF/IIyJCALVAMtw/mUbQiHNzsYZchgCbvS7VTMAOzCCsHgzx69SFIlUVd+lc
+	VySNvk1Hp3/JEskkGW6mpyHt5/9hfi/uiaqV7PQgnJcLpUabdWv7VuGUHvcp7KNU
+	KtxFswLJcrauoBagutH4LYeYxfvLQLsEo2W1C3Q==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=mi-m=1; hc=12;
 	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
 	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:QYGhyNrll/z2x43nzHbHMzcpokL6CuOf/GHVHHBnNG4=:9cBz8A60daXm+XxflR0ZEsASkUqul+qaMs0gX60bkz4=;
-X-ME-Sender: <xms:lZv1aulnwhqAVrU2ywlIhlQkx3jcr_mjJ1oOcF-oQALIJdbh9W2MSg>
-    <xme:lZv1agpofMLGq5k0IqsluYkWK-3JUTpfBoFK3L6DLiuUPYqcFGn2Enty4uF_-XQnJ
-    z94b6dWlBxsjyCv4Ip2kz_9V8gd6SZusy2huFR7jeXtsherYI7qUTdq>
-X-ME-Proxy-Cause: dmFkZTFPAb5ZVZzWlLcejKGx6E4VA3h8PqNfBXtLQtoFPOgpmgytfsUfOyDLCYXd2SSa4q
-    2EH8IJ2PPzcvWQUIF8rzpRv4eG4RNXvx0NBusK63EGFOtvbarh8wH0CGqL2blZX5LnwxGj
-    Bq7bb6BFYZpib28HfQC1ujCrw0Q8TBW7/48cz6euAfTCWQtTfGAuyvgN7GbpRZsmgRF2E4
-    TCaNzGWqT+dNqpflZRaBZXkZZtt4lBXqOUPXc/rjd4+dtSMM8lEb+r/hClV3R/o7Q+s5sd
-    1lcFl3GcCnNdnbplqVUVqfvmlm5/4bt3TMMk6ZNCk1/IOqRAfS2+h81eYDNbQMld/1X+lI
-    8+vvCIKZ1a4bZphSYeDPjCLmrTmXj+ipxN85OGTScj/sl7+Ut3TC/P8rMkVApR+7BygKid
-    SkK0hxv5G+rH+sog2zIEng3jqw0sOhQu7dCKfMZsvhYS/RJDLdeoB3JlbIKQ1Ys7dHJw2w
-    E1GTp+3yFqf73WGe3gAJZsZogHWBjRGFo1jLw+xcZHLP9MN34ZbJcYdMqQYR6DX3zmMqyt
-    U2s5m3k8BcCtol6aY9t+57PktWJnKsaEvlPS7qbnA2Qi397OHuVQYt2HBnl4g4gG0zdN1t
-    W74OFEbJGA5QHDn0M9LErHNZjmr7Zm0RyUqswJebH+zD/PZn3cfiGvgMm5gg
-X-ME-Proxy: <xmx:m5v1apYfRm6Zt7Y0f2U2u3xCBkE7OANuu7_SI_WuQKzpEBsoK_gakw>
-    <xmx:m5v1aqwe9cSnJzJz-zCoa-M5X9VKgGBOT0Z-GKILMaQBtdU6hxleOg>
-    <xmx:m5v1angYViALKmj2ClSkaSfBGAsOhh0oZTdF0LOqTWdiA7YmSiqtnA>
-    <xmx:m5v1ahr24wqldhEb8CE5VCD_MYmhCuogL16D5SqQjqcPObg2XEt3og>
-    <xmx:o5v1ag_90SnSwFh8o9nRP0b3a1tEHU8n2Te6e-_AnmGGK-27gNICHabi>
+Message-Instance: m=1; h=sha256:LrLjs6XTKWCSSNotOqYUK9bd4P/Tv2a4idtoIaia+Eo=:caBZPj8plx3VSvs+ge8aezudfEqyHYXFIacZdzWX234=;
+X-ME-Sender: <xms:UqT1asJlqyiyyIypv7wjKPJ9lHZ4L4cP4JeT9jTkIAnyAnwO4uj5ag>
+    <xme:UqT1am9zzTRNILYWl5sBNEECXIDd5mHUoOkovydHISaB_MfOSPgBXKFeqXG6sUAnm
+    TIuHDmjBLIa78wscurRNaxv9g-jg67zFAV3PTKaOBf_HtICSd0ADG0cUA>
+X-ME-Proxy-Cause: dmFkZTFK6NqHhcvznJICrUy/D/REKnqcZEEPxcmeVbqSM/sH0tEH4MlhHzwubOud3I7xCZ
+    nREf/SCeRN3WTSxr53ekKjNkoeLgpEJs5urD1/PA3o2atIbiI/NqMdbga4WzwAwMLtYZ6M
+    g9wFUGTEOmpXYzjzK9On5HW9cVzMWqAYlx/bYQ1R5RVqZZARJ3ah6bS6Hb7DKTN+3ITNhN
+    25hYTSTE4KFT5WWR/bCD1zQulC9fpiIoQTwVpHiOO+TXtva9ezDSSYqcNMlUs3dVzLB8Ua
+    ee6nq1ZeuK2wjkieQK44K9yCD1LxPt5h9F/VCy4zZBHyLneRDGN3aphYXMbGTO/eMhh4gw
+    7Q+tYUI3Sw8I1/2TcdjW9OAK76ncriH2Jy6uu5YDDZkP4V5JFV1lzBZYxM1KSpUhkFLJqD
+    FUUlY5ijAMmgVcahPXUKnn7ptM5Dhp146Pjp7t9LKG0hp4H3j2ebQrUYk7CPa7R47HZqcZ
+    wRDqG8Hz0RFTRI4CWwU7sEvcIBC8qXuTl3Oqhc1vbL/iMEd9V0FDMtz9h0kXFz3WpA3EGE
+    +AR168DYzFjnr/nkbQWNuy98Ow3hAGNAOq6kMs1UJBkgZaKywh5q6uVbvRPEX4kb5XLPwo
+    KQ5vszXkt/F7xUNHFSFfdp/7RRpRLdvaE03bFNZPayUSgxOd+8xrqM+yvkng
+X-ME-Proxy: <xmx:WKT1ate0JSmoljTP-1RvObYglimMb3meuI6LWzSKhIqS161hEmakMg>
+    <xmx:WKT1alkRLCwtkeL289w15sRJI_h9Kl2o7gWJq1zj_lp9iyEoMvFfGw>
+    <xmx:WKT1aiHaPi7iX7ijag6QKLzhk2icR_DyPcoc7lQI6QBRB_C_Cep4ag>
+    <xmx:WKT1ag9ByCoR9wJ701SeJXf3gCON-Apr0Pu_xNxmAv_ysbIxA8BZ8w>
+    <xmx:YKT1at2vfJVpoavGotgby5sfMSO1WVKloXsk31C4yR7PRsWzAogLoiYV>
 Feedback-ID: i56a14606:Fastmail
 Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 82A8332A009E; Thu, 12 Nov 2026 05:57:25 -0500 (EST)
+	id 1866332A009F; Thu, 12 Nov 2026 06:34:42 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
@@ -116,7 +116,7 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-ThreadId: AD8wiEBgakfZ
-Date: Thu, 12 Nov 2026 11:56:55 +0100
+Date: Thu, 12 Nov 2026 12:34:21 +0100
 From: "Arnd Bergmann" <arnd@arndb.de>
 To: "David Hildenbrand (Red Hat)" <david@kernel.org>,
  "Linus Torvalds" <torvalds@linux-foundation.org>,
@@ -140,8 +140,8 @@ Cc: "Matthew Wilcox" <willy@infradead.org>,
  "Richard Weinberger" <richard@nod.at>,
  "Geert Uytterhoeven" <geert+renesas@glider.be>, "Nishanth Menon" <nm@ti.com>,
  "Frank Li" <frank.li@nxp.com>
-Message-Id: <bf186643-780c-40e0-bde6-f2af90404a18@app.fastmail.com>
-In-Reply-To: <4d6a3d68-3fc7-446e-9f59-f61d7475e22e@kernel.org>
+Message-Id: <b90d4bcb-b865-4a41-8496-78d751c03dfb@app.fastmail.com>
+In-Reply-To: <bf186643-780c-40e0-bde6-f2af90404a18@app.fastmail.com>
 References: <20261110145241.536019-1-kas@kernel.org>
  <20261110145241.536019-2-kas@kernel.org>
  <avNuQqLf9CG9dSsE@casper.infradead.org>
@@ -154,43 +154,17 @@ References: <20261110145241.536019-1-kas@kernel.org>
  <32ad880e-5946-4703-9c6f-43ff59da39af@kernel.org>
  <3eb60948-8fc9-4682-87c2-c113e54e7d4e@app.fastmail.com>
  <4d6a3d68-3fc7-446e-9f59-f61d7475e22e@kernel.org>
+ <bf186643-780c-40e0-bde6-f2af90404a18@app.fastmail.com>
 Subject: Re: [PATCH 1/4] virtio_console: copy pipe buffers in splice_write()
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 12, 2026, at 10:28, David Hildenbrand (Arm) wrote:
-> On 11/12/26 10:25, Arnd Bergmann wrote:
->> On Thu, Nov 12, 2026, at 10:09, David Hildenbrand (Arm) wrote:
->>> On 11/12/26 09:55, Arnd Bergmann wrote:
->>>>
->>>> I tried to push for what I thought was an aggressive timeline
->>>> last year, but that would still keep the Arm bits for a couple more
->>>> LTS releases and only gradually reduce the scope of highmem in the
->>>> meantime, removing support from architectures, file systems, and
->>>> drivers where possible. See https://lwn.net/Articles/1051010/
->>>> for a summary of my talk in Tokyo, including the slides and
->>>> a link to the video for anyone wanting more details.
->>>>
->>>> I also prepared a number of patches towards this, but have so
->>>> far not been great at following up to get them merged, sorry
->>>> about that.
->>>
->>> I think we can already start at removing CONFIG_HIGHPTE now, right?
->> 
->> Yes, I think my patch from two years ago still applies, see
->> 
->> https://lore.kernel.org/all/20241210160556.2341497-4-arnd@kernel.org/
->> https://lore.kernel.org/all/20241210160556.2341497-5-arnd@kernel.org/
->> 
->> If not, I can send you an updated version.
+On Thu, Nov 12, 2026, at 11:56, Arnd Bergmann wrote:
 >
-> yes, please, that also brings it up to reviewer's attention :)
+> I'll do some more build testing on this version before I post
+> them to the list.
 
-Ok, I have rebased my old patches to 7.4-rc2 now and pushed them to
-
-https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=highmem-7.4
-
-I'll do some more build testing on this version before I post
-them to the list.
+Posted with a somewhat shorter Cc list at
+https://lore.kernel.org/linux-arm-kernel/20261112112528.1116405-1-arnd@kernel.org/T/#t
 
     Arnd
