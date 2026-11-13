@@ -1,111 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794565723;
-	b=epqYoaP4B1cc5QPzpf9kCpjMIyXb3GTfWTp8kML6KI1FSqmFhC0RIivsmdtdw26mwQrs
-	 /uxXTGzNDfxhq4lwmaj03F4RZU0cSQKkYEF4TfWvxsQaSmdHe4ZenvWgCWhdBVtgBjc0l
-	 9RjttOiJ1rqyjY9gO35tp3oCWAV/g/wxOBGRt61lgT1MGwB4jcUFl0mZ+Nd/j2LI7yMFJ
-	 JfNzesmI69Euy51O4Fh6M57vfM4lYH1zUZOp37YXrEk9Kc8TII5JvdKj84X9umgY0XUoo
-	 fYcz/frOscYM82k62+OL6OzW0QDu/TI0sueeqRv6La4IfuJsNN9HcfVsmHnYGmynj3Q==
+	t=1794567199;
+	b=bYPEFl0OTX6x+dYfNd7pGHYPUtlm+t01pC0Mj/bnlz6nrv/mV3WzYg3JOZwhZOlqixs4
+	 mv+iYYHmI1OOYeSpMNDG9abhK4xSCGDmlCJk3IH/asIKsAVeYzxy9WatQvuNmOPQB/+do
+	 r6+jVAm+DljkYbHkw/WcVDPVagcJ7pdR/8z120ob3+Cnv4n/sCuTwVvodBrNf7qCSGFhr
+	 rzsNcbPrzT9WRpILltbwBud7G4/PPmTpvCTmMXcEEz1o3sDt5Ms7SOlzgm5RuW0th6Zbz
+	 jRxWWrLQFx6KavmIMAOTpNBib3hyhZlmC5VAPL9SJQCHltj6jG+K/LGdRWsPYYhW0yg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794565723;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=HIAZ+a2RY8snYu8gjwIzGL7aFLB+UDjcbceUrGWDUl0=;
-	b=ysTBN/0SyBY2h/Qnp1kwPtd98yn/GKDFPAHdfNs2QxxjkjNauBKQNqnw2JL+lPBJvWpB
-	 hje3xgW6CEaWpq4J7IUVNQJEwdbetZ24UJNxgy8qHvAvQWciRxIkMAd7FvuiyK+d9Rz63
-	 /LHOFxZMBFSwRcAwUXYzgCDoDGNzH1zTUdWSTnbv93X89wWjCZ6szRux2dKUbMiXznRua
-	 oKQstOoQidhXJ1Bu+igV++f9qtYW56z3nmoo7kfnFIPU+0bey3HMNYb0RzhBDp5GpPnUD
-	 2LKXxRLIfI1SIFPjbgikEqVkwlkMC1x607MUcKOsFflUDh7bHLxw+Htf7Beq8Oo7quw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794567199;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=FXAR3k2XOmADxmocsX6uctWFtqeJu78i+LhIjLZQduk=;
+	b=AtzhemjTLwrp2MyYDLZeBpYxGpcjFPmvw/jSh/GEZFY7+M7mwXpCn1d6iwHgmVlZ8tHL
+	 7ZPLD4lALT4B41sGQs6+8wwWxsjdIDkFj2ow2LrCJRgsHR9bHgLnyPGlb/GrslZWpk9te
+	 jD6m4umqY0M9vF/XhAVsEUzybrzPEYTTTzqtrU3Wqe8NQS/yCQDSqSUJgCLZ2w2ASEVj1
+	 mebwdW9UvRlP59tvuV2AGcpXTYmv2zN0+4ur4s/GQ/HYTez09jxqxPIPEPcPv7uwRy9rz
+	 27246lcQBNKPBdDZSK1DcZhZHIgdfDyMjTBKtuO/jIUpieM0mAdVN/r69MPjTx5phTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VlHoglXf;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IPtuJoKO;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB861606A330
-	for <fuse-devel@lists.linux.dev>; Fri, 13 Nov 2026 10:28:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB861606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B746606A32A;
+	Fri, 13 Nov 2026 10:53:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=VlHoglXf
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so11141965e9.2
-        for <fuse-devel@lists.linux.dev>; Fri, 13 Nov 2026 02:28:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794565721; x=1795170521; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=HIAZ+a2RY8snYu8gjwIzGL7aFLB+UDjcbceUrGWDUl0=;
-        b=VlHoglXfntK1uOOECu9u3O6EPXojoIKVOL2wPIM/Pq4SAt7H6z5KWRVu+rckK+EYOB
-         7hOBh+DlVNP5eUpU/k/H7aQzb/Lvjau3E8XYvFK9zZiEnQbdm7HZK2PD1x6+hW+7tcV1
-         vrVoAbJ5WWq3nKeapTnvHLILmyFy1t4Z7vJGUrB7iL44sK7SYnjsLJwEvK7K1DChSmAP
-         h9oFajixVpvX4Hzp3xDowD9OLhDhXvnuxjvaHLbD1O1nTbig5dXFd5uTLjIJpV2pRfIl
-         b7PI10DjbD12WHc6CnUOFjfvsJeFqL7SiHlfcXGbf1+rswAPCVatvCLEiKZlTXLvwvZK
-         n2HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794565721; x=1795170521;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HIAZ+a2RY8snYu8gjwIzGL7aFLB+UDjcbceUrGWDUl0=;
-        b=TDqfQMqVawlxF9ta4cyAq0fTjB+c/nXVncEK0HYl/6BTdtPE7b2aPVKdIRMDGAvJ0V
-         Z6SJY/9OTUfGW02qErqDMTe2dkqEdxJqy1551XYCcRr+h8S/g/iPkM0/Ov6tPGAaUm+H
-         zh6+QGzAhSM6Z7L93Ols5saUkBOSPa+41TXrUVoMrw5B2WqNRFnYTvkFJd4MfzqK4GFw
-         DUpo27LMoLV4bDBSMIjRpYGXt1rxBsXR8tio2I0M3f6HHbQSYVJjVdiyDtdQ8IFB6n64
-         WBHxnrZw/GoDXEkju5Ov+Qz+r8+1H4GkFirucIIrzkCtXyVmeHp2+qc5Z4hcEqF2RP06
-         mAxA==
-X-Forwarded-Encrypted: i=1; AL+hErEv4OIxmhE7mmxqDDfTGprLzFJc6wa3I5xyRloKeN10TbrjErY2EQeCdlc2P1ySBdnf0hZ1xJVftrKH@lists.linux.dev
-X-Gm-Message-State: APuU4Z/DdozCONPCi8lsuVR4GLZCbf7/RORFDifSpLU+BcyvAMTsTNw4
-	AhXE3LxwnwMktd4FYIQqp/MYZ/lSLOUcaWPILw3GCm5kL38zO4Gno/6pPlH2ko7R5xkB
-X-Gm-Gg: AYBFou0ng1ly7YPJ79bLH/E9RDPLsWQliD+cXr1EdwoOhGwRRf/zeGMvRbEdZR8/auG
-	fEx2EpMTU4jld6gUHYyaNmosBC/fPAdl5itD85b+JSELEzI4/B4OL92NG0LI6b0/5A342uTmY3U
-	+7wO0fsW4nBnLVEPrQDnjpWaHrao4+UjgmqsLrdOw5rdqL/mAEStTTrGl06fCYeJGqf0bQ7KGmr
-	fW7ToSCyXYPFRhmbd7CMNsGOuhNUsZQeMMVTEFOCnwy0JwxFS9eWk5FzmUBLi9BBQMiUMGCAEAK
-	eZoUi/cb/7WB3oyBp9XXz+gL5qfEHpPs9j1oV5YwdjWotLZDaJmpRUrWPzoaaJvht90LlJQFtXW
-	ylz4E225Vsd69HCYEYyodYqo7qFCSHlLL0mwLNWw0h8nisq0ClIK8EQGSPKFh/9aC41BDQXKqiy
-	lljSc0j1M1ylYXzYtXovBmHY6KWsM+nLRf5j76ukKszrKNRLmUXW5K/1N5xOaVCW7madPwbeupV
-	ZjmyOgPhiVXr4XQ/2xqgHXDcEGBiF1n0rnkHT6ydF8X1l2qq+2wC9+SyLsOMJN5QmrrG/mzvRXk
-	nTog9fPc4p0SK1r5xsJg+nrOcbiaFV6dZjoBU9o4+9AZXVXERlEus/1AYLwKbTE=
-X-Received: by 2002:a05:600c:428c:b0:4a1:9661:14b5 with SMTP id 5b1f17b1804b1-4bb55aabd53mr26666375e9.29.1794565721222;
-        Fri, 13 Nov 2026 02:28:41 -0800 (PST)
-Received: from [10.0.0.233] (tmo-086-54.customers.d1-online.com. [80.187.86.54])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e252f7fsm152260095e9.2.2026.11.13.02.28.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 02:28:40 -0800 (PST)
-Message-ID: <ae5a09a7dc0ab5d01e78114c38e90b39af32362c.camel@amutable.com>
-Subject: Re: [PATCH RFC 41/41] selftests/filesystems: add backing file tests
- for pseudo files
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
- Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
- <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org
-Date: Fri, 13 Nov 2026 11:28:38 +0100
-In-Reply-To: <20261110-work-loop-pseudo-v1-41-4c998976c6c7@kernel.org>
-References: <20261110-work-loop-pseudo-v1-0-4c998976c6c7@kernel.org>
-	 <20261110-work-loop-pseudo-v1-41-4c998976c6c7@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IPtuJoKO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B244E1F000C7;
+	Fri, 13 Nov 2026 10:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794567198;
+	bh=FXAR3k2XOmADxmocsX6uctWFtqeJu78i+LhIjLZQduk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=IPtuJoKOgWndeSoW+Ft3DNggXS8gWEaDgnYeDpRAG/BlU2uN9HvsIaEXvK1oh4mgm
+	 39cal93B7HS5m+6upMeYECPQ1Zyxj4IccScKEvkyMn/ULHL58tQ62QNgWDydbwEPyu
+	 +nqDDxVxRKKW680xeSqy0Z02nhINaogVyU61pDYjSDRpfZgAA6tmITzkeVoOKUtKMh
+	 DjWM8Na3+aAeVtBCznGkh8sY+5EA8owX5Qs/0RpY/uxHYPIrwY04cScd11itwqTscW
+	 oXjeS2Gpc/3uepUzBJOBCspIJv1bF5djY+zFcYKECFQH8KUxdf6U7RK8YGjJCOlaV6
+	 V5Di54SflxNNQ==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+To: Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jan Kara <jack@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Zi Yan <ziy@nvidia.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Nico Pache <nico.pache@linux.dev>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Barry Song <baohua@kernel.org>,
+	Lance Yang <lance.yang@linux.dev>,
+	Usama Arif <usama.arif@linux.dev>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Joshua Hahn <joshua.hahnjy@gmail.com>,
+	Byungchul Park <byungchul@sk.com>,
+	Gregory Price <gourry@gourry.net>,
+	Ying Huang <ying.huang@linux.alibaba.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Peter Xu <peterx@redhat.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Song Liu <songliubraving@fb.com>,
+	Rik van Riel <riel@surriel.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Hugh Dickins <hughd@google.com>,
+	Will Deacon <will@kernel.org>,
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
+	Nick Piggin <npiggin@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Steve Sistare <steven.sistare@oracle.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	"Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	linux-arch@vger.kernel.org,
+	iommu@lists.linux.dev,
+	netdev@vger.kernel.org,
+	Chris Mason <mason@kernel.org>,
+	stable@vger.kernel.org,
+	Pedro Falcato <pfalcato@suse.de>
+Subject: Re: (subset) [PATCH v4 0/9] mm: limit pagecache folio refcount
+Date: Fri, 13 Nov 2026 11:52:56 +0100
+Message-ID: <179456713145.6906.7073956264359546741.b4-ty@b4>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261112-refcount_overflow_stable-v4-0-ad3deef0bd23@kernel.org>
+References: <20261112-refcount_overflow_stable-v4-0-ad3deef0bd23@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -115,378 +119,53 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2026-11-10 at 10:14 +0100, Christian Brauner wrote:
-> Add tests that files on pseudo filesystems can't be used as storage:
->=20
-> - a procfs file attached read-only to a loop device
-> - sysfs files attached read-only and read-write to a loop device
-> - a sysfs file behind a lower-only overlayfs attached to a loop
-> device
-> - a sysfs file as the backing file of a usb mass storage gadget LUN
-> - a sysfs file as the source of a file-backed erofs mount
->=20
-> And make sure that a memfd and another loop device still work as loop
-> backing files and that loop refuses a backing file that isn't open
-> for
-> reading.
->=20
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+On Thu, 12 Nov 2026 23:53:19 +0100, David Hildenbrand (Arm) wrote:
+> I'm resending this quite quickly, addressing Pedro's review (thanks!!!),
+> so I can replace the version in -next tomorrow and move forward with
+> this to get it fixed.
+> 
+> I un-RFC'ed the -net patches, but I will not pick them up. As mentioned
+> below, they can go in independently.
+> 
+> [...]
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+Okay, updating the first 5 patches in -next.
 
-> ---
-> =C2=A0tools/testing/selftests/filesystems/.gitignore=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0tools/testing/selftests/filesystems/Makefile=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0tools/testing/selftests/filesystems/config=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 9 +
-> =C2=A0.../selftests/filesystems/pseudo_backing_test.c=C2=A0=C2=A0=C2=A0 |=
- 274
-> +++++++++++++++++++++
-> =C2=A04 files changed, 285 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tools/testing/selftests/filesystems/.gitignore
-> b/tools/testing/selftests/filesystems/.gitignore
-> index cf79000e4092..8df38eabb125 100644
-> --- a/tools/testing/selftests/filesystems/.gitignore
-> +++ b/tools/testing/selftests/filesystems/.gitignore
-> @@ -7,3 +7,4 @@ kernfs_test
-> =C2=A0idmapped_tmpfile
-> =C2=A0ustat_test
-> =C2=A0rw_hint_test
-> +pseudo_backing_test
-> diff --git a/tools/testing/selftests/filesystems/Makefile
-> b/tools/testing/selftests/filesystems/Makefile
-> index fbd5c27505ef..0ebb9005bcd2 100644
-> --- a/tools/testing/selftests/filesystems/Makefile
-> +++ b/tools/testing/selftests/filesystems/Makefile
-> @@ -2,7 +2,7 @@
-> =C2=A0
-> =C2=A0CFLAGS +=3D $(KHDR_INCLUDES)
-> =C2=A0TEST_GEN_PROGS :=3D devpts_pts anon_inode_test kernfs_test fclog
-> ustat_test rw_hint_test
-> -TEST_GEN_PROGS +=3D idmapped_tmpfile
-> +TEST_GEN_PROGS +=3D idmapped_tmpfile pseudo_backing_test
-> =C2=A0TEST_GEN_PROGS_EXTENDED :=3D dnotify_test
-> =C2=A0
-> =C2=A0include ../lib.mk
-> diff --git a/tools/testing/selftests/filesystems/config
-> b/tools/testing/selftests/filesystems/config
-> index 9f45bc493a30..228196160d29 100644
-> --- a/tools/testing/selftests/filesystems/config
-> +++ b/tools/testing/selftests/filesystems/config
-> @@ -6,3 +6,12 @@ CONFIG_NET=3Dy
-> =C2=A0CONFIG_NET_NS=3Dy
-> =C2=A0CONFIG_INET=3Dy
-> =C2=A0CONFIG_SYSFS=3Dy
-> +CONFIG_BLK_DEV_LOOP=3Dy
-> +CONFIG_OVERLAY_FS=3Dy
-> +CONFIG_TMPFS=3Dy
-> +CONFIG_CONFIGFS_FS=3Dy
-> +CONFIG_USB_GADGET=3Dy
-> +CONFIG_USB_CONFIGFS=3Dy
-> +CONFIG_USB_CONFIGFS_MASS_STORAGE=3Dy
-> +CONFIG_EROFS_FS=3Dy
-> +CONFIG_EROFS_FS_BACKED_BY_FILE=3Dy
-> diff --git
-> a/tools/testing/selftests/filesystems/pseudo_backing_test.c
-> b/tools/testing/selftests/filesystems/pseudo_backing_test.c
-> new file mode 100644
-> index 000000000000..bc8e17ab8e6e
-> --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/pseudo_backing_test.c
-> @@ -0,0 +1,274 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#define _GNU_SOURCE
-> +
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <limits.h>
-> +#include <sched.h>
-> +#include <stdbool.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <unistd.h>
-> +#include <linux/loop.h>
-> +#include <linux/magic.h>
-> +#include <sys/ioctl.h>
-> +#include <sys/mman.h>
-> +#include <sys/mount.h>
-> +#include <sys/stat.h>
-> +#include <sys/vfs.h>
-> +
-> +#include "kselftest_harness.h"
-> +#include "wrappers.h"
-> +
-> +/*
-> + * Put @fd behind a free loop device. The device is set up with
-> + * LO_FLAGS_AUTOCLEAR and goes away again when it is closed here.
-> + */
-> +static int loop_attach(int fd, bool rw, char *dev, size_t len)
-> +{
-> +	struct loop_config cfg =3D {};
-> +	int ctl, nr, lfd, ret =3D 0;
-> +
-> +	ctl =3D open("/dev/loop-control", O_RDWR | O_CLOEXEC);
-> +	if (ctl < 0)
-> +		return -errno;
-> +	nr =3D ioctl(ctl, LOOP_CTL_GET_FREE);
-> +	if (nr < 0)
-> +		ret =3D -errno;
-> +	close(ctl);
-> +	if (ret)
-> +		return ret;
-> +
-> +	snprintf(dev, len, "/dev/loop%d", nr);
-> +	lfd =3D open(dev, (rw ? O_RDWR : O_RDONLY) | O_CLOEXEC);
-> +	if (lfd < 0)
-> +		return -errno;
-> +
-> +	cfg.fd =3D fd;
-> +	cfg.info.lo_flags =3D LO_FLAGS_AUTOCLEAR;
-> +	if (!rw)
-> +		cfg.info.lo_flags |=3D LO_FLAGS_READ_ONLY;
-> +	if (ioctl(lfd, LOOP_CONFIGURE, &cfg)) {
-> +		ret =3D -errno;
-> +		close(lfd);
-> +	} else {
-> +		ret =3D lfd;
-> +	}
-> +	return ret;
-> +}
-> +
-> +static int attach_path(const char *path, bool rw)
-> +{
-> +	char dev[PATH_MAX];
-> +	int fd, ret;
-> +
-> +	fd =3D open(path, (rw ? O_RDWR : O_RDONLY) | O_CLOEXEC);
-> +	if (fd < 0)
-> +		return -errno;
-> +	ret =3D loop_attach(fd, rw, dev, sizeof(dev));
-> +	close(fd);
-> +	if (ret >=3D 0) {
-> +		close(ret);
-> +		ret =3D 0;
-> +	}
-> +	return ret;
-> +}
-> +
-> +static bool can_use_loop(void)
-> +{
-> +	return geteuid() =3D=3D 0 && access("/dev/loop-control", R_OK |
-> W_OK) =3D=3D 0;
-> +}
-> +
-> +TEST(memfd_backing_file)
-> +{
-> +	char dev[PATH_MAX];
-> +	int fd, lfd;
-> +
-> +	if (!can_use_loop())
-> +		SKIP(return, "loop devices unavailable");
-> +
-> +	fd =3D memfd_create("pseudo_backing_test", MFD_CLOEXEC);
-> +	ASSERT_GE(fd, 0);
-> +	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
-> +
-> +	lfd =3D loop_attach(fd, true, dev, sizeof(dev));
-> +	ASSERT_GE(lfd, 0);
-> +	EXPECT_EQ(close(lfd), 0);
-> +	EXPECT_EQ(close(fd), 0);
-> +}
-> +
-> +TEST(loop_device_backing_file)
-> +{
-> +	char dev[PATH_MAX], dev2[PATH_MAX];
-> +	int fd, lfd, bfd, lfd2;
-> +
-> +	if (!can_use_loop())
-> +		SKIP(return, "loop devices unavailable");
-> +
-> +	fd =3D memfd_create("pseudo_backing_test", MFD_CLOEXEC);
-> +	ASSERT_GE(fd, 0);
-> +	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
-> +	lfd =3D loop_attach(fd, true, dev, sizeof(dev));
-> +	ASSERT_GE(lfd, 0);
-> +
-> +	/* A block device stays fine as a backing file. */
-> +	bfd =3D open(dev, O_RDWR | O_CLOEXEC);
-> +	ASSERT_GE(bfd, 0);
-> +	lfd2 =3D loop_attach(bfd, true, dev2, sizeof(dev2));
-> +	ASSERT_GE(lfd2, 0);
-> +
-> +	EXPECT_EQ(close(lfd2), 0);
-> +	EXPECT_EQ(close(bfd), 0);
-> +	EXPECT_EQ(close(lfd), 0);
-> +	EXPECT_EQ(close(fd), 0);
-> +}
-> +
-> +TEST(write_only_backing_file)
-> +{
-> +	char dev[PATH_MAX], path[PATH_MAX];
-> +	int fd, wfd, lfd;
-> +
-> +	if (!can_use_loop())
-> +		SKIP(return, "loop devices unavailable");
-> +
-> +	fd =3D memfd_create("pseudo_backing_test", MFD_CLOEXEC);
-> +	ASSERT_GE(fd, 0);
-> +	ASSERT_EQ(ftruncate(fd, 1 << 20), 0);
-> +
-> +	/* Loop reads from its backing file so it must be open for
-> reading. */
-> +	snprintf(path, sizeof(path), "/proc/self/fd/%d", fd);
-> +	wfd =3D open(path, O_WRONLY | O_CLOEXEC);
-> +	ASSERT_GE(wfd, 0);
-> +
-> +	lfd =3D loop_attach(wfd, true, dev, sizeof(dev));
-> +	if (lfd >=3D 0)
-> +		close(lfd);
-> +	EXPECT_EQ(lfd, -EBADF);
-> +	EXPECT_EQ(close(wfd), 0);
-> +	EXPECT_EQ(close(fd), 0);
-> +}
-> +
-> +TEST(procfs_backing_file)
-> +{
-> +	if (!can_use_loop())
-> +		SKIP(return, "loop devices unavailable");
-> +
-> +	ASSERT_EQ(attach_path("/proc/cpuinfo", false), -EINVAL);
-> +}
-> +
-> +TEST(sysfs_backing_file)
-> +{
-> +	if (!can_use_loop())
-> +		SKIP(return, "loop devices unavailable");
-> +
-> +	ASSERT_EQ(attach_path("/sys/kernel/warn_count", false), -
-> EINVAL);
-> +
-> +	if (access("/sys/kernel/reboot/mode", F_OK))
-> +		SKIP(return, "no /sys/kernel/reboot/mode");
-> +	ASSERT_EQ(attach_path("/sys/kernel/reboot/mode", true), -
-> EINVAL);
-> +}
-> +
-> +TEST(overlayfs_on_sysfs_backing_file)
-> +{
-> +	if (!can_use_loop())
-> +		SKIP(return, "loop devices unavailable");
-> +
-> +	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-> +	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL),
-> 0);
-> +	ASSERT_EQ(mount("tmpfs", "/tmp", "tmpfs", 0, NULL), 0);
-> +	ASSERT_EQ(mkdir("/tmp/empty", 0755), 0);
-> +	ASSERT_EQ(mkdir("/tmp/merged", 0755), 0);
-> +
-> +	/* A lower-only overlayfs serves reads from sysfs. */
-> +	if (mount("overlay", "/tmp/merged", "overlay", MS_RDONLY,
-> +		=C2=A0 "lowerdir=3D/sys/kernel:/tmp/empty"))
-> +		SKIP(return, "no overlayfs on top of sysfs: %s",
-> strerror(errno));
-> +
-> +	ASSERT_EQ(attach_path("/tmp/merged/warn_count", false), -
-> EINVAL);
-> +}
-> +
-> +#define CONFIGFS_DIR "/sys/kernel/config"
-> +#define GADGET_DIR CONFIGFS_DIR "/usb_gadget/pseudo_backing_test"
-> +#define MASS_STORAGE_DIR GADGET_DIR "/functions/mass_storage.0"
-> +
-> +TEST(usb_mass_storage_backing_file)
-> +{
-> +	const char *path =3D "/sys/kernel/warn_count";
-> +	struct statfs sfs;
-> +	ssize_t ret;
-> +	int fd, err;
-> +
-> +	if (geteuid())
-> +		SKIP(return, "needs root");
-> +
-> +	/* Mounting configfs on top of itself fails with EBUSY. */
-> +	if (statfs(CONFIGFS_DIR, &sfs) || sfs.f_type !=3D
-> CONFIGFS_MAGIC) {
-> +		ASSERT_EQ(unshare(CLONE_NEWNS), 0);
-> +		ASSERT_EQ(mount(NULL, "/", NULL, MS_REC |
-> MS_PRIVATE, NULL), 0);
-> +		if (mount("configfs", CONFIGFS_DIR, "configfs", 0,
-> NULL))
-> +			SKIP(return, "no configfs: %s",
-> strerror(errno));
-> +	}
-> +
-> +	if (mkdir(GADGET_DIR, 0755))
-> +		SKIP(return, "no usb gadget configfs: %s",
-> strerror(errno));
-> +	if (mkdir(MASS_STORAGE_DIR, 0755)) {
-> +		err =3D errno;
-> +		rmdir(GADGET_DIR);
-> +		SKIP(return, "no usb mass storage function: %s",
-> strerror(err));
-> +	}
-> +
-> +	/* Writing the path opens the LUN's backing file right away.
-> */
-> +	fd =3D open(MASS_STORAGE_DIR "/lun.0/file", O_WRONLY |
-> O_CLOEXEC);
-> +	EXPECT_GE(fd, 0);
-> +	if (fd >=3D 0) {
-> +		ret =3D write(fd, path, strlen(path));
-> +		err =3D errno;
-> +		EXPECT_EQ(ret, -1);
-> +		EXPECT_EQ(err, EINVAL);
-> +		EXPECT_EQ(close(fd), 0);
-> +	}
-> +
-> +	EXPECT_EQ(rmdir(MASS_STORAGE_DIR), 0);
-> +	EXPECT_EQ(rmdir(GADGET_DIR), 0);
-> +}
-> +
-> +TEST(erofs_backing_file)
-> +{
-> +	bool refused =3D false;
-> +	char buf[256];
-> +	int fsfd, ret, err;
-> +	ssize_t n;
-> +
-> +	if (geteuid())
-> +		SKIP(return, "needs root");
-> +
-> +	fsfd =3D sys_fsopen("erofs", FSOPEN_CLOEXEC);
-> +	if (fsfd < 0)
-> +		SKIP(return, "no erofs: %s", strerror(errno));
-> +
-> +	ASSERT_EQ(sys_fsconfig(fsfd, FSCONFIG_SET_STRING, "source",
-> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "/sys/kernel/warn_count", 0), 0)=
-;
-> +	ret =3D sys_fsconfig(fsfd, FSCONFIG_CMD_CREATE, NULL, NULL,
-> 0);
-> +	err =3D errno;
-> +	if (ret && err =3D=3D ENOTBLK) {
-> +		close(fsfd);
-> +		SKIP(return, "no file-backed erofs mounts");
-> +	}
-> +	ASSERT_EQ(ret, -1);
-> +	ASSERT_EQ(err, EINVAL);
-> +
-> +	/*
-> +	 * Something that isn't an erofs image fails with EINVAL as
-> well so
-> +	 * check that the source itself was refused.
-> +	 */
-> +	while ((n =3D read(fsfd, buf, sizeof(buf) - 1)) > 0) {
-> +		buf[n] =3D '\0';
-> +		if (strstr(buf, "pseudo filesystem"))
-> +			refused =3D true;
-> +	}
-> +	EXPECT_TRUE(refused);
-> +	EXPECT_EQ(close(fsfd), 0);
-> +}
-> +
-> +TEST_HARNESS_MAIN
+--
+
+Applied, thanks!
+
+tree: mm/core.git
+branch: for-next-fixes
+
+Applied patches will appear soon in mm-next, followed by linux-next.
+
+Please report any outstanding bugs that were missed during review, so we
+can either drop the patch series or decide how to fix it up.
+
+It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
+though the patches have already been applied. If possible, patch trailers
+will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. Further, this is not a guarantee that the
+patches will go upstream. If in doubt, please check the listed branch.
+
+[1/9] mm: limit pagecache folio refcount when mapping pages
+      https://git.kernel.org/mm/core/c/86c0d919
+[2/9] mm: limit pagecache folio refcount when splicing into pipes
+      https://git.kernel.org/mm/core/c/6ab934de
+[3/9] mm/mmu_gather: flush pending references early before the folio limit
+      https://git.kernel.org/mm/core/c/89b412c7
+[4/9] iommufd: fix cleanup when adding memfd folio pins fails
+      https://git.kernel.org/mm/core/c/35e8fbf9
+[5/9] mm/gup: limit pagecache folio refcount when grabbing references
+      https://git.kernel.org/mm/core/c/a6f95654
+
+-- 
+Cheers,
+
+David
