@@ -1,65 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794743271;
-	b=BdK9H1y+HNRqD/jOpQfiJ8CK50RxEZMCjwgIS48DNkylfGZf+h7yYt+dLR/rohWShFPk
-	 wfY+Vi1XUiR4xQoz/9dl0reIiXKOG5wLW7gkB4jYbbvKAp0onbjRpWAq3h6DDbAxHfbTR
-	 5/PaQlaVaf7TtFwba6zsHiW9KlQbLjzo0EerdKKIi48ZFuJLc3WH+ltRAnMLBo+gAqRpL
-	 ov61lFfeKEVmTbros4bY5hLqTBfdHKhysZz363XUX2UJKA7MroJWDEdJE++rHrOfqDHYG
-	 NlZSY4qxT1OqOgEdTD541oNseZI8+FDCzpXM+gOKg5I+2qmGEiQp5Da0bFa+VHsozfA==
+	t=1794777003;
+	b=dYUSRf6q94rFmx7BBO5fU66rBSWQVxsZczh0aaXWyWqKhaoqc1QYb0D8b3t6DsQz4WaZ
+	 VZv1EU31Rort93mBwB+8Vhq97Vc9iRvZZrOj9g9+BkbQamXoHCwCS524v/ovfdpeOTYgX
+	 NC1V5knBZ30c7XHPS769bCNXpW/PqCj8HRLiA6RpaXqPuOY52sTGbEtrASrGpVm2CVmfx
+	 fgypqUn2dIVyhbbz8A9TR4wiKTVPBYasBXngOO8rh81wGDkI6oO00IaWpcjazNwzHwmEN
+	 hWbVBYyjBlfHzjaXuUluenllNmVuBShLcQ2zn1Ie5TAiMZDGyi3IcuCYcfQN5Ze5bDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794743271;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=dUUoDFkPJkBg6tiiX+gwUNqdlWB0vRGU4J1TlhHh7ZE=;
-	b=iuKSIOwNdjXAi2+nKsqu7pIfpzXuLtuj3wXCa1g9MN5BFnFnH+efqOzfUtJXvT2zUGGl
-	 V9IfHEzKQzynFa9Fuo1ssXUF+7C+Eoevg9R/uDVp3b207QzEgfuu6a4+z5JoRhmzh2QN0
-	 9vJY2NJZgqRfrAE94UuSb7lSNUhcz8q8wGqjWRw5n7k7BXCLYZBSkg22ZgvSiHJnnwpNY
-	 2bXzqhTqJYzU82V3hEswRLXZDMXOPwMPocN2bf1yYrFAEINhs1DN1LNIND4gakdX7BwOF
-	 /NBQXI11IeC+qk96wRGrOuIRB815lx2fweUabl5k2cTyNpurMwEGTlfjb0o79097iFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794777003;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=+9JW7J5HjIZOKB44W/FdWPu4us9PkTChnS047FJOEoI=;
+	b=hflZzT1Rr7lzr/zjrH3/JdjqzX/i/0gtME8EccS24qtokfQLODLXkWYl7UrLPQ8vvESD
+	 1odJ8Ps7KedesIOjwo/J2CLlBBvkNaM/Eeli/uyxNdyfezFdnpwJ3oGHkcwpC/ep7yCBa
+	 IolOK2kXxEuHqIvETDv0QoN+C7ECas6WiEC6hr9S9WPzSZQ52qEpgpH5vHiysLGQyM1uF
+	 zHrXbeUNjBEX/dr/LEUnbkDUGmnDqoos93EfLvtBKH4K2FbLd/hGESWzqC7ht5/xxb+CU
+	 xwzAsy5bpVeaJK3S+6ktYRfwl0M/ykfG9tqJ/rMbEFd0mHzfzni7CTkJG7dirA8u6pA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O5UCROmp;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GIB6NyCA;
+	arc=none smtp.remote-ip=209.85.210.178
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C6D606A32E;
-	Sun, 15 Nov 2026 11:47:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E309606A329
+	for <fuse-devel@lists.linux.dev>; Sun, 15 Nov 2026 21:10:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E309606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O5UCROmp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF671F000C4;
-	Sun, 15 Nov 2026 11:47:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794743270;
-	bh=dUUoDFkPJkBg6tiiX+gwUNqdlWB0vRGU4J1TlhHh7ZE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O5UCROmpYOxPof//EVMXlzhE8CwpBAuLxySuhjVJTwgdWIcUjDEHfxQDjag+uTRua
-	 Z+qDIjnj4mqHBNrUw8Ko1zjkZMcqAeFq8ldvZlzCVbByFB+ptCuml13g6R68XiAcOc
-	 tTmUPUcRTu4mDvyiHtXFi/q4pZoMhhtkVDTdv1WqLRxEzoDBelkcsk5jYXJt2EAUob
-	 xjg6qsjtw4gR2WGGuYhHVN3Y9VjEoACQTHM3FtneMm5yNVilA99bE1xWageT1rHDiS
-	 UNAqlNNFNjgatsQNOofsxEUu3m18tcJw6JldfrHIojxyBAVmlXl979klg5KOmmNJfI
-	 Ivyq26TJMKVYg==
-Date: Sun, 15 Nov 2026 12:47:41 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Chris Down <chris@chrisdown.name>, linux-fsdevel@vger.kernel.org, 
-	Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, 
-	Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-nvme@lists.infradead.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, driver-core@lists.linux.dev, linux-mm@kvack.org, 
-	bpf@vger.kernel.org, linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org, netdev@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, linux-efi@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	ocfs2-devel@lists.linux.dev, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-usb@vger.kernel.org, linux-erofs@lists.ozlabs.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC v2 33/42] fs: add file_check_backing()
-Message-ID: <20261115-boxen-mundschutz-jacht-0ab871beca58@brauner>
-References: <20261114-work-loop-pseudo-v2-0-98639a2286fb@kernel.org>
- <20261114-work-loop-pseudo-v2-33-98639a2286fb@kernel.org>
- <20261114120557.4bc1eb6e57218cdc@chrisdown.name>
- <CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo91QjJHH9T_Yw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GIB6NyCA
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-89d6bd67045so1228197b3a.0
+        for <fuse-devel@lists.linux.dev>; Sun, 15 Nov 2026 13:10:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794777003; x=1795381803; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+9JW7J5HjIZOKB44W/FdWPu4us9PkTChnS047FJOEoI=;
+        b=GIB6NyCAR2V0meXD9ps8+mTIpfebr21K4rFlehNIbaSr65FRJL6q/hHx1ZQiD1Miy1
+         dwgVbH8Iw6i7rXjHGU+5ICJFODOk2Ml0vsqzO6IalT8agmXI8VxAYrfsHgTqGdioYWwo
+         QYxhf/KovMYYXXI6AaFJsSg8ivjTwYnmXJ+T4UKvvf6PNLzkHeLZkhMoTjjBU/31f4Tv
+         0rK6/g3mgbrZRFaUVR0voTghrFDEkx9YufXI3NzYpDuHTg5jPugMu5sWS8FMFm4OzbLY
+         WOUnn0N1UfPUhPAoUTPIHBq+gcXSt59qGZxXp9gRoXFOrmraq/VCur0E23FGIEY2yKq0
+         3Lbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794777003; x=1795381803;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+9JW7J5HjIZOKB44W/FdWPu4us9PkTChnS047FJOEoI=;
+        b=gfTaFfe2fDsrsqj81Grv9x1yGHT6fFSKgkHD9/zzu7TiAZK83qbwlKA9WRt0xP6APB
+         eHOxn/2SH32LFa8taB/jygODJjUt+9NVTyu+KSe9Wr8LnMvz5n7gdOZJFljXljqYvtKg
+         +YgFt5WiY7T0WjE64vKvObX57sRADQom4+tuic99S5lgYYChzm8UPy5R/MA3IGySfrgM
+         b9T9W6l5NRrBQzFN2QlGdzPBPrWjQav4BggPVXclyHaXT0FSSCMIfjLeEbG9mS8O5MMZ
+         arERLfVpdVmM19ZhgrAeFOu+7eafC/c8z7M0u3S+jt6+Y7MDshAqsJm61CUeRDu6C6ac
+         EPXQ==
+X-Forwarded-Encrypted: i=1; AL+hErHhFyhVLQ3StH5dCYddRgK6s0Xz/2Dv0psvLTUY3Dt3El/u2CvTfAunzYrzJZdM81KUZxK9rMB/SuDl@lists.linux.dev
+X-Gm-Message-State: APuU4Z+Bwa340zC+FK42Cd7ZvUJ9lymMxBq47AWwyaHBHJFcDW8eccUx
+	6RHMKU4N9ShFYxyWxX+OmoLet8jBj+RrUzT0X7MoRnMfo49mWTPCbvbg
+X-Gm-Gg: AYBFou38iIf5sVCUEiaXvL/Pgpe7D3mI3ikwxOWAg8ZBTxhoyM7Nv8Y2xP87ZN8MQlS
+	O8n4OBD2nuRyYfyMySCwFAW6LJm1Fs6bBfRmlE9oe7J35JLEniPRAV3FQO6oRLRL7fBHKS/kqvc
+	l9fEqt+ESbPHW5u2vtVhWEw7dlWZk/WfZa235bEfsXtFdIubzV66FXRguD2KDSDxP5PeBChWo9o
+	2lno1Vj0ew3Pk+AAvXJNE+D2XtExdsDr0xUpDs023gk+tch/5EUQ+/KNBpi1vziuF3hd84ZKHrA
+	F0ZeNd4DUjPdSnGEMvxLB3EGq4q039TP9BhTNJZttlV3SJtW/kD+NPCXEIfgd2MjI6eix8Ki8yU
+	Nh0CfnyiUbVvxZ9+jqY6ewBT/5g30fMO8X6rljUfj39A8g6k3BiLD+R6sz4L0FbxoEkt6aTAES6
+	FrVK150P4rTz1p5ND5MccKfiLxWTsQ+3CCB57brNJQysOuIa+X5bxQiLV37VT66U/c95s20nY8F
+	UutnG7yUEAj8iD2JvTQ8w4EmxB8sOAYBZMiU3yGt1jmz7oJN+KN2w08vu5XPLwjtxLQPf1jFlS7
+	q8Luq0kDgvYYRLMgWY+JMQGmuDx3BN0XZSM10gYLbuAlH9t6ng==
+X-Received: by 2002:aa7:888a:0:b0:888:cf3:e4b6 with SMTP id d2e1a72fcca58-8beb7f0b151mr5424463b3a.30.1794777002725;
+        Sun, 15 Nov 2026 13:10:02 -0800 (PST)
+Received: from localhost.localdomain ([112.170.44.210])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed1a6e7f5sm2892615b3a.25.2026.11.15.13.09.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 13:10:00 -0800 (PST)
+From: Junyoung Jang <graypanda.inzag@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>,
+	Jan Kara <jack@suse.cz>
+Cc: Junyoung Jang <graypanda.inzag@gmail.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Matt Bobrowski <matt@bobrowski.net>,
+	Gwanhyun Lee <gwanhyunlee@gmail.com>,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] fuse, fsnotify: handle embedded NUL names safely
+Date: Mon, 16 Nov 2026 06:09:47 +0900
+Message-ID: <20261115210952.2140036-1-graypanda.inzag@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -69,70 +100,48 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo91QjJHH9T_Yw@mail.gmail.com>
 
-On Sun, Nov 15, 2026 at 12:19:57AM +0100, Amir Goldstein wrote:
-> On Sat, Nov 14, 2026 at 9:06 PM Chris Down <chris@chrisdown.name> wrote:
-> >
-> > Hi Christian,
-> >
-> > Christian Brauner writes:
-> > >+      /* Look through stacking filesystems at the inode with the data. */
-> > >+      if (d_real_inode(file->f_path.dentry)->i_sb->s_iflags & SB_I_PSEUDO)
-> > >+              return -EINVAL;
-> >
-> > This looks good in general, but what the bots said about O_PATH files
-> > here is real. With FMODE_PATH this is reached for a file that was never
-> > opened, so on overlayfs nothing has been through ovl_open() to look up
-> > the lowerdata of a metacopy file yet. ovl_d_real() then does the lookup
-> > itself, and when that fails it hits the WARN(1) at its end and returns
-> > the overlayfs dentry, so the check passes as well.
-> >
-> > Only fuse passes FMODE_PATH, so it takes CAP_SYS_ADMIN to get there, but
-> > it's easy to trigger with that. From a quick test with a metacopy file
-> > whose redirect into a data-only layer points at nothing, registering an
-> > O_PATH fd of it with FUSE_DEV_IOC_BACKING_OPEN gives
-> >
-> >      ovl_d_real(/f, 0): real dentry not found
-> >      WARNING: fs/overlayfs/super.c:79 at ovl_d_real+0xc9/0x210
-> >      [...]
-> >       file_check_backing+0x308/0x5e0
-> >       fuse_backing_new+0x219/0x4a0
-> >       fuse_backing_open+0xe8/0x390
-> >       fuse_dev_ioctl+0x53a/0x7d0
-> >
-> > and the ioctl still succeeds. A normal open of that file fails with
-> > ENOENT, so nothing could have used it as a backing file anyway, but with
-> > panic_on_warn this is now a panic.
-> >
-> > Maybe ovl_d_real() should just stop warning when the lookup fails, now
-> > that it has a caller that isn't trace_uprobe?
-> 
-> Yeh I guess that this needs to be a Fixes for lazy data lookup.
+FUSE readdir and readdirplus parse dirent->namelen without checking for
+embedded NUL bytes. Through READDIRPLUS (fuse_direntplus_link()), such a
+name can instantiate or alias a dentry in dcache whose qstr length
+extends past the first NUL.
 
-I have a fix for that.
+When fsnotify records that dentry name, both inotify and fanotify size
+the event buffer from qstr->len and copy that full length to userspace,
+but populate the buffer with strscpy(). Because strscpy() stops at the
+embedded NUL, the trailing heap bytes remain uninitialized.
 
-> The correct fix would be to teach all the callers to deal with an error.
+Patch 1 rejects dirent names containing embedded NULs in FUSE.
+Patch 2 zero-pads inotify event names through their recorded length.
+Patch 3 zero-pads fanotify event names through their recorded lengths.
 
-I've also implemented that. It wasn't that hard and it's also a bug. Not
-a bad one but still.
+Each patch applies and builds independently on mainline commit
+23c62304dde2, so the FUSE and fsnotify changes can go through their
+respective trees separately.
 
-> > The check would still pass
-> > for an O_PATH file whose lowerdata couldn't be looked up at that point,
-> > though.
-> 
-> One observation relevant to this patch set is that a datadir layer has no
-> business being a pseudo fs and that can and should be blocked explicitly
-> at overlayfs mount time.
+Testing on x86_64 QEMU:
+  - 1/3: Crafted FUSE READDIR and READDIRPLUS entries with embedded NUL
+         names were accepted before the patch and rejected with -EIO
+         afterward.
+  - 2/3: With Patch 1 omitted, FUSE READDIRPLUS + inotify leaked stale
+         slab bytes past the embedded NUL to userspace before the patch,
+         and returned zeroes afterward.
+  - 3/3: Default FUSE mounts report a zero fsid, so fanotify_mark() with
+         FAN_REPORT_DFID_NAME returns -ENODEV on the FUSE setup;
+         regression-tested FAN_REPORT_DFID_NAME create and FAN_RENAME
+         events on tmpfs.
 
-I agree.
+A custom LLM agent assisted with initial discovery and reproducer
+setup; all root-cause analysis, patches, and runtime tests were
+manually reviewed and verified by the authors.
 
-> The other observation is that fuse_passthrough_open() should probably
-> check the backing_file that was opened for io in addition to checking
-> in fuse_backing_open(), which could have different FMODE and specifically
-> could be FMODE_PATH.
+Junyoung Jang (3):
+  fuse: reject embedded NULs in readdir entry names
+  inotify: zero-pad event names after an embedded NUL
+  fanotify: zero-pad copied event names after an embedded NUL
 
-Sounds good.
+ fs/fuse/readdir.c                    | 12 +++++++++---
+ fs/notify/fanotify/fanotify.h        |  4 ++--
+ fs/notify/inotify/inotify_fsnotify.c |  2 +-
+ 3 files changed, 12 insertions(+), 6 deletions(-)
