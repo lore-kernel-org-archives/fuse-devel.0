@@ -1,101 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794849420;
-	b=S2noyBZ5QqPF4yw+bOjp7H0v2SLZorZkefWtFfWdo898whVvc7VFoRxMHx0Ja7/hcC7F
-	 pOoyCtk5o5zdgXTLCaGG3bJg+PcKaDFmqC5j9BV4JA33RJLZiFTe0ePEOaHlF+o9qBiPx
-	 iHHUOzbbvU4z8/5D65prOe/0z2G/KHro/4lIwyz8WapreJyfYeo4zt3bG9RKFCj1npP3S
-	 CebFum7tWeWr+Yu+K3sVioU2JPGn7szbLbXRwgHpnDjkER5D3oFRdADJM+FOE6XmqepQV
-	 01D7Gz/3w+Mya5ZHb+uDCsxnWY0hok4irbDiPiVCdmk3zTjZAkR0mXJ9/30pQpMt0BQ==
+	t=1794850650;
+	b=IRgP+jUTZoct58uP8lsUW4hVGaGvQtmqOtVRvWFU1y7n0l1QmrcbFVhugB1CvXTxzszY
+	 k0+JdpgUggTYV8JVmpqHZ08rtYNOV6FDK1Z8OS7WAmECE/NT1d+sz1OeNIUqH6k5R9amu
+	 /Y0A4y8QhkDdYhb3amP4M4p+T7G9QeQEeNEhpg94vsI2iKXzvF4rpuIbdQu89MmvXzZlD
+	 oGDBWyjzxFJuzU8I6Ffpaebym7w3CYnBmP7jseDta2+j2rBn5Vf2X4O/UtnBAvvwT4/HK
+	 fBtfra90X0m7t/sydFXJz2p17l0URM+jsMheJOIYJ1t76z7IU2E3pu7Mf6sVG517BFA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794849420;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794850650;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=cvhlwTnVB5qObUR1donDWKQFcI5lhmN3ZPbArGLp5LQ=;
-	b=SwgjrGPMKBvqykH5356JRsc4CZn6T+OcEexxMvDbya59hU6tzcluBY9GZfu2hFgHgWxM
-	 NoXJuvuu1AK/zPd2cfgJDWKykDsb7Yqw7HlKYdA9Smkae0l+buEPLPiPoavg6OFQzmlNR
-	 8XG201evf4PY2O3gizMEO/Kbee2THZsXbqygG5n1NUjhq9kNL93tJwDcJ470kR4fp1E9n
-	 PgNheLjQYlsx3Gx5FZnMBkzxqL5QoppBMgKemUHu93I0ajzwV6+eyro1eGTMwAimsXy5P
-	 6nn9bwhJit1H3O2sscc4a1pFt53UFmXOUV4SU3Q606WRhRiey0bcxDF7CwxAL9Lh5yQ==
+	bh=ASqD7yYrxwRTXpvky24aSldHzEJHTNv4OUWKJ01NHN8=;
+	b=EcBp9hgFbyOSRazqp9y/R2L1oq2suPfn/C+cs8zziG7hwrJM5L0wB8cizAxI1YK6sa3t
+	 M3i3CT/p2gAhOo6ZyXgCqhG8l/HYi3zQ7QbjcqjH+CtY7ImIb6CMSWx4u+OlYUg/xXhZB
+	 vprescHexCl8NQt3kh4Y9vpMKl2XIMtkaiZoN/1iXytWOkXcAC3ILOBbWl7L6TmawE9zg
+	 KshEQSMH6vaLADRtZd5GkfL4ZlncwVCr/JZ1dwNgKEJiiKJdfWFCHUoQ2pJeywnz6POfu
+	 LinteQpUIuE5KfMAnjBpCauSn4Lot8SzoUU1/4Rbk/p7SlTYKxVkK0OmGnmenF8pdcg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rijk7zwv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MIIHDm6t;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88F2606A88E
-	for <fuse-devel@lists.linux.dev>; Mon, 16 Nov 2026 17:16:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D88F2606A88E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5224E606A891
+	for <fuse-devel@lists.linux.dev>; Mon, 16 Nov 2026 17:37:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5224E606A891
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rijk7zwv
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b633ddfad6so5782812a12.3
-        for <fuse-devel@lists.linux.dev>; Mon, 16 Nov 2026 09:16:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794849418; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MIIHDm6t
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b596569640so140947a12.1
+        for <fuse-devel@lists.linux.dev>; Mon, 16 Nov 2026 09:37:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794850648; cv=none;
         d=google.com; s=arc-20260327;
-        b=qgy8gxyexbRPuXcjBRkU6G3s+esqOw4odJOnTlyKf8Kt6qN33qc3kf0JTM1ET+WWuv
-         Y7mn9RsDeI8OPfyslupi4MOB9BMhBoG0DQc89Be+hPTFqZlUywtESGz7GOh1/DWZvXbI
-         d+1iTPJrIpnHMg3yYyY0F9f85eN2F8qS4QPeaEa4FZaSMfLtusoLNW5deX56w1IYMi4y
-         rcoU8+4/Kycb3HG0YjT2MIhUCQ81Qprgr19B9b3sK+ZDbgz4R8NgJONCwnA2kqoT0/7J
-         92xBx+tsx2Kk0BkNqhH299BCrhYpPuCXI3QPTMdKnenz3eSRWKmLWox6Hb+2m438ELbH
-         uAdg==
+        b=hAORXKzr1nJ83MJz30nwD1N0U9HQpVAWq7HvzwLV412+lfr7Y/kAcdfkgtEMiAYxY1
+         zGHj1yYzrBQBOZBfOLaRRuqZLadd780e/O+8RovElzyHEYj7/dlwbh604FSPsjyTpaMV
+         xB2WO/ZjNgXs/A2+ZxyVN2BcPjsJuUwzNx7U74Bc0BVa3or4ClY4w8+NOEwZBJONPI4w
+         940WMf2bYgj5a58VpH10pk7cRD6SqoEq9LURzpr7kvLyrsAyA3RQNoF9UUSsr8NOuN4p
+         3F4+7sU2zXmaffy+wJhCVWwY575rJ94t007snaF+Iu+syxQ0t75b1gOwjBSOrQv1PIqh
+         vIHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=cvhlwTnVB5qObUR1donDWKQFcI5lhmN3ZPbArGLp5LQ=;
-        fh=OPGs5yjcZySBk1+h+mS7ITOxpP1xDBojcPFMMEHxXk0=;
-        b=ll9EK1smVLBT9jboSiWWS+XeNpg3uwntAcsJcpiKI3OwCSpYznPQlFeD1mu5be0dp7
-         iXW9MQG8FbR8v7+sSKyIA1a1na0c7RPDdd5GxmNEl0QTMkuGHtPBfjMtSrB/CLdqG7L6
-         89P8kb/2xgQ5Qrr5NSZWb0fTc3O3++DgLWQ0rii0O5VWNdcL4+Txl45P/lxW8PxE5Ah0
-         UR49BO6JBBzYs/AjgvE3sYogB4YAngJZ0TF4AFDOrCk9//AHmJcA0zjLYAw8U85D10Dh
-         BVHgCWlcJKHSaBjalU4GPufkXBt11Hk5dX5E/Tk07VCgD2USqaQhWQ4xTLLUZ0faDF+H
-         oh8A==;
+        bh=ASqD7yYrxwRTXpvky24aSldHzEJHTNv4OUWKJ01NHN8=;
+        fh=HX/yVj5WOdgqYjTIU1Ox8toxsnv4fx3mXN5BBTHbqIA=;
+        b=aqE95MpG6Dtb5bO+V4VhzuwzzZri8aA70qmugWbfVxJFbJNI8jMKzv5ubnGIp8Dobv
+         SIrH/bcV76gfnbcX+XVVch6lq64YCbBCDAq0VhcA5aqWCSMSUBYYhgYpc08v70M8RYNm
+         c98nHX8ubePFjKlc7G/S5p4HKhaCNuMRKAdvtYGKBFmvaR9h+/EUDxeIB8LTL+vsYiP0
+         2MTuj9X4Lf75IuBchA42nUZY9w8Jeuy2VXEW8A0jKvWehumiIHGD09aIoJN6QoFNFCdQ
+         RDj++n81T8mQeIInnOb3GAfAN2/zr+yzW1plP5geg9pgsYJRAxJcT1lVd5mOYgHYRQkC
+         vtSw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794849418; x=1795454218; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794850648; x=1795455448; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=cvhlwTnVB5qObUR1donDWKQFcI5lhmN3ZPbArGLp5LQ=;
-        b=rijk7zwvxvIN2K/SO4BzSPDnARxVE8Hp/iNu9dV8/uKqxAYxhlKb92ELGOg3G857hw
-         XADzmQKP1SQwSXLWcgSnZROMvBsJNTqf2TFOydlXoZU/Kj3x5eiFJ5Z+4maNOxf9OK6Z
-         v6WOrCmbk/N12YoMk5/UiW85Zp1RR8EocRBVQVipzFk83mJ/VB0QN/VxMvc7cQETzdPP
-         S0ZtiEFJaXIJK5iaE4gJ4CZORpxE4LLgxIsLhoL7/vGSp/yGY1EAWPb4w2QoztQdWn57
-         ulvHofyoa3bctRJDuE7EEum55vjWA+IEki3y98AEaGtNOSVPxR3JnU7DuuI6FQn9tsCa
-         IgKQ==
+        bh=ASqD7yYrxwRTXpvky24aSldHzEJHTNv4OUWKJ01NHN8=;
+        b=MIIHDm6tNl0jMwQGZFYspXzw69ZH9P9dqlik2bLwSZHN79vb9UQDq3BhLSBW5bLNnp
+         kdIeVHGjhZHzf61SyL3b3ydlxwim4EjsThqb0fnZxnanBsxutaCIhyTlGBRG9hPSRbOZ
+         fFaG5vsg41r3wTTij9drFm8gpxLl42CkbIANWuXryWOvdftgQB/8SBQEIjVn8KSPtYSU
+         2vlHLos9zQsrpdhu2xI22Ez4Yub9+BznFJIQxI6j/wgPmjfKMw/Zc4e/dF3RGn2Ktq3T
+         s21vwK591UvJv1ZlyUvhsPDv/2gU2Po7TGDNdkl+TDZ6z2h+AfFyVPIkrcGrM8jz08LR
+         NM+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794849418; x=1795454218;
+        d=1e100.net; s=20260707; t=1794850648; x=1795455448;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=cvhlwTnVB5qObUR1donDWKQFcI5lhmN3ZPbArGLp5LQ=;
-        b=VGE3JED0NnjaGCgPQl/2TGirx36SlxY6ODnG9VxHZXeiavcNPVesps+6G88CSxFO1B
-         Q2HASiAYnstXizmZKpWUQEyMU6BqbRXrPDSszJF7HWat3eaFdrp4vc86SllRF8at+Vpo
-         EJhf0JvzzpT51KyEYbEYzDj00cMEQsczfscHRCbXaLWq6fFZW7ivp43skJ6PrtpmYwXi
-         cfLpZqXA0XuC30L6XQkqXGxshUubnzRpZh48oKTNHRPgIJc2bjLGycyVMp3RimfhaOg9
-         I2phsy9hx49+scMY+537BjNFxoa6YsRFtXL6TuIT+9yC67n/ES+thhvwafg5mGY7pxDm
-         Og2A==
-X-Forwarded-Encrypted: i=1; AL+hErHHjFl4DxG6jkwGcl95c0nW4YGnx1YY/29iqQKwdDuhNeUTnV7ZaMghSHl3OIYsNG2j8LjmKlhFMpRW@lists.linux.dev
-X-Gm-Message-State: APuU4Z9g6vx+TiK9F5EriNPNStRj8SXcPgmV7l2wjPPApvP7uPDqW4bc
-	7XxukomX10KR7haZPYxjDs93la8dndwmfhAKeLHQhbUIXz6xU6tnpeLYEX/i+ojBgzqO/FJT9CX
-	Y7d0CSQoXmf1JmJQl/QPvSDT3ii3nw9o=
-X-Gm-Gg: AYBFou3RO12V0OnesqFRNJ2YY//hvb/jne7BwATqTMcF5v2ucriupF9spm9DC2fKlRD
-	9OTuKsIRja5+3d4C3Zh/UubttyVG0gDTLWjN32FiY9uC9CBKx6kqijK/+e/Lya/xIe5x0SqD4Eq
-	4vCLxAHObRcK+yi5C7j8u08xZ2Gw0MgmyvlAVuQlChHuwiwVfKgKu+denlua/1st4uwjPCnlHH/
-	YGFf781Dg7ebey3+1JzXJPBAhFWrAhKwWHMgEQP5Lum0maman3r4+18cELd25pTmKOTMlR/Xuo4
-	Yh5nTAUekWYfbVE0hTgJrQdNFAbABCbkgmdBpl8VVcBr7Jrt1OWtBXDubvZSLh3HCMCQG/JIf0H
-	ak3QnQME7uTDiI7zy1ewld8cPdlErZgxlff0pY8/obnJVBAI5+NdA12HyQL7xjKJwS3vsgi1zm9
-	e/jJMqN7ooUEJ/rd8=
-X-Received: by 2002:aa7:c258:0:b0:6b7:d69a:a3d3 with SMTP id
- 4fb4d7f45d1cf-6b7d69aa8fbmr5089335a12.39.1794849418257; Mon, 16 Nov 2026
- 09:16:58 -0800 (PST)
+        bh=ASqD7yYrxwRTXpvky24aSldHzEJHTNv4OUWKJ01NHN8=;
+        b=ReQaLXwhxXAqL3VBrqAGgqVFCLZqoDT3pid7XRcOdYWLVmHxZ7G9febTlzE+d4FQ2z
+         PsiJkhxKgJadY/MtxwKFaiDN3RLE8We1xnIUYlvHKbEssmIeLTUjSy/TO+7zZLl7c1cG
+         myuMqQJcyHOGYnassrR6vwpjR+nGFQkDqxcV+tGE6GMnEQBTW1wYr2I+guQVuoHquntX
+         /0OTySdSB9v8HVToINwV2ketQwPVcGBSuaCFizKv0HcrAovGfINtOj7EndK9Vhquu+89
+         ULpA+vfqdJ2DGgtx5+owsrJYJXAHfnXEMUNf0qXexKZeFtM16KUBKhBpGa4wiLiFsZOu
+         dOWQ==
+X-Forwarded-Encrypted: i=1; AL+hErFcFR91J7IrFQa/p6mcREW/ZkVyNvRZSezVwSrTIx+1NK/4Xpj/q2yL5CMY2AK3RHyAItX+2ifSniGZ@lists.linux.dev
+X-Gm-Message-State: APuU4Z8kM1LHvn0pp6dd208fFXWZJ4W9Y7xcUjowJyqBaMRTS0RHLgRh
+	jOqNgdW28rsDlt+AblUwap0UVSj51dYms8/g1W0Ol/I1/3lHKjXZIK5dYBikPXW7M1xefQ0fxeF
+	rU47iJ+8xB4R2bSDErTKqjT4CeitO3Ag=
+X-Gm-Gg: AYBFou1mQQMYut1onWPep5csXPrMuwi0PM/tkG/F6PdQCIYgAbok0lUM6Rnyq8yhHIA
+	PWyAr/8z7A5GKOWYiIc3ZoGcs60ZRTH576kMIMJfwH8TOqtxSuMVMTQ5B/loiop9qsR3WvD4Kf2
+	/tKi0fwrMsnEd2/SLxjpS/bHTT5vp4jXgDDAPVuDCwxE4HMbF/dLGDSIHAOJHHYbCLr/WSfNGPx
+	L+y//PiI2ct1EbEdwm5IU1vOuETOOoD2prZbEWRDParRTJrUiKHcEie+pIAZqyNKDnGxawcxJco
+	DfkxZ3n9CNNyiVeGyUGg/as/v4/shv9ciWtQWOsF9DfvWF0R1YBDTDwPebHEpAuZFfwEjs+Vd2g
+	B27iANv6Z+PqSe84xaIBPSNWy0YzQNzMgLdGA+m+NIf6R+fXHDMaLU6GU0UnlpS9m0jvIpw==
+X-Received: by 2002:a05:6402:1598:b0:6b5:7250:d621 with SMTP id
+ 4fb4d7f45d1cf-6b859ae1a00mr134291a12.15.1794850647426; Mon, 16 Nov 2026
+ 09:37:27 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -105,14 +104,13 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org> <20261116-work-loop-pseudo-v3-34-8cbbea1cf34f@kernel.org>
-In-Reply-To: <20261116-work-loop-pseudo-v3-34-8cbbea1cf34f@kernel.org>
+References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org> <20261116-work-loop-pseudo-v3-33-8cbbea1cf34f@kernel.org>
+In-Reply-To: <20261116-work-loop-pseudo-v3-33-8cbbea1cf34f@kernel.org>
 From: Amir Goldstein <amir73il@gmail.com>
-Date: Mon, 16 Nov 2026 18:16:46 +0100
-X-Gm-Features: AclHuK_s2Kpb4OdbgPngYJl9gLHjfhlAmiJMqLtxRnpTDibz-Ni4SZJspSV9laM
-Message-ID: <CAOQ4uxjJVgy-skUbbScfz=eAEATf=iMpqRHNshX=eKu3oiwnrA@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 34/44] selftests/ovl: test data-only layers on
- pseudo filesystems
+Date: Mon, 16 Nov 2026 18:37:16 +0100
+X-Gm-Features: AclHuK_sKnxFPAK3k65pZhjyZC94SJD4eZ9z2j_P12s3kyb9TMw6hurQcjyq55Q
+Message-ID: <CAOQ4uxgPerkkG4ie0SyHVXaBD9VZN2wYfQpEAEi4hytn=ara3A@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 33/44] ovl: refuse data-only layers on pseudo filesystems
 To: Christian Brauner <brauner@kernel.org>
 Cc: linux-fsdevel@vger.kernel.org, Jann Horn <jannh@google.com>, 
 	Chris Mason <mason@kernel.org>, Josef Bacik <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
@@ -133,196 +131,69 @@ Content-Transfer-Encoding: quoted-printable
 On Mon, Nov 16, 2026 at 12:10=E2=80=AFPM Christian Brauner <brauner@kernel.=
 org> wrote:
 >
-> Add tests that overlayfs refuses data-only layers on pseudo filesystems:
+> The data of a metacopy file can live in a data-only layer. overlayfs
+> doesn't look that data up when it looks up the file. It only remembers
+> the absolute redirect and looks up the data lazily the first time
+> someone needs it. So until then nothing can tell which filesystem holds
+> the data of such a file.
 >
-> - sysfs and procfs via the "::" separator in "lowerdir=3D"
-> - sysfs and procfs via "datadir+" by path
-> - sysfs and procfs via "datadir+" by file descriptor
-> - tmpfs as data-only layer
-> - sysfs as regular lower layer
+> But a data-only layer has no business being a pseudo filesystem in the
+> first place. All it does is hold the data of metacopy files and the
+> regular files of a pseudo filesystem are kernel interfaces, not storage.
+> So let's refuse data-only layers on superblocks with SB_I_PSEUDO at
+> mount time.
 >
-> The last two must keep mounting.
+> Data-only layers can be added via the "::" separator in "lowerdir=3D" and
+> via "datadir+" by path or by file descriptor. All of them end up at the
+> end of ctx->lower. So a single check in ovl_get_lowerstack() covers all
+> of them.
 >
+> Note that regular lower layers on pseudo filesystems are left alone.
+> Stacking overlayfs on top of sysfs keeps working.
+>
+> Suggested-by: Amir Goldstein <amir73il@gmail.com>
+> Link: https://lore.kernel.org/all/CAOQ4uxhGxpBtMZ5kfuzR1tQAewiecoX7UjXQRo=
+91QjJHH9T_Yw@mail.gmail.com
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
-
 > ---
->  .../selftests/filesystems/overlayfs/.gitignore     |   1 +
->  .../selftests/filesystems/overlayfs/Makefile       |   1 +
->  .../filesystems/overlayfs/pseudo_datadir.c         | 131 +++++++++++++++=
-++++++
->  3 files changed, 133 insertions(+)
+>  fs/overlayfs/super.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
-> diff --git a/tools/testing/selftests/filesystems/overlayfs/.gitignore b/t=
-ools/testing/selftests/filesystems/overlayfs/.gitignore
-> index b343cc430051d..e1410fee2269d 100644
-> --- a/tools/testing/selftests/filesystems/overlayfs/.gitignore
-> +++ b/tools/testing/selftests/filesystems/overlayfs/.gitignore
-> @@ -3,3 +3,4 @@ dev_in_maps
->  set_layers_via_fds
->  idmapped_mounts
->  automount_in_layer
-> +pseudo_datadir
-> diff --git a/tools/testing/selftests/filesystems/overlayfs/Makefile b/too=
-ls/testing/selftests/filesystems/overlayfs/Makefile
-> index 382a59bda5e70..ace75f5627e0f 100644
-> --- a/tools/testing/selftests/filesystems/overlayfs/Makefile
-> +++ b/tools/testing/selftests/filesystems/overlayfs/Makefile
-> @@ -10,6 +10,7 @@ TEST_GEN_PROGS :=3D dev_in_maps
->  TEST_GEN_PROGS +=3D set_layers_via_fds
->  TEST_GEN_PROGS +=3D idmapped_mounts
->  TEST_GEN_PROGS +=3D automount_in_layer
-> +TEST_GEN_PROGS +=3D pseudo_datadir
+> diff --git a/fs/overlayfs/super.c b/fs/overlayfs/super.c
+> index 39d4d57dec230..719c2569dfeaf 100644
+> --- a/fs/overlayfs/super.c
+> +++ b/fs/overlayfs/super.c
+> @@ -1237,6 +1237,14 @@ static struct ovl_entry *ovl_get_lowerstack(struct=
+ super_block *sb,
+>         for (i =3D 0; i < ctx->nr; i++) {
+>                 l =3D &ctx->lower[i];
 >
->  include ../../lib.mk
->
-> diff --git a/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir=
-.c b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-> new file mode 100644
-> index 0000000000000..3b59fd3e9f5c2
-> --- /dev/null
-> +++ b/tools/testing/selftests/filesystems/overlayfs/pseudo_datadir.c
-> @@ -0,0 +1,131 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#define _GNU_SOURCE
-> +
-> +#include <errno.h>
-> +#include <fcntl.h>
-> +#include <sched.h>
-> +#include <stdbool.h>
-> +#include <stdio.h>
-> +#include <sys/mount.h>
-> +#include <sys/stat.h>
-> +#include <unistd.h>
-> +
-> +#include "kselftest_harness.h"
-> +#include "../wrappers.h"
-> +
-> +static int setup_tmp(void)
-> +{
-> +       if (unshare(CLONE_NEWNS))
-> +               return -errno;
-> +       if (sys_mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL))
-> +               return -errno;
-> +       if (sys_mount("tmpfs", "/tmp", "tmpfs", 0, NULL))
-> +               return -errno;
-> +       if (mkdir("/tmp/lower", 0755) || mkdir("/tmp/data", 0755) ||
-> +           mkdir("/tmp/merged", 0755))
-> +               return -errno;
-> +       return 0;
-> +}
-> +
-> +/* Mount an overlayfs with the legacy "lowerdir=3D" option. */
-> +static int mount_lowerdir(const char *lowerdir)
-> +{
-> +       char opts[256];
-> +
-> +       snprintf(opts, sizeof(opts), "lowerdir=3D%s", lowerdir);
-> +       if (sys_mount("overlay", "/tmp/merged", "overlay", MS_RDONLY, opt=
-s))
-> +               return -errno;
-> +       if (umount2("/tmp/merged", 0))
-> +               return -errno;
-> +       return 0;
-> +}
-> +
-> +static int set_layer(int fd_context, const char *key, const char *path,
-> +                    bool by_fd)
-> +{
-> +       int fd, ret =3D 0;
-> +
-> +       if (!by_fd) {
-> +               if (sys_fsconfig(fd_context, FSCONFIG_SET_STRING, key, pa=
-th, 0))
-> +                       return -errno;
-> +               return 0;
-> +       }
-> +
-> +       fd =3D open(path, O_DIRECTORY | O_CLOEXEC);
-> +       if (fd < 0)
-> +               return -errno;
-> +       if (sys_fsconfig(fd_context, FSCONFIG_SET_FD, key, NULL, fd))
-> +               ret =3D -errno;
-> +       close(fd);
-> +       return ret;
-> +}
-> +
-> +/* Create an overlayfs with "lowerdir+" and "datadir+" through fsconfig.=
+> +               /* Pseudo filesystems don't hold data for metacopy files.=
  */
-> +static int fsmount_layers(const char *lower, const char *data, bool by_f=
-d)
-> +{
-> +       int fd_context, fd_mnt, ret;
+> +               if (i >=3D ctx->nr - ctx->nr_data &&
+> +                   (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
+> +                       pr_err("filesystem on %s not supported as data-on=
+ly layer\n",
+> +                              l->name);
+> +                       return ERR_PTR(-EINVAL);
+> +               }
 > +
-> +       fd_context =3D sys_fsopen("overlay", FSOPEN_CLOEXEC);
-> +       if (fd_context < 0)
-> +               return -errno;
-> +
-> +       ret =3D set_layer(fd_context, "lowerdir+", lower, by_fd);
-> +       if (ret)
-> +               goto out;
-> +       ret =3D set_layer(fd_context, "datadir+", data, by_fd);
-> +       if (ret)
-> +               goto out;
-> +
-> +       if (sys_fsconfig(fd_context, FSCONFIG_CMD_CREATE, NULL, NULL, 0))=
- {
-> +               ret =3D -errno;
-> +               goto out;
-> +       }
-> +
-> +       fd_mnt =3D sys_fsmount(fd_context, FSMOUNT_CLOEXEC, 0);
-> +       if (fd_mnt < 0)
-> +               ret =3D -errno;
-> +       else
-> +               close(fd_mnt);
-> +out:
-> +       close(fd_context);
-> +       return ret;
-> +}
-> +
-> +TEST(datadir_sysfs)
-> +{
-> +       ASSERT_EQ(setup_tmp(), 0);
-> +
-> +       EXPECT_EQ(mount_lowerdir("/tmp/lower::/sys/kernel"), -EINVAL);
-> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/sys/kernel", false), -EI=
-NVAL);
-> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/sys/kernel", true), -EIN=
-VAL);
-> +}
-> +
-> +TEST(datadir_procfs)
-> +{
-> +       ASSERT_EQ(setup_tmp(), 0);
-> +
-> +       EXPECT_EQ(mount_lowerdir("/tmp/lower::/proc"), -EINVAL);
-> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/proc", false), -EINVAL);
-> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/proc", true), -EINVAL);
-> +}
-> +
-> +TEST(datadir_tmpfs)
-> +{
-> +       ASSERT_EQ(setup_tmp(), 0);
-> +
-> +       EXPECT_EQ(mount_lowerdir("/tmp/lower::/tmp/data"), 0);
-> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", false), 0);
-> +       EXPECT_EQ(fsmount_layers("/tmp/lower", "/tmp/data", true), 0);
-> +}
-> +
-> +TEST(lowerdir_sysfs)
-> +{
-> +       ASSERT_EQ(setup_tmp(), 0);
-> +
-> +       EXPECT_EQ(mount_lowerdir("/sys/kernel:/tmp/lower"), 0);
-> +       EXPECT_EQ(mount_lowerdir("/sys/kernel::/tmp/data"), 0);
-> +       EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", false), 0);
-> +       EXPECT_EQ(fsmount_layers("/sys/kernel", "/tmp/data", true), 0);
-> +}
-> +
-> +TEST_HARNESS_MAIN
->
-> --
-> 2.53.0
->
+
+How about we make this just a tad more restrictive:
+
+                /* Pseudo filesystems don't belong in composefs setup */
+                if (ctx->nr_data &&
+                    (l->path.dentry->d_sb->s_iflags & SB_I_PSEUDO)) {
+                        pr_err("filesystem on %s not supported along
+with data-only layers\n",
+                               l->name);
+                        return ERR_PTR(-EINVAL);
+                }
+
+I could send this as followup patch, but since this version is simpler
+there is no real reason to have the intermediate "only ban datadir" step.
+
+Only the commit message needs a little more flexing to justify this.
+
+Thanks,
+Amir.
