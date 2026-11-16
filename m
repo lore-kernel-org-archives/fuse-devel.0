@@ -1,99 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.176
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794828676;
-	b=D3I0j2g8rn0wao15Vknov8n9pLNSVuJXO0mL5qjhOpUjqPCdsgarV8gq+Sa/+7tyael1
-	 dP28Fr0AsJmHhX0kDcHd2ztzoO3Bet1tvLxcakGZJH85rHpaaIuJqkhE/3v4CzYczCFe6
-	 oz88XMRm5xo5pHfEXNw1HcQOmE47Jam6or4nKrWEyTTtolPYz/3WJ+SfgmAVm3/Gn1VVw
-	 dpEmX5DR5OHc7QOwGWg/qFEsOhCE86nM5peHLzAqbXIndv1I26BsdcfBfdK6X5HA/q+vc
-	 LALkgBAp544EsFNaOm/rPZK1WdidltSZZEEY9xSySYPDPV0av4ny/HIoAUmki68Rsjg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794828676;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=wtSeKpS27rBmoNgRnmtk6Fl68DcVUzwroJjv5Gt9KJo=;
-	b=yQV167hcDc+up+ZO0Mg4rrd1bv4vUHEGmKDj/r95ISEXKmQdxbRyfEmpKpzRgbKF3pVp
-	 3sByCP+Fp0Dtdxehh4/ECfFW2IMJi+ZJpg3CewAKqyt2BGq54ZM/cbW0MNhjpwWGWxZTg
-	 hJwvc9H5M1m5O19cHDtNss8ZXZgQaB4nI2g9TQ+gCYciyrW3N0F1v17+wVDRIK4LP/mW3
-	 JbS21g/c7i8d9DnWHX+RfSMjs0cmozac8+qzxkU3hl1kBjJV2fhwIfU/gdpFzCfaG4muA
-	 QPKpImpV/6cgkr4Ymfz3XbmvMIbAawAqrQWikiysCf+9VNg/Ud1s77U1iN4uywKH49Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0iEnr1BD;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.176
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794830419;
+	b=1PtcXJGFiup97ZeLwMLQ5c20u9r3eyG4/8CmJqGZWtvuJd5xnN9ShaLPY1saDZ4ca41l
+	 JrJjaKK9zbgliXnyx3KmSxg0jq9ZY8791g98Q5HwLa8ySL1A6DEXhdSDeVVxK2leWU+hP
+	 bk8DKSVbdQ1tfTt+b/UMV5XUdKFIAO3iysm1EijG5qUIWC7Ip+FzeSJQCk5lL+HVdtCBD
+	 xvaucbrPl6PD/wSPOpzaiugZwPYZcZFOF+V+b56MxOpHe73M2ObGONV6nYsBge/cvD1jP
+	 RZT8t08JbnwETdx47Aqwkb/JgTpipLpby61IvAS5FV+fZm/qcUOMFovBx3Qy0qmQVAw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794830419;
+	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
+	 In-Reply-To:References:Subject:From:To:Cc:Date;
+	bh=ewJeUaksgXnSPjHwujvoiDsCY2620AwnIo92RczcOPg=;
+	b=BAgKG+PmbAf1Nhz1nqOv96pU7TJlA9cGHWmALI3lqAuFU8EbJiTnl+wJo5x7kMj9nYD/
+	 WHw7X6+Dc9EQodpjlCsnRoLT2d9uRBWBwhtKNKvp9VbWSxNA3nNqk0LYPH4C4kB6dv15T
+	 ipAWr7w5VImy9cLfISP19wzUWuQ8fy5q0iqEYOEsnEKLdNQhTtjn6nAGYC5ySNrg9XDp2
+	 DES0HYVZy79Iz0OC5GN0rt9X6/KIFe+5iy24p9Jy5l0hALnINJUZm7ZxzxM5mnw3lusei
+	 kLxB3NzAOPnuRGK1BoGuyVknO8Ei6UnKK6MBnDrtATW0aHvkLj9qagajvebsDqDgX4Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NGs9hgRo;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FECE606A32A
-	for <fuse-devel@lists.linux.dev>; Mon, 16 Nov 2026 11:31:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FECE606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5FB606A31C;
+	Mon, 16 Nov 2026 12:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0iEnr1BD
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3adfe77d336so33282101fa.1
-        for <fuse-devel@lists.linux.dev>; Mon, 16 Nov 2026 03:31:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794828674; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sUz/TjQPW1QwElwQVKdx6Z3NsDjvppg+P109X6Jw6Q94NNm6+FRvzHc58YULv48qNT
-         TpLeIoDce2ZBaQulHQQbt7PGzJFobCsiBYeOW9SVu3TPJcoClJ0YBD8FEwx+/TddNUrT
-         SjbKp5JA1H2BBzroWOEF/sv+5LQQrzFowYPhmoI6nMtzKl9gWSCQMXC0A8SIF7F5gcko
-         Km1M11pXG8s4kRpSQ2wLYSO6vTj/ahEtkJzSdt2Uj/JC+wuIAUOuc7mjLiczOW3rf+yJ
-         y9RWjxk/+hIEed0hs9ykTSI47qgcIhP9gsjmrKScfxj+Jxz+zylrs9O++DuKejuy5P2t
-         qsUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=wtSeKpS27rBmoNgRnmtk6Fl68DcVUzwroJjv5Gt9KJo=;
-        fh=IaWCKst8Qo70Hq20sb5Quow9HLqy5WZ6/dCZPYqG6qg=;
-        b=fL8iHau12dXQlqASaucDdOxKVuqGrnTUltqoFgoiUOraPL9s9vhcoXTbg3Ldjl60xc
-         6ZZZtrkasJeoWIvO7pNw1hcKBesueZTMBn4wplHNNk2N/+c9l052SlzxJFFokeB6YNeY
-         aC+JhJmazh+2vVdOdnUN7bDuU2OPxOTr4Evi3I4SQ4Xc0EWv+pTTcaRkioTu98ctpnwU
-         I6G1VvbEmKlBwSWbwkxqk0MZ495mupiNyB9MOhvA4lv7xqA8zsN7KaBBDjAaQ31goF5n
-         +UrRf7KKgwreyLRjX1F5sb7EL+CI+8qmKqfFY8xjrjxjwy6cwMzUiDi04RIlnTVn96VJ
-         Om/A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794828674; x=1795433474; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wtSeKpS27rBmoNgRnmtk6Fl68DcVUzwroJjv5Gt9KJo=;
-        b=0iEnr1BDO3JzV6izyuln+2yWXdNce88K4cTfL7cx/vJO9GRPzwo9arzrxAuvpECr6B
-         bHShbgncNUd/4UxddyIyJpUfzOcd27IiyEjb+z/XzPWxm00MPDLqMJbLW4VvJ/rgQwL4
-         7LQ1+SMTt0Pfv8yDklGqJiKuOt21/ltXNGsC0qVe1UG7kW8yV6XqiZrOaUZbimjVLCfK
-         JNe/IoWYv8ZoE66XqkHLW3iKt3wDRD4TuvQVpNUYZVP4pYAHSEBQP0OPFzIbRm12ZNdt
-         a/8ChvsdalmwYr1FpC+R8JzDFSFobdEhKWzV2AIvTxdExgW5Tks01FD89OfwTuNd/gUW
-         kJdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794828674; x=1795433474;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=wtSeKpS27rBmoNgRnmtk6Fl68DcVUzwroJjv5Gt9KJo=;
-        b=DEI/cEul7sztHWEN2aLeK6tUBKlVy1T+jZVGThRfTZH06jJA6a/wVTzReErQecwr3h
-         +GBHORY5zXzZzTa30/8OYu3DuZZkBEs7FbBwKizNfyOOila9YqDBw8obdzHvb5r+qFWG
-         1rRt5Mr8bYh1OMz8NxjkONTtZ/Ug3mJj+26h0aYEXksT8KniOwjebsEUqCM3jeM57J8d
-         GDyKPQy4dF/B0HjqQJPJ9pupmspzeoXTlP/V48MYm1Sc7/0yoRM/BBPLOclur57WgsSP
-         0/unaRSChSXiWhVgV8A2N6S25LvqruzIsY+Exx1OyaObkdMj9NFXZCNQFyBqS/sst920
-         qFLw==
-X-Forwarded-Encrypted: i=1; AL+hErGjofUly4K5/3ZL3VPeoNJQVVB9bqvvpGEzKcpv50pizaD00sePM5X1L0qwlz8yQSxE+GwFhGaF0eZI@lists.linux.dev
-X-Gm-Message-State: APuU4Z+9DgFcndDoyJ9cRPmTs+yHpbIbgpe7w8Q4o3X6fcdddpp3b7RY
-	gLMUnlsRFzYjPRjeb+spCnqqf4RS9fgpl9WUUIYGuJgL0saPpDzxnKyAudlXawN8GyhifVFg4jc
-	7v+u0pfeOQtPTgaexRDgwCfY/BJTrmg0=
-X-Gm-Gg: AYBFou3NnXXUvGR4IlQGO32PcOqHq5Vq9ZwyhvT3Ji0Bs+a03E93c4L802q8wlFY/OF
-	ndh+VRWiMx8EcIol5yy589p/wOlzxmmeaG3idBi5StAAppAnRbpTBUAq9/RNrV02X+2iGO+hZo9
-	qDlwbQjfbd29bUOU+eMNS1+eryPZhjDa3ePOs6VpGonJiC00pGuYUFupB/NKCNiiOkzHmuEKTpS
-	ThIu1K32TVAD7FYJkB4dmWUSl/5zCLjME3v5FkRMubYTDK1BnV6iDS45M5dv+x1A/G6V2890sHt
-	QBqFGI1frLdUtkT/S3qCXJBylkuOSKoJmkJ75Nk5josOAzO/vFS1UUEaPiyLGIL1DOHGI6E0NVX
-	sCETJw3pr2ffM8RNeRgyFdhwtrp2faVenPOERag==
-X-Received: by 2002:a05:651c:a344:b0:3ac:ff0a:9d86 with SMTP id
- 38308e7fff4ca-3ae2b4bad81mr32453821fa.15.1794828674271; Mon, 16 Nov 2026
- 03:31:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NGs9hgRo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B1241F000C4;
+	Mon, 16 Nov 2026 12:00:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794830419;
+	bh=ewJeUaksgXnSPjHwujvoiDsCY2620AwnIo92RczcOPg=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=NGs9hgRo8Pm53dwqOowj804JfWGt9pNSxyXsA5ZbufV3wNEO1pXrEV/P2nYSJ6s0h
+	 RkTVtrJGGRLTAc/i5stGgdH7MoEG/RRlQzCp8xsSKAlYN1LFViwB+sXdk4YoAbt7yZ
+	 PR7EK3GRWabIulVC1l0sYiPb/s/WJh1GIS+NuEi9fxzz0zXVvfrqLfrCezMd74ZtjC
+	 IEP94sDVVDwuNz+mWo090jAlScdWhDl8h+8NtgR+BEvWRcqbaBD+sHm90zfAZDrFLE
+	 Ium0YC6BRRHbiChOy1fGM3bxcnzkJeY8LsKxgOeIXXUZU9bjQC0KNhILzz6Uz/yD+e
+	 WluvUktyVhSBw==
+Content-Type: multipart/mixed; boundary="===============1962703051549190966=="
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -103,64 +49,159 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115210952.2140036-1-graypanda.inzag@gmail.com>
- <20261115210952.2140036-2-graypanda.inzag@gmail.com> <CAOQ4uxhZS1w24GXWphu-PNPbGxVJUDwOfqHdRZcb05+_HVv=aA@mail.gmail.com>
-In-Reply-To: <CAOQ4uxhZS1w24GXWphu-PNPbGxVJUDwOfqHdRZcb05+_HVv=aA@mail.gmail.com>
-From: Junyoung Jang <graypanda.inzag@gmail.com>
-Date: Mon, 16 Nov 2026 20:31:00 +0900
-X-Gm-Features: Aa3M54qrozvfFSvQ0gfAb_mSn86pOQYMr6gnIKh6TI_Xntwk7Flfv7qM72l-pE8
-Message-ID: <CAO7ntTRdY+5G1wiETFu0SVa3vFX+0RyMO6R5XpoosF0zhuoQYw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] fuse: reject embedded NULs in readdir entry names
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>, Matt Bobrowski <matt@bobrowski.net>, 
-	Gwanhyun Lee <gwanhyunlee@gmail.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <56b5bed0bd75b5b0c7368009493734cda89f1ca37c0fc29c81ed65048cbfeca4@mail.kernel.org>
+In-Reply-To: <20261116-work-loop-pseudo-v3-44-8cbbea1cf34f@kernel.org>
+References: <20261116-work-loop-pseudo-v3-44-8cbbea1cf34f@kernel.org>
+Subject: Re: [PATCH RFC v3 44/44] selftests/filesystems: add backing file tests for pseudo files
+From: bot+bpf-ci@kernel.org
+To: brauner@kernel.org,linux-fsdevel@vger.kernel.org
+Cc: jannh@google.com,mason@kernel.org,josef@toxicpanda.com,hch@lst.de,linux-block@vger.kernel.org,linux-kernel@vger.kernel.org,linux-nvme@lists.infradead.org,viro@zeniv.linux.org.uk,jack@suse.cz,linux-scsi@vger.kernel.org,target-devel@vger.kernel.org,driver-core@lists.linux.dev,linux-mm@kvack.org,bpf@vger.kernel.org,linux-security-module@vger.kernel.org,selinux@vger.kernel.org,apparmor@lists.ubuntu.com,linux-nfs@vger.kernel.org,netdev@vger.kernel.org,fuse-devel@lists.linux.dev,linux-efi@vger.kernel.org,xen-devel@lists.xenproject.org,ocfs2-devel@lists.linux.dev,linux-s390@vger.kernel.org,linuxppc-dev@lists.ozlabs.org,linux-usb@vger.kernel.org,amir73il@gmail.com,linux-erofs@lists.ozlabs.org,linux-kselftest@vger.kernel.org,brauner@kernel.org,alex@amutable.com,chris@chrisdown.name,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Mon, 16 Nov 2026 12:00:17 +0000 (UTC)
 
-On Mon, Nov 16, 2026 at 7:25 PM Amir Goldstein <amir73il@gmail.com> wrote:
->
-> On Sun, Nov 15, 2026 at 10:10 PM Junyoung Jang
-> <graypanda.inzag@gmail.com> wrote:
-> >
-> > parse_dirfile() and parse_dirplusfile() reject '/' in dirent->name, but
-> > do not check for embedded NUL bytes.
-> >
-> > Unlike plain getdents() buffers covered by verify_dirent_name() in
-> > fs/readdir.c, FUSE READDIRPLUS passes dirent->namelen directly to
-> > QSTR_INIT() in fuse_direntplus_link() and instantiates or aliases live
-> > dentries via d_splice_alias(). A dirent name containing an embedded NUL
-> > produces a dentry whose d_name.len extends past the NUL terminator,
-> > which allows callers such as inotify to copy uninitialized kernel slab
-> > memory past the NUL byte to userspace.
-> >
-> > Reject dirent names containing NUL alongside '/' in the FUSE readdir
-> > parsers.
->
-> My concern is that there are innocent buggy servers that pass NUL
-> maybe even because of length including the terminating NUL.
->
-> It would be more considerate to make this check in fuse_direntplus_link()
-> rather than to fail the readdir.
->
-> See precedent in:
-> 78d04af4995a1 NFS: nfs_prime_dcache must validate the filename
->
-> Also, verify_dirent_name() never checks for embedded NUL, so all the
-> other filesystems can get away with this without failing readdir.
->
-> Thanks,
-> Amir.
+--===============1962703051549190966==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Hi Amir,
+> selftests/filesystems: add backing file tests for pseudo files
 
-That makes sense, breaking getdents() for FUSE servers that include a
-trailing NUL in namelen is definitely a real risk.
+TL;DR:
+- Selftest: fuse tests may fail instead of skip without
+  CONFIG_FUSE_PASSTHROUGH (-EOPNOTSUPP, not -EPERM)
+- Metacopy test may fail without CONFIG_TMPFS_XATTR
+- Minor duplicated setup code
 
-In v2, I will drop the parser checks and instead have
-fuse_direntplus_link() return 0 early when memchr(name.name, '\0',
-name.len) is non-NULL, skipping dcache instantiation without failing
-readdir (matching the nfs_prime_dcache() precedent).
+> diff --git a/tools/testing/selftests/filesystems/config b/tools/testing/selftests/filesystems/config
+> --- a/tools/testing/selftests/filesystems/config
+> +++ b/tools/testing/selftests/filesystems/config
+> @@ -6,3 +6,19 @@ CONFIG_NET=y
+>  CONFIG_NET_NS=y
+>  CONFIG_INET=y
+>  CONFIG_SYSFS=y
+> +CONFIG_BLK_DEV_LOOP=y
+> +CONFIG_OVERLAY_FS=y
+> +CONFIG_TMPFS=y
+> +CONFIG_CONFIGFS_FS=y
+[ ... ]
 
-Thanks,
-Junyoung
+Should CONFIG_TMPFS_XATTR=y be added here as well?
+
+TEST(fuse_passthrough_overlayfs_metacopy_file) mounts a private tmpfs
+through setup_tmp() and then does:
+
+    ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.metacopy",
+                       "", 0, 0), 0);
+
+shmem_fill_super() only sets sb->s_xattr under CONFIG_TMPFS_XATTR, which
+defaults to n, and CONFIG_TMPFS does not select it.  Without it
+setxattr() fails with EOPNOTSUPP, the ASSERT_EQ() aborts, and the run
+reports a failure rather than a skip.  tools/testing/selftests/landlock/config
+lists CONFIG_TMPFS_XATTR=y next to CONFIG_TMPFS=y.
+
+Alternatively the test could SKIP when setxattr() returns EOPNOTSUPP.
+
+> diff --git a/tools/testing/selftests/filesystems/pseudo_backing_test.c b/tools/testing/selftests/filesystems/pseudo_backing_test.c
+> new file mode 100644
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/pseudo_backing_test.c
+
+[ ... ]
+
+> +TEST(overlayfs_on_sysfs_backing_file)
+> +{
+> +	if (!can_use_loop())
+> +		SKIP(return, "loop devices unavailable");
+> +
+> +	ASSERT_EQ(unshare(CLONE_NEWNS), 0);
+> +	ASSERT_EQ(mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL), 0);
+> +	ASSERT_EQ(mount("tmpfs", "/tmp", "tmpfs", 0, NULL), 0);
+
+this isn't a bug, but could overlayfs_on_sysfs_backing_file() call
+ASSERT_EQ(setup_tmp(), 0) like the other tests, instead of repeating its
+three steps?  Similarly, usb_mass_storage_backing_file() repeats the
+statfs()/CONFIGFS_MAGIC/mount() logic of setup_configfs(), and the comment
+"Mounting configfs on top of itself fails with EBUSY." appears twice.
+
+[ ... ]
+
+> +TEST(fuse_passthrough_backing_file)
+> +{
+> +	int fuse_fd, ret;
+> +
+[ ... ]
+> +	ASSERT_EQ(create_file("/tmp/file"), 0);
+> +	ret = fuse_backing_path(fuse_fd, "/tmp/file", O_PATH);
+> +	if (ret == -EPERM)
+> +		SKIP(return, "no fuse passthrough");
+> +	EXPECT_EQ(ret, 0);
+
+Is -EPERM the right errno to key the skip on?  On a kernel with
+CONFIG_FUSE_FS=y and CONFIG_FUSE_PASSTHROUGH=n the test filesystem mounts
+fine, and then fuse_dev_ioctl_backing_open() returns before any
+permission check:
+
+    if (!IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+        return -EOPNOTSUPP;
+
+-EPERM only comes from fuse_backing_open_file() when fc->passthrough is
+clear or CAP_SYS_ADMIN is missing.  So here EXPECT_EQ(ret, 0) and the
+later -EINVAL checks see -EOPNOTSUPP and fail, and the harness records
+"not ok" for a feature that is not configured.  Kernels that predate
+FUSE_DEV_IOC_BACKING_OPEN return -ENOTTY and fail the same way.
+
+Should -EOPNOTSUPP (and possibly -ENOTTY) also lead to the SKIP?
+
+[ ... ]
+
+> +TEST(fuse_passthrough_overlayfs_metacopy_file)
+[ ... ]
+> +	ASSERT_EQ(create_file("/tmp/lower/file"), 0);
+> +	ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.metacopy",
+> +			   "", 0, 0), 0);
+> +	ASSERT_EQ(setxattr("/tmp/lower/file", "trusted.overlay.redirect",
+> +			   "/missing", strlen("/missing"), 0), 0);
+
+Can these setxattr() calls fail on a kernel without CONFIG_TMPFS_XATTR?
+
+The private tmpfs from setup_tmp() has no xattr handlers in that case, so
+setxattr() returns EOPNOTSUPP, the ASSERT_EQ() aborts, and the program
+exits with a failure instead of KSFT_SKIP.  The mount of overlayfs just
+below already has a SKIP for missing support.  Would a SKIP on
+EOPNOTSUPP here, or CONFIG_TMPFS_XATTR=y in the config fragment, avoid
+this?
+
+> +	ret = fuse_backing_path(fuse_fd, "/tmp/file", O_PATH);
+> +	if (ret == -EPERM)
+> +		SKIP(return, "no fuse passthrough");
+> +	ASSERT_EQ(ret, 0);
+
+The same -EPERM check as in fuse_passthrough_backing_file() is used here,
+so ASSERT_EQ(ret, 0) fails with -EOPNOTSUPP when CONFIG_FUSE_PASSTHROUGH
+is off.
+
+[ ... ]
+
+> +TEST(fuse_passthrough_io)
+[ ... ]
+> +		srv.backing_ids[i] = fuse_backing_open(srv.fd, fd);
+> +		EXPECT_EQ(close(fd), 0);
+> +		if (srv.backing_ids[i] == -EPERM)
+> +			SKIP(return, "no fuse passthrough");
+> +		ASSERT_GT(srv.backing_ids[i], 0);
+
+Does this skip also miss the unconfigured case?  With
+CONFIG_FUSE_PASSTHROUGH=n, fuse_backing_open() gets -EOPNOTSUPP from the
+ioctl, which is not -EPERM, so ASSERT_GT(srv.backing_ids[i], 0) fails and
+run_one() records "not ok" for the whole pseudo_backing_test.  No fuse
+server has been started at this point, so nothing hangs.  The config
+fragment does list CONFIG_FUSE_PASSTHROUGH=y, but should -EOPNOTSUPP and
+-ENOTTY also lead to SKIP(return, "no fuse passthrough") in all three fuse
+tests?
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43858134663
+--===============1962703051549190966==--
