@@ -1,101 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794926135;
-	b=vqGRsL+DGrgU1Evvd8U53owReK0N+hswSKiz7ldD0VFBxcLFoNSZDqh3vUjemd6tyALc
-	 0353UZHoR3qXHZQr3418nKxvrbdmV/KpZEtk+ENc+FzyFHoU8vGS8S0+tGCxBuBF8yrsB
-	 58xNOOFT6hRJ51vZ9/+vndq+BvTjH9Z8C2mW8jCEtr/EIjyTIM9l8JleXPNUTch6FO2te
-	 JaE9kszPxmejHOIdL7U746yH+8m486FCKg8C0+YTwKvnmzqfLi5dMwHkn+e1A5+3j/Ite
-	 D+ujWAiUupw8qO4ggaBCs8sTc06Rx7U0rrjQuiPzK/9bXz90CzV4bW7ndgvW6JVDwxQ==
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.222.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794934031;
+	b=nq6TUEobnkn5a5loGZd5gEUL+IaWU4HsnGsUEvsihYI+bnfz2NHclclQ5ILnz/NHzsMJ
+	 kM86jVTmVVSYpVY7fL0CFYE939ygjdpTIfTo3dKKw8l1LIR3f5XX8eUqLwP6+4+5LJyEs
+	 WWftI+WgCGNnKW4VgAczsjPWBhRrw7pMrYh73taxxMacoekwEw5zPNDuRcwd4CF1wujwH
+	 rUKNt46IER/tSAjhUCYFrK2fbiEbFGvHlEGAfFtkukshEETMCaTy7pU2qKlh2AuOSCIK1
+	 1075G/EVqeeKLUIGA5UGMFWAeNDRhtZ9DEzstleoUgtIuNoZ9ufRKZCSEklWAbRbf1g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794926135;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794934031;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Z8Nm8FHzKmIfnRj5B6yPP5eTVD3vNbmx6rL+eezv180=;
-	b=cp17b0knvNuVNofh2yEoFTbI537DplyRJW8NmKcU/2/+qVY7tonPTRrYSmPhThdJzrnV
-	 9NW4QN74VTRVgrFMNDpxXgi/8to4YgyzKM8PH2RzInrQxHEDS2N1d0HLfqBdivT4MxNxv
-	 8C1ohQedr5u1hadspSBmcZQqKR+3xOCu8jzYTiIsfPglgYCLWyy3iFF3eMqVHFIYJNI+U
-	 oPRnds5czLC9wbPmU4mnAg21GqVaQCfPJkBoKZnOREKgMexc/yAA8pxemK6OAnvgLYVqS
-	 HmMh7887/ZeNgybvWlG4BAFM6cc1Ipz02Noq74TFeB8/Bgrgdlg3BRHslEyy/HHVjPw==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type;
+	bh=jd6+ZfKNXNj4bzpM1N39t1xeNHZL6yxdxFvAuL1XklQ=;
+	b=dQRB2sm+tBr0xA8PRIiDvKF1g7DwHqPfSSBOPDqV1M2MqIg7FrTV7ZqsXjMoFsZzpyR/
+	 qjAh/zDSXRZQtkmgW3Bgcap99qmEd359evLq3RPQk9vd3B1AhTxIyUfwl9TfzZ+D6EOgj
+	 SrZSKZDrb7iuYDVXCBk63gxvgpW1CQH/uUieMgTXhJHcxpnCcbGTLLS4uANQXzeP1NaXD
+	 fuj15M4z3n8gqToxzPPMOPkbQ0PmSjFZWB51+9iwBmKJysMu7wOhxEFF++oskJfHpYW45
+	 1R2NiIWaAnr/BzEnASw1NmX9lAyBdJGMkndBRl56Q3ffJc1cfHSBuBtn2Wc+BmaiMAQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Bm/OmY5L";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.49
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	dmarc=pass header.from=szeredi.hu;
+	spf=pass smtp.mailfrom=szeredi.hu;
+	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=C35z2EfF;
+	arc=fail smtp.remote-ip=209.85.222.180
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918F1606A889
-	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:35:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 918F1606A889
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F14606A899
+	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 16:47:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6F14606A899
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Bm/OmY5L
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6b878560a08so165175a12.1
-        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 06:35:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794926134; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=C35z2EfF
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-94958650b09so6325385a.1
+        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 08:47:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794934030; cv=none;
         d=google.com; s=arc-20260327;
-        b=GRRQGMKKPYxH72ITrtMfNN7rC6WHPN0RB/pknZm3VN7NnkEd0+KRcB4ETva8R61Sp0
-         4co2Bj28vnQG2pFUIv3aBOifkSiR88DFgbZcA9l06NMP3frmGd1CcEAOOX7DId0dyYBO
-         myuQ2AOdKQ8B7iR8MD4aVUy68oy3M4I3Ns2OBBtiMrUNqDojwJ9BtLA1hExTnlN9knqP
-         y2uE2To5JzlUSkC/xWzVdIi8gZKfy7ABfdExrmSte5q/SQPTSnoCk0L4qUzInjxLiiRH
-         fU03oWu4gEQG7c4n6JlFEC2Kz0AAXQN8xUYtVOOqHKTUJeIxeklxCD7LNODA026DkpyF
-         1yCg==
+        b=PHt27JDYubmV3oyMsPu2tRh0f6fZ9sRMvVSvkAryf5JiDBwpqCZcJ6oq76eTixO9+e
+         OhphC6Paee9h5QihTADWlrJiKM9PnlIvtXLQR4L5V7dATAolg1IIt4/vcZcQObwm3bxW
+         fCvrAkJrwQ8dnKrur9t9bcIDBniNocuSES/kpLVbiZeMfqHNA+bjJMiVrXmqo25aUJUB
+         oQtwecfuMjbM5nqtCj91d3NDjJbz7Z8DRDRCF9Q++nZ+hQqboNVh2ZIX76QAQUQS9wGO
+         lE3b3PVlQUu4sYp61quGIV7hbM6Dy+3le7AewH0VCO4ThzWCfhaf61K8+j5MS71CTsXD
+         1j+g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Z8Nm8FHzKmIfnRj5B6yPP5eTVD3vNbmx6rL+eezv180=;
-        fh=y9wPNmgO/G/Kw9mcDM1HHYIqPXSea6PmUZAvja61jdo=;
-        b=n3w4p3jyEPUnefd2oowxVtnA4G5UeUdrNuDN465/dsdJ2NtmCLZcmTNSAvnD6ZoN+n
-         GnKKb28KYo1tu/7u+AkiV6tXfmH9eEUxoXoLObA11AweqiC9cScUt7pv3pOGaez3B/aX
-         a4r5yfPtW6vxTr4E+vfJ5QQiWLjO6kl2idsYYzqzVTvHdJxGZ8uCwLOHXHvhvQTdG6l7
-         AnLpnIibC9fAmKtddXnpkwjmA1cjaER3Tv8pYO2Tlx5vEJJ6ZfKFt0iZb1a+jkLU53qJ
-         HLJF5RtNHzIJN3MC5CRUgGh2GfQbq1LqYZaZRkgFmj/a14uDnIhcmbnuP/UZv9984e3D
-         is+w==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jd6+ZfKNXNj4bzpM1N39t1xeNHZL6yxdxFvAuL1XklQ=;
+        fh=wDZn5RErVjqr83Q+fbUl28e8/bMplLAL5nOqoAchSgI=;
+        b=rbI5o8nccrTdaH2kzzkWEXm9J0qHZZIdo889IQqmT+0xy5d16u3+rXA3q2pVJ/lQOO
+         66VS9tgWwUG+lY0BiaVoxGpzHP3anmYmnomyP75j38ANZ+5ZvqHZQvKQtd8SlOJdyikw
+         mDbPLYYgpl++9i8KvpKvJcI2+NUd2sNb1u4hRJ42zDb7RnMp/ioTyvI3JHYnNgRR24rf
+         aSNA/UumGAcQjZXZdgOlRBjQg1TcPTN+T2aCHHFssu0Yk2pntdh9OYtOSWNq4+NvBawX
+         DaTOysQDfC8hjcVvKzXKnWcgg/2ULWE1tAYmaAn0qx8bq7pxKzp8BMiVJ9Ips+daKw34
+         ltbw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794926134; x=1795530934; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Z8Nm8FHzKmIfnRj5B6yPP5eTVD3vNbmx6rL+eezv180=;
-        b=Bm/OmY5LdHXCRXwzIGA6EAEGsmxPNf5WZhe2p6UbCrre6FKxG4TzCSqYc1Uml+/aQ6
-         G4y3O5OHhMSRQmcqAwQSaKGOSmBMb7RC/TubZ7vLKWTRxxeAnG2qvZaayMgYckgvtBJ+
-         Hid5TcWVNEkDMAsEqwpLVXaJs+mur1krj7UUw10ob+IoqkXC3NHkeh8IbmO9mOdjHK2m
-         qizkg4FqFhooCfrjUPS/wnXLRsGX4xRtnJAsCt9BXN8NQkhZdQ5at7s78H9yn8t1ooQ8
-         4AoUjqNqcrAZwvS8eiaOQ1ZCU1ZRlDuSo7njPGzEzx6dIv7GPb1FwUl5Z6D5zZT0tPhk
-         n7tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794926134; x=1795530934;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=szeredi.hu; s=google; t=1794934030; x=1795538830; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Z8Nm8FHzKmIfnRj5B6yPP5eTVD3vNbmx6rL+eezv180=;
-        b=BC5YuS0cmWoZf2BLv/mPmemyeAHFw+uyRackFeHi+aFN26n76ied5MsLfyE3TiyNm/
-         kr9DWO1zDzVY0YwJK2Q77SuCn2517CcbDAC+JvJvunRsH/irv7DeqaMuE0EPQS0cWern
-         YiikyouCP7+4ad+sF3aCAyE2evpqYgwVx/orb86lINccFVQPY+28bfaAC+YfHqIvFreq
-         kXfBcaWUD7L4iTii+t3z4sT7PmmZxiCJEybpIDBHUDhLmnXdtOYQr2qG1AaM53sXKHVG
-         bcTvnxZM/xTjdcdrmV3/7+mohAHLM6hiu5xu65GO7GLAk2bhBz98uYVq4k7/EtK282F4
-         kgHQ==
-X-Forwarded-Encrypted: i=1; AL+hErGvTBrE+3Mk+/pOytlLsuQ1XeQTLQ5k5AAfJfIrdK1su93NyQJbhkvmjQ87FFadOmW9t8qZBgRU5v0l@lists.linux.dev
-X-Gm-Message-State: APuU4Z/JaK7pP68fwcRr6mqFzEFebc/FgJWTcIompUt9n+G62pY1I9Hr
-	pG2O23o6yUVhgxgaIPci/CSKu6iRxtTzdAjLZ79HeqWAck7PjtmzkAqPzblUMP5DqZkAMo3cYx2
-	ZhYE0Vgs5HDW/g5B5QG0CrSVTXBKyh2s=
-X-Gm-Gg: AYBFou0eHNVLhklolwPV1grnNBqo/O68QZNiC+odi3p0DjbGSFL4wizBBVLkyGzmTZ+
-	L7Sx3F3WmH2H9Y3uCyQ3onNxfiHUVBzvkwfMUe6Tv2MYxPlT3/kXOke0XlzrhrWXfzeQmECsdrX
-	6SKRzGsyjZwOLnTaE3Do16AE6efUHqjENFNf5myYcNKI6ChoIntRSyMykhYb/Yvr6NRhi8OTqxL
-	j3t+RTd4M3FdOy2L0Jz1Cw478YaXEJVYfy2T53XofSKYAlcBZju/UV7jfKPZfublhy64EzQzsDf
-	O1Ok4x5XsXrG1RZmgDLrFJaHKOqe0pqMTO4gVSMONMfKbCRBPCncdW6Q8nWrh2Kn6TPtMofE5/X
-	GG3yEuOg6D6+0MpzSEmLlyas0ViwX7dRpsNNeQlg/DSjj4QkfAWIoQ167/PpC0SCRIeP9tI9UJi
-	IfntqqELyRu9dQkd4=
-X-Received: by 2002:a05:6402:2b91:b0:6b4:1eed:b9f2 with SMTP id
- 4fb4d7f45d1cf-6b859739689mr2260195a12.10.1794926133831; Tue, 17 Nov 2026
- 06:35:33 -0800 (PST)
+        bh=jd6+ZfKNXNj4bzpM1N39t1xeNHZL6yxdxFvAuL1XklQ=;
+        b=C35z2EfFt52zRbS6dOQ9xUXRYYKqoIXy68eqoTFOda6McNXfn2QdEPlMzwGSrCjiOV
+         9m5Tr2It7PPNaLsF1vDlca1WWaX2ktiMlwROjGDQI6p0LI/xARM86LFx0mxWEM+2xU2N
+         JW4OwOj5a/lMh89uyXBX5G8ezDeNQCkIq+i8w=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794934030; x=1795538830;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jd6+ZfKNXNj4bzpM1N39t1xeNHZL6yxdxFvAuL1XklQ=;
+        b=EZ653eQ13dGyvSj7vyKXD8D0j2HmjVa2fwEj5Rq/JVvHGkxi/TYri+5O4nBeX11DRt
+         2AdvkEd1l6miBxevbIKvkL2zSvaFck7/8LtDdSS6PPOrjyZ/0WZhVsdTJK6DRtd9xejh
+         EKdsDfrXAnu1hKjY7CgUd87TOl0xKkfIJdox9u73PYw9/eTsyTV1L5U+B+plTyCqzvh1
+         lMk0156XXnF9yWtCG8NmqCioY0v/BMxxkyI725iYo7oZD+bWKuJVFnSRpe8nHPQqwXvk
+         irJEB6eBE3vWlQx+PZC1z3q6ZT7lmXY0DKLom7isqCZ8j6HAICISulSjek70wLgmmPAF
+         inag==
+X-Gm-Message-State: APuU4Z/skoQZt+6hGa742yEGADSdZNJtfZvaiW6kkV3MJGtOIqf2o0Mp
+	JdAFjcYH0atJegT4nQBwqraJJXYJjrffElaIyzzlhNvoClm76p943sPjAZPAHargNK831NfWk86
+	7xORL5jwys/8OcPCr6mwV4lSjg16AuYu6OLhLpLWL8Q==
+X-Gm-Gg: AYBFou2lhW6EYaUo/ElOfx4f2Ph7p5oHNKEcnm/+IcEKDOGWdam1IoY+F4IkXisMrbm
+	6zD0Ne1mNvxG7hlzAfHGlUelGtg4UQbZUrdBobBt39+G3+4PO7LBkPFlyIWO26Twl5bREe+A31V
+	AbLtzeC4A1OXBT+mW0NtM7gyy667D7GL8bqcWAhuzsYQ+LxfoIq6uDq2v8lza1ZCscT1r6CtMKp
+	UsgpqbYd+IYLiuwTJlHsvp8mIGTm8ZDxMj/KWLVOXbSgPYh0TF+dkSr7oE+XnTzqjMBPBt4RJW1
+	L9b9Dudmwr3TxpEZGLMJCXnyklc8GyKJBt+4NGwPqiKUqKqjKK5BuOxO/qrlhnkVg5J4+WU5+Jy
+	X2JlrRvKETjyO9BJIEB/bdFUu5XsFBDL44iolgvu44ECi7IzsYoKEjVtL/Ay3vGKGM1TK52kEyu
+	jEPl6XgWSbmFM=
+X-Received: by 2002:a05:622b:c9:20b0:55d:36cb:d2f6 with SMTP id
+ d75a77b69052e-55d36cbd522mr82984791cf.8.1794934029641; Tue, 17 Nov 2026
+ 08:47:09 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -105,69 +100,26 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117135146.3174252-1-graypanda.inzag@gmail.com> <20261117135146.3174252-2-graypanda.inzag@gmail.com>
-In-Reply-To: <20261117135146.3174252-2-graypanda.inzag@gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Tue, 17 Nov 2026 15:35:22 +0100
-X-Gm-Features: AclHuK8C4CURJWV2PAqKHkl0J2MOz_Ngu3IxgsUB1ZW-CuNtY3L1YeTqpgF395s
-Message-ID: <CAOQ4uxjMNxS-jtBt7w4nwJpMQXFraec2UFDRoiXoQqs9eoq2gw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] fuse: skip dcache instantiation for readdirplus
- names with embedded NUL
-To: Junyoung Jang <graypanda.inzag@gmail.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>, Matt Bobrowski <matt@bobrowski.net>, 
-	Gwanhyun Lee <gwanhyunlee@gmail.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+References: <20261017094601.3434882-1-hengyul@cs.unc.edu>
+In-Reply-To: <20261017094601.3434882-1-hengyul@cs.unc.edu>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 17 Nov 2026 17:46:57 +0100
+X-Gm-Features: AclHuK8wmcKKsdp4Cx0Jb35BfV53xmf2JhwPHldvoPOcuRVA7GxYXeCz_kxkfRg
+Message-ID: <CAJfpegtmi=SFYeX5YSq-Lch+FbkP4NszUTnnuwj9Mr9A11=eDg@mail.gmail.com>
+Subject: Re: [PATCH] fuse: preserve ENOTCONN after failed initialization and disconnect
+To: hengyul@cs.unc.edu
+Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
 	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 17, 2026 at 2:52=E2=80=AFPM Junyoung Jang <graypanda.inzag@gmai=
-l.com> wrote:
->
-> FUSE READDIRPLUS can pass a length-bearing qstr with an embedded NUL to
-> d_splice_alias().  Unlike verify_dirent_name() in fs/readdir.c, this
-> path can create a dentry whose d_name.len extends past the NUL.
->
-> For such a name, strscpy() in inotify_handle_inode_event() and the
-> fanotify name-copy helpers stop early.  The kmalloc() and kvmalloc()
-> event-name buffers retain uninitialized bytes within the recorded name
-> length, which copy_event_to_user() and copy_fid_info_to_user() can expose=
-.
->
-> Some FUSE servers include a terminating NUL in namelen.  Follow
-> nfs_prime_dcache() in commit 78d04af4995a1 ("NFS: nfs_prime_dcache must
-> validate the filename") by skipping dcache instantiation without
-> failing getdents().  Return -EIO from fuse_direntplus_link() so
-> parse_dirplusfile() sends FUSE_FORGET for the unused lookup reference
-> and continues readdir.
->
-> Fixes: 0b05b18381ee ("fuse: implement NFS-like readdirplus support")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
-> Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
-> Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
+On Sat, 17 Oct 2026 at 11:46, <hengyul@cs.unc.edu> wrote:
 
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+> Record INIT failure in the channel before publishing initialized, and
+> check it in fuse_get_req() after waiting for initialization and checking
+> for disconnection. This preserves ECONNREFUSED for failed INIT while
+> the device remains open, and restores ENOTCONN after disconnection.
 
-> ---
-> Changes in v2:
-> - Keep FUSE READDIR and READDIRPLUS getdents() behavior unchanged.
-> - Skip dcache instantiation only in fuse_direntplus_link(), following
->   Amir Goldstein's NFS precedent; forget the unused lookup reference.
->
->  fs/fuse/readdir.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-> index 1f6cf565477f..6b2468b575d9 100644
-> --- a/fs/fuse/readdir.c
-> +++ b/fs/fuse/readdir.c
-> @@ -191,6 +191,8 @@ static int fuse_direntplus_link(struct file *file,
->                 return -EIO;
->         if (fuse_invalid_attr(&o->attr))
->                 return -EIO;
-> +       if (memchr(name.name, '\0', name.len))
-> +               return -EIO;
->
->         fc =3D get_fuse_conn(dir);
->         epoch =3D atomic_read(&fc->epoch);
+Applied with minor tweaks.
+
+Thanks,
+Miklos
