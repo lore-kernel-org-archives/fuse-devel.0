@@ -1,95 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794923732;
-	b=44IRcfv8zZrV9iDZpfPH4Po9RAFSlnkhQ0DPPAtOIRkSR++U8dzXhuBDTETC5399y8JE
-	 TPfqRVL6b5D94NItOYpvfcSJHRrAizVKP0QHY9TChKD3KvzgV3yGimVupGgQNW8f5VCOf
-	 A/svgww7CASNi+qUUoseMsaIiEZiGRRoz66BfQ8+jIBAILwjHeknw9lM8x9kxE7FG4OtO
-	 dkBv5qH9keAzfaAqIdeoho3R81KMaLXuGyiqOdc/t9Sju4v1DpMvupZJcpcWPTZmefKxV
-	 kyOs4AB6IB6UWmMlj0wp6x7w3q51+N0737ggAEu16bMHQwOHkv5gp31dbWHUHEoKhng==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794923732;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=PCMFhWYNetgcqgqSD3/UH0RoHtSUqDu9dzIGNxeEMr4=;
-	b=C0umGj7g+oucVnHAIcVjWkkvux4n0/2epToSo+D8utHbmMFoSfrQ4+B/emujAS5lgzVm
-	 n24bSCGgr+cKnUyAdlTGkxqyc02vaMy7m/sFk/ilAYMcscMlW01muwwFh0vg0pxUpBqOA
-	 hGlTzIOmZEVseSzya3+N4+AAFvhAIvnJqEZtd5hdmxCjlVrpV5eF7Z6+K6riQiJkJ57Vm
-	 4F1Biocgh9tT6mKMb+JSXDrHDXpS2JS6FmS8I3zgHHZ3dazvvd7Wiqq0il+zFXc3AFHuZ
-	 eAF5ckXw2PYqKXOHP2mSDxuxxsPpAtF//X29/q0muXKLzm4+V785Fw9jtzoo83d6pKw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=szeredi.hu;
-	spf=pass smtp.mailfrom=szeredi.hu;
-	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=StT9smAs;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.169
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794924056;
+	b=DQIK8CPNgCtsMQUnXG7TZjey8MUF22OqglJh5vnnVcq25I6xxYGN+8mBzUeXhzqKdfIk
+	 3t5FT/RMN5y+G6C1Gi+2DLXuGFUdQG2WOLYCz8pYk84acl4ORX5Ru502nGgjhH8xyjgpo
+	 UjHr6Oa7/wxvLRKGeby2HT3U1bxlpCLj8I4pbvuvgVEbLWDE27DzkwuPOK6T3GWNohr0H
+	 LQ65bptruxjVylmAXum2wv1U8llUyNjmySlbWnxwvqBg38skq+KQe5nBnL1hIq54tkD0Z
+	 HKKs6cX0ES/0MKVX9SaItWhTo9mBUibCklVjRYLG5VLCqQifoEJHuwiTxw38N/bzC+Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794924056;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=RCJknPnpeqcN/VUpgs7A4b1TZvqIEuWwL/dROW8XZRM=;
+	b=4SF4qnY7vw+5F/JAyzQPEIC7d61bo//WIORbbqk9Kv95jmqzlew0+IBn1NHUjA627tFf
+	 HeLNQHtAsEz6nXqwiy+rDNFaTbeOW7rpdIzLoRzFkOEt+t3N/awxnTNRaNrG3aurc0wIB
+	 RWuruT1jPmfAw9J0be48KnACBqerfjHJg1xH8NfcS6XZbc53dtOOAcFlw7gvHMaacXkmp
+	 O2npqORn0SSzEpYAC9sFCv+ySXh4hQOMeQYXi6D2nzMmh7iNH5901hDhEsBbIFNBIY7C8
+	 jX4GDy+Qbm8H47vvxmqtNT7jLValT21s5AjoPwGCRHaZvHdJvDMR/1Cil1u0K7UnVeQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LbPDQVWn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502AA606A32A
-	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 13:55:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 502AA606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E63606A329;
+	Tue, 17 Nov 2026 14:00:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=StT9smAs
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-53665358476so54353231cf.2
-        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 05:55:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794923730; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AZn/rfufyMdDxFmtFcwdVSKDT8brAjy2tEPhuuiR8Hb1fEthQRJsnn6KJOnqO8vFSR
-         x1IQVjhXO7GKrnK+ppY8CctB4mdoX7Wr9mztQlVnPgkAdet9wUVyKu/PMrKTkb+MbR2Y
-         0CHZ9kKeaN8FWFXe5QLVJLW1tIlR9XIGGr6DBajFRtPDsk0aBOuZmc3bhiSa+EWqhGqJ
-         4Uqu+mhhzfIv34UtrSrtcMjEfO8Dz6OWQ5iWR8UFKWOLoffrbHFD/gg0be6/DQL0IFpU
-         RY9MwQginE0kx/f+lcOWRwQ9+1aDeSfHRwbDdeg+nFAS+no4w10hsejcnmg8h37zoJCi
-         hFSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=PCMFhWYNetgcqgqSD3/UH0RoHtSUqDu9dzIGNxeEMr4=;
-        fh=90MVsQXn25FFvsiz50iX00fLA3QkBA5bpC/YYaewMp4=;
-        b=bAyXPYaplSue8HZYyPKvipUkuReOZlnGd8gdqYUdmNKArp57AIsGpqj8QXYdGPVK10
-         r+4tEZUGf4uUBZeJ0jPnnwP5zKUKqQu25eAImO0OJiFDCbqxW+j9xrADyB5U2E0lxyhC
-         qcOzeKiFU4xwo6z/vU9Q9LR3PcWRWWsffqYpMpuxzeU50T8kWOpzNuYpUMlLd6Cqewco
-         QNzFoAsnJd2OuiUknXcgMiGTOL7pS60CQoKCJjeSjfD1De+2k26wmCwWilGEixo4GaVs
-         4B82QL8eH9BkGz/Xk36wkjggJj1S8fulOjIwnTtEBzL08kXCkEKZs4PKKvrk+L9AH61o
-         gF8A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1794923730; x=1795528530; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PCMFhWYNetgcqgqSD3/UH0RoHtSUqDu9dzIGNxeEMr4=;
-        b=StT9smAsM+7E3309wTASJ5YS5bu4j7cnPhffm6H2e06QGCl+i9KG0hnk/leozcfskK
-         ddiFmpv2FVKkNcctX/wDZW0XVmi8QH+6+hjxPFPOgEo0HRKLfxZW1lJsDtm/5icjNbX5
-         nQzoxjrBBBvLeW/T7PFiwrwF67rSl1KZgxilY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794923730; x=1795528530;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=PCMFhWYNetgcqgqSD3/UH0RoHtSUqDu9dzIGNxeEMr4=;
-        b=SJu3Naj7BVGLcBJuVvaeKHSLuzJcLcI9EhJb3ajiWrv0bVPkBskZMUliqCJgt7VRot
-         Ztkj6ueGDj3L9TMWuhfm8ahoqOpvSAYkC138yfoIPwC2pr9Os6u5soF/DEod1ZnZi4fE
-         Zwr0H0T9HBcm0tHmU567q/oVovK0HN3xulZok9wMrcjPVV22Jd4OcXnfAK/bW+1vBjAq
-         stUOSmSCVkmaMfRA0q2Wx29asSjypsg3AEimMsOUiqkyB74ZRTeFJk2B08F8Ad/DhD30
-         l5spiszrg8LvsxHCdWXUKPB5Sbri+6YPGBmc3U7u7RoED+iB9TBkrIPvXbeaKZG4b+bT
-         olgQ==
-X-Gm-Message-State: APuU4Z+61o6bocmEN9Ep5JWkXMoxEp+arbISc8vyle7haU/LS60z3CuH
-	tGAymWWvWW/ZkHUHuKQhEtlFqntNRfYEUEJLymVvco0Jmyzo5pNZ90loxAOKTj5GkTc1gjzN9Ig
-	n5jFCtOI6ecHXwPDqKjxWbRuaE5gxqSTBFm5JK4xvJg==
-X-Gm-Gg: AYBFou2Tc2pVa9Y6cE8IzYIkuP0g6iCQBEaRXCzHohz1L4vREvL78i5byMGSN8oflke
-	iBEmoA1onY420jJGOJu8rXg4NxJbUDVNVhDKgAPH9kbpbmiWwSo/9o7db07jr/VZ/usIopobMqB
-	iRjxl5tpAYWkX/Msrwqlpd0obzcASTRzonlLWrVGszcS8e2YzApKqPzSfOIY7jo4c1PCg6n2AIb
-	mbJZzgST1YxfVYyybddCZkOidWVpLH2pEGY4X0pxYLEPW5SJ6XgW591G69kwEDpijdfFfhZijiE
-	ewh2lL5b6a2WZP5h+2GpvWCFnvJnrOxVR/qnpi1a8wHGh1R8jGNcH6ELXUudm9vRid4mfaj6Hfy
-	xtP614cQVK6RpjjGg+2v4PscsVx/InME7RMy/PQshjkGwocKoaDxuqnVyMZYvc3oVXg==
-X-Received: by 2002:a05:622a:1649:b0:535:8509:3138 with SMTP id
- d75a77b69052e-55ac366a4a7mr228951361cf.11.1794923730002; Tue, 17 Nov 2026
- 05:55:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LbPDQVWn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C7E1F000C4;
+	Tue, 17 Nov 2026 14:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794924056;
+	bh=RCJknPnpeqcN/VUpgs7A4b1TZvqIEuWwL/dROW8XZRM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LbPDQVWn+jSXBmw3+3u0jFLfJBZ/pS8YlMIo1dxAh7uVlad/Zc+UyLLLOu7OqqBqx
+	 rBSOZi9uV4fyQLXvWDdoGM7eEMKg6A+4ZnJVwUL4FIRDbN+Fa1VZslW4Vu8suhXIiK
+	 e7pHtcK46dzGno/Nxm7HEPB1ILzwfw3hMRdUvJoVM34yg4ZUzp1VpaRvo/JpFmAO3T
+	 SqZWW6LKWNXOrHByeCj/vlYOXGq94ehKO63zBdCE//JaO3yJhY6P7BCW777du8b8RZ
+	 5Y99u6+kDGGAML9UZXvYpVI9uV+vHNo4e7v8IsbJZrEEbM0TFmMgIUOg154RxgDyas
+	 leB9pWtNFFbIw==
+Date: Tue, 17 Nov 2026 15:00:51 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Hristos Nenkov <nenkov2004@gmail.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Seth Forshee <sforshee@kernel.org>, Lakshita Jain <lakshita.jain@databricks.com>, 
+	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, regressions@lists.linux.dev
+Subject: Re: [RFC PATCH] fuse: preserve daemon-owned ACL permission decisions
+Message-ID: <20261117-tanzpaar-dreihundert-attentat-6f03576b56c9@brauner>
+References: <CAO7_G+ypR12OwOiwnrqXDAC9zoboTMn_qLoASfJqYP3H83Vk5A@mail.gmail.com>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -99,26 +58,104 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029033700.273707-1-leonming@meta.com>
-In-Reply-To: <20261029033700.273707-1-leonming@meta.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 17 Nov 2026 14:55:18 +0100
-X-Gm-Features: AclHuK864qzqHSTrfZsL886LInnKNh2XiAhmdPhsQx2jCLEfINY9UG0itbitE0I
-Message-ID: <CAJfpegsKJCzdBGmQmbHt-Hxhe-b9cs4z5s-uDBMHDx3ZsnHQFQ@mail.gmail.com>
-Subject: Re: [PATCH v2] fuse: set dentry epoch before making the dentry visible
-To: Leon Ming <leonming@meta.com>
-Cc: fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Luis Henriques <luis@igalia.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAO7_G+ypR12OwOiwnrqXDAC9zoboTMn_qLoASfJqYP3H83Vk5A@mail.gmail.com>
 
-On Thu, 29 Oct 2026 at 04:37, Leon Ming <leonming@meta.com> wrote:
+On Fri, Nov 13, 2026 at 11:03:15AM +0100, Hristos Nenkov wrote:
+> Introduce an opt-in inode-operation flag so FUSE can make the ownership
+> decision in its ACL callback. Retain owner/capability checking for
+> default_permissions and negotiated POSIX ACL mode, and leave the generic
+> ownership check in place for filesystems that do not opt in.
 
-> Set the epoch before the dentry is published, and keep setting it on
-> any alias that d_splice_alias() returns; the dentry that loses to an
-> alias is dropped without ever being visible, so setting it too is
-> harmless.
+The flag is fine. The rest isn't needed.
 
-Applied, thanks.
+> Enforce the FUSE mount caller restriction and wait for channel readiness
+> before reading negotiated policy, including requests on the mount root.
 
-Miklos
+Neither of these. Before v6.2 posix acls on a fuse server without
+FUSE_POSIX_ACL were plain system.* xattrs. xattr_permission() let them
+through without an owner check and fuse_allow_current_process() was
+never called for them.
+
+The handlers were only switched to the acl handlers in
+process_init_reply() so a write before FUSE_INIT took the unchecked
+path. That's exactly what happens with the change below and
+fuse_do_setattr() reads fc->default_permissions before FUSE_INIT the
+same way. If that window is a problem it's a problem for all of fuse and
+not something to paper over in the acl path.
+
+And fc->posix_acl is only ever set together with
+fc->default_permissions so checking default_permissions is enough.
+
+I kinda hate that we have to use an iop flag.
+
+Please send a v2 that does just this. It survives Lakshita's
+reproducer:
+
+diff --git a/fs/fuse/acl.c b/fs/fuse/acl.c
+index 738abed9a8166..56cdafabfb399 100644
+--- a/fs/fuse/acl.c
++++ b/fs/fuse/acl.c
+@@ -98,6 +98,15 @@ int fuse_set_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 	const char *name;
+ 	int ret;
+ 
++	/*
++	 * Without default_permissions the server does all permission
++	 * checking, including who may change POSIX ACLs. That's the same
++	 * thing fuse_do_setattr() does for chmod() and chown() by passing
++	 * ATTR_FORCE.
++	 */
++	if (fc->default_permissions && !inode_owner_or_capable(idmap, inode))
++		return -EPERM;
++
+ 	if (fuse_is_bad(inode))
+ 		return -EIO;
+ 
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index 1341b681d0ed3..d7070f58d7ec7 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -439,6 +439,12 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
+ 	 */
+ 	if (!fc->posix_acl)
+ 		inode->i_acl = inode->i_default_acl = ACL_DONT_CACHE;
++	/*
++	 * Whether the kernel or the server decides who may change POSIX ACLs
++	 * depends on default_permissions which FUSE_POSIX_ACL turns on during
++	 * FUSE_INIT. So fuse_set_acl() does the owner check, not the vfs.
++	 */
++	inode->i_opflags |= IOP_SET_ACL_OWNER_CHECK;
+ }
+ 
+ static int fuse_inode_eq(struct inode *inode, void *_nodeidp)
+diff --git a/fs/posix_acl.c b/fs/posix_acl.c
+index fe77934ea8f20..9256607e897da 100644
+--- a/fs/posix_acl.c
++++ b/fs/posix_acl.c
+@@ -949,7 +949,8 @@ set_posix_acl(const struct mnt_idmap *idmap, struct dentry *dentry,
+ 
+ 	if (type == ACL_TYPE_DEFAULT && !S_ISDIR(inode->i_mode))
+ 		return acl ? -EACCES : 0;
+-	if (!inode_owner_or_capable(idmap, inode))
++	if (!(inode->i_opflags & IOP_SET_ACL_OWNER_CHECK) &&
++	    !inode_owner_or_capable(idmap, inode))
+ 		return -EPERM;
+ 
+ 	if (acl) {
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index 5b3a100aba77b..016eeea5da5bf 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -628,6 +628,8 @@ is_uncached_acl(struct posix_acl *acl)
+ #define IOP_CACHED_LINK		0x0040
+ #define IOP_FASTPERM_MAY_EXEC	0x0080
+ #define IOP_FLCTX		0x0100
++/* ->set_acl() does the owner check itself */
++#define IOP_SET_ACL_OWNER_CHECK	0x0200
+ 
+ /*
+  * Inode state bits.  Protected by inode->i_lock
+
+-- 
