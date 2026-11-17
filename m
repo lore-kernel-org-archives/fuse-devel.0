@@ -1,112 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794905083;
-	b=KuJLmLpsKOk5wEIRavG51wdb/abckWez76j1vf3XKOZ3kJI225XkMZjGXV8W13PA015l
-	 uTg3NA/lyORA60XS0XREWvp+zQZpH7UmiNaJbPlo19ftNd+DXd5zWvT9l97GzqQSq4xqw
-	 TBob/taOt424s3yXESdVKSd993rAodbVQhugmuRch6hGltQLMAfvTA/AGRdJ96wbPL8P6
-	 m8t/OIDnPhS/HqwdLBE7j+NWOvqzCnn0CfWNFlYShkzn61RrSxXyEDGNyFvkfU31Ll9LW
-	 kpHsKjsIiYMy9Ept0yRqprPKaDEyDGQvoE9OWODGJ7ROXWgNaj2QvAskArb6/KcWS2A==
+	t=1794910254;
+	b=Dga18pZ7irVXnr86ZtHrVhbyMhrDhTcjtT2A3qViXXsUKgbJKz+QPvl1sgG9xs9//O0g
+	 0XEb9tjDuwUijp2VkANQSeGDBPg7Em2C0qIQ2sjysznkO2VTL4ibdINPLxixRCR5PMfx0
+	 LKjmEb3+yoYUtpcNq97AE3iacfFroYMnvPDLOl10xbYuE5t/mgNmhiEGC9f8lXeZ3ugTD
+	 uj8TYWoFICCITFSv7Sc4x6COINGQNZ7d7Y3YB2Rm8PJ4RvZR+73oSL9jfVFyFLoeE9wum
+	 jjPkjiFWXS46FSCzcYq3fdfNHoDyjOQt8IbZEFY+ZfHg25y0dunj7zSA8hcn1xp+SBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794905083;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-	b=vQbx+4E18TXmMDVXe2I4b21Gkx64wsGs5b+Fw89K4V0vrS2D9LdRWN29LLMK4j11Mx3C
-	 +NjIulbd70sSh8rTnDQT+/SzatnrsfglkEFv1OVF8f1sYPfKqeCE1ftaIbu/G5bu2TqD5
-	 DJVylFbfduYyBM4wfABmf6byWszEssnNwNZbIWGDe86Z/y5Dek9c+eeAS2rSf8bdaMLFf
-	 WizfqENtPpG8Z5pIv+Go4VolD0AX2zmI89Zo4qlj5OUitqgchj3z5ly5mDnJIHWKBghGS
-	 B/1EpXRwfouFOKgT9eq+YYVoWjoDEOc3ktcXr4HATktemtU2G6FK+LbQszZN0PtIK6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794910254;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=+GkmMaOI4w0aqQVtKDo6X7pwmr1pb5SKm4lboaaoDN0=;
+	b=KdhW0PNAfIQRDICsjH0h34FImXMF/hHa4DgUQ6TAlq9CMNKcpORxyj0XqItvqEes8K+e
+	 XMtmUVwjjYkOBJM+nKtZpL5QN1/sAXDgnLtqfZnmAEYNJlxao5jZCXu6ni9oK6jwNHekd
+	 SR0N2QggDtP5UuQF9ZPSWUEt0BLZUoosAtnr9tDJnKDhT2ILd6Ccqd1BkILs7IR5iSspe
+	 gcZVLqNhE5UHN6xvCQBR7EO+4jN2sqcJIoZBq35nmClhw9sXs3iWqmvOMkrkGom3p1V4K
+	 U07Lp4FHrpjMMTr2/llM2CPPjQHPC0jObUCqlMsXStILTOTqQgvLs+OQz6RREIAIs8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amutable.com;
-	spf=pass smtp.mailfrom=amutable.com;
-	dkim=pass header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=a0Jyt29y;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TUw8jcou;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA09D606A88E
-	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 08:44:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA09D606A88E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amutable.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amutable.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C390606A31C;
+	Tue, 17 Nov 2026 10:10:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amutable-com.20260707.gappssmtp.com header.i=@amutable-com.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=a0Jyt29y
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so45544725e9.2
-        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 00:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amutable-com.20260707.gappssmtp.com; s=20260707; t=1794905081; x=1795509881; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-        b=a0Jyt29ywYW7ZC0CKJvO2qOcW2PGaiFEWHX0VNaAsEWbGjryAoYdRRv3IlH2a28ah4
-         LDd3FsK/UOjNhQej/Bt6PW4s8UihxRVSC1amCYZy6/tSocLXA+E7SszemQWYkFNGhD7W
-         KFz2SsiEQQ6HG8a9et+SDq0ch/eYPfxG52AJ2HWvsC3JrV6+DnYd5OZ6ZQxS+3fv1GOA
-         iOQ6HG2bfQIiI9xBKnVQEzsFjoFS7Yc5VTpl5nNCy3AEMhfdYFn+J0fiz6Tii7RGyQtk
-         EKwxDaRCxnnJtWpve12R6Os5YYCHwNE1LpUAiAB8nQylMhU0ZBB2RuLdEYit2Lkh7nLy
-         wQYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794905081; x=1795509881;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YtgOPMlBsDbDRTTami0iaeC2PfdAlPMUJ3BhZBWqnDY=;
-        b=QWjAB+C0T0tPewYo9+ThvGUKGG+2QkCZNHoQOXve6lV9v2TapawiORbyF5JdYop1gx
-         39LFDv2nhqGquoUcxDILQp0WNc4/x9ciwh+Ab1L1Gwby9iG29eST/sB6UgPKqb0XOHaI
-         4vLlU8BIMLQIiKl0IEgwtns6ldJBpNpBxgujLaPmQ2ze1h8jNTBOi6t85NtOx0OFQpUt
-         FBaprqNIsUkQA29oir6DdoSkA4o2APrNvF3uwkdwpS9uFcVoWPidVtusyW8YQI/aCuUb
-         GJqy1JdaAb8vQTaxqK92gTrAFBIgJpA5FaQ5Fq94CYGsw3It0+RLvB4CQCJGfETBsgiu
-         qKnQ==
-X-Forwarded-Encrypted: i=1; AL+hErFEJY6QvX0ZSG6dRVhMwH+1tSVFHsUEGonZ+7n5uep7O1bCrqr5zdpIinhmvIDMtI+rUQiRo1PsiYx3@lists.linux.dev
-X-Gm-Message-State: APuU4Z/L0gVvUb/aHS7X/1Er+mChDZc1p4qbwfHdFEVf5yCqaKINSlxm
-	hjCwwESxbcIW18tV0bue55ynk5QwZCkefKsGl6lZjSFKWDIGqPLSpadcv/NSN3oLxC5I
-X-Gm-Gg: AZFdTZfro4gGGrQjxxsj8LiEIVgLh00egA7DzYRTF/oviRnDe5pGTccopU9qhReL5hT
-	uU77Zar8Us1IAk6mNYztDRrwbcUgZiFWL/IxozCdMGCT91ZSyn9DrHAdxRBTvRy3/D7fxHgyUUS
-	QXNIm4d7StMN4QvRjDX6EiY7hsseJnxlMJn6dEKQPD+CuYT2m7JmAPP2BraEbuAMAmxulVcV1i1
-	WFclznKv66KgsSsDPcxTIj7jQgSdHDo3HvcXPYqsdXhFwGpyhCuRdoenTuAgIWifaqtaxoom4PZ
-	4u/eSOG2uhEgyJhoYYkgPwzoFvWSYqGbPdykdtcoJeVqc1QsbOiR7E8kGKeco5+HKYyc3J0dloc
-	Y8ul3nKd0ULlU38JLnDK5AGqgROH+ixnQ+Sd74X9pgC+Tv1coC5UjWGG33GK+mv1d4XGGoh/hhJ
-	M6V5YLtWitpXy9ExS6IuLDHw+2SW11GhMgK/T+KhjRkiUAerEcVuFseUnbtOYqCeUjBgoE4bWa8
-	+FT84xQyyAbz9taeLmoLgw0RYcKBOlnSQ/39q0sRtwzC2/vKZoVb+58jFqog1Z49uf5k3p08L6w
-	ZoXrfEeDbNhc4IvyDZ6/u5E3DYPg1zbztRCqUh27mMqs5/i/PDiu2Ic1BrQrmye0uam4RPEU2n2
-	vCbwi+/l27EWJArwq6WveNUC+Igi6X94+hR/hZi9cW54VhxIG6yOG9PMC4a4Fmc6raX+znp22ZV
-	XYow==
-X-Received: by 2002:a05:6000:2411:b0:48f:f26d:c5c with SMTP id ffacd0b85a97d-49c70b051d1mr27471178f8f.9.1794905081269;
-        Tue, 17 Nov 2026 00:44:41 -0800 (PST)
-Received: from ?IPv6:2003:cf:572c:2800:de4c:6789:33ce:97c2? (p200300cf572c2800de4c678933ce97c2.dip0.t-ipconnect.de. [2003:cf:572c:2800:de4c:6789:33ce:97c2])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49d673ce75fsm19982260f8f.55.2026.11.17.00.44.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 00:44:40 -0800 (PST)
-Message-ID: <d18a972cfc6a7d6da39ab9674903d7ae6e4c1826.camel@amutable.com>
-Subject: Re: [PATCH RFC v3 35/44] fs: add file_check_backing()
-From: Alexander Mikhalitsyn <alex@amutable.com>
-To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
-Cc: Jann Horn <jannh@google.com>, Chris Mason <mason@kernel.org>, Josef
- Bacik	 <josef@toxicpanda.com>, Christoph Hellwig <hch@lst.de>, 
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, Alexander Viro <viro@zeniv.linux.org.uk>,
- Jan Kara <jack@suse.cz>, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, 	driver-core@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	apparmor@lists.ubuntu.com, linux-nfs@vger.kernel.org,
- netdev@vger.kernel.org, 	fuse-devel@lists.linux.dev,
- linux-efi@vger.kernel.org, 	xen-devel@lists.xenproject.org,
- ocfs2-devel@lists.linux.dev, 	linux-s390@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, 	linux-usb@vger.kernel.org, Amir Goldstein
- <amir73il@gmail.com>, 	linux-erofs@lists.ozlabs.org,
- linux-kselftest@vger.kernel.org
-Date: Tue, 17 Nov 2026 09:44:39 +0100
-In-Reply-To: <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
-References: <20261116-work-loop-pseudo-v3-0-8cbbea1cf34f@kernel.org>
-	 <20261116-work-loop-pseudo-v3-35-8cbbea1cf34f@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TUw8jcou
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFDE01F000C5;
+	Tue, 17 Nov 2026 10:10:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794910254;
+	bh=+GkmMaOI4w0aqQVtKDo6X7pwmr1pb5SKm4lboaaoDN0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=TUw8jcou2ovDdPtEhkJuWnsat3KXtYoPaGeopJdgMREGL9aYBGnJbVL1z6osDjWrp
+	 Epx4UWIGGOjRLZ/mZiUkM0zkzZhhmQYE+p7SXejlTFbWKUWQ/AHWUVrMLEVc2dBQNy
+	 zfilop6KPGIys8xQfyR55lQJlGf45jy2i5SYIQD2bBwSg5IA5pEtddZGm38eD9w9sL
+	 5xAuVwiRAfFqyTENPOnPRwuzCvL/cB+BbHq04cHEffnWVxEw0U7k8UbFVcUzzbXqX4
+	 xGsVuysvjJg1aYhO0jb/SO4KkFZESBjYvWAmvrEhC7wvnwsam8Pvqt6EQCyZTz1Awy
+	 tDjmfe9iLYOrA==
+Message-ID: <2066d131-f999-4747-beb8-520d5e0ce1db@kernel.org>
+Date: Tue, 17 Nov 2026 11:10:37 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -116,172 +51,168 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 0/7] mm: kasan: skip KASAN for GFP_HIGHUSER
+To: Jeff Xu <jeffxu@chromium.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
+ <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
+ Dev Jain <dev.jain@arm.com>, Evgenii Stepanov <eugenis@google.com>,
+ Ian Rickards <ian.rickards@arm.com>, Jann Horn <jannh@google.com>,
+ Jeff Vander Stoep <jeffv@google.com>, Jeff Xu <jeffxu@google.com>,
+ Kees Cook <kees@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Peter Collingbourne <peter@pcc.me.uk>, =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?=
+ <ptosi@google.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ Tomasz Figa <tfiga@chromium.org>, Will Deacon <will@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
+ <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org
+References: <20261116230627.3537051-1-jeffxu@chromium.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261116230627.3537051-1-jeffxu@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2026-11-16 at 12:05 +0100, Christian Brauner wrote:
-> Loop, zloop, the nvme target, the scsi target, fuse passthrough, the
-> usb
-> mass storage gadget, erofs and acct all take a file from userspace
-> and
-> use it as storage. Currently, each of them has its own idea of what
-> to
-> check before using a file like that:
->=20
-> - loop and the gadget check for a regular file or a block device, the
-> =C2=A0 nvme target, the scsi target and zloop take any file type
-> - loop checks the open mode, the gadget checks FMODE_CAN_READ, the
-> nvme
-> =C2=A0 target, the scsi target and zloop only check for ->read_iter() and
-> =C2=A0 ->write_iter()
-> - apart from acct which refuses procfs and sysfs files none of them
-> =C2=A0 cares whether the file is a kernel interface
->=20
-> Add a helper that does all of it in one place. It only accepts
-> regular
-> files and, if the caller passes S_IFBLK, block devices. It refuses
-> files
-> on pseudo filesystems. And it checks that the file is open for what
-> the
-> caller is going to do with it and implements ->read_iter() for
-> reading
-> and ->write_iter() for writing.
->=20
-> O_PATH files are refused unless the caller passes FMODE_PATH. That is
-> for callers that only need the path of the file. fuse passthrough is
-> one of them and has accepted O_PATH file descriptors since commit
-> efad7153bf93 ("fuse: allow O_PATH fd for FUSE_DEV_IOC_BACKING_OPEN").
->=20
-> Block devices are fine even though bdevfs is a pseudo filesystem. A
-> block device that userspace hands in is a device node on devtmpfs or
-> some other filesystem. Files on bdevfs only come from
-> bdev_file_open_by_*() and never end up here.
->=20
-> The pseudo filesystem check looks at the inode that actually provides
-> the data via d_real_data_inode(). overlayfs accepts sysfs, cgroup2,
-> debugfs, tracefs, configfs and securityfs as lower layers and reads
-> of
-> such an overlayfs file are served by the file on the pseudo
-> filesystem.
-> Checking the overlayfs inode would miss that.
->=20
-> For an O_PATH file nothing might have looked up the data yet.
-> overlayfs
-> only looks up the data of a metacopy file in a data-only layer when
-> the
-> file is opened. d_real_data_inode() does the lookup then and if that
-> fails we return the error.
->=20
-> Note that the file type is taken from the inode of the file and not
-> from
-> the host of ->f_mapping like loop and the gadget do it. A driver can
-> point ->f_mapping somewhere else in ->open(). It makes no difference
-> for
-> block devices as both inodes are block devices.
->=20
-> No functional changes. Nothing calls the helper yet.
->=20
+On 11/17/26 00:06, Jeff Xu wrote:
+> Hi all,
+> 
+> Currently, GFP_HIGHUSER_MOVABLE includes __GFP_SKIP_KASAN (commits
+> c275c5c6d50a, 70c248aca9e7, and 0a54864f8dfb), allowing movable
+> userspace page allocations to skip KASAN page unpoisoning on allocation
+> and poisoning on free under CONFIG_KASAN_HW_TAGS (ARM64 MTE). However,
+> GFP_HIGHUSER does not include __GFP_SKIP_KASAN, even though it shares
+> the same kernel-accessibility contract in include/linux/gfp_types.h
+> ("for userspace allocations that may be mapped to userspace, do not need
+> to be directly accessible by the kernel but that cannot move once in
+> use") and differs only by !__GFP_MOVABLE.
+> 
+> Moving __GFP_SKIP_KASAN to GFP_HIGHUSER addresses the performance issue
+> below (following up on the earlier drm/panthor discussion [1, 2]). The
+> swap issue from that discussion is not addressed by this series:
+> 
+> 1. Performance: For every 4 KB page without __GFP_SKIP_KASAN,
+>    mte_set_mem_tag_range() tags all 256 16-byte MTE granules (via
+>    STG/STZG and DC GVA/GZVA) on allocation and again on free. In
+>    graphics and UI workloads, DMA-BUF (system_heap) and DRM/GPU
+>    (shmem/TTM) buffers use GFP_HIGHUSER; while steady-state rendering
+>    reuses buffers, window resizes, surface transitions, and app launches
+>    synchronously allocate and free tens to hundreds of megabytes (~32 MB
+>    per 4K RGBA frame) on UI/compositor/render threads. That takes a
+>    significant share of the 8.3 ms (120 Hz) / 16.7 ms (60 Hz) frame
+>    budget and thrashes CPU data/MTE tag caches (especially on
+>    cold-cache free). On Armv9.2-A, skipping KASAN cuts ~32 MB DMA-BUF
+>    alloc+free latency by ~80% (~98% faster close()) and improves the
+>    OpenGL score of an app-loading benchmark by 15-23%.
+> 
+> 2. False-positive KASAN report after shmem swap-in readahead [1] (not
+>    addressed here): when a shmem page is swapped in,
+>    swap_cluster_readahead() also reads the neighboring swap slots and
+>    allocates their swap-cache folios with the gfp mask of that shmem
+>    mapping. A neighboring slot can hold an unrelated page that
+>    userspace maps with PROT_MTE. If the mask lacks __GFP_SKIP_KASAN,
+>    that page's folio gets a KASAN tag in page->flags. When its owner
+>    faults it in, arch_swap_restore() writes the saved userspace tags to
+>    the memory, but page->flags keeps the KASAN tag. Later kernel
+>    accesses through page_address() then use a tag that does not match
+>    the memory and are reported by KASAN.
+> 
+>    This series does not fix the readahead path. It only removes one
+>    way to hit it: shmem mappings that use GFP_HIGHUSER (e.g.
+>    drm_gem_shmem_helper / panthor) now pass __GFP_SKIP_KASAN to
+>    readahead, so the neighboring folios no longer get a KASAN tag.
+>    Shmem mappings with other gfp masks that lack __GFP_SKIP_KASAN
+>    (e.g. GFP_KERNEL) can still trigger the report. That issue should
+>    be followed up separately, for example in [1].
+> 
+> What changes for users of GFP_HIGHUSER pages under CONFIG_KASAN_HW_TAGS
+> (other KASAN modes are not affected):
+> 
+> - Access through vmap(): nothing changes. Those pointers already carry
+>   the match-all tag and are not checked today.
+> - Access through kmap_local_page() or page_address() (for example
+>   ramfs): accesses are no longer checked by KASAN, as is already the
+>   case for GFP_HIGHUSER_MOVABLE pages.
+> - Buffers that the kernel itself fills (pipe, FUSE, kexec, RDS) keep
+>   KASAN checking by using the new GFP_HIGHUSER_KASAN (patches 1-4).
+> 
+> GFP_KERNEL, GFP_USER, slab and vmalloc() allocations are not affected.
+> 
+> Patch 1 adds GFP_HIGHUSER_KASAN
 
-Reviewed-by: Alexander Mikhalitsyn <alex@amutable.com>
+I really don't want us to spread KASAN-related GFP flags in the kernel.
 
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-> ---
-> =C2=A0fs/read_write.c=C2=A0=C2=A0=C2=A0 | 53
-> +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> =C2=A0include/linux/fs.h |=C2=A0 2 ++
-> =C2=A02 files changed, 55 insertions(+)
->=20
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index 6767283108991..9f1e7bfcbd4f1 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -866,6 +866,59 @@ static ssize_t do_loop_readv_writev(struct file
-> *filp, struct iov_iter *iter,
-> =C2=A0	return ret;
-> =C2=A0}
-> =C2=A0
-> +/**
-> + * file_check_backing - check that the kernel can use a file as
-> storage
-> + * @file: file that userspace handed in
-> + * @mode: FMODE_READ and/or FMODE_WRITE the kernel will do I/O with,
-> or
-> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FMODE_PATH if only the path=
- of @file is used
-> + * @type: S_IFBLK if a block device is fine as well, 0 otherwise
-> + *
-> + * Call this where a file from userspace is taken as a backing file.
-> Only
-> + * regular files and, if @type is S_IFBLK, block devices are
-> storage. Files
-> + * on pseudo filesystems are kernel interfaces and are refused. The
-> file
-> + * must be open for @mode and implement ->read_iter() for reading
-> and
-> + * ->write_iter() for writing. O_PATH files are only fine with
-> FMODE_PATH.
-> + *
-> + * Return: 0 on success, -EBADF if @file isn't open for @mode, -
-> EINVAL if it
-> + * can't be used as storage, or the error from looking up the data
-> of @file
-> + * on a stacking filesystem.
-> + */
-> +int file_check_backing(const struct file *file, fmode_t mode,
-> umode_t type)
-> +{
-> +	fmode_t io =3D mode & (FMODE_READ | FMODE_WRITE);
-> +	/* Drivers may point ->f_mapping at something else. */
-> +	umode_t fmt =3D file_inode(file)->i_mode & S_IFMT;
-> +	struct inode *real_inode;
-> +
-> +	/* O_PATH files are only fine for callers that just use the
-> path. */
-> +	if ((file->f_mode & FMODE_PATH) && !(mode & FMODE_PATH))
-> +		return -EBADF;
-> +
-> +	if ((file->f_mode & io) !=3D io)
-> +		return -EBADF;
-> +
-> +	if (fmt !=3D S_IFREG && !(type =3D=3D S_IFBLK && fmt =3D=3D S_IFBLK))
-> +		return -EINVAL;
-> +
-> +	/* Look through stacking filesystems at the inode with the
-> data. */
-> +	real_inode =3D d_real_data_inode(file->f_path.dentry);
-> +	if (IS_ERR(real_inode))
-> +		return PTR_ERR(real_inode);
-> +	if (real_inode->i_sb->s_iflags & SB_I_PSEUDO)
-> +		return -EINVAL;
-> +
-> +	if ((mode & FMODE_READ) &&
-> +	=C2=A0=C2=A0=C2=A0 (!(file->f_mode & FMODE_CAN_READ) || !file->f_op-
-> >read_iter))
-> +		return -EINVAL;
-> +
-> +	if ((mode & FMODE_WRITE) &&
-> +	=C2=A0=C2=A0=C2=A0 (!(file->f_mode & FMODE_CAN_WRITE) || !file->f_op-
-> >write_iter))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(file_check_backing);
-> +
-> =C2=A0ssize_t vfs_iocb_iter_read(struct file *file, struct kiocb *iocb,
-> =C2=A0			=C2=A0=C2=A0 struct iov_iter *iter)
-> =C2=A0{
-> diff --git a/include/linux/fs.h b/include/linux/fs.h
-> index 99caef43ff3c4..b1c7ebafbadbe 100644
-> --- a/include/linux/fs.h
-> +++ b/include/linux/fs.h
-> @@ -2553,6 +2553,8 @@ static inline const struct inode
-> *file_user_inode(const struct file *f)
-> =C2=A0	return file_inode(f);
-> =C2=A0}
-> =C2=A0
-> +int file_check_backing(const struct file *file, fmode_t mode,
-> umode_t type);
-> +
-> =C2=A0static inline struct file *file_clone_open(struct file *file)
-> =C2=A0{
-> =C2=A0	return dentry_open(&file->f_path, file->f_flags, file-
-> >f_cred);
+There must be a proper way to abstract this.
+
+Why is GFP_HIGHUSER not sufficient? We were already told that this is memory to
+be mapped into user space. Placing data structure on it and handing out pointers
+to that would already be a bit questionable.
+
+So what are the ways to avoid GFP_HIGHUSER_KASAN?
+
+-- 
+Cheers,
+
+David
