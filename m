@@ -1,96 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.171
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794924219;
-	b=bg25dU41aBqDlh5MkaXDgWQsNWoipswgZITOBS/HKw7Wv2mwJRCfrj+Nw9QnEIXVzGB/
-	 6ylBEe4Drp3sKp0WgVYf4tjQilRx05cxXl8p5Oph5H8/zArM6y5T6egzEsYoKQbAAZlap
-	 NTb2sjA92QY3A66Uuwp1zQIg7IG+a6OmttuTQZTz/DhXHQaS8aVBDRvGhAAMbhrfK4P6X
-	 GuQd56DMIUnnZywwmdS2OLn1gFh6q1oROaBFsUkDzjXNlH+QmQsFRXfgk2VrNgVcv8nXT
-	 F56pViNn5KJl/3pqyRJmFqiu1dy/Jdt1XT7ATY0Qc1vlP6GNDyZgMTJYYK8kwC8imWQ==
+	t=1794924426;
+	b=tz/2Dhs5UpZuABg+NjhNOuE6hIgJ0E0vgeyzz37suHSZsLhg3LiOc6lMq5qvS0jIzvFc
+	 8aMn/GZaV4qtrp47UWdZZjpf/2kF98TKRNz7tWX7KMXDBaiov998KK/TnceV38aCSYCj6
+	 D36/kurMI0I99LutFSKnoF6Z4nzpWVhznz+nKoiRJmzxpB4FjmLGLRRyEJNsFEND4fBJv
+	 G8Z2/jdEAqeTdHYDwAQy7iM4wiso8Er1EhP+ibb5nKLYVvHdO0odbEldL344/DeuvlSXO
+	 2fECDMb0Giq3jPnPIr4CUXRqdldyTCmBdI1tRAkD/XY7IXNvgglRYFrKtTZ666o40oA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794924219;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794924426;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=alFbhvhmLX/J2fLZw0YpZ2rT70ZCayDvSm7eBC/5SBs=;
-	b=0pJ44xXUJ763H+Xru+uxRFzGHR6G2AJUmAY29hkrgOr1pRVeIBkFAj8ljpdxg8beTt1P
-	 HLVouKv+Ql04mNGztPqWqVK3dhGxRdqDf0rRUVk9qAC1b+8bjnfZlUm2Y3XdpvkIwenLD
-	 GJzaw0yVYitMMAqS5svd7SSenMk2uuknEtVgGBLVcymvYnCjEOXvpVUaY3jVzq5v4o5nc
-	 1oDkyX/izYd5wtxasnv0+w/5CcZm0hgJxy5bBfNlcEQys1qHiCdRNMz+iM0c+ol7IYHiS
-	 cgpIs5fhqLitp2X2dGPI2fQnBuG6t2nzQJd5F/+NEBawmW7M7VfCVKK4/YcqGGGI4vw==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=x1PMpSXB1r1OFkmXjhmoKzOBVvwoXs6UzqD2BMYgi9w=;
+	b=AoAd3FQ9gOhWDHhqB6duM9Eugui6yeKJ2GhWVDri1s+mw+kZ54XCw18olkpAI2Pb5ont
+	 vvVLvH2ErqRMydVOpdaUrDhxnB+fia++4+Gf3LnG8yiGRokexYQDcfU97Y3rdCtmZqKQu
+	 q016S6FeFUdBtyqW59g5ORysaiBG1JW8OqnoBXseW666Cu+Op129SyN2SlErDcwUWfNHo
+	 XJHIZ0HfJR126fh3N2KfDPsGgGQTqnt4U88RfbyVnq5o6D/4o3KC7ZsXHE1ZdJ8XcM9J5
+	 TIoyfAMN/PoaTeyJGjW2gI5vKBnFUHAFhaiITuytzDC3QwEeY/3iK+l6faeVDXI1ErA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=szeredi.hu;
 	spf=pass smtp.mailfrom=szeredi.hu;
-	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=dQwCtxcU;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.173
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b="VlXrVNf/";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.171
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219A5606A32C
-	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:03:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 219A5606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163B1606A329
+	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 14:07:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 163B1606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=dQwCtxcU
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-55c4e670fc6so23981751cf.0
-        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 06:03:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794924218; cv=none;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=VlXrVNf/
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93f22a8515eso482642285a.2
+        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 06:07:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794924425; cv=none;
         d=google.com; s=arc-20260327;
-        b=D43XeAvHh4J80yey7XB3Gn+ZhXem8Z4t9Rf23+mm0dCzQBMwMfh6PXptGA9GN7ulbC
-         of94COwuSUvZ8Yn/6MqJSgWryI/4OAdKPUwM0uPUXAJeki86L8LodSMXc1qh3aJJztm5
-         ckKTP1vFHq760Kqr7wpFSY1ddPb1O7jQTVaOIZSdTSC8p2NHeb80GHr0RDhlxtHSSxSq
-         FFMD4tZNAkKe1I3Z88+rkAgiuI7wpgAEt0f0PCQUXdZXmnK7t/q/VLgIPu07Xb/OXGJt
-         NbRS+WChytTAQcjQH7po4cJZ0ZWPM4ZTPBMreWgzUNz1aVj78X3Cg1vnZMdq0nUtKOmm
-         0aTQ==
+        b=SLTDQlhjB6MXbnUVojrfRLwlXWzYPRMS45wkx1mfW0F+5nyKxW7BlWU4XgwZuNHP5p
+         +gLY224mVS+I1OngDl8X62wsjqPThMeB7QZGqWM93C9HrMXVRRe9b/jWf6r41bsRBG96
+         7bOhhzN+dkXUv2Cw1f6faiYq+hTuvjgo5rP/Lgv0U86HY9qdjzk01afqzltT7cEdrchs
+         /9REMwshZHnouOUqMuL46mvI1Bk6lTLUD6se7i4C08THm7qmyQS5F7nFIfA4tKXl80eO
+         Wig2WXh+V7x5EmPJOjtgtKSNdjiHJY1fWwOrUy1fz4UCzuTSxPW07pPLr+8OVQWFtH+z
+         a2pw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=alFbhvhmLX/J2fLZw0YpZ2rT70ZCayDvSm7eBC/5SBs=;
-        fh=uSfIWz5Sjgpn5db1djV6gIAWHx/S+LWTvPbfHTZ1JTs=;
-        b=gxyf3Zc5pFlMBpwYyyTnkummGUA4D12Cc7EVyMpwqNjVBCcm/ekiWm59591RF0DGwP
-         QUqlqU10XP8L7NYLdLk9Nsd547I/Ok0OvVS7h8qRDjxLvz0vM8sjCbDCk3cjkZknb+PW
-         Wuj5lUEtBHqtHPv7KguPQGQV/K6P1YDYgOj11f5GwfPCz72Z7Nky1oUuvsTZOdM4r7Gu
-         T6SGoGmVmMEl62JDNGofsM9XjvKnmGxFhyknultizjNaVrdsV+h3XTXolQvEgcMXs1sR
-         1SddMX0E8W8RhC0+rVBcLMV9uPProMUxqZmzxqkgD9SuO9JrowjQZ3pmwqDpQy4U/aDJ
-         ov0A==;
+        bh=x1PMpSXB1r1OFkmXjhmoKzOBVvwoXs6UzqD2BMYgi9w=;
+        fh=RLJD8NGpYgMJxWj9MagIbsJeiyNBpR7bOb1rDAeXPaE=;
+        b=HDfCFPP0KvNimGSCD1kaHbQBQixX1vniIJ39ubWoCLYau+sTd1iT6dZttDlzBvPJsx
+         pEGKypg8mLAJqJVwUYeTefC8hxieuP4SEEOnEr0TYiE4Q4DjIPp6sif1NtbmoX9KrXzS
+         MZs3s4r83DRYSUsZ8VBuAB9OZyqWao5OZ9cFv5H+g8oYNkYXYQo7xtLWpvYJHS3QtjG6
+         xA09eQeRgLemnyfnsq4Ov4zQmSDRh4SGoDStgNjQ6fA0c64qkhIsHsW4VtFLDpwBi7eY
+         prA++V8c0Z5nm9o0bUuVnci+ukF2S4hL8xy22epFBUkH015HxDSL0UCKWt1oWYUowPTw
+         lEkA==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1794924218; x=1795529018; darn=lists.linux.dev;
+        d=szeredi.hu; s=google; t=1794924425; x=1795529225; darn=lists.linux.dev;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=alFbhvhmLX/J2fLZw0YpZ2rT70ZCayDvSm7eBC/5SBs=;
-        b=dQwCtxcUDupMGeh2b74igTmIPn4vlMCoiEfPbhBY3FoaqgXXClGNhiR10vu00YP7RF
-         N2E8OYnqdtoEntOQ+go/1nfsF//xT8dE/ryAcWmu/9iv3URwOp42rSSqn6MFO1IuqPAf
-         fExwBaes8KJNpRuwsVRFX23wgDegULl6SkQzc=
+        bh=x1PMpSXB1r1OFkmXjhmoKzOBVvwoXs6UzqD2BMYgi9w=;
+        b=VlXrVNf/yrAWR5UU1y4igkTYsop9nGiact9GUz75iJaS9czYRzAAaayqIMuQq3BdwP
+         A7XDX4aqxBO6s/j/rRQml7d0v/kj+2OxEp6DmzL2T17CQw7Z3IayzstsD4chsDl9vfzc
+         odDN8ikatisYUzgPDnf5Kltd49t/e3nTvVU44=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794924218; x=1795529018;
+        d=1e100.net; s=20260707; t=1794924425; x=1795529225;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=alFbhvhmLX/J2fLZw0YpZ2rT70ZCayDvSm7eBC/5SBs=;
-        b=IbSc2By8aNal7YSKLyekx/jnAuExHT5YTYZIXpZ4eGzMcBlnueBA+lowx717qhzX4u
-         MU4Kj2r8OPScA480Zv8Qg/5LYowL/QJeXGV4NrUOCBu97EQ4DAHs8Ue3Chz8mXcYML+b
-         Phre1AxXm8xlGTBzX0d/ZzvuZKFCYlzhhWV9OLoDDRAwJVpzfa1yn6A/Sfjgbk8dL4YO
-         LiccjUWym2+2mRkJYOiYlF1B25wbM7/TJELf5xI4lIvQPQzQ20F+2dzctXW1S6YMqDR1
-         rp76chbGW/47SLCRqx1Ab0dtSOXH1NkOyBCzywlptV/8vZcv8M8UM6iqLFtSj9/7H3PN
-         DUow==
-X-Gm-Message-State: APuU4Z+hyEmwpszdh7J3AnWqqqK6+4ncvcbw5Zx5wwI+tFqhAmcrovXa
-	DB6qMEZRG+tjFPVP/ozYeV1OLM6L5pXsPsls/n9zfiVXT8m8xhJjtEhAnld5xEgO5coWJZp0Y0C
-	TOiv6ZZJjXx/SCufrGeCyYwAYyrvVp77uhIG2czWavA==
-X-Gm-Gg: AYBFou3dV+uLDUMVQbji6+ALw1i5Saum7IXOyQ+HQhJyp9b7BaQzFS2MIQcZjeMjNV3
-	EzXe80sPtgSCVeAI8KdVavla6vXpHHhbeNFpjQHQDxCp5oy4TRKnwPOyLif1mDOWSEPE3NuzVRl
-	ylTF6UdaWUMy1ah735J79hyA0q6QG8T84O249/evNHdJ7mLrXhzJj2TYOiiJJwBNC6E3wGNDZJo
-	RwZdXxSJlZOuD3iHX8tWykkpROh0anvNu65tUTECgANrKdYmSLQQLrOyIdg3Xp5vtV2wXCrwhwF
-	/mlHAc9K4+siXm1tmMYXebALpGN12RlCOlUMfVDf65HujDFrk7XhJHMAwHfiNzPeJNUja+DMJWl
-	Ogv9J6Oo9JtWPZ7PVhy1p6AFKNUeSgqd+/lkm+b9sdJed3IReGFPWV3vJnn9oZUz52oqSODuYhl
-	JVliGmImq3pwM=
-X-Received: by 2002:ac8:5ad3:0:b0:535:2047:6363 with SMTP id
- d75a77b69052e-55ac448c12dmr221360331cf.6.1794924217487; Tue, 17 Nov 2026
- 06:03:37 -0800 (PST)
+        bh=x1PMpSXB1r1OFkmXjhmoKzOBVvwoXs6UzqD2BMYgi9w=;
+        b=Xmbc4hZ48lfmtYND1iCwDuFzgMV8tMWzHUdh65yMmNqbWqO/AE1XkcS/aazX94xoFW
+         CSd9meNlSearf2vkj+T4pcbMvc8aEJSDxptmd8NRh3u8QCiCKlQnjBx2E3mcO23uGfhY
+         3Xp7Gi90j2OOypWsGQnZM5neviAUe2ZKme8b+Fn/+O41/EGbnOiLHEA0v+E3oEwZPcPQ
+         yH7Wl2U3cUqFE6Nih2EvdaI6EXV4KJxHIcVU12zHQ6NCcTMx3w+jAJnM7EwiZ+0HMpqe
+         g3NcrfV/TxI2hDNUTrLVP+83Cw0RJxUbHmGyRsExj0jmL6LiTeygDxo8sarLum2/VrR7
+         +KqA==
+X-Forwarded-Encrypted: i=1; AL+hErH6n3jwQp/EaQJZ/WHzJ/7Udi43e4WByOEHDQblWId5s9L5ANuWc8uJ6+e41JTb3AubSyd3GOMZlVV1@lists.linux.dev
+X-Gm-Message-State: APuU4Z8FijvWRzb6GVvYCfHaFftfUY+3n1CUuPfdW86bp2xMiRTov5WS
+	7H9UIlCL0S+HkSF9O/zlRK7bj5rwThveQTtUt4GL8wAxqdI49YYUczstUfF9de8kFDO1KQBB+Cq
+	om9KupzW97z7qtmpLz5kwMu7hnwc7E7hgzIB3tVpOPg==
+X-Gm-Gg: AYBFou0DgS2ZiSMjP7Gsa4gcEl7CLZknpyroHgeQueLxMBzguQOTCyNC8FIDxQDMUrS
+	EN26/XxNHySJwZuJS46uPy5yQxd0BHisrMpdBh0PNO1Q/793DTT6p91ArzTjJG1fjBf5+IBMsMV
+	U63qdEfo0XJyTEETsqWna/hHPiCl44rxVXPvdpBk0wmlxdciSpuaLtuq4f8rHdHLtRlmXG939QW
+	0FDS5GtmbT4yEelLH2sV10YYeaad1UPivvfYyxQPuzHSUQ61O50U4sW+pIWllAb2hY4RAOxnqYo
+	1nqXmEU7lubpRL9AekFA+tsNtnK8GYe5y1w8wiu11JGlQfvM07wN+P7j2HAGxZeBYa2XkDSAJql
+	JFIvBYcrtl29TWcg5GVUKvc6UaaHhwVkiWBScTVkNJ+YOPye1XFar/hgkSHjlxqfCrw==
+X-Received: by 2002:a05:620a:8394:b0:944:dbd:8253 with SMTP id
+ af79cd13be357-9494bc7b8aamr2034423485a.59.1794924424868; Tue, 17 Nov 2026
+ 06:07:04 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -100,29 +100,26 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110150250.71520-1-ekffu200098@gmail.com>
-In-Reply-To: <20261110150250.71520-1-ekffu200098@gmail.com>
+References: <CAKLmikMhOYpGEw6uCqX_Bm0JPEg-4FhdJMNa9+tgtw3-Kf+eZg@mail.gmail.com>
+ <e75cf549-07a6-4095-bbf8-8caff7a3338b@bsbernd.com> <CAKLmikN9Aod9Va=FsqkRmF20=69sdgdDOoV_bUuGh6wTykVcBQ@mail.gmail.com>
+ <CAKLmikO5y916zgeX_UFqfGQ+BUmNC6uvHFR_bsizeTJu4AwxcQ@mail.gmail.com>
+In-Reply-To: <CAKLmikO5y916zgeX_UFqfGQ+BUmNC6uvHFR_bsizeTJu4AwxcQ@mail.gmail.com>
 From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 17 Nov 2026 15:03:26 +0100
-X-Gm-Features: AclHuK-p32xS9Ymw_ghXNjlBRtB_UAl6rx4OxdJZvic7C_w4sxAcHG3mT5pB1sc
-Message-ID: <CAJfpeguXcXTPpYshszCDM=Va7Rx5VZiMStFbSi66R1NjB566+w@mail.gmail.com>
-Subject: Re: [PATCH] fuse: defer dentry_tree_work until fuse_dentry_tree_init()
-To: Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Luis Henriques <luis@igalia.com>, Miklos Szeredi <mszeredi@redhat.com>, stable@vger.kernel.org
+Date: Tue, 17 Nov 2026 15:06:53 +0100
+X-Gm-Features: AclHuK-jg6F3I0kg99mlIx_XFVtVAv569UkGYtDtRYivNkgNJwJN-1RoSdv9luk
+Message-ID: <CAJfpegs9wm7JWBSqY6eFj+9JeaThE1RGtdxqo21_ytL1_okN_w@mail.gmail.com>
+Subject: Re: fuse: HANDLE_KILLPRIV_V2 does not kill suid/sgid on fallocate()
+ and copy_file_range()
+To: Mitar <mmitar@gmail.com>
+Cc: Bernd Schubert <bernd@bsbernd.com>, Amir Goldstein <amir73il@gmail.com>, fuse-devel@lists.linux.dev, 
+	linux-fsdevel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 10 Nov 2026 at 16:02, Sang-Heon Jeon <ekffu200098@gmail.com> wrote:
->
-> inval_wq_set() schedules dentry_tree_work when inval_wq is enabled.
->
-> But inval_wq_set() can be called at boot or module load before
-> fuse_dentry_tree_init() initializes the work, so __queue_delayed_work()
-> warns and the work never starts.
->
-> So defer scheduling the work until fuse_dentry_tree_init() sets it up.
+On Sat, 7 Nov 2026 at 08:58, Mitar <mmitar@gmail.com> wrote:
 
-Please add locking as sashiko's suggested.
+> Not sure what the process is here, but how to get this patch further?
+
+Posting it as a proper patch (e.g. git send-email)
 
 Thanks,
 Miklos
