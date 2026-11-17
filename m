@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794923533;
-	b=apm5UoXz4wbiMpZOmoVKVGrKDD89L68a96kaA9SUU7eiVsRLzwcVim84+ArAohwBv+FA
-	 x04lAsufvgYngkUk1zO5BLWwORppoYTEW0WPq9eEI9HkAKvFYWiCRHyCWwUFo+JpF+d70
-	 0RHtukvyJjPCSgp8kpkM81fCZTI/50efM0Cq+ZsxemTNxLYIdh1+Sy1LQ/Cai8NEsI5vx
-	 9isLBxP0JWAj2GrptSc7qUMDdGAWlgQterjmVDCM2kMQUNSAybpf8qz5qKzCBe0eAo7o1
-	 vACSaW6n8pmxmWDZfkQL87cYZSNEJd+qR+rA1n73dienMtZOj+BDFzGimKUmRTnRTOQ==
+	t=1794923537;
+	b=aLH9HemhWz8u+CX29B8Ep4gPQifrGM+BbHspHrqr3xLKEMXCCUregdWVbGRLqiRfWrWv
+	 pJmkjHo2iWXiPt79el4/pBTW0z31sBI7uJy3cfsghpOj03VZ4+wmPeO2QFSST1cI2ViqI
+	 0w1Ij0SKfyx4fum/5nv3bd7YLALe1hvIfB4ON+MEttUAeR8hO5cYPcjB8FO0om6hmHKWi
+	 OoTF6wJ3y5iSNbo2OCzKDzOgGCsx69u9U/18gE3JdFLyg1/gcaqgtUxNGHT1OVdLr43dz
+	 kSbszdshLbPoHlePbBRV8iqInRRy+hYrzm4hHXzt4gfZFwBImbTya2uxIzXJnWZD0HA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794923533;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794923537;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=X9eeST+DTiB0/P5zHssKOgXfvR+02Yq9ClIKmFNmHPk=;
-	b=Gq5FhPoR0sGF9sDtjo8116VKBgVu2n6DUSpasKgFGuxxbGW9CRliKsHY2Y+zhHW7Fftf
-	 yOlJlLl7L+z3yWiXB2nLmEjXag3NjRmK4yTV8wL/zeUHM91Yz0a213PZoEn6KHJD1Q9AM
-	 uqzAqNRdR3Y81ZcPDmDw4UdIkpa1Shbn6q+Df4aGsgbhmQ8F0cy0jKGb4TYlit6a1mr+H
-	 yWbu/42qrvpbBVGkPG8ReiX13MsCiHloUcq8FRCjAPR/HPSbndGIOnhhcDpzFAyQ75J6f
-	 vJs2VRFig2eAiwZmsqTijq1wgQ9OmDuRFLtAGW6Kt5soA2UkMiVDJ7fUTfqnzMkqeqQ==
+	bh=qEwXXgzCb9umMJN15TTOelMx6FvsKuxkJvNzraJF4vw=;
+	b=0MVLMDMGvxcXHUS0WmH6BKGS2snU8x1LQDdloVkrubfUBAfhPezmmHp+UkGCKL8rmnIs
+	 9ziFq9IhiqoQRJKHkSmymzq0J1lc11rvhFvtarcnQnVDdy3RV5h5L0UYfTSOAcIzLkoox
+	 OQ/cdvfbyW4sbID7YoAMTUQCUNZ6Oa0TCnreIn9x7NVwXqRBrsQtWZsyqcwVSUQt/2rIR
+	 oJRwI99u03hwVVNzc+POahfLE95/7zFN0Lo1yJqN4ZsklAh52XQNylEjeSXXCro1QyWDj
+	 QPZqtjyR91GATWBj8zkdxilcJNFzj4JACLyzI+aIo/xz0GEvIhFDn20oZ/9C1FqtqEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oD1U7P+a;
-	arc=none smtp.remote-ip=209.85.214.172
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W+ifOsvR;
+	arc=none smtp.remote-ip=209.85.214.175
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691E4606A329
-	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 13:52:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 691E4606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6F8606A329
+	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 13:52:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A6F8606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oD1U7P+a
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2e977109392so28276285ad.0
-        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 05:52:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W+ifOsvR
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2e9995ce866so44013165ad.0
+        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 05:52:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794923533; x=1795528333; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794923536; x=1795528336; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=X9eeST+DTiB0/P5zHssKOgXfvR+02Yq9ClIKmFNmHPk=;
-        b=oD1U7P+aIHrMdipNAeJKkI0jujeXHn9wS3PaIRCOr9sH0dP3gdc/aTnW1f2w3D0Cm+
-         KUKCh4EZIvt7+fX6ZP/zQ1d0I2qM9J2MY/VdFC9dHbGIInB0aEwUEo5uEM3wRhIPCoXq
-         q8yrfZUnShsdQcaiDAQHGkZTFjjHAclo+CoRg5ySyOi/oWidZhD83VqJH8auOPv45Awv
-         qafOTaZ2kg5kRAPISDNDDgRWxaM8o4FmLDcCa1y6Ie/hiKrOKwwEA0UKfapj4gN79f5R
-         epE7mpU3xyqpYz4JWNgEx1iYcjtb/s3X4Yrg4FJwhfVGBjKSqj+c+xKRaWYpoUKOXUcC
-         rKVA==
+        bh=qEwXXgzCb9umMJN15TTOelMx6FvsKuxkJvNzraJF4vw=;
+        b=W+ifOsvRpzLEr5HtvSxwtZd6Iv28/Wnauhr2AYZT1maJD6XwNtypDiSFN2s6r/ymej
+         I44cmmXoSdwSwrjWXDpULxEwIOS3wGMAjNChYYFo93ihQ0jtpFD3wQqiqNebyKJqYY1l
+         yo/T9s7AkaNnrzUmqaJiGksuAb+6VCmimZneocdZ/dTW7QJxUvtsUpizFmzP4hK1VrFP
+         74NwWUgfSVKGhD1NVfjHfcLj2zlbB8NDT+wuCi+Mmq93FYNBVy5mRO5fY/RXby5/nuDP
+         JutacAzo0LpA8VvrLS8asPuKl2Tq0vE6xXlv5Ampl0APie5toB7Dh+n6C/y3FNv8pvhT
+         LNwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794923533; x=1795528333;
+        d=1e100.net; s=20260707; t=1794923536; x=1795528336;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=X9eeST+DTiB0/P5zHssKOgXfvR+02Yq9ClIKmFNmHPk=;
-        b=JLe41McubvWaptVKg7dNrfrDL5q7YUv+IOJgALPYQpEsS7LvjX1BMphNg/SxyrpX2C
-         sRiMxvqTx8Ui0wlp4plv+JbKjv+vlSFOgKQBskfrTog4+WtbYlI2i/3ZLmwzVvDUnFuW
-         cNF1r1sqvmkV7d4kSvkzP3EYffb5+3Yfgwhm+fEiDPS6f6slSBDu3gDE/MDYK9BEAKam
-         tJpPN3Vk2h+/x0UJgg514TYKvmOBzJI3pZ36xpSjeKgYMwk0Jb7kYdVmuzv4KA4kT8ny
-         m5BIFp/TsjQcOIZ4v+5jfGf+BKah+Cgsm4Xh1ooH8VrkvhrU+WLAiUUBMoY3VIkLI1mN
-         sOjQ==
-X-Forwarded-Encrypted: i=1; AL+hErEocNg5KDcvHBUv4zB4aRVqLj2ZZTNk1dnpwOqkBXl2Jtk9kWJsn0tA059YZ5/rgJCoMlnRoYdihPb0@lists.linux.dev
-X-Gm-Message-State: APuU4Z/TLfg/ZmA78j/KyhFSPzGqCVxPvlmEo9A8O4u3Ro5tyvjj92bF
-	3sbLvSBCM42eaLUfxnnZBL2uOW9WjBuyUG+fa4724Kf7IDbh/+1oBpXm
-X-Gm-Gg: AZFdTZdKU1x+XqC6WO0m46If21T0afEVRXB93aXsb00kQNkctG/iKzfFFEHFkXcCmMs
-	FySa+L0QeN6wqNHAfXx/Z+Y+/lQzr0Anach8VItG3KBReisaGkrh2lbzVMQjTk0+GacOA0W2NhC
-	p/+OpHcCPcOj/GnIWShK1BuEBMFjSHGtrQ5qf+qEQbsqGTxTpt2r9SWhEMrRRNI60IxCGl7Usj/
-	r6xMDGY5v6xq6b8iYmtab8fccPKnwOkpBBT0tUV9dIEIuBmxLg1BPJQcYVDusP5B3R29M0KNhpC
-	6Fl8aSG167dnSaynF7z3REXlScOdNiMuEUWMzTQSLANqOVpv5U6DkqynFI9cfukseFczbHGo30H
-	E0uliLChWYGYI/mMI+WVXfR1hv8+9ZJufsyPh9UChH8a0WnTtTdBF+2EkDO6Mscaqv8g/qhjDtY
-	qyLthwRf4CaiPCX1Dv9oBKDs+9dPxmBR/rkPzZQzmwHPv+bhRhq+wIiaCfgJxBG789QCUT5x8Gs
-	D18VglAvkbbptDtvBCwXFOZcoFAvfjhPXuiiTwyQ/La7WSmXzLEJh+OPDV7MjSuth+hAC298/7g
-	3fGdwExWUawb2YwdDZqjqwURHXdjw5uS+d5FPqUyAu1MEpZba9TGEk/rMzmLQHl2Cf4CFsE=
-X-Received: by 2002:a17:903:3845:b0:2d8:d4cd:dc8f with SMTP id d9443c01a7336-2ee0da9892dmr141649045ad.18.1794923532596;
-        Tue, 17 Nov 2026 05:52:12 -0800 (PST)
+        bh=qEwXXgzCb9umMJN15TTOelMx6FvsKuxkJvNzraJF4vw=;
+        b=ud3qRnKc0l5T0876NOTDVozoIz/Rn/jTKG89kKlWLGJ+UKx0mp8ZPWU89aw9WTukh1
+         VLiChpzBNdEEL5C1CpkO9uNQGCLu8R0gP4QOoQubmKZabPaoBUZGQKebLjAFPlZcA4HE
+         vnVwUkMxBt2VTKhfDMqoNN5fL2hy3yMIuCkALt4RnmqNyLcnIL6z216X25WfsNPrnV7M
+         c1v7yVy1qEQI7m0hdTiEqNh5NUBJPD85mHWkJZD71tWt6Ll4LXzHSf8Xbz8/yvr/gsU8
+         sjTjPwBr8LS3XGgtNTRQqguXGPuVBvMRX9vzGlyEdTtzbYn8JejC6KxQeKO9Hgr5XhY8
+         ELLw==
+X-Forwarded-Encrypted: i=1; AL+hErFGhrDPntYNFY95jZzubShi26baBf+OTRTWq8meb+BxLmqy12TRFL4qZmJ9XxKcMKiNeD8cAdP/ZWpE@lists.linux.dev
+X-Gm-Message-State: APuU4Z+IvgQib8nuV1Z2Ic6jYAwrq0pVgw5AQxd0RjL9EgHXMazpyAcb
+	EPNJcd9NJ3P9iKWgyoIa1l+2t4Ailj7ThWG2RA90ssluHyOljDUtwtUo
+X-Gm-Gg: AZFdTZdIBHGYTK15zBCm2zvL5VVY9vXMOGyczpFiklwWwNLzPJd5kVHQS9z1pwo6lfw
+	qNgO5VSnJPA1iNat6xh+ZIXr7PVhc+SgjXpshWiVtTlRPRP80Q/BBrqsmiTfqyQWSdv0TwETqfo
+	Tl9AEV0LD/MeEo3F/BJxr0OeTLxLhFD4saOC9WELJWD2iFrtBf6cKbYtAYyx7Yu3ABP9JTHC07Q
+	g6w8AOuTPE4m/V4FrQA1V7YGKxvFwC/ESj5Np6f42WyRs9+m6PsdN4+uOo7QmAnMO8via6EE+lu
+	2YJqoRLuhiIsoQrFaAawOTb/0plOIaa8ZNteL1FhedzcQx4EUOdi85Sc6Sk9aBQJ+tL2QGqYEOY
+	nZoAiLlbznxTzFDQKygTYmqwCBJT7DU1/mXtjyGXEtLC7w8fW0OZNsFd5sq+HP72kfskG81hZU5
+	Ww18v8lJ/C91Si4zOv4repgINQHUfJuxAwCaMtne+aPQx6LG1nrn6udBfCh9+BPT4yFnPy4pQDD
+	8HKpb/zmTnSQtMUOqyt0hrvE9ENhLMwCLP3ZzEdmRgxr1CH7MQ1TymmMshYDqfA5yx4ODLmV5e9
+	S8G7054so4voqUgyZ8wj7k0ijEwO3BYzw/NUFL6fXFFwIZlcWw==
+X-Received: by 2002:a17:903:1846:b0:2d9:599e:df95 with SMTP id d9443c01a7336-2ee0d6600acmr138465855ad.3.1794923536549;
+        Tue, 17 Nov 2026 05:52:16 -0800 (PST)
 Received: from localhost.localdomain ([112.170.44.210])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2efd7a586c1sm15937035ad.43.2026.11.17.05.52.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2efd7a586c1sm15937035ad.43.2026.11.17.05.52.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 05:52:12 -0800 (PST)
+        Tue, 17 Nov 2026 05:52:16 -0800 (PST)
 From: Junyoung Jang <graypanda.inzag@gmail.com>
 To: Miklos Szeredi <miklos@szeredi.hu>,
 	Jan Kara <jack@suse.cz>
@@ -89,9 +89,9 @@ Cc: Junyoung Jang <graypanda.inzag@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH v2 2/3] inotify: copy full qstr length for event names
-Date: Tue, 17 Nov 2026 22:51:36 +0900
-Message-ID: <20261117135146.3174252-3-graypanda.inzag@gmail.com>
+Subject: [PATCH v2 3/3] fanotify: copy full qstr length for copied event names
+Date: Tue, 17 Nov 2026 22:51:37 +0900
+Message-ID: <20261117135146.3174252-4-graypanda.inzag@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261117135146.3174252-1-graypanda.inzag@gmail.com>
 References: <20261117135146.3174252-1-graypanda.inzag@gmail.com>
@@ -106,44 +106,63 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-inotify_handle_inode_event() allocates the variable-length event via
-kmalloc(), reserving name->len + 1 bytes for event->name, and stores
-name->len in event->name_len. strscpy() stops at an embedded NUL in
-name->name, leaving the trailing name bytes uninitialized.
-copy_event_to_user() copies event->name_len bytes from that buffer to
-userspace, leaking uninitialized kernel slab memory. The terminator
-and alignment padding are zeroed separately in userspace.
+fanotify_alloc_name_event() reserves name->len + 1 bytes for each
+copied name in a kvmalloc() event.  fanotify_info_copy_name() and
+fanotify_info_copy_name2() use strscpy(), which stops at an embedded NUL
+and leaves the remaining name bytes uninitialized.  With the original
+length stored in info->name_len or info->name2_len,
+copy_fid_info_to_user() copies name_len + 1 bytes to userspace, leaking
+uninitialized kernel heap memory.
 
-Use memcpy() to copy the full qstr length and write the terminator
-separately, as __d_alloc() and d_path() handle length-bearing names.
+Use memcpy() for the full qstr length and write the terminator
+separately, consistent with __d_alloc() and d_path().
 
-Fixes: ce163918cd33 ("inotify_handle_event(): don't bother with strlen()")
+Fixes: 929943b38daf ("fanotify: add support for FAN_REPORT_NAME")
 Cc: stable@vger.kernel.org
 Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
 Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
 Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
 ---
 Changes in v2:
-- Use memcpy() as suggested by Amir Goldstein and terminate at name->len.
-- Copy only the valid qstr bytes to avoid a one-byte read past name->name.
+- Use memcpy() for both copied names, as suggested by Amir Goldstein.
+- Write each terminator explicitly without reading past the source qstr.
 
- fs/notify/inotify/inotify_fsnotify.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+FUSE fanotify mark setup on a zero-fsid mount returned -ENODEV; the
+normal-name FAN_REPORT_DFID_NAME and FAN_RENAME paths were tested on tmpfs.
 
-diff --git a/fs/notify/inotify/inotify_fsnotify.c b/fs/notify/inotify/inotify_fsnotify.c
-index 6e3af6452dcc..ecbfc9b4e99c 100644
---- a/fs/notify/inotify/inotify_fsnotify.c
-+++ b/fs/notify/inotify/inotify_fsnotify.c
-@@ -120,8 +120,10 @@ int inotify_handle_inode_event(struct fsnotify_mark *inode_mark, u32 mask,
- 	event->wd = wd;
- 	event->sync_cookie = cookie;
- 	event->name_len = len;
--	if (len)
--		strscpy(event->name, name->name, event->name_len + 1);
-+	if (len) {
-+		memcpy(event->name, name->name, len);
-+		event->name[len] = '\0';
-+	}
+ fs/notify/fanotify/fanotify.h | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/fs/notify/fanotify/fanotify.h b/fs/notify/fanotify/fanotify.h
+index c25cf5c1fc70..2d6b5c2c6f25 100644
+--- a/fs/notify/fanotify/fanotify.h
++++ b/fs/notify/fanotify/fanotify.h
+@@ -221,18 +221,26 @@ static inline void fanotify_info_set_file_fh(struct fanotify_info *info,
+ static inline void fanotify_info_copy_name(struct fanotify_info *info,
+ 					   const struct qstr *name)
+ {
++	char *dst;
++
+ 	if (WARN_ON_ONCE(info->name2_len > 0))
+ 		return;
  
- 	ret = fsnotify_add_event(group, fsn_event, inotify_merge);
- 	if (ret) {
+ 	info->name_len = name->len;
+-	strscpy(fanotify_info_name(info), name->name, name->len + 1);
++	dst = fanotify_info_name(info);
++	memcpy(dst, name->name, name->len);
++	dst[name->len] = '\0';
+ }
+ 
+ static inline void fanotify_info_copy_name2(struct fanotify_info *info,
+ 					    const struct qstr *name)
+ {
++	char *dst;
++
+ 	info->name2_len = name->len;
+-	strscpy(fanotify_info_name2(info), name->name, name->len + 1);
++	dst = fanotify_info_name2(info);
++	memcpy(dst, name->name, name->len);
++	dst[name->len] = '\0';
+ }
+ 
+ /*
