@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794923529;
-	b=HQWdbjxa47zkAq0e88qYop54YrYmG5EQ6+h5PfEe3/6Qu5lYZJt9tzFBO1SPhstN/GBK
-	 gzXGYxrwUmEMAPpuMduhaSjZHrKo62FUOVIJBY967r7ortE2vLLbgmHMX8BPL3MI1uDKq
-	 25jPFXrVZAYK9Zxxc7iD3AUnq+vHu9RiQna7UNRU4xCvm6Wko8fo+OZFDlCd7/IscFA90
-	 sHBs8WBL4NwES1V8P8mRgIOPs2k4NCD9hWq7x1uHaBoLF5rffOV1AWOVEcHy1rV1GEIF+
-	 XNm7IrM2KvmAFe7r0FWBSb/rD8FHNHzYZl9X0wjPShmUVTILwxPzbNVgvxN9nulqfKA==
+	t=1794923533;
+	b=apm5UoXz4wbiMpZOmoVKVGrKDD89L68a96kaA9SUU7eiVsRLzwcVim84+ArAohwBv+FA
+	 x04lAsufvgYngkUk1zO5BLWwORppoYTEW0WPq9eEI9HkAKvFYWiCRHyCWwUFo+JpF+d70
+	 0RHtukvyJjPCSgp8kpkM81fCZTI/50efM0Cq+ZsxemTNxLYIdh1+Sy1LQ/Cai8NEsI5vx
+	 9isLBxP0JWAj2GrptSc7qUMDdGAWlgQterjmVDCM2kMQUNSAybpf8qz5qKzCBe0eAo7o1
+	 vACSaW6n8pmxmWDZfkQL87cYZSNEJd+qR+rA1n73dienMtZOj+BDFzGimKUmRTnRTOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794923529;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794923533;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=1CXHuD+7M4E0rte/HpFih0lklRzK6u8QUeFUsQ4kAjQ=;
-	b=BJEgr20Kj0unx/IXNsg5ghxE/6PuW4EAC8LTkfF6oLK/PMy9yAn18RHPLlGFgEj4Gw+A
-	 fFrK8ggOY8ERwdmRHe9PtQyuzRiKpQ5SU+1Nen+i5IoU29cX3NKpXMLfm0N4spbWIz6Z6
-	 M9SpuqwdJaeMilsGsPEDayCBJcX1Ejn3moHgSQpUQYiEqf1Zcvt+64hujUV3+Me6ZL7o1
-	 tT2S8y+ZIFlz+QTFxOddiSfyRaRynSGx2Jpm8VGtN0wonc1WmzOEqBrH6+Ugl1cOjozXL
-	 JDti5XAwtEnJQJizqTDJ+y3VuD7Azq2rKpWQ29qbdedyJavObT1YHUvVfeoceW71V1A==
+	bh=X9eeST+DTiB0/P5zHssKOgXfvR+02Yq9ClIKmFNmHPk=;
+	b=Gq5FhPoR0sGF9sDtjo8116VKBgVu2n6DUSpasKgFGuxxbGW9CRliKsHY2Y+zhHW7Fftf
+	 yOlJlLl7L+z3yWiXB2nLmEjXag3NjRmK4yTV8wL/zeUHM91Yz0a213PZoEn6KHJD1Q9AM
+	 uqzAqNRdR3Y81ZcPDmDw4UdIkpa1Shbn6q+Df4aGsgbhmQ8F0cy0jKGb4TYlit6a1mr+H
+	 yWbu/42qrvpbBVGkPG8ReiX13MsCiHloUcq8FRCjAPR/HPSbndGIOnhhcDpzFAyQ75J6f
+	 vJs2VRFig2eAiwZmsqTijq1wgQ9OmDuRFLtAGW6Kt5soA2UkMiVDJ7fUTfqnzMkqeqQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uX96Jj2H;
-	arc=none smtp.remote-ip=209.85.214.170
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oD1U7P+a;
+	arc=none smtp.remote-ip=209.85.214.172
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08DB606A32C
-	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 13:52:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D08DB606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691E4606A329
+	for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 13:52:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 691E4606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uX96Jj2H
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2efd659464aso5211345ad.3
-        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 05:52:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oD1U7P+a
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2e977109392so28276285ad.0
+        for <fuse-devel@lists.linux.dev>; Tue, 17 Nov 2026 05:52:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794923528; x=1795528328; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794923533; x=1795528333; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1CXHuD+7M4E0rte/HpFih0lklRzK6u8QUeFUsQ4kAjQ=;
-        b=uX96Jj2HWxn6+0y55TJCYV6PXM+UtHMafaDdHleYFvZBQSvmSmmcsUMdSnnqyT8Hwa
-         V61rlaKwilUUv6kJRCNGpuEtunBJppHAnx6xMHhguwfrjRqSLgpgR16ErBuJQor/Sx1s
-         g23ow0WDjObMFH5y85JTlLZR6tc7mT2Psrc/r2nErAAXtRPonzWCxdj9SgYL1UYHP2pg
-         ykDy/9pQndJOGEK8tz3cACCAH0kq/VTC3E1x+ngSS2gZOQ/aVOmrlagSI3HQFEo/YaHb
-         ILkJmqqnpmKbLJAN/2S3vE/63ZDuyAp0xu6P4e9o78lo8xBaWD1jUShKssFC3SAPg2fe
-         QjoA==
+        bh=X9eeST+DTiB0/P5zHssKOgXfvR+02Yq9ClIKmFNmHPk=;
+        b=oD1U7P+aIHrMdipNAeJKkI0jujeXHn9wS3PaIRCOr9sH0dP3gdc/aTnW1f2w3D0Cm+
+         KUKCh4EZIvt7+fX6ZP/zQ1d0I2qM9J2MY/VdFC9dHbGIInB0aEwUEo5uEM3wRhIPCoXq
+         q8yrfZUnShsdQcaiDAQHGkZTFjjHAclo+CoRg5ySyOi/oWidZhD83VqJH8auOPv45Awv
+         qafOTaZ2kg5kRAPISDNDDgRWxaM8o4FmLDcCa1y6Ie/hiKrOKwwEA0UKfapj4gN79f5R
+         epE7mpU3xyqpYz4JWNgEx1iYcjtb/s3X4Yrg4FJwhfVGBjKSqj+c+xKRaWYpoUKOXUcC
+         rKVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794923528; x=1795528328;
+        d=1e100.net; s=20260707; t=1794923533; x=1795528333;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1CXHuD+7M4E0rte/HpFih0lklRzK6u8QUeFUsQ4kAjQ=;
-        b=z4ShBR677/XtYD040Z6PrBJteXrliPuJohSk9B4rMxhIFLHtiBPjM3rRALOLKDQnAJ
-         Vo8A81CyJimhW/CfpDB+zthcvcwjoDrEshi/ZfSzvMT3NxNMiI7W8w6zL9e/649Q23yW
-         VGP+GU/zoBvHa/o8mTb+gYRxZoT5AEIzaigCoJDOZKO9zJQY0fq+gB63brofTfYWfans
-         SATvrWCOI2/3BNaYF2hVxJhiLuA5r5lOBMEGUyax/m4hIUFXHpY8mULd6u12Azzrroy/
-         uclwJAHOd2qvbXgcosQN6E0ef2Cu+dZtQWLHcAziEZtuf0aiO7kDhL8zp/gJCdnkRdeA
-         JhLw==
-X-Forwarded-Encrypted: i=1; AL+hErG1gwfpEPqx8hJZtAfdPHnUofD42G74NpbLZfHoUSQ583S5u2GRYiWOyisbt+oFR7Cmcuhg+m6oiFYD@lists.linux.dev
-X-Gm-Message-State: APuU4Z+t6a25mZBY9ANK838uw9radNzibiujpeQESsJNm9VXKKEyegAL
-	Apq7PCQdxskqErFFiTaEUy3PG+T7vR6pZ3a6pZCW/FmLKLsWAW/Xi0VJ
-X-Gm-Gg: AZFdTZcm4BMabOAeFF2HjJcvtWfKldIzQrHA4bIjeTEwLzXfqHoxtCvczrr/B4n+mX/
-	Lc+voIZt65CGWcoyfm8PcF0ga6ictgDMmJYZ8y//22tj0IWfQDYGI3jJlv8IX5jwvV+H1DGfaZh
-	wE4RhkjNOQyeFzaQzNP1/kvah6RGLiHQ4U+a/kRaMnM73oh1hzy+2OB7Vzvj3gUL9yEvH2yL3vZ
-	o9+TFul/CCHG5L1CYYiyigB3k6+XC3jbyDujJh250+mF5aLCEiFSwMbDetkjBlPoWl5JfZYAv8a
-	KvZUuylFIVnMegqP2cXD2ZIXAeUtlBC3nP960DdcA24LmaxWfIPcVmrBR4GfZVj5j7YSMrjtalw
-	Ik22CZ9igLXZJg1a/HOaMP2UHqPQzPGs7WfFNBPdQ/DnFYtma9TZ945vctDlHdUdSc2lEi9Z1eZ
-	ZqRiA2WFvn9Sunz3qrQAHYbRN0sEvDUBsywAv0QNVkXkL+/5TAtTOBE1aF/1guGoyvVwYkpTmK6
-	6T7fIpMR6Vx08EcETx0xd05Kv7pHtg1Zqay9ldyFfgLIOLcHy/FMRixSZdK+DecSmmSKdSVvh+G
-	i/LRDUmRas8hDZ+TkITrKNBkFLayRRlcX0jF13qAT8e/pOl4Lg==
-X-Received: by 2002:a17:903:38c7:b0:2e7:ff72:203f with SMTP id d9443c01a7336-2ee0dd9cbfdmr134501055ad.61.1794923528140;
-        Tue, 17 Nov 2026 05:52:08 -0800 (PST)
+        bh=X9eeST+DTiB0/P5zHssKOgXfvR+02Yq9ClIKmFNmHPk=;
+        b=JLe41McubvWaptVKg7dNrfrDL5q7YUv+IOJgALPYQpEsS7LvjX1BMphNg/SxyrpX2C
+         sRiMxvqTx8Ui0wlp4plv+JbKjv+vlSFOgKQBskfrTog4+WtbYlI2i/3ZLmwzVvDUnFuW
+         cNF1r1sqvmkV7d4kSvkzP3EYffb5+3Yfgwhm+fEiDPS6f6slSBDu3gDE/MDYK9BEAKam
+         tJpPN3Vk2h+/x0UJgg514TYKvmOBzJI3pZ36xpSjeKgYMwk0Jb7kYdVmuzv4KA4kT8ny
+         m5BIFp/TsjQcOIZ4v+5jfGf+BKah+Cgsm4Xh1ooH8VrkvhrU+WLAiUUBMoY3VIkLI1mN
+         sOjQ==
+X-Forwarded-Encrypted: i=1; AL+hErEocNg5KDcvHBUv4zB4aRVqLj2ZZTNk1dnpwOqkBXl2Jtk9kWJsn0tA059YZ5/rgJCoMlnRoYdihPb0@lists.linux.dev
+X-Gm-Message-State: APuU4Z/TLfg/ZmA78j/KyhFSPzGqCVxPvlmEo9A8O4u3Ro5tyvjj92bF
+	3sbLvSBCM42eaLUfxnnZBL2uOW9WjBuyUG+fa4724Kf7IDbh/+1oBpXm
+X-Gm-Gg: AZFdTZdKU1x+XqC6WO0m46If21T0afEVRXB93aXsb00kQNkctG/iKzfFFEHFkXcCmMs
+	FySa+L0QeN6wqNHAfXx/Z+Y+/lQzr0Anach8VItG3KBReisaGkrh2lbzVMQjTk0+GacOA0W2NhC
+	p/+OpHcCPcOj/GnIWShK1BuEBMFjSHGtrQ5qf+qEQbsqGTxTpt2r9SWhEMrRRNI60IxCGl7Usj/
+	r6xMDGY5v6xq6b8iYmtab8fccPKnwOkpBBT0tUV9dIEIuBmxLg1BPJQcYVDusP5B3R29M0KNhpC
+	6Fl8aSG167dnSaynF7z3REXlScOdNiMuEUWMzTQSLANqOVpv5U6DkqynFI9cfukseFczbHGo30H
+	E0uliLChWYGYI/mMI+WVXfR1hv8+9ZJufsyPh9UChH8a0WnTtTdBF+2EkDO6Mscaqv8g/qhjDtY
+	qyLthwRf4CaiPCX1Dv9oBKDs+9dPxmBR/rkPzZQzmwHPv+bhRhq+wIiaCfgJxBG789QCUT5x8Gs
+	D18VglAvkbbptDtvBCwXFOZcoFAvfjhPXuiiTwyQ/La7WSmXzLEJh+OPDV7MjSuth+hAC298/7g
+	3fGdwExWUawb2YwdDZqjqwURHXdjw5uS+d5FPqUyAu1MEpZba9TGEk/rMzmLQHl2Cf4CFsE=
+X-Received: by 2002:a17:903:3845:b0:2d8:d4cd:dc8f with SMTP id d9443c01a7336-2ee0da9892dmr141649045ad.18.1794923532596;
+        Tue, 17 Nov 2026 05:52:12 -0800 (PST)
 Received: from localhost.localdomain ([112.170.44.210])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2efd7a586c1sm15937035ad.43.2026.11.17.05.52.05
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2efd7a586c1sm15937035ad.43.2026.11.17.05.52.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 05:52:07 -0800 (PST)
+        Tue, 17 Nov 2026 05:52:12 -0800 (PST)
 From: Junyoung Jang <graypanda.inzag@gmail.com>
 To: Miklos Szeredi <miklos@szeredi.hu>,
 	Jan Kara <jack@suse.cz>
@@ -89,9 +89,9 @@ Cc: Junyoung Jang <graypanda.inzag@gmail.com>,
 	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH v2 1/3] fuse: skip dcache instantiation for readdirplus names with embedded NUL
-Date: Tue, 17 Nov 2026 22:51:35 +0900
-Message-ID: <20261117135146.3174252-2-graypanda.inzag@gmail.com>
+Subject: [PATCH v2 2/3] inotify: copy full qstr length for event names
+Date: Tue, 17 Nov 2026 22:51:36 +0900
+Message-ID: <20261117135146.3174252-3-graypanda.inzag@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261117135146.3174252-1-graypanda.inzag@gmail.com>
 References: <20261117135146.3174252-1-graypanda.inzag@gmail.com>
@@ -106,46 +106,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-FUSE READDIRPLUS can pass a length-bearing qstr with an embedded NUL to
-d_splice_alias().  Unlike verify_dirent_name() in fs/readdir.c, this
-path can create a dentry whose d_name.len extends past the NUL.
+inotify_handle_inode_event() allocates the variable-length event via
+kmalloc(), reserving name->len + 1 bytes for event->name, and stores
+name->len in event->name_len. strscpy() stops at an embedded NUL in
+name->name, leaving the trailing name bytes uninitialized.
+copy_event_to_user() copies event->name_len bytes from that buffer to
+userspace, leaking uninitialized kernel slab memory. The terminator
+and alignment padding are zeroed separately in userspace.
 
-For such a name, strscpy() in inotify_handle_inode_event() and the
-fanotify name-copy helpers stop early.  The kmalloc() and kvmalloc()
-event-name buffers retain uninitialized bytes within the recorded name
-length, which copy_event_to_user() and copy_fid_info_to_user() can expose.
+Use memcpy() to copy the full qstr length and write the terminator
+separately, as __d_alloc() and d_path() handle length-bearing names.
 
-Some FUSE servers include a terminating NUL in namelen.  Follow
-nfs_prime_dcache() in commit 78d04af4995a1 ("NFS: nfs_prime_dcache must
-validate the filename") by skipping dcache instantiation without
-failing getdents().  Return -EIO from fuse_direntplus_link() so
-parse_dirplusfile() sends FUSE_FORGET for the unused lookup reference
-and continues readdir.
-
-Fixes: 0b05b18381ee ("fuse: implement NFS-like readdirplus support")
+Fixes: ce163918cd33 ("inotify_handle_event(): don't bother with strlen()")
 Cc: stable@vger.kernel.org
 Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
 Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
 Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
 ---
 Changes in v2:
-- Keep FUSE READDIR and READDIRPLUS getdents() behavior unchanged.
-- Skip dcache instantiation only in fuse_direntplus_link(), following
-  Amir Goldstein's NFS precedent; forget the unused lookup reference.
+- Use memcpy() as suggested by Amir Goldstein and terminate at name->len.
+- Copy only the valid qstr bytes to avoid a one-byte read past name->name.
 
- fs/fuse/readdir.c | 2 ++
- 1 file changed, 2 insertions(+)
+ fs/notify/inotify/inotify_fsnotify.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-index 1f6cf565477f..6b2468b575d9 100644
---- a/fs/fuse/readdir.c
-+++ b/fs/fuse/readdir.c
-@@ -191,6 +191,8 @@ static int fuse_direntplus_link(struct file *file,
- 		return -EIO;
- 	if (fuse_invalid_attr(&o->attr))
- 		return -EIO;
-+	if (memchr(name.name, '\0', name.len))
-+		return -EIO;
+diff --git a/fs/notify/inotify/inotify_fsnotify.c b/fs/notify/inotify/inotify_fsnotify.c
+index 6e3af6452dcc..ecbfc9b4e99c 100644
+--- a/fs/notify/inotify/inotify_fsnotify.c
++++ b/fs/notify/inotify/inotify_fsnotify.c
+@@ -120,8 +120,10 @@ int inotify_handle_inode_event(struct fsnotify_mark *inode_mark, u32 mask,
+ 	event->wd = wd;
+ 	event->sync_cookie = cookie;
+ 	event->name_len = len;
+-	if (len)
+-		strscpy(event->name, name->name, event->name_len + 1);
++	if (len) {
++		memcpy(event->name, name->name, len);
++		event->name[len] = '\0';
++	}
  
- 	fc = get_fuse_conn(dir);
- 	epoch = atomic_read(&fc->epoch);
+ 	ret = fsnotify_add_event(group, fsn_event, inotify_merge);
+ 	if (ret) {
