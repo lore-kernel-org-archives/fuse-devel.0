@@ -1,97 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.182
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795009103;
-	b=eamtonr03D6hNb0kzXFH+URM28AN15MB16xBO87FwqWgN5JMrpo7/jQsKu3Ih07YtE3U
-	 EkPcxYG4eK7f67VnDe9SZdDZIAiMo3805+Wxloek1mwYvOekEI5PMnHnpmR9h38JUw0Vu
-	 qVal/JJUEnXZ+rrMdIqL4j9FG9CBn9E5AbpHHRjtseqZPBtVVwZYhan2JpHLjaYbYEqA4
-	 O5a6v63TJkZt2QexSOMMUeWyaO/M2X3ZYo0X4JuNxVMAc+03RlHVdTfVU8fdlaXIYw5QH
-	 aoKWoFmd9IIRIwpfNbCCctGCBaN6/60S4nBciiZWi/SYrfOJxxB+hET9YRc2e4McE6g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795009103;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=Gu0OV3kkEAl4D4CjhNeE+xCTUXelNvJBkZGChj72U4U=;
-	b=koGUKTdGb93GUkpwoJb5+kl60M3Yo/4O24p1UWDPksnMWjfRj/c5Hi6ekQRnuiIfHCXM
-	 GbrDkm+o+wGq0f3OMBcqqJhFAGYUFLybBmevciYcs6XxI8roTYjHbJT2jrB49CLgS4APe
-	 mYunvpoySCjweS+AntNWS+DF4aTP2XckYQq+l5qPTznhtoo65z0bghNPMYRr9/w5B2J2i
-	 MkVyns+BTKMISm2yMdEO4zqWXost/peMw07DcJXbm6OAk5VddNEIybEItWOAgT35QYCoI
-	 HOBLN9wPBEMGWNQQCywg6trMt4lyBDq9IJbbEaVt07J3MpQ5WRuMx6UJEFQPk3Guczw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=szeredi.hu;
-	spf=pass smtp.mailfrom=szeredi.hu;
-	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=CpAqusmB;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.182
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.35.192.45
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795013091;
+	b=o0yB1YF3DCEyfVIeCnxwcJGLjRZz2kjnIx9cLRLudrQEcEIpGp1BxuzY/+hDE1UhPr5Z
+	 UiV2cdkOicMV+zobCn1L+39Qc4aYHHxNYp3QfzbfXhNIDUZTL+jqK7jUJmXZrREMO8BQO
+	 DvA5pIM6hLxMLZV6TDUTgVHPYGB902cxYN70pWLqsT36bQzdIIem/2dgLj2SUWSVxUjPm
+	 DhEuDGac7m1DS8+dLuxlZKEcr4Ltn1MsHJ9SiB/3WHP2prZIUk0abAG3oLE1wNY5LSvhm
+	 WRPy6w72b8fHECt6qj3Uq1H+Ml9G4k+egkVTlnIkrcwyF9b3Ksk+n3p6lBvVpfskzWw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795013091;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=FYdFDt3RQcZLgWMSe+61R6Sn4+qOe7+WPCHCjIeH/40=;
+	b=puSsgHforCHZCPCAgMGkEdTCBIqE9AlhzvxE/CH4hv5iwdy6nOOiFsVTgQqgk1cSZyK/
+	 KP+oKc1cvHBHGOZCcdiUrCCyHfSGLwnKvEVHLVeARN95xivmRO9j4eymYPjadBjlpoRLw
+	 DByKcNF3BNjwEVLcOnZOLCBHHq4ZFidqIkVjhGjhZrXKgrtYXIW2hctvoH57iBlLdAX+C
+	 xlgHiFVw/uZ42hwkFhch3oGXOcAhSRz4B3SxtzEp1NRfimRHFNXVsVKcGm4ScHwCitdhD
+	 uGxgoHFLsf5EJoqfD/FfJ6ghJy2i4gcWQ/qk1LS86+LgohKGhWdcYYOf7uDK6T+b/dA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=GehFDff7;
+	arc=none smtp.remote-ip=52.35.192.45
+Received: from pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.35.192.45])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F45606A339
-	for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 13:38:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50F45606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE615606A31C
+	for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 14:44:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE615606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=CpAqusmB
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-5361e313e63so10746571cf.3
-        for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 05:38:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795009101; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fZgQ8awdMHgBU5Xrdpz6as6Nx5T4ffNmVfzUVCiiAr2nLINIsD4bQDvLp4Zh0JizSP
-         EH3tvEL+uqt31Ytx3DbJLHgwyFspwzi02cQgfEMZaxoYqngLSv+aJvBDHj1qamc55NoU
-         doO0hEq3ub1mH3H2pvZc6F/o+uqljb+YdPNMKMABhBqRJSCvoDelPjmkPthABAJv4z/w
-         gI3D6yh2iYX7VbIOQaqCSoD1hLo+CCx7SR7owrijYKolIAnSfChfmYAtJL0JMvtSLNfK
-         29poHgfsRy5aptD4sIKQm+T+fE1t44ToKv+75R27iYskMI5PcfADKQEXSdGqfMAn/mEo
-         ezjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Gu0OV3kkEAl4D4CjhNeE+xCTUXelNvJBkZGChj72U4U=;
-        fh=VP4nE1kk9iEKIP6pi5209rSGdUOkzDD6P3nfvV4Wgog=;
-        b=VgsoDQLU9Ew2UPQxOBW9Ce2J87g+B1YhbBJk+696G4I32we8k0f8/QQaOZKk7Q1Y1D
-         l60cbnVackwG2UWnks9EJA+7XOzub2QKfekZqpvEQ9F6c0pjqiJxPSvLKUnTJRK7Mx9V
-         AYwCvxz9THqHxJkDwu3w7Kie9/BbwqSI7ffqDfrq/GgvIj5eRNir8aakJFpOOoXNC1I2
-         1GkjVIARgpLj50ldHeXTeuzCF2fR8R2W3Vby+TzvL7G6c5cjfyUKM0JtU+8MjFuL+0Yx
-         a1cqniEpV7Kbv0ZftDM9ec09ST9Ik7goZgIbuqVU/+twkzO0QNW3jk3yI94Ak+zWPeHc
-         p2tg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=GehFDff7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1795009101; x=1795613901; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Gu0OV3kkEAl4D4CjhNeE+xCTUXelNvJBkZGChj72U4U=;
-        b=CpAqusmBXxajthJtA1YMHzQSr6cHOmdpV406bN7OOCqcjPs8ssXd9Lm94rVja5bC1J
-         kK8oGuKrUL7A5gThTsdxdIGZg2WWdaJ/I6KdqZmFlPdnSMyB0wewPWCREbs4QQNgil6o
-         C1ns5sleK9cvcuXg+d0GHrscKC7Jw73bzNGXM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795009101; x=1795613901;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Gu0OV3kkEAl4D4CjhNeE+xCTUXelNvJBkZGChj72U4U=;
-        b=GgJ0cXQ5OP2avYKVM/b6CQPysmntvhmDJgV13rYMVzJvly8FQl6aPS7Nz0cuTR0D+V
-         6Ujke/+k2RyfHXmzla81QbA+BlqvzPgwqitlclBcD+S/OW5ya6pX3DG80Cd/Qgchr3Xh
-         3Z16/fnQOcs6Bjesk2kU5FLaHrMXu1QIo/PGPqV31K2yyUpKr6ayIpU6jooE6U5BRO4O
-         7fkGdmUo9R1MorFcLGvB3ZRmAd7qzan5ph67Kdawv+4lC5GAevTEAmol6tlL/6orZNIx
-         AyhfBgChU/D6KHzK9g13udDxpPRuGCDbnauUV2iV0w0gtrj35+5SF4mRfdS+7DsN/FhZ
-         SqIQ==
-X-Forwarded-Encrypted: i=1; AL+hErGh2YandWSDokKcD04hrWHPDIEtyUwR9aVmip9Z2hXO+lD++x2Nc4SL3va5kbQ84cYaBk1shP3UGBBZ@lists.linux.dev
-X-Gm-Message-State: APuU4Z/Xa7dZQiLaz8aQNG6EkDYYc3vD5kN+b9/I7SHuZ1qcMVFyflbM
-	9HXnZ1k6nMxap5s7Ti9XuCZqv0wnhyyR6Xo610U0OvJeVRvrjna2CSloTlYHanMuwaDAdRK0Wco
-	Ridn5BBZ80OsUnJmBW0aOz+JNsoUk0bxS7+WoRCVarA==
-X-Gm-Gg: AYBFou3i1mdyFA/f+0hoW45jWi/f6evkFJrPTNO7lNLmVPXspnNvXj42fo9xmS3ieaM
-	cRB3NvH2dSP9pHf4kX/3hzMX8Mdfn+nFTpuop2/+stU+7eZyMa9SSFgOKRSpkgmlMaUUU0sv5ij
-	DJaqMaZZZsG7Hod8zjPOSKTi+wpxx7bAFsu/U/VwnGVf4A84I85bcfVuEXj+COFbv8nhdROzbcU
-	S6f5vrw8Jzu52zmRbJoLNu+YNZ5eCrgt43woRo8D5svdlxEKbuJLAmJKDDUEZoViVjNAcx6S36W
-	gVzrZMm79ahb6GSShvQvWaBeVdTK5Xvyyk+X5i2jLoEwOFpIz9crPdVyhsXkdH5WJLKY5zf4FkU
-	bm63SOKgDyJkm6lLxiix4TaxO7I0SennRtJha/C5rh/YsuhLeBxh/mWILaMnh4M7aAwBCZYMC5I
-	WnhRi0hOxgYNI=
-X-Received: by 2002:a05:622a:558e:b0:55c:f47a:8c96 with SMTP id
- d75a77b69052e-55d5a340368mr39697851cf.3.1795009101249; Wed, 18 Nov 2026
- 05:38:21 -0800 (PST)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1795013090; x=1826549090;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FYdFDt3RQcZLgWMSe+61R6Sn4+qOe7+WPCHCjIeH/40=;
+  b=GehFDff7vxTJ6w99MTgGhcANgmdCF9R5FYyGZjNuHFXBmooPeiyxgx1s
+   uLQ1+j7m8+Teg1jKvg8bvi7yds3I30TjDKTDmyJO2sV8JViivE67K+WWr
+   IV4OStVIW8z+a4YJpl0G+Fk5ksdRptEwcT0is29vHPFix4MsWzcLQB74K
+   2lc7wrV5XuR/oyR/8mnNWH9OjYEG6zvI/lpWTNHS4qvqDGAwXxJ2eZxmI
+   F7i7ydeQUDRORh3fORjqKNKYU1T6dOXOC2psPLQE0MuZ3lTQgOZLAyRPo
+   KL3UR5KV0g2Kqjv87UzpC3oq1MSftgnGJiQG41v0Npo1OehWeH4/WJWNy
+   A==;
+X-CSE-ConnectionGUID: YV+djZ4HQpOJ//ModV9smA==
+X-CSE-MsgGUID: qgS2HDyeQ8GBOGDBhasHKA==
+X-IronPort-AV: E=Sophos;i="6.27,219,1787011200"; 
+   d="scan'208";a="34194039"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-011.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 14:44:50 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:25942]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.55.227:2525] with esmtp (Farcaster)
+ id bbd993d7-ec4f-43cf-bd8f-d5b693ffc5aa; Wed, 18 Nov 2026 14:44:50 +0000 (UTC)
+X-Farcaster-Flow-ID: bbd993d7-ec4f-43cf-bd8f-d5b693ffc5aa
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 18 Nov 2026 14:44:50 +0000
+Received: from dev-dsk-jamz-1e-e35f4cd9.us-east-1.amazon.com (10.189.35.140)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 18 Nov 2026 14:44:49 +0000
+From: Jimmy Zuber <jamz@amazon.com>
+To: NeilBrown <neil@brown.name>
+CC: Miklos Szeredi <miklos@szeredi.hu>, <fuse-devel@lists.linux.dev>,
+	<linux-kselftest@vger.kernel.org>, Shuah Khan <shuah@kernel.org>, "Bernd
+ Schubert" <bernd@bsbernd.com>, Jim Harris <jiharris@nvidia.com>, "Horst
+ Birthelmer" <horst@birthelmer.de>, Luis Henriques <luis@igalia.com>
+Subject: Re: [PATCH v6 1/2] fuse: add FUSE_OPEN_ATOMIC
+Date: Wed, 18 Nov 2026 14:44:37 +0000
+Message-ID: <20261118144437.2485284-1-jamz@amazon.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <179340054030.269288.17605002354655480101@noble.neil.brown.name>
+References: <179340054030.269288.17605002354655480101@noble.neil.brown.name>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -101,30 +86,19 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261117135146.3174252-1-graypanda.inzag@gmail.com> <20261117135146.3174252-2-graypanda.inzag@gmail.com>
-In-Reply-To: <20261117135146.3174252-2-graypanda.inzag@gmail.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 18 Nov 2026 14:38:09 +0100
-X-Gm-Features: AclHuK95w6kthqK2rcV5FGmp6byHyDgOGBtGbNMoFRdYyxphnOM3Now-gzk5ZLo
-Message-ID: <CAJfpegvfKhZYuMQ914GUPNvdPi-nZBYE9qfwHVg6m+8ABuhqCg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] fuse: skip dcache instantiation for readdirplus
- names with embedded NUL
-To: Junyoung Jang <graypanda.inzag@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, Amir Goldstein <amir73il@gmail.com>, 
-	Matt Bobrowski <matt@bobrowski.net>, Gwanhyun Lee <gwanhyunlee@gmail.com>, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On Tue, 17 Nov 2026 at 14:52, Junyoung Jang <graypanda.inzag@gmail.com> wrote:
+On Sat, 31 Oct 2026, NeilBrown wrote:
+> Thanks for clarifying.  My only problem with the patch was that I found
+> the description confusing - everything looks OK from a VFS perspective.
 
-> Some FUSE servers include a terminating NUL in namelen.  Follow
-> nfs_prime_dcache() in commit 78d04af4995a1 ("NFS: nfs_prime_dcache must
-> validate the filename") by skipping dcache instantiation without
-> failing getdents().  Return -EIO from fuse_direntplus_link() so
-> parse_dirplusfile() sends FUSE_FORGET for the unused lookup reference
-> and continues readdir.
+Thanks Neil. I reworded the description in v8 based on your feedback:
+https://lore.kernel.org/fuse-devel/20261110204421.1251726-1-jamz@amazon.com/
 
-Applied, thanks.
+If you have time, I'd appreciate another look.
 
-Miklos
+Thanks,
+Jimmy
