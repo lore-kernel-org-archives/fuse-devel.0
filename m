@@ -1,60 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795001505;
-	b=g8a0BaTY+6Qq0YkNrX5JpqRF2Sk9ZSNAkCMidhEzfos6XW/++aNkT7hY+gshCTvlsy4w
-	 oAx6BC3dk2+yAXIY4/qT84dn1sUCG3vNJyBoyqWhM+kWgC9rKR34IHkYJnvqvn3R+GqhE
-	 zf1Kh6q2fLKo+KftE+Q5Jf+9ORLme2/lDq6GvsgKoVBwXCv2LT6eLeNeP1Zq5ArVtgKmx
-	 AXyq/Cohi5rYUo9DoSKtHvYNaZTqF5TlrZPNbFdUTHJ9L9M6bqd7gJRHmil3pA7Ppwi0r
-	 oh8jAez7hBEAPtPcdKrG/4rWjutvMXRjLR/4MqUdElEhi2soiQkMJP6c/GwzGsP6Kjg==
+	t=1795006530;
+	b=ZwuoQvs+t6IbG3zHnGCDY4obZL+MLG4VwvQM/VzeDvVU3UY7Ig3Ug/B41/to50G5zM+j
+	 53WO8wYaIF06kYc12/0+YXgLZ2JF2ke4bb2xCK//lhJP6XrA3qrZ8YJLMc66vxC8USwhJ
+	 SSOdR5/3vmj9y3ttZaPCPVz4dBSbJYet7mr5NKRavZCJMTD8VqofQwCQIXRIIhTLgqLDw
+	 WLWMN30+DkZPqaB+17odl8aXqjLmdltuSw9+JH4JcoWItbZbJKtJEWFWOiEytM0G6bE2c
+	 1G1e2fzar/9c4aENGmeGNPYRLTnE1pqA0qUaAdSdMolqGYF4YPwIv7Flqlg5KJNSnuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795001505;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ti2hkmNuDOWadhSGxF1m8Eafguzo4rmwnOEmvRTOKQg=;
-	b=XMjADcqG3qBa4L5Fnih0WEO+0q+EeQU014JuCMzSvkYRLHNqO+ezniVBnDqqC9FBJ4mU
-	 SPvCvwfGRMPs5I+8/vT+apKcDRD3JvZQZRQICqaUbuvr05HeOzSMvlnAext0hrluMA1DW
-	 HkKAQhyjB0pY3H9Y+k5THuhcx3nNO6H2fZSn7+EQCpXOu7aWi5juJ09BiWaLHxcFhF/S3
-	 eX5n5J+aGbLr8bJoSL7Mv7/CNuWOIX76P8mGIxGhzq2qkfiuayRKUYP2gFXT12A7emsDN
-	 UQHdm4O5ERuL7dWCs9koJ/+Pm7D+hjpQUPdqTP34pXmffqbkciU1rLTBl7gtPKn53lQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795006530;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=MrGxyb7w4ndanXowqimguqCFwPDrOE3mSD3YQ6pMNXw=;
+	b=LKblKHqumJdlN3pUE09dYgfL2warz3bBznx46Daxc9Ci4gYV6xY2Mu05ADGD2JD6Hhgz
+	 X7CNYzSAnfHjBe1KzLLZt9kxU2F98DsT58RIT0ZvzL34NrffCH8tswRRESOgCqAfZrgKm
+	 yCHQje6xVNHxeNIhdoU8zT9h6mWLEiu6UZ98aqwnqgEoMuqGZr++Bj72d7h8hpJKPXEfr
+	 dDDM0VCbe1ljDCBHpk2HAHAQ6kjIzVczvVqCmGhof5hmzvp3PAoRuAiBigjvlVcUhWLO0
+	 y9J6aPEDqdg/DJQbBiyT3nks2WuafqW6w1k4+8eEeP0MvbGnZlFV4XWWXYQdNheN0Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ODIO9pZm;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LQmwE1dK;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vhhl9eA0;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LQmwE1dK;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vhhl9eA0;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7F7606A333;
-	Wed, 18 Nov 2026 11:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C43606A320
+	for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 12:55:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63C43606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ODIO9pZm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E32C1F000C4;
-	Wed, 18 Nov 2026 11:31:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795001504;
-	bh=ti2hkmNuDOWadhSGxF1m8Eafguzo4rmwnOEmvRTOKQg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ODIO9pZmjYH1kZMTAUIhrLtNRhxyJLwHyVTBNB7l7Qu+neQPbJ9dCl0eBk9KYHa3N
-	 /Vieo866GiWsxthi2PUQXCbWvh7BRQTeI/1R4E+Q2venKkuYsOb1ezgQRhhlce+GFF
-	 QWo0r0zYe9OYi9XGyE5y7akfnlOg1+7ZUsUJv5E2WJKnR3gVsqqXd3KuIV3yez32wx
-	 R7c+/ueTUFxehQp+SxdgmsOXILl326ocUsp2E9Z9CbZ1UP0Vddrb6smC4h6oT+hWKJ
-	 zFv2q/4p84woUI1S5mY8V6fv2FtULFhqAgeueAomZXon5W5llDhHWjxKDEwOOFkehb
-	 lrg5Aisxxszqg==
-Date: Wed, 18 Nov 2026 12:31:35 +0100
-From: Carlos Maiolino <cem@kernel.org>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, devel@lists.orangefs.org, Dave Kleikamp <shaggy@kernel.org>, 
-	jfs-discussion@lists.sourceforge.net, linux-xfs@vger.kernel.org, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, linux-afs@lists.infradead.org, 
-	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, linux-block@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, linux-nfs@vger.kernel.org, 
-	Eric Biggers <ebiggers@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org
-Subject: Re: [PATCH 02/13] xfs: Drop pointless I_DIRTY_PAGES check in
- xfs_can_free_cowblocks()
-Message-ID: <av2MieP4-v3axqLA@cronus.toxiclabs.cc>
-References: <20261113083336.15152-1-jack@suse.cz>
- <20261113084700.739002-15-jack@suse.cz>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LQmwE1dK;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vhhl9eA0;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=LQmwE1dK;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=vhhl9eA0
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 68D151F7EE;
+	Wed, 18 Nov 2026 12:55:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795006527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MrGxyb7w4ndanXowqimguqCFwPDrOE3mSD3YQ6pMNXw=;
+	b=LQmwE1dKzttQHye9DbUAcSgcb73AeDe7ty0RoQldUYUI6Ry520WsyBc6dlL+a7U29u4P8c
+	vZko3cCH0SFhBC+RFWlC+QeT41visqWyzAtMqM/G8ffBmqT82/4SV5rXW8Giox4e2oOLq3
+	vdwezP6+RpsXQnXW5v5qzOg8HIfI7OI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795006527;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MrGxyb7w4ndanXowqimguqCFwPDrOE3mSD3YQ6pMNXw=;
+	b=vhhl9eA0izfDy7BsfYWJext14JNoob/JhKzYu3VmB6IjFUh0EjGGme1hZKB8XVgJ+HogAg
+	AR+CRUnVAcG4MMDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=LQmwE1dK;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=vhhl9eA0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795006527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MrGxyb7w4ndanXowqimguqCFwPDrOE3mSD3YQ6pMNXw=;
+	b=LQmwE1dKzttQHye9DbUAcSgcb73AeDe7ty0RoQldUYUI6Ry520WsyBc6dlL+a7U29u4P8c
+	vZko3cCH0SFhBC+RFWlC+QeT41visqWyzAtMqM/G8ffBmqT82/4SV5rXW8Giox4e2oOLq3
+	vdwezP6+RpsXQnXW5v5qzOg8HIfI7OI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795006527;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MrGxyb7w4ndanXowqimguqCFwPDrOE3mSD3YQ6pMNXw=;
+	b=vhhl9eA0izfDy7BsfYWJext14JNoob/JhKzYu3VmB6IjFUh0EjGGme1hZKB8XVgJ+HogAg
+	AR+CRUnVAcG4MMDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3EAA7134E9;
+	Wed, 18 Nov 2026 12:55:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yHdBBz+g/WqVWgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 18 Nov 2026 12:55:27 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id C79822504A; Wed, 18 Nov 2026 13:55:22 +0100 (CET)
+Date: Wed, 18 Nov 2026 13:55:22 +0100
+From: Jan Kara <jack@suse.cz>
+To: Junyoung Jang <graypanda.inzag@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Jan Kara <jack@suse.cz>, 
+	Amir Goldstein <amir73il@gmail.com>, Matt Bobrowski <matt@bobrowski.net>, 
+	Gwanhyun Lee <gwanhyunlee@gmail.com>, fuse-devel@lists.linux.dev, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] fuse, fsnotify: handle embedded NUL names safely
+Message-ID: <pyy2dos7pzh5b6jzxpahpza3ignyvzxhtha4rlskupz37wl43y@fdricsqn7y7q>
+References: <20261117135146.3174252-1-graypanda.inzag@gmail.com>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -66,39 +115,98 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261113084700.739002-15-jack@suse.cz>
+In-Reply-To: <20261117135146.3174252-1-graypanda.inzag@gmail.com>
+X-Rspamd-Queue-Id: 68D151F7EE
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-11.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[3];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[szeredi.hu,suse.cz,gmail.com,bobrowski.net,lists.linux.dev,vger.kernel.org];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_RCPT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Score: -11.51
 
-On Fri, Nov 13, 2026 at 09:47:02AM +0100, Jan Kara wrote:
-> PAGECACHE_TAG_DIRTY is the authoritative source of information about any
-> folio being dirty in the mapping. I_DIRTY_PAGES is just an approximation
-> used by writeback code that can get stale under certain situations. So
-> just rely on the authoritative check.
+On Tue 17-11-26 22:51:34, Junyoung Jang wrote:
+> FUSE READDIRPLUS can instantiate a dentry whose length-bearing name
+> contains an embedded NUL.  The fsnotify name-copy paths then stop at
+> that NUL while retaining the original qstr length, allowing event-name
+> buffers to expose uninitialized bytes.
 > 
-> Signed-off-by: Jan Kara <jack@suse.cz>
+> Patch 1 skips dcache instantiation for these READDIRPLUS entries while
+> preserving getdents() behavior.  Patches 2 and 3 copy the full qstr name
+> into inotify and fanotify events.  Each patch applies independently to
+> the base commit.
+> 
+> Link: https://lore.kernel.org/linux-fsdevel/20261115210952.2140036-1-graypanda.inzag@gmail.com/
+> 
+> A custom LLM agent assisted with initial discovery and reproducer
+> setup; all root-cause analysis, patches, and runtime tests were
+> manually reviewed and verified by the authors.
+
+Thanks, I've added patches 2 & 3 to my tree. Patch 1 is for Miklos so I've
+left it alone.
+
+								Honza
+
+> 
 > ---
->  fs/xfs/xfs_reflink.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> Changes in v2:
+> - Follow Amir Goldstein's review: preserve FUSE readdir output and skip
+>   dcache instantiation only for invalid READDIRPLUS names.
+> - Replace the event-name strscpy_pad() calls with length-based memcpy()
+>   and explicit terminators in inotify and fanotify.
 > 
-> diff --git a/fs/xfs/xfs_reflink.h b/fs/xfs/xfs_reflink.h
-> index 683c1841e640..1310cc9fe829 100644
-> --- a/fs/xfs/xfs_reflink.h
-> +++ b/fs/xfs/xfs_reflink.h
-> @@ -17,8 +17,7 @@ xfs_can_free_cowblocks(struct xfs_inode *ip)
->  {
->  	struct inode *inode = VFS_I(ip);
->  
-> -	if ((inode_state_read_once(inode) & I_DIRTY_PAGES) ||
-> -	    mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
-> +	if (mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
->  	    mapping_tagged(inode->i_mapping, PAGECACHE_TAG_WRITEBACK) ||
->  	    atomic_read(&inode->i_dio_count))
->  		return false;
-> -- 
-> 2.53.0
-
-For this patch, feel free to add:
-
-Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
-
+> Tests on 23c62304dde2 in QEMU:
+> - Patch 1 alone: READDIR and READDIRPLUS getdents64() returned normally;
+>   the embedded-NUL entry was not instantiated, and FUSE_FORGET returned
+>   its unused lookup reference.
+> - Patch 2 alone: the FUSE READDIRPLUS/inotify reproducer returned the
+>   original qstr bytes after the NUL, with no stale slab bytes detected.
+> - Patch 3 alone: tmpfs FAN_REPORT_DFID_NAME creation and FAN_RENAME
+>   reported the expected names, NUL terminators, and zeroed alignment.
+> - All three together: the above FUSE and tmpfs regression probes passed.
+> 
+> Junyoung Jang (3):
+>   fuse: skip dcache instantiation for readdirplus names with embedded
+>     NUL
+>   inotify: copy full qstr length for event names
+>   fanotify: copy full qstr length for copied event names
+> 
+>  fs/fuse/readdir.c                    |  2 ++
+>  fs/notify/fanotify/fanotify.h        | 12 ++++++++++--
+>  fs/notify/inotify/inotify_fsnotify.c |  6 ++++--
+>  3 files changed, 16 insertions(+), 4 deletions(-)
 > 
 > 
+> base-commit: 23c62304dde29abe92013d85910d03a77dada35d
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
