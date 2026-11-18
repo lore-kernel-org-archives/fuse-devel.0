@@ -1,115 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.149
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795030850;
-	b=txleEM04+9Bq32v6/LSFgsYCz2j1Sl0QpA44RNAaimff5tXJk0UZk3gBgtUHAzAQet6s
-	 2j1VE7aWPdjBCzBvbNuj1aMNWVZwIiWF1LClaupC7y6IPJR7ok892LVPCO8biU6SjM5zH
-	 jrUc270l+OGf/2IHbaIFx/k6eQI2uE03QcBraNW+VB2OgbERqUSbPy4/9azHZtoX2dB4X
-	 93dUVorD1bvMyOFKszpS/KSX/ZyCAZgErKaKqIxD9PCac5hpL00jA/0p5ONwIoahQltDj
-	 WI0REsBwVmDmzd/uAQMi4w0ONfXLDLHkYprO8Mr1Q2Uaasm5Pv70/qurgMHe9AnPJxg==
+	t=1795036095;
+	b=qQRH2gT658kHuXb7ELP5Ulwg384K2j5Ai0LyT/JnX981pFjrVDeVhL05OptAbx60HLlq
+	 s0PMM1eIJrU4KeVcSFapY27FZTGn4EddUlJvqx8cfvyo40nM5XHgGLY6mzlrjbVf0k6OH
+	 HJtt6IP6f/e/AJEoX4bVD51hro7OLxsBV3NGpC3e6j6oaKcQUGAcs5lugxYHLgKdkNCVZ
+	 fSo7hRml3PhpcDxJillNxAP4jBF27rSmI6FVD6Hk89af0sqltVWGIReXwpcA0pfHQJX4x
+	 BgnkyIkHRhMFWi+U5DMhFbBciF47a4oRqpIDdn0xVx8qFUup1CDg8APKjrN5qvlLO7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795030850;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795036095;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
 	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
 	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
 	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:From:To:Cc:
 	 References:Content-Language:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=cWWB+kno75GjXfJMFyZ2wCGHnXRHDXreldi/hia46/g=;
-	b=eALyXDkt+5uYu6KmGZX1BQYG60Ada62TYOjSEWucPUvqSdSYrXP3Hos2pgi96lDVF/WG
-	 dzRVl8I4Kr2cYtDGcCbClKAPLkP/YoNeRbDFI8PE06BD7hanC42k/CWlGP6KzqR/Z50O2
-	 Sjp3dltUyN08b/iFwXOpB4+Bm8h5wFUTMXVC9XHKRxX2t6PzU2b5hUENfD4+31MIhbw9T
-	 yomS7Z4B9FdD17W07YOvugcLU52nB/ueKTqyRXXXD4guVn44iE114E+zEXVV/XeeeVV9o
-	 IpWj9BI7F2Z2HuuPM5h2dTrgMAYH3b3wPNdfLMcEcmQhgsqKrTkwXdIgskJEC/zeggQ==
+	bh=gYvo29vFQaQUxp92paawfy/fpGkwT1TbpVKZ2bg51Lk=;
+	b=HKZLvIJvg6uQi4ei/D6QduBX0xnT9Eo909vUYnO5K3DJ/bth7RGujlia0HRLeTATenvO
+	 aMO9BEwnSZZHUQo52LfiHhahQXsXy9RkT3J1vdAHyEvYOSlMVFQMEaCqyPJADDdDCHQhV
+	 yGmFikECp3jlVX9o8zA1tJLjZ8ImZc7CTgUQsoUB6z4RbfmP+iAT5498YwogOPwjofhLr
+	 feiieLek0o099z+EdMGf2r7nSRp5deWa+ifgMifR+WjtdXqjwSjREtoFBXxtVN1ljZP9k
+	 Mz7OMkLQ3jsq+Wj0Om1vox8ZgRqmgVBS5q7avIh9tTl39aBIQV9LRgkKvfjs7mMx8OQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bsbernd.com;
 	spf=pass smtp.mailfrom=bsbernd.com;
-	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=IuoiB3vz;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=jLjoJhVC;
-	arc=none smtp.remote-ip=103.168.172.150
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
+	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b="W/btgby9";
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=FCvv1W3b;
+	arc=none smtp.remote-ip=103.168.172.149
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AAB606D34D
-	for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 19:40:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2AAB606D34D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72B0606A320
+	for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 21:08:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A72B0606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=IuoiB3vz;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=jLjoJhVC
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id C5E48EC05A1
-	for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 14:40:48 -0500 (EST)
+	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=W/btgby9;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=FCvv1W3b
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id B4611EC0633
+	for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 16:08:13 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Wed, 18 Nov 2026 14:40:48 -0500
+  by phl-compute-01.internal (MEProxy); Wed, 18 Nov 2026 16:08:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795030848;
-	 x=1795117248; bh=cWWB+kno75GjXfJMFyZ2wCGHnXRHDXreldi/hia46/g=; b=
-	IuoiB3vzrwlymu75FBLr9TaZYOIZeJ3cfCwPZir4xDY5FWp7pbMdGwqH004UCodR
-	22ieBNO7bfmkJ7oglxdDX5TgPLX86Xtdk3g0BB5GTVh1Hvzndt/asOIWUa472/Jl
-	4KC981sxqGghYgiYxNgopsCiw8lpnMfLjUw8BcTlXvvu2TIl+d3I580wyISQdYgr
-	PY9SJcIwNIbjxSHTjcUxGTZw7SiqH+fvTRCCiExEFWRPi0RTuz49xhIKym2V5nKH
-	VBR8HYvnhWMjwzpwAvdW7myM6PJSJglZHkgpJqh8F6Ro3oqgLBTZRf+/adZw6NuI
-	SbshiUIqGAPUJn4VEAK+Qw==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795036093;
+	 x=1795122493; bh=gYvo29vFQaQUxp92paawfy/fpGkwT1TbpVKZ2bg51Lk=; b=
+	W/btgby98L6UpAt1uJqNDl+HyMovhExfel4TOstOpxPNdYPfqVFpFC/K5HuSoIGZ
+	MaPyqDFWUgFt6t7bd4apdF2Wxs5I6c3fjb9DpK5I8eCVLIkB7BuVzHo6popu7MIp
+	iaI6J3HC8FabDw/+6cQO+wJVptLS90edq8mqntv0/dP4wXWpAz/HKDzZHgStnTXW
+	3O5isZ19fQnNgoVg6amaVFd+Zku75Z1lr2ErMnKgZU75elEqBlSrGJDUCJPxbPbI
+	uvm3BUEiKx62dPe040eenXwdAuLX8PZqOcY2u2sSuyXpEqHjSe7A0aUxXpnWdotQ
+	8diICcUcGS9x2UuUtUYklA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795030848; x=
-	1795117248; bh=cWWB+kno75GjXfJMFyZ2wCGHnXRHDXreldi/hia46/g=; b=j
-	LjoJhVCrpW2LHOydyVwZU5fqO5jpIO62DRJBInlTzYrLNVbTDNjr4qt9MwKaoNGA
-	5hjiQtXCEDn9+uxjED0l715NA4a2r7dXXl7M8wAQQuNjBTDAx4cRZj5AOevF1qhj
-	wixRoMej59qnXA2tihHBEOsTyM+VQWD/f/TUKnQko9XlrSZuLOV4r8uX948TGexI
-	g+Fo1qoymD23wS+FMYD/2o7QxEKzYw4u5Gw76KT53SMzvTXbF/zkz6vsI07ifYXn
-	PS7xE4YEPgBHivw0Zklhfmz0sJzNVxOmhELNUR3FCaRqc/jbIhoZQ7sZmcCrpad8
-	7S48+FaF/EMhfadXvWz4g==
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795036093; x=
+	1795122493; bh=gYvo29vFQaQUxp92paawfy/fpGkwT1TbpVKZ2bg51Lk=; b=F
+	Cvv1W3bPN7QyuybD7ANjkhGsAXGIz7LbUxHoENANFKr/Khj75zA+ctxo8zYmtoEv
+	FO/8ZpmJ6YRhVDG6p4NbtJe8IcGe1ktajSF6tZX2lo3iejhZ/8OI3SOvAENr08nJ
+	x//EZhf0hQ0wOxCdPHnn/ypWPjYc8OApo/gpB2IA9R9RsgJ2WGENRWNqiybgZ4gK
+	XNcMGb681iL86o2f6Y3Pz4EfAzNsaG7pKUndU/Pl/cVGzDbfUm8WXp3sSwbdvxoB
+	HYhkHT8yk25X9DxZi5ud/jVDLGPIAur2wgmu5+OTEmFY/s3g59eNLMjYOqZ1DuUP
+	flFHcKxg8Y9rf/8mj7rAw==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=sign d=bsbernd.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795030848; d=bsbernd.com;
+DKIM2-Signature: i=1; m=1; t=1795036093; d=bsbernd.com;
 	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
 	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:bPZm3UTgTXI2AA0wCaSS2HYQXTTDd4+8EvTgMuwHi1tDwxY
-	XRCKyhdV4J9/+wUwiSV6Mm4miizY3gpDQ0J+OwpysX1neDoKSRGf9WSPzJILP+B0
-	/DqhPPoGT8oVX5FGkXeLPgCEn8LP2s3fSm/gH6H8fsGhJ7QL9a9Z7aSesEexwj6i
-	YSPwV9QpRgO8fc7hHioALPl+jBWTi0DtfxrGNTixgfO8ZygtjnW6Iz9z+ritL4hJ
-	lpWxdD9bOdGGNQLYnFfMlJhplxmqX0ZvIF8ohx6cjFTu9VtysM6JTpWK4zF9bDOM
-	Z/y8hHq2CyLJXrDx2YIZvnRLPfByH8bfKUcr7pw==;
+	s=fm2:rsa-sha256:AgY2GUw9W39yvY1K4A+Hu0ZM/KmXIpum7/POoPdePTxbqrC
+	C2E5PBdD3tn9KVRtjNkTn33QrCxlhnENCjFSMOgX8oiRbh83CF0umCO79JZZCRZB
+	K2Pzded/fZ3t4+sOErwqSDOL2c6NS/oNc1Mq1BOHwBUebgCWQGYLKVn4zlw3ELMU
+	+IXDTF0tv9fu8V3auXH26HnmaKvXKIntpwCbhRxpRQgoKtFy4ZI2nxr1pZW4q6jj
+	lwIrBb5Z2xxgiV/qslx/5kL3KJUQAMk/9GQYB+6+vDMq8NEkD/8fNctsWhr3aP7P
+	bNQV678rukmk661Vrlx43lnqqYD9LD+W4LTafAA==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=mi-m=1; hc=14;
 	hn=cc,content-language,content-transfer-encoding,content-type,
 	date,feedback-id,from,in-reply-to,message-id,mime-version,
 	references,subject,to,user-agent;
-Message-Instance: m=1; h=sha256:D3p1DLX3PbFpJz6EcwVkjic9keHvEuaBdt3Y/IcRqqQ=:wM50s4Sko8VHvk1R2Yz8yM7E6K5uBbzKhwHDk+qBbmI=;
-X-ME-Sender: <xms:QP_9aiYsGS2eCj5I4dtefevAUi7LsPKEgAAtnrCQTO_vfVBI1W7zig>
-    <xme:QP_9aofx3qgYubnVfAZd2OefoNWX1WirtW1APAJg7Okjp1FClYrJjFWufIzm24b7C
-    BIZTrKemrhSB-AbIkoRzO-19g2eycadelHxHxEuoRdOABmhW7gA_w>
-X-ME-Received: <xmr:QP_9ann4fUphn-xHlLQcT05GXs6sK12_pS4fXdENALXgj9rvq-x1M5YseOX63L_yVINtCesEYap4RrNxwfRzED__qKhvWUw3SYi7G7xVmbe_OP7SxQ>
-X-ME-Proxy-Cause: dmFkZTGBzlEkt45nFNQKQ8X22V44dh/+XThQplDmZAYLv3KAXLmejJ35kqUz+X5LVgxNWR
-    Yx6dnZSYgAgDxjWB3dtaIi8bNqbqlkmENb2RFRAeMq3BtjTjDOkaWGpw/E3/aRBDUFeR66
-    zfX2e97fyLLFT6Xq2Xul2JQdIR+/ArJhVMuZFN6CNNFNcgtb2in8cXr36ZrAqFclAMShHj
-    KmQ81+ISmzNsLuNQ03yMB+XJtJo12R2E/N0rbPRrqpR7+aBkf9+uLAOSazynqufH2P4piH
-    xtNUfS401TYbtr85tFO+bFnli4XdyAKLDjkQC8MYHiyAunABn0DlR4f9mVkuSDdoJsJlQ9
-    1askMdx9ozeqz3IUXXsb9Xu7MFzYpWBk95/SxizgcJ/rnCjS0+m7c9oF50Mbkj8/PrCncL
-    n4JS2m/6cMYspXBGlStYjP+ZFhTRBsIVfEoHdJZ5fAQYSgY0UvpkSP9cFbG1rIhwBguiBv
-    SD/1E5R2V3ZqSnZBVpw+rhltMgIzR8HHTcqdI+PVA2KQOcOsPY3H/9rixRlxyNNwWgmood
-    lbGSEkR3Jgt7PCIiWPNpzQ71KpGAGTwXWVFaewp9WTOuDhY4ZPvC03avnBFWc8hCsBXpNs
-    ZvhbquV57Ix9BB62vuO5fbV5U0jeD0K06Kyx/zSkxUTxxtWKjf8pF3ecWanA
-X-ME-Proxy: <xmx:QP_9ag35bbtPrm8IOhEoolH9GZahbFdN6Q6FpFaCcPEZNR8teibwdA>
-    <xmx:QP_9aochUQ3Rz8LJh3YGrrvETUuO48pLEGXbbUZuAVBZ5DSxZfgm9Q>
-    <xmx:QP_9aiahkEyFJwcermJujLtwzFk9nkIOvelkfy-YXgWqHd_9iC8unw>
-    <xmx:QP_9alGD35aUjMYK59b_KX8TZqzSBCRdmsH_xilkBNMiwaTxraaOjA>
-    <xmx:QP_9ahp7RRpcD1TNMYSb2xXm2zALyxr_Yjy9pXUN0g6FrBaCsGVMhAaU>
+Message-Instance: m=1; h=sha256:DBw6MwT0A/9yfAR3E59js9Rlcfp5upJWmiAE6B98S8g=:Dd53dfMD02esYoTzu4UOAQnkg85CTIqhzdDNX6taZIo=;
+X-ME-Sender: <xms:vBP-anTb6S_9rRWqLxkV_AXujnoeiFZ8GGRy-GhL8epqmQlP3ojprw>
+    <xme:vBP-ar2pIZlyN-kHsb8k677x60J3SWhNZMKr-YksWo5Nx0GM-R03S3ebQydpP4ZXM
+    fQ7sTo1MGZ5xarQFx28MN-1PZPeAH82PDxiQGE3DB-N9R9k1nlOY3k>
+X-ME-Received: <xmr:vBP-anfrLi5rhP2at09t3dEP57l5mXILEp_kC9QSNeRqd2Kx0XIbXbHrs-s5bopCBsDjgBmIVKIb2tEDyjpQFqXQf8ujor7AuAFd7cXtu9gFd688rg>
+X-ME-Proxy-Cause: dmFkZTEUNMEfQCdr7W+iZjs3Q2JR36Y9OZvZt6oxLs3R11vwS5ii52bbSgXHONW9FEwScO
+    zLdV+Xhv12tZaUmwOfkDn0eYn8dRASgrThhO9Q8mfzbtVOONxD1cSqzt/qp2WXd6FkQAGE
+    WA4TJmvRJkXzr4TfxMYp1sGxRDVCk3ilBqnmZLEyqAyi5bv4G6hoUtd7/a6BpY/sMrsUim
+    M6/Zfb2Nzdy00G766lZmTVIifG+Sek+nbvTv+ABxJ6KrplqmNpTmS/LkcBQAQa9GQ0r7Zs
+    Vu0UuNRgP9c1S4Mgm4BBmw/XRwKvvJFlvjH/4jiBrVoLIU8RWBL5+8bxHJ7fqDsfQWmABJ
+    vqshS+J5zU4mvu+d5vK2rx4JKUd7O8iK6a3IgLx/sjIKNTBAlvRfSMeTWF5/Gdli779fgF
+    cv9p1cTsW0WvI2QHXGCiL6aBR4cvR54zGLqiTyyJnEEMaxMohXlY35AIouwsLiPB3fvPS8
+    hoT8ih3IaGfRGQw4GJMxYrILZ0TWSgVXZr+xUxTJooX7KBboE189M7FpMJ25UHEx1geUR/
+    OkqaLC2DqB3zSsNrf5+mBrEECIbHs8ZpBJuQSM0Rus/GBHi1UfY3UOLhwZVZCPxXu44Qcq
+    86UNiXMQArrlM1O6P4fzCEI64TN9VPgylS8aJWm8ci+8OriPVIXGNYJXg4DQ
+X-ME-Proxy: <xmx:vBP-ajOjPe7yXmFRvbJeGDfGm_rvvCIeHipulBdO70EhwMChih-BFQ>
+    <xmx:vBP-arW3ohEgpmzl9wwlWs35zAZiuEkXkUcfzaFK93enPzPnqUmrCQ>
+    <xmx:vBP-arzmosYM3OgqvtFABsIZ8wBtzdssngfsc6UpDvIKiGc7D1WtMA>
+    <xmx:vBP-ai_oczUAFwVZBcjNTJ_8bPGVBjpXlfCEVQ6wsRctmTsCHEEovg>
+    <xmx:vRP-asA8yw3pUZnckYKGOTYgcB2I25ISIPV1J6faNqMyv7Hq1PPLdk_->
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Nov 2026 14:40:46 -0500 (EST)
-Message-ID: <6c455765-a161-4a95-bca0-e82f8ae143ff@bsbernd.com>
-Date: Wed, 18 Nov 2026 20:40:45 +0100
+ 18 Nov 2026 16:08:11 -0500 (EST)
+Message-ID: <9bac7320-5e1a-4647-914e-d29d0db1dc3d@bsbernd.com>
+Date: Wed, 18 Nov 2026 22:08:09 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -266,9 +266,99 @@ On 11/18/26 18:40, Bernd Schubert wrote:
 > just an open+getattr, we could also use that for the issue above, with the
 > same new op code. However, we need Miklos' agreement here. 
 > 
+> We happen to have an online meeting once per month and the next is tomorrow,
+> would you mind to join?
+> 
+> 
+>> +	struct fuse_open_out *outopen;
+>> +	struct fuse_entry_out outentry;
+>> +	struct inode *inode = NULL;
+>> +	unsigned int open_size;
+>> +	u64 attr_version, evict_ctr;
+>> +	struct fuse_file *ff;
+>> +	struct dentry *res;
+>> +	bool locked = false;
+>> +	int epoch, err;
+>> +
+>> +	if (entry->d_name.len > fc->name_max)
+>> +		return -ENAMETOOLONG;
+>> +	forget = fuse_alloc_forget();
+>> +	ff = fuse_file_alloc(fm, true);
+>> +	if (!forget || !ff) {
+>> +		kfree(forget);
+>> +		if (ff)
+>> +			fuse_file_free(ff);
+>> +		return -ENOMEM;
+>> +	}
+>> +	outopen = &ff->args->open_outarg;
+>> +	if (!fc->dont_mask)
+>> +		mode &= ~current_umask();
+>> +
+>> +	/* The VFS truncates after may_open() */
+>> +	memset(&inarg, 0, sizeof(inarg));
+>> +	memset(&outentry, 0, sizeof(outentry));
+>> +	inarg.flags = flags & ~(O_NOCTTY | O_TRUNC);
+>> +	inarg.mode = mode;
+>> +	inarg.umask = current_umask();
+>> +	args.opcode = FUSE_OPEN_ATOMIC;
+>> +	args.nodeid = get_node_id(dir);
+>> +	args.in_numargs = 2;
+>> +	args.in_args[0].size = sizeof(inarg);
+>> +	args.in_args[0].value = &inarg;
+>> +	args.in_args[1].size = entry->d_name.len + 1;
+>> +	args.in_args[1].value = entry->d_name.name;
+>> +	args.out_numargs = 2;
+>> +	args.out_args[0].size = sizeof(outentry);
+>> +	args.out_args[0].value = &outentry;
+>> +	args.out_argvar = true;
+>> +	args.out_args[1].size = sizeof(*outopen);
+>> +	args.out_args[1].value = outopen;
+>> +
+>> +	if (flags & O_CREAT) {
+>> +		err = get_create_ext(idmap, &args, dir, entry, mode);
+>> +		if (err)
+>> +			goto out_free;
+>> +	} else {
+>> +		/* Locked as for FUSE_LOOKUP */
+>> +		idmap = &invalid_mnt_idmap;
+>> +		locked = fuse_lock_inode(dir);
+>> +	}
+>> +	epoch = atomic_read(&fc->epoch);
+>> +	attr_version = fuse_get_attr_version(fc);
+>> +	evict_ctr = fuse_get_evict_ctr(fc);
+>> +	err = fuse_simple_idmap_request(idmap, fm, &args);
+>> +	fuse_unlock_inode(dir, locked);
+>> +	free_ext_value(&args);
+>> +	if (err < 0) {
+>> +		if (err == -ENOSYS) {
+>> +			fc->no_open_atomic = 1;
+>> +			err = 1;
+>> +		} else if (err == -EEXIST) {
+>> +			fuse_invalidate_entry(entry);
+>> +		}
+>> +		goto out_free;
+>> +	}
+>> +
+>> +	open_size = args.out_args[1].size;
+>> +	if (open_size && (outopen->open_flags & FOPEN_CREATED))
+>> +		fuse_dir_changed(dir);
+>> +	err = -EIO;
+>> +	if (outentry.nodeid && (invalid_nodeid(outentry.nodeid) ||
+>> +				fuse_invalid_attr(&outentry.attr)))
+>> +		goto out_reject;
+>> +	/* A zero nodeid: the name does not exist and nothing was opened */
+>> +	if (!outentry.nodeid && (open_size || (flags & O_CREAT)))
+>> +		goto out_reject;
+>> +	/* Only a regular file is opened */
+>> +	if (open_size && (open_size < FUSE_COMPAT_OPEN_OUT_SIZE ||
+>> +			  !S_ISREG(outentry.attr.mode)))
 
-Btw, another reason for a different struct would be future flags to tell
-the fuse server that the kernel now supports directories and other file
-types. Sure, it could be done globally in FUSE_INIT, but we are running
-out of these global flags and IMHO not so nice to have it global, when
-it can be done local.
+Why not just (open_size < sizeof(*outopen))? Why would we need to handle
+a compat size for atomic open?
+
+>> +		goto out_reject;
+>> +	if (outentry.nodeid) {
+>> +		inode = fuse_iget(dir->i_sb, outentry.nodeid,
+
+Thanks,
+Bernd
