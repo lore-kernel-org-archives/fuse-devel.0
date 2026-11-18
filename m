@@ -1,133 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=114.111.35.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795014001;
-	b=FQ7tb7BYmG1qqji6Nzw/9jhIsIuOJKmsKrwXLYyXXnBGV/keL/cLt2YseaUEXhJbPPJD
-	 2Pdph4tj8ziNdLs0e2uT/dZ59necCs945v9BOqGrOmxR0hVHhFKasR5Zv/EgS3zmSIfzn
-	 jquoF2g5mikWSOwSanKxZJjVZXpFJVI0ob64tn20Pocd1ZM10MZl1hQSDB2w/FZU47rVq
-	 3edoqkopRYF6dWM4djuZTTZ5GJscni53y6itX4E8spza+Q8PZIXq3gUMzVspXKxrw07th
-	 xsl0sZlDYfq/wysYff/x3yYa+3ytw1lTZCNz7s4NQwN8w7PJlAWvsZUG9+5KDleEfUg==
+	t=1795017282;
+	b=fXbpbfqhXAzTOVcLcRmT33fdbMMm3mswT6Qgbe3jvwK4xmMQEHCshagbWpyYrGH0eRcD
+	 D32SwBqgXcgUAYXaHak2ePBUh8+glWdixqdLK1wvowux3uNh/Zyln+vuvH+eYHVUxuppx
+	 n3ITWBWVj+qnvVneyrJS7xcOUVitaXxVwMvWZqVwaqmXYpShudwU4pjSanaP7YtIYu3N/
+	 UgJQKNC7SPG+G4XJTqHKDGX8OJuVszseADt8ttXCC1NRPg37UCDn1UoEKjUACOrHRf7ng
+	 LgxKIX66BnJCNYq56nm0DooGj42OW4aCuQnzJ62qrnSOhaFn/JmsiOO+ozQHTcDJGnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795014001;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding:
-	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
-	bh=5BgqYWkr5dDEaPyxorYR6MRSFIGspFJ29qovXVtBSKU=;
-	b=NOun4vyBkUyfKBFa75JJuk/xL8L3wPwkgnpUXnWGyF2xlkMm966B9zfbAhCyEfUqfYGi
-	 3kJfKhM0GjvhW0lalZQmy5pAkgcQqR/ci6dXlU/UkxcHlw7CSnQVu0//w5fPWwbFJRAoC
-	 55ZcGWVVoj6wvOgsh4YNjTBJZoYE24xnp+/szqroYP+Po235tdoHt2vUYndAkW2o/qhUL
-	 h6b2wdl2G9hf6Ajbr/fKqWOqOorSxE6/9Nq87we+dEO0edfArnn82zV6aq9f44TC8Q9v3
-	 ub7e6Aae3SD+6dE+JRFNQEaRc0bhDcz+3P0kKaTyptuV3gO49/UVo5BjAtAKvEDEoLg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795017282;
+	h=DMARC-Filter:X-Originating-IP:X-Works-Smtp-Source:Received:
+	 DKIM-Signature:X-Session-ID:MIME-Version:Message-ID:Date:From:
+	 Importance:To:Cc:Subject:X-Originating-IP:X-Works-Send-Opt:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=A0pQAgaHccuRhxgHaaE9wYPFsrqIKo+SuMixMJFMl7o=;
+	b=uEUTtYP7WUET4khGJPF8RfstjaJglqj85o/6GmbSi+Brm0rmIrJAFvdD+FGNq5yBHNwU
+	 JXabYdSvoaXWp16natkMxTPKF2k9CpWEpNYeHJgc3G0G3jHWKxH0rbaRSjW+TvslMcoOk
+	 DPFVUQzD+zLeEhyYvCuUBOKexyizuxX/0KJD5FU1G3/cJnRz0DX407QVGxtSszT5ur0SK
+	 R9J6Xzsh+phdFASaWW/RBlYrbBv/K8khXjWT2OCO9eoFKNz4oCMyh7GY/UHUfkCXc9Dal
+	 5xTqunr8+oFrR8c9FdkgiIa/qOIRh1Gfjs/XBEYXuMdPgx5JivpgCZpyAUVOKjtJZ5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Ytq21vAR;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8+UEmULx;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Ytq21vAR;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8+UEmULx;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dmarc=pass header.from=naver.com;
+	spf=pass smtp.mailfrom=naver.com;
+	dkim=pass header.d=naver.com header.i=@naver.com header.a=rsa-sha256 header.s=s20171208 header.b=foecKHN4;
+	arc=none smtp.remote-ip=114.111.35.108
+Received: from cvsmtppost18.nm.naver.com (cvsmtppost18.nm.naver.com [114.111.35.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1064606A337;
-	Wed, 18 Nov 2026 15:00:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1064606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1025606A32F
+	for <fuse-devel@lists.linux.dev>; Wed, 18 Nov 2026 15:54:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1025606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Ytq21vAR;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8+UEmULx;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=Ytq21vAR;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8+UEmULx
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 19D6222330;
-	Wed, 18 Nov 2026 14:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795013999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5BgqYWkr5dDEaPyxorYR6MRSFIGspFJ29qovXVtBSKU=;
-	b=Ytq21vARCYN35FPU9/qs4OuobfZ63l/McaKJve4ur0wSJGj4vqVZsrJhe66upt2ljViwtj
-	Gokaqc9OjBDIxyq8wqXhl7pzrwlMvZqopvH7T24y25uYvqz4ovuL55IjHpiKjef6giKLHv
-	M7SHbdeybZO8M4qMRH24HcIWHYdGUh8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795013999;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5BgqYWkr5dDEaPyxorYR6MRSFIGspFJ29qovXVtBSKU=;
-	b=8+UEmULxPDalCxGkJ8TkrUvasiirIldjt79VCq25gPRbKHXYr19ASDa0e6Mvy/M9eZCbfh
-	EEu1g3Edc1VtZPCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1795013999; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5BgqYWkr5dDEaPyxorYR6MRSFIGspFJ29qovXVtBSKU=;
-	b=Ytq21vARCYN35FPU9/qs4OuobfZ63l/McaKJve4ur0wSJGj4vqVZsrJhe66upt2ljViwtj
-	Gokaqc9OjBDIxyq8wqXhl7pzrwlMvZqopvH7T24y25uYvqz4ovuL55IjHpiKjef6giKLHv
-	M7SHbdeybZO8M4qMRH24HcIWHYdGUh8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1795013999;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5BgqYWkr5dDEaPyxorYR6MRSFIGspFJ29qovXVtBSKU=;
-	b=8+UEmULxPDalCxGkJ8TkrUvasiirIldjt79VCq25gPRbKHXYr19ASDa0e6Mvy/M9eZCbfh
-	EEu1g3Edc1VtZPCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D555B134E9;
-	Wed, 18 Nov 2026 14:59:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gK5WLW69/WqkXwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Wed, 18 Nov 2026 14:59:58 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 0462E2509F; Wed, 18 Nov 2026 15:59:54 +0100 (CET)
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: <linux-fsdevel@vger.kernel.org>,
-	Andreas Gruenbacher <agruenba@redhat.com>,
-	gfs2@lists.linux.dev,
-	Mike Marshall <hubcap@omnibond.com>,
-	Martin Brandenburg <martin@omnibond.com>,
-	devel@lists.orangefs.org,
-	Dave Kleikamp <shaggy@kernel.org>,
-	jfs-discussion@lists.sourceforge.net,
-	Carlos Maiolino <cem@kernel.org>,
-	linux-xfs@vger.kernel.org,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	linux-afs@lists.infradead.org,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	fuse-devel@lists.linux.dev,
-	<linux-block@vger.kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	linux-nfs@vger.kernel.org,
-	Eric Biggers <ebiggers@kernel.org>,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	linux-fscrypt@vger.kernel.org,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH 09/13] gfs2: Fix dirtiness checks in gfs2_write_inode() and evict_linked_inode()
-Date: Wed, 18 Nov 2026 15:59:43 +0100
-Message-ID: <20261118145941.1063127-22-jack@suse.cz>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261116171044.6938-1-jack@suse.cz>
-References: <20261116171044.6938-1-jack@suse.cz>
+	dkim=pass (2048-bit key, unprotected) header.d=naver.com header.i=@naver.com header.a=rsa-sha256 header.s=s20171208 header.b=foecKHN4
+X-Works-Smtp-Source: zXn/axtlFqJCpNmdFq2dWHF0
+Received: from nv1m-hmac-real-14 ([10.174.201.121])
+  by cvsmtppost18.nm.naver.com with ESMTP id rKSnSOdRStKJeKICyTT1zg
+  for <multiple recipients>;
+  Wed, 18 Nov 2026 15:54:34 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1795017274; bh=A0pQAgaHccuRhxgHaaE9wYPFsrqIKo+SuMixMJFMl7o=;
+	h=Message-ID:Date:From:To:Subject:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=foecKHN4wrbD994eE2U2wXpKOFjbbu9lxIISf2c7h6YA5R4nk8oOrLjZHn5Ax4E5E
+	 rQxI+G3HGPcs0M72S6ALBaQrHXThAc/oFB6JWxyzRhC9ZlvpZJeI+wCubZzq3w/cRQ
+	 XZIdDDYqMYp7z936tL42FXh4TDa0Xgz5e6FqZ4GTkyMY07SYUj1xvG+pnPPhfYxBmh
+	 ZVGdK7dIKexOM2RhNo99AI+3RBFwK/Ua00YprYGKEcDSqOHU5DKnAsfVn3BEO0TpzT
+	 bg5F+ZqaLbU0nlTo+SwhFI7JbK6rKlwFG2bhAQZJveL3pfZO4qPkWAVAsJ4cP6X869
+	 hUxEdJqur/lsg==
+X-Session-ID: 1c6ac6cd7c90a75bda16e79551adbc2c607217018d0495bc93d8c9df47ab9c60
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -137,70 +59,58 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1351; i=jack@suse.cz; h=from:subject; bh=JUAS52XSvpeUyCESIR6NEVkfaPXelV0p15UKZLgcatI=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBq/b1kciwdNfITyjGdyuqRw51GfobJyfmDjFytH 02y9FPPDFKJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCav29ZAAKCRCcnaoHP2RA 2YL3CADSy1X5HRqWpQL5OXpARB2z1ddQspe5MRdnZYA6qdIkFNuTYh69dtLkRK+HpVDgzYIeUVn yIw6gsjDBICnajNxKUsJi62anZ49k2Cx/asgX6Ks5xgbpD/jW1g217m42EXXSUleWHP03eO/Txe 0Z06kBr8Aois2PxbyX0/yZKEhXkszDARMKMPNe3nuxv7JhZFHaQjB91j7zliQU7EugP5aY5Ts0F Kqk1P26VcoE9I+jRh0HFWD9meT4BQn8/UI+QH+uVCS9C3QUqANR0pxftRbE9P9V2eGXnwZq5maO w0SgGWsebOd5/YHBtA08Ayp0F1PstN3IJ/Tg50CpTMjtvBrs
-X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-15.80 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.993];
-	MIME_GOOD(-0.10)[text/plain];
-	URIBL_BLOCKED(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLyaw51ggmke6bkcxeyajg5whq)];
-	RCVD_COUNT_THREE(0.00)[3];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -15.80
-X-Spam-Level: 
-X-Spam-Flag: NO
+Message-ID: <2a2eb8c6a3fc9d6e2dbdc4e5bb8c956e@cweb004.nm>
+Date: Thu, 19 Nov 2026 00:54:33 +0900
+From: =?utf-8?B?U2lldW4gWWFuZw==?= <didtldms2525@naver.com>
+Importance: normal
+To: <bernd@bsbernd.com>,
+	<joannelkoong@gmail.com>
+Cc: <miklos@szeredi.hu>,
+	<fuse-devel@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: =?utf-8?B?W1BBVENIXSBmdXNlOiBlbmZvcmNlIGZpbGUgbW9kZXMgZm9yIGlvX3VyaW5nIGNvbW1hbg==?=
+	=?utf-8?B?ZHM=?=
+X-Works-Send-Opt: +dedpz0vjHmZFxiqW63nFBmmjApYKxtwFA2wKqbqaBwtxBmwjAg=
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The checks are bogus because they check against inode->i_flags instead
-of inode->i_state. Use the inode_or_folios_dirty() helper which actually
-checks what was intended.
-
-Fixes: 957a7acd46e6 ("gfs2: Remove inode from ordered write list in gfs2_write_inode()")
-Fixes: bd67f17718cc ("gfs2: Fix data loss during inode evict")
-Signed-off-by: Jan Kara <jack@suse.cz>
----
- fs/gfs2/super.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/fs/gfs2/super.c b/fs/gfs2/super.c
-index 04bb4cf787d4..9b723dd591a5 100644
---- a/fs/gfs2/super.c
-+++ b/fs/gfs2/super.c
-@@ -460,7 +460,7 @@ static int gfs2_write_inode(struct inode *inode, struct writeback_control *wbc)
- 		mark_inode_dirty_sync(inode);
- 	else {
- 		spin_lock(&inode->i_lock);
--		if (!(inode->i_flags & I_DIRTY))
-+		if (!inode_or_folios_dirty(inode))
- 			gfs2_ordered_del_inode(ip);
- 		spin_unlock(&inode->i_lock);
- 	}
-@@ -1418,7 +1418,8 @@ static int evict_linked_inode(struct inode *inode, struct gfs2_holder *gh)
- 	struct address_space *metamapping = gfs2_glock2aspace(gl);
- 	int ret;
- 
--	if (!(test_bit(GLF_DIRTY, &gl->gl_flags) || inode->i_flags & I_DIRTY))
-+	if (!(test_bit(GLF_DIRTY, &gl->gl_flags) ||
-+	      inode_or_folios_dirty(inode)))
- 		goto clean;
- 
- 	/* The inode glock must be held exclusively and be instantiated. */
--- 
-2.53.0
-
+T3JkaW5hcnkgcmVhZCgpIGFuZCB3cml0ZSgpIGVuZm9yY2UgRk1PREVfUkVBRCBhbmQgRk1PREVf
+V1JJVEUgYmVmb3JlCnJlYWNoaW5nIEZVU0UuIElPUklOR19PUF9VUklOR19DTUQgZG9lcyBub3Qs
+IGFuZCBGVVNFJ3MgY29tbWFuZCBoYW5kbGVyCmRvZXMgbm90IGNoZWNrIGVpdGhlciBtb2RlLiBS
+RUdJU1RFUiBjYW4gdGhlcmVmb3JlIGRlbGl2ZXIgcmVxdWVzdHMKdGhyb3VnaCBhbiBPX1dST05M
+WSBjb25uZWN0aW9uLiBDT01NSVRfQU5EX0ZFVENIIGFsc28gZW50ZXJzIGl0cwpyZXBseS1hbmQt
+ZmV0Y2ggcGF0aCB0aHJvdWdoIGFuIE9fUkRPTkxZIGNvbm5lY3Rpb24uCgpUaGlzIGNhbiBleHBv
+c2UgZGF0YSB0byBhIHByb2Nlc3MgZ2l2ZW4gb25seSBhIHdyaXRlLW9ubHkgRlVTRQpjb25uZWN0
+aW9uLiBPbiA3LjQuMC1yYzMtZzIwZWVmMjliN2M4NCB3aXRoIGZ1c2UuZW5hYmxlX3VyaW5nPTEs
+CnVpZCAxMDAwIHJlY2VpdmVkIGEgRlVTRV9XUklURSByZXF1ZXN0IGNvbnRhaW5pbmcgMzYgYnl0
+ZXMgd3JpdHRlbiBieQp1aWQgMjAwMCBhZnRlciBiZWluZyBwYXNzZWQgb25seSBhbiBPX1dST05M
+WSBjb25uZWN0aW9uIGZkLiBPcmRpbmFyeQpyZWFkKCkgb24gdGhhdCBmZCByZXR1cm5lZCBFQkFE
+RiwgYW5kIG5ldyBPX1JET05MWSBhbmQgT19SRFdSIG9wZW5zIG9mCi9kZXYvZnVzZSB3ZXJlIGRl
+bmllZC4gVGhlIG1vdW50IHVzZWQgZGVmYXVsdF9wZXJtaXNzaW9ucyBhbmQgYSBmaWxlCm93bmVk
+IGJ5IHVpZCAyMDAwIHdpdGggbW9kZSAwMjAwLgoKUmVxdWlyZSBGTU9ERV9SRUFEIGZvciBSRUdJ
+U1RFUi4gQ09NTUlUX0FORF9GRVRDSCBib3RoIHN1Ym1pdHMgYSByZXBseQphbmQgZmV0Y2hlcyB0
+aGUgbmV4dCByZXF1ZXN0LCBzbyByZXF1aXJlIEZNT0RFX1JFQUQgYW5kIEZNT0RFX1dSSVRFLgpU
+aGUgc2FtZSB0ZXN0IHJldHVybmVkIEVCQURGIGZvciBSRUdJU1RFUiB3aXRoIHRoZSBjaGFuZ2Ug
+YXBwbGllZC4KCkZpeGVzOiAyNGZlOTYyYzg2ZjUgKCJmdXNlOiB7aW8tdXJpbmd9IEhhbmRsZSBT
+UUVzIC0gcmVnaXN0ZXIgY29tbWFuZHMiKQpGaXhlczogYzA5MGM4YWJhZTRiICgiZnVzZTogQWRk
+IGlvLXVyaW5nIHNxZSBjb21taXQgYW5kIGZldGNoIHN1cHBvcnQiKQpDYzogc3RhYmxlQHZnZXIu
+a2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBTaWV1biBZYW5nIDxkaWR0bGRtczI1MjVAam51LmFj
+LmtyPgotLS0KIGZzL2Z1c2UvZGV2X3VyaW5nLmMgfCA1ICsrKysrCiAxIGZpbGUgY2hhbmdlZCwg
+NSBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZnMvZnVzZS9kZXZfdXJpbmcuYyBiL2ZzL2Z1
+c2UvZGV2X3VyaW5nLmMKaW5kZXggNDYwNzc2Y2Q2Li40ODEzNjhhYzkgMTAwNjQ0Ci0tLSBhL2Zz
+L2Z1c2UvZGV2X3VyaW5nLmMKKysrIGIvZnMvZnVzZS9kZXZfdXJpbmcuYwpAQCAtMTY5OCw2ICsx
+Njk4LDggQEAgaW50IGZ1c2VfdXJpbmdfY21kKHN0cnVjdCBpb191cmluZ19jbWQgKmNtZCwgdW5z
+aWduZWQgaW50IGlzc3VlX2ZsYWdzKQogCiAJc3dpdGNoIChjbWRfb3ApIHsKIAljYXNlIEZVU0Vf
+SU9fVVJJTkdfQ01EX1JFR0lTVEVSOgorCQlpZiAoIShjbWQtPmZpbGUtPmZfbW9kZSAmIEZNT0RF
+X1JFQUQpKQorCQkJcmV0dXJuIC1FQkFERjsKIAkJZXJyID0gZnVzZV91cmluZ19yZWdpc3Rlcihj
+bWQsIGlzc3VlX2ZsYWdzLCBmY2gpOwogCQlpZiAoZXJyKSB7CiAJCQlwcl9pbmZvX29uY2UoIkZV
+U0VfSU9fVVJJTkdfQ01EX1JFR0lTVEVSIGZhaWxlZCBlcnI9JWRcbiIsCkBAIC0xNzA4LDYgKzE3
+MTAsOSBAQCBpbnQgZnVzZV91cmluZ19jbWQoc3RydWN0IGlvX3VyaW5nX2NtZCAqY21kLCB1bnNp
+Z25lZCBpbnQgaXNzdWVfZmxhZ3MpCiAJCX0KIAkJYnJlYWs7CiAJY2FzZSBGVVNFX0lPX1VSSU5H
+X0NNRF9DT01NSVRfQU5EX0ZFVENIOgorCQlpZiAoKGNtZC0+ZmlsZS0+Zl9tb2RlICYgKEZNT0RF
+X1JFQUQgfCBGTU9ERV9XUklURSkpICE9CisJCSAgICAoRk1PREVfUkVBRCB8IEZNT0RFX1dSSVRF
+KSkKKwkJCXJldHVybiAtRUJBREY7CiAJCWVyciA9IGZ1c2VfdXJpbmdfY29tbWl0X2ZldGNoKGNt
+ZCwgaXNzdWVfZmxhZ3MsIGZjaCk7CiAJCWlmIChlcnIpIHsKIAkJCXByX2luZm9fb25jZSgiRlVT
+RV9JT19VUklOR19DT01NSVRfQU5EX0ZFVENIIGZhaWxlZCBlcnI9JWRcbiIsCgpiYXNlLWNvbW1p
+dDogMjBlZWYyOWI3Yzg0NjVhYzk4ZDdkZDZkNmYyYWMwN2E4ZDgwNTZjYQotLSAKMi4zOS41Cg==
