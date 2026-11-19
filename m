@@ -1,56 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.26
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795088158;
-	b=cFb+oZ2Jpxf82DxpHbpW278lblgdWQZummGD/D7UmEUtIVRTe4quJJFS6oHFKPBBSVec
-	 6+7j5LmuC03gtARbuv8U5IIi+znV6H2YaezZOhkGzWmqhQ8Z+U2yMbgx2rW4STbXY5/nY
-	 1Wq7TgSTij7Qcryw33xytiXmH9pVe802Bh28oYVvbq/8dagfZP4unvbPQBXZPpzcu2UFB
-	 v90ExhEQMNlOmktxyQHaFuHskN8J68C45yBBMHtw8zl6/qa7TIujVxt+PI017dxTBb6WU
-	 Mugt5ShjBKToPYY/Sx+bx6/vpYdZ1/RNyN5we0JiQiCku4+Xzddt+MPYFfCZBpyf9sg==
+	t=1795088174;
+	b=YhQHDKEiuppa5iNQclWUGbOz0eDhEbS5nqIEl1gwQUVJEvHm+0mL9qsCTejHqGctd/3s
+	 T0ubtdFG1ChbHbrcEatxAOf9imLtLjCrTToRKtgKQanEDpMpECW0TCHcOAKNdELbmnj1k
+	 VN1b2/LqtpFb+eBSmQK4ONhg0OjZIpXKKTaozWLx8y60KaXVmeqTFTUBtIVk9IMF9BGX8
+	 Q3M1rUKfhODt/MHn20JLNiKZ8oVY+loknXpgCsreekacu8SfwYg+n/SCh6xFU122d/T92
+	 OB1OIdcIX0Lkoq9gdOFV38+fAtuEElc+eLGDYrGiRbCP8fvUw/RASr3zN613JI16BJQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795088158;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795088174;
 	h=DMARC-Filter:DKIM-Signature:Date:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=MvxY/Y9Zvo6fORE1fBiO1lDxDydacUgKXmHewgYKNac=;
-	b=n7VBm/wjjXixPRmZ7twPUTaTBPQAZmZtx6vmqycvxjHV9iHKiUGqI5pqMnnAII4CQ1Pb
-	 LuzZDSP9JaTdcxiZO0e9JwyrLIVKysRzXRP1XGa1ptLinKqAA6vV/1eEuUGAOwLX+Gl/1
-	 MDUbpbNM/4LavydxjjF9vtcazLKGKVqm1YZn6iNLzneWf0tSsqJGs7CMYrT88mr//djfm
-	 L0IHh+NkymJ9XQldvCp9GQjOmciWkV8FC5Ycp2+hBlwr21G3NL2tKFBzsuAfjvm6R748d
-	 n5xl1lQBBN4v/9D8Es7upsw7U+g7Ws1Q+vd83Wc5sat218PccGmztmU2yaLCRcsmIWw==
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=D7ieWAdZhgY7+nwGt61F2fOy1JsFD+leZnNR2qOGpPg=;
+	b=ZuBh4xUQ6YbbTyihT71eQydHZsd/2pA0aGL0R0CFmTwwxx0c9vVyavFt3DhR2H7Vvlae
+	 BiiN2CW5anppJsJ/l4XipUmh9iJrfZ5ZZBDiETFV8rlriHMWaV1sZOfQCWlrxM+PItoV5
+	 UMqGZe+OMnnkKqPl6VLe6cZU7cdzbqt7f07Pq10BAjOXF2PgK+J85+jx3rhZpZjVzxlIx
+	 l1cexXJIhPelAizKB/mhFtZxAWrFU73Y2CXCghstvQHzIzSQpEOuJF35kjBiaPCifKDK7
+	 PdX44pX32cLQE4NyH4Hfhc6Bb6DpUwsUGCeAWTG+y4EdQLtToNNCR8oaOgxEWGVD07g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=a7snv.com;
 	spf=pass smtp.mailfrom=a7snv.com;
-	dkim=pass header.d=a7snv.com header.i=@a7snv.com header.a=rsa-sha256 header.s=protonmail header.b=Zjr1zLzZ;
-	arc=none smtp.remote-ip=185.70.43.20
-Received: from mail-4320.protonmail.ch (mail-4320.protonmail.ch [185.70.43.20])
+	dkim=pass header.d=a7snv.com header.i=@a7snv.com header.a=rsa-sha256 header.s=protonmail header.b=ntkYRxSH;
+	arc=none smtp.remote-ip=79.135.106.26
+Received: from mail-10626.protonmail.ch (mail-10626.protonmail.ch [79.135.106.26])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6B960A2603
-	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:35:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD6B960A2603
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FBF606A333
+	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:36:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6FBF606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=a7snv.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a7snv.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=a7snv.com header.i=@a7snv.com header.a=rsa-sha256 header.s=protonmail header.b=Zjr1zLzZ
+	dkim=pass (2048-bit key, unprotected) header.d=a7snv.com header.i=@a7snv.com header.a=rsa-sha256 header.s=protonmail header.b=ntkYRxSH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a7snv.com;
-	s=protonmail; t=1795088153; x=1795347353;
-	bh=MvxY/Y9Zvo6fORE1fBiO1lDxDydacUgKXmHewgYKNac=;
-	h=Date:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Zjr1zLzZrcajPiYOXjyQtihS2aFpYjeMFDNh3dqDbGHx7Da1+HgcouQqkiBha7fhI
-	 JbkPJcy6R1mGmwtdj1h6C3CAs7Vh3zsfHtfoV9LFD9HJI9yCPNhwu8SAIhrwcd8/Z+
-	 uuE732bUw26xhVSfKgeihhCzZ8G9bNtlESVdGlk91m/qR/SEmhaZ+wntPUqgSjvVjM
-	 GPyzcOWP+cBvR8IctkcG8XAFrjXRZ1y9PP5ax3lZveJ1MxToB7TPwbS/e+wUYU1qtA
-	 xmyOAsYccb+njbY1DG5r0RWwGb1rxpW/ALscKDKyb2YdNQKGPFcK6kgy1TRVX3+Mn2
-	 L99L1/EFFxD6A==
-Date: Thu, 19 Nov 2026 11:35:50 +0000
+	s=protonmail; t=1795088171; x=1795347371;
+	bh=D7ieWAdZhgY7+nwGt61F2fOy1JsFD+leZnNR2qOGpPg=;
+	h=Date:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=ntkYRxSHurOJKusUg8lESGSfF/jhqmyCjKW2+UqbZcRGBiV3+YbpPazguASkYbDni
+	 dr1NLuozVTq+YOJLRRZ4ShSbCRw54xfkOayNtRl32qnjQTX+gga1cfF1RkWPg8XlsK
+	 ctK2hXrZ8X75HQVSRqSMG7IvzKNW6+IHhpfQMEkZTL9HKEqv4ha2NSV5AwZbSxCZ6f
+	 qxE1x5J2ALTfvoEvFB4Nj+nJcDHaZWZeyNzNTDoS0EQ4AxjALMQQ6HWijN1CNpwZ/I
+	 XFTtDKbhDr6rg76nTbCD+NIAY0amGrI3mQhQM+f99tZinPG1kCEXAXu1oxpKjQvGPm
+	 MzQIXHTAaBKHA==
+Date: Thu, 19 Nov 2026 11:36:05 +0000
 From: Yun Wang <arsenova@a7snv.com>
 Cc: Bernd Schubert <bernd@bsbernd.com>, Joanne Koong <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] fuse: don't wait for a sync-init mount in non-blocking reads and uring_cmd
-Message-ID: <20261117075632.59959.p12-0-arsenova@a7snv.com>
+Subject: [PATCH 1/2] fuse: don't wait for a sync-init mount in non-blocking reads
+Message-ID: <20261116235747.60403-1-arsenova@a7snv.com>
+In-Reply-To: <20261117075632.59959.p12-0-arsenova@a7snv.com>
+References: <20261117075632.59959.p12-0-arsenova@a7snv.com>
 Feedback-ID: 235448903:user:proton
-X-Pm-Message-ID: 7ca99a876ca8338cbb4a5bc2b1437c54610f9a79
+X-Pm-Message-ID: a0275a7d4c92142ff425f3f6d0461714f272f8dc
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -63,69 +66,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Since commit dfb84c330794 ("fuse: allow synchronous FUSE_INIT"), a
-/dev/fuse fd with FUSE_DEV_IOC_SYNC_INIT waits in fuse_get_dev() until
-the mount installs the channel.  That suits a blocking read, but
-fuse_get_dev() is also called from O_NONBLOCK reads and from
-fuse_uring_cmd(), so these sleep before the mount as well, until the
-mount or a signal:
+Since commit dfb84c330794 ("fuse: allow synchronous FUSE_INIT"),
+fuse_get_dev() waits until the mount has installed the channel when
+FUSE_DEV_IOC_SYNC_INIT was used on the device.  fuse_dev_read() and
+fuse_dev_splice_read() call it before fuse_dev_do_read() looks at
+O_NONBLOCK, so read(2) or splice(2) on an O_NONBLOCK sync-init device
+that is not mounted yet sleeps until the mount or a signal, instead of
+returning -EAGAIN.  Commit 9f6f44aa5a58 ("fuse: don't block in
+fuse_get_dev() for non-sync_init case") fixed the same hang for
+devices without sync init, which LTP's read_all hit with O_NONBLOCK
+reads of /dev/fuse.
 
- - read(2) and splice(2) with O_NONBLOCK.
- - IORING_OP_URING_CMD, from the task that called io_uring_enter(2),
-   also with fuse-over-io-uring disabled.  Other submissions on the
-   same ring wait as well.
+Add fuse_get_dev_nowait(), which returns -EAGAIN instead of waiting for
+the mount, and fuse_get_dev_read(), which uses it for O_NONBLOCK files,
+and call the latter from fuse_dev_read() and fuse_dev_splice_read().
+fuse_get_dev() is unchanged and keeps waiting for its other callers.
 
-It happens on every kernel I tried since v6.18: v6.18 to v7.3 in QEMU,
-7.2 and 7.4-rc2 on bare metal.  v6.17 has no FUSE_DEV_IOC_SYNC_INIT.
+A non-blocking read before the mount now gets -EAGAIN, the same as
+after the mount while no request is queued.  Blocking reads still wait
+for the mount.
 
-The same wait has caused trouble before.  a8dd5f1b73bc ("fuse: create
-fuse_dev on /dev/fuse open instead of mount") made fds without sync
-init wait there as well, and LTP's read_all, which reads every file
-under /dev with O_NONBLOCK, then hung on /dev/fuse [1].  9f6f44aa5a58
-("fuse: don't block in fuse_get_dev() for non-sync_init case") fixed
-that by returning -EPERM again for those fds.  A sync-init fd still
-waits, as dfb84c330794 intends for a blocking read; these two patches
-take the wait out of the non-blocking read paths and fuse_uring_cmd()
-and keep it for the others.
-
-Patch 1 makes O_NONBLOCK reads before the mount return -EAGAIN, the
-same as after the mount while no request is queued.  Patch 2 makes
-fuse_uring_cmd() return at once the -EAGAIN it returns before FUSE_INIT
-anyway.  fuse_get_dev() itself is unchanged.
-
-->poll has the same problem: poll(2), epoll_ctl(2) and io_uring reads
-of a sync-init fd sleep before the mount too, which is what libfuse's
-sync-init worker ran into [2].  That fix is bigger, since a poller that
-registers before the mount has no fiq->waitq to wait on, so I will
-send it separately, together with a selftest for all of these paths.
-
-Tested in QEMU (virtme-ng) on 7.4-rc2 (067c5c24cef2): with both patches,
-O_NONBLOCK read(2) and splice(2) and IORING_OP_URING_CMD on a sync-init
-fd that is never mounted return -EAGAIN at once, a blocking read still
-waits until a signal, and an fd without sync init still gets -EPERM.
-The poll, epoll and mount tests still wait, as expected without the
-->poll fix.
-
-The patches are against 7.4-rc2 (067c5c24cef2) and also apply to
-fuse.git for-next (ab9787d7e66a).  The Fixes tags point at
-dfb84c330794 because the wait goes back to v6.18, but the patches only
-apply from v7.2 on; older trees would need their own version.
-
-[1] https://lore.kernel.org/all/3c9f8396-41f4-4c88-b883-34bede72b427@sirena=
-.org.uk/
-[2] https://github.com/libfuse/libfuse/pull/1633
-
-Yun Wang (2):
-  fuse: don't wait for a sync-init mount in non-blocking reads
-  fuse: don't wait for a sync-init mount in fuse_uring_cmd()
-
+Fixes: dfb84c330794 ("fuse: allow synchronous FUSE_INIT")
+Signed-off-by: Yun Wang <arsenova@a7snv.com>
+---
  fs/fuse/dev.c        | 12 ++++++++++--
- fs/fuse/dev_uring.c  | 10 ++++++++--
  fs/fuse/fuse_dev_i.h | 14 ++++++++++++++
- 3 files changed, 32 insertions(+), 4 deletions(-)
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
-
-base-commit: 067c5c24cef23d913b67eaaf71ae67e7169a6620
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index 3641abb90d..23ba4f432d 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1705,11 +1705,19 @@ struct fuse_dev *fuse_get_dev(struct file *file)
+ =09return fud;
+ }
+=20
++/* read(2) and splice(2) of an O_NONBLOCK device don't wait for the mount =
+*/
++static struct fuse_dev *fuse_get_dev_read(struct file *file)
++{
++=09if (file->f_flags & O_NONBLOCK)
++=09=09return fuse_get_dev_nowait(file);
++=09return fuse_get_dev(file);
++}
++
+ static ssize_t fuse_dev_read(struct kiocb *iocb, struct iov_iter *to)
+ {
+ =09struct fuse_copy_state cs;
+ =09struct file *file =3D iocb->ki_filp;
+-=09struct fuse_dev *fud =3D fuse_get_dev(file);
++=09struct fuse_dev *fud =3D fuse_get_dev_read(file);
+=20
+ =09if (IS_ERR(fud))
+ =09=09return PTR_ERR(fud);
+@@ -1730,7 +1738,7 @@ static ssize_t fuse_dev_splice_read(struct file *in, =
+loff_t *ppos,
+ =09int page_nr =3D 0;
+ =09struct pipe_buffer *bufs;
+ =09struct fuse_copy_state cs;
+-=09struct fuse_dev *fud =3D fuse_get_dev(in);
++=09struct fuse_dev *fud =3D fuse_get_dev_read(in);
+=20
+ =09if (IS_ERR(fud))
+ =09=09return PTR_ERR(fud);
+diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+index 4b412a7622..bb7e10656a 100644
+--- a/fs/fuse/fuse_dev_i.h
++++ b/fs/fuse/fuse_dev_i.h
+@@ -367,6 +367,20 @@ static inline struct fuse_dev *__fuse_get_dev(struct f=
+ile *file)
+ =09return fud;
+ }
+=20
++/*
++ * Like fuse_get_dev(), but don't wait for the mount of a sync-init device=
+:
++ * return -EAGAIN instead.
++ */
++static inline struct fuse_dev *fuse_get_dev_nowait(struct file *file)
++{
++=09struct fuse_dev *fud =3D fuse_file_to_fud(file);
++
++=09if (unlikely(!fuse_dev_chan_get(fud)))
++=09=09return ERR_PTR(fud->sync_init ? -EAGAIN : -EPERM);
++
++=09return fud;
++}
++
+ void fuse_iqueue_init(struct fuse_iqueue *fiq, const struct fuse_iqueue_op=
+s *ops, void *priv);
+=20
+ struct fuse_dev *fuse_get_dev(struct file *file);
 --=20
 2.56.1
 
