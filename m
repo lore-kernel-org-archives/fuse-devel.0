@@ -1,99 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.154
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795096971;
-	b=TnqlVnq5URkUBjlfBkvXm/zGX3JiHF9Wb5thOccaQv0eFPAw7QzDb6+0ZS51niaNNhGx
-	 ksF2Uh88T0xeO/28v7v75iN5ffq9n6jq0Fd/Je0WeQIImvH9q0jN+RzFhA1iPSBM9um/b
-	 ppZDkHHbUSwSCXxkreTIKuFOFjcXxn5CCMHU9hEHfkueHQzAMALnXXaAj1XSvqfYRTS5U
-	 hQyqgYrMn72aSvtFB+Mmi9Ec79Ij6xPtYhGBwdPgsIN98Uw3xNpMgk4cBMOqbZBosZct8
-	 cPnUIbWpLltUsHyjT5QZ1ITP98jZguCU7/7gffIlEmIV1OohoDWxTx6QSs0jYtSNYkQ==
+	t=1795099009;
+	b=EQEzdeIT1CWljYGzYirDsYa/x1XAojeD3DpaigM8ufBvOOse1E9YrbTZudS+8Zeneq/C
+	 YyA6pJAtYEUdVVNihjosUYOyM7i/Gns2B/C8B/eesH7wG8WRJvnsTd6NoBPSB3ZI12Iee
+	 kieNzAdTjf1fqs7uF7deS4SdEPg1v/ezPzUvc75rt9C3+8q7bNj18nENrhD7A9a7YCTHY
+	 CCkljZsS4uA/OAaORQL7ankGPLGey2s4IxPYrxkWKXTF0qidmLEJyV66i6bjUCmVVJY5F
+	 8AypbQ7mknldXU8pyhhel0t6KI1MYmoMDz2qfBmAuP0Er1CtrNbAPt84Upze2qNntGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795096971;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
-	 Content-Transfer-Encoding:content-type;
-	bh=iFiTy8SvU4f3m9EIRWPCkIao5/K816QhmT2FH1HPQGo=;
-	b=Sci9HRqFk7l28FYODP/6j2Q7Xax/683ZdEm1cRuW4BOpVhvywUXJcpyDgucXO2B4rz4I
-	 +9DBj8Rwm5sI0BV5a2gty+ZLMhZl5BbjBWoFAtPg2+ZJYX/jjisPW0t9O4TqyMCg98uxn
-	 7fOkpSfAbQ6ynynJ5RYf+sMzr0uxoayGCfCqVfPJ9JIHaYPq+6Y1qRBOBA88eHyA3AZxc
-	 1LjvFiIfjR/I2olao4OsbG1wgt1Hwh6VsX+niyonkGF7cwDntlF6J6BFYtgBwS6nVHSIH
-	 tG48cTJW85Lrs1MQu20fXz/XoUk3TeyhXT6ZCCmLJ2QMNypZh7d9z+ADHVyztvCcTIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795099009;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=WmV/U8LZLPdttcHTW3sLuxyGM8QnROSm2WcI1dzxycs=;
+	b=fXgOCWOkKlvCVx0/YkzWAZ6RNcjR6POQZRF5YSHY5ytXKmyT5vtzBR1LDf9cZvdI0Wy0
+	 BUU9YigeoLNqIKWUdwmbkamVszGvIgnpotoYSHevBwHkM62+qT6lFRvZvrcsTbJIAOkJz
+	 kma2wAl+qkaL3yuKMsM4AcNTz+ergrDQjPbBjrRQc7BINxDxXFGvwhcuQKwxTpfxKcrPk
+	 xPq5SHQM2FpJpVIhL5eWnL3eI7G5mcKX16dEEjEGaNB7pSTWwsxRr5+BlTEOYzXcuBcJP
+	 3sMm2M+rDDqtrKyVYeWYSwg9Gbwp/2VDPgB3yBPbGbdeg/hMnRHQb1OUCC4+HyKpGAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CWTa4fJk;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dmarc=pass header.from=bsbernd.com;
+	spf=pass smtp.mailfrom=bsbernd.com;
+	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=T7RMNVCL;
+	dkim=temperror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=UFqL1oGD;
+	arc=none smtp.remote-ip=103.168.172.154
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C7F606A33F
-	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 14:02:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2C7F606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DC3606A324
+	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 14:36:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5DC3606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=CWTa4fJk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795096969;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iFiTy8SvU4f3m9EIRWPCkIao5/K816QhmT2FH1HPQGo=;
-	b=CWTa4fJkFVwXsFwqxhhW+2NIsB76hWRd0qzxzNrIx5hEDfTsIBhuSS4w0xWR8wOFcvvspF
-	xW8kF3MEehe/WotDuIHnGj6t66AfzZWLwrRT8iKzBVJ3v7yOnSzsAJbyZ2htsUqYsd1q/O
-	AjLUDtbKkBuihqyqY5YWM20+h/EP3Tk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-256-gct0Kub7P7iLBtJfTBcIoQ-1; Thu, 19 Nov 2026 09:02:48 -0500
-X-MC-Unique: gct0Kub7P7iLBtJfTBcIoQ-1
-X-Mimecast-MFC-AGG-ID: gct0Kub7P7iLBtJfTBcIoQ_1795096966
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-4a799d93bc3so882457f8f.1
-        for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 06:02:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795096966; x=1795701766;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=iFiTy8SvU4f3m9EIRWPCkIao5/K816QhmT2FH1HPQGo=;
-        b=GFii0+tZBEhxv3Rl7f0zMqpO0q52MhiZ4TdvISaoM2bJKKrye93n88tQWe/2Lyk4Xb
-         5KXGMuMQX0gc13ag0TH2WSsIK0mqPMaCFENrOGdNeDME6sike5FQjpV8QfOaVfD0gEaq
-         XcQLHJY3JGNowcWRjxzZ1bG/ilznkd4Qoq45oX0SP4qxTDiYV+PsabJF2nw5z+e9SuHS
-         OpvL1pJGT1dsHtk9col5TTmAFvGKfcg5WIdzCJqGxtgB8+sd6xxWmPWO6u0OqvOcsUSq
-         STT1mk1f3kFXzJRsWaz4HQEov7F9HX2S5RaBqGumy053wJKSOI1rir79fIOoYsP06Vm0
-         Z/1A==
-X-Gm-Message-State: APuU4Z/05MIXVovfdOGw5tDsS+mHXlLanSodO735an0jjQr00I97yWCx
-	FReqvl/Z/R5l9Oyvblk/5KUDNL3SW+aN6dM25NhmdmacPFrIccRio1/CMTFj3d/xTyjqmEI/oYu
-	DuQZcZmFANws+NzTYF4PJa77KYfxpjG39qYh40HKIdxvGkg6G6MYk8rVeI+kb0c7NEZXutciWbo
-	8orkfsDyyo68NYqII3sMqB0aNSZaX69MweprIBtETjee/J03Q=
-X-Gm-Gg: AZFdTZe4FXeCCBIIhMUgGf8FpzGWX9lCq96mjyRBcvLZ8BqRSy8X9CWBGr1yNSifzwa
-	uP/A++jBJ0ljk+AFGGsd8AgikjZUMxX1X6tHfxWQqipuAi2HZCkadjBqVxD6SDH0YKosh78/G0M
-	z7ZCGfhM1rrxhgXQ0pVSgiiR2UMO39xxc6HbgDWhYJ4myTxuhPOtfpBokAMWoEuamDxFRlkU1ri
-	WGEMTTVeyNFlmurWe7GGYgg/pdjGKOGBZt7sNTWYgKPFmoKyuftDlPomdNgz9eCsMkd6pUCXcXs
-	ZxcRseEMtZ0sFnBr8pYvS3dVijizv/OmV7wH6w0jhnZUEPKOcdfaRz2a3u/noTNEAIuylsO06hh
-	YuvzbAXmd3zRAOIP8Rndc2QXgxT56Kqa0SasxIxdQr8Kcq3mwI6CeVlaNau5w3WWF9Bd151L8yp
-	UQ+Aq5L06mCCV3Lygxhmm5Ed4casV6jfB3
-X-Received: by 2002:a05:6000:3109:b0:4a8:8e3f:92b1 with SMTP id ffacd0b85a97d-4a88e3f9553mr8215232f8f.55.1795096964844;
-        Thu, 19 Nov 2026 06:02:44 -0800 (PST)
-X-Received: by 2002:a05:6000:3109:b0:4a8:8e3f:92b1 with SMTP id ffacd0b85a97d-4a88e3f9553mr8215156f8f.55.1795096964233;
-        Thu, 19 Nov 2026 06:02:44 -0800 (PST)
-Received: from mszeredi-thinkpadt14gen6.redhat.corp (85-66-37-29.pool.digikabel.hu. [85.66.37.29])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab552a1a4asm6409f8f.34.2026.11.19.06.02.43
-        for <fuse-devel@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 06:02:43 -0800 (PST)
-From: Miklos Szeredi <mszeredi@redhat.com>
-To: fuse-devel@lists.linux.dev
-Subject: [PATCH 2/2] fuse: advertise support for DAX mappings
-Date: Thu, 19 Nov 2026 15:02:38 +0100
-Message-ID: <20261119140240.1798841-2-mszeredi@redhat.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261119140240.1798841-1-mszeredi@redhat.com>
-References: <20261119140240.1798841-1-mszeredi@redhat.com>
+	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=T7RMNVCL;
+	dkim=temperror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=UFqL1oGD
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E608D140018A
+	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 09:36:42 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 19 Nov 2026 09:36:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795099002;
+	 x=1795185402; bh=WmV/U8LZLPdttcHTW3sLuxyGM8QnROSm2WcI1dzxycs=; b=
+	T7RMNVCLeCSRVQub0y3GBxMoJPV10WsTd1CFOq72g2KaxYSKivo+yWxd0zLZB1Sn
+	w2b5S6WfPszzDUaRskzXYwHO+RcL0smk4uXSZKuuueTNJOwIHmbmynI54hJFjtvT
+	JOoPYKZMuuRTvmy78H8vT1/mnjB7SOxpz6BPa62AMn/s3Ii70O6dE/noFDSPrrM7
+	C3vQ8Xs1oogy2VYSgWtv9lYKEZLRwqGEnSGsjexDk0MP0cByDs8XpsUCmndQBJbH
+	nsTVSR+ZbvrKZVG5+XpNwSnR2wDl5mAXZv5Vfxxag7RcUdt8ASWgH8s+Z6PmJ6GH
+	uxWMy9O6MX8DAN9SINYTaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795099002; x=
+	1795185402; bh=WmV/U8LZLPdttcHTW3sLuxyGM8QnROSm2WcI1dzxycs=; b=U
+	FqL1oGDMOUEUsyb9mmjXrWrADmPFWBwjXrKcO1eF8L+ZEmZkk0Amzxf3h7kB/9IS
+	YjZT48BfrFm/+cBO5UWu66Od4y9B92j7Z44q7lY4tKBSxNC8XzaDHMJGYTafpZGD
+	PHvjaRA4JBijHaX0HiUwDtavsDB2EZKwQpi02KNAi0wk8RysMZUHPCGTNL2Y0fav
+	/EpVTWX/eOIHprtAw0j4nIG647pKT0gcJ0iUsG5MSte+LJkzPsGAYbP9ZFzdyxwc
+	NglZawpnsaiJaVLlTDEkTq38Jj4Qfr+/S4F3cnoLw/IPR4zdIYq+pT80DUUv2RNZ
+	kJXpiNa2tBu4w4zh4+CDw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=bsbernd.com a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795099002; d=bsbernd.com;
+	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
+	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
+	s=fm2:rsa-sha256:aMkvytVe1xA3dGfxaKQHFuicVWTdMnN0kDZGKhCXjItQ/ox
+	ugZFRKq4dCz0MDzD4OMXEFEmcnQ6DRLq/srNHgpE41JG/zCI6gvYRb/Vl+0ywyUr
+	WsgxnVanlYy7zXAcblzM+HRbiN+/z21BjQEYTOPRM8c7gwnRi00+IhcbMW2UpXqY
+	P2d1U8N9TFPu96qPG01TkbRWOiR/3f5AuZyW8/LE3Fw8u3kGlPMqxk8/lTtxgZp5
+	AVAlQ4BukheK9sxly9Xj59pX8xMTMIbLiSSPmgHAR6xmP34Q3ZEoJR61t3C8hsZ3
+	8XjZWKZoW9ziiybbOjcXLhzJ2/H6C+y4RPmdYxA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=14;
+	hn=cc,content-language,content-transfer-encoding,content-type,
+	date,feedback-id,from,in-reply-to,message-id,mime-version,
+	references,subject,to,user-agent;
+Message-Instance: m=1; h=sha256:XAMoKmgY/dX1pYa/wH2h0MLS601gtXn6jL6QsJyaK7A=:16VnMiTlCd9f7o/Kal/vuDSnDZkMGZ0IqWqssKBDtfM=;
+X-ME-Sender: <xms:egn_atoMdZzsS1lKtZQnnLH-MVdRuB8oxgzSWiT_OyJUP7F9-ZITrg>
+    <xme:egn_aswRcOEtyFmW86kxG29aiHOu3-nvQ0DZOPECxjJ2_gPOLQ3Um3ukoRwpWxC62
+    bdNvuHlWdWojzh_DYrEQLaI7arI_gwD1UGGhMtT9pwpRn9BMIF0mQ>
+X-ME-Received: <xmr:egn_apM1wQBTSNHzebwFsys4RchPF3Ec_vswQR5chu0pqwWpGBB5aZVxXU0LAVmAP66Wz6yHax-ktCzG0AH0yLYpzFwAI0_1jmix87TGVcsJIAO7TQ>
+X-ME-Proxy-Cause: dmFkZTFYpJ1P/aF1dYDeptsjX6qG3ZuNcTPW1AXKsNy6a4gLe5zLWKV61VCzgK26/YyKtH
+    wOOUcKNQpXNsjLhe8IP+/02L7JFaP7ZCcvdEn4cAEZYC0BYUR7d04+a7AgXbkyr1olfwJL
+    DTnIwMXWG+YScGy6ddzS2B1MhHeFk9OC+tZs41zm0M/eZ8QFUPsy2qSCyj+HBmrLZpILd3
+    yegOSaPg1h3BmK99NM7k2l8n9P+cJq8Zzct+qpxcOYTW1gU+UaG6WlJ/JyY0vvazfwpMLc
+    DKqnWeyjx1PR7joxizHpHlwWqIOQyD8YVnnDguOn6i853pvIJ5uekKKN1ArxSD2ot4fCCv
+    aUdmL+iTO2C1/g+jaMnuGi+HjaQp35wdJFHWWpVRdql85HLgckMwGDmdGVE+ZfRsh4GUzj
+    PwXwfL3PAdC+PshlrZZVDKYv893V8z64Lukt6KVbkIl6KpyBPYWImvzTuojmoPy5No/XiK
+    Xn+zFasmRopz6VqTXrCxuNPk6zdz6+QNTUGtCmmjCfpB1sDU5XTJ1uqu04w81xpplaBY2P
+    2bI5w6TBOQicM1RLqUpepwDF/8u9mt48UuPC6D1prcsPFTI1ZR42EeoP920prh2eftIdL3
+    5rFIvH5oZFfSFKCVPdE5EDPciHa2qNvR1nJSFco7o7R9OONcPvA9Da/D/Bzw
+X-ME-Proxy: <xmx:egn_ap4pIxw4rqKm2ay4bLKTQQkbXYqbkOwEAIXYUzwsyPpZL7A1mw>
+    <xmx:egn_aqntdeu-uuJo9jMZpGURtzR_sNCgniLH9BfSP2UBAQxWNr5hKA>
+    <xmx:egn_aqRhSyPna1Ti-xYMsyPrYrmAIRWbisGoMN2dhYCy0oF_u7SiyA>
+    <xmx:egn_apFa799W6IQciGRbaeJtqe7l-1LT8V96xznkEyOiOtPwG6ryqA>
+    <xmx:egn_al_xXqg_4MiI33QnjNdUcmGsC4KzkOA3UsYtmabqRE2d2KaXxBCM>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Nov 2026 09:36:41 -0500 (EST)
+Message-ID: <7b2d361d-86f1-4064-a905-954a2dfe4ccf@bsbernd.com>
+Date: Thu, 19 Nov 2026 15:36:39 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -103,220 +119,133 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: cioRkQ8Ww7LOpW22XyT2T-BW3fPFR4enbwYmjO2VTDc_1795096966
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] fuse: don't wait for a sync-init mount in
+ fuse_uring_cmd()
+To: Yun Wang <arsenova@a7snv.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Joanne Koong
+ <joannelkoong@gmail.com>, fuse-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20261117075632.59959.p12-0-arsenova@a7snv.com>
+ <20261116235814.60702-1-arsenova@a7snv.com>
+ <7bb720d9-30ef-4d3f-8ab8-81c5fe2e0fe1@bsbernd.com>
+ <179509410286.1113694.13152766226405003077@a7snv.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US, de-DE, ru-RU
+In-Reply-To: <179509410286.1113694.13152766226405003077@a7snv.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Reuse the FUSE_HAS_INODE_DAX flag, which previously was only used for the
-virtiofs case.
 
-The two uses are unrelated: for virtiofs the flag means that host memory
-can be mapped directly into the guest, while here it means that the server
-may back an inode with a dax device opened via FUSE_DEV_IOC_BACKING_OPEN.
 
-Gate the advertisement on IS_REACHABLE(CONFIG_DEV_DAX_FSDEV), which is
-what fuse_backing_open_file() requires before it accepts a dax device as
-backing; CONFIG_FS_DAX alone is not sufficient.
+On 11/19/26 14:15, Yun Wang wrote:
+> On 11/17/26 22:47, Bernd Schubert wrote:
+>> On 11/17/26 00:58, Yun Wang wrote:
+>>> Until FUSE_INIT has completed, fuse_uring_cmd() returns -EAGAIN anyway
+>>> and the server has to send the command again later.  Return -EAGAIN
+>>> at once when the device is not mounted yet either, using
+>>> fuse_get_dev_nowait() from the previous patch, and don't log "No fuse
+>>> device found" for it.
+>>
+>> And what is if io-uring is enabled? Userspace busy loop until the device
+>> is available? I don't think that is nice.
+> 
+> I understand the concern: -EAGAIN doesn't tell userspace when to try
+> again, so a server can only retry blindly.
+> 
+> But that isn't new with this patch.  On an async-init connection,
+> mainline already returns -EAGAIN for a REGISTER sent after mount(2)
+> has returned but before FUSE_INIT has been answered.  On 7.4-rc2, with
+> a test server that answers FUSE_INIT 300 ms late and resubmits on every
+> -EAGAIN right away, as libfuse's fuse_uring_resubmit() does, the
+> REGISTER was resubmitted about 50000 times in those 300 ms.  The patch
+> applies the same rule to a sync-init device before the mount.
 
-Plain fuse servers should check both FUSE_HAS_INODE_DAX and
-FUSE_PASSTHROUGH_V2 before enabling passthrough dax support.
+I think only with an old version of libfuse that was sending REGISTER 
+before FUSE_INIT was processed. That was the reason I had added the
+-EAGAIN handler into libfuse.
+At about the same time I had also ensured that REGISTER is only send 
+after FUSE_INIT reply. FUSE_INIT reply is submitted via write() to 
+/dev/fuse, i.e. it is a blocking process.
 
-Stop advertising FUSE_PASSTHROUGH(_V2) in the virtiofs case, which doesn't
-support passthrough mode.
 
-Note: FUSE_HAS_INODE_DAX flag in the INIT reply is ignored, so it's handled
-slightly differently from the virtiofs case.  This is deliberate.  The
-server needs to check both FUSE_PASSTHROUGH_V2 and FUSE_HAS_INODE_DAX
-before enabling DAX based extent map if it wants to bail or fall back to
-plain I/O mode on kernels not supporting this feature.  A broken server
-that does not check the features yet sets FUSE_ATTR_DAX will result in an
-error on open.  This is not backward compatible, since this flag was
-silently ignored previously, but unlikely to be an issue in real life.
+In _do_init() in libfuse
 
-Fixes: 2fbe4586cff3 ("fuse: add support for opening dax device as backing")
-Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
----
- fs/fuse/fuse_i.h          | 13 +++++++++++++
- fs/fuse/inode.c           | 32 +++++++++++++++++++++++++-------
- fs/fuse/virtio_fs.c       |  1 +
- include/uapi/linux/fuse.h | 10 ++++++++--
- 4 files changed, 47 insertions(+), 9 deletions(-)
+```
+	/* XXX: Add an option to make non-available io-uring fatal */
+	if (enable_io_uring) {
+		ring_rc = fuse_uring_start(se);
+...
+	/*
+	 * Has to be set before replying, as new kernel requests might
+	 * immediately arrive and got_init is used for op-code sanity.
+	 * Especially with external handlers, where we have no control
+	 * over the thread scheduling.
+	 */
+	WRITE_ONCE(se->got_init, 1);
+	fuse_daemonize_set_got_init();
+	send_reply_ok(req, &outarg, outargsize);
+	/*
+	 * With async init, send_reply_ok() has already marked the connection
+	 * initialized (that happens in the reply write()), so the ring threads
+	 * can send REGISTER now. With sync init, _do_init() runs on the
+	 * sync-init worker thread while the mount is still in progress. The
+	 * connection is not initialized until the mount completes, which is
+	 * after _do_init() returns. Waking the ring threads here would let
+	 * REGISTER race ahead of initialization and get -EAGAIN, so defer the
+	 * wake to fuse_session_mount_new_api() after the mount returns.
+	 */
+	if (enable_io_uring && !se->is_sync_init)
+		fuse_uring_wake_ring_threads(se);
+```
 
-diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-index a033b0bc4576..e0992fcbcc55 100644
---- a/fs/fuse/fuse_i.h
-+++ b/fs/fuse/fuse_i.h
-@@ -421,6 +421,7 @@ struct fuse_fs_context {
- 	bool no_req_timeout:1;
- 	bool legacy_opts_show:1;
- 	bool syncfs_capable:1;
-+	bool is_virtiofs:1;
- 	enum fuse_vdax_mode vdax_mode;
- 	unsigned int max_read;
- 	unsigned int blksize;
-@@ -761,6 +762,9 @@ struct fuse_conn {
- 	/** @sync_init: Is synchronous FUSE_INIT allowed? */
- 	unsigned int sync_init:1;
- 
-+	/** @is_virtiofs: Is this a virtio-fs connection? */
-+	unsigned int is_virtiofs:1;
-+
- 	/** @max_stack_depth: Maximum stack depth for passthrough backing files */
- 	int max_stack_depth;
- 
-@@ -1273,6 +1277,15 @@ void fuse_free_conn(struct fuse_conn *fc);
- 
- /* dax.c */
- 
-+static inline bool fuse_conn_vdax(struct fuse_conn *fc)
-+{
-+#ifdef CONFIG_FUSE_VDAX
-+	return fc->vdax;
-+#else
-+	return false;
-+#endif
-+}
-+
- static inline bool fuse_inode_vdax(struct inode *inode)
- {
- #ifdef CONFIG_FUSE_VDAX
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index c6bfc66317ad..af6d9e0af190 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -385,7 +385,7 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
- 			invalidate_inode_pages2(inode->i_mapping);
- 	}
- 
--	if (IS_ENABLED(CONFIG_FUSE_VDAX))
-+	if (fuse_conn_vdax(fc))
- 		fuse_vdax_dontcache(inode, attr->flags);
- }
- 
-@@ -419,13 +419,18 @@ static void fuse_init_inode(struct inode *inode, struct fuse_attr *attr,
- 		fuse_init_file_inode(inode, attr->flags);
- 
- 		/*
-+		 * FUSE_ATTR_DAX means a passthrough extent map on a dax
-+		 * device, which only exists on a plain fuse connection.  On
-+		 * virtiofs the same bit means per inode virtiofs DAX, which
-+		 * is handled by fuse_vdax_inode_init() instead.
-+		 *
- 		 * Without CONFIG_FS_DAX, S_DAX is zero and IS_DAX() is
- 		 * constant false, so all the checks that keep DAX inodes away
- 		 * from the page cache are compiled out.  Don't install address
- 		 * space operations that have no ->read_folio in that case.
- 		 */
--		if (IS_ENABLED(CONFIG_FS_DAX) && (attr->flags & FUSE_ATTR_DAX) &&
--		    !fuse_inode_vdax(inode)) {
-+		if (IS_ENABLED(CONFIG_FS_DAX) && !fc->is_virtiofs &&
-+		    (attr->flags & FUSE_ATTR_DAX)) {
- 			inode->i_flags |= S_DAX;
- 			inode->i_data.a_ops = &fuse_dax_aops;
- 		}
-@@ -1394,7 +1399,7 @@ static void process_init_reply(struct fuse_args *args, int error)
- 				    !fuse_vdax_check_alignment(fc, arg->map_alignment)) {
- 					ok = false;
- 				}
--				if (flags & FUSE_HAS_INODE_DAX)
-+				if (fuse_conn_vdax(fc) && (flags & FUSE_HAS_INODE_DAX))
- 					fc->inode_vdax = 1;
- 			}
- 			if (flags & FUSE_HANDLE_KILLPRIV_V2) {
-@@ -1423,7 +1428,7 @@ static void process_init_reply(struct fuse_args *args, int error)
- 			 * and FUSE_WRITEBACK_CACHE, current design doesn't handle
- 			 * them together.
- 			 */
--			if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) &&
-+			if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) && !fm->fc->is_virtiofs &&
- 			    (flags & (FUSE_PASSTHROUGH | FUSE_PASSTHROUGH_V2)) &&
- 			    arg->max_stack_depth > 0 &&
- 			    arg->max_stack_depth <= FILESYSTEM_MAX_STACK_DEPTH &&
-@@ -1516,13 +1521,25 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
- #ifdef CONFIG_FUSE_VDAX
- 	if (fm->fc->vdax)
- 		flags |= FUSE_MAP_ALIGNMENT;
--	if (fuse_is_inode_vdax_mode(fm->fc->vdax_mode))
-+	if (fm->fc->vdax && fuse_is_inode_vdax_mode(fm->fc->vdax_mode))
- 		flags |= FUSE_HAS_INODE_DAX;
- #endif
- 	if (fm->fc->auto_submounts)
- 		flags |= FUSE_SUBMOUNTS;
--	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
-+	/*
-+	 * Passthrough requires a backing file registered with
-+	 * FUSE_DEV_IOC_BACKING_OPEN on the fuse device, which a virtiofs
-+	 * server has no way to do.
-+	 */
-+	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH) && !fm->fc->is_virtiofs) {
- 		flags |= FUSE_PASSTHROUGH | FUSE_PASSTHROUGH_V2;
-+		/*
-+		 * Per inode DAX needs a dax device opened as backing, which
-+		 * is unrelated to how virtiofs uses the same flag above.
-+		 */
-+		if (IS_REACHABLE(CONFIG_DEV_DAX_FSDEV))
-+			flags |= FUSE_HAS_INODE_DAX;
-+	}
- 	/* Only offered to sufficiently privileged servers; see
- 	 * fuse_syncfs_enable().
- 	 */
-@@ -1830,6 +1847,7 @@ int fuse_fill_super_common(struct super_block *sb, struct fuse_fs_context *ctx)
- 	fc->no_control = ctx->no_control;
- 	fc->no_force_umount = ctx->no_force_umount;
- 	fc->no_req_timeout = ctx->no_req_timeout;
-+	fc->is_virtiofs = ctx->is_virtiofs;
- 
- 	err = -ENOMEM;
- 	root = fuse_get_root_inode(sb, ctx->rootmode);
-diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-index cdd6f5c50d6d..e17c96fa876e 100644
---- a/fs/fuse/virtio_fs.c
-+++ b/fs/fuse/virtio_fs.c
-@@ -1827,6 +1827,7 @@ static int virtio_fs_init_fs_context(struct fs_context *fsc)
- 	ctx = kzalloc_obj(struct fuse_fs_context);
- 	if (!ctx)
- 		return -ENOMEM;
-+	ctx->is_virtiofs = true;
- 	fsc->fs_private = ctx;
- 	fsc->ops = &virtio_fs_context_ops;
- 	return 0;
-diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-index 616430a2973c..cb9e9554f0ef 100644
---- a/include/uapi/linux/fuse.h
-+++ b/include/uapi/linux/fuse.h
-@@ -257,6 +257,7 @@
-  *  - add backing_id_64 to fuse_open_out
-  *  - add FUSE_NOTIFY_BACKING_MAP, fuse_notify_backing_map_out, fuse_extent
-  *  - add FUSE_BACKING_MAP_CREATE, FUSE_BACKING_MAP_CYCLIC
-+ *  - extend the meaning of FUSE_HAS_INODE_DAX and FUSE_ATTR_DAX
-  */
- 
- #ifndef _LINUX_FUSE_H
-@@ -460,7 +461,11 @@ struct fuse_file_lock {
-  * FUSE_INIT_RESERVED: reserved, do not use
-  * FUSE_SECURITY_CTX:	add security context to create, mkdir, symlink, and
-  *			mknod
-- * FUSE_HAS_INODE_DAX:  use per inode DAX
-+ * FUSE_HAS_INODE_DAX:  use per inode DAX.  The meaning depends on the
-+ *			transport: on virtio-fs it indicates per-inode DAX
-+ *			support, while on /dev/fuse (where FUSE_PASSTHROUGH_V2
-+ *			is also offered) it indicates support for passthrough
-+ *			extent maps on a DAX device.
-  * FUSE_CREATE_SUPP_GROUP: add supplementary group info to create, mkdir,
-  *			symlink and mknod (single group that matches parent)
-  * FUSE_HAS_EXPIRE_ONLY: kernel supports expiry-only entry invalidation
-@@ -612,7 +617,8 @@ struct fuse_file_lock {
-  * fuse_attr flags
-  *
-  * FUSE_ATTR_SUBMOUNT: Object is a submount root
-- * FUSE_ATTR_DAX: Enable DAX for this file in per inode DAX mode
-+ * FUSE_ATTR_DAX: Enable DAX for this file in per inode DAX mode and in
-+ *		  extent mapping passthrough mode
-  */
- #define FUSE_ATTR_SUBMOUNT      (1 << 0)
- #define FUSE_ATTR_DAX		(1 << 1)
--- 
-2.56.1
+I.e. it does fuse_uring_start() before FUSE_INIT reply, but that just
+creates the ring threads and let's them sleep in a semaphone. 
+FUSE_IO_URING_CMD_REGISTER is send after fuse_init(), once 
+fuse_uring_wake_ring_threads() let's the ring thread move forward.
 
+> > It does change one thing that the changelog leaves out.  It says the
+> command gets -EAGAIN anyway until FUSE_INIT has completed, which
+> suggests the wait gained nothing.  But after the mount wakes it up, it
+> can still get past the initialized check: FUSE_INIT may have been
+> answered by the time the woken task gets there, and if not, io_uring
+> retries the command from io-wq after the -EAGAIN, which may be late
+> enough.  On a sync-init device without the patch, 12 of 20 REGISTERs
+> sent before the mount got past the check (6 in the woken task, 6 in
+> the io-wq retry).  With the patch it is -EAGAIN every time and nothing
+> sleeps, so the old behavior was timing-dependent rather than a
+> reliable wait.  I'll fix the changelog in v2.
+> 
+> libfuse isn't affected either way: it sends REGISTER only after the
+> connection is initialized, with both sync and async init.  I ran
+> passthrough_ll -o io_uring on 7.4-rc2 with and without the patches and
+> counted what fuse_uring_cmd() returned: never -EAGAIN.  What the patch
+> fixes is the submitting task sleeping in io_uring_enter(2) until the
+> mount or a signal, which also holds up everything else that task
+> submits in the meantime.
+
+Well, if libfuse isn't affect, why is this patch needed? If you have
+another fuse server, fix your fuse server? (And it confirms my personal
+opinion that we should aim for one userspace library.)
+
+> 
+> The retry could wait in io-wq instead (I have that working), but
+> uring_cmd work runs on bounded io-wq workers, and each early REGISTER
+> would hold one until FUSE_INIT.  A server registers a whole queue's
+> entries at once, so that can use up the submitting task's bounded
+> workers and hold up its other punted work.  With 4 CPUs (a default
+> limit of 16), 16 early REGISTERs were enough to hold a NOP sent with
+> IOSQE_ASYNC by the same task until the mount; with 15 it completed at
+> once.  I don't think that is a good design.  Queueing early REGISTERs
+> and handling them once the connection is initialized might avoid this,
+> but that is only an idea, I haven't tried it, and it would be a bigger
+> change.
+> 
+> Would you prefer to keep -EAGAIN as in this patch, or should we look
+> for a different approach that covers both the sync and the async init
+> case?
+
+See above about my question about libfuse not being affected.
+
+Thanks,
+Bernd
