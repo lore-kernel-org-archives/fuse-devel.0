@@ -1,78 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.25
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795088966;
-	b=UfALVvHA4HMgPTnyHz/jE1Pfc441CPL0KRE0vc0S7CY/Axbiss3dxAnhVI/idVt1ujaK
-	 ML8UXxWxNc0kyoiXq7oEJKJrF/Q4Bqyz0WArGmNcwtkCo9gdzCRQz4sWDuXM5ENmK6MNq
-	 D6F1hdCS27Om23PSy8Xhdt6xcu+EwKrINczhnMfJ6m6z4DjgxK+rdD2zFV0DPGNHEzFr6
-	 Tf4lAcZee2KltzksyAOT1YdeHFyVwpnygu/f3NdqO/105xB0sudjcOlZgkoBtOg4q/bVg
-	 V6qgwsHGzLB9QgWxTGblSsbaOGVmbaGcfvtKBOSutQLWDzRG/4fqrungmZ3vLZVUGGg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795088966;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 In-Reply-To:MIME-Version:Content-Transfer-Encoding:X-CMS-MailID:
-	 X-Msg-Generator:Content-Type:X-Sendblock-Type:CMS-TYPE:cpgsPolicy:
-	 X-CFilter-Loop:X-CMS-RootMailID:References;
-	bh=WOjvdHFZJhxTSRqOV4KMRhV4WehW3lyrqK+mm7lp7Vw=;
-	b=U3wzPG4b7aerrAFKEUFlm11h+ikionvmOa6guWbgToC94tSYcyHtDd385v0xbs0e2Nlu
-	 Qdr1VtSW8cpDr5c97KNQNyemwjSNwwQyCTwI9qkbY0bX0C91za4NZ14xkr6EhbxrP7iAc
-	 yFkqyI207FSvLLdWadXmkYw0JlAkv3R4u7avBIVQynVVJ5P5Pc5C7eOx0ijd9P0RjYgPy
-	 qhmRM+u+8qowDM54shC8+2fLRxOg2YPh9utLj91Z9YWXMYaHmdlOdMCgDhXH8km1SK9Pp
-	 GX0ax8NbHPzSvRgY8izufO0pu7XEgaY0oJ0NlSChM/eCXOhuq9J4a88B7IGOcE+6xFw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=pG0ZEesL;
-	arc=none smtp.remote-ip=203.254.224.25
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795089430;
+	b=im5YMmoazascaBGmnlhxLus34o+j7k26yR+czaMoX4wX9rHR/SMFzU1fp4x82fcpt97w
+	 JUvGXZZYUywUe5lGdXvBZ2k6IV6jdhS8QU5w75hosCKoUwa1CzgeM55vpVga6u5Y9HLCf
+	 EqvZDqTVHt6fIdFcsbMV03PEjqm1Lwq2/6bgBFwTn9kUUVjXhJtXJxVlBYdPQ6eOU0s0c
+	 0dXC27foIM5m0mbNpx8K30TpP9dDH8oat8uFfjB3Ddh8v5mSyk3Bikm6V4aS4E1Dsqr57
+	 wPbbjovh8LC6/GxxLahgQJoKC22/ixwrCeTGBUSu4HLd03KD4JC3z+Qql4ZFHFQfn7g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795089430;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=zlJH4+t0mXQ/RY9w29YgUuQUml1Z0NJ3e214jG9j+bE=;
+	b=yCfF4kzhmE7ClpeNmFpeSDxzNx0Hd49eQunYs3TAoOXkSNtP3bSrZjlRnIyInZU4zMpy
+	 7TT28ps9ovxsu51MlG5pvBZDkAYRxwwUG3MImHdtSo7XxgB5ZYflXO1+VLmaD0sOvh1U/
+	 vn5H/xWCnlIl5uENhSOp+CUhSj9AgR39ZesN0T8tbOPZu+eKYO//k52F6OJ47Othoyk5B
+	 09cungZFelhYc9ekjz9YWz8eZvhD7bUjfqWmR6BCLfV4Pt5TOnIhnIeTOGQx1OW2bpMp5
+	 fkyX9+AyLGkk5ST1djaEpEZOBZ4MFIZiRm05mmEFeS8wrA2MGuTJvMUZHwAhLzwcz/g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pHPbICvL;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.46
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791A7606A336
-	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:49:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 791A7606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F10606A326
+	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:57:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50F10606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=pG0ZEesL
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20261119114922epoutp02072410fa23ebb2a2237405414e888161~pb_amDCP72814128141epoutp02F
-	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:49:22 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20261119114922epoutp02072410fa23ebb2a2237405414e888161~pb_amDCP72814128141epoutp02F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1795088962;
-	bh=WOjvdHFZJhxTSRqOV4KMRhV4WehW3lyrqK+mm7lp7Vw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pG0ZEesLUNkNplzEHupiN6k+tNvatEzlngA1+n/uRDQKYq7RiTRdZ4zxRSd/tDrP7
-	 JB3H/+pfyIrU6NX5C4xuD05+s/cYvkBlfr6/OUXZxBBTtxtXYBAlhgUaDjrPCxqGqe
-	 fGvjF4ZB6kgrsAr3xCVKYN5xwqGHwCcwJ7Tbrc9Y=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20261119114922epcas5p449340df7af188640373a832441a450ed~pb_aLYUpl1084610846epcas5p4M;
-	Thu, 19 Nov 2026 11:49:22 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.87]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4jVcFX040Zz6B9m4; Thu, 19 Nov
-	2026 11:49:20 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20261119095728epcas5p4b40c41eae2b6c6eb852f472762a25d3b~pactI_2J10192401924epcas5p4c;
-	Thu, 19 Nov 2026 09:57:28 +0000 (GMT)
-Received: from localhost.localdomain (unknown [107.99.41.245]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261119095726epsmtip1eb24622127108000e4cec885d45b5915~pacrBQNkM2192721927epsmtip1b;
-	Thu, 19 Nov 2026 09:57:25 +0000 (GMT)
-From: Anuj Gupta <anuj20.g@samsung.com>
-To: axboe@kernel.dk, asml.silence@gmail.com, kbusch@kernel.org, hch@lst.de,
-	sagi@grimberg.me, James.Bottomley@HansenPartnership.com, mkp@kernel.org,
-	bernd@bsbernd.com, joannelkoong@gmail.com, miklos@szeredi.hu
-Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	fuse-devel@lists.linux.dev, joshi.k@samsung.com, anuj20.g@samsung.com
-Subject: [PATCH v4 5/5] nvme: support dma-buf registered buffers for
- passthrough
-Date: Thu, 19 Nov 2026 15:26:15 +0530
-Message-Id: <20261119095615.1840522-6-anuj20.g@samsung.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20261119095615.1840522-1-anuj20.g@samsung.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pHPbICvL
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b86bbce3d1so2926777a12.0
+        for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 03:57:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795089429; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hJ8TuHF3Emd27i4cT/smXLg+budiR5VgNjisz+/1rKPZH3U2uMel3nezyZ1Gspw/vi
+         FkZzE7BJ87lqJKgLEkC5/Ww0aPpzhwMR4YuxVZJ0OYr6kLaktghwkA+a4n1QkZuvCThx
+         JdjGscZFKfXkdSi77UvmTPFmpq0iMwcNU24itlQF+zbkei2nv3nJ1UoiiurPk3KfaLPN
+         WSYrQjpgtwYcKf6P45DbXIAJ/9KH305jbiLg7/CUqk49H4mAHkQomi5jzMoJm2mdGE+D
+         m4YdjxD+wGmvpGDxCBrX9TezoT7oTIsmBcJywxC7opYB/PkfcsHBWZCTMaQXrIFxBtgz
+         lwOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zlJH4+t0mXQ/RY9w29YgUuQUml1Z0NJ3e214jG9j+bE=;
+        fh=5GRbnWxhIzHOw3053cSJtKe4+BAZlZbaC3TEoIHGuzo=;
+        b=S8PfCwFzAIeGTf2OyEd5oPGvu35R1wzMa2mNnnb3NXwzO9Q8XLR2cfMV4boY9YoW+E
+         MZUz0EJ27hyTfsl46Tof5Gzs2JHOVaPtLjBH7nkTIpCRvZVkxDclw7dRyIxt0nNb7GAX
+         yYdY7CFV3m8OrfiPYzDcha+UmlPKqjoFRYEXKQVMvrY/3BydgEXrv5SVyHRHyol5fgva
+         pO4vG3xmPU6Iwg2uX1umaF8H72kEV38tgu6LyR4iwQhLX6NUX2pSBzTkDLu2QR/81pNY
+         OI+Muur9WH5MxmvHnF9U3qv6n49oo7pnDnyxuLKKiYAo1Ksc4H8FiwMd/bNRsP8hYqLN
+         AjsA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795089429; x=1795694229; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zlJH4+t0mXQ/RY9w29YgUuQUml1Z0NJ3e214jG9j+bE=;
+        b=pHPbICvL6qsWoWddl+nobi9Srr5gSMzkBVVGnOHutYCryvDTyD5pRGbyCoB9wZAlFC
+         M9XauKWp5hDCmFKbukalQ184HXu1pJsJ7pUfCa/sC2jGiQQ9euepn1+T/fuSsni6EohY
+         jCDHlx1ckP0CHdYKpjbgdjYhwGwmjzDPAgCujCpUgEHr0VBRlVId/X4gmsMQCtk3QUGs
+         RD0PSMczP4CRJ+HldBhAWkISvfm2QSuOCB9HcIfHhrqFuu5BIwFXoigDrx4hO9OpbP2e
+         kU2+0GWk3vwDmROWnwu666NPuNouAcbzSsvFYz0TIzBJpC7eu+/ZR/OrKjcP6c7qhKrJ
+         i1EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795089429; x=1795694229;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=zlJH4+t0mXQ/RY9w29YgUuQUml1Z0NJ3e214jG9j+bE=;
+        b=21vD+P2e0NFpEBHtnhBNb9Pv3g7wyaUogQgfOJikpwbLXVLVeqAPcQLeZ/GtwZdyQf
+         nqz6Ze3zuwDs0/gNP5FrCW7f5/oG/bSZv4VZVvaCAPdyZis8/8c/pmoCCRbvCultk94C
+         cMGyf96FJJYpiCaqfyasUOVbT23rY3/J4bVEgZm1kY6Lfc1mOzOm8cJNVGD3+mpw5bZg
+         hX128uLHLlGsBoEXlkkHJwsvEMHyKzyuxsw7I7PWZwrNzyQhx04B5Tb1aDLs3ZhDtddE
+         7vx5+6zKEYdb8r+R87ds+zxg7Lnfc4yTbROxz/kME2WA5Pn8C+LL0hRakEnvfMQmBAvs
+         6UwQ==
+X-Forwarded-Encrypted: i=1; AL+hErG0+kJeHX4zo6iwj+95NcQg5aVQMGrP0yZ2Anf9vEfxAkMwA9mpNma172OZUw+rI3CMyHhGgDA9PD42@lists.linux.dev
+X-Gm-Message-State: APuU4Z+LAfh/k8LMCJWVV4AH3+UC2QqEVIHVoW+z0xKsy7sljBfvFxu8
+	xPXFxt4IlcQtw0PnBojnxrgfg9afeAa6Lk7c7Oau3oJ3XOCBKnrCOE7A8PZ0HkmbMs9bsFquidQ
+	kfoi/GTbPhKqWqz1WYI8FWmXsciyvLg==
+X-Gm-Gg: AYBFou3lB/MN1YGd2D0ZYBjPO4JJlrFpsfYN3fiqJ4aiNbaDH9jWjkti2f3TOkfrMTl
+	G7BMctqK5sNnyVkfpo5kFw2QrHuuiVghor/fEqjYmrWfcdcL2yAwUipCZaCPkRooJzsnnaccmnW
+	or+yJtR1mwFxINYq0gk3J8HMiujeVnjDC0QqdQen5EeRA7R8+N2SUrrZfbc93tKNnTW4uSLCHDn
+	Ex4Kchnz17eLaBKAWccZ5NR7v5uoslfahc48lVxAglO9qoJguM4mQa0xl17MrU/TkFdRKgrbmLA
+	ibR889C7rVJENyNtbRT6ZyZNuZbDjw0haUiSYRfAQHd8EgQf4USnVNeYwooPeKBs6C43lIiXZnz
+	Hr3ar2XntSMoZ3xuVM5u94Pp3XlQtLoKA+3Gh07YoxmkIneHy9QTB3l8FXh0u+wXx9VyC2gxwrz
+	V3pUhKpdlkHnsopzmnbR1PgFhEo+iEBlFC34pJq/jGPv05ewhW32diIXPu0I3gobpKWLM=
+X-Received: by 2002:a05:6402:2341:b0:6b8:50e:3bb0 with SMTP id
+ 4fb4d7f45d1cf-6b887f051b5mr5100854a12.43.1795089428496; Thu, 19 Nov 2026
+ 03:57:08 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -82,95 +104,24 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261119095728epcas5p4b40c41eae2b6c6eb852f472762a25d3b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261119095728epcas5p4b40c41eae2b6c6eb852f472762a25d3b
-References: <20261119095615.1840522-1-anuj20.g@samsung.com>
-	<CGME20261119095728epcas5p4b40c41eae2b6c6eb852f472762a25d3b@epcas5p4.samsung.com>
+References: <20261030014540.3065403-1-anuj1072538@gmail.com>
+In-Reply-To: <20261030014540.3065403-1-anuj1072538@gmail.com>
+From: Anuj gupta <anuj1072538@gmail.com>
+Date: Thu, 19 Nov 2026 17:26:31 +0530
+X-Gm-Features: AclHuK_SZqZJTPjuQjOc7cIWYhN7F4D2sFh9VtkHTF5WSy6wsq_qeWgrWRBsOwc
+Message-ID: <CACzX3At2GfpQB7eE1S2njJONChr8DmDC5poBw4pX+pAg21cscg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] dma-buf backed NVMe passthrough I/O
+To: axboe@kernel.dk, asml.silence@gmail.com, kbusch@kernel.org, hch@lst.de, 
+	sagi@grimberg.me, James.Bottomley@hansenpartnership.com, mkp@kernel.org, 
+	bernd@bsbernd.com, joannelkoong@gmail.com, miklos@szeredi.hu
+Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org, 
+	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, joshi.k@samsung.com, anuj20.g@samsung.com
+Content-Type: text/plain; charset="UTF-8"
 
-Allow registering a dma-buf against an NVMe namespace character device
-and using it as the data buffer of fixed uring_cmd passthrough I/O.
-Complete through io_uring_cmd_hw_done(), so the dma-buf map is released
-at hardware completion.
-
-Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
----
- drivers/nvme/host/core.c  | 16 ++++++++++++++++
- drivers/nvme/host/ioctl.c |  5 +++--
- 2 files changed, 19 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f43582e5f6c4..f12cea7cbc8a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -8,6 +8,7 @@
- #include <linux/blkdev.h>
- #include <linux/blk-mq.h>
- #include <linux/blk-integrity.h>
-+#include <linux/dma-buf-io.h>
- #include <linux/compat.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
-@@ -4028,6 +4029,20 @@ static int nvme_ns_chr_release(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
-+static int nvme_ns_chr_init_dma_buf_io_ctx(struct file *file,
-+					   struct dma_buf_io_ctx *ctx)
-+{
-+	struct nvme_ns *ns =
-+		container_of(file_inode(file)->i_cdev, struct nvme_ns, cdev);
-+	struct nvme_ctrl *ctrl = ns->ctrl;
-+
-+	if (ctx->dmabuf->size > UINT_MAX)
-+		return -EINVAL;
-+	if (!ctrl->ops->init_dma_buf_io_ctx)
-+		return -EOPNOTSUPP;
-+	return ctrl->ops->init_dma_buf_io_ctx(ctrl, ctx);
-+}
-+
- static const struct file_operations nvme_ns_chr_fops = {
- 	.owner		= THIS_MODULE,
- 	.open		= nvme_ns_chr_open,
-@@ -4036,6 +4051,7 @@ static const struct file_operations nvme_ns_chr_fops = {
- 	.compat_ioctl	= compat_ptr_ioctl,
- 	.uring_cmd	= nvme_ns_chr_uring_cmd,
- 	.uring_cmd_iopoll = nvme_ns_chr_uring_cmd_iopoll,
-+	.init_dma_buf_io_ctx = nvme_ns_chr_init_dma_buf_io_ctx,
- };
- 
- static void nvme_add_ns_cdev(struct nvme_ns *ns)
-diff --git a/drivers/nvme/host/ioctl.c b/drivers/nvme/host/ioctl.c
-index d342ccad067a..3f240c9a537f 100644
---- a/drivers/nvme/host/ioctl.c
-+++ b/drivers/nvme/host/ioctl.c
-@@ -472,7 +472,7 @@ static enum rq_end_io_ret nvme_uring_cmd_end_io(struct request *req,
- 			blk_rq_unmap_user(pdu->bio);
- 		__io_uring_cmd_done(ioucmd, 0);
- 	} else {
--		io_uring_cmd_do_in_task_lazy(ioucmd, nvme_uring_task_cb);
-+		io_uring_cmd_hw_done(ioucmd, nvme_uring_task_cb);
- 	}
- 	return RQ_END_IO_FREE;
- }
-@@ -533,7 +533,8 @@ static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 					ddir, &iter, issue_flags);
- 		else
- 			ret = io_uring_cmd_import_fixed(d.addr, d.data_len,
--					ddir, &iter, ioucmd, issue_flags, 0);
-+					ddir, &iter, ioucmd, issue_flags,
-+					IO_URING_CMD_IMPORT_DMABUF);
- 		if (ret < 0)
- 			return ret;
- 
--- 
-2.25.1
-
+Hi Jens,
+All patches in this series carry Reviewed-by tags from Pavel or
+Christoph. The series no longer cleanly applies to current for-next, so
+I have rebased it and posted a v4:
+https://lore.kernel.org/linux-block/20261119095615.1840522-1-anuj20.g@samsung.com/
+Please LMK if you have any other comments?
