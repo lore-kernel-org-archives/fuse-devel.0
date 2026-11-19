@@ -1,65 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795088962;
-	b=N/EGNJ8CpVbgFxO0u2z1kXTqdgAq2Qb20Utmn8GTcj7yrca0Xeu3QeVEag/8WCNiIScP
-	 pAB/2kIXnYunMocQd1lT8VXyAXWGSew24shyZFxyKMIRnk3FfxdVGqyF6Eato1+2h8uKb
-	 RRnJ7k4RpVoYCe1OfFgZSV++rxO4jk1IVG9FLqo30fGzCgHJ2nsJGchzYvvB8+jIVTZFa
-	 /qu9RrvTMjFE0Q76U1DCeB1sfc4vDIy5+lBfdS2VwyGhqdvMUxFFiWZIbTPod7yfIcbcZ
-	 Op7hFep7T2lOoe96csBTwAINA1acan0A/vx2CpxQX6z2YwCsSaacNfIhTc3UE5GAsHg==
+	t=1795088966;
+	b=4/OyMcqEtl2OqVGtcUdA/mxu+EbXyJFPMHifUA67RRnzOD8aVfvo5zI58k3Sw4bklYTS
+	 Dia95YJ4EDHIgcxUuEvKLquYXiUKcHU6++ZkbHTgpt5kQlKyfCY4ZCsNHWgLbFM25EDHL
+	 5qZcv8gDojxvzFeL/pmvzVCn2ITqHShp3nju2vpDCG1gdBlLoffupDGc/nUIQ+yQqvRi/
+	 E7pfojt6JwogQqKT96nHxxIJcKylykp0D8WS1dny2oR5SCcK0Qozbo/otmXrrZ0NQ6Rb3
+	 HV9Pc7EjWnxFeMOPjIV6bCEF4Fvlnyt07/DMAOJ8YStl0Pizrr+N9DJRpGFHqQtyHOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795088962;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795088966;
 	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
 	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 In-Reply-To:MIME-Version:Content-Transfer-Encoding:X-CMS-MailID:
 	 X-Msg-Generator:Content-Type:X-Sendblock-Type:CMS-TYPE:cpgsPolicy:
 	 X-CFilter-Loop:X-CMS-RootMailID:References;
-	bh=s3gTUBSKHbEfKVIWdTL7aoQee4hjar3Z0u47LY7+snY=;
-	b=JctIFKoKsq6WcR4QHxgTRLonfL0T4f9GDvzj1zO2JD4ISVU67NP02+1xXTJdhcRppL2R
-	 /MF6cHcLgZyOX68jbCFaw5HXMnh03LPwHesv+E3i8+LpPsdO0Ap3/frSSLS+rf9yfHbrz
-	 cZmfdgG6y6jIAJkmnGD1v9cGX/xugCoSS3Fl+MPL/FnyWkSyec4Tp3xbLwk59LP712aqx
-	 rDomSHx1sZcEMDZbOos9TnEkWXwYlSqajTnA/t+gEX/hZAXLNyA8Y1TcWaE59ZkGf9RSZ
-	 i0fqVIL2R5EPUGNfznBirS9MWTmK7cB59iDnnJRMICO/8RHAXgjBAkkCg5IWWgxnvCg==
+	bh=N7tVbsh0LqT0VzEJMeLD6neUt6uM+hXrRx1fqrE8qBc=;
+	b=hD45HU7yUIECG8XNUW0OIhKkfgx4eNYRJGXwa2M00kanku4Ji19onH4peMqP8xdayCDH
+	 4Y0LGFJpPO8gC0BzksUBIuBY/YZLY+If2DzIAJKUpSfTmVILCeqQvWqll7UZ7sDKFMrNk
+	 4SqDV6ERBLA2hGsszsiWZLWFxCTLBWiKSxK+gmZmRtEwRCZthjIvDumPjStCSYbFLDCIX
+	 DSqwkfXopOwX+gusPPi6fxDx1cUlsZZUER/KwzPouzyLQOcYesjBoYi3y7C0FKFGjnXNP
+	 /nrlZYpvw2vEbLCIgWcukT4spbKbdVh4jWh8zVZOYQ/JoqpRyCun3wsFe3abZFFiAvA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=samsung.com;
 	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=dqQxzuxe;
-	arc=none smtp.remote-ip=203.254.224.24
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=OrFzQOG8;
+	arc=none smtp.remote-ip=203.254.224.33
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6734D60A2605
-	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:49:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6734D60A2605
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD368606A33F
+	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:49:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD368606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=dqQxzuxe
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261119114919epoutp016b204273b93b08a65b13c1cfb5307f90~pb_XwuHQi2674726747epoutp01H
-	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:49:19 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261119114919epoutp016b204273b93b08a65b13c1cfb5307f90~pb_XwuHQi2674726747epoutp01H
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=OrFzQOG8
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261119114916epoutp03124bbf604662d73c6c41908fd9d7b701~pb_U0m2yM1932519325epoutp033
+	for <fuse-devel@lists.linux.dev>; Thu, 19 Nov 2026 11:49:16 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261119114916epoutp03124bbf604662d73c6c41908fd9d7b701~pb_U0m2yM1932519325epoutp033
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1795088959;
-	bh=s3gTUBSKHbEfKVIWdTL7aoQee4hjar3Z0u47LY7+snY=;
+	s=mail20170921; t=1795088956;
+	bh=N7tVbsh0LqT0VzEJMeLD6neUt6uM+hXrRx1fqrE8qBc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dqQxzuxeRRmh1EFAmYTtlnDzHNy7szmV2NX64ahPOy54B26M25Xz30VI04bYOSF9u
-	 Rc5GSlJ1M6YFK2iHf6Sp9rnXXbgVSPbljvzbwmT2AqKQChT6mEQdWCkZnWLwf42PXm
-	 48NpZ632c3Yi5bLhjokddHWbtTriJA9f1DimvsLI=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20261119114919epcas5p35d531a748785348673944fddcd54006d~pb_XN5G2m1102911029epcas5p3C;
-	Thu, 19 Nov 2026 11:49:19 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.91]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4jVcFV1xFDz2SSKb; Thu, 19 Nov
-	2026 11:49:18 +0000 (GMT)
+	b=OrFzQOG8AhKTS+JWp1fcHm/2kQw3x63WaqzeEaD1wLuMOdEYRo2+UfHAga9uzV5yz
+	 bFmxsRbOQ9vOBcp84vEofZgCLaBShxXnvSG4ym6217Bmk2mtMVFkEYWxZ7PxBrddmO
+	 dLrFBzAoYgYBlPyxjEtiwgWYe50G31mGhM7kHhas=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20261119114916epcas5p2796b27294f94ffccea07dcaf08feef05~pb_UPL93_2787827878epcas5p25;
+	Thu, 19 Nov 2026 11:49:16 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.95]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4jVcFR2mQLz6B9m4; Thu, 19 Nov
+	2026 11:49:15 +0000 (GMT)
 Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20261119095725epcas5p3a8e14a90891afe16faded4fb78484b49~pacqyFUJp0437304373epcas5p33;
-	Thu, 19 Nov 2026 09:57:25 +0000 (GMT)
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20261119095723epcas5p211971408f19e8e1f0a576a9aa9b17cdd~pacod56ka2073620736epcas5p2E;
+	Thu, 19 Nov 2026 09:57:23 +0000 (GMT)
 Received: from localhost.localdomain (unknown [107.99.41.245]) by
 	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261119095723epsmtip17c51681d284e723f2550c9ff004cea68~pacotAQBp2192721927epsmtip1a;
-	Thu, 19 Nov 2026 09:57:23 +0000 (GMT)
+	20261119095720epsmtip1b3b66c8f284ae599fa36ef294ae64995~pacmHDkUO2192721927epsmtip1Z;
+	Thu, 19 Nov 2026 09:57:20 +0000 (GMT)
 From: Anuj Gupta <anuj20.g@samsung.com>
 To: axboe@kernel.dk, asml.silence@gmail.com, kbusch@kernel.org, hch@lst.de,
 	sagi@grimberg.me, James.Bottomley@HansenPartnership.com, mkp@kernel.org,
@@ -67,10 +67,10 @@ To: axboe@kernel.dk, asml.silence@gmail.com, kbusch@kernel.org, hch@lst.de,
 Cc: io-uring@vger.kernel.org, linux-nvme@lists.infradead.org,
 	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
 	fuse-devel@lists.linux.dev, joshi.k@samsung.com, anuj20.g@samsung.com
-Subject: [PATCH v4 4/5] block: map dma-buf iterators in
- blk_rq_map_user_iov()
-Date: Thu, 19 Nov 2026 15:26:14 +0530
-Message-Id: <20261119095615.1840522-5-anuj20.g@samsung.com>
+Subject: [PATCH v4 3/5] io_uring/uring_cmd: support dma-buf registered
+ buffers
+Date: Thu, 19 Nov 2026 15:26:13 +0530
+Message-Id: <20261119095615.1840522-4-anuj20.g@samsung.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20261119095615.1840522-1-anuj20.g@samsung.com>
 X-Mailing-List: fuse-devel@lists.linux.dev
@@ -83,61 +83,145 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261119095725epcas5p3a8e14a90891afe16faded4fb78484b49
+X-CMS-MailID: 20261119095723epcas5p211971408f19e8e1f0a576a9aa9b17cdd
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261119095725epcas5p3a8e14a90891afe16faded4fb78484b49
+X-CMS-RootMailID: 20261119095723epcas5p211971408f19e8e1f0a576a9aa9b17cdd
 References: <20261119095615.1840522-1-anuj20.g@samsung.com>
-	<CGME20261119095725epcas5p3a8e14a90891afe16faded4fb78484b49@epcas5p3.samsung.com>
+	<CGME20261119095723epcas5p211971408f19e8e1f0a576a9aa9b17cdd@epcas5p2.samsung.com>
 
-A dma-buf iterator can't fall back to a bounce copy, so map it directly
-with blk_rq_map_user_bvec(), which already handles it through
-bio_iov_iter_set(). Fail with -EINVAL where a copy would otherwise be
-needed, and update the blk_rq_map_user_bvec() comment to match.
+Let callers of io_uring_cmd_import_fixed() opt in to dma-buf registered
+buffers with IO_URING_CMD_IMPORT_DMABUF, and attach the current map on
+import.
+
+The map has to be dropped at hardware completion rather than from
+task_work. Add io_uring_cmd_hw_done() for drivers to call from end_io,
+which drops the map and queues task_work, and warn if task_work is
+queued with a map still attached.
 
 Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 ---
- block/blk-map.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ include/linux/io_uring/cmd.h |  9 +++++++++
+ io_uring/uring_cmd.c         | 28 ++++++++++++++++++++++++++--
+ 2 files changed, 35 insertions(+), 2 deletions(-)
 
-diff --git a/block/blk-map.c b/block/blk-map.c
-index 7369aba74771..a65b255b229c 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -459,7 +459,7 @@ int blk_rq_append_bio(struct request *rq, struct bio *bio)
- }
- EXPORT_SYMBOL(blk_rq_append_bio);
+diff --git a/include/linux/io_uring/cmd.h b/include/linux/io_uring/cmd.h
+index 23fb66a1e2c1..d4e17c2f59fd 100644
+--- a/include/linux/io_uring/cmd.h
++++ b/include/linux/io_uring/cmd.h
+@@ -12,6 +12,9 @@
+ /* io_uring_cmd is being issued again */
+ #define IORING_URING_CMD_REISSUE	(1U << 31)
  
--/* Prepare bio for passthrough IO given ITER_BVEC iter */
-+/* Prepare a bio for passthrough I/O from a directly mapped iterator. */
- static int blk_rq_map_user_bvec(struct request *rq, const struct iov_iter *iter)
- {
- 	unsigned int max_bytes = rq->q->limits.max_hw_sectors << SECTOR_SHIFT;
-@@ -506,6 +506,19 @@ int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,
- 	struct iov_iter i;
- 	int ret = -EINVAL;
- 
-+	if (iov_iter_is_dmabuf_map(iter)) {
-+		if (map_data || (iov_iter_alignment(iter) & align))
-+			return -EINVAL;
-+		ret = blk_rq_map_user_bvec(rq, iter);
-+		/*
-+		 * -EREMOTEIO asks the caller to fall back to a bounce copy,
-+		 * which a dma-buf can't do.
-+		 */
-+		if (ret == -EREMOTEIO)
-+			ret = -EINVAL;
-+		return ret;
-+	}
++/* io_uring_cmd_import_fixed() flags */
++#define IO_URING_CMD_IMPORT_DMABUF	(1U << 0)
 +
- 	if (map_data)
- 		copy = true;
- 	else if (iov_iter_alignment(iter) & align)
+ struct io_uring_cmd {
+ 	struct file	*file;
+ 	const struct io_uring_sqe *sqe;
+@@ -86,6 +89,8 @@ void __io_uring_cmd_done(struct io_uring_cmd *, unsigned issue_flags);
+ void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
+ 			    io_req_tw_func_t task_work_cb,
+ 			    unsigned flags);
++void io_uring_cmd_hw_done(struct io_uring_cmd *ioucmd,
++			  io_req_tw_func_t task_work_cb);
+ 
+ /*
+  * Note: the caller should never hard code @issue_flags and only use the
+@@ -145,6 +150,10 @@ static inline void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
+ 			    io_req_tw_func_t task_work_cb, unsigned flags)
+ {
+ }
++static inline void io_uring_cmd_hw_done(struct io_uring_cmd *ioucmd,
++					io_req_tw_func_t task_work_cb)
++{
++}
+ static inline void io_uring_cmd_mark_cancelable(struct io_uring_cmd *cmd,
+ 		unsigned int issue_flags)
+ {
+diff --git a/io_uring/uring_cmd.c b/io_uring/uring_cmd.c
+index 7198647f542d..c64b86c6f028 100644
+--- a/io_uring/uring_cmd.c
++++ b/io_uring/uring_cmd.c
+@@ -10,6 +10,7 @@
+ 
+ #include "io_uring.h"
+ #include "alloc_cache.h"
++#include "dma-buf.h"
+ #include "rsrc.h"
+ #include "kbuf.h"
+ #include "uring_cmd.h"
+@@ -28,6 +29,7 @@ static void io_req_uring_cleanup(struct io_kiocb *req, unsigned int issue_flags)
+ 	struct io_uring_cmd *ioucmd = io_kiocb_to_cmd(req, struct io_uring_cmd);
+ 	struct io_async_cmd *ac = req->async_data;
+ 
++	io_detach_dmabuf_map(req);
+ 	if (issue_flags & IO_URING_F_UNLOCKED)
+ 		return;
+ 
+@@ -132,12 +134,26 @@ void __io_uring_cmd_do_in_task(struct io_uring_cmd *ioucmd,
+ 
+ 	if (WARN_ON_ONCE(req->flags & REQ_F_APOLL_MULTISHOT))
+ 		return;
++	/* the dma-buf map must be dropped first, see io_uring_cmd_hw_done() */
++	WARN_ON_ONCE(req->dmabuf_map);
+ 
+ 	req->io_task_work.func = task_work_cb;
+ 	__io_req_task_work_add(req, flags);
+ }
+ EXPORT_SYMBOL_GPL(__io_uring_cmd_do_in_task);
+ 
++/*
++ * Queue completion in task context after dropping references that must be
++ * released at hardware completion rather than from task_work.
++ */
++void io_uring_cmd_hw_done(struct io_uring_cmd *ioucmd,
++			  io_req_tw_func_t task_work_cb)
++{
++	io_detach_dmabuf_map(cmd_to_io_kiocb(ioucmd));
++	__io_uring_cmd_do_in_task(ioucmd, task_work_cb, IOU_F_TWQ_LAZY_WAKE);
++}
++EXPORT_SYMBOL_GPL(io_uring_cmd_hw_done);
++
+ /*
+  * Called by consumers of io_uring_cmd, if they originally returned
+  * -EIOCBQUEUED upon receiving the command.
+@@ -257,6 +273,7 @@ int io_uring_cmd(struct io_kiocb *req, unsigned int issue_flags)
+ 
+ 	ret = file->f_op->uring_cmd(ioucmd, issue_flags);
+ 	if (ret == -EAGAIN) {
++		io_detach_dmabuf_map(req);
+ 		ioucmd->flags |= IORING_URING_CMD_REISSUE;
+ 		return ret;
+ 	}
+@@ -274,13 +291,20 @@ int io_uring_cmd_import_fixed(u64 ubuf, unsigned long len, int rw,
+ 			      unsigned int import_flags)
+ {
+ 	struct io_kiocb *req = cmd_to_io_kiocb(ioucmd);
++	unsigned int flags = 0;
++	int ret;
+ 
+ 	if (WARN_ON_ONCE(!(ioucmd->flags & IORING_URING_CMD_FIXED)))
+ 		return -EINVAL;
+-	if (WARN_ON_ONCE(import_flags))
++	if (WARN_ON_ONCE(import_flags & ~IO_URING_CMD_IMPORT_DMABUF))
+ 		return -EINVAL;
++	if (import_flags & IO_URING_CMD_IMPORT_DMABUF)
++		flags |= IO_REGBUF_IMPORT_ALLOW_DMABUF;
+ 
+-	return io_import_reg_buf(req, iter, ubuf, len, rw, issue_flags, 0);
++	ret = io_import_reg_buf(req, iter, ubuf, len, rw, issue_flags, flags);
++	if (ret)
++		return ret;
++	return io_attach_dmabuf_map(req, iter, issue_flags);
+ }
+ EXPORT_SYMBOL_GPL(io_uring_cmd_import_fixed);
+ 
 -- 
 2.25.1
 
