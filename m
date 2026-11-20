@@ -1,115 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.139.74
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795193632;
-	b=Dg82pYD/TNX9/O3eqO8rRIk24ymWDi1COny13cvMv950NR6K3nytjwZ1OjgAC6XjBsle
-	 //4joozEwNLiyCWU07P+ywa5YlAkhBWtYOBSFLWJMra2KNUiMKyUzNX+b6crKjbH4ufD8
-	 MTcKUm4O0xCS62ZpU2wQIVKfi/ulyHPOuxoCJy6LLnIOXSuiCwU28US+7TdZsJBWXioM9
-	 f5GhJpqA/k3uJnEtei0ELy+lldsQfoSEiALKP65jvLLyDyQ7+j+KwP+6YLwe5kqsflCxB
-	 JfdpH/kGjNKh9iVYxJIyjiKHlczb7wUQX3q7+8L24ll4O15b3QFWb2SZV2xe6xLJ7fw==
+	t=1795201524;
+	b=u2Mpa3xebCKGpSFWQezrHY5qV3mGZDhjvM3bhJnYSZAoxy4BOpbhFUXbwREF1/gGZWKB
+	 ZkreLKBqbKtDOHfoM3h5QrwC7KzXOTg0RNWNf6XOxZ1QbEqndelCrItAQZs7NN53A6zlb
+	 RD6+QJS/1pbl9XvfiHogesDkn4qx3xUIacztHh3Y/BC4NrMcUo0p77Sq5oKfl04IZ1BWO
+	 h5MoBBbIhf728b7jdfSwA6K5kqZEhF7pg7QBNlQUjh/ViOvfmwW9T+r2QvsxFTdw6FeRg
+	 JJPHpW+0StWzmA4qpmHHBXZ+G9MsJnq/fbZeG0/+Qb0yo86bVRL/DTY4h72FYI1Likg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795193632;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:From:Content-Language:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=/Wv3EVnU7tNAVy9hUDujn+fU/4sDmaxxFuxEJjdOv9o=;
-	b=xGTJez31Jmztrmf5hoJECEsO2E0ROoSr6zuB30tYNwEtH+5bx6rRe6f3sJNBWqo2X094
-	 xDIwf8rWkkrwgwt4XmSJUURKtYlULGX0apgRvXak3cniuCqeQdlkyjp8w7wycNyh/6cUP
-	 q2zeYskm3YVZOhcyrCK/J9tmV38VAcelaYlDr41pzvfT/EJrPHn2H2XB4Yd39RxiZY55t
-	 CHo8nP8ZAlzkloPMY++qWWBt1miG6njqjfX1Ds5AmxXyhO/1Aiy/XDQwLPzL8t3xkkukJ
-	 ZME8cOLm6kR8SBb4/H3PRbMafXAH2jtbl4hoVS9sCBpubh4BBFbGfr89bMEuk2y+4QQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795201524;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=dmRM+ScOoWXbhr1Te5AYJtCIswexzjiYk6BBSvYAv84=;
+	b=icAnDC2PVIZXa1fl7jD7CdczVrcVJ3aidJ1mjU5JJAZ7XhXYJV1pH9VZSFUPusEwAww4
+	 dD3FxsW6XVPWEIyGLJcQ57/kML+fQqitGMERPbyM1rIUsx2FVA8F6Jjaj/YygrMl2LCFv
+	 tij/lvDyz3IZu8IFk3pVVAqgETZ1lDJiN//Zv0ls4ttFpBRE7KYemZI6TJIRlEVvZWYl6
+	 bYfAHXrxRZv+sLuBV6QFFBYpl29uQIXZfPA9oTTUbnz6zOhVJhJ2XXwKKodudtPn2cvQb
+	 3gmeTW2Ci3Qq3OrYGKE3sP48JbLYkuE0gjHIm7zbPzoMqXtXpAtdexW5TdRke0XKchA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bsbernd.com;
-	spf=pass smtp.mailfrom=bsbernd.com;
-	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=jeV9DZsq;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=eK+T6ViO;
-	arc=none smtp.remote-ip=202.12.124.152
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+	dmarc=pass header.from=columbia.edu;
+	spf=pass smtp.mailfrom=columbia.edu;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=TFnsPzSa;
+	dkim=pass header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=W4EYCvbo;
+	arc=none smtp.remote-ip=148.163.139.74
+Received: from mx0b-00364e01.pphosted.com (mx0b-00364e01.pphosted.com [148.163.139.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3103606A334
-	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 16:53:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3103606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6695360A2633
+	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 19:05:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6695360A2633
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=columbia.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=columbia.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=jeV9DZsq;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=eK+T6ViO
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3C1497A050D
-	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 11:53:51 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Fri, 20 Nov 2026 11:53:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795193630;
-	 x=1795280030; bh=/Wv3EVnU7tNAVy9hUDujn+fU/4sDmaxxFuxEJjdOv9o=; b=
-	jeV9DZsq2mgL6Ygl1QHlGZygdziwVIN4mVhcMrIunq7EXSoOZs7RZbsc72lSDDOQ
-	pEtRRx4zvXsazseD5/Ql5LT4tzykEmKj4yLZgYRRC2rtylWHFBmTwiGMgAL1akMc
-	ipkUeqSy5QBbRq2vhekMsGaBjeiYTdxa8zilNJNCUZIGfE+Ob2rlZgsMbvslNp+W
-	kLdG4qOVG49Y893PJ5JlxEFCAZZjPM6JlAPdrlADvVzNA1luKDIPFgAWCrIXFbRo
-	OpEkE8eRjO3+Yrz6eq73bgcbQT/UynApoaTcmv3RIGlibtgJT4+SxUbXCr1VRnCA
-	TqFnEdzWCn/EGG4qqPvJoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795193630; x=
-	1795280030; bh=/Wv3EVnU7tNAVy9hUDujn+fU/4sDmaxxFuxEJjdOv9o=; b=e
-	K+T6ViOh7yY2cQ+x10SUAAm2nM79GZJkv+79Sc/90BHzSmnpPLn1DEK2mWMJ83xX
-	GUsTHmgMg/sLV5cTceCXKZatRehEO1Xjw7OzwFkMdIe8gWREq1o1cnB7D9qi3NjJ
-	uzGES09tgy6OfU4+ctJFJPmhSzBxuUGjxZn3GNUOb4atBC7xWhk+PGATtrHIRt4c
-	HZRaTLX1Jn1nR1ZHECCVZjX8B8cjazDF+zwOayVRz9R6NvVk3o9+lFTJU4+0bh6s
-	ca/kASGeMhAplWQSCXOiFQLsbwTT8vHMcvJ9ywGGBYkrTG+55m3/ZYFpLTv5H7Ok
-	2Mn7PoilNQCWaaUjhlJng==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=bsbernd.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795193630; d=bsbernd.com;
-	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
-	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:KAp4ftPPTaS4y5205OcFR2/Z/LiDx/G5AmIAFL669cZNowj
-	4iHarKnKN9FifoSKSdXap/yKJR1Lr9uD03rIhFcj0hDiCGNklHtCIhhtdXT0ya6y
-	DiFQfXJk8tWn1KEcFd8UO7D1+GTe30IC7rhqdxy4qpR33S+oieZIlVU+mo6mNC+w
-	Ro12D2OEIZXbUHx7LFc429AbyRJATijcNsG8T2t7XAtMdmMtxJU1Zf3vr3aC01HG
-	9EQH4+hy/LFyDmWDjL9FEFJgmyS/NS9IFhCg3A+7sWdJoVfVdhNE+kS3cyTl5CGD
-	EpDX9HtYHU/RPOH9iPDYoFfzS+OMSToRxVlCgow==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=14;
-	hn=cc,content-language,content-transfer-encoding,content-type,
-	date,feedback-id,from,in-reply-to,message-id,mime-version,
-	references,subject,to,user-agent;
-Message-Instance: m=1; h=sha256:ITbusC0WvhFskdP8KchZhdHZQfPIjPZYbMqpI7xCWEI=:KZ2eJsV/85k/pvIN7eDKNSeCssjclebwmtrgVMnik7A=;
-X-ME-Sender: <xms:HnsAazsmP4BdHAPRlq8w-8fMMiVbbd8LyJdF1x3Zym6jCjmgSlvd9w>
-    <xme:HnsAa19zQUUtCRp0rCHzgjJFEKa6JXD23YlYrYrx-emHprieebTpuM3_-9d2KkEtX
-    tviTs_A3cE1l0rIBoY-OIPzpoNCuSowqWIGESMiySAaLwG7VnAOaw>
-X-ME-Received: <xmr:HnsAa202Lz3r9KZuAOYGY9toWJ3qrMWwwNYmthADJD2IP8T02dPStxpoeZDDS-7-8BHwMIn0SuT2CoNEtDam9h4aRvbjQOyLjpWm73bYVBQolRXVag>
-X-ME-Proxy-Cause: dmFkZTFlKBEsIxR7EUcWVh3ER113fSMNBs58AtPoMocYgXz5kHz3pqkol1Pj0aEiSab399
-    SQCyTDnXm/qVu7gg2Ou3nE7Kjhz3qOSEI9e4nx0iPEet4ulyF7HNtrFUp/tV+K2TAgFwbr
-    HnRVKQv2h5vOMUoAJjcw6wXcrYYKi6XXYwVp/7itT43ZxVhhNQbRAUPVZ6DIjyMelTOnnk
-    CSGtdI1EsyjQpRje15Udmsgq0qIFs4RRWZhiv+8Vzyg/BU9vUOBe6De5XNFkEHOxeVSGO7
-    eqgeuvMdW0fVjCn1QtloZNusujJ7giow/5Jumb5l3Eg285tB1OwHWbZqt41/7ZcXI4NlYr
-    OLCA1B9syh3jWOVayIALKCMAZjfbP0cwLY8HYN7WGina7B2HQgwKbn+GixbkaTHV6gjLuK
-    TO1Ko8YPrVZwDbsakj/ds4YEkFXMPkuuITI4iERiMGmc3s5qifdgiC9j+hOHorJHksWoKD
-    foc4VzK29Jib2i9GQL4n/2n26D9FsGqhp0GpCisYB2fG0vuooJILmBBiKSIr3fhx2FBJgj
-    SBKUSqDD1n9vwJgDWOT9WUgxxFYZptD2yZl8YwUcmdtkSwDcM4RdqPff1w7mVtwFGC9IcW
-    aCAAtoVJATtWMF3zT7tn5bmggwdUwrG+0U2gReL41PG0bNjeMIkV7gRkE2FA
-X-ME-Proxy: <xmx:HnsAayB0eC6Vj9OQm1jofz_up726g3rcmFdaSheh0ph-L0IhpdSpKQ>
-    <xmx:HnsAa6d5VyXQZvBMFzCcrfQEGlumEgy4REu61MW199Vc2IUMcwF3Eg>
-    <xmx:HnsAa34X8Gy82G4WyrwQQ9agNbusN3Bt_D8WA09BBRHZhaaeZnFvqA>
-    <xmx:HnsAa1WPQEyGxIQZk157w98h76mcs42mc4ymmsw_7XYaU9-b5zrAHQ>
-    <xmx:HnsAa5W6d2zd0ptFb_E-Gs2GFpmdalJ_fuToUlxQ7Ay4HWh0Eujo6KpM>
-Feedback-ID: i5c2e48a5:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Nov 2026 11:53:49 -0500 (EST)
-Message-ID: <23404e53-49d6-4775-ae96-f8abaac7a145@bsbernd.com>
-Date: Fri, 20 Nov 2026 17:53:47 +0100
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=pps01 header.b=TFnsPzSa;
+	dkim=pass (2048-bit key) header.d=columbia.edu header.i=@columbia.edu header.a=rsa-sha256 header.s=lionmail header.b=W4EYCvbo
+Received: from pps.filterd (m0167077.ppops.net [127.0.0.1])
+	by mx0b-00364e01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AKIunaG2977530
+	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 14:05:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=columbia.edu; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pps01; bh=dmRM+ScOoWXbhr1Te5AYJtCIsw
+	exzjiYk6BBSvYAv84=; b=TFnsPzSaoKNnWyM5dGyuUsE4MhzUWxJ52qlcfJWZGE
+	eB3x8vZXTAalWcJo03l2Cw4LBhj4ZWWZow/cIhwbAglrsDb+wQgr5u/Z2OQLidv7
+	HAjh60fIxU2/RjMKXPulCR5sLz8kfD84dGpn1ccYjiVamSHxrUEpGvhCFmP4+nrj
+	1BxAB3ztQ2mwmLwW9zr5Uz4ozWBugNru+PV1JT/qk7lI1FUOmdc7RwHrTSE7AzkK
+	RhDtGciHDHHC6+uZpSa3QrRGgn+GZ92gry7cByD22cj+/21OMSDyTmkwwkmgQzcI
+	GfS1LhmKhg5fiNMJkv/BjHFYdotvXGKJlaUfsFURTrfg==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0b-00364e01.pphosted.com (PPS) with ESMTPS id 4j2r0aak8k-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 14:05:20 -0500 (EST)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-54af6c38092so17322891cf.0
+        for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 11:05:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=columbia.edu; s=lionmail; t=1795201520; x=1795806320; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=dmRM+ScOoWXbhr1Te5AYJtCIswexzjiYk6BBSvYAv84=;
+        b=W4EYCvboUKOf1IqhoqrLxIUOncbXkAxERiMYD2HhVfA+KvQk1Jj0v1okuLv1AZvCnN
+         GAUymFpCcicQHeWsJlHcR0XNSdFYo6rnBWYDyK2DZKlo//38bDcEubOx7NPChd68nJkA
+         QnoFnXnqd4chcJChrxKej0aiGDgwjX143wdECl+nWlU7vQcugeqQg+J4imp95a9iQsCd
+         631e1XNMCrD3JUu+XTAfphp///YISDhXdUXxgFCFvkDORXLzRVe8yAXtfP2/ApudPGMt
+         GkOlLRHy6uxm6Cu4AzTdmyoXYSLUcQbF+chG8T6f6usrgotdUQBPzkA0irfpAYgL8rVu
+         Ya9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795201520; x=1795806320;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=dmRM+ScOoWXbhr1Te5AYJtCIswexzjiYk6BBSvYAv84=;
+        b=A3iGmnPUths2+f1Bv37riYg4dXCAeUwIv20rpxxySS9MN8gqEn2VYWDEUni4kRBSZe
+         rv1ibO9NHtFZyo7lEVI4aNgaZ103awz3Ld8+rySg2lpbtHnVrG9+lpEpbWPBBplHyFUW
+         +hWbsZx/w1nuMdY1jqZ5lkXiB/p53eUqwDiyzn41WUHi0US3hAQBNl5aQRgSUR4oZkFq
+         VMzhgIQVkUcV8TaSjBtsN+DJWH6OV8+0th2LdnmJfnhn04NYHHr4pOv2TesXcZopRv61
+         GV7p0xVYEx4HmZ8eX99mUSWarq9oIJPTrsJyLS1V32vtlHqGNW2ynzpOjtSl5ds1Ke/4
+         6sqg==
+X-Gm-Message-State: APuU4Z+B/+TdFrrumK2shLSQy8f+4dnnqTTkm6tn6dL4ZMkVdYkiHqdC
+	qI06/pQSxbOZMeHMdB6Ig1b8qmqm2jOFj/ij/+WzEFQ08XZLGO2Ktnjrjr1ZbhtOjwALpV9fSTY
+	VPMWZN+FOmJtIsV+GbhEW4hjBCFqKrivbA/Y6zbgA+fd9BpZWIoKDHPd9AZDkW6EIib4=
+X-Gm-Gg: AYBFou3nyMUM+7TI5wCjo4UYq77/mSneCfWquBzH10TaMfQU2K16Mxbo5WgHjivzF6n
+	JynRRgJKcQkJWieLCLgIBLK3rOFxzvJO8e9PPGIqFO2USzzPvGEdHM4gBPJWk8aXTBevUQyJ5S9
+	+dkts6vs+LRK83S6uoLjoK0ra48oGdp3zHOOSAWoiOsOxA08T4FwJUgB1n8LA13x0d7ZooOQBC3
+	w5AtLJp0CbyTdEA6n+SzSjBpiQvzLOcBTbGI9xQIY3mxP1kL0k96O3+F/FlYuflHQNli418duDG
+	yWQa1hfv02McfJ6m+gMGf2PDyFjTOFKyYFGtUljq4RytfxwRWFX87IsPYDRk8kknybZSC26KyUP
+	vC4szFy2Mo7w1T0F35njwAnJhj2hI06Ui7nHhajU9I2zM8+qLnRiWa5Hg1AvLOIWIw0FRRm+bXS
+	8G6lrxOf9m7DC3d4TPFQSP
+X-Received: by 2002:a05:622a:1f10:b0:536:7085:1a7d with SMTP id d75a77b69052e-55d76a26c74mr74907371cf.46.1795201520265;
+        Fri, 20 Nov 2026 11:05:20 -0800 (PST)
+X-Received: by 2002:a05:622a:1f10:b0:536:7085:1a7d with SMTP id d75a77b69052e-55d76a26c74mr74906671cf.46.1795201519661;
+        Fri, 20 Nov 2026 11:05:19 -0800 (PST)
+Received: from [127.0.1.1] (nat-128-59-178-217.net.columbia.edu. [128.59.178.217])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d784517casm30094221cf.3.2026.11.20.11.05.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 11:05:19 -0800 (PST)
+From: Tal Zussman <tz2294@columbia.edu>
+Date: Fri, 20 Nov 2026 14:05:12 -0500
+Subject: [PATCH] fuse: pin user pages in fuse_copy_fill()
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -119,123 +112,148 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: forged reply bit triggers WARN_ON in fuse-over-io_uring
-To: n3rd <18670333770@163.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Miklos Szeredi
- <miklos@szeredi.hu>, fuse-devel <fuse-devel@lists.linux.dev>
-References: <6b97fb98.dc1ff.1a1f6b99657.Coremail.18670333770@163.com>
-From: Bernd Schubert <bernd@bsbernd.com>
-Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <6b97fb98.dc1ff.1a1f6b99657.Coremail.18670333770@163.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261120-fuse-copy-fill-pin-v1-1-72a0d888f140@columbia.edu>
+X-B4-Tracking: v=1; b=H4sIAOeZAGsC/yXMQQqDMBBA0avIrDugiaj1KsVFTCc6RWLIaKmId
+ zfV5Vv8v4NQZBJosx0ifVl49gnFIwM7Gj8Q8jsZVK6q/Kk0ulUI7Rw2dDxNGNhjbXqjy0rppna
+ QwhDJ8e+avrrbsvYfssv/BMdxAnsgr012AAAA
+X-Change-ID: 20260923-fuse-copy-fill-pin-7aba3462387f
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev, Tal Zussman <tz2294@columbia.edu>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795201518; l=3555;
+ i=tz2294@columbia.edu; s=20250528; h=from:subject:message-id;
+ bh=8MAoP8I3TJ0diiU2Kf38wEwABs1NB1ma2Qc4baL/Cr8=;
+ b=VH8iBatJ1OH1FtOXzrl7p1TFOv3zRFjAjFV3+ZDbrjHTaHHADoPdy3a8PDAp8fa9qr+ZHVrZ3
+ ncgktSBDn6eAWau1B2xRUmgiy4wuduAGPAKMBynF9bfVaP9yRZux2/9
+X-Developer-Key: i=tz2294@columbia.edu; a=ed25519;
+ pk=BIj5KdACscEOyAC0oIkeZqLB3L94fzBnDccEooxeM5Y=
+X-Proofpoint-GUID: -wDRQMBLB0Zu7QlUp3D1vcCGIrTzhRdh
+X-Authority-Analysis: v=2.4 cv=ft9J914f c=1 sm=1 tr=0 ts=6b0099f1 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=lnglQuR7XRqnmjDHco/WZg==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=x7bEGLp0ZPQA:10 a=A0y_DWxS2BwA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Da8U98TiO7q1upZEImrf:22 a=QOCMdifcju39GKoXhKua:22
+ a=Qy8Uw3nBPuy8PBFntK4A:9 a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTIwMDA3NiBTYWx0ZWRfX/ixslUqnHq1a
+ 04N2jO2Qj+piGzx56aniy61xDwA6RWWdMyim07fXYQ9o2iv1Rz/MQGI9I2UHovidYYYBnPuzmJ4
+ PHS4XwDB6VHbe0TikLNJhQ6dxjkSUCc7TFoWFNLr5D85M4kQJZYK
+X-Proofpoint-ORIG-GUID: -wDRQMBLB0Zu7QlUp3D1vcCGIrTzhRdh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTIwMDA3NiBTYWx0ZWRfXyeZ9oeK8AwzY
+ /MpW3AUKICSWPbHCc/DK2k6XbOChBx8kY5NMw5V9a5ODzYjxDbppIF1hVll1r4xpicq7Ax33U9c
+ XqOt9pbcoGQGYMVCFxkBKwpwftJVDDmhn/mjwFr1WjMAAzSYo26bj0lyGkQbF0ScYHMIB1NDeGP
+ grMQtuITwbrRSRg3kTayJLkwa3sl5BlbqVIkBIQeTpNChM3wWXeP90JRXO3dIfyHQbZvEMzP15T
+ GJV6K13y0ag4lu975wsVDpuhgaLyfJLguKDTMqYrpPYsH3fCx1wORIIRvc0XmRvAcb3lGmMe3CW
+ /rqSpd4JakuoKlcCyk3q5lGr2tBDYu8oEyDpS68yCJYqvbefHBH+u8U6LBhkVlS5HiQ/sFo9vdD
+ 6lIPPfwQhkRs1GaIAvDi1ay4dx6rWZbjJjCsY+V8e7LJieHfJin4Q9AkIh3Lj/M7T7CzlmA7427
+ YXpDjFN6ejv1GteRy6Q==
+X-Proofpoint-Virus-Version: vendor=nai engine=6900 definitions=11972
+ signatures=596817
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0 lowpriorityscore=10 impostorscore=10 bulkscore=10
+ clxscore=1015 malwarescore=0 phishscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611200076
 
+fuse_copy_fill() gets the userspace buffer with iov_iter_get_pages2(),
+which takes a reference on the page rather than pinning it. When the
+server reads a request, fuse then writes into that page through a kernel
+mapping and marks it dirty, which is what FOLL_PIN is for.
 
+As the page is not pinned, fork() does not copy it early for the child.
+If one thread of the server forks while another is reading a request,
+and the parent then writes to that page, the parent gets a fresh copy
+while fuse writes the request into the original, which now belongs to
+the child. The read succeeds, but the server does not see that part of
+the request.
 
-On 11/20/26 03:12, n3rd wrote:
-> 
-> Hello,
-> 
-> I am reporting a bug in the Linux kernel.
-> 
-> 1. Affected kernel versions
-> Linux v7.3-rc7 (mainline, tested as 7.3.0-rc7) is affected and was
-> reproduced here. The same code is present in mainline 65ba8f34ec88
-> (checked on 2026-10-28, fs/fuse/dev_uring.c unchanged in that area). The
-> v7.2.x and 6.x stable branches were not tested or bisected, so no claim
-> is made about them. The code has been there since the fuse-over-io_uring
-> channel was introduced.
+Use iov_iter_extract_pages() instead, which pins the pages of
+user-backed iterators and takes no reference on the pages of other
+iterators. Release a pinned page with unpin_user_pages_dirty_lock().
 
+This also removes a user of iov_iter_get_pages2() and a use of the
+deprecated set_page_dirty_lock().
 
-Feel free to send a patch that changes to pr_info_ratelimited().
+Using an under-development deterministic VMM, a reproducer stages the
+fork race by preempting the thread that reads the request between
+iov_iter_get_pages2() and the copy, a window only a few instructions
+wide, while another thread forks. Without this change the server sees
+stale data in the request every time, and with it the request is intact.
 
-Thanks,
-Bernd
+Signed-off-by: Tal Zussman <tz2294@columbia.edu>
+---
+ fs/fuse/dev.c        | 15 +++++++++------
+ fs/fuse/fuse_dev_i.h |  2 ++
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index ec2306c63d0d..5800f9290320 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -1000,7 +1000,7 @@ void fuse_copy_init(struct fuse_copy_state *cs, bool write,
+ 	cs->iter = iter;
+ }
+ 
+-/* Unmap and put previous page of userspace buffer */
++/* Unmap and release previous page of userspace buffer */
+ void fuse_copy_finish(struct fuse_copy_state *cs)
+ {
+ 	if (cs->currbuf) {
+@@ -1010,11 +1010,10 @@ void fuse_copy_finish(struct fuse_copy_state *cs)
+ 			buf->len = PAGE_SIZE - cs->len;
+ 		cs->currbuf = NULL;
+ 	} else if (cs->pg) {
+-		if (cs->write) {
++		if (cs->write)
+ 			flush_dcache_page(cs->pg);
+-			set_page_dirty_lock(cs->pg);
+-		}
+-		put_page(cs->pg);
++		if (cs->pinned)
++			unpin_user_pages_dirty_lock(&cs->pg, 1, cs->write);
+ 	}
+ 	cs->pg = NULL;
+ }
+@@ -1068,8 +1067,11 @@ static int fuse_copy_fill(struct fuse_copy_state *cs)
+ 			cs->nr_segs++;
+ 		}
+ 	} else {
++		struct page **pages = &page;
+ 		size_t off;
+-		err = iov_iter_get_pages2(cs->iter, &page, PAGE_SIZE, 1, &off);
++
++		err = iov_iter_extract_pages(cs->iter, &pages, PAGE_SIZE, 1, 0,
++					     &off);
+ 		if (err < 0)
+ 			return err;
+ 		if (!err)
+@@ -1077,6 +1079,7 @@ static int fuse_copy_fill(struct fuse_copy_state *cs)
+ 		cs->len = err;
+ 		cs->offset = off;
+ 		cs->pg = page;
++		cs->pinned = iov_iter_extract_will_pin(cs->iter);
+ 	}
+ 
+ 	return lock_request(cs->req);
+diff --git a/fs/fuse/fuse_dev_i.h b/fs/fuse/fuse_dev_i.h
+index 0c078bdc270c..20304a92d391 100644
+--- a/fs/fuse/fuse_dev_i.h
++++ b/fs/fuse/fuse_dev_i.h
+@@ -331,6 +331,8 @@ struct fuse_copy_state {
+ 	bool write:1;
+ 	bool move_folios:1;
+ 	bool is_uring:1;
++	/* set when pg was pinned by iov_iter_extract_pages() */
++	bool pinned:1;
+ 	/* set when the payload is zero-copied. folios are filled in place */
+ 	bool skip_folio_copy:1;
+ 	struct {
 
-> 
-> 2. Problem description
-> fuse-over-io_uring keeps the FUSE request and reply headers in daemon
-> memory. When a daemon commits a reply, fuse_uring_commit_fetch() uses
-> copy_header_from_ring() to copy the 128-byte in_out area of the ring
-> entry into a kernel buffer; the first 16 bytes are struct
-> fuse_out_header (len, error, unique), entirely supplied by the daemon.
-> fuse_uring_out_header_has_err() then validates that header: it only
-> rejects unique == 0, only checks the error range, and at the unique
-> comparison it uses (oh->unique & ~FUSE_INT_REQ_BIT) != req->in.h.unique,
-> which masks off exactly the bit the later WARN_ON_ONCE tests. Kernel-
-> generated unique values are always even (fuse_get_unique_locked() adds
-> FUSE_REQ_ID_STEP, defined as 1ULL << 1), so bit 0 is normally always
-> zero; a daemon that replies with unique = commit_id | 1 passes the mask
-> comparison and then necessarily hits WARN_ON_ONCE(oh->unique &
-> FUSE_INT_REQ_BIT) at fs/fuse/dev_uring.c:653. On a default kernel this
-> prints one WARNING per boot and the reply is still treated as a normal
-> success (err = 0), so there is no memory corruption, no out-of-bounds
-> access, no use-after-free and no privilege escalation. On a kernel built
-> or booted with panic_on_warn=1, which is common for Android, ChromeOS
-> and hardened/cloud kernels, the same single forged bit panics the whole
-> machine, and the user can do it again after every reboot. The legacy /
-> dev/fuse path (fs/fuse/dev.c, interrupt reply branch) handles the very
-> same input as an ordinary error branch and does not warn, which is why
-> this looks like a bug in the io_uring path rather than intended behaviour.
-> 
-> 3. Reproducer
-> A self-contained C program (about 450 lines, static, no libfuse) mounts
-> its own fuse filesystem, answers FUSE_INIT with FUSE_OVER_IO_URING,
-> registers ring entries with IORING_OP_URING_CMD through a raw SQE128
-> io_uring, then replies to the FUSE_LOOKUP generated by a child open()
-> with an out header whose unique is commit_id | FUSE_INT_REQ_BIT and
-> commits it. A negative control replies with unique = commit_id (bit 0
-> clear) through the same mount and the same path. The complete reproducer
-> and the serial logs are available on request; they are not posted here.
-> 
-> 4. Conditions
-> Four conditions: (1) fuse.enable_uring=1. That is module_param(bool,
-> 0644), off by default and writable by root only; I found no distribution
-> that enables it by default, so an operator has to turn it on for
-> performance, usually via /etc/modprobe.d or the kernel command line. (2)
-> The attacker can open /dev/fuse, which udev's 50-udev-default.rules
-> makes mode 0666 on a normal distribution. (3) kernel.io_uring_disabled=0
-> and support for IORING_SETUP_SQE128 and IORING_OP_URING_CMD. (4) The
-> attacker's daemon completes FUSE_INIT and registers ring entries. The
-> attacker does not need root or CAP_SYS_ADMIN; with CONFIG_USER_NS the
-> whole sequence runs inside an unprivileged user namespace, which is what
-> was tested here (uid 1000, setuid then unshare(CLONE_NEWUSER|
-> CLONE_NEWNS); the kernel printed CPU: 0 UID: 1000 before panicking).
-> Triggering is deterministic and needs no race. Tested on x86_64, QEMU
-> 6.2 TCG, 2 vCPUs, 2048 MB, initramfs, 7.3.0-rc7, with KASAN enabled as a
-> control that stayed silent.
-> 
-> 5. Suspected location
-> fs/fuse/dev_uring.c: fuse_uring_out_header_has_err() (v7.3-rc7 line 653,
-> the WARN_ON_ONCE), reached from fuse_uring_commit_fetch() and
-> copy_header_from_ring(); contrast fs/fuse/dev.c line 1947 (legacy
-> interrupt reply handling).
-> 
-> 6. Suggested fix
-> Do not assert on a field the daemon controls. Handle it like the legacy
-> path: if (oh->unique & FUSE_INT_REQ_BIT) { pr_warn_ratelimited(...); err
-> = -ENOENT; goto err; }. A regression test that replies with unique =
-> commit_id | 1 and expects no WARN and an -ENOENT rejection would cover it.
-> 
-> 7. Mitigation
-> Keep fuse.enable_uring=0 (the default) and do not enable it for
-> performance; deployments that already enabled it should turn it off and
-> reload fuse. On hardened kernels, setting panic_on_warn=0 only
-> downgrades the panic to a WARNING and does not fix the bug.
-> 
-> 8. Disclosure
-> Public. Per the kernel security process this report is being sent to the
-> public mailing list and the fuse maintainers with the security team
-> copied; no embargo is requested and no CVE was assigned here. The
-> reproducer is not posted publicly; it is available on request.
-> 
-> 9. AI-assistance note
-> This report was prepared with an AI coding assistant, which was used for
-> source review, for building and driving the QEMU guest used to reproduce
-> the issue, and for drafting this text. Per the kernel security process I
-> am treating the issue as public and am not posting the reproducer.
-> 
+---
+base-commit: 7f7b822d09c5590defcc61a37ffbd5a3533ed518
+change-id: 20260923-fuse-copy-fill-pin-7aba3462387f
+
+Best regards,
+--  
+Tal Zussman <tz2294@columbia.edu>
 
