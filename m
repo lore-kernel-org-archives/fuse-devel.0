@@ -1,69 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795180284;
-	b=UwdcN13+c+EerNs+/EDfXUhKtECG1aw8csGsaUdN8YHzZV+jQHvGnzxROWXmnrFqwO7F
-	 e6FEw8IhVMv1cOHIccd301N5p+FP3v0O0MKvpiJRUVMFbWMX2R0m0eFGiJSUKm2jZKqWI
-	 /6DhbAnvVkGCqLGuPueDT5YrdcVldZPRUU8FYj897cdWhCk9PdMu+c2PwN5jM1Ji/zjUH
-	 aozJBB1VPSM7jY1Z3b1PgXC/7q0A9Yoe0HFpxahUdYXsI2c2N9RT8ZJ6wm7xHGR/Ag5g5
-	 +Fk8hkglI4bRDlmIR5UJCYi+XsIIR5MV5TIscFVzC/KjpHXiejrQOEegRqkDakza40g==
+	t=1795186814;
+	b=gTOQlARg/eEX+LG/0NXFDNX8NrQx2JPlmH+iz5vM90t7aOA20//L8N9EWZ+0FFYVZvne
+	 4IreNx2RJnnyMvTcYLN9SPwOsV/N/q28+FM9KODGxv24CUdgHIJArNS0csyoLqMuptwQ1
+	 P6lyokSe6IbJWtel2NPTgeeZSqJmT3K2K2AfDfaHEF0LD1Hb80jSHkw0e0Q7kF6VwgaNL
+	 EeX/BFYoCWv2zZWvakNXCM6tH/+Z0lBUXZWJ/8QWumj4+OnFlqw9Q1M94xhHBshYqaKI8
+	 iBqH34QCNqsn5LVWc5TtbS6haxDIH0vf5OMCJqk9S0ZedxEE3EymsaYA1S8A2fCRxCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795180284;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=11EUqqsBHqKJhSEKaLjedxJRvUSCpiSlKRotGWVYopQ=;
-	b=V1zJDDJuHBkyJNC84YTPVu2gJ5U9GO1vOr8sdITSvmjMCoTAfCzbE7y1i6yrJnCV18vf
-	 +JkVlsOjCvNlozNsUWMXI9tO5E2fmo+3ZiaCHYnmSwEZtOvqEQ2Z5F+Nm2LGP/b1anQVi
-	 HP4LaVw8yXct0PcH8Bx2z+2fWxN3yQ6UYhXAuBCo8tjKwry+6HDaOxY2CRFsrz5Rq/X12
-	 dEEXHSTMKi6NXvpa566gHrLYnU/vhNwmxnBzyBTz3RebNbiQQ90yJvcFDFhHJ5u6wdDB9
-	 1WWFdzF7M4/U8JYRAfC9ryXP8nLfcjJ9tB6kI1FLyH9G2BGMCGyB26LbI+eaFsbzaBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795186814;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=v+oh6shJRKf7A9wJO4PoFZ9vW+2n3QYIiBlJ5JRJGZs=;
+	b=cCxG4917MrgjdEbiRmD9a0agagmzioYsH5+U7s7S+hoEJ4f8d88XLmJajr1xixCmAYjN
+	 eU9iWZ4DHMWf8jo1VRdKPgb9u59zqUXe+gGjXXVPZpJtS5laugUMq3kWbeGPPb0D5WdOz
+	 G/vjChTniPefll6wYbuZm0SUtzcpBR5Zo8QWdWmH9lQwt7vN/bRMmmw1nM5zKPqV/Hvte
+	 natQAE2q/MEKy2tOEkXM8RJGEAadm/8/HFvEddajKcORDtj08I8Vk8Tsjn8wortFe/yhl
+	 99p7i/+5V0mv0XP8Big/hziGFqXfVKfeTiHF82/wXVSRyqzlbzRxkK41d8cHPBRrb1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=pcpMXMRk;
-	arc=none smtp.remote-ip=91.218.175.180
-Received: from mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g5dGt8fZ;
+	arc=none smtp.remote-ip=209.85.214.182
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B779C606A32A
-	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 13:11:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B779C606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8F9060A2600
+	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 15:00:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8F9060A2600
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=pcpMXMRk
-X-Envelope-To: fuse-devel@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=AFN9OOtQlK1HJO8cWelVMtGeAQ6PKLi87EwwnhaP1iY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795180281; v=1; x=1795785081;
- b=pcpMXMRkQ4Ns6fd064vPWWatVGroU9IVtkGO3ROe58Y6pOfgmdrRaA8URbSyfTUF5AbEgZhD
- i68/L46VO8eq6YVzH9zTsvTRNPM0a79tLxALqyXzHBnW3aN7CqxWw7P6596t4l+BKqmEoxYpK8c
- D1wn0Zhz0yPrczpYDf0gH1hM=
-X-Envelope-To: fuse-devel@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 1d043ee31403846b;
-	Fri, 20 Nov 2026 13:11:20 +0000
-X-Mizu-Trace-ID: 1d043ee31403846b
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 20 Nov 2026 14:11:11 +0100
-From: "Pankaj Raghav (Samsung)" <pankaj.raghav@linux.dev>
-To: Jan Kara <jack@suse.cz>
-Cc: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org, 
-	Andreas Gruenbacher <agruenba@redhat.com>, gfs2@lists.linux.dev, Mike Marshall <hubcap@omnibond.com>, 
-	Martin Brandenburg <martin@omnibond.com>, devel@lists.orangefs.org, Dave Kleikamp <shaggy@kernel.org>, 
-	jfs-discussion@lists.sourceforge.net, Carlos Maiolino <cem@kernel.org>, linux-xfs@vger.kernel.org, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	linux-afs@lists.infradead.org, Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-block@vger.kernel.org, Chuck Lever <cel@kernel.org>, Jeff Layton <jlayton@kernel.org>, 
-	linux-nfs@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>, 
-	Jaegeuk Kim <jaegeuk@kernel.org>, linux-fscrypt@vger.kernel.org, 
-	Carlos Maiolino <cmaiolino@redhat.com>
-Subject: Re: [PATCH 02/13] xfs: Drop pointless I_DIRTY_PAGES check in
- xfs_can_free_cowblocks()
-Message-ID: <awBGYTkywYFOaYOI@quentin>
-References: <20261116171044.6938-1-jack@suse.cz>
- <20261118145941.1063127-15-jack@suse.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=g5dGt8fZ
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2f03f3631b2so5723865ad.2
+        for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 07:00:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795186813; x=1795791613; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=v+oh6shJRKf7A9wJO4PoFZ9vW+2n3QYIiBlJ5JRJGZs=;
+        b=g5dGt8fZidEc8s+suIDmqeCRTZYQl9VTSQShL3Bzn0MI2PgzZBZyuhR3zs/OLv+x+o
+         clnkaBf0e5wlA+r00n9XqZ5VyvAhYRaHwyvABUro25Enywv0sP/N5urZVmcoDmKypS0W
+         lzKC0BoyJgOl8H3GEY4lY1Ve7DYRKScupG4YNhzsFdLujxIVK36fkLjWF26DHTlZX20w
+         9RfABL515t0r2/UXaCyWt9V086pIk6F08LZZYC9eqQ2LxgYGwFtAroWcgcbcIY+4tq5X
+         luHuzeozxxOvVbX8mNy8AvgTs3YCO5q8eMUFwIAilu1JdGsU8WYkfiTLbXDCk8FXh6n5
+         fz0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795186813; x=1795791613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=v+oh6shJRKf7A9wJO4PoFZ9vW+2n3QYIiBlJ5JRJGZs=;
+        b=QvG0u0e3C1sW+jL3adhD8YeecsKfbveWEn+Vl6ZUyknKaCLa0P3+AVCrZjPESA5WOj
+         TlB739wYO5ZtzA7wECuDA/R1k8O/l+i6G7slTv2xs+6zg/TRkZU/LPJrDGTh6INSpyfh
+         7Zjo69whMmTqDP1X/4SFRAqw8pV26QUgmyDQEvK2vvNOrKHl/lhir8faH6zESXCJoxdY
+         8lCZzIWRPd8zDxCsHwRf1P3K7ds5CgUdOiHuhDQ5HdoofiRBswimXOWMWcVjE5Cdn6ED
+         7OwbOeMj9uwXUYyJqxMYU0aiu8jpiiCyNq7zFVoFYBPogUtUsUT5C6+JknyEG70KmkoQ
+         kHJg==
+X-Gm-Message-State: APuU4Z8kOThCNC64pTFY6aBySLCCiLrtCivO1D7htUqPe3IV72JyzgEC
+	zoCZ7qSk+5CRcwAVW30I12AJ+ZcuTAawptb0KFBH6eThvQE7Mu7BBlww
+X-Gm-Gg: AZFdTZdVTxCjLcWrKOaFxixbUM0TzIY6EvJV+iDtN03Mvu52yrc4TqKXjRSrnfzUuHI
+	kx9GumiysTtZyIMlIcltgnd6gTCelMjUi7xbcDeUHYdWisH/OCi3OJFL988qAX497aHa5lqHu5H
+	DkLRz8SM7sSte2TjiZVrp1MWiOEJiltN/oBTtCyw8K/Vs6lqzFiJHYOtcUHfz6cyoV8YTiok+J9
+	0NOEDqEEIW2u6IVuRk2K5tBKIueT0dqM6rGlCK7ZO8fSbiStnAGZfjg68+LKzdFpTjTczHXtWcs
+	kzgPjCu7U4PRBU1I+krsS0wR8QoHbh1DoLRUoDf8e3zyBaXb5NyneZdQFETCYpMqWGaGuA++a1Y
+	HiOh+DGNzUyj/KxShHF1CBisVcCBIPm2CcPhRHiXXx3G0PsnAuzkgKf0L1ZgvobKGW4pHO5Y4sH
+	E9J79yKg7zrir6OVEsfol3EiHtw6IyuDa/4mr3VU/2bya1hkLokm3S3j5C293C0oXT+m1MPNjT7
+	9mpcoTmn2sfi7vTtt1MNKJFeBUevQ/oxwuFWMmnyqKIffUsQphLCL28PqVffVjA/o/JP7SwB4JH
+	uZRc080mmGvCoCQbmF63ACuf6GGzu9aOl5pQDV+AjJtYunIC/QKAnQ==
+X-Received: by 2002:a17:902:ea0c:b0:2f0:3123:899c with SMTP id d9443c01a7336-2f03f0c1f37mr34277685ad.5.1795186813059;
+        Fri, 20 Nov 2026 07:00:13 -0800 (PST)
+Received: from ubuntu ([110.9.142.4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f120282sm15213005ad.59.2026.11.20.07.00.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 07:00:12 -0800 (PST)
+From: Sang-Heon Jeon <ekffu200098@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Luis Henriques <luis@igalia.com>,
+	Miklos Szeredi <mszeredi@redhat.com>
+Subject: [PATCH v2 0/2] fuse: schedule dentry_tree_work only between dentry tree init and cleanup
+Date: Sat, 21 Nov 2026 00:00:04 +0900
+Message-ID: <20261120150008.1144420-1-ekffu200098@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -73,40 +94,42 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118145941.1063127-15-jack@suse.cz>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 18, 2026 at 03:59:36PM +0100, Jan Kara wrote:
-> PAGECACHE_TAG_DIRTY is the authoritative source of information about any
-> folio being dirty in the mapping. I_DIRTY_PAGES is just an approximation
-> used by writeback code that can get stale under certain situations. So
-> just rely on the authoritative check.
-> 
-> Reviewed-by: Carlos Maiolino <cmaiolino@redhat.com>
-> Signed-off-by: Jan Kara <jack@suse.cz>
+Hello,
 
-Looks good,
-Reviewed-by: Pankaj Raghav (Samsung) <pankaj.raghav@linux.dev>
+inval_wq_set() schedules dentry_tree_work when inval_wq is enabled, but
+it can be called before fuse_dentry_tree_init() and after
+fuse_dentry_tree_cleanup(). This series makes inval_wq_set() schedule
+the work only between the two.
 
-> ---
->  fs/xfs/xfs_reflink.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/fs/xfs/xfs_reflink.h b/fs/xfs/xfs_reflink.h
-> index 683c1841e640..1310cc9fe829 100644
-> --- a/fs/xfs/xfs_reflink.h
-> +++ b/fs/xfs/xfs_reflink.h
-> @@ -17,8 +17,7 @@ xfs_can_free_cowblocks(struct xfs_inode *ip)
->  {
->  	struct inode *inode = VFS_I(ip);
->  
-> -	if ((inode_state_read_once(inode) & I_DIRTY_PAGES) ||
-> -	    mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
-> +	if (mapping_tagged(inode->i_mapping, PAGECACHE_TAG_DIRTY) ||
->  	    mapping_tagged(inode->i_mapping, PAGECACHE_TAG_WRITEBACK) ||
->  	    atomic_read(&inode->i_dio_count))
->  		return false;
-> -- 
-> 2.53.0
-> 
+Patch 1 defers scheduling the work until fuse_dentry_tree_init() sets
+it up.
+
+Patch 2 does not schedule the work after fuse_dentry_tree_cleanup()
+cancels it.
+
+Both patches hold kernel_param_lock(), because a sysfs write can call
+inval_wq_set() at the same time.
+
+---
+Changes from v1 [1]
+- Hold kernel_param_lock() in fuse_dentry_tree_init()
+- Add patch 2 to not schedule the work after fuse_dentry_tree_cleanup()
+
+[1] https://lore.kernel.org/all/20261110150250.71520-1-ekffu200098@gmail.com/
+---
+
+Sang-Heon Jeon (2):
+  fuse: defer dentry_tree_work until fuse_dentry_tree_init()
+  fuse: do not schedule dentry_tree_work after
+    fuse_dentry_tree_cleanup()
+
+ fs/fuse/dir.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+
+base-commit: ab9787d7e66ac7e6e94fc975b37c5b56fff98ca9
+-- 
+2.53.0
+
