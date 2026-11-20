@@ -1,95 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.178
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795205590;
-	b=ZtA8ylz0kNE5GIh2HYmJmzAhwbB1gXcwzytJ/JEZk+f7pSAcyFJBA/xg7yxQ3hxdhj7p
-	 dOsLxvTIn+5/L3zZFch0YHY1ZTrXj+CklWBrdU2dDak+4Qz+WlA5btxJ8lBnJ15k8gBld
-	 ankrhVBvIeIDpk18+MUwiyt9lG9LYvQk9KJ4WNhGcUugQmlcONG8Qh+PTS/u4vGbiiVWI
-	 /65iMerFQ3KrDKcmcnbuiiSrlRtbFvvHKC8AJbg+Pa+pqzd1YbOjLpU5sMiuVVbglUYhi
-	 or98Z6kbUGlQo/m/nHGE87ZAtwYVuMFPyriw6d2oqsidJoNDhaJiIazjnUCqxrhGmPA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795205590;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=GQtVcgf7rcoWj+UINPxz4meljJNdr8d4MFIGXRAkqUo=;
-	b=W1O6YkkcMRsZyQoLff4iFqzYsJr8ztsu87sGc+nsY5A4K5O2co3M+EiBvfiscji/E/Ad
-	 tX7HrdR3PvDJ3JjSeqBjCNKYsN8Hz6yXFoC3IH5cYPxJKPKN7IwzVo1dph8abKT0XX26n
-	 TSDNgwrOqlpKlevdpi1z5Np0sEnxgRiW2Lei9L3iMp6EONUF5Ti9i3JFFZDUfAjIdP+Dl
-	 73AjEgiBc4NpF0vs+4kccJ7ilAT54XNG5ZyURP54e7NACm1DS/o7ZIUPBHsoRABksiD0A
-	 0q/nkcNyFVM9A7Qiv2IDnlAauGrEgxFLTt9uVJr4AWn5EUCctrM5/bg1Q6DfwSIFfYg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=szeredi.hu;
-	spf=pass smtp.mailfrom=szeredi.hu;
-	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=ENiw8x0H;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.178
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795209311;
+	b=vVlp6tILpeLNFBNZ9Di0byQHCZBLN1tNrLnj0ji+XZwLRNsCYi/VfhMO6DUTgCcv+oJ8
+	 nRO2pitWiAjmsiJ0o08Zok5zAZ7r4Wh7kMz03hsXoJH5RANTQ+qYGGOO+55oQLf+J/1yi
+	 zCYbxTnIC3vsnC179ahy8YW9gxLIFEt5anidNOrG57RQGYp1nbO0GNtSXrO2NVZxTQrqQ
+	 72VCbCf2xvUx6lPkLoa2WE5uOXTQ9IEx7D7gPT7mU/KHRc2h3kNsuUmgmBJEFVfGgcUZJ
+	 E1djm/xFfm+Jw+DHya+RLjuFMxKKitK0s95w9bIu5tc7bIgo7NxuUSpyxspMnJ+06mw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795209311;
+	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
+	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
+	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
+	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
+	bh=Pv8q17yADd4NeIA5cXR87RgzDtmfCEz270D6vwEmXW4=;
+	b=Sa8HMfP6myRQ7xtvfrhYW+F2kazAsgVxfOnHpB9m7itDro7OzD4namCwwbxbuFTgIY/L
+	 0mP7l6ooS4pOt2tvBuzvEwU60hYG4PqtmuIY12uBLBhBDgqWBQIR9rPdkSxIoHmdKm3Je
+	 8V25NV9hjNcCuV46xWzVlBwY8/Uftd80om8p2g6T/D+U4JVdQNx1ax8CCrU/qnLkURX2Z
+	 qo3lPtfnMZ4aEJuj8AZIyKNV04gps0GKr1dX3Plv2ogRpCzoO1jb0BK1fBtLHQQOG4Lun
+	 L+rESEit1kCM0asYuYrJPSAbtSZE11ARsrkDzvsheTQu7tjzZwIsAxBWqNGX3H4vqNg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CYeGstEZ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E67F606A6DD
-	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 20:13:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E67F606A6DD
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280AC606A6A6;
+	Fri, 20 Nov 2026 21:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=ENiw8x0H
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5364042eecfso17124981cf.2
-        for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 12:13:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795205588; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JGssBJLWUrE+mqvO0aFr3W4gvwRkbt9CAIwWR9H83ECPWknlMPY92Xg1wJB5aTdl6J
-         p1MeigVg9uVW0a+78eP/+STHo2hzxUytCno2pIK9JKwXp2hiHIyjpAkOVioCrB4VOxXW
-         yoizdv646tjpHunIGgcj2XMvtv+fKc1j0bqXwQSRmSqqqyemiqPejxaUpNGEhpw2xOei
-         i457wGFGTl5S6vJ6oUT27Yt3rZUoCHo24Ss+Q4fe2fXdR9mhLvCUso8kIFnSK26paOws
-         yCxp+Dmz/6z7x3JoTyIjrkWkLHT4oplsi+zS52Xc524kO45FLvXSIGpgD0GcTeYydELj
-         T7Mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=GQtVcgf7rcoWj+UINPxz4meljJNdr8d4MFIGXRAkqUo=;
-        fh=Axp/3XqWDRhFpXS4G/KvVF0sTplzRM/188uLPXoTWvc=;
-        b=Q046aPGQHHc8lZ/J/7JamWOhiwK43QFKo5Jkoft3Jc5W8M7ABSPLFSEqdp87X0QgoU
-         VgFziRZof7qJ3SSeR6fDnC/hL6/A0ivz9ks752QpbLPPywp4r2Z4u5IYJeOiG1tbjgLx
-         7dOUGCEYXliYbN2eoetJe2LXP2mChcwYmJCf7hY7RqIoTajAuCE04YV3Mc3HeZL6oR6H
-         YSfP9D188zGBmIT9uayMNW6Dv1QhmLAdaybAp1Yxp0Nq61OJ4gwlbfIg7ipVZS3v46sY
-         DpEOXH5lEib03eOrxZg9e9juMF0hvKLrvUB3iUAAhRe9Zbb8Fy17dQYlTFRdoMWQprUc
-         rF+w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1795205588; x=1795810388; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GQtVcgf7rcoWj+UINPxz4meljJNdr8d4MFIGXRAkqUo=;
-        b=ENiw8x0HIlyXnexXeWamAPOAGVQS34Z1iA5VAvUW6seQEs2nVA8Z6GTN+Fi4SjG9z/
-         yJZDnBEa3vYW3PH3b/OAEwPTaqABU6t73Wg4btmKxrL0U84khr/myFd1zwEff1PIKiic
-         je5ZfehOOR8FCcRooeUezVMLw9eDE0Q0hnV2I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795205588; x=1795810388;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=GQtVcgf7rcoWj+UINPxz4meljJNdr8d4MFIGXRAkqUo=;
-        b=Q8m5esoieYKJ9Mi9/dfgk3/ZAai/igp6mKrV+NEU/H3+4JCUJXcLzS2uMjMHs8DAkm
-         2DSpIn1ZUPY17a3r8pDuyAg3XZkl9/Sz2siKX55pYrdBpbbsMkAUQnvpMuLAwp9+mHsb
-         88/TT+W4KfE/QQoksiSlCmHUu76mj+mRaTWJsVgMqt/NkyFNGGPKcTV5qOT9o33EaA6A
-         yZNlGn0XohWb6wVIHrhEWC3TFqdNEZaH7clSPKMefX6g+OlJktfD8PEwr5hqnbBnEE3E
-         TPHhONX0ZDxiXr305WO3Aphsd5DhbygLEK7NJC59lNk4TrHpfaoz71c7byFxaUURt+vg
-         VD1w==
-X-Gm-Message-State: APuU4Z9HmRQGEUz9C6sdKL2xtWaYUppZ/FEQIk6g4xy3F7e7I7OV0Y7j
-	ilur1p3zPD6XjN86D+j/jj9IFt34h6FYRrkcJ+LNNrIPhfSpOwgUy5QYenDakQ3ybex5sJNdoTq
-	in7HstjSWfYmCEm2m73+mL5sVJm9WqCXfIXBDD73WdQ==
-X-Gm-Gg: AYBFou0eVKvbBw9iNE9fqQtnICIAqQn7x+0f+v1fRI7VcPwCLhx2XfUYWdMvRib2ZNF
-	+jw5V2Uh5/8oIKCiPMHbVDHAVLujSGtDBvkT9W0RtshQNbVqfHPyfv7d25YIvpEe4UyfjCyFJVe
-	dLOPBI0VDp+JLus+/FWlQc8B+SlHm59MoxDx5r8ukfo5EcNnazoIuVVRf241WJQDYfBmcQEhArj
-	X/Q+0KBG7jB4+ZxNo1rUXkR5dQv0Uu7z7TUX6MQJTu7v4iZhnVRi/2po08UACL0QrHVlPvP70To
-	KVVbOYwTByJD8lE/oYrUX1E2MCYLR8XB8bc4sGkzDTsoLhAK8BNd/DvUJGYy7ttRXIc3H8D+lNf
-	sOrv1UsfpFxRd9nILmgDk1Zp1Y/aaD5wTC7LKP6SE6CyDElp7JhCoOJtK2tkPXgCy+w==
-X-Received: by 2002:ac8:5d08:0:b0:532:9ca3:a400 with SMTP id
- d75a77b69052e-55d769ea68emr80059221cf.16.1795205587957; Fri, 20 Nov 2026
- 12:13:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CYeGstEZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 452D01F000C6;
+	Fri, 20 Nov 2026 21:15:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795209310;
+	bh=Pv8q17yADd4NeIA5cXR87RgzDtmfCEz270D6vwEmXW4=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=CYeGstEZw/ME3LNV6TLwJwg97MswSZVxn3aFStNyvWqS46oP2SgUIF87Ge3+7FF74
+	 F2FwSz+zr3fVsDfwxNZKPXX4e52lThIOVGumZl4WqHvmJ4Bp9B9mN9WzY0nJSL1f0+
+	 C0xJsc+gmYysQMP7FVpvGdgG4ke+ejURq+dxFUT4dfgpm4eCxm+CcE0AouWqHgh9S+
+	 ftC/B5Uq9l2Z/nelIPU3fbERK/1Y+zg7CS13rA3GV5rgs0KvLCkCieSUYaDnOSEtgF
+	 KrV6WM/8QldoDf54tIvOLPJd1NcwmvE1qOOm9aYqsJU8B9kA246eSKWPfF2xzOAigm
+	 le4sajtBqiMtw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3A527380A964;
+	Fri, 20 Nov 2026 21:15:10 +0000 (UTC)
+Subject: Re: [GIT PULL] fuse fixes for 7.4-rc4
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <CAJfpegvzVm6hTTNp7BgkFMs1DziFvmNoHUXjdTPz=9nC5ccUjQ@mail.gmail.com>
+References: <CAJfpegvzVm6hTTNp7BgkFMs1DziFvmNoHUXjdTPz=9nC5ccUjQ@mail.gmail.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <CAJfpegvzVm6hTTNp7BgkFMs1DziFvmNoHUXjdTPz=9nC5ccUjQ@mail.gmail.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git tags/fuse-fixes-7.4-rc4
+X-PR-Tracked-Commit-Id: 7f7b822d09c5590defcc61a37ffbd5a3533ed518
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 5f22fb20497f4983094131f00a734362300d22d2
+Message-Id: <179520930874.792202.7768867709024262369.pr-tracker-bot@kernel.org>
+Date: Fri, 20 Nov 2026 21:15:08 +0000
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, fuse-devel <fuse-devel@lists.linux.dev>, linux-kernel@vger.kernel.org
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -98,25 +67,16 @@ List-Subscribe: <mailto:fuse-devel+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-References: <20261120-fuse-copy-fill-pin-v1-1-72a0d888f140@columbia.edu>
-In-Reply-To: <20261120-fuse-copy-fill-pin-v1-1-72a0d888f140@columbia.edu>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 20 Nov 2026 21:12:56 +0100
-X-Gm-Features: AclHuK_WzCE6fLMEFoBBdtGGxb4gbBx1Tr9eIxvpHgcUOcsRzNjJfqn-CaDC7rQ
-Message-ID: <CAJfpegsDMb2i7gnO1ZAao4bAqUke6rF2TmvmxZj_pFxp_xv0Sw@mail.gmail.com>
-Subject: Re: [PATCH] fuse: pin user pages in fuse_copy_fill()
-To: Tal Zussman <tz2294@columbia.edu>
-Cc: fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 20 Nov 2026 at 20:05, Tal Zussman <tz2294@columbia.edu> wrote:
+The pull request you sent on Fri, 20 Nov 2026 16:16:23 +0100:
 
-> Use iov_iter_extract_pages() instead, which pins the pages of
-> user-backed iterators and takes no reference on the pages of other
-> iterators. Release a pinned page with unpin_user_pages_dirty_lock().
+> git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git tags/fuse-fixes-7.4-rc4
 
-Can this have any performance impact?
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/5f22fb20497f4983094131f00a734362300d22d2
 
-Thanks,
-Miklos
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
