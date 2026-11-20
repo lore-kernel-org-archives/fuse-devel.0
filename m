@@ -1,95 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795186819;
-	b=KWoXdHBZWP130Isu12sPE5EpBgt2thUsuBqFywAaJ9a9V2BHALamMdvmXG7eolAU4rlG
-	 tasx2OG+yfx+3pDKXyFfg46QWiE8RWjJ8Jz1I3z7U1nNVTpw4n1NbmlUz3ISzx9S6GnU/
-	 DShGMguGn+lUwBA2qfZQtBjaAgMNclvXK6Ol3MDsb/zW1DxdtdePTCl2UHUbeh1aJ7+fq
-	 LpEIae7XZ1y1G6kBQRhSwCz+PvL9peQp0hJzR4fJYe67o2W7lTFPFzLtWLQFEJ9WyEn3J
-	 w5z14TbzQ5d7trHlWcGqrAydJzClFh0UFo5FzRV1CXd78FiZazBKZCVZxacX5fd7Uag==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795186819;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.178
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795187797;
+	b=da6izF4D1vbBbiSFpsXHKDfwspET2a8xb9qzj0mVizZtUgOe08KQmgxo3OQOWR/z7H0v
+	 WM3Qkr4YvwCs+tsgUSev0wWTZcKd2x5YzLBTthctBLNHefFND3CLbYiNNgMZ/Puhj4fHk
+	 ApwZxvg7vaFqEOd+3BSa9Fi9RQ2DXJW+3Xl52r8dbPYiwadFRZn/Er4euFywiieBEtgu6
+	 y18Dts5d1xgYalWkqT6eodKSgolCnKu6EhOZ3ZBJzhX5aMnMfF62P6H/eHr2DcUZvJ53c
+	 Genp1pTLmgEdlc4NckcPXtalDIICY/jJSpDHGCp84pnBLjK07thOAACdf0XlOqocHVA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795187797;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=MXzkIorMiPWbDKQso2cn/JUFxw2wDbcQUfodK2nAGqk=;
-	b=xnAFHYJyXpeXlVH/XsS7fyPNpPRghxwxmDKU/0Pmz13lsm6yEgOMzcRdTzE0j9v6CJIN
-	 eCHu3mESk1x28aFFgPiKbQWf9MdxzKO4gihW4J/KhMyGzfyjpOLIteXHqVytf7t8K8Ona
-	 9vUu3rmiS3Da+CJm+0VnUqsdobIVskf3pPWHM/bZtbTfo21GffsMv8KjOPmh3+Imq7ouM
-	 NVMr/oC+p4ulmhOBRButT/vHXcPQJ+ZV5O/mWYzhIEDynz7uz3JXZqx8aAV4n51bzjY2O
-	 XD5ppTQuVveHo7U/GyGsEZDNrqUb8/rGsmxivtkXH8l1fChHACyX8vVs8CowCShGCgg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="OTL/vmn9";
-	arc=none smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	bh=yW1EW3ndjX19ZMwxi5BjIBlhtxHPAFUThq+STsbmeB4=;
+	b=SU26wWd8q7v8gbf9lZ2Wwav+X2tNDnp/it7jPYXIMVjLZDfYbhdD6Ery++/BeK/M+dzz
+	 WEXM3MZ8Go/g0Ky9ja69bIXolW+1ZviPWyJupIMlNTocqYOy4MTb+Ayz37Y8uho3mmVU7
+	 BkXeO984TwZyslN08p0Bm+Zl81RtyN8k4MO43E7sYVoi0iqOq9+N3RLsXhbSsdtYS7vEi
+	 phBDRWw2AGZ7pPw71buRYfyqbHi56hDY67JLRCVTuNQbqQ2hXBEvtj1vSzPK3dJNbRIOb
+	 PUaygLN4WlhWYHg4mPAqQzEs8ItX4K0rf9v3cZ8U52BEIMjIRhatKH1jqlqPOgdKglw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=szeredi.hu;
+	spf=pass smtp.mailfrom=szeredi.hu;
+	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=W9GoTPEz;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.178
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C3760A6F50
-	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 15:00:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4C3760A6F50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E0A606A320
+	for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 15:16:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49E0A606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OTL/vmn9
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2f02b9c1f6fso6443795ad.0
-        for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 07:00:17 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=W9GoTPEz
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5364648ae07so12335651cf.1
+        for <fuse-devel@lists.linux.dev>; Fri, 20 Nov 2026 07:16:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795187795; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qjBPLUbL92W+rHau3XO3Bbygob/PKZhFFXPw8FmFdeslm/d6ulVHF6ManuIFzDMkGN
+         9JR40DGoGvT/c/56Z77+aWtXedOC/hEF2p4wuMhDf5bDWYImeUXQXWqWUNsRGHv2XY1D
+         UjIE0ThNSI0OOySbHidMOwORr8pvXxTTxI0g4NMDmgb6Hh6TfAEWLDbYW/G6xXSdafgW
+         lOtXDEo7SqmPIoBM5v1NlExlxfOPJQbHkPMfR9waZ2PveufutcUJj0/lHq6Ff2CQymW+
+         pdtYj1eLVB3vrMITn4ySfCw078irO049P6zC6qetlR/zJzeSsWJWVbJdJWcjOTiEU5OS
+         Dc9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=yW1EW3ndjX19ZMwxi5BjIBlhtxHPAFUThq+STsbmeB4=;
+        fh=qEXaCcHbm7rQSclTjgZND43crpPJ9obOJty2J5U/1UU=;
+        b=FuJEXu+np/S5NrvRYIs6/fhHu5yZpocz9UuDbxFh41i+D7xtxkYo5XH9OdyFXMNz3w
+         RxUnwqsAR3uNWtBwYC/n3L2qVCrSnzKRKFI2cMa7XvoFyI9KVBK3nW11XmiPE6oJLSOa
+         838hAznimWTkwfh5drjP7XtzrXQJVthIR0NqNB+/KY7fM5+Win/Spo04sdF6/PdfWcL1
+         jB49ty5W0XFCkzImY6Tlj12XNJmPLtvCUhKj47vdTasEsIacWu1687+b3Y28vzlFBisR
+         pXYlJeqcfYQgp0UWNHVzvmt8gU4hkShwodub6TG74pZXmkfACrrcy0ei2ZPR9m0So5hE
+         mKOg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795186817; x=1795791617; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MXzkIorMiPWbDKQso2cn/JUFxw2wDbcQUfodK2nAGqk=;
-        b=OTL/vmn9e6E389SQcph5/cjijht01lgu48k/Ve9lDK83N6jjG30ksrfJmYFPA4/s9g
-         7K7/IoGdI3K6Ol8hERs/pR3TcrxfGss6ChhhCXjIDc8CAWaGbJztrqXG4Ic2deRl+sL6
-         CA/dx1zeO0niF21GXDCYhMxfKFK/0A6OYblYlXVk52W6+7e0tuEfgmYHYoJhJA95y9Uy
-         9Eerq1ei8I7GwGKcz5zjuoC6u3Fn356QEa8G6VcLev0urGZZigacP/Nvnvwj17sssr4r
-         0yg50RObo6yIIPOl04rBAybxnbOLc9zVO4TBX+fTK92vKGJP6neH+ggCJMWSBCEExT41
-         Ra5g==
+        d=szeredi.hu; s=google; t=1795187795; x=1795792595; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yW1EW3ndjX19ZMwxi5BjIBlhtxHPAFUThq+STsbmeB4=;
+        b=W9GoTPEzUfKELXxqbtcX9NN5eF6rg+HAxg/xKL1HEL5kKXX84wPYP24TG+faYWEfKf
+         kL5VOmQql+YdIgzCJqm9QM1+P7uxeJ3NMl8SxcinVELdMXc+8I52XL25fqM0r5vA79Y1
+         f3NZVasyiCp+/SF08cGPSyB3M75zKIbLdeXa0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795186817; x=1795791617;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MXzkIorMiPWbDKQso2cn/JUFxw2wDbcQUfodK2nAGqk=;
-        b=1bBgjtdmyy/esKyQ/XWFgyS/dtizFXN4WuPX1L7WYYMlwfCvx+W5Arc2/q6/PMVh8T
-         gH+2U9nLx93DmWdQP5CqS3DQug0ZHYyvJ3mJuBa7fx8wMONLgSdv7J4E6jasZjAcGtc+
-         d2YLD5/XtbuKNLMEX03+4g7F0CM7Mq0xOd72lnOpO1JzOjxLZc1fBcRfROULvdZ9MamS
-         Lt47M8nD3YxrW/cLnE4jkY/cqgdmuZ0s4oCs5KA2B7U64A9AdEhnB+cCxEehdciMTaDM
-         ggMZg+sYpQVBtVMhEZyoSS/EpVCz4VA73G8o8Xu6zCtPkvSdZxuKKcqRi+w7GDnL8Cij
-         yknQ==
-X-Gm-Message-State: APuU4Z/ffj9ua4kJb4ZeAlrxtnTnd5NvLsT6h1tsa5nEBgmzfe6ohsX+
-	BtKYLA+ALRTpIEq2z/PxrhmLcwkUTaHK434fXM79asFop8v5aUPEG8idQ4pfdw==
-X-Gm-Gg: AZFdTZefhs2s4698t7y09X4LMJFMBsCQWJXvRXoL6VQh8ZFFtYh4FCot5cgCIeFU7vl
-	qTv9Yl8j0XOsOfoy/HVlxCJQ622VEyXSqB5LL476NEIUPkvVQii0ks7BhDfTFzqwRFcraXImZ6P
-	mWpmDsJVDGSmaNPp+36Ehrpazwh4iv74xOmxq6x+6e6wZvkNQGo9kDx2pXVnradD7qLk9i5iUvx
-	wjAw5bdKPWXjQdk+bWFvS4QgO3VfbJ8xuPmcMNf4/c5MvIh1XxkO91I2w3OQIVLqiNup8FgjIq+
-	SByZQGNgaesglTNGRyFZvQMVn8crT3qv8vuA98hmbPBcalvtA5tgENFqe9RF1+s/PI0QVUFHjv7
-	18nlw2vST74pJGJCiCY1umWA9TTHJ+nbY3844cdAleQgTUUY2wqJx2SAjq96Dzo8rwBqYC9Htb9
-	RKIFn9nfFD/J4xR+Wvco+MykgeO7wMfQqmw+wrQKT0i7DC33EevCxxBQdV76Skb4vB9wY3cNUd1
-	niBLetionrZo6fuR0JjTcEjLF46nFNMhXTopc0yRZgeWGpP7MULTW2bRtmYv9exKArjLc9ajdP1
-	Tmvk10mDvmQ9LF3xia4rB02hZj+aZ7mDFHqUWdD9L8DA05Ub4GeX
-X-Received: by 2002:a17:902:f544:b0:2e9:4f49:111c with SMTP id d9443c01a7336-2f031fbdaddmr40856255ad.27.1795186817118;
-        Fri, 20 Nov 2026 07:00:17 -0800 (PST)
-Received: from ubuntu ([110.9.142.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f120282sm15213005ad.59.2026.11.20.07.00.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 07:00:16 -0800 (PST)
-From: Sang-Heon Jeon <ekffu200098@gmail.com>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: fuse-devel@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Luis Henriques <luis@igalia.com>,
-	Miklos Szeredi <mszeredi@redhat.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] fuse: do not schedule dentry_tree_work after fuse_dentry_tree_cleanup()
-Date: Sat, 21 Nov 2026 00:00:06 +0900
-Message-ID: <20261120150008.1144420-3-ekffu200098@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261120150008.1144420-1-ekffu200098@gmail.com>
-References: <20261120150008.1144420-1-ekffu200098@gmail.com>
+        d=1e100.net; s=20260707; t=1795187795; x=1795792595;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=yW1EW3ndjX19ZMwxi5BjIBlhtxHPAFUThq+STsbmeB4=;
+        b=UEU1gqaQkEYW5O3Yfx8krqgeBwt4bsq8TlwiSqNwbO9Jqp5zU661xkNVdyLoN1LIIM
+         6tM8TbGLWA6pccrFIS8m/BDYQMzXU1Fv/sKze9JEpTrVcfsOCd+r3AGDHGpV4NhaRYPZ
+         +qdfyfZJdh4oIubw0Cwpyjq5JGciAaMxQhKM/TnILAMOgfSZJiGba8P/Ce94yFe467Ki
+         bdCSdR1y4zwajadb18qpIP6A8CT1n+se3Ogo+0SqMDFgpgsTZ+h/jpvx02vjURU6XLtL
+         vCqc4bMN31/cHL9Eb7flV4xj73ciMQzC4fvrdl6V9okz6bOz2jhiR+bA7lNz8KWYmg2L
+         eD3A==
+X-Gm-Message-State: APuU4Z+iSMvkWcPeu7FD1Lt7ZqsM90Z6UpDw/Aflf658oRekh4aOeA7g
+	KKKD9oBa1Ocq4DavO+qZFCKXUukb+o1rY3x9m0/4ETSP92FOApOExW9DxDjobgRns5JXGUeNB45
+	zSVW1ESgTrJfM7Clg1Ye3aqy01eBQ9ZXa68nwSAQiZQ==
+X-Gm-Gg: AZFdTZcXJeVVmGlAFXK3Edz7AZ/7MhoiNOtkCk/A5ML95y4tOyUijjEzG4aAJKUH7NT
+	kmPzrYN6CWolvfGK1LRwD5wQZRaHmbatwpxWQcEH37TMhlNkOJOKKVeUS0Wu6/pn/deKag4NNRM
+	BtUn3eOguhXn17Ka5yBnMRck7oYxLHxAJWn3CZsUEPfUtLsNDa/l/iPaC4ZUiTL9b3Zx6SUwMjn
+	3NAtIsWI/UwR4BU3YMYIjw2Sj8SdUV52NNYTWte6baZ1vP1mcL7lrXYj+2l4khR4fqY3NhYTvhk
+	HSRjQOMJEjwRipfhROwxFpJ/IRzVZbCjHlIbHu98ZTsqZPP9SjEuAU+Xq66PPmz8syL5trsAFAl
+	rLmYF+0mH8cL7T1Gld0/9XQaasJ2SlrqEXKWeiwDJLs4wqtdfj+ITHjopmcm6xFSapw==
+X-Received: by 2002:ac8:5706:0:b0:536:3760:e6cb with SMTP id
+ d75a77b69052e-55d769e9387mr59850611cf.14.1795187794951; Fri, 20 Nov 2026
+ 07:16:34 -0800 (PST)
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -99,53 +99,77 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 20 Nov 2026 16:16:23 +0100
+X-Gm-Features: AclHuK9Kz6D2bchO88XWWEcVzCFfoEy0keHk3Nyv8Ec-0oQZb2LLMT7EFrmIXNc
+Message-ID: <CAJfpegvzVm6hTTNp7BgkFMs1DziFvmNoHUXjdTPz=9nC5ccUjQ@mail.gmail.com>
+Subject: [GIT PULL] fuse fixes for 7.4-rc4
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: fuse-devel <fuse-devel@lists.linux.dev>, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-fuse_dentry_tree_cleanup() cancels dentry_tree_work at module unload.
+Please pull from:
 
-But a sysfs write can call inval_wq_set() after that and schedule the
-work again, leading to use-after-free.
+git://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git
+tags/fuse-fixes-7.4-rc4
 
-So do not schedule the work in inval_wq_set() after
-fuse_dentry_tree_cleanup() cancels it. Also hold kernel_param_lock()
-in fuse_dentry_tree_cleanup(), because a sysfs write can call
-inval_wq_set() at the same time.
+- Fix  bugs reported by Sashiko
 
-Fixes: ab84ad597386 ("fuse: new work queue to periodically invalidate expired dentries")
-Cc: stable@vger.kernel.org
-Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
+- Fix a couple of issues introduced in this cycle
+
+- Misc bug fixes
+
+Thanks,
+Miklos
+
 ---
- fs/fuse/dir.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Hengyu Liang (1):
+      fuse: preserve ENOTCONN after failed initialization and disconnect
 
-diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-index 0d5d04df477b..04ca6c9be2bf 100644
---- a/fs/fuse/dir.c
-+++ b/fs/fuse/dir.c
-@@ -63,7 +63,10 @@ static int inval_wq_set(const char *val, const struct kernel_param *kp)
- 
- 	*((unsigned int *)kp->arg) = num;
- 
--	/* Defer the work until fuse_dentry_tree_init() sets it up. */
-+	/*
-+	 * Do not touch the work before fuse_dentry_tree_init() or after
-+	 * fuse_dentry_tree_cleanup().
-+	 */
- 	if (!inval_wq_ready)
- 		return 0;
- 
-@@ -243,8 +246,11 @@ void fuse_dentry_tree_cleanup(void)
- {
- 	int i;
- 
-+	kernel_param_lock(THIS_MODULE);
-+	inval_wq_ready = false;
- 	inval_wq = 0;
- 	cancel_delayed_work_sync(&dentry_tree_work);
-+	kernel_param_unlock(THIS_MODULE);
- 
- 	for (i = 0; i < FUSE_HASH_SIZE; i++)
- 		WARN_ON_ONCE(!RB_EMPTY_ROOT(&dentry_hash[i].tree));
--- 
-2.53.0
+Hungyu Lin (1):
+      fuse: clear the old EOF tail before writeback-cache writes
 
+Junyoung Jang (1):
+      fuse: skip dcache instantiation for readdirplus names with embedded N=
+UL
+
+Leon Ming (1):
+      fuse: set dentry epoch before making the dentry visible
+
+Miklos Szeredi (10):
+      fuse: fix possible UAF in fuse_direntplus_link()
+      fuse: zero the partial EOF page in copy_file_range()
+      selftests/fuse: test post-EOF page zeroing on copy_file_range()
+      fuse: derive short read EOF from the request offset
+      virtiofs: fix use-after-free of fs->tag on device removal
+      virtiofs: disable request timeout
+      virtiofs: zero the reply region of the argument buffer
+      fuse: don't mark inode DAX without CONFIG_FS_DAX
+      fuse: advertise support for DAX mappings
+      fuse: limit name size in listxattr
+
+NeilBrown (1):
+      fuse: Use d_alloc_trylock() in fuse_direntplus_link()
+
+Orkun Emin Sar=C4=B1 (1):
+      fuse: don't pass a NULL inode to fuse_inode_backing() on release
+
+Shunbo Shi (1):
+      fuse: fix UBSAN warning in fuse_iomap_writeback_range()
+
+---
+ fs/fuse/dev.c                                      |   8 ++
+ fs/fuse/dir.c                                      |  12 +-
+ fs/fuse/file.c                                     |  53 ++++++--
+ fs/fuse/fuse_dev_i.h                               |   3 +
+ fs/fuse/fuse_i.h                                   |  23 ++++
+ fs/fuse/inode.c                                    |  46 +++++--
+ fs/fuse/readdir.c                                  |  39 +++---
+ fs/fuse/req.c                                      |  15 +--
+ fs/fuse/virtio_fs.c                                |  34 ++++-
+ fs/fuse/xattr.c                                    |   2 +-
+ include/uapi/linux/fuse.h                          |  10 +-
+ .../filesystems/fuse/write_extend_eof_test.c       | 143 +++++++++++++++++=
++---
+ 12 files changed, 308 insertions(+), 80 deletions(-)
