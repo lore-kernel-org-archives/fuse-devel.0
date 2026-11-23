@@ -1,49 +1,123 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795424312;
-	b=r28QfZvDaxnyHH0sbssM5t9gQCXf7mtS0TapZU8tc4VIDBOqKjM4wFWwenZTGciFHuJK
-	 EYE8gWSwSS8gsff9PLwtOr8MFbMD2RSMf5fc5PIVAZLYyuBknJZI49juogWYr+8NQKVv0
-	 MrhX+V5AYpBxTlvcACkVHTWD7bYYRdnBwmqCjaXv3vKplEjx6DFJQq3ncQffLN0S7LW5y
-	 wgNjnJmafIugfkyLcua4numfeVQDzWJp6SMP3RPEiPN1hOhmmTbVvqWERAvtJHkW3BuWq
-	 xA9pptF6ESNndc28CL1wQ2FaimtJUA2K51n9vT8rbuzjGfbBgven4l9rYVRafO7ROHA==
+	t=1795424460;
+	b=pJ5qQdpXgeFKwyo6WJ3/86JM3VhoDboiP2Y6g+bS+oVYRvUJnuVXu8ygzRlT2mn00VUD
+	 JZwcxmjcOnpBOPuyvIE2pU47q8+xGVDIzGGjpTKxhWJGlGTRA7G6rUPOECGtxvaz7NuDX
+	 6H4G3zXs/FLWPE0wnnqWy0FA9W8RMJePZWUriZ5ouL6pX3dWZtpa9RvLF4midHygjXeyr
+	 yp8Flv045S4eBkSqXvISUE8SJQu8t7XM7XlPy5xB9/qh4wNKqwfLIrS7ongZ6qsi5D6Gr
+	 omNLVGnx5IvZvyah6JucGryC2dwKpr2lFvTSnyHmp4Jc2l7DeK5mWiXKeldQZmBg9kw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795424312;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=b3WMjSBwi5PFDvIaCpQd7Axi/XWPxIYqZlMheE6sk7Q=;
-	b=095JjyHBTM/hYxK+J/BZsoGNlsV6oX1IgO93XLoMmBakPWw44QohN1ljJmwvas9p1861
-	 78BtwgaONl4ULKpb/OlnxhKeb1Eio2FYC4bvOxUUhSmmMNQHcgxlAHAhnoWhT+KR+fvj9
-	 dTXqC9B1z/LmlZ8kUbAmUZu/BLYrMl3tudi+RhrxxDH6xRwM0MqLgqTUl1c0d0chQIYwz
-	 FbQFrdbNdUbxEQvPHFcAoqPpSBlRQ1WB1wtYBXRmj+sHUJ0nMxi9yn4Dbk0Stc5DkKNGd
-	 eBCdOZnmswIllvnvEYpFlqNtzDKWY5BrS/tX0LQOsg9oIv+fHvwGdcK+DJI3B80OvMg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424460;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
+	 X-Developer-Key:Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=BuDmII5TOrso/ENvtME2Jf5yTRwZG3tITsSw5qPzJK0=;
+	b=zGXa5iE+eHEyPhfjINoPxUg3ekcTSSJo6wpukFqwsRLivF7fyZm3CYa8wfFblKYT5pzl
+	 rMsN2nPvjNxn6SwBLQiZWu354nUUyk626bqF7m/y2l+QXLRXQWIAhY3QcDADyocuklM+9
+	 0Fp0bTB/7XySG5FSdKmtagJcdkZf39UpIT9PgRE4v+Pll7Cu2XozgxNRh+pMAkD9gjT43
+	 IpsBzEQ+LCgVChq1Javwgbd3O0758RfmhCRFhFRAFVBHlWFAaAjUatRmPG0q5NmsSvIgZ
+	 ATEdjCgzu4ircOr7Nkz1iNIbI8EecrUK4NPibXdXb/KbXUIe7BMzfo8nE+dubw3JT3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ljFKBqmi;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A755606A31F
-	for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 08:58:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A755606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=oMGn6+O4;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1lY++HRB;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=oMGn6+O4;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1lY++HRB;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C372606A327;
+	Mon, 23 Nov 2026 09:00:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C372606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ljFKBqmi
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DAC6F1476;
-	Mon, 23 Nov 2026 00:58:28 -0800 (PST)
-Received: from [10.57.91.245] (unknown [10.57.91.245])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BFF623F882;
-	Mon, 23 Nov 2026 00:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795424311; bh=IyuQOHegOm7o8+idks5YbotHgA2kGInEw/MsLFSwZbI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ljFKBqmieG86A9o17mg2OKClKeqYmywjsi88qro4DKa+Bzf6DMkYNr9cZvknPpkUp
-	 MK+dIkOffcqanqO2jC1axlvaTs8nppW4q108uU909LcHYNdp1I6oK5movdwY5TJcih
-	 uXIzdw84Y8RliXz46ZJI31Ytyxy9qn1kOEfkLx1Q=
-Message-ID: <7a3ffc6a-866d-472b-91d6-886ca8095008@arm.com>
-Date: Mon, 23 Nov 2026 08:58:20 +0000
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=oMGn6+O4;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1lY++HRB;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=oMGn6+O4;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=1lY++HRB
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DAF6F21F6F;
+	Mon, 23 Nov 2026 09:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795424457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=BuDmII5TOrso/ENvtME2Jf5yTRwZG3tITsSw5qPzJK0=;
+	b=oMGn6+O43DNcwmRYX04ugynBJARPVNaGhNSXHzG69dBmQ/lMoD+HzsLuRPgiVo0sHj47h0
+	r8oTeUz/Fm8ZxPzsG2pG9BxYzMjoKS1QiHd8sxwL/kMtjcDI5QVtU4juFUX6gTYmKruxK6
+	2pZ00ATH5vhfdSmTXwax8GUnhXJ8cVU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795424457;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=BuDmII5TOrso/ENvtME2Jf5yTRwZG3tITsSw5qPzJK0=;
+	b=1lY++HRB2235qS5UdZWfek6EcNg6pXDkJf4Whje1Hcbd0X+hmsME5Y/4HBaiEc1ajk1h7Z
+	SmEoFLFxVzWUvcAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1795424457; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=BuDmII5TOrso/ENvtME2Jf5yTRwZG3tITsSw5qPzJK0=;
+	b=oMGn6+O43DNcwmRYX04ugynBJARPVNaGhNSXHzG69dBmQ/lMoD+HzsLuRPgiVo0sHj47h0
+	r8oTeUz/Fm8ZxPzsG2pG9BxYzMjoKS1QiHd8sxwL/kMtjcDI5QVtU4juFUX6gTYmKruxK6
+	2pZ00ATH5vhfdSmTXwax8GUnhXJ8cVU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1795424457;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=BuDmII5TOrso/ENvtME2Jf5yTRwZG3tITsSw5qPzJK0=;
+	b=1lY++HRB2235qS5UdZWfek6EcNg6pXDkJf4Whje1Hcbd0X+hmsME5Y/4HBaiEc1ajk1h7Z
+	SmEoFLFxVzWUvcAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B87891352B;
+	Mon, 23 Nov 2026 09:00:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UfLLJskABGveBgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Mon, 23 Nov 2026 09:00:57 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id 5165C275F8; Mon, 23 Nov 2026 10:00:57 +0100 (CET)
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: <linux-fsdevel@vger.kernel.org>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	gfs2@lists.linux.dev,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	devel@lists.orangefs.org,
+	Dave Kleikamp <shaggy@kernel.org>,
+	jfs-discussion@lists.sourceforge.net,
+	Carlos Maiolino <cem@kernel.org>,
+	linux-xfs@vger.kernel.org,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	linux-afs@lists.infradead.org,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	fuse-devel@lists.linux.dev,
+	<linux-block@vger.kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	linux-nfs@vger.kernel.org,
+	Eric Biggers <ebiggers@kernel.org>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	linux-fscrypt@vger.kernel.org,
+	Jan Kara <jack@suse.cz>
+Subject: [PATCH v3 0/13] fs: Various I_DIRTY_* state handling fixes
+Date: Mon, 23 Nov 2026 10:00:35 +0100
+Message-ID: <20261123085601.21199-1-jack@suse.cz>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -53,131 +127,57 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] mm/kasan/kunit: add page_alloc_skip_kasan test
-To: Jeff Xu <jeffxu@chromium.org>, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
- <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
- <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
- Dev Jain <dev.jain@arm.com>, Ian Rickards <ian.rickards@arm.com>,
- Jann Horn <jannh@google.com>, Jeff Vander Stoep <jeffv@google.com>,
- Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Peter Collingbourne <peter@pcc.me.uk>,
- =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?= <ptosi@google.com>,
- Tomasz Figa <tfiga@chromium.org>, Will Deacon <will@kernel.org>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
- <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- linux-mm@kvack.org, kasan-dev@googlegroups.com,
- linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org
-References: <20261123033111.2349160-1-jeffxu@chromium.org>
- <20261123033111.2349160-3-jeffxu@chromium.org>
-From: Ryan Roberts <ryan.roberts@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20261123033111.2349160-3-jeffxu@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1121; i=jack@suse.cz; h=from:subject:message-id; bh=X92Jfp6rWCSgNzypZULrF4tMMzKRur9VUEC25jhEmFI=; b=owEBbQGS/pANAwAIAZydqgc/ZEDZAcsmYgBrBACyqY7kE0mXTV5bSFk4t8B3JKtGOo1wAStpg WJhaFhhP9iJATMEAAEIAB0WIQSrWdEr1p4yirVVKBycnaoHP2RA2QUCawQAsgAKCRCcnaoHP2RA 2XPaB/0QRyDmELEFAgZCBZJVl/kQc6Pt/EPVaPZisc74mHb0QZxypJ6PLzyGKAjQ6RmkFOz0ygf mG8SijUQwJzvN5v0iDeNWUD+Wr9vccJak4JOPgV7dGXn+rXffHDdVR7tYwjMWU0L2XLVm/XarP8 Q31S89/7yiiTOgaWcfAUIZhgHDUbuYaJ+OylTZnCgnIRuZ0ZeqlrLv/DUOPO24I0RO+s5xrZmYX E+QMOoRvgFJtWD9kfgCYRnnTSEwSTOq7eNrnXiAyvIgv66YQsAdTOiWoAEMs5VPLVaAXbhusL+2 CoLZJyw2u21DLm4MmWAz6S9eU0z/sd8Jyk7TiBCZSkFWMZEb
+X-Developer-Key: i=jack@suse.cz; a=openpgp; fpr=93C6099A142276A28BBE35D815BC833443038D8C
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.993];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -11.80
 
-On 23/11/2026 03:31, Jeff Xu wrote:
-> Add a KUnit test (page_alloc_skip_kasan) to verify that page allocations
-> using __GFP_SKIP_KASAN (GFP_KERNEL | __GFP_SKIP_KASAN, GFP_HIGHUSER, and
-> GFP_HIGHUSER_MOVABLE) under CONFIG_KASAN_HW_TAGS:
-> 
-> 1. Reset page_kasan_tag() to KASAN_TAG_KERNEL (0xff) across all sub-pages
->    of a high-order allocation, and
-> 2. Return a match-all (0xff) linear-map pointer from page_address() that
->    does not trigger a KASAN fault even when the underlying physical
->    granules carry a mismatched tag (such as KASAN_TAG_INVALID or
->    restored userspace PROT_MTE tags).
-> 
-> Tested on arm64 with CONFIG_KASAN_HW_TAGS under QEMU (virt,mte=on) with
-> kasan.mode=sync, async and asymm.
-> 
-> Signed-off-by: Jeff Xu <jeffxu@chromium.org>
+Hello,
 
-Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+this series is a result of my audit of I_DIRTY_* state handling fixes. Over the
+years some pointless code or code with smaller or larger bugs has accumulated
+in filesystems around handling of inode dirty state. In particular testing
+for I_DIRTY_PAGES is very subtle (and racy without holding i_lock), some places
+forget that I_DIRTY_TIME also means inode has dirty metadata etc. So this
+patch set removes direct checks of dirtiness state from filesystems and either
+change them to directly testing PAGECACHE_TAG_DIRTY or to a helper function
+which performs appropriate dirtiness check reliably. I think this has gathered
+enough feedback to enter VFS tree now.
 
-> ---
->  mm/kasan/kasan_test_c.c | 44 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
-> 
-> diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
-> index f34163e19bd6..72342137bb18 100644
-> --- a/mm/kasan/kasan_test_c.c
-> +++ b/mm/kasan/kasan_test_c.c
-> @@ -380,6 +380,49 @@ static void page_alloc_uaf(struct kunit *test)
->  	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[0]);
->  }
->  
-> +static void page_alloc_skip_kasan_helper(struct kunit *test, gfp_t gfp)
-> +{
-> +	struct page *pages;
-> +	size_t order = 2;
-> +	char *ptr;
-> +	size_t i;
-> +
-> +	pages = alloc_pages(gfp, order);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pages);
-> +
-> +	for (i = 0; i < (1UL << order); i++) {
-> +		/*
-> +		 * __GFP_SKIP_KASAN allocations must carry the match-all tag
-> +		 * in page->flags, and so in page_address(), not a random tag.
-> +		 */
-> +		KUNIT_EXPECT_EQ(test, page_kasan_tag(pages + i),
-> +				(u8)KASAN_TAG_KERNEL);
-> +
-> +		ptr = page_address(pages + i);
-> +		KUNIT_EXPECT_EQ(test, (u8)get_tag(ptr), (u8)KASAN_TAG_KERNEL);
-> +
-> +		/*
-> +		 * The memory tags of such pages are arbitrary: stale poison,
-> +		 * or tags set by userspace through PROT_MTE. Accesses via
-> +		 * page_address() must not fault regardless.
-> +		 */
-> +		kasan_poison(ptr, PAGE_SIZE, KASAN_TAG_INVALID, false);
-> +		KUNIT_EXPECT_KASAN_RESULT(test, WRITE_ONCE(*ptr, 0),
-> +					  "WRITE_ONCE(*ptr, 0)", false);
-> +	}
-> +
-> +	__free_pages(pages, order);
-> +}
-> +
-> +static void page_alloc_skip_kasan(struct kunit *test)
-> +{
-> +	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_HW_TAGS);
-> +
-> +	page_alloc_skip_kasan_helper(test, GFP_KERNEL | __GFP_SKIP_KASAN);
-> +	page_alloc_skip_kasan_helper(test, GFP_HIGHUSER);
-> +	page_alloc_skip_kasan_helper(test, GFP_HIGHUSER_MOVABLE);
-> +}
-> +
->  static void krealloc_more_oob_helper(struct kunit *test,
->  					size_t size1, size_t size2)
->  {
-> @@ -2369,6 +2412,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
->  	KUNIT_CASE(kmalloc_large_invalid_free),
->  	KUNIT_CASE(page_alloc_oob_right),
->  	KUNIT_CASE(page_alloc_uaf),
-> +	KUNIT_CASE(page_alloc_skip_kasan),
->  	KUNIT_CASE(krealloc_more_oob),
->  	KUNIT_CASE(krealloc_less_oob),
->  	KUNIT_CASE(krealloc_large_more_oob),
+Changes since v2:
+* Added Reviewed-by tags
+* Improved commit messages
 
+Changes since v1:
+* Fixed orangefs checking of inode dirtiness
+* Added Reviewed-by & Acked-by tags
+* Added Fixes tags
+* Made gfs2_fsync() conversion more bug-to-bug compatible
+
+
+								Honza
+Previous versions:
+Link: http://lore.kernel.org/r/20261113083336.15152-1-jack@suse.cz # v1
+Link: http://lore.kernel.org/r/20261116171044.6938-1-jack@suse.cz # v2
