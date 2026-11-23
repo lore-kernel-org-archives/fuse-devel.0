@@ -1,85 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795427733;
-	b=poQjmvjBTZaiSHl1uOt9tZ6F/13F37AxGqQrDS87dj2cBmxqhwsGyDw+PcYk+Ma94lXD
-	 1Ztnml6qF+MSgNfzWbYUw/kS4wpXAQUVTDq4jXi0g2dFS6SyJ/bXCLxtFxILhafYz11RQ
-	 x/MAwgwsjHArp8Vl0TjwU7d3Q5QaL9fDI+qi7lNS7nvh2IwqPDFyxW4PomwHusPS7Uaui
-	 x/p7iq8p+Lu8gNESACh0ktTmTqlgRqiA44n0TegEMaobFSkT079MSE9XumPsbeFA7W9py
-	 ALzc0n6Bu8BwRhzy2AkhCJM1x69MnXy+cqb1BpvtyBgEBIpGcj3TFPc4ygr0MGbdsTA==
+	t=1795443163;
+	b=ffvUoCAtlrJzL5G/4edL78UlOWUuYSj29vEt87tvwXC+NjnxLoAxtjveAjZj09+rlpxY
+	 o8qX41wROjKaWsP0tVwksO48JTLisiszU2s7Qpcrfkqbz6+1fZQIsaA7tUPQUS0IkG0Rn
+	 wxHiXhzMfJlwP23u6LcV6MjKiKy3Z8em/12BiyoRe70Pr61adS0eZyfxGSly/A01bAAFR
+	 mCKp4U81XRZpmfIuxJHLK6Tnh3KLMpU9oJBkfsjJOVhsDDkIL0dcWUtPv4ccXRSIZhjEF
+	 SG/+GSjTcOl6jfc62b+9JqZJd8RaaonKTsUZ+j7voT5tZ+z3QYtUelUenOWeKh7gRqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795427733;
-	h=DMARC-Filter:X-UUID:X-CTIC-Tags:X-CID-P-RULE:X-CID-O-INFO:X-CID-INFO:
-	 X-CID-META:X-CID-BVR:X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:
-	 Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1795443163;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=ExBrdivvPGnMfALa1gyv4ambGV9X8LsRbMUTFusz2lM=;
-	b=DiAtWX3bp/chaBbmkf8J0uv3RxlO5OsIOeKhbzDRVt8bFhL7KxBzRdHwM5yKOIlK3MP7
-	 qIaYcmi+JNqkRi/GTlaZUR/dIEfUrbBQZUrrpvPZSd5HBO9yAaYHkBNdGtOY5E6stPcCe
-	 0uycUfPu1N8J3DXU9gzwiNbWIW1HqOfl2PfnKpx9qQdDCqglFXPDBU7WnxlaRL/GY53F8
-	 z1gxfXzlXvu6Xc0a9KGL7DX6IgT6LwfPimU+5cfXQaDH4qjXUBzAvTWxPL5p21p84kohM
-	 pEoPd9/8R2r2d4NB3WufJOxZZnncf4tmIgLxBE6Rhj+l1D22ohqyU8FM0k0PF+zqTCw==
+	bh=FpQteIPOJ7jso2isVNK/FXoPVqd5TxYTuttF9zGO1yA=;
+	b=CnWg4G2mjUc3eZm7liFziw1816jA1bRyTivdzhqYuVEEnmpdmGFvoA5MQh0PE3FqYJhk
+	 wesmcXM4VJagjis+H9KnXgSqDr35TgzjUdmgR7XzYE1b9v0HO9zgzvUnoZ0B71aVNdujB
+	 BHE5fYTq4EvBf/uNZzzhpd+fgarEg2cxld60Flxq3ArLLO91Dbd/AQvYLxXAwtYhJMr1c
+	 VVeVDVysBeslH6OgolRnchEM/gt2TBW7nzHZQvCFVzC/fG0tvNIDgmV7UJq1E/rRYAW0M
+	 e8DufT6/UkAtzcLHdOj5VTTn8tgKY5hPepmxLikFD7LkwhIbHXP3BOl0Si9xHxFecww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RheKTSIo;
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99CC606A31E;
-	Mon, 23 Nov 2026 09:55:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E99CC606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: ff3964bee72311f19a56ed5b684f684d-20261123
-X-CTIC-Tags:
-	HR_CC_CHARSET, HR_CC_CHARSET_NUM, HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME
-	HR_CC_NO_NAME, HR_CHARSET, HR_CHARSET_NUM, HR_CTE_8B, HR_CTT_MISS
-	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_LANG
-	HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE, HR_SJ_PHRASE_LEN
-	HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME, IP_TRUSTED
-	SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_EXISTED, SPF_NOPASS
-	DKIM_NOPASS, DMARC_NOPASS, CIE_BAD, CIE_GOOD_SPF, GTI_FG_BS
-	GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:d9d3e7ed-4998-436a-99a2-9ca028c2f262,IP:10,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-INFO: VERSION:1.3.19,REQID:d9d3e7ed-4998-436a-99a2-9ca028c2f262,IP:10,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:10
-X-CID-META: VersionHash:7db8b62,CLOUDID:a8d4509ebbf7a42d767ec0deb1659f01,BulkI
-	D:261123175525VOW09MFG,BulkQuantity:0,SF:17|19|38|66|78|102|127|153|865|89
-	8,TC:nil,Content:0|15|50|99,EDM:-3,IP:-2|1,URL:0,File:nil,RT:nil,Bulk:nil,
-	QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-	,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_IBB
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: ff3964bee72311f19a56ed5b684f684d-20261123
-X-User: liwang@kylinos.cn
-Received: from computer.. [(116.128.244.169)] by mailgw.kylinos.cn
-	(envelope-from <liwang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 137605619; Mon, 23 Nov 2026 17:55:21 +0800
-From: Li Wang <liwang@kylinos.cn>
-To: Miklos Szeredi <miklos@szeredi.hu>,
-	German Maglione <gmaglione@redhat.com>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>
-Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2A1606A31E
+	for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 14:12:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E2A1606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RheKTSIo
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3282db206d3so9993678eec.0
+        for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 06:12:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795443161; x=1796047961; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FpQteIPOJ7jso2isVNK/FXoPVqd5TxYTuttF9zGO1yA=;
+        b=RheKTSIoqDPn3zK8/9HQ5ASAiPJjpAZoH13uwH20VsUdGkpNFFB8LD5SBekT/GP1vD
+         wV5cmHZe5m6PZSNm9E0m79X8/ircvgvQAySv15PVImZbsBCf/Uvmql30BBKreHuimnsO
+         mYjaHo34ggEbHtwG+YiKXTZUKYtCkiY2pWvcQJ9vrFtyMqMve0saju14pKzjFkzy7JYq
+         LrMBApWLkywEk6mLBomVDpQFqffpEkRkjJtDPDAoWLXjO9UyT/j2lxhiBTO25sdvxVaV
+         oq5+1RZyYImaQ4dWL+mwi7G8AaqJFfGOIbcM2kB+PdqHikchKWP3WjXis8lckodUaf/U
+         JeKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795443161; x=1796047961;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FpQteIPOJ7jso2isVNK/FXoPVqd5TxYTuttF9zGO1yA=;
+        b=GVnHYYQ0fZ2uh8wkikgbMtA2Cef/mLgT6qNcpT/a6+7gJE1fOkx0aFDI0TibLSdrTk
+         /dQNIHF4FbgWobWts9vzp23392nxHd8TnQ5o/0RVRmfinxYg04gphuiFd85W9WhZe8bq
+         UTTHbL6KbxOXt77cK/vqOWONqykoRcWJWSJ7uTXCm2f6q8UIadGYSnMx8HAHAx4Mz0nY
+         1edzM4C3+jMVW0PqVJtoSPfbs7Y0c5qJtGnv84gZz0HVLkixxAQmqFUA2nZgBApOYzQ8
+         duQjW+wi7e7J8ySwCXjkNin0KgLCHTsSVAjLePHIV5CS+4AqWy1XPCTxEm0SEz78lkoG
+         G1XQ==
+X-Forwarded-Encrypted: i=1; AL+hErHqtrFyEwQQN+3rrPXDoIh4ZffoM76HMdv1PIsn8TL4Ag54UgdPZPa8dWDuzjsP5Z4Y3CuWo6jfdH7a@lists.linux.dev
+X-Gm-Message-State: APuU4Z8AgA5HSNi57TtA7cTaM7JEQv3qoOAq2/MFaze+yV9uI3KwGjAi
+	swKfRYvKfSVp1vOsd7KtmBu/P+pK03vPSBWVpGveyIOhAHPKs/2tGFsg
+X-Gm-Gg: AZFdTZfEtYliBVPIalV7fPtizO2heu3A1GPj5NnLZ5J6RMzNQro3u8DVINp99Z2gwdP
+	yJeD4u2mCf/655Wd20DAlsZf7l3NOTGDVbTHKXr+aP7g680qZXwxkfGEmnXG6J09YBn1xKhJfGM
+	YHJ3RrxWd8MwEelANUVAfY8MQTcmHzvGq9+L/MyVPz8+rhs76A9kEno6Nk+zNWI45R29NTNdMrW
+	937vT36LJWZRjzE6bKB69KaCF9WebLwE++7ptyFCV7tpBKHeXZQbjcrneEBQGgiTPfNHarwAi//
+	aW2kAehYGWgqsQciDsbEiOeQ5zZ1d/zv0Y4YKikZLl5zwlFO8ySa4BiFTwYGtNjlkYSnwsRUSlo
+	dts3GODE0F7hJOP/YsobCGvCZWLNZNmULsUF8JZM0QQXL0eQH9NDNIyySYwHlxKL39Z+Ay1LzYB
+	Brkgqq71A4HLYfS+stIQjtIEo1XDmoLrJSFTj0tB20d0DhVp6XYqi6wo2Cyfn6AC3eSwd97nm2/
+	rcxdItVU6FH0OAUpn2OzYK5yVwn37CbVfGW6jteTPpwquly949UDvBTEP1a4M/H2lGx9eqr1aD9
+	lEDwEgS1RV7t3D1HwbmTt/uP8tkgRn5SS5LidnxSXBWa8/HIZw==
+X-Received: by 2002:a05:701b:42d1:20b0:1af:d88f:fc51 with SMTP id a92af1059eb24-1b5568edb1dmr12692628c88.30.1795443161493;
+        Mon, 23 Nov 2026 06:12:41 -0800 (PST)
+Received: from localhost.localdomain ([112.170.44.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385672c6f31sm35997230eec.15.2026.11.23.06.12.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 06:12:40 -0800 (PST)
+From: Junyoung Jang <graypanda.inzag@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Junyoung Jang <graypanda.inzag@gmail.com>,
+	Gwanhyun Lee <gwanhyunlee@gmail.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	Dharmendra Singh <dsingh@ddn.com>,
+	Amir Goldstein <amir73il@gmail.com>,
 	fuse-devel@lists.linux.dev,
-	virtualization@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
-	virtio-fs@lists.linux.dev,
-	Li Wang <liwang@kylinos.cn>,
+	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH] virtiofs: fix potential unmount or device removal hang due to stuck FORGETs
-Date: Mon, 23 Nov 2026 17:54:55 +0800
-Message-Id: <20261123095455.88622-1-liwang@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH 6.12.y] fuse: fix fuse_set_nowrite() race with parallel direct writes
+Date: Mon, 23 Nov 2026 23:12:34 +0900
+Message-ID: <20261123141235.2477526-1-graypanda.inzag@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -91,56 +104,106 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-virtqueue_add_outbuf() returns -ENOSPC when the virtqueue is full.  On
-this path it can also return -ENOMEM, when a split-ring DMA mapping
-fails, or -EIO, when the virtqueue is broken or a packed-ring mapping
-fails.  send_forget_request() turns only -ENOSPC into 1, so
-virtio_fs_hiprio_dispatch_work() stops and waits for a completion.  Any
-other error frees that FORGET and drops its in_flight count, then
-returns the negative errno.  The worker treats every non-zero return as
-a reason to stop, so the rest of queued_reqs is left unexamined.
+In 6.12.y, queuing a FUSE_WRITE_CACHE request clears folio writeback
+immediately while keeping the request in fi->writepages until the
+daemon replies. Cached writepage requests can outlive the cached file
+handle in two ways: if write_inode_now() fails in fuse_flush(), it
+returns early before calling fuse_sync_writes(); and if a file is
+mapped with mmap() and closed while clean, final unmapping drops the
+last file reference via fuse_release() without calling fuse_flush().
 
-hiprio dispatch_work is scheduled only from
-virtio_fs_hiprio_done_work(), which runs from that virtqueue interrupt.
-Once no descriptor is outstanding, the device raises no interrupt and
-nothing walks the list.  virtio_fs_send_forget() submits a new FORGET
-directly and does not schedule the worker.  The queued entries are
-reached again only if that new FORGET is placed on the virtqueue and
-the device completes it.  A new FORGET that itself gets -ENOSPC,
--ENOMEM or -EIO does not schedule dispatch_work.
+Once the cached file is released, FOPEN_PARALLEL_DIRECT_WRITES allows
+concurrent direct writes under inode_lock_shared(). If a request is
+still pending in fi->writepages, two direct writers can both enter
+fuse_set_nowrite(). The first sets FUSE_NOWRITE (making fi->writectr
+negative) and waits on fi->page_waitq; the second sees fi->writectr < 0
+and hits BUG_ON(fi->writectr < 0).
 
--EIO stays -EIO for every later add.  New FORGETs never enter the ring,
-so they never produce the completion that would run the worker.
-Entries already queued still hold in_flight.  virtio_fs_drain_queue()
-waits for in_flight to reach zero before it flushes dispatch_work, and
-unmount or device removal hangs.  -ENOMEM can succeed on a later
-attempt, but with an empty ring the same entries wait until some later
-FORGET both enters the ring and completes.  Each such completion
-retries only the head of the list and stops again when that head fails.
+Fix this by waiting on fi->page_waitq in fuse_set_nowrite() while
+fi->writectr < 0 before setting FUSE_NOWRITE, and waking waiters in
+fuse_release_nowrite(). Also still run fuse_sync_writes() in
+fuse_flush() when write_inode_now() returns an error so close() drains
+in-flight writes before returning the error.
 
-After the FORGET is dropped, return 0 so this same worker invocation
-continues with the rest of queued_reqs.  A full queue still returns 1.
+Mainline is unaffected since commit 0c58a97f919c ("fuse: remove tmp
+folio for writebacks and internal rb tree") removed fi->writepages and
+keeps folio writeback active until the daemon replies. Fix the ordering
+directly in 6.12.y rather than backporting that larger rework.
 
-Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
+This bug was found with an in-house LLM-based tool, and the root cause,
+reproducers, and fix were manually verified by the authors.
+
+Fixes: 153524053bbb ("fuse: allow non-extending parallel direct writes on the same file")
 Cc: stable@vger.kernel.org
-Signed-off-by: Li Wang <liwang@kylinos.cn>
+Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
 ---
- fs/fuse/virtio_fs.c | 2 ++
- 1 file changed, 2 insertions(+)
+Tested on v6.12.116 with KASAN in a 2-vCPU QEMU guest using an
+unprivileged FUSE daemon (UID 1000 via fusermount3). Verified against
+both C reproducers (FUSE_SETATTR -EIO on close, and dirty mmap
+followed by munmap after clean close), which previously triggered
+BUG_ON(fi->writectr < 0) and now complete cleanly without BUG or KASAN
+reports. Standalone reproducers are available on request.
 
-diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-index d247a02cdca9..d2d1e8fe3a91 100644
---- a/fs/fuse/virtio_fs.c
-+++ b/fs/fuse/virtio_fs.c
-@@ -655,6 +655,8 @@ static int send_forget_request(struct virtio_fs_vq *fsvq,
- 			kfree(forget);
- 			if (in_flight)
- 				dec_in_flight_req(fsvq);
-+			/* Dropped.  Let the worker keep going. */
-+			ret = 0;
- 		}
- 		goto out;
- 	}
+The patch also applies cleanly to linux-6.6.y (5139929c698c), though
+6.6.y was not runtime-tested.
+
+ fs/fuse/dir.c  | 10 ++++++++--
+ fs/fuse/file.c |  5 +++--
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index 45cbe0cb2..54b9138fa 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -1821,8 +1821,13 @@ void fuse_set_nowrite(struct inode *inode)
+ 
+ 	BUG_ON(!inode_is_locked(inode));
+ 
+-	spin_lock(&fi->lock);
+-	BUG_ON(fi->writectr < 0);
++	for (;;) {
++		spin_lock(&fi->lock);
++		if (fi->writectr >= 0)
++			break;
++		spin_unlock(&fi->lock);
++		wait_event(fi->page_waitq, READ_ONCE(fi->writectr) >= 0);
++	}
+ 	fi->writectr += FUSE_NOWRITE;
+ 	spin_unlock(&fi->lock);
+ 	wait_event(fi->page_waitq, fi->writectr == FUSE_NOWRITE);
+@@ -1850,6 +1855,7 @@ void fuse_release_nowrite(struct inode *inode)
+ 	spin_lock(&fi->lock);
+ 	__fuse_release_nowrite(inode);
+ 	spin_unlock(&fi->lock);
++	wake_up(&fi->page_waitq);
+ }
+ 
+ static void fuse_setattr_fill(struct fuse_conn *fc, struct fuse_args *args,
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index 33ba8ae3b..5e01dd2b7 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -538,13 +538,14 @@ static int fuse_flush(struct file *file, fl_owner_t id)
+ 		return 0;
+ 
+ 	err = write_inode_now(inode, 1);
+-	if (err)
+-		return err;
+ 
+ 	inode_lock(inode);
+ 	fuse_sync_writes(inode);
+ 	inode_unlock(inode);
+ 
++	if (err)
++		return err;
++
+ 	err = filemap_check_errors(file->f_mapping);
+ 	if (err)
+ 		return err;
+
+base-commit: 5c40a1750f44dd6c7292d8c8d0b4ffff1734576e
 -- 
-2.34.1
+2.43.0
 
