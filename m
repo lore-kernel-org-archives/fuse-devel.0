@@ -1,99 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795421637;
-	b=Q9SscgvbFj8uPiGrwk1QmbYsw01Pz3J7KsPfRLOLU4i5OH8+tzBfZqmawq/gdcP1bs0D
-	 rgXelMJLKZQU12n0wXhd/gtZPqE6cROt74TIDW6zsMTdG196TxIb3DtbMtjKXk75VEnsD
-	 H3dCJRtYJ811dBE3OBkhGdePj1mATEQA5rLObuP1eImwL8sOVmGePJnTYG4PuD0BLjF1B
-	 FdoHBpMj5nHGfkxuaVxYEvbE0APqgv9qoEogBDxsAKwAFwDRBsjmhJFIbmI7gMDRvzYRc
-	 OZ3pYInz9LKNYBodOxLq7mJSnIWoTbRWxK0/M4xx8zro9NCWSBIAMPr985kIqJU2Ubw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795421637;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=E/unvZ5PVs3Qjb13st/lyn+8PSXH2T1XWhcQ9dJEZvA=;
-	b=bXLvzt0tu4K8AqgmKxnBx7/15ulJHlGFl6tzt3gXqdRdyoZy+p52gjIptY6w3G3rxGf/
-	 4TMK4lbYpbzM/bBCHaUap+pEIwPD5Adv5F1rCWXo/fIhgBS6WnzpcJUGqvvrkKd4XUC/S
-	 E1OJ3SmMBRczUGT8B/Iqu8CvKasDHyU0vn4Y1jGMMjZdg+ynZUn2xG/sjWKKbhtgrHJ4/
-	 Ls6WETCB5bbyYw+UHoosYsJu1++OQq6FfM0jkZ7SsOItVxUiG+IQm9BHI79uaFsb0rObZ
-	 UDrfUsEhXTR6iLEXDS3H+DzKQdEOHDRbBW7Itirb7XvpAtRqazRquCNOmNqM2RdVSaA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PdkyGCo1;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.44
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59D2606A31E
-	for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 08:13:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B59D2606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795424071;
+	b=TckiyxrJGIOWUOkhdioRcrskGA3mVrXXpJ5sd4UFd8QpM9RLrR9hzEBEPaJdUEwWgssq
+	 noe/TeY6ivfKqmxXt2mS3f7p1pOEMpR/5c5aE24hdd4sPcpDqBPHSpEXphNs6QQZHnk/4
+	 ZBzIyyFQH7GNwvoF0/huSquaczjOIFgRc4agv3cQGl5SWAMB1qfeQQP6FXl0ykfiKnIVW
+	 RbDZs6xqXxIV8leXQ4zKZ8eg7cwMRW0191NhOvRXX/ZWYU6kAo+LgGhYlzv3Jhs+stNt/
+	 lsZnVLCoTZi7fy6OBmyutx3DBc9yrN/3uaaVTa3ogAr1CPI5EPt5KAUo7mRN1AFYx8g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795424071;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=3l2+EYB5IAhRg1PJ4Js44zono8mAKRvWJrn0noFOBos=;
+	b=yyAc+2243AEQmeOr/Q3qULhe/2tEg5fajhKDi4EHavEH+AcHPJ9rgG5PK0HhnYN256xw
+	 w+lfpHvcXKYIsEM3OUiwt2ETzpoLojsw4SoSaXn8KZKeTAZS2W8Tku/NrlCkXOQzIIfd8
+	 mepD7jVuX3PbltqNnGr7qJgN2psgtgIzbkN+RilS4Vfgdzv5Ns7nXXlyIZDoayG2D5nAO
+	 D3uuxj9RrKI3SYtC85Q9cZjoo56zRfe9Q1BEN/Gcn7IiiW1S/1vgOfyEXwCyryfniA9Vq
+	 vkPNByEFTC5dsqW7F1ulJXH/LUCsXulp5hAeBCjjMd6QEwjFo2tVokUa979ISHARlQg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="b8CCq/Qj";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C37CB606A321
+	for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 08:54:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C37CB606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PdkyGCo1
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6b8a52db5f9so3435900a12.3
-        for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 00:13:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795421635; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QwlpFxfK1R7ZM66OY6hSJMfFgc1yNKWKllwhu0CXY83v6vDYlwBacj7PTBOkXyNahT
-         tjBqSjdfp57mmV7ZHizQM3vCLxA3eQ22IgGp5PSYdlcq6VDWmkWGdYvFZPpO5w6cQoKG
-         uDuOLtrt1hKgjGUebgqSBCkM++8nwcbdt89iK+Lot1EOEkJ05gKIOncnCN/lWLrWkd0m
-         HqyNSV4PXXl7FAzY9PBy5BHyBdbxtiqSh4WKXCDsGRGhzZdMZhgPxb3vVEmwgAqAfH2D
-         X/eYvdzARMWOsa7832dVe//UeSudN2RekItJZdCZS49BLgm9oX2MoGR3n+fm1v1P8SX0
-         5nNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=E/unvZ5PVs3Qjb13st/lyn+8PSXH2T1XWhcQ9dJEZvA=;
-        fh=MwYklO+QSn7gxeHmTMxy6lRZcXEXgPiUhnoE5oXF2Yw=;
-        b=A0JQbZeexEzRtUK4KYFBz1QjQ66LQkfIXlGBLnqkxvnkXocNrdbjijFpTo425ZsW+8
-         UEIZ8xJ0Pb4bW+bJMFwgiEg8QTqr4eASWl7/R40Auu2PtfSszXU9k4puf5MnO/Jzn+il
-         SzwlM64VDGl2xoXPKo+sJkCXD5D7SLfW4m2zcbz8hNnHR0ZRNNQwhQmHfcn47ESiXECt
-         eOpq10NYBUIgfxhoNrSLdtP27Gm6UG6y+hcbQLxK0YVk8LBNE/+9eERjKZzWOleiJGkD
-         QVUYWS3DfMJT1JleCn1zprDC0fwJ/Bqcuhww1ouYgGxPuCU8C5Ynpgee60TDbis2tnye
-         qa/w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795421635; x=1796026435; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=E/unvZ5PVs3Qjb13st/lyn+8PSXH2T1XWhcQ9dJEZvA=;
-        b=PdkyGCo1eqaDMX/wozWBkkZL3/+Sx7kNpo+iIYYsyriH0g7gBBUXq3+l0j77VQJcJR
-         UiD6cf1J0Gz6CXFr93IuOXfn8z1fqqaw8vypcNy59hirDhHcf/Lkngr4W+icvgwoXLdm
-         X2ZpIAB1/fkmYw5EOzy35Njucc7AkD4yittiT132ZewrFh11JJE7jAS8wFq7g/AU+CRo
-         BOB7iBIwhOEHd5wbHdSkWrlyjfOLB+3cMPOyOwTsDxufZnTw9gqKBLNpanC4+pSI8Wq7
-         yxrmzOQbeozFV4p5lIrVTqogdjkZJQnNC8LHMHI9Ll32Uy4QRidiTsd7OvmGZS85YqxB
-         vOuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795421635; x=1796026435;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=E/unvZ5PVs3Qjb13st/lyn+8PSXH2T1XWhcQ9dJEZvA=;
-        b=g2NJ4q/GpNLztvrXnBDZ6mXLpXRgBna8NWI8smG6UAYg7m0Ghu77KkwhR8hA5U3URl
-         P1t03IvccHvvqhJqtAUZ2DorQj4R/bT73emqJcG1cIYDO28QnKji+WalU3ckJTlI7wN3
-         eJqfBPE5S+3imJeXU2eFjVnE8/ZwwxfBO5V6qolH7ONSzmiKTRKiZ+cp0F07bs01I23E
-         ZhUmMDBGBwDqbzeE5jHu7sW0RgSQJR3fKezbC+lHa8mpQ/vCoXLpefPZlTJhtDnjKaVf
-         K1EJoqSypcvp4EpnrKH8k9beHDtkv7AZcTrgDhgPfYV7JBc3Sb1bNGi7T+RbWjfc/j45
-         KnQg==
-X-Forwarded-Encrypted: i=1; AL+hErEVpeHZF/LJdqe3id5eVjYfwnIR8QCHyEHI1dEL7Cw/uY+CQrenbjtOSpHHT0SuOF/z1WkXrYBPktlo@lists.linux.dev
-X-Gm-Message-State: APuU4Z//xBPSHvjBnwyosJUtUaJMVHrCG01JQPiN5cbJ8L1pYG3IKy5G
-	mZw5T9+A+6rFrHG/KdZ6zF5F+MZtf84faKsXPTfJCujobTBvNOWN1LOw3f9artHXSVpRFnPDJjn
-	wyQr0ezgzk/t8T56WJATC2Ew15hjUWqT45l7mnvY=
-X-Gm-Gg: AZFdTZcT3Pio7XRPC+EyzG5L9k+MKC28JDhvD1Vk6PY/gmeW3mhKDijKfqN6nGHqVBN
-	/w0LTbfsblpVrINubyKKbCEuj6zygzMxWWrRlGiQs9JXjs4jCqeFcsqOiHl2c/c9jsEfUdrDunX
-	Vnw8cEYak9Hcc8TcA93XNALLO0EgN6qfnzj2UP2EzOyFLLfNZB1qcWtbhz/P5QI+RzFm8BGqbAj
-	aosAkm8pyZqOZILMBqJPZrbkGCuBWzkfzo+WVNihmFwVRA3b/mM5GBQpQiqwH77zARmYK5vODS7
-	emsYMdXOgqH3Gg9HT8Y+zcBF0e4r11xwx3IaWHSAWDNLn52QALn4jd/72Tco2rG4+n9S2usBCn8
-	pEaUyz3lJl7R5ekqCfzxDE4PdeR+ZEhbTeGswydR7XB3VkRio0VClNhEerHY=
-X-Received: by 2002:a05:6402:210d:b0:6ba:668c:ad74 with SMTP id
- 4fb4d7f45d1cf-6ba668cb3c9mr4410158a12.25.1795421634816; Mon, 23 Nov 2026
- 00:13:54 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=b8CCq/Qj
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ABFAD175D;
+	Mon, 23 Nov 2026 00:54:20 -0800 (PST)
+Received: from [10.57.91.245] (unknown [10.57.91.245])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5EDE83F882;
+	Mon, 23 Nov 2026 00:54:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795424063; bh=ykI/c43VekHLh4s+DX69UMu73TIR/+eRfarVxHM0qgA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b8CCq/QjFlgDBE/HQ51/le1Tvx6bIj3ok6U20/6tBMHepTzBZ0epejSL7lohPcGE5
+	 TccmXxaTX1nOgvhWwz/yDQDmKLfY9hIOwx+ymd8SYuvACzj45XaT4fYDvGJ38LAJvQ
+	 3Ws6uekPCDvBC0r165mQR+Op1SCVMfoJdRpjUC4I=
+Message-ID: <d7dae0fd-a4bd-404b-954e-99236dfca560@arm.com>
+Date: Mon, 23 Nov 2026 08:54:11 +0000
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -103,40 +53,106 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261122132916.19066-1-hanwenn@gmail.com>
-In-Reply-To: <20261122132916.19066-1-hanwenn@gmail.com>
-From: Mitar <mmitar@gmail.com>
-Date: Mon, 23 Nov 2026 09:13:41 +0100
-X-Gm-Features: Aa3M54rgC9IbJ74E728ovUqRmZMLM3tWBac45j0WtQ5lSHDzlre4CTwJRoXK8qY
-Message-ID: <CAKLmikPuNYVzPSUV=gAh8wgCM7Rxk7RWw=P1Y2TX1b5AfABUOw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Subject: [PATCH 0/3] fuse: kill suid/sgid on
- fallocate, copy_file_range and passthrough writes with KILLPRIV_V2
-To: Han-Wen Nienhuys <hanwenn@gmail.com>
-Cc: amir73il@gmail.com, miklos@szeredi.hu, fuse-devel@lists.linux.dev, 
-	linux-fsdevel@lists.linux.dev, bernd@bsbernd.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] mm: kasan: skip KASAN for GFP_HIGHUSER
+To: Jeff Xu <jeffxu@chromium.org>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett"
+ <liam@infradead.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Brendan Jackman <brendan.jackman@linux.dev>, Zi Yan <ziy@nvidia.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
+ <elver@google.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chia-I Wu <olvaffe@gmail.com>,
+ Dev Jain <dev.jain@arm.com>, Ian Rickards <ian.rickards@arm.com>,
+ Jann Horn <jannh@google.com>, Jeff Vander Stoep <jeffv@google.com>,
+ Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Peter Collingbourne <peter@pcc.me.uk>,
+ =?UTF-8?Q?Pierre-Cl=C3=A9ment_Tosi?= <ptosi@google.com>,
+ Tomasz Figa <tfiga@chromium.org>, Will Deacon <will@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ Miklos Szeredi <miklos@szeredi.hu>, Baoquan He <baoquan.he@linux.dev>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Allison Henderson
+ <achender@kernel.org>, "David S . Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ linux-arm-kernel@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ fuse-devel@lists.linux.dev, kexec@lists.infradead.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ rds-devel@oss.oracle.com, linux-kernel@vger.kernel.org
+References: <20261123033111.2349160-1-jeffxu@chromium.org>
+ <20261123033111.2349160-2-jeffxu@chromium.org>
+From: Ryan Roberts <ryan.roberts@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20261123033111.2349160-2-jeffxu@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi!
+On 23/11/2026 03:31, Jeff Xu wrote:
+> Move __GFP_SKIP_KASAN from GFP_HIGHUSER_MOVABLE to GFP_HIGHUSER so
+> non-movable userspace page allocations also skip KASAN tagging on
+> allocation and poisoning on free under CONFIG_KASAN_HW_TAGS.
+> 
+> GFP_HIGHUSER_MOVABLE already skips KASAN because user pages do not hold
+> kernel data structures and tagging every 16-byte MTE granule on
+> allocation and free is expensive. GFP_HIGHUSER has the same contract and
+> differs only in being non-movable, used mainly by DMA-BUF, DRM/GPU
+> buffers, and non-movable HugeTLB.
+> 
+> On an Armv9.2-A device (6.12 kernel, kasan.mode=sync), this reduces
+> 32 MB /dev/dma_heap/system alloc+free latency by ~80% (~59% alloc, ~98%
+> close) and improves an app-loading OpenGL benchmark by 15-23%.
+> 
+> Callers that access GFP_HIGHUSER pages through kmap_local_page() or
+> page_address() (such as ramfs, pipe/FUSE buffers, kexec, and RDS) lose
+> HW_TAGS checking on those pages. None of them store kernel structs
+> there; this matches the trade-off already made for GFP_HIGHUSER_MOVABLE.
+> Generic and SW_TAGS KASAN are unaffected.
+> 
+> Signed-off-by: Jeff Xu <jeffxu@chromium.org>
 
-Thank you for posting this, and thanks to Bernd for the fix. The minor
-version bump is what I hoped for: with it a server can tell whether it
-may ask for FUSE_HANDLE_KILLPRIV_V2.
+LGTM; I agree with your assessment of the risk.
 
-One small suggestion for the 7.48 entry in patch 2, which should not
-delay the series: as the commit message of patch 1 says, the SETATTR
-is sent before every caller of file_remove_privs(), not only before
-fallocate, copy_file_range and passthrough writes. It is also a new
-kind of SETATTR, with FATTR_KILL_SUIDGID as its only attribute, so a
-server which honors the flag only together with FATTR_SIZE (as
-virtiofsd does) ignores it. Maybe something like:
+We have seen poisoning pages at free-time being a performance bottleneck because
+the tags are kept inline with data in the cache, and setting the tags therefore
+causes hot data to be evicted to bring in the cold data just to set the tags. We
+had been experimenting with the concept of "elide poison on free" for "in-kernel
+MTE enabled in production" use cases to solve this. But the security analysis is
+a bit complex.
 
-- with FUSE_HANDLE_KILLPRIV_V2, send FATTR_KILL_SUIDGID in the
-  SETATTR from file_remove_privs(), possibly as its only attribute
+I anticipate that your change is probably solving most of the same performance
+cost in a much more straightforward manner. I'm guessing these DMA/DRM/GPU
+buffers are the largest in-kernel memory allocators for the Android app start
+use case.
 
+Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
 
-Mitar
+> ---
+>  include/linux/gfp_types.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
+> index c1331bf0b239..bb54c7abfb02 100644
+> --- a/include/linux/gfp_types.h
+> +++ b/include/linux/gfp_types.h
+> @@ -376,8 +376,8 @@ enum {
+>  #define GFP_USER	(__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
+>  #define GFP_DMA		__GFP_DMA
+>  #define GFP_DMA32	__GFP_DMA32
+> -#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
+> -#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
+> +#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM | __GFP_SKIP_KASAN)
+> +#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE)
+>  #define GFP_TRANSHUGE_LIGHT	((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
+>  			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
+>  #define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
+> 
+> base-commit: d12eccbcb79a4fa35c3aa588eb79056af62eb859
 
--- 
-https://mitar.tnode.com/
-https://noc.social/@mitar
-https://bsky.app/profile/mitar.bsky.social
