@@ -1,143 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795404686;
-	b=FzaoiJKfEPvoS2ZJ0DVlJ7Lm+/IPQUJ6LyHm4UvcP6XqQBX3d8m8zIxKCChPWMbuo7Lf
-	 wAtmAGGIPHDcsj/L0dZSwinxR7CJM72iskNVU47vnezT0IB8ED8p03EaukOmFS7ei+S6x
-	 HysvlPELzh9gsh6nKFtAeISJlCuDGuzHyKyTe6fE+JyQD1klsP43I54J/bNDAG/gu8sy+
-	 8WviziVj+UP7bOQ1YmvtYkYln/QQtwBfqj7F9A8vFYwQY7iuXCmgm6b/VeKW17+FwEU7R
-	 9Va9bqSrS32IKrVOM0ln0vFOHVjf6A22Rfr0/KnNsA2AvIFnZDrPOaeWUdhSFRztlhQ==
+	t=1795415779;
+	b=NVQDqyQf2eV2wSE397idjpdIYdNjeu4OTF5IfbHiwaBI/anj5rFRwMLkAWay8IC5E83l
+	 jPC2membP3zODRUZ+c2lXrlt9hgwQNJRcnr3qpD8uZ2+1R1GW+vjfN580CQVlLDT2Vr+5
+	 hPTlOhbQstFY6znf8GpvcOY+SmHuqXuyYXaMHdqe8nqhObsejMHoeAin9lPLj967r6d19
+	 MzT5OHCahuC0jrEAylcOZ/g+8H+Dasez+pGjgrZE2s6mb9owioGTirR54oPpN0i7fWJJg
+	 767JSAY7NfJ59wLbT2+WEnbUKrn3ulBcqzhelT4z+fqq9UbPoN0TvqHVHadJSyWD1lg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795404686;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795415779;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Ar/2HKjK+NYDL4XIdqT0HePA7oYDrfs2vyoMNJhSjA0=;
-	b=XImiQm6uBCRszpcinMgZqoXl8/ZGNcUy4mCcUkSowoeO3tiGvOMqy8VT2JFLlp6QTOT0
-	 MNU3n8eyFkN6hChMtFiFNzqu4fA3o8GLoJODbYg7XFFKMbdqjb61A6rWozgzcrlS9bZ5a
-	 w8A7FDXW+80A+6OYgeOi6h3rdZCvbUptuZR2ypD2w0jRv6ShugMkTJHoNwnauXe/vJrwu
-	 rGxCxtk6ahMpVEECLNFGD8H57DvDkm8sdsHscJVu6l6TSutj4WBQOxqPHDMDE0/mxxL9z
-	 N++PDmHvWShKzR/KUf1JeKdQb5ey7zGZecifca68W4XIsz3KWrj+JlLtBQ0rn9XkIew==
+	bh=QhvI4EcrcVWaHsYhZmDudDFBhnWCIbKlWCXMmkXssF4=;
+	b=DsXh+2K/lZEGyTG+PNp31hEIQLDGTQkZGDYG/hOkIYb1savsmZF+f8sKSe9ZCxXkRUGw
+	 diQKxXKEeQpqwzmsKSPVJHxwRszpIAYcMrKs9g8sLvKCbB2KdrPMbaGYjTyqRDGojBHng
+	 gjow18RZxPRzbP70iA+QgfPLnRjQBz9dYUzwRQJeeAugAgjY/UJJPIcidm/ejEbVEOGH1
+	 7TlYz3z3GvBbibKGuGixdryKr3i21uuRFZGV75MTsbX0j2yoIAOPVtNlPmRFB4jL2AkZ/
+	 j3eMJT/Qokg/gUnfcYvQzjBkK/XdMKOPhnI4uZwSEmRTOiSJJm0aEizdcvoeb2Ibbfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chromium.org;
-	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Xl6sgsFP;
-	arc=none smtp.remote-ip=209.85.215.170
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iec6Pvv3;
+	arc=none smtp.remote-ip=209.85.210.171
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8D8606A691
-	for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 03:31:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D8D8606A691
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BD3606A327
+	for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 06:36:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B0BD3606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=Xl6sgsFP
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cd6b9a2735fso142589a12.1
-        for <fuse-devel@lists.linux.dev>; Sun, 22 Nov 2026 19:31:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iec6Pvv3
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-8b77e464208so229363b3a.2
+        for <fuse-devel@lists.linux.dev>; Sun, 22 Nov 2026 22:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1795404685; x=1796009485; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795415778; x=1796020578; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Ar/2HKjK+NYDL4XIdqT0HePA7oYDrfs2vyoMNJhSjA0=;
-        b=Xl6sgsFPZRjvLIXsp2GvfpKQrEptx2X8Aj8AQ24RRAaEob9c2FF7KFtGjm168z7sNJ
-         KnQ8QA5KYPa47xZyhxUlzZSjmJvQN4Mf97msS8qY3JtYTHVnEh1bYz6n9F+xXNoMcZt2
-         m/iJd1IxTIVGdlRjvKbT21N4s1wvfa8QghPmU=
+        bh=QhvI4EcrcVWaHsYhZmDudDFBhnWCIbKlWCXMmkXssF4=;
+        b=iec6Pvv3a6V8s2spPNA2MiXFRx/ExJ1/vg7UsJnjOVIovvV0sNY1my7OfeGLE8Zn3w
+         0ZNzfeWYVHo5oSF9VvOwZmPe2391cwOVO74OOfgkRlonpU+XdrBlkO2Iws0foVI8u3Y7
+         wJVpTRVE2nSkj01aKYJnPq+QOt/bjcywNzAUIvWvNC23h7AAi3mqg9Z2BqeQd45AvlE1
+         1XfnTzIv1+xL15X6yr7CN/elf0zmc34qA9rFdtnRo+uhlEMhkyJNn479JXxwg65Ixgsl
+         LvmaYhVbURNVrgLpfxLV9dSXi2fE5oeHsNXK4zIUG4smQmf14HImjcHcb1J2ct3DRu+0
+         G7jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795404685; x=1796009485;
+        d=1e100.net; s=20260707; t=1795415778; x=1796020578;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ar/2HKjK+NYDL4XIdqT0HePA7oYDrfs2vyoMNJhSjA0=;
-        b=mC9a4yNVTYSxc1iV0HM2dViAU/wUtFLY/rT0mCacT2T6Cq29Z3nCzYI7fw3bFixWQz
-         nX7KmfvYA60Fo+Pjsxu80VfkouLM+m8FqhjJ24FrbwypZLrY9p3S2w4TvIVwal8JoTZt
-         F7Gr7xZ3ecc6C2kVpi1S6hRSiSRGDQ377F/2UhT5K2hLRlzx24FBq6wyMtDhriuPe8la
-         gQ+x3Sa5noFgrc9BGthRROUAbYI3runjZPKhGELLpf5vkEG41DqyocpE+sb2Y3wGOVhZ
-         HQdky3vAhxuC+6vD1i7jM/IAg3Om5FNm2/uABR6I2psi6icl0A/IDdCJ4/SXb9Hd8caE
-         Zh7w==
-X-Forwarded-Encrypted: i=1; AL+hErFVG0jvKsgruGmJ2pC8kpN3gRIJHVv8SScRXXOSCCbFHdaIARy1gVp9EbzJXr0HcGV+n9vgLUjB5yEP@lists.linux.dev
-X-Gm-Message-State: APuU4Z8CUEyAW7RZAgby3jhFD2plGXiVfchV0P1sPptDYOrsJgnDQM+L
-	0gsPqBKa6jkldb8g+YYC0pE54gxUdXXZC5K4KB09gU3xN0kJYgjJ+EretHIt9EUISA==
-X-Gm-Gg: AZFdTZe0RJazgzEfjB7/w2jXDItGGvVSmj6foOiWEGq4PjDc8YIL5hPzywpJ44tLfIi
-	FNL5X+O4xQtd+R0IzPv4lV+01pS+2ox0nlmFVPaWoTAZYclq3aGj5saf3xcgmt0EEkCmSU465nc
-	kMkxP15RYZzzW+cwkU1IWnoEyLoeMn5JpRDeeHifZPBfo6fZHXv31EBdRkVCgOvqpCCVimlaXBE
-	vLg/fJ9ykDoxs2duRiwHTdrWMIV1q+XvoEbQv63lZOLZFaxGBOevjYaLIFCmIXB/n0Dj6iAROnm
-	gL4F77x080dhQO966Vy1eQG0iOEZA2f7R9pabnAUaJB03o4ww3dMN2nFfgMkQCQuP2AhUFrvzAL
-	fQHQ/2tuQl3vikaNUegLIFd74qHHQSF7GPfGlEXJsxArltmALwDtM1hMDeRG4itdaIaFBgNG9f2
-	bpPWKDZxoMKLI5ed5t1KBtMg9oV9aPVLCjvtGqepRw+eTPzPy6NiMCe1k/hBeG8k1fMlsl/IBS5
-	AMh3ZfxNBX0dJzp04y9dw84C6GjRY6SNUbdnBkFL1/gSU1fY7yA9yCufEr3Rw7hvsL3xG1QIu38
-	v8+b9g6im/I47vcdRZ2LdLhxX6hwWqqgA/EgVLtKbDQaJraMu/0tofiI7xAW0lw/cy6O7A==
-X-Received: by 2002:a05:6a20:9f08:b0:3ef:2f72:c7e5 with SMTP id adf61e73a8af0-4014ae6fe31mr16689502637.2.1795404685515;
-        Sun, 22 Nov 2026 19:31:25 -0800 (PST)
-Received: from localhost (221.247.125.34.bc.googleusercontent.com. [34.125.247.221])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-8c873f16b41sm4720304b3a.56.2026.11.22.19.31.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Nov 2026 19:31:24 -0800 (PST)
-From: Jeff Xu <jeffxu@chromium.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Jeff Xu <jeffxu@chromium.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Brendan Jackman <brendan.jackman@linux.dev>,
-	Zi Yan <ziy@nvidia.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Marco Elver <elver@google.com>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Chia-I Wu <olvaffe@gmail.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Ian Rickards <ian.rickards@arm.com>,
-	Jann Horn <jannh@google.com>,
-	Jeff Vander Stoep <jeffv@google.com>,
-	Jeff Xu <jeffxu@google.com>,
-	Kees Cook <kees@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Peter Collingbourne <peter@pcc.me.uk>,
-	=?UTF-8?q?Pierre-Cl=C3=A9ment=20Tosi?= <ptosi@google.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Will Deacon <will@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
+        bh=QhvI4EcrcVWaHsYhZmDudDFBhnWCIbKlWCXMmkXssF4=;
+        b=V5nfOggmG5Lp1n2HNOfQpQq7wBb8kE/+wMgWebf8ihJMRnKkGda4DpjgWDVUAtcnKg
+         EzIbmVVoZoLYwGkDRH3RAnMjg7Y3BO8cQvofEfDCPRJKpzdTlNUZvmU0FITS7LNtfNLP
+         961zb+BbQYZYvZvkoLp6l3dYGCjOCkiSW0moGuYp5EIW0Sc959pwbRx6odajIwQwgxRK
+         ISYRb+ZiNBlUVp4fM8ieIQaav9z++rNnusNBp9nSDH4IRc/Xb1M83ujQ+KOJ5G5iVL/A
+         W2c3lcWsINhYtA0fWK6XjbRcLun1/EKD1PbWzL8mNS706B2umBa5Z3t0yWXXzhrZZvMV
+         AIaQ==
+X-Forwarded-Encrypted: i=1; AL+hErHJtYOxLjXBuYaPmX04i/rKpLBdsPqBrxE3vVZAAESxH5GyMJ7EMDrN8wlMvoJ1NPA3PRYsBx2WKwfr@lists.linux.dev
+X-Gm-Message-State: APuU4Z9tmj3z7rNk29l6tFAPqLCGTkhffRM43c0bhew5wFRRgRxxRTIR
+	OveAxau6a9ReIriAyT/swKwRCw1tbkQrOqOi2EQmPOdzYQk7jzfQAy1j
+X-Gm-Gg: AZFdTZdh3HMyTMJA0OQ3R5Tc3KmBus7+hsXCZqjHBrPRaH7MvZ86HlIw5LC6Fs700z9
+	V6kTTptgBLwxQ17d8ttgli4dNr6++B8yStWtPzpQ/rSVW1vKlhW2cNPXPACTrysfvCP77irLZDU
+	LxtNcx8jIdiu9CamBPFVuBCbxyupff4d9jOFbEpTWTBdAKgmg848nYnK5GC74wgpLP7ZRgzc/jP
+	v/H7wSdlq6u0JZ25x4TiLTKp1ts1t/PN02DUyC3T/enrMKeFS0lhx45JbBwNq6FFCaYoeKCh+pu
+	G8aU5MyOYuthBaf3tcMrYhEf7obUyJ3/7N4kHHBXLKfLKtDsw4cny5TInSYy1Jo362HVcm2xpRG
+	5PpZt10njyEcucbNNsUdOXVktYSKLFAioaaQ7c/ix3qkYboAlp4mbVq76DcaibIcSsL+c2RKrp0
+	OfyT9kNAynBPUyllVG+w29Y9H231T5ZFQxg8NbSeHOPKVHX7jXNae7kEL+m81VRjRRsvwqfthQ1
+	JK45Y507fEncbhxHSfM4FrlsPcQBfCqRFrT5NeqQuZzgq5zDc7zyXjOusBHp4DchjOGikvCt0fe
+	dP8LKiS0bxP622tDlYwpwPsSAKmGN4z+xlsfpw87Evw3cK0TOeXLw9Tzu5Sy7ZNuzVaVWQTgN7i
+	8P4O2PueZX5OtZv+k
+X-Received: by 2002:a17:902:e38b:b0:2f0:7707:227c with SMTP id d9443c01a7336-2f0770728c8mr46065645ad.4.1795415777889;
+        Sun, 22 Nov 2026 22:36:17 -0800 (PST)
+Received: from localhost.localdomain ([139.159.170.71])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f118c88sm47430695ad.56.2026.11.22.22.36.14
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 22 Nov 2026 22:36:17 -0800 (PST)
+From: Qihang <q.h.hack.winter@gmail.com>
+To: Li Wang <liwang@kylinos.cn>
+Cc: German Maglione <gmaglione@redhat.com>,
+	Vivek Goyal <vgoyal@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
 	Miklos Szeredi <miklos@szeredi.hu>,
-	Baoquan He <baoquan.he@linux.dev>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Allison Henderson <achender@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	linux-mm@kvack.org,
-	kasan-dev@googlegroups.com,
-	linux-arm-kernel@lists.infradead.org,
+	Eugenio Perez <eperezma@redhat.com>,
+	virtualization@lists.linux.dev,
 	linux-fsdevel@vger.kernel.org,
 	fuse-devel@lists.linux.dev,
-	kexec@lists.infradead.org,
-	netdev@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	rds-devel@oss.oracle.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] mm/kasan/kunit: add page_alloc_skip_kasan test
-Date: Sun, 22 Nov 2026 19:31:11 -0800
-Message-ID: <20261123033111.2349160-3-jeffxu@chromium.org>
-X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
-In-Reply-To: <20261123033111.2349160-1-jeffxu@chromium.org>
-References: <20261123033111.2349160-1-jeffxu@chromium.org>
+	linux-kernel@vger.kernel.org,
+	virtio-fs@lists.linux.dev,
+	Qihang <q.h.hack.winter@gmail.com>
+Subject: [PATCH v5] fuse: virtio-fs: fix lost wakeup on a full virtqueue
+Date: Mon, 23 Nov 2026 14:36:09 +0800
+Message-ID: <20261123063609.82014-1-q.h.hack.winter@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <6c6cea56-1af2-4a37-b081-83244d5e09cd@kylinos.cn>
+References: <6c6cea56-1af2-4a37-b081-83244d5e09cd@kylinos.cn>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -149,87 +109,117 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a KUnit test (page_alloc_skip_kasan) to verify that page allocations
-using __GFP_SKIP_KASAN (GFP_KERNEL | __GFP_SKIP_KASAN, GFP_HIGHUSER, and
-GFP_HIGHUSER_MOVABLE) under CONFIG_KASAN_HW_TAGS:
+virtio_fs_enqueue_req() drops fsvq->lock when virtqueue_add_sgs() fails
+with -ENOSPC, and the caller requeues the request in a second critical
+section.  Completion processing can run in between: it reaps a
+completion, finds queued_reqs empty, and does not schedule dispatch.  If
+the queue then goes idle, the request can remain on queued_reqs and keep
+in_flight above zero.  A subsequent virtio_fs_drain_queue() can wait
+indefinitely.
 
-1. Reset page_kasan_tag() to KASAN_TAG_KERNEL (0xff) across all sub-pages
-   of a high-order allocation, and
-2. Return a match-all (0xff) linear-map pointer from page_address() that
-   does not trigger a KASAN fault even when the underlying physical
-   granules carry a mismatched tag (such as KASAN_TAG_INVALID or
-   restored userspace PROT_MTE tags).
+On -ENOSPC, add the request to queued_reqs before releasing fsvq->lock,
+as send_forget_request() does.  This prevents
+virtio_fs_requests_done_work() from checking queued_reqs between the
+failed submission and the insertion.  Both callers can then return
+immediately on -ENOSPC.
 
-Tested on arm64 with CONFIG_KASAN_HW_TAGS under QEMU (virt,mte=on) with
-kasan.mode=sync, async and asymm.
+Free req->argbuf before adding the request to queued_reqs.  Once
+fsvq->lock is released, the dispatch worker may already have taken the
+request, so the -ENOSPC return path must skip any further access to req.
 
-Signed-off-by: Jeff Xu <jeffxu@chromium.org>
+Count the request in in_flight on its first submission.  A retry keeps
+the existing count.
+
+Fixes: 106e4df1206b ("virtio-fs: improved request latencies when Virtio queue is full")
+Cc: stable@vger.kernel.org # 6.11+
+Link: https://lore.kernel.org/all/sashiko-outbox-204365@kernel.org/
+Signed-off-by: Qihang <q.h.hack.winter@gmail.com>
 ---
- mm/kasan/kasan_test_c.c | 44 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
 
-diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
-index f34163e19bd6..72342137bb18 100644
---- a/mm/kasan/kasan_test_c.c
-+++ b/mm/kasan/kasan_test_c.c
-@@ -380,6 +380,49 @@ static void page_alloc_uaf(struct kunit *test)
- 	KUNIT_EXPECT_KASAN_FAIL_READ(test, ((volatile char *)ptr)[0]);
+Since v4, queue the request under fsvq->lock on -ENOSPC, as Li Wang
+suggested, and drop completion_seq.
+
+ fs/fuse/virtio_fs.c | 37 ++++++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
+
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index d247a02..4d4f2e3 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -596,12 +596,8 @@ static void virtio_fs_request_dispatch_work(struct work_struct *work)
+ 		ret = virtio_fs_enqueue_req(fsvq, req, true, GFP_KERNEL);
+ 		memalloc_nofs_restore(flags);
+ 		if (ret < 0) {
+-			if (ret == -ENOSPC) {
+-				spin_lock(&fsvq->lock);
+-				list_add_tail(&req->list, &fsvq->queued_reqs);
+-				spin_unlock(&fsvq->lock);
++			if (ret == -ENOSPC)
+ 				return;
+-			}
+ 			req->out.h.error = ret;
+ 			spin_lock(&fsvq->lock);
+ 			dec_in_flight_req(fsvq);
+@@ -1433,7 +1429,11 @@ static unsigned int sg_init_fuse_args(struct scatterlist *sg,
+ 	return total_sgs;
  }
  
-+static void page_alloc_skip_kasan_helper(struct kunit *test, gfp_t gfp)
-+{
-+	struct page *pages;
-+	size_t order = 2;
-+	char *ptr;
-+	size_t i;
-+
-+	pages = alloc_pages(gfp, order);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, pages);
-+
-+	for (i = 0; i < (1UL << order); i++) {
-+		/*
-+		 * __GFP_SKIP_KASAN allocations must carry the match-all tag
-+		 * in page->flags, and so in page_address(), not a random tag.
-+		 */
-+		KUNIT_EXPECT_EQ(test, page_kasan_tag(pages + i),
-+				(u8)KASAN_TAG_KERNEL);
-+
-+		ptr = page_address(pages + i);
-+		KUNIT_EXPECT_EQ(test, (u8)get_tag(ptr), (u8)KASAN_TAG_KERNEL);
-+
-+		/*
-+		 * The memory tags of such pages are arbitrary: stale poison,
-+		 * or tags set by userspace through PROT_MTE. Accesses via
-+		 * page_address() must not fault regardless.
-+		 */
-+		kasan_poison(ptr, PAGE_SIZE, KASAN_TAG_INVALID, false);
-+		KUNIT_EXPECT_KASAN_RESULT(test, WRITE_ONCE(*ptr, 0),
-+					  "WRITE_ONCE(*ptr, 0)", false);
-+	}
-+
-+	__free_pages(pages, order);
-+}
-+
-+static void page_alloc_skip_kasan(struct kunit *test)
-+{
-+	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_HW_TAGS);
-+
-+	page_alloc_skip_kasan_helper(test, GFP_KERNEL | __GFP_SKIP_KASAN);
-+	page_alloc_skip_kasan_helper(test, GFP_HIGHUSER);
-+	page_alloc_skip_kasan_helper(test, GFP_HIGHUSER_MOVABLE);
-+}
-+
- static void krealloc_more_oob_helper(struct kunit *test,
- 					size_t size1, size_t size2)
- {
-@@ -2369,6 +2412,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
- 	KUNIT_CASE(kmalloc_large_invalid_free),
- 	KUNIT_CASE(page_alloc_oob_right),
- 	KUNIT_CASE(page_alloc_uaf),
-+	KUNIT_CASE(page_alloc_skip_kasan),
- 	KUNIT_CASE(krealloc_more_oob),
- 	KUNIT_CASE(krealloc_less_oob),
- 	KUNIT_CASE(krealloc_large_more_oob),
+-/* Add a request to a virtqueue and kick the device */
++/*
++ * Add a request to a virtqueue and kick the device.  If the virtqueue is
++ * full, queue the request on fsvq->queued_reqs for the dispatch worker and
++ * return -ENOSPC; the caller must not queue it a second time.
++ */
+ static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
+ 				 struct fuse_req *req, bool in_flight,
+ 				 gfp_t gfp)
+@@ -1503,6 +1503,20 @@ static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
+ 	vq = fsvq->vq;
+ 	ret = virtqueue_add_sgs(vq, sgs, out_sgs, in_sgs, req, GFP_ATOMIC);
+ 	if (ret < 0) {
++		if (ret == -ENOSPC) {
++			/*
++			 * Queue the request before dropping fsvq->lock, so
++			 * virtio_fs_requests_done_work() cannot check
++			 * queued_reqs between the failed add and the
++			 * insertion.  Release argbuf first, as dispatch may
++			 * retry the request as soon as the lock is dropped.
++			 */
++			kfree(req->argbuf);
++			req->argbuf = NULL;
++			list_add_tail(&req->list, &fsvq->queued_reqs);
++			if (!in_flight)
++				inc_in_flight_req(fsvq);
++		}
+ 		spin_unlock(&fsvq->lock);
+ 		goto out;
+ 	}
+@@ -1527,7 +1541,8 @@ static int virtio_fs_enqueue_req(struct virtio_fs_vq *fsvq,
+ 		virtqueue_notify(vq);
+ 
+ out:
+-	if (ret < 0 && req->argbuf) {
++	/* On -ENOSPC, dispatch may already have taken req. */
++	if (ret < 0 && ret != -ENOSPC && req->argbuf) {
+ 		kfree(req->argbuf);
+ 		req->argbuf = NULL;
+ 	}
+@@ -1564,13 +1579,9 @@ static void virtio_fs_send_req(struct fuse_iqueue *fiq, struct fuse_req *req)
+ 	if (ret < 0) {
+ 		if (ret == -ENOSPC) {
+ 			/*
+-			 * Virtqueue full. Retry submission from worker
+-			 * context as we might be holding fc->chan->bg_lock.
++			 * Retry from worker context: we might be holding
++			 * fc->chan->bg_lock here.
+ 			 */
+-			spin_lock(&fsvq->lock);
+-			list_add_tail(&req->list, &fsvq->queued_reqs);
+-			inc_in_flight_req(fsvq);
+-			spin_unlock(&fsvq->lock);
+ 			return;
+ 		}
+ 		req->out.h.error = ret;
 -- 
-2.56.1.750.gf70dc682cf-goog
+2.54.0 (Apple Git-157)
 
