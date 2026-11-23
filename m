@@ -1,60 +1,140 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795361240;
-	b=4+iVmprc5MnUzlStacDCMp8AUDEO2KTx6xmIT8ixxlINWFcDGbRIzROET7j4oNAGGvkL
-	 uwSnFTTAT99f2JopjwsmCqbZzofLuv0cFkxtPFhg/hx52hQkTOsHV6tnav5ZNPhGjHi/e
-	 Pt11vxUSZfQXaQNGz5/ewblQuDYnhHdCUBfochw1Zq6FDbqlJIDTZ0GhGjf6bTMkxx5Ou
-	 0Cn1BxiI9Sb7Ulmtk1nGi9WscJ8ubIdyqrgkY70ZaPvaW8Lg/40WsfrIY7X5HW+uRp0sU
-	 jYuSCYu2601SrYa04xmUFaLVvmPJpiIA8ricN+XQ1oA4PxA6Z1DuWB5b5b4IPw1qFAA==
+	t=1795404681;
+	b=3G+28I7TnLt2MoMO2L62fK4eK1RUgBZNZIuORDZ8OW02SNWDS9YpLorsqVWvDqKyufi4
+	 qX107WC3XNiYSJ1z3hPgsiQVi1WW1P3zkqD1/XbjguyqaSHpKFrHc7WE015iVjbbed2eS
+	 EQ3ZY4hS0se6P/0PezZ1x7oFP8ea/QRZXw3Mw7KLAJO/tot2k0854UBDuy5BgfjXNUSK7
+	 izFNfFYBIOemPnk8Q+c2orphMjdUx5tY0jfgJzcElTBJT/waNH+Ga01uBB0GLbq/f6Q8k
+	 bo50Lv+XSivqvIhq5POp/p3SLZJ5pUwMfBKWUTImTZIxeCm1YvZvrBoMOFFguJ125bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795361240;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=QG9b2UaelpX3Wm1347brCg45zPhFGvUkcmcf2KQfdH0=;
-	b=rnB2D0pkMogvgCTAYB3ty3r9hoL2OPQhToW+SFH+Nu4iCZNk+1A35kUSqj+bFYnDK05y
-	 JmRoq25ugdwF8Pcm6MvCj+Qf8ztixfnUAnzimqU++2e6opph/YXhBGlJ9zDZVS5zhLDu9
-	 iy2LcKX8L3RvHqnnj/Tr9yss1lzVCqh8kJEEvB4vFcrgx80qL6ueinTJLHV4ol+UA3SZC
-	 BHtr3bE/SnDpUrcMRoCAEl0u63+IrYoSUWeKAhgNwOC2ZUcBVpYdbXogWhNPLxnB6wc5I
-	 uBZDWEmYCjDCRzguQk+vGB/SZxSRhza9JQWsb+Cg8pNG7Ym08mjTxB/lYAXReSopmGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795404681;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=n3/QgCFjzvK6G73Tiampz5hPbLES3QQEgOsn43qeBn8=;
+	b=Er65X9QwK8apy2KNtJ1NiU625CCf2xwnKdna1NmJ9lN/YmBoxwOcFhCJentv1H5kuj7n
+	 rAepYWDBkE2dHvgRMUqh+b4XmUEry6BKn0yNlOlHjaY5Cozdlh/0o7Xtfbr2VW0D7ZqW6
+	 XpZp+ic7kjrMpT+6ALs3LD1W5x0J5XiaJcYXxqH/bDK4oqBxREKvf9GACtZns2Kxu5j5y
+	 yGW2/8RT8UgDgP9H1QmmDjfdsXcVGeCmKZ/vt1eez9saBotvOz8vF0UAs2ZddI76i8LA9
+	 Ynq2TzuRQ1dsMFpvQfYNRgNne/gTsOHa9m0+5mBYTXx6YHH8HvvNlL+XGx/pqSgqYfQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=cVyCRQqd;
-	arc=none smtp.remote-ip=109.224.244.18
-Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=MlIvHHbx;
+	arc=none smtp.remote-ip=209.85.210.176
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BC7606A32C
-	for <fuse-devel@lists.linux.dev>; Sun, 22 Nov 2026 15:27:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61BC7606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FBB606A32A
+	for <fuse-devel@lists.linux.dev>; Mon, 23 Nov 2026 03:31:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0FBB606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=cVyCRQqd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1795361236; x=1795620436;
-	bh=QG9b2UaelpX3Wm1347brCg45zPhFGvUkcmcf2KQfdH0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=cVyCRQqdkgao3bz1OX6ZlxYZPxR9+4n8JLHVM8Gw5EReevUpkpWuSy9Oji1ZEkp6V
-	 dJQ3k0aVXyR9mCcxwh2sIm2KxpEh3GD4hKLbT1BomnxfUv2Nr/zkEpPMHkUIsXUAPB
-	 mBM4h89hVrLm4dlfZatV5A+ZyUqZEBzD9i9lRa3x8wIRGt91GW1+jAICyHDfqm8Qnw
-	 npRvPIZvJgXTyxwDIzcmx+/m7ySuujhFj6IQwdNXDswvqEvu1W4yiK4Y79tl1xnnVC
-	 XiMaeIGjTRB2qqe7hUYt9+jQIKdbXwz4ceKXRNtM9fLbekioJzIxRwNjRO0PRpCiWB
-	 oU9F8nuwQ8pUQ==
-Date: Sun, 22 Nov 2026 15:27:14 +0000
-To: Miklos Szeredi <miklos@szeredi.hu>
-From: Yun Wang <7z0423arsenova@proton.me>
-Cc: Bernd Schubert <bernd@bsbernd.com>, Joanne Koong <joannelkoong@gmail.com>, Shuah Khan <shuah@kernel.org>, fuse-devel@lists.linux.dev, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] selftests/fuse: test a sync-init device before the mount
-Message-ID: <20261122152514.467423-6-7z0423arsenova@proton.me>
-In-Reply-To: <20261122152514.467423-1-7z0423arsenova@proton.me>
-References: <20261122152514.467423-1-7z0423arsenova@proton.me>
-Feedback-ID: 227066774:user:proton
-X-Pm-Message-ID: ecc7b75af6301248a35516565cc5009ce75ca7b1
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=MlIvHHbx
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8a052288e41so39094b3a.1
+        for <fuse-devel@lists.linux.dev>; Sun, 22 Nov 2026 19:31:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1795404680; x=1796009480; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=n3/QgCFjzvK6G73Tiampz5hPbLES3QQEgOsn43qeBn8=;
+        b=MlIvHHbx/C6qY6dETmONn7f2tTSI2eRHPQzMtA6c6GFcIM0rKU2om6wxFG6TYrToEB
+         jeq0KVliRBVF9yQ4A5gCgwF4hH+1aJBMSJnz44U9aAthSPPY8s+u9GWjRat/B3tTAEo4
+         a/NElFUlTnbRSurckFzEUI5sYBbF6NeIuecGc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795404680; x=1796009480;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=n3/QgCFjzvK6G73Tiampz5hPbLES3QQEgOsn43qeBn8=;
+        b=sHMjOpNoU5XOLeOsH9lbFCoHMeIUaS9dMJSN7zoPAySgeUGRrOT1tDERHBdtwpPi/k
+         iT6l67tGbMxxFAHvrUIvgPTOnChbwLE9Na1FXj94i+Bruxxid4DeeGxneB5Z9fY3AEnR
+         SRUyc9ctKfV4WpbPj4GoxzdROD/ss59ozIOJv0FYVz+nOoeum13FaWAZaQphTQmPfcKg
+         ROpNkymgZ8V5R91yoABes85XK9z7aIMYR5e+kdZSBb8EjGYzuCwh8bWFm9VBkBpzOgcl
+         LHXLUl9qOFPGqfb6Eg7Axm2V5hWksWh+/sLLQzYcTZei2bfCJ942vJP4VKXYGhoduPXm
+         ZwXA==
+X-Forwarded-Encrypted: i=1; AL+hErH8Tdm+94tv0sM1zDuBnf87fQkerYVK857RJEseZxxgcEATVykRmG/YkPzbUls1IV69IuVTXDnLfzHZ@lists.linux.dev
+X-Gm-Message-State: APuU4Z+h55+7DZDfo79R7hC+tNS5pkpeOwWTWLX8Cx2itQmuRrSF6hQG
+	sK1N/5uyA3wMyrwQ1/El6p+4YFvIWAycJXP6yUg+3olU/JfobBCmcmTh+KPa6dddHA==
+X-Gm-Gg: AZFdTZd8c5+Gam1mPnZOQ9tVl0BnPMegWSK9otHRb3D/ZCJuTsLcwrtKqY7TpjtCrat
+	Xjhj3Xrodirnnc6Nhrq/bfR7caeieldv5AEuj1d1hDvsVVFqTGf3/XhyvLiNb9K5TLhrO/re1WF
+	i899DLJxUOqD0Z+FglheFl/GGYRixLtXhSdEdBl14PI0zNHLLVHFMwOYYBWnGwVcMvG5DmIbNJz
+	SE4JsacTfTRlu2qQxVvcVo2ERu87jQGx7Qugw29fw2Yn5avMca+9LMvBez7JpaDffw+yhKShVjD
+	okpQ1x2Swg3Zb9v5C8c7M/KheYDxE3HENZX8dRTW/3JvPONa5LiUMSbrE407ivrNgAEuQIiTWSz
+	9FTta3wVDygg1XNl2lpfCfEupXBerW6p8HEJYVMPbS6mIkjGbxPYc2i/Mdyti65uH/Yh68Rw5mx
+	eFhyLRk7UTeuDnvSel3N2WnZoJkycMAMEPkTXZ3WwFfA5ZFZ37E/qoCPNoLQoXRlmbrXTdXR1gr
+	WzaSD+2/7HyCWDrCxF1KVbK/OiABnAH/Fg0Sc7S2OxnB1Nuh6XLfUF3B9mGUXV7RllPcCxhHkgK
+	8+4rKhFFEexiYuQ6430NkZrQCHEECFwPjoxqkZZ3iic72xG9r1KO2BtTfPoPbnscGZuy1w==
+X-Received: by 2002:a05:6a00:c1ca:20b0:8b0:4ee8:10b7 with SMTP id d2e1a72fcca58-8c8792b617bmr11211724b3a.1.1795404680238;
+        Sun, 22 Nov 2026 19:31:20 -0800 (PST)
+Received: from localhost (221.247.125.34.bc.googleusercontent.com. [34.125.247.221])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-8c87285c14fsm4712022b3a.15.2026.11.22.19.31.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Nov 2026 19:31:19 -0800 (PST)
+From: Jeff Xu <jeffxu@chromium.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Jeff Xu <jeffxu@chromium.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Marco Elver <elver@google.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Ian Rickards <ian.rickards@arm.com>,
+	Jann Horn <jannh@google.com>,
+	Jeff Vander Stoep <jeffv@google.com>,
+	Jeff Xu <jeffxu@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Peter Collingbourne <peter@pcc.me.uk>,
+	=?UTF-8?q?Pierre-Cl=C3=A9ment=20Tosi?= <ptosi@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Will Deacon <will@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Allison Henderson <achender@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	linux-mm@kvack.org,
+	kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	kexec@lists.infradead.org,
+	netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	rds-devel@oss.oracle.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] mm: kasan: skip KASAN for GFP_HIGHUSER
+Date: Sun, 22 Nov 2026 19:31:09 -0800
+Message-ID: <20261123033111.2349160-1-jeffxu@chromium.org>
+X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -64,631 +144,60 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Yun Wang <arsenova@a7snv.com>
+Hi all,
 
-A server that uses FUSE_DEV_IOC_SYNC_INIT has the device before the
-mount does.  Test that calls which must not block don't wait for the
-mount, and that waiters armed before it see its requests.
+This series moves __GFP_SKIP_KASAN from GFP_HIGHUSER_MOVABLE to
+GFP_HIGHUSER (patch 1) and adds a KUnit test for __GFP_SKIP_KASAN
+(patch 2).
 
-The fuse_dev tests never mount.  poll(2) with a zero timeout or
-together with an eventfd, epoll_ctl(2), read(2) and splice(2) on an
-O_NONBLOCK device, FUSE_IO_URING_CMD_REGISTER through io_uring, and the
-close of a device opened with O_ASYNC must return at once; where they
-wait for the mount, the harness kills them after two seconds.  A
-blocking read(2) must still wait, until an alarm ends it.  Two tests
-send a REGISTER or a POLL_ADD from one thread and a NOP to the same
-ring from another: the NOP must not have to wait for the mount, as it
-does when the first thread sleeps with the ring's uring_lock held.
-Each test also runs on a device without sync init, which must keep
-failing at once.
+GFP_HIGHUSER_MOVABLE already skips KASAN tagging under
+CONFIG_KASAN_HW_TAGS, whereas GFP_HIGHUSER does not despite sharing the
+same userspace-allocation contract. On an Armv9.2-A device (6.12 kernel,
+kasan.mode=sync), skipping KASAN on GFP_HIGHUSER cuts 32 MB
+/dev/dma_heap/system alloc+free latency by ~80% and improves an
+app-loading OpenGL benchmark by 15-23%. As a side effect, GFP_HIGHUSER
+shmem mappings (such as drm_gem_shmem_helper / panthor [1, 2]) stop
+hitting the swap-in readahead PROT_MTE tag mismatch, though the general
+readahead issue for other gfp masks remains separate.
 
-The mount tests arm epoll (level triggered, edge triggered and with
-EPOLLEXCLUSIVE) or a multishot io_uring poll before the mount, then
-mount as root of a new user namespace.  The waiter has to report
-FUSE_INIT, and then a request queued after the mount, without being
-armed again.
+Changes since v1 [3]:
+- Dropped GFP_HIGHUSER_KASAN, the pipe/FUSE/kexec/RDS conversions, and
+  page_alloc_highuser_kasan (v1 patches 1-4 and 7) following David
+  Hildenbrand's and Tomasz Figa's feedback; kept those callers on
+  GFP_HIGHUSER (2 patches instead of 7).
+- Rewrote patch 1's commit message concisely (Lorenzo Stoakes).
+- Dropped Assisted-by: trailers from the patches, keeping tool
+  disclosure here (Lorenzo Stoakes).
+- Rebased onto mm-unstable (d12eccbcb79a).
+- Kept the fs/kexec/RDS maintainers from v1 on Cc for visibility since
+  those patches were dropped.
 
-io_uring is set up with its system calls, with the 128-byte SQEs that
-FUSE_IO_URING_CMD_* needs, so the test doesn't depend on liburing.  No
-privileges are needed; the tests skip without /dev/fuse,
-FUSE_DEV_IOC_SYNC_INIT, io_uring or user namespaces, and the uring_cmd
-test also without CONFIG_FUSE_IO_URING.
+Testing: built and booted both commits on arm64 with
+CONFIG_KASAN_HW_TAGS under QEMU (virt,mte=on) across kasan.mode=sync,
+async, and asymm (9/9 runs passed for page_alloc_skip_kasan; 3/3 failed
+as expected when patch 1 was reverted, with the next test still
+passing). Verified W=1 builds with 0 warnings across arm64 (HW_TAGS,
+generic, SW_TAGS, no KASAN) and x86_64 (generic, no KASAN). KUnit tests
+were not run on real hardware.
 
-Signed-off-by: Yun Wang <arsenova@a7snv.com>
----
- .../selftests/filesystems/fuse/.gitignore     |   1 +
- .../selftests/filesystems/fuse/Makefile       |   2 +
- .../filesystems/fuse/fuse_sync_init_test.c    | 532 ++++++++++++++++++
- 3 files changed, 535 insertions(+)
- create mode 100644 tools/testing/selftests/filesystems/fuse/fuse_sync_init=
-_test.c
+Tooling: an AI coding assistant was used under the author's direction to
+audit GFP_HIGHUSER callers, draft the KUnit test helper and changelog
+revisions, and run the QEMU/KUnit build and test matrix.
 
-diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/te=
-sting/selftests/filesystems/fuse/.gitignore
-index 7c787313e69b..9066f735cfe2 100644
---- a/tools/testing/selftests/filesystems/fuse/.gitignore
-+++ b/tools/testing/selftests/filesystems/fuse/.gitignore
-@@ -6,3 +6,4 @@ write_extend_eof_test
- fuse_acl_cache_test
- fuse_symlink_cache_test
- fuse_readdir_cache_test
-+fuse_sync_init_test
-diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/test=
-ing/selftests/filesystems/fuse/Makefile
-index e3ae3acff113..15630db378ca 100644
---- a/tools/testing/selftests/filesystems/fuse/Makefile
-+++ b/tools/testing/selftests/filesystems/fuse/Makefile
-@@ -7,11 +7,13 @@ TEST_GEN_PROGS +=3D write_extend_eof_test
- TEST_GEN_PROGS +=3D fuse_acl_cache_test
- TEST_GEN_PROGS +=3D fuse_symlink_cache_test
- TEST_GEN_PROGS +=3D fuse_readdir_cache_test
-+TEST_GEN_PROGS +=3D fuse_sync_init_test
- TEST_GEN_FILES :=3D fuse_mnt
-=20
- include ../../lib.mk
-=20
- $(OUTPUT)/write_extend_eof_test: LDLIBS +=3D -lpthread
-+$(OUTPUT)/fuse_sync_init_test: LDLIBS +=3D -lpthread
-=20
- VAR_CFLAGS :=3D $(shell pkg-config fuse3 --cflags 2>/dev/null)
- ifeq ($(VAR_CFLAGS),)
-diff --git a/tools/testing/selftests/filesystems/fuse/fuse_sync_init_test.c=
- b/tools/testing/selftests/filesystems/fuse/fuse_sync_init_test.c
-new file mode 100644
-index 000000000000..98eab737ea8a
---- /dev/null
-+++ b/tools/testing/selftests/filesystems/fuse/fuse_sync_init_test.c
-@@ -0,0 +1,532 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * A /dev/fuse fd in sync-init mode (FUSE_DEV_IOC_SYNC_INIT) is opened bef=
-ore
-+ * the mount.  Until the mount, calls that must not block have to return a=
-t
-+ * once, and waiters armed before it have to see the requests that come af=
-ter
-+ * it.  A call that sleeps instead makes its test hit the harness timeout.
-+ *
-+ * The fuse_dev tests never mount.  Each runs on a sync-init fd, where
-+ * non-blocking calls must not wait (while a blocking read still does), an=
-d
-+ * on an fd without sync init, which keeps failing at once.  The mount tes=
-ts
-+ * mount as root of a new user namespace.
-+ */
-+#define _GNU_SOURCE
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <pthread.h>
-+#include <sched.h>
-+#include <signal.h>
-+#include <string.h>
-+#include <time.h>
-+#include <unistd.h>
-+#include <sys/epoll.h>
-+#include <sys/eventfd.h>
-+#include <sys/ioctl.h>
-+#include <sys/mman.h>
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+#include <sys/syscall.h>
-+#include <sys/uio.h>
-+#include <sys/xattr.h>
-+#include <linux/fuse.h>
-+#include <linux/io_uring.h>
-+
-+#include "kselftest_harness.h"
-+
-+#define MNT=09"/tmp/fuse"
-+
-+/* A minimal io_uring with 128-byte SQEs, which FUSE_IO_URING_CMD_* needs =
-*/
-+struct ring {
-+=09int fd;
-+=09void *sq, *cq;
-+=09size_t sq_sz, cq_sz, sqes_sz;
-+=09unsigned int *sq_tail, *sq_mask, *sq_array;
-+=09unsigned int *cq_head, *cq_tail, *cq_mask;
-+=09struct io_uring_sqe *sqes;
-+=09struct io_uring_cqe *cqes;
-+};
-+
-+static void ring_exit(struct ring *r)
-+{
-+=09if (r->sq && r->sq !=3D MAP_FAILED)
-+=09=09munmap(r->sq, r->sq_sz);
-+=09if (r->cq && r->cq !=3D MAP_FAILED)
-+=09=09munmap(r->cq, r->cq_sz);
-+=09if (r->sqes && r->sqes !=3D MAP_FAILED)
-+=09=09munmap(r->sqes, r->sqes_sz);
-+=09if (r->fd >=3D 0)
-+=09=09close(r->fd);
-+=09memset(r, 0, sizeof(*r));
-+=09r->fd =3D -1;
-+}
-+
-+static int ring_init(struct ring *r, unsigned int entries)
-+{
-+=09struct io_uring_params p =3D { .flags =3D IORING_SETUP_SQE128 };
-+=09char *sq, *cq;
-+
-+=09memset(r, 0, sizeof(*r));
-+=09r->fd =3D syscall(__NR_io_uring_setup, entries, &p);
-+=09if (r->fd < 0)
-+=09=09return -1;
-+=09r->sq_sz =3D p.sq_off.array + p.sq_entries * sizeof(unsigned int);
-+=09r->cq_sz =3D p.cq_off.cqes + p.cq_entries * sizeof(*r->cqes);
-+=09r->sqes_sz =3D p.sq_entries * 2 * sizeof(*r->sqes);
-+=09sq =3D r->sq =3D mmap(NULL, r->sq_sz, PROT_READ | PROT_WRITE, MAP_SHARE=
-D,
-+=09=09=09  r->fd, IORING_OFF_SQ_RING);
-+=09cq =3D r->cq =3D mmap(NULL, r->cq_sz, PROT_READ | PROT_WRITE, MAP_SHARE=
-D,
-+=09=09=09  r->fd, IORING_OFF_CQ_RING);
-+=09r->sqes =3D mmap(NULL, r->sqes_sz, PROT_READ | PROT_WRITE, MAP_SHARED,
-+=09=09       r->fd, IORING_OFF_SQES);
-+=09if (sq =3D=3D MAP_FAILED || cq =3D=3D MAP_FAILED || r->sqes =3D=3D MAP_=
-FAILED) {
-+=09=09int err =3D errno;
-+
-+=09=09ring_exit(r);
-+=09=09errno =3D err;
-+=09=09return -1;
-+=09}
-+=09r->sq_tail =3D (void *)(sq + p.sq_off.tail);
-+=09r->sq_mask =3D (void *)(sq + p.sq_off.ring_mask);
-+=09r->sq_array =3D (void *)(sq + p.sq_off.array);
-+=09r->cq_head =3D (void *)(cq + p.cq_off.head);
-+=09r->cq_tail =3D (void *)(cq + p.cq_off.tail);
-+=09r->cq_mask =3D (void *)(cq + p.cq_off.ring_mask);
-+=09r->cqes =3D (void *)(cq + p.cq_off.cqes);
-+=09return 0;
-+}
-+
-+/* Return a zeroed SQE at the tail; publish via ring_commit()/ring_submit(=
-). */
-+static struct io_uring_sqe *ring_sqe(struct ring *r)
-+{
-+=09unsigned int idx =3D *r->sq_tail & *r->sq_mask;
-+=09struct io_uring_sqe *sqe =3D &r->sqes[idx * 2];
-+
-+=09memset(sqe, 0, 2 * sizeof(*sqe));
-+=09return sqe;
-+}
-+
-+static void ring_commit(struct ring *r)
-+{
-+=09unsigned int tail =3D *r->sq_tail;
-+=09unsigned int idx =3D tail & *r->sq_mask;
-+
-+=09r->sq_array[idx] =3D idx;
-+=09__atomic_store_n(r->sq_tail, tail + 1, __ATOMIC_RELEASE);
-+}
-+
-+static int ring_enter(struct ring *r)
-+{
-+=09return syscall(__NR_io_uring_enter, r->fd, 1, 0, 0, NULL, 0);
-+}
-+
-+static int ring_submit(struct ring *r)
-+{
-+=09ring_commit(r);
-+=09return ring_enter(r);
-+}
-+
-+/* Wait up to @ms for a CQE; return 1 and its result in @res, or 0. */
-+static int ring_cqe(struct ring *r, int ms, int *res)
-+{
-+=09struct pollfd pfd =3D { .fd =3D r->fd, .events =3D POLLIN };
-+=09unsigned int head =3D *r->cq_head;
-+
-+=09if (head =3D=3D __atomic_load_n(r->cq_tail, __ATOMIC_ACQUIRE)) {
-+=09=09int ret;
-+
-+=09=09do {
-+=09=09=09ret =3D poll(&pfd, 1, ms);
-+=09=09} while (ret < 0 && errno =3D=3D EINTR);
-+=09=09if (ret !=3D 1 ||
-+=09=09    head =3D=3D __atomic_load_n(r->cq_tail, __ATOMIC_ACQUIRE))
-+=09=09=09return 0;
-+=09}
-+=09*res =3D r->cqes[head & *r->cq_mask].res;
-+=09__atomic_store_n(r->cq_head, head + 1, __ATOMIC_RELEASE);
-+=09return 1;
-+}
-+
-+static int open_dev(struct __test_metadata *const _metadata, bool sync_ini=
-t)
-+{
-+=09int fd =3D open("/dev/fuse", O_RDWR | O_NONBLOCK);
-+
-+=09if (fd < 0)
-+=09=09SKIP(return -1, "/dev/fuse: %s", strerror(errno));
-+=09if (sync_init && ioctl(fd, FUSE_DEV_IOC_SYNC_INIT)) {
-+=09=09if (errno =3D=3D ENOTTY) {
-+=09=09=09close(fd);
-+=09=09=09SKIP(return -1, "no FUSE_DEV_IOC_SYNC_INIT (v6.18)");
-+=09=09}
-+=09=09ASSERT_EQ(0, errno);
-+=09}
-+=09return fd;
-+}
-+
-+FIXTURE(fuse_dev) {
-+=09int fd;
-+};
-+
-+FIXTURE_VARIANT(fuse_dev) {
-+=09bool sync_init;
-+=09int err;=09/* what a non-blocking call gets before the mount */
-+};
-+
-+FIXTURE_VARIANT_ADD(fuse_dev, sync_init) {
-+=09.sync_init =3D true,
-+=09.err =3D EAGAIN,
-+};
-+
-+FIXTURE_VARIANT_ADD(fuse_dev, plain) {
-+=09.err =3D EPERM,
-+};
-+
-+FIXTURE_SETUP(fuse_dev)
-+{
-+=09self->fd =3D open_dev(_metadata, variant->sync_init);
-+}
-+
-+FIXTURE_TEARDOWN(fuse_dev)
-+{
-+=09if (self->fd >=3D 0)
-+=09=09close(self->fd);
-+}
-+
-+TEST_F_TIMEOUT(fuse_dev, poll, 2)
-+{
-+=09struct pollfd pfd =3D { .fd =3D self->fd, .events =3D POLLIN };
-+
-+=09ASSERT_EQ(!variant->sync_init, poll(&pfd, 1, 0));
-+=09if (!variant->sync_init)
-+=09=09ASSERT_EQ(POLLERR, pfd.revents);
-+}
-+
-+static void *kick(void *efd)
-+{
-+=09usleep(100 * 1000);
-+=09eventfd_write(*(int *)efd, 1);
-+=09return NULL;
-+}
-+
-+/* libfuse's sync-init worker polls the fd together with an eventfd. */
-+TEST_F_TIMEOUT(fuse_dev, poll_eventfd, 2)
-+{
-+=09struct pollfd pfd[2] =3D {
-+=09=09{ .fd =3D self->fd, .events =3D POLLIN },
-+=09=09{ .fd =3D eventfd(0, 0), .events =3D POLLIN },
-+=09};
-+=09pthread_t thread;
-+
-+=09ASSERT_LE(0, pfd[1].fd);
-+=09ASSERT_EQ(0, pthread_create(&thread, NULL, kick, &pfd[1].fd));
-+=09ASSERT_LE(1, poll(pfd, 2, -1));
-+=09if (variant->sync_init) {
-+=09=09ASSERT_EQ(0, pfd[0].revents);
-+=09=09ASSERT_EQ(POLLIN, pfd[1].revents);
-+=09} else {
-+=09=09ASSERT_EQ(POLLERR, pfd[0].revents);
-+=09}
-+=09ASSERT_EQ(0, pthread_join(thread, NULL));
-+=09close(pfd[1].fd);
-+}
-+
-+TEST_F_TIMEOUT(fuse_dev, epoll, 2)
-+{
-+=09struct epoll_event ev =3D { .events =3D EPOLLIN };
-+=09int epfd =3D epoll_create1(0);
-+
-+=09ASSERT_LE(0, epfd);
-+=09ASSERT_EQ(0, epoll_ctl(epfd, EPOLL_CTL_ADD, self->fd, &ev));
-+=09ASSERT_EQ(!variant->sync_init, epoll_wait(epfd, &ev, 1, 0));
-+=09if (!variant->sync_init)
-+=09=09ASSERT_EQ(EPOLLERR, ev.events);
-+=09close(epfd);
-+}
-+
-+TEST_F_TIMEOUT(fuse_dev, read, 2)
-+{
-+=09char buf[FUSE_MIN_READ_BUFFER];
-+
-+=09ASSERT_EQ(-1, read(self->fd, buf, sizeof(buf)));
-+=09ASSERT_EQ(variant->err, errno);
-+}
-+
-+TEST_F_TIMEOUT(fuse_dev, splice, 2)
-+{
-+=09int p[2];
-+
-+=09ASSERT_EQ(0, pipe(p));
-+=09ASSERT_EQ(-1, splice(self->fd, NULL, p[1], NULL,
-+=09=09=09     FUSE_MIN_READ_BUFFER, 0));
-+=09ASSERT_EQ(variant->err, errno);
-+=09close(p[0]);
-+=09close(p[1]);
-+}
-+
-+/*
-+ * open(2) doesn't call ->fasync for O_ASYNC, but the last close turns it
-+ * off through ->fasync, and that must not wait for a mount either.
-+ */
-+TEST_F_TIMEOUT(fuse_dev, fasync_close, 2)
-+{
-+=09int fd =3D open("/dev/fuse", O_RDWR | O_ASYNC);
-+
-+=09ASSERT_LE(0, fd);
-+=09if (variant->sync_init)
-+=09=09ASSERT_EQ(0, ioctl(fd, FUSE_DEV_IOC_SYNC_INIT));
-+=09ASSERT_EQ(0, close(fd));
-+}
-+
-+static void nop(int sig)
-+{
-+}
-+
-+/* A blocking read still waits for the mount, until a signal ends it. */
-+TEST_F_TIMEOUT(fuse_dev, read_blocking, 3)
-+{
-+=09struct sigaction sa =3D { .sa_handler =3D nop };=09/* no SA_RESTART */
-+=09char buf[FUSE_MIN_READ_BUFFER];
-+
-+=09ASSERT_EQ(0, sigaction(SIGALRM, &sa, NULL));
-+=09ASSERT_EQ(0, fcntl(self->fd, F_SETFL, 0));
-+=09alarm(1);
-+=09ASSERT_EQ(-1, read(self->fd, buf, sizeof(buf)));
-+=09alarm(0);
-+=09ASSERT_EQ(variant->sync_init ? EINTR : EPERM, errno);
-+}
-+
-+static void prep(struct io_uring_sqe *sqe, __u8 opcode, int fd)
-+{
-+=09sqe->opcode =3D opcode;
-+=09sqe->fd =3D fd;
-+=09if (opcode =3D=3D IORING_OP_URING_CMD)
-+=09=09sqe->cmd_op =3D FUSE_IO_URING_CMD_REGISTER;
-+=09else
-+=09=09sqe->poll32_events =3D POLLIN;
-+}
-+
-+TEST_F_TIMEOUT(fuse_dev, uring_cmd, 2)
-+{
-+=09struct ring r;
-+=09int res;
-+
-+=09if (ring_init(&r, 1))
-+=09=09SKIP(return, "io_uring_setup: %s", strerror(errno));
-+=09prep(ring_sqe(&r), IORING_OP_URING_CMD, self->fd);
-+=09ASSERT_EQ(1, ring_submit(&r));
-+=09ASSERT_EQ(1, ring_cqe(&r, 1000, &res));
-+=09ring_exit(&r);
-+=09if (res =3D=3D -EOPNOTSUPP)
-+=09=09SKIP(return, "no CONFIG_FUSE_IO_URING");
-+=09ASSERT_EQ(-variant->err, res);
-+}
-+
-+static void *submit(void *r)
-+{
-+=09ring_enter(r);
-+=09return NULL;
-+}
-+
-+/*
-+ * io_uring issues the command and polls the fd with the ring's uring_lock
-+ * held: another thread submitting to the same ring must not have to wait
-+ * for the mount.
-+ */
-+static void ring_lock(struct __test_metadata *const _metadata, int fd,
-+=09=09      __u8 opcode)
-+{
-+=09struct timespec t0, t1;
-+=09pthread_t thread;
-+=09struct ring r;
-+
-+=09if (ring_init(&r, 4))
-+=09=09SKIP(return, "io_uring_setup: %s", strerror(errno));
-+=09prep(ring_sqe(&r), opcode, fd);
-+=09ring_commit(&r);
-+=09ASSERT_EQ(0, pthread_create(&thread, NULL, submit, &r));
-+=09usleep(100 * 1000);
-+=09ring_sqe(&r)->opcode =3D IORING_OP_NOP;
-+=09ring_commit(&r);
-+=09clock_gettime(CLOCK_MONOTONIC, &t0);
-+=09ASSERT_EQ(1, ring_enter(&r));
-+=09clock_gettime(CLOCK_MONOTONIC, &t1);
-+=09ASSERT_GT(500, (t1.tv_sec - t0.tv_sec) * 1000 +
-+=09=09       (t1.tv_nsec - t0.tv_nsec) / 1000000);
-+=09ASSERT_EQ(0, pthread_join(thread, NULL));
-+=09ring_exit(&r);
-+}
-+
-+TEST_F_TIMEOUT(fuse_dev, ring_lock_cmd, 2)
-+{
-+=09ring_lock(_metadata, self->fd, IORING_OP_URING_CMD);
-+}
-+
-+TEST_F_TIMEOUT(fuse_dev, ring_lock_poll, 2)
-+{
-+=09ring_lock(_metadata, self->fd, IORING_OP_POLL_ADD);
-+}
-+
-+FIXTURE(mount) {
-+=09int fd;
-+=09int epfd;
-+=09struct ring r;
-+=09int err;=09/* errno of the thread that mounts or calls getxattr */
-+};
-+
-+FIXTURE_VARIANT(mount) {
-+=09__u32 events;=09/* epoll events, or 0 for a multishot io_uring poll */
-+};
-+
-+FIXTURE_VARIANT_ADD(mount, epoll) {
-+=09.events =3D EPOLLIN,
-+};
-+
-+/* Edge triggered: only a wakeup reports the request after the mount */
-+FIXTURE_VARIANT_ADD(mount, epoll_et) {
-+=09.events =3D EPOLLIN | EPOLLET,
-+};
-+
-+/* The forwarded wakeup has to reach an exclusive waiter too */
-+FIXTURE_VARIANT_ADD(mount, epoll_excl) {
-+=09.events =3D EPOLLIN | EPOLLEXCLUSIVE,
-+};
-+
-+FIXTURE_VARIANT_ADD(mount, io_uring) {
-+};
-+
-+static int write_file(const char *path, const char *val)
-+{
-+=09int fd =3D open(path, O_WRONLY);
-+=09int ret =3D fd < 0 ? -1 : write(fd, val, strlen(val));
-+
-+=09if (fd >=3D 0)
-+=09=09close(fd);
-+=09return ret =3D=3D (int)strlen(val) ? 0 : -1;
-+}
-+
-+FIXTURE_SETUP(mount)
-+{
-+=09uid_t uid =3D getuid();
-+=09gid_t gid =3D getgid();
-+=09char map[32];
-+
-+=09snprintf(map, sizeof(map), "0 %u 1", uid);
-+=09if (unshare(CLONE_NEWUSER | CLONE_NEWNS) ||
-+=09    write_file("/proc/self/setgroups", "deny") ||
-+=09    write_file("/proc/self/uid_map", map))
-+=09=09SKIP(return, "no user namespace: %s", strerror(errno));
-+=09snprintf(map, sizeof(map), "0 %u 1", gid);
-+=09ASSERT_EQ(0, write_file("/proc/self/gid_map", map));
-+=09ASSERT_EQ(0, mount(NULL, "/", NULL, MS_REC | MS_PRIVATE, NULL));
-+=09ASSERT_EQ(0, mount("tmpfs", "/tmp", "tmpfs", 0, NULL));
-+=09ASSERT_EQ(0, mkdir(MNT, 0755));
-+=09self->epfd =3D -1;
-+=09self->r.fd =3D -1;
-+=09self->fd =3D open_dev(_metadata, true);
-+}
-+
-+FIXTURE_TEARDOWN(mount)
-+{
-+=09umount2(MNT, MNT_DETACH);
-+=09if (self->epfd >=3D 0)
-+=09=09close(self->epfd);
-+=09ring_exit(&self->r);
-+=09if (self->fd >=3D 0)
-+=09=09close(self->fd);
-+}
-+
-+static void *do_mount(void *arg)
-+{
-+=09FIXTURE_DATA(mount) * self =3D arg;
-+=09char opts[64];
-+
-+=09snprintf(opts, sizeof(opts),
-+=09=09 "fd=3D%d,rootmode=3D40000,user_id=3D0,group_id=3D0", self->fd);
-+=09self->err =3D mount("fuse", MNT, "fuse", 0, opts) ? errno : 0;
-+=09return NULL;
-+}
-+
-+static void *do_getxattr(void *arg)
-+{
-+=09FIXTURE_DATA(mount) * self =3D arg;
-+=09char buf[16];
-+
-+=09self->err =3D getxattr(MNT, "user.x", buf, sizeof(buf)) < 0 ? errno : 0=
-;
-+=09return NULL;
-+}
-+
-+/* Answer the queued requests: FUSE_INIT, and -ENODATA for the rest. */
-+static void serve(struct __test_metadata *const _metadata, int fd)
-+{
-+=09struct fuse_init_out init =3D {
-+=09=09.major =3D FUSE_KERNEL_VERSION,
-+=09=09.minor =3D FUSE_KERNEL_MINOR_VERSION,
-+=09=09.max_write =3D 4096,
-+=09};
-+=09__u64 buf[FUSE_MIN_READ_BUFFER / sizeof(__u64)];
-+=09struct fuse_in_header *in =3D (void *)buf;
-+=09struct fuse_out_header out;
-+=09struct iovec iov[2] =3D { { &out, sizeof(out) }, { &init, sizeof(init) =
-} };
-+=09int n;
-+
-+=09while (read(fd, buf, sizeof(buf)) >=3D (ssize_t)sizeof(*in)) {
-+=09=09n =3D in->opcode =3D=3D FUSE_INIT ? 2 : 1;
-+=09=09out.unique =3D in->unique;
-+=09=09out.error =3D n =3D=3D 2 ? 0 : -ENODATA;
-+=09=09out.len =3D sizeof(out) + (n =3D=3D 2 ? sizeof(init) : 0);
-+=09=09ASSERT_EQ((ssize_t)out.len, writev(fd, iov, n));
-+=09}
-+}
-+
-+/* Wait up to @ms for the waiter armed before the mount; return its events=
-. */
-+static int wait_event(FIXTURE_DATA(mount) * self, int ms)
-+{
-+=09struct epoll_event ev;
-+=09int res;
-+
-+=09if (self->epfd >=3D 0)
-+=09=09return epoll_wait(self->epfd, &ev, 1, ms) =3D=3D 1 ? ev.events : 0;
-+=09return ring_cqe(&self->r, ms, &res) ? res : 0;
-+}
-+
-+TEST_F_TIMEOUT(mount, wake, 5)
-+{
-+=09struct epoll_event ev =3D { .events =3D variant->events };
-+=09pthread_t thread;
-+
-+=09/* Arm the waiter before the mount */
-+=09if (variant->events) {
-+=09=09self->epfd =3D epoll_create1(0);
-+=09=09ASSERT_LE(0, self->epfd);
-+=09=09ASSERT_EQ(0, epoll_ctl(self->epfd, EPOLL_CTL_ADD, self->fd, &ev));
-+=09} else {
-+=09=09struct io_uring_sqe *sqe;
-+
-+=09=09if (ring_init(&self->r, 4))
-+=09=09=09SKIP(return, "io_uring_setup: %s", strerror(errno));
-+=09=09sqe =3D ring_sqe(&self->r);
-+=09=09prep(sqe, IORING_OP_POLL_ADD, self->fd);
-+=09=09sqe->len =3D IORING_POLL_ADD_MULTI;
-+=09=09ASSERT_EQ(1, ring_submit(&self->r));
-+=09}
-+
-+=09/* mount(2) waits for the reply to FUSE_INIT */
-+=09ASSERT_EQ(0, pthread_create(&thread, NULL, do_mount, self));
-+=09ASSERT_EQ(POLLIN, wait_event(self, 1000));
-+=09serve(_metadata, self->fd);
-+=09ASSERT_EQ(0, pthread_join(thread, NULL));
-+=09ASSERT_EQ(0, self->err);
-+
-+=09/* Drain any leftover mount events before testing a new request */
-+=09while (wait_event(self, 100))
-+=09=09serve(_metadata, self->fd);
-+
-+=09/* A request after the mount, without arming the waiter again */
-+=09ASSERT_EQ(0, pthread_create(&thread, NULL, do_getxattr, self));
-+=09ASSERT_EQ(POLLIN, wait_event(self, 1000));
-+=09serve(_metadata, self->fd);
-+=09ASSERT_EQ(0, pthread_join(thread, NULL));
-+=09ASSERT_EQ(ENODATA, self->err);
-+}
-+
-+TEST_HARNESS_MAIN
---=20
-2.56.1
+Link: https://lore.kernel.org/r/20260519-panthor-kasan-v2-1-b7384458f076@gmail.com/ [1]
+Link: https://lore.kernel.org/r/20260521105148.5497c281@fedora/ [2]
+Link: https://lore.kernel.org/all/20261116230627.3537051-1-jeffxu@chromium.org/ [3]
 
+Jeff Xu (2):
+  mm: kasan: skip KASAN for GFP_HIGHUSER
+  mm/kasan/kunit: add page_alloc_skip_kasan test
 
+ include/linux/gfp_types.h |  4 ++--
+ mm/kasan/kasan_test_c.c   | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 46 insertions(+), 2 deletions(-)
+
+base-commit: d12eccbcb79a4fa35c3aa588eb79056af62eb859
+-- 
+2.56.1.750.gf70dc682cf-goog
