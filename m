@@ -1,101 +1,143 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.174
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795538006;
-	b=UMsQQHry1+pwhl3jg4EAYJAxtdzJtmucb6q1y7zDdLUP/YmO6jVJ30h+J17HMUCb+L4L
-	 INAS85p57GR/ln+bp8zr9E0iPP/rme++7amhN4kvkvxYHB4v0UOO3nCHvOkWCbuwPrR6o
-	 xjhUMyWhel0xyAvXsLdf+IvGsODCD9gtDz1qSHpVWHPYi6veIIFmfnBFzNOYWAL3SIgHz
-	 gOjsRsdzm7ofmXc25K49vZwmuqf8FFh6N3ZKloG5A3CecdaZQ7jYZscVJPnpCbCsi91sw
-	 zGUql1pBHiTm1Ky5TMU1oGT6sH0QZbY0hL938JWBekbUHqjFfR9UuZukfXV/Y4+ayTA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795538006;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.169
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795550101;
+	b=DlH1EwPc+ApqAMxvEJMO6Eo7haN2elnFZnKr1WHkKh6Q7JbRIYxNUTUOBeb4QBP2USL0
+	 Okd/QOyaxffziwFDAnovOcRNLQpgZ4/0ja1B0rkEzPuaJmZ9yz9sjC9C4p2iRbI48zHLG
+	 hieY+btGdV+lr+Z+TIzxrsBKnaplskxBwpK7yS0JB1VF/Cx4WBAn6gigYcG083gMJXjjN
+	 PpVxGr1sz781fhz04OKcUQBmMeFcm/v0X8jlp+kv6UNOJp53lSElj8jFO8Ncyoco11fAA
+	 7Tj/Pn7pTfx8hD34/xf+45X7pR6Z2pKjp7Hd8lxUdVwN9BPwGEsPojeJzRZq3C/q+Lg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795550101;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=RWL8USnmTy+KwJMsv1mm6fJtCLW5dOGP1PUWvK7nhKA=;
-	b=SKJ7Vp1jIp6ue97Dw5BkIa7AMqkZ2ASj4+ClNCJcrZkPHpi0Wwa5LRjaVTPw0/PCDXVQ
-	 7v43VHlRLtYTXI7TmJyiDA35dnp/IXfvxfdqe9neG01HhCzTuaoGOYSrDe776caBpi2TZ
-	 uOJVdjE5R0EEbZyrEgmyMSRBuNPWEJPAkf3nA4gyHzAwSefA5Zq+sFL6N8pV7DPPpBPbm
-	 cqZhlZBb2MHlTcAnSFjt+DXv6Ol6jWhUbCTzdYSWMthrujE1kruKfyw6WO9aFUInb39AL
-	 PcOgb8ufTfzuFDvemWbO5PCR7CjqCbQTLARwcx1KQB6Po3lO28Ggh/nUaqdotVteocA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xHqYazvl;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.174
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=IV7aCStFZdnFeaXhFPoQdGrpPnMKMt+5GDtnao0aM7M=;
+	b=wGC3aK8zgTDtrQ5cDXC5rDGRzSyj93wCNkJukiZJx9MGxOrdF+gkRMyyPWiEmn7x/0Jk
+	 KIUZoYMAmgvNxAdA5qREvRpOacYcCWT99dSyhhIxSTAw3BKpyvMZdQJMDaomCDcAZ/xB4
+	 IJ7l22mUE82XrBqYm7SLetV1LdIZhfs6p2bzUG8Qnoq+Zn57xC7SQuT6JKcUzw1DSbLZ0
+	 1Vc89jhjPSfB36Grg9VY+m0usMJ8/zdpVX5PDmXDyCf5Yvn2xjuJCbQXngbIdDHdgLaii
+	 46eVwJF5dPwTrX+SA2ng8VG66dWJBl9VrG+V+a2ozdM5i1zyDcDJXl0BDmgk0npo2wg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=aRSP5VWg;
+	arc=none smtp.remote-ip=209.85.215.169
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5971606A31E
-	for <fuse-devel@lists.linux.dev>; Tue, 24 Nov 2026 16:33:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5971606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C7E606A31E
+	for <fuse-devel@lists.linux.dev>; Tue, 24 Nov 2026 19:55:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17C7E606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xHqYazvl
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b4d5e645d1so30357907b3.1
-        for <fuse-devel@lists.linux.dev>; Tue, 24 Nov 2026 08:33:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795538005; cv=none;
-        d=google.com; s=arc-20260327;
-        b=auS77FfQ0USzKVONzarhn5lqxbQy7XiAHT2k47Siec0fu7CiOsQldQ6XTTqd7XqtgS
-         kN6UHLnSeE8FEPVAeKAfebjEYYP4smJEXZvdoCF6Aca5cG0MYR0mw1YJKAagOaVdQYOX
-         yv4/8l8TE+LVEtQFA4/EgFTF9QBETCh6rl7pt53/5tvFAWRuXlWBtFzV3mj6+StUy07w
-         4C/Um+ED4dmxSMdWtdMAEO+j+xawdlYCTyWdYvu6oysUZotxU7L5Is0GRPDU6yha32Ju
-         MypyshEHJ9iCPyt3MCSBwQaJ46IPe6TnHZlgDAEqw0cCZFdRdDDntlXDtvfJwTP84KX9
-         tMOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=RWL8USnmTy+KwJMsv1mm6fJtCLW5dOGP1PUWvK7nhKA=;
-        fh=tGQBkvdON9RB+n7exkVN9Xe1JvVhGBINs53A/tMHJ4g=;
-        b=h1UpOoMuP92Lor5hOaTG5JS64GSOjLbaderRekdvoxQImciHFy5BSF2JAnrWpa6YYF
-         f1PQdyRsAaqF45w2pBBgr186zLpxqcXeQ/IN65CvuMJyzTdrWRQabgebmQFzc96nKJXX
-         bEKK1Lngt9WQwBJ/sML1IV6T6ZqGyBPYeqF7oB3mXl0b/jCBVN6TuF2q49dd52qMy+WG
-         MJZPZVg59HoDYc/5fKfd8WaS4/+DMNdzw3a3L/X5GV3cMZ2aLkJjIY/EEyVDVt+tIbJ/
-         rVdp8FTSNBeu/z4xRkP0tj/cQxB4jKoliW9TDYBoUEC9wTtdkA94AGbLgeJueYHwlESE
-         DnMQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=aRSP5VWg
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cde60d879e4so107869a12.0
+        for <fuse-devel@lists.linux.dev>; Tue, 24 Nov 2026 11:55:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795538005; x=1796142805; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=RWL8USnmTy+KwJMsv1mm6fJtCLW5dOGP1PUWvK7nhKA=;
-        b=xHqYazvl/GHsa2km+KzU2LzGriCaYKkA3ZB1tR2J43eAoYZKws3zVVBBhPlssG2Bs/
-         2y1LbBB3ASecdZcYJFyEBhE2lT1iNa6cdFXESyyCokH29Wu8fRcdEyP5UPgHwALdZJl6
-         FXl9Q+FbcvcumrOJFnmgFKC+YocUSWRpDcdDgzCCKnUrSnsaxVJ/7wRN8RZ09E4h1gev
-         VvAwVo+pxmTQ6Py+gszmL/6QzhbyBrxf42z4qSY+qMMBLCIGB8Av/Fo9CGvhLCMRDDMr
-         GLeyirEAh+rObx7eseybn0vvbGIcX4uNIStiByJ4zSDYt2o5hJotr0C5AtRNc9pEg7Be
-         Fnyg==
+        d=chromium.org; s=google; t=1795550100; x=1796154900; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IV7aCStFZdnFeaXhFPoQdGrpPnMKMt+5GDtnao0aM7M=;
+        b=aRSP5VWg6FNAvNYL7Z9UaOyuHXR5gNu+SHr2A+jIxCIGkyY5A1rO85ZV3E2Tj1ec8X
+         jwga1c328RrEpuWZIs5/KpwhDZRCoFHzk06nL5mvUNd7dhoGhnRlHTIenX2f0mR73+n8
+         M/ATFI6jUAewbugYu0Qnw+4q6HROOLOJO26XE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795538005; x=1796142805;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RWL8USnmTy+KwJMsv1mm6fJtCLW5dOGP1PUWvK7nhKA=;
-        b=a95JcpZuin7ILk08w4a7XjW9CbOrpQg+V4uxvOmSpQHYBLg4tTP1O0JJrd0YZ6FyVK
-         EO+C7B73qRZO3hkJpC5nmGZLKRCcdfyhWZmsmHcGSdENvuDD2S9UIlMJ47eQCsLZ97c6
-         PP+/EkBiIzf4mj17vzWw9oBUtewk7Iz/MqwWjJpdsKSsUvHbYfVejSEaxglRLlaA4Wui
-         hA6XfP5xSJqXOFuxd3wvs9W/Sr6Qee+Ee7/363eROPvz76DbclyDWVxJoErgGlozZqqV
-         6mwYEZ6QtpoH+d48MAECrlj9JY1kZokmM/Oo8p1xmlS6gwXVuCea1EkU9MMxEzbSgFww
-         EIeA==
-X-Forwarded-Encrypted: i=1; AL+hErGjaMBLE4HbQdfCNLkfzjaFmXhmDfe8ZB9ww5bE/+XKHywQOphUNcv/sJwxIvEkSRi95EBdguuJLnbo@lists.linux.dev
-X-Gm-Message-State: APuU4Z+P2EU7VCnienjnNLCgHSSFjs37cZTfEwtxpquNbgVNMcUfi0QD
-	Qig//H54rojZGYy4w+1I75uKrupRfas9gwZdTvagY5ZrCtvGQjR8qxM1Wt8+rQVFq6Zo12GYvZG
-	yOVRkQCfDCfnhqUh91i6t69AXh+4TOvc=
-X-Gm-Gg: AZFdTZddui78b+DDTYZZYpjjBONpcxVih5o8/Dn52C4CIL+RIPLXU4l1MGpf2K6CX5o
-	KFUTkL03f7OqCc7fY7O7yoKWE/P+VqaMKDUUxjrPVG30lgwjmCK3iww6tmo0qQAwG46QKwMCFyz
-	G1A91vPdhnJYgW4UZQMBHkBSrf5WAv8jNmf1amaVTSmvxTFQsqWpntm6k2mz6jK4TT9MjBnUJKc
-	KmTn5MrYjLtv5+Y6emPLNYIqwoLji77+/8yQvpa97e0ZNOb+WbZuFZ8la6A4qY0siRxR0Bz81Ox
-	QpTDtSu5XQGXLwu0i6PmY+XW6N07VTdAPhMXUSTciLtBEyc2oTFoY+i35Db1EI57dT2VbmUCzHX
-	1N8hnh6nJkY1btQZ5SFCeZtjyTJwtcFH7GNgHNmoJ262MIpnYAv/slFO9oYIGp5rX7tt9OUzIP7
-	UK1aQNwE25tVA=
-X-Received: by 2002:a05:690c:9a8f:b0:8b4:dc8e:2e6f with SMTP id
- 00721157ae682-8b520514f25mr53029687b3.63.1795538004573; Tue, 24 Nov 2026
- 08:33:24 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795550100; x=1796154900;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IV7aCStFZdnFeaXhFPoQdGrpPnMKMt+5GDtnao0aM7M=;
+        b=ll0eTzOgCXJJQitfNxnut0j4K+jiAMP6GXwxmIv1/btXf5wm+BqDwS/4gZx4vP97wm
+         XVu81qES0M8pYsG8sdCAGPMCdpQ7Sg3D5gOCR1ivq3hQmZzYqLjmUUotengzwe2k/heC
+         zb9F+qnIbascCIGACh+SOwzGVVYJJAhwDZkAbfkSINk8A/2rHaBVM0nNyNcIjAbMR+yL
+         8U+98PDKbTe1fYYKJ03a1bYQNGTZRfeM/4th3nbpf/8TsvultbrbbLzSF36vSnneWmSy
+         hDn7PfwiTynMRFNjUCFe2edgdyVmWbiPLI7aBHLi0mzWTp1PY2xi/s+xDPXi2fUqwqPQ
+         h8Ag==
+X-Forwarded-Encrypted: i=1; AL+hErGRUF/0Tfpw8FN6HYa+pK55DzCkuXDUS9tut4WYheNsOazudn+DrTRTHgFYm/q+UUes5Vyl1oWp8fKp@lists.linux.dev
+X-Gm-Message-State: APuU4Z9cy0mwDReW60FaF89MW15HlwB25X1gl6z42BJau/1pof4mFrLv
+	b4jw3tR+UzdhLGR3PYduKZB/vM3jDq3TVxCdq8ZZNvF9wOzN0xPux016uO24fyqe9g==
+X-Gm-Gg: AZFdTZd+rygXP+KjMqLOFnywqpgtV0LekAkbW2Jmc2i7vBL8EEzFtebhVw2bagvYEvw
+	i5+AW0kM4cqi4Wkv1ENP1QRcTihGtV9HcmwFlpcdDcEnacjPnwhkKhCO441SXwOtygPAPvg6Y8M
+	hUxZZMGQafrnh13wRJSfMzmKb/l/cOCj+LSBhlY2QJNfHfqTyWOqxFuFyRquL0VS3mDkEj6IT4R
+	FAitsJGOEjkJrn7sjXYhoVBWvLLnRmvOpka/y5tmAcMAJsAnjU78UIRkREZDaRMFz3WjNgT28pX
+	FNuVZPSPUR1qioTbGue+uqHjMNjPukL4f5OIdDCkqpr0VuQ4Y0lRzpz//TjF1hNjHGFXdF67N4H
+	O1tbdkQF2/ZCltdiYmEYniXmp28OGn+WtWWt3Ot0BoLcIp0E1mOQ+/7yFivEehT2f93o9VaQjga
+	sBgL6GFYOv37N31ZBw5Mz6SkVV3nul2cKrn1TTmv74OkLvCheOH8LUzDe4P23CdGbUxOV8HuN24
+	p83io2HQRPt07tS3oeZYVFCwJwTUjJzZdGFdH+mn4LS/M+cTmMq9FWQNv9F6slfEWB210Zr708V
+	eHWSh8TDniGqzpJmqcTbChGvEpdo4PjKayhNWaWgL0r0Fz+MMSxjarMIvdUNpr1x/p37kA==
+X-Received: by 2002:a17:903:4688:b0:2f0:7d6d:4a09 with SMTP id d9443c01a7336-2f07d6d4bc1mr137239435ad.1.1795550100419;
+        Tue, 24 Nov 2026 11:55:00 -0800 (PST)
+Received: from localhost (221.247.125.34.bc.googleusercontent.com. [34.125.247.221])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-2f03f142b8bsm72335435ad.70.2026.11.24.11.54.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 11:55:00 -0800 (PST)
+From: Jeff Xu <jeffxu@chromium.org>
+To: David Hildenbrand <david@kernel.org>
+Cc: Jeff Xu <jeffxu@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R . Howlett" <liam@infradead.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <brendan.jackman@linux.dev>,
+	Zi Yan <ziy@nvidia.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Marco Elver <elver@google.com>,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dev Jain <dev.jain@arm.com>,
+	Ian Rickards <ian.rickards@arm.com>,
+	Jann Horn <jannh@google.com>,
+	Jeff Vander Stoep <jeffv@google.com>,
+	Jeff Xu <jeffxu@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Peter Collingbourne <peter@pcc.me.uk>,
+	=?UTF-8?q?Pierre-Cl=C3=A9ment=20Tosi?= <ptosi@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Will Deacon <will@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Baoquan He <baoquan.he@linux.dev>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Allison Henderson <achender@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	linux-mm@kvack.org,
+	kasan-dev@googlegroups.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	fuse-devel@lists.linux.dev,
+	kexec@lists.infradead.org,
+	netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	rds-devel@oss.oracle.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] mm: kasan: skip KASAN for GFP_HIGHUSER
+Date: Tue, 24 Nov 2026 11:54:55 -0800
+Message-ID: <20261124195455.164425-1-jeffxu@chromium.org>
+X-Mailer: git-send-email 2.56.1.839.g22a8290db9-goog
+In-Reply-To: <7ed1f755-5759-4b5b-ae00-a814f16b7903@kernel.org>
+References: <20261123033111.2349160-1-jeffxu@chromium.org> <20261123033111.2349160-2-jeffxu@chromium.org> <7ed1f755-5759-4b5b-ae00-a814f16b7903@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -105,122 +147,33 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261120150008.1144420-1-ekffu200098@gmail.com>
- <20261120150008.1144420-2-ekffu200098@gmail.com> <874id6cuvh.fsf@igalia.com>
- <CABFDxMGGtxxm5OyLiihbVLBJKihoTxtV2g-FG6rURdPWnQdwPw@mail.gmail.com> <87mrqyb3lc.fsf@igalia.com>
-In-Reply-To: <87mrqyb3lc.fsf@igalia.com>
-From: Sang-Heon Jeon <ekffu200098@gmail.com>
-Date: Wed, 25 Nov 2026 01:33:12 +0900
-X-Gm-Features: Aa3M54pPy5MGws7-VwziFvwz9vT5ifSxWMpohqSuXzhnuGyopXjPnX2IMBf0Wcg
-Message-ID: <CABFDxMGfVFFwcUYwHM1bmo53E+ZrvPvjPF_gnoxU0Oo7ZzkqFw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] fuse: defer dentry_tree_work until fuse_dentry_tree_init()
-To: Luis Henriques <luis@igalia.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Miklos Szeredi <mszeredi@redhat.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-2026=EB=85=84 11=EC=9B=94 25=EC=9D=BC (=EC=88=98) =EC=98=A4=EC=A0=84 1:23, =
-Luis Henriques <luis@igalia.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+On Tue, Nov 24, 2026 at 09:10:53AM +0100, David Hildenbrand (Arm) wrote:
+> On 11/23/26 04:31, Jeff Xu wrote:
+> > -#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
+> > -#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | __GFP_SKIP_KASAN)
+> > +#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM | __GFP_SKIP_KASAN)
+> > +#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE)
 >
-> On Wed, Nov 25 2026, Sang-Heon Jeon wrote:
->
-> > Hi, Luis
-> >
-> > 2026=EB=85=84 11=EC=9B=94 24=EC=9D=BC (=ED=99=94) =EC=98=A4=ED=9B=84 8:=
-49, Luis Henriques <luis@igalia.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
-> >>
-> >> On Sat, Nov 21 2026, Sang-Heon Jeon wrote:
-> >>
-> >> > inval_wq_set() schedules dentry_tree_work when inval_wq is enabled.
-> >> >
-> >> > But inval_wq_set() can be called at boot or module load before
-> >> > fuse_dentry_tree_init() initializes the work, so __queue_delayed_wor=
-k()
-> >> > warns and the work never starts.
-> >> >
-> >> > So defer scheduling the work until fuse_dentry_tree_init() sets it u=
-p.
-> >> > Also hold kernel_param_lock() in fuse_dentry_tree_init(), because a
-> >> > sysfs write can call inval_wq_set() at the same time.
-> >> >
-> >> > Fixes: ab84ad597386 ("fuse: new work queue to periodically invalidat=
-e expired dentries")
-> >> > Cc: stable@vger.kernel.org
-> >> > Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
-> >> > ---
-> >> >  fs/fuse/dir.c | 13 +++++++++++++
-> >> >  1 file changed, 13 insertions(+)
-> >> >
-> >> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> >> > index da23ccd8685c..0d5d04df477b 100644
-> >> > --- a/fs/fuse/dir.c
-> >> > +++ b/fs/fuse/dir.c
-> >> > @@ -39,6 +39,7 @@ static struct delayed_work dentry_tree_work;
-> >> >  /* Minimum invalidation work queue frequency */
-> >> >  #define FUSE_DENTRY_INVAL_FREQ_MIN 5
-> >> >
-> >> > +static bool inval_wq_ready;
-> >> >  unsigned __read_mostly inval_wq;
-> >> >  static int inval_wq_set(const char *val, const struct kernel_param =
-*kp)
-> >> >  {
-> >> > @@ -62,6 +63,10 @@ static int inval_wq_set(const char *val, const st=
-ruct kernel_param *kp)
-> >> >
-> >> >       *((unsigned int *)kp->arg) =3D num;
-> >> >
-> >> > +     /* Defer the work until fuse_dentry_tree_init() sets it up. */
-> >> > +     if (!inval_wq_ready)
-> >> > +             return 0;
-> >> > +
-> >> >       if (num && !old)
-> >> >               schedule_delayed_work(&dentry_tree_work,
-> >> >                                     secs_to_jiffies(num));
-> >> > @@ -224,6 +229,14 @@ void fuse_dentry_tree_init(void)
-> >> >               dentry_hash[i].tree =3D RB_ROOT;
-> >> >       }
-> >> >       INIT_DELAYED_WORK(&dentry_tree_work, fuse_dentry_tree_work);
-> >> > +
-> >> > +     kernel_param_lock(THIS_MODULE);
-> >>
-> >> I wonder if this is the right solution.  The solution I had in my loca=
-l
-> >> tree was to simply declare a spinlock with DEFINE_SPINLOCK() and use i=
-t to
-> >> synchronise access in fuse_dentry_tree_work(), fuse_dentry_tree_cleanu=
-p()
-> >> and inval_wq_set().
-> >>
-> >> Do you have a reason for using this kernel_param_lock() instead?  (Hon=
-est
-> >> question! I've never used that before :-) )
-> >
-> > AFAIU, parse_args() (boot, module load) and param_attr_store() (sysfs)
-> > already hold kernel_param_lock() when they call inval_wq_set(). So we
-> > don't need to declare another lock if we hold kernel_param_lock during
-> > init and cleanup. Let me know if I miss or misunderstand something.
-> >
-> > But using a spinlock should be okay as well. So if you prefer using a
-> > spinlock instead of kernel_param_lock, just let me know and I'll
-> > switch in v3.
->
-> Well, I think your solution is correct and it should be OK.  My question
-> was mostly a bike-shedding question: we're using a lock that is defined
-> outside of FUSE, and that doesn't seem to be used a lot elsewhere.  On th=
-e
-> other hand, this kernel_param_lock() was likely created for solving
-> problems like this one so... yeah.
->
-> Let's just leave it to the maintainers :-)
->
-> And sorry for the noise.
+> Can we please add a big fat comment above GFP_HIGHUSER, explaining why we use
+> __GFP_SKIP_KASAN and which security impact this has?
 
-No problem! Thanks for looking into this.
+Sure, I'll add a comment above GFP_HIGHUSER in v3:
 
-> Cheers,
-> --
-> Lu=C3=ADs
+/*
+ * GFP_HIGHUSER (and GFP_HIGHUSER_MOVABLE derived from it) sets
+ * __GFP_SKIP_KASAN to skip HW_TAGS tagging on allocation and poisoning on
+ * free. These pages are meant for userspace data (e.g. anonymous and page
+ * cache pages, DMA-BUF, GPU/DRM buffers) rather than kernel data structures,
+ * and tagging every granule on allocation and free is expensive.
+ *
+ * Security impact: under CONFIG_KASAN_HW_TAGS, these pages carry the
+ * match-all tag (0xff), so kernel accesses via page_address() or
+ * kmap_local_page() lose HW_TAGS out-of-bounds and use-after-free
+ * detection. Callers that store kernel data structures in these pages
+ * should not use GFP_HIGHUSER. Generic and SW_TAGS KASAN are unaffected.
+ */
 
-Best regards,
-Sang-Heon Jeon
+Thanks,
+Jeff
