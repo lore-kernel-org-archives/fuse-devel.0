@@ -1,115 +1,115 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.145
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795648621;
-	b=0Wg8bnqN8emBXu4E09YpacyAAJBAH8BxjPVY8uO7toA3fFgJDOUcCYHa29dHLEizxCZD
-	 QjNn0Cm4oTmXsqqjPHnjAunb5ylTQQgHod/KdzK7hnLtFDBmGaaVbwVea2xAsre4r0DnI
-	 3bSf7r2ZZnsj9oaukek9UsKbmFE1Ecsb88X4duOMZl9EdlwKeh1u/PBI73ZRCmpgkoIlG
-	 ScUM3kJnUWa0E9xe7QcGhk5pYZb0Hmuo3Yi/bYZgZhGkw5kkPs/z03EIQecRV3sW2UPwC
-	 g6WFOqMqbJx3KV75HEIs62NrrfRYUa24q1AfgMY7NoobeSR7fPBFVCkPAKhyX2AKndw==
+	t=1795649345;
+	b=P9UQaXsigJKFBfxrvHVzxBSm8P6WDLzdzbYSpHDYE87dEmn2ZEzzuspHDg9viYlhDM3m
+	 iYUNk0MgnBVNW0ZqUztBuVP44grUeA7Sq3A5gAoUy9EOgZwkGku4D7lqMm8HMkGapbifi
+	 VqUxHBRBW+52C4HTNrl4usoAXa6Pfg9fJAyqrfpXl3wSOPXNB7DFxjIKEZdWV9+wU/prb
+	 YihuMSwTUF+DJmDywZ+L21YDjVYfz9UT9d/wo32HUoFTqutIrTY/LP1T83aom/etyOQB1
+	 3dYy1CC7vg+9qt2Wc6hxaIDBAlUPh6OfD7BKwlMghRl74etDoxtxQOZfcIuM6/tUVYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795648621;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795649345;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
 	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
 	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
 	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
 	 References:From:Content-Language:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=f6GXD02OB33NaAQyvTM59QBW0GDbPJIgHJ/b4w+UY/4=;
-	b=TVo9SUs4+LAbiK/1I6f0MJYKThoTEEt5fFjUwi2AG5KmaZnWOlIqK1r8eImfsZCikbZh
-	 B3P3o7DfIMXHPnvLI3Kss6FFLs+YN9iydNbLGUrMNy+jjJ/qm9BvnwKzCPTrVKADgyiXA
-	 WvgV48FqDnV0lZXVkLnofV0dPz4YDZY97bIHt6v+2RfBGyWMw1bBSAlI3wEFVYcDN7RuF
-	 +GcjaaKtipzV7UfudTeIRL9IK9I1vsAjaMzq0rl3RwGMbIpoION4QvauwAEs+j1bVOLvO
-	 NnPetl5SaK/H5TnDWGX09qdNE/VRdfvPlSW66gg1eJ4B01IJtyv3DA+gCPs6LG792Fg==
+	bh=kVgaSwpKolDEK6zLTmi5qCAne6TXQbCXglwlPE91d1g=;
+	b=DIVJP8QohsRPgVjZQKmfsP4PpijV5vOq92XrIkpt+wCzUU7CsEsMax8igDbJBkaX+eV4
+	 dzRZ/pQF+cHd72/cgCfD5p1lzWxvzf+2ad928eBAtXOid+DEnkAzYCZU3TkwWHu1T1wP9
+	 yJdyNkBRe5Fh1zbWDFyyaVRgR9j8e6Wq6HKtL8TAsHJelUcx2SpqSgY6lUk7EJA+y+VYf
+	 S1NMAKRH87YoxsHb0gmObeevqRw02hKzdS/rRSLoOGUD5MWhR0wGXR1CDYkGqI/uwyWPv
+	 kluNFgzRUt8v9CIRLZxK1vYLrNR9MLV8t1nwmduDnrnwZxYaRfqXTE+YGO+6basVDnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bsbernd.com;
 	spf=pass smtp.mailfrom=bsbernd.com;
-	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=cYXkxpP7;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=5E7g26Vf;
+	dkim=pass header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=O8nLyoEO;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=xUBiJh1S;
 	arc=none smtp.remote-ip=202.12.124.145
 Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD6E606A31E
-	for <fuse-devel@lists.linux.dev>; Wed, 25 Nov 2026 23:16:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3CD6E606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F41606A31E
+	for <fuse-devel@lists.linux.dev>; Wed, 25 Nov 2026 23:29:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06F41606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=cYXkxpP7;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=5E7g26Vf
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 7CCCE1D005B1
-	for <fuse-devel@lists.linux.dev>; Wed, 25 Nov 2026 18:16:59 -0500 (EST)
+	dkim=pass (2048-bit key, unprotected) header.d=bsbernd.com header.i=@bsbernd.com header.a=rsa-sha256 header.s=fm2 header.b=O8nLyoEO;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=xUBiJh1S
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id 72FA31D00535
+	for <fuse-devel@lists.linux.dev>; Wed, 25 Nov 2026 18:29:04 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Wed, 25 Nov 2026 18:16:59 -0500
+  by phl-compute-10.internal (MEProxy); Wed, 25 Nov 2026 18:29:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795648618;
-	 x=1795735018; bh=f6GXD02OB33NaAQyvTM59QBW0GDbPJIgHJ/b4w+UY/4=; b=
-	cYXkxpP7wq+TjvZyIe0lKWW2/DdbsewBrgSbvf2HVOCD5Zix4sRzWeNfPQJ4pWvT
-	I/WxujNBEfFXD1NOwa6T2RJEUaxov9mLdPC/OYQcpshqVOQDbZyPwFh7JGl/AFSu
-	VV0Mqvq+Pd5bXVZtdEhVyLKdxXxQOpvAiwiFQjJFxU1MSZTroMedropcaxx9oUFB
-	Kc0DKbYbWm+NACyBaLrH54eaZI5TbsfK6vMGO6Uj1EyMPbpYvGbuCAec0LdXbYcx
-	mwU+vcvP22ciUPTyMWuy2aSUxz1DWuVGqPSz8rl0HIkDCglxA+XHY3nffF3UAEKH
-	5vedEyCPeAHwY/c8WKpdGQ==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795649343;
+	 x=1795735743; bh=kVgaSwpKolDEK6zLTmi5qCAne6TXQbCXglwlPE91d1g=; b=
+	O8nLyoEOAh9yO8LWUxHLdEFK5J0hh8/TsdVbEsaedqWtDsEnn2KVcPH3rwVw98O0
+	vVL8hm1oryd/L5AeVpTVtgZTkQrbmiwvc3AtYFTx+RQF3AXNnuRLCseHoB7otjYI
+	8ORcC3zaisa8TN6E6NoNb3QAKJcQzZoM84ds2XSoaegL85bZ8+5Fx4LdbO1UqXEm
+	3DVk35wUFg/il+HTQSj4QRTdr8C0RlEtpSdWFGCXlarE1mXuCzSRfa6YV+pP3wte
+	KGvXSHE8evNymAXAEjbFfLSpJl0DPm8JhG3OQrU2vImL0AJVDMiFUSTMdlisG+tm
+	xX30xo5EbL07rkIW+dlz9Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795648618; x=
-	1795735018; bh=f6GXD02OB33NaAQyvTM59QBW0GDbPJIgHJ/b4w+UY/4=; b=5
-	E7g26VfxZsFvIc0jx5LyIM6/u7mlHYF8JjiIkabQMC/RjsJEjaz4RcHiDfdwj69Z
-	SKZ7+IJHDxlDV2KFiUGZ1KWsjBTSC8qOPOuooV3Q4j8lzCifh+2uJnRAop8d3dwF
-	l5HZkpltL1HyhIunIL91/1NOtFtW6FonrRDJq78F7XrSCGyANhDarUSBHq5eIhTc
-	IcXb22T8zh3UE2WScEz4+iRwc33U9GNQTw8m+dYKLz8OBIuh7+VoXsEP08nehReJ
-	CCyVb1m4dE6acAnoqoo2nEUGAPbswSguP7NGaV7xsyHMTuZ2v6sQSGsBx2HfwbAs
-	oWcbhbar/oNRXpGV2MK6w==
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795649343; x=
+	1795735743; bh=kVgaSwpKolDEK6zLTmi5qCAne6TXQbCXglwlPE91d1g=; b=x
+	UBiJh1SW40tOZUcxqigmnWnmRmY83hmtGldEf5QNMYITSGrDq22kIcKFtxh4m2sT
+	RisBTKyNCBSFR5o6IZkI5PJkI/R3dAblJEq/HiOROtsPv1oqnOnrAQnmgff9l+ME
+	NT/4T5uqxE7b7oSaleXnHgbGn5Q+o+4mhAZ80Kfliu8ugHIlMr2dnk2dtjhw2K8G
+	TbaK4M5Mie7JUT3Rp3AWIdpeF9fl7DRHPWjV5060MVZ/uwPqUTV83bUWsEyXAWaY
+	cxCDG/VTscd2+KqZALkaTKJtSciGLv1LbbGCEEEZ6TLV+1cFsQ+mC3Hc2OjGw5hM
+	tw3TwW+fVwaJwFxdJjnNg==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=sign d=bsbernd.com a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795648618; d=bsbernd.com;
+DKIM2-Signature: i=1; m=1; t=1795649343; d=bsbernd.com;
 	mf=PGJlcm5kQGJzYmVybmQuY29tPg==;
 	rt=PGZ1c2UtZGV2ZWxAbGlzdHMubGludXguZGV2Pg==;
-	s=fm2:rsa-sha256:aFPztlBTOmpDUa7GxxWSQzWsfL6YCQ2X7rnbomHI2y5/0YR
-	psicFrxiKJyWwTWD4hA7Pkt4vJLxxCVCLOQAyGkkdZ2Ooy2eR+q9VT2fdsrquQep
-	7akc2OBAlVqcj95Ibi90etq4H9vWxBirJlqCE5TAfdXT9chL9t+PDJ59WejvMGBp
-	Yj2nwesA3MzbI2NDSxTMZAiQHcf8LKzRy2AGIn0KhSmaywuZrKyJJ0O7k8mCNhr8
-	vQw+wAmJPJk+m1+ab6lJj+mKf5a5dCq/MDDdSW7iXhrG6vluqZ6Wnfsy2jpMoT/b
-	1OJS/vDMDUIjcyT3jAcSxfk4mKYQdkXSD5pZPaw==;
+	s=fm2:rsa-sha256:ntrzayqEe1oSS//HdI1wFvZv35EGx7Nh+TY0C0adx7nGFtV
+	Ov6axXsoK/+/qYzYnt65Xi4FeqZxYJ/h241L+QO6YnWpspmcmTwaL7Hd43WV1gV6
+	03j22c+15WxSCnM6QVFOIAxuOZjJuSyZFbTdlo8fQaNyArhQL0rzdZK0YAY+L/6T
+	hCeBKj+7t4qnvMArxvOB4H46YBbO/HSR2aXiPH3B7d5MB7aQmzbaYa/Ncc857M/s
+	sQDPcsAVLJaPL1X7ItfhrXRrAt8Aov0JtPwh43ztAOP6QyNkD+vrHjy3PNfI6sfO
+	s7DBHKGgcSego1FQwhreCm2TFt/LkSxB/1Hx84w==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=mi-m=1; hc=14;
 	hn=cc,content-language,content-transfer-encoding,content-type,
 	date,feedback-id,from,in-reply-to,message-id,mime-version,
 	references,subject,to,user-agent;
-Message-Instance: m=1; h=sha256:cbO5gqgHYCV9nHqmB2/wf8+i8RzheBPO1TgXcvsuW10=:uGzc65jZgxw5wCUyJj6XYCb3MkBfwzdzBsC3aXKGD5s=;
-X-ME-Sender: <xms:amwHa1DgNTav2K216AzSwWqgECREtwhdfXnecVj8eM6BLBp3kLoHKQ>
-    <xme:amwHa9nBhfjO64HyO2UjmmNgZ5cxi1L5NCul7ALUFaHeN0ErvX8GZy9sPYnaBDPUE
-    6F6KYmfylAJ4uhrqtOYfVBS26FkU0wYPCL7ah0BAVbYm0Zo27025g>
-X-ME-Received: <xmr:amwHawfbAlM4lh8QVxaNujZKZXNE8kxwCllWYIWWSODA0MvFKSi8Eq1CNkXpKskFWgDG6BlaeBuevroVfZH0NoQFGPvkW7lfIEZm7NaUN1ATYAgx6w>
-X-ME-Proxy-Cause: dmFkZTFNyrJAJO5NbnfvBDoFub4JKkZfjv1RWUY2SHBdloUNm0SAEkFyppoIwdnzwEnuKn
-    5dJT1qE06KCGiTMXGw1qVcyKD0nqRs5n4rB/7fqYvnhJMTT5fpkdLYeGTkfsje0A58Ssup
-    Mewp1bTE4hH6TQHVbtPDL82QK0ioDc8olDTchmQsKEHTNNdLz/d1eqv+7cN2jXI4YGiMX2
-    jU4ECoz+3hB00+3XTOoCEE1v7ZjlmeE57atsAPQskFd52ZATiPTGpgSBoun61tTU/xLep9
-    FcthcMHi59At9IOOM+Il28/gnzS6I2lxDNImq29O3vQ/v/omAq6ZXsgRbTY3X8n+la1TLf
-    8kIDJ5H7VenkfqZta+Vy8gAsCwJlz8Bi4/+npmFhFLgKfVnNy3/OOdaScJ9ucPqoYBsWNX
-    wZPLuW+QFbgI3AadXyq0ju4PFOLvVmlQ27c5VhIYIBrHURNLXmiFzyLGxvIFnWzRiRRlUK
-    7J+0SpsaY054cpsZZwfHMUzHGT3CI3hXr5g3IZ57H9BqrCYozOXUlW4Jp/MEkIQrPeReO8
-    iS8SahnFPBYlaCRyDiBaaZXDYPmLk/q1pUOA3unMj2S03zUdvRMHcpSdXaU5VT6j7tXs75
-    +Wo4kn7X7oqh5AROQzoTBxQtlyusonv5KAYlUhWlovx7LLvRbjL1cmHajO7w
-X-ME-Proxy: <xmx:amwHaxSH3HPwCm7FdcThgrGDT9Stklubc8Et_ZUeZtneV6yFPJdl7g>
-    <xmx:amwHa3s5Puim8oLQlnObGIjyMmpB_dVaqqG9X51Vvk0gEjwuV_sFrg>
-    <xmx:amwHaycZcOYf40uo4QN40hHKrysIDsGVWd2L4Ed4FOH6KNPZ50j0xw>
-    <xmx:amwHaxZOhv6yQLUNRK5nHczOEHok7EnCinlyH4Z0m3L0pnLds97PuQ>
-    <xmx:amwHa9lML8jDqbPvKStmNwp-tTw5MOrNp5-rNdyO_4EwTcLfKfRm44aE>
+Message-Instance: m=1; h=sha256:S1WVfcLWoOVuDV/LL25Bzz94amvQr0kkAyiE3/o2DQk=:DgpuvTmaPreSNF8A1oUbHgLstAM4euenPU6Zu9ZxXCE=;
+X-ME-Sender: <xms:P28Ha6Qld4O1DusXiFWFDaM88zNaLT_3ZqF3Kur0VpNd21ngVPGwOw>
+    <xme:P28Ha5HOqdRfhMDa4ZjVEVB8mFpD5NFhgjemDYmq7B8GDOlHpus4X1c6VCVN0LJk8
+    bF1dEPovix3g_LgbLHBznsM-qsr_bSdDE7uFZzA9wfFYNRnRP01OQ>
+X-ME-Received: <xmr:P28Ha_EIBa4wByLakJb2dg1VAo2A42oJ3TTXsGFEx752N8YwSeF7mohfrsEtN4_YwpcECuyAJ_t_ZacN2b01mLgud7ck3aMjfIxIBWWpJB5vKDLidA>
+X-ME-Proxy-Cause: dmFkZTES9sBAb/nIj5nkRvarksZV62nLahHLyLwHBfNgbb13bxy7hNhPTWPihtXIYPYMN0
+    7cA9hGlnwqH0XOvLTs4l7+UTIpghlaYZF7N/QdLtgh0LIVQxrhrt6TELaas6ubNB9wr+Oh
+    WsGX7hCHQljckla8wT0UJiPmYaTy7+4msyz+zKVQj70QCFLT/NgCa8yzKS+E+NKodAcoRp
+    o4eewaqUmCRsqsLr8FhRK5FtoxAIeOGQMijwJEH8IrQT33ddcvePGqAvsNKqxr6WZykeVZ
+    XUdHNvpZU2rVFUb33Jb0OMtS5jmZowwkTU43EIRlHr5MrPObINYlHgw5JYhbIbWaa3Pptm
+    r8qFub+Tl1amxoIMW/u1CsMNJkfDSonidbeSHibVaFwsYSdpB0RYa6imyq2uCcPpOu2PvF
+    Iz3XAItxzT5czW/3Gz//apfKNW2hBCeFKtJE9hbMvJyXVisc/ykwy79ObRRF4vhQqxBx1Q
+    GTKo2YrX069iIgxCxb7X5evbdbuVwbp3PMCApf1YZZTUHBu/fu0Tbdy/NVauDypCNThecG
+    56JYxB+3b9FHkLIwUxb/0ZsBgw0yPj9hWJQNtosibRJK9LzyMt/CyQ3DDI+jzN/9uFoTlH
+    zEL2aPSyDP+t65S7xiq73Kr+3z++rXeW27orUbmiYEUpXF4NafR0w0bQ8f3Q
+X-ME-Proxy: <xmx:P28Ha3RziWkb28ZOxG2NSX8MdJY_Cv84YqKYjyQC3I5j5neDFphQ0g>
+    <xmx:P28HawLXOIJplGqu4m1YASRr1ZO2AxHwD26ZrkzypGdl5YvgH6UPKg>
+    <xmx:P28HayZcBXTsbq6tznYYRlW6binPCmrBWsI2EN8ywjmjLc1EIS5AtA>
+    <xmx:P28Hay88Xgms41SFmIFXmwk0J2dF0o1SrsNi5UEjdy4sbo3W0HrN8A>
+    <xmx:P28Hayt7zqBT80a9f7xjFUDv2dy28E3RVN_J2kmOhRP_CYn_KllP6hZJ>
 Feedback-ID: i5c2e48a5:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Nov 2026 18:16:57 -0500 (EST)
-Message-ID: <af756676-5bbd-4624-acf6-c2eb65ecd132@bsbernd.com>
-Date: Thu, 26 Nov 2026 00:16:55 +0100
+ 25 Nov 2026 18:29:02 -0500 (EST)
+Message-ID: <08961e0f-fe38-4557-961d-03b13db78431@bsbernd.com>
+Date: Thu, 26 Nov 2026 00:29:01 +0100
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -120,105 +120,275 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] fuse: make readdir requests big enough for the
- largest dirent
+Subject: Re: [PATCH 2/2] selftests/fuse: test listing directories with long
+ names
 To: Christian Brauner <brauner@kernel.org>,
  Amir Goldstein <amir73il@gmail.com>, Miklos Szeredi <miklos@szeredi.hu>,
  Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org
-Cc: fuse-devel@lists.linux.dev, stable@vger.kernel.org
+Cc: fuse-devel@lists.linux.dev
 References: <20261125-work-fuse-readdir-v1-0-44312add01a8@kernel.org>
- <20261125-work-fuse-readdir-v1-1-44312add01a8@kernel.org>
+ <20261125-work-fuse-readdir-v1-2-44312add01a8@kernel.org>
 From: Bernd Schubert <bernd@bsbernd.com>
 Content-Language: fr, en-US, de-DE, ru-RU
-In-Reply-To: <20261125-work-fuse-readdir-v1-1-44312add01a8@kernel.org>
+In-Reply-To: <20261125-work-fuse-readdir-v1-2-44312add01a8@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 11/25/26 11:26, Christian Brauner wrote:
-> Since commit 27992ef80770 ("fuse: Increase FUSE_NAME_MAX to PATH_MAX")
-> a dirent can be larger than a page. But the readdir request can still be
-> a single page, for a small getdents() buffer or when alloc_pages_bulk()
-> didn't give us more. The server can't fit the dirent and sends an empty
-> reply which we take as end of directory. So the long name and all
-> entries after it silently disappear.
+> Add a test that lists a directory whose first entry has a name too long
+> for a one page READDIR or READDIRPLUS reply:
 > 
-> Make the request big enough for the largest dirent the server may send.
+> - READDIR with the shortest such name and with FUSE_NAME_MAX
 > 
-> Fixes: 27992ef80770 ("fuse: Increase FUSE_NAME_MAX to PATH_MAX")
-> Fixes: 4dd6f6d3085a ("fuse: back uncached readdir buffers with pages")
-> Cc: stable@vger.kernel.org # v6.15+
+> - READDIRPLUS with the shortest such name and with FUSE_NAME_MAX
+> 
+> It starts out with a 4k getdents64() buffer, doubles it on EINVAL and
+> checks that both the long name and the entry after it show up.
+> 
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 > ---
->  fs/fuse/readdir.c | 22 +++++++++++++++-------
->  1 file changed, 15 insertions(+), 7 deletions(-)
+>  .../testing/selftests/filesystems/fuse/.gitignore  |   1 +
+>  tools/testing/selftests/filesystems/fuse/Makefile  |   2 +
+>  .../filesystems/fuse/fuse_readdir_long_name_test.c | 197 +++++++++++++++++++++
+>  3 files changed, 200 insertions(+)
 > 
-> diff --git a/fs/fuse/readdir.c b/fs/fuse/readdir.c
-> index 1f6cf565477f7..a75baed673a76 100644
-> --- a/fs/fuse/readdir.c
-> +++ b/fs/fuse/readdir.c
-> @@ -333,17 +333,23 @@ static int parse_dirplusfile(char *buf, size_t nbytes, struct file *file,
->  	return 0;
->  }
+> diff --git a/tools/testing/selftests/filesystems/fuse/.gitignore b/tools/testing/selftests/filesystems/fuse/.gitignore
+> index 7c787313e69b6..cd5492659ffcf 100644
+> --- a/tools/testing/selftests/filesystems/fuse/.gitignore
+> +++ b/tools/testing/selftests/filesystems/fuse/.gitignore
+> @@ -6,3 +6,4 @@ write_extend_eof_test
+>  fuse_acl_cache_test
+>  fuse_symlink_cache_test
+>  fuse_readdir_cache_test
+> +fuse_readdir_long_name_test
+> diff --git a/tools/testing/selftests/filesystems/fuse/Makefile b/tools/testing/selftests/filesystems/fuse/Makefile
+> index e3ae3acff1139..2e77b19d6d06a 100644
+> --- a/tools/testing/selftests/filesystems/fuse/Makefile
+> +++ b/tools/testing/selftests/filesystems/fuse/Makefile
+> @@ -7,6 +7,7 @@ TEST_GEN_PROGS += write_extend_eof_test
+>  TEST_GEN_PROGS += fuse_acl_cache_test
+>  TEST_GEN_PROGS += fuse_symlink_cache_test
+>  TEST_GEN_PROGS += fuse_readdir_cache_test
+> +TEST_GEN_PROGS += fuse_readdir_long_name_test
+>  TEST_GEN_FILES := fuse_mnt
 >  
-> -static struct page **fuse_readdir_alloc_buf(struct fuse_args_pages *ap, size_t *bufsize)
-> +static struct page **fuse_readdir_alloc_buf(struct fuse_args_pages *ap, size_t *bufsize,
-> +					    size_t minsize)
->  {
->  	unsigned int i, nr_alloc, nr_pages = DIV_ROUND_UP(*bufsize, PAGE_SIZE);
-> +	unsigned int nr_min = DIV_ROUND_UP(minsize, PAGE_SIZE);
->  	struct page **pages = kzalloc_objs(*pages, nr_pages);
+>  include ../../lib.mk
+> @@ -32,5 +33,6 @@ $(OUTPUT)/fuse_mnt: LDLIBS += $(VAR_LDLIBS)
+>  $(OUTPUT)/fuse_acl_cache_test: fuse_common.c fuse_acl_cache_test.c
+>  $(OUTPUT)/fuse_symlink_cache_test: fuse_common.c fuse_symlink_cache_test.c
+>  $(OUTPUT)/fuse_readdir_cache_test: fuse_common.c fuse_readdir_cache_test.c
+> +$(OUTPUT)/fuse_readdir_long_name_test: fuse_common.c fuse_readdir_long_name_test.c
 >  
->  	if (!pages)
->  		return NULL;
->  
->  	nr_alloc = alloc_pages_bulk(GFP_KERNEL, nr_pages, pages);
-> -	if (!nr_alloc)
-> -		goto free_array;
-> +	/* The bulk allocator may stop early, but the largest entry must fit. */
-> +	for (; nr_alloc < nr_min; nr_alloc++) {
-> +		pages[nr_alloc] = alloc_page(GFP_KERNEL);
-> +		if (!pages[nr_alloc])
-> +			goto release_pages;
+>  EXTRA_CLEAN := fuse_common.o
+> diff --git a/tools/testing/selftests/filesystems/fuse/fuse_readdir_long_name_test.c b/tools/testing/selftests/filesystems/fuse/fuse_readdir_long_name_test.c
+> new file mode 100644
+> index 0000000000000..6fd280cb3188e
+> --- /dev/null
+> +++ b/tools/testing/selftests/filesystems/fuse/fuse_readdir_long_name_test.c
+> @@ -0,0 +1,197 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * List a FUSE directory whose first entry has a name that doesn't fit
+> + * into a single page of READDIR or READDIRPLUS reply, using a small
+> + * getdents64() buffer, and check that no entry goes missing.
+> + */
+> +
+> +#include <dirent.h>
+> +#include <fcntl.h>
+> +#include <stdint.h>
+> +#include <sys/syscall.h>
+> +
+> +#include "kselftest_harness.h"
+> +
+> +#include "fuse_common.h"
+> +
+> +#define LONG_INO	2
+> +#define AFTER_INO	3
+> +#define AFTER_NAME	"after"
+> +#define FUSE_NAME_MAX	(PATH_MAX - 1)
+> +#define GETDENTS_MAX	65536
+> +
+> +struct linux_dirent64 {
+> +	uint64_t	d_ino;
+> +	int64_t		d_off;
+> +	unsigned short	d_reclen;
+> +	unsigned char	d_type;
+> +	char		d_name[];
+> +};
+> +
+> +static char long_name[FUSE_NAME_MAX + 1];
+> +
+> +static void fs_getattr(fuse_req_t req, fuse_ino_t ino,
+> +		       struct fuse_file_info *fi)
+> +{
+> +	struct stat st = {};
+> +
+> +	if (ino != FUSE_ROOT_ID) {
+> +		fuse_reply_err(req, ENOENT);
+> +		return;
 > +	}
->  
->  	if (nr_alloc < nr_pages) {
->  		nr_pages = nr_alloc;
-> @@ -364,8 +370,7 @@ static struct page **fuse_readdir_alloc_buf(struct fuse_args_pages *ap, size_t *
->  	return pages;
->  
->  release_pages:
-> -	release_pages(pages, nr_pages);
-> -free_array:
-> +	release_pages(pages, nr_alloc);
->  	kfree(pages);
->  	return NULL;
->  }
-> @@ -380,10 +385,13 @@ static int fuse_readdir_uncached(struct file *file, struct dir_context *ctx)
->  	struct fuse_io_args ia = {};
->  	struct fuse_args_pages *ap = &ia.ap;
->  	void *buf;
-> -	size_t bufsize = clamp((unsigned int) ctx->count, PAGE_SIZE, fc->max_pages << PAGE_SHIFT);
-> +	/* Room for the largest entry the server may send, a direntplus. */
-> +	size_t minsize = max(PAGE_SIZE,
-> +			     FUSE_DIRENT_ALIGN(FUSE_NAME_OFFSET_DIRENTPLUS + fc->name_max));
-> +	size_t bufsize = clamp((unsigned int) ctx->count, minsize, fc->max_pages << PAGE_SHIFT);
->  	u64 attr_version = 0, evict_ctr = 0;
->  	bool locked;
-> -	struct page **pages = fuse_readdir_alloc_buf(ap, &bufsize);
-> +	struct page **pages = fuse_readdir_alloc_buf(ap, &bufsize, minsize);
->  
->  	if (!pages)
->  		return -ENOMEM;
+> +	st.st_ino = ino;
+> +	st.st_mode = S_IFDIR | 0755;
+> +	st.st_nlink = 2;
+> +	fuse_reply_attr(req, &st, 0);
+> +}
+> +
+> +/* Whole entries from @off, as many as fit into @size. */
+> +static void fill_dir(fuse_req_t req, size_t size, off_t off, bool plus)
+> +{
+> +	char *buf = malloc(size);
+> +	size_t used = 0;
+> +
+> +	if (!buf) {
+> +		fuse_reply_err(req, ENOMEM);
+> +		return;
+> +	}
+> +
+> +	for (; off < 2; off++) {
+> +		const char *name = off ? AFTER_NAME : long_name;
+> +		struct fuse_entry_param e = {};
+> +		size_t len;
+> +
+> +		e.ino = off ? AFTER_INO : LONG_INO;
+> +		e.attr.st_ino = e.ino;
+> +		e.attr.st_mode = S_IFREG | 0444;
+> +		e.attr.st_nlink = 1;
+> +		if (plus)
+> +			len = fuse_add_direntry_plus(req, buf + used, size - used,
+> +						     name, &e, off + 1);
+> +		else
+> +			len = fuse_add_direntry(req, buf + used, size - used,
+> +						name, &e.attr, off + 1);
+> +		if (len > size - used)
+> +			break;
+> +		used += len;
+> +	}
+> +
+> +	fuse_reply_buf(req, buf, used);
+> +	free(buf);
+> +}
+> +
+> +static void fs_readdir(fuse_req_t req, fuse_ino_t ino, size_t size,
+> +		       off_t off, struct fuse_file_info *fi)
+> +{
+> +	fill_dir(req, size, off, false);
+> +}
+> +
+> +static void fs_readdirplus(fuse_req_t req, fuse_ino_t ino, size_t size,
+> +			   off_t off, struct fuse_file_info *fi)
+> +{
+> +	fill_dir(req, size, off, true);
+> +}
+> +
+> +static const struct fuse_lowlevel_ops fs_ops = {
+> +	.getattr	= fs_getattr,
+> +	.readdir	= fs_readdir,
+> +};
+> +
+> +static const struct fuse_lowlevel_ops fs_ops_plus = {
+> +	.getattr	= fs_getattr,
+> +	.readdir	= fs_readdir,
+> +	.readdirplus	= fs_readdirplus,
+> +};
+> +
+> +FIXTURE(readdir_long_name)
+> +{
+> +	struct fuse_common_ctx ctx;
+> +};
+> +
+> +FIXTURE_VARIANT(readdir_long_name)
+> +{
+> +	bool plus;
+> +	size_t name_len;
+> +};
+> +
+> +/* The shortest names whose entries don't fit into a 4k page, and the longest. */
+> +FIXTURE_VARIANT_ADD(readdir_long_name, readdir_4073)
+> +{
+> +	.plus = false,
+> +	.name_len = 4073,
+> +};
+> +FIXTURE_VARIANT_ADD(readdir_long_name, readdir_name_max)
+> +{
+> +	.plus = false,
+> +	.name_len = FUSE_NAME_MAX,
+> +};
+> +FIXTURE_VARIANT_ADD(readdir_long_name, readdirplus_3945)
+> +{
+> +	.plus = true,
+> +	.name_len = 3945,
+> +};
+> +FIXTURE_VARIANT_ADD(readdir_long_name, readdirplus_name_max)
+> +{
+> +	.plus = true,
+> +	.name_len = FUSE_NAME_MAX,
+> +};
+> +
+> +FIXTURE_SETUP(readdir_long_name)
+> +{
+> +	char err[MAX_ERR_MSG];
+> +
+> +	memset(long_name, 'L', variant->name_len);
+> +	long_name[variant->name_len] = '\0';
+> +
+> +	if (fs_setup(variant->plus ? &fs_ops_plus : &fs_ops, &self->ctx, err))
+> +		SKIP(return, "%s", err);
+> +}
+> +
+> +FIXTURE_TEARDOWN(readdir_long_name)
+> +{
+> +	fs_teardown(&self->ctx);
+> +}
+> +
+> +TEST_F(readdir_long_name, small_buffer)
+> +{
+> +	bool seen_long = false, seen_after = false;
+> +	size_t size = 4096;
+> +	char *buf = NULL;
+> +	int fd;
+> +
+> +	fd = open(self->ctx.mountpoint, O_RDONLY | O_DIRECTORY);
+> +	ASSERT_GE(fd, 0);
+> +
+> +	for (;;) {
+> +		long n;
+> +
+> +		buf = realloc(buf, size);
+> +		ASSERT_NE(buf, NULL);
+> +		n = syscall(SYS_getdents64, fd, buf, size);
+> +		/* The next entry doesn't fit, try again with more room. */
+> +		if (n < 0 && errno == EINVAL && size < GETDENTS_MAX) {
+> +			size *= 2;
+> +			continue;
+> +		}
+> +		ASSERT_GE(n, 0);
+> +		if (!n)
+> +			break;
+> +
+> +		for (long off = 0; off < n;) {
+> +			struct linux_dirent64 *d = (void *)(buf + off);
+> +
+> +			if (!strcmp(d->d_name, long_name))
+> +				seen_long = true;
+> +			else if (!strcmp(d->d_name, AFTER_NAME))
+> +				seen_after = true;
+> +			off += d->d_reclen;
+> +		}
+> +	}
+> +
+> +	free(buf);
+> +	close(fd);
+> +	EXPECT_TRUE(seen_long);
+> +	EXPECT_TRUE(seen_after);
+> +}
+> +
+> +TEST_HARNESS_MAIN
 > 
 
-Ooops, sorry about this. There was no good reason to have more than
-name_max > 3072 for the DDN use case - I should have used that :/
-
+I had especially created memfs_ll.cc in libfuse in order to test long
+long names, but glibc buffers are larger than 4K - my simple tests
+missed the issue.
 
 Reviewed-by: Bernd Schubert <bernd@bsbernd.com>
-
-
-
-
