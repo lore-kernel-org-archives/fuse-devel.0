@@ -1,96 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.174
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795625941;
-	b=NiXa8LSs1RVBGlD34VmSK94cl6VKNOWSx7e7GmyRVobRWYhDnzvkjH+VKD1vuhKeNKAW
-	 +jGLiYha3d0g+eZ1glNodoTXWnyAxtby4OWLMqlzwtX/2yQHX/y1V34NxV9vUhIvtZqfY
-	 QqOZeJ3RXghxLlCoaFlfilxVzwQPeywFD0VysaztDxWwJVvkINt4wyajGQ9/V6WBkURR3
-	 LUe/OMNRqy3ePwTvLLINBTzdnRRdhupoEF9Y0LP8tcmASYeRnHA4twi6jy49miffDqGtb
-	 WZ0tVZSxrHAD65rXrLkbA0nNfZllSDxAf6cmrfTFCqHn16GxHYzXmW2fY8Qz+Kd/SRg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795625941;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.47
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795646097;
+	b=nEk3NYkLZGXpYMBlH9Gkjyl2XAF6iFUxfoeOc/dFe6i95D+Z2T3ZP6cYNOnyqokIQmBY
+	 FLTDo7HWOzhAoUOMy4JyKt47145mlor/0nORW1CRASksKR50nyM8h6sHLWvVWc4et6nGX
+	 FwYsTuXTrRYi53voTYqRMpcalZwJEg/HKR8MXL7xYdmXrVuXBRJ4k7krmdclK50U3sHLe
+	 Zgf5ADPV6jorLsZsV/fOalg084OrYuV9mV4Qiz1Sj3gWuXFjnb3Hu75M6mGYbQR8WyGS1
+	 HugnYl0TzrIAVM2S3CKX9mY3qJuWXyTsTJ+m+gefnxWIxgTtJCk8T+mDUWYU7AtQnsQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795646097;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=ssqoSi76g+LtX30iLsvIWKdf1J/8p1hvBN52gnrjlGc=;
-	b=4SjiX46MQOj4iBVnF46z3OEbaAnT3ZVDKrgeaYbGKUvUv+Vlab9le6EupKTmuyVbj7Aq
-	 XY0PX6AAqTcXB/Pj6O2OEnSoepMmtNbhDh8OuHZK47GPy7HZb4sEz1vloDEkOGvgPV+pG
-	 w8vU8FQ7iI/KjMM2i5Z0DwmJg916qws3yvXaNMpiro9RD9U8srYG1dHadyXbgknnP3dr8
-	 Ld+j6zzLSO/md/DI1IGK1o/rcM7ivQjv+Q8Rbn1KUggLRGYmmynIbPXcg+hnX6UPxHA3E
-	 BOeKPtYG/5wVBuwFDOnXrfFM+HTd+YJOaVcyTYC3xdnGm5HdR50cher4JU4nY91+1Kg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=szeredi.hu;
-	spf=pass smtp.mailfrom=szeredi.hu;
-	dkim=pass header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=duZulkev;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.174
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=OLNYMcQ2Y1oIxnqaAzxlR1bRdVnHH6Z3Siej5MTnqR8=;
+	b=L+V3zBU/87Ro4doF6pLRDfWuQDr1XtIbwfeqU77wkHGiHxsjstZ+sCuiPxmj6km4d7Ld
+	 MZDiBkC6XtFJp5PzZ4b+y5Doan2/xgdUuC+DvFjYMcrMaCqZeSXEztDzp05GAJlLmmcFN
+	 PEknRomha/MV8fbCu8mGglsaWHyvbORRtymAoTe0WNmoYnRfodqDi5xkdOzlpEI4JMUiV
+	 MMJJxLY02TdEjFwUcvBa2VbdwGvOg4eMpBs5o7r6b+fqWVr+RUXN3+n3bfZ0cXyFSRx7g
+	 B32U29R8nM4OUxLm3CHaT5mHRurbceXbN0PNzJLnr8AhGnvYWCQ56q7lPyCVX1hq3wg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="VW/N0k6v";
+	arc=none smtp.remote-ip=209.85.216.47
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61892606A327
-	for <fuse-devel@lists.linux.dev>; Wed, 25 Nov 2026 16:59:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61892606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8B59606A32E
+	for <fuse-devel@lists.linux.dev>; Wed, 25 Nov 2026 22:34:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8B59606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=szeredi.hu header.i=@szeredi.hu header.a=rsa-sha256 header.s=google header.b=duZulkev
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-93a40a9a01aso816855485a.0
-        for <fuse-devel@lists.linux.dev>; Wed, 25 Nov 2026 08:58:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795625939; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cSA7w0NF5tDOOmpiVDPVMbIHRgVkD8veeLzmTXa8QA/swQ1Gj4T11EYCrOm6G4BZ8l
-         JZDp73pE89wKe+beoxDQ/6Fi95ZjJ1MJCjlLCZ+qltYNNBMKo6dTKj7vTcrnNXa8+qjl
-         RCb/rzxLl0ZeE+qWESI66AK7AIt1uOfG5tVIJdtLWFHaFRk7Z98z2dAzlHHmJWD6VsDL
-         YksbBDcVL20DogiUmmInCEiG295lZ0ZtnMCF70Oi900814T6vnRzSl6YjLVqfwBf2Rlh
-         vy0HHrTi5GJXKC7GosBY9+AZvoARi0cUoc++JDmT2rwNd6lUlZB9FyyCZ6DQmUZiGkm+
-         IW6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ssqoSi76g+LtX30iLsvIWKdf1J/8p1hvBN52gnrjlGc=;
-        fh=HXZKZ7PeeU3dPp+lyIukoOPwsYNuhY9dseC9A1nlEws=;
-        b=oBDfyLJ2FgsAX/QJi/KUzsXysmi6LbYU9spUsHqmUv9wgFs9ZJcL0NZtpsQhgxG/2P
-         nkVT/rHItlF1eNT8EiNRXTrKdLcbJQ94F2XboE7UGaDUgMytTs0T3VF0/W3h2Oi7clca
-         Liaeqg63cZq/CKDiz7PTETwc2sxmY/JcT5DlYJUYM1F+na0ybd6phEYpuocY2u+XqmuS
-         tHJb6LHXTCEzP0QnsmJQbFiLUJw1957gLS9sDcs26Vuja+6YkzZ5OaRV4Ek5KIsXSzWP
-         U5XXMnh+MwIcYtvfR8i5cimW7faFk4EqyezPv8FVfiGl3m1THcEQdsmrnlfnOKYtiI8x
-         dTIg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VW/N0k6v
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3b4021b572dso4019378a91.2
+        for <fuse-devel@lists.linux.dev>; Wed, 25 Nov 2026 14:34:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1795625939; x=1796230739; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ssqoSi76g+LtX30iLsvIWKdf1J/8p1hvBN52gnrjlGc=;
-        b=duZulkevpOc+pBl5StwZTMdVyHMurJ/314W0Phf8WHLVt0kQEZ1TM6qiDXeHfaBDMG
-         eq2iHuGqPcomAbweQ0h7SVhQzGTPW+qzGl4t7RqzURUgnUAoBzI51+zIXlZCc3VBJ40H
-         Dp/MzTSBXfYoZ65rrdPx68mgYR7WWmwNKrMRw=
+        d=gmail.com; s=20260707; t=1795646096; x=1796250896; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OLNYMcQ2Y1oIxnqaAzxlR1bRdVnHH6Z3Siej5MTnqR8=;
+        b=VW/N0k6vANdMmZVB0xngAKOFk78uQVMAFakkezaWHxITjuYG9d+qx+g206+6M+pjb2
+         nyhg0gGce32qa2EIhTpNkQhFHwbaappEG+Gl9XDe6R17O7cyfRyZr9l0veVV7HagN9JI
+         F7ym0MunONBR+TKD9VHOMhb9V0vV3L1qu7SWyrp4E8qFVsLHZcylMzsqKuTT1Uds7hBq
+         s1Z0o0On+K0IRsui9SnP1xdrBQuubFSFqnXYkJEFhbzDE1TzHRTD9VAfx5WJMQOXerYm
+         bc9KGMWU1FuvpJdTeQ7r8CE6/jfdS/mlnjwSzu+Kj9buIMeBpcj5JOcUA2T/+2ioWoVD
+         94JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795625939; x=1796230739;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ssqoSi76g+LtX30iLsvIWKdf1J/8p1hvBN52gnrjlGc=;
-        b=MLFCaZE+Amu5pKZv29AIIrWzGuO3Km3vIE7YwLBt01KL9b8jbYMqanVL18IBLZyXCc
-         C8y6bph9fuV7YQqTsv/oPdY4VXW6w7uSXmHIs828s/6SAFM9iZRwiis2oV499urmv3fd
-         AIP7k/k74czyG6q1AdHrFHjWiHvfcNzrQCWdjO2QLhSn4TGEhMNOQLIM2QbYPYaPGbPh
-         h6t/MWdu2EvtbVkYSwzm04PNAQ9A/PmNYdgEd3+uZ8iEqJ/0CVXZJjw7K60Iq0YQwBgX
-         2GvmrNgD1ApSWjWPm+G8RntjHi/9dlyGMM0ZoxKRgXbqjEUX4wZL/odFH7hYWpNRs7Aa
-         umVA==
-X-Forwarded-Encrypted: i=1; AL+hErG9sxtVSXAXUW5RgR9HdFsq4ceLNCGh+sGJmWdmYu9UKQHwKNkmeJFQjazQEcdX0hrPrSgW/XJgdsWA@lists.linux.dev
-X-Gm-Message-State: APuU4Z9in41u24fmFQnz0+Vefoykq/4toDEOKnyhLgErZr19L7s1gOLZ
-	eZsVGGAk0yYDC6DMLUKpYF71uh0cA5YVkdAynJW6cqMhWgDSIxt9b+Cg+68lK1b0t8Co4DHdbIm
-	GXSoT6HEGESX/Way2N4KiwDx1+or5GbvHRDKbp7W7bQ==
-X-Gm-Gg: AZFdTZcHKNsZC2Rl+9EsAbrHpH1aty7NiDQoPRy76bKT1LVnNipnkdgOw9IFQvLALm+
-	4stJdZghk/rs9J1u58A1JV3AbXB0HoP5J0g1nUfDBz8NVHne1e4/wktRwjTkQ3lJcKwKgMn23Ch
-	3d1UcScMq4XfYBuBP8CQ2jU9ZktXkTO7ilNokbqL67ApVdv0VHmZTi0qkLMO4g/Xfg5e+gmuiPH
-	KlgcMg4NB48TEa+mdYdEhasZe392cbGekC9cenB+T140J4HreQQRVspkUvvCfeov0cMr/feSY5U
-	xwYpRKWP1nuig5f2mLzzubq5aZUKAJEJGe91EB/RBe0J/FZLorSjNwVxDS4R6GKfDQlGSrPmFYL
-	TEIYFeT+V8+PPT4KgR15Rwwh0GGw1oL0aoKavOMWWdWhfwsSM5nFPPe6LGrncBXwKdUvctQ==
-X-Received: by 2002:a05:620a:130f:b0:93e:95ce:5394 with SMTP id
- af79cd13be357-949ba81953fmr3086387085a.2.1795625939096; Wed, 25 Nov 2026
- 08:58:59 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795646096; x=1796250896;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OLNYMcQ2Y1oIxnqaAzxlR1bRdVnHH6Z3Siej5MTnqR8=;
+        b=NSsCCowHxP3xjicB99+tKmXjS5P1cbNAI1cusKcK7ROpYl7gVbpGUU9jctbpxjIzWi
+         oNy65lebyLzRkoxkk1HqoL+03DWZ1VcG5mkVHcUPzUVgYfeVI5OPY2J7yi4jlQkWvJJV
+         dvrtAbJR+uXts7i/KIIH9epP/8YawzA8q/UnoGYdHbKQwnCvo5fFtB553zDsTE9/sYUY
+         cBzmuvvE6A9DNW8W5gqZnpuykQeBeeh5/Dd6N7iT81+BZpvL3rOXe6jFGcxMp41CH1Bv
+         GzsSEjaY+kc48Jh31DxvCwJ9xXERBk1GBXwBoAOSJ8zmv8HVFA0peG6lsGEu3MJN/5ZA
+         HF0Q==
+X-Forwarded-Encrypted: i=1; AL+hErFiXsjoXzHudzHOwrdmMW6geP+6aP7CctZpB2Lpl5p60bvKqQCz3o+zZV8Wut7V7xT/ByCXvJQknZua@lists.linux.dev
+X-Gm-Message-State: APuU4Z8ZmXLxyw8Z9aaPv3dx36HinEW/9pLwddkCsp5n4RFPHYpiC8kt
+	OYbbIQxc4Al+/nUbCrKxEmkry9ooZcVT1czAT3jlwYbhA/jbGcuYys+p
+X-Gm-Gg: AZFdTZfTKUKeej5aRvhFSQJJD/VFoi52JmwUCg8VHSvsIGZKXE72JunlboGFbSyW683
+	yS8NFQb/dA2FkuxyV7jNGn/IGN21ddOzf2Mc78pqufgXkQCK/M4nzRqrrsp+1HcvlY83nKXQ3+g
+	DWV+Oc1sfVJvE/ViiWldhl2YVLdoQxp2a8dc6gbl4iJ1U5fipL9ixLYCVBvtuWkn8mTavsDXVGI
+	3srZv94ViNb0S00LVCYkdvgu2Bpclp9QvXkMMjR8V9yjXuu4dgi4IhihabzFGK9ioGAqNN+JucF
+	74mpYoUwmqE4LSy6k2cYovUIyilEn/xha4FvO9RoVh5G63ab/qH76RQrYZa2+bS0JjwxcEA5bWC
+	hdUgH1YEtGaDRoTIHuWd/GVd/OpRLZhSR+KMOlclPih71kmnt4VmyQaT2G3JMoh3E1HMgYaTRXK
+	28ReXd7MbzDMT08YLQRLrD4R78DqgJ8iHT1+eeyM7NKuM17AfHfwj87fK8LSE9RaW6VsCDgeHaH
+	KKs3Y3qwD8OcZDrR1Nq9JFkfqVfIguTmwGBYeAwZnN17JduB5nvnwFFOCxkP4c3kEgTUuHSCUx0
+	Sm1tm7C+tm+TpE+TbrikYohdzVTm3EyW5FZZBWoQspaSsA5ruw==
+X-Received: by 2002:a17:90b:2e49:b0:3a4:b0f3:6597 with SMTP id 98e67ed59e1d1-3b41c58ae4dmr17896124a91.0.1795646096100;
+        Wed, 25 Nov 2026 14:34:56 -0800 (PST)
+Received: from localhost.localdomain ([112.170.44.210])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdebb45c972sm907029a12.20.2026.11.25.14.34.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 14:34:55 -0800 (PST)
+From: Junyoung Jang <graypanda.inzag@gmail.com>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Junyoung Jang <graypanda.inzag@gmail.com>,
+	Sasha Levin <sashal@kernel.org>,
+	Gwanhyun Lee <gwanhyunlee@gmail.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	Amir Goldstein <amir73il@gmail.com>,
+	fuse-devel@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 6.12.y 6.6.y 6.1.y v2] fuse: fix fuse_set_nowrite() race with parallel direct writes
+Date: Thu, 26 Nov 2026 07:34:46 +0900
+Message-ID: <20261125223447.651208-1-graypanda.inzag@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2026-11-23-1-daily-reply-0006@kernel.org>
+References: <20261123141024.2476753-1-graypanda.inzag@gmail.com> <2026-11-23-1-daily-reply-0006@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -100,27 +105,115 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261125-work-fuse-readdir-v1-0-44312add01a8@kernel.org>
-In-Reply-To: <20261125-work-fuse-readdir-v1-0-44312add01a8@kernel.org>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 25 Nov 2026 17:58:47 +0100
-X-Gm-Features: Aa3M54pPfuXZohQGDn5k0h9sL1sElbGXsBZCEsXt30y_HQ67RFbg9tpBWfdjmqU
-Message-ID: <CAJfpeguDMe4ZooXec_djQ_Kv2jL4HNum=LvhUtA9iPrHStgnaQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] fuse: fix readdir with long names
-To: Christian Brauner <brauner@kernel.org>
-Cc: Amir Goldstein <amir73il@gmail.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	linux-fsdevel@vger.kernel.org, fuse-devel@lists.linux.dev, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 25 Nov 2026 at 11:27, Christian Brauner <brauner@kernel.org> wrote:
+In 6.12.y, 6.6.y, and 6.1.y, queuing a FUSE_WRITE_CACHE request clears
+folio writeback immediately while keeping the request in fi->writepages
+until the daemon replies. Pending requests can outlive a cached file
+handle if write_inode_now() fails in fuse_flush() and returns before
+fuse_sync_writes(), or if a cached mmap drops its last file reference
+via munmap() without calling fuse_flush().
 
-> The first patch makes the request large enough for the largest entry
-> the server may send and makes sure we always have the pages for it. The
-> second patch adds a selftest. It fails on v7.4-rc1 and passes with the
-> fix. I also reproduced all of it in a VM on v7.4-rc1, including the
-> memory pressure case.
+Once the cached file is released, FOPEN_PARALLEL_DIRECT_WRITES allows
+concurrent direct writes under inode_lock_shared(). While one writer
+holds FUSE_NOWRITE and waits for the pending request, another can enter
+fuse_set_nowrite() and hit BUG_ON(fi->writectr < 0).
 
-Applied, thanks.
+Fix this by waiting on fi->page_waitq in fuse_set_nowrite() while
+fi->writectr < 0 before setting FUSE_NOWRITE, and still running
+fuse_sync_writes() in fuse_flush() when write_inode_now() fails. Wake
+waiters in __fuse_release_nowrite() rather than fuse_release_nowrite()
+because fuse_do_setattr() calls __fuse_release_nowrite() directly on
+success, including under a shared inode lock via fuse_direct_IO() ->
+fuse_do_truncate().
 
-Miklos
+Mainline is unaffected since commit 0c58a97f919c ("fuse: remove tmp
+folio for writebacks and internal rb tree") removed fi->writepages and
+keeps folio writeback active until the daemon replies. Fix the ordering
+directly in the stable trees rather than backporting that larger rework.
+
+This bug was found with an in-house LLM-based tool, and the root cause,
+reproducers, and fix were manually verified by the authors.
+
+Fixes: 153524053bbb ("fuse: allow non-extending parallel direct writes on the same file")
+Cc: stable@vger.kernel.org
+Co-developed-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+Signed-off-by: Gwanhyun Lee <gwanhyunlee@gmail.com>
+Signed-off-by: Junyoung Jang <graypanda.inzag@gmail.com>
+---
+Changes in v2:
+- Move wake_up(&fi->page_waitq) into __fuse_release_nowrite() to cover
+  the shared-lock fuse_do_setattr() path pointed out by Sasha Levin.
+- Verify and target 6.12.y, 6.6.y, and 6.1.y together.
+- v1: https://lore.kernel.org/r/20261123141024.2476753-1-graypanda.inzag@gmail.com
+
+This single patch applies cleanly to linux-6.12.y, linux-6.6.y, and
+linux-6.1.y. Tested with KASAN and lockdep in QEMU on 6.12.119,
+6.6.163, and 6.1.193 using unprivileged FUSE daemons (UID 1000 via
+fusermount3) against the close -EIO and dirty mmap/munmap reproducers.
+Also reproduced the v1 missed-wakeup hang on the shared-lock
+fuse_do_truncate() -> fuse_do_setattr() path using an artificial delay
+and confirmed v2 completes cleanly across 6.12.y, 6.6.y, and 6.1.y.
+Standalone C reproducers are available on request.
+
+FUSE maintainers: could you please consider an Acked-by for this
+stable-only fix?
+
+ fs/fuse/dir.c  | 10 ++++++++--
+ fs/fuse/file.c |  5 +++--
+ 2 files changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index 54fcf91272a0..aaf364fe0e7b 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -1821,8 +1821,13 @@ void fuse_set_nowrite(struct inode *inode)
+ 
+ 	BUG_ON(!inode_is_locked(inode));
+ 
+-	spin_lock(&fi->lock);
+-	BUG_ON(fi->writectr < 0);
++	for (;;) {
++		spin_lock(&fi->lock);
++		if (fi->writectr >= 0)
++			break;
++		spin_unlock(&fi->lock);
++		wait_event(fi->page_waitq, READ_ONCE(fi->writectr) >= 0);
++	}
+ 	fi->writectr += FUSE_NOWRITE;
+ 	spin_unlock(&fi->lock);
+ 	wait_event(fi->page_waitq, fi->writectr == FUSE_NOWRITE);
+@@ -1841,6 +1846,7 @@ static void __fuse_release_nowrite(struct inode *inode)
+ 	BUG_ON(fi->writectr != FUSE_NOWRITE);
+ 	fi->writectr = 0;
+ 	fuse_flush_writepages(inode);
++	wake_up(&fi->page_waitq);
+ }
+ 
+ void fuse_release_nowrite(struct inode *inode)
+diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+index f733a0f78114..b1646a452cc4 100644
+--- a/fs/fuse/file.c
++++ b/fs/fuse/file.c
+@@ -538,13 +538,14 @@ static int fuse_flush(struct file *file, fl_owner_t id)
+ 		return 0;
+ 
+ 	err = write_inode_now(inode, 1);
+-	if (err)
+-		return err;
+ 
+ 	inode_lock(inode);
+ 	fuse_sync_writes(inode);
+ 	inode_unlock(inode);
+ 
++	if (err)
++		return err;
++
+ 	err = filemap_check_errors(file->f_mapping);
+ 	if (err)
+ 		return err;
+
+base-commit: e2e4b92c2b2a3ae78423cb343951cb5d2241b405
+-- 
+2.43.0
+
