@@ -1,99 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795704450;
-	b=mJXPfri+5zXvN4l46kcoUmKDfjK6VNj0+om8lS1hz0WJ/1X3pfJG4expq8w+b2Lqkewg
-	 4wDYQrmI3ReIlmPWynAIdPsYXCbV0JBJYuFYgJIRIvXI8v8I0SZ2MPBKYDicYlNqwEfpB
-	 96K09zfdSskB/8aHwt0PedsVjhcRp7qDsLGUBlehxcxTYkB+vVZ9bJzCyE7dMXsFjDvOc
-	 UnDsrV/emSkWS5lsL9GpgB2CGwiTDMryu9kzsU1iGItHBRqhw6DAUq/MNN9JUGFqbN5J0
-	 JBHa6vXzeICpYQ8NB4vOq1lB63Fw5rEyQn1pRUBApepVDelaWe9kH2Oh3QedJDWbc0w==
+	t=1795704460;
+	b=AHJi3X8kVrZCgt32jKB9LpZabcz8dtDuvbIz10YiKmUOBQQtssdfv48n5PHcFnJN6Prl
+	 8MnEw0YMJCsbH0EryPgZQRHcQhwDTqxpt2W+FkEaLXfuMqcpP56K7WKEF3xncSTZcbGZi
+	 RAGJhi5w+v9tTeD/HhHgDQK9TkpPNrnXmi1kqbGgzso+g1UVh2MnSXg158V5fFEN/Mimp
+	 0obwH4m2fC8/mUbDCPXv6iTgZltTlOgt1xdiSSBDR8Bb6hnSu++Xn53NAkuqswZpLfsXS
+	 c7eaXwZcmdPDeS7UQ5LhLXCmEMXuWZpeQTGxiGvzj7SWryZvWPvbIVSFvqBU9K5h42w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795704450;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795704460;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
 	 Content-Transfer-Encoding:content-type;
-	bh=YMtn23cPSjwohaR+qdTwIVB0MrBuoBWTZnklOfs8KQw=;
-	b=H3bKk1K9aoBhSJwPgY2JSG8F7EzMWBcFX97Fubp1fT5mhVk3eoGyEjWZRbEWqY6RGyuQ
-	 S6HvZ50LIsU7mwCqr56e9eLbb9MqAt+o35oSUFc+nwlFi+vtldO9Kcl2GhbFJN9ExYvT7
-	 k1mSZTPAYRxl/c27mAsrryDKTRGOcXEA37nZgfp/WSeO30d5Mes5Ixhsc4fN2FpnHcD87
-	 HGvfMtS7OCobfiatINHFYYa+cycw/dR+L3uskqFSjwmgEUzIIh2d82n0W58QbtPJPq3Rj
-	 dae6TMOPicrRUgkeGVnG1FyQBG/CTDosJ1ATl9E6rFEHzNH16FdJVh0mAIxCcEZ64qw==
+	bh=oPelpeMc/+MkSLr4S1p7e6tz+07RqqWkjj6mkjgV26Q=;
+	b=iOK7TvDcwa2uquQUoAlx2tVHqNrT431hlBjdlQ7olFTDuE0GCyhZcsQVoIZIBB4Q8SG6
+	 KdXgVvDmkeyoCj28swu7SlhyARj5IevAQyY6qa1J0AQ0T0Nf00/fKGkqa12GZXhgJrvHe
+	 vKzqMUcrlAzKFpN9fWqj4C0SiG1mUTMxo4LoqrUZ7ZBDiXQx116+bBgWBvh0a895EZSxV
+	 W6FWdcH4FON2/xSkMx7/Wd5PtY7SGcSiXKgC+G6VKTrYpwlGZyzgAUasYe7Ve5m7BEVQJ
+	 vFMLe3eyQIAV7+P8nvutrx/HH1PeVQEGGVsx4D48Sm5rzsG/X6ZBXWtXXGHTukYDvIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Yyj9hibV;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=A8Z64EVc;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FB0606A32D
-	for <fuse-devel@lists.linux.dev>; Thu, 26 Nov 2026 14:47:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3FB0606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A258606A31C
+	for <fuse-devel@lists.linux.dev>; Thu, 26 Nov 2026 14:47:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A258606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=Yyj9hibV
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=A8Z64EVc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795704449;
+	s=mimecast20190719; t=1795704456;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YMtn23cPSjwohaR+qdTwIVB0MrBuoBWTZnklOfs8KQw=;
-	b=Yyj9hibV5/FxtHP0zPP8EoicH7UMRsb7XySl3mpqNq6ev4tHOZAivq04Yts2D37+VaUMzS
-	Pumn3l3UdrJWHOs4UqXulXCWhEW6OKUTl0rCgWRdLs7cSq3SpslCaCshVRobugbMMFAni5
-	jbx0giFz72cFf2q2U+I54HxFMVia+qE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=oPelpeMc/+MkSLr4S1p7e6tz+07RqqWkjj6mkjgV26Q=;
+	b=A8Z64EVc7i4YQKUQO3ZpDV77B9gJNdT7F1jyUk4KI0UfnmwYa9pLb8cFNJTNcsPGUgE/Fz
+	/YVW/lO+83MkOpVh16AtixFNkVapxxPWMjKuAVvHJbv3Cr2POxB1KekC/oPWK/NUq6lVy4
+	Q3qgZO2kYt+LAoQEyhJ5/EZ/XJnbw8A=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-689-qMlYH-0_P1-54oT-RT3Syw-1; Thu, 26 Nov 2026 14:47:27 +0000
-X-MC-Unique: qMlYH-0_P1-54oT-RT3Syw-1
-X-Mimecast-MFC-AGG-ID: qMlYH-0_P1-54oT-RT3Syw_1795704446
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a4654add56so48666875e9.2
-        for <fuse-devel@lists.linux.dev>; Thu, 26 Nov 2026 06:47:27 -0800 (PST)
+ us-mta-584-iAHmUu3eMmWKSFkDt2lTBA-1; Thu, 26 Nov 2026 14:47:28 +0000
+X-MC-Unique: iAHmUu3eMmWKSFkDt2lTBA-1
+X-Mimecast-MFC-AGG-ID: iAHmUu3eMmWKSFkDt2lTBA_1795704444
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4bb67b2c00cso40847515e9.1
+        for <fuse-devel@lists.linux.dev>; Thu, 26 Nov 2026 06:47:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795704446; x=1796309246;
+        d=1e100.net; s=20260707; t=1795704444; x=1796309244;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YMtn23cPSjwohaR+qdTwIVB0MrBuoBWTZnklOfs8KQw=;
-        b=totSX6qx1GUR86k8ZA5G16kxPaCHKEUDZfHwZ1cmV4s+zwur6/SZHhZiYZQLStqYfF
-         +S39NafbslHqg2FQc+6T2iWDJl9SLXEyHC7MBVp7OqoNXQkTZhP/IU9igzn48XZeH++c
-         IzH4s0l/O1WwlX4v0N17qdV7+85E5VqQaaQvvit+rG9ChSc7S8foYYh6nnui+YXN3583
-         R3ViEVYztb2ZQhP2uKPEYoVxhDQ0Ff/m8vSSVSF5kASKVEtkxN2M7GwRO2ASoK62Khtv
-         ta2mpZ4sJuStcWoKCnA8JepmUc4wJMHvG6uOmwaP6cklT+n2gPsTynWn3GZ2CzlretCT
-         k+/A==
-X-Gm-Message-State: APuU4Z8NasD1VCWDCvyo1GgprCuxZA52hIcaCLHM3Y0fSTTtXcB2gT54
-	cT0ADFdLHBANdfZQaoO3ZeLzcGGneTgX9Qr4vmqOL3mtnwc2vVo4q7pw/uQXY+nr8DRfE0hWoGN
-	iR1pwgo07apdkLbrOb+6+zRzsUp4127H4gc7yzXyBucxlSbt5zl6xsd76Japmez/oH/2KK5173X
-	Fl04ti2zTtvDOljMrg1gu1lXycAL/Bz5JC2qdh9nAWTcTkACU=
-X-Gm-Gg: AZFdTZehqVpz0YofN3CgLp21armSY+xdthx2hrrc58e5F+yekO6E0cIMuVkOoep26C4
-	rF3cwSFcoRoFRlDy0pBZBdfjv6VO3AU2Yy+abNnXxfIHPuvZ2d9X/zbsxT+OJsk1tLEbR0cgiwX
-	gdOChepXFNmpxtR/nwYqv9zomrFaf+UM8QtrRw+iMelRUFN1kAzgR8OlR8WzeNYrU0biwigQ7wJ
-	BhWtgjmVKT3Fga4tc21fAnz6AWvInKcHoLl0xFaUOq5CkBOJN4nSJ2SAiMc2VAFULC1m12lwt0Q
-	7dH9pmLuyUwMncvSt9k+V3g6ZDSK5HfQXKKAxD+K2LFG9gTRwRlK7MN3b+l+tRo2pWDGd87iaiZ
-	y5t7tj9y988p6mx0WbuVik/Ko5rF9qF+ivSYHMnc60WYePY01yQWqLt9QVL6nTygLVqgt23GViP
-	l34GUOsQaGk2JHYduAcLiv4h0ASmwpGCjVL4ldf93v
-X-Received: by 2002:a05:600c:848d:b0:4ac:86c9:b09c with SMTP id 5b1f17b1804b1-4bb88811da9mr444341835e9.13.1795704446414;
-        Thu, 26 Nov 2026 06:47:26 -0800 (PST)
-X-Received: by 2002:a05:600c:848d:b0:4ac:86c9:b09c with SMTP id 5b1f17b1804b1-4bb88811da9mr444341335e9.13.1795704445882;
-        Thu, 26 Nov 2026 06:47:25 -0800 (PST)
+        bh=oPelpeMc/+MkSLr4S1p7e6tz+07RqqWkjj6mkjgV26Q=;
+        b=tGUSBffwQAXi4Rn4TUOoNO5XMw1UWRomL40bVETqxKpzSEtKRPfJTxPoocPPK1eImB
+         hnN+gvoXFiFbOIu6SXa8+8l4UtRAz4QdEW7DARptQXqoUN+X4txMuAogz+4y7npKSz/O
+         MCu7w90iD93LA9uLoKMspe1GK126KFn3soItiKa2OCCD8KZbSdsPquaQleE5bluiZlve
+         8SFvS80EBnURErZk0ft3b78guPVQ9KeduTfVmXNdAoB6Lh3vJhA4oPFTKX+I/CZxpBuX
+         mgReTf3Iui99tgKV9y8Ck/xPmN1L7cWRRyTJKmZrenquBGHGKnhJUUazQoZM1ZGWeEso
+         lSNQ==
+X-Gm-Message-State: APuU4Z+BNHhExVpCDha9v64U9MZ0LiRoRKUfBlz63QMVwnBUPE3zP3cI
+	IwjOeEM1eU/FQ+QWQ4H+Bl7fyDAInCu2j9QTAV7/ygeoX8sad6wTPIZhuxTqftarF7O/49ECwAp
+	rU7vsVITNbJ8lToZrvpjDSs+FCinZrs6cvobUuJuDtj2a9OcYB0lvMZ2+2aj75ng561/AcNu9Gn
+	UZ41y9Iwq7aGaZaBYYeCw2BdnbskfX5WlFIAePl7D8wLpLlts=
+X-Gm-Gg: AZFdTZduW0KzMP9DgUzTRF7l5orLVavtjjUdmtoP2//nKsqCgnMIbfD0uWamxipFrtQ
+	bycNZg4AfX+x1ZDktsGKSPL84LyM7eDiOja8f0l9pUlJhYmj20x12AdcOzXDExK/dNR1tPY8f/l
+	oo0o026tsvyBMqjNUKyXLsWRqWXGlvsx8OlHcit4aG6YajfU9HzwlgdRsi98FjjaQU917Ryh+bV
+	iefxJe53DYbmFs5Uhzt58N7TlqWaDcymgPzAm9Uba4LMg6Px+2MImNegz/Ho3XYHi9QfAK2XEpO
+	L/S1HbDvSdPnizNckhXXROyPHH9Eg159Uu8991rLUhnBFeNHdAL4Cyw3wvq5tJCmsKEvNdHps9j
+	v4Iaobl9XAFjbgHh0bOiRxJO7zuKAGsKKt6UYbza2RwTCHHVMBsGXc5v64woA8YkBNLUngB1F9o
+	wgBrWHDbDUJx6R8N97/MDFUPr0ANQnrMf7KRJQZf0U
+X-Received: by 2002:a05:600c:1d09:b0:4bb:66fd:ad68 with SMTP id 5b1f17b1804b1-4bb888160cdmr454871785e9.14.1795704443957;
+        Thu, 26 Nov 2026 06:47:23 -0800 (PST)
+X-Received: by 2002:a05:600c:1d09:b0:4bb:66fd:ad68 with SMTP id 5b1f17b1804b1-4bb888160cdmr454871155e9.14.1795704443442;
+        Thu, 26 Nov 2026 06:47:23 -0800 (PST)
 Received: from mszeredi-thinkpadt14gen6.redhat.corp (193-226-214-34.pool.digikabel.hu. [193.226.214.34])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb905f1489sm388114905e9.0.2026.11.26.06.47.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb905f1489sm388114905e9.0.2026.11.26.06.47.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 06:47:25 -0800 (PST)
+        Thu, 26 Nov 2026 06:47:22 -0800 (PST)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev,
 	virtualization@lists.linux.dev
 Cc: Li Wang <liwang@kylinos.cn>,
 	German Maglione <gmaglione@redhat.com>,
 	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 5/5] virtiofs: fix forget leak on submount unmount
-Date: Thu, 26 Nov 2026 15:47:18 +0100
-Message-ID: <20261126144719.232329-5-mszeredi@redhat.com>
+Subject: [PATCH 3/5] virtiofs: retry request submission from the worker on -ENOMEM
+Date: Thu, 26 Nov 2026 15:47:16 +0100
+Message-ID: <20261126144719.232329-3-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261126144719.232329-1-mszeredi@redhat.com>
 References: <20261126144719.232329-1-mszeredi@redhat.com>
@@ -107,91 +107,65 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: a0EkSbWq6b3FHUorS_gUfZGzZ-EZkdKA8wdZfIDraM8_1795704446
+X-Mimecast-MFC-PROC-ID: VOLt1q-EmKDmnkZY6vVmlwwpnR8-kg9zlyjj2tSpEps_1795704444
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-generic_shutdown_super() clears SB_ACTIVE before calling evict_inodes(),
-so fuse_evict_inode() skipped both the FUSE_FORGET for fi->nlookup and
-fuse_cleanup_submount_lookup() for every remaining inode.
+virtio_fs_send_req() enqueues with GFP_ATOMIC, because it may be called
+with fc->chan->bg_lock held.  copy_args_to_argbuf() allocates the bounce
+buffer with those flags, so under memory pressure a request can be
+failed with -ENOMEM even though nothing is wrong with it.  The buffer is
+as large as the request arguments, so this is not limited to tiny
+allocations: FUSE_REMOVEMAPPING, for example, can ask for just over
+4 KiB, an order-1 allocation out of the atomic reserves with no reclaim.
 
-For a full unmount that is mostly fine: FUSE_DESTROY has already told the
-server to drop everything.  But a submount unmount takes the same path
-with the connection still alive: fuse_mount_remove() returns false, so
-fuse_conn_destroy() is not called and no FUSE_DESTROY is sent.  The
-server then keeps the lookup count of every inode of the submount for the
-lifetime of the connection, which can be arbitrarily long if the parent
-mount stays around and submounts come and go.
+A virtqueue that is merely full is already handled gracefully: -ENOSPC
+puts the request on fsvq->queued_reqs and virtio_fs_request_dispatch_work()
+retries it with GFP_KERNEL under memalloc_nofs_save().  A failed atomic
+allocation is just as transient, so treat it the same way instead of
+ending the request.  Unlike -ENOSPC there is no completion to kick the
+worker afterwards, so schedule it here.
 
-fuse_submount_lookup is worse, because it is freed nowhere else: the
-object and its embedded forget are leaked on any unmount, including a
-full one, for every inode that has one.
+virtio_fs_enqueue_req() queues on -ENOSPC only after checking
+fsvq->connected under fsvq->lock; do the same here and fail the request
+with -ENOTCONN if the queue is gone.  req->argbuf has already been freed
+and cleared on the error path, so the retry reallocates it.
 
-Queue both regardless of SB_ACTIVE.  This is safe on the paths where the
-connection is already gone: both fuse_dev_queue_forget() and
-virtio_fs_send_forget() just free the link when the queue is
-disconnected, and fc->chan stays valid until fuse_free_conn(), well after
-evict_inodes().
-
-Fixes: c4d361f66ac9 ("fuse: share lookup state between submount and its parent")
-Cc: <stable@vger.kernel.org>
+Fixes: a62a8ef9d97d ("virtio-fs: add virtiofs filesystem")
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/inode.c | 31 ++++++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 11 deletions(-)
+ fs/fuse/virtio_fs.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-index 344fcb55a64b..81ee6c96203c 100644
---- a/fs/fuse/inode.c
-+++ b/fs/fuse/inode.c
-@@ -141,6 +141,7 @@ static void fuse_cleanup_submount_lookup(struct fuse_conn *fc,
- static void fuse_evict_inode(struct inode *inode)
- {
- 	struct fuse_inode *fi = get_fuse_inode(inode);
-+	struct fuse_conn *fc = get_fuse_conn(inode);
+diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
+index 8bd63c6165d2..6ddb2f181a16 100644
+--- a/fs/fuse/virtio_fs.c
++++ b/fs/fuse/virtio_fs.c
+@@ -1586,6 +1586,23 @@ static void virtio_fs_send_req(struct fuse_iqueue *fiq, struct fuse_req *req)
+ 			 */
+ 			return;
+ 		}
++		if (ret == -ENOMEM) {
++			/*
++			 * Only the GFP_ATOMIC allocation failed.  Hand the
++			 * request to the dispatch worker, which retries with
++			 * GFP_KERNEL, rather than failing it outright.
++			 */
++			spin_lock(&fsvq->lock);
++			if (fsvq->connected) {
++				list_add_tail(&req->list, &fsvq->queued_reqs);
++				inc_in_flight_req(fsvq);
++				schedule_work(&fsvq->dispatch_work);
++				spin_unlock(&fsvq->lock);
++				return;
++			}
++			spin_unlock(&fsvq->lock);
++			ret = -ENOTCONN;
++		}
+ 		req->out.h.error = ret;
+ 		pr_err("virtio-fs: virtio_fs_enqueue_req() failed %d\n", ret);
  
- 	/* Will write inode on close/munmap and in all other dirtiers */
- 	WARN_ON(inode_state_read_once(inode) & I_DIRTY_INODE);
-@@ -157,19 +158,27 @@ static void fuse_evict_inode(struct inode *inode)
- 	 */
- 	if (FUSE_IS_VDAX(inode))
- 		fuse_vdax_inode_cleanup(inode);
--	if (inode->i_sb->s_flags & SB_ACTIVE) {
--		struct fuse_conn *fc = get_fuse_conn(inode);
-+	/*
-+	 * Must be done unconditionally as well: on a submount unmount the
-+	 * connection stays alive and no FUSE_DESTROY is sent, so without
-+	 * this the server keeps the lookup counts of every inode in the
-+	 * submount for the lifetime of the connection.  The
-+	 * fuse_submount_lookup object is freed nowhere else, so skipping it
-+	 * leaks that too.  If the connection is already gone (full unmount,
-+	 * failed mount) fuse_chan_queue_forget() just frees the forget.
-+	 */
-+	if (fi->nlookup) {
-+		fuse_chan_queue_forget(fc->chan, fi->forget, fi->nodeid,
-+				       fi->nlookup);
-+		fi->forget = NULL;
-+	}
- 
--		if (fi->nlookup) {
--			fuse_chan_queue_forget(fc->chan, fi->forget, fi->nodeid,
--					       fi->nlookup);
--			fi->forget = NULL;
--		}
-+	if (fi->submount_lookup) {
-+		fuse_cleanup_submount_lookup(fc, fi->submount_lookup);
-+		fi->submount_lookup = NULL;
-+	}
- 
--		if (fi->submount_lookup) {
--			fuse_cleanup_submount_lookup(fc, fi->submount_lookup);
--			fi->submount_lookup = NULL;
--		}
-+	if (inode->i_sb->s_flags & SB_ACTIVE) {
- 		/*
- 		 * Evict of non-deleted inode may race with outstanding
- 		 * LOOKUP/READDIRPLUS requests and result in inconsistency when
 -- 
 2.56.1
 
