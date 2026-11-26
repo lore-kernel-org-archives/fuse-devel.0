@@ -1,99 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795704447;
-	b=cfT15ezSpVJYzXzrbH1I4ajSwh6SVPb3rouWZTGs9NNpZmauFbfYm5pyfxTmWMPbUpR7
-	 Dn8WC/5ySW2HPWqBAgW6MF17BukDY+bl52dQJE3jZ/xmbBosQNcRuL9GOCcEu1Vem+2ih
-	 Zgc4zOF0IHtU3EBbEUQDO8oHS1OEzsafbHfB2XAkBaUMTNQacZn0BbKMDQb+knCnBQM4B
-	 5sKUZjd93sR+56p2ghC+qCv4C09zutHIQSWYliOKlg+gG/+aEG3ls/jLCrdzsznn1RUZl
-	 qiI3obHGPlaXLcw+ffHLLH9ZMowwV3l9Lq34kybEiGpm2Et8V85HW9ZpDhOVsMjSLYA==
+	t=1795704449;
+	b=cHQIOLqQBp288SkBI8lzBXd//bxgz75NRq348DdMXhPzWKutQswT7f0buOFOJwd4mYYZ
+	 PXQi56T9KfMs3FqDQ9c14ihjoc8stwtjvQDdhWMiPAOaqyn0JWH2U8dx8FtWLcJozI0n+
+	 9DtRVzG28mSOqHSiCIRuLh5koPtiEkGAYLLqycCrxRfSZP70E5hFqY0cgOx5V46xuPbc4
+	 JKkUwfboC9d79Lq3KddkMVre1JB3wfAXxT9JkRSHtvoVPg6GzQfae+6A32f1UEjX/i6Vz
+	 /Qr2c2dnG4HPzWhHspyajKXum+m//fnGECK6oQhYBsJwvCNO1SPbc/fbJmqGymgBnAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795704447;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795704449;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
 	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 X-Mimecast-Spam-Score:X-Mimecast-MFC-PROC-ID:X-Mimecast-Originator:
 	 Content-Transfer-Encoding:content-type;
-	bh=Iqfmd6XAEkIO50L1hun+5wUwYYa1P9cDT/Kb3FgMUxk=;
-	b=Dz8DIthLm9dJausxquoJnYUgD8YDRAZNsmiJtWygFnJ6rUFocbfhJybPdfJ3drJVUm22
-	 +c8AQO9lugNKsGJlBxalLmqiWIVFHm7/N0gHJqqfDViuYGvDx4HnujtKxqpKE4f73c1vA
-	 ZssIHq1RUKWBC+Z8cjan8UMjxR44j7l+VdyLQrdKP9x97nKve83M1Kf2DLB0hvxSsOQdq
-	 TM44wKnL2KMbaUSIYrNOlzXIxFLMGA/zleb3+GnrSSACD/rTp5ltfQ8HqlLvyiON+R421
-	 hotS/k1cmdOpr6ui/iH4wdzoRbFqMVhXksplISj0vo0HJ6USZmENzK3hgqS9cffEzZg==
+	bh=FfRYHG7vpHVxNmVaLC0u/Bjda9EfuJdn6UBFGM2VUjo=;
+	b=DfJZ5zbTvD5rLRI/cZmLHNlAKGHIdwY5EcWfsLKpogYYfVYHMq6ZVzfZOAtq4CQlKCtP
+	 uvtyMiOrRdMHr6q0RiEqQ7kieWribH7ws304/MthaeGtYHG8HlxQw5PRQhLsX5yJVShlq
+	 L1KhxcjN7KsQjLO5P4fvcWGQ3j9bZ0hzWums3z6hAtwMdWPgxO486UDdG+QoNQ/yDIzmW
+	 dI2Y7GwNp3QewXHbP6hbmxKEUSfu8W7Vzr4DP3+pqF6aLz2bMtqs5RjMXHeBdZbTj4GTr
+	 N1ZScUi8NJt9qEJ/7YRg3vHIgD5Uo9U5GHJm/7lPftBpvG9KnGGe3D0U1PxZKJ7Rt5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GNjFi1El;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=h5oZsdyT;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CC9606A323
-	for <fuse-devel@lists.linux.dev>; Thu, 26 Nov 2026 14:47:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42CC9606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41921606A335
+	for <fuse-devel@lists.linux.dev>; Thu, 26 Nov 2026 14:47:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41921606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=GNjFi1El
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=h5oZsdyT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1795704446;
+	s=mimecast20190719; t=1795704448;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Iqfmd6XAEkIO50L1hun+5wUwYYa1P9cDT/Kb3FgMUxk=;
-	b=GNjFi1ElGmeWFN3ef2N+U9x/P0w4McW/xnd0veRgqebFYNxvX72oOmZWwqq/k0IYuggCKu
-	IH9AURjubvr4/H7zTs0vuMRNOkFlkC3xrnZXf55qjWaEZyOa1tHX9upYSIZcet+Sn1nVH1
-	NGy2jjXu7UNjMSpgL/Qh8i2y1hrS6/0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=FfRYHG7vpHVxNmVaLC0u/Bjda9EfuJdn6UBFGM2VUjo=;
+	b=h5oZsdyTziDprtZx2i93kBfSQqksAIpQlVAWrt0geuMwc4uy/3YE1DsHvkPM/ujA6tRGrf
+	F8y6s546E7KFVNORL4rNpP2X1GgSWVa4EtbvnmyYSwbn7qEoCv6gtXxYphIPusOlN+lP6E
+	6UURYkE0E4PKtF0jnjk63fo3NmjmNm0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-308-FWxWBEXkMXmbAGAr1L06hw-1; Thu, 26 Nov 2026 14:47:24 +0000
-X-MC-Unique: FWxWBEXkMXmbAGAr1L06hw-1
-X-Mimecast-MFC-AGG-ID: FWxWBEXkMXmbAGAr1L06hw_1795704443
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4bba856092dso13232775e9.1
-        for <fuse-devel@lists.linux.dev>; Thu, 26 Nov 2026 06:47:24 -0800 (PST)
+ us-mta-221-1HFNCCwqP-KSC5udwop83w-1; Thu, 26 Nov 2026 14:47:26 +0000
+X-MC-Unique: 1HFNCCwqP-KSC5udwop83w-1
+X-Mimecast-MFC-AGG-ID: 1HFNCCwqP-KSC5udwop83w_1795704445
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4903fc8537aso4768676f8f.0
+        for <fuse-devel@lists.linux.dev>; Thu, 26 Nov 2026 06:47:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795704443; x=1796309243;
+        d=1e100.net; s=20260707; t=1795704445; x=1796309245;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Iqfmd6XAEkIO50L1hun+5wUwYYa1P9cDT/Kb3FgMUxk=;
-        b=F04El2bRlJolo6jMbSQ+Vt+Vp5Axch1GSQIFLpIOgkW8pYy4W7XREMhzKP5qTEOfT4
-         nyt6/2R/4Mo6R9kMvZahH7V9J0i4Jhs1b8Fx01GnkPX/IfWoAJ7yjcmNzza3T2a0CzKf
-         ouh3AFv9oSgDvJ+AmgR/Wfxwck7XZuVzNuGjDsM4YnGcfeiogD1BSFfp08iIdjVHZ8TU
-         OPDl1OFXezCMcu6G1JUOAXQ7dv8r6kuoDQxCLPDXhd+0C05AAGx3Uv6p+pooS3VBcp/x
-         TdMjrwgJeMzOmRm6wG9NTIYOzUogLLOGjMHRnCpyMDheepff/fPt8B4drLZ9UFsOXP63
-         Fl5w==
-X-Gm-Message-State: APuU4Z+1pLrnP97nMDvdyhp50in6+M0qxT0tJj4/9e9hdx1c9H6QEIct
-	dC0DnzHujATopAqDP2eA2rmgr+/bWarzJ6V5+JsFj+UtPUA6dJhQ/0sDJa1P7IKRCwqDmQ026j6
-	sjRSchp9MM3+ZfUCnMJfPfZYl/xmL6GhBjVOItzwoPY8VBn4k/3aVty3Vjm67hQYmYOkxDCgov5
-	moEy+KILEdFAhTthPTf23A25fsP4sc1xivHSg0VHc8byv2OU0=
-X-Gm-Gg: AZFdTZcgD8OSc5R/Mq4j4xr4nJsNzxcei8mFn2VSLZfix9SzNWDKnnA71kZ/LffkNVW
-	vW9deXrehIrQMLG0f/rF7mTbNwyXrmf96gj9A+cYFibvDLxlzjE6bay6Mb3kpltx/cuMhY1QJRb
-	Dj+UaQhuuN/cSu4oFMzx457843ndFgAy12qYkvVU/hAgmC1TT9N/ha+Wq8N6EsWcuIrpIgeqVJe
-	Jh4nMk59yaAI1JDd5Y+LjITkjkoSRcwMpmTSdZ3pYcimRwRLwvy5Y6qs+LoXTfsdo3RrUwnNrw5
-	nklKU1xbPt8JCb+D4UopZU4mh791jBro8rA81yoxjuwPBVJxpYZ8QDh9nR63JZpxUhxjIYqNEGO
-	07sI65LCkihZyP6Y2/JxlouAoHgJOAGtHIUvL+nD7Tjn07fTpRj6+1niMXi6CIEVrRcA6Tc3efz
-	GkIZk4wQ7iLEL9CL0/h1oHXxed/5SkgjPx3Xbalamc
-X-Received: by 2002:a05:600c:820d:b0:4a1:dfaf:f465 with SMTP id 5b1f17b1804b1-4bb887c2ca3mr431883025e9.4.1795704442971;
-        Thu, 26 Nov 2026 06:47:22 -0800 (PST)
-X-Received: by 2002:a05:600c:820d:b0:4a1:dfaf:f465 with SMTP id 5b1f17b1804b1-4bb887c2ca3mr431882695e9.4.1795704442556;
-        Thu, 26 Nov 2026 06:47:22 -0800 (PST)
+        bh=FfRYHG7vpHVxNmVaLC0u/Bjda9EfuJdn6UBFGM2VUjo=;
+        b=1jzpKBP7NuFglVnwtMNp/26rtMvbjSMUZjrqGfqNzFSoi6SqxuNWP23/nqRefRitjE
+         AOzCW+ZoazwYlkUVGhFpIKhPWR2n50baGh1k0QkQDSsmVPUUD3uJNXYs23n6WTUWCAw3
+         WeoezSlwX0xClBK50+N++Xqu4NwB/s0nYwC9n/uI5JFTgtKHOXYW/zhyyAaw7kwD0N+l
+         oC9dec863VZ6rhOOBuG5LbrHiX6qWBhPIU5Vd9XWnPC17KjZPOvuR/gpowpxwEfHYICU
+         pqOMwaQdxT1RRfg8r2xbkc57QtJRZy3FY+/ynGA9f6VHoMs3b06NDJXR/wKw7c4RHbUr
+         fuqg==
+X-Gm-Message-State: APuU4Z+k02DutnnbBKUzfHQqnRaDOtZWiilLrGSugbWY+XODWNEma6Dk
+	OjjNuIF9ChrgbDfuEPPQC79DoQq9OrZf+qe/D98AQkyWmeVTlsFqbehtQrqnggaES+c3RDsCnI/
+	kJC/0cmc1Md/zUn6u+CdmK1UV9PFaQHU5R9HXkOOk5sS6q+d2bbNSfRf4U/p1hve3fu+YCz2axF
+	spLs1Eq70Xj1j+LM5WmWhZ5VP0xHrmM1qDXdjKR1xvt4/rDao=
+X-Gm-Gg: AZFdTZfxNcBF2xL+sKx1D+uB47R2tVZ1RMCUtvTvc9/D0qD2STXqjpFmqMkqa7L33UV
+	9mBfqyFXwnr715WCi8h3lth++lm2jQK+EhC3Wi3IJLbrdWdOvXGhitSse0CvE9SIkHthsaBfkvT
+	InxJBpo/ANYY+TSxNUEI+fyR0LqmnGG/0q1yPfhos0dDF0kczXh6b/R8NGUqWvrrQhgQwWatRj2
+	dy0/f7rQZp1QV5/LPO5LHwJDOkaeLjhuPyADpBTrXWIYe8Tx6Cza4HZNYWU7RNNwROpD+aw0FhY
+	tG/NCwPwiYDVFlFeWFFq+AY2If9x1T+zXYatW/HUmS53gOCFgCexG/PReNQF1d0eOqMwpZKfTY1
+	ptxQ4b4jl7lZpFWcU6dqWNnPnAJIT2Lvhz6R8mgWaXJOK1XuTfqhOoIAIwuNjtm+KsisOGY31+E
+	Cjzd3TefQsY7cjmXI7TJC+jA9nmx8EKmXkhL2yFzq+
+X-Received: by 2002:a05:600c:c84:b0:4a8:9a2f:d27 with SMTP id 5b1f17b1804b1-4bb8881f47emr439427015e9.25.1795704445059;
+        Thu, 26 Nov 2026 06:47:25 -0800 (PST)
+X-Received: by 2002:a05:600c:c84:b0:4a8:9a2f:d27 with SMTP id 5b1f17b1804b1-4bb8881f47emr439426315e9.25.1795704444517;
+        Thu, 26 Nov 2026 06:47:24 -0800 (PST)
 Received: from mszeredi-thinkpadt14gen6.redhat.corp (193-226-214-34.pool.digikabel.hu. [193.226.214.34])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb905f1489sm388114905e9.0.2026.11.26.06.47.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb905f1489sm388114905e9.0.2026.11.26.06.47.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 06:47:21 -0800 (PST)
+        Thu, 26 Nov 2026 06:47:23 -0800 (PST)
 From: Miklos Szeredi <mszeredi@redhat.com>
 To: fuse-devel@lists.linux.dev,
 	virtualization@lists.linux.dev
 Cc: Li Wang <liwang@kylinos.cn>,
 	German Maglione <gmaglione@redhat.com>,
 	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 2/5] virtiofs: don't abort DAX removemapping on allocation failure
-Date: Thu, 26 Nov 2026 15:47:15 +0100
-Message-ID: <20261126144719.232329-2-mszeredi@redhat.com>
+Subject: [PATCH 4/5] virtiofs: abort the connection if the server fails to unmap a DAX range
+Date: Thu, 26 Nov 2026 15:47:17 +0100
+Message-ID: <20261126144719.232329-4-mszeredi@redhat.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261126144719.232329-1-mszeredi@redhat.com>
 References: <20261126144719.232329-1-mszeredi@redhat.com>
@@ -107,116 +107,201 @@ List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: vLodjTvtVFKGEVkWkVWlmyu1cTif9TKrKsg2Y42B-tk_1795704443
+X-Mimecast-MFC-PROC-ID: 4FPeP9J1cFisKlN_gRqF2cyT1RLu_MCrKyQD37FqpZc_1795704445
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
 
-dmap_removemapping_list() allocates an array of fuse_removemapping_one
-entries to batch the FUSE_REMOVEMAPPING request, and returns -ENOMEM if
-that fails.  The only caller, inode_reclaim_dmap_range(), has no way to
-recover: it just warns and returns the ranges to the free pool, where
-they can be handed to another inode while the server still has them
-mapped.  The request is never retried either, so a single failed
-allocation is enough to lose the removal.
+If FUSE_REMOVEMAPPING fails, at least one range is still mapped on the
+server side.  Both callers return the ranges to the free pool regardless,
+so the next allocation can hand one to a different inode while the server
+still has it mapped, exposing one file's data in another.
 
-The allocation is up to FUSE_REMOVEMAPPING_MAX_ENTRY (PAGE_SIZE / 16)
-entries, i.e. a page, and it is GFP_NOFS.  Inode eviction and the DAX
-free worker are exactly the paths that run under memory pressure, so
-this is not hypothetical.
+The ranges cannot be reused, but they also cannot usefully be tracked.
+The requests are sent in batches and the first failure aborts the rest, so
+it is not known which of them the server did drop; and a server that
+refuses a request it is required to honour will keep refusing, so every
+range ends up retired one by one, with nothing to replenish the pool.
+__fuse_dax_fault() then waits uninterruptibly in wait_event() for a free
+range that can never arrive.  Quietly retiring ranges only delays the
+failure and makes it worse when it comes.
 
-The batch array is only a convenience: dmap_removemapping_one() already
-sends a single entry entirely from the stack.  Move it above
-dmap_removemapping_list() and use it to remove the ranges one at a time
-when the array cannot be allocated.  That is slower, but it cannot fail
-for lack of memory, and it only happens under memory pressure.
+Abort the connection instead.  No FUSE_SETUPMAPPING can succeed after
+that, so no range is ever handed out again and the pool stays reusable
+without any bookkeeping, which is why both callers can go back to
+ignoring the error.  The abort is done in fuse_send_removemapping(),
+synchronously, because it has to happen before the caller returns the
+ranges to the free pool: deferring it would leave a window in which
+another thread could allocate a range and map it on top of the one the
+server kept.
 
-While at it, initialize ret, which was left uninitialized if the list
-passed in was empty.  The current caller checks for that beforehand, so
-this is not a bug today.
+A dead connection is not such a case: the server is not going to access
+the ranges any more, so they stay reusable.  Test the connection rather
+than matching on -ENOTCONN, which missed the -ECONNABORTED and -ENODEV
+that fuse_chan_abort() ends requests with.  For that, add a
+fuse_chan_connected() accessor, as fuse_chan is private to dev.c.
+
+For the abort to mean what it says, a failure has to be the server's
+fault and nothing else.  Send the request with args.force, which allocates
+with __GFP_NOFAIL and waits uninterruptibly, so that neither a fatal
+signal on the calling task nor a failed request allocation is mistaken
+for a refusal.  The remaining kernel-side allocation failures were
+addressed by the two preceding patches.
+
+Note that the uninterruptible wait means an unresponsive server now hangs
+the caller rather than letting a fatal signal out; the connection's
+request timeout, if configured, is what breaks that.  This matches what
+the rest of the eviction path already does.
 
 Fixes: c2d0ad00d948 ("virtiofs: implement dax read/write operations")
 Signed-off-by: Miklos Szeredi <mszeredi@redhat.com>
 ---
- fs/fuse/dax.c | 49 +++++++++++++++++++++++++++++++------------------
- 1 file changed, 31 insertions(+), 18 deletions(-)
+ fs/fuse/dax.c | 59 ++++++++++++++++++++++++++++++++++++++-------------
+ fs/fuse/dev.c |  5 +++++
+ fs/fuse/dev.h |  1 +
+ 3 files changed, 50 insertions(+), 15 deletions(-)
 
 diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
-index e20a5ae6fecc..c5bbb5d91026 100644
+index c5bbb5d91026..ac84ada25a5a 100644
 --- a/fs/fuse/dax.c
 +++ b/fs/fuse/dax.c
-@@ -248,18 +248,46 @@ static int fuse_send_removemapping(struct inode *inode,
- 	return fuse_simple_request(fm, &args);
+@@ -4,6 +4,7 @@
+  * Copyright (C) 2020 Red Hat, Inc.
+  */
+ 
++#include "dev.h"
+ #include "fuse_i.h"
+ 
+ #include <linux/delay.h>
+@@ -229,6 +230,25 @@ static int fuse_setup_one_mapping(struct inode *inode, unsigned long start_idx,
+ 	return 0;
  }
  
-+static int dmap_removemapping_one(struct inode *inode,
-+				  struct fuse_dax_mapping *dmap)
++/*
++ * The server is required to drop the mappings it is asked to drop.  If it
++ * refuses, the ranges stay mapped on the server side, and handing one to
++ * another inode would expose one file's data in another.
++ *
++ * Rather than keep track of which ranges are still live, abort the
++ * connection.  No FUSE_SETUPMAPPING can succeed after that, so no range is
++ * ever handed out again and the pool can be reused without a second thought.
++ * The abort has to happen here, before the caller returns the ranges to the
++ * free pool, so that it cannot race with a concurrent allocation.
++ *
++ * A dead connection is not such a case: the server is not going to access
++ * the ranges any more, so they stay reusable.  Test the connection rather
++ * than matching on -ENOTCONN, which misses the -ECONNABORTED and -ENODEV
++ * that fuse_chan_abort() ends requests with.
++ *
++ * The request is sent with args.force so that neither a fatal signal nor a
++ * failed request allocation can be mistaken for the server refusing.
++ */
+ static int fuse_send_removemapping(struct inode *inode,
+ 				   struct fuse_removemapping_in *inargp,
+ 				   struct fuse_removemapping_one *remove_one)
+@@ -236,6 +256,7 @@ static int fuse_send_removemapping(struct inode *inode,
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+ 	struct fuse_mount *fm = get_fuse_mount(inode);
+ 	FUSE_ARGS(args);
++	int ret;
+ 
+ 	args.opcode = FUSE_REMOVEMAPPING;
+ 	args.nodeid = fi->nodeid;
+@@ -245,7 +266,16 @@ static int fuse_send_removemapping(struct inode *inode,
+ 	args.in_args[1].value = inargp;
+ 	args.in_args[2].size = inargp->count * sizeof(*remove_one);
+ 	args.in_args[2].value = remove_one;
+-	return fuse_simple_request(fm, &args);
++	args.force = true;
++
++	ret = fuse_simple_request(fm, &args);
++	if (ret && fuse_chan_connected(fm->fc->chan)) {
++		pr_err("fuse: server failed to remove DAX mapping, aborting connection.  count=%u offset=0x%llx len=0x%llx ret=%d\n",
++		       inargp->count, remove_one->moffset, remove_one->len,
++		       ret);
++		fuse_chan_abort(fm->fc->chan, false);
++	}
++	return ret;
+ }
+ 
+ static int dmap_removemapping_one(struct inode *inode,
+@@ -340,7 +370,7 @@ static void inode_reclaim_dmap_range(struct fuse_conn_vdax *fcd,
+ {
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+ 	struct fuse_dax_mapping *dmap, *n;
+-	int err, num = 0;
++	int num = 0;
+ 	LIST_HEAD(to_remove);
+ 	unsigned long start_idx = start >> FUSE_DAX_SHIFT;
+ 	unsigned long end_idx = end >> FUSE_DAX_SHIFT;
+@@ -365,11 +395,13 @@ static void inode_reclaim_dmap_range(struct fuse_conn_vdax *fcd,
+ 
+ 	WARN_ON(fi->vdax->nr < num);
+ 	fi->vdax->nr -= num;
+-	err = dmap_removemapping_list(inode, num, &to_remove);
+-	if (err && err != -ENOTCONN) {
+-		pr_warn("Failed to removemappings. start=0x%llx end=0x%llx\n",
+-			start, end);
+-	}
++	/*
++	 * A failure is dealt with in fuse_send_removemapping(): either the
++	 * connection is already gone, or it has just been aborted because the
++	 * server refused.  Either way nothing can be mapped any more, so the
++	 * ranges are safe to return to the free pool.
++	 */
++	dmap_removemapping_list(inode, num, &to_remove);
+ 	spin_lock(&fcd->lock);
+ 	list_for_each_entry_safe(dmap, n, &to_remove, list) {
+ 		list_del_init(&dmap->list);
+@@ -882,15 +914,12 @@ static int reclaim_one_dmap_locked(struct inode *inode,
+ 	interval_tree_remove(&dmap->itn, &fi->vdax->tree);
+ 	fi->vdax->nr--;
+ 
+-	/* It is possible that umount/shutdown has killed the fuse connection
+-	 * and worker thread is trying to reclaim memory in parallel.  Don't
+-	 * warn in that case.
++	/*
++	 * A failure is dealt with in fuse_send_removemapping(), which aborts
++	 * the connection if the server refused.  The caller owns the mapping
++	 * either way.
+ 	 */
+-	ret = dmap_removemapping_one(inode, dmap);
+-	if (ret && ret != -ENOTCONN) {
+-		pr_warn("Failed to remove mapping. offset=0x%llx len=0x%llx ret=%d\n",
+-			dmap->window_offset, dmap->length, ret);
+-	}
++	dmap_removemapping_one(inode, dmap);
+ 	return 0;
+ }
+ 
+diff --git a/fs/fuse/dev.c b/fs/fuse/dev.c
+index b198cc729cba..c653aabf2449 100644
+--- a/fs/fuse/dev.c
++++ b/fs/fuse/dev.c
+@@ -424,6 +424,11 @@ unsigned int fuse_chan_num_waiting(struct fuse_chan *fch)
+ 	return atomic_read(&fch->num_waiting);
+ }
+ 
++bool fuse_chan_connected(struct fuse_chan *fch)
 +{
-+	struct fuse_removemapping_one forget_one;
-+	struct fuse_removemapping_in inarg;
-+
-+	memset(&inarg, 0, sizeof(inarg));
-+	inarg.count = 1;
-+	memset(&forget_one, 0, sizeof(forget_one));
-+	forget_one.moffset = dmap->window_offset;
-+	forget_one.len = dmap->length;
-+
-+	return fuse_send_removemapping(inode, &inarg, &forget_one);
++	return READ_ONCE(fch->connected);
 +}
 +
- static int dmap_removemapping_list(struct inode *inode, unsigned int num,
- 				   struct list_head *to_remove)
+ void fuse_chan_set_fc(struct fuse_chan *fch, struct fuse_conn *fc)
  {
- 	struct fuse_removemapping_one *remove_one, *ptr;
- 	struct fuse_removemapping_in inarg;
- 	struct fuse_dax_mapping *dmap;
--	int ret, i = 0, nr_alloc;
-+	int ret = 0, i = 0, nr_alloc;
- 
- 	nr_alloc = min_t(unsigned int, num, FUSE_REMOVEMAPPING_MAX_ENTRY);
- 	remove_one = kmalloc_objs(*remove_one, nr_alloc, GFP_NOFS);
--	if (!remove_one)
--		return -ENOMEM;
-+	if (!remove_one) {
-+		/*
-+		 * The ranges are not reusable until the server has dropped
-+		 * the mappings, and the request is never retried, so failing
-+		 * here would take them out of use for good.  Fall back to
-+		 * removing them one at a time, which needs no allocation;
-+		 * slow, but this only happens under memory pressure.
-+		 */
-+		list_for_each_entry(dmap, to_remove, list) {
-+			ret = dmap_removemapping_one(inode, dmap);
-+			if (ret)
-+				break;
-+		}
-+		return ret;
-+	}
- 
- 	ptr = remove_one;
- 	list_for_each_entry(dmap, to_remove, list) {
-@@ -350,21 +378,6 @@ static void inode_reclaim_dmap_range(struct fuse_conn_vdax *fcd,
- 	spin_unlock(&fcd->lock);
- }
- 
--static int dmap_removemapping_one(struct inode *inode,
--				  struct fuse_dax_mapping *dmap)
--{
--	struct fuse_removemapping_one forget_one;
--	struct fuse_removemapping_in inarg;
--
--	memset(&inarg, 0, sizeof(inarg));
--	inarg.count = 1;
--	memset(&forget_one, 0, sizeof(forget_one));
--	forget_one.moffset = dmap->window_offset;
--	forget_one.len = dmap->length;
--
--	return fuse_send_removemapping(inode, &inarg, &forget_one);
--}
--
- /*
-  * It is called from evict_inode() and by that time inode is going away. So
-  * this function does not take any locks like fi->vdax->sem for traversing
+ 	fch->conn = fc;
+diff --git a/fs/fuse/dev.h b/fs/fuse/dev.h
+index dbffd5bed2f5..71f56e71c899 100644
+--- a/fs/fuse/dev.h
++++ b/fs/fuse/dev.h
+@@ -34,6 +34,7 @@ unsigned int fuse_chan_num_background(struct fuse_chan *fch);
+ unsigned int fuse_chan_max_background(struct fuse_chan *fch);
+ void fuse_chan_max_background_set(struct fuse_chan *fch, unsigned int val);
+ unsigned int fuse_chan_num_waiting(struct fuse_chan *fch);
++bool fuse_chan_connected(struct fuse_chan *fch);
+ void fuse_chan_set_fc(struct fuse_chan *fch, struct fuse_conn *fc);
+ void fuse_chan_set_initialized(struct fuse_chan *fch, struct fuse_chan_param *param);
+ ssize_t fuse_chan_send(struct fuse_chan *fch, struct fuse_args *args);
 -- 
 2.56.1
 
