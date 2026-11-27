@@ -1,79 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795752549;
-	b=q7ITvdcO+BmCLWcG4/wpV/nGCd5H0sQKa+H3SGEeKqfMf+uA93tZrJg6qhLK1/pg+eao
-	 fp2lfXZAIqTr7SdsWjkF/h5nFA+VaaSK07K0darsC0OcGlxBJ4S13zcbCgdeToJwD4Kev
-	 HQCzii5lMOxHcS1UsdRt1laME/9rashOmT7YyLFoyFamvmi65qDyiVPgArvmxVVIXqytE
-	 1jLp84RFSBGuRu0l3SsJqgXI9uu+iHTkQfS4CPyaedRLhKDrZJUn4HJmgkXgHpUbk59bw
-	 Ya/Fd1IRF5O5qFAzbfrJwYEvKLM9re5yNAmaQ0f8JNE4PY6z+RtD+yVWkr1i5OvBe3Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795752549;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=HjpF0P5UyQ9nLom4QODoSUXMxsk2mmPrm0eKHuDGnBg=;
-	b=QigB+ZwvXtBJbK63wzFOhAsygYg7Euhz5Gbdbt0/yKxcxNgKjfEDABQgppz8O4YhdMRg
-	 Fz9WelDRysYuKe1AjrQB9i03DMo9vWFjPtgdHuI1Ya5mtiToYLt38Rmdf941xYTc7YBKJ
-	 HtI6gD6QKodINyS5Cr1Dt+DhElIQ0p7aFk0YR14UYoojtZKMxVyrzL0/+498qQS1Pp9e7
-	 13iUGt5fHOYSFRcgT0Nil5CD5rJPEnXy/qq9uQ4Y7tEAqshk4ldiKYTJ1MRTLhNjAgNTw
-	 SyaTMhKY0RzoW3U2FUoIHAPiCPqqqR67i3ZZKlp25dv5sbYGCEA3rnFK60CAOpqMv0Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jZViEjrH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442B3606A323;
-	Fri, 27 Nov 2026 04:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jZViEjrH
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795752548;
-	b=F8gkl5dz2zeGG5mwBRtAPBVa85fTWVoyJRHI6/kjMN2mRFJGSOr1eln+qVxZt94pT2cr
-	 6XtgMgTy5ofpH152BbruRV+M8S4Ek3Hk9xoe6sO55xtG/859P8u7h1JQCpyeI32rKjhum
-	 v33kRSGCxNHsI+xaeWm5zfZqyCyuqOSf6ZxtTOfMc7qqI9hLNQfIBF9Oo5aq1AdY9ji2F
-	 bex3OtMDKFH8NgW4OyYsrWLr9DtDnI4ORXKHjh1YHdh4pVrma0ZGWryohNtLqiCvqqDTO
-	 CSva5i5UUd07eqOgKx7DbDwE4ap7MiDbINwY36RFfbrA4+LWjVIWW/g0cwMgdDuzMEA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795752548;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=HjpF0P5UyQ9nLom4QODoSUXMxsk2mmPrm0eKHuDGnBg=;
-	b=GMwVXg7wlL4Eks+yB+NQdw+OnNiSVw/T2CgJp3hzGK+F8dOAhgmxINHZEtjxZOAdR04m
-	 kSx+TOkCWTZjeA5mkvmdKTbJavxKy/p61zfNd+8j45htAeGqMFkGJ8D88E2sCYB6/Mid1
-	 uUUNqncOjkVfkbcRx2pPu1pHOY936TG7kU0xLa9ZL0+l5iYCXMXz3CEJ7JAY+Facv6wf0
-	 EHwFct42tpeEt0F6aN/eMXpwSXV0yRT9bQNh1hpmkHXf5nJtJF/6EaJalhjeRkCk69YMo
-	 II1q7aFNlqVIg701BfSb+cksKDOW3vxUewi1kgZqdt/AB0FLS3/YnWJco8K9Djhdagg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795786231;
+	b=uj7etSlZ848ujAjet9k8PT3TS+yGrxtawJ4UL17ayUWxLvrDqYeEzbCE3stoksymfomP
+	 tG8dKH5dlwIX4po4acC2Qkn9bZv9LeYsLbK1apoyjA2Uivk8WYsxXrFI/WIvAu7ACLt8j
+	 Lz7gsuQmzJxICoFIlfuuwe76JUl7mPgTRM23mrv4mKTjHLjeUldvBH08M1/opzXwmI2uo
+	 SpKeUIk8XbdWNHUy6f1wDNXWi6yBSDg2hIjBfvf6D2YhdfdcUGAX/2sUnjByt41YgZqLM
+	 tEui24POqUjELER5cNTupwNtRTBQWdCk/xLW2QVyWSF8JlZqPh+d8mjzQt92lE17cOw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795786231;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=H0Jql31Gwg5cy7/8LbYEz5eBl7mNTW69sIgrCB0NofA=;
+	b=dnJxHU4qycSv5G+Mvn7GuGX2CBOq16IybpupLNCQR95+SFFBNXPoFVtnv7DVe2EOaIsq
+	 4HEa4lw4XZJrQlLKb4REyMhPL3lD6jF1/CUX66qKqlqvsZec2B4as82OXfB2ShHBZuIj+
+	 7DbeQ7A8yu614U1xZaH5SOya5DOREOz0XIa2yYvoKfwdXlB/MpQ4rHWIPCzd2yhl+O38p
+	 SU33zDP+Hzj4mpqpK2RrcUb533VK0VlGqOZqMesVIc79q/ojSq5JR0zGpHzYMesfJ6sZa
+	 KvCDXdySoG2gLPieH7tljnPK48pYTHjC84IlYAc1kbgrfHMZ54M4EyLvNE+4YyfE8JA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=U4NKcntY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=RqNzIgqE;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=BaKocssb;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Xle0tI5a;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 4A2AB1F00924;
-	Fri, 27 Nov 2026 04:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795752548;
-	bh=HjpF0P5UyQ9nLom4QODoSUXMxsk2mmPrm0eKHuDGnBg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=jZViEjrHv7dvOmMePsATDqUzpBYEctt0Ldy+QMYHQPLrNh83CcrUuaKNva7rTo50Z
-	 ENdNGgZUwuetP2UKbzMBfyJGieqgzrjbGr/eHme5t/DydC4YaONuKfELSI+HbaGCNQ
-	 yrQjOHtYew5wmW1jQyTmv6xHFg+Lxl1fEuD8EoC42AxS8x1uYlfg0SMdSQQn79EXky
-	 RU+Rc1G/2uJhJ2BqKYPFc+8oi88yHm8E1mIDFwBt2WNfzK1CTnG79B50FZQgtaiQsx
-	 wupuDgJw7nvmEmcpvf1SwEQrToINvLy15Eh1q0uP6epiEEpwrKteIBUpvqiYDXFEuV
-	 KYO/V5A546rjg==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id D081C4B558;
-	Fri, 27 Nov 2026 04:08:51 +0000 (UTC)
-From: David Crawshaw via B4 Relay <devnull+david.exe.dev@kernel.org>
-Date: Fri, 27 Nov 2026 04:08:39 +0000
-Subject: [PATCH 1/2] fuse: update i_size before unlocking the EOF folio in
- write-through writes
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E237606A31F
+	for <fuse-devel@lists.linux.dev>; Fri, 27 Nov 2026 13:30:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E237606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=U4NKcntY;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=RqNzIgqE;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=BaKocssb;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Xle0tI5a
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 196091FF00;
+	Fri, 27 Nov 2026 13:30:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795786224; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H0Jql31Gwg5cy7/8LbYEz5eBl7mNTW69sIgrCB0NofA=;
+	b=U4NKcntY06TBTWk+IHhUJ5kuPFeYKqhQbotvPIvQDYGH9MOMGFHRDnJYoKotITYl6WNX8B
+	ADY9SpBKRNCnkm3qO1VXyXeoKWuk9CpKUnFOFRfugKMdDHkLnrJyfGe0L2b+HYxAHdgWf2
+	vEYSrDuzhHNz01IfDskcmsI3c1RRvtU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795786224;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H0Jql31Gwg5cy7/8LbYEz5eBl7mNTW69sIgrCB0NofA=;
+	b=RqNzIgqEdc7lsUieUicKkHJFxdXdCOpVphPrRXi+ocnzy6PbKtg5JV7ImUXgFYHVde3mm6
+	KjZO977JawC+ILAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795786223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H0Jql31Gwg5cy7/8LbYEz5eBl7mNTW69sIgrCB0NofA=;
+	b=BaKocssbOonWoDcnn8ip9+Sy+3PuM4qiaBRWZl83bJBRRpPaLIpqCedCNxV4HMw6JKSuZw
+	LywuQm1zwtNJGO2qPDJB1UznC0gIrvcYUdpld63uO73SRAVS4RW+BjrNC6rcvLaAAVf1I9
+	TMYeJb/CFGdZIZ2yV/HWT33sMdVDw+c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795786223;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=H0Jql31Gwg5cy7/8LbYEz5eBl7mNTW69sIgrCB0NofA=;
+	b=Xle0tI5aYu+cWxA+eRC57J7LdJQh7KEJpefFicnS5oKAlZPVJEBHmoewIapk1u1OVITcFD
+	78iv9d9bvAR2mwBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9931F13432;
+	Fri, 27 Nov 2026 13:30:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id nO6AGeyFCWsfFwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Fri, 27 Nov 2026 13:30:20 +0000
+Date: Fri, 27 Nov 2026 13:30:18 +0000
+From: Pedro Falcato <pfalcato@suse.de>
+To: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Tal Zussman <tz2294@columbia.edu>
+Cc: Christoph Hellwig <hch@infradead.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, fuse-devel@lists.linux.dev, John Hubbard <jhubbard@nvidia.com>, 
+	Jan Kara <jack@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+	Zi Yan <ziy@nvidia.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, linux-ext4@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
+	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
+	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>, Qi Zheng <qi.zheng@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Michal Hocko <mhocko@kernel.org>, linux-fsdevel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH RFC 0/5] mm: GUP dirty + ->release_folio() fixes
+Message-ID: <awmE8VSlF2VTHLGu@pedro-suse.tail5790ac.ts.net>
+References: <20261119-gup-dirty-what-v1-0-236d69f25c24@suse.de>
+ <4f096d70-6f94-4148-8f47-242b8551e5f9@nvidia.com>
+ <awWNyDZT2SVu2Zp9@pedro-suse.tail5790ac.ts.net>
+ <55114986-0ba1-4a80-8498-bf674d64e01b@kernel.org>
+ <away88BuU8ibcTA5@infradead.org>
+ <d088452f-1118-4a06-bc16-1942e523e0fc@kernel.org>
+ <20261126022418.3620783-1-tz2294@columbia.edu>
+ <50045fa1-0b46-402f-baf0-a08d05282410@kernel.org>
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -83,128 +129,71 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261127-b4-fuse-wt-eof-v1-1-e055e2af652d@exe.dev>
-References: <20261127-b4-fuse-wt-eof-v1-0-e055e2af652d@exe.dev>
-In-Reply-To: <20261127-b4-fuse-wt-eof-v1-0-e055e2af652d@exe.dev>
-To: Miklos Szeredi <miklos@szeredi.hu>, 
- "Darrick J. Wong" <djwong@kernel.org>, 
- Christian Brauner <brauner@kernel.org>, 
- Joanne Koong <joannelkoong@gmail.com>, Shuah Khan <shuah@kernel.org>
-Cc: fuse-devel@lists.linux.dev, linux-kselftest@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, regressions@lists.linux.dev, 
- David Crawshaw <david@exe.dev>, stable@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795752531; l=3912;
- i=david@exe.dev; s=20261127; h=from:subject:message-id;
- bh=aneCOpdxoK+BoX+KlAWJghFJrKt6ILqgZAIYQqmiW0I=;
- b=pZh3gDBUojjRGzwL5hg+aYbb26zpqEM71Wd+/shQt6BrHzKj9HuOjKvTby6mb6BA9RCczfdJ0
- lSNoakYmogFAEnBL4QI0J56eiQi7rzmRlhRFMuxLCktZNcYpBh3J7L4
-X-Developer-Key: i=david@exe.dev; a=ed25519;
- pk=eQfKiR9S2peqiHuuNGCAaWlxwP+RerhKT2wVxakCrjQ=
-X-Endpoint-Received: by B4 Relay for david@exe.dev/20261127 with
- auth_id=1661
-X-Original-From: David Crawshaw <david@exe.dev>
-Reply-To: david@exe.dev
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50045fa1-0b46-402f-baf0-a08d05282410@kernel.org>
+X-Spamd-Result: default: False [-13.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[40];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL8d8xedm6iu8o66torxsk6bwd)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -13.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-From: David Crawshaw <david@exe.dev>
+On Thu, Nov 26, 2026 at 07:43:37AM +0100, David Hildenbrand (Arm) wrote:
+> On 11/26/26 03:24, Tal Zussman wrote:
+> > +CC Miklos
+> > 
+> > On 11/25/26 5:19 AM, David Hildenbrand (Arm) wrote:
+> >> On 11/25/26 11:05, Christoph Hellwig wrote:
+> >>>
+> >>> We need to, if not for this series then for all the other outstanding
+> >>> issues with GUP writes.
+> >>
+> >> Cool, and I agree (that's why I placed it at 1).
+> >>
+> >> But who is "we"? Because I recall that "we" wanted to do that a while ago.
+> >>
+> >> (I won't be "we" ;) Pedro, can you take a look? I'm afraid the fuse thing might
+> >> be the harder nut to crack)
+> > 
+> > Coincidentally, I sent out a patch to convert fuse_copy_fill() to use
+> > iov_iter_extract_pages() a few days ago in order to remove its usage of
+> > set_page_dirty_lock() and address a different race. I think it should
+> > address the fuse side of this issue as well.
+> > 
+> > https://lore.kernel.org/all/20261120-fuse-copy-fill-pin-v1-1-72a0d888f140@columbia.edu/
 
-Since FUSE writeback was converted to iomap, a write-through write
-that extends the file within the folio holding the current EOF can
-lose its data if writeback of that folio starts while the FUSE_WRITE
-request is in flight.
+Awesome!
 
-fuse_perform_write() copies the data into the page cache folio, unlocks
-it in fuse_fill_write_pages(), sends FUSE_WRITE, and only updates
-i_size after the reply has arrived.  If the folio is dirty, writeback
-can lock it in between, and iomap_writeback_handle_eof() zeroes the
-folio from the old i_size to its end.
+> 
+> Oh, nice! I was assuming the usual "we use put_page() on some random hidden path
+> or core code" would make that harder.
 
-Depending on timing:
+Right.
 
- - the page cache is left with zeroes where the write's data should be,
- - the FUSE_WRITE request itself carries zeroes, as its pages are the
-   page cache folios and are only copied when the server reads the
-   request, so the server stores zeroes,
- - a later writeback of the zeroed folio overwrites the server data.
+> I recall that's the reason why vmsplice
+> still uses FOLL_GET years after we discussed that it should be using
+> FOLL_PIN|FOLL_LONGTERM.
 
-In each case the write returns success.  Before iomap, FUSE writeback
-never modified the folio and cropped the request to i_size at send time,
-so this window was harmless.  iomap, on the other hand, expects i_size
-to cover the data in a folio before the folio is unlocked, as
-iomap_write_iter() does for the writeback cache path.
-
-Fix it the same way for write-through writes: keep a folio that
-straddles i_size locked over the request when the write extends the
-file within it and update i_size from fuse_send_write_pages() before
-the folios are unlocked.
-
-Reproducer: a thread repeatedly stores into the EOF page through a
-shared mapping and calls sync_file_range(SYNC_FILE_RANGE_WRITE) on it,
-while another thread pwrite()s a few bytes past EOF within that page;
-with a server that delays FUSE_WRITE by 200us the data was lost in
-493/500 runs (the selftest added in the next patch fails reliably), and in
-0/3000 runs with this patch.
-
-This patch written with an AI coding assistant (Shelley using Opus 5.5).
-I reviewed and tested it.
-
-Fixes: ef7e7cbb323f ("fuse: use iomap for writeback")
-Cc: stable@vger.kernel.org # v6.17+
-Signed-off-by: David Crawshaw <david@exe.dev>
----
- fs/fuse/file.c | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
-
-diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-index 993a1d2b315..ee3bdc3cb04 100644
---- a/fs/fuse/file.c
-+++ b/fs/fuse/file.c
-@@ -1287,6 +1287,15 @@ static ssize_t fuse_send_write_pages(struct fuse_io_args *ia,
- 	if (!err && ia->write.out.size > count)
- 		err = -EIO;
- 
-+	/*
-+	 * Extend i_size before unlocking the last folio, so that writeback
-+	 * cannot see the newly written data beyond i_size and zero it.  See
-+	 * fuse_fill_write_pages().
-+	 */
-+	if (!err)
-+		fuse_write_update_attr(inode, pos + ia->write.out.size,
-+				       ia->write.out.size);
-+
- 	for (i = 0; i < ap->num_folios; i++) {
- 		struct folio *folio = ap->folios[i];
- 
-@@ -1305,6 +1314,7 @@ static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
- {
- 	struct fuse_args_pages *ap = &ia->ap;
- 	struct fuse_conn *fc = get_fuse_conn(mapping->host);
-+	loff_t isize = i_size_read(mapping->host);
- 	size_t count = 0;
- 	unsigned int num;
- 	int err = 0;
-@@ -1366,7 +1376,16 @@ static ssize_t fuse_fill_write_pages(struct fuse_io_args *ia,
- 		if (tmp == folio_size(folio))
- 			iomap_folio_mark_uptodate(folio);
- 
--		if (folio_test_uptodate(folio)) {
-+		/*
-+		 * Keep the folio locked until the reply if it is not uptodate,
-+		 * or if it straddles i_size and this write extends the file
-+		 * within it: writeback zeroes a folio beyond i_size
-+		 * (iomap_writeback_handle_eof()), which would wipe the data
-+		 * just copied, both in the page cache and in the request,
-+		 * while i_size has not yet been updated.
-+		 */
-+		if (folio_test_uptodate(folio) &&
-+		    !(folio_pos(folio) < isize && pos > isize)) {
- 			folio_unlock(folio);
- 		} else {
- 			ia->write.folio_locked = true;
+You almost gave me a heart attack, before I remembered these vmspliced pages
+aren't writable :) That's a battle for another day!
 
 -- 
-2.43.0
-
-
+Pedro
