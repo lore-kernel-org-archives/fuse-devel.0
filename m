@@ -1,95 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795854543;
-	b=lQUh/VhEhg/9W4sa2eWajph76e9VkpVNG42wPUVvrn0Kb3ftrUOgWn3CQI0tg+unmA6B
-	 qJmMpqig9gHNNbGP9Kwd0YzBNLBw6nV6xhI6AKP29+4IMvuFphF8ScINsIuRx8u9C9ziZ
-	 ECjVgCDwRAMJ6ISGEr+yebBtZcAg/DSeJQgpW0kiwsjzNaheLtRt7n8/BJLeyyhzyh3hl
-	 3Vi5XNiFsv6b2vBwB5SF6Ty6bhsZuMNebmlk8MJHTtBd3OxaKpTyq8cVp8UyYxRRuFhH0
-	 lI5rLElgTBzAfRmLXqqIt1wclbUwoz3rQsorMNxaIR8jHXrExHSt7mtj6YvOfVAyQFA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795854543;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:MIME-Version:
-	 X-Received:Received:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type;
-	bh=2JoM14t7FH+1NGjrD2mU/HrytF4EJVsMrHx/Wx2shbg=;
-	b=f32p9DQuxstugqH9r65/54z4wjIg0+GKJjgeWw0p3lJXhFaNaS5mRkuPD5Bv79+YuQNI
-	 9uUCn5I8IS0XkUBN6LNvjKkuydWQ5xLeZOi9odiEChaHXyNFGMfDkpRhPltOd8TYrtHH7
-	 yTnCXwIOP1kPpO95d9lt/Vbvck0SBRidjvALrm4VEJGkBWMj0iomao3lNyNzZur0C1YxY
-	 ZY42AfcuD4JM0KuH2b1/jEDDoezJU6T9x12gZl6BO42JJplnZFN+APV63nFBeugDK6Mpp
-	 2KNZpHfoOnparv7PVUbOVdYhBEZEAnaMWqNxRO7IBssX5s/SKM4huzAd3CaAYF4NhRw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RshoYLgt;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.43
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795864539;
+	b=hGSYlS8hToTCBF3uS2bTiflE4PhwnoXrTWKUjJ94xLgSfNzQr/hso7WUY3xijXXprAOh
+	 5Hisl2NOUeSugOxUyCIjKP/P8lyacyaCbrnUA+NfzdzFQQzQUt+K10n3UPGdgCeDqXr/V
+	 aO4ao6cDXKvUtZg0L0CvMzsCwW9Wkv3fXbDamojnlCrk9yOIlPwEgxDNPp2Xxrf1TbhCP
+	 lauWPIf8qtFaUR0qBv92jL69yuZB7O4UDpYS+fMnrc1Cjz1OaxkLomkCBqCmdHM1JhuFh
+	 oBvOvUITUyUihCRvYbucPJj703VbGn00ymodcBrrAY87RhUOUU1LQ1vU3n4sQC6OYrA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795864539;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=CZXKyPNZLofeHAUKVGkTZOCtIjmrif9AACWfR2u5LZ0=;
+	b=pIlKf97sH/29yItbYmdiVw/ZHdB4LQf0W4N2kJH+x5OVANNwG9AU56t85PH+VwU3j303
+	 lhKaEPIT0o9gIs5Ny6c99sJ4u6o5TM+IUPaTIphA/FpeYJ5BjqWqcb4iY9u4rTqAN+I0A
+	 0T+FgomB7sIAmkEiLUxuO4Zv7oNP86oIswaabGlP/kXyhJkTFi9/68xjc+VgXdV7DunKM
+	 wrphqHKjBdxz2ksdJ6jlxcevO+/CFoUERuybjM1J/dYY1dtehgVsELZcdCixP/ni3rbJj
+	 AAWmI1aV7dv5PFqawge4MJ1sP8WnpV3Os7wzBYN54w14NkK95cmr28pDDQfwUCDaMsw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=LNWMFDI4;
+	arc=none smtp.remote-ip=220.197.31.3
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF63606A330
-	for <fuse-devel@lists.linux.dev>; Sat, 28 Nov 2026 08:29:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EF63606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2CE606A31C
+	for <fuse-devel@lists.linux.dev>; Sat, 28 Nov 2026 11:15:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C2CE606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RshoYLgt
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5c1465bbbdaso7453733e87.3
-        for <fuse-devel@lists.linux.dev>; Sat, 28 Nov 2026 00:29:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795854541; cv=none;
-        d=google.com; s=arc-20260327;
-        b=MC3MouBzXNnJ8Q+Rmz5vlBD4Ipvxt1Ue3w6YlKLJrA/t81vW+lhd2614LoefZwVMLa
-         k3Fv9dCpymA8+sBGGnZ627yKvYaxXNUs5YjX0z2sPDA/M5JQRFG7muyZ8IDJNZjsNKin
-         HGmTUcqWcu8lGO2LQaS55xfaSQuCYQ4zUJl++I5yIoLSqZW3CsHl8PxsqxiJh1TJw5z+
-         1qb6IFyXfc6onKLDn3s3CpcfKeWQvl6hoDOMUw6pOeNyXFML42kiyCzYVoodXradGvUS
-         WosPGGaOkkc7AQQwmHrbxZKvXLueKtSxeMyKdL2hWfVcjGBU0y58d1a/5uyIEJ1LINfr
-         6CBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=2JoM14t7FH+1NGjrD2mU/HrytF4EJVsMrHx/Wx2shbg=;
-        fh=B+9C8JbwIMY55iwgrU4OrvqerY1Q32hKJZqBClm+EEU=;
-        b=VUcIcpWqjKQiGMBTYjGoRCEtuhoZuv/mo73u+FMfdESXjxzKEqH1YxYtMZ5y0oEAUD
-         nPGwfODcLPmhP598xjb9WKUuqEIT0cHP6R2pKvYPFz/gmAQ5L5IoUcHq9hP9ubaxCjpy
-         GWO6wujpQRbmMjZiy/aYe2BH8f+1jvoRcgoQGfGXSkp7ee8/XnlQ74gCchM6lGNEhYpu
-         MivyMXMusAv/F55rSEpIjc+wnsPfzLZVilTZjKRyt9FB1Wn+2HvwRUrQ3t2zCj4ZHS5v
-         JAzHMO/aLgHQZvI/mAXX46Fvo0sMlarhqtoGmjt/x7Ctl/YRkom51OPL4YnsHkvT0nEG
-         6mMA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795854541; x=1796459341; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2JoM14t7FH+1NGjrD2mU/HrytF4EJVsMrHx/Wx2shbg=;
-        b=RshoYLgthq49sNx13ApL3yLUUvhw0d0rA2ByuiAGLdmHq19o2H/Yz8sCy0X2QxnEbO
-         cTwYSHHdCPfPzjvSRqkSHdXeyFryy8HXh9xwYeNwWanLB8y7d1vCCKQYh9JgUm6YT3mG
-         gMJm8Gh56jVb3D0FT+3XF4lAFTFXUTKfKON6Ztp2XnOp13fO6N8OKLpjbB84Bu1bsxZf
-         60XfLMtac4G8pXO6MwU1z0ECo6cdjv9V0BNgxghvBmh/VdN/WQxHASAGfHUBEBybICLn
-         0/sz0XwkpegspWFdukHmo9GCnNj1WyXXeLUE08k22Gg5QkbTEhRU38B3/ek5WSYHEUcq
-         uDGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795854541; x=1796459341;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=2JoM14t7FH+1NGjrD2mU/HrytF4EJVsMrHx/Wx2shbg=;
-        b=BnB89hxG6NgIgBdKgML940EHWdS5d2+Acjgg2Pabyz7U173C1TgQVDdokzOR3k45cO
-         /SCQq2cQFXXlg+/BBC6aEl7T4z9GUBP2nSK1uFPjXvwX1qEzOBOTV0i2b9znpUDWVIms
-         kkmHFoL/ugk7NLZOrAu9AhNTSDPvQ8D7tyK7QbKhXuzGz+9euexT49c+gMNGlfD8uDZO
-         L8cp2SFCP5XxkiYFLKfToq47vBhqyHvBmcLDQyB4sPUq7ODnxVkThcYZ9yHpi7KEsHpy
-         qu5K0+K5iuAcWAzx0UxXmNHxnuspFOaXUX8zIX+uz7VsBm+phwSsxOH9Tl8YD1IfqtBn
-         5uMQ==
-X-Forwarded-Encrypted: i=1; AL+hErEiwDtOhDFtJb7qPwrUO31DXbL2xuqtVhMNKXWLo0kPo0/2W2eYXGI2O9dPhqanTFJSHyG0RWVqc0NC@lists.linux.dev
-X-Gm-Message-State: APuU4Z9vy6BgpkQ9LNkRcFGG+wvVW2PZ2tfVMOyNx2NbIrL/qf9+uNBA
-	V6tgo7EeDkOsT1qlWBZCu0yhegXFjXFANoSA/DKjU6/JXCXIISdFPK/Wknjb+yBUpFSFbsw2wdx
-	Oi07UG30nBpCTo3I75WzM5NqtJZ8RPbg=
-X-Gm-Gg: AZFdTZdblzYNXreHsMh4JZLj9vc6WchTxbUZRgxt5mIbl9TqCkj1gMh4GTem5QqBFA9
-	gzR9xiLf0PnPoTmovgxB8eD+hVqpJRyecQWYKeq6P86boz5D0DfvhMx0RFGAt48br7iTrttH+uJ
-	iP2/JsMd/rXliEBIZpPt4E91jxn2geZ3N0BtZC/ePsblro5Imwlql7UWAMeBhBkdSVgnIffeJDX
-	2kSLGFGpfD5bZYMATXJIqs1GKBwaPiFsh82xHEocXoG5aHJOpeDTD38aiXXEUoyY1wohijeVsKe
-	7o5cJUOBvdufrmI9tIBxBuPzVxRwAtE5QivLBSd7BGCO09AWreaJ0QXmLMQu6WMsHShTpO2t7x8
-	g8PLVYvKi+94xY0NerrvwcIm5w5OQIfToIlIstWKbHgAF8X9TcrJmpq/mthIr7FCxfrBgtzlHkn
-	4pNSCkT2dw8OKVIfDSE+XfH483SA8=
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=LNWMFDI4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=CZ
+	XKyPNZLofeHAUKVGkTZOCtIjmrif9AACWfR2u5LZ0=; b=LNWMFDI4rBRR6rUJ+v
+	oH/ggRET7xcz+6pAYyV4LOWPU7T7QS7SskWRHmfY0wCNHRZhusaiRrnU+NaLXbId
+	aTJIeBVkHZukuogzB370XNupu5cDKIMMUh4FlPNYdlWceZcfjZz8uL+EtAuhzqed
+	drzBCKhHHnbd8WqaI+UToVUZE=
+Received: from shaos.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDnxCHUtwpr6DKkKw--.43952S2;
+	Sat, 28 Nov 2026 19:15:32 +0800 (CST)
+From: shaos <shawnq1@163.com>
+To: miklos@szeredi.hu
+Cc: fuse-devel@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] fuse: clear the old EOF tail on getattr size growth
+Date: Sat, 28 Nov 2026 11:15:32 +0000
+Message-Id: <20261128111532.3209985-1-shawnq1@163.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: fuse-devel@lists.linux.dev
 List-Id: <fuse-devel.lists.linux.dev>
 List-Post: <mailto:fuse-devel@lists.linux.dev>
@@ -99,43 +60,300 @@ List-Unsubscribe: <mailto:fuse-devel+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:fuse-devel+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6512:132a:b0:5c1:acf1:337c with SMTP id
- 2adb3069b0e04-5c1bc884041mr6979553e87.36.1795854540957; Sat, 28 Nov 2026
- 00:29:00 -0800 (PST)
-Received: from 138594053405 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 28 Nov 2026 02:29:00 -0600
-From: Prashant Aithal <prashant.aithal@gmail.com>
-Date: Sat, 28 Nov 2026 02:29:00 -0600
-X-Gm-Features: Aa3M54ok9czH8y5GsoBTJU4U42v9AvP_hVfQAAYhuojDMMlAZ3fmmSw24ij6Opc
-Message-ID: <CA+tAuhOC7ifPWgWJDTPF03nzF82VdaFSi+RSxEeNMNbS1-9F2Q@mail.gmail.com>
-Subject: [PATCH] Documentation: fuse: fix typos in fuse-caches.rst
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Jonathan Corbet <corbet@lwn.net>, fuse-devel@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnxCHUtwpr6DKkKw--.43952S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Cw4ftw4xKw4xtFyDXrW7XFb_yoWDKr17pF
+	W5Kay5tw1IqayxWrn2kF4UZw1ag3Z7Jw4UWryFqa1xuF1UJw1IyFyrCrWjkF15Xr4kGa9I
+	qr4Dtw43Wr4DZ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UMc_fUUUUU=
+X-CM-SenderInfo: pvkd40jtr6il2tof0z/xtbC8hWAjmsKt9WavgAA3O
 
-Fix a misspelling of "successfully" in the cache descriptions
-for lookups and dentry revalidation, in two places.
+Hello,
 
-Signed-off-by: Prashant Aithal <prashant.aithal@gmail.com>
+When a FUSE_GETATTR reply grows a cached regular file, the attribute
+update writes the larger i_size and then calls truncate_pagecache() at
+the new size.  That does not clear bytes dirtied beyond the old EOF in
+the partial page.  With FUSE_EXPLICIT_INVAL_DATA, the subsequent whole-
+mapping invalidation is skipped, so those stale bytes become visible
+through reads after the size change.
+
+The attached PoC dirties 512 bytes beyond a 100-byte EOF in a
+MAP_SHARED mapping.  A FUSE server then reports a size of 8192 in a
+GETATTR reply.  Two fresh runs return 512 stale 'A' bytes from the
+page cache; writeback also carries those bytes to the server.  The
+patched control returns zeroes and writes back no stale 'A' bytes.
+
+Related fixes already in this tree clear the old EOF tail for buffered
+writes, setattr/truncate, and fallocate (34b5c4a6e4fb), writeback-cache
+writes (d9013d15b937), and copy_file_range() (9b82a8aed794).  This report
+covers the separate attribute-refresh path: a larger size returned by
+FUSE_GETATTR is applied in fuse_change_attributes_i(), which still leaves
+the old EOF tail in the page cache when explicit data invalidation is
+enabled.
+
+The trigger requires a cached, non-writeback FUSE file with
+FUSE_EXPLICIT_INVAL_DATA and FOPEN_KEEP_CACHE.  It demonstrates stale
+file contents and writeback within that FUSE filesystem.  No
+cross-user data disclosure or privilege escalation is demonstrated.
+
+HEAD commit:    8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
+git tree:       fe970b05333fb8e41da21e9e289f652abcc7cba7
+source version: v7.3-23088-g8d7fe9885c62f (Linux 7.4.0-rc4)
+compiler:       gcc 11.4.0, GNU ld 2.38
+
+The new range is cleared before i_size is published, following the
+same rule used by the other FUSE size-extension paths.  The helper
+takes the inode lock for an extension and rechecks the attribute
+version and current size after acquiring it.
+
+Console output:
+https://gist.githubusercontent.com/shaos26/8adaad63a51780dac454db282187a389/raw/c0ad0595ad57975a6fe2b87e684e6b982037e584/console-output.txt
+Kernel config:
+https://gist.githubusercontent.com/shaos26/8adaad63a51780dac454db282187a389/raw/c0ad0595ad57975a6fe2b87e684e6b982037e584/kernel-config.txt
+PoC:
+https://gist.githubusercontent.com/shaos26/8adaad63a51780dac454db282187a389/raw/c0ad0595ad57975a6fe2b87e684e6b982037e584/poc.c
+Init script:
+https://gist.githubusercontent.com/shaos26/8adaad63a51780dac454db282187a389/raw/c0ad0595ad57975a6fe2b87e684e6b982037e584/init
+Fixed-kernel init script:
+https://gist.githubusercontent.com/shaos26/8adaad63a51780dac454db282187a389/raw/c0ad0595ad57975a6fe2b87e684e6b982037e584/init-fixed
+
+Build the kernel from the revision above using kernel-config.txt:
+
+    work=$(mktemp -d /tmp/fuse-getattr.XXXXXX)
+    cd "$work"
+    gist_id=8adaad63a51780dac454db282187a389
+    gist_revision=c0ad0595ad57975a6fe2b87e684e6b982037e584
+    gist_base=https://gist.githubusercontent.com/shaos26
+    gist=$gist_base/$gist_id/raw/$gist_revision
+    for file in console-output.txt kernel-config.txt poc.c init \
+        init-fixed; do
+        curl -fL "$gist/$file" -o "$file"
+    done
+    git clone \
+        https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+    cd linux
+    git checkout 8d7fe9885c62fc9a95bf55d9db244d9672a8aadc
+    mkdir build
+    cp ../kernel-config.txt build/.config
+    make O=build olddefconfig
+    make O=build -j"$(nproc)" bzImage
+    cd ..
+
+Build the PoC and initramfs:
+
+    gcc -static -O2 -Wall -Wextra -o poc poc.c
+    mkdir -p root/bin root/dev root/proc root/sys root/mnt
+    cp /usr/bin/busybox root/bin/busybox
+    cp poc root/poc
+    cp init root/init
+    (cd root && find . -print0 | cpio --null -o -H newc) | \
+        gzip -9 > initramfs.cpio.gz
+
+Run the unpatched kernel and then repeat with the proposed patch and
+init-fixed:
+
+    timeout 60 qemu-system-x86_64 -m 2048 -smp 2 -machine q35 \
+        -no-acpi -kernel linux/build/arch/x86/boot/bzImage \
+        -initrd initramfs.cpio.gz \
+        -append 'console=ttyS0 rdinit=/init panic=-1 acpi=off pci=noacpi' \
+        -nographic -no-reboot -monitor none
+
+The init script runs the positive case, a no-growth control, and a
+control without FUSE_EXPLICIT_INVAL_DATA.  On the patched kernel, use
+init-fixed; rebuild the initramfs after replacing root/init:
+
+    cp init-fixed root/init
+    (cd root && find . -print0 | cpio --null -o -H newc) | \
+        gzip -9 > initramfs-fixed.cpio.gz
+
+Boot that archive with the same QEMU command, replacing
+initramfs.cpio.gz with initramfs-fixed.cpio.gz.  The full console
+output records both unpatched runs and the patched control.
+
+Fixes: ad2ba64dd489 ("fuse: allow filesystems to have precise control over data cache")
+Cc: stable@vger.kernel.org
+Signed-off-by: shaos <shawnq1@163.com>
+
+Thanks,
+
+shaos
+
 ---
- Documentation/filesystems/fuse/fuse-caches.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ fs/fuse/dir.c    | 21 +++++++++++++-------
+ fs/fuse/fuse_i.h |  3 +++
+ fs/fuse/inode.c  | 45 ++++++++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 57 insertions(+), 12 deletions(-)
 
-diff --git a/Documentation/filesystems/fuse/fuse-caches.rst
-b/Documentation/filesystems/fuse/fuse-caches.rst
-index 0778dd3d3..de1a452fd 100644
---- a/Documentation/filesystems/fuse/fuse-caches.rst
-+++ b/Documentation/filesystems/fuse/fuse-caches.rst
-@@ -156,8 +156,8 @@ in several occasions:
-
- - When a new file system object is created (e.g. ``FUSE_CREATE``,
-   ``FUSE_MKDIR``, etc).
--- When a lookup is sucessfully performed.
--- When a dentry is sucessfully revalidated (``->d_revalidate()``).
-+- When a lookup is successfully performed.
-+- When a dentry is successfully revalidated (``->d_revalidate()``).
-
- A dentry expiry time can be set to 0, indicating that it is stale. This means
- that a ``FUSE_LOOKUP`` will be sent to user-space then next time it needs to be
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+index a04d93d5fc447..0ec3a600de107 100644
+--- a/fs/fuse/dir.c
++++ b/fs/fuse/dir.c
+@@ -1496,7 +1496,8 @@ static int fuse_do_statx(const struct mnt_idmap *idmap, struct inode *inode,
+ }
+ 
+ static int fuse_do_getattr(const struct mnt_idmap *idmap, struct inode *inode,
+-			   struct kstat *stat, struct file *file)
++			   struct kstat *stat, struct file *file,
++			   bool inode_locked)
+ {
+ 	int err;
+ 	struct fuse_getattr_in inarg;
+@@ -1531,9 +1532,15 @@ static int fuse_do_getattr(const struct mnt_idmap *idmap, struct inode *inode,
+ 			fuse_make_bad(inode);
+ 			err = -EIO;
+ 		} else {
+-			fuse_change_attributes(inode, &outarg.attr, NULL,
+-					       ATTR_TIMEOUT(&outarg),
+-					       attr_version);
++			if (inode_locked)
++				fuse_change_attributes_locked(inode,
++							      &outarg.attr, NULL,
++							      ATTR_TIMEOUT(&outarg),
++							      attr_version);
++			else
++				fuse_change_attributes(inode, &outarg.attr, NULL,
++						       ATTR_TIMEOUT(&outarg),
++						       attr_version);
+ 			if (stat)
+ 				fuse_fillattr(idmap, inode, &outarg.attr, stat);
+ 		}
+@@ -1581,7 +1588,7 @@ static int fuse_update_get_attr(const struct mnt_idmap *idmap, struct inode *ino
+ 				goto retry;
+ 			}
+ 		} else {
+-			err = fuse_do_getattr(idmap, inode, stat, file);
++			err = fuse_do_getattr(idmap, inode, stat, file, false);
+ 		}
+ 	} else if (stat) {
+ 		generic_fillattr(idmap, request_mask, inode, stat);
+@@ -1751,7 +1758,7 @@ static int fuse_perm_getattr(struct inode *inode, int mask)
+ 		return -ECHILD;
+ 
+ 	forget_all_cached_acls(inode);
+-	return fuse_do_getattr(&nop_mnt_idmap, inode, NULL, NULL);
++	return fuse_do_getattr(&nop_mnt_idmap, inode, NULL, NULL, false);
+ }
+ 
+ /*
+@@ -2360,7 +2367,7 @@ static int fuse_setattr(const struct mnt_idmap *idmap, struct dentry *entry,
+ 			 * ia_mode calculation may have used stale i_mode.
+ 			 * Refresh and recalculate.
+ 			 */
+-			ret = fuse_do_getattr(idmap, inode, NULL, file);
++			ret = fuse_do_getattr(idmap, inode, NULL, file, true);
+ 			if (ret)
+ 				return ret;
+ 
+diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+index e0992fcbcc554..38a8fadfa3644 100644
+--- a/fs/fuse/fuse_i.h
++++ b/fs/fuse/fuse_i.h
+@@ -1049,6 +1049,9 @@ void fuse_init_symlink(struct inode *inode);
+ void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
+ 			    struct fuse_statx *sx,
+ 			    u64 attr_valid, u64 attr_version);
++void fuse_change_attributes_locked(struct inode *inode, struct fuse_attr *attr,
++				   struct fuse_statx *sx,
++				   u64 attr_valid, u64 attr_version);
+ 
+ void fuse_change_attributes_common(struct inode *inode, struct fuse_attr *attr,
+ 				   struct fuse_statx *sx,
+diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+index af6d9e0af190b..302d74c199dcd 100644
+--- a/fs/fuse/inode.c
++++ b/fs/fuse/inode.c
+@@ -313,14 +313,17 @@ u32 fuse_get_cache_mask(struct inode *inode)
+ 
+ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr,
+ 				     struct fuse_statx *sx, u64 attr_valid,
+-				     u64 attr_version, u64 evict_ctr)
++				     u64 attr_version, u64 evict_ctr,
++				     bool inode_locked)
+ {
+ 	struct fuse_conn *fc = get_fuse_conn(inode);
+ 	struct fuse_inode *fi = get_fuse_inode(inode);
+ 	u32 cache_mask;
+ 	loff_t oldsize;
+ 	struct timespec64 old_mtime;
++	bool inode_lock_acquired = false;
+ 
++retry:
+ 	spin_lock(&fi->lock);
+ 	/*
+ 	 * In case of writeback_cache enabled, writes update mtime, ctime and
+@@ -343,14 +346,34 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
+ 	if ((attr_version != 0 && fi->attr_version > attr_version) ||
+ 	    test_bit(FUSE_I_SIZE_UNSTABLE, &fi->state)) {
+ 		spin_unlock(&fi->lock);
+-		return;
++		goto out;
++	}
++
++	oldsize = inode->i_size;
++	if (!cache_mask && S_ISREG(inode->i_mode) && attr->size > oldsize) {
++		if (!inode_locked) {
++			spin_unlock(&fi->lock);
++			inode_lock(inode);
++			inode_locked = true;
++			inode_lock_acquired = true;
++			goto retry;
++		}
++
++		spin_unlock(&fi->lock);
++		truncate_pagecache_range(inode, oldsize, attr->size - 1);
++		spin_lock(&fi->lock);
++		if ((attr_version != 0 && fi->attr_version > attr_version) ||
++		    test_bit(FUSE_I_SIZE_UNSTABLE, &fi->state) ||
++		    inode->i_size != oldsize) {
++			spin_unlock(&fi->lock);
++			goto out;
++		}
+ 	}
+ 
+ 	old_mtime = inode_get_mtime(inode);
+ 	fuse_change_attributes_common(inode, attr, sx, attr_valid, cache_mask,
+ 				      evict_ctr);
+ 
+-	oldsize = inode->i_size;
+ 	/*
+ 	 * In case of writeback_cache enabled, the cached writes beyond EOF
+ 	 * extend local i_size without keeping userspace server in sync. So,
+@@ -387,13 +410,25 @@ static void fuse_change_attributes_i(struct inode *inode, struct fuse_attr *attr
+ 
+ 	if (fuse_conn_vdax(fc))
+ 		fuse_vdax_dontcache(inode, attr->flags);
++out:
++	if (inode_lock_acquired)
++		inode_unlock(inode);
+ }
+ 
+ void fuse_change_attributes(struct inode *inode, struct fuse_attr *attr,
+ 			    struct fuse_statx *sx, u64 attr_valid,
+ 			    u64 attr_version)
+ {
+-	fuse_change_attributes_i(inode, attr, sx, attr_valid, attr_version, 0);
++	fuse_change_attributes_i(inode, attr, sx, attr_valid, attr_version, 0,
++				 false);
++}
++
++void fuse_change_attributes_locked(struct inode *inode, struct fuse_attr *attr,
++				   struct fuse_statx *sx, u64 attr_valid,
++				   u64 attr_version)
++{
++	fuse_change_attributes_i(inode, attr, sx, attr_valid, attr_version, 0,
++				 true);
+ }
+ 
+ static void fuse_init_submount_lookup(struct fuse_submount_lookup *sl,
+@@ -535,7 +570,7 @@ struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+ 	spin_unlock(&fi->lock);
+ done:
+ 	fuse_change_attributes_i(inode, attr, NULL, attr_valid, attr_version,
+-				 evict_ctr);
++				 evict_ctr, is_new_inode);
+ 	if (is_new_inode)
+ 		unlock_new_inode(inode);
+ 	return inode;
 -- 
-2.43.0
+2.34.1
+
